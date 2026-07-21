@@ -1,0 +1,94 @@
+scenario_id: djangocms-mod-005
+repository: djangocms
+change_type: moderate_permissions
+
+blast_radius: moderate
+
+requirement_before:
+  The CMS has two page permission levels: "view" (can see page) and
+  "edit" (can edit content). Users either have full edit rights or
+  none. There is no intermediate role for reviewing/approving
+  content without full edit permissions.
+
+requirement_after:
+  A new "page reviewer" permission level is added. A user with the
+  "page reviewer" permission can view pages, review page content,
+  and approve/reject pending changes, but cannot directly edit page
+  content. The permission is stored in PagePermission with a new
+  boolean field `can_review`. The GlobalPermission model also gains
+  a `can_review` field for site-wide reviewer access. The
+  permission checking functions in cms/permissions.py support the
+  new level. The PageAdmin gets a "Review" action that transitions
+  page content status (if integrated with a workflow) or marks
+  content as reviewed. The PermissionAdmin shows the new field.
+  The toolbar shows a "Review" menu item for users with reviewer
+  access.
+
+rationale: >
+  Adding a reviewer role separates content creation from content
+  approval, enabling editorial workflows where authors create
+  content and reviewers approve it.
+
+acceptance_criteria:
+  - PagePermission has a `can_review` boolean field.
+  - GlobalPermission has a `can_review` boolean field.
+  - cms/permissions.py has `has_review_permission(user, page)` function.
+  - PageAdmin has a "Review" action visible to reviewers.
+  - PermissionAdmin displays and allows setting `can_review`.
+  - Toolbar shows a "Review" item when user has reviewer permission.
+  - A new migration is created.
+  - Existing permission tests pass.
+
+expected_affected_artifacts:
+  - "cms/models/permissionmodels.py:PagePermission"
+  - "cms/models/permissionmodels.py:GlobalPermission"
+  - "cms/permissions.py:has_review_permission"
+  - "cms/admin/permissionadmin.py:PermissionAdmin"
+  - "cms/admin/pageadmin.py:PageAdmin"
+  - "cms/toolbar.py:PageToolbar"
+
+expected_actions:
+  cms/models/permissionmodels.py: modify
+  cms/permissions.py: modify
+  cms/admin/permissionadmin.py: modify
+  cms/admin/pageadmin.py: modify
+  cms/toolbar.py: modify
+  cms/migrations/0042_add_review_permission.py: create
+
+regression_obligations:
+  - "cms/tests/test_permissions.py"
+  - "cms/tests/test_permission_admin.py"
+  - "cms/tests/test_toolbar.py"
+  - "cms/tests/test_page_admin.py"
+
+architecture_constraints:
+  - Must not remove or alter existing permission fields.
+  - `has_review_permission` must also check for superuser status
+    (superusers can always review).
+  - The toolbar must not show the "Review" item to users without
+    any review permission (avoid toolbar clutter).
+  - The admin review action must be gated by the same permission
+    check at the view level (defense in depth).
+  - Must follow existing permission model patterns (use same mixins,
+    same admin registration style).
+
+hidden_tests:
+  - description: >
+      Create a user with can_review=True on a specific PagePermission.
+      Assert has_review_permission returns True for that user on that
+      page. Revoke the permission and assert False.
+    type: permission_check
+  - description: >
+      Create a superuser. Assert has_review_permission returns True
+      for any page without needing an explicit PagePermission entry.
+    type: superuser_always_reviewer
+  - description: >
+      Log in as a reviewer user, navigate to a page's admin. Assert
+      the "Review" action button is present in the admin change list.
+      Log in as a non-reviewer editor and assert the button is absent.
+    type: admin_action_visibility
+  - description: >
+      Log in as a reviewer, load a front-end page. Assert the toolbar
+      contains a "Review" item. Log in as a non-reviewer on the same
+      page and assert the toolbar does NOT contain "Review".
+    type: toolbar_item_visibility

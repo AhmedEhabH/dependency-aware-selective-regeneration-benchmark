@@ -1,0 +1,75 @@
+scenario_id: saleor-mod-005
+repository: saleor
+change_type: moderate_permissions
+blast_radius: moderate
+
+requirement_before: >
+  Saleor defines account manager, order manager, and channel manager
+  permission groups in saleor/core/permissions.py but does not have a
+  dedicated product manager role. Managing products (create, update, delete,
+  publish) requires the general "MANAGE_PRODUCTS" permission, which is
+  typically bundled with full product admin access.
+
+requirement_after: >
+  A new "product manager" permission is introduced via
+  `ProductPermissions.MANAGE_PRODUCTS` (note: the existing
+  `MANAGE_PRODUCTS` enum value is retained; the product manager role is a
+  new logical grouping). The following resolvers check for this permission:
+  product create/update/delete mutations, product type mutations, category
+  mutations. Checkout resolvers that read product data do NOT require the
+  new permission. The new permission is exposed in GraphQL via a
+  `PermissionEnum` update.
+
+rationale: >
+  Enables finer-grained access control so shops can delegate product
+  management without granting full admin access to orders, users, or
+  channels.
+
+acceptance_criteria:
+  - "ProductPermissions enum in saleor/core/permissions.py includes `MANAGE_PRODUCTS`."
+  - "Product create/update/delete mutations require `ProductPermissions.MANAGE_PRODUCTS`."
+  - "Category and product type mutations also require the new permission."
+  - "Checkout resolvers do NOT require the new permission."
+  - "GraphQL `PermissionEnum` exposes the new value."
+  - "A new group creation or migration seeds a default 'Product Managers' group with the new permission."
+
+expected_affected_artifacts:
+  - "saleor/core/permissions.py:ProductPermissions"
+  - "saleor/graphql/product/mutations/product_create.py:ProductCreate"
+  - "saleor/graphql/product/mutations/product_update.py:ProductUpdate"
+  - "saleor/graphql/product/mutations/product_delete.py:ProductDelete"
+  - "saleor/graphql/product/mutations/category_create.py:CategoryCreate"
+  - "saleor/graphql/product/mutations/category_update.py:CategoryUpdate"
+  - "saleor/graphql/product/mutations/category_delete.py:CategoryDelete"
+  - "saleor/graphql/core/types/permission.py:PermissionEnum"
+  - "saleor/graphql/schema.py"
+
+expected_actions:
+  modify:
+    - "saleor/core/permissions.py"
+    - "saleor/graphql/product/mutations/product_create.py"
+    - "saleor/graphql/product/mutations/product_update.py"
+    - "saleor/graphql/product/mutations/product_delete.py"
+    - "saleor/graphql/product/mutations/category_create.py"
+    - "saleor/graphql/product/mutations/category_update.py"
+    - "saleor/graphql/product/mutations/category_delete.py"
+    - "saleor/graphql/core/types/permission.py"
+    - "saleor/graphql/schema.py"
+
+regression_obligations:
+  - "Run permission tests in saleor/tests/."
+  - "Run product mutation tests to confirm old permission checks are replaced."
+  - "Run checkout tests to confirm no new permission is required for reading products."
+
+architecture_constraints:
+  - "Permission checks go in GraphQL resolvers, not in domain service functions."
+  - "The existing `MANAGE_PRODUCTS` enum value is retained for database compatibility; the product manager role is about which mutations require it."
+  - "Do not modify model methods or service layers to check for this permission."
+
+hidden_tests:
+  - description: "Verify that a user with the old 'MANAGE_PRODUCTS' permission still passes the check (backward compatible)."
+    type: regression_compat
+  - description: "Verify that a checkout completion mutation does NOT require the new permission."
+    type: boundary_negative
+  - description: "Verify GraphQL schema introspection does not expose the permission unless querying with admin privileges."
+    type: introspection_privacy

@@ -1,0 +1,92 @@
+scenario_id: saleor-cross-007
+repository: saleor
+change_type: cross_cutting_workflow
+blast_radius: cross_cutting
+
+requirement_before: >
+  Products have a boolean `is_published` field and a `publication_date` but
+  there is no formal status state machine. Any code can set `is_published`
+  without validation. There is no bulk mutation for changing product
+  publication status, and no webhook notifications for status transitions.
+
+requirement_after: >
+  A formal product status state machine is introduced with three states:
+  DRAFT, PUBLISHED, ARCHIVED. Status transitions are validated:
+  DRAFT→PUBLISHED, PUBLISHED→ARCHIVED, ARCHIVED→DRAFT (republish).
+  Invalid transitions (e.g., DRAFT→ARCHIVED) raise a validation error.
+  A new bulk mutation `productBulkSetStatus` accepts a list of product IDs
+  and a target status. On successful status change, a
+  `product_status_changed` webhook event is dispatched containing the
+  product ID, old status, and new status. Checkout and order resolvers
+  filter out products that are not in PUBLISHED state.
+
+rationale: >
+  Provides a clear product lifecycle with enforced transitions, bulk
+  management, and integration hooks, reducing ad-hoc scripting and data
+  inconsistency.
+
+acceptance_criteria:
+  - "Product model has a `status` CharField with choices DRAFT / PUBLISHED / ARCHIVED."
+  - "Valid transitions: DRAFT→PUBLISHED, PUBLISHED→ARCHIVED, ARCHIVED→DRAFT."
+  - "Invalid transitions raise ValidationError with code 'INVALID_STATUS_TRANSITION'."
+  - "`productBulkSetStatus` mutation accepts [ID!]! and ProductStatusEnum!."
+  - "Mutation checks 'product.manage' permission."
+  - "Webhook event `product_status_changed` is dispatched with payload { product_id, old_status, new_status }."
+  - "Checkout resolvers exclude non-PUBLISHED products from available variants."
+  - "Order resolvers show ARCHIVED products but mark them as discontinued."
+  - "Migration creates the status field and sets PUBLISHED for all products where is_published=True, DRAFT otherwise."
+  - "The old `is_published` field is deprecated but retained as a computed property for one release."
+
+expected_affected_artifacts:
+  - "saleor/product/models.py:Product"
+  - "saleor/graphql/product/types.py:ProductStatusEnum"
+  - "saleor/graphql/product/mutations/product_bulk_set_status.py:ProductBulkSetStatus"
+  - "saleor/product/services/status_validation.py"
+  - "saleor/webhook/event_types.py:WebhookEventType"
+  - "saleor/webhook/payloads.py:product_status_changed_payload"
+  - "saleor/graphql/checkout/resolvers.py"
+  - "saleor/graphql/order/resolvers.py"
+  - "saleor/core/error_codes.py:ProductErrorCode"
+  - "saleor/graphql/schema.py"
+  - "saleor/product/migrations/*"
+
+expected_actions:
+  create:
+    - "saleor/product/services/status_validation.py"
+    - "saleor/graphql/product/mutations/product_bulk_set_status.py"
+    - "saleor/product/migrations/XXXX_product_status.py"
+  modify:
+    - "saleor/product/models.py"
+    - "saleor/graphql/product/types.py"
+    - "saleor/webhook/event_types.py"
+    - "saleor/webhook/payloads.py"
+    - "saleor/graphql/checkout/resolvers.py"
+    - "saleor/graphql/order/resolvers.py"
+    - "saleor/core/error_codes.py"
+    - "saleor/graphql/schema.py"
+
+regression_obligations:
+  - "Run all product model tests."
+  - "Run all product mutation tests."
+  - "Run webhook event dispatch tests."
+  - "Run checkout resolver tests (verify non-published products are hidden)."
+  - "Run order resolver tests (verify archived products are visible but marked)."
+  - "Run migration forward/backward on a copy of production data."
+  - "Run permission tests for the new bulk mutation."
+
+architecture_constraints:
+  - "Status validation logic must be in a dedicated service module (saleor/product/services/status_validation.py), not in the model or mutation."
+  - "Webhook dispatch must be triggered by the service layer or via Django signal, not directly from the mutation."
+  - "Checkout resolvers must not import from saleor/graphql/product/."
+  - "The old `is_published` field is deprecated but not removed in this change; it is kept as a computed property for backward compatibility."
+  - "Permission checking for the bulk mutation occurs at the GraphQL resolver level only."
+
+hidden_tests:
+  - description: "Verify that transitioning a product to ARCHIVED while it exists in active checkouts raises a warning but succeeds."
+    type: integration_side_effect
+  - description: "Verify `productBulkSetStatus` with 500 products completes within 10 seconds."
+    type: performance_bulk
+  - description: "Verify that the webhook payload does not include internal fields (e.g., private_metadata)."
+    type: data_privacy
+  - description: "Verify that a product with active subscriptions cannot be archived (if subscriptions feature exists)."
+    type: cross_feature_gate

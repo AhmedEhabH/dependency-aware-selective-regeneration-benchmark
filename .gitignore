@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
+*.pyo
+*.pyd
 dist/
 build/
 .mypy_cache/
@@ -15,6 +17,8 @@ env/
 
 # Conda
 # (environment is not stored in repo)
+# Conda
+.conda/
 
 # Notebooks
 .ipynb_checkpoints/
@@ -33,6 +37,11 @@ Thumbs.db
 reports/*.md
 !reports/latest_phase_report.md
 !reports/LOCAL_ENVIRONMENT_REPORT.md
+!reports/INPUT_AUDIT_REPORT.md
+!reports/PHASE2_PROTOCOL_DRAFT.md
+!reports/PHASE2B_PROTOCOL_FREEZE_REPORT.md
+!reports/PHASE3_5_ARCHITECTURE_AUDIT.md
+!reports/PROJECT_STRUCTURE_CONFLICT_REPORT.md
 
 # Lock file (regenerated per environment)
 requirements-lock.txt
@@ -42,3 +51,17 @@ condaenv.*.txt
 
 # Git
 *.orig
+
+# Pytest
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Run output directory
+runs/
+
+# OS
+.DS_Store
+Thumbs.db

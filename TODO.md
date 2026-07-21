@@ -101,3 +101,423 @@
 - **Status:** LOCAL_ENGINEERING_VALIDATED
 - **Owner:** OpenCode
 - **Evidence:** Final message with handoff statement
+
+## Phase 1 — Input Audit
+
+### T101 — Inspect inputs/ Directory
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Inspect all files under inputs/; verify immutability
+- **Acceptance Criteria:** Complete inventory of inputs/ with file types, sizes, and descriptions
+- **Dependencies:** T010
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** INPUT_AUDIT_REPORT.md Section 2
+
+### T102 — Classify Existing Benchmark Outputs
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Classify all existing benchmark outputs as legacy_pilot per preapproved decision
+- **Acceptance Criteria:** Classification documented; zero legacy outputs verified
+- **Dependencies:** T101
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** INPUT_AUDIT_REPORT.md Section 3
+
+### T103 — Identify Reusable Components
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Catalog all reusable components from Phase 0
+- **Acceptance Criteria:** Comprehensive inventory with status and notes for each component
+- **Dependencies:** T101
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** INPUT_AUDIT_REPORT.md Section 5
+
+### T104 — Identify Errors, Leakage Risks, Metric Problems
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Scan source material for errors, data leakage risks, metric design issues
+- **Acceptance Criteria:** All findings documented with severity and recommendations
+- **Dependencies:** T102, T103
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** INPUT_AUDIT_REPORT.md Sections 6, 7
+
+### T105 — Create Migration Documentation
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create reports/INPUT_AUDIT_REPORT.md with full audit findings
+- **Acceptance Criteria:** Report covers all Phase 1 requirements; missing inputs explicitly recorded
+- **Dependencies:** T104
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** reports/INPUT_AUDIT_REPORT.md
+
+### T106 — Update State Files
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 1
+- **Acceptance Criteria:** All state files consistent; exact next task recorded
+- **Dependencies:** T105
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** Git diff showing updates to all four files
+
+## Phase 2A — Research Protocol Draft
+
+### T201 — Draft Research Questions Traceability
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Produce full RQ-to-hypothesis-to-evaluation-phase traceability table
+- **Acceptance Criteria:** All 5 RQs mapped to hypotheses, measures, and evaluation phases
+- **Dependencies:** T106
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §1
+
+### T202 — Draft Hypothesis Specification
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Specify all 5 hypotheses with measures, comparisons, and decision criteria
+- **Acceptance Criteria:** Each hypothesis has primary comparison, measures, and interpretation criterion
+- **Dependencies:** T201
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §2
+
+### T203 — Draft Repository Selection Criteria
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Define selection criteria, acquisition policy, and architectural diversity targets
+- **Acceptance Criteria:** Preapproved repos documented; selection criteria formalized
+- **Dependencies:** T202
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §3
+
+### T204 — Draft Candidate Artifact Universe
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Define artifact node types, edge types, granularity, and universe boundary
+- **Acceptance Criteria:** All 10 node types, 7 edge types, attributes, and exclusions documented
+- **Dependencies:** T202
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §4
+
+### T205 — Draft Ground-Truth and Annotation Protocol
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Define ground-truth construction, annotation process, adjudication, and quality thresholds
+- **Acceptance Criteria:** Full protocol from source materials to published annotations
+- **Dependencies:** T204
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §5–6
+
+### T206 — Draft Scenario Taxonomy
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Define change types, blast radius categories, scenario schema, and naming convention
+- **Acceptance Criteria:** 8 change types, 3 blast radii, 8 scenarios per repo schema fully defined
+- **Dependencies:** T203, T204
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §7
+
+### T207 — Draft Baseline Definitions
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Define all 6+ baselines including ablation variants
+- **Acceptance Criteria:** Every strategy named, described, and categorized (baseline/ablation/reference)
+- **Dependencies:** T202
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §8
+
+### T208 — Draft Metrics Suite
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Define primary and secondary metrics with formal definitions
+- **Acceptance Criteria:** 6 primary metric categories + 5 secondary metric categories fully specified
+- **Dependencies:** T201, T207
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §9–10
+
+### T209 — Draft Statistical Analysis Plan
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Define tests, NI margin, corrections, power analysis, outlier policy
+- **Acceptance Criteria:** Per-hypothesis test selection; reporting formats specified
+- **Dependencies:** T208
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §11
+
+### T210 — Draft Policies (Randomization, Seeds, Budget, Failure, Leakage)
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Define randomization, seed, execution budget, failure, and leakage prevention policies
+- **Acceptance Criteria:** All 5 policies fully defined
+- **Dependencies:** T209
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §12–16
+
+### T211 — Draft Validity and Reproducibility Sections
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Document threats to validity and reproducibility protocol
+- **Acceptance Criteria:** Construct/internal/external/conclusion validity + reproducibility plan
+- **Dependencies:** T210
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** PHASE2_PROTOCOL_DRAFT.md §17–18
+
+### T212 — Compile Full Protocol Draft
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Assemble all sections into reports/PHASE2_PROTOCOL_DRAFT.md with status tags
+- **Acceptance Criteria:** All 21 sections present; every item tagged PREAPPROVED/PROPOSED/REQUIRES_RESEARCHER_APPROVAL
+- **Dependencies:** T201–T211
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** reports/PHASE2_PROTOCOL_DRAFT.md
+
+### T213 — Update State Files for Phase 2A
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 2A
+- **Acceptance Criteria:** All state files consistent; 14 researcher decision items documented; exact next task recorded
+- **Dependencies:** T212
+- **Status:** LOCAL_ENGINEERING_VALIDATED
+- **Owner:** OpenCode
+- **Evidence:** Git diff showing updates to all four files
+
+## Phase 2B — Protocol Freeze
+
+### T301 — Apply Researcher Decisions DA-01 through DA-14
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Apply all 14 researcher-approved decisions to the draft protocol
+- **Acceptance Criteria:** Every DA item from FINAL_RESEARCH_PROTOCOL_DECISIONS.md applied; contradictory draft wording overwritten
+- **Dependencies:** T213
+- **Status:** FROZEN
+- **Owner:** Researcher + OpenCode
+- **Evidence:** docs/RESEARCHER_DECISIONS_DA_AC.md
+
+### T302 — Apply Mandatory Corrections AC-01 through AC-11
+- **Priority:** HIGH
+- **Category:** Protocol
+- **Description:** Apply all 11 mandatory corrections from the researcher
+- **Acceptance Criteria:** Every AC item applied; 9 contradictions corrected
+- **Dependencies:** T301
+- **Status:** FROZEN
+- **Owner:** OpenCode
+- **Evidence:** docs/RESEARCHER_DECISIONS_DA_AC.md (contradictions section)
+
+### T303 — Create Frozen Protocol Documents
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create 7 protocol docs under docs/ and decision records
+- **Acceptance Criteria:** All 8 docs/ files present with FROZEN status, v1.0
+- **Dependencies:** T302
+- **Status:** FROZEN
+- **Owner:** OpenCode
+- **Evidence:** SHA-256 checksums for all 8 documents
+
+### T304 — Update State Files for Phase 2B
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update PROTOCOL_VERSION.md, SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/PHASE2B_PROTOCOL_FREEZE_REPORT.md, reports/latest_phase_report.md
+- **Acceptance Criteria:** All state files consistent; protocol_status: FROZEN; Phase 3 authorized
+- **Dependencies:** T303
+- **Status:** FROZEN
+- **Owner:** OpenCode
+- **Evidence:** Git diff showing updates to all files
+
+### T305 — Validation of Frozen Protocol
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Validate all frozen documents for internal consistency; no unresolved REQUIRES_RESEARCHER_APPROVAL; SHA-256 checksums
+- **Acceptance Criteria:** 10 validation checks pass; checksums recorded
+- **Dependencies:** T304
+- **Status:** FROZEN
+- **Owner:** OpenCode
+- **Evidence:** SYSTEM_STATE.md local checks passed list
+
+## Phase 3 — Repository and Scenario Preparation
+
+### T401 — Select and Pin Repository Versions
+- **Priority:** HIGH
+- **Category:** Repository
+- **Description:** Select 3 confirmatory repositories (todo, djangocms, saleor); pin versions with commit SHAs
+- **Acceptance Criteria:** DA-01, DA-02, DA-03 compliance verified for all 3 repos
+- **Dependencies:** T305
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** benchmark_data/manifests/repository_versions.yaml; REPOSITORY_SELECTION_REPORT.md
+
+### T402 — Create Repository Profiles
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create architectural profiles for all 3 repositories with boundary analysis
+- **Acceptance Criteria:** 3 profiles covering overview, architecture, artifact catalog, test suite, boundaries, limitations
+- **Dependencies:** T401
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** benchmark_data/repository_profiles/{todo,djangocms,saleor}.yaml
+
+### T403 — Create Scenario Definitions (24 YAML files)
+- **Priority:** HIGH
+- **Category:** Scenario
+- **Description:** Design 8 scenarios per repository (3 localized, 3 moderate, 2 cross-cutting) covering all 8 change types
+- **Acceptance Criteria:** All 24 YAML files with scenario_id, requirements, acceptance criteria, expected artifacts, hidden_tests
+- **Dependencies:** T402
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 24 files under benchmark_data/scenarios/
+
+### T404 — Create Documentation Reports
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create 6 reports covering selection, architecture, scenario design, licensing, Kaggle feasibility, phase summary
+- **Acceptance Criteria:** All reports present with complete content
+- **Dependencies:** T403
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 6 reports under reports/
+
+### T405 — Create Manifests
+- **Priority:** HIGH
+- **Category:** Manifest
+- **Description:** Create repositories.yaml and repository_versions.yaml manifests
+- **Acceptance Criteria:** Both files present with frozen version metadata
+- **Dependencies:** T401
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** benchmark_data/manifests/{repositories,repository_versions}.yaml
+
+### T406 — Update State Files for Phase 3
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 3
+- **Acceptance Criteria:** All state files consistent; Phase 3 recorded as COMPLETE; Phase 4 as next
+- **Dependencies:** T404, T405
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Git diff showing updates to all files
+
+## Phase 3.5 — Static Architecture Audit and Project Map
+
+### T350 — Inspect Repository Layout and Identify Conflicts
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Inspect full repository tree; identify duplicate directories, stale files, misplaced docs, naming inconsistencies, Git boundary issues
+- **Acceptance Criteria:** Complete inventory of structural issues; documented root vs project conflicts
+- **Dependencies:** T406
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** reports/PROJECT_STRUCTURE_CONFLICT_REPORT.md
+
+### T351 — Define Canonical Project Root and Path Policy
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create docs/PROJECT_ROOT_AND_PATH_POLICY.md with canonical root, directory classification, remediation plan
+- **Acceptance Criteria:** Policy states exact canonical root, classifies every directory, includes remediation for duplicates
+- **Dependencies:** T350
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** docs/PROJECT_ROOT_AND_PATH_POLICY.md
+
+### T352 — Create Project Structure Map
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create docs/PROJECT_STRUCTURE_MAP.md with complete proposed tree and directory responsibility tables
+- **Acceptance Criteria:** Every proposed package has one responsibility documented; import rules per package
+- **Dependencies:** T351
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** docs/PROJECT_STRUCTURE_MAP.md
+
+### T353 — Define Software Architecture and Interfaces
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create docs/SOFTWARE_ARCHITECTURE.md with 13 layers, 11 interface specifications, model backend separation, import isolation
+- **Acceptance Criteria:** All layers documented; all interfaces have responsibility, inputs, outputs, failure behavior, extension rules
+- **Dependencies:** T352
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** docs/SOFTWARE_ARCHITECTURE.md
+
+### T354 — Define Dependency Rules
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create docs/DEPENDENCY_RULES.md with allowed/prohibited dependency directions, import policies
+- **Acceptance Criteria:** Every package has explicit import rules; 10 prohibited patterns documented
+- **Dependencies:** T353
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** docs/DEPENDENCY_RULES.md
+
+### T355 — Create Extension Guide (Plugin/Registry Design)
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create docs/EXTENSION_GUIDE.md with plugin lifecycle, registry design, protocol skeletons, factory pattern
+- **Acceptance Criteria:** Adding a strategy/LLM/validator/metric does not require core changes; registry is not global singleton
+- **Dependencies:** T354
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** docs/EXTENSION_GUIDE.md
+
+### T356 — Define Public/Private Data Boundary
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create docs/PUBLIC_PRIVATE_DATA_BOUNDARY.md with classification, import isolation, data flow, audit checklist
+- **Acceptance Criteria:** Private data inaccessible to strategies; data flow from execution to evaluation is unidirectional
+- **Dependencies:** T355
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** docs/PUBLIC_PRIVATE_DATA_BOUNDARY.md
+
+### T357 — Create Phase 4 Implementation Blueprint
+- **Priority:** HIGH
+- **Category:** Planning
+- **Description:** Create docs/PHASE4_IMPLEMENTATION_BLUEPRINT.md with 6 milestones (4A–4F), files, tests, acceptance criteria
+- **Acceptance Criteria:** Each milestone has dependencies, forbidden work, estimated complexity
+- **Dependencies:** T353
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** docs/PHASE4_IMPLEMENTATION_BLUEPRINT.md
+
+### T358 — Create Architecture Validation Plan
+- **Priority:** HIGH
+- **Category:** Planning
+- **Description:** Create docs/ARCHITECTURE_VALIDATION_PLAN.md with 11 validation checks, tools, approaches
+- **Acceptance Criteria:** Covers import boundaries, circular imports, layer isolation, no torch locally, no leakage
+- **Dependencies:** T357
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** docs/ARCHITECTURE_VALIDATION_PLAN.md
+
+### T359 — Create Architecture Audit Reports
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create reports/PHASE3_5_ARCHITECTURE_AUDIT.md and reports/PROJECT_STRUCTURE_CONFLICT_REPORT.md
+- **Acceptance Criteria:** Reports document current tree, proposed tree, duplicate issues, remediation plan, architecture decisions
+- **Dependencies:** T350–T358
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** reports/PHASE3_5_ARCHITECTURE_AUDIT.md, reports/PROJECT_STRUCTURE_CONFLICT_REPORT.md
+
+### T360 — Update State Files for Phase 3.5
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 3.5
+- **Acceptance Criteria:** All state files consistent; Phase 3.5 recorded as COMPLETE; Phase 4A as next
+- **Dependencies:** T359
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Edits to all four state files

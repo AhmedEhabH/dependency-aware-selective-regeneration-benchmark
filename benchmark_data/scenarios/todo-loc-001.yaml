@@ -1,0 +1,62 @@
+# Scenario — todo-loc-001
+# Protocol v1.0 (FROZEN)
+
+scenario_id: "todo-loc-001"
+repository: todo
+change_type: "Schema and field changes"
+blast_radius: localized
+requirement_before: >
+  The Task model has only basic fields: title (CharField, max_length=200),
+  description (TextField, blank=True), status (CharField with choices
+  PENDING, IN_PROGRESS, COMPLETED, default=PENDING), project (ForeignKey to
+  Project), created_at (DateTimeField, auto_now_add), and updated_at
+  (DateTimeField, auto_now). The TaskSerializer exposes all fields as
+  read-write. There is no priority concept.
+requirement_after: >
+  The Task model must gain a priority field: a CharField with choices HIGH,
+  MEDIUM, LOW, default MEDIUM. The TaskSerializer must expose priority as a
+  read-write choice field. All existing tasks retain their default MEDIUM
+  priority. The API must accept and return priority values as strings.
+rationale: >
+  This is the simplest schema change possible: adding a single optional
+  field with a default to one model. It tests whether a strategy correctly
+  identifies that only the model definition, serializer, and their
+  respective tests are affected. No views, URLs, permissions, or other
+  models should be touched. A successful strategy must not modify
+  unrelated files.
+acceptance_criteria:
+  - "Task model has a priority field with choices HIGH, MEDIUM, LOW and default MEDIUM"
+  - "TaskSerializer.priority is a read-write ChoiceField accepting valid priority values"
+  - "Existing tasks without priority return MEDIUM as default"
+  - "POST /api/tasks/ with valid priority creates a task with that priority"
+  - "POST /api/tasks/ without priority creates a task with MEDIUM default"
+  - "PATCH /api/tasks/{id}/ with priority updates the priority field"
+  - "Priority values outside HIGH/MEDIUM/LOW are rejected with 400"
+expected_affected_artifacts:
+  - "todo/models.py:Task (add priority field)"
+  - "todo/serializers.py:TaskSerializer (add priority field)"
+  - "todo/tests/test_models.py (add priority tests)"
+  - "todo/tests/test_serializers.py (add priority validation tests)"
+expected_actions:
+  "todo/models.py:Task": modify
+  "todo/serializers.py:TaskSerializer": modify
+  "todo/tests/test_models.py": modify
+  "todo/tests/test_serializers.py": modify
+regression_obligations:
+  - "todo/tests/test_models.py"
+  - "todo/tests/test_serializers.py"
+  - "todo/tests/test_views.py"
+architecture_constraints:
+  - "No changes to views.py, urls.py, permissions.py, or other models (Project, Tag)"
+  - "Priority validation must be in the serializer, not the view"
+  - "Only one migration file should be created"
+  - "Database default must be set at the model level via default=, not in migration RunSQL"
+hidden_tests:
+  - description: "Regression test: existing Task fields (title, description, status, project, created_at, updated_at) remain fully functional after change"
+    type: regression
+  - description: "Changed-requirement test: creating a task with priority='URGENT' (invalid) returns 400 and does not create a task"
+    type: changed_requirement
+  - description: "Regression test: Project model and ProjectSerializer are completely unaffected"
+    type: regression
+  - description: "Changed-requirement test: filtering tasks by priority via GET /api/tasks/?priority=HIGH returns only HIGH priority tasks"
+    type: changed_requirement

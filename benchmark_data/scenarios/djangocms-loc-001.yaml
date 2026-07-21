@@ -1,0 +1,78 @@
+scenario_id: djangocms-loc-001
+repository: djangocms
+change_type: localized_schema
+
+blast_radius: localized
+
+requirement_before:
+  The PageContent model in cms/models/contentmodels.py has fields:
+  title, slug, page_title, menu_title, meta_keywords, meta_description
+  does NOT exist. The admin form for PageContent does not include
+  a meta_description field. A page's meta description defaults to
+  being empty or derived from the page content.
+
+requirement_after:
+  A meta_description TextField (blank=True, null=False, default="")
+  is added to the PageContent model. The admin form for PageContent
+  displays the field in the "SEO" section of the form layout. The
+  admin detail page should render it. If any serializer or API
+  endpoint exposes PageContent data (e.g., REST framework), it must
+  include the new field. Existing migrations must be updated with a
+  new migration (e.g., 0040_add_pagemodel_meta_description.py).
+
+rationale: >
+  Adding an SEO meta description field to PageContent allows editors
+  to set custom meta descriptions per page per language, improving
+  SEO capabilities. This is a localized schema change confined to
+  the PageContent model and its admin representation.
+
+acceptance_criteria:
+  - A new migration exists that adds meta_description to PageContent.
+  - The admin form for PageContent shows meta_description in the SEO fieldset.
+  - The admin detail view reads and displays the meta_description value.
+  - Any serializer for PageContent includes meta_description.
+  - Existing test suites for PageContent pass without regression.
+
+expected_affected_artifacts:
+  - "cms/models/contentmodels.py:PageContent"
+  - "cms/admin/pagecontentadmin.py:PageContentAdmin"
+  - "cms/forms.py:PageContentForm" (if exists) or inline admin form
+  - "cms/migrations/0040_add_pagemodel_meta_description.py" (new file)
+
+expected_actions:
+  cms/models/contentmodels.py: modify
+  cms/admin/pagecontentadmin.py: modify
+  cms/forms.py: modify
+  cms/migrations/0040_add_pagemodel_meta_description.py: create
+
+regression_obligations:
+  - "cms/tests/test_contentmodels.py"
+  - "cms/tests/test_pagecontent_admin.py"
+
+architecture_constraints:
+  - Must not affect the Page model itself; only PageContent.
+  - Must not modify caching behavior or signal handlers.
+  - Must follow the existing multilingual symmetry (behavior identical
+    across all languages).
+  - Must include database migration, not just model change.
+
+hidden_tests:
+  - description: >
+      Verify that meta_description is migrated correctly from a clean
+      state by running migrations on an in-memory SQLite database,
+      creating a PageContent, and asserting the field exists with
+      default empty string.
+    type: migration_schema
+  - description: >
+      Verify that saving a PageContent with a meta_description value
+      and re-fetching from the database preserves the value exactly.
+    type: roundtrip_persistence
+  - description: >
+      Verify that the admin form renders meta_description as a
+      Textarea widget in the SEO fieldset.
+    type: admin_form_widget
+  - description: >
+      Verify that if a serializer exists (e.g., django-rest-framework),
+      the meta_description field is present in the serializer output
+      for a PageContent instance.
+    type: serializer_inclusion

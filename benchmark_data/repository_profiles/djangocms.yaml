@@ -1,0 +1,172 @@
+repository: djangocms
+version: "5.0.0"
+
+overview:
+  Django CMS 5.0 is a modern, modular content management system built on Django.
+  It provides a drag-and-drop page builder with a plugin-based architecture,
+  multilingual content management via the PageContent model, hierarchical page
+  trees using MPTT, a comprehensive permission system, caching infrastructure,
+  and an extensible toolbar/middleware stack. The system is designed for
+  editorial workflows, content localization, and developer extensibility.
+
+architecture:
+  plugin_system:
+    description: >
+      CMSPluginBase subclasses define re-usable content plugins. Plugins are
+      instantiated per placeholder and stored as CMSPlugin tree nodes using
+      MPTT. Each plugin can have its own model (via `model` attribute) and
+      rendering logic (via `render` method).
+    key_files:
+      - cms/plugin_base.py
+      - cms/plugin_pool.py
+      - cms/models/pluginmodel.py
+
+  page_tree:
+    description: >
+      Pages are organized in a hierarchy using MPTT (Modified Preorder Tree
+      Traversal). The Page model holds tree structure fields; content is
+      separated into the PageContent model for multilingual support.
+    key_files:
+      - cms/models/pagemodel.py
+      - cms/models/contentmodels.py
+      - cms/models/titlemodels.py (deprecated)
+
+  placeholder_system:
+    description: >
+      Placeholders are slots on a page or template where plugins can be
+      placed. They are defined in templates and managed through the CMS
+      admin. Placeholder data is stored in the Placeholder model with
+      CMSPlugin instances as children.
+    key_files:
+      - cms/models/placeholdermodel.py
+      - cms/plugin_pool.py
+
+  multilingual:
+    description: >
+      Multilingual content is handled via the PageContent model, which
+      represents one language variant of a Page. Each PageContent instance
+      maps to a specific Page and language code. The older Title model
+      is deprecated but kept for backward compatibility.
+    key_files:
+      - cms/models/contentmodels.py
+      - cms/models/titlemodels.py
+
+  permission_system:
+    description: >
+      Permissions are managed through Django's auth system extended with
+      per-user and per-group page permissions. The GlobalPermission,
+      PagePermission, and PageUser models control who can view, edit,
+      publish, or manage pages.
+    key_files:
+      - cms/permissions.py
+      - cms/models/permissionmodels.py
+      - cms/admin/permissionadmin.py
+
+  toolbar_middleware:
+    description: >
+      The CMS toolbar is rendered on the front-end for authenticated users
+      with sufficient permissions. The middleware (CMSToolbarMiddleware)
+      attaches the toolbar to requests. Toolbar items are registered via
+      CMSToolbar subclasses.
+    key_files:
+      - cms/toolbar.py
+      - cms/middleware.py
+
+  caching:
+    description: >
+      Caching is implemented at multiple levels: page cache, placeholder
+      cache, and plugin cache. Cache keys are based on page ID, language,
+      and site. Signals invalidate cache entries on content changes.
+    key_files:
+      - cms/cache/ (directory)
+      - cms/signals.py
+      - cms/middleware.py
+
+  template_tags:
+    description: >
+      Template tags such as {% placeholder %}, {% static_placeholder %},
+      {% page_url %}, {% show_placeholder %} are defined in
+      cms/templatetags/. These tags render placeholders, plugins, and
+      page-related content in Django templates.
+    key_files:
+      - cms/templatetags/
+
+artifact_catalog:
+  cms/models/:
+    - __init__.py
+    - pagemodel.py: Page (MPTT-enabled page node)
+    - contentmodels.py: PageContent (multilingual content per page per language)
+    - titlemodels.py: Title (deprecated, backward compat)
+    - pluginmodel.py: CMSPlugin (base plugin tree node)
+    - placeholdermodel.py: Placeholder
+    - permissionmodels.py: GlobalPermission, PagePermission, PageUser
+    - settingmodels.py: UserSettings
+    - static_placeholdermodel.py: StaticPlaceholder
+    - aliaspluginmodel.py: AliasPlugin
+  cms/admin/:
+    - __init__.py
+    - pageadmin.py: PageAdmin
+    - pagecontentadmin.py: PageContentAdmin
+    - permissionadmin.py: PermissionAdmin
+    - static_placeholder_admin.py: StaticPlaceholderAdmin
+    - placeholderadmin.py: PlaceholderAdmin
+  cms/views.py: Public page views
+  cms/api.py: High-level API functions (create_page, publish_page, etc.)
+  cms/plugin_pool.py: PluginPool registry
+  cms/plugin_base.py: CMSPluginBase (base class for plugins)
+  cms/toolbar.py: Toolbar and item registration
+  cms/permissions.py: Permission checking functions
+  cms/middleware.py: CMSToolbarMiddleware, CMSPageMiddleware
+  cms/templatetags/:
+    - cms_tags.py: {% placeholder %}, {% static_placeholder %}, etc.
+    - cms_admin_tags.py: Admin-specific template tags
+    - menu_tags.py: Menu-related tags
+  cms/migrations/: Django migrations
+  cms/tests/: Test suite directory
+  menus/: Menu system (menu generation, modifiers)
+  test_requirements/: Dependency specs for test suite
+
+test_suite_description:
+  runner: tox + pytest
+  description: >
+    The test suite uses tox to manage environments and pytest as the test
+    runner. Test dependencies are defined in test_requirements/. Tests
+    span models, admin, views, API, permissions, toolbar, template tags,
+    caching, plugins, and menus. New features should include corresponding
+    test files in cms/tests/.
+  requirements_dir: test_requirements/
+
+architecture_boundaries:
+  plugin_isolation:
+    description: >
+      CMSPluginBase subclasses must NOT import from admin modules or views.
+      Plugins are rendering-layer components and should only depend on
+      models and template tags.
+  template_rendering_separation:
+    description: >
+      Views should only call render() with context. Templates define
+      placeholders via {% placeholder %} tags. Views must not directly
+      manipulate placeholder content.
+  admin_vs_public:
+    description: >
+      Admin classes must be kept separate from public view code. Admin
+      actions should not leak into front-end rendering paths. Public
+      views must not depend on admin module imports.
+  cache_boundary:
+    description: >
+      Cache invalidation signals must NOT be defined in the model layer.
+      Signals should live in cms/signals.py and connect to model events
+      via Django's signal framework. Models should be unaware of caching.
+  multilingual_symmetry:
+    description: >
+      All PageContent languages must be treated identically by the CMS.
+      No language-specific code paths, special-casing of default
+      languages, or differential rendering behavior is permitted.
+      Operations on one language must be available for all languages.
+
+known_limitations:
+  - "Page tree management with MPTT can lead to complexity with large, deeply nested trees and concurrent modifications."
+  - "The Title model is deprecated but retained for backward compatibility with third-party addons; new code should use PageContent exclusively."
+  - "Cache invalidation can be overly aggressive, flushing entire page caches on minor plugin changes."
+  - "Permission checks are not fully optimized for sites with thousands of pages and many user groups."
+  - "Plugin position management (ordering) within placeholders relies on MPTT tree position and can cause conflicts under concurrent edits."

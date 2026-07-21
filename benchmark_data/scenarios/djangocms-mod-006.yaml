@@ -1,0 +1,90 @@
+scenario_id: djangocms-mod-006
+repository: djangocms
+change_type: moderate_cross_entity
+
+blast_radius: moderate
+
+requirement_before:
+  CMSPlugin instances are associated with a Placeholder but have no
+  direct foreign key to PageContent or language. Plugin content is
+  language-agnostic at the model level. When rendering a placeholder
+  for a specific language, plugins for all languages appear and must
+  be filtered manually in template code or plugin render methods.
+
+requirement_after:
+  A nullable ForeignKey to PageContent (named `page_content`) is
+  added to the CMSPlugin model. This links each plugin to the
+  specific PageContent (and thus language) it belongs to. Existing
+  plugins will have page_content=NULL (migrated). Plugin forms in
+  admin show the associated PageContent context. Placeholder
+  rendering (cms/plugin_pool.py or placeholder rendering logic)
+  filters plugins by the requested language via the page_content
+  foreign key. Tests verify plugin-to-language association and
+  rendering filter correctness.
+
+rationale: >
+  Explicitly linking CMSPlugins to a PageContent language improves
+  data integrity, simplifies multilingual plugin management, and
+  enables language-specific plugin rendering at the database query
+  level instead of in-python filtering.
+
+acceptance_criteria:
+  - CMSPlugin has a nullable ForeignKey `page_content` to PageContent.
+  - A new migration adds the field and data migration sets
+    page_content for plugins that can be resolved to a PageContent.
+  - Admin plugin creation/edit forms auto-associate the plugin with
+    the current page's PageContent for the active language.
+  - Placeholder rendering filters CMSPlugin queryset by
+    page_content__language = requested language.
+  - Plugins with page_content=NULL are treated as
+    language-independent (legacy behavior).
+  - Existing plugin tests pass.
+
+expected_affected_artifacts:
+  - "cms/models/pluginmodel.py:CMSPlugin"
+  - "cms/admin/placeholderadmin.py:PlaceholderAdmin"
+  - "cms/plugin_pool.py:PluginPool"
+  - "cms/plugin_base.py:CMSPluginBase"
+  - "cms/templatetags/cms_tags.py" (placeholder rendering)
+
+expected_actions:
+  cms/models/pluginmodel.py: modify
+  cms/admin/placeholderadmin.py: modify
+  cms/plugin_pool.py: modify
+  cms/templatetags/cms_tags.py: modify
+  cms/migrations/0043_add_plugin_page_content_fk.py: create
+
+regression_obligations:
+  - "cms/tests/test_plugin.py"
+  - "cms/tests/test_placeholder.py"
+  - "cms/tests/test_placeholder_admin.py"
+  - "cms/tests/test_templatetags.py"
+
+architecture_constraints:
+  - The migration must be backward-compatible: existing plugins
+    get page_content=NULL.
+  - Must not remove the Placeholder foreign key from CMSPlugin.
+  - Rendering must fall back to showing all plugins for a Placeholder
+    if page_content is NULL (legacy mode).
+  - Must not change the CMSPluginBase render() method signature.
+  - The filtering change must happen at the queryset level, not
+    in Python loops (performance).
+
+hidden_tests:
+  - description: >
+      Create a Page with two PageContent instances: 'en' and 'fr'.
+      Create one CMSPlugin linked to the 'en' PageContent and one
+      linked to the 'fr' PageContent. Render the placeholder in 'en'
+      and assert only the 'en' plugin appears. Render in 'fr' and
+      assert only the 'fr' plugin appears.
+    type: language_filtered_rendering
+  - description: >
+      Create a CMSPlugin with page_content=NULL (legacy). Render
+      the placeholder in any language and assert the plugin appears
+      (backward compatibility).
+    type: legacy_null_fallback
+  - description: >
+      Create a CMSPlugin linked to a PageContent. Delete the
+      PageContent. Assert the CMSPlugin still exists with
+      page_content=NULL (SET_NULL or soft-delete behavior).
+    type: cascade_behavior

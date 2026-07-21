@@ -1,0 +1,93 @@
+scenario_id: djangocms-mod-004
+repository: djangocms
+change_type: moderate_schema_api
+
+blast_radius: moderate
+
+requirement_before:
+  PageContent has no publication_date field. All PageContent
+  instances are immediately visible on the front-end once their
+  associated Page is published. There is no concept of scheduled
+  publishing per language variant.
+
+requirement_after:
+  A `publication_date` DateTimeField (null=True, blank=True) is
+  added to PageContent. When set, the page content should only
+  appear on the front-end after the specified date/time. The admin
+  page content form displays the field. A new "Publish Scheduled"
+  admin action publishes all selected PageContent items whose
+  publication_date <= now. Front-end views filter out PageContent
+  instances where publication_date is set and is in the future.
+  The API (cms/api.py) functions for publishing should respect
+  publication_date. Tests cover admin, views, and API.
+
+rationale: >
+  Scheduled publishing allows content editors to prepare page
+  content in advance and have it go live automatically at a
+  specific date and time, a common CMS requirement.
+
+acceptance_criteria:
+  - publication_date field exists on PageContent (DateTimeField,
+    null=True, blank=True).
+  - Admin form displays publication_date with a DateTimePicker widget.
+  - "Publish Scheduled" admin action publishes all selected items
+    with publication_date <= now.
+  - Front-end page view filters out PageContent where
+    publication_date is set and publication_date > now.
+  - cms/api.py publish_page_content (or equivalent) respects
+    publication_date.
+  - A new migration is created.
+  - All existing tests for models, admin, views, and API pass.
+
+expected_affected_artifacts:
+  - "cms/models/contentmodels.py:PageContent"
+  - "cms/admin/pagecontentadmin.py:PageContentAdmin"
+  - "cms/views.py:page_view" (or similar)
+  - "cms/api.py:publish_page_content"
+  - "cms/migrations/0041_add_publication_date.py" (new file)
+  - "cms/tests/test_views.py"
+
+expected_actions:
+  cms/models/contentmodels.py: modify
+  cms/admin/pagecontentadmin.py: modify
+  cms/views.py: modify
+  cms/api.py: modify
+  cms/migrations/0041_add_publication_date.py: create
+
+regression_obligations:
+  - "cms/tests/test_contentmodels.py"
+  - "cms/tests/test_pagecontent_admin.py"
+  - "cms/tests/test_views.py"
+  - "cms/tests/test_api.py"
+
+architecture_constraints:
+  - Must not affect the Page model or its publish state.
+  - Must follow multilingual symmetry: publication_date applies
+    per-language, not globally.
+  - View filtering must use UTC comparison (timezone-aware).
+  - The "Publish Scheduled" admin action must be idempotent:
+    re-running on already-published items is a no-op.
+  - Must not introduce new caching logic; cache invalidation should
+    follow existing signal patterns.
+
+hidden_tests:
+  - description: >
+      Create a PageContent with publication_date set to 1 hour in
+      the future. Verify the admin "Publish Scheduled" action does
+      NOT publish it (date not yet due). Then verify that after
+      manually adjusting the date to 1 hour in the past, the action
+      publishes it.
+    type: scheduled_publish_action
+  - description: >
+      Create a PageContent with publication_date set to 1 hour in
+      the future. Fetch the page through the front-end view and
+      assert the PageContent is NOT rendered. Create another
+      PageContent for the same page with no publication_date and
+      assert it IS rendered.
+    type: view_filter_future
+  - description: >
+      Call publish_page_content via API for a PageContent with
+      publication_date in the future. Assert the function does NOT
+      set is_published=True. Call it again with publication_date in
+      the past. Assert is_published becomes True.
+    type: api_respects_schedule

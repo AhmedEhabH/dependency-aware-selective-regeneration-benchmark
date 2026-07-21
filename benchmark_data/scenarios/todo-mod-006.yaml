@@ -1,0 +1,78 @@
+# Scenario — todo-mod-006
+# Protocol v1.0 (FROZEN)
+
+scenario_id: "todo-mod-006"
+repository: todo
+change_type: "Architecture-sensitive changes"
+blast_radius: moderate
+requirement_before: >
+  Permission logic is implemented as DRF permission classes in
+  todo/permissions.py (IsOwnerOrReadOnly, IsProjectMember). Each ViewSet
+  declares permission_classes = [IsOwnerOrReadOnly] or similar. The
+  permission classes are monolithic: they combine ownership checks, read
+  vs. write logic, and project membership in a single has_permission or
+  has_object_permission method. There is no reuse of individual permission
+  checks across classes.
+requirement_after: >
+  Permission logic must be refactored into a decorator-based system.
+  Individual permission checks (is_owner, is_project_member, is_read_only,
+  is_authenticated) must be extracted as standalone predicate functions in
+  a new decorators module (todo/permission_decorators.py). A set of
+  composable decorators (@require_ownership, @require_project_membership,
+  @allow_read_only) must be created that wrap view methods. The existing
+  permission classes in todo/permissions.py must be rewritten to delegate
+  to the predicate functions, maintaining backward compatibility. The
+  ViewSets must use the new decorators for custom actions while keeping
+  permission_classes for standard CRUD.
+rationale: >
+  This is an architecture-sensitive refactoring: extracting a cross-cutting
+  concern (permissions) into a composable decorator system. The change
+  affects the permission module (restructured), views (new decorator
+  usage), and potentially serializers (if decorators need request context).
+  Tests the strategies' ability to handle architectural restructuring
+  where the external behaviour must remain identical but the internal
+  structure changes significantly. Strategies that only do surface-level
+  change impact may miss the view-layer implications.
+acceptance_criteria:
+  - "New module todo/permission_decorators.py exists with predicate functions: is_owner(user, obj), is_project_member(user, obj), is_read_only(request), is_authenticated(request)"
+  - "Composable decorators exist: @require_ownership, @require_project_membership, @allow_read_only"
+  - "Existing IsOwnerOrReadOnly class delegates to predicate functions (backward compatible)"
+  - "Existing IsProjectMember class delegates to predicate functions (backward compatible)"
+  - "TaskViewSet uses @require_ownership decorator on custom action(s) that require ownership"
+  - "ProjectViewSet uses @require_project_membership decorator on custom action(s)"
+  - "All existing permission behaviours are identical: same allow/deny outcomes for same requests"
+  - "All existing tests in test_permissions.py pass without modification"
+expected_affected_artifacts:
+  - "todo/permission_decorators.py (new file: predicate functions and composable decorators)"
+  - "todo/permissions.py (refactor existing classes to delegate to predicates)"
+  - "todo/views.py:TaskViewSet (add decorators to custom actions)"
+  - "todo/views.py:ProjectViewSet (add decorators to custom actions)"
+  - "todo/tests/test_permissions.py (add decorator unit tests)"
+  - "todo/tests/test_views.py (add decorator integration tests)"
+expected_actions:
+  "todo/permission_decorators.py": create
+  "todo/permissions.py:IsOwnerOrReadOnly": modify
+  "todo/permissions.py:IsProjectMember": modify
+  "todo/views.py:TaskViewSet": modify
+  "todo/views.py:ProjectViewSet": modify
+  "todo/tests/test_permissions.py": modify
+  "todo/tests/test_views.py": modify
+regression_obligations:
+  - "todo/tests/test_permissions.py"
+  - "todo/tests/test_views.py"
+  - "todo/tests/test_models.py"
+  - "todo/tests/test_serializers.py"
+architecture_constraints:
+  - "The permission_decorators.py module must not import views.py, serializers.py, or urls.py"
+  - "Predicate functions must accept (user, obj) or (request) as appropriate — not (request, view)"
+  - "Existing permission_classes declarations in ViewSets must remain valid (backward compat)"
+  - "The decorators must work on ViewSet method level (custom @action methods)"
+  - "No changes to models.py, serializers.py (except tests), urls.py"
+  - "Refactored permissions must produce identical allow/deny results as the original for every input"
+hidden_tests:
+  - description: "Regression test: unauthenticated requests to write endpoints are denied exactly as before (403)"
+    type: regression
+  - description: "Changed-requirement test: applying both @require_ownership and @require_project_membership on the same action enforces both (AND logic)"
+    type: changed_requirement
+  - description: "Regression test: project listing (GET /api/projects/) is accessible to any authenticated user (unchanged)"
+    type: regression

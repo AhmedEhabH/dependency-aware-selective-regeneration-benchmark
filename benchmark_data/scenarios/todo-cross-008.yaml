@@ -1,0 +1,125 @@
+# Scenario — todo-cross-008
+# Protocol v1.0 (FROZEN)
+
+scenario_id: "todo-cross-008"
+repository: todo
+change_type: "Selected broad changes to test the limits of selectivity"
+blast_radius: cross_cutting
+requirement_before: >
+  All three models (Task, Project, Tag) use hard deletion: calling
+  delete() permanently removes the row from the database. There is no
+  is_deleted flag, no deleted_at timestamp, and no soft-delete mechanism
+  anywhere in the application. Cascade deletions propagate hard deletion
+  to related objects. The API exposes no concept of trashed or archived
+  objects. There is no restore functionality. All ViewSet querysets
+  include all objects (Model.objects.all()).
+requirement_after: >
+  Soft-delete support must be implemented across ALL three entities:
+  Task, Project, and Tag. Each model must gain is_deleted (BooleanField,
+  default=False) and deleted_at (DateTimeField, null=True, blank=True)
+  fields. A custom SoftDeleteManager (as default manager) must
+  automatically filter out soft-deleted objects from standard queries,
+  with an all_objects manager for admin/recovery access. The delete
+  method on each model must be overridden to perform a soft delete: set
+  is_deleted=True, deleted_at=timezone.now(), and cascade the soft delete
+  to related objects (soft-deleting Tasks when their Project is soft-
+  deleted). A new custom action POST /api/{entity}/{id}/restore/ must be
+  added to all three ViewSets. The list endpoints must exclude
+  soft-deleted objects by default but accept ?deleted=true to include
+  them. Serializers must expose is_deleted and deleted_at as read-only
+  fields. The admin.py must be updated to use all_objects for the admin
+  interface. Permission to hard-delete (permanent delete) must require
+  staff status. Soft-deleted tasks must not count toward project task
+  counts. Cascade behaviour: soft-deleting a Project soft-deletes all
+  its Tasks; restoring a Project restores all its Tasks that were
+  soft-deleted as part of the same cascade.
+rationale: >
+  This is a deliberately broad, cross-cutting change that tests the
+  limits of selectivity. It touches every model, every serializer, every
+  ViewSet, the permission module, and the admin configuration. The change
+  is designed to stress-test whether selective strategies can identify the
+  full scope without under-shooting (missing a ViewSet, a serializer, or
+  the cascade logic) or over-shooting (modifying files that truly are
+  unaffected, such as unrelated utility code). The cascade behaviour
+  (soft-delete propagation) adds a dependency layer that naive analysis
+  might miss.
+acceptance_criteria:
+  - "Task, Project, and Tag models have is_deleted and deleted_at fields"
+  - "SoftDeleteManager excludes soft-deleted objects by default in all standard querysets"
+  - "all_objects manager provides access to all objects including soft-deleted"
+  - "task.delete() performs soft delete (is_deleted=True, deleted_at set) instead of hard delete"
+  - "project.delete() soft-deletes the project AND all its associated tasks"
+  - "tag.delete() soft-deletes the tag (no cascade to other entities)"
+  - "POST /api/tasks/{id}/restore/ restores a soft-deleted task"
+  - "POST /api/projects/{id}/restore/ restores the project AND its soft-deleted tasks"
+  - "POST /api/tags/{id}/restore/ restores a soft-deleted tag"
+  - "GET /api/tasks/?deleted=true includes soft-deleted tasks"
+  - "GET /api/tasks/ (without ?deleted) excludes soft-deleted tasks"
+  - "Serializers expose is_deleted and deleted_at as read-only fields"
+  - "Hard-deleting (permanent delete) requires staff status (admin-only)"
+  - "Project task count (project.task_set.count()) excludes soft-deleted tasks"
+  - "Admin interface uses all_objects manager for all three models"
+expected_affected_artifacts:
+  - "todo/models.py:SoftDeleteManager (new custom manager)"
+  - "todo/models.py:SoftDeleteMixin (new abstract base class with is_deleted, deleted_at, custom delete, restore)"
+  - "todo/models.py:Task (add SoftDeleteMixin, override delete/restore, update managers)"
+  - "todo/models.py:Project (add SoftDeleteMixin, override delete/restore with cascade, update managers)"
+  - "todo/models.py:Tag (add SoftDeleteMixin, override delete/restore, update managers)"
+  - "todo/serializers.py:TaskSerializer (add is_deleted, deleted_at read-only fields)"
+  - "todo/serializers.py:ProjectSerializer (add is_deleted, deleted_at read-only fields)"
+  - "todo/serializers.py:TagSerializer (add is_deleted, deleted_at read-only fields)"
+  - "todo/views.py:TaskViewSet (add restore action, update queryset for deleted filter)"
+  - "todo/views.py:ProjectViewSet (add restore action, update queryset for deleted filter)"
+  - "todo/views.py:TagViewSet (add restore action, update queryset for deleted filter)"
+  - "todo/permissions.py (add IsStaffOrReadOnly or similar for hard-delete)"
+  - "todo/admin.py (update all three ModelAdmin to use all_objects)"
+  - "todo/urls.py (ensure restore routes are registered)"
+  - "todo/tests/test_models.py (add soft-delete, cascade, restore model tests)"
+  - "todo/tests/test_serializers.py (add soft-delete field tests)"
+  - "todo/tests/test_views.py (add restore endpoint + deleted filter tests)"
+  - "todo/tests/test_permissions.py (add hard-delete permission tests)"
+  - "todo_project/settings.py (if middleware or backend changes needed)"
+expected_actions:
+  "todo/models.py:SoftDeleteManager": create
+  "todo/models.py:SoftDeleteMixin": create
+  "todo/models.py:Task": modify
+  "todo/models.py:Project": modify
+  "todo/models.py:Tag": modify
+  "todo/serializers.py:TaskSerializer": modify
+  "todo/serializers.py:ProjectSerializer": modify
+  "todo/serializers.py:TagSerializer": modify
+  "todo/views.py:TaskViewSet": modify
+  "todo/views.py:ProjectViewSet": modify
+  "todo/views.py:TagViewSet": modify
+  "todo/permissions.py": modify
+  "todo/admin.py": modify
+  "todo/urls.py": modify
+  "todo/tests/test_models.py": modify
+  "todo/tests/test_serializers.py": modify
+  "todo/tests/test_views.py": modify
+  "todo/tests/test_permissions.py": modify
+regression_obligations:
+  - "todo/tests/test_models.py"
+  - "todo/tests/test_serializers.py"
+  - "todo/tests/test_views.py"
+  - "todo/tests/test_permissions.py"
+architecture_constraints:
+  - "SoftDeleteManager must be the default manager on all three models (objects = SoftDeleteManager())"
+  - "The all_objects manager must use models.Manager (raw, unfiltered)"
+  - "Soft delete must NOT change the primary key or URL of any object (same pk, same endpoint)"
+  - "Cascade logic: soft-deleting a Project must soft-delete its Tasks but NOT its Tags (M2M)"
+  - "Restore cascade: restoring a Project must restore its soft-deleted Tasks that were deleted in the same cascade"
+  - "Hard-delete (permanent) must be a separate method .hard_delete() or admin-only"
+  - "The restore endpoint must be an @action(detail=True) on each ViewSet"
+  - "Existing hard-delete cascade behaviour must be preserved in the soft-delete override"
+  - "No changes to Tag model's relationship with Task (Task-Tag M2M unaffected by soft-delete)"
+  - "Soft-delete must use timezone.now() for deleted_at, not date or auto_now"
+hidden_tests:
+  - description: "Regression test: creating, updating, and listing non-deleted tasks works exactly as before"
+    type: regression
+  - description: "Changed-requirement test: soft-deleting a task, then restoring it, then soft-deleting it again works (idempotent cycle)"
+    type: changed_requirement
+  - description: "Changed-requirement test: soft-deleting a Project does NOT cascade-soft-delete Tags associated via the M2M (only owned entities)"
+    type: changed_requirement
+  - description: "Regression test: unauthenticated users cannot access the restore endpoint (authentication required)"
+    type: regression

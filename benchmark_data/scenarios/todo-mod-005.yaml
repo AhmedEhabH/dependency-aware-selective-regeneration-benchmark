@@ -1,0 +1,78 @@
+# Scenario — todo-mod-005
+# Protocol v1.0 (FROZEN)
+
+scenario_id: "todo-mod-005"
+repository: todo
+change_type: "Cross-entity relationships"
+blast_radius: moderate
+requirement_before: >
+  The Project model has only name (CharField) and description (TextField).
+  The Tag model has only name (CharField, unique) and color (CharField).
+  There is no direct relationship between Project and Tag. Tags are
+  independent entities without associations. The ProjectSerializer exposes
+  only name and description. The ProjectViewSet provides basic CRUD.
+requirement_after: >
+  A many-to-many relationship must be added between Project and Tag, with
+  a through model ProjectTag that includes an added_at DateTimeField
+  (auto_now_add=True). The ProjectSerializer must expose tags as a nested
+  read-write field showing tag name and color. The Project detail endpoint
+  must include the associated tags. Assigning and removing tags from a
+  project must work via PATCH /api/projects/{id}/ with a tags list of
+  tag IDs. The TagSerializer and TagViewSet remain unchanged except that
+  TagViewSet must support a ?project={id} filter to show which tags are
+  used by a specific project.
+rationale: >
+  This is a cross-entity structural change: adding a many-to-many
+  relationship between two existing models. It requires schema changes
+  (new through model, new FK/M2M field), serializer changes (nested
+  representation), and view changes (filter support, tag assignment).
+  Tests the strategies' ability to trace relationship additions through
+  the entire stack. An under-broad strategy might add the model
+  relationship but miss the serializer nesting or the new filter.
+acceptance_criteria:
+  - "Project has a many-to-many relationship to Tag via a ProjectTag through model"
+  - "ProjectTag includes an added_at auto-populated timestamp"
+  - "GET /api/projects/{id}/ returns tags as a nested list of {id, name, color}"
+  - "PATCH /api/projects/{id}/ with tags=[tag_id1, tag_id2] associates tags to the project"
+  - "PATCH /api/projects/{id}/ with tags=[] clears all tag associations"
+  - "GET /api/tags/?project={id} returns only tags associated with the given project"
+  - "Tag model, TagSerializer, and TagViewSet basic CRUD remain unchanged"
+  - "Deleting a tag removes the association from ProjectTag (CASCADE)"
+expected_affected_artifacts:
+  - "todo/models.py:Project (add tags M2M field with through=ProjectTag)"
+  - "todo/models.py:ProjectTag (new through model with added_at field)"
+  - "todo/serializers.py:ProjectSerializer (add nested tags representation)"
+  - "todo/views.py:ProjectViewSet (add tag assignment handling)"
+  - "todo/views.py:TagViewSet (add project filter parameter)"
+  - "todo/tests/test_models.py (add ProjectTag relationship tests)"
+  - "todo/tests/test_serializers.py (add nested tag serialization tests)"
+  - "todo/tests/test_views.py (add project-tag association endpoint tests)"
+expected_actions:
+  "todo/models.py:Project": modify
+  "todo/models.py:ProjectTag": create
+  "todo/serializers.py:ProjectSerializer": modify
+  "todo/views.py:ProjectViewSet": modify
+  "todo/views.py:TagViewSet": modify
+  "todo/tests/test_models.py": modify
+  "todo/tests/test_serializers.py": modify
+  "todo/tests/test_views.py": modify
+regression_obligations:
+  - "todo/tests/test_models.py"
+  - "todo/tests/test_serializers.py"
+  - "todo/tests/test_views.py"
+  - "todo/tests/test_permissions.py"
+architecture_constraints:
+  - "No changes to urls.py, permissions.py (unless project permissions need updating)"
+  - "The through model ProjectTag must have its own explicit model class (not automatic M2M)"
+  - "TagSerializer must NOT be modified for project-specific representation (nesting handled in ProjectSerializer)"
+  - "Deletion behaviour: deleting a Tag must CASCADE-delete ProjectTag rows; deleting a Project must CASCADE-delete ProjectTag rows"
+  - "No changes to existing Task model, TaskSerializer, or TaskViewSet"
+hidden_tests:
+  - description: "Regression test: creating a project without tags succeeds (tags field is optional)"
+    type: regression
+  - description: "Changed-requirement test: GET /api/tags/?project=999 (nonexistent project) returns empty list, not 404"
+    type: changed_requirement
+  - description: "Changed-requirement test: assigning a nonexistent tag ID returns 400 with validation error"
+    type: changed_requirement
+  - description: "Regression test: Task-to-Project relationship is completely unaffected by the new Project-Tag M2M"
+    type: regression

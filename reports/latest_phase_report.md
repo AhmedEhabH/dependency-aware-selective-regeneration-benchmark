@@ -1,75 +1,88 @@
-# Phase 0 — Bootstrap and Environment: Completion Report
+# Phase 3.5 — Static Architecture Audit and Project Map: Completion Report
 
 **Date:** 2026-07-22
-**Status:** LOCAL_ENGINEERING_VALIDATED
+**Protocol Version:** 1.0 (FROZEN)
+**Status:** COMPLETE
+**Approved for Phase 4A:** true
 
 ## Summary
 
-Phase 0 (Bootstrap and Environment) is complete. The repository structure, required state files, Conda environment, and local engineering dependencies have been created, installed, and validated.
+Phase 3.5 (Static Architecture Audit and Project Map) is complete. The full repository layout was inspected, revealing a critical duplicate directory structure (root-level `docs/` and `benchmark_data/` outside the Git repo). The canonical project root was identified as `project/`. A 13-layer software architecture was defined with 11 interface protocols, strict dependency rules, and a Phase 4 implementation blueprint split into 6 milestones (4A–4F). Eight new architecture documents and two reports were created.
+
+## Structural Issues Found
+
+| Issue | Severity | Detail |
+|-------|----------|--------|
+| Duplicate `docs/` | CRITICAL | 4 stale files outside Git; 16 authoritative files inside Git |
+| Duplicate `benchmark_data/` | HIGH | Partial stale duplicate outside Git; full set inside Git |
+| Stale decision files | MEDIUM | `FINAL_RESEARCH_PROTOCOL_DECISIONS.md` and `HUMAN_DECISIONS_REQUIRED.md` superseded |
+| Scenario blast_radius inconsistency | LOW | 2 YAML files use non-standard values |
+| Missing pyproject.toml | LOW | Proposed for Phase 4 |
+| Missing .gitignore entries | LOW | `__pycache__/` and `runs/` not in .gitignore |
 
 ## Tasks Completed
 
 | ID | Description | Status |
 |----|-------------|--------|
-| T001 | Create Repository Structure | COMPLETE_STATICALLY |
-| T002 | Create State Files | COMPLETE_STATICALLY |
-| T003 | Create Environment Files | COMPLETE_STATICALLY |
-| T004 | Create Conda Environment | LOCAL_ENGINEERING_VALIDATED |
-| T005 | Install Local Engineering Dependencies | LOCAL_ENGINEERING_VALIDATED |
-| T006 | Validate Environment | LOCAL_ENGINEERING_VALIDATED |
-| T007 | Create Environment Report | LOCAL_ENGINEERING_VALIDATED |
-| T008 | Create Phase Report | LOCAL_ENGINEERING_VALIDATED |
-| T009 | Initialize Git Repository | LOCAL_ENGINEERING_VALIDATED |
-| T010 | Final Review and Handoff | LOCAL_ENGINEERING_VALIDATED |
+| T350 | Inspect Repository Layout and Identify Conflicts | COMPLETE |
+| T351 | Define Canonical Project Root and Path Policy | COMPLETE |
+| T352 | Create Project Structure Map | COMPLETE |
+| T353 | Define Software Architecture and Interfaces | COMPLETE |
+| T354 | Define Dependency Rules | COMPLETE |
+| T355 | Create Extension Guide | COMPLETE |
+| T356 | Define Public/Private Data Boundary | COMPLETE |
+| T357 | Create Phase 4 Implementation Blueprint | COMPLETE |
+| T358 | Create Architecture Validation Plan | COMPLETE |
+| T359 | Create Architecture Audit Reports | COMPLETE |
+| T360 | Update State Files for Phase 3.5 | COMPLETE |
 
-## Files Created
-- `SYSTEM_STATE.md`
-- `TODO.md`
-- `DECISION_LOG.md`
-- `PROTOCOL_VERSION.md`
-- `docs/MASTER_IMPLEMENTATION_PLAN.md`
-- `docs/HUMAN_DECISIONS_REQUIRED.md`
-- `environment.yml`
-- `requirements-dev.txt`
-- `requirements-kaggle.txt`
-- `requirements-lock.txt`
-- `reports/LOCAL_ENVIRONMENT_REPORT.md`
-- `reports/latest_phase_report.md`
-- `src/benchmark/__init__.py`
-- `tests/__init__.py`
-- `.gitignore`
-- `.gitattributes`
+## Files Created (Phase 3.5)
 
-## Local Checks Executed
+### docs/ (8 files)
+- `docs/PROJECT_ROOT_AND_PATH_POLICY.md` — Canonical root, directory classification, remediation
+- `docs/PROJECT_STRUCTURE_MAP.md` — Complete proposed tree, directory responsibility tables
+- `docs/SOFTWARE_ARCHITECTURE.md` — 13 layers, 11 interface specs, model backend separation
+- `docs/DEPENDENCY_RULES.md` — Allowed/prohibited imports, 10 prohibited patterns
+- `docs/EXTENSION_GUIDE.md` — Plugin lifecycle, registry design, protocol skeletons
+- `docs/PUBLIC_PRIVATE_DATA_BOUNDARY.md` — Data classification, import isolation, audit checklist
+- `docs/PHASE4_IMPLEMENTATION_BLUEPRINT.md` — 6 milestones with files, tests, acceptance criteria
+- `docs/ARCHITECTURE_VALIDATION_PLAN.md` — 11 validation checks
 
-| Check | Result |
-|-------|--------|
-| Conda environment creation | PASSED |
-| `pip check` (dependency conflicts) | PASSED — no broken requirements |
-| Import smoke tests (10 modules) | PASSED — all imports OK |
-| `ruff check src/ tests/` | PASSED — all checks passed |
-| `mypy src/ tests/` | PASSED — no issues found |
-| `pytest --version` | PASSED — pytest 8.4.2 |
-| `git init` | PASSED |
+### reports/ (2 files)
+- `reports/PHASE3_5_ARCHITECTURE_AUDIT.md` — Full audit with architecture decisions, risks, validation
+- `reports/PROJECT_STRUCTURE_CONFLICT_REPORT.md` — Documented conflicts with remediation plan
 
-## Environment Details
-- **Name:** `selective-regen-benchmark`
-- **Python:** 3.11.15
-- **Conda:** 23.10.0
-- **Resolver:** conda (no mamba/micromamba)
-- **Packages:** 66 total (see `requirements-lock.txt`)
+## Architecture Decisions
 
-## Kaggle-Only Checks
-The following are intentionally not executed locally:
-- Real model loading or inference
-- Qwen model discovery
-- GPU/torch availability
-- `transformers` installation
-- Real benchmark runs
-- Runtime metrics
+| AD | Decision |
+|----|----------|
+| AD-01 | Protocol over ABC (typing.Protocol for interfaces) |
+| AD-02 | Instantiated registries (no global singletons) |
+| AD-03 | Dependency injection (constructor-based) |
+| AD-04 | Lazy Kaggle imports (torch/transformers only in methods) |
+| AD-05 | Core isolation (Core imports nothing from infrastructure) |
+| AD-06 | Immutable run records (frozen dataclasses) |
+| AD-07 | Pydantic for configuration models |
+| AD-08 | Atomic file writes |
+| AD-09 | No hidden test imports in strategies/execution |
+| AD-10 | No repo-specific branches in generic execution |
 
-## Known Risks
-- Full `jupyter` metapackage not installed (timed out during download of jupyterlab/notebook). Core notebook tools (`nbformat`, `nbconvert`, `jupyter_core`) are present and functional.
+## Phase 4 Milestones
+
+| Milestone | Focus | Complexity |
+|-----------|-------|------------|
+| 4A | Domain Models + Contracts (core + config) | Medium |
+| 4B | Loaders + Validation (repositories + scenarios) | Medium |
+| 4C | Model Backends (mock, dry-run, Kaggle skeleton) | Medium |
+| 4D | Execution Core (pipeline, repair, budgets) | High |
+| 4E | Provenance + Result Storage | Low |
+| 4F | Architecture + Contract Tests | Medium |
+
+## Files Modified
+- `SYSTEM_STATE.md` (Phase 3.5 complete)
+- `TODO.md` (added Phase 3.5 tasks T350–T360)
+- `DECISION_LOG.md` (added D009)
+- `reports/latest_phase_report.md` (this file)
 
 ## Exact Next Task
-**Phase 1 — Input Audit**: inspect supplied paper, notebooks, result archives, and examples; preserve originals; classify current results as legacy pilot; identify reusable components; identify errors, leakage risks, and metric problems; create migration documentation.
+**Phase 4A — Domain Models and Contracts**: Implement immutable data models in `src/benchmark/core/` (enums, models, exceptions, protocols, registry, context) and configuration models in `src/benchmark/config/` (models, loader, validation). No strategy or execution code.

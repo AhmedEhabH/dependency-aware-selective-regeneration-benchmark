@@ -1,0 +1,76 @@
+# Scenario — todo-mod-004
+# Protocol v1.0 (FROZEN)
+
+scenario_id: "todo-mod-004"
+repository: todo
+change_type: "Schema and field changes"
+blast_radius: moderate
+requirement_before: >
+  The Task model has no date-related fields beyond created_at and
+  updated_at (auto-managed timestamps). The TaskSerializer exposes no
+  date field beyond these timestamps. The API provides no filtering or
+  warning related to task deadlines. Tasks can remain in PENDING or
+  IN_PROGRESS status indefinitely without any overdue indication.
+requirement_after: >
+  The Task model must gain a due_date field (DateField, null=True,
+  blank=True). The TaskSerializer must expose due_date as an optional
+  read-write field. The TaskViewSet must support filtering by due_date
+  via ?due_date=YYYY-MM-DD and ?due_date__gte=, ?due_date__lte= query
+  parameters. The Task model must gain an is_overdue property that
+  returns True when due_date is not None, due_date < today, and status
+  is not COMPLETED. The TaskSerializer must include is_overdue as a
+  read-only field. A list of overdue tasks must be accessible via
+  GET /api/tasks/?is_overdue=true.
+rationale: >
+  This change spans three layers: schema (model field), serialization
+  (new field exposure + read-only computed field), and API (new filter
+  parameters + computed filter). It tests whether strategies correctly
+  trace a schema addition through to the serializer and view layers.
+  A naive strategy might modify the model but miss the computed
+  is_overdue property or the API filtering. A strategy that correctly
+  identifies all four affected artifacts (model, serializer, views, and
+  tests) demonstrates cross-layer tracing.
+acceptance_criteria:
+  - "Task model has a due_date DateField (null=True, blank=True)"
+  - "Task model has an is_overdue property returning correct boolean"
+  - "TaskSerializer exposes due_date as optional read-write and is_overdue as read-only"
+  - "GET /api/tasks/?due_date=2026-08-01 filters tasks by exact due_date"
+  - "GET /api/tasks/?due_date__gte=2026-08-01 filters by due_date >= date"
+  - "GET /api/tasks/?due_date__lte=2026-08-01 filters by due_date <= date"
+  - "GET /api/tasks/?is_overdue=true returns only overdue tasks"
+  - "GET /api/tasks/?is_overdue=false returns only non-overdue tasks"
+  - "PATCH /api/tasks/{id}/ with due_date updates the date"
+  - "All existing fields and behaviour remain unchanged"
+expected_affected_artifacts:
+  - "todo/models.py:Task (add due_date field, add is_overdue property)"
+  - "todo/serializers.py:TaskSerializer (add due_date, is_overdue fields)"
+  - "todo/views.py:TaskViewSet (add filter backends for due_date, is_overdue)"
+  - "todo/tests/test_models.py (add due_date and is_overdue tests)"
+  - "todo/tests/test_serializers.py (add due_date serialization tests)"
+  - "todo/tests/test_views.py (add due_date filter endpoint tests)"
+expected_actions:
+  "todo/models.py:Task": modify
+  "todo/serializers.py:TaskSerializer": modify
+  "todo/views.py:TaskViewSet": modify
+  "todo/tests/test_models.py": modify
+  "todo/tests/test_serializers.py": modify
+  "todo/tests/test_views.py": modify
+regression_obligations:
+  - "todo/tests/test_models.py"
+  - "todo/tests/test_serializers.py"
+  - "todo/tests/test_views.py"
+architecture_constraints:
+  - "No changes to urls.py, permissions.py, or other models (Project, Tag)"
+  - "is_overdue must be a model property (business logic in model layer), not computed in serializer or view"
+  - "Filtering by due_date must use DRF's filter backends, not raw queryset overrides"
+  - "The is_overdue filter must derive from the existing property — no duplicated logic"
+  - "Only one new migration file for the due_date field"
+hidden_tests:
+  - description: "Regression test: tasks with due_date set to future date and status IN_PROGRESS are NOT overdue"
+    type: regression
+  - description: "Changed-requirement test: completing a task (status=COMPLETED) makes is_overdue return False even if due_date is in the past"
+    type: changed_requirement
+  - description: "Changed-requirement test: GET /api/tasks/?due_date__gte=2026-08-01&due_date__lte=2026-08-31 returns tasks with due_date in August 2026"
+    type: changed_requirement
+  - description: "Regression test: tasks without due_date (None) are excluded from is_overdue queries and due_date filters"
+    type: regression

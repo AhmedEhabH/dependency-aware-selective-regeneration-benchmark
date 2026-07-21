@@ -1,0 +1,58 @@
+# Scenario — todo-loc-002
+# Protocol v1.0 (FROZEN)
+
+scenario_id: "todo-loc-002"
+repository: todo
+change_type: "API additions or modifications"
+blast_radius: localized
+requirement_before: >
+  The TaskViewSet exposes the standard CRUD endpoints via ModelViewSet with
+  no custom filtering. The list endpoint (GET /api/tasks/) returns all tasks
+  ordered by -created_at. No query parameter filtering by status is
+  available. The Task model has a status field with choices PENDING,
+  IN_PROGRESS, COMPLETED.
+requirement_after: >
+  The Task list endpoint must support filtering by status. When a query
+  parameter `?status=COMPLETED` is provided, only tasks matching that status
+  are returned. When no status parameter is provided, all tasks are returned
+  (unchanged behaviour). Invalid status values should return a 400 error
+  with an appropriate error message. The filtering must be implemented using
+  DRF's django-filter backend or a custom filter backend — not by
+  overriding get_queryset with raw query params.
+rationale: >
+  This is a pure API-layer change: adding filtering capability to a list
+  endpoint. The change is confined to the view layer (and possibly a new
+  filter class). No model changes, no serializer changes, no URL changes
+  (same endpoint, new query parameter). Tests the strategies' ability to
+  recognize that only the view layer needs modification. An over-broad
+  strategy might incorrectly modify the serializer or model.
+acceptance_criteria:
+  - "GET /api/tasks/?status=COMPLETED returns only tasks with status=COMPLETED"
+  - "GET /api/tasks/?status=PENDING returns only tasks with status=PENDING"
+  - "GET /api/tasks/?status=IN_PROGRESS returns only tasks with status=IN_PROGRESS"
+  - "GET /api/tasks/ (no filter) returns all tasks (unchanged behaviour)"
+  - "GET /api/tasks/?status=INVALID returns 400 with descriptive error message"
+  - "Filtering uses DRF's FilterBackend mechanism (django-filter or custom)"
+  - "All existing CRUD operations remain unchanged"
+expected_affected_artifacts:
+  - "todo/views.py:TaskViewSet (add filter_backends and filterset_class or custom filter)"
+  - "todo/tests/test_views.py (add filter endpoint tests)"
+expected_actions:
+  "todo/views.py:TaskViewSet": modify
+  "todo/tests/test_views.py": modify
+regression_obligations:
+  - "todo/tests/test_views.py"
+  - "todo/tests/test_models.py"
+  - "todo/tests/test_serializers.py"
+architecture_constraints:
+  - "No changes to models.py, serializers.py, urls.py, or permissions.py"
+  - "Filtering logic must live in a filter backend, not in views via queryset override with manual param parsing"
+  - "Validation of status parameter value must be in the filter backend"
+  - "No new endpoints — only query-parameter filtering on the existing list endpoint"
+hidden_tests:
+  - description: "Regression test: POST /api/tasks/ still creates a task and GET /api/tasks/{id}/ still returns a single task"
+    type: regression
+  - description: "Changed-requirement test: GET /api/tasks/?status=COMPLETED&status=PENDING returns tasks matching either status (OR logic)"
+    type: changed_requirement
+  - description: "Regression test: pagination, ordering, and search still work alongside the new filter"
+    type: regression
