@@ -152,5 +152,27 @@
   - 4D: Execution Core (~8 files)
   - 4E: Provenance and Result Storage (~6 files)
   - 4F: Architecture and Contract Tests (~8 files)
-- **Impact:** Phase 3.5 deliverables complete. 8 new docs, 2 reports, 10 new architecture checks passed. Phase 4A (Domain Models and Contracts) is the exact next task.
+- **Impact:** Phase 3.5 deliverables complete. 8 new docs, 2 reports, 10 new architecture checks passed. Phase 4A is the exact next task.
 - **Evidence:** All files under docs/ (16 total), reports/PHASE3_5_ARCHITECTURE_AUDIT.md, reports/PROJECT_STRUCTURE_CONFLICT_REPORT.md.
+
+---
+
+## Decision D010 — Phase 3.6 Structure Remediation and Baseline Commit
+- **Date:** 2026-07-22
+- **Decision ID:** D010
+- **Status:** IMPLEMENTED
+- **Category:** Structure
+- **Description:** Execute Phase 3.6 — Structure Remediation and Baseline Commit. Resolve all structural conflicts identified in Phase 3.5: copy reference docs, delete stale files, fix scenario blast_radius inconsistencies (14 files), update .gitignore, create baseline Git commit covering all Phase 3/3.5/3.6 work.
+- **Rationale:** The Phase 3.5 conflict report documented critical duplicate directory structure and scenario taxonomy inconsistencies that must be resolved before Phase 4 implementation begins. A baseline commit is needed to prevent working-tree-only state.
+- **Alternatives considered:** Proceed directly to Phase 4A without remediation — rejected because stale outer copies could cause path confusion during implementation.
+- **Actions executed:**
+  - Copied `OPENCODE_EXECUTION_GUIDE.md` and `MASTER_IMPLEMENTATION_PLAN.md` into `project/docs/`
+  - Deleted stale outer `FINAL_RESEARCH_PROTOCOL_DECISIONS.md` and `HUMAN_DECISIONS_REQUIRED.md`
+  - Deleted stale outer `benchmark_data/` (incomplete duplicate)
+  - Preserved `inputs/paper/` as immutable external data
+  - Fixed blast_radius in 14 scenario YAMLs (6 localized, 6 moderate, 4 cross_cutting)
+  - Deduplicated `.gitignore`, added `runs/`, added report exceptions
+  - Validated full project tree (79 files, 15 dirs, scaffold-only src)
+  - Created baseline commit `845ba49` (57 files, 7652 insertions)
+- **Impact:** Phase 3.6 deliverables complete. Structural conflicts resolved. Working tree clean. Phase 4A (Domain Models and Contracts) is the exact next task.
+- **Evidence:** `reports/PHASE3_6_STRUCTURE_REMEDIATION_REPORT.md`, Git commit `845ba49`.

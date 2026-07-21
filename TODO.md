@@ -521,3 +521,45 @@
 - **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** Edits to all four state files
+
+## Phase 3.6 — Structure Remediation and Baseline Commit
+
+### T361 — Resolve Duplicate Documentation and Delete Stale Files
+- **Priority:** HIGH
+- **Category:** Structure
+- **Description:** Copy outer OPENCODE_EXECUTION_GUIDE.md and MASTER_IMPLEMENTATION_PLAN.md into project/docs/. Delete stale outer FINAL_RESEARCH_PROTOCOL_DECISIONS.md and HUMAN_DECISIONS_REQUIRED.md. Delete stale outer benchmark_data/. Preserve inputs/ as immutable.
+- **Acceptance Criteria:** Outer reference docs preserved in project/docs/; stale superseded files deleted; external inputs untouched
+- **Dependencies:** T360
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Files copied, deleted, and verified via Test-Path
+
+### T362 — Fix Scenario Taxonomy Inconsistencies
+- **Priority:** HIGH
+- **Category:** Scenario
+- **Description:** Correct blast_radius in all 14 djangocms and saleor scenario YAMLs to use taxonomy-standard values (localized, moderate, cross_cutting)
+- **Acceptance Criteria:** All 24 scenarios have blast_radius matching naming convention and SCENARIO_TAXONOMY.md
+- **Dependencies:** T361
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** grep of blast_radius across all 24 scenario YAMLs shows only standard values
+
+### T363 — Update .gitignore and Validate Project Tree
+- **Priority:** HIGH
+- **Category:** Structure
+- **Description:** Deduplicate .gitignore, add runs/, add report exceptions. Validate full project tree structure.
+- **Acceptance Criteria:** .gitignore clean; project tree has 18 docs, 29 benchmark_data, scaffold-only src/benchmark
+- **Dependencies:** T362
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** git status clean; tree validated via Get-ChildItem
+
+### T364 — Create Baseline Commit and Update State Files
+- **Priority:** HIGH
+- **Category:** VCS
+- **Description:** Create git commit for all Phase 3, 3.5, 3.6 work. Create reports/PHASE3_6_STRUCTURE_REMEDIATION_REPORT.md. Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md.
+- **Acceptance Criteria:** Baseline commit created (845ba49); all state files consistent; working tree clean
+- **Dependencies:** T363
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** git log, git status, state file diffs
