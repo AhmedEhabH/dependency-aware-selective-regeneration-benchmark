@@ -1,0 +1,19 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Python
+*.py text diff=python
+*.pyw text
+
+# Markdown
+*.md text diff=markdown
+
+# YAML
+*.yml text
+*.yaml text
+
+# Notebooks
+*.ipynb text
+
+# Lock files
+*.txt text

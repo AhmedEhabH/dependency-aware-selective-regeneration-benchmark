@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.venv/
+env/
+
+# Conda
+# (environment is not stored in repo)
+
+# Notebooks
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Reports
+reports/*.md
+!reports/latest_phase_report.md
+!reports/LOCAL_ENVIRONMENT_REPORT.md
+
+# Lock file (regenerated per environment)
+requirements-lock.txt
+
+# Conda temporary files
+condaenv.*.txt
+
+# Git
+*.orig
