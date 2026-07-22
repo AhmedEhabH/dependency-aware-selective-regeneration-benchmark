@@ -21,8 +21,14 @@ Usage:
     # Dry-run (no API calls, deterministic mock responses):
     python seven_arm_benchmark.py --dry-run
 
-    # Real run (requires HF_TOKEN env var or Kaggle/Colab secrets):
-    python seven_arm_benchmark.py
+    # Real run on Kaggle (model path discovered automatically):
+    python seven_arm_benchmark.py --output-dir /kaggle/working/runs
+
+    # Real run with explicit paths:
+    python seven_arm_benchmark.py \
+        --data-dir /kaggle/input/dependency-aware-selective-regeneration-data \
+        --model-path /kaggle/input/models/qwen-lm/qwen2.5-coder/transformers/7b-instruct/1 \
+        --output-dir /kaggle/working/runs
 """
 from __future__ import annotations
 
@@ -31,7 +37,7 @@ import json
 import logging
 import sys
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
 logging.basicConfig(
@@ -43,6 +49,7 @@ logger = logging.getLogger("benchmark")
 BENCHMARK_ROOT = Path(__file__).resolve().parent
 SCENARIOS_DIR = BENCHMARK_ROOT / "benchmark_data" / "scenarios"
 OUTPUT_DIR = BENCHMARK_ROOT / "runs"
+DEFAULT_DATA_DIR = BENCHMARK_ROOT / "benchmark_data"
 
 STRATEGY_NAMES = [
     "monolithic",
@@ -172,12 +179,15 @@ def make_strategy(name: str, backend=None):  # type: ignore[no-untyped-def]
 # Backend factory
 # ---------------------------------------------------------------------------
 
-def make_backend(dry_run: bool):  # type: ignore[no-untyped-def]
+def make_backend(dry_run: bool, model_path: str | None = None):  # type: ignore[no-untyped-def]
     if dry_run:
         from benchmark.llm.mock_backend import MockLLMBackend
         return MockLLMBackend(response_text="dry-run-response")
     from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
-    return KaggleQwenBackend()
+    kwargs: dict[str, object] = {}
+    if model_path:
+        kwargs["model_path"] = model_path
+    return KaggleQwenBackend(**kwargs)
 
 
 # ---------------------------------------------------------------------------
@@ -206,6 +216,7 @@ def run_arm(
     isolation_workspace: Path,
     dry_run: bool,
     profile: ExecutionProfile,
+    model_path: str | None = None,
     protocol_version: str = "1.0",
     max_attempts: int = 3,
     timeout_seconds: int = 0,
@@ -213,7 +224,7 @@ def run_arm(
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
-    backend = make_backend(dry_run)
+    backend = make_backend(dry_run, model_path=model_path)
     strategy = make_strategy(strategy_name, backend=backend)
     isolation = make_isolation(isolation_workspace)
 
@@ -352,6 +363,18 @@ def parse_args() -> argparse.Namespace:
         default="1.0",
         help="Research protocol version string",
     )
+    parser.add_argument(
+        "--data-dir",
+        type=str,
+        default=None,
+        help="Directory containing scenarios/, manifests/, repository_profiles/",
+    )
+    parser.add_argument(
+        "--model-path",
+        type=str,
+        default=None,
+        help="Explicit path to the Qwen model directory on Kaggle",
+    )
     return parser.parse_args()
 
 
@@ -360,16 +383,19 @@ def main() -> int:
     output_dir = Path(args.output_dir)
     workspace_dir = output_dir / "workspace"
 
+    data_dir = Path(args.data_dir) if args.data_dir else DEFAULT_DATA_DIR
+    scenarios_dir = data_dir / "scenarios"
+
     profile = PROFILES[args.profile]
 
     logger.info(
-        "Benchmark config: dry_run=%s  profile=%s  label=%s  output=%s",
-        args.dry_run, profile.name, profile.label, output_dir,
+        "Benchmark config: dry_run=%s  profile=%s  label=%s  output=%s  data_dir=%s",
+        args.dry_run, profile.name, profile.label, output_dir, data_dir,
     )
 
-    scenario_provider = ScenarioProvider(SCENARIOS_DIR)
+    scenario_provider = ScenarioProvider(scenarios_dir)
     all_scenarios = scenario_provider.list_scenarios()
-    logger.info("Loaded %d scenarios from %s", len(all_scenarios), SCENARIOS_DIR)
+    logger.info("Loaded %d scenarios from %s", len(all_scenarios), scenarios_dir)
 
     strategy_names = [args.strategy] if args.strategy else profile.strategies
     results: dict = {}
@@ -382,6 +408,7 @@ def main() -> int:
             isolation_workspace=arm_workspace,
             dry_run=args.dry_run,
             profile=profile,
+            model_path=args.model_path,
             protocol_version=args.protocol_version,
             max_attempts=args.max_attempts,
             timeout_seconds=args.timeout,
