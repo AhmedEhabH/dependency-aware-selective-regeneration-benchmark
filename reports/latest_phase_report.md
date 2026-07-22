@@ -1,36 +1,27 @@
-# TD-1 Remediation — Complete
+# Project Health Dashboard Added
 
 **Date:** 2026-07-22
 **Protocol Version:** 1.0 (FROZEN)
-**Status:** REMEDIATED — Phase 4E authorized
+**Status:** Dashboard created — Phase 4E ready
 
 ## Summary
 
-TD-1 has been remediated. `BenchmarkRunner._run_attempt` now constructs the correct frozen protocol domain objects (`RepositorySnapshot`, `RequirementChange`, `ArtifactUniverse`) from `Scenario` before calling `ImpactStrategy.analyze_impact()`. All three `# type: ignore[arg-type]` comments have been removed from `src/benchmark/execution/runner.py`.
+Created `reports/PROJECT_HEALTH_REPORT.md` — a lightweight, continuously updated engineering dashboard providing a concise snapshot of project health. The report covers: project summary, phase progress, repository statistics, quality gates, git health, technical debt, open TODOs, and next phase preview.
 
-## What Changed
+## Dashboard Location
 
-### Production Code
-- `src/benchmark/execution/runner.py`: Added imports for `ArtifactUniverse`, `RepositoryIdentity`, `RepositorySnapshot`, `RequirementChange`. Added three private extraction methods. Updated `_run_attempt` to pass correct types. Removed 3 `type: ignore` comments.
+`reports/PROJECT_HEALTH_REPORT.md` (~100 lines)
 
-### Tests
-- `tests/unit/execution/test_runner.py`: Updated `_FakeStrategy` to record arguments. Added `test_run_extracts_correct_domain_objects` verifying correct type extraction and field mapping.
+## Current Snapshot
 
-## Quality Gates
-
-| Gate | Result |
-|------|--------|
-| pytest | 289/289 passed (3.24s) |
-| ruff | All checks passed (0 violations) |
-| mypy --strict | Success: no issues found (73 files) |
-| pip check | No broken requirements |
-
-## Phase Authorization
-
-Phase 4E (Impact Strategies) is now **authorized**. The `ImpactStrategy` protocol contract is satisfied without type suppression.
+- **289/289 tests passing**
+- **0 ruff violations, 0 mypy errors**
+- **35 production files, 38 test files, 22 docs, 20 reports**
+- **24 scenarios, 3 profiles, 2 manifests**
+- **TD-1 resolved; TD-2–TD-6 deferred (non-blocking)**
+- **Phase 4E authorized and ready to start**
 
 ## Files
-- `reports/TD1_REMEDIATION_REPORT.md` — detailed engineering report
+- `reports/PROJECT_HEALTH_REPORT.md` — new
 - `SYSTEM_STATE.md` — updated
-- `TODO.md` — TD-1 tasks added as COMPLETE
-- `DECISION_LOG.md` — D016 added
+- `reports/latest_phase_report.md` — updated
