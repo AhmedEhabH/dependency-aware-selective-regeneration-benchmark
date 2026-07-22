@@ -9,6 +9,7 @@ TD-1 remediated. `BenchmarkRunner._run_attempt` now constructs `RepositorySnapsh
 ## Recent Non-Phase Additions
 - Added `README.md` (project overview, architecture, usage, license)
 - Added `LICENSE` (MIT, copyright Ahmed Ehab H.)
+- Added `reports/PROJECT_HEALTH_REPORT.md` (engineering dashboard)
 
 ## Completed Work
 - [x] Phase 0 — Bootstrap and Environment (LOCAL_ENGINEERING_VALIDATED)
