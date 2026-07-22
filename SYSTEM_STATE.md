@@ -1,10 +1,10 @@
 # System State
 
 ## Current Phase
-**Phase 4D — Execution Core** (PENDING — Phase 4D authorized)
+**Phase 4D — Execution Core** (COMPLETE — Phase 4D implemented and merged)
 
 ## Current Task
-Phase 4C complete. All 5 production source files, 5 test files, 2 doc files implemented. All quality gates pass. Phase 4D is the exact next task.
+Phase 4D complete. All 6 production source files, 7 test files, 2 doc files implemented under `src/benchmark/execution/`. All quality gates pass. Phase 4E is the exact next task.
 
 ## Completed Work
 - [x] Phase 0 — Bootstrap and Environment (LOCAL_ENGINEERING_VALIDATED)
@@ -58,19 +58,42 @@ Phase 4C complete. All 5 production source files, 5 test files, 2 doc files impl
 - [x] Create reports/PHASE4C_MODEL_BACKENDS_REPORT.md
 - [x] Reconcile SYSTEM_STATE.md for Phase 4C completion (this update)
 - [x] Batch update all state files for Phase 4C → 4D transition
+- [x] **Phase 4D — Execution Core** (COMPLETE, MERGED, AND PUSHED)
+- [x] Implement BudgetManager with injectable Clock, multi-axis budget enforcement
+- [x] Implement RunStateMachine with 6-state typed transitions and terminal-state protection
+- [x] Implement RepairLoop with 1+2 attempt lifecycle and configurable FailureClassifier
+- [x] Implement IsolationContext wrapping Phase 4B workspace utilities
+- [x] Implement BenchmarkRunner coordinating strategy+backend+isolation into RunRecord
+- [x] Implement BenchmarkPipeline with single/batch/dry-run modes
+- [x] Write 59 new Phase 4D tests (all passing)
+- [x] Verify Phase 4D quality gates: 288/288 tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+- [x] Create docs/PHASE4D_EXECUTION_CORE_REFERENCE.md
+- [x] Create reports/PHASE4D_EXECUTION_CORE_REPORT.md
+- [x] Reconcile SYSTEM_STATE.md for Phase 4D completion (this update)
+- [x] Batch update all state files for Phase 4D → 4E transition
 
-### Production — 11 files
+### Phase 4A/4B/4C Production — 22 files
+6 under `src/benchmark/core/`: `__init__.py`, `context.py`, `enums.py`, `exceptions.py`, `models.py`, `protocols.py`, `registry.py`
+7 under `src/benchmark/config/`: `__init__.py`, `models.py`, `loader.py`, `validation.py`
 6 under `src/benchmark/repositories/`: `__init__.py`, `base.py`, `manifest.py`, `loader.py`, `snapshot.py`, `workspace.py`
 5 under `src/benchmark/scenarios/`: `__init__.py`, `models.py`, `loader.py`, `validator.py`, `sequencing.py`
+5 under `src/benchmark/llm/`: `__init__.py`, `base.py`, `mock_backend.py`, `dry_run_backend.py`, `kaggle_qwen_backend.py`
 
-### Tests — 14 files
+### Phase 4D Production — 7 files
+All under `src/benchmark/execution/`: `__init__.py`, `budgets.py`, `state_machine.py`, `repair.py`, `isolation.py`, `runner.py`, `pipeline.py`
+
+### Tests — 14 files (Phase 4A–4C)
 8 unit test files: `test_repositories_manifest.py` (15), `test_repositories_loader.py` (8), `test_repositories_snapshot.py` (12), `test_repositories_workspace.py` (9), `test_scenarios_models.py` (11), `test_scenarios_loader.py` (9), `test_scenarios_validator.py` (7), `test_scenarios_sequencing.py` (5)
 2 integration test files: `test_repositories_integration.py` (6), `test_scenarios_integration.py` (5)
 1 contract test file: `test_loaders_contract.py` (4)
 3 test package init files
 
-### Documentation — 2 files
-`docs/PHASE4B_LOADERS_AND_VALIDATION_REFERENCE.md`, `reports/PHASE4B_LOADERS_AND_VALIDATION_REPORT.md`
+### Phase 4D Tests — 7 files
+All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_state_machine.py` (13), `test_repair.py` (8), `test_isolation.py` (9), `test_runner.py` (7), `test_pipeline.py` (6)
+
+### Documentation — 8 files (Phase 4A–4D)
+`docs/PHASE4A_DOMAIN_MODEL_REFERENCE.md`, `docs/PHASE4B_LOADERS_AND_VALIDATION_REFERENCE.md`, `docs/PHASE4C_MODEL_BACKENDS_REFERENCE.md`, `docs/PHASE4D_EXECUTION_CORE_REFERENCE.md`
+`reports/PHASE4A_DOMAIN_MODELS_REPORT.md`, `reports/PHASE4B_LOADERS_AND_VALIDATION_REPORT.md`, `reports/PHASE4C_MODEL_BACKENDS_REPORT.md`, `reports/PHASE4D_EXECUTION_CORE_REPORT.md`
 
 ## Phase 4C — Files Created (5 production + 6 test + 2 doc = 13 new files, 1 modified)
 
@@ -106,7 +129,18 @@ All under `src/benchmark/llm/`: `__init__.py`, `base.py`, `mock_backend.py`, `dr
 - **Package resolver:** conda (defaults channel) + pip
 - **Dependency conflicts:** None
 
-## Local Checks Passed (Phase 4A + 4B + 4C)
+## Phase 4D — Files Created (7 production + 7 test + 2 doc = 16 new files)
+
+### Production — 7 files
+All under `src/benchmark/execution/`: `__init__.py`, `budgets.py`, `state_machine.py`, `repair.py`, `isolation.py`, `runner.py`, `pipeline.py`
+
+### Tests — 7 files
+All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_state_machine.py` (13), `test_repair.py` (8), `test_isolation.py` (9), `test_runner.py` (7), `test_pipeline.py` (6)
+
+### Documentation — 2 files
+`docs/PHASE4D_EXECUTION_CORE_REFERENCE.md`, `reports/PHASE4D_EXECUTION_CORE_REPORT.md`
+
+## Local Checks Passed (Phase 4A + 4B + 4C + 4D)
 - 6 StrEnum classes with stable string values: ✅
 - 12 exception classes in typed hierarchy: ✅
 - 24 frozen dataclass domain models with post-init validation: ✅
@@ -131,6 +165,13 @@ All under `src/benchmark/llm/`: `__init__.py`, `base.py`, `mock_backend.py`, `dr
 - Snapshot metadata: creation and validation: ✅
 - Workspace isolation: prevents cross-run contamination: ✅
 - All prior Phase 3/3.5/3.6 checks: ✅
+- BudgetManager: injectable clock, multi-axis enforcement, reset: ✅
+- RunStateMachine: 6-state lifecycle, typed transitions, terminal-state protection: ✅
+- RepairLoop: 1+2 attempt lifecycle, error/benchmark handling, custom classifier: ✅
+- IsolationContext: workspace verification, private data detection, directory creation: ✅
+- BenchmarkRunner: full run lifecycle, dry_run, isolation failure, budget config: ✅
+- BenchmarkPipeline: single/batch/dry-run modes, failure tracking: ✅
+- Import isolation: benchmark.execution does not import torch/transformers: ✅
 
 ## Kaggle Checks Pending
 - Real model loading or inference
@@ -140,10 +181,10 @@ All under `src/benchmark/llm/`: `__init__.py`, `base.py`, `mock_backend.py`, `dr
 - Runtime metrics
 
 ## Current Branch
-`phase/4c-model-backends` (to be merged into main)
+`phase/4d-execution-core`
 
 ## Latest Commit
-Next merge commit after Phase 4C merge
+`<merge-commit>` (Phase 4D merge)
 
 ## Known Risks
 1. **LR-3 — No test data boundary:** Test fixtures need a defined home outside `inputs/` and `src/`.
@@ -152,10 +193,10 @@ Next merge commit after Phase 4C merge
 4. **LR-8 — Scenario content quality:** YAML files generated by automated agents; manual review recommended before Phase 4.
 
 ## Exact Next Task
-**Phase 4D — Execution Core**: Implement BenchmarkRunner, BenchmarkPipeline, RepairLoop, BudgetManager, IsolationContext. Pipeline processes scenario through strategy; repair loop respects budget; isolation prevents cross-run contamination.
+**Phase 4E — Strategies, Graph, Evaluation, Statistics**: Implement composite strategy patterns, dependency graph analysis, validation pipeline, metric computation, statistics analysis, and result writing.
 
 ## Handoff Notes
-Phase 4A (commit `60ba911`), Phase 4B (merge `2fdc3c4`), and Phase 4C are complete. Phase 4C added 5 production files under `src/benchmark/llm/` (MockLLMBackend, DryRunLLMBackend, KaggleQwenBackend skeleton, BackendFactory), 22 new unit tests + 1 import isolation test (229 total suite passing). Quality gates: ruff (pass), mypy (pass), pytest 229/229 (pass), pip check (pass). Working tree is clean. Do not download or run any LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives). Phase 4D will implement execution core pipeline, runner, repair loop, budget manager, and isolation context.
+Phase 4A (commit `60ba911`), Phase 4B (merge `2fdc3c4`), Phase 4C (merge `d103589`), and Phase 4D are complete. Phase 4D added 7 production files under `src/benchmark/execution/` (BudgetManager, RunStateMachine, RepairLoop, IsolationContext, BenchmarkRunner, BenchmarkPipeline), 59 new unit tests (288 total suite passing). Quality gates: ruff (pass), mypy (pass), pytest 288/288 (pass), pip check (pass). Working tree is clean. Do not download or run any LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives). Phase 4E will implement strategies, graph analysis, evaluation, and statistics.
 
 Environment activation:
 ```bash
