@@ -288,3 +288,150 @@ class TestComputeRegressionPassRate:
 
         rate = compute_regression_pass_rate(prediction, ground_truth)
         assert rate == 0.0
+
+
+class TestConfusionMatrixMissingArtifacts:
+    """Regression tests for DEFECT 1: artifacts in GT but missing from prediction."""
+
+    def test_missing_prediction_gt_regenerate_counts_fn(self) -> None:
+        """When GT=regenerate and prediction omits artifact, should be FN (missed regeneration)."""
+        computer = MetricComputer()
+        gt = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.regenerate,
+                    rationale="expected",
+                ),
+            )
+        )
+        pred = ImpactPrediction(decisions=())  # missing artifact
+
+        metrics = computer.compute_all(pred, gt)
+        recall_m = next(m for m in metrics if m.name == "recall")
+        fnr_m = next(m for m in metrics if m.name == "false_negative_rate")
+        fpr_m = next(m for m in metrics if m.name == "false_positive_rate")
+
+        # Should be FN, not FP: recall=0.0, fnr=1.0
+        assert recall_m.value == 0.0
+        assert fnr_m.value == 1.0
+        # FPR is None because there are no negative cases (fp+tn=0)
+        assert fpr_m.value is None
+
+    def test_missing_prediction_gt_preserve_counts_tn(self) -> None:
+        """When GT=preserve and prediction omits artifact, should be TN (correctly left alone)."""
+        computer = MetricComputer()
+        gt = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.preserve,
+                    rationale="expected",
+                ),
+            )
+        )
+        pred = ImpactPrediction(decisions=())  # missing artifact
+
+        metrics = computer.compute_all(pred, gt)
+        specificity_m = next(m for m in metrics if m.name == "specificity")
+        fpr_m = next(m for m in metrics if m.name == "false_positive_rate")
+
+        # Should be TN: specificity=1.0, fpr=0.0
+        assert specificity_m.value == 1.0
+        assert fpr_m.value == 0.0
+
+
+class TestF1ZeroPrecision:
+    """Regression tests for DEFECT 2: F1 must return 0.0 when precision or recall is 0.0."""
+
+    def test_f1_when_precision_zero(self) -> None:
+        """When precision=0.0 and recall=0.0, F1 must be 0.0, not None."""
+        computer = MetricComputer()
+        # GT has a.py=regenerate, pred has b.py=regenerate (wrong artifact)
+        # tp=0, fp=1 (b.py), fn=1 (a.py) → precision=0.0, recall=0.0
+        gt = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.regenerate,
+                    rationale="expected",
+                ),
+            )
+        )
+        pred = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.regenerate,
+                    rationale="test",
+                ),
+            )
+        )
+
+        metrics = computer.compute_all(pred, gt)
+        f1_m = next(m for m in metrics if m.name == "f1_score")
+        assert f1_m.value == 0.0, f"F1 should be 0.0 when precision=0.0 and recall=0.0, got {f1_m.value}"
+
+    def test_f1_when_recall_zero(self) -> None:
+        """When precision=0.0 and recall=0.0, F1 must be 0.0, not None."""
+        computer = MetricComputer()
+        # All predictions wrong: pred flips every action
+        # GT: a=regenerate, b=preserve → Pred: a=preserve, b=regenerate
+        # tp=0, fp=1 (b), fn=1 (a) → precision=0.0, recall=0.0
+        gt = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.regenerate,
+                    rationale="expected",
+                ),
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.preserve,
+                    rationale="expected",
+                ),
+            )
+        )
+        pred = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.preserve,
+                    rationale="test",
+                ),
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.regenerate,
+                    rationale="test",
+                ),
+            )
+        )
+
+        metrics = computer.compute_all(pred, gt)
+        f1_m = next(m for m in metrics if m.name == "f1_score")
+        assert f1_m.value == 0.0, f"F1 should be 0.0 when precision=0.0 and recall=0.0, got {f1_m.value}"
+
+    def test_f1_function_zero_precision(self) -> None:
+        """Standalone compute_f1_score also returns 0.0 when both precision and recall are 0.0."""
+        pred = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.regenerate,
+                    rationale="test",
+                ),
+            )
+        )
+        gt = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.regenerate,
+                    rationale="expected",
+                ),
+            )
+        )
+        # pred has a.py=regenerate, gt has b.py=regenerate → tp=0, fp=1, fn=1
+        # precision=0.0, recall=0.0 → F1=0.0
+        f1 = compute_f1_score(pred, gt)
+        assert f1 == 0.0, f"compute_f1_score should return 0.0 with zero precision, got {f1}"

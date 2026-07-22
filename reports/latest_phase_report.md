@@ -1,8 +1,8 @@
 # Phase 4F — Evaluation Engine
 
 **Date:** 2026-07-22  
-**Status:** COMPLETE  
-**Commit:** (pending)
+**Status:** COMPLETE, MERGED, AND PUSHED  
+**Commit:** `4896515`
 
 ---
 
@@ -106,7 +106,7 @@ Phase 4F implements the scientific evaluation pipeline for the selective regener
 |------|--------|
 | Ruff | 0 violations |
 | Mypy strict | 0 errors |
-| Pytest | 405/405 passed |
+| Pytest | 410/410 passed (5 regression tests added during audit) |
 | pip check | Clean |
 
 ---
@@ -127,6 +127,6 @@ Phase 4F is complete. The project is now feature-complete from an infrastructure
 
 ## Git Report
 
-**Branch:** `phase/4f-evaluation-engine`  
+**Branch:** `phase/4f-evaluation-engine` (merged)  
 **Merge Target:** `main`  
-**Status:** Pending commit and merge after final validation
+**Status:** Merged and pushed (commit `4896515`)

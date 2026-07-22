@@ -53,7 +53,13 @@ class MetricComputer:
         fpr = self._safe_divide(fp, fp + tn) if (fp + tn) > 0 else None
         fnr = self._safe_divide(fn, fn + tp) if (fn + tp) > 0 else None
         specificity = self._safe_divide(tn, tn + fp) if (tn + fp) > 0 else None
-        f1 = self._safe_divide(2 * precision * recall, precision + recall) if precision and recall else None
+        f1 = (
+            0.0
+            if precision == 0.0 and recall == 0.0
+            else self._safe_divide(2 * precision * recall, precision + recall)
+            if precision is not None and recall is not None
+            else None
+        )
 
         return (
             MetricResult(
@@ -147,7 +153,10 @@ class MetricComputer:
         for artifact, gt_action in gt.items():
             pred_action = pred.get(artifact)
             if pred_action is None:
-                fp += 1
+                if gt_action == ActionKind.regenerate:
+                    fn += 1
+                else:
+                    tn += 1
             elif pred_action == gt_action:
                 tp += 1
             elif pred_action == ActionKind.regenerate and gt_action == ActionKind.preserve:
@@ -212,7 +221,7 @@ def compute_f1_score(
     if recall is None or precision is None:
         return None
     if precision + recall == 0:
-        return None
+        return 0.0
     return 2 * precision * recall / (precision + recall)
 
 

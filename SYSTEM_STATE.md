@@ -4,7 +4,7 @@
 **Phase 4F — Evaluation Engine** (COMPLETE)
 
 ## Current Task
-Phase 4F complete. 11 production files, 8 test files, 73 new tests. Quality gates: 405/405 tests pass; ruff 0 violations; mypy 0 errors; pip check clean. Phase 4F is feature-complete. The project is now feature-complete from an infrastructure perspective.
+Phase 4F complete and merged (commit `4896515`). Independent scientific audit completed on branch `audit/phase4f-scientific-validation`: 2 production defects found and fixed (confusion matrix misclassification, F1 falsy-zero). 410/410 tests pass; ruff 0 violations; mypy 0 errors (src); pip check clean. Audit report: `reports/PHASE4F_INDEPENDENT_SCIENTIFIC_AUDIT.md`.
 
 ## Recent Non-Phase Additions
 - Added `README.md` (project overview, architecture, usage, license)
@@ -99,9 +99,11 @@ Phase 4F complete. 11 production files, 8 test files, 73 new tests. Quality gate
 - [x] Implement publication tables: CSV, Markdown, LaTeX
 - [x] Write 73 new Phase 4F tests (all passing)
 - [x] Verify Phase 4F quality gates: 405/405 tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+- [x] Independent scientific audit: 2 defects found/fixed, 5 regression tests added (410 total)
 - [x] Create docs/PHASE4F_EVALUATION_ENGINE_REFERENCE.md
 - [x] Create reports/PHASE4F_EVALUATION_ENGINE_REPORT.md
-- [x] Reconcile SYSTEM_STATE.md for Phase 4F completion
+- [x] Create reports/PHASE4F_INDEPENDENT_SCIENTIFIC_AUDIT.md
+- [x] Reconcile SYSTEM_STATE.md for Phase 4F completion and audit
 
 ### Phase 4A/4B/4C Production — 22 files
 6 under `src/benchmark/core/`: `__init__.py`, `context.py`, `enums.py`, `exceptions.py`, `models.py`, `protocols.py`, `registry.py`
