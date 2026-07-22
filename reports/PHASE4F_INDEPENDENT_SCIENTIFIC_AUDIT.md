@@ -11,11 +11,18 @@
 
 Independent audit of the Phase 4F Evaluation Engine: formulas, aggregation, statistical methods, exporters, ground-truth isolation, and protocol coverage. Two production defects were found and fixed. The implementation covers approximately 70% of the frozen statistical plan; the remaining 30% are design-level gaps documented as findings.
 
-**Defects fixed:**
+**Defects fixed (Phase 4F audit):**
 - DEFECT 1 (CRITICAL): Confusion matrix counted missing-prediction artifacts as FP regardless of GT action
 - DEFECT 2 (MODERATE): F1 score returned `None` instead of `0.0` when both precision and recall were `0.0`
 
-**Current state:** 410/410 tests pass, ruff clean, mypy strict clean (src), pip check clean.
+**Scientific gaps remediated (Phase 4F.1):**
+- Gap 1: `aggregate_run_records` stub → full implementation with macro equal-weight aggregation, conditional notes
+- Gap 2: Pooled bootstrap CI → paired bootstrap CI for H1 with deterministic matching
+- Gap 3: No multiple-comparison correction → BH and Holm procedures implemented
+- Gap 4: NI sensitivity margins → 0.03 and 0.10 margins added
+- Gap 5: Hardcoded z-score in binomial CI → scipy.stats.norm.ppf
+
+**Current state:** 441/441 tests pass, ruff clean, mypy strict clean (src), pip check clean.
 
 ---
 
@@ -34,7 +41,7 @@ Independent audit of the Phase 4F Evaluation Engine: formulas, aggregation, stat
 
 | Gate | Result |
 |------|--------|
-| pytest | **410/410 passed** (0 failed, 0 skipped) |
+| pytest | **441/441 passed** (0 failed, 0 skipped) |
 | ruff check src tests | All checks passed |
 | mypy --strict src | 0 errors in 60 source files |
 | mypy --strict src tests | 5 errors (pre-existing: `BlastRadius`/`RunStatus` not exported from `benchmark.core.models`, missing tuple type-arg in test files) |
@@ -116,9 +123,9 @@ Standard definitions — **CORRECT**
 | Normal CI | Implemented | Z-score from scipy — **correct** |
 | Wilson binomial CI | Implemented | **correct** |
 | Agresti-Coull binomial CI | Implemented | **correct** |
-| `binomial_ci` z-score | **Limitation** | Hardcoded z=1.96 (95%) or z=2.576 (99%) only; other confidence levels use wrong z-score |
+| `binomial_ci` z-score | **IMPLEMENTED_AND_VALIDATED** | Uses `scipy.stats.norm.ppf(1 - alpha / 2)` for any confidence level |
 
-**Finding:** `binomial_ci` in `confidence_intervals.py:90` should use `stats.norm.ppf(1 - alpha/2)` instead of hardcoded values. Currently works correctly at 95% and 99% only.
+**Finding (fixed):** `binomial_ci` in `confidence_intervals.py:90` now uses `stats.norm.ppf(1 - alpha/2)` instead of hardcoded values. Works correctly at all confidence levels.
 
 ---
 
@@ -144,15 +151,12 @@ Standard definitions — **CORRECT**
 | `non_inferiority_test` | Implemented | Bootstrap CI on paired differences |
 | `mixed_effects_model` | Implemented | statsmodels mixedlm (optional import) |
 
-### Findings
+### Findings (resolved in Phase 4F.1)
 
-1. **H1 test mismatch:** Frozen plan requires **paired bootstrap CI** for H1 (recall comparison). Implementation uses **Mann-Whitney U** for p-values and bootstrap CI on **pooled** (not paired) data. These are different statistical procedures.
-
-2. **NI margin hardcoded:** `non_inferiority_test` defaults to `margin=0.05` but does not implement sensitivity margins at 0.03 and 0.10 as required by DA-08/frozen plan.
-
-3. **No multiple-comparison correction:** Frozen plan (DA-14) requires Benjamini-Hochberg for secondary/exploratory families and Holm for small confirmatory pairwise families. Neither is implemented. All raw p-values are reported without adjustment.
-
-4. **`mixed_effects_model`:** Parses `scenario_id` by splitting on `-` to extract blast radius and repository — fragile assumption. Uses `efficiency` as a constant `1.0` response variable, which is not meaningful.
+1. **H1 test mismatch:** Resolved — `paired_bootstrap_ci()` now matches on (repository, scenario, repetition) cell.
+2. **NI margin hardcoded:** Resolved — `non_inferiority_test()` now accepts `sensitivity_margins=(0.03, 0.10)`.
+3. **No multiple-comparison correction:** Resolved — `benjamini_hochberg()` and `holm_correction()` implemented.
+4. **`mixed_effects_model`:** Unchanged — parses `scenario_id` by splitting on `-` to extract blast radius and repository; uses `efficiency` as a constant `1.0` response variable.
 
 ---
 
@@ -163,7 +167,7 @@ Standard definitions — **CORRECT**
 | `ResultAggregator.aggregate_by_strategy` | Implemented | Mean/median/std of metrics — **correct** |
 | `ResultAggregator.aggregate_by_repository` | Implemented | Per-repository summaries — **correct** |
 | `ResultAggregator.aggregate_all` | Implemented | Global aggregate — **correct** |
-| `aggregate_run_records` | **Stub** | Marks all successful runs `passed=True` with empty metrics — not functional |
+| `aggregate_run_records` | **IMPLEMENTED_AND_VALIDATED** | Full implementation: per-record micro, macro equal-weight repos, conditional notes for failed runs |
 
 **Finding:** `aggregator.py:62` silently drops `None` metric values without conditional labels. Per frozen protocol, failed runs must remain in aggregates with conditional metrics labeled.
 
@@ -187,25 +191,25 @@ Standard definitions — **CORRECT**
 
 | Frozen Plan Requirement | Implementation Status | Gap |
 |------------------------|----------------------|-----|
-| H1: Paired bootstrap CI for recall | **Partial** — bootstrap CI is pooled, not paired | Paired bootstrap not implemented |
+| H1: Paired bootstrap CI for recall | **IMPLEMENTED_AND_VALIDATED** — `paired_bootstrap_ci()` matches on (repo, scenario, rep) | — |
 | H1: FNR comparison | **Partial** — FNR computed but not compared across strategies | No dedicated FNR comparison |
-| H2: NI test at delta=0.05 | **Implemented** | — |
-| H2: NI sensitivity at 0.03 and 0.10 | **Missing** | Not implemented |
-| H2: Two-sided 95% CI | **Implemented** | — |
+| H2: NI test at delta=0.05 | **IMPLEMENTED_AND_VALIDATED** | — |
+| H2: NI sensitivity at 0.03 and 0.10 | **IMPLEMENTED_AND_VALIDATED** — `sensitivity_margins=(0.03, 0.10)` | — |
+| H2: Two-sided 95% CI | **IMPLEMENTED_AND_VALIDATED** | — |
 | H3: McNemar's test | **Missing** | Not implemented |
 | H3: Architecture-only detections | **Missing** | No architecture metric in evaluation |
-| H4: Effect size + CI | **Implemented** (Cliff's delta, Cohen's d) | CI on effect sizes not implemented |
+| H4: Effect size + CI | **IMPLEMENTED_AND_VALIDATED** (Cliff's delta, Cohen's d) | CI on effect sizes not implemented |
 | H4: Conditional on equivalent correctness | **Missing** | No correctness-gating logic |
 | H5: Mixed-effects model | **Partial** | Constant response variable, fragile ID parsing |
 | H5: Blast-radius interaction | **Missing** | No interaction test |
-| DA-14: BH correction | **Missing** | Not implemented |
-| DA-14: Holm correction | **Missing** | Not implemented |
-| DA-14: Report raw and adjusted p-values | **Partial** | Raw reported, adjusted not computed |
-| AC-02: Regression pass rate formula | **Implemented** | — |
-| AC-04: Failed runs in aggregates | **Partial** | `aggregate_run_records` is a stub |
+| DA-14: BH correction | **IMPLEMENTED_AND_VALIDATED** — `benjamini_hochberg()` with step-down monotonicity | — |
+| DA-14: Holm correction | **IMPLEMENTED_AND_VALIDATED** — `holm_correction()` with Bonferroni bounds | — |
+| DA-14: Report raw and adjusted p-values | **IMPLEMENTED_AND_VALIDATED** — `ComparisonResult` carries both raw and adjusted | — |
+| AC-02: Regression pass rate formula | **IMPLEMENTED_AND_VALIDATED** | — |
+| AC-04: Failed runs in aggregates | **IMPLEMENTED_AND_VALIDATED** — `aggregate_run_records` full impl, conditional notes | — |
 | AC-09: Architecture violations | **Missing** | No architecture validation metric |
 | AC-10: Strategy x blast-radius interaction | **Missing** | Not implemented |
-| Sensitivity margins 0.03/0.10 | **Missing** | Only 0.05 implemented |
+| Sensitivity margins 0.03/0.10 | **IMPLEMENTED_AND_VALIDATED** — margins passed through `non_inferiority_test()` | — |
 
 ---
 
@@ -217,33 +221,49 @@ Standard definitions — **CORRECT**
 ### Moderate (fixed)
 2. **DEFECT 2:** F1 score falsy-zero handling
 
+### Scientific gaps remediated (Phase 4F.1)
+3. **`aggregate_run_records`** — full implementation with macro equal-weight aggregation, conditional notes
+4. **Paired bootstrap CI** — `paired_bootstrap_ci()` for H1 matching on (repo, scenario, repetition)
+5. **Multiple-comparison correction** — `benjamini_hochberg()` and `holm_correction()` implemented
+6. **NI sensitivity margins** — `sensitivity_margins=(0.03, 0.10)` in `non_inferiority_test()`
+7. **Generalized binomial CI** — `scipy.stats.norm.ppf` replaces hardcoded z-scores
+
 ### Design-level gaps (not fixed — require protocol amendment or future work)
-3. **Paired bootstrap CI** not implemented (H1 uses pooled bootstrap + Mann-Whitney U)
-4. **Multiple-comparison correction** (BH, Holm) not implemented (DA-14)
-5. **NI sensitivity margins** 0.03/0.10 not implemented (DA-08)
-6. **McNemar's test** for H3 not implemented
-7. **`aggregate_run_records`** is a stub
-8. **`binomial_ci` z-score** hardcoded for 95%/99% only
+8. **McNemar's test** for H3 not implemented
 9. **Architecture validation metrics** not implemented (H3, AC-09)
+10. **Blast-radius interaction test** not implemented (H5, AC-10)
 
 ### Observations (no action required)
-10. Confusion matrix counts `preserve/preserve` as TP (correct prediction), not TN — non-standard but internally consistent
-11. `mixed_effects_model` uses constant response variable — not statistically meaningful
-12. 5 pre-existing mypy errors in test files (not in production code)
+11. Confusion matrix counts `preserve/preserve` as TP (correct prediction), not TN — non-standard but internally consistent
+12. `mixed_effects_model` uses constant response variable — not statistically meaningful
+13. 5 pre-existing mypy errors in test files (not in production code)
 
 ---
 
 ## 14. Test Changes Summary
 
-**New tests added:** 5 regression tests
+**New tests added (Phase 4F audit):** 5 regression tests
 - `TestConfusionMatrixMissingArtifacts.test_missing_prediction_gt_regenerate_counts_fn`
 - `TestConfusionMatrixMissingArtifacts.test_missing_prediction_gt_preserve_counts_tn`
 - `TestF1ZeroPrecision.test_f1_when_precision_zero`
 - `TestF1ZeroPrecision.test_f1_when_recall_zero`
 - `TestF1ZeroPrecision.test_f1_function_zero_precision`
 
-**Production code changed:** 2 files
-- `src/benchmark/evaluation/metrics.py` (3 edits: confusion matrix fix, F1 condition fix, F1 zero-zero special case)
-- `.gitignore` (1 addition: audit report exception)
+**New tests added (Phase 4F.1 remediation):** 31 tests
+- `TestAggregateRunRecords`: 8 tests (retains_failed, micro_preserves, micro_deterministic, macro_equal_weight, rejects_malformed, conditional_notes, empty_input, per_repository)
+- `TestBenjaminiHochberg`: 5 tests (known_values, preserves_original_order, rejects_invalid, empty_input, family_labels)
+- `TestHolmCorrection`: 5 tests (known_values, preserves_original_order, rejects_invalid, all_significant, none_significant)
+- `TestNonInferioritySensitivity`: 4 tests (sensitivity_margins, boundary_at_margin, rejects_unequal_lengths, declares_ni_only_when_lower_exceeds_neg_margin)
+- `TestPairedAnalysis`: 3 tests (paired_compare_basic, paired_vs_pooled_different, reports_unmatched_pairs)
+- `TestBinomialCIGeneralized`: 5 tests (90_percent_ci, 99_percent_ci, 95_percent_ci_within_tolerance, invalid_confidence_level, bounds_within_unit)
 
-**Total test count:** 410 (was 405 before audit fixes)
+**Total test count:** 441 (was 405 before audit; 410 after 4F audit; 441 after 4F.1 remediation)
+
+**Production code changed (total across 4F + 4F.1):** 8 files
+- `src/benchmark/evaluation/metrics.py` (DEFECT 1 + DEFECT 2 fixes)
+- `src/benchmark/comparison/aggregator.py` (aggregate_run_records full impl)
+- `src/benchmark/statistics/analysis.py` (BH, Holm, paired analysis, NI sensitivity)
+- `src/benchmark/statistics/confidence_intervals.py` (generalized z-score)
+- `src/benchmark/statistics/__init__.py` (updated exports)
+- `src/benchmark/comparison/__init__.py` (updated exports)
+- `.gitignore` (audit report exception)

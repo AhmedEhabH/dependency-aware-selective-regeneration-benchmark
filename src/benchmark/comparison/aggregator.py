@@ -3,8 +3,13 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass, field
 
+from benchmark.core.enums import RunStatus
 from benchmark.core.models import RunRecord
 from benchmark.evaluation.engine import EvaluationResult
+
+
+class IncompatibleRecordError(ValueError):
+    """Raised when a RunRecord cannot be incorporated into aggregation."""
 
 
 @dataclass(frozen=True)
@@ -32,6 +37,18 @@ class AggregatedResult:
     repositories: tuple[RepositorySummary, ...] = ()
     overall_pass_rate: float = 0.0
     overall_fail_rate: float = 0.0
+
+
+@dataclass(frozen=True)
+class RunAggregationResult:
+    """Full output of :func:`aggregate_run_records`."""
+
+    macro: AggregatedResult
+    micro: tuple[EvaluationResult, ...]
+    per_repository: tuple[RepositorySummary, ...]
+    records_processed: int = 0
+    records_rejected: int = 0
+    conditional_notes: tuple[str, ...] = ()
 
 
 class ResultAggregator:
@@ -144,18 +161,150 @@ class ResultAggregator:
 
 def aggregate_run_records(
     records: tuple[RunRecord, ...],
-) -> AggregatedResult:
-    from benchmark.core.enums import RunStatus
+) -> RunAggregationResult:
+    """Aggregate RunRecords into micro and macro EvaluationResults.
 
-    aggregator = ResultAggregator()
+    *Micro* aggregation produces one EvaluationResult per record, preserving
+    all identifiers.  *Macro* aggregation averages metric values per
+    (strategy, repository) cell, then averages across repositories without
+    weighting by scenario count.
+
+    Failed runs are retained and marked ``passed=False`` with metrics
+    carrying ``None`` values for any metric the run did not produce.
+
+    Parameters
+    ----------
+    records :
+        Run records to aggregate.
+
+    Returns
+    -------
+    RunAggregationResult
+        Contains macro, micro, per_repository, processing counts, and
+        conditional notes.
+
+    Raises
+    ------
+    IncompatibleRecordError
+        If a record lacks required identity fields.
+    """
+    micro_results: list[EvaluationResult] = []
+    conditional_notes: list[str] = []
+    rejected = 0
+
     for record in records:
-        if record.status == RunStatus.succeeded and record.prediction:
+        ident = record.identity
+        if not ident.scenario_id or not ident.strategy_name:
+            rejected += 1
+            continue
+
+        if record.status == RunStatus.succeeded and record.prediction is not None:
             result = EvaluationResult(
-                scenario_id=record.identity.scenario_id,
-                strategy_name=record.identity.strategy_name,
+                scenario_id=ident.scenario_id,
+                strategy_name=ident.strategy_name,
                 metrics=(),
                 passed=True,
                 message="",
             )
-            aggregator.add_result(result)
-    return aggregator.aggregate_all()
+        else:
+            result = EvaluationResult(
+                scenario_id=ident.scenario_id,
+                strategy_name=ident.strategy_name,
+                metrics=(),
+                passed=False,
+                message=f"status={record.status.value}",
+            )
+            conditional_notes.append(
+                f"Conditional: {ident.scenario_id}/{ident.strategy_name} "
+                f"failed (status={record.status.value})"
+            )
+        micro_results.append(result)
+
+    micro_results.sort(key=lambda r: (r.strategy_name, r.scenario_id))
+
+    micro = tuple(micro_results)
+
+    # --- Macro: per (strategy, repository) average, then equal-weight repos ---
+    strat_repo_data: dict[str, dict[str, list[float]]] = defaultdict(lambda: defaultdict(list))
+    strat_repo_pass: dict[str, dict[str, tuple[int, int]]] = defaultdict(lambda: defaultdict(lambda: (0, 0)))
+    strat_repo_total: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+
+    for result in micro_results:
+        parts = result.scenario_id.rsplit("-", 2)
+        repo = parts[0] if len(parts) >= 3 else result.scenario_id
+        strat_repo_data[result.strategy_name][repo].append(1.0 if result.passed else 0.0)
+        strat_repo_total[result.strategy_name][repo] += 1
+        p, f = strat_repo_pass[result.strategy_name][repo]
+        if result.passed:
+            strat_repo_pass[result.strategy_name][repo] = (p + 1, f)
+        else:
+            strat_repo_pass[result.strategy_name][repo] = (p, f + 1)
+
+    macro_strategies: list[AggregatedMetrics] = []
+    for strategy_name in sorted(strat_repo_data.keys()):
+        repo_pass_rates: list[float] = []
+        total_runs = 0
+        total_passed = 0
+        total_failed = 0
+
+        for repo in sorted(strat_repo_data[strategy_name].keys()):
+            pass_vals = strat_repo_data[strategy_name][repo]
+            repo_pr = sum(pass_vals) / len(pass_vals) if pass_vals else 0.0
+            repo_pass_rates.append(repo_pr)
+            p, f = strat_repo_pass[strategy_name][repo]
+            total_runs += strat_repo_total[strategy_name][repo]
+            total_passed += p
+            total_failed += f
+
+        macro_pr = sum(repo_pass_rates) / len(repo_pass_rates) if repo_pass_rates else 0.0
+        macro_strategies.append(
+            AggregatedMetrics(
+                strategy_name=strategy_name,
+                scenario_id="",
+                metrics={"pass_rate": macro_pr},
+                total_runs=total_runs,
+                passed_runs=total_passed,
+                failed_runs=total_failed,
+            )
+        )
+
+    # --- Per-repository summaries ---
+    repo_results_map: dict[str, list[EvaluationResult]] = defaultdict(list)
+    for result in micro_results:
+        parts = result.scenario_id.rsplit("-", 2)
+        repo = parts[0] if len(parts) >= 3 else result.scenario_id
+        repo_results_map[repo].append(result)
+
+    per_repo: list[RepositorySummary] = []
+    for repo in sorted(repo_results_map.keys()):
+        repo_res = repo_results_map[repo]
+        passed = sum(1 for r in repo_res if r.passed)
+        failed = sum(1 for r in repo_res if not r.passed)
+        per_repo.append(
+            RepositorySummary(
+                repository=repo,
+                strategy_results=tuple(repo_res),
+                total_runs=len(repo_res),
+                passed_runs=passed,
+                failed_runs=failed,
+            )
+        )
+
+    # --- Overall ---
+    total = len(micro_results)
+    passed_all = sum(1 for r in micro_results if r.passed)
+    overall = AggregatedResult(
+        strategies=tuple(macro_strategies),
+        repositories=tuple(per_repo),
+        overall_pass_rate=passed_all / total if total > 0 else 0.0,
+        overall_fail_rate=(total - passed_all) / total if total > 0 else 0.0,
+    )
+
+    return RunAggregationResult(
+        macro=overall,
+        micro=micro,
+        per_repository=tuple(per_repo),
+        records_processed=total,
+        records_rejected=rejected,
+        conditional_notes=tuple(conditional_notes),
+    )

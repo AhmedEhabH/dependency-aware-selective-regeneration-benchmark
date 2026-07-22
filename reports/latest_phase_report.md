@@ -1,102 +1,39 @@
-# Phase 4F — Evaluation Engine
+# Phase 4F.1 — Scientific Evaluation Remediation
 
-**Date:** 2026-07-22  
-**Status:** COMPLETE, MERGED, AND PUSHED  
-**Commit:** `4896515`
+**Date:** 2026-07-23  
+**Status:** COMPLETE (branch `fix/phase4f-scientific-gaps`, pending merge)  
+**Base commit:** `0cb82a8`
 
 ---
 
 ## Summary
 
-Phase 4F implements the scientific evaluation pipeline for the selective regeneration benchmark. This phase provides ground-truth comparison, metric computation, run aggregation, statistical analysis (confidence intervals, effect sizes), notebook-ready exports, and publication-ready result tables.
+Closes 5 scientific gaps identified by the Phase 4F independent audit: aggregate_run_records full implementation, paired bootstrap CI for H1, BH/Holm multiple-comparison corrections, NI sensitivity margins at 0.03/0.10, and generalized binomial CI. Also fixed a bug in the BH implementation.
 
 ---
 
 ## Completed Tasks
 
-### T4F01 — Create Evaluation Package Structure
-- Created `src/benchmark/evaluation/` package
-- Implemented `EvaluationEngine`, `EvaluationResult`, `EvaluationConfig`
-- Implemented `MetricComputer`, `MetricResult`
+### Gap 1 — `aggregate_run_records`
+- Full micro/macro aggregation with equal-weight repository averaging
+- Conditional notes for failed runs; deterministic ordering
 
-### T4F02 — Create Comparison Package Structure
-- Created `src/benchmark/comparison/` package
-- Implemented `GroundTruthComparator`, `GroundTruthCollection`
-- Implemented `ResultAggregator`, `AggregatedResult`
+### Gap 2 — Paired Analysis for H1
+- `paired_bootstrap_ci()` matching on (repository, scenario, repetition)
+- `paired_compare()` for pairwise paired comparisons
 
-### T4F03 — Create Statistics Package Structure
-- Created `src/benchmark/statistics/` package
-- Implemented `StatisticalAnalyzer`, `StatisticalComparison`
-- Implemented `ConfidenceIntervalCalculator`, `EffectSizeComputer`
-- Implemented `NotebookExporter`, `PublicationTableBuilder`
+### Gap 3 — BH and Holm Corrections (DA-14)
+- `benjamini_hochberg()` with ascending sort + step-down monotonicity
+- `holm_correction()` with early stopping
 
-### T4F04 — Implement Metric Computation
-- Primary metrics: recall, precision, F1 score, specificity, FPR, FNR
-- Secondary metrics: accuracy, action accuracy
-- Per-protocol thresholds: recall/precision ≥ 0.80, action_accuracy ≥ 0.90
+### Gap 4 — NI Sensitivity Margins (DA-08)
+- `sensitivity_margins=(0.03, 0.10)` parameter in `non_inferiority_test()`
 
-### T4F05 — Implement Ground-Truth Comparison
-- Compare predictions against scenario `expected_actions`
-- Compute match rates and action-level accuracy
-- Support for YAML ground truth loading
+### Gap 5 — Generalized Binomial CI
+- `scipy.stats.norm.ppf` replaces hardcoded z-scores
 
-### T4F06 — Implement Result Aggregation
-- Aggregate by strategy, repository, scenario
-- Track pass/fail counts and rates
-- Support for custom aggregation functions
-
-### T4F07 — Implement Statistical Analysis
-- Bootstrap confidence intervals (1000 samples, 95% CI)
-- Wilson score, Agresti-Coull methods for binomial
-- Cohen's d and Cliff's delta effect sizes
-- Mann-Whitney U test for comparisons
-- Non-inferiority testing (Δ = 0.05)
-
-### T4F08 — Implement Notebook Export
-- JSON export with full metadata
-- Pandas DataFrame conversion
-- Automatic serialization of domain models
-
-### T4F09 — Implement Publication Tables
-- Strategy comparison tables (CSV, Markdown, LaTeX)
-- Repository summary tables
-- Aggregate statistics tables
-
-### T4F10 — Write Tests
-- 18 tests for evaluation package
-- 14 tests for comparison package
-- 41 tests for statistics package
-
----
-
-## Files Created
-
-### Production Files (11)
-- `src/benchmark/evaluation/__init__.py`
-- `src/benchmark/evaluation/engine.py`
-- `src/benchmark/evaluation/metrics.py`
-- `src/benchmark/comparison/__init__.py`
-- `src/benchmark/comparison/ground_truth.py`
-- `src/benchmark/comparison/aggregator.py`
-- `src/benchmark/statistics/__init__.py`
-- `src/benchmark/statistics/analysis.py`
-- `src/benchmark/statistics/confidence_intervals.py`
-- `src/benchmark/statistics/effect_sizes.py`
-- `src/benchmark/statistics/reporting.py`
-
-### Test Files (8)
-- `tests/unit/evaluation/__init__.py`
-- `tests/unit/evaluation/test_engine.py`
-- `tests/unit/evaluation/test_metrics.py`
-- `tests/unit/comparison/__init__.py`
-- `tests/unit/comparison/test_comparison.py`
-- `tests/unit/statistics/__init__.py`
-- `tests/unit/statistics/test_statistics.py`
-- `tests/unit/statistics/test_reporting.py`
-
-### Documentation (2)
-- `docs/PHASE4F_EVALUATION_ENGINE_REFERENCE.md`
-- `reports/PHASE4F_EVALUATION_ENGINE_REPORT.md`
+### Bug Fix — BH Implementation
+- Fixed descending sort + running-max → ascending sort + step-down monotonicity
 
 ---
 
@@ -105,28 +42,32 @@ Phase 4F implements the scientific evaluation pipeline for the selective regener
 | Gate | Result |
 |------|--------|
 | Ruff | 0 violations |
-| Mypy strict | 0 errors |
-| Pytest | 410/410 passed (5 regression tests added during audit) |
+| Mypy strict | 0 errors (src), 5 pre-existing (tests) |
+| Pytest | 441/441 passed |
 | pip check | Clean |
 
 ---
 
-## Dependencies Added
+## Files Changed
 
-- `numpy>=1.24,<2`
-- `scipy>=1.10,<2`
-- `pandas>=2.0,<3`
+**Production (5):**
+- `src/benchmark/comparison/aggregator.py`
+- `src/benchmark/statistics/analysis.py`
+- `src/benchmark/statistics/confidence_intervals.py`
+- `src/benchmark/comparison/__init__.py`
+- `src/benchmark/statistics/__init__.py`
 
----
+**Tests (2):**
+- `tests/unit/comparison/test_comparison.py` (+8 tests)
+- `tests/unit/statistics/test_statistics.py` (+31 tests)
 
-## Next Steps
-
-Phase 4F is complete. The project is now feature-complete from an infrastructure perspective.
+**Documentation (2):**
+- `reports/PHASE4F_INDEPENDENT_SCIENTIFIC_AUDIT.md` (updated coverage matrix)
+- `reports/PHASE4F_1_SCIENTIFIC_REMEDIATION_REPORT.md` (new)
 
 ---
 
 ## Git Report
 
-**Branch:** `phase/4f-evaluation-engine` (merged)  
-**Merge Target:** `main`  
-**Status:** Merged and pushed (commit `4896515`)
+**Branch:** `fix/phase4f-scientific-gaps`  
+**Status:** Pending merge to main
