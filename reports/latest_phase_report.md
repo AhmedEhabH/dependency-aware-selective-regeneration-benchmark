@@ -1,27 +1,38 @@
-# Project Health Dashboard Added
+# Latest Phase Report
 
-**Date:** 2026-07-22
-**Protocol Version:** 1.0 (FROZEN)
-**Status:** Dashboard created — Phase 4E ready
+**Last updated:** 2026-07-22
+**Status:** Phase 4E COMPLETE — Phase 4F authorized
 
-## Summary
+## Phase Summary
 
-Created `reports/PROJECT_HEALTH_REPORT.md` — a lightweight, continuously updated engineering dashboard providing a concise snapshot of project health. The report covers: project summary, phase progress, repository statistics, quality gates, git health, technical debt, open TODOs, and next phase preview.
+| Phase | Status | Tests |
+|-------|--------|-------|
+| Phase 4A — Core Types | COMPLETE | (included in total) |
+| Phase 4B — Config + Workspace | COMPLETE | (included in total) |
+| Phase 4C — LLM Backends | COMPLETE | 229 passing |
+| Phase 4D — Execution Core | COMPLETE | 288 passing |
+| TD-1 Remediation | COMPLETE | 289 passing |
+| Phase 4E — Impact Strategies | **COMPLETE** | **332 passing** |
+| Phase 4F — Evaluation Engine | PENDING | — |
 
-## Dashboard Location
+## Phase 4E Deliverables
 
-`reports/PROJECT_HEALTH_REPORT.md` (~100 lines)
+- **7 strategy implementations:** monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan
+- **StrategyRegistry:** register, create, freeze, lookup
+- **Graph package:** DependencyNode, DependencyEdge, DependencyGraphModel, PythonImportExtractor, ImpactPropagator, ScopeReducer
+- **Selection package:** ArtifactSelector, RegenerationPlanner
+- **43 new tests:** 21 strategies + 16 graph + 6 selection
+- **332 total tests passing** | ruff 0 violations | mypy 0 errors | pip check clean
 
-## Current Snapshot
+## Next Task
 
-- **289/289 tests passing**
-- **0 ruff violations, 0 mypy errors**
-- **35 production files, 38 test files, 22 docs, 20 reports**
-- **24 scenarios, 3 profiles, 2 manifests**
-- **TD-1 resolved; TD-2–TD-6 deferred (non-blocking)**
-- **Phase 4E authorized and ready to start**
+**Phase 4F — Evaluation Engine**: Implement evaluation engine, metric computation, ground truth comparison, result aggregation, statistical analysis (confidence intervals, effect sizes), notebook-ready export, and publication tables.
 
-## Files
-- `reports/PROJECT_HEALTH_REPORT.md` — new
-- `SYSTEM_STATE.md` — updated
-- `reports/latest_phase_report.md` — updated
+## Quality Gates
+
+| Gate | Status |
+|------|--------|
+| pytest (332/332) | ✅ |
+| ruff (0 violations) | ✅ |
+| mypy --strict (0 errors) | ✅ |
+| pip check (no broken reqs) | ✅ |
