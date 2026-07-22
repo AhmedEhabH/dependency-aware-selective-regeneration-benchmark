@@ -6,6 +6,10 @@
 ## Current Task
 Phase 4D complete. All 7 production source files, 7 test files, 2 doc files implemented under `src/benchmark/execution/`. All quality gates pass. Phase 4E (Impact Strategies) is the exact next task. Phase 4F (Evaluation Engine) follows Phase 4E.
 
+## Recent Non-Phase Additions
+- Added `README.md` (project overview, architecture, usage, license)
+- Added `LICENSE` (MIT, copyright Ahmed Ehab H.)
+
 ## Completed Work
 - [x] Phase 0 — Bootstrap and Environment (LOCAL_ENGINEERING_VALIDATED)
 - [x] Phase 1 — Input Audit (LOCAL_ENGINEERING_VALIDATED)
@@ -181,7 +185,7 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 - Runtime metrics
 
 ## Current Branch
-`phase/4d-execution-core`
+`docs/readme-and-license`
 
 ## Latest Commit
 `<merge-commit>` (Phase 4D merge)
