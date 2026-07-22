@@ -184,7 +184,7 @@ def make_backend(dry_run: bool, model_path: str | None = None):  # type: ignore[
         from benchmark.llm.mock_backend import MockLLMBackend
         return MockLLMBackend(response_text="dry-run-response")
     from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
-    kwargs: dict[str, object] = {}
+    kwargs: dict[str, str] = {}
     if model_path:
         kwargs["model_path"] = model_path
     return KaggleQwenBackend(**kwargs)
@@ -271,10 +271,10 @@ def run_arm(
 # Aggregate results
 # ---------------------------------------------------------------------------
 
-def aggregate_results(results: dict, output_dir: Path, is_publication: bool = False):  # type: ignore[no-untyped-def]
+def aggregate_results(results: dict, output_dir: Path, is_publication: bool = False):  # type: ignore[no-untyped-def, type-arg]
     """Serialize per-arm results to JSON."""
     output_dir.mkdir(parents=True, exist_ok=True)
-    summary: dict = {}
+    summary: dict = {}  # type: ignore[type-arg]
     for arm_name, result in results.items():
         records = []
         for r in result.records:
@@ -375,7 +375,45 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Explicit path to the Qwen model directory on Kaggle",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    _validate_cli_args(args)
+    return args
+
+
+def _validate_cli_args(args: argparse.Namespace) -> None:
+    errors: list[str] = []
+
+    if args.data_dir:
+        data_dir = Path(args.data_dir)
+        if not data_dir.is_dir():
+            errors.append(f"--data-dir does not exist: {data_dir}")
+        else:
+            for subdir in ("scenarios", "manifests", "repository_profiles"):
+                if not (data_dir / subdir).is_dir():
+                    errors.append(f"--data-dir missing required subdirectory '{subdir}/' in {data_dir}")
+
+    if args.model_path:
+        model_dir = Path(args.model_path)
+        if not model_dir.is_dir():
+            errors.append(f"--model-path does not exist: {model_dir}")
+        else:
+            if not (model_dir / "config.json").is_file():
+                errors.append(f"--model-path missing config.json in {model_dir}")
+            weight_files = (
+                list(model_dir.rglob("*.safetensors"))
+                + list(model_dir.rglob("*.bin"))
+                + list(model_dir.rglob("*.pt"))
+            )
+            if not weight_files:
+                errors.append(f"--model-path no weight files (.safetensors/.bin/.pt) found in {model_dir}")
+
+    if not args.dry_run and not args.model_path:
+        errors.append("--model-path is required when not using --dry-run")
+
+    if errors:
+        for err in errors:
+            logger.error("Validation error: %s", err)
+        sys.exit(1)
 
 
 def main() -> int:
@@ -398,7 +436,7 @@ def main() -> int:
     logger.info("Loaded %d scenarios from %s", len(all_scenarios), scenarios_dir)
 
     strategy_names = [args.strategy] if args.strategy else profile.strategies
-    results: dict = {}
+    results: dict = {}  # type: ignore[type-arg]
 
     for strategy_name in strategy_names:
         arm_workspace = workspace_dir / strategy_name
