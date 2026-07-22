@@ -12,7 +12,7 @@
 | Latest main commit | `7dbc754` |
 | Implementation phase | Phase 4D complete, TD-1 remediated |
 | Protocol version | 1.0 (FROZEN) |
-| Status | Phase 4E authorized |
+| Status | Phase 4F authorized |
 
 ---
 
@@ -91,7 +91,7 @@
 
 | Group | Remaining Tasks | Status |
 |-------|----------------|--------|
-| Phase 4E — Impact Strategies | 9 tasks (T4E01–T4E09) | PENDING — ready to start |
+| Phase 4E — Impact Strategies | 9 tasks (T4E01–T4E09) | COMPLETE |
 | Phase 4F — Evaluation Engine | 9 tasks (T4F01–T4F09) | PENDING — blocked on 4E |
 | TD-2 through TD-6 | 5 items | Deferred — non-blocking |
 
@@ -99,7 +99,7 @@
 
 ## 8. Next Phase
 
-**Phase 4E — Impact Strategies**
+**Phase 4E — Impact Strategies** ✅ COMPLETE
 
 *Expected deliverables:*
 - `src/benchmark/strategies/` — 7 strategy implementations

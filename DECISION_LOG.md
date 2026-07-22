@@ -359,3 +359,34 @@
   - Added `test_run_extracts_correct_domain_objects` test
 - **Impact:** Phase 4E is now authorized. No scientific protocol changed. No frozen documents affected. 289/289 tests passing.
 - **Evidence:** `reports/TD1_REMEDIATION_REPORT.md`, git branch `fix/td1-runner-protocol`.
+
+---
+
+## Decision D017 — Phase 4E Impact Strategies
+- **Date:** 2026-07-22
+- **Decision ID:** D017
+- **Status:** IMPLEMENTED
+- **Category:** Core Implementation
+- **Description:** Execute Phase 4E — Impact Strategies. Implement 7 strategy patterns (monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan), StrategyRegistry, graph package (models, extractors, propagator, scope reducer), and selection package (artifact selector, regeneration planner).
+- **Rationale:** Phase 4E implements Layer 5 (Dependency Graph), Layer 6 (Impact Strategies), and Layer 7 (Artifact Selection) of the 13-layer architecture. These are required before Phase 4F (Evaluation Engine) can compare strategy predictions against ground truth.
+- **Alternatives considered:**
+  - Implement strategies without graph/selection packages — rejected because selective and full-context strategies depend on graph propagation
+  - Use ABC base classes for strategies — rejected per architecture decision to use Protocol for interfaces
+- **Implementation scope:**
+  - `src/benchmark/strategies/`: 7 strategy implementations + StrategyRegistry
+  - `src/benchmark/graph/`: DependencyGraphModel, PythonImportExtractor, ImpactPropagator, ScopeReducer
+  - `src/benchmark/selection/`: ArtifactSelector, RegenerationPlanner
+  - 43 new tests across 3 test files; 332 total suite
+- **Design decisions:**
+  - Dependency injection throughout — strategies accept injectable components (graph, coverage map, LLM backend)
+  - No global singletons — StrategyRegistry is instantiated and injected
+  - Protocol conformance — all strategies implement ImpactStrategy protocol structurally
+  - ARG002 suppressed for strategy files — protocol-mandated parameters not always used by every strategy
+  - Graph models separate from core — extends (does not modify) minimal DependencyGraph
+- **Quality gates:**
+  - Ruff: 0 violations ✅
+  - Mypy strict: 0 errors ✅
+  - Pytest: 332/332 passed (2.53s) ✅
+  - pip check: no broken requirements ✅
+- **Impact:** Phase 4E deliverables complete. 14 production files created across 3 packages. 3 test files created. Phase 4F (Evaluation Engine) is the exact next task.
+- **Evidence:** `reports/PHASE4E_IMPACT_STRATEGIES_REPORT.md`, all files under `src/benchmark/strategies/`, `src/benchmark/graph/`, `src/benchmark/selection/`, and associated test files.

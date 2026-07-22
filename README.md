@@ -150,8 +150,8 @@ See [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md) and [`docs/
 | Phase 4B — Loaders and validation | Complete |
 | Phase 4C — Model backends | Complete |
 | Phase 4D — Execution core | Complete |
-| Phase 4E — Impact strategies and dependency graph | Next |
-| Phase 4F — Evaluation, metrics, and statistics | Planned |
+| Phase 4E — Impact strategies and dependency graph | Complete |
+| Phase 4F — Evaluation, metrics, and statistics | Next |
 | Kaggle notebook and real-model integration | Planned |
 | Smoke, pilot, and main experiments | Planned |
 
@@ -271,7 +271,7 @@ python -m pip check
 
 Current validated state:
 
-- **288/288 tests passing**
+- **332/332 tests passing**
 - **Ruff: 0 violations**
 - **Mypy strict: 0 errors**
 - **pip check: no broken requirements**
@@ -417,7 +417,7 @@ Force-pushing to `main` is prohibited.
 
 Immediate next milestones:
 
-- [ ] Phase 4E — dependency graph and impact strategies
+- [x] Phase 4E — dependency graph and impact strategies
 - [ ] Phase 4F — evaluation, metrics, statistics, and result export
 - [ ] Controlled Django Todo implementation
 - [ ] Kaggle notebook and Qwen runtime integration
