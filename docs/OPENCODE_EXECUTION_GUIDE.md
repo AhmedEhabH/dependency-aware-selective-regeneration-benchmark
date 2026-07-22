@@ -895,3 +895,321 @@ It must include:
 The report must end with:
 
 > Local engineering preparation and validation completed without downloading or running Qwen. Real model execution and benchmark validation require Kaggle.
+
+# Git Branch, Merge, and Push Policy
+
+The remote GitHub repository is now configured and contains the current stable `main` branch.
+
+From this point forward, OpenCode must not implement new phases directly on `main`.
+
+## 1. Stable Main Branch
+
+The `main` branch represents the latest locally validated and approved project state.
+
+OpenCode must:
+
+* keep `main` stable;
+* avoid direct feature implementation on `main`;
+* avoid experimental commits on `main`;
+* never force-push `main`;
+* never rewrite published history;
+* never delete remote branches without explicit permission;
+* never merge code that has not passed the required quality gates.
+
+Small emergency documentation corrections may be made directly on `main` only when explicitly instructed.
+
+## 2. Branch Per Phase or Milestone
+
+Create a dedicated branch before starting every implementation milestone.
+
+Branch naming convention:
+
+```text
+phase/<phase-id>-<short-description>
+```
+
+Examples:
+
+```text
+phase/4b-loaders-validation
+phase/4c-model-backends
+phase/4d-execution-core
+phase/4e-provenance-results
+phase/4f-architecture-tests
+phase/5-impact-strategies
+phase/6-evaluation-metrics
+phase/7-kaggle-notebook
+```
+
+For a small isolated fix, use:
+
+```text
+fix/<short-description>
+```
+
+For documentation-only work, use:
+
+```text
+docs/<short-description>
+```
+
+Before creating a branch:
+
+```bash
+git switch main
+git pull --ff-only origin main
+git status
+git switch -c <branch-name>
+```
+
+If the working tree is not clean, do not create or switch branches until the existing changes are understood and safely committed, stashed, or documented.
+
+Do not automatically stash unknown user changes.
+
+## 3. Work Only Inside the Branch
+
+While implementing a phase:
+
+* confirm the current branch before editing;
+* keep all work related to the current phase;
+* do not mix unrelated fixes;
+* create logical atomic commits;
+* update state and phase reports;
+* do not push incomplete or failing work unless it is clearly marked as a work-in-progress branch;
+* never claim the phase is complete while required checks fail.
+
+Suggested commit style:
+
+```text
+feat(loaders): add repository manifest loading
+test(loaders): add scenario validation coverage
+docs(phase4b): document loader contracts
+fix(config): reject invalid repository references
+chore(state): complete phase 4b state update
+```
+
+## 4. Pre-Push Verification
+
+Before pushing the feature branch, run all checks required by the current phase.
+
+At minimum:
+
+```bash
+python -m pip check
+ruff check src tests
+mypy --strict src tests
+python -m pytest
+```
+
+Also run any phase-specific:
+
+* contract tests;
+* architecture tests;
+* import-isolation tests;
+* leakage tests;
+* schema validation;
+* deterministic serialization tests;
+* mock-backend integration tests.
+
+Before pushing, inspect:
+
+```bash
+git status
+git diff main...HEAD
+git log --oneline main..HEAD
+```
+
+Confirm:
+
+* no secret or credential is present;
+* no model file or cache is present;
+* no generated runtime output is present;
+* no private evaluation artifact is exposed;
+* no input paper was modified;
+* no frozen protocol file changed without an approved amendment;
+* no unrelated file is included;
+* all state files accurately describe the current phase;
+* the phase report records the actual validation results.
+
+## 5. Branch Push Policy
+
+If all required checks pass and the Git remote is configured, OpenCode is authorized to push the phase branch:
+
+```bash
+git push -u origin <branch-name>
+```
+
+Push only the current branch.
+
+Do not push when:
+
+* tests fail;
+* Ruff fails;
+* strict mypy fails;
+* dependency conflicts remain;
+* the working tree contains unexplained changes;
+* secrets may be present;
+* the branch contains private or hidden evaluation data not intended for GitHub;
+* frozen research decisions were changed without approval;
+* the branch is known to be incomplete;
+* the remote branch contains conflicting work that has not been reviewed.
+
+If push fails, report the exact error. Do not repeatedly retry destructive commands.
+
+## 6. Merge Approval Policy
+
+OpenCode may merge a completed phase branch into `main` without asking for routine approval only when all of the following are true:
+
+1. The branch contains only the intended phase.
+2. Every required quality gate passes.
+3. The phase report is complete.
+4. State files are updated.
+5. No frozen scientific decision changed.
+6. No unresolved blocking risk remains.
+7. No secret, private input, hidden test, ground truth, model file, or generated run output is exposed.
+8. The branch was pushed successfully or the local merge policy explicitly permits local-first merging.
+9. `main` has not changed unexpectedly since the branch was created.
+10. The merge can be completed without conflicts.
+
+If any condition is uncertain, do not merge. Record the issue under:
+
+```text
+MERGE_REVIEW_REQUIRED
+```
+
+and explain the recommended next action.
+
+## 7. Merge Procedure
+
+Before merging:
+
+```bash
+git switch main
+git pull --ff-only origin main
+git merge-base --is-ancestor main <branch-name>
+```
+
+If `main` advanced after branch creation:
+
+* inspect the new commits;
+* merge or rebase only when safe;
+* rerun all required quality gates after integration;
+* never force-rebase a branch already shared remotely without explicit permission.
+
+Preferred merge policy:
+
+```bash
+git merge --no-ff <branch-name> -m "merge: complete <phase-name>"
+```
+
+The `--no-ff` merge preserves the phase boundary in Git history.
+
+Do not use squash merge unless the branch history is noisy and the change is explicitly documented. Do not silently discard meaningful atomic commits.
+
+## 8. Post-Merge Validation
+
+After merging into `main`, rerun at minimum:
+
+```bash
+python -m pip check
+ruff check src tests
+mypy --strict src tests
+python -m pytest
+```
+
+Also rerun all phase-specific architecture, contract, import-isolation, schema, leakage, and mock-integration tests.
+
+If post-merge validation fails:
+
+* do not push `main`;
+* do not hide the failure;
+* repair it on a dedicated fix branch or safely abort/revert the local merge;
+* preserve diagnostic evidence.
+
+## 9. Main Push Policy
+
+If the merge and post-merge validation succeed, OpenCode is authorized to push `main`:
+
+```bash
+git push origin main
+```
+
+Before pushing, verify:
+
+```bash
+git status
+git log --oneline --decorate -10
+git remote -v
+```
+
+Required conditions:
+
+* working tree clean;
+* local `main` contains the intended merge;
+* origin points to the correct repository;
+* no unexpected commits are included;
+* all checks pass;
+* no force push is needed.
+
+Never execute:
+
+```bash
+git push --force
+git push --force-with-lease
+```
+
+without explicit user authorization.
+
+## 10. Branch Retention
+
+After successful merge and push:
+
+* keep the remote phase branch initially for auditability;
+* local branch deletion is optional;
+* do not delete the remote branch automatically.
+
+If local deletion is appropriate:
+
+```bash
+git branch -d <branch-name>
+```
+
+Do not use `-D` unless the branch was conclusively merged and the reason is documented.
+
+## 11. Required Git Report
+
+At the end of each phase, report:
+
+```text
+Phase:
+Feature Branch:
+Branch Starting Commit:
+Commits Created:
+Quality Gates:
+Branch Push Status:
+Merge Status:
+Post-Merge Validation:
+Main Push Status:
+Final Main Commit:
+Working Tree Status:
+Remote Repository:
+Exact Next Phase:
+```
+
+Use truthful statuses:
+
+* `NOT_ATTEMPTED`
+* `PASSED`
+* `FAILED`
+* `PUSHED`
+* `MERGED`
+* `MERGE_REVIEW_REQUIRED`
+* `BLOCKED`
+
+## 12. Safety Rule
+
+When confidence is insufficient, preserving a stable `main` is more important than completing an automatic merge.
+
+Use this final principle:
+
+> Implement on an isolated branch, validate completely, inspect the diff, merge only when safe, validate again after integration, and push without rewriting history.

@@ -118,7 +118,7 @@ artifact_catalog:
   cms/permissions.py: Permission checking functions
   cms/middleware.py: CMSToolbarMiddleware, CMSPageMiddleware
   cms/templatetags/:
-    - cms_tags.py: {% placeholder %}, {% static_placeholder %}, etc.
+    - "cms_tags.py: {% placeholder %}, {% static_placeholder %}, etc."
     - cms_admin_tags.py: Admin-specific template tags
     - menu_tags.py: Menu-related tags
   cms/migrations/: Django migrations
