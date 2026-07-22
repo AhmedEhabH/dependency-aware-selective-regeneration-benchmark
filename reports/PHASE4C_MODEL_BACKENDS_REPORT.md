@@ -9,18 +9,26 @@
 
 Phase 4C implemented three LLM backends (MockLLMBackend, DryRunLLMBackend, KaggleQwenBackend skeleton) plus the BackendFactory registry integration under `src/benchmark/llm/`. 23 new tests (229 total suite) pass all quality gates. Phase 4D (Execution Core) is the exact next task.
 
-## Files Created (5 production + 6 test + 2 doc = 13 new/modified files)
+## Files Created (5 production + 5 test + 2 doc = 12 new files)
 
 ### Source — 5 files
-- **LLM (5):** `src/benchmark/llm/__init__.py`, `base.py`, `mock_backend.py`, `dry_run_backend.py`, `kaggle_qwen_backend.py`
+- `src/benchmark/llm/__init__.py` — Public exports
+- `src/benchmark/llm/base.py` — BackendFactory wrapping Registry[LLMBackend]
+- `src/benchmark/llm/mock_backend.py` — MockLLMBackend (deterministic)
+- `src/benchmark/llm/dry_run_backend.py` — DryRunLLMBackend (fixture loading)
+- `src/benchmark/llm/kaggle_qwen_backend.py` — KaggleQwenBackend skeleton (lazy imports)
 
-### Tests — 6 files
-- **Unit (5):** `tests/unit/llm/__init__.py`, `test_llm_mock_backend.py` (6), `test_llm_dry_run_backend.py` (5), `test_llm_kaggle_qwen_backend.py` (3), `test_llm_factory.py` (8)
-- **Modified (1):** `tests/test_import_isolation.py` (added LLM-specific import test)
+### Tests — 5 files (23 tests)
+- `tests/unit/llm/__init__.py` — Package init
+- `tests/unit/llm/test_llm_mock_backend.py` — 6 tests
+- `tests/unit/llm/test_llm_dry_run_backend.py` — 5 tests
+- `tests/unit/llm/test_llm_kaggle_qwen_backend.py` — 3 tests
+- `tests/unit/llm/test_llm_factory.py` — 8 tests
+- `tests/test_import_isolation.py` — Modified: added 1 LLM-specific import test
 
 ### Documentation — 2 files
 - `docs/PHASE4C_MODEL_BACKENDS_REFERENCE.md`
-- `reports/PHASE4C_MODEL_BACKENDS_REPORT.md`
+- `reports/PHASE4C_MODEL_BACKENDS_REPORT.md` (this file)
 
 ## Quality Gate Results
 
@@ -34,11 +42,11 @@ Phase 4C implemented three LLM backends (MockLLMBackend, DryRunLLMBackend, Kaggl
 
 ## Design Decisions
 
-1. **Lazy imports for Kaggle backend**: `torch` and `transformers` imported inside `_lazy_import()` called from `generate()`, never at module level.
-2. **BackendFactory wraps Registry**: Delegates to generic `Registry[LLMBackend]` — not a new registry type.
-3. **DryRunLLMBackend fixture format**: Expects `fixture_response.json` with keys: `text`, `prompt_tokens`, `completion_tokens`, `total_tokens`, `finish_reason`.
+1. **Lazy imports for Kaggle backend**: `torch` and `transformers` are imported inside `_lazy_import()` called from `generate()`, never at module level. Importing `KaggleQwenBackend` does not trigger torch/transformers download.
+2. **BackendFactory wraps Registry**: Not a new registry type — delegates to the generic `Registry[LLMBackend]` for registration, creation, freeze.
+3. **DryRunLLMBackend fixture format**: Expects `fixture_response.json` with keys: `text`, `prompt_tokens`, `completion_tokens`, `total_tokens`, `finish_reason`. Falls back to default response if no fixture available.
 4. **MockLLMBackend deterministic**: Same `response_text` always produces same `LLMResponse` including token counts.
-5. **ARGG002 suppressed via per-file-ignores**: Backend `generate()` methods have unused parameters required by the `LLMBackend` protocol.
+5. **ARGG002 suppressed via per-file-ignores**: Backend `generate()` methods have unused parameters required by the `LLMBackend` protocol signature; suppressed with `pyproject.toml` per-file-ignore.
 
 ## Deviations from Blueprint
 

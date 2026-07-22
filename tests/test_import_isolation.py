@@ -47,3 +47,9 @@ class TestImportIsolation:
         assert ret == 0, f"stderr: {stderr}"
         assert "torch: False" in stdout, f"torch leaked: {stdout}"
         assert "transformers: False" in stdout, f"transformers leaked: {stdout}"
+
+    def test_import_benchmark_llm_no_torch(self) -> None:
+        ret, stdout, stderr = _run_import_check("import benchmark.llm")
+        assert ret == 0, f"stderr: {stderr}"
+        assert "torch: False" in stdout, f"torch leaked: {stdout}"
+        assert "transformers: False" in stdout, f"transformers leaked: {stdout}"
