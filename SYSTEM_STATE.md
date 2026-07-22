@@ -1,10 +1,10 @@
 # System State
 
 ## Current Phase
-**Phase 4E — Impact Strategies** (COMPLETE — Phase 4F authorized)
+**Phase 4F — Evaluation Engine** (COMPLETE)
 
 ## Current Task
-Phase 4E complete. 7 strategy implementations, graph package, selection package, and 43 new tests. Quality gates: 332/332 tests pass; ruff 0 violations; mypy 0 errors; pip check clean. Phase 4F (Evaluation Engine) is the exact next task.
+Phase 4F complete. 11 production files, 8 test files, 73 new tests. Quality gates: 405/405 tests pass; ruff 0 violations; mypy 0 errors; pip check clean. Phase 4F is feature-complete. The project is now feature-complete from an infrastructure perspective.
 
 ## Recent Non-Phase Additions
 - Added `README.md` (project overview, architecture, usage, license)
@@ -86,6 +86,22 @@ Phase 4E complete. 7 strategy implementations, graph package, selection package,
 - [x] Create reports/PHASE4E_IMPACT_STRATEGIES_REPORT.md
 - [x] Reconcile SYSTEM_STATE.md for Phase 4E completion
 - [x] Batch update all state files for Phase 4E → 4F transition
+- [x] **Phase 4F — Evaluation Engine** (COMPLETE)
+- [x] Create `src/benchmark/evaluation/` package with EvaluationEngine, MetricComputer
+- [x] Create `src/benchmark/comparison/` package with GroundTruthComparator, ResultAggregator
+- [x] Create `src/benchmark/statistics/` package with StatisticalAnalyzer, ConfidenceIntervalCalculator, EffectSizeComputer, NotebookExporter, PublicationTableBuilder
+- [x] Implement primary metrics: recall, precision, F1, specificity, FPR, FNR
+- [x] Implement secondary metrics: accuracy, action_accuracy
+- [x] Implement confidence intervals: bootstrap, normal, Wilson, Agresti-Coull
+- [x] Implement effect sizes: Cohen's d, Cliff's delta
+- [x] Implement statistical analysis: Mann-Whitney U, non-inferiority tests
+- [x] Implement notebook export: JSON, DataFrame
+- [x] Implement publication tables: CSV, Markdown, LaTeX
+- [x] Write 73 new Phase 4F tests (all passing)
+- [x] Verify Phase 4F quality gates: 405/405 tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+- [x] Create docs/PHASE4F_EVALUATION_ENGINE_REFERENCE.md
+- [x] Create reports/PHASE4F_EVALUATION_ENGINE_REPORT.md
+- [x] Reconcile SYSTEM_STATE.md for Phase 4F completion
 
 ### Phase 4A/4B/4C Production — 22 files
 6 under `src/benchmark/core/`: `__init__.py`, `context.py`, `enums.py`, `exceptions.py`, `models.py`, `protocols.py`, `registry.py`
@@ -97,7 +113,12 @@ Phase 4E complete. 7 strategy implementations, graph package, selection package,
 ### Phase 4D Production — 7 files
 All under `src/benchmark/execution/`: `__init__.py`, `budgets.py`, `state_machine.py`, `repair.py`, `isolation.py`, `runner.py`, `pipeline.py`
 
-### Tests — 14 files (Phase 4A–4C)
+### Phase 4F Production — 11 files
+Evaluation package: `src/benchmark/evaluation/__init__.py`, `engine.py`, `metrics.py`
+Comparison package: `src/benchmark/comparison/__init__.py`, `ground_truth.py`, `aggregator.py`
+Statistics package: `src/benchmark/statistics/__init__.py`, `analysis.py`, `confidence_intervals.py`, `effect_sizes.py`, `reporting.py`
+
+### Tests (Phase 4A–4F)
 8 unit test files: `test_repositories_manifest.py` (15), `test_repositories_loader.py` (8), `test_repositories_snapshot.py` (12), `test_repositories_workspace.py` (9), `test_scenarios_models.py` (11), `test_scenarios_loader.py` (9), `test_scenarios_validator.py` (7), `test_scenarios_sequencing.py` (5)
 2 integration test files: `test_repositories_integration.py` (6), `test_scenarios_integration.py` (5)
 1 contract test file: `test_loaders_contract.py` (4)
@@ -106,9 +127,15 @@ All under `src/benchmark/execution/`: `__init__.py`, `budgets.py`, `state_machin
 ### Phase 4D Tests — 7 files
 All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_state_machine.py` (13), `test_repair.py` (8), `test_isolation.py` (9), `test_runner.py` (7), `test_pipeline.py` (6)
 
-### Documentation — 8 files (Phase 4A–4D)
-`docs/PHASE4A_DOMAIN_MODEL_REFERENCE.md`, `docs/PHASE4B_LOADERS_AND_VALIDATION_REFERENCE.md`, `docs/PHASE4C_MODEL_BACKENDS_REFERENCE.md`, `docs/PHASE4D_EXECUTION_CORE_REFERENCE.md`
-`reports/PHASE4A_DOMAIN_MODELS_REPORT.md`, `reports/PHASE4B_LOADERS_AND_VALIDATION_REPORT.md`, `reports/PHASE4C_MODEL_BACKENDS_REPORT.md`, `reports/PHASE4D_EXECUTION_CORE_REPORT.md`
+### Phase 4E Tests — 3 files
+All under `tests/unit/strategies/` and `tests/unit/graph/`, `tests/unit/selection/`: `__init__.py`, `test_strategies.py` (21), `test_graph.py` (16), `test_planner.py` (6)
+
+### Phase 4F Tests — 8 files
+All under `tests/unit/evaluation/`, `tests/unit/comparison/`, `tests/unit/statistics/`: `__init__.py` (×3), `test_engine.py` (7), `test_metrics.py` (13), `test_comparison.py` (14), `test_statistics.py` (24), `test_reporting.py` (15)
+
+### Documentation (Phase 4A–4F)
+`docs/PHASE4A_DOMAIN_MODEL_REFERENCE.md`, `docs/PHASE4B_LOADERS_AND_VALIDATION_REFERENCE.md`, `docs/PHASE4C_MODEL_BACKENDS_REFERENCE.md`, `docs/PHASE4D_EXECUTION_CORE_REFERENCE.md`, `docs/PHASE4F_EVALUATION_ENGINE_REFERENCE.md`
+`reports/PHASE4A_DOMAIN_MODELS_REPORT.md`, `reports/PHASE4B_LOADERS_AND_VALIDATION_REPORT.md`, `reports/PHASE4C_MODEL_BACKENDS_REPORT.md`, `reports/PHASE4D_EXECUTION_CORE_REPORT.md`, `reports/PHASE4F_EVALUATION_ENGINE_REPORT.md`, `reports/PROJECT_HEALTH_REPORT.md`
 
 ## Phase 4C — Files Created (5 production + 6 test + 2 doc = 13 new files, 1 modified)
 
@@ -201,10 +228,10 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 - Runtime metrics
 
 ## Current Branch
-`phase/4e-impact-strategies`
+`main`
 
 ## Latest Commit
-`<pending>` (Phase 4E)
+`9e23e91` (Phase 4E merge — Phase 4F pending commit)
 
 ## Known Risks
 1. **LR-3 — No test data boundary:** Test fixtures need a defined home outside `inputs/` and `src/`.

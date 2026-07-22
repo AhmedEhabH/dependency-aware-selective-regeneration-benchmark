@@ -1,38 +1,132 @@
-# Latest Phase Report
+# Phase 4F — Evaluation Engine
 
-**Last updated:** 2026-07-22
-**Status:** Phase 4E COMPLETE — Phase 4F authorized
+**Date:** 2026-07-22  
+**Status:** COMPLETE  
+**Commit:** (pending)
 
-## Phase Summary
+---
 
-| Phase | Status | Tests |
-|-------|--------|-------|
-| Phase 4A — Core Types | COMPLETE | (included in total) |
-| Phase 4B — Config + Workspace | COMPLETE | (included in total) |
-| Phase 4C — LLM Backends | COMPLETE | 229 passing |
-| Phase 4D — Execution Core | COMPLETE | 288 passing |
-| TD-1 Remediation | COMPLETE | 289 passing |
-| Phase 4E — Impact Strategies | **COMPLETE** | **332 passing** |
-| Phase 4F — Evaluation Engine | PENDING | — |
+## Summary
 
-## Phase 4E Deliverables
+Phase 4F implements the scientific evaluation pipeline for the selective regeneration benchmark. This phase provides ground-truth comparison, metric computation, run aggregation, statistical analysis (confidence intervals, effect sizes), notebook-ready exports, and publication-ready result tables.
 
-- **7 strategy implementations:** monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan
-- **StrategyRegistry:** register, create, freeze, lookup
-- **Graph package:** DependencyNode, DependencyEdge, DependencyGraphModel, PythonImportExtractor, ImpactPropagator, ScopeReducer
-- **Selection package:** ArtifactSelector, RegenerationPlanner
-- **43 new tests:** 21 strategies + 16 graph + 6 selection
-- **332 total tests passing** | ruff 0 violations | mypy 0 errors | pip check clean
+---
 
-## Next Task
+## Completed Tasks
 
-**Phase 4F — Evaluation Engine**: Implement evaluation engine, metric computation, ground truth comparison, result aggregation, statistical analysis (confidence intervals, effect sizes), notebook-ready export, and publication tables.
+### T4F01 — Create Evaluation Package Structure
+- Created `src/benchmark/evaluation/` package
+- Implemented `EvaluationEngine`, `EvaluationResult`, `EvaluationConfig`
+- Implemented `MetricComputer`, `MetricResult`
+
+### T4F02 — Create Comparison Package Structure
+- Created `src/benchmark/comparison/` package
+- Implemented `GroundTruthComparator`, `GroundTruthCollection`
+- Implemented `ResultAggregator`, `AggregatedResult`
+
+### T4F03 — Create Statistics Package Structure
+- Created `src/benchmark/statistics/` package
+- Implemented `StatisticalAnalyzer`, `StatisticalComparison`
+- Implemented `ConfidenceIntervalCalculator`, `EffectSizeComputer`
+- Implemented `NotebookExporter`, `PublicationTableBuilder`
+
+### T4F04 — Implement Metric Computation
+- Primary metrics: recall, precision, F1 score, specificity, FPR, FNR
+- Secondary metrics: accuracy, action accuracy
+- Per-protocol thresholds: recall/precision ≥ 0.80, action_accuracy ≥ 0.90
+
+### T4F05 — Implement Ground-Truth Comparison
+- Compare predictions against scenario `expected_actions`
+- Compute match rates and action-level accuracy
+- Support for YAML ground truth loading
+
+### T4F06 — Implement Result Aggregation
+- Aggregate by strategy, repository, scenario
+- Track pass/fail counts and rates
+- Support for custom aggregation functions
+
+### T4F07 — Implement Statistical Analysis
+- Bootstrap confidence intervals (1000 samples, 95% CI)
+- Wilson score, Agresti-Coull methods for binomial
+- Cohen's d and Cliff's delta effect sizes
+- Mann-Whitney U test for comparisons
+- Non-inferiority testing (Δ = 0.05)
+
+### T4F08 — Implement Notebook Export
+- JSON export with full metadata
+- Pandas DataFrame conversion
+- Automatic serialization of domain models
+
+### T4F09 — Implement Publication Tables
+- Strategy comparison tables (CSV, Markdown, LaTeX)
+- Repository summary tables
+- Aggregate statistics tables
+
+### T4F10 — Write Tests
+- 18 tests for evaluation package
+- 14 tests for comparison package
+- 41 tests for statistics package
+
+---
+
+## Files Created
+
+### Production Files (11)
+- `src/benchmark/evaluation/__init__.py`
+- `src/benchmark/evaluation/engine.py`
+- `src/benchmark/evaluation/metrics.py`
+- `src/benchmark/comparison/__init__.py`
+- `src/benchmark/comparison/ground_truth.py`
+- `src/benchmark/comparison/aggregator.py`
+- `src/benchmark/statistics/__init__.py`
+- `src/benchmark/statistics/analysis.py`
+- `src/benchmark/statistics/confidence_intervals.py`
+- `src/benchmark/statistics/effect_sizes.py`
+- `src/benchmark/statistics/reporting.py`
+
+### Test Files (8)
+- `tests/unit/evaluation/__init__.py`
+- `tests/unit/evaluation/test_engine.py`
+- `tests/unit/evaluation/test_metrics.py`
+- `tests/unit/comparison/__init__.py`
+- `tests/unit/comparison/test_comparison.py`
+- `tests/unit/statistics/__init__.py`
+- `tests/unit/statistics/test_statistics.py`
+- `tests/unit/statistics/test_reporting.py`
+
+### Documentation (2)
+- `docs/PHASE4F_EVALUATION_ENGINE_REFERENCE.md`
+- `reports/PHASE4F_EVALUATION_ENGINE_REPORT.md`
+
+---
 
 ## Quality Gates
 
-| Gate | Status |
+| Gate | Result |
 |------|--------|
-| pytest (332/332) | ✅ |
-| ruff (0 violations) | ✅ |
-| mypy --strict (0 errors) | ✅ |
-| pip check (no broken reqs) | ✅ |
+| Ruff | 0 violations |
+| Mypy strict | 0 errors |
+| Pytest | 405/405 passed |
+| pip check | Clean |
+
+---
+
+## Dependencies Added
+
+- `numpy>=1.24,<2`
+- `scipy>=1.10,<2`
+- `pandas>=2.0,<3`
+
+---
+
+## Next Steps
+
+Phase 4F is complete. The project is now feature-complete from an infrastructure perspective.
+
+---
+
+## Git Report
+
+**Branch:** `phase/4f-evaluation-engine`  
+**Merge Target:** `main`  
+**Status:** Pending commit and merge after final validation

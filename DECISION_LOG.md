@@ -390,3 +390,35 @@
   - pip check: no broken requirements ✅
 - **Impact:** Phase 4E deliverables complete. 14 production files created across 3 packages. 3 test files created. Phase 4F (Evaluation Engine) is the exact next task.
 - **Evidence:** `reports/PHASE4E_IMPACT_STRATEGIES_REPORT.md`, all files under `src/benchmark/strategies/`, `src/benchmark/graph/`, `src/benchmark/selection/`, and associated test files.
+
+---
+
+## Decision D018 — Phase 4F Evaluation Engine
+
+- **Date:** 2026-07-22
+- **Decision ID:** D018
+- **Status:** IMPLEMENTED
+- **Category:** Evaluation
+- **Description:** Execute Phase 4F — Evaluation Engine. Implement ground-truth comparison, metric computation, run aggregation, statistical analysis (confidence intervals, effect sizes), notebook-ready exports, and publication-ready result tables.
+- **Rationale:** Phase 4F implements Layer 5 (Evaluation) of the 13-layer architecture. It provides the scientific evaluation pipeline to compare strategy predictions against ground truth and produce analysis-ready outputs.
+- **Alternatives considered:**
+  - Build evaluation into strategy implementations — rejected because it would tightly couple evaluation logic to strategy code
+  - Use external analysis tools — rejected because the benchmark needs integrated, reproducible evaluation
+- **Implementation scope:**
+  - `src/benchmark/evaluation/`: EvaluationEngine, MetricComputer
+  - `src/benchmark/comparison/`: GroundTruthComparator, ResultAggregator
+  - `src/benchmark/statistics/`: StatisticalAnalyzer, ConfidenceIntervalCalculator, EffectSizeComputer, NotebookExporter, PublicationTableBuilder
+  - 73 new tests across 3 test files; 405 total suite
+- **Design decisions:**
+  - Metrics computed per-run, aggregated across scenarios
+  - Bootstrap CI with 1000 samples for non-parametric estimates
+  - Effect sizes: Cohen's d (parametric), Cliff's delta (non-parametric)
+  - Non-inferiority margin Δ = 0.05 per DA-08 for pass rate comparisons
+  - Export formats: JSON for notebooks, CSV/Markdown/LaTeX for publications
+- **Quality gates:**
+  - Ruff: 0 violations ✅
+  - Mypy strict: 0 errors ✅
+  - Pytest: 405/405 passed ✅
+  - pip check: no broken requirements ✅
+- **Impact:** Phase 4F deliverables complete. 11 production files created across 3 packages. 8 test files created. Project is feature-complete from infrastructure perspective. Phase 5 (if any) would be scientific analysis.
+- **Evidence:** `docs/PHASE4F_EVALUATION_ENGINE_REFERENCE.md`, `reports/PHASE4F_EVALUATION_ENGINE_REPORT.md`, all files under `src/benchmark/evaluation/`, `src/benchmark/comparison/`, `src/benchmark/statistics/`, and associated test files.
