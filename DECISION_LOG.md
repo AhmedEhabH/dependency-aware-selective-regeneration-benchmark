@@ -422,3 +422,38 @@
   - pip check: no broken requirements ✅
 - **Impact:** Phase 4F deliverables complete. 11 production files created across 3 packages. 8 test files created. Project is feature-complete from infrastructure perspective. Phase 5 (if any) would be scientific analysis.
 - **Evidence:** `docs/PHASE4F_EVALUATION_ENGINE_REFERENCE.md`, `reports/PHASE4F_EVALUATION_ENGINE_REPORT.md`, all files under `src/benchmark/evaluation/`, `src/benchmark/comparison/`, `src/benchmark/statistics/`, and associated test files.
+
+---
+
+## Decision D019 — Phase 4F.1 Scientific Evaluation Remediation
+
+- **Date:** 2026-07-23
+- **Decision ID:** D019
+- **Status:** IMPLEMENTED
+- **Category:** Scientific Remediation
+- **Description:** Execute Phase 4F.1 — Scientific Evaluation Remediation. Close 5 scientific gaps identified by the Phase 4F independent audit: aggregate_run_records full implementation, paired bootstrap CI for H1, BH/Holm multiple-comparison corrections, NI sensitivity margins at 0.03/0.10, generalized binomial CI.
+- **Rationale:** The Phase 4F audit found that the implementation covered approximately 70% of the frozen statistical plan. The remaining gaps were design-level issues that could be remediated without protocol amendment.
+- **Alternatives considered:**
+  - Leave gaps as-is and proceed to Kaggle — rejected because the gaps affect statistical validity of H1 and H2
+  - Amend the frozen protocol — rejected because the gaps were implementation gaps, not protocol conflicts
+- **Implementation scope:**
+  - `aggregate_run_records` full implementation (micro + macro equal-weight)
+  - `paired_bootstrap_ci()` matching on (repository, scenario, repetition)
+  - `benjamini_hochberg()` + `holm_correction()` procedures
+  - `non_inferiority_test()` with `sensitivity_margins=(0.03, 0.10)`
+  - `binomial_ci()` generalized z-score via `scipy.stats.norm.ppf`
+  - Bug fix: BH implementation (descending sort → ascending + step-down)
+  - 31 new tests; 441 total
+- **Design decisions:**
+  - Macro aggregation uses equal-weight repository averaging (not scenario-count-weighted) per protocol
+  - Paired analysis requires ≥ 2 matched cells to compute bootstrap CI
+  - BH uses ascending sort + step-down monotonicity (standard Benjamini-Hochberg)
+  - Holm uses step-down Bonferroni with early stopping
+  - NI sensitivity returns dict mapping margin → bool for multi-margin evaluation
+- **Quality gates:**
+  - Ruff: 0 violations ✅
+  - Mypy strict: 0 errors (src) ✅
+  - Pytest: 441/441 passed ✅
+  - pip check: no broken requirements ✅
+- **Impact:** Protocol coverage increased from 9/19 to 14/19 implemented-and-validated requirements. The project is ready for Kaggle smoke execution.
+- **Evidence:** `reports/PHASE4F_1_SCIENTIFIC_REMEDIATION_REPORT.md`, updated `reports/PHASE4F_INDEPENDENT_SCIENTIFIC_AUDIT.md`.

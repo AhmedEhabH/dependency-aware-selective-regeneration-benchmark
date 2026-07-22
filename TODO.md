@@ -1287,3 +1287,95 @@
 - **Status:** PENDING
 - **Owner:** OpenCode
 - **Evidence:** Git log shows branch/merge/push
+
+## Phase 4F.1 — Scientific Evaluation Remediation (COMPLETE)
+
+### T4F1-01 — Implement `aggregate_run_records`
+- **Priority:** HIGH
+- **Category:** Aggregation
+- **Description:** Replace stub `aggregate_run_records` with full micro/macro aggregation
+- **Acceptance Criteria:** Micro preserves identifiers; macro uses equal-weight repo averaging; conditional notes for failed runs; deterministic ordering
+- **Dependencies:** T4F08
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/comparison/aggregator.py`, 8 tests in `TestAggregateRunRecords`
+
+### T4F1-02 — Implement Paired Analysis for H1
+- **Priority:** HIGH
+- **Category:** Statistics
+- **Description:** Implement `paired_bootstrap_ci()` and `paired_compare()` matching on (repository, scenario, repetition)
+- **Acceptance Criteria:** Paired CI matches on cells; unmatched pairs reported; paired vs pooled gives different results
+- **Dependencies:** T4F1-01
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/statistics/analysis.py`, 3 tests in `TestPairedAnalysis`
+
+### T4F1-03 — Implement BH and Holm Corrections
+- **Priority:** HIGH
+- **Category:** Statistics
+- **Description:** Implement `benjamini_hochberg()` and `holm_correction()` for DA-14
+- **Acceptance Criteria:** BH produces correct adjusted p-values; Holm uses step-down Bonferroni; both preserve ordering
+- **Dependencies:** T4F1-02
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/statistics/analysis.py`, 10 tests (5 BH + 5 Holm)
+
+### T4F1-04 — Implement NI Sensitivity Margins
+- **Priority:** HIGH
+- **Category:** Statistics
+- **Description:** Extend `non_inferiority_test()` with `sensitivity_margins` parameter (0.03, 0.10)
+- **Acceptance Criteria:** Returns sensitivity dict; boundary detection correct; rejects unequal lengths
+- **Dependencies:** T4F1-03
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/statistics/analysis.py`, 4 tests in `TestNonInferioritySensitivity`
+
+### T4F1-05 — Generalize Binomial CI
+- **Priority:** HIGH
+- **Category:** Statistics
+- **Description:** Replace hardcoded z-scores in `binomial_ci` with `scipy.stats.norm.ppf`
+- **Acceptance Criteria:** Works at any confidence level (90%, 95%, 99%); rejects invalid confidence levels
+- **Dependencies:** T4F1-04
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/statistics/confidence_intervals.py`, 5 tests in `TestBinomialCIGeneralized`
+
+### T4F1-06 — Run Quality Gates
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Run ruff, mypy, pytest, pip check; fix all issues
+- **Acceptance Criteria:** All quality gates pass; 441 total tests
+- **Dependencies:** T4F1-05
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 441/441 tests pass; ruff 0 violations; mypy 0 errors (src); pip check clean
+
+### T4F1-07 — Create Documentation
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update audit report coverage matrix; write remediation report
+- **Acceptance Criteria:** Audit report updated; remediation report present
+- **Dependencies:** T4F1-06
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** `reports/PHASE4F_INDEPENDENT_SCIENTIFIC_AUDIT.md`, `reports/PHASE4F_1_SCIENTIFIC_REMEDIATION_REPORT.md`
+
+### T4F1-08 — Update State Files
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, latest_phase_report.md, PROJECT_HEALTH_REPORT.md
+- **Acceptance Criteria:** All state files consistent; Phase 4F.1 recorded as COMPLETE
+- **Dependencies:** T4F1-07
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Edits to all state files
+
+### T4F1-09 — Branch Workflow (Commit, Push, Merge)
+- **Priority:** HIGH
+- **Category:** VCS
+- **Description:** Commit all Phase 4F.1 work; push branch; safe merge to main; verify gates on main; push main
+- **Acceptance Criteria:** Branch merged; main clean and synced with origin; all gates pass
+- **Dependencies:** T4F1-06
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Git log shows branch/merge/push

@@ -83,11 +83,16 @@ class ConfidenceIntervalCalculator:
         trials: int,
         method: str = "wilson",
     ) -> ConfidenceInterval:
+        if not 0 < self._confidence_level < 1:
+            raise ValueError("confidence_level must be between 0 and 1")
         if trials == 0:
             return ConfidenceInterval(lower=0.0, upper=0.0, confidence_level=self._confidence_level)
 
+        from scipy import stats
+
         p = successes / trials
-        z = 1.96 if self._confidence_level == 0.95 else 2.576
+        alpha = 1 - self._confidence_level
+        z = float(stats.norm.ppf(1 - alpha / 2))
 
         if method == "wilson":
             denominator = 1 + z**2 / trials
