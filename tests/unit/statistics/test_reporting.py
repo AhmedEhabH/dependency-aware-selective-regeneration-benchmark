@@ -3,10 +3,12 @@ from __future__ import annotations
 import json
 import tempfile
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
-from benchmark.core.models import RunIdentity, RunRecord, RunStatus
+from benchmark.core.enums import RunStatus
+from benchmark.core.models import RunIdentity, RunRecord
 from benchmark.evaluation.engine import EvaluationResult
 from benchmark.statistics.reporting import ExportConfig, NotebookExporter, PublicationTableBuilder
 
@@ -15,7 +17,7 @@ def _make_evaluation_result(
     scenario_id: str = "test-001",
     strategy_name: str = "strategy-a",
     passed: bool = True,
-    metrics: tuple = (),
+    metrics: tuple[Any, ...] = (),
 ) -> EvaluationResult:
     return EvaluationResult(
         scenario_id=scenario_id,

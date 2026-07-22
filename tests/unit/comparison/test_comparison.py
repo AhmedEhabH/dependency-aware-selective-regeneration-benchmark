@@ -8,13 +8,14 @@ from benchmark.comparison.aggregator import (
     aggregate_run_records,
 )
 from benchmark.comparison.ground_truth import GroundTruthCollection, GroundTruthComparator, GroundTruthEntry
-from benchmark.core.enums import ActionKind, ArtifactType, RunStatus
+from benchmark.core.enums import ActionKind, ArtifactType, BlastRadius, RunStatus
 from benchmark.core.models import (
     ArtifactRef,
     ImpactDecision,
     ImpactPrediction,
     RunIdentity,
     RunRecord,
+    Scenario,
 )
 from benchmark.evaluation.engine import EvaluationResult
 
@@ -64,7 +65,6 @@ class TestGroundTruthComparator:
             )
         )
 
-        from benchmark.core.models import BlastRadius, Scenario
         scenario = Scenario(
             scenario_id="test-scenario",
             repository="test-repo",
@@ -86,7 +86,6 @@ class TestGroundTruthComparator:
     def test_build_from_scenario(self) -> None:
         comparator = GroundTruthComparator()
 
-        from benchmark.core.models import BlastRadius, Scenario
         scenario = Scenario(
             scenario_id="test-scenario",
             repository="test-repo",
@@ -117,7 +116,6 @@ class TestGroundTruthComparator:
             )
         )
 
-        from benchmark.core.models import BlastRadius, Scenario
         scenario = Scenario(
             scenario_id="test-scenario",
             repository="test-repo",

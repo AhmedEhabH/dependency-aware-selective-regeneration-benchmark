@@ -1,0 +1,48 @@
+# Orchestration smoke profile: 1 scenario, 7 strategies, 1 repetition
+# Non-publication evidence. Default for Kaggle orchestration validation.
+# See PROTOCOL_VERSION.md §6 (DA-09)
+
+profile_label: orchestration-smoke
+protocol_version: "1.0"
+execution_mode: kaggle
+
+strategies:
+  - name: monolithic
+  - name: agent
+  - name: selective
+  - name: compiled_ai
+  - name: delta_mcp
+  - name: incr_rtl
+  - name: code_plan
+
+backends:
+  - name: qwen
+    kind: kaggle_qwen
+    params:
+      model_name: qwen2.5-coder
+
+repositories:
+  - name: todo
+    url: https://github.com/example/todo-app
+    ref: main
+
+scenario_selection:
+  repository_names:
+    - todo
+  blast_radii:
+    - localized
+  count: 1
+
+execution:
+  max_iterations: 3
+  max_tokens: 4096
+  timeout_seconds: 0
+  random_seed: 42
+  evidence_tier: smoke
+  repetitions: 1
+
+output:
+  output_dir: runs/smoke
+  format: jsonl
+  write_provenance: true
+  is_publication: false
