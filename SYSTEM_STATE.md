@@ -1,10 +1,10 @@
 # System State
 
 ## Current Phase
-**Phase 3.6 — Structure Remediation and Baseline Commit** (COMPLETE — Phase 4A authorized)
+**Phase 4A — Domain Models and Contracts** (COMPLETE — Phase 4B authorized)
 
 ## Current Task
-Phase 3.6 complete. Structural conflicts resolved, scenario blast_radius fixed, .gitignore updated, baseline commit created. Phase 4A is the exact next task.
+Phase 4A complete. All 11 source files (7 core + 4 config), 14 test files (111 tests), pyproject.toml, 2 doc files implemented. All quality gates pass. Phase 4B is the exact next task.
 
 ## Completed Work
 - [x] Phase 0 — Bootstrap and Environment (LOCAL_ENGINEERING_VALIDATED)
@@ -14,56 +14,51 @@ Phase 3.6 complete. Structural conflicts resolved, scenario blast_radius fixed, 
 - [x] Phase 3 — Repository and Scenario Preparation (COMPLETE)
 - [x] Phase 3.5 — Static Architecture Audit and Project Map (COMPLETE)
 - [x] Phase 3.6 — Structure Remediation and Baseline Commit (COMPLETE)
-- [x] Inspect full repository layout and identify structural conflicts
-- [x] Document duplicate root `docs/` and `benchmark_data/` outside Git
-- [x] Define canonical project root and path policy
-- [x] Create complete proposed project structure map
-- [x] Define 13-layer software architecture with dependency rules
-- [x] Specify 11 interface protocols (ImpactStrategy, LLMBackend, etc.)
-- [x] Document plugin/registry design with extension guide
-- [x] Define public/private data boundary
-- [x] Split Phase 4 into 6 implementation milestones (4A–4F)
-- [x] Create architecture validation plan with 11 checks
-- [x] Copy outer reference docs (`OPENCODE_EXECUTION_GUIDE.md`, `MASTER_IMPLEMENTATION_PLAN.md`) into `project/docs/`
-- [x] Delete stale outer `FINAL_RESEARCH_PROTOCOL_DECISIONS.md` and `HUMAN_DECISIONS_REQUIRED.md`
-- [x] Delete stale outer `benchmark_data/` (incomplete duplicate)
-- [x] Preserve `inputs/paper/` as immutable external data
-- [x] Fix blast_radius in 14 scenario YAMLs to match taxonomy standard
-- [x] Deduplicate `.gitignore` and add `runs/` entry
-- [x] Validate full project tree (79 files, 15 dirs, scaffold-only src)
-- [x] Create baseline commit `845ba49` (57 files, 7652 insertions)
-- [x] Create `reports/PHASE3_6_STRUCTURE_REMEDIATION_REPORT.md`
-- [x] Update `DECISION_LOG.md` (added D010)
-- [x] Update `SYSTEM_STATE.md`
-- [x] Update `TODO.md` (added Phase 3.6 tasks)
-- [x] Update `reports/latest_phase_report.md` (Phase 3.6 report)
+- [x] **Phase 4A — Domain Models and Contracts** (COMPLETE)
+- [x] Implement 6 StrEnum classes (ActionKind, ArtifactType, BlastRadius, RunStatus, FailureKind, EvidenceTier)
+- [x] Implement 12 typed exception classes with context dict
+- [x] Implement 24 frozen dataclass domain models with post-init validation
+- [x] Implement 11 runtime-checkable protocol interfaces
+- [x] Implement generic Registry[T] with freeze/lookup/list support
+- [x] Implement ExecutionContext (controlled-immutable)
+- [x] Implement 7 Pydantic v2 config models with cross-field validation
+- [x] Implement YAML config loader and structural validation
+- [x] Create package setup (pyproject.toml) with ruff/mypy/pytest config
+- [x] Write 111 unit/contract/isolation tests (all passing)
+- [x] Install package in editable mode for import resolution
+- [x] Verify quality gates: ruff (pass), mypy (pass), pytest (111/111 pass), pip check (pass)
+- [x] Create docs/PHASE4A_DOMAIN_MODEL_REFERENCE.md
+- [x] Create reports/PHASE4A_DOMAIN_MODELS_REPORT.md
+- [x] Update DECISION_LOG.md (added D011)
+- [x] Update SYSTEM_STATE.md
+- [x] Update TODO.md (added Phase 4A tasks)
+- [x] Update reports/latest_phase_report.md (Phase 4A report)
+- [x] All Phase 3.6 tasks (see baseline)
 
-## Files Created
-18 under `docs/`:
-- 8 frozen protocol (Phase 2B)
-- 8 architecture (Phase 3.5)
-- 2 reference copies (Phase 3.6): `OPENCODE_EXECUTION_GUIDE.md`, `MASTER_IMPLEMENTATION_PLAN.md`
-29 under `benchmark_data/`:
-- `benchmark_data/manifests/repositories.yaml`
-- `benchmark_data/manifests/repository_versions.yaml`
-- `benchmark_data/repository_profiles/todo.yaml`
-- `benchmark_data/repository_profiles/djangocms.yaml`
-- `benchmark_data/repository_profiles/saleor.yaml`
-- 24 scenario YAMLs under `benchmark_data/scenarios/` (8 per repo)
-14 under `reports/`:
-- Phase 2B: `PHASE2B_PROTOCOL_FREEZE_REPORT.md`
-- Phase 3: `REPOSITORY_SELECTION_REPORT.md`, `REPOSITORY_ARCHITECTURE_BOUNDARIES.md`, `SCENARIO_DESIGN_REPORT.md`, `LICENSING_AND_REDISTRIBUTION.md`, `KAGGLE_FEASIBILITY_REPORT.md`, `PHASE3_REPOSITORY_SCENARIO_REPORT.md`
-- Phase 3.5: `PHASE3_5_ARCHITECTURE_AUDIT.md`, `PROJECT_STRUCTURE_CONFLICT_REPORT.md`
-- Phase 3.6: `PHASE3_6_STRUCTURE_REMEDIATION_REPORT.md`
+## Files Created (Phase 4A) — 28 new files + 4 modified
 
-## Files Modified (Phase 3.6)
-- `.gitignore` (deduplicated, added `runs/`, added report exceptions)
-- `benchmark_data/scenarios/djangocms-*.yaml` (8 files, blast_radius corrected)
-- `benchmark_data/scenarios/saleor-*.yaml` (8 files, blast_radius corrected)
-- `DECISION_LOG.md` (added D010)
+### Source — 11 files
+7 under `src/benchmark/core/`: `__init__.py`, `enums.py`, `exceptions.py`, `models.py`, `protocols.py`, `registry.py`, `context.py`
+4 under `src/benchmark/config/`: `__init__.py`, `models.py`, `loader.py`, `validation.py`
+
+### Tests — 14 files (111 tests)
+10 test files: `test_enums.py` (8), `test_models.py` (34), `test_exceptions.py` (15), `test_registry.py` (9), `test_context.py` (9), `test_config_models.py` (16), `test_protocol_conformance.py` (11), `test_import_isolation.py` (3), `conftest.py`, `mock_implementations.py`
+4 package init files: `tests/__init__.py`, `tests/unit/__init__.py`, `tests/contract/__init__.py`, `tests/fixtures/__init__.py`
+
+### Build — 1 file: `pyproject.toml`
+
+### Documentation — 2 files
+`docs/PHASE4A_DOMAIN_MODEL_REFERENCE.md`, `reports/PHASE4A_DOMAIN_MODELS_REPORT.md`
+
+### Modified — 4 state files
+`DECISION_LOG.md`, `SYSTEM_STATE.md`, `TODO.md`, `reports/latest_phase_report.md`
+
+## Files Modified (Phase 4A)
+- `pyproject.toml` — Added project metadata, pytest, ruff, mypy config
+- `DECISION_LOG.md` (added D011)
 - `SYSTEM_STATE.md` (this file)
-- `TODO.md` (added Phase 3.6 tasks)
-- `reports/latest_phase_report.md` (Phase 3.6 report)
+- `TODO.md` (added Phase 4A tasks)
+- `reports/latest_phase_report.md` (Phase 4A report)
 
 ## Frozen Protocol Checksums (SHA-256)
 
@@ -87,49 +82,22 @@ Phase 3.6 complete. Structural conflicts resolved, scenario blast_radius fixed, 
 - **Package resolver:** conda (defaults channel) + pip
 - **Dependency conflicts:** None
 
-## Local Checks Passed
-- All 14 DA decisions applied and verified: ✅
-- All 11 AC corrections applied and verified: ✅
-- 9 contradictions reconciled: ✅
-- No unresolved REQUIRES_RESEARCHER_APPROVAL items: ✅
-- Regression pass-rate formula corrected: ✅
-- Hidden tests separated from held-out scenarios: ✅
-- Failed strategies remain in analysis: ✅
-- Repair budgets uniform (max 2): ✅
-- Candidate artifact universe freeze policy explicit: ✅
-- Kaggle monetary cost not fabricated: ✅
-- Protocol amendment rules explicit: ✅
-- Authoritative proposal unchanged: ✅
-- All 8 frozen documents SHA-256 checksums generated: ✅
-- DA-03 compliance verified (all versions ≥ 90 days): ✅
-- DA-01 compliance verified (automated test suites): ✅
-- DA-02 compliance verified (permissive licenses): ✅
-- 24 scenarios designed across 3 repositories: ✅
-- All 8 change types covered per repository: ✅
-- All 3 blast radii represented: ✅
-- Hidden tests defined per scenario (AC-03): ✅
-- Canonical project root explicitly identified: ✅
-- Duplicate root/project directories documented: ✅
-- 13-layer architecture defined with dependency rules: ✅
-- 11 interface protocols specified: ✅
-- Plugin/registry design documented: ✅
-- Public/private data boundary defined: ✅
-- Phase 4 split into 6 milestones (4A–4F): ✅
-- Architecture validation plan with 11 checks: ✅
-- No benchmark implementation started: ✅
-- No Qwen model downloaded or executed: ✅
-- Outer reference docs copied into project/docs/: ✅
-- Stale outer docs deleted (2 superseded files): ✅
-- Stale outer benchmark_data/ deleted: ✅
-- External inputs preserved as immutable: ✅
-- All 24 scenario blast_radius values taxonomy-compliant: ✅
-- .gitignore deduplicated with runs/ added: ✅
-- Project tree validated (79 files, scaffold-only src): ✅
-- Baseline commit created (845ba49, 57 files): ✅
-- Working tree clean after commit: ✅
-
-## Local Checks Failed
-- None
+## Local Checks Passed (Phase 4A)
+- 6 StrEnum classes with stable string values: ✅
+- 12 exception classes in typed hierarchy: ✅
+- 24 frozen dataclass models with post-init validation: ✅
+- 11 runtime-checkable protocol interfaces: ✅
+- Generic Registry[T] with freeze/lookup/list: ✅
+- ExecutionContext with controlled immutability: ✅
+- 7 Pydantic v2 config models with cross-field validation: ✅
+- YAML config loader and structural validation: ✅
+- Package installable in editable mode: ✅
+- Ruff lint+format: 0 violations: ✅
+- Mypy strict: 0 errors: ✅
+- Pytest: 111/111 passed (0.79s): ✅
+- pip check: no broken requirements: ✅
+- Import isolation: torch/transformers not imported by benchmark package: ✅
+- All prior Phase 3/3.5/3.6 checks: ✅
 
 ## Kaggle Checks Pending
 - Real model loading or inference
@@ -139,28 +107,29 @@ Phase 3.6 complete. Structural conflicts resolved, scenario blast_radius fixed, 
 - Runtime metrics
 
 ## Current Branch
-`main` (baseline commit created — all Phase 3, 3.5, 3.6 work committed)
+`main` (Phase 4A committed)
 
 ## Latest Commit
-`845ba49` — "Phase 3 + 3.5 + 3.6: repo/scenario prep, architecture audit, structure remediation"
+`60ba911` — "feat(core): add immutable domain models and contracts"
 
 ## Known Risks
-1. **LR-2 — No notebook isolation:** `notebooks/` empty; need local vs. Kaggle separation convention.
-2. **LR-3 — No test data boundary:** Test fixtures need a defined home outside `inputs/` and `src/`.
-3. **LR-4 — Phase boundary confusion:** `src/benchmark/` exists as scaffold; must not be expanded before Phase 4.
-4. **LR-5 — Paper vs. implementation drift:** Must document any conflict rather than silently resolving.
-5. Full `jupyter` metapackage not installed. Core notebook tools present.
-6. Torch/transformers intentionally not installed locally (Kaggle-only).
-7. **LR-7 — django CMS and Saleor not yet cloned locally:** Test suite runnability not verified locally beyond manifest documentation.
-8. **LR-8 — Scenario content quality:** YAML files generated by automated agents; manual review recommended before Phase 4.
+1. **LR-3 — No test data boundary:** Test fixtures need a defined home outside `inputs/` and `src/`.
+2. **LR-5 — Paper vs. implementation drift:** Must document any conflict rather than silently resolving.
+3. **LR-7 — django CMS and Saleor not yet cloned locally:** Test suite runnability not verified locally beyond manifest documentation.
+4. **LR-8 — Scenario content quality:** YAML files generated by automated agents; manual review recommended before Phase 4.
 
 ## Exact Next Task
-**Phase 4A — Domain Models and Contracts**: Implement immutable data models in `src/benchmark/core/` (enums, models, exceptions, protocols, registry, context) and configuration models in `src/benchmark/config/` (models, loader, validation). No strategy or execution code. Use frozen dataclasses, typed protocols, Pydantic config models. Include unit tests for all models and protocols.
+**Phase 4B — Loaders and Validation**: Implement repository adapters, scenario loaders, manifest loading, YAML validation, snapshot management, and workspace isolation. No strategy or execution code.
 
 ## Handoff Notes
-Phase 3.6 is complete. All structural conflicts resolved: stale outer copies deleted, reference docs preserved, all 24 scenario blast_radius values taxonomy-compliant, `.gitignore` deduplicated, baseline commit created. Architecture is frozen with 13 layers, 11 interface protocols, and strict dependency rules. Phase 4 is split into 6 milestones (4A–4F). Phase 4A is authorized but has not started. Do not implement Phase 4A during this session. Do not download or run any LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives). Working tree is clean after commit `845ba49`.
+Phase 4A is complete and committed (`60ba911`). All domain models, enums, exceptions, protocols, registry, context, and config models implemented under `src/benchmark/core/` and `src/benchmark/config/`. Package installed in editable mode (`pip install -e .`). Quality gates: ruff (pass), mypy (pass), pytest 111/111 (pass), pip check (pass). Working tree is clean. Do not download or run any LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives).
 
 Environment activation:
 ```bash
 conda activate selective-regen-benchmark
+```
+
+Run tests:
+```bash
+conda run -n selective-regen-benchmark python -m pytest tests/unit tests/contract tests/test_import_isolation.py -v --tb=short
 ```

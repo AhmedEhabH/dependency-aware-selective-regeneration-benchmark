@@ -176,3 +176,39 @@
   - Created baseline commit `845ba49` (57 files, 7652 insertions)
 - **Impact:** Phase 3.6 deliverables complete. Structural conflicts resolved. Working tree clean. Phase 4A (Domain Models and Contracts) is the exact next task.
 - **Evidence:** `reports/PHASE3_6_STRUCTURE_REMEDIATION_REPORT.md`, Git commit `845ba49`.
+
+---
+
+## Decision D011 — Phase 4A Domain Models and Contracts
+- **Date:** 2026-07-22
+- **Decision ID:** D011
+- **Status:** IMPLEMENTED
+- **Category:** Core Implementation
+- **Description:** Execute Phase 4A — Domain Models and Contracts. Implement all domain models (enums, exceptions, models, protocols, registry, context) in `src/benchmark/core/` and config models/loader/validation in `src/benchmark/config/`.
+- **Rationale:** Phase 4A is the first implementation milestone (Layer 1 and 2 of the 13-layer architecture). Domain models must exist before loaders, strategies, or execution code can be written.
+- **Alternatives considered:** Skip Phase 4A and implement everything at once — rejected because the architecture blueprint explicitly requires layered implementation and the milestone dependencies were defined in Phase 3.5.
+- **Implementation scope:**
+  - 6 StrEnum classes in `src/benchmark/core/enums.py`
+  - 12 typed exception classes in `src/benchmark/core/exceptions.py`
+  - 24 frozen dataclass models in `src/benchmark/core/models.py`
+  - 11 runtime-checkable protocol interfaces in `src/benchmark/core/protocols.py`
+  - Generic `Registry[T]` in `src/benchmark/core/registry.py`
+  - `ExecutionContext` in `src/benchmark/core/context.py`
+  - 7 Pydantic v2 config models in `src/benchmark/config/models.py`
+  - YAML loader in `src/benchmark/config/loader.py`
+  - Structural validation in `src/benchmark/config/validation.py`
+  - 106 tests across 8 test files
+  - `pyproject.toml` with ruff/mypy/pytest configuration
+- **Design decisions:**
+  - `ExecutionContext` is controlled-mutable (frozen=False) to allow budget/seed updates during execution
+  - `Registry[T]` supports `freeze()` to prevent mutations after configuration is finalized
+  - Pydantic models use `frozen=True` for immutability consistency
+  - ImpactStrategy protocol permits BenchmarkError subclasses to propagate
+- **Quality gates:**
+  - Ruff: 0 violations ✅
+  - Mypy strict: 0 errors ✅
+  - Pytest: 106/106 passed in 0.75s ✅
+  - pip check: no broken requirements ✅
+  - Import isolation: torch/transformers not imported at package load ✅
+- **Impact:** Phase 4A deliverables complete. Domain layer and config layer implemented. 17 source files created, 8 test files created, 2 documentation files created. Phase 4B (Loaders and Validation) is the exact next task.
+- **Evidence:** `docs/PHASE4A_DOMAIN_MODEL_REFERENCE.md`, `reports/PHASE4A_DOMAIN_MODELS_REPORT.md`, all files under `src/benchmark/core/` and `src/benchmark/config/`.

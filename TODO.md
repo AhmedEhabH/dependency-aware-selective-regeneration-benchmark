@@ -563,3 +563,135 @@
 - **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** git log, git status, state file diffs
+
+## Phase 4A — Domain Models and Contracts
+
+### T401 — Implement Enums
+- **Priority:** HIGH
+- **Category:** Core
+- **Description:** Implement 6 StrEnum classes (ActionKind, ArtifactType, BlastRadius, RunStatus, FailureKind, EvidenceTier)
+- **Acceptance Criteria:** All enums have stable string values; JSON/YAML serializable
+- **Dependencies:** T364
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/core/enums.py, tests/unit/test_enums.py (8 tests)
+
+### T402 — Implement Exception Hierarchy
+- **Priority:** HIGH
+- **Category:** Core
+- **Description:** Implement typed exception hierarchy rooted at BenchmarkError with context dict support
+- **Acceptance Criteria:** All 12 classes properly subclassed; context preserved in repr
+- **Dependencies:** T401
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/core/exceptions.py, tests/unit/test_exceptions.py (15 tests)
+
+### T403 — Implement Domain Models
+- **Priority:** HIGH
+- **Category:** Core
+- **Description:** Implement 24 frozen dataclass models with post-init validation
+- **Acceptance Criteria:** All models frozen; validation rejects empty strings/negative values/duplicates
+- **Dependencies:** T401, T402
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/core/models.py, tests/unit/test_models.py (34 tests)
+
+### T404 — Implement Protocol Interfaces
+- **Priority:** HIGH
+- **Category:** Core
+- **Description:** Implement 11 runtime-checkable typing.Protocol interfaces
+- **Acceptance Criteria:** All protocols have correct method signatures; conformance checkable via isinstance
+- **Dependencies:** T403
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/core/protocols.py, tests/contract/test_protocol_conformance.py (11 tests)
+
+### T405 — Implement Registry
+- **Priority:** HIGH
+- **Category:** Core
+- **Description:** Implement generic Registry[T] with register, create, get, list_names, freeze
+- **Acceptance Criteria:** Duplicate/unknown raise typed errors; freeze prevents registration
+- **Dependencies:** T402
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/core/registry.py, tests/unit/test_registry.py (9 tests)
+
+### T406 — Implement ExecutionContext
+- **Priority:** HIGH
+- **Category:** Core
+- **Description:** Implement ExecutionContext with controlled immutability
+- **Acceptance Criteria:** Defaults correct; private_evaluation_access defaults to False; empty strings rejected
+- **Dependencies:** T403
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/core/context.py, tests/unit/test_context.py (9 tests)
+
+### T407 — Implement Config Models
+- **Priority:** HIGH
+- **Category:** Config
+- **Description:** Implement 7 Pydantic v2 config models with cross-field validation
+- **Acceptance Criteria:** Kaggle backend rejected in local mode; budgets positive; YAML round-trip works
+- **Dependencies:** T403
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/config/models.py, tests/unit/test_config_models.py (16 tests)
+
+### T408 — Implement Config Loader and Validation
+- **Priority:** HIGH
+- **Category:** Config
+- **Description:** Implement YAML config loader and structural validation
+- **Acceptance Criteria:** Valid configs load; invalid configs raise typed errors
+- **Dependencies:** T407
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/config/loader.py, src/benchmark/config/validation.py
+
+### T409 — Create Package Setup
+- **Priority:** HIGH
+- **Category:** Build
+- **Description:** Create pyproject.toml with project metadata, ruff/mypy/pytest configuration
+- **Acceptance Criteria:** Package installable via pip install -e .; all linters runnable
+- **Dependencies:** T401–T408
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** pyproject.toml
+
+### T410 — Write Import Isolation Tests
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** Write subprocess test verifying torch/transformers not imported by benchmark package
+- **Acceptance Criteria:** All 3 isolation tests pass
+- **Dependencies:** T409
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** tests/test_import_isolation.py (3 tests)
+
+### T411 — Run Quality Gates
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Run ruff, mypy, pytest, pip check; fix all issues
+- **Acceptance Criteria:** All quality gates pass
+- **Dependencies:** T410
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** All 111 tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+
+### T412 — Create Documentation and Reports
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create docs/PHASE4A_DOMAIN_MODEL_REFERENCE.md and reports/PHASE4A_DOMAIN_MODELS_REPORT.md
+- **Acceptance Criteria:** Both files present with complete content
+- **Dependencies:** T411
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Both files written to disk
+
+### T413 — Update State Files
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 4A
+- **Acceptance Criteria:** All state files consistent; Phase 4B as exact next task
+- **Dependencies:** T412
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Edits to all four state files
