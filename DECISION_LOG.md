@@ -212,3 +212,38 @@
   - Import isolation: torch/transformers not imported at package load ✅
 - **Impact:** Phase 4A deliverables complete. Domain layer and config layer implemented. 17 source files created, 8 test files created, 2 documentation files created. Phase 4B (Loaders and Validation) is the exact next task.
 - **Evidence:** `docs/PHASE4A_DOMAIN_MODEL_REFERENCE.md`, `reports/PHASE4A_DOMAIN_MODELS_REPORT.md`, all files under `src/benchmark/core/` and `src/benchmark/config/`.
+
+---
+
+## Decision D012 — Phase 4B Loaders and Validation
+- **Date:** 2026-07-22
+- **Decision ID:** D012
+- **Status:** IMPLEMENTED
+- **Category:** Core Implementation
+- **Description:** Execute Phase 4B — Loaders and Validation. Implement repository adapters, manifest models, YAML loading, snapshot management, workspace isolation, scenario models (dual-format YAML), scenario loading, validation, and sequencing.
+- **Rationale:** Phase 4B requires loaders and validation before execution pipeline can be built. Repository profiles, version manifests, and scenario YAMLs must be loadable from disk.
+- **Alternatives considered:** Skip loaders and hardcode scenario data — rejected because it would make the benchmark data-driven as required by the architecture.
+- **Implementation scope:**
+  - `RepositoryLoaderBase` abstract base with `resolve_identity` / `resolve_snapshot`
+  - `RepositoryManifest`, `RepositoryVersionEntry`, `RepositoryProfile`, `ManifestCollection` (frozen dataclasses)
+  - `RepositoryLoader` YAML loading from `manifests/` and `repository_profiles/`
+  - `SnapshotMetadata`, `create_snapshot_metadata()`, `validate_snapshot()`
+  - `WorkspacePath`, `validate_workspace_path()`, `check_isolation()`
+  - `ScenarioModel` with `to_core_scenario()` and dual-format expected_actions parsing
+  - `ScenarioLoader` with `load_all()` and `load_by_repository()`
+  - `ScenarioValidator` with required field checks and duplicate action detection
+  - `ScenarioSequencer` ordering by blast_radius
+  - 95 new tests (84 unit/contract + 11 integration); 206 total suite
+- **Design decisions:**
+  - Dual-format expected_actions: supports both standard `"path:Symbol": action` and action-grouped `action: [paths]` YAML formats
+  - Deduplication in `to_core_scenario()` to handle real benchmark data
+  - Snapshot validation reports all issues (does not raise) for composability
+  - Workspace isolation uses `Path.resolve()` for accurate comparison
+- **Quality gates:**
+  - Ruff: 0 violations ✅
+  - Mypy strict: 0 errors ✅
+  - Pytest: 206/206 passed in 1.77s ✅
+  - pip check: no broken requirements ✅
+  - Import isolation: torch/transformers not imported at package load ✅
+- **Impact:** Phase 4B deliverables complete. 11 production files created under `src/benchmark/repositories/` and `src/benchmark/scenarios/`. 14 test files created. Phase 4C (Model Backends) is the exact next task.
+- **Evidence:** `docs/PHASE4B_LOADERS_AND_VALIDATION_REFERENCE.md`, `reports/PHASE4B_LOADERS_AND_VALIDATION_REPORT.md`, all files under `src/benchmark/repositories/` and `src/benchmark/scenarios/`.

@@ -695,3 +695,277 @@
 - **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** Edits to all four state files
+
+## Phase 4B — Loaders and Validation
+
+### T4B01 — Implement RepositoryLoaderBase
+- **Priority:** HIGH
+- **Category:** Repositories
+- **Description:** Implement abstract base with resolve_identity and resolve_snapshot in src/benchmark/repositories/base.py
+- **Acceptance Criteria:** Base class defines interface; subclasses can override resolve_identity and resolve_snapshot
+- **Dependencies:** T413
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/repositories/base.py
+
+### T4B02 — Implement Manifest Models
+- **Priority:** HIGH
+- **Category:** Repositories
+- **Description:** Implement RepositoryManifest, RepositoryVersionEntry, RepositoryProfile, ManifestCollection (frozen dataclasses) in src/benchmark/repositories/manifest.py
+- **Acceptance Criteria:** All models frozen; validation rejects empties; duplicate detection in collection
+- **Dependencies:** T4B01
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/repositories/manifest.py
+
+### T4B03 — Implement RepositoryLoader
+- **Priority:** HIGH
+- **Category:** Repositories
+- **Description:** Implement YAML loading from manifests/ and repository_profiles/ in src/benchmark/repositories/loader.py
+- **Acceptance Criteria:** Loads real YAML files; builds ManifestCollection; raises typed errors on missing/invalid files
+- **Dependencies:** T4B02
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/repositories/loader.py
+
+### T4B04 — Implement Snapshot Metadata and Validation
+- **Priority:** HIGH
+- **Category:** Repositories
+- **Description:** Implement SnapshotMetadata, create_snapshot_metadata(), validate_snapshot() in src/benchmark/repositories/snapshot.py
+- **Acceptance Criteria:** Metadata creation validates fields; snapshot validation reports issues without raising
+- **Dependencies:** T4B03
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/repositories/snapshot.py
+
+### T4B05 — Implement Workspace Isolation
+- **Priority:** HIGH
+- **Category:** Repositories
+- **Description:** Implement WorkspacePath, validate_workspace_path(), check_isolation() in src/benchmark/repositories/workspace.py
+- **Acceptance Criteria:** Isolation check prevents same-path and nested-path violations; nonexistent paths allowed
+- **Dependencies:** T4B04
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/repositories/workspace.py
+
+### T4B06 — Implement Repositories Package Init
+- **Priority:** HIGH
+- **Category:** Repositories
+- **Description:** Create src/benchmark/repositories/__init__.py with public exports
+- **Acceptance Criteria:** All public classes and functions exported
+- **Dependencies:** T4B05
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/repositories/__init__.py
+
+### T4B07 — Implement ScenarioModel
+- **Priority:** HIGH
+- **Category:** Scenarios
+- **Description:** Implement ScenarioModel dataclass with to_core_scenario() and dual-format expected_actions parsing in src/benchmark/scenarios/models.py
+- **Acceptance Criteria:** Both standard and action-grouped YAML formats parsed; deduplication; conversion to core Scenario
+- **Dependencies:** T413
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/scenarios/models.py
+
+### T4B08 — Implement ScenarioLoader
+- **Priority:** HIGH
+- **Category:** Scenarios
+- **Description:** Implement ScenarioLoader with load_all() and load_by_repository() in src/benchmark/scenarios/loader.py
+- **Acceptance Criteria:** Loads all 24 real scenario YAMLs; raises typed errors on missing/invalid files
+- **Dependencies:** T4B07
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/scenarios/loader.py
+
+### T4B09 — Implement ScenarioValidator
+- **Priority:** HIGH
+- **Category:** Scenarios
+- **Description:** Implement ScenarioValidator with required field checks and duplicate action detection in src/benchmark/scenarios/validator.py
+- **Acceptance Criteria:** Validates required fields; detects duplicate expected_actions; validate_all returns all errors
+- **Dependencies:** T4B08
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/scenarios/validator.py
+
+### T4B10 — Implement ScenarioSequencer
+- **Priority:** HIGH
+- **Category:** Scenarios
+- **Description:** Implement ScenarioSequencer ordering scenarios by blast_radius (localized → moderate → cross_cutting) in src/benchmark/scenarios/sequencing.py
+- **Acceptance Criteria:** Ordering correct; ties broken by scenario_id; empty list handled; by-repository filtering works
+- **Dependencies:** T4B09
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/scenarios/sequencing.py
+
+### T4B11 — Implement Scenarios Package Init
+- **Priority:** HIGH
+- **Category:** Scenarios
+- **Description:** Create src/benchmark/scenarios/__init__.py with public exports
+- **Acceptance Criteria:** All public classes and functions exported
+- **Dependencies:** T4B10
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/scenarios/__init__.py
+
+### T4B12 — Write Repository Tests
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** Write unit tests for manifest (15), loader (8), snapshot (12), workspace (9); integration test (6)
+- **Acceptance Criteria:** All 50 repository tests pass
+- **Dependencies:** T4B06
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 4 unit + 1 integration test files (50 tests)
+
+### T4B13 — Write Scenario Tests
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** Write unit tests for models (11), loader (9), validator (7), sequencing (5); integration test (5)
+- **Acceptance Criteria:** All 37 scenario tests pass
+- **Dependencies:** T4B11
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 4 unit + 1 integration test files (37 tests)
+
+### T4B14 — Write Loaders Contract Tests
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** Write contract tests verifying RepositoryLoader and ScenarioLoader conform to RepositoryAdapter and ScenarioProvider protocols
+- **Acceptance Criteria:** All 4 contract tests pass
+- **Dependencies:** T4B12, T4B13
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** tests/contract/test_loaders_contract.py (4 tests)
+
+### T4B15 — Run Quality Gates
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Run ruff, mypy, pytest, pip check; fix all issues
+- **Acceptance Criteria:** All quality gates pass; 206 total tests
+- **Dependencies:** T4B14
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 206/206 tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+
+### T4B16 — Create Documentation and Reports
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create docs/PHASE4B_LOADERS_AND_VALIDATION_REFERENCE.md and reports/PHASE4B_LOADERS_AND_VALIDATION_REPORT.md
+- **Acceptance Criteria:** Both files present with complete content
+- **Dependencies:** T4B15
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Both files written to disk
+
+### T4B17 — Update State Files
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 4B
+- **Acceptance Criteria:** All state files consistent; Phase 4C as exact next task
+- **Dependencies:** T4B16
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Edits to all four state files
+
+## Phase 4C — Model Backends
+
+### T4C01 — Create LLM Package Structure
+- **Priority:** HIGH
+- **Category:** LLM
+- **Description:** Create src/benchmark/llm/ package with __init__.py, base.py, mock_backend.py, dry_run_backend.py, kaggle_qwen_backend.py
+- **Acceptance Criteria:** Package imports without torch or transformers
+- **Dependencies:** T4B17
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Package exists; import isolation verified
+
+### T4C02 — Implement Backend Base and Registry Integration
+- **Priority:** HIGH
+- **Category:** LLM
+- **Description:** Implement BackendFactory class that registers MockLLMBackend, DryRunLLMBackend, KaggleQwenBackend in a Registry and creates them by name
+- **Acceptance Criteria:** Factory creates correct backend given name; unknown names raise typed errors
+- **Dependencies:** T4C01
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/llm/ and associated tests
+
+### T4C03 — Implement MockLLMBackend
+- **Priority:** HIGH
+- **Category:** LLM
+- **Description:** Implement deterministic mock backend returning fixture responses
+- **Acceptance Criteria:** Returns configured response; LLMResponse with correct token_usage; deterministic
+- **Dependencies:** T4C01
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/llm/mock_backend.py
+
+### T4C04 — Implement DryRunLLMBackend
+- **Priority:** HIGH
+- **Category:** LLM
+- **Description:** Implement dry-run backend that loads fixture responses from files
+- **Acceptance Criteria:** Reads responses from JSON files; falls back to default response; never calls an API
+- **Dependencies:** T4C01
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/llm/dry_run_backend.py
+
+### T4C05 — Implement KaggleQwenBackend Skeleton
+- **Priority:** HIGH
+- **Category:** LLM
+- **Description:** Implement safe skeleton with lazy torch/transformers imports; raises informative error if called outside Kaggle
+- **Acceptance Criteria:** Imports without torch (lazy); generates sensible error message when called locally; actual inference code deferred to Kaggle
+- **Dependencies:** T4C01
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** src/benchmark/llm/kaggle_qwen_backend.py; import test passes without torch
+
+### T4C06 — Write Backend Tests
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** Write tests for mock backend deterministic output; dry-run fixture loading; import test that Kaggle backend does NOT require torch; factory integration tests
+- **Acceptance Criteria:** All tests pass; import isolation verified
+- **Dependencies:** T4C02, T4C03, T4C04, T4C05
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Test files
+
+### T4C07 — Run Quality Gates
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Run ruff, mypy, pytest, pip check; fix all issues
+- **Acceptance Criteria:** All quality gates pass
+- **Dependencies:** T4C06
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** All tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+
+### T4C08 — Create Documentation and Reports
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create docs/PHASE4C_MODEL_BACKENDS_REFERENCE.md and reports/PHASE4C_MODEL_BACKENDS_REPORT.md
+- **Acceptance Criteria:** Both files present with complete content
+- **Dependencies:** T4C07
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Both files written to disk
+
+### T4C09 — Update State Files
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 4C
+- **Acceptance Criteria:** All state files consistent; Phase 4D as exact next task
+- **Dependencies:** T4C08
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Edits to all four state files
+
+### T4C10 — Branch Workflow (Commit, Push, Merge)
+- **Priority:** HIGH
+- **Category:** VCS
+- **Description:** Create phase/4c-model-backends branch; commit all Phase 4C work; push branch; safe merge to main; push main
+- **Acceptance Criteria:** Branch created, committed, pushed, merged; main clean and synced with origin
+- **Dependencies:** T4C07
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Git log shows branch/merge/push
