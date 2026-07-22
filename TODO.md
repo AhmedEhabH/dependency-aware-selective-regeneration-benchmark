@@ -970,6 +970,114 @@
 - **Owner:** OpenCode
 - **Evidence:** Git log shows branch/merge/push
 
-## Phase 4D — Execution Core (PENDING)
+## Phase 4D — Execution Core (COMPLETE)
 
-_Phase 4D tasks to be defined at Phase 4D kickoff._
+### T4D01 — Create Execution Package Structure
+- **Priority:** HIGH
+- **Category:** Execution
+- **Description:** Create `src/benchmark/execution/` package with `__init__.py`, `budgets.py`, `state_machine.py`, `repair.py`, `isolation.py`, `runner.py`, `pipeline.py`
+- **Acceptance Criteria:** Package imports without torch or transformers
+- **Dependencies:** T4C10
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/execution/` exists with 7 files
+
+### T4D02 — Implement BudgetManager
+- **Priority:** HIGH
+- **Category:** Execution
+- **Description:** Implement BudgetManager with injectable Clock, max_attempts/max_tokens/timeout enforcement, per-attempt tracking
+- **Acceptance Criteria:** Cannot exceed max_attempts; token budget enforced; timeout detection works; reset clears state
+- **Dependencies:** T4D01
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 14 tests in `test_budgets.py`
+
+### T4D03 — Implement RunStateMachine
+- **Priority:** HIGH
+- **Category:** Execution
+- **Description:** Implement RunStateMachine with 6 states (prepared→running→succeeded/failed/timed_out/cancelled) and terminal-state protection
+- **Acceptance Criteria:** All valid transitions accepted; invalid transitions raise InvalidTransitionError; terminal states block further transitions
+- **Dependencies:** T4D01
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 13 tests in `test_state_machine.py`
+
+### T4D04 — Implement RepairLoop
+- **Priority:** HIGH
+- **Category:** Execution
+- **Description:** Implement RepairLoop with 1+2 attempt lifecycle, configurable FailureClassifier, BudgetManager integration
+- **Acceptance Criteria:** First-attempt success returns immediately; failures retry up to budget; BenchmarkError handling; custom classifier support
+- **Dependencies:** T4D02, T4D03
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 8 tests in `test_repair.py`
+
+### T4D05 — Implement IsolationContext
+- **Priority:** HIGH
+- **Category:** Execution
+- **Description:** Implement IsolationContext wrapping Phase 4B workspace utilities with private data detection
+- **Acceptance Criteria:** Workspace isolation verified; private paths detected; run/temp directories created
+- **Dependencies:** T4D01
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 9 tests in `test_isolation.py`
+
+### T4D06 — Implement BenchmarkRunner
+- **Priority:** HIGH
+- **Category:** Execution
+- **Description:** Implement BenchmarkRunner coordinating ImpactStrategy + LLMBackend + IsolationContext into RunRecord
+- **Acceptance Criteria:** Full run lifecycle; dry_run returns success with 0 duration; isolation failure returns failure record; budgets honored
+- **Dependencies:** T4D02, T4D03, T4D04, T4D05
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 7 tests in `test_runner.py`
+
+### T4D07 — Implement BenchmarkPipeline
+- **Priority:** HIGH
+- **Category:** Execution
+- **Description:** Implement BenchmarkPipeline with single/batch/dry-run modes, PipelineResult aggregation
+- **Acceptance Criteria:** Single scenario runs; batch runs all; dry_run skips strategy; failure tracking works
+- **Dependencies:** T4D06
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 6 tests in `test_pipeline.py`
+
+### T4D08 — Run Quality Gates
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Run ruff, mypy, pytest, pip check; fix all issues
+- **Acceptance Criteria:** All quality gates pass; 288 total tests
+- **Dependencies:** T4D01–T4D07
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 288/288 tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+
+### T4D09 — Create Documentation and Reports
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create docs/PHASE4D_EXECUTION_CORE_REFERENCE.md and reports/PHASE4D_EXECUTION_CORE_REPORT.md
+- **Acceptance Criteria:** Both files present with complete content
+- **Dependencies:** T4D08
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Both files written to disk
+
+### T4D10 — Update State Files
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 4D
+- **Acceptance Criteria:** All state files consistent; Phase 4E as exact next task
+- **Dependencies:** T4D09
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Edits to all four state files
+
+### T4D11 — Branch Workflow (Commit, Push, Merge)
+- **Priority:** HIGH
+- **Category:** VCS
+- **Description:** Create phase/4d-execution-core branch; commit all Phase 4D work; push branch; safe merge to main; push main
+- **Acceptance Criteria:** Branch created, committed, pushed, merged; main clean and synced with origin
+- **Dependencies:** T4D08
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Git log shows branch/merge/push

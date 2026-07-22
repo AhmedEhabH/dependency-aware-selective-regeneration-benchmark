@@ -277,3 +277,44 @@
   - Import isolation: `import benchmark.llm` does not import torch/transformers ✅
 - **Impact:** Phase 4C deliverables complete. 5 production files, 6 test files, 2 doc files. Phase 4D (Execution Core) is the exact next task.
 - **Evidence:** `docs/PHASE4C_MODEL_BACKENDS_REFERENCE.md`, `reports/PHASE4C_MODEL_BACKENDS_REPORT.md`, all files under `src/benchmark/llm/` and `tests/unit/llm/`.
+
+---
+
+## Decision D014 — Phase 4D Execution Core
+- **Date:** 2026-07-22
+- **Decision ID:** D014
+- **Status:** IMPLEMENTED
+- **Category:** Execution Orchestration
+- **Description:** Execute Phase 4D — Execution Core. Implement BudgetManager, RunStateMachine, RepairLoop, IsolationContext, BenchmarkRunner, and BenchmarkPipeline under `src/benchmark/execution/`.
+- **Rationale:** Phase 4D implements Layer 8 (Execution Orchestration) of the 13-layer architecture. The execution pipeline is required before strategies, graph analysis, and evaluation (Phase 4E) can be built.
+- **Alternatives considered:** Implement execution and strategies together — rejected because the blueprint explicitly separates orchestration (4D) from strategy composition (4E).
+- **Implementation scope:**
+  - `BudgetManager`: injectable Clock, multi-axis enforcement (attempts/tokens/timeout), per-attempt tracking, reset
+  - `RunStateMachine`: 6-state lifecycle (prepared→running→succeeded/failed/timed_out/cancelled), typed transitions, terminal-state protection
+  - `RepairLoop`: 1+2 attempt lifecycle, configurable FailureClassifier, BudgetManager integration
+  - `IsolationContext`: wraps Phase 4B workspace utilities, private data detection, run/temp directory creation
+  - `BenchmarkRunner`: coordinates ImpactStrategy + LLMBackend + IsolationContext into RunRecord
+  - `BenchmarkPipeline`: single/batch/dry-run modes, PipelineResult aggregation
+  - 59 new tests across 6 test files; 288 total suite
+- **Design decisions:**
+  - `BudgetManager` uses injectable `Clock` protocol for deterministic timeout testing
+  - `RepairLoop` manages state machine transitions (runner does not call `state_machine.succeed/fail` directly)
+  - `IsolationContext` delegates to Phase 4B utilities — no new isolation logic
+  - `BenchmarkRunner.dry_run()` is separate from `run()` — returns success Record with 0 duration
+  - `PipelineConfig.dry_run` flag enables pipeline-level dry-run without strategy execution
+  - No concrete strategy or repository names used in generic execution code — dependency injection throughout
+  - No imports from `private_evaluation/`, ground truth, hidden tests, or scoring code
+- **Quality gates:**
+  - Ruff: 0 violations ✅
+  - Mypy strict: 0 errors ✅
+  - Pytest: 288/288 passed in 2.24s ✅
+  - pip check: no broken requirements ✅
+  - Import isolation: torch/transformers not imported at package load ✅
+  - Budget validation: 14 tests covering attempts, tokens, timeout, reset, edge cases ✅
+  - Repair validation: 8 tests covering success, retry, exhaustion, error handling, classification ✅
+  - Isolation validation: 9 tests covering workspace, private data, directories, custom validator ✅
+  - Runner validation: 7 tests covering lifecycle, dry_run, isolation failure, budget config, run_id ✅
+  - Pipeline validation: 6 tests covering dry-run, batch, failure tracking, non-dry modes ✅
+  - State machine validation: 13 tests covering all transitions, terminal protection, guard methods ✅
+- **Impact:** Phase 4D deliverables complete. 7 production files, 7 test files, 2 documentation files created. Phase 4E (Strategies, Graph, Evaluation, Statistics) is the exact next task.
+- **Evidence:** `docs/PHASE4D_EXECUTION_CORE_REFERENCE.md`, `reports/PHASE4D_EXECUTION_CORE_REPORT.md`, all files under `src/benchmark/execution/` and `tests/unit/execution/`.
