@@ -40,6 +40,7 @@ select = ["E", "F", "I", "N", "W", "UP", "B", "SIM", "ARG", "RUF100"]
 "tests/**" = ["ARG"]
 "src/benchmark/llm/*.py" = ["ARG002"]
 "src/benchmark/strategies/*.py" = ["ARG002"]
+"notebooks/*.ipynb" = ["I001"]
 
 [tool.ruff.format]
 quote-style = "double"
