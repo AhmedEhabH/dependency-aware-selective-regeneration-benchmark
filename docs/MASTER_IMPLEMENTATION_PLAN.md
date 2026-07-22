@@ -14,23 +14,29 @@ This plan defines the sequence of implementation phases for a research-grade ben
 | 1     | Input Audit                     | PENDING     |
 | 2     | Research Protocol               | PENDING     |
 | 3     | Repository and Scenario Preparation | PENDING  |
-| 4     | Benchmark Core                  | PENDING     |
-| 5     | Strategies                      | PENDING     |
-| 6     | Validation and Leakage          | PENDING     |
-| 7     | Metrics and Statistics          | PENDING     |
-| 8     | Kaggle Notebook                 | PENDING     |
-| 9     | Packaging and Documentation     | PENDING     |
-| 10    | Static and Local Engineering Audit | PENDING  |
+ | 4     | Benchmark Core                  | COMPLETE    |
+ | 4A    | Domain Models and Contracts     | COMPLETE    |
+ | 4B    | Loaders and Validation          | COMPLETE    |
+ | 4C    | Model Backends                  | COMPLETE    |
+ | 4D    | Execution Core                  | COMPLETE    |
+ | 4E    | Impact Strategies               | PENDING     |
+ | 4F    | Evaluation Engine               | PENDING     |
+ | 5     | Strategies                      | SUPERSEDED  |
+ | 6     | Validation and Leakage          | PENDING     |
+ | 7     | Metrics and Statistics          | SUPERSEDED  |
+ | 8     | Kaggle Notebook                 | PENDING     |
+ | 9     | Packaging and Documentation     | PENDING     |
+ | 10    | Static and Local Engineering Audit | PENDING  |
 
 ### Dependencies
 
 - Phase 0 must complete before Phase 1.
 - Phase 1 must complete before Phase 2.
 - Phases 2–3 can be partially parallelized.
-- Phase 4 requires Phase 3 scenario definitions.
-- Phase 5 requires Phase 4 benchmark core.
-- Phase 6 requires Phase 5 strategies.
-- Phase 7 requires Phase 6 leakage checks.
+- Phase 4 (subphases A–D) requires Phase 3 scenario definitions.
+- Phase 4E requires Phase 4D execution core.
+- Phase 4F requires Phase 4E strategies.
+- Phase 6 requires Phase 4F evaluation engine.
 - Phase 8 requires Phases 4–7.
 - Phase 9 requires Phase 8.
 - Phase 10 runs at the end.

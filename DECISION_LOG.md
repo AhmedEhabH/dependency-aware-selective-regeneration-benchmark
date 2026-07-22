@@ -318,3 +318,23 @@
   - State machine validation: 13 tests covering all transitions, terminal protection, guard methods ✅
 - **Impact:** Phase 4D deliverables complete. 7 production files, 7 test files, 2 documentation files created. Phase 4E (Strategies, Graph, Evaluation, Statistics) is the exact next task.
 - **Evidence:** `docs/PHASE4D_EXECUTION_CORE_REFERENCE.md`, `reports/PHASE4D_EXECUTION_CORE_REPORT.md`, all files under `src/benchmark/execution/` and `tests/unit/execution/`.
+
+---
+
+## Decision D015 — Split Phase 4E Into Implementation and Evaluation Phases
+- **Date:** 2026-07-22
+- **Decision ID:** D015
+- **Status:** IMPLEMENTED
+- **Category:** Planning
+- **Description:** Split the originally planned Phase 4E into two separate phases: Phase 4E (Impact Strategies) and Phase 4F (Evaluation Engine). Phase 4E covers strategy implementation, dependency graph, artifact selection, regeneration planning, strategy registry, and strategy validation — with no evaluation metrics, no statistical analysis, and no scoring. Phase 4F covers evaluation engine, metric computation, ground truth comparison, result aggregation, statistical analysis (confidence intervals, effect sizes), notebook-ready export, and publication tables.
+- **Rationale:** The original Phase 4E scope was too large, combining strategy implementation (high complexity, 7 distinct arms) with evaluation/statistics (also high complexity). Splitting reduces risk by allowing each phase to be independently implemented, tested, verified, and merged. This mirrors the successful Phase 4A–4D subphasing pattern.
+- **Alternatives considered:**
+  - Keep monolithic Phase 4E — rejected because combining strategies and evaluation in one phase would create a ~1500-line diff with 4+ packages, increasing merge risk and review burden
+  - Split into 3+ subphases — rejected; two phases is sufficient and keeps planning simple
+- **Impact:**
+  - Phase 4E now covers: strategies (7 arms), graph, selection, planning, registry, validation
+  - Phase 4F now covers: evaluation, metrics, comparison, aggregation, statistics, reporting, exports
+  - Phase 4E depends on Phase 4D; Phase 4F depends on Phase 4E
+  - All planning documents updated: MASTER_IMPLEMENTATION_PLAN.md, PHASE4_IMPLEMENTATION_BLUEPRINT.md, SYSTEM_STATE.md, TODO.md, DECISION_LOG.md
+  - No change to frozen research protocol documents
+- **Evidence:** Updated phase table in `docs/MASTER_IMPLEMENTATION_PLAN.md`, updated milestone descriptions in `docs/PHASE4_IMPLEMENTATION_BLUEPRINT.md`, Phase 4E/4F task blocks in `TODO.md`. Documentation branch pushed and merged to `main`.

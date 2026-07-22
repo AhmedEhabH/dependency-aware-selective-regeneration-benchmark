@@ -1081,3 +1081,177 @@
 - **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** Git log shows branch/merge/push
+
+## Phase 4E — Impact Strategies (PENDING)
+
+### T4E01 — Create Strategies Package Structure
+- **Priority:** HIGH
+- **Category:** Strategies
+- **Description:** Create `src/benchmark/strategies/` package with `__init__.py`, `registry.py`, `validation.py`, and concrete strategy modules for all 7 arms: monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan
+- **Acceptance Criteria:** Package imports cleanly; each strategy module implements ImpactStrategy protocol; registry supports freeze/lookup
+- **Dependencies:** T4D11
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/strategies/` exists with all modules
+
+### T4E02 — Create Graph Package
+- **Priority:** HIGH
+- **Category:** Graph
+- **Description:** Create `src/benchmark/graph/` package with `__init__.py`, `models.py`, `builder.py` for dependency graph construction and traversal
+- **Acceptance Criteria:** Graph builds correctly from scenarios; traversal produces correct impacted artifacts
+- **Dependencies:** T4E01
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/graph/` exists with all modules
+
+### T4E03 — Create Selection Package
+- **Priority:** HIGH
+- **Category:** Selection
+- **Description:** Create `src/benchmark/selection/` package with `__init__.py`, `planner.py` for artifact selection and regeneration planning
+- **Acceptance Criteria:** Artifact selection returns correct impacted files; regeneration plan follows correct ordering
+- **Dependencies:** T4E02
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/selection/` exists with all modules
+
+### T4E04 — Write Strategy Tests
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** Write tests for all 7 strategy implementations: protocol conformance, registry lifecycle, strategy validation, edge cases
+- **Acceptance Criteria:** All strategy tests pass; coverage for all 7 arms
+- **Dependencies:** T4E01
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Test files under `tests/unit/strategies/`
+
+### T4E05 — Write Graph and Selection Tests
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** Write tests for graph construction, traversal, artifact selection, regeneration planning
+- **Acceptance Criteria:** All graph and selection tests pass
+- **Dependencies:** T4E02, T4E03
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Test files under `tests/unit/graph/` and `tests/unit/selection/`
+
+### T4E06 — Run Quality Gates
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Run ruff, mypy, pytest, pip check; fix all issues
+- **Acceptance Criteria:** All quality gates pass
+- **Dependencies:** T4E04, T4E05
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** All tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+
+### T4E07 — Create Documentation and Reports
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create `docs/PHASE4E_IMPACT_STRATEGIES_REFERENCE.md` and `reports/PHASE4E_IMPACT_STRATEGIES_REPORT.md`
+- **Acceptance Criteria:** Both files present with complete content
+- **Dependencies:** T4E06
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Both files written to disk
+
+### T4E08 — Update State Files
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 4E
+- **Acceptance Criteria:** All state files consistent; Phase 4F as exact next task
+- **Dependencies:** T4E07
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Edits to all four state files
+
+### T4E09 — Branch Workflow (Commit, Push, Merge)
+- **Priority:** HIGH
+- **Category:** VCS
+- **Description:** Create `phase/4e-impact-strategies` branch; commit all Phase 4E work; push branch; safe merge to main; push main
+- **Acceptance Criteria:** Branch created, committed, pushed, merged; main clean and synced with origin
+- **Dependencies:** T4E06
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Git log shows branch/merge/push
+
+## Phase 4F — Evaluation Engine (PENDING)
+
+### T4F01 — Create Evaluation Package
+- **Priority:** HIGH
+- **Category:** Evaluation
+- **Description:** Create `src/benchmark/evaluation/` package with `__init__.py`, `engine.py`, `metrics.py` for metric computation and evaluation orchestration
+- **Acceptance Criteria:** Package imports cleanly; evaluation engine processes run records; all metrics computed correctly
+- **Dependencies:** T4E09
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/evaluation/` exists with all modules
+
+### T4F02 — Create Comparison Package
+- **Priority:** HIGH
+- **Category:** Comparison
+- **Description:** Create `src/benchmark/comparison/` package with `__init__.py`, `ground_truth.py`, `aggregator.py` for ground truth comparison and result aggregation
+- **Acceptance Criteria:** Ground truth comparison matches expectations; results aggregated across scenarios and repositories
+- **Dependencies:** T4F01
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/comparison/` exists with all modules
+
+### T4F03 — Create Statistics Package
+- **Priority:** HIGH
+- **Category:** Statistics
+- **Description:** Create `src/benchmark/statistics/` package with `__init__.py`, `analysis.py`, `reporting.py` for statistical analysis, confidence intervals, effect sizes, and publication-ready export
+- **Acceptance Criteria:** Statistical analysis produces valid confidence intervals; effect sizes computed correctly; notebook-ready and publication-table output formats work
+- **Dependencies:** T4F02
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** `src/benchmark/statistics/` exists with all modules
+
+### T4F04 — Write Evaluation Tests
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** Write tests for metric computation, ground truth comparison, result aggregation, statistical analysis, confidence intervals, effect sizes, notebook export, publication tables
+- **Acceptance Criteria:** All evaluation tests pass
+- **Dependencies:** T4F01, T4F02, T4F03
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Test files under `tests/unit/evaluation/`, `tests/unit/comparison/`, `tests/unit/statistics/`
+
+### T4F05 — Run Quality Gates
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Run ruff, mypy, pytest, pip check; fix all issues
+- **Acceptance Criteria:** All quality gates pass
+- **Dependencies:** T4F04
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** All tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+
+### T4F06 — Create Documentation and Reports
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create `docs/PHASE4F_EVALUATION_ENGINE_REFERENCE.md` and `reports/PHASE4F_EVALUATION_ENGINE_REPORT.md`
+- **Acceptance Criteria:** Both files present with complete content
+- **Dependencies:** T4F05
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Both files written to disk
+
+### T4F07 — Update State Files
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 4F
+- **Acceptance Criteria:** All state files consistent; Phase 5 as exact next task
+- **Dependencies:** T4F06
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Edits to all four state files
+
+### T4F08 — Branch Workflow (Commit, Push, Merge)
+- **Priority:** HIGH
+- **Category:** VCS
+- **Description:** Create `phase/4f-evaluation-engine` branch; commit all Phase 4F work; push branch; safe merge to main; push main
+- **Acceptance Criteria:** Branch created, committed, pushed, merged; main clean and synced with origin
+- **Dependencies:** T4F05
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Git log shows branch/merge/push
