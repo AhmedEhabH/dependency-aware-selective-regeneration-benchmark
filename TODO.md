@@ -1082,6 +1082,38 @@
 - **Owner:** OpenCode
 - **Evidence:** Git log shows branch/merge/push
 
+## TD-1 — Runner Protocol Alignment (COMPLETE)
+
+### TD1-01 — Fix BenchmarkRunner Protocol Violation
+- **Priority:** HIGH
+- **Category:** Engineering
+- **Description:** Fix `BenchmarkRunner._run_attempt` to construct `RepositorySnapshot`, `RequirementChange`, and `ArtifactUniverse` from `Scenario` before calling `strategy.analyze_impact()`. Remove all `# type: ignore[arg-type]` from runner path.
+- **Acceptance Criteria:** No `type: ignore` in runner.py; correct domain objects passed to strategy; all quality gates pass
+- **Dependencies:** T4D11
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 289/289 tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+
+### TD1-02 — Add Domain Object Extraction Test
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** Add test verifying `_run_attempt` constructs correct domain objects (RepositorySnapshot, RequirementChange, ArtifactUniverse) from Scenario
+- **Acceptance Criteria:** Test verifies type correctness and field mapping
+- **Dependencies:** TD1-01
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** `test_run_extracts_correct_domain_objects` passes
+
+### TD1-03 — Create Remediation Report
+- **Priority:** MEDIUM
+- **Category:** Documentation
+- **Description:** Create `reports/TD1_REMEDIATION_REPORT.md` documenting root cause, files changed, and protocol alignment
+- **Acceptance Criteria:** Report covers all required sections
+- **Dependencies:** TD1-01
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** `reports/TD1_REMEDIATION_REPORT.md`
+
 ## Phase 4E — Impact Strategies (PENDING)
 
 ### T4E01 — Create Strategies Package Structure

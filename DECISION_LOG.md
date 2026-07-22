@@ -338,3 +338,24 @@
   - All planning documents updated: MASTER_IMPLEMENTATION_PLAN.md, PHASE4_IMPLEMENTATION_BLUEPRINT.md, SYSTEM_STATE.md, TODO.md, DECISION_LOG.md
   - No change to frozen research protocol documents
 - **Evidence:** Updated phase table in `docs/MASTER_IMPLEMENTATION_PLAN.md`, updated milestone descriptions in `docs/PHASE4_IMPLEMENTATION_BLUEPRINT.md`, Phase 4E/4F task blocks in `TODO.md`. Documentation branch pushed and merged to `main`.
+
+---
+
+## Decision D016 — TD-1 Runner Protocol Remediation
+- **Date:** 2026-07-22
+- **Decision ID:** D016
+- **Status:** IMPLEMENTED
+- **Category:** Engineering Correction
+- **Description:** Remediate TD-1 by refactoring `BenchmarkRunner._run_attempt` to construct the correct domain objects (`RepositorySnapshot`, `RequirementChange`, `ArtifactUniverse`) from `Scenario` before calling `ImpactStrategy.analyze_impact()`. Remove all `# type: ignore[arg-type]` from the runner path.
+- **Rationale:** The frozen `ImpactStrategy` protocol requires `RepositorySnapshot`, `RequirementChange`, and `ArtifactUniverse` parameters. Passing `Scenario` (a different type) with `type: ignore` comments violated the protocol contract and would cause failures in any concrete strategy implementation that relied on the correct types.
+- **Alternatives considered:**
+  - Make `Scenario` subclass or conform to all three types — rejected because `Scenario` is a distinct domain concept with different fields
+  - Change the protocol to accept `Scenario` — rejected because the protocol is frozen and strategies need distinct domain objects
+  - Add adapter layer in strategy implementations — rejected because it would duplicate extraction logic across 7 strategies
+- **Implementation:**
+  - Added `_build_repository_snapshot()`, `_build_requirement_change()`, `_build_artifact_universe()` private methods
+  - Updated `_run_attempt` to construct and pass correct types
+  - Removed 3 `# type: ignore[arg-type]` comments
+  - Added `test_run_extracts_correct_domain_objects` test
+- **Impact:** Phase 4E is now authorized. No scientific protocol changed. No frozen documents affected. 289/289 tests passing.
+- **Evidence:** `reports/TD1_REMEDIATION_REPORT.md`, git branch `fix/td1-runner-protocol`.
