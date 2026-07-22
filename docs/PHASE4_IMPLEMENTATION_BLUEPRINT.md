@@ -65,33 +65,34 @@ Split into **6 milestones**:
 
 ---
 
-## Phase 4E — Provenance and Result Storage
+## Phase 4E — Impact Strategies
 
-- **Files to create:** about 6
-  - `src/benchmark/provenance/__init__.py`, `models.py`, `recorder.py`, `hashing.py`
-  - `src/benchmark/reporting/__init__.py`, `raw_results.py`
+- **Files to create:** about 8
+  - `src/benchmark/strategies/__init__.py`, `registry.py`, `validation.py`
+  - `src/benchmark/graph/__init__.py`, `models.py`, `builder.py`
+  - `src/benchmark/selection/__init__.py`, `planner.py`
   - Associated tests
-- **Classes and interfaces:** `ProvenanceRecord`, `ProvenanceRecorder`, `ContentHasher`, `RawResultWriter`
-- **Tests:** hashing stability; atomic JSONL writes; run ID uniqueness
-- **Acceptance criteria:** each run has unique ID; record hashes are deterministic; JSONL writes are atomic; output manifests validate
-- **Dependencies:** Phase 4A
-- **Forbidden work:** no strategy changes, no evaluation logic, no execution changes
-- **Estimated complexity:** low
+- **Classes and interfaces:** `ImpactStrategy` concrete implementations (monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan), `StrategyRegistry`, `StrategyValidator`, `DependencyGraph`, `GraphBuilder`, `ArtifactSelector`, `RegenerationPlanner`
+- **Tests:** Strategy conformance to ImpactStrategy protocol; graph construction and traversal; artifact selection correctness; regeneration plan ordering; strategy registry lifecycle
+- **Acceptance criteria:** All 7 strategies implement the ImpactStrategy protocol; dependency graph builds correctly from scenarios; artifact selection returns correct impacted files; regeneration plan follows correct ordering; strategy registry supports freeze/lookup; strategy validation rejects invalid configurations.
+- **Dependencies:** Phase 4D execution core
+- **Forbidden work:** no evaluation metrics, no statistical analysis, no scoring, no result comparison, no reporting
+- **Estimated complexity:** high
 - **Completion status:** PENDING
 
 ---
 
-## Phase 4F — Architecture and Contract Tests
+## Phase 4F — Evaluation Engine
 
-- **Files to create:** about 8
-  - Import boundary tests (verify layer isolation)
-  - Plugin contract tests (verify each strategy implements `ImpactStrategy`)
-  - Mock execution tests (full pipeline with mocks)
-  - Leakage boundary tests (verify no private imports leak)
-  - Deterministic serialization tests
-- **Tests:** import boundary, plugin contract, mock execution, leakage boundary, deterministic serialization
-- **Acceptance criteria:** all architecture tests pass; no circular imports; no private module imported by strategy modules; deterministic output verified
-- **Dependencies:** Phases 4A–4E complete
-- **Forbidden work:** no new production code; test-only milestone
-- **Estimated complexity:** medium
+- **Files to create:** about 10
+  - `src/benchmark/evaluation/__init__.py`, `engine.py`, `metrics.py`
+  - `src/benchmark/comparison/__init__.py`, `ground_truth.py`, `aggregator.py`
+  - `src/benchmark/statistics/__init__.py`, `analysis.py`, `reporting.py`
+  - Associated tests
+- **Classes and interfaces:** `EvaluationEngine`, `MetricComputer`, `GroundTruthComparator`, `ResultAggregator`, `StatisticalAnalyzer`, `ConfidenceIntervalCalculator`, `EffectSizeComputer`, `NotebookExporter`, `PublicationTableBuilder`
+- **Tests:** Metric computation matches ground truth; comparison produces correct pass/fail; aggregation handles partial results; statistical analysis produces valid confidence intervals; effect sizes computed correctly; notebook export produces valid JSON; publication tables format correctly
+- **Acceptance criteria:** Evaluation engine processes run records; all primary and secondary metrics computed; ground truth comparison matches expectations; results aggregated across scenarios and repositories; statistical analysis produces confidence intervals and effect sizes; data exported in notebook-ready format; publication tables generated correctly.
+- **Dependencies:** Phase 4E impact strategies
+- **Forbidden work:** no strategy changes, no execution changes, no graph modifications
+- **Estimated complexity:** high
 - **Completion status:** PENDING
