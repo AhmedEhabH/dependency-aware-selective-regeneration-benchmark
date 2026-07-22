@@ -876,7 +876,7 @@
 - **Description:** Create src/benchmark/llm/ package with __init__.py, base.py, mock_backend.py, dry_run_backend.py, kaggle_qwen_backend.py
 - **Acceptance Criteria:** Package imports without torch or transformers
 - **Dependencies:** T4B17
-- **Status:** PENDING
+- **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** Package exists; import isolation verified
 
@@ -886,7 +886,7 @@
 - **Description:** Implement BackendFactory class that registers MockLLMBackend, DryRunLLMBackend, KaggleQwenBackend in a Registry and creates them by name
 - **Acceptance Criteria:** Factory creates correct backend given name; unknown names raise typed errors
 - **Dependencies:** T4C01
-- **Status:** PENDING
+- **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** src/benchmark/llm/ and associated tests
 
@@ -896,7 +896,7 @@
 - **Description:** Implement deterministic mock backend returning fixture responses
 - **Acceptance Criteria:** Returns configured response; LLMResponse with correct token_usage; deterministic
 - **Dependencies:** T4C01
-- **Status:** PENDING
+- **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** src/benchmark/llm/mock_backend.py
 
@@ -906,7 +906,7 @@
 - **Description:** Implement dry-run backend that loads fixture responses from files
 - **Acceptance Criteria:** Reads responses from JSON files; falls back to default response; never calls an API
 - **Dependencies:** T4C01
-- **Status:** PENDING
+- **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** src/benchmark/llm/dry_run_backend.py
 
@@ -916,7 +916,7 @@
 - **Description:** Implement safe skeleton with lazy torch/transformers imports; raises informative error if called outside Kaggle
 - **Acceptance Criteria:** Imports without torch (lazy); generates sensible error message when called locally; actual inference code deferred to Kaggle
 - **Dependencies:** T4C01
-- **Status:** PENDING
+- **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** src/benchmark/llm/kaggle_qwen_backend.py; import test passes without torch
 
@@ -926,7 +926,7 @@
 - **Description:** Write tests for mock backend deterministic output; dry-run fixture loading; import test that Kaggle backend does NOT require torch; factory integration tests
 - **Acceptance Criteria:** All tests pass; import isolation verified
 - **Dependencies:** T4C02, T4C03, T4C04, T4C05
-- **Status:** PENDING
+- **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** Test files
 
@@ -936,9 +936,9 @@
 - **Description:** Run ruff, mypy, pytest, pip check; fix all issues
 - **Acceptance Criteria:** All quality gates pass
 - **Dependencies:** T4C06
-- **Status:** PENDING
+- **Status:** COMPLETE
 - **Owner:** OpenCode
-- **Evidence:** All tests pass; ruff 0 violations; mypy 0 errors; pip check clean
+- **Evidence:** 229/229 tests pass; ruff 0 violations; mypy 0 errors; pip check clean
 
 ### T4C08 — Create Documentation and Reports
 - **Priority:** HIGH
@@ -946,7 +946,7 @@
 - **Description:** Create docs/PHASE4C_MODEL_BACKENDS_REFERENCE.md and reports/PHASE4C_MODEL_BACKENDS_REPORT.md
 - **Acceptance Criteria:** Both files present with complete content
 - **Dependencies:** T4C07
-- **Status:** PENDING
+- **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** Both files written to disk
 
@@ -956,7 +956,7 @@
 - **Description:** Update SYSTEM_STATE.md, TODO.md, DECISION_LOG.md, reports/latest_phase_report.md for Phase 4C
 - **Acceptance Criteria:** All state files consistent; Phase 4D as exact next task
 - **Dependencies:** T4C08
-- **Status:** PENDING
+- **Status:** COMPLETE
 - **Owner:** OpenCode
 - **Evidence:** Edits to all four state files
 
@@ -966,6 +966,6 @@
 - **Description:** Create phase/4c-model-backends branch; commit all Phase 4C work; push branch; safe merge to main; push main
 - **Acceptance Criteria:** Branch created, committed, pushed, merged; main clean and synced with origin
 - **Dependencies:** T4C07
-- **Status:** PENDING
+- **Status:** IN_PROGRESS
 - **Owner:** OpenCode
 - **Evidence:** Git log shows branch/merge/push
