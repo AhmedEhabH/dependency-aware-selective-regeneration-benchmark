@@ -140,6 +140,6 @@ class TestScenarioModel:
         assert model.hidden_tests[0]["description"] == "Hidden test 1"
 
     def test_from_yaml_mapping_missing_fields(self) -> None:
-        data: dict = {}
+        data: dict[str, object] = {}
         with pytest.raises(ValueError, match="scenario_id"):
             ScenarioModel.from_yaml_mapping(data)
