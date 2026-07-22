@@ -16,12 +16,16 @@ from benchmark.repositories.workspace import WorkspacePath
 
 
 class _FakeStrategy:
+    def __init__(self) -> None:
+        self.calls: list[tuple[RepositorySnapshot, RequirementChange, ArtifactUniverse]] = []
+
     def analyze_impact(
         self,
         repository: RepositorySnapshot,
         requirement_change: RequirementChange,
         artifact_universe: ArtifactUniverse,
     ) -> ImpactPrediction:
+        self.calls.append((repository, requirement_change, artifact_universe))
         return ImpactPrediction()
 
 
@@ -114,3 +118,38 @@ class TestBenchmarkRunner:
         record = runner.dry_run(_make_scenario("scenario-x"))
         assert "scenario-x" in record.identity.run_id
         assert "test_strategy" in record.identity.run_id
+
+    def test_run_extracts_correct_domain_objects(self, tmp_path: Path) -> None:
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir()
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        config = RunnerConfig(
+            strategy_name="test_strategy",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=3,
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = _make_scenario("sc-001")
+        record = runner.run(scenario)
+        assert record.status == RunStatus.succeeded
+        assert len(strategy.calls) == 1
+        repo, change, universe = strategy.calls[0]
+        assert isinstance(repo, RepositorySnapshot)
+        assert isinstance(change, RequirementChange)
+        assert isinstance(universe, ArtifactUniverse)
+        assert repo.identity.name == "repo"
+        assert repo.commit_sha == "sc-001"
+        assert change.before == "before"
+        assert change.after == "after"
+        assert len(change.acceptance_criteria) == 0
+        assert len(universe.artifacts) == 0

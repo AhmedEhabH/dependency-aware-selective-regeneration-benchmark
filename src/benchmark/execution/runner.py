@@ -7,7 +7,11 @@ from typing import Any
 from benchmark.core.enums import FailureKind, RunStatus
 from benchmark.core.exceptions import BenchmarkError, ModelBackendError, ProtocolViolationError
 from benchmark.core.models import (
+    ArtifactUniverse,
     FailureRecord,
+    RepositoryIdentity,
+    RepositorySnapshot,
+    RequirementChange,
     RunIdentity,
     RunRecord,
     Scenario,
@@ -123,10 +127,14 @@ class BenchmarkRunner:
                     duration_seconds=time.monotonic() - start_time,
                 )
 
+            repository_snapshot = self._build_repository_snapshot(scenario)
+            requirement_change = self._build_requirement_change(scenario)
+            artifact_universe = self._build_artifact_universe(scenario)
+
             prediction = self._strategy.analyze_impact(
-                repository=scenario,  # type: ignore[arg-type]
-                requirement_change=scenario,  # type: ignore[arg-type]
-                artifact_universe=scenario,  # type: ignore[arg-type]
+                repository=repository_snapshot,
+                requirement_change=requirement_change,
+                artifact_universe=artifact_universe,
             )
 
             return RunRecord(
@@ -164,6 +172,26 @@ class BenchmarkRunner:
     def _build_run_id(self, scenario: Scenario) -> str:
         import uuid
         return f"{scenario.scenario_id}_{self._config.strategy_name}_{uuid.uuid4().hex[:8]}"
+
+    def _build_repository_snapshot(self, scenario: Scenario) -> RepositorySnapshot:
+        return RepositorySnapshot(
+            identity=RepositoryIdentity(
+                name=scenario.repository,
+                url=scenario.repository,
+            ),
+            commit_sha=scenario.scenario_id,
+            path=scenario.repository,
+        )
+
+    def _build_requirement_change(self, scenario: Scenario) -> RequirementChange:
+        return RequirementChange(
+            before=scenario.requirement_before,
+            after=scenario.requirement_after,
+            acceptance_criteria=tuple(c.description for c in scenario.acceptance_criteria),
+        )
+
+    def _build_artifact_universe(self, scenario: Scenario) -> ArtifactUniverse:
+        return ArtifactUniverse(artifacts=scenario.expected_affected_artifacts)
 
     def _build_failure_record(
         self,

@@ -1,10 +1,10 @@
 # System State
 
 ## Current Phase
-**Phase 4D — Execution Core** (COMPLETE — transition to Phase 4E)
+**Phase 4D — Execution Core** (COMPLETE — TD-1 REMEDIATED — Phase 4E authorized)
 
 ## Current Task
-Phase 4D complete. All 7 production source files, 7 test files, 2 doc files implemented under `src/benchmark/execution/`. All quality gates pass. Phase 4E (Impact Strategies) is the exact next task. Phase 4F (Evaluation Engine) follows Phase 4E.
+TD-1 remediated. `BenchmarkRunner._run_attempt` now constructs `RepositorySnapshot`, `RequirementChange`, and `ArtifactUniverse` from `Scenario` before calling `strategy.analyze_impact()`. All `# type: ignore[arg-type]` removed from the runner path. Quality gates: 289/289 tests pass; ruff 0 violations; mypy 0 errors; pip check clean. Phase 4E (Impact Strategies) is now authorized.
 
 ## Recent Non-Phase Additions
 - Added `README.md` (project overview, architecture, usage, license)
@@ -185,10 +185,10 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 - Runtime metrics
 
 ## Current Branch
-`docs/readme-and-license`
+`fix/td1-runner-protocol`
 
 ## Latest Commit
-`<merge-commit>` (Phase 4D merge)
+`<pending>` (TD-1 remediation)
 
 ## Known Risks
 1. **LR-3 — No test data boundary:** Test fixtures need a defined home outside `inputs/` and `src/`.
@@ -200,7 +200,7 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 **Phase 4E — Impact Strategies**: Implement all 7 impact strategy patterns (monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan), dependency graph construction and traversal, artifact selection, and regeneration planning. No evaluation, no statistics, no scoring.
 
 ## Handoff Notes
-Phase 4A (commit `60ba911`), Phase 4B (merge `2fdc3c4`), Phase 4C (merge `d103589`), and Phase 4D are complete. Phase 4D added 7 production files under `src/benchmark/execution/` (BudgetManager, RunStateMachine, RepairLoop, IsolationContext, BenchmarkRunner, BenchmarkPipeline), 59 new unit tests (288 total suite passing). Quality gates: ruff (pass), mypy (pass), pytest 288/288 (pass), pip check (pass). Working tree is clean. Do not download or run any LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives). Phase 4E (Impact Strategies) will implement 7 strategy patterns, dependency graph, artifact selection, and regeneration planning. Phase 4F (Evaluation Engine) will follow with metric computation, statistics, and reporting.
+Phase 4A (commit `60ba911`), Phase 4B (merge `2fdc3c4`), Phase 4C (merge `d103589`), Phase 4D, and TD-1 remediation are complete. TD-1 fixed `BenchmarkRunner._run_attempt` to construct `RepositorySnapshot`, `RequirementChange`, and `ArtifactUniverse` from `Scenario` before calling `strategy.analyze_impact()`. All `# type: ignore[arg-type]` removed. 289 tests passing (288 + 1 new). Quality gates: ruff (pass), mypy (pass), pytest 289/289 (pass), pip check (pass). Phase 4E (Impact Strategies) is now authorized. Do not download or run any LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives).
 
 Environment activation:
 ```bash
@@ -209,5 +209,5 @@ conda activate selective-regen-benchmark
 
 Run tests:
 ```bash
-conda run -n selective-regen-benchmark python -m pytest tests/unit tests/contract tests/test_import_isolation.py -v --tb=short
+python -m pytest tests/ -v --tb=short
 ```
