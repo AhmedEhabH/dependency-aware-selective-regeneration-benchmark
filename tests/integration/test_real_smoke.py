@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 
 from benchmark.core.exceptions import ModelBackendError
-from benchmark.core.models import LLMResponse, Scenario, TokenUsage
+from benchmark.core.models import DependencyGraph, LLMResponse, Scenario, TokenUsage
 from benchmark.execution.isolation import IsolationContext
 from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 from benchmark.repositories.workspace import WorkspacePath
@@ -49,7 +49,13 @@ class _FakeKaggleBackend:
         return LLMResponse(text="mock", token_usage=TokenUsage())
 
 
-def _make_strategy(name: str, backend=None):
+def _build_test_graph(scenario: Scenario) -> DependencyGraph:
+    """Build a minimal graph from a scenario's expected affected artifacts."""
+    paths = [a.path for a in scenario.expected_affected_artifacts]
+    return DependencyGraph(nodes=tuple(paths), edges=(), metadata={"source": "test"})
+
+
+def _make_strategy(name: str, backend=None, graph=None):
     from benchmark.strategies import (
         FullContextStrategy,
         HybridSelectiveStrategy,
@@ -64,17 +70,18 @@ def _make_strategy(name: str, backend=None):
             raise ValueError("RepositoryAgentStrategy requires a backend")
         return RepositoryAgentStrategy(backend=backend)
     strategies = {
-        "monolithic": MonolithicRegenerationStrategy,
-        "selective": HybridSelectiveStrategy,
-        "compiled_ai": StaticOnlyStrategy,
-        "delta_mcp": SemanticOnlyStrategy,
-        "incr_rtl": TraceabilityOnlyStrategy,
-        "code_plan": FullContextStrategy,
+        "monolithic": (MonolithicRegenerationStrategy, {}),
+        "selective": (HybridSelectiveStrategy, {"graph": graph}),
+        "compiled_ai": (StaticOnlyStrategy, {"graph": graph}),
+        "delta_mcp": (SemanticOnlyStrategy, {}),
+        "incr_rtl": (TraceabilityOnlyStrategy, {}),
+        "code_plan": (FullContextStrategy, {"graph": graph}),
     }
-    cls = strategies.get(name)
-    if cls is None:
+    entry = strategies.get(name)
+    if entry is None:
         raise ValueError(f"Unknown strategy: {name}")
-    return cls()
+    cls, kwargs = entry
+    return cls(**{k: v for k, v in kwargs.items() if v is not None})
 
 
 class _ScenarioProvider:
@@ -104,10 +111,11 @@ class _ScenarioProvider:
         return list(self._all)
 
 
-# Strategies that fail in this test environment (missing backend/graph):
-#   agent      → ModelBackendError (fake backend fails on generate)
-#   compiled_ai → "no dependency graph" error (test doesn't provide a graph)
-STRATEGIES_WITH_MISSING_PREREQS = {"agent", "compiled_ai"}
+# Strategy that fails in this test environment:
+#   agent → ModelBackendError (fake backend fails on generate)
+# Graph-dependent strategies (compiled_ai, selective, code_plan) are now
+# supplied with a minimal test graph.
+STRATEGIES_WITH_MISSING_PREREQS = {"agent"}
 
 
 class TestRealSmokeEndToEnd:
@@ -124,7 +132,11 @@ class TestRealSmokeEndToEnd:
 
         has_missing_prereqs = strategy_name in STRATEGIES_WITH_MISSING_PREREQS
         backend = _FakeKaggleBackend(fail_on_generate=strategy_name == "agent")
-        strategy = _make_strategy(strategy_name, backend=backend)
+
+        # Build a minimal graph from the first scenario's artifact universe
+        test_scenario = all_scenarios[0]
+        dep_graph = _build_test_graph(test_scenario)
+        strategy = _make_strategy(strategy_name, backend=backend, graph=dep_graph)
 
         arm_ws = tmp_path / strategy_name
         arm_ws.mkdir(parents=True, exist_ok=True)

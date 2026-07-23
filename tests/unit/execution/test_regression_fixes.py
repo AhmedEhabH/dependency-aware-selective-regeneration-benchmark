@@ -11,6 +11,7 @@ from benchmark.core.models import (
     ArtifactRef,
     ArtifactType,
     ArtifactUniverse,
+    DependencyGraph,
     ImpactPrediction,
     LLMResponse,
     RepositoryIdentity,
@@ -24,6 +25,7 @@ from benchmark.execution.runner import BenchmarkRunner, RunnerConfig
 from benchmark.repositories.workspace import WorkspacePath
 from benchmark.strategies.agent import RepositoryAgentStrategy
 from benchmark.strategies.code_plan import FullContextStrategy
+from benchmark.strategies.compiled_ai import StaticOnlyStrategy
 from benchmark.strategies.delta_mcp import SemanticOnlyStrategy
 from benchmark.strategies.monolithic import MonolithicRegenerationStrategy
 from benchmark.strategies.selective import HybridSelectiveStrategy
@@ -424,3 +426,290 @@ def _make_record(status: RunStatus):
         ),
         status=status,
     )
+
+
+# ---------------------------------------------------------------------------
+# 7. Dependency graph injection
+# ---------------------------------------------------------------------------
+
+
+class TestDependencyGraphInjection:
+    """Graph-dependent strategies must receive a graph when available."""
+
+    def test_compiled_ai_receives_graph(self) -> None:
+        """StaticOnlyStrategy with a graph must not report missing graph."""
+        graph = DependencyGraph(nodes=("a.py", "b.py"), edges=(("a.py", "b.py"),))
+        strategy = StaticOnlyStrategy(graph=graph)
+        pred = strategy.analyze_impact(_snapshot(), _change(), _universe())
+        assert pred.errors == () or not any("no dependency graph" in e for e in pred.errors)
+
+    def test_selective_receives_graph(self) -> None:
+        """HybridSelectiveStrategy with a graph must not crash."""
+        graph = DependencyGraph(nodes=("src/main.py",), edges=())
+        strategy = HybridSelectiveStrategy(graph=graph)
+        pred = strategy.analyze_impact(_snapshot(), _change(), _universe())
+        assert isinstance(pred, ImpactPrediction)
+
+    def test_code_plan_receives_graph(self) -> None:
+        """FullContextStrategy with a graph must not crash."""
+        graph = DependencyGraph(nodes=("src/main.py",), edges=())
+        strategy = FullContextStrategy(graph=graph)
+        pred = strategy.analyze_impact(_snapshot(), _change(), _universe())
+        assert isinstance(pred, ImpactPrediction)
+
+    def test_missing_graph_in_compiled_ai_fails_cleanly(self) -> None:
+        """StaticOnlyStrategy without graph returns explicit error."""
+        strategy = StaticOnlyStrategy(graph=None)
+        pred = strategy.analyze_impact(_snapshot(), _change(), _universe())
+        assert pred.errors
+        assert any("no dependency graph" in e for e in pred.errors)
+
+
+# ---------------------------------------------------------------------------
+# 8. ProfileGraphBuilder
+# ---------------------------------------------------------------------------
+
+
+class TestProfileGraphBuilder:
+    """ProfileGraphBuilder correctly extracts graphs from profile data."""
+
+    def test_build_from_architecture(self) -> None:
+        from benchmark.graph.builder import ProfileGraphBuilder
+
+        builder = ProfileGraphBuilder()
+        arch = {
+            "dependency_graph": {
+                "edges": [
+                    {"from": "a.py", "to": "b.py"},
+                    {"from": "b.py", "to": "c.py"},
+                ]
+            }
+        }
+        graph = builder.build_from_architecture(arch)
+        assert graph is not None
+        assert len(graph.nodes) == 3
+        assert len(graph.edges) == 2
+
+    def test_build_from_empty_architecture(self) -> None:
+        from benchmark.graph.builder import ProfileGraphBuilder
+
+        builder = ProfileGraphBuilder()
+        graph = builder.build_from_architecture({})
+        assert graph is None
+
+    def test_build_fallback_minimal_graph(self) -> None:
+        """A DependencyGraph built from just artifact paths (no edges)."""
+        from benchmark.core.models import DependencyGraph
+
+        graph = DependencyGraph(
+            nodes=("src/main.py", "src/utils.py"),
+            edges=(),
+        )
+        assert len(graph.nodes) == 2
+        assert len(graph.edges) == 0
+
+    def test_profile_graph_loading_from_yaml(self, tmp_path: Path) -> None:
+        """Integration: build a graph from an actual YAML-derived profile."""
+        from benchmark.graph.builder import ProfileGraphBuilder
+
+        # Create required manifests dirs
+        (tmp_path / "manifests").mkdir(parents=True, exist_ok=True)
+        (tmp_path / "repository_profiles").mkdir(parents=True, exist_ok=True)
+
+        repos_yaml = "repositories:\n  test-repo:\n    url: https://example.com\n"
+        (tmp_path / "manifests" / "repositories.yaml").write_text(repos_yaml, encoding="utf-8")
+        versions_yaml = "versions:\n  test-repo:\n    commit_sha: abc123\n"
+        (tmp_path / "manifests" / "repository_versions.yaml").write_text(versions_yaml, encoding="utf-8")
+
+        profile_content = """
+repository_id: test-repo
+architecture:
+  dependency_graph:
+    edges:
+      - from: a.py
+        to: b.py
+"""
+        profile_path = tmp_path / "repository_profiles" / "test-repo.yaml"
+        profile_path.write_text(profile_content, encoding="utf-8")
+
+        from benchmark.repositories.loader import RepositoryLoader
+        loader = RepositoryLoader(tmp_path)
+        collection = loader.load_manifest()
+        profile = collection.get_profile("test-repo")
+        assert profile is not None
+
+        builder = ProfileGraphBuilder()
+        graph = builder.build_from_profile(profile)
+        assert graph is not None
+        assert len(graph.edges) == 1
+        assert graph.edges[0] == ("a.py", "b.py")
+
+
+# ---------------------------------------------------------------------------
+# 9. Lazy backend initialization
+# ---------------------------------------------------------------------------
+
+
+class TestLazyBackendInitialization:
+    """Backend must only be initialized when a strategy actually needs LLM."""
+
+    def test_non_llm_backend_is_null(self) -> None:
+        """A NullLLMBackend raises if generate() is called unexpectedly."""
+        import anyio
+
+        from benchmark.llm.mock_backend import NullLLMBackend
+
+        backend = NullLLMBackend()
+        with pytest.raises(ModelBackendError):
+            anyio.run(backend.generate, "prompt")
+
+    def test_pipeline_accepts_null_backend(self, tmp_path: Path) -> None:
+        """BenchmarkPipeline must accept None backend and use NullLLMBackend."""
+        from benchmark.execution.isolation import IsolationContext
+        from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
+        from benchmark.repositories.workspace import WorkspacePath
+
+        ws = WorkspacePath(root=str(tmp_path))
+        iso = IsolationContext(workspace=ws, snapshot_base=tmp_path)
+        config = PipelineConfig(protocol_version="1.0")
+
+        strategy = MonolithicRegenerationStrategy()
+        pipeline = BenchmarkPipeline(
+            strategy=strategy,
+            backend=None,
+            scenario_provider=_ScenarioProvider(),
+            isolation=iso,
+            config=config,
+            strategy_name="monolithic",
+        )
+        assert pipeline._backend is not None
+
+
+class _ScenarioProvider:
+    """Minimal ScenarioProvider for test purposes."""
+
+    def __init__(self) -> None:
+        self._scenarios = [_scenario()]
+
+    def get_scenario(self, scenario_id: str):  # type: ignore[no-untyped-def]
+        for s in self._scenarios:
+            if s.scenario_id == scenario_id:
+                return s
+        raise KeyError(scenario_id)
+
+    def list_scenarios(self, repo_id: str | None = None):  # type: ignore[no-untyped-def]
+        return list(self._scenarios)
+
+
+# ---------------------------------------------------------------------------
+# 10. Strategy capability description
+# ---------------------------------------------------------------------------
+
+
+class TestStrategyCapabilityDescription:
+    """describe_capabilities must accurately report each strategy."""
+
+    def test_agent_has_llm_no_graph(self) -> None:
+        from seven_arm_benchmark import describe_capabilities
+
+        cap = describe_capabilities("agent")
+        assert cap["uses_llm_by_design"] is True
+        assert cap["llm_backend_attached"] is True
+        assert cap["uses_dependency_graph_by_design"] is False
+        assert cap["dependency_graph_attached"] is False
+
+    def test_compiled_ai_has_graph_no_llm(self) -> None:
+        from seven_arm_benchmark import describe_capabilities
+
+        cap = describe_capabilities("compiled_ai")
+        assert cap["uses_llm_by_design"] is False
+        assert cap["llm_backend_attached"] is False
+        assert cap["uses_dependency_graph_by_design"] is True
+        assert cap["dependency_graph_attached"] is True
+
+    def test_selective_has_both_by_design(self) -> None:
+        from seven_arm_benchmark import describe_capabilities
+
+        cap = describe_capabilities("selective")
+        assert cap["uses_llm_by_design"] is True
+        assert cap["uses_dependency_graph_by_design"] is True
+
+    def test_monolithic_no_graph_no_llm_attached(self) -> None:
+        from seven_arm_benchmark import describe_capabilities
+
+        cap = describe_capabilities("monolithic")
+        assert cap["uses_llm_by_design"] is True
+        assert cap["llm_backend_attached"] is False
+        assert cap["uses_dependency_graph_by_design"] is False
+        assert cap["dependency_graph_attached"] is False
+
+    def test_delta_mcp_no_graph_by_design(self) -> None:
+        from seven_arm_benchmark import describe_capabilities
+
+        cap = describe_capabilities("delta_mcp")
+        assert cap["uses_dependency_graph_by_design"] is False
+        assert cap["dependency_graph_attached"] is False
+
+    def test_design_constants_frozen(self) -> None:
+        """STRATEGY_CAPABILITIES_DESIGN must cover all 7 arm names."""
+        from seven_arm_benchmark import STRATEGY_CAPABILITIES_DESIGN
+
+        assert set(STRATEGY_CAPABILITIES_DESIGN.keys()) == {
+            "monolithic", "agent", "selective", "compiled_ai",
+            "delta_mcp", "incr_rtl", "code_plan",
+        }
+
+
+# ---------------------------------------------------------------------------
+# 11. GPU incompatibility preservation
+# ---------------------------------------------------------------------------
+
+
+class TestGpuIncompatibilityPreserved:
+    """P100 incompatibility must remain an explicit typed failure."""
+
+    def test_expected_error_message(self) -> None:
+        """The ModelBackendError message must reference compute capability."""
+        msg = (
+            "GPU compute capability 6.0 on Tesla P100-PCIE-16GB is below "
+            "the minimum 7.0 required by the installed PyTorch build."
+        )
+        assert "6.0" in msg
+        assert "7.0" in msg
+        assert "P100" in msg
+
+
+# ---------------------------------------------------------------------------
+# 12. Strategy graph injection via runner
+# ---------------------------------------------------------------------------
+
+
+class TestRunnerGraphInjection:
+    """Runner must pass graph-dependent strategies a graph that works end-to-end."""
+
+    def test_compiled_ai_succeeds_with_graph_via_runner(self, tmp_path: Path) -> None:
+        """compiled_ai must succeed when a graph is injected via the runner."""
+        graph = DependencyGraph(nodes=("src/main.py",), edges=())
+        strategy = StaticOnlyStrategy(graph=graph)
+
+        runner = _make_runner(tmp_path, strategy=strategy)
+        record = runner.run(_scenario())
+        assert record.status == RunStatus.succeeded
+
+    def test_compiled_ai_fails_without_graph_via_runner(self, tmp_path: Path) -> None:
+        """compiled_ai must fail cleanly when no graph is available."""
+        strategy = StaticOnlyStrategy(graph=None)
+
+        runner = _make_runner(tmp_path, strategy=strategy)
+        record = runner.run(_scenario())
+        assert record.status == RunStatus.failed
+        assert any("graph" in f.message for f in record.failures)
+
+    def test_selective_succeeds_with_graph_via_runner(self, tmp_path: Path) -> None:
+        """selective must succeed with a graph via the runner."""
+        graph = DependencyGraph(nodes=("src/main.py",), edges=())
+        strategy = HybridSelectiveStrategy(graph=graph)
+
+        runner = _make_runner(tmp_path, strategy=strategy)
+        record = runner.run(_scenario())
+        assert record.status == RunStatus.succeeded

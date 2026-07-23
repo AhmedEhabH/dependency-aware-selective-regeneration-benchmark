@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from benchmark.core.exceptions import ModelBackendError
 from benchmark.core.models import LLMResponse, TokenUsage
 
 
@@ -24,4 +25,19 @@ class MockLLMBackend:
                 total_tokens=prompt_tokens + completion_tokens,
             ),
             finish_reason="stop",
+        )
+
+
+class NullLLMBackend:
+    """Backend that raises if generate() is called unexpectedly."""
+
+    async def generate(
+        self,
+        prompt: str = "",
+        temperature: float = 0.0,
+        max_tokens: int = 4096,
+    ) -> LLMResponse:
+        raise ModelBackendError(
+            "NullLLMBackend: generate() was called, but this strategy should "
+            "not require an LLM backend. Check strategy capability configuration."
         )
