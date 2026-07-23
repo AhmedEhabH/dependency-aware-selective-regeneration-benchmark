@@ -457,3 +457,40 @@
   - pip check: no broken requirements ✅
 - **Impact:** Protocol coverage increased from 9/19 to 14/19 implemented-and-validated requirements. The project is ready for Kaggle smoke execution.
 - **Evidence:** `reports/PHASE4F_1_SCIENTIFIC_REMEDIATION_REPORT.md`, updated `reports/PHASE4F_INDEPENDENT_SCIENTIFIC_AUDIT.md`.
+
+---
+
+## Decision D020 — Kaggle Smoke Pass
+
+- **Date:** 2026-07-23
+- **Decision ID:** D020
+- **Status:** IMPLEMENTED
+- **Category:** Engineering Validation
+- **Description:** Execute real Kaggle smoke run with Qwen2.5-Coder-7B-Instruct to validate deployment before pilot/research. Two engineering fixes were required before smoke could pass: failure propagation (real Qwen errors, token_usage, smoke-stage tagging) and graph wiring (ProfileGraphBuilder, capabilities design, NullLLMBackend for non-LLM strategies).
+- **Rationale:** The frozen protocol requires real Qwen execution on Kaggle. Smoke must pass before pilot and research profiles can be executed. Previous dry-run and mock validation on local machine could not verify real model inference, GPU, or Kaggle deployment.
+- **Alternatives considered:**
+  - Proceed directly to pilot without smoke — rejected because smoke validates infrastructure with minimal cost/time
+  - Run smoke locally — rejected because local LLM inference is forbidden (no torch/transformers locally)
+- **Fix 1 — Failure Propagation** (branch `fix/real-qwen-failure-propagation`):
+  - `models.py`: Added `token_usage` fields to `RunRecord`; added `stage` field (`smoke`, `pilot`, `research`)
+  - `agent.py`: Removed blanket `except Exception`; specific exception handling only
+  - `runner.py`: Prediction errors for failed strategies → failed status
+  - `repair.py`: Preserve `prediction_errors` for failed runs
+  - `kaggle_qwen_backend.py`: Lifecycle logging (`__init__`, `generate`), GPU preflight check, `after_success` returns `LLMResponse`
+  - Merged at `b08bb55`
+- **Fix 2 — Graph Wiring** (branch `fix/kaggle-graph-strategy-wiring`):
+  - `graph/builder.py`: `ProfileGraphBuilder` that builds graph from profile scenario
+  - `pipeline.py`: `NullableBackend` → `NullLLMBackend` for strategies that don't need LLM
+  - `runner.py`: Accept `NullableBackend` as backend type
+  - `mock_backend.py`: Added `NullLLMBackend` (raises if called)
+  - Strategies: agent, compiled_ai, selective, code_plan accept optional `dependency_graph` parameter
+  - `seven_arm_benchmark.py`: `STRATEGY_CAPABILITIES_DESIGN` replaces `STRATEGY_LLM_DESIGN`; `describe_capabilities()` reports `needs_llm`, `needs_graph`, `graph_type`; `build_dependency_graph()` builds from profile or falls back to minimal artifact graph
+  - Merged at `e8aefc5` → main at `0c58250`
+- **Results:**
+  - Kaggle real smoke passed twice
+  - 7/7 strategy arms succeeded
+  - Real Qwen2.5-Coder-7B-Instruct inference confirmed (325 prompt + 19 completion tokens)
+  - Smoke evidence is non-publication (engineering validation only)
+  - 504/505 tests pass (1 skipped: torch import); ruff 0 violations; mypy 0 errors (src)
+- **Impact:** Kaggle deployment validated. Qwen inference pipeline proven. Tag `v0.7.0-smoke-passed` created at `0c58250`. Next task: implement checkpoint/resume for long-running profiles.
+- **Evidence:** Tag `v0.7.0-smoke-passed` at commit `0c58250` (main). `reports/latest_phase_report.md` updated.
