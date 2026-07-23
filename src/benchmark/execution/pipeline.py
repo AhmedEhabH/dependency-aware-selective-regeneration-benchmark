@@ -8,6 +8,7 @@ from benchmark.core.models import RunRecord, Scenario
 from benchmark.core.protocols import ImpactStrategy, LLMBackend, ScenarioProvider
 from benchmark.execution.isolation import IsolationContext
 from benchmark.execution.runner import BenchmarkRunner, RunnerConfig
+from benchmark.llm.mock_backend import NullLLMBackend
 
 
 @dataclass
@@ -33,7 +34,7 @@ class BenchmarkPipeline:
     def __init__(
         self,
         strategy: ImpactStrategy,
-        backend: LLMBackend,
+        backend: LLMBackend | None,
         scenario_provider: ScenarioProvider,
         isolation: IsolationContext,
         config: PipelineConfig,
@@ -41,7 +42,7 @@ class BenchmarkPipeline:
     ) -> None:
         self._strategy = strategy
         self._strategy_name = strategy_name
-        self._backend = backend
+        self._backend = backend or NullLLMBackend()
         self._scenario_provider = scenario_provider
         self._isolation = isolation
         self._config = config

@@ -39,7 +39,7 @@ class BenchmarkRunner:
     def __init__(
         self,
         strategy: ImpactStrategy,
-        backend: LLMBackend,
+        backend: LLMBackend | None,
         isolation: IsolationContext,
         config: RunnerConfig,
     ) -> None:

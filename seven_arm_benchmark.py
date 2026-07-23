@@ -66,40 +66,53 @@ STRATEGY_NAMES = [
     "code_plan",
 ]
 
-# Frozen protocol design: which strategies are expected to use an LLM backend.
-# This is the DESIGN specification; the current code may not match.
-STRATEGY_LLM_DESIGN: dict[str, bool] = {
-    "monolithic": True,
-    "agent": True,
-    "selective": True,
-    "compiled_ai": False,
-    "delta_mcp": True,
-    "incr_rtl": False,
-    "code_plan": True,
+# Frozen protocol design: which strategies are expected to use an LLM backend
+# or a dependency graph.
+STRATEGY_CAPABILITIES_DESIGN: dict[str, dict[str, bool]] = {
+    "monolithic": {"llm": True, "graph": False},
+    "agent": {"llm": True, "graph": False},
+    "selective": {"llm": True, "graph": True},
+    "compiled_ai": {"llm": False, "graph": True},
+    "delta_mcp": {"llm": True, "graph": False},
+    "incr_rtl": {"llm": False, "graph": False},
+    "code_plan": {"llm": True, "graph": True},
 }
 
 
-def audit_llm_usage(strategy_name: str) -> bool:
-    """Return True if the strategy *actually* uses an LLM backend in the current code."""
+def describe_capabilities(strategy_name: str) -> dict[str, bool]:
+    """Report actual strategy capabilities at runtime.
+
+    Returns:
+        uses_llm_by_design:  protocol-level expectation (from frozen design)
+        llm_backend_attached: strategy was constructed with an LLM backend
+        uses_dependency_graph_by_design: strategy expects a graph per protocol
+        dependency_graph_attached: strategy was constructed with a graph
+    """
+    design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
     from benchmark.strategies import (
         FullContextStrategy,
         HybridSelectiveStrategy,
-        MonolithicRegenerationStrategy,
         RepositoryAgentStrategy,
-        SemanticOnlyStrategy,
         StaticOnlyStrategy,
-        TraceabilityOnlyStrategy,
     )
-    backended = {RepositoryAgentStrategy}
-    return {
-        "monolithic": MonolithicRegenerationStrategy,
-        "selective": HybridSelectiveStrategy,
+    graph_classes: set[type] = {HybridSelectiveStrategy, FullContextStrategy, StaticOnlyStrategy}
+    llm_classes: set[type] = {RepositoryAgentStrategy}
+    cls_map = {
+        "monolithic": None,
         "agent": RepositoryAgentStrategy,
+        "selective": HybridSelectiveStrategy,
         "compiled_ai": StaticOnlyStrategy,
-        "delta_mcp": SemanticOnlyStrategy,
-        "incr_rtl": TraceabilityOnlyStrategy,
+        "delta_mcp": None,
+        "incr_rtl": None,
         "code_plan": FullContextStrategy,
-    }[strategy_name] in backended
+    }
+    cls = cls_map.get(strategy_name)
+    return {
+        "uses_llm_by_design": design.get("llm", False),
+        "llm_backend_attached": (cls in llm_classes) if cls else False,
+        "uses_dependency_graph_by_design": design.get("graph", False),
+        "dependency_graph_attached": (cls in graph_classes) if cls else False,
+    }
 
 REPO_IDS = ["todo", "djangocms", "saleor"]
 
@@ -145,10 +158,6 @@ PROFILES: dict[str, ExecutionProfile] = {
     ),
 }
 
-# Impact-only strategies that run without full generation
-IMPACT_ONLY_STRATEGIES = ["monolithic", "incr_rtl", "code_plan"]
-
-
 # ---------------------------------------------------------------------------
 # ScenarioProvider wrapper
 # ---------------------------------------------------------------------------
@@ -184,7 +193,7 @@ class ScenarioProvider:
 # Strategy factory
 # ---------------------------------------------------------------------------
 
-def make_strategy(name: str, backend=None):  # type: ignore[no-untyped-def]
+def make_strategy(name: str, backend=None, graph=None):  # type: ignore[no-untyped-def]
     from benchmark.strategies import (
         FullContextStrategy,
         HybridSelectiveStrategy,
@@ -201,17 +210,18 @@ def make_strategy(name: str, backend=None):  # type: ignore[no-untyped-def]
         return RepositoryAgentStrategy(backend=backend)
 
     strategies = {
-        "monolithic": MonolithicRegenerationStrategy,
-        "selective": HybridSelectiveStrategy,
-        "compiled_ai": StaticOnlyStrategy,
-        "delta_mcp": SemanticOnlyStrategy,
-        "incr_rtl": TraceabilityOnlyStrategy,
-        "code_plan": FullContextStrategy,
+        "monolithic": (MonolithicRegenerationStrategy, {}),
+        "selective": (HybridSelectiveStrategy, {"graph": graph}),
+        "compiled_ai": (StaticOnlyStrategy, {"graph": graph}),
+        "delta_mcp": (SemanticOnlyStrategy, {}),
+        "incr_rtl": (TraceabilityOnlyStrategy, {}),
+        "code_plan": (FullContextStrategy, {"graph": graph}),
     }
-    cls = strategies.get(name)
-    if cls is None:
+    entry = strategies.get(name)
+    if entry is None:
         raise ValueError(f"Unknown strategy: {name}")
-    return cls()
+    cls, kwargs = entry
+    return cls(**{k: v for k, v in kwargs.items() if v is not None})
 
 
 # ---------------------------------------------------------------------------
@@ -249,6 +259,65 @@ def make_isolation(workspace_dir: Path):  # type: ignore[no-untyped-def]
 # Runner
 # ---------------------------------------------------------------------------
 
+def build_dependency_graph(data_dir: Path, scenarios: list) -> object:  # type: ignore[no-untyped-def]
+    """Build a DependencyGraph from the repo profile for the given scenarios.
+
+    Falls back to a minimal graph containing the artifact-universe paths
+    as nodes (zero edges) when the profile has no declared dependency edges.
+    """
+    from benchmark.core.models import DependencyGraph
+    from benchmark.graph.builder import ProfileGraphBuilder
+
+    repo_id = None
+    artifacts: set[str] = set()
+    for s in scenarios:
+        if repo_id is None:
+            repo_id = s.repository
+        for a in s.expected_affected_artifacts:
+            artifacts.add(a.path)
+
+    if not repo_id:
+        return None
+
+    # Try profile-based graph first
+    profile_dir = data_dir / "repository_profiles"
+    if profile_dir.is_dir():
+        from benchmark.repositories.loader import RepositoryLoader
+        try:
+            loader = RepositoryLoader(data_dir)
+            collection = loader.load_manifest()
+            profile = collection.get_profile(repo_id)
+            if profile is not None:
+                builder = ProfileGraphBuilder()
+                graph = builder.build_from_profile(profile)
+                if graph is not None:
+                    logger.info(
+                        "Profile graph for repo=%s  nodes=%d  edges=%d",
+                        repo_id, len(graph.nodes), len(graph.edges),
+                    )
+                    return graph
+            logger.info("No profile graph for '%s' — building minimal graph from artifacts", repo_id)
+        except Exception:
+            logger.warning("Failed to load profile graph for '%s'", repo_id, exc_info=True)
+    else:
+        logger.info("No repository_profiles dir — building minimal graph from artifacts")
+
+    # Fallback: minimal graph with artifact paths as nodes
+    if not artifacts:
+        logger.warning("No artifacts available to build even a minimal graph")
+        return None
+    minimal = DependencyGraph(
+        nodes=tuple(sorted(artifacts)),
+        edges=(),
+        metadata={"source": "artifact_fallback", "repo_id": repo_id},
+    )
+    logger.info(
+        "Minimal graph for repo=%s  nodes=%d  edges=0 (artifact fallback)",
+        repo_id, len(minimal.nodes),
+    )
+    return minimal
+
+
 def run_arm(
     strategy_name: str,
     scenario_provider: ScenarioProvider,
@@ -259,12 +328,22 @@ def run_arm(
     protocol_version: str = "1.0",
     max_attempts: int = 3,
     timeout_seconds: int = 0,
+    dep_graph=None,
 ) -> object:
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
-    backend = make_backend(dry_run, model_path=model_path)
-    strategy = make_strategy(strategy_name, backend=backend)
+    scenario_count = profile.scenario_count
+    all_scenarios = scenario_provider.list_scenarios()
+    selected = all_scenarios[:scenario_count]
+    scenario_ids = [s.scenario_id for s in selected]
+
+    design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
+    needs_llm = design.get("llm", False)
+
+    backend = make_backend(dry_run, model_path=model_path) if needs_llm else None
+    strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
+
     isolation = make_isolation(isolation_workspace)
 
     config = PipelineConfig(
@@ -283,14 +362,10 @@ def run_arm(
         strategy_name=strategy_name,
     )
 
-    scenario_count = profile.scenario_count
-    all_scenarios = scenario_provider.list_scenarios()
-    selected = all_scenarios[:scenario_count]
-    scenario_ids = [s.scenario_id for s in selected]
-
     logger.info(
-        "Running arm=%s  profile=%s  scenarios=%d  label=%s",
+        "Running arm=%s  profile=%s  scenarios=%d  label=%s  graph=%s",
         strategy_name, profile.name, len(scenario_ids), profile.label,
+        "yes" if dep_graph else "no",
     )
     t0 = time.monotonic()
     result = pipeline.run_all(scenario_ids=scenario_ids)
@@ -532,15 +607,30 @@ def main() -> int:
 
     strategy_names = [args.strategy] if args.strategy else profile.strategies
 
-    # Report LLM usage per strategy
+    # Report strategy capabilities per arm
     for sn in strategy_names:
-        uses_llm = audit_llm_usage(sn)
-        expected = STRATEGY_LLM_DESIGN.get(sn, False)
-        match_icon = "MATCH" if uses_llm == expected else "MISMATCH"
-        logger.info(
-            "Strategy audit: %s  uses_llm=%s  design_expected=%s  %s",
-            sn, uses_llm, expected, match_icon,
+        cap = describe_capabilities(sn)
+        llm_match = (
+            "MATCH" if cap["uses_llm_by_design"] == cap["llm_backend_attached"] else "MISMATCH"
         )
+        graph_match = (
+            "MATCH"
+            if cap["uses_dependency_graph_by_design"] == cap["dependency_graph_attached"]
+            else "MISMATCH"
+        )
+        logger.info(
+            "Strategy audit: %s  llm_by_design=%s  llm_attached=%s  %s  "
+            "graph_by_design=%s  graph_attached=%s  %s",
+            sn,
+            cap["uses_llm_by_design"], cap["llm_backend_attached"], llm_match,
+            cap["uses_dependency_graph_by_design"], cap["dependency_graph_attached"], graph_match,
+        )
+
+    # Build dependency graph once and reuse across all arms
+    dep_graph = None
+    first_scenarios = all_scenarios[:profile.scenario_count]
+    if first_scenarios:
+        dep_graph = build_dependency_graph(data_dir, first_scenarios)
 
     results: dict = {}
 
@@ -556,6 +646,7 @@ def main() -> int:
             protocol_version=args.protocol_version,
             max_attempts=args.max_attempts,
             timeout_seconds=args.timeout,
+            dep_graph=dep_graph,
         )
         results[strategy_name] = result
 
@@ -567,15 +658,19 @@ def main() -> int:
 
     # Detailed arm-level report
     for arm_name, result in results.items():
-        uses_llm = audit_llm_usage(arm_name)
+        cap = describe_capabilities(arm_name)
         for rec in result.records:
             tok = rec.token_usage
-            gen_called = uses_llm
+            gen_called = cap["llm_backend_attached"]
             gen_succeeded = gen_called and tok.total_tokens > 0
             logger.info(
-                "Arm report: strategy=%s  uses_llm=%s  generation_called=%s  "
-                "generation_succeeded=%s  status=%s  tokens=%d/%d/%d  duration=%.1fs",
-                arm_name, uses_llm, gen_called, gen_succeeded,
+                "Arm report: strategy=%s  llm_by_design=%s  llm_attached=%s  "
+                "gen_called=%s  gen_succeeded=%s  graph_by_design=%s  graph_attached=%s  "
+                "status=%s  tokens=%d/%d/%d  duration=%.1fs",
+                arm_name,
+                cap["uses_llm_by_design"], cap["llm_backend_attached"],
+                gen_called, gen_succeeded,
+                cap["uses_dependency_graph_by_design"], cap["dependency_graph_attached"],
                 rec.status.value,
                 tok.prompt_tokens, tok.completion_tokens, tok.total_tokens,
                 rec.duration_seconds,
