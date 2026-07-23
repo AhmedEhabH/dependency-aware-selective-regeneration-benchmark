@@ -2,13 +2,13 @@
 
 **Report Date:** 2026-07-23  
 **Project:** Selective Regeneration Benchmark  
-**Phase:** Phase 4F.1 — Scientific Evaluation Remediation (COMPLETE)
+**Phase:** Kaggle Smoke Passed — Engineering Validation Complete
 
 ---
 
 ## Executive Summary
 
-Phase 4F.1 is complete. 5 scientific gaps remediated: aggregate_run_records full implementation, paired bootstrap CI for H1, BH/Holm corrections, NI sensitivity margins, generalized binomial CI. Protocol coverage increased from 9/19 to 14/19 implemented-and-validated requirements. The project is ready for Kaggle smoke execution.
+Kaggle real smoke passed twice. All 7 strategy arms succeeded with real Qwen2.5-Coder-7B-Instruct inference confirmed (325 prompt + 19 completion tokens). Two production fixes applied: failure propagation (real Qwen errors, token_usage, smoke-stage tagging) and graph wiring (ProfileGraphBuilder, capabilities design, NullLLMBackend). Smoke evidence is non-publication. Next task: implement checkpoint/resume for long-running profiles.
 
 ---
 
@@ -29,7 +29,8 @@ Phase 4F.1 is complete. 5 scientific gaps remediated: aggregate_run_records full
 | Phase 4D — Execution Core | ✅ COMPLETE | 288 | 7 src + 7 test | ruff:0, mypy:0, pytest:288/288 |
 | Phase 4E — Impact Strategies | ✅ COMPLETE | 332 | 14 src + 3 test | ruff:0, mypy:0, pytest:332/332 |
 | Phase 4F — Evaluation Engine | ✅ COMPLETE | 410 | 10 src + 15 test | ruff:0, mypy:0, pytest:410/410 |
-| **Phase 4F.1 — Scientific Remediation** | ✅ **COMPLETE** | **441** | **7 modified + 2 new docs** | **ruff:0, mypy:0, pytest:441/441** |
+| Phase 4F.1 — Scientific Remediation | ✅ COMPLETE | 441 | 7 modified + 2 new docs | ruff:0, mypy:0, pytest:441/441 |
+| **Kaggle Smoke Pass** | ✅ **PASSED** | **504** | **2 fixes (8+12 files)** | **ruff:0, mypy:0, pytest:504/505 (1 skipped torch)** |
 
 ---
 
@@ -39,7 +40,7 @@ Phase 4F.1 is complete. 5 scientific gaps remediated: aggregate_run_records full
 |--------|-------|
 | **Production Files (src/benchmark/)** | 62 |
 | **Test Files** | 15 |
-| **Total Tests** | 441 |
+| **Total Tests** | 504 (+1 skipped torch) |
 | **Benchmark Scenarios** | 24 |
 | **Repositories** | 3 (todo, djangocms, saleor) |
 | **Strategies** | 7 (monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan) |
@@ -52,7 +53,7 @@ Phase 4F.1 is complete. 5 scientific gaps remediated: aggregate_run_records full
 |------|--------|---------|
 | **Ruff Lint** | ✅ PASS | 0 violations |
 | **Mypy Strict** | ✅ PASS | 0 errors, 60 source files; 5 pre-existing in tests |
-| **Pytest** | ✅ PASS | 441/441 passed |
+| **Pytest** | ✅ PASS | 504/505 passed (1 skipped: torch import) |
 | **pip check** | ✅ PASS | No broken requirements |
 
 ---
@@ -70,12 +71,13 @@ Phase 4F.1 is complete. 5 scientific gaps remediated: aggregate_run_records full
 
 ## Next Steps
 
-The project is ready for Kaggle smoke execution. Remaining work:
+Kaggle smoke passed. Remaining work:
 
-1. Git merge Phase 4F.1 to main
-2. Kaggle smoke execution with real Qwen model
-3. Real benchmark runs (7 arms × 24 scenarios × 3 repos)
-4. Paper writing (not in scope of this implementation)
+1. Implement checkpoint/resume support for long-running profiles
+2. Run pilot experiment (12 scenarios, agent+selective, 2 reps)
+3. Run research experiment (24 scenarios, 4 strategies, 3 reps)
+4. Arm-to-protocol alignment review (scientific gate before publication)
+5. Paper writing (out of scope of benchmark engineering)
 
 ---
 

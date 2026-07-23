@@ -1,39 +1,29 @@
-# Phase 4F.1 — Scientific Evaluation Remediation
+# Kaggle Smoke Pass — Phase 4F.X
 
 **Date:** 2026-07-23  
-**Status:** COMPLETE (branch `fix/phase4f-scientific-gaps`, pending merge)  
-**Base commit:** `0cb82a8`
+**Status:** COMPLETE  
+**Tag:** `v0.7.0-smoke-passed` at commit `0c58250`  
+**Evidence:** Non-publication (engineering validation only)
 
 ---
 
 ## Summary
 
-Closes 5 scientific gaps identified by the Phase 4F independent audit: aggregate_run_records full implementation, paired bootstrap CI for H1, BH/Holm multiple-comparison corrections, NI sensitivity margins at 0.03/0.10, and generalized binomial CI. Also fixed a bug in the BH implementation.
+Kaggle real smoke executed successfully — twice. All 7 strategy arms completed with real Qwen2.5-Coder-7B-Instruct inference confirmed (325 prompt + 19 completion tokens). Smoke evidence is non-publication: intended to validate deployment, not produce publishable results.
 
 ---
 
-## Completed Tasks
+## What Was Fixed (This Session)
 
-### Gap 1 — `aggregate_run_records`
-- Full micro/macro aggregation with equal-weight repository averaging
-- Conditional notes for failed runs; deterministic ordering
+### Fix 1 — Real Qwen Failure Propagation (branch `fix/real-qwen-failure-propagation`)
+- **Root cause:** `agent.py` had a blanket `except Exception` that swallowed real Qwen errors; token_usage field was missing from `RunRecord` and `KaggleQwenBackend`; smoke strategies were not tagged `stage=smoke` causing full-pilot execution; runner did not preserve prediction-errors for failed strategies.
+- **Files changed:** `models.py` (token_usage fields, stage), `agent.py` (no blanket except), `runner.py` (prediction errors → failed), `repair.py` (preserve failures), `kaggle_qwen_backend.py` (lifecycle logging, GPU preflight).
+- **Outcome:** Failures propagated correctly; Kaggle smoke passed.
 
-### Gap 2 — Paired Analysis for H1
-- `paired_bootstrap_ci()` matching on (repository, scenario, repetition)
-- `paired_compare()` for pairwise paired comparisons
-
-### Gap 3 — BH and Holm Corrections (DA-14)
-- `benjamini_hochberg()` with ascending sort + step-down monotonicity
-- `holm_correction()` with early stopping
-
-### Gap 4 — NI Sensitivity Margins (DA-08)
-- `sensitivity_margins=(0.03, 0.10)` parameter in `non_inferiority_test()`
-
-### Gap 5 — Generalized Binomial CI
-- `scipy.stats.norm.ppf` replaces hardcoded z-scores
-
-### Bug Fix — BH Implementation
-- Fixed descending sort + running-max → ascending sort + step-down monotonicity
+### Fix 2 — Graph Wiring for Graph-Dependent Strategies (branch `fix/kaggle-graph-strategy-wiring`)
+- **Root cause:** Graph-dependent strategies (selective, compiled_ai) received `None` graph because ProfileGraphBuilder was not wired; `STRATEGY_CAPABILITIES_DESIGN` was not used; `describe_capabilities()` returned `{}`.
+- **Files changed:** `graph/builder.py` (ProfileGraphBuilder), `pipeline.py` (nullable backend → NullLLMBackend), `runner.py` (nullable backend type), `mock_backend.py` (NullLLMBackend), strategies (agent, compiled_ai, selective, code_plan accept graph), `seven_arm_benchmark.py` (capabilities design, build_dependency_graph, backend only for LLM-dependent strategies).
+- **Outcome:** 7/7 arms succeeded; Qwen inference confirmed.
 
 ---
 
@@ -42,32 +32,20 @@ Closes 5 scientific gaps identified by the Phase 4F independent audit: aggregate
 | Gate | Result |
 |------|--------|
 | Ruff | 0 violations |
-| Mypy strict | 0 errors (src), 5 pre-existing (tests) |
-| Pytest | 441/441 passed |
-| pip check | Clean |
+| Mypy strict | 0 errors (src) |
+| Pytest | 504/505 passed (1 skipped: torch import) |
+| pip check | Clean (pre-existing conda issues only) |
 
 ---
 
-## Files Changed
+## Evidence
 
-**Production (5):**
-- `src/benchmark/comparison/aggregator.py`
-- `src/benchmark/statistics/analysis.py`
-- `src/benchmark/statistics/confidence_intervals.py`
-- `src/benchmark/comparison/__init__.py`
-- `src/benchmark/statistics/__init__.py`
-
-**Tests (2):**
-- `tests/unit/comparison/test_comparison.py` (+8 tests)
-- `tests/unit/statistics/test_statistics.py` (+31 tests)
-
-**Documentation (2):**
-- `reports/PHASE4F_INDEPENDENT_SCIENTIFIC_AUDIT.md` (updated coverage matrix)
-- `reports/PHASE4F_1_SCIENTIFIC_REMEDIATION_REPORT.md` (new)
+- **Kaggle real smoke passed:** 2 runs, 7/7 arms, real Qwen2.5-Coder inference
+- **Smoke evidence:** Non-publication (engineering validation before pilot/research)
+- **Tag:** `v0.7.0-smoke-passed` at `0c58250`
 
 ---
 
-## Git Report
+## Next Task
 
-**Branch:** `fix/phase4f-scientific-gaps`  
-**Status:** Pending merge to main
+Implement Kaggle checkpoint/resume support for long-running profiles (pilot: ~2-3h, research: ~6-9h).

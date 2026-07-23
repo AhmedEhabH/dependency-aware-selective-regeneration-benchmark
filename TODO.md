@@ -1379,3 +1379,65 @@
 - **Status:** PENDING
 - **Owner:** OpenCode
 - **Evidence:** Git log shows branch/merge/push
+
+## Kaggle Smoke Pass (Engineering Validation)
+
+### K001 — Fix Real Qwen Failure Propagation
+- **Priority:** HIGH
+- **Category:** Engineering Fix
+- **Description:** Fix `agent.py` blanket except, add `token_usage` fields to models, tag smoke strategies `stage=smoke`, preserve prediction errors in runner.
+- **Acceptance Criteria:** Qwen errors propagated; token_usage tracked; smoke strategies execute only smoke scenarios.
+- **Dependencies:** None
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 8 files changed; failure propagation fix merged at `b08bb55`
+
+### K002 — Fix Graph Wiring for Graph-Dependent Strategies
+- **Priority:** HIGH
+- **Category:** Engineering Fix
+- **Description:** Wire ProfileGraphBuilder, use capabilities design, create NullLLMBackend, inject graph into selective/compiled_ai strategies.
+- **Acceptance Criteria:** All 7 arms succeed; graph-dependent strategies receive valid graph.
+- **Dependencies:** K001
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** 12+ files changed; graph wiring fix merged at `e8aefc5`
+
+### K003 — Kaggle Real Smoke Execution
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** Execute real smoke on Kaggle with Qwen2.5-Coder-7B-Instruct. All 7 arms × 1 scenario.
+- **Acceptance Criteria:** All 7 arms complete; Qwen inference confirmed; token usage recorded.
+- **Dependencies:** K002
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Tag `v0.7.0-smoke-passed` at `0c58250`; smoke passed twice
+
+### K004 — Implement Checkpoint/Resume for Long-Running Profiles
+- **Priority:** HIGH
+- **Category:** Engineering
+- **Description:** Implement checkpoint/resume support in pipeline/runner so long profiles (pilot ~2-3h, research ~6-9h) survive Kaggle 9h session limits.
+- **Acceptance Criteria:** Pipeline can save intermediate state and resume from last completed run.
+- **Dependencies:** K003
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Not yet implemented
+
+### K005 — Run Pilot Experiment
+- **Priority:** MEDIUM
+- **Category:** Scientific
+- **Description:** Execute pilot profile on Kaggle: 12 scenarios, agent+selective, 2 reps. Descriptive findings only.
+- **Acceptance Criteria:** Pilot completes; results are non-publication.
+- **Dependencies:** K004
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Not started
+
+### K006 — Run Research Experiment
+- **Priority:** MEDIUM
+- **Category:** Scientific
+- **Description:** Execute research profile on Kaggle: 24 scenarios, 4 strategies, 3 reps. Publication-quality evidence.
+- **Acceptance Criteria:** Research completes; results are publication-ready.
+- **Dependencies:** K005
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Not started

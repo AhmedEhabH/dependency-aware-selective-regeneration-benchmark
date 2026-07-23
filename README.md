@@ -6,8 +6,8 @@
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Protocol](https://img.shields.io/badge/Research%20Protocol-v1.0%20Frozen-success.svg)](PROTOCOL_VERSION.md)
-[![Tests](https://img.shields.io/badge/tests-288%20passing-success.svg)](reports/PHASE4D_EXECUTION_CORE_REPORT.md)
-[![Release](https://img.shields.io/badge/release-v0.5.0--rc.1-orange.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
+[![Tests](https://img.shields.io/badge/tests-504%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
+[![Release](https://img.shields.io/badge/release-v0.7.0--smoke--passed-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
 ## Overview
 
@@ -151,13 +151,16 @@ See [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md) and [`docs/
 | Phase 4C — Model backends | Complete |
 | Phase 4D — Execution core | Complete |
 | Phase 4E — Impact strategies and dependency graph | Complete |
-| Phase 4F — Evaluation, metrics, and statistics | Next |
-| Kaggle notebook and real-model integration | Planned |
-| Smoke, pilot, and main experiments | Planned |
+| Phase 4F — Evaluation, metrics, and statistics | Complete |
+| Phase 4F.1 — Scientific remediation | Complete |
+| Kaggle smoke pass | **Passed** (7/7 arms, Qwen confirmed) |
+| Checkpoint/resume support | Next |
+| Pilot experiment | Planned |
+| Research experiment | Planned |
 
-Current stable release candidate: **`v0.5.0-rc.1`**.
+Current stable tag: **`v0.7.0-smoke-passed`** (Kaggle real smoke: 7/7 arms with Qwen2.5-Coder).
 
-The repository is **not yet publication-result complete**. Real Qwen model execution and benchmark validation remain pending on Kaggle.
+The repository is **not yet publication-result complete**. Pilot and research experiments remain pending. Smoke evidence is non-publication.
 
 ## Implemented Components
 
@@ -271,10 +274,10 @@ python -m pip check
 
 Current validated state:
 
-- **332/332 tests passing**
+- **504/505 tests passing** (1 skipped: torch import on local machine)
 - **Ruff: 0 violations**
 - **Mypy strict: 0 errors**
-- **pip check: no broken requirements**
+- **pip check: no broken requirements** (pre-existing conda issues unrelated)
 - **No local import dependency on Qwen, torch, or transformers**
 
 ## Local Execution Boundary
@@ -418,12 +421,13 @@ Force-pushing to `main` is prohibited.
 Immediate next milestones:
 
 - [x] Phase 4E — dependency graph and impact strategies
-- [ ] Phase 4F — evaluation, metrics, statistics, and result export
-- [ ] Controlled Django Todo implementation
-- [ ] Kaggle notebook and Qwen runtime integration
-- [ ] Smoke run
+- [x] Phase 4F — evaluation, metrics, statistics, and result export
+- [x] Phase 4F.1 — scientific remediation (5 gaps closed)
+- [x] Kaggle real smoke (7/7 arms, Qwen confirmed)
+- [ ] Checkpoint/resume support
 - [ ] Pilot experiment
-- [ ] Main confirmatory experiment
+- [ ] Research (main confirmatory) experiment
+- [ ] Arm-to-protocol alignment review
 - [ ] Reproducibility archive and DOI
 - [ ] Paper submission artifacts
 
