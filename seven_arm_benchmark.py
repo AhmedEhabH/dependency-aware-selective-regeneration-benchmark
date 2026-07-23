@@ -33,14 +33,17 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import logging
 import sys
 import time
+import uuid
 from collections import Counter
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from benchmark.core.models import Scenario
@@ -501,6 +504,48 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Explicit path to the Qwen model directory on Kaggle",
     )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        default=False,
+        help="Resume from checkpoint in the output directory",
+    )
+    parser.add_argument(
+        "--resume-from",
+        type=str,
+        default=None,
+        help="Path to previous Kaggle results Dataset to resume from",
+    )
+    parser.add_argument(
+        "--max-runs",
+        type=int,
+        default=0,
+        help="Maximum number of runs to execute in this session (0 = no limit)",
+    )
+    parser.add_argument(
+        "--hf-sync",
+        action="store_true",
+        default=False,
+        help="Enable automatic Hugging Face result synchronization after every run",
+    )
+    parser.add_argument(
+        "--hf-repo-id",
+        type=str,
+        default=None,
+        help="Hugging Face Dataset repository ID (e.g. NabilDo/selective-regeneration-experiment-results)",
+    )
+    parser.add_argument(
+        "--resume-from-hf",
+        action="store_true",
+        default=False,
+        help="Resume benchmark from a previous experiment on Hugging Face",
+    )
+    parser.add_argument(
+        "--experiment-id",
+        type=str,
+        default=None,
+        help="Unique experiment identifier for HF remote layout",
+    )
     args = parser.parse_args()
     _validate_cli_args(args)
     return args
@@ -585,6 +630,158 @@ def _validate_scenario_count(
         )
 
 
+def _get_source_commit() -> str:
+    try:
+        import subprocess
+        result = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            capture_output=True, text=True, timeout=5,
+        )
+        if result.returncode == 0:
+            return result.stdout.strip()
+    except Exception:
+        pass
+    return ""
+
+
+def _get_model_identity(model_path: str | None) -> str:
+    if model_path:
+        p = Path(model_path)
+        return f"qwen:{p.name}"
+    return "dry-run:mock"
+
+
+def _build_execution_plan(
+    profile: ExecutionProfile,
+    scenario_provider: ScenarioProvider,
+    strategy_names: list[str],
+    skip_run_ids: set[str] | None = None,
+) -> list[dict[str, Any]]:
+    skip_run_ids = skip_run_ids or set()
+    all_scenarios = scenario_provider.list_scenarios()
+    selected = all_scenarios[:profile.scenario_count]
+    plan: list[dict[str, Any]] = []
+
+    for scenario in selected:
+        for strategy_name in strategy_names:
+            for rep in range(1, profile.repetitions + 1):
+                run_id = _make_run_id(scenario.scenario_id, strategy_name, rep)
+                if run_id in skip_run_ids:
+                    logger.info("Skipping completed run: %s", run_id)
+                    continue
+                plan.append({
+                    "run_id": run_id,
+                    "scenario_id": scenario.scenario_id,
+                    "repository_id": scenario.repository,
+                    "strategy_name": strategy_name,
+                    "repetition": rep,
+                })
+    return plan
+
+
+def _make_run_id(scenario_id: str, strategy_name: str, rep: int) -> str:
+    return f"{scenario_id}_{strategy_name}_rep{rep}_{uuid.uuid4().hex[:8]}"
+
+
+def _run_single_scenario_strategy(
+    scenario_id: str,
+    strategy_name: str,
+    scenario_provider: ScenarioProvider,
+    dry_run: bool,
+    profile: ExecutionProfile,
+    model_path: str | None,
+    protocol_version: str,
+    max_attempts: int,
+    timeout_seconds: int,
+    dep_graph: object,
+    workspace_dir: Path,
+) -> tuple[dict[str, Any], int]:
+    from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig, PipelineResult
+    from benchmark.llm.mock_backend import MockLLMBackend
+    from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
+
+    scenario = scenario_provider.get_scenario(scenario_id)
+
+    design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
+    needs_llm = design.get("llm", False)
+
+    if dry_run:
+        backend = MockLLMBackend(response_text="dry-run-response") if needs_llm else None
+    else:
+        backend = None
+        if needs_llm:
+            kwargs: dict[str, str] = {}
+            if model_path:
+                kwargs["model_path"] = model_path
+            backend = KaggleQwenBackend(**kwargs)
+
+    strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
+
+    isolation = make_isolation(workspace_dir)
+
+    config = PipelineConfig(
+        protocol_version=protocol_version,
+        timeout_seconds=timeout_seconds,
+        max_attempts_per_run=max_attempts,
+        dry_run=dry_run,
+    )
+
+    pipeline = BenchmarkPipeline(
+        strategy=strategy,
+        backend=backend,
+        scenario_provider=scenario_provider,
+        isolation=isolation,
+        config=config,
+        strategy_name=strategy_name,
+    )
+
+    t0 = time.monotonic()
+    record = pipeline.run_scenario_by_id(scenario_id)
+    elapsed = time.monotonic() - t0
+
+    status = record.status.value if hasattr(record.status, "value") else str(record.status)
+    success = 1 if status == "succeeded" else 0
+    failure = 1 if status in ("failed",) else 0
+    timeout = 1 if status == "timed_out" else 0
+
+    record_dict: dict[str, Any] = {
+        "run_id": record.identity.run_id,
+        "scenario_id": record.identity.scenario_id,
+        "strategy_name": record.identity.strategy_name,
+        "status": status,
+        "duration_seconds": record.duration_seconds,
+        "token_usage": {
+            "prompt": record.token_usage.prompt_tokens,
+            "completion": record.token_usage.completion_tokens,
+            "total": record.token_usage.total_tokens,
+        } if record.token_usage else {"prompt": 0, "completion": 0, "total": 0},
+    }
+    if record.failures:
+        record_dict["failures"] = [
+            {
+                "kind": f.failure_kind.value if hasattr(f.failure_kind, "value") else str(f.failure_kind),
+                "message": f.message,
+                "details": f.details,
+                "stage": f.stage,
+            }
+            for f in record.failures
+        ]
+    return record_dict, int(success or failure or timeout)
+
+
+def _compute_config_hash(args: argparse.Namespace) -> str:
+    config_obj = {
+        "dry_run": args.dry_run,
+        "profile": args.profile,
+        "strategy": args.strategy,
+        "max_attempts": args.max_attempts,
+        "timeout": args.timeout,
+        "protocol_version": args.protocol_version,
+    }
+    raw = json.dumps(config_obj, sort_keys=True)
+    return hashlib.sha256(raw.encode()).hexdigest()[:16]
+
+
 def main() -> int:
     args = parse_args()
     output_dir = Path(args.output_dir)
@@ -595,11 +792,144 @@ def main() -> int:
 
     profile = PROFILES[args.profile]
 
+    source_commit = _get_source_commit()
+    config_hash = _compute_config_hash(args)
+    model_identity = _get_model_identity(args.model_path)
+
     logger.info(
-        "Benchmark config: dry_run=%s  profile=%s  label=%s  output=%s  data_dir=%s",
+        "Benchmark config: dry_run=%s  profile=%s  label=%s  output=%s  data_dir=%s  "
+        "commit=%s  config_hash=%s",
         args.dry_run, profile.name, profile.label, output_dir, data_dir,
+        source_commit, config_hash,
     )
 
+    # ---- Checkpoint / Resume setup -----------------------------------------
+    from benchmark.checkpoint.checkpoint import CheckpointManager, CheckpointData, ProgressManager, ProgressData
+    from benchmark.checkpoint.persistence import RunRecordStore, RunRecordData
+    from benchmark.checkpoint.resume import ResumeManager, ResumeValidationError
+    from benchmark.checkpoint.package import ResultsPackager
+
+    resume_mgr = ResumeManager(
+        runs_dir=output_dir,
+        protocol_version=args.protocol_version,
+        config_hash=config_hash,
+        model_identity=model_identity,
+        source_commit=source_commit,
+    )
+    checkpoint_mgr = CheckpointManager(output_dir)
+    progress_mgr = ProgressManager(output_dir)
+    record_store = RunRecordStore(output_dir)
+    packager = ResultsPackager(output_dir)
+
+    # ---- HF Sync setup ----------------------------------------------------
+    hf_uploader: Any = None
+    hf_experiment_id = args.experiment_id or time.strftime("exp-%Y%m%d-%H%M%S")
+    hf_enabled = bool(args.hf_sync and args.hf_repo_id)
+
+    if hf_enabled:
+        from benchmark.checkpoint.hf_sync import (
+            HfUploader,
+            RemoteLayout,
+            verify_repo_private,
+            RepoVisibilityError,
+            HfResumeManager,
+        )
+
+        hf_token = os.environ.get("HF_TOKEN", "")
+        if not hf_token:
+            logger.error("--hf-sync requires HF_TOKEN environment variable")
+            return 1
+
+        try:
+            verify_repo_private(args.hf_repo_id)
+        except RepoVisibilityError as e:
+            logger.error("HF repo visibility check failed: %s", e)
+            return 1
+
+        remote_layout = RemoteLayout(
+            profile=profile.name,
+            protocol_version=args.protocol_version,
+            source_commit=source_commit,
+            experiment_id=hf_experiment_id,
+        )
+        hf_uploader = HfUploader(
+            runs_dir=output_dir,
+            repo_id=args.hf_repo_id,
+            layout=remote_layout,
+            token=hf_token,
+        )
+        logger.info(
+            "HF sync enabled: repo=%s  experiment=%s  remote_prefix=%s",
+            args.hf_repo_id, hf_experiment_id, remote_layout.recovery(),
+        )
+
+    # Handle --resume-from: copy previous results into output dir
+    if args.resume_from:
+        prev_dir = Path(args.resume_from)
+        logger.info("Resuming from previous results: %s", prev_dir)
+        try:
+            resume_mgr.resume_from(prev_dir)
+        except ResumeValidationError as e:
+            logger.error("Resume validation failed: %s", e)
+            return 1
+
+    # Handle --resume-from-hf: download recovery state from Hugging Face
+    skip_run_ids: set[str] = set()
+    if args.resume_from_hf:
+        if not args.hf_repo_id:
+            logger.error("--resume-from-hf requires --hf-repo-id")
+            return 1
+        hf_token = os.environ.get("HF_TOKEN", "")
+        if not hf_token:
+            logger.error("--resume-from-hf requires HF_TOKEN environment variable")
+            return 1
+        from benchmark.checkpoint.hf_sync import (
+            HfResumeManager, RemoteLayout, ResumeValidationError as HfResumeError,
+        )
+
+        scenario_provider_for_resume = ScenarioProvider(scenarios_dir)
+        all_scenarios_for_resume = scenario_provider_for_resume.list_scenarios()
+        selected_for_resume = all_scenarios_for_resume[:profile.scenario_count]
+        strategy_names_for_resume = [args.strategy] if args.strategy else profile.strategies
+
+        hf_resume_layout = RemoteLayout(
+            profile=profile.name,
+            protocol_version=args.protocol_version,
+            source_commit=source_commit,
+            experiment_id=hf_experiment_id,
+        )
+        hf_resume = HfResumeManager(
+            runs_dir=output_dir,
+            repo_id=args.hf_repo_id,
+            layout=hf_resume_layout,
+            token=hf_token,
+            protocol_version=args.protocol_version,
+            config_hash=config_hash,
+            model_identity=model_identity,
+            source_commit=source_commit,
+            scenario_ids=[s.scenario_id for s in selected_for_resume],
+            strategy_names=strategy_names_for_resume,
+        )
+        try:
+            skip_run_ids = hf_resume.download_and_validate()
+            logger.info("HF resume: skipping %d completed run IDs", len(skip_run_ids))
+        except HfResumeError as e:
+            logger.error("HF resume validation failed: %s", e)
+            return 1
+
+    if args.resume:
+        logger.info("Resume mode: checking checkpoint in %s", output_dir)
+        try:
+            skip_run_ids = resume_mgr.validate_and_get_skip_ids()
+            logger.info("Resume: skipping %d completed run IDs", len(skip_run_ids))
+        except ResumeValidationError as e:
+            logger.error("Resume validation failed: %s", e)
+            return 1
+        except ValueError as e:
+            logger.error("Corrupted checkpoint: %s", e)
+            return 1
+
+    # ---- Validate scenarios -------------------------------------------------
     scenario_provider = ScenarioProvider(scenarios_dir)
     all_scenarios = scenario_provider.list_scenarios()
     logger.info("Loaded %d scenarios from %s", len(all_scenarios), scenarios_dir)
@@ -632,14 +962,98 @@ def main() -> int:
     if first_scenarios:
         dep_graph = build_dependency_graph(data_dir, first_scenarios)
 
-    results: dict = {}
+    # ---- Build execution plan -----------------------------------------------
+    execution_plan = _build_execution_plan(
+        profile=profile,
+        scenario_provider=scenario_provider,
+        strategy_names=strategy_names,
+        skip_run_ids=skip_run_ids,
+    )
 
-    for strategy_name in strategy_names:
+    total_planned = len(execution_plan) + len(skip_run_ids)
+    planned_run_ids = [run["run_id"] for run in execution_plan]
+
+    logger.info(
+        "Execution plan: %d pending, %d completed (skipped), %d total",
+        len(execution_plan), len(skip_run_ids), total_planned,
+    )
+
+    if not execution_plan and skip_run_ids:
+        logger.info("All runs already completed. Nothing to do.")
+        checkpoint_data = checkpoint_mgr.read()
+        if checkpoint_data:
+            checkpoint_data.completion_status = "completed"
+            checkpoint_mgr.write_atomic(checkpoint_data)
+        progress_mgr.mark_completed()
+        results: dict[str, Any] = {}
+        for rec in record_store.load_all():
+            sid = rec.strategy_id
+            if sid not in results:
+                results[sid] = {"success_count": 0, "failure_count": 0, "timeout_count": 0, "records": []}
+            results[sid]["records"].append({
+                "run_id": rec.run_id,
+                "scenario_id": rec.scenario_id,
+                "strategy_name": rec.strategy_id,
+                "status": rec.status,
+                "duration_seconds": rec.duration_seconds,
+                "token_usage": rec.token_usage,
+            })
+            if rec.status == "succeeded":
+                results[sid]["success_count"] += 1
+            elif rec.status == "failed":
+                results[sid]["failure_count"] += 1
+            elif rec.status == "timed_out":
+                results[sid]["timeout_count"] += 1
+        progress_mgr.write_final_summary(results)
+        return 0
+
+    # Apply --max-runs limit
+    if args.max_runs > 0 and len(execution_plan) > args.max_runs:
+        logger.info("--max-runs=%d: limiting plan from %d to %d runs", args.max_runs, len(execution_plan), args.max_runs)
+        execution_plan = execution_plan[:args.max_runs]
+
+    # ---- Initialize checkpoint -----------------------------------------------
+    checkpoint_data = CheckpointData(
+        profile=profile.name,
+        execution_plan_hash=config_hash,
+        planned_run_ids=planned_run_ids,
+        completed_run_ids=list(skip_run_ids),
+        pending_run_ids=list(planned_run_ids),
+        total_planned=total_planned,
+        total_completed=len(skip_run_ids),
+        protocol_version=args.protocol_version,
+        model_identity=model_identity,
+        config_hash=config_hash,
+        source_commit=source_commit,
+        completion_status="running",
+    )
+    checkpoint_mgr.write_atomic(checkpoint_data)
+
+    # ---- Execute plan -------------------------------------------------------
+    t_start = time.monotonic()
+    results_agg: dict[str, dict[str, Any]] = {}
+    run_count = 0
+
+    for run_spec in execution_plan:
+        run_id = run_spec["run_id"]
+        scenario_id = run_spec["scenario_id"]
+        strategy_name = run_spec["strategy_name"]
+        repository_id = run_spec["repository_id"]
+        rep = run_spec["repetition"]
+
+        checkpoint_data.current_run_id = run_id
+        checkpoint_mgr.write_atomic(checkpoint_data)
+
+        logger.info(
+            "Executing run %d/%d: %s  scenario=%s  strategy=%s  rep=%d",
+            run_count + 1, len(execution_plan), run_id, scenario_id, strategy_name, rep,
+        )
+
         arm_workspace = workspace_dir / strategy_name
-        result = run_arm(
+        record_dict, _ = _run_single_scenario_strategy(
+            scenario_id=scenario_id,
             strategy_name=strategy_name,
             scenario_provider=scenario_provider,
-            isolation_workspace=arm_workspace,
             dry_run=args.dry_run,
             profile=profile,
             model_path=args.model_path,
@@ -647,42 +1061,158 @@ def main() -> int:
             max_attempts=args.max_attempts,
             timeout_seconds=args.timeout,
             dep_graph=dep_graph,
+            workspace_dir=arm_workspace,
         )
-        results[strategy_name] = result
 
-    aggregate_results(results, output_dir, is_publication=profile.is_publication)
+        # Build persistent record
+        failure_details: list[dict[str, Any]] = []
+        for f in record_dict.get("failures", []):
+            failure_details.append({
+                "kind": f.get("kind", ""),
+                "message": f.get("message", ""),
+                "details": f.get("details", ""),
+                "stage": f.get("stage", ""),
+            })
 
-    total_success = sum(r.success_count for r in results.values())
-    total_failure = sum(r.failure_count for r in results.values())
-    total_timeout = sum(r.timeout_count for r in results.values())
+        tok = record_dict.get("token_usage", {"prompt": 0, "completion": 0, "total": 0})
+        run_record_data = RunRecordData(
+            run_id=run_id,
+            profile=profile.name,
+            repository_id=repository_id,
+            scenario_id=scenario_id,
+            strategy_id=strategy_name,
+            repetition=rep,
+            seed=42,
+            status=record_dict.get("status", "unknown"),
+            failure_details=failure_details,
+            token_usage=tok,
+            duration_seconds=record_dict.get("duration_seconds", 0.0),
+            model_metadata={"model": model_identity, "dry_run": str(args.dry_run)},
+            protocol_version=args.protocol_version,
+            source_commit=source_commit,
+            config_hash=config_hash,
+            timestamp=datetime.now(timezone.utc).isoformat(),
+        )
 
-    # Detailed arm-level report
-    for arm_name, result in results.items():
-        cap = describe_capabilities(arm_name)
-        for rec in result.records:
-            tok = rec.token_usage
-            gen_called = cap["llm_backend_attached"]
-            gen_succeeded = gen_called and tok.total_tokens > 0
-            logger.info(
-                "Arm report: strategy=%s  llm_by_design=%s  llm_attached=%s  "
-                "gen_called=%s  gen_succeeded=%s  graph_by_design=%s  graph_attached=%s  "
-                "status=%s  tokens=%d/%d/%d  duration=%.1fs",
-                arm_name,
-                cap["uses_llm_by_design"], cap["llm_backend_attached"],
-                gen_called, gen_succeeded,
-                cap["uses_dependency_graph_by_design"], cap["dependency_graph_attached"],
-                rec.status.value,
-                tok.prompt_tokens, tok.completion_tokens, tok.total_tokens,
-                rec.duration_seconds,
-            )
+        # Persist immediately
+        record_store.append(run_record_data)
+
+        # Update checkpoint
+        status = record_dict.get("status", "")
+        if status == "succeeded":
+            checkpoint_data.completed_run_ids.append(run_id)
+        elif status in ("failed", "timed_out", "cancelled"):
+            checkpoint_data.completed_run_ids.append(run_id)
+            checkpoint_data.failed_run_ids.append(run_id)
+        if run_id in checkpoint_data.pending_run_ids:
+            checkpoint_data.pending_run_ids.remove(run_id)
+        checkpoint_data.total_completed = len(checkpoint_data.completed_run_ids)
+        checkpoint_mgr.write_atomic(checkpoint_data)
+
+        # Update progress
+        elapsed = time.monotonic() - t_start
+        progress_data = ProgressData(
+            profile=profile.name,
+            total_planned=total_planned,
+            total_completed=checkpoint_data.total_completed,
+            total_failed=len(checkpoint_data.failed_run_ids),
+            total_pending=len(checkpoint_data.pending_run_ids),
+            elapsed_seconds=elapsed,
+            completion_ratio=checkpoint_data.total_completed / max(total_planned, 1),
+            stage="running",
+        )
+        progress_mgr.write(progress_data)
+
+        # Update partial summary
+        if strategy_name not in results_agg:
+            results_agg[strategy_name] = {
+                "success_count": 0, "failure_count": 0, "timeout_count": 0, "records": [],
+            }
+        results_agg[strategy_name]["records"].append(record_dict)
+        if status == "succeeded":
+            results_agg[strategy_name]["success_count"] += 1
+        elif status == "failed":
+            results_agg[strategy_name]["failure_count"] += 1
+        elif status == "timed_out":
+            results_agg[strategy_name]["timeout_count"] += 1
+
+        progress_mgr.write_partial_summary(results_agg)
+
+        # ---- HF sync after every completed/failed run --------------------
+        if hf_uploader is not None:
+            hf_uploader.upload_recovery()
+            # Snapshot after every 2 runs (chunk)
+            if run_count > 0 and run_count % 2 == 0:
+                hf_uploader.upload_snapshot(packager)
+
+        run_count += 1
+
+        if run_count >= len(execution_plan):
+            break
+
+    # ---- Finalize -----------------------------------------------------------
+    total_elapsed = time.monotonic() - t_start
+    all_runs_completed = checkpoint_data.total_completed >= total_planned
+
+    if all_runs_completed:
+        checkpoint_data.completion_status = "completed"
+        checkpoint_data.current_run_id = ""
+        checkpoint_mgr.write_atomic(checkpoint_data)
+
+        progress_mgr.write_final_summary(results_agg)
+        progress_mgr.mark_completed()
+
+        logger.info(
+            "Benchmark complete: %d/%d runs  success=%d failure=%d elapsed=%.1fs  label=%s",
+            checkpoint_data.total_completed, total_planned,
+            sum(v["success_count"] for v in results_agg.values()),
+            sum(v["failure_count"] for v in results_agg.values()),
+            total_elapsed, profile.label,
+        )
+
+        # Create results ZIP
+        zip_path = output_dir.parent / "benchmark-results.zip"
+        packager.create_zip(zip_path)
+        logger.info("Results package created: %s", zip_path)
+
+        # HF final sync
+        if hf_uploader is not None:
+            hf_uploader.upload_snapshot(packager)
+            hf_uploader.upload_final(packager)
+            hf_uploader.upload_recovery()
+
+        total_failure_count = sum(v["failure_count"] for v in results_agg.values())
+        total_timeout_count = sum(v["timeout_count"] for v in results_agg.values())
+        if total_failure_count > 0 or total_timeout_count > 0:
+            logger.warning("Non-zero exit due to %d failures, %d timeouts", total_failure_count, total_timeout_count)
+            return 1
+        return 0
+
+    # Incomplete -- save progress and exit cleanly
+    checkpoint_data.completion_status = "incomplete"
+    checkpoint_mgr.write_atomic(checkpoint_data)
+
+    final_progress = ProgressData(
+        profile=profile.name,
+        total_planned=total_planned,
+        total_completed=checkpoint_data.total_completed,
+        total_failed=len(checkpoint_data.failed_run_ids),
+        total_pending=len(checkpoint_data.pending_run_ids),
+        elapsed_seconds=total_elapsed,
+        completion_ratio=checkpoint_data.total_completed / max(total_planned, 1),
+        stage="interrupted",
+    )
+    progress_mgr.write(final_progress)
+    progress_mgr.write_partial_summary(results_agg)
+
+    if hf_uploader is not None:
+        hf_uploader.upload_snapshot(packager)
+        hf_uploader.upload_recovery()
 
     logger.info(
-        "Benchmark complete: %d success / %d failure / %d timeout across %d arms  label=%s",
-        total_success, total_failure, total_timeout, len(results), profile.label,
+        "Session incomplete: %d/%d runs completed. Resume with --resume or --resume-from-hf to continue.",
+        checkpoint_data.total_completed, total_planned,
     )
-    if total_failure > 0 or total_timeout > 0:
-        logger.warning("Non-zero exit due to %d failures, %d timeouts", total_failure, total_timeout)
-        return 1
     return 0
 
 

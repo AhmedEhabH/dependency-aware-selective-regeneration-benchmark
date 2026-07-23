@@ -1,6 +1,6 @@
 # Kaggle Execution Guide
 
-**Date:** 2026-07-23
+**Date:** 2026-07-24
 **Applies to:** Qwen2.5-Coder benchmark on Kaggle
 
 ---
@@ -8,8 +8,9 @@
 ## 1. Prerequisites
 
 - Kaggle account (any tier)
-- `HF_TOKEN` (HuggingFace read token) — only needed if Qwen is not available as a Kaggle Model
-- Internet-enabled Kaggle notebook (set in notebook metadata)
+- `HF_TOKEN` (HuggingFace write token) — required for result synchronization
+- `HF_RESULTS_REPO_ID` — `NabilDo/selective-regeneration-experiment-results`
+- Internet-enabled Kaggle notebook (set in notebook metadata) — model loading remains offline
 
 ---
 
@@ -35,10 +36,7 @@ Create two Kaggle Datasets:
 - `benchmark_data/repository_profiles/` (3 files)
 
 ### 2.3 Model
-If Qwen2.5-Coder is not available as a Kaggle Model, create a Kaggle Dataset from HuggingFace:
-```
-https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct
-```
+Qwen2.5-Coder must be available as a Kaggle Model. Model loading uses `local_files_only=True` from the attached Kaggle Model — no HuggingFace download.
 
 ---
 
@@ -74,7 +72,20 @@ else:
 %cd opencode-benchmark/project
 ```
 
-### Cell 5 — Dry-run smoke validation
+### Cell 5 — Secure setup (HF token)
+```python
+from kaggle_secrets import UserSecretsClient
+import os
+
+secrets = UserSecretsClient()
+os.environ["HF_TOKEN"] = secrets.get_secret("HF_TOKEN")
+os.environ["HF_RESULTS_REPO_ID"] = (
+    "NabilDo/selective-regeneration-experiment-results"
+)
+# Note: HF_TOKEN is never printed
+```
+
+### Cell 6 — Dry-run smoke validation
 ```python
 !python /kaggle/input/benchmark-code/seven_arm_benchmark.py \
     --dry-run \
@@ -82,16 +93,31 @@ else:
     --data-dir /kaggle/input/benchmark-data
 ```
 
-### Cell 6 — Real smoke execution
-```python
+### Cell 7 — New automatic chunk (pilot)
+```bash
 # Uncomment when ready for real execution:
-# !python /kaggle/input/benchmark-code/seven_arm_benchmark.py \
-#     --profile smoke \
-#     --data-dir /kaggle/input/benchmark-data \
-#     --hf-token {HF_TOKEN}
+# python /kaggle/input/benchmark-code/seven_arm_benchmark.py \
+#     --profile pilot \
+#     --max-runs 2 \
+#     --output-dir /kaggle/working/runs \
+#     --hf-sync \
+#     --hf-repo-id "$HF_RESULTS_REPO_ID"
 ```
 
-### Cell 7 — View results
+### Cell 8 — Resume automatically
+```bash
+# Uncomment to resume from HuggingFace:
+# python /kaggle/input/benchmark-code/seven_arm_benchmark.py \
+#     --profile pilot \
+#     --resume-from-hf \
+#     --experiment-id "<experiment-id>" \
+#     --max-runs 2 \
+#     --output-dir /kaggle/working/runs \
+#     --hf-sync \
+#     --hf-repo-id "$HF_RESULTS_REPO_ID"
+```
+
+### Cell 9 — View results
 ```python
 import json
 summary_path = "runs/benchmark_summary.json"
@@ -116,26 +142,43 @@ Custom profiles can be created by adding YAML files to `configs/`.
 ## 5. Outputs
 
 All outputs go to `runs/`:
-- `benchmark_summary.json` — Run-level summary (per arm success/failure counts, durations)
-- `runs/YYYYMMDD_HHMMSS_<run_id>/` — Individual run records
-- `runs/benchmark_results.json` — Full results (pilot/research only)
-- `runs/publication_tables/` — LaTeX, CSV, Markdown tables (research only)
+- `run_records.jsonl` — Per-run persistent records (JSONL, append-only)
+- `checkpoint.json` — Atomic checkpoint state
+- `progress.json` — Live progress tracking
+- `benchmark_summary.json` — Final run-level summary
+- `benchmark_summary.partial.json` — Partial summary (updated after every run)
+- `COMPLETED` — Marker file (written when all runs finish)
+- `benchmark-results.zip` — Full results package
+- `remote_sync.json` — Last HF sync status
+- `remote_sync_failure.json` — Persistent sync failure records
 
 ---
 
 ## 6. Required Secrets
 
-If your HF token is not available as a Kaggle Secret:
-```python
-import os
-os.environ["HF_TOKEN"] = "hf_..."  # NOT RECOMMENDED for publication
-```
+Set up Kaggle Secrets (Add-ons → Secrets) with:
 
-Prefer Kaggle notebook Secrets (Add-ons → Secrets) with key `HF_TOKEN`.
+| Key | Value | Notes |
+|-----|-------|-------|
+| `HF_TOKEN` | Your HuggingFace write token | Never printed or logged |
+| | `NabilDo/selective-regeneration-experiment-results` | Repository ID is set via `HF_RESULTS_REPO_ID` env var |
+
+The token is read in a secure setup cell that does not display it.
 
 ---
 
-## 7. Troubleshooting
+## 7. Checkpoint and Resume
+
+The benchmark automatically saves checkpoint state after every run. If a Kaggle session is terminated:
+
+1. **Local checkpoint** is at `/kaggle/working/runs/` (persistent across sessions if saved as Dataset output)
+2. **HF sync** pushes recovery files to HuggingFace after every run when `--hf-sync` is enabled
+3. **Resume locally:** `--resume` flag reads existing checkpoint in output directory
+4. **Resume from HF:** `--resume-from-hf` downloads and validates recovery state from HuggingFace
+
+---
+
+## 8. Troubleshooting
 
 | Symptom | Likely Cause | Fix |
 |---------|-------------|-----|
@@ -144,10 +187,13 @@ Prefer Kaggle notebook Secrets (Add-ons → Secrets) with key `HF_TOKEN`.
 | FileNotFoundError: /kaggle/input/benchmark-data | Dataset not uploaded | Create benchmark-data Dataset and attach |
 | HuggingFace Hub connection error | No internet or no HF_TOKEN | Enable internet, set HF_TOKEN |
 | OOM during model load | GPU memory insufficient | Use P40 or T4 GPU; reduce batch size if applicable |
+| "HF repo visibility check failed" | Repo not found or public | Ensure `NabilDo/selective-regeneration-experiment-results` exists and is private |
+| "Resume validation failed" | Incompatible experiment | Verify protocol version, config hash, source commit match |
+| Remote sync failure logged | HF Hub transient error | Execution continues; retry with `--resume-from-hf` in next session |
 
 ---
 
-## 8. Session Limits
+## 9. Session Limits
 
 - **Kaggle session:** 9 hours max; auto-shuts down at limit
 - **GPU hours:** 30 hours/week (free tier); more with Kaggle Pro
@@ -157,7 +203,7 @@ Prefer Kaggle notebook Secrets (Add-ons → Secrets) with key `HF_TOKEN`.
 
 ---
 
-## 9. Results Management
+## 10. Results Management
 
 - Download all `runs/` artifacts before session expires
 - Move to `reports/results/` in repo
