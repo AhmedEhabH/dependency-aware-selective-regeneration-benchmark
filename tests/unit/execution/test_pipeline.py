@@ -101,7 +101,7 @@ class TestBenchmarkPipeline:
 
     def test_pipeline_result_tracks_failures(self, tmp_path: Path) -> None:
         ws = WorkspacePath(root=str(tmp_path))
-        iso = IsolationContext(workspace=ws)
+        iso = IsolationContext(workspace=ws, snapshot_base=tmp_path)
         config = PipelineConfig(protocol_version="1.0")
         pipeline = BenchmarkPipeline(
             strategy=_FakeStrategy(),

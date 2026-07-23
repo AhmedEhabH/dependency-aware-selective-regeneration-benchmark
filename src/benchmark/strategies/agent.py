@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING
 
 from benchmark.core.enums import ActionKind
@@ -14,6 +15,8 @@ from benchmark.core.models import (
 
 if TYPE_CHECKING:
     from benchmark.core.protocols import LLMBackend
+
+logger = logging.getLogger(__name__)
 
 
 class RepositoryAgentStrategy:
@@ -31,15 +34,26 @@ class RepositoryAgentStrategy:
         import asyncio
 
         prompt = self._build_prompt(repository, requirement_change, artifact_universe)
+
+        response = asyncio.get_event_loop().run_until_complete(
+            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=4096)
+        )
+
         try:
-            response = asyncio.get_event_loop().run_until_complete(
-                self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=4096)
-            )
-            return self._parse_response(response.text, artifact_universe)
-        except Exception as exc:
+            parsed = self._parse_response(response.text, artifact_universe)
+        except (ValueError, TypeError) as exc:
             return ImpactPrediction(
-                errors=(f"agent strategy failed: {exc}",),
+                errors=(f"agent strategy: failed to parse LLM output: {exc}",),
+                token_usage=response.token_usage,
             )
+
+        if response.token_usage and (
+            response.token_usage.prompt_tokens > 0
+            or response.token_usage.completion_tokens > 0
+        ):
+            object.__setattr__(parsed, "token_usage", response.token_usage)
+
+        return parsed
 
     def _build_prompt(
         self,

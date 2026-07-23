@@ -7,7 +7,7 @@ from benchmark.repositories.workspace import WorkspacePath
 class TestIsolationContext:
     def test_verify_creates_report(self, tmp_path: Path) -> None:
         ws = WorkspacePath(root=str(tmp_path))
-        ctx = IsolationContext(workspace=ws, snapshot_base=tmp_path / "snapshots")
+        ctx = IsolationContext(workspace=ws, snapshot_base=tmp_path)
         report = ctx.verify()
         assert report.passed is False
         assert len(report.violations) > 0

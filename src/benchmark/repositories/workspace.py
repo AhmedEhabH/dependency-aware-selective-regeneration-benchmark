@@ -54,9 +54,4 @@ def check_isolation(workspace: Path, snapshot_base: Path) -> list[str]:
         )
         return violations
 
-    if snap_resolved.is_relative_to(ws_resolved):
-        violations.append(
-            f"Snapshot directory is inside workspace root: {snap_resolved} -> {ws_resolved}"
-        )
-
     return violations

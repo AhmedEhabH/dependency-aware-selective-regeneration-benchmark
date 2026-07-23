@@ -167,6 +167,7 @@ class ImpactDecision:
 class ImpactPrediction:
     decisions: tuple[ImpactDecision, ...] = ()
     errors: tuple[str, ...] = ()
+    token_usage: TokenUsage | None = None
 
     def __post_init__(self) -> None:
         if self.decisions and self.errors:
@@ -245,6 +246,7 @@ class FailureRecord:
     failure_kind: FailureKind
     message: str
     details: str = ""
+    stage: str = ""
 
     def __post_init__(self) -> None:
         if not self.message:

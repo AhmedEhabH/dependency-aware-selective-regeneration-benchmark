@@ -66,6 +66,41 @@ STRATEGY_NAMES = [
     "code_plan",
 ]
 
+# Frozen protocol design: which strategies are expected to use an LLM backend.
+# This is the DESIGN specification; the current code may not match.
+STRATEGY_LLM_DESIGN: dict[str, bool] = {
+    "monolithic": True,
+    "agent": True,
+    "selective": True,
+    "compiled_ai": False,
+    "delta_mcp": True,
+    "incr_rtl": False,
+    "code_plan": True,
+}
+
+
+def audit_llm_usage(strategy_name: str) -> bool:
+    """Return True if the strategy *actually* uses an LLM backend in the current code."""
+    from benchmark.strategies import (
+        FullContextStrategy,
+        HybridSelectiveStrategy,
+        MonolithicRegenerationStrategy,
+        RepositoryAgentStrategy,
+        SemanticOnlyStrategy,
+        StaticOnlyStrategy,
+        TraceabilityOnlyStrategy,
+    )
+    backended = {RepositoryAgentStrategy}
+    return {
+        "monolithic": MonolithicRegenerationStrategy,
+        "selective": HybridSelectiveStrategy,
+        "agent": RepositoryAgentStrategy,
+        "compiled_ai": StaticOnlyStrategy,
+        "delta_mcp": SemanticOnlyStrategy,
+        "incr_rtl": TraceabilityOnlyStrategy,
+        "code_plan": FullContextStrategy,
+    }[strategy_name] in backended
+
 REPO_IDS = ["todo", "djangocms", "saleor"]
 
 
@@ -245,6 +280,7 @@ def run_arm(
         scenario_provider=scenario_provider,
         isolation=isolation,
         config=config,
+        strategy_name=strategy_name,
     )
 
     scenario_count = profile.scenario_count
@@ -282,7 +318,7 @@ def aggregate_results(results: dict, output_dir: Path, is_publication: bool = Fa
     for arm_name, result in results.items():
         records = []
         for r in result.records:
-            records.append({
+            record_dict: dict = {
                 "run_id": r.identity.run_id,
                 "scenario_id": r.identity.scenario_id,
                 "strategy_name": r.identity.strategy_name,
@@ -293,7 +329,18 @@ def aggregate_results(results: dict, output_dir: Path, is_publication: bool = Fa
                     "completion_tokens": r.token_usage.completion_tokens,
                     "total_tokens": r.token_usage.total_tokens,
                 } if r.token_usage else None,
-            })
+            }
+            if r.failures:
+                record_dict["failures"] = [
+                    {
+                        "kind": f.failure_kind.value if hasattr(f.failure_kind, "value") else str(f.failure_kind),
+                        "message": f.message,
+                        "details": f.details,
+                        "stage": f.stage,
+                    }
+                    for f in r.failures
+                ]
+            records.append(record_dict)
         summary[arm_name] = {
             "success_count": result.success_count,
             "failure_count": result.failure_count,
@@ -484,6 +531,17 @@ def main() -> int:
     _validate_scenario_count(all_scenarios, profile)
 
     strategy_names = [args.strategy] if args.strategy else profile.strategies
+
+    # Report LLM usage per strategy
+    for sn in strategy_names:
+        uses_llm = audit_llm_usage(sn)
+        expected = STRATEGY_LLM_DESIGN.get(sn, False)
+        match_icon = "MATCH" if uses_llm == expected else "MISMATCH"
+        logger.info(
+            "Strategy audit: %s  uses_llm=%s  design_expected=%s  %s",
+            sn, uses_llm, expected, match_icon,
+        )
+
     results: dict = {}
 
     for strategy_name in strategy_names:
@@ -506,10 +564,30 @@ def main() -> int:
     total_success = sum(r.success_count for r in results.values())
     total_failure = sum(r.failure_count for r in results.values())
     total_timeout = sum(r.timeout_count for r in results.values())
+
+    # Detailed arm-level report
+    for arm_name, result in results.items():
+        uses_llm = audit_llm_usage(arm_name)
+        for rec in result.records:
+            tok = rec.token_usage
+            gen_called = uses_llm
+            gen_succeeded = gen_called and tok.total_tokens > 0
+            logger.info(
+                "Arm report: strategy=%s  uses_llm=%s  generation_called=%s  "
+                "generation_succeeded=%s  status=%s  tokens=%d/%d/%d  duration=%.1fs",
+                arm_name, uses_llm, gen_called, gen_succeeded,
+                rec.status.value,
+                tok.prompt_tokens, tok.completion_tokens, tok.total_tokens,
+                rec.duration_seconds,
+            )
+
     logger.info(
         "Benchmark complete: %d success / %d failure / %d timeout across %d arms  label=%s",
         total_success, total_failure, total_timeout, len(results), profile.label,
     )
+    if total_failure > 0 or total_timeout > 0:
+        logger.warning("Non-zero exit due to %d failures, %d timeouts", total_failure, total_timeout)
+        return 1
     return 0
 
 
