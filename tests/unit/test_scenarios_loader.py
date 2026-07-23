@@ -112,3 +112,55 @@ class TestScenarioLoader:
         assert len(todo_scenarios) == 2
         djangocms_scenarios = loader.load_by_repository("djangocms")
         assert len(djangocms_scenarios) == 2
+
+    def test_load_24_scenarios_repo_distribution(self) -> None:
+        from collections import Counter
+        from pathlib import Path
+
+        test_dir = Path(__file__).resolve().parent.parent.parent
+        scenarios_dir = test_dir / "benchmark_data" / "scenarios"
+        if not scenarios_dir.is_dir():
+            pytest.skip("benchmark_data/scenarios directory not found")
+
+        loader = ScenarioLoader(scenarios_dir)
+        scenarios = loader.load_all()
+        assert len(scenarios) == 24, (
+            f"Expected 24 scenarios, loaded {len(scenarios)}. "
+            "Run with --log-cli-level=INFO to see which files were skipped."
+        )
+        repo_counts = Counter(s.repository for s in scenarios)
+        for repo in ("todo", "djangocms", "saleor"):
+            assert repo_counts[repo] == 8, (
+                f"Repository '{repo}' has {repo_counts[repo]} scenarios, expected 8. "
+                f"Full distribution: {dict(repo_counts)}"
+            )
+
+    def test_load_all_logs_warnings_on_partial_failure(self, tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
+        import logging
+        caplog.set_level(logging.WARNING)
+
+        data_ok = dict(SAMPLE_SCENARIO_YAML)
+        data_ok["scenario_id"] = "ok-001"
+        (tmp_path / "ok.yaml").write_text(yaml.dump(data_ok), encoding="utf-8")
+
+        (tmp_path / "bad.yaml").write_text(": broken yaml [", encoding="utf-8")
+
+        loader = ScenarioLoader(tmp_path)
+        scenarios = loader.load_all()
+        assert len(scenarios) == 1
+        assert any("bad.yaml" in rec.message for rec in caplog.records)
+
+    def test_load_all_logs_each_skipped_file(self, tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
+        import logging
+        caplog.set_level(logging.WARNING)
+
+        (tmp_path / "a.yaml").write_text("scalar\n", encoding="utf-8")
+        (tmp_path / "b.yaml").write_text("scalar\n", encoding="utf-8")
+
+        loader = ScenarioLoader(tmp_path)
+        with pytest.raises(ScenarioError, match="Failed to load any"):
+            loader.load_all()
+
+        warning_messages = [rec.message for rec in caplog.records]
+        assert any("a.yaml" in m for m in warning_messages)
+        assert any("b.yaml" in m for m in warning_messages)

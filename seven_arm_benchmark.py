@@ -37,6 +37,7 @@ import json
 import logging
 import sys
 import time
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -416,6 +417,49 @@ def _validate_cli_args(args: argparse.Namespace) -> None:
         sys.exit(1)
 
 
+EXPECTED_SCENARIO_TOTAL = 24
+EXPECTED_REPO_SCENARIOS = 8
+
+
+def _validate_scenario_count(
+    scenarios: list[Scenario],  # type: ignore[type-arg]
+    profile: ExecutionProfile,
+) -> None:
+    actual = len(scenarios)
+
+    if profile.name == "research":
+        if actual < EXPECTED_SCENARIO_TOTAL:
+            logger.error(
+                "Research profile requires %d scenarios, loaded %d. "
+                "Check scenario YAML files for errors.",
+                EXPECTED_SCENARIO_TOTAL, actual,
+            )
+            sys.exit(1)
+        repo_counts = Counter(s.repository for s in scenarios)
+        for repo, count in repo_counts.items():
+            if count != EXPECTED_REPO_SCENARIOS:
+                logger.error(
+                    "Research profile: repository '%s' has %d scenarios, expected %d. "
+                    "Distribution: %s",
+                    repo, count, EXPECTED_REPO_SCENARIOS, dict(repo_counts),
+                )
+                sys.exit(1)
+    elif profile.name == "pilot":
+        if actual < 12:
+            logger.error(
+                "Pilot profile requires at least 12 scenarios, loaded %d. "
+                "Select 4 per repo from the full 24.",
+                actual,
+            )
+            sys.exit(1)
+    elif profile.name == "smoke" and actual < EXPECTED_SCENARIO_TOTAL:
+        logger.warning(
+            "Smoke profile: only %d / %d scenarios loaded. "
+            "Continuing with 1 scenario, but data may be incomplete.",
+            actual, EXPECTED_SCENARIO_TOTAL,
+        )
+
+
 def main() -> int:
     args = parse_args()
     output_dir = Path(args.output_dir)
@@ -434,6 +478,7 @@ def main() -> int:
     scenario_provider = ScenarioProvider(scenarios_dir)
     all_scenarios = scenario_provider.list_scenarios()
     logger.info("Loaded %d scenarios from %s", len(all_scenarios), scenarios_dir)
+    _validate_scenario_count(all_scenarios, profile)
 
     strategy_names = [args.strategy] if args.strategy else profile.strategies
     results: dict = {}  # type: ignore[type-arg]

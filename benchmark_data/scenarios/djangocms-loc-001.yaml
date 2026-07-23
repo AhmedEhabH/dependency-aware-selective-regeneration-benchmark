@@ -4,7 +4,7 @@ change_type: localized_schema
 
 blast_radius: localized
 
-requirement_before:
+requirement_before: |
   The PageContent model in cms/models/contentmodels.py has fields:
   title, slug, page_title, menu_title, meta_keywords, meta_description
   does NOT exist. The admin form for PageContent does not include
@@ -36,8 +36,8 @@ acceptance_criteria:
 expected_affected_artifacts:
   - "cms/models/contentmodels.py:PageContent"
   - "cms/admin/pagecontentadmin.py:PageContentAdmin"
-  - "cms/forms.py:PageContentForm" (if exists) or inline admin form
-  - "cms/migrations/0040_add_pagemodel_meta_description.py" (new file)
+  - '"cms/forms.py:PageContentForm" (if exists) or inline admin form'
+  - '"cms/migrations/0040_add_pagemodel_meta_description.py" (new file)'
 
 expected_actions:
   cms/models/contentmodels.py: modify

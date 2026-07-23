@@ -4,14 +4,14 @@ change_type: localized_validation
 
 blast_radius: localized
 
-requirement_before:
+requirement_before: |
   CMSPlugin instances within a Placeholder do not enforce position
   uniqueness at the model level. If two plugins are saved with the
   same position value within the same placeholder, no error is
   raised. Position ordering relies on MPTT tree position and admin
   logic.
 
-requirement_after:
+requirement_after: |
   When a CMSPlugin is saved, the model validates that no other
   CMSPlugin within the same Placeholder has the same position
   value. If a conflict is detected, the save should either
@@ -36,7 +36,7 @@ acceptance_criteria:
 
 expected_affected_artifacts:
   - "cms/models/pluginmodel.py:CMSPlugin"
-  - "cms/admin/placeholderadmin.py:PlaceholderAdmin" (position display)
+  - '"cms/admin/placeholderadmin.py:PlaceholderAdmin" (position display)'
 
 expected_actions:
   cms/models/pluginmodel.py: modify

@@ -4,7 +4,7 @@ change_type: moderate_permissions
 
 blast_radius: moderate
 
-requirement_before:
+requirement_before: |
   The CMS has two page permission levels: "view" (can see page) and
   "edit" (can edit content). Users either have full edit rights or
   none. There is no intermediate role for reviewing/approving
@@ -63,7 +63,8 @@ regression_obligations:
 
 architecture_constraints:
   - Must not remove or alter existing permission fields.
-  - `has_review_permission` must also check for superuser status
+  - |
+    `has_review_permission` must also check for superuser status
     (superusers can always review).
   - The toolbar must not show the "Review" item to users without
     any review permission (avoid toolbar clutter).

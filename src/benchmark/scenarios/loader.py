@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 import yaml
@@ -7,6 +8,8 @@ import yaml
 from benchmark.core.exceptions import ScenarioError
 from benchmark.core.models import Scenario
 from benchmark.scenarios.models import ScenarioModel
+
+logger = logging.getLogger("benchmark.scenarios.loader")
 
 
 class ScenarioLoader:
@@ -72,12 +75,20 @@ class ScenarioLoader:
                 scenario = self.load_scenario(scenario_file)
                 results.append(scenario)
             except ScenarioError as e:
-                errors.append(str(e))
+                msg = f"Skipping {scenario_file.name}: {e}"
+                logger.warning(msg)
+                errors.append(msg)
 
         if errors and not results:
             raise ScenarioError(
                 f"Failed to load any scenario from {self._scenarios_dir}",
                 context={"errors": errors},
+            )
+
+        if errors:
+            logger.info(
+                "Loaded %d / %d scenario files (%d skipped)",
+                len(results), len(scenario_files), len(errors),
             )
 
         return results
