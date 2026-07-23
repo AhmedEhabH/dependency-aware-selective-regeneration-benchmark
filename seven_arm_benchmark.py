@@ -40,6 +40,10 @@ import time
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from benchmark.core.models import Scenario
 
 logging.basicConfig(
     level=logging.INFO,
@@ -118,7 +122,6 @@ class ScenarioProvider:
     """Thin wrapper around ScenarioLoader that satisfies the ScenarioProvider protocol."""
 
     def __init__(self, scenarios_dir: Path) -> None:
-        from benchmark.core.models import Scenario
         from benchmark.scenarios.loader import ScenarioLoader
 
         self._loader = ScenarioLoader(scenarios_dir)
@@ -272,10 +275,10 @@ def run_arm(
 # Aggregate results
 # ---------------------------------------------------------------------------
 
-def aggregate_results(results: dict, output_dir: Path, is_publication: bool = False):  # type: ignore[no-untyped-def, type-arg]
+def aggregate_results(results: dict, output_dir: Path, is_publication: bool = False):  # type: ignore[no-untyped-def]
     """Serialize per-arm results to JSON."""
     output_dir.mkdir(parents=True, exist_ok=True)
-    summary: dict = {}  # type: ignore[type-arg]
+    summary: dict = {}
     for arm_name, result in results.items():
         records = []
         for r in result.records:
@@ -422,7 +425,7 @@ EXPECTED_REPO_SCENARIOS = 8
 
 
 def _validate_scenario_count(
-    scenarios: list[Scenario],  # type: ignore[type-arg]
+    scenarios: list[Scenario],
     profile: ExecutionProfile,
 ) -> None:
     actual = len(scenarios)
@@ -481,7 +484,7 @@ def main() -> int:
     _validate_scenario_count(all_scenarios, profile)
 
     strategy_names = [args.strategy] if args.strategy else profile.strategies
-    results: dict = {}  # type: ignore[type-arg]
+    results: dict = {}
 
     for strategy_name in strategy_names:
         arm_workspace = workspace_dir / strategy_name
