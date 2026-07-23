@@ -15,6 +15,7 @@ from benchmark.core.models import (
     RunIdentity,
     RunRecord,
     Scenario,
+    TokenUsage,
 )
 from benchmark.core.protocols import ImpactStrategy, LLMBackend
 from benchmark.execution.budgets import BudgetExhaustedError, BudgetManager
@@ -71,6 +72,7 @@ class BenchmarkRunner:
                         failure_kind=FailureKind.infrastructure,
                         message="Isolation check failed",
                         details=isolation_report.message,
+                        stage="isolation",
                     ),
                 ),
             )
@@ -137,10 +139,28 @@ class BenchmarkRunner:
                 artifact_universe=artifact_universe,
             )
 
+            if prediction.errors:
+                return RunRecord(
+                    identity=self._build_run_identity(scenario),
+                    status=RunStatus.failed,
+                    prediction=prediction,
+                    token_usage=prediction.token_usage or TokenUsage(),
+                    failures=(
+                        FailureRecord(
+                            failure_kind=FailureKind.model_output,
+                            message=prediction.errors[0],
+                            details="; ".join(prediction.errors),
+                            stage="analyze_impact",
+                        ),
+                    ),
+                    duration_seconds=time.monotonic() - start_time,
+                )
+
             return RunRecord(
                 identity=self._build_run_identity(scenario),
                 status=RunStatus.succeeded,
                 prediction=prediction,
+                token_usage=prediction.token_usage or TokenUsage(),
                 duration_seconds=time.monotonic() - start_time,
             )
         except BudgetExhaustedError:
@@ -150,15 +170,52 @@ class BenchmarkRunner:
                 failures=(FailureRecord(
                     failure_kind=FailureKind.timeout,
                     message="Budget exhausted during attempt",
+                    stage="budget",
                 ),),
                 duration_seconds=time.monotonic() - start_time,
             )
         except ModelBackendError as e:
-            return e
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.failed,
+                failures=(
+                    FailureRecord(
+                        failure_kind=FailureKind.model_output,
+                        message=str(e.message) if hasattr(e, "message") else str(e),
+                        details=f"{e.__class__.__name__}: {e!r}",
+                        stage="backend.generate",
+                    ),
+                ),
+                duration_seconds=time.monotonic() - start_time,
+            )
         except ProtocolViolationError as e:
-            return e
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.failed,
+                failures=(
+                    FailureRecord(
+                        failure_kind=FailureKind.harness_defect,
+                        message=str(e.message) if hasattr(e, "message") else str(e),
+                        details=f"{e.__class__.__name__}: {e!r}",
+                        stage="protocol",
+                    ),
+                ),
+                duration_seconds=time.monotonic() - start_time,
+            )
         except BenchmarkError as e:
-            return e
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.failed,
+                failures=(
+                    FailureRecord(
+                        failure_kind=FailureKind.infrastructure,
+                        message=str(e.message) if hasattr(e, "message") else str(e),
+                        details=f"{e.__class__.__name__}: {e!r}",
+                        stage="runner",
+                    ),
+                ),
+                duration_seconds=time.monotonic() - start_time,
+            )
 
     def _build_run_identity(self, scenario: Scenario) -> RunIdentity:
         return RunIdentity(

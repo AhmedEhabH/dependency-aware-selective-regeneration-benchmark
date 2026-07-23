@@ -70,13 +70,16 @@ class RepairLoop:
                     failures=(),
                 )
 
-            failure_kind = self._classifier(result) or FailureKind.model_output
-            failures.append(
-                FailureRecord(
-                    failure_kind=failure_kind,
-                    message=f"Attempt {self._budget.state.total_attempts}: {result.status.value}",
+            if result.failures:
+                failures.extend(result.failures)
+            else:
+                failure_kind = self._classifier(result) or FailureKind.model_output
+                failures.append(
+                    FailureRecord(
+                        failure_kind=failure_kind,
+                        message=f"Attempt {self._budget.state.total_attempts}: {result.status.value}",
+                    )
                 )
-            )
 
             if not self._budget.can_attempt:
                 final_record = RunRecord(

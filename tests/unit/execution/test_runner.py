@@ -95,7 +95,7 @@ class TestBenchmarkRunner:
 
     def test_isolation_failure_returns_failure_record(self, tmp_path: Path) -> None:
         ws = WorkspacePath(root=str(tmp_path))
-        iso = IsolationContext(workspace=ws)
+        iso = IsolationContext(workspace=ws, snapshot_base=tmp_path)
         config = RunnerConfig(
             strategy_name="s", backend_name="b", protocol_version="1.0",
         )

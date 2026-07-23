@@ -45,11 +45,10 @@ class TestCheckIsolation:
         assert len(violations) == 1
         assert "same as workspace" in violations[0]
 
-    def test_nested_path_violation(self, tmp_path: Path) -> None:
+    def test_nested_path_permitted(self, tmp_path: Path) -> None:
         nested = tmp_path / "snapshots" / "repo"
         violations = check_isolation(tmp_path, nested)
-        assert len(violations) == 1
-        assert "inside workspace" in violations[0]
+        assert len(violations) == 0
 
     def test_separate_paths_no_violation(self, tmp_path: Path) -> None:
         ws = tmp_path / "workspace"

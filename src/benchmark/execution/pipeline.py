@@ -37,8 +37,10 @@ class BenchmarkPipeline:
         scenario_provider: ScenarioProvider,
         isolation: IsolationContext,
         config: PipelineConfig,
+        strategy_name: str = "strategy",
     ) -> None:
         self._strategy = strategy
+        self._strategy_name = strategy_name
         self._backend = backend
         self._scenario_provider = scenario_provider
         self._isolation = isolation
@@ -88,7 +90,7 @@ class BenchmarkPipeline:
 
     def _make_runner(self, _scenario: Scenario) -> BenchmarkRunner:
         runner_config = RunnerConfig(
-            strategy_name="strategy",
+            strategy_name=self._strategy_name,
             backend_name="backend",
             protocol_version=self._config.protocol_version,
             timeout_seconds=self._config.timeout_seconds,
