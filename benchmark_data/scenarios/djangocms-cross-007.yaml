@@ -9,7 +9,7 @@ requirement_before:
   intermediate workflow state. Content is either draft or published.
   No approval or review process exists in the CMS core.
 
-requirement_after:
+requirement_after: |
   A full content version approval workflow is added to PageContent.
   The workflow has four states: draft -> pending_review -> approved
   -> published. These states are stored in a new `status` field on
@@ -31,18 +31,23 @@ rationale: >
   CMS stack.
 
 acceptance_criteria:
-  - PageContent.status field with choices: draft, pending_review,
+  - |
+    PageContent.status field with choices: draft, pending_review,
     approved, published.
-  - Valid transitions: draft->pending_review (submit),
+  - |
+    Valid transitions: draft->pending_review (submit),
     pending_review->approved (approve), pending_review->draft (reject),
     approved->published (publish), published->draft (unpublish).
   - Admin actions for each transition, gated by appropriate permissions.
   - Toolbar displays current status and available actions.
-  - cms/api.py publish functions check status == approved before
+  - |
+    cms/api.py publish functions check status == approved before
     setting published.
-  - A signal `page_content_status_changed` fires on every transition.
+  - |
+    A signal `page_content_status_changed` fires on every transition.
   - A new migration creates the status field.
-  - A new permission "can_approve" is added (or reuses mod-005).
+  - |
+    A new permission "can_approve" is added (or reuses mod-005).
   - All existing tests pass.
 
 expected_affected_artifacts:
@@ -54,7 +59,7 @@ expected_affected_artifacts:
   - "cms/api.py"
   - "cms/signals.py"
   - "cms/models/permissionmodels.py"
-  - "cms/migrations/0044_add_workflow_status.py" (new file)
+  - '"cms/migrations/0044_add_workflow_status.py" (new file)'
 
 expected_actions:
   cms/models/contentmodels.py: modify

@@ -4,14 +4,14 @@ change_type: cross_cutting_broad
 
 blast_radius: cross_cutting
 
-requirement_before:
+requirement_before: |
   Cache invalidation in django CMS is broad: entire page caches are
   flushed when any content changes. There is no granular cache tag
   system. Cache keys are simple strings without tagging. Clearing
   cache for a specific plugin, placeholder, or page content
   requires flushing all caches.
 
-requirement_after:
+requirement_after: |
   A cache invalidation tag system is implemented. Every content
   object (Page, PageContent, Placeholder, CMSPlugin) has associated
   cache tags. When an object is created, updated, or deleted, its
@@ -40,7 +40,8 @@ rationale: >
 acceptance_criteria:
   - cms/cache/tags.py exists with make_tag, get_tags_for_object,
     and invalidate_by_tag functions.
-  - make_tag(obj_type, obj_id) returns a string like "page:42" or
+  - |
+    make_tag(obj_type, obj_id) returns a string like "page:42" or
     "pagecontent:7".
   - get_tags_for_object(obj) returns a list of relevant tags for
     the object (including parent object tags for cascade).
@@ -52,12 +53,13 @@ acceptance_criteria:
   - Template tags optionally accept a cache_tag parameter or use
     automatic tag-based caching.
   - Existing cache-related tests pass.
-  - The system is extensible: third-party plugins can register
+  - |
+    The system is extensible: third-party plugins can register
     their own cache tag handlers.
 
 expected_affected_artifacts:
   - "cms/cache/__init__.py"
-  - "cms/cache/tags.py" (new file)
+  - '"cms/cache/tags.py" (new file)'
   - "cms/signals.py"
   - "cms/models/pagemodel.py:Page"
   - "cms/models/contentmodels.py:PageContent"
@@ -88,9 +90,11 @@ architecture_constraints:
     (tags.py must accept strings/objects, not import models).
   - Signals must be idempotent and not raise exceptions if cache
     backend is unavailable.
-  - The cache backend must be configurable (default: Django's
+  - |
+    The cache backend must be configurable (default: Django's
     default cache).
-  - Tag-based cache checking must be a performance improvement,
+  - |
+    Tag-based cache checking must be a performance improvement,
     not a degradation: use a single cache get with tag lookup
     rather than multiple round-trips.
   - The system must fall back to existing cache behavior if the

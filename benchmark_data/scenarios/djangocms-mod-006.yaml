@@ -4,7 +4,7 @@ change_type: moderate_cross_entity
 
 blast_radius: moderate
 
-requirement_before:
+requirement_before: |
   CMSPlugin instances are associated with a Placeholder but have no
   direct foreign key to PageContent or language. Plugin content is
   language-agnostic at the model level. When rendering a placeholder
@@ -45,7 +45,7 @@ expected_affected_artifacts:
   - "cms/admin/placeholderadmin.py:PlaceholderAdmin"
   - "cms/plugin_pool.py:PluginPool"
   - "cms/plugin_base.py:CMSPluginBase"
-  - "cms/templatetags/cms_tags.py" (placeholder rendering)
+  - '"cms/templatetags/cms_tags.py" (placeholder rendering)'
 
 expected_actions:
   cms/models/pluginmodel.py: modify
@@ -61,7 +61,8 @@ regression_obligations:
   - "cms/tests/test_templatetags.py"
 
 architecture_constraints:
-  - The migration must be backward-compatible: existing plugins
+  - |
+    The migration must be backward-compatible: existing plugins
     get page_content=NULL.
   - Must not remove the Placeholder foreign key from CMSPlugin.
   - Rendering must fall back to showing all plugins for a Placeholder
