@@ -1,0 +1,62 @@
+# Protocol research profile: 24 scenarios, full-evolution strategies, 3 reps
+# Publication evidence.
+# See PROTOCOL_VERSION.md §6 (DA-09)
+
+profile_label: protocol-research
+protocol_version: "1.0"
+execution_mode: kaggle
+
+# Full-evolution strategies (generate code + run tests)
+strategies:
+  - name: agent
+  - name: selective
+  - name: compiled_ai
+  - name: delta_mcp
+
+# Impact-only strategies (no full generation; run all 24 scenarios)
+impact_only_strategies:
+  - name: monolithic
+  - name: incr_rtl
+  - name: code_plan
+
+backends:
+  - name: qwen
+    kind: kaggle_qwen
+    params:
+      model_name: qwen2.5-coder
+
+repositories:
+  - name: todo
+    url: https://github.com/example/todo-app
+    ref: main
+  - name: djangocms
+    url: https://github.com/django-cms/django-cms
+    ref: main
+  - name: saleor
+    url: https://github.com/saleor/saleor
+    ref: main
+
+scenario_selection:
+  repository_names:
+    - todo
+    - djangocms
+    - saleor
+  blast_radii:
+    - localized
+    - moderate
+    - cross_cutting
+  count: 24
+
+execution:
+  max_iterations: 3
+  max_tokens: 4096
+  timeout_seconds: 0
+  random_seed: 42
+  evidence_tier: publication
+  repetitions: 3
+
+output:
+  output_dir: runs/research
+  format: jsonl
+  write_provenance: true
+  is_publication: true
