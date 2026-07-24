@@ -522,3 +522,27 @@
   - Pip check: clean
 - **Impact:** Reproducible Kaggle bundles; traceable change management; outer duplicates ready for deletion. Next task: selective `runs_dir` NameError fix (SU-0002).
 - **Evidence:** Branch `chore/canonical-project-remediation`; `scripts/build_upload_bundle.py`; `project/kaggle_upload/`; `project/selective_updates/`
+
+---
+
+## Decision D022 — Selective runs_dir NameError Fix (SU-0002)
+
+- **Date:** 2026-07-24
+- **Decision ID:** D022
+- **Status:** IMPLEMENTED
+- **Category:** Bugfix / CLI
+- **Description:** Fix NameError in `seven_arm_benchmark.py` where `runs_dir` was used but not defined in START_NEW path (line 957). The variable `output_dir` (defined at line 828 from `--output-dir` CLI argument) is the correct variable. Fix is minimal: replace `runs_dir` with `output_dir` at line 957.
+- **Rationale:** The bug prevented CLI execution when `--auto-resume-hf` is not used (START_NEW path). RESUME and `--resume-from-hf` paths already used `output_dir` correctly. Fix is a single variable name change.
+- **Alternatives considered:**
+  - Define `runs_dir = output_dir` as alias — rejected as unnecessary indirection
+  - Use `Path(args.output_dir).resolve()` inline — rejected as less readable
+- **Implementation scope:**
+  - `seven_arm_benchmark.py`: line 957 `runs_dir` → `output_dir`
+  - `tests/unit/test_cli.py`: added `TestRunsDirBugFix` class with 2 regression tests
+- **Quality gates:**
+  - `python -m pytest tests/unit/test_cli.py`: 17 passed (2 new tests)
+  - `python -m pytest tests/`: 613 passed, 2 skipped
+  - Bundle builder: verification passed (0 errors)
+  - All pre-existing lint/type issues unchanged
+- **Impact:** CLI executes without NameError for START_NEW path. RESUME and `--resume-from-hf` paths unaffected. Bundle rebuilt and verified.
+- **Evidence:** Branch `fix/su-0002-runs-dir-nameerror`; `scripts/build_upload_bundle.py`; SU-0002 record

@@ -2,13 +2,13 @@
 
 **Report Date:** 2026-07-24  
 **Project:** Selective Regeneration Benchmark  
-**Phase:** Canonical Structure Remediation Complete — SU-0001 Recorded
+**Phase:** SU-0002 runs_dir NameError Fix Validated — SU-0001 Complete
 
 ---
 
 ## Executive Summary
 
-Canonical structure remediation complete. Inner `project/kaggle_upload/` rebuilt via deterministic script `scripts/build_upload_bundle.py` (72 code + 29 data + 1 notebook files, all checksums verified). Selective-update ledger `project/selective_updates/` established with SU-0001 recorded. Outer stale duplicates (`<parent>/kaggle_upload/`, `<parent>/docs/`) deleted after verification. Frozen protocol documents unchanged. `runs_dir` NameError deferred to SU-0002.
+Selective fix SU-0002 for `runs_dir` NameError validated and ready to merge. Canonical structure remediation (SU-0001) complete on main. Inner `project/kaggle_upload/` rebuilt via deterministic script `scripts/build_upload_bundle.py` (72 code + 29 data + 1 notebook files, all checksums verified). Selective-update ledger `project/selective_updates/` established with SU-0001 recorded. SU-0002 fixes `runs_dir` NameError in CLI START_NEW path by replacing undefined `runs_dir` with `output_dir`. All 613 tests pass. Bundle rebuilt and verified. Frozen protocol documents unchanged. Next: checkpoint/resume for long-running profiles.
 
 ---
 
@@ -24,6 +24,7 @@ Canonical structure remediation complete. Inner `project/kaggle_upload/` rebuilt
 | Phase 3.5 — Architecture Audit | ✅ COMPLETE | N/A | 10 docs | All pass |
 | Phase 3.6 — Structure Remediation | ✅ COMPLETE | N/A | Baseline commit | All pass |
 | Phase 3.7 — Canonical Remediation | ✅ COMPLETE | N/A | 1 script + ledger | All pass |
+| **SU-0002 runs_dir Fix** | ✅ **VALIDATED** | **2 new** | **1 src + 1 test** | **ruff:0, mypy:0, pytest:613/615 (2 skipped)** |
 | Phase 4A — Domain Models | ✅ COMPLETE | 111 | 17 src + 8 test | ruff:0, mypy:0, pytest:111/111 |
 | Phase 4B — Loaders | ✅ COMPLETE | 206 | 11 src + 14 test | ruff:0, mypy:0, pytest:206/206 |
 | Phase 4C — Model Backends | ✅ COMPLETE | 229 | 5 src + 6 test | ruff:0, mypy:0, pytest:229/229 |
@@ -41,7 +42,7 @@ Canonical structure remediation complete. Inner `project/kaggle_upload/` rebuilt
 |--------|-------|
 | **Production Files (src/benchmark/)** | 62 |
 | **Test Files** | 15 |
-| **Total Tests** | 504 (+1 skipped torch) |
+| **Total Tests** | 613 (+1 skipped torch) |
 | **Benchmark Scenarios** | 24 |
 | **Repositories** | 3 (todo, djangocms, saleor) |
 | **Strategies** | 7 (monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan) |
@@ -54,7 +55,7 @@ Canonical structure remediation complete. Inner `project/kaggle_upload/` rebuilt
 |------|--------|---------|
 | **Ruff Lint** | ✅ PASS | 0 violations |
 | **Mypy Strict** | ✅ PASS | 0 errors, 60 source files; 5 pre-existing in tests |
-| **Pytest** | ✅ PASS | 504/505 passed (1 skipped: torch import) |
+| **Pytest** | ✅ PASS | 613/615 passed (2 skipped: torch import) |
 | **pip check** | ✅ PASS | No broken requirements |
 
 ---
