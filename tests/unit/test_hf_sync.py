@@ -108,6 +108,36 @@ class TestRemoteLayout:
         path = layout.final()
         assert path.endswith("final")
 
+    def test_rejects_empty_source_commit(self) -> None:
+        with pytest.raises(ValueError, match="source_commit"):
+            RemoteLayout("smoke", "1.0", "", "exp-001")
+
+    def test_rejects_empty_experiment_id(self) -> None:
+        with pytest.raises(ValueError, match="experiment_id"):
+            RemoteLayout("smoke", "1.0", "abc1234", "")
+
+    def test_no_double_slash_in_recovery_path(self) -> None:
+        layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-double")
+        path = layout.recovery()
+        assert "//" not in path
+
+    def test_no_double_slash_in_snapshot_path(self) -> None:
+        layout = RemoteLayout("research", "1.0", "def5678", "exp-double")
+        path = layout.snapshot(1)
+        assert "//" not in path
+
+    def test_no_double_slash_in_final_path(self) -> None:
+        layout = RemoteLayout("pilot", "1.0", "xyz", "exp-double")
+        path = layout.final()
+        assert "//" not in path
+
+    def test_upload_download_path_equality(self) -> None:
+        layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-equal")
+        recovery = layout.recovery()
+        upload_path = f"{recovery}/checkpoint.json"
+        download_path = f"{recovery}/checkpoint.json"
+        assert upload_path == download_path
+
 
 # ---------------------------------------------------------------------------
 # Tests: Security filter
@@ -491,6 +521,69 @@ class TestHfResumeManager:
             with pytest.raises(ResumeValidationError, match="Model identity mismatch"):
                 resume.download_and_validate()
 
+    def test_resume_fails_closed_on_404(self, tmp_path: Path) -> None:
+        layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-404")
+        with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=Exception("404 Client Error: Not Found")):
+            resume = HfResumeManager(
+                runs_dir=tmp_path,
+                repo_id=TEST_REPO,
+                layout=layout,
+                token="hf_test_token",
+                protocol_version="1.0",
+                config_hash="deadbeef",
+                model_identity="dry-run:mock",
+                source_commit="abc1234",
+                scenario_ids=["run-1"],
+                strategy_names=["agent"],
+            )
+            with pytest.raises(ResumeValidationError, match="No recovery files could be downloaded"):
+                resume.download_and_validate()
+
+    def test_no_benchmark_execution_after_failed_resume(self, tmp_path: Path) -> None:
+        layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-no-exec")
+        with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=Exception("404")):
+            resume = HfResumeManager(
+                runs_dir=tmp_path,
+                repo_id=TEST_REPO,
+                layout=layout,
+                token="hf_test_token",
+                protocol_version="1.0",
+                config_hash="deadbeef",
+                model_identity="dry-run:mock",
+                source_commit="abc1234",
+                scenario_ids=["run-1"],
+                strategy_names=["agent"],
+            )
+            with pytest.raises(ResumeValidationError):
+                resume.download_and_validate()
+        checkpoint_path = tmp_path / "checkpoint.json"
+        assert not checkpoint_path.is_file(), "No checkpoint file should exist after failed resume"
+
+    def test_resume_skips_first_completed_run(self, tmp_path: Path) -> None:
+        _create_recovery_artifacts(tmp_path)
+        layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-skip-first")
+
+        def fake_download(**kwargs):
+            return str(kwargs.get("local_dir", tmp_path))
+
+        with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+            resume = HfResumeManager(
+                runs_dir=tmp_path,
+                repo_id=TEST_REPO,
+                layout=layout,
+                token="hf_test_token",
+                protocol_version="1.0",
+                config_hash="deadbeef",
+                model_identity="dry-run:mock",
+                source_commit="abc1234",
+                scenario_ids=["run-1", "run-2"],
+                strategy_names=["agent", "selective"],
+            )
+            ids = resume.download_and_validate()
+            completed = RunRecordStore(tmp_path).get_completed_run_ids()
+            for rid in completed:
+                assert rid in ids, f"Completed run {rid} must be in skip set"
+
     def test_no_duplicated_runs_on_resume(self, tmp_path: Path) -> None:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-no-dup")
@@ -538,6 +631,41 @@ class TestHfResumeManager:
 # ---------------------------------------------------------------------------
 
 class TestHfIntegration:
+    def test_experiment_id_persistence_in_recovery(self, tmp_path: Path) -> None:
+        exp_id = "exp-persist-test"
+        layout = RemoteLayout("smoke", "1.0", "abc1234", exp_id)
+        _create_recovery_artifacts(tmp_path)
+        exp_file = tmp_path / "experiment_id.txt"
+        exp_file.write_text(exp_id, encoding="utf-8")
+        assert exp_file.is_file()
+        assert exp_file.read_text().strip() == exp_id
+
+    def test_source_identity_persistence(self, tmp_path: Path) -> None:
+        layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-src-id")
+        _create_recovery_artifacts(tmp_path)
+        src_id = tmp_path / "source_identity.json"
+        src_id.write_text(json.dumps({
+            "source_commit": "abc1234",
+            "source_tag": "v0.7.0-smoke-passed",
+            "config_hash": "deadbeef",
+            "experiment_id": "exp-src-id",
+        }), encoding="utf-8")
+        assert src_id.is_file()
+        data = json.loads(src_id.read_text())
+        assert data["source_commit"] == "abc1234"
+        assert data["source_tag"] == "v0.7.0-smoke-passed"
+
+    def test_remote_sync_exists_before_upload(self, tmp_path: Path) -> None:
+        layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-sync-order")
+        with patch.object(HfUploader, "_upload_with_retry", return_value=True):
+            uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
+            uploader.upload_recovery()
+        sync_path = tmp_path / "remote_sync.json"
+        assert sync_path.is_file(), "remote_sync.json must exist after upload_recovery"
+        state = json.loads(sync_path.read_text())
+        assert "last_sync" in state
+        assert "remote_path" in state
+
     def test_automatic_upload_after_completed_run(self, tmp_path: Path) -> None:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-integ-complete")

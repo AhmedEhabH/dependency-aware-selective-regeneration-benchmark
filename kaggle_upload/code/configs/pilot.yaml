@@ -1,0 +1,53 @@
+# Protocol pilot profile: 3 repos x 4 scenarios x 2 strategies x 2 reps
+# Descriptive only; not for publication.
+# See PROTOCOL_VERSION.md §6 (DA-09)
+
+profile_label: protocol-pilot
+protocol_version: "1.0"
+execution_mode: kaggle
+
+strategies:
+  - name: agent
+  - name: selective
+
+backends:
+  - name: qwen
+    kind: kaggle_qwen
+    params:
+      model_name: qwen2.5-coder
+
+repositories:
+  - name: todo
+    url: https://github.com/example/todo-app
+    ref: main
+  - name: djangocms
+    url: https://github.com/django-cms/django-cms
+    ref: main
+  - name: saleor
+    url: https://github.com/saleor/saleor
+    ref: main
+
+scenario_selection:
+  repository_names:
+    - todo
+    - djangocms
+    - saleor
+  blast_radii:
+    - localized
+    - moderate
+    - cross_cutting
+  count: 12
+
+execution:
+  max_iterations: 3
+  max_tokens: 4096
+  timeout_seconds: 0
+  random_seed: 42
+  evidence_tier: engineering_validation
+  repetitions: 2
+
+output:
+  output_dir: runs/pilot
+  format: jsonl
+  write_provenance: true
+  is_publication: false
