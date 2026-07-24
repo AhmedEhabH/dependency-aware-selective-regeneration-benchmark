@@ -93,16 +93,16 @@ preserved
 `fix/su-0002-runs-dir-nameerror`
 
 ## Branch Commit
-HEAD (to be recorded after commit)
+`096cb77` (fix(kaggle): initialize runs directory before auto-resume)
 
 ## Merge Commit
-(pending --no-ff merge to main)
+`ce96663` (merge: fix/su-0002-runs-dir-nameerror into main)
 
 ## Final Main Commit
-(pending)
+`ce96663`
 
 ## Deployment Status
-not_deployed (local verification only)
+bundle_built_not_uploaded
 
 ## Rollback Plan
 - Revert branch merge
