@@ -954,11 +954,11 @@ def main() -> int:
             else:
                 hf_experiment_id = args.experiment_id or time.strftime("exp-%Y%m%d-%H%M%S")
                 # Clear stale local state from any previous experiment
-                if runs_dir.is_dir():
-                    for f in runs_dir.iterdir():
+                if output_dir.is_dir():
+                    for f in output_dir.iterdir():
                         if f.is_file():
                             f.unlink(missing_ok=True)
-                    logger.info("Start-new: cleared %s", runs_dir)
+                    logger.info("Start-new: cleared %s", output_dir)
 
         remote_layout = RemoteLayout(
             profile=profile.name,

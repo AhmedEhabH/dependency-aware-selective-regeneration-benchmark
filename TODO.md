@@ -669,12 +669,12 @@
 ### K001 — Selective runs_dir NameError Fix (SU-0002)
 - **Priority:** HIGH
 - **Category:** Bugfix
-- **Description:** Fix NameError in `src/benchmark/execution/pipeline.py` where `runs_dir` is referenced but not defined in failure path. Minimal scope: affected file, related test, bundle rebuild, ledger record.
-- **Acceptance Criteria:** Defect fixed; test passes; bundle rebuilt; SU-0002 record created
+- **Description:** Fix NameError in `seven_arm_benchmark.py` where `runs_dir` was used but not defined in START_NEW path (line 957). Correct variable is `output_dir`. Minimal scope: affected file, regression tests in test_cli.py, bundle rebuild, ledger record.
+- **Acceptance Criteria:** Defect fixed; regression tests pass; bundle rebuilt; SU-0002 record created
 - **Dependencies:** T380
-- **Status:** PLANNED
+- **Status:** COMPLETE
 - **Owner:** OpenCode
-- **Evidence:** pytest tests/unit/execution/ passes
+- **Evidence:** test_start_new_path_no_nameerror and test_resume_path_no_nameerror pass; bundle rebuilt
 
 ### T401 — Implement Enums
 - **Priority:** HIGH

@@ -201,3 +201,40 @@ class TestCliNoNetworkOrGit:
                 git_calls += 1
         # Allow exactly the _get_source_commit metadata function
         assert git_calls <= 1, f"Expected <= 1 git subprocess call, got {git_calls}"
+
+
+class TestRunsDirBugFix:
+    """Regression tests for the runs_dir NameError bug (SU-0002)."""
+
+    def test_start_new_path_no_nameerror(self, tmp_path: Path) -> None:
+        """Test START_NEW path (without --auto-resume-hf) does not raise NameError for runs_dir."""
+        data_dir = _create_valid_data_dir(tmp_path)
+        output_dir = tmp_path / "runs"
+        result = _run(
+            "--dry-run", "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(output_dir),
+        )
+        assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
+        # output_dir should exist after successful run
+        assert output_dir.is_dir()
+
+    def test_resume_path_no_nameerror(self, tmp_path: Path) -> None:
+        """Test RESUME path (with --resume) does not raise NameError for runs_dir."""
+        data_dir = _create_valid_data_dir(tmp_path)
+        output_dir = tmp_path / "runs"
+        # First run creates the output dir
+        result = _run(
+            "--dry-run", "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(output_dir),
+        )
+        assert result.returncode == 0
+        # Second run with --resume should not raise NameError
+        result = _run(
+            "--dry-run", "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(output_dir),
+            "--resume",
+        )
+        assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
