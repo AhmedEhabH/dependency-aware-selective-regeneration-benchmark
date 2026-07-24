@@ -48,6 +48,8 @@ def _make_checkpoint_data(**overrides: str | list[str] | int) -> CheckpointData:
         model_identity="dry-run:mock",
         config_hash="deadbeef",
         source_commit="abc1234",
+        scenario_ids=["test-scenario"],
+        strategy_names=["agent"],
     )
     for k, v in overrides.items():
         setattr(data, k, v)

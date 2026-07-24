@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import contextlib
 import json
 import logging
 import posixpath
@@ -179,6 +178,13 @@ class SyncFailureStore:
 
 class RepoVisibilityError(Exception):
     pass
+
+
+@dataclass(frozen=True)
+class CompatibilityResult:
+    compatible: bool
+    reasons: tuple[str, ...]
+    identity_source: str = ""
 
 
 def verify_repo_private(repo_id: str) -> None:
@@ -390,8 +396,8 @@ class HfResumeManager:
         self._config_hash = config_hash
         self._model_identity = model_identity
         self._source_commit = source_commit
-        self._scenario_ids = set(scenario_ids)
-        self._strategy_names = set(strategy_names)
+        self._scenario_ids = scenario_ids
+        self._strategy_names = strategy_names
 
     def download_and_validate(self) -> set[str]:
         recovery_prefix = self._layout.recovery()
@@ -444,51 +450,27 @@ class HfResumeManager:
         if cp is None:
             raise ResumeValidationError("No checkpoint found in downloaded recovery state")
 
-        if cp.protocol_version != self._protocol_version:
+        result = compare_checkpoint_compatibility(
+            cp=cp,
+            expected_protocol_version=self._protocol_version,
+            expected_config_hash=self._config_hash,
+            expected_source_commit=self._source_commit,
+            expected_model_identity=self._model_identity,
+            expected_scenario_ids=self._scenario_ids,
+            expected_strategy_names=self._strategy_names,
+        )
+        if not result.compatible:
             raise ResumeValidationError(
-                f"Protocol version mismatch: remote={cp.protocol_version}, local={self._protocol_version}"
-            )
-        if cp.config_hash and self._config_hash and cp.config_hash != self._config_hash:
-            raise ResumeValidationError(
-                f"Config hash mismatch: remote={cp.config_hash}, local={self._config_hash}"
-            )
-        if cp.source_commit and self._source_commit and cp.source_commit != self._source_commit:
-            raise ResumeValidationError(
-                f"Source commit mismatch: remote={cp.source_commit}, local={self._source_commit}"
-            )
-        if cp.model_identity and self._model_identity and cp.model_identity != self._model_identity:
-            raise ResumeValidationError(
-                f"Model identity mismatch: remote={cp.model_identity}, local={self._model_identity}"
+                f"Resume validation failed: {'; '.join(result.reasons)}"
             )
 
-        remote_scenarios = set()
-        remote_strategies = set()
-        for rid in cp.planned_run_ids:
-            parts = rid.split("_", 2)
-            if len(parts) >= 2:
-                remote_strategies.add(parts[1])
-            if len(parts) >= 1:
-                sc_id = parts[0].rsplit("-rep", 1)[0] if "-rep" in parts[0] else parts[0]
-                remote_scenarios.add(sc_id)
-
-        if remote_scenarios and remote_scenarios != self._scenario_ids:
-            raise ResumeValidationError(
-                f"Scenario set mismatch: remote has {len(remote_scenarios)} scenarios, "
-                f"local has {len(self._scenario_ids)}"
-            )
-        if remote_strategies and remote_strategies != self._strategy_names:
-            raise ResumeValidationError(
-                f"Strategy set mismatch: remote has {remote_strategies}, "
-                f"local has {self._strategy_names}"
-            )
-
-    def _validate_compatibility(self, cp: Any) -> None:
+    def _validate_compatibility(self, _cp: Any) -> None:
         record_store = RunRecordStore(self._runs_dir)
+        all_strategies = set(self._strategy_names)
         for rec in record_store.load_all():
-            parts = rec.run_id.split("_", 2)
-            if len(parts) >= 2 and parts[1] not in self._strategy_names:
+            if rec.strategy_id not in all_strategies:
                 raise ResumeValidationError(
-                    f"Strategy '{parts[1]}' in run record not in current strategy set"
+                    f"Strategy '{rec.strategy_id}' in run record not in current strategy set"
                 )
 
 
@@ -496,20 +478,116 @@ class ResumeValidationError(Exception):
     pass
 
 
-def _extract_scenario_strategy(planned_run_ids: list[str]) -> tuple[set[str], set[str]]:
-    """Extract scenario IDs and strategy names from planned run IDs.
-    Identity source: parsed_from_planned_run_ids (no explicit fields in checkpoint).
+def compare_checkpoint_compatibility(
+    cp: Any,
+    expected_protocol_version: str,
+    expected_config_hash: str,
+    expected_source_commit: str,
+    expected_model_identity: str,
+    expected_scenario_ids: list[str],
+    expected_strategy_names: list[str],
+) -> CompatibilityResult:
+    """Compare a checkpoint against expected values using explicit identity fields.
+
+    Returns a CompatibilityResult with detailed rejection reasons.
+    Identity source is 'explicit_checkpoint' when scenario_ids/strategy_names
+    are present, or 'legacy_exact_plan_lookup' when using planned_run_ids.
     """
-    remote_scenarios: set[str] = set()
-    remote_strategies: set[str] = set()
-    for rid in planned_run_ids:
-        parts = rid.split("_", 2)
-        if len(parts) >= 2:
-            remote_strategies.add(parts[1])
-        if len(parts) >= 1:
-            sc_id = parts[0].rsplit("-rep", 1)[0] if "-rep" in parts[0] else parts[0]
-            remote_scenarios.add(sc_id)
-    return remote_scenarios, remote_strategies
+    reasons: list[str] = []
+
+    if cp.protocol_version != expected_protocol_version:
+        reasons.append(
+            f"Protocol version mismatch: remote={cp.protocol_version}, expected={expected_protocol_version}"
+        )
+    if cp.config_hash and expected_config_hash and cp.config_hash != expected_config_hash:
+        reasons.append(
+            f"Config hash mismatch: remote={cp.config_hash}, expected={expected_config_hash}"
+        )
+    if cp.source_commit and expected_source_commit and cp.source_commit != expected_source_commit:
+        reasons.append(
+            f"Source commit mismatch: remote={cp.source_commit}, expected={expected_source_commit}"
+        )
+    if cp.model_identity and expected_model_identity and cp.model_identity != expected_model_identity:
+        reasons.append(
+            f"Model identity mismatch: remote={cp.model_identity}, expected={expected_model_identity}"
+        )
+
+    remote_scenarios = getattr(cp, "scenario_ids", None)
+    remote_strategies = getattr(cp, "strategy_names", None)
+
+    has_explicit = (
+        remote_scenarios is not None
+        and remote_strategies is not None
+        and len(remote_scenarios) > 0
+        and len(remote_strategies) > 0
+    )
+
+    if has_explicit:
+        identity_source = "explicit_checkpoint"
+        assert remote_scenarios is not None
+        assert remote_strategies is not None
+        remote_sc_set = set(remote_scenarios)
+        remote_st_set = set(remote_strategies)
+        expected_sc_set = set(expected_scenario_ids)
+        expected_st_set = set(expected_strategy_names)
+
+        if remote_sc_set and remote_sc_set != expected_sc_set:
+            reasons.append(
+                f"Scenario identity mismatch: remote={sorted(remote_sc_set)}, "
+                f"expected={sorted(expected_sc_set)}"
+            )
+        if remote_st_set and remote_st_set != expected_st_set:
+            reasons.append(
+                f"Strategy identity mismatch: remote={sorted(remote_st_set)}, "
+                f"expected={sorted(expected_st_set)}"
+            )
+    else:
+        identity_source = "legacy_exact_plan_lookup"
+        planned_run_ids = getattr(cp, "planned_run_ids", []) or []
+        if planned_run_ids:
+            expected_plan_run_ids = set(
+                _make_run_id_for_plan(s, st, 1, cp.config_hash, cp.protocol_version)
+                for s in expected_scenario_ids
+                for st in expected_strategy_names
+            )
+            remote_plan_set = set(planned_run_ids)
+            if remote_plan_set and remote_plan_set != expected_plan_run_ids:
+                reasons.append(
+                    "Legacy checkpoint lacks explicit execution identity "
+                    "and planned Run IDs do not match current execution plan"
+                )
+        else:
+            reasons.append(
+                "Legacy checkpoint lacks explicit execution identity "
+                "and cannot be mapped safely"
+            )
+
+    compatible = len(reasons) == 0
+    return CompatibilityResult(
+        compatible=compatible,
+        reasons=tuple(reasons),
+        identity_source=identity_source,
+    )
+
+
+def _make_run_id_for_plan(
+    scenario_id: str,
+    strategy_name: str,
+    repetition: int,
+    config_hash: str = "",
+    protocol_version: str = "1.0",
+) -> str:
+    """Build a deterministic Run ID matching seven_arm_benchmark._make_run_id."""
+    import hashlib
+    payload = json.dumps({
+        "scenario_id": scenario_id,
+        "strategy_name": strategy_name,
+        "repetition": repetition,
+        "protocol_version": protocol_version,
+        "config_hash": config_hash,
+    }, sort_keys=True)
+    suffix = hashlib.sha256(payload.encode()).hexdigest()[:8]
+    return f"{scenario_id}_{strategy_name}_rep{repetition}_{suffix}"
 
 
 def _emit_candidate_diagnostic(
@@ -536,6 +614,7 @@ def _emit_candidate_diagnostic(
     compatible: bool,
     rejection_reasons: list[str],
     identity_source: str,
+    planned_run_ids_match: bool | None = None,
 ) -> None:
     """Emit a structured INFO log for a candidate experiment diagnostic."""
     logger.info(
@@ -549,6 +628,7 @@ def _emit_candidate_diagnostic(
         "remote_completion_status=%s remote_total_planned=%d expected_total_planned=%d "
         "remote_scenarios=%s expected_scenarios=%s "
         "remote_strategies=%s expected_strategies=%s "
+        "planned_run_ids_match=%s "
         "identity_source=%s",
         exp_id,
         compatible,
@@ -572,6 +652,7 @@ def _emit_candidate_diagnostic(
         expected_scenario_ids,
         remote_strategy_names,
         expected_strategy_names,
+        planned_run_ids_match,
         identity_source,
     )
 
@@ -592,6 +673,10 @@ class CompatibleExperiment:
     completed_count: int
     total_planned: int
     failed_count: int
+    last_update: str = ""
+    completion_status: str = ""
+    identity_source: str = ""
+    planned_run_ids_match: bool = True
 
 
 @dataclass
@@ -620,6 +705,9 @@ def list_compatible_experiments(
     Lists all files in the repo, filters to the canonical prefix
     ``experiments/{profile}/{protocol_version}/{source_commit}/``, then
     downloads each experiment's checkpoint to validate compatibility.
+
+    Uses explicit checkpoint identity fields (scenario_ids, strategy_names)
+    when available, falls back to legacy exact-plan lookup.
 
     Returns a list of compatible experiments (both complete and incomplete).
     Raises ResumeValidationError on HF API or download failures.
@@ -683,14 +771,39 @@ def list_compatible_experiments(
                 )
                 cp_local = Path(cp_result)
                 records_local = Path(records_result)
-            except Exception:
-                logger.debug(
-                    "Skipping experiment %s: failed to download recovery files", exp_id,
+            except ResumeValidationError:
+                raise
+            except Exception as exc:
+                _emit_candidate_diagnostic(
+                    exp_id=exp_id,
+                    cp_status="download_failed",
+                    records_status="download_failed",
+                    remote_profile=profile,
+                    expected_profile=profile,
+                    remote_protocol="",
+                    expected_protocol=protocol_version,
+                    remote_source_commit="",
+                    expected_source_commit=source_commit,
+                    remote_config_hash="",
+                    expected_config_hash=config_hash,
+                    remote_model_identity="",
+                    expected_model_identity=model_identity,
+                    remote_completion_status="",
+                    remote_total_planned=0,
+                    expected_total_planned=0,
+                    remote_scenario_ids=[],
+                    expected_scenario_ids=scenario_ids,
+                    remote_strategy_names=[],
+                    expected_strategy_names=strategy_names,
+                    compatible=False,
+                    rejection_reasons=[f"Failed to download recovery files: {exc}"],
+                    identity_source="",
                 )
                 continue
 
             try:
-                cp_data = json.loads(cp_local.read_text(encoding="utf-8"))
+                cp_text = cp_local.read_text(encoding="utf-8")
+                cp_data = json.loads(cp_text)
                 records_text = records_local.read_text(encoding="utf-8").strip()
                 completed_ids: set[str] = set()
                 failed_count = 0
@@ -711,59 +824,108 @@ def list_compatible_experiments(
                 remote_commit = cp_data.get("source_commit", "")
                 remote_model = cp_data.get("model_identity", "")
 
+                remote_completion_status = cp_data.get("completion_status", "")
+                is_complete = remote_completion_status == "completed"
+                remote_last_update = cp_data.get("last_update", "")
+
+                remote_scenarios_list = cp_data.get("scenario_ids", None)
+                remote_strategies_list = cp_data.get("strategy_names", None)
+
+                rejection_reasons: list[str] = []
+
                 if remote_protocol and remote_protocol != protocol_version:
-                    logger.debug(
-                        "Skipping %s: protocol mismatch remote=%s expected=%s",
-                        exp_id, remote_protocol, protocol_version,
+                    rejection_reasons.append(
+                        f"Protocol mismatch: remote={remote_protocol} expected={protocol_version}"
                     )
-                    continue
                 if remote_config and config_hash and remote_config != config_hash:
-                    logger.debug(
-                        "Skipping %s: config_hash mismatch remote=%s expected=%s",
-                        exp_id, remote_config, config_hash,
+                    rejection_reasons.append(
+                        f"Config hash mismatch: remote={remote_config} expected={config_hash}"
                     )
-                    continue
                 if remote_commit and source_commit and remote_commit != source_commit:
-                    logger.debug(
-                        "Skipping %s: source_commit mismatch remote=%s expected=%s",
-                        exp_id, remote_commit, source_commit,
+                    rejection_reasons.append(
+                        f"Source commit mismatch: remote={remote_commit} expected={source_commit}"
                     )
-                    continue
                 if remote_model and model_identity and remote_model != model_identity:
-                    logger.debug(
-                        "Skipping %s: model_identity mismatch remote=%s expected=%s",
-                        exp_id, remote_model, model_identity,
+                    rejection_reasons.append(
+                        f"Model identity mismatch: remote={remote_model} expected={model_identity}"
                     )
-                    continue
 
-                remote_scenarios: set[str] = set()
-                remote_strategies: set[str] = set()
-                planned = cp_data.get("planned_run_ids", [])
-                for rid in planned:
-                    parts = rid.split("_", 2)
-                    if len(parts) >= 2:
-                        remote_strategies.add(parts[1])
-                    if len(parts) >= 1:
-                        sc_id = parts[0].rsplit("-rep", 1)[0] if "-rep" in parts[0] else parts[0]
-                        remote_scenarios.add(sc_id)
+                identity_source = ""
+                planned_run_ids_match = True
+                has_explicit_in_cp = (
+                    remote_scenarios_list is not None
+                    and remote_strategies_list is not None
+                    and len(remote_scenarios_list) > 0
+                    and len(remote_strategies_list) > 0
+                )
+                if has_explicit_in_cp:
+                    identity_source = "explicit_checkpoint"
+                    remote_sc_set = set(remote_scenarios_list)
+                    remote_st_set = set(remote_strategies_list)
+                    expected_sc_set = set(scenario_ids)
+                    expected_st_set = set(strategy_names)
 
-                remote_sc = set(scenario_ids)
-                remote_st = set(strategy_names)
-                if remote_scenarios and remote_scenarios != remote_sc:
-                    logger.debug(
-                        "Skipping %s: scenario mismatch remote=%s expected=%s",
-                        exp_id, remote_scenarios, remote_sc,
-                    )
-                    continue
-                if remote_strategies and remote_strategies != remote_st:
-                    logger.debug(
-                        "Skipping %s: strategy mismatch remote=%s expected=%s",
-                        exp_id, remote_strategies, remote_st,
-                    )
-                    continue
+                    if remote_sc_set and remote_sc_set != expected_sc_set:
+                        rejection_reasons.append(
+                            f"Scenario identity mismatch: remote={sorted(remote_sc_set)} "
+                            f"expected={sorted(expected_sc_set)}"
+                        )
+                    if remote_st_set and remote_st_set != expected_st_set:
+                        rejection_reasons.append(
+                            f"Strategy identity mismatch: remote={sorted(remote_st_set)} "
+                            f"expected={sorted(expected_st_set)}"
+                        )
+                else:
+                    identity_source = "legacy_exact_plan_lookup"
+                    planned = cp_data.get("planned_run_ids", [])
+                    if planned:
+                        expected_plan = set(
+                            _make_run_id_for_plan(s, st, 1, remote_config, remote_protocol)
+                            for s in scenario_ids
+                            for st in strategy_names
+                        )
+                        remote_plan_set = set(planned)
+                        planned_run_ids_match = (remote_plan_set == expected_plan)
+                        if not planned_run_ids_match:
+                            rejection_reasons.append(
+                                "Legacy checkpoint lacks explicit execution identity "
+                                "and planned Run IDs do not match current execution plan"
+                            )
+                    else:
+                        rejection_reasons.append(
+                            "Legacy checkpoint lacks explicit execution identity "
+                            "and cannot be mapped safely"
+                        )
 
-                completion_status = cp_data.get("completion_status", "")
-                is_complete = completion_status == "completed"
+                _emit_candidate_diagnostic(
+                    exp_id=exp_id,
+                    cp_status="ok",
+                    records_status="ok",
+                    remote_profile=profile,
+                    expected_profile=profile,
+                    remote_protocol=remote_protocol,
+                    expected_protocol=protocol_version,
+                    remote_source_commit=remote_commit,
+                    expected_source_commit=source_commit,
+                    remote_config_hash=remote_config,
+                    expected_config_hash=config_hash,
+                    remote_model_identity=remote_model,
+                    expected_model_identity=model_identity,
+                    remote_completion_status=remote_completion_status,
+                    remote_total_planned=total_planned,
+                    expected_total_planned=len(scenario_ids) * len(strategy_names),
+                    remote_scenario_ids=sorted(remote_scenarios_list) if remote_scenarios_list else [],
+                    expected_scenario_ids=sorted(scenario_ids),
+                    remote_strategy_names=sorted(remote_strategies_list) if remote_strategies_list else [],
+                    expected_strategy_names=sorted(strategy_names),
+                    compatible=len(rejection_reasons) == 0,
+                    rejection_reasons=rejection_reasons,
+                    identity_source=identity_source,
+                    planned_run_ids_match=planned_run_ids_match,
+                )
+
+                if rejection_reasons:
+                    continue
 
                 compatible.append(CompatibleExperiment(
                     experiment_id=exp_id,
@@ -772,10 +934,36 @@ def list_compatible_experiments(
                     completed_count=len(completed_ids),
                     total_planned=total_planned,
                     failed_count=failed_count,
+                    last_update=remote_last_update,
+                    completion_status=remote_completion_status,
+                    identity_source=identity_source,
+                    planned_run_ids_match=planned_run_ids_match,
                 ))
             except Exception as exc:
-                logger.debug(
-                    "Skipping experiment %s: validation error: %s", exp_id, exc,
+                _emit_candidate_diagnostic(
+                    exp_id=exp_id,
+                    cp_status="validation_error",
+                    records_status="validation_error",
+                    remote_profile=profile,
+                    expected_profile=profile,
+                    remote_protocol="",
+                    expected_protocol=protocol_version,
+                    remote_source_commit="",
+                    expected_source_commit=source_commit,
+                    remote_config_hash="",
+                    expected_config_hash=config_hash,
+                    remote_model_identity="",
+                    expected_model_identity=model_identity,
+                    remote_completion_status="",
+                    remote_total_planned=0,
+                    expected_total_planned=0,
+                    remote_scenario_ids=[],
+                    expected_scenario_ids=scenario_ids,
+                    remote_strategy_names=[],
+                    expected_strategy_names=strategy_names,
+                    compatible=False,
+                    rejection_reasons=[f"Unexpected validation error: {type(exc).__name__}: {exc}"],
+                    identity_source="",
                 )
                 continue
             finally:
@@ -803,10 +991,16 @@ def resolve_auto_resume(
     """Determine the auto-resume action.
 
     Returns an AutoResumeResult with one of:
-      - resume: exactly one compatible incomplete experiment found
+      - resume: compatible incomplete experiment found
       - start_new: no compatible incomplete experiment found
       - already_complete: a compatible experiment is already complete
-      - error: multiple compatible incomplete experiments found, or API failure
+      - error: API failure or ambiguous selection
+
+    Selection policy for multiple compatible incomplete experiments:
+    - If explicit_experiment_id matches one, use it
+    - Otherwise, select the one with the newest valid last_update
+    - Log superseded candidates
+    - Tie-break deterministically by experiment_id (lexicographic)
     """
     try:
         compatible = list_compatible_experiments(
@@ -867,11 +1061,11 @@ def resolve_auto_resume(
         )
 
     if len(incomplete) > 1:
-        ids = [e.experiment_id for e in incomplete]
         if explicit_experiment_id:
             matched = [e for e in incomplete if e.experiment_id == explicit_experiment_id]
             if matched:
                 exp = matched[0]
+                superseded = [e for e in incomplete if e.experiment_id != explicit_experiment_id]
                 msg = (
                     f"Compatible remote experiment found:\n"
                     f"Experiment ID: {exp.experiment_id}\n"
@@ -880,19 +1074,36 @@ def resolve_auto_resume(
                     f"Pending: {exp.total_planned - exp.completed_count}\n"
                     f"Action: RESUME"
                 )
+                if superseded:
+                    superseded_ids = [e.experiment_id for e in superseded]
+                    msg += f"\nSuperseded candidates: {superseded_ids}"
                 return AutoResumeResult(
                     action="resume",
                     experiment_id=exp.experiment_id,
                     compatible_experiments=compatible,
                     message=msg,
                 )
+
+        sorted_incomplete = _sort_experiments_by_recency(incomplete)
+        selected = sorted_incomplete[0]
+        superseded = sorted_incomplete[1:]
+
         msg = (
-            f"Multiple compatible incomplete experiments found: {ids}. "
-            "Cannot choose silently. Use --experiment-id to select one."
+            f"Multiple compatible incomplete experiments found: "
+            f"{[e.experiment_id for e in sorted_incomplete]}.\n"
+            f"Selected (newest last_update): {selected.experiment_id}\n"
+            f"Completed: {selected.completed_count}/{selected.total_planned}\n"
+            f"Failed: {selected.failed_count}\n"
+            f"Pending: {selected.total_planned - selected.completed_count}\n"
+            f"Action: RESUME"
         )
+        if superseded:
+            superseded_ids = [e.experiment_id for e in superseded]
+            msg += f"\nSuperseded candidates: {superseded_ids}"
+
         return AutoResumeResult(
-            action="error",
-            experiment_id="",
+            action="resume",
+            experiment_id=selected.experiment_id,
             compatible_experiments=compatible,
             message=msg,
         )
@@ -917,3 +1128,11 @@ def resolve_auto_resume(
         compatible_experiments=[],
         message="No compatible incomplete remote experiment found.",
     )
+
+
+def _sort_experiments_by_recency(experiments: list[CompatibleExperiment]) -> list[CompatibleExperiment]:
+    """Sort experiments by last_update descending, then experiment_id for determinism."""
+    def _sort_key(e: CompatibleExperiment) -> tuple[str, str]:
+        ts = e.last_update if e.last_update else ""
+        return (ts, e.experiment_id)
+    return sorted(experiments, key=_sort_key, reverse=True)

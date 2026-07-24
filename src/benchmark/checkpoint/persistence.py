@@ -2,10 +2,13 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger("benchmark.persistence")
 
 
 @dataclass
@@ -37,6 +40,15 @@ def compute_config_hash(config_obj: object) -> str:
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
 
 
+def _records_content_equal(a: RunRecordData, b: RunRecordData) -> bool:
+    """Compare two RunRecordData for content equality (ignoring timestamp)."""
+    a_dict = asdict(a)
+    b_dict = asdict(b)
+    a_dict.pop("timestamp", None)
+    b_dict.pop("timestamp", None)
+    return a_dict == b_dict
+
+
 def make_run_id(
     scenario_id: str,
     strategy_name: str,
@@ -55,6 +67,10 @@ def make_run_id(
     return f"{scenario_id}_{strategy_name}_rep{repetition}_{suffix}"
 
 
+class RunRecordIntegrityError(Exception):
+    """Raised when a Run ID already exists with conflicting content."""
+
+
 class RunRecordStore:
     def __init__(self, runs_dir: Path) -> None:
         self._runs_dir = runs_dir
@@ -66,9 +82,26 @@ class RunRecordStore:
         return self._path
 
     def append(self, record: RunRecordData) -> None:
+        existing = self._index_by_run_id()
+        if record.run_id in existing:
+            existing_rec = existing[record.run_id]
+            if _records_content_equal(existing_rec, record):
+                logger.info("Idempotent skip: Run ID %s already exists with identical content", record.run_id)
+                return
+            raise RunRecordIntegrityError(
+                f"Run ID '{record.run_id}' already exists with conflicting content. "
+                f"Existing status={existing_rec.status}, new status={record.status}. "
+                "This indicates a canonical Run ID collision."
+            )
         with open(self._path, "a", encoding="utf-8") as f:
             f.write(json.dumps(asdict(record), sort_keys=True) + "\n")
             f.flush()
+
+    def _index_by_run_id(self) -> dict[str, RunRecordData]:
+        index: dict[str, RunRecordData] = {}
+        for rec in self.load_all():
+            index[rec.run_id] = rec
+        return index
 
     def load_all(self) -> list[RunRecordData]:
         if not self._path.is_file():

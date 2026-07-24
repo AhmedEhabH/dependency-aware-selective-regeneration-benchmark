@@ -109,13 +109,13 @@ preserved
 `fix/su-0003-hf-auto-resume-discovery`
 
 ## Branch Commit
-(to be recorded after commit)
+`8bf54ec`
 
 ## Merge Commit
-(pending --no-ff merge to main)
+`ede4492`
 
 ## Final Main Commit
-(pending)
+`5be9bae`
 
 ## Deployment Status
 bundle_built_not_uploaded

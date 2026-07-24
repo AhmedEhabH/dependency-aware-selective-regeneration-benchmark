@@ -45,6 +45,8 @@ def _make_checkpoint_data(**overrides: str | list[str] | int) -> CheckpointData:
         model_identity="dry-run:mock",
         config_hash="deadbeef",
         source_commit="abc1234",
+        scenario_ids=["run-1", "run-2"],
+        strategy_names=["agent", "selective"],
     )
     for k, v in overrides.items():
         setattr(data, k, v)
@@ -751,14 +753,18 @@ def _make_fake_checkpoint_content(
     completion_status: str = "incomplete",
     scenario_id: str = "todo-add-feature-toggle",
     strategy_names: list[str] | None = None,
+    scenario_ids: list[str] | None = None,
 ) -> str:
     if strategy_names is None:
         strategy_names = ["agent", "selective"]
+    if scenario_ids is None:
+        scenario_ids = [scenario_id]
     all_run_ids: list[str] = list(completed_run_ids)
     idx = 0
     while len(all_run_ids) < total_planned:
         strat = strategy_names[idx % len(strategy_names)]
-        all_run_ids.append(f"{scenario_id}_{strat}_rep1_{idx:04d}")
+        sc = scenario_ids[idx % len(scenario_ids)]
+        all_run_ids.append(f"{sc}_{strat}_rep1_{idx:04d}")
         idx += 1
     completed = list(completed_run_ids)
     pending = [rid for rid in all_run_ids if rid not in completed]
@@ -776,6 +782,8 @@ def _make_fake_checkpoint_content(
         "config_hash": config_hash,
         "source_commit": source_commit,
         "completion_status": completion_status,
+        "scenario_ids": scenario_ids,
+        "strategy_names": strategy_names,
     })
 
 
@@ -879,6 +887,8 @@ class TestAutoResume:
             ],
             total_planned=3,
             completion_status="completed",
+            scenario_ids=["scenario-a"],
+            strategy_names=["agent", "selective", "monolithic"],
         )
         records_content = _make_fake_records_content(
             ["scenario-a_agent_rep1_aaaa", "scenario-a_selective_rep1_bbbb", "scenario-a_monolithic_rep1_cccc"],
@@ -914,7 +924,7 @@ class TestAutoResume:
                 assert result.action == "already_complete"
                 assert result.experiment_id == "exp-done"
 
-    def test_multiple_compatible_incomplete_fails(self) -> None:
+    def test_multiple_compatible_incomplete_selects_newest(self) -> None:
         prefix = "experiments/smoke/1.0/abc1234"
         files_exp1 = _make_remote_files(prefix, "exp-001", ["run-1"])
         files_exp2 = _make_remote_files(prefix, "exp-002", ["run-2"])
@@ -958,10 +968,10 @@ class TestAutoResume:
                     scenario_ids=["scenario-b"],
                     strategy_names=["agent", "selective", "monolithic"],
                 )
-                assert result.action == "error"
-                assert "Multiple" in result.message
-                assert "exp-001" in result.message
-                assert "exp-002" in result.message
+                assert result.action == "resume"
+                assert len(result.compatible_experiments) == 2
+                assert result.experiment_id in ("exp-001", "exp-002")
+                assert "Superseded" in result.message or "Selected" in result.message
 
     def test_incompatible_experiments_ignored(self) -> None:
         prefix = "experiments/smoke/1.0/abc1234"

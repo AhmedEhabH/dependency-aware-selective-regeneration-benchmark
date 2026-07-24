@@ -1171,6 +1171,7 @@ def main() -> int:
         )
 
     # ---- Initialize checkpoint -----------------------------------------------
+    selected_scenario_ids = [s.scenario_id for s in all_scenarios[:profile.scenario_count]]
     checkpoint_data = CheckpointData(
         profile=profile.name,
         execution_plan_hash=config_hash,
@@ -1184,6 +1185,8 @@ def main() -> int:
         config_hash=config_hash,
         source_commit=source_commit,
         completion_status="running",
+        scenario_ids=selected_scenario_ids,
+        strategy_names=strategy_names,
     )
     checkpoint_mgr.write_atomic(checkpoint_data)
 
@@ -1250,6 +1253,18 @@ def main() -> int:
                 "details": f.get("details", ""),
                 "stage": f.get("stage", ""),
             })
+
+        # Enforce canonical execution-plan Run ID
+        record_dict["run_id"] = run_id
+        record_dict["scenario_id"] = scenario_id
+        record_dict["strategy_name"] = strategy_name
+
+        # Assert canonical Run ID is in planned set
+        if run_id not in checkpoint_data.planned_run_ids:
+            raise RuntimeError(
+                f"Canonical Run ID '{run_id}' not found in planned_run_ids. "
+                "This indicates an execution plan / checkpoint inconsistency."
+            )
 
         tok = record_dict.get("token_usage", {"prompt": 0, "completion": 0, "total": 0})
         run_record_data = RunRecordData(
