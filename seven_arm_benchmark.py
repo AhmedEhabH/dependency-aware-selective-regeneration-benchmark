@@ -897,6 +897,17 @@ def main() -> int:
 
         # ---- Auto-resume mode -------------------------------------------------
         if args.auto_resume_hf:
+            # Print build/module identity to verify deployed code version
+            import benchmark.checkpoint.hf_sync as hf_sync_module
+            logger.info(
+                "AUTO_RESUME_BUILD_ID: source_tag=%s source_commit=%s "
+                "seven_arm_benchmark_sha256=%s hf_sync_sha256=%s hf_sync_path=%s",
+                args.source_tag or "none",
+                source_commit,
+                hashlib.sha256(Path(__file__).read_bytes()).hexdigest()[:16],
+                hashlib.sha256(Path(hf_sync_module.__file__).read_bytes()).hexdigest()[:16],
+                hf_sync_module.__file__,
+            )
             scenario_provider_for_auto = ScenarioProvider(scenarios_dir)
             all_scenarios_for_auto = scenario_provider_for_auto.list_scenarios()
             selected_for_auto = all_scenarios_for_auto[:profile.scenario_count]
