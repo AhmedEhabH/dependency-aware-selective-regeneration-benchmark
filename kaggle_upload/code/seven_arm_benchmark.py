@@ -542,6 +542,22 @@ def parse_args() -> argparse.Namespace:
         help="Resume benchmark from a previous experiment on Hugging Face",
     )
     parser.add_argument(
+        "--auto-resume-hf",
+        action="store_true",
+        default=False,
+        help=(
+            "Automatically discover and resume from a compatible remote experiment. "
+            "Searches under the canonical prefix for the requested profile and "
+            "validates compatibility. Combined with --hf-sync."
+        ),
+    )
+    parser.add_argument(
+        "--new-experiment",
+        action="store_true",
+        default=False,
+        help="Intentionally bypass auto-resume and create a new experiment",
+    )
+    parser.add_argument(
         "--experiment-id",
         type=str,
         default=None,
@@ -853,6 +869,7 @@ def main() -> int:
     hf_uploader: Any = None
     hf_experiment_id = args.experiment_id or time.strftime("exp-%Y%m%d-%H%M%S")
     hf_enabled = bool(args.hf_sync and args.hf_repo_id)
+    skip_run_ids: set[str] = set()
 
     if hf_enabled:
         from benchmark.checkpoint.hf_sync import (
@@ -861,6 +878,8 @@ def main() -> int:
             verify_repo_private,
             RepoVisibilityError,
             HfResumeManager,
+            resolve_auto_resume,
+            ResumeValidationError as HfResumeError,
         )
 
         hf_token = os.environ.get("HF_TOKEN", "")
@@ -873,6 +892,67 @@ def main() -> int:
         except RepoVisibilityError as e:
             logger.error("HF repo visibility check failed: %s", e)
             return 1
+
+        # ---- Auto-resume mode -------------------------------------------------
+        if args.auto_resume_hf:
+            scenario_provider_for_auto = ScenarioProvider(scenarios_dir)
+            all_scenarios_for_auto = scenario_provider_for_auto.list_scenarios()
+            selected_for_auto = all_scenarios_for_auto[:profile.scenario_count]
+            strategy_names_for_auto = [args.strategy] if args.strategy else profile.strategies
+
+            resume_result = resolve_auto_resume(
+                repo_id=args.hf_repo_id,
+                token=hf_token,
+                profile=profile.name,
+                protocol_version=args.protocol_version,
+                source_commit=source_commit,
+                config_hash=config_hash,
+                model_identity=model_identity,
+                scenario_ids=[s.scenario_id for s in selected_for_auto],
+                strategy_names=strategy_names_for_auto,
+                explicit_experiment_id=args.experiment_id,
+                new_experiment=args.new_experiment,
+            )
+
+            print(resume_result.message)
+
+            if resume_result.action == "error":
+                logger.error("Auto-resume: %s", resume_result.message)
+                return 1
+
+            if resume_result.action == "already_complete":
+                logger.info("Auto-resume: experiment %s is already complete", resume_result.experiment_id)
+                return 0
+
+            if resume_result.action == "resume":
+                hf_experiment_id = resume_result.experiment_id
+
+                hf_resume_layout = RemoteLayout(
+                    profile=profile.name,
+                    protocol_version=args.protocol_version,
+                    source_commit=source_commit,
+                    experiment_id=hf_experiment_id,
+                )
+                hf_resume = HfResumeManager(
+                    runs_dir=output_dir,
+                    repo_id=args.hf_repo_id,
+                    layout=hf_resume_layout,
+                    token=hf_token,
+                    protocol_version=args.protocol_version,
+                    config_hash=config_hash,
+                    model_identity=model_identity,
+                    source_commit=source_commit,
+                    scenario_ids=[s.scenario_id for s in selected_for_auto],
+                    strategy_names=strategy_names_for_auto,
+                )
+                try:
+                    skip_run_ids = hf_resume.download_and_validate()
+                    logger.info("Auto-resume: skipping %d completed run IDs", len(skip_run_ids))
+                except HfResumeError as e:
+                    logger.error("Auto-resume validation failed: %s", e)
+                    return 1
+            else:
+                hf_experiment_id = args.experiment_id or time.strftime("exp-%Y%m%d-%H%M%S")
 
         remote_layout = RemoteLayout(
             profile=profile.name,
@@ -902,8 +982,7 @@ def main() -> int:
             return 1
 
     # Handle --resume-from-hf: download recovery state from Hugging Face
-    skip_run_ids: set[str] = set()
-    if args.resume_from_hf:
+    if args.resume_from_hf and not skip_run_ids:
         if not args.hf_repo_id:
             logger.error("--resume-from-hf requires --hf-repo-id")
             return 1
@@ -1040,6 +1119,23 @@ def main() -> int:
     if args.max_runs > 0 and len(execution_plan) > args.max_runs:
         logger.info("--max-runs=%d: limiting plan from %d to %d runs", args.max_runs, len(execution_plan), args.max_runs)
         execution_plan = execution_plan[:args.max_runs]
+
+    # ---- Human-readable execution summary -----------------------------------
+    if execution_plan:
+        next_run = execution_plan[0]
+        completed_so_far = len(skip_run_ids)
+        total_all = completed_so_far + len(execution_plan)
+        failed_count = 0
+        if args.auto_resume_hf:
+            for er in (resume_result.compatible_experiments if resume_result else []):
+                failed_count = er.failed_count
+        print(
+            f"Experiment ID: {hf_experiment_id}\n"
+            f"Completed: {completed_so_far}/{total_all}\n"
+            f"Failed: {failed_count}\n"
+            f"Pending: {len(execution_plan)}\n"
+            f"Next run: {next_run['run_id']}"
+        )
 
     # ---- Initialize checkpoint -----------------------------------------------
     checkpoint_data = CheckpointData(
@@ -1194,6 +1290,20 @@ def main() -> int:
                 hf_uploader.upload_snapshot(packager)
 
         run_count += 1
+
+        # ---- Human-readable chunk complete message ------------------------
+        completed_now = checkpoint_data.total_completed
+        pending_now = len(checkpoint_data.pending_run_ids)
+        remote_status = "SYNCED" if hf_uploader is not None else "N/A"
+        remaining = pending_now
+        next_action = "run this same cell again." if remaining > 0 else "all runs complete."
+        print(
+            f"Chunk complete.\n"
+            f"Completed: {completed_now}/{total_planned}\n"
+            f"Pending: {remaining}\n"
+            f"Remote checkpoint: {remote_status}\n"
+            f"Next session action: {next_action}"
+        )
 
         if run_count >= len(execution_plan):
             break
