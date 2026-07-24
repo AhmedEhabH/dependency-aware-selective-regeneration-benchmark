@@ -690,6 +690,7 @@ def _build_execution_plan(
     strategy_names: list[str],
     skip_run_ids: set[str] | None = None,
     config_hash: str = "",
+    protocol_version: str = "1.0",
 ) -> list[dict[str, Any]]:
     skip_run_ids = skip_run_ids or set()
     all_scenarios = scenario_provider.list_scenarios()
@@ -699,7 +700,7 @@ def _build_execution_plan(
     for scenario in selected:
         for strategy_name in strategy_names:
             for rep in range(1, profile.repetitions + 1):
-                run_id = _make_run_id(scenario.scenario_id, strategy_name, rep, config_hash)
+                run_id = _make_run_id(scenario.scenario_id, strategy_name, rep, config_hash, protocol_version)
                 if run_id in skip_run_ids:
                     logger.info("Skipping completed run: %s", run_id)
                     continue
@@ -713,11 +714,12 @@ def _build_execution_plan(
     return plan
 
 
-def _make_run_id(scenario_id: str, strategy_name: str, rep: int, config_hash: str = "") -> str:
+def _make_run_id(scenario_id: str, strategy_name: str, rep: int, config_hash: str = "", protocol_version: str = "1.0") -> str:
     payload = json.dumps({
         "scenario_id": scenario_id,
         "strategy_name": strategy_name,
         "repetition": rep,
+        "protocol_version": protocol_version,
         "config_hash": config_hash,
     }, sort_keys=True)
     suffix = hashlib.sha256(payload.encode()).hexdigest()[:8]
@@ -1086,6 +1088,7 @@ def main() -> int:
         strategy_names=strategy_names,
         skip_run_ids=None,
         config_hash=config_hash,
+        protocol_version=args.protocol_version,
     )
     planned_run_ids = [run["run_id"] for run in full_plan]
 
@@ -1095,6 +1098,7 @@ def main() -> int:
         strategy_names=strategy_names,
         skip_run_ids=skip_run_ids,
         config_hash=config_hash,
+        protocol_version=args.protocol_version,
     )
 
     total_planned = len(planned_run_ids)

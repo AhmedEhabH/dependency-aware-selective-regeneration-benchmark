@@ -4,6 +4,7 @@ import contextlib
 import json
 import logging
 import posixpath
+import tempfile
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -571,139 +572,136 @@ def list_compatible_experiments(
         return []
 
     compatible: list[CompatibleExperiment] = []
-    temp_dir = Path("_auto_resume_temp")
+    with tempfile.TemporaryDirectory(prefix="auto_resume_") as temp_dir_str:
+        temp_dir = Path(temp_dir_str)
 
-    for exp_id in sorted(experiment_ids):
-        exp_recovery_prefix = posixpath.join(prefix, exp_id, "recovery")
-        cp_path = f"{exp_recovery_prefix}/checkpoint.json"
-        records_path = f"{exp_recovery_prefix}/run_records.jsonl"
+        for exp_id in sorted(experiment_ids):
+            exp_recovery_prefix = posixpath.join(prefix, exp_id, "recovery")
+            cp_path = f"{exp_recovery_prefix}/checkpoint.json"
+            records_path = f"{exp_recovery_prefix}/run_records.jsonl"
 
-        cp_local: Path | None = None
-        records_local: Path | None = None
+            cp_local: Path | None = None
+            records_local: Path | None = None
 
-        try:
-            cp_result = hf_hub_download(
-                repo_id=repo_id,
-                filename=cp_path,
-                repo_type="dataset",
-                local_dir=str(temp_dir),
-                token=token,
-                local_dir_use_symlinks=False,
-            )
-            records_result = hf_hub_download(
-                repo_id=repo_id,
-                filename=records_path,
-                repo_type="dataset",
-                local_dir=str(temp_dir),
-                token=token,
-                local_dir_use_symlinks=False,
-            )
-            cp_local = Path(cp_result)
-            records_local = Path(records_result)
-        except Exception:
-            logger.debug(
-                "Skipping experiment %s: failed to download recovery files", exp_id,
-            )
-            continue
-
-        try:
-            cp_data = json.loads(cp_local.read_text(encoding="utf-8"))
-            records_text = records_local.read_text(encoding="utf-8").strip()
-            completed_ids: set[str] = set()
-            failed_count = 0
-            total_planned = cp_data.get("total_planned", 0)
-            if records_text:
-                for line in records_text.split("\n"):
-                    if not line.strip():
-                        continue
-                    rec = json.loads(line)
-                    status = rec.get("status", "")
-                    if status in ("succeeded", "failed", "timed_out", "cancelled"):
-                        completed_ids.add(rec.get("run_id", ""))
-                    if status in ("failed", "timed_out"):
-                        failed_count += 1
-
-            remote_protocol = cp_data.get("protocol_version", "")
-            remote_config = cp_data.get("config_hash", "")
-            remote_commit = cp_data.get("source_commit", "")
-            remote_model = cp_data.get("model_identity", "")
-
-            if remote_protocol and remote_protocol != protocol_version:
-                logger.debug(
-                    "Skipping %s: protocol mismatch remote=%s expected=%s",
-                    exp_id, remote_protocol, protocol_version,
+            try:
+                cp_result = hf_hub_download(
+                    repo_id=repo_id,
+                    filename=cp_path,
+                    repo_type="dataset",
+                    local_dir=str(temp_dir),
+                    token=token,
+                    local_dir_use_symlinks=False,
                 )
-                continue
-            if remote_config and config_hash and remote_config != config_hash:
-                logger.debug(
-                    "Skipping %s: config_hash mismatch remote=%s expected=%s",
-                    exp_id, remote_config, config_hash,
+                records_result = hf_hub_download(
+                    repo_id=repo_id,
+                    filename=records_path,
+                    repo_type="dataset",
+                    local_dir=str(temp_dir),
+                    token=token,
+                    local_dir_use_symlinks=False,
                 )
-                continue
-            if remote_commit and source_commit and remote_commit != source_commit:
+                cp_local = Path(cp_result)
+                records_local = Path(records_result)
+            except Exception:
                 logger.debug(
-                    "Skipping %s: source_commit mismatch remote=%s expected=%s",
-                    exp_id, remote_commit, source_commit,
-                )
-                continue
-            if remote_model and model_identity and remote_model != model_identity:
-                logger.debug(
-                    "Skipping %s: model_identity mismatch remote=%s expected=%s",
-                    exp_id, remote_model, model_identity,
+                    "Skipping experiment %s: failed to download recovery files", exp_id,
                 )
                 continue
 
-            remote_scenarios: set[str] = set()
-            remote_strategies: set[str] = set()
-            planned = cp_data.get("planned_run_ids", [])
-            for rid in planned:
-                parts = rid.split("_", 2)
-                if len(parts) >= 2:
-                    remote_strategies.add(parts[1])
-                if len(parts) >= 1:
-                    sc_id = parts[0].rsplit("-rep", 1)[0] if "-rep" in parts[0] else parts[0]
-                    remote_scenarios.add(sc_id)
+            try:
+                cp_data = json.loads(cp_local.read_text(encoding="utf-8"))
+                records_text = records_local.read_text(encoding="utf-8").strip()
+                completed_ids: set[str] = set()
+                failed_count = 0
+                total_planned = cp_data.get("total_planned", 0)
+                if records_text:
+                    for line in records_text.split("\n"):
+                        if not line.strip():
+                            continue
+                        rec = json.loads(line)
+                        status = rec.get("status", "")
+                        if status in ("succeeded", "failed", "timed_out", "cancelled"):
+                            completed_ids.add(rec.get("run_id", ""))
+                        if status in ("failed", "timed_out"):
+                            failed_count += 1
 
-            remote_sc = set(scenario_ids)
-            remote_st = set(strategy_names)
-            if remote_scenarios and remote_scenarios != remote_sc:
+                remote_protocol = cp_data.get("protocol_version", "")
+                remote_config = cp_data.get("config_hash", "")
+                remote_commit = cp_data.get("source_commit", "")
+                remote_model = cp_data.get("model_identity", "")
+
+                if remote_protocol and remote_protocol != protocol_version:
+                    logger.debug(
+                        "Skipping %s: protocol mismatch remote=%s expected=%s",
+                        exp_id, remote_protocol, protocol_version,
+                    )
+                    continue
+                if remote_config and config_hash and remote_config != config_hash:
+                    logger.debug(
+                        "Skipping %s: config_hash mismatch remote=%s expected=%s",
+                        exp_id, remote_config, config_hash,
+                    )
+                    continue
+                if remote_commit and source_commit and remote_commit != source_commit:
+                    logger.debug(
+                        "Skipping %s: source_commit mismatch remote=%s expected=%s",
+                        exp_id, remote_commit, source_commit,
+                    )
+                    continue
+                if remote_model and model_identity and remote_model != model_identity:
+                    logger.debug(
+                        "Skipping %s: model_identity mismatch remote=%s expected=%s",
+                        exp_id, remote_model, model_identity,
+                    )
+                    continue
+
+                remote_scenarios: set[str] = set()
+                remote_strategies: set[str] = set()
+                planned = cp_data.get("planned_run_ids", [])
+                for rid in planned:
+                    parts = rid.split("_", 2)
+                    if len(parts) >= 2:
+                        remote_strategies.add(parts[1])
+                    if len(parts) >= 1:
+                        sc_id = parts[0].rsplit("-rep", 1)[0] if "-rep" in parts[0] else parts[0]
+                        remote_scenarios.add(sc_id)
+
+                remote_sc = set(scenario_ids)
+                remote_st = set(strategy_names)
+                if remote_scenarios and remote_scenarios != remote_sc:
+                    logger.debug(
+                        "Skipping %s: scenario mismatch remote=%s expected=%s",
+                        exp_id, remote_scenarios, remote_sc,
+                    )
+                    continue
+                if remote_strategies and remote_strategies != remote_st:
+                    logger.debug(
+                        "Skipping %s: strategy mismatch remote=%s expected=%s",
+                        exp_id, remote_strategies, remote_st,
+                    )
+                    continue
+
+                completion_status = cp_data.get("completion_status", "")
+                is_complete = completion_status == "completed"
+
+                compatible.append(CompatibleExperiment(
+                    experiment_id=exp_id,
+                    remote_prefix=posixpath.join(prefix, exp_id),
+                    is_complete=is_complete,
+                    completed_count=len(completed_ids),
+                    total_planned=total_planned,
+                    failed_count=failed_count,
+                ))
+            except Exception as exc:
                 logger.debug(
-                    "Skipping %s: scenario mismatch remote=%s expected=%s",
-                    exp_id, remote_scenarios, remote_sc,
+                    "Skipping experiment %s: validation error: %s", exp_id, exc,
                 )
                 continue
-            if remote_strategies and remote_strategies != remote_st:
-                logger.debug(
-                    "Skipping %s: strategy mismatch remote=%s expected=%s",
-                    exp_id, remote_strategies, remote_st,
-                )
-                continue
-
-            completion_status = cp_data.get("completion_status", "")
-            is_complete = completion_status == "completed"
-
-            compatible.append(CompatibleExperiment(
-                experiment_id=exp_id,
-                remote_prefix=posixpath.join(prefix, exp_id),
-                is_complete=is_complete,
-                completed_count=len(completed_ids),
-                total_planned=total_planned,
-                failed_count=failed_count,
-            ))
-        except Exception as exc:
-            logger.debug(
-                "Skipping experiment %s: validation error: %s", exp_id, exc,
-            )
-            continue
-        finally:
-            if cp_local is not None and cp_local.is_file():
-                cp_local.unlink(missing_ok=True)
-            if records_local is not None and records_local.is_file():
-                records_local.unlink(missing_ok=True)
-
-    if temp_dir.is_dir():
-        with contextlib.suppress(OSError):
-            temp_dir.rmdir()
+            finally:
+                if cp_local is not None and cp_local.is_file():
+                    cp_local.unlink(missing_ok=True)
+                if records_local is not None and records_local.is_file():
+                    records_local.unlink(missing_ok=True)
 
     return compatible
 
