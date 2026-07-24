@@ -704,3 +704,499 @@ class TestHfIntegration:
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token", max_retries=0)
             uploader.upload_recovery()
             assert uploader.failure_store.has_failures()
+
+
+# ---------------------------------------------------------------------------
+# Tests: Auto-resume (mocked HfApi)
+# ---------------------------------------------------------------------------
+
+from benchmark.checkpoint.hf_sync import (
+    AutoResumeResult,
+    CompatibleExperiment,
+    list_compatible_experiments,
+    resolve_auto_resume,
+)
+
+
+def _make_remote_files(
+    prefix: str,
+    exp_id: str,
+    completed_run_ids: list[str],
+    total_planned: int = 7,
+    protocol_version: str = "1.0",
+    config_hash: str = "deadbeef",
+    model_identity: str = "dry-run:mock",
+    source_commit: str = "abc1234",
+    completion_status: str = "incomplete",
+) -> list[str]:
+    """Build a list of fake remote file paths for one experiment."""
+    base = f"{prefix}/{exp_id}/recovery"
+    files = [
+        f"{base}/checkpoint.json",
+        f"{base}/run_records.jsonl",
+        f"{base}/progress.json",
+        f"{base}/experiment_id.txt",
+        f"{base}/source_identity.json",
+    ]
+    return files
+
+
+def _make_fake_checkpoint_content(
+    completed_run_ids: list[str],
+    total_planned: int = 7,
+    protocol_version: str = "1.0",
+    config_hash: str = "deadbeef",
+    model_identity: str = "dry-run:mock",
+    source_commit: str = "abc1234",
+    completion_status: str = "incomplete",
+    scenario_id: str = "todo-add-feature-toggle",
+    strategy_names: list[str] | None = None,
+) -> str:
+    if strategy_names is None:
+        strategy_names = ["agent", "selective"]
+    all_run_ids: list[str] = list(completed_run_ids)
+    idx = 0
+    while len(all_run_ids) < total_planned:
+        strat = strategy_names[idx % len(strategy_names)]
+        all_run_ids.append(f"{scenario_id}_{strat}_rep1_{idx:04d}")
+        idx += 1
+    completed = list(completed_run_ids)
+    pending = [rid for rid in all_run_ids if rid not in completed]
+    return json.dumps({
+        "profile": "smoke",
+        "execution_plan_hash": config_hash,
+        "planned_run_ids": all_run_ids,
+        "completed_run_ids": completed,
+        "failed_run_ids": [],
+        "pending_run_ids": pending,
+        "total_planned": total_planned,
+        "total_completed": len(completed),
+        "protocol_version": protocol_version,
+        "model_identity": model_identity,
+        "config_hash": config_hash,
+        "source_commit": source_commit,
+        "completion_status": completion_status,
+    })
+
+
+def _make_fake_records_content(run_ids: list[str], statuses: list[str] | None = None) -> str:
+    if statuses is None:
+        statuses = ["succeeded"] * len(run_ids)
+    records = []
+    for rid, status in zip(run_ids, statuses):
+        records.append(json.dumps({
+            "run_id": rid,
+            "profile": "smoke",
+            "scenario_id": "todo-add-feature-toggle",
+            "strategy_id": "agent",
+            "repetition": 1,
+            "seed": 42,
+            "status": status,
+            "duration_seconds": 1.0,
+            "protocol_version": "1.0",
+            "source_commit": "abc1234",
+            "config_hash": "deadbeef",
+            "timestamp": "2026-07-24T00:00:00",
+        }))
+    return "\n".join(records)
+
+
+class TestAutoResume:
+    """Tests for the auto-resume discovery and resolution logic."""
+
+    def test_no_remote_experiment_starts_new(self) -> None:
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.return_value = ["unrelated/file.txt"]
+
+            result = resolve_auto_resume(
+                repo_id=TEST_REPO,
+                token="hf_test_token",
+                profile="smoke",
+                protocol_version="1.0",
+                source_commit="abc1234",
+                config_hash="deadbeef",
+                model_identity="dry-run:mock",
+                scenario_ids=["run-1"],
+                strategy_names=["agent"],
+            )
+            assert result.action == "start_new"
+            assert result.experiment_id == ""
+            assert len(result.compatible_experiments) == 0
+
+    def test_exactly_one_compatible_incomplete_resumes(self) -> None:
+        prefix = "experiments/smoke/1.0/abc1234"
+        exp_files = _make_remote_files(prefix, "exp-001", ["run-1"])
+
+        cp_content = _make_fake_checkpoint_content(
+            completed_run_ids=["todo-add-feature-toggle_agent_rep1_deadbeef"],
+            total_planned=7,
+        )
+        records_content = _make_fake_records_content(
+            ["todo-add-feature-toggle_agent_rep1_deadbeef"], ["succeeded"]
+        )
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.return_value = exp_files
+
+            def fake_download(repo_id, filename, local_dir, token, **kwargs):
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
+                if "checkpoint.json" in filename:
+                    local_p.write_text(cp_content)
+                elif "run_records.jsonl" in filename:
+                    local_p.write_text(records_content)
+                return str(local_p)
+
+            with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+                result = resolve_auto_resume(
+                    repo_id=TEST_REPO,
+                    token="hf_test_token",
+                    profile="smoke",
+                    protocol_version="1.0",
+                    source_commit="abc1234",
+                    config_hash="deadbeef",
+                    model_identity="dry-run:mock",
+                    scenario_ids=["todo-add-feature-toggle"],
+                    strategy_names=["agent", "selective"],
+                )
+                assert result.action == "resume"
+                assert result.experiment_id == "exp-001"
+                assert len(result.compatible_experiments) == 1
+
+    def test_completed_experiment_does_not_duplicate(self) -> None:
+        prefix = "experiments/smoke/1.0/abc1234"
+        exp_files = _make_remote_files(prefix, "exp-done", ["run-1", "run-2", "run-3"])
+
+        cp_content = _make_fake_checkpoint_content(
+            completed_run_ids=[
+                "scenario-a_agent_rep1_aaaa",
+                "scenario-a_selective_rep1_bbbb",
+                "scenario-a_monolithic_rep1_cccc",
+            ],
+            total_planned=3,
+            completion_status="completed",
+        )
+        records_content = _make_fake_records_content(
+            ["scenario-a_agent_rep1_aaaa", "scenario-a_selective_rep1_bbbb", "scenario-a_monolithic_rep1_cccc"],
+            ["succeeded", "succeeded", "succeeded"],
+        )
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.return_value = exp_files
+
+            def fake_download(repo_id, filename, local_dir, token, **kwargs):
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
+                if "checkpoint.json" in filename:
+                    local_p.write_text(cp_content)
+                elif "run_records.jsonl" in filename:
+                    local_p.write_text(records_content)
+                return str(local_p)
+
+            with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+                result = resolve_auto_resume(
+                    repo_id=TEST_REPO,
+                    token="hf_test_token",
+                    profile="smoke",
+                    protocol_version="1.0",
+                    source_commit="abc1234",
+                    config_hash="deadbeef",
+                    model_identity="dry-run:mock",
+                    scenario_ids=["scenario-a"],
+                    strategy_names=["agent", "selective", "monolithic"],
+                )
+                assert result.action == "already_complete"
+                assert result.experiment_id == "exp-done"
+
+    def test_multiple_compatible_incomplete_fails(self) -> None:
+        prefix = "experiments/smoke/1.0/abc1234"
+        files_exp1 = _make_remote_files(prefix, "exp-001", ["run-1"])
+        files_exp2 = _make_remote_files(prefix, "exp-002", ["run-2"])
+
+        cp_content1 = _make_fake_checkpoint_content(
+            completed_run_ids=["scenario-b_agent_rep1_aaaa"], total_planned=7,
+            scenario_id="scenario-b",
+            strategy_names=["agent", "selective", "monolithic"],
+        )
+        cp_content2 = _make_fake_checkpoint_content(
+            completed_run_ids=["scenario-b_selective_rep1_bbbb"], total_planned=7,
+            scenario_id="scenario-b",
+            strategy_names=["agent", "selective", "monolithic"],
+        )
+        records1 = _make_fake_records_content(["scenario-b_agent_rep1_aaaa"], ["succeeded"])
+        records2 = _make_fake_records_content(["scenario-b_selective_rep1_bbbb"], ["succeeded"])
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.return_value = files_exp1 + files_exp2
+
+            def fake_download(repo_id, filename, local_dir, token, **kwargs):
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
+                if "checkpoint.json" in filename:
+                    local_p.write_text(cp_content1 if "exp-001" in filename else cp_content2)
+                elif "run_records.jsonl" in filename:
+                    local_p.write_text(records1 if "exp-001" in filename else records2)
+                return str(local_p)
+
+            with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+                result = resolve_auto_resume(
+                    repo_id=TEST_REPO,
+                    token="hf_test_token",
+                    profile="smoke",
+                    protocol_version="1.0",
+                    source_commit="abc1234",
+                    config_hash="deadbeef",
+                    model_identity="dry-run:mock",
+                    scenario_ids=["scenario-b"],
+                    strategy_names=["agent", "selective", "monolithic"],
+                )
+                assert result.action == "error"
+                assert "Multiple" in result.message
+                assert "exp-001" in result.message
+                assert "exp-002" in result.message
+
+    def test_incompatible_experiments_ignored(self) -> None:
+        prefix = "experiments/smoke/1.0/abc1234"
+        files_bad = _make_remote_files(prefix, "exp-bad", ["scenario-c"])
+
+        cp_content = _make_fake_checkpoint_content(
+            completed_run_ids=["scenario-c_agent_rep1_cccc"],
+            total_planned=7,
+            protocol_version="0.9",
+            scenario_id="scenario-c",
+        )
+        records = _make_fake_records_content(["scenario-c_agent_rep1_cccc"], ["succeeded"])
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.return_value = files_bad
+
+            def fake_download(repo_id, filename, local_dir, token, **kwargs):
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
+                if "checkpoint.json" in filename:
+                    local_p.write_text(cp_content)
+                elif "run_records.jsonl" in filename:
+                    local_p.write_text(records)
+                return str(local_p)
+
+            with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+                result = resolve_auto_resume(
+                    repo_id=TEST_REPO,
+                    token="hf_test_token",
+                    profile="smoke",
+                    protocol_version="1.0",
+                    source_commit="abc1234",
+                    config_hash="deadbeef",
+                    model_identity="dry-run:mock",
+                    scenario_ids=["scenario-c"],
+                    strategy_names=["agent"],
+                )
+                assert result.action == "start_new"
+                assert len(result.compatible_experiments) == 0
+
+    def test_remote_listing_failure_returns_error(self) -> None:
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.side_effect = Exception("API error")
+
+            result = resolve_auto_resume(
+                repo_id=TEST_REPO,
+                token="hf_test_token",
+                profile="smoke",
+                protocol_version="1.0",
+                source_commit="abc1234",
+                config_hash="deadbeef",
+                model_identity="dry-run:mock",
+                scenario_ids=["run-1"],
+                strategy_names=["agent"],
+            )
+            assert result.action == "error"
+            assert "Remote listing failed" in result.message
+
+    def test_missing_recovery_file_skips_experiment(self) -> None:
+        prefix = "experiments/smoke/1.0/abc1234"
+        exp_files = _make_remote_files(prefix, "exp-incomplete", ["run-1"])
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.return_value = exp_files
+
+            with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=Exception("404 Not Found")):
+                result = resolve_auto_resume(
+                    repo_id=TEST_REPO,
+                    token="hf_test_token",
+                    profile="smoke",
+                    protocol_version="1.0",
+                    source_commit="abc1234",
+                    config_hash="deadbeef",
+                    model_identity="dry-run:mock",
+                    scenario_ids=["scenario-c"],
+                    strategy_names=["agent"],
+                )
+                assert result.action == "start_new"
+                assert len(result.compatible_experiments) == 0
+
+    def test_new_experiment_flag_creates_new(self) -> None:
+        prefix = "experiments/smoke/1.0/abc1234"
+        exp_files = _make_remote_files(prefix, "exp-existing", ["run-1"])
+
+        cp_content = _make_fake_checkpoint_content(
+            completed_run_ids=["scenario-g_agent_rep1_gggg"], total_planned=7,
+            scenario_id="scenario-g",
+        )
+        records = _make_fake_records_content(["scenario-g_agent_rep1_gggg"], ["succeeded"])
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.return_value = exp_files
+
+            def fake_download(repo_id, filename, local_dir, token, **kwargs):
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
+                if "checkpoint.json" in filename:
+                    local_p.write_text(cp_content)
+                elif "run_records.jsonl" in filename:
+                    local_p.write_text(records)
+                return str(local_p)
+
+            with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+                result = resolve_auto_resume(
+                    repo_id=TEST_REPO,
+                    token="hf_test_token",
+                    profile="smoke",
+                    protocol_version="1.0",
+                    source_commit="abc1234",
+                    config_hash="deadbeef",
+                    model_identity="dry-run:mock",
+                    scenario_ids=["run-1"],
+                    strategy_names=["agent"],
+                    new_experiment=True,
+                )
+                assert result.action == "start_new"
+                assert result.experiment_id == ""
+
+    def test_list_compatible_experiments_returns_compatible(self) -> None:
+        prefix = "experiments/smoke/1.0/abc1234"
+        exp_files = _make_remote_files(prefix, "exp-ok", ["run-1"])
+
+        cp_content = _make_fake_checkpoint_content(
+            completed_run_ids=["scenario-d_agent_rep1_dddd"], total_planned=7,
+            scenario_id="scenario-d",
+            strategy_names=["agent", "selective"],
+        )
+        records = _make_fake_records_content(["scenario-d_agent_rep1_dddd"], ["succeeded"])
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.return_value = exp_files
+
+            def fake_download(repo_id, filename, local_dir, token, **kwargs):
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
+                if "checkpoint.json" in filename:
+                    local_p.write_text(cp_content)
+                elif "run_records.jsonl" in filename:
+                    local_p.write_text(records)
+                return str(local_p)
+
+            with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+                experiments = list_compatible_experiments(
+                    repo_id=TEST_REPO,
+                    token="hf_test_token",
+                    profile="smoke",
+                    protocol_version="1.0",
+                    source_commit="abc1234",
+                    config_hash="deadbeef",
+                    model_identity="dry-run:mock",
+                    scenario_ids=["scenario-d"],
+                    strategy_names=["agent", "selective"],
+                )
+                assert len(experiments) == 1
+                assert experiments[0].experiment_id == "exp-ok"
+                assert experiments[0].completed_count == 1
+                assert experiments[0].total_planned == 7
+
+    def test_list_compatible_experiments_empty_prefix(self) -> None:
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.return_value = ["other/path/file.txt"]
+
+            experiments = list_compatible_experiments(
+                repo_id=TEST_REPO,
+                token="hf_test_token",
+                profile="smoke",
+                protocol_version="1.0",
+                source_commit="abc1234",
+                config_hash="deadbeef",
+                model_identity="dry-run:mock",
+                scenario_ids=["run-1"],
+                strategy_names=["agent"],
+            )
+            assert experiments == []
+
+    def test_auto_resume_finds_incomplete_over_complete(self) -> None:
+        prefix = "experiments/smoke/1.0/abc1234"
+        files_complete = _make_remote_files(prefix, "exp-done", ["run-1", "run-2", "run-3"])
+        files_incomplete = _make_remote_files(prefix, "exp-partial", ["run-1"])
+
+        cp_complete = _make_fake_checkpoint_content(
+            completed_run_ids=["scenario-f_agent_rep1_aaaa", "scenario-f_selective_rep1_bbbb", "scenario-f_monolithic_rep1_cccc"],
+            total_planned=3,
+            completion_status="completed",
+            scenario_id="scenario-f",
+            strategy_names=["agent", "selective", "monolithic"],
+        )
+        cp_incomplete = _make_fake_checkpoint_content(
+            completed_run_ids=["scenario-f_agent_rep1_dddd"],
+            total_planned=7,
+            scenario_id="scenario-f",
+            strategy_names=["agent", "selective", "monolithic"],
+        )
+        records_complete = _make_fake_records_content(
+            ["scenario-f_agent_rep1_aaaa", "scenario-f_selective_rep1_bbbb", "scenario-f_monolithic_rep1_cccc"], ["succeeded"] * 3,
+        )
+        records_incomplete = _make_fake_records_content(["scenario-f_agent_rep1_dddd"], ["succeeded"])
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
+            mock_api = MagicMock()
+            mock_api_cls.return_value = mock_api
+            mock_api.list_repo_files.return_value = files_complete + files_incomplete
+
+            def fake_download(repo_id, filename, local_dir, token, **kwargs):
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
+                if "checkpoint.json" in filename:
+                    local_p.write_text(cp_complete if "exp-done" in filename else cp_incomplete)
+                elif "run_records.jsonl" in filename:
+                    local_p.write_text(records_complete if "exp-done" in filename else records_incomplete)
+                return str(local_p)
+
+            with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+                result = resolve_auto_resume(
+                    repo_id=TEST_REPO,
+                    token="hf_test_token",
+                    profile="smoke",
+                    protocol_version="1.0",
+                    source_commit="abc1234",
+                    config_hash="deadbeef",
+                    model_identity="dry-run:mock",
+                    scenario_ids=["scenario-f"],
+                    strategy_names=["agent", "selective", "monolithic"],
+                )
+                assert result.action == "resume"
+                assert result.experiment_id == "exp-partial"
