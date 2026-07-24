@@ -43,22 +43,22 @@
 | Aspect | Classification | Path | Notes |
 |--------|---------------|------|-------|
 | Benchmark notebook | **CANONICAL** | `project/notebooks/seven_arm_benchmark.ipynb` | Git-tracked. |
-| Inner bundle copy | **GENERATED_DERIVATIVE** | `project/kaggle_upload/notebooks/seven_arm_benchmark.ipynb` | SHA-256 matches canonical. |
-| Outer bundle copy | **STALE_DUPLICATE** | `<parent>/kaggle_upload/notebooks/seven_arm_benchmark.ipynb` | SHA-256 differs from canonical. |
+| Inner bundle copy | **GENERATED_DERIVATIVE** | `project/kaggle_upload/notebooks/seven_arm_benchmark.ipynb` | SHA-256 matches canonical (normalized). |
+| Outer bundle copy | **STALE_DUPLICATE** | `<parent>/kaggle_upload/notebooks/seven_arm_benchmark.ipynb` | To be deleted after validation. |
 
 ### Kaggle Code Bundle
 
 | Aspect | Classification | Path | Notes |
 |--------|---------------|------|-------|
-| Inner bundle | **GENERATED_DERIVATIVE** | `project/kaggle_upload/code/` | Source files match canonical (66/66). Contains `.git/`, caches, egg-info — should not. |
-| Outer bundle | **STALE_DUPLICATE** | `<parent>/kaggle_upload/code/` | Does NOT contain `.git/` or caches, but `seven_arm_benchmark.py` and `hf_sync.py` content-differ from canonical. |
+| Inner bundle | **GENERATED_DERIVATIVE** | `project/kaggle_upload/code/` | 72 files, no forbidden items, SHA-256 matches canonical (normalized). |
+| Outer bundle | **STALE_DUPLICATE** | `<parent>/kaggle_upload/code/` | To be deleted after validation. |
 
 ### Kaggle Data Bundle
 
 | Aspect | Classification | Path | Notes |
 |--------|---------------|------|-------|
-| Inner bundle | **STALE_DUPLICATE** / **UNKNOWN** | `project/kaggle_upload/data/` | ***EMPTY*** — no data files present at all. |
-| Outer bundle | **GENERATED_DERIVATIVE** (populated) | `<parent>/kaggle_upload/data/` | Contains all 29 data YAML files, all matching canonical SHA-256. `UNKNOWN_REQUIRES_DECISION` — the populated data bundle lives outside Git while the Git-tracked one is empty. |
+| Inner bundle | **GENERATED_DERIVATIVE** (populated) | `project/kaggle_upload/data/` | 29 data files (24 scenarios + 2 manifests + 3 profiles), all matching canonical SHA-256. |
+| Outer bundle | **STALE_DUPLICATE** | `<parent>/kaggle_upload/data/` | To be deleted after validation. |
 
 ### Execution Configurations
 
@@ -67,7 +67,7 @@
 | Smoke profile | **CANONICAL** | `project/configs/smoke.yaml` | Git-tracked. |
 | Pilot profile | **CANONICAL** | `project/configs/pilot.yaml` | Git-tracked. |
 | Research profile | **CANONICAL** | `project/configs/research.yaml` | Git-tracked. |
-| Inner bundle configs | **GENERATED_DERIVATIVE** | `project/kaggle_upload/code/configs/` | Only CRLF differences from canonical. |
+| Inner bundle configs | **GENERATED_DERIVATIVE** | `project/kaggle_upload/code/configs/` | SHA-256 matches canonical (normalized). |e/configs/` | Only CRLF differences from canonical. |
 | Outer bundle configs | **STALE_DUPLICATE** | `<parent>/kaggle_upload/code/configs/` | Only CRLF differences from canonical. |
 
 ### State Files
@@ -109,7 +109,7 @@
 | Paper PDF | **EXTERNAL_IMMUTABLE_INPUT** | `<parent>/inputs/paper/MSc_Proposal_*.pdf` | Outside Git. Immutable. |
 | Paper LaTeX | **EXTERNAL_IMMUTABLE_INPUT** | `<parent>/inputs/paper/MSc_Proposal_*.tex` | Outside Git. Immutable. |
 
-### Duplicate Path Resolution
+### Duplicate Path Resolution (Post-Remediation)
 
 | Path | Classification | Resolution |
 |------|---------------|------------|

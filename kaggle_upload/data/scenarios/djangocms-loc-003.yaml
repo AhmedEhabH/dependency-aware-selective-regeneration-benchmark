@@ -1,0 +1,70 @@
+scenario_id: djangocms-loc-003
+repository: djangocms
+change_type: localized_validation
+
+blast_radius: localized
+
+requirement_before: |
+  CMSPlugin instances within a Placeholder do not enforce position
+  uniqueness at the model level. If two plugins are saved with the
+  same position value within the same placeholder, no error is
+  raised. Position ordering relies on MPTT tree position and admin
+  logic.
+
+requirement_after: |
+  When a CMSPlugin is saved, the model validates that no other
+  CMSPlugin within the same Placeholder has the same position
+  value. If a conflict is detected, the save should either
+  auto-correct (shift conflicting plugin positions) or raise a
+  ValidationError. The preferred approach is auto-correction: on
+  save, if position is already taken, increment positions of
+  existing plugins at >= that position by 1, then save. This
+  mirrors typical list-insertion behavior. Admin forms should
+  reflect that positions are unique within a placeholder.
+
+rationale: >
+  Ensuring unique plugin positions within a placeholder prevents
+  display ordering bugs and data integrity issues when plugins
+  are added, moved, or deleted concurrently.
+
+acceptance_criteria:
+  - CMSPlugin.save() enforces position uniqueness within its placeholder.
+  - Auto-correction shifts conflicting plugin positions up by 1.
+  - No data loss occurs during auto-correction.
+  - Admin plugin form/listing displays unique position ordering.
+  - Existing CMSPlugin tests pass without regression.
+
+expected_affected_artifacts:
+  - "cms/models/pluginmodel.py:CMSPlugin"
+  - '"cms/admin/placeholderadmin.py:PlaceholderAdmin" (position display)'
+
+expected_actions:
+  cms/models/pluginmodel.py: modify
+  cms/admin/placeholderadmin.py: modify
+
+regression_obligations:
+  - "cms/tests/test_plugin.py"
+  - "cms/tests/test_placeholder_admin.py"
+
+architecture_constraints:
+  - Must not break MPTT tree integrity.
+  - Must not introduce new database constraints that cause
+    migration conflicts with existing plugin data.
+  - Must not change the CMSPluginBase API.
+  - Auto-correction must be atomic (wrapped in transaction.atomic).
+
+hidden_tests:
+  - description: >
+      Create a Placeholder, add CMSPlugin at position 0, then add
+      another CMSPlugin also at position 0. Assert that the second
+      plugin gets position 1 after save and the first remains at 0.
+    type: auto_correct_insert
+  - description: >
+      Create 3 plugins at positions 0, 1, 2. Save a new plugin at
+      position 1. Assert positions become 0, 2, 3, 1 (original at 1
+      shifts to 2, original at 2 shifts to 3).
+    type: auto_correct_mid_insert
+  - description: >
+      Verify that saving a plugin without changing its position does
+      NOT trigger auto-correction (idempotent save).
+    type: idempotent_save

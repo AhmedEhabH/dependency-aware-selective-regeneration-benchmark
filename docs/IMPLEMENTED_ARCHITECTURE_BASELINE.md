@@ -145,7 +145,7 @@ Supports:
 - `--hf-sync` for remote sync
 - `--resume` for local resume
 - `--resume-from-hf` for cross-session resume
-- Auto-resume via `_auto_resume_temp/` (test infrastructure)
+- Auto-resume (test infrastructure uses isolated temp directories)
 
 ---
 
@@ -177,15 +177,23 @@ Evaluation pipeline:
 
 ## Bundle Generation
 
-Bundle generation is manual:
-1. Copy `seven_arm_benchmark.py` → `kaggle_upload/code/`
-2. Copy `src/benchmark/` → `kaggle_upload/code/src/`
-3. Copy configs → `kaggle_upload/code/configs/`
-4. Copy `pyproject.toml`, `requirements-kaggle.txt` → `kaggle_upload/code/`
-5. Copy `benchmark_data/` → `kaggle_upload/data/`
-6. Copy notebook → `kaggle_upload/notebooks/`
+Bundle generation is automated via `scripts/build_upload_bundle.py`:
 
-**No automated build script exists.** The `scripts/` directory is empty.
+1. Run `python scripts/build_upload_bundle.py` from `project/`
+2. Script clears `project/kaggle_upload/` only
+3. Copies canonical sources: `seven_arm_benchmark.py`, `src/benchmark/`, `configs/`, `requirements-kaggle.txt`, `pyproject.toml`
+4. Copies data: `benchmark_data/manifests/`, `benchmark_data/repository_profiles/`, `benchmark_data/scenarios/`
+5. Copies notebook: `notebooks/seven_arm_benchmark.ipynb`
+6. Normalizes text files to LF
+7. Generates SHA-256 manifests
+8. Verifies all derivative checksums against canonical sources
+
+**No manual copying is required.** The outer `<parent>/kaggle_upload/` is a stale duplicate to be deleted after validation.
+
+### Bundle contents:
+- `kaggle_upload/code/` — 72 files (CLI, source package, configs, requirements, pyproject.toml)
+- `kaggle_upload/data/` — 29 files (24 scenarios, 2 manifests, 3 repository profiles)
+- `kaggle_upload/notebooks/` — 1 notebook file
 
 ---
 
@@ -196,10 +204,10 @@ Bundle generation is manual:
 | `checkpoint/` package not in 13-layer architecture | SOFTWARE_ARCHITECTURE.md (13 layers) | `checkpoint/` exists as 14th package | Architecture doc is incomplete |
 | `comparison/` package not in architecture | SOFTWARE_ARCHITECTURE.md | `comparison/` exists with GroundTruthComparator, ResultAggregator | Architecture doc is incomplete |
 | `selection/` package not in architecture | SOFTWARE_ARCHITECTURE.md | `selection/` exists with ArtifactSelector, RegenerationPlanner | Architecture doc is incomplete |
-| No automated bundle script | PROJECT_STRUCTURE_MAP.md proposes `scripts/build_upload_bundle.py` | `scripts/` is empty | Bundle regeneration is manual and error-prone |
-| `kaggle_upload/data/` empty | PROJECT_STRUCTURE_MAP.md lists data bundle as proposed | Bundled data resides only in outer `<parent>/kaggle_upload/data/` | Deployment failure if inner bundle used |
+| Bundle build script implemented | PROPOSED_CANONICAL_PROJECT_STRUCTURE.md proposed `scripts/build_upload_bundle.py` | `scripts/build_upload_bundle.py` exists and is the sole producer of Kaggle bundles | Resolved |
+| `kaggle_upload/data/` populated | PROPOSED_CANONICAL_PROJECT_STRUCTURE.md listed data bundle as proposed | 29 data files present, SHA-256 matches canonical | Resolved |
 | `private_evaluation/` not created | PUBLIC_PRIVATE_DATA_BOUNDARY.md proposes it | Directory does not exist | No concern yet (no private evaluation data) |
 | `repositories/` not created | PROJECT_STRUCTURE_MAP.md proposes cloned repos | Directory does not exist | Not needed until repo cloning implemented |
 | `runs/` not created | PROJECT_STRUCTURE_MAP.md proposes it | Directory does not exist | No runs executed yet (after smoke) |
 | `release/` not created | PROJECT_STRUCTURE_MAP.md proposes it | Directory does not exist | Not yet in release phase |
-| Bundle contains `.git/` and caches | Not documented | Present in `project/kaggle_upload/code/` | Bloated bundle, security concern |
+| Bundle contains `.git/` and caches | Not documented | Previously present in old `project/kaggle_upload/code/` | Resolved — bundle build script excludes these | security concern |

@@ -1,0 +1,128 @@
+scenario_id: djangocms-cross-007
+repository: djangocms
+change_type: cross_cutting_workflow
+
+blast_radius: cross_cutting
+
+requirement_before:
+  PageContent has a simple is_published boolean. There is no
+  intermediate workflow state. Content is either draft or published.
+  No approval or review process exists in the CMS core.
+
+requirement_after: |
+  A full content version approval workflow is added to PageContent.
+  The workflow has four states: draft -> pending_review -> approved
+  -> published. These states are stored in a new `status` field on
+  PageContent (CharField with choices). The admin PageContentAdmin
+  gains "Submit for Review", "Approve", "Reject", and "Publish"
+  actions that transition between states. A new "Reviewer" permission
+  level (leveraging djangocms-mod-005) can approve or reject.
+  The toolbar shows workflow state and available transitions.
+  The cms/api.py functions for publishing check the workflow status.
+  Signals fire on state transitions (e.g., page_content_status_changed).
+  Tests cover model transitions, admin actions, permissions, toolbar,
+  API, and signals.
+
+rationale: >
+  A formal content approval workflow enables enterprise-grade
+  editorial processes where authors submit content for review,
+  reviewers approve or reject, and only approved content is
+  published. This is a cross-cutting feature affecting the entire
+  CMS stack.
+
+acceptance_criteria:
+  - |
+    PageContent.status field with choices: draft, pending_review,
+    approved, published.
+  - |
+    Valid transitions: draft->pending_review (submit),
+    pending_review->approved (approve), pending_review->draft (reject),
+    approved->published (publish), published->draft (unpublish).
+  - Admin actions for each transition, gated by appropriate permissions.
+  - Toolbar displays current status and available actions.
+  - |
+    cms/api.py publish functions check status == approved before
+    setting published.
+  - |
+    A signal `page_content_status_changed` fires on every transition.
+  - A new migration creates the status field.
+  - |
+    A new permission "can_approve" is added (or reuses mod-005).
+  - All existing tests pass.
+
+expected_affected_artifacts:
+  - "cms/models/contentmodels.py:PageContent"
+  - "cms/admin/pagecontentadmin.py:PageContentAdmin"
+  - "cms/admin/pageadmin.py:PageAdmin"
+  - "cms/permissions.py"
+  - "cms/toolbar.py:PageToolbar"
+  - "cms/api.py"
+  - "cms/signals.py"
+  - "cms/models/permissionmodels.py"
+  - '"cms/migrations/0044_add_workflow_status.py" (new file)'
+
+expected_actions:
+  cms/models/contentmodels.py: modify
+  cms/admin/pagecontentadmin.py: modify
+  cms/admin/pageadmin.py: modify
+  cms/permissions.py: modify
+  cms/toolbar.py: modify
+  cms/api.py: modify
+  cms/signals.py: modify
+  cms/models/permissionmodels.py: modify
+  cms/migrations/0044_add_workflow_status.py: create
+
+regression_obligations:
+  - "cms/tests/test_contentmodels.py"
+  - "cms/tests/test_pagecontent_admin.py"
+  - "cms/tests/test_permissions.py"
+  - "cms/tests/test_toolbar.py"
+  - "cms/tests/test_api.py"
+  - "cms/tests/test_signals.py"
+  - "cms/tests/test_views.py"
+
+architecture_constraints:
+  - Must not remove the existing is_published field (deprecate
+    rather than remove; is_published should be derived from status).
+  - The is_published property on PageContent should return True
+    only when status == 'published'.
+  - All state transitions must be validated (no invalid transitions
+    allowed; e.g., draft cannot go directly to published).
+  - The signal must include old_status, new_status, and the user
+    who performed the transition.
+  - The toolbar must not expose workflow actions to users without
+    the corresponding permission.
+  - Admin actions must use confirmation pages for non-reversible
+    actions (e.g., unpublish).
+  - Must follow existing code conventions for admin actions
+    (short_description, permissions attribute).
+
+hidden_tests:
+  - description: >
+      Create a PageContent with status='draft'. Call the "Submit for
+      Review" admin action. Assert status becomes 'pending_review'.
+      Then call "Approve". Assert status becomes 'approved'. Then
+      call "Publish". Assert status becomes 'published'.
+    type: full_workflow_transition
+  - description: >
+      Attempt to call "Approve" on a PageContent with status='draft'.
+      Assert the admin action raises a PermissionDenied or
+      ValidationError (invalid transition).
+    type: invalid_transition_rejected
+  - description: >
+      Create a PageContent with status='approved'. Call the API
+      publish function. Assert status becomes 'published'. Call it
+      again and assert it does not error (idempotent).
+    type: api_publish_respects_workflow
+  - description: >
+      Connect a listener to page_content_status_changed. Perform a
+      transition from draft to pending_review. Assert the signal
+      fires with old_status='draft', new_status='pending_review',
+      and the user is set.
+    type: signal_fires_on_transition
+  - description: >
+      Assign a user the can_approve permission. Assert the toolbar
+      shows "Approve" and "Reject" buttons when viewing a
+      pending_review PageContent. Remove the permission and assert
+      the buttons disappear.
+    type: toolbar_workflow_visibility

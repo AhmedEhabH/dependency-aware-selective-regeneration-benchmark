@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-24
 **Branch:** `audit/canonical-project-architecture`
-**Status:** PROPOSED (not yet implemented)
+**Status:** IMPLEMENTED (chore/canonical-project-remediation)
 **Purpose:** Minimally invasive target tree to eliminate duplicates and normalize bundle generation.
 
 ---

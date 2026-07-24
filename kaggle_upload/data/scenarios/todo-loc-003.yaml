@@ -1,0 +1,64 @@
+# Scenario — todo-loc-003
+# Protocol v1.0 (FROZEN)
+
+scenario_id: "todo-loc-003"
+repository: todo
+change_type: "Validation and business-rule changes"
+blast_radius: localized
+requirement_before: >
+  The Task model has no uniqueness constraints on the title field. Multiple
+  tasks within the same project can share identical titles. The
+  TaskSerializer performs no custom validation for title uniqueness. The
+  application relies entirely on database-level constraints (none for
+  title).
+requirement_after: >
+  Task titles must be unique within a project. A project cannot contain two
+  tasks with the same title. The constraint must be enforced at both the
+  model level (via UniqueConstraint or unique_together) and the serializer
+  level (via a custom validate_title method that checks for existing tasks
+  with the same title in the project). On violation, the API must return a
+  meaningful 400 error. The constraint must be checked before the database
+  is hit (serializer-level), and also enforced at the database level
+  (model constraint) as a safety net.
+rationale: >
+  This is a validation-only change that touches two layers: model
+  (constraint definition) and serializer (validation logic). The change is
+  localized because it affects only the Task model and TaskSerializer. No
+  views, URLs, permissions, or other models should be touched. Tests the
+  strategies' ability to correctly trace validation rule changes through
+  both layers and add the appropriate database migration.
+acceptance_criteria:
+  - "Creating a task with a duplicate title in the same project returns 400 with a meaningful error"
+  - "Creating a task with a duplicate title in a different project succeeds"
+  - "Updating a task to a title that already exists in the same project returns 400"
+  - "Updating a task to a unique title succeeds"
+  - "A database-level UniqueConstraint on (project, title) exists and is enforced"
+  - "The serializer-level check provides a friendly error before the DB constraint fires"
+  - "All existing CRUD operations on Task, Project, and Tag remain unchanged"
+expected_affected_artifacts:
+  - "todo/models.py:Task (add UniqueConstraint on project and title)"
+  - "todo/serializers.py:TaskSerializer (add validate_title method)"
+  - "todo/tests/test_models.py (add constraint violation tests)"
+  - "todo/tests/test_serializers.py (add uniqueness validation tests)"
+expected_actions:
+  "todo/models.py:Task": modify
+  "todo/serializers.py:TaskSerializer": modify
+  "todo/tests/test_models.py": modify
+  "todo/tests/test_serializers.py": modify
+regression_obligations:
+  - "todo/tests/test_models.py"
+  - "todo/tests/test_serializers.py"
+  - "todo/tests/test_views.py"
+architecture_constraints:
+  - "No changes to views.py, urls.py, permissions.py, or other models (Project, Tag)"
+  - "Serializer-level validation must catch the duplicate before the database constraint fires (user-friendly error)"
+  - "The model-level UniqueConstraint must use the correct condition (null project handling if applicable)"
+  - "Validation logic must be in the serializer validate_title method, not in the view"
+  - "Only one new migration file for the constraint"
+hidden_tests:
+  - description: "Regression test: tasks with identical titles across different projects are correctly allowed (constraint is project-scoped)"
+    type: regression
+  - description: "Changed-requirement test: a task's title can be updated to the same value it already had (self-match allowed)"
+    type: changed_requirement
+  - description: "Regression test: Project and Tag CRUD operations are completely unaffected"
+    type: regression

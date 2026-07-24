@@ -1,0 +1,76 @@
+# Repository Manifest — v1.0
+# Part of: Dependency-Aware Selective Regeneration Benchmark
+# Protocol Version: 1.0 (FROZEN)
+# Date: 2026-07-22
+
+repositories:
+  todo:
+    id: todo
+    name: Controlled Django Todo Application
+    description: >
+      A small, controlled Django application implementing a layered REST
+      architecture for task management. Created as a synthetic benchmark
+      repository with clear module boundaries, automated tests, and
+      deliberately simplified domain logic to enable precise impact
+      analysis measurement.
+    architecture_style: Layered REST
+    size: small
+    language: Python (Django)
+    license: MIT
+    license_url: https://opensource.org/licenses/MIT
+    url: https://github.com/ahmed-ehab/controlled-django-todo
+    default_branch: main
+    test_runner: pytest (Django TestCase)
+    test_discovery: "python -m pytest"
+    build_system: pip + requirements.txt
+    status: confirmatory
+    protocol_eligibility:
+      da_01: true  # Has automated test suite + regression suite
+      da_03: true  # Tagged stable release or initial commit
+
+  djangocms:
+    id: djangocms
+    name: django CMS
+    description: >
+      django CMS is a modern, modular content management system built on
+      Django. Features a plugin-based architecture with page tree,
+      placeholder system, multilingual support, and permission management.
+      Used as the medium-sized confirmatory repository.
+    architecture_style: Modular CMS with plugin architecture
+    size: medium
+    language: Python (Django)
+    license: BSD-3-Clause
+    license_url: https://github.com/django-cms/django-cms/blob/main/LICENSE
+    url: https://github.com/django-cms/django-cms
+    default_branch: develop
+    test_runner: pytest + tox
+    test_discovery: "tox -e tests"
+    build_system: pip + setup.py + tox
+    status: confirmatory
+    protocol_eligibility:
+      da_01: true  # Comprehensive test suite (unit, integration, functional)
+      da_03: true  # Stable release tag ≥ 90 days old
+
+  saleor:
+    id: saleor
+    name: Saleor Core
+    description: >
+      Saleor is a high-performance, modular e-commerce platform built with
+      GraphQL (Django + Graphene). Features a modular monolith architecture
+      with extensive webhook/event systems, multi-channel support, and a
+      comprehensive GraphQL API layer. Used as the large confirmatory
+      repository.
+    architecture_style: E-commerce modular monolith (GraphQL)
+    size: large
+    language: Python (Django + Graphene GraphQL)
+    license: BSD-3-Clause
+    license_url: https://github.com/saleor/saleor/blob/main/LICENSE
+    url: https://github.com/saleor/saleor
+    default_branch: main
+    test_runner: pytest
+    test_discovery: "pytest"
+    build_system: pip + poetry + requirements.txt
+    status: confirmatory
+    protocol_eligibility:
+      da_01: true  # Extensive automated test suite
+      da_03: true  # Stable release tag ≥ 90 days old

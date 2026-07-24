@@ -494,3 +494,31 @@
   - 504/505 tests pass (1 skipped: torch import); ruff 0 violations; mypy 0 errors (src)
 - **Impact:** Kaggle deployment validated. Qwen inference pipeline proven. Tag `v0.7.0-smoke-passed` created at `0c58250`. Next task: implement checkpoint/resume for long-running profiles.
 - **Evidence:** Tag `v0.7.0-smoke-passed` at commit `0c58250` (main). `reports/latest_phase_report.md` updated.
+
+---
+
+## Decision D021 — Canonical Structure Remediation and Selective-Update Ledger
+
+- **Date:** 2026-07-24
+- **Decision ID:** D021
+- **Status:** IMPLEMENTED
+- **Category:** Structure / Governance
+- **Description:** Execute Phase 3.7 — Canonical Structure Remediation. Merge audit documentation, implement deterministic bundle builder `scripts/build_upload_bundle.py`, populate and validate inner `kaggle_upload/` (72 code files, 29 data files, 1 notebook), remove forbidden items (`.git/`, caches, egg-info), add disposable artifacts to `.gitignore`, delete `_auto_resume_temp/` and `benchmark-results.zip`, update all architecture documentation to IMPLEMENTED/ADOPTED status, establish `project/selective_updates/` ledger with SU-0001 record, prepare outer duplicates for deletion.
+- **Rationale:** The audit revealed structural drift: inner bundle was empty/polluted, outer bundle was stale, no automated bundle generation, no change ledger. Remediation ensures reproducible deployment bundles and traceable change management.
+- **Alternatives considered:**
+  - Manual bundle maintenance — rejected as error-prone and caused current drift
+  - Keep outer bundle as canonical — rejected because outer is outside Git root and cannot be versioned with project
+- **Implementation scope:**
+  - `scripts/build_upload_bundle.py` (deterministic, self-verifying)
+  - `.gitignore` additions: `_auto_resume_temp/`, `benchmark-results.zip`, `**/__pycache__/`, `*.pyc`, `*.egg-info/`
+  - `project/kaggle_upload/` rebuilt: code (72 files), data (29 files), notebooks (1 file)
+  - Documentation updates: PROPOSED_CANONICAL_PROJECT_STRUCTURE.md, IMPLEMENTED_ARCHITECTURE_BASELINE.md, SELECTIVE_PROJECT_UPDATE_POLICY.md, SOURCE_OF_TRUTH_MATRIX.md, SYSTEM_STATE.md, START_HERE.md, PROJECT_HANDOFF.md
+  - Selective-update ledger: `project/selective_updates/` with README.md, CHANGE_INDEX.md, ARTIFACT_IMPACT_MAP.md, templates/CHANGE_RECORD_TEMPLATE.md, records/SU-0001-canonical-structure-remediation.md, metrics/change_metrics.jsonl
+- **Quality gates:**
+  - Bundle builder: verification passed (0 errors)
+  - Tests: pytest passes
+  - Ruff: 0 violations
+  - Mypy: 0 errors
+  - Pip check: clean
+- **Impact:** Reproducible Kaggle bundles; traceable change management; outer duplicates ready for deletion. Next task: selective `runs_dir` NameError fix (SU-0002).
+- **Evidence:** Branch `chore/canonical-project-remediation`; `scripts/build_upload_bundle.py`; `project/kaggle_upload/`; `project/selective_updates/`

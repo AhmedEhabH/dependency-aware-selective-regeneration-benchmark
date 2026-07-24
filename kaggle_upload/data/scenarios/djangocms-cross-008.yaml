@@ -1,0 +1,136 @@
+scenario_id: djangocms-cross-008
+repository: djangocms
+change_type: cross_cutting_broad
+
+blast_radius: cross_cutting
+
+requirement_before: |
+  Cache invalidation in django CMS is broad: entire page caches are
+  flushed when any content changes. There is no granular cache tag
+  system. Cache keys are simple strings without tagging. Clearing
+  cache for a specific plugin, placeholder, or page content
+  requires flushing all caches.
+
+requirement_after: |
+  A cache invalidation tag system is implemented. Every content
+  object (Page, PageContent, Placeholder, CMSPlugin) has associated
+  cache tags. When an object is created, updated, or deleted, its
+  cache tags are invalidated. The system consists of:
+    - cms/cache/tags.py: Utility functions for generating cache tags
+      (make_tag, get_tags_for_object) and invalidating by tag
+      (invalidate_by_tag).
+    - cms/signals.py: Signal handlers connected to post_save and
+      post_delete of Page, PageContent, Placeholder, CMSPlugin that
+      call invalidate_by_tag with the object's tags.
+    - cms/middleware.py: Update CMSToolbarMiddleware (or a new
+      middleware) to tag response objects with the cache tags of
+      rendered content.
+    - cms/templatetags/cms_tags.py: Update {% placeholder %} and
+      related tags to check cache using the tag system before
+      rendering.
+  The system must be opt-in: existing cache behavior is preserved
+  if the new tag system is not configured.
+
+rationale: >
+  A granular cache tag system dramatically improves cache hit rates
+  by only invalidating cache entries affected by a specific change,
+  rather than flushing all caches. This is essential for sites with
+  large numbers of pages and frequent content updates.
+
+acceptance_criteria:
+  - cms/cache/tags.py exists with make_tag, get_tags_for_object,
+    and invalidate_by_tag functions.
+  - |
+    make_tag(obj_type, obj_id) returns a string like "page:42" or
+    "pagecontent:7".
+  - get_tags_for_object(obj) returns a list of relevant tags for
+    the object (including parent object tags for cascade).
+  - invalidate_by_tag(tag) deletes all cache entries matching the tag.
+  - Signals in cms/signals.py call invalidate_by_tag on post_save
+    and post_delete of Page, PageContent, Placeholder, CMSPlugin.
+  - Middleware tags HTTP responses with cache tags from rendered
+    content.
+  - Template tags optionally accept a cache_tag parameter or use
+    automatic tag-based caching.
+  - Existing cache-related tests pass.
+  - |
+    The system is extensible: third-party plugins can register
+    their own cache tag handlers.
+
+expected_affected_artifacts:
+  - "cms/cache/__init__.py"
+  - '"cms/cache/tags.py" (new file)'
+  - "cms/signals.py"
+  - "cms/models/pagemodel.py:Page"
+  - "cms/models/contentmodels.py:PageContent"
+  - "cms/models/placeholdermodel.py:Placeholder"
+  - "cms/models/pluginmodel.py:CMSPlugin"
+  - "cms/middleware.py:CMSToolbarMiddleware"
+  - "cms/templatetags/cms_tags.py"
+
+expected_actions:
+  cms/cache/__init__.py: modify
+  cms/cache/tags.py: create
+  cms/signals.py: modify
+  cms/models/pagemodel.py: modify
+  cms/models/contentmodels.py: modify
+  cms/models/placeholdermodel.py: modify
+  cms/models/pluginmodel.py: modify
+  cms/middleware.py: modify
+  cms/templatetags/cms_tags.py: modify
+
+regression_obligations:
+  - "cms/tests/test_cache.py"
+  - "cms/tests/test_signals.py"
+  - "cms/tests/test_middleware.py"
+  - "cms/tests/test_templatetags.py"
+
+architecture_constraints:
+  - Must NOT import model classes into cache utility modules
+    (tags.py must accept strings/objects, not import models).
+  - Signals must be idempotent and not raise exceptions if cache
+    backend is unavailable.
+  - |
+    The cache backend must be configurable (default: Django's
+    default cache).
+  - |
+    Tag-based cache checking must be a performance improvement,
+    not a degradation: use a single cache get with tag lookup
+    rather than multiple round-trips.
+  - The system must fall back to existing cache behavior if the
+    tag system raises any error (fail-open, not fail-closed).
+  - Third-party plugin models should be supported via a
+    registration mechanism (e.g., a registry dict in cache/tags.py).
+
+hidden_tests:
+  - description: >
+      Call make_tag('page', 42). Assert the result equals 'page:42'.
+      Call make_tag('cmsplugin', 7). Assert the result equals
+      'cmsplugin:7'.
+    type: tag_formatting
+  - description: >
+      Create a CMSPlugin and call get_tags_for_object on it. Assert
+      the result includes tags for the plugin itself, its parent
+      Placeholder, and the PageContent/Page that contains it.
+    type: tag_cascade_hierarchy
+  - description: >
+      Create a PageContent, cache a value under a key tagged with
+      the PageContent's tag, then call invalidate_by_tag with that
+      tag. Retrieve the cached value and assert it is None (cleared).
+    type: basic_invalidation
+  - description: >
+      Connect the signal handlers. Save a PageContent instance.
+      Assert that invalidate_by_tag was called at least once with a
+      tag containing the PageContent's ID. Delete the PageContent
+      and assert the same.
+    type: signal_integration
+  - description: >
+      Register a custom third-party model (e.g., MyPluginModel) with
+      the cache tag registry. Call get_tags_for_object on an instance.
+      Assert its custom tag appears in the returned list.
+    type: third_party_extensibility
+  - description: >
+      Disconnect the cache backend (simulate cache down). Modify a
+      PageContent. Assert no exception is raised and the change
+      succeeds (fail-open behavior).
+    type: fail_open_on_cache_error

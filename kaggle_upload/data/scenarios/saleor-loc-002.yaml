@@ -1,0 +1,56 @@
+scenario_id: saleor-loc-002
+repository: saleor
+change_type: localized_api
+blast_radius: localized
+
+requirement_before: >
+  There is no dedicated GraphQL query to fetch featured products. Clients
+  must either know product IDs in advance or rely on generic product queries
+  with ad-hoc filtering.
+
+requirement_after: >
+  A new `featuredProducts` root query field is added to the product schema.
+  It returns a paginated list of Products where `is_featured=True`. Sorting
+  is by `updated_at DESC`. The query does not require any special permission
+  (publicly readable). No model or migration changes are needed.
+
+rationale: >
+  Provides a canonical, performant endpoint for fetching featured products,
+   reducing client complexity and enabling server-side caching.
+
+acceptance_criteria:
+  - "`featuredProducts(first: Int, after: String)` returns a `ProductCountableConnection`."
+  - "Results are sorted by `updated_at` descending."
+  - "Only products with `is_featured=True` are returned."
+  - "No authentication or permission is required to query."
+  - "No models or migrations are changed."
+
+expected_affected_artifacts:
+  - "saleor/graphql/product/schema.py:ProductSchema"
+  - "saleor/graphql/product/resolvers.py"
+  - "saleor/graphql/product/types.py:ProductCountableConnection"
+  - "saleor/graphql/schema.py"
+
+expected_actions:
+  modify:
+    - "saleor/graphql/product/schema.py"
+    - "saleor/graphql/product/resolvers.py"
+    - "saleor/graphql/product/types.py"
+    - "saleor/graphql/schema.py"
+
+regression_obligations:
+  - "Run saleor/graphql/product/tests/."
+  - "Verify existing product queries are unaffected (no change in returned fields)."
+
+architecture_constraints:
+  - "No changes to saleor/product/models.py or any migration."
+  - "The resolver must use the existing ORM queryset; raw SQL is forbidden."
+  - "Permission checking is not required for this read-only public query."
+
+hidden_tests:
+  - description: "Verify query returns empty connection when no products are featured."
+    type: integration_edge
+  - description: "Verify query enforces pagination limits (max first=100)."
+    type: validation_limit
+  - description: "Verify query still works after is_featured field removal (migration rollback scenario)."
+    type: resilience

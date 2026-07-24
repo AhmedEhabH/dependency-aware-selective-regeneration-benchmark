@@ -1,0 +1,105 @@
+# Scenario — todo-cross-007
+# Protocol v1.0 (FROZEN)
+
+scenario_id: "todo-cross-007"
+repository: todo
+change_type: "Workflow changes"
+blast_radius: cross_cutting
+requirement_before: >
+  The Task model has a simple status field with three choices: PENDING,
+  IN_PROGRESS, COMPLETED. There are no transition rules — any status can
+  be set to any other status at any time via PATCH. There is no status
+  history tracking. The TaskSerializer performs no validation on status
+  transitions. The views allow status changes through the standard
+  partial-update endpoint with no additional logic. There is no concept of
+  status lifecycle or workflow.
+requirement_after: >
+  Task status transitions must be governed by explicit workflow rules:
+  PENDING -> IN_PROGRESS -> COMPLETED (forward only). Transitions are
+  one-directional: a task cannot go from COMPLETED back to IN_PROGRESS or
+  PENDING. A task cannot go from PENDING directly to COMPLETED (must go
+  through IN_PROGRESS). A new custom action
+  POST /api/tasks/{id}/transition/ must accept a to_status parameter and
+  validate the transition against the rules. A StatusChange model must
+  track the history of all transitions (task, from_status, to_status,
+  timestamp, changed_by). The TaskSerializer must include a
+  allowed_transitions read-only field listing the valid next statuses for
+  a task's current state. The TaskViewSet must expose the custom
+  transition endpoint. Only the task owner can transition the task's
+  status. Invalid transitions must return 400 with a clear error message
+  explaining the allowed transitions.
+rationale: >
+  This is a cross-cutting workflow change that touches every layer of the
+  application: model (new StatusChange model, transition rules), serializer
+  (allowed_transitions, transition validation), views (custom endpoint),
+  permissions (transition authorization), URLs (new route), and tests
+  (comprehensive). Tests the strategies' ability to trace a workflow
+  addition across all architectural layers. An under-broad strategy will
+  miss at least one layer. This is the most complex localized-to-moderate
+  change type and is classified as cross-cutting because it spans 15+
+  artifacts.
+acceptance_calls:
+  - "POST /api/tasks/{id}/transition/ with to_status=IN_PROGRESS on a PENDING task succeeds (status changed, StatusChange recorded)"
+  - "POST /api/tasks/{id}/transition/ with to_status=COMPLETED on a PENDING task returns 400 (must go through IN_PROGRESS)"
+  - "POST /api/tasks/{id}/transition/ with to_status=PENDING on an IN_PROGRESS task returns 400 (no backward transitions)"
+  - "POST /api/tasks/{id}/transition/ with to_status=COMPLETED on an IN_PROGRESS task succeeds"
+  - "GET /api/tasks/{id}/ returns allowed_transitions list based on current status"
+  - "StatusChange model records every transition with from_status, to_status, timestamp, changed_by"
+  - "A non-owner user receives 403 when attempting to transition another user's task"
+  - "The standard PATCH /api/tasks/{id}/ with status field still works for status changes (goes through same validation)"
+acceptance_criteria:
+  - "POST /api/tasks/{id}/transition/ with to_status=IN_PROGRESS on a PENDING task succeeds (status changed, StatusChange recorded)"
+  - "POST /api/tasks/{id}/transition/ with to_status=COMPLETED on a PENDING task returns 400 (must go through IN_PROGRESS)"
+  - "POST /api/tasks/{id}/transition/ with to_status=PENDING on an IN_PROGRESS task returns 400 (no backward transitions)"
+  - "POST /api/tasks/{id}/transition/ with to_status=COMPLETED on an IN_PROGRESS task succeeds"
+  - "GET /api/tasks/{id}/ includes allowed_transitions as a read-only list of valid next statuses"
+  - "StatusChange model exists and records from_status, to_status, timestamp, changed_by for every transition"
+  - "A non-owner user receives 403 on transition endpoint"
+  - "PATCH /api/tasks/{id}/ with status field validates transitions identically to the custom endpoint"
+  - "All existing CRUD operations on Project and Tag remain unchanged"
+expected_affected_artifacts:
+  - "todo/models.py:Task (add transition validation logic, allowed_transitions property)"
+  - "todo/models.py:StatusChange (new model for transition history)"
+  - "todo/serializers.py:TaskSerializer (add transition validation, allowed_transitions read-only field)"
+  - "todo/serializers.py:TransitionSerializer (new serializer for transition request body)"
+  - "todo/views.py:TaskViewSet (add transition custom action endpoint)"
+  - "todo/urls.py (add transition route, if not automatically picked up by router)"
+  - "todo/permissions.py:IsOwnerOrReadOnly (ensure transition endpoint enforces ownership)"
+  - "todo/tests/test_models.py (add StatusChange and transition logic tests)"
+  - "todo/tests/test_serializers.py (add transition validation tests)"
+  - "todo/tests/test_views.py (add transition endpoint integration tests)"
+  - "todo/tests/test_permissions.py (add transition permission tests)"
+expected_actions:
+  "todo/models.py:Task": modify
+  "todo/models.py:StatusChange": create
+  "todo/serializers.py:TaskSerializer": modify
+  "todo/serializers.py:TransitionSerializer": create
+  "todo/views.py:TaskViewSet": modify
+  "todo/urls.py": modify
+  "todo/permissions.py:IsOwnerOrReadOnly": modify
+  "todo/tests/test_models.py": modify
+  "todo/tests/test_serializers.py": modify
+  "todo/tests/test_views.py": modify
+  "todo/tests/test_permissions.py": modify
+regression_obligations:
+  - "todo/tests/test_models.py"
+  - "todo/tests/test_serializers.py"
+  - "todo/tests/test_views.py"
+  - "todo/tests/test_permissions.py"
+architecture_constraints:
+  - "Transition rules must be defined in Task model methods, not in views or serializers"
+  - "allowed_transitions must be a model property derived from rules, not hardcoded in serializer"
+  - "The transition endpoint must be DRF @action decorated, not a separate view"
+  - "Permission checks on transition must reuse existing IsOwnerOrReadOnly (or extend it minimally)"
+  - "The standard PATCH endpoint for status must also validate transitions (consistency)"
+  - "StatusChange model must use GenericForeignKey or direct FK to User for changed_by"
+  - "No changes to Project model, Tag model, ProjectSerializer, TagSerializer, or their views"
+hidden_tests:
+  - description: "Regression test: creating a task via POST /api/tasks/ with status=PENDING still works"
+    type: regression
+  - description: "Changed-requirement test: transitioning a task that is already COMPLETED to COMPLETED again returns 400 (no-op not allowed)"
+    type: changed_requirement
+  - description: "Changed-requirement test: StatusChange records are ordered by timestamp and GET /api/tasks/{id}/history returns the full history (if history endpoint is implemented)"
+    type: changed_requirement
+  - description: "Regression test: Project and Tag CRUD operations are completely unaffected"
+    type: regression

@@ -28,6 +28,16 @@ git tag -l 'v0.7*'
 
 ---
 
+## Pre-Change Reading Order
+
+Before modifying production code, benchmark data, notebooks, or deployment bundles, read:
+
+1. `selective_updates/README.md` — ledger purpose and conventions
+2. `selective_updates/CHANGE_INDEX.md` — recent changes and status
+3. `selective_updates/ARTIFACT_IMPACT_MAP.md` — change-to-artifact lookup
+
+---
+
 ## Key Documents
 
 | Document | Purpose |

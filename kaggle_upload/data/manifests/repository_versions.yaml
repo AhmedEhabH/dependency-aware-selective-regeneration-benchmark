@@ -1,0 +1,66 @@
+# Repository Version Manifest — v1.0
+# Pinned versions for Phase 3 Repository and Scenario Preparation
+# Protocol: v1.0 (FROZEN) per DA-03
+# Freeze Date: 2026-07-22
+
+versions:
+  todo:
+    version: 1.0.0
+    version_type: initial_release
+    commit_sha: TBD
+    commit_date: TBD
+    tag: v1.0.0
+    release_date: 2026-07-22
+    age_at_freeze_days: 0
+    da_03_compliant: true
+    da_03_rationale: >
+      Synthetic controlled application. Initial commit serves as the
+      frozen baseline. No upstream changes to track.
+    branch: main
+    dependency_file: requirements.txt
+    python_version: ">=3.10,<3.13"
+    test_setup_verified: pending
+    notes: >
+      To be created as part of Phase 3. Will include Django 5.0+,
+      pytest, and SQLite-backed test configuration.
+
+  djangocms:
+    version: 5.0.0
+    version_type: stable_release
+    commit_sha: 0f633fc9fa213357f4202482aab2b0edad680f95
+    commit_date: 2025-05-11
+    tag: 5.0.0
+    release_date: 2025-05-12
+    age_at_freeze_days: 437
+    da_03_compliant: true
+    da_03_rationale: >
+      Stable tagged release 437 days old at freeze (well above 90-day
+      minimum). Published 2025-05-12.
+    branch: release/5.0.x
+    dependency_file: test_requirements/requirements_base.txt
+    python_version: ">=3.9,<3.13"
+    test_setup_verified: pending
+    notes: >
+      django CMS 5.0.x LTS series. Test requirements available in
+      test_requirements/ directory. Uses tox for test execution.
+
+  saleor:
+    version: 3.23.0
+    version_type: stable_release
+    commit_sha: e11a5557eff29fbb2eed36e6ff3cd0af08ab9e10
+    commit_date: 2026-04-08
+    tag: 3.23.0
+    release_date: 2026-04-09
+    age_at_freeze_days: 104
+    da_03_compliant: true
+    da_03_rationale: >
+      Stable tagged release 104 days old at freeze (above 90-day
+      minimum). Published 2026-04-09.
+    branch: main
+    dependency_file: requirements.txt
+    python_version: ">=3.10,<3.13"
+    test_setup_verified: pending
+    notes: >
+      Saleor 3.23.0 is the initial 3.23.x stable release. Uses
+      Poetry for dependency management with requirements.txt export.
+      Requires PostgreSQL and Redis for full test suite.

@@ -1,0 +1,59 @@
+scenario_id: saleor-loc-003
+repository: saleor
+change_type: localized_validation
+blast_radius: localized
+
+requirement_before: >
+  ProductVariant SKU values in saleor/product/models.py are not guaranteed
+  unique at the model level. Uniqueness is only enforced by database indexes
+  (unique=True on the field), so Python-level validation errors produce
+  opaque IntegrityError exceptions rather than clean ValidationError messages.
+
+requirement_after: >
+  ProductVariant adds a `clean()` method that validates SKU uniqueness before
+  save. If a duplicate SKU is detected, a ValidationError with code
+  "duplicated_sku" is raised. The save() method calls full_clean(). Mutation
+  error handling is updated to surface the new validation error code to
+  GraphQL clients.
+
+rationale: >
+  Improves developer experience by returning structured GraphQL errors instead
+  of raw database integrity errors when a duplicate SKU is submitted.
+
+acceptance_criteria:
+  - "ProductVariant.clean() raises ValidationError with code 'duplicated_sku' on duplicate SKU."
+  - "ProductVariant.save() calls full_clean() before super().save()."
+  - "ProductVariantCreate and ProductVariantBulkCreate mutations return the new error code."
+  - "Existing unique DB constraint remains in place."
+  - "No migration is required."
+
+expected_affected_artifacts:
+  - "saleor/product/models.py:ProductVariant"
+  - "saleor/graphql/product/mutations/product_variant.py:ProductVariantCreate"
+  - "saleor/graphql/product/mutations/product_variant_bulk.py:ProductVariantBulkCreate"
+  - "saleor/graphql/product/types.py:ProductVariantType"
+
+expected_actions:
+  modify:
+    - "saleor/product/models.py"
+    - "saleor/graphql/product/mutations/product_variant.py"
+    - "saleor/graphql/product/mutations/product_variant_bulk.py"
+    - "saleor/graphql/product/types.py"
+
+regression_obligations:
+  - "Run saleor/product/tests/ model tests."
+  - "Run saleor/graphql/product/tests/ mutation tests."
+  - "Verify bulk create still succeeds for valid non-duplicate batches."
+
+architecture_constraints:
+  - "Do not alter the database schema or create a migration."
+  - "Validation must occur at the model layer, not solely in mutations."
+  - "The existing unique index on SKU must not be removed or altered."
+
+hidden_tests:
+  - description: "Verify clean() raises ValidationError when SKU matches a soft-deleted variant."
+    type: edge_deleted
+  - description: "Verify bulk create returns partial-failure errors for duplicates within the same batch."
+    type: integration_bulk
+  - description: "Verify clean() passes when SKU is identical on the same instance (update, not insert)."
+    type: regression_identity

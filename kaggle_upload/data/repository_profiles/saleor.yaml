@@ -1,0 +1,113 @@
+repository: saleor
+version: 3.23.0
+description: Saleor Core — GraphQL e-commerce framework built as a modular monolith using Django + Graphene.
+
+overview:
+  purpose: "Headless commerce platform exposing a comprehensive GraphQL API. Domain models live in dedicated Django apps; the GraphQL layer is separated under saleor/graphql/."
+  stack:
+    - Python 3.12
+    - Django 4.2+
+    - Graphene (graphene-django)
+    - PostgreSQL (required)
+    - Redis (async tasks via Celery / Saleor Observability)
+  repo_url: "https://github.com/saleor/saleor"
+
+architecture:
+  style: modular_monolith
+  layers:
+    graphql_layer:
+      path: saleor/graphql/
+      role: "Schema definition, resolvers, types, mutations, permissions checking at resolver level."
+      depends_on:
+        - saleor/core/
+        - saleor/*/models.py
+    domain_apps:
+      paths:
+        - saleor/product/
+        - saleor/checkout/
+        - saleor/order/
+        - saleor/account/
+        - saleor/payment/
+        - saleor/channel/
+        - saleor/warehouse/
+      role: "Django models, service-layer business logic, migrations."
+    plugin_system:
+      path: saleor/plugins/
+      role: "Pluggable third-party integrations (shipping, payments, notifications). Communicate via webhooks."
+    webhook_layer:
+      path: saleor/webhook/
+      role: "Outbound webhook dispatch on domain events."
+    core_utilities:
+      path: saleor/core/
+      role: "Shared permissions, base models, DB routing, error codes, weight/measurement utilities."
+
+artifact_catalog:
+  graphql_schema:
+    - path: saleor/graphql/schema.py
+      description: "Root schema that stitches together all app-level schemas."
+  graphql_apps:
+    - path: saleor/graphql/product/
+      description: "Product types, mutations, resolvers, filters."
+    - path: saleor/graphql/checkout/
+      description: "Checkout types, mutations, resolvers."
+    - path: saleor/graphql/order/
+      description: "Order types, mutations, resolvers."
+    - path: saleor/graphql/account/
+      description: "Account / user types, mutations, resolvers."
+  domain_models:
+    - path: saleor/product/models.py
+      description: "Product, ProductVariant, Category, etc."
+    - path: saleor/checkout/models.py
+      description: "Checkout, CheckoutLine models."
+    - path: saleor/order/models.py
+      description: "Order, OrderLine models."
+    - path: saleor/account/models.py
+      description: "User, Address, Group models."
+    - path: saleor/payment/
+      description: "Payment, Transaction models."
+    - path: saleor/channel/models.py
+      description: "Channel model."
+    - path: saleor/warehouse/
+      description: "Warehouse, Stock models."
+  core:
+    - path: saleor/core/permissions.py
+      description: "Permission enums and helper functions."
+  plugins:
+    - path: saleor/plugins/
+      description: "Plugin base classes and built-in plugins."
+  webhook:
+    - path: saleor/webhook/
+      description: "Webhook payloads, event types, dispatch logic."
+  tests:
+    - path: saleor/tests/
+      description: "Test suite (pytest)."
+
+test_suite_description:
+  framework: pytest
+  factories: "Custom test factories in saleor/tests/fixtures/ and conftest files per app."
+  fixtures:
+    - "Shared database fixtures (product categories, users, channels)."
+    - "GraphQL query helpers (assert_no_permission, get_graphql_content)."
+  guidelines:
+    - "Every mutation should have a corresponding test for success and permission-denied."
+    - "Model changes require migration tests."
+
+architecture_boundaries:
+  - rule: "GraphQL / domain separation"
+    detail: "Domain models must never import from saleor.graphql. The graphql layer imports models, not vice versa."
+    violation_example: "from saleor.graphql.product.types import ProductType inside saleor/product/models.py"
+  - rule: "Mutation → Service pattern"
+    detail: "GraphQL mutations delegate business logic to a service module (e.g. saleor/product/services/). Mutations should be thin wrappers."
+  - rule: "Plugin isolation"
+    detail: "Plugins communicate with the core only via webhooks and the plugin manager interface. Domain code must not import plugins directly."
+  - rule: "Permission check layer"
+    detail: "Permissions are checked in GraphQL resolvers (via permission_required decorator or check_permissions helper), not inside domain services or model methods."
+    rationale: "Keeps domain logic framework-agnostic."
+  - rule: "Migration per model change"
+    detail: "Every field addition or relationship change requires a Django migration under the appropriate app's migrations/ directory."
+
+known_limitations:
+  - "PostgreSQL-specific fields (JSONField, ArrayField) are used extensively; not portable to other databases."
+  - "Async task queue depends on Redis; no fallback broker."
+  - "Circular import patterns exist between saleor/channel/, saleor/checkout/, and saleor/order/ — import ordering must be handled carefully."
+  - "Some model-level validation is duplicated across GraphQL mutations and service layers."
