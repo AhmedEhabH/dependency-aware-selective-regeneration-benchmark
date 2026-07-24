@@ -106,13 +106,13 @@ preserved
 `diagnose/su-0004-hf-candidate-rejection`
 
 ## Branch Commit
-(to be recorded after commit)
+`515179b`
 
 ## Merge Commit
-(pending --no-ff merge to main)
+`2892761`
 
 ## Final Main Commit
-(pending)
+`5be9bae`
 
 ## Deployment Status
 bundle_built_not_uploaded

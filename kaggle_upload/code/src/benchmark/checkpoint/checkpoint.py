@@ -26,6 +26,8 @@ class CheckpointData:
     source_commit: str = ""
     last_update: str = ""
     completion_status: str = "incomplete"
+    scenario_ids: list[str] = field(default_factory=list)
+    strategy_names: list[str] = field(default_factory=list)
 
 
 class CheckpointManager:
