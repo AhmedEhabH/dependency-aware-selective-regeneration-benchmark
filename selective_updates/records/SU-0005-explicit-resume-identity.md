@@ -28,3 +28,12 @@
 
 ## Git Branch
 `fix/su-0005-explicit-resume-identity`
+
+## Branch Commit
+`ec22cc3`
+
+## Merge Commit
+`8b65c7b`
+
+## Final Main Commit
+`8b65c7b`
