@@ -28,3 +28,16 @@
 
 ## Git Branch
 `fix/su-0006-recovery-activation-path`
+
+## Commits
+- Branch: `2e4c7bb` — fix(kaggle): activate downloaded recovery state at output root
+- Merge: `d2d72ca` — merge into main
+
+## Validation
+- **pytest**: 648 passed, 2 skipped (pre-existing)
+- **mypy --strict**: Clean (0 errors)
+- **ruff**: Clean (after 3 import fixes in test file)
+- **bundle**: Verified (72 code files, 29 data, 1 notebook, 462,709 bytes total)
+
+## Status
+**MERGED** — 2026-07-25
