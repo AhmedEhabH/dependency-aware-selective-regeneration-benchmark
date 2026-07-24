@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import logging
 import posixpath
+import shutil
 import tempfile
 import time
 from dataclasses import asdict, dataclass
@@ -400,37 +401,63 @@ class HfResumeManager:
         self._strategy_names = strategy_names
 
     def download_and_validate(self) -> set[str]:
+        """Download recovery files to an isolated temp dir, validate, then activate.
+
+        The activation copies only the allowlisted recovery files into
+        ``self._runs_dir`` so that subsequent validation reads them from the
+        canonical root (e.g. ``<output_dir>/checkpoint.json``).
+        """
         recovery_prefix = self._layout.recovery()
-        local_files: list[Path] = []
-        download_errors: list[str] = []
 
-        for name in RECOVERY_FILES:
-            remote_path = f"{recovery_prefix}/{name}"
-            local_path = self._runs_dir / name
-            try:
-                hf_hub_download(
-                    repo_id=self._repo_id,
-                    filename=remote_path,
-                    repo_type="dataset",
-                    local_dir=str(self._runs_dir),
-                    token=self._token,
-                    local_dir_use_symlinks=False,
+        with tempfile.TemporaryDirectory(prefix="hf_recovery_") as temp_dir_str:
+            temp_dir = Path(temp_dir_str)
+            downloaded_paths: list[Path] = []
+            download_errors: list[str] = []
+
+            for name in RECOVERY_FILES:
+                remote_path = f"{recovery_prefix}/{name}"
+                try:
+                    result_path = hf_hub_download(
+                        repo_id=self._repo_id,
+                        filename=remote_path,
+                        repo_type="dataset",
+                        local_dir=str(temp_dir),
+                        token=self._token,
+                        local_dir_use_symlinks=False,
+                    )
+                    logger.info("Downloaded recovery file: %s", name)
+                    downloaded_paths.append(Path(result_path))
+                except Exception as exc:
+                    download_errors.append(f"{name}: {exc}")
+                    logger.warning("Recovery file not found or failed: %s: %s", name, exc)
+
+            if not downloaded_paths:
+                missing_list = ", ".join(download_errors) if download_errors else "all files"
+                raise ResumeValidationError(
+                    f"No recovery files could be downloaded from '{recovery_prefix}'. "
+                    f"Errors: {missing_list}. "
+                    "Resume requires all mandatory recovery files. "
+                    "Cannot continue with an empty checkpoint."
                 )
-                logger.info("Downloaded recovery file: %s", name)
-                local_files.append(local_path)
-            except Exception as exc:
-                download_errors.append(f"{name}: {exc}")
-                logger.warning("Recovery file not found or failed: %s: %s", name, exc)
 
-        if not local_files:
-            missing_list = ", ".join(download_errors) if download_errors else "all files"
-            raise ResumeValidationError(
-                f"No recovery files could be downloaded from '{recovery_prefix}'. "
-                f"Errors: {missing_list}. "
-                "Resume requires all mandatory recovery files. "
-                "Cannot continue with an empty checkpoint."
-            )
+            # Locate the recovery directory inside the temp tree.
+            # hf_hub_download preserves the repo directory structure under
+            # local_dir, so the files live at:
+            #   <temp>/experiments/.../<experiment_id>/recovery/<name>
+            recovery_dir = self._find_recovery_dir(temp_dir)
+            if recovery_dir is None:
+                raise ResumeValidationError(
+                    f"Could not locate recovery directory under "
+                    f"'{temp_dir}' for experiment '{self._layout.experiment_id}'."
+                )
 
+            # --- Pre-activation validation -----------------------------------
+            self._validate_pre_activation(recovery_dir)
+
+            # --- Atomic activation into canonical output dir ------------------
+            self._activate_recovery(recovery_dir)
+
+        # Post-activation validation from the canonical location
         self._validate_recovery()
 
         checkpoint_mgr = CheckpointManager(self._runs_dir)
@@ -444,11 +471,165 @@ class HfResumeManager:
         logger.info("HF resume: %d completed run IDs to skip", len(completed_ids))
         return completed_ids
 
+    # ------------------------------------------------------------------
+    # Recovery directory discovery
+    # ------------------------------------------------------------------
+
+    def _find_recovery_dir(self, temp_root: Path) -> Path | None:
+        """Locate the exact recovery directory for this experiment inside *temp_root*.
+
+        The expected hierarchy is:
+            <temp_root>/experiments/<profile>/<protocol>/<commit>/<exp_id>/recovery/
+        """
+        base_parts = self._layout._base().split("/")
+        candidate = temp_root
+        for part in base_parts:
+            candidate = candidate / part
+        recovery_dir = candidate / "recovery"
+        if recovery_dir.is_dir():
+            return recovery_dir
+
+        # Fallback: search for recovery dirs containing checkpoint.json
+        for d in temp_root.rglob("recovery"):
+            if (d / "checkpoint.json").is_file():
+                return d
+        return None
+
+    # ------------------------------------------------------------------
+    # Pre-activation validation
+    # ------------------------------------------------------------------
+
+    def _validate_pre_activation(self, recovery_dir: Path) -> None:
+        """Validate the downloaded recovery state before modifying output_dir.
+
+        Checks:
+        - checkpoint.json exists and parses
+        - experiment ID matches the selected experiment
+        - checkpoint compatibility is valid
+        - run-record file parses when present
+        - completed/pending Run IDs are subsets of planned Run IDs
+        """
+        cp_path = recovery_dir / "checkpoint.json"
+        if not cp_path.is_file():
+            raise ResumeValidationError(
+                f"Pre-activation validation failed: no checkpoint.json in "
+                f"recovery directory '{recovery_dir}'"
+            )
+
+        cp_mgr = CheckpointManager(recovery_dir)
+        try:
+            cp = cp_mgr.read()
+        except (ValueError, OSError) as exc:
+            raise ResumeValidationError(
+                f"Pre-activation validation failed: checkpoint.json is corrupted: {exc}"
+            ) from exc
+        if cp is None:
+            raise ResumeValidationError(
+                "Pre-activation validation failed: checkpoint.json could not be parsed"
+            )
+
+        # Verify experiment ID matches (only when the file is present)
+        exp_id_path = recovery_dir / "experiment_id.txt"
+        if exp_id_path.is_file():
+            remote_exp_id = exp_id_path.read_text(encoding="utf-8").strip()
+            if remote_exp_id and remote_exp_id != self._layout.experiment_id:
+                raise ResumeValidationError(
+                    f"Pre-activation validation failed: experiment ID mismatch "
+                    f"(remote='{remote_exp_id}', expected='{self._layout.experiment_id}')"
+                )
+
+        # Verify checkpoint compatibility
+        result = compare_checkpoint_compatibility(
+            cp=cp,
+            expected_protocol_version=self._protocol_version,
+            expected_config_hash=self._config_hash,
+            expected_source_commit=self._source_commit,
+            expected_model_identity=self._model_identity,
+            expected_scenario_ids=self._scenario_ids,
+            expected_strategy_names=self._strategy_names,
+        )
+        if not result.compatible:
+            raise ResumeValidationError(
+                f"Pre-activation validation failed: {'; '.join(result.reasons)}"
+            )
+
+        # Verify run-record file parses and IDs are subsets of planned
+        records_path = recovery_dir / "run_records.jsonl"
+        if records_path.is_file():
+            from benchmark.checkpoint.persistence import RunRecordStore as _RRS
+            tmp_store = _RRS(recovery_dir)
+            planned = set(cp.planned_run_ids)
+            for rec in tmp_store.load_all():
+                if rec.run_id not in planned:
+                    raise ResumeValidationError(
+                        f"Pre-activation validation failed: run record "
+                        f"'{rec.run_id}' is not in planned_run_ids"
+                    )
+
+        logger.info(
+            "Pre-activation validation passed for experiment '%s'",
+            self._layout.experiment_id,
+        )
+
+    # ------------------------------------------------------------------
+    # Atomic activation
+    # ------------------------------------------------------------------
+
+    def _activate_recovery(self, recovery_dir: Path) -> None:
+        """Copy allowlisted recovery files from *recovery_dir* into self._runs_dir.
+
+        Only the flat recovery files are copied. The outer
+        ``experiments/.../recovery/`` hierarchy is NOT copied into output_dir.
+        HF cache directories are never copied.
+        """
+        self._runs_dir.mkdir(parents=True, exist_ok=True)
+
+        # Verify no stale experiment hierarchy exists under output_dir
+        stale_experiments = self._runs_dir / "experiments"
+        if stale_experiments.is_dir():
+            shutil.rmtree(str(stale_experiments))
+            logger.warning("Removed stale experiments/ hierarchy from output dir")
+
+        stale_cache = self._runs_dir / ".cache"
+        if stale_cache.is_dir():
+            shutil.rmtree(str(stale_cache))
+            logger.warning("Removed .cache/ from output dir")
+
+        activated: list[str] = []
+        for name in RECOVERY_FILES:
+            src = recovery_dir / name
+            if src.is_file():
+                dst = self._runs_dir / name
+                shutil.copy2(str(src), str(dst))
+                activated.append(name)
+
+        logger.info(
+            "Activated %d recovery files into '%s': %s",
+            len(activated), self._runs_dir, activated,
+        )
+
+        # Confirm checkpoint.json is present
+        if not (self._runs_dir / "checkpoint.json").is_file():
+            raise ResumeValidationError(
+                "Activation failed: checkpoint.json not present in output dir "
+                f"'{self._runs_dir}' after activation"
+            )
+
+    def _validate_compatibility(self, _cp: Any) -> None:
+        record_store = RunRecordStore(self._runs_dir)
+        all_strategies = set(self._strategy_names)
+        for rec in record_store.load_all():
+            if rec.strategy_id not in all_strategies:
+                raise ResumeValidationError(
+                    f"Strategy '{rec.strategy_id}' in run record not in current strategy set"
+                )
+
     def _validate_recovery(self) -> None:
+        """Validate the activated recovery state in self._runs_dir."""
         checkpoint_mgr = CheckpointManager(self._runs_dir)
         cp = checkpoint_mgr.read()
         if cp is None:
-            raise ResumeValidationError("No checkpoint found in downloaded recovery state")
+            raise ResumeValidationError("No checkpoint found in activated recovery state")
 
         result = compare_checkpoint_compatibility(
             cp=cp,
@@ -463,15 +644,6 @@ class HfResumeManager:
             raise ResumeValidationError(
                 f"Resume validation failed: {'; '.join(result.reasons)}"
             )
-
-    def _validate_compatibility(self, _cp: Any) -> None:
-        record_store = RunRecordStore(self._runs_dir)
-        all_strategies = set(self._strategy_names)
-        for rec in record_store.load_all():
-            if rec.strategy_id not in all_strategies:
-                raise ResumeValidationError(
-                    f"Strategy '{rec.strategy_id}' in run record not in current strategy set"
-                )
 
 
 class ResumeValidationError(Exception):

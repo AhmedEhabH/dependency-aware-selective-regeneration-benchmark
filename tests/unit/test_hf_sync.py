@@ -80,6 +80,28 @@ def _create_recovery_artifacts(tmp_path: Path) -> None:
     sync_state.write_text(json.dumps({"last_sync": "ok", "remote_path": "recovery/", "timestamp": "t"}))
 
 
+def _make_fake_download(layout: RemoteLayout, source_dir: Path):
+    """Return a fake hf_hub_download that places files in the correct temp hierarchy."""
+    recovery_prefix = layout.recovery()
+
+    def fake_download(**kwargs):
+        local_dir = Path(kwargs["local_dir"])
+        filename = kwargs["filename"]
+        # e.g. filename = "experiments/smoke/1.0/abc1234/exp-resume/recovery/checkpoint.json"
+        dest = local_dir / filename
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        basename = Path(filename).name
+        src = source_dir / basename
+        if src.is_file():
+            import shutil
+            shutil.copy2(str(src), str(dest))
+        else:
+            dest.write_text("")
+        return str(dest)
+
+    return fake_download
+
+
 # ---------------------------------------------------------------------------
 # Tests: RemoteLayout
 # ---------------------------------------------------------------------------
@@ -388,10 +410,8 @@ class TestHfResumeManager:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-resume")
 
-        def fake_download(**kwargs):
-            return str(kwargs.get("local_dir", tmp_path))
-
-        with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+        with patch("benchmark.checkpoint.hf_sync.hf_hub_download",
+                    side_effect=_make_fake_download(layout, tmp_path)):
             resume = HfResumeManager(
                 runs_dir=tmp_path,
                 repo_id=TEST_REPO,
@@ -417,10 +437,8 @@ class TestHfResumeManager:
 
         layout = RemoteLayout("smoke", "0.9", "abc1234", "exp-bad-protocol")
 
-        def fake_download(**kwargs):
-            return str(kwargs.get("local_dir", tmp_path))
-
-        with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+        with patch("benchmark.checkpoint.hf_sync.hf_hub_download",
+                    side_effect=_make_fake_download(layout, tmp_path)):
             resume = HfResumeManager(
                 runs_dir=tmp_path,
                 repo_id=TEST_REPO,
@@ -446,10 +464,8 @@ class TestHfResumeManager:
 
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-bad-config")
 
-        def fake_download(**kwargs):
-            return str(kwargs.get("local_dir", tmp_path))
-
-        with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+        with patch("benchmark.checkpoint.hf_sync.hf_hub_download",
+                    side_effect=_make_fake_download(layout, tmp_path)):
             resume = HfResumeManager(
                 runs_dir=tmp_path,
                 repo_id=TEST_REPO,
@@ -475,10 +491,8 @@ class TestHfResumeManager:
 
         layout = RemoteLayout("smoke", "1.0", "old_commit", "exp-bad-source")
 
-        def fake_download(**kwargs):
-            return str(kwargs.get("local_dir", tmp_path))
-
-        with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+        with patch("benchmark.checkpoint.hf_sync.hf_hub_download",
+                    side_effect=_make_fake_download(layout, tmp_path)):
             resume = HfResumeManager(
                 runs_dir=tmp_path,
                 repo_id=TEST_REPO,
@@ -504,10 +518,8 @@ class TestHfResumeManager:
 
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-bad-model")
 
-        def fake_download(**kwargs):
-            return str(kwargs.get("local_dir", tmp_path))
-
-        with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+        with patch("benchmark.checkpoint.hf_sync.hf_hub_download",
+                    side_effect=_make_fake_download(layout, tmp_path)):
             resume = HfResumeManager(
                 runs_dir=tmp_path,
                 repo_id=TEST_REPO,
@@ -565,10 +577,8 @@ class TestHfResumeManager:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-skip-first")
 
-        def fake_download(**kwargs):
-            return str(kwargs.get("local_dir", tmp_path))
-
-        with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+        with patch("benchmark.checkpoint.hf_sync.hf_hub_download",
+                    side_effect=_make_fake_download(layout, tmp_path)):
             resume = HfResumeManager(
                 runs_dir=tmp_path,
                 repo_id=TEST_REPO,
@@ -590,10 +600,8 @@ class TestHfResumeManager:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-no-dup")
 
-        def fake_download(**kwargs):
-            return str(kwargs.get("local_dir", tmp_path))
-
-        with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
+        with patch("benchmark.checkpoint.hf_sync.hf_hub_download",
+                    side_effect=_make_fake_download(layout, tmp_path)):
             resume = HfResumeManager(
                 runs_dir=tmp_path,
                 repo_id=TEST_REPO,
