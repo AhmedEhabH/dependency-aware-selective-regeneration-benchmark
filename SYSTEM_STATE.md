@@ -1,6 +1,11 @@
 # System State
 
 ## Current Phase
+**Canonical Architecture Audit — COMPLETE** (documentation-first audit phase)
+
+Documentation-first canonical architecture and artifact ownership audit completed on branch `audit/canonical-project-architecture`. Created 10 audit documents. No production code modified. `runs_dir` defect NOT fixed. Next action requires researcher-approved remediation plan per reports/CANONICAL_ARCHITECTURE_AUDIT_REPORT.md.
+
+## Previous Phase
 **Kaggle Smoke — PASSED** (phase 4F.X, engineering validation)
 
 ## Current Task
@@ -249,7 +254,7 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 - Runtime metrics
 
 ## Current Branch
-`docs/persist-smoke-handoff` (handoff persistence)
+`audit/canonical-project-architecture` (canonical architecture audit)
 
 ## Latest Commit
 `0c58250` (tag `v0.7.0-smoke-passed` — Kaggle smoke passed)
