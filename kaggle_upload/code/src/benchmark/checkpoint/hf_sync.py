@@ -496,6 +496,87 @@ class ResumeValidationError(Exception):
     pass
 
 
+def _extract_scenario_strategy(planned_run_ids: list[str]) -> tuple[set[str], set[str]]:
+    """Extract scenario IDs and strategy names from planned run IDs.
+    Identity source: parsed_from_planned_run_ids (no explicit fields in checkpoint).
+    """
+    remote_scenarios: set[str] = set()
+    remote_strategies: set[str] = set()
+    for rid in planned_run_ids:
+        parts = rid.split("_", 2)
+        if len(parts) >= 2:
+            remote_strategies.add(parts[1])
+        if len(parts) >= 1:
+            sc_id = parts[0].rsplit("-rep", 1)[0] if "-rep" in parts[0] else parts[0]
+            remote_scenarios.add(sc_id)
+    return remote_scenarios, remote_strategies
+
+
+def _emit_candidate_diagnostic(
+    exp_id: str,
+    cp_status: str,
+    records_status: str,
+    remote_profile: str,
+    expected_profile: str,
+    remote_protocol: str,
+    expected_protocol: str,
+    remote_source_commit: str,
+    expected_source_commit: str,
+    remote_config_hash: str,
+    expected_config_hash: str,
+    remote_model_identity: str,
+    expected_model_identity: str,
+    remote_completion_status: str,
+    remote_total_planned: int,
+    expected_total_planned: int,
+    remote_scenario_ids: list[str],
+    expected_scenario_ids: list[str],
+    remote_strategy_names: list[str],
+    expected_strategy_names: list[str],
+    compatible: bool,
+    rejection_reasons: list[str],
+    identity_source: str,
+) -> None:
+    """Emit a structured INFO log for a candidate experiment diagnostic."""
+    logger.info(
+        "AUTO_RESUME_CANDIDATE: experiment_id=%s compatible=%s rejection_reasons=%s "
+        "checkpoint_download=%s records_download=%s "
+        "remote_profile=%s expected_profile=%s "
+        "remote_protocol=%s expected_protocol=%s "
+        "remote_source_commit=%s expected_source_commit=%s "
+        "remote_config_hash=%s expected_config_hash=%s "
+        "remote_model_identity=%s expected_model_identity=%s "
+        "remote_completion_status=%s remote_total_planned=%d expected_total_planned=%d "
+        "remote_scenarios=%s expected_scenarios=%s "
+        "remote_strategies=%s expected_strategies=%s "
+        "identity_source=%s",
+        exp_id,
+        compatible,
+        rejection_reasons,
+        cp_status,
+        records_status,
+        remote_profile,
+        expected_profile,
+        remote_protocol,
+        expected_protocol,
+        remote_source_commit,
+        expected_source_commit,
+        remote_config_hash,
+        expected_config_hash,
+        remote_model_identity,
+        expected_model_identity,
+        remote_completion_status,
+        remote_total_planned,
+        expected_total_planned,
+        remote_scenario_ids,
+        expected_scenario_ids,
+        remote_strategy_names,
+        expected_strategy_names,
+        identity_source,
+    )
+
+
+
 # ---------------------------------------------------------------------------
 # Auto-resume: discover compatible experiments
 # ---------------------------------------------------------------------------
