@@ -843,13 +843,11 @@ class TestAutoResume:
             mock_api.list_repo_files.return_value = exp_files
 
             def fake_download(repo_id, filename, local_dir, token, **kwargs):
-                fname = filename.split("/")[-1]
-                local_p = Path(local_dir) / f"exp-001_{fname}"
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
                 if "checkpoint.json" in filename:
-                    local_p.parent.mkdir(parents=True, exist_ok=True)
                     local_p.write_text(cp_content)
                 elif "run_records.jsonl" in filename:
-                    local_p.parent.mkdir(parents=True, exist_ok=True)
                     local_p.write_text(records_content)
                 return str(local_p)
 
@@ -893,13 +891,11 @@ class TestAutoResume:
             mock_api.list_repo_files.return_value = exp_files
 
             def fake_download(repo_id, filename, local_dir, token, **kwargs):
-                fname = filename.split("/")[-1]
-                local_p = Path(local_dir) / f"exp-done_{fname}"
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
                 if "checkpoint.json" in filename:
-                    local_p.parent.mkdir(parents=True, exist_ok=True)
                     local_p.write_text(cp_content)
                 elif "run_records.jsonl" in filename:
-                    local_p.parent.mkdir(parents=True, exist_ok=True)
                     local_p.write_text(records_content)
                 return str(local_p)
 
@@ -942,14 +938,12 @@ class TestAutoResume:
             mock_api.list_repo_files.return_value = files_exp1 + files_exp2
 
             def fake_download(repo_id, filename, local_dir, token, **kwargs):
-                fname = filename.split("/")[-1]
-                exp_prefix = "exp-001" if "exp-001" in filename else "exp-002"
-                local_p = Path(local_dir) / f"{exp_prefix}_{fname}"
+                local_p = Path(local_dir) / filename
                 local_p.parent.mkdir(parents=True, exist_ok=True)
                 if "checkpoint.json" in filename:
-                    local_p.write_text(cp_content1 if exp_prefix == "exp-001" else cp_content2)
+                    local_p.write_text(cp_content1 if "exp-001" in filename else cp_content2)
                 elif "run_records.jsonl" in filename:
-                    local_p.write_text(records1 if exp_prefix == "exp-001" else records2)
+                    local_p.write_text(records1 if "exp-001" in filename else records2)
                 return str(local_p)
 
             with patch("benchmark.checkpoint.hf_sync.hf_hub_download", side_effect=fake_download):
@@ -987,13 +981,11 @@ class TestAutoResume:
             mock_api.list_repo_files.return_value = files_bad
 
             def fake_download(repo_id, filename, local_dir, token, **kwargs):
-                fname = filename.split("/")[-1]
-                local_p = Path(local_dir) / f"exp-bad_{fname}"
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
                 if "checkpoint.json" in filename:
-                    local_p.parent.mkdir(parents=True, exist_ok=True)
                     local_p.write_text(cp_content)
                 elif "run_records.jsonl" in filename:
-                    local_p.parent.mkdir(parents=True, exist_ok=True)
                     local_p.write_text(records)
                 return str(local_p)
 
@@ -1072,13 +1064,11 @@ class TestAutoResume:
             mock_api.list_repo_files.return_value = exp_files
 
             def fake_download(repo_id, filename, local_dir, token, **kwargs):
-                fname = filename.split("/")[-1]
-                local_p = Path(local_dir) / f"exp-existing_{fname}"
+                local_p = Path(local_dir) / filename
+                local_p.parent.mkdir(parents=True, exist_ok=True)
                 if "checkpoint.json" in filename:
-                    local_p.parent.mkdir(parents=True, exist_ok=True)
                     local_p.write_text(cp_content)
                 elif "run_records.jsonl" in filename:
-                    local_p.parent.mkdir(parents=True, exist_ok=True)
                     local_p.write_text(records)
                 return str(local_p)
 
@@ -1115,8 +1105,7 @@ class TestAutoResume:
             mock_api.list_repo_files.return_value = exp_files
 
             def fake_download(repo_id, filename, local_dir, token, **kwargs):
-                fname = filename.split("/")[-1]
-                local_p = Path(local_dir) / f"exp-ok_{fname}"
+                local_p = Path(local_dir) / filename
                 local_p.parent.mkdir(parents=True, exist_ok=True)
                 if "checkpoint.json" in filename:
                     local_p.write_text(cp_content)
@@ -1189,11 +1178,7 @@ class TestAutoResume:
             mock_api.list_repo_files.return_value = files_complete + files_incomplete
 
             def fake_download(repo_id, filename, local_dir, token, **kwargs):
-                fname = filename.split("/")[-1]
-                if "exp-done" in filename:
-                    local_p = Path(local_dir) / f"exp-done_{fname}"
-                else:
-                    local_p = Path(local_dir) / f"exp-partial_{fname}"
+                local_p = Path(local_dir) / filename
                 local_p.parent.mkdir(parents=True, exist_ok=True)
                 if "checkpoint.json" in filename:
                     local_p.write_text(cp_complete if "exp-done" in filename else cp_incomplete)

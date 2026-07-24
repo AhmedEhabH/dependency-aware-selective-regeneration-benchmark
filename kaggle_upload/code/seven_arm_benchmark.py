@@ -953,6 +953,12 @@ def main() -> int:
                     return 1
             else:
                 hf_experiment_id = args.experiment_id or time.strftime("exp-%Y%m%d-%H%M%S")
+                # Clear stale local state from any previous experiment
+                if runs_dir.is_dir():
+                    for f in runs_dir.iterdir():
+                        if f.is_file():
+                            f.unlink(missing_ok=True)
+                    logger.info("Start-new: cleared %s", runs_dir)
 
         remote_layout = RemoteLayout(
             profile=profile.name,
@@ -1070,6 +1076,19 @@ def main() -> int:
         dep_graph = build_dependency_graph(data_dir, first_scenarios)
 
     # ---- Build execution plan -----------------------------------------------
+    # Full plan (no skip) to get complete planned_run_ids for checkpoint.
+    # This ensures the strategy/scenario set in checkpoint always matches
+    # the full expected set, so auto-resume validation doesn't reject
+    # experiments when some runs have already completed.
+    full_plan = _build_execution_plan(
+        profile=profile,
+        scenario_provider=scenario_provider,
+        strategy_names=strategy_names,
+        skip_run_ids=None,
+        config_hash=config_hash,
+    )
+    planned_run_ids = [run["run_id"] for run in full_plan]
+
     execution_plan = _build_execution_plan(
         profile=profile,
         scenario_provider=scenario_provider,
@@ -1078,8 +1097,7 @@ def main() -> int:
         config_hash=config_hash,
     )
 
-    total_planned = len(execution_plan) + len(skip_run_ids)
-    planned_run_ids = [run["run_id"] for run in execution_plan]
+    total_planned = len(planned_run_ids)
 
     logger.info(
         "Execution plan: %d pending, %d completed (skipped), %d total",
