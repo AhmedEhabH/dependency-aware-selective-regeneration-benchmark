@@ -1,0 +1,113 @@
+scenario_id: saleor-cross-008
+repository: saleor
+change_type: cross_cutting_broad
+blast_radius: cross_cutting
+
+requirement_before: >
+  Saleor has no centralized audit logging. Domain events (product creation,
+  checkout completion, order status changes, account updates) are not
+  recorded in a structured, queryable format. Debugging and compliance
+  rely on application logs and database query logs, which are not retained
+  or easily searchable.
+
+requirement_after: >
+  A new `saleor/audit/` Django app is introduced with an `AuditEntry` model
+  that records: actor (User or None), action (str), target_type (str),
+  target_id (int/str), changes (JSON), timestamp (DateTime). Django signals
+  in saleor/product/, saleor/checkout/, saleor/order/, and saleor/account/
+  create audit entries for CREATE, UPDATE, DELETE actions on core models.
+  A GraphQL query `auditEntries` is added (requires MANAGE_STAFF
+  permission) with filtering by target_type, actor, and date range. The
+  audit app has its own admin configuration for Django admin. Middleware
+  optionally captures request context (actor IP, user agent) for each entry.
+
+rationale: >
+  Provides a first-party audit trail for compliance (GDPR, PCI-DSS) and
+  operational debugging without relying on external logging services.
+
+acceptance_criteria:
+  - "New `saleor/audit/` app with `AuditEntry` model (actor, action, target_type, target_id, changes, timestamp, ip_address, user_agent)."
+  - "Migration creates the audit_entry table."
+  - "Signals in product, checkout, order, and account models create AuditEntry on CREATE, UPDATE, DELETE."
+  - "GraphQL query `auditEntries` returns paginated `AuditEntryCountableConnection`."
+  - "`auditEntries` requires MANAGE_STAFF permission."
+  - "Filtering by target_type, actor, date range is supported."
+  - "Admin configuration registers AuditEntry in Django admin with list filters and search."
+  - "Tests cover audit entry creation for each domain model and the GraphQL query."
+  - "Middleware captures request context (IP, user agent) on mutating requests."
+
+expected_affected_artifacts:
+  - "saleor/audit/models.py:AuditEntry"
+  - "saleor/audit/signals.py"
+  - "saleor/audit/graphql/types.py:AuditEntryType"
+  - "saleor/audit/graphql/schema.py:AuditSchema"
+  - "saleor/audit/graphql/resolvers.py"
+  - "saleor/audit/admin.py"
+  - "saleor/audit/middleware.py:AuditMiddleware"
+  - "saleor/audit/migrations/*"
+  - "saleor/product/signals.py"
+  - "saleor/checkout/signals.py"
+  - "saleor/order/signals.py"
+  - "saleor/account/signals.py"
+  - "saleor/product/models.py"
+  - "saleor/checkout/models.py"
+  - "saleor/order/models.py"
+  - "saleor/account/models.py"
+  - "saleor/graphql/schema.py"
+  - "saleor/settings.py"
+
+expected_actions:
+  create:
+    - "saleor/audit/__init__.py"
+    - "saleor/audit/models.py"
+    - "saleor/audit/signals.py"
+    - "saleor/audit/graphql/__init__.py"
+    - "saleor/audit/graphql/types.py"
+    - "saleor/audit/graphql/schema.py"
+    - "saleor/audit/graphql/resolvers.py"
+    - "saleor/audit/admin.py"
+    - "saleor/audit/middleware.py"
+    - "saleor/audit/migrations/__init__.py"
+    - "saleor/audit/migrations/XXXX_audit_entry.py"
+    - "saleor/audit/tests/__init__.py"
+    - "saleor/audit/tests/test_models.py"
+    - "saleor/audit/tests/test_graphql.py"
+  modify:
+    - "saleor/product/signals.py"
+    - "saleor/checkout/signals.py"
+    - "saleor/order/signals.py"
+    - "saleor/account/signals.py"
+    - "saleor/product/models.py"
+    - "saleor/checkout/models.py"
+    - "saleor/order/models.py"
+    - "saleor/account/models.py"
+    - "saleor/graphql/schema.py"
+    - "saleor/settings.py"
+
+regression_obligations:
+  - "Run all existing product, checkout, order, and account tests to confirm no behavior change."
+  - "Run audit app tests."
+  - "Verify audit entries are not created for read-only queries."
+  - "Verify audit entries are created for actions via both GraphQL mutations and Django admin."
+  - "Verify that deleting a user does not cascade-delete audit entries (SET_NULL on actor FK)."
+  - "Run migration forward/backward."
+
+architecture_constraints:
+  - "The audit app must not import from saleor/graphql/ (reverse dependency)."
+  - "Audit entry creation must happen via Django signals (post_save, post_delete), not by modifying every mutation."
+  - "The `changes` JSON field stores only changed fields (delta), not the full object snapshot."
+  - "Middleware must be optional (configurable via settings) to avoid performance overhead in high-throughput deployments."
+  - "The actor FK must use SET_NULL on delete to preserve audit trail integrity."
+  - "IP addresses must be anonymized (last octet zeroed) for GDPR compliance before storage."
+
+hidden_tests:
+  - description: "Verify that creating a product via bulk import creates one audit entry per product, not one per batch."
+    type: granularity_bulk
+  - description: "Verify that audit entries for order status changes include the previous and new status in the changes delta."
+    type: content_precision
+  - description: "Verify that disabling the audit middleware does not prevent signal-based audit entry creation."
+    type: config_isolation
+  - description: "Verify that querying auditEntries with a 2-year date range returns results within 5 seconds on 100K rows."
+    type: performance_query
+  - description: "Verify that an anonymous (unauthenticated) action records actor as null, not a deleted user reference."
+    type: edge_anonymous

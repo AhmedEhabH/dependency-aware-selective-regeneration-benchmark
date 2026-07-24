@@ -91,10 +91,27 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 | Canonical project root | `project/` is the Git root; `docs/` at repo root is legacy |
 | Conda + hybrid pip | Conda for compiled deps (numpy, pandas), pip for dev tools |
 | Protocol currently frozen | Protocol v1.0; amendments require formal process |
+| Selective update policy | All changes require a ledger record under `project/selective_updates/records/` |
+| Bundle generation | Automated via `scripts/build_upload_bundle.py` |
 
 ---
 
-## 7. Remaining Scientific Gaps (Pre-Existing, Not Affected by Smoke)
+## 7. Selective-Update Ledger
+
+A selective-update ledger at `project/selective_updates/` records every production change:
+
+- `README.md` — ledger purpose and conventions
+- `CHANGE_INDEX.md` — compact table of all changes (SU-0001, SU-0002, ...)
+- `ARTIFACT_IMPACT_MAP.md` — change-to-artifact lookup
+- `templates/CHANGE_RECORD_TEMPLATE.md` — standardized record format
+- `records/SU-XXXX-*.md` — one record per change
+- `metrics/change_metrics.jsonl` — machine-readable metrics
+
+Before modifying production code, benchmark data, notebooks, or deployment bundles, read the three files in order: `README.md`, `CHANGE_INDEX.md`, `ARTIFACT_IMPACT_MAP.md`.
+
+---
+
+## 8. Remaining Scientific Gaps (Pre-Existing, Not Affected by Smoke)
 
 | Gap | Details | Requires |
 |-----|---------|----------|
@@ -106,7 +123,7 @@ These gaps were identified during Phase 4F audit and confirmed unchanged by smok
 
 ---
 
-## 8. Risks and Mitigations
+## 9. Risks and Mitigations
 
 | Risk | Likelihood | Mitigation |
 |------|-----------|------------|
@@ -119,7 +136,7 @@ These gaps were identified during Phase 4F audit and confirmed unchanged by smok
 
 ---
 
-## 9. Getting Started for Next Session
+## 10. Getting Started for Next Session
 
 ```bash
 # 1. Activate environment

@@ -1,0 +1,516 @@
+# Repository Profile — v1.0
+# Controlled Django Todo Application
+# Part of: Dependency-Aware Selective Regeneration Benchmark
+# Protocol Version: 1.0 (FROZEN)
+
+repository_id: todo
+name: Controlled Django Todo Application
+protocol_version: 1.0
+last_updated: 2026-07-22
+
+# ---------------------------------------------------------------------------
+# 1. Overview
+# ---------------------------------------------------------------------------
+overview: >
+  The Controlled Django Todo Application is a small, purpose-built synthetic
+  repository designed as the "small" confirmatory target for the Dependency-
+  Aware Selective Regeneration Benchmark. It implements a layered REST
+  architecture for task management using Django REST Framework (DRF).
+
+  The domain is deliberately simple — Tasks, Projects, and Tags — to enable
+  precise measurement of impact analysis and selective regeneration. Every
+  architectural layer has clear boundaries, and the test suite provides full
+  coverage of model logic, serialization, view behaviour, and permissions.
+
+  The application is not intended for production use. It is a measurement
+  instrument: a controlled environment where ground-truth affected-artifact
+  sets can be established by inspection, making it ideal for calibrating and
+  validating the benchmark's evaluation methodology.
+
+# ---------------------------------------------------------------------------
+# 2. Architecture
+# ---------------------------------------------------------------------------
+architecture:
+  style: Layered REST (Django + DRF)
+  description: >
+    The application follows a strict layered architecture where each layer
+    has well-defined responsibilities and unidirectional dependencies.
+    The API layer depends on the business-logic and data layers.
+    The business-logic layer depends on the data layer.
+    Permissions are a cross-cutting concern.
+
+  layers:
+    - id: api
+      name: API Layer
+      description: >
+        Exposes REST endpoints via DRF ViewSets. Handles HTTP request/response
+        lifecycle, content negotiation, authentication, and permission checks.
+        Delegates business logic to serializers and model methods.
+      artifacts:
+        - todo/views.py
+        - todo/serializers.py
+        - todo/urls.py
+
+    - id: business_logic
+      name: Business Logic Layer
+      description: >
+        Encapsulates domain rules and workflows. Implemented as custom model
+        methods, property decorators, and serializer-level validation.
+        No direct HTTP dependency.
+      artifacts:
+        - todo/models.py
+        - todo/serializers.py (validation logic portion)
+
+    - id: data
+      name: Data Layer
+      description: >
+        Database schema definition via Django models. Manages field
+        definitions, relationships, constraints, indexes, and migrations.
+      artifacts:
+        - todo/models.py (field definitions)
+        - todo/migrations/
+
+    - id: cross_cutting
+      name: Cross-Cutting Layer
+      description: >
+        Concerns that span multiple layers. Currently limited to custom
+        permission classes and any future decorator-based cross-cutting
+        concerns.
+      artifacts:
+        - todo/permissions.py
+
+  module_boundaries:
+    - source: todo/views.py
+      allowed_dependencies:
+        - todo/models.py
+        - todo/serializers.py
+        - todo/permissions.py
+        - rest_framework.*
+      forbidden_dependencies:
+        - Direct SQL or database cursor usage
+        - todo/tests/*
+      rationale: >
+        Views orchestrate but do not implement business logic. They delegate
+        to serializers for input validation and to models for data access.
+
+    - source: todo/serializers.py
+      allowed_dependencies:
+        - todo/models.py
+        - rest_framework.*
+      forbidden_dependencies:
+        - todo/views.py
+        - todo/permissions.py
+        - todo/urls.py
+      rationale: >
+        Serializers handle input/output representation and validation.
+        They must not depend on view-layer concerns.
+
+    - source: todo/models.py
+      allowed_dependencies:
+        - django.db.models
+        - django.core.validators
+      forbidden_dependencies:
+        - todo/views.py
+        - todo/serializers.py
+        - todo/permissions.py
+        - todo/urls.py
+        - rest_framework.*
+      rationale: >
+        Models are the innermost layer. They must have no knowledge of
+        the API layer, serialization, or HTTP concerns.
+
+    - source: todo/permissions.py
+      allowed_dependencies:
+        - todo/models.py
+        - rest_framework.permissions
+        - rest_framework.request
+      forbidden_dependencies:
+        - todo/views.py
+        - todo/serializers.py
+        - todo/urls.py
+      rationale: >
+        Permissions are cross-cutting but must not couple to specific
+        view implementations. They inspect requests and objects.
+
+  dependency_graph:
+    description: >
+      Unidirectional dependency chain: urls.py -> views.py -> serializers.py
+      -> models.py. Permissions depend on models but are referenced by views.
+      The graph is acyclic in production code.
+    edges:
+      - from: todo/urls.py
+        to: todo/views.py
+        type: import
+      - from: todo/views.py
+        to: todo/serializers.py
+        type: import
+      - from: todo/views.py
+        to: todo/models.py
+        type: import
+      - from: todo/views.py
+        to: todo/permissions.py
+        type: import
+      - from: todo/serializers.py
+        to: todo/models.py
+        type: import
+      - from: todo/permissions.py
+        to: todo/models.py
+        type: import
+
+# ---------------------------------------------------------------------------
+# 3. Artifact Catalog
+# ---------------------------------------------------------------------------
+artifact_catalog:
+  - id: todo/models.py
+    artifact_type: source
+    category: model
+    description: >
+      Contains Task, Project, and Tag model definitions. Includes field
+      declarations, relationships (ForeignKey, ManyToMany), model-level
+      constraints (unique_together, constraints), custom model methods
+      (mark_complete, is_overdue), and Python properties.
+    expected_action_types: [modify, create]
+    typical_change_triggers:
+      - schema and field changes
+      - cross-entity relationships
+      - workflow changes
+    provides_symbols:
+      - Task
+      - Project
+      - Tag
+
+  - id: todo/serializers.py
+    artifact_type: source
+    category: serializer
+    description: >
+      Contains TaskSerializer, ProjectSerializer, TagSerializer using
+      DRF ModelSerializer. Includes field declarations, read/write field
+      configuration, nested serialization, custom validate_* methods,
+      and create/update method overrides for business logic.
+    expected_action_types: [modify, create]
+    typical_change_triggers:
+      - schema and field changes
+      - API additions or modifications
+      - validation and business-rule changes
+    provides_symbols:
+      - TaskSerializer
+      - ProjectSerializer
+      - TagSerializer
+
+  - id: todo/views.py
+    artifact_type: source
+    category: view
+    description: >
+      Contains TaskViewSet, ProjectViewSet, TagViewSet using DRF ModelViewSet.
+      Defines queryset attributes, serializer_class assignments, permission
+      classes, filter_backends, search_fields, ordering_fields, and custom
+      action methods (@action decorator).
+    expected_action_types: [modify, create]
+    typical_change_triggers:
+      - API additions or modifications
+      - permissions and authorization changes
+      - workflow changes
+    provides_symbols:
+      - TaskViewSet
+      - ProjectViewSet
+      - TagViewSet
+
+  - id: todo/urls.py
+    artifact_type: source
+    category: config
+    description: >
+      Uses DRF DefaultRouter to register all three ViewSets. Exports
+      urlpatterns for inclusion in the project-level urls.py.
+    expected_action_types: [modify]
+    typical_change_triggers:
+      - API additions or modifications (new endpoints)
+    provides_symbols:
+      - router
+      - urlpatterns
+
+  - id: todo/permissions.py
+    artifact_type: source
+    category: permission
+    description: >
+      Custom DRF permission classes: IsOwnerOrReadOnly (task ownership),
+      IsProjectMember (project access). Uses request.user and object
+      attributes for authorization decisions.
+    expected_action_types: [modify, create]
+    typical_change_triggers:
+      - permissions and authorization changes
+      - architecture-sensitive changes
+    provides_symbols:
+      - IsOwnerOrReadOnly
+      - IsProjectMember
+
+  - id: todo/tests/test_models.py
+    artifact_type: test
+    category: unit
+    description: >
+      TestCase-based tests for model methods, properties, constraints,
+      and relationships. Covers Task, Project, and Tag models with
+      factory-based fixtures.
+    expected_action_types: [modify, create]
+    typical_change_triggers:
+      - schema and field changes
+      - cross-entity relationships
+      - workflow changes
+
+  - id: todo/tests/test_views.py
+    artifact_type: test
+    category: integration
+    description: >
+      APITestCase-based tests for ViewSet endpoints. Covers CRUD
+      operations, authentication, permissions, filtering, and custom
+      actions. Uses Django test client or DRF APIClient.
+    expected_action_types: [modify, create]
+    typical_change_triggers:
+      - API additions or modifications
+      - permissions and authorization changes
+      - workflow changes
+
+  - id: todo/tests/test_serializers.py
+    artifact_type: test
+    category: unit
+    description: >
+      TestCase-based tests for serializer validation logic, field
+      behaviour, nested representations, and create/update methods.
+    expected_action_types: [modify, create]
+    typical_change_triggers:
+      - validation and business-rule changes
+      - schema and field changes
+
+  - id: todo/tests/test_permissions.py
+    artifact_type: test
+    category: unit
+    description: >
+      TestCase-based tests for custom permission classes. Uses
+      mock request objects and model instances to verify allow/deny
+      decisions under various ownership and membership scenarios.
+    expected_action_types: [modify, create]
+    typical_change_triggers:
+      - permissions and authorization changes
+
+  - id: todo/migrations/
+    artifact_type: migration
+    category: schema
+    description: >
+      Django auto-generated migration files. Each schema change produces
+      a new migration. Migrations are deterministic and ordered.
+    expected_action_types: [create]
+    typical_change_triggers:
+      - schema and field changes
+      - cross-entity relationships
+
+  - id: todo_project/settings.py
+    artifact_type: config
+    category: config
+    description: >
+      Django project settings: INSTALLED_APPS, DATABASES, REST_FRAMEWORK
+      configuration, authentication backends, middleware, templates, etc.
+    expected_action_types: [modify]
+    typical_change_triggers:
+      - broad changes (new apps, new middleware)
+      - architecture-sensitive changes
+
+  - id: todo_project/urls.py
+    artifact_type: config
+    category: config
+    description: >
+      Project-level URL configuration. Includes admin URLs and includes
+      the todo app's URL configuration.
+    expected_action_types: [modify]
+    typical_change_triggers:
+      - API additions or modifications (new top-level routes)
+
+# ---------------------------------------------------------------------------
+# 4. Test Suite Description
+# ---------------------------------------------------------------------------
+test_suite_description: >
+  The test suite uses Django's unittest.TestCase and DRF's APITestCase.
+  Tests are organized into four files mirroring the production code structure.
+
+  Test files:
+    - todo/tests/test_models.py: 20+ tests covering model creation, string
+      representation, custom methods (mark_complete, is_overdue), property
+      access, constraint enforcement, and relationship integrity.
+    - todo/tests/test_views.py: 30+ tests covering all CRUD endpoints for
+      all three ViewSets, authentication/authorization flows, permission
+      enforcement, filtering, searching, ordering, and custom actions.
+    - todo/tests/test_serializers.py: 15+ tests covering field serialization,
+      validation logic, nested serialization, create/update deserialization,
+      and error handling.
+    - todo/tests/test_permissions.py: 10+ tests covering IsOwnerOrReadOnly
+      and IsProjectMember under various request scenarios.
+
+  Test runner: pytest with django-pytest plugin, or manage.py test.
+  Test discovery: "python -m pytest" or "python manage.py test"
+  Database: SQLite by default (in-memory for tests).
+  Fixtures: Model instances are created via setUp/setUpTestData using
+    standard Django ORM calls (no third-party factory libraries).
+  Coverage target: >90% line coverage across all production modules.
+
+# ---------------------------------------------------------------------------
+# 5. Architecture Boundaries
+# ---------------------------------------------------------------------------
+architecture_boundaries:
+  - id: boundary-001
+    rule: >
+      Views must not contain business logic or database query logic beyond
+      standard queryset and serializer_class attribute declarations. Custom
+      queryset overrides must delegate filtering logic to model managers or
+      to dedicated filter backends.
+    violation_severity: error
+    checkable: true
+
+  - id: boundary-002
+    rule: >
+      Serializers must not import or reference views, URLs, or permissions.
+      Validation logic must be implemented in serializer validate_* methods,
+      not in views.
+    violation_severity: error
+    checkable: true
+
+  - id: boundary-003
+    rule: >
+      Models must not import or reference any DRF or HTTP-related modules.
+      Models must not reference views, serializers, or permissions.
+    violation_severity: error
+    checkable: true
+
+  - id: boundary-004
+    rule: >
+      Permissions must not import views, serializers, or URLs. They may
+      reference models and DRF permission base classes only.
+    violation_severity: error
+    checkable: true
+
+  - id: boundary-005
+    rule: >
+      URLs (todo/urls.py and todo_project/urls.py) must only reference views
+      and the admin site. They must not import models, serializers, or
+      permissions directly.
+    violation_severity: error
+    checkable: true
+
+  - id: boundary-006
+    rule: >
+      Test files must not be imported by production code. Test utilities
+      must reside in test packages only.
+    violation_severity: error
+    checkable: true
+
+  - id: boundary-007
+    rule: >
+      Migration files must only be created by Django's makemigrations
+      command. Hand-editing migrations is permitted only for data
+      migrations or when explicitly required and documented.
+    violation_severity: warning
+    checkable: true
+
+  - id: boundary-008
+    rule: >
+      Custom model methods (mark_complete, etc.) must not call save()
+      implicitly as a side effect of property access. State-changing
+      operations must be explicit method calls.
+    violation_severity: warning
+    checkable: true
+
+# ---------------------------------------------------------------------------
+# 6. Known Limitations
+# ---------------------------------------------------------------------------
+known_limitations:
+  - id: limitation-001
+    description: >
+      The application uses SQLite by default, which has limited constraint
+      and concurrency support compared to PostgreSQL. Some MySQL/PostgreSQL-
+      specific features (full-text search, CHECK constraints, etc.) are
+      not exercised.
+    impact: >
+      May limit the realism of certain schema-change scenarios.
+
+  - id: limitation-002
+    description: >
+      The domain is intentionally simple (3 models, 3 ViewSets). It cannot
+      capture the complexity of dependency propagation in larger, more
+      interconnected codebases.
+    impact: >
+      Results from the Todo repository should be interpreted as a lower
+      bound on complexity. They establish the measurement methodology but
+      do not generalize to large-scale systems.
+
+  - id: limitation-003
+    description: >
+      No asynchronous task processing, caching layer, signal handlers, or
+      external service integrations are present.
+    impact: >
+      Change scenarios involving async processing or external service
+      mocking cannot be constructed.
+
+  - id: limitation-004
+    description: >
+      The test suite uses Django TestCase with SQLite in-memory database.
+      Migration execution in tests is simulated; real migration execution
+      on PostgreSQL may reveal issues not caught in test.
+    impact: >
+      Migration-related regression obligations are limited.
+
+  - id: limitation-005
+    description: >
+      No Django REST Framework schema generation (OpenAPI/Swagger) is
+      configured. API documentation is not part of the artifact universe.
+    impact: >
+      Changes that would affect API documentation in production are not
+      observable in this benchmark.
+
+  - id: limitation-006
+    description: >
+      Authentication is simplified (TokenAuthentication or SessionAuth).
+      No OAuth2, JWT, or social-auth integration is present.
+    impact: >
+      Permission and authorization change scenarios are limited in scope.
+
+# ---------------------------------------------------------------------------
+# 7. Artifact Universe (per AC-01)
+# ---------------------------------------------------------------------------
+artifact_universe:
+  description: >
+    The complete set of artifacts eligible for impact analysis and selective
+    regeneration. Exclusions are documented with rationale.
+  included:
+    - todo/__init__.py
+    - todo/models.py
+    - todo/views.py
+    - todo/serializers.py
+    - todo/urls.py
+    - todo/permissions.py
+    - todo/admin.py
+    - todo/apps.py
+    - todo/tests/__init__.py
+    - todo/tests/test_models.py
+    - todo/tests/test_views.py
+    - todo/tests/test_serializers.py
+    - todo/tests/test_permissions.py
+    - todo_project/__init__.py
+    - todo_project/settings.py
+    - todo_project/urls.py
+    - todo_project/wsgi.py
+    - manage.py
+    - requirements.txt
+  excluded:
+    - path: todo/migrations/
+      rationale: >
+        Migrations are auto-generated and their content is fully determined
+        by model definitions. Including them would double-count schema
+        changes. Migration creation is verified but migrations themselves
+        are not candidate artifacts for impact analysis.
+    - path: todo_project/asgi.py
+      rationale: >
+        ASGI entry point is unused (synchronous-only application). Out of
+        scope for all 8 scenarios.
+    - path: .gitignore
+      rationale: >
+        Build/configuration metadata, not application code.
+    - path: .gitattributes
+      rationale: >
+        Build/configuration metadata, not application code.

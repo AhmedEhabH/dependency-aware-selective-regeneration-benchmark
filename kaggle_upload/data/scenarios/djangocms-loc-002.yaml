@@ -1,0 +1,65 @@
+scenario_id: djangocms-loc-002
+repository: djangocms
+change_type: localized_api
+
+blast_radius: localized
+
+requirement_before:
+  There is no convenience function in cms/api.py to retrieve a
+  PageContent instance given a Page and a language code. Callers
+  must manually query PageContent.objects.get(page=page, language=code)
+  or traverse Page.pagecontent_set.
+
+requirement_after:
+  A public utility function `get_page_content_by_language(page,
+  language_code)` is added to cms/api.py. It accepts a Page instance
+  and a language code string, returns the PageContent for that
+  page+language combination, and raises PageContent.DoesNotExist if
+  no matching content exists. The function is documented with a
+  docstring and optionally re-exported via __all__.
+
+rationale: >
+  Centralizing this common lookup pattern reduces duplicated query
+  logic across the codebase. This is a minimal, localized API
+  addition that does not affect models, admin, or views.
+
+acceptance_criteria:
+  - get_page_content_by_language is defined in cms/api.py.
+  - It takes (page, language_code) as positional or keyword arguments.
+  - It returns the matching PageContent instance.
+  - It raises PageContent.DoesNotExist when no match exists.
+  - The function has a descriptive docstring.
+  - Existing API tests pass.
+
+expected_affected_artifacts:
+  - "cms/api.py:get_page_content_by_language"
+
+expected_actions:
+  cms/api.py: modify
+
+regression_obligations:
+  - "cms/tests/test_api.py"
+
+architecture_constraints:
+  - Must not modify any model, admin, view, or serializer.
+  - Must not introduce new imports from non-standard-library modules
+    beyond what cms/api.py already imports.
+  - Must not alter the behavior of any existing function in cms/api.py.
+  - Must maintain backward compatibility: no function signature changes.
+
+hidden_tests:
+  - description: >
+      Call get_page_content_by_language with a Page that has a
+      PageContent for 'en'. Assert the return type is PageContent
+      and its language equals 'en'.
+    type: basic_lookup
+  - description: >
+      Call get_page_content_by_language with a Page that has NO
+      PageContent for 'fr'. Assert that PageContent.DoesNotExist
+      is raised.
+    type: missing_language
+  - description: >
+      Pass None as the page argument and assert that an appropriate
+      TypeError or AttributeError is raised, not a cryptic database
+      error.
+    type: invalid_input_handling

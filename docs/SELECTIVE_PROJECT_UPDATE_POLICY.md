@@ -2,14 +2,24 @@
 
 **Date:** 2026-07-24
 **Branch:** `audit/canonical-project-architecture`
-**Status:** PROPOSED (not yet adopted)
+**Status:** ADOPTED (chore/canonical-project-remediation)
 **Purpose:** Define required workflow for future changes to minimize regeneration scope.
 
 ---
 
 ## Rationale
 
-The project has canonical sources and generated derivatives. Currently, every change requires implicit full-bundle regeneration. A selective policy reduces engineering time and agent token usage by regenerating only affected artifacts.
+The project has canonical sources and generated derivatives. Currently, every change requires implicit full-bundle regeneration. A selective policy reduces engineering time and agent token usage by regenerating only affected artifacts. A selective-update ledger at `project/selective_updates/` records every change for traceability and impact measurement.
+
+---
+
+## Pre-Change Reading Order
+
+Before modifying production code, benchmark data, notebooks, or deployment bundles, read:
+
+1. `selective_updates/README.md` — ledger purpose and conventions
+2. `selective_updates/CHANGE_INDEX.md` — recent changes and status
+3. `selective_updates/ARTIFACT_IMPACT_MAP.md` — change-to-artifact lookup
 
 ---
 
@@ -31,10 +41,10 @@ Determine which generated artifacts contain copies of the changed canonical arti
 
 | Canonical Change | Affected Derivatives |
 |-----------------|---------------------|
-| `seven_arm_benchmark.py` | Inner `kaggle_upload/code/`, outer `kaggle_upload/code/` |
-| `src/benchmark/*.py` | Inner `kaggle_upload/code/src/`, outer `kaggle_upload/code/src/` |
-| `configs/*.yaml` | Inner `kaggle_upload/code/configs/`, outer `kaggle_upload/code/configs/` |
-| `benchmark_data/*.yaml` | Outer `kaggle_upload/data/` |
+| `seven_arm_benchmark.py` | `kaggle_upload/code/seven_arm_benchmark.py` |
+| `src/benchmark/*.py` | `kaggle_upload/code/src/benchmark/` |
+| `configs/*.yaml` | `kaggle_upload/code/configs/` |
+| `benchmark_data/*.yaml` | `kaggle_upload/data/` |
 
 ### Step 4: Regenerate Only Affected Derivatives
 Copy only the changed files to bundle locations. Do not rebuild entire bundle.
@@ -66,7 +76,10 @@ python -m pytest tests/ -v --tb=short
 pip check
 ```
 
-### Step 9: Measure Impact
+### Step 9: Create Selective-Update Record
+Every merged production or deployment change must create or update exactly one record under `selective_updates/records/`. Trivial typo-only edits may skip this unless they affect operational instructions.
+
+### Step 10: Measure Impact
 
 | Metric | Record |
 |--------|--------|

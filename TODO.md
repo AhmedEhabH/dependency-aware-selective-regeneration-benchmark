@@ -564,7 +564,117 @@
 - **Owner:** OpenCode
 - **Evidence:** git log, git status, state file diffs
 
-## Phase 4A — Domain Models and Contracts
+## Phase 3.7 — Canonical Structure Remediation and Selective-Update Ledger
+
+### T371 — Merge Audit Documentation to Main
+- **Priority:** HIGH
+- **Category:** VCS
+- **Description:** Merge `audit/canonical-project-architecture` into `main` using `--no-ff`. Validate merge contains only documentation/reports.
+- **Acceptance Criteria:** Merge commit on main; 10 audit docs merged
+- **Dependencies:** T364
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Merge commit `9dbd49f` on main
+
+### T372 — Create Bundle Build Script
+- **Priority:** HIGH
+- **Category:** Structure
+- **Description:** Create `scripts/build_upload_bundle.py` that builds `kaggle_upload/` from canonical sources only, excludes forbidden items, generates SHA-256 manifests, verifies all derivatives.
+- **Acceptance Criteria:** Script runs successfully; produces valid bundle
+- **Dependencies:** T371
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** `scripts/build_upload_bundle.py` exists and passes verification
+
+### T373 — Populate and Validate Inner Data Bundle
+- **Priority:** HIGH
+- **Category:** Structure
+- **Description:** Build bundle with 24 scenarios, 2 manifests, 3 repository profiles (29 files). Verify all SHA-256 match canonical sources.
+- **Acceptance Criteria:** 29 files in `kaggle_upload/data/`; all checksums match
+- **Dependencies:** T372
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Bundle verification passed
+
+### T374 — Clean Inner Code Bundle
+- **Priority:** HIGH
+- **Category:** Structure
+- **Description:** Verify no `.git/`, `__pycache__/`, `.mypy_cache/`, `.pytest_cache/`, `.ruff_cache/`, `*.egg-info/` in `kaggle_upload/code/`. Package tree is `kaggle_upload/code/src/benchmark/`.
+- **Acceptance Criteria:** No forbidden items; correct package structure
+- **Dependencies:** T373
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Forbidden check passed; tree validated
+
+### T375 — Remove Disposable Artifacts
+- **Priority:** MEDIUM
+- **Category:** Structure
+- **Description:** Add `_auto_resume_temp/`, `benchmark-results.zip`, `**/__pycache__/`, `*.pyc`, `*.egg-info/` to `.gitignore`. Remove `_auto_resume_temp/` and `benchmark-results.zip` from working tree.
+- **Acceptance Criteria:** .gitignore updated; temp files deleted
+- **Dependencies:** T374
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Files deleted; .gitignore updated
+
+### T376 — Update Architecture Documentation
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update PROPOSED_CANONICAL_PROJECT_STRUCTURE.md (IMPLEMENTED), IMPLEMENTED_ARCHITECTURE_BASELINE.md (bundle automation), SELECTIVE_PROJECT_UPDATE_POLICY.md (ADOPTED + ledger), SOURCE_OF_TRUTH_MATRIX.md (new classifications), SYSTEM_STATE.md, START_HERE.md, PROJECT_HANDOFF.md.
+- **Acceptance Criteria:** All docs reflect remediated state
+- **Dependencies:** T375
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Documentation updated
+
+### T377 — Establish Selective-Update Ledger
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Create `project/selective_updates/` with README.md, CHANGE_INDEX.md, ARTIFACT_IMPACT_MAP.md, templates/CHANGE_RECORD_TEMPLATE.md, records/SU-0001-*.md, metrics/change_metrics.jsonl. Record SU-0001 for this remediation.
+- **Acceptance Criteria:** Ledger created; SU-0001 recorded
+- **Dependencies:** T376
+- **Status:** COMPLETE
+- **Owner:** OpenCode
+- **Evidence:** Ledger files created
+
+### T378 — Verify and Delete Outer Duplicates
+- **Priority:** HIGH
+- **Category:** Structure
+- **Description:** Verify outer `kaggle_upload/` and `docs/` match inner canonical sources. Delete outer duplicates. Provide PowerShell commands if auto-delete fails.
+- **Acceptance Criteria:** Outer duplicates deleted or commands provided
+- **Dependencies:** T377
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Verification complete
+
+### T379 — Run Quality Gates and Finalize
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Run bundle builder, CLI help, pytest, ruff, mypy, pip check. Validate bundle imports, scenario loading, manifests, ledger links, frozen protocol checksums.
+- **Acceptance Criteria:** All quality gates pass
+- **Dependencies:** T378
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Gate results recorded
+
+### T380 — Merge Remediation Branch and Report
+- **Priority:** HIGH
+- **Category:** VCS
+- **Description:** Commit all changes on `chore/canonical-project-remediation`. Merge to `main` with `--no-ff`. Create final remediation report.
+- **Acceptance Criteria:** Merge commit on main; final report generated
+- **Dependencies:** T379
+- **Status:** PENDING
+- **Owner:** OpenCode
+- **Evidence:** Final commit hash
+
+### K001 — Selective runs_dir NameError Fix (SU-0002)
+- **Priority:** HIGH
+- **Category:** Bugfix
+- **Description:** Fix NameError in `src/benchmark/execution/pipeline.py` where `runs_dir` is referenced but not defined in failure path. Minimal scope: affected file, related test, bundle rebuild, ledger record.
+- **Acceptance Criteria:** Defect fixed; test passes; bundle rebuilt; SU-0002 record created
+- **Dependencies:** T380
+- **Status:** PLANNED
+- **Owner:** OpenCode
+- **Evidence:** pytest tests/unit/execution/ passes
 
 ### T401 — Implement Enums
 - **Priority:** HIGH

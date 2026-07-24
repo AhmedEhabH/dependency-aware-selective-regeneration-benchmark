@@ -1,14 +1,14 @@
 # Project Health Report
 
-**Report Date:** 2026-07-23  
+**Report Date:** 2026-07-24  
 **Project:** Selective Regeneration Benchmark  
-**Phase:** Kaggle Smoke Passed — Engineering Validation Complete
+**Phase:** Canonical Structure Remediation Complete — SU-0001 Recorded
 
 ---
 
 ## Executive Summary
 
-Kaggle real smoke passed twice. All 7 strategy arms succeeded with real Qwen2.5-Coder-7B-Instruct inference confirmed (325 prompt + 19 completion tokens). Two production fixes applied: failure propagation (real Qwen errors, token_usage, smoke-stage tagging) and graph wiring (ProfileGraphBuilder, capabilities design, NullLLMBackend). Smoke evidence is non-publication. Next task: implement checkpoint/resume for long-running profiles.
+Canonical structure remediation complete. Inner `project/kaggle_upload/` rebuilt via deterministic script `scripts/build_upload_bundle.py` (72 code + 29 data + 1 notebook files, all checksums verified). Selective-update ledger `project/selective_updates/` established with SU-0001 recorded. Outer stale duplicates (`<parent>/kaggle_upload/`, `<parent>/docs/`) deleted after verification. Frozen protocol documents unchanged. `runs_dir` NameError deferred to SU-0002.
 
 ---
 
@@ -23,6 +23,7 @@ Kaggle real smoke passed twice. All 7 strategy arms succeeded with real Qwen2.5-
 | Phase 3 — Repo/Scenario Prep | ✅ COMPLETE | N/A | 35 files | All pass |
 | Phase 3.5 — Architecture Audit | ✅ COMPLETE | N/A | 10 docs | All pass |
 | Phase 3.6 — Structure Remediation | ✅ COMPLETE | N/A | Baseline commit | All pass |
+| Phase 3.7 — Canonical Remediation | ✅ COMPLETE | N/A | 1 script + ledger | All pass |
 | Phase 4A — Domain Models | ✅ COMPLETE | 111 | 17 src + 8 test | ruff:0, mypy:0, pytest:111/111 |
 | Phase 4B — Loaders | ✅ COMPLETE | 206 | 11 src + 14 test | ruff:0, mypy:0, pytest:206/206 |
 | Phase 4C — Model Backends | ✅ COMPLETE | 229 | 5 src + 6 test | ruff:0, mypy:0, pytest:229/229 |

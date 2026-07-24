@@ -76,6 +76,12 @@ htmlcov/
 # Run output directory
 runs/
 
+# Generated auto-resume temp data (tests must use isolated temp dirs)
+_auto_resume_temp/
+
+# Generated benchmark archive
+benchmark-results.zip
+
 # OS
 .DS_Store
 Thumbs.db

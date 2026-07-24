@@ -1,0 +1,78 @@
+scenario_id: saleor-mod-006
+repository: saleor
+change_type: moderate_cross_entity
+blast_radius: moderate
+
+requirement_before: >
+  The Product model has a single ForeignKey to Category. A product can belong
+  to at most one category. Merchants who want to tag a product under multiple
+  categories must use custom workarounds (e.g., duplicate products or external
+  tagging).
+
+requirement_after: >
+  The Product-Category relationship is converted from a single ForeignKey
+  to a ManyToManyField. A new intermediate table `product_categories` is
+  created. The existing `category_id` ForeignKey column is migrated into the
+  new M2M table as an initial single-entry for each product. All product
+  mutations, product GraphQL types, category resolvers, and product filters
+  that reference `product.category` are updated to use `product.categories`
+  (plural). A `primary_category` helper may be retained for convenience.
+
+rationale: >
+  Enables multi-category product organization for stores with complex
+  hierarchical or cross-cutting taxonomies.
+
+acceptance_criteria:
+  - "Product.categories is a ManyToManyField to Category."
+  - "Existing data is migrated: each product's current category becomes one entry in the M2M table."
+  - "ForeignKey `category` is removed after migration."
+  - "GraphQL Product type exposes `categories: [Category!]!`."
+  - "ProductCreate and ProductUpdate mutations accept `categories` list of IDs."
+  - "Product filters by category accept multiple category IDs."
+  - "Category resolver for `products` returns products across all M2M relations."
+  - "Down migration restores the ForeignKey and preserves at least one category per product."
+
+expected_affected_artifacts:
+  - "saleor/product/models.py:Product"
+  - "saleor/product/models.py:Category"
+  - "saleor/graphql/product/types.py:ProductType"
+  - "saleor/graphql/product/mutations/product_create.py:ProductCreate"
+  - "saleor/graphql/product/mutations/product_update.py:ProductUpdate"
+  - "saleor/graphql/product/filters.py:ProductFilter"
+  - "saleor/graphql/product/resolvers.py"
+  - "saleor/graphql/category/resolvers.py:CategoryResolvers"
+  - "saleor/product/migrations/*"
+
+expected_actions:
+  create:
+    - "saleor/product/migrations/XXXX_product_categories_m2m.py"
+  modify:
+    - "saleor/product/models.py"
+    - "saleor/graphql/product/types.py"
+    - "saleor/graphql/product/mutations/product_create.py"
+    - "saleor/graphql/product/mutations/product_update.py"
+    - "saleor/graphql/product/filters.py"
+    - "saleor/graphql/product/resolvers.py"
+    - "saleor/graphql/category/resolvers.py"
+
+regression_obligations:
+  - "Run product model tests."
+  - "Run product mutation tests."
+  - "Run category resolver tests."
+  - "Run filter tests."
+  - "Run migration forward and backward on a copy of production data."
+  - "Verify existing GraphQL queries using `product.category` fail gracefully with a deprecation notice or schema change."
+
+architecture_constraints:
+  - "The M2M must use an explicit through model if extra fields (e.g., sort order) are anticipated."
+  - "Data migration must be a single, reversible Django migration (RunPython with both forward and backward functions)."
+  - "Do not remove the old column until the data migration is confirmed complete."
+  - "Update all resolvers and filters in the same PR to avoid broken intermediate states."
+
+hidden_tests:
+  - description: "Verify that a product with zero categories throws a validation error on save."
+    type: validation_integrity
+  - description: "Verify that adding a product to 50+ categories still performs within 500ms (pagination)."
+    type: performance_stress
+  - description: "Verify that the GraphQL deprecated `category` field still resolves to the primary category during grace period."
+    type: migration_graceful

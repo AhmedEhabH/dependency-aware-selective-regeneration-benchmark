@@ -1,0 +1,72 @@
+scenario_id: saleor-mod-004
+repository: saleor
+change_type: moderate_schema_and_api
+blast_radius: moderate
+
+requirement_before: >
+  ProductVariant has no field to limit the maximum purchasable quantity per
+  order. There is no mechanism to prevent a customer from adding more than
+  an allowed quantity of a single variant to their checkout or order. Sellers
+  cannot cap individual variant quantities.
+
+requirement_after: >
+  ProductVariant gains a `max_order_quantity` IntegerField (null=True,
+  blank=True). When set, checkout and order mutations enforce that the
+  requested quantity for that variant does not exceed the limit. Enforcement
+  occurs in both the checkout mutations (checkoutLinesAdd,
+  checkoutLinesUpdate) and order mutations (orderLinesCreate,
+  orderLinesUpdate). The field is exposed in the GraphQL ProductVariant type
+  as nullable Int.
+
+rationale: >
+  Sellers need per-variant quantity caps for inventory control (e.g., limit
+  2 per customer for limited editions).
+
+acceptance_criteria:
+  - "ProductVariant has field `max_order_quantity` (IntegerField, null=True, blank=True)."
+  - "Migration created under saleor/product/migrations/."
+  - "GraphQL ProductVariant type exposes `maxOrderQuantity: Int`."
+  - "Checkout line add/update mutations reject quantity exceeding the cap with error code 'MAX_ORDER_QUANTITY_EXCEEDED'."
+  - "Order line create/update mutations enforce the same cap."
+  - "Null max_order_quantity means no limit (backward compatible)."
+
+expected_affected_artifacts:
+  - "saleor/product/models.py:ProductVariant"
+  - "saleor/graphql/product/types.py:ProductVariantType"
+  - "saleor/graphql/checkout/mutations/checkout_lines_add.py:CheckoutLinesAdd"
+  - "saleor/graphql/checkout/mutations/checkout_lines_update.py:CheckoutLinesUpdate"
+  - "saleor/graphql/order/mutations/order_lines_create.py:OrderLinesCreate"
+  - "saleor/graphql/order/mutations/order_lines_update.py:OrderLinesUpdate"
+  - "saleor/core/error_codes.py:ProductVariantErrorCode"
+  - "saleor/product/migrations/*"
+
+expected_actions:
+  create:
+    - "saleor/product/migrations/XXXX_max_order_quantity.py"
+  modify:
+    - "saleor/product/models.py"
+    - "saleor/graphql/product/types.py"
+    - "saleor/graphql/checkout/mutations/checkout_lines_add.py"
+    - "saleor/graphql/checkout/mutations/checkout_lines_update.py"
+    - "saleor/graphql/order/mutations/order_lines_create.py"
+    - "saleor/graphql/order/mutations/order_lines_update.py"
+    - "saleor/core/error_codes.py"
+
+regression_obligations:
+  - "Run product model tests."
+  - "Run checkout mutation tests."
+  - "Run order mutation tests."
+  - "Verify existing checkout/order flows where no cap is set continue working."
+
+architecture_constraints:
+  - "Validation logic must be extracted to a shared service (e.g. saleor/product/services/quantity_validation.py) to avoid duplication across checkout and order mutations."
+  - "Do not add permission checks inside the validation service; permissions remain at the GraphQL resolver level."
+  - "The field must be nullable to preserve backward compatibility."
+
+hidden_tests:
+  - description: "Verify that reducing `max_order_quantity` below existing checkout quantities triggers a validation error at checkout completion (not retroactively)."
+    type: integration_stateful
+  - description: "Verify bulk order import ignores max_order_quantity cap (admin override)."
+    type: permission_elevation
+  - description: "Verify the cap is checked per variant line, not summed across lines containing the same variant."
+    type: regression_logic

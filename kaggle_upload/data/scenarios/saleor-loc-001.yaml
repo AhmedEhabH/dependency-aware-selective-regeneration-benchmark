@@ -1,0 +1,58 @@
+scenario_id: saleor-loc-001
+repository: saleor
+change_type: localized_schema
+blast_radius: localized
+
+requirement_before: >
+  The Product model in saleor/product/models.py has no field for indicating
+  whether a product is featured. There is no way to mark products as featured
+  or query them by featured status via the API.
+
+requirement_after: >
+  Product model gains an `is_featured` BooleanField (default=False). A new
+  Django migration is generated. The Product GraphQL type exposes `is_featured`
+  as a non-null Boolean field. The field is readable and filterable.
+
+rationale: >
+  Merchants need a simple boolean toggle to highlight products on landing
+  pages without building a separate mechanism.
+
+acceptance_criteria:
+  - "Product model has field `is_featured` of type BooleanField with default=False."
+  - "Migration exists under saleor/product/migrations/."
+  - "GraphQL Product type exposes `is_featured: Boolean!`."
+  - "Products can be filtered by `is_featured` in product queries."
+  - "Existing tests continue to pass without modification."
+
+expected_affected_artifacts:
+  - "saleor/product/models.py:Product"
+  - "saleor/graphql/product/types.py:ProductType"
+  - "saleor/graphql/product/filters.py:ProductFilter"
+  - "saleor/product/migrations/*"
+
+expected_actions:
+  create:
+    - "saleor/product/migrations/XXXX_is_featured.py"
+  modify:
+    - "saleor/product/models.py"
+    - "saleor/graphql/product/types.py"
+    - "saleor/graphql/product/filters.py"
+    - "saleor/graphql/schema.py"
+
+regression_obligations:
+  - "Run saleor/product/tests/ model tests."
+  - "Run saleor/graphql/product/tests/ graphql tests."
+  - "Verify migration applies and rolls back cleanly."
+
+architecture_constraints:
+  - "Do not import from saleor/graphql/ inside saleor/product/models.py."
+  - "Field must be added via a new migration; editing an existing migration is forbidden."
+  - "Permission checks for write access occur in GraphQL mutations, not in the model."
+
+hidden_tests:
+  - description: "Verify `is_featured` is not writable via ProductCreate mutation when user lacks product manage permission."
+    type: permission_deny
+  - description: "Verify filtering `is_featured: True` returns only featured products in a paginated query."
+    type: integration_filter
+  - description: "Verify reverse migration drops the column without data loss."
+    type: migration_reverse
