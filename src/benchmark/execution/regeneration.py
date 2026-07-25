@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -86,9 +87,19 @@ class SharedRegenerationExecutor:
         isolation: IsolationContext,
         requirement_delta: str = "",
     ) -> RegenerationExecutionResult:
-        return asyncio.run(
-            self._execute_async(plan, isolation, requirement_delta)
-        )
+        old_loop: asyncio.AbstractEventLoop | None = None
+        with contextlib.suppress(RuntimeError):
+            old_loop = asyncio.get_event_loop()
+        try:
+            return asyncio.run(
+                self._execute_async(plan, isolation, requirement_delta)
+            )
+        finally:
+            if old_loop is not None and not old_loop.is_closed():
+                asyncio.set_event_loop(old_loop)
+            elif old_loop is None:
+                with contextlib.suppress(RuntimeError):
+                    asyncio.set_event_loop(asyncio.new_event_loop())
 
     async def _execute_async(
         self,
@@ -185,14 +196,27 @@ class SharedRegenerationExecutor:
             total_prompt += response.token_usage.prompt_tokens
             total_completion += response.token_usage.completion_tokens
 
-            output_text = response.text.strip()
+            output_text = response.text
 
-            if not output_text:
+            stripped = output_text.strip()
+            if not stripped:
                 failures.append(f"Empty generation for {artifact.path}")
                 generated.append(
                     GeneratedArtifact(
                         path=artifact.path,
                         content="",
+                        status="rejected",
+                    )
+                )
+                continue
+
+            # Reject Markdown-fenced output — contract requires raw file content
+            if stripped.startswith("```") or stripped.endswith("```"):
+                failures.append(f"Markdown-fenced output rejected for {artifact.path}")
+                generated.append(
+                    GeneratedArtifact(
+                        path=artifact.path,
+                        content=output_text,
                         status="rejected",
                     )
                 )

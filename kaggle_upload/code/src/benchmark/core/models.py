@@ -293,7 +293,7 @@ class RunRecord:
     regenerated_artifact_count: int = 0
     preserved_artifact_count: int = 0
     unresolved_human_review_count: int = 0
-    functional_validation_passed: bool = False
+    functional_validation_passed: bool | None = None
 
     def __post_init__(self) -> None:
         if self.duration_seconds < 0:

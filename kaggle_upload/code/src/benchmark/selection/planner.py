@@ -67,15 +67,12 @@ class ArtifactSelector:
     def select(
         self,
         prediction: ImpactPrediction,
-        artifact_universe: ArtifactUniverse,
+        artifact_universe: ArtifactUniverse,  # noqa: ARG002 — kept for interface stability
     ) -> ArtifactSelection:
         selected: list[ArtifactRef] = []
         for decision in prediction.decisions:
             if decision.action in (ActionKind.regenerate, ActionKind.human_review):
                 selected.append(decision.artifact)
-
-        if not selected:
-            selected = list(artifact_universe.artifacts)
 
         return ArtifactSelection(
             artifacts=tuple(selected),

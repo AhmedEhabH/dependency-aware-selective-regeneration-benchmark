@@ -57,9 +57,40 @@ class TestArtifactSelector:
         assert "tests/test_models.py" in paths
         assert "src/views.py" not in paths
 
-    def test_empty_prediction_returns_all(self) -> None:
+    def test_empty_prediction_returns_empty(self) -> None:
         selector = ArtifactSelector()
         selection = selector.select(ImpactPrediction(), _make_universe())
+        assert len(selection.artifacts) == 0
+
+    def test_empty_selective_prediction_stays_empty(self) -> None:
+        selector = ArtifactSelector()
+        prediction = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.preserve,
+                    rationale="no change",
+                ),
+            )
+        )
+        selection = selector.select(prediction, _make_universe())
+        assert len(selection.artifacts) == 0
+
+    def test_full_scope_reference_still_selects_all_regenerates(self) -> None:
+        selector = ArtifactSelector()
+        refs = [
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/c.py", artifact_type=ArtifactType.source),
+        ]
+        prediction = ImpactPrediction(
+            decisions=tuple(
+                ImpactDecision(artifact=r, action=ActionKind.regenerate, rationale="needs update")
+                for r in refs
+            )
+        )
+        universe = ArtifactUniverse(artifacts=tuple(refs))
+        selection = selector.select(prediction, universe)
         assert len(selection.artifacts) == 3
 
     def test_selection_is_frozen(self) -> None:
@@ -114,6 +145,46 @@ class TestRegenerationPlanner:
         plan = planner.plan(selection, prediction)
         assert "tests/test_models.py" in plan.human_review_artifact_paths
         assert "src/models.py" not in plan.human_review_artifact_paths
+
+    def test_empty_selective_produces_empty_plan(self) -> None:
+        selector = ArtifactSelector()
+        planner = RegenerationPlanner()
+        prediction = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/preserved.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.preserve,
+                    rationale="no change",
+                ),
+            )
+        )
+        universe = ArtifactUniverse(
+            artifacts=(
+                ArtifactRef(path="src/preserved.py", artifact_type=ArtifactType.source),
+            ),
+        )
+        selection = selector.select(prediction, universe)
+        plan = planner.plan(selection, prediction)
+        assert len(plan.ordered_artifacts) == 0
+        assert len(plan.regenerate_artifact_paths) == 0
+
+    def test_all_preserve_prediction_produces_empty_plan(self) -> None:
+        selector = ArtifactSelector()
+        planner = RegenerationPlanner()
+        refs = [
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+        ]
+        prediction = ImpactPrediction(
+            decisions=tuple(
+                ImpactDecision(artifact=r, action=ActionKind.preserve, rationale="ok") for r in refs
+            )
+        )
+        universe = ArtifactUniverse(artifacts=tuple(refs))
+        selection = selector.select(prediction, universe)
+        assert len(selection.artifacts) == 0
+        plan = planner.plan(selection, prediction)
+        assert len(plan.ordered_artifacts) == 0
 
 
 class TestComputeArtifactCounts:

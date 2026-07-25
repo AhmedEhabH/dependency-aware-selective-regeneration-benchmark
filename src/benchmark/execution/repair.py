@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from benchmark.core.enums import FailureKind, RunStatus
 from benchmark.core.exceptions import BenchmarkError
@@ -82,13 +82,10 @@ class RepairLoop:
                 )
 
             if not self._budget.can_attempt:
-                final_record = RunRecord(
-                    identity=result.identity,
+                final_record = replace(
+                    result,
                     status=RunStatus.failed,
-                    prediction=result.prediction,
                     failures=tuple(failures),
-                    token_usage=result.token_usage,
-                    duration_seconds=result.duration_seconds,
                 )
                 break
 

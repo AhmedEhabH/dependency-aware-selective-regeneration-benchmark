@@ -13,9 +13,10 @@ from benchmark.core.models import (
     TokenUsage,
 )
 from benchmark.execution.isolation import IsolationContext
+from benchmark.execution.regeneration import SharedRegenerationExecutor
 from benchmark.execution.runner import BenchmarkRunner, RunnerConfig
 from benchmark.repositories.workspace import WorkspacePath
-from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner
+from benchmark.selection.planner import ArtifactSelector, RegenerationPlan, RegenerationPlanner
 from benchmark.strategies.monolithic import MonolithicRegenerationStrategy
 from benchmark.strategies.selective import HybridSelectiveStrategy
 
@@ -82,6 +83,7 @@ def _make_runner(
     iso: IsolationContext,
     enable_regeneration: bool = False,
     validation_command: list[str] | None = None,
+    validation_timeout: int = 10,
 ) -> BenchmarkRunner:
     config = RunnerConfig(
         strategy_name="test",
@@ -90,7 +92,7 @@ def _make_runner(
         max_attempts=1,
         enable_regeneration=enable_regeneration,
         validation_command=validation_command,
-        validation_timeout=10,
+        validation_timeout=validation_timeout,
     )
     return BenchmarkRunner(
         strategy=strategy,
@@ -264,7 +266,7 @@ class TestLegacyImpactOnly:
         assert record.status == RunStatus.succeeded
         assert record.regeneration_total_tokens == 0
         assert record.regenerated_artifact_count == 0
-        assert record.functional_validation_passed is False
+        assert record.functional_validation_passed is None
 
     def test_legacy_impact_only_all_fields_default(self, tmp_path: Path) -> None:
         iso, ws_root = _setup_workspace(tmp_path, ())
@@ -280,6 +282,7 @@ class TestLegacyImpactOnly:
         assert record.selection_prompt_tokens == 0
         assert record.regeneration_prompt_tokens == 0
         assert record.functional_validation_duration_seconds == 0.0
+        assert record.functional_validation_passed is None
 
 
 class TestTokenAccounting:
@@ -302,7 +305,7 @@ class TestTokenAccounting:
         # totals should equal stage sums
         stage_total = record.selection_total_tokens + record.regeneration_total_tokens
         assert record.total_workflow_tokens == stage_total
-        assert record.total_workflow_model_calls >= record.regeneration_model_calls
+        assert record.total_workflow_model_calls == record.selection_model_calls + record.regeneration_model_calls
 
 
 class TestArtifactSelection:
@@ -333,6 +336,374 @@ class TestArtifactSelection:
         plan = RegenerationPlanner().plan(selection, prediction)
         assert len(plan.human_review_artifact_paths) == 1
         assert len(plan.regenerate_artifact_paths) == 0
+
+
+class TestEmptySelectiveScope:
+    def test_empty_selective_scope_stays_empty(self, tmp_path: Path) -> None:
+        artifacts = (
+            ArtifactRef(path="src/main.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("should not be called")
+        # Full preserve prediction → empty selection
+        from benchmark.core.models import ImpactDecision
+        class _PreserveStrategy:
+            def analyze_impact(self, **kwargs):
+                return ImpactPrediction(
+                    decisions=(
+                        ImpactDecision(
+                            artifact=artifacts[0],
+                            action=ActionKind.preserve,
+                            rationale="no change",
+                        ),
+                    ),
+                )
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, _PreserveStrategy(), backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        record = runner.run(scenario)
+        assert record.regenerated_artifact_count == 0
+        assert record.regeneration_model_calls == 0
+        assert record.selected_artifact_count == 0
+        assert record.status == RunStatus.succeeded
+
+    def test_empty_selective_scope_preserves_workspace(self, tmp_path: Path) -> None:
+        artifacts = (
+            ArtifactRef(path="src/main.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        orig = (ws_root / "src/main.py").read_text(encoding="utf-8")
+        backend = _make_backend("should not be called")
+        from benchmark.core.models import ImpactDecision
+        class _PreserveStrategy:
+            def analyze_impact(self, **kwargs):
+                return ImpactPrediction(
+                    decisions=(
+                        ImpactDecision(
+                            artifact=artifacts[0],
+                            action=ActionKind.preserve,
+                            rationale="no change",
+                        ),
+                    ),
+                )
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, _PreserveStrategy(), backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        runner.run(scenario)
+        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
+
+
+class TestValidationTriState:
+    def test_legacy_no_validation_is_none(self, tmp_path: Path) -> None:
+        iso, ws_root = _setup_workspace(tmp_path, ())
+        backend = _make_backend("")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario()
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=False,
+        )
+        record = runner.run(scenario)
+        assert record.functional_validation_passed is None
+
+    def test_regeneration_without_validation_fails_closed(self, tmp_path: Path) -> None:
+        iso, ws_root = _setup_workspace(tmp_path, ())
+        backend = _make_backend("replacement")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario()
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=None,
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        assert record.functional_validation_passed is None
+
+    def test_regeneration_with_empty_validation_fails_closed(self, tmp_path: Path) -> None:
+        iso, ws_root = _setup_workspace(tmp_path, ())
+        backend = _make_backend("replacement")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario()
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[""],
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+
+    def test_validation_passed_is_true(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        record = runner.run(scenario)
+        assert record.functional_validation_passed is True
+
+    def test_validation_passed_is_false(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+        )
+        record = runner.run(scenario)
+        assert record.functional_validation_passed is False
+
+    def test_validation_timed_out_is_false(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "import time; time.sleep(10)"],
+            validation_timeout=1,
+        )
+        record = runner.run(scenario)
+        assert record.functional_validation_passed is False
+
+
+class TestRegeneratedArtifactCount:
+    def test_planned_but_rejected_not_counted(self, tmp_path: Path) -> None:
+        artifacts = (
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        record = runner.run(scenario)
+        assert record.selected_artifact_count == 1
+        assert record.regenerated_artifact_count == 0
+
+    def test_mixed_results_count_only_generated(self, tmp_path: Path) -> None:
+        class _MixedRejectionStrategy:
+            def analyze_impact(self, **kwargs):
+                from benchmark.core.models import ImpactDecision, ImpactPrediction
+                return ImpactPrediction(
+                    decisions=(
+                        ImpactDecision(
+                            artifact=ArtifactRef(path="src/good.py", artifact_type=ArtifactType.source),
+                            action=ActionKind.regenerate,
+                            rationale="ok",
+                        ),
+                        ImpactDecision(
+                            artifact=ArtifactRef(path="src/bad.py", artifact_type=ArtifactType.source),
+                            action=ActionKind.regenerate,
+                            rationale="bad",
+                        ),
+                        ImpactDecision(
+                            artifact=ArtifactRef(path="src/review.py", artifact_type=ArtifactType.source),
+                            action=ActionKind.human_review,
+                            rationale="uncertain",
+                        ),
+                    ),
+                )
+        all_artifacts = (
+            ArtifactRef(path="src/good.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/bad.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/review.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, all_artifacts)
+        (ws_root / "src/good.py").write_text("good original", encoding="utf-8")
+        (ws_root / "src/bad.py").write_text("bad original", encoding="utf-8")
+        (ws_root / "src/review.py").write_text("review original", encoding="utf-8")
+
+        class _SelectiveBackend:
+            def __init__(self):
+                self._call_count = 0
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                self._call_count += 1
+                from benchmark.core.models import LLMResponse, TokenUsage
+                tu = TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15)
+                if self._call_count == 1:
+                    return LLMResponse(text="good output", token_usage=tu)
+                return LLMResponse(text="```bad output```", token_usage=tu)
+
+        backend = _SelectiveBackend()
+        strategy = _MixedRejectionStrategy()
+        scenario = _make_scenario(artifacts=all_artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        record = runner.run(scenario)
+        assert record.selected_artifact_count == 3
+        assert record.regenerated_artifact_count == 1
+
+
+class TestModelCallAggregation:
+    def test_total_equals_selection_plus_regeneration(self, tmp_path: Path) -> None:
+        artifacts = (
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/c.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        record = runner.run(scenario)
+        assert record.selection_model_calls == 0
+        assert record.regeneration_model_calls == 3
+        assert record.total_workflow_model_calls == 3
+
+    def test_empty_plan_zero_calls(self, tmp_path: Path) -> None:
+        iso, ws_root = _setup_workspace(tmp_path, ())
+        backend = _make_backend("should not be called")
+        from benchmark.core.models import ImpactPrediction
+        class _NoOpStrategy:
+            def analyze_impact(self, **kwargs):
+                return ImpactPrediction()
+        scenario = _make_scenario()
+        runner = _make_runner(
+            tmp_path, _NoOpStrategy(), backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        record = runner.run(scenario)
+        assert record.selection_model_calls == 0
+        assert record.regeneration_model_calls == 0
+        assert record.total_workflow_model_calls == 0
+
+    def test_no_regeneration_path_zero_calls(self, tmp_path: Path) -> None:
+        iso, ws_root = _setup_workspace(tmp_path, ())
+        backend = _make_backend("")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario()
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=False,
+        )
+        record = runner.run(scenario)
+        assert record.selection_model_calls == 0
+        assert record.regeneration_model_calls == 0
+        assert record.total_workflow_model_calls == 0
+
+
+class TestSelectionDuration:
+    def test_selection_duration_measured(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        record = runner.run(scenario)
+        assert record.selection_duration_seconds >= 0
+
+    def test_total_duration_equals_stage_sum(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        record = runner.run(scenario)
+        expected = (
+            record.selection_duration_seconds
+            + record.regeneration_duration_seconds
+            + record.functional_validation_duration_seconds
+        )
+        assert abs(record.total_workflow_duration_seconds - expected) < 0.01
+
+    def test_non_regeneration_path_no_duration(self, tmp_path: Path) -> None:
+        iso, ws_root = _setup_workspace(tmp_path, ())
+        backend = _make_backend("")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario()
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=False,
+        )
+        record = runner.run(scenario)
+        assert record.selection_duration_seconds >= 0
+
+
+class TestCanonicalSourcePreservation:
+    def test_canonical_source_unchanged_after_regeneration(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/main.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        canonical = tmp_path / "canonical"
+        canonical.mkdir()
+        canonical_src = canonical / "src"
+        canonical_src.mkdir()
+        orig = "original source content"
+        (canonical_src / "main.py").write_text(orig, encoding="utf-8")
+        (ws_root / "src/main.py").write_text(orig, encoding="utf-8")
+
+        backend = _make_backend("new content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        runner.run(scenario)
+        assert (canonical_src / "main.py").read_text(encoding="utf-8") == orig
+
+    def test_path_traversal_rejected(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        evil_ref = ArtifactRef(path="../../etc/passwd", artifact_type=ArtifactType.configuration)
+        plan = RegenerationPlan(
+            ordered_artifacts=(evil_ref,),
+            actions={"../../etc/passwd": ActionKind.regenerate},
+        )
+        backend = _make_backend("evil")
+        executor = SharedRegenerationExecutor(backend)
+        result = executor.execute(plan, iso)
+        assert len(result.failures) == 1
+        assert "Path traversal" in result.failures[0]
+
+
+def _make_isolation(tmp_path: Path) -> tuple[IsolationContext, Path]:
+    ws_root = tmp_path / "workspace"
+    ws_root.mkdir(parents=True, exist_ok=True)
+    snap_base = tmp_path / "snapshots"
+    snap_base.mkdir(exist_ok=True)
+    ws = WorkspacePath(root=str(ws_root))
+    iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+    return iso, ws_root
 
 
 def _make_prediction(

@@ -68,3 +68,19 @@ class TestFunctionalValidator:
         )
         assert isinstance(result, FunctionalValidationResult)
         assert result.passed is True
+
+    def test_validation_passed_is_true_on_success(self, tmp_path: Path) -> None:
+        validator = FunctionalValidator()
+        result = validator.validate(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+        )
+        assert result.passed is True
+
+    def test_validation_passed_is_false_on_failure(self, tmp_path: Path) -> None:
+        validator = FunctionalValidator()
+        result = validator.validate(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(1)"],
+        )
+        assert result.passed is False

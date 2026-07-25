@@ -91,6 +91,71 @@ class TestSharedRegenerationExecutor:
         assert len(result.failures) >= 1
         assert result.artifacts[0].status == "rejected"
 
+    def test_markdown_fenced_output_is_rejected(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        src = ws_root / "src"
+        src.mkdir()
+        orig = "original content"
+        (src / "main.py").write_text(orig, encoding="utf-8")
+
+        backend = _make_backend("```python\nprint('hello')\n```")
+        executor = SharedRegenerationExecutor(backend)
+        plan = _make_plan()
+        result = executor.execute(plan, iso)
+
+        assert len(result.failures) == 1
+        assert "Markdown-fenced" in result.failures[0]
+        assert result.artifacts[0].status == "rejected"
+        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
+
+    def test_fully_fenced_output_is_rejected(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        src = ws_root / "src"
+        src.mkdir()
+        orig = "original content"
+        (src / "main.py").write_text(orig, encoding="utf-8")
+
+        backend = _make_backend("```\nplain content\n```")
+        executor = SharedRegenerationExecutor(backend)
+        plan = _make_plan()
+        result = executor.execute(plan, iso)
+
+        assert len(result.failures) == 1
+        assert "Markdown-fenced" in result.failures[0]
+        assert result.artifacts[0].status == "rejected"
+        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
+
+    def test_starts_with_code_fence_is_rejected(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        src = ws_root / "src"
+        src.mkdir()
+        orig = "original content"
+        (src / "main.py").write_text(orig, encoding="utf-8")
+
+        backend = _make_backend("```\ncontent without closing fence")
+        executor = SharedRegenerationExecutor(backend)
+        plan = _make_plan()
+        result = executor.execute(plan, iso)
+
+        assert len(result.failures) == 1
+        assert "Markdown-fenced" in result.failures[0]
+        assert result.artifacts[0].status == "rejected"
+        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
+
+    def test_non_fenced_output_is_accepted(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        src = ws_root / "src"
+        src.mkdir()
+        (src / "main.py").write_text("original", encoding="utf-8")
+
+        backend = _make_backend("valid python code")
+        executor = SharedRegenerationExecutor(backend)
+        plan = _make_plan()
+        result = executor.execute(plan, iso)
+
+        assert len(result.artifacts) == 1
+        assert result.artifacts[0].status == "generated"
+
     def test_path_traversal_is_rejected(self, tmp_path: Path) -> None:
         iso, ws_root = _make_isolation(tmp_path)
         evil_ref = ArtifactRef(path="../../etc/passwd", artifact_type=ArtifactType.configuration)
