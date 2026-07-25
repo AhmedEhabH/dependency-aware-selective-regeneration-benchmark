@@ -95,7 +95,9 @@
 ## Git State
 - **Branch:** `fix/su-0007-run-state-semantics`
 - **Base:** `1a1b845` (SU-0006 final commit on main)
-- **Status:** Pending commit, merge, and push
+- **Feature commit:** `efa5a3d`
+- **Merge commit:** `84bc659`
+- **Final main:** `84bc659`
 
 ## Status
-**VALIDATED** — Quality gates passed, pending merge
+**MERGED** — On main at `84bc659`, pushed with `origin/main == main`
