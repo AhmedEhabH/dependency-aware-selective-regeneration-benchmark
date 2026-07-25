@@ -71,6 +71,12 @@
 - smoke_progress_summary.json reported incorrect succeeded/failed counts
 - progress.json reported stage=running despite 7/7 completion
 
+## Git History
+- **Branch:** `fix/su-0008-cross-session-reporting`
+- **Branch commit:** `e7b7703`
+- **Merge commit:** `63dede1`
+- **Final main commit:** `63dede1`
+
 ## Post-change Evidence
 - All 718 tests pass (23 new SU-0008 tests)
 - Bundle rebuilt and verified (code, data, notebook OK)
@@ -78,3 +84,5 @@
 - progress.json reports stage=completed with all correct counts
 - Token totals: 344 (325 prompt + 19 completion)
 - Duration totals: sum of all 7 RunRecord durations
+- Deployment status: not_deployed
+- Quality outcome: preserved
