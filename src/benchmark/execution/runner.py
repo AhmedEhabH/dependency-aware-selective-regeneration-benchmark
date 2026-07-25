@@ -9,6 +9,7 @@ from benchmark.core.exceptions import BenchmarkError, ModelBackendError, Protoco
 from benchmark.core.models import (
     ArtifactUniverse,
     FailureRecord,
+    ImpactPrediction,
     RepositoryIdentity,
     RepositorySnapshot,
     RequirementChange,
@@ -20,8 +21,11 @@ from benchmark.core.models import (
 from benchmark.core.protocols import ImpactStrategy, LLMBackend
 from benchmark.execution.budgets import BudgetExhaustedError, BudgetManager
 from benchmark.execution.isolation import IsolationContext
+from benchmark.execution.regeneration import SharedRegenerationExecutor
 from benchmark.execution.repair import RepairLoop
 from benchmark.execution.state_machine import RunStateMachine
+from benchmark.execution.validation import FunctionalValidator
+from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner, compute_artifact_counts
 
 
 @dataclass
@@ -32,6 +36,9 @@ class RunnerConfig:
     timeout_seconds: int = 0
     max_attempts: int = 3
     max_tokens: int = 0
+    enable_regeneration: bool = False
+    validation_command: list[str] | None = None
+    validation_timeout: int = 30
     extra: dict[str, Any] = field(default_factory=dict)
 
 
@@ -108,6 +115,25 @@ class BenchmarkRunner:
             token_usage=record.token_usage,
             duration_seconds=duration,
             schema_version=record.schema_version,
+            selection_prompt_tokens=record.selection_prompt_tokens,
+            selection_completion_tokens=record.selection_completion_tokens,
+            selection_total_tokens=record.selection_total_tokens,
+            selection_model_calls=record.selection_model_calls,
+            selection_duration_seconds=record.selection_duration_seconds,
+            regeneration_prompt_tokens=record.regeneration_prompt_tokens,
+            regeneration_completion_tokens=record.regeneration_completion_tokens,
+            regeneration_total_tokens=record.regeneration_total_tokens,
+            regeneration_model_calls=record.regeneration_model_calls,
+            regeneration_duration_seconds=record.regeneration_duration_seconds,
+            functional_validation_duration_seconds=record.functional_validation_duration_seconds,
+            total_workflow_tokens=record.total_workflow_tokens,
+            total_workflow_model_calls=record.total_workflow_model_calls,
+            total_workflow_duration_seconds=record.total_workflow_duration_seconds,
+            selected_artifact_count=record.selected_artifact_count,
+            regenerated_artifact_count=record.regenerated_artifact_count,
+            preserved_artifact_count=record.preserved_artifact_count,
+            unresolved_human_review_count=record.unresolved_human_review_count,
+            functional_validation_passed=record.functional_validation_passed,
         )
 
     def dry_run(self, scenario: Scenario) -> RunRecord:
@@ -154,6 +180,15 @@ class BenchmarkRunner:
                         ),
                     ),
                     duration_seconds=time.monotonic() - start_time,
+                )
+
+            if self._config.enable_regeneration and self._backend is not None:
+                return self._run_regeneration_flow(
+                    scenario=scenario,
+                    prediction=prediction,
+                    requirement_change=requirement_change,
+                    artifact_universe=artifact_universe,
+                    start_time=start_time,
                 )
 
             return RunRecord(
@@ -216,6 +251,90 @@ class BenchmarkRunner:
                 ),
                 duration_seconds=time.monotonic() - start_time,
             )
+
+    def _run_regeneration_flow(
+        self,
+        scenario: Scenario,
+        prediction: ImpactPrediction,
+        requirement_change: RequirementChange,
+        artifact_universe: ArtifactUniverse,
+        start_time: float,
+    ) -> RunRecord:
+        selector = ArtifactSelector()
+        selection = selector.select(prediction, artifact_universe)
+        regen_planner = RegenerationPlanner()
+        plan = regen_planner.plan(selection, prediction)
+
+        counts = compute_artifact_counts(prediction)
+
+        requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
+        executor = SharedRegenerationExecutor(self._backend)  # type: ignore[arg-type]
+        exec_result = executor.execute(plan, self._isolation, requirement_delta=requirement_delta)
+
+        # Execute validation only if command configured
+        val_result = None
+        if self._config.validation_command:
+            validator = FunctionalValidator()
+            val_result = validator.validate(
+                workspace_root=self._isolation.workspace.root,
+                command=self._config.validation_command,
+                timeout=self._config.validation_timeout,
+            )
+
+        selection_tokens = prediction.token_usage or TokenUsage()
+        total_tokens = selection_tokens.total_tokens + exec_result.total_tokens
+        total_calls = exec_result.model_calls
+        total_duration = time.monotonic() - start_time
+
+        failures: list[FailureRecord] = []
+        for f in exec_result.failures:
+            failures.append(
+                FailureRecord(
+                    failure_kind=FailureKind.model_output,
+                    message=f,
+                    details="SharedRegenerationExecutor failure",
+                    stage="regeneration",
+                )
+            )
+
+        validation_passed = val_result.passed if val_result else True
+        if val_result is not None and not val_result.passed:
+            failures.append(
+                FailureRecord(
+                    failure_kind=FailureKind.build,
+                    message=f"Functional validation failed (exit={val_result.exit_code})",
+                    details=f"stdout: {val_result.stdout[:500]}\nstderr: {val_result.stderr[:500]}",
+                    stage="validation",
+                )
+            )
+
+        status = RunStatus.failed if failures else RunStatus.succeeded
+
+        return RunRecord(
+            identity=self._build_run_identity(scenario),
+            status=status,
+            prediction=prediction,
+            token_usage=selection_tokens,
+            duration_seconds=time.monotonic() - start_time,
+            failures=tuple(failures),
+            selection_prompt_tokens=selection_tokens.prompt_tokens,
+            selection_completion_tokens=selection_tokens.completion_tokens,
+            selection_total_tokens=selection_tokens.total_tokens,
+            regeneration_prompt_tokens=exec_result.prompt_tokens,
+            regeneration_completion_tokens=exec_result.completion_tokens,
+            regeneration_total_tokens=exec_result.total_tokens,
+            regeneration_model_calls=exec_result.model_calls,
+            regeneration_duration_seconds=exec_result.duration_seconds,
+            functional_validation_duration_seconds=val_result.duration_seconds if val_result else 0.0,
+            functional_validation_passed=validation_passed,
+            total_workflow_tokens=total_tokens,
+            total_workflow_model_calls=total_calls,
+            total_workflow_duration_seconds=total_duration,
+            selected_artifact_count=counts.get("selected", 0),
+            regenerated_artifact_count=counts.get("regenerate", 0),
+            preserved_artifact_count=counts.get("preserve", 0),
+            unresolved_human_review_count=counts.get("human_review", 0),
+        )
 
     def _build_run_identity(self, scenario: Scenario) -> RunIdentity:
         return RunIdentity(
