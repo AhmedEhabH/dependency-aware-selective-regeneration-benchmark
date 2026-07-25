@@ -575,6 +575,12 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Explicit Git tag or release name for this source version.",
     )
+    parser.add_argument(
+        "--deployed-build-id",
+        type=str,
+        default=None,
+        help="Immutable build/bundle ID for the deployed code. Overrides auto-detection.",
+    )
     args = parser.parse_args()
     _validate_cli_args(args)
     return args
@@ -675,6 +681,20 @@ def _get_source_commit(explicit_commit: str | None = None, explicit_tag: str | N
     except Exception:
         pass
     return "unknown-source"
+
+
+def _get_deployed_build_id(
+    explicit_build_id: str | None = None,
+    source_commit: str = "",
+) -> str:
+    """Return the immutable deployed-build identity.
+
+    Priority: explicit --deployed-build-id > source_commit (actual git SHA) > unknown.
+    This is NOT the declared source tag — it is the code that is actually running.
+    """
+    if explicit_build_id:
+        return explicit_build_id
+    return source_commit
 
 
 def _get_model_identity(model_path: str | None) -> str:
@@ -825,6 +845,76 @@ def _compute_config_hash(args: argparse.Namespace) -> str:
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
 
 
+def _build_smoke_progress_summary(
+    all_strategy_names: list[str],
+    results_agg: dict[str, dict[str, Any]],
+    planned_run_ids: list[str],
+    checkpoint_completed: list[str],
+    checkpoint_failed: list[str],
+    pending_run_ids: list[str],
+) -> list[dict[str, Any]]:
+    """Build a one-row-per-strategy smoke progress summary.
+
+    Each row includes:
+      strategy_name, not_yet_run, environment_failed, succeeded, failed, timed_out,
+      total_planned_for_strategy, total_completed_for_strategy
+    """
+    summary_rows: list[dict[str, Any]] = []
+    for sname in all_strategy_names:
+        plan_ids = [rid for rid in planned_run_ids if f"_{sname}_" in rid]
+        completed_ids = [rid for rid in checkpoint_completed if f"_{sname}_" in rid]
+        failed_ids = [rid for rid in checkpoint_failed if f"_{sname}_" in rid]
+        pending_ids = [rid for rid in pending_run_ids if f"_{sname}_" in rid]
+
+        agg = results_agg.get(sname, {})
+        records = agg.get("records", [])
+        succeeded = sum(1 for r in records if r.get("status") == "succeeded")
+        failed = sum(1 for r in records if r.get("status") == "failed")
+        timed_out = sum(1 for r in records if r.get("status") == "timed_out")
+        env_failed = sum(
+            1 for r in records
+            if r.get("failure_classification") == "environment_preflight"
+        )
+
+        row = {
+            "strategy_name": sname,
+            "total_planned": len(plan_ids),
+            "total_completed": len(completed_ids),
+            "succeeded": succeeded,
+            "failed": failed,
+            "timed_out": timed_out,
+            "environment_failed": env_failed,
+            "not_yet_run": len(pending_ids),
+        }
+        summary_rows.append(row)
+    return summary_rows
+
+
+def _preflight_check(
+    dry_run: bool,
+    needs_llm: bool,
+    strategy_name: str,
+) -> tuple[bool, str, str, str]:
+    """Run a GPU preflight if the strategy needs an LLM.
+
+    Returns (ok, hardware_identity, software_identity, rejection_reason).
+    For dry_run or non-LLM strategies, always returns (True, "", "", "").
+    """
+    if dry_run or not needs_llm:
+        return True, "", "", ""
+    try:
+        from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
+        result = KaggleQwenBackend.preflight()
+        return (
+            result.compatible,
+            result.hardware_identity,
+            result.software_identity,
+            result.rejection_reason,
+        )
+    except Exception as exc:
+        return False, "unknown", "unknown", f"Preflight exception: {exc}"
+
+
 def main() -> int:
     args = parse_args()
     output_dir = Path(args.output_dir)
@@ -839,14 +929,19 @@ def main() -> int:
         explicit_commit=args.source_commit,
         explicit_tag=args.source_tag,
     )
+    deployed_build_id = _get_deployed_build_id(
+        explicit_build_id=args.deployed_build_id,
+        source_commit=source_commit,
+    )
     config_hash = _compute_config_hash(args)
     model_identity = _get_model_identity(args.model_path)
 
     logger.info(
         "Benchmark config: dry_run=%s  profile=%s  label=%s  output=%s  data_dir=%s  "
-        "commit=%s  config_hash=%s",
+        "commit=%s  deployed_build=%s  config_hash=%s  source_tag=%s",
         args.dry_run, profile.name, profile.label, output_dir, data_dir,
-        source_commit, config_hash,
+        source_commit, deployed_build_id, config_hash,
+        args.source_tag or "",
     )
 
     # ---- Checkpoint / Resume setup -----------------------------------------
@@ -861,6 +956,7 @@ def main() -> int:
         config_hash=config_hash,
         model_identity=model_identity,
         source_commit=source_commit,
+        deployed_build_id=deployed_build_id,
     )
     checkpoint_mgr = CheckpointManager(output_dir)
     progress_mgr = ProgressManager(output_dir)
@@ -1172,22 +1268,81 @@ def main() -> int:
 
     # ---- Initialize checkpoint -----------------------------------------------
     selected_scenario_ids = [s.scenario_id for s in all_scenarios[:profile.scenario_count]]
-    checkpoint_data = CheckpointData(
-        profile=profile.name,
-        execution_plan_hash=config_hash,
-        planned_run_ids=planned_run_ids,
-        completed_run_ids=list(skip_run_ids),
-        pending_run_ids=list(planned_run_ids),
-        total_planned=total_planned,
-        total_completed=len(skip_run_ids),
-        protocol_version=args.protocol_version,
-        model_identity=model_identity,
-        config_hash=config_hash,
-        source_commit=source_commit,
-        completion_status="running",
-        scenario_ids=selected_scenario_ids,
-        strategy_names=strategy_names,
-    )
+    pending_run_ids = [rid for rid in planned_run_ids if rid not in skip_run_ids]
+
+    # Determine if this is a RESUME or START_NEW session.
+    # RESUME: prior state was downloaded/copied and normalized; we must
+    #         preserve and extend it.  START_NEW: no prior state; initialize empty.
+    is_resume = bool(skip_run_ids)
+
+    if is_resume:
+        existing = resume_mgr.get_normalized_checkpoint()
+        if existing is not None:
+            # Preserve all normalized prior state from the remote checkpoint.
+            checkpoint_data = existing
+            checkpoint_data.planned_run_ids = planned_run_ids
+            checkpoint_data.pending_run_ids = [
+                rid for rid in planned_run_ids
+                if rid not in existing.completed_run_ids
+            ]
+            checkpoint_data.total_planned = total_planned
+            checkpoint_data.protocol_version = args.protocol_version
+            checkpoint_data.model_identity = model_identity
+            checkpoint_data.config_hash = config_hash
+            checkpoint_data.source_commit = source_commit
+            checkpoint_data.declared_source_tag = args.source_tag or ""
+            checkpoint_data.deployed_build_id = deployed_build_id
+            checkpoint_data.scenario_ids = selected_scenario_ids
+            checkpoint_data.strategy_names = strategy_names
+            checkpoint_data.completion_status = "running"
+        else:
+            # Fallback: prior files exist but normalization produced nothing.
+            # Initialize with skip set only — no scientific state to preserve.
+            checkpoint_data = CheckpointData(
+                profile=profile.name,
+                execution_plan_hash=config_hash,
+                planned_run_ids=planned_run_ids,
+                completed_run_ids=list(skip_run_ids),
+                attempted_run_ids=list(skip_run_ids),
+                succeeded_run_ids=[],
+                retryable_run_ids=[],
+                failed_run_ids=[],
+                pending_run_ids=pending_run_ids,
+                total_planned=total_planned,
+                total_completed=len(skip_run_ids),
+                protocol_version=args.protocol_version,
+                model_identity=model_identity,
+                config_hash=config_hash,
+                source_commit=source_commit,
+                completion_status="running",
+                scenario_ids=selected_scenario_ids,
+                strategy_names=strategy_names,
+                declared_source_tag=args.source_tag or "",
+                deployed_build_id=deployed_build_id,
+            )
+    else:
+        checkpoint_data = CheckpointData(
+            profile=profile.name,
+            execution_plan_hash=config_hash,
+            planned_run_ids=planned_run_ids,
+            completed_run_ids=[],
+            attempted_run_ids=[],
+            succeeded_run_ids=[],
+            retryable_run_ids=[],
+            failed_run_ids=[],
+            pending_run_ids=list(planned_run_ids),
+            total_planned=total_planned,
+            total_completed=0,
+            protocol_version=args.protocol_version,
+            model_identity=model_identity,
+            config_hash=config_hash,
+            source_commit=source_commit,
+            completion_status="running",
+            scenario_ids=selected_scenario_ids,
+            strategy_names=strategy_names,
+            declared_source_tag=args.source_tag or "",
+            deployed_build_id=deployed_build_id,
+        )
     checkpoint_mgr.write_atomic(checkpoint_data)
 
     # ---- Save experiment identity -------------------------------------------
@@ -1196,6 +1351,7 @@ def main() -> int:
     source_identity = {
         "source_commit": source_commit,
         "source_tag": args.source_tag or "",
+        "deployed_build_id": deployed_build_id,
         "config_hash": config_hash,
         "model_identity": model_identity,
         "profile": profile.name,
@@ -1229,6 +1385,36 @@ def main() -> int:
             run_count + 1, len(execution_plan), run_id, scenario_id, strategy_name, rep,
         )
 
+        # ---- Preflight gate for LLM-backed strategies ----------------------
+        design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
+        needs_llm = design.get("llm", False)
+        hw_id = ""
+        sw_id = ""
+        preflight_ok = True
+        rejection_reason = ""
+
+        if needs_llm and not args.dry_run:
+            preflight_ok, hw_id, sw_id, rejection_reason = _preflight_check(
+                dry_run=args.dry_run,
+                needs_llm=needs_llm,
+                strategy_name=strategy_name,
+            )
+            if not preflight_ok:
+                logger.error(
+                    "Preflight FAILED for strategy=%s: %s",
+                    strategy_name, rejection_reason,
+                )
+                # Environment error — abort immediately.
+                # NO RunRecord is created (not a scientific result).
+                # NO strategy failure is recorded.
+                # The checkpoint remains resumable for the next session.
+                checkpoint_data.completion_status = "incomplete"
+                checkpoint_data.current_run_id = ""
+                checkpoint_mgr.write_atomic(checkpoint_data)
+                return 1
+
+        # ---- Execute strategy -----------------------------------------------
+        run_started_at = datetime.now(timezone.utc).isoformat()
         arm_workspace = workspace_dir / strategy_name
         record_dict, _ = _run_single_scenario_strategy(
             scenario_id=scenario_id,
@@ -1243,6 +1429,7 @@ def main() -> int:
             dep_graph=dep_graph,
             workspace_dir=arm_workspace,
         )
+        run_ended_at = datetime.now(timezone.utc).isoformat()
 
         # Build persistent record
         failure_details: list[dict[str, Any]] = []
@@ -1253,6 +1440,15 @@ def main() -> int:
                 "details": f.get("details", ""),
                 "stage": f.get("stage", ""),
             })
+
+        # Determine failure classification
+        status = record_dict.get("status", "")
+        failure_classification = ""
+        if status in ("failed", "timed_out", "cancelled"):
+            if failure_details:
+                failure_classification = failure_details[0].get("kind", "")
+            else:
+                failure_classification = "unknown"
 
         # Enforce canonical execution-plan Run ID
         record_dict["run_id"] = run_id
@@ -1275,7 +1471,7 @@ def main() -> int:
             strategy_id=strategy_name,
             repetition=rep,
             seed=42,
-            status=record_dict.get("status", "unknown"),
+            status=status,
             failure_details=failure_details,
             token_usage=tok,
             duration_seconds=record_dict.get("duration_seconds", 0.0),
@@ -1283,21 +1479,33 @@ def main() -> int:
             protocol_version=args.protocol_version,
             source_commit=source_commit,
             config_hash=config_hash,
-            timestamp=datetime.now(timezone.utc).isoformat(),
+            timestamp=run_started_at,
+            started_at=run_started_at,
+            ended_at=run_ended_at,
+            model_calls=1 if tok.get("total", 0) > 0 else 0,
+            repair_attempts=max(0, args.max_attempts - 1) if status != "succeeded" else 0,
+            hardware_identity=hw_id or "dry-run:mock" if args.dry_run else hw_id,
+            software_environment_identity=sw_id or "dry-run:mock" if args.dry_run else sw_id,
+            failure_classification=failure_classification,
         )
 
         # Persist immediately
         record_store.append(run_record_data)
 
         # Update checkpoint
-        status = record_dict.get("status", "")
-        if status == "succeeded":
-            checkpoint_data.completed_run_ids.append(run_id)
-        elif status in ("failed", "timed_out", "cancelled"):
-            checkpoint_data.completed_run_ids.append(run_id)
-            checkpoint_data.failed_run_ids.append(run_id)
         if run_id in checkpoint_data.pending_run_ids:
             checkpoint_data.pending_run_ids.remove(run_id)
+        checkpoint_data.completed_run_ids.append(run_id)
+        if run_id not in checkpoint_data.attempted_run_ids:
+            checkpoint_data.attempted_run_ids.append(run_id)
+
+        if status == "succeeded":
+            checkpoint_data.succeeded_run_ids.append(run_id)
+        else:
+            checkpoint_data.failed_run_ids.append(run_id)
+            if failure_classification in ("environment_preflight", "environment", "gpu_incompatible", "cuda_error"):
+                checkpoint_data.retryable_run_ids.append(run_id)
+
         checkpoint_data.total_completed = len(checkpoint_data.completed_run_ids)
         checkpoint_mgr.write_atomic(checkpoint_data)
 
@@ -1359,6 +1567,19 @@ def main() -> int:
     # ---- Finalize -----------------------------------------------------------
     total_elapsed = time.monotonic() - t_start
     all_runs_completed = checkpoint_data.total_completed >= total_planned
+
+    # ---- Smoke progress summary (one row per strategy) --------------------
+    smoke_summary = _build_smoke_progress_summary(
+        all_strategy_names=strategy_names,
+        results_agg=results_agg,
+        planned_run_ids=planned_run_ids,
+        checkpoint_completed=checkpoint_data.completed_run_ids,
+        checkpoint_failed=checkpoint_data.failed_run_ids,
+        pending_run_ids=checkpoint_data.pending_run_ids,
+    )
+    smoke_summary_path = output_dir / "smoke_progress_summary.json"
+    smoke_summary_path.write_text(json.dumps(smoke_summary, indent=2), encoding="utf-8")
+    logger.info("Smoke progress summary written to %s", smoke_summary_path)
 
     if all_runs_completed:
         checkpoint_data.completion_status = "completed"
