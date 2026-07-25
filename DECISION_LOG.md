@@ -546,3 +546,42 @@
   - All pre-existing lint/type issues unchanged
 - **Impact:** CLI executes without NameError for START_NEW path. RESUME and `--resume-from-hf` paths unaffected. Bundle rebuilt and verified.
 - **Evidence:** Branch `fix/su-0002-runs-dir-nameerror`; `scripts/build_upload_bundle.py`; SU-0002 record
+
+---
+
+## Decision D023 — Research Design V2 Freeze and Repository-Agent Baseline Audit
+
+- **Date:** 2026-07-25
+- **Decision ID:** D023
+- **Status:** DOCUMENTED — Awaiting Researcher Review
+- **Category:** Research Design / Documentation
+- **Description:** Execute Research Design V2 Freeze and Repository-Agent Baseline Audit. Merge completed arm-to-protocol execution audit (`audit/arm-to-protocol-execution`) into `main`. Create `docs/research-design-v2` branch recording all researcher-approved experimental design decisions (RD-V2-01 through RD-V2-06). Audit current `RepositoryAgentStrategy` end-to-end and classify it. Define baseline acceptance criteria for iterative repository agent. Design shared regeneration executor for fair end-to-end comparison. Establish arm role/naming policy mapping legacy IDs to scientific roles. Define external dataset evaluation policy for Experiment D. Trace implementation dependency graph for SU-0010.
+- **Rationale:** The arm audit revealed 4/7 arms have protocol mismatches (llm_by_design=True but no LLM attached), the measurement boundary excludes regeneration/repair, and the primary comparison (agent vs selective) is invalid for token-efficiency claims. RD-V2 restructures the experiment to compare a true iterative repository agent against the hybrid selective method, with honest labeling of current implementations.
+- **Alternatives considered:**
+  - Keep current design and amend protocol — rejected because it would legitimize name-only literature comparisons and invalid token-efficiency claims
+  - Implement full literature reproductions — rejected as out of scope for this research cycle
+- **Actions executed:**
+  - Merged `audit/arm-to-protocol-execution` into `main` at commit `3a16596` (merge commit `3a16596` on main)
+  - Created `docs/research-design-v2` branch
+  - Authored 10 design documents:
+    1. `reports/REPOSITORY_AGENT_BASELINE_AUDIT.md` — Current agent = `SINGLE_SHOT_LLM_SCOPE_BASELINE`
+    2. `docs/REPOSITORY_AGENT_BASELINE_SPEC.md` — Iterative baseline spec (max 5 rounds, 30 files, 6 calls, 50K tokens)
+    3. `docs/SHARED_REGENERATION_EXECUTOR_DESIGN.md` — Shared executor architecture (selection→plan→executor→patch→validate→repair)
+    4. `docs/ARM_ROLE_AND_NAMING_POLICY.md` — Legacy→scientific role map, naming rules, compatibility
+    5. `docs/EXTERNAL_DATASET_EVALUATION_POLICY.md` — Experiment D gate: license, ground truth, no leakage, local execution mandatory
+    6. `reports/SU0010_IMPLEMENTATION_IMPACT_PLAN.md` — 11-node dependency graph, ~21 day estimate
+    7. `docs/EXPERIMENTAL_DESIGN_V2.md` — Experiments A/B/C/D, hypotheses, arm roles, measurement
+    8. `docs/END_TO_END_MEASUREMENT_BOUNDARY.md` — Per-stage token accounting (selection/regen/repair/validation)
+    9. `reports/RESEARCH_DESIGN_V2_DECISION_REPORT.md` — Consolidated decision record
+  - Updated state files (this log, TODO.md, SYSTEM_STATE.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, docs/PROJECT_HANDOFF.md, docs/START_HERE.md, selective_updates/CHANGE_INDEX.md)
+- **Approved Research Decisions (Frozen for RD-V2):**
+  - RD-V2-01: Primary comparison = iterative repository agent vs hybrid selective (matched LLM, repo, change, params, tools, budget, repair, validation, quality)
+  - RD-V2-02: Arm roles: repository_agent, hybrid_selective, single_shot_llm_scope, static_only, semantic_only, traceability_only, full_scope_reference, retrieval_planning_variant
+  - RD-V2-03: Literature claims = related work/inspiration only; no head-to-head stats vs published scores
+  - RD-V2-04: Measurement boundary = selection + regen + repair + validation with per-stage token accounting
+  - RD-V2-05: Efficiency claims require matched correctness/quality
+  - RD-V2-06: Experiment A (impact accuracy), B (e2e evolution), C (ablations), D (optional external transfer)
+- **Impact:** Research Design V2 documented and ready for researcher review. No production code modified. SU-0010 (shared executor + types + validators) and SU-0011 (iterative repository agent) identified as required implementation tasks. Pilot and Research phases remain blocked pending SU-0010 completion and baseline agent implementation. Frozen protocol documents untouched — formal amendment may be needed before publication.
+- **Evidence:** Branch `docs/research-design-v2` with 10 design docs; merge commit `3a16596` on `main`; updated state files.
+
+(End of file)
