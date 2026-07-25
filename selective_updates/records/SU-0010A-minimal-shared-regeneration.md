@@ -145,6 +145,27 @@ All writes remain inside isolated workspace. Canonical sources remain byte-ident
 - Code bundle verification passes
 - Data and notebook bundles unchanged
 
+## Ground-Truth Universe Boundary (Correction Record)
+BLOCKING_BEFORE_SCIENTIFIC_SMOKE — NOT_BLOCKING_FOR_MINIMAL_VERTICAL_SLICE_MERGE
+
+SU-0010A operates on controlled fixture artifact universes.
+The current Runner still derives ArtifactUniverse from
+scenario.expected_affected_artifacts.
+This is not valid for confirmatory execution and must be replaced
+before Scientific Smoke/Pilot with a repository-derived eligible
+artifact universe that does not expose ground truth.
+
+## Dataset Update Truth (Final Correction Pass)
+Code Dataset:
+UPDATE REQUIRED before any future Kaggle deployment,
+because kaggle_upload/code changed.
+
+Data Dataset:
+NO UPDATE REQUIRED.
+
+Notebook:
+NO UPDATE REQUIRED.
+
 ## Known Limitations (deferred to SU-0010B)
 - Checkpoint/resume schemas not extended for regeneration metrics
 - Reporting/statistics don't include regeneration or validation metrics
@@ -154,5 +175,5 @@ All writes remain inside isolated workspace. Canonical sources remain byte-ident
 - Validation requires explicit command (no repo-specific command inference)
 - Kaggle deployment not updated to enable regeneration path
 
-- Deployment status: not_deployed
+- Deployment status: bundle_built_not_uploaded
 - Quality outcome: preserved

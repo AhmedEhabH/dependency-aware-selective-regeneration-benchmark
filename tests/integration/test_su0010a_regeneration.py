@@ -9,6 +9,7 @@ from benchmark.core.models import (
     ArtifactRef,
     ArtifactUniverse,
     ImpactPrediction,
+    RunRecord,
     Scenario,
     TokenUsage,
 )
@@ -84,12 +85,14 @@ def _make_runner(
     enable_regeneration: bool = False,
     validation_command: list[str] | None = None,
     validation_timeout: int = 10,
+    strategy_name: str = "test",
+    max_attempts: int = 1,
 ) -> BenchmarkRunner:
     config = RunnerConfig(
-        strategy_name="test",
+        strategy_name=strategy_name,
         backend_name="mock",
         protocol_version="1.0",
-        max_attempts=1,
+        max_attempts=max_attempts,
         enable_regeneration=enable_regeneration,
         validation_command=validation_command,
         validation_timeout=validation_timeout,
@@ -127,6 +130,7 @@ class TestEndToEndFullScopeReference:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
 
@@ -151,6 +155,7 @@ class TestEndToEndFullScopeReference:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
 
@@ -171,6 +176,7 @@ class TestEndToEndFullScopeReference:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
 
@@ -199,6 +205,7 @@ class TestEndToEndHybridSelective:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="hybrid_selective",
         )
         record = runner.run(scenario)
 
@@ -228,6 +235,7 @@ class TestHybridRegeneratesFewer:
             tmp_path / "full", full_strategy, backend, iso_full,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         full_record = full_runner.run(full_scenario)
 
@@ -242,6 +250,7 @@ class TestHybridRegeneratesFewer:
             tmp_path / "hybrid", hybrid_strategy, backend, iso_hybrid,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="hybrid_selective",
         )
         hybrid_record = hybrid_runner.run(hybrid_scenario)
 
@@ -299,6 +308,7 @@ class TestTokenAccounting:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
 
@@ -363,6 +373,7 @@ class TestEmptySelectiveScope:
             tmp_path, _PreserveStrategy(), backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.regenerated_artifact_count == 0
@@ -394,6 +405,7 @@ class TestEmptySelectiveScope:
             tmp_path, _PreserveStrategy(), backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         runner.run(scenario)
         assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
@@ -421,6 +433,7 @@ class TestValidationTriState:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=None,
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
@@ -435,6 +448,7 @@ class TestValidationTriState:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[""],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
@@ -449,6 +463,7 @@ class TestValidationTriState:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.functional_validation_passed is True
@@ -463,6 +478,7 @@ class TestValidationTriState:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.functional_validation_passed is False
@@ -478,6 +494,7 @@ class TestValidationTriState:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "import time; time.sleep(10)"],
             validation_timeout=1,
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.functional_validation_passed is False
@@ -496,6 +513,7 @@ class TestRegeneratedArtifactCount:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.selected_artifact_count == 1
@@ -552,6 +570,7 @@ class TestRegeneratedArtifactCount:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.selected_artifact_count == 3
@@ -573,6 +592,7 @@ class TestModelCallAggregation:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.selection_model_calls == 0
@@ -591,6 +611,7 @@ class TestModelCallAggregation:
             tmp_path, _NoOpStrategy(), backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.selection_model_calls == 0
@@ -623,6 +644,7 @@ class TestSelectionDuration:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         assert record.selection_duration_seconds >= 0
@@ -637,6 +659,7 @@ class TestSelectionDuration:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         record = runner.run(scenario)
         expected = (
@@ -678,6 +701,7 @@ class TestCanonicalSourcePreservation:
             tmp_path, strategy, backend, iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
         )
         runner.run(scenario)
         assert (canonical_src / "main.py").read_text(encoding="utf-8") == orig
@@ -723,3 +747,291 @@ def _make_prediction(
 def _make_universe(artifacts: list[ArtifactRef]) -> ArtifactUniverse:
     from benchmark.core.models import ArtifactUniverse
     return ArtifactUniverse(artifacts=tuple(artifacts))
+
+
+class TestMissingBackend:
+    """Correction 1 — Fail closed when backend is absent."""
+
+    def test_regeneration_enabled_backend_none_fails_closed(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, None, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        assert any("backend" in f.message.lower() for f in record.failures)
+        assert record.regenerated_artifact_count == 0
+        assert record.regeneration_total_tokens == 0
+        assert record.functional_validation_passed is None
+
+    def test_impact_only_backend_none_still_succeeds(self, tmp_path: Path) -> None:
+        iso, ws_root = _setup_workspace(tmp_path, ())
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario()
+        runner = _make_runner(
+            tmp_path, strategy, None, iso,
+            enable_regeneration=False,
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.succeeded
+
+    def test_no_false_successful_end_to_end_record(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, None, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        assert any(
+            f.failure_kind.value == "harness_defect" for f in record.failures
+        )
+        assert record.regenerated_artifact_count == 0
+        assert record.functional_validation_passed is None
+
+
+class TestSingleAttempt:
+    """Correction 2 — SU-0010A regeneration executes exactly one attempt."""
+
+    def test_validation_success_one_attempt(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+        call_count = 0
+
+        class _CountingBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal call_count
+                call_count += 1
+                return LLMResponse(
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
+                )
+
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, _CountingBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.succeeded
+        assert call_count == 1
+
+    def test_validation_failure_one_attempt(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+        call_count = 0
+
+        class _CountingBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal call_count
+                call_count += 1
+                return LLMResponse(
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
+                )
+
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, _CountingBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        assert call_count == 1
+
+    def test_generation_rejection_one_attempt(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+        call_count = 0
+
+        class _EmptyBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal call_count
+                call_count += 1
+                return LLMResponse(
+                    text="",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=0, total_tokens=1),
+                )
+
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, _EmptyBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        runner.run(scenario)
+        assert call_count == 1
+
+    def test_max_attempts_does_not_cause_regeneration_retry(self, tmp_path: Path) -> None:
+        artifacts = (
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+        call_count = 0
+
+        class _CountingBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal call_count
+                call_count += 1
+                return LLMResponse(
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
+                )
+
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, _CountingBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        # Two artifacts × one attempt = 2 calls (no retry despite max_attempts=3)
+        assert call_count == 2
+
+    def test_impact_only_failure_still_follows_repair_loop(self, tmp_path: Path) -> None:
+        iso, ws_root = _setup_workspace(tmp_path, ())
+        call_count = 0
+
+        class _RetryStrategy:
+            def analyze_impact(self, **kwargs):
+                nonlocal call_count
+                call_count += 1
+                if call_count < 2:
+                    return ImpactPrediction(errors=("fail first",))
+                return ImpactPrediction()
+
+        backend = _make_backend("content")
+        scenario = _make_scenario()
+        runner = _make_runner(
+            tmp_path, _RetryStrategy(), backend, iso,
+            enable_regeneration=False,
+            max_attempts=3,
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.succeeded
+        assert call_count == 2  # RepairLoop retried
+
+
+class TestStrategyGuard:
+    """Correction 3 — Restrict SU-0010A to approved conditions."""
+
+    def _make_simple_runner(self, tmp_path: Path, strategy_name: str) -> BenchmarkRunner:
+        iso, ws_root = _setup_workspace(tmp_path, ())
+        strategy = MonolithicRegenerationStrategy()
+        runner = _make_runner(
+            tmp_path, strategy, _make_backend("content"), iso,
+            enable_regeneration=True,
+            strategy_name=strategy_name,
+        )
+        return runner
+
+    @staticmethod
+    def _has_condition_failure(record: RunRecord) -> bool:
+        return any("condition" in f.message for f in record.failures)
+
+    def test_monolithic_accepted(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+        )
+        record = runner.run(scenario)
+        assert not self._has_condition_failure(record)
+
+    def test_full_scope_reference_accepted(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="full_scope_reference",
+        )
+        record = runner.run(scenario)
+        assert not self._has_condition_failure(record)
+
+    def test_selective_accepted(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="selective",
+        )
+        record = runner.run(scenario)
+        assert not self._has_condition_failure(record)
+
+    def test_hybrid_selective_accepted(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="hybrid_selective",
+        )
+        record = runner.run(scenario)
+        assert not self._has_condition_failure(record)
+
+    def test_agent_rejected(self, tmp_path: Path) -> None:
+        runner = self._make_simple_runner(tmp_path, "agent")
+        record = runner.run(_make_scenario())
+        assert record.status == RunStatus.failed
+        assert self._has_condition_failure(record)
+
+    def test_unknown_strategy_rejected(self, tmp_path: Path) -> None:
+        runner = self._make_simple_runner(tmp_path, "unknown_strategy")
+        record = runner.run(_make_scenario())
+        assert record.status == RunStatus.failed
+        assert self._has_condition_failure(record)

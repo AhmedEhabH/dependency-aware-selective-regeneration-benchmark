@@ -84,19 +84,60 @@ class BenchmarkRunner:
                 ),
             )
 
-        self._state.start()
+        if self._config.enable_regeneration:
+            _approved_strategies = frozenset({
+                "monolithic",
+                "full_scope_reference",
+                "selective",
+                "hybrid_selective",
+            })
+            if self._config.strategy_name not in _approved_strategies:
+                return self._build_failure_record(
+                    scenario=scenario,
+                    failures=(
+                        FailureRecord(
+                            failure_kind=FailureKind.harness_defect,
+                            message="Unsupported SU-0010A regeneration condition",
+                            stage="configuration",
+                        ),
+                    ),
+                )
 
+        self._state.start()
         start_time = time.monotonic()
 
-        repair_loop = RepairLoop(
-            budget=self._budget,
-            state_machine=self._state,
-            attempt_fn=lambda _attempt: self._run_attempt(scenario, start_time),
-        )
+        if self._config.enable_regeneration:
+            self._budget.record_attempt()
+            result = self._run_attempt(scenario, start_time)
+            if isinstance(result, BenchmarkError):
+                self._state.fail()
+                record = RunRecord(
+                    identity=self._build_run_identity(scenario),
+                    status=RunStatus.failed,
+                    failures=(
+                        FailureRecord(
+                            failure_kind=FailureKind.infrastructure,
+                            message=str(result),
+                            stage="runner",
+                        ),
+                    ),
+                    duration_seconds=time.monotonic() - start_time,
+                )
+            else:
+                if result.status == RunStatus.succeeded:
+                    self._state.succeed()
+                else:
+                    self._state.fail()
+                record = result
+        else:
+            repair_loop = RepairLoop(
+                budget=self._budget,
+                state_machine=self._state,
+                attempt_fn=lambda _attempt: self._run_attempt(scenario, start_time),
+            )
+            outcome = repair_loop.execute()
+            record = outcome.final_record
 
-        outcome = repair_loop.execute()
-
-        record = outcome.final_record
         duration = time.monotonic() - start_time
 
         identity = RunIdentity(
@@ -184,7 +225,22 @@ class BenchmarkRunner:
                     duration_seconds=time.monotonic() - start_time,
                 )
 
-            if self._config.enable_regeneration and self._backend is not None:
+            if self._config.enable_regeneration:
+                if self._backend is None:
+                    return RunRecord(
+                        identity=self._build_run_identity(scenario),
+                        status=RunStatus.failed,
+                        failures=(
+                            FailureRecord(
+                                failure_kind=FailureKind.harness_defect,
+                                message="Regeneration is enabled but no LLM backend is configured.",
+                                stage="configuration",
+                            ),
+                        ),
+                        duration_seconds=time.monotonic() - start_time,
+                        regenerated_artifact_count=0,
+                        functional_validation_passed=None,
+                    )
                 return self._run_regeneration_flow(
                     scenario=scenario,
                     prediction=prediction,
