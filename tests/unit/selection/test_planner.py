@@ -5,7 +5,13 @@ from benchmark.core.models import (
     ImpactDecision,
     ImpactPrediction,
 )
-from benchmark.selection.planner import ArtifactSelection, ArtifactSelector, RegenerationPlan, RegenerationPlanner
+from benchmark.selection.planner import (
+    ArtifactSelection,
+    ArtifactSelector,
+    RegenerationPlan,
+    RegenerationPlanner,
+    compute_artifact_counts,
+)
 
 
 def _make_prediction_with_regenerate_and_preserve() -> ImpactPrediction:
@@ -51,9 +57,40 @@ class TestArtifactSelector:
         assert "tests/test_models.py" in paths
         assert "src/views.py" not in paths
 
-    def test_empty_prediction_returns_all(self) -> None:
+    def test_empty_prediction_returns_empty(self) -> None:
         selector = ArtifactSelector()
         selection = selector.select(ImpactPrediction(), _make_universe())
+        assert len(selection.artifacts) == 0
+
+    def test_empty_selective_prediction_stays_empty(self) -> None:
+        selector = ArtifactSelector()
+        prediction = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.preserve,
+                    rationale="no change",
+                ),
+            )
+        )
+        selection = selector.select(prediction, _make_universe())
+        assert len(selection.artifacts) == 0
+
+    def test_full_scope_reference_still_selects_all_regenerates(self) -> None:
+        selector = ArtifactSelector()
+        refs = [
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/c.py", artifact_type=ArtifactType.source),
+        ]
+        prediction = ImpactPrediction(
+            decisions=tuple(
+                ImpactDecision(artifact=r, action=ActionKind.regenerate, rationale="needs update")
+                for r in refs
+            )
+        )
+        universe = ArtifactUniverse(artifacts=tuple(refs))
+        selection = selector.select(prediction, universe)
         assert len(selection.artifacts) == 3
 
     def test_selection_is_frozen(self) -> None:
@@ -90,3 +127,93 @@ class TestRegenerationPlanner:
         selection = selector.select(prediction, _make_universe())
         plan = planner.plan(selection, prediction)
         assert isinstance(plan, RegenerationPlan)
+
+    def test_regenerate_artifact_paths(self) -> None:
+        selector = ArtifactSelector()
+        planner = RegenerationPlanner()
+        prediction = _make_prediction_with_regenerate_and_preserve()
+        selection = selector.select(prediction, _make_universe())
+        plan = planner.plan(selection, prediction)
+        assert "src/models.py" in plan.regenerate_artifact_paths
+        assert "tests/test_models.py" not in plan.regenerate_artifact_paths
+
+    def test_human_review_artifact_paths(self) -> None:
+        selector = ArtifactSelector()
+        planner = RegenerationPlanner()
+        prediction = _make_prediction_with_regenerate_and_preserve()
+        selection = selector.select(prediction, _make_universe())
+        plan = planner.plan(selection, prediction)
+        assert "tests/test_models.py" in plan.human_review_artifact_paths
+        assert "src/models.py" not in plan.human_review_artifact_paths
+
+    def test_empty_selective_produces_empty_plan(self) -> None:
+        selector = ArtifactSelector()
+        planner = RegenerationPlanner()
+        prediction = ImpactPrediction(
+            decisions=(
+                ImpactDecision(
+                    artifact=ArtifactRef(path="src/preserved.py", artifact_type=ArtifactType.source),
+                    action=ActionKind.preserve,
+                    rationale="no change",
+                ),
+            )
+        )
+        universe = ArtifactUniverse(
+            artifacts=(
+                ArtifactRef(path="src/preserved.py", artifact_type=ArtifactType.source),
+            ),
+        )
+        selection = selector.select(prediction, universe)
+        plan = planner.plan(selection, prediction)
+        assert len(plan.ordered_artifacts) == 0
+        assert len(plan.regenerate_artifact_paths) == 0
+
+    def test_all_preserve_prediction_produces_empty_plan(self) -> None:
+        selector = ArtifactSelector()
+        planner = RegenerationPlanner()
+        refs = [
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+        ]
+        prediction = ImpactPrediction(
+            decisions=tuple(
+                ImpactDecision(artifact=r, action=ActionKind.preserve, rationale="ok") for r in refs
+            )
+        )
+        universe = ArtifactUniverse(artifacts=tuple(refs))
+        selection = selector.select(prediction, universe)
+        assert len(selection.artifacts) == 0
+        plan = planner.plan(selection, prediction)
+        assert len(plan.ordered_artifacts) == 0
+
+
+class TestComputeArtifactCounts:
+    def test_regenerate_count(self) -> None:
+        prediction = _make_prediction_with_regenerate_and_preserve()
+        counts = compute_artifact_counts(prediction)
+        assert counts["regenerate"] == 1
+        assert counts["preserve"] == 1
+        assert counts["human_review"] == 1
+        assert counts["selected"] == 2
+
+    def test_empty_prediction(self) -> None:
+        counts = compute_artifact_counts(ImpactPrediction())
+        assert counts["regenerate"] == 0
+        assert counts["preserve"] == 0
+        assert counts["human_review"] == 0
+        assert counts["selected"] == 0
+
+    def test_all_regenerate(self) -> None:
+        ref1 = ArtifactRef(path="a.py", artifact_type=ArtifactType.source)
+        ref2 = ArtifactRef(path="b.py", artifact_type=ArtifactType.source)
+        prediction = ImpactPrediction(
+            decisions=(
+                ImpactDecision(artifact=ref1, action=ActionKind.regenerate, rationale="y"),
+                ImpactDecision(artifact=ref2, action=ActionKind.regenerate, rationale="y"),
+            )
+        )
+        counts = compute_artifact_counts(prediction)
+        assert counts["regenerate"] == 2
+        assert counts["preserve"] == 0
+        assert counts["human_review"] == 0
+        assert counts["selected"] == 2

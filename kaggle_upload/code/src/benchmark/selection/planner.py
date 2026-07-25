@@ -20,22 +20,59 @@ class RegenerationPlan:
     def __post_init__(self) -> None:
         pass
 
+    @property
+    def regenerate_artifact_paths(self) -> tuple[str, ...]:
+        return tuple(
+            a.path for a in self.ordered_artifacts
+            if self.actions.get(a.path) == ActionKind.regenerate
+        )
+
+    @property
+    def human_review_artifact_paths(self) -> tuple[str, ...]:
+        return tuple(
+            a.path for a in self.ordered_artifacts
+            if self.actions.get(a.path) == ActionKind.human_review
+        )
+
+
+def compute_artifact_counts(prediction: ImpactPrediction) -> dict[str, int]:
+    regenerate = 0
+    preserve = 0
+    human_review = 0
+    for decision in prediction.decisions:
+        if decision.action == ActionKind.regenerate:
+            regenerate += 1
+        elif decision.action == ActionKind.preserve:
+            preserve += 1
+        elif decision.action == ActionKind.human_review:
+            human_review += 1
+    return {
+        "selected": regenerate + human_review,
+        "regenerate": regenerate,
+        "preserve": preserve,
+        "human_review": human_review,
+    }
+
 
 class ArtifactSelector:
-    """Determines which artifacts are impacted based on an ImpactPrediction."""
+    """Determines which artifacts are impacted based on an ImpactPrediction.
+
+    Policy:
+    - ``regenerate`` artifacts enter the selection (to be executed).
+    - ``human_review`` artifacts enter the selection (recorded as unresolved).
+    - ``preserve`` artifacts are excluded from selection.
+    - Deterministic ordering is guaranteed by preserving decision order.
+    """
 
     def select(
         self,
         prediction: ImpactPrediction,
-        artifact_universe: ArtifactUniverse,
+        artifact_universe: ArtifactUniverse,  # noqa: ARG002 — kept for interface stability
     ) -> ArtifactSelection:
         selected: list[ArtifactRef] = []
         for decision in prediction.decisions:
             if decision.action in (ActionKind.regenerate, ActionKind.human_review):
                 selected.append(decision.artifact)
-
-        if not selected:
-            selected = list(artifact_universe.artifacts)
 
         return ArtifactSelection(
             artifacts=tuple(selected),
@@ -44,7 +81,13 @@ class ArtifactSelector:
 
 
 class RegenerationPlanner:
-    """Orders impacted artifacts in dependency-safe regeneration order."""
+    """Orders impacted artifacts in deterministic regeneration order.
+
+    Ordering:
+    1. ``regenerate`` artifacts first (executed).
+    2. ``human_review`` artifacts second (recorded, not executed).
+    3. ``validate_only`` artifacts last.
+    """
 
     def plan(
         self,

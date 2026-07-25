@@ -266,9 +266,46 @@ class RunRecord:
     duration_seconds: float = 0.0
     schema_version: str = MODEL_SCHEMA_VERSION
 
+    # Selection stage metrics
+    selection_prompt_tokens: int = 0
+    selection_completion_tokens: int = 0
+    selection_total_tokens: int = 0
+    selection_model_calls: int = 0
+    selection_duration_seconds: float = 0.0
+
+    # Regeneration stage metrics
+    regeneration_prompt_tokens: int = 0
+    regeneration_completion_tokens: int = 0
+    regeneration_total_tokens: int = 0
+    regeneration_model_calls: int = 0
+    regeneration_duration_seconds: float = 0.0
+
+    # Functional validation stage metrics
+    functional_validation_duration_seconds: float = 0.0
+
+    # Total workflow metrics (aggregated)
+    total_workflow_tokens: int = 0
+    total_workflow_model_calls: int = 0
+    total_workflow_duration_seconds: float = 0.0
+
+    # Artifact counting
+    selected_artifact_count: int = 0
+    regenerated_artifact_count: int = 0
+    preserved_artifact_count: int = 0
+    unresolved_human_review_count: int = 0
+    functional_validation_passed: bool | None = None
+
     def __post_init__(self) -> None:
         if self.duration_seconds < 0:
             raise ValueError("RunRecord.duration_seconds must be >= 0")
+        if self.selection_duration_seconds < 0:
+            raise ValueError("RunRecord.selection_duration_seconds must be >= 0")
+        if self.regeneration_duration_seconds < 0:
+            raise ValueError("RunRecord.regeneration_duration_seconds must be >= 0")
+        if self.functional_validation_duration_seconds < 0:
+            raise ValueError("RunRecord.functional_validation_duration_seconds must be >= 0")
+        if self.total_workflow_duration_seconds < 0:
+            raise ValueError("RunRecord.total_workflow_duration_seconds must be >= 0")
 
 
 # ---------------------------------------------------------------------------
