@@ -68,6 +68,17 @@ for round in 1..MAX_RETRIEVAL_ROUNDS:
 | **Tool interfaces** | `read_file(path)`, `list_dir(path)`, `grep(pattern, path)` | Minimal file-system tools |
 | **Termination conditions** | Confident decision OR max rounds OR max tokens OR max files | Explicit stop criteria |
 
+**Budget Status (per RD-V2 researcher review):**
+
+| Budget Parameter | Value | Status |
+|------------------|-------|--------|
+| Maximum retrieval rounds | 5 | **INITIAL ENGINEERING DEFAULTS — SUBJECT TO PILOT CALIBRATION — NOT FROZEN SCIENTIFIC CONSTANTS** |
+| Maximum total files inspected | 30 | **INITIAL ENGINEERING DEFAULTS — SUBJECT TO PILOT CALIBRATION — NOT FROZEN SCIENTIFIC CONSTANTS** |
+| Maximum total model calls | 6 | **INITIAL ENGINEERING DEFAULTS — SUBJECT TO PILOT CALIBRATION — NOT FROZEN SCIENTIFIC CONSTANTS** |
+| Maximum total tokens | 50,000 | **INITIAL ENGINEERING DEFAULTS — SUBJECT TO PILOT CALIBRATION — NOT FROZEN SCIENTIFIC CONSTANTS** |
+
+**The final budget will be selected before confirmatory execution using a documented calibration process that does not inspect confirmatory outcomes. Do not silently present model-generated budget values as researcher-approved constants.**
+
 ### 3.2 Scope Selection
 
 After retrieval terminates, the agent produces a final scope decision:

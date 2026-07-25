@@ -175,7 +175,7 @@ This is **not** "AI vs non-AI" — both arms use the same LLM.
 
 *See `REPOSITORY_AGENT_BASELINE_SPEC.md` for full spec.*
 
-### 6.2 `hybrid_selective` (Treatment) — Implemented
+### 6.2 `hybrid_selective` (Treatment) — Impact Scope Selection IMPLEMENTED; End-to-End Regeneration Workflow NOT IMPLEMENTED
 
 | Property | Specification |
 |----------|---------------|
@@ -185,6 +185,15 @@ This is **not** "AI vs non-AI" — both arms use the same LLM.
 | Decision rule | ≥2 signals → regenerate; 1 signal → human_review; 0 → preserve |
 | LLM calls | 0 (deterministic voter) |
 | Output | `ImpactPrediction` |
+
+**Implementation Status Distinction (per RD-V2 researcher review):**
+
+| Component | Status |
+|-----------|--------|
+| **Hybrid selective impact controller** (`ImpactStrategy.analyze_impact`) | **IMPLEMENTED** — performs deterministic scope selection via graph/semantic/traceability voter |
+| **End-to-end hybrid selective regeneration workflow** (scope selection → shared LLM executor → patch application → validation → bounded repair → RunRecord) | **NOT IMPLEMENTED** — requires shared regeneration executor (SU-0010), patch application, validation pipeline, bounded repair loop, per-stage token accounting |
+
+**The current implementation performs impact-scope selection only. It must not be described as an implemented end-to-end treatment until the shared regeneration executor, patch application, validation, and repair path exist.**
 
 ### 6.3 `single_shot_llm_scope` (Current `agent`) — Implemented
 
