@@ -1576,32 +1576,34 @@ def main() -> int:
     total_elapsed = time.monotonic() - t_start
     all_runs_completed = checkpoint_data.total_completed >= total_planned
 
-    # ---- Smoke progress summary (one row per strategy) --------------------
-    smoke_summary = _build_smoke_progress_summary(
-        all_strategy_names=strategy_names,
-        results_agg=results_agg,
-        planned_run_ids=planned_run_ids,
-        checkpoint_completed=checkpoint_data.completed_run_ids,
-        checkpoint_failed=checkpoint_data.failed_run_ids,
-        pending_run_ids=checkpoint_data.pending_run_ids,
+    # ---- Rebuild all reports from persisted records (cross-session safe) ----
+    from benchmark.checkpoint.reports import rebuild_experiment_reports
+
+    audit = rebuild_experiment_reports(
+        runs_dir=output_dir,
+        session_elapsed_seconds=total_elapsed,
     )
-    smoke_summary_path = output_dir / "smoke_progress_summary.json"
-    smoke_summary_path.write_text(json.dumps(smoke_summary, indent=2), encoding="utf-8")
-    logger.info("Smoke progress summary written to %s", smoke_summary_path)
+    logger.info(
+        "Report rebuild: %d records, %d planned, matched=%d missing=%d duplicate=%d",
+        audit["raw_run_record_count"],
+        audit["planned_run_id_count"],
+        len(audit["matched_run_ids"]),
+        len(audit["missing_run_ids"]),
+        len(audit["duplicate_run_ids"]),
+    )
 
     if all_runs_completed:
         checkpoint_data.completion_status = "completed"
         checkpoint_data.current_run_id = ""
         checkpoint_mgr.write_atomic(checkpoint_data)
 
-        progress_mgr.write_final_summary(results_agg)
         progress_mgr.mark_completed()
 
         logger.info(
             "Benchmark complete: %d/%d runs  success=%d failure=%d elapsed=%.1fs  label=%s",
             checkpoint_data.total_completed, total_planned,
-            sum(v["success_count"] for v in results_agg.values()),
-            sum(v["failure_count"] for v in results_agg.values()),
+            audit["total_succeeded"],
+            audit["total_failed"],
             total_elapsed, profile.label,
         )
 
@@ -1616,10 +1618,13 @@ def main() -> int:
             hf_uploader.upload_final(packager)
             hf_uploader.upload_recovery()
 
-        total_failure_count = sum(v["failure_count"] for v in results_agg.values())
-        total_timeout_count = sum(v["timeout_count"] for v in results_agg.values())
-        if total_failure_count > 0 or total_timeout_count > 0:
-            logger.warning("Non-zero exit due to %d failures, %d timeouts", total_failure_count, total_timeout_count)
+        if audit["total_failed"] > 0 or audit["duration_totals"].get("experiment_run_duration_seconds", 0) > 0:
+            # Use audit for exit code decision
+            non_zero = audit["total_failed"] > 0
+        else:
+            non_zero = False
+        if non_zero:
+            logger.warning("Non-zero exit due to %d failures", audit["total_failed"])
             return 1
         return 0
 
@@ -1636,9 +1641,17 @@ def main() -> int:
         elapsed_seconds=total_elapsed,
         completion_ratio=checkpoint_data.total_completed / max(total_planned, 1),
         stage="interrupted",
+        total_attempted=len(checkpoint_data.attempted_run_ids),
+        total_succeeded=audit["total_succeeded"],
+        total_retryable=audit["total_retryable"],
+        completion_status="incomplete",
+        experiment_run_duration_seconds=audit["duration_totals"]["experiment_run_duration_seconds"],
+        session_elapsed_seconds=total_elapsed,
+        report_generated_at=datetime.now(UTC).isoformat(),
+        experiment_wall_clock_seconds=None,
+        experiment_wall_clock_unavailable_reason="cross-session idle intervals are not measured",
     )
     progress_mgr.write(final_progress)
-    progress_mgr.write_partial_summary(results_agg)
 
     if hf_uploader is not None:
         hf_uploader.upload_snapshot(packager)
