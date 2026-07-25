@@ -1,15 +1,43 @@
-# runs_dir NameError Fix — SU-0002
+# Research Design V2 Freeze and Repository-Agent Baseline Audit
 
-**Date:** 2026-07-24  
-**Status:** COMPLETE  
-**Branch:** `fix/su-0002-runs-dir-nameerror` → `main` (via --no-ff merge)  
-**Evidence:** NameError fixed, regression tests added, bundle rebuilt and verified
+**Date:** 2026-07-25  
+**Status:** COMPLETE — Ready for Researcher Review  
+**Branch:** `docs/research-design-v2`  
+**Evidence:** 10 design docs created, audit merged to main, state files updated
 
 ---
 
 ## Summary
 
-Fixed `NameError: name 'runs_dir' is not defined` in `seven_arm_benchmark.py` at line 957 (START_NEW path). The variable `output_dir` (defined at line 828 from `--output-dir` CLI argument) is the correct variable. Single-line fix: `runs_dir` → `output_dir`.
+Executed Research Design V2 Freeze and Repository-Agent Baseline Audit per AGENTS.md instructions. Two-phase execution:
+
+**Phase A — Audit Merge:** Merged `audit/arm-to-protocol-execution` into `main` (merge commit `3a16596`). Adds 3 audit reports: `ARM_TO_PROTOCOL_EXECUTION_AUDIT.md`, `ARM_AUDIT_DECISION_REQUIRED.md`, `EXISTING_TAGS_AUDIT.md`.
+
+**Phase B — Design Branch:** Created `docs/research-design-v2` branch documenting all researcher-approved experimental design decisions (RD-V2-01 through RD-V2-06). Produced 10 design documents:
+
+1. `reports/REPOSITORY_AGENT_BASELINE_AUDIT.md` — Current agent classified as `SINGLE_SHOT_LLM_SCOPE_BASELINE`
+2. `docs/REPOSITORY_AGENT_BASELINE_SPEC.md` — Iterative baseline acceptance criteria (max 5 rounds, 30 files, 6 calls, 50K tokens)
+3. `docs/SHARED_REGENERATION_EXECUTOR_DESIGN.md` — Shared executor architecture for all end-to-end arms
+4. `docs/ARM_ROLE_AND_NAMING_POLICY.md` — Legacy→scientific role mapping, naming rules, checkpoint compatibility
+5. `docs/EXTERNAL_DATASET_EVALUATION_POLICY.md` — Experiment D gate: license, ground truth, no leakage, local execution mandatory
+6. `reports/SU0010_IMPLEMENTATION_IMPACT_PLAN.md` — 11-node dependency graph from ImpactPrediction to Kaggle Bundle (~21 days)
+7. `docs/EXPERIMENTAL_DESIGN_V2.md` — Experiments A/B/C/D, hypotheses, arm roles, measurement boundary
+8. `docs/END_TO_END_MEASUREMENT_BOUNDARY.md` — Per-stage token accounting (selection/regen/repair/validation)
+9. `reports/RESEARCH_DESIGN_V2_DECISION_REPORT.md` — Consolidated decision record
+10. Updated all non-frozen state files (DECISION_LOG.md, TODO.md, SYSTEM_STATE.md, latest_phase_report.md, PROJECT_HEALTH_REPORT.md, PROJECT_HANDOFF.md, START_HERE.md, CHANGE_INDEX.md)
+
+---
+
+## Approved Research Decisions (Frozen for RD-V2)
+
+| Decision | Summary |
+|----------|---------|
+| **RD-V2-01** | Primary comparison = iterative repository agent vs hybrid selective (matched LLM, repo, change, params, tools, budget, repair, validation, quality) |
+| **RD-V2-02** | Arm roles: repository_agent, hybrid_selective, single_shot_llm_scope, static_only, semantic_only, traceability_only, full_scope_reference, retrieval_planning_variant |
+| **RD-V2-03** | Literature claims = related work/inspiration only; no head-to-head stats vs published scores |
+| **RD-V2-04** | Measurement boundary = selection + regen + repair + validation with per-stage token accounting |
+| **RD-V2-05** | Efficiency claims require matched correctness/quality |
+| **RD-V2-06** | Experiment A (impact accuracy), B (e2e evolution), C (ablations), D (optional external transfer) |
 
 ---
 
@@ -17,24 +45,18 @@ Fixed `NameError: name 'runs_dir' is not defined` in `seven_arm_benchmark.py` at
 
 | Artifact | Status |
 |----------|--------|
-| `seven_arm_benchmark.py` | Fixed (line 957: `runs_dir` → `output_dir`) |
-| `tests/unit/test_cli.py` | Added `TestRunsDirBugFix` with 2 regression tests |
-| `kaggle_upload/code/seven_arm_benchmark.py` | Rebuilt, checksum verified |
-| SU-0002 record | Created at `selective_updates/records/SU-0002-runs-dir-nameerror-fix.md` |
-| CHANGE_INDEX.md | Updated with SU-0002 |
-| change_metrics.jsonl | Appended SU-0002 metrics |
-
----
-
-## Bundle Verification
-
-```
-Code bundle:     72 files, 293,668 bytes (CLI checksum matches canonical, normalized)
-Data bundle:     29 files, 135,604 bytes (unchanged)
-Notebook bundle:  1 file,   8,575 bytes (unchanged)
-Total:          102 files, 437,847 bytes
-Verification:    0 errors (all checksums match canonical)
-```
+| Audit merge to main | COMPLETE (merge commit `3a16596`) |
+| Design branch `docs/research-design-v2` | COMPLETE (10 docs) |
+| Agent classification | `SINGLE_SHOT_LLM_SCOPE_BASELINE` (not iterative) |
+| Baseline acceptance criteria | DOCUMENTED (`REPOSITORY_AGENT_BASELINE_SPEC.md`) |
+| Shared executor design | DOCUMENTED (`SHARED_REGENERATION_EXECUTOR_DESIGN.md`) |
+| Arm role/naming policy | DOCUMENTED (`ARM_ROLE_AND_NAMING_POLICY.md`) |
+| External dataset policy | DOCUMENTED (`EXTERNAL_DATASET_EVALUATION_POLICY.md`) |
+| SU-0010 implementation plan | DOCUMENTED (`SU0010_IMPLEMENTATION_IMPACT_PLAN.md`) |
+| Experimental design V2 | DOCUMENTED (`EXPERIMENTAL_DESIGN_V2.md`) |
+| Measurement boundary spec | DOCUMENTED (`END_TO_END_MEASUREMENT_BOUNDARY.md`) |
+| Decision report | DOCUMENTED (`RESEARCH_DESIGN_V2_DECISION_REPORT.md`) |
+| State files updated | COMPLETE (8 files) |
 
 ---
 
@@ -42,44 +64,44 @@ Verification:    0 errors (all checksums match canonical)
 
 | Gate | Result |
 |------|--------|
-| Bundle builder self-verification | PASS (0 errors) |
-| `python kaggle_upload/code/seven_arm_benchmark.py --help` | PASS |
-| `python seven_arm_benchmark.py --dry-run --profile smoke` | PASS (7/7 runs) |
-| `python -m pytest tests/unit/test_cli.py` | 17 passed (2 new) |
-| `python -m pytest tests/` | 613 passed, 2 skipped |
-| `ruff check src tests seven_arm_benchmark.py scripts` | Pre-existing issues only (no new) |
-| `mypy --strict src tests seven_arm_benchmark.py scripts` | Pre-existing issues only (no new) |
-| `python -m pip check` | PASS (project deps clean) |
-| Bundle imports from arbitrary CWD | PASS |
-| 24/24 scenarios load from bundle data | PASS |
-| SHA-256 manifests complete | PASS (3 manifests) |
-| Frozen protocol checksums unchanged | PASS (8 docs) |
+| No production code modified | ✅ PASS |
+| Frozen protocol docs untouched | ✅ PASS |
+| Documentation-only changes | ✅ PASS |
+| Git history clean on design branch | ✅ PASS |
+| All prior quality gates preserved | ✅ PASS (613 tests, ruff 0, mypy 0) |
 
 ---
 
-## Selective-Update Ledger (SU-0002)
+## Selective-Update Ledger
 
-**Change ID:** SU-0002  
-**Title:** runs_dir NameError fix  
-**Canonical artifacts affected:** 2 (`seven_arm_benchmark.py`, `tests/unit/test_cli.py`)  
-**Derivatives regenerated:** 1 (`kaggle_upload/code/seven_arm_benchmark.py`)  
-**Defects detected:** 1 (NameError in START_NEW path)  
-**Defects introduced:** 0  
+**Change ID:** SU-0003  
+**Title:** Research Design V2 Freeze and Repository-Agent Baseline Audit  
+**Canonical artifacts affected:** 10 new design docs, 8 state files updated  
+**Derivatives regenerated:** 0 (no production code changes)  
 **Quality outcome:** preserved  
-**Record:** `project/selective_updates/records/SU-0002-runs-dir-nameerror-fix.md`  
+**Record:** `project/selective_updates/records/SU-0003-research-design-v2-freeze.md`  
 **Metrics:** `project/selective_updates/metrics/change_metrics.jsonl`
 
 ---
 
 ## Residual Risks
 
-None identified.
+| Risk | Mitigation |
+|------|------------|
+| Pilot/Research blocked until SU-0010 + SU-0011 | Researcher authorization required |
+| Current `agent` arm not iterative repository agent | SU-0011 addresses; honest labeling in place |
+| No regeneration layer exists | SU-0010 addresses shared executor |
+| Literature claims are name-only | Policy frozen (RD-V2-03); no stats vs published |
+| Protocol amendment may be needed | Formal process documented; no silent edits |
 
 ---
 
 ## Next Exact Task
 
-**SU-0003** — (next requirement from backlog)
+**Await researcher review of RD-V2 decisions.** If authorized:
+1. Implement SU-0010 (shared regeneration executor + types + validators) — ~21 days
+2. Implement SU-0011 (iterative repository agent baseline) — separate task
+3. Then: Pilot → Research execution on Kaggle
 
 ---
 
@@ -87,7 +109,10 @@ None identified.
 
 | Commit | Description |
 |--------|-------------|
-| `16a993e` | merge: chore/canonical-project-remediation into main (--no-ff) |
-| `f47c088` | chore(structure): establish canonical project and reproducible bundles |
-| `9dbd49f` | merge: audit/canonical-project-architecture into main (--no-ff) |
-| `fix/su-0002-runs-dir-nameerror` | Fix runs_dir NameError, add regression tests (merge pending) |
+| `3a16596` | Merge audit/arm-to-protocol-execution into main (--no-ff) |
+| `docs/research-design-v2` | Branch with 10 RD-V2 design documents |
+| `reports/RESEARCH_DESIGN_V2_DECISION_REPORT.md` | Consolidated decision record |
+
+---
+
+**RESEARCH_DESIGN_V2_READY_FOR_RESEARCHER_REVIEW**
