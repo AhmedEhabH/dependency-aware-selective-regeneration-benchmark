@@ -83,8 +83,8 @@
 
 ## Git History
 - **Branch:** `fix/su-0010a-minimal-shared-regeneration`
-- **Branch commit:** TBD
-- **Merge commit:** TBD
+- **Branch commit:** `cae20b5` (initial), `8cb9c61` (metrics update)
+- **Merge commit:** TBD (not merged)
 - **Final main commit:** TBD
 
 ## Post-change Evidence
