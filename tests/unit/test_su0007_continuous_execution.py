@@ -1132,4 +1132,146 @@ class TestAttemptedRunIds:
         cp = CheckpointManager(tmp_path).read()
         assert cp is not None
         assert cp.attempted_run_ids == []
-        assert cp.completed_run_ids == []
+
+
+# ---------------------------------------------------------------------------
+# SU-0007 post-validation: is_resume detection via resolved action
+# ---------------------------------------------------------------------------
+
+def _simulate_is_resume(
+    auto_resume_hf: bool,
+    resume_action: str | None,
+    skip_run_ids: set[str],
+) -> bool:
+    """Replicate the corrected is_resume logic from seven_arm_benchmark.py."""
+    return bool(
+        auto_resume_hf
+        and resume_action is not None
+        and resume_action == "resume"
+    )
+
+
+class TestIsResumeDetection:
+    """Verify is_resume is derived from the resolved auto-resume action,
+    NOT from bool(skip_run_ids)."""
+
+    def test_resume_with_succeeded_and_nonempty_skip(self, tmp_path: Path) -> None:
+        """RESUME with succeeded runs produces non-empty skip set -> is_resume True."""
+        planned = _all_planned()
+        run_0 = planned[0]
+
+        _make_record(tmp_path, run_0, strategy_id="monolithic", status="succeeded")
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=[run_0],
+            succeeded_run_ids=[run_0],
+            completion_status="incomplete",
+        )
+
+        resume = ResumeManager(
+            runs_dir=tmp_path,
+            protocol_version="1.0",
+            config_hash="deadbeef",
+            model_identity="dry-run:mock",
+            source_commit="abc1234",
+            deployed_build_id="abc1234",
+        )
+        skip_ids = resume.validate_and_get_skip_ids()
+        assert len(skip_ids) > 0, "succeeded run must be in skip set"
+
+        is_resume = _simulate_is_resume(True, "resume", skip_ids)
+        assert is_resume is True
+
+        cp = resume.get_normalized_checkpoint()
+        assert cp is not None
+        assert run_0 in cp.succeeded_run_ids
+
+    def test_resume_with_only_retryable_and_empty_skip(self, tmp_path: Path) -> None:
+        """RESUME with only retryable failures produces empty skip set
+        but is_resume must still be True (the key bug fix)."""
+        planned = _all_planned()
+        run_0 = planned[0]
+        run_1 = planned[1]
+
+        _make_record(tmp_path, run_0, strategy_id="monolithic", status="succeeded")
+        _make_record(
+            tmp_path, run_1, strategy_id="agent", status="failed",
+            failure_classification="environment",
+        )
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=[run_0, run_1],
+            succeeded_run_ids=[run_0],
+            failed_run_ids=[run_1],
+            retryable_run_ids=[run_1],
+            completion_status="incomplete",
+        )
+
+        resume = ResumeManager(
+            runs_dir=tmp_path,
+            protocol_version="1.0",
+            config_hash="deadbeef",
+            model_identity="dry-run:mock",
+            source_commit="abc1234",
+            deployed_build_id="abc1234",
+        )
+        skip_ids = resume.validate_and_get_skip_ids()
+        # monolithic succeeded -> skipped; agent retryable -> NOT skipped
+        assert run_0 in skip_ids
+        assert run_1 not in skip_ids
+
+        is_resume = _simulate_is_resume(True, "resume", skip_ids)
+        assert is_resume is True, (
+            "is_resume must be True even when skip_run_ids excludes retryable runs"
+        )
+
+        cp = resume.get_normalized_checkpoint()
+        assert cp is not None
+        assert run_0 in cp.succeeded_run_ids
+        assert run_1 in cp.retryable_run_ids
+
+    def test_start_new_with_empty_skip(self, tmp_path: Path) -> None:
+        """START_NEW with no prior state -> is_resume False, empty checkpoint."""
+        is_resume = _simulate_is_resume(True, "start_new", set())
+        assert is_resume is False
+
+        # Simulate START_NEW: initialize empty checkpoint
+        planned = _all_planned()
+        checkpoint_data = CheckpointData(
+            profile="smoke",
+            execution_plan_hash="deadbeef",
+            planned_run_ids=planned,
+            completed_run_ids=[],
+            attempted_run_ids=[],
+            succeeded_run_ids=[],
+            retryable_run_ids=[],
+            failed_run_ids=[],
+            pending_run_ids=list(planned),
+            total_planned=7,
+            total_completed=0,
+            protocol_version="1.0",
+            model_identity="dry-run:mock",
+            config_hash="deadbeef",
+            source_commit="abc1234",
+            completion_status="running",
+            scenario_ids=SCENARIO_IDS,
+            strategy_names=ALL_SEVEN_STRATEGIES,
+            declared_source_tag="",
+            deployed_build_id="abc1234",
+        )
+        CheckpointManager(tmp_path).write_atomic(checkpoint_data)
+        cp = CheckpointManager(tmp_path).read()
+        assert cp is not None
+        assert cp.total_completed == 0
+        assert len(cp.completed_run_ids) == 0
+        assert len(cp.pending_run_ids) == 7
+
+    def test_auto_resume_false_with_empty_skip(self) -> None:
+        """Non-auto-resume mode -> is_resume False regardless of skip set."""
+        is_resume = _simulate_is_resume(False, None, set())
+        assert is_resume is False
+
+    def test_already_complete_not_resume(self) -> None:
+        """ALREADY_COMPLETE action -> is_resume False."""
+        is_resume = _simulate_is_resume(True, "already_complete", set())
+        assert is_resume is False

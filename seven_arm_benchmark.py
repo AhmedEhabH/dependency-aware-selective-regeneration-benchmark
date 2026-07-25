@@ -968,6 +968,7 @@ def main() -> int:
     hf_experiment_id = args.experiment_id or time.strftime("exp-%Y%m%d-%H%M%S")
     hf_enabled = bool(args.hf_sync and args.hf_repo_id)
     skip_run_ids: set[str] = set()
+    resume_result = None
 
     if hf_enabled:
         from benchmark.checkpoint.hf_sync import (
@@ -1273,7 +1274,14 @@ def main() -> int:
     # Determine if this is a RESUME or START_NEW session.
     # RESUME: prior state was downloaded/copied and normalized; we must
     #         preserve and extend it.  START_NEW: no prior state; initialize empty.
-    is_resume = bool(skip_run_ids)
+    # NOTE: do NOT infer resume from bool(skip_run_ids) — a resumed experiment
+    #       with only retryable failures has an empty skip set but must still
+    #       preserve the downloaded normalized checkpoint.
+    is_resume = (
+        args.auto_resume_hf
+        and resume_result is not None
+        and resume_result.action == "resume"
+    )
 
     if is_resume:
         existing = resume_mgr.get_normalized_checkpoint()
