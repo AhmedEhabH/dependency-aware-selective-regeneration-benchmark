@@ -137,6 +137,16 @@ class ProgressData:
     completion_ratio: float = 0.0
     stage: str = "running"
     last_update: str = ""
+    # Cross-session fields (SU-0008)
+    total_attempted: int = 0
+    total_succeeded: int = 0
+    total_retryable: int = 0
+    completion_status: str = ""
+    experiment_run_duration_seconds: float = 0.0
+    session_elapsed_seconds: float = 0.0
+    report_generated_at: str = ""
+    experiment_wall_clock_seconds: float | None = None
+    experiment_wall_clock_unavailable_reason: str = ""
 
 
 class ProgressManager:
