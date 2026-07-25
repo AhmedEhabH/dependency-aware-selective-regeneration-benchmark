@@ -75,7 +75,7 @@
 - **Branch:** `fix/su-0008-cross-session-reporting`
 - **Branch commit:** `e7b7703`
 - **Merge commit:** `63dede1`
-- **Final main commit:** `63dede1`
+- **Final main commit:** `730cace`
 
 ## Post-change Evidence
 - All 718 tests pass (23 new SU-0008 tests)
