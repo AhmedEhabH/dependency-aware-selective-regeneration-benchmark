@@ -3,8 +3,8 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
-from dataclasses import dataclass, field, asdict
-from datetime import datetime, timezone
+from dataclasses import asdict, dataclass, field
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -29,15 +29,71 @@ class RunRecordData:
     source_commit: str = ""
     config_hash: str = ""
     timestamp: str = ""
+    started_at: str = ""
+    ended_at: str = ""
+    model_calls: int = 0
+    repair_attempts: int = 0
+    hardware_identity: str = ""
+    software_environment_identity: str = ""
+    failure_classification: str = ""
 
 
 def _utc_now_str() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def compute_config_hash(config_obj: object) -> str:
     raw = json.dumps(config_obj, sort_keys=True, default=str)
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
+
+
+def detect_hardware_identity() -> str:
+    """Detect GPU hardware identity. Returns 'cpu' when no CUDA GPU is available."""
+    try:
+        import torch
+        if torch.cuda.is_available():
+            gpu_name = torch.cuda.get_device_name(0)
+            capability = torch.cuda.get_device_capability(0)
+            return f"{gpu_name}:sm_{capability[0]}{capability[1]}"
+        return "cpu"
+    except ImportError:
+        return "cpu"
+
+
+def detect_software_environment_identity() -> str:
+    """Detect a deterministic software environment fingerprint."""
+    import platform
+    import sys
+    parts: list[str] = [
+        f"python={sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}",
+        f"platform={platform.system().lower()}",
+    ]
+    try:
+        import torch
+        parts.append(f"torch={torch.__version__}")
+        if torch.cuda.is_available():
+            parts.append(f"cuda={torch.version.cuda}")
+    except ImportError:
+        parts.append("torch=absent")
+    return "|".join(parts)
+
+
+RETRYABLE_FAILURE_CLASSIFICATIONS: set[str] = {
+    "environment_preflight",
+    "environment",
+    "gpu_incompatible",
+    "cuda_error",
+}
+
+
+def failure_is_retryable(record: RunRecordData) -> bool:
+    """Determine if a failed/cancelled run should be retried on resume.
+
+    Environment-related failures are retryable because they may succeed on
+    different hardware (e.g. T4 instead of P100).  Model-output and timeout
+    failures are not retryable.
+    """
+    return record.failure_classification.lower() in RETRYABLE_FAILURE_CLASSIFICATIONS
 
 
 def _records_content_equal(a: RunRecordData, b: RunRecordData) -> bool:
@@ -107,7 +163,7 @@ class RunRecordStore:
         if not self._path.is_file():
             return []
         records: list[RunRecordData] = []
-        with open(self._path, "r", encoding="utf-8") as f:
+        with open(self._path, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if not line:
@@ -126,7 +182,7 @@ class RunRecordStore:
         if not self._path.is_file():
             return 0
         count = 0
-        with open(self._path, "r", encoding="utf-8") as f:
+        with open(self._path, encoding="utf-8") as f:
             for line in f:
                 if line.strip():
                     count += 1

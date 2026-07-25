@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -76,6 +77,24 @@ def _check_gpu_compatibility() -> None:
             f"Select a Kaggle accelerator with sm_70+ (e.g. T4, V100, A100) "
             f"or use a PyTorch build that supports sm_60."
         )
+
+
+@dataclass(frozen=True)
+class GpuPreflightResult:
+    """Result of a GPU compatibility preflight check.
+
+    The caller must use this to decide whether to proceed with LLM-backed
+    strategy execution.  A failed preflight must NOT create a scientific
+    RunRecord — it is an engineering-gate result.
+    """
+    compatible: bool
+    hardware_identity: str
+    software_identity: str
+    gpu_name: str = ""
+    compute_capability: str = ""
+    cuda_version: str = ""
+    pytorch_version: str = ""
+    rejection_reason: str = ""
 
 
 class KaggleQwenBackend:
@@ -254,3 +273,63 @@ class KaggleQwenBackend:
         if torch.cuda.is_available():
             return "cuda"
         return "cpu"
+
+    @staticmethod
+    def preflight() -> GpuPreflightResult:
+        """Check GPU compatibility without loading the model.
+
+        Returns a GpuPreflightResult that the caller uses to decide
+        whether to proceed.  This must NOT create a RunRecord — it is
+        an engineering-gate check that runs before scientific execution.
+        """
+        from benchmark.checkpoint.persistence import (
+            detect_hardware_identity,
+            detect_software_environment_identity,
+        )
+
+        hw = detect_hardware_identity()
+        sw = detect_software_environment_identity()
+
+        try:
+            import torch
+        except ImportError:
+            return GpuPreflightResult(
+                compatible=False,
+                hardware_identity=hw,
+                software_identity=sw,
+                rejection_reason="PyTorch is not installed",
+            )
+
+        if not torch.cuda.is_available():
+            return GpuPreflightResult(
+                compatible=False,
+                hardware_identity=hw,
+                software_identity=sw,
+                gpu_name="cpu",
+                rejection_reason="CUDA GPU required for the configured Qwen backend.",
+            )
+
+        gpu_name = torch.cuda.get_device_name(0)
+        capability = torch.cuda.get_device_capability(0)
+        cap_str = f"{capability[0]}.{capability[1]}"
+        cuda_ver = str(getattr(torch.version, "cuda", "unknown"))
+        torch_ver = torch.__version__
+
+        compatible = capability >= _MINIMUM_COMPUTE_CAPABILITY
+        rejection = "" if compatible else (
+            f"GPU compute capability {cap_str} on {gpu_name} "
+            f"is below minimum {_MINIMUM_COMPUTE_CAPABILITY[0]}.{_MINIMUM_COMPUTE_CAPABILITY[1]} "
+            f"required by installed PyTorch build (torch={torch_ver}, cuda={cuda_ver}). "
+            "An LLM-dependent Run must not proceed on this hardware."
+        )
+
+        return GpuPreflightResult(
+            compatible=compatible,
+            hardware_identity=hw,
+            software_identity=sw,
+            gpu_name=gpu_name,
+            compute_capability=cap_str,
+            cuda_version=cuda_ver,
+            pytorch_version=torch_ver,
+            rejection_reason=rejection,
+        )

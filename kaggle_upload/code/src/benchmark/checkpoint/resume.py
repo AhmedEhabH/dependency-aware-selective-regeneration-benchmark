@@ -3,7 +3,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from benchmark.checkpoint.checkpoint import CheckpointManager, CheckpointData
+from benchmark.checkpoint.checkpoint import CheckpointData, CheckpointManager
 from benchmark.checkpoint.persistence import RunRecordStore
 
 
@@ -19,12 +19,14 @@ class ResumeManager:
         config_hash: str,
         model_identity: str,
         source_commit: str,
+        deployed_build_id: str = "",
     ) -> None:
         self._runs_dir = runs_dir
         self._protocol_version = protocol_version
         self._config_hash = config_hash
         self._model_identity = model_identity
         self._source_commit = source_commit
+        self._deployed_build_id = deployed_build_id or source_commit
         self._checkpoint_mgr = CheckpointManager(runs_dir)
         self._record_store = RunRecordStore(runs_dir)
 
@@ -68,8 +70,40 @@ class ResumeManager:
             return set()
 
         self._validate_compatibility(cp_data)
-        completed_ids = self._record_store.get_completed_run_ids()
-        return completed_ids
+
+        # Normalize checkpoint from run records, enforcing invariants:
+        #   attempted = succeeded ∪ failed
+        #   pending = planned - attempted
+        #   succeeded ∩ failed = ∅
+        normalized = self._checkpoint_mgr.normalize_from_records(self._record_store)
+        if normalized is None:
+            return set()
+
+        # Skip set = succeeded ∪ non-retryable failed
+        # Retryable failures are NOT skipped — they are retried on resume.
+        skip_ids: set[str] = set(normalized.succeeded_run_ids)
+        for rid in normalized.failed_run_ids:
+            if rid not in normalized.retryable_run_ids:
+                skip_ids.add(rid)
+        return skip_ids
+
+    def get_normalized_checkpoint(self) -> CheckpointData | None:
+        """Return the full normalized checkpoint state for resume.
+
+        Unlike validate_and_get_skip_ids which only returns the skip set,
+        this method returns the complete normalized CheckpointData including
+        succeeded, failed, retryable, and pending run IDs. The caller must
+        use this to initialize the active checkpoint on RESUME so that prior
+        state is preserved and extended, never destroyed.
+        """
+        cp_data = self._checkpoint_mgr.read()
+        if cp_data is None:
+            return None
+
+        self._validate_compatibility(cp_data)
+
+        normalized = self._checkpoint_mgr.normalize_from_records(self._record_store)
+        return normalized
 
     def _validate_compatibility(self, cp: CheckpointData) -> None:
         mismatches: list[str] = []
@@ -92,6 +126,11 @@ class ResumeManager:
         if cp.source_commit and self._source_commit and cp.source_commit != self._source_commit:
             mismatches.append(
                 f"Source commit mismatch: checkpoint={cp.source_commit}, expected={self._source_commit}"
+            )
+
+        if cp.deployed_build_id and self._deployed_build_id and cp.deployed_build_id != self._deployed_build_id:
+            mismatches.append(
+                f"Deployed build ID mismatch: checkpoint={cp.deployed_build_id}, expected={self._deployed_build_id}"
             )
 
         if mismatches:

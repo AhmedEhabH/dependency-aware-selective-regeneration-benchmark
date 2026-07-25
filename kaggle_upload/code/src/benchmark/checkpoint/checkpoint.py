@@ -3,8 +3,8 @@ from __future__ import annotations
 import json
 import shutil
 import tempfile
-from dataclasses import dataclass, asdict, field
-from datetime import datetime, timezone
+from dataclasses import asdict, dataclass, field
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -16,6 +16,8 @@ class CheckpointData:
     planned_run_ids: list[str] = field(default_factory=list)
     completed_run_ids: list[str] = field(default_factory=list)
     failed_run_ids: list[str] = field(default_factory=list)
+    succeeded_run_ids: list[str] = field(default_factory=list)
+    retryable_run_ids: list[str] = field(default_factory=list)
     pending_run_ids: list[str] = field(default_factory=list)
     current_run_id: str = ""
     total_planned: int = 0
@@ -28,6 +30,9 @@ class CheckpointData:
     completion_status: str = "incomplete"
     scenario_ids: list[str] = field(default_factory=list)
     strategy_names: list[str] = field(default_factory=list)
+    declared_source_tag: str = ""
+    deployed_build_id: str = ""
+    attempted_run_ids: list[str] = field(default_factory=list)
 
 
 class CheckpointManager:
@@ -41,7 +46,7 @@ class CheckpointManager:
         return self._path
 
     def write_atomic(self, data: CheckpointData) -> None:
-        data.last_update = datetime.now(timezone.utc).isoformat()
+        data.last_update = datetime.now(UTC).isoformat()
         tmp = tempfile.NamedTemporaryFile(
             mode="w",
             encoding="utf-8",
@@ -69,6 +74,56 @@ class CheckpointManager:
 
     def exists(self) -> bool:
         return self._path.is_file()
+
+    def normalize_from_records(self, record_store: Any) -> CheckpointData | None:
+        """Recompute checkpoint fields from run records, enforcing invariants.
+
+        Used on resume to repair legacy checkpoints and corrupted state:
+          attempted = succeeded ∪ failed
+          pending = planned - attempted
+          succeeded ∩ failed = ∅
+          attempted ∩ pending = ∅
+        """
+        cp = self.read()
+        if cp is None:
+            return None
+
+        from benchmark.checkpoint.persistence import failure_is_retryable
+
+        records_by_id: dict[str, Any] = {}
+        for rec in record_store.load_all():
+            records_by_id[rec.run_id] = rec
+
+        completed: list[str] = []
+        succeeded: list[str] = []
+        failed: list[str] = []
+        retryable: list[str] = []
+
+        for rid in cp.planned_run_ids:
+            rec = records_by_id.get(rid)
+            if rec is None:
+                continue
+            if rec.status in ("succeeded", "failed", "timed_out", "cancelled"):
+                completed.append(rid)
+                if rec.status == "succeeded":
+                    succeeded.append(rid)
+                else:
+                    failed.append(rid)
+                    if failure_is_retryable(rec):
+                        retryable.append(rid)
+
+        pending = [rid for rid in cp.planned_run_ids if rid not in completed]
+
+        cp.completed_run_ids = completed
+        cp.attempted_run_ids = list(completed)
+        cp.succeeded_run_ids = succeeded
+        cp.failed_run_ids = failed
+        cp.retryable_run_ids = retryable
+        cp.pending_run_ids = pending
+        cp.total_completed = len(completed)
+
+        self.write_atomic(cp)
+        return cp
 
 
 @dataclass
@@ -98,7 +153,7 @@ class ProgressManager:
         return self._path
 
     def write(self, data: ProgressData) -> None:
-        data.last_update = datetime.now(timezone.utc).isoformat()
+        data.last_update = datetime.now(UTC).isoformat()
         self._path.write_text(
             json.dumps(asdict(data), indent=2, sort_keys=True),
             encoding="utf-8",
@@ -119,7 +174,7 @@ class ProgressManager:
     def mark_completed(self) -> None:
         self._completed_marker.write_text(
             json.dumps({
-                "completed_at": datetime.now(timezone.utc).isoformat(),
+                "completed_at": datetime.now(UTC).isoformat(),
                 "status": "completed",
             }),
             encoding="utf-8",
