@@ -59,8 +59,10 @@ def _make_runner(tmp_path: Path, max_attempts: int = 3) -> BenchmarkRunner:
     ws_root.mkdir()
     snap_base = tmp_path / "snapshots"
     snap_base.mkdir()
+    active_root = snap_base / "repo" / "rev1"
+    active_root.mkdir(parents=True)
     ws = WorkspacePath(root=str(ws_root))
-    iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+    iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
 
     config = RunnerConfig(
         strategy_name="test_strategy",
@@ -128,8 +130,10 @@ class TestBenchmarkRunner:
         ws_root.mkdir()
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
+        active_root = snap_base / "repo" / "rev1"
+        active_root.mkdir(parents=True)
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="test_strategy",
             backend_name="test_backend",
@@ -165,11 +169,13 @@ class TestArtifactUniverseConstruction:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
-        (snap_base / "src").mkdir()
-        (snap_base / "src" / "main.py").write_text("")
-        (snap_base / "src" / "utils.py").write_text("")
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "src").mkdir()
+        (active_root / "src" / "main.py").write_text("")
+        (active_root / "src" / "utils.py").write_text("")
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -198,11 +204,13 @@ class TestArtifactUniverseConstruction:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
-        (snap_base / "src").mkdir()
-        (snap_base / "src" / "actual_a.py").write_text("")
-        (snap_base / "src" / "actual_b.py").write_text("")
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "src").mkdir()
+        (active_root / "src" / "actual_a.py").write_text("")
+        (active_root / "src" / "actual_b.py").write_text("")
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -244,12 +252,14 @@ class TestArtifactUniverseConstruction:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
-        (snap_base / "src").mkdir()
-        (snap_base / "src" / "actual_a.py").write_text("")
-        (snap_base / "src" / "actual_b.py").write_text("")
-        (snap_base / "src" / "unrelated.py").write_text("")
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "src").mkdir()
+        (active_root / "src" / "actual_a.py").write_text("")
+        (active_root / "src" / "actual_b.py").write_text("")
+        (active_root / "src" / "unrelated.py").write_text("")
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -291,10 +301,12 @@ class TestArtifactUniverseConstruction:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
-        (snap_base / "src").mkdir()
-        (snap_base / "src" / "actual.py").write_text("")
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "src").mkdir()
+        (active_root / "src" / "actual.py").write_text("")
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -333,8 +345,10 @@ class TestArtifactUniverseConstruction:
         ws_root = tmp_path / "nonexistent_workspace"
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -358,8 +372,10 @@ class TestArtifactUniverseConstruction:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -428,10 +444,12 @@ class TestSnapshotSourceWorkspaceSeparation:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
 
-        (snap_base / "src").mkdir(parents=True)
-        (snap_base / "src" / "source_a.py").write_text("")
-        (snap_base / "src" / "source_b.py").write_text("")
+        (active_root / "src").mkdir(parents=True)
+        (active_root / "src" / "source_a.py").write_text("")
+        (active_root / "src" / "source_b.py").write_text("")
 
         (ws_root / "runs").mkdir(parents=True)
         (ws_root / "runs" / "generated.py").write_text("")
@@ -440,7 +458,7 @@ class TestSnapshotSourceWorkspaceSeparation:
         (ws_root / "unrelated_workspace.py").write_text("")
 
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -485,8 +503,10 @@ class TestSnapshotSourceWorkspaceSeparation:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "empty_snap"
         snap_base.mkdir()
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -511,8 +531,9 @@ class TestSnapshotSourceWorkspaceSeparation:
         ws_root = tmp_path / "ws"
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "nonexistent_snap"
+        active_root = snap_base / "repo" / "v1"
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -534,16 +555,18 @@ class TestSnapshotSourceWorkspaceSeparation:
 
 
 class TestRepositorySnapshotPathConsistency:
-    def test_regeneration_enabled_uses_snapshot_base_path(self, tmp_path: Path) -> None:
+    def test_regeneration_enabled_uses_active_snapshot_path(self, tmp_path: Path) -> None:
         strategy = _FakeStrategy()
         ws_root = tmp_path / "work"
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snap"
         snap_base.mkdir()
-        (snap_base / "src").mkdir()
-        (snap_base / "src" / "a.py").write_text("")
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "src").mkdir()
+        (active_root / "src" / "a.py").write_text("")
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -562,7 +585,7 @@ class TestRepositorySnapshotPathConsistency:
         runner.run(scenario)
         assert len(strategy.calls) == 1
         repo, _change, _universe = strategy.calls[0]
-        expected = str(snap_base.resolve())
+        expected = str(active_root.resolve())
         assert Path(repo.path).resolve() == Path(expected).resolve()
         assert repo.path != scenario.repository
 
@@ -592,3 +615,235 @@ class TestRepositorySnapshotPathConsistency:
         assert len(strategy.calls) == 1
         repo, _change, _universe = strategy.calls[0]
         assert repo.path == scenario.repository
+
+
+class TestActiveSnapshotFailClosed:
+    def test_no_active_snapshot_with_regeneration_fails_closed(self, tmp_path: Path) -> None:
+        ws_root = tmp_path / "ws"
+        ws_root.mkdir(parents=True)
+        snap_base = tmp_path / "snap"
+        snap_base.mkdir()
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            enable_regeneration=True,
+        )
+        runner = BenchmarkRunner(
+            strategy=_FakeStrategy(),
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = _make_scenario("sc-no-active")
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        messages = " ".join(f.message for f in record.failures)
+        assert "active_snapshot_root" in messages or "active snapshot" in messages.lower()
+
+    def test_active_snapshot_missing_fails_closed(self, tmp_path: Path) -> None:
+        ws_root = tmp_path / "ws"
+        ws_root.mkdir(parents=True)
+        snap_base = tmp_path / "snap"
+        snap_base.mkdir()
+        missing_active = snap_base / "repo" / "v1"
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=missing_active)
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            enable_regeneration=True,
+        )
+        runner = BenchmarkRunner(
+            strategy=_FakeStrategy(),
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = _make_scenario("sc-missing-active")
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        messages = " ".join(f.message for f in record.failures)
+        assert "does not exist" in messages or "not a directory" in messages
+
+    def test_empty_active_snapshot_produces_empty_universe(self, tmp_path: Path) -> None:
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "ws"
+        ws_root.mkdir(parents=True)
+        snap_base = tmp_path / "snap"
+        snap_base.mkdir()
+        active = snap_base / "repo" / "v1"
+        active.mkdir(parents=True)
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active)
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = _make_scenario("sc-empty-active")
+        runner.run(scenario)
+        assert len(strategy.calls) == 1
+        _repo, _change, universe = strategy.calls[0]
+        assert len(universe.artifacts) == 0
+
+    def test_legacy_impact_only_no_active_snapshot_required(self, tmp_path: Path) -> None:
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "ws"
+        ws_root.mkdir(parents=True)
+        snap_base = tmp_path / "snap"
+        snap_base.mkdir()
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+        config = RunnerConfig(
+            strategy_name="test_strategy",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            enable_regeneration=False,
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = _make_scenario("sc-legacy-no-active")
+        runner.run(scenario)
+        assert len(strategy.calls) == 1
+        assert len(strategy.calls[0][2].artifacts) == 0
+
+
+class TestSourceSnapshotImmutability:
+    def test_source_and_snapshot_unchanged_after_regeneration(self, tmp_path: Path) -> None:
+        from benchmark.core.enums import ArtifactType
+        from benchmark.core.models import ArtifactRef, LLMResponse, TokenUsage
+        from benchmark.strategies.monolithic import MonolithicRegenerationStrategy
+
+        class _DeterministicBackend:
+            async def generate(
+                self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096
+            ) -> LLMResponse:
+                pt = max(1, len(prompt) // 4)
+                ct = max(1, len("replacement content") // 4)
+                return LLMResponse(
+                    text="replacement content",
+                    token_usage=TokenUsage(prompt_tokens=pt, completion_tokens=ct, total_tokens=pt + ct),
+                    finish_reason="stop",
+                )
+
+        artifact = ArtifactRef(path="src/main.py", artifact_type=ArtifactType.source)
+
+        source_repo = tmp_path / "source_repo"
+        source_repo.mkdir()
+        (source_repo / "src").mkdir()
+        (source_repo / "src" / "main.py").write_text("original source", encoding="utf-8")
+
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        from benchmark.repositories.snapshot import stage_repository_snapshot
+        active = stage_repository_snapshot(source_repo, storage, "myrepo", "rev1")
+
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True)
+        wstarget = ws_root / "src" / "main.py"
+        wstarget.parent.mkdir(parents=True)
+        wstarget.write_text("original source", encoding="utf-8")
+
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=storage, active_snapshot_root=active)
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        runner = BenchmarkRunner(
+            strategy=MonolithicRegenerationStrategy(),
+            backend=_DeterministicBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = Scenario(
+            scenario_id="sc-immutable",
+            repository="myrepo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before",
+            requirement_after="after",
+            rationale="test",
+            expected_affected_artifacts=(artifact,),
+        )
+        record = runner.run(scenario)
+
+        assert (source_repo / "src/main.py").read_text() == "original source"
+        assert (active / "src/main.py").read_text("utf-8") == "original source"
+        assert (ws_root / "src/main.py").read_text("utf-8") == "replacement content"
+        assert record.regenerated_artifact_count == 1
+        assert record.functional_validation_passed is True
+
+
+class TestMultipleSnapshotIsolation:
+    def test_artifact_universe_bound_to_one_active_snapshot(self, tmp_path: Path) -> None:
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "ws"
+        ws_root.mkdir(parents=True)
+
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        (storage / "repo_a" / "rev_1" / "src").mkdir(parents=True)
+        (storage / "repo_a" / "rev_1" / "src" / "a.py").write_text("")
+        (storage / "repo_a" / "rev_1" / "src" / "b.py").write_text("")
+        (storage / "repo_b" / "rev_1" / "src").mkdir(parents=True)
+        (storage / "repo_b" / "rev_1" / "src" / "c.py").write_text("")
+
+        active = storage / "repo_a" / "rev_1"
+
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=storage, active_snapshot_root=active)
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = Scenario(
+            scenario_id="sc-multi-snap",
+            repository="repo_a",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before",
+            requirement_after="after",
+            rationale="test",
+        )
+        runner.run(scenario)
+        assert len(strategy.calls) == 1
+        _repo, _change, universe = strategy.calls[0]
+        paths = {a.path for a in universe.artifacts}
+        assert "src/a.py" in paths
+        assert "src/b.py" in paths
+        assert "src/c.py" not in paths

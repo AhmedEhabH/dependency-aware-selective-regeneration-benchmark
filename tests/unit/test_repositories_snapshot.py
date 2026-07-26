@@ -10,6 +10,7 @@ from benchmark.repositories.snapshot import (
     SnapshotMetadata,
     create_snapshot_metadata,
     discover_eligible_artifacts,
+    stage_repository_snapshot,
     validate_snapshot,
 )
 
@@ -304,3 +305,250 @@ class TestDiscoverEligibleArtifacts:
         result = discover_eligible_artifacts(repo)
         paths = {r.path for r in result}
         assert paths == {"src/main.py"}
+
+    def test_tmp_excluded_from_discovery(self, tmp_path: Path) -> None:
+        repo = tmp_path / "repo"
+        repo.mkdir()
+        (repo / "tmp").mkdir()
+        (repo / "tmp" / "scratch.py").write_text("")
+        (repo / "src").mkdir()
+        (repo / "src" / "work.py").write_text("")
+        result = discover_eligible_artifacts(repo)
+        paths = {r.path for r in result}
+        assert paths == {"src/work.py"}
+
+
+class TestStageRepositorySnapshot:
+    def test_valid_source_staging(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "main.py").write_text("content")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        result = stage_repository_snapshot(source, storage, "myrepo", "rev1")
+        expected = storage / "myrepo" / "rev1"
+        assert result == expected
+        assert expected.is_dir()
+        assert (expected / "main.py").read_text() == "content"
+
+    def test_nested_files_copied(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        nested = source / "src" / "sub"
+        nested.mkdir(parents=True)
+        (nested / "deep.py").write_text("nested")
+        (source / "root.py").write_text("root")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        result = stage_repository_snapshot(source, storage, "r", "v1")
+        assert (result / "src/sub/deep.py").read_text() == "nested"
+        assert (result / "root.py").read_text() == "root"
+
+    def test_excluded_directories_not_copied(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "src").mkdir()
+        (source / "src" / "work.py").write_text("keep")
+        for d in (".git", "__pycache__", "runs", "tmp", "_auto_resume_temp"):
+            (source / d).mkdir(parents=True)
+            (source / d / "ignored.py").write_text("drop")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        result = stage_repository_snapshot(source, storage, "r", "v1")
+        assert (result / "src/work.py").exists()
+        assert not (result / ".git" / "ignored.py").exists()
+        assert not (result / "__pycache__" / "ignored.py").exists()
+        assert not (result / "runs" / "ignored.py").exists()
+        assert not (result / "tmp" / "ignored.py").exists()
+        assert not (result / "_auto_resume_temp" / "ignored.py").exists()
+
+    def test_pyc_not_copied(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "keep.py").write_text("keep")
+        (source / "drop.pyc").write_text("")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        result = stage_repository_snapshot(source, storage, "r", "v1")
+        assert (result / "keep.py").exists()
+        assert not (result / "drop.pyc").exists()
+
+    def test_repository_id_traversal_rejected(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "f.py").write_text("")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        from benchmark.core.exceptions import RepositoryError
+        with pytest.raises(RepositoryError, match="traversal"):
+            stage_repository_snapshot(source, storage, "../escape", "v1")
+
+    def test_revision_id_traversal_rejected(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "f.py").write_text("")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        from benchmark.core.exceptions import RepositoryError
+        with pytest.raises(RepositoryError, match="traversal"):
+            stage_repository_snapshot(source, storage, "repo", "../../escape")
+
+    def test_missing_source_rejected(self, tmp_path: Path) -> None:
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        from benchmark.core.exceptions import RepositoryError
+        with pytest.raises(RepositoryError, match="does not exist"):
+            stage_repository_snapshot(tmp_path / "nonexistent", storage, "r", "v1")
+
+    def test_source_file_not_directory_rejected(self, tmp_path: Path) -> None:
+        source = tmp_path / "file.txt"
+        source.write_text("")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        from benchmark.core.exceptions import RepositoryError
+        with pytest.raises(RepositoryError, match="not a directory"):
+            stage_repository_snapshot(source, storage, "r", "v1")
+
+    def test_identical_snapshot_reused(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "a.py").write_text("data")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        r1 = stage_repository_snapshot(source, storage, "r", "v1")
+        r2 = stage_repository_snapshot(source, storage, "r", "v1")
+        assert r1 == r2
+        assert r2 == storage / "r" / "v1"
+        assert (r2 / "a.py").read_text() == "data"
+
+    def test_modified_file_content_rejected(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "a.py").write_text("original")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        stage_repository_snapshot(source, storage, "r", "v1")
+        (source / "a.py").write_text("modified")
+        with pytest.raises(RepositoryError, match="content differs"):
+            stage_repository_snapshot(source, storage, "r", "v1")
+
+    def test_added_eligible_file_rejected(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "a.py").write_text("")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        stage_repository_snapshot(source, storage, "r", "v1")
+        (source / "b.py").write_text("")
+        with pytest.raises(RepositoryError, match="content differs"):
+            stage_repository_snapshot(source, storage, "r", "v1")
+
+    def test_removed_eligible_file_rejected(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "a.py").write_text("")
+        (source / "b.py").write_text("")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        stage_repository_snapshot(source, storage, "r", "v1")
+        (source / "b.py").unlink()
+        with pytest.raises(RepositoryError, match="content differs"):
+            stage_repository_snapshot(source, storage, "r", "v1")
+
+    def test_excluded_dir_changes_tolerated(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "a.py").write_text("")
+        (source / "__pycache__").mkdir()
+        (source / "__pycache__" / "cache.py").write_text("old")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        r1 = stage_repository_snapshot(source, storage, "r", "v1")
+        (source / "__pycache__" / "cache.py").write_text("new")
+        (source / "__pycache__" / "extra.py").write_text("")
+        r2 = stage_repository_snapshot(source, storage, "r", "v1")
+        assert r1 == r2
+
+    def test_symlink_only_diff_tolerated(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "real.py").write_text("same")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        r1 = stage_repository_snapshot(source, storage, "r", "v1")
+        try:
+            (source / "link.py").symlink_to("real.py")
+        except (OSError, NotImplementedError):
+            pytest.skip("symlink not supported on this platform")
+        r2 = stage_repository_snapshot(source, storage, "r", "v1")
+        assert r1 == r2
+        assert not (r2 / "link.py").exists()
+
+    def test_destination_unchanged_after_rejection(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "a.py").write_text("original")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        r1 = stage_repository_snapshot(source, storage, "r", "v1")
+        original_content = (r1 / "a.py").read_text()
+        (source / "a.py").write_text("modified")
+        with pytest.raises(RepositoryError):
+            stage_repository_snapshot(source, storage, "r", "v1")
+        assert (r1 / "a.py").read_text() == original_content
+
+    def test_destination_under_storage(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "f.py").write_text("")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        result = stage_repository_snapshot(source, storage, "repo", "rev")
+        result.resolve().relative_to(storage.resolve())
+
+    def test_two_repositories_do_not_contaminate(self, tmp_path: Path) -> None:
+        src_a = tmp_path / "src_a"
+        src_a.mkdir()
+        (src_a / "a.py").write_text("from a")
+        src_b = tmp_path / "src_b"
+        src_b.mkdir()
+        (src_b / "b.py").write_text("from b")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        r_a = stage_repository_snapshot(src_a, storage, "repo_a", "v1")
+        r_b = stage_repository_snapshot(src_b, storage, "repo_b", "v1")
+        assert (r_a / "a.py").exists()
+        assert not (r_a / "b.py").exists()
+        assert (r_b / "b.py").exists()
+        assert not (r_b / "a.py").exists()
+
+    def test_symlink_skipped(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "real.py").write_text("real")
+        link = source / "link.py"
+        try:
+            link.symlink_to("real.py")
+        except (OSError, NotImplementedError):
+            pytest.skip("symlink not supported on this platform")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        result = stage_repository_snapshot(source, storage, "r", "v1")
+        assert (result / "real.py").exists()
+        assert not (result / "link.py").exists()
+
+    def test_directory_symlink_not_followed(self, tmp_path: Path) -> None:
+        source = tmp_path / "source"
+        source.mkdir()
+        (source / "real_dir").mkdir()
+        (source / "real_dir" / "f.py").write_text("ok")
+        link = source / "link_dir"
+        try:
+            link.symlink_to("real_dir", target_is_directory=True)
+        except (OSError, NotImplementedError):
+            pytest.skip("directory symlink not supported on this platform")
+        storage = tmp_path / "storage"
+        storage.mkdir()
+        result = stage_repository_snapshot(source, storage, "r", "v1")
+        assert (result / "real_dir" / "f.py").exists()
+        assert not (result / "link_dir" / "f.py").exists()
