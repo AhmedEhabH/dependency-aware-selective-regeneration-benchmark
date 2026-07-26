@@ -38,6 +38,7 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - SU-0010B3 functional validation and bounded repair (correction: token budget enforcement, failure history preservation, timeout test fix)
 - SU-0011 iterative repository agent (audit corrections applied: cumulative token accounting, budget check between reasoning/regeneration, fair token-budget semantics, requires_iteration control state, backend exception propagation, type-ignore removal)
 - SU-0011 on feature/su-0011-iterative-repository-agent awaiting merge
+- Efficient Agent Verification Setup (AGENTS.md, skill, commands, check_fast.py on chore/efficient-opencode-verification)
 
 ## Next
 

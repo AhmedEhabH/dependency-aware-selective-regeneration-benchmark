@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-26
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (Ethan / subsequent sessions)
-**Handoff type:** SU-0011 Iterative Agent Audit Corrections Applied — Awaiting Merge
+**Handoff type:** SU-0011 Iterative Agent Audit Corrections Applied — Awaiting Merge; Efficient Verification Setup Added
 
 ---
 
@@ -14,12 +14,12 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 **Research Design V2 Freeze** completed: Arm-to-protocol execution audit merged to `main`. Created `docs/research-design-v2` branch with 10 design documents recording researcher-approved experimental design decisions (RD-V2-01 through RD-V2-06). Current `RepositoryAgentStrategy` audited and classified as `SINGLE_SHOT_LLM_SCOPE_BASELINE` (not iterative). Baseline acceptance criteria defined for iterative `repository_agent` (SU-0011). Shared regeneration executor designed for fair end-to-end comparison (SU-0010). Arm role/naming policy, external dataset policy, and implementation impact plan documented. No production code modified. All frozen protocol documents untouched. Pilot and Research phases remain blocked pending SU-0010 completion and baseline agent implementation.
 
 **Completed through:** SU-0010B3 (bounded validation repair)
-**SU-0011:** Implemented on branch `feature/su-0011-iterative-repository-agent` and awaiting audit/merge.
-**Next after merge:** Scientific Smoke.
+**SU-0011:** Merged to `main` at commit `b54bfd2`.
+**Next:** Scientific Smoke.
 **Stable tag:** Only after successful Scientific Smoke.
 **Pilot:** Remains unauthorized.
 
-**What remains:** Scientific Smoke (post-merge) → Pilot → Research.
+**What remains:** Scientific Smoke → Pilot → Research.
 
 ---
 
@@ -50,6 +50,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 | **SU-0010B2** | **COMPLETE** | Metrics persistence/reporting |
 | **SU-0010B3** | **COMPLETE** | Functional validation and bounded repair; correction commit enforces token budget, preserves failure history, fixes timeout test |
 | **SU-0011** | **COMPLETE** | Iterative repository agent: 8th benchmark arm with `_run_iterative_flow()` orchestrator, `IterativeRepositoryAgentStrategy`, revise_plan with validation feedback, token-budget-aware strategy calls, 18 integration tests |
+| **Efficient Verification** | **COMPLETE** | AGENTS.md, skill, commands (`/check-changed`, `/verify`), `scripts/check_fast.py` on `chore/efficient-opencode-verification` |
 
 ---
 
@@ -224,10 +225,10 @@ cat reports/PROJECT_HEALTH_REPORT.md
 ## 11. Git State
 
 ```
-Main branch:   merge commit 3a16596 (audit/arm-to-protocol-execution merged --no-ff)
-Current branch: docs/research-design-v2 (10 design docs, 8 state files modified)
-Tags:          v0.7.0-smoke-passed at 0c58250 (unchanged)
-Working tree:  Modified state files on docs/research-design-v2; no production code changes
+Main branch:       merge commit b54bfd2 (feature/su-0011-iterative-repository-agent merged)
+Current branch:    chore/efficient-opencode-verification
+Tags:              v0.7.0-smoke-passed at 0c58250 (unchanged)
+Working tree:      9 new files, 3 modified — infrastructure only, no production benchmark code changed
 ```
 
 ---
