@@ -108,6 +108,53 @@ Code bundle: 75 files, 397,217 bytes — build and verified.
 - Data Dataset: `kaggle_upload/data/` not modified
 - Notebook: `kaggle_upload/notebooks/` not modified
 
-## Remaining Scientific Blockers
+## Entry-Point Correction (SU-0010B2 follow-up)
 
-1. **seven_arm_benchmark.py conversion gap**: The dict conversion in `_run_single_scenario_strategy()` still does not extract new fields from `RunRecord`. This is a forbidden file. The end-to-end fields exist in `RunRecord` (created by runner.py) but are dropped during conversion to the intermediate dict and subsequent `RunRecordData` construction. This gap must be addressed in a follow-up task (SU-0010C or similar) when the benchmark script execution path is updated to pass through the new metrics. The persistence and reporting infrastructure now correctly handles these fields when populated.
+The benchmark entry-point conversion gap was closed in a focused correction:
+
+| Item | Value |
+|------|-------|
+| Original reporting implementation commit | `4a4da45` |
+| Entry-point correction commit | `0e06062` |
+| Final branch HEAD | `0e06062` |
+| Production file modified | `seven_arm_benchmark.py` + derivative |
+| Test file modified | `tests/unit/test_cli.py` |
+| Helper added | `_to_run_record_data()` — converts record_dict + metadata → RunRecordData with all 19 end-to-end fields |
+
+The `_to_run_record_data` helper extracts every scoped metric from `record_dict` using backward-compatible defaults (integers → 0, durations → 0.0, functional_validation_passed → None). The `_run_single_scenario_strategy` function now forwards all 19 end-to-end fields from `RunRecord` into the intermediate dict. The inline `RunRecordData` construction in `main()` was replaced with a call to `_to_run_record_data`.
+
+No coercion: None stays None, False stays False, booleans are not cast to integers, durations are not cast to strings. Selection tokens are not added to total workflow tokens. `token_usage` is not modified. No metric is double-counted.
+
+### Targeted Test Results (with entry-point conversion tests)
+
+| File | Collected | Passed | Failed | Skipped |
+|------|-----------|--------|--------|---------|
+| `tests/unit/test_cli.py` | 25 | 25 | 0 | 0 |
+| `tests/unit/test_checkpoint.py` | 42 | 42 | 0 | 0 |
+| `tests/unit/statistics/test_reporting.py` | 17 | 17 | 0 | 0 |
+| `tests/unit/test_su0008_cross_session_reporting.py` | 36 | 36 | 0 | 0 |
+
+### Full Suite Results
+
+```
+collected: 910
+passed:    905
+failed:    0
+skipped:   5
+```
+
+### Ruff
+
+`ruff check` on changed files: 18 pre-existing errors. Zero new errors introduced.
+
+### Mypy
+
+`mypy --strict` on changed files: 7 pre-existing errors. Zero new errors introduced.
+
+### Bundle
+
+Code bundle: 75 files, 401,870 bytes — build and verified.
+
+## Remaining Scientific Blockers (post-correction)
+
+None. All SU-0010B2 gaps are resolved.

@@ -10,23 +10,44 @@ This plan defines the sequence of implementation phases for a research-grade ben
 
 | Phase | Name                            | Status      |
 |-------|---------------------------------|-------------|
-| 0     | Bootstrap and Environment       | IN PROGRESS |
-| 1     | Input Audit                     | PENDING     |
-| 2     | Research Protocol               | PENDING     |
-| 3     | Repository and Scenario Preparation | PENDING  |
- | 4     | Benchmark Core                  | COMPLETE    |
- | 4A    | Domain Models and Contracts     | COMPLETE    |
- | 4B    | Loaders and Validation          | COMPLETE    |
- | 4C    | Model Backends                  | COMPLETE    |
- | 4D    | Execution Core                  | COMPLETE    |
- | 4E    | Impact Strategies               | PENDING     |
- | 4F    | Evaluation Engine               | PENDING     |
- | 5     | Strategies                      | SUPERSEDED  |
- | 6     | Validation and Leakage          | PENDING     |
- | 7     | Metrics and Statistics          | SUPERSEDED  |
- | 8     | Kaggle Notebook                 | PENDING     |
- | 9     | Packaging and Documentation     | PENDING     |
- | 10    | Static and Local Engineering Audit | PENDING  |
+| 0     | Bootstrap and Environment       | COMPLETE    |
+| 1     | Input Audit                     | COMPLETE    |
+| 2     | Research Protocol               | COMPLETE    |
+| 3     | Repository and Scenario Preparation | COMPLETE |
+| 4     | Benchmark Core                  | COMPLETE    |
+| 4A    | Domain Models and Contracts     | COMPLETE    |
+| 4B    | Loaders and Validation          | COMPLETE    |
+| 4C    | Model Backends                  | COMPLETE    |
+| 4D    | Execution Core                  | COMPLETE    |
+| 4E    | Impact Strategies               | COMPLETE    |
+| 4F    | Evaluation Engine               | COMPLETE    |
+| 5     | Strategies                      | SUPERSEDED  |
+| 6     | Validation and Leakage          | PENDING     |
+| 7     | Metrics and Statistics          | SUPERSEDED  |
+| 8     | Kaggle Notebook                 | COMPLETE    |
+| 9     | Packaging and Documentation     | COMPLETE    |
+| 10    | Static and Local Engineering Audit | COMPLETE |
+
+## Completed
+
+- SU-0010A shared regeneration
+- SU-0010B1 repository-derived ArtifactUniverse
+- SU-0010B1A active snapshot staging
+- SU-0010B1B Ground-Truth-free graph construction
+- SU-0010B2 metrics persistence/reporting
+
+## Next
+
+- SU-0010B3 validation and bounded repair
+- SU-0011 iterative repository agent
+- Scientific Smoke
+- Pilot
+
+## Known Boundary
+
+- neutral empty graph when no profile graph exists
+- real repository dependency inference remains deferred
+- Scientific Smoke and Pilot remain unauthorized
 
 ### Dependencies
 
