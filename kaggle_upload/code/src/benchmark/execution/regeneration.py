@@ -47,6 +47,22 @@ Generate the complete replacement file content. \
 Return only the file content, without any explanation or markdown fences.
 """
 
+REPAIR_CONTEXT_PROMPT_TEMPLATE = """\
+
+Previous functional validation attempt failed.
+
+Exit code: {exit_code}
+
+Validation stdout:
+{stdout}
+
+Validation stderr:
+{stderr}
+
+Fix the issues above so that the functional validation passes. \
+Return the complete replacement file content without explanation or markdown fences.
+"""
+
 
 def _language_hint(path: str) -> str:
     suffix = Path(path).suffix
@@ -86,13 +102,14 @@ class SharedRegenerationExecutor:
         plan: RegenerationPlan,
         isolation: IsolationContext,
         requirement_delta: str = "",
+        repair_context: str | None = None,
     ) -> RegenerationExecutionResult:
         old_loop: asyncio.AbstractEventLoop | None = None
         with contextlib.suppress(RuntimeError):
             old_loop = asyncio.get_event_loop()
         try:
             return asyncio.run(
-                self._execute_async(plan, isolation, requirement_delta)
+                self._execute_async(plan, isolation, requirement_delta, repair_context)
             )
         finally:
             if old_loop is not None and not old_loop.is_closed():
@@ -106,6 +123,7 @@ class SharedRegenerationExecutor:
         plan: RegenerationPlan,
         isolation: IsolationContext,
         requirement_delta: str,
+        repair_context: str | None = None,
     ) -> RegenerationExecutionResult:
         workspace_root = str(isolation.workspace.root)
         start_time = time.monotonic()
@@ -178,6 +196,8 @@ class SharedRegenerationExecutor:
                 language_hint=_language_hint(artifact.path),
                 current_content=current_content,
             )
+            if repair_context:
+                prompt += repair_context
 
             try:
                 response: LLMResponse = await self._backend.generate(prompt=prompt)

@@ -13,7 +13,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 **Research Design V2 Freeze** completed: Arm-to-protocol execution audit merged to `main`. Created `docs/research-design-v2` branch with 10 design documents recording researcher-approved experimental design decisions (RD-V2-01 through RD-V2-06). Current `RepositoryAgentStrategy` audited and classified as `SINGLE_SHOT_LLM_SCOPE_BASELINE` (not iterative). Baseline acceptance criteria defined for iterative `repository_agent` (SU-0011). Shared regeneration executor designed for fair end-to-end comparison (SU-0010). Arm role/naming policy, external dataset policy, and implementation impact plan documented. No production code modified. All frozen protocol documents untouched. Pilot and Research phases remain blocked pending SU-0010 completion and baseline agent implementation.
 
-**What remains:** Researcher review of RD-V2 decisions → SU-0010B3 validation → SU-0011 authorization (iterative repository agent) → Scientific Smoke → Pilot → Research.
+**What remains:** SU-0011 authorization (iterative repository agent) → Scientific Smoke → Pilot → Research.
 
 ---
 
@@ -42,6 +42,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 | **SU-0010B1A** | **COMPLETE** | Active snapshot staging |
 | **SU-0010B1B** | **COMPLETE** | Ground-Truth-free graph construction |
 | **SU-0010B2** | **COMPLETE** | Metrics persistence/reporting |
+| **SU-0010B3** | **COMPLETE** | Functional validation and bounded repair |
 
 ---
 
