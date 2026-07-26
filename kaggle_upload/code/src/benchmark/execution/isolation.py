@@ -23,9 +23,11 @@ class IsolationContext:
         workspace: WorkspacePath,
         snapshot_base: str | Path | None = None,
         validator: PathValidator | None = None,
+        active_snapshot_root: str | Path | None = None,
     ) -> None:
         self._workspace = workspace
         self._snapshot_base = Path(snapshot_base) if snapshot_base else workspace.snapshots
+        self._active_snapshot_root = Path(active_snapshot_root) if active_snapshot_root else None
         self._validator = validator or self._default_check
 
     @property
@@ -36,10 +38,28 @@ class IsolationContext:
     def snapshot_base(self) -> Path:
         return self._snapshot_base
 
+    @property
+    def active_snapshot_root(self) -> Path | None:
+        return self._active_snapshot_root
+
     def verify(self) -> IsolationReport:
         ws_path = validate_workspace_path(self._workspace.root)
         violations: list[str] = check_isolation(ws_path, self._snapshot_base)
         violations.extend(self._validator(self._snapshot_base))
+        if self._active_snapshot_root is not None:
+            try:
+                active_resolved = self._active_snapshot_root.resolve()
+                snap_resolved = self._snapshot_base.resolve()
+            except OSError as e:
+                violations.append(f"Active snapshot path resolution error: {e}")
+            else:
+                try:
+                    active_resolved.relative_to(snap_resolved)
+                except ValueError:
+                    violations.append(
+                        f"Active snapshot root {active_resolved} is outside "
+                        f"snapshot storage root {snap_resolved}"
+                    )
         if violations:
             return IsolationReport(
                 passed=False,
