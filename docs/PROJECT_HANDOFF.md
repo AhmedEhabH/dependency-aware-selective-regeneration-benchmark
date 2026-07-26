@@ -42,7 +42,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 | **SU-0010B1A** | **COMPLETE** | Active snapshot staging |
 | **SU-0010B1B** | **COMPLETE** | Ground-Truth-free graph construction |
 | **SU-0010B2** | **COMPLETE** | Metrics persistence/reporting |
-| **SU-0010B3** | **COMPLETE** | Functional validation and bounded repair |
+| **SU-0010B3** | **COMPLETE** | Functional validation and bounded repair; correction commit enforces token budget, preserves failure history, fixes timeout test |
 
 ---
 
