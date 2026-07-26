@@ -76,7 +76,7 @@ def _setup_workspace(tmp_path: Path, artifacts: tuple[ArtifactRef, ...]) -> tupl
         snap_target.write_text(f"original {ref.path} content", encoding="utf-8")
 
     ws = WorkspacePath(root=str(ws_root))
-    iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+    iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
     return iso, ws_root
 
 
@@ -729,7 +729,7 @@ def _make_isolation(tmp_path: Path) -> tuple[IsolationContext, Path]:
     snap_base = tmp_path / "snapshots"
     snap_base.mkdir(exist_ok=True)
     ws = WorkspacePath(root=str(ws_root))
-    iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
+    iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
     return iso, ws_root
 
 

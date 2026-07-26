@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
 from benchmark.core.enums import FailureKind, RunStatus
@@ -452,6 +453,19 @@ class BenchmarkRunner:
         import uuid
         return f"{scenario.scenario_id}_{self._config.strategy_name}_{uuid.uuid4().hex[:8]}"
 
+    def _active_snapshot(self) -> Path:
+        active = self._isolation.active_snapshot_root
+        if active is None:
+            raise BenchmarkError(
+                "Regeneration-enabled execution requires an active_snapshot_root. "
+                "No active snapshot is configured."
+            )
+        if not active.is_dir():
+            raise BenchmarkError(
+                f"Active snapshot path does not exist or is not a directory: {active}"
+            )
+        return active
+
     def _build_repository_snapshot(self, scenario: Scenario) -> RepositorySnapshot:
         if self._config.enable_regeneration:
             return RepositorySnapshot(
@@ -460,7 +474,7 @@ class BenchmarkRunner:
                     url=scenario.repository,
                 ),
                 commit_sha=scenario.scenario_id,
-                path=str(self._isolation.snapshot_base),
+                path=str(self._active_snapshot()),
             )
         return RepositorySnapshot(
             identity=RepositoryIdentity(
@@ -480,12 +494,7 @@ class BenchmarkRunner:
 
     def _build_artifact_universe(self, scenario: Scenario) -> ArtifactUniverse:
         if self._config.enable_regeneration:
-            snapshot_root = self._isolation.snapshot_base
-            if not snapshot_root.is_dir():
-                raise BenchmarkError(
-                    f"Repository snapshot path does not exist or is not a directory: {snapshot_root}"
-                )
-            artifacts = discover_eligible_artifacts(snapshot_root)
+            artifacts = discover_eligible_artifacts(self._active_snapshot())
             return ArtifactUniverse(artifacts=artifacts)
         # Legacy fixture compatibility only.
         # Ground Truth fallback is forbidden for regeneration-enabled and scientific execution.

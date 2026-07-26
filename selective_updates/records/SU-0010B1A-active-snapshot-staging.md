@@ -48,7 +48,7 @@ stage_repository_snapshot(source, storage, repo_id, rev_id)
 |------|-------------|
 | `tests/unit/test_repositories_snapshot.py` | Added `TestStageRepositorySnapshot` (20 tests, 3 skip): valid staging, nested files, excluded dirs, .pyc skipped, traversal rejected (repo_id + rev_id), missing source, source-file-not-dir, identical reuse, destination-under-storage (structural assertion), two-repo isolation, symlink skipped, dir-symlink not followed. Added Fix 2 tests: modified-file rejected, added-eligible rejected, removed-eligible rejected, excluded-dir changes tolerated, symlink-only diff tolerated, destination unchanged after rejection. |
 | `tests/unit/execution/test_isolation.py` | Added `TestActiveSnapshotRoot` (8 tests): default None, set-and-get, verify inside snapshot_base, verify outside snapshot_base raises, deeply nested passes, sibling prefix fails, parent traversal fails, structural boundary check. |
-| `tests/unit/execution/test_runner.py` | Added `TestActiveSnapshotFailClosed` (4 tests): missing active with regeneration, present active with regeneration, missing active with impact-only, active snapshot_path matches RepositorySnapshot.path. Added `TestSourceSnapshotImmutability` (1 test). Added `TestMultipleSnapshotIsolation` (1 test). Updated existing tests to pass `active_snapshot_root=snap_base`. |
+| `tests/unit/execution/test_runner.py` | Added `TestActiveSnapshotFailClosed` (4 tests): no active snapshot fails closed for regeneration, missing active snapshot fails closed, empty active snapshot stays empty, legacy impact-only no active snapshot required. Added `TestSourceSnapshotImmutability` (1 test, real regeneration flow): source repo unchanged, staged snapshot unchanged, execution workspace modified, regenerated_artifact_count=1, functional_validation_passed=True. Added `TestMultipleSnapshotIsolation` (1 test). Updated existing tests to pass `active_snapshot_root=snap_base`. |
 | `tests/integration/test_su0010a_regeneration.py` | Updated `_setup_workspace` and `_make_isolation` to pass `active_snapshot_root=snap_base`. `test_canonical_source_unchanged_after_regeneration` updated with active snapshot staging. |
 
 ## Test Results
@@ -59,7 +59,7 @@ stage_repository_snapshot(source, storage, repo_id, rev_id)
 |------------|-----------|--------|--------|---------|
 | `test_repositories_snapshot.py` (staging section) | 20 | 17 | 0 | 3 |
 | `test_isolation.py` (active snapshot section) | 8 | 8 | 0 | 0 |
-| `test_runner.py` (active snapshot section) | 6 | 6 | 0 | 0 |
+| `test_runner.py` (active snapshot section) | 8 | 8 | 0 | 0 |
 | `test_su0010a_regeneration.py` | 43 | 43 | 0 | 0 |
 | Full suite | 857 | 852 | 0 | 5 |
 
@@ -71,6 +71,13 @@ stage_repository_snapshot(source, storage, repo_id, rev_id)
 | ruff | All checks passed (3 files clean) |
 | mypy | Success: no issues found in 3 source files |
 | pip check | Pre-existing env issues only |
+
+### Corrections Applied (post-merge-block)
+
+- **Fix 1 — Structural path containment**: Replaced `str(active_resolved).startswith(str(snap_resolved))` with `active_resolved.relative_to(snap_resolved)` catching `ValueError`. Sibling paths with same textual prefix no longer incorrectly pass the boundary check.
+- **Fix 2 — Content-aware staging**: Silent reuse of existing destination replaced with content comparison using the same exclusion/symlink policy as staging. Identical content is reused; differing eligible content raises `RepositoryError("Existing staged snapshot content differs for ...")`. Destination is never overwritten or deleted.
+- **Runner integration committed**: `_active_snapshot()` fail-closed helper, `_build_repository_snapshot()` and `_build_artifact_universe()` source exactly from `active_snapshot_root`, no Ground Truth fallback, legacy impact-only compatibility preserved.
+- **Test immutability corrected**: `TestSourceSnapshotImmutability` now uses `MonolithicRegenerationStrategy` and a deterministic mock backend, proving workspace modification while source and snapshot remain unchanged. `regenerated_artifact_count == 1`, `functional_validation_passed is True`.
 
 ### Key Behaviors Verified
 
@@ -90,7 +97,10 @@ stage_repository_snapshot(source, storage, repo_id, rev_id)
 - Runner with `enable_regeneration=True` and active snapshot set succeeds
 - Legacy `enable_regeneration=False` works without active snapshot
 - `RepositorySnapshot.path` matches `active_snapshot_root` when set
-- Source snapshot remains unchanged when staging copies/appends files
+- Source repository files remain unchanged after regeneration (logically immutable staged snapshot)
+- Active staged snapshot files remain unchanged after regeneration (logically immutable staged snapshot)
+- Mutable execution workspace files are actually modified to replacement content during regeneration
+- `regenerated_artifact_count == 1` and `functional_validation_passed is True` after real regeneration flow
 
 ## Code/Data/Notebook Update Status
 
@@ -104,5 +114,8 @@ stage_repository_snapshot(source, storage, repo_id, rev_id)
 
 1. Merge to `main` after validation
 2. Update `TODO.md` and `SYSTEM_STATE.md` to reflect staging capability
-3. Proceed to Kaggle validation
-4. Evaluate whether the Kaggle execution path needs to call `stage_repository_snapshot()` explicitly or can rely on the pre-staged kaggle_upload directory
+3. Evaluate whether the Kaggle execution path needs to call `stage_repository_snapshot()` explicitly or can rely on the pre-staged kaggle_upload directory
+4. Next scientific task: SU-0010B1.5B — remove Ground Truth from dependency-graph construction
+5. Scientific Smoke and Pilot remain unauthorized
+
+SU-0010B1.5B removes Ground Truth artifact fallback from the dependency-graph construction path (`selective` and `code_plan` strategies). This ensures the artifact universe is derived exclusively from the active repository snapshot, with no fallback to `expected_affected_artifacts` during graph-based impact analysis.
