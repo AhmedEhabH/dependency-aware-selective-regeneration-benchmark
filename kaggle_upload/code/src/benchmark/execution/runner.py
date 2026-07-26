@@ -388,6 +388,8 @@ class BenchmarkRunner:
         executor = SharedRegenerationExecutor(self._backend)  # type: ignore[arg-type]
         exec_result = executor.execute(plan, self._isolation, requirement_delta=requirement_delta)
 
+        self._budget.record_tokens(exec_result.total_tokens)
+
         # Execute validation
         validator = FunctionalValidator()
         val_result = validator.validate(
@@ -543,6 +545,8 @@ class BenchmarkRunner:
                 plan, self._isolation, requirement_delta, repair_context=repair_context,
             )
 
+            self._budget.record_tokens(exec_result.total_tokens)
+
             assert self._config.validation_command is not None
             val_result = validator.validate(
                 workspace_root=self._isolation.workspace.root,
@@ -574,6 +578,7 @@ class BenchmarkRunner:
                     status=RunStatus.succeeded,
                     prediction=prediction,
                     token_usage=prediction.token_usage or TokenUsage(),
+                    failures=tuple(all_failures),
                     duration_seconds=time.monotonic() - start_time,
                     selection_prompt_tokens=selection_prompt,
                     selection_completion_tokens=selection_completion,

@@ -13,6 +13,7 @@ from benchmark.core.models import (
     Scenario,
     TokenUsage,
 )
+from benchmark.execution.budgets import BudgetManager
 from benchmark.execution.isolation import IsolationContext
 from benchmark.execution.regeneration import SharedRegenerationExecutor
 from benchmark.execution.runner import BenchmarkRunner, RunnerConfig
@@ -97,12 +98,14 @@ def _make_runner(
     validation_timeout: int = 10,
     strategy_name: str = "test",
     max_attempts: int = 1,
+    max_tokens: int = 0,
 ) -> BenchmarkRunner:
     config = RunnerConfig(
         strategy_name=strategy_name,
         backend_name="mock",
         protocol_version="1.0",
         max_attempts=max_attempts,
+        max_tokens=max_tokens,
         enable_regeneration=enable_regeneration,
         validation_command=validation_command,
         validation_timeout=validation_timeout,
@@ -1145,43 +1148,274 @@ class TestBoundedRepairAttempts:
         assert record.functional_validation_duration_seconds > 0
 
     def test_token_budget_stops_repair(self, tmp_path: Path) -> None:
+        """Prove initial generation exhausts token budget, preventing repair."""
         artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+
+        class _ControlledTokenBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                return LLMResponse(
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
+                )
 
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario(artifacts=artifacts)
         runner = _make_runner(
-            tmp_path, strategy, _make_backend("content"), iso,
-            enable_regeneration=True,
-            validation_command=[sys.executable, "-c", "exit(1)"],
-            strategy_name="monolithic",
-            max_attempts=10,  # would allow many repair attempts, but token budget stops it
-        )
-        # Set token budget to 1 token — should only allow initial attempt (no record_attempt tokens passed)
-        runner.budget._max_tokens = 1
-        record = runner.run(scenario)
-        assert record.status == RunStatus.failed
-
-    def test_timeout_stops_repair(self, tmp_path: Path) -> None:
-        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
-        iso, ws_root = _setup_workspace(tmp_path, artifacts)
-
-        strategy = MonolithicRegenerationStrategy()
-        scenario = _make_scenario(artifacts=artifacts)
-        runner = _make_runner(
-            tmp_path, strategy, _make_backend("content"), iso,
+            tmp_path, strategy, _ControlledTokenBackend(), iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(1)"],
             strategy_name="monolithic",
             max_attempts=10,
+            max_tokens=15,
         )
-        # Simulate elapsed timeout by setting budget clock far in the future
-        runner.budget._timeout_seconds = 1
-        runner.budget._state.start_time = 0.0  # clock.now() will be >> start_time + 1
         record = runner.run(scenario)
-        assert record.status in (RunStatus.failed, RunStatus.timed_out)
-        # Should not have done all 10 attempts — timeout stopped early
-        assert record.regeneration_model_calls < 9
+        assert record.status == RunStatus.failed
+        # Only initial generation, no repair
+        assert record.regeneration_model_calls == 1
+
+    def test_timeout_stops_repair(self, tmp_path: Path) -> None:
+        """Prove initial generation executes but timeout after it prevents repair."""
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        call_count = 0
+
+        class _AdvancingClock:
+            def __init__(self):
+                self._now = 100.0
+
+            def now(self):
+                return self._now
+
+            def advance(self, seconds):
+                self._now += seconds
+
+        clock = _AdvancingClock()
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+
+        class _TimedOutBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal call_count
+                call_count += 1
+                # Advance past timeout during the first generation
+                clock.advance(15)
+                return LLMResponse(
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
+                )
+
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="mock",
+            protocol_version="1.0",
+            max_attempts=10,
+            timeout_seconds=10,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_TimedOutBackend(),
+            isolation=iso,
+            config=config,
+        )
+        # Inject clock that advances past timeout after the initial generation
+        runner._budget = BudgetManager(
+            max_attempts=10,
+            timeout_seconds=10,
+            clock=clock,
+        )
+        record = runner.run(scenario)
+        assert call_count == 1  # Only initial generation executed
+        assert record.status == RunStatus.failed
+
+    def test_token_budget_exhausted_after_initial_no_repair(self, tmp_path: Path) -> None:
+        """Prove initial attempt tokens are added to budget and prevent repair."""
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+
+        class _ControlledTokenBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                return LLMResponse(
+                    text="x",
+                    token_usage=TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
+                )
+
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, _ControlledTokenBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=10,
+            max_tokens=15,  # initial generation consumes all 15
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        assert record.regeneration_model_calls == 1
+
+    def test_token_budget_exhausted_after_one_repair(self, tmp_path: Path) -> None:
+        """Prove token budget prevents second repair after one repair exhausts it."""
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+
+        class _ControlledTokenBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                return LLMResponse(
+                    text="x",
+                    token_usage=TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
+                )
+
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, _ControlledTokenBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=10,
+            max_tokens=30,  # initial (15) + one repair (15) = 30, exhausts budget
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        # 2 attempts: initial + one repair, no second repair
+        assert record.regeneration_model_calls == 2
+
+    def test_max_attempts_behavior_unchanged(self, tmp_path: Path) -> None:
+        """Prove max_attempts still includes the initial attempt."""
+        artifacts = (
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+        call_count = 0
+
+        class _CountingBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal call_count
+                call_count += 1
+                return LLMResponse(
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
+                )
+
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, _CountingBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        # 1 initial + 2 repair = 3 attempts total
+        assert call_count == 3
+
+    def test_repair_success_preserves_failure_history(self, tmp_path: Path) -> None:
+        """Prove successful repair retains previous validation-failure records."""
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        class _FlippingBackend:
+            def __init__(self):
+                self._call_count = 0
+
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                self._call_count += 1
+                from benchmark.core.models import LLMResponse, TokenUsage
+                tu = TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15)
+                if self._call_count == 1:
+                    return LLMResponse(text="bad content that will fail", token_usage=tu, finish_reason="stop")
+                return LLMResponse(text="good content", token_usage=tu, finish_reason="stop")
+
+        check_cmd = [
+            sys.executable, "-c",
+            "import sys; fp='src/a.py'; "
+            "sys.exit(0 if 'good' in open(fp).read() else 1)"
+        ]
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, _FlippingBackend(), iso,
+            enable_regeneration=True,
+            validation_command=check_cmd,
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.succeeded
+        assert record.functional_validation_passed is True
+        assert record.regeneration_model_calls == 2
+        # Previous validation-failure records must be preserved
+        assert len(record.failures) > 0
+        assert any("validation failed" in f.message for f in record.failures)
+
+    def test_first_attempt_success_no_repair_history(self, tmp_path: Path) -> None:
+        """Prove first-attempt success has no repair-failure history."""
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, _make_backend("content"), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.succeeded
+        assert len(record.failures) == 0
+
+    def test_metrics_double_counted_not_duplicated(self, tmp_path: Path) -> None:
+        """Prove regeneration and workflow token metrics include every executed attempt exactly once."""
+        artifacts = (
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+
+        class _KnownMetricBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                return LLMResponse(
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
+                )
+
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, _KnownMetricBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        record = runner.run(scenario)
+        # 2 artifacts × 3 attempts = 6 model calls
+        assert record.regeneration_model_calls == 6
+        # Each call uses 15 tokens: 6 × 15 = 90
+        expected_regen_tokens = 90
+        assert record.regeneration_total_tokens == expected_regen_tokens
+        # total_workflow_tokens = selection (0) + regen (90)
+        assert record.total_workflow_tokens == expected_regen_tokens
 
 
 class TestStrategyGuard:
