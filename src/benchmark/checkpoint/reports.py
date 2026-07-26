@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 import json
 import logging
 from datetime import UTC, datetime
@@ -74,6 +73,26 @@ def _build_results_agg_from_records(
             "hardware_identity": rec.hardware_identity,
             "software_environment_identity": rec.software_environment_identity,
             "repair_attempts": rec.repair_attempts,
+            # End-to-end workflow metrics (SU-0010A)
+            "selection_prompt_tokens": rec.selection_prompt_tokens,
+            "selection_completion_tokens": rec.selection_completion_tokens,
+            "selection_total_tokens": rec.selection_total_tokens,
+            "selection_model_calls": rec.selection_model_calls,
+            "selection_duration_seconds": rec.selection_duration_seconds,
+            "regeneration_prompt_tokens": rec.regeneration_prompt_tokens,
+            "regeneration_completion_tokens": rec.regeneration_completion_tokens,
+            "regeneration_total_tokens": rec.regeneration_total_tokens,
+            "regeneration_model_calls": rec.regeneration_model_calls,
+            "regeneration_duration_seconds": rec.regeneration_duration_seconds,
+            "functional_validation_duration_seconds": rec.functional_validation_duration_seconds,
+            "functional_validation_passed": rec.functional_validation_passed,
+            "total_workflow_tokens": rec.total_workflow_tokens,
+            "total_workflow_model_calls": rec.total_workflow_model_calls,
+            "total_workflow_duration_seconds": rec.total_workflow_duration_seconds,
+            "selected_artifact_count": rec.selected_artifact_count,
+            "regenerated_artifact_count": rec.regenerated_artifact_count,
+            "preserved_artifact_count": rec.preserved_artifact_count,
+            "unresolved_human_review_count": rec.unresolved_human_review_count,
         }
         agg[sname]["records"].append(record_dict)
         if rec.status == "succeeded":
@@ -82,6 +101,52 @@ def _build_results_agg_from_records(
             agg[sname]["failure_count"] += 1
         elif rec.status == "timed_out":
             agg[sname]["timeout_count"] += 1
+
+    # Per-strategy aggregate metrics
+    for _sname, entry in agg.items():
+        records_list = entry.get("records", [])
+        n = len(records_list)
+        total_workflow_tokens = sum(r.get("total_workflow_tokens", 0) for r in records_list)
+        total_workflow_model_calls = sum(r.get("total_workflow_model_calls", 0) for r in records_list)
+        total_workflow_duration = sum(r.get("total_workflow_duration_seconds", 0.0) for r in records_list)
+        selection_total = sum(r.get("selection_total_tokens", 0) for r in records_list)
+        regeneration_total = sum(r.get("regeneration_total_tokens", 0) for r in records_list)
+        selected_count = sum(r.get("selected_artifact_count", 0) for r in records_list)
+        regenerated_count = sum(r.get("regenerated_artifact_count", 0) for r in records_list)
+        preserved_count = sum(r.get("preserved_artifact_count", 0) for r in records_list)
+        unresolved_count = sum(r.get("unresolved_human_review_count", 0) for r in records_list)
+        # Validation tri-state: True=passed, False=failed, None=not executed
+        validation_executed = [r.get("functional_validation_passed") for r in records_list
+                               if r.get("functional_validation_passed") is not None]
+        validation_passed = sum(1 for v in validation_executed if v is True)
+        validation_failed = sum(1 for v in validation_executed if v is False)
+        validation_executed_count = len(validation_executed)
+        validation_pass_rate = (validation_passed / validation_executed_count
+                                if validation_executed_count > 0 else None)
+
+        entry["aggregate"] = {
+            "run_count": n,
+            "success_count": entry.get("success_count", 0),
+            "failed_count": entry.get("failure_count", 0),
+            "sum_total_workflow_tokens": total_workflow_tokens,
+            "mean_total_workflow_tokens": round(total_workflow_tokens / n, 4) if n > 0 else 0,
+            "sum_total_workflow_model_calls": total_workflow_model_calls,
+            "mean_total_workflow_model_calls": round(total_workflow_model_calls / n, 4) if n > 0 else 0,
+            "sum_total_workflow_duration_seconds": round(total_workflow_duration, 6),
+            "mean_total_workflow_duration_seconds": round(total_workflow_duration / n, 6) if n > 0 else 0,
+            "sum_selection_total_tokens": selection_total,
+            "mean_selection_total_tokens": round(selection_total / n, 4) if n > 0 else 0,
+            "sum_regeneration_total_tokens": regeneration_total,
+            "mean_regeneration_total_tokens": round(regeneration_total / n, 4) if n > 0 else 0,
+            "sum_selected_artifact_count": selected_count,
+            "sum_regenerated_artifact_count": regenerated_count,
+            "sum_preserved_artifact_count": preserved_count,
+            "sum_unresolved_human_review_count": unresolved_count,
+            "validation_executed_count": validation_executed_count,
+            "validation_passed_count": validation_passed,
+            "validation_failed_count": validation_failed,
+            "validation_pass_rate": validation_pass_rate,
+        }
 
     return agg
 
@@ -188,6 +253,26 @@ def _build_per_strategy_detail_rows(
                 "repair_attempts": rec.get("repair_attempts", 0),
                 "hardware_identity": rec.get("hardware_identity", ""),
                 "software_environment_identity": rec.get("software_environment_identity", ""),
+                # End-to-end workflow metrics (SU-0010B2)
+                "selection_prompt_tokens": rec.get("selection_prompt_tokens", 0),
+                "selection_completion_tokens": rec.get("selection_completion_tokens", 0),
+                "selection_total_tokens": rec.get("selection_total_tokens", 0),
+                "selection_model_calls": rec.get("selection_model_calls", 0),
+                "selection_duration_seconds": rec.get("selection_duration_seconds", 0.0),
+                "regeneration_prompt_tokens": rec.get("regeneration_prompt_tokens", 0),
+                "regeneration_completion_tokens": rec.get("regeneration_completion_tokens", 0),
+                "regeneration_total_tokens": rec.get("regeneration_total_tokens", 0),
+                "regeneration_model_calls": rec.get("regeneration_model_calls", 0),
+                "regeneration_duration_seconds": rec.get("regeneration_duration_seconds", 0.0),
+                "functional_validation_duration_seconds": rec.get("functional_validation_duration_seconds", 0.0),
+                "functional_validation_passed": rec.get("functional_validation_passed", None),
+                "total_workflow_tokens": rec.get("total_workflow_tokens", 0),
+                "total_workflow_model_calls": rec.get("total_workflow_model_calls", 0),
+                "total_workflow_duration_seconds": rec.get("total_workflow_duration_seconds", 0.0),
+                "selected_artifact_count": rec.get("selected_artifact_count", 0),
+                "regenerated_artifact_count": rec.get("regenerated_artifact_count", 0),
+                "preserved_artifact_count": rec.get("preserved_artifact_count", 0),
+                "unresolved_human_review_count": rec.get("unresolved_human_review_count", 0),
             })
     return rows
 
@@ -220,6 +305,79 @@ def _compute_token_totals(
         "total_tokens": total_tokens,
         "records_included": included,
     }
+
+
+def _compute_workflow_totals(
+    records: list[RunRecordData],
+    planned_set: set[str],
+) -> dict[str, Any]:
+    """Aggregate end-to-end workflow metrics from authoritative RunRecords.
+
+    For each record, the effective workflow token value is:
+      - total_workflow_tokens for end-to-end records
+      - token_usage.total for historical impact-only records (no new fields)
+
+    An end-to-end record is identified by having evidence such as:
+      functional_validation_passed is not None
+      or regeneration_model_calls > 0
+      or total_workflow_duration_seconds > 0
+      etc.
+    """
+    total_workflow_tokens = 0
+    total_workflow_model_calls = 0
+    total_workflow_duration_seconds = 0.0
+    effective_workflow_tokens = 0
+    included = 0
+    e2e_count = 0
+    historical_count = 0
+
+    for rec in records:
+        if rec.run_id not in planned_set:
+            continue
+        included += 1
+        total_workflow_tokens += rec.total_workflow_tokens
+        total_workflow_model_calls += rec.total_workflow_model_calls
+        total_workflow_duration_seconds += rec.total_workflow_duration_seconds
+
+        if _is_end_to_end_record(rec):
+            e2e_count += 1
+            effective_workflow_tokens += rec.total_workflow_tokens
+        else:
+            historical_count += 1
+            effective_workflow_tokens += rec.token_usage.get("total", 0)
+
+    return {
+        "total_workflow_tokens": total_workflow_tokens,
+        "total_workflow_model_calls": total_workflow_model_calls,
+        "total_workflow_duration_seconds": round(total_workflow_duration_seconds, 6),
+        "effective_workflow_tokens": effective_workflow_tokens,
+        "records_included": included,
+        "end_to_end_record_count": e2e_count,
+        "historical_record_count": historical_count,
+    }
+
+
+def _is_end_to_end_record(rec: RunRecordData) -> bool:
+    """Determine whether a RunRecordData is an end-to-end regeneration record.
+
+    Uses a deterministic compatibility rule based on evidence fields.
+    Returns True for end-to-end records (including valid empty-scope runs).
+    """
+    if rec.functional_validation_passed is not None:
+        return True
+    if rec.regeneration_model_calls > 0:
+        return True
+    if rec.regeneration_total_tokens > 0:
+        return True
+    if rec.selected_artifact_count > 0:
+        return True
+    if rec.regenerated_artifact_count > 0:
+        return True
+    if rec.total_workflow_duration_seconds > 0:
+        return True
+    if rec.total_workflow_tokens > 0:
+        return True
+    return rec.total_workflow_model_calls > 0
 
 
 def _compute_duration_totals(
@@ -286,6 +444,7 @@ def rebuild_experiment_reports(
 
     # --- Aggregate metrics ---
     token_totals = _compute_token_totals(records, planned_set)
+    workflow_totals = _compute_workflow_totals(records, planned_set)
     duration_totals = _compute_duration_totals(records, planned_set)
 
     # --- Write benchmark_summary.json ---
@@ -354,6 +513,7 @@ def rebuild_experiment_reports(
         "duplicate_run_ids": sorted(duplicate_ids),
         "unexpected_run_ids": sorted({r.run_id for r in records} - planned_set),
         "token_totals": token_totals,
+        "workflow_totals": workflow_totals,
         "duration_totals": duration_totals,
         "final_status": cp.completion_status,
         "total_succeeded": sum(1 for r in records if r.run_id in planned_set and r.status == "succeeded"),

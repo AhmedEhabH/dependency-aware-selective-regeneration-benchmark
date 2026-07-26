@@ -1,6 +1,6 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-**Handoff Date:** 2026-07-25
+**Handoff Date:** 2026-07-26
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (Ethan / subsequent sessions)
 **Handoff type:** Research Design V2 Freeze Complete — Awaiting Researcher Review
@@ -13,7 +13,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 **Research Design V2 Freeze** completed: Arm-to-protocol execution audit merged to `main`. Created `docs/research-design-v2` branch with 10 design documents recording researcher-approved experimental design decisions (RD-V2-01 through RD-V2-06). Current `RepositoryAgentStrategy` audited and classified as `SINGLE_SHOT_LLM_SCOPE_BASELINE` (not iterative). Baseline acceptance criteria defined for iterative `repository_agent` (SU-0011). Shared regeneration executor designed for fair end-to-end comparison (SU-0010). Arm role/naming policy, external dataset policy, and implementation impact plan documented. No production code modified. All frozen protocol documents untouched. Pilot and Research phases remain blocked pending SU-0010 completion and baseline agent implementation.
 
-**What remains:** Researcher review of RD-V2 decisions → SU-0010 authorization (shared executor) → SU-0011 authorization (iterative repository agent) → Checkpoint/resume → Pilot → Research.
+**What remains:** Researcher review of RD-V2 decisions → SU-0010B3 validation → SU-0011 authorization (iterative repository agent) → Scientific Smoke → Pilot → Research.
 
 ---
 
@@ -21,9 +21,9 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 | Phase | Status | Description |
 |-------|--------|-------------|
-| Phase 0 | LOCAL_ENGINEERING_VALIDATED | Bootstrap, Conda env, Git baseline |
-| Phase 1 | LOCAL_ENGINEERING_VALIDATED | Input audit, paper as authoritative source |
-| Phase 2A | DRAFT (superseded) | Research protocol draft |
+| Phase 0 | COMPLETE | Bootstrap, Conda env, Git baseline |
+| Phase 1 | COMPLETE | Input audit, paper as authoritative source |
+| Phase 2A | SUPERSEDED | Research protocol draft |
 | Phase 2B | FROZEN | Protocol v1.0 frozen, 8 companion docs |
 | Phase 3 | COMPLETE | 3 repos, 24 scenarios, manifests/profiles |
 | Phase 3.5 | COMPLETE | Architecture audit, 13-layer design |
@@ -37,7 +37,11 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 | Phase 4F.1 | COMPLETE | Scientific remediation (5 gaps closed) |
 | **Kaggle Smoke** | **PASSED** | 7/7 arms, Qwen confirmed, non-publication |
 | **RD-V2 Freeze** | **DOCUMENTED** | 10 design docs on `docs/research-design-v2` branch |
-| **Checkpoint/Resume** | **NEXT (SU-0010)** | Required for pilot/research profiles |
+| **SU-0010A** | **COMPLETE** | Shared regeneration executor |
+| **SU-0010B1** | **COMPLETE** | Repository-derived ArtifactUniverse |
+| **SU-0010B1A** | **COMPLETE** | Active snapshot staging |
+| **SU-0010B1B** | **COMPLETE** | Ground-Truth-free graph construction |
+| **SU-0010B2** | **COMPLETE** | Metrics persistence/reporting |
 
 ---
 
@@ -93,9 +97,9 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 | Task | Priority | Notes |
 |------|----------|-------|
-| **SU-0010: Shared Regeneration Executor** | HIGH | Required for all end-to-end arms; ~21 days; authorized after RD-V2 review |
-| **SU-0011: Iterative Repository Agent** | HIGH | Required for confirmatory comparison; separate task from SU-0010 |
-| **Checkpoint/Resume (K004)** | HIGH | Required for pilot (~2-3h) and research (~6-9h) due to Kaggle 9h limit |
+| **SU-0010B3: Validation and Bounded Repair** | HIGH | Required after SU-0010B2; validation + bounded repair for end-to-end runs |
+| **SU-0011: Iterative Repository Agent** | HIGH | Required for confirmatory comparison |
+| **Scientific Smoke** | MEDIUM | Run smoke profile with publication evidence; requires SU-0010 complete |
 | **Run Pilot Profile** | MEDIUM | 12 scenarios, agent+selective, 2 reps; descriptive only (non-publication) |
 | **Run Research Profile** | MEDIUM | 24 scenarios, 4 strategies, 3 reps; publication-quality evidence |
 | **Arm-to-protocol alignment review** | SCIENTIFIC GATE | Before first publication claim; ensure protocol compliance |

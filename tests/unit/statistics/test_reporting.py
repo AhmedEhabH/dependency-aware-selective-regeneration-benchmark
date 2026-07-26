@@ -215,3 +215,70 @@ class TestNotebookExporterSerialization:
         assert serialized["run_id"] == "test-run"
         assert serialized["status"] == "succeeded"
         assert serialized["duration_seconds"] == 1.5
+
+    def test_serialize_record_with_end_to_end_metrics(self) -> None:
+        exporter = NotebookExporter()
+        record = RunRecord(
+            identity=RunIdentity(
+                run_id="e2e-run",
+                protocol_version="1.0",
+                repository_commit_sha="abc123",
+                scenario_id="test-scenario",
+                strategy_name="selective",
+            ),
+            status=RunStatus.succeeded,
+            duration_seconds=12.5,
+            selection_prompt_tokens=11,
+            selection_completion_tokens=12,
+            selection_total_tokens=23,
+            selection_model_calls=1,
+            selection_duration_seconds=3.25,
+            regeneration_prompt_tokens=31,
+            regeneration_completion_tokens=32,
+            regeneration_total_tokens=63,
+            regeneration_model_calls=3,
+            regeneration_duration_seconds=2.0,
+            functional_validation_duration_seconds=4.5,
+            functional_validation_passed=True,
+            total_workflow_tokens=86,
+            total_workflow_model_calls=4,
+            total_workflow_duration_seconds=9.75,
+            selected_artifact_count=5,
+            regenerated_artifact_count=3,
+            preserved_artifact_count=1,
+            unresolved_human_review_count=1,
+        )
+
+        serialized = exporter._serialize_record(record)
+
+        assert serialized["selection_total_tokens"] == 23
+        assert serialized["selection_model_calls"] == 1
+        assert serialized["regeneration_total_tokens"] == 63
+        assert serialized["regeneration_model_calls"] == 3
+        assert serialized["functional_validation_duration_seconds"] == 4.5
+        assert serialized["functional_validation_passed"] is True
+        assert serialized["total_workflow_tokens"] == 86
+        assert serialized["total_workflow_model_calls"] == 4
+        assert serialized["total_workflow_duration_seconds"] == 9.75
+        assert serialized["selected_artifact_count"] == 5
+        assert serialized["regenerated_artifact_count"] == 3
+        assert serialized["preserved_artifact_count"] == 1
+        # Legacy fields preserved
+        assert serialized["duration_seconds"] == 12.5
+        assert serialized["token_usage"] is not None
+
+    def test_serialize_record_with_functional_validation_none(self) -> None:
+        exporter = NotebookExporter()
+        record = RunRecord(
+            identity=RunIdentity(
+                run_id="none-fv",
+                protocol_version="1.0",
+                repository_commit_sha="abc",
+                scenario_id="test",
+                strategy_name="agent",
+            ),
+            status=RunStatus.succeeded,
+            functional_validation_passed=None,
+        )
+        serialized = exporter._serialize_record(record)
+        assert serialized["functional_validation_passed"] is None

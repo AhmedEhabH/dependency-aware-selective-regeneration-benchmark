@@ -4,6 +4,7 @@ import subprocess
 import sys
 import textwrap
 from pathlib import Path
+from typing import Any
 
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 SCRIPT = PROJECT_DIR / "seven_arm_benchmark.py"
@@ -238,3 +239,168 @@ class TestRunsDirBugFix:
             "--resume",
         )
         assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
+
+
+class TestEntryPointConversion:
+    """SU-0010B2: _to_run_record_data forwards every scoped metric."""
+
+    @staticmethod
+    def _make_record_dict(**overrides: Any) -> dict[str, Any]:
+        base: dict[str, Any] = {
+            "run_id": "test-run-001",
+            "scenario_id": "test-scenario-001",
+            "strategy_name": "selective",
+            "status": "succeeded",
+            "duration_seconds": 12.5,
+            "token_usage": {"prompt": 100, "completion": 50, "total": 150},
+            "failures": [],
+        }
+        base.update(overrides)
+        return base
+
+    def _build(
+        self,
+        record_dict: dict[str, Any] | None = None,
+        **kwargs: Any,
+    ) -> object:
+        from seven_arm_benchmark import _to_run_record_data
+
+        kwargs.setdefault("failure_details", [])
+        kwargs.setdefault("failure_classification", "")
+        return _to_run_record_data(
+            record_dict or self._make_record_dict(),
+            run_id="test-run-001",
+            profile="smoke",
+            repository_id="todo",
+            scenario_id="test-scenario-001",
+            strategy_id="selective",
+            repetition=1,
+            model_identity="dry-run:mock",
+            dry_run=True,
+            protocol_version="1.0",
+            source_commit="a1b2c3d",
+            config_hash="cfg001",
+            started_at="2026-07-26T00:00:00",
+            ended_at="2026-07-26T00:01:00",
+            hw_id="",
+            sw_id="",
+            max_attempts=3,
+            **kwargs,
+        )
+
+    def test_all_metrics_forwarded(self) -> None:
+        rd = self._make_record_dict(
+            selection_prompt_tokens=10,
+            selection_completion_tokens=11,
+            selection_total_tokens=12,
+            selection_model_calls=13,
+            selection_duration_seconds=1.5,
+            regeneration_prompt_tokens=20,
+            regeneration_completion_tokens=21,
+            regeneration_total_tokens=22,
+            regeneration_model_calls=23,
+            regeneration_duration_seconds=2.5,
+            functional_validation_duration_seconds=3.5,
+            functional_validation_passed=True,
+            total_workflow_tokens=100,
+            total_workflow_model_calls=5,
+            total_workflow_duration_seconds=10.0,
+            selected_artifact_count=3,
+            regenerated_artifact_count=2,
+            preserved_artifact_count=1,
+            unresolved_human_review_count=0,
+        )
+        rec = self._build(record_dict=rd)
+        assert rec.selection_prompt_tokens == 10
+        assert rec.selection_completion_tokens == 11
+        assert rec.selection_total_tokens == 12
+        assert rec.selection_model_calls == 13
+        assert rec.selection_duration_seconds == 1.5
+        assert rec.regeneration_prompt_tokens == 20
+        assert rec.regeneration_completion_tokens == 21
+        assert rec.regeneration_total_tokens == 22
+        assert rec.regeneration_model_calls == 23
+        assert rec.regeneration_duration_seconds == 2.5
+        assert rec.functional_validation_duration_seconds == 3.5
+        assert rec.functional_validation_passed is True
+        assert rec.total_workflow_tokens == 100
+        assert rec.total_workflow_model_calls == 5
+        assert rec.total_workflow_duration_seconds == 10.0
+        assert rec.selected_artifact_count == 3
+        assert rec.regenerated_artifact_count == 2
+        assert rec.preserved_artifact_count == 1
+        assert rec.unresolved_human_review_count == 0
+
+    def test_functional_validation_passed_false(self) -> None:
+        rd = self._make_record_dict(
+            functional_validation_passed=False,
+        )
+        rec = self._build(record_dict=rd)
+        assert rec.functional_validation_passed is False
+
+    def test_functional_validation_passed_none(self) -> None:
+        """When key is absent, functional_validation_passed defaults to None."""
+        rec = self._build()
+        assert rec.functional_validation_passed is None
+
+    def test_functional_validation_passed_explicit_none(self) -> None:
+        rd = self._make_record_dict(
+            functional_validation_passed=None,
+        )
+        rec = self._build(record_dict=rd)
+        assert rec.functional_validation_passed is None
+
+    def test_total_workflow_tokens_not_replaced(self) -> None:
+        """total_workflow_tokens is independent of token_usage total."""
+        rd = self._make_record_dict(
+            token_usage={"prompt": 500, "completion": 300, "total": 800},
+            total_workflow_tokens=100,
+        )
+        rec = self._build(record_dict=rd)
+        assert rec.total_workflow_tokens == 100
+        assert rec.token_usage["total"] == 800
+
+    def test_selection_and_regeneration_not_swapped(self) -> None:
+        rd = self._make_record_dict(
+            selection_total_tokens=10,
+            regeneration_total_tokens=20,
+        )
+        rec = self._build(record_dict=rd)
+        assert rec.selection_total_tokens == 10
+        assert rec.regeneration_total_tokens == 20
+
+    def test_artifact_counts_survive(self) -> None:
+        rd = self._make_record_dict(
+            selected_artifact_count=5,
+            regenerated_artifact_count=3,
+            preserved_artifact_count=7,
+            unresolved_human_review_count=1,
+        )
+        rec = self._build(record_dict=rd)
+        assert rec.selected_artifact_count == 5
+        assert rec.regenerated_artifact_count == 3
+        assert rec.preserved_artifact_count == 7
+        assert rec.unresolved_human_review_count == 1
+
+    def test_historical_compatibility(self) -> None:
+        """Legacy record_dict without e2e keys: all new fields get defaults."""
+        rec = self._build()
+        assert rec.selection_prompt_tokens == 0
+        assert rec.selection_completion_tokens == 0
+        assert rec.selection_total_tokens == 0
+        assert rec.selection_model_calls == 0
+        assert rec.selection_duration_seconds == 0.0
+        assert rec.regeneration_prompt_tokens == 0
+        assert rec.regeneration_completion_tokens == 0
+        assert rec.regeneration_total_tokens == 0
+        assert rec.regeneration_model_calls == 0
+        assert rec.regeneration_duration_seconds == 0.0
+        assert rec.functional_validation_duration_seconds == 0.0
+        assert rec.functional_validation_passed is None
+        assert rec.total_workflow_tokens == 0
+        assert rec.total_workflow_model_calls == 0
+        assert rec.total_workflow_duration_seconds == 0.0
+        assert rec.selected_artifact_count == 0
+        assert rec.regenerated_artifact_count == 0
+        assert rec.preserved_artifact_count == 0
+        assert rec.unresolved_human_review_count == 0

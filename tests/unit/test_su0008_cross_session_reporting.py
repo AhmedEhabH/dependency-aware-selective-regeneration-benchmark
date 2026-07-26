@@ -6,14 +6,13 @@ import hashlib
 import json
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any
 
 import pytest
 
 from benchmark.checkpoint.checkpoint import (
     CheckpointData,
     CheckpointManager,
-    ProgressData,
-    ProgressManager,
 )
 from benchmark.checkpoint.persistence import (
     RunRecordData,
@@ -50,6 +49,13 @@ def _make_run_id(scenario_id: str, strategy_name: str, rep: int,
 
 def _all_planned(config_hash: str = "deadbeef") -> list[str]:
     return [_make_run_id("djangocms-cross-007", s, 1, config_hash) for s in ALL_SEVEN_STRATEGIES]
+
+
+def _overwrite_records(tmp_path: Path, records: list[RunRecordData]) -> None:
+    """Replace run_records.jsonl with the given records."""
+    from dataclasses import asdict
+    lines = "\n".join(json.dumps(asdict(r), sort_keys=True) for r in records)
+    (tmp_path / "run_records.jsonl").write_text(lines + "\n", encoding="utf-8")
 
 
 def _make_record(
@@ -294,6 +300,79 @@ class TestCompletedCrossSessionSmoke:
         audit = rebuild_experiment_reports(tmp_path)
         assert audit["duplicate_run_ids"] == []
 
+    def test_workflow_totals_in_audit(self, tmp_path: Path) -> None:
+        """Audit includes workflow_totals with effective_workflow_tokens."""
+        planned = _all_planned()
+        records = []
+
+        # Monolithic: historical record
+        rec1 = _make_record(tmp_path, planned[0], strategy_id="monolithic",
+                            status="succeeded", duration_seconds=0.5)
+        records.append(rec1)
+
+        # Agent: end-to-end record with workflow metrics
+        rec2 = RunRecordData(
+            run_id=planned[1], profile="smoke", repository_id="djangocms",
+            scenario_id="djangocms-cross-007", strategy_id="agent",
+            repetition=1, seed=42, status="succeeded", duration_seconds=58.67,
+            token_usage={"prompt": 0, "completion": 0, "total": 0},
+            protocol_version="1.0", source_commit="abc1234", config_hash="deadbeef",
+            timestamp=datetime.now(UTC).isoformat(),
+            started_at=datetime.now(UTC).isoformat(),
+            ended_at=datetime.now(UTC).isoformat(),
+            model_calls=0, repair_attempts=0,
+            total_workflow_tokens=86, total_workflow_model_calls=4,
+            total_workflow_duration_seconds=9.75,
+            functional_validation_passed=True,
+        )
+        RunRecordStore(tmp_path).append(rec2)
+        records.append(rec2)
+
+        for i in range(2, 7):
+            rec = _make_record(tmp_path, planned[i], strategy_id=ALL_SEVEN_STRATEGIES[i],
+                               status="succeeded", duration_seconds=0.1)
+            records.append(rec)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=list(planned),
+            succeeded_run_ids=list(planned),
+            completion_status="completed",
+        )
+
+        audit = rebuild_experiment_reports(tmp_path)
+        wt = audit["workflow_totals"]
+        assert wt["total_workflow_tokens"] >= 86
+        assert wt["total_workflow_model_calls"] >= 4
+        assert wt["total_workflow_duration_seconds"] >= 9.75
+        assert wt["effective_workflow_tokens"] >= 86
+        assert wt["records_included"] == 7
+
+    def test_workflow_totals_historical_fallback(self, tmp_path: Path) -> None:
+        """Historical records use token_usage for effective_workflow_tokens."""
+        planned = _all_planned()
+        # All are historical (no end-to-end fields)
+        for i in range(7):
+            tok = {"prompt": 10, "completion": 5, "total": 15} if i == 1 else {"prompt": 0, "completion": 0, "total": 0}
+            _make_record(tmp_path, planned[i], strategy_id=ALL_SEVEN_STRATEGIES[i],
+                         status="succeeded", duration_seconds=0.1 + i * 0.5,
+                         token_usage=tok, model_calls=1 if i == 1 else 0)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=list(planned),
+            succeeded_run_ids=list(planned),
+            completion_status="completed",
+        )
+
+        audit = rebuild_experiment_reports(tmp_path)
+        wt = audit["workflow_totals"]
+        # Only agent record has tokens, all are historical
+        assert wt["total_workflow_tokens"] == 0  # no end-to-end totals set
+        assert wt["effective_workflow_tokens"] == 15  # from token_usage fallback
+        assert wt["historical_record_count"] == 7
+        assert wt["end_to_end_record_count"] == 0
+
     def test_run_ids_in_planned_set(self, tmp_path: Path) -> None:
         """Every summary Run ID exists in planned_run_ids."""
         planned = _all_planned()
@@ -327,12 +406,10 @@ class TestCompletedCrossSessionSmoke:
             completion_status="completed",
         )
 
-        cp_before = (tmp_path / "checkpoint.json").read_bytes()
         rec_before = (tmp_path / "run_records.jsonl").read_bytes()
 
         rebuild_experiment_reports(tmp_path)
 
-        cp_after = (tmp_path / "checkpoint.json").read_bytes()
         rec_after = (tmp_path / "run_records.jsonl").read_bytes()
 
         # checkpoint.json may be modified by normalization (last_update timestamp)
@@ -469,7 +546,6 @@ class TestInvalidEvidence:
 
     def test_unexpected_run_id_in_records(self, tmp_path: Path) -> None:
         """Record for non-planned Run ID -> error."""
-        planned = _all_planned()
         _make_record(tmp_path, "UNEXPECTED-RUN-ID", strategy_id="agent", status="succeeded")
 
         _make_checkpoint(tmp_path)
@@ -709,3 +785,317 @@ class TestPerStrategyDetailRows:
             assert required_fields.issubset(set(row.keys())), (
                 f"Missing fields in row: {required_fields - set(row.keys())}"
             )
+
+
+# ---------------------------------------------------------------------------
+# 9. SU-0010B2 End-to-end metrics persistence and reporting
+# ---------------------------------------------------------------------------
+
+def _make_e2e_record_data(**overrides: Any) -> RunRecordData:
+    """Create RunRecordData with end-to-end fields for cross-session tests."""
+    kwargs: dict[str, Any] = {
+        "run_id": "",
+        "profile": "smoke",
+        "repository_id": "djangocms",
+        "scenario_id": "djangocms-cross-007",
+        "strategy_id": "selective",
+        "repetition": 1,
+        "seed": 42,
+        "status": "succeeded",
+        "token_usage": {"prompt": 100, "completion": 50, "total": 150},
+        "duration_seconds": 12.5,
+        "protocol_version": "1.0",
+        "source_commit": "abc1234",
+        "config_hash": "deadbeef",
+        "timestamp": "2026-07-26T00:00:00",
+        "started_at": "2026-07-26T00:00:00",
+        "ended_at": "2026-07-26T00:05:00",
+        "model_calls": 2,
+        "repair_attempts": 0,
+        "selection_prompt_tokens": 11,
+        "selection_completion_tokens": 12,
+        "selection_total_tokens": 23,
+        "selection_model_calls": 1,
+        "selection_duration_seconds": 3.25,
+        "regeneration_prompt_tokens": 31,
+        "regeneration_completion_tokens": 32,
+        "regeneration_total_tokens": 63,
+        "regeneration_model_calls": 3,
+        "regeneration_duration_seconds": 2.0,
+        "functional_validation_duration_seconds": 4.5,
+        "functional_validation_passed": True,
+        "total_workflow_tokens": 86,
+        "total_workflow_model_calls": 4,
+        "total_workflow_duration_seconds": 9.75,
+        "selected_artifact_count": 5,
+        "regenerated_artifact_count": 3,
+        "preserved_artifact_count": 1,
+        "unresolved_human_review_count": 1,
+    }
+    kwargs.update(overrides)
+    return RunRecordData(**kwargs)
+
+
+def _make_e2e_empty_scope(**overrides: Any) -> RunRecordData:
+    return _make_e2e_record_data(
+        selected_artifact_count=0,
+        regenerated_artifact_count=0,
+        regeneration_model_calls=0,
+        total_workflow_tokens=0,
+        total_workflow_model_calls=1,
+        functional_validation_passed=True,
+        **overrides,
+    )
+
+
+def _make_e2e_validation_failed(**overrides: Any) -> RunRecordData:
+    return _make_e2e_record_data(
+        functional_validation_passed=False,
+        status="failed",
+        **overrides,
+    )
+
+
+def _make_e2e_validation_missing(**overrides: Any) -> RunRecordData:
+    return _make_e2e_record_data(
+        functional_validation_passed=None,
+        **overrides,
+    )
+
+
+class TestB2EndToEndMetricsCrossSession:
+    """SU-0010B2 cross-session integration for end-to-end metrics."""
+
+    def test_e2e_round_trip(self, tmp_path: Path) -> None:
+        """Full round-trip: write e2e record, load, verify all fields."""
+        planned = _all_planned()
+        run_id = planned[0]
+        rec = _make_e2e_record_data(run_id=run_id)
+        RunRecordStore(tmp_path).append(rec)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=[run_id],
+            succeeded_run_ids=[run_id],
+            completion_status="incomplete",
+        )
+
+        store = RunRecordStore(tmp_path)
+        loaded = store.load_all()
+        assert len(loaded) == 1
+        assert loaded[0].run_id == run_id
+        assert loaded[0].total_workflow_tokens == 86
+
+    def test_e2e_success_report(self, tmp_path: Path) -> None:
+        """End-to-end success with non-zero regeneration metrics reported."""
+        planned = _all_planned()
+        run_id = planned[0]
+        rec = _make_e2e_record_data(run_id=run_id)
+        RunRecordStore(tmp_path).append(rec)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=[run_id],
+            succeeded_run_ids=[run_id],
+            completion_status="completed",
+        )
+
+        audit = rebuild_experiment_reports(tmp_path)
+        assert audit["workflow_totals"]["total_workflow_tokens"] == 86
+        assert audit["workflow_totals"]["total_workflow_model_calls"] == 4
+        assert audit["workflow_totals"]["effective_workflow_tokens"] == 86
+        assert audit["workflow_totals"]["end_to_end_record_count"] == 1
+
+    def test_e2e_validation_failure(self, tmp_path: Path) -> None:
+        """End-to-end validation failure preserves metrics."""
+        planned = _all_planned()
+        run_id = planned[0]
+        rec = _make_e2e_validation_failed(run_id=run_id)
+        RunRecordStore(tmp_path).append(rec)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=[run_id],
+            failed_run_ids=[run_id],
+            completion_status="completed",
+        )
+
+        audit = rebuild_experiment_reports(tmp_path)
+        assert audit["total_failed"] == 1
+        assert audit["workflow_totals"]["total_workflow_tokens"] == 86
+        summary = json.loads((tmp_path / "benchmark_summary.json").read_text(encoding="utf-8"))
+        strat = summary.get("selective", {})
+        records_list = strat.get("records", [])
+        assert len(records_list) == 1
+        assert records_list[0]["functional_validation_passed"] is False
+
+    def test_e2e_empty_scope(self, tmp_path: Path) -> None:
+        """Empty-scope e2e run: zero artifact counts, validation passed."""
+        planned = _all_planned()
+        run_id = planned[0]
+        rec = _make_e2e_empty_scope(run_id=run_id)
+        RunRecordStore(tmp_path).append(rec)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=[run_id],
+            succeeded_run_ids=[run_id],
+            completion_status="completed",
+        )
+
+        audit = rebuild_experiment_reports(tmp_path)
+        assert audit["workflow_totals"]["total_workflow_tokens"] == 0
+        assert audit["workflow_totals"]["end_to_end_record_count"] == 1
+
+    def test_validation_missing_excluded_from_denom(self, tmp_path: Path) -> None:
+        """functional_validation_passed=None excluded from pass-rate denom."""
+        planned = _all_planned()
+        for i, run_id in enumerate(planned[:3]):
+            rec = _make_e2e_validation_missing(run_id=run_id, strategy_id=ALL_SEVEN_STRATEGIES[i])
+            RunRecordStore(tmp_path).append(rec)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=list(planned[:3]),
+            succeeded_run_ids=list(planned[:3]),
+            completion_status="completed",
+        )
+
+        rebuild_experiment_reports(tmp_path)
+        summary = json.loads((tmp_path / "benchmark_summary.json").read_text(encoding="utf-8"))
+        for sname in ALL_SEVEN_STRATEGIES[:3]:
+            agg = summary.get(sname, {}).get("aggregate", {})
+            if agg.get("validation_executed_count", 0) == 0:
+                assert agg.get("validation_pass_rate") is None
+
+    def test_historical_record_missing_all_new_fields(self, tmp_path: Path) -> None:
+        """Historical impact-only record missing every new field loads OK."""
+        planned = _all_planned()
+        _make_record(tmp_path, planned[0], strategy_id="monolithic",
+                     status="succeeded", duration_seconds=1.0)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=[planned[0]],
+            succeeded_run_ids=[planned[0]],
+            completion_status="completed",
+        )
+
+        audit = rebuild_experiment_reports(tmp_path)
+        assert audit["raw_run_record_count"] == 1
+        assert audit["workflow_totals"]["historical_record_count"] == 1
+        assert audit["workflow_totals"]["end_to_end_record_count"] == 0
+        assert audit["workflow_totals"]["effective_workflow_tokens"] == 0
+
+    def test_failed_run_metrics_preserved(self, tmp_path: Path) -> None:
+        """Failed run with end-to-end metrics preserves values."""
+        planned = _all_planned()
+        run_id = planned[0]
+        rec = _make_e2e_record_data(run_id=run_id, status="failed")
+        RunRecordStore(tmp_path).append(rec)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=[run_id],
+            failed_run_ids=[run_id],
+            completion_status="incomplete",
+        )
+
+        audit = rebuild_experiment_reports(tmp_path)
+        assert audit["workflow_totals"]["total_workflow_tokens"] == 86
+        assert audit["workflow_totals"]["total_workflow_model_calls"] == 4
+
+    def test_checkpoint_round_trip_all_new_fields(self, tmp_path: Path) -> None:
+        """Checkpoint round-trip with all new fields using distinctive values."""
+        planned = _all_planned()
+        run_id = planned[0]
+        rec = _make_e2e_record_data(run_id=run_id)
+        RunRecordStore(tmp_path).append(rec)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=[run_id],
+            succeeded_run_ids=[run_id],
+            completion_status="completed",
+        )
+
+        from benchmark.checkpoint.resume import ResumeManager
+        resume = ResumeManager(
+            runs_dir=tmp_path,
+            protocol_version="1.0",
+            config_hash="deadbeef",
+            model_identity="dry-run:mock",
+            source_commit="abc1234",
+        )
+        normalized = resume.get_normalized_checkpoint()
+        assert normalized is not None
+        assert normalized.completion_status == "completed"
+
+        store = RunRecordStore(tmp_path)
+        loaded = store.load_all()
+        assert len(loaded) == 1
+        assert loaded[0].total_workflow_tokens == 86
+        assert loaded[0].functional_validation_passed is True
+
+    def test_aggregate_mixed_types(self, tmp_path: Path) -> None:
+        """Aggregate with historical + end-to-end (success + fail + missing validation)."""
+        planned = _all_planned()
+        _make_record(tmp_path, planned[0], strategy_id="monolithic", status="succeeded",
+                     duration_seconds=1.0, token_usage={"prompt": 10, "completion": 5, "total": 15})
+        rec_ok = _make_e2e_record_data(run_id=planned[1], strategy_id="agent")
+        RunRecordStore(tmp_path).append(rec_ok)
+        rec_fail = _make_e2e_validation_failed(run_id=planned[2], strategy_id="selective")
+        RunRecordStore(tmp_path).append(rec_fail)
+        rec_missing = _make_e2e_validation_missing(run_id=planned[3], strategy_id="compiled_ai")
+        RunRecordStore(tmp_path).append(rec_missing)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=planned[:4],
+            succeeded_run_ids=[planned[0], planned[1], planned[3]],
+            failed_run_ids=[planned[2]],
+            completion_status="completed",
+        )
+
+        audit = rebuild_experiment_reports(tmp_path)
+        wt = audit["workflow_totals"]
+        assert wt["end_to_end_record_count"] == 3
+        assert wt["historical_record_count"] == 1
+        assert wt["effective_workflow_tokens"] == 15 + 86 * 3
+        assert audit["total_succeeded"] == 3
+        assert audit["total_failed"] == 1
+
+    def test_zero_run_no_division_by_zero(self, tmp_path: Path) -> None:
+        """Zero records or empty report does not divide by zero."""
+        _make_checkpoint(tmp_path, completion_status="completed")
+        audit = rebuild_experiment_reports(tmp_path)
+        assert audit["raw_run_record_count"] == 0
+        assert audit["workflow_totals"]["records_included"] == 0
+        assert audit["duration_totals"]["records_included"] == 0
+
+    def test_benchmark_summary_includes_aggregate(self, tmp_path: Path) -> None:
+        """benchmark_summary.json includes aggregate metrics per strategy."""
+        planned = _all_planned()
+        run_id = planned[0]
+        rec = _make_e2e_record_data(run_id=run_id)
+        RunRecordStore(tmp_path).append(rec)
+
+        _make_checkpoint(
+            tmp_path,
+            completed_run_ids=[run_id],
+            succeeded_run_ids=[run_id],
+            completion_status="completed",
+        )
+
+        rebuild_experiment_reports(tmp_path)
+        summary = json.loads((tmp_path / "benchmark_summary.json").read_text(encoding="utf-8"))
+        strat = summary.get("selective", {})
+        agg = strat.get("aggregate", {})
+        assert agg["run_count"] == 1
+        assert agg["sum_total_workflow_tokens"] == 86
+        assert agg["sum_selection_total_tokens"] == 23
+        assert agg["sum_regeneration_total_tokens"] == 63
+        assert agg["validation_executed_count"] == 1
+        assert agg["validation_pass_rate"] == 1.0
+        assert agg["sum_selected_artifact_count"] == 5
+        assert agg["sum_regenerated_artifact_count"] == 3

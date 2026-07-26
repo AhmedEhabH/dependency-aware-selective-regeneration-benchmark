@@ -118,6 +118,86 @@ def describe_capabilities(strategy_name: str) -> dict[str, bool]:
         "dependency_graph_attached": (cls in graph_classes) if cls else False,
     }
 
+def _to_run_record_data(
+    record_dict: dict[str, Any],
+    *,
+    run_id: str,
+    profile: str,
+    repository_id: str,
+    scenario_id: str,
+    strategy_id: str,
+    repetition: int,
+    model_identity: str,
+    dry_run: bool,
+    protocol_version: str,
+    source_commit: str,
+    config_hash: str,
+    started_at: str,
+    ended_at: str,
+    hw_id: str,
+    sw_id: str,
+    max_attempts: int,
+    failure_details: list[dict[str, Any]] | None = None,
+    failure_classification: str = "",
+) -> object:
+    """Convert record_dict plus metadata into RunRecordData.
+
+    This is the single entry-point conversion for seven_arm_benchmark.py.
+    All end-to-end scoped metrics are forwarded with backward-compatible defaults.
+    """
+    from benchmark.checkpoint.persistence import RunRecordData
+
+    tok = record_dict.get("token_usage", {"prompt": 0, "completion": 0, "total": 0})
+    status = record_dict.get("status", "")
+    fdetails = failure_details or record_dict.get("failures", [])
+
+    return RunRecordData(
+        run_id=run_id,
+        profile=profile,
+        repository_id=repository_id,
+        scenario_id=scenario_id,
+        strategy_id=strategy_id,
+        repetition=repetition,
+        seed=42,
+        status=status,
+        failure_details=fdetails,
+        token_usage=tok,
+        duration_seconds=record_dict.get("duration_seconds", 0.0),
+        model_metadata={"model": model_identity, "dry_run": str(dry_run)},
+        protocol_version=protocol_version,
+        source_commit=source_commit,
+        config_hash=config_hash,
+        timestamp=started_at,
+        started_at=started_at,
+        ended_at=ended_at,
+        model_calls=1 if tok.get("total", 0) > 0 else 0,
+        repair_attempts=max(0, max_attempts - 1) if status != "succeeded" else 0,
+        hardware_identity=hw_id or "dry-run:mock" if dry_run else hw_id,
+        software_environment_identity=sw_id or "dry-run:mock" if dry_run else sw_id,
+        failure_classification=failure_classification,
+        # End-to-end workflow metrics with backward-compatible defaults
+        selection_prompt_tokens=record_dict.get("selection_prompt_tokens", 0),
+        selection_completion_tokens=record_dict.get("selection_completion_tokens", 0),
+        selection_total_tokens=record_dict.get("selection_total_tokens", 0),
+        selection_model_calls=record_dict.get("selection_model_calls", 0),
+        selection_duration_seconds=record_dict.get("selection_duration_seconds", 0.0),
+        regeneration_prompt_tokens=record_dict.get("regeneration_prompt_tokens", 0),
+        regeneration_completion_tokens=record_dict.get("regeneration_completion_tokens", 0),
+        regeneration_total_tokens=record_dict.get("regeneration_total_tokens", 0),
+        regeneration_model_calls=record_dict.get("regeneration_model_calls", 0),
+        regeneration_duration_seconds=record_dict.get("regeneration_duration_seconds", 0.0),
+        functional_validation_duration_seconds=record_dict.get("functional_validation_duration_seconds", 0.0),
+        functional_validation_passed=record_dict.get("functional_validation_passed"),
+        total_workflow_tokens=record_dict.get("total_workflow_tokens", 0),
+        total_workflow_model_calls=record_dict.get("total_workflow_model_calls", 0),
+        total_workflow_duration_seconds=record_dict.get("total_workflow_duration_seconds", 0.0),
+        selected_artifact_count=record_dict.get("selected_artifact_count", 0),
+        regenerated_artifact_count=record_dict.get("regenerated_artifact_count", 0),
+        preserved_artifact_count=record_dict.get("preserved_artifact_count", 0),
+        unresolved_human_review_count=record_dict.get("unresolved_human_review_count", 0),
+    )
+
+
 REPO_IDS = ["todo", "djangocms", "saleor"]
 
 
@@ -838,6 +918,26 @@ def _run_single_scenario_strategy(
             "completion": record.token_usage.completion_tokens,
             "total": record.token_usage.total_tokens,
         } if record.token_usage else {"prompt": 0, "completion": 0, "total": 0},
+        # End-to-end workflow metrics (SU-0010A)
+        "selection_prompt_tokens": record.selection_prompt_tokens,
+        "selection_completion_tokens": record.selection_completion_tokens,
+        "selection_total_tokens": record.selection_total_tokens,
+        "selection_model_calls": record.selection_model_calls,
+        "selection_duration_seconds": record.selection_duration_seconds,
+        "regeneration_prompt_tokens": record.regeneration_prompt_tokens,
+        "regeneration_completion_tokens": record.regeneration_completion_tokens,
+        "regeneration_total_tokens": record.regeneration_total_tokens,
+        "regeneration_model_calls": record.regeneration_model_calls,
+        "regeneration_duration_seconds": record.regeneration_duration_seconds,
+        "functional_validation_duration_seconds": record.functional_validation_duration_seconds,
+        "functional_validation_passed": record.functional_validation_passed,
+        "total_workflow_tokens": record.total_workflow_tokens,
+        "total_workflow_model_calls": record.total_workflow_model_calls,
+        "total_workflow_duration_seconds": record.total_workflow_duration_seconds,
+        "selected_artifact_count": record.selected_artifact_count,
+        "regenerated_artifact_count": record.regenerated_artifact_count,
+        "preserved_artifact_count": record.preserved_artifact_count,
+        "unresolved_human_review_count": record.unresolved_human_review_count,
     }
     if record.failures:
         record_dict["failures"] = [
@@ -966,7 +1066,7 @@ def main() -> int:
 
     # ---- Checkpoint / Resume setup -----------------------------------------
     from benchmark.checkpoint.checkpoint import CheckpointManager, CheckpointData, ProgressManager, ProgressData
-    from benchmark.checkpoint.persistence import RunRecordStore, RunRecordData
+    from benchmark.checkpoint.persistence import RunRecordStore
     from benchmark.checkpoint.resume import ResumeManager, ResumeValidationError
     from benchmark.checkpoint.package import ResultsPackager
 
@@ -1490,30 +1590,25 @@ def main() -> int:
                 "This indicates an execution plan / checkpoint inconsistency."
             )
 
-        tok = record_dict.get("token_usage", {"prompt": 0, "completion": 0, "total": 0})
-        run_record_data = RunRecordData(
+        run_record_data = _to_run_record_data(
+            record_dict,
             run_id=run_id,
             profile=profile.name,
             repository_id=repository_id,
             scenario_id=scenario_id,
             strategy_id=strategy_name,
             repetition=rep,
-            seed=42,
-            status=status,
-            failure_details=failure_details,
-            token_usage=tok,
-            duration_seconds=record_dict.get("duration_seconds", 0.0),
-            model_metadata={"model": model_identity, "dry_run": str(args.dry_run)},
+            model_identity=model_identity,
+            dry_run=args.dry_run,
             protocol_version=args.protocol_version,
             source_commit=source_commit,
             config_hash=config_hash,
-            timestamp=run_started_at,
             started_at=run_started_at,
             ended_at=run_ended_at,
-            model_calls=1 if tok.get("total", 0) > 0 else 0,
-            repair_attempts=max(0, args.max_attempts - 1) if status != "succeeded" else 0,
-            hardware_identity=hw_id or "dry-run:mock" if args.dry_run else hw_id,
-            software_environment_identity=sw_id or "dry-run:mock" if args.dry_run else sw_id,
+            hw_id=hw_id,
+            sw_id=sw_id,
+            max_attempts=args.max_attempts,
+            failure_details=failure_details,
             failure_classification=failure_classification,
         )
 
