@@ -68,6 +68,7 @@ STRATEGY_NAMES = [
     "delta_mcp",
     "incr_rtl",
     "code_plan",
+    "iterative_repository_agent",
 ]
 
 # Frozen protocol design: which strategies are expected to use an LLM backend
@@ -80,6 +81,7 @@ STRATEGY_CAPABILITIES_DESIGN: dict[str, dict[str, bool]] = {
     "delta_mcp": {"llm": True, "graph": False},
     "incr_rtl": {"llm": False, "graph": False},
     "code_plan": {"llm": True, "graph": True},
+    "iterative_repository_agent": {"llm": True, "graph": False},
 }
 
 
@@ -96,11 +98,12 @@ def describe_capabilities(strategy_name: str) -> dict[str, bool]:
     from benchmark.strategies import (
         FullContextStrategy,
         HybridSelectiveStrategy,
+        IterativeRepositoryAgentStrategy,
         RepositoryAgentStrategy,
         StaticOnlyStrategy,
     )
     graph_classes: set[type] = {HybridSelectiveStrategy, FullContextStrategy, StaticOnlyStrategy}
-    llm_classes: set[type] = {RepositoryAgentStrategy}
+    llm_classes: set[type] = {RepositoryAgentStrategy, IterativeRepositoryAgentStrategy}
     cls_map = {
         "monolithic": None,
         "agent": RepositoryAgentStrategy,
@@ -109,6 +112,7 @@ def describe_capabilities(strategy_name: str) -> dict[str, bool]:
         "delta_mcp": None,
         "incr_rtl": None,
         "code_plan": FullContextStrategy,
+        "iterative_repository_agent": IterativeRepositoryAgentStrategy,
     }
     cls = cls_map.get(strategy_name)
     return {
@@ -281,6 +285,7 @@ def make_strategy(name: str, backend=None, graph=None):  # type: ignore[no-untyp
     from benchmark.strategies import (
         FullContextStrategy,
         HybridSelectiveStrategy,
+        IterativeRepositoryAgentStrategy,
         MonolithicRegenerationStrategy,
         RepositoryAgentStrategy,
         SemanticOnlyStrategy,
@@ -292,6 +297,11 @@ def make_strategy(name: str, backend=None, graph=None):  # type: ignore[no-untyp
         if backend is None:
             raise ValueError("RepositoryAgentStrategy requires a backend")
         return RepositoryAgentStrategy(backend=backend)
+
+    if name == "iterative_repository_agent":
+        if backend is None:
+            raise ValueError("IterativeRepositoryAgentStrategy requires a backend")
+        return IterativeRepositoryAgentStrategy(backend=backend)
 
     strategies = {
         "monolithic": (MonolithicRegenerationStrategy, {}),

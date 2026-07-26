@@ -137,6 +137,55 @@ The architecture uses:
 
 See [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md) and [`docs/DEPENDENCY_RULES.md`](docs/DEPENDENCY_RULES.md).
 
+## Comparison Arms
+
+### Monolithic / Full-Scope Regeneration
+Condition identifier: `monolithic`, `full_scope_reference`
+Purpose: Baseline full-scope regeneration — every artifact is regenerated.
+Budget semantics: Selection + regeneration tokens count toward `max_tokens`.
+
+### Agent (Single-Shot LLM)
+Condition identifier: `agent`
+Purpose: Single LLM call for impact analysis; no regeneration.
+Budget semantics: Not budget-constrained (no regeneration enabled).
+
+### Selective / Hybrid Selective Regeneration
+Condition identifier: `selective`, `hybrid_selective`
+Purpose: Selective regeneration using dependency graph and semantic analysis.
+Budget semantics: Selection + regeneration tokens count toward `max_tokens`.
+
+### Compiled AI (Static Analysis)
+Condition identifier: `compiled_ai`
+Purpose: Dependency graph only — no LLM calls.
+Budget semantics: Not budget-constrained (no LLM calls).
+
+### Delta MCP (Semantic Analysis)
+Condition identifier: `delta_mcp`
+Purpose: Repository diff and semantic trace analysis.
+Budget semantics: Not budget-constrained (no LLM calls).
+
+### Incremental RTL (Traceability)
+Condition identifier: `incr_rtl`
+Purpose: Lightweight traceability analysis.
+Budget semantics: Not budget-constrained (no LLM calls).
+
+### Code Plan (Full Context)
+Condition identifier: `code_plan`
+Purpose: Full-repository-context LLM analysis.
+Budget semantics: Not budget-constrained (no regeneration enabled).
+
+### Iterative Repository Agent
+Condition identifier: `iterative_repository_agent`
+Purpose: Plan → regenerate → validate → revise. The agent iteratively analyzes
+the repository, selects artifacts for regeneration, regenerates them, validates
+the result, and revises its plan based on validation feedback.
+Stop conditions: Validation passes, token budget exhausted (`max_tokens`),
+attempt budget exhausted (`max_attempts`), timeout, `requires_iteration=false`,
+backend error.
+Budget semantics: Agent reasoning tokens + regeneration tokens count toward
+`max_tokens`. Shared meaning across all regeneration-enabled arms.
+Scientific Smoke and Pilot: Not yet authorized for this arm.
+
 ## Current Status
 
 | Phase | Status |

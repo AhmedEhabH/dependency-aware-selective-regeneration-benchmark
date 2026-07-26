@@ -161,3 +161,11 @@ class TestBudgetManager:
         bm.record_tokens(15)
         assert bm.can_attempt is True
         assert bm.state.exhausted is False
+
+    def test_two_record_tokens_in_one_attempt_accumulate(self) -> None:
+        bm = BudgetManager(max_attempts=5, max_tokens=100)
+        bm.record_attempt()
+        bm.record_tokens(10)
+        bm.record_tokens(20)
+        assert bm.state.total_tokens == 30
+        assert bm.state.attempts[-1].tokens_consumed == 30

@@ -36,12 +36,14 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - SU-0010B1B Ground-Truth-free graph construction
 - SU-0010B2 metrics persistence/reporting
 - SU-0010B3 functional validation and bounded repair (correction: token budget enforcement, failure history preservation, timeout test fix)
+- SU-0011 iterative repository agent (audit corrections applied: cumulative token accounting, budget check between reasoning/regeneration, fair token-budget semantics, requires_iteration control state, backend exception propagation, type-ignore removal)
+- SU-0011 on feature/su-0011-iterative-repository-agent awaiting merge
 
 ## Next
 
-- SU-0011 iterative repository agent
-- Scientific Smoke
-- Pilot
+- Merge SU-0011
+- Scientific Smoke (only after merge, only after stable tag)
+- Pilot (remains unauthorized until Scientific Smoke passes)
 
 ## Known Boundary
 
