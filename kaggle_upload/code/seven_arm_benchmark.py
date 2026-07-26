@@ -322,10 +322,22 @@ def make_strategy(name: str, backend=None, graph=None):  # type: ignore[no-untyp
 # Backend factory
 # ---------------------------------------------------------------------------
 
-def make_backend(dry_run: bool, model_path: str | None = None):  # type: ignore[no-untyped-def]
-    if dry_run:
+def make_backend(  # type: ignore[no-untyped-def]
+    dry_run: bool,
+    model_path: str | None = None,
+    backend_name: str | None = None,
+    openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
+    openrouter_timeout: float = 120.0,
+):
+    if dry_run or backend_name == "mock":
         from benchmark.llm.mock_backend import MockLLMBackend
         return MockLLMBackend(response_text="dry-run-response")
+    if backend_name == "openrouter":
+        from benchmark.llm.openrouter_backend import OpenRouterBackend
+        return OpenRouterBackend(
+            model=openrouter_model,
+            timeout_seconds=openrouter_timeout,
+        )
     from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
     kwargs: dict[str, str] = {}
     if model_path:
@@ -443,6 +455,9 @@ def run_arm(
     max_attempts: int = 3,
     timeout_seconds: int = 0,
     dep_graph=None,
+    backend_name: str | None = None,
+    openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
+    openrouter_timeout: float = 120.0,
 ) -> object:
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -455,7 +470,12 @@ def run_arm(
     design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
     needs_llm = design.get("llm", False)
 
-    backend = make_backend(dry_run, model_path=model_path) if needs_llm else None
+    backend = make_backend(
+        dry_run, model_path=model_path,
+        backend_name=backend_name,
+        openrouter_model=openrouter_model,
+        openrouter_timeout=openrouter_timeout,
+    ) if needs_llm else None
     strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
 
     isolation = make_isolation(isolation_workspace)
@@ -562,6 +582,27 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         default=False,
         help="Use mock backend (no real LLM calls)",
+    )
+    parser.add_argument(
+        "--backend",
+        choices=["mock", "kaggle-qwen", "openrouter"],
+        default=None,
+        help=(
+            "LLM backend: mock (dry-run only), kaggle-qwen (default for non-dry-run), "
+            "openrouter (API-based). Requires OPENROUTER_API_KEY env var."
+        ),
+    )
+    parser.add_argument(
+        "--openrouter-model",
+        type=str,
+        default="nvidia/nemotron-3-super-120b-a12b:free",
+        help="Model identifier for OpenRouter API",
+    )
+    parser.add_argument(
+        "--openrouter-timeout",
+        type=float,
+        default=120.0,
+        help="Request timeout in seconds for OpenRouter API calls",
     )
     parser.add_argument(
         "--profile",
@@ -723,8 +764,18 @@ def _validate_cli_args(args: argparse.Namespace) -> None:
             if not weight_files:
                 errors.append(f"--model-path no weight files (.safetensors/.bin/.pt) found in {model_dir}")
 
-    if not args.dry_run and not args.model_path:
-        errors.append("--model-path is required when not using --dry-run")
+    if args.backend == "openrouter":
+        if not args.openrouter_model or not args.openrouter_model.strip():
+            errors.append("--openrouter-model must be a non-empty string")
+        if args.openrouter_timeout <= 0:
+            errors.append("--openrouter-timeout must be positive")
+        if not os.environ.get("OPENROUTER_API_KEY", "").strip():
+            errors.append(
+                "OPENROUTER_API_KEY environment variable is required for --backend openrouter"
+            )
+    elif not args.dry_run and not args.backend:
+        if not args.model_path:
+            errors.append("--model-path is required when not using --dry-run")
 
     if errors:
         for err in errors:
@@ -807,7 +858,13 @@ def _get_deployed_build_id(
     return source_commit
 
 
-def _get_model_identity(model_path: str | None) -> str:
+def _get_model_identity(
+    model_path: str | None = None,
+    backend_name: str | None = None,
+    openrouter_model: str = "",
+) -> str:
+    if backend_name == "openrouter" and openrouter_model:
+        return f"openrouter:{openrouter_model}"
     if model_path:
         p = Path(model_path)
         return f"qwen:{p.name}"
@@ -868,25 +925,24 @@ def _run_single_scenario_strategy(
     timeout_seconds: int,
     dep_graph: object,
     workspace_dir: Path,
+    backend_name: str | None = None,
+    openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
+    openrouter_timeout: float = 120.0,
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig, PipelineResult
-    from benchmark.llm.mock_backend import MockLLMBackend
-    from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
 
     scenario = scenario_provider.get_scenario(scenario_id)
 
     design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
     needs_llm = design.get("llm", False)
 
-    if dry_run:
-        backend = MockLLMBackend(response_text="dry-run-response") if needs_llm else None
-    else:
-        backend = None
-        if needs_llm:
-            kwargs: dict[str, str] = {}
-            if model_path:
-                kwargs["model_path"] = model_path
-            backend = KaggleQwenBackend(**kwargs)
+    backend = make_backend(
+        dry_run=dry_run,
+        model_path=model_path,
+        backend_name=backend_name,
+        openrouter_model=openrouter_model,
+        openrouter_timeout=openrouter_timeout,
+    ) if needs_llm else None
 
     strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
 
@@ -1024,14 +1080,28 @@ def _preflight_check(
     dry_run: bool,
     needs_llm: bool,
     strategy_name: str,
+    backend_name: str | None = None,
 ) -> tuple[bool, str, str, str]:
-    """Run a GPU preflight if the strategy needs an LLM.
+    """Run a preflight if the strategy needs an LLM.
+
+    For OpenRouter: local validation only (no network call).
+    For Kaggle Qwen: GPU compatibility check.
+    For dry_run or non-LLM strategies, always returns (True, "", "", "").
 
     Returns (ok, hardware_identity, software_identity, rejection_reason).
-    For dry_run or non-LLM strategies, always returns (True, "", "", "").
     """
     if dry_run or not needs_llm:
         return True, "", "", ""
+
+    if backend_name == "openrouter":
+        from benchmark.checkpoint.persistence import (
+            detect_hardware_identity,
+            detect_software_environment_identity,
+        )
+        hw = detect_hardware_identity()
+        sw = detect_software_environment_identity()
+        return True, hw, sw, ""
+
     try:
         from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
         result = KaggleQwenBackend.preflight()
@@ -1064,14 +1134,19 @@ def main() -> int:
         source_commit=source_commit,
     )
     config_hash = _compute_config_hash(args)
-    model_identity = _get_model_identity(args.model_path)
+    resolved_backend = args.backend or ("kaggle-qwen" if not args.dry_run else "mock")
+    model_identity = _get_model_identity(
+        model_path=args.model_path,
+        backend_name=resolved_backend,
+        openrouter_model=args.openrouter_model,
+    )
 
     logger.info(
         "Benchmark config: dry_run=%s  profile=%s  label=%s  output=%s  data_dir=%s  "
-        "commit=%s  deployed_build=%s  config_hash=%s  source_tag=%s",
+        "commit=%s  deployed_build=%s  config_hash=%s  source_tag=%s  backend=%s",
         args.dry_run, profile.name, profile.label, output_dir, data_dir,
         source_commit, deployed_build_id, config_hash,
-        args.source_tag or "",
+        args.source_tag or "", resolved_backend,
     )
 
     # ---- Checkpoint / Resume setup -----------------------------------------
@@ -1536,6 +1611,7 @@ def main() -> int:
                 dry_run=args.dry_run,
                 needs_llm=needs_llm,
                 strategy_name=strategy_name,
+                backend_name=resolved_backend,
             )
             if not preflight_ok:
                 logger.error(
@@ -1566,6 +1642,9 @@ def main() -> int:
             timeout_seconds=args.timeout,
             dep_graph=dep_graph,
             workspace_dir=arm_workspace,
+            backend_name=resolved_backend,
+            openrouter_model=args.openrouter_model,
+            openrouter_timeout=args.openrouter_timeout,
         )
         run_ended_at = datetime.now(timezone.utc).isoformat()
 

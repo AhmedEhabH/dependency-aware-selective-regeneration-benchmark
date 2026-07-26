@@ -465,6 +465,58 @@ Key documents:
 | [`PROJECT_STRUCTURE_MAP.md`](docs/PROJECT_STRUCTURE_MAP.md) | Canonical repository map |
 | [`SYSTEM_STATE.md`](SYSTEM_STATE.md) | Current implementation state |
 
+## OpenRouter API Backend
+
+The benchmark supports an optional OpenRouter API backend for real LLM inference
+without requiring a local GPU or model download.
+
+### Usage
+
+```bash
+# Set your OpenRouter API key (do not commit this value)
+export OPENROUTER_API_KEY="sk-or-v1-YOUR-KEY-HERE"
+
+# Run with OpenRouter backend (default free model):
+python seven_arm_benchmark.py --backend openrouter --profile smoke
+
+# Run with a specific model:
+python seven_arm_benchmark.py --backend openrouter \
+  --openrouter-model "nvidia/nemotron-3-super-120b-a12b:free" \
+  --profile smoke
+
+# Custom timeout:
+python seven_arm_benchmark.py --backend openrouter \
+  --openrouter-timeout 60 \
+  --profile smoke
+```
+
+### CLI options
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `--backend` | `kaggle-qwen` (non-dry-run) / `mock` (dry-run) | Backend selection: `mock`, `kaggle-qwen`, `openrouter` |
+| `--openrouter-model` | `nvidia/nemotron-3-super-120b-a12b:free` | Model identifier for OpenRouter API |
+| `--openrouter-timeout` | `120.0` | Request timeout in seconds |
+
+### Requirements
+
+- `OPENROUTER_API_KEY` environment variable
+- No GPU or model download required
+- Free model availability and rate limits are provider-controlled
+
+### Compatibility
+
+- `--dry-run` continues using `MockLLMBackend` (no API calls)
+- Without `--backend`, non-dry-run preserves `KaggleQwenBackend`
+- `--backend openrouter` selects `OpenRouterBackend` explicitly
+
+### Security
+
+- API key must come from `OPENROUTER_API_KEY` environment variable only
+- No `--api-key` CLI argument exists
+- The key is never printed, logged, or included in exceptions
+- Scientific Smoke remains blocked until this branch is merged and audited
+
 ## Git Workflow
 
 New work is developed on protected phase branches:

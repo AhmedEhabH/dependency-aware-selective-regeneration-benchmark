@@ -39,10 +39,12 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - SU-0011 iterative repository agent (audit corrections applied: cumulative token accounting, budget check between reasoning/regeneration, fair token-budget semantics, requires_iteration control state, backend exception propagation, type-ignore removal)
 - SU-0011 on feature/su-0011-iterative-repository-agent awaiting merge
 - Efficient Agent Verification Setup (AGENTS.md, skill, commands, check_fast.py on chore/efficient-opencode-verification)
+- OPENROUTER-BACKEND on feature/openrouter-api-backend — minimal OpenRouter API backend
 
 ## Next
 
 - Merge SU-0011
+- Merge feature/openrouter-api-backend
 - Scientific Smoke (only after merge, only after stable tag)
 - Pilot (remains unauthorized until Scientific Smoke passes)
 
@@ -50,6 +52,7 @@ This plan defines the sequence of implementation phases for a research-grade ben
 
 - neutral empty graph when no profile graph exists
 - real repository dependency inference remains deferred
+- OpenRouter API backend is provider-integration only; no retries, streaming, or fallback routing
 - Scientific Smoke and Pilot remain unauthorized
 
 ### Dependencies
@@ -86,6 +89,7 @@ This plan defines the sequence of implementation phases for a research-grade ben
 ### Key Constraints
 
 - No local model download or inference.
-- All real LLM runs on Kaggle only.
+- Real LLM runs on Kaggle (Qwen) or OpenRouter API (free/paid models).
+- OpenRouter backend uses Python standard library only (no external SDK).
 - Correctness > efficiency.
 - Python 3.11, Conda environment.
