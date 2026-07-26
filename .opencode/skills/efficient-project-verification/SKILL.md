@@ -25,7 +25,7 @@ metadata:
 2. Full Ruff (`ruff check src tests scripts`)
 3. Full Mypy (`mypy --strict src tests scripts`)
 4. Full Pytest (`python -m pytest -q`)
-5. Bundle verification only if production code changed (`python scripts/build_upload_bundle.py --dry-run`)
+5. Bundle rebuild and verification only when canonical production code, configs, Kaggle requirements, or the entry point changed (`python scripts/build_upload_bundle.py`). Do not run for documentation/tooling-only changes.
 6. Documentation consistency check
 7. Report exact totals
 

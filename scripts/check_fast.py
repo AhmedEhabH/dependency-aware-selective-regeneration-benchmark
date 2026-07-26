@@ -100,8 +100,14 @@ def select_tests(changed_python: list[Path],
             fn = fp.name
             if fn == "seven_arm_benchmark.py":
                 tests.add(str(root / "tests" / "unit" / "test_cli.py"))
-                tests.add(str(root / "tests" / "unit" / "test_pipeline.py"))
-                tests.add(str(root / "tests" / "unit" / "test_runner.py"))
+                tests.add(str(root / "tests" / "unit" / "execution"
+                              / "test_pipeline.py"))
+                tests.add(str(root / "tests" / "unit" / "execution"
+                              / "test_runner.py"))
+                tests.add(str(root / "tests" / "integration"
+                              / "test_su0010a_regeneration.py"))
+                tests.add(str(root / "tests" / "integration"
+                              / "test_su0011_iterative_agent.py"))
             continue
         parts = rel.split("/")
         if not parts:
@@ -134,7 +140,16 @@ def select_tests(changed_python: list[Path],
     for fp in changed_python:
         if "tests" in fp.parts:
             tests.add(str(fp))
-    return sorted(tests)
+    # Filter to only existing paths; fail clearly on missing configured paths
+    result: list[str] = []
+    for p in sorted(tests):
+        pp = Path(p)
+        if pp.exists():
+            result.append(p)
+        else:
+            print(f"::error:: Configured test path does not exist: {p}")
+            sys.exit(1)
+    return result
 
 
 def main() -> None:
@@ -146,8 +161,12 @@ def main() -> None:
     print(f"Repository root: {root}")
     print(f"Changed files: {len(changed)}")
 
-    # git diff --check
+    # git diff --check (unstaged)
     rc = run_command(["git", "diff", "--check"], cwd=root)
+    if rc != 0:
+        sys.exit(rc)
+    # git diff --cached --check (staged)
+    rc = run_command(["git", "diff", "--cached", "--check"], cwd=root)
     if rc != 0:
         sys.exit(rc)
 
