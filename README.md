@@ -310,6 +310,26 @@ The project environment and locked dependency snapshot are defined by:
 
 Do not install development dependencies globally or into Conda `base`.
 
+### Efficient local verification
+
+Use OpenCode commands or the standalone script for fast changed-file checks:
+
+```
+/check-changed     # Fast mode: changed-file diagnostics + targeted tests
+/verify            # Final mode: full validation gate
+```
+
+Direct fallback:
+
+```bash
+python scripts/check_fast.py
+```
+
+- `/check-changed` is for iterative development — runs only on changed files.
+- `/verify` is the pre-commit/pre-merge gate — runs the full suite once.
+- The full test suite is not rerun after every small edit.
+- These commands do not replace final scientific execution on Kaggle.
+
 ## Quality Gates
 
 Run the full local validation suite:
