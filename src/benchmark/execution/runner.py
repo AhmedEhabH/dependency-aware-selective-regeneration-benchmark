@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any
 
 from benchmark.core.enums import FailureKind, RunStatus
@@ -454,6 +453,15 @@ class BenchmarkRunner:
         return f"{scenario.scenario_id}_{self._config.strategy_name}_{uuid.uuid4().hex[:8]}"
 
     def _build_repository_snapshot(self, scenario: Scenario) -> RepositorySnapshot:
+        if self._config.enable_regeneration:
+            return RepositorySnapshot(
+                identity=RepositoryIdentity(
+                    name=scenario.repository,
+                    url=scenario.repository,
+                ),
+                commit_sha=scenario.scenario_id,
+                path=str(self._isolation.snapshot_base),
+            )
         return RepositorySnapshot(
             identity=RepositoryIdentity(
                 name=scenario.repository,
@@ -472,7 +480,7 @@ class BenchmarkRunner:
 
     def _build_artifact_universe(self, scenario: Scenario) -> ArtifactUniverse:
         if self._config.enable_regeneration:
-            snapshot_root = Path(self._isolation.workspace.root)
+            snapshot_root = self._isolation.snapshot_base
             if not snapshot_root.is_dir():
                 raise BenchmarkError(
                     f"Repository snapshot path does not exist or is not a directory: {snapshot_root}"
