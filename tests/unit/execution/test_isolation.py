@@ -99,6 +99,17 @@ class TestActiveSnapshotRoot:
         ctx = IsolationContext(workspace=ws, active_snapshot_root=active)
         assert ctx.active_snapshot_root == active
 
+    def test_verify_fails_when_active_equals_snapshot_base(self, tmp_path: Path) -> None:
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir()
+        snap_base = tmp_path / "storage"
+        snap_base.mkdir()
+        ws = WorkspacePath(root=str(ws_root))
+        ctx = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        report = ctx.verify()
+        assert report.passed is False
+        assert "strict descendant" in report.message
+
     def test_verify_passes_when_active_within_snapshot_base(self, tmp_path: Path) -> None:
         ws_root = tmp_path / "workspace"
         ws_root.mkdir()

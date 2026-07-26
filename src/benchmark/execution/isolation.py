@@ -54,12 +54,18 @@ class IsolationContext:
                 violations.append(f"Active snapshot path resolution error: {e}")
             else:
                 try:
-                    active_resolved.relative_to(snap_resolved)
+                    rel = active_resolved.relative_to(snap_resolved)
                 except ValueError:
                     violations.append(
                         f"Active snapshot root {active_resolved} is outside "
                         f"snapshot storage root {snap_resolved}"
                     )
+                else:
+                    if rel == Path("."):
+                        violations.append(
+                            f"Active snapshot root {active_resolved} must be a "
+                            f"strict descendant of snapshot storage root {snap_resolved}"
+                        )
         if violations:
             return IsolationReport(
                 passed=False,
