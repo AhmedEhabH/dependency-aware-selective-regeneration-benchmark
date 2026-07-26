@@ -266,24 +266,27 @@ def make_isolation(workspace_dir: Path):  # type: ignore[no-untyped-def]
 def build_dependency_graph(data_dir: Path, scenarios: list) -> object:  # type: ignore[no-untyped-def]
     """Build a DependencyGraph from the repo profile for the given scenarios.
 
-    Falls back to a minimal graph containing the artifact-universe paths
-    as nodes (zero edges) when the profile has no declared dependency edges.
+    Priority:
+      1. Profile-based graph with real dependency edges.
+      2. Profile-based edgeless graph (nodes from architecture data only).
+      3. Neutral repository-derived edgeless fallback (no Ground Truth).
+
+    Never creates graph nodes from scenario.expected_affected_artifacts.
     """
     from benchmark.core.models import DependencyGraph
     from benchmark.graph.builder import ProfileGraphBuilder
 
     repo_id = None
-    artifacts: set[str] = set()
     for s in scenarios:
         if repo_id is None:
             repo_id = s.repository
-        for a in s.expected_affected_artifacts:
-            artifacts.add(a.path)
 
     if not repo_id:
         return None
 
-    # Try profile-based graph first
+    builder = ProfileGraphBuilder()
+
+    # 1. Profile-based graph with real dependency edges
     profile_dir = data_dir / "repository_profiles"
     if profile_dir.is_dir():
         from benchmark.repositories.loader import RepositoryLoader
@@ -292,7 +295,6 @@ def build_dependency_graph(data_dir: Path, scenarios: list) -> object:  # type: 
             collection = loader.load_manifest()
             profile = collection.get_profile(repo_id)
             if profile is not None:
-                builder = ProfileGraphBuilder()
                 graph = builder.build_from_profile(profile)
                 if graph is not None:
                     logger.info(
@@ -300,26 +302,44 @@ def build_dependency_graph(data_dir: Path, scenarios: list) -> object:  # type: 
                         repo_id, len(graph.nodes), len(graph.edges),
                     )
                     return graph
-            logger.info("No profile graph for '%s' — building minimal graph from artifacts", repo_id)
+                # 2. Profile exists but no edges — try nodes-only from architecture
+                arch: dict[str, Any] = {}
+                arch_attr = getattr(profile, "architecture", None)
+                if isinstance(arch_attr, dict):
+                    arch = arch_attr
+                if arch:
+                    node_graph = builder.build_nodes_from_architecture(arch)
+                    if node_graph is not None:
+                        logger.info(
+                            "Architecture node graph for repo=%s  nodes=%d  edges=0",
+                            repo_id, len(node_graph.nodes),
+                        )
+                        return node_graph
+            logger.info(
+                "No profile graph for '%s' — returning neutral edgeless fallback", repo_id
+            )
         except Exception:
-            logger.warning("Failed to load profile graph for '%s'", repo_id, exc_info=True)
+            logger.warning(
+                "Failed to load profile graph for '%s' — returning neutral fallback",
+                repo_id, exc_info=True,
+            )
     else:
-        logger.info("No repository_profiles dir — building minimal graph from artifacts")
+        logger.info(
+            "No repository_profiles dir — returning neutral edgeless fallback",
+        )
 
-    # Fallback: minimal graph with artifact paths as nodes
-    if not artifacts:
-        logger.warning("No artifacts available to build even a minimal graph")
-        return None
-    minimal = DependencyGraph(
-        nodes=tuple(sorted(artifacts)),
+    # 3. Neutral repository-derived edgeless fallback.
+    #    No Ground Truth — no fabricated edges — intentionally conservative.
+    neutral = DependencyGraph(
+        nodes=(),
         edges=(),
-        metadata={"source": "artifact_fallback", "repo_id": repo_id},
+        metadata={"source": "neutral_edgeless_fallback", "repo_id": repo_id},
     )
     logger.info(
-        "Minimal graph for repo=%s  nodes=%d  edges=0 (artifact fallback)",
-        repo_id, len(minimal.nodes),
+        "Neutral edgeless fallback graph for repo=%s  nodes=0  edges=0",
+        repo_id,
     )
-    return minimal
+    return neutral
 
 
 def run_arm(
