@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-26
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (Ethan / subsequent sessions)
-**Handoff type:** SU-0011 Iterative Agent Audit Corrections Applied — Awaiting Merge; Efficient Verification Setup Added
+**Handoff type:** OPENROUTER-BACKEND — Minimal OpenRouter API Backend Added; SU-0011 Awaiting Merge
 
 ---
 
@@ -13,9 +13,10 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 **Research Design V2 Freeze** completed: Arm-to-protocol execution audit merged to `main`. Created `docs/research-design-v2` branch with 10 design documents recording researcher-approved experimental design decisions (RD-V2-01 through RD-V2-06). Current `RepositoryAgentStrategy` audited and classified as `SINGLE_SHOT_LLM_SCOPE_BASELINE` (not iterative). Baseline acceptance criteria defined for iterative `repository_agent` (SU-0011). Shared regeneration executor designed for fair end-to-end comparison (SU-0010). Arm role/naming policy, external dataset policy, and implementation impact plan documented. No production code modified. All frozen protocol documents untouched. Pilot and Research phases remain blocked pending SU-0010 completion and baseline agent implementation.
 
-**Completed through:** SU-0010B3 (bounded validation repair)
+**Completed through:** OPENROUTER-BACKEND (minimal OpenRouter API backend)
 **SU-0011:** Merged to `main` at commit `b54bfd2`.
-**Next:** Scientific Smoke.
+**OPENROUTER-BACKEND:** On `feature/openrouter-api-backend` — awaiting merge.
+**Next:** Merge OPENROUTER-BACKEND → Scientific Smoke.
 **Stable tag:** Only after successful Scientific Smoke.
 **Pilot:** Remains unauthorized.
 
@@ -36,7 +37,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 | Phase 3.6 | COMPLETE | Structure remediation, baseline commit |
 | Phase 4A | COMPLETE | Domain models, enums, exceptions, protocols, config |
 | Phase 4B | COMPLETE | Loaders, validation, workspace isolation |
-| Phase 4C | COMPLETE | Mock/DryRun/Kaggle LLM backends |
+| Phase 4C | COMPLETE | Mock/DryRun/Kaggle/OpenRouter LLM backends |
 | Phase 4D | COMPLETE | Budget, state machine, repair, runner, pipeline |
 | Phase 4E | COMPLETE | 7 strategy arms, graph, selection |
 | Phase 4F | COMPLETE | Evaluation engine, metrics, statistics, reporting |
@@ -76,6 +77,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 - **Full evaluation pipeline:** metrics (recall, precision, F1, specificity, FPR, FNR, accuracy), confidence intervals (bootstrap, normal, Wilson, Agresti-Coull), effect sizes (Cohen's d, Cliff's delta), statistical tests (Mann-Whitney U, NI tests), multiple-comparison corrections (BH, Holm), paired analysis
 - **Execution pipeline:** state machine, budget management, repair loops, workspace isolation, batch/dry-run modes
 - **Kaggle backend:** skeleton with lazy imports, safe locally; real Qwen2.5-Coder inference confirmed on Kaggle
+- **OpenRouter backend:** standard-library-only HTTP backend; no GPU or model download required; free/paid model support; experimental for local real-inference pipeline validation
 - **Dry-run mode:** deterministic mock responses, no API calls, full pipeline validation
 - **2 benchmark scripts:** `notebooks/seven_arm_benchmark.ipynb` (Kaggle) and `seven_arm_benchmark.py` (local/CLI)
 - **Kaggle real smoke:** passed twice — 7/7 arms, Qwen inference confirmed (325 prompt + 19 completion tokens)
@@ -106,7 +108,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 | Task | Priority | Notes |
 |------|----------|-------|
-| **Scientific Smoke** | MEDIUM | Run smoke profile with publication evidence; requires SU-0010/SU-0011 complete |
+| **Scientific Smoke** | MEDIUM | Run smoke profile with publication evidence; requires OPENROUTER-BACKEND merged and audited |
 | **Run Pilot Profile** | MEDIUM | 12 scenarios, agent+selective, 2 reps; descriptive only (non-publication) |
 | **Run Research Profile** | MEDIUM | 24 scenarios, 4 strategies, 3 reps; publication-quality evidence |
 | **Arm-to-protocol alignment review** | SCIENTIFIC GATE | Before first publication claim; ensure protocol compliance |

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 import textwrap
@@ -14,12 +15,18 @@ assert SCRIPT.is_file(), f"Script not found: {SCRIPT}"
 assert BENCHMARK_DATA.is_dir(), f"Benchmark data not found: {BENCHMARK_DATA}"
 
 
-def _run(*args: str, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
+def _run(*args: str, cwd: Path | None = None, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+    base_env = dict(os.environ)
+    if env is not None:
+        base_env.update(env)
+        if "OPENROUTER_API_KEY" not in base_env:
+            base_env["OPENROUTER_API_KEY"] = "sk-or-v1-DO-NOT-LEAK-12345"
     return subprocess.run(
         [sys.executable, str(SCRIPT), *args],
         capture_output=True,
         text=True,
         cwd=cwd or PROJECT_DIR,
+        env=base_env,
     )
 
 
@@ -239,6 +246,74 @@ class TestRunsDirBugFix:
             "--resume",
         )
         assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
+
+
+class TestCliOpenRouter:
+    def test_openrouter_backend_accepted(self, tmp_path: Path) -> None:
+        """Arguments are accepted with --dry-run (no real API call)."""
+        data_dir = _create_valid_data_dir(tmp_path)
+        result = _run(
+            "--dry-run",
+            "--backend", "openrouter",
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(tmp_path / "runs"),
+            env={},
+        )
+        assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
+
+    def test_openrouter_model_default_in_help(self) -> None:
+        result = _run("--help")
+        assert "openrouter" in result.stdout
+        assert "OPENROUTER_API_KEY" in result.stdout.upper()
+
+    def test_no_api_key_cli_parameter(self) -> None:
+        """--api-key must NOT be a CLI argument."""
+        script_text = SCRIPT.read_text(encoding="utf-8")
+        assert '--api-key' not in script_text
+        assert '--openrouter-api-key' not in script_text
+
+    def test_openrouter_model_custom_value(self, tmp_path: Path) -> None:
+        """Custom model is accepted with --dry-run (no real API call)."""
+        data_dir = _create_valid_data_dir(tmp_path)
+        result = _run(
+            "--dry-run",
+            "--backend", "openrouter",
+            "--openrouter-model", "anthropic/claude-3-opus",
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(tmp_path / "runs"),
+            env={},
+        )
+        assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
+
+    def test_openrouter_timeout_custom_value(self, tmp_path: Path) -> None:
+        """Custom timeout is accepted with --dry-run (no real API call)."""
+        data_dir = _create_valid_data_dir(tmp_path)
+        result = _run(
+            "--dry-run",
+            "--backend", "openrouter",
+            "--openrouter-timeout", "60",
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(tmp_path / "runs"),
+            env={},
+        )
+        assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
+
+    def test_openrouter_rejects_missing_api_key(self, tmp_path: Path) -> None:
+        """Preflight rejects missing key without network access."""
+        data_dir = _create_valid_data_dir(tmp_path)
+        result = _run(
+            "--backend", "openrouter",
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(tmp_path / "runs"),
+            env={"OPENROUTER_API_KEY": ""},
+        )
+        assert result.returncode == 1
+        combined = result.stdout + result.stderr
+        assert "OPENROUTER_API_KEY" in combined
 
 
 class TestEntryPointConversion:
