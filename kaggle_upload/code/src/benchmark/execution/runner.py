@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
 from benchmark.core.enums import FailureKind, RunStatus
@@ -25,6 +26,7 @@ from benchmark.execution.regeneration import SharedRegenerationExecutor
 from benchmark.execution.repair import RepairLoop
 from benchmark.execution.state_machine import RunStateMachine
 from benchmark.execution.validation import FunctionalValidator
+from benchmark.repositories.snapshot import discover_eligible_artifacts
 from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner, compute_artifact_counts
 
 
@@ -469,6 +471,16 @@ class BenchmarkRunner:
         )
 
     def _build_artifact_universe(self, scenario: Scenario) -> ArtifactUniverse:
+        if self._config.enable_regeneration:
+            snapshot_root = Path(self._isolation.workspace.root)
+            if not snapshot_root.is_dir():
+                raise BenchmarkError(
+                    f"Repository snapshot path does not exist or is not a directory: {snapshot_root}"
+                )
+            artifacts = discover_eligible_artifacts(snapshot_root)
+            return ArtifactUniverse(artifacts=artifacts)
+        # Legacy fixture compatibility only.
+        # Ground Truth fallback is forbidden for regeneration-enabled and scientific execution.
         return ArtifactUniverse(artifacts=scenario.expected_affected_artifacts)
 
     def _build_failure_record(
