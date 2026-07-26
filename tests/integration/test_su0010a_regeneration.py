@@ -1501,8 +1501,138 @@ class TestStrategyGuard:
         assert record.status == RunStatus.failed
         assert self._has_condition_failure(record)
 
+    def test_iterative_agent_accepted(self, tmp_path: Path) -> None:
+        runner = self._make_simple_runner(tmp_path, "iterative_repository_agent")
+        record = runner.run(_make_scenario())
+        assert not self._has_condition_failure(record)
+
     def test_unknown_strategy_rejected(self, tmp_path: Path) -> None:
         runner = self._make_simple_runner(tmp_path, "unknown_strategy")
         record = runner.run(_make_scenario())
         assert record.status == RunStatus.failed
         assert self._has_condition_failure(record)
+
+
+class TestFairTokenBudget:
+    """Correction 3 — Fair token-budget meaning across all regeneration arms."""
+
+    def _make_agent_strategy_backend(self) -> tuple[object, object]:
+        """Create an agent strategy and backend that produce known token usage."""
+
+        class _AgentBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                from benchmark.core.models import LLMResponse
+                return LLMResponse(
+                    text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "test"}]}',
+                    token_usage=TokenUsage(prompt_tokens=30, completion_tokens=20, total_tokens=50),
+                    finish_reason="stop",
+                )
+
+        from benchmark.strategies.agent import RepositoryAgentStrategy
+        ab = _AgentBackend()
+        return ab, RepositoryAgentStrategy(backend=ab)
+
+    def test_oneshot_records_selection_and_regen_tokens_in_budget(self, tmp_path: Path) -> None:
+        """A one-shot arm records selection plus regeneration tokens in BudgetManager."""
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        backend = _make_backend("replacement content")
+        from benchmark.strategies.monolithic import MonolithicRegenerationStrategy
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+            max_tokens=1000,
+        )
+        _ = runner.run(scenario)
+        total = runner._budget.state.total_tokens
+        assert total > 0, "BudgetManager must record regeneration tokens"
+
+    def test_same_max_tokens_stops_oneshot_before_call(self, tmp_path: Path) -> None:
+        """Under the same configured max_tokens, a one-shot arm stops before an additional model call after exhaustion."""
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse
+
+        class _SmallTokenBackend:
+            def __init__(self):
+                self.call_count = 0
+
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                self.call_count += 1
+                return LLMResponse(
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=5, completion_tokens=3, total_tokens=8),
+                )
+
+        rb = _SmallTokenBackend()
+        from benchmark.strategies.monolithic import MonolithicRegenerationStrategy
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+
+        runner = _make_runner(
+            tmp_path, strategy, rb, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=10,
+            max_tokens=8,
+        )
+        _ = runner.run(scenario)
+        assert rb.call_count == 1
+
+    def test_same_max_tokens_stops_iterative_before_call(self, tmp_path: Path) -> None:
+        """Under the same configured max_tokens, the iterative arm stops before an additional model call after exhaustion."""
+        from benchmark.core.models import LLMResponse
+        from benchmark.strategies.iterative_agent import IterativeRepositoryAgentStrategy
+
+        class _StrategyBackend:
+            def __init__(self):
+                self.call_count = 0
+
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                self.call_count += 1
+                return LLMResponse(
+                    text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "only"}]}',
+                    token_usage=TokenUsage(prompt_tokens=30, completion_tokens=20, total_tokens=50),
+                    finish_reason="stop",
+                )
+
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        sb = _StrategyBackend()
+        strategy = IterativeRepositoryAgentStrategy(backend=sb)
+
+        class _RegenCounter:
+            def __init__(self):
+                self.call_count = 0
+
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                self.call_count += 1
+                return LLMResponse(
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=5, completion_tokens=3, total_tokens=8),
+                )
+
+        rb = _RegenCounter()
+        scenario = _make_scenario(artifacts=artifacts)
+        check_cmd = [sys.executable, "-c", "exit(1)"]
+        runner = _make_runner(
+            tmp_path, strategy, rb, iso,
+            enable_regeneration=True,
+            validation_command=check_cmd,
+            strategy_name="iterative_repository_agent",
+            max_attempts=10,
+            max_tokens=50,
+        )
+
+        _ = runner.run(scenario)
+        assert sb.call_count == 1
+        assert rb.call_count == 0

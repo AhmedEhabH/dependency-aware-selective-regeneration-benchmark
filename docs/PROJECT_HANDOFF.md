@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-26
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (Ethan / subsequent sessions)
-**Handoff type:** Research Design V2 Freeze Complete — Awaiting Researcher Review
+**Handoff type:** SU-0011 Iterative Agent Audit Corrections Applied — Awaiting Merge
 
 ---
 
@@ -13,7 +13,13 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 **Research Design V2 Freeze** completed: Arm-to-protocol execution audit merged to `main`. Created `docs/research-design-v2` branch with 10 design documents recording researcher-approved experimental design decisions (RD-V2-01 through RD-V2-06). Current `RepositoryAgentStrategy` audited and classified as `SINGLE_SHOT_LLM_SCOPE_BASELINE` (not iterative). Baseline acceptance criteria defined for iterative `repository_agent` (SU-0011). Shared regeneration executor designed for fair end-to-end comparison (SU-0010). Arm role/naming policy, external dataset policy, and implementation impact plan documented. No production code modified. All frozen protocol documents untouched. Pilot and Research phases remain blocked pending SU-0010 completion and baseline agent implementation.
 
-**What remains:** SU-0011 authorization (iterative repository agent) → Scientific Smoke → Pilot → Research.
+**Completed through:** SU-0010B3 (bounded validation repair)
+**SU-0011:** Implemented on branch `feature/su-0011-iterative-repository-agent` and awaiting audit/merge.
+**Next after merge:** Scientific Smoke.
+**Stable tag:** Only after successful Scientific Smoke.
+**Pilot:** Remains unauthorized.
+
+**What remains:** Scientific Smoke (post-merge) → Pilot → Research.
 
 ---
 
@@ -43,14 +49,15 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 | **SU-0010B1B** | **COMPLETE** | Ground-Truth-free graph construction |
 | **SU-0010B2** | **COMPLETE** | Metrics persistence/reporting |
 | **SU-0010B3** | **COMPLETE** | Functional validation and bounded repair; correction commit enforces token budget, preserves failure history, fixes timeout test |
+| **SU-0011** | **COMPLETE** | Iterative repository agent: 8th benchmark arm with `_run_iterative_flow()` orchestrator, `IterativeRepositoryAgentStrategy`, revise_plan with validation feedback, token-budget-aware strategy calls, 18 integration tests |
 
 ---
 
 ## 3. Current System State
 
-- **Test suite:** 504/505 passing (1 skipped: torch import), pytest
-- **Lint:** ruff 0 violations
-- **Types:** mypy --strict: 0 errors (src)
+- **Test suite:** 932 passed, 16 skipped, 0 failed
+- **Lint:** ruff 0 violations (in changed files; 4 pre-existing E501 cosmetic warnings in string literals)
+- **Types:** mypy strict: 0 errors across 70 source files
 - **Dependencies:** pip check clean (pre-existing conda issues unrelated); torch/transformers NOT imported locally
 - **Environment:** Conda env `selective-regen-benchmark` (Python 3.11.15)
 - **Architecture:** 13-layer design, protocol-based interfaces, dependency injection
@@ -64,7 +71,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 ## 4. What's Working
 
-- **All 7 strategy arms** implemented: monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan
+- **All 8 strategy arms** implemented: monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan, iterative_repository_agent
 - **Full evaluation pipeline:** metrics (recall, precision, F1, specificity, FPR, FNR, accuracy), confidence intervals (bootstrap, normal, Wilson, Agresti-Coull), effect sizes (Cohen's d, Cliff's delta), statistical tests (Mann-Whitney U, NI tests), multiple-comparison corrections (BH, Holm), paired analysis
 - **Execution pipeline:** state machine, budget management, repair loops, workspace isolation, batch/dry-run modes
 - **Kaggle backend:** skeleton with lazy imports, safe locally; real Qwen2.5-Coder inference confirmed on Kaggle
@@ -90,7 +97,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 **Current agent classification:** `SINGLE_SHOT_LLM_SCOPE_BASELINE` — single LLM call with full artifact list, no iteration, no tools, no generation, no repair.
 
-**Required for confirmatory comparison:** `repository_agent` (iterative, bounded retrieval, file inspection, scope selection) — SU-0011.
+**Confirmatory comparison agent:** `IterativeRepositoryAgentStrategy` (SU-0011) — now implemented: iterative, bounded retrieval, file inspection, scope selection, validation feedback.
 
 ---
 
@@ -98,9 +105,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 | Task | Priority | Notes |
 |------|----------|-------|
-| **SU-0010B3: Validation and Bounded Repair** | HIGH | Required after SU-0010B2; validation + bounded repair for end-to-end runs |
-| **SU-0011: Iterative Repository Agent** | HIGH | Required for confirmatory comparison |
-| **Scientific Smoke** | MEDIUM | Run smoke profile with publication evidence; requires SU-0010 complete |
+| **Scientific Smoke** | MEDIUM | Run smoke profile with publication evidence; requires SU-0010/SU-0011 complete |
 | **Run Pilot Profile** | MEDIUM | 12 scenarios, agent+selective, 2 reps; descriptive only (non-publication) |
 | **Run Research Profile** | MEDIUM | 24 scenarios, 4 strategies, 3 reps; publication-quality evidence |
 | **Arm-to-protocol alignment review** | SCIENTIFIC GATE | Before first publication claim; ensure protocol compliance |
@@ -159,7 +164,7 @@ conda activate selective-regen-benchmark
 # 2. Verify environment
 python --version && pip check
 
-# 3. Run tests (613 passing, 1 skipped torch)
+# 3. Run tests (932 passing, 16 skipped)
 python -m pytest tests/ -v --tb=short
 
 # 4. Verify RD-V2 branch

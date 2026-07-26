@@ -651,12 +651,13 @@ class TestStrategyCapabilityDescription:
         assert cap["dependency_graph_attached"] is False
 
     def test_design_constants_frozen(self) -> None:
-        """STRATEGY_CAPABILITIES_DESIGN must cover all 7 arm names."""
+        """STRATEGY_CAPABILITIES_DESIGN must cover all 8 arm names."""
         from seven_arm_benchmark import STRATEGY_CAPABILITIES_DESIGN
 
         assert set(STRATEGY_CAPABILITIES_DESIGN.keys()) == {
             "monolithic", "agent", "selective", "compiled_ai",
             "delta_mcp", "incr_rtl", "code_plan",
+            "iterative_repository_agent",
         }
 
 

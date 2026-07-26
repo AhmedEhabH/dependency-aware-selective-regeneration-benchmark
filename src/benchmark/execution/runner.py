@@ -3,10 +3,13 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from benchmark.core.enums import FailureKind, RunStatus
+from benchmark.core.enums import ActionKind, FailureKind, RunStatus
 from benchmark.core.exceptions import BenchmarkError, ModelBackendError, ProtocolViolationError
+
+if TYPE_CHECKING:
+    from benchmark.execution.regeneration import RegenerationExecutionResult
 from benchmark.core.models import (
     ArtifactUniverse,
     FailureRecord,
@@ -94,6 +97,7 @@ class BenchmarkRunner:
                 "full_scope_reference",
                 "selective",
                 "hybrid_selective",
+                "iterative_repository_agent",
             })
             if self._config.strategy_name not in _approved_strategies:
                 return self._build_failure_record(
@@ -109,6 +113,9 @@ class BenchmarkRunner:
 
         self._state.start()
         start_time = time.monotonic()
+
+        if self._config.enable_regeneration and self._config.strategy_name == "iterative_repository_agent":
+            return self._run_iterative_flow(scenario, start_time)
 
         if self._config.enable_regeneration:
             try:
@@ -385,9 +392,13 @@ class BenchmarkRunner:
             )
 
         requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
-        executor = SharedRegenerationExecutor(self._backend)  # type: ignore[arg-type]
+        assert self._backend is not None
+        executor = SharedRegenerationExecutor(self._backend)
         exec_result = executor.execute(plan, self._isolation, requirement_delta=requirement_delta)
 
+        selection_tok = prediction.token_usage or TokenUsage()
+        if selection_tok.total_tokens > 0:
+            self._budget.record_tokens(selection_tok.total_tokens)
         self._budget.record_tokens(exec_result.total_tokens)
 
         # Execute validation
@@ -509,7 +520,8 @@ class BenchmarkRunner:
         counts = compute_artifact_counts(prediction)
 
         requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
-        executor = SharedRegenerationExecutor(self._backend)  # type: ignore[arg-type]
+        assert self._backend is not None
+        executor = SharedRegenerationExecutor(self._backend)
         validator = FunctionalValidator()
 
         selection_prompt = first_record.selection_prompt_tokens
@@ -654,6 +666,406 @@ class BenchmarkRunner:
             preserved_artifact_count=counts.get("preserve", 0),
             unresolved_human_review_count=counts.get("human_review", 0),
         )
+
+    def _run_iterative_flow(
+        self,
+        scenario: Scenario,
+        start_time: float,
+    ) -> RunRecord:
+        try:
+            if self._budget.timed_out:
+                return RunRecord(
+                    identity=self._build_run_identity(scenario),
+                    status=RunStatus.timed_out,
+                    duration_seconds=time.monotonic() - start_time,
+                )
+
+            repository_snapshot = self._build_repository_snapshot(scenario)
+            requirement_change = self._build_requirement_change(scenario)
+            artifact_universe = self._build_artifact_universe(scenario)
+
+            validation_command = self._config.validation_command
+            if not validation_command or (
+                isinstance(validation_command, list)
+                and len(validation_command) == 1
+                and not validation_command[0].strip()
+            ):
+                return RunRecord(
+                    identity=self._build_run_identity(scenario),
+                    status=RunStatus.failed,
+                    failures=(
+                        FailureRecord(
+                            failure_kind=FailureKind.harness_defect,
+                            message="Iterative agent enabled but validation_command is missing or empty",
+                            stage="configuration",
+                        ),
+                    ),
+                    duration_seconds=time.monotonic() - start_time,
+                    regenerated_artifact_count=0,
+                    functional_validation_passed=None,
+                )
+
+            if self._backend is None:
+                return RunRecord(
+                    identity=self._build_run_identity(scenario),
+                    status=RunStatus.failed,
+                    failures=(
+                        FailureRecord(
+                            failure_kind=FailureKind.harness_defect,
+                            message="Iterative agent enabled but no LLM backend is configured.",
+                            stage="configuration",
+                        ),
+                    ),
+                    duration_seconds=time.monotonic() - start_time,
+                    regenerated_artifact_count=0,
+                    functional_validation_passed=None,
+                )
+
+            requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
+            executor = SharedRegenerationExecutor(self._backend)
+            validator = FunctionalValidator()
+
+            selection_total_prompt = 0
+            selection_total_completion = 0
+            selection_total_tok = 0
+            selection_calls = 0
+            selection_dur = 0.0
+
+            regen_total_prompt = 0
+            regen_total_completion = 0
+            regen_total_tok = 0
+            regen_calls = 0
+            regen_dur = 0.0
+
+            val_dur = 0.0
+            all_failures: list[FailureRecord] = []
+            total_regenerated = 0
+            final_prediction: ImpactPrediction | None = None
+            last_val_result: FunctionalValidationResult | None = None
+            last_exec_result: RegenerationExecutionResult | None = None
+            iteration = 0
+            has_validation_run = False
+
+            while self._budget.can_attempt:
+                self._budget.record_attempt()
+
+                if self._budget.timed_out:
+                    break
+
+                if iteration == 0:
+                    selection_start = time.monotonic()
+                    prediction = self._strategy.analyze_impact(
+                        repository=repository_snapshot,
+                        requirement_change=requirement_change,
+                        artifact_universe=artifact_universe,
+                    )
+                    sel_dur = time.monotonic() - selection_start
+                    selection_dur += sel_dur
+                else:
+                    if last_val_result is None:
+                        break
+
+                    workspace_summary = self._build_workspace_summary(
+                        previous_prediction=final_prediction or prediction,
+                        exec_result=last_exec_result,
+                    )
+
+                    revise_plan = getattr(self._strategy, "revise_plan", None)
+                    if not callable(revise_plan):
+                        return RunRecord(
+                            identity=self._build_run_identity(scenario),
+                            status=RunStatus.failed,
+                            failures=(
+                                FailureRecord(
+                                    failure_kind=FailureKind.harness_defect,
+                                    message="Strategy does not support revise_plan",
+                                    stage="configuration",
+                                ),
+                            ),
+                            duration_seconds=time.monotonic() - start_time,
+                        )
+
+                    selection_start = time.monotonic()
+                    prediction = revise_plan(
+                        requirement_change=requirement_change,
+                        artifact_universe=artifact_universe,
+                        previous_prediction=final_prediction or prediction,
+                        exit_code=last_val_result.exit_code,
+                        val_stdout=last_val_result.stdout,
+                        val_stderr=last_val_result.stderr,
+                        workspace_summary=workspace_summary,
+                        remaining_attempts=self._budget.remaining_attempts,
+                        remaining_tokens=max(
+                            0, self._budget._max_tokens - self._budget._state.total_tokens
+                        ) if self._budget._max_tokens > 0 else 0,
+                    )
+                    sel_dur = time.monotonic() - selection_start
+                    selection_dur += sel_dur
+
+                if prediction.errors:
+                    last_requires_iteration = getattr(self._strategy, "last_requires_iteration", True)
+                    if not prediction.decisions and not last_requires_iteration:
+                        break
+                    all_failures.append(
+                        FailureRecord(
+                            failure_kind=FailureKind.model_output,
+                            message=prediction.errors[0],
+                            details="; ".join(prediction.errors),
+                            stage="analyze_impact",
+                        )
+                    )
+                    break
+
+                final_prediction = prediction
+                tok = prediction.token_usage or TokenUsage()
+                selection_total_prompt += tok.prompt_tokens
+                selection_total_completion += tok.completion_tokens
+                selection_total_tok += tok.total_tokens
+                selection_calls += 1
+                self._budget.record_tokens(tok.total_tokens)
+
+                if not self._budget.can_attempt:
+                    if not has_validation_run:
+                        all_failures.append(
+                            FailureRecord(
+                                failure_kind=FailureKind.timeout,
+                                message="Token budget exhausted by agent reasoning before regeneration",
+                                stage="budget",
+                            )
+                        )
+                    break
+
+                selector = ArtifactSelector()
+                selection = selector.select(prediction, artifact_universe)
+                regen_planner = RegenerationPlanner()
+                plan = regen_planner.plan(selection, prediction)
+                counts = compute_artifact_counts(prediction)
+
+                if len(plan.regenerate_artifact_paths) == 0:
+                    if not has_validation_run:
+                        all_failures.append(
+                            FailureRecord(
+                                failure_kind=FailureKind.harness_defect,
+                                message="Iterative agent selected no artifacts for regeneration on first attempt",
+                                stage="selection",
+                            )
+                        )
+                    break
+
+                exec_result = executor.execute(
+                    plan, self._isolation, requirement_delta=requirement_delta,
+                )
+
+                self._budget.record_tokens(exec_result.total_tokens)
+
+                val_result = validator.validate(
+                    workspace_root=self._isolation.workspace.root,
+                    command=validation_command,
+                    timeout=self._config.validation_timeout,
+                )
+                has_validation_run = True
+
+                regen_total_prompt += exec_result.prompt_tokens
+                regen_total_completion += exec_result.completion_tokens
+                regen_total_tok += exec_result.total_tokens
+                regen_calls += exec_result.model_calls
+                regen_dur += exec_result.duration_seconds
+                val_dur += val_result.duration_seconds
+                last_val_result = val_result
+                last_exec_result = exec_result
+
+                iteration += 1
+
+                for f in exec_result.failures:
+                    all_failures.append(
+                        FailureRecord(
+                            failure_kind=FailureKind.model_output,
+                            message=f,
+                            details="SharedRegenerationExecutor failure",
+                            stage="regeneration",
+                        )
+                    )
+
+                if val_result.passed:
+                    total_regenerated = sum(
+                        1 for a in exec_result.artifacts if a.status == "generated"
+                    )
+                    selection_total = selection_total_prompt + selection_total_completion
+                    total_tokens = selection_total + regen_total_tok
+                    total_calls = selection_calls + regen_calls
+                    total_dur = selection_dur + regen_dur + val_dur
+
+                    return RunRecord(
+                        identity=self._build_run_identity(scenario),
+                        status=RunStatus.succeeded,
+                        prediction=final_prediction,
+                        token_usage=final_prediction.token_usage or TokenUsage(),
+                        duration_seconds=time.monotonic() - start_time,
+                        failures=tuple(all_failures),
+                        selection_prompt_tokens=selection_total_prompt,
+                        selection_completion_tokens=selection_total_completion,
+                        selection_total_tokens=selection_total,
+                        selection_model_calls=selection_calls,
+                        selection_duration_seconds=selection_dur,
+                        regeneration_prompt_tokens=regen_total_prompt,
+                        regeneration_completion_tokens=regen_total_completion,
+                        regeneration_total_tokens=regen_total_tok,
+                        regeneration_model_calls=regen_calls,
+                        regeneration_duration_seconds=regen_dur,
+                        functional_validation_duration_seconds=val_dur,
+                        functional_validation_passed=True,
+                        total_workflow_tokens=total_tokens,
+                        total_workflow_model_calls=total_calls,
+                        total_workflow_duration_seconds=total_dur,
+                        selected_artifact_count=counts.get("selected", 0),
+                        regenerated_artifact_count=total_regenerated,
+                        preserved_artifact_count=counts.get("preserve", 0),
+                        unresolved_human_review_count=counts.get("human_review", 0),
+                    )
+
+                all_failures.append(
+                    FailureRecord(
+                        failure_kind=FailureKind.build,
+                        message=f"Functional validation failed (exit={val_result.exit_code})",
+                        details=f"stdout: {val_result.stdout[:500]}\nstderr: {val_result.stderr[:500]}",
+                        stage="validation",
+                    )
+                )
+
+                total_regenerated = sum(
+                    1 for a in exec_result.artifacts if a.status == "generated"
+                )
+
+                if not self._budget.can_attempt:
+                    break
+
+                last_requires_iteration = getattr(self._strategy, "last_requires_iteration", True)
+                if not last_requires_iteration:
+                    break
+
+            self._state.fail()
+            selection_total = selection_total_prompt + selection_total_completion
+            total_tokens = selection_total + regen_total_tok
+            total_calls = selection_calls + regen_calls
+            total_dur = selection_dur + regen_dur + val_dur
+
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.timed_out if self._budget.timed_out else RunStatus.failed,
+                prediction=final_prediction,
+                token_usage=final_prediction.token_usage or TokenUsage() if final_prediction else TokenUsage(),
+                duration_seconds=time.monotonic() - start_time,
+                failures=tuple(all_failures),
+                selection_prompt_tokens=selection_total_prompt,
+                selection_completion_tokens=selection_total_completion,
+                selection_total_tokens=selection_total,
+                selection_model_calls=selection_calls,
+                selection_duration_seconds=selection_dur,
+                regeneration_prompt_tokens=regen_total_prompt,
+                regeneration_completion_tokens=regen_total_completion,
+                regeneration_total_tokens=regen_total_tok,
+                regeneration_model_calls=regen_calls,
+                regeneration_duration_seconds=regen_dur,
+                functional_validation_duration_seconds=val_dur,
+                functional_validation_passed=False,
+                total_workflow_tokens=total_tokens,
+                total_workflow_model_calls=total_calls,
+                total_workflow_duration_seconds=total_dur,
+                selected_artifact_count=(
+                    final_prediction
+                    and len([d for d in final_prediction.decisions
+                             if d.action in (ActionKind.regenerate, ActionKind.human_review)])
+                    or 0
+                ),
+                regenerated_artifact_count=total_regenerated,
+                preserved_artifact_count=(
+                    final_prediction
+                    and len([d for d in final_prediction.decisions
+                             if d.action == ActionKind.preserve])
+                    or 0
+                ),
+                unresolved_human_review_count=(
+                    final_prediction
+                    and len([d for d in final_prediction.decisions
+                             if d.action == ActionKind.human_review])
+                    or 0
+                ),
+            )
+        except BudgetExhaustedError:
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.timed_out,
+                failures=(FailureRecord(
+                    failure_kind=FailureKind.timeout,
+                    message="Budget exhausted during iterative agent execution",
+                    stage="budget",
+                ),),
+                duration_seconds=time.monotonic() - start_time,
+            )
+        except ModelBackendError as e:
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.failed,
+                failures=(
+                    FailureRecord(
+                        failure_kind=FailureKind.model_output,
+                        message=str(e.message) if hasattr(e, "message") else str(e),
+                        details=f"{e.__class__.__name__}: {e!r}",
+                        stage="backend.generate",
+                    ),
+                ),
+                duration_seconds=time.monotonic() - start_time,
+            )
+        except ProtocolViolationError as e:
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.failed,
+                failures=(
+                    FailureRecord(
+                        failure_kind=FailureKind.harness_defect,
+                        message=str(e.message) if hasattr(e, "message") else str(e),
+                        details=f"{e.__class__.__name__}: {e!r}",
+                        stage="protocol",
+                    ),
+                ),
+                duration_seconds=time.monotonic() - start_time,
+            )
+        except BenchmarkError as e:
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.failed,
+                failures=(
+                    FailureRecord(
+                        failure_kind=FailureKind.infrastructure,
+                        message=str(e.message) if hasattr(e, "message") else str(e),
+                        details=f"{e.__class__.__name__}: {e!r}",
+                        stage="runner",
+                    ),
+                ),
+                duration_seconds=time.monotonic() - start_time,
+            )
+
+    def _build_workspace_summary(
+        self,
+        previous_prediction: ImpactPrediction,
+        exec_result: Any = None,
+    ) -> str:
+        parts = []
+        if previous_prediction.decisions:
+            parts.append("Previously selected artifacts:")
+            for d in previous_prediction.decisions:
+                parts.append(f"  - {d.artifact.path} ({d.action.value})")
+        if exec_result is not None and hasattr(exec_result, "artifacts"):
+            parts.append("Generated content (truncated to 200 chars per file):")
+            max_paths = 10
+            for i, art in enumerate(exec_result.artifacts):
+                if i >= max_paths:
+                    parts.append(f"  ... and {len(exec_result.artifacts) - max_paths} more")
+                    break
+                content_preview = art.content[:200].replace("\n", "\\n")
+                parts.append(f"  - {art.path}: {content_preview}")
+        summary = "\n".join(parts) if parts else "(empty workspace)"
+        return summary[:3000]
 
     def _build_run_identity(self, scenario: Scenario) -> RunIdentity:
         return RunIdentity(
