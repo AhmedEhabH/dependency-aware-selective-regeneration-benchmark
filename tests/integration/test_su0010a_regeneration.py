@@ -61,22 +61,29 @@ def _make_scenario(
     )
 
 
-def _setup_workspace(tmp_path: Path, artifacts: tuple[ArtifactRef, ...]) -> tuple[IsolationContext, Path]:
+def _setup_workspace(
+    tmp_path: Path,
+    artifacts: tuple[ArtifactRef, ...],
+    repo: str = "test_repo",
+    revision: str = "test_revision",
+) -> tuple[IsolationContext, Path]:
     ws_root = tmp_path / "workspace"
     ws_root.mkdir(parents=True, exist_ok=True)
     snap_base = tmp_path / "snapshots"
     snap_base.mkdir(exist_ok=True)
+    active_root = snap_base / repo / revision
+    active_root.mkdir(parents=True, exist_ok=True)
 
     for ref in artifacts:
         target = ws_root / ref.path
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(f"original {ref.path} content", encoding="utf-8")
-        snap_target = snap_base / ref.path
+        snap_target = active_root / ref.path
         snap_target.parent.mkdir(parents=True, exist_ok=True)
         snap_target.write_text(f"original {ref.path} content", encoding="utf-8")
 
     ws = WorkspacePath(root=str(ws_root))
-    iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+    iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
     return iso, ws_root
 
 
@@ -226,8 +233,8 @@ class TestHybridRegeneratesFewer:
             ArtifactRef(path="src/helpers.py", artifact_type=ArtifactType.source),
             ArtifactRef(path="tests/test_main.py", artifact_type=ArtifactType.test),
         )
-        iso_full, ws_full = _setup_workspace(tmp_path / "full", artifacts)
-        iso_hybrid, ws_hybrid = _setup_workspace(tmp_path / "hybrid", artifacts)
+        iso_full, ws_full = _setup_workspace(tmp_path / "full", artifacts, repo="full_repo")
+        iso_hybrid, ws_hybrid = _setup_workspace(tmp_path / "hybrid", artifacts, repo="hybrid_repo")
 
         backend = _make_backend("replacement content")
 
@@ -265,6 +272,7 @@ class TestHybridRegeneratesFewer:
 class TestLegacyImpactOnly:
     def test_legacy_impact_only_path_still_works(self, tmp_path: Path) -> None:
         iso, ws_root = _setup_workspace(tmp_path, ())
+        iso = IsolationContext(workspace=iso.workspace, snapshot_base=iso.snapshot_base)
         backend = _make_backend("should not be called")
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario()
@@ -282,6 +290,7 @@ class TestLegacyImpactOnly:
 
     def test_legacy_impact_only_all_fields_default(self, tmp_path: Path) -> None:
         iso, ws_root = _setup_workspace(tmp_path, ())
+        iso = IsolationContext(workspace=iso.workspace, snapshot_base=iso.snapshot_base)
         backend = _make_backend("")
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario()
@@ -417,6 +426,7 @@ class TestEmptySelectiveScope:
 class TestValidationTriState:
     def test_legacy_no_validation_is_none(self, tmp_path: Path) -> None:
         iso, ws_root = _setup_workspace(tmp_path, ())
+        iso = IsolationContext(workspace=iso.workspace, snapshot_base=iso.snapshot_base)
         backend = _make_backend("")
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario()
@@ -623,6 +633,7 @@ class TestModelCallAggregation:
 
     def test_no_regeneration_path_zero_calls(self, tmp_path: Path) -> None:
         iso, ws_root = _setup_workspace(tmp_path, ())
+        iso = IsolationContext(workspace=iso.workspace, snapshot_base=iso.snapshot_base)
         backend = _make_backend("")
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario()
@@ -674,6 +685,7 @@ class TestSelectionDuration:
 
     def test_non_regeneration_path_no_duration(self, tmp_path: Path) -> None:
         iso, ws_root = _setup_workspace(tmp_path, ())
+        iso = IsolationContext(workspace=iso.workspace, snapshot_base=iso.snapshot_base)
         backend = _make_backend("")
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario()
@@ -728,8 +740,10 @@ def _make_isolation(tmp_path: Path) -> tuple[IsolationContext, Path]:
     ws_root.mkdir(parents=True, exist_ok=True)
     snap_base = tmp_path / "snapshots"
     snap_base.mkdir(exist_ok=True)
+    active_root = snap_base / "test_repo" / "test_revision"
+    active_root.mkdir(parents=True, exist_ok=True)
     ws = WorkspacePath(root=str(ws_root))
-    iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+    iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
     return iso, ws_root
 
 
@@ -775,6 +789,7 @@ class TestMissingBackend:
 
     def test_impact_only_backend_none_still_succeeds(self, tmp_path: Path) -> None:
         iso, ws_root = _setup_workspace(tmp_path, ())
+        iso = IsolationContext(workspace=iso.workspace, snapshot_base=iso.snapshot_base)
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario()
         runner = _make_runner(
@@ -928,6 +943,7 @@ class TestSingleAttempt:
 
     def test_impact_only_failure_still_follows_repair_loop(self, tmp_path: Path) -> None:
         iso, ws_root = _setup_workspace(tmp_path, ())
+        iso = IsolationContext(workspace=iso.workspace, snapshot_base=iso.snapshot_base)
         call_count = 0
 
         class _RetryStrategy:

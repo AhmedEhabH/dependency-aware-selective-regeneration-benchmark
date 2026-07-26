@@ -59,16 +59,16 @@ stage_repository_snapshot(source, storage, repo_id, rev_id)
 |------------|-----------|--------|--------|---------|
 | `test_repositories_snapshot.py` (staging section) | 20 | 17 | 0 | 3 |
 | `test_isolation.py` (active snapshot section) | 8 | 8 | 0 | 0 |
-| `test_runner.py` (active snapshot section) | 8 | 8 | 0 | 0 |
+| `test_runner.py` | 25 | 25 | 0 | 0 |
 | `test_su0010a_regeneration.py` | 43 | 43 | 0 | 0 |
-| Full suite | 857 | 852 | 0 | 5 |
+| Full suite | 858 | 853 | 0 | 5 |
 
 ### Validation Gates
 
 | Gate | Result |
 |------|--------|
-| pytest (full suite) | 852 passed, 5 skipped (symlink on Windows), 0 failed |
-| ruff | All checks passed (3 files clean) |
+| pytest (full suite) | 853 passed, 5 skipped (symlink on Windows), 0 failed |
+| ruff | All checks passed (2 files clean) |
 | mypy | Success: no issues found in 3 source files |
 | pip check | Pre-existing env issues only |
 
@@ -78,6 +78,7 @@ stage_repository_snapshot(source, storage, repo_id, rev_id)
 - **Fix 2 — Content-aware staging**: Silent reuse of existing destination replaced with content comparison using the same exclusion/symlink policy as staging. Identical content is reused; differing eligible content raises `RepositoryError("Existing staged snapshot content differs for ...")`. Destination is never overwritten or deleted.
 - **Runner integration committed**: `_active_snapshot()` fail-closed helper, `_build_repository_snapshot()` and `_build_artifact_universe()` source exactly from `active_snapshot_root`, no Ground Truth fallback, legacy impact-only compatibility preserved.
 - **Test immutability corrected**: `TestSourceSnapshotImmutability` now uses `MonolithicRegenerationStrategy` and a deterministic mock backend, proving workspace modification while source and snapshot remain unchanged. `regenerated_artifact_count == 1`, `functional_validation_passed is True`.
+- **Fixture migration (commit `d364757` regression resolved)**: Commit `d364757` introduced the strict-descendant guard (`rel == Path(".")` → violation). Existing test fixtures passed `active_snapshot_root=snapshot_base`, which violated the new contract, causing 35 branch-induced failures. The correction migrates every regeneration-enabled fixture to a valid hierarchy: `active_snapshot_root = snapshot_base / <repo> / <revision>`, with source files placed under that path. Legacy impact-only fixtures (`enable_regeneration=False`) omit `active_snapshot_root` entirely.
 
 ### Key Behaviors Verified
 

@@ -59,8 +59,10 @@ def _make_runner(tmp_path: Path, max_attempts: int = 3) -> BenchmarkRunner:
     ws_root.mkdir()
     snap_base = tmp_path / "snapshots"
     snap_base.mkdir()
+    active_root = snap_base / "repo" / "rev1"
+    active_root.mkdir(parents=True)
     ws = WorkspacePath(root=str(ws_root))
-    iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+    iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
 
     config = RunnerConfig(
         strategy_name="test_strategy",
@@ -128,8 +130,10 @@ class TestBenchmarkRunner:
         ws_root.mkdir()
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
+        active_root = snap_base / "repo" / "rev1"
+        active_root.mkdir(parents=True)
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="test_strategy",
             backend_name="test_backend",
@@ -165,11 +169,13 @@ class TestArtifactUniverseConstruction:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
-        (snap_base / "src").mkdir()
-        (snap_base / "src" / "main.py").write_text("")
-        (snap_base / "src" / "utils.py").write_text("")
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "src").mkdir()
+        (active_root / "src" / "main.py").write_text("")
+        (active_root / "src" / "utils.py").write_text("")
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -198,11 +204,13 @@ class TestArtifactUniverseConstruction:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
-        (snap_base / "src").mkdir()
-        (snap_base / "src" / "actual_a.py").write_text("")
-        (snap_base / "src" / "actual_b.py").write_text("")
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "src").mkdir()
+        (active_root / "src" / "actual_a.py").write_text("")
+        (active_root / "src" / "actual_b.py").write_text("")
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -244,12 +252,14 @@ class TestArtifactUniverseConstruction:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
-        (snap_base / "src").mkdir()
-        (snap_base / "src" / "actual_a.py").write_text("")
-        (snap_base / "src" / "actual_b.py").write_text("")
-        (snap_base / "src" / "unrelated.py").write_text("")
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "src").mkdir()
+        (active_root / "src" / "actual_a.py").write_text("")
+        (active_root / "src" / "actual_b.py").write_text("")
+        (active_root / "src" / "unrelated.py").write_text("")
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -291,10 +301,12 @@ class TestArtifactUniverseConstruction:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
-        (snap_base / "src").mkdir()
-        (snap_base / "src" / "actual.py").write_text("")
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "src").mkdir()
+        (active_root / "src" / "actual.py").write_text("")
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -333,8 +345,10 @@ class TestArtifactUniverseConstruction:
         ws_root = tmp_path / "nonexistent_workspace"
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -358,8 +372,10 @@ class TestArtifactUniverseConstruction:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -387,7 +403,7 @@ class TestArtifactUniverseConstruction:
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
         config = RunnerConfig(
             strategy_name="test_strategy",
             backend_name="test_backend",
@@ -428,10 +444,12 @@ class TestSnapshotSourceWorkspaceSeparation:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snapshots"
         snap_base.mkdir()
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
 
-        (snap_base / "src").mkdir(parents=True)
-        (snap_base / "src" / "source_a.py").write_text("")
-        (snap_base / "src" / "source_b.py").write_text("")
+        (active_root / "src").mkdir(parents=True)
+        (active_root / "src" / "source_a.py").write_text("")
+        (active_root / "src" / "source_b.py").write_text("")
 
         (ws_root / "runs").mkdir(parents=True)
         (ws_root / "runs" / "generated.py").write_text("")
@@ -440,7 +458,7 @@ class TestSnapshotSourceWorkspaceSeparation:
         (ws_root / "unrelated_workspace.py").write_text("")
 
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -485,8 +503,10 @@ class TestSnapshotSourceWorkspaceSeparation:
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "empty_snap"
         snap_base.mkdir()
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -511,8 +531,9 @@ class TestSnapshotSourceWorkspaceSeparation:
         ws_root = tmp_path / "ws"
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "nonexistent_snap"
+        active_root = snap_base / "repo" / "v1"
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -534,16 +555,18 @@ class TestSnapshotSourceWorkspaceSeparation:
 
 
 class TestRepositorySnapshotPathConsistency:
-    def test_regeneration_enabled_uses_snapshot_base_path(self, tmp_path: Path) -> None:
+    def test_regeneration_enabled_uses_active_snapshot_path(self, tmp_path: Path) -> None:
         strategy = _FakeStrategy()
         ws_root = tmp_path / "work"
         ws_root.mkdir(parents=True)
         snap_base = tmp_path / "snap"
         snap_base.mkdir()
-        (snap_base / "src").mkdir()
-        (snap_base / "src" / "a.py").write_text("")
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "src").mkdir()
+        (active_root / "src" / "a.py").write_text("")
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
         config = RunnerConfig(
             strategy_name="monolithic",
             backend_name="test_backend",
@@ -562,7 +585,7 @@ class TestRepositorySnapshotPathConsistency:
         runner.run(scenario)
         assert len(strategy.calls) == 1
         repo, _change, _universe = strategy.calls[0]
-        expected = str(snap_base.resolve())
+        expected = str(active_root.resolve())
         assert Path(repo.path).resolve() == Path(expected).resolve()
         assert repo.path != scenario.repository
 
@@ -573,7 +596,7 @@ class TestRepositorySnapshotPathConsistency:
         snap_base = tmp_path / "snap"
         snap_base.mkdir()
         ws = WorkspacePath(root=str(ws_root))
-        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap_base)
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
         config = RunnerConfig(
             strategy_name="test_strategy",
             backend_name="test_backend",
