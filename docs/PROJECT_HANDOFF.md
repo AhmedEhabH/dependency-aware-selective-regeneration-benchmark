@@ -1,23 +1,26 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-**Handoff Date:** 2026-07-26
+**Handoff Date:** 2026-07-27
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (Ethan / subsequent sessions)
-**Handoff type:** OPENROUTER-BACKEND — Minimal OpenRouter API Backend Added; SU-0011 Awaiting Merge
+**Handoff type:** SCIENTIFIC-SMOKE-V1 AUDIT CORRECTED — Kaggle Execution Pending
 
 ---
 
 ## 1. Executive Summary
 
-The benchmark infrastructure for the Dependency-Aware Selective Regeneration study is **feature-complete, locally validated, and Kaggle-smoke-passed**. All six Phase 4 milestones (4A–4F) are implemented, tested, and merged. Phase 4F.1 remediation closed 5 scientific gaps. Two production fixes (failure propagation, graph wiring) were required for real Qwen execution. **Kaggle real smoke passed twice**: all 7 strategy arms succeeded with real Qwen2.5-Coder-7B-Instruct inference confirmed.
+The benchmark infrastructure for the Dependency-Aware Selective Regeneration study is **feature-complete and locally validated**. All six Phase 4 milestones (4A–4F) are implemented, tested, and merged. Phase 4F.1 remediation closed 5 scientific gaps. Two production fixes (failure propagation, graph wiring) were required for real Qwen execution. **Kaggle real smoke passed twice (v0.7.0)**: all 7 strategy arms succeeded with real Qwen2.5-Coder-7B-Instruct inference confirmed.
 
 **Research Design V2 Freeze** completed: Arm-to-protocol execution audit merged to `main`. Created `docs/research-design-v2` branch with 10 design documents recording researcher-approved experimental design decisions (RD-V2-01 through RD-V2-06). Current `RepositoryAgentStrategy` audited and classified as `SINGLE_SHOT_LLM_SCOPE_BASELINE` (not iterative). Baseline acceptance criteria defined for iterative `repository_agent` (SU-0011). Shared regeneration executor designed for fair end-to-end comparison (SU-0010). Arm role/naming policy, external dataset policy, and implementation impact plan documented. No production code modified. All frozen protocol documents untouched. Pilot and Research phases remain blocked pending SU-0010 completion and baseline agent implementation.
 
-**Completed through:** OPENROUTER-BACKEND (minimal OpenRouter API backend)
-**SU-0011:** Merged to `main` at commit `b54bfd2`.
-**OPENROUTER-BACKEND:** On `feature/openrouter-api-backend` — awaiting merge.
-**Next:** Merge OPENROUTER-BACKEND → Scientific Smoke.
-**Stable tag:** Only after successful Scientific Smoke.
+**Scientific Smoke V1 Audit Corrected** (this handoff): Minimal real Kaggle smoke configured — 1 repository (todo) × 1 scenario (todo-loc-001) × 3 arms (monolithic, selective, iterative_repository_agent) × 1 run = 3 total runs. Backend: KaggleQwenBackend (Qwen2.5-Coder-7B-Instruct). Budgets: max_attempts=2, max_tokens=4096, timeout=180s. Profile: `scientific-smoke-v1`. All 10 audit issues fixed. Kaggle execution pending.
+
+**Completed through:** SCIENTIFIC-SMOKE-V1-AUDIT-CORRECTED (10 audit issues fixed)
+**SU-0011:** Merged at b54bfd2.
+**Efficient Verification:** Merged.
+**OPENROUTER-BACKEND:** Merged to main at 414173a (optional, not used by this Smoke).
+**Next:** Execute Scientific Smoke V1 on Kaggle → Pilot → Research.
+**Stable tag:** Only after successful Scientific Smoke execution and audit.
 **Pilot:** Remains unauthorized.
 
 **What remains:** Scientific Smoke → Pilot → Research.
@@ -42,7 +45,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 | Phase 4E | COMPLETE | 7 strategy arms, graph, selection |
 | Phase 4F | COMPLETE | Evaluation engine, metrics, statistics, reporting |
 | Phase 4F.1 | COMPLETE | Scientific remediation (5 gaps closed) |
-| **Kaggle Smoke** | **PASSED** | 7/7 arms, Qwen confirmed, non-publication |
+| **Kaggle Smoke (v0.7.0)** | **PASSED** | 7/7 arms, Qwen confirmed, non-publication |
 | **RD-V2 Freeze** | **DOCUMENTED** | 10 design docs on `docs/research-design-v2` branch |
 | **SU-0010A** | **COMPLETE** | Shared regeneration executor |
 | **SU-0010B1** | **COMPLETE** | Repository-derived ArtifactUniverse |
@@ -52,6 +55,8 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 | **SU-0010B3** | **COMPLETE** | Functional validation and bounded repair; correction commit enforces token budget, preserves failure history, fixes timeout test |
 | **SU-0011** | **COMPLETE** | Iterative repository agent: 8th benchmark arm with `_run_iterative_flow()` orchestrator, `IterativeRepositoryAgentStrategy`, revise_plan with validation feedback, token-budget-aware strategy calls, 18 integration tests |
 | **Efficient Verification** | **COMPLETE** | AGENTS.md, skill, commands (`/check-changed`, `/verify`), `scripts/check_fast.py` on `chore/efficient-opencode-verification` |
+| **OPENROUTER-BACKEND** | **MERGED** | Merged to main at 414173a; optional, not used by Scientific Smoke |
+| **SCIENTIFIC-SMOKE-V1-AUDIT** | **CORRECTED** | 10 audit issues fixed; Kaggle execution pending on `experiment/scientific-smoke-v1` |
 
 ---
 
@@ -65,7 +70,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 - **Architecture:** 13-layer design, protocol-based interfaces, dependency injection
 - **Frozen protocol:** Research Protocol v1.0, 8 companion documents with SHA-256 checksums
 - **Benchmark data:** 24 scenarios across 3 repositories (todo, djangocms, saleor)
-- **Kaggle smoke:** PASSED — tag `v0.7.0-smoke-passed`, commit `0c58250`, 7/7 arms, Qwen confirmed
+- **Kaggle smoke (v0.7.0):** PASSED — tag `v0.7.0-smoke-passed`, commit `0c58250`, 7/7 arms, Qwen confirmed (historical; Scientific Smoke V1 is a new profile)
 - **RD-V2 branch:** `docs/research-design-v2` with 10 design documents
 - **GitHub:** https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark
 
@@ -108,7 +113,7 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 | Task | Priority | Notes |
 |------|----------|-------|
-| **Scientific Smoke** | MEDIUM | Run smoke profile with publication evidence; requires OPENROUTER-BACKEND merged and audited |
+| **Execute Scientific Smoke V1** | MEDIUM | Prepared on `experiment/scientific-smoke-v1`; run Kaggle smoke with 3 arms (monolithic, selective, iterative_repository_agent), 1 repo (todo), 1 scenario (todo-loc-001); requires OPENROUTER-BACKEND merged for local validation |
 | **Run Pilot Profile** | MEDIUM | 12 scenarios, agent+selective, 2 reps; descriptive only (non-publication) |
 | **Run Research Profile** | MEDIUM | 24 scenarios, 4 strategies, 3 reps; publication-quality evidence |
 | **Arm-to-protocol alignment review** | SCIENTIFIC GATE | Before first publication claim; ensure protocol compliance |
@@ -228,9 +233,9 @@ cat reports/PROJECT_HEALTH_REPORT.md
 
 ```
 Main branch:       merge commit b54bfd2 (feature/su-0011-iterative-repository-agent merged)
-Current branch:    chore/efficient-opencode-verification
-Tags:              v0.7.0-smoke-passed at 0c58250 (unchanged)
-Working tree:      9 new files, 3 modified — infrastructure only, no production benchmark code changed
+Current branch:    experiment/scientific-smoke-v1
+Tags:              v0.7.0-smoke-passed at 0c58250 (unchanged — no new stable tag until Smoke execution succeeds)
+Working tree:      committed — preparation commit with all 10 audit corrections
 ```
 
 ---

@@ -479,3 +479,85 @@ class TestEntryPointConversion:
         assert rec.regenerated_artifact_count == 0
         assert rec.preserved_artifact_count == 0
         assert rec.unresolved_human_review_count == 0
+
+
+class TestScientificSmokeV1Profile:
+    """Targeted regression tests for the scientific-smoke-v1 profile."""
+
+    def test_profile_contains_exact_three_strategies(self) -> None:
+        from seven_arm_benchmark import PROFILES
+        profile = PROFILES["scientific-smoke-v1"]
+        assert profile.strategies == ["monolithic", "selective", "iterative_repository_agent"]
+        assert len(profile.strategies) == 3
+
+    def test_profile_repetitions_and_scenario_count(self) -> None:
+        from seven_arm_benchmark import PROFILES
+        profile = PROFILES["scientific-smoke-v1"]
+        assert profile.repetitions == 1
+        assert profile.scenario_count == 1
+
+    def test_profile_has_exact_scenario_id(self) -> None:
+        from seven_arm_benchmark import PROFILES
+        profile = PROFILES["scientific-smoke-v1"]
+        assert profile.scenario_ids == ["todo-loc-001"]
+
+    def test_execution_plan_contains_exactly_three_runs(self) -> None:
+        from seven_arm_benchmark import PROFILES, _build_execution_plan
+        from benchmark.core.models import Scenario
+        profile = PROFILES["scientific-smoke-v1"]
+        scenario = Scenario(
+            scenario_id="todo-loc-001",
+            repository="todo",
+            change_type="schema",
+            blast_radius="localized",
+            requirement_before="",
+            requirement_after="",
+            rationale="test",
+        )
+        plan = _build_execution_plan(
+            profile=profile,
+            scenario_provider=None,
+            strategy_names=profile.strategies,
+            scenarios=[scenario],
+        )
+        assert len(plan) == 3
+        strategies_in_plan = [r["strategy_name"] for r in plan]
+        assert strategies_in_plan.count("monolithic") == 1
+        assert strategies_in_plan.count("selective") == 1
+        assert strategies_in_plan.count("iterative_repository_agent") == 1
+
+    def test_missing_scenario_id_fails_clearly(self) -> None:
+        from seven_arm_benchmark import PROFILES
+        profile = PROFILES["scientific-smoke-v1"]
+        assert profile.scenario_ids is not None
+        from benchmark.core.models import Scenario
+        available = [
+            Scenario(
+                scenario_id="todo-loc-999", repository="todo",
+                change_type="schema", blast_radius="localized",
+                requirement_before="", requirement_after="", rationale="x",
+            ),
+        ]
+        missing = [sid for sid in profile.scenario_ids if not any(s.scenario_id == sid for s in available)]
+        assert missing == ["todo-loc-001"]
+
+    def test_pilot_profile_selection_unchanged(self) -> None:
+        from seven_arm_benchmark import PROFILES
+        pilot = PROFILES["pilot"]
+        assert pilot.strategies == ["agent", "selective"]
+        assert pilot.repetitions == 2
+        assert pilot.scenario_ids is None
+
+    def test_research_profile_selection_unchanged(self) -> None:
+        from seven_arm_benchmark import PROFILES
+        research = PROFILES["research"]
+        assert research.strategies == ["agent", "selective", "compiled_ai", "delta_mcp"]
+        assert research.repetitions == 3
+        assert research.scenario_ids is None
+
+    def test_no_duplicate_profile_fields(self) -> None:
+        from seven_arm_benchmark import ExecutionProfile
+        members = [m for m in dir(ExecutionProfile) if not m.startswith("_")]
+        assert members.count("repository_names") == 1
+        assert members.count("blast_radii") == 1
+        assert "scenario_ids" in members

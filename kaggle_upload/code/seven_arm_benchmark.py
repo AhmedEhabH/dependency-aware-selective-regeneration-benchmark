@@ -214,6 +214,10 @@ class ExecutionProfile:
     repetitions: int
     is_publication: bool
     description: str = ""
+    repository_names: list[str] | None = None
+    blast_radii: list[str] | None = None
+    scenario_ids: list[str] | None = None
+    timeout_seconds: int = 0
 
 
 PROFILES: dict[str, ExecutionProfile] = {
@@ -234,6 +238,8 @@ PROFILES: dict[str, ExecutionProfile] = {
         repetitions=2,
         is_publication=False,
         description="3 repos x 4 scenarios x 2 strategies x 2 reps, descriptive only",
+        repository_names=["todo", "djangocms", "saleor"],
+        blast_radii=["localized", "moderate"],
     ),
     "research": ExecutionProfile(
         name="research",
@@ -243,6 +249,21 @@ PROFILES: dict[str, ExecutionProfile] = {
         repetitions=3,
         is_publication=True,
         description="24 scenarios, full-evolution strategies, 3 reps, publication",
+        repository_names=["todo", "djangocms", "saleor"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+    ),
+    "scientific-smoke-v1": ExecutionProfile(
+        name="scientific-smoke-v1",
+        label="scientific-smoke-v1",
+        scenario_count=1,
+        strategies=["monolithic", "selective", "iterative_repository_agent"],
+        repetitions=1,
+        is_publication=False,
+        description="1 repo (todo) x 1 scenario (todo-loc-001) x 3 arms x 1 run, non-publication scientific smoke",
+        repository_names=["todo"],
+        blast_radii=["localized"],
+        scenario_ids=["todo-loc-001"],
+        timeout_seconds=180,
     ),
 }
 
@@ -878,10 +899,14 @@ def _build_execution_plan(
     skip_run_ids: set[str] | None = None,
     config_hash: str = "",
     protocol_version: str = "1.0",
+    scenarios: list | None = None,
 ) -> list[dict[str, Any]]:
     skip_run_ids = skip_run_ids or set()
-    all_scenarios = scenario_provider.list_scenarios()
-    selected = all_scenarios[:profile.scenario_count]
+    if scenarios is not None:
+        selected = scenarios
+    else:
+        all_scenarios = scenario_provider.list_scenarios()
+        selected = all_scenarios[:profile.scenario_count]
     plan: list[dict[str, Any]] = []
 
     for scenario in selected:
@@ -1125,6 +1150,10 @@ def main() -> int:
 
     profile = PROFILES[args.profile]
 
+    # Use profile timeout if CLI arg not explicitly set (default 0 = no limit)
+    if args.timeout == 0 and profile.timeout_seconds > 0:
+        args.timeout = profile.timeout_seconds
+
     source_commit = _get_source_commit(
         explicit_commit=args.source_commit,
         explicit_tag=args.source_tag,
@@ -1365,6 +1394,28 @@ def main() -> int:
 
     strategy_names = [args.strategy] if args.strategy else profile.strategies
 
+    # Filter scenarios by repository, blast radius, and explicit IDs if specified
+    selected_scenarios = all_scenarios
+    if profile.repository_names:
+        selected_scenarios = [s for s in selected_scenarios if s.repository in profile.repository_names]
+    if profile.blast_radii:
+        selected_scenarios = [s for s in selected_scenarios if s.blast_radius in profile.blast_radii]
+    if profile.scenario_ids:
+        missing = [sid for sid in profile.scenario_ids if not any(s.scenario_id == sid for s in selected_scenarios)]
+        if missing:
+            logger.error(
+                "Configured scenario IDs not found: %s. Loaded scenarios: %s",
+                missing, [s.scenario_id for s in selected_scenarios],
+            )
+            sys.exit(1)
+        selected_scenarios = [s for s in selected_scenarios if s.scenario_id in profile.scenario_ids]
+    selected_scenarios = selected_scenarios[:profile.scenario_count]
+    logger.info(
+        "Selected %d scenario(s) for profile=%s: %s",
+        len(selected_scenarios), profile.name,
+        [s.scenario_id for s in selected_scenarios],
+    )
+
     # Report strategy capabilities per arm
     for sn in strategy_names:
         cap = describe_capabilities(sn)
@@ -1386,9 +1437,8 @@ def main() -> int:
 
     # Build dependency graph once and reuse across all arms
     dep_graph = None
-    first_scenarios = all_scenarios[:profile.scenario_count]
-    if first_scenarios:
-        dep_graph = build_dependency_graph(data_dir, first_scenarios)
+    if selected_scenarios:
+        dep_graph = build_dependency_graph(data_dir, selected_scenarios)
 
     # ---- Build execution plan -----------------------------------------------
     # Full plan (no skip) to get complete planned_run_ids for checkpoint.
@@ -1402,6 +1452,7 @@ def main() -> int:
         skip_run_ids=None,
         config_hash=config_hash,
         protocol_version=args.protocol_version,
+        scenarios=selected_scenarios,
     )
     planned_run_ids = [run["run_id"] for run in full_plan]
 
@@ -1412,6 +1463,7 @@ def main() -> int:
         skip_run_ids=skip_run_ids,
         config_hash=config_hash,
         protocol_version=args.protocol_version,
+        scenarios=selected_scenarios,
     )
 
     total_planned = len(planned_run_ids)
