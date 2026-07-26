@@ -115,8 +115,8 @@ The benchmark entry-point conversion gap was closed in a focused correction:
 | Item | Value |
 |------|-------|
 | Original reporting implementation commit | `4a4da45` |
-| Entry-point correction commit | `0e06062` |
-| Final branch HEAD | `0e06062` |
+| Entry-point correction commit | `e964c82` |
+| Final branch HEAD | `e964c82` |
 | Production file modified | `seven_arm_benchmark.py` + derivative |
 | Test file modified | `tests/unit/test_cli.py` |
 | Helper added | `_to_run_record_data()` — converts record_dict + metadata → RunRecordData with all 19 end-to-end fields |
