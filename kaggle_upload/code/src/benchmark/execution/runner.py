@@ -25,6 +25,7 @@ from benchmark.execution.regeneration import SharedRegenerationExecutor
 from benchmark.execution.repair import RepairLoop
 from benchmark.execution.state_machine import RunStateMachine
 from benchmark.execution.validation import FunctionalValidator
+from benchmark.repositories.snapshot import discover_eligible_artifacts
 from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner, compute_artifact_counts
 
 
@@ -452,6 +453,15 @@ class BenchmarkRunner:
         return f"{scenario.scenario_id}_{self._config.strategy_name}_{uuid.uuid4().hex[:8]}"
 
     def _build_repository_snapshot(self, scenario: Scenario) -> RepositorySnapshot:
+        if self._config.enable_regeneration:
+            return RepositorySnapshot(
+                identity=RepositoryIdentity(
+                    name=scenario.repository,
+                    url=scenario.repository,
+                ),
+                commit_sha=scenario.scenario_id,
+                path=str(self._isolation.snapshot_base),
+            )
         return RepositorySnapshot(
             identity=RepositoryIdentity(
                 name=scenario.repository,
@@ -469,6 +479,16 @@ class BenchmarkRunner:
         )
 
     def _build_artifact_universe(self, scenario: Scenario) -> ArtifactUniverse:
+        if self._config.enable_regeneration:
+            snapshot_root = self._isolation.snapshot_base
+            if not snapshot_root.is_dir():
+                raise BenchmarkError(
+                    f"Repository snapshot path does not exist or is not a directory: {snapshot_root}"
+                )
+            artifacts = discover_eligible_artifacts(snapshot_root)
+            return ArtifactUniverse(artifacts=artifacts)
+        # Legacy fixture compatibility only.
+        # Ground Truth fallback is forbidden for regeneration-enabled and scientific execution.
         return ArtifactUniverse(artifacts=scenario.expected_affected_artifacts)
 
     def _build_failure_record(

@@ -71,6 +71,9 @@ def _setup_workspace(tmp_path: Path, artifacts: tuple[ArtifactRef, ...]) -> tupl
         target = ws_root / ref.path
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(f"original {ref.path} content", encoding="utf-8")
+        snap_target = snap_base / ref.path
+        snap_target.parent.mkdir(parents=True, exist_ok=True)
+        snap_target.write_text(f"original {ref.path} content", encoding="utf-8")
 
     ws = WorkspacePath(root=str(ws_root))
     iso = IsolationContext(workspace=ws, snapshot_base=snap_base)
