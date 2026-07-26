@@ -37,6 +37,35 @@ class RunRecordData:
     software_environment_identity: str = ""
     failure_classification: str = ""
 
+    # Selection stage metrics (SU-0010A)
+    selection_prompt_tokens: int = 0
+    selection_completion_tokens: int = 0
+    selection_total_tokens: int = 0
+    selection_model_calls: int = 0
+    selection_duration_seconds: float = 0.0
+
+    # Regeneration stage metrics
+    regeneration_prompt_tokens: int = 0
+    regeneration_completion_tokens: int = 0
+    regeneration_total_tokens: int = 0
+    regeneration_model_calls: int = 0
+    regeneration_duration_seconds: float = 0.0
+
+    # Functional validation stage metrics
+    functional_validation_duration_seconds: float = 0.0
+    functional_validation_passed: bool | None = None
+
+    # Total workflow metrics (aggregated)
+    total_workflow_tokens: int = 0
+    total_workflow_model_calls: int = 0
+    total_workflow_duration_seconds: float = 0.0
+
+    # Artifact counting
+    selected_artifact_count: int = 0
+    regenerated_artifact_count: int = 0
+    preserved_artifact_count: int = 0
+    unresolved_human_review_count: int = 0
+
 
 def _utc_now_str() -> str:
     return datetime.now(UTC).isoformat()

@@ -114,6 +114,26 @@ class NotebookExporter:
                 {"failure_kind": f.failure_kind.value, "message": f.message, "details": f.details}
                 for f in record.failures
             ] if record.failures else None,
+            # End-to-end workflow metrics (SU-0010B2)
+            "selection_prompt_tokens": record.selection_prompt_tokens,
+            "selection_completion_tokens": record.selection_completion_tokens,
+            "selection_total_tokens": record.selection_total_tokens,
+            "selection_model_calls": record.selection_model_calls,
+            "selection_duration_seconds": record.selection_duration_seconds,
+            "regeneration_prompt_tokens": record.regeneration_prompt_tokens,
+            "regeneration_completion_tokens": record.regeneration_completion_tokens,
+            "regeneration_total_tokens": record.regeneration_total_tokens,
+            "regeneration_model_calls": record.regeneration_model_calls,
+            "regeneration_duration_seconds": record.regeneration_duration_seconds,
+            "functional_validation_duration_seconds": record.functional_validation_duration_seconds,
+            "functional_validation_passed": record.functional_validation_passed,
+            "total_workflow_tokens": record.total_workflow_tokens,
+            "total_workflow_model_calls": record.total_workflow_model_calls,
+            "total_workflow_duration_seconds": record.total_workflow_duration_seconds,
+            "selected_artifact_count": record.selected_artifact_count,
+            "regenerated_artifact_count": record.regenerated_artifact_count,
+            "preserved_artifact_count": record.preserved_artifact_count,
+            "unresolved_human_review_count": record.unresolved_human_review_count,
         }
 
     def _serialize_prediction(self, prediction: Any) -> dict[str, Any] | None:
