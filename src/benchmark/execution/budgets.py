@@ -103,6 +103,15 @@ class BudgetManager:
         self._state.attempts.append(snapshot)
         return snapshot
 
+    def record_tokens(self, tokens: int) -> None:
+        if tokens < 0:
+            raise ValueError(f"tokens must be >= 0, got {tokens}")
+        self._state.total_tokens += tokens
+        if self._state.attempts:
+            self._state.attempts[-1].tokens_consumed = tokens
+        if self._max_tokens > 0 and self._state.total_tokens >= self._max_tokens:
+            self._state.exhausted = True
+
     def reset(self) -> None:
         self._state = BudgetState(start_time=self._clock.now())
 

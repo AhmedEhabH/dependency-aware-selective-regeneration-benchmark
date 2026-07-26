@@ -22,10 +22,10 @@ from benchmark.core.models import (
 from benchmark.core.protocols import ImpactStrategy, LLMBackend
 from benchmark.execution.budgets import BudgetExhaustedError, BudgetManager
 from benchmark.execution.isolation import IsolationContext
-from benchmark.execution.regeneration import SharedRegenerationExecutor
+from benchmark.execution.regeneration import REPAIR_CONTEXT_PROMPT_TEMPLATE, SharedRegenerationExecutor
 from benchmark.execution.repair import RepairLoop
 from benchmark.execution.state_machine import RunStateMachine
-from benchmark.execution.validation import FunctionalValidator
+from benchmark.execution.validation import FunctionalValidationResult, FunctionalValidator
 from benchmark.repositories.snapshot import discover_eligible_artifacts
 from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner, compute_artifact_counts
 
@@ -62,6 +62,8 @@ class BenchmarkRunner:
             max_tokens=config.max_tokens,
             timeout_seconds=config.timeout_seconds,
         )
+        self._last_prediction: ImpactPrediction | None = None
+        self._last_val_result: FunctionalValidationResult | None = None
 
     @property
     def state(self) -> RunStateMachine:
@@ -109,28 +111,48 @@ class BenchmarkRunner:
         start_time = time.monotonic()
 
         if self._config.enable_regeneration:
-            self._budget.record_attempt()
-            result = self._run_attempt(scenario, start_time)
-            if isinstance(result, BenchmarkError):
+            try:
+                self._budget.record_attempt()
+            except BudgetExhaustedError:
                 self._state.fail()
                 record = RunRecord(
                     identity=self._build_run_identity(scenario),
-                    status=RunStatus.failed,
-                    failures=(
-                        FailureRecord(
-                            failure_kind=FailureKind.infrastructure,
-                            message=str(result),
-                            stage="runner",
-                        ),
-                    ),
+                    status=RunStatus.timed_out,
+                    failures=(FailureRecord(
+                        failure_kind=FailureKind.timeout,
+                        message="Budget exhausted before initial generation attempt",
+                        stage="budget",
+                    ),),
                     duration_seconds=time.monotonic() - start_time,
                 )
             else:
-                if result.status == RunStatus.succeeded:
-                    self._state.succeed()
-                else:
+                result = self._run_attempt(scenario, start_time)
+                if isinstance(result, BenchmarkError):
                     self._state.fail()
-                record = result
+                    record = RunRecord(
+                        identity=self._build_run_identity(scenario),
+                        status=RunStatus.failed,
+                        failures=(
+                            FailureRecord(
+                                failure_kind=FailureKind.infrastructure,
+                                message=str(result),
+                                stage="runner",
+                            ),
+                        ),
+                        duration_seconds=time.monotonic() - start_time,
+                    )
+                elif self._is_repairable_failure(result) and self._budget.can_attempt:
+                    record = self._run_regeneration_repair_flow(
+                        scenario=scenario,
+                        first_record=result,
+                        start_time=start_time,
+                    )
+                else:
+                    if result.status == RunStatus.succeeded:
+                        self._state.succeed()
+                    else:
+                        self._state.fail()
+                    record = result
         else:
             repair_loop = RepairLoop(
                 budget=self._budget,
@@ -331,6 +353,8 @@ class BenchmarkRunner:
 
         counts = compute_artifact_counts(prediction)
 
+        self._last_prediction = prediction
+
         # Fail closed when regeneration is enabled but validation command is absent
         validation_command = self._config.validation_command
         if not validation_command or (
@@ -364,6 +388,8 @@ class BenchmarkRunner:
         executor = SharedRegenerationExecutor(self._backend)  # type: ignore[arg-type]
         exec_result = executor.execute(plan, self._isolation, requirement_delta=requirement_delta)
 
+        self._budget.record_tokens(exec_result.total_tokens)
+
         # Execute validation
         validator = FunctionalValidator()
         val_result = validator.validate(
@@ -371,6 +397,7 @@ class BenchmarkRunner:
             command=validation_command,
             timeout=self._config.validation_timeout,
         )
+        self._last_val_result = val_result
 
         selection_tokens = prediction.token_usage or TokenUsage()
         selection_model_calls = 0
@@ -436,6 +463,194 @@ class BenchmarkRunner:
             total_workflow_duration_seconds=total_workflow_duration,
             selected_artifact_count=counts.get("selected", 0),
             regenerated_artifact_count=regenerated_count,
+            preserved_artifact_count=counts.get("preserve", 0),
+            unresolved_human_review_count=counts.get("human_review", 0),
+        )
+
+    def _is_repairable_failure(self, record: RunRecord) -> bool:
+        if record.status != RunStatus.failed:
+            return False
+        if record.functional_validation_passed is not False:
+            return False
+        for f in record.failures:
+            if f.failure_kind in (FailureKind.harness_defect, FailureKind.infrastructure, FailureKind.timeout):
+                return False
+        return True
+
+    def _run_regeneration_repair_flow(
+        self,
+        scenario: Scenario,
+        first_record: RunRecord,
+        start_time: float,
+    ) -> RunRecord:
+        prediction = self._last_prediction
+        if prediction is None:
+            self._state.fail()
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.failed,
+                failures=(
+                    FailureRecord(
+                        failure_kind=FailureKind.harness_defect,
+                        message="Repair loop entered but prediction is unavailable",
+                        stage="repair",
+                    ),
+                ),
+                duration_seconds=time.monotonic() - start_time,
+            )
+
+        requirement_change = self._build_requirement_change(scenario)
+        artifact_universe = self._build_artifact_universe(scenario)
+
+        selector = ArtifactSelector()
+        selection = selector.select(prediction, artifact_universe)
+        regen_planner = RegenerationPlanner()
+        plan = regen_planner.plan(selection, prediction)
+        counts = compute_artifact_counts(prediction)
+
+        requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
+        executor = SharedRegenerationExecutor(self._backend)  # type: ignore[arg-type]
+        validator = FunctionalValidator()
+
+        selection_prompt = first_record.selection_prompt_tokens
+        selection_completion = first_record.selection_completion_tokens
+        selection_total = first_record.selection_total_tokens
+        selection_calls = first_record.selection_model_calls
+        selection_dur = first_record.selection_duration_seconds
+
+        regen_prompt = first_record.regeneration_prompt_tokens
+        regen_completion = first_record.regeneration_completion_tokens
+        regen_total = first_record.regeneration_total_tokens
+        regen_calls = first_record.regeneration_model_calls
+        regen_dur = first_record.regeneration_duration_seconds
+
+        val_dur = first_record.functional_validation_duration_seconds
+
+        all_failures = list(first_record.failures)
+        first_regen_count = first_record.regenerated_artifact_count
+
+        # Build repair context from first validation failure
+        repair_context: str | None = None
+        if self._last_val_result is not None and not self._last_val_result.passed:
+            repair_context = REPAIR_CONTEXT_PROMPT_TEMPLATE.format(
+                exit_code=self._last_val_result.exit_code,
+                stdout=self._last_val_result.stdout[:1000],
+                stderr=self._last_val_result.stderr[:1000],
+            )
+
+        while self._budget.can_attempt:
+            self._budget.record_attempt()
+
+            exec_result = executor.execute(
+                plan, self._isolation, requirement_delta, repair_context=repair_context,
+            )
+
+            self._budget.record_tokens(exec_result.total_tokens)
+
+            assert self._config.validation_command is not None
+            val_result = validator.validate(
+                workspace_root=self._isolation.workspace.root,
+                command=self._config.validation_command,
+                timeout=self._config.validation_timeout,
+            )
+
+            regen_prompt += exec_result.prompt_tokens
+            regen_completion += exec_result.completion_tokens
+            regen_total += exec_result.total_tokens
+            regen_calls += exec_result.model_calls
+            regen_dur += exec_result.duration_seconds
+            val_dur += val_result.duration_seconds
+
+            for f in exec_result.failures:
+                all_failures.append(
+                    FailureRecord(
+                        failure_kind=FailureKind.model_output,
+                        message=f,
+                        details="SharedRegenerationExecutor failure",
+                        stage="regeneration",
+                    )
+                )
+
+            if val_result.passed:
+                self._state.succeed()
+                return RunRecord(
+                    identity=self._build_run_identity(scenario),
+                    status=RunStatus.succeeded,
+                    prediction=prediction,
+                    token_usage=prediction.token_usage or TokenUsage(),
+                    failures=tuple(all_failures),
+                    duration_seconds=time.monotonic() - start_time,
+                    selection_prompt_tokens=selection_prompt,
+                    selection_completion_tokens=selection_completion,
+                    selection_total_tokens=selection_total,
+                    selection_model_calls=selection_calls,
+                    selection_duration_seconds=selection_dur,
+                    regeneration_prompt_tokens=regen_prompt,
+                    regeneration_completion_tokens=regen_completion,
+                    regeneration_total_tokens=regen_total,
+                    regeneration_model_calls=regen_calls,
+                    regeneration_duration_seconds=regen_dur,
+                    functional_validation_duration_seconds=val_dur,
+                    functional_validation_passed=True,
+                    total_workflow_tokens=selection_total + regen_total,
+                    total_workflow_model_calls=selection_calls + regen_calls,
+                    total_workflow_duration_seconds=selection_dur + regen_dur + val_dur,
+                    selected_artifact_count=counts.get("selected", 0),
+                    regenerated_artifact_count=sum(
+                        1 for a in exec_result.artifacts if a.status == "generated"
+                    ),
+                    preserved_artifact_count=counts.get("preserve", 0),
+                    unresolved_human_review_count=counts.get("human_review", 0),
+                )
+
+            all_failures.append(
+                FailureRecord(
+                    failure_kind=FailureKind.build,
+                    message=f"Functional validation failed (exit={val_result.exit_code})",
+                    details=f"stdout: {val_result.stdout[:500]}\nstderr: {val_result.stderr[:500]}",
+                    stage="validation",
+                )
+            )
+
+            # Update repair context for the next iteration
+            repair_context = REPAIR_CONTEXT_PROMPT_TEMPLATE.format(
+                exit_code=val_result.exit_code,
+                stdout=val_result.stdout[:1000],
+                stderr=val_result.stderr[:1000],
+            )
+
+            if not self._budget.can_attempt:
+                break
+
+        self._state.fail()
+        total_tokens = selection_total + regen_total
+        total_calls = selection_calls + regen_calls
+        total_dur = selection_dur + regen_dur + val_dur
+
+        return RunRecord(
+            identity=self._build_run_identity(scenario),
+            status=RunStatus.failed,
+            prediction=prediction,
+            token_usage=prediction.token_usage or TokenUsage(),
+            failures=tuple(all_failures),
+            duration_seconds=time.monotonic() - start_time,
+            selection_prompt_tokens=selection_prompt,
+            selection_completion_tokens=selection_completion,
+            selection_total_tokens=selection_total,
+            selection_model_calls=selection_calls,
+            selection_duration_seconds=selection_dur,
+            regeneration_prompt_tokens=regen_prompt,
+            regeneration_completion_tokens=regen_completion,
+            regeneration_total_tokens=regen_total,
+            regeneration_model_calls=regen_calls,
+            regeneration_duration_seconds=regen_dur,
+            functional_validation_duration_seconds=val_dur,
+            functional_validation_passed=False,
+            total_workflow_tokens=total_tokens,
+            total_workflow_model_calls=total_calls,
+            total_workflow_duration_seconds=total_dur,
+            selected_artifact_count=counts.get("selected", 0),
+            regenerated_artifact_count=first_regen_count,
             preserved_artifact_count=counts.get("preserve", 0),
             unresolved_human_review_count=counts.get("human_review", 0),
         )

@@ -122,3 +122,42 @@ class TestBudgetManager:
         with pytest.raises(BudgetExhaustedError):
             bm.record_attempt()
         assert bm.state.exhausted is True
+
+    def test_record_tokens_accumulates(self) -> None:
+        bm = BudgetManager(max_attempts=5, max_tokens=100)
+        bm.record_attempt()
+        bm.record_tokens(30)
+        assert bm.state.total_tokens == 30
+        assert bm.state.attempts[-1].tokens_consumed == 30
+        bm.record_attempt()
+        bm.record_tokens(20)
+        assert bm.state.total_tokens == 50
+        assert bm.state.attempts[-1].tokens_consumed == 20
+
+    def test_record_tokens_negative_raises(self) -> None:
+        bm = BudgetManager()
+        bm.record_attempt()
+        with pytest.raises(ValueError, match="tokens"):
+            bm.record_tokens(-1)
+
+    def test_max_tokens_zero_unlimited(self) -> None:
+        bm = BudgetManager(max_tokens=0)
+        bm.record_attempt()
+        bm.record_tokens(999999)
+        assert bm.can_attempt is True
+        assert bm.state.exhausted is False
+        assert bm.state.total_tokens == 999999
+
+    def test_record_tokens_exhausts_budget(self) -> None:
+        bm = BudgetManager(max_attempts=10, max_tokens=15)
+        bm.record_attempt()
+        bm.record_tokens(15)
+        assert bm.can_attempt is False
+        assert bm.state.exhausted is True
+
+    def test_record_tokens_below_limit_still_allows(self) -> None:
+        bm = BudgetManager(max_attempts=10, max_tokens=30)
+        bm.record_attempt()
+        bm.record_tokens(15)
+        assert bm.can_attempt is True
+        assert bm.state.exhausted is False

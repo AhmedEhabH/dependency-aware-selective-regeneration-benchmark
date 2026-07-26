@@ -35,10 +35,10 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - SU-0010B1A active snapshot staging
 - SU-0010B1B Ground-Truth-free graph construction
 - SU-0010B2 metrics persistence/reporting
+- SU-0010B3 functional validation and bounded repair (correction: token budget enforcement, failure history preservation, timeout test fix)
 
 ## Next
 
-- SU-0010B3 validation and bounded repair
 - SU-0011 iterative repository agent
 - Scientific Smoke
 - Pilot
