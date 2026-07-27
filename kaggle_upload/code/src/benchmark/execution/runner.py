@@ -44,7 +44,6 @@ class RunnerConfig:
     enable_regeneration: bool = False
     validation_command: list[str] | None = None
     validation_timeout: int = 30
-    active_snapshot_root: str | None = None
     extra: dict[str, Any] = field(default_factory=dict)
 
 

@@ -105,7 +105,6 @@ class BenchmarkPipeline:
             enable_regeneration=self._config.enable_regeneration,
             validation_command=self._config.validation_command,
             validation_timeout=self._config.validation_timeout,
-            active_snapshot_root=str(self._config.active_snapshot_root) if self._config.active_snapshot_root else None,
         )
         return BenchmarkRunner(
             strategy=self._strategy,
