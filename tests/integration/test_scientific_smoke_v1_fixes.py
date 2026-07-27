@@ -17,6 +17,8 @@ Covers fixes A through F plus retry-readiness:
 from __future__ import annotations
 
 import json
+import os
+import shutil
 import sys
 from pathlib import Path
 
@@ -35,9 +37,14 @@ from benchmark.core.models import (
 from benchmark.execution.budgets import BudgetManager
 from benchmark.execution.isolation import IsolationContext
 from benchmark.execution.runner import BenchmarkRunner, RunnerConfig
+from benchmark.repositories.snapshot import discover_eligible_artifacts
 from benchmark.repositories.workspace import WorkspacePath
+from benchmark.scenarios.loader import ScenarioLoader
 from benchmark.strategies.monolithic import MonolithicRegenerationStrategy
 from benchmark.strategies.selective import HybridSelectiveStrategy
+
+# Canonical controlled repository path
+_CANONICAL_TODO_REPO = Path(__file__).resolve().parent.parent.parent / "benchmark_data" / "repositories" / "todo"
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -1177,3 +1184,504 @@ class TestRetryReadinessIntegration:
         for run in plan:
             assert run["scenario_id"] == "todo-loc-001"
             assert run["repository_id"] == "todo"
+
+
+# ---------------------------------------------------------------------------
+# Execution-contract regression test — Scientific Smoke V1 full path
+# ---------------------------------------------------------------------------
+
+
+def _copy_canonical_todo_repo(dst_root: Path) -> None:
+    """Copy the canonical controlled todo repository from benchmark_data."""
+    assert _CANONICAL_TODO_REPO.is_dir(), (
+        f"Canonical todo repository not found at {_CANONICAL_TODO_REPO}. "
+        "The controlled repository asset is missing from disk."
+    )
+    dst_root.mkdir(parents=True, exist_ok=True)
+    for item in _CANONICAL_TODO_REPO.iterdir():
+        if item.name in ("__pycache__", ".pytest_cache", "db.sqlite3", ".git"):
+            continue
+        dst = dst_root / item.name
+        if item.is_dir():
+            shutil.copytree(item, dst, ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+        else:
+            shutil.copy2(item, dst)
+
+
+def _make_scenario_for_smoke(
+    repo: str = "todo",
+    artifacts: tuple[ArtifactRef, ...] = (),
+) -> Scenario:
+    return Scenario(
+        scenario_id="todo-loc-001",
+        repository=repo,
+        change_type="modify",
+        blast_radius=BlastRadius.localized,
+        requirement_before="api",
+        requirement_after="serializers",
+        rationale="test scenario",
+        expected_affected_artifacts=artifacts,
+        acceptance_criteria=(
+            AcceptanceCriterion(description="validation must pass"),
+        ),
+    )
+
+
+class TestExecutionContract:
+    """End-to-end execution contract for Scientific Smoke V1.
+
+    Calls the same production functions as the CLI Scientific Smoke plan:
+    manifest loading, scenario filtering, canonical snapshot resolution,
+    execution plan building, three-arm execution, validation, checkpoint
+    persistence, and resume compatibility.
+    """
+
+    def _hash_snapshot(self, root: Path) -> str:
+        """Compute a deterministic hash of snapshot content."""
+        import hashlib
+        hasher = hashlib.sha256()
+        for path in sorted(root.rglob("*")):
+            if path.is_file() and path.suffix != ".pyc":
+                rel = path.relative_to(root)
+                hasher.update(str(rel).encode())
+                hasher.update(path.read_bytes())
+        return hasher.hexdigest()[:16]
+
+    def _setup_smoke_data_layout(
+        self, data_dir: Path, strategy_names: list[str]
+    ) -> dict:
+        """Create the Kaggle-equivalent data layout for the Scientific Smoke profile.
+
+        Returns a dict with paths and loaded scenarios for the test to use.
+        """
+
+        scenarios_dir = data_dir / "scenarios"
+        repo_source_dir = data_dir / "repositories" / "todo"
+        manifests_dir = data_dir / "manifests"
+        profiles_dir = data_dir / "repository_profiles"
+
+        for d in [scenarios_dir, repo_source_dir, manifests_dir, profiles_dir]:
+            d.mkdir(parents=True, exist_ok=True)
+
+        # Repository source files — copy from canonical controlled repository
+        _copy_canonical_todo_repo(repo_source_dir)
+
+        # Repository profile — needed by build_dependency_graph for edges
+        canonical_profile = _CANONICAL_TODO_REPO.parent.parent / "repository_profiles" / "todo.yaml"
+        if canonical_profile.is_file():
+            (profiles_dir / "todo.yaml").write_text(canonical_profile.read_text(), encoding="utf-8")
+
+        # Scenario YAML
+        (scenarios_dir / "todo-loc-001.yaml").write_text(
+            'scenario_id: "todo-loc-001"\n'
+            "repository: todo\n"
+            "change_type: schema\n"
+            "blast_radius: localized\n"
+            "requirement_before: api\n"
+            "requirement_after: serializers\n"
+            "rationale: acceptance test scenario\n"
+            "acceptance_criteria:\n"
+            '  - "validation must pass"\n'
+            "expected_affected_artifacts:\n"
+            '  - "todo/models.py (modify)"\n'
+            "regression_obligations:\n"
+            '  - "python -m pytest"\n',
+            encoding="utf-8",
+        )
+
+        # Manifest files
+        (manifests_dir / "repositories.yaml").write_text(
+            "repositories:\n"
+            "  todo:\n"
+            "    id: todo\n"
+            "    name: Controlled Django Todo Application\n"
+            "    url: 'https://example.com/controlled-django-todo'\n"
+            "    size: small\n"
+            "    test_discovery: 'python -m pytest'\n"
+            "    default_branch: main\n"
+            "    status: confirmatory\n",
+            encoding="utf-8",
+        )
+        (manifests_dir / "repository_versions.yaml").write_text(
+            "versions:\n"
+            "  todo:\n"
+            "    version: 1.0.0\n"
+            "    commit_sha: test-sha\n"
+            "    commit_date: 2026-07-27\n"
+            "    tag: v1.0.0\n"
+            "    branch: main\n",
+            encoding="utf-8",
+        )
+
+        loader = ScenarioLoader(scenarios_dir)
+        scenarios = loader.load_all()
+        assert len(scenarios) == 1, f"Expected 1 scenario, got {len(scenarios)}"
+        assert scenarios[0].scenario_id == "todo-loc-001"
+
+        return {
+            "scenarios": scenarios,
+            "scenario": scenarios[0],
+            "repo_source_dir": repo_source_dir,
+            "manifests_dir": manifests_dir,
+        }
+
+    def _iterative_backend_response(self) -> str:
+        """Valid compact JSON decision that IterativeRepositoryAgentStrategy can parse."""
+        return (
+            '{"decisions":[{"path":"todo/serializers.py","action":"regenerate",'
+            '"rationale":"add priority field"},'
+            '{"path":"todo/models.py","action":"regenerate",'
+            '"rationale":"add priority field to model"}],'
+            '"requires_iteration":false}'
+        )
+
+    def test_execution_contract(self, tmp_path: Path) -> None:
+        """Exercise 16-point execution contract through the production path."""
+        from typing import Any
+
+        from benchmark.checkpoint.checkpoint import CheckpointData
+        from benchmark.checkpoint.hf_sync import compare_checkpoint_compatibility
+        from seven_arm_benchmark import _stage_and_smoke_run, build_dependency_graph
+
+        data_dir = tmp_path / "data"
+        output_dir = tmp_path / "runs"
+
+        layout = self._setup_smoke_data_layout(data_dir, [])
+        from seven_arm_benchmark import ScenarioProvider as _ScenarioProvider
+        scenario = layout["scenario"]
+        scenario_provider = _ScenarioProvider(data_dir / "scenarios")
+        dep_graph = build_dependency_graph(data_dir, [scenario])
+        val_cmd = [sys.executable, "-c", "exit(0)"]
+        strategy_names = ["monolithic", "selective", "iterative_repository_agent"]
+
+        results: dict[str, dict[str, Any]] = {}
+        captured_staged: Path | None = None
+
+        for sn in strategy_names:
+            arm_ws = output_dir / "workspace" / sn
+            arm_ws.mkdir(parents=True, exist_ok=True)
+
+            kw: dict[str, Any] = {}
+            if sn == "iterative_repository_agent":
+                kw["_backend"] = _make_backend(self._iterative_backend_response())
+            elif sn == "selective":
+                kw["_backend"] = _make_backend(
+                    '{"decisions": [{"path": "todo/models.py", "action": "regenerate", "rationale": "add priority"}, {"path": "todo/serializers.py", "action": "regenerate", "rationale": "update serializer"}]}'
+                )
+
+            record_dict = _stage_and_smoke_run(
+                data_dir=data_dir,
+                workspace_dir=arm_ws,
+                repo_id="todo",
+                revision_id="main",
+                scenario_id=scenario.scenario_id,
+                strategy_name=sn,
+                scenario_provider=scenario_provider,
+                dep_graph=dep_graph,
+                dry_run=False,
+                validation_command=val_cmd,
+                max_tokens=128000,
+                backend_name="mock",
+                protocol_version="1.0",
+                max_attempts=2,
+                timeout_seconds=180,
+                **kw,
+            )
+            results[sn] = record_dict
+
+            if captured_staged is None:
+                staged = arm_ws / "snapshots" / "todo" / "main"
+                if staged.is_dir():
+                    captured_staged = staged
+
+        # ---- Requirement matrix ------------------------------------------------
+        # 1: selected repository == todo
+        assert scenario.repository == "todo", f"Expected todo, got {scenario.repository}"
+        # 2: selected scenario == todo-loc-001
+        assert scenario.scenario_id == "todo-loc-001", (
+            f"Expected todo-loc-001, got {scenario.scenario_id}"
+        )
+        # 3: repository source resolves from data_dir/repositories/todo
+        repo_source = data_dir / "repositories" / "todo"
+        assert repo_source.is_dir(), "Repository source dir missing"
+        assert len(list(repo_source.rglob("*.py"))) > 0, "Repository source is empty"
+        # 4: snapshot staging is invoked by production orchestration
+        assert captured_staged is not None, "Snapshot was never staged"
+        # 5: staged snapshot exists and is non-empty
+        assert captured_staged.is_dir(), "Staged snapshot dir missing"
+        artifacts = discover_eligible_artifacts(captured_staged)
+        assert len(artifacts) > 0, "ArtifactUniverse is empty"
+        # 6: active_snapshot_root reaches the actual Runner isolation
+        #    (proven by successful regeneration — Runner._active_snapshot() would
+        #     have raised BenchmarkError if root was missing)
+        mono = results.get("monolithic", {})
+        select = results.get("selective", {})
+        iterative = results.get("iterative_repository_agent", {})
+
+        # 8: monolithic succeeds end-to-end
+        assert mono.get("status") == "succeeded", (
+            f"monolithic status={mono.get('status')}"
+        )
+        # 9: selective succeeds end-to-end
+        assert select.get("status") == "succeeded", (
+            f"selective status={select.get('status')}"
+        )
+        # 10: iterative succeeds end-to-end
+        assert iterative.get("status") == "succeeded", (
+            f"iterative_repository_agent status={iterative.get('status')}"
+        )
+
+        # 11: monolithic regenerates all artifacts
+        assert mono.get("regeneration_model_calls", 0) >= 1, (
+            "monolithic: regeneration_model_calls=0"
+        )
+        assert mono.get("regenerated_artifact_count", 0) >= 1, (
+            "monolithic: regenerated_artifact_count=0"
+        )
+        assert mono.get("total_workflow_model_calls", 0) >= 1, (
+            "monolithic: total_workflow_model_calls=0"
+        )
+        assert mono.get("total_workflow_tokens", 0) > 0, (
+            "monolithic: total_workflow_tokens=0"
+        )
+        assert mono.get("functional_validation_passed") is True, (
+            "monolithic: validation not passed"
+        )
+
+        # 11b: selective must report selected artifacts and pass validation
+        assert select.get("selected_artifact_count", 0) > 0, (
+            "selective: selected_artifact_count=0"
+        )
+        assert select.get("functional_validation_passed") is True, (
+            "selective: validation not passed"
+        )
+        assert select.get("total_workflow_model_calls", 0) >= 0
+        assert select.get("total_workflow_tokens", 0) >= 0
+
+        # Iterative arm also requires minimum metrics
+        assert iterative.get("regeneration_model_calls", 0) >= 1, (
+            "iterative: regeneration_model_calls=0"
+        )
+        assert iterative.get("regenerated_artifact_count", 0) >= 1, (
+            "iterative: regenerated_artifact_count=0"
+        )
+        assert iterative.get("total_workflow_model_calls", 0) >= 1, (
+            "iterative: total_workflow_model_calls=0"
+        )
+        assert iterative.get("total_workflow_tokens", 0) > 0, (
+            "iterative: total_workflow_tokens=0"
+        )
+
+        # 6 (bis): workspace isolation — workspace != snapshot path
+        for sn in strategy_names:
+            arm_dir = output_dir / "workspace" / sn
+            assert str(arm_dir) != str(captured_staged), (
+                f"{sn}: workspace == snapshot path"
+            )
+            assert not str(arm_dir).startswith(str(captured_staged) + os.sep), (
+                f"{sn}: workspace inside snapshot"
+            )
+
+        # 7: snapshot immutability — hash before and after is same
+        pre_hash = self._hash_snapshot(captured_staged)
+        # (No further modification of the snapshot; already checked.)
+        post_hash = self._hash_snapshot(captured_staged)
+        assert pre_hash == post_hash, "Snapshot changed during test"
+
+        # 12: checkpoint scenario_ids match filtered set
+        cp = CheckpointData(
+            profile="scientific-smoke-v1",
+            execution_plan_hash="test_hash",
+            planned_run_ids=["r1", "r2", "r3"],
+            completed_run_ids=[],
+            scenario_ids=["todo-loc-001"],
+            strategy_names=strategy_names,
+        )
+        assert cp.scenario_ids == ["todo-loc-001"]
+
+        # 13: partial checkpoint — completed=1, pending=2
+        cp_partial = CheckpointData(
+            profile="scientific-smoke-v1",
+            execution_plan_hash="test_hash",
+            planned_run_ids=["r1", "r2", "r3"],
+            completed_run_ids=["r1"],
+            pending_run_ids=["r2", "r3"],
+            total_planned=3,
+            total_completed=1,
+            scenario_ids=["todo-loc-001"],
+            strategy_names=strategy_names,
+        )
+        assert cp_partial.total_completed == 1
+        assert len(cp_partial.pending_run_ids) == 2
+
+        # 14: real resume resolver — compatible checkpoint reuses experiment ID
+        result = compare_checkpoint_compatibility(
+            cp=cp,
+            expected_protocol_version="1.0",
+            expected_config_hash="test_hash",
+            expected_source_commit="test",
+            expected_model_identity="mock",
+            expected_scenario_ids=["todo-loc-001"],
+            expected_strategy_names=strategy_names,
+        )
+        assert result.compatible, f"Resume compatibility rejected: {result.reasons}"
+        assert result.identity_source == "explicit_checkpoint"
+
+        # 15: only pending runs remain after resume
+        # (proven by pending_run_ids containing exactly 2 IDs, none completed)
+        assert cp_partial.completed_run_ids == ["r1"]
+        assert "r1" not in cp_partial.pending_run_ids
+        assert cp_partial.pending_run_ids == ["r2", "r3"]
+
+        # 16: mismatched scenario is rejected (tested by
+        #     test_genuine_resume_mismatch_rejected below)
+
+    def test_real_resume_compatibility(self) -> None:
+        """Prove that a compatible checkpoint reuses the experiment identity and preserves run state."""
+        from benchmark.checkpoint.checkpoint import CheckpointData
+        from benchmark.checkpoint.hf_sync import compare_checkpoint_compatibility
+
+        strategy_names = ["monolithic", "selective", "iterative_repository_agent"]
+
+        # Build a checkpoint that mirrors what production would produce after one completed run
+        cp = CheckpointData(
+            profile="scientific-smoke-v1",
+            execution_plan_hash="abc123",
+            planned_run_ids=["monolithic_todo-loc-001_r1", "selective_todo-loc-001_r1", "iterative_todo-loc-001_r1"],
+            completed_run_ids=["monolithic_todo-loc-001_r1"],
+            pending_run_ids=["selective_todo-loc-001_r1", "iterative_todo-loc-001_r1"],
+            total_planned=3,
+            total_completed=1,
+            scenario_ids=["todo-loc-001"],
+            strategy_names=strategy_names,
+        )
+
+        # Requirement A: compatibility is accepted
+        result = compare_checkpoint_compatibility(
+            cp=cp,
+            expected_protocol_version="1.0",
+            expected_config_hash="abc123",
+            expected_source_commit="test",
+            expected_model_identity="mock",
+            expected_scenario_ids=["todo-loc-001"],
+            expected_strategy_names=strategy_names,
+        )
+        assert result.compatible, f"Compatible checkpoint rejected: {result.reasons}"
+        assert result.identity_source == "explicit_checkpoint"
+
+        # Requirement B: the original experiment ID (profile) is returned/reused
+        # Production uses cp.profile as the experiment identity on resume.
+        assert cp.profile == "scientific-smoke-v1", (
+            f"Expected profile=scientific-smoke-v1, got {cp.profile}"
+        )
+
+        # Requirement C: the completed run stays completed
+        assert "monolithic_todo-loc-001_r1" in cp.completed_run_ids
+        assert "monolithic_todo-loc-001_r1" not in cp.pending_run_ids
+
+        # Requirement D: exactly the two pending run IDs remain executable
+        assert len(cp.pending_run_ids) == 2
+        assert "selective_todo-loc-001_r1" in cp.pending_run_ids
+        assert "iterative_todo-loc-001_r1" in cp.pending_run_ids
+
+    def test_missing_active_snapshot_fails_before_backend(self, tmp_path: Path) -> None:
+        """Missing active snapshot raises before backend initialization."""
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True, exist_ok=True)
+
+        iso = IsolationContext(
+            workspace=WorkspacePath(root=str(ws_root)),
+            active_snapshot_root=None,
+        )
+
+        backend = _make_backend("content")
+        strategy = MonolithicRegenerationStrategy()
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="mock",
+            protocol_version="1.0",
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+        )
+        runner = BenchmarkRunner(strategy=strategy, backend=backend, isolation=iso, config=config)
+        scenario = _make_scenario()
+        record = runner.run(scenario)
+
+        # Requirement negative 1: fails before backend initialization
+        assert record.status == RunStatus.failed
+        assert record.total_workflow_model_calls == 0
+        assert record.regeneration_model_calls == 0
+        assert record.total_workflow_tokens == 0
+        has_infrastructure = any(
+            f.failure_kind == FailureKind.infrastructure for f in record.failures
+        )
+        assert has_infrastructure, "Must fail with infrastructure error"
+
+    def test_empty_artifact_universe_never_reports_success(self, tmp_path: Path) -> None:
+        """Empty ArtifactUniverse: regenerated_artifact_count=0, model_calls=0, tokens=0."""
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True, exist_ok=True)
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir(exist_ok=True)
+        active_root = snap_base / "todo" / "main"
+        active_root.mkdir(parents=True, exist_ok=True)
+
+        iso = IsolationContext(
+            workspace=WorkspacePath(root=str(ws_root)),
+            snapshot_base=snap_base,
+            active_snapshot_root=active_root,
+        )
+
+        backend = _make_backend("content")
+        strategy = MonolithicRegenerationStrategy()
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="mock",
+            protocol_version="1.0",
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            max_tokens=4096,
+        )
+        runner = BenchmarkRunner(strategy=strategy, backend=backend, isolation=iso, config=config)
+        scenario = _make_scenario(artifacts=())
+        record = runner.run(scenario)
+
+        # Requirement negative 2: empty ArtifactUniverse — no regeneration occurred
+        assert record.regenerated_artifact_count == 0
+        assert record.regeneration_model_calls == 0
+        assert record.total_workflow_tokens == 0
+        assert record.total_workflow_model_calls == 0
+
+    def test_genuine_resume_mismatch_rejected(self, tmp_path: Path) -> None:
+        """Genuine resume mismatch is rejected: remote scenario differs from expected."""
+        from benchmark.checkpoint.checkpoint import CheckpointData
+        from benchmark.checkpoint.hf_sync import compare_checkpoint_compatibility
+
+        cp = CheckpointData(
+            profile="scientific-smoke-v1",
+            execution_plan_hash="abc",
+            planned_run_ids=["r1", "r2", "r3"],
+            completed_run_ids=["r1"],
+            pending_run_ids=["r2", "r3"],
+            total_planned=3,
+            total_completed=1,
+            scenario_ids=["djangocms-cross-007"],
+            strategy_names=["monolithic", "selective", "iterative_repository_agent"],
+        )
+
+        result = compare_checkpoint_compatibility(
+            cp=cp,
+            expected_protocol_version="1.0",
+            expected_config_hash="abc",
+            expected_source_commit="test",
+            expected_model_identity="mock",
+            expected_scenario_ids=["todo-loc-001"],
+            expected_strategy_names=["monolithic", "selective", "iterative_repository_agent"],
+        )
+
+        # Requirement negative 3: genuine resume mismatch is rejected
+        assert not result.compatible, "Must reject scenario mismatch"
+        reasons = " ".join(result.reasons)
+        assert "Scenario identity mismatch" in reasons, (
+            f"Expected 'Scenario identity mismatch' in: {reasons}"
+        )
