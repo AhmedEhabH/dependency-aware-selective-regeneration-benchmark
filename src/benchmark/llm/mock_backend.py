@@ -27,6 +27,9 @@ class MockLLMBackend:
             finish_reason="stop",
         )
 
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return max(1, len(prompt) // 4)
+
 
 class NullLLMBackend:
     """Backend that raises if generate() is called unexpectedly."""

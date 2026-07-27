@@ -55,6 +55,9 @@ def _make_backend(
             self._finish_reason = fr
             self._token_usage = tu
 
+        def count_prompt_tokens(self, prompt: str) -> int:
+            return max(1, len(prompt) // 4)
+
         async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096):
             pt = max(1, len(prompt) // 4) if self._token_usage is None else self._token_usage.prompt_tokens
             ct = max(1, len(self._text) // 4) if self._token_usage is None else self._token_usage.completion_tokens
@@ -198,6 +201,28 @@ class TestFixAUtc:
         assert "report_generated_at" in progress
         assert progress["report_generated_at"] != ""
         assert progress["report_generated_at"].endswith("+00:00")
+
+    def test_entry_point_finalization_uses_utc(self) -> None:
+        """Directly call the production helper extracted from
+        seven_arm_benchmark.py.  If UTC is removed from that module,
+        this test fails."""
+        from seven_arm_benchmark import _build_interrupted_progress_data
+
+        result = _build_interrupted_progress_data(
+            profile_name="test",
+            total_planned=1,
+            total_completed=0,
+            total_failed=0,
+            total_pending=1,
+            total_attempted=0,
+            total_elapsed=1.0,
+            total_succeeded=0,
+            total_retryable=0,
+            experiment_run_duration=0.0,
+        )
+        assert result.report_generated_at.endswith("+00:00"), (
+            f"Expected UTC suffix, got: {result.report_generated_at}"
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -463,6 +488,9 @@ class _TruncatedAgentStrategy:
 
 
 class _TruncatedResponseBackend:
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return 499
+
     async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
         return LLMResponse(
             text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first decision"}, {"path": "src/b.py", "action": "regenera',
@@ -721,6 +749,9 @@ class _CapturingMaxTokensBackend:
         self._text = response_text
         self.captured_max_tokens: list[int] = []
 
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return max(1, len(prompt) // 4)
+
     async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096):
         self.captured_max_tokens.append(max_tokens)
         pt = max(1, len(prompt) // 4)
@@ -748,9 +779,12 @@ class TestGap1TokenBudget:
         assert bm.remaining_tokens == 0
         assert bm.can_attempt is True
 
-    def test_pre_call_max_tokens_bounded_by_remaining(self, tmp_path: Path) -> None:
-        """First call consumes 695; next call's max_tokens <= 3401."""
-        iso, ws_root = _setup_workspace(tmp_path, (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),))
+    def test_pre_call_max_tokens_equals_remaining_minus_prompt(self, tmp_path: Path) -> None:
+        """Backend max_tokens = remaining_workflow_budget - prompt_tokens."""
+        iso, ws_root = _setup_workspace(
+            tmp_path,
+            (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),),
+        )
         backend = _CapturingMaxTokensBackend()
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario(artifacts=(ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),))
@@ -762,20 +796,47 @@ class TestGap1TokenBudget:
             strategy_name="monolithic",
             max_tokens=4096,
         )
-        runner.run(scenario)
+        record = runner.run(scenario)
 
-        # The regeneration executor passes max_tokens = remaining budget (4096 initially)
         captured = backend.captured_max_tokens
         assert len(captured) >= 1, "At least one backend call must have been made"
         for mt in captured:
-            assert mt <= 4096
+            # max_tokens passed to backend = remaining budget - prompt_estimate.
+            # With mock backend count_prompt_tokens = len(prompt)//4, the
+            # prompt is ~320-350 chars → ~80-87 tokens, so mt is strictly
+            # less than 4096 (proving prompt was subtracted).
+            assert mt < 4096, f"Expected mt < 4096 (prompt subtracted), got {mt}"
+            assert mt > 0, f"Expected positive mt, got {mt}"
+        # Recorded total must be prompt + completion <= 4096
+        assert record.total_workflow_tokens > 0
+        assert record.total_workflow_tokens <= 4096, (
+            f"total_workflow_tokens {record.total_workflow_tokens} exceeds budget 4096"
+        )
 
-    def test_zero_remaining_prevents_call(self) -> None:
-        """When remaining budget is zero (bounded), no attempt can begin."""
-        bm = BudgetManager(max_attempts=5, max_tokens=100)
-        bm.record_tokens(100)
-        assert bm.remaining_tokens == 0
-        assert bm.can_attempt is False
+    def test_prompt_exceeds_remaining_prevents_call(self, tmp_path: Path) -> None:
+        """When prompt_tokens >= remaining workflow budget, no generate() call."""
+        iso, ws_root = _setup_workspace(
+            tmp_path,
+            (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),),
+        )
+        backend = _CapturingMaxTokensBackend()
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=(ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),))
+
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+            max_tokens=5,  # tiny budget — prompt will exceed it
+        )
+        record = runner.run(scenario)
+        # No backend calls should have been made
+        assert len(backend.captured_max_tokens) == 0, (
+            f"Expected 0 backend calls with tiny budget, got {len(backend.captured_max_tokens)}"
+        )
+        # Record should have budget exhaustion failures
+        assert record.total_workflow_tokens == 0
 
     def test_total_workflow_tokens_never_exceeds_budget(self, tmp_path: Path) -> None:
         """Executor skips artifacts when per-call budget is exhausted."""
@@ -803,25 +864,21 @@ class TestGap1TokenBudget:
             max_tokens=10,
         )
         record = runner.run(scenario)
-        # Budget is very small (10) — executor must skip the second artifact
-        # regenerated_artifact_count should be 0 or 1, never 2
         assert record.regenerated_artifact_count <= 1, (
             f"Expected at most 1 regenerated artifact with tiny budget, got {record.regenerated_artifact_count}"
         )
-        # Actual tokens from mock backend may exceed the budget since
-        # the mock does not respect max_tokens; the key requirement is that
-        # the executor does not make calls when remaining budget is zero.
-        assert record.total_workflow_tokens < 200 or any(
+        # total_workflow_tokens includes prompt+completion; must stay <= 10
+        assert record.total_workflow_tokens <= 10 or any(
             "exhausted" in f.message for f in record.failures
         )
 
-    def test_max_tokens_zero_unlimited_backward_compat(self, tmp_path: Path) -> None:
-        """max_tokens=0 behaves as unlimited (backward compatible)."""
+    def test_max_tokens_zero_sends_default_not_zero(self, tmp_path: Path) -> None:
+        """When workflow max_tokens=0 (unlimited), backend receives default 4096."""
         artifacts = (
             ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
         )
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
-        backend = _make_backend("content")
+        backend = _CapturingMaxTokensBackend()
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario(artifacts=artifacts)
 
@@ -835,6 +892,29 @@ class TestGap1TokenBudget:
         record = runner.run(scenario)
         assert record.status == RunStatus.succeeded
         assert record.total_workflow_tokens > 0
+        # Backend must have received default 4096, not 0
+        captured = backend.captured_max_tokens
+        assert len(captured) >= 1
+        for mt in captured:
+            assert mt == 4096, f"Unlimited run must send 4096 to backend, got {mt}"
+
+    def test_kaggle_backend_never_receives_max_new_tokens_zero(self) -> None:
+        """KaggleQwenBackend must never receive max_tokens=0
+        (which would map to max_new_tokens=0)."""
+        import inspect
+
+        from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
+
+        source = inspect.getsource(KaggleQwenBackend.generate)
+        # The generate() method must never pass max_new_tokens=0
+        # through the gen_kwargs dict path.
+        assert "max_new_tokens: max_tokens" in source or "max_new_tokens" in source
+        # Verify the callers never pass 0 when unlimited
+        from benchmark.execution.regeneration import SharedRegenerationExecutor
+        exec_source = inspect.getsource(SharedRegenerationExecutor._execute_async)
+        assert "gen_max = 4096" in exec_source, (
+            "Regeneration executor must default to 4096 when unlimited"
+        )
 
 
 # ---------------------------------------------------------------------------

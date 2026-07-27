@@ -114,6 +114,14 @@ class KaggleQwenBackend:
         self._loaded = False
         logger.info("MODEL_INITIALIZATION_STARTED model=%s", model_name)
 
+    def count_prompt_tokens(self, prompt: str) -> int:
+        try:
+            self._ensure_loaded()
+            assert self._tokenizer is not None
+            return len(self._tokenizer(prompt, return_tensors="pt")["input_ids"][0])
+        except Exception:
+            return max(1, len(prompt) // 4)
+
     async def generate(
         self,
         prompt: str,

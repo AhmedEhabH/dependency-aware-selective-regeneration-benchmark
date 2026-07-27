@@ -201,9 +201,13 @@ class SharedRegenerationExecutor:
             if repair_context:
                 prompt += repair_context
 
+            prompt_estimate = getattr(
+                self._backend, "count_prompt_tokens", lambda p: max(1, len(p) // 4)
+            )(prompt)
+
             if max_tokens > 0:
                 consumed = total_prompt + total_completion
-                per_call_max = max(0, max_tokens - consumed)
+                per_call_max = max(0, max_tokens - consumed - prompt_estimate)
                 if per_call_max <= 0:
                     failures.append(f"Token budget exhausted before {artifact.path}")
                     generated.append(
@@ -214,10 +218,10 @@ class SharedRegenerationExecutor:
                         )
                     )
                     continue
+                gen_max = per_call_max
             else:
-                per_call_max = 0
+                gen_max = 4096
 
-            gen_max = per_call_max if per_call_max > 0 else 0
             try:
                 response: LLMResponse = await self._backend.generate(prompt=prompt, max_tokens=gen_max)
             except Exception as e:

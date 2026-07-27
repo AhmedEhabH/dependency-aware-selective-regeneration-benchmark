@@ -391,6 +391,12 @@ class BenchmarkRunner:
                 total_workflow_duration_seconds=selection_duration,
             )
 
+        # Record selection tokens BEFORE executor runs so remaining_tokens
+        # reflects the true remaining workflow budget.
+        selection_tok = prediction.token_usage or TokenUsage()
+        if selection_tok.total_tokens > 0:
+            self._budget.record_tokens(selection_tok.total_tokens)
+
         requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
         assert self._backend is not None
         executor = SharedRegenerationExecutor(self._backend)
@@ -399,9 +405,6 @@ class BenchmarkRunner:
             max_tokens=self._budget.remaining_tokens,
         )
 
-        selection_tok = prediction.token_usage or TokenUsage()
-        if selection_tok.total_tokens > 0:
-            self._budget.record_tokens(selection_tok.total_tokens)
         self._budget.record_tokens(exec_result.total_tokens)
 
         # Execute validation

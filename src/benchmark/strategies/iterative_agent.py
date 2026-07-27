@@ -148,8 +148,20 @@ class IterativeRepositoryAgentStrategy:
 
         import asyncio
 
+        count_fn = getattr(self._backend, "count_prompt_tokens", lambda p: max(1, len(p) // 4))
+        if max_tokens > 0:
+            prompt_estimate = count_fn(prompt)
+            completion_allowance = max(0, max_tokens - prompt_estimate)
+            if completion_allowance <= 0:
+                return ImpactPrediction(
+                    errors=("finish_reason=budget: Token budget exhausted before analyze call",),
+                )
+            max_tokens_arg = completion_allowance
+        else:
+            max_tokens_arg = 4096
+
         response = asyncio.get_event_loop().run_until_complete(
-            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=max_tokens if max_tokens > 0 else 0)
+            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=max_tokens_arg)
         )
 
         parsed = self._parse_response(response.text, artifact_universe)
@@ -188,7 +200,17 @@ class IterativeRepositoryAgentStrategy:
 
         import asyncio
 
-        mt = remaining_tokens if remaining_tokens > 0 else 0
+        count_fn = getattr(self._backend, "count_prompt_tokens", lambda p: max(1, len(p) // 4))
+        if remaining_tokens > 0:
+            prompt_estimate = count_fn(prompt)
+            mt = max(0, remaining_tokens - prompt_estimate)
+            if mt <= 0:
+                return ImpactPrediction(
+                    errors=("finish_reason=budget: Token budget exhausted before revise call",),
+                )
+        else:
+            mt = 4096
+
         response = asyncio.get_event_loop().run_until_complete(
             self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=mt)
         )

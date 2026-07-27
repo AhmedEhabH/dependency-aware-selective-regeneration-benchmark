@@ -41,6 +41,9 @@ class OpenRouterBackend:
     def __repr__(self) -> str:
         return f"OpenRouterBackend(model={self._model!r})"
 
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return max(1, len(prompt) // 4)
+
     def _get_api_key(self) -> str:
         key = os.environ.get(self._api_key_env, "")
         if not key or not key.strip():

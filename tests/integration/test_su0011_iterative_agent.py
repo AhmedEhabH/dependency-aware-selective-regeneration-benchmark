@@ -78,6 +78,10 @@ class _StrategyBackend:
             ),
         ]
 
+    def count_prompt_tokens(self, prompt: str) -> int:
+        idx = min(self.call_count, len(self._responses) - 1)
+        return self._responses[idx][1].prompt_tokens
+
     async def generate(
         self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096,
     ) -> LLMResponse:
@@ -94,6 +98,9 @@ def _make_regen_backend(response_text: str = "replacement content"):
     class _RegenMock:
         def __init__(self, text: str):
             self._text = text
+
+        def count_prompt_tokens(self, prompt: str) -> int:
+            return max(1, len(prompt) // 4)
 
         async def generate(
             self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096,
@@ -181,6 +188,9 @@ class _StatefulRegenBackend:
     def __init__(self, contents: list[str]) -> None:
         self._contents = contents
         self._call_idx = 0
+
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return max(1, len(prompt) // 4)
 
     async def generate(self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
         text = self._contents[min(self._call_idx, len(self._contents) - 1)]
@@ -542,6 +552,9 @@ class TestTokenBudgetStops:
         strategy = IterativeRepositoryAgentStrategy(backend=sb)
         # Regen backend also uses small tokens
         class _SmallTokenRegenBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 5
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 return LLMResponse(
                     text="x",
@@ -618,6 +631,9 @@ class TestTokenBudgetStops:
             def __init__(self):
                 self.call_count = 0
 
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 5
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1
                 return LLMResponse(
@@ -632,12 +648,13 @@ class TestTokenBudgetStops:
             tmp_path, strategy, rb, iso,
             validation_command=check_cmd,
             max_attempts=10,
-            max_tokens=70,
+            max_tokens=100,
         )
 
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
-        # First iteration: agent(60) + regen(8) = 68, then second agent(60) would exceed 70
+        # Round1: agent(60) + regen(8) = 68, remaining=32
+        # Round2: agent prompt=30 → completion_allowance=2, returns 60 → total=128>100 → exhausted
         assert sb.call_count == 2
         assert rb.call_count == 1
         assert record.selection_model_calls == 2
@@ -677,6 +694,9 @@ class TestTimeoutStops:
         strategy = IterativeRepositoryAgentStrategy(backend=sb)
 
         class _AdvancingRegenBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 5
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 clock.advance(15)
                 return LLMResponse(

@@ -39,6 +39,9 @@ class LLMBackend(Protocol):
     ) -> LLMResponse:
         ...
 
+    def count_prompt_tokens(self, prompt: str) -> int:
+        ...
+
 
 @runtime_checkable
 class RepositoryAdapter(Protocol):

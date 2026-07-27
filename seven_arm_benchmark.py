@@ -2006,24 +2006,17 @@ def main() -> int:
     checkpoint_data.completion_status = "incomplete"
     checkpoint_mgr.write_atomic(checkpoint_data)
 
-    final_progress = ProgressData(
-        profile=profile.name,
+    final_progress = _build_interrupted_progress_data(
+        profile_name=profile.name,
         total_planned=total_planned,
         total_completed=checkpoint_data.total_completed,
         total_failed=len(checkpoint_data.failed_run_ids),
         total_pending=len(checkpoint_data.pending_run_ids),
-        elapsed_seconds=total_elapsed,
-        completion_ratio=checkpoint_data.total_completed / max(total_planned, 1),
-        stage="interrupted",
         total_attempted=len(checkpoint_data.attempted_run_ids),
+        total_elapsed=total_elapsed,
         total_succeeded=audit["total_succeeded"],
         total_retryable=audit["total_retryable"],
-        completion_status="incomplete",
-        experiment_run_duration_seconds=audit["duration_totals"]["experiment_run_duration_seconds"],
-        session_elapsed_seconds=total_elapsed,
-        report_generated_at=datetime.now(UTC).isoformat(),
-        experiment_wall_clock_seconds=None,
-        experiment_wall_clock_unavailable_reason="cross-session idle intervals are not measured",
+        experiment_run_duration=audit["duration_totals"]["experiment_run_duration_seconds"],
     )
     progress_mgr.write(final_progress)
 
@@ -2036,6 +2029,42 @@ def main() -> int:
         checkpoint_data.total_completed, total_planned,
     )
     return 0
+
+
+def _build_interrupted_progress_data(
+    *,
+    profile_name: str,
+    total_planned: int,
+    total_completed: int,
+    total_failed: int,
+    total_pending: int,
+    total_attempted: int,
+    total_elapsed: float,
+    total_succeeded: int,
+    total_retryable: int,
+    experiment_run_duration: float,
+):
+    from benchmark.checkpoint.checkpoint import ProgressData
+
+    return ProgressData(
+        profile=profile_name,
+        total_planned=total_planned,
+        total_completed=total_completed,
+        total_failed=total_failed,
+        total_pending=total_pending,
+        elapsed_seconds=total_elapsed,
+        completion_ratio=total_completed / max(total_planned, 1),
+        stage="interrupted",
+        total_attempted=total_attempted,
+        total_succeeded=total_succeeded,
+        total_retryable=total_retryable,
+        completion_status="incomplete",
+        experiment_run_duration_seconds=experiment_run_duration,
+        session_elapsed_seconds=total_elapsed,
+        report_generated_at=datetime.now(UTC).isoformat(),
+        experiment_wall_clock_seconds=None,
+        experiment_wall_clock_unavailable_reason="cross-session idle intervals are not measured",
+    )
 
 
 if __name__ == "__main__":

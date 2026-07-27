@@ -1155,6 +1155,9 @@ class TestBoundedRepairAttempts:
         from benchmark.core.models import LLMResponse, TokenUsage
 
         class _ControlledTokenBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 10
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 return LLMResponse(
                     text="content",
@@ -1244,6 +1247,9 @@ class TestBoundedRepairAttempts:
         from benchmark.core.models import LLMResponse, TokenUsage
 
         class _ControlledTokenBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 10
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 return LLMResponse(
                     text="x",
@@ -1272,6 +1278,9 @@ class TestBoundedRepairAttempts:
         from benchmark.core.models import LLMResponse, TokenUsage
 
         class _ControlledTokenBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 10
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 return LLMResponse(
                     text="x",
@@ -1564,6 +1573,9 @@ class TestFairTokenBudget:
             def __init__(self):
                 self.call_count = 0
 
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 5
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1
                 return LLMResponse(
@@ -1596,6 +1608,9 @@ class TestFairTokenBudget:
             def __init__(self):
                 self.call_count = 0
 
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 30
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1
                 return LLMResponse(
@@ -1613,6 +1628,9 @@ class TestFairTokenBudget:
         class _RegenCounter:
             def __init__(self):
                 self.call_count = 0
+
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 5
 
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1
