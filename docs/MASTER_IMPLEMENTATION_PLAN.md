@@ -41,13 +41,15 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - Efficient Agent Verification Setup (AGENTS.md, skill, commands, check_fast.py on chore/efficient-opencode-verification)
 - OPENROUTER-BACKEND on feature/openrouter-api-backend — minimal OpenRouter API backend
 - **SCIENTIFIC-SMOKE-V1 EXECUTED + FAILED** — 6 root-cause failures identified and fixed; retry required on experiment/scientific-smoke-v1
+- **SCIENTIFIC-SMOKE-V1 RETRY1 DEPLOYMENT PINNED** — commit 76ef349, deployed build ID 76ef349, output `/kaggle/working/runs/scientific_smoke_v1_retry1`
 
 ## Next
 
 - Merge SU-0011 (completed)
 - Merge feature/openrouter-api-backend (completed)
 - ~~Execute Scientific Smoke V1 on Kaggle~~ — DONE (failed; retry required)
-- **Retry Scientific Smoke V1 on Kaggle** (fresh experiment, same arms/budgets, fixed pipeline)
+- ~~Retry Scientific Smoke V1 on Kaggle~~ — DEPLOYMENT PINNED (not yet launched)
+- **Launch Scientific Smoke V1 Retry1 on Kaggle** (fresh experiment, same arms/budgets, fixed pipeline, new output directory)
 - Pilot (remains unauthorized until Scientific Smoke passes)
 
 ## Known Boundary

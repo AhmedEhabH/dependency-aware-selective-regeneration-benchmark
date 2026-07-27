@@ -1,14 +1,14 @@
 # SCIENTIFIC-SMOKE-V1 — Minimal Real Kaggle Scientific Smoke
 
 **Date:** 2026-07-27
-**Status:** FAILED — 6 root-cause failures identified and corrected; retry required
+**Status:** FAILED — fixes applied, retry1 deployment pinned (not yet launched)
 **Branch:** experiment/scientific-smoke-v1
 **Base Commit (original):** 414173a
 **First real execution:** exp-20260726-231536
 **First real result:** FAILED
-**Fixes committed at:** (this commit)
-**Retry commit:** (this commit)
-**Retry deployed build ID:** (this commit)
+**Fixes committed at:** 76ef349bf9cef14ebae378d8d51757bfa5cc78ad
+**Retry commit:** 76ef349bf9cef14ebae378d8d51757bfa5cc78ad
+**Retry deployed build ID:** 76ef349
 **Retry output path:** /kaggle/working/runs/scientific_smoke_v1_retry1
 
 ---
@@ -117,7 +117,7 @@ propagation gaps that would cause the retry to fail:
 - **random_seed:** 42
 
 ### Output
-- **Directory:** `/kaggle/working/runs/scientific_smoke_v1/`
+- **Directory (Retry1):** `/kaggle/working/runs/scientific_smoke_v1_retry1/`
 - **Format:** JSONL + checkpoint + progress + ZIP bundle
 - **Provenance:** Full write_provenance=true
 
@@ -225,6 +225,8 @@ Will contain (after Kaggle run):
 
 ## 8. Launch Readiness Checklist
 
+### Original deployment (exp-20260726-231536, failed)
+
 - [x] Scientific-smoke-v1 profile defined in code
 - [x] Scenario filtering implemented (todo + localized)
 - [x] 3 target arms configured (monolithic, selective, iterative_repository_agent)
@@ -236,6 +238,27 @@ Will contain (after Kaggle run):
 - [x] Dry-run verified locally with scientific-smoke-v1 profile
 - [x] Ground truth boundary verified
 - [x] Documentation updated
+
+### Retry1 deployment (commit 76ef349)
+
+- [x] All 6 root-cause failures fixed in production code
+- [x] Token budget and validation command propagation gaps closed
+- [x] Prompt-aware workflow token budget enforced
+- [x] Unlimited max_tokens=0 sends 4096 to backend (not 0)
+- [x] Full test suite: 1058 passed, 5 skipped
+- [x] Notebooks updated with Retry1 identity (source commit, build ID, output dir)
+- [x] Both notebooks (canonical + kaggle_upload) are structurally identical
+- [x] Retry1 output directory: `/kaggle/working/runs/scientific_smoke_v1_retry1` (fresh, empty)
+- [x] HF auto-resume will not collide: different source commit + different output directory
+- [x] no `--new-experiment` required (isolation guaranteed by new output dir and different source commit)
+- [x] No OpenRouter arguments in any notebook cell
+- [x] No Pilot or Research profile referenced
+- [x] Partial cell contains `--max-runs 1`
+- [x] Continuous cell contains no `--max-runs`
+- [x] Documentation updated truthfully
+- [x] Retry1 has not been launched
+- [x] Pilot remains unauthorized
+- [x] No stable tag exists
 
 ---
 
@@ -267,4 +290,6 @@ Each exec-cell runs `--max-runs 1 --auto-resume-hf`, advancing by 1 arm per sess
 
 **PREPARATION COMMITTED** — Audit corrections applied, Kaggle execution pending.
 
-**KAGGLE_SCIENTIFIC_SMOKE_V1_AUDIT_CORRECTED**
+**RETRY1 DEPLOYMENT PINNED** — commit 76ef349, build ID 76ef349, output `/kaggle/working/runs/scientific_smoke_v1_retry1`. Retry1 is not yet launched.
+
+**KAGGLE_SCIENTIFIC_SMOKE_RETRY1_DEPLOYMENT_PINNED**

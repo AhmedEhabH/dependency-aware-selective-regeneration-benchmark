@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-27
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (Ethan / subsequent sessions)
-**Handoff type:** SCIENTIFIC-SMOKE-V1 EXECUTED + FAILED — 6 Root Causes Identified and Fixed
+**Handoff type:** SCIENTIFIC-SMOKE-V1 RETRY1 DEPLOYMENT PINNED — commit 76ef349
 
 ---
 
@@ -21,19 +21,21 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 - **E:** Failed iterative run discarded token metrics (`selection_model_calls=0, total_workflow_tokens=0` despite 695 actual tokens)
 - **F:** Progress stuck at `completion_status="running"` despite all runs complete
 
-All 6 root causes have been identified and fixed in production code. 11 regression tests validate the fixes. The fixes pass full test suite (1038/1043 pass), ruff, mypy strict, and bundle build.
+All 6 root causes have been identified and fixed in production code. 11 regression tests validate the fixes. The fixes pass full test suite (1058/1058 pass), ruff, mypy strict, and bundle build.
 
-**A fresh Scientific Smoke V1 retry is required** with a new experiment ID and output directory (`/kaggle/working/runs/scientific_smoke_v1_retry1`).
+**A fresh Scientific Smoke V1 Retry1 is prepared** with a new experiment ID and output directory (`/kaggle/working/runs/scientific_smoke_v1_retry1`). Retry1 is pinned at commit 76ef349 with deployed build ID 76ef349. The notebooks use the new output path and source commit. The old experiment (exp-20260726-231536) remains FAILED and isolated — Retry1 uses a different output directory and source commit, so HF auto-resume will not collide.
 
-**Completed through:** SCIENTIFIC-SMOKE-V1-FIXES-APPLIED
+**Completed through:** SCIENTIFIC-SMOKE-V1-RETRY1-DEPLOYMENT-PINNED
 **SU-0011:** Merged at b54bfd2.
 **Efficient Verification:** Merged.
 **OPENROUTER-BACKEND:** Merged to main at 414173a (optional, not used by this Smoke).
-**Next:** Retry Scientific Smoke V1 on Kaggle → Pilot → Research.
+**Retry1 deployed build ID:** 76ef349 at commit 76ef349bf9cef14ebae378d8d51757bfa5cc78ad
+**Retry1 output directory:** /kaggle/working/runs/scientific_smoke_v1_retry1
+**Next:** Launch Scientific Smoke V1 Retry1 on Kaggle → Pilot → Research.
 **Stable tag:** Only after successful Scientific Smoke execution and audit.
 **Pilot:** Remains unauthorized.
 
-**What remains:** Scientific Smoke Retry → Pilot → Research.
+**What remains:** Launch Scientific Smoke V1 Retry1 → Pilot → Research.
 
 ---
 
