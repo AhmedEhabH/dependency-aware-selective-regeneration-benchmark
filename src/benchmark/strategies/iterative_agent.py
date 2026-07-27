@@ -54,6 +54,8 @@ Respond with a valid JSON object containing:
 }}
 
 Select only artifacts that are genuinely affected. Prefer preservation over unnecessary regeneration.
+
+Output compact JSON only — no markdown fences, no preamble, no trailing commentary.
 """
 
 REVISE_PROMPT_TEMPLATE = """\
@@ -101,6 +103,8 @@ Respond with a valid JSON object containing:
 }}
 
 If no further changes are needed, set requires_iteration to false.
+
+Output compact JSON only — no markdown fences, no preamble, no trailing commentary.
 """
 
 
@@ -130,6 +134,7 @@ class IterativeRepositoryAgentStrategy:
         repository: RepositorySnapshot,
         requirement_change: RequirementChange,
         artifact_universe: ArtifactUniverse,
+        max_tokens: int = 0,
     ) -> ImpactPrediction:
         prompt = INITIAL_PROMPT_TEMPLATE.format(
             repo_name=repository.identity.name,
@@ -144,13 +149,16 @@ class IterativeRepositoryAgentStrategy:
         import asyncio
 
         response = asyncio.get_event_loop().run_until_complete(
-            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=4096)
+            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=max_tokens if max_tokens > 0 else 0)
         )
 
         parsed = self._parse_response(response.text, artifact_universe)
         tok = response.token_usage
         if tok and (tok.prompt_tokens > 0 or tok.completion_tokens > 0):
             object.__setattr__(parsed, "token_usage", tok)
+        if parsed.errors:
+            fr = response.finish_reason or "unknown"
+            object.__setattr__(parsed, "errors", (f"finish_reason={fr}: {parsed.errors[0]}",))
         return parsed
 
     def revise_plan(
@@ -180,14 +188,18 @@ class IterativeRepositoryAgentStrategy:
 
         import asyncio
 
+        mt = remaining_tokens if remaining_tokens > 0 else 0
         response = asyncio.get_event_loop().run_until_complete(
-            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=4096)
+            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=mt)
         )
 
         parsed = self._parse_response(response.text, artifact_universe)
         tok = response.token_usage
         if tok and (tok.prompt_tokens > 0 or tok.completion_tokens > 0):
             object.__setattr__(parsed, "token_usage", tok)
+        if parsed.errors:
+            fr = response.finish_reason or "unknown"
+            object.__setattr__(parsed, "errors", (f"finish_reason={fr}: {parsed.errors[0]}",))
         return parsed
 
     @property

@@ -37,12 +37,12 @@ import hashlib
 import json
 import logging
 import os
+import shlex
 import sys
 import time
-import uuid
 from collections import Counter
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -479,6 +479,8 @@ def run_arm(
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    validation_command: list[str] | None = None,
+    max_tokens: int = 0,
 ) -> object:
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -501,11 +503,20 @@ def run_arm(
 
     isolation = make_isolation(isolation_workspace)
 
+    _approved_regen_strategies = frozenset({
+        "monolithic", "selective", "iterative_repository_agent",
+    })
+    enable_regen = not dry_run and strategy_name in _approved_regen_strategies
+
     config = PipelineConfig(
         protocol_version=protocol_version,
         timeout_seconds=timeout_seconds,
         max_attempts_per_run=max_attempts,
+        max_tokens_per_run=max_tokens,
         dry_run=dry_run,
+        enable_regeneration=enable_regen,
+        validation_command=validation_command,
+        validation_timeout=180,
     )
 
     pipeline = BenchmarkPipeline(
@@ -658,6 +669,18 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=0,
         help="Per-run timeout in seconds (0 = no limit)",
+    )
+    parser.add_argument(
+        "--max-tokens",
+        type=int,
+        default=0,
+        help="Total workflow token budget per run (0 = unlimited)",
+    )
+    parser.add_argument(
+        "--validation-command",
+        type=str,
+        default=None,
+        help="Shell command for functional validation. Overrides manifest discovery.",
     )
     parser.add_argument(
         "--protocol-version",
@@ -953,10 +976,12 @@ def _run_single_scenario_strategy(
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    validation_command: list[str] | None = None,
+    max_tokens: int = 0,
 ) -> tuple[dict[str, Any], int]:
-    from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig, PipelineResult
+    from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
-    scenario = scenario_provider.get_scenario(scenario_id)
+    scenario_provider.get_scenario(scenario_id)
 
     design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
     needs_llm = design.get("llm", False)
@@ -973,11 +998,58 @@ def _run_single_scenario_strategy(
 
     isolation = make_isolation(workspace_dir)
 
+    _approved_regen_strategies = frozenset({
+        "monolithic", "selective", "iterative_repository_agent",
+    })
+    enable_regen = not dry_run and strategy_name in _approved_regen_strategies
+
+    # Pre-flight: fail clearly if regeneration is enabled but no validation command
+    if enable_regen and not validation_command:
+
+        dummy_id = f"{scenario_id}_{strategy_name}_rep1_preflight_fail"
+        return {
+            "run_id": dummy_id,
+            "scenario_id": scenario_id,
+            "strategy_name": strategy_name,
+            "status": "failed",
+            "duration_seconds": 0.0,
+            "token_usage": {"prompt": 0, "completion": 0, "total": 0},
+            "selection_prompt_tokens": 0,
+            "selection_completion_tokens": 0,
+            "selection_total_tokens": 0,
+            "selection_model_calls": 0,
+            "selection_duration_seconds": 0.0,
+            "regeneration_prompt_tokens": 0,
+            "regeneration_completion_tokens": 0,
+            "regeneration_total_tokens": 0,
+            "regeneration_model_calls": 0,
+            "regeneration_duration_seconds": 0.0,
+            "functional_validation_duration_seconds": 0.0,
+            "functional_validation_passed": None,
+            "total_workflow_tokens": 0,
+            "total_workflow_model_calls": 0,
+            "total_workflow_duration_seconds": 0.0,
+            "selected_artifact_count": 0,
+            "regenerated_artifact_count": 0,
+            "preserved_artifact_count": 0,
+            "unresolved_human_review_count": 0,
+            "failures": [{
+                "kind": "harness_defect",
+                "message": "Regeneration enabled but validation_command is missing or empty",
+                "details": "enable_regeneration=True requires validation_command from manifest or CLI",
+                "stage": "configuration",
+            }],
+        }, 0
+
     config = PipelineConfig(
         protocol_version=protocol_version,
         timeout_seconds=timeout_seconds,
         max_attempts_per_run=max_attempts,
+        max_tokens_per_run=max_tokens,
         dry_run=dry_run,
+        enable_regeneration=enable_regen,
+        validation_command=validation_command,
+        validation_timeout=180,
     )
 
     pipeline = BenchmarkPipeline(
@@ -991,7 +1063,7 @@ def _run_single_scenario_strategy(
 
     t0 = time.monotonic()
     record = pipeline.run_scenario_by_id(scenario_id)
-    elapsed = time.monotonic() - t0
+    time.monotonic() - t0
 
     status = record.status.value if hasattr(record.status, "value") else str(record.status)
     success = 1 if status == "succeeded" else 0
@@ -1074,7 +1146,7 @@ def _build_smoke_progress_summary(
     for sname in all_strategy_names:
         plan_ids = [rid for rid in planned_run_ids if f"_{sname}_" in rid]
         completed_ids = [rid for rid in checkpoint_completed if f"_{sname}_" in rid]
-        failed_ids = [rid for rid in checkpoint_failed if f"_{sname}_" in rid]
+        [rid for rid in checkpoint_failed if f"_{sname}_" in rid]
         pending_ids = [rid for rid in pending_run_ids if f"_{sname}_" in rid]
 
         agg = results_agg.get(sname, {})
@@ -1179,10 +1251,10 @@ def main() -> int:
     )
 
     # ---- Checkpoint / Resume setup -----------------------------------------
-    from benchmark.checkpoint.checkpoint import CheckpointManager, CheckpointData, ProgressManager, ProgressData
+    from benchmark.checkpoint.checkpoint import CheckpointData, CheckpointManager, ProgressData, ProgressManager
+    from benchmark.checkpoint.package import ResultsPackager
     from benchmark.checkpoint.persistence import RunRecordStore
     from benchmark.checkpoint.resume import ResumeManager, ResumeValidationError
-    from benchmark.checkpoint.package import ResultsPackager
 
     resume_mgr = ResumeManager(
         runs_dir=output_dir,
@@ -1206,12 +1278,14 @@ def main() -> int:
 
     if hf_enabled:
         from benchmark.checkpoint.hf_sync import (
+            HfResumeManager,
             HfUploader,
             RemoteLayout,
-            verify_repo_private,
             RepoVisibilityError,
-            HfResumeManager,
             resolve_auto_resume,
+            verify_repo_private,
+        )
+        from benchmark.checkpoint.hf_sync import (
             ResumeValidationError as HfResumeError,
         )
 
@@ -1341,7 +1415,11 @@ def main() -> int:
             logger.error("--resume-from-hf requires HF_TOKEN environment variable")
             return 1
         from benchmark.checkpoint.hf_sync import (
-            HfResumeManager, RemoteLayout, ResumeValidationError as HfResumeError,
+            HfResumeManager,
+            RemoteLayout,
+        )
+        from benchmark.checkpoint.hf_sync import (
+            ResumeValidationError as HfResumeError,
         )
 
         scenario_provider_for_resume = ScenarioProvider(scenarios_dir)
@@ -1435,6 +1513,39 @@ def main() -> int:
             cap["uses_dependency_graph_by_design"], cap["dependency_graph_attached"], graph_match,
         )
 
+    # ---- Resolve validation command per repository --------------------------
+    # Load the canonical manifest collection to discover test_discovery
+    # for each repository. Used when enable_regeneration=True.
+    _manifest_collection = None
+    _validation_commands: dict[str, list[str]] = {}
+    if not args.dry_run:
+        from benchmark.repositories.loader import RepositoryLoader
+
+        repo_loader = RepositoryLoader(data_dir)
+        try:
+            _manifest_collection = repo_loader.load_manifest()
+        except Exception as exc:
+            logger.warning("Could not load repository manifests: %s", exc)
+
+        if args.validation_command:
+            # CLI override applies to all repos
+            cmd = shlex.split(args.validation_command)
+            for sn in strategy_names:
+                _approved_regen = frozenset({
+                    "monolithic", "selective", "iterative_repository_agent",
+                })
+                if sn in _approved_regen:
+                    _validation_commands[sn] = cmd
+        elif _manifest_collection is not None:
+            for scenario in selected_scenarios:
+                manifest = _manifest_collection.get_manifest(scenario.repository)
+                if manifest and manifest.test_discovery.strip():
+                    parts = shlex.split(manifest.test_discovery)
+                    _validation_commands[scenario.repository] = parts
+                    break
+
+    max_tokens = args.max_tokens
+
     # Build dependency graph once and reuse across all arms
     dep_graph = None
     if selected_scenarios:
@@ -1525,7 +1636,7 @@ def main() -> int:
         )
 
     # ---- Initialize checkpoint -----------------------------------------------
-    selected_scenario_ids = [s.scenario_id for s in all_scenarios[:profile.scenario_count]]
+    selected_scenario_ids = [s.scenario_id for s in selected_scenarios]
     pending_run_ids = [rid for rid in planned_run_ids if rid not in skip_run_ids]
 
     # Determine if this is a RESUME or START_NEW session.
@@ -1680,8 +1791,11 @@ def main() -> int:
                 return 1
 
         # ---- Execute strategy -----------------------------------------------
-        run_started_at = datetime.now(timezone.utc).isoformat()
+        run_started_at = datetime.now(UTC).isoformat()
         arm_workspace = workspace_dir / strategy_name
+        arm_validation_command = _validation_commands.get(
+            repository_id, _validation_commands.get(strategy_name)
+        )
         record_dict, _ = _run_single_scenario_strategy(
             scenario_id=scenario_id,
             strategy_name=strategy_name,
@@ -1697,8 +1811,10 @@ def main() -> int:
             backend_name=resolved_backend,
             openrouter_model=args.openrouter_model,
             openrouter_timeout=args.openrouter_timeout,
+            validation_command=arm_validation_command,
+            max_tokens=max_tokens,
         )
-        run_ended_at = datetime.now(timezone.utc).isoformat()
+        run_ended_at = datetime.now(UTC).isoformat()
 
         # Build persistent record
         failure_details: list[dict[str, Any]] = []
@@ -1714,10 +1830,7 @@ def main() -> int:
         status = record_dict.get("status", "")
         failure_classification = ""
         if status in ("failed", "timed_out", "cancelled"):
-            if failure_details:
-                failure_classification = failure_details[0].get("kind", "")
-            else:
-                failure_classification = "unknown"
+            failure_classification = failure_details[0].get("kind", "") if failure_details else "unknown"
 
         # Enforce canonical execution-plan Run ID
         record_dict["run_id"] = run_id
@@ -1832,6 +1945,13 @@ def main() -> int:
     total_elapsed = time.monotonic() - t_start
     all_runs_completed = checkpoint_data.total_completed >= total_planned
 
+    # Update checkpoint before report rebuild so progress.json reflects
+    # the correct final completion_status.
+    if all_runs_completed:
+        checkpoint_data.completion_status = "completed"
+        checkpoint_data.current_run_id = ""
+        checkpoint_mgr.write_atomic(checkpoint_data)
+
     # ---- Rebuild all reports from persisted records (cross-session safe) ----
     from benchmark.checkpoint.reports import rebuild_experiment_reports
 
@@ -1849,8 +1969,6 @@ def main() -> int:
     )
 
     if all_runs_completed:
-        checkpoint_data.completion_status = "completed"
-        checkpoint_data.current_run_id = ""
         checkpoint_mgr.write_atomic(checkpoint_data)
 
         progress_mgr.mark_completed()

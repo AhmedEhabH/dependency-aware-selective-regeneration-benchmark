@@ -18,6 +18,9 @@ class PipelineConfig:
     max_attempts_per_run: int = 3
     max_tokens_per_run: int = 0
     dry_run: bool = False
+    enable_regeneration: bool = False
+    validation_command: list[str] | None = None
+    validation_timeout: int = 180
     extra: dict[str, Any] = field(default_factory=dict)
 
 
@@ -97,6 +100,9 @@ class BenchmarkPipeline:
             timeout_seconds=self._config.timeout_seconds,
             max_attempts=self._config.max_attempts_per_run,
             max_tokens=self._config.max_tokens_per_run,
+            enable_regeneration=self._config.enable_regeneration,
+            validation_command=self._config.validation_command,
+            validation_timeout=self._config.validation_timeout,
         )
         return BenchmarkRunner(
             strategy=self._strategy,

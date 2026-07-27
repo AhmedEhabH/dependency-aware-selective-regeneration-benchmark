@@ -154,9 +154,15 @@ class KaggleQwenBackend:
             output_text = self._tokenizer.decode(generated_ids, skip_special_tokens=True)
             completion_tokens = generated_ids.shape[0]
 
+            # Detect actual finish reason: EOS token emitted vs length truncation
+            eos_token_id = self._tokenizer.eos_token_id
+            last_token_id = generated_ids[-1].item()
+            finish_reason = "eos" if last_token_id == eos_token_id else "length"
+
             logger.info(
-                "GENERATION_SUCCEEDED prompt_tokens=%d completion_tokens=%d total_tokens=%d",
+                "GENERATION_SUCCEEDED prompt_tokens=%d completion_tokens=%d total_tokens=%d finish_reason=%s",
                 prompt_tokens, completion_tokens, prompt_tokens + completion_tokens,
+                finish_reason,
             )
             return LLMResponse(
                 text=output_text,
@@ -165,7 +171,7 @@ class KaggleQwenBackend:
                     completion_tokens=completion_tokens,
                     total_tokens=prompt_tokens + completion_tokens,
                 ),
-                finish_reason="stop",
+                finish_reason=finish_reason,
             )
         except ModelBackendError:
             raise
