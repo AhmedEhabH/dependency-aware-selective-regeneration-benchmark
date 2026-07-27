@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-27
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (Ethan / subsequent sessions)
-**Handoff type:** SCIENTIFIC-SMOKE-V1 AUDIT CORRECTED — Kaggle Execution Pending
+**Handoff type:** SCIENTIFIC-SMOKE-V1 EXECUTED + FAILED — 6 Root Causes Identified and Fixed
 
 ---
 
@@ -13,17 +13,27 @@ The benchmark infrastructure for the Dependency-Aware Selective Regeneration stu
 
 **Research Design V2 Freeze** completed: Arm-to-protocol execution audit merged to `main`. Created `docs/research-design-v2` branch with 10 design documents recording researcher-approved experimental design decisions (RD-V2-01 through RD-V2-06). Current `RepositoryAgentStrategy` audited and classified as `SINGLE_SHOT_LLM_SCOPE_BASELINE` (not iterative). Baseline acceptance criteria defined for iterative `repository_agent` (SU-0011). Shared regeneration executor designed for fair end-to-end comparison (SU-0010). Arm role/naming policy, external dataset policy, and implementation impact plan documented. No production code modified. All frozen protocol documents untouched. Pilot and Research phases remain blocked pending SU-0010 completion and baseline agent implementation.
 
-**Scientific Smoke V1 Audit Corrected** (this handoff): Minimal real Kaggle smoke configured — 1 repository (todo) × 1 scenario (todo-loc-001) × 3 arms (monolithic, selective, iterative_repository_agent) × 1 run = 3 total runs. Backend: KaggleQwenBackend (Qwen2.5-Coder-7B-Instruct). Budgets: max_attempts=2, max_tokens=4096, timeout=180s. Profile: `scientific-smoke-v1`. All 10 audit issues fixed. Kaggle execution pending.
+**Scientific Smoke V1 was executed on Kaggle (exp-20260726-231536) and FAILED** with 6 root-cause failures:
+- **A:** Report finalization crashed with `NameError: name 'UTC' is not defined`
+- **B:** Checkpoint `scenario_ids` stored wrong scenario (`djangocms-cross-007` instead of `todo-loc-001`)
+- **C:** Monolithic and selective arms reported success but were no-op runs (zero model calls, zero regenerated artifacts, no validation)
+- **D:** Iterative agent failed from truncated JSON output (finish_reason hardcoded to "stop" despite mid-sequence EOS)
+- **E:** Failed iterative run discarded token metrics (`selection_model_calls=0, total_workflow_tokens=0` despite 695 actual tokens)
+- **F:** Progress stuck at `completion_status="running"` despite all runs complete
 
-**Completed through:** SCIENTIFIC-SMOKE-V1-AUDIT-CORRECTED (10 audit issues fixed)
+All 6 root causes have been identified and fixed in production code. 11 regression tests validate the fixes. The fixes pass full test suite (1038/1043 pass), ruff, mypy strict, and bundle build.
+
+**A fresh Scientific Smoke V1 retry is required** with a new experiment ID and output directory (`/kaggle/working/runs/scientific_smoke_v1_retry1`).
+
+**Completed through:** SCIENTIFIC-SMOKE-V1-FIXES-APPLIED
 **SU-0011:** Merged at b54bfd2.
 **Efficient Verification:** Merged.
 **OPENROUTER-BACKEND:** Merged to main at 414173a (optional, not used by this Smoke).
-**Next:** Execute Scientific Smoke V1 on Kaggle → Pilot → Research.
+**Next:** Retry Scientific Smoke V1 on Kaggle → Pilot → Research.
 **Stable tag:** Only after successful Scientific Smoke execution and audit.
 **Pilot:** Remains unauthorized.
 
-**What remains:** Scientific Smoke → Pilot → Research.
+**What remains:** Scientific Smoke Retry → Pilot → Research.
 
 ---
 

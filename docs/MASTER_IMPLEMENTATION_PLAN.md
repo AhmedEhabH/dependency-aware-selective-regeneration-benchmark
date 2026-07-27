@@ -40,13 +40,14 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - SU-0011 on feature/su-0011-iterative-repository-agent awaiting merge
 - Efficient Agent Verification Setup (AGENTS.md, skill, commands, check_fast.py on chore/efficient-opencode-verification)
 - OPENROUTER-BACKEND on feature/openrouter-api-backend — minimal OpenRouter API backend
-- **SCIENTIFIC-SMOKE-V1 audit corrected** — 10 audit issues fixed, Kaggle execution pending on experiment/scientific-smoke-v1
+- **SCIENTIFIC-SMOKE-V1 EXECUTED + FAILED** — 6 root-cause failures identified and fixed; retry required on experiment/scientific-smoke-v1
 
 ## Next
 
-- Merge SU-0011
-- Merge feature/openrouter-api-backend
-- **Execute Scientific Smoke V1 on Kaggle** (Kaggle Qwen only; OpenRouter is optional, not used by this Smoke)
+- Merge SU-0011 (completed)
+- Merge feature/openrouter-api-backend (completed)
+- ~~Execute Scientific Smoke V1 on Kaggle~~ — DONE (failed; retry required)
+- **Retry Scientific Smoke V1 on Kaggle** (fresh experiment, same arms/budgets, fixed pipeline)
 - Pilot (remains unauthorized until Scientific Smoke passes)
 
 ## Known Boundary

@@ -103,13 +103,14 @@ class SharedRegenerationExecutor:
         isolation: IsolationContext,
         requirement_delta: str = "",
         repair_context: str | None = None,
+        max_tokens: int = 0,
     ) -> RegenerationExecutionResult:
         old_loop: asyncio.AbstractEventLoop | None = None
         with contextlib.suppress(RuntimeError):
             old_loop = asyncio.get_event_loop()
         try:
             return asyncio.run(
-                self._execute_async(plan, isolation, requirement_delta, repair_context)
+                self._execute_async(plan, isolation, requirement_delta, repair_context, max_tokens)
             )
         finally:
             if old_loop is not None and not old_loop.is_closed():
@@ -124,6 +125,7 @@ class SharedRegenerationExecutor:
         isolation: IsolationContext,
         requirement_delta: str,
         repair_context: str | None = None,
+        max_tokens: int = 0,
     ) -> RegenerationExecutionResult:
         workspace_root = str(isolation.workspace.root)
         start_time = time.monotonic()
@@ -199,8 +201,25 @@ class SharedRegenerationExecutor:
             if repair_context:
                 prompt += repair_context
 
+            if max_tokens > 0:
+                consumed = total_prompt + total_completion
+                per_call_max = max(0, max_tokens - consumed)
+                if per_call_max <= 0:
+                    failures.append(f"Token budget exhausted before {artifact.path}")
+                    generated.append(
+                        GeneratedArtifact(
+                            path=artifact.path,
+                            content="",
+                            status="rejected",
+                        )
+                    )
+                    continue
+            else:
+                per_call_max = 0
+
+            gen_max = per_call_max if per_call_max > 0 else 0
             try:
-                response: LLMResponse = await self._backend.generate(prompt=prompt)
+                response: LLMResponse = await self._backend.generate(prompt=prompt, max_tokens=gen_max)
             except Exception as e:
                 failures.append(f"LLM backend error for {artifact.path}: {e}")
                 generated.append(

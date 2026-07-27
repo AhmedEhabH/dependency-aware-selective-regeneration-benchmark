@@ -24,6 +24,7 @@ class ImpactStrategy(Protocol):
         repository: RepositorySnapshot,
         requirement_change: RequirementChange,
         artifact_universe: ArtifactUniverse,
+        **kwargs: object,
     ) -> ImpactPrediction:
         ...
 

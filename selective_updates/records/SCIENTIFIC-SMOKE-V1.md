@@ -1,9 +1,15 @@
 # SCIENTIFIC-SMOKE-V1 — Minimal Real Kaggle Scientific Smoke
 
 **Date:** 2026-07-27
-**Status:** PREPARATION COMMITTED — Audit corrections applied, Kaggle execution pending
+**Status:** FAILED — 6 root-cause failures identified and corrected; retry required
 **Branch:** experiment/scientific-smoke-v1
-**Base Commit:** 414173a
+**Base Commit (original):** 414173a
+**First real execution:** exp-20260726-231536
+**First real result:** FAILED
+**Fixes committed at:** (this commit)
+**Retry commit:** (this commit)
+**Retry deployed build ID:** (this commit)
+**Retry output path:** /kaggle/working/runs/scientific_smoke_v1_retry1
 
 ---
 
@@ -17,6 +23,63 @@ Prepare and execute the smallest real Kaggle Scientific Smoke using:
 - **Evidence Tier:** scientific_smoke_v1 (non-publication engineering/scientific harness smoke)
 
 **This is an engineering/scientific harness smoke, not a statistical experiment.**
+
+---
+
+## 1a. First Execution Result (exp-20260726-231536) — FAILED
+
+| Issue | Root Cause | Fix |
+|-------|-----------|-----|
+| A. Report finalization crash | `seven_arm_benchmark.py:45` imports `datetime, timezone` but line 1906 uses `datetime.now(UTC)` without importing `UTC` | Added `UTC` to import line |
+| B. Checkpoint scenario_ids mismatch | Line 1528 builds `selected_scenario_ids` from `all_scenarios` (unfiltered) instead of `selected_scenarios` | Changed to use filtered `selected_scenarios` |
+| C. Monolithic/selective no-op success | `pipeline.py:_make_runner()` never sets `enable_regeneration=True` — runner takes impact-only path, succeeds with `model_calls=0, regenerated=0, validation=None` | Added `enable_regeneration` to `PipelineConfig`, propagated to `RunnerConfig`, enabled for approved strategies |
+| D. Truncated iterative JSON | `kaggle_qwen_backend.py:169` hardcodes `finish_reason="stop"` regardless of actual EOS. 196-completion-token output ends mid-decision | Dynamic EOS detection; compact JSON prompt instruction |
+| E. Failed-run metrics discarded | `runner.py:_run_iterative_flow()` accumulated tokens AFTER error check — failed parse discarded usage | Moved accumulation before error check |
+| F. Progress stuck at "running" | `rebuild_experiment_reports()` runs BEFORE checkpoint update to "completed" | Updated checkpoint before report rebuild |
+
+### Observed evidence
+- **exp-20260726-231536**
+- 3 runs attempted
+- 2 reported success but **scientifically invalid** (zero model calls, zero regenerated artifacts, no validation)
+- Iterative agent failed from truncated JSON
+- Report finalization raised `NameError: name 'UTC' is not defined`
+- Checkpoint stored `scenario_ids=["djangocms-cross-007"]` instead of `["todo-loc-001"]`
+- Failed iterative run recorded `selection_model_calls=0, total_workflow_tokens=0` despite 695 actual tokens
+- Progress ended with `completion_status="running"` despite all runs complete
+
+### Retry policy
+- New experiment ID required
+- New output directory: `/kaggle/working/runs/scientific_smoke_v1_retry1`
+- Must not resume or overwrite exp-20260726-231536
+- Same repository, scenario, model, 3 arms, max_attempts=2, timeout=180, token budget 4096
+
+### Audit 2: Retry-path propagation (2026-07-27)
+
+A second audit before committing the first-round fixes discovered 2 additional
+propagation gaps that would cause the retry to fail:
+
+| Issue | Root Cause | Fix |
+|-------|-----------|-----|
+| G. No validation command propagated | `PipelineConfig` had no `validation_command` field. `_make_runner()` never passed it to `RunnerConfig`. The canonical test command `test_discovery: "python -m pytest"` existed in `benchmark_data/manifests/repositories.yaml` for `todo` but was never loaded or forwarded. | Added `validation_command` + `validation_timeout` to `PipelineConfig`. `_make_runner()` passes both to `RunnerConfig`. `main()` loads manifests via `RepositoryLoader`, extracts `test_discovery` for each repo, and passes through. Pre-flight check fails closed if `enable_regeneration=True` with no `validation_command`. |
+| H. No workflow token budget | `PipelineConfig.max_tokens_per_run` was never set. No CLI `--max-tokens` argument existed. The runner's `BudgetManager` received `max_tokens=0` (unlimited). | Added `--max-tokens` CLI arg (default 0 = unlimited, backward compat). Added `max_tokens` parameter to `_run_single_scenario_strategy()` and `run_arm()`. Notebook cells pin `--max-tokens 4096`. |
+
+### Changes made (round 2)
+
+| File | Change |
+|------|--------|
+| `src/benchmark/execution/pipeline.py` | Added `validation_command`, `validation_timeout` to `PipelineConfig`; `_make_runner()` passes both |
+| `seven_arm_benchmark.py` | Added `--max-tokens`, `--validation-command` CLI args; manifest loading via `RepositoryLoader`; pre-flight check for missing validation_command; added `shlex` import |
+| `notebooks/seven_arm_benchmark.ipynb` | Pinned `--max-tokens 4096` in exec-cell and continuous-smoke-cell |
+| `kaggle_upload/notebooks/seven_arm_benchmark.ipynb` | Synced |
+| `tests/integration/test_scientific_smoke_v1_fixes.py` | 21 tests: positive monolithic end-to-end, missing-validation negative, selective positive, finish_reason dynamic detection, EOS detection, max_tokens propagation, retry readiness (3 arms), pipeline preflight |
+
+### Validation (round 2)
+- 21/21 targeted tests passed
+- 1048/1048 full-suite passed (5 skipped, same as baseline)
+- Ruff: 0 errors in changed files (line-length warnings pre-existing)
+- Mypy strict: 0 new errors (8 pre-existing in `seven_arm_benchmark.py`)
+- Bundle: 107 files, 606,629 bytes, verified OK
+- Git diff --check: no whitespace errors
 
 ---
 

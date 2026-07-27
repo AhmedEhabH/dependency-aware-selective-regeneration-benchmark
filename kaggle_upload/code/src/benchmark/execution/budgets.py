@@ -68,6 +68,12 @@ class BudgetManager:
         return self._max_attempts - self._state.total_attempts
 
     @property
+    def remaining_tokens(self) -> int:
+        if self._max_tokens <= 0:
+            return 0
+        return max(0, self._max_tokens - self._state.total_tokens)
+
+    @property
     def can_attempt(self) -> bool:
         return not (
             self._state.exhausted

@@ -394,7 +394,10 @@ class BenchmarkRunner:
         requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
         assert self._backend is not None
         executor = SharedRegenerationExecutor(self._backend)
-        exec_result = executor.execute(plan, self._isolation, requirement_delta=requirement_delta)
+        exec_result = executor.execute(
+            plan, self._isolation, requirement_delta=requirement_delta,
+            max_tokens=self._budget.remaining_tokens,
+        )
 
         selection_tok = prediction.token_usage or TokenUsage()
         if selection_tok.total_tokens > 0:
@@ -555,6 +558,7 @@ class BenchmarkRunner:
 
             exec_result = executor.execute(
                 plan, self._isolation, requirement_delta, repair_context=repair_context,
+                max_tokens=self._budget.remaining_tokens,
             )
 
             self._budget.record_tokens(exec_result.total_tokens)
@@ -747,6 +751,10 @@ class BenchmarkRunner:
             has_validation_run = False
 
             while self._budget.can_attempt:
+                budget_remaining = self._budget.remaining_tokens
+                if self._budget._max_tokens > 0 and budget_remaining <= 0:
+                    break
+
                 self._budget.record_attempt()
 
                 if self._budget.timed_out:
@@ -758,6 +766,7 @@ class BenchmarkRunner:
                         repository=repository_snapshot,
                         requirement_change=requirement_change,
                         artifact_universe=artifact_universe,
+                        max_tokens=self._budget.remaining_tokens,
                     )
                     sel_dur = time.monotonic() - selection_start
                     selection_dur += sel_dur
@@ -795,12 +804,18 @@ class BenchmarkRunner:
                         val_stderr=last_val_result.stderr,
                         workspace_summary=workspace_summary,
                         remaining_attempts=self._budget.remaining_attempts,
-                        remaining_tokens=max(
-                            0, self._budget._max_tokens - self._budget._state.total_tokens
-                        ) if self._budget._max_tokens > 0 else 0,
+                        remaining_tokens=self._budget.remaining_tokens,
                     )
                     sel_dur = time.monotonic() - selection_start
                     selection_dur += sel_dur
+
+                final_prediction = prediction
+                tok = prediction.token_usage or TokenUsage()
+                selection_total_prompt += tok.prompt_tokens
+                selection_total_completion += tok.completion_tokens
+                selection_total_tok += tok.total_tokens
+                selection_calls += 1
+                self._budget.record_tokens(tok.total_tokens)
 
                 if prediction.errors:
                     last_requires_iteration = getattr(self._strategy, "last_requires_iteration", True)
@@ -815,14 +830,6 @@ class BenchmarkRunner:
                         )
                     )
                     break
-
-                final_prediction = prediction
-                tok = prediction.token_usage or TokenUsage()
-                selection_total_prompt += tok.prompt_tokens
-                selection_total_completion += tok.completion_tokens
-                selection_total_tok += tok.total_tokens
-                selection_calls += 1
-                self._budget.record_tokens(tok.total_tokens)
 
                 if not self._budget.can_attempt:
                     if not has_validation_run:
@@ -854,6 +861,7 @@ class BenchmarkRunner:
 
                 exec_result = executor.execute(
                     plan, self._isolation, requirement_delta=requirement_delta,
+                    max_tokens=self._budget.remaining_tokens,
                 )
 
                 self._budget.record_tokens(exec_result.total_tokens)
