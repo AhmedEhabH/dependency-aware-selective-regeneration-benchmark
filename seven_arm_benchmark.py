@@ -38,6 +38,7 @@ import json
 import logging
 import os
 import shlex
+import shutil
 import sys
 import time
 from collections import Counter
@@ -370,7 +371,28 @@ def make_backend(  # type: ignore[no-untyped-def]
 # Workspace / IsolationContext
 # ---------------------------------------------------------------------------
 
-def make_isolation(workspace_dir: Path):  # type: ignore[no-untyped-def]
+def _populate_workspace_source(workspace_dir: Path, snapshot_root: str | Path) -> None:
+    """Copy source files from *snapshot_root* into *workspace_dir*.
+
+    The regeneration executor reads source files from ``workspace.root /
+    artifact.path``, so every file that ``discover_eligible_artifacts`` finds
+    must already be present in the workspace root.
+    """
+    src = Path(snapshot_root)
+    dst = Path(workspace_dir)
+    # Ignored metadata subdirectories that are NOT source files.
+    _skip_subdirs = frozenset({"_metadata", "manifests"})
+    for entry in src.iterdir():
+        if entry.is_dir() and entry.name in _skip_subdirs:
+            continue
+        dest = dst / entry.name
+        if entry.is_dir():
+            shutil.copytree(entry, dest, dirs_exist_ok=True)
+        else:
+            shutil.copy2(entry, dest)
+
+
+def make_isolation(workspace_dir: Path, active_snapshot_root: str | Path | None = None):  # type: ignore[no-untyped-def]
     from benchmark.execution.isolation import IsolationContext
     from benchmark.repositories.workspace import WorkspacePath
 
@@ -379,6 +401,10 @@ def make_isolation(workspace_dir: Path):  # type: ignore[no-untyped-def]
     (workspace_dir / "snapshots").mkdir(exist_ok=True)
     (workspace_dir / "runs").mkdir(exist_ok=True)
     (workspace_dir / "tmp").mkdir(exist_ok=True)
+    if active_snapshot_root:
+        isolation = IsolationContext(workspace=ws, active_snapshot_root=active_snapshot_root)
+        _populate_workspace_source(workspace_dir, active_snapshot_root)
+        return isolation
     return IsolationContext(workspace=ws)
 
 
@@ -961,6 +987,76 @@ def _make_run_id(scenario_id: str, strategy_name: str, rep: int, config_hash: st
     return f"{scenario_id}_{strategy_name}_rep{rep}_{suffix}"
 
 
+def _stage_and_smoke_run(
+    data_dir: Path,
+    workspace_dir: Path,
+    repo_id: str,
+    revision_id: str,
+    scenario_id: str,
+    strategy_name: str,
+    scenario_provider: ScenarioProvider,
+    dep_graph: object = None,
+    dry_run: bool = False,
+    validation_command: list[str] | None = None,
+    max_tokens: int = 0,
+    backend_name: str | None = None,
+    model_path: str | None = None,
+    protocol_version: str = "1.0",
+    max_attempts: int = 3,
+    timeout_seconds: int = 180,
+    _backend: object = None,
+) -> dict[str, Any]:
+    """Production path: repository source resolution → snapshot staging → execution.
+
+    Extracted from main() so the execution-contract test exercises the same
+    code path, not a manual wire-up.  Returns the record_dict from
+    _run_single_scenario_strategy.
+    """
+    from benchmark.repositories.snapshot import stage_repository_snapshot
+
+    source_root = data_dir / "repositories" / repo_id
+    if not source_root.is_dir():
+        raise FileNotFoundError(f"Repository source not found: {source_root}")
+
+    snapshot_storage = workspace_dir / "snapshots"
+    staged = stage_repository_snapshot(
+        source_root=source_root,
+        snapshot_storage_root=snapshot_storage,
+        repository_id=repo_id,
+        revision_id=revision_id,
+    )
+    arm_active_snapshot_root: str | None = str(staged)
+
+    profile = ExecutionProfile(
+        name="smoke-test",
+        label="scientific-smoke-v1-acceptance",
+        scenario_count=1,
+        strategies=[strategy_name],
+        repetitions=1,
+        is_publication=False,
+    )
+
+    record_dict, _ = _run_single_scenario_strategy(
+        scenario_id=scenario_id,
+        strategy_name=strategy_name,
+        scenario_provider=scenario_provider,
+        dry_run=dry_run,
+        profile=profile,
+        model_path=model_path,
+        protocol_version=protocol_version,
+        max_attempts=max_attempts,
+        timeout_seconds=timeout_seconds,
+        dep_graph=dep_graph,
+        workspace_dir=workspace_dir,
+        backend_name=backend_name,
+        validation_command=validation_command,
+        max_tokens=max_tokens,
+        active_snapshot_root=arm_active_snapshot_root,
+        _backend=_backend,
+    )
+    return record_dict
+
+
 def _run_single_scenario_strategy(
     scenario_id: str,
     strategy_name: str,
@@ -978,6 +1074,8 @@ def _run_single_scenario_strategy(
     openrouter_timeout: float = 120.0,
     validation_command: list[str] | None = None,
     max_tokens: int = 0,
+    active_snapshot_root: str | Path | None = None,
+    _backend: object = None,
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
@@ -986,17 +1084,22 @@ def _run_single_scenario_strategy(
     design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
     needs_llm = design.get("llm", False)
 
-    backend = make_backend(
-        dry_run=dry_run,
-        model_path=model_path,
-        backend_name=backend_name,
-        openrouter_model=openrouter_model,
-        openrouter_timeout=openrouter_timeout,
-    ) if needs_llm else None
+    if _backend is not None:
+        backend = _backend
+    elif needs_llm:
+        backend = make_backend(
+            dry_run=dry_run,
+            model_path=model_path,
+            backend_name=backend_name,
+            openrouter_model=openrouter_model,
+            openrouter_timeout=openrouter_timeout,
+        )
+    else:
+        backend = None
 
     strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
 
-    isolation = make_isolation(workspace_dir)
+    isolation = make_isolation(workspace_dir, active_snapshot_root=active_snapshot_root)
 
     _approved_regen_strategies = frozenset({
         "monolithic", "selective", "iterative_repository_agent",
@@ -1050,6 +1153,7 @@ def _run_single_scenario_strategy(
         enable_regeneration=enable_regen,
         validation_command=validation_command,
         validation_timeout=180,
+        active_snapshot_root=str(active_snapshot_root) if active_snapshot_root else None,
     )
 
     pipeline = BenchmarkPipeline(
@@ -1250,6 +1354,36 @@ def main() -> int:
         args.source_tag or "", resolved_backend,
     )
 
+    # ---- Load and filter scenarios (before resume/checkpoint) ---------------
+    scenario_provider = ScenarioProvider(scenarios_dir)
+    all_scenarios = scenario_provider.list_scenarios()
+    logger.info("Loaded %d scenarios from %s", len(all_scenarios), scenarios_dir)
+    _validate_scenario_count(all_scenarios, profile)
+
+    strategy_names = [args.strategy] if args.strategy else profile.strategies
+
+    selected_scenarios = all_scenarios
+    if profile.repository_names:
+        selected_scenarios = [s for s in selected_scenarios if s.repository in profile.repository_names]
+    if profile.blast_radii:
+        selected_scenarios = [s for s in selected_scenarios if s.blast_radius in profile.blast_radii]
+    if profile.scenario_ids:
+        missing = [sid for sid in profile.scenario_ids if not any(s.scenario_id == sid for s in selected_scenarios)]
+        if missing:
+            logger.error(
+                "Configured scenario IDs not found: %s. Loaded scenarios: %s",
+                missing, [s.scenario_id for s in selected_scenarios],
+            )
+            sys.exit(1)
+        selected_scenarios = [s for s in selected_scenarios if s.scenario_id in profile.scenario_ids]
+    selected_scenarios = selected_scenarios[:profile.scenario_count]
+    logger.info(
+        "Selected %d scenario(s) for profile=%s: %s",
+        len(selected_scenarios), profile.name,
+        [s.scenario_id for s in selected_scenarios],
+    )
+    selected_scenario_ids = [s.scenario_id for s in selected_scenarios]
+
     # ---- Checkpoint / Resume setup -----------------------------------------
     from benchmark.checkpoint.checkpoint import CheckpointData, CheckpointManager, ProgressData, ProgressManager
     from benchmark.checkpoint.package import ResultsPackager
@@ -1313,9 +1447,6 @@ def main() -> int:
                 hashlib.sha256(Path(hf_sync_module.__file__).read_bytes()).hexdigest()[:16],
                 hf_sync_module.__file__,
             )
-            scenario_provider_for_auto = ScenarioProvider(scenarios_dir)
-            all_scenarios_for_auto = scenario_provider_for_auto.list_scenarios()
-            selected_for_auto = all_scenarios_for_auto[:profile.scenario_count]
             strategy_names_for_auto = [args.strategy] if args.strategy else profile.strategies
 
             resume_result = resolve_auto_resume(
@@ -1326,7 +1457,7 @@ def main() -> int:
                 source_commit=source_commit,
                 config_hash=config_hash,
                 model_identity=model_identity,
-                scenario_ids=[s.scenario_id for s in selected_for_auto],
+                scenario_ids=selected_scenario_ids,
                 strategy_names=strategy_names_for_auto,
                 explicit_experiment_id=args.experiment_id,
                 new_experiment=args.new_experiment,
@@ -1360,7 +1491,7 @@ def main() -> int:
                     config_hash=config_hash,
                     model_identity=model_identity,
                     source_commit=source_commit,
-                    scenario_ids=[s.scenario_id for s in selected_for_auto],
+                    scenario_ids=selected_scenario_ids,
                     strategy_names=strategy_names_for_auto,
                 )
                 try:
@@ -1422,9 +1553,6 @@ def main() -> int:
             ResumeValidationError as HfResumeError,
         )
 
-        scenario_provider_for_resume = ScenarioProvider(scenarios_dir)
-        all_scenarios_for_resume = scenario_provider_for_resume.list_scenarios()
-        selected_for_resume = all_scenarios_for_resume[:profile.scenario_count]
         strategy_names_for_resume = [args.strategy] if args.strategy else profile.strategies
 
         hf_resume_layout = RemoteLayout(
@@ -1442,7 +1570,7 @@ def main() -> int:
             config_hash=config_hash,
             model_identity=model_identity,
             source_commit=source_commit,
-            scenario_ids=[s.scenario_id for s in selected_for_resume],
+            scenario_ids=selected_scenario_ids,
             strategy_names=strategy_names_for_resume,
         )
         try:
@@ -1463,36 +1591,6 @@ def main() -> int:
         except ValueError as e:
             logger.error("Corrupted checkpoint: %s", e)
             return 1
-
-    # ---- Validate scenarios -------------------------------------------------
-    scenario_provider = ScenarioProvider(scenarios_dir)
-    all_scenarios = scenario_provider.list_scenarios()
-    logger.info("Loaded %d scenarios from %s", len(all_scenarios), scenarios_dir)
-    _validate_scenario_count(all_scenarios, profile)
-
-    strategy_names = [args.strategy] if args.strategy else profile.strategies
-
-    # Filter scenarios by repository, blast radius, and explicit IDs if specified
-    selected_scenarios = all_scenarios
-    if profile.repository_names:
-        selected_scenarios = [s for s in selected_scenarios if s.repository in profile.repository_names]
-    if profile.blast_radii:
-        selected_scenarios = [s for s in selected_scenarios if s.blast_radius in profile.blast_radii]
-    if profile.scenario_ids:
-        missing = [sid for sid in profile.scenario_ids if not any(s.scenario_id == sid for s in selected_scenarios)]
-        if missing:
-            logger.error(
-                "Configured scenario IDs not found: %s. Loaded scenarios: %s",
-                missing, [s.scenario_id for s in selected_scenarios],
-            )
-            sys.exit(1)
-        selected_scenarios = [s for s in selected_scenarios if s.scenario_id in profile.scenario_ids]
-    selected_scenarios = selected_scenarios[:profile.scenario_count]
-    logger.info(
-        "Selected %d scenario(s) for profile=%s: %s",
-        len(selected_scenarios), profile.name,
-        [s.scenario_id for s in selected_scenarios],
-    )
 
     # Report strategy capabilities per arm
     for sn in strategy_names:
@@ -1543,6 +1641,48 @@ def main() -> int:
                     parts = shlex.split(manifest.test_discovery)
                     _validation_commands[scenario.repository] = parts
                     break
+
+    # ---- Resolve canonical active snapshot per repository -------------------
+    # The active snapshot is an immutable staged copy of the repository source
+    # used as the canonical content for regeneration and ArtifactUniverse.
+    _active_snapshot_roots: dict[str, str] = {}
+    if not args.dry_run and _manifest_collection is not None and selected_scenarios:
+        from benchmark.repositories.snapshot import stage_repository_snapshot
+
+        unique_repos: set[str] = set()
+        for scenario in selected_scenarios:
+            if scenario.repository not in unique_repos:
+                unique_repos.add(scenario.repository)
+
+        for repo_id in unique_repos:
+            manifest = _manifest_collection.get_manifest(repo_id)
+            if manifest is None:
+                logger.warning("No manifest for repository '%s' — cannot stage snapshot", repo_id)
+                continue
+            source_root = data_dir / "repositories" / repo_id
+            if not source_root.is_dir():
+                logger.error(
+                    "Repository source root '%s' does not exist — cannot stage snapshot. "
+                    "Aborting benchmark before model initialization.",
+                    source_root,
+                )
+                return 1
+            version = _manifest_collection.get_version(repo_id)
+            revision = version.commit_sha[:12] if version and version.commit_sha and version.commit_sha != "TBD" else "main"
+            try:
+                staged = stage_repository_snapshot(
+                    source_root=source_root,
+                    snapshot_storage_root=workspace_dir / "snapshots",
+                    repository_id=repo_id,
+                    revision_id=revision,
+                )
+                _active_snapshot_roots[repo_id] = str(staged)
+                logger.info(
+                    "Active snapshot staged for repo=%s revision=%s at %s",
+                    repo_id, revision, staged,
+                )
+            except Exception as exc:
+                logger.warning("Failed to stage snapshot for '%s': %s", repo_id, exc)
 
     max_tokens = args.max_tokens
 
@@ -1796,6 +1936,7 @@ def main() -> int:
         arm_validation_command = _validation_commands.get(
             repository_id, _validation_commands.get(strategy_name)
         )
+        arm_active_snapshot_root = _active_snapshot_roots.get(repository_id)
         record_dict, _ = _run_single_scenario_strategy(
             scenario_id=scenario_id,
             strategy_name=strategy_name,
@@ -1813,6 +1954,7 @@ def main() -> int:
             openrouter_timeout=args.openrouter_timeout,
             validation_command=arm_validation_command,
             max_tokens=max_tokens,
+            active_snapshot_root=arm_active_snapshot_root,
         )
         run_ended_at = datetime.now(UTC).isoformat()
 

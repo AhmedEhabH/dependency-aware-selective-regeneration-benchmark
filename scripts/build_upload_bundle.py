@@ -33,6 +33,7 @@ CANONICAL_CODE_SOURCES = [
 CANONICAL_DATA_SOURCES = [
     PROJECT_ROOT / "benchmark_data" / "manifests",
     PROJECT_ROOT / "benchmark_data" / "repository_profiles",
+    PROJECT_ROOT / "benchmark_data" / "repositories",
     PROJECT_ROOT / "benchmark_data" / "scenarios",
 ]
 
@@ -55,11 +56,14 @@ EXCLUDE_PATTERNS = {
     "inputs",
     "_auto_resume_temp",
     "benchmark-results.zip",
+    "db.sqlite3",
+    "*.db",
+    "*.sqlite3",
 }
 
 FORBIDDEN_IN_BUNDLE = {
     ".git", "__pycache__", ".mypy_cache", ".pytest_cache", ".ruff_cache",
-    "*.egg-info",
+    "*.egg-info", "db.sqlite3", "*.db", "*.sqlite3",
 }
 
 

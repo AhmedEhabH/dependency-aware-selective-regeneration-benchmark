@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
 from benchmark.core.enums import RunStatus
@@ -21,6 +22,7 @@ class PipelineConfig:
     enable_regeneration: bool = False
     validation_command: list[str] | None = None
     validation_timeout: int = 180
+    active_snapshot_root: str | Path | None = None
     extra: dict[str, Any] = field(default_factory=dict)
 
 
