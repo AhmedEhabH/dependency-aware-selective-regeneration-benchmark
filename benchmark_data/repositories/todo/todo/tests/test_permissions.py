@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AnonymousUser, User
 from django.test import TestCase
-
 from rest_framework.test import APIRequestFactory
 
 from todo.models import Project, Task

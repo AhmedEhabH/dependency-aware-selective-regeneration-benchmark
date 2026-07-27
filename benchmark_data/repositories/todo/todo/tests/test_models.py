@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.test import TestCase
 
 from todo.models import Project, Tag, Task
@@ -22,7 +23,7 @@ class TagModelTest(TestCase):
 
     def test_tag_unique_name(self):
         Tag.objects.create(name="unique", color="#000000")
-        with self.assertRaises(Exception):
+        with self.assertRaises(IntegrityError):
             Tag.objects.create(name="unique", color="#FFFFFF")
 
     def test_tag_str(self):

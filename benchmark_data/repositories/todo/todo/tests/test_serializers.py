@@ -1,7 +1,5 @@
 from django.test import TestCase
 
-from rest_framework import serializers
-
 from todo.models import Project, Tag, Task
 from todo.serializers import ProjectSerializer, TagSerializer, TaskSerializer
 
