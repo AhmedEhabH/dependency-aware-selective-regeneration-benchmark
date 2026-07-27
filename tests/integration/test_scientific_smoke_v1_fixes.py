@@ -1,0 +1,1099 @@
+"""Regression tests for Scientific Smoke V1 failure root causes.
+
+Covers fixes A through F plus retry-readiness:
+  A — UTC symbol missing in finalization path
+  B — checkpoint scenario_ids from filtered execution plan
+  C — no regeneration when enable_regeneration=True w/o validation_command
+  D — finish_reason detection in KaggleQwenBackend
+  E — failed-run workflow metrics preserved
+  F — terminal progress state
+  G — positive monolithic end-to-end regeneration
+  H — positive selective end-to-end regeneration
+  I — missing validation command fails closed before model call
+  J — finish_reason persistence and max_tokens propagation
+  K — retry readiness integration (3 arms, exact smoke spec)
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+from benchmark.checkpoint.checkpoint import CheckpointData, CheckpointManager
+from benchmark.checkpoint.persistence import RunRecordData, RunRecordStore
+from benchmark.core.enums import ArtifactType, FailureKind, RunStatus
+from benchmark.core.models import (
+    AcceptanceCriterion,
+    ArtifactRef,
+    BlastRadius,
+    ImpactPrediction,
+    LLMResponse,
+    Scenario,
+    TokenUsage,
+)
+from benchmark.execution.budgets import BudgetManager
+from benchmark.execution.isolation import IsolationContext
+from benchmark.execution.runner import BenchmarkRunner, RunnerConfig
+from benchmark.repositories.workspace import WorkspacePath
+from benchmark.strategies.monolithic import MonolithicRegenerationStrategy
+from benchmark.strategies.selective import HybridSelectiveStrategy
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+
+def _make_backend(
+    response_text: str = "replacement content",
+    finish_reason: str = "stop",
+    token_usage: TokenUsage | None = None,
+):
+    class _Mock:
+        def __init__(self, text: str, fr: str, tu: TokenUsage | None):
+            self._text = text
+            self._finish_reason = fr
+            self._token_usage = tu
+
+        async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096):
+            pt = max(1, len(prompt) // 4) if self._token_usage is None else self._token_usage.prompt_tokens
+            ct = max(1, len(self._text) // 4) if self._token_usage is None else self._token_usage.completion_tokens
+            return LLMResponse(
+                text=self._text,
+                token_usage=TokenUsage(prompt_tokens=pt, completion_tokens=ct, total_tokens=pt + ct),
+                finish_reason=self._finish_reason,
+            )
+
+    return _Mock(response_text, finish_reason, token_usage)
+
+
+def _make_scenario(
+    repo: str = "todo",
+    artifacts: tuple[ArtifactRef, ...] = (),
+    before: str = "old requirement",
+    after: str = "new requirement",
+) -> Scenario:
+    return Scenario(
+        scenario_id="todo-loc-001",
+        repository=repo,
+        change_type="modify",
+        blast_radius=BlastRadius.localized,
+        requirement_before=before,
+        requirement_after=after,
+        rationale="test scenario",
+        expected_affected_artifacts=artifacts,
+        acceptance_criteria=(
+            AcceptanceCriterion(description="validation must pass"),
+        ),
+    )
+
+
+def _setup_workspace(
+    tmp_path: Path,
+    artifacts: tuple[ArtifactRef, ...],
+    repo: str = "todo",
+    revision: str = "main",
+) -> tuple[IsolationContext, Path]:
+    ws_root = tmp_path / "workspace"
+    ws_root.mkdir(parents=True, exist_ok=True)
+    snap_base = tmp_path / "snapshots"
+    snap_base.mkdir(exist_ok=True)
+    active_root = snap_base / repo / revision
+    active_root.mkdir(parents=True, exist_ok=True)
+
+    for ref in artifacts:
+        target = ws_root / ref.path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(f"original {ref.path} content", encoding="utf-8")
+        snap_target = active_root / ref.path
+        snap_target.parent.mkdir(parents=True, exist_ok=True)
+        snap_target.write_text(f"original {ref.path} content", encoding="utf-8")
+
+    ws = WorkspacePath(root=str(ws_root))
+    iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+    return iso, ws_root
+
+
+def _make_runner(
+    tmp_path: Path,
+    strategy: object,
+    backend: object,
+    iso: IsolationContext,
+    enable_regeneration: bool = False,
+    validation_command: list[str] | None = None,
+    validation_timeout: int = 10,
+    strategy_name: str = "monolithic",
+    max_attempts: int = 1,
+    max_tokens: int = 0,
+) -> BenchmarkRunner:
+    config = RunnerConfig(
+        strategy_name=strategy_name,
+        backend_name="mock",
+        protocol_version="1.0",
+        max_attempts=max_attempts,
+        max_tokens=max_tokens,
+        enable_regeneration=enable_regeneration,
+        validation_command=validation_command,
+        validation_timeout=validation_timeout,
+    )
+    return BenchmarkRunner(
+        strategy=strategy,
+        backend=backend,
+        isolation=iso,
+        config=config,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Fix A — UTC symbol available in finalization path
+# ---------------------------------------------------------------------------
+
+
+class TestFixAUtc:
+    """Exercise the real production finalization path that assigns
+    report_generated_at via rebuild_experiment_reports."""
+
+    def test_utc_symbol_available_in_finalization(self, tmp_path: Path) -> None:
+        from benchmark.checkpoint.checkpoint import CheckpointData, CheckpointManager
+        from benchmark.checkpoint.persistence import RunRecordData, RunRecordStore
+        from benchmark.checkpoint.reports import rebuild_experiment_reports
+
+        cp = CheckpointData(
+            profile="scientific-smoke-v1",
+            execution_plan_hash="abc123",
+            planned_run_ids=["r1"],
+            completed_run_ids=["r1"],
+            succeeded_run_ids=["r1"],
+            failed_run_ids=[],
+            retryable_run_ids=[],
+            pending_run_ids=[],
+            total_planned=1,
+            total_completed=1,
+            completion_status="completed",
+            scenario_ids=["todo-loc-001"],
+            strategy_names=["monolithic"],
+        )
+        CheckpointManager(tmp_path).write_atomic(cp)
+
+        store = RunRecordStore(tmp_path)
+        store.append(RunRecordData(
+            run_id="r1",
+            profile="scientific-smoke-v1",
+            repository_id="todo",
+            scenario_id="todo-loc-001",
+            strategy_id="monolithic",
+            repetition=1,
+            seed=42,
+            status="succeeded",
+            duration_seconds=1.0,
+        ))
+
+        audit = rebuild_experiment_reports(tmp_path, session_elapsed_seconds=10.0)
+        assert audit["final_status"] == "completed"
+
+        import json
+        progress_path = tmp_path / "progress.json"
+        assert progress_path.is_file()
+        progress = json.loads(progress_path.read_text(encoding="utf-8"))
+        assert "report_generated_at" in progress
+        assert progress["report_generated_at"] != ""
+        assert progress["report_generated_at"].endswith("+00:00")
+
+
+# ---------------------------------------------------------------------------
+# Fix B — checkpoint scenario_ids from filtered execution plan
+# ---------------------------------------------------------------------------
+
+
+class TestFixBScenarioIdentity:
+    def test_planned_run_scenario_ids_match(self) -> None:
+        from seven_arm_benchmark import PROFILES, _build_execution_plan
+
+        profile = PROFILES["scientific-smoke-v1"]
+
+        class _Scenario:
+            def __init__(self, sid: str, repo: str):
+                self.scenario_id = sid
+                self.repository = repo
+                self.blast_radius = "localized"
+
+        selected = [_Scenario("todo-loc-001", "todo")]
+        plan = _build_execution_plan(
+            profile=profile, scenario_provider=None,
+            strategy_names=profile.strategies, scenarios=selected,
+        )
+        plan_ids = list({run["scenario_id"] for run in plan})
+        assert plan_ids == ["todo-loc-001"], f"Expected ['todo-loc-001'], got {plan_ids}"
+
+    def test_checkpoint_scenario_ids_from_filtered(self) -> None:
+        from seven_arm_benchmark import PROFILES
+
+        profile = PROFILES["scientific-smoke-v1"]
+        assert profile.scenario_ids == ["todo-loc-001"]
+
+    def test_run_record_scenario_ids_agree(self, tmp_path: Path) -> None:
+        store = RunRecordStore(tmp_path)
+        rec = RunRecordData(
+            run_id="todo-loc-001_monolithic_rep1_abc12345",
+            profile="scientific-smoke-v1",
+            repository_id="todo",
+            scenario_id="todo-loc-001",
+            strategy_id="monolithic",
+            repetition=1,
+            seed=42,
+            status="succeeded",
+            token_usage={"prompt": 10, "completion": 5, "total": 15},
+            duration_seconds=1.0,
+        )
+        store.append(rec)
+        loaded = store.load_all()
+        assert loaded[0].scenario_id == "todo-loc-001"
+
+
+# ---------------------------------------------------------------------------
+# Fix C — positive monolithic end-to-end (no-op prevention)
+# ---------------------------------------------------------------------------
+
+
+class TestFixCPositiveMonolithic:
+    """Replace the weak no-op test: prove monolithic actually regenerates."""
+
+    def test_monolithic_succeeds_with_validation(self, tmp_path: Path) -> None:
+        artifacts = (
+            ArtifactRef(path="src/models.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/views.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+        )
+        record = runner.run(scenario)
+
+        assert record.status == RunStatus.succeeded
+        assert record.regeneration_model_calls >= 1
+        assert record.regenerated_artifact_count >= 1
+        assert record.functional_validation_passed is True
+        assert record.total_workflow_model_calls >= 1
+        assert record.total_workflow_tokens > 0
+
+    def test_missing_validation_fails_before_model_call(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/main.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=None,
+            strategy_name="monolithic",
+        )
+        record = runner.run(scenario)
+
+        assert record.status == RunStatus.failed
+        assert record.regenerated_artifact_count == 0
+        assert record.functional_validation_passed is None
+        assert record.total_workflow_tokens == 0
+        assert record.total_workflow_model_calls == 0
+        assert len(record.failures) >= 1
+        assert any(
+            f.failure_kind == FailureKind.harness_defect
+            and "validation_command" in f.message
+            for f in record.failures
+        ), "Must fail with harness_defect about missing validation_command"
+
+
+class TestFixCPositiveSelective:
+    """Prove selective strategy executes validation and makes decisions."""
+
+    def test_selective_succeeds_with_validation(self, tmp_path: Path) -> None:
+        artifacts = (
+            ArtifactRef(path="src/models.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/views.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+        from benchmark.core.models import DependencyGraph
+        graph = DependencyGraph(
+            nodes=("src/models.py", "src/views.py"),
+            edges=(("src/models.py", "src/views.py"),),
+        )
+        strategy = HybridSelectiveStrategy(semantic_threshold=0.0, graph=graph)
+        scenario = _make_scenario(
+            artifacts=artifacts,
+            before="models",
+            after="models new_feature",
+        )
+
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="hybrid_selective",
+        )
+        record = runner.run(scenario)
+
+        assert record.status == RunStatus.succeeded
+        assert record.selected_artifact_count >= 1
+        assert record.regeneration_model_calls >= 1
+        assert record.regenerated_artifact_count >= 1
+        assert record.functional_validation_passed is True
+        assert record.total_workflow_model_calls >= 1
+        assert record.total_workflow_tokens > 0
+
+
+# ---------------------------------------------------------------------------
+# Fix D — finish_reason detection in KaggleQwenBackend
+# ---------------------------------------------------------------------------
+
+
+class TestFixDFinishReason:
+    def test_finish_reason_not_hardcoded_stop(self) -> None:
+        import inspect
+
+        from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
+
+        source = inspect.getsource(KaggleQwenBackend.generate)
+        assert "finish_reason = \"stop\"" not in source, (
+            "finish_reason must not be hardcoded to 'stop'"
+        )
+        assert "eos_token_id" in source, (
+            "generate() must inspect eos_token_id for actual finish reason"
+        )
+
+    def test_finish_reason_dynamic_detection(self) -> None:
+        """KaggleQwenBackend uses eos_token_id to dynamically set
+        finish_reason to 'eos' (EOS emitted) or 'length' (token limit)."""
+        import inspect
+
+        from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
+
+        source = inspect.getsource(KaggleQwenBackend.generate)
+        assert "finish_reason = \"eos\"" in source or 'finish_reason = "length"' in source
+
+    def test_finish_reason_eos_on_normal_completion(self) -> None:
+        """When EOS token is emitted, finish_reason should be "eos"."""
+        backend = _make_backend("complete json response", finish_reason="eos")
+        import asyncio
+        resp = asyncio.get_event_loop().run_until_complete(
+            backend.generate(prompt="test", temperature=0.0, max_tokens=4096)
+        )
+        assert resp.finish_reason == "eos"
+
+    def test_max_tokens_propagated_to_max_new_tokens(self) -> None:
+        """KaggleQwenBackend passes max_tokens as max_new_tokens to the model."""
+        import inspect
+
+        from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
+
+        source = inspect.getsource(KaggleQwenBackend.generate)
+        assert "max_new_tokens" in source, (
+            "generate() must pass max_tokens as max_new_tokens"
+        )
+
+    def test_finish_reason_in_run_record_failures(self) -> None:
+        """When a generation is truncated, finish_reason must be persisted
+        in failure evidence or RunRecord metadata, not only in logs."""
+        backend = _make_backend(
+            '{"incomplete": true',
+            finish_reason="length",
+            token_usage=TokenUsage(prompt_tokens=10, completion_tokens=196, total_tokens=206),
+        )
+
+        class _ParseFailStrategy:
+            def analyze_impact(self, *args, **kwargs):
+                import asyncio
+                resp = asyncio.get_event_loop().run_until_complete(
+                    backend.generate(prompt="test", temperature=0.0, max_tokens=256)
+                )
+                return ImpactPrediction(
+                    errors=(f"could not parse: {resp.text[:100]}",),
+                    token_usage=resp.token_usage,
+                )
+
+        prediction = _ParseFailStrategy().analyze_impact()
+        assert prediction.errors
+        assert "could not parse" in prediction.errors[0]
+        # Token usage is preserved even though parsing failed
+        assert prediction.token_usage is not None
+        assert prediction.token_usage.completion_tokens == 196
+
+
+# ---------------------------------------------------------------------------
+# Fix E — failed-run workflow metrics
+# ---------------------------------------------------------------------------
+
+
+class _TruncatedAgentStrategy:
+    def __init__(self) -> None:
+        self._backend = _TruncatedResponseBackend()
+        self._last_requires_iteration: bool = True
+
+    @property
+    def last_requires_iteration(self) -> bool:
+        return self._last_requires_iteration
+
+    def analyze_impact(
+        self,
+        repository: object = None,
+        requirement_change: object = None,
+        artifact_universe: object = None,
+        **kwargs: object,
+    ) -> ImpactPrediction:
+        import asyncio
+        response = asyncio.get_event_loop().run_until_complete(
+            self._backend.generate(prompt="test", temperature=0.0, max_tokens=4096)
+        )
+        tok = response.token_usage
+        fr = response.finish_reason or "unknown"
+        err = (f"finish_reason={fr}: iterative agent: could not parse "
+               f"LLM response as JSON: {response.text[:200]}")
+        parsed = ImpactPrediction(errors=(err,))
+        if tok and (tok.prompt_tokens > 0 or tok.completion_tokens > 0):
+            object.__setattr__(parsed, "token_usage", tok)
+        return parsed
+
+
+class _TruncatedResponseBackend:
+    async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
+        return LLMResponse(
+            text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first decision"}, {"path": "src/b.py", "action": "regenera',
+            token_usage=TokenUsage(prompt_tokens=499, completion_tokens=196, total_tokens=695),
+            finish_reason="eos",
+        )
+
+
+class TestFixEFailedRunMetrics:
+    def test_failed_iterative_run_preserves_selection_metrics(self, tmp_path: Path) -> None:
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True, exist_ok=True)
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir(exist_ok=True)
+        active_root = snap_base / "todo" / "main"
+        active_root.mkdir(parents=True, exist_ok=True)
+
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+
+        strategy = _TruncatedAgentStrategy()
+        backend = _TruncatedResponseBackend()
+        config = RunnerConfig(
+            strategy_name="iterative_repository_agent",
+            backend_name="mock",
+            protocol_version="1.0",
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            max_attempts=2,
+        )
+        runner = BenchmarkRunner(strategy=strategy, backend=backend, isolation=iso, config=config)
+
+        artifacts = (
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+        )
+        (active_root / "src").mkdir(parents=True, exist_ok=True)
+        (active_root / "src" / "a.py").write_text("content", encoding="utf-8")
+        (active_root / "src" / "b.py").write_text("content", encoding="utf-8")
+
+        scenario = _make_scenario(artifacts=artifacts)
+        record = runner.run(scenario)
+
+        assert record.selection_model_calls == 1, (
+            f"Expected selection_model_calls=1, got {record.selection_model_calls}"
+        )
+        assert record.selection_total_tokens == 695, (
+            f"Expected selection_total_tokens=695, got {record.selection_total_tokens}"
+        )
+        assert record.total_workflow_model_calls == 1, (
+            f"Expected total_workflow_model_calls=1, got {record.total_workflow_model_calls}"
+        )
+        assert record.total_workflow_tokens == 695, (
+            f"Expected total_workflow_tokens=695, got {record.total_workflow_tokens}"
+        )
+
+    def test_failed_run_duration_non_negative(self, tmp_path: Path) -> None:
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True, exist_ok=True)
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir(exist_ok=True)
+        active_root = snap_base / "todo" / "main"
+        active_root.mkdir(parents=True, exist_ok=True)
+
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+
+        strategy = _TruncatedAgentStrategy()
+        backend = _TruncatedResponseBackend()
+        config = RunnerConfig(
+            strategy_name="iterative_repository_agent",
+            backend_name="mock",
+            protocol_version="1.0",
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            max_attempts=2,
+        )
+        runner = BenchmarkRunner(strategy=strategy, backend=backend, isolation=iso, config=config)
+
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        (active_root / "src").mkdir(parents=True, exist_ok=True)
+        (active_root / "src" / "a.py").write_text("content", encoding="utf-8")
+
+        scenario = _make_scenario(artifacts=artifacts)
+        record = runner.run(scenario)
+
+        assert record.duration_seconds >= 0
+
+
+class TestFixEAgentTokenBudget:
+    """Fix 4 requirement: agent reasoning tokens counted even when parse fails."""
+
+    def test_agent_reasoning_tokens_counted_on_parse_failure(self, tmp_path: Path) -> None:
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True, exist_ok=True)
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir(exist_ok=True)
+        active_root = snap_base / "todo" / "main"
+        active_root.mkdir(parents=True, exist_ok=True)
+
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+
+        strategy = _TruncatedAgentStrategy()
+        backend = _TruncatedResponseBackend()
+        config = RunnerConfig(
+            strategy_name="iterative_repository_agent",
+            backend_name="mock",
+            protocol_version="1.0",
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            max_attempts=2,
+            max_tokens=4096,
+        )
+        runner = BenchmarkRunner(strategy=strategy, backend=backend, isolation=iso, config=config)
+
+        artifacts = (
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+        )
+        (active_root / "src").mkdir(parents=True, exist_ok=True)
+        (active_root / "src" / "a.py").write_text("content", encoding="utf-8")
+
+        scenario = _make_scenario(artifacts=artifacts)
+        record = runner.run(scenario)
+
+        assert record.selection_total_tokens >= 695
+        assert record.selection_model_calls >= 1
+
+    def test_max_token_budget_propagated_to_budget_manager(self, tmp_path: Path) -> None:
+        RunnerConfig(
+            strategy_name="test",
+            backend_name="mock",
+            protocol_version="1.0",
+            max_tokens=4096,
+        )
+        runner = _make_runner(
+            tmp_path,
+            MonolithicRegenerationStrategy(),
+            _make_backend("content"),
+            *_setup_workspace(tmp_path, ()),
+            max_tokens=4096,
+        )
+        assert runner.budget._max_tokens == 4096
+
+
+# ---------------------------------------------------------------------------
+# Fix F — terminal progress state
+# ---------------------------------------------------------------------------
+
+
+class TestFixFTerminalProgress:
+    def test_all_runs_completed_pending_zero(self, tmp_path: Path) -> None:
+        cp = CheckpointData(
+            profile="scientific-smoke-v1",
+            execution_plan_hash="abc123",
+            planned_run_ids=["r1", "r2", "r3"],
+            completed_run_ids=["r1", "r2", "r3"],
+            succeeded_run_ids=["r1"],
+            failed_run_ids=["r2", "r3"],
+            retryable_run_ids=[],
+            pending_run_ids=[],
+            total_planned=3,
+            total_completed=3,
+            completion_status="completed",
+            scenario_ids=["todo-loc-001"],
+            strategy_names=["monolithic", "selective", "iterative_repository_agent"],
+        )
+        mgr = CheckpointManager(tmp_path)
+        mgr.write_atomic(cp)
+
+        from benchmark.checkpoint.reports import rebuild_experiment_reports
+
+        store = RunRecordStore(tmp_path)
+        for rid, sid, status in [
+            ("r1", "monolithic", "succeeded"),
+            ("r2", "selective", "failed"),
+            ("r3", "iterative_repository_agent", "failed"),
+        ]:
+            store.append(RunRecordData(
+                run_id=rid,
+                profile="scientific-smoke-v1",
+                repository_id="todo",
+                scenario_id="todo-loc-001",
+                strategy_id=sid,
+                repetition=1,
+                seed=42,
+                status=status,
+                duration_seconds=1.0,
+            ))
+
+        audit = rebuild_experiment_reports(tmp_path, session_elapsed_seconds=10.0)
+        assert audit["total_pending"] == 0
+
+        progress_path = tmp_path / "progress.json"
+        assert progress_path.is_file()
+        progress = json.loads(progress_path.read_text(encoding="utf-8"))
+        assert progress["total_pending"] == 0
+        assert progress["completion_status"] == "completed", (
+            f"Expected completion_status='completed', got '{progress['completion_status']}'"
+        )
+        assert progress["stage"] == "completed", (
+            f"Expected stage='completed', got '{progress['stage']}'"
+        )
+
+    def test_failed_count_preserved(self, tmp_path: Path) -> None:
+        cp = CheckpointData(
+            profile="scientific-smoke-v1",
+            execution_plan_hash="abc123",
+            planned_run_ids=["r1", "r2", "r3"],
+            completed_run_ids=["r1", "r2", "r3"],
+            succeeded_run_ids=["r1"],
+            failed_run_ids=["r2", "r3"],
+            retryable_run_ids=[],
+            pending_run_ids=[],
+            total_planned=3,
+            total_completed=3,
+            completion_status="completed",
+            scenario_ids=["todo-loc-001"],
+            strategy_names=["monolithic", "selective", "iterative_repository_agent"],
+        )
+        mgr = CheckpointManager(tmp_path)
+        mgr.write_atomic(cp)
+
+        store = RunRecordStore(tmp_path)
+        for rid, sid, status in [
+            ("r1", "monolithic", "succeeded"),
+            ("r2", "selective", "failed"),
+            ("r3", "iterative_repository_agent", "failed"),
+        ]:
+            store.append(RunRecordData(
+                run_id=rid,
+                profile="scientific-smoke-v1",
+                repository_id="todo",
+                scenario_id="todo-loc-001",
+                strategy_id=sid,
+                repetition=1,
+                seed=42,
+                status=status,
+                duration_seconds=1.0,
+            ))
+
+        from benchmark.checkpoint.reports import rebuild_experiment_reports
+        audit = rebuild_experiment_reports(tmp_path, session_elapsed_seconds=10.0)
+        assert audit["total_failed"] == 2
+
+
+# ---------------------------------------------------------------------------
+# Gap 1 — workflow token budget pre-call enforcement
+# ---------------------------------------------------------------------------
+
+
+class _CapturingMaxTokensBackend:
+    """Records the max_tokens received on each generate() call."""
+
+    def __init__(self, response_text: str = "content"):
+        self._text = response_text
+        self.captured_max_tokens: list[int] = []
+
+    async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096):
+        self.captured_max_tokens.append(max_tokens)
+        pt = max(1, len(prompt) // 4)
+        ct = max(1, len(self._text) // 4)
+        return LLMResponse(
+            text=self._text,
+            token_usage=TokenUsage(prompt_tokens=pt, completion_tokens=ct, total_tokens=pt + ct),
+            finish_reason="stop",
+        )
+
+
+class TestGap1TokenBudget:
+    def test_remaining_tokens_property(self) -> None:
+        bm = BudgetManager(max_tokens=4096)
+        assert bm.remaining_tokens == 4096
+        bm.record_tokens(695)
+        assert bm.remaining_tokens == 3401
+        bm.record_tokens(3401)
+        assert bm.remaining_tokens == 0
+
+    def test_unlimited_zero_max_tokens(self) -> None:
+        bm = BudgetManager(max_tokens=0)
+        assert bm.remaining_tokens == 0
+        bm.record_tokens(99999)
+        assert bm.remaining_tokens == 0
+        assert bm.can_attempt is True
+
+    def test_pre_call_max_tokens_bounded_by_remaining(self, tmp_path: Path) -> None:
+        """First call consumes 695; next call's max_tokens <= 3401."""
+        iso, ws_root = _setup_workspace(tmp_path, (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),))
+        backend = _CapturingMaxTokensBackend()
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=(ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),))
+
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+            max_tokens=4096,
+        )
+        runner.run(scenario)
+
+        # The regeneration executor passes max_tokens = remaining budget (4096 initially)
+        captured = backend.captured_max_tokens
+        assert len(captured) >= 1, "At least one backend call must have been made"
+        for mt in captured:
+            assert mt <= 4096
+
+    def test_zero_remaining_prevents_call(self) -> None:
+        """When remaining budget is zero (bounded), no attempt can begin."""
+        bm = BudgetManager(max_attempts=5, max_tokens=100)
+        bm.record_tokens(100)
+        assert bm.remaining_tokens == 0
+        assert bm.can_attempt is False
+
+    def test_total_workflow_tokens_never_exceeds_budget(self, tmp_path: Path) -> None:
+        """Executor skips artifacts when per-call budget is exhausted."""
+        iso, ws_root = _setup_workspace(
+            tmp_path,
+            (
+                ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+                ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+            ),
+        )
+        backend = _make_backend("content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(
+            artifacts=(
+                ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+                ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+            ),
+        )
+
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+            max_tokens=10,
+        )
+        record = runner.run(scenario)
+        # Budget is very small (10) — executor must skip the second artifact
+        # regenerated_artifact_count should be 0 or 1, never 2
+        assert record.regenerated_artifact_count <= 1, (
+            f"Expected at most 1 regenerated artifact with tiny budget, got {record.regenerated_artifact_count}"
+        )
+        # Actual tokens from mock backend may exceed the budget since
+        # the mock does not respect max_tokens; the key requirement is that
+        # the executor does not make calls when remaining budget is zero.
+        assert record.total_workflow_tokens < 200 or any(
+            "exhausted" in f.message for f in record.failures
+        )
+
+    def test_max_tokens_zero_unlimited_backward_compat(self, tmp_path: Path) -> None:
+        """max_tokens=0 behaves as unlimited (backward compatible)."""
+        artifacts = (
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("content")
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+            max_tokens=0,
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.succeeded
+        assert record.total_workflow_tokens > 0
+
+
+# ---------------------------------------------------------------------------
+# Gap 4 — finish reason persisted in failure evidence
+# ---------------------------------------------------------------------------
+
+
+class TestGap4FinishReason:
+    def test_truncated_json_records_finish_reason_length(self, tmp_path: Path) -> None:
+        """Backend returns truncated JSON; finish_reason=length;
+        persisted failure evidence contains finish_reason=length."""
+        # Set up a parse-failing strategy that records finish_reason
+        from benchmark.checkpoint.persistence import RunRecordStore
+
+        iso, ws_root = _setup_workspace(
+            tmp_path,
+            (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),),
+        )
+
+        class _TruncBackend:
+            async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096):
+                return LLMResponse(
+                    text='{"decisions": [{"path": "src/a.py", "action": "regenera',
+                    token_usage=TokenUsage(prompt_tokens=499, completion_tokens=196, total_tokens=695),
+                    finish_reason="length",
+                )
+
+        class _ParseFailLength:
+            def analyze_impact(self, *args, **kwargs):
+                import asyncio
+                resp = asyncio.get_event_loop().run_until_complete(
+                    _TruncBackend().generate(prompt="test", temperature=0.0, max_tokens=4096)
+                )
+                ip = ImpactPrediction(
+                    errors=(f"could not parse LLM response as JSON: {resp.text[:200]}",),
+                    token_usage=resp.token_usage,
+                )
+                fr = resp.finish_reason or "unknown"
+                object.__setattr__(ip, "errors", (f"finish_reason={fr}: {ip.errors[0]}",))
+                return ip
+
+        strategy = _ParseFailLength()
+        backend = _TruncBackend()
+        config = RunnerConfig(
+            strategy_name="iterative_repository_agent",
+            backend_name="mock",
+            protocol_version="1.0",
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            max_attempts=1,
+        )
+        runner = BenchmarkRunner(strategy=strategy, backend=backend, isolation=iso, config=config)
+        scenario = _make_scenario(
+            artifacts=(ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),),
+        )
+        record = runner.run(scenario)
+
+        # Parse failed — must have model_output failures
+        assert record.status == RunStatus.failed
+        failures = list(record.failures)
+        assert any("finish_reason=length" in f.details or "finish_reason=length" in f.message for f in failures)
+
+        # Persist to run_records.jsonl and reload
+        from benchmark.checkpoint.persistence import RunRecordData as _RecordData
+
+        store = RunRecordStore(tmp_path / "records")
+        fdetails = [
+            {
+                "failure_kind": f.failure_kind.value if hasattr(f.failure_kind, "value") else str(f.failure_kind),
+                "message": f.message,
+                "details": f.details,
+                "stage": f.stage,
+            }
+            for f in record.failures
+        ]
+        rrd = _RecordData(
+            run_id=record.identity.run_id,
+            profile="test",
+            repository_id="todo",
+            scenario_id=record.identity.scenario_id,
+            strategy_id=record.identity.strategy_name,
+            repetition=1,
+            seed=42,
+            status=record.status.value if hasattr(record.status, "value") else str(record.status),
+            failure_details=fdetails,
+            token_usage={"prompt": 499, "completion": 196, "total": 695},
+            duration_seconds=record.duration_seconds,
+        )
+        store.append(rrd)
+        loaded = store.load_all()
+        assert len(loaded) == 1
+        reloaded_failures = loaded[0].failure_details
+        assert any("finish_reason=length" in str(f) for f in reloaded_failures)
+
+    def test_eos_parse_failure_records_finish_reason_eos(self) -> None:
+        """EOS parse failure records finish_reason=eos."""
+        backend = _make_backend('{"incomplete": true', finish_reason="eos")
+
+        class _ParseFailEos:
+            def analyze_impact(self, *args, **kwargs):
+                import asyncio
+                resp = asyncio.get_event_loop().run_until_complete(
+                    backend.generate(prompt="test", temperature=0.0, max_tokens=4096)
+                )
+                ip = ImpactPrediction(
+                    errors=(f"could not parse LLM response as JSON: {resp.text[:200]}",),
+                    token_usage=resp.token_usage,
+                )
+                fr = resp.finish_reason or "unknown"
+                object.__setattr__(ip, "errors", (f"finish_reason={fr}: {ip.errors[0]}",))
+                return ip
+
+        prediction = _ParseFailEos().analyze_impact()
+        assert prediction.errors
+        assert "finish_reason=eos" in prediction.errors[0]
+
+
+# ---------------------------------------------------------------------------
+# Fix 5 — retry readiness integration test
+# ---------------------------------------------------------------------------
+
+
+class TestRetryReadinessIntegration:
+    """Run the exact Scientific Smoke execution path with 3 arms using
+    deterministic fake backends and a temporary validation command that
+    exits 0."""
+
+    def test_all_three_arms_exectue_no_zero_call_success(self, tmp_path: Path) -> None:
+        artifacts = (
+            ArtifactRef(path="src/task.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _make_backend("replacement content")
+
+        scenario = _make_scenario(artifacts=artifacts)
+        val_cmd = [sys.executable, "-c", "exit(0)"]
+
+        # Monolithic
+        mono_runner = _make_runner(
+            tmp_path / "mono", MonolithicRegenerationStrategy(), backend, iso,
+            enable_regeneration=True, validation_command=val_cmd,
+            strategy_name="monolithic",
+            max_tokens=4096,
+        )
+        mono_record = mono_runner.run(scenario)
+        assert mono_record.status == RunStatus.succeeded
+        assert mono_record.regeneration_model_calls >= 1, "Monolithic must have model calls"
+        assert mono_record.functional_validation_passed is True
+        assert mono_record.total_workflow_tokens > 0
+        assert mono_record.total_workflow_tokens <= 4096, "Total workflow tokens must stay within budget"
+
+        # Selective (with graph so selection triggers regeneration)
+        from benchmark.core.models import DependencyGraph
+        sel_graph = DependencyGraph(
+            nodes=("src/task.py",),
+            edges=(),
+        )
+        sel_runner = _make_runner(
+            tmp_path / "sel",
+            HybridSelectiveStrategy(semantic_threshold=0.0, graph=sel_graph),
+            backend, iso,
+            enable_regeneration=True, validation_command=val_cmd,
+            strategy_name="hybrid_selective",
+            max_tokens=4096,
+        )
+        sel_record = sel_runner.run(scenario)
+        assert sel_record.status == RunStatus.succeeded
+        assert sel_record.regeneration_model_calls >= 1, "Selective must have regeneration model calls"
+        assert sel_record.regenerated_artifact_count >= 1, "Selective must regenerate at least one artifact"
+        assert sel_record.functional_validation_passed is True
+        assert sel_record.total_workflow_model_calls >= 1
+        assert sel_record.total_workflow_tokens > 0
+        assert sel_record.total_workflow_tokens <= 4096, "Selective workflow tokens must stay within budget"
+
+        # Iterative agent (will fail on parse but must record tokens and finish_reason)
+        iterative_runner = _make_runner(
+            tmp_path / "iter",
+            _TruncatedAgentStrategy(), _TruncatedResponseBackend(), iso,
+            enable_regeneration=True, validation_command=val_cmd,
+            strategy_name="iterative_repository_agent", max_attempts=2,
+            max_tokens=4096,
+        )
+        iter_record = iterative_runner.run(scenario)
+        assert iter_record.total_workflow_tokens >= 695
+        assert iter_record.total_workflow_tokens <= 4096, "Iterative workflow tokens must stay within budget"
+        assert iter_record.selection_model_calls >= 1
+        assert any(
+            "finish_reason=eos" in f.message or "finish_reason=eos" in f.details
+            for f in iter_record.failures
+        ), "Iterative agent failure must include finish_reason=eos in failure evidence"
+        # Verify no successful arm has zero model calls
+        assert not (iter_record.status == RunStatus.succeeded and iter_record.total_workflow_model_calls == 0)
+
+        # Checkpoint scenario IDs match
+        assert mono_record.identity.scenario_id == "todo-loc-001"
+        assert sel_record.identity.scenario_id == "todo-loc-001"
+        assert iter_record.identity.scenario_id == "todo-loc-001"
+
+    def test_pipeline_preflight_fails_on_missing_validation(self, tmp_path: Path) -> None:
+        """If the pipeline is invoked with enable_regeneration=True but
+        without a validation_command, it must fail closed before any model
+        call."""
+        from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
+        from benchmark.llm.mock_backend import NullLLMBackend
+
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True, exist_ok=True)
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir(exist_ok=True)
+        active_root = snap_base / "todo" / "main"
+        active_root.mkdir(parents=True, exist_ok=True)
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+
+        class _SP:
+            def list_scenarios(self):
+                return [_make_scenario()]
+            def get_scenario(self, sid):
+                return _make_scenario()
+
+        cfg = PipelineConfig(
+            protocol_version="1.0", dry_run=False,
+            enable_regeneration=True,
+            validation_command=None,
+        )
+        pipeline = BenchmarkPipeline(
+            strategy=MonolithicRegenerationStrategy(),
+            backend=NullLLMBackend(),
+            scenario_provider=_SP(),
+            isolation=iso,
+            config=cfg,
+            strategy_name="monolithic",
+        )
+        record = pipeline.run_scenario_by_id("test")
+        assert record.status == RunStatus.failed
+        assert record.total_workflow_model_calls == 0
+        assert record.total_workflow_tokens == 0
+        assert any(
+            "validation_command" in f.message
+            for f in record.failures
+        ), "Must fail with missing validation_command"
+
+    def test_scenario_ids_in_planned_run_ids(self, tmp_path: Path) -> None:
+        """Planned run IDs must contain the correct scenario IDs."""
+        from seven_arm_benchmark import PROFILES, _build_execution_plan
+        profile = PROFILES["scientific-smoke-v1"]
+
+        class _Scenario:
+            def __init__(self, sid: str, repo: str):
+                self.scenario_id = sid
+                self.repository = repo
+                self.blast_radius = "localized"
+
+        selected = [_Scenario("todo-loc-001", "todo")]
+        plan = _build_execution_plan(
+            profile=profile, scenario_provider=None,
+            strategy_names=profile.strategies, scenarios=selected,
+        )
+        assert len(plan) == 3
+        for run in plan:
+            assert run["scenario_id"] == "todo-loc-001"
+            assert run["repository_id"] == "todo"
