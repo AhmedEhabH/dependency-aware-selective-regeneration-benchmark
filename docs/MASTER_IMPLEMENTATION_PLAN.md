@@ -42,6 +42,7 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - OPENROUTER-BACKEND on feature/openrouter-api-backend — minimal OpenRouter API backend
 - **SCIENTIFIC-SMOKE-V1 EXECUTED + FAILED** — 6 root-cause failures identified and fixed; retry required on experiment/scientific-smoke-v1
 - **SCIENTIFIC-SMOKE-V1 RETRY1 DEPLOYMENT PINNED** — commit 76ef349, deployed build ID 76ef349, output `/kaggle/working/runs/scientific_smoke_v1_retry1`
+- **SCIENTIFIC-SMOKE-V1 RETRY2 FIXES APPLIED** — active_snapshot_root propagation, filtered HF resume identity (commit 8a1948f+)
 
 ## Next
 
@@ -49,7 +50,8 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - Merge feature/openrouter-api-backend (completed)
 - ~~Execute Scientific Smoke V1 on Kaggle~~ — DONE (failed; retry required)
 - ~~Retry Scientific Smoke V1 on Kaggle~~ — DEPLOYMENT PINNED (not yet launched)
-- **Launch Scientific Smoke V1 Retry1 on Kaggle** (fresh experiment, same arms/budgets, fixed pipeline, new output directory)
+- **Commit Retry2 changes** on experiment/scientific-smoke-v1 (ruff, mypy, bundle, git diff --check all clean)
+- **Launch Scientific Smoke V1 Retry2 on Kaggle** (fresh experiment, same arms/budgets, all known path failures fixed)
 - Pilot (remains unauthorized until Scientific Smoke passes)
 
 ## Known Boundary

@@ -291,5 +291,44 @@ Each exec-cell runs `--max-runs 1 --auto-resume-hf`, advancing by 1 arm per sess
 **PREPARATION COMMITTED** — Audit corrections applied, Kaggle execution pending.
 
 **RETRY1 DEPLOYMENT PINNED** — commit 76ef349, build ID 76ef349, output `/kaggle/working/runs/scientific_smoke_v1_retry1`. Retry1 is not yet launched.
-
 **KAGGLE_SCIENTIFIC_SMOKE_RETRY1_DEPLOYMENT_PINNED**
+
+---
+
+## 12. Retry2 — Execution Path Hardening (active_snapshot_root + filtered resume identity)
+
+### Root Causes
+
+| Issue | Root Cause | Fix |
+|-------|-----------|-----|
+| I. No active snapshot configured | `make_isolation()` in `seven_arm_benchmark.py` never received or forwarded `active_snapshot_root`. `PipelineConfig` and `RunnerConfig` had no such field. `_run_single_scenario_strategy()` never passed it. When `enable_regeneration=True`, `BenchmarkRunner._active_snapshot()` raised `BenchmarkError("No active snapshot is configured")`. | Added `active_snapshot_root: str | Path | None = None` to `PipelineConfig`, `active_snapshot_root: str | None = None` to `RunnerConfig`, propagated through `_make_runner()`, `make_isolation()`, and `_run_single_scenario_strategy()`. Snapshot is staged in `main()` via `stage_repository_snapshot()` before execution. |
+| J. HF resume identity computed from unfiltered scenario list | Auto-resume block loaded all scenarios and sliced `all_scenarios_for_auto[:profile.scenario_count]`, which selected the first scenario alphabetically (`djangocms-cross-007`) instead of the filtered `todo-loc-001`. `generate_experiment_identity()` thus produced a different identity than the executing run. | Moved scenario loading + filtering before the HF sync block. Auto-resume and `--resume-from-hf` now use `selected_scenario_ids` (from the filtered profile) instead of reloading and slicing all scenarios. |
+
+### Changes made (Retry2)
+
+| File | Change |
+|------|--------|
+| `src/benchmark/execution/pipeline.py` | Added `active_snapshot_root` to `PipelineConfig`; `_make_runner()` propagates it |
+| `src/benchmark/execution/runner.py` | Added `active_snapshot_root` to `RunnerConfig` |
+| `seven_arm_benchmark.py` | Restructured `main()`: scenario loading + filtering before HF sync; auto-resume uses `selected_scenario_ids`; `--resume-from-hf` uses `selected_scenario_ids`; removed duplicate scenario loading; snapshot staging via `stage_repository_snapshot()`; `make_isolation()` receives and forwards `active_snapshot_root`; `_run_single_scenario_strategy()` forwards it |
+| `tests/integration/test_scientific_smoke_v1_fixes.py` | Added `TestExecutionContract` with `test_execution_contract` (14-point end-to-end flow covering all contract layers), `test_missing_active_snapshot_fails_before_backend`, `test_empty_artifact_universe_never_reports_success`, `test_genuine_resume_mismatch_rejected` |
+
+### Verification (Retry2 — acceptance audit pending)
+- 1062/1062 tests passed (5 skipped), including 5 TestExecutionContract methods (test_execution_contract, test_real_resume_compatibility, test_missing_active_snapshot_fails_before_backend, test_empty_artifact_universe_never_reports_success, test_genuine_resume_mismatch_rejected)
+- Execution contract covers: repository ID, scenario IDs, three-run plan, active_snapshot_root existence, ArtifactUniverse non-empty, workspace/snapshot isolation, snapshot immutability, validation command non-empty, per-arm metrics > 0, no zero-call success, checkpoint scenario_ids correct, partial completion 1/3, resume preserves completed + executes pending, terminal progress
+- Ruff: 0 new errors in changed files (pre-existing E501/ARG001/SIM113 in seven_arm_benchmark.py only)
+- MyPy strict: 0 new errors (9 pre-existing in seven_arm_benchmark.py, 1 pre-existing in pipeline.py)
+- Bundle: 107 files, 613,175 bytes, verified OK
+- Git diff --check: no whitespace errors
+- **Status**: Not validated — acceptance audit requires real Kaggle execution pass (no network, GPU, or HF access in this environment)
+
+### Retry2 deploy instructions
+```bash
+# From experiment/scientific-smoke-v1 branch:
+git add -A && git commit -m "fix(execution): propagate canonical active_snapshot_root"
+git commit -m "fix(resume): derive identity from filtered execution plan"
+git commit -m "test(smoke): enforce end-to-end execution contract"
+git push origin experiment/scientific-smoke-v1
+# Rebuild bundle, sync kaggle_upload/, launch on Kaggle
+# New experiment ID, fresh output directory, Retry2 commit identity
+```

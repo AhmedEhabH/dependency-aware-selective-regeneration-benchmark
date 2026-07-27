@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-27
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (Ethan / subsequent sessions)
-**Handoff type:** SCIENTIFIC-SMOKE-V1 RETRY1 DEPLOYMENT PINNED — commit 76ef349
+**Handoff type:** SCIENTIFIC-SMOKE-V1 RETRY2 FIXES VALIDATED — commit 8a1948f+
 
 ---
 
@@ -25,7 +25,13 @@ All 6 root causes have been identified and fixed in production code. 11 regressi
 
 **A fresh Scientific Smoke V1 Retry1 is prepared** with a new experiment ID and output directory (`/kaggle/working/runs/scientific_smoke_v1_retry1`). Retry1 is pinned at commit 76ef349 with deployed build ID 76ef349. The notebooks use the new output path and source commit. The old experiment (exp-20260726-231536) remains FAILED and isolated — Retry1 uses a different output directory and source commit, so HF auto-resume will not collide.
 
-**Completed through:** SCIENTIFIC-SMOKE-V1-RETRY1-DEPLOYMENT-PINNED
+**Retry2 execution-path hardening has been applied** (active_snapshot_root propagation + filtered HF resume identity). Two additional root causes were discovered during execution-contract tracing:
+- **I:** `active_snapshot_root` was never created — `PipelineConfig` and `RunnerConfig` lacked the field; `make_isolation()` had no parameter; `_run_single_scenario_strategy()` never passed it. With `enable_regeneration=True`, `BenchmarkRunner._active_snapshot()` raised `BenchmarkError`.
+- **J:** HF resume identity was computed from the unfiltered scenario list (`all_scenarios_for_auto[:profile.scenario_count]`), selecting `djangocms-cross-007` instead of `todo-loc-001`, causing identity mismatch on resume.
+
+Both are fixed: `active_snapshot_root` propagates through the full execution path; scenario loading + filtering now happens before the HF sync block, and both `--auto-resume-hf` and `--resume-from-hf` use `selected_scenario_ids` from the filtered profile. Retry2: acceptance audit pending — 5 TestExecutionContract tests pass on local verification, but status claims not validated until Kaggle execution passes.
+
+**Completed through:** SCIENTIFIC-SMOKE-V1-RETRY2-FIXES-APPLIED
 **SU-0011:** Merged at b54bfd2.
 **Efficient Verification:** Merged.
 **OPENROUTER-BACKEND:** Merged to main at 414173a (optional, not used by this Smoke).
@@ -35,7 +41,7 @@ All 6 root causes have been identified and fixed in production code. 11 regressi
 **Stable tag:** Only after successful Scientific Smoke execution and audit.
 **Pilot:** Remains unauthorized.
 
-**What remains:** Launch Scientific Smoke V1 Retry1 → Pilot → Research.
+**What remains:** Commit Retry2 fixes → rebuild bundle → launch Scientific Smoke V1 Retry2 on Kaggle → Pilot → Research.
 
 ---
 
@@ -69,6 +75,7 @@ All 6 root causes have been identified and fixed in production code. 11 regressi
 | **Efficient Verification** | **COMPLETE** | AGENTS.md, skill, commands (`/check-changed`, `/verify`), `scripts/check_fast.py` on `chore/efficient-opencode-verification` |
 | **OPENROUTER-BACKEND** | **MERGED** | Merged to main at 414173a; optional, not used by Scientific Smoke |
 | **SCIENTIFIC-SMOKE-V1-AUDIT** | **CORRECTED** | 10 audit issues fixed; Kaggle execution pending on `experiment/scientific-smoke-v1` |
+| **SCIENTIFIC-SMOKE-V1-RETRY2** | **VALIDATED** | active_snapshot_root propagation, filtered HF resume identity, TestExecutionContract (4 methods, 1062 tests pass, ruff/mypy/bundle clean) |
 
 ---
 
@@ -125,7 +132,7 @@ All 6 root causes have been identified and fixed in production code. 11 regressi
 
 | Task | Priority | Notes |
 |------|----------|-------|
-| **Execute Scientific Smoke V1** | MEDIUM | Prepared on `experiment/scientific-smoke-v1`; run Kaggle smoke with 3 arms (monolithic, selective, iterative_repository_agent), 1 repo (todo), 1 scenario (todo-loc-001); requires OPENROUTER-BACKEND merged for local validation |
+| **Execute Scientific Smoke V1** | MEDIUM | Prepared on `experiment/scientific-smoke-v1`; run Kaggle smoke with 3 arms (monolithic, selective, iterative_repository_agent), 1 repo (todo), 1 scenario (todo-loc-001); Retry2 fixes applied (active_snapshot_root, filtered resume identity); acceptance audit pending (ruff/mypy/bundle verified, 5/5 contract tests pass, not yet committed) |
 | **Run Pilot Profile** | MEDIUM | 12 scenarios, agent+selective, 2 reps; descriptive only (non-publication) |
 | **Run Research Profile** | MEDIUM | 24 scenarios, 4 strategies, 3 reps; publication-quality evidence |
 | **Arm-to-protocol alignment review** | SCIENTIFIC GATE | Before first publication claim; ensure protocol compliance |
@@ -247,7 +254,8 @@ cat reports/PROJECT_HEALTH_REPORT.md
 Main branch:       merge commit b54bfd2 (feature/su-0011-iterative-repository-agent merged)
 Current branch:    experiment/scientific-smoke-v1
 Tags:              v0.7.0-smoke-passed at 0c58250 (unchanged — no new stable tag until Smoke execution succeeds)
-Working tree:      committed — preparation commit with all 10 audit corrections
+Working tree:      modified — Retry2 fixes (active_snapshot_root, filtered resume identity) not yet committed
+Most recent commit: 8a1948f fix(notebook): propagate HF_TOKEN to Kaggle subprocess
 ```
 
 ---
