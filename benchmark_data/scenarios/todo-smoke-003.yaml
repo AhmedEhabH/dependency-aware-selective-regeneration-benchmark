@@ -68,6 +68,14 @@ architecture_constraints:
   - "No changes to Tag model, TagSerializer, or TagViewSet behaviour"
   - "Existing migration files must remain unchanged"
   - "Exactly one new migration must be generated"
+evaluator_asset: "tests/evaluator_assets/todo_smoke_003_checks.py"
+post_generation_command:
+  - python
+  - manage.py
+  - makemigrations
+  - todo
+  - --noinput
+require_new_migration: true
 hidden_tests:
   - description: "Task listing returns all tasks irrespective of ownership"
     type: changed_requirement

@@ -3,8 +3,11 @@ from pathlib import Path
 
 import pytest
 
-from benchmark.core.enums import BlastRadius, RunStatus
+from benchmark.core.enums import ArtifactType, BlastRadius, RunStatus
 from benchmark.core.models import (
+    AcceptanceCriterion,
+    ArchitectureConstraint,
+    ArtifactRef,
     ArtifactUniverse,
     ImpactPrediction,
     LLMResponse,
@@ -162,6 +165,102 @@ class TestBenchmarkRunner:
         assert len(change.acceptance_criteria) == 0
         assert len(universe.artifacts) == 0
 
+
+    def test_evaluator_metadata_never_reaches_strategy(self, tmp_path: Path) -> None:
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir()
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        active_root = snap_base / "repo" / "rev1"
+        active_root.mkdir(parents=True)
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+        config = RunnerConfig(
+            strategy_name="test_strategy",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=3,
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = Scenario(
+            scenario_id="sc-smoke",
+            repository="repo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before text",
+            requirement_after="after text",
+            rationale="test",
+            acceptance_criteria=(
+                AcceptanceCriterion(description="public criterion 1"),
+                AcceptanceCriterion(description="public criterion 2"),
+            ),
+            expected_affected_artifacts=(
+                ArtifactRef(path="todo/models.py", artifact_type=ArtifactType.source),
+            ),
+            architecture_constraints=(
+                ArchitectureConstraint(description="some constraint"),
+            ),
+            hidden_tests=("hidden test",),
+            evaluator_asset="tests/evaluator_assets/todo_smoke_001_checks.py",
+            post_generation_command=("python", "manage.py", "makemigrations", "todo", "--noinput"),
+            require_new_migration=True,
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.succeeded
+        assert len(strategy.calls) == 1
+        _repo, change, _universe = strategy.calls[0]
+        assert change.before == "before text"
+        assert change.after == "after text"
+        assert change.acceptance_criteria == ("public criterion 1", "public criterion 2")
+        assert not hasattr(change, "evaluator_asset")
+        assert not hasattr(change, "post_generation_command")
+        assert not hasattr(change, "require_new_migration")
+        assert not hasattr(change, "hidden_tests")
+        assert not hasattr(change, "expected_affected_artifacts")
+
+    def test_runner_passes_acceptance_criteria_only(self, tmp_path: Path) -> None:
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir()
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        active_root = snap_base / "repo" / "rev1"
+        active_root.mkdir(parents=True)
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+        config = RunnerConfig(
+            strategy_name="test_strategy",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=3,
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = Scenario(
+            scenario_id="sc-accept",
+            repository="repo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before",
+            requirement_after="after",
+            rationale="test",
+            acceptance_criteria=(
+                AcceptanceCriterion(description="criterion_a"),
+            ),
+        )
+        runner.run(scenario)
+        _repo, change, _universe = strategy.calls[0]
+        assert change.acceptance_criteria == ("criterion_a",)
 
 class TestArtifactUniverseConstruction:
     def test_regeneration_uses_actual_snapshot_files(self, tmp_path: Path) -> None:

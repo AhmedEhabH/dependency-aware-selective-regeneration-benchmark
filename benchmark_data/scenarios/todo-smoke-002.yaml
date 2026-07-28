@@ -56,6 +56,14 @@ architecture_constraints:
   - "existing migrations must remain byte-identical"
   - "Project and Tag behaviour must remain unchanged"
   - "No changes to serializers, permissions, Project model, or Tag model"
+evaluator_asset: "tests/evaluator_assets/todo_smoke_002_checks.py"
+post_generation_command:
+  - python
+  - manage.py
+  - makemigrations
+  - todo
+  - --noinput
+require_new_migration: true
 hidden_tests:
   - description: "Soft-deleted task can be restored and is fully functional afterward"
     type: changed_requirement

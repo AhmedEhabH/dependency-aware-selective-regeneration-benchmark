@@ -139,6 +139,35 @@ class TestScenarioLoader:
                 f"Full distribution: {dict(repo_counts)}"
             )
 
+    def test_load_scenario_with_smoke_fields(self, tmp_path: Path) -> None:
+        data = dict(SAMPLE_SCENARIO_YAML)
+        data["scenario_id"] = "todo-smoke-001"
+        data["evaluator_asset"] = "tests/evaluator_assets/todo_smoke_001_checks.py"
+        data["post_generation_command"] = [
+            "python", "manage.py", "makemigrations", "todo", "--noinput",
+        ]
+        data["require_new_migration"] = True
+        scenario_file = tmp_path / "smoke.yaml"
+        scenario_file.write_text(yaml.dump(data), encoding="utf-8")
+
+        loader = ScenarioLoader(tmp_path)
+        scenario = loader.load_scenario(scenario_file)
+        assert scenario.evaluator_asset == "tests/evaluator_assets/todo_smoke_001_checks.py"
+        assert scenario.post_generation_command == (
+            "python", "manage.py", "makemigrations", "todo", "--noinput",
+        )
+        assert scenario.require_new_migration is True
+
+    def test_load_non_smoke_defaults(self, tmp_path: Path) -> None:
+        scenario_file = tmp_path / "non_smoke.yaml"
+        scenario_file.write_text(yaml.dump(SAMPLE_SCENARIO_YAML), encoding="utf-8")
+
+        loader = ScenarioLoader(tmp_path)
+        scenario = loader.load_scenario(scenario_file)
+        assert scenario.evaluator_asset == ""
+        assert scenario.post_generation_command == ()
+        assert scenario.require_new_migration is False
+
     def test_load_all_logs_warnings_on_partial_failure(self, tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
         import logging
         caplog.set_level(logging.WARNING)

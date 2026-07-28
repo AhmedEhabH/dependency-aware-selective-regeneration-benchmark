@@ -116,6 +116,9 @@ class Scenario:
     expected_actions: tuple[tuple[ArtifactRef, ActionKind], ...] = ()
     architecture_constraints: tuple[ArchitectureConstraint, ...] = ()
     hidden_tests: tuple[str, ...] = ()
+    evaluator_asset: str = ""
+    post_generation_command: tuple[str, ...] = ()
+    require_new_migration: bool = False
 
     def __post_init__(self) -> None:
         if not self.scenario_id:

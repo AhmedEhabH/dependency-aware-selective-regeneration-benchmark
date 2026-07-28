@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 from pathlib import Path
 
 import pytest
 import yaml
 
+from benchmark.core.models import Scenario
 from benchmark.scenarios.loader import ScenarioLoader
 
 SCENARIOS_DIR = Path("benchmark_data/scenarios")
@@ -38,7 +41,7 @@ def _path_in_repo(repo_root: Path, path_str: str) -> bool:
 
 
 @pytest.fixture(scope="module")
-def smoke_scenarios() -> dict[str, "Scenario"]:
+def smoke_scenarios() -> dict[str, Scenario]:
     loader = ScenarioLoader(SCENARIOS_DIR)
     all_scenarios = loader.load_all()
     return {s.scenario_id: s for s in all_scenarios if s.scenario_id in SMOKE_IDS}
@@ -152,6 +155,55 @@ class TestSmokeScenariosV2:
             "003 constraints must explicitly preserve TagViewSet + IsProjectMember"
         )
 
+    def test_001_evaluator_asset_path(self, smoke_yamls: dict) -> None:
+        assert smoke_yamls["todo-smoke-001"].get("evaluator_asset") == (
+            "tests/evaluator_assets/todo_smoke_001_checks.py"
+        )
+
+    def test_002_evaluator_asset_path(self, smoke_yamls: dict) -> None:
+        assert smoke_yamls["todo-smoke-002"].get("evaluator_asset") == (
+            "tests/evaluator_assets/todo_smoke_002_checks.py"
+        )
+
+    def test_003_evaluator_asset_path(self, smoke_yamls: dict) -> None:
+        assert smoke_yamls["todo-smoke-003"].get("evaluator_asset") == (
+            "tests/evaluator_assets/todo_smoke_003_checks.py"
+        )
+
+    def test_each_smoke_evaluator_loaded_into_core(self, smoke_scenarios: dict) -> None:
+        assert smoke_scenarios["todo-smoke-001"].evaluator_asset == (
+            "tests/evaluator_assets/todo_smoke_001_checks.py"
+        )
+        assert smoke_scenarios["todo-smoke-002"].evaluator_asset == (
+            "tests/evaluator_assets/todo_smoke_002_checks.py"
+        )
+        assert smoke_scenarios["todo-smoke-003"].evaluator_asset == (
+            "tests/evaluator_assets/todo_smoke_003_checks.py"
+        )
+
+    def test_every_smoke_post_generation_command(self, smoke_scenarios: dict) -> None:
+        expected = ("python", "manage.py", "makemigrations", "todo", "--noinput")
+        for sid in ("todo-smoke-001", "todo-smoke-002", "todo-smoke-003"):
+            assert smoke_scenarios[sid].post_generation_command == expected, (
+                f"{sid} command mismatch: {smoke_scenarios[sid].post_generation_command}"
+            )
+
+    def test_every_smoke_requires_new_migration(self, smoke_scenarios: dict) -> None:
+        for sid in ("todo-smoke-001", "todo-smoke-002", "todo-smoke-003"):
+            assert smoke_scenarios[sid].require_new_migration is True, (
+                f"{sid} require_new_migration is not True"
+            )
+
+    def test_non_smoke_scenario_defaults(self) -> None:
+        loader = ScenarioLoader(SCENARIOS_DIR)
+        scenarios = loader.load_all()
+        for s in scenarios:
+            if s.scenario_id.startswith("todo-smoke"):
+                continue
+            assert s.evaluator_asset == "", f"{s.scenario_id}: evaluator_asset not empty"
+            assert s.post_generation_command == (), f"{s.scenario_id}: post_generation_command not empty"
+            assert s.require_new_migration is False, f"{s.scenario_id}: require_new_migration not False"
+
     def test_003_expected_artifact_views_description(self, smoke_yamls: dict) -> None:
         affected = smoke_yamls["todo-smoke-003"].get("expected_affected_artifacts", [])
         views_entry = [a for a in affected if "todo/views.py" in a]
@@ -235,68 +287,6 @@ class TestRepositoryArtifactCatalog:
             assert _path_in_repo(REPO_TODO_DIR, path_str), (
                 f"llm_editable path does not exist in repo: {path_str}"
             )
-
-    def test_all_catalog_ids_exist_on_disk(self) -> None:
-        profile = _load_artifact_catalog_profile()
-        catalog = profile.get("artifact_catalog", [])
-        for entry in catalog:
-            aid = entry["id"]
-            assert _path_in_repo(REPO_TODO_DIR, aid), (
-                f"Catalog ID does not exist: {aid}"
-            )
-
-    def test_all_included_entries_exist_on_disk(self) -> None:
-        profile = _load_artifact_catalog_profile()
-        au = profile.get("artifact_universe", {})
-        included = au.get("included", [])
-        for path_str in included:
-            assert _path_in_repo(REPO_TODO_DIR, path_str), (
-                f"Included path does not exist: {path_str}"
-            )
-
-    def test_no_todo_project_in_catalog(self) -> None:
-        profile = _load_artifact_catalog_profile()
-        catalog = profile.get("artifact_catalog", [])
-        for entry in catalog:
-            assert "todo_project/" not in entry["id"], (
-                f"Catalog ID contains todo_project/: {entry['id']}"
-            )
-
-    def test_no_todo_project_in_included(self) -> None:
-        profile = _load_artifact_catalog_profile()
-        au = profile.get("artifact_universe", {})
-        included = au.get("included", [])
-        for path_str in included:
-            assert "todo_project/" not in path_str, (
-                f"Included path contains todo_project/: {path_str}"
-            )
-
-    def test_no_admin_py_in_included(self) -> None:
-        profile = _load_artifact_catalog_profile()
-        au = profile.get("artifact_universe", {})
-        included = au.get("included", [])
-        assert "todo/admin.py" not in included, (
-            "todo/admin.py must not be in included"
-        )
-
-    def test_llm_editable_remains_frozen(self) -> None:
-        profile = _load_artifact_catalog_profile()
-        au = profile.get("artifact_universe", {})
-        editable = set(au.get("llm_editable", []))
-        assert editable == LLM_EDITABLE_EXPECTED, (
-            f"llm_editable changed: {editable}"
-        )
-
-    def test_llm_editable_is_subset_of_repo(self) -> None:
-        profile = _load_artifact_catalog_profile()
-        au = profile.get("artifact_universe", {})
-        editable = au.get("llm_editable", [])
-        for path_str in editable:
-            assert _path_in_repo(REPO_TODO_DIR, path_str), (
-                f"llm_editable path does not exist in repo: {path_str}"
-            )
-
-
 _TODO_PROFILE: dict | None = None
 
 
