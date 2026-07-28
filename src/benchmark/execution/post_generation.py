@@ -60,7 +60,7 @@ def _validate_inputs(
             return "timeout must be a positive integer"
         if not isinstance(require_new_migration, bool):
             return "require_new_migration must be a bool"
-        if not isinstance(migration_directory, str) or len(migration_directory) == 0:
+        if not isinstance(migration_directory, str) or not migration_directory.strip():
             return "migration_directory is not a valid POSIX path"
         if "\x00" in migration_directory:
             return "migration_directory must not contain NUL"
@@ -253,9 +253,8 @@ def run_post_generation_command(
 
     after, after_errors = _snapshot_migrations(workspace, migration_directory)
 
-    all_old_unchanged = True
-    diagnostics: list[str] = list(before_errors)
-    diagnostics.extend(after_errors)
+    diagnostics: list[str] = list(after_errors)
+    all_old_unchanged = not after_errors
     for old_path, old_hash in before.items():
         if old_path not in after:
             all_old_unchanged = False

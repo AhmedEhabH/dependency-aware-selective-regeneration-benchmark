@@ -1080,6 +1080,135 @@ class TestPostGenerationResult:
         assert result.passed is False
         assert result.exit_code == -1
 
+    # --- R3B third audit: after-state safety ---
+
+    def test_subprocess_created_external_symlink_forces_failure(
+        self, tmp_path: Path
+    ) -> None:
+        _create_migration_dir(
+            tmp_path, {"__init__.py": "# init", "0001_initial.py": "# old"}
+        )
+        outside = tmp_path / "outside_target.py"
+        outside.write_text("# outside target")
+        try:
+            (tmp_path / "_symlink_probe").symlink_to(tmp_path)
+            (tmp_path / "_symlink_probe").unlink()
+        except OSError:
+            pytest.skip("symlink not supported on this platform")
+
+        code = (
+            "import pathlib, os; "
+            "p = pathlib.Path('todo/migrations'); "
+            "(p / '0002_good.py').write_text('# good'); "
+            "os.symlink("
+            "str(pathlib.Path('..') / 'outside_target.py'), "
+            "str(p / '0003_evil.py')"
+            ")"
+        )
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", code],
+            require_new_migration=True,
+            timeout=30,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert result.created_paths == ("todo/migrations/0002_good.py",)
+        assert result.existing_migrations_unchanged is False
+        assert "symlink" in result.stderr
+
+    def test_subprocess_created_symlink_forces_failure_when_migration_not_required(
+        self, tmp_path: Path
+    ) -> None:
+        _create_migration_dir(
+            tmp_path, {"__init__.py": "# init", "0001_initial.py": "# old"}
+        )
+        outside = tmp_path / "outside_target.py"
+        outside.write_text("# outside target")
+        try:
+            (tmp_path / "_symlink_probe").symlink_to(tmp_path)
+            (tmp_path / "_symlink_probe").unlink()
+        except OSError:
+            pytest.skip("symlink not supported on this platform")
+
+        code = (
+            "import pathlib, os; "
+            "p = pathlib.Path('todo/migrations'); "
+            "os.symlink("
+            "str(pathlib.Path('..') / 'outside_target.py'), "
+            "str(p / '0003_evil.py')"
+            ")"
+        )
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", code],
+            require_new_migration=False,
+            timeout=30,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert result.created_paths == ()
+        assert result.existing_migrations_unchanged is False
+        assert "symlink" in result.stderr
+
+    def test_synthetic_after_snapshot_error_forces_failure(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        _create_migration_dir(
+            tmp_path, {"__init__.py": "# init", "0001_initial.py": "# old"}
+        )
+        import benchmark.execution.post_generation as pg
+
+        call_count = 0
+        original_snapshot = pg._snapshot_migrations
+
+        def fake_snapshot(
+            workspace_root: Path, migration_directory: str
+        ) -> tuple[dict[str, str], tuple[str, ...]]:
+            nonlocal call_count
+            call_count += 1
+            after, _ = original_snapshot(workspace_root, migration_directory)
+            if call_count == 1:
+                return after, ()
+            return after, ("simulated after-state inspection failure",)
+
+        monkeypatch.setattr(pg, "_snapshot_migrations", fake_snapshot)
+
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=30,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert result.existing_migrations_unchanged is False
+        assert "simulated after-state inspection failure" in result.stderr
+
+    @pytest.mark.parametrize(
+        "bad_path",
+        [
+            "",
+            " ",
+            "   ",
+            "\t",
+            "\n",
+        ],
+    )
+    def test_whitespace_only_migration_directory_fails(
+        self, tmp_path: Path, bad_path: str
+    ) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+            migration_directory=bad_path,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+
 
 class TestHelpers:
     def test_coerce_subprocess_text_none(self) -> None:
