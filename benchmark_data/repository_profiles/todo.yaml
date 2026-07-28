@@ -19,8 +19,8 @@ overview: >
 
   The domain is deliberately simple — Tasks, Projects, and Tags — to enable
   precise measurement of impact analysis and selective regeneration. Every
-  architectural layer has clear boundaries, and the test suite provides full
-  coverage of model logic, serialization, view behaviour, and permissions.
+  architectural layer has clear boundaries, and committed tests exercise model,
+  serializer, view, and permission behaviour.
 
   The application is not intended for production use. It is a measurement
   instrument: a controlled environment where ground-truth affected-artifact
@@ -208,6 +208,11 @@ artifact_catalog:
     expected_action_types: [modify, create]
     typical_change_triggers:
       - API additions or modifications
+      - queryset filtering changes
+      - soft deletion behavior
+      - delete request behavior
+      - DRF custom actions
+      - list and detail endpoint behavior
       - permissions and authorization changes
       - workflow changes
     provides_symbols:
@@ -223,7 +228,9 @@ artifact_catalog:
       urlpatterns for inclusion in config/urls.py.
     expected_action_types: [modify]
     typical_change_triggers:
-      - API additions or modifications (new endpoints)
+      - router registration changes
+      - URL pattern changes
+      - manually registered endpoint paths
     provides_symbols:
       - router
       - urlpatterns

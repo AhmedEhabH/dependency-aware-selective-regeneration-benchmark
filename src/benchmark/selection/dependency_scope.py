@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 from benchmark.core.models import (
@@ -36,9 +37,89 @@ STOP_WORDS: frozenset[str] = frozenset({
 })
 
 
+LOW_INFORMATION_SOFTWARE_TERMS: frozenset[str] = frozenset({
+    "add", "addition", "change", "changes", "code", "current", "existing",
+    "file", "files", "implementation", "modify", "modified", "modification",
+    "new", "required", "requirement", "support", "py",
+})
+
+
+@dataclass(frozen=True)
+class RequirementSignals:
+    positive_terms: frozenset[str]
+    negative_descriptor_paths: frozenset[str]
+
+
+MIN_REVERSE_CONSUMER_OVERLAP = 3
+
+
+NEGATIVE_PHRASE_PATTERNS: tuple[str, ...] = (
+    r"no changes to ([\w./]+)",
+    r"([\w./]+) must not be modified",
+    r"([\w./]+) is not required",
+    r"([\w./]+) changes are not required",
+    r"without changing ([\w./]+)",
+)
+
+
+def _extract_negative_paths(text: str) -> frozenset[str]:
+    paths: set[str] = set()
+    lower_text = text.lower()
+    for pattern in NEGATIVE_PHRASE_PATTERNS:
+        for match in re.finditer(pattern, lower_text):
+            path = match.group(1).strip().rstrip(".,;:!?")
+            if path:
+                paths.add(path)
+    return frozenset(paths)
+
+
+def _split_sentences(text: str) -> list[str]:
+    parts = re.split(r"(?<=[.!?])\s+", text.replace("\n", " "))
+    return [p.strip() for p in parts if p.strip()]
+
+
+def derive_requirement_signals(
+    change: RequirementChange,
+    descriptors: tuple[ArtifactDescriptor, ...],
+) -> RequirementSignals:
+    positive_terms: set[str] = set()
+    negative_paths: set[str] = set()
+
+    for source in (change.before, change.after, *change.acceptance_criteria):
+        negative_paths |= _extract_negative_paths(source)
+        for sentence in _split_sentences(source):
+            if _extract_negative_paths(sentence):
+                continue
+            pos_tokens = _normalize(sentence)
+            pos_filtered = [
+                t for t in pos_tokens
+                if t not in STOP_WORDS and t not in LOW_INFORMATION_SOFTWARE_TERMS and len(t) > 1
+            ]
+            positive_terms.update(_singular(t) for t in pos_filtered)
+
+    matched_negative_descriptor_paths: set[str] = set()
+    for desc in descriptors:
+        desc_lower = desc.path.lower()
+        stem = Path(desc_lower).stem
+        cat_lower = desc.category.lower()
+        for neg_path in negative_paths:
+            if neg_path in (desc_lower, stem, cat_lower):
+                matched_negative_descriptor_paths.add(desc.path)
+                break
+        for sym in desc.provides_symbols:
+            if sym.lower() in negative_paths:
+                matched_negative_descriptor_paths.add(desc.path)
+                break
+
+    return RequirementSignals(
+        positive_terms=frozenset(positive_terms),
+        negative_descriptor_paths=frozenset(matched_negative_descriptor_paths),
+    )
+
+
 def _normalize(text: str) -> list[str]:
     parts: list[str] = []
-    for token in text.lower().split():
+    for token in text.split():
         token = token.strip("(),.;:\"'!?[]{}")
         if not token:
             continue
@@ -100,64 +181,121 @@ def derive_requirement_terms(change: RequirementChange) -> frozenset[str]:
     return frozenset(singulars)
 
 
+def _desc_meaningful_terms(desc: ArtifactDescriptor) -> set[str]:
+    terms: set[str] = set()
+    for trig in desc.typical_change_triggers:
+        trig_tokens = _normalize(trig)
+        terms.update(
+            _singular(t) for t in trig_tokens
+            if t not in STOP_WORDS and t not in LOW_INFORMATION_SOFTWARE_TERMS and len(t) > 1
+        )
+    terms.update(
+        _singular(t) for t in _normalize(desc.description)
+        if t not in STOP_WORDS and t not in LOW_INFORMATION_SOFTWARE_TERMS and len(t) > 1
+    )
+    return terms
+
+
+def _trigger_meaningful_terms(desc: ArtifactDescriptor) -> set[str]:
+    terms: set[str] = set()
+    for trig in desc.typical_change_triggers:
+        trig_tokens = _normalize(trig)
+        terms.update(
+            _singular(t) for t in trig_tokens
+            if t not in STOP_WORDS and t not in LOW_INFORMATION_SOFTWARE_TERMS and len(t) > 1
+        )
+    return terms
+
+
+def _seed_descriptors(
+    descriptors: tuple[ArtifactDescriptor, ...],
+    pos: frozenset[str],
+) -> list[str]:
+    seeds: list[str] = []
+    for desc in descriptors:
+        desc_path_stem = Path(desc.path.lower()).stem
+        desc_cat_lower = desc.category.lower()
+        desc_meaningful = _desc_meaningful_terms(desc)
+
+        # Rule 1: complete provided-symbol phrase occurs in positive public text
+        for sym in desc.provides_symbols:
+            sym_terms = frozenset(_singular(t) for t in _normalize(sym))
+            if sym_terms and sym_terms <= pos:
+                seeds.append(desc.path)
+                break
+        if desc.path in seeds:
+            continue
+
+        # Rule 2: path stem or category occurs in positive terms
+        # and at least one additional meaningful descriptor term matches
+        stem_and_cat_tokens = set(_normalize(desc_path_stem)) | set(_normalize(desc_cat_lower))
+        stem_or_cat_in_pos = bool(stem_and_cat_tokens & pos)
+        if stem_or_cat_in_pos:
+            additional_match = pos & desc_meaningful
+            if additional_match:
+                seeds.append(desc.path)
+                continue
+
+        # Rule 3: trigger phrase match
+        for trig in desc.typical_change_triggers:
+            trig_tokens = _normalize(trig)
+            meaningful = [
+                t for t in trig_tokens
+                if t not in STOP_WORDS and t not in LOW_INFORMATION_SOFTWARE_TERMS and len(t) > 1
+            ]
+            if len(meaningful) < 2:
+                continue
+            matched = [t for t in meaningful if _singular(t) in pos]
+            if len(matched) >= 2 and len(matched) / len(meaningful) >= 2 / 3:
+                seeds.append(desc.path)
+                break
+    return seeds
+
+
+def _build_graph_adjacency(graph: DependencyGraph) -> tuple[dict[str, set[str]], dict[str, set[str]]]:
+    forward: dict[str, set[str]] = {}
+    reverse: dict[str, set[str]] = {}
+    for src, dst in graph.edges:
+        forward.setdefault(src, set()).add(dst)
+        reverse.setdefault(dst, set()).add(src)
+    return forward, reverse
+
+
 def select_dependency_scope(
     change: RequirementChange,
     artifact_universe: ArtifactUniverse,
     descriptors: tuple[ArtifactDescriptor, ...],
     graph: DependencyGraph,
 ) -> tuple[str, ...]:
-    req_terms = derive_requirement_terms(change)
+    signals = derive_requirement_signals(change, descriptors)
+    pos = signals.positive_terms
+    neg_paths = signals.negative_descriptor_paths
 
-    adj: dict[str, set[str]] = {}
-    for src, dst in graph.edges:
-        adj.setdefault(src, set()).add(dst)
+    forward, reverse = _build_graph_adjacency(graph)
 
-    seeds: list[str] = []
-    for desc in descriptors:
-        desc_terms: set[str] = set()
-        desc_terms.update(_normalize(desc.path))
-        desc_terms.update(_normalize(desc.category))
-        desc_terms.update(_normalize(desc.description))
-        for sym in desc.provides_symbols:
-            desc_terms.update(_normalize(sym))
-        for trig in desc.typical_change_triggers:
-            desc_terms.update(_normalize(trig))
-
-        # Rule a: normalized provided symbol appears in requirement terms
-        for sym in desc.provides_symbols:
-            sym_terms = frozenset(_singular(t) for t in _normalize(sym))
-            if sym_terms and sym_terms <= req_terms:
-                seeds.append(desc.path)
-                break
-        if desc.path in seeds:
-            continue
-
-        # Rule b: at least two non-stop requirement terms in descriptor terms
-        intersection = req_terms & {_singular(t) for t in desc_terms if t not in STOP_WORDS and len(t) > 1}
-        if len(intersection) >= 2:
-            seeds.append(desc.path)
-            continue
-
-        # Rule c: complete normalized trigger phrase has at least two matching content words
-        for trig in desc.typical_change_triggers:
-            trig_terms = _normalize(trig)
-            trig_non_stop = [t for t in trig_terms if t not in STOP_WORDS and len(t) > 1]
-            match_count = sum(1 for t in trig_non_stop if _singular(t) in req_terms)
-            if match_count >= 2:
-                seeds.append(desc.path)
-                break
+    seeds = _seed_descriptors(descriptors, pos)
 
     if not seeds:
         return ()
 
-    # Collect seeds and their direct dependencies via outgoing edges
     universe_set = {a.path for a in artifact_universe.artifacts}
+
+    descriptors_by_path = {d.path: d for d in descriptors}
+
     selected: set[str] = set()
     for seed in seeds:
         selected.add(seed)
-        for dep in adj.get(seed, set()):
-            selected.add(dep)
+        for consumer in reverse.get(seed, set()):
+            consumer_desc = descriptors_by_path.get(consumer)
+            if consumer_desc:
+                consumer_meaningful = _trigger_meaningful_terms(consumer_desc)
+                overlap = pos & consumer_meaningful
+                if len(overlap) >= MIN_REVERSE_CONSUMER_OVERLAP:
+                    selected.add(consumer)
 
-    # Intersect with ArtifactUniverse
-    result = sorted(selected & universe_set)
-    return tuple(result)
+    result_set = (selected & universe_set) - neg_paths
+
+    if not result_set:
+        return ()
+
+    return tuple(sorted(result_set))

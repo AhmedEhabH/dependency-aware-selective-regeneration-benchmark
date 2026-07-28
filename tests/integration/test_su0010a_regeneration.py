@@ -1597,7 +1597,7 @@ class TestFairTokenBudget:
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 from benchmark.core.models import LLMResponse
                 return LLMResponse(
-                    text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "test"}]}',
+                    text='{"action":"final","selected_paths":["src/a.py"],"rationale":"test"}',
                     token_usage=TokenUsage(prompt_tokens=30, completion_tokens=20, total_tokens=50),
                     finish_reason="stop",
                 )
@@ -1628,7 +1628,7 @@ class TestFairTokenBudget:
         assert total > 0, "BudgetManager must record regeneration tokens"
 
     def test_same_max_tokens_stops_oneshot_before_call(self, tmp_path: Path) -> None:
-        """Under the same configured max_tokens, a one-shot arm stops before an additional model call after exhaustion."""
+        """One-shot arm stops before additional call after max_tokens exhausted."""
         artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
 
@@ -1665,7 +1665,7 @@ class TestFairTokenBudget:
         assert rb.call_count == 1
 
     def test_same_max_tokens_stops_iterative_before_call(self, tmp_path: Path) -> None:
-        """Under the same configured max_tokens, the iterative arm stops before an additional model call after exhaustion."""
+        """Iterative arm stops before additional call after max_tokens exhausted."""
         from benchmark.core.models import LLMResponse
         from benchmark.strategies.iterative_agent import IterativeRepositoryAgentStrategy
 
@@ -1679,7 +1679,7 @@ class TestFairTokenBudget:
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1
                 return LLMResponse(
-                    text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "only"}]}',
+                    text='{"action":"final","selected_paths":["src/a.py"],"rationale":"only"}',
                     token_usage=TokenUsage(prompt_tokens=30, completion_tokens=20, total_tokens=50),
                     finish_reason="stop",
                 )
