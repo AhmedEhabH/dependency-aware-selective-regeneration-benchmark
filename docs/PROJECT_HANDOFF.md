@@ -66,14 +66,16 @@ project/
 - **R3B final-correction-checkpoint:** c635e42 (fix(validation): reject unsafe migration entries and malformed execution input)
 - **R3B acceptance-closure-checkpoint:** f8faa08 (fix(validation): fail on untrusted migration after-state)
 - **R3B root-refactor-checkpoint:** f8f95d2 (refactor(validation): model migration execution as trusted states)
+- **R3B cross-platform-freeze-checkpoint:** feb5a44 (fix(validation): close cross-platform migration snapshot contract)
 - **R3B docs-checkpoint:** 8c588e6 (docs(state): record R3B completion)
 - **R3B correction-docs-checkpoint:** 8c588e6
 - **R3B final-correction-docs-checkpoint:** 8c588e6
 - **R3B root-refactor-docs-checkpoint:** (current)
+- **R3B cross-platform-freeze-docs-checkpoint:** (current)
 - **HEAD:** (current)
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** 1313 passed, 20 skipped (108 focused post_generation, 10 skipped symlink)
+- **Test suite:** 1314 passed, 22 skipped (109 focused post_generation, 12 skipped symlink, 1 synthetic)
 - **Lint:** ruff 0 violations
 - **Types:** mypy strict 0 errors
 - **Dependencies:** pip check clean
@@ -152,7 +154,7 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 | Task | Priority | Notes |
 |------|----------|-------|
 | R3A — scenario execution metadata | COMPLETE | evaluator_asset, post_generation_command, require_new_migration |
-| R3B — deterministic post-generation migration runner | ROOT REFACTOR — INDEPENDENT AUDIT PENDING | PostGenerationResult, run_post_generation_command preserved; internal flow replaced with explicit immutable trusted states (_ValidatedPostGenerationRequest, _MigrationSnapshot, _CommandOutcome, _MigrationAssessment); 108 focused tests + 10 symlink skipped (118 total), 1313 full suite |
+| R3B — deterministic post-generation migration runner | CROSS-PLATFORM FREEZE — INDEPENDENT AUDIT PENDING | Two final corrections applied: (1) lexical directory symlink rejected before resolve instead of after, (2) valid ordinary created numbered paths preserved as partial evidence when after-state untrusted; 109 focused tests + 12 symlink skipped (121 total), 1314 full suite |
 | R3C — isolated scenario evaluator runner and three evaluator scripts | HIGH | Next phase — R3B complete |
 | **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R3–R6 complete |
 | Audit Smoke V2 results | HIGH | Independent verification before Pilot authorization |
@@ -173,8 +175,10 @@ R3B correction:              c873d9f (fix(validation): close migration runner sa
 R3B final correction:        c635e42 (fix(validation): reject unsafe migration entries and malformed execution input)
 R3B acceptance closure:      f8faa08 (fix(validation): fail on untrusted migration after-state)
 R3B root refactor:           f8f95d2 (refactor(validation): model migration execution as trusted states)
+R3B cross-platform freeze:   feb5a44 (fix(validation): close cross-platform migration snapshot contract)
 R3B docs:                    8c588e6 (docs(state): record R3B completion)
 R3B acceptance docs:         (current)
+R3B cross-platform freeze docs: (current)
 HEAD:                        (current)
 Local/remote:         not yet pushed
 Working tree:         clean
@@ -264,4 +268,4 @@ python seven_arm_benchmark.py --dry-run
 
 ---
 
-**R3B_ROOT_REFACTOR_AUDIT_REQUIRED**
+**R3B_CROSS_PLATFORM_FREEZE_AUDIT_REQUIRED**
