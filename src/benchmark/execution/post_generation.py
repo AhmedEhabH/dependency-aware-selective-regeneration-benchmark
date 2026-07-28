@@ -49,56 +49,95 @@ def _validate_inputs(
     timeout: int,
     migration_directory: str,
 ) -> tuple[Path, Path] | str:
-    if isinstance(command, (str, bytes)):
-        return "command must be a non-string sequence of non-empty strings"
-    wr = Path(workspace_root)
-    if not wr.exists():
-        return "workspace_root does not exist"
-    if not wr.is_dir():
-        return "workspace_root is not a directory"
-    if len(command) == 0:
-        return "command is empty"
-    for item in command:
-        if not isinstance(item, str) or not item.strip():
-            return "command contains an empty item"
-    if not isinstance(require_new_migration, bool):
-        return "require_new_migration must be a bool"
-    if timeout <= 0:
-        return "timeout must be greater than zero"
-    if not isinstance(migration_directory, str) or len(migration_directory) == 0:
-        return "migration_directory is not a valid POSIX path"
-    if migration_directory.startswith("/"):
-        return "migration_directory must not be absolute"
-    if ".." in migration_directory.split("/"):
-        return "migration_directory must not contain '..'"
-    if "\\" in migration_directory:
-        return "migration_directory must not contain backslash"
+    try:
+        if isinstance(command, (str, bytes)):
+            return "command must be a non-string sequence of non-empty strings"
+        if not isinstance(workspace_root, (str, Path)):
+            return "workspace_root must be a string or Path"
+        if type(timeout) is not int:
+            return "timeout must be a positive integer"
+        if timeout <= 0:
+            return "timeout must be a positive integer"
+        if not isinstance(require_new_migration, bool):
+            return "require_new_migration must be a bool"
+        if not isinstance(migration_directory, str) or len(migration_directory) == 0:
+            return "migration_directory is not a valid POSIX path"
+        if "\x00" in migration_directory:
+            return "migration_directory must not contain NUL"
+        if migration_directory.startswith("/"):
+            return "migration_directory must not be absolute"
+        if ".." in migration_directory.split("/"):
+            return "migration_directory must not contain '..'"
+        if "\\" in migration_directory:
+            return "migration_directory must not contain backslash"
+        if len(command) == 0:
+            return "command is empty"
+        for item in command:
+            if not isinstance(item, str):
+                return "command contains a non-string item"
+            if not item.strip():
+                return "command contains an empty item"
+            if "\x00" in item:
+                return "command item contains NUL"
 
-    workspace = wr.resolve()
-    resolved = (workspace / migration_directory).resolve()
-    rel = _relative_to_root(resolved, workspace)
-    if rel is None:
-        return "migration_directory does not resolve under workspace_root"
-    if not resolved.exists():
-        return "migration_directory does not exist"
-    if not resolved.is_dir():
-        return "migration_directory is not a directory"
-    return (workspace, resolved)
+        wr = Path(workspace_root)
+        if not wr.exists():
+            return "workspace_root does not exist"
+        if not wr.is_dir():
+            return "workspace_root is not a directory"
+
+        workspace = wr.resolve()
+        resolved = (workspace / migration_directory).resolve()
+        rel = _relative_to_root(resolved, workspace)
+        if rel is None:
+            return "migration_directory does not resolve under workspace_root"
+        if not resolved.exists():
+            return "migration_directory does not exist"
+        if not resolved.is_dir():
+            return "migration_directory is not a directory"
+        return (workspace, resolved)
+    except (OSError, RuntimeError, ValueError, TypeError) as exc:
+        return f"workspace validation error: {exc}"
 
 
 def _snapshot_migrations(
     workspace_root: Path, migration_directory: str
-) -> dict[str, str]:
+) -> tuple[dict[str, str], tuple[str, ...]]:
     mig_dir = (workspace_root / migration_directory).resolve()
     result: dict[str, str] = {}
+    errors: list[str] = []
     if not mig_dir.is_dir():
-        return result
+        return result, tuple(errors)
     for entry in sorted(mig_dir.iterdir()):
-        if entry.is_file() and entry.suffix == ".py":
-            rel = _relative_to_root(entry, workspace_root)
-            if rel is not None:
-                result[rel] = _sha256(entry)
-    return result
+        try:
+            if not entry.is_symlink() and entry.is_file() and entry.suffix == ".py":
+                resolved = entry.resolve(strict=True)
+                if resolved.parent != mig_dir.resolve():
+                    errors.append(
+                        f"migration file resolves outside migration directory: "
+                        f"{_relative_to_root(entry, workspace_root)}"
+                    )
+                    continue
+                rel = _relative_to_root(resolved, workspace_root)
+                if rel is None:
+                    errors.append(
+                        f"migration file resolves outside workspace: "
+                        f"{_relative_to_root(entry, workspace_root)}"
+                    )
+                    continue
+                result[rel] = _sha256(resolved)
+            elif entry.is_symlink() and entry.suffix == ".py":
+                rel_entry = _relative_to_root(entry, workspace_root)
+                errors.append(
+                    f"migration file symlink is not allowed: {rel_entry or entry.name}"
+                )
+        except (OSError, RuntimeError, ValueError) as exc:
+            rel_entry = _relative_to_root(entry, workspace_root)
+            errors.append(
+                f"failed to inspect migration file "
+                f"{rel_entry or entry.name}: {exc}"
+            )
+    return result, tuple(errors)
 
 
 def _created_numbered_migrations(
@@ -154,7 +193,17 @@ def run_post_generation_command(
 
     workspace, _resolved = validation_result
 
-    before = _snapshot_migrations(workspace, migration_directory)
+    before, before_errors = _snapshot_migrations(workspace, migration_directory)
+    if before_errors:
+        duration = time.monotonic() - start
+        stderr = "\n".join(before_errors)
+        return PostGenerationResult(
+            passed=False,
+            exit_code=-1,
+            stdout="",
+            stderr=stderr,
+            duration_seconds=duration,
+        )
 
     cmd_exit_code: int = -1
     cmd_stdout: str = ""
@@ -186,16 +235,27 @@ def run_post_generation_command(
         cmd_stdout = ""
         cmd_stderr = f"Command not found: {command[0]}"
         cmd_passed = False
+    except ValueError as exc:
+        cmd_exit_code = -1
+        cmd_stdout = ""
+        cmd_stderr = f"Invalid subprocess argument: {exc}"
+        cmd_passed = False
     except OSError as e:
         cmd_exit_code = -1
         cmd_stdout = ""
         cmd_stderr = f"OS error: {e}"
         cmd_passed = False
+    except subprocess.SubprocessError as e:
+        cmd_exit_code = -1
+        cmd_stdout = ""
+        cmd_stderr = f"Subprocess error: {e}"
+        cmd_passed = False
 
-    after = _snapshot_migrations(workspace, migration_directory)
+    after, after_errors = _snapshot_migrations(workspace, migration_directory)
 
     all_old_unchanged = True
-    diagnostics: list[str] = []
+    diagnostics: list[str] = list(before_errors)
+    diagnostics.extend(after_errors)
     for old_path, old_hash in before.items():
         if old_path not in after:
             all_old_unchanged = False

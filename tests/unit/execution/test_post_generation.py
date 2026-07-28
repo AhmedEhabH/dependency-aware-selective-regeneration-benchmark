@@ -1,4 +1,5 @@
 import os
+import subprocess
 import sys
 import textwrap
 from pathlib import Path
@@ -218,7 +219,7 @@ class TestPostGenerationResult:
         )
         assert result.passed is False
         assert result.exit_code == -1
-        assert "greater than zero" in result.stderr
+        assert "positive integer" in result.stderr
 
     def test_negative_timeout_fails(self, tmp_path: Path) -> None:
         _create_migration_dir(tmp_path, {"__init__.py": "# init"})
@@ -230,7 +231,7 @@ class TestPostGenerationResult:
         )
         assert result.passed is False
         assert result.exit_code == -1
-        assert "greater than zero" in result.stderr
+        assert "positive integer" in result.stderr
 
     def test_absolute_migration_directory_fails(self, tmp_path: Path) -> None:
         _create_migration_dir(tmp_path, {"__init__.py": "# init"})
@@ -497,8 +498,8 @@ class TestPostGenerationResult:
             return CompletedProcess(
                 list(args[0] if args else []),
                 0,
-                b"",
-                b"",
+                "",
+                "",
             )
 
         monkeypatch.setattr("subprocess.run", fake_run)
@@ -537,7 +538,7 @@ class TestPostGenerationResult:
         cwd = os.getcwd()
         try:
             os.chdir(tmp_path.parent)
-            rel = Path(os.path.basename(tmp_path))
+            rel = Path(os.path.basename(str(tmp_path)))
             result = run_post_generation_command(
                 workspace_root=rel,
                 command=_smoke_command(),
@@ -772,6 +773,312 @@ class TestPostGenerationResult:
         assert result.passed is False
         assert result.exit_code == -1
         assert "empty" in result.stderr
+
+    # --- R3B second audit: symlink containment ---
+
+    def test_new_numbered_migration_symlink_to_outside_fails_closed(
+        self, tmp_path: Path
+    ) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        target = outside / "outside.py"
+        target.write_text("# outside")
+
+        mig = tmp_path / "todo" / "migrations"
+        link = mig / "0002_evil.py"
+        try:
+            link.symlink_to(target)
+        except OSError:
+            pytest.skip("symlink not supported on this platform")
+
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert "symlink" in result.stderr
+
+    def test_new_numbered_migration_symlink_inside_workspace_fails_closed(
+        self, tmp_path: Path
+    ) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        mig = tmp_path / "todo" / "migrations"
+        real_file = mig / "0002_real.py"
+        real_file.write_text("# real migration")
+        link = mig / "0003_link.py"
+        try:
+            link.symlink_to(real_file)
+        except OSError:
+            pytest.skip("symlink not supported on this platform")
+
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert "symlink" in result.stderr
+
+    def test_existing_migration_symlink_fails_before_command(
+        self, tmp_path: Path
+    ) -> None:
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        target = outside / "helper.py"
+        target.write_text("# outside helper")
+
+        mig = tmp_path / "todo" / "migrations"
+        mig.mkdir(parents=True)
+        init = mig / "__init__.py"
+        init.write_text("# init")
+        link = mig / "existing_link.py"
+        try:
+            link.symlink_to(target)
+        except OSError:
+            pytest.skip("symlink not supported on this platform")
+
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert "symlink" in result.stderr
+
+    def test_broken_numbered_migration_symlink_fails_closed(
+        self, tmp_path: Path
+    ) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        mig = tmp_path / "todo" / "migrations"
+        link = mig / "0002_broken.py"
+        try:
+            link.symlink_to(tmp_path / "does_not_exist.py")
+        except OSError:
+            pytest.skip("symlink not supported on this platform")
+
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+
+    def test_ordinary_numbered_migration_file_not_rejected_by_symlink_checks(
+        self, tmp_path: Path
+    ) -> None:
+        mig = _create_migration_dir(
+            tmp_path, {"__init__.py": "# init", "0001_initial.py": "# old"}
+        )
+        created = mig / "0002_normal.py"
+        created.write_text("# new migration")
+        assert not created.is_symlink()
+        assert created.resolve().relative_to(tmp_path.resolve())
+
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=_smoke_command(),
+            require_new_migration=True,
+            timeout=30,
+        )
+        assert result.passed is True
+
+    # --- R3B second audit: timeout type validation ---
+
+    @pytest.mark.parametrize(
+        "bad_timeout",
+        [
+            None,
+            True,
+            False,
+            1.5,
+            "1",
+            [],
+            {},
+            object(),
+            0,
+            -1,
+        ],
+    )
+    def test_invalid_timeout_types_fail_closed(
+        self, tmp_path: Path, bad_timeout: object
+    ) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=bad_timeout,  # type: ignore[arg-type]
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert isinstance(result.stdout, str)
+        assert isinstance(result.stderr, str)
+        assert result.duration_seconds >= 0
+        assert "positive integer" in result.stderr
+
+    def test_timeout_1_succeeds(self, tmp_path: Path) -> None:
+        _create_migration_dir(
+            tmp_path, {"__init__.py": "# init", "0001_initial.py": "# old"}
+        )
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=_smoke_command(),
+            require_new_migration=True,
+            timeout=30,
+        )
+        assert result.passed is True
+
+    # --- R3B second audit: NUL validation ---
+
+    def test_command_item_with_nul_fails_validation(
+        self, tmp_path: Path
+    ) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=["bad\x00name"],
+            require_new_migration=False,
+            timeout=10,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert "NUL" in result.stderr
+
+    def test_migration_directory_with_nul_fails(self, tmp_path: Path) -> None:
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+            migration_directory="todo/\x00migrations",
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert "NUL" in result.stderr
+
+    # --- R3B second audit: subprocess exceptions ---
+
+    def test_subprocess_value_error_returns_typed_failure(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+
+        def fake_run(*args: object, **kwargs: object) -> object:
+            raise ValueError("bad value")
+
+        monkeypatch.setattr("subprocess.run", fake_run)
+
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert "bad value" in result.stderr or "argument" in result.stderr
+
+    def test_subprocess_error_returns_typed_failure(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+
+        class FakeSubprocessError(subprocess.SubprocessError):
+            pass
+
+        def fake_run(*args: object, **kwargs: object) -> object:
+            raise FakeSubprocessError("subprocess failure")
+
+        monkeypatch.setattr("subprocess.run", fake_run)
+
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+
+    def test_subprocess_error_after_creating_migration_detects_integrity(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        _create_migration_dir(
+            tmp_path, {"__init__.py": "# init", "0001_initial.py": "# old"}
+        )
+        calls = 0
+
+        def fake_run(*args: object, **kwargs: object) -> object:
+            nonlocal calls
+            calls += 1
+            import pathlib
+            pathlib.Path(
+                str(tmp_path / "todo" / "migrations" / "0001_initial.py")
+            ).write_text("# modified by subprocess error")
+            raise ValueError("bad")
+
+        monkeypatch.setattr("subprocess.run", fake_run)
+
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+        )
+        assert result.passed is False
+        assert result.existing_migrations_unchanged is False
+
+    # --- R3B second audit: snapshot filesystem errors ---
+
+    def test_snapshot_read_error_returns_typed_failure(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+
+        import benchmark.execution.post_generation as pg
+
+        original = pg._sha256
+
+        def broken_sha256(path: Path) -> str:
+            raise OSError("simulated read failure")
+
+        monkeypatch.setattr(pg, "_sha256", broken_sha256)
+        try:
+            result = run_post_generation_command(
+                workspace_root=tmp_path,
+                command=[sys.executable, "-c", "exit(0)"],
+                require_new_migration=False,
+                timeout=10,
+            )
+        finally:
+            pg._sha256 = original
+
+        assert result.passed is False
+        assert result.exit_code == -1
+
+    # --- R3B second audit: workspace_root None type check ---
+
+    def test_workspace_root_none_fails_validation(
+        self, tmp_path: Path
+    ) -> None:
+        result = run_post_generation_command(
+            workspace_root=None,  # type: ignore[arg-type]
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
 
 
 class TestHelpers:
