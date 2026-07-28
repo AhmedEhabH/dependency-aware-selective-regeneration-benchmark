@@ -1,9 +1,9 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-**Handoff Date:** 2026-07-27
+**Handoff Date:** 2026-07-28
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** THREE-ARM-CORE-EXPERIMENT RECOVERED — branch experiment/three-arm-smoke-v2
+**Handoff type:** THREE-ARM-CORE-EXPERIMENT R2 AUDIT-CLOSURE — branch experiment/three-arm-smoke-v2
 
 ---
 
@@ -58,15 +58,19 @@ project/
 ## 3. Current State
 
 - **Branch:** experiment/three-arm-smoke-v2
-- **HEAD:** 0a1c603 (commit — chore(data): pin controlled-repo SHA to b8a33e2 and regenerate bundle)
-- **Working tree:** dirty with uncommitted V2 work (scenario contract corrections, profile fixes)
-- **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py (the removed duplicate V2 config)
-- **Test suite:** baseline 1063 passed, 5 skipped, 0 failed (at clean HEAD); current suite includes additional V2 tests
+- **R1 checkpoint:** b129d42 (feat(agent): complete bounded workspace exploration)
+- **R2 checkpoint:** 5057e7d (fix(selection): correct R2 selective scope)
+- **HEAD:** b6856d7 (docs(audit): close R2, record amended hash, mark R3 next)
+- **Working tree:** clean
+- **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
+- **Test suite:** pre-closure baseline 1166 passed, 10 skipped; actual final 1174 passed, 10 skipped
 - **Lint:** ruff 0 violations
 - **Types:** mypy strict 0 errors
 - **Dependencies:** pip check clean
 - **Benchmark data:** 3 repositories (todo, djangocms, saleor), 24 protocol scenarios + 3 smoke scenarios
-- **Kaggle status:** Not launched and not authorized
+- **Kaggle status:** BLOCKED — not authorized
+- **Pilot status:** BLOCKED — not authorized
+- **Selective scopes verified:** 001=models,serializers,views | 002=models,views | 003=models,permissions,serializers,views
 
 ## 4. Core Scientific Question
 
@@ -137,10 +141,8 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 
 | Task | Priority | Notes |
 |------|----------|-------|
-| Complete scenario contract corrections | HIGH | V2-01B in progress |
-| Complete repository profile truth corrections | HIGH | V2-01B in progress |
-| Safe ArtifactUniverse implementation | HIGH | V2-02 after independent approval |
-| **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until V2-01/V2-02 complete |
+| R3 — scenario metadata, migration generation, evaluator isolation | HIGH | Next phase — R1+R2 complete |
+| **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R3–R6 complete |
 | Audit Smoke V2 results | HIGH | Independent verification before Pilot authorization |
 | Integrate Pilot repositories | MEDIUM | ≥5K LOC, permissive license, pinned commit, passing tests |
 | Run Pilot profile | MEDIUM | 7+ changes, 3+ repos, agent+selective |
@@ -151,11 +153,15 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 
 ```
 Current branch:  experiment/three-arm-smoke-v2
-HEAD:            0a1c603 (chore(data): pin controlled-repo SHA to b8a33e2)
+R1 checkpoint:   b129d42 (feat(agent): complete bounded workspace exploration)
+R2 checkpoint:   5057e7d (fix(selection): correct R2 selective scope)
+HEAD:            b6856d7 (docs(audit): close R2, record amended hash, mark R3 next)
 Local/remote:    not yet pushed
-Working tree:    dirty (uncommitted V2 data-truth corrections)
+Working tree:    clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged)
 Stash:           broken methodology-conformance WIP 2026-07-27
+Kaggle:          blocked
+Pilot:           blocked
 ```
 
 ## 10. Stash Recovery
@@ -219,10 +225,17 @@ python -m pytest -q
 git log --oneline -3
 git status
 
-# Run contract tests
-python -m pytest tests/contract/test_three_arm_core.py -v
+# Run focused Selective tests
+python -m pytest tests/unit/selection/test_dependency_scope.py -v
 
-# Dry-run with canonical profile (use --dry-run without deprecated config file)
+# Verify three verified scopes
+python -c "
+from tests.unit.selection.test_dependency_scope import *
+for n, s in [('001',SCENARIO_001),('002',SCENARIO_002),('003',SCENARIO_003)]:
+    print(f'Scenario {n}: {select_dependency_scope(s, FIVE_UNIVERSE, DESCRIPTORS, TODO_GRAPH)}')
+"
+
+# Dry-run with canonical profile
 python seven_arm_benchmark.py --dry-run
 
 # Rebuild Kaggle bundle (not yet authorized)
@@ -231,4 +244,4 @@ python seven_arm_benchmark.py --dry-run
 
 ---
 
-**THREE_ARM_CORE_EXPERIMENT_RECOVERED**
+**R2_AUDIT_CLOSED_READY_FOR_R3**
