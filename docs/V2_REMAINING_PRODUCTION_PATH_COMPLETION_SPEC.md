@@ -47,12 +47,15 @@ This document defines the remaining work exactly. Do not substitute a different 
 |-------|--------|------|
 | R1 — Bounded Repository Agent | COMPLETE | `b129d42` |
 | R2 — Corrected Selective Scope | COMPLETE | `5057e7d` |
-| R3A — Scenario execution metadata | THIS TASK | documentation successor of `b6856d7` |
+| R3A — Scenario execution metadata | COMPLETE | `3eaab60` |
 | R3B–R6 | NOT STARTED | — |
 
 Pre-closure baseline: 1166 passed, 10 skipped.
-Actual final: 1174 passed, 10 skipped.
+Actual final: 1205 passed, 10 skipped.
 Verified Selective scopes match specification exactly (001=3 files, 002=2 files, 003=4 files).
+Three evaluator asset paths: `tests/evaluator_assets/todo_smoke_001_checks.py`, `tests/evaluator_assets/todo_smoke_002_checks.py`, `tests/evaluator_assets/todo_smoke_003_checks.py`.
+Post-generation command: `python manage.py makemigrations todo --noinput`.
+R3B migration runner is the next task.
 Kaggle: blocked. Pilot: blocked. Merge: blocked. Stable tag: blocked.
 Evaluator scripts, migration runner, token correction, and nine production records do not yet exist.
 
@@ -66,9 +69,9 @@ Evaluator scripts, migration runner, token correction, and nine production recor
 Branch:                    experiment/three-arm-smoke-v2
 R1 code checkpoint:        b129d42 (feat(agent): complete bounded workspace exploration)
 R2 code checkpoint:        5057e7d (fix(selection): correct R2 selective scope)
-Current documentation:     b6856d7 (docs(audit): close R2, record amended hash, mark R3 next)
+R3A code checkpoint:       3eaab60 (feat(scenarios): add V2 execution metadata)
 Working tree:              clean
-Full suite:                1174 passed, 10 skipped
+Full suite:                1205 passed, 10 skipped
 Kaggle:                    blocked
 Pilot:                     blocked
 ```

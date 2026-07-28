@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-28
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** THREE-ARM-CORE-EXPERIMENT R2 AUDIT-CLOSURE — branch experiment/three-arm-smoke-v2
+**Handoff type:** THREE-ARM-CORE-EXPERIMENT R3A AUDIT-CLOSURE — branch experiment/three-arm-smoke-v2
 
 ---
 
@@ -60,10 +60,11 @@ project/
 - **Branch:** experiment/three-arm-smoke-v2
 - **R1 checkpoint:** b129d42 (feat(agent): complete bounded workspace exploration)
 - **R2 checkpoint:** 5057e7d (fix(selection): correct R2 selective scope)
-- **HEAD:** b6856d7 (docs(audit): close R2, record amended hash, mark R3 next)
+- **HEAD:** 3eaab60 (feat(scenarios): add V2 execution metadata)
+- **Amended R3A code-checkpoint:** 3eaab60
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** pre-closure baseline 1166 passed, 10 skipped; actual final 1174 passed, 10 skipped
+- **Test suite:** pre-closure baseline 1166 passed, 10 skipped; actual final 1205 passed, 10 skipped
 - **Lint:** ruff 0 violations
 - **Types:** mypy strict 0 errors
 - **Dependencies:** pip check clean
@@ -141,7 +142,8 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 
 | Task | Priority | Notes |
 |------|----------|-------|
-| R3 — scenario metadata, migration generation, evaluator isolation | HIGH | Next phase — R1+R2 complete |
+| R3A — scenario execution metadata | COMPLETE | evaluator_asset, post_generation_command, require_new_migration |
+| R3B — migration runner, evaluator isolation | HIGH | Next phase — R3A complete |
 | **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R3–R6 complete |
 | Audit Smoke V2 results | HIGH | Independent verification before Pilot authorization |
 | Integrate Pilot repositories | MEDIUM | ≥5K LOC, permissive license, pinned commit, passing tests |
@@ -155,7 +157,8 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 Current branch:  experiment/three-arm-smoke-v2
 R1 checkpoint:   b129d42 (feat(agent): complete bounded workspace exploration)
 R2 checkpoint:   5057e7d (fix(selection): correct R2 selective scope)
-HEAD:            b6856d7 (docs(audit): close R2, record amended hash, mark R3 next)
+R3A checkpoint:  3eaab60 (feat(scenarios): add V2 execution metadata)
+HEAD:            3eaab60 (feat(scenarios): add V2 execution metadata)
 Local/remote:    not yet pushed
 Working tree:    clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged)
@@ -244,4 +247,4 @@ python seven_arm_benchmark.py --dry-run
 
 ---
 
-**R2_AUDIT_CLOSED_READY_FOR_R3**
+**R3A_AUDIT_CLOSED_READY_FOR_R3B**
