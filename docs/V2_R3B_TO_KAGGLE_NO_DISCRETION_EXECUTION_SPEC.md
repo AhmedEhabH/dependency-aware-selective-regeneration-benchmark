@@ -10,10 +10,11 @@
 **Real scientific Smoke model after local proof:** `Qwen2.5-Coder-7B-Instruct` on Kaggle  
 **Temperature for the real experiment:** `0.0`  
 **Per-call completion limit:** `4096` tokens  
-**Current local evidence supplied by the researcher:** `1254 passed, 11 skipped, 0 failed` on Windows/Python 3.11  
-**Phase status:** R3B CORRECTED — independent audit required before R3C  
+**Current local evidence supplied by the researcher:** `1273 passed, 15 skipped, 0 failed` on Windows/Python 3.11  
+**Phase status:** R3B CORRECTED — independent acceptance pending before R3C  
 **R3B code-checkpoint:** c11f25e  
 **R3B correction-checkpoint:** c873d9f  
+**R3B final-correction-checkpoint:** c635e42  
 **Next permitted phase:** R3C isolated scenario evaluator only — after independent R3B acceptance  
 **Kaggle:** blocked  
 **Pilot:** blocked  

@@ -1,11 +1,12 @@
 # R3B — Deterministic post-generation migration runner
 
 **Date:** 2026-07-28
-**Status:** R3B CORRECTED — INDEPENDENT AUDIT REQUIRED
+**Status:** R3B CORRECTED — INDEPENDENT ACCEPTANCE PENDING
 **Branch:** `experiment/three-arm-smoke-v2`
 **Starting HEAD:** `2370a57` (docs(state): record R3A completion)
 **R3B code-checkpoint:** `c11f25e` (feat(validation): add deterministic migration runner)
 **R3B correction-checkpoint:** `c873d9f` (fix(validation): close migration runner safety gaps)
+**R3B final-correction-checkpoint:** `c635e42` (fix(validation): reject unsafe migration entries and malformed execution input)
 
 ---
 
@@ -13,14 +14,16 @@
 
 R3B created one small production module, `src/benchmark/execution/post_generation.py`, that runs a scenario's post-generation command inside the isolated generated workspace and proves that migration generation is deterministic and safe.
 
-An independent audit (GPT-5.6 Thinking) found 4 production defects and 2 fail-closed gaps. All 6 were corrected in this phase.
+An independent audit (GPT-5.6 Thinking) found 4 production defects and 2 fail-closed gaps. All 6 were corrected in the first correction.
+
+A second independent audit found 3 additional defects: migration-file symlink containment, timeout type validation, and embedded NUL handling. These were corrected in the final correction.
 
 ### New public API
 
 - `PostGenerationResult` — frozen dataclass with `passed`, `exit_code`, `stdout`, `stderr`, `duration_seconds`, `created_paths`, `existing_migrations_unchanged`
 - `run_post_generation_command` — function with input validation gates, SHA-256 migration hashing, subprocess execution, and after-state integrity checks
 
-### Audit defects corrected
+### First audit defects corrected (c873d9f)
 
 | # | Defect | Correction |
 |---|--------|-----------|
@@ -31,33 +34,45 @@ An independent audit (GPT-5.6 Thinking) found 4 production defects and 2 fail-cl
 | E | Plain string accepted as `Sequence[str]` | `isinstance(command, (str, bytes))` rejected before validation loop |
 | F | Whitespace-only command items accepted | `len(item) == 0` → `not item.strip()` |
 
+### Second audit defects corrected (c635e42)
+
+| # | Defect | Correction |
+|---|--------|-----------|
+| G | Migration-file symlink (numbered, inside or outside workspace) accepted | `_snapshot_migrations` returns `tuple[dict, tuple[str,...]]`; checks `is_symlink()`, `resolve(strict=True)`, parent containment, workspace containment; rejects all symlink `.py` entries |
+| H | Timeout type bool/float/str/None accepted; zero allowed | `type(timeout) is int` required; `timeout > 0` validated after type check |
+| I | Embedded NUL raises uncaught `ValueError` | NUL rejected in `_validate_inputs` for command items and `migration_directory`; `except ValueError` and `except subprocess.SubprocessError` added around subprocess call |
+
 ### Input validation (fail-closed)
 
 Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic in stderr:
 
-1. command is str or bytes (new — gap E)
-2. workspace_root does not exist
-3. workspace_root is not a directory
-4. command is empty
-5. command contains an empty item (now also rejects whitespace-only — gap F)
-6. require_new_migration is not bool
-7. timeout <= 0
-8. migration_directory is absolute
-9. migration_directory contains `..`
-10. migration_directory contains backslash
-11. migration_directory does not resolve under workspace_root (now using `relative_to` — defect B)
-12. migration_directory does not exist
-13. migration_directory is not a directory
+1. command is str or bytes
+2. workspace_root is not str or Path
+3. workspace_root does not exist
+4. workspace_root is not a directory
+5. command is empty
+6. command contains a non-string item
+7. command contains an empty or whitespace-only item
+8. command item contains NUL
+9. require_new_migration is not bool
+10. timeout is not int (rejects None, True, False, float, str, list, dict, object)
+11. timeout <= 0
+12. migration_directory empty, NUL, absolute, `..`, or backslash
+13. migration_directory does not resolve under workspace_root
+14. migration_directory does not exist
+15. migration_directory is not a directory
 
 ### Migration integrity rules
 
-- Before command: SHA-256 hash of every `*.py` file (including `__init__.py` and non-numbered helpers) under `todo/migrations`
+- Before command: SHA-256 hash of every `*.py` file (including `__init__.py` and non-numbered helpers) under `todo/migrations`; symlinks and unreadable files produce diagnostics and fail closed
 - After command: re-hash and compare; changes, deletions, or modifications to old migrations fail
 - New migrations must be direct children of the configured directory, match `NUMBERED_MIGRATION_RE`, and not be `__init__.py`
-- Non-numbered `.py` files (e.g. `helper.py`) are no longer accepted as required new migrations
+- Every migration file is resolved with `resolve(strict=True)` and must be a direct regular file beneath the resolved migration directory
+- Symlink migration files (numbered or not, inside or outside workspace) are rejected with diagnostics
+- Non-numbered `.py` files (e.g. `helper.py`) are not accepted as required new migrations but remain integrity-protected existing files
 - `require_new_migration=True`: exactly one new numbered migration required
 - `require_new_migration=False`: count is not gated, but command success and old-file integrity still required
-- After-state inspection runs unconditionally after every subprocess outcome, including timeout and OS errors
+- After-state inspection runs unconditionally after every subprocess outcome, including timeout, ValueError, SubprocessError, and OS errors
 - Available stdout/stderr preserved from `TimeoutExpired` via `_coerce_subprocess_text` normalizer
 - Output paths are repository-relative sorted POSIX strings
 
@@ -65,25 +80,25 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 
 - `subprocess.run` with `list(command)`, `cwd=str(resolved_workspace)`, `capture_output=True`, `text=True`, `timeout=timeout`
 - `shell=False` (default for list form)
-- Graceful handling of `TimeoutExpired`, `FileNotFoundError`, `OSError` → typed failure; after-state inspected for all
+- Graceful handling of `TimeoutExpired`, `FileNotFoundError`, `ValueError`, `OSError`, `subprocess.SubprocessError` → typed failure; after-state inspected for all
 
 ### Test results
 
 | Metric | Value |
 |--------|-------|
-| Focused tests (post_generation) | 49 passed + 1 skipped (symlink unavailable) = 50 total |
-| Focused + validation execution tests | 58 passed |
-| Full suite | 1254 passed, 11 skipped |
+| Focused tests (post_generation) | 68 passed + 5 skipped (symlink unavailable) = 73 total |
+| Focused + validation execution tests | 77 passed |
+| Full suite | 1273 passed, 15 skipped |
 | Ruff | 0 errors |
 | Mypy strict (changed production files) | 0 errors |
 | Compileall | 0 errors |
-| git diff --check | clean |
+| git diff --check | clean (CRLF warning only) |
 
-### All tests (50 collected)
+### All tests (73 collected, 5 symlink-skipped)
 
 1. test_valid_command_creates_one_migration_and_passes
 2. test_created_path_is_repository_relative_posix
-3. test_created_paths_are_sorted (strengthened — exact tuple asserted)
+3. test_created_paths_are_sorted
 4. test_existing_numbered_migrations_unchanged
 5. test_existing_init_py_unchanged
 6. test_command_exits_non_zero_fails
@@ -112,31 +127,56 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 29. test_new_non_python_file_not_counted
 30. test_duration_is_non_negative_for_success
 31. test_duration_is_non_negative_for_failure
-32. test_smoke_command_shape_tuple (strengthened — monkeypatch, exact call assertions)
-33. **test_relative_workspace_root_is_supported_without_exception** (new — defect A)
-34. **test_migration_directory_symlink_escape_fails_closed** (new — defect B, skipped on unsupported platform)
-35. **test_sibling_prefix_path_is_not_treated_as_inside_workspace** (new — defect B)
-36. **test_non_numbered_python_file_does_not_satisfy_required_migration** (new — defect C)
-37. **test_numbered_migration_filename_is_required** (new — defect C)
-38. **test_existing_non_numbered_python_file_is_still_integrity_protected** (new — defect C)
-39. **test_timeout_without_changes_reports_existing_migrations_unchanged** (new — defect D)
-40. **test_timeout_after_modifying_old_migration_detects_corruption** (new — defect D)
-41. **test_failed_command_after_creating_migration_reports_created_path** (new — defect D)
-42. **test_command_not_found_reports_unchanged_existing_migrations** (new — defect D)
-43. **test_plain_string_command_fails_validation** (new — gap E)
-44. **test_bytes_command_fails_validation** (new — gap E)
-45. **test_whitespace_only_command_item_fails** (new — gap F)
-46–50. Helper tests for `_coerce_subprocess_text` and `_relative_to_root`
+32. test_smoke_command_shape_tuple
+33. test_relative_workspace_root_is_supported_without_exception
+34. test_migration_directory_symlink_escape_fails_closed (skip on Windows)
+35. test_sibling_prefix_path_is_not_treated_as_inside_workspace
+36. test_non_numbered_python_file_does_not_satisfy_required_migration
+37. test_numbered_migration_filename_is_required
+38. test_existing_non_numbered_python_file_is_still_integrity_protected
+39. test_timeout_without_changes_reports_existing_migrations_unchanged
+40. test_timeout_after_modifying_old_migration_detects_corruption
+41. test_failed_command_after_creating_migration_reports_created_path
+42. test_command_not_found_reports_unchanged_existing_migrations
+43. test_plain_string_command_fails_validation
+44. test_bytes_command_fails_validation
+45. test_whitespace_only_command_item_fails
+46. test_new_numbered_migration_symlink_to_outside_fails_closed (defect G, skip on Windows)
+47. test_new_numbered_migration_symlink_inside_workspace_fails_closed (defect G, skip on Windows)
+48. test_existing_migration_symlink_fails_before_command (defect G, skip on Windows)
+49. test_broken_numbered_migration_symlink_fails_closed (defect G, skip on Windows)
+50. test_ordinary_numbered_migration_file_not_rejected_by_symlink_checks (defect G control)
+51. test_invalid_timeout_types_fail_closed[None] (defect H, parametrized ×10)
+52. test_invalid_timeout_types_fail_closed[True] (defect H)
+53. test_invalid_timeout_types_fail_closed[False] (defect H)
+54. test_invalid_timeout_types_fail_closed[1.5] (defect H)
+55. test_invalid_timeout_types_fail_closed["1"] (defect H)
+56. test_invalid_timeout_types_fail_closed[list] (defect H)
+57. test_invalid_timeout_types_fail_closed[dict] (defect H)
+58. test_invalid_timeout_types_fail_closed[object] (defect H)
+59. test_invalid_timeout_types_fail_closed[0] (defect H)
+60. test_invalid_timeout_types_fail_closed[-1] (defect H)
+61. test_timeout_1_succeeds (defect H control)
+62. test_command_item_with_nul_fails_validation (defect I)
+63. test_migration_directory_with_nul_fails (defect I)
+64. test_subprocess_value_error_returns_typed_failure (defect I)
+65. test_subprocess_error_returns_typed_failure (defect I)
+66. test_subprocess_error_after_creating_migration_detects_integrity (defect I)
+67. test_snapshot_read_error_returns_typed_failure
+68. test_workspace_root_none_fails_validation
+69–73. Helper tests for `_coerce_subprocess_text` and `_relative_to_root`
 
 ### State
 
 | Item | Status |
 |------|--------|
 | R3B migration runner (initial) | COMPLETE — `c11f25e` |
-| R3B independent audit | FOUND 6 DEFECTS |
+| R3B first independent audit | FOUND 6 DEFECTS |
 | R3B correction commit | `c873d9f` |
-| R3B final status | CORRECTED, INDEPENDENT AUDIT REQUIRED |
-| R3C isolated scenario evaluator | BLOCKED — R3B audit required |
+| R3B second independent audit | FOUND 3 DEFECTS + 1 REPO DEFECT |
+| R3B final correction commit | `c635e42` |
+| R3B final status | CORRECTED — INDEPENDENT ACCEPTANCE PENDING |
+| R3C isolated scenario evaluator | BLOCKED — R3B acceptance required |
 | R3D-R6 | NOT STARTED |
 | Kaggle | BLOCKED |
 | Pilot | BLOCKED |
@@ -149,6 +189,8 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 
 | Commit | Description |
 |--------|-------------|
+| `c635e42` | fix(validation): reject unsafe migration entries and malformed execution input |
+| `3569a88` | docs(audit): record R3B correction |
 | `c873d9f` | fix(validation): close migration runner safety gaps |
 | `8c588e6` | docs(state): record R3B completion |
 | `c11f25e` | feat(validation): add deterministic migration runner |
@@ -157,4 +199,4 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 
 ---
 
-**R3B_MIGRATION_RUNNER_CORRECTED_AUDIT_REQUIRED**
+**R3B_FINAL_CORRECTION_AUDIT_REQUIRED**
