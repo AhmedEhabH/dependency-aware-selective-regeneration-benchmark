@@ -43,23 +43,21 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - **SCIENTIFIC-SMOKE-V1 EXECUTED + FAILED** — 6 root-cause failures identified and fixed; retry required on experiment/scientific-smoke-v1
 - **SCIENTIFIC-SMOKE-V1 RETRY1 DEPLOYMENT PINNED** — commit 76ef349, deployed build ID 76ef349, output `/kaggle/working/runs/scientific_smoke_v1_retry1`
 - **SCIENTIFIC-SMOKE-V1 RETRY2 FIXES APPLIED** — active_snapshot_root propagation, filtered HF resume identity (commit 8a1948f+)
+- **THREE-ARM-CORE-EXPERIMENT** — Recovered from broken methodology-conformance WIP; frozen three-arm design; create branch experiment/three-arm-smoke-v2 from 0a1c603
 
 ## Next
 
-- Merge SU-0011 (completed)
-- Merge feature/openrouter-api-backend (completed)
-- ~~Execute Scientific Smoke V1 on Kaggle~~ — DONE (failed; retry required)
-- ~~Retry Scientific Smoke V1 on Kaggle~~ — DEPLOYMENT PINNED (not yet launched)
-- **Commit Retry2 changes** on experiment/scientific-smoke-v1 (ruff, mypy, bundle, git diff --check all clean)
-- **Launch Scientific Smoke V1 Retry2 on Kaggle** (fresh experiment, same arms/budgets, all known path failures fixed)
-- Pilot (remains unauthorized until Scientific Smoke passes)
+- ~~Scientific Smoke V1~~ — Superseded by THREE-ARM-CORE-EXPERIMENT
+- **Execute Scientific Smoke V2 on Kaggle** — 3 arms × 3 changes × 1 rep = 9 real runs
+- Pilot (remains unauthorized until Scientific Smoke V2 passes audit)
+- **Complete:** 0a1c603 baseline verified (1063 pass, 5 skip), three-arm core experiment documented, 3 smoke scenarios created, evaluator tests isolated, contract tests added
 
 ## Known Boundary
 
 - neutral empty graph when no profile graph exists
 - real repository dependency inference remains deferred
 - OpenRouter API backend is provider-integration only; no retries, streaming, or fallback routing
-- Scientific Smoke and Pilot remain unauthorized
+- Scientific Smoke V2 and Pilot remain unauthorized until Kaggle execution
 
 ### Dependencies
 

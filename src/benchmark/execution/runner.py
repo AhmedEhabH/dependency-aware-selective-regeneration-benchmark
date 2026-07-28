@@ -29,7 +29,7 @@ from benchmark.execution.regeneration import REPAIR_CONTEXT_PROMPT_TEMPLATE, Sha
 from benchmark.execution.repair import RepairLoop
 from benchmark.execution.state_machine import RunStateMachine
 from benchmark.execution.validation import FunctionalValidationResult, FunctionalValidator
-from benchmark.repositories.snapshot import discover_eligible_artifacts
+from benchmark.repositories.snapshot import discover_eligible_artifacts, resolve_allowed_artifacts
 from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner, compute_artifact_counts
 
 
@@ -44,6 +44,9 @@ class RunnerConfig:
     enable_regeneration: bool = False
     validation_command: list[str] | None = None
     validation_timeout: int = 30
+    editable_artifact_paths: tuple[str, ...] = ()
+    max_completion_tokens_per_call: int = 4096
+    max_total_workflow_tokens: int = 0
     extra: dict[str, Any] = field(default_factory=dict)
 
 
@@ -1132,6 +1135,13 @@ class BenchmarkRunner:
 
     def _build_artifact_universe(self, scenario: Scenario) -> ArtifactUniverse:
         if self._config.enable_regeneration:
+            if self._config.editable_artifact_paths:
+                return ArtifactUniverse(
+                    artifacts=resolve_allowed_artifacts(
+                        self._active_snapshot(),
+                        self._config.editable_artifact_paths,
+                    )
+                )
             artifacts = discover_eligible_artifacts(self._active_snapshot())
             return ArtifactUniverse(artifacts=artifacts)
         # Legacy fixture compatibility only.

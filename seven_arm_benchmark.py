@@ -1088,6 +1088,7 @@ def _run_single_scenario_strategy(
     validation_command: list[str] | None = None,
     max_tokens: int = 0,
     active_snapshot_root: str | Path | None = None,
+    editable_artifact_paths: tuple[str, ...] = (),
     _backend: object = None,
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -1167,6 +1168,7 @@ def _run_single_scenario_strategy(
         validation_command=validation_command,
         validation_timeout=180,
         active_snapshot_root=str(active_snapshot_root) if active_snapshot_root else None,
+        editable_artifact_paths=editable_artifact_paths,
     )
 
     pipeline = BenchmarkPipeline(
@@ -1697,6 +1699,22 @@ def main() -> int:
             except Exception as exc:
                 logger.warning("Failed to stage snapshot for '%s': %s", repo_id, exc)
 
+    # ---- Resolve llm_editable paths per repository from profile ----------------
+    _editable_paths: dict[str, tuple[str, ...]] = {}
+    if not args.dry_run and _manifest_collection is not None and selected_scenarios:
+        for repo_id in set(s.repository for s in selected_scenarios):
+            profile_obj = _manifest_collection.get_profile(repo_id)
+            if profile_obj is not None:
+                au = profile_obj.artifact_universe
+                if isinstance(au, dict) and "llm_editable" in au:
+                    paths = au["llm_editable"]
+                    if isinstance(paths, list):
+                        _editable_paths[repo_id] = tuple(str(p) for p in paths)
+                        logger.info(
+                            "Editable paths for repo=%s: %s",
+                            repo_id, _editable_paths[repo_id],
+                        )
+
     max_tokens = args.max_tokens
 
     # Build dependency graph once and reuse across all arms
@@ -1968,6 +1986,7 @@ def main() -> int:
             validation_command=arm_validation_command,
             max_tokens=max_tokens,
             active_snapshot_root=arm_active_snapshot_root,
+            editable_artifact_paths=_editable_paths.get(repository_id, ()),
         )
         run_ended_at = datetime.now(UTC).isoformat()
 

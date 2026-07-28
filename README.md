@@ -48,12 +48,26 @@ The frozen protocol studies five dimensions:
 
 The authoritative protocol is available in [`docs/FINAL_RESEARCH_PROTOCOL.md`](docs/FINAL_RESEARCH_PROTOCOL.md).
 
+## Three-Arm Core Experiment
+
+The confirmatory benchmark compares three strategies:
+
+| Strategy | How Scope Is Determined | Model Calls |
+|----------|------------------------|-------------|
+| `full_scope_reference` (monolithic) | All eligible source artifacts | 1 per artifact |
+| `dependency_aware_selective` (selective) | Repository graph + anchors + BFS | 1 per selected artifact |
+| `repository_agent` (iterative) | Bounded LLM loop (list/read/search) | ≤8 total iterations |
+
+All arms share the same LLM, temperature (0.0), per-call max_tokens (4096), code-writing executor, validation pipeline, and isolated workspace.
+
+See [`selective_updates/records/THREE-ARM-CORE-EXPERIMENT.md`](selective_updates/records/THREE-ARM-CORE-EXPERIMENT.md) for the full amendment.
+
 ## Core Principles
 
 - **Correctness before efficiency**
 - **Frozen experimental protocol**
 - **No post-hoc scenario or metric changes**
-- **Hidden-test and ground-truth isolation**
+- **Ground-truth is evaluator-only and post-hoc**
 - **Failed runs remain visible**
 - **Equivalent-model and equivalent-budget comparisons**
 - **Local engineering validation without local LLM inference**

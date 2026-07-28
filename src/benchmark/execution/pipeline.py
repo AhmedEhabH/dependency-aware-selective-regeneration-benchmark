@@ -23,6 +23,9 @@ class PipelineConfig:
     validation_command: list[str] | None = None
     validation_timeout: int = 180
     active_snapshot_root: str | Path | None = None
+    editable_artifact_paths: tuple[str, ...] = ()
+    max_completion_tokens_per_call: int = 4096
+    max_total_workflow_tokens: int = 0
     extra: dict[str, Any] = field(default_factory=dict)
 
 
@@ -105,6 +108,9 @@ class BenchmarkPipeline:
             enable_regeneration=self._config.enable_regeneration,
             validation_command=self._config.validation_command,
             validation_timeout=self._config.validation_timeout,
+            editable_artifact_paths=self._config.editable_artifact_paths,
+            max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
+            max_total_workflow_tokens=self._config.max_total_workflow_tokens,
         )
         return BenchmarkRunner(
             strategy=self._strategy,

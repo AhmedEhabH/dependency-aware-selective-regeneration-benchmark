@@ -15,6 +15,7 @@ from benchmark.core.models import (
 )
 from benchmark.execution.isolation import IsolationContext
 from benchmark.execution.runner import BenchmarkRunner, RunnerConfig
+from benchmark.repositories.snapshot import resolve_allowed_artifacts
 from benchmark.repositories.workspace import WorkspacePath
 
 
@@ -847,3 +848,197 @@ class TestMultipleSnapshotIsolation:
         assert "src/a.py" in paths
         assert "src/b.py" in paths
         assert "src/c.py" not in paths
+
+
+class TestEditableArtifactUniverse:
+    def test_editable_paths_used_when_configured(self, tmp_path: Path) -> None:
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True)
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        active_root = snap_base / "repo" / "v1"
+        active_root.mkdir(parents=True)
+        (active_root / "todo").mkdir()
+        (active_root / "todo" / "models.py").write_text("")
+        (active_root / "todo" / "views.py").write_text("")
+        (active_root / "todo" / "tests.py").write_text("")
+        (active_root / "manage.py").write_text("")
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+        config = RunnerConfig(
+            strategy_name="selective",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            enable_regeneration=True,
+            validation_command=["python", "-c", "exit(0)"],
+            editable_artifact_paths=("todo/models.py", "todo/views.py"),
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = Scenario(
+            scenario_id="sc-editable-001",
+            repository="repo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before",
+            requirement_after="after",
+            rationale="test",
+        )
+        runner.run(scenario)
+        assert len(strategy.calls) == 1
+        _repo, _change, universe = strategy.calls[0]
+        paths = {a.path for a in universe.artifacts}
+        assert paths == {"todo/models.py", "todo/views.py"}
+
+    def test_editable_excludes_tests_migrations_config(self, tmp_path: Path) -> None:
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True)
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        active_root = snap_base / "repo" / "v2"
+        active_root.mkdir(parents=True)
+        (active_root / "todo").mkdir()
+        (active_root / "todo" / "models.py").write_text("")
+        (active_root / "todo" / "tests.py").write_text("")
+        (active_root / "todo" / "migrations").mkdir()
+        (active_root / "todo" / "migrations" / "0001.py").write_text("")
+        (active_root / "config").mkdir()
+        (active_root / "config" / "settings.py").write_text("")
+        (active_root / "manage.py").write_text("")
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+        config = RunnerConfig(
+            strategy_name="selective",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            enable_regeneration=True,
+            validation_command=["python", "-c", "exit(0)"],
+            editable_artifact_paths=("todo/models.py",),
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = Scenario(
+            scenario_id="sc-editable-002",
+            repository="repo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before",
+            requirement_after="after",
+            rationale="test",
+        )
+        runner.run(scenario)
+        assert len(strategy.calls) == 1
+        _repo, _change, universe = strategy.calls[0]
+        paths = {a.path for a in universe.artifacts}
+        assert paths == {"todo/models.py"}
+        assert "todo/tests.py" not in paths
+        assert "todo/migrations/0001.py" not in paths
+        assert "config/settings.py" not in paths
+        assert "manage.py" not in paths
+
+    def test_editable_paths_skip_gt(self, tmp_path: Path) -> None:
+        """Changing scenario.expected_affected_artifacts does not change the universe."""
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True)
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        active_root = snap_base / "repo" / "v3"
+        active_root.mkdir(parents=True)
+        (active_root / "todo").mkdir()
+        (active_root / "todo" / "models.py").write_text("")
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+        config = RunnerConfig(
+            strategy_name="selective",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            enable_regeneration=True,
+            validation_command=["python", "-c", "exit(0)"],
+            editable_artifact_paths=("todo/models.py",),
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        from benchmark.core.enums import ArtifactType
+        from benchmark.core.models import ArtifactRef
+        gt = ArtifactRef(path="todo/gt_only.py", artifact_type=ArtifactType.source)
+        scenario = Scenario(
+            scenario_id="sc-editable-003",
+            repository="repo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before",
+            requirement_after="after",
+            rationale="test",
+            expected_affected_artifacts=(gt,),
+        )
+        runner.run(scenario)
+        assert len(strategy.calls) == 1
+        _repo, _change, universe = strategy.calls[0]
+        paths = {a.path for a in universe.artifacts}
+        assert paths == {"todo/models.py"}
+
+    def test_runner_uses_same_resolver_as_production(self, tmp_path: Path) -> None:
+        """Runner uses resolve_allowed_artifacts directly (same as CLI)."""
+        snap_base = tmp_path / "snap_base"
+        snap_base.mkdir(parents=True)
+        snap = snap_base / "repo" / "v1"
+        snap.mkdir(parents=True)
+        todo = snap / "todo"
+        todo.mkdir()
+        for f in ("models.py", "views.py", "urls.py"):
+            (todo / f).write_text("")
+        allowed = ("todo/models.py", "todo/views.py", "todo/urls.py")
+        direct = resolve_allowed_artifacts(snap, allowed)
+        direct_paths = {a.path for a in direct}
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir(parents=True)
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=snap)
+        config = RunnerConfig(
+            strategy_name="selective",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            enable_regeneration=True,
+            validation_command=["python", "-c", "exit(0)"],
+            editable_artifact_paths=allowed,
+        )
+        strategy = _FakeStrategy()
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        scenario = Scenario(
+            scenario_id="sc-editable-004",
+            repository="repo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before",
+            requirement_after="after",
+            rationale="test",
+        )
+        runner.run(scenario)
+        assert len(strategy.calls) == 1
+        _repo, _change, universe = strategy.calls[0]
+        runner_paths = {a.path for a in universe.artifacts}
+        assert runner_paths == direct_paths
