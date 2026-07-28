@@ -125,6 +125,7 @@ def _make_runner(
     validation_timeout: int = 10,
     max_attempts: int = 3,
     max_tokens: int = 0,
+    editable_artifact_paths: tuple[str, ...] = ("src/a.py",),
 ) -> BenchmarkRunner:
     config = RunnerConfig(
         strategy_name="iterative_repository_agent",
@@ -135,6 +136,7 @@ def _make_runner(
         enable_regeneration=True,
         validation_command=validation_command or [sys.executable, "-c", "exit(0)"],
         validation_timeout=validation_timeout,
+        editable_artifact_paths=editable_artifact_paths,
     )
     return BenchmarkRunner(
         strategy=strategy,
@@ -277,6 +279,7 @@ class TestAgentRevisesArtifacts:
             tmp_path, strategy, rb, iso,
             validation_command=check_cmd,
             max_attempts=3,
+            editable_artifact_paths=("src/a.py", "src/b.py"),
         )
 
         record = runner.run(scenario)
@@ -393,7 +396,10 @@ class TestNoGroundTruthLeakage:
             ),
             acceptance_criteria=(AcceptanceCriterion(description="pass"),),
         )
-        runner = _make_runner(tmp_path, strategy, rb, iso)
+        runner = _make_runner(
+            tmp_path, strategy, rb, iso,
+            editable_artifact_paths=("src/actual.py",),
+        )
 
         record = runner.run(scenario)
         assert record.status == RunStatus.succeeded
@@ -715,6 +721,7 @@ class TestTimeoutStops:
             max_attempts=10,
             timeout_seconds=10,
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=check_cmd,
             validation_timeout=10,
         )
@@ -751,6 +758,7 @@ class TestNonRepairableFailure:
             backend_name="mock",
             protocol_version="1.0",
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=None,
         )
         runner = BenchmarkRunner(
@@ -775,6 +783,7 @@ class TestNonRepairableFailure:
             backend_name="mock",
             protocol_version="1.0",
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=[sys.executable, "-c", "exit(0)"],
         )
         runner = BenchmarkRunner(
@@ -836,7 +845,10 @@ class TestImmutability:
             expected_affected_artifacts=(artifact,),
             acceptance_criteria=(AcceptanceCriterion(description="pass"),),
         )
-        runner = _make_runner(tmp_path, strategy, rb, iso)
+        runner = _make_runner(
+            tmp_path, strategy, rb, iso,
+            editable_artifact_paths=("src/main.py",),
+        )
         record = runner.run(scenario)
 
         assert (source_repo / "src/main.py").read_text() == "original source"

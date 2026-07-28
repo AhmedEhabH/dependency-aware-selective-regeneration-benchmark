@@ -135,6 +135,7 @@ def _make_runner(
     strategy_name: str = "monolithic",
     max_attempts: int = 1,
     max_tokens: int = 0,
+    editable_artifact_paths: tuple[str, ...] = ("src/a.py",),
 ) -> BenchmarkRunner:
     config = RunnerConfig(
         strategy_name=strategy_name,
@@ -145,6 +146,7 @@ def _make_runner(
         enable_regeneration=enable_regeneration,
         validation_command=validation_command,
         validation_timeout=validation_timeout,
+        editable_artifact_paths=editable_artifact_paths,
     )
     return BenchmarkRunner(
         strategy=strategy,
@@ -305,6 +307,7 @@ class TestFixCPositiveMonolithic:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/models.py", "src/views.py"),
         )
         record = runner.run(scenario)
 
@@ -327,6 +330,7 @@ class TestFixCPositiveMonolithic:
             enable_regeneration=True,
             validation_command=None,
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         record = runner.run(scenario)
 
@@ -354,11 +358,19 @@ class TestFixCPositiveSelective:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         backend = _make_backend("replacement content")
         from benchmark.core.models import DependencyGraph
+        from benchmark.selection.dependency_scope import ArtifactDescriptor
         graph = DependencyGraph(
             nodes=("src/models.py", "src/views.py"),
             edges=(("src/models.py", "src/views.py"),),
         )
-        strategy = HybridSelectiveStrategy(semantic_threshold=0.0, graph=graph)
+        desc = ArtifactDescriptor(
+            path="src/models.py",
+            category="model",
+            description="Application models",
+            provides_symbols=("models",),
+            typical_change_triggers=("schema changes",),
+        )
+        strategy = HybridSelectiveStrategy(graph=graph, artifact_descriptors=(desc,))
         scenario = _make_scenario(
             artifacts=artifacts,
             before="models",
@@ -370,6 +382,7 @@ class TestFixCPositiveSelective:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="hybrid_selective",
+            editable_artifact_paths=("src/models.py", "src/views.py"),
         )
         record = runner.run(scenario)
 
@@ -525,6 +538,7 @@ class TestFixEFailedRunMetrics:
             backend_name="mock",
             protocol_version="1.0",
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py", "src/b.py"),
             validation_command=[sys.executable, "-c", "exit(0)"],
             max_attempts=2,
         )
@@ -572,6 +586,7 @@ class TestFixEFailedRunMetrics:
             backend_name="mock",
             protocol_version="1.0",
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=[sys.executable, "-c", "exit(0)"],
             max_attempts=2,
         )
@@ -608,6 +623,7 @@ class TestFixEAgentTokenBudget:
             backend_name="mock",
             protocol_version="1.0",
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=[sys.executable, "-c", "exit(0)"],
             max_attempts=2,
             max_tokens=4096,
@@ -970,6 +986,7 @@ class TestGap4FinishReason:
             backend_name="mock",
             protocol_version="1.0",
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=[sys.executable, "-c", "exit(0)"],
             max_attempts=1,
         )
@@ -1065,6 +1082,7 @@ class TestRetryReadinessIntegration:
             enable_regeneration=True, validation_command=val_cmd,
             strategy_name="monolithic",
             max_tokens=4096,
+            editable_artifact_paths=("src/task.py",),
         )
         mono_record = mono_runner.run(scenario)
         assert mono_record.status == RunStatus.succeeded
@@ -1075,19 +1093,33 @@ class TestRetryReadinessIntegration:
 
         # Selective (with graph so selection triggers regeneration)
         from benchmark.core.models import DependencyGraph
+        from benchmark.selection.dependency_scope import ArtifactDescriptor
         sel_graph = DependencyGraph(
             nodes=("src/task.py",),
             edges=(),
         )
+        sel_desc = ArtifactDescriptor(
+            path="src/task.py",
+            category="source",
+            description="Task model definition",
+            provides_symbols=("task",),
+            typical_change_triggers=("schema changes",),
+        )
+        sel_scenario = _make_scenario(
+            artifacts=artifacts,
+            before="old requirement",
+            after="new requirement with task model",
+        )
         sel_runner = _make_runner(
             tmp_path / "sel",
-            HybridSelectiveStrategy(semantic_threshold=0.0, graph=sel_graph),
+            HybridSelectiveStrategy(graph=sel_graph, artifact_descriptors=(sel_desc,)),
             backend, iso,
             enable_regeneration=True, validation_command=val_cmd,
             strategy_name="hybrid_selective",
             max_tokens=4096,
+            editable_artifact_paths=("src/task.py",),
         )
-        sel_record = sel_runner.run(scenario)
+        sel_record = sel_runner.run(sel_scenario)
         assert sel_record.status == RunStatus.succeeded
         assert sel_record.regeneration_model_calls >= 1, "Selective must have regeneration model calls"
         assert sel_record.regenerated_artifact_count >= 1, "Selective must regenerate at least one artifact"
@@ -1103,6 +1135,7 @@ class TestRetryReadinessIntegration:
             enable_regeneration=True, validation_command=val_cmd,
             strategy_name="iterative_repository_agent", max_attempts=2,
             max_tokens=4096,
+            editable_artifact_paths=("src/task.py",),
         )
         iter_record = iterative_runner.run(scenario)
         assert iter_record.total_workflow_tokens >= 695
@@ -1133,6 +1166,8 @@ class TestRetryReadinessIntegration:
         snap_base.mkdir(exist_ok=True)
         active_root = snap_base / "todo" / "main"
         active_root.mkdir(parents=True, exist_ok=True)
+        (active_root / "src").mkdir(parents=True, exist_ok=True)
+        (active_root / "src" / "main.py").write_text("# placeholder", encoding="utf-8")
         ws = WorkspacePath(root=str(ws_root))
         iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
 
@@ -1146,6 +1181,7 @@ class TestRetryReadinessIntegration:
             protocol_version="1.0", dry_run=False,
             enable_regeneration=True,
             validation_command=None,
+            editable_artifact_paths=("src/main.py",),
         )
         pipeline = BenchmarkPipeline(
             strategy=MonolithicRegenerationStrategy(),
@@ -1341,7 +1377,12 @@ class TestExecutionContract:
 
         from benchmark.checkpoint.checkpoint import CheckpointData
         from benchmark.checkpoint.hf_sync import compare_checkpoint_compatibility
-        from seven_arm_benchmark import _stage_and_smoke_run, build_dependency_graph
+        from benchmark.repositories.snapshot import stage_repository_snapshot
+        from seven_arm_benchmark import (
+            ExecutionProfile,
+            _run_single_scenario_strategy,
+            build_dependency_graph,
+        )
 
         data_dir = tmp_path / "data"
         output_dir = tmp_path / "runs"
@@ -1357,6 +1398,30 @@ class TestExecutionContract:
         results: dict[str, dict[str, Any]] = {}
         captured_staged: Path | None = None
 
+        _todo_editable_paths = (
+            "manage.py",
+            "config/__init__.py",
+            "config/settings.py",
+            "config/urls.py",
+            "config/wsgi.py",
+            "todo/__init__.py",
+            "todo/apps.py",
+            "todo/models.py",
+            "todo/permissions.py",
+            "todo/serializers.py",
+            "todo/urls.py",
+            "todo/views.py",
+            "todo/migrations/__init__.py",
+            "todo/migrations/0001_initial.py",
+            "todo/migrations/0002_task_owner.py",
+            "todo/migrations/0003_alter_project_options_alter_tag_options_and_more.py",
+            "todo/tests/__init__.py",
+            "todo/tests/test_views.py",
+            "todo/tests/test_serializers.py",
+            "todo/tests/test_permissions.py",
+            "todo/tests/test_models.py",
+        )
+
         for sn in strategy_names:
             arm_ws = output_dir / "workspace" / sn
             arm_ws.mkdir(parents=True, exist_ok=True)
@@ -1369,23 +1434,58 @@ class TestExecutionContract:
                     '{"decisions": [{"path": "todo/models.py", "action": "regenerate", "rationale": "add priority"}, {"path": "todo/serializers.py", "action": "regenerate", "rationale": "update serializer"}]}'
                 )
 
-            record_dict = _stage_and_smoke_run(
-                data_dir=data_dir,
-                workspace_dir=arm_ws,
-                repo_id="todo",
+            source_root = data_dir / "repositories" / "todo"
+            snapshot_storage = arm_ws / "snapshots"
+            staged = stage_repository_snapshot(
+                source_root=source_root,
+                snapshot_storage_root=snapshot_storage,
+                repository_id="todo",
                 revision_id="main",
+            )
+            arm_active_snapshot_root: str | None = str(staged)
+
+            profile = ExecutionProfile(
+                name="smoke-test",
+                label="scientific-smoke-v1-acceptance",
+                scenario_count=1,
+                strategies=[sn],
+                repetitions=1,
+                is_publication=False,
+            )
+
+            artifact_descs = ()
+            if sn == "selective":
+                from benchmark.repositories.loader import RepositoryLoader
+                from benchmark.selection.dependency_scope import descriptors_from_profile
+                real_data_dir = Path(__file__).resolve().parent.parent.parent / "benchmark_data"
+                loader = RepositoryLoader(real_data_dir)
+                collection = loader.load_manifest()
+                todo_profile = collection.get_profile("todo")
+                if todo_profile is not None:
+                    artifact_descs = descriptors_from_profile(
+                        todo_profile.artifact_catalog,
+                        tuple(todo_profile.artifact_universe.get("llm_editable", [])),
+                    )
+
+            record_dict, _ = _run_single_scenario_strategy(
                 scenario_id=scenario.scenario_id,
                 strategy_name=sn,
                 scenario_provider=scenario_provider,
-                dep_graph=dep_graph,
                 dry_run=False,
-                validation_command=val_cmd,
-                max_tokens=128000,
-                backend_name="mock",
+                profile=profile,
+                model_path=None,
                 protocol_version="1.0",
                 max_attempts=2,
                 timeout_seconds=180,
-                **kw,
+                dep_graph=dep_graph,
+                workspace_dir=arm_ws,
+                backend_name="mock",
+                validation_command=val_cmd,
+                max_tokens=128000,
+                active_snapshot_root=arm_active_snapshot_root,
+                editable_artifact_paths=_todo_editable_paths,
+                artifact_descriptors=artifact_descs,
+                _backend=kw.get("_backend"),
             )
             results[sn] = record_dict
 
@@ -1601,6 +1701,7 @@ class TestExecutionContract:
             backend_name="mock",
             protocol_version="1.0",
             enable_regeneration=True,
+            editable_artifact_paths=("src/main.py",),
             validation_command=[sys.executable, "-c", "exit(0)"],
         )
         runner = BenchmarkRunner(strategy=strategy, backend=backend, isolation=iso, config=config)
@@ -1639,6 +1740,7 @@ class TestExecutionContract:
             backend_name="mock",
             protocol_version="1.0",
             enable_regeneration=True,
+            editable_artifact_paths=("src/main.py",),
             validation_command=[sys.executable, "-c", "exit(0)"],
             max_tokens=4096,
         )

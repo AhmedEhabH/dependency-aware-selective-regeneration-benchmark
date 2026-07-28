@@ -184,6 +184,7 @@ class TestArtifactUniverseConstruction:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/main.py", "src/utils.py"),
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -219,6 +220,7 @@ class TestArtifactUniverseConstruction:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/actual_a.py", "src/actual_b.py"),
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -268,6 +270,7 @@ class TestArtifactUniverseConstruction:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/actual_a.py", "src/actual_b.py", "src/unrelated.py"),
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -315,6 +318,7 @@ class TestArtifactUniverseConstruction:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/actual.py",),
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -384,6 +388,7 @@ class TestArtifactUniverseConstruction:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/missing.py",),
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -392,10 +397,10 @@ class TestArtifactUniverseConstruction:
             config=config,
         )
         scenario = _make_scenario("sc-empty")
-        runner.run(scenario)
-        assert len(strategy.calls) == 1
-        _repo, _change, universe = strategy.calls[0]
-        assert len(universe.artifacts) == 0
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        messages = " ".join(f.message for f in record.failures)
+        assert "does not exist" in messages
 
     def test_legacy_impact_only_fixture_path_remains_compatible(self, tmp_path: Path) -> None:
         strategy = _FakeStrategy()
@@ -467,6 +472,7 @@ class TestSnapshotSourceWorkspaceSeparation:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/source_a.py", "src/source_b.py"),
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -515,6 +521,7 @@ class TestSnapshotSourceWorkspaceSeparation:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/nonexistent.py",),
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -523,10 +530,10 @@ class TestSnapshotSourceWorkspaceSeparation:
             config=config,
         )
         scenario = _make_scenario("sc-empty-snap")
-        runner.run(scenario)
-        assert len(strategy.calls) == 1
-        _repo, _change, universe = strategy.calls[0]
-        assert len(universe.artifacts) == 0
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        messages = " ".join(f.message for f in record.failures)
+        assert "does not exist" in messages
 
     def test_missing_snapshot_base_fails_closed(self, tmp_path: Path) -> None:
         ws_root = tmp_path / "ws"
@@ -575,6 +582,7 @@ class TestRepositorySnapshotPathConsistency:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/a.py",),
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -689,6 +697,7 @@ class TestActiveSnapshotFailClosed:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/nonexistent.py",),
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -697,10 +706,10 @@ class TestActiveSnapshotFailClosed:
             config=config,
         )
         scenario = _make_scenario("sc-empty-active")
-        runner.run(scenario)
-        assert len(strategy.calls) == 1
-        _repo, _change, universe = strategy.calls[0]
-        assert len(universe.artifacts) == 0
+        record = runner.run(scenario)
+        assert record.status == RunStatus.failed
+        messages = " ".join(f.message for f in record.failures)
+        assert "does not exist" in messages
 
     def test_legacy_impact_only_no_active_snapshot_required(self, tmp_path: Path) -> None:
         strategy = _FakeStrategy()
@@ -774,6 +783,7 @@ class TestSourceSnapshotImmutability:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/main.py",),
         )
         runner = BenchmarkRunner(
             strategy=MonolithicRegenerationStrategy(),
@@ -825,6 +835,7 @@ class TestMultipleSnapshotIsolation:
             max_attempts=1,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
+            editable_artifact_paths=("src/a.py", "src/b.py"),
         )
         runner = BenchmarkRunner(
             strategy=strategy,

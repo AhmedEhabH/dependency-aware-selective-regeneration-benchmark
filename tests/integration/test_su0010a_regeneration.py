@@ -8,6 +8,7 @@ from benchmark.core.models import (
     AcceptanceCriterion,
     ArtifactRef,
     ArtifactUniverse,
+    DependencyGraph,
     ImpactPrediction,
     RunRecord,
     Scenario,
@@ -99,6 +100,7 @@ def _make_runner(
     strategy_name: str = "test",
     max_attempts: int = 1,
     max_tokens: int = 0,
+    editable_artifact_paths: tuple[str, ...] = ("src/a.py",),
 ) -> BenchmarkRunner:
     config = RunnerConfig(
         strategy_name=strategy_name,
@@ -109,6 +111,7 @@ def _make_runner(
         enable_regeneration=enable_regeneration,
         validation_command=validation_command,
         validation_timeout=validation_timeout,
+        editable_artifact_paths=editable_artifact_paths,
     )
     return BenchmarkRunner(
         strategy=strategy,
@@ -144,6 +147,7 @@ class TestEndToEndFullScopeReference:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/models.py", "src/views.py", "tests/test_models.py"),
         )
         record = runner.run(scenario)
 
@@ -169,6 +173,7 @@ class TestEndToEndFullScopeReference:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(1)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/models.py",),
         )
         record = runner.run(scenario)
 
@@ -190,6 +195,7 @@ class TestEndToEndFullScopeReference:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         record = runner.run(scenario)
 
@@ -207,7 +213,23 @@ class TestEndToEndHybridSelective:
         )
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         backend = _make_backend("replacement content")
-        strategy = HybridSelectiveStrategy(semantic_threshold=0.0)
+        from benchmark.selection.dependency_scope import ArtifactDescriptor
+        model_desc = ArtifactDescriptor(
+            path="src/models.py", category="model", description="Data models",
+            provides_symbols=("models",), typical_change_triggers=("schema changes",),
+        )
+        utils_desc = ArtifactDescriptor(
+            path="src/utils.py", category="utility", description="Utilities",
+            provides_symbols=("utils",), typical_change_triggers=("utility changes",),
+        )
+        views_desc = ArtifactDescriptor(
+            path="src/views.py", category="view", description="Views",
+            provides_symbols=("views",), typical_change_triggers=("api changes",),
+        )
+        strategy = HybridSelectiveStrategy(
+            graph=DependencyGraph(nodes=("src/models.py", "src/views.py", "src/utils.py"), edges=()),
+            artifact_descriptors=(model_desc, utils_desc, views_desc),
+        )
         scenario = _make_scenario(
             artifacts=artifacts,
             before="models utils",
@@ -219,6 +241,7 @@ class TestEndToEndHybridSelective:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="hybrid_selective",
+            editable_artifact_paths=("src/models.py", "src/views.py", "src/utils.py"),
         )
         record = runner.run(scenario)
 
@@ -249,11 +272,37 @@ class TestHybridRegeneratesFewer:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py", "src/utils.py", "src/helpers.py", "tests/test_main.py"),
         )
         full_record = full_runner.run(full_scenario)
 
         # Hybrid selective run
-        hybrid_strategy = HybridSelectiveStrategy(semantic_threshold=0.0)
+        from benchmark.selection.dependency_scope import ArtifactDescriptor
+        hybrid_descs = (
+            ArtifactDescriptor(
+                path="src/main.py", category="source", description="Main module",
+                provides_symbols=("main",), typical_change_triggers=("entry changes",),
+            ),
+            ArtifactDescriptor(
+                path="src/utils.py", category="utility", description="Utilities",
+                provides_symbols=("utils",), typical_change_triggers=("utility changes",),
+            ),
+            ArtifactDescriptor(
+                path="src/helpers.py", category="helper", description="Helpers",
+                provides_symbols=("helpers",), typical_change_triggers=("helper changes",),
+            ),
+            ArtifactDescriptor(
+                path="tests/test_main.py", category="test", description="Main tests",
+                provides_symbols=("test_main",), typical_change_triggers=("test changes",),
+            ),
+        )
+        hybrid_strategy = HybridSelectiveStrategy(
+            graph=DependencyGraph(
+                nodes=("src/main.py", "src/utils.py", "src/helpers.py", "tests/test_main.py"),
+                edges=(),
+            ),
+            artifact_descriptors=hybrid_descs,
+        )
         hybrid_scenario = _make_scenario(
             "hybrid_repo", artifacts,
             before="main utils helpers",
@@ -264,6 +313,7 @@ class TestHybridRegeneratesFewer:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="hybrid_selective",
+            editable_artifact_paths=("src/main.py", "src/utils.py", "src/helpers.py", "tests/test_main.py"),
         )
         hybrid_record = hybrid_runner.run(hybrid_scenario)
 
@@ -324,6 +374,7 @@ class TestTokenAccounting:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/app.py",),
         )
         record = runner.run(scenario)
 
@@ -389,6 +440,7 @@ class TestEmptySelectiveScope:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         record = runner.run(scenario)
         assert record.regenerated_artifact_count == 0
@@ -421,6 +473,7 @@ class TestEmptySelectiveScope:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         runner.run(scenario)
         assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
@@ -450,6 +503,7 @@ class TestValidationTriState:
             enable_regeneration=True,
             validation_command=None,
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
@@ -465,6 +519,7 @@ class TestValidationTriState:
             enable_regeneration=True,
             validation_command=[""],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
@@ -587,6 +642,7 @@ class TestRegeneratedArtifactCount:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/good.py", "src/bad.py", "src/review.py"),
         )
         record = runner.run(scenario)
         assert record.selected_artifact_count == 3
@@ -609,6 +665,7 @@ class TestModelCallAggregation:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/a.py", "src/b.py", "src/c.py"),
         )
         record = runner.run(scenario)
         assert record.selection_model_calls == 0
@@ -628,6 +685,7 @@ class TestModelCallAggregation:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/a.py",),
         )
         record = runner.run(scenario)
         assert record.selection_model_calls == 0
@@ -720,6 +778,7 @@ class TestCanonicalSourcePreservation:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         runner.run(scenario)
         assert (canonical_src / "main.py").read_text(encoding="utf-8") == orig
@@ -939,6 +998,7 @@ class TestBoundedRepairAttempts:
             validation_command=[sys.executable, "-c", "exit(1)"],
             strategy_name="monolithic",
             max_attempts=3,
+            editable_artifact_paths=("src/a.py", "src/b.py"),
         )
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
@@ -1045,6 +1105,7 @@ class TestBoundedRepairAttempts:
             validation_command=None,
             strategy_name="monolithic",
             max_attempts=3,
+            editable_artifact_paths=("src/a.py",),
         )
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
@@ -1221,6 +1282,7 @@ class TestBoundedRepairAttempts:
             max_attempts=10,
             timeout_seconds=10,
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=[sys.executable, "-c", "exit(1)"],
         )
         runner = BenchmarkRunner(
@@ -1416,6 +1478,7 @@ class TestBoundedRepairAttempts:
             validation_command=[sys.executable, "-c", "exit(1)"],
             strategy_name="monolithic",
             max_attempts=3,
+            editable_artifact_paths=("src/a.py", "src/b.py"),
         )
         record = runner.run(scenario)
         # 2 artifacts × 3 attempts = 6 model calls
@@ -1431,11 +1494,13 @@ class TestStrategyGuard:
     """Correction 3 — Restrict SU-0010A to approved conditions."""
 
     def _make_simple_runner(self, tmp_path: Path, strategy_name: str) -> BenchmarkRunner:
-        iso, ws_root = _setup_workspace(tmp_path, ())
+        artifact = ArtifactRef(path="src/main.py", artifact_type=ArtifactType.source)
+        iso, ws_root = _setup_workspace(tmp_path, (artifact,))
         strategy = MonolithicRegenerationStrategy()
         runner = _make_runner(
             tmp_path, strategy, _make_backend("content"), iso,
             enable_regeneration=True,
+            editable_artifact_paths=("src/main.py",),
             strategy_name=strategy_name,
         )
         return runner

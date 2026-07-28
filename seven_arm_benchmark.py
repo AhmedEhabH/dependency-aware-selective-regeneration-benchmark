@@ -316,7 +316,7 @@ class ScenarioProvider:
 # Strategy factory
 # ---------------------------------------------------------------------------
 
-def make_strategy(name: str, backend=None, graph=None):  # type: ignore[no-untyped-def]
+def make_strategy(name: str, backend=None, graph=None, artifact_descriptors=None):  # type: ignore[no-untyped-def]
     from benchmark.strategies import (
         FullContextStrategy,
         HybridSelectiveStrategy,
@@ -340,7 +340,7 @@ def make_strategy(name: str, backend=None, graph=None):  # type: ignore[no-untyp
 
     strategies = {
         "monolithic": (MonolithicRegenerationStrategy, {}),
-        "selective": (HybridSelectiveStrategy, {"graph": graph}),
+        "selective": (HybridSelectiveStrategy, {"graph": graph, "artifact_descriptors": artifact_descriptors}),
         "compiled_ai": (StaticOnlyStrategy, {"graph": graph}),
         "delta_mcp": (SemanticOnlyStrategy, {}),
         "incr_rtl": (TraceabilityOnlyStrategy, {}),
@@ -1089,6 +1089,7 @@ def _run_single_scenario_strategy(
     max_tokens: int = 0,
     active_snapshot_root: str | Path | None = None,
     editable_artifact_paths: tuple[str, ...] = (),
+    artifact_descriptors: tuple[object, ...] = (),
     _backend: object = None,
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -1111,7 +1112,7 @@ def _run_single_scenario_strategy(
     else:
         backend = None
 
-    strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
+    strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph, artifact_descriptors=artifact_descriptors)
 
     isolation = make_isolation(workspace_dir, active_snapshot_root=active_snapshot_root)
 
@@ -1702,18 +1703,46 @@ def main() -> int:
     # ---- Resolve llm_editable paths per repository from profile ----------------
     _editable_paths: dict[str, tuple[str, ...]] = {}
     if not args.dry_run and _manifest_collection is not None and selected_scenarios:
-        for repo_id in set(s.repository for s in selected_scenarios):
+        _approved_regen = frozenset({"monolithic", "selective", "iterative_repository_agent"})
+        uses_regen = any(sn in _approved_regen for sn in strategy_names)
+        repo_ids_for_scenarios = set(s.repository for s in selected_scenarios)
+
+        for repo_id in repo_ids_for_scenarios:
             profile_obj = _manifest_collection.get_profile(repo_id)
+            au_ok = False
             if profile_obj is not None:
                 au = profile_obj.artifact_universe
-                if isinstance(au, dict) and "llm_editable" in au:
-                    paths = au["llm_editable"]
-                    if isinstance(paths, list):
-                        _editable_paths[repo_id] = tuple(str(p) for p in paths)
-                        logger.info(
-                            "Editable paths for repo=%s: %s",
-                            repo_id, _editable_paths[repo_id],
-                        )
+                if isinstance(au, dict):
+                    paths = au.get("llm_editable")
+                    if isinstance(paths, list) and len(paths) > 0:
+                        if all(isinstance(p, str) and len(p) > 0 for p in paths):
+                            _editable_paths[repo_id] = tuple(str(p) for p in paths)
+                            logger.info(
+                                "Editable paths for repo=%s: %s",
+                                repo_id, _editable_paths[repo_id],
+                            )
+                            au_ok = True
+
+            if uses_regen and not au_ok:
+                logger.error(
+                    "Repository '%s' has no valid non-empty llm_editable list "
+                    "in its profile. A regeneration strategy (%s) requires a "
+                    "complete editable-policy configuration.",
+                    repo_id, ", ".join(sorted(_approved_regen)),
+                )
+                return 1
+
+    # ---- Build artifact descriptors per repository from profile catalog ----
+    _artifact_descriptors: dict[str, tuple[object, ...]] = {}
+    if not args.dry_run and _manifest_collection is not None and selected_scenarios:
+        for repo_id in repo_ids_for_scenarios:
+            profile_obj = _manifest_collection.get_profile(repo_id)
+            if profile_obj is not None and profile_obj.artifact_catalog:
+                from benchmark.selection.dependency_scope import descriptors_from_profile
+                _artifact_descriptors[repo_id] = descriptors_from_profile(
+                    profile_obj.artifact_catalog,
+                    _editable_paths.get(repo_id, ()),
+                )
 
     max_tokens = args.max_tokens
 
@@ -1987,6 +2016,7 @@ def main() -> int:
             max_tokens=max_tokens,
             active_snapshot_root=arm_active_snapshot_root,
             editable_artifact_paths=_editable_paths.get(repository_id, ()),
+            artifact_descriptors=_artifact_descriptors.get(repository_id, ()),
         )
         run_ended_at = datetime.now(UTC).isoformat()
 
