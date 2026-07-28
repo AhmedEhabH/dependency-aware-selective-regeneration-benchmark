@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import hashlib
+import re
 import subprocess
 import time
 from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
+
+NUMBERED_MIGRATION_RE = re.compile(r"^\d+_[A-Za-z0-9_]+\.py$")
 
 
 @dataclass(frozen=True)
@@ -23,6 +26,21 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _relative_to_root(path: Path, root: Path) -> str | None:
+    try:
+        return path.relative_to(root).as_posix()
+    except ValueError:
+        return None
+
+
+def _coerce_subprocess_text(value: str | bytes | None) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, bytes):
+        return value.decode("utf-8", errors="replace")
+    return value
+
+
 def _validate_inputs(
     workspace_root: str | Path,
     command: Sequence[str],
@@ -30,7 +48,9 @@ def _validate_inputs(
     require_new_migration: bool,
     timeout: int,
     migration_directory: str,
-) -> str | None:
+) -> tuple[Path, Path] | str:
+    if isinstance(command, (str, bytes)):
+        return "command must be a non-string sequence of non-empty strings"
     wr = Path(workspace_root)
     if not wr.exists():
         return "workspace_root does not exist"
@@ -39,7 +59,7 @@ def _validate_inputs(
     if len(command) == 0:
         return "command is empty"
     for item in command:
-        if not isinstance(item, str) or len(item) == 0:
+        if not isinstance(item, str) or not item.strip():
             return "command contains an empty item"
     if not isinstance(require_new_migration, bool):
         return "require_new_migration must be a bool"
@@ -53,14 +73,17 @@ def _validate_inputs(
         return "migration_directory must not contain '..'"
     if "\\" in migration_directory:
         return "migration_directory must not contain backslash"
-    resolved = (wr / migration_directory).resolve()
-    if not str(resolved).startswith(str(wr.resolve())):
+
+    workspace = wr.resolve()
+    resolved = (workspace / migration_directory).resolve()
+    rel = _relative_to_root(resolved, workspace)
+    if rel is None:
         return "migration_directory does not resolve under workspace_root"
     if not resolved.exists():
         return "migration_directory does not exist"
     if not resolved.is_dir():
         return "migration_directory is not a directory"
-    return None
+    return (workspace, resolved)
 
 
 def _snapshot_migrations(
@@ -72,9 +95,34 @@ def _snapshot_migrations(
         return result
     for entry in sorted(mig_dir.iterdir()):
         if entry.is_file() and entry.suffix == ".py":
-            rel = entry.relative_to(workspace_root).as_posix()
-            result[rel] = _sha256(entry)
+            rel = _relative_to_root(entry, workspace_root)
+            if rel is not None:
+                result[rel] = _sha256(entry)
     return result
+
+
+def _created_numbered_migrations(
+    before: dict[str, str],
+    after: dict[str, str],
+    mig_dir_rel: str,
+) -> tuple[str, ...]:
+    before_set = set(before.keys())
+    after_set = set(after.keys())
+    new_paths = sorted(after_set - before_set)
+
+    filtered: list[str] = []
+    for p in new_paths:
+        parts = p.split("/")
+        if len(parts) != len(mig_dir_rel.split("/")) + 1:
+            continue
+        if not p.startswith(mig_dir_rel + "/"):
+            continue
+        filename = parts[-1]
+        if not NUMBERED_MIGRATION_RE.match(filename):
+            continue
+        filtered.append(p)
+
+    return tuple(filtered)
 
 
 def run_post_generation_command(
@@ -86,31 +134,37 @@ def run_post_generation_command(
     migration_directory: str = "todo/migrations",
 ) -> PostGenerationResult:
     start = time.monotonic()
-    validation_error = _validate_inputs(
+
+    validation_result = _validate_inputs(
         workspace_root=workspace_root,
         command=command,
         require_new_migration=require_new_migration,
         timeout=timeout,
         migration_directory=migration_directory,
     )
-    if validation_error is not None:
+    if isinstance(validation_result, str):
         duration = time.monotonic() - start
         return PostGenerationResult(
             passed=False,
             exit_code=-1,
             stdout="",
-            stderr=validation_error,
+            stderr=validation_result,
             duration_seconds=duration,
         )
 
-    wr = Path(workspace_root)
+    workspace, _resolved = validation_result
 
-    before = _snapshot_migrations(wr, migration_directory)
+    before = _snapshot_migrations(workspace, migration_directory)
+
+    cmd_exit_code: int = -1
+    cmd_stdout: str = ""
+    cmd_stderr: str = ""
+    cmd_passed: bool = False
 
     try:
         proc = subprocess.run(
             list(command),
-            cwd=str(wr),
+            cwd=str(workspace),
             capture_output=True,
             text=True,
             timeout=timeout,
@@ -119,35 +173,26 @@ def run_post_generation_command(
         cmd_stdout = proc.stdout
         cmd_stderr = proc.stderr
         cmd_passed = proc.returncode == 0
-    except subprocess.TimeoutExpired:
-        duration = time.monotonic() - start
-        return PostGenerationResult(
-            passed=False,
-            exit_code=-1,
-            stdout="",
-            stderr="Command timed out",
-            duration_seconds=duration,
-        )
+    except subprocess.TimeoutExpired as e:
+        cmd_exit_code = -1
+        cmd_stdout = _coerce_subprocess_text(e.stdout)
+        cmd_stderr = _coerce_subprocess_text(e.stderr)
+        if cmd_stderr:
+            cmd_stderr += "\n"
+        cmd_stderr += "Command timed out"
+        cmd_passed = False
     except FileNotFoundError:
-        duration = time.monotonic() - start
-        return PostGenerationResult(
-            passed=False,
-            exit_code=-1,
-            stdout="",
-            stderr=f"Command not found: {command[0]}",
-            duration_seconds=duration,
-        )
+        cmd_exit_code = -1
+        cmd_stdout = ""
+        cmd_stderr = f"Command not found: {command[0]}"
+        cmd_passed = False
     except OSError as e:
-        duration = time.monotonic() - start
-        return PostGenerationResult(
-            passed=False,
-            exit_code=-1,
-            stdout="",
-            stderr=f"OS error: {e}",
-            duration_seconds=duration,
-        )
+        cmd_exit_code = -1
+        cmd_stdout = ""
+        cmd_stderr = f"OS error: {e}"
+        cmd_passed = False
 
-    after = _snapshot_migrations(wr, migration_directory)
+    after = _snapshot_migrations(workspace, migration_directory)
 
     all_old_unchanged = True
     diagnostics: list[str] = []
@@ -159,26 +204,8 @@ def run_post_generation_command(
             all_old_unchanged = False
             diagnostics.append(f"old migration modified: {old_path}")
 
-    before_set = set(before.keys())
-    after_set = set(after.keys())
-    new_paths = sorted(after_set - before_set)
-
-    filtered_new: list[str] = []
     mig_dir_rel = migration_directory.replace("\\", "/")
-    for p in new_paths:
-        parts = p.split("/")
-        if len(parts) != len(mig_dir_rel.split("/")) + 1:
-            continue
-        if not p.startswith(mig_dir_rel + "/"):
-            continue
-        if not p.endswith(".py"):
-            continue
-        filename = parts[-1]
-        if filename == "__init__.py":
-            continue
-        filtered_new.append(p)
-
-    created = tuple(filtered_new)
+    created = _created_numbered_migrations(before, after, mig_dir_rel)
 
     if not cmd_passed:
         duration = time.monotonic() - start
@@ -206,6 +233,9 @@ def run_post_generation_command(
             diagnostics.append(
                 f"expected exactly one new migration, got {len(created)}"
             )
+
+    if not passed:
+        cmd_exit_code = -1
 
     full_stderr = cmd_stderr
     if diagnostics:
