@@ -22,6 +22,39 @@ class PostGenerationResult:
     existing_migrations_unchanged: bool = False
 
 
+@dataclass(frozen=True)
+class _ValidatedPostGenerationRequest:
+    workspace_root: Path
+    migration_directory_path: Path
+    migration_directory_relative: str
+    command: tuple[str, ...]
+    require_new_migration: bool
+    timeout: int
+
+
+@dataclass(frozen=True)
+class _MigrationSnapshot:
+    trusted: bool
+    hashes: dict[str, str]
+    diagnostics: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class _CommandOutcome:
+    succeeded: bool
+    exit_code: int
+    stdout: str
+    stderr: str
+
+
+@dataclass(frozen=True)
+class _MigrationAssessment:
+    passed: bool
+    existing_unchanged: bool
+    created_paths: tuple[str, ...]
+    diagnostics: tuple[str, ...]
+
+
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -48,7 +81,7 @@ def _validate_inputs(
     require_new_migration: bool,
     timeout: int,
     migration_directory: str,
-) -> tuple[Path, Path] | str:
+) -> _ValidatedPostGenerationRequest | str:
     try:
         if isinstance(command, (str, bytes)):
             return "command must be a non-string sequence of non-empty strings"
@@ -86,70 +119,218 @@ def _validate_inputs(
         if not wr.is_dir():
             return "workspace_root is not a directory"
 
-        workspace = wr.resolve()
-        resolved = (workspace / migration_directory).resolve()
-        rel = _relative_to_root(resolved, workspace)
+        resolved_workspace = wr.resolve()
+        mig_dir_rel = migration_directory.replace("\\", "/")
+        mig_path = resolved_workspace / mig_dir_rel
+
+        resolved = mig_path.resolve()
+        rel = _relative_to_root(resolved, resolved_workspace)
         if rel is None:
             return "migration_directory does not resolve under workspace_root"
-        if not resolved.exists():
-            return "migration_directory does not exist"
-        if not resolved.is_dir():
-            return "migration_directory is not a directory"
-        return (workspace, resolved)
+
+        return _ValidatedPostGenerationRequest(
+            workspace_root=resolved_workspace,
+            migration_directory_path=mig_path,
+            migration_directory_relative=mig_dir_rel,
+            command=tuple(command),
+            require_new_migration=require_new_migration,
+            timeout=timeout,
+        )
     except (OSError, RuntimeError, ValueError, TypeError) as exc:
         return f"workspace validation error: {exc}"
 
 
-def _snapshot_migrations(
-    workspace_root: Path, migration_directory: str
-) -> tuple[dict[str, str], tuple[str, ...]]:
-    mig_dir = (workspace_root / migration_directory).resolve()
-    result: dict[str, str] = {}
-    errors: list[str] = []
-    if not mig_dir.is_dir():
-        return result, tuple(errors)
-    for entry in sorted(mig_dir.iterdir()):
+def _take_migration_snapshot(
+    request: _ValidatedPostGenerationRequest,
+) -> _MigrationSnapshot:
+    mig_dir = request.migration_directory_path
+    hashes: dict[str, str] = {}
+    diagnostics: list[str] = []
+
+    if not mig_dir.exists():
+        diagnostics.append("migration directory does not exist")
+        return _MigrationSnapshot(trusted=False, hashes={}, diagnostics=tuple(diagnostics))
+
+    try:
+        resolved = mig_dir.resolve(strict=True)
+    except (OSError, RuntimeError, ValueError) as exc:
+        diagnostics.append(f"migration directory resolution error: {exc}")
+        return _MigrationSnapshot(trusted=False, hashes={}, diagnostics=tuple(diagnostics))
+
+    if not resolved.is_dir():
+        diagnostics.append("migration directory is not a directory")
+        return _MigrationSnapshot(trusted=False, hashes={}, diagnostics=tuple(diagnostics))
+
+    if resolved.is_symlink():
+        rel = _relative_to_root(mig_dir, request.workspace_root)
+        diagnostics.append(
+            f"migration directory is a symlink: {rel or mig_dir.name}"
+        )
+        return _MigrationSnapshot(trusted=False, hashes={}, diagnostics=tuple(diagnostics))
+
+    ws_rel = _relative_to_root(resolved, request.workspace_root)
+    if ws_rel is None:
+        rel = _relative_to_root(mig_dir, request.workspace_root)
+        diagnostics.append(
+            f"migration directory resolves outside workspace: {rel or mig_dir.name}"
+        )
+        return _MigrationSnapshot(trusted=False, hashes={}, diagnostics=tuple(diagnostics))
+
+    try:
+        entries = sorted(resolved.iterdir(), key=lambda e: e.name)
+    except (OSError, RuntimeError) as exc:
+        diagnostics.append(f"migration directory listing error: {exc}")
+        return _MigrationSnapshot(trusted=False, hashes={}, diagnostics=tuple(diagnostics))
+
+    trusted = True
+    for entry in entries:
         try:
-            if not entry.is_symlink() and entry.is_file() and entry.suffix == ".py":
-                resolved = entry.resolve(strict=True)
-                if resolved.parent != mig_dir.resolve():
-                    errors.append(
-                        f"migration file resolves outside migration directory: "
-                        f"{_relative_to_root(entry, workspace_root)}"
-                    )
-                    continue
-                rel = _relative_to_root(resolved, workspace_root)
-                if rel is None:
-                    errors.append(
-                        f"migration file resolves outside workspace: "
-                        f"{_relative_to_root(entry, workspace_root)}"
-                    )
-                    continue
-                result[rel] = _sha256(resolved)
-            elif entry.is_symlink() and entry.suffix == ".py":
-                rel_entry = _relative_to_root(entry, workspace_root)
-                errors.append(
+            if entry.suffix != ".py":
+                continue
+
+            if entry.is_symlink():
+                rel_entry = _relative_to_root(entry, request.workspace_root)
+                diagnostics.append(
                     f"migration file symlink is not allowed: {rel_entry or entry.name}"
                 )
+                trusted = False
+                continue
+
+            if not entry.is_file():
+                rel_entry = _relative_to_root(entry, request.workspace_root)
+                diagnostics.append(
+                    f"migration entry is not a regular file: {rel_entry or entry.name}"
+                )
+                trusted = False
+                continue
+
+            resolved_entry = entry.resolve(strict=True)
+
+            if resolved_entry.parent != resolved:
+                rel_entry = _relative_to_root(entry, request.workspace_root)
+                diagnostics.append(
+                    f"migration file resolves outside migration directory: "
+                    f"{rel_entry or entry.name}"
+                )
+                trusted = False
+                continue
+
+            rel = _relative_to_root(resolved_entry, request.workspace_root)
+            if rel is None:
+                rel_entry = _relative_to_root(entry, request.workspace_root)
+                diagnostics.append(
+                    f"migration file resolves outside workspace: "
+                    f"{rel_entry or entry.name}"
+                )
+                trusted = False
+                continue
+
+            hashes[rel] = _sha256(resolved_entry)
+
         except (OSError, RuntimeError, ValueError) as exc:
-            rel_entry = _relative_to_root(entry, workspace_root)
-            errors.append(
-                f"failed to inspect migration file "
-                f"{rel_entry or entry.name}: {exc}"
+            rel_entry = _relative_to_root(entry, request.workspace_root)
+            diagnostics.append(
+                f"failed to inspect migration file {rel_entry or entry.name}: {exc}"
             )
-    return result, tuple(errors)
+            trusted = False
+
+    return _MigrationSnapshot(
+        trusted=trusted,
+        hashes=hashes,
+        diagnostics=tuple(diagnostics),
+    )
 
 
-def _created_numbered_migrations(
-    before: dict[str, str],
-    after: dict[str, str],
-    mig_dir_rel: str,
-) -> tuple[str, ...]:
-    before_set = set(before.keys())
-    after_set = set(after.keys())
+def _run_command(
+    request: _ValidatedPostGenerationRequest,
+) -> _CommandOutcome:
+    try:
+        proc = subprocess.run(
+            list(request.command),
+            cwd=str(request.workspace_root),
+            capture_output=True,
+            text=True,
+            timeout=request.timeout,
+        )
+        return _CommandOutcome(
+            succeeded=proc.returncode == 0,
+            exit_code=proc.returncode,
+            stdout=proc.stdout,
+            stderr=proc.stderr,
+        )
+    except subprocess.TimeoutExpired as e:
+        stdout = _coerce_subprocess_text(e.stdout)
+        stderr = _coerce_subprocess_text(e.stderr)
+        if stderr:
+            stderr += "\n"
+        stderr += "Command timed out"
+        return _CommandOutcome(
+            succeeded=False,
+            exit_code=-1,
+            stdout=stdout,
+            stderr=stderr,
+        )
+    except FileNotFoundError:
+        return _CommandOutcome(
+            succeeded=False,
+            exit_code=-1,
+            stdout="",
+            stderr=f"Command not found: {request.command[0]}",
+        )
+    except ValueError as exc:
+        return _CommandOutcome(
+            succeeded=False,
+            exit_code=-1,
+            stdout="",
+            stderr=f"Invalid subprocess argument: {exc}",
+        )
+    except OSError as e:
+        return _CommandOutcome(
+            succeeded=False,
+            exit_code=-1,
+            stdout="",
+            stderr=f"OS error: {e}",
+        )
+    except subprocess.SubprocessError as e:
+        return _CommandOutcome(
+            succeeded=False,
+            exit_code=-1,
+            stdout="",
+            stderr=f"Subprocess error: {e}",
+        )
+
+
+def _assess_migration_change(
+    request: _ValidatedPostGenerationRequest,
+    before: _MigrationSnapshot,
+    after: _MigrationSnapshot,
+) -> _MigrationAssessment:
+    diagnostics: list[str] = list(before.diagnostics)
+    diagnostics.extend(after.diagnostics)
+
+    if not after.trusted:
+        return _MigrationAssessment(
+            passed=False,
+            existing_unchanged=False,
+            created_paths=(),
+            diagnostics=tuple(diagnostics),
+        )
+
+    existing_unchanged = True
+    for old_path, old_hash in before.hashes.items():
+        if old_path not in after.hashes:
+            existing_unchanged = False
+            diagnostics.append(f"old migration deleted: {old_path}")
+        elif after.hashes[old_path] != old_hash:
+            existing_unchanged = False
+            diagnostics.append(f"old migration modified: {old_path}")
+
+    mig_dir_rel = request.migration_directory_relative
+    before_set = set(before.hashes.keys())
+    after_set = set(after.hashes.keys())
     new_paths = sorted(after_set - before_set)
 
-    filtered: list[str] = []
+    created_list: list[str] = []
     for p in new_paths:
         parts = p.split("/")
         if len(parts) != len(mig_dir_rel.split("/")) + 1:
@@ -157,11 +338,26 @@ def _created_numbered_migrations(
         if not p.startswith(mig_dir_rel + "/"):
             continue
         filename = parts[-1]
-        if not NUMBERED_MIGRATION_RE.match(filename):
-            continue
-        filtered.append(p)
+        if NUMBERED_MIGRATION_RE.match(filename):
+            created_list.append(p)
+    created_paths = tuple(created_list)
 
-    return tuple(filtered)
+    passed = before.trusted and existing_unchanged
+    if request.require_new_migration and len(created_paths) != 1:
+        passed = False
+        if len(created_paths) == 0:
+            diagnostics.append("expected exactly one new migration, got zero")
+        else:
+            diagnostics.append(
+                f"expected exactly one new migration, got {len(created_paths)}"
+            )
+
+    return _MigrationAssessment(
+        passed=passed,
+        existing_unchanged=existing_unchanged,
+        created_paths=created_paths,
+        diagnostics=tuple(diagnostics),
+    )
 
 
 def run_post_generation_command(
@@ -191,12 +387,12 @@ def run_post_generation_command(
             duration_seconds=duration,
         )
 
-    workspace, _resolved = validation_result
+    request = validation_result
 
-    before, before_errors = _snapshot_migrations(workspace, migration_directory)
-    if before_errors:
+    before = _take_migration_snapshot(request)
+    if not before.trusted:
         duration = time.monotonic() - start
-        stderr = "\n".join(before_errors)
+        stderr = "\n".join(before.diagnostics)
         return PostGenerationResult(
             passed=False,
             exit_code=-1,
@@ -205,108 +401,30 @@ def run_post_generation_command(
             duration_seconds=duration,
         )
 
-    cmd_exit_code: int = -1
-    cmd_stdout: str = ""
-    cmd_stderr: str = ""
-    cmd_passed: bool = False
+    command_outcome = _run_command(request)
+    after = _take_migration_snapshot(request)
+    assessment = _assess_migration_change(request, before, after)
 
-    try:
-        proc = subprocess.run(
-            list(command),
-            cwd=str(workspace),
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-        )
-        cmd_exit_code = proc.returncode
-        cmd_stdout = proc.stdout
-        cmd_stderr = proc.stderr
-        cmd_passed = proc.returncode == 0
-    except subprocess.TimeoutExpired as e:
-        cmd_exit_code = -1
-        cmd_stdout = _coerce_subprocess_text(e.stdout)
-        cmd_stderr = _coerce_subprocess_text(e.stderr)
-        if cmd_stderr:
-            cmd_stderr += "\n"
-        cmd_stderr += "Command timed out"
-        cmd_passed = False
-    except FileNotFoundError:
-        cmd_exit_code = -1
-        cmd_stdout = ""
-        cmd_stderr = f"Command not found: {command[0]}"
-        cmd_passed = False
-    except ValueError as exc:
-        cmd_exit_code = -1
-        cmd_stdout = ""
-        cmd_stderr = f"Invalid subprocess argument: {exc}"
-        cmd_passed = False
-    except OSError as e:
-        cmd_exit_code = -1
-        cmd_stdout = ""
-        cmd_stderr = f"OS error: {e}"
-        cmd_passed = False
-    except subprocess.SubprocessError as e:
-        cmd_exit_code = -1
-        cmd_stdout = ""
-        cmd_stderr = f"Subprocess error: {e}"
-        cmd_passed = False
+    passed = command_outcome.succeeded and assessment.passed
 
-    after, after_errors = _snapshot_migrations(workspace, migration_directory)
+    if not command_outcome.succeeded:
+        exit_code = command_outcome.exit_code
+    elif passed:
+        exit_code = 0
+    else:
+        exit_code = -1
 
-    diagnostics: list[str] = list(after_errors)
-    all_old_unchanged = not after_errors
-    for old_path, old_hash in before.items():
-        if old_path not in after:
-            all_old_unchanged = False
-            diagnostics.append(f"old migration deleted: {old_path}")
-        elif after[old_path] != old_hash:
-            all_old_unchanged = False
-            diagnostics.append(f"old migration modified: {old_path}")
-
-    mig_dir_rel = migration_directory.replace("\\", "/")
-    created = _created_numbered_migrations(before, after, mig_dir_rel)
-
-    if not cmd_passed:
-        duration = time.monotonic() - start
-        full_stderr = cmd_stderr
-        if diagnostics:
-            full_stderr += "\n[post-generation validation]\n" + "\n".join(diagnostics)
-        return PostGenerationResult(
-            passed=False,
-            exit_code=cmd_exit_code,
-            stdout=cmd_stdout,
-            stderr=full_stderr,
-            duration_seconds=duration,
-            created_paths=created,
-            existing_migrations_unchanged=all_old_unchanged,
-        )
-
-    passed = all_old_unchanged
-    if not all_old_unchanged:
-        passed = False
-    if require_new_migration and len(created) != 1:
-        passed = False
-        if len(created) == 0:
-            diagnostics.append("expected exactly one new migration, got zero")
-        else:
-            diagnostics.append(
-                f"expected exactly one new migration, got {len(created)}"
-            )
-
-    if not passed:
-        cmd_exit_code = -1
-
-    full_stderr = cmd_stderr
-    if diagnostics:
-        full_stderr += "\n[post-generation validation]\n" + "\n".join(diagnostics)
+    full_stderr = command_outcome.stderr
+    if assessment.diagnostics:
+        full_stderr += "\n[post-generation validation]\n" + "\n".join(assessment.diagnostics)
 
     duration = time.monotonic() - start
     return PostGenerationResult(
         passed=passed,
-        exit_code=cmd_exit_code,
-        stdout=cmd_stdout,
+        exit_code=exit_code,
+        stdout=command_outcome.stdout,
         stderr=full_stderr,
         duration_seconds=duration,
-        created_paths=created,
-        existing_migrations_unchanged=all_old_unchanged,
+        created_paths=assessment.created_paths,
+        existing_migrations_unchanged=assessment.existing_unchanged,
     )
