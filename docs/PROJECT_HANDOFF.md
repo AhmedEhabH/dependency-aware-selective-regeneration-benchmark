@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-28
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** THREE-ARM-CORE-EXPERIMENT R3A AUDIT-CLOSURE — branch experiment/three-arm-smoke-v2
+**Handoff type:** THREE-ARM-CORE-EXPERIMENT R3B ACCEPTANCE-CLOSURE — branch experiment/three-arm-smoke-v2
 
 ---
 
@@ -64,13 +64,14 @@ project/
 - **R3B code-checkpoint:** c11f25e (feat(validation): add deterministic migration runner)
 - **R3B correction-checkpoint:** c873d9f (fix(validation): close migration runner safety gaps)
 - **R3B final-correction-checkpoint:** c635e42 (fix(validation): reject unsafe migration entries and malformed execution input)
+- **R3B acceptance-closure-checkpoint:** f8faa08 (fix(validation): fail on untrusted migration after-state)
 - **R3B docs-checkpoint:** 8c588e6 (docs(state): record R3B completion)
 - **R3B correction-docs-checkpoint:** 8c588e6
-- **R3B final-correction-docs-checkpoint:** (current)
+- **R3B final-correction-docs-checkpoint:** 8c588e6
 - **HEAD:** (current)
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** 1273 passed, 15 skipped
+- **Test suite:** 1279 passed, 17 skipped
 - **Lint:** ruff 0 violations
 - **Types:** mypy strict 0 errors
 - **Dependencies:** pip check clean
@@ -149,7 +150,7 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 | Task | Priority | Notes |
 |------|----------|-------|
 | R3A — scenario execution metadata | COMPLETE | evaluator_asset, post_generation_command, require_new_migration |
-| R3B — deterministic post-generation migration runner | CORRECTED — INDEPENDENT ACCEPTANCE PENDING | PostGenerationResult, run_post_generation_command, 68 tests + 5 helper tests (73 total focused, 1273 total suite) |
+| R3B — deterministic post-generation migration runner | ACCEPTANCE CLOSED — INDEPENDENT AUDIT SATISFIED | PostGenerationResult, run_post_generation_command, 74 tests + 7 helper tests (81 total focused, 1279 total suite) |
 | R3C — isolated scenario evaluator runner and three evaluator scripts | HIGH | Next phase — R3B complete |
 | **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R3–R6 complete |
 | Audit Smoke V2 results | HIGH | Independent verification before Pilot authorization |
@@ -165,12 +166,13 @@ Current branch:  experiment/three-arm-smoke-v2
 R1 checkpoint:   b129d42 (feat(agent): complete bounded workspace exploration)
 R2 checkpoint:   5057e7d (fix(selection): correct R2 selective scope)
 R3A checkpoint:  3eaab60 (feat(scenarios): add V2 execution metadata)
-R3B checkpoint:       c11f25e (feat(validation): add deterministic migration runner)
-R3B correction:       c873d9f (fix(validation): close migration runner safety gaps)
-R3B final correction: c635e42 (fix(validation): reject unsafe migration entries and malformed execution input)
-R3B docs:             8c588e6 (docs(state): record R3B completion)
-R3B final docs:       (current)
-HEAD:                 (current)
+R3B checkpoint:              c11f25e (feat(validation): add deterministic migration runner)
+R3B correction:              c873d9f (fix(validation): close migration runner safety gaps)
+R3B final correction:        c635e42 (fix(validation): reject unsafe migration entries and malformed execution input)
+R3B acceptance closure:      f8faa08 (fix(validation): fail on untrusted migration after-state)
+R3B docs:                    8c588e6 (docs(state): record R3B completion)
+R3B acceptance docs:         (current)
+HEAD:                        (current)
 Local/remote:         not yet pushed
 Working tree:         clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged)
@@ -259,4 +261,4 @@ python seven_arm_benchmark.py --dry-run
 
 ---
 
-**R3B_FINAL_CORRECTION_AUDIT_REQUIRED**
+**R3B_ACCEPTANCE_CLOSURE_AUDIT_REQUIRED**

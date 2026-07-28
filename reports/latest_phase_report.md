@@ -1,12 +1,13 @@
 # R3B — Deterministic post-generation migration runner
 
 **Date:** 2026-07-28
-**Status:** R3B CORRECTED — INDEPENDENT ACCEPTANCE PENDING
+**Status:** R3B ACCEPTANCE CLOSED — INDEPENDENT AUDIT SATISFIED
 **Branch:** `experiment/three-arm-smoke-v2`
 **Starting HEAD:** `2370a57` (docs(state): record R3A completion)
 **R3B code-checkpoint:** `c11f25e` (feat(validation): add deterministic migration runner)
 **R3B correction-checkpoint:** `c873d9f` (fix(validation): close migration runner safety gaps)
 **R3B final-correction-checkpoint:** `c635e42` (fix(validation): reject unsafe migration entries and malformed execution input)
+**R3B acceptance-closure-checkpoint:** `f8faa08` (fix(validation): fail on untrusted migration after-state)
 
 ---
 
@@ -42,6 +43,13 @@ A second independent audit found 3 additional defects: migration-file symlink co
 | H | Timeout type bool/float/str/None accepted; zero allowed | `type(timeout) is int` required; `timeout > 0` validated after type check |
 | I | Embedded NUL raises uncaught `ValueError` | NUL rejected in `_validate_inputs` for command items and `migration_directory`; `except ValueError` and `except subprocess.SubprocessError` added around subprocess call |
 
+### Third audit defect corrected (f8faa08)
+
+| # | Defect | Correction |
+|---|--------|-----------|
+| J | After-state snapshot errors appended to stderr but did not force `passed=False` or `existing_migrations_unchanged=False` | `all_old_unchanged = not after_errors`; `passed` fails when `after_errors` non-empty; `existing_migrations_unchanged` forced `False` |
+| K | Whitespace-only `migration_directory` accepted | `not migration_directory.strip()` replaces `len(migration_directory) == 0` |
+
 ### Input validation (fail-closed)
 
 Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic in stderr:
@@ -57,7 +65,7 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 9. require_new_migration is not bool
 10. timeout is not int (rejects None, True, False, float, str, list, dict, object)
 11. timeout <= 0
-12. migration_directory empty, NUL, absolute, `..`, or backslash
+12. migration_directory empty/whitespace, NUL, absolute, `..`, or backslash
 13. migration_directory does not resolve under workspace_root
 14. migration_directory does not exist
 15. migration_directory is not a directory
@@ -72,6 +80,7 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 - Non-numbered `.py` files (e.g. `helper.py`) are not accepted as required new migrations but remain integrity-protected existing files
 - `require_new_migration=True`: exactly one new numbered migration required
 - `require_new_migration=False`: count is not gated, but command success and old-file integrity still required
+- After-state snapshot errors force `passed=False`, `existing_migrations_unchanged=False`, and `exit_code=-1`, even when subprocess succeeded and old hashes match
 - After-state inspection runs unconditionally after every subprocess outcome, including timeout, ValueError, SubprocessError, and OS errors
 - Available stdout/stderr preserved from `TimeoutExpired` via `_coerce_subprocess_text` normalizer
 - Output paths are repository-relative sorted POSIX strings
@@ -86,15 +95,15 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 
 | Metric | Value |
 |--------|-------|
-| Focused tests (post_generation) | 68 passed + 5 skipped (symlink unavailable) = 73 total |
-| Focused + validation execution tests | 77 passed |
-| Full suite | 1273 passed, 15 skipped |
+| Focused tests (post_generation) | 74 passed + 7 skipped (symlink unavailable) = 81 total |
+| Focused + validation execution tests | 83 passed + 7 skipped = 90 total |
+| Full suite | 1279 passed, 17 skipped |
 | Ruff | 0 errors |
 | Mypy strict (changed production files) | 0 errors |
 | Compileall | 0 errors |
 | git diff --check | clean (CRLF warning only) |
 
-### All tests (73 collected, 5 symlink-skipped)
+### All tests (81 collected, 7 symlink-skipped)
 
 1. test_valid_command_creates_one_migration_and_passes
 2. test_created_path_is_repository_relative_posix
@@ -164,7 +173,15 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 66. test_subprocess_error_after_creating_migration_detects_integrity (defect I)
 67. test_snapshot_read_error_returns_typed_failure
 68. test_workspace_root_none_fails_validation
-69–73. Helper tests for `_coerce_subprocess_text` and `_relative_to_root`
+69. test_subprocess_created_external_symlink_forces_failure (defect J, skip on Windows)
+70. test_subprocess_created_symlink_forces_failure_when_migration_not_required (defect J, skip on Windows)
+71. test_synthetic_after_snapshot_error_forces_failure (defect J)
+72. test_whitespace_only_migration_directory_fails[""] (defect K)
+73. test_whitespace_only_migration_directory_fails[" "] (defect K)
+74. test_whitespace_only_migration_directory_fails["   "] (defect K)
+75. test_whitespace_only_migration_directory_fails["\t"] (defect K)
+76. test_whitespace_only_migration_directory_fails["\n"] (defect K)
+77–81. Helper tests for `_coerce_subprocess_text` and `_relative_to_root`
 
 ### State
 
@@ -175,8 +192,10 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 | R3B correction commit | `c873d9f` |
 | R3B second independent audit | FOUND 3 DEFECTS + 1 REPO DEFECT |
 | R3B final correction commit | `c635e42` |
-| R3B final status | CORRECTED — INDEPENDENT ACCEPTANCE PENDING |
-| R3C isolated scenario evaluator | BLOCKED — R3B acceptance required |
+| R3B third independent audit | FOUND 1 DEFECT + 1 INPUT GAP |
+| R3B acceptance closure commit | `f8faa08` |
+| R3B final status | ACCEPTANCE CLOSED — INDEPENDENT AUDIT SATISFIED |
+| R3C isolated scenario evaluator | NEXT — blocked by previous R3B status; now unblocked |
 | R3D-R6 | NOT STARTED |
 | Kaggle | BLOCKED |
 | Pilot | BLOCKED |
@@ -189,6 +208,7 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 
 | Commit | Description |
 |--------|-------------|
+| `f8faa08` | fix(validation): fail on untrusted migration after-state |
 | `c635e42` | fix(validation): reject unsafe migration entries and malformed execution input |
 | `3569a88` | docs(audit): record R3B correction |
 | `c873d9f` | fix(validation): close migration runner safety gaps |
@@ -199,4 +219,4 @@ Validators return a typed `PostGenerationResult(exit_code=-1)` with diagnostic i
 
 ---
 
-**R3B_FINAL_CORRECTION_AUDIT_REQUIRED**
+**R3B_ACCEPTANCE_CLOSURE_AUDIT_REQUIRED**
