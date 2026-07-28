@@ -60,11 +60,13 @@ project/
 - **Branch:** experiment/three-arm-smoke-v2
 - **R1 checkpoint:** b129d42 (feat(agent): complete bounded workspace exploration)
 - **R2 checkpoint:** 5057e7d (fix(selection): correct R2 selective scope)
-- **HEAD:** 3eaab60 (feat(scenarios): add V2 execution metadata)
-- **Amended R3A code-checkpoint:** 3eaab60
+- **R3A checkpoint:** 3eaab60 (feat(scenarios): add V2 execution metadata)
+- **R3B code-checkpoint:** c11f25e (feat(validation): add deterministic migration runner)
+- **R3B docs-checkpoint:** 8c588e6 (docs(state): record R3B completion)
+- **HEAD:** 8c588e6 (docs(state): record R3B completion)
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** pre-closure baseline 1166 passed, 10 skipped; actual final 1205 passed, 10 skipped
+- **Test suite:** pre-closure baseline 1166 passed, 10 skipped; actual final 1237 passed, 10 skipped
 - **Lint:** ruff 0 violations
 - **Types:** mypy strict 0 errors
 - **Dependencies:** pip check clean
@@ -143,7 +145,8 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 | Task | Priority | Notes |
 |------|----------|-------|
 | R3A — scenario execution metadata | COMPLETE | evaluator_asset, post_generation_command, require_new_migration |
-| R3B — migration runner, evaluator isolation | HIGH | Next phase — R3A complete |
+| R3B — deterministic post-generation migration runner | COMPLETE | PostGenerationResult, run_post_generation_command, 32 tests |
+| R3C — isolated scenario evaluator runner and three evaluator scripts | HIGH | Next phase — R3B complete |
 | **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R3–R6 complete |
 | Audit Smoke V2 results | HIGH | Independent verification before Pilot authorization |
 | Integrate Pilot repositories | MEDIUM | ≥5K LOC, permissive license, pinned commit, passing tests |
@@ -158,7 +161,9 @@ Current branch:  experiment/three-arm-smoke-v2
 R1 checkpoint:   b129d42 (feat(agent): complete bounded workspace exploration)
 R2 checkpoint:   5057e7d (fix(selection): correct R2 selective scope)
 R3A checkpoint:  3eaab60 (feat(scenarios): add V2 execution metadata)
-HEAD:            3eaab60 (feat(scenarios): add V2 execution metadata)
+R3B checkpoint:  c11f25e (feat(validation): add deterministic migration runner)
+R3B docs:        8c588e6 (docs(state): record R3B completion)
+HEAD:            8c588e6 (docs(state): record R3B completion)
 Local/remote:    not yet pushed
 Working tree:    clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged)
@@ -247,4 +252,4 @@ python seven_arm_benchmark.py --dry-run
 
 ---
 
-**R3A_AUDIT_CLOSED_READY_FOR_R3B**
+**R3B_MIGRATION_RUNNER_COMPLETE_AUDIT_REQUIRED**
