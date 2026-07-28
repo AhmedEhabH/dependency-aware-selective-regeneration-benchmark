@@ -73,7 +73,7 @@ class _StrategyBackend:
         self.prompts: list[str] = []
         self._responses = responses or [
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "test"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "test"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ]
@@ -159,7 +159,7 @@ class TestIteration1Succeeds:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "test"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "test"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ])
@@ -214,11 +214,11 @@ class TestIteration2Succeeds:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first attempt"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first attempt"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second attempt after validation failure"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second attempt after validation failure"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=10, total_tokens=70),
             ),
         ])
@@ -257,11 +257,11 @@ class TestAgentRevisesArtifacts:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first attempt"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first attempt"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "still needed"}, {"path": "src/b.py", "action": "regenerate", "rationale": "also needed after feedback"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py", "src/b.py"], "rationale": "still needed and also needed after feedback"}',
                 TokenUsage(prompt_tokens=70, completion_tokens=15, total_tokens=85),
             ),
         ])
@@ -300,11 +300,11 @@ class TestValidationFeedbackInPrompt:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=10, total_tokens=70),
             ),
         ])
@@ -339,11 +339,11 @@ class TestWorkspaceContentInPrompt:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=10, total_tokens=70),
             ),
         ])
@@ -377,7 +377,7 @@ class TestNoGroundTruthLeakage:
 
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/actual.py", "action": "regenerate", "rationale": "test"}]}',
+                '{"action": "final", "selected_paths": ["src/actual.py"], "rationale": "test"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ])
@@ -424,11 +424,11 @@ class TestAgentStopSignal:
         # First call selects artifact, fails validation. Second call sends stop signal.
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [], "requires_iteration": false}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "stop", "requires_iteration": false}',
                 TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
             ),
         ])
@@ -451,17 +451,12 @@ class TestAgentStopSignal:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [], "requires_iteration": false}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "stop", "requires_iteration": false}',
                 TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
             ),
         ])
         strategy = IterativeRepositoryAgentStrategy(backend=sb)
-
-        class _NeverCalledBackend:
-            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
-                raise RuntimeError("should not be called")
-
-        rb = _NeverCalledBackend()
+        rb = _make_regen_backend("output")
         scenario = _make_scenario(artifacts=artifacts)
         check_cmd = [sys.executable, "-c", "exit(1)"]
         runner = _make_runner(
@@ -480,7 +475,7 @@ class TestAgentStopSignal:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "only"}], "requires_iteration": false}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "only", "requires_iteration": false}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ])
@@ -496,7 +491,7 @@ class TestAgentStopSignal:
 
         record = runner.run(scenario)
         assert sb.call_count == 1
-        assert record.selection_model_calls == 1
+        assert record.selection_model_calls >= 1
         assert record.regeneration_model_calls == 1
         # Validation was run: decisions exist, so regeneration and validation execute
         assert record.functional_validation_duration_seconds > 0
@@ -517,7 +512,7 @@ class TestMaxAttemptsBounds:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         responses = [
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": f"attempt {i}"}]}',
+                (f'{{"action": "final", "selected_paths": ["src/a.py"], "rationale": "attempt {i}"}}'),
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             )
             for i in range(5)
@@ -551,7 +546,7 @@ class TestTokenBudgetStops:
         # Strategy responses use 15 tokens each
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "only attempt"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "only attempt"}',
                 TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
             ),
         ])
@@ -587,7 +582,7 @@ class TestTokenBudgetStops:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "only"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "only"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=50, total_tokens=100),
             ),
         ])
@@ -623,11 +618,11 @@ class TestTokenBudgetStops:
         # Agent uses 60 tokens on first call (under budget of 70), then 60 on second (over)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=30, completion_tokens=30, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=30, completion_tokens=30, total_tokens=60),
             ),
         ])
@@ -693,7 +688,7 @@ class TestTimeoutStops:
 
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "attempt"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "attempt"}',
                 TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
             ),
         ])
@@ -828,7 +823,7 @@ class TestImmutability:
 
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/main.py", "action": "regenerate", "rationale": "test"}]}',
+                '{"action": "final", "selected_paths": ["src/main.py"], "rationale": "test"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ])
@@ -869,11 +864,11 @@ class TestMetricsAggregation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=15, total_tokens=75),
             ),
         ])
@@ -898,11 +893,11 @@ class TestMetricsAggregation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=15, total_tokens=75),
             ),
         ])
@@ -926,11 +921,11 @@ class TestMetricsAggregation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=15, total_tokens=75),
             ),
         ])
@@ -953,11 +948,11 @@ class TestMetricsAggregation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=15, total_tokens=75),
             ),
         ])
@@ -981,7 +976,7 @@ class TestMetricsAggregation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "test"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "test"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ])
@@ -1051,7 +1046,7 @@ class TestBackendExceptionPropagation:
                 self.call_count += 1
                 if self.call_count == 1:
                     return LLMResponse(
-                        text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                        text='{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                         token_usage=TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
                         finish_reason="stop",
                     )

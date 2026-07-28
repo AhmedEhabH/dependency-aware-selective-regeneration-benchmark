@@ -53,7 +53,7 @@ def mock_backend() -> Any:
             self.call_count += 1
             from benchmark.core.models import LLMResponse
             return LLMResponse(
-                text='{"decisions": [], "requires_iteration": false}',
+                text='{"action": "final", "selected_paths": ["todo/models.py"], "requires_iteration": false}',
                 token_usage=TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
                 finish_reason="stop",
             )
@@ -94,15 +94,12 @@ class TestSameChangeAndConfig:
         s = HybridSelectiveStrategy(graph=dep_graph)
         assert isinstance(s.analyze_impact(None, todo_requirement, simple_universe), ImpactPrediction)
 
-        class _Repo:
-            class _Id:
-                name = "todo"
-            identity = _Id()
-            path = "/fake"
-            commit_sha = "abc123"
-
-        a = IterativeRepositoryAgentStrategy(backend=mock_backend)
-        assert isinstance(a.analyze_impact(_Repo(), todo_requirement, simple_universe), ImpactPrediction)
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            ws = Path(td)
+            a = IterativeRepositoryAgentStrategy(backend=mock_backend)
+            a.begin_run(ws)
+            assert isinstance(a.analyze_impact(None, todo_requirement, simple_universe), ImpactPrediction)
 
 
 class TestSharedExecutor:

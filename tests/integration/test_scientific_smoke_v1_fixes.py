@@ -481,10 +481,30 @@ class _TruncatedAgentStrategy:
     def __init__(self) -> None:
         self._backend = _TruncatedResponseBackend()
         self._last_requires_iteration: bool = True
+        self._call_count: int = 0
+
+    def begin_run(self, workspace_root: str | Path) -> None:
+        self._call_count = 0
 
     @property
     def last_requires_iteration(self) -> bool:
         return self._last_requires_iteration
+
+    @property
+    def model_call_count(self) -> int:
+        return self._call_count
+
+    @property
+    def tool_call_count(self) -> int:
+        return 0
+
+    @property
+    def tool_duration_seconds(self) -> float:
+        return 0.0
+
+    @property
+    def inspected_file_count(self) -> int:
+        return 0
 
     def analyze_impact(
         self,
@@ -494,6 +514,7 @@ class _TruncatedAgentStrategy:
         **kwargs: object,
     ) -> ImpactPrediction:
         import asyncio
+        self._call_count += 1
         response = asyncio.get_event_loop().run_until_complete(
             self._backend.generate(prompt="test", temperature=0.0, max_tokens=4096)
         )
@@ -513,7 +534,7 @@ class _TruncatedResponseBackend:
 
     async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
         return LLMResponse(
-            text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first decision"}, {"path": "src/b.py", "action": "regenera',
+            text='{"action": "final", "selected_paths": ["src/a.py", "src/b.py"',  # truncated
             token_usage=TokenUsage(prompt_tokens=499, completion_tokens=196, total_tokens=695),
             finish_reason="eos",
         )
@@ -966,6 +987,9 @@ class TestGap4FinishReason:
                 )
 
         class _ParseFailLength:
+            def begin_run(self, workspace_root: str | Path) -> None:
+                pass
+
             def analyze_impact(self, *args, **kwargs):
                 import asyncio
                 resp = asyncio.get_event_loop().run_until_complete(
@@ -1362,13 +1386,11 @@ class TestExecutionContract:
         }
 
     def _iterative_backend_response(self) -> str:
-        """Valid compact JSON decision that IterativeRepositoryAgentStrategy can parse."""
+        """Valid JSON final action for IterativeRepositoryAgentStrategy tool-based loop."""
         return (
-            '{"decisions":[{"path":"todo/serializers.py","action":"regenerate",'
-            '"rationale":"add priority field"},'
-            '{"path":"todo/models.py","action":"regenerate",'
-            '"rationale":"add priority field to model"}],'
-            '"requires_iteration":false}'
+            '{"action":"final",'
+            '"selected_paths":["todo/serializers.py","todo/models.py"],'
+            '"rationale":"add priority field to model and serializer"}'
         )
 
     def test_execution_contract(self, tmp_path: Path) -> None:
@@ -1431,7 +1453,8 @@ class TestExecutionContract:
                 kw["_backend"] = _make_backend(self._iterative_backend_response())
             elif sn == "selective":
                 kw["_backend"] = _make_backend(
-                    '{"decisions": [{"path": "todo/models.py", "action": "regenerate", "rationale": "add priority"}, {"path": "todo/serializers.py", "action": "regenerate", "rationale": "update serializer"}]}'
+                    '{"action":"final","selected_paths"'
+                    ':["todo/models.py","todo/serializers.py"],"rationale":"add priority"}'
                 )
 
             source_root = data_dir / "repositories" / "todo"

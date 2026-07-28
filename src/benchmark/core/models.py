@@ -272,6 +272,10 @@ class RunRecord:
     selection_total_tokens: int = 0
     selection_model_calls: int = 0
     selection_duration_seconds: float = 0.0
+    selection_tool_calls: int = 0
+    selection_tool_duration_seconds: float = 0.0
+    selection_inspected_file_count: int = 0
+    selection_tool_transcript: tuple[str, ...] = ()
 
     # Regeneration stage metrics
     regeneration_prompt_tokens: int = 0
@@ -282,6 +286,20 @@ class RunRecord:
 
     # Functional validation stage metrics
     functional_validation_duration_seconds: float = 0.0
+
+    # Migration generation stage metrics
+    migration_generation_passed: bool | None = None
+    migration_duration_seconds: float = 0.0
+    generated_migration_paths: tuple[str, ...] = ()
+
+    # Baseline validation stage metrics
+    baseline_validation_passed: bool | None = None
+    baseline_validation_duration_seconds: float = 0.0
+
+    # Scenario evaluator stage metrics
+    scenario_evaluator_passed: bool | None = None
+    scenario_evaluator_duration_seconds: float = 0.0
+    scenario_evaluator_checks: tuple[str, ...] = ()
 
     # Total workflow metrics (aggregated)
     total_workflow_tokens: int = 0
@@ -300,6 +318,12 @@ class RunRecord:
             raise ValueError("RunRecord.duration_seconds must be >= 0")
         if self.selection_duration_seconds < 0:
             raise ValueError("RunRecord.selection_duration_seconds must be >= 0")
+        if self.selection_tool_duration_seconds < 0:
+            raise ValueError("RunRecord.selection_tool_duration_seconds must be >= 0")
+        if self.selection_tool_calls < 0:
+            raise ValueError("RunRecord.selection_tool_calls must be >= 0")
+        if self.selection_inspected_file_count < 0:
+            raise ValueError("RunRecord.selection_inspected_file_count must be >= 0")
         if self.regeneration_duration_seconds < 0:
             raise ValueError("RunRecord.regeneration_duration_seconds must be >= 0")
         if self.functional_validation_duration_seconds < 0:

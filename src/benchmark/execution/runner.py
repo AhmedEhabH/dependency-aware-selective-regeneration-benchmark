@@ -29,7 +29,7 @@ from benchmark.execution.regeneration import REPAIR_CONTEXT_PROMPT_TEMPLATE, Sha
 from benchmark.execution.repair import RepairLoop
 from benchmark.execution.state_machine import RunStateMachine
 from benchmark.execution.validation import FunctionalValidationResult, FunctionalValidator
-from benchmark.repositories.snapshot import discover_eligible_artifacts, resolve_allowed_artifacts
+from benchmark.repositories.snapshot import resolve_allowed_artifacts
 from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner, compute_artifact_counts
 
 
@@ -731,6 +731,22 @@ class BenchmarkRunner:
                     functional_validation_passed=None,
                 )
 
+            begin_run = getattr(self._strategy, "begin_run", None)
+            if not callable(begin_run):
+                return RunRecord(
+                    identity=self._build_run_identity(scenario),
+                    status=RunStatus.failed,
+                    failures=(
+                        FailureRecord(
+                            failure_kind=FailureKind.harness_defect,
+                            message="Strategy does not support begin_run",
+                            stage="configuration",
+                        ),
+                    ),
+                    duration_seconds=time.monotonic() - start_time,
+                )
+            begin_run(self._isolation.workspace.root)
+
             requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
             executor = SharedRegenerationExecutor(self._backend)
             validator = FunctionalValidator()
@@ -740,6 +756,9 @@ class BenchmarkRunner:
             selection_total_tok = 0
             selection_calls = 0
             selection_dur = 0.0
+            selection_tool_calls = 0
+            selection_tool_duration = 0.0
+            selection_inspected = 0
 
             regen_total_prompt = 0
             regen_total_completion = 0
@@ -767,6 +786,11 @@ class BenchmarkRunner:
                     break
 
                 if iteration == 0:
+                    strategy_model_calls_before = getattr(self._strategy, "model_call_count", 0)
+                    strategy_tool_calls_before = getattr(self._strategy, "tool_call_count", 0)
+                    strategy_tool_dur_before = getattr(self._strategy, "tool_duration_seconds", 0.0)
+                    strategy_inspected_before = getattr(self._strategy, "inspected_file_count", 0)
+
                     selection_start = time.monotonic()
                     prediction = self._strategy.analyze_impact(
                         repository=repository_snapshot,
@@ -776,6 +800,15 @@ class BenchmarkRunner:
                     )
                     sel_dur = time.monotonic() - selection_start
                     selection_dur += sel_dur
+
+                    mc_after = getattr(self._strategy, "model_call_count", 0)
+                    tc_after = getattr(self._strategy, "tool_call_count", 0)
+                    td_after = getattr(self._strategy, "tool_duration_seconds", 0.0)
+                    ic_after = getattr(self._strategy, "inspected_file_count", 0)
+                    selection_calls += (mc_after - strategy_model_calls_before)
+                    selection_tool_calls += (tc_after - strategy_tool_calls_before)
+                    selection_tool_duration += (td_after - strategy_tool_dur_before)
+                    selection_inspected += (ic_after - strategy_inspected_before)
                 else:
                     if last_val_result is None:
                         break
@@ -800,6 +833,11 @@ class BenchmarkRunner:
                             duration_seconds=time.monotonic() - start_time,
                         )
 
+                    strategy_model_calls_before = getattr(self._strategy, "model_call_count", 0)
+                    strategy_tool_calls_before = getattr(self._strategy, "tool_call_count", 0)
+                    strategy_tool_dur_before = getattr(self._strategy, "tool_duration_seconds", 0.0)
+                    strategy_inspected_before = getattr(self._strategy, "inspected_file_count", 0)
+
                     selection_start = time.monotonic()
                     prediction = revise_plan(
                         requirement_change=requirement_change,
@@ -815,12 +853,21 @@ class BenchmarkRunner:
                     sel_dur = time.monotonic() - selection_start
                     selection_dur += sel_dur
 
+                    mc_after = getattr(self._strategy, "model_call_count", 0)
+                    tc_after = getattr(self._strategy, "tool_call_count", 0)
+                    td_after = getattr(self._strategy, "tool_duration_seconds", 0.0)
+                    ic_after = getattr(self._strategy, "inspected_file_count", 0)
+                    selection_calls += (mc_after - strategy_model_calls_before)
+                    selection_tool_calls += (tc_after - strategy_tool_calls_before)
+                    selection_tool_duration += (td_after - strategy_tool_dur_before)
+                    selection_inspected += (ic_after - strategy_inspected_before)
+
                 final_prediction = prediction
                 tok = prediction.token_usage or TokenUsage()
                 selection_total_prompt += tok.prompt_tokens
                 selection_total_completion += tok.completion_tokens
                 selection_total_tok += tok.total_tokens
-                selection_calls += 1
+                # selection_calls is now tracked via deltas from strategy, no longer 1 per iteration
                 self._budget.record_tokens(tok.total_tokens)
 
                 if prediction.errors:
@@ -921,6 +968,9 @@ class BenchmarkRunner:
                         selection_total_tokens=selection_total,
                         selection_model_calls=selection_calls,
                         selection_duration_seconds=selection_dur,
+                        selection_tool_calls=selection_tool_calls,
+                        selection_tool_duration_seconds=selection_tool_duration,
+                        selection_inspected_file_count=selection_inspected,
                         regeneration_prompt_tokens=regen_total_prompt,
                         regeneration_completion_tokens=regen_total_completion,
                         regeneration_total_tokens=regen_total_tok,
@@ -975,6 +1025,9 @@ class BenchmarkRunner:
                 selection_total_tokens=selection_total,
                 selection_model_calls=selection_calls,
                 selection_duration_seconds=selection_dur,
+                selection_tool_calls=selection_tool_calls,
+                selection_tool_duration_seconds=selection_tool_duration,
+                selection_inspected_file_count=selection_inspected,
                 regeneration_prompt_tokens=regen_total_prompt,
                 regeneration_completion_tokens=regen_total_completion,
                 regeneration_total_tokens=regen_total_tok,
@@ -1135,18 +1188,17 @@ class BenchmarkRunner:
 
     def _build_artifact_universe(self, scenario: Scenario) -> ArtifactUniverse:
         if self._config.enable_regeneration:
-            if self._config.editable_artifact_paths:
-                return ArtifactUniverse(
-                    artifacts=resolve_allowed_artifacts(
-                        self._active_snapshot(),
-                        self._config.editable_artifact_paths,
-                    )
+            return ArtifactUniverse(
+                artifacts=resolve_allowed_artifacts(
+                    self._active_snapshot(),
+                    self._config.editable_artifact_paths,
                 )
-            artifacts = discover_eligible_artifacts(self._active_snapshot())
-            return ArtifactUniverse(artifacts=artifacts)
-        # Legacy fixture compatibility only.
-        # Ground Truth fallback is forbidden for regeneration-enabled and scientific execution.
-        return ArtifactUniverse(artifacts=scenario.expected_affected_artifacts)
+            )
+
+        # Legacy impact-only fixture compatibility only.
+        return ArtifactUniverse(
+            artifacts=scenario.expected_affected_artifacts
+        )
 
     def _build_failure_record(
         self,
