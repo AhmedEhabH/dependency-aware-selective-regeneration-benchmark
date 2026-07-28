@@ -124,12 +124,16 @@ class TestScenarioLoader:
 
         loader = ScenarioLoader(scenarios_dir)
         scenarios = loader.load_all()
-        assert len(scenarios) == 24, (
-            f"Expected 24 scenarios, loaded {len(scenarios)}. "
+        assert len(scenarios) == 27, (
+            f"Expected 27 scenarios, loaded {len(scenarios)}. "
             "Run with --log-cli-level=INFO to see which files were skipped."
         )
         repo_counts = Counter(s.repository for s in scenarios)
-        for repo in ("todo", "djangocms", "saleor"):
+        assert repo_counts["todo"] == 11, (
+            f"Repository 'todo' has {repo_counts['todo']} scenarios, expected 11. "
+
+        )
+        for repo in ("djangocms", "saleor"):
             assert repo_counts[repo] == 8, (
                 f"Repository '{repo}' has {repo_counts[repo]} scenarios, expected 8. "
                 f"Full distribution: {dict(repo_counts)}"

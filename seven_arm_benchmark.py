@@ -266,6 +266,19 @@ PROFILES: dict[str, ExecutionProfile] = {
         scenario_ids=["todo-loc-001"],
         timeout_seconds=180,
     ),
+    "scientific-smoke-v2": ExecutionProfile(
+        name="scientific-smoke-v2",
+        label="scientific-smoke-v2",
+        scenario_count=3,
+        strategies=["monolithic", "selective", "iterative_repository_agent"],
+        repetitions=1,
+        is_publication=False,
+        description="3 smoke scenarios x 3 arms x 1 rep, non-publication three-arm core experiment",
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
+        timeout_seconds=300,
+    ),
 }
 
 # ---------------------------------------------------------------------------

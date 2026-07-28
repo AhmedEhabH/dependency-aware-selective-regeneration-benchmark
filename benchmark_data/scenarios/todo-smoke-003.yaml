@@ -1,0 +1,77 @@
+# Scenario — todo-smoke-003
+# Protocol v1.0 (FROZEN) — three-arm core experiment smoke change
+
+scenario_id: "todo-smoke-003"
+repository: todo
+change_type: "Permissions and authorization changes"
+blast_radius: cross_cutting
+requirement_before: >
+  The Project model has name and description only; it has no owner field.
+  The Task model has a nullable owner ForeignKey. The TaskViewSet uses
+  IsOwnerOrReadOnly. IsOwnerOrReadOnly.has_permission allows any
+  authenticated user through at the view level. IsOwnerOrReadOnly
+  .has_object_permission allows safe methods and checks obj.owner ==
+  request.user for object write operations. The ProjectViewSet and
+  TagViewSet use IsProjectMember. IsProjectMember.has_permission allows
+  any authenticated user through, so authenticated users may currently
+  create Projects and Tags. IsProjectMember.has_object_permission allows
+  safe methods and requires request.user.is_staff for object update and
+  delete. No existing authorization rule derives authority from Project
+  ownership.
+requirement_after: >
+  The Project model must gain an owner ForeignKey to the authenticated user
+  model. Any authenticated user may continue creating a Project; the creator
+  is automatically stored as Project.owner. The Project owner is exposed
+  read-only by ProjectSerializer. All authenticated users may read Projects,
+  Tasks and Tags. Only the Project.owner may update or delete that Project.
+  Only the user who owns the Task's project may create, update or delete
+  Tasks within that Project. The Task.owner field remains in the model for
+  backward compatibility but is not the authority for this new policy.
+  TagViewSet authorization behaviour must remain exactly as it was before.
+  Unauthorized write operations must return 403. Exactly one new migration
+  must be generated.
+rationale: >
+  This is a cross-cutting authorization change that affects the permission
+  model, view layer, and migrations. Tests whether strategies can identify
+  the permission cascade from Project through Task.
+acceptance_criteria:
+  - "POST /api/tasks/ in a project owned by another user returns 403"
+  - "PATCH /api/tasks/{id}/ in a project owned by another user returns 403"
+  - "DELETE /api/tasks/{id}/ in a project owned by another user returns 403"
+  - "GET /api/tasks/ returns all tasks (read access is unrestricted)"
+  - "A user can create, update, and delete tasks in their own project"
+  - "Only the project owner can update or delete the project itself"
+  - "Any authenticated user can create a new project"
+  - "Project owner is read-only in the API and is set automatically on creation"
+expected_affected_artifacts:
+  - "todo/models.py:add Project.owner"
+  - "todo/serializers.py:expose Project.owner as read-only"
+  - "todo/permissions.py:implement Project-owner authorization"
+  - "todo/views.py:assign Project.owner and wire Project-owner permission classes"
+  - "todo/migrations/:create exactly one migration"
+expected_actions:
+  "todo/models.py": modify
+  "todo/serializers.py": modify
+  "todo/permissions.py": modify
+  "todo/views.py": modify
+  "todo/migrations/": create
+regression_obligations:
+  - "todo/tests/test_models.py"
+  - "todo/tests/test_serializers.py"
+  - "todo/tests/test_views.py"
+  - "todo/tests/test_permissions.py"
+architecture_constraints:
+  - "Ownership check must derive from Task.project.owner, not a separate Task owner field"
+  - "Permission logic must be in permissions.py, not in views or models"
+  - "TagViewSet must continue using IsProjectMember and its existing authorization behaviour must remain unchanged"
+  - "No changes to todo/urls.py"
+  - "No changes to Tag model, TagSerializer, or TagViewSet behaviour"
+  - "Existing migration files must remain unchanged"
+  - "Exactly one new migration must be generated"
+hidden_tests:
+  - description: "Task listing returns all tasks irrespective of ownership"
+    type: changed_requirement
+  - description: "Project CRUD by non-owner returns 403 for update/delete"
+    type: changed_requirement
+  - description: "Existing Tag permission behaviour is unchanged"
+    type: regression
