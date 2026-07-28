@@ -152,6 +152,20 @@ def _take_migration_snapshot(
         return _MigrationSnapshot(trusted=False, hashes={}, diagnostics=tuple(diagnostics))
 
     try:
+        if mig_dir.is_symlink():
+            rel = _relative_to_root(mig_dir, request.workspace_root)
+            return _MigrationSnapshot(
+                trusted=False,
+                hashes={},
+                diagnostics=(
+                    f"migration directory is a symlink: {rel or mig_dir.name}",
+                ),
+            )
+    except (OSError, RuntimeError, ValueError) as exc:
+        diagnostics.append(f"migration directory symlink check error: {exc}")
+        return _MigrationSnapshot(trusted=False, hashes={}, diagnostics=tuple(diagnostics))
+
+    try:
         resolved = mig_dir.resolve(strict=True)
     except (OSError, RuntimeError, ValueError) as exc:
         diagnostics.append(f"migration directory resolution error: {exc}")
@@ -159,13 +173,6 @@ def _take_migration_snapshot(
 
     if not resolved.is_dir():
         diagnostics.append("migration directory is not a directory")
-        return _MigrationSnapshot(trusted=False, hashes={}, diagnostics=tuple(diagnostics))
-
-    if resolved.is_symlink():
-        rel = _relative_to_root(mig_dir, request.workspace_root)
-        diagnostics.append(
-            f"migration directory is a symlink: {rel or mig_dir.name}"
-        )
         return _MigrationSnapshot(trusted=False, hashes={}, diagnostics=tuple(diagnostics))
 
     ws_rel = _relative_to_root(resolved, request.workspace_root)
@@ -308,21 +315,16 @@ def _assess_migration_change(
     diagnostics: list[str] = list(before.diagnostics)
     diagnostics.extend(after.diagnostics)
 
-    if not after.trusted:
-        return _MigrationAssessment(
-            passed=False,
-            existing_unchanged=False,
-            created_paths=(),
-            diagnostics=tuple(diagnostics),
-        )
+    existing_unchanged = before.trusted and after.trusted
 
-    existing_unchanged = True
     for old_path, old_hash in before.hashes.items():
         if old_path not in after.hashes:
-            existing_unchanged = False
+            if existing_unchanged:
+                existing_unchanged = False
             diagnostics.append(f"old migration deleted: {old_path}")
         elif after.hashes[old_path] != old_hash:
-            existing_unchanged = False
+            if existing_unchanged:
+                existing_unchanged = False
             diagnostics.append(f"old migration modified: {old_path}")
 
     mig_dir_rel = request.migration_directory_relative
@@ -342,7 +344,7 @@ def _assess_migration_change(
             created_list.append(p)
     created_paths = tuple(created_list)
 
-    passed = before.trusted and existing_unchanged
+    passed = before.trusted and after.trusted and existing_unchanged
     if request.require_new_migration and len(created_paths) != 1:
         passed = False
         if len(created_paths) == 0:

@@ -551,6 +551,31 @@ class TestTrustedMigrationSnapshot:
         sibling.mkdir()
         assert _relative_to_root(sibling, workspace) is None
 
+    def test_internal_directory_symlink(self, tmp_path: Path) -> None:
+        try:
+            (tmp_path / "_sym_probe").symlink_to(tmp_path)
+            (tmp_path / "_sym_probe").unlink()
+        except OSError:
+            pytest.skip("symlink not supported on this platform")
+        real_mig = tmp_path / "real_migrations"
+        real_mig.mkdir()
+        (real_mig / "__init__.py").write_text("# real")
+        link = tmp_path / "todo" / "migrations"
+        link.parent.mkdir(parents=True)
+        link.symlink_to(real_mig, target_is_directory=True)
+        wr = tmp_path.resolve()
+        req = _ValidatedPostGenerationRequest(
+            workspace_root=wr,
+            migration_directory_path=wr / "todo" / "migrations",
+            migration_directory_relative="todo/migrations",
+            command=(sys.executable, "-c", "exit(0)"),
+            require_new_migration=False,
+            timeout=10,
+        )
+        snap = _take_migration_snapshot(req)
+        assert snap.trusted is False
+        assert "migration directory is a symlink" in " ".join(snap.diagnostics)
+
 
 # =============================================================================
 # TestCommandOutcome
@@ -833,7 +858,7 @@ class TestMigrationAssessment:
         assessment = _assess_migration_change(req, before, after)
         assert "after error" in assessment.diagnostics
 
-    def test_created_paths_empty_when_after_untrusted(self, tmp_path: Path) -> None:
+    def test_created_paths_preserved_when_after_untrusted(self, tmp_path: Path) -> None:
         req = self._request(tmp_path)
         before = _MigrationSnapshot(
             trusted=True,
@@ -846,7 +871,29 @@ class TestMigrationAssessment:
             diagnostics=(),
         )
         assessment = _assess_migration_change(req, before, after)
-        assert assessment.created_paths == ()
+        assert assessment.created_paths == ("todo/migrations/0001_a.py",)
+        assert assessment.passed is False
+        assert assessment.existing_unchanged is False
+
+    def test_synthetic_cross_platform_assessment(self, tmp_path: Path) -> None:
+        req = self._request(tmp_path)
+        before = _MigrationSnapshot(
+            trusted=True,
+            hashes={"todo/migrations/__init__.py": "a"},
+            diagnostics=(),
+        )
+        after = _MigrationSnapshot(
+            trusted=False,
+            hashes={
+                "todo/migrations/__init__.py": "a",
+                "todo/migrations/0002_good.py": "b",
+            },
+            diagnostics=("unsafe entry",),
+        )
+        assessment = _assess_migration_change(req, before, after)
+        assert assessment.passed is False
+        assert assessment.existing_unchanged is False
+        assert assessment.created_paths == ("todo/migrations/0002_good.py",)
 
 
 # =============================================================================
@@ -1033,6 +1080,29 @@ class TestPublicOrchestration:
         )
         assert result.passed is False
         assert result.exit_code == -1
+
+    def test_internal_directory_symlink_public_path(self, tmp_path: Path) -> None:
+        try:
+            (tmp_path / "_sym_probe").symlink_to(tmp_path)
+            (tmp_path / "_sym_probe").unlink()
+        except OSError:
+            pytest.skip("symlink not supported on this platform")
+        real_mig = tmp_path / "real_migrations"
+        real_mig.mkdir()
+        (real_mig / "__init__.py").write_text("# real")
+        link = tmp_path / "todo" / "migrations"
+        link.parent.mkdir(parents=True)
+        link.symlink_to(real_mig, target_is_directory=True)
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+            migration_directory="todo/migrations",
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert result.existing_migrations_unchanged is False
 
 
 # =============================================================================
