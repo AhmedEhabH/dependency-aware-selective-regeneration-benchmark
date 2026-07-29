@@ -10,15 +10,15 @@
 **Real scientific Smoke model after local proof:** `Qwen2.5-Coder-7B-Instruct` on Kaggle  
 **Temperature for the real experiment:** `0.0`  
 **Per-call completion limit:** `4096` tokens  
-**Current local evidence supplied by the researcher:** `1314 passed, 22 skipped, 0 failed` on Windows/Python 3.11  
-**Phase status:** R3B CROSS-PLATFORM FREEZE — independent audit pending; R3C SINGLE-PASS IMPLEMENTATION — independent audit required  
+**Current local evidence supplied by the researcher:** `1424 passed, 32 skipped, 0 failed` on Windows/Python 3.11  
+**Phase status:** R3B ACCEPTED AND FROZEN at feb5a44; R3C FUNCTIONAL BEHAVIOR INDEPENDENTLY ACCEPTED at 47e1a05 — lint closure at 7abec68 — final freeze audit pending  
 **R3B code-checkpoint:** c11f25e  
 **R3B correction-checkpoint:** c873d9f  
 **R3B final-correction-checkpoint:** c635e42  
 **R3B acceptance-closure-checkpoint:** f8faa08  
 **R3B root-refactor-checkpoint:** f8f95d2  
 **R3B cross-platform-freeze-checkpoint:** feb5a44  
-**Next permitted phase:** R3C isolated scenario evaluator (BLOCKED — pending independent audit)  
+**Next permitted phase:** R3D production Runner validation wiring (BLOCKED — pending R3C final freeze confirmation)  
 **Kaggle:** blocked  
 **Pilot:** blocked  
 **Merge:** blocked  

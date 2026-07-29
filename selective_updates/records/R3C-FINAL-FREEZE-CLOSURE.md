@@ -2,8 +2,8 @@
 
 **Date:** 2026-07-30
 **Branch:** experiment/three-arm-smoke-v2
-**Code commit:** 47e1a05
-**Docs commit:** (pending)
+**Code commits:** 47e1a05 (functional acceptance), 7abec68 (lint closure)
+**Docs commit:** this documentation closure
 **Protocol:** docs/R3C_FREEZE_CLOSURE_AND_DELIVERY_ACCELERATION_PROTOCOL.md
 
 ## Evidence gaps closed
@@ -25,4 +25,12 @@
 
 ## Next
 
-R3D blocked until independent audit accepts this closure.
+R3D remains blocked until R3C final freeze confirmation is completed by this documentation closure audit.
+RF-2 is scheduled immediately after R3D.
+RF-3 is scheduled after R4.
+RF-4 is scheduled after R5.
+Kaggle, Pilot, merge, and stable tag remain blocked.
+
+## Open TD-0/TD-1 items
+
+None — all R3C technical debt items are closed.
