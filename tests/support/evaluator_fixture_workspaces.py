@@ -252,6 +252,38 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 ''',
+    "todo/serializers.py": '''from rest_framework import serializers
+
+from todo.models import Project, Tag, Task
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ["id", "name", "color"]
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ["id", "name", "description"]
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = [
+            "id",
+            "title",
+            "description",
+            "status",
+            "project",
+            "tags",
+            "created_at",
+            "updated_at",
+            "deleted_at",
+        ]
+''',
     "todo/views.py": '''from rest_framework import decorators, response, status, viewsets
 
 from todo.models import Project, Tag, Task
@@ -430,7 +462,18 @@ class IsProjectMember(BasePermission):
 
 class IsProjectOwner(BasePermission):
     def has_permission(self, request, _view):
-        return request.user and request.user.is_authenticated
+        if not request.user or not request.user.is_authenticated:
+            return False
+        if request.method == "POST":
+            from todo.models import Project
+            project_id = request.data.get("project")
+            if project_id is not None:
+                try:
+                    project = Project.objects.get(pk=project_id)
+                except Project.DoesNotExist:
+                    return False
+                return project.owner == request.user
+        return True
 
     def has_object_permission(self, request, _view, obj):
         if request.method in SAFE_METHODS:
@@ -440,7 +483,7 @@ class IsProjectOwner(BasePermission):
             return project.owner == request.user
         return getattr(obj, "owner", None) == request.user
 ''',
-    "todo/views.py": '''from rest_framework import exceptions, viewsets
+    "todo/views.py": '''from rest_framework import viewsets
 
 from todo.models import Project, Tag, Task
 from todo.permissions import IsOwnerOrReadOnly, IsProjectMember, IsProjectOwner
@@ -453,9 +496,6 @@ class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = [IsProjectOwner]
 
     def perform_create(self, serializer):
-        project = serializer.validated_data.get("project")
-        if project is not None and project.owner != self.request.user:
-            raise exceptions.PermissionDenied("You do not own this project")
         serializer.save()
 
 
@@ -592,17 +632,6 @@ def build_todo_smoke_003_workspace(destination: Path, variant: str = "correct") 
             return project.owner == request.user
         return getattr(obj, "owner", None) == request.user''',
         )
-        sources = _apply_single_replacement(
-            sources,
-            "todo/views.py",
-            '''    def perform_create(self, serializer):
-        project = serializer.validated_data.get("project")
-        if project is not None and project.owner != self.request.user:
-            raise exceptions.PermissionDenied("You do not own this project")
-        serializer.save()''',
-            '''    def perform_create(self, serializer):
-        serializer.save()''',
-        )
     elif variant == "project_non_owner_write_allowed":
         sources = _apply_single_replacement(
             dict(_SMOKE_003_CORRECT_SOURCES),
@@ -630,3 +659,107 @@ def build_todo_smoke_003_workspace(destination: Path, variant: str = "correct") 
         _overwrite(destination, path, content)
     _run_required_migration(destination)
     return destination
+
+
+def _get_sources_for_variant(
+    scenario_id: str,
+    variant: str,
+) -> dict[str, str]:
+    sources_map = {
+        "todo-smoke-001": _SMOKE_001_CORRECT_SOURCES,
+        "todo-smoke-002": _SMOKE_002_CORRECT_SOURCES,
+        "todo-smoke-003": _SMOKE_003_CORRECT_SOURCES,
+    }
+    correct = dict(sources_map[scenario_id])
+
+    if variant == "correct":
+        return correct
+
+    if scenario_id == "todo-smoke-001":
+        if variant == "wrong_default":
+            return _apply_single_replacement(correct, "todo/models.py", "default=Priority.MEDIUM,", "default=Priority.HIGH,")
+        elif variant == "missing_filter":
+            return _apply_single_replacement(
+                correct, "todo/views.py",
+                '''    def get_queryset(self):
+        qs = super().get_queryset()
+        priority = self.request.query_params.get("priority")
+        if priority:
+            qs = qs.filter(priority=priority)
+        return qs
+
+    def perform_create(self, serializer):''',
+                '''    def perform_create(self, serializer):''',
+            )
+        elif variant == "invalid_serializer_choice":
+            return _apply_single_replacement(
+                correct, "todo/serializers.py",
+                "class TaskSerializer(serializers.ModelSerializer):\n    class Meta:",
+                "class TaskSerializer(serializers.ModelSerializer):\n"
+                "    priority = serializers.IntegerField()\n"
+                "\n"
+                "    class Meta:",
+            )
+    elif scenario_id == "todo-smoke-002":
+        if variant == "hard_delete":
+            return _apply_single_replacement(
+                correct, "todo/views.py",
+                '''    def perform_destroy(self, instance):
+        from django.utils import timezone
+        instance.deleted_at = timezone.now()
+        instance.save(update_fields=["deleted_at"])''',
+                '''    def perform_destroy(self, instance):
+        instance.delete()''',
+            )
+        elif variant == "deleted_visible_in_normal_list":
+            return _apply_single_replacement(
+                correct, "todo/models.py", "objects = TaskManager()", "objects = models.Manager()",
+            )
+        elif variant == "restore_keeps_timestamp":
+            return _apply_single_replacement(
+                correct, "todo/views.py",
+                "        task.deleted_at = None\n        task.save(update_fields=[\"deleted_at\"])",
+                "        task.save(update_fields=[\"deleted_at\"])",
+            )
+    elif scenario_id == "todo-smoke-003":
+        if variant == "task_owner_authority":
+            return _apply_single_replacement(
+                correct, "todo/permissions.py",
+                '''    def has_object_permission(self, request, _view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        project = getattr(obj, "project", None)
+        if project is not None:
+            return project.owner == request.user
+        return getattr(obj, "owner", None) == request.user''',
+                '''    def has_object_permission(self, request, _view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        task_owner = getattr(obj, "owner", None)
+        if task_owner is not None:
+            return task_owner == request.user
+        project = getattr(obj, "project", None)
+        if project is not None:
+            return project.owner == request.user
+        return getattr(obj, "owner", None) == request.user''',
+            )
+        elif variant == "project_non_owner_write_allowed":
+            return _apply_single_replacement(
+                correct, "todo/views.py",
+                '''class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsProjectOwner]''',
+                '''class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = []''',
+            )
+        elif variant == "project_owner_writable":
+            return _apply_single_replacement(
+                correct, "todo/serializers.py",
+                "    owner = serializers.ReadOnlyField(source=\"owner.id\")\n",
+                "",
+            )
+
+    raise ValueError(f"Unknown variant for {scenario_id}: {variant}")

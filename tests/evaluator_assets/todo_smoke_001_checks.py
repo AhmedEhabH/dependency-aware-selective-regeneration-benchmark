@@ -9,21 +9,16 @@ from pathlib import Path
 
 def _workspace_from_argv() -> Path:
     if len(sys.argv) != 2:
-        print(json.dumps({"passed": False, "checks": [], "error": "expected exactly one workspace argument"}))
-        sys.exit(1)
+        raise ValueError("expected exactly one workspace argument")
     ws = Path(sys.argv[1])
     if not ws.is_dir():
-        print(json.dumps({"passed": False, "checks": [], "error": "workspace not found"}))
-        sys.exit(1)
+        raise ValueError("workspace not found")
     if not (ws / "manage.py").exists():
-        print(json.dumps({"passed": False, "checks": [], "error": "manage.py not found in workspace"}))
-        sys.exit(1)
+        raise ValueError("manage.py not found in workspace")
     if not (ws / "config" / "settings.py").exists():
-        print(json.dumps({"passed": False, "checks": [], "error": "config/settings.py not found"}))
-        sys.exit(1)
+        raise ValueError("config/settings.py not found")
     if not (ws / "todo").is_dir():
-        print(json.dumps({"passed": False, "checks": [], "error": "todo/ directory not found"}))
-        sys.exit(1)
+        raise ValueError("todo/ directory not found")
     return ws
 
 
@@ -42,6 +37,7 @@ def main() -> int:
     runner = None
     old_config = None
     environment_ready = False
+    teardown_errors: list[str] = []
 
     try:
         workspace = _workspace_from_argv()
@@ -165,13 +161,25 @@ def main() -> int:
                 assert task.updated_at is not None
 
             def _project_and_tag_regression() -> None:
-                from todo.models import Tag
+                from todo.models import Tag, Project
                 resp = client.post("/api/projects/", {"name": "RegrProject"})
                 assert resp.status_code == 201, f"Project create failed: {resp.status_code}"
                 tag = Tag.objects.create(name="regr-tag", color="#fff")
-                tag_resp = client.get(f"/api/tags/{tag.pk}/")
-                assert tag_resp.status_code == 200, f"Tag retrieve failed: {tag_resp.status_code}"
-                assert tag_resp.data["name"] == "regr-tag"
+                assert client.get(f"/api/tags/{tag.pk}/").status_code == 200
+                assert client.get(f"/api/projects/{resp.data['id']}/").status_code == 200
+                dup = client.post("/api/tags/", {"name": "regr-tag", "color": "#000"})
+                assert dup.status_code == 400, f"Duplicate tag returned {dup.status_code}"
+                proj = Project.objects.get(pk=resp.data["id"])
+                assert proj.name == "RegrProject"
+                assert Project._meta.get_field("name").max_length == 200
+                assert Project._meta.get_field("description").blank is True
+                assert Tag._meta.get_field("name").max_length == 100 and Tag._meta.get_field("name").unique is True
+                assert Tag._meta.get_field("color").max_length == 7
+                from todo.serializers import ProjectSerializer, TagSerializer
+                ps = ProjectSerializer()
+                assert set(ps.fields.keys()) == {"id", "name", "description"}
+                ts = TagSerializer()
+                assert set(ts.fields.keys()) == {"id", "name", "color"}
 
             _record_check("task_priority_enum", checks, errors, _task_priority_enum)
             _record_check("task_priority_field", checks, errors, _task_priority_field)
@@ -202,10 +210,23 @@ def main() -> int:
     finally:
         if runner is not None:
             with redirect_stdout(captured), redirect_stderr(captured):
-                if old_config is not None:
-                    runner.teardown_databases(old_config)
-                if environment_ready:
-                    runner.teardown_test_environment()
+                try:
+                    if old_config is not None:
+                        runner.teardown_databases(old_config)
+                except Exception as exc:
+                    teardown_errors.append(f"teardown_databases: {type(exc).__name__}: {exc}")
+                try:
+                    if environment_ready:
+                        runner.teardown_test_environment()
+                except Exception as exc:
+                    teardown_errors.append(f"teardown_test_environment: {type(exc).__name__}: {exc}")
+
+        if teardown_errors:
+            payload["passed"] = False
+            if payload["error"]:
+                payload["error"] += "; " + "; ".join(teardown_errors)
+            else:
+                payload["error"] = "; ".join(teardown_errors)
 
     print(json.dumps(payload, separators=(",", ":"), sort_keys=True))
     return 0 if payload["passed"] else 1

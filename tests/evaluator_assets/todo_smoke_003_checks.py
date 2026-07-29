@@ -9,21 +9,16 @@ from pathlib import Path
 
 def _workspace_from_argv() -> Path:
     if len(sys.argv) != 2:
-        print(json.dumps({"passed": False, "checks": [], "error": "expected exactly one workspace argument"}))
-        sys.exit(1)
+        raise ValueError("expected exactly one workspace argument")
     ws = Path(sys.argv[1])
     if not ws.is_dir():
-        print(json.dumps({"passed": False, "checks": [], "error": "workspace not found"}))
-        sys.exit(1)
+        raise ValueError("workspace not found")
     if not (ws / "manage.py").exists():
-        print(json.dumps({"passed": False, "checks": [], "error": "manage.py not found in workspace"}))
-        sys.exit(1)
+        raise ValueError("manage.py not found in workspace")
     if not (ws / "config" / "settings.py").exists():
-        print(json.dumps({"passed": False, "checks": [], "error": "config/settings.py not found"}))
-        sys.exit(1)
+        raise ValueError("config/settings.py not found")
     if not (ws / "todo").is_dir():
-        print(json.dumps({"passed": False, "checks": [], "error": "todo/ directory not found"}))
-        sys.exit(1)
+        raise ValueError("todo/ directory not found")
     return ws
 
 
@@ -42,6 +37,7 @@ def main() -> int:
     runner = None
     old_config = None
     environment_ready = False
+    teardown_errors: list[str] = []
 
     try:
         workspace = _workspace_from_argv()
@@ -126,6 +122,9 @@ def main() -> int:
                 assert ok_resp.status_code == 201, f"Owner task create returned {ok_resp.status_code}"
                 fail_resp = other_client.post("/api/tasks/", {"title": "OtherTask", "project": project.pk})
                 assert fail_resp.status_code == 403, f"Other task create expected 403, got {fail_resp.status_code}"
+                from todo.views import TaskViewSet
+                from todo.permissions import IsProjectOwner
+                assert IsProjectOwner in TaskViewSet.permission_classes, "TaskViewSet must use IsProjectOwner"
 
             def _task_update_uses_project_owner() -> None:
                 task = Task.objects.create(title="UpdateConflict", project=project, owner=other)
@@ -143,12 +142,21 @@ def main() -> int:
                 assert other_del.status_code == 403, f"Legacy owner DELETE expected 403, got {other_del.status_code}"
 
             def _authenticated_reads_unrestricted() -> None:
+                task = Task.objects.create(title="ReadOnlyTask", project=project, owner=other)
                 p_resp = other_client.get("/api/projects/")
                 assert p_resp.status_code == 200, f"Projects list returned {p_resp.status_code}"
+                p_detail = other_client.get(f"/api/projects/{project.pk}/")
+                assert p_detail.status_code == 200, f"Project detail returned {p_detail.status_code}"
                 t_resp = other_client.get("/api/tasks/")
                 assert t_resp.status_code == 200, f"Tasks list returned {t_resp.status_code}"
+                t_detail = other_client.get(f"/api/tasks/{task.pk}/")
+                assert t_detail.status_code == 200, f"Task detail returned {t_detail.status_code}"
                 tr_resp = other_client.get("/api/tags/")
                 assert tr_resp.status_code == 200, f"Tags list returned {tr_resp.status_code}"
+                from todo.models import Tag
+                tag = Tag.objects.create(name="readonly-tag", color="#fff")
+                tr_detail = other_client.get(f"/api/tags/{tag.pk}/")
+                assert tr_detail.status_code == 200, f"Tag detail returned {tr_detail.status_code}"
 
             def _tag_permissions_unchanged() -> None:
                 create_resp = other_client.post("/api/tags/", {"name": "newtag", "color": "#FFF"})
@@ -192,10 +200,23 @@ def main() -> int:
     finally:
         if runner is not None:
             with redirect_stdout(captured), redirect_stderr(captured):
-                if old_config is not None:
-                    runner.teardown_databases(old_config)
-                if environment_ready:
-                    runner.teardown_test_environment()
+                try:
+                    if old_config is not None:
+                        runner.teardown_databases(old_config)
+                except Exception as exc:
+                    teardown_errors.append(f"teardown_databases: {type(exc).__name__}: {exc}")
+                try:
+                    if environment_ready:
+                        runner.teardown_test_environment()
+                except Exception as exc:
+                    teardown_errors.append(f"teardown_test_environment: {type(exc).__name__}: {exc}")
+
+        if teardown_errors:
+            payload["passed"] = False
+            if payload["error"]:
+                payload["error"] += "; " + "; ".join(teardown_errors)
+            else:
+                payload["error"] = "; ".join(teardown_errors)
 
     print(json.dumps(payload, separators=(",", ":"), sort_keys=True))
     return 0 if payload["passed"] else 1

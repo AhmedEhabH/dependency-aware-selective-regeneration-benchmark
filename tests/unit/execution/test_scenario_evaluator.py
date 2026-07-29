@@ -329,6 +329,130 @@ class TestEvaluatorInputValidation:
         )
         assert isinstance(result, str)
 
+    def test_asset_replaced_by_external_symlink_after_validation_fails(self, tmp_path):
+        cpr = tmp_path / "project"
+        cpr.mkdir()
+        (cpr / "tests").mkdir()
+        (cpr / "tests" / "evaluator_assets").mkdir()
+        asset = cpr / "tests" / "evaluator_assets" / "checks.py"
+        asset.write_text("original")
+        ws = tmp_path / "workspace"
+        ws.mkdir()
+        external = tmp_path / "external_asset.py"
+        external.write_text("external")
+        link = cpr / "tests" / "evaluator_assets" / "checks.py"
+        try:
+            link.unlink()
+            link.symlink_to(external)
+        except (OSError, NotImplementedError):
+            pytest.skip("symlink creation not supported")
+        result = run_scenario_evaluator(
+            str(cpr), "tests/evaluator_assets/checks.py", str(ws),
+            python_executable="python", timeout=60,
+        )
+        assert not result.passed
+        assert result.exit_code == -1
+        assert "symlink" in result.error.lower() or "live asset resolution" in result.error.lower()
+
+    def test_asset_replaced_by_internal_symlink_after_validation_fails(self, tmp_path):
+        cpr = tmp_path / "project"
+        cpr.mkdir()
+        (cpr / "tests").mkdir()
+        (cpr / "tests" / "evaluator_assets").mkdir()
+        asset = cpr / "tests" / "evaluator_assets" / "checks.py"
+        asset.write_text("original")
+        ws = tmp_path / "workspace"
+        ws.mkdir()
+        internal = cpr / "tests" / "evaluator_assets" / "other.py"
+        internal.write_text("internal")
+        link = cpr / "tests" / "evaluator_assets" / "checks.py"
+        try:
+            link.unlink()
+            link.symlink_to(internal)
+        except (OSError, NotImplementedError):
+            pytest.skip("symlink creation not supported")
+        result = run_scenario_evaluator(
+            str(cpr), "tests/evaluator_assets/checks.py", str(ws),
+            python_executable="python", timeout=60,
+        )
+        assert not result.passed
+        assert result.exit_code == -1
+        assert "symlink" in result.error.lower() or "live asset resolution" in result.error.lower()
+
+    def test_asset_replaced_by_different_regular_file_after_validation_fails(self, tmp_path):
+        import sys
+        if sys.platform == "win32":
+            pytest.skip("Windows: inode identity check not reliably testable")
+        cpr = tmp_path / "project"
+        cpr.mkdir()
+        (cpr / "tests").mkdir()
+        (cpr / "tests" / "evaluator_assets").mkdir()
+        asset = cpr / "tests" / "evaluator_assets" / "checks.py"
+        asset.write_text("original")
+        ws = tmp_path / "workspace"
+        ws.mkdir()
+        import os
+        stat1 = asset.stat()
+        asset.unlink()
+        asset.write_text("modified")
+        stat2 = asset.stat()
+        if stat1.st_ino == stat2.st_ino:
+            pytest.skip("Filesystem reused inode; cannot test different resolved identity")
+        result = run_scenario_evaluator(
+            str(cpr), "tests/evaluator_assets/checks.py", str(ws),
+            python_executable="python", timeout=60,
+        )
+        assert not result.passed
+        assert result.exit_code == -1
+        assert "resolved to different path" in result.error or "live asset resolution" in result.error
+
+    def test_evaluator_root_replaced_by_symlink_after_validation_fails(self, tmp_path):
+        cpr = tmp_path / "project"
+        cpr.mkdir()
+        (cpr / "tests").mkdir()
+        (cpr / "tests" / "evaluator_assets").mkdir()
+        asset = cpr / "tests" / "evaluator_assets" / "checks.py"
+        asset.write_text("original")
+        ws = tmp_path / "workspace"
+        ws.mkdir()
+        real_assets = tmp_path / "real_assets"
+        real_assets.mkdir()
+        (real_assets / "evaluator_assets").mkdir()
+        (real_assets / "evaluator_assets" / "checks.py").write_text("external")
+        link = cpr / "tests" / "evaluator_assets"
+        try:
+            link.unlink()
+            link.symlink_to(real_assets / "evaluator_assets")
+        except (OSError, NotImplementedError):
+            pytest.skip("symlink creation not supported")
+        result = run_scenario_evaluator(
+            str(cpr), "tests/evaluator_assets/checks.py", str(ws),
+            python_executable="python", timeout=60,
+        )
+        assert not result.passed
+        assert result.exit_code == -1
+        assert "symlink" in result.error.lower() or "live asset resolution" in result.error.lower()
+
+    def test_workspace_broken_evaluator_root_symlink_fails_closed(self, tmp_path):
+        cpr, ws, asset = _make_cpr_ws_asset(tmp_path)
+        leaker = ws / "tests" / "evaluator_assets"
+        leaker.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            leaker.symlink_to(tmp_path / "nonexistent_target")
+        except (OSError, NotImplementedError):
+            pytest.skip("symlink creation not supported")
+        result = _validate_evaluator_request(
+            str(cpr), "tests/evaluator_assets/checks.py", str(ws), python_executable="python", timeout=60
+        )
+        assert isinstance(result, str)
+        result2 = run_scenario_evaluator(
+            str(cpr), "tests/evaluator_assets/checks.py", str(ws),
+            python_executable="python", timeout=60,
+        )
+        assert not result2.passed
+        assert result2.exit_code == -1
+        assert result2.error
+
     def test_empty_python_executable(self, tmp_path):
         cpr, ws, _ = _make_cpr_ws_asset(tmp_path)
         result = _validate_evaluator_request(
@@ -493,12 +617,56 @@ class TestEvaluatorSubprocess:
         trusted = _load_trusted_evaluator_asset(request)
         assert isinstance(trusted, _TrustedEvaluatorAsset)
 
-        def fake_run(*args, **kwargs):
-            return FakeCompletedProcess('{"passed": true, "checks": ["ok"], "error": ""}')
+        original_write_bytes = Path.write_bytes
 
-        with patch("subprocess.run", fake_run):
-            outcome = _execute_evaluator_subprocess(request, trusted)
-        assert isinstance(outcome, _EvaluatorCommandOutcome)
+        def fake_write_bytes(self, data):
+            raise OSError("simulated copy write failure")
+
+        with patch.object(Path, "write_bytes", fake_write_bytes):
+            with patch("subprocess.run") as mock_run:
+                mock_run.return_value = FakeCompletedProcess('{"passed": true, "checks": ["ok"], "error": ""}')
+                outcome = _execute_evaluator_subprocess(request, trusted)
+        assert not outcome.succeeded
+        assert outcome.exit_code == -1
+        assert "failed to copy evaluator asset" in outcome.stderr
+
+    def test_copy_read_failure_returns_typed_outcome(self, tmp_path):
+        request = _make_request(tmp_path)
+        trusted = _load_trusted_evaluator_asset(request)
+        assert isinstance(trusted, _TrustedEvaluatorAsset)
+
+        original_read_bytes = Path.read_bytes
+
+        def fake_read_bytes(self):
+            if "benchmark_evaluator_" in str(self):
+                raise OSError("simulated copy read failure")
+            return original_read_bytes(self)
+
+        with patch.object(Path, "read_bytes", fake_read_bytes):
+            with patch("subprocess.run") as mock_run:
+                mock_run.return_value = FakeCompletedProcess('{"passed": true, "checks": ["ok"], "error": ""}')
+                outcome = _execute_evaluator_subprocess(request, trusted)
+        assert not outcome.succeeded
+        assert outcome.exit_code == -1
+        assert "hash does not match" in outcome.stderr or "failed to copy" in outcome.stderr or "copy read" in outcome.stderr
+
+    def test_hash_mismatch_returns_typed_outcome(self, tmp_path):
+        request = _make_request(tmp_path)
+        trusted = _load_trusted_evaluator_asset(request)
+        assert isinstance(trusted, _TrustedEvaluatorAsset)
+
+        original_write_bytes = Path.write_bytes
+
+        def fake_write_bytes(self, data):
+            original_write_bytes(self, b"corrupted content")
+
+        with patch.object(Path, "write_bytes", fake_write_bytes):
+            with patch("subprocess.run") as mock_run:
+                mock_run.return_value = FakeCompletedProcess('{"passed": true, "checks": ["ok"], "error": ""}')
+                outcome = _execute_evaluator_subprocess(request, trusted)
+        assert not outcome.succeeded
+        assert outcome.exit_code == -1
+        assert "hash" in outcome.stderr
 
     def test_command_not_found(self, tmp_path):
         cpr, ws, asset = _make_cpr_ws_asset(tmp_path)

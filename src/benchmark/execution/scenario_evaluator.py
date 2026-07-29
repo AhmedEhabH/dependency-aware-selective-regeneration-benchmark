@@ -26,6 +26,7 @@ class _ValidatedEvaluatorRequest:
     canonical_project_root: Path
     evaluator_root: Path
     evaluator_asset_path: Path
+    evaluator_asset_lexical: Path
     evaluator_asset_relative: str
     generated_workspace: Path
     python_executable: str
@@ -113,6 +114,8 @@ def _validate_evaluator_request(
         if not asset_normalized.endswith(".py"):
             return "evaluator_asset must have a .py suffix"
 
+        relative_suffix = asset_normalized[len(_EVALUATOR_ASSETS_PREFIX):]
+
         cpr = Path(canonical_project_root).resolve()
         if not cpr.exists():
             return "canonical_project_root does not exist"
@@ -127,7 +130,6 @@ def _validate_evaluator_request(
         if evaluator_root.is_symlink():
             return "evaluator_assets directory must not be a symlink"
 
-        relative_suffix = asset_normalized[len(_EVALUATOR_ASSETS_PREFIX):]
         asset_lexical = evaluator_root / relative_suffix
 
         if asset_lexical.is_symlink():
@@ -168,7 +170,7 @@ def _validate_evaluator_request(
             return "canonical_project_root must not be inside generated_workspace"
 
         workspace_evaluator_path = gw / "tests" / "evaluator_assets"
-        if workspace_evaluator_path.exists():
+        if workspace_evaluator_path.exists() or workspace_evaluator_path.is_symlink():
             return "generated workspace must not contain tests/evaluator_assets"
 
         if not python_executable.strip():
@@ -180,6 +182,7 @@ def _validate_evaluator_request(
             canonical_project_root=cpr,
             evaluator_root=evaluator_root,
             evaluator_asset_path=evaluator_asset_path,
+            evaluator_asset_lexical=asset_lexical,
             evaluator_asset_relative=asset_normalized,
             generated_workspace=gw,
             python_executable=python_executable,
@@ -189,16 +192,64 @@ def _validate_evaluator_request(
         return f"evaluator validation error: {exc}"
 
 
+def _resolve_live_evaluator_asset(
+    request: _ValidatedEvaluatorRequest,
+) -> Path | str:
+    try:
+        evaluator_root = request.evaluator_root
+        if not evaluator_root.exists():
+            return "evaluator root does not exist"
+        if not evaluator_root.is_dir():
+            return "evaluator root is not a directory"
+        if evaluator_root.is_symlink():
+            return "evaluator root must not be a symlink"
+
+        asset_lexical = request.evaluator_asset_lexical
+        if asset_lexical.is_symlink():
+            return "evaluator asset must not be a symlink"
+
+        for component in asset_lexical.parents:
+            if component == evaluator_root:
+                break
+            if component.is_symlink():
+                return "evaluator asset path must not contain symlink components"
+            try:
+                component.relative_to(evaluator_root)
+            except ValueError:
+                break
+
+        resolved = asset_lexical.resolve(strict=True)
+        try:
+            resolved.relative_to(evaluator_root)
+        except ValueError:
+            return "evaluator asset must resolve beneath evaluator root"
+
+        if resolved != request.evaluator_asset_path:
+            return "evaluator asset resolved to different path than at validation"
+
+        if not resolved.exists():
+            return "evaluator asset file does not exist"
+        if not resolved.is_file():
+            return "evaluator asset resolved path is not a file"
+
+        return resolved
+    except (OSError, RuntimeError, ValueError) as exc:
+        return f"live asset resolution error: {exc}"
+
+
 def _load_trusted_evaluator_asset(
     request: _ValidatedEvaluatorRequest,
 ) -> _TrustedEvaluatorAsset | str:
+    live_result = _resolve_live_evaluator_asset(request)
+    if isinstance(live_result, str):
+        return live_result
     try:
-        content = request.evaluator_asset_path.read_bytes()
+        content = live_result.read_bytes()
     except (OSError, RuntimeError) as exc:
         return f"failed to read evaluator asset: {exc}"
     sha = hashlib.sha256(content).hexdigest()
     return _TrustedEvaluatorAsset(
-        source_path=request.evaluator_asset_path,
+        source_path=live_result,
         relative_path=request.evaluator_asset_relative,
         content=content,
         sha256=sha,

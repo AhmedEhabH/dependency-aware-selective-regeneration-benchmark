@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -9,6 +10,7 @@ import pytest
 from benchmark.execution.scenario_evaluator import run_scenario_evaluator
 from tests.support.evaluator_fixture_workspaces import (
     _BASELINE_REPO,
+    _get_sources_for_variant,
     build_todo_smoke_001_workspace,
     build_todo_smoke_002_workspace,
     build_todo_smoke_003_workspace,
@@ -70,15 +72,53 @@ _NEGATIVE_EXPECTED_CHECKS = {
     },
 }
 
+_ALL_SCENARIO_VARIANTS = [
+    ("todo-smoke-001", "correct"),
+    ("todo-smoke-001", "wrong_default"),
+    ("todo-smoke-001", "missing_filter"),
+    ("todo-smoke-001", "invalid_serializer_choice"),
+    ("todo-smoke-002", "correct"),
+    ("todo-smoke-002", "hard_delete"),
+    ("todo-smoke-002", "deleted_visible_in_normal_list"),
+    ("todo-smoke-002", "restore_keeps_timestamp"),
+    ("todo-smoke-003", "correct"),
+    ("todo-smoke-003", "task_owner_authority"),
+    ("todo-smoke-003", "project_non_owner_write_allowed"),
+    ("todo-smoke-003", "project_owner_writable"),
+]
+
 
 def _baseline_hashes():
     hashes = {}
     for p in _BASELINE_REPO.rglob("*"):
         if p.is_file():
             rel = str(p.relative_to(_BASELINE_REPO).as_posix())
-            import hashlib
             hashes[rel] = hashlib.sha256(p.read_bytes()).hexdigest()
     return hashes
+
+
+def _baseline_migration_hashes():
+    mig_dir = _BASELINE_REPO / "todo" / "migrations"
+    hashes = {}
+    for p in mig_dir.iterdir():
+        if p.suffix == ".py" and p.name != "__init__.py":
+            hashes[p.name] = hashlib.sha256(p.read_bytes()).hexdigest()
+    return hashes
+
+
+def _assert_migration_integrity(workspace: Path) -> None:
+    mig_dir = workspace / "todo" / "migrations"
+    assert mig_dir.exists(), "migrations directory missing from workspace"
+    baseline_hashes = _baseline_migration_hashes()
+    for name, expected_hash in baseline_hashes.items():
+        mig_file = mig_dir / name
+        assert mig_file.exists(), f"Baseline migration {name} missing from workspace"
+        actual_hash = hashlib.sha256(mig_file.read_bytes()).hexdigest()
+        assert actual_hash == expected_hash, f"Hash mismatch for baseline migration {name}"
+    numbered = [p for p in mig_dir.iterdir() if p.suffix == ".py" and p.name != "__init__.py"]
+    assert len(numbered) == len(baseline_hashes) + 1, (
+        f"Expected {len(baseline_hashes) + 1} migrations, got {len(numbered)}"
+    )
 
 
 class _EvaluatorHelper:
@@ -95,6 +135,9 @@ class _EvaluatorHelper:
 
     def run(self, variant="correct"):
         workspace = self.build_fn(self.tmp_path / f"ws_{variant}", variant=variant)
+        _assert_migration_integrity(workspace)
+        leaker = workspace / "tests" / "evaluator_assets"
+        assert not leaker.exists() or not leaker.is_symlink(), "workspace contains evaluator_assets leak"
         cpr = self.tmp_path / f"project_{variant}"
         cpr.mkdir()
         (cpr / "tests").mkdir()
@@ -131,16 +174,22 @@ class TestTodoSmoke001Evaluator:
         result = helper.run("wrong_default")
         assert not result.passed, "wrong_default should fail"
         assert _NEGATIVE_EXPECTED_CHECKS["todo-smoke-001"]["wrong_default"] in result.error
+        assert not result.error.startswith("ModuleNotFoundError")
+        assert not result.error.startswith("RuntimeError")
 
     def test_missing_filter_fails_expected_check(self, helper):
         result = helper.run("missing_filter")
         assert not result.passed, "missing_filter should fail"
         assert _NEGATIVE_EXPECTED_CHECKS["todo-smoke-001"]["missing_filter"] in result.error
+        assert not result.error.startswith("ModuleNotFoundError")
+        assert not result.error.startswith("RuntimeError")
 
     def test_invalid_serializer_choice_fails_expected_check(self, helper):
         result = helper.run("invalid_serializer_choice")
         assert not result.passed, "invalid_serializer_choice should fail"
         assert _NEGATIVE_EXPECTED_CHECKS["todo-smoke-001"]["invalid_serializer_choice"] in result.error
+        assert not result.error.startswith("ModuleNotFoundError")
+        assert not result.error.startswith("RuntimeError")
 
 
 class TestTodoSmoke002Evaluator:
@@ -162,16 +211,22 @@ class TestTodoSmoke002Evaluator:
         result = helper.run("hard_delete")
         assert not result.passed, "hard_delete should fail"
         assert _NEGATIVE_EXPECTED_CHECKS["todo-smoke-002"]["hard_delete"] in result.error
+        assert not result.error.startswith("ModuleNotFoundError")
+        assert not result.error.startswith("RuntimeError")
 
     def test_deleted_visible_in_normal_list_fails_expected_check(self, helper):
         result = helper.run("deleted_visible_in_normal_list")
         assert not result.passed, "deleted_visible should fail"
         assert _NEGATIVE_EXPECTED_CHECKS["todo-smoke-002"]["deleted_visible_in_normal_list"] in result.error
+        assert not result.error.startswith("ModuleNotFoundError")
+        assert not result.error.startswith("RuntimeError")
 
     def test_restore_keeps_timestamp_fails_expected_check(self, helper):
         result = helper.run("restore_keeps_timestamp")
         assert not result.passed, "restore_keeps_timestamp should fail"
         assert _NEGATIVE_EXPECTED_CHECKS["todo-smoke-002"]["restore_keeps_timestamp"] in result.error
+        assert not result.error.startswith("ModuleNotFoundError")
+        assert not result.error.startswith("RuntimeError")
 
 
 class TestTodoSmoke003Evaluator:
@@ -193,16 +248,40 @@ class TestTodoSmoke003Evaluator:
         result = helper.run("task_owner_authority")
         assert not result.passed, "task_owner_authority should fail"
         assert _NEGATIVE_EXPECTED_CHECKS["todo-smoke-003"]["task_owner_authority"] in result.error
+        assert not result.error.startswith("ModuleNotFoundError")
+        assert not result.error.startswith("RuntimeError")
 
     def test_project_non_owner_write_allowed_fails_expected_check(self, helper):
         result = helper.run("project_non_owner_write_allowed")
         assert not result.passed, "non_owner_write should fail"
         assert _NEGATIVE_EXPECTED_CHECKS["todo-smoke-003"]["project_non_owner_write_allowed"] in result.error
+        assert not result.error.startswith("ModuleNotFoundError")
+        assert not result.error.startswith("RuntimeError")
 
     def test_project_owner_writable_fails_expected_check(self, helper):
         result = helper.run("project_owner_writable")
         assert not result.passed, "project_owner_writable should fail"
         assert _NEGATIVE_EXPECTED_CHECKS["todo-smoke-003"]["project_owner_writable"] in result.error
+        assert not result.error.startswith("ModuleNotFoundError")
+        assert not result.error.startswith("RuntimeError")
+
+
+class TestNegativeSourceDiff:
+    @pytest.mark.parametrize("scenario_id,variant", [
+        (s, v) for s, v in _ALL_SCENARIO_VARIANTS if v != "correct"
+    ])
+    def test_negative_changes_exactly_one_source_file(self, scenario_id, variant):
+        correct_sources = _get_sources_for_variant(scenario_id, "correct")
+        variant_sources = _get_sources_for_variant(scenario_id, variant)
+        differing = set()
+        all_keys = set(correct_sources) | set(variant_sources)
+        for key in all_keys:
+            if correct_sources.get(key) != variant_sources.get(key):
+                differing.add(key)
+        assert len(differing) == 1, (
+            f"Expected exactly 1 source file to differ for {scenario_id}/{variant}, "
+            f"got {len(differing)}: {differing}"
+        )
 
 
 class TestEvaluatorIntegrity:
@@ -235,65 +314,19 @@ class TestEvaluatorIntegrity:
         after = _baseline_hashes()
         assert before == after, "Baseline hashes changed after fixture/evaluator run"
 
-    def test_workspace_migration_integrity(self, tmp_path):
-        import hashlib
-        ws = build_todo_smoke_001_workspace(tmp_path / "ws_mig", variant="correct")
-        mig_dir = ws / "todo" / "migrations"
-        h = "61273ccb29c97b095120155ab8a74e63448b3d54bffd2e4e191c3e148f57aa88"
-        h2 = "7b9a7dcb12867ca57d844da77b1ea948eacdf65ba2c34794ef33b3c2844ea73d"
-        h3 = "6d22650fefe167af42bf3b7e6473073d159eecfb0583e5c899ddd40df5b8b6fa"
-        for name, expected_hash in [
-            ("0001_initial.py", h),
-            ("0002_task_owner.py", h2),
-            ("0003_alter_project_options_alter_tag_options_and_more.py", h3),
-        ]:
-            mig_file = mig_dir / name
-            assert mig_file.exists(), f"Baseline migration {name} missing from workspace"
-            actual_hash = hashlib.sha256(mig_file.read_bytes()).hexdigest()
-            assert actual_hash == expected_hash, f"Hash mismatch for {name}"
-        numbered = [p for p in mig_dir.iterdir() if p.suffix == ".py" and p.name != "__init__.py"]
-        assert len(numbered) == 4, f"Expected 4 migrations (3 baseline + 1 new), got {len(numbered)}"
-
-    def test_workspace_migration_integrity_002(self, tmp_path):
-        import hashlib
-        ws = build_todo_smoke_002_workspace(tmp_path / "ws_mig2", variant="correct")
-        mig_dir = ws / "todo" / "migrations"
-        h = "61273ccb29c97b095120155ab8a74e63448b3d54bffd2e4e191c3e148f57aa88"
-        h2 = "7b9a7dcb12867ca57d844da77b1ea948eacdf65ba2c34794ef33b3c2844ea73d"
-        h3 = "6d22650fefe167af42bf3b7e6473073d159eecfb0583e5c899ddd40df5b8b6fa"
-        for name, expected_hash in [
-            ("0001_initial.py", h),
-            ("0002_task_owner.py", h2),
-            ("0003_alter_project_options_alter_tag_options_and_more.py", h3),
-        ]:
-            mig_file = mig_dir / name
-            assert mig_file.exists(), f"Baseline migration {name} missing from workspace"
-            actual_hash = hashlib.sha256(mig_file.read_bytes()).hexdigest()
-            assert actual_hash == expected_hash, f"Hash mismatch for {name}"
-        numbered = [p for p in mig_dir.iterdir() if p.suffix == ".py" and p.name != "__init__.py"]
-        assert len(numbered) == 4, f"Expected 4 migrations (3 baseline + 1 new), got {len(numbered)}"
-
-    def test_workspace_migration_integrity_003(self, tmp_path):
-        import hashlib
-        ws = build_todo_smoke_003_workspace(tmp_path / "ws_mig3", variant="correct")
-        mig_dir = ws / "todo" / "migrations"
-        h = "61273ccb29c97b095120155ab8a74e63448b3d54bffd2e4e191c3e148f57aa88"
-        h2 = "7b9a7dcb12867ca57d844da77b1ea948eacdf65ba2c34794ef33b3c2844ea73d"
-        h3 = "6d22650fefe167af42bf3b7e6473073d159eecfb0583e5c899ddd40df5b8b6fa"
-        for name, expected_hash in [
-            ("0001_initial.py", h),
-            ("0002_task_owner.py", h2),
-            ("0003_alter_project_options_alter_tag_options_and_more.py", h3),
-        ]:
-            mig_file = mig_dir / name
-            assert mig_file.exists(), f"Baseline migration {name} missing from workspace"
-            actual_hash = hashlib.sha256(mig_file.read_bytes()).hexdigest()
-            assert actual_hash == expected_hash, f"Hash mismatch for {name}"
-        numbered = [p for p in mig_dir.iterdir() if p.suffix == ".py" and p.name != "__init__.py"]
-        assert len(numbered) == 4, f"Expected 4 migrations (3 baseline + 1 new), got {len(numbered)}"
+    @pytest.mark.parametrize("scenario_id,variant", _ALL_SCENARIO_VARIANTS)
+    def test_all_fixtures_migration_integrity(self, tmp_path, scenario_id, variant):
+        build_fn = {
+            "todo-smoke-001": build_todo_smoke_001_workspace,
+            "todo-smoke-002": build_todo_smoke_002_workspace,
+            "todo-smoke-003": build_todo_smoke_003_workspace,
+        }[scenario_id]
+        ws = build_fn(tmp_path / f"ws_{scenario_id}_{variant}", variant=variant)
+        _assert_migration_integrity(ws)
+        leaker = ws / "tests" / "evaluator_assets"
+        assert not leaker.exists() or not leaker.is_symlink(), "workspace contains evaluator_assets leak"
 
     def test_source_isolation(self, tmp_path):
-        import hashlib
         evaluator_path = Path(__file__).resolve().parent.parent / "evaluator_assets" / "todo_smoke_001_checks.py"
         before_hash = hashlib.sha256(evaluator_path.read_bytes()).hexdigest()
         ws = build_todo_smoke_001_workspace(tmp_path / "ws_src", variant="correct")
@@ -313,6 +346,20 @@ class TestEvaluatorIntegrity:
         assert not (ws / "tests" / "evaluator_assets").exists(), "evaluator assets leaked into workspace"
         after_hash = hashlib.sha256(evaluator_path.read_bytes()).hexdigest()
         assert before_hash == after_hash, "canonical evaluator hash changed"
+
+    @pytest.mark.parametrize("asset_name", [
+        "todo_smoke_001_checks.py",
+        "todo_smoke_002_checks.py",
+        "todo_smoke_003_checks.py",
+    ])
+    def test_canonical_evaluator_integrity(self, asset_name):
+        evaluator_path = Path(__file__).resolve().parent.parent / "evaluator_assets" / asset_name
+        metadata_path = evaluator_path.with_suffix(evaluator_path.suffix + ".sha256")
+        current_hash = hashlib.sha256(evaluator_path.read_bytes()).hexdigest()
+        if not metadata_path.exists():
+            metadata_path.write_text(current_hash)
+        previous = metadata_path.read_text().strip()
+        assert current_hash == previous, f"Canonical evaluator {asset_name} hash changed"
 
     def test_evaluator_stdout_is_exactly_one_json_object(self, tmp_path):
         ws = build_todo_smoke_001_workspace(tmp_path / "ws_json", variant="correct")

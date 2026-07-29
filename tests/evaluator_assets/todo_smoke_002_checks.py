@@ -9,21 +9,16 @@ from pathlib import Path
 
 def _workspace_from_argv() -> Path:
     if len(sys.argv) != 2:
-        print(json.dumps({"passed": False, "checks": [], "error": "expected exactly one workspace argument"}))
-        sys.exit(1)
+        raise ValueError("expected exactly one workspace argument")
     ws = Path(sys.argv[1])
     if not ws.is_dir():
-        print(json.dumps({"passed": False, "checks": [], "error": "workspace not found"}))
-        sys.exit(1)
+        raise ValueError("workspace not found")
     if not (ws / "manage.py").exists():
-        print(json.dumps({"passed": False, "checks": [], "error": "manage.py not found in workspace"}))
-        sys.exit(1)
+        raise ValueError("manage.py not found in workspace")
     if not (ws / "config" / "settings.py").exists():
-        print(json.dumps({"passed": False, "checks": [], "error": "config/settings.py not found"}))
-        sys.exit(1)
+        raise ValueError("config/settings.py not found")
     if not (ws / "todo").is_dir():
-        print(json.dumps({"passed": False, "checks": [], "error": "todo/ directory not found"}))
-        sys.exit(1)
+        raise ValueError("todo/ directory not found")
     return ws
 
 
@@ -42,6 +37,7 @@ def main() -> int:
     runner = None
     old_config = None
     environment_ready = False
+    teardown_errors: list[str] = []
 
     try:
         workspace = _workspace_from_argv()
@@ -118,6 +114,8 @@ def main() -> int:
                 ids = [r["id"] for r in resp.data.get("results", [])]
                 assert target.pk in ids, "Deleted task missing from /deleted/ endpoint"
                 assert active.pk not in ids, "Active task present in /deleted/ endpoint"
+                for r in resp.data.get("results", []):
+                    assert r.get("deleted_at") is not None, "Deleted row missing deleted_at"
 
             def _restore_action_restores() -> None:
                 task = Task._base_manager.create(owner=user, title="RestoreTest", project=project)
@@ -156,11 +154,27 @@ def main() -> int:
                 assert tag in restored.tags.all(), "Tags not preserved after restore"
 
             def _project_and_tag_regression() -> None:
-                from todo.models import Tag
-                tag = Tag._base_manager.create(name="smoke002-tag", color="#fff")
-                assert Tag._base_manager.filter(pk=tag.pk).exists()
-                proj = Project._base_manager.create(name="smoke002-proj")
-                assert Project._base_manager.filter(pk=proj.pk).exists()
+                from todo.models import Tag, Project
+                proj_resp = client.post("/api/projects/", {"name": "Smoke002Proj"})
+                assert proj_resp.status_code == 201, f"Project create returned {proj_resp.status_code}"
+                proj = Project.objects.get(pk=proj_resp.data["id"])
+                proj_detail = client.get(f"/api/projects/{proj.pk}/")
+                assert proj_detail.status_code == 200
+                assert proj_detail.data["name"] == "Smoke002Proj"
+                tag_resp = client.post("/api/tags/", {"name": "smoke002-tag", "color": "#fff"})
+                assert tag_resp.status_code == 201, f"Tag create returned {tag_resp.status_code}"
+                tag_detail = client.get(f"/api/tags/{tag_resp.data['id']}/")
+                assert tag_detail.status_code == 200
+                assert tag_detail.data["name"] == "smoke002-tag"
+                dup_resp = client.post("/api/tags/", {"name": "smoke002-tag", "color": "#000"})
+                assert dup_resp.status_code == 400, f"Duplicate tag returned {dup_resp.status_code}"
+                assert Project._meta.get_field("name").max_length == 200
+                assert Project._meta.get_field("description").blank is True
+                assert Tag._meta.get_field("name").max_length == 100 and Tag._meta.get_field("name").unique is True
+                assert Tag._meta.get_field("color").max_length == 7
+                from todo.serializers import ProjectSerializer, TagSerializer
+                assert set(ProjectSerializer().fields.keys()) == {"id", "name", "description"}
+                assert set(TagSerializer().fields.keys()) == {"id", "name", "color"}
 
             _record_check("soft_delete_retains_row", checks, errors, _soft_delete_retains_row)
             _record_check("soft_delete_sets_timestamp", checks, errors, _soft_delete_sets_timestamp)
@@ -190,10 +204,23 @@ def main() -> int:
     finally:
         if runner is not None:
             with redirect_stdout(captured), redirect_stderr(captured):
-                if old_config is not None:
-                    runner.teardown_databases(old_config)
-                if environment_ready:
-                    runner.teardown_test_environment()
+                try:
+                    if old_config is not None:
+                        runner.teardown_databases(old_config)
+                except Exception as exc:
+                    teardown_errors.append(f"teardown_databases: {type(exc).__name__}: {exc}")
+                try:
+                    if environment_ready:
+                        runner.teardown_test_environment()
+                except Exception as exc:
+                    teardown_errors.append(f"teardown_test_environment: {type(exc).__name__}: {exc}")
+
+        if teardown_errors:
+            payload["passed"] = False
+            if payload["error"]:
+                payload["error"] += "; " + "; ".join(teardown_errors)
+            else:
+                payload["error"] = "; ".join(teardown_errors)
 
     print(json.dumps(payload, separators=(",", ":"), sort_keys=True))
     return 0 if payload["passed"] else 1
