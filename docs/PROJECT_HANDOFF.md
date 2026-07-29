@@ -1,9 +1,9 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-**Handoff Date:** 2026-07-28
+**Handoff Date:** 2026-07-29
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R3C SINGLE-PASS IMPLEMENTATION — branch experiment/three-arm-smoke-v2
+**Handoff type:** R3C ACCEPTANCE CORRECTION — branch experiment/three-arm-smoke-v2
 
 ---
 
@@ -277,22 +277,32 @@ python seven_arm_benchmark.py --dry-run
 ### What was built
 
 - `src/benchmark/execution/scenario_evaluator.py` — four-state evaluator (validation, trust, subprocess, payload parsing) with typed result objects
-- `tests/support/evaluator_fixture_workspaces.py` — three fixture workspace builders with four variants each
-- `tests/evaluator_assets/todo_smoke_001_checks.py` (10 checks), `_002` (9 checks), `_003` (10 checks)
-- `tests/integration/test_todo_smoke_evaluator_assets.py` (17 tests: 12 real subprocess runs + 5 integrity)
-- `tests/unit/execution/test_scenario_evaluator.py` (47 tests)
+- `tests/support/evaluator_fixture_workspaces.py` — three fixture workspace builders; calls `run_post_generation_command`; one-fault variants derived from correct sources (626 lines)
+- `tests/evaluator_assets/todo_smoke_001_checks.py` (10 checks), `_002` (9 checks), `_003` (10 checks) — all use identical fail-closed JSON structure
+- `tests/integration/test_todo_smoke_evaluator_assets.py` (20 tests: 12 real subprocess runs + 8 integrity including baseline hashes, migration integrity, source isolation)
+- `tests/unit/execution/test_scenario_evaluator.py` (57 tests: public-path truth table, symlink/workspace-leak rejection, subprocess exception coverage, isolation cleanup)
+
+### Correction specifics
+
+- Runner now rejects lexical asset symlinks and workspace evaluator leakage
+- Truth table calls public `run_scenario_evaluator`
+- All three evaluator scripts always print exactly one JSON object
+- Fixture builder calls `run_post_generation_command` (R3B production)
+- Old migration hashes preserved; exactly one new migration per fixture
+- Negative variants are one-fault mutations; each fails the expected named check
+- Documentation corrected from false claims (no config dict, no uv run, no pytest JSON, no EvaluatorVerdict)
 
 ### Quality gates
 
-- Full suite: 1376 passed, 24 skipped, 0 failed
+- Full suite: 1391 passed, 27 skipped, 0 failed
 - Ruff: 0 errors; Mypy strict: 0 errors
 - R3B frozen files untouched
 
 ### Blocked
 
-- Kaggle, Pilot, merge, stable tag: BLOCKED until R3C independent audit passes
 - R3D: BLOCKED
+- Kaggle/Pilot/merge/tag: BLOCKED until R3C independent audit passes
 
 ---
 
-**R3C_SINGLE_PASS_IMPLEMENTATION_AUDIT_REQUIRED**
+**R3C_ACCEPTANCE_CORRECTION_AUDIT_REQUIRED**
