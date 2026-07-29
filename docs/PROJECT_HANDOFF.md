@@ -1,9 +1,9 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-**Handoff Date:** 2026-07-29
+**Handoff Date:** 2026-07-30
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R3C ACCEPTANCE CORRECTION — branch experiment/three-arm-smoke-v2
+**Handoff type:** R3C FREEZE CLOSURE — branch experiment/three-arm-smoke-v2, code commit 47e1a05
 
 ---
 
@@ -270,9 +270,9 @@ python seven_arm_benchmark.py --dry-run
 
 ## 14. R3C Status — Isolated Scenario Evaluator System
 
-**Status:** R3C SINGLE-PASS IMPLEMENTATION — INDEPENDENT AUDIT REQUIRED
-**Code checkpoint:** `0d168d0`
-**Date:** 2026-07-29
+**Status:** R3C FREEZE CLOSURE — INDEPENDENT AUDIT PENDING
+**Code checkpoint:** `47e1a05`
+**Date:** 2026-07-30
 
 ### What was built
 
@@ -282,27 +282,28 @@ python seven_arm_benchmark.py --dry-run
 - `tests/integration/test_todo_smoke_evaluator_assets.py` (20 tests: 12 real subprocess runs + 8 integrity including baseline hashes, migration integrity, source isolation)
 - `tests/unit/execution/test_scenario_evaluator.py` (57 tests: public-path truth table, symlink/workspace-leak rejection, subprocess exception coverage, isolation cleanup)
 
-### Correction specifics
+### Closure specifics (2026-07-30)
 
-- Runner now rejects lexical asset symlinks and workspace evaluator leakage
-- Truth table calls public `run_scenario_evaluator`
-- All three evaluator scripts always print exactly one JSON object
-- Fixture builder calls `run_post_generation_command` (R3B production)
-- Old migration hashes preserved; exactly one new migration per fixture
-- Negative variants are one-fault mutations; each fails the expected named check
-- Documentation corrected from false claims (no config dict, no uv run, no pytest JSON, no EvaluatorVerdict)
+- TOCTOU tests now validate first, mutate second, then trust-load — proving the validate→mutate→trust transition
+- Inode-based regular-file replacement test removed; replaced by content-frozen-at-trust-time proof
+- Smoke 003 permission proof now invokes every configured permission class via `SimpleNamespace` and `TaskViewSet()`, not just checks class membership
+- Source-isolation Boolean logic corrected: buggy `not exists() or not is_symlink()` replaced with `_assert_workspace_has_no_evaluator_assets` helper using AND logic
+- 6 fake-Django lifecycle tests (3 assets × 2 failure modes) persist the setup/teardown JSON contract
+- Evaluator hash tests are now read-only: metadata required to exist, never written
+- Code/docs commit separation enforced: `test(validation)` commit contains code/tests only
 
 ### Quality gates
 
-- Full suite: 1391 passed, 27 skipped, 0 failed
-- Ruff: 0 errors; Mypy strict: 0 errors
+- Full suite: 1424 passed, 32 skipped, 0 failed
+- Ruff: 0 new errors (7 pre-existing line-length and nesting warnings untouched)
 - R3B frozen files untouched
+- Git tree: clean (after docs commit)
 
 ### Blocked
 
-- R3D: BLOCKED
-- Kaggle/Pilot/merge/tag: BLOCKED until R3C independent audit passes
+- R3D: BLOCKED until independent audit accepts R3C closure
+- Kaggle/Pilot/merge/tag: BLOCKED
 
 ---
 
-**R3C_ACCEPTANCE_CORRECTION_AUDIT_REQUIRED**
+**R3C_FREEZE_CLOSURE_AUDIT_REQUIRED**
