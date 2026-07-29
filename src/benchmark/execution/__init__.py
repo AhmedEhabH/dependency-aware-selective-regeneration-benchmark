@@ -5,6 +5,7 @@ from benchmark.execution.post_generation import PostGenerationResult, run_post_g
 from benchmark.execution.regeneration import GeneratedArtifact, RegenerationExecutionResult, SharedRegenerationExecutor
 from benchmark.execution.repair import RepairLoop
 from benchmark.execution.runner import BenchmarkRunner
+from benchmark.execution.scenario_evaluator import ScenarioEvaluatorResult, run_scenario_evaluator
 from benchmark.execution.state_machine import RunStateMachine
 from benchmark.execution.validation import FunctionalValidationResult, FunctionalValidator
 
@@ -20,6 +21,8 @@ __all__ = [
     "RegenerationExecutionResult",
     "RepairLoop",
     "RunStateMachine",
+    "ScenarioEvaluatorResult",
     "SharedRegenerationExecutor",
     "run_post_generation_command",
+    "run_scenario_evaluator",
 ]
