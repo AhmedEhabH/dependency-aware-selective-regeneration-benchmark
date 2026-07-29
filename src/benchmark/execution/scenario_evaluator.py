@@ -66,6 +66,14 @@ def _coerce_subprocess_text(value: str | bytes | None) -> str:
     return value
 
 
+def _containment_check(child: Path, parent: Path) -> bool:
+    try:
+        child.resolve().relative_to(parent.resolve())
+        return True
+    except ValueError:
+        return False
+
+
 def _validate_evaluator_request(
     canonical_project_root: str | Path,
     evaluator_asset: str,
@@ -119,7 +127,23 @@ def _validate_evaluator_request(
         if evaluator_root.is_symlink():
             return "evaluator_assets directory must not be a symlink"
 
-        evaluator_asset_path = (evaluator_root / asset_normalized[len(_EVALUATOR_ASSETS_PREFIX):]).resolve()
+        relative_suffix = asset_normalized[len(_EVALUATOR_ASSETS_PREFIX):]
+        asset_lexical = evaluator_root / relative_suffix
+
+        if asset_lexical.is_symlink():
+            return "evaluator_asset must not be a symlink"
+
+        for component in asset_lexical.parents:
+            if component == evaluator_root:
+                break
+            if component.is_symlink():
+                return "evaluator_asset path must not contain symlink components"
+            try:
+                component.relative_to(evaluator_root)
+            except ValueError:
+                break
+
+        evaluator_asset_path = asset_lexical.resolve(strict=True)
         try:
             evaluator_asset_path.relative_to(evaluator_root)
         except ValueError:
@@ -129,8 +153,6 @@ def _validate_evaluator_request(
             return "evaluator_asset file does not exist"
         if not evaluator_asset_path.is_file():
             return "evaluator_asset path is not a file"
-        if evaluator_asset_path.is_symlink():
-            return "evaluator_asset must not be a symlink"
 
         gw = Path(generated_workspace).resolve()
         if not gw.exists():
@@ -140,23 +162,14 @@ def _validate_evaluator_request(
 
         if gw == cpr:
             return "generated_workspace must not equal canonical_project_root"
-        try:
-            gw.relative_to(cpr)
+        if _containment_check(gw, cpr):
             return "generated_workspace must not be inside canonical_project_root"
-        except ValueError:
-            pass
-        try:
-            cpr.relative_to(gw)
+        if _containment_check(cpr, gw):
             return "canonical_project_root must not be inside generated_workspace"
-        except ValueError:
-            pass
 
-        try:
-            gw_str = str(gw) + os.sep
-            if str(evaluator_root).startswith(gw_str):
-                return "evaluator_assets directory must not be inside generated_workspace"
-        except (ValueError, TypeError):
-            pass
+        workspace_evaluator_path = gw / "tests" / "evaluator_assets"
+        if workspace_evaluator_path.exists():
+            return "generated workspace must not contain tests/evaluator_assets"
 
         if not python_executable.strip():
             return "python_executable must be a non-empty string"
@@ -199,16 +212,14 @@ def _execute_evaluator_subprocess(
     try:
         with tempfile.TemporaryDirectory(prefix="benchmark_evaluator_") as tmpdir_str:
             tmpdir = Path(tmpdir_str).resolve()
-            ws_str = str(request.generated_workspace.resolve()) + os.sep
-            if str(tmpdir.resolve()).startswith(ws_str):
+            if _containment_check(tmpdir, request.generated_workspace):
                 return _EvaluatorCommandOutcome(
                     succeeded=False,
                     exit_code=-1,
                     stdout="",
                     stderr="temporary directory is inside generated workspace",
                 )
-            cpr_str = str(request.canonical_project_root.resolve()) + os.sep
-            if str(tmpdir.resolve()).startswith(cpr_str):
+            if _containment_check(tmpdir, request.canonical_project_root):
                 return _EvaluatorCommandOutcome(
                     succeeded=False,
                     exit_code=-1,

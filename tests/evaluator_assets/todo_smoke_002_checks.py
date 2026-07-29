@@ -1,159 +1,203 @@
-"""Standalone evaluator for todo-smoke-002 (Soft Delete)."""
+import io
 import json
 import os
 import sys
+from collections.abc import Callable
+from contextlib import redirect_stderr, redirect_stdout
+from pathlib import Path
 
 
-def main():
+def _workspace_from_argv() -> Path:
     if len(sys.argv) != 2:
         print(json.dumps({"passed": False, "checks": [], "error": "expected exactly one workspace argument"}))
         sys.exit(1)
-
-    workspace = sys.argv[1]
-    if not os.path.isdir(workspace):
+    ws = Path(sys.argv[1])
+    if not ws.is_dir():
         print(json.dumps({"passed": False, "checks": [], "error": "workspace not found"}))
         sys.exit(1)
+    if not (ws / "manage.py").exists():
+        print(json.dumps({"passed": False, "checks": [], "error": "manage.py not found in workspace"}))
+        sys.exit(1)
+    if not (ws / "config" / "settings.py").exists():
+        print(json.dumps({"passed": False, "checks": [], "error": "config/settings.py not found"}))
+        sys.exit(1)
+    if not (ws / "todo").is_dir():
+        print(json.dumps({"passed": False, "checks": [], "error": "todo/ directory not found"}))
+        sys.exit(1)
+    return ws
 
-    sys.path.insert(0, workspace)
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
-    import django
-    from django.test.runner import DiscoverRunner
-    from django.test.utils import setup_test_environment, teardown_test_environment
+def _record_check(name: str, checks: list[str], errors: list[str], function: Callable[[], None]) -> None:
+    try:
+        function()
+    except Exception as exc:
+        errors.append(f"{name}: {type(exc).__name__}: {exc}")
+    else:
+        checks.append(name)
 
-    checks = []
-    errors = []
-    passed = True
 
-    django.setup()
-    runner = DiscoverRunner()
-    setup_test_environment()
-    old_config = runner.setup_databases()
+def main() -> int:
+    payload = {"passed": False, "checks": [], "error": ""}
+    captured = io.StringIO()
+    runner = None
+    old_config = None
+    environment_ready = False
 
     try:
-        from django.contrib.auth.models import User
-        from rest_framework.test import APIClient
-        from todo.models import Project, Task
+        workspace = _workspace_from_argv()
+        sys.path.insert(0, str(workspace))
+        os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings"
+        os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
 
-        user = User.objects.create_user(username="tester", password="pass")
-        project = Project.objects.create(name="Test")
-        client = APIClient()
-        client.force_authenticate(user=user)
+        with redirect_stdout(captured), redirect_stderr(captured):
+            import django
+            django.setup()
 
-        # check 1: soft_delete_retains_row
-        try:
-            task = Task.all_objects.create(owner=user, title="To Delete", project=project)
-            task_id = task.pk
-            client.delete(f"/api/tasks/{task.pk}/")
-            still_exists = Task.all_objects.filter(pk=task_id).exists()
-            assert still_exists, "Row was removed from database"
-            checks.append("soft_delete_retains_row")
-        except AssertionError as e:
-            errors.append(str(e))
-            passed = False
+            from django.test.runner import DiscoverRunner
+            runner = DiscoverRunner(verbosity=0, interactive=False)
+            runner.setup_test_environment()
+            environment_ready = True
+            old_config = runner.setup_databases()
 
-        # check 2: soft_delete_sets_timestamp
-        try:
-            task = Task.all_objects.create(owner=user, title="Timestamp Check", project=project)
-            client.delete(f"/api/tasks/{task.pk}/")
-            task.refresh_from_db()
-            assert task.deleted_at is not None, "deleted_at not set"
-            checks.append("soft_delete_sets_timestamp")
-        except AssertionError as e:
-            errors.append(str(e))
-            passed = False
+            from django.contrib.auth.models import User
+            from rest_framework.test import APIClient
+            from todo.models import Project, Task
 
-        # check 3: default_manager_excludes_deleted
-        try:
-            task = Task.all_objects.create(owner=user, title="Hidden", project=project)
-            client.delete(f"/api/tasks/{task.pk}/")
-            qs = Task.objects.all()
-            assert task not in qs, "Default manager returned deleted task"
-            checks.append("default_manager_excludes_deleted")
-        except AssertionError as e:
-            errors.append(str(e))
-            passed = False
+            user = User.objects.create_user(username="tester", password="pass")
+            project = Project.objects.create(name="Smoke002Project")
+            client = APIClient()
+            client.force_authenticate(user=user)
 
-        # check 4: normal_list_excludes_deleted
-        try:
-            task = Task.all_objects.create(owner=user, title="Hidden From List", project=project)
-            client.delete(f"/api/tasks/{task.pk}/")
-            resp = client.get("/api/tasks/")
-            ids = [item["id"] for item in resp.data.get("results", [])]
-            assert task.pk not in ids, "Normal list includes deleted task"
-            checks.append("normal_list_excludes_deleted")
-        except AssertionError as e:
-            errors.append(str(e))
-            passed = False
+            checks: list[str] = []
+            errors: list[str] = []
 
-        # check 5: deleted_detail_is_404
-        try:
-            task = Task.all_objects.create(owner=user, title="Gone", project=project)
-            client.delete(f"/api/tasks/{task.pk}/")
-            resp = client.get(f"/api/tasks/{task.pk}/")
-            assert resp.status_code == 404, f"Expected 404, got {resp.status_code}"
-            checks.append("deleted_detail_is_404")
-        except AssertionError as e:
-            errors.append(str(e))
-            passed = False
+            def _soft_delete_retains_row() -> None:
+                task = Task._base_manager.create(owner=user, title="RetainRow", project=project)
+                pk = task.pk
+                resp = client.delete(f"/api/tasks/{pk}/")
+                assert resp.status_code in (200, 204), f"Delete returned {resp.status_code}"
+                exists = Task._base_manager.filter(pk=pk).exists()
+                assert exists, "Row was hard-deleted from database"
 
-        # check 6: deleted_action_lists_deleted
-        try:
-            task = Task.all_objects.create(owner=user, title="Only In Deleted", project=project)
-            client.delete(f"/api/tasks/{task.pk}/")
-            resp = client.get("/api/tasks/deleted/")
-            ids = [item["id"] for item in resp.data.get("results", [])]
-            assert task.pk in ids, "Deleted action did not list the task"
-            checks.append("deleted_action_lists_deleted")
-        except AssertionError as e:
-            errors.append(str(e))
-            passed = False
+            def _soft_delete_sets_timestamp() -> None:
+                task = Task._base_manager.create(owner=user, title="TimestampCheck", project=project)
+                pk = task.pk
+                client.delete(f"/api/tasks/{pk}/")
+                deleted = Task._base_manager.get(pk=pk)
+                assert deleted.deleted_at is not None, "deleted_at was not set"
 
-        # check 7: restore_action_restores
-        try:
-            task = Task.all_objects.create(owner=user, title="Restore Me", project=project)
-            client.delete(f"/api/tasks/{task.pk}/")
-            resp = client.post(f"/api/tasks/{task.pk}/restore/")
-            assert resp.status_code == 200, f"Restore failed: {resp.status_code}"
-            task.refresh_from_db()
-            assert task.deleted_at is None, "deleted_at not cleared after restore"
-            checks.append("restore_action_restores")
-        except AssertionError as e:
-            errors.append(str(e))
-            passed = False
+            def _default_manager_excludes_deleted() -> None:
+                task = Task._base_manager.create(owner=user, title="DefaultExclude", project=project)
+                pk = task.pk
+                client.delete(f"/api/tasks/{pk}/")
+                qs = Task.objects.filter(pk=pk)
+                assert qs.count() == 0, "Default manager returned the deleted task"
 
-        # check 8: soft_deleted_data_preserved
-        try:
-            task = Task.all_objects.create(owner=user, title="Preserved", project=project)
-            client.delete(f"/api/tasks/{task.pk}/")
-            task.refresh_from_db()
-            assert task.title == "Preserved", "Title was modified"
-            assert task.project == project, "Project reference lost"
-            checks.append("soft_deleted_data_preserved")
-        except AssertionError as e:
-            errors.append(str(e))
-            passed = False
+            def _normal_list_excludes_deleted() -> None:
+                target = Task._base_manager.create(owner=user, title="NormalExclude", project=project)
+                active = Task.objects.create(owner=user, title="ActiveControl", project=project)
+                client.delete(f"/api/tasks/{target.pk}/")
+                resp = client.get("/api/tasks/")
+                assert resp.status_code == 200
+                ids = [r["id"] for r in resp.data.get("results", [])]
+                assert target.pk not in ids, "Deleted task appears in normal list"
+                assert active.pk in ids, "Active task missing from normal list"
 
-        # check 9: project_and_tag_regression
-        try:
-            from todo.models import Tag
-            Tag.objects.create(name="regression", color="#FFF")
-            assert Tag.objects.count() >= 1
-            assert Project.objects.count() >= 1
-            checks.append("project_and_tag_regression")
-        except AssertionError as e:
-            errors.append(str(e))
-            passed = False
+            def _deleted_detail_is_404() -> None:
+                task = Task._base_manager.create(owner=user, title="Detail404", project=project)
+                client.delete(f"/api/tasks/{task.pk}/")
+                resp = client.get(f"/api/tasks/{task.pk}/")
+                assert resp.status_code == 404, f"Expected 404, got {resp.status_code}"
 
+            def _deleted_action_lists_deleted() -> None:
+                target = Task._base_manager.create(owner=user, title="DeletedActionTarget", project=project)
+                active = Task.objects.create(owner=user, title="DeletedActionControl", project=project)
+                client.delete(f"/api/tasks/{target.pk}/")
+                resp = client.get("/api/tasks/deleted/")
+                assert resp.status_code == 200
+                ids = [r["id"] for r in resp.data.get("results", [])]
+                assert target.pk in ids, "Deleted task missing from /deleted/ endpoint"
+                assert active.pk not in ids, "Active task present in /deleted/ endpoint"
+
+            def _restore_action_restores() -> None:
+                task = Task._base_manager.create(owner=user, title="RestoreTest", project=project)
+                pk = task.pk
+                client.delete(f"/api/tasks/{pk}/")
+                restore_resp = client.post(f"/api/tasks/{pk}/restore/")
+                assert restore_resp.status_code == 200, f"Restore returned {restore_resp.status_code}"
+                restored = Task._base_manager.get(pk=pk)
+                assert restored.deleted_at is None, "deleted_at not cleared after restore"
+                normal_resp = client.get("/api/tasks/")
+                normal_ids = [r["id"] for r in normal_resp.data.get("results", [])]
+                assert pk in normal_ids, "Restored task missing from normal list"
+                detail_resp = client.get(f"/api/tasks/{pk}/")
+                assert detail_resp.status_code == 200, f"Detail after restore returned {detail_resp.status_code}"
+
+            def _soft_deleted_data_preserved() -> None:
+                from todo.models import Tag
+                tag = Tag.objects.create(name="preserved-tag", color="#abc")
+                task = Task._base_manager.create(
+                    owner=user,
+                    title="PreservedTitle",
+                    description="PreservedDesc",
+                    status="IN_PROGRESS",
+                    project=project,
+                )
+                task.tags.add(tag)
+                pk = task.pk
+                client.delete(f"/api/tasks/{pk}/")
+                restore_resp = client.post(f"/api/tasks/{pk}/restore/")
+                assert restore_resp.status_code == 200
+                restored = Task._base_manager.get(pk=pk)
+                assert restored.title == "PreservedTitle", f"Expected PreservedTitle, got {restored.title}"
+                assert restored.description == "PreservedDesc", f"Expected PreservedDesc, got {restored.description}"
+                assert restored.status == "IN_PROGRESS", f"Expected IN_PROGRESS, got {restored.status}"
+                assert restored.project == project, "Project reference lost"
+                assert tag in restored.tags.all(), "Tags not preserved after restore"
+
+            def _project_and_tag_regression() -> None:
+                from todo.models import Tag
+                tag = Tag._base_manager.create(name="smoke002-tag", color="#fff")
+                assert Tag._base_manager.filter(pk=tag.pk).exists()
+                proj = Project._base_manager.create(name="smoke002-proj")
+                assert Project._base_manager.filter(pk=proj.pk).exists()
+
+            _record_check("soft_delete_retains_row", checks, errors, _soft_delete_retains_row)
+            _record_check("soft_delete_sets_timestamp", checks, errors, _soft_delete_sets_timestamp)
+            _record_check("default_manager_excludes_deleted", checks, errors, _default_manager_excludes_deleted)
+            _record_check("normal_list_excludes_deleted", checks, errors, _normal_list_excludes_deleted)
+            _record_check("deleted_detail_is_404", checks, errors, _deleted_detail_is_404)
+            _record_check("deleted_action_lists_deleted", checks, errors, _deleted_action_lists_deleted)
+            _record_check("restore_action_restores", checks, errors, _restore_action_restores)
+            _record_check("soft_deleted_data_preserved", checks, errors, _soft_deleted_data_preserved)
+            _record_check("project_and_tag_regression", checks, errors, _project_and_tag_regression)
+
+        payload = {
+            "passed": not errors,
+            "checks": checks,
+            "error": "; ".join(errors),
+        }
+    except Exception as exc:
+        captured_text = captured.getvalue()[-1000:]
+        detail = f"{type(exc).__name__}: {exc}"
+        if captured_text:
+            detail += f" | captured: {captured_text}"
+        payload = {
+            "passed": False,
+            "checks": payload.get("checks", []),
+            "error": detail,
+        }
     finally:
-        runner.teardown_databases(old_config)
-        teardown_test_environment()
+        if runner is not None:
+            with redirect_stdout(captured), redirect_stderr(captured):
+                if old_config is not None:
+                    runner.teardown_databases(old_config)
+                if environment_ready:
+                    runner.teardown_test_environment()
 
-    error_str = "; ".join(errors) if errors else ""
-    result = {"passed": passed, "checks": checks, "error": error_str}
-    print(json.dumps(result))
-    sys.exit(0 if passed else 1)
+    print(json.dumps(payload, separators=(",", ":"), sort_keys=True))
+    return 0 if payload["passed"] else 1
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
