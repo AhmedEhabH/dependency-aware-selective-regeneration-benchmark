@@ -11,7 +11,7 @@
 **Temperature for the real experiment:** `0.0`  
 **Per-call completion limit:** `4096` tokens  
 **Current local evidence supplied by the researcher:** `1314 passed, 22 skipped, 0 failed` on Windows/Python 3.11  
-**Phase status:** R3B CROSS-PLATFORM FREEZE — independent audit pending; R3C blocked  
+**Phase status:** R3B CROSS-PLATFORM FREEZE — independent audit pending; R3C SINGLE-PASS IMPLEMENTATION — independent audit required  
 **R3B code-checkpoint:** c11f25e  
 **R3B correction-checkpoint:** c873d9f  
 **R3B final-correction-checkpoint:** c635e42  

@@ -8,9 +8,9 @@
 **Required OpenCode model:** DeepSeek V4 Flash Free through OpenCode Zen, Build mode  
 **Actual model displayed in the preceding OpenCode run:** `opencode/big-pickle`  
 **Real scientific model later:** Qwen2.5-Coder-7B-Instruct on Kaggle  
-**Current permission:** complete Section A only, then stop for independent audit  
-**R3C execution permission:** blocked until Section A is independently accepted  
-**Kaggle, Pilot, merge, and stable tag:** blocked  
+**Current permission:** R3C single-pass implementation complete — independent audit required  
+**R3C execution permission:** IMPLEMENTED (single-pass, see R3C-SINGLE-PASS-IMPLEMENTATION-RECORD.md)  
+**Kaggle, Pilot, merge, and stable tag:** blocked until R3C audit passes  
 
 ---
 

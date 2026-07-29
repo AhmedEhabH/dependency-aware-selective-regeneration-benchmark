@@ -107,4 +107,69 @@ When the after-state is untrusted due to a separate unsafe entry (e.g. a symlink
 
 ---
 
-**R3B_CROSS_PLATFORM_FREEZE_AUDIT_REQUIRED**
+---
+
+# R3C — Single-Pass Isolated Scenario Evaluator System
+
+**Date:** 2026-07-29
+**Status:** R3C SINGLE-PASS IMPLEMENTATION — INDEPENDENT AUDIT REQUIRED
+**Branch:** `experiment/three-arm-smoke-v2`
+
+## Summary
+
+Section B (R3C) of the master specification has been implemented as a single pass. The isolated scenario evaluator system validates Django-based evaluator assets via subprocess execution in dedicated temporary workspaces, with deterministic mock responses, exact JSON payload validation, and typed result objects.
+
+## Architecture
+
+The evaluator (`src/benchmark/execution/scenario_evaluator.py`) follows a four-state pipeline:
+
+1. **InputValidation** — validates evaluator path, config, timeout, required keys; rejects empty paths, missing keys, non-serialisable config, negative timeouts
+2. **TrustedAsset** — verifies source path exists within permitted directory; resolves symlinks; rejects escape attempts
+3. **Subprocess** — runs `uv run -m pytest --no-header -q --json-report=...` with 120s default timeout; captures stdout, stderr, return code; handles file-not-found, timeout, non-zero exit
+4. **PayloadParsing** — reads JSON report, validates summary/collectors/tests/created/duration/exitcode; maps exitcode+test outcomes to `EvaluatorVerdict`
+
+## Fixtures
+
+Three Django workspace builders (`tests/support/evaluator_fixture_workspaces.py`) each produce four variants (correct + three incorrect):
+
+- **Smoke-001** — Task model with Priority enum, CharField choices, DRF serializer, priority-filter viewset
+- **Smoke-002** — SoftDeleteModel (is_deleted, deleted_at), default manager exclusion, restore action
+- **Smoke-003** — Owner-based permission system, creator-as-owner, UnrestrictedIsOwnerOrAdmin permission
+
+Key design fixes discovered: `_base_manager` is read-only (replaced with `all_objects`), `Priority` inner class must be inside `Task` (not module-level), non-nullable `Project.owner` requires `null=True, blank=True`.
+
+## Tests
+
+| Module | Count |
+|--------|-------|
+| `test_scenario_evaluator.py` (unit) | 47 |
+| `test_todo_smoke_evaluator_assets.py` (integration) | 17 |
+| **Total new** | **64** |
+
+## Quality Gates
+
+| Gate | Result |
+|------|--------|
+| Full pytest | 1376 passed, 24 skipped, 0 failed |
+| Ruff | 0 errors |
+| Mypy strict | 0 errors |
+| py_compile (all new) | All pass |
+| git diff --check | Clean |
+
+## Git History
+
+| Commit | Description |
+|--------|-------------|
+| `0d168d0` | feat(validation): add isolated scenario evaluator system |
+| `341cc99` | docs(audit): record R3B cross-platform freeze candidate |
+| `feb5a44` | fix(validation): close cross-platform migration snapshot contract |
+| `f8f95d2` | refactor(validation): model migration execution as trusted states |
+| `fddd26f` | docs(audit): record R3B acceptance closure |
+| `f8faa08` | fix(validation): fail on untrusted migration after-state |
+| `c635e42` | fix(validation): reject unsafe migration entries and malformed execution input |
+| `c873d9f` | fix(validation): close migration runner safety gaps |
+| `c11f25e` | feat(validation): add deterministic migration runner |
+
+---
+
+**R3C_SINGLE_PASS_IMPLEMENTATION_AUDIT_REQUIRED**

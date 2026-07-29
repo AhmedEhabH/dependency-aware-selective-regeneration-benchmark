@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-28
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** THREE-ARM-CORE-EXPERIMENT R3B ACCEPTANCE-CLOSURE — branch experiment/three-arm-smoke-v2
+**Handoff type:** R3C SINGLE-PASS IMPLEMENTATION — branch experiment/three-arm-smoke-v2
 
 ---
 
@@ -268,4 +268,31 @@ python seven_arm_benchmark.py --dry-run
 
 ---
 
-**R3B_CROSS_PLATFORM_FREEZE_AUDIT_REQUIRED**
+## 14. R3C Status — Isolated Scenario Evaluator System
+
+**Status:** R3C SINGLE-PASS IMPLEMENTATION — INDEPENDENT AUDIT REQUIRED
+**Code checkpoint:** `0d168d0`
+**Date:** 2026-07-29
+
+### What was built
+
+- `src/benchmark/execution/scenario_evaluator.py` — four-state evaluator (validation, trust, subprocess, payload parsing) with typed result objects
+- `tests/support/evaluator_fixture_workspaces.py` — three fixture workspace builders with four variants each
+- `tests/evaluator_assets/todo_smoke_001_checks.py` (10 checks), `_002` (9 checks), `_003` (10 checks)
+- `tests/integration/test_todo_smoke_evaluator_assets.py` (17 tests: 12 real subprocess runs + 5 integrity)
+- `tests/unit/execution/test_scenario_evaluator.py` (47 tests)
+
+### Quality gates
+
+- Full suite: 1376 passed, 24 skipped, 0 failed
+- Ruff: 0 errors; Mypy strict: 0 errors
+- R3B frozen files untouched
+
+### Blocked
+
+- Kaggle, Pilot, merge, stable tag: BLOCKED until R3C independent audit passes
+- R3D: BLOCKED
+
+---
+
+**R3C_SINGLE_PASS_IMPLEMENTATION_AUDIT_REQUIRED**
