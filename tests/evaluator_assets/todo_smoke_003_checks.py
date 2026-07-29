@@ -122,9 +122,31 @@ def main() -> int:
                 assert ok_resp.status_code == 201, f"Owner task create returned {ok_resp.status_code}"
                 fail_resp = other_client.post("/api/tasks/", {"title": "OtherTask", "project": project.pk})
                 assert fail_resp.status_code == 403, f"Other task create expected 403, got {fail_resp.status_code}"
+                from types import SimpleNamespace
                 from todo.views import TaskViewSet
-                from todo.permissions import IsProjectOwner
-                assert IsProjectOwner in TaskViewSet.permission_classes, "TaskViewSet must use IsProjectOwner"
+                owner_request = SimpleNamespace(
+                    user=owner,
+                    method="POST",
+                    data={"project": project.pk},
+                )
+                other_request = SimpleNamespace(
+                    user=other,
+                    method="POST",
+                    data={"project": project.pk},
+                )
+                view = TaskViewSet()
+                owner_results = [
+                    bool(permission().has_permission(owner_request, view))
+                    for permission in TaskViewSet.permission_classes
+                ]
+                other_results = [
+                    bool(permission().has_permission(other_request, view))
+                    for permission in TaskViewSet.permission_classes
+                ]
+                assert all(owner_results), "Owner should pass all permission checks"
+                assert any(
+                    not r for r in other_results
+                ), "Non-owner should be denied by at least one configured permission"
 
             def _task_update_uses_project_owner() -> None:
                 task = Task.objects.create(title="UpdateConflict", project=project, owner=other)
