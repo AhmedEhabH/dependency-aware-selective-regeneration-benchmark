@@ -661,6 +661,13 @@ def build_todo_smoke_003_workspace(destination: Path, variant: str = "correct") 
     return destination
 
 
+def _assert_workspace_has_no_evaluator_assets(workspace: Path) -> None:
+    evaluator_root = workspace / "tests" / "evaluator_assets"
+    assert not evaluator_root.exists()
+    assert not evaluator_root.is_symlink()
+    assert not (workspace / "scenario_evaluator.py").exists()
+
+
 def _get_sources_for_variant(
     scenario_id: str,
     variant: str,

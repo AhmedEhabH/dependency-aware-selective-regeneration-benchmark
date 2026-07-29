@@ -10,6 +10,7 @@ import pytest
 from benchmark.execution.scenario_evaluator import run_scenario_evaluator
 from tests.support.evaluator_fixture_workspaces import (
     _BASELINE_REPO,
+    _assert_workspace_has_no_evaluator_assets,
     _get_sources_for_variant,
     build_todo_smoke_001_workspace,
     build_todo_smoke_002_workspace,
@@ -136,8 +137,7 @@ class _EvaluatorHelper:
     def run(self, variant="correct"):
         workspace = self.build_fn(self.tmp_path / f"ws_{variant}", variant=variant)
         _assert_migration_integrity(workspace)
-        leaker = workspace / "tests" / "evaluator_assets"
-        assert not leaker.exists() or not leaker.is_symlink(), "workspace contains evaluator_assets leak"
+        _assert_workspace_has_no_evaluator_assets(workspace)
         cpr = self.tmp_path / f"project_{variant}"
         cpr.mkdir()
         (cpr / "tests").mkdir()
@@ -323,8 +323,40 @@ class TestEvaluatorIntegrity:
         }[scenario_id]
         ws = build_fn(tmp_path / f"ws_{scenario_id}_{variant}", variant=variant)
         _assert_migration_integrity(ws)
+        _assert_workspace_has_no_evaluator_assets(ws)
+
+    def test_source_isolation_helper_ordinary_directory(self, tmp_path):
+        ws = tmp_path / "ws_helper_dir"
+        ws.mkdir(parents=True)
+        (ws / "tests").mkdir()
+        (ws / "tests" / "evaluator_assets").mkdir()
+        with pytest.raises(AssertionError):
+            _assert_workspace_has_no_evaluator_assets(ws)
+
+    def test_source_isolation_helper_ordinary_file(self, tmp_path):
+        ws = tmp_path / "ws_helper_file"
+        ws.mkdir(parents=True)
+        (ws / "tests").mkdir()
+        (ws / "tests" / "evaluator_assets").write_text("leak")
+        with pytest.raises(AssertionError):
+            _assert_workspace_has_no_evaluator_assets(ws)
+
+    def test_source_isolation_helper_broken_symlink(self, tmp_path):
+        ws = tmp_path / "ws_helper_broken"
+        ws.mkdir(parents=True)
+        (ws / "tests").mkdir()
         leaker = ws / "tests" / "evaluator_assets"
-        assert not leaker.exists() or not leaker.is_symlink(), "workspace contains evaluator_assets leak"
+        try:
+            leaker.symlink_to(tmp_path / "nonexistent_target")
+        except (OSError, NotImplementedError):
+            pytest.skip("symlink creation not supported")
+        with pytest.raises(AssertionError):
+            _assert_workspace_has_no_evaluator_assets(ws)
+
+    def test_source_isolation_clean_workspace_passes(self, tmp_path):
+        ws = tmp_path / "ws_helper_clean"
+        ws.mkdir(parents=True)
+        _assert_workspace_has_no_evaluator_assets(ws)
 
     def test_source_isolation(self, tmp_path):
         evaluator_path = Path(__file__).resolve().parent.parent / "evaluator_assets" / "todo_smoke_001_checks.py"
@@ -355,10 +387,10 @@ class TestEvaluatorIntegrity:
     def test_canonical_evaluator_integrity(self, asset_name):
         evaluator_path = Path(__file__).resolve().parent.parent / "evaluator_assets" / asset_name
         metadata_path = evaluator_path.with_suffix(evaluator_path.suffix + ".sha256")
-        current_hash = hashlib.sha256(evaluator_path.read_bytes()).hexdigest()
-        if not metadata_path.exists():
-            metadata_path.write_text(current_hash)
+        assert metadata_path.exists(), f"Hash metadata missing for {asset_name}"
         previous = metadata_path.read_text().strip()
+        assert len(previous) == 64, f"Hash metadata for {asset_name} is not a valid 64-char SHA-256"
+        current_hash = hashlib.sha256(evaluator_path.read_bytes()).hexdigest()
         assert current_hash == previous, f"Canonical evaluator {asset_name} hash changed"
 
     def test_evaluator_stdout_is_exactly_one_json_object(self, tmp_path):
@@ -400,3 +432,116 @@ class TestEvaluatorIntegrity:
             timeout=120,
         )
         assert not (ws / "scenario_evaluator.py").exists()
+
+
+def _build_fake_django_workspace(tmp_path: Path) -> Path:
+    ws = tmp_path / "fake_django"
+    ws.mkdir(parents=True)
+    (ws / "manage.py").write_text("")
+    (ws / "config").mkdir()
+    (ws / "config" / "__init__.py").write_text("")
+    (ws / "config" / "settings.py").write_text('''
+INSTALLED_APPS = ["todo"]
+DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}}
+AUTH_USER_MODEL = "auth.User"
+USE_TZ = False
+''')
+    (ws / "todo").mkdir()
+    (ws / "todo" / "__init__.py").write_text("")
+    (ws / "django").mkdir()
+    (ws / "django" / "__init__.py").write_text("def setup(): pass")
+    (ws / "django" / "test").mkdir()
+    (ws / "django" / "test" / "__init__.py").write_text("")
+    return ws
+
+
+def _write_runner_py(ws: Path, setup_db_raises: bool, teardown_raises: bool) -> None:
+    lines = [
+        '"""Fake Django test runner for lifecycle tests."""',
+        'import sys',
+        '',
+        '',
+        'class DiscoverRunner:',
+        '    def __init__(self, verbosity=0, interactive=False):',
+        '        self.verbosity = verbosity',
+        '        self.interactive = interactive',
+        '',
+        '    def setup_test_environment(self):',
+        '        pass',
+        '',
+        '    def setup_databases(self, **kwargs):',
+    ]
+    if setup_db_raises:
+        lines.append("        raise RuntimeError('setup db boom')")
+    else:
+        lines.append("        return {'default': None}")
+    lines += [
+        '',
+        '    def teardown_databases(self, old_config, **kwargs):',
+    ]
+    if teardown_raises:
+        lines.append("        raise RuntimeError('teardown boom')")
+    else:
+        lines.append("        pass")
+    lines += [
+        '',
+        '    def teardown_test_environment(self):',
+    ]
+    if teardown_raises:
+        lines.append("        raise RuntimeError('teardown boom')")
+    else:
+        lines.append("        pass")
+    lines += [
+        '',
+        '    def run_tests(self, test_labels, **kwargs):',
+        '        return 0',
+        '',
+    ]
+    runner_path = ws / "django" / "test" / "runner.py"
+    runner_path.write_text("\n".join(lines))
+
+
+_LIFECYCLE_ASSETS = [
+    "todo_smoke_001_checks.py",
+    "todo_smoke_002_checks.py",
+    "todo_smoke_003_checks.py",
+]
+
+
+class TestEvaluatorLifecycle:
+    @pytest.mark.parametrize("asset_name", _LIFECYCLE_ASSETS)
+    def test_setup_db_failure_json_output(self, tmp_path, asset_name):
+        ws = _build_fake_django_workspace(tmp_path)
+        _write_runner_py(ws, setup_db_raises=True, teardown_raises=False)
+        asset_src = Path(__file__).resolve().parent.parent / "evaluator_assets" / asset_name
+        env = {**__import__("os").environ, "PYTHONPATH": str(ws), "PYTHONDONTWRITEBYTECODE": "1"}
+        proc = __import__("subprocess").run(
+            [sys.executable, str(asset_src), str(ws)],
+            capture_output=True, text=True, timeout=60, env=env,
+        )
+        assert proc.returncode == 1, f"Expected exit code 1, got {proc.returncode}"
+        stdout = proc.stdout.strip()
+        data = json.loads(stdout)
+        assert isinstance(data, dict)
+        assert data["passed"] is False
+        assert isinstance(data["checks"], list)
+        assert "setup db boom" in data.get("error", "")
+
+    @pytest.mark.parametrize("asset_name", _LIFECYCLE_ASSETS)
+    def test_setup_and_teardown_failure_json_output(self, tmp_path, asset_name):
+        ws = _build_fake_django_workspace(tmp_path)
+        _write_runner_py(ws, setup_db_raises=True, teardown_raises=True)
+        asset_src = Path(__file__).resolve().parent.parent / "evaluator_assets" / asset_name
+        env = {**__import__("os").environ, "PYTHONPATH": str(ws), "PYTHONDONTWRITEBYTECODE": "1"}
+        proc = __import__("subprocess").run(
+            [sys.executable, str(asset_src), str(ws)],
+            capture_output=True, text=True, timeout=60, env=env,
+        )
+        assert proc.returncode == 1, f"Expected exit code 1, got {proc.returncode}"
+        stdout = proc.stdout.strip()
+        data = json.loads(stdout)
+        assert isinstance(data, dict)
+        assert data["passed"] is False
+        assert "setup db boom" in data.get("error", "")
+        assert "teardown_test_environment" in data.get("error", "")
+        assert "teardown boom" in data.get("error", "")

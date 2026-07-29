@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -330,108 +331,57 @@ class TestEvaluatorInputValidation:
         assert isinstance(result, str)
 
     def test_asset_replaced_by_external_symlink_after_validation_fails(self, tmp_path):
-        cpr = tmp_path / "project"
-        cpr.mkdir()
-        (cpr / "tests").mkdir()
-        (cpr / "tests" / "evaluator_assets").mkdir()
-        asset = cpr / "tests" / "evaluator_assets" / "checks.py"
-        asset.write_text("original")
-        ws = tmp_path / "workspace"
-        ws.mkdir()
+        request = _make_request(tmp_path)
+        assert isinstance(request, _ValidatedEvaluatorRequest)
         external = tmp_path / "external_asset.py"
         external.write_text("external")
-        link = cpr / "tests" / "evaluator_assets" / "checks.py"
         try:
-            link.unlink()
-            link.symlink_to(external)
+            request.evaluator_asset_lexical.unlink()
+            request.evaluator_asset_lexical.symlink_to(external)
         except (OSError, NotImplementedError):
             pytest.skip("symlink creation not supported")
-        result = run_scenario_evaluator(
-            str(cpr), "tests/evaluator_assets/checks.py", str(ws),
-            python_executable="python", timeout=60,
-        )
-        assert not result.passed
-        assert result.exit_code == -1
-        assert "symlink" in result.error.lower() or "live asset resolution" in result.error.lower()
+        trusted = _load_trusted_evaluator_asset(request)
+        assert isinstance(trusted, str)
+        assert "symlink" in trusted.lower()
 
     def test_asset_replaced_by_internal_symlink_after_validation_fails(self, tmp_path):
-        cpr = tmp_path / "project"
-        cpr.mkdir()
-        (cpr / "tests").mkdir()
-        (cpr / "tests" / "evaluator_assets").mkdir()
-        asset = cpr / "tests" / "evaluator_assets" / "checks.py"
-        asset.write_text("original")
-        ws = tmp_path / "workspace"
-        ws.mkdir()
-        internal = cpr / "tests" / "evaluator_assets" / "other.py"
+        request = _make_request(tmp_path)
+        assert isinstance(request, _ValidatedEvaluatorRequest)
+        internal = request.evaluator_root / "other.py"
         internal.write_text("internal")
-        link = cpr / "tests" / "evaluator_assets" / "checks.py"
         try:
-            link.unlink()
-            link.symlink_to(internal)
+            request.evaluator_asset_lexical.unlink()
+            request.evaluator_asset_lexical.symlink_to(internal)
         except (OSError, NotImplementedError):
             pytest.skip("symlink creation not supported")
-        result = run_scenario_evaluator(
-            str(cpr), "tests/evaluator_assets/checks.py", str(ws),
-            python_executable="python", timeout=60,
-        )
-        assert not result.passed
-        assert result.exit_code == -1
-        assert "symlink" in result.error.lower() or "live asset resolution" in result.error.lower()
+        trusted = _load_trusted_evaluator_asset(request)
+        assert isinstance(trusted, str)
+        assert "symlink" in trusted.lower()
 
-    def test_asset_replaced_by_different_regular_file_after_validation_fails(self, tmp_path):
-        import sys
-        if sys.platform == "win32":
-            pytest.skip("Windows: inode identity check not reliably testable")
-        cpr = tmp_path / "project"
-        cpr.mkdir()
-        (cpr / "tests").mkdir()
-        (cpr / "tests" / "evaluator_assets").mkdir()
-        asset = cpr / "tests" / "evaluator_assets" / "checks.py"
-        asset.write_text("original")
-        ws = tmp_path / "workspace"
-        ws.mkdir()
-        import os
-        stat1 = asset.stat()
-        asset.unlink()
-        asset.write_text("modified")
-        stat2 = asset.stat()
-        if stat1.st_ino == stat2.st_ino:
-            pytest.skip("Filesystem reused inode; cannot test different resolved identity")
-        result = run_scenario_evaluator(
-            str(cpr), "tests/evaluator_assets/checks.py", str(ws),
-            python_executable="python", timeout=60,
-        )
-        assert not result.passed
-        assert result.exit_code == -1
-        assert "resolved to different path" in result.error or "live asset resolution" in result.error
+    def test_same_ordinary_path_content_is_frozen_at_trust_time(self, tmp_path):
+        request = _make_request(tmp_path)
+        assert isinstance(request, _ValidatedEvaluatorRequest)
+        trusted = _load_trusted_evaluator_asset(request)
+        assert isinstance(trusted, _TrustedEvaluatorAsset)
+        original_content = request.evaluator_asset_lexical.read_bytes()
+        assert trusted.content == original_content
+        request.evaluator_asset_lexical.write_bytes(b"# replaced after trust")
+        assert trusted.content == original_content
 
     def test_evaluator_root_replaced_by_symlink_after_validation_fails(self, tmp_path):
-        cpr = tmp_path / "project"
-        cpr.mkdir()
-        (cpr / "tests").mkdir()
-        (cpr / "tests" / "evaluator_assets").mkdir()
-        asset = cpr / "tests" / "evaluator_assets" / "checks.py"
-        asset.write_text("original")
-        ws = tmp_path / "workspace"
-        ws.mkdir()
-        real_assets = tmp_path / "real_assets"
-        real_assets.mkdir()
-        (real_assets / "evaluator_assets").mkdir()
-        (real_assets / "evaluator_assets" / "checks.py").write_text("external")
-        link = cpr / "tests" / "evaluator_assets"
+        request = _make_request(tmp_path)
+        assert isinstance(request, _ValidatedEvaluatorRequest)
+        replacement_root = tmp_path / "replacement_root"
+        replacement_root.mkdir()
+        (replacement_root / "checks.py").write_text("replacement")
         try:
-            link.unlink()
-            link.symlink_to(real_assets / "evaluator_assets")
+            shutil.rmtree(request.evaluator_root)
+            request.evaluator_root.symlink_to(replacement_root, target_is_directory=True)
         except (OSError, NotImplementedError):
             pytest.skip("symlink creation not supported")
-        result = run_scenario_evaluator(
-            str(cpr), "tests/evaluator_assets/checks.py", str(ws),
-            python_executable="python", timeout=60,
-        )
-        assert not result.passed
-        assert result.exit_code == -1
-        assert "symlink" in result.error.lower() or "live asset resolution" in result.error.lower()
+        trusted = _load_trusted_evaluator_asset(request)
+        assert isinstance(trusted, str)
+        assert "symlink" in trusted.lower() or "root" in trusted.lower()
 
     def test_workspace_broken_evaluator_root_symlink_fails_closed(self, tmp_path):
         cpr, ws, asset = _make_cpr_ws_asset(tmp_path)
