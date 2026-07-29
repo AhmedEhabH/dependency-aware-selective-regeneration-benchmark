@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-30
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R3C FREEZE CLOSURE — branch experiment/three-arm-smoke-v2, code commit 47e1a05
+**Handoff type:** R3C FREEZE CLOSURE — branch experiment/three-arm-smoke-v2, code commits 47e1a05 (functional acceptance) and 7abec68 (lint closure)
 
 ---
 
@@ -70,12 +70,14 @@ project/
 - **R3B docs-checkpoint:** 8c588e6 (docs(state): record R3B completion)
 - **R3B correction-docs-checkpoint:** 8c588e6
 - **R3B final-correction-docs-checkpoint:** 8c588e6
-- **R3B root-refactor-docs-checkpoint:** (current)
-- **R3B cross-platform-freeze-docs-checkpoint:** (current)
-- **HEAD:** (current)
+- **R3B root-refactor-docs-checkpoint:** 8c588e6
+- **R3B cross-platform-freeze-docs-checkpoint:** 8c588e6
+- **R3C functional-checkpoint:** 47e1a05 (test(validation): close R3C freeze evidence gaps) — independently accepted by GPT-5.6 Thinking
+- **R3C lint-closure-checkpoint:** 7abec68 (test(validation): close residual R3C lint debt)
+- **HEAD:** 7abec68
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** 1314 passed, 22 skipped (109 focused post_generation, 12 skipped symlink, 1 synthetic)
+- **Test suite:** 1424 passed, 32 skipped (60 focused evaluator unit, 51 focused evaluator integration, 9 skipped)
 - **Lint:** ruff 0 violations
 - **Types:** mypy strict 0 errors
 - **Dependencies:** pip check clean
@@ -154,8 +156,11 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 | Task | Priority | Notes |
 |------|----------|-------|
 | R3A — scenario execution metadata | COMPLETE | evaluator_asset, post_generation_command, require_new_migration |
-| R3B — deterministic post-generation migration runner | CROSS-PLATFORM FREEZE — INDEPENDENT AUDIT PENDING | Two final corrections applied: (1) lexical directory symlink rejected before resolve instead of after, (2) valid ordinary created numbered paths preserved as partial evidence when after-state untrusted; 109 focused tests + 12 symlink skipped (121 total), 1314 full suite |
-| R3C — isolated scenario evaluator runner and three evaluator scripts | HIGH | Next phase — R3B complete |
+| R3B — deterministic post-generation migration runner | ACCEPTED AND FROZEN at feb5a44 | Two final corrections applied: (1) lexical directory symlink rejected before resolve instead of after, (2) valid ordinary created numbered paths preserved as partial evidence when after-state untrusted; 109 focused tests + 12 symlink skipped (121 total), 1424 full suite |
+| R3C — isolated scenario evaluator runner and three evaluator scripts | COMPLETE | Functional behavior independently accepted at 47e1a05 by GPT-5.6 Thinking; lint closure at 7abec68 (5 ruff violations fixed); final freeze confirmation pending this documentation audit |
+| R3D — production Runner validation wiring | BLOCKED | Pending R3C final freeze confirmation; RF-2 scheduled immediately after R3D |
+| RF-3 — token/metric refactor | SCHEDULED after R4 | After R4 self-gates |
+| RF-4 — full technical debt cleanup | SCHEDULED after R5 | After R5 nine records |
 | **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R3–R6 complete |
 | Audit Smoke V2 results | HIGH | Independent verification before Pilot authorization |
 | Integrate Pilot repositories | MEDIUM | ≥5K LOC, permissive license, pinned commit, passing tests |
@@ -177,9 +182,11 @@ R3B acceptance closure:      f8faa08 (fix(validation): fail on untrusted migrati
 R3B root refactor:           f8f95d2 (refactor(validation): model migration execution as trusted states)
 R3B cross-platform freeze:   feb5a44 (fix(validation): close cross-platform migration snapshot contract)
 R3B docs:                    8c588e6 (docs(state): record R3B completion)
-R3B acceptance docs:         (current)
-R3B cross-platform freeze docs: (current)
-HEAD:                        (current)
+R3B acceptance docs:         8c588e6
+R3B cross-platform freeze docs: 8c588e6
+R3C functional:              47e1a05 (test(validation): close R3C freeze evidence gaps)
+R3C lint-closure:            7abec68 (test(validation): close residual R3C lint debt)
+HEAD:                        7abec68
 Local/remote:         not yet pushed
 Working tree:         clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged)
@@ -270,8 +277,8 @@ python seven_arm_benchmark.py --dry-run
 
 ## 14. R3C Status — Isolated Scenario Evaluator System
 
-**Status:** R3C FREEZE CLOSURE — INDEPENDENT AUDIT PENDING
-**Code checkpoint:** `47e1a05`
+**Status:** R3C FREEZE CLOSURE — DOCUMENTATION CLOSURE AUDIT REQUIRED
+**Code checkpoints:** `47e1a05` (functional acceptance), `7abec68` (lint closure)
 **Date:** 2026-07-30
 
 ### What was built
@@ -295,15 +302,20 @@ python seven_arm_benchmark.py --dry-run
 ### Quality gates
 
 - Full suite: 1424 passed, 32 skipped, 0 failed
-- Ruff: 0 new errors (7 pre-existing line-length and nesting warnings untouched)
+- Ruff: 0 errors (5 pre-existing violations in test_scenario_evaluator.py closed in lint-closure commit)
 - R3B frozen files untouched
+- R3C functional behavior independently accepted by GPT-5.6 Thinking at code checkpoint 47e1a05
+- R3C lint debt closed (5 violations: 1 F841, 3 SIM117, 1 E501)
 - Git tree: clean (after docs commit)
 
 ### Blocked
 
-- R3D: BLOCKED until independent audit accepts R3C closure
+- R3D: BLOCKED until R3C final freeze confirmation is completed by this documentation closure audit
+- RF-2: scheduled immediately after R3D
+- RF-3: scheduled after R4
+- RF-4: scheduled after R5
 - Kaggle/Pilot/merge/tag: BLOCKED
 
 ---
 
-**R3C_FREEZE_CLOSURE_AUDIT_REQUIRED**
+**R3C_LINT_DOCS_CLOSURE_AUDIT_REQUIRED**

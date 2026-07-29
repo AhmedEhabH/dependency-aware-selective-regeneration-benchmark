@@ -5,16 +5,16 @@ Requested model:   DeepSeek V4 Flash Free
 Actual footer model:  DeepSeek V4 Flash Free
 Provider:          OpenCode Zen
 Mode:              Build
-Elapsed time:      ~150 minutes (R3C closure execution)
+Elapsed time:      ~150 minutes (R3C closure execution + lint closure)
 ```
 
 ## B. Git identity
 
 ```
 Branch:                experiment/three-arm-smoke-v2
-Starting HEAD:         36e396d
-Code commit:           47e1a05
-Documentation commit:  (next)
+Starting HEAD:         24c4055
+Code commits:          47e1a05 (functional), 7abec68 (lint-closure)
+Documentation commit:  this commit
 Final HEAD:            (after docs commit)
 Working tree:          clean
 ```
@@ -149,6 +149,9 @@ Negative variants: `task_owner_authority`→`task_update_uses_project_owner`, `p
 8. ruff check (4 authorized files)
    → 0 new errors (pre-existing line-length and nesting warnings)
 
+8b. ruff check tests/unit/execution/test_scenario_evaluator.py (TASK 1 lint closure)
+    → 0 errors (5 violations fixed: 1 F841, 3 SIM117, 1 E501)
+
 9. python -m compileall (4 authorized files + evaluator_assets)
    → all OK
 
@@ -164,7 +167,7 @@ Negative variants: `task_owner_authority`→`task_update_uses_project_owner`, `p
 | Integration evaluator tests | `python -m pytest tests/integration/test_todo_smoke_evaluator_assets.py -q` | 51 passed, 1 skipped |
 | Unit + integration + R3B tests | `pytest test_scenario_evaluator.py test_todo_smoke_evaluator_assets.py test_post_generation.py -q` | 219 passed, 22 skipped |
 | Full suite | `python -m pytest -q` | 1424 passed, 32 skipped |
-| Ruff | `ruff check ...` | 0 new errors (7 pre-existing) |
+| Ruff | `ruff check ...` | 0 errors (5 pre-existing closed; 7 pre-existing reduced to 0) |
 | mypy | (no production source changed) | N/A |
 | compileall | `python -m compileall ...` | All OK |
 | git diff --check | `git diff --check` | CRLF warnings only |
@@ -185,12 +188,17 @@ tests/unit/execution/test_scenario_evaluator.py
 git show --stat 47e1a05
  5 files changed, 218 insertions(+), 94 deletions(-)
 
+git show --stat 7abec68
+  1 file changed, 12 insertions(+), 15 deletions(-)
+  (TASK 1 — lint closure)
+
 git show --stat <docs-commit>
  (pending)
 ```
 
 Code commit (47e1a05): all code/tests only (5 files). No documentation, no reports, no handoff files.
-Documentation commit: contains reports/latest_phase_report.md, docs/PROJECT_HANDOFF.md, docs/R3C_FREEZE_CLOSURE_AND_DELIVERY_ACCELERATION_PROTOCOL.md, selective_updates/CHANGE_INDEX.md, selective_updates/records/R3C-FINAL-FREEZE-CLOSURE.md, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md.
+Lint-closure commit (7abec68): test_scenario_evaluator.py only (formatting/structure fixes).
+Documentation commit: contains docs/PROJECT_HANDOFF.md, docs/V2_R3B_TO_KAGGLE_NO_DISCRETION_EXECUTION_SPEC.md, reports/latest_phase_report.md, selective_updates/CHANGE_INDEX.md, selective_updates/records/R3C-FINAL-FREEZE-CLOSURE.md, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md.
 
 ## M. Technical debt impact
 
@@ -206,7 +214,10 @@ Debt closed:
 
 Debt intentionally deferred:
   TD-PROCESS-003: Model mismatch was process-only (actual model now matches)
-  Pre-existing E501 line-length and SIM117 nested-with lint in test_scenario_evaluator.py (not introduced by this phase)
+
+Debt closed in TASK 1:
+  TD-R3C-006: Pre-existing E501 line-length and SIM117 nested-with lint in test_scenario_evaluator.py (5 violations: 1 F841, 3 SIM117, 1 E501)
+  TD-R3C-007: Unused variable `original_write_bytes` in test_copy_write_failure_returns_typed_outcome
 
 New debt introduced:
   None
@@ -230,14 +241,18 @@ elapsed implementation time:           ~150 minutes
 
 ```
 R3B accepted and frozen at feb5a44
-R3C self-gates passed
-R3C independent audit pending
+R3C functional behavior independently accepted at 47e1a05
+R3C lint closure at 7abec68
+R3C final freeze confirmation pending this documentation closure audit
 R3D blocked
 Kaggle/Pilot/merge/tag blocked
+RF-2 scheduled immediately after R3D
+RF-3 scheduled after R4
+RF-4 scheduled after R5
 ```
 
 ## P. Marker
 
 ```
-R3C_FREEZE_CLOSURE_AUDIT_REQUIRED
+R3C_LINT_DOCS_CLOSURE_AUDIT_REQUIRED
 ```
