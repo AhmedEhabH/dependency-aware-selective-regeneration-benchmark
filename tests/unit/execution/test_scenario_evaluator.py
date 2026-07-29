@@ -567,15 +567,12 @@ class TestEvaluatorSubprocess:
         trusted = _load_trusted_evaluator_asset(request)
         assert isinstance(trusted, _TrustedEvaluatorAsset)
 
-        original_write_bytes = Path.write_bytes
-
         def fake_write_bytes(self, data):
             raise OSError("simulated copy write failure")
 
-        with patch.object(Path, "write_bytes", fake_write_bytes):
-            with patch("subprocess.run") as mock_run:
-                mock_run.return_value = FakeCompletedProcess('{"passed": true, "checks": ["ok"], "error": ""}')
-                outcome = _execute_evaluator_subprocess(request, trusted)
+        with patch.object(Path, "write_bytes", fake_write_bytes), patch("subprocess.run") as mock_run:
+            mock_run.return_value = FakeCompletedProcess('{"passed": true, "checks": ["ok"], "error": ""}')
+            outcome = _execute_evaluator_subprocess(request, trusted)
         assert not outcome.succeeded
         assert outcome.exit_code == -1
         assert "failed to copy evaluator asset" in outcome.stderr
@@ -592,13 +589,14 @@ class TestEvaluatorSubprocess:
                 raise OSError("simulated copy read failure")
             return original_read_bytes(self)
 
-        with patch.object(Path, "read_bytes", fake_read_bytes):
-            with patch("subprocess.run") as mock_run:
-                mock_run.return_value = FakeCompletedProcess('{"passed": true, "checks": ["ok"], "error": ""}')
-                outcome = _execute_evaluator_subprocess(request, trusted)
+        with patch.object(Path, "read_bytes", fake_read_bytes), patch("subprocess.run") as mock_run:
+            mock_run.return_value = FakeCompletedProcess('{"passed": true, "checks": ["ok"], "error": ""}')
+            outcome = _execute_evaluator_subprocess(request, trusted)
         assert not outcome.succeeded
         assert outcome.exit_code == -1
-        assert "hash does not match" in outcome.stderr or "failed to copy" in outcome.stderr or "copy read" in outcome.stderr
+        assert ("hash does not match" in outcome.stderr
+                or "failed to copy" in outcome.stderr
+                or "copy read" in outcome.stderr)
 
     def test_hash_mismatch_returns_typed_outcome(self, tmp_path):
         request = _make_request(tmp_path)
@@ -610,10 +608,9 @@ class TestEvaluatorSubprocess:
         def fake_write_bytes(self, data):
             original_write_bytes(self, b"corrupted content")
 
-        with patch.object(Path, "write_bytes", fake_write_bytes):
-            with patch("subprocess.run") as mock_run:
-                mock_run.return_value = FakeCompletedProcess('{"passed": true, "checks": ["ok"], "error": ""}')
-                outcome = _execute_evaluator_subprocess(request, trusted)
+        with patch.object(Path, "write_bytes", fake_write_bytes), patch("subprocess.run") as mock_run:
+            mock_run.return_value = FakeCompletedProcess('{"passed": true, "checks": ["ok"], "error": ""}')
+            outcome = _execute_evaluator_subprocess(request, trusted)
         assert not outcome.succeeded
         assert outcome.exit_code == -1
         assert "hash" in outcome.stderr
