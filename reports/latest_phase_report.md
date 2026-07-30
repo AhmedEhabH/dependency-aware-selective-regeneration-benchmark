@@ -25,7 +25,7 @@ R3C proves that the evaluator system performs correct file validation, TOCTOU-sa
 
 Frozen files: `src/benchmark/execution/scenario_evaluator.py`, all evaluator-asset scripts in `tests/evaluator_assets/`, fixture workspaces in `tests/support/`, and the complete test surface under `tests/unit/execution/test_scenario_evaluator.py` and `tests/integration/test_todo_smoke_evaluator_assets.py`.
 
-R3D (Runner/Pipeline wiring through SharedRegenerationExecutor) remains blocked because the independent audit must accept R3C closure first. Kaggle, Pilot, merge, and stable tag are also blocked.
+R3D (Runner/Pipeline wiring through SharedRegenerationExecutor) is now code-complete: 28 R3D tests (27 pass, 1 skip), 1424 full suite pass, Ruff/mypy clean. RF-2 (orchestration deduplication) is pending audit. Kaggle, Pilot, merge, and stable tag remain blocked pending R3D audit sign-off.
 
 ## D. Exact artifact changes
 
