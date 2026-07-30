@@ -333,6 +333,12 @@ class RunRecord:
             raise ValueError("RunRecord.functional_validation_duration_seconds must be >= 0")
         if self.total_workflow_duration_seconds < 0:
             raise ValueError("RunRecord.total_workflow_duration_seconds must be >= 0")
+        if self.migration_duration_seconds < 0:
+            raise ValueError("RunRecord.migration_duration_seconds must be >= 0")
+        if self.baseline_validation_duration_seconds < 0:
+            raise ValueError("RunRecord.baseline_validation_duration_seconds must be >= 0")
+        if self.scenario_evaluator_duration_seconds < 0:
+            raise ValueError("RunRecord.scenario_evaluator_duration_seconds must be >= 0")
 
 
 # ---------------------------------------------------------------------------

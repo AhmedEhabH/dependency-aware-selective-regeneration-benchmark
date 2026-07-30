@@ -1,15 +1,13 @@
 from __future__ import annotations
 
+import sys
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from benchmark.core.enums import ActionKind, FailureKind, RunStatus
 from benchmark.core.exceptions import BenchmarkError, ModelBackendError, ProtocolViolationError
-
-if TYPE_CHECKING:
-    from benchmark.execution.regeneration import RegenerationExecutionResult
 from benchmark.core.models import (
     ArtifactUniverse,
     FailureRecord,
@@ -25,12 +23,26 @@ from benchmark.core.models import (
 from benchmark.core.protocols import ImpactStrategy, LLMBackend
 from benchmark.execution.budgets import BudgetExhaustedError, BudgetManager
 from benchmark.execution.isolation import IsolationContext
-from benchmark.execution.regeneration import REPAIR_CONTEXT_PROMPT_TEMPLATE, SharedRegenerationExecutor
+from benchmark.execution.regeneration import (
+    REPAIR_CONTEXT_PROMPT_TEMPLATE,
+    RegenerationExecutionResult,
+    SharedRegenerationExecutor,
+)
 from benchmark.execution.repair import RepairLoop
 from benchmark.execution.state_machine import RunStateMachine
 from benchmark.execution.validation import FunctionalValidationResult, FunctionalValidator
 from benchmark.repositories.snapshot import resolve_allowed_artifacts
 from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner, compute_artifact_counts
+
+
+@dataclass(frozen=True)
+class _ScientificValidationResult:
+    migration: object | None
+    baseline: FunctionalValidationResult | None
+    evaluator: object | None
+    passed: bool
+    feedback: str
+    duration_seconds: float
 
 
 @dataclass
@@ -47,6 +59,8 @@ class RunnerConfig:
     editable_artifact_paths: tuple[str, ...] = ()
     max_completion_tokens_per_call: int = 4096
     max_total_workflow_tokens: int = 0
+    canonical_project_root: str | Path | None = None
+    python_executable: str = ""
     extra: dict[str, Any] = field(default_factory=dict)
 
 
@@ -70,6 +84,7 @@ class BenchmarkRunner:
         )
         self._last_prediction: ImpactPrediction | None = None
         self._last_val_result: FunctionalValidationResult | None = None
+        self._last_scientific_result: _ScientificValidationResult | None = None
 
     @property
     def state(self) -> RunStateMachine:
@@ -78,6 +93,145 @@ class BenchmarkRunner:
     @property
     def budget(self) -> BudgetManager:
         return self._budget
+
+    def _execute_scientific_validation(
+        self,
+        scenario: Scenario,
+        exec_result: object | None = None,
+    ) -> _ScientificValidationResult:
+        start = time.monotonic()
+        feedback_parts: list[str] = []
+        migration_result: object | None = None
+        baseline_result: FunctionalValidationResult | None = None
+        evaluator_result: object | None = None
+
+        # Stage 1 — generation guard
+        if exec_result is not None:
+            er = exec_result
+            model_calls = getattr(er, "model_calls", 0)
+            artifacts = getattr(er, "artifacts", [])
+            generated_count = sum(
+                1 for a in artifacts if getattr(a, "status", "") == "generated"
+            )
+            if model_calls == 0 or generated_count == 0:
+                feedback_parts.append("Generation guard: no model calls or no generated source")
+                elapsed = time.monotonic() - start
+                return _ScientificValidationResult(
+                    migration=None, baseline=None, evaluator=None,
+                    passed=False, feedback="; ".join(feedback_parts),
+                    duration_seconds=elapsed,
+                )
+
+        # Stage 2 — post-generation migration
+        pgc = scenario.post_generation_command
+        if scenario.require_new_migration and not pgc:
+            feedback_parts.append("Harness defect: require_new_migration=True but command is empty")
+            elapsed = time.monotonic() - start
+            return _ScientificValidationResult(
+                migration=None, baseline=None, evaluator=None,
+                passed=False, feedback="; ".join(feedback_parts),
+                duration_seconds=elapsed,
+            )
+        if pgc:
+            from benchmark.execution.post_generation import run_post_generation_command
+            migration_result = run_post_generation_command(
+                workspace_root=self._isolation.workspace.root,
+                command=pgc,
+                require_new_migration=scenario.require_new_migration,
+                timeout=self._config.validation_timeout,
+            )
+            if not getattr(migration_result, "passed", False):
+                m_stdout = getattr(migration_result, "stdout", "")[:1000]
+                m_stderr = getattr(migration_result, "stderr", "")[:1000]
+                feedback_parts.append(f"Migration failed: exit={getattr(migration_result, 'exit_code', -1)}")
+                if m_stdout:
+                    feedback_parts.append(f"stdout: {m_stdout[:500]}")
+                if m_stderr:
+                    feedback_parts.append(f"stderr: {m_stderr[:500]}")
+                elapsed = time.monotonic() - start
+                return _ScientificValidationResult(
+                    migration=migration_result, baseline=None, evaluator=None,
+                    passed=False, feedback="; ".join(feedback_parts),
+                    duration_seconds=elapsed,
+                )
+
+        # Stage 3 — baseline validation
+        validation_command = self._config.validation_command
+        if validation_command:
+            validator = FunctionalValidator()
+            baseline_result = validator.validate(
+                workspace_root=self._isolation.workspace.root,
+                command=validation_command,
+                timeout=self._config.validation_timeout,
+            )
+            if not baseline_result.passed:
+                b_stdout = baseline_result.stdout[:1000]
+                b_stderr = baseline_result.stderr[:1000]
+                feedback_parts.append(
+                    f"Baseline validation failed (exit={baseline_result.exit_code})"
+                )
+                if b_stdout:
+                    feedback_parts.append(f"stdout: {b_stdout[:500]}")
+                if b_stderr:
+                    feedback_parts.append(f"stderr: {b_stderr[:500]}")
+                elapsed = time.monotonic() - start
+                return _ScientificValidationResult(
+                    migration=migration_result, baseline=baseline_result,
+                    evaluator=None, passed=False, feedback="; ".join(feedback_parts),
+                    duration_seconds=elapsed,
+                )
+
+        # Stage 4 — isolated scenario evaluator
+        evaluator_asset = scenario.evaluator_asset
+        if evaluator_asset:
+            cpr = self._config.canonical_project_root
+            if not cpr:
+                feedback_parts.append(
+                    "Harness defect: evaluator_asset is non-empty but canonical_project_root is None"
+                )
+                elapsed = time.monotonic() - start
+                return _ScientificValidationResult(
+                    migration=migration_result, baseline=baseline_result,
+                    evaluator=None, passed=False, feedback="; ".join(feedback_parts),
+                    duration_seconds=elapsed,
+                )
+            pe = self._config.python_executable or sys.executable
+            from benchmark.execution.scenario_evaluator import run_scenario_evaluator
+            evaluator_result = run_scenario_evaluator(
+                canonical_project_root=cpr,
+                evaluator_asset=evaluator_asset,
+                generated_workspace=self._isolation.workspace.root,
+                python_executable=pe,
+                timeout=self._config.validation_timeout,
+            )
+            if not getattr(evaluator_result, "passed", False):
+                e_error = getattr(evaluator_result, "error", "")[:1000]
+                e_checks = getattr(evaluator_result, "checks", ())
+                check_str = ", ".join(str(c) for c in e_checks[:5]) if e_checks else ""
+                feedback_parts.append("Scenario evaluator failed")
+                if check_str:
+                    feedback_parts.append(f"checks: {check_str}")
+                if e_error:
+                    feedback_parts.append(f"error: {e_error[:500]}")
+                elapsed = time.monotonic() - start
+                return _ScientificValidationResult(
+                    migration=migration_result, baseline=baseline_result,
+                    evaluator=evaluator_result, passed=False,
+                    feedback="; ".join(feedback_parts),
+                    duration_seconds=elapsed,
+                )
+
+        # Stage 5 — final success decision
+        elapsed = time.monotonic() - start
+        self._last_scientific_result = _ScientificValidationResult(
+            migration=migration_result,
+            baseline=baseline_result,
+            evaluator=evaluator_result,
+            passed=True,
+            feedback="",
+            duration_seconds=elapsed,
+        )
+        return self._last_scientific_result
 
     def run(self, scenario: Scenario) -> RunRecord:
         isolation_report = self._isolation.verify()
@@ -410,14 +564,8 @@ class BenchmarkRunner:
 
         self._budget.record_tokens(exec_result.total_tokens)
 
-        # Execute validation
-        validator = FunctionalValidator()
-        val_result = validator.validate(
-            workspace_root=self._isolation.workspace.root,
-            command=validation_command,
-            timeout=self._config.validation_timeout,
-        )
-        self._last_val_result = val_result
+        # Execute scientific validation (shared sequence)
+        sci_result = self._execute_scientific_validation(scenario, exec_result)
 
         selection_tokens = prediction.token_usage or TokenUsage()
         selection_model_calls = 0
@@ -435,17 +583,14 @@ class BenchmarkRunner:
                 )
             )
 
-        # Validation tri-state: None→not executed, True→passed, False→failed
-        functional_validation_passed: bool | None = (
-            val_result.passed if val_result is not None else None
-        )
-        if val_result is not None and not val_result.passed:
+        # Validation tri-state from scientific result
+        if sci_result is not None and not sci_result.passed:
             failures.append(
                 FailureRecord(
                     failure_kind=FailureKind.build,
-                    message=f"Functional validation failed (exit={val_result.exit_code})",
-                    details=f"stdout: {val_result.stdout[:500]}\nstderr: {val_result.stderr[:500]}",
-                    stage="validation",
+                    message=sci_result.feedback or "Scientific validation failed",
+                    details=sci_result.feedback[:1000],
+                    stage="scientific_validation",
                 )
             )
 
@@ -456,8 +601,26 @@ class BenchmarkRunner:
 
         # Workflow duration = selection + regeneration + validation
         regeneration_duration = exec_result.duration_seconds
-        validation_duration = val_result.duration_seconds if val_result is not None else 0.0
+        validation_duration = sci_result.duration_seconds if sci_result is not None else 0.0
         total_workflow_duration = selection_duration + regeneration_duration + validation_duration
+
+        # Extract stage-specific results
+        migration_result = sci_result.migration if sci_result is not None else None
+        baseline_result = sci_result.baseline if sci_result is not None else None
+        evaluator_result = sci_result.evaluator if sci_result is not None else None
+
+        migration_passed = getattr(migration_result, "passed", None)
+        migration_dur = getattr(migration_result, "duration_seconds", 0.0)
+        created_paths = getattr(migration_result, "created_paths", ())
+        baseline_passed = baseline_result.passed if baseline_result is not None else None
+        baseline_dur = baseline_result.duration_seconds if baseline_result is not None else 0.0
+        evaluator_passed = getattr(evaluator_result, "passed", None)
+        evaluator_dur = getattr(evaluator_result, "duration_seconds", 0.0)
+        evaluator_checks = getattr(evaluator_result, "checks", ())
+
+        baseline_passed_bool = baseline_passed if baseline_passed is not None else None
+        if sci_result is not None and sci_result.passed:
+            baseline_passed_bool = True
 
         return RunRecord(
             identity=self._build_run_identity(scenario),
@@ -477,7 +640,15 @@ class BenchmarkRunner:
             regeneration_model_calls=exec_result.model_calls,
             regeneration_duration_seconds=regeneration_duration,
             functional_validation_duration_seconds=validation_duration,
-            functional_validation_passed=functional_validation_passed,
+            migration_generation_passed=migration_passed,
+            migration_duration_seconds=migration_dur,
+            generated_migration_paths=tuple(created_paths) if isinstance(created_paths, (list, tuple)) else (),
+            baseline_validation_passed=baseline_passed_bool,
+            baseline_validation_duration_seconds=baseline_dur,
+            scenario_evaluator_passed=evaluator_passed,
+            scenario_evaluator_duration_seconds=evaluator_dur,
+            scenario_evaluator_checks=tuple(evaluator_checks) if isinstance(evaluator_checks, (list, tuple)) else (),
+            functional_validation_passed=baseline_passed_bool,
             total_workflow_tokens=total_tokens,
             total_workflow_model_calls=total_model_calls,
             total_workflow_duration_seconds=total_workflow_duration,
@@ -531,7 +702,6 @@ class BenchmarkRunner:
         requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
         assert self._backend is not None
         executor = SharedRegenerationExecutor(self._backend)
-        validator = FunctionalValidator()
 
         selection_prompt = first_record.selection_prompt_tokens
         selection_completion = first_record.selection_completion_tokens
@@ -554,10 +724,18 @@ class BenchmarkRunner:
         repair_context: str | None = None
         if self._last_val_result is not None and not self._last_val_result.passed:
             repair_context = REPAIR_CONTEXT_PROMPT_TEMPLATE.format(
-                exit_code=self._last_val_result.exit_code,
-                stdout=self._last_val_result.stdout[:1000],
-                stderr=self._last_val_result.stderr[:1000],
+                exit_code=-1,
+                stdout=getattr(self._last_val_result, "stdout", "")[:1000],
+                stderr=getattr(self._last_val_result, "stderr", "")[:1000],
             )
+        elif not first_record.functional_validation_passed:
+            for f in first_record.failures:
+                if f.stage in ("validation", "scientific_validation"):
+                    repair_context = (
+                        f"Previous scientific validation failed.\nStage: {f.stage}\n"
+                        f"Message: {f.message[:1000]}\n"
+                    )
+                    break
 
         while self._budget.can_attempt:
             self._budget.record_attempt()
@@ -569,32 +747,30 @@ class BenchmarkRunner:
 
             self._budget.record_tokens(exec_result.total_tokens)
 
-            assert self._config.validation_command is not None
-            val_result = validator.validate(
-                workspace_root=self._isolation.workspace.root,
-                command=self._config.validation_command,
-                timeout=self._config.validation_timeout,
-            )
+            sci_result = self._execute_scientific_validation(scenario, exec_result)
 
             regen_prompt += exec_result.prompt_tokens
             regen_completion += exec_result.completion_tokens
             regen_total += exec_result.total_tokens
             regen_calls += exec_result.model_calls
             regen_dur += exec_result.duration_seconds
-            val_dur += val_result.duration_seconds
+            val_dur += sci_result.duration_seconds if sci_result is not None else 0.0
 
-            for f in exec_result.failures:
+            for failure_msg in exec_result.failures:
                 all_failures.append(
                     FailureRecord(
                         failure_kind=FailureKind.model_output,
-                        message=f,
+                        message=failure_msg,
                         details="SharedRegenerationExecutor failure",
                         stage="regeneration",
                     )
                 )
 
-            if val_result.passed:
+            if sci_result is not None and sci_result.passed and not exec_result.failures:
                 self._state.succeed()
+                mig_r = sci_result.migration
+                bas_r = sci_result.baseline
+                eva_r = sci_result.evaluator
                 return RunRecord(
                     identity=self._build_run_identity(scenario),
                     status=RunStatus.succeeded,
@@ -613,6 +789,14 @@ class BenchmarkRunner:
                     regeneration_model_calls=regen_calls,
                     regeneration_duration_seconds=regen_dur,
                     functional_validation_duration_seconds=val_dur,
+                    migration_generation_passed=getattr(mig_r, "passed", None),
+                    migration_duration_seconds=getattr(mig_r, "duration_seconds", 0.0),
+                    generated_migration_paths=tuple(getattr(mig_r, "created_paths", ())),
+                    baseline_validation_passed=bas_r.passed if bas_r is not None else None,
+                    baseline_validation_duration_seconds=bas_r.duration_seconds if bas_r is not None else 0.0,
+                    scenario_evaluator_passed=getattr(eva_r, "passed", None),
+                    scenario_evaluator_duration_seconds=getattr(eva_r, "duration_seconds", 0.0),
+                    scenario_evaluator_checks=tuple(getattr(eva_r, "checks", ())),
                     functional_validation_passed=True,
                     total_workflow_tokens=selection_total + regen_total,
                     total_workflow_model_calls=selection_calls + regen_calls,
@@ -625,21 +809,23 @@ class BenchmarkRunner:
                     unresolved_human_review_count=counts.get("human_review", 0),
                 )
 
-            all_failures.append(
-                FailureRecord(
-                    failure_kind=FailureKind.build,
-                    message=f"Functional validation failed (exit={val_result.exit_code})",
-                    details=f"stdout: {val_result.stdout[:500]}\nstderr: {val_result.stderr[:500]}",
-                    stage="validation",
+            if sci_result is not None and not sci_result.passed:
+                all_failures.append(
+                    FailureRecord(
+                        failure_kind=FailureKind.build,
+                        message=sci_result.feedback or "Scientific validation failed",
+                        details=sci_result.feedback[:1000],
+                        stage="scientific_validation",
+                    )
                 )
-            )
 
-            # Update repair context for the next iteration
-            repair_context = REPAIR_CONTEXT_PROMPT_TEMPLATE.format(
-                exit_code=val_result.exit_code,
-                stdout=val_result.stdout[:1000],
-                stderr=val_result.stderr[:1000],
-            )
+            # Update repair context from scientific validation feedback
+            if sci_result is not None and not sci_result.passed:
+                repair_context = sci_result.feedback[:1500] if sci_result.feedback else None
+            elif exec_result.failures:
+                repair_context = "; ".join(exec_result.failures)[:1500]
+            else:
+                repair_context = None
 
             if not self._budget.can_attempt:
                 break
@@ -749,7 +935,6 @@ class BenchmarkRunner:
 
             requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
             executor = SharedRegenerationExecutor(self._backend)
-            validator = FunctionalValidator()
 
             selection_total_prompt = 0
             selection_total_completion = 0
@@ -919,11 +1104,7 @@ class BenchmarkRunner:
 
                 self._budget.record_tokens(exec_result.total_tokens)
 
-                val_result = validator.validate(
-                    workspace_root=self._isolation.workspace.root,
-                    command=validation_command,
-                    timeout=self._config.validation_timeout,
-                )
+                sci_result = self._execute_scientific_validation(scenario, exec_result)
                 has_validation_run = True
 
                 regen_total_prompt += exec_result.prompt_tokens
@@ -931,8 +1112,8 @@ class BenchmarkRunner:
                 regen_total_tok += exec_result.total_tokens
                 regen_calls += exec_result.model_calls
                 regen_dur += exec_result.duration_seconds
-                val_dur += val_result.duration_seconds
-                last_val_result = val_result
+                val_dur += sci_result.duration_seconds if sci_result is not None else 0.0
+                last_val_result = sci_result.baseline if sci_result is not None else None
                 last_exec_result = exec_result
 
                 iteration += 1
@@ -947,7 +1128,7 @@ class BenchmarkRunner:
                         )
                     )
 
-                if val_result.passed:
+                if sci_result is not None and sci_result.passed and not exec_result.failures:
                     total_regenerated = sum(
                         1 for a in exec_result.artifacts if a.status == "generated"
                     )
@@ -955,6 +1136,9 @@ class BenchmarkRunner:
                     total_tokens = selection_total + regen_total_tok
                     total_calls = selection_calls + regen_calls
                     total_dur = selection_dur + regen_dur + val_dur
+                    mig_r = sci_result.migration
+                    bas_r = sci_result.baseline
+                    eva_r = sci_result.evaluator
 
                     return RunRecord(
                         identity=self._build_run_identity(scenario),
@@ -977,6 +1161,14 @@ class BenchmarkRunner:
                         regeneration_model_calls=regen_calls,
                         regeneration_duration_seconds=regen_dur,
                         functional_validation_duration_seconds=val_dur,
+                        migration_generation_passed=getattr(mig_r, "passed", None),
+                        migration_duration_seconds=getattr(mig_r, "duration_seconds", 0.0),
+                        generated_migration_paths=tuple(getattr(mig_r, "created_paths", ())),
+                        baseline_validation_passed=bas_r.passed if bas_r is not None else None,
+                        baseline_validation_duration_seconds=bas_r.duration_seconds if bas_r is not None else 0.0,
+                        scenario_evaluator_passed=getattr(eva_r, "passed", None),
+                        scenario_evaluator_duration_seconds=getattr(eva_r, "duration_seconds", 0.0),
+                        scenario_evaluator_checks=tuple(getattr(eva_r, "checks", ())),
                         functional_validation_passed=True,
                         total_workflow_tokens=total_tokens,
                         total_workflow_model_calls=total_calls,
@@ -987,14 +1179,24 @@ class BenchmarkRunner:
                         unresolved_human_review_count=counts.get("human_review", 0),
                     )
 
-                all_failures.append(
-                    FailureRecord(
-                        failure_kind=FailureKind.build,
-                        message=f"Functional validation failed (exit={val_result.exit_code})",
-                        details=f"stdout: {val_result.stdout[:500]}\nstderr: {val_result.stderr[:500]}",
-                        stage="validation",
+                if sci_result is not None and not sci_result.passed:
+                    all_failures.append(
+                        FailureRecord(
+                            failure_kind=FailureKind.build,
+                            message=sci_result.feedback or "Scientific validation failed",
+                            details=sci_result.feedback[:1000] if sci_result.feedback else "",
+                            stage="scientific_validation",
+                        )
                     )
-                )
+                elif exec_result.failures:
+                    all_failures.append(
+                        FailureRecord(
+                            failure_kind=FailureKind.model_output,
+                            message="Executor failures present",
+                            details="; ".join(exec_result.failures)[:1000],
+                            stage="regeneration",
+                        )
+                    )
 
                 total_regenerated = sum(
                     1 for a in exec_result.artifacts if a.status == "generated"
