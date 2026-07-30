@@ -1,16 +1,18 @@
 # R3D Production Wiring — Root Correction
 
 **ID:** R3D-ROOT-CORRECTION
-**Date:** 2026-07-30
-**Status:** ROOT CORRECTED — INDEPENDENT AUDIT REQUIRED
+**Date:** 2026-07-31
+**Status:** FINAL FREEZE CANDIDATE — INDEPENDENT AUDIT REQUIRED
 **Branch:** experiment/three-arm-smoke-v2
-**Code commit:** 9e28790
+**Code commit:** 9e28790 (root correction), 11f88f5 (final evidence closure)
+**Closure spec:** docs/R3D_FINAL_EVIDENCE_AND_REPORT_CLOSURE.md
+**Report:** reports/latest_phase_report.md
 
 ---
 
 ## Requirement
 
-Correct seven root-level R3D contract defects identified by independent GPT-5.6 Thinking audit of checkpoint `e8d5eb4`. Complete RF-2 orchestration deduplication in the same pass. Do not start R4 or later work.
+Correct seven root-level R3D contract defects identified by independent GPT-5.6 Thinking audit of checkpoint `e8d5eb4`. Complete RF-2 orchestration deduplication in the same pass. Close final evidence gaps: evaluator stderr omitted from Agent/repair feedback, nominal test replacement, truthful report. Do not start R4 or later work.
 
 ## Defects Fixed
 
@@ -38,13 +40,24 @@ Correct seven root-level R3D contract defects identified by independent GPT-5.6 
 | `tests/unit/execution/test_r3d_wiring.py` | 54 public-path tests (new) | +998/-0 |
 | `tests/integration/test_su0010a_regeneration.py` | Bounded repair assertion | +34/-0 |
 
-## Validation Gates
+## Final Evidence Closure (commit 11f88f5)
+
+### Defect closed
+- **Evaluator stderr omitted from Agent/repair feedback** — `_scientific_feedback_channels()` now constructs stderr from `evaluator.stderr`, `evaluator.error`, and `checks`; bounded at 1000 chars; no evaluator source, Ground Truth, or hidden descriptions.
+
+### Test replacement
+- 5 nominal R3D tests replaced with 7 public-path tests covering: entry config, monolithic migration repair, selective evaluator repair, agent evaluator revision + transcript, feedback channel content, duration aggregation, record round-trip.
+
+### Report
+- `reports/latest_phase_report.md` replaced with truthful 2269-word Git-derived report (no manually curated file lists; all scopes match `git diff --name-status`).
+
+## Validation Gates (final closure — 11f88f5)
 
 | Gate | Result |
 |------|--------|
-| pytest R3D focused (test_r3d_wiring.py) | 54 passed, 0 failed |
-| pytest focused unit + contract | 163 passed, 0 failed |
-| pytest focused integration | 122 passed, 0 failed |
+| pytest R3D focused (test_r3d_wiring.py) | 54 passed, 0 failed (7 public-path, 18 private-helper, 7 persistence, 1 reporting) |
+| pytest focused unit + contract | 177 passed, 0 failed |
+| pytest focused integration | 86 passed, 0 failed |
 | pytest full suite | 1478 passed, 32 skipped, 0 failed |
 | ruff (changed files) | 0 errors |
 | mypy --strict (changed production) | 0 errors |
@@ -53,9 +66,13 @@ Correct seven root-level R3D contract defects identified by independent GPT-5.6 
 
 ## Debt Closed
 
-- TD-R3D-001 through TD-R3D-007
-- TD-PROCESS-004, TD-PROCESS-005
+- TD-R3D-001 through TD-R3D-007 (root correction)
+- TD-R3D-008 — evaluator stderr omitted from Agent/repair feedback
+- TD-R3D-009 — public-path regression tests incomplete
+- TD-PROCESS-004, TD-PROCESS-005 (root correction)
+- TD-PROCESS-006 — R3D report contained inaccurate evidence
+- TD-PROCESS-007 — visible OpenCode response omitted required report
 
 ## Next
 
-Independent GPT-5.6 Thinking audit required. After acceptance: unblock R4, R5, R6, Kaggle, Pilot, merge, stable tag.
+Independent GPT-5.6 Thinking audit required. After acceptance: freeze R3D → begin R4 (truthful metrics) → R5 (nine local records) → RF-4 cleanup → R6 (bundle and push) → nine real Qwen Kaggle runs → independent audit → v2.0.0-scientific-smoke tag → Pilot.

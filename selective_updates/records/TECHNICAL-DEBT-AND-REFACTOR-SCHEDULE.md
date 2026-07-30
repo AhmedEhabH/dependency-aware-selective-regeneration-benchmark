@@ -97,3 +97,23 @@
 - **Severity:** TD-2
 - **Closure:** full R3D correction report persisted to reports/latest_phase_report.md and reports/r3d_correction_report.md ✓
 - **Checkpoint:** R3D root correction
+
+### TD-R3D-008 — evaluator stderr omitted from Agent/repair feedback
+- **Severity:** TD-0 scientific contract
+- **Closure:** `_scientific_feedback_channels()` constructs stderr from evaluator.stderr, evaluator.error, and checks ✓
+- **Checkpoint:** R3D final evidence closure
+
+### TD-R3D-009 — public-path regression tests incomplete
+- **Severity:** TD-1
+- **Closure:** replaced 5 nominal tests with 7 public-path tests in test_r3d_wiring.py ✓
+- **Checkpoint:** R3D final evidence closure
+
+### TD-PROCESS-006 — R3D report contained inaccurate evidence
+- **Severity:** TD-2
+- **Closure:** replaced with truthful Git-derived report at reports/latest_phase_report.md ✓
+- **Checkpoint:** R3D final evidence closure
+
+### TD-PROCESS-007 — visible OpenCode response omitted required report
+- **Severity:** TD-2
+- **Closure:** report printed in the visible OpenCode response ✓
+- **Checkpoint:** R3D final evidence closure
