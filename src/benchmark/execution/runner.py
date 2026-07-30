@@ -362,11 +362,14 @@ class BenchmarkRunner:
         elif stage == "scenario_evaluator" and result.evaluator is not None:
             ec = result.evaluator.exit_code
             so = result.evaluator.stdout[:1000]
-            se = result.evaluator.error[:1000]
+            parts = []
+            if result.evaluator.stderr:
+                parts.append(result.evaluator.stderr[:400])
+            if result.evaluator.error:
+                parts.append(result.evaluator.error[:400])
             if result.evaluator.checks:
-                checks_str = "checks: " + ", ".join(str(c) for c in result.evaluator.checks[:5])
-                se = se[:800] + "; " + checks_str if se else checks_str
-            se = se[:1000]
+                parts.append("checks: " + ", ".join(str(c) for c in result.evaluator.checks[:5]))
+            se = "; ".join(parts)[:1000]
         else:
             ec = -1
             so = ""
