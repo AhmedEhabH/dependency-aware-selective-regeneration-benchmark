@@ -951,32 +951,40 @@ class TestBoundedRepairAttempts:
         assert call_count == 3
 
     def test_generation_rejection_no_repair(self, tmp_path: Path) -> None:
+        """Bounded repair after an empty first generation: second attempt
+        produces valid source and the runner succeeds. (R3D correction:
+        generation_guard failures are now repairable.)"""
         artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
 
         from benchmark.core.models import LLMResponse, TokenUsage
         call_count = 0
 
-        class _EmptyBackend:
+        class _BoundedEmptyBackend:
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 nonlocal call_count
                 call_count += 1
+                if call_count == 1:
+                    return LLMResponse(
+                        text="",
+                        token_usage=TokenUsage(prompt_tokens=1, completion_tokens=0, total_tokens=1),
+                    )
                 return LLMResponse(
-                    text="",
-                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=0, total_tokens=1),
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
                 )
 
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario(artifacts=artifacts)
         runner = _make_runner(
-            tmp_path, strategy, _EmptyBackend(), iso,
+            tmp_path, strategy, _BoundedEmptyBackend(), iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
             max_attempts=3,
         )
         runner.run(scenario)
-        assert call_count == 1
+        assert call_count == 2
 
     def test_max_attempts_bounds_repair(self, tmp_path: Path) -> None:
         artifacts = (

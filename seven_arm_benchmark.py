@@ -186,6 +186,10 @@ def _to_run_record_data(
         selection_total_tokens=record_dict.get("selection_total_tokens", 0),
         selection_model_calls=record_dict.get("selection_model_calls", 0),
         selection_duration_seconds=record_dict.get("selection_duration_seconds", 0.0),
+        selection_tool_calls=record_dict.get("selection_tool_calls", 0),
+        selection_tool_duration_seconds=record_dict.get("selection_tool_duration_seconds", 0.0),
+        selection_inspected_file_count=record_dict.get("selection_inspected_file_count", 0),
+        selection_tool_transcript=record_dict.get("selection_tool_transcript", []),
         regeneration_prompt_tokens=record_dict.get("regeneration_prompt_tokens", 0),
         regeneration_completion_tokens=record_dict.get("regeneration_completion_tokens", 0),
         regeneration_total_tokens=record_dict.get("regeneration_total_tokens", 0),
@@ -1129,44 +1133,6 @@ def _run_single_scenario_strategy(
     })
     enable_regen = not dry_run and strategy_name in _approved_regen_strategies
 
-    # Pre-flight: fail clearly if regeneration is enabled but no validation command
-    if enable_regen and not validation_command:
-
-        dummy_id = f"{scenario_id}_{strategy_name}_rep1_preflight_fail"
-        return {
-            "run_id": dummy_id,
-            "scenario_id": scenario_id,
-            "strategy_name": strategy_name,
-            "status": "failed",
-            "duration_seconds": 0.0,
-            "token_usage": {"prompt": 0, "completion": 0, "total": 0},
-            "selection_prompt_tokens": 0,
-            "selection_completion_tokens": 0,
-            "selection_total_tokens": 0,
-            "selection_model_calls": 0,
-            "selection_duration_seconds": 0.0,
-            "regeneration_prompt_tokens": 0,
-            "regeneration_completion_tokens": 0,
-            "regeneration_total_tokens": 0,
-            "regeneration_model_calls": 0,
-            "regeneration_duration_seconds": 0.0,
-            "functional_validation_duration_seconds": 0.0,
-            "functional_validation_passed": None,
-            "total_workflow_tokens": 0,
-            "total_workflow_model_calls": 0,
-            "total_workflow_duration_seconds": 0.0,
-            "selected_artifact_count": 0,
-            "regenerated_artifact_count": 0,
-            "preserved_artifact_count": 0,
-            "unresolved_human_review_count": 0,
-            "failures": [{
-                "kind": "harness_defect",
-                "message": "Regeneration enabled but validation_command is missing or empty",
-                "details": "enable_regeneration=True requires validation_command from manifest or CLI",
-                "stage": "configuration",
-            }],
-        }, 0
-
     config = PipelineConfig(
         protocol_version=protocol_version,
         timeout_seconds=timeout_seconds,
@@ -1178,6 +1144,8 @@ def _run_single_scenario_strategy(
         validation_timeout=180,
         active_snapshot_root=str(active_snapshot_root) if active_snapshot_root else None,
         editable_artifact_paths=editable_artifact_paths,
+        canonical_project_root=Path(__file__).resolve().parent,
+        python_executable=sys.executable,
     )
 
     pipeline = BenchmarkPipeline(
@@ -1215,6 +1183,10 @@ def _run_single_scenario_strategy(
         "selection_total_tokens": record.selection_total_tokens,
         "selection_model_calls": record.selection_model_calls,
         "selection_duration_seconds": record.selection_duration_seconds,
+        "selection_tool_calls": record.selection_tool_calls,
+        "selection_tool_duration_seconds": record.selection_tool_duration_seconds,
+        "selection_inspected_file_count": record.selection_inspected_file_count,
+        "selection_tool_transcript": list(record.selection_tool_transcript),
         "regeneration_prompt_tokens": record.regeneration_prompt_tokens,
         "regeneration_completion_tokens": record.regeneration_completion_tokens,
         "regeneration_total_tokens": record.regeneration_total_tokens,

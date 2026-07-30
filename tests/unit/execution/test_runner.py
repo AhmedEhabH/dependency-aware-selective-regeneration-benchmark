@@ -647,6 +647,7 @@ class TestSnapshotSourceWorkspaceSeparation:
             protocol_version="1.0",
             max_attempts=1,
             enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
         )
         runner = BenchmarkRunner(
             strategy=_FakeStrategy(),
@@ -739,6 +740,7 @@ class TestActiveSnapshotFailClosed:
             protocol_version="1.0",
             max_attempts=1,
             enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
         )
         runner = BenchmarkRunner(
             strategy=_FakeStrategy(),
@@ -766,6 +768,7 @@ class TestActiveSnapshotFailClosed:
             protocol_version="1.0",
             max_attempts=1,
             enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
         )
         runner = BenchmarkRunner(
             strategy=_FakeStrategy(),
