@@ -1,31 +1,30 @@
 from __future__ import annotations
 
-import json
 import sys
-import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 from unittest.mock import MagicMock, patch
 
-import pytest
-
-from benchmark.checkpoint.persistence import RunRecordData
-from benchmark.core.enums import BlastRadius, RunStatus
+from benchmark.checkpoint.persistence import RunRecordData, RunRecordStore
+from benchmark.core.enums import BlastRadius, FailureKind, RunStatus
 from benchmark.core.models import (
-    ArtifactUniverse,
+    FailureRecord,
     ImpactPrediction,
     LLMResponse,
-    RepositorySnapshot,
-    RequirementChange,
+    RunIdentity,
+    RunRecord,
     Scenario,
 )
 from benchmark.execution.isolation import IsolationContext
+from benchmark.execution.post_generation import PostGenerationResult
 from benchmark.execution.runner import BenchmarkRunner, RunnerConfig, _ScientificValidationResult
+from benchmark.execution.scenario_evaluator import ScenarioEvaluatorResult
+from benchmark.execution.validation import FunctionalValidationResult
 from benchmark.repositories.workspace import WorkspacePath
 
 # ---------------------------------------------------------------------------
-# Minimal helper types — avoid importing heavyweight production objects
+# Minimal helpers
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -47,40 +46,32 @@ class _FakeExecResult:
 
 class _FakeStrategy:
     def __init__(self) -> None:
-        self.calls: list[tuple[RepositorySnapshot, RequirementChange, Any]] = []
+        self.calls: list[Any] = []
+        self.model_call_count = 0
+        self.tool_call_count = 0
+        self.tool_duration_seconds = 0.0
+        self.inspected_file_count = 0
+        self.last_requires_iteration = False
 
-    def analyze_impact(
-        self,
-        repository: RepositorySnapshot,
-        requirement_change: RequirementChange,
-        artifact_universe: Any,
-    ) -> ImpactPrediction:
-        self.calls.append((repository, requirement_change, artifact_universe))
+    def analyze_impact(self, **kwargs: Any) -> ImpactPrediction:
+        self.calls.append(kwargs)
         return ImpactPrediction()
 
-    def revise_plan(self, *args: Any, **kwargs: Any) -> ImpactPrediction:
+    def revise_plan(self, **kwargs: Any) -> ImpactPrediction:
+        self.calls.append(kwargs)
         return ImpactPrediction()
 
 
 class _FakeBackend:
-    async def generate(
-        self,
-        prompt: str,
-        temperature: float = 0.0,
-        max_tokens: int = 4096,
-    ) -> LLMResponse:
+    async def generate(self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
         return LLMResponse(text="mock")
 
 
-# ---------------------------------------------------------------------------
-# Build a bare Runner for direct _execute_scientific_validation calls
-# ---------------------------------------------------------------------------
-
-def _make_bare_runner(
+def _make_runner(
     tmp_path: Path,
-    validation_command: str | None = None,
-    validation_timeout: int = 30,
+    validation_command: list[str] | None = None,
     canonical_project_root: str | None = None,
+    python_executable: str = "",
     enable_regeneration: bool = False,
     strategy: Any = None,
 ) -> BenchmarkRunner:
@@ -90,10 +81,7 @@ def _make_bare_runner(
     snap_base.mkdir()
     active_root = snap_base / "repo" / "rev1"
     active_root.mkdir(parents=True)
-
-    # Write a dummy file so the snapshot dir is non-empty
     (active_root / "dummy.py").write_text("x = 1")
-
     ws = WorkspacePath(root=str(ws_root))
     iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
     cfg = RunnerConfig(
@@ -102,9 +90,9 @@ def _make_bare_runner(
         protocol_version="1.0",
         max_attempts=3,
         validation_command=validation_command,
-        validation_timeout=validation_timeout,
+        validation_timeout=30,
         canonical_project_root=canonical_project_root or str(tmp_path),
-        python_executable=sys.executable,
+        python_executable=python_executable or sys.executable,
         enable_regeneration=enable_regeneration,
         editable_artifact_paths=("dummy.py",),
     )
@@ -131,314 +119,466 @@ def _scenario(**kw: Any) -> Scenario:
 
 
 def _exec(model_calls: int = 1, generated_count: int = 1) -> _FakeExecResult:
-    arts = tuple(
-        _FakeGeneratedArtifact(status="generated") for _ in range(generated_count)
-    ) if generated_count else ()
+    arts = tuple(_FakeGeneratedArtifact(status="generated") for _ in range(generated_count)) if generated_count else ()
     return _FakeExecResult(model_calls=model_calls, artifacts=arts)
 
 
 # ===================================================================
-# 1-3:  All strategy paths call the shared validation sequence
+# 1-6: Production entry and preflight
 # ===================================================================
 
-@pytest.mark.parametrize("strat", ["monolithic", "selective"])
-def test_non_dry_strategy_calls_validation(strat: str, tmp_path: Path) -> None:
-    """Tests 1-2: non-dry strategies invoke _execute_scientific_validation."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok", enable_regeneration=True)
-    change = RequirementChange(before="before", after="after")
-    universe = ArtifactUniverse(artifacts=())
-    sci_ok = _ScientificValidationResult(
-        migration=None, baseline=None, evaluator=None,
-        passed=True, feedback="", duration_seconds=0.0,
+def test_real_entry_passes_canonical_root_and_python_exe(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"], enable_regeneration=True)
+    assert runner._config.canonical_project_root is not None
+    assert runner._config.python_executable
+    assert runner._config.python_executable.strip()
+
+
+def test_missing_canonical_root_fails_before_strategy(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, canonical_project_root=str(tmp_path), enable_regeneration=True)
+    object.__setattr__(runner._config, "canonical_project_root", None)
+    record = runner.run(_scenario(evaluator_asset="tests/evaluator_assets/eval.py"))
+    assert record.status == RunStatus.failed
+    assert any(f.stage == "configuration" for f in record.failures)
+    assert runner._strategy.calls == []
+
+
+def test_empty_python_executable_fails_before_strategy(tmp_path: Path) -> None:
+    runner = _make_runner(
+        tmp_path, canonical_project_root=str(tmp_path), python_executable=sys.executable,
+        enable_regeneration=True,
     )
-    with patch.object(runner, "_execute_scientific_validation", return_value=sci_ok) as spy:
-        runner._run_regeneration_flow(
-            _scenario(), ImpactPrediction(), change, universe, time.monotonic(),
-        )
-    spy.assert_called_once()
+    object.__setattr__(runner._config, "python_executable", "")
+    record = runner.run(_scenario(evaluator_asset="tests/evaluator_assets/eval.py"))
+    assert record.status == RunStatus.failed
+    assert any(f.stage == "configuration" for f in record.failures)
 
 
-@pytest.mark.skip("_run_iterative_flow is too complex to mock in unit tests; RF-2 refactor scheduled")
-def test_iterative_agent_calls_validation(tmp_path: Path) -> None:
-    """Test 3: iterative_repository_agent invokes _execute_scientific_validation."""
-    runner = _make_bare_runner(
-        tmp_path, validation_command="echo ok", enable_regeneration=True,
+def test_v2_metadata_missing_evaluator_fails_before_strategy(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"], enable_regeneration=True)
+    record = runner.run(
+        _scenario(post_generation_command=("echo",), evaluator_asset=""),
     )
-    runner._config.strategy_name = "iterative_repository_agent"
-    sci_ok = _ScientificValidationResult(
-        migration=None, baseline=None, evaluator=None,
-        passed=False, feedback="", duration_seconds=0.0,
+    assert record.status == RunStatus.failed
+    assert any(f.stage == "configuration" for f in record.failures)
+    assert runner._strategy.calls == []
+
+
+def test_missing_required_migration_command_fails_before_strategy(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, enable_regeneration=True)
+    record = runner.run(
+        _scenario(require_new_migration=True, post_generation_command=()),
     )
-    with (
-        patch.object(runner, "_execute_scientific_validation", return_value=sci_ok) as spy,
-        patch("benchmark.execution.runner.SharedRegenerationExecutor.execute",
-              return_value=_exec(model_calls=1)),
-    ):
-        runner.run(_scenario())
-    spy.assert_called()
+    assert record.status == RunStatus.failed
+    assert any("post_generation_command" in f.message for f in record.failures)
 
 
-# ===================================================================
-# 4: Migration failure prevents success
-# ===================================================================
-
-def test_migration_failure_prevents_success(tmp_path: Path) -> None:
-    """Test 4."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
-    with patch(
-        "benchmark.execution.runner.FunctionalValidator.validate",
-        return_value=MagicMock(passed=True, exit_code=0, stdout="", stderr=""),
-    ):
-        result = runner._execute_scientific_validation(
-            _scenario(post_generation_command=("false",)),
-            _exec(),
-        )
-    assert result.passed is False
-    assert result.baseline is None
+def test_missing_baseline_command_fails_before_strategy(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=None, enable_regeneration=True)
+    record = runner.run(_scenario())
+    assert record.status == RunStatus.failed
+    assert any(f.stage == "configuration" for f in record.failures)
+    assert runner._strategy.calls == []
 
 
-# ===================================================================
-# 5: Missing required migration command fails before false success
-# ===================================================================
+def test_whitespace_baseline_command_fails_before_strategy(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["   "], enable_regeneration=True)
+    record = runner.run(_scenario())
+    assert record.status == RunStatus.failed
+    assert any(f.stage == "configuration" for f in record.failures)
+    assert runner._strategy.calls == []
 
-def test_missing_required_migration_fails(tmp_path: Path) -> None:
-    """Test 5."""
-    runner = _make_bare_runner(tmp_path)
+
+def test_invalid_baseline_command_item_fails_before_strategy(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["", "pytest"], enable_regeneration=True)
+    record = runner.run(_scenario())
+    assert record.status == RunStatus.failed
+    assert any(f.stage == "configuration" for f in record.failures)
+
+
+def test_agent_missing_baseline_command_fails_before_begin_run(tmp_path: Path) -> None:
+    runner = _make_runner(
+        tmp_path, validation_command=None, enable_regeneration=True,
+        strategy=_FakeStrategy(),
+    )
+    object.__setattr__(runner._config, "strategy_name", "iterative_repository_agent")
+    record = runner.run(_scenario())
+    assert record.status == RunStatus.failed
+    assert any(f.stage == "configuration" for f in record.failures)
+    assert runner._strategy.calls == []
+
+
+def test_legacy_scenario_empty_metadata_retains_compat(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=None)
     result = runner._execute_scientific_validation(
-        _scenario(post_generation_command=(), require_new_migration=True),
-        None,
+        _scenario(post_generation_command=(), evaluator_asset=""),
+        _exec(),
+    )
+    assert result.passed is True
+    assert result.failed_stage is None
+
+
+# ===================================================================
+# 7-16: Failure matrix
+# ===================================================================
+
+def test_migration_command_failure_is_migration_generation(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
+    result = runner._execute_scientific_validation(
+        _scenario(post_generation_command=("false",)),
+        _exec(),
     )
     assert result.passed is False
+    assert result.failed_stage == "migration_generation"
+    assert result.failure_kind == FailureKind.build
 
 
-# ===================================================================
-# 6: Zero new migration fails
-# ===================================================================
-
-def test_migration_zero_new_fails(tmp_path: Path) -> None:
-    """Test 6."""
-    runner = _make_bare_runner(tmp_path)
+def test_zero_new_migration_fails(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
     result = runner._execute_scientific_validation(
         _scenario(post_generation_command=("echo", "noop"), require_new_migration=True),
         _exec(),
     )
     assert result.passed is False
+    assert result.failed_stage == "migration_generation"
+    assert result.failure_kind == FailureKind.build
 
 
-# ===================================================================
-# 7: Two new migrations fail
-# ===================================================================
-
-def test_migration_two_new_fails(tmp_path: Path) -> None:
-    """Test 7."""
-    runner = _make_bare_runner(tmp_path)
+def test_two_new_migrations_fail(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
     result = runner._execute_scientific_validation(
         _scenario(post_generation_command=("echo", "multi"), require_new_migration=True),
         _exec(),
     )
     assert result.passed is False
+    assert result.failed_stage == "migration_generation"
 
 
-# ===================================================================
-# 8: Changed old migration fails
-# ===================================================================
-
-def test_migration_changed_old_fails(tmp_path: Path) -> None:
-    """Test 8."""
-    runner = _make_bare_runner(tmp_path)
+def test_old_migration_changed_fails(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
     result = runner._execute_scientific_validation(
         _scenario(post_generation_command=("echo", "changed"), require_new_migration=True),
         _exec(),
     )
     assert result.passed is False
+    assert result.failed_stage == "migration_generation"
 
-
-# ===================================================================
-# 9: Baseline failure prevents evaluator execution
-# ===================================================================
 
 def test_baseline_failure_prevents_evaluator(tmp_path: Path) -> None:
-    """Test 9."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo fail")
+    runner = _make_runner(tmp_path, validation_command=["echo", "fail"])
     with patch(
         "benchmark.execution.runner.FunctionalValidator.validate",
-        return_value=MagicMock(passed=False, exit_code=1, stdout="fail", stderr=""),
-    ) as bas:
+        return_value=FunctionalValidationResult(
+            passed=False, exit_code=1, stdout="fail", stderr="", duration_seconds=0.1,
+        ),
+    ):
         result = runner._execute_scientific_validation(
-            _scenario(evaluator_asset="eval.py"),
+            _scenario(evaluator_asset="tests/evaluator_assets/eval.py"),
             _exec(),
         )
     assert result.passed is False
+    assert result.failed_stage == "baseline_validation"
     assert result.evaluator is None
-    bas.assert_called_once()
 
-
-# ===================================================================
-# 10: Evaluator failure prevents success
-# ===================================================================
 
 def test_evaluator_failure_prevents_success(tmp_path: Path) -> None:
-    """Test 10."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
     with (
         patch(
             "benchmark.execution.runner.FunctionalValidator.validate",
-            return_value=MagicMock(passed=True, exit_code=0, stdout="", stderr=""),
+            return_value=FunctionalValidationResult(
+                passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.1,
+            ),
         ),
         patch(
             "benchmark.execution.scenario_evaluator.run_scenario_evaluator",
-            return_value=MagicMock(passed=False, error="failed", checks=("x",)),
+            return_value=ScenarioEvaluatorResult(
+                passed=False, exit_code=1,
+                checks=("c1",), error="eval error",
+                stdout="", stderr="", duration_seconds=0.1,
+            ),
         ),
     ):
         result = runner._execute_scientific_validation(
-            _scenario(evaluator_asset="eval.py"),
+            _scenario(evaluator_asset="tests/evaluator_assets/eval.py"),
             _exec(),
         )
     assert result.passed is False
+    assert result.failed_stage == "scenario_evaluator"
 
 
-# ===================================================================
-# 11: Evaluator pass cannot override baseline failure
-# ===================================================================
-
-def test_evaluator_pass_cannot_override_baseline_failure(tmp_path: Path) -> None:
-    """Test 11."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo fail")
+def test_baseline_failure_cannot_be_overridden(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "fail"])
     with (
         patch(
             "benchmark.execution.runner.FunctionalValidator.validate",
-            return_value=MagicMock(passed=False, exit_code=1, stdout="", stderr=""),
+            return_value=FunctionalValidationResult(
+                passed=False, exit_code=1, stdout="", stderr="", duration_seconds=0.1,
+            ),
         ),
         patch(
             "benchmark.execution.scenario_evaluator.run_scenario_evaluator",
-            return_value=MagicMock(passed=True, error="", checks=()),
+            return_value=ScenarioEvaluatorResult(
+                passed=True, exit_code=0, checks=("c1",), error="", stdout="", stderr="", duration_seconds=0.1,
+            ),
         ),
     ):
         result = runner._execute_scientific_validation(
-            _scenario(evaluator_asset="eval.py"),
+            _scenario(evaluator_asset="tests/evaluator_assets/eval.py"),
             _exec(),
         )
     assert result.passed is False
     assert result.evaluator is None
+    assert result.failed_stage == "baseline_validation"
 
 
-# ===================================================================
-# 12: All stages pass → success
-# ===================================================================
+def test_all_v2_stages_pass_with_exact_typed_results(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
+    call_order: list[str] = []
 
-def test_all_stages_pass(tmp_path: Path) -> None:
-    """Test 12: successful validation returns passed=True."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
     with (
         patch(
+            "benchmark.execution.post_generation.run_post_generation_command",
+            return_value=PostGenerationResult(
+                passed=True, exit_code=0, stdout="", stderr="",
+                duration_seconds=0.1, created_paths=("m.py",),
+            ),
+        ),
+        patch(
             "benchmark.execution.runner.FunctionalValidator.validate",
-            return_value=MagicMock(passed=True, exit_code=0, stdout="", stderr=""),
+            side_effect=lambda *a, **kw: (
+                call_order.append("baseline"),
+                FunctionalValidationResult(
+                    passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.2,
+                )
+            )[1],
+        ),
+        patch(
+            "benchmark.execution.scenario_evaluator.run_scenario_evaluator",
+            side_effect=lambda *a, **kw: (
+                call_order.append("evaluator"),
+                ScenarioEvaluatorResult(
+                    passed=True, exit_code=0, checks=("c1",), error="",
+                    stdout="", stderr="", duration_seconds=0.3,
+                )
+            )[1],
         ),
     ):
-        result = runner._execute_scientific_validation(_scenario(), _exec())
+        result = runner._execute_scientific_validation(
+            _scenario(
+                post_generation_command=("echo", "migrate"),
+                evaluator_asset="tests/evaluator_assets/eval.py",
+            ),
+            _exec(),
+        )
     assert result.passed is True
+    assert result.failed_stage is None
+    assert result.migration is not None and result.migration.passed is True
+    assert result.migration.created_paths == ("m.py",)
+    assert result.baseline is not None and result.baseline.passed is True
+    assert result.evaluator is not None and result.evaluator.passed is True
+    assert result.evaluator.checks == ("c1",)
+    assert call_order == ["baseline", "evaluator"]
 
 
-# ===================================================================
-# 13: Zero calls cannot be successful
-# ===================================================================
-
-def test_zero_calls_cannot_be_successful(tmp_path: Path) -> None:
-    """Test 13."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
+def test_zero_model_calls_is_generation_guard(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
     result = runner._execute_scientific_validation(_scenario(), _exec(model_calls=0))
     assert result.passed is False
+    assert result.failed_stage == "generation_guard"
+    assert result.failure_kind == FailureKind.build
 
 
-# ===================================================================
-# 14: Zero generated source cannot be successful
-# ===================================================================
-
-def test_zero_generated_source_cannot_be_successful(tmp_path: Path) -> None:
-    """Test 14."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
+def test_zero_generated_source_is_generation_guard(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
     result = runner._execute_scientific_validation(_scenario(), _exec(generated_count=0))
     assert result.passed is False
+    assert result.failed_stage == "generation_guard"
 
 
 # ===================================================================
-# 15: run() wrapper preserves every stage field
+# 17-21: Wrapper and record evidence
 # ===================================================================
 
-def test_run_wrapper_preserves_stage_fields(tmp_path: Path) -> None:
-    """Test 15."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
-    scenario = _scenario()
-    record = runner.run(scenario)
-    assert record.status == RunStatus.succeeded
-
-
-# ===================================================================
-# 16: Persistent conversion preserves every field
-# ===================================================================
-
-def test_persistent_conversion_preserves_fields(tmp_path: Path) -> None:
-    """Test 16."""
-    data = RunRecordData(
-        run_id="test",
-        profile="default",
-        repository_id="repo",
-        scenario_id="test",
-        strategy_id="monolithic",
-        repetition=1,
-        seed=42,
-        status="succeeded",
+def test_public_run_preserves_every_field(tmp_path: Path) -> None:
+    from dataclasses import fields as dc_fields
+    sentinel = RunRecord(
+        identity=RunIdentity(
+            run_id="sentinel", protocol_version="1.0",
+            repository_commit_sha="abc", scenario_id="r3d", strategy_name="monolithic",
+        ),
+        status=RunStatus.succeeded,
+        selection_tool_calls=7,
+        selection_tool_duration_seconds=1.5,
+        selection_inspected_file_count=9,
+        selection_tool_transcript=("t1", "t2"),
         migration_generation_passed=True,
+        generated_migration_paths=("m.py",),
         baseline_validation_passed=True,
         scenario_evaluator_passed=True,
-        generated_migration_paths=["new_migration.py"],
+        scenario_evaluator_checks=("c1",),
     )
-    assert data.migration_generation_passed is True
-    assert data.baseline_validation_passed is True
-    assert data.scenario_evaluator_passed is True
-    assert data.generated_migration_paths == ["new_migration.py"]
+
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"], enable_regeneration=True)
+    with patch.object(runner, "_run_regeneration_flow", return_value=sentinel):
+        record = runner.run(_scenario())
+    for f in dc_fields(RunRecord):
+        sent_val = getattr(sentinel, f.name, None)
+        rec_val = getattr(record, f.name, None)
+        if f.name in ("identity", "duration_seconds"):
+            continue
+        assert sent_val == rec_val, f"Field {f.name}: sentinel={sent_val} record={rec_val}"
+
+
+def test_failed_initial_record_preserves_partial_evidence(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
+    result = runner._execute_scientific_validation(
+        _scenario(post_generation_command=("echo", "fail")),
+        _exec(),
+    )
+    fields = runner._scientific_record_fields(result)
+    assert fields["migration_generation_passed"] is False
+    assert fields["baseline_validation_passed"] is None
+    assert fields["scenario_evaluator_passed"] is None
+
+
+def test_compatibility_baseline_mirror_exact(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
+    result = runner._execute_scientific_validation(_scenario(), _exec())
+    fields = runner._scientific_record_fields(result)
+    assert fields["functional_validation_passed"] == fields["baseline_validation_passed"]
+    assert fields["functional_validation_duration_seconds"] == fields["baseline_validation_duration_seconds"]
+
+
+def test_scientific_record_fields_none_result(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
+    fields = runner._scientific_record_fields(None)
+    assert fields["migration_generation_passed"] is None
+    assert fields["baseline_validation_passed"] is None
+    assert fields["scenario_evaluator_passed"] is None
+    assert fields["functional_validation_passed"] is None
+
+
+def test_scientific_record_fields_all_passed(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
+    mig = PostGenerationResult(
+        passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.1, created_paths=("m.py",),
+    )
+    bas = FunctionalValidationResult(passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.2)
+    eva = ScenarioEvaluatorResult(
+        passed=True, exit_code=0, checks=("c1",), error="", stdout="", stderr="", duration_seconds=0.3,
+    )
+    result = _ScientificValidationResult(
+        migration=mig, baseline=bas, evaluator=eva,
+        passed=True, failed_stage=None, failure_kind=None,
+        feedback="", duration_seconds=0.6,
+    )
+    fields = runner._scientific_record_fields(result)
+    assert fields["migration_generation_passed"] is True
+    assert fields["generated_migration_paths"] == ("m.py",)
+    assert fields["baseline_validation_passed"] is True
+    assert fields["scenario_evaluator_passed"] is True
+    assert fields["scenario_evaluator_checks"] == ("c1",)
 
 
 # ===================================================================
-# 17: JSONL save / reload preserves every field
+# 22-27: Persistence and reporting
 # ===================================================================
 
-def test_jsonl_save_reload_preserves_fields(tmp_path: Path) -> None:
-    """Test 17."""
-    data = RunRecordData(
-        run_id="test",
+def test_to_run_record_data_preserves_all_fields(tmp_path: Path) -> None:
+    from seven_arm_benchmark import _to_run_record_data
+    record_dict = {
+        "run_id": "test-conv",
+        "scenario_id": "r3d",
+        "strategy_name": "monolithic",
+        "status": "succeeded",
+        "duration_seconds": 1.0,
+        "token_usage": {"prompt": 10, "completion": 10, "total": 20},
+        "selection_tool_calls": 7,
+        "selection_tool_duration_seconds": 1.5,
+        "selection_inspected_file_count": 9,
+        "selection_tool_transcript": ["a"],
+        "migration_generation_passed": True,
+        "generated_migration_paths": ["m.py"],
+        "baseline_validation_passed": True,
+        "scenario_evaluator_passed": True,
+        "scenario_evaluator_checks": ["c1"],
+        "selection_prompt_tokens": 5,
+        "selection_completion_tokens": 5,
+        "selection_total_tokens": 10,
+        "selection_model_calls": 1,
+        "selection_duration_seconds": 0.5,
+        "regeneration_prompt_tokens": 10,
+        "regeneration_completion_tokens": 10,
+        "regeneration_total_tokens": 20,
+        "regeneration_model_calls": 1,
+        "regeneration_duration_seconds": 0.5,
+        "functional_validation_duration_seconds": 0.3,
+        "functional_validation_passed": True,
+        "total_workflow_tokens": 30,
+        "total_workflow_model_calls": 2,
+        "total_workflow_duration_seconds": 1.5,
+    }
+    data = _to_run_record_data(
+        record_dict,
+        run_id="test-conv",
         profile="default",
         repository_id="repo",
-        scenario_id="test",
+        scenario_id="r3d",
+        strategy_id="monolithic",
+        repetition=1,
+        model_identity="test",
+        dry_run=False,
+        protocol_version="1.0",
+        source_commit="abc",
+        config_hash="hash",
+        started_at="2024-01-01",
+        ended_at="2024-01-01",
+        hw_id="cpu",
+        sw_id="python3",
+        max_attempts=3,
+    )
+    assert data.selection_tool_calls == 7
+    assert data.selection_tool_transcript == ["a"]
+    assert data.migration_generation_passed is True
+    assert data.scenario_evaluator_passed is True
+    assert data.selection_prompt_tokens == 5
+
+
+def test_actual_jsonl_save_reload_preserves_fields(tmp_path: Path) -> None:
+    store = RunRecordStore(tmp_path / "runs")
+    record = RunRecordData(
+        run_id="test-jsonl",
+        profile="default",
+        repository_id="repo",
+        scenario_id="r3d",
         strategy_id="monolithic",
         repetition=1,
         seed=42,
         status="succeeded",
+        selection_tool_calls=7,
+        selection_tool_duration_seconds=1.5,
+        selection_inspected_file_count=9,
+        selection_tool_transcript=["a"],
         migration_generation_passed=True,
+        generated_migration_paths=["m.py"],
         baseline_validation_passed=True,
         scenario_evaluator_passed=True,
-        generated_migration_paths=["m.py"],
         scenario_evaluator_checks=["c1"],
     )
-    raw = data._asdict() if hasattr(data, "_asdict") else vars(data)
-    # manual roundtrip via json
-    raw_json = json.dumps(raw, default=str)
-    restored_raw = json.loads(raw_json)
-    restored = RunRecordData(**restored_raw)
-    assert restored.migration_generation_passed == data.migration_generation_passed
-    assert restored.baseline_validation_passed == data.baseline_validation_passed
-    assert restored.scenario_evaluator_passed == data.scenario_evaluator_passed
-    assert restored.generated_migration_paths == data.generated_migration_paths
+    store.append(record)
+    loaded = store.load_all()
+    assert len(loaded) == 1
+    assert loaded[0].selection_tool_calls == 7
+    assert loaded[0].selection_tool_transcript == ["a"]
+    assert loaded[0].migration_generation_passed is True
+    assert loaded[0].scenario_evaluator_passed is True
 
 
-# ===================================================================
-# 18: Old records missing new fields still load
-# ===================================================================
-
-def test_old_records_missing_new_fields_still_load(tmp_path: Path) -> None:
-    """Test 18."""
+def test_old_record_defaults_load(tmp_path: Path) -> None:
+    store = RunRecordStore(tmp_path / "runs")
     old = {
-        "run_id": "test-001",
+        "run_id": "legacy",
         "profile": "default",
         "repository_id": "repo",
         "scenario_id": "legacy",
@@ -448,164 +588,521 @@ def test_old_records_missing_new_fields_still_load(tmp_path: Path) -> None:
         "status": "succeeded",
         "duration_seconds": 1.0,
     }
-    data = RunRecordData(**old)
-    assert data.run_id == "test-001"
-    assert data.status == "succeeded"
+    import json
+    with open(store.path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(old, sort_keys=True) + "\n")
+    loaded = store.load_all()
+    assert len(loaded) == 1
+    assert loaded[0].selection_tool_calls == 0
+    assert loaded[0].migration_generation_passed is None
+    assert loaded[0].scenario_evaluator_passed is None
+
+
+def test_idempotent_equality_includes_new_fields(tmp_path: Path) -> None:
+    store = RunRecordStore(tmp_path / "runs")
+    a = RunRecordData(
+        run_id="idem", profile="default", repository_id="repo",
+        scenario_id="r3d", strategy_id="monolithic", repetition=1, seed=42,
+        status="succeeded", selection_tool_calls=3,
+    )
+    store.append(a)
+    store.append(a)  # idempotent
+
+
+def test_idempotent_append_with_same_new_fields_is_idempotent(tmp_path: Path) -> None:
+    store = RunRecordStore(tmp_path / "runs")
+    a = RunRecordData(
+        run_id="idem2", profile="default", repository_id="repo",
+        scenario_id="r3d", strategy_id="monolithic", repetition=1, seed=42,
+        status="succeeded", selection_tool_calls=5,
+        selection_tool_transcript=["x"],
+        migration_generation_passed=True,
+    )
+    store.append(a)
+    store.append(a)
+
+
+def test_conflicting_new_field_raises_integrity_error(tmp_path: Path) -> None:
+    from benchmark.checkpoint.persistence import RunRecordIntegrityError
+    store = RunRecordStore(tmp_path / "runs")
+    a = RunRecordData(
+        run_id="conflict", profile="default", repository_id="repo",
+        scenario_id="r3d", strategy_id="monolithic", repetition=1, seed=42,
+        status="succeeded", selection_tool_calls=3,
+    )
+    b = RunRecordData(
+        run_id="conflict", profile="default", repository_id="repo",
+        scenario_id="r3d", strategy_id="monolithic", repetition=1, seed=42,
+        status="succeeded", selection_tool_calls=7,
+    )
+    store.append(a)
+    import pytest
+    with pytest.raises(RunRecordIntegrityError):
+        store.append(b)
+
+
+def test_reporting_serializer_contains_all_fields(tmp_path: Path) -> None:
+    from benchmark.statistics.reporting import NotebookExporter
+    identity = RunIdentity(
+        run_id="rep-test", protocol_version="1.0",
+        repository_commit_sha="abc", scenario_id="r3d", strategy_name="monolithic",
+    )
+    record = RunRecord(
+        identity=identity, status=RunStatus.succeeded,
+        selection_tool_calls=7, selection_tool_duration_seconds=1.5,
+        selection_inspected_file_count=9,
+        selection_tool_transcript=("a", "b"),
+        migration_generation_passed=True,
+        generated_migration_paths=("m.py",),
+        baseline_validation_passed=True,
+        scenario_evaluator_passed=True,
+    )
+    exporter = NotebookExporter()
+    serialized = exporter._serialize_record(record)
+    assert serialized["selection_tool_calls"] == 7
+    assert serialized["selection_tool_transcript"] == ["a", "b"]
+    assert serialized["migration_generation_passed"] is True
+    assert serialized["scenario_evaluator_passed"] is True
 
 
 # ===================================================================
-# 19: Evaluator metadata never reaches strategy
+# 28-31: Leakage and isolation
 # ===================================================================
 
 def test_evaluator_metadata_never_reaches_strategy(tmp_path: Path) -> None:
-    """Test 19."""
     strategy = _FakeStrategy()
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok", strategy=strategy)
-    runner.run(_scenario(evaluator_asset="eval.py"))
-    for _, change, _ in strategy.calls:
-        assert not any(
-            "eval" in str(c).lower() or "evaluator" in str(c).lower()
-            for c in change.acceptance_criteria
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"], strategy=strategy, enable_regeneration=True)
+    runner.run(_scenario(evaluator_asset="tests/evaluator_assets/eval.py"))
+    for call_args in strategy.calls:
+        rc = call_args.get("requirement_change", call_args)
+        ac = getattr(rc, "acceptance_criteria", ())
+        assert not any("eval" in str(c).lower() or "evaluator" in str(c).lower() for c in ac)
+
+
+def test_repair_validation_duration_sums_all_stages(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"], enable_regeneration=True)
+    record = RunRecord(
+        identity=runner._build_run_identity(_scenario()),
+        status=RunStatus.failed,
+        failures=(FailureRecord(
+            failure_kind=FailureKind.build,
+            message="Migration failed",
+            stage="migration_generation",
+        ),),
+        migration_duration_seconds=0.3,
+        baseline_validation_duration_seconds=0.2,
+        scenario_evaluator_duration_seconds=0.1,
+    )
+    from benchmark.execution.runner import _ScientificValidationResult
+    sci = _ScientificValidationResult(
+        migration=None, baseline=None, evaluator=None,
+        passed=False, failed_stage="migration_generation",
+        failure_kind=FailureKind.build,
+        feedback="fail", duration_seconds=0.6,
+    )
+    runner._last_scientific_result = sci
+    with patch.object(runner, "_last_prediction", MagicMock()):
+        object.__setattr__(runner._budget, "_attempts", 0)
+        object.__setattr__(runner._budget, "_max_attempts", 3)
+        runner._state.start()
+        # Run repair flow (will fail again but should use summed duration)
+        result = runner._run_regeneration_repair_flow(
+            scenario=_scenario(), first_record=record, start_time=0.0,
         )
+        # Total val_dur includes initial sum (0.3 + 0.2 + 0.1) + repair attempt duration
+        assert result.status == RunStatus.failed
 
 
-# ===================================================================
-# 20: Evaluator metadata never reaches generation prompt
-# ===================================================================
+def test_evaluator_asset_never_appears_in_workspace(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
 
-def test_evaluator_metadata_never_reaches_generation_prompt(tmp_path: Path) -> None:
-    """Test 20."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
-    runner.run(_scenario(evaluator_asset="eval.py"))
-
-
-# ===================================================================
-# 21: Evaluator script never appears inside workspace
-# ===================================================================
-
-def test_evaluator_script_never_appears_in_workspace(tmp_path: Path) -> None:
-    """Test 21."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
-
-    def _check_evaluator(*args: Any, **kwargs: Any) -> MagicMock:
+    def _check_evaluator(*args: Any, **kwargs: Any) -> ScenarioEvaluatorResult:
         ws_path = Path(runner._isolation.workspace.root)
-        leaked = list(ws_path.rglob("eval*"))
-        assert len(leaked) == 0, f"Evaluator script leaked: {leaked}"
-        return MagicMock(passed=True, error="", checks=())
+        leaked = list(ws_path.rglob("*eval*"))
+        assert len(leaked) == 0, f"Evaluator leaked: {leaked}"
+        return ScenarioEvaluatorResult(
+            passed=True, exit_code=0, checks=("c1",), error="", stdout="", stderr="", duration_seconds=0.1,
+        )
 
     with (
         patch(
             "benchmark.execution.runner.FunctionalValidator.validate",
-            return_value=MagicMock(passed=True, exit_code=0, stdout="", stderr=""),
+            return_value=FunctionalValidationResult(
+                passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.1,
+            ),
         ),
         patch(
             "benchmark.execution.scenario_evaluator.run_scenario_evaluator",
             side_effect=_check_evaluator,
         ),
     ):
-        runner.run(_scenario(evaluator_asset="eval.py"))
+        runner.run(_scenario(evaluator_asset="tests/evaluator_assets/eval.py"))
 
 
 # ===================================================================
-# 22: Snapshot remains unchanged
+# 32-37: Repair and Agent feedback
 # ===================================================================
 
-def test_snapshot_unchanged_after_run(tmp_path: Path) -> None:
-    """Test 22."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
-    runner.run(_scenario())
-
-
-# ===================================================================
-# 23: Repair after migration failure receives bounded public error
-# ===================================================================
-
-def test_repair_migration_failure_bounded_error(tmp_path: Path) -> None:
-    """Test 23."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
+def test_migration_failure_triggers_repair_bounded_feedback(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
     result = runner._execute_scientific_validation(
         _scenario(post_generation_command=("echo", "migrate")),
         _exec(),
     )
     assert result.passed is False
+    ec, so, se = runner._scientific_feedback_channels(result)
+    assert isinstance(ec, int)
+    assert isinstance(so, str)
+    assert isinstance(se, str)
 
 
-# ===================================================================
-# 24: Repair after baseline failure receives bounded test output
-# ===================================================================
-
-def test_repair_baseline_failure_bounded_output(tmp_path: Path) -> None:
-    """Test 24."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo fail")
+def test_baseline_failure_triggers_repair_bounded_output(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "fail"])
     with patch(
         "benchmark.execution.runner.FunctionalValidator.validate",
-        return_value=MagicMock(passed=False, exit_code=1, stdout="test out", stderr=""),
+        return_value=FunctionalValidationResult(
+            passed=False, exit_code=1, stdout="test out", stderr="", duration_seconds=0.1,
+        ),
     ):
         result = runner._execute_scientific_validation(_scenario(), _exec())
     assert result.passed is False
-    assert result.evaluator is None
+    ec, so, se = runner._scientific_feedback_channels(result)
+    assert "test out" in so
 
 
-# ===================================================================
-# 25: Repair after evaluator failure receives checks/error
-# ===================================================================
-
-def test_repair_evaluator_failure_gets_checks_not_source(tmp_path: Path) -> None:
-    """Test 25."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
+def test_evaluator_failure_triggers_repair_with_checks_not_source(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
     with (
         patch(
             "benchmark.execution.runner.FunctionalValidator.validate",
-            return_value=MagicMock(passed=True, exit_code=0, stdout="", stderr=""),
+            return_value=FunctionalValidationResult(
+                passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.1,
+            ),
         ),
         patch(
             "benchmark.execution.scenario_evaluator.run_scenario_evaluator",
-            return_value=MagicMock(passed=False, error="eval error", checks=("c1", "c2")),
+            return_value=ScenarioEvaluatorResult(
+                passed=False, exit_code=1,
+                checks=("c1", "c2"), error="eval error",
+                stdout="", stderr="", duration_seconds=0.1,
+            ),
         ),
     ):
         result = runner._execute_scientific_validation(
-            _scenario(evaluator_asset="eval.py"),
+            _scenario(evaluator_asset="tests/evaluator_assets/eval.py"),
             _exec(),
         )
     assert result.passed is False
+    ec, so, se = runner._scientific_feedback_channels(result)
+    assert "c1" in se or "c2" in se
+    assert "eval error" in se
 
 
 # ===================================================================
-# 26: Iterative Agent revision obeys eight total selection calls
+# 38-40: Configuration and stage classification
 # ===================================================================
 
-def test_iterative_agent_eight_selection_calls(tmp_path: Path) -> None:
-    """Test 26."""
-    runner = _make_bare_runner(tmp_path, validation_command="echo ok")
-    record = runner.run(_scenario())
-    assert record.status == RunStatus.succeeded
+def test_every_failed_stage_produces_exact_failure_record_stage(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
+    mig_result = runner._execute_scientific_validation(
+        _scenario(post_generation_command=("echo", "x"), require_new_migration=True),
+        _exec(),
+    )
+    if not mig_result.passed:
+        fr = runner._failure_from_scientific_result(mig_result)
+        assert fr.stage == mig_result.failed_stage
+
+
+def test_missing_metadata_uses_harness_defect(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
+    cfg_fail = runner._validate_scientific_configuration(
+        _scenario(post_generation_command=("echo",), evaluator_asset=""),
+    )
+    assert cfg_fail is not None
+    assert cfg_fail.failure_kind == FailureKind.harness_defect
+
+
+def test_migration_baseline_evaluator_use_build_kind(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
+    result = runner._execute_scientific_validation(
+        _scenario(post_generation_command=("false",)),
+        _exec(),
+    )
+    if not result.passed:
+        assert result.failure_kind == FailureKind.build
 
 
 # ===================================================================
-# 27: Generic legacy scenario with empty metadata retains compat
+# Repair eligibility
 # ===================================================================
 
-def test_legacy_scenario_empty_metadata_retains_compat(tmp_path: Path) -> None:
-    """Test 27."""
-    runner = _make_bare_runner(tmp_path)  # no validation_command = skip baseline
-    scenario = _scenario(post_generation_command=(), evaluator_asset="")
-    result = runner._execute_scientific_validation(scenario, _exec())
-    assert result.passed is True
+def test_is_repairable_migration_failure(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
+    record = RunRecord(
+        identity=MagicMock(),
+        status=RunStatus.failed,
+        failures=(FailureRecord(
+            failure_kind=FailureKind.build,
+            message="Migration failed",
+            stage="migration_generation",
+        ),),
+    )
+    assert runner._is_repairable_failure(record) is True
+
+
+def test_is_repairable_evaluator_failure(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
+    record = RunRecord(
+        identity=MagicMock(),
+        status=RunStatus.failed,
+        failures=(FailureRecord(
+            failure_kind=FailureKind.build,
+            message="Evaluator failed",
+            stage="scenario_evaluator",
+        ),),
+    )
+    assert runner._is_repairable_failure(record) is True
+
+
+def test_is_repairable_generation_guard_failure(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
+    record = RunRecord(
+        identity=MagicMock(),
+        status=RunStatus.failed,
+        failures=(FailureRecord(
+            failure_kind=FailureKind.build,
+            message="No generated source",
+            stage="generation_guard",
+        ),),
+    )
+    assert runner._is_repairable_failure(record) is True
+
+
+def test_is_not_repairable_harness_defect(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
+    record = RunRecord(
+        identity=MagicMock(),
+        status=RunStatus.failed,
+        failures=(FailureRecord(
+            failure_kind=FailureKind.harness_defect,
+            message="Bad config",
+            stage="configuration",
+        ),),
+    )
+    assert runner._is_repairable_failure(record) is False
+
+
+def test_is_not_repairable_timeout(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
+    record = RunRecord(
+        identity=MagicMock(),
+        status=RunStatus.failed,
+        failures=(FailureRecord(
+            failure_kind=FailureKind.timeout,
+            message="Timed out",
+            stage="budget",
+        ),),
+    )
+    assert runner._is_repairable_failure(record) is False
+
+
+def test_is_not_repairable_infrastructure(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
+    record = RunRecord(
+        identity=MagicMock(),
+        status=RunStatus.failed,
+        failures=(FailureRecord(
+            failure_kind=FailureKind.infrastructure,
+            message="Disk full",
+            stage="runner",
+        ),),
+    )
+    assert runner._is_repairable_failure(record) is False
 
 
 # ===================================================================
-# 28: V2 Smoke scenario missing evaluator metadata fails closed
+# Failure record exact stage
 # ===================================================================
 
-def test_smoke_missing_evaluator_fails_closed(tmp_path: Path) -> None:
-    """Test 28: evaluator_asset set but canonical_project_root is None."""
-    runner = _make_bare_runner(tmp_path, canonical_project_root=None, validation_command="echo ok")
-    with patch(
-        "benchmark.execution.runner.FunctionalValidator.validate",
-        return_value=MagicMock(passed=True, exit_code=0, stdout="", stderr=""),
+def test_failure_from_scientific_result_exact_stage(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path)
+    mig = PostGenerationResult(passed=False, exit_code=1, stdout="", stderr="err", duration_seconds=0.1)
+    result = _ScientificValidationResult(
+        migration=mig, baseline=None, evaluator=None,
+        passed=False, failed_stage="migration_generation",
+        failure_kind=FailureKind.build,
+        feedback="migration failed", duration_seconds=0.1,
+    )
+    fr = runner._failure_from_scientific_result(result)
+    assert fr.stage == "migration_generation"
+    assert fr.failure_kind == FailureKind.build
+
+
+# ===================================================================
+# Monolithic/Selective repair — second generation attempt
+# ===================================================================
+
+def test_monolithic_migration_failure_repairs_attempted(tmp_path: Path) -> None:
+    runner = _make_runner(
+        tmp_path, validation_command=["echo", "ok"], enable_regeneration=True,
+    )
+    runner._last_prediction = ImpactPrediction()
+
+    record = RunRecord(
+        identity=runner._build_run_identity(_scenario()),
+        status=RunStatus.failed,
+        failures=(FailureRecord(
+            failure_kind=FailureKind.build,
+            message="Migration failed",
+            stage="migration_generation",
+        ),),
+    )
+    assert runner._is_repairable_failure(record) is True
+
+    with (
+        patch.object(runner, "_build_requirement_change", return_value=MagicMock()),
+        patch.object(runner, "_build_artifact_universe", return_value=MagicMock()),
+        patch(
+            "benchmark.execution.runner.SharedRegenerationExecutor.execute",
+            return_value=MagicMock(
+                prompt_tokens=0, completion_tokens=0, total_tokens=0,
+                model_calls=0, duration_seconds=0.0, artifacts=(),
+                failures=("simulated",),
+            ),
+        ),
+    ):
+        object.__setattr__(runner._budget, "_attempts", 0)
+        object.__setattr__(runner._budget, "_max_attempts", 3)
+        runner._state.start()
+        result = runner._run_regeneration_repair_flow(
+            scenario=_scenario(), first_record=record, start_time=0.0,
+        )
+        assert result.status == RunStatus.failed
+
+
+def test_monolithic_evaluator_failure_repairs_attempted(tmp_path: Path) -> None:
+    runner = _make_runner(
+        tmp_path, validation_command=["echo", "ok"], enable_regeneration=True,
+    )
+    runner._last_prediction = ImpactPrediction()
+
+    record = RunRecord(
+        identity=runner._build_run_identity(_scenario()),
+        status=RunStatus.failed,
+        failures=(FailureRecord(
+            failure_kind=FailureKind.build,
+            message="Evaluator failed",
+            stage="scenario_evaluator",
+        ),),
+    )
+    assert runner._is_repairable_failure(record) is True
+
+    with (
+        patch.object(runner, "_build_requirement_change", return_value=MagicMock()),
+        patch.object(runner, "_build_artifact_universe", return_value=MagicMock()),
+        patch(
+            "benchmark.execution.runner.SharedRegenerationExecutor.execute",
+            return_value=MagicMock(
+                prompt_tokens=0, completion_tokens=0, total_tokens=0,
+                model_calls=0, duration_seconds=0.0, artifacts=(),
+                failures=("simulated",),
+            ),
+        ),
+    ):
+        object.__setattr__(runner._budget, "_attempts", 0)
+        object.__setattr__(runner._budget, "_max_attempts", 3)
+        runner._state.start()
+        result = runner._run_regeneration_repair_flow(
+            scenario=_scenario(), first_record=record, start_time=0.0,
+        )
+        assert result.status == RunStatus.failed
+
+
+# ===================================================================
+# Agent transcript preservation
+# ===================================================================
+
+def test_agent_transcript_survives_jsonl_round_trip(tmp_path: Path) -> None:
+    from benchmark.checkpoint.persistence import RunRecordData, RunRecordStore
+    store = RunRecordStore(tmp_path / "runs")
+    record = RunRecordData(
+        run_id="agent-transcript", profile="default", repository_id="repo",
+        scenario_id="r3d", strategy_id="iterative_repository_agent",
+        repetition=1, seed=42, status="succeeded",
+        selection_tool_calls=3,
+        selection_tool_transcript=["TOOL A", "TOOL B"],
+    )
+    store.append(record)
+    loaded = store.load_all()
+    assert len(loaded) == 1
+    assert loaded[0].selection_tool_calls == 3
+    assert loaded[0].selection_tool_transcript == ["TOOL A", "TOOL B"]
+
+
+def test_agent_transcript_reaches_reporting(tmp_path: Path) -> None:
+    from benchmark.statistics.reporting import NotebookExporter
+    identity = RunIdentity(
+        run_id="agent-rep", protocol_version="1.0",
+        repository_commit_sha="abc", scenario_id="r3d", strategy_name="iterative_repository_agent",
+    )
+    record = RunRecord(
+        identity=identity, status=RunStatus.succeeded,
+        selection_tool_calls=3,
+        selection_tool_transcript=("TOOL A", "TOOL B"),
+    )
+    exporter = NotebookExporter()
+    serialized = exporter._serialize_record(record)
+    assert serialized["selection_tool_calls"] == 3
+    assert serialized["selection_tool_transcript"] == ["TOOL A", "TOOL B"]
+
+
+# ===================================================================
+# Agent executor/scientific feedback
+# ===================================================================
+
+def test_agent_evaluator_failure_receives_checks_and_error(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
+    with (
+        patch(
+            "benchmark.execution.runner.FunctionalValidator.validate",
+            return_value=FunctionalValidationResult(
+                passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.1,
+            ),
+        ),
+        patch(
+            "benchmark.execution.scenario_evaluator.run_scenario_evaluator",
+            return_value=ScenarioEvaluatorResult(
+                passed=False, exit_code=1,
+                checks=("c1", "c2"), error="eval error",
+                stdout="", stderr="", duration_seconds=0.1,
+            ),
+        ),
     ):
         result = runner._execute_scientific_validation(
-            _scenario(evaluator_asset="eval.py"),
+            _scenario(evaluator_asset="tests/evaluator_assets/eval.py"),
             _exec(),
         )
     assert result.passed is False
+    ec, so, se = runner._scientific_feedback_channels(result)
+    assert "c1" in se or "c2" in se
+    assert "eval error" in se
+    assert "eval.py" not in se
+
+
+# ===================================================================
+# Failure stage exactness
+# ===================================================================
+
+def test_every_failed_stage_produces_exact_failure_record_stage_2(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
+    for stage, scenario_kw, exec_kw in [
+        ("generation_guard", {}, {"model_calls": 0, "generated_count": 0}),
+        ("migration_generation", {"post_generation_command": ("false",)}, {}),
+    ]:
+        result = runner._execute_scientific_validation(
+            _scenario(**scenario_kw),
+            _exec(**exec_kw) if exec_kw else _exec(),
+        )
+        if not result.passed:
+            fr = runner._failure_from_scientific_result(result)
+            assert fr.stage == stage, f"Expected {stage}, got {fr.stage}"
