@@ -446,7 +446,14 @@ class TestEmptySelectiveScope:
         assert record.regenerated_artifact_count == 0
         assert record.regeneration_model_calls == 0
         assert record.selected_artifact_count == 0
-        assert record.status == RunStatus.succeeded
+        assert record.status == RunStatus.failed
+        has_guard_msg = any(
+            "no model calls" in f.message.lower()
+            or "generation guard" in f.message.lower()
+            or "scientific" in f.stage
+            for f in record.failures
+        )
+        assert has_guard_msg
 
     def test_empty_selective_scope_preserves_workspace(self, tmp_path: Path) -> None:
         artifacts = (

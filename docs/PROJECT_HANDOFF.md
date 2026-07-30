@@ -158,7 +158,7 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 | R3A — scenario execution metadata | COMPLETE | evaluator_asset, post_generation_command, require_new_migration |
 | R3B — deterministic post-generation migration runner | ACCEPTED AND FROZEN at feb5a44 | Two final corrections applied: (1) lexical directory symlink rejected before resolve instead of after, (2) valid ordinary created numbered paths preserved as partial evidence when after-state untrusted; 109 focused tests + 12 symlink skipped (121 total), 1424 full suite |
 | R3C — isolated scenario evaluator runner and three evaluator scripts | COMPLETE | Functional behavior independently accepted at 47e1a05 by GPT-5.6 Thinking; lint closure at 7abec68 (5 ruff violations fixed); final freeze confirmation pending this documentation audit |
-| R3D — production Runner validation wiring | BLOCKED | Pending R3C final freeze confirmation; RF-2 scheduled immediately after R3D |
+| R3D — production Runner validation wiring | COMPLETE (code) pending audit | 28 R3D tests (27 pass, 1 skip), 1424 full test suite pass, Ruff/mypy clean; RF-2 pending |
 | RF-3 — token/metric refactor | SCHEDULED after R4 | After R4 self-gates |
 | RF-4 — full technical debt cleanup | SCHEDULED after R5 | After R5 nine records |
 | **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R3–R6 complete |

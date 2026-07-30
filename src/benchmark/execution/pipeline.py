@@ -26,6 +26,8 @@ class PipelineConfig:
     editable_artifact_paths: tuple[str, ...] = ()
     max_completion_tokens_per_call: int = 4096
     max_total_workflow_tokens: int = 0
+    canonical_project_root: str | Path | None = None
+    python_executable: str = ""
     extra: dict[str, Any] = field(default_factory=dict)
 
 
@@ -111,10 +113,12 @@ class BenchmarkPipeline:
             editable_artifact_paths=self._config.editable_artifact_paths,
             max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
             max_total_workflow_tokens=self._config.max_total_workflow_tokens,
+            canonical_project_root=self._config.canonical_project_root,
+            python_executable=self._config.python_executable,
         )
         return BenchmarkRunner(
             strategy=self._strategy,
-            backend=self._backend,
+            backend=self._backend,  # type: ignore[arg-type]
             isolation=self._isolation,
             config=runner_config,
         )
