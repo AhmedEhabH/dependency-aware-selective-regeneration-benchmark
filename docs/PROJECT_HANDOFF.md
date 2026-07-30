@@ -1,9 +1,9 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-**Handoff Date:** 2026-07-30
+**Handoff Date:** 2026-07-31
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R3D ROOT CORRECTION — branch experiment/three-arm-smoke-v2, code commit 9e28790 (scientific wiring contract), docs commit (this commit)
+**Handoff type:** R3D FINAL FREEZE CANDIDATE — branch experiment/three-arm-smoke-v2, final evidence commit 11f88f5 (close final R3D evidence gaps), audit required before freeze
 
 ---
 
@@ -74,10 +74,13 @@ project/
 - **R3B cross-platform-freeze-docs-checkpoint:** 8c588e6
 - **R3C functional-checkpoint:** 47e1a05 (test(validation): close R3C freeze evidence gaps) — independently accepted by GPT-5.6 Thinking
 - **R3C lint-closure-checkpoint:** 7abec68 (test(validation): close residual R3C lint debt)
-- **HEAD:** 7abec68
+- **R3D code-checkpoint:** 9e28790 (fix(validation): complete R3D scientific wiring contract)
+- **R3D final-evidence-checkpoint:** 11f88f5 (fix(validation): close final R3D evidence gaps)
+- **R3D docs-checkpoint:** e61eb9a (docs(state): record R3D completion pending audit)
+- **HEAD:** 11f88f5
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** 1424 passed, 32 skipped (60 focused evaluator unit, 51 focused evaluator integration, 9 skipped)
+- **Test suite:** 1478 passed, 32 skipped (54 R3D focused wiring tests, 86 integration, 0 failed)
 - **Lint:** ruff 0 violations
 - **Types:** mypy strict 0 errors
 - **Dependencies:** pip check clean
@@ -158,7 +161,7 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 | R3A — scenario execution metadata | COMPLETE | evaluator_asset, post_generation_command, require_new_migration |
 | R3B — deterministic post-generation migration runner | ACCEPTED AND FROZEN at feb5a44 | Two final corrections applied: (1) lexical directory symlink rejected before resolve instead of after, (2) valid ordinary created numbered paths preserved as partial evidence when after-state untrusted; 109 focused tests + 12 symlink skipped (121 total), 1424 full suite |
 | R3C — isolated scenario evaluator runner and three evaluator scripts | COMPLETE | Functional behavior independently accepted at 47e1a05 by GPT-5.6 Thinking; lint closure at 7abec68 (5 ruff violations fixed); final freeze confirmation pending this documentation audit |
-| R3D — production Runner validation wiring | ROOT CORRECTED — audit pending | 54 public-path tests (54 pass), 1478 full suite (32 skip, 0 fail), Ruff/mypy/compileall clean; RF-2 pending |
+| R3D — production Runner validation wiring | FINAL FREEZE CANDIDATE — independent audit required | 54 public-path tests (54 pass), 1478 full suite (32 skip, 0 fail), Ruff/mypy/compileall clean; evaluator stderr feedback closed in 11f88f5; RF-2 complete |
 | RF-3 — token/metric refactor | SCHEDULED after R4 | After R4 self-gates |
 | RF-4 — full technical debt cleanup | SCHEDULED after R5 | After R5 nine records |
 | **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R3–R6 complete |
@@ -186,7 +189,10 @@ R3B acceptance docs:         8c588e6
 R3B cross-platform freeze docs: 8c588e6
 R3C functional:              47e1a05 (test(validation): close R3C freeze evidence gaps)
 R3C lint-closure:            7abec68 (test(validation): close residual R3C lint debt)
-HEAD:                        7abec68
+R3D code:                    9e28790 (fix(validation): complete R3D scientific wiring contract)
+R3D docs:                    e61eb9a (docs(state): record R3D completion pending audit)
+R3D final evidence:          11f88f5 (fix(validation): close final R3D evidence gaps)
+HEAD:                        11f88f5
 Local/remote:         not yet pushed
 Working tree:         clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged)
@@ -310,12 +316,55 @@ python seven_arm_benchmark.py --dry-run
 
 ### Blocked
 
-- R3D: CORRECTION APPLIED — code committed (9e28790);獨立 audit pending
-- RF-2: part of R3D correction; completed code-side, pending audit pass
+- R3D: FINAL FREEZE CANDIDATE — code committed (11f88f5); independent audit pending
+- RF-2: part of R3D correction; complete
 - RF-3: scheduled after R4
 - RF-4: scheduled after R5
 - Kaggle/Pilot/merge/tag: BLOCKED
 
 ---
 
-**R3D_ROOT_CORRECTION_AUDIT_REQUIRED**
+## 15. R3D Status — Production Runner Validation Wiring
+
+**Status:** R3D FINAL FREEZE CANDIDATE — INDEPENDENT AUDIT REQUIRED
+**Code checkpoints:** `9e28790` (root correction), `11f88f5` (final evidence closure)
+**Date:** 2026-07-31
+
+### What was built
+
+- **`_validate_scientific_configuration`** — preflight check for canonical_project_root, python_executable, evaluator_asset, validation_command before any model call
+- **`_execute_scientific_validation`** — orchestrates post-generation migration, baseline validation, and scenario evaluator; returns `_ScientificValidationResult` with per-stage bounded outputs
+- **`_scientific_record_fields`** — maps validation result to RunRecord dict; gracefully handles None
+- **`_failure_from_scientific_result`** — converts failed result into FailureRecord with correct stage/kind
+- **`_scientific_feedback_channels`** — produces (exit_code, stdout, stderr) bounded at 1000 chars per channel; evaluator branch includes stderr + error + public check names
+- **`_is_repairable_failure`** — gating: migration, evaluator, and generation_guard are repairable; pre-flight/config failures are not
+- **RF-2 deduplication** — single enforcement point in `_validate_scientific_configuration`; pre-flight and late duplicate checks removed from seven_arm_benchmark.py and runner.py
+- **`selection_tool_transcript`** — preserved in both success/failure return paths and reporting serializer
+
+### RF-2 (Orchestration Deduplication)
+
+Single enforcement point: `_validate_scientific_configuration` in runner.py. Pre-flight `validation_command` check removed from `seven_arm_benchmark.py`. Duplicate late checks removed from `_run_regeneration_flow` and `_run_iterative_flow`.
+
+### Final evidence closure (11f88f5)
+
+- Evaluator stderr channel: constructed from `evaluator.stderr`, `evaluator.error`, and `checks`; bounded at 1000 chars; no evaluator source, Ground Truth, or hidden descriptions
+- 7 public-path tests replace 5 prior nominal tests: entry config, monolithic migration repair, selective evaluator repair, agent evaluator revision + transcript, feedback channel content, duration aggregation, record round-trip
+- Truthful Git-derived report at `reports/latest_phase_report.md` (2269 words)
+
+### Quality gates
+
+- Full suite: 1478 passed, 32 skipped, 0 failed
+- 54 focused R3D wiring tests (7 public-path, 18 private-helper, 7 persistence, 1 reporting)
+- Ruff: 0 errors on changed files
+- Mypy strict: 0 errors on changed production files
+- Compileall: all OK
+- Git tree: clean
+- Commit separation: code (9e28790) → docs (e61eb9a) → final evidence (11f88f5)
+
+### Blocked
+
+- R3D freeze: blocks R4 (truthful metrics), R5 (nine local records), R6 (bundle and push), Kaggle execution, Pilot
+
+---
+
+**R3D_FINAL_FREEZE_AUDIT_REQUIRED**
