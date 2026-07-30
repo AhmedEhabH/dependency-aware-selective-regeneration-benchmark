@@ -7,9 +7,11 @@ from typing import Any
 from unittest.mock import MagicMock, patch
 
 from benchmark.checkpoint.persistence import RunRecordData, RunRecordStore
-from benchmark.core.enums import BlastRadius, FailureKind, RunStatus
+from benchmark.core.enums import ActionKind, ArtifactType, BlastRadius, FailureKind, RunStatus
 from benchmark.core.models import (
+    ArtifactRef,
     FailureRecord,
+    ImpactDecision,
     ImpactPrediction,
     LLMResponse,
     RunIdentity,
@@ -127,11 +129,47 @@ def _exec(model_calls: int = 1, generated_count: int = 1) -> _FakeExecResult:
 # 1-6: Production entry and preflight
 # ===================================================================
 
-def test_real_entry_passes_canonical_root_and_python_exe(tmp_path: Path) -> None:
-    runner = _make_runner(tmp_path, validation_command=["echo", "ok"], enable_regeneration=True)
-    assert runner._config.canonical_project_root is not None
-    assert runner._config.python_executable
-    assert runner._config.python_executable.strip()
+def test_real_entry_builds_scientific_pipeline_config(tmp_path: Path) -> None:
+    import sys
+    from pathlib import Path
+
+    import seven_arm_benchmark
+    from benchmark.core.enums import RunStatus
+    captured_configs: list[Any] = []
+
+    class _CapturePipeline:
+        def __init__(self, **kw: Any) -> None:
+            captured_configs.append(kw.get("config"))
+        def run_scenario_by_id(self, scenario_id: str = "") -> RunRecord:
+            return RunRecord(
+                identity=RunIdentity(
+                    run_id="test", protocol_version="1.0",
+                    repository_commit_sha="abc", scenario_id=scenario_id,
+                    strategy_name="monolithic",
+                ),
+                status=RunStatus.succeeded,
+            )
+
+    with (
+        patch("benchmark.execution.pipeline.BenchmarkPipeline", _CapturePipeline),
+        patch("seven_arm_benchmark.make_strategy"),
+        patch("seven_arm_benchmark.make_isolation"),
+    ):
+        provider = MagicMock()
+        provider.get_scenario.return_value = MagicMock()
+        seven_arm_benchmark._run_single_scenario_strategy(
+            scenario_id="test", strategy_name="monolithic",
+            scenario_provider=provider, dry_run=False,
+            profile=MagicMock(), model_path=None,
+            protocol_version="1.0", max_attempts=3,
+            timeout_seconds=60, dep_graph=None,
+            workspace_dir=tmp_path / "ws",
+            validation_command=["echo", "ok"],
+            active_snapshot_root=tmp_path / "snap",
+        )
+    config = captured_configs[0]
+    assert config.canonical_project_root == Path(seven_arm_benchmark.__file__).resolve().parent
+    assert config.python_executable == sys.executable
 
 
 def test_missing_canonical_root_fails_before_strategy(tmp_path: Path) -> None:
@@ -679,38 +717,46 @@ def test_evaluator_metadata_never_reaches_strategy(tmp_path: Path) -> None:
         assert not any("eval" in str(c).lower() or "evaluator" in str(c).lower() for c in ac)
 
 
-def test_repair_validation_duration_sums_all_stages(tmp_path: Path) -> None:
+def test_repair_validation_duration_uses_complete_stage_sum(tmp_path: Path) -> None:
+    import pytest
     runner = _make_runner(tmp_path, validation_command=["echo", "ok"], enable_regeneration=True)
     record = RunRecord(
         identity=runner._build_run_identity(_scenario()),
         status=RunStatus.failed,
         failures=(FailureRecord(
             failure_kind=FailureKind.build,
-            message="Migration failed",
-            stage="migration_generation",
+            message="fail", stage="migration_generation",
         ),),
         migration_duration_seconds=0.3,
         baseline_validation_duration_seconds=0.2,
         scenario_evaluator_duration_seconds=0.1,
     )
-    from benchmark.execution.runner import _ScientificValidationResult
-    sci = _ScientificValidationResult(
+    sci_pass = _ScientificValidationResult(
         migration=None, baseline=None, evaluator=None,
-        passed=False, failed_stage="migration_generation",
-        failure_kind=FailureKind.build,
-        feedback="fail", duration_seconds=0.6,
+        passed=True, failed_stage=None, failure_kind=None,
+        feedback="", duration_seconds=0.4,
     )
-    runner._last_scientific_result = sci
-    with patch.object(runner, "_last_prediction", MagicMock()):
-        object.__setattr__(runner._budget, "_attempts", 0)
-        object.__setattr__(runner._budget, "_max_attempts", 3)
-        runner._state.start()
-        # Run repair flow (will fail again but should use summed duration)
+    runner._last_scientific_result = sci_pass
+    runner._last_prediction = ImpactPrediction()
+    object.__setattr__(runner._budget, "_attempts", 0)
+    object.__setattr__(runner._budget, "_max_attempts", 3)
+    runner._state.start()
+    with (
+        patch.object(runner, "_execute_scientific_validation", return_value=sci_pass),
+        patch(
+            "benchmark.execution.runner.SharedRegenerationExecutor.execute",
+            return_value=MagicMock(
+                prompt_tokens=0, completion_tokens=0, total_tokens=0,
+                model_calls=0, duration_seconds=0.0, artifacts=(),
+                failures=(),
+            ),
+        ),
+    ):
         result = runner._run_regeneration_repair_flow(
             scenario=_scenario(), first_record=record, start_time=0.0,
         )
-        # Total val_dur includes initial sum (0.3 + 0.2 + 0.1) + repair attempt duration
-        assert result.status == RunStatus.failed
+    expected_val_dur = 0.3 + 0.2 + 0.1 + 0.4
+    assert result.total_workflow_duration_seconds == pytest.approx(expected_val_dur, abs=0.01)
 
 
 def test_evaluator_asset_never_appears_in_workspace(tmp_path: Path) -> None:
@@ -796,6 +842,38 @@ def test_evaluator_failure_triggers_repair_with_checks_not_source(tmp_path: Path
     ec, so, se = runner._scientific_feedback_channels(result)
     assert "c1" in se or "c2" in se
     assert "eval error" in se
+
+
+def test_evaluator_feedback_includes_stdout_stderr_error_and_checks(tmp_path: Path) -> None:
+    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
+    with (
+        patch(
+            "benchmark.execution.runner.FunctionalValidator.validate",
+            return_value=FunctionalValidationResult(
+                passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.1,
+            ),
+        ),
+        patch(
+            "benchmark.execution.scenario_evaluator.run_scenario_evaluator",
+            return_value=ScenarioEvaluatorResult(
+                passed=False, exit_code=1,
+                checks=("task_priority_filter",), error="EVAL_BAD",
+                stdout="EVAL_OUT", stderr="EVAL_STDERR",
+                duration_seconds=0.1,
+            ),
+        ),
+    ):
+        result = runner._execute_scientific_validation(
+            _scenario(evaluator_asset="tests/evaluator_assets/eval.py"),
+            _exec(),
+        )
+    assert result.passed is False
+    ec, so, se = runner._scientific_feedback_channels(result)
+    assert "EVAL_OUT" in so
+    assert "EVAL_STDERR" in se
+    assert "EVAL_BAD" in se
+    assert "task_priority_filter" in se
+    assert "eval.py" not in se
 
 
 # ===================================================================
@@ -942,151 +1020,278 @@ def test_failure_from_scientific_result_exact_stage(tmp_path: Path) -> None:
 # Monolithic/Selective repair — second generation attempt
 # ===================================================================
 
-def test_monolithic_migration_failure_repairs_attempted(tmp_path: Path) -> None:
+def test_public_monolithic_migration_failure_repairs_to_success(tmp_path: Path) -> None:
     runner = _make_runner(
         tmp_path, validation_command=["echo", "ok"], enable_regeneration=True,
     )
-    runner._last_prediction = ImpactPrediction()
-
-    record = RunRecord(
-        identity=runner._build_run_identity(_scenario()),
-        status=RunStatus.failed,
-        failures=(FailureRecord(
-            failure_kind=FailureKind.build,
-            message="Migration failed",
-            stage="migration_generation",
-        ),),
+    fail_result = _ScientificValidationResult(
+        migration=PostGenerationResult(
+            passed=False, exit_code=1, stdout="", stderr="migration fail",
+            duration_seconds=0.1,
+        ),
+        baseline=None, evaluator=None,
+        passed=False, failed_stage="migration_generation",
+        failure_kind=FailureKind.build, feedback="Migration failed",
+        duration_seconds=0.1,
     )
-    assert runner._is_repairable_failure(record) is True
+    pass_result = _ScientificValidationResult(
+        migration=PostGenerationResult(
+            passed=True, exit_code=0, stdout="ok", stderr="",
+            duration_seconds=0.2, created_paths=("m.py",),
+        ),
+        baseline=FunctionalValidationResult(
+            passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.2,
+        ),
+        evaluator=ScenarioEvaluatorResult(
+            passed=True, exit_code=0, checks=("c1",), error="",
+            stdout="", stderr="", duration_seconds=0.3,
+        ),
+        passed=True, failed_stage=None, failure_kind=None,
+        feedback="", duration_seconds=0.7,
+    )
+    sci_calls: list[int] = []
+    def _sci_side(*a: Any, **kw: Any) -> _ScientificValidationResult:
+        sci_calls.append(1)
+        return fail_result if len(sci_calls) == 1 else pass_result
 
+    exec_ret = MagicMock(
+        prompt_tokens=10, completion_tokens=10, total_tokens=20,
+        model_calls=1, duration_seconds=0.5, artifacts=(),
+        failures=(),
+    )
     with (
-        patch.object(runner, "_build_requirement_change", return_value=MagicMock()),
-        patch.object(runner, "_build_artifact_universe", return_value=MagicMock()),
+        patch.object(runner, "_execute_scientific_validation", side_effect=_sci_side),
         patch(
             "benchmark.execution.runner.SharedRegenerationExecutor.execute",
-            return_value=MagicMock(
-                prompt_tokens=0, completion_tokens=0, total_tokens=0,
-                model_calls=0, duration_seconds=0.0, artifacts=(),
-                failures=("simulated",),
-            ),
+            return_value=exec_ret,
         ),
     ):
-        object.__setattr__(runner._budget, "_attempts", 0)
-        object.__setattr__(runner._budget, "_max_attempts", 3)
-        runner._state.start()
-        result = runner._run_regeneration_repair_flow(
-            scenario=_scenario(), first_record=record, start_time=0.0,
-        )
-        assert result.status == RunStatus.failed
+        record = runner.run(_scenario(
+            post_generation_command=("echo", "migrate"),
+            evaluator_asset="tests/evaluator_assets/eval.py",
+        ))
+    assert record.status == RunStatus.succeeded
+    assert len(sci_calls) == 2
 
 
-def test_monolithic_evaluator_failure_repairs_attempted(tmp_path: Path) -> None:
+def test_public_selective_evaluator_failure_repairs_to_success(tmp_path: Path) -> None:
     runner = _make_runner(
         tmp_path, validation_command=["echo", "ok"], enable_regeneration=True,
     )
-    runner._last_prediction = ImpactPrediction()
-
-    record = RunRecord(
-        identity=runner._build_run_identity(_scenario()),
-        status=RunStatus.failed,
-        failures=(FailureRecord(
-            failure_kind=FailureKind.build,
-            message="Evaluator failed",
-            stage="scenario_evaluator",
-        ),),
+    object.__setattr__(runner._config, "strategy_name", "selective")
+    fail_result = _ScientificValidationResult(
+        migration=PostGenerationResult(
+            passed=True, exit_code=0, stdout="", stderr="",
+            duration_seconds=0.1,
+        ),
+        baseline=FunctionalValidationResult(
+            passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.2,
+        ),
+        evaluator=ScenarioEvaluatorResult(
+            passed=False, exit_code=1, checks=("c1",), error="bad eval",
+            stdout="", stderr="", duration_seconds=0.1,
+        ),
+        passed=False, failed_stage="scenario_evaluator",
+        failure_kind=FailureKind.build, feedback="Evaluator failed",
+        duration_seconds=0.4,
     )
-    assert runner._is_repairable_failure(record) is True
+    pass_result = _ScientificValidationResult(
+        migration=PostGenerationResult(
+            passed=True, exit_code=0, stdout="", stderr="",
+            duration_seconds=0.1,
+        ),
+        baseline=FunctionalValidationResult(
+            passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.2,
+        ),
+        evaluator=ScenarioEvaluatorResult(
+            passed=True, exit_code=0, checks=("c1",), error="",
+            stdout="", stderr="", duration_seconds=0.3,
+        ),
+        passed=True, failed_stage=None, failure_kind=None,
+        feedback="", duration_seconds=0.6,
+    )
+    sci_calls_sel: list[int] = []
+    def _sci_side_sel(*a: Any, **kw: Any) -> _ScientificValidationResult:
+        sci_calls_sel.append(1)
+        return fail_result if len(sci_calls_sel) == 1 else pass_result
 
+    exec_ret_sel = MagicMock(
+        prompt_tokens=10, completion_tokens=10, total_tokens=20,
+        model_calls=1, duration_seconds=0.5, artifacts=(),
+        failures=(),
+    )
     with (
-        patch.object(runner, "_build_requirement_change", return_value=MagicMock()),
-        patch.object(runner, "_build_artifact_universe", return_value=MagicMock()),
+        patch.object(runner, "_execute_scientific_validation", side_effect=_sci_side_sel),
         patch(
             "benchmark.execution.runner.SharedRegenerationExecutor.execute",
-            return_value=MagicMock(
-                prompt_tokens=0, completion_tokens=0, total_tokens=0,
-                model_calls=0, duration_seconds=0.0, artifacts=(),
-                failures=("simulated",),
-            ),
+            return_value=exec_ret_sel,
         ),
     ):
-        object.__setattr__(runner._budget, "_attempts", 0)
-        object.__setattr__(runner._budget, "_max_attempts", 3)
-        runner._state.start()
-        result = runner._run_regeneration_repair_flow(
-            scenario=_scenario(), first_record=record, start_time=0.0,
-        )
-        assert result.status == RunStatus.failed
+        record = runner.run(_scenario(
+            post_generation_command=("echo", "migrate"),
+            evaluator_asset="tests/evaluator_assets/eval.py",
+        ))
+    assert record.status == RunStatus.succeeded
+    assert len(sci_calls_sel) == 2
 
 
 # ===================================================================
 # Agent transcript preservation
 # ===================================================================
 
-def test_agent_transcript_survives_jsonl_round_trip(tmp_path: Path) -> None:
-    from benchmark.checkpoint.persistence import RunRecordData, RunRecordStore
-    store = RunRecordStore(tmp_path / "runs")
-    record = RunRecordData(
-        run_id="agent-transcript", profile="default", repository_id="repo",
-        scenario_id="r3d", strategy_id="iterative_repository_agent",
-        repetition=1, seed=42, status="succeeded",
-        selection_tool_calls=3,
-        selection_tool_transcript=["TOOL A", "TOOL B"],
+def test_agent_record_round_trip_preserves_complete_evidence(tmp_path: Path) -> None:
+    import seven_arm_benchmark
+    from benchmark.checkpoint.persistence import RunRecordStore
+    from benchmark.statistics.reporting import NotebookExporter
+    record_dict: dict[str, Any] = {
+        "run_id": "agent-roundtrip",
+        "scenario_id": "r3d",
+        "strategy_name": "iterative_repository_agent",
+        "status": "succeeded",
+        "duration_seconds": 1.0,
+        "token_usage": {"prompt": 10, "completion": 10, "total": 20},
+        "selection_tool_calls": 3,
+        "selection_tool_duration_seconds": 1.5,
+        "selection_inspected_file_count": 7,
+        "selection_tool_transcript": ["TOOL A", "TOOL B"],
+        "migration_generation_passed": True,
+        "generated_migration_paths": ["m.py"],
+        "baseline_validation_passed": True,
+        "scenario_evaluator_passed": True,
+        "scenario_evaluator_checks": ["task_priority_filter"],
+    }
+    data = seven_arm_benchmark._to_run_record_data(
+        record_dict, run_id="agent-roundtrip", profile="default",
+        repository_id="repo", scenario_id="r3d",
+        strategy_id="iterative_repository_agent", repetition=1,
+        model_identity="test", dry_run=False, protocol_version="1.0",
+        source_commit="abc", config_hash="hash",
+        started_at="2024-01-01", ended_at="2024-01-01",
+        hw_id="cpu", sw_id="python3", max_attempts=3,
     )
-    store.append(record)
+    assert data.selection_tool_calls == 3
+    assert data.selection_tool_transcript == ["TOOL A", "TOOL B"]
+    assert data.migration_generation_passed is True
+    assert data.scenario_evaluator_passed is True
+    assert data.scenario_evaluator_checks == ["task_priority_filter"]
+    store = RunRecordStore(tmp_path / "runs")
+    store.append(data)
     loaded = store.load_all()
     assert len(loaded) == 1
     assert loaded[0].selection_tool_calls == 3
     assert loaded[0].selection_tool_transcript == ["TOOL A", "TOOL B"]
-
-
-def test_agent_transcript_reaches_reporting(tmp_path: Path) -> None:
-    from benchmark.statistics.reporting import NotebookExporter
+    assert loaded[0].migration_generation_passed is True
     identity = RunIdentity(
-        run_id="agent-rep", protocol_version="1.0",
-        repository_commit_sha="abc", scenario_id="r3d", strategy_name="iterative_repository_agent",
+        run_id="agent-roundtrip", protocol_version="1.0",
+        repository_commit_sha="abc", scenario_id="r3d",
+        strategy_name="iterative_repository_agent",
     )
-    record = RunRecord(
+    run_record = RunRecord(
         identity=identity, status=RunStatus.succeeded,
         selection_tool_calls=3,
         selection_tool_transcript=("TOOL A", "TOOL B"),
+        migration_generation_passed=True,
+        scenario_evaluator_passed=True,
+        scenario_evaluator_checks=("task_priority_filter",),
     )
     exporter = NotebookExporter()
-    serialized = exporter._serialize_record(record)
+    serialized = exporter._serialize_record(run_record)
     assert serialized["selection_tool_calls"] == 3
     assert serialized["selection_tool_transcript"] == ["TOOL A", "TOOL B"]
+    assert serialized["scenario_evaluator_checks"] == ["task_priority_filter"]
 
 
 # ===================================================================
 # Agent executor/scientific feedback
 # ===================================================================
 
-def test_agent_evaluator_failure_receives_checks_and_error(tmp_path: Path) -> None:
-    runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
-    with (
-        patch(
-            "benchmark.execution.runner.FunctionalValidator.validate",
-            return_value=FunctionalValidationResult(
-                passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.1,
+def test_public_agent_evaluator_failure_revises_and_preserves_transcript(tmp_path: Path) -> None:
+    strategy = _FakeStrategy()
+    strategy.begin_run = MagicMock()
+    strategy.last_requires_iteration = True
+    object.__setattr__(strategy, "compact_tool_transcript", ())
+    runner = _make_runner(
+        tmp_path, validation_command=["echo", "ok"], enable_regeneration=True,
+        strategy=strategy,
+    )
+    object.__setattr__(runner._config, "strategy_name", "iterative_repository_agent")
+    pred_with_decisions = ImpactPrediction(
+        decisions=(
+            ImpactDecision(
+                artifact=ArtifactRef(path="dummy.py", artifact_type=ArtifactType.source),
+                action=ActionKind.regenerate,
             ),
         ),
+    )
+    fail_result = _ScientificValidationResult(
+        migration=PostGenerationResult(
+            passed=True, exit_code=0, stdout="", stderr="",
+            duration_seconds=0.1,
+        ),
+        baseline=FunctionalValidationResult(
+            passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.2,
+        ),
+        evaluator=ScenarioEvaluatorResult(
+            passed=False, exit_code=1,
+            checks=("task_priority_filter",), error="EVAL_BAD",
+            stdout="EVAL_OUT", stderr="EVAL_STDERR",
+            duration_seconds=0.1,
+        ),
+        passed=False, failed_stage="scenario_evaluator",
+        failure_kind=FailureKind.build,
+        feedback="Agent evaluator failed", duration_seconds=0.4,
+    )
+    pass_result = _ScientificValidationResult(
+        migration=PostGenerationResult(
+            passed=True, exit_code=0, stdout="", stderr="",
+            duration_seconds=0.1,
+        ),
+        baseline=FunctionalValidationResult(
+            passed=True, exit_code=0, stdout="", stderr="", duration_seconds=0.2,
+        ),
+        evaluator=ScenarioEvaluatorResult(
+            passed=True, exit_code=0, checks=("task_priority_filter",), error="",
+            stdout="", stderr="", duration_seconds=0.3,
+        ),
+        passed=True, failed_stage=None, failure_kind=None,
+        feedback="", duration_seconds=0.6,
+    )
+    sci_calls_ag: list[int] = []
+    def _sci_side_ag(*a: Any, **kw: Any) -> _ScientificValidationResult:
+        sci_calls_ag.append(1)
+        result = fail_result if len(sci_calls_ag) == 1 else pass_result
+        runner._last_scientific_result = result
+        return result
+    exec_ret_ag = MagicMock(
+        prompt_tokens=10, completion_tokens=10, total_tokens=20,
+        model_calls=1, duration_seconds=0.5, artifacts=(),
+        failures=(),
+    )
+    mock_revise = MagicMock(return_value=pred_with_decisions)
+    strategy.analyze_impact = MagicMock(return_value=pred_with_decisions)
+    strategy.revise_plan = mock_revise
+    with (
+        patch.object(runner, "_execute_scientific_validation", side_effect=_sci_side_ag),
         patch(
-            "benchmark.execution.scenario_evaluator.run_scenario_evaluator",
-            return_value=ScenarioEvaluatorResult(
-                passed=False, exit_code=1,
-                checks=("c1", "c2"), error="eval error",
-                stdout="", stderr="", duration_seconds=0.1,
-            ),
+            "benchmark.execution.runner.SharedRegenerationExecutor.execute",
+            return_value=exec_ret_ag,
         ),
     ):
-        result = runner._execute_scientific_validation(
-            _scenario(evaluator_asset="tests/evaluator_assets/eval.py"),
-            _exec(),
-        )
-    assert result.passed is False
-    ec, so, se = runner._scientific_feedback_channels(result)
-    assert "c1" in se or "c2" in se
-    assert "eval error" in se
-    assert "eval.py" not in se
+        record = runner.run(_scenario(
+            post_generation_command=("echo", "migrate"),
+            evaluator_asset="tests/evaluator_assets/eval.py",
+        ))
+    assert record.status == RunStatus.succeeded
+    mock_revise.assert_called_once()
+    se_val = str(mock_revise.call_args[1].get("val_stderr", ""))
+    assert "EVAL_STDERR" in se_val
+    assert "EVAL_BAD" in se_val
+    assert "task_priority_filter" in se_val
+    assert "eval.py" not in se_val
+    assert "EVAL_OUT" in str(mock_revise.call_args[1].get("val_stdout", ""))
+    assert record.selection_tool_transcript == ()
+    assert record.scenario_evaluator_passed is True
+    assert "task_priority_filter" in (record.scenario_evaluator_checks or ())
 
 
 # ===================================================================
