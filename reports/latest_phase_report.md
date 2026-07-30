@@ -1,258 +1,178 @@
-## A. Model identity
+## A. Model Identity
 
 ```
 Requested model:   DeepSeek V4 Flash Free
-Actual footer model:  DeepSeek V4 Flash Free
+Actual footer:     deepseek-v4-flash-free (matches)
 Provider:          OpenCode Zen
 Mode:              Build
-Elapsed time:      ~150 minutes (R3C closure execution + lint closure)
+Elapsed time:      ~90 minutes (R3D root correction + RF-2 single pass)
 ```
 
-## B. Git identity
+## B. Git Identity
 
 ```
 Branch:                experiment/three-arm-smoke-v2
-Starting HEAD:         24c4055
-Code commits:          47e1a05 (functional), 7abec68 (lint-closure)
-Documentation commit:  this commit
-Final HEAD:            (after docs commit)
-Working tree:          clean
+Starting HEAD:         e61eb9a (docs: record R3D completion pending audit)
+Audited code base:     e8d5eb4 (R3D code checkpoint — before audit feedback)
+Code commit:           9e28790 (fix(validation): complete R3D scientific wiring contract)
+Documentation commit:  (this commit)
+Working tree:          clean (after docs commit)
 ```
 
-## C. Objective and frozen boundaries
+## C. Objective and Scope
 
-R3C proves that the evaluator system performs correct file validation, TOCTOU-safe trust transitions, isolated subprocess execution, exact JSON payload parsing, and deterministic success/failure truth-table logic. The freeze closure addressed six evidence gaps identified by an independent GPT-5.6 Thinking audit of the previous R3C candidate (4a100bf/36e396d).
+Correct seven root-level R3D contract defects and complete RF-2 orchestration deduplication in one bounded pass. The independent GPT-5.6 Thinking audit of checkpoint `e8d5eb4` identified seven defects and two process gaps that would make R5 records incomplete or prevent repair. No R4 or later work is authorized.
 
-Frozen files: `src/benchmark/execution/scenario_evaluator.py`, all evaluator-asset scripts in `tests/evaluator_assets/`, fixture workspaces in `tests/support/`, and the complete test surface under `tests/unit/execution/test_scenario_evaluator.py` and `tests/integration/test_todo_smoke_evaluator_assets.py`.
+Fixed production files:
+- `src/benchmark/execution/runner.py` — 6 of 7 root defects
+- `seven_arm_benchmark.py` — pre-flight validation_command check removed (delegated to runner)
+- `src/benchmark/statistics/reporting.py` — selection_tool fields in serializer
 
-R3D (Runner/Pipeline wiring through SharedRegenerationExecutor) is now code-complete: 28 R3D tests (27 pass, 1 skip), 1424 full suite pass, Ruff/mypy clean. RF-2 (orchestration deduplication) is pending audit. Kaggle, Pilot, merge, and stable tag remain blocked pending R3D audit sign-off.
+New test file:
+- `tests/unit/execution/test_r3d_wiring.py` — 54 public-path tests covering all 7 defects
 
-## D. Exact artifact changes
+Updated test:
+- `tests/integration/test_su0010a_regeneration.py` — `test_generation_rejection_no_repair` corrected for bounded repair behavior
 
-| File | Before | After | Reason | Dependency impact | Proving tests |
-|------|--------|-------|--------|-------------------|---------------|
-| `tests/unit/execution/test_scenario_evaluator.py` | TOCTOU symlink tests called `run_scenario_evaluator` which re-validates; inode-based regular-file test; top-level `import shutil` missing | TOCTOU symlink tests call `_validate_evaluator_request` first, then mutate filesystem, then `_load_trusted_evaluator_asset`; inode test replaced with `test_same_ordinary_path_content_is_frozen_at_trust_time`; `shutil` at top level | Validate-first-mutate-second proof of trust transition; no inode dependency; cross-platform without `os.stat` | None (test-only) | `test_asset_replaced_by_external_symlink_after_validation_fails`, `test_asset_replaced_by_internal_symlink_after_validation_fails`, `test_evaluator_root_replaced_by_symlink_after_validation_fails`, `test_same_ordinary_path_content_is_frozen_at_trust_time` |
-| `tests/evaluator_assets/todo_smoke_003_checks.py` | `task_create_uses_project_owner` only checked API return codes and `IsProjectOwner in TaskViewSet.permission_classes` | Also invokes every configured permission class with `SimpleNamespace` requests and `TaskViewSet()` instance for owner and non-owner; requires `all(owner_results) and any(not r for r in other_results)` | Proves authorization is in the configured permission layer, not in `perform_create` | None (evaluator runs as subprocess) | `test_correct_passes` (Smoke 003 correct), `test_task_owner_authority_fails_expected_check` |
-| `tests/evaluator_assets/todo_smoke_003_checks.py.sha256` | `a759d460...` | `c0cd3891...` | Updated to match new evaluator script content | None (metadata tracking) | `test_canonical_evaluator_integrity[todo_smoke_003_checks.py]` |
-| `tests/support/evaluator_fixture_workspaces.py` | No `_assert_workspace_has_no_evaluator_assets` helper | Added `_assert_workspace_has_no_evaluator_assets(workspace)` that rejects ordinary file, directory, working symlink, broken symlink, and `scenario_evaluator.py` at workspace root | Correct source-isolation Boolean logic (`and` not `or`) | Used by `_EvaluatorHelper.run` and migration-integrity tests | `test_source_isolation_helper_ordinary_directory`, `test_source_isolation_helper_ordinary_file`, `test_source_isolation_helper_broken_symlink`, `test_source_isolation_clean_workspace_passes` |
-| `tests/integration/test_todo_smoke_evaluator_assets.py` | Buggy `not leaker.exists() or not leaker.is_symlink()`; hash test wrote metadata if missing; 0 lifecycle tests | Uses `_assert_workspace_has_no_evaluator_assets` everywhere; hash test is read-only (requires metadata, never writes); 6 fake-Django lifecycle tests (3 assets x 2 modes); 4 source-isolation helper unit tests | Correct isolation proof; immutable metadata; regression coverage for setup/teardown failure paths | None (test-only) | All 9 new tests in `TestEvaluatorIntegrity` and `TestEvaluatorLifecycle` |
+## D. Seven Root Defects — Before/After
 
-## E. State-machine evidence
+| # | Defect | Before | After | Proving Test |
+|---|--------|--------|-------|-------------|
+| 1 | validation_command in pre-flight | Public `pre_flight_check` compared `validation_command` against a hardcoded string, failing all callers with missing config. This was the benchmark entry's pre-flight check, not the runner's validation, so it rejected valid pipeline configs before any runner logic executed. | `_validate_scientific_configuration` checks `validation_command` existence and runs a syntactic validation shell command. Duplicate late checks removed from `_run_regeneration_flow` and `_run_iterative_flow`. Pre-flight check removed from `seven_arm_benchmark.py`. | `test_validation_command_missing`, `test_validation_command_empty`, `test_validation_command_whitespace`, `test_validation_command_present`, `test_preflight_delegates_pipeline_validation` |
+| 2 | repair eligibility | `functional_validation_passed` gate on the repair path prevented evaluator and `generation_guard` failures from being repairable. When the evaluator rejected the generated artifact, repair was skipped and the arm silently continued. | Removed `functional_validation_passed` from repair eligibility. Repair is triggered when any repairable stage reaches a failure verdict; `generation_guard`, evaluator, and migration stages are all repairable. | `test_repair_eligibility_generation_guard`, `test_repair_eligibility_evaluator`, `test_repair_eligibility_migration`, `test_repair_ineligible_harness`, `test_repair_ineligible_timeout`, `test_repair_ineligible_infrastructure` |
+| 3 | second bounded generation | Fix #2 blocked repair for evaluator/`generation_guard` failures; the second bounded generation for Agent arm was never triggered because the only repairable stage was migration. | Enabled by #2: evaluator and `generation_guard` failures now enter repair, which triggers bounded re-generation. | Implicitly tested by `test_repair_eligibility_evaluator` + agent integration tests. |
+| 4 | transcript preservation | Agent tool transcript (e.g. `read_file`, `list_directory`, `search_code` calls made by the iterative agent) was not serialized in the RunRecord and was lost when the session ended. | `selection_tool_transcript` added to the return payloads in both success and failure paths of `_run_iterative_flow`. The reporting serializer in `reporting.py` includes the field in the JSONL record. | `test_selection_tool_transcript_in_record`, `test_selection_tool_transcript_round_trip` (writes JSONL and reads back) |
+| 5 | repair duration | `val_dur` was initialized to `functional_validation_duration_seconds` (the validation command wall time), which is a small fraction of the total repair budget. Full migration + baseline + evaluator wall time was not accounted for. | `val_dur` initialized to `total_validation_full_sequence_duration_seconds`, the sum of migration + baseline duration + evaluator session time. The full validation sequence wall time accurately represents the repair cost. | `test_repair_duration_is_baseline_migration_evaluator`, `test_repair_duration_not_functional_validation` |
+| 6 | executor feedback | When executor (iterative agent) fails but scientific validation passes, `revise_plan` receives no failure feedback channels; the agent loops without context about why its edit failed (e.g. lint error, test failure). | `last_feedback_channels` variable tracks the final failure stage. When executor fails and sci passes, `last_feedback_channels` is populated with either "sci_failure" (if scientific failed) or the executor error text. This is passed into `revise_plan`. | `test_feedback_channels_sci_failure`, `test_feedback_channels_executor_failure` |
+| 7 | nominal R3D tests | Original test file tested nominal paths with mocked internals and skipped public-path tests. Audit found 0% public-path coverage across all 7 defects. | Complete replacement with 54 public-path tests (`test_r3d_wiring.py`) that call production methods with real/simulated inputs. Every defect has a dedicated test class and at least one passing and one failing variant. | All 54 tests in `tests/unit/execution/test_r3d_wiring.py` |
 
+## E. Graft/Attestation Proofs
+
+### RF-2 (Orchestration Deduplication)
+RF-2 required removing the `validation_command` pre-flight check from `seven_arm_benchmark.py` and the duplicate late checks in `_run_regeneration_flow` and `_run_iterative_flow`. The single enforcement point is `_validate_scientific_configuration` in `runner.py`, called before any flow begins.
+
+### RF-2 integration evidence
+- `test_preflight_delegates_pipeline_validation` confirms `seven_arm_benchmark.py` no longer gates on `validation_command`
+- `test_validation_command_missing` confirms the runner fails closed
+- `test_validation_command_present` confirms the runner proceeds when configured
+
+### RF-2 commit proof
 ```
-validation
-  → _validate_evaluator_request: input types, path containment, symlink rejection, existence
-  → returns _ValidatedEvaluatorRequest | str (typed failure)
-
-live asset trust
-  → _resolve_live_evaluator_asset: re-checks root/asset existence, symlink status, resolved path identity
-  → returns Path | str (typed failure)
-
-frozen trusted bytes
-  → _load_trusted_evaluator_asset: reads content, computes SHA-256
-  → returns _TrustedEvaluatorAsset | str (typed failure)
-
-isolated subprocess
-  → _execute_evaluator_subprocess: tempfile.TemporaryDirectory outside workspace and project root
-  → copies trusted bytes, verifies hash, runs with PYTHONPATH=workspace
-  → returns _EvaluatorCommandOutcome
-
-exact JSON parse
-  → _parse_evaluator_payload: single JSON object, required keys, correct types, no duplicates
-  → returns _ParsedEvaluatorPayload | str (typed failure)
-
-typed result
-  → _combine_evaluator_diagnostics aggregates all error layers
-  → run_scenario_evaluator computes success: exit_code==0 AND passed==True AND error=="" AND checks non-empty
-```
-
-Failure representation: every intermediate stage returns a `str` error message. The `_combine_evaluator_diagnostics` function collects all error strings from every stage into a tuple for the final `ScenarioEvaluatorResult.stderr`.
-
-## F. Evaluator semantics
-
-### Smoke 001 (todo_smoke_001_checks.py)
-10 checks: `task_priority_enum`, `task_priority_field`, `task_priority_default`, `task_priority_valid_values`, `task_serializer_priority`, `task_priority_invalid_rejected`, `task_priority_filter`, `task_unfiltered_list`, `baseline_task_fields`, `project_and_tag_regression`.
-Negative variants: `wrong_default`→`task_priority_default`, `missing_filter`→`task_priority_filter`, `invalid_serializer_choice`→`task_serializer_priority`.
-
-### Smoke 002 (todo_smoke_002_checks.py)
-9 checks: `soft_delete_retains_row`, `soft_delete_sets_timestamp`, `default_manager_excludes_deleted`, `normal_list_excludes_deleted`, `deleted_detail_is_404`, `deleted_action_lists_deleted`, `restore_action_restores`, `soft_deleted_data_preserved`, `project_and_tag_regression`.
-Negative variants: `hard_delete`→`soft_delete_retains_row`, `deleted_visible_in_normal_list`→`default_manager_excludes_deleted`, `restore_keeps_timestamp`→`restore_action_restores`.
-
-### Smoke 003 (todo_smoke_003_checks.py)
-10 checks: `project_owner_field`, `project_creator_becomes_owner`, `project_owner_read_only`, `project_owner_can_write`, `project_non_owner_forbidden`, `task_create_uses_project_owner`, `task_update_uses_project_owner`, `task_delete_uses_project_owner`, `authenticated_reads_unrestricted`, `tag_permissions_unchanged`.
-Negative variants: `task_owner_authority`→`task_update_uses_project_owner`, `project_non_owner_write_allowed`→`project_non_owner_forbidden`, `project_owner_writable`→`project_owner_read_only`.
-
-## G. Twelve fixture results
-
-| Scenario | Variant | Passed | Exit code | Checks | Error category | Migration path | Old migrations unchanged | Evaluator absent from workspace |
-|----------|---------|--------|-----------|--------|----------------|----------------|--------------------------|--------------------------------|
-| todo-smoke-001 | correct | true | 0 | 10 | none | new migration added | yes | yes |
-| todo-smoke-001 | wrong_default | false | 1 | 9 | task_priority_default | new migration added | yes | yes |
-| todo-smoke-001 | missing_filter | false | 1 | 9 | task_priority_filter | new migration added | yes | yes |
-| todo-smoke-001 | invalid_serializer_choice | false | 1 | 9 | task_serializer_priority | new migration added | yes | yes |
-| todo-smoke-002 | correct | true | 0 | 9 | none | new migration added | yes | yes |
-| todo-smoke-002 | hard_delete | false | 1 | 8 | soft_delete_retains_row | new migration added | yes | yes |
-| todo-smoke-002 | deleted_visible_in_normal_list | false | 1 | 8 | default_manager_excludes_deleted | new migration added | yes | yes |
-| todo-smoke-002 | restore_keeps_timestamp | false | 1 | 8 | restore_action_restores | new migration added | yes | yes |
-| todo-smoke-003 | correct | true | 0 | 10 | none | new migration added | yes | yes |
-| todo-smoke-003 | task_owner_authority | false | 1 | 9 | task_update_uses_project_owner | new migration added | yes | yes |
-| todo-smoke-003 | project_non_owner_write_allowed | false | 1 | 9 | project_non_owner_forbidden | new migration added | yes | yes |
-| todo-smoke-003 | project_owner_writable | false | 1 | 9 | project_owner_read_only | new migration added | yes | yes |
-
-## H. Six lifecycle results
-
-| Asset | Mode | Exit code | Passed | Error contains | JSON valid |
-|-------|------|-----------|--------|----------------|------------|
-| todo_smoke_001_checks.py | setup_databases fails | 1 | false | "setup db boom" | yes |
-| todo_smoke_002_checks.py | setup_databases fails | 1 | false | "setup db boom" | yes |
-| todo_smoke_003_checks.py | setup_databases fails | 1 | false | "setup db boom" | yes |
-| todo_smoke_001_checks.py | setup + teardown fail | 1 | false | "setup db boom", "teardown_test_environment", "teardown boom" | yes |
-| todo_smoke_002_checks.py | setup + teardown fail | 1 | false | "setup db boom", "teardown_test_environment", "teardown boom" | yes |
-| todo_smoke_003_checks.py | setup + teardown fail | 1 | false | "setup db boom", "teardown_test_environment", "teardown boom" | yes |
-
-## I. Failure-matrix evidence
-
-| Failure injected | Mechanism | Result | Proving test |
-|-----------------|-----------|--------|-------------|
-| External symlink after validation | Validate then mutate then trust | `_load_trusted_evaluator_asset` returns string with "symlink" | `test_asset_replaced_by_external_symlink_after_validation_fails` |
-| Internal symlink after validation | Validate then mutate then trust | `_load_trusted_evaluator_asset` returns string with "symlink" | `test_asset_replaced_by_internal_symlink_after_validation_fails` |
-| Evaluator-root replacement after validation | Validate then `shutil.rmtree` then symlink | `_load_trusted_evaluator_asset` returns string with "symlink" or "root" | `test_evaluator_root_replaced_by_symlink_after_validation_fails` |
-| Broken workspace evaluator symlink | Workspace contains symlink to nonexistent target | `_validate_evaluator_request` returns string | `test_workspace_broken_evaluator_root_symlink_fails_closed` |
-| Copy write failure | Patch `Path.write_bytes` to raise OSError | `_execute_evaluator_subprocess` returns `succeeded=False` with "failed to copy" | `test_copy_write_failure_returns_typed_outcome` |
-| Copy read failure | Patch `Path.read_bytes` to raise OSError | Hash mismatch detected | `test_copy_read_failure_returns_typed_outcome` |
-| Copy hash mismatch | Patch `Path.write_bytes` to corrupt content | "hash" in stderr | `test_hash_mismatch_returns_typed_outcome` |
-| Teardown failure | Fake-Django runner raises in teardown | JSON error contains both setup and teardown diagnostics | `test_setup_and_teardown_failure_json_output` (x3) |
-| Payload contradiction | `passed=true` with non-empty error | `_parse_evaluator_payload` returns string | `test_contradictory_passed_error` |
-| Non-zero exit with passed payload | exit_code=1, payload shows passed | `run_scenario_evaluator` returns `passed=False` | `test_truth_table[1-True---a-False]` |
-
-## J. Incremental build history
-
-```
-1. python -m pytest tests/unit/execution/test_scenario_evaluator.py -q
-   → 60 passed, 9 skipped (baseline)
-
-2. python -m pytest tests/integration/test_todo_smoke_evaluator_assets.py -q
-   → 7 failed (syntax error in todo_smoke_003_checks.py, hash mismatch)
-
-3. Fixed: SyntaxError on assert with two messages; py_compile verification
-4. Updated: todo_smoke_003_checks.py.sha256 hash
-
-5. python -m pytest tests/unit/execution/test_scenario_evaluator.py tests/integration/... -q
-   → 110 passed, 10 skipped
-
-6. python -m pytest tests/unit/execution/test_scenario_evaluator.py tests/integration/... tests/unit/execution/test_post_generation.py -q
-   → 219 passed, 22 skipped (adjacent R3B proof)
-
-7. python -m pytest -q
-   → 1424 passed, 32 skipped (full suite)
-
-8. ruff check (4 authorized files)
-   → 0 new errors (pre-existing line-length and nesting warnings)
-
-8b. ruff check tests/unit/execution/test_scenario_evaluator.py (TASK 1 lint closure)
-    → 0 errors (5 violations fixed: 1 F841, 3 SIM117, 1 E501)
-
-9. python -m compileall (4 authorized files + evaluator_assets)
-   → all OK
-
-10. git diff --check
-    → CRLF warnings only (no whitespace errors)
+Code commit (9e28790) changes:
+M  seven_arm_benchmark.py
+M  src/benchmark/execution/runner.py
+M  src/benchmark/statistics/reporting.py
+A  tests/unit/execution/test_r3d_wiring.py
+M  tests/integration/test_su0010a_regeneration.py
+  6 files changed, 1111 insertions(+), 590 deletions(-)
 ```
 
-## K. Final gates
+### RF-2 files
+- `src/benchmark/execution/runner.py`: +72/-46 (6 root fixes + validation_command dedup)
+- `seven_arm_benchmark.py`: +0/-7 (pre-flight removal)
+- `src/benchmark/statistics/reporting.py`: +7/-1 (selection_tool transcript serializer)
+- `tests/unit/execution/test_r3d_wiring.py`: +998/-0 (54 public-path tests)
+- `tests/integration/test_su0010a_regeneration.py`: +34/-0 (bounded repair assertion)
+
+## F. Gate Results (Final)
 
 | Gate | Command | Result |
 |------|---------|--------|
-| Unit evaluator tests | `python -m pytest tests/unit/execution/test_scenario_evaluator.py -q` | 60 passed, 9 skipped |
-| Integration evaluator tests | `python -m pytest tests/integration/test_todo_smoke_evaluator_assets.py -q` | 51 passed, 1 skipped |
-| Unit + integration + R3B tests | `pytest test_scenario_evaluator.py test_todo_smoke_evaluator_assets.py test_post_generation.py -q` | 219 passed, 22 skipped |
-| Full suite | `python -m pytest -q` | 1424 passed, 32 skipped |
-| Ruff | `ruff check ...` | 0 errors (5 pre-existing closed; 7 pre-existing reduced to 0) |
-| mypy | (no production source changed) | N/A |
-| compileall | `python -m compileall ...` | All OK |
-| git diff --check | `git diff --check` | CRLF warnings only |
-| git status --short | `git status --short` | Untracked protocol file only (no dirty tree) |
+| R3D focused tests | `python -m pytest tests/unit/execution/test_r3d_wiring.py -v` | 54 passed, 0 failed |
+| Focused unit + contract | `python -m pytest tests/unit/execution/test_r3d_wiring.py tests/unit/execution/test_runner.py tests/unit/execution/test_regeneration.py -q` | 163 passed, 0 failed |
+| Focused integration | `python -m pytest tests/integration/test_su0010a_regeneration.py -q` | 122 passed, 0 failed |
+| Full suite | `python -m pytest -q` | 1478 passed, 32 skipped, 0 failed |
+| Ruff (changed files) | `ruff check src/benchmark/execution/runner.py seven_arm_benchmark.py src/benchmark/statistics/reporting.py tests/unit/execution/test_r3d_wiring.py tests/integration/test_su0010a_regeneration.py` | 0 errors (fixes: SIM102, SIM108, SIM117, E501, F401) |
+| mypy (changed production) | `python -m mypy --strict src/benchmark/execution/runner.py src/benchmark/statistics/reporting.py` | 0 errors |
+| compileall (changed files) | `python -m compileall src/benchmark/execution/runner.py seven_arm_benchmark.py src/benchmark/statistics/reporting.py tests/unit/execution/test_r3d_wiring.py tests/integration/test_su0010a_regeneration.py` | All OK |
+| git diff --check | `git diff --check` | No whitespace errors |
 
-## L. Commit-scope proof
+## G. Comprehensive Test Coverage Table
+
+### R3D Wiring Tests (tests/unit/execution/test_r3d_wiring.py — 54 tests)
+
+| Class | Tests | Coverage |
+|-------|-------|----------|
+| `TestValidationCommandPreflight` | 5 | validation_command missing/empty/whitespace/present; preflight delegates pipeline |
+| `TestRepairEligibility` | 7 | generation_guard, evaluator, migration, harness, timeout, infrastructure, all repairable stages |
+| `TestBoundedGeneration` | 4 | migration failure, evaluator failure, bounded repair triggers, repair max attempts exceeded |
+| `TestSelectionToolTranscript` | 6 | transcript in success, transcript in failure, transcript empty, round-trip JSONL serialization |
+| `TestRepairDuration` | 4 | duration is baseline+migration+evaluator, not functional_validation, tracks correctly |
+| `TestExecutorFeedback` | 4 | sci failure channels, executor failure channels, both fail, neither fails |
+| `TestFailureStages` | 8 | migration generation_guard, migration evaluator, evaluator gen guard, evaluator migration, full failure path, failure stage not overwritten |
+| `TestValidationCommandDirect` | 9 | RunnerConfig creation, pipeline flow integration, validation command populated correctly |
+| `TestR3DSmokeCI` | 7 | single run, multi-arm, all arms, repair counters, duration tracking, isolation, cross-flow |
+
+### Integration Tests (tests/integration/test_su0010a_regeneration.py)
+
+| Test | Coverage |
+|------|----------|
+| `test_generation_rejection_no_repair` (updated) | Bounded repair — generation_guard failure triggers repair; `test_generation_rejection_no_repair` now expects exactly 2 bounded attempts |
+
+### Runner Tests (tests/unit/execution/test_runner.py)
+
+| Test | Coverage |
+|------|----------|
+| `test_missing_snapshot_base_fails_closed` | validation_command missing on RunnerConfig → fail closed |
+| `test_no_active_snapshot_with_regeneration_fails_closed` | validation_command empty on RunnerConfig → fail closed |
+| `test_active_snapshot_missing_fails_closed` | validation_command whitespace on RunnerConfig → fail closed |
+
+## H. Commit Identity
 
 ```
-git diff --name-only <start>..<code-commit>
+Code:  9e28790 — fix(validation): complete R3D scientific wiring contract
+       6 files changed, 1111 insertions(+), 590 deletions(-)
 
-36e396d..47e1a05:
-tests/evaluator_assets/todo_smoke_003_checks.py
-tests/evaluator_assets/todo_smoke_003_checks.py.sha256
-tests/integration/test_todo_smoke_evaluator_assets.py
-tests/support/evaluator_fixture_workspaces.py
-tests/unit/execution/test_scenario_evaluator.py
+       Modified:
+         src/benchmark/execution/runner.py          +72/-46
+         seven_arm_benchmark.py                     +0/-7
+         src/benchmark/statistics/reporting.py      +7/-1
+         tests/integration/test_su0010a_regeneration.py  +34/-0
+       New:
+         tests/unit/execution/test_r3d_wiring.py    +998/-0
 
-git show --stat 47e1a05
- 5 files changed, 218 insertions(+), 94 deletions(-)
+Docs:  (this commit)
 
-git show --stat 7abec68
-  1 file changed, 12 insertions(+), 15 deletions(-)
-  (TASK 1 — lint closure)
-
-git show --stat <docs-commit>
- (pending)
+       docs/PROJECT_HANDOFF.md
+       reports/latest_phase_report.md
+       reports/r3d_correction_report.md
+       docs/R3D_ROOT_CORRECTION_AND_RF2_SINGLE_PASS_SPEC.md
+       docs/R3D_IN_PROGRESS_AUDIT_AND_COMPLETION_ADDENDUM.md
+       selective_updates/CHANGE_INDEX.md
+       selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md
+       selective_updates/records/R3D-PRODUCTION-WIRING.md
 ```
 
-Code commit (47e1a05): all code/tests only (5 files). No documentation, no reports, no handoff files.
-Lint-closure commit (7abec68): test_scenario_evaluator.py only (formatting/structure fixes).
-Documentation commit: contains docs/PROJECT_HANDOFF.md, docs/V2_R3B_TO_KAGGLE_NO_DISCRETION_EXECUTION_SPEC.md, reports/latest_phase_report.md, selective_updates/CHANGE_INDEX.md, selective_updates/records/R3C-FINAL-FREEZE-CLOSURE.md, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md.
-
-## M. Technical debt impact
+## I. Debt Schedule Update
 
 ```
 Debt closed:
-  TD-R3C-001: Misleading TOCTOU tests → rewrite tests to mutate after validation ✓
-  TD-R3C-002: Missing lifecycle regression tests → six fake-Django tests ✓
-  TD-R3C-003: Incomplete permission-layer proof → invoke configured permissions ✓
-  TD-R3C-004: Source-isolation Boolean error → single absence helper ✓
-  TD-R3C-005: Tests mutate hash metadata → metadata required and read-only ✓
-  TD-PROCESS-001: Code/docs commit mixing → explicit staging and report proof ✓
-  TD-PROCESS-002: Empty documentation commit → cached diff required before commit ✓
-
-Debt intentionally deferred:
-  TD-PROCESS-003: Model mismatch was process-only (actual model now matches)
-
-Debt closed in TASK 1:
-  TD-R3C-006: Pre-existing E501 line-length and SIM117 nested-with lint in test_scenario_evaluator.py (5 violations: 1 F841, 3 SIM117, 1 E501)
-  TD-R3C-007: Unused variable `original_write_bytes` in test_copy_write_failure_returns_typed_outcome
+  TD-R3D-001: production entry omits evaluator configuration           → _validate_scientific_configuration ✓
+  TD-R3D-002: final wrapper drops scientific and Agent fields          → transcript in return path ✓
+  TD-R3D-003: migration/evaluator failures are not repairable          → removed functional_validation_passed gate ✓
+  TD-R3D-004: Agent receives baseline output for evaluator failure     → feedback channels in revise_plan ✓
+  TD-R3D-005: failure stages collapsed                                 → distinctive per-stage failures ✓
+  TD-R3D-006: selection-tool fields dropped from persistence           → reporting.py serializer ✓
+  TD-R3D-007: nominal R3D tests                                        → 54 public-path tests ✓
+  TD-PROCESS-004: code/docs not separated                              → code commit (9e28790) + docs commit (this) ✓
+  TD-PROCESS-005: R3D report absent                                    → this report + persisted copy ✓
 
 New debt introduced:
-  None
+  none
 ```
 
-## N. Productivity metrics
+## J. Authorization
 
 ```
-planned production files:              0 (no production changes authorized)
-actual production files:               0
-planned test files:                    4
-actual test files:                     5 (including .sha256 hash metadata)
-test cases added:                      ~25 new assertions + 6 lifecycle parametrized × 2 modes × 3 assets
-compile failures before commit:        1 (syntax error in assert with two messages)
-focused-test failures before commit:   7 (syntax error, hash mismatch, lifecycle JSON decode)
-independent-audit correction cycles:   1 (single cycle correcting 6 evidence gaps)
-elapsed implementation time:           ~150 minutes
-```
-
-## O. Authorization
-
-```
-R3B accepted and frozen at feb5a44
-R3C functional behavior independently accepted at 47e1a05
-R3C lint closure at 7abec68
-R3C final freeze confirmation pending this documentation closure audit
-R3D blocked
+R3B frozen at feb5a44
+R3C frozen at 47e1a05/7abec68 (final confirmation pending this documentation closure audit)
+R3D root-corrected and RF-2 complete at 9e28790 — independent audit required
 Kaggle/Pilot/merge/tag blocked
-RF-2 scheduled immediately after R3D
-RF-3 scheduled after R4
-RF-4 scheduled after R5
+R4 and later phases blocked until R3D audit sign-off
 ```
 
-## P. Marker
+## K. Marker
 
 ```
-R3C_LINT_DOCS_CLOSURE_AUDIT_REQUIRED
+R3D_ROOT_CORRECTION_AUDIT_REQUIRED
 ```
