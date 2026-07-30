@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-30
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R3C FREEZE CLOSURE — branch experiment/three-arm-smoke-v2, code commits 47e1a05 (functional acceptance) and 7abec68 (lint closure)
+**Handoff type:** R3D ROOT CORRECTION — branch experiment/three-arm-smoke-v2, code commit 9e28790 (scientific wiring contract), docs commit (this commit)
 
 ---
 
@@ -158,7 +158,7 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 | R3A — scenario execution metadata | COMPLETE | evaluator_asset, post_generation_command, require_new_migration |
 | R3B — deterministic post-generation migration runner | ACCEPTED AND FROZEN at feb5a44 | Two final corrections applied: (1) lexical directory symlink rejected before resolve instead of after, (2) valid ordinary created numbered paths preserved as partial evidence when after-state untrusted; 109 focused tests + 12 symlink skipped (121 total), 1424 full suite |
 | R3C — isolated scenario evaluator runner and three evaluator scripts | COMPLETE | Functional behavior independently accepted at 47e1a05 by GPT-5.6 Thinking; lint closure at 7abec68 (5 ruff violations fixed); final freeze confirmation pending this documentation audit |
-| R3D — production Runner validation wiring | COMPLETE (code) pending audit | 28 R3D tests (27 pass, 1 skip), 1424 full test suite pass, Ruff/mypy clean; RF-2 pending |
+| R3D — production Runner validation wiring | ROOT CORRECTED — audit pending | 54 public-path tests (54 pass), 1478 full suite (32 skip, 0 fail), Ruff/mypy/compileall clean; RF-2 pending |
 | RF-3 — token/metric refactor | SCHEDULED after R4 | After R4 self-gates |
 | RF-4 — full technical debt cleanup | SCHEDULED after R5 | After R5 nine records |
 | **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R3–R6 complete |
@@ -310,12 +310,12 @@ python seven_arm_benchmark.py --dry-run
 
 ### Blocked
 
-- R3D: BLOCKED until R3C final freeze confirmation is completed by this documentation closure audit
-- RF-2: scheduled immediately after R3D
+- R3D: CORRECTION APPLIED — code committed (9e28790);獨立 audit pending
+- RF-2: part of R3D correction; completed code-side, pending audit pass
 - RF-3: scheduled after R4
 - RF-4: scheduled after R5
 - Kaggle/Pilot/merge/tag: BLOCKED
 
 ---
 
-**R3C_LINT_DOCS_CLOSURE_AUDIT_REQUIRED**
+**R3D_ROOT_CORRECTION_AUDIT_REQUIRED**

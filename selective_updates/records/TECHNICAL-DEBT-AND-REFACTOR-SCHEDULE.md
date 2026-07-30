@@ -52,3 +52,48 @@
 - **Severity:** TD-1 process-control
 - **Closure:** model preflight and footer truth ✓
 - **Checkpoint:** R3C closure
+
+### TD-R3D-001 — production entry omits evaluator configuration
+- **Severity:** TD-0 scientific contract
+- **Closure:** `_validate_scientific_configuration` checks validation_command existence and runs syntactic shell command ✓
+- **Checkpoint:** R3D root correction
+
+### TD-R3D-002 — final wrapper drops scientific and Agent fields
+- **Severity:** TD-0 scientific contract
+- **Closure:** selection_tool_transcript added to both success and failure return paths ✓
+- **Checkpoint:** R3D root correction
+
+### TD-R3D-003 — migration/evaluator failures are not repairable
+- **Severity:** TD-1
+- **Closure:** removed `functional_validation_passed` gate from repair eligibility; evaluator, generation_guard, migration are repairable ✓
+- **Checkpoint:** R3D root correction
+
+### TD-R3D-004 — Agent receives baseline output for evaluator failure
+- **Severity:** TD-1
+- **Closure:** `last_feedback_channels` passed into `revise_plan` when executor fails but sci passes ✓
+- **Checkpoint:** R3D root correction
+
+### TD-R3D-005 — failure stages collapsed
+- **Severity:** TD-1
+- **Closure:** each failure stage returns distinctive verdicts (generation_guard vs evaluator vs migration vs harness vs timeout vs infrastructure) ✓
+- **Checkpoint:** R3D root correction
+
+### TD-R3D-006 — selection-tool fields dropped from persistence/reporting
+- **Severity:** TD-1
+- **Closure:** `selection_tool_transcript` serialized in reporting.py `_RunRecordData` ✓
+- **Checkpoint:** R3D root correction
+
+### TD-R3D-007 — nominal R3D tests
+- **Severity:** TD-0 scientific contract
+- **Closure:** complete replacement with 54 public-path tests in `test_r3d_wiring.py` ✓
+- **Checkpoint:** R3D root correction
+
+### TD-PROCESS-004 — R3D code/docs not separated
+- **Severity:** TD-2
+- **Closure:** code commit (9e28790) separated from docs commit ✓
+- **Checkpoint:** R3D root correction
+
+### TD-PROCESS-005 — R3D report absent
+- **Severity:** TD-2
+- **Closure:** full R3D correction report persisted to reports/latest_phase_report.md and reports/r3d_correction_report.md ✓
+- **Checkpoint:** R3D root correction
