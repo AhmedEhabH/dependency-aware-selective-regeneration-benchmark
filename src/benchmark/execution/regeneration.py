@@ -8,6 +8,7 @@ from pathlib import Path
 
 from benchmark.core.models import LLMResponse
 from benchmark.core.protocols import LLMBackend
+from benchmark.execution.budgets import resolve_completion_allowance
 from benchmark.execution.isolation import IsolationContext
 from benchmark.selection.planner import RegenerationPlan
 
@@ -103,14 +104,20 @@ class SharedRegenerationExecutor:
         isolation: IsolationContext,
         requirement_delta: str = "",
         repair_context: str | None = None,
-        max_tokens: int = 0,
+        *,
+        max_completion_tokens_per_call: int = 4096,
+        remaining_total_workflow_tokens: int = 0,
     ) -> RegenerationExecutionResult:
         old_loop: asyncio.AbstractEventLoop | None = None
         with contextlib.suppress(RuntimeError):
             old_loop = asyncio.get_event_loop()
         try:
             return asyncio.run(
-                self._execute_async(plan, isolation, requirement_delta, repair_context, max_tokens)
+                self._execute_async(
+                    plan, isolation, requirement_delta, repair_context,
+                    max_completion_tokens_per_call=max_completion_tokens_per_call,
+                    remaining_total_workflow_tokens=remaining_total_workflow_tokens,
+                )
             )
         finally:
             if old_loop is not None and not old_loop.is_closed():
@@ -125,7 +132,9 @@ class SharedRegenerationExecutor:
         isolation: IsolationContext,
         requirement_delta: str,
         repair_context: str | None = None,
-        max_tokens: int = 0,
+        *,
+        max_completion_tokens_per_call: int = 4096,
+        remaining_total_workflow_tokens: int = 0,
     ) -> RegenerationExecutionResult:
         workspace_root = str(isolation.workspace.root)
         start_time = time.monotonic()
@@ -135,6 +144,7 @@ class SharedRegenerationExecutor:
         total_completion = 0
         calls = 0
         failures: list[str] = []
+        local_remaining = remaining_total_workflow_tokens
 
         for artifact in plan.ordered_artifacts:
             action = plan.actions.get(artifact.path)
@@ -155,7 +165,6 @@ class SharedRegenerationExecutor:
             if action_str == "preserve" or action_str == "validate_only":
                 continue
 
-            # Reject path traversal before any file operation
             if _is_path_traversal(artifact.path, workspace_root):
                 failures.append(f"Path traversal rejected: {artifact.path}")
                 generated.append(
@@ -167,7 +176,6 @@ class SharedRegenerationExecutor:
                 )
                 continue
 
-            # Read current content from isolated workspace
             src_path = Path(workspace_root) / artifact.path.lstrip("/")
             try:
                 current_content = src_path.read_text(encoding="utf-8")
@@ -205,25 +213,24 @@ class SharedRegenerationExecutor:
                 self._backend, "count_prompt_tokens", lambda p: max(1, len(p) // 4)
             )(prompt)
 
-            if max_tokens > 0:
-                consumed = total_prompt + total_completion
-                per_call_max = max(0, max_tokens - consumed - prompt_estimate)
-                if per_call_max <= 0:
-                    failures.append(f"Token budget exhausted before {artifact.path}")
-                    generated.append(
-                        GeneratedArtifact(
-                            path=artifact.path,
-                            content="",
-                            status="rejected",
-                        )
+            allowance = resolve_completion_allowance(
+                max_completion_tokens_per_call=max_completion_tokens_per_call,
+                remaining_total_workflow_tokens=local_remaining,
+                prompt_tokens=prompt_estimate,
+            )
+            if allowance <= 0:
+                failures.append(f"Token budget exhausted before {artifact.path}")
+                generated.append(
+                    GeneratedArtifact(
+                        path=artifact.path,
+                        content="",
+                        status="rejected",
                     )
-                    continue
-                gen_max = per_call_max
-            else:
-                gen_max = 4096
+                )
+                continue
 
             try:
-                response: LLMResponse = await self._backend.generate(prompt=prompt, max_tokens=gen_max)
+                response: LLMResponse = await self._backend.generate(prompt=prompt, max_tokens=allowance)
             except Exception as e:
                 failures.append(f"LLM backend error for {artifact.path}: {e}")
                 generated.append(
@@ -236,8 +243,38 @@ class SharedRegenerationExecutor:
                 continue
 
             calls += 1
-            total_prompt += response.token_usage.prompt_tokens
-            total_completion += response.token_usage.completion_tokens
+            usage = response.token_usage
+            total_prompt += usage.prompt_tokens
+            total_completion += usage.completion_tokens
+
+            if remaining_total_workflow_tokens > 0:
+                if usage.completion_tokens > allowance:
+                    failures.append(
+                        f"Backend overrun for {artifact.path}: "
+                        f"completion_tokens {usage.completion_tokens} > allowance {allowance}"
+                    )
+                    generated.append(
+                        GeneratedArtifact(
+                            path=artifact.path,
+                            content="",
+                            status="rejected",
+                        )
+                    )
+                    break
+                if local_remaining > 0 and usage.total_tokens > local_remaining:
+                    failures.append(
+                        f"Backend total overrun for {artifact.path}: "
+                        f"total_tokens {usage.total_tokens} > remaining {local_remaining}"
+                    )
+                    generated.append(
+                        GeneratedArtifact(
+                            path=artifact.path,
+                            content="",
+                            status="rejected",
+                        )
+                    )
+                    break
+                local_remaining = max(0, local_remaining - usage.total_tokens)
 
             output_text = response.text
 
@@ -253,7 +290,6 @@ class SharedRegenerationExecutor:
                 )
                 continue
 
-            # Reject Markdown-fenced output — contract requires raw file content
             if stripped.startswith("```") or stripped.endswith("```"):
                 failures.append(f"Markdown-fenced output rejected for {artifact.path}")
                 generated.append(
@@ -276,7 +312,6 @@ class SharedRegenerationExecutor:
                 )
                 continue
 
-            # Write generated content inside isolated workspace only
             target_path = Path(workspace_root) / artifact.path.lstrip("/")
             try:
                 target_path.parent.mkdir(parents=True, exist_ok=True)

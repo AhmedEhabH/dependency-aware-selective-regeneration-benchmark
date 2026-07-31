@@ -24,6 +24,8 @@ def _redact(text: str, secret: str) -> str:
 
 
 class OpenRouterBackend:
+    token_accounting_mode: str = "provider_reported"
+
     def __init__(
         self,
         model: str,

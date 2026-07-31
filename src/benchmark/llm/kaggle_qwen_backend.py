@@ -98,6 +98,8 @@ class GpuPreflightResult:
 
 
 class KaggleQwenBackend:
+    token_accounting_mode: str = "exact_tokenizer"
+
     def __init__(
         self,
         model_name: str = "qwen2.5-coder",
@@ -115,12 +117,15 @@ class KaggleQwenBackend:
         logger.info("MODEL_INITIALIZATION_STARTED model=%s", model_name)
 
     def count_prompt_tokens(self, prompt: str) -> int:
+        self._ensure_loaded()
+        if self._tokenizer is None:
+            raise ModelBackendError("KaggleQwenBackend: tokenizer not loaded")
         try:
-            self._ensure_loaded()
-            assert self._tokenizer is not None
             return len(self._tokenizer(prompt, return_tensors="pt")["input_ids"][0])
-        except Exception:
-            return max(1, len(prompt) // 4)
+        except Exception as exc:
+            raise ModelBackendError(
+                f"KaggleQwenBackend: tokenizer counting failed: {exc}"
+            ) from exc
 
     async def generate(
         self,
@@ -172,12 +177,13 @@ class KaggleQwenBackend:
                 prompt_tokens, completion_tokens, prompt_tokens + completion_tokens,
                 finish_reason,
             )
+            total_tokens = prompt_tokens + completion_tokens
             return LLMResponse(
                 text=output_text,
                 token_usage=TokenUsage(
                     prompt_tokens=prompt_tokens,
                     completion_tokens=completion_tokens,
-                    total_tokens=prompt_tokens + completion_tokens,
+                    total_tokens=total_tokens,
                 ),
                 finish_reason=finish_reason,
             )

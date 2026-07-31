@@ -1107,7 +1107,8 @@ class TestBoundedRepairAttempts:
         record = runner.run(scenario)
         assert record.status == RunStatus.succeeded
         assert record.functional_validation_passed is True
-        assert record.regeneration_model_calls == 2
+        assert record.regeneration_model_calls == 1
+        assert record.repair_model_calls == 1
 
     def test_non_repairable_missing_validation(self, tmp_path: Path) -> None:
         iso, ws_root = _setup_workspace(tmp_path, ())
@@ -1219,8 +1220,10 @@ class TestBoundedRepairAttempts:
         record = runner.run(scenario)
 
         # 3 attempts × 1 artifact
-        assert record.regeneration_model_calls == 3
+        assert record.regeneration_model_calls == 1
+        assert record.repair_model_calls == 2
         assert record.regeneration_total_tokens > 0
+        assert record.repair_total_tokens > 0
         assert record.functional_validation_duration_seconds > 0
 
     def test_token_budget_stops_repair(self, tmp_path: Path) -> None:
@@ -1377,7 +1380,8 @@ class TestBoundedRepairAttempts:
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
         # 2 attempts: initial + one repair, no second repair
-        assert record.regeneration_model_calls == 2
+        assert record.regeneration_model_calls == 1
+        assert record.repair_model_calls == 1
 
     def test_max_attempts_behavior_unchanged(self, tmp_path: Path) -> None:
         """Prove max_attempts still includes the initial attempt."""
@@ -1446,7 +1450,8 @@ class TestBoundedRepairAttempts:
         record = runner.run(scenario)
         assert record.status == RunStatus.succeeded
         assert record.functional_validation_passed is True
-        assert record.regeneration_model_calls == 2
+        assert record.regeneration_model_calls == 1
+        assert record.repair_model_calls == 1
         # Previous validation-failure records must be preserved
         assert len(record.failures) > 0
         assert any("validation failed" in f.message for f in record.failures)
@@ -1496,13 +1501,18 @@ class TestBoundedRepairAttempts:
             editable_artifact_paths=("src/a.py", "src/b.py"),
         )
         record = runner.run(scenario)
-        # 2 artifacts × 3 attempts = 6 model calls
-        assert record.regeneration_model_calls == 6
-        # Each call uses 15 tokens: 6 × 15 = 90
-        expected_regen_tokens = 90
+        # 2 artifacts × 1 initial attempt = 2 regeneration calls
+        # 2 artifacts × 2 repair attempts = 4 repair calls
+        assert record.regeneration_model_calls == 2
+        assert record.repair_model_calls == 4
+        # Regeneration: 2 calls × 15 = 30
+        expected_regen_tokens = 30
         assert record.regeneration_total_tokens == expected_regen_tokens
-        # total_workflow_tokens = selection (0) + regen (90)
-        assert record.total_workflow_tokens == expected_regen_tokens
+        # Repair: 4 calls × 15 = 60
+        assert record.repair_total_tokens == 60
+        # total_workflow_tokens = selection (0) + regen (30) + repair (60)
+        expected_total = 90
+        assert record.total_workflow_tokens == expected_total
 
 
 class TestStrategyGuard:

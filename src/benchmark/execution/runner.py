@@ -36,6 +36,164 @@ from benchmark.repositories.snapshot import resolve_allowed_artifacts
 from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner, compute_artifact_counts
 
 
+@dataclass
+class _WorkflowMetricAccumulator:
+    selection_prompt_tokens: int = 0
+    selection_completion_tokens: int = 0
+    selection_model_calls: int = 0
+    selection_duration_seconds: float = 0.0
+    selection_tool_calls: int = 0
+    selection_tool_duration_seconds: float = 0.0
+    selection_inspected_file_count: int = 0
+
+    regeneration_prompt_tokens: int = 0
+    regeneration_completion_tokens: int = 0
+    regeneration_model_calls: int = 0
+    regeneration_duration_seconds: float = 0.0
+
+    repair_prompt_tokens: int = 0
+    repair_completion_tokens: int = 0
+    repair_model_calls: int = 0
+    repair_duration_seconds: float = 0.0
+    repair_attempts: int = 0
+
+    migration_duration_seconds: float = 0.0
+    baseline_validation_duration_seconds: float = 0.0
+    scenario_evaluator_duration_seconds: float = 0.0
+
+    @classmethod
+    def from_record(cls, record: RunRecord) -> _WorkflowMetricAccumulator:
+        return cls(
+            selection_prompt_tokens=record.selection_prompt_tokens,
+            selection_completion_tokens=record.selection_completion_tokens,
+            selection_model_calls=record.selection_model_calls,
+            selection_duration_seconds=record.selection_duration_seconds,
+            selection_tool_calls=record.selection_tool_calls,
+            selection_tool_duration_seconds=record.selection_tool_duration_seconds,
+            selection_inspected_file_count=record.selection_inspected_file_count,
+            regeneration_prompt_tokens=record.regeneration_prompt_tokens,
+            regeneration_completion_tokens=record.regeneration_completion_tokens,
+            regeneration_model_calls=record.regeneration_model_calls,
+            regeneration_duration_seconds=record.regeneration_duration_seconds,
+            repair_prompt_tokens=record.repair_prompt_tokens,
+            repair_completion_tokens=record.repair_completion_tokens,
+            repair_model_calls=record.repair_model_calls,
+            repair_duration_seconds=record.repair_duration_seconds,
+            repair_attempts=record.repair_attempts,
+            migration_duration_seconds=record.migration_duration_seconds,
+            baseline_validation_duration_seconds=record.baseline_validation_duration_seconds,
+            scenario_evaluator_duration_seconds=record.scenario_evaluator_duration_seconds,
+        )
+
+    def add_selection(
+        self,
+        usage: TokenUsage,
+        *,
+        model_calls: int,
+        duration_seconds: float,
+        tool_calls: int = 0,
+        tool_duration_seconds: float = 0.0,
+        inspected_file_count: int = 0,
+    ) -> None:
+        self.selection_prompt_tokens += usage.prompt_tokens
+        self.selection_completion_tokens += usage.completion_tokens
+        self.selection_model_calls += model_calls
+        self.selection_duration_seconds += duration_seconds
+        self.selection_tool_calls += tool_calls
+        self.selection_tool_duration_seconds += tool_duration_seconds
+        self.selection_inspected_file_count += inspected_file_count
+
+    def add_code_generation(
+        self,
+        result: RegenerationExecutionResult,
+        *,
+        is_repair: bool,
+    ) -> None:
+        if is_repair:
+            self.repair_prompt_tokens += result.prompt_tokens
+            self.repair_completion_tokens += result.completion_tokens
+            self.repair_model_calls += result.model_calls
+            self.repair_duration_seconds += result.duration_seconds
+            self.repair_attempts += 1
+        else:
+            self.regeneration_prompt_tokens += result.prompt_tokens
+            self.regeneration_completion_tokens += result.completion_tokens
+            self.regeneration_model_calls += result.model_calls
+            self.regeneration_duration_seconds += result.duration_seconds
+
+    def add_scientific(
+        self,
+        result: _ScientificValidationResult,
+    ) -> None:
+        if result.migration is not None:
+            self.migration_duration_seconds += result.migration.duration_seconds
+        if result.baseline is not None:
+            self.baseline_validation_duration_seconds += result.baseline.duration_seconds
+        if result.evaluator is not None:
+            self.scenario_evaluator_duration_seconds += result.evaluator.duration_seconds
+
+    def as_record_fields(
+        self,
+        *,
+        final_scientific_result: _ScientificValidationResult | None,
+        token_accounting_mode: str,
+    ) -> dict[str, Any]:
+        fields: dict[str, Any] = {
+            "selection_prompt_tokens": self.selection_prompt_tokens,
+            "selection_completion_tokens": self.selection_completion_tokens,
+            "selection_total_tokens": self.selection_prompt_tokens + self.selection_completion_tokens,
+            "selection_model_calls": self.selection_model_calls,
+            "selection_duration_seconds": self.selection_duration_seconds,
+            "selection_tool_calls": self.selection_tool_calls,
+            "selection_tool_duration_seconds": self.selection_tool_duration_seconds,
+            "selection_inspected_file_count": self.selection_inspected_file_count,
+            "regeneration_prompt_tokens": self.regeneration_prompt_tokens,
+            "regeneration_completion_tokens": self.regeneration_completion_tokens,
+            "regeneration_total_tokens": self.regeneration_prompt_tokens + self.regeneration_completion_tokens,
+            "regeneration_model_calls": self.regeneration_model_calls,
+            "regeneration_duration_seconds": self.regeneration_duration_seconds,
+            "repair_prompt_tokens": self.repair_prompt_tokens,
+            "repair_completion_tokens": self.repair_completion_tokens,
+            "repair_total_tokens": self.repair_prompt_tokens + self.repair_completion_tokens,
+            "repair_model_calls": self.repair_model_calls,
+            "repair_duration_seconds": self.repair_duration_seconds,
+            "repair_attempts": self.repair_attempts,
+            "token_accounting_mode": token_accounting_mode,
+            "migration_duration_seconds": self.migration_duration_seconds,
+            "baseline_validation_duration_seconds": self.baseline_validation_duration_seconds,
+            "scenario_evaluator_duration_seconds": self.scenario_evaluator_duration_seconds,
+            "total_workflow_tokens": (
+                self.selection_prompt_tokens + self.selection_completion_tokens
+                + self.regeneration_prompt_tokens + self.regeneration_completion_tokens
+                + self.repair_prompt_tokens + self.repair_completion_tokens
+            ),
+            "total_workflow_model_calls": (
+                self.selection_model_calls
+                + self.regeneration_model_calls
+                + self.repair_model_calls
+            ),
+            "total_workflow_duration_seconds": (
+                self.selection_duration_seconds
+                + self.regeneration_duration_seconds
+                + self.repair_duration_seconds
+                + self.migration_duration_seconds
+                + self.baseline_validation_duration_seconds
+                + self.scenario_evaluator_duration_seconds
+            ),
+        }
+        if final_scientific_result is not None:
+            sci_fields = _scientific_record_fields_static(final_scientific_result)
+            cumulative_durations = {
+                "migration_duration_seconds",
+                "baseline_validation_duration_seconds",
+                "scenario_evaluator_duration_seconds",
+            }
+            for k, v in sci_fields.items():
+                if k not in cumulative_durations:
+                    fields[k] = v
+        return fields
+
+
 @dataclass(frozen=True)
 class _ScientificValidationResult:
     migration: PostGenerationResult | None
@@ -66,6 +224,80 @@ class RunnerConfig:
     python_executable: str = ""
     extra: dict[str, Any] = field(default_factory=dict)
 
+    def __post_init__(self) -> None:
+        if isinstance(self.max_completion_tokens_per_call, bool):
+            raise ValueError("RunnerConfig.max_completion_tokens_per_call must be integer, not bool")
+        if isinstance(self.max_total_workflow_tokens, bool):
+            raise ValueError("RunnerConfig.max_total_workflow_tokens must be integer, not bool")
+        if isinstance(self.max_tokens, bool):
+            raise ValueError("RunnerConfig.max_tokens must be integer, not bool")
+        if self.max_completion_tokens_per_call <= 0:
+            n = self.max_completion_tokens_per_call
+            raise ValueError(f"RunnerConfig.max_completion_tokens_per_call must be > 0, got {n}")
+        if self.max_total_workflow_tokens < 0:
+            n = self.max_total_workflow_tokens
+            raise ValueError(f"RunnerConfig.max_total_workflow_tokens must be >= 0, got {n}")
+        if self.max_tokens < 0:
+            n = self.max_tokens
+            raise ValueError(f"RunnerConfig.max_tokens must be >= 0, got {n}")
+        _ = self.resolved_max_total_workflow_tokens
+
+    @property
+    def resolved_max_total_workflow_tokens(self) -> int:
+        explicit_total = self.max_total_workflow_tokens
+        legacy_total = self.max_tokens
+        if explicit_total > 0 and legacy_total > 0 and explicit_total != legacy_total:
+            raise ValueError(
+                f"Explicit max_total_workflow_tokens ({explicit_total}) and "
+                f"legacy max_tokens ({legacy_total}) are both positive but differ"
+            )
+        if explicit_total > 0:
+            return explicit_total
+        if legacy_total > 0:
+            return legacy_total
+        return 0
+
+
+def _scientific_record_fields_static(
+    result: _ScientificValidationResult | None,
+) -> dict[str, Any]:
+    if result is None:
+        return {
+            "migration_generation_passed": None,
+            "migration_duration_seconds": 0.0,
+            "generated_migration_paths": (),
+            "baseline_validation_passed": None,
+            "baseline_validation_duration_seconds": 0.0,
+            "scenario_evaluator_passed": None,
+            "scenario_evaluator_duration_seconds": 0.0,
+            "scenario_evaluator_checks": (),
+            "functional_validation_passed": None,
+            "functional_validation_duration_seconds": 0.0,
+        }
+    mig = result.migration
+    bas = result.baseline
+    eva = result.evaluator
+    mig_passed = mig.passed if mig is not None else None
+    mig_dur = mig.duration_seconds if mig is not None else 0.0
+    mig_paths = mig.created_paths if mig is not None else ()
+    bas_passed = bas.passed if bas is not None else None
+    bas_dur = bas.duration_seconds if bas is not None else 0.0
+    eva_passed = eva.passed if eva is not None else None
+    eva_dur = eva.duration_seconds if eva is not None else 0.0
+    eva_checks = eva.checks if eva is not None else ()
+    return {
+        "migration_generation_passed": mig_passed,
+        "migration_duration_seconds": mig_dur,
+        "generated_migration_paths": tuple(mig_paths),
+        "baseline_validation_passed": bas_passed,
+        "baseline_validation_duration_seconds": bas_dur,
+        "scenario_evaluator_passed": eva_passed,
+        "scenario_evaluator_duration_seconds": eva_dur,
+        "scenario_evaluator_checks": tuple(eva_checks),
+        "functional_validation_passed": bas_passed,
+        "functional_validation_duration_seconds": bas_dur,
+    }
+
 
 class BenchmarkRunner:
     def __init__(
@@ -82,7 +314,7 @@ class BenchmarkRunner:
         self._state = RunStateMachine()
         self._budget = BudgetManager(
             max_attempts=config.max_attempts,
-            max_tokens=config.max_tokens,
+            max_tokens=config.resolved_max_total_workflow_tokens,
             timeout_seconds=config.timeout_seconds,
         )
         self._last_prediction: ImpactPrediction | None = None
@@ -286,42 +518,7 @@ class BenchmarkRunner:
         self,
         result: _ScientificValidationResult | None,
     ) -> dict[str, Any]:
-        if result is None:
-            return {
-                "migration_generation_passed": None,
-                "migration_duration_seconds": 0.0,
-                "generated_migration_paths": (),
-                "baseline_validation_passed": None,
-                "baseline_validation_duration_seconds": 0.0,
-                "scenario_evaluator_passed": None,
-                "scenario_evaluator_duration_seconds": 0.0,
-                "scenario_evaluator_checks": (),
-                "functional_validation_passed": None,
-                "functional_validation_duration_seconds": 0.0,
-            }
-        mig = result.migration
-        bas = result.baseline
-        eva = result.evaluator
-        mig_passed = mig.passed if mig is not None else None
-        mig_dur = mig.duration_seconds if mig is not None else 0.0
-        mig_paths = mig.created_paths if mig is not None else ()
-        bas_passed = bas.passed if bas is not None else None
-        bas_dur = bas.duration_seconds if bas is not None else 0.0
-        eva_passed = eva.passed if eva is not None else None
-        eva_dur = eva.duration_seconds if eva is not None else 0.0
-        eva_checks = eva.checks if eva is not None else ()
-        return {
-            "migration_generation_passed": mig_passed,
-            "migration_duration_seconds": mig_dur,
-            "generated_migration_paths": tuple(mig_paths),
-            "baseline_validation_passed": bas_passed,
-            "baseline_validation_duration_seconds": bas_dur,
-            "scenario_evaluator_passed": eva_passed,
-            "scenario_evaluator_duration_seconds": eva_dur,
-            "scenario_evaluator_checks": tuple(eva_checks),
-            "functional_validation_passed": bas_passed,
-            "functional_validation_duration_seconds": bas_dur,
-        }
+        return _scientific_record_fields_static(result)
 
     def _failure_from_scientific_result(
         self,
@@ -645,8 +842,6 @@ class BenchmarkRunner:
 
         self._last_prediction = prediction
 
-        # Record selection tokens BEFORE executor runs so remaining_tokens
-        # reflects the true remaining workflow budget.
         selection_tok = prediction.token_usage or TokenUsage()
         if selection_tok.total_tokens > 0:
             self._budget.record_tokens(selection_tok.total_tokens)
@@ -654,20 +849,31 @@ class BenchmarkRunner:
         requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
         assert self._backend is not None
         executor = SharedRegenerationExecutor(self._backend)
+
+        token_accounting_mode = getattr(
+            self._backend, "token_accounting_mode", "unknown"
+        )
+
+        acc = _WorkflowMetricAccumulator()
+        acc.add_selection(
+            selection_tok,
+            model_calls=0,
+            duration_seconds=selection_duration,
+        )
+
         exec_result = executor.execute(
             plan, self._isolation, requirement_delta=requirement_delta,
-            max_tokens=self._budget.remaining_tokens,
+            max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
+            remaining_total_workflow_tokens=self._budget.remaining_total_tokens,
         )
 
         self._budget.record_tokens(exec_result.total_tokens)
 
-        # Execute scientific validation (shared sequence)
         sci_result = self._execute_scientific_validation(scenario, exec_result)
 
-        selection_tokens = prediction.token_usage or TokenUsage()
-        selection_model_calls = 0
-        total_tokens = selection_tokens.total_tokens + exec_result.total_tokens
-        total_model_calls = selection_model_calls + exec_result.model_calls
+        acc.add_code_generation(exec_result, is_repair=False)
+        if sci_result is not None:
+            acc.add_scientific(sci_result)
 
         failures: list[FailureRecord] = []
         for f in exec_result.failures:
@@ -680,7 +886,6 @@ class BenchmarkRunner:
                 )
             )
 
-        # Validation tri-state from scientific result
         if sci_result is not None and not sci_result.passed:
             failures.append(
                 self._failure_from_scientific_result(sci_result)
@@ -688,36 +893,35 @@ class BenchmarkRunner:
 
         status = RunStatus.failed if failures else RunStatus.succeeded
 
-        # Actual regenerated count from executor result, not planned
         regenerated_count = sum(1 for a in exec_result.artifacts if a.status == "generated")
 
-        # Workflow duration = selection + regeneration + validation
-        regeneration_duration = exec_result.duration_seconds
-        validation_duration = sci_result.duration_seconds if sci_result is not None else 0.0
-        total_workflow_duration = selection_duration + regeneration_duration + validation_duration
+        fields = acc.as_record_fields(
+            final_scientific_result=sci_result,
+            token_accounting_mode=token_accounting_mode,
+        )
 
-        fields = self._scientific_record_fields(sci_result)
+        legacy_prompt = (
+            fields["selection_prompt_tokens"]
+            + fields["regeneration_prompt_tokens"]
+            + fields["repair_prompt_tokens"]
+        )
+        legacy_completion = (
+            fields["selection_completion_tokens"]
+            + fields["regeneration_completion_tokens"]
+            + fields["repair_completion_tokens"]
+        )
 
         return RunRecord(
             identity=self._build_run_identity(scenario),
             status=status,
             prediction=prediction,
-            token_usage=selection_tokens,
+            token_usage=TokenUsage(
+                prompt_tokens=legacy_prompt,
+                completion_tokens=legacy_completion,
+                total_tokens=fields["total_workflow_tokens"],
+            ),
             duration_seconds=time.monotonic() - start_time,
             failures=tuple(failures),
-            selection_prompt_tokens=selection_tokens.prompt_tokens,
-            selection_completion_tokens=selection_tokens.completion_tokens,
-            selection_total_tokens=selection_tokens.total_tokens,
-            selection_model_calls=selection_model_calls,
-            selection_duration_seconds=selection_duration,
-            regeneration_prompt_tokens=exec_result.prompt_tokens,
-            regeneration_completion_tokens=exec_result.completion_tokens,
-            regeneration_total_tokens=exec_result.total_tokens,
-            regeneration_model_calls=exec_result.model_calls,
-            regeneration_duration_seconds=regeneration_duration,
-            total_workflow_tokens=total_tokens,
-            total_workflow_model_calls=total_model_calls,
-            total_workflow_duration_seconds=total_workflow_duration,
             **fields,
             selected_artifact_count=counts.get("selected", 0),
             regenerated_artifact_count=regenerated_count,
@@ -773,28 +977,15 @@ class BenchmarkRunner:
         assert self._backend is not None
         executor = SharedRegenerationExecutor(self._backend)
 
-        selection_prompt = first_record.selection_prompt_tokens
-        selection_completion = first_record.selection_completion_tokens
-        selection_total = first_record.selection_total_tokens
-        selection_calls = first_record.selection_model_calls
-        selection_dur = first_record.selection_duration_seconds
-
-        regen_prompt = first_record.regeneration_prompt_tokens
-        regen_completion = first_record.regeneration_completion_tokens
-        regen_total = first_record.regeneration_total_tokens
-        regen_calls = first_record.regeneration_model_calls
-        regen_dur = first_record.regeneration_duration_seconds
-
-        val_dur = (
-            first_record.migration_duration_seconds
-            + first_record.baseline_validation_duration_seconds
-            + first_record.scenario_evaluator_duration_seconds
+        token_accounting_mode = getattr(
+            self._backend, "token_accounting_mode", "unknown"
         )
+
+        acc = _WorkflowMetricAccumulator.from_record(first_record)
 
         all_failures = list(first_record.failures)
         first_regen_count = first_record.regenerated_artifact_count
 
-        # Build repair context from first scientific result
         repair_context: str | None = None
         last_sci = self._last_scientific_result
         if last_sci is not None and not last_sci.passed:
@@ -810,19 +1001,17 @@ class BenchmarkRunner:
 
             exec_result = executor.execute(
                 plan, self._isolation, requirement_delta, repair_context=repair_context,
-                max_tokens=self._budget.remaining_tokens,
+                max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
+                remaining_total_workflow_tokens=self._budget.remaining_total_tokens,
             )
 
             self._budget.record_tokens(exec_result.total_tokens)
 
             sci_result = self._execute_scientific_validation(scenario, exec_result)
 
-            regen_prompt += exec_result.prompt_tokens
-            regen_completion += exec_result.completion_tokens
-            regen_total += exec_result.total_tokens
-            regen_calls += exec_result.model_calls
-            regen_dur += exec_result.duration_seconds
-            val_dur += sci_result.duration_seconds if sci_result is not None else 0.0
+            acc.add_code_generation(exec_result, is_repair=True)
+            if sci_result is not None:
+                acc.add_scientific(sci_result)
 
             for failure_msg in exec_result.failures:
                 all_failures.append(
@@ -836,31 +1025,32 @@ class BenchmarkRunner:
 
             if sci_result is not None and sci_result.passed and not exec_result.failures:
                 self._state.succeed()
-                fields = self._scientific_record_fields(sci_result)
-                total_tok = selection_total + regen_total
-                total_calls_val = selection_calls + regen_calls
-                total_dur_val = selection_dur + regen_dur + val_dur
+                fields = acc.as_record_fields(
+                    final_scientific_result=sci_result,
+                    token_accounting_mode=token_accounting_mode,
+                )
+                legacy_prompt = (
+                    fields["selection_prompt_tokens"]
+                    + fields["regeneration_prompt_tokens"]
+                    + fields["repair_prompt_tokens"]
+                )
+                legacy_completion = (
+                    fields["selection_completion_tokens"]
+                    + fields["regeneration_completion_tokens"]
+                    + fields["repair_completion_tokens"]
+                )
                 return RunRecord(
                     identity=self._build_run_identity(scenario),
                     status=RunStatus.succeeded,
                     prediction=prediction,
-                    token_usage=prediction.token_usage or TokenUsage(),
+                    token_usage=TokenUsage(
+                        prompt_tokens=legacy_prompt,
+                        completion_tokens=legacy_completion,
+                        total_tokens=fields["total_workflow_tokens"],
+                    ),
                     failures=tuple(all_failures),
                     duration_seconds=time.monotonic() - start_time,
-                    selection_prompt_tokens=selection_prompt,
-                    selection_completion_tokens=selection_completion,
-                    selection_total_tokens=selection_total,
-                    selection_model_calls=selection_calls,
-                    selection_duration_seconds=selection_dur,
-                    regeneration_prompt_tokens=regen_prompt,
-                    regeneration_completion_tokens=regen_completion,
-                    regeneration_total_tokens=regen_total,
-                    regeneration_model_calls=regen_calls,
-                    regeneration_duration_seconds=regen_dur,
                     **fields,
-                    total_workflow_tokens=total_tok,
-                    total_workflow_model_calls=total_calls_val,
-                    total_workflow_duration_seconds=total_dur_val,
                     selected_artifact_count=counts.get("selected", 0),
                     regenerated_artifact_count=sum(
                         1 for a in exec_result.artifacts if a.status == "generated"
@@ -874,7 +1064,6 @@ class BenchmarkRunner:
                     self._failure_from_scientific_result(sci_result)
                 )
 
-            # Update repair context from scientific result
             if sci_result is not None and not sci_result.passed:
                 ec, so, se = self._scientific_feedback_channels(sci_result)
                 repair_context = REPAIR_CONTEXT_PROMPT_TEMPLATE.format(
@@ -889,34 +1078,33 @@ class BenchmarkRunner:
                 break
 
         self._state.fail()
-        total_tokens = selection_total + regen_total
-        total_calls = selection_calls + regen_calls
-        total_dur = selection_dur + regen_dur + val_dur
-
-        # Failed record preserves latest available stage evidence
         sci = self._last_scientific_result
-        fields = self._scientific_record_fields(sci)
+        fields = acc.as_record_fields(
+            final_scientific_result=sci,
+            token_accounting_mode=token_accounting_mode,
+        )
+        legacy_prompt = (
+            fields["selection_prompt_tokens"]
+            + fields["regeneration_prompt_tokens"]
+            + fields["repair_prompt_tokens"]
+        )
+        legacy_completion = (
+            fields["selection_completion_tokens"]
+            + fields["regeneration_completion_tokens"]
+            + fields["repair_completion_tokens"]
+        )
         return RunRecord(
             identity=self._build_run_identity(scenario),
             status=RunStatus.failed,
             prediction=prediction,
-            token_usage=prediction.token_usage or TokenUsage(),
+            token_usage=TokenUsage(
+                prompt_tokens=legacy_prompt,
+                completion_tokens=legacy_completion,
+                total_tokens=fields["total_workflow_tokens"],
+            ),
             failures=tuple(all_failures),
             duration_seconds=time.monotonic() - start_time,
-            selection_prompt_tokens=selection_prompt,
-            selection_completion_tokens=selection_completion,
-            selection_total_tokens=selection_total,
-            selection_model_calls=selection_calls,
-            selection_duration_seconds=selection_dur,
-            regeneration_prompt_tokens=regen_prompt,
-            regeneration_completion_tokens=regen_completion,
-            regeneration_total_tokens=regen_total,
-            regeneration_model_calls=regen_calls,
-            regeneration_duration_seconds=regen_dur,
             **fields,
-            total_workflow_tokens=total_tokens,
-            total_workflow_model_calls=total_calls,
-            total_workflow_duration_seconds=total_dur,
             selected_artifact_count=counts.get("selected", 0),
             regenerated_artifact_count=first_regen_count,
             preserved_artifact_count=counts.get("preserve", 0),
@@ -975,22 +1163,12 @@ class BenchmarkRunner:
             requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
             executor = SharedRegenerationExecutor(self._backend)
 
-            selection_total_prompt = 0
-            selection_total_completion = 0
-            selection_total_tok = 0
-            selection_calls = 0
-            selection_dur = 0.0
-            selection_tool_calls = 0
-            selection_tool_duration = 0.0
-            selection_inspected = 0
+            token_accounting_mode = getattr(
+                self._backend, "token_accounting_mode", "unknown"
+            )
 
-            regen_total_prompt = 0
-            regen_total_completion = 0
-            regen_total_tok = 0
-            regen_calls = 0
-            regen_dur = 0.0
+            acc = _WorkflowMetricAccumulator()
 
-            val_dur = 0.0
             all_failures: list[FailureRecord] = []
             total_regenerated = 0
             final_prediction: ImpactPrediction | None = None
@@ -1000,8 +1178,7 @@ class BenchmarkRunner:
             has_validation_run = False
 
             while self._budget.can_attempt:
-                budget_remaining = self._budget.remaining_tokens
-                if self._budget._max_tokens > 0 and budget_remaining <= 0:
+                if self._budget.has_total_token_limit and self._budget.remaining_tokens <= 0:
                     break
 
                 self._budget.record_attempt()
@@ -1021,18 +1198,28 @@ class BenchmarkRunner:
                         requirement_change=requirement_change,
                         artifact_universe=artifact_universe,
                         max_tokens=self._budget.remaining_tokens,
+                        max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
+                        remaining_total_workflow_tokens=self._budget.remaining_total_tokens,
                     )
                     sel_dur = time.monotonic() - selection_start
-                    selection_dur += sel_dur
-
                     mc_after = getattr(self._strategy, "model_call_count", 0)
                     tc_after = getattr(self._strategy, "tool_call_count", 0)
                     td_after = getattr(self._strategy, "tool_duration_seconds", 0.0)
                     ic_after = getattr(self._strategy, "inspected_file_count", 0)
-                    selection_calls += (mc_after - strategy_model_calls_before)
-                    selection_tool_calls += (tc_after - strategy_tool_calls_before)
-                    selection_tool_duration += (td_after - strategy_tool_dur_before)
-                    selection_inspected += (ic_after - strategy_inspected_before)
+                    sel_calls_delta = mc_after - strategy_model_calls_before
+                    sel_tool_delta = tc_after - strategy_tool_calls_before
+                    sel_tool_dur_delta = td_after - strategy_tool_dur_before
+                    sel_inspected_delta = ic_after - strategy_inspected_before
+
+                    tok = prediction.token_usage or TokenUsage()
+                    acc.add_selection(
+                        tok,
+                        model_calls=sel_calls_delta,
+                        duration_seconds=sel_dur,
+                        tool_calls=sel_tool_delta,
+                        tool_duration_seconds=sel_tool_dur_delta,
+                        inspected_file_count=sel_inspected_delta,
+                    )
                 else:
                     last_sci = self._last_scientific_result
                     if last_sci is None:
@@ -1079,25 +1266,30 @@ class BenchmarkRunner:
                         workspace_summary=workspace_summary,
                         remaining_attempts=self._budget.remaining_attempts,
                         remaining_tokens=self._budget.remaining_tokens,
+                        max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
+                        remaining_total_workflow_tokens=self._budget.remaining_total_tokens,
                     )
                     sel_dur = time.monotonic() - selection_start
-                    selection_dur += sel_dur
-
                     mc_after = getattr(self._strategy, "model_call_count", 0)
                     tc_after = getattr(self._strategy, "tool_call_count", 0)
                     td_after = getattr(self._strategy, "tool_duration_seconds", 0.0)
                     ic_after = getattr(self._strategy, "inspected_file_count", 0)
-                    selection_calls += (mc_after - strategy_model_calls_before)
-                    selection_tool_calls += (tc_after - strategy_tool_calls_before)
-                    selection_tool_duration += (td_after - strategy_tool_dur_before)
-                    selection_inspected += (ic_after - strategy_inspected_before)
+                    sel_calls_delta = mc_after - strategy_model_calls_before
+                    sel_tool_delta = tc_after - strategy_tool_calls_before
+                    sel_tool_dur_delta = td_after - strategy_tool_dur_before
+                    sel_inspected_delta = ic_after - strategy_inspected_before
+
+                    tok = prediction.token_usage or TokenUsage()
+                    acc.add_selection(
+                        tok,
+                        model_calls=sel_calls_delta,
+                        duration_seconds=sel_dur,
+                        tool_calls=sel_tool_delta,
+                        tool_duration_seconds=sel_tool_dur_delta,
+                        inspected_file_count=sel_inspected_delta,
+                    )
 
                 final_prediction = prediction
-                tok = prediction.token_usage or TokenUsage()
-                selection_total_prompt += tok.prompt_tokens
-                selection_total_completion += tok.completion_tokens
-                selection_total_tok += tok.total_tokens
-                # selection_calls is now tracked via deltas from strategy, no longer 1 per iteration
                 self._budget.record_tokens(tok.total_tokens)
 
                 if prediction.errors:
@@ -1144,7 +1336,8 @@ class BenchmarkRunner:
 
                 exec_result = executor.execute(
                     plan, self._isolation, requirement_delta=requirement_delta,
-                    max_tokens=self._budget.remaining_tokens,
+                    max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
+                    remaining_total_workflow_tokens=self._budget.remaining_total_tokens,
                 )
 
                 self._budget.record_tokens(exec_result.total_tokens)
@@ -1152,12 +1345,10 @@ class BenchmarkRunner:
                 sci_result = self._execute_scientific_validation(scenario, exec_result)
                 has_validation_run = True
 
-                regen_total_prompt += exec_result.prompt_tokens
-                regen_total_completion += exec_result.completion_tokens
-                regen_total_tok += exec_result.total_tokens
-                regen_calls += exec_result.model_calls
-                regen_dur += exec_result.duration_seconds
-                val_dur += sci_result.duration_seconds if sci_result is not None else 0.0
+                is_repair = iteration > 0
+                acc.add_code_generation(exec_result, is_repair=is_repair)
+                if sci_result is not None:
+                    acc.add_scientific(sci_result)
                 last_exec_result = exec_result
 
                 iteration += 1
@@ -1176,38 +1367,35 @@ class BenchmarkRunner:
                     total_regenerated = sum(
                         1 for a in exec_result.artifacts if a.status == "generated"
                     )
-                    selection_total = selection_total_prompt + selection_total_completion
-                    total_tok = selection_total + regen_total_tok
-                    total_calls_val = selection_calls + regen_calls
-                    total_dur_val = selection_dur + regen_dur + val_dur
-                    fields = self._scientific_record_fields(sci_result)
+                    fields = acc.as_record_fields(
+                        final_scientific_result=sci_result,
+                        token_accounting_mode=token_accounting_mode,
+                    )
+                    legacy_prompt = (
+                        fields["selection_prompt_tokens"]
+                        + fields["regeneration_prompt_tokens"]
+                        + fields["repair_prompt_tokens"]
+                    )
+                    legacy_completion = (
+                        fields["selection_completion_tokens"]
+                        + fields["regeneration_completion_tokens"]
+                        + fields["repair_completion_tokens"]
+                    )
 
                     tool_transcript = tuple(getattr(self._strategy, "compact_tool_transcript", ()))
                     return RunRecord(
                         identity=self._build_run_identity(scenario),
                         status=RunStatus.succeeded,
                         prediction=final_prediction,
-                        token_usage=final_prediction.token_usage or TokenUsage(),
+                        token_usage=TokenUsage(
+                            prompt_tokens=legacy_prompt,
+                            completion_tokens=legacy_completion,
+                            total_tokens=fields["total_workflow_tokens"],
+                        ),
                         duration_seconds=time.monotonic() - start_time,
                         failures=tuple(all_failures),
-                        selection_prompt_tokens=selection_total_prompt,
-                        selection_completion_tokens=selection_total_completion,
-                        selection_total_tokens=selection_total,
-                        selection_model_calls=selection_calls,
-                        selection_duration_seconds=selection_dur,
-                        selection_tool_calls=selection_tool_calls,
-                        selection_tool_duration_seconds=selection_tool_duration,
-                        selection_inspected_file_count=selection_inspected,
                         selection_tool_transcript=tool_transcript,
-                        regeneration_prompt_tokens=regen_total_prompt,
-                        regeneration_completion_tokens=regen_total_completion,
-                        regeneration_total_tokens=regen_total_tok,
-                        regeneration_model_calls=regen_calls,
-                        regeneration_duration_seconds=regen_dur,
                         **fields,
-                        total_workflow_tokens=total_tok,
-                        total_workflow_model_calls=total_calls_val,
-                        total_workflow_duration_seconds=total_dur_val,
                         selected_artifact_count=counts.get("selected", 0),
                         regenerated_artifact_count=total_regenerated,
                         preserved_artifact_count=counts.get("preserve", 0),
@@ -1248,38 +1436,35 @@ class BenchmarkRunner:
 
             self._state.fail()
             tool_transcript = tuple(getattr(self._strategy, "compact_tool_transcript", ()))
-            selection_total = selection_total_prompt + selection_total_completion
-            total_tokens = selection_total + regen_total_tok
-            total_calls = selection_calls + regen_calls
-            total_dur = selection_dur + regen_dur + val_dur
             sci = self._last_scientific_result
-            fields = self._scientific_record_fields(sci)
+            fields = acc.as_record_fields(
+                final_scientific_result=sci,
+                token_accounting_mode=token_accounting_mode,
+            )
+            legacy_prompt = (
+                fields["selection_prompt_tokens"]
+                + fields["regeneration_prompt_tokens"]
+                + fields["repair_prompt_tokens"]
+            )
+            legacy_completion = (
+                fields["selection_completion_tokens"]
+                + fields["regeneration_completion_tokens"]
+                + fields["repair_completion_tokens"]
+            )
 
             return RunRecord(
                 identity=self._build_run_identity(scenario),
                 status=RunStatus.timed_out if self._budget.timed_out else RunStatus.failed,
                 prediction=final_prediction,
-                token_usage=final_prediction.token_usage or TokenUsage() if final_prediction else TokenUsage(),
+                token_usage=TokenUsage(
+                    prompt_tokens=legacy_prompt,
+                    completion_tokens=legacy_completion,
+                    total_tokens=fields["total_workflow_tokens"],
+                ) if final_prediction else TokenUsage(),
                 duration_seconds=time.monotonic() - start_time,
                 failures=tuple(all_failures),
-                selection_prompt_tokens=selection_total_prompt,
-                selection_completion_tokens=selection_total_completion,
-                selection_total_tokens=selection_total,
-                selection_model_calls=selection_calls,
-                selection_duration_seconds=selection_dur,
-                selection_tool_calls=selection_tool_calls,
-                selection_tool_duration_seconds=selection_tool_duration,
-                selection_inspected_file_count=selection_inspected,
                 selection_tool_transcript=tool_transcript,
-                regeneration_prompt_tokens=regen_total_prompt,
-                regeneration_completion_tokens=regen_total_completion,
-                regeneration_total_tokens=regen_total_tok,
-                regeneration_model_calls=regen_calls,
-                regeneration_duration_seconds=regen_dur,
                 **fields,
-                total_workflow_tokens=total_tokens,
-                total_workflow_model_calls=total_calls,
-                total_workflow_duration_seconds=total_dur,
                 selected_artifact_count=(
                     final_prediction
                     and len([d for d in final_prediction.decisions

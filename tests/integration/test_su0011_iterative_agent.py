@@ -966,7 +966,11 @@ class TestMetricsAggregation:
         )
 
         record = runner.run(scenario)
-        expected = record.selection_total_tokens + record.regeneration_total_tokens
+        expected = (
+            record.selection_total_tokens
+            + record.regeneration_total_tokens
+            + record.repair_total_tokens
+        )
         assert abs(record.total_workflow_tokens - expected) < 50
 
     def test_checkpoint_compatible(self, tmp_path: Path) -> None:
@@ -1018,6 +1022,9 @@ class TestBackendExceptionPropagation:
         from benchmark.core.exceptions import ModelBackendError
 
         class _FailingBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 50
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 raise ModelBackendError("model backend unavailable")
 
@@ -1041,6 +1048,9 @@ class TestBackendExceptionPropagation:
         class _FailingOnSecondCallBackend:
             def __init__(self):
                 self.call_count = 0
+
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 50
 
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1
@@ -1072,6 +1082,9 @@ class TestBackendExceptionPropagation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
 
         class _RuntimeErrorBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 50
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 raise RuntimeError("connection timeout")
 

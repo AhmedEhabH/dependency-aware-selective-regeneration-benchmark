@@ -17,6 +17,7 @@ from benchmark.core.models import (
     RunIdentity,
     RunRecord,
     Scenario,
+    TokenUsage,
 )
 from benchmark.execution.isolation import IsolationContext
 from benchmark.execution.post_generation import PostGenerationResult
@@ -727,9 +728,11 @@ def test_repair_validation_duration_uses_complete_stage_sum(tmp_path: Path) -> N
             failure_kind=FailureKind.build,
             message="fail", stage="migration_generation",
         ),),
+        token_usage=TokenUsage(prompt_tokens=0, completion_tokens=0, total_tokens=0),
         migration_duration_seconds=0.3,
         baseline_validation_duration_seconds=0.2,
         scenario_evaluator_duration_seconds=0.1,
+        total_workflow_duration_seconds=0.6,
     )
     sci_pass = _ScientificValidationResult(
         migration=None, baseline=None, evaluator=None,
@@ -755,7 +758,7 @@ def test_repair_validation_duration_uses_complete_stage_sum(tmp_path: Path) -> N
         result = runner._run_regeneration_repair_flow(
             scenario=_scenario(), first_record=record, start_time=0.0,
         )
-    expected_val_dur = 0.3 + 0.2 + 0.1 + 0.4
+    expected_val_dur = 0.3 + 0.2 + 0.1
     assert result.total_workflow_duration_seconds == pytest.approx(expected_val_dur, abs=0.01)
 
 
