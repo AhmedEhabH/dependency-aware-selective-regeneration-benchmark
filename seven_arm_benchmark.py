@@ -717,7 +717,9 @@ def parse_args() -> argparse.Namespace:
         help=(
             "Execution profile: smoke (orchestration, 1 scenario, 7 strategies, non-publication), "
             "pilot (protocol, 12 scenarios, 2 strategies, 2 reps, descriptive), "
-            "research (protocol, 24 scenarios, 4 full-evolution strategies, 3 reps, publication)"
+            "research (protocol, 24 scenarios, 4 full-evolution strategies, 3 reps, publication), "
+            "scientific-smoke-v1 (1 repo x 1 scenario x 3 arms x 1 run, non-publication), "
+            "scientific-smoke-v2 (three-arm, 3 scenarios x 3 arms x 1 repetition, non-publication)"
         ),
     )
     parser.add_argument(

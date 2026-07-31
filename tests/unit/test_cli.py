@@ -316,6 +316,22 @@ class TestCliOpenRouter:
         assert "OPENROUTER_API_KEY" in combined
 
 
+class TestCliHelp:
+    def test_scientific_smoke_v2_in_profile_help(self) -> None:
+        result = _run("--help")
+        assert result.returncode == 0
+        help_text = " ".join(result.stdout.split())
+        assert "scientific-smoke-v2" in help_text
+        assert "three-arm" in help_text
+        assert "3 scenarios x 3 arms x 1 repetition" in help_text
+        assert "non-publication" in help_text
+        assert "scientific-smoke-v1" in help_text
+
+    def test_description_is_seven_arm_benchmark(self) -> None:
+        result = _run("--help")
+        assert "Seven-arm dependency-aware selective regeneration benchmark" in result.stdout
+
+
 class TestEntryPointConversion:
     """SU-0010B2: _to_run_record_data forwards every scoped metric."""
 
