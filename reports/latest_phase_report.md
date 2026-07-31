@@ -310,3 +310,62 @@ The audit confirmed both defects closed (exact exhaustion semantics; evaluator L
 The repository freeze record is `docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`. README remains intentionally deferred to R6.
 
 **R4_ACCEPTED_R5_AUTHORIZED**
+
+---
+
+## 25. R5 Baseline-Contract Amendment Addendum (R5-BASELINE-CONTRACT-001)
+
+On 2026-07-31, after R4 freeze, R5 Step 2 (the first Monolithic cell) was
+blocked at `baseline_validation`: the frozen baseline regression assertions
+contradicted the three frozen Smoke V2 scenarios. An independent blocker audit
+confirmed the contradiction. No Smoke V2 record had been produced, so a single
+narrow pre-results benchmark-data amendment was authorized
+(`..\R5_BLOCKER_INDEPENDENT_AUDIT_2026-07-31.md`,
+`..\OPENCODE_R5_CONTRACT_CORRECTION_AND_RESUME_DIRECTIVE.md`).
+
+### Amendment contents
+
+- Serializer field assertions became baseline-field preservation checks
+  (`TagSerializer` exact); the exact-set Project/Task assertions were
+  unsatisfiable because smoke-001 correctly adds `priority` and smoke-003
+  correctly adds `owner`.
+- The `TaskViewSetTest` common project is created through the authenticated
+  `POST /api/projects/` API; the unowned-task forbidden test creates its
+  project through another user's API client and still asserts HTTP 403.
+- The smoke-002 correct-source fixture keys are exactly `todo/models.py` and
+  `todo/views.py`; Monolithic/Selective return the baseline serializer content.
+- The smoke-002 evaluator dropped only the unstated `deleted_at`-response-field
+  loop inside `_deleted_action_lists_deleted`; `_soft_delete_sets_timestamp`
+  remains authoritative; all other checks and check names are unchanged.
+  Canonical LF SHA-256 recomputed.
+- A three-scenario compatibility gate
+  (`test_correct_fixture_passes_baseline_and_evaluator_*`) proves baseline +
+  evaluator + one migration + unchanged old migrations + exact frozen
+  changed-source paths + unchanged baseline tests + no evaluator assets in the
+  workspace.
+
+### Gate results
+
+```
+Baseline repository suite (todo)      47 passed, 0 failed
+Correct-fixture compatibility gate    3 scenarios passed
+Complete evaluator suite              53 passed, 1 skipped (pre-existing), 0 failed
+R5 Step-1 + Monolithic smoke-001 cell 11 passed (test_scientific_smoke_v2_production_path.py)
+Full suite                            1598 passed, 32 skipped, 0 failed
+Ruff                                  0 new findings (correction + R5 WIP files clean)
+Mypy                                  0 errors on changed production files
+Compileall                            exit 0
+git diff --check                      clean
+```
+
+### Commit boundaries
+
+```
+8fafb50  fix(validation): reconcile Smoke V2 baseline contracts  (7 files, no production, no scenario YAML)
+docs(protocol): record pre-results Smoke V2 baseline amendment     (documentation only)
+```
+
+No scientific result existed under the old rules. This is a pre-results
+correction, not post-hoc tuning: every preserved check still fails its negative
+variant, and the exact changed-source-path contract is unchanged. R5 is resumed;
+R6, Kaggle, push, and tag remain blocked.
