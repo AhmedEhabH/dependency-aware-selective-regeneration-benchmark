@@ -1741,6 +1741,8 @@ Test:
 
 Commit code, then docs, then stop for audit.
 
+**R4 completion status (2026-07-31):** implemented on `experiment/three-arm-smoke-v2`, code commit `e87d4ad`. Full suite 1576 passed / 32 skipped / 0 failed; R4 unit 66, R4 integration 31, R3D-adjacent 177, evaluator integrity 50 + 1 pre-existing skip; direct scripts A/B/C1/C2/D acceptance met; 0 new ruff/mypy errors vs HEAD baseline. R4 is NOT accepted and NOT frozen; independent audit required before R5.
+
 ---
 
 # PHASE R5 — Nine non-dry scripted production records

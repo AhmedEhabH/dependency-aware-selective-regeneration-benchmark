@@ -117,3 +117,38 @@
 - **Severity:** TD-2
 - **Closure:** report printed in the visible OpenCode response ✓
 - **Checkpoint:** R3D final evidence closure
+
+### TD-R4-001 — truthful metrics implementation pending
+- **Severity:** TD-0 scientific contract
+- **Closure:** R4 single-pass completed — `budgets.resolve_completion_allowance` single resolver; frozen conflict rule at every constructor; stage-split `_WorkflowMetricAccumulator`; executor/Agent explicit limits; `model_metadata` forwards resolved total + max_attempts; R4 unit 66, R4 integration 31, full suite 1576/32/0 ✓
+- **Checkpoint:** RF-3
+
+### TD-R4-002 — per-call and workflow-total limits conflated
+- **Severity:** TD-0
+- **Closure:** separate `max_completion_tokens_per_call` (default 4096) and `max_total_workflow_tokens` (0 = unlimited) across executor, Agent, Runner, Pipeline, CLI record_dict ✓
+- **Checkpoint:** RF-3
+
+### TD-R4-003 — frozen conflict rule not enforced at construction
+- **Severity:** TD-0
+- **Closure:** `PipelineConfig.__post_init__`, `RunnerConfig`, `ExecutionConfig` raise at construction on differing positive totals; legacy-only and equal-positive resolve ✓
+- **Checkpoint:** RF-3
+
+### TD-R4-004 — repair regeneration counted as initial regeneration
+- **Severity:** TD-0
+- **Closure:** `is_repair = iteration > 0`; `repair_attempts += 1` once per repair executor call (runner.py:117, 1348-1349) ✓
+- **Checkpoint:** RF-3
+
+### TD-R4-005 — scientific stage durations not cumulative across attempts
+- **Severity:** TD-1
+- **Closure:** `_WorkflowMetricAccumulator.add_scientific` sums migration/baseline/evaluator across repair attempts; exact asserts (`0.5×2 = 1.5`, `0.7×3 = 2.1`) ✓
+- **Checkpoint:** RF-3
+
+### TD-R4-006 — nominal `assert True` executor/Agent/boundary tests
+- **Severity:** TD-0
+- **Closure:** replaced with 66 unit + 31 integration executable production-path tests; zero `assert True` ✓
+- **Checkpoint:** RF-3
+
+### TD-PROCESS-008 — R4 ARG001 introduced mid-session
+- **Severity:** TD-2
+- **Closure:** `_to_run_record_data` forwards `max_attempts` into `model_metadata`; new-error count restored to zero ✓
+- **Checkpoint:** RF-3

@@ -367,4 +367,36 @@ Single enforcement point: `_validate_scientific_configuration` in runner.py. Pre
 
 ---
 
-**R3D_FINAL_FREEZE_AUDIT_REQUIRED**
+## 16. R4 Status — Token Limits and Truthful Workflow Metrics
+
+**Status:** R4 IMPLEMENTED — INDEPENDENT AUDIT REQUIRED (not accepted, not frozen)
+**Starting HEAD:** `b8724cc`
+**Code commit:** `e87d4ad` — `fix(metrics): separate per-call limits and workflow totals`
+**Date:** 2026-07-31
+
+### What was built
+
+- **Single allowance resolver** — `budgets.resolve_completion_allowance(*, max_completion_tokens_per_call, remaining_total_workflow_tokens, prompt_tokens)`; zero total → per-call limit; otherwise `max(0, min(per_call, remaining − prompt))`.
+- **Frozen conflict rule at every constructor** — `PipelineConfig`, `RunnerConfig`, `ExecutionConfig`: both zero → unlimited; one positive → it; both positive equal → it; both positive different → constructor-time `ValueError`.
+- **Stage-split truthful metrics** — `_WorkflowMetricAccumulator` tracks selection / initial regeneration / repair / migration / baseline / evaluator separately; `total_workflow_*` equals the exact stage sum; `repair_attempts` increments once per repair executor call.
+- **Executor/Agent limit separation** — executor `SharedRegenerationExecutor.execute(..., max_completion_tokens_per_call, remaining_total_workflow_tokens)`; agent `analyze_impact`/`revise_plan` use explicit per-call + remaining-total; `MAX_AGENT_CALLS = 8`.
+- **Resolved total forwarded everywhere** — `seven_arm_benchmark.py` `record_dict` carries `max_completion_tokens_per_call`/`max_total_workflow_tokens`; `_to_run_record_data` forwards them plus `max_attempts` into `model_metadata`; survives JSONL reload and report.
+- **Real test evidence** — `test_r4_token_and_metrics.py` (66 tests), `test_r4_metric_contract.py` (31 tests); zero `assert True`.
+
+### Quality gates
+
+- 9.1 R4 unit: 66 passed; 9.2 R4 integration: 31 passed; 9.3 R3D-adjacent: 177 passed; 9.4 evaluator integrity: 50 passed, 1 pre-existing skip
+- Full suite: 1576 passed, 32 skipped, 0 failed
+- Ruff: 0 new errors (pre-existing tracked-file findings verified vs HEAD worktree)
+- Mypy --strict: 0 new errors (10 pre-existing in seven_arm_benchmark.py, verified vs HEAD worktree)
+- Compileall: exit 0; `git diff --check`: clean
+- Direct scripts A/B/C1/C2/D all met §7 acceptance; Script D showed 2048/9000 at all five boundaries
+- Code commit `e87d4ad`: 21 files, 3052 insertions, 307 deletions (14 production + 7 tests)
+
+### Blocked
+
+- R4 freeze: blocks R5 (nine local records), RF-4, R6 (bundle and push), Kaggle execution, Pilot. R5 is unauthorized pending independent audit.
+
+---
+
+**R4_TOKEN_AND_METRIC_CONTRACT_AUDIT_REQUIRED**
