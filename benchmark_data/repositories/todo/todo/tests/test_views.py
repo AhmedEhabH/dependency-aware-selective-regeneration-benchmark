@@ -11,7 +11,9 @@ class TaskViewSetTest(TestCase):
         self.user = User.objects.create_user(username="testuser", password="testpass123")
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
-        self.project = Project.objects.create(name="Test Project")
+        response = self.client.post("/api/projects/", {"name": "Test Project"})
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.project = Project.objects.get(pk=response.data["id"])
 
     def test_list_tasks(self):
         Task.objects.create(title="Task 1", project=self.project)
@@ -49,7 +51,12 @@ class TaskViewSetTest(TestCase):
 
     def test_update_unowned_task_forbidden(self):
         other_user = User.objects.create_user(username="other", password="pass")
-        task = Task.objects.create(title="Others Task", project=self.project, owner=other_user)
+        other_client = APIClient()
+        other_client.force_authenticate(user=other_user)
+        other_project_response = other_client.post("/api/projects/", {"name": "Other Project"})
+        self.assertEqual(other_project_response.status_code, status.HTTP_201_CREATED)
+        other_project = Project.objects.get(pk=other_project_response.data["id"])
+        task = Task.objects.create(title="Others Task", project=other_project, owner=other_user)
         response = self.client.patch(f"/api/tasks/{task.pk}/", {"title": "Hacked"})
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 

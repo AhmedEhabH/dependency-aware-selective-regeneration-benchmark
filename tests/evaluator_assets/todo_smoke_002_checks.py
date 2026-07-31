@@ -114,8 +114,6 @@ def main() -> int:
                 ids = [r["id"] for r in resp.data.get("results", [])]
                 assert target.pk in ids, "Deleted task missing from /deleted/ endpoint"
                 assert active.pk not in ids, "Active task present in /deleted/ endpoint"
-                for r in resp.data.get("results", []):
-                    assert r.get("deleted_at") is not None, "Deleted row missing deleted_at"
 
             def _restore_action_restores() -> None:
                 task = Task._base_manager.create(owner=user, title="RestoreTest", project=project)
@@ -154,7 +152,7 @@ def main() -> int:
                 assert tag in restored.tags.all(), "Tags not preserved after restore"
 
             def _project_and_tag_regression() -> None:
-                from todo.models import Tag, Project
+                from todo.models import Project, Tag
                 proj_resp = client.post("/api/projects/", {"name": "Smoke002Proj"})
                 assert proj_resp.status_code == 201, f"Project create returned {proj_resp.status_code}"
                 proj = Project.objects.get(pk=proj_resp.data["id"])

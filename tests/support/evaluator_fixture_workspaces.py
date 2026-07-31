@@ -252,38 +252,6 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 ''',
-    "todo/serializers.py": '''from rest_framework import serializers
-
-from todo.models import Project, Tag, Task
-
-
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = ["id", "name", "color"]
-
-
-class ProjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Project
-        fields = ["id", "name", "description"]
-
-
-class TaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = [
-            "id",
-            "title",
-            "description",
-            "status",
-            "project",
-            "tags",
-            "created_at",
-            "updated_at",
-            "deleted_at",
-        ]
-''',
     "todo/views.py": '''from rest_framework import decorators, response, status, viewsets
 
 from todo.models import Project, Tag, Task
@@ -521,6 +489,27 @@ class TagViewSet(viewsets.ModelViewSet):
 }
 
 
+_SMOKE_V2_CORRECT_SOURCES: dict[str, dict[str, str]] = {
+    "todo-smoke-001": _SMOKE_001_CORRECT_SOURCES,
+    "todo-smoke-002": _SMOKE_002_CORRECT_SOURCES,
+    "todo-smoke-003": _SMOKE_003_CORRECT_SOURCES,
+}
+
+
+def get_correct_sources_for_scenario(scenario_id: str) -> dict[str, str]:
+    """Return a fresh copy of the correct source mapping for a Smoke V2 scenario.
+
+    Supports only the three frozen Smoke V2 scenario IDs. Returns a new
+    dictionary each call and never mutates the module-level source fixtures.
+    """
+    if scenario_id not in _SMOKE_V2_CORRECT_SOURCES:
+        raise ValueError(
+            f"Unsupported scenario_id {scenario_id!r}: only the three frozen "
+            "Smoke V2 scenario IDs are supported"
+        )
+    return dict(_SMOKE_V2_CORRECT_SOURCES[scenario_id])
+
+
 def build_todo_smoke_001_workspace(destination: Path, variant: str = "correct") -> Path:
     _copy_baseline(destination)
 
@@ -684,7 +673,9 @@ def _get_sources_for_variant(
 
     if scenario_id == "todo-smoke-001":
         if variant == "wrong_default":
-            return _apply_single_replacement(correct, "todo/models.py", "default=Priority.MEDIUM,", "default=Priority.HIGH,")
+            return _apply_single_replacement(
+                correct, "todo/models.py", "default=Priority.MEDIUM,", "default=Priority.HIGH,"
+            )
         elif variant == "missing_filter":
             return _apply_single_replacement(
                 correct, "todo/views.py",
