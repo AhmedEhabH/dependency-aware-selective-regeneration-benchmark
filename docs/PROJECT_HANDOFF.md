@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-31
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R4 ACCEPTED AND FROZEN — R5 RESUMED — branch experiment/three-arm-smoke-v2, R4 freeze HEAD a46213c (independent re-audit by GPT-5.6 Thinking, 2026-07-31); R5 nine non-dry scripted production records resumed after pre-results baseline-contract amendment R5-BASELINE-CONTRACT-001 (correction commit 8fafb50)
+**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 SCOPE CORRECTION COMPLETE PENDING INDEPENDENT RE-AUDIT — branch experiment/three-arm-smoke-v2; R5 benchmark correction 8fafb50, amendment docs a24a9cd, rewritten execution fix 875e4d1, rewritten test proof ee148fa, audit docs commit (this commit); R5 status = correction complete, pending independent re-audit; R6/Kaggle/push/tag = BLOCKED
 
 ---
 
@@ -79,19 +79,23 @@ project/
 - **R3D docs-checkpoint:** e61eb9a (docs(state): record R3D completion pending audit)
 - **R4 code-checkpoint:** e87d4ad (fix(metrics): separate per-call limits and workflow totals)
 - **R4 audit-correction commits:** c928bd9 (fix(validation): pin evaluator assets to canonical LF), cc32b17 (fix(metrics): preserve exhausted workflow token budgets), a46213c (docs(audit): record R4 audit corrections)
-- **R4 freeze:** a46213c — ACCEPTED AND FROZEN by independent re-audit (GPT-5.6 Thinking, 2026-07-31)
-- **R5 baseline-contract correction:** 8fafb50 (fix(validation): reconcile Smoke V2 baseline contracts) — pre-results amendment R5-BASELINE-CONTRACT-001, no Smoke V2 record existed
-- **HEAD:** 8fafb50 (R5 resumed at Step 2; Monolithic smoke-001 cell green)
-- **Working tree:** R5 WIP (scripted backend, harness, Step-1 tests) uncommitted
+- **R4 freeze:** f5ae826 — ACCEPTED AND FROZEN by independent re-audit (GPT-5.6 Thinking, 2026-07-31); commit `a46213c` recorded the R4 audit corrections, `f5ae826` is the explicit acceptance/freeze commit
+- **R5 benchmark correction:** 8fafb50 (fix(validation): reconcile Smoke V2 baseline contracts) — pre-results amendment R5-BASELINE-CONTRACT-001, no Smoke V2 record existed
+- **R5 amendment docs:** a24a9cd (docs(protocol): record pre-results Smoke V2 baseline amendment)
+- **R5 execution fix:** 875e4d1 (fix(execution): preserve generated file bytes on Windows) — exactly 2 files
+- **R5 test proof:** ee148fa (test(smoke): prove nine scripted production records) — exactly 3 files
+- **R5 audit docs commit:** this commit (docs(audit): record R5 completion pending re-audit) — documentation only
+- **HEAD:** this commit (R5 scope correction complete, pending independent re-audit)
+- **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** 1584 passed, 32 skipped (R4 audit-correction full suite; 0 failed)
-- **Lint:** ruff 0 new findings vs baseline
-- **Types:** mypy strict 0 new errors on changed production files
+- **Test suite:** (final full-suite result recorded in this commit's docs)
+- **Lint:** ruff 0 new findings vs backup branch
+- **Types:** mypy strict 0 new errors vs backup branch
 - **Dependencies:** pip check clean
 - **Benchmark data:** 3 repositories (todo, djangocms, saleor), 24 protocol scenarios + 3 smoke scenarios
 - **Kaggle status:** BLOCKED — not authorized
 - **Pilot status:** BLOCKED — not authorized
-- **R5 status:** RESUMED — nine non-dry scripted production records; Step 2 Monolithic smoke-001 cell green after pre-results baseline-contract amendment
+- **R5 status:** CORRECTION COMPLETE — PENDING INDEPENDENT RE-AUDIT (nine non-dry scripted production records; accidental 6650b00 Kaggle bundle content removed by local history rebuild)
 - **R6 status:** BLOCKED
 - **Selective scopes verified:** 001=models,serializers,views | 002=models,views | 003=models,permissions,serializers,views
 
@@ -170,8 +174,8 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 | R3D — production Runner validation wiring | ACCEPTED | 1478 full suite; R4 depends on it |
 | R4 — token limits and truthful workflow metrics | ACCEPTED AND FROZEN at a46213c | Independent re-audit accepted on 2026-07-31; two defects closed (exact exhaustion, evaluator LF pinning) |
 | RF-3 — token/metric refactor | COMPLETE | Delivered inside R4 |
-| RF-4 — full technical debt cleanup | SCHEDULED after R5 | After R5 nine records |
-| **R5 — nine non-dry scripted production records** | **RESUMED** | Step 2 Monolithic smoke-001 cell green; scripted engineering proof only |
+| RF-4 — full technical debt cleanup | SCHEDULED | R5 scoped RF-4 checks passed (no R5 code change required); full cleanup remains for R6 window |
+| **R5 — nine non-dry scripted production records** | **CORRECTION COMPLETE — PENDING INDEPENDENT RE-AUDIT** | Nine records all succeeded; scripted engineering proof only; scope correction rebuilt the local tail without the accidental 6650b00 Kaggle bundle content; R5_SCOPE_CLEANUP_REAUDIT_REQUIRED |
 | **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R6 complete |
 | Audit Smoke V2 results | HIGH | Independent verification before Pilot authorization |
 | Integrate Pilot repositories | MEDIUM | ≥5K LOC, permissive license, pinned commit, passing tests |
@@ -202,8 +206,13 @@ R3D docs:                    e61eb9a (docs(state): record R3D completion pending
 R3D final evidence:          11f88f5 (fix(validation): close final R3D evidence gaps)
 R4 code:                     e87d4ad (fix(metrics): separate per-call limits and workflow totals)
 R4 audit corrections:        c928bd9 (.gitattributes), cc32b17 (production + tests), a46213c (docs)
-R4 freeze:                   a46213c (ACCEPTED AND FROZEN — independent re-audit 2026-07-31)
-HEAD:                        a46213c
+R4 freeze:                   f5ae826 (ACCEPTED AND FROZEN — independent re-audit 2026-07-31)
+R5 benchmark correction:     8fafb50 (fix(validation): reconcile Smoke V2 baseline contracts)
+R5 amendment docs:           a24a9cd (docs(protocol): record pre-results Smoke V2 baseline amendment)
+R5 execution fix:            875e4d1 (fix(execution): preserve generated file bytes on Windows) — 2 files
+R5 test proof:               ee148fa (test(smoke): prove nine scripted production records) — 3 files
+R5 audit docs commit:        docs(audit): record R5 completion pending re-audit (this commit, docs only)
+HEAD:                        this commit (docs(audit): record R5 completion pending re-audit)
 Local/remote:         not yet pushed
 Working tree:         clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged)
@@ -213,6 +222,14 @@ Pilot:           blocked
 R6:              blocked
 README:          intentionally deferred to R6
 ```
+
+> Note: the original R5 tail (6650b00, 88b6f84, c3ecad2) was rebuilt because
+> `6650b00` accidentally committed 31 premature `kaggle_upload/` derivative
+> files and introduced a committed notebook-manifest mismatch. The final R5
+> branch contains no `kaggle_upload` diff from `f5ae826`. The pre-rebuild state
+> is preserved on `backup/r5-pre-audit-c3ecad2`. See
+> `selective_updates/records/R5-INDEPENDENT-AUDIT-SCOPE-CORRECTION.md` and
+> `..\R5_INDEPENDENT_AUDIT_SCOPE_AND_EVIDENCE_2026-07-31.md`.
 
 ## 10. Stash Recovery
 
@@ -386,7 +403,7 @@ Single enforcement point: `_validate_scientific_configuration` in runner.py. Pre
 **Starting HEAD:** `b8724cc`
 **Code commit:** `e87d4ad` — `fix(metrics): separate per-call limits and workflow totals`
 **Audit-correction commits:** `c928bd9` — `fix(validation): pin evaluator assets to canonical LF`; `cc32b17` — `fix(metrics): preserve exhausted workflow token budgets`
-**Freeze HEAD:** `a46213c`
+**Freeze HEAD:** `f5ae826` (explicit acceptance/freeze commit; `a46213c` recorded the audit corrections)
 **Date:** 2026-07-31
 
 ### What was built
@@ -421,7 +438,7 @@ Single enforcement point: `_validate_scientific_configuration` in runner.py. Pre
 
 ### Freeze (2026-07-31)
 
-The independent re-audit accepted R4 at HEAD `a46213c`. See `docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`.
+The independent re-audit accepted R4 at the explicit acceptance/freeze commit `f5ae826`. See `docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`.
 
 ### Blocked
 
@@ -430,7 +447,7 @@ The independent re-audit accepted R4 at HEAD `a46213c`. See `docs/R4_INDEPENDENT
 
 ---
 
-**R4_ACCEPTED_R5_AUTHORIZED**
+**R4_ACCEPTED_R5_SCOPE_CORRECTION_REAUDIT_REQUIRED**
 
 ---
 
@@ -475,3 +492,48 @@ marker are defined in `..\OPENCODE_R5_CONTRACT_CORRECTION_AND_RESUME_DIRECTIVE.m
 - R5 status = RESUMED; R6/Kaggle/push/tag = BLOCKED.
 
 Record: `selective_updates/records/R5-BASELINE-CONTRACT-AMENDMENT.md`.
+
+---
+
+## 18. R5 Scope Correction and Evidence Tightening (2026-07-31)
+
+**Status:** CORRECTION COMPLETE — PENDING INDEPENDENT RE-AUDIT
+**Audit source:** `..\R5_INDEPENDENT_AUDIT_SCOPE_AND_EVIDENCE_2026-07-31.md`
+**Directive source:** `..\OPENCODE_R5_SCOPE_CLEANUP_DIRECTIVE.md`
+**Backup branch:** `backup/r5-pre-audit-c3ecad2` (preserved until re-audit)
+
+An independent audit found the original R5 tail acceptable in production
+behavior but mis-scoped in git history: commit `6650b00` claimed one execution
+fix while also committing 31 premature `kaggle_upload/` files, introducing a
+committed notebook-manifest mismatch. Because the branch had no upstream, the
+local R5 tail was rebuilt cleanly:
+
+- `8fafb50` and `a24a9cd` preserved untouched.
+- `875e4d1` — rewritten execution fix (exactly 2 files).
+- `ee148fa` — rewritten R5 test proof (exactly 3 files).
+- This commit — R5 audit documentation only.
+- No `kaggle_upload/` change from `f5ae826`; no bundle rebuild; no README
+  change; no push; no tag.
+
+Three evidence boundaries were tightened: exact selected/generated path and
+count assertions for all nine cells (`generation_paths_requested`,
+`selected_artifact_count`, `regeneration_model_calls`,
+`regenerated_artifact_count`, `preserved_artifact_count`); the snapshot
+mutation control now proves an accepted-hash → mutated-hash transition
+(`snapshot_hash_before != snapshot_hash_after`, `record.status == failed`);
+and persisted timestamps are captured immediately before/after the real
+pipeline run (`started_at <= ended_at`, timezone-aware, all nine records).
+Negative-control documentation was corrected: dry-run and no-regeneration are
+valid guarded no-op modes; no-new-migration is a failed validation control;
+the remaining failure controls fail at their exact intended stage.
+
+The Git-tree bundle-manifest issue is recorded as R6 debt
+`TD-R6-BUNDLE-MANIFEST-001` and was not fixed inside R5
+(`scripts/build_upload_bundle.py` was not modified). The Git-tree manifest
+mismatch counts are reported in
+`selective_updates/records/R5-INDEPENDENT-AUDIT-SCOPE-CORRECTION.md`.
+
+Next action: independent R5 re-audit before accept/freeze R5. R6, Kaggle,
+push, and tag remain BLOCKED.
+
+**R5_SCOPE_CLEANUP_REAUDIT_REQUIRED**

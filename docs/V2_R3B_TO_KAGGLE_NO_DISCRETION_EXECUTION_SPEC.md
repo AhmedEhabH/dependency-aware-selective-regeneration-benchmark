@@ -11,12 +11,12 @@
 **Temperature for the real experiment:** `0.0`  
 **Per-call completion limit:** `4096` tokens  
 **Current local evidence supplied by the researcher:** `1424 passed, 32 skipped, 0 failed` on Windows/Python 3.11  
-**Phase status:** R4 ACCEPTED AND FROZEN at a46213c (independent re-audit by GPT-5.6 Thinking on 2026-07-31); R5 RESUMED after pre-results baseline-contract amendment R5-BASELINE-CONTRACT-001 (correction commit 8fafb50)
+**Phase status:** R4 ACCEPTED AND FROZEN at f5ae826 (explicit acceptance/freeze commit; independent re-audit by GPT-5.6 Thinking on 2026-07-31; a46213c recorded the R4 audit corrections); R5 SCOPE CORRECTION COMPLETE — PENDING INDEPENDENT RE-AUDIT (nine non-dry scripted production records; rewritten commits 875e4d1 execution fix / ee148fa test proof / audit docs commit)
 **R4 audit-correction commits:** c928bd9 (.gitattributes), cc32b17 (4 production + 2 test files), a46213c (5 docs)
 **R5 baseline-contract amendment:** R5-BASELINE-CONTRACT-001 (2026-07-31) — pre-results, no Smoke V2 record existed; production files changed = NONE; scenario YAML changed = NONE; 7 correction files committed as 8fafb50; record in selective_updates/records/R5-BASELINE-CONTRACT-AMENDMENT.md
 **R5 execution directive:** ..\OPENCODE_R5_NINE_RECORDS_SINGLE_PASS_DIRECTIVE.md
 **R5 correction directive:** ..\OPENCODE_R5_CONTRACT_CORRECTION_AND_RESUME_DIRECTIVE.md
-**Next permitted phase:** R5 — nine non-dry scripted production records (AUTHORIZED — current)
+**Next permitted phase:** independent R5 re-audit (AUTHORIZED — current: R5 CORRECTION COMPLETE PENDING RE-AUDIT), then bounded RF-4/R6 bundle-builder correction (TD-R6-BUNDLE-MANIFEST-001), then R6 — bundle and push
 **Kaggle:** blocked  
 **Pilot:** blocked  
 **Merge:** blocked  
@@ -2305,6 +2305,8 @@ R5:
 
 ```text
 V2_LOCAL_PRODUCTION_PROOF_PASSED_KAGGLE_AUDIT_REQUIRED
+R5_NINE_SCRIPTED_RECORDS_AUDIT_REQUIRED
+R5_SCOPE_CLEANUP_REAUDIT_REQUIRED
 ```
 
 R6:
