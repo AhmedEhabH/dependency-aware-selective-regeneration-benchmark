@@ -261,7 +261,7 @@ class IterativeRepositoryAgentStrategy:
         max_tokens: int = 0,
         *,
         max_completion_tokens_per_call: int = 4096,
-        remaining_total_workflow_tokens: int = 0,
+        remaining_total_workflow_tokens: int | None = None,
     ) -> ImpactPrediction:
         tools = self._tools
         assert tools is not None, "begin_run() must be called before analyze_impact()"
@@ -269,6 +269,7 @@ class IterativeRepositoryAgentStrategy:
         editable_set = set(editable_paths)
         selected_paths: list[str] = []
         local_remaining = remaining_total_workflow_tokens
+        has_limit = remaining_total_workflow_tokens is not None
 
         prompt = _build_initial_prompt(requirement_change, editable_paths)
 
@@ -308,7 +309,7 @@ class IterativeRepositoryAgentStrategy:
                 )
 
             usage = response.token_usage
-            if remaining_total_workflow_tokens > 0:
+            if has_limit and local_remaining is not None:
                 if usage.completion_tokens > allowance:
                     break
                 if local_remaining > 0 and usage.total_tokens > local_remaining:
@@ -432,7 +433,7 @@ class IterativeRepositoryAgentStrategy:
         remaining_tokens: int,
         *,
         max_completion_tokens_per_call: int = 4096,
-        remaining_total_workflow_tokens: int = 0,
+        remaining_total_workflow_tokens: int | None = None,
     ) -> ImpactPrediction:
         tools = self._tools
         assert tools is not None, "begin_run() must be called before revise_plan()"
@@ -442,6 +443,7 @@ class IterativeRepositoryAgentStrategy:
             if d.action == ActionKind.regenerate
         )
         local_remaining = remaining_total_workflow_tokens
+        has_limit = remaining_total_workflow_tokens is not None
 
         prompt = _build_revise_prompt(
             requirement_change, editable_paths, previous_paths,
@@ -470,7 +472,7 @@ class IterativeRepositoryAgentStrategy:
                 break
 
             usage = response.token_usage
-            if remaining_total_workflow_tokens > 0:
+            if has_limit and local_remaining is not None:
                 if usage.completion_tokens > allowance:
                     break
                 if local_remaining > 0 and usage.total_tokens > local_remaining:

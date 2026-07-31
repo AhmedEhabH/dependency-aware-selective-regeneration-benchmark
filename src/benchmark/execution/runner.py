@@ -864,7 +864,7 @@ class BenchmarkRunner:
         exec_result = executor.execute(
             plan, self._isolation, requirement_delta=requirement_delta,
             max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
-            remaining_total_workflow_tokens=self._budget.remaining_total_tokens,
+            remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
         )
 
         self._budget.record_tokens(exec_result.total_tokens)
@@ -1002,7 +1002,7 @@ class BenchmarkRunner:
             exec_result = executor.execute(
                 plan, self._isolation, requirement_delta, repair_context=repair_context,
                 max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
-                remaining_total_workflow_tokens=self._budget.remaining_total_tokens,
+                remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
             )
 
             self._budget.record_tokens(exec_result.total_tokens)
@@ -1199,7 +1199,7 @@ class BenchmarkRunner:
                         artifact_universe=artifact_universe,
                         max_tokens=self._budget.remaining_tokens,
                         max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
-                        remaining_total_workflow_tokens=self._budget.remaining_total_tokens,
+                        remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
                     )
                     sel_dur = time.monotonic() - selection_start
                     mc_after = getattr(self._strategy, "model_call_count", 0)
@@ -1267,7 +1267,7 @@ class BenchmarkRunner:
                         remaining_attempts=self._budget.remaining_attempts,
                         remaining_tokens=self._budget.remaining_tokens,
                         max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
-                        remaining_total_workflow_tokens=self._budget.remaining_total_tokens,
+                        remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
                     )
                     sel_dur = time.monotonic() - selection_start
                     mc_after = getattr(self._strategy, "model_call_count", 0)
@@ -1337,7 +1337,7 @@ class BenchmarkRunner:
                 exec_result = executor.execute(
                     plan, self._isolation, requirement_delta=requirement_delta,
                     max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
-                    remaining_total_workflow_tokens=self._budget.remaining_total_tokens,
+                    remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
                 )
 
                 self._budget.record_tokens(exec_result.total_tokens)

@@ -182,7 +182,7 @@ def test_boolean_token_limits_fail() -> None:
 def test_unlimited_total_returns_full_per_call_allowance() -> None:
     result = resolve_completion_allowance(
         max_completion_tokens_per_call=4096,
-        remaining_total_workflow_tokens=0,
+        remaining_total_workflow_tokens=None,
         prompt_tokens=100,
     )
     assert result == 4096
@@ -192,7 +192,7 @@ def test_previous_calls_do_not_reduce_unlimited_allowance() -> None:
     for prompt in [0, 10, 100, 1000, 5000]:
         result = resolve_completion_allowance(
             max_completion_tokens_per_call=4096,
-            remaining_total_workflow_tokens=0,
+            remaining_total_workflow_tokens=None,
             prompt_tokens=prompt,
         )
         assert result == 4096
@@ -506,7 +506,7 @@ def test_three_files_each_receive_4096_when_total_unlimited(tmp_path: Path) -> N
         plan,
         isolation,
         max_completion_tokens_per_call=4096,
-        remaining_total_workflow_tokens=0,
+        remaining_total_workflow_tokens=None,
     )
     assert backend.captured_max_tokens == [4096, 4096, 4096]
     assert backend.call_count == 3
@@ -518,7 +518,7 @@ def test_three_files_each_receive_4096_when_total_unlimited(tmp_path: Path) -> N
 def test_unlimited_call_does_not_subtract_prompt_estimate() -> None:
     result = resolve_completion_allowance(
         max_completion_tokens_per_call=4096,
-        remaining_total_workflow_tokens=0,
+        remaining_total_workflow_tokens=None,
         prompt_tokens=999999,
     )
     assert result == 4096
@@ -562,7 +562,7 @@ def test_agent_initial_call_receives_per_call_limit(tmp_path: Path) -> None:
         change,
         universe,
         max_completion_tokens_per_call=4096,
-        remaining_total_workflow_tokens=0,
+        remaining_total_workflow_tokens=None,
     )
     assert backend.captured_max_tokens == [4096]
     assert backend.call_count == 1
@@ -600,7 +600,7 @@ def test_agent_revision_call_receives_per_call_limit(tmp_path: Path) -> None:
         remaining_attempts=1,
         remaining_tokens=0,
         max_completion_tokens_per_call=4096,
-        remaining_total_workflow_tokens=0,
+        remaining_total_workflow_tokens=None,
     )
     assert backend.captured_max_tokens == [4096]
     assert backend.call_count == 1
@@ -624,7 +624,7 @@ def test_agent_unlimited_total_does_not_shrink_later_calls(tmp_path: Path) -> No
         change,
         universe,
         max_completion_tokens_per_call=4096,
-        remaining_total_workflow_tokens=0,
+        remaining_total_workflow_tokens=None,
     )
     assert backend.captured_max_tokens == [4096, 4096, 4096]
     assert backend.call_count == 3
@@ -686,14 +686,14 @@ def test_agent_prediction_usage_is_incremental_not_cumulative(tmp_path: Path) ->
         change,
         universe,
         max_completion_tokens_per_call=4096,
-        remaining_total_workflow_tokens=0,
+        remaining_total_workflow_tokens=None,
     )
     second = strategy.analyze_impact(
         repo,
         change,
         universe,
         max_completion_tokens_per_call=4096,
-        remaining_total_workflow_tokens=0,
+        remaining_total_workflow_tokens=None,
     )
     assert first.token_usage is not None
     assert second.token_usage is not None
@@ -713,7 +713,7 @@ def test_agent_eight_call_cap_is_independent_from_token_limit(tmp_path: Path) ->
         change,
         universe,
         max_completion_tokens_per_call=4096,
-        remaining_total_workflow_tokens=0,
+        remaining_total_workflow_tokens=None,
     )
     assert backend.call_count == 8
     assert backend.captured_max_tokens == [4096] * 8
@@ -1070,3 +1070,152 @@ def test_accumulator_as_record_fields_includes_rollup() -> None:
     assert "selection_total_tokens" in fields
     assert "selection_model_calls" in fields
     assert "selection_duration_seconds" in fields
+
+
+# ---------------------------------------------------------------------------
+# I. Exact-exhaustion regression (R4 audit correction)
+# ---------------------------------------------------------------------------
+
+
+def test_executor_exact_exhaustion_does_not_reopen_budget(tmp_path: Path) -> None:
+    isolation, plan = _make_executor_context(tmp_path, ["src/a.py", "src/b.py"])
+    backend = _ExecutorCaptureBackend(
+        responses=[("content-a", TokenUsage(0, 20, 20))],
+        prompt_estimate=0,
+    )
+    executor = SharedRegenerationExecutor(backend=backend)
+    result = executor.execute(
+        plan,
+        isolation,
+        max_completion_tokens_per_call=20,
+        remaining_total_workflow_tokens=20,
+    )
+    assert backend.call_count == 1
+    assert backend.captured_max_tokens == [20]
+    assert result.model_calls == 1
+    assert result.prompt_tokens == 0
+    assert result.completion_tokens == 20
+    assert result.total_tokens == 20
+    assert [g.status for g in result.artifacts] == ["generated", "rejected"]
+    target_b = Path(isolation.workspace.root) / "src" / "b.py"
+    assert target_b.read_text(encoding="utf-8") == "original content"
+    assert any("Token budget exhausted" in f for f in result.failures)
+
+
+def test_executor_already_exhausted_allowance_blocks_second_call(tmp_path: Path) -> None:
+    isolation, plan = _make_executor_context(tmp_path, ["src/a.py", "src/b.py"])
+    backend = _ExecutorCaptureBackend(
+        responses=[("content-a", TokenUsage(0, 20, 20))],
+        prompt_estimate=0,
+    )
+    executor = SharedRegenerationExecutor(backend=backend)
+    result = executor.execute(
+        plan,
+        isolation,
+        max_completion_tokens_per_call=20,
+        remaining_total_workflow_tokens=0,
+    )
+    assert backend.call_count == 0
+    assert result.model_calls == 0
+    assert result.total_tokens == 0
+    assert all(g.status == "rejected" for g in result.artifacts)
+    assert any("Token budget exhausted" in f for f in result.failures)
+
+
+def test_agent_analyze_impact_exact_exhaustion_not_reopened(tmp_path: Path) -> None:
+    backend = _AgentCaptureBackend(
+        responses=[_tool_action("list_files", ".", TokenUsage(0, 20, 20))],
+        prompt_estimate=0,
+    )
+    strategy, universe, repo, change = _make_agent_context(tmp_path, backend)
+    prediction = strategy.analyze_impact(
+        repo,
+        change,
+        universe,
+        max_completion_tokens_per_call=4096,
+        remaining_total_workflow_tokens=20,
+    )
+    assert backend.call_count == 1
+    assert backend.captured_max_tokens == [20]
+    assert strategy.model_call_count == 1
+    assert prediction.token_usage is not None
+    assert prediction.token_usage.completion_tokens == 20
+    assert prediction.token_usage.total_tokens == 20
+    assert any("no paths selected" in e for e in prediction.errors)
+
+
+def test_agent_revise_plan_exact_exhaustion_not_reopened(tmp_path: Path) -> None:
+    backend = _AgentCaptureBackend(
+        responses=[_tool_action("read_file", "src/a.py", TokenUsage(0, 20, 20))],
+        prompt_estimate=0,
+    )
+    strategy, universe, repo, change = _make_agent_context(tmp_path, backend)
+    previous = ImpactPrediction(
+        decisions=(
+            ImpactDecision(
+                artifact=universe.artifacts[0],
+                action=ActionKind.regenerate,
+                rationale="previous",
+            ),
+        ),
+        token_usage=TokenUsage(0, 20, 20),
+    )
+    prediction = strategy.revise_plan(
+        change,
+        universe,
+        previous,
+        exit_code=1,
+        val_stdout="",
+        val_stderr="",
+        workspace_summary="",
+        remaining_attempts=1,
+        remaining_tokens=0,
+        max_completion_tokens_per_call=4096,
+        remaining_total_workflow_tokens=20,
+    )
+    assert backend.call_count == 1
+    assert backend.captured_max_tokens == [20]
+    assert strategy.model_call_count == 1
+    assert prediction.token_usage is not None
+    assert prediction.token_usage.completion_tokens == 20
+    assert prediction.token_usage.total_tokens == 20
+    assert any("revision failed" in e for e in prediction.errors)
+    assert all(d.action == ActionKind.preserve for d in prediction.decisions)
+
+
+def test_runtime_allowance_distinguishes_unlimited_positive_and_exhausted() -> None:
+    unlimited = BudgetManager(max_tokens=0)
+    assert unlimited.has_total_token_limit is False
+    assert unlimited.runtime_remaining_total_tokens is None
+    assert unlimited.remaining_total_tokens == 0
+
+    positive = BudgetManager(max_tokens=20)
+    positive.record_attempt()
+    positive.record_tokens(5)
+    assert positive.has_total_token_limit is True
+    assert positive.runtime_remaining_total_tokens == 15
+
+    exhausted = BudgetManager(max_tokens=20)
+    exhausted.record_attempt()
+    exhausted.record_tokens(20)
+    assert exhausted.has_total_token_limit is True
+    assert exhausted.runtime_remaining_total_tokens == 0
+    assert exhausted.state.exhausted is True
+
+
+def test_resolver_distinguishes_unlimited_positive_and_exhausted() -> None:
+    assert resolve_completion_allowance(
+        max_completion_tokens_per_call=20,
+        remaining_total_workflow_tokens=None,
+        prompt_tokens=0,
+    ) == 20
+    assert resolve_completion_allowance(
+        max_completion_tokens_per_call=20,
+        remaining_total_workflow_tokens=15,
+        prompt_tokens=5,
+    ) == 10
+    assert resolve_completion_allowance(
+        max_completion_tokens_per_call=20,
+        remaining_total_workflow_tokens=0,
+        prompt_tokens=0,
+    ) == 0

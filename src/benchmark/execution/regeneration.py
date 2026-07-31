@@ -106,7 +106,7 @@ class SharedRegenerationExecutor:
         repair_context: str | None = None,
         *,
         max_completion_tokens_per_call: int = 4096,
-        remaining_total_workflow_tokens: int = 0,
+        remaining_total_workflow_tokens: int | None = None,
     ) -> RegenerationExecutionResult:
         old_loop: asyncio.AbstractEventLoop | None = None
         with contextlib.suppress(RuntimeError):
@@ -134,7 +134,7 @@ class SharedRegenerationExecutor:
         repair_context: str | None = None,
         *,
         max_completion_tokens_per_call: int = 4096,
-        remaining_total_workflow_tokens: int = 0,
+        remaining_total_workflow_tokens: int | None = None,
     ) -> RegenerationExecutionResult:
         workspace_root = str(isolation.workspace.root)
         start_time = time.monotonic()
@@ -145,6 +145,7 @@ class SharedRegenerationExecutor:
         calls = 0
         failures: list[str] = []
         local_remaining = remaining_total_workflow_tokens
+        has_limit = remaining_total_workflow_tokens is not None
 
         for artifact in plan.ordered_artifacts:
             action = plan.actions.get(artifact.path)
@@ -247,7 +248,7 @@ class SharedRegenerationExecutor:
             total_prompt += usage.prompt_tokens
             total_completion += usage.completion_tokens
 
-            if remaining_total_workflow_tokens > 0:
+            if has_limit and local_remaining is not None:
                 if usage.completion_tokens > allowance:
                     failures.append(
                         f"Backend overrun for {artifact.path}: "
