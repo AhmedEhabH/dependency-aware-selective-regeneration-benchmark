@@ -22,12 +22,36 @@ KAGGLE_CODE = KAGGLE_UPLOAD / "code"
 KAGGLE_DATA = KAGGLE_UPLOAD / "data"
 KAGGLE_NOTEBOOKS = KAGGLE_UPLOAD / "notebooks"
 
+TEXT_SUFFIXES = frozenset({
+    ".py",
+    ".pyw",
+    ".toml",
+    ".txt",
+    ".yaml",
+    ".yml",
+    ".md",
+    ".cfg",
+    ".ini",
+    ".ipynb",
+    ".sha256",
+})
+
+EVALUATOR_ASSET_RELATIVE_PATHS = (
+    "tests/evaluator_assets/todo_smoke_001_checks.py",
+    "tests/evaluator_assets/todo_smoke_001_checks.py.sha256",
+    "tests/evaluator_assets/todo_smoke_002_checks.py",
+    "tests/evaluator_assets/todo_smoke_002_checks.py.sha256",
+    "tests/evaluator_assets/todo_smoke_003_checks.py",
+    "tests/evaluator_assets/todo_smoke_003_checks.py.sha256",
+)
+
 CANONICAL_CODE_SOURCES = [
     PROJECT_ROOT / "seven_arm_benchmark.py",
     PROJECT_ROOT / "src" / "benchmark",
     PROJECT_ROOT / "configs",
     PROJECT_ROOT / "requirements-kaggle.txt",
     PROJECT_ROOT / "pyproject.toml",
+    *(PROJECT_ROOT / rel for rel in EVALUATOR_ASSET_RELATIVE_PATHS),
 ]
 
 CANONICAL_DATA_SOURCES = [
@@ -52,18 +76,19 @@ EXCLUDE_PATTERNS = {
     "*.egg-info",
     "runs",
     "reports",
-    "tests",
     "inputs",
     "_auto_resume_temp",
     "benchmark-results.zip",
     "db.sqlite3",
     "*.db",
     "*.sqlite3",
+    ".env",
+    "*.env",
 }
 
 FORBIDDEN_IN_BUNDLE = {
     ".git", "__pycache__", ".mypy_cache", ".pytest_cache", ".ruff_cache",
-    "*.egg-info", "db.sqlite3", "*.db", "*.sqlite3",
+    "*.egg-info", "db.sqlite3", "*.db", "*.sqlite3", ".env", "*.env",
 }
 
 
@@ -71,11 +96,21 @@ def sha256_of(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def is_text_file(path: Path) -> bool:
+    return path.suffix in TEXT_SUFFIXES
+
+
 def normalized_sha256(path: Path) -> str:
-    if path.suffix in (".py", ".toml", ".txt", ".yaml", ".yml", ".md", ".cfg", ".ini"):
+    if is_text_file(path):
         content = path.read_bytes().replace(b"\r\n", b"\n")
         return hashlib.sha256(content).hexdigest()
     return sha256_of(path)
+
+
+def normalize_text(path: Path) -> None:
+    if is_text_file(path):
+        text = path.read_bytes()
+        path.write_bytes(text.replace(b"\r\n", b"\n"))
 
 
 def should_exclude(name: str) -> bool:
@@ -91,7 +126,7 @@ def should_exclude(name: str) -> bool:
 def copy_tree(src: Path, dst: Path, prefix: str = "") -> list[tuple[Path, Path]]:
     dst.mkdir(parents=True, exist_ok=True)
     copied = []
-    for entry in src.iterdir():
+    for entry in sorted(src.iterdir(), key=lambda p: p.name):
         if should_exclude(entry.name):
             continue
         rel = entry.name if not prefix else f"{prefix}/{entry.name}"
@@ -110,12 +145,6 @@ def copy_file(src: Path, dst_dir: Path) -> Path:
     dst = dst_dir / src.name
     shutil.copy2(src, dst)
     return dst
-
-
-def normalize_text(path: Path) -> None:
-    if path.suffix in (".py", ".toml", ".txt", ".yaml", ".yml", ".md", ".cfg", ".ini"):
-        text = path.read_bytes()
-        path.write_bytes(text.replace(b"\r\n", b"\n"))
 
 
 def scan_forbidden(directory: Path) -> list[str]:
@@ -138,13 +167,17 @@ def generate_manifest(directory: Path, _label: str) -> dict[str, str]:
     for root, _dirs, files in os.walk(str(directory)):
         for f in sorted(files):
             full = Path(root) / f
-            rel = str(full.relative_to(directory))
+            rel = full.relative_to(directory).as_posix()
             manifest[rel] = sha256_of(full)
     return manifest
 
 
 def write_manifest(manifest: dict[str, str], path: Path) -> None:
-    path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+    path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
 
 
 def verify_bundle(canonical: list[Path], bundle_base: Path, base_rel: Path | None = None, flat: bool = False) -> int:
@@ -163,7 +196,7 @@ def verify_bundle(canonical: list[Path], bundle_base: Path, base_rel: Path | Non
         elif src.is_dir():
             for root, dirs, files in os.walk(str(src)):
                 dirs[:] = [d for d in dirs if not should_exclude(d)]
-                for f in files:
+                for f in sorted(files):
                     if should_exclude(f):
                         continue
                     src_file = Path(root) / f
@@ -241,6 +274,11 @@ def build_bundle() -> int:
             data_copied.extend(copied)
             print(f"  Copied: benchmark_data/{rel}/ ({len(copied)} files)")
 
+    # Normalize data text files
+    print("  Normalizing line endings ...")
+    for _src, dst in data_copied:
+        normalize_text(dst)
+
     # Step 4: Build notebook bundle
     print("\n--- Notebook Bundle ---")
     KAGGLE_NOTEBOOKS.mkdir(parents=True)
@@ -253,6 +291,11 @@ def build_bundle() -> int:
             shutil.copy2(src, dst)
             notebook_copied.append((src, dst))
             print(f"  Copied: {src.name}")
+
+    # Normalize notebook text files
+    print("  Normalizing line endings ...")
+    for _src, dst in notebook_copied:
+        normalize_text(dst)
 
     # Step 5: Check for forbidden items
     print("\n--- Forbidden Items Check ---")

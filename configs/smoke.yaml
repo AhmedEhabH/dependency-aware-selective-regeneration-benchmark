@@ -1,11 +1,12 @@
-# Scientific Smoke V1 — Minimal Real Kaggle Smoke
-# 1 repository × 1 scenario × 3 arms × 1 run = 3 total runs
+# Scientific Smoke V2 — Minimal Real Kaggle Smoke (three-arm core experiment)
+# 1 repository (todo) x 3 frozen scenarios x 3 arms x 1 run = 9 total runs
 # Backend: kaggle-qwen (Qwen2.5-Coder on Kaggle GPU)
-# Arms: full_scope_reference (monolithic), hybrid_selective (selective), iterative_repository_agent
+# Arms: monolithic (full_scope_reference), selective (hybrid_selective), iterative_repository_agent
+# Frozen scenario IDs: todo-smoke-001, todo-smoke-002, todo-smoke-003
 # Non-publication engineering/scientific harness smoke evidence.
-# See SELECTIVE_UPDATES/records/SCIENTIFIC-SMOKE-V1.md
+# Evidence tier: smoke (valid EvidenceTier enum value).
 
-profile_label: scientific-smoke-v1
+profile_label: scientific-smoke-v2
 protocol_version: "1.0"
 execution_mode: kaggle
 
@@ -18,30 +19,35 @@ backends:
   - name: qwen
     kind: kaggle_qwen
     params:
-      model_name: qwen2.5-coder
+      model_name: Qwen/Qwen2.5-Coder-7B-Instruct
 
 repositories:
   - name: todo
     url: https://github.com/ahmed-ehab/controlled-django-todo
-    ref: main
+    ref: b8a33e20bdaf5b329114273063fbe8d5aa66e9cf
 
 scenario_selection:
   repository_names:
     - todo
+  scenario_ids:
+    - todo-smoke-001
+    - todo-smoke-002
+    - todo-smoke-003
   blast_radii:
     - localized
-  count: 1
+    - moderate
+    - cross_cutting
 
 execution:
-  max_iterations: 2
-  max_tokens: 4096
-  timeout_seconds: 180
+  max_iterations: 3
+  max_tokens: 0
+  max_completion_tokens_per_call: 4096
+  max_total_workflow_tokens: 0
+  timeout_seconds: 300
   random_seed: 42
-  evidence_tier: scientific_smoke_v1
-  repetitions: 1
+  evidence_tier: smoke
 
 output:
-  output_dir: runs/scientific_smoke_v1
+  output_dir: runs/scientific_smoke_v2
   format: jsonl
   write_provenance: true
-  is_publication: false

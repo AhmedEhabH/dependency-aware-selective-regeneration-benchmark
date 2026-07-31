@@ -20,3 +20,7 @@ tests/evaluator_assets/todo_smoke_*_checks.py text eol=lf
 
 # Lock files
 *.txt text
+
+# Generated bundle manifests are byte-frozen and must use canonical LF endings.
+# This guarantees committed-tree manifest equality across checkout platforms.
+kaggle_upload/*_manifest.json text eol=lf

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 import yaml
 
@@ -125,3 +127,49 @@ class TestConfigValidation:
         )
         errors = validate_config(config)
         assert errors == []
+
+
+class TestSmokeV2Config:
+    _CONFIG = Path(__file__).resolve().parent.parent.parent / "configs" / "smoke.yaml"
+
+    def test_load_real_v2_smoke_config_exact(self) -> None:
+        from benchmark.config.loader import load_config
+
+        config = load_config(self._CONFIG)
+        assert [s.name for s in config.strategies] == [
+            "monolithic",
+            "selective",
+            "iterative_repository_agent",
+        ]
+        assert len(config.backends) == 1
+        assert config.backends[0].name == "qwen"
+        assert config.backends[0].kind == "kaggle_qwen"
+        assert config.backends[0].params["model_name"] == "Qwen/Qwen2.5-Coder-7B-Instruct"
+        assert config.repositories[0].name == "todo"
+        assert config.repositories[0].url == "https://github.com/ahmed-ehab/controlled-django-todo"
+        assert config.repositories[0].ref == "b8a33e20bdaf5b329114273063fbe8d5aa66e9cf"
+        assert config.scenario_selection.repository_names == ["todo"]
+        assert config.scenario_selection.scenario_ids == [
+            "todo-smoke-001",
+            "todo-smoke-002",
+            "todo-smoke-003",
+        ]
+        assert config.scenario_selection.blast_radii == [
+            "localized",
+            "moderate",
+            "cross_cutting",
+        ]
+        assert config.execution.max_iterations == 3
+        assert config.execution.max_tokens == 0
+        assert config.execution.max_completion_tokens_per_call == 4096
+        assert config.execution.max_total_workflow_tokens == 0
+        assert config.execution.timeout_seconds == 300
+        assert config.execution.random_seed == 42
+        assert config.execution.evidence_tier == EvidenceTier.smoke
+        assert config.output.output_dir == "runs/scientific_smoke_v2"
+        assert config.output.format == "jsonl"
+        assert config.output.write_provenance is True
+
+    def test_smoke_yaml_profile_label_is_v2(self) -> None:
+        raw = yaml.safe_load(self._CONFIG.read_text(encoding="utf-8"))
+        assert raw["profile_label"] == "scientific-smoke-v2"
