@@ -316,7 +316,7 @@ class SharedRegenerationExecutor:
             target_path = Path(workspace_root) / artifact.path.lstrip("/")
             try:
                 target_path.parent.mkdir(parents=True, exist_ok=True)
-                target_path.write_text(output_text, encoding="utf-8")
+                target_path.write_text(output_text, encoding="utf-8", newline="")
             except (OSError, PermissionError) as e:
                 failures.append(f"Cannot write {artifact.path}: {e}")
                 generated.append(

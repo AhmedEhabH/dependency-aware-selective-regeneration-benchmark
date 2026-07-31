@@ -62,6 +62,26 @@ class TestSharedRegenerationExecutor:
         assert result.artifacts[0].content == "replacement content"
         assert (ws_root / "src/main.py").read_text(encoding="utf-8") == "replacement content"
 
+    def test_generated_file_bytes_preserve_lf_literally(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        src = ws_root / "src"
+        src.mkdir()
+        (src / "main.py").write_text("original content", encoding="utf-8")
+
+        text = "first line\nsecond line\n"
+        backend = _make_backend(text)
+        executor = SharedRegenerationExecutor(backend)
+        plan = _make_plan()
+        result = executor.execute(plan, iso)
+
+        assert result.artifacts[0].status == "generated"
+        written = (ws_root / "src/main.py").read_bytes()
+        assert written == text.encode("utf-8"), (
+            "Generated content must be written literally without OS line-ending translation"
+        )
+        assert b"\r\n" not in written
+
+
     def test_empty_generation_is_rejected(self, tmp_path: Path) -> None:
         iso, ws_root = _make_isolation(tmp_path)
         src = ws_root / "src"
