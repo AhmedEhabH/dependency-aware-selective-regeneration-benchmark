@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-31
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R4 ACCEPTED AND FROZEN — R5 AUTHORIZED/IN PROGRESS — branch experiment/three-arm-smoke-v2, R4 freeze HEAD a46213c (independent re-audit by GPT-5.6 Thinking, 2026-07-31); R5 nine non-dry scripted production records in progress
+**Handoff type:** R4 ACCEPTED AND FROZEN — R5 RESUMED — branch experiment/three-arm-smoke-v2, R4 freeze HEAD a46213c (independent re-audit by GPT-5.6 Thinking, 2026-07-31); R5 nine non-dry scripted production records resumed after pre-results baseline-contract amendment R5-BASELINE-CONTRACT-001 (correction commit 8fafb50)
 
 ---
 
@@ -80,8 +80,9 @@ project/
 - **R4 code-checkpoint:** e87d4ad (fix(metrics): separate per-call limits and workflow totals)
 - **R4 audit-correction commits:** c928bd9 (fix(validation): pin evaluator assets to canonical LF), cc32b17 (fix(metrics): preserve exhausted workflow token budgets), a46213c (docs(audit): record R4 audit corrections)
 - **R4 freeze:** a46213c — ACCEPTED AND FROZEN by independent re-audit (GPT-5.6 Thinking, 2026-07-31)
-- **HEAD:** a46213c (R4 freeze; R5 in progress)
-- **Working tree:** clean
+- **R5 baseline-contract correction:** 8fafb50 (fix(validation): reconcile Smoke V2 baseline contracts) — pre-results amendment R5-BASELINE-CONTRACT-001, no Smoke V2 record existed
+- **HEAD:** 8fafb50 (R5 resumed at Step 2; Monolithic smoke-001 cell green)
+- **Working tree:** R5 WIP (scripted backend, harness, Step-1 tests) uncommitted
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
 - **Test suite:** 1584 passed, 32 skipped (R4 audit-correction full suite; 0 failed)
 - **Lint:** ruff 0 new findings vs baseline
@@ -90,7 +91,7 @@ project/
 - **Benchmark data:** 3 repositories (todo, djangocms, saleor), 24 protocol scenarios + 3 smoke scenarios
 - **Kaggle status:** BLOCKED — not authorized
 - **Pilot status:** BLOCKED — not authorized
-- **R5 status:** AUTHORIZED / IN PROGRESS — nine non-dry scripted production records
+- **R5 status:** RESUMED — nine non-dry scripted production records; Step 2 Monolithic smoke-001 cell green after pre-results baseline-contract amendment
 - **R6 status:** BLOCKED
 - **Selective scopes verified:** 001=models,serializers,views | 002=models,views | 003=models,permissions,serializers,views
 
@@ -170,7 +171,7 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 | R4 — token limits and truthful workflow metrics | ACCEPTED AND FROZEN at a46213c | Independent re-audit accepted on 2026-07-31; two defects closed (exact exhaustion, evaluator LF pinning) |
 | RF-3 — token/metric refactor | COMPLETE | Delivered inside R4 |
 | RF-4 — full technical debt cleanup | SCHEDULED after R5 | After R5 nine records |
-| **R5 — nine non-dry scripted production records** | **IN PROGRESS** | Authorized by R4 freeze; scripted engineering proof only |
+| **R5 — nine non-dry scripted production records** | **RESUMED** | Step 2 Monolithic smoke-001 cell green; scripted engineering proof only |
 | **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R6 complete |
 | Audit Smoke V2 results | HIGH | Independent verification before Pilot authorization |
 | Integrate Pilot repositories | MEDIUM | ≥5K LOC, permissive license, pinned commit, passing tests |
@@ -430,3 +431,47 @@ The independent re-audit accepted R4 at HEAD `a46213c`. See `docs/R4_INDEPENDENT
 ---
 
 **R4_ACCEPTED_R5_AUTHORIZED**
+
+---
+
+## 17. R5 Baseline-Contract Amendment — R5-BASELINE-CONTRACT-001
+
+**Status:** AMENDED AND COMMITTED — R5 RESUMED
+**Correction commit:** `8fafb50` — `fix(validation): reconcile Smoke V2 baseline contracts`
+**Date:** 2026-07-31
+
+### Trigger
+
+An independent blocker audit (`..\R5_BLOCKER_INDEPENDENT_AUDIT_2026-07-31.md`)
+confirmed a data contract contradiction between the frozen baseline regression
+assertions and the three frozen Smoke V2 scenarios. R5 was blocked at Step 2
+(the first Monolithic cell) at `baseline_validation`. No Smoke V2 record
+existed, so the correction is pre-results. Full scope, gate order, and final
+marker are defined in `..\OPENCODE_R5_CONTRACT_CORRECTION_AND_RESUME_DIRECTIVE.md`.
+
+### What changed (7 files, production = NONE, scenario YAML = NONE)
+
+- `test_serializers.py`: ProjectSerializer/TaskSerializer field assertions are
+  now baseline-field preservation; TagSerializer stays exact.
+- `test_views.py`: common project created through the authenticated Project API;
+  unowned-task forbidden test creates its project via another user's API client;
+  exact HTTP 403 preserved.
+- `evaluator_fixture_workspaces.py`: smoke-002 correct-source keys exactly
+  `todo/models.py` + `todo/views.py`.
+- `todo_smoke_002_checks.py` + `.sha256`: removed only the unstated
+  `deleted_at`-response-field loop; canonical LF SHA-256 recomputed.
+- `test_todo_smoke_evaluator_assets.py`: three-scenario correct-fixture
+  compatibility gate (`test_correct_fixture_passes_baseline_and_evaluator_*`).
+- `repository_versions.yaml`: Todo notes record the amendment; pinned SHA unchanged.
+
+### Evidence
+
+- Baseline repository suite: 47 passed.
+- Compatibility gate: 3 scenarios passed (baseline + evaluator + one migration +
+  unchanged old migrations + exact changed-source paths + unchanged baseline tests
+  + no evaluator assets in workspace).
+- Complete evaluator suite: 53 passed, 1 pre-existing skip.
+- Full suite: 1598 passed, 32 skipped, 0 failed.
+- R5 status = RESUMED; R6/Kaggle/push/tag = BLOCKED.
+
+Record: `selective_updates/records/R5-BASELINE-CONTRACT-AMENDMENT.md`.
