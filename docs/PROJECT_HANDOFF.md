@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-31
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R3D FINAL FREEZE CANDIDATE — branch experiment/three-arm-smoke-v2, final evidence commit 11f88f5 (close final R3D evidence gaps), audit required before freeze
+**Handoff type:** R3D FINAL FREEZE CANDIDATE — branch experiment/three-arm-smoke-v2, final evidence commit 11f88f5 (close final R3D evidence gaps), audit required before freeze; R4 implemented with audit corrections (cc32b17), reaudit required
 
 ---
 
@@ -77,7 +77,7 @@ project/
 - **R3D code-checkpoint:** 9e28790 (fix(validation): complete R3D scientific wiring contract)
 - **R3D final-evidence-checkpoint:** 11f88f5 (fix(validation): close final R3D evidence gaps)
 - **R3D docs-checkpoint:** e61eb9a (docs(state): record R3D completion pending audit)
-- **HEAD:** 11f88f5
+- **HEAD:** 11f88f5 (see §16 for R4 audit-correction commits c928bd9/cc32b17)
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
 - **Test suite:** 1478 passed, 32 skipped (54 R3D focused wiring tests, 86 integration, 0 failed)
@@ -369,9 +369,10 @@ Single enforcement point: `_validate_scientific_configuration` in runner.py. Pre
 
 ## 16. R4 Status — Token Limits and Truthful Workflow Metrics
 
-**Status:** R4 IMPLEMENTED — INDEPENDENT AUDIT REQUIRED (not accepted, not frozen)
+**Status:** R4 IMPLEMENTED — INDEPENDENT AUDIT REQUIRED (not accepted, not frozen); audit corrections applied 2026-07-31
 **Starting HEAD:** `b8724cc`
 **Code commit:** `e87d4ad` — `fix(metrics): separate per-call limits and workflow totals`
+**Audit-correction commits:** `c928bd9` — `fix(validation): pin evaluator assets to canonical LF`; `cc32b17` — `fix(metrics): preserve exhausted workflow token budgets`
 **Date:** 2026-07-31
 
 ### What was built
@@ -383,6 +384,11 @@ Single enforcement point: `_validate_scientific_configuration` in runner.py. Pre
 - **Resolved total forwarded everywhere** — `seven_arm_benchmark.py` `record_dict` carries `max_completion_tokens_per_call`/`max_total_workflow_tokens`; `_to_run_record_data` forwards them plus `max_attempts` into `model_metadata`; survives JSONL reload and report.
 - **Real test evidence** — `test_r4_token_and_metrics.py` (66 tests), `test_r4_metric_contract.py` (31 tests); zero `assert True`.
 
+### Audit corrections (2026-07-31)
+
+- **Defect A** — exact workflow-budget exhaustion reopened an exhausted budget as unlimited because `0` was overloaded as both "no limit" and "exhausted". Fixed by `budgets.runtime_remaining_total_tokens` (`None` = unlimited, `0` = exhausted, positive = remaining) and `int | None` semantics in `resolve_completion_allowance`, executor, and agent, with `has_limit` accounting guards; all five Runner call sites forward the runtime allowance. Five-group exact-exhaustion regression + integration production-path tests added.
+- **Defect B** — evaluator integrity was platform-dependent: committed `.sha256` are canonical LF but Windows checkout produced CRLF. `.gitattributes` pins `tests/evaluator_assets/todo_smoke_*_checks.py` to `text eol=lf`; worktree rewritten to canonical LF, SHA-256 still matches the committed `.sha256`, index/worktree byte-identical.
+
 ### Quality gates
 
 - 9.1 R4 unit: 66 passed; 9.2 R4 integration: 31 passed; 9.3 R3D-adjacent: 177 passed; 9.4 evaluator integrity: 50 passed, 1 pre-existing skip
@@ -393,10 +399,16 @@ Single enforcement point: `_validate_scientific_configuration` in runner.py. Pre
 - Direct scripts A/B/C1/C2/D all met §7 acceptance; Script D showed 2048/9000 at all five boundaries
 - Code commit `e87d4ad`: 21 files, 3052 insertions, 307 deletions (14 production + 7 tests)
 
+### Audit-correction gates (2026-07-31)
+
+- R4 unit: 72 passed; R4 integration: 33 passed; R3D-adjacent (r3d_wiring + repair): 62 passed; evaluator integrity: 50 passed, 1 pre-existing skip; full suite: 1584 passed, 32 skipped, 0 failed
+- Ruff: 88 findings = baseline `ccdb49c` (0 new); Mypy --strict on the 4 changed production files: 0 errors; compileall: exit 0; `git diff --check`: clean
+- Defect B proven: worktree SHA-256 matches committed `.sha256` for all three evaluator files; index/worktree blobs byte-identical; zero CR bytes; `git ls-files --eol` shows `i/lf w/lf`
+
 ### Blocked
 
 - R4 freeze: blocks R5 (nine local records), RF-4, R6 (bundle and push), Kaggle execution, Pilot. R5 is unauthorized pending independent audit.
 
 ---
 
-**R4_TOKEN_AND_METRIC_CONTRACT_AUDIT_REQUIRED**
+**R4_AUDIT_CORRECTIONS_REAUDIT_REQUIRED**

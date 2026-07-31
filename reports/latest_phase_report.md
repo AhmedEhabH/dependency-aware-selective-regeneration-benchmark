@@ -239,4 +239,53 @@ Position: R3D final freeze candidate; R4 implemented and pending independent aud
 
 Independent audit must verify: the frozen conflict rule at every constructor; executor/Agent local-total decrement; stage separation and `repair_attempts` semantics; cumulative scientific durations; the boundary trace identity; the four script outputs; the full-suite count; the commit scopes and hashes; and the absence of `assert True`. All evidence commands and outputs are recorded above and in the commit itself.
 
-R4_TOKEN_AND_METRIC_CONTRACT_AUDIT_REQUIRED
+## 23. R4 Audit Corrections Addendum
+
+A re-audit of the R4 evidence was performed at starting HEAD `ccdb49c` (branch `experiment/three-arm-smoke-v2`, clean tree, `core.autocrlf=true`, repo root at `project/`). Two defects were found and corrected.
+
+### Defect A — exact workflow-budget exhaustion reopened an exhausted budget as unlimited
+
+**Root cause:** `0` was overloaded as both "no total workflow limit" and "configured limit exhausted". On exact exhaustion the runtime remaining value hit `0`, and `resolve_completion_allowance` returned the full per-call allowance for `0`, so the exhausted budget reopened as unlimited (a second generation ran after the budget was consumed).
+
+**Fix (internal representation):** `None` = unlimited runtime allowance; `0` = exhausted configured allowance; positive integer = remaining configured allowance. The public config meaning of zero as unlimited is preserved.
+
+- `budgets.py`: new `runtime_remaining_total_tokens` property — `None` when `has_total_token_limit` is False, else `max(0, _max_tokens - _state.total_tokens)`; `resolve_completion_allowance(remaining_total_workflow_tokens: int | None)` returns the per-call limit for `None`, `0` for exhausted `0`, and `max(0, min(per_call, remaining - prompt))` for positive.
+- `regeneration.py`: `SharedRegenerationExecutor.execute` default changed to `None`; budget accounting guarded by `has_limit`.
+- `iterative_agent.py`: `analyze_impact`/`revise_plan` defaults changed to `None`; accounting guarded by `has_limit`.
+- `runner.py`: all five call sites (867, 1005, 1202, 1270, 1340) forward `self._budget.runtime_remaining_total_tokens`.
+
+**Regression tests (5 groups):** executor exact exhaustion (limit 20, consume exactly 20, one call, second file not generated, explicit `Token budget exhausted before src/b.py`); analyze-impact exact exhaustion; revise-plan exact exhaustion; unlimited-budget preservation distinguishing all three runtime states; and integration-level coverage reaching real production code via `BenchmarkRunner` (`_ExactExhaustToolBackend`).
+
+### Defect B — evaluator integrity was platform-dependent
+
+**Root cause:** the committed `.sha256` fingerprints and the committed evaluator `.py` blobs are canonical LF, but on Windows `git restore` produced CRLF working-tree bytes, so the raw SHA-256 of the working tree mismatched the committed values for all three evaluator files.
+
+**Fix:** `.gitattributes` pins `tests/evaluator_assets/todo_smoke_*_checks.py` to `text eol=lf`; the three working-tree files were rewritten to canonical LF with zero character changes.
+
+**Proven for all three files:** (a) worktree SHA-256 matches the committed `.sha256` (`eeb95c87…`, `74b6b141…`, `c0cd3891…`); (b) index/worktree byte identity — `git hash-object` of the worktree equals the index blob hash and staging produced an empty diff; (c) zero CR bytes in the working tree; `git ls-files --eol` now shows `i/lf w/lf attr/text eol=lf`.
+
+### Gate results for the corrections
+
+```
+R4 unit gate (test_r4_token_and_metrics.py)     72 passed, 0 failed, 0 skipped
+R4 integration gate (test_r4_metric_contract.py) 33 passed, 0 failed, 0 skipped
+R3D-adjacent regression (r3d_wiring + repair)    62 passed, 0 failed
+Evaluator portability gate                       50 passed, 1 skipped (pre-existing), 0 failed
+Full suite                                       1584 passed, 32 skipped, 0 failed
+Ruff                                             88 findings = baseline ccdb49c (0 new)
+Mypy --strict (4 changed production files)       0 errors (baseline also clean)
+Compileall                                       exit 0
+git diff --check                                 exit 0
+```
+
+### Commit boundaries (audit corrections)
+
+```
+c928bd9  fix(validation): pin evaluator assets to canonical LF   (.gitattributes only)
+cc32b17  fix(metrics): preserve exhausted workflow token budgets (4 production files + 2 test files)
+docs commit  docs(audit): record R4 audit corrections             (documentation only)
+```
+
+No push, no tag. R5/R6/Kaggle remain unauthorized pending independent re-audit.
+
+R4_AUDIT_CORRECTIONS_REAUDIT_REQUIRED
