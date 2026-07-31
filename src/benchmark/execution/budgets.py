@@ -39,6 +39,12 @@ class BudgetManager:
         timeout_seconds: int = 0,
         clock: Clock | None = None,
     ) -> None:
+        if isinstance(max_attempts, bool):
+            raise ValueError("max_attempts must be an integer, not bool")
+        if isinstance(max_tokens, bool):
+            raise ValueError("max_tokens must be an integer, not bool")
+        if isinstance(timeout_seconds, bool):
+            raise ValueError("timeout_seconds must be an integer, not bool")
         if max_attempts < 1:
             raise ValueError("max_attempts must be >= 1")
         if max_tokens < 0:
@@ -72,6 +78,14 @@ class BudgetManager:
         if self._max_tokens <= 0:
             return 0
         return max(0, self._max_tokens - self._state.total_tokens)
+
+    @property
+    def has_total_token_limit(self) -> bool:
+        return self._max_tokens > 0
+
+    @property
+    def remaining_total_tokens(self) -> int:
+        return self.remaining_tokens
 
     @property
     def can_attempt(self) -> bool:
@@ -110,6 +124,8 @@ class BudgetManager:
         return snapshot
 
     def record_tokens(self, tokens: int) -> None:
+        if isinstance(tokens, bool):
+            raise ValueError("tokens must be an integer, not bool")
         if tokens < 0:
             raise ValueError(f"tokens must be >= 0, got {tokens}")
         self._state.total_tokens += tokens
@@ -124,3 +140,33 @@ class BudgetManager:
 
 class BudgetExhaustedError(RuntimeError):
     pass
+
+
+def resolve_completion_allowance(
+    *,
+    max_completion_tokens_per_call: int,
+    remaining_total_workflow_tokens: int,
+    prompt_tokens: int,
+) -> int:
+    if isinstance(max_completion_tokens_per_call, bool):
+        raise ValueError("max_completion_tokens_per_call must be an integer, not bool")
+    if isinstance(remaining_total_workflow_tokens, bool):
+        raise ValueError("remaining_total_workflow_tokens must be an integer, not bool")
+    if isinstance(prompt_tokens, bool):
+        raise ValueError("prompt_tokens must be an integer, not bool")
+    if max_completion_tokens_per_call < 1:
+        raise ValueError(
+            f"max_completion_tokens_per_call must be >= 1, got {max_completion_tokens_per_call}"
+        )
+    if remaining_total_workflow_tokens < 0:
+        raise ValueError(
+            f"remaining_total_workflow_tokens must be >= 0, got {remaining_total_workflow_tokens}"
+        )
+    if prompt_tokens < 0:
+        raise ValueError(
+            f"prompt_tokens must be >= 0, got {prompt_tokens}"
+        )
+    if remaining_total_workflow_tokens == 0:
+        return max_completion_tokens_per_call
+    available_after_prompt = remaining_total_workflow_tokens - prompt_tokens
+    return max(0, min(max_completion_tokens_per_call, available_after_prompt))

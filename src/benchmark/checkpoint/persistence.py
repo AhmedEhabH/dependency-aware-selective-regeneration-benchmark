@@ -32,7 +32,6 @@ class RunRecordData:
     started_at: str = ""
     ended_at: str = ""
     model_calls: int = 0
-    repair_attempts: int = 0
     hardware_identity: str = ""
     software_environment_identity: str = ""
     failure_classification: str = ""
@@ -73,6 +72,15 @@ class RunRecordData:
     scenario_evaluator_passed: bool | None = None
     scenario_evaluator_duration_seconds: float = 0.0
     scenario_evaluator_checks: list[str] = field(default_factory=list)
+
+    # Repair stage metrics
+    repair_prompt_tokens: int = 0
+    repair_completion_tokens: int = 0
+    repair_total_tokens: int = 0
+    repair_model_calls: int = 0
+    repair_duration_seconds: float = 0.0
+    repair_attempts: int = 0
+    token_accounting_mode: str = "unknown"
 
     # Selection tool/agent stage metrics
     selection_tool_calls: int = 0

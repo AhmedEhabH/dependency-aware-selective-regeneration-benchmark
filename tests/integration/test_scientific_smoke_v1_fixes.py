@@ -950,14 +950,34 @@ class TestGap1TokenBudget:
         from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
 
         source = inspect.getsource(KaggleQwenBackend.generate)
-        # The generate() method must never pass max_new_tokens=0
-        # through the gen_kwargs dict path.
-        assert "max_new_tokens: max_tokens" in source or "max_new_tokens" in source
-        # Verify the callers never pass 0 when unlimited
-        from benchmark.execution.regeneration import SharedRegenerationExecutor
-        exec_source = inspect.getsource(SharedRegenerationExecutor._execute_async)
-        assert "gen_max = 4096" in exec_source, (
-            "Regeneration executor must default to 4096 when unlimited"
+        assert "max_new_tokens" in source
+
+    def test_three_unlimited_calls_each_get_4096(self, tmp_path: Path) -> None:
+        """Three files in a single unlimited executor run each receive 4096."""
+        artifacts = (
+            ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/b.py", artifact_type=ArtifactType.source),
+            ArtifactRef(path="src/c.py", artifact_type=ArtifactType.source),
+        )
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        backend = _CapturingMaxTokensBackend()
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(0)"],
+            strategy_name="monolithic",
+            max_tokens=0,
+            editable_artifact_paths=("src/a.py", "src/b.py", "src/c.py"),
+        )
+        record = runner.run(scenario)
+        assert record.status == RunStatus.succeeded
+        assert len(backend.captured_max_tokens) == 3, (
+            f"Expected 3 backend calls, got {len(backend.captured_max_tokens)}"
+        )
+        assert backend.captured_max_tokens == [4096, 4096, 4096], (
+            f"Each unlimited call must receive 4096, got {backend.captured_max_tokens}"
         )
 
 

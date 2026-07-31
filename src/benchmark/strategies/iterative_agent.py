@@ -15,7 +15,9 @@ from benchmark.core.models import (
     RepositorySnapshot,
     RequirementChange,
     SupportingEvidence,
+    TokenUsage,
 )
+from benchmark.execution.budgets import resolve_completion_allowance
 
 if TYPE_CHECKING:
     from benchmark.core.protocols import LLMBackend
@@ -257,12 +259,16 @@ class IterativeRepositoryAgentStrategy:
         requirement_change: RequirementChange,
         artifact_universe: ArtifactUniverse,
         max_tokens: int = 0,
+        *,
+        max_completion_tokens_per_call: int = 4096,
+        remaining_total_workflow_tokens: int = 0,
     ) -> ImpactPrediction:
         tools = self._tools
         assert tools is not None, "begin_run() must be called before analyze_impact()"
         editable_paths = tuple(a.path for a in artifact_universe.artifacts)
         editable_set = set(editable_paths)
         selected_paths: list[str] = []
+        local_remaining = remaining_total_workflow_tokens
 
         prompt = _build_initial_prompt(requirement_change, editable_paths)
 
@@ -271,14 +277,25 @@ class IterativeRepositoryAgentStrategy:
         total_tok_before = self._total_tokens
 
         while True:
-            gen_max = max_tokens if max_tokens > 0 else 4096
+            prompt_estimate = self._backend.count_prompt_tokens(prompt)
+            allowance = resolve_completion_allowance(
+                max_completion_tokens_per_call=max_completion_tokens_per_call,
+                remaining_total_workflow_tokens=local_remaining,
+                prompt_tokens=prompt_estimate,
+            )
+            if allowance <= 0:
+                break
             try:
-                response = self._generate_agent_response(prompt, gen_max)
+                response = self._generate_agent_response(prompt, allowance)
             except AgentCallsExhaustedError:
                 if selected_paths:
                     break
-                from benchmark.core.models import TokenUsage
                 return ImpactPrediction(
+                    token_usage=TokenUsage(
+                        prompt_tokens=self._prompt_tokens - prompt_tok_before,
+                        completion_tokens=self._completion_tokens - completion_tok_before,
+                        total_tokens=self._total_tokens - total_tok_before,
+                    ),
                     errors=("iterative_agent: no remaining agent calls",),
                     decisions=tuple(
                         ImpactDecision(
@@ -289,6 +306,14 @@ class IterativeRepositoryAgentStrategy:
                         for a in artifact_universe.artifacts
                     ),
                 )
+
+            usage = response.token_usage
+            if remaining_total_workflow_tokens > 0:
+                if usage.completion_tokens > allowance:
+                    break
+                if local_remaining > 0 and usage.total_tokens > local_remaining:
+                    break
+                local_remaining = max(0, local_remaining - usage.total_tokens)
 
             action = _parse_action_response(response.text)
             if action is None:
@@ -343,8 +368,12 @@ class IterativeRepositoryAgentStrategy:
 
         if not selected_paths:
             self._last_requires_iteration = False
-            from benchmark.core.models import TokenUsage
             return ImpactPrediction(
+                token_usage=TokenUsage(
+                    prompt_tokens=delta_prompt,
+                    completion_tokens=delta_completion,
+                    total_tokens=delta_total,
+                ),
                 errors=("iterative_agent: no paths selected after exploration",),
                 decisions=tuple(
                     ImpactDecision(
@@ -381,7 +410,6 @@ class IterativeRepositoryAgentStrategy:
                         rationale="iterative_agent: outside selected scope",
                     )
                 )
-        from benchmark.core.models import TokenUsage
         return ImpactPrediction(
             decisions=tuple(decisions),
             token_usage=TokenUsage(
@@ -402,6 +430,9 @@ class IterativeRepositoryAgentStrategy:
         workspace_summary: str,
         remaining_attempts: int,
         remaining_tokens: int,
+        *,
+        max_completion_tokens_per_call: int = 4096,
+        remaining_total_workflow_tokens: int = 0,
     ) -> ImpactPrediction:
         tools = self._tools
         assert tools is not None, "begin_run() must be called before revise_plan()"
@@ -410,6 +441,7 @@ class IterativeRepositoryAgentStrategy:
             d.artifact.path for d in previous_prediction.decisions
             if d.action == ActionKind.regenerate
         )
+        local_remaining = remaining_total_workflow_tokens
 
         prompt = _build_revise_prompt(
             requirement_change, editable_paths, previous_paths,
@@ -424,11 +456,26 @@ class IterativeRepositoryAgentStrategy:
         total_tok_before = self._total_tokens
 
         while True:
-            gen_max = remaining_tokens if remaining_tokens > 0 else 4096
+            prompt_estimate = self._backend.count_prompt_tokens(prompt)
+            allowance = resolve_completion_allowance(
+                max_completion_tokens_per_call=max_completion_tokens_per_call,
+                remaining_total_workflow_tokens=local_remaining,
+                prompt_tokens=prompt_estimate,
+            )
+            if allowance <= 0:
+                break
             try:
-                response = self._generate_agent_response(prompt, gen_max)
+                response = self._generate_agent_response(prompt, allowance)
             except AgentCallsExhaustedError:
                 break
+
+            usage = response.token_usage
+            if remaining_total_workflow_tokens > 0:
+                if usage.completion_tokens > allowance:
+                    break
+                if local_remaining > 0 and usage.total_tokens > local_remaining:
+                    break
+                local_remaining = max(0, local_remaining - usage.total_tokens)
 
             action = _parse_action_response(response.text)
             if action is None:
@@ -476,7 +523,6 @@ class IterativeRepositoryAgentStrategy:
                     )
                     for a in artifact_universe.artifacts
                 ]
-                from benchmark.core.models import TokenUsage
                 delta_prompt = self._prompt_tokens - prompt_tok_before
                 delta_completion = self._completion_tokens - completion_tok_before
                 delta_total = self._total_tokens - total_tok_before
@@ -497,11 +543,15 @@ class IterativeRepositoryAgentStrategy:
                     break
 
         self._last_requires_iteration = False
-        from benchmark.core.models import TokenUsage
         delta_prompt = self._prompt_tokens - prompt_tok_before
         delta_completion = self._completion_tokens - completion_tok_before
         delta_total = self._total_tokens - total_tok_before
         return ImpactPrediction(
+            token_usage=TokenUsage(
+                prompt_tokens=delta_prompt,
+                completion_tokens=delta_completion,
+                total_tokens=delta_total,
+            ),
             errors=("iterative_agent: revision failed to select paths",),
             decisions=tuple(
                 ImpactDecision(
@@ -510,11 +560,6 @@ class IterativeRepositoryAgentStrategy:
                     rationale="iterative_agent: revision failed",
                 )
                 for a in artifact_universe.artifacts
-            ),
-            token_usage=TokenUsage(
-                prompt_tokens=delta_prompt,
-                completion_tokens=delta_completion,
-                total_tokens=delta_total,
             ),
         )
 

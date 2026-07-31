@@ -30,6 +30,39 @@ class PipelineConfig:
     python_executable: str = ""
     extra: dict[str, Any] = field(default_factory=dict)
 
+    def __post_init__(self) -> None:
+        if isinstance(self.max_completion_tokens_per_call, bool):
+            raise ValueError("PipelineConfig.max_completion_tokens_per_call must be integer, not bool")
+        if isinstance(self.max_total_workflow_tokens, bool):
+            raise ValueError("PipelineConfig.max_total_workflow_tokens must be integer, not bool")
+        if isinstance(self.max_tokens_per_run, bool):
+            raise ValueError("PipelineConfig.max_tokens_per_run must be integer, not bool")
+        if self.max_completion_tokens_per_call <= 0:
+            n = self.max_completion_tokens_per_call
+            raise ValueError(f"PipelineConfig.max_completion_tokens_per_call must be > 0, got {n}")
+        if self.max_total_workflow_tokens < 0:
+            n = self.max_total_workflow_tokens
+            raise ValueError(f"PipelineConfig.max_total_workflow_tokens must be >= 0, got {n}")
+        if self.max_tokens_per_run < 0:
+            n = self.max_tokens_per_run
+            raise ValueError(f"PipelineConfig.max_tokens_per_run must be >= 0, got {n}")
+        _ = self.resolved_max_total_workflow_tokens
+
+    @property
+    def resolved_max_total_workflow_tokens(self) -> int:
+        explicit_total = self.max_total_workflow_tokens
+        legacy_total = self.max_tokens_per_run
+        if explicit_total > 0 and legacy_total > 0 and explicit_total != legacy_total:
+            raise ValueError(
+                f"Explicit max_total_workflow_tokens ({explicit_total}) and "
+                f"legacy max_tokens_per_run ({legacy_total}) are both positive but differ"
+            )
+        if explicit_total > 0:
+            return explicit_total
+        if legacy_total > 0:
+            return legacy_total
+        return 0
+
 
 @dataclass
 class PipelineResult:
@@ -106,13 +139,13 @@ class BenchmarkPipeline:
             protocol_version=self._config.protocol_version,
             timeout_seconds=self._config.timeout_seconds,
             max_attempts=self._config.max_attempts_per_run,
-            max_tokens=self._config.max_tokens_per_run,
+            max_tokens=self._config.resolved_max_total_workflow_tokens,
             enable_regeneration=self._config.enable_regeneration,
             validation_command=self._config.validation_command,
             validation_timeout=self._config.validation_timeout,
             editable_artifact_paths=self._config.editable_artifact_paths,
             max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
-            max_total_workflow_tokens=self._config.max_total_workflow_tokens,
+            max_total_workflow_tokens=self._config.resolved_max_total_workflow_tokens,
             canonical_project_root=self._config.canonical_project_root,
             python_executable=self._config.python_executable,
         )

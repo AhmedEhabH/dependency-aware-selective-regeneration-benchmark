@@ -168,15 +168,21 @@ def _to_run_record_data(
         failure_details=fdetails,
         token_usage=tok,
         duration_seconds=record_dict.get("duration_seconds", 0.0),
-        model_metadata={"model": model_identity, "dry_run": str(dry_run)},
+        model_metadata={
+            "model": model_identity,
+            "dry_run": str(dry_run),
+            "token_accounting_mode": record_dict.get("token_accounting_mode", "unknown"),
+            "max_attempts": str(max_attempts),
+            "max_completion_tokens_per_call": str(record_dict.get("max_completion_tokens_per_call", 4096)),
+            "max_total_workflow_tokens": str(record_dict.get("max_total_workflow_tokens", 0)),
+        },
         protocol_version=protocol_version,
         source_commit=source_commit,
         config_hash=config_hash,
         timestamp=started_at,
         started_at=started_at,
         ended_at=ended_at,
-        model_calls=1 if tok.get("total", 0) > 0 else 0,
-        repair_attempts=max(0, max_attempts - 1) if status != "succeeded" else 0,
+        model_calls=record_dict.get("total_workflow_model_calls", 0),
         hardware_identity=hw_id or "dry-run:mock" if dry_run else hw_id,
         software_environment_identity=sw_id or "dry-run:mock" if dry_run else sw_id,
         failure_classification=failure_classification,
@@ -205,6 +211,13 @@ def _to_run_record_data(
         generated_migration_paths=record_dict.get("generated_migration_paths", []),
         baseline_validation_passed=record_dict.get("baseline_validation_passed"),
         baseline_validation_duration_seconds=record_dict.get("baseline_validation_duration_seconds", 0.0),
+        repair_prompt_tokens=record_dict.get("repair_prompt_tokens", 0),
+        repair_completion_tokens=record_dict.get("repair_completion_tokens", 0),
+        repair_total_tokens=record_dict.get("repair_total_tokens", 0),
+        repair_model_calls=record_dict.get("repair_model_calls", 0),
+        repair_duration_seconds=record_dict.get("repair_duration_seconds", 0.0),
+        repair_attempts=record_dict.get("repair_attempts", 0),
+        token_accounting_mode=record_dict.get("token_accounting_mode", "unknown"),
         scenario_evaluator_passed=record_dict.get("scenario_evaluator_passed"),
         scenario_evaluator_duration_seconds=record_dict.get("scenario_evaluator_duration_seconds", 0.0),
         scenario_evaluator_checks=record_dict.get("scenario_evaluator_checks", []),
@@ -532,6 +545,8 @@ def run_arm(
     openrouter_timeout: float = 120.0,
     validation_command: list[str] | None = None,
     max_tokens: int = 0,
+    max_completion_tokens_per_call: int = 4096,
+    max_total_workflow_tokens: int = 0,
 ) -> object:
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -559,15 +574,23 @@ def run_arm(
     })
     enable_regen = not dry_run and strategy_name in _approved_regen_strategies
 
+    if max_total_workflow_tokens > 0 and max_tokens > 0 and max_total_workflow_tokens != max_tokens:
+        raise ValueError(
+            f"Explicit max_total_workflow_tokens ({max_total_workflow_tokens}) and "
+            f"legacy max_tokens ({max_tokens}) are both positive but differ"
+        )
+    resolved_total = max_total_workflow_tokens if max_total_workflow_tokens > 0 else max_tokens
     config = PipelineConfig(
         protocol_version=protocol_version,
         timeout_seconds=timeout_seconds,
         max_attempts_per_run=max_attempts,
-        max_tokens_per_run=max_tokens,
+        max_tokens_per_run=resolved_total,
         dry_run=dry_run,
         enable_regeneration=enable_regen,
         validation_command=validation_command,
         validation_timeout=180,
+        max_completion_tokens_per_call=max_completion_tokens_per_call,
+        max_total_workflow_tokens=resolved_total,
     )
 
     pipeline = BenchmarkPipeline(
@@ -725,7 +748,19 @@ def parse_args() -> argparse.Namespace:
         "--max-tokens",
         type=int,
         default=0,
-        help="Total workflow token budget per run (0 = unlimited)",
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--max-completion-tokens-per-call",
+        type=int,
+        default=4096,
+        help="Per-backend-call completion token limit (default: 4096)",
+    )
+    parser.add_argument(
+        "--max-total-workflow-tokens",
+        type=int,
+        default=0,
+        help="Total workflow token ceiling per run (0 = unlimited)",
     )
     parser.add_argument(
         "--validation-command",
@@ -872,6 +907,13 @@ def _validate_cli_args(args: argparse.Namespace) -> None:
         if not args.model_path:
             errors.append("--model-path is required when not using --dry-run")
 
+    if args.max_tokens > 0 and args.max_total_workflow_tokens > 0 and args.max_tokens != args.max_total_workflow_tokens:
+        errors.append(
+            f"Conflicting token limits: --max-tokens={args.max_tokens} and "
+            f"--max-total-workflow-tokens={args.max_total_workflow_tokens} "
+            "cannot both be positive and differ."
+        )
+
     if errors:
         for err in errors:
             logger.error("Validation error: %s", err)
@@ -1000,7 +1042,10 @@ def _build_execution_plan(
     return plan
 
 
-def _make_run_id(scenario_id: str, strategy_name: str, rep: int, config_hash: str = "", protocol_version: str = "1.0") -> str:
+def _make_run_id(
+    scenario_id: str, strategy_name: str, rep: int,
+    config_hash: str = "", protocol_version: str = "1.0",
+) -> str:
     payload = json.dumps({
         "scenario_id": scenario_id,
         "strategy_name": strategy_name,
@@ -1030,6 +1075,8 @@ def _stage_and_smoke_run(
     max_attempts: int = 3,
     timeout_seconds: int = 180,
     _backend: object = None,
+    max_completion_tokens_per_call: int = 4096,
+    max_total_workflow_tokens: int = 0,
 ) -> dict[str, Any]:
     """Production path: repository source resolution → snapshot staging → execution.
 
@@ -1078,6 +1125,8 @@ def _stage_and_smoke_run(
         max_tokens=max_tokens,
         active_snapshot_root=arm_active_snapshot_root,
         _backend=_backend,
+        max_completion_tokens_per_call=max_completion_tokens_per_call,
+        max_total_workflow_tokens=max_total_workflow_tokens,
     )
     return record_dict
 
@@ -1103,6 +1152,8 @@ def _run_single_scenario_strategy(
     editable_artifact_paths: tuple[str, ...] = (),
     artifact_descriptors: tuple[object, ...] = (),
     _backend: object = None,
+    max_completion_tokens_per_call: int = 4096,
+    max_total_workflow_tokens: int = 0,
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
@@ -1133,11 +1184,17 @@ def _run_single_scenario_strategy(
     })
     enable_regen = not dry_run and strategy_name in _approved_regen_strategies
 
+    if max_total_workflow_tokens > 0 and max_tokens > 0 and max_total_workflow_tokens != max_tokens:
+        raise ValueError(
+            f"Explicit max_total_workflow_tokens ({max_total_workflow_tokens}) and "
+            f"legacy max_tokens ({max_tokens}) are both positive but differ"
+        )
+    resolved_total = max_total_workflow_tokens if max_total_workflow_tokens > 0 else max_tokens
     config = PipelineConfig(
         protocol_version=protocol_version,
         timeout_seconds=timeout_seconds,
         max_attempts_per_run=max_attempts,
-        max_tokens_per_run=max_tokens,
+        max_tokens_per_run=resolved_total,
         dry_run=dry_run,
         enable_regeneration=enable_regen,
         validation_command=validation_command,
@@ -1146,6 +1203,8 @@ def _run_single_scenario_strategy(
         editable_artifact_paths=editable_artifact_paths,
         canonical_project_root=Path(__file__).resolve().parent,
         python_executable=sys.executable,
+        max_completion_tokens_per_call=max_completion_tokens_per_call,
+        max_total_workflow_tokens=resolved_total,
     )
 
     pipeline = BenchmarkPipeline(
@@ -1164,7 +1223,6 @@ def _run_single_scenario_strategy(
     status = record.status.value if hasattr(record.status, "value") else str(record.status)
     success = 1 if status == "succeeded" else 0
     failure = 1 if status in ("failed",) else 0
-    timeout = 1 if status == "timed_out" else 0
 
     record_dict: dict[str, Any] = {
         "run_id": record.identity.run_id,
@@ -1202,6 +1260,13 @@ def _run_single_scenario_strategy(
         "scenario_evaluator_passed": record.scenario_evaluator_passed,
         "scenario_evaluator_duration_seconds": record.scenario_evaluator_duration_seconds,
         "scenario_evaluator_checks": list(record.scenario_evaluator_checks),
+        "repair_prompt_tokens": record.repair_prompt_tokens,
+        "repair_completion_tokens": record.repair_completion_tokens,
+        "repair_total_tokens": record.repair_total_tokens,
+        "repair_model_calls": record.repair_model_calls,
+        "repair_duration_seconds": record.repair_duration_seconds,
+        "repair_attempts": record.repair_attempts,
+        "token_accounting_mode": record.token_accounting_mode,
         "total_workflow_tokens": record.total_workflow_tokens,
         "total_workflow_model_calls": record.total_workflow_model_calls,
         "total_workflow_duration_seconds": record.total_workflow_duration_seconds,
@@ -1209,6 +1274,8 @@ def _run_single_scenario_strategy(
         "regenerated_artifact_count": record.regenerated_artifact_count,
         "preserved_artifact_count": record.preserved_artifact_count,
         "unresolved_human_review_count": record.unresolved_human_review_count,
+        "max_completion_tokens_per_call": max_completion_tokens_per_call,
+        "max_total_workflow_tokens": resolved_total,
     }
     if record.failures:
         record_dict["failures"] = [
@@ -1220,17 +1287,27 @@ def _run_single_scenario_strategy(
             }
             for f in record.failures
         ]
-    return record_dict, int(success or failure or timeout)
+    return record_dict, int(success or failure)
 
 
 def _compute_config_hash(args: argparse.Namespace) -> str:
+    explicit_total = getattr(args, "max_total_workflow_tokens", 0) or 0
+    legacy_total = getattr(args, "max_tokens", 0) or 0
+    if explicit_total > 0 and legacy_total > 0 and explicit_total != legacy_total:
+        raise ValueError(
+            f"Explicit max_total_workflow_tokens ({explicit_total}) and "
+            f"legacy max_tokens ({legacy_total}) are both positive but differ"
+        )
+    resolved_total = explicit_total or legacy_total
     config_obj = {
-        "dry_run": args.dry_run,
-        "profile": args.profile,
-        "strategy": args.strategy,
-        "max_attempts": args.max_attempts,
-        "timeout": args.timeout,
-        "protocol_version": args.protocol_version,
+        "dry_run": getattr(args, "dry_run", False),
+        "profile": getattr(args, "profile", "smoke"),
+        "strategy": getattr(args, "strategy", None),
+        "max_attempts": getattr(args, "max_attempts", 3),
+        "timeout": getattr(args, "timeout", 0),
+        "protocol_version": getattr(args, "protocol_version", "1.0"),
+        "max_completion_tokens_per_call": getattr(args, "max_completion_tokens_per_call", 4096),
+        "max_total_workflow_tokens": resolved_total,
     }
     raw = json.dumps(config_obj, sort_keys=True)
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
@@ -2005,6 +2082,8 @@ def main() -> int:
             active_snapshot_root=arm_active_snapshot_root,
             editable_artifact_paths=_editable_paths.get(repository_id, ()),
             artifact_descriptors=_artifact_descriptors.get(repository_id, ()),
+            max_completion_tokens_per_call=args.max_completion_tokens_per_call,
+            max_total_workflow_tokens=args.max_total_workflow_tokens or max_tokens,
         )
         run_ended_at = datetime.now(UTC).isoformat()
 
