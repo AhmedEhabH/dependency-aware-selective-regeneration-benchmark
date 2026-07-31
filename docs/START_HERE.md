@@ -4,15 +4,15 @@
 
 You are resuming work on the Dependency-Aware Selective Regeneration Benchmark.
 
-**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at the explicit acceptance/freeze commit `f5ae826` on branch `experiment/three-arm-smoke-v2` (independent re-audit by GPT-5.6 Thinking, 2026-07-31; `a46213c` recorded the R4 audit corrections). R5 — nine non-dry scripted production records through the real production orchestration path — is **SCOPE CORRECTION COMPLETE — PENDING INDEPENDENT RE-AUDIT**. The accidental `6650b00` Kaggle bundle content was removed by a local history rebuild (execution fix `875e4d1`, test proof `ee148fa`, audit docs commit). R6, Kaggle, Pilot, merge, and stable tag remain **BLOCKED**. README is intentionally deferred to R6. Smoke evidence is non-publication.
+**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at HEAD `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) is **AUTHORIZED AND IN PROGRESS** under the corrected directive in `..\R6_OpenCode_Package_CORRECTED\`, which supersedes every earlier R6 directive. Kaggle, push, tag, merge, and Pilot remain **BLOCKED**.
 
 **Phase state:**
 ```text
 R4 = accepted and frozen (explicit freeze commit f5ae826)
-R5 = correction complete, pending independent re-audit
-R6 = blocked
+R5 = accepted and frozen (independent re-audit 2026-08-01 at 7761c48)
+R6 = authorized / in progress
 Kaggle = blocked
-README = intentionally deferred to R6
+Pilot = blocked
 stable tag = blocked
 ```
 
@@ -40,31 +40,15 @@ python seven_arm_benchmark.py --dry-run
 
 ---
 
-## R5 Scope Correction and Re-Audit
+## R5 Acceptance and R6 Authorization
 
-R5 was implemented (nine non-dry scripted production records) and then
-independently audited. The audit required one bounded scope/history cleanup and
-evidence-tightening pass, executed per `..\OPENCODE_R5_SCOPE_CLEANUP_DIRECTIVE.md`
-and recorded in `selective_updates/records/R5-INDEPENDENT-AUDIT-SCOPE-CORRECTION.md`.
-R5 is now **correction complete, pending independent re-audit**. Do not accept,
-freeze, or advance R5 to R6 before the re-audit. Do not push or tag. Primary R5
-files:
+R5 was accepted and frozen by the independent re-audit on 2026-08-01 at HEAD `7761c48`. The clean R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. R6 deployment closure is now authorized under the corrected directive and supersedes every earlier R6 prompt/directive. The corrected plan covers the deterministic bundle builder, controlled Todo test deployment, exact evaluator allowlist, valid V2 smoke config, pinned notebook, bundle preflight integration, and manifest parity audits. Do not push, tag, merge, or launch Kaggle before the independent R6 audit.
 
 ```text
-tests/support/scripted_llm_backend.py
-tests/support/scripted_smoke_v2.py
-tests/integration/test_scientific_smoke_v2_production_path.py
+R5 = accepted and frozen at 7761c48
+R6 = authorized / in progress
+Kaggle/push/tag/Pilot = blocked
 ```
-
-R5 commits (rewritten, clean boundaries):
-
-```text
-875e4d1  fix(execution): preserve generated file bytes on Windows  (2 files)
-ee148fa  test(smoke): prove nine scripted production records      (3 files)
-docs(audit): record R5 completion pending re-audit                 (docs only)
-```
-
-Pre-rebuild state is preserved on `backup/r5-pre-audit-c3ecad2`.
 
 ---
 
@@ -84,10 +68,11 @@ Before modifying production code, benchmark data, notebooks, or deployment bundl
 |----------|---------|
 | `docs/PROJECT_HANDOFF.md` | Full project handoff (read first) |
 | `docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md` | R4 freeze record |
+| `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md` | R5 acceptance and freeze record |
 | `SYSTEM_STATE.md` | Current system state |
 | `TODO.md` | Task list |
 | `DECISION_LOG.md` | Decision history |
-| `reports/latest_phase_report.md` | Latest phase summary (R5 scope correction) |
+| `reports/latest_phase_report.md` | Latest phase summary (R5 acceptance / R6 in progress) |
 | `reports/PROJECT_HEALTH_REPORT.md` | Project health dashboard |
 | `selective_updates/records/R5-INDEPENDENT-AUDIT-SCOPE-CORRECTION.md` | R5 scope correction and evidence record |
 
@@ -126,7 +111,7 @@ Each starts from the same clean pinned baseline (b8a33e2). They are not cumulati
 
 ## Next Task
 
-**R5 re-audit.** R5 is correction complete pending the independent re-audit described in `..\R5_INDEPENDENT_AUDIT_SCOPE_AND_EVIDENCE_2026-07-31.md`. After re-audit acceptance/freeze: bounded RF-4/R6 bundle-builder correction (TD-R6-BUNDLE-MANIFEST-001), rebuild and verify the Kaggle bundle from committed bytes, update README, then R6. Do not start R6 or Kaggle before the re-audit.
+**R6 deployment closure.** Execute the corrected R6 directive (`..\R6_OpenCode_Package_CORRECTED\02_OPENCODE_R6_CORRECTED_EXECUTION_DIRECTIVE.md`): deterministic builder, controlled Todo test deployment, exact evaluator allowlist, valid V2 smoke config, CLI help, pinned notebook, bundle preflight, and manifest audits. After the independent R6 audit, push, Kaggle preflight, and nine real Qwen records. Do not push, tag, merge, or launch Kaggle before the audit.
 
 ---
 
@@ -148,10 +133,13 @@ cat docs/PROJECT_HANDOFF.md
 # Read R4 freeze record
 cat docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
 
+# Read R5 freeze record
+cat docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
+
 # Read R5 scope correction record
 cat selective_updates/records/R5-INDEPENDENT-AUDIT-SCOPE-CORRECTION.md
 ```
 
 ---
 
-**R5_SCOPE_CLEANUP_REAUDIT_REQUIRED**
+**R5_ACCEPTED_R6_AUTHORIZED**

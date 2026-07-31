@@ -1,9 +1,9 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-**Handoff Date:** 2026-07-31
+**Handoff Date:** 2026-08-01
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 SCOPE CORRECTION COMPLETE PENDING INDEPENDENT RE-AUDIT — branch experiment/three-arm-smoke-v2; R5 benchmark correction 8fafb50, amendment docs a24a9cd, rewritten execution fix 875e4d1, rewritten test proof ee148fa, audit docs commit (this commit); R5 status = correction complete, pending independent re-audit; R6/Kaggle/push/tag = BLOCKED
+**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 AUTHORIZED AND IN PROGRESS — branch experiment/three-arm-smoke-v2; R6 deployment closure follows the corrected directive in ..\R6_OpenCode_Package_CORRECTED\ (supersedes all earlier R6 directives); Kaggle/push/tag/merge/Pilot = BLOCKED
 
 ---
 
@@ -84,19 +84,20 @@ project/
 - **R5 amendment docs:** a24a9cd (docs(protocol): record pre-results Smoke V2 baseline amendment)
 - **R5 execution fix:** 875e4d1 (fix(execution): preserve generated file bytes on Windows) — exactly 2 files
 - **R5 test proof:** ee148fa (test(smoke): prove nine scripted production records) — exactly 3 files
-- **R5 audit docs commit:** this commit (docs(audit): record R5 completion pending re-audit) — documentation only
-- **HEAD:** this commit (R5 scope correction complete, pending independent re-audit)
+- **R5 audit docs commit:** this commit (docs(audit): accept and freeze R5 production path proof) — documentation only
+- **R5 acceptance/freeze:** ACCEPTED AND FROZEN by independent re-audit (GPT-5.6 Thinking, 2026-08-01) at 7761c48; recorded in docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
+- **HEAD:** this commit (R5 accepted and frozen; R6 authorized/in progress)
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** (final full-suite result recorded in this commit's docs)
+- **Test suite:** (final full-suite result recorded in this commit's docs) — 1,625 passed / 32 skipped / 0 failed
 - **Lint:** ruff 0 new findings vs backup branch
 - **Types:** mypy strict 0 new errors vs backup branch
 - **Dependencies:** pip check clean
 - **Benchmark data:** 3 repositories (todo, djangocms, saleor), 24 protocol scenarios + 3 smoke scenarios
 - **Kaggle status:** BLOCKED — not authorized
 - **Pilot status:** BLOCKED — not authorized
-- **R5 status:** CORRECTION COMPLETE — PENDING INDEPENDENT RE-AUDIT (nine non-dry scripted production records; accidental 6650b00 Kaggle bundle content removed by local history rebuild)
-- **R6 status:** BLOCKED
+- **R5 status:** ACCEPTED AND FROZEN at 7761c48 (nine non-dry scripted production records = 9/9)
+- **R6 status:** AUTHORIZED / IN PROGRESS — deployment closure
 - **Selective scopes verified:** 001=models,serializers,views | 002=models,views | 003=models,permissions,serializers,views
 
 ## 4. Core Scientific Question
@@ -533,7 +534,29 @@ The Git-tree bundle-manifest issue is recorded as R6 debt
 mismatch counts are reported in
 `selective_updates/records/R5-INDEPENDENT-AUDIT-SCOPE-CORRECTION.md`.
 
-Next action: independent R5 re-audit before accept/freeze R5. R6, Kaggle,
-push, and tag remain BLOCKED.
+Next action: R6 deployment closure under the corrected directive
+(`..\R6_OpenCode_Package_CORRECTED\02_OPENCODE_R6_CORRECTED_EXECUTION_DIRECTIVE.md`),
+then an independent R6 audit before push. Kaggle, push, tag, merge, and Pilot
+remain BLOCKED.
 
-**R5_SCOPE_CLEANUP_REAUDIT_REQUIRED**
+## 19. R5 Acceptance and R6 Authorization (2026-08-01)
+
+**Status:** R5 ACCEPTED AND FROZEN — R6 AUTHORIZED AND IN PROGRESS
+**Audit source:** `..\R5_FINAL_INDEPENDENT_REAUDIT_ACCEPTANCE_2026-08-01.md`
+**Directive source:** `..\R6_OpenCode_Package_CORRECTED\02_OPENCODE_R6_CORRECTED_EXECUTION_DIRECTIVE.md` (supersedes every earlier R6 directive)
+**Backup branch:** `backup/r6-pre-execution-7761c48` (created 2026-08-01; no tag)
+
+The independent re-audit accepted and froze R5 at `7761c48` on 2026-08-01.
+Local scripted Smoke V2 evidence = 9/9 records succeeded, 0 failed. Real Qwen
+records = 0/9. The R6 corrected plan closes the deployment gaps found by the
+audit (TD-R6-BUNDLE-MANIFEST-001, missing controlled Todo tests, missing
+evaluator assets, V1 notebook/smoke config, and future-hash identity rules)
+with a deterministic builder, an exact evaluator allowlist, controlled Todo
+test deployment, a valid V2 smoke config, a pinned notebook, a bundle
+preflight integration, and committed-byte manifest parity audits. R6 does not
+modify production Runner, strategies, metrics, regeneration, evaluator
+behavior, frozen scenarios, evaluator assets, or controlled Todo source/tests.
+
+Next action: complete R6, stop for the independent R6 audit before push.
+
+**R5_ACCEPTED_R6_AUTHORIZED**

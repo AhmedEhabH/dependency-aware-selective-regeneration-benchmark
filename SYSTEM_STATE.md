@@ -1,27 +1,28 @@
 # System State
 
 ## Current Phase
-**R4 Token and Metric Contract — ACCEPTED AND FROZEN** (branch `experiment/three-arm-smoke-v2`)
+**R5 — ACCEPTED AND FROZEN — R6 AUTHORIZED AND IN PROGRESS** (branch `experiment/three-arm-smoke-v2`)
 
-R4 (token limits and truthful workflow metrics) was independently re-audited by GPT-5.6 Thinking on 2026-07-31 and **accepted and frozen** at the explicit acceptance/freeze commit `f5ae826` (`a46213c` recorded the R4 audit corrections). Both audit defects are closed: (A) exact workflow-budget exhaustion no longer reopens an exhausted budget as unlimited (`None`/`0`/positive runtime semantics); (B) evaluator assets pinned to LF with SHA-256 match and byte-identical index/worktree. R5 — nine non-dry scripted production records — is **SCOPE CORRECTION COMPLETE — PENDING INDEPENDENT RE-AUDIT** after a bounded cleanup pass that removed the accidental `6650b00` Kaggle bundle content and tightened the exact evidence assertions. R6, Kaggle, Pilot, merge, and stable tag remain **BLOCKED**. README is intentionally deferred to R6.
+R5 (nine non-dry scripted production records) was independently re-audited by GPT-5.6 Thinking on 2026-08-01 and **accepted and frozen** at HEAD `7761c48` (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R4 remains accepted and frozen at `f5ae826`. R6 (deployment closure: deterministic builder, controlled Todo test deployment, exact evaluator allowlist, valid V2 smoke config, pinned notebook, bundle preflight, parity audits, documentation) is **AUTHORIZED AND IN PROGRESS** under the corrected deployment contract in `..\R6_OpenCode_Package_CORRECTED\`. Kaggle, push, tag, merge, and Pilot remain **BLOCKED**.
 
 ## Phase State
 ```text
 R4 = accepted and frozen (explicit freeze commit f5ae826)
-R5 = correction complete, pending independent re-audit
-R6 = blocked
+R5 = accepted and frozen (independent re-audit 2026-08-01, recorded at 7761c48)
+R6 = authorized / in progress
 Kaggle = blocked
-README = intentionally deferred to R6
+Pilot = blocked
+README = updated in R6
 stable tag = blocked
 ```
 
 ## Previous Phase
-**R3D Production Runner Validation Wiring — FINAL FREEZE CANDIDATE, superseded by R4 freeze**
+**R5 — Nine Non-Dry Scripted Production Records — ACCEPTED AND FROZEN**
 
-Canonical structure remediation and R3B/R3C closures merged into `experiment/three-arm-smoke-v2`. R3D final evidence closed at `11f88f5`. R4 completed over it (`e87d4ad`), audit corrections applied (`c928bd9`, `cc32b17`, `a46213c`), re-audited and frozen at the explicit acceptance/freeze commit `f5ae826`.
+R5 proved exactly nine non-dry scripted production records (3 frozen scenarios × 3 arms × 1 repetition) through the real production orchestration path. R5 was accepted by the independent re-audit on 2026-08-01 at `7761c48`. The cleaned R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. The old contaminated tail is preserved on `backup/r5-pre-audit-c3ecad2`.
 
 ## Current Task
-Independent R5 re-audit (per `..\R5_INDEPENDENT_AUDIT_SCOPE_AND_EVIDENCE_2026-07-31.md`). R5 implementation is correction complete — nine non-dry scripted production records, exact generation/count assertions, snapshot mutation transition, truthful timestamps, corrected documentation. After re-audit acceptance/freeze: bounded RF-4/R6 bundle-builder correction (TD-R6-BUNDLE-MANIFEST-001), rebuild and verify the Kaggle bundle from committed bytes, update README, then R6. Do not start R6 or Kaggle before the re-audit.
+R6 deployment closure under the corrected directive (`..\R6_OpenCode_Package_CORRECTED\02_OPENCODE_R6_CORRECTED_EXECUTION_DIRECTIVE.md`): deterministic cross-platform builder, controlled Todo regression tests deployed in the data bundle, exactly six frozen evaluator assets + fingerprints in the code bundle, valid exact V2 smoke config, current CLI help, notebook pinned to a real existing runtime-source commit, generated bundle built only through the builder, bundle deployment preflight integration, worktree/index/committed-tree manifest audits, and documentation/handoff truth. Stop before push for the independent R6 audit.
 
 ## Recent Non-Phase Additions
 - Added `README.md` (project overview, architecture, usage, license)
@@ -263,10 +264,10 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 - Runtime metrics
 
 ## Current Branch
-`experiment/three-arm-smoke-v2` (R4 frozen; R5 correction complete, pending independent re-audit)
+`experiment/three-arm-smoke-v2` (R4 frozen; R5 frozen; R6 authorized/in progress)
 
 ## Latest Commit
-HEAD — `docs(audit): record R5 completion pending re-audit` (R5 scope correction commit)
+HEAD — `docs(audit): accept and freeze R5 production path proof` (R6-F01)
 
 ## Known Risks
 1. **LR-3 — No test data boundary:** Test fixtures need a defined home outside `inputs/` and `src/`.
@@ -275,14 +276,16 @@ HEAD — `docs(audit): record R5 completion pending re-audit` (R5 scope correcti
 4. **LR-8 — Scenario content quality:** YAML files generated by automated agents; manual review recommended before Phase 4.
 
 ## Exact Next Task
-1. Independent R5 re-audit (`..\R5_INDEPENDENT_AUDIT_SCOPE_AND_EVIDENCE_2026-07-31.md`)
-2. On acceptance/freeze: bounded RF-4/R6 bundle-builder correction (TD-R6-BUNDLE-MANIFEST-001)
-3. Rebuild and verify the Kaggle bundle from committed bytes
-4. Update README; then R6 (bundle and push)
-5. Do not start R6 or Kaggle before the re-audit
+1. R6 deployment closure (corrected directive) — deterministic builder, controlled Todo tests, evaluator allowlist, valid V2 smoke config, pinned notebook, bundle preflight, manifest audits, documentation
+2. Independent R6 audit (GPT-5.6 Thinking) before push
+3. Push and local/remote equality
+4. Kaggle preflight and nine real Qwen Smoke records
+5. Independent result audit, then `v2.0.0-scientific-smoke` tag
+6. Pilot freeze and execution
+7. Do not push, tag, merge, or launch Kaggle during R6
 
 ## Handoff Notes
-Phase 4A–4F complete, Phase 4F.1 complete, R3B/R3C/R3D closures complete, R4 token/metric contract ACCEPTED AND FROZEN at the explicit acceptance/freeze commit `f5ae826` (independent re-audit by GPT-5.6 Thinking, 2026-07-31; `a46213c` recorded the R4 audit corrections). R5 implementation is scope-correction complete pending independent re-audit: nine non-dry scripted production records, exact generation/count assertions, snapshot mutation transition, truthful timestamps, corrected documentation. The accidental `6650b00` Kaggle bundle content was removed by a local history rebuild (backup branch `backup/r5-pre-audit-c3ecad2` preserved); the final branch has no `kaggle_upload` diff from `f5ae826`. The Git-tree bundle-manifest issue is recorded as R6 debt `TD-R6-BUNDLE-MANIFEST-001`. Full suite at R4 freeze: 1584 passed, 32 skipped, 0 failed. Smoke evidence is non-publication. Pilot and research experiments have NOT started. Do not claim publication results without research-profile runs under the frozen protocol. Do not download or run LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives).
+Phase 4A–4F complete, Phase 4F.1 complete, R3B/R3C/R3D closures complete, R4 token/metric contract ACCEPTED AND FROZEN at `f5ae826`, R5 nine-scripted-records ACCEPTED AND FROZEN by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 deployment closure is authorized under the corrected package in `..\R6_OpenCode_Package_CORRECTED\` and supersedes every earlier R6 directive. Known R6 blocker: TD-R6-BUNDLE-MANIFEST-001 (10 committed data-manifest mismatches), plus missing controlled Todo tests in the data bundle, missing evaluator assets in the code bundle, and V1 notebook/smoke configuration. Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; branch not pushed; Pilot not authorized. Full suite at R5 re-audit: 1,625 passed, 32 skipped, 0 failed. Smoke evidence is non-publication. Do not claim publication results without research-profile runs under the frozen protocol. Do not download or run LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives).
 
 Environment activation:
 ```bash
@@ -294,4 +297,4 @@ Run tests:
 python -m pytest -q
 ```
 
-**R5_SCOPE_CLEANUP_REAUDIT_REQUIRED**
+**R5_ACCEPTED_R6_AUTHORIZED**

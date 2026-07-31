@@ -537,15 +537,51 @@ working tree                                                      clean
 Ruff and mypy compared against `backup/r5-pre-audit-c3ecad2`: zero new
 findings.
 
+---
+
+## 28. R5 Acceptance and R6 Authorization (2026-08-01)
+
+The independent re-audit (`..\R5_FINAL_INDEPENDENT_REAUDIT_ACCEPTANCE_2026-08-01.md`)
+**accepted and froze R5** at HEAD `7761c48` on 2026-08-01. R5 produced nine
+non-dry scripted production records (3 frozen scenarios × 3 arms × 1
+repetition): 9 succeeded, 0 failed. The full suite at R5 acceptance was 1,625
+passed, 32 skipped, 0 failed. The old contaminated R5 tail remains preserved
+on `backup/r5-pre-audit-c3ecad2`.
+
+R6 deployment closure is now **AUTHORIZED** under the corrected directive in
+`..\R6_OpenCode_Package_CORRECTED\` (supersedes every earlier R6 directive) and
+is executed in one continuous bounded pass covering:
+
+```text
+R6-F01  R5 acceptance record
+R6-F02  deterministic cross-platform builder
+R6-F03  controlled Todo regression tests in data bundle
+R6-F04  exact six evaluator assets + fingerprints in code bundle
+R6-F05  valid exact V2 smoke config
+R6-F06  current CLI help
+R6-F07  notebook pinned to a real existing runtime-source commit
+R6-F08  generated bundle built only through the builder
+R6-F09  bundle deployment preflight integration
+R6-F10  worktree/index/committed-tree manifest equality
+R6-F11  README, reports, handoff, and future-AI state
+R6-F12  stop before push for independent audit
+```
+
+R6 must not modify production Runner, strategies, metrics, regeneration,
+evaluator behavior, frozen scenarios, evaluator assets, or controlled Todo
+source/tests. No push, tag, merge, or Kaggle launch during R6.
+
 ### Status
 
 ```
-R5 status: CORRECTION COMPLETE — PENDING INDEPENDENT RE-AUDIT
-R6 status: BLOCKED
+R4 status: ACCEPTED AND FROZEN at f5ae826
+R5 status: ACCEPTED AND FROZEN at 7761c48 (independent re-audit 2026-08-01)
+R6 status: AUTHORIZED / IN PROGRESS (corrected deployment closure directive)
 Kaggle status: BLOCKED
 Push status: NOT PERFORMED
 Tag status: BLOCKED
-Next action: independent R5 re-audit before accept/freeze R5
+Pilot status: BLOCKED
+Next action: execute R6 deployment closure, then stop for the independent R6 audit before push
 ```
 
-R5_SCOPE_CLEANUP_REAUDIT_REQUIRED
+R5_ACCEPTED_R6_AUTHORIZED
