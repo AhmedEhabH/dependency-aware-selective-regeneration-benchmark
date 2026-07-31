@@ -93,19 +93,44 @@ class _ThreeFileBackend:
 
 
 class _StrategyBackend:
-    token_accounting_mode: str = "fixture_or_approximate"
+    token_accounting_mode = "fixture_or_approximate"
 
     def __init__(self, responses: list[tuple[str, TokenUsage]] | None = None):
         self._responses = responses or []
         self._idx = 0
+        self.call_count = 0
+        self.captured_max_tokens: list[int] = []
 
     def count_prompt_tokens(self, prompt: str) -> int:
         return 50
 
     async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
+        self.call_count += 1
+        self.captured_max_tokens.append(max_tokens)
         text, tu = self._responses[self._idx] if self._idx < len(self._responses) else ('{"action": "final", "selected_paths": ["src/a.py"], "rationale": "test"}', TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60))
         self._idx += 1
         return LLMResponse(text=text, token_usage=tu, finish_reason="stop")
+
+
+class _ExactExhaustToolBackend:
+    token_accounting_mode = "fixture_or_approximate"
+
+    def __init__(self, usage: TokenUsage):
+        self._usage = usage
+        self.call_count = 0
+        self.captured_max_tokens: list[int] = []
+
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return 0
+
+    async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
+        self.call_count += 1
+        self.captured_max_tokens.append(max_tokens)
+        return LLMResponse(
+            text='{"action": "list_files", "path": "."}',
+            token_usage=self._usage,
+            finish_reason="stop",
+        )
 
 
 def _make_scenario(
@@ -999,3 +1024,66 @@ def test_public_agent_failed_run_preserves_selection_and_repair_metrics(tmp_path
     assert record.repair_model_calls == 1
     assert record.repair_attempts == 1
     assert record.total_workflow_tokens == 210
+
+
+# ---------------------------------------------------------------------------
+# N. Exact-exhaustion production-path regression (R4 audit correction)
+# ---------------------------------------------------------------------------
+
+
+def test_public_iterative_agent_exact_exhaustion_is_not_reopened(tmp_path: Path) -> None:
+    artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+    iso, ws_root = _setup_workspace(tmp_path, artifacts)
+    ab = _ExactExhaustToolBackend(TokenUsage(prompt_tokens=0, completion_tokens=20, total_tokens=20))
+    from benchmark.strategies import IterativeRepositoryAgentStrategy
+    strategy = IterativeRepositoryAgentStrategy(backend=ab)
+    runner = _make_runner(
+        tmp_path, strategy, ab, iso,
+        enable_regeneration=True,
+        strategy_name="iterative_repository_agent",
+        max_attempts=3,
+        max_tokens=20,
+        editable_artifact_paths=("src/a.py",),
+    )
+    record = runner.run(_make_scenario(artifacts))
+    assert ab.call_count == 1
+    assert ab.captured_max_tokens == [20]
+    assert record.selection_model_calls == 1
+    assert record.regeneration_model_calls == 0
+    assert record.repair_model_calls == 0
+    assert record.total_workflow_model_calls == 1
+    assert record.selection_total_tokens == 20
+    assert record.regeneration_total_tokens == 0
+    assert record.total_workflow_tokens == 20
+    assert record.regenerated_artifact_count == 0
+    assert record.status == RunStatus.failed
+    assert any("no paths selected" in f.message for f in record.failures)
+
+
+def test_public_iterative_agent_unlimited_workflow_stays_unlimited(tmp_path: Path) -> None:
+    artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+    iso, ws_root = _setup_workspace(tmp_path, artifacts)
+    sb = _StrategyBackend(responses=[
+        (
+            '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "ok"}',
+            TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
+        ),
+    ])
+    from benchmark.strategies import IterativeRepositoryAgentStrategy
+    strategy = IterativeRepositoryAgentStrategy(backend=sb)
+    rb = _FixedTokenBackend()
+    runner = _make_runner(
+        tmp_path, strategy, rb, iso,
+        enable_regeneration=True,
+        strategy_name="iterative_repository_agent",
+        max_tokens=0,
+        editable_artifact_paths=("src/a.py",),
+    )
+    record = runner.run(_make_scenario(artifacts))
+    assert record.status == RunStatus.succeeded
+    assert sb.call_count == 1
+    assert sb.captured_max_tokens == [4096]
+    assert record.selection_model_calls == 1
+    assert record.selection_total_tokens == 60
+    assert record.regeneration_model_calls == 1
+    assert record.total_workflow_tokens == 75
