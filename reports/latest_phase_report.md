@@ -2,7 +2,7 @@
 
 ## 1. Executive Decision
 
-This report records the single-pass completion of R4 (token limits and truthful workflow metrics) on branch `experiment/three-arm-smoke-v2`. The R4 working tree that existed at starting HEAD `b8724cc` was preserved, all remaining root defects from the binding closure contract were corrected, nominal tests were replaced with executable production-path tests, four direct scripts were run outside Pytest, RF-3 was reviewed, gates 9.1 through 9.6 were run in the fixed order, and one code commit plus one documentation commit were created. R4 is implemented but **not accepted and not frozen**; an independent audit is required before freeze. R5 is unauthorized pending that audit. Roadmap R5 → R6 → Kaggle is preserved. No README change, no tag, and no scientific-result claim is made.
+This report records the single-pass completion of R4 (token limits and truthful workflow metrics) on branch `experiment/three-arm-smoke-v2`. The R4 working tree that existed at starting HEAD `b8724cc` was preserved, all remaining root defects from the binding closure contract were corrected, nominal tests were replaced with executable production-path tests, four direct scripts were run outside Pytest, RF-3 was reviewed, gates 9.1 through 9.6 were run in the fixed order, and one code commit plus one documentation commit were created. R4 was subsequently re-audited, the two audit-correction commits were accepted, and R4 was frozen — see Section 24. R5 is authorized and in progress. Roadmap R5 → R6 → Kaggle is preserved. No README change, no tag, and no scientific-result claim is made.
 
 ## 2. Requested and Actual Model
 
@@ -233,7 +233,7 @@ All ten root defects (D1–D10) are closed. Remaining open debt is outside R4 sc
 
 ## 21. Project Position and Next Authorized Action
 
-Position: R3D final freeze candidate; R4 implemented and pending independent audit; R5 unauthorized. Next authorized action: independent audit of R4 evidence; on acceptance, freeze R4 and begin R5 (nine local records).
+Position: R4 frozen at `a46213c`; R5 authorized and in progress. Next authorized action: complete R5 (nine local records), then RF-4 cleanup and rerun, then R6 (bundle and push).
 
 ## 22. Independent Audit Handoff
 
@@ -289,3 +289,24 @@ docs commit  docs(audit): record R4 audit corrections             (documentation
 No push, no tag. R5/R6/Kaggle remain unauthorized pending independent re-audit.
 
 R4_AUDIT_CORRECTIONS_REAUDIT_REQUIRED
+
+---
+
+## 24. R4 Independent Re-Audit Acceptance Addendum
+
+A second independent re-audit of the R4 evidence was performed on 2026-07-31 by GPT-5.6 Thinking. The audit reviewed the correction commits `c928bd9`, `cc32b17`, and `a46213c` on branch `experiment/three-arm-smoke-v2` at HEAD `a46213c` (clean tree) and accepted R4:
+
+```text
+R4 status: ACCEPTED AND FROZEN
+R5 status: AUTHORIZED / IN PROGRESS
+R6 status: BLOCKED
+Kaggle status: BLOCKED
+Push status: governed by R6 plan unless separately authorized
+Tag status: BLOCKED
+```
+
+The audit confirmed both defects closed (exact exhaustion semantics; evaluator LF pinning with matching SHA-256), verified the correction commits are narrowly scoped, and recorded no remaining R4 TD-0/TD-1. The user-environment full suite at freeze was 1584 passed, 32 skipped, 0 failed; the independent environment ran the R4 focused files with 105 passed, 0 failed on Linux/Python 3.13.
+
+The repository freeze record is `docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`. README remains intentionally deferred to R6.
+
+**R4_ACCEPTED_R5_AUTHORIZED**
