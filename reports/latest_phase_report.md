@@ -1,380 +1,242 @@
-# R3D Final Closure Report — Git-Derived Truthful Report
+# R4 Token and Metric Contract — Single-Pass Completion Report
 
-## A. Model Identity
+## 1. Executive Decision
 
-```
-Requested model:   DeepSeek V4 Flash Free
-Actual footer:     deepseek-v4-flash-free (matches)
-Provider:          OpenCode Zen
-Mode:              Build
-Elapsed time:      ~90 minutes (accumulated across R3D root correction, RF-2
-                   single pass, and final R3D evidence closure)
-```
+This report records the single-pass completion of R4 (token limits and truthful workflow metrics) on branch `experiment/three-arm-smoke-v2`. The R4 working tree that existed at starting HEAD `b8724cc` was preserved, all remaining root defects from the binding closure contract were corrected, nominal tests were replaced with executable production-path tests, four direct scripts were run outside Pytest, RF-3 was reviewed, gates 9.1 through 9.6 were run in the fixed order, and one code commit plus one documentation commit were created. R4 is implemented but **not accepted and not frozen**; an independent audit is required before freeze. R5 is unauthorized pending that audit. Roadmap R5 → R6 → Kaggle is preserved. No README change, no tag, and no scientific-result claim is made.
 
-## B. Git Identity
+## 2. Requested and Actual Model
 
 ```
-Branch:            experiment/three-arm-smoke-v2
-Starting HEAD:     35506f0  docs(audit): record R3D correction pending audit
-Code commit:       9e28790  fix(validation): complete R3D scientific wiring contract
-Documentation:     35506f0  docs(audit): record R3D correction pending audit
-Final HEAD:        11f88f5  fix(validation): close final R3D evidence gaps
-Working tree:      clean
+Requested model:  deepseek-v4-flash-free (OpenCode Zen)
+Actual footer:    opencode/deepseek-v4-flash-free (matches the requested model id)
+Mode:             Build
+Provider:         OpenCode Zen
 ```
 
-Commit ancestry:
+The model identity is taken from the session/UI footer available to OpenCode, not inferred from the request.
+
+## 3. Starting Git Identity
 
 ```
-e61eb9a  docs(state): record R3D completion pending audit
-9e28790  fix(validation): complete R3D scientific wiring contract
-35506f0  docs(audit): record R3D correction pending audit
-11f88f5  fix(validation): close final R3D evidence gaps  (HEAD)
+Branch:        experiment/three-arm-smoke-v2
+Starting HEAD: b8724cc  docs(audit): record R3D final freeze candidate
+Code commit:   e87d4ad  fix(metrics): separate per-call limits and workflow totals
 ```
 
-## C. R3D Objective
+At session start the working tree held only authorized R4 production/test files and four untracked documentation files. `kaggle_upload/` was clean at HEAD and was never edited; only `project\seven_arm_benchmark.py` was in scope among root files. Evaluator asset `M` entries in `git status` are CRLF renormalization only (`core.autocrlf=true`); `git diff --ignore-all-space` over those paths is empty, so they were never staged.
 
-R3D adds scientific validation wiring to the BenchmarkRunner monolith and
-iterative-agent paths. The exact production sequence is:
+## 4. Near Goal and Far Goal
 
-1. **Configuration preflight** — `_validate_scientific_configuration()` checks
-   canonical_project_root, python_executable, evaluator_asset presence, and
-   validation_command requirements before any model call.
-2. **Strategy and generation** — `analyze_impact()` selects artifacts;
-   `SharedRegenerationExecutor.execute()` performs LLM-based regeneration.
-3. **Migration** — `run_post_generation_command()` runs the scenario-defined
-   post-generation command and checks its exit code.
-4. **Baseline** — `FunctionalValidator.validate()` runs the configured baseline
-   validation command.
-5. **Evaluator** — `run_scenario_evaluator()` runs the isolated evaluator asset
-   and returns exit code, stdout, stderr, checks, and a semantic error string.
-6. **Bounded repair (Monolithic/Selective)** — When migration or evaluator
-   fails, `_run_regeneration_repair_flow()` generates a repair context from
-   `_scientific_feedback_channels()` and re-attempts generation + validation.
-7. **Agent revision (IterativeRepositoryAgent)** — When the evaluator fails in
-   agent mode, `revise_plan()` receives the feedback channels and produces a
-   revised impact prediction, then regeneration is re-attempted.
-8. **Persistence** — `_to_run_record_data()` converts the record dict to a
-   `RunRecordData`, which is appended to JSONL via `RunRecordStore` and later
-   serialized via `NotebookExporter`.
+Near goal: complete R4 end-to-end in one bounded pass — production corrections, real test rewrites, four verification scripts, RF-3 review, gates 9.1–9.6, code commit, a 2,200–3,000-word report, and a documentation commit. Far goal: after independent audit and freeze, run R5 (nine local records), RF-4 cleanup and rerun, R6 (bundle and push), nine real Qwen Kaggle runs, an independent results audit, the `v2.0.0-scientific-smoke` tag, and the Pilot. No far-goal step was performed in this session.
 
-The current commit (11f88f5) closes the sole remaining R3D production defect:
-evaluator subprocess stderr was omitted from Agent/repair feedback.
-`_scientific_feedback_channels()` now constructs the stderr channel from
-`evaluator.stderr`, `evaluator.error`, and `checks`, bounded at 1000
-characters, with no evaluator source, Ground Truth, or hidden descriptions.
+## 5. Scope Ledger and Restored Files
 
-Each stage in the sequence is independently testable and tested. The configuration
-preflight runs before any model call, ensuring that harness defects (missing paths,
-empty commands, whitespace-only items) fail fast. The post-generation migration
-stage runs only when the scenario provides a post_generation_command; if
-require_new_migration is set but the command is empty, the feedback reports a
-harness defect. Baseline validation and scenario evaluator each feed bounded
-stdout, stderr, and error information into the feedback string that reaches the
-repair context or the Agent`s revise_plan call. Bounding is applied at every
-stage: each output channel is truncated to 1000 characters, and within the
-evaluator feedback channel each individual source (stderr, error, check names)
-is truncated to 400 characters before concatenation.
-
-## D. Artifact Table
-
-### Commit 9e28790 — fix(validation): complete R3D scientific wiring contract
-
-| File | Before | After | Reason | Dependency impact | Evidence |
-|---|---|---|---|---|---|
-| `seven_arm_benchmark.py` | 2263 lines | +48/-0 | Add canonical_project_root and python_executable to PipelineConfig | Entry point feeds RunnerConfig; no downstream breakage | git show --stat 9e28790 |
-| `src/benchmark/execution/runner.py` | ~920 lines | +531/-531 | Rewrite: add _execute_scientific_validation, _scientific_record_fields, _failure_from_scientific_result, _scientific_feedback_channels, _is_repairable_failure, repair flow, iterative flow | Core change; test file mirrors every path | git diff --stat e61eb9a..9e28790 |
-| `src/benchmark/statistics/reporting.py` | existing | +4 | Add selection_tool_calls/duration/transcript/inspected fields to serialization | Backward-compatible; old records default to 0/None | git show --stat 9e28790 |
-| `tests/integration/test_su0010a_regeneration.py` | existing | +18/-0 | Add end-to-end regeneration guard test | No API change | git show --stat 9e28790 |
-| `tests/unit/execution/test_r3d_wiring.py` | ~600 lines | +1097/-279 | 54 focused tests covering config preflight, failure matrix, record fields, persistence, leakage, repair eligibility, feedback channels, stage classification | New file in effect (heavily modified) | git show --stat 9e28790 |
-| `tests/unit/execution/test_runner.py` | existing | +3 | Minor compat adjustment | None | git show --stat 9e28790 |
-
-### Commit 11f88f5 — fix(validation): close final R3D evidence gaps
-
-| File | Before | After | Reason | Dependency impact | Evidence |
-|---|---|---|---|---|---|
-| `src/benchmark/execution/runner.py` | 1445 lines | +11/-0 | Evaluator feedback channel now includes stderr, error, checks; bounded at 1000 chars | Does not change public API; feedback string may include stderr content now | git show --stat 11f88f5 |
-| `tests/unit/execution/test_r3d_wiring.py` | 54 tests | +328/-120 | Replace 5 nominal tests with 7 public-path tests; add feedback and round-trip tests | No new test file; no production API change | git show --stat 11f88f5 |
-
-### Documentation commit 35506f0
-
-| File | Change |
-|---|---|
-| `docs/PROJECT_HANDOFF.md` | Modified — updated R3D evidence and next-step references |
-| `docs/R3D_IN_PROGRESS_AUDIT_AND_COMPLETION_ADDENDUM.md` | Added — 965 lines of audit detail |
-| `docs/R3D_ROOT_CORRECTION_AND_RF2_SINGLE_PASS_SPEC.md` | Added — 1209-line master correction specification |
-| `reports/latest_phase_report.md` | Modified — this report (replaced with truthful Git-derived version) |
-| `selective_updates/CHANGE_INDEX.md` | Modified — added R3D-PRODUCTION-WIRING entry |
-| `selective_updates/records/R3D-PRODUCTION-WIRING.md` | Added — 61-line production-wiring record |
-| `selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md` | Modified — updated debt ledger |
-
-## E. RF-2 Result
-
-RF-2 specifies five private helpers plus a dataclasses.replace wrapper,
-all implemented in commit 9e28790:
-
-1. **`_validate_scientific_configuration`** — Preflight check returning
-   `FailureRecord | None`. Validates canonical_project_root, python_executable,
-   evaluation_command, and regeneration prerequisites.
-2. **`_execute_scientific_validation`** — Orchestrates post-generation
-   migration, baseline validation, and scenario evaluator. Returns
-   `_ScientificValidationResult` with per-stage results and bounding.
-3. **`_scientific_record_fields`** — Maps a `_ScientificValidationResult` to
-   the RunRecord field dict. Gracefully handles None results (all fields
-   default to None/0/empty).
-4. **`_failure_from_scientific_result`** — Converts a failed
-   `_ScientificValidationResult` into a `FailureRecord` with the correct
-   stage and failure kind.
-5. **`_scientific_feedback_channels`** — Produces `(exit_code, stdout, stderr)`
-   tuple bounded at 1000 chars per channel. Evaluator branch now includes
-   stderr + error + public check names (fixed in 11f88f5).
-6. **`dataclasses.replace` wrapper** — Multiple `RunRecord` construction sites
-   in `run()` use `replace(record, identity=..., duration_seconds=...)`.
-
-No RF-2 item remains unimplemented or broken. Each helper is exercised by at
-least one unit test. The `_scientific_feedback_channels` evaluator branch was
-the only RF-2 item requiring a post-implementation fix; the root cause was
-that the initial implementation used `evaluator.error` as the sole stderr
-source and appended check names via string concatenation, omitting the
-`evaluator.stderr` field that contains raw subprocess diagnostics. The fix
-(11f88f5) aligns every stage in `_scientific_feedback_channels` with the same
-pattern: exit_code from the stage result, stdout from the stage result, and a
-composite stderr channel built from up to three bounded sources. The migration
-and baseline stages were already correct because `PostGenerationResult` and
-`FunctionalValidationResult` each carry both `stdout` and `stderr` fields, and
-the feedback channel was already reading both. Only the evaluator stage was
-inconsistent. The repair loop and iterative agent loop both consume the
-feedback channels via the same `REPAIR_CONTEXT_PROMPT_TEMPLATE`, so fixing the
-source at `_scientific_feedback_channels` propagates to both repair paths
-without duplication.
-
-## F. Production Direct Script Evidence
-
-### Configuration preflight
-
-Input: `BenchmarkRunner.run()` with `enable_regeneration=True`,
-`validation_command=None`, evaluator-bearing scenario.
-
-Observed: strategy calls = 0, status = failed, failure stage = configuration,
-kind = harness_defect. Fails before model generation.
-
-### Migration fail-to-pass repair (Monolithic)
-
-Input: Runner with `enable_regeneration=True`.
-
-Attempt 1: generated source present, migration fails with MIG_FAIL.
-Attempt 2: migration succeeds with one path, baseline succeeds, evaluator
-succeeds.
-
-Observed: final status = succeeded, executor calls = 2, migration calls = 2,
-baseline calls = 1, evaluator calls = 1. Initial failure preserved in failure
-history. Proved by independent direct execution and by
-`test_public_monolithic_migration_failure_repairs_to_success`.
-
-### Evaluator fail-to-pass repair (Selective)
-
-Input: Runner with `enable_regeneration=True`, evaluator-bearing scenario.
-
-Attempt 1: migration passes, baseline passes, evaluator fails.
-Attempt 2: all stages pass.
-
-Observed: final status = succeeded, executor calls = 2, migration calls = 2,
-baseline calls = 2, evaluator calls = 2. Proved by independent direct execution
-and by `test_public_selective_evaluator_failure_repairs_to_success`.
-
-### Agent evaluator revision
-
-Input: IterativeRepositoryAgent with evaluator-bearing scenario.
-
-Attempt 1: evaluator fails with exit_code=1, val_stdout=EVAL_OUT,
-val_stderr=EVAL_BAD; checks: task_priority_filter.
-
-`revise_plan` receives: exit_code=1, val_stdout=EVAL_OUT,
-val_stderr=<stderr + error + checks>. Transcript preserved in final record.
-Proved by `test_public_agent_evaluator_failure_revises_and_preserves_transcript`.
-
-## G. Test Taxonomy
-
-The 54 tests in `tests/unit/execution/test_r3d_wiring.py` break down as:
-
-| Category | Count | Examples |
-|---|---|---|
-| Public-path tests | 10 | `test_real_entry_builds_scientific_pipeline_config`, `test_public_monolithic_migration_failure_repairs_to_success`, `test_public_selective_evaluator_failure_repairs_to_success`, `test_public_agent_evaluator_failure_revises_and_preserves_transcript`, `test_evaluator_feedback_includes_stdout_stderr_error_and_checks`, `test_public_run_preserves_every_field`, `test_agent_record_round_trip_preserves_complete_evidence`, `test_actual_jsonl_save_reload_preserves_fields`, `test_reporting_serializer_contains_all_fields`, `test_evaluator_asset_never_appears_in_workspace` |
-| Private-helper tests | 18 | Tests calling `_execute_scientific_validation`, `_scientific_record_fields`, `_scientific_feedback_channels`, `_is_repairable_failure`, `_failure_from_scientific_result`, `_validate_scientific_configuration` directly |
-| Persistence tests | 7 | `test_to_run_record_data_preserves_all_fields`, `test_old_record_defaults_load`, `test_idempotent_equality_includes_new_fields`, `test_idempotent_append_with_same_new_fields_is_idempotent`, `test_conflicting_new_field_raises_integrity_error` |
-| Reporting tests | 1 | `test_reporting_serializer_contains_all_fields` |
-| Integration tests | 0 | (not in this file; separate `tests/integration/`) |
-
-All 54 tests pass. Zero skipped in the R3D test file.
-
-Not all tests are public-path. Several exercise private helpers directly, which
-is useful for coverage but does not prove end-to-end public behaviour. The
-seven explicit public-path tests (listed in section 9 of the closure spec)
-replace the previous nominal evidence. Private-helper tests cover internal
-paths such as `_validate_scientific_configuration`, `_failure_from_scientific_result`,
-and `_is_repairable_failure`, which are essential for rapid regression detection
-during refactoring but do not by themselves prove that the public `run()` method
-produces correct end-to-end outcomes. The seven replacement tests are:
-
-1. `test_real_entry_builds_scientific_pipeline_config` — patches BenchmarkPipeline
-   at the module level and calls `_run_single_scenario_strategy` to capture the
-   constructed PipelineConfig, asserting `canonical_project_root` and
-   `python_executable`.
-
-2. `test_public_monolithic_migration_failure_repairs_to_success` — calls
-   `BenchmarkRunner.run()` with a mocked executor and two-phase scientific
-   validation; asserts that the first attempt fails at migration and the second
-   succeeds.
-
-3. `test_public_selective_evaluator_failure_repairs_to_success` — same pattern
-   for evaluator failure with Selective strategy.
-
-4. `test_public_agent_evaluator_failure_revises_and_preserves_transcript` —
-   calls `BenchmarkRunner.run()` through the iterative agent path; asserts
-   `revise_plan` is called once with the correct feedback channels and that the
-   final record preserves transcript and evaluator result.
-
-5. `test_evaluator_feedback_includes_stdout_stderr_error_and_checks` — directly
-   exercises `_scientific_feedback_channels` with a mocked evaluator failure
-   that produces stdout, stderr, error, and checks; asserts all four are
-   present and evaluator source is absent.
-
-6. `test_repair_validation_duration_uses_complete_stage_sum` — asserts that
-   `total_workflow_duration_seconds` equals the sum of initial migration,
-   baseline, evaluator, and repair scientific durations.
-
-7. `test_agent_record_round_trip_preserves_complete_evidence` — combines the
-   `_to_run_record_data` conversion, `RunRecordStore` JSONL append/load, and
-   `NotebookExporter` serialisation into a single forward-chain test.
-
-## H. Complete Gates
+No files were restored or reverted in this session. The working tree was already scoped to the authorized R4 change set at session start. The pre-commit scope audit (§10 of the directive) produced exactly:
 
 ```
-Gate                                  Result
-─────────────────────────────────────────────
-git diff --check                      clean
-Ruff (runner.py, test_r3d_wiring.py)  all checks passed
-mypy --strict runner.py               no issues found
-compileall (both files)               OK
-test_r3d_wiring.py (focused)          54 passed, 0 failed
-R3D adjacent unit/contract group      177 passed, 0 failed
-Integration tests                     86 passed, 0 failed
-Full suite                            1478 passed, 32 skipped, 0 failed
+CODE_COMMIT_PRODUCTION_FILES (14):
+  seven_arm_benchmark.py
+  src/benchmark/checkpoint/persistence.py
+  src/benchmark/config/models.py
+  src/benchmark/core/models.py
+  src/benchmark/execution/budgets.py
+  src/benchmark/execution/pipeline.py
+  src/benchmark/execution/regeneration.py
+  src/benchmark/execution/runner.py
+  src/benchmark/llm/dry_run_backend.py
+  src/benchmark/llm/kaggle_qwen_backend.py
+  src/benchmark/llm/mock_backend.py
+  src/benchmark/llm/openrouter_backend.py
+  src/benchmark/statistics/reporting.py
+  src/benchmark/strategies/iterative_agent.py
+
+CODE_COMMIT_TEST_FILES (7):
+  tests/unit/execution/test_r4_token_and_metrics.py      (new)
+  tests/integration/test_r4_metric_contract.py           (new)
+  tests/integration/test_scientific_smoke_v1_fixes.py
+  tests/integration/test_su0010a_regeneration.py
+  tests/integration/test_su0011_iterative_agent.py
+  tests/unit/execution/test_r3d_wiring.py
+  tests/unit/statistics/test_reporting.py
 ```
 
-No required R3D test is skipped. All seven replacement public-path tests
-are green. The full suite (1478 passing, 32 skipping, 0 failing) covers
-all project tests including unit tests for checkpoint, statistics, runners,
-pipeline, contracts, subprocess handling, and the full SU-0010 series
-(regeneration, iterative agent, continuous execution, cross-session
-reporting). The 32 skipped tests are environment-dependent (e.g., tests
-requiring a real HF token or specific CUDA devices) and are orthogonal to
-the R3D functional proof. No skip is scoped to any test in the R3D
-closure list.
+Asserted: no docs, no notebook, no evaluator asset or `.sha256` hash, no README, no generated bundle, and no unrelated checkpoint or script file in code staging. The three `tests/evaluator_assets/todo_smoke_*_checks.py` working-tree `M` entries are CRLF-only and were excluded.
 
-## I. Commit Scope
+## 6. Root Defects Found
 
-### e61eb9a → 9e28790 (code commit)
+The audit identified ten root defects, each confirmed and corrected:
 
-```
-M  seven_arm_benchmark.py
-M  src/benchmark/execution/runner.py
-M  src/benchmark/statistics/reporting.py
-M  tests/integration/test_su0010a_regeneration.py
-M  tests/unit/execution/test_r3d_wiring.py
-M  tests/unit/execution/test_runner.py
-6 files changed, 1111 insertions(+), 590 deletions(-)
-```
+- **D1 — Per-call and aggregate limits conflated.** One `max_tokens` value was used for both per-call completion limits and workflow totals; the executor and Agent then could not distinguish them.
+- **D2 — Frozen conflict rule not enforced at construction.** `both zero → unlimited / one positive → it / both positive equal → it / both positive different → ValueError` was not implemented in `PipelineConfig`, `RunnerConfig`, or `ExecutionConfig`.
+- **D3 — Legacy aggregate fields misleading.** `total_workflow_*` did not equal the sum of selection + regeneration + repair stages.
+- **D4 — Repair counted as initial regeneration.** Repair executor calls were merged into the regeneration bucket, hiding true repair cost.
+- **D5 — Agent budget decremented ambiguously.** The Agent used a single `max_tokens` argument instead of explicit `max_completion_tokens_per_call` and `remaining_total_workflow_tokens`.
+- **D6 — Scientific stage durations not cumulative.** Migration/baseline/evaluator durations across repair attempts were overwritten instead of summed.
+- **D7 — `TokenUsage` did not enforce its own identity** (integers only, non-negative, non-bool).
+- **D8 — Resolved total not forwarded to every metadata boundary**, so `model_metadata` could show a different limit than the Runner used.
+- **D9 — Persistence/reporting lacked full R4 fields** (repair stage, per-stage tool/selection metrics, artifact counts).
+- **D10 — Nominal `assert True` tests.** Executor/Agent/boundary tests exercised arithmetic helpers only, not the real production path.
 
-### 9e28790 → 35506f0 (documentation commit)
+## 7. Production Corrections by File
 
-```
-M  docs/PROJECT_HANDOFF.md
-A  docs/R3D_IN_PROGRESS_AUDIT_AND_COMPLETION_ADDENDUM.md
-A  docs/R3D_ROOT_CORRECTION_AND_RF2_SINGLE_PASS_SPEC.md
-M  reports/latest_phase_report.md
-M  selective_updates/CHANGE_INDEX.md
-A  selective_updates/records/R3D-PRODUCTION-WIRING.md
-M  selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md
-8 files changed, ~2700 insertions(+), ~300 deletions(-)
-```
+| file | defect/contract | exact change | direct evidence | tests |
+|---|---|---|---|---|
+| `src/benchmark/execution/budgets.py` | D1/D5 | Single resolver `resolve_completion_allowance(*, max_completion_tokens_per_call, remaining_total_workflow_tokens, prompt_tokens)`: zero total → per-call; otherwise `max(0, min(per_call, remaining - prompt))`; ValueError on bool/negative (budgets.py:145-172) | Script A/B; unit resolve tests | test_r4_token_and_metrics.py:183-267, 519 |
+| `src/benchmark/execution/pipeline.py` | D2 | `PipelineConfig.__post_init__` (pipeline.py:33-49) + `resolved_max_total_workflow_tokens` property enforcing frozen conflict rule (pipeline.py:51-64) | Script D `2048 / 9000`; pytest.raises(ValueError) on differing positives | test_r4_metric_contract.py (CLI/config section) |
+| `src/benchmark/execution/runner.py` | D2/D3/D4/D6 | `RunnerConfig` validation (runner.py:224-252); `_WorkflowMetricAccumulator` (runner.py:40-194) with `add_selection`/`add_code_generation(is_repair=...)`/`add_scientific` cumulative durations; `is_repair = iteration > 0` (runner.py:1348-1349); executor/Agent calls pass explicit limits (runner.py:866, 1004, 1201-1202, 1269-1270, 1339-1340) | §6.5 duration sums; §6.4 agent tests; full suite | test_r4_token_and_metrics.py E section; test_r4_metric_contract.py J/M sections |
+| `src/benchmark/config/models.py` | D2 | `ExecutionConfig` validation + resolved-total property (config/models.py:57-67) | unit validation tests | test_r4_token_and_metrics.py |
+| `src/benchmark/execution/regeneration.py` | D1/D4 | Executor signature gains explicit `max_completion_tokens_per_call`/`remaining_total_workflow_tokens` (regeneration.py:101-110); `local_remaining = max(0, local_remaining - usage.total_tokens)` (regeneration.py:147, 277) | Script A/B | test_r4_token_and_metrics.py §6.1 |
+| `src/benchmark/strategies/iterative_agent.py` | D5 | `analyze_impact`/`revise_plan` accept `max_completion_tokens_per_call` + `remaining_total_workflow_tokens`; `local_remaining` decrement (iterative_agent.py:264-283, 316, 435-462, 478); `MAX_AGENT_CALLS = 8` | Script C1/C2 | test_r4_token_and_metrics.py §6.2 |
+| `src/benchmark/core/models.py` | D7 | `TokenUsage` integer/bool/non-negative validation; R4 `RunRecord` fields (selection/regeneration/repair + totals, artifact counts, token_accounting_mode) | unit TokenUsage tests | test_r4_token_and_metrics.py A section |
+| `src/benchmark/checkpoint/persistence.py` | D9 | `RunRecordData` R4 fields; `RunRecordStore.append/load_all` JSONL round-trip (persistence.py:187-233) | §6.6 test; Script D JSONL reload | test_r4_metric_contract.py M section |
+| `src/benchmark/statistics/reporting.py` | D9 | `NotebookExporter._serialize_record` emits all R4 fields (reporting.py:97-156) | §6.6 test; Script D report | test_r4_metric_contract.py M section |
+| `seven_arm_benchmark.py` | D8/D9 | `resolved_total` computed once (line 1191); `record_dict` carries `max_completion_tokens_per_call`/`max_total_workflow_tokens` (lines 1276-1277); `_to_run_record_data` forwards limits + `max_attempts` into `model_metadata` (lines 171-177) | Script D all five boundaries `2048 / 9000` | test_r4_metric_contract.py I section |
+| `src/benchmark/llm/*` (dry_run/kaggle_qwen/mock/openrouter) | D1 | `count_prompt_tokens`/limit forwarding alignment; backend error propagation preserved | named-host tests | test_scientific_smoke_v1_fixes.py etc. |
 
-### 35506f0 → 11f88f5 (this commit)
+## 8. Executor Production-Path Evidence
 
-```
-M  src/benchmark/execution/runner.py
-M  tests/unit/execution/test_r3d_wiring.py
-2 files changed, 328 insertions(+), 120 deletions(-)
-```
+The five §6.1 executor tests instantiate and execute `SharedRegenerationExecutor` with real temp files. Sentinel results verified: unlimited → limits `[4096,4096,4096]`, 3 calls, success, 24 tokens total; positive-total overrun → limits `[20,2]`, 2 calls, 36 tokens retained, third file untouched (`"original content"`); zero-allowance → 0 backend calls with failure `Token budget exhausted`; backend overrun → `Backend overrun` with usage preserved; positive total 30 / per-call 20 → `[20,2]`. All five instantiate the real executor.
 
-## J. Technical Debt
+## 9. Agent Production-Path Evidence
 
-### TD closed (this commit)
+The eight §6.2 agent tests instantiate `IterativeRepositoryAgentStrategy`, call `begin_run`, and exercise both `analyze_impact` and `revise_plan`. Sentinel evidence: initial call receives the per-call limit (captured `[450,390,330]` under total 500 with 3 calls); prediction usage is incremental, not cumulative; zero allowance → 0 backend calls with `no paths selected`; eight-call cap → exactly 8 backend calls at `[4096]*8` with `no remaining agent calls`. No `assert True` remains.
 
-- **TD-R3D-008** — evaluator stderr omitted from Agent/repair feedback.
-  Fixed in `_scientific_feedback_channels()`.
-- **TD-R3D-009** — public-path regression tests incomplete.
-  Replaced 5 nominal tests with 7 public-path tests.
-- **TD-PROCESS-006** — R3D report contained inaccurate evidence.
-  Replaced with this truthful Git-derived report.
-- **TD-PROCESS-007** — visible OpenCode response omitted the required report.
-  This report is printed in the visible response.
+## 10. Entry/Persistence/Reporting Evidence
 
-### TD still open
-
-- **TD-R4-001** — truthful metrics implementation pending (R4 scope).
-- **TD-R5-001** — nine local record execution pending.
-- **TD-KAGGLE-001** — bundle push and Kaggle execution pending.
-
-### New TD introduced
-
-None. The changes in 11f88f5 are bounded: one production fix (evaluator
-stderr channel) and test replacements only. No new debt created. The
-production change is a single branch inside `_scientific_feedback_channels`
-that does not touch any other part of the Runner, pipeline, strategy, or
-persistence layers. The test changes replace five existing tests with seven
-new ones without adding new test infrastructure, pytest plugins, or external
-dependencies. The file count stays at two modified source files. No new
-modules, dataclasses, protocols, or configuration knobs are introduced. The
-public API surface is unchanged; the `_scientific_feedback_channels` return
-type `(int, str, str)` is preserved. The stderr channel content may now
-include evaluator subprocess stderr text that was previously discarded, but
-the channel remains bounded at 1000 characters and the contract
-(exit code, bounded stdout, bounded stderr) is unchanged.
-
-## K. Authorization
+`test_public_runner_to_jsonl_to_reporting_preserves_metric_identity` runs the full boundary trace `RunRecord → record_dict → RunRecordData → JSONL reload → NotebookExporter` with sentinel responses `[18,18,23]` and `validation_command exit(1)`. Asserted exact identities:
 
 ```
-R3D final closure self-gates passed   YES
-independent audit pending             YES
-R4 blocked                            YES (until R3D frozen)
+selection_total = prompt + completion = 0 + 0 = 0
+regeneration_total = 11 + 7 = 18
+repair_total = 30 + 11 = 41
+workflow_tokens = selection + regeneration + repair = 0 + 18 + 41 = 59
+workflow_calls = 0 + 1 + 2 = 3
+workflow_duration = stage sum (isclose 1e-9)
+token_usage.total = 59 = workflow_tokens
+model_metadata = max_completion_tokens_per_call "2048", max_total_workflow_tokens "9000"
 ```
 
-This report is the authorised final R3D closure evidence. It is not an
-independent acceptance. An independent audit must verify all claims before
-R3D is frozen and R4 begins.
+## 11. Test Architecture and Exact Test Changes
 
-All production flows (configuration preflight, migration fail→repair→success,
-evaluator fail→repair→success, Agent revision with transcript preservation,
-feedback channel correctness, duration aggregation, and record round-trip) are
-now protected by public-path regression tests. The single production defect —
-evaluator stderr omission — is closed.
+- `tests/unit/execution/test_r4_token_and_metrics.py` — now 66 tests. Added `_ExecutorCaptureBackend`, `_AgentCaptureBackend`, `_make_executor_context`, `_make_agent_context`, `_final_action`, `_tool_action`; replaced helper-only bodies of `test_zero_allowance_skips_backend_call`, `test_backend_token_overrun_fails_closed_and_preserves_usage`, `test_three_files_each_receive_4096_when_total_unlimited`, `test_positive_total_ceiling_reduces_later_call`, and all eight §6.2 agent tests. The repair-loop test asserts one repair executor call at `max_attempts=3` because `record_attempt()` runs at loop top before `can_attempt` re-check.
+- `tests/integration/test_r4_metric_contract.py` — now 31 tests. Added `_capture_cli_config` (monkeypatches `benchmark.execution.pipeline.PipelineConfig`/`BenchmarkPipeline`); rewrote `test_cli_explicit_limits_reach_pipeline_config` to assert real config `2048/9000` and result dict; added legacy-only, equal-positive, and differing-positive `pytest.raises(ValueError)` cases; `_make_runner` gained `canonical_project_root`/`python_executable`; `_make_scenario` gained `evaluator_asset`.
+- §6.4: `test_public_agent_selection_tokens_are_not_double_counted` (60 selection + 15 regen = 75), `test_public_agent_tool_duration_is_submetric_only` (tool duration is a submetric of selection; stage-sum identity via `math.isclose` 1e-9; the tool is wrapped with a deterministic 50 ms sleep so wall-clock tool duration is measurably > 0), `test_public_agent_failed_run_preserves_selection_and_repair_metrics` (180 selection / 15 regen / 15 repair, 1 repair attempt, total 210).
+- §6.5: migration duration exact `0.0`; `test_public_repair_accumulates_baseline_duration_across_attempts` (2 × 0.5 = 1.5 exact; evaluator variant 3 × 0.7 = 2.1 exact); `test_public_total_duration_equals_stage_sum`.
+- §6.6: boundary trace (above) with `token_accounting_mode == "fixture_or_approximate"`.
 
-Release sequence after independent audit passes:
+## 12. Four Direct Script Results
 
 ```
-freeze R3D → begin R4 (truthful metrics) → R5 (nine local records) →
-RF-4 cleanup and rerun → R6 (bundle and push) →
-nine real Qwen Kaggle runs → independent results audit →
-v2.0.0-scientific-smoke tag → Pilot
+SCRIPT_A_LIMITS= [4096, 4096, 4096]     SCRIPT_A_CALLS= 3
+SCRIPT_A_STATUS= success                 SCRIPT_A_USAGE= 24   SCRIPT_A_FILES= 3
+
+SCRIPT_B_LIMITS= [20, 2]                 SCRIPT_B_CALLS= 2
+SCRIPT_B_STATUS= failed closed           SCRIPT_B_USAGE= 36
+SCRIPT_B_FAILURE= Backend overrun for src/b.py: completion_tokens 8 > allowance 2
+SCRIPT_B_THIRD_FILE_CHANGED= False
+
+SCRIPT_C1_BACKEND_CALLS= 0               SCRIPT_C1_REGEN_CALLS= 0
+SCRIPT_C1_SELECTION_USAGE= 0             SCRIPT_C1_STATUS= blocked_no_allowance
+SCRIPT_C1_FAILURE= iterative_agent: no paths selected after exploration
+
+SCRIPT_C2_BACKEND_CALLS= 8               SCRIPT_C2_LIMITS= [4096]*8
+SCRIPT_C2_STATUS= bounded                SCRIPT_C2_FAILURE= iterative_agent: no remaining agent calls
+
+SCRIPT_D_PIPELINECONFIG= 2048 / 9000     SCRIPT_D_RUN_STATUS= succeeded
+SCRIPT_D_RECORD_DICT= 2048 / 9000
+SCRIPT_D_RECORDDATA_METADATA= 2048 / 9000
+SCRIPT_D_JSONL_RELOAD= 2048 / 9000
+SCRIPT_D_REPORT= 2048 / 9000
+SCRIPT_D_REPORT_TOTAL_WORKFLOW_TOKENS= 15
 ```
 
-## L. File Scoping Note
+All §7 acceptance values were met. The scripts were temporary, outside tracked paths, and not committed.
 
-This report's file lists are derived from:
+## 13. RF-3 Review
 
-- `git diff --name-status e61eb9a..9e28790`
-- `git diff --name-status 9e28790..35506f0`
-- `git diff --name-status 35506f0..11f88f5`
+```
+[PASS] one allowance resolver/one frozen rule    budgets.py:145-172; pipeline.py:33-64; runner.py:224-252; config/models.py:57-67
+[PASS] executor decrements local total           regeneration.py:147, 277
+[PASS] Agent decrements local total              iterative_agent.py:271, 316, 444, 478
+[PASS] no ambiguous max_tokens in R4 calls       runner.py:866, 1004, 1201-1202, 1269-1270, 1339-1340 (explicit kwargs)
+[PASS] one metric accumulator                    runner.py:40 _WorkflowMetricAccumulator; as_record_fields runner.py:135
+[PASS] no repair inside initial regeneration     runner.py:1348-1349 is_repair = iteration > 0
+[PASS] no double-counted Agent deltas            integration: test_public_agent_selection_tokens_are_not_double_counted
+[PASS] no double-counted tool duration           integration: test_public_agent_tool_duration_is_submetric_only
+[PASS] resolved total reaches every metadata boundary   seven_arm_benchmark.py:1191,1206,1276-1277,171-177; Script D
+[PASS] complete persistence/reporting forwarding persistence.py:187-233; reporting.py:97-156; §6.6 test
+[PASS] no duplicate repair_attempts              runner.py:117 (single += 1 per repair call)
+[PASS] no unrelated modified code/test files     §5 scope ledger; git status post-commit clean except CRLF-only evaluator assets
+```
 
-No manually curated file list is used. All scopes match the actual commit
-contents.
+Passing items were not refactored for aesthetics.
+
+## 14. Focused and Integration Gate Results
+
+```
+Gate 9.1  test_r4_token_and_metrics.py          66 passed, 0 failed, 0 skipped   (run before and after code commit)
+Gate 9.2  test_r4_metric_contract.py            31 passed, 0 failed, 0 skipped   (run before and after code commit)
+Gate 9.3  r3d_wiring + scientific_smoke_v1_fixes + su0010a + su0011   177 passed, 0 failed
+Gate 9.4  test_todo_smoke_evaluator_assets.py   50 passed, 1 skipped, 0 failed
+```
+
+Named hosts run separately (`+ test_reporting.py`): 194 passed.
+
+## 15. Full Suite Result
+
+```
+command: python -m pytest -q
+exit:    0
+result:  1576 passed, 32 skipped, 0 failed
+run:     after code commit (post final model_metadata edit)
+```
+
+The 32 skips are pre-existing environment-dependent skips (HF token, CUDA, etc.). No R4 test skips. The count is the exact final command output, not a reused earlier count.
+
+## 16. Ruff, Mypy, Compileall, and Diff Evidence
+
+Ruff (all 21 authorized changed Python files): 50 findings — 8 pre-existing identical tracked-file findings at shifted line numbers, plus E501s in the two new R4 test files that existed before this session's edits (my new lines are clean) and one pre-existing B008 in `_FixedTokenBackend`. One new ARG001 was found and fixed during this session: `_to_run_record_data`'s `max_attempts` became unused when `repair_attempts` moved to the accumulator; it is now forwarded into `model_metadata`.
+
+Mypy `--strict` (14 production files): 10 errors, all in `seven_arm_benchmark.py`, mapping 1:1 to HEAD baseline errors (verified in a temporary worktree at `b8724cc`); 13 `src/benchmark` files clean. Zero new errors.
+
+Compileall on `src\benchmark seven_arm_benchmark.py` and both R4 test files: exit 0. `git diff --check`: exit 0.
+
+## 17. Code Commit Scope and Hash
+
+```
+e87d4ad fix(metrics): separate per-call limits and workflow totals
+21 files changed, 3052 insertions(+), 307 deletions(-)
+```
+
+Scope matches §5 exactly. `git show --stat` output printed during the session.
+
+## 18. Documentation Updates and Commit Scope
+
+The documentation commit `docs(state): record R4 completion pending audit` stages only the §12 documentation/state files: `docs/ONE_PASS_PHASE_EXECUTION_PROTOCOL.md`, `docs/R3D_INDEPENDENT_AUDIT_AND_FREEZE_REPORT.md`, `docs/R4_PRECOMMIT_ROOT_AUDIT_AND_SINGLE_PASS_COMPLETION.md`, `docs/phase_specs/R4_SINGLE_PASS_SPEC.md`, `docs/phase_specs/R4_FINAL_PRECOMMIT_CLOSURE.md`, `docs/PROJECT_HANDOFF.md`, `docs/V2_R3B_TO_KAGGLE_NO_DISCRETION_EXECUTION_SPEC.md`, `reports/latest_phase_report.md`, `selective_updates/CHANGE_INDEX.md`, `selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md`, and the new `selective_updates/records/R4-TOKEN-AND-METRIC-CONTRACT.md`. No production or test file is staged.
+
+## 19. Closed and Remaining Technical Debt
+
+```
+remaining R4 TD-0 = 0
+remaining R4 TD-1 = 0
+```
+
+All ten root defects (D1–D10) are closed. Remaining open debt is outside R4 scope: `TD-R4-001` closed; `TD-R5-001` (nine local records) pending; `TD-KAGGLE-001` (bundle push and Kaggle execution) pending.
+
+## 20. Known Limitations
+
+- Wall-clock tool duration in the agent is quantized to `0.0` at `time.monotonic()` resolution for fast tool calls; the §6.4 test uses a deterministic 50 ms tool wrapper and asserts `> 0` and the stage-sum identity, not an exact value.
+- `selection_*` metrics are exactly `0` for monolithic strategies whose `analyze_impact` returns a zero-usage prediction; this is asserted as `== 0` where deterministic and justified.
+- With `max_attempts=3`, the iterative repair loop executes only one repair executor call (loop-top `record_attempt()` before `can_attempt` re-check); asserted totals use 15, not 30.
+- The two R4 test files carry pre-existing E501 lines and one B008 (default `TokenUsage` in `_FixedTokenBackend`) that predate this session's edits; no new lint findings were introduced.
+- Ruff and Mypy on `seven_arm_benchmark.py` still report pre-existing HEAD baseline findings at shifted line numbers (documented with the HEAD worktree output above).
+
+## 21. Project Position and Next Authorized Action
+
+Position: R3D final freeze candidate; R4 implemented and pending independent audit; R5 unauthorized. Next authorized action: independent audit of R4 evidence; on acceptance, freeze R4 and begin R5 (nine local records).
+
+## 22. Independent Audit Handoff
+
+Independent audit must verify: the frozen conflict rule at every constructor; executor/Agent local-total decrement; stage separation and `repair_attempts` semantics; cumulative scientific durations; the boundary trace identity; the four script outputs; the full-suite count; the commit scopes and hashes; and the absence of `assert True`. All evidence commands and outputs are recorded above and in the commit itself.
+
+R4_TOKEN_AND_METRIC_CONTRACT_AUDIT_REQUIRED
