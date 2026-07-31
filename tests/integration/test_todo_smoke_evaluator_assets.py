@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -264,6 +265,83 @@ class TestTodoSmoke003Evaluator:
         assert _NEGATIVE_EXPECTED_CHECKS["todo-smoke-003"]["project_owner_writable"] in result.error
         assert not result.error.startswith("ModuleNotFoundError")
         assert not result.error.startswith("RuntimeError")
+
+
+class TestCorrectFixtureBaselineCompatibility:
+    """R5-BASELINE-CONTRACT-001 gate: correct fixtures must keep the baseline
+    suite green while producing only the frozen expected source changes."""
+
+    EXPECTED_CHANGED_SOURCES = {
+        "todo-smoke-001": {"todo/models.py", "todo/serializers.py", "todo/views.py"},
+        "todo-smoke-002": {"todo/models.py", "todo/views.py"},
+        "todo-smoke-003": {"todo/models.py", "todo/serializers.py", "todo/permissions.py", "todo/views.py"},
+    }
+
+    EDITABLE_PATHS = (
+        "todo/models.py",
+        "todo/serializers.py",
+        "todo/views.py",
+        "todo/permissions.py",
+        "todo/urls.py",
+    )
+
+    @pytest.mark.parametrize(
+        "scenario_id,build_fn,asset_name",
+        [
+            ("todo-smoke-001", build_todo_smoke_001_workspace, "todo_smoke_001_checks.py"),
+            ("todo-smoke-002", build_todo_smoke_002_workspace, "todo_smoke_002_checks.py"),
+            ("todo-smoke-003", build_todo_smoke_003_workspace, "todo_smoke_003_checks.py"),
+        ],
+    )
+    def test_correct_fixture_passes_baseline_and_evaluator(self, tmp_path, scenario_id, build_fn, asset_name):
+        workspace = build_fn(tmp_path / f"ws_{scenario_id}", variant="correct")
+        _assert_migration_integrity(workspace)
+        _assert_workspace_has_no_evaluator_assets(workspace)
+
+        baseline_cmd = subprocess.run(
+            [sys.executable, "manage.py", "test", "todo", "--verbosity", "0"],
+            cwd=str(workspace),
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert baseline_cmd.returncode == 0, (
+            f"baseline suite failed for {scenario_id}\n"
+            f"stdout:\n{baseline_cmd.stdout}\nstderr:\n{baseline_cmd.stderr}"
+        )
+
+        cpr = tmp_path / f"project_{scenario_id}"
+        cpr.mkdir()
+        (cpr / "tests").mkdir()
+        (cpr / "tests" / "evaluator_assets").mkdir()
+        asset_src = Path(__file__).resolve().parent.parent / "evaluator_assets" / asset_name
+        dest = cpr / "tests" / "evaluator_assets" / asset_name
+        dest.write_bytes(asset_src.read_bytes())
+        evaluator_result = run_scenario_evaluator(
+            str(cpr),
+            f"tests/evaluator_assets/{asset_name}",
+            str(workspace),
+            python_executable=sys.executable,
+            timeout=120,
+        )
+        assert evaluator_result.passed, f"evaluator failed for {scenario_id}: {evaluator_result.error}"
+
+        changed = {
+            rel
+            for rel in self.EDITABLE_PATHS
+            if (workspace / rel).read_bytes() != (_BASELINE_REPO / rel).read_bytes()
+        }
+        assert changed == self.EXPECTED_CHANGED_SOURCES[scenario_id], (
+            f"changed source paths mismatch for {scenario_id}: {sorted(changed)}"
+        )
+
+        for rel in _baseline_hashes():
+            if rel.startswith("todo/tests/"):
+                assert (workspace / rel).read_bytes() == (_BASELINE_REPO / rel).read_bytes(), (
+                    f"baseline test file changed in {scenario_id} workspace: {rel}"
+                )
+
+        assert not (workspace / "tests" / "evaluator_assets").exists()
 
 
 class TestNegativeSourceDiff:
