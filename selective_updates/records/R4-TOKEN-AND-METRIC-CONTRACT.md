@@ -12,6 +12,26 @@
 
 ---
 
+## Audit Correction (2026-07-31)
+
+The R4 evidence was re-audited at starting HEAD `ccdb49c` on branch `experiment/three-arm-smoke-v2` (working tree clean, `core.autocrlf=true`). Two defects were found and corrected:
+
+### Defect A — exact workflow-budget exhaustion reopened an exhausted budget as unlimited
+
+- **Root cause:** `0` was overloaded as both "no total workflow limit" and "configured limit exhausted". When the workflow budget was consumed exactly, the runtime remaining value hit `0`, and `resolve_completion_allowance` returned the full per-call allowance for `0`, reopening the exhausted budget as unlimited.
+- **Fix:** internal representation is now `None` = unlimited runtime allowance, `0` = exhausted configured allowance, positive integer = remaining configured allowance (public config meaning of zero as unlimited preserved).
+  - `budgets.py`: new `runtime_remaining_total_tokens` property returning `None` when `has_total_token_limit` is False, `max(0, _max_tokens - _state.total_tokens)` otherwise; `resolve_completion_allowance` takes `remaining_total_workflow_tokens: int | None` and returns the per-call limit for `None`, `0` for exhausted `0`, and `max(0, min(per_call, remaining - prompt))` for positive.
+  - `regeneration.py`: `SharedRegenerationExecutor.execute` parameter default changed to `None`; accounting guarded by `has_limit`.
+  - `iterative_agent.py`: `analyze_impact`/`revise_plan` parameter defaults changed to `None`; accounting guarded by `has_limit`.
+  - `runner.py`: all five call sites pass `self._budget.runtime_remaining_total_tokens`.
+- **Regression tests:** 5 groups in `tests/unit/execution/test_r4_token_and_metrics.py` (executor exact exhaustion, analyze-impact, revise-plan, unlimited-budget three-state distinction, resolver three-state) plus integration-level production-path tests in `tests/integration/test_r4_metric_contract.py`.
+
+### Defect B — evaluator integrity was platform-dependent
+
+- **Root cause:** committed `.sha256` fingerprints and evaluator `.py` blobs are canonical LF, but on Windows `git restore` produced CRLF working-tree bytes, so raw SHA-256 of the working tree mismatched the committed values.
+- **Fix:** `.gitattributes` now pins `tests/evaluator_assets/todo_smoke_*_checks.py` to `text eol=lf`; the three working-tree files were rewritten to canonical LF without character changes.
+- **Proven:** worktree SHA-256 matches committed `.sha256` for all three files (`eeb95c87…`, `74b6b141…`, `c0cd3891…`); index/worktree blobs byte-identical (`git hash-object` SAME, empty staged diff); zero CR bytes.
+
 ## Requirement
 
 Complete R4 (token limits and truthful workflow metrics) end-to-end in one bounded pass: production corrections, real executor/Agent/boundary test rewrites, four direct verification scripts, RF-3 review, gates 9.1–9.6, code commit, detailed report, documentation commit. Do not start R5. Do not touch R5/R6/Kaggle, README, tags, evaluator assets, or hashes.

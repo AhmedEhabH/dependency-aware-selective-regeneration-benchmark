@@ -152,3 +152,13 @@
 - **Severity:** TD-2
 - **Closure:** `_to_run_record_data` forwards `max_attempts` into `model_metadata`; new-error count restored to zero ✓
 - **Checkpoint:** RF-3
+
+### TD-R4-007 — exact workflow-budget exhaustion reopened an exhausted budget as unlimited
+- **Severity:** TD-0 scientific contract
+- **Closure:** `0` was overloaded as both "no total limit" and "exhausted". `budgets.runtime_remaining_total_tokens` now returns `None` when `has_total_token_limit` is False, `0` for exhausted, positive for remaining; `resolve_completion_allowance` takes `int | None` and returns the per-call limit for `None`, `0` for exhausted `0`, `max(0, min(per_call, remaining - prompt))` for positive. Executor/Agent defaults changed to `None` with `has_limit` accounting guards; all five Runner call sites forward `runtime_remaining_total_tokens`. Five-group regression (executor/analyze-impact/revise-plan/unlimited/resolver) + integration production-path tests ✓
+- **Checkpoint:** R4 audit correction
+
+### TD-R4-008 — evaluator integrity platform-dependent
+- **Severity:** TD-0 scientific contract
+- **Closure:** committed `.sha256` fingerprints are canonical LF but Windows checkout produced CRLF, so worktree raw SHA-256 mismatched. `.gitattributes` pins `tests/evaluator_assets/todo_smoke_*_checks.py` to `text eol=lf`; the three working-tree files rewritten to canonical LF with zero character changes. Proven: worktree SHA-256 matches committed `.sha256`, index/worktree blobs byte-identical, zero CR bytes ✓
+- **Checkpoint:** R4 audit correction
