@@ -2,19 +2,22 @@
 
 **ID:** R4-TOKEN-AND-METRIC-CONTRACT
 **Date:** 2026-07-31
-**Status:** IMPLEMENTED — INDEPENDENT AUDIT REQUIRED (not accepted, not frozen)
+**Status:** ACCEPTED AND FROZEN — independent re-audit by GPT-5.6 Thinking on 2026-07-31
 **Branch:** experiment/three-arm-smoke-v2
 **Starting HEAD:** b8724cc
 **Code commit:** e87d4ad — `fix(metrics): separate per-call limits and workflow totals`
+**Audit-correction commits:** c928bd9 — `fix(validation): pin evaluator assets to canonical LF`; cc32b17 — `fix(metrics): preserve exhausted workflow token budgets`
+**Freeze HEAD:** a46213c — `docs(audit): record R4 audit corrections`
 **Docs commit:** `docs(state): record R4 completion pending audit`
+**Freeze record:** docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
 **Closure specs:** docs/R4_PRECOMMIT_ROOT_AUDIT_AND_SINGLE_PASS_COMPLETION.md, docs/phase_specs/R4_FINAL_PRECOMMIT_CLOSURE.md, docs/phase_specs/R4_SINGLE_PASS_SPEC.md
-**Report:** reports/latest_phase_report.md (2299 words)
+**Report:** reports/latest_phase_report.md
 
 ---
 
 ## Audit Correction (2026-07-31)
 
-The R4 evidence was re-audited at starting HEAD `ccdb49c` on branch `experiment/three-arm-smoke-v2` (working tree clean, `core.autocrlf=true`). Two defects were found and corrected:
+The R4 evidence was re-audited at starting HEAD `ccdb49c` on branch `experiment/three-arm-smoke-v2` (working tree clean, `core.autocrlf=true`). Two defects were found and corrected. A second independent re-audit (GPT-5.6 Thinking, 2026-07-31) then **accepted and froze** R4 at HEAD `a46213c`.
 
 ### Defect A — exact workflow-budget exhaustion reopened an exhausted budget as unlimited
 
@@ -83,6 +86,14 @@ D: 2048/9000 at PipelineConfig, record_dict, RunRecordData.model_metadata, JSONL
 - All R4 TD-0 and TD-1 (D1–D10). `remaining R4 TD-0 = 0`, `remaining R4 TD-1 = 0`.
 - One new ARG001 (unused `max_attempts`) was introduced and immediately fixed by forwarding `max_attempts` into `model_metadata`.
 
+## Freeze Evidence
+
+- Independent re-audit by GPT-5.6 Thinking on 2026-07-31 accepted the audit corrections and froze R4 for progression to R5.
+- User environment full suite at freeze: 1584 passed, 32 skipped, 0 failed.
+- Independent environment R4 focused files (Linux/Python 3.13): 105 passed, 0 failed.
+- Correction commits narrowly scoped: `c928bd9` (.gitattributes), `cc32b17` (4 production + 2 test files), `a46213c` (5 docs).
+- No R4 TD-0 or TD-1 remains after the audit.
+
 ## Next
 
-Independent audit required. On acceptance: freeze R4 → R5 (nine local records) → RF-4 cleanup and rerun → R6 (bundle and push) → nine real Qwen Kaggle runs → independent results audit → v2.0.0-scientific-smoke tag → Pilot. R5 is unauthorized until the audit.
+R4 is frozen. R5 (nine non-dry scripted production records) is authorized and in progress. After R5: RF-4 cleanup and rerun → R6 (bundle and push) → nine real Qwen Kaggle runs → independent results audit → v2.0.0-scientific-smoke tag → Pilot.

@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-07-31
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R3D FINAL FREEZE CANDIDATE — branch experiment/three-arm-smoke-v2, final evidence commit 11f88f5 (close final R3D evidence gaps), audit required before freeze; R4 implemented with audit corrections (cc32b17), reaudit required
+**Handoff type:** R4 ACCEPTED AND FROZEN — R5 AUTHORIZED/IN PROGRESS — branch experiment/three-arm-smoke-v2, R4 freeze HEAD a46213c (independent re-audit by GPT-5.6 Thinking, 2026-07-31); R5 nine non-dry scripted production records in progress
 
 ---
 
@@ -77,16 +77,21 @@ project/
 - **R3D code-checkpoint:** 9e28790 (fix(validation): complete R3D scientific wiring contract)
 - **R3D final-evidence-checkpoint:** 11f88f5 (fix(validation): close final R3D evidence gaps)
 - **R3D docs-checkpoint:** e61eb9a (docs(state): record R3D completion pending audit)
-- **HEAD:** 11f88f5 (see §16 for R4 audit-correction commits c928bd9/cc32b17)
+- **R4 code-checkpoint:** e87d4ad (fix(metrics): separate per-call limits and workflow totals)
+- **R4 audit-correction commits:** c928bd9 (fix(validation): pin evaluator assets to canonical LF), cc32b17 (fix(metrics): preserve exhausted workflow token budgets), a46213c (docs(audit): record R4 audit corrections)
+- **R4 freeze:** a46213c — ACCEPTED AND FROZEN by independent re-audit (GPT-5.6 Thinking, 2026-07-31)
+- **HEAD:** a46213c (R4 freeze; R5 in progress)
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** 1478 passed, 32 skipped (54 R3D focused wiring tests, 86 integration, 0 failed)
-- **Lint:** ruff 0 violations
-- **Types:** mypy strict 0 errors
+- **Test suite:** 1584 passed, 32 skipped (R4 audit-correction full suite; 0 failed)
+- **Lint:** ruff 0 new findings vs baseline
+- **Types:** mypy strict 0 new errors on changed production files
 - **Dependencies:** pip check clean
 - **Benchmark data:** 3 repositories (todo, djangocms, saleor), 24 protocol scenarios + 3 smoke scenarios
 - **Kaggle status:** BLOCKED — not authorized
 - **Pilot status:** BLOCKED — not authorized
+- **R5 status:** AUTHORIZED / IN PROGRESS — nine non-dry scripted production records
+- **R6 status:** BLOCKED
 - **Selective scopes verified:** 001=models,serializers,views | 002=models,views | 003=models,permissions,serializers,views
 
 ## 4. Core Scientific Question
@@ -161,10 +166,12 @@ Authorized only after real Smoke V2 completes and passes independent audit.
 | R3A — scenario execution metadata | COMPLETE | evaluator_asset, post_generation_command, require_new_migration |
 | R3B — deterministic post-generation migration runner | ACCEPTED AND FROZEN at feb5a44 | Two final corrections applied: (1) lexical directory symlink rejected before resolve instead of after, (2) valid ordinary created numbered paths preserved as partial evidence when after-state untrusted; 109 focused tests + 12 symlink skipped (121 total), 1424 full suite |
 | R3C — isolated scenario evaluator runner and three evaluator scripts | COMPLETE | Functional behavior independently accepted at 47e1a05 by GPT-5.6 Thinking; lint closure at 7abec68 (5 ruff violations fixed); final freeze confirmation pending this documentation audit |
-| R3D — production Runner validation wiring | FINAL FREEZE CANDIDATE — independent audit required | 54 public-path tests (54 pass), 1478 full suite (32 skip, 0 fail), Ruff/mypy/compileall clean; evaluator stderr feedback closed in 11f88f5; RF-2 complete |
-| RF-3 — token/metric refactor | SCHEDULED after R4 | After R4 self-gates |
+| R3D — production Runner validation wiring | ACCEPTED | 1478 full suite; R4 depends on it |
+| R4 — token limits and truthful workflow metrics | ACCEPTED AND FROZEN at a46213c | Independent re-audit accepted on 2026-07-31; two defects closed (exact exhaustion, evaluator LF pinning) |
+| RF-3 — token/metric refactor | COMPLETE | Delivered inside R4 |
 | RF-4 — full technical debt cleanup | SCHEDULED after R5 | After R5 nine records |
-| **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R3–R6 complete |
+| **R5 — nine non-dry scripted production records** | **IN PROGRESS** | Authorized by R4 freeze; scripted engineering proof only |
+| **Execute Scientific Smoke V2 on Kaggle** | HIGH | Unauthorized — blocked until R6 complete |
 | Audit Smoke V2 results | HIGH | Independent verification before Pilot authorization |
 | Integrate Pilot repositories | MEDIUM | ≥5K LOC, permissive license, pinned commit, passing tests |
 | Run Pilot profile | MEDIUM | 7+ changes, 3+ repos, agent+selective |
@@ -192,13 +199,18 @@ R3C lint-closure:            7abec68 (test(validation): close residual R3C lint 
 R3D code:                    9e28790 (fix(validation): complete R3D scientific wiring contract)
 R3D docs:                    e61eb9a (docs(state): record R3D completion pending audit)
 R3D final evidence:          11f88f5 (fix(validation): close final R3D evidence gaps)
-HEAD:                        11f88f5
+R4 code:                     e87d4ad (fix(metrics): separate per-call limits and workflow totals)
+R4 audit corrections:        c928bd9 (.gitattributes), cc32b17 (production + tests), a46213c (docs)
+R4 freeze:                   a46213c (ACCEPTED AND FROZEN — independent re-audit 2026-07-31)
+HEAD:                        a46213c
 Local/remote:         not yet pushed
 Working tree:         clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged)
 Stash:           broken methodology-conformance WIP 2026-07-27
 Kaggle:          blocked
 Pilot:           blocked
+R6:              blocked
+README:          intentionally deferred to R6
 ```
 
 ## 10. Stash Recovery
@@ -369,10 +381,11 @@ Single enforcement point: `_validate_scientific_configuration` in runner.py. Pre
 
 ## 16. R4 Status — Token Limits and Truthful Workflow Metrics
 
-**Status:** R4 IMPLEMENTED — INDEPENDENT AUDIT REQUIRED (not accepted, not frozen); audit corrections applied 2026-07-31
+**Status:** R4 ACCEPTED AND FROZEN — independent re-audit by GPT-5.6 Thinking on 2026-07-31 accepted the audit corrections and froze R4 for progression to R5
 **Starting HEAD:** `b8724cc`
 **Code commit:** `e87d4ad` — `fix(metrics): separate per-call limits and workflow totals`
 **Audit-correction commits:** `c928bd9` — `fix(validation): pin evaluator assets to canonical LF`; `cc32b17` — `fix(metrics): preserve exhausted workflow token budgets`
+**Freeze HEAD:** `a46213c`
 **Date:** 2026-07-31
 
 ### What was built
@@ -405,10 +418,15 @@ Single enforcement point: `_validate_scientific_configuration` in runner.py. Pre
 - Ruff: 88 findings = baseline `ccdb49c` (0 new); Mypy --strict on the 4 changed production files: 0 errors; compileall: exit 0; `git diff --check`: clean
 - Defect B proven: worktree SHA-256 matches committed `.sha256` for all three evaluator files; index/worktree blobs byte-identical; zero CR bytes; `git ls-files --eol` shows `i/lf w/lf`
 
+### Freeze (2026-07-31)
+
+The independent re-audit accepted R4 at HEAD `a46213c`. See `docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`.
+
 ### Blocked
 
-- R4 freeze: blocks R5 (nine local records), RF-4, R6 (bundle and push), Kaggle execution, Pilot. R5 is unauthorized pending independent audit.
+- R5 freeze: blocks R6 (bundle and push), Kaggle execution, Pilot. R6 remains blocked pending R5 completion and independent audit.
+- R5 is in progress; R6 is blocked.
 
 ---
 
-**R4_AUDIT_CORRECTIONS_REAUDIT_REQUIRED**
+**R4_ACCEPTED_R5_AUTHORIZED**
