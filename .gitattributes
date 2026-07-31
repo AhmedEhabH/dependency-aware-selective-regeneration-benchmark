@@ -1,6 +1,9 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
+# Scientific evaluator assets are byte-frozen and must use canonical LF endings.
+tests/evaluator_assets/todo_smoke_*_checks.py text eol=lf
+
 # Python
 *.py text diff=python
 *.pyw text
