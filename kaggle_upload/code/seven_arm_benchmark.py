@@ -57,6 +57,12 @@ logging.basicConfig(
 logger = logging.getLogger("benchmark")
 
 BENCHMARK_ROOT = Path(__file__).resolve().parent
+SRC_ROOT = BENCHMARK_ROOT / "src"
+if SRC_ROOT.is_dir():
+    src_root_text = str(SRC_ROOT)
+    if src_root_text not in sys.path:
+        sys.path.insert(0, src_root_text)
+
 SCENARIOS_DIR = BENCHMARK_ROOT / "benchmark_data" / "scenarios"
 OUTPUT_DIR = BENCHMARK_ROOT / "runs"
 DEFAULT_DATA_DIR = BENCHMARK_ROOT / "benchmark_data"

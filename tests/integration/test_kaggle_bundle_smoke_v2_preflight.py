@@ -488,6 +488,49 @@ class TestKaggleBundleR7CRuntimeClosure:
         assert "render_preflight_table" in source
         assert "kaggle_smoke_preflight.v1" in source
 
+    def test_bundled_cli_bootstraps_src_without_ambient_pythonpath(
+        self, tmp_path: Path
+    ) -> None:
+        """The deployed script must reach its preflight gate in a clean subprocess."""
+        model_dir = tmp_path / "fake-model"
+        model_dir.mkdir()
+        (model_dir / "config.json").write_text("{}\n", encoding="utf-8")
+        (model_dir / "model.safetensors").write_bytes(b"not-real-weights")
+        output_dir = tmp_path / "preflight"
+        env = os.environ.copy()
+        env.pop("PYTHONPATH", None)
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(BUNDLE_CODE / "seven_arm_benchmark.py"),
+                "--kaggle-preflight-only",
+                "--backend",
+                "kaggle-qwen",
+                "--profile",
+                "scientific-smoke-v2",
+                "--data-dir",
+                str(BUNDLE_ROOT / "data"),
+                "--model-path",
+                str(model_dir),
+                "--output-dir",
+                str(output_dir),
+            ],
+            cwd=tmp_path,
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=120,
+            check=False,
+        )
+        combined = result.stdout + result.stderr
+        assert result.returncode == 1, combined
+        assert "No module named 'benchmark'" not in combined
+        assert "KAGGLE SMOKE PREFLIGHT" in combined
+        assert (output_dir / "kaggle_smoke_preflight.v1.json").is_file()
+        assert not (output_dir / "checkpoint.json").exists()
+        assert not (output_dir / "workspace").exists()
+
     def test_bundled_preflight_module_present(self) -> None:
         module = BUNDLE_CODE / "src" / "benchmark" / "execution" / "preflight.py"
         assert module.is_file(), "preflight module not bundled"
