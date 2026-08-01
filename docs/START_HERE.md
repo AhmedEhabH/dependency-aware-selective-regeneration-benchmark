@@ -4,16 +4,18 @@
 
 You are resuming work on the Dependency-Aware Selective Regeneration Benchmark.
 
-**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) is **ACCEPTED AND FROZEN** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`), recorded in `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`. The R6 freeze commit `4b2dd27` is the exact first publication HEAD; the milestone branch is **published** with upstream `origin/experiment/three-arm-smoke-v2` and local/remote equality was verified before the publication-status commit. Local scripted records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; Kaggle not launched; tag not created; Pilot not authorized. Next: Kaggle environment preflight, then nine real Qwen Smoke records. Do not tag, merge, force-push, or launch Kaggle now. All required reading is repository-contained; external prompt packages are historical provenance only and are not required to continue.
+**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) is **ACCEPTED AND FROZEN** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`), recorded in `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`. The R6 freeze commit `4b2dd27` is the exact first publication HEAD; the milestone branch is **published** with upstream `origin/experiment/three-arm-smoke-v2` and local/remote equality was verified. Post-R6: **two real Kaggle attempts failed pre-model** (`exp-20260801-024041`, `exp-20260801-024624`; both 0 model calls; preserved, not deleted). All real runtime blockers were closed and pinned on branch `fix/kaggle-smoke-v2-runtime-blockers` (fix commit `de3163f`, bundle pin `fb60972`). Local scripted records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; tag not created; Pilot not authorized. Next: **independent audit of the runtime fixes**; do not relaunch Kaggle before that. All required reading is repository-contained; external prompt packages are historical provenance only and are not required to continue.
 
 **Phase state:**
 ```text
 R4 = accepted and frozen (explicit freeze commit f5ae826)
 R5 = accepted and frozen (independent re-audit 2026-08-01 at 7761c48)
 R6 = ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 949e9c2; freeze commit 4b2dd27)
-Kaggle = not launched
+Kaggle attempts = 2 (exp-20260801-024041, exp-20260801-024624) — failed pre-model, preserved
+Runtime fixes = committed (de3163f) and pinned (fb60972)
+Real Qwen records = 0/9
 Pilot = not authorized
-push = PUBLISHED — upstream origin/experiment/three-arm-smoke-v2, local/remote equal
+push = R6 milestone branch PUBLISHED — upstream origin/experiment/three-arm-smoke-v2, local/remote equal
 stable tag = blocked
 ```
 
@@ -117,7 +119,7 @@ Each starts from the same clean pinned baseline (b8a33e2). They are not cumulati
 
 ## Next Task
 
-**R6: ACCEPTED AND FROZEN — MILESTONE BRANCH PUBLISHED.** The final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`) accepted R6 deployment closure. The bounded correction pass closed TD-R6-ENTRYPOINT-001 (test commit `40c7a47`, bundled CLI dry-run 9/9) and documentation-truth defects D1–D6 (`949e9c2`). The freeze commit `4b2dd27` (docs(audit): accept and freeze R6 deployment closure) is the exact first publication HEAD; the branch is published with upstream `origin/experiment/three-arm-smoke-v2` and local/remote equality was verified. Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; final accepted full suite = 1,648 passed / 32 skipped / 0 failed. Next: Kaggle environment preflight and nine real Qwen records. Do not tag, merge, force-push, or launch Kaggle now.
+**POST-R6 KAGGLE RUNTIME FIX — FIXES COMMITTED AND PINNED, INDEPENDENT AUDIT REQUIRED.** Two real Kaggle attempts failed pre-model (both 0 model calls; preserved). All real runtime blockers were closed on `fix/kaggle-smoke-v2-runtime-blockers` per the Kaggle Runtime Blockers Fix directive: shared-snapshot isolation root, Kaggle Qwen fail-closed `--model-path` validation + `qwen:` identity, non-zero session exit on failed last run, batched truthful HF upload, `mark_completed(completed_with_failures=...)`, and notebook guardrails (`discover_model()`, `_verify_scientific_run()` in both run cells, `NabilDo/selective-regeneration-experiment-results`, `Terminal: n/9`). Fix commit `de3163f`; deployment pin commit `fb60972` (bundle 144 files / 815,004 bytes). Preflight = 15 passed; last full suite = 1,676 passed / 32 skipped / 0 failed. Next: record the runtime fix in the ledger (Commit C), push the fix branch, then **independent runtime-fix audit**. Do not relaunch Kaggle, tag, merge, or force-push before that audit passes.
 
 ---
 
@@ -153,8 +155,11 @@ cat selective_updates/records/R5-INDEPENDENT-AUDIT-SCOPE-CORRECTION.md
 
 # Read R6 bundle parity and pre-Kaggle handoff record
 cat selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md
+
+# Read Kaggle runtime fix record
+cat selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-FIX.md
 ```
 
 ---
 
-R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED
+KAGGLE_RUNTIME_FIX_AUDIT_REQUIRED

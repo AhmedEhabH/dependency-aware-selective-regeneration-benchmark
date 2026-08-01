@@ -182,4 +182,18 @@ suite = 1,648 passed / 32 skipped / 0 failed. `.gitattributes` manifest-LF rule
 = audit-approved scope extension, disclosed in `docs/PROJECT_HANDOFF.md` and
 this ledger.
 
-R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED
+## Post-R6 update (2026-08-01) — Kaggle runtime fix
+
+The R6-published deployment was launched twice for real on Kaggle; both runs
+failed before any model call (`exp-20260801-024041`, `exp-20260801-024624`;
+both 9 planned / 0 succeeded / 9 failed / 0 model calls / 0 tokens; first
+failure = workspace isolation). The real runtime blockers were closed on branch
+`fix/kaggle-smoke-v2-runtime-blockers` (fix commit `de3163f`, bundle pin commit
+`fb60972`) and are recorded in
+`selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-FIX.md`. The corrected bundle
+is pinned to runtime source `de3163f12d51c31d3f488897ed2047821da3b190` and was
+rebuilt only via `scripts/build_upload_bundle.py` (144 files / 815,004 bytes).
+The two failed attempt outputs are preserved on the results dataset and must
+not be deleted. R6 itself is unchanged and remains ACCEPTED AND FROZEN.
+
+KAGGLE_RUNTIME_FIX_AUDIT_REQUIRED

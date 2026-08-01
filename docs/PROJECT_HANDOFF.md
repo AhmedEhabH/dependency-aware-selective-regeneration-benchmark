@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-08-01
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 ACCEPTED AND FROZEN (final independent re-audit 2026-08-01 at 949e9c2) — branch experiment/three-arm-smoke-v2 PUBLISHED to origin (freeze commit 4b2dd27 = first publication HEAD; upstream origin/experiment/three-arm-smoke-v2; local/remote equality verified before publication-status commit); local scripted = 9/9; bundled CLI dry-run = 9/9; real Qwen = 0/9; Kaggle not launched; tag not created; Pilot = NOT AUTHORIZED; do not tag/merge/force-push/launch Kaggle now. All reading is repository-contained; external prompt packages are historical provenance only.
+**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 ACCEPTED AND FROZEN (final independent re-audit 2026-08-01 at 949e9c2) — branch experiment/three-arm-smoke-v2 PUBLISHED to origin (freeze commit 4b2dd27 = first publication HEAD; upstream origin/experiment/three-arm-smoke-v2; local/remote equality verified before publication-status commit); post-R6 KAGGLE RUNTIME FIX on branch fix/kaggle-smoke-v2-runtime-blockers — two real Kaggle attempts failed pre-model (exp-20260801-024041, exp-20260801-024624; both 0 model calls; preserved, not deleted), all real runtime blockers closed (fix commit de3163f) and pinned (bundle commit fb60972); local scripted = 9/9; bundled CLI dry-run = 9/9; real Qwen = 0/9; tag not created; Pilot = NOT AUTHORIZED; independent runtime-fix audit required before any Kaggle relaunch; do not tag/merge/force-push/relaunch Kaggle before that audit. All reading is repository-contained; external prompt packages are historical provenance only.
 
 ---
 
@@ -232,10 +232,12 @@ Local/remote:         equal (verified before and after publication-status commit
 Working tree:         clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged — historical orchestration smoke, not V2 evidence)
 Stash:           broken methodology-conformance WIP 2026-07-27
-Kaggle:          not launched
+Kaggle:          not launched (R6); 2 real attempts FAILED pre-model (exp-20260801-024041, exp-20260801-024624; preserved)
+Runtime fix:     committed de3163f (fix(kaggle): close real Smoke runtime blockers)
+Deployment pin:  fb60972 (chore(deploy): pin corrected Scientific Smoke V2 bundle)
 Pilot:           blocked
 R6:              accepted and frozen at 949e9c2 (freeze commit 4b2dd27)
-README:          updated in R6
+README:          updated
 ```
 
 > Note: the original R5 tail (6650b00, 88b6f84, c3ecad2) was rebuilt because
@@ -657,4 +659,42 @@ unambiguous: **record the publication status, push again, verify final
 equality, then Kaggle environment preflight.** Do not tag, merge, force-push,
 or run Kaggle now.
 
-R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED
+## 22. Post-R6 Kaggle Runtime Fix (2026-08-01)
+
+**Status:** FIXES APPLIED AND COMMITTED — INDEPENDENT RUNTIME-FIX AUDIT REQUIRED
+**Branch:** `fix/kaggle-smoke-v2-runtime-blockers` (from R6-published `experiment/three-arm-smoke-v2` @ `9ff3c4e`)
+**Directive:** `..\Kaggle_Runtime_Blockers_Fix_Package\02_OPENCODE_KAGGLE_RUNTIME_FIX_DIRECTIVE.md`
+**Evidence audit:** `..\Kaggle_Runtime_Blockers_Fix_Package\01_KAGGLE_TWO_RUNS_INDEPENDENT_AUDIT.md`
+**Record:** `selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-FIX.md`
+
+Two real Kaggle Scientific Smoke V2 runs launched from the published R6
+deployment failed completely before any model call:
+`exp-20260801-024041` and `exp-20260801-024624` (both 9 planned / 0 succeeded /
+9 failed / 0 model calls / 0 tokens; first failure = workspace isolation).
+These outputs remain visible on the results dataset and must NOT be deleted.
+
+The real runtime blockers were closed under the Kaggle Runtime Blockers Fix
+directive and pinned into a corrected bundle:
+
+- **Runtime fix commit `de3163f`** (`fix(kaggle): close real Smoke runtime blockers`, 8 files):
+  shared-snapshot isolation root (`make_isolation(..., snapshot_storage_root)` →
+  `IsolationContext(snapshot_base=...)`), Kaggle Qwen fail-closed `--model-path`
+  validation + `qwen:` identity, `_decide_session_exit_code` (failed last run →
+  exit 1), batched HF upload (`_upload_batch_with_retry`/`CommitOperationAdd`/
+  `create_commit`) with truthful booleans, `mark_completed(completed_with_failures=...)`.
+- **Deployment pin commit `fb60972`** (`chore(deploy): pin corrected Scientific Smoke V2 bundle`, 8 files):
+  notebook pinned to `de3163f12d51c31d3f488897ed2047821da3b190`, fail-closed
+  `discover_model()`, `_verify_scientific_run()` in both run cells,
+  `NabilDo/selective-regeneration-experiment-results`, `Terminal: n/9`
+  vocabulary, continuous-cell markdown guard; bundle rebuilt via
+  `scripts/build_upload_bundle.py` (144 files / 815,004 bytes; notebook 18,137 bytes).
+
+Test evidence: preflight = 15 passed (incl. `TestKaggleBundleRuntimeGuardrails`,
+6); combined unit+integration = 254 passed / 2 skipped; last full suite =
+1,676 passed / 32 skipped / 0 failed. Ruff 0 new; Mypy = base 5 pre-existing
+only; `git diff --check` clean. Fixed pre-existing `test_cli.py::
+test_notebook_benchmark_command_args` which hard-coded the stale `cb25e9f` pin.
+
+Next action: independent audit of the runtime fixes
+(KAGGLE_RUNTIME_FIX_AUDIT_REQUIRED). Do not relaunch Kaggle, tag, merge, or
+force-push before that audit passes.
