@@ -4,6 +4,7 @@ import json
 import logging
 import os
 from pathlib import Path
+from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -263,8 +264,13 @@ class TestRepoVisibility:
                 verify_repo_private(TEST_REPO)
 
     def test_missing_repo_rejected(self) -> None:
+        import httpx
         from huggingface_hub.utils import RepositoryNotFoundError
-        with patch("benchmark.checkpoint.hf_sync.HfApi.repo_info", side_effect=RepositoryNotFoundError("not found")):
+
+        request = httpx.Request("GET", "https://huggingface.co/api/datasets/not-found")
+        response = httpx.Response(404, request=request, json={"error": "Not found"})
+        error = RepositoryNotFoundError("not found", response=response)
+        with patch("benchmark.checkpoint.hf_sync.HfApi.repo_info", side_effect=error):
             with pytest.raises(RepoVisibilityError, match="not found"):
                 verify_repo_private(TEST_REPO)
 
@@ -496,6 +502,112 @@ class TestHfUploaderBatchedCommits:
 
         combined = "\n".join(r.getMessage() for r in caplog.records)
         assert "hf_test_token" not in combined
+
+
+class TestHfRecoveryStateTruth:
+    """R7A-PRE-RERUN-HARDENING: recovery remote_sync.json must be truthful.
+
+    These tests mock ``HfApi.create_commit`` (not ``_upload_batch_with_retry``)
+    and inspect the ``CommitOperationAdd`` for ``remote_sync.json`` at commit
+    call time. The committed state must be ``recovery_uploaded``, never
+    ``pending``; on failure the local state becomes ``failed_local_safe`` while
+    the failure record is preserved.
+    """
+
+    RECOVERY_EXP = "exp-truth"
+
+    def _make_uploader(
+        self,
+        tmp_path: Path,
+        max_retries: int = 0,
+        exp: str = "exp-truth",
+    ) -> HfUploader:
+        layout = RemoteLayout("smoke", "1.0", "abc1234", exp)
+        return HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token", max_retries=max_retries)
+
+    def _remote_sync_operation(self, mock_create) -> Any:
+        call = mock_create.call_args
+        assert call is not None, "create_commit was not called"
+        operations = call.kwargs["operations"]
+        remote_sync_ops = [
+            op for op in operations if op.path_in_repo.split("/")[-1] == "remote_sync.json"
+        ]
+        assert len(remote_sync_ops) == 1, "expected exactly one remote_sync.json operation"
+        return remote_sync_ops[0]
+
+    def _operation_source_bytes(self, op) -> bytes:
+        source = op.path_or_fileobj
+        if isinstance(source, bytes):
+            return source
+        return Path(source).read_bytes()
+
+    def test_recovery_commit_contains_recovery_uploaded_state(self, tmp_path: Path) -> None:
+        _create_recovery_artifacts(tmp_path)
+        uploader = self._make_uploader(tmp_path)
+        expected_remote_path = uploader._layout.recovery()
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi.create_commit", return_value=MagicMock()) as mock_create:
+            assert uploader.upload_recovery() is True
+
+        op = self._remote_sync_operation(mock_create)
+        state = json.loads(self._operation_source_bytes(op))
+        assert state["last_sync"] == "recovery_uploaded"
+        assert state["last_sync"] != "pending"
+        assert state["remote_path"] == expected_remote_path
+
+    def test_successful_recovery_local_state_matches_committed_state(self, tmp_path: Path) -> None:
+        _create_recovery_artifacts(tmp_path)
+        uploader = self._make_uploader(tmp_path)
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi.create_commit", return_value=MagicMock()) as mock_create:
+            assert uploader.upload_recovery() is True
+
+        committed = json.loads(self._operation_source_bytes(self._remote_sync_operation(mock_create)))
+        local = json.loads((tmp_path / "remote_sync.json").read_text())
+        assert local == committed
+
+    def test_failed_recovery_sets_failed_local_safe(self, tmp_path: Path) -> None:
+        _create_recovery_artifacts(tmp_path)
+        uploader = self._make_uploader(tmp_path, max_retries=0)
+
+        with (
+            patch(
+                "benchmark.checkpoint.hf_sync.HfApi.create_commit",
+                side_effect=RuntimeError("429 Too Many Requests"),
+            ),
+            patch("time.sleep"),
+        ):
+            result = uploader.upload_recovery()
+
+        assert result is False
+        state = json.loads((tmp_path / "remote_sync.json").read_text())
+        assert state["last_sync"] == "failed_local_safe"
+
+    def test_failed_recovery_preserves_failure_record(self, tmp_path: Path) -> None:
+        _create_recovery_artifacts(tmp_path)
+        uploader = self._make_uploader(tmp_path, max_retries=0)
+
+        with (
+            patch(
+                "benchmark.checkpoint.hf_sync.HfApi.create_commit",
+                side_effect=RuntimeError("429 Too Many Requests"),
+            ),
+            patch("time.sleep"),
+        ):
+            uploader.upload_recovery()
+
+        assert uploader.failure_store.has_failures()
+        failure_path = tmp_path / "remote_sync_failure.json"
+        assert failure_path.is_file(), "remote_sync_failure.json must be retained after a failed commit"
+
+    def test_recovery_still_uses_exactly_one_create_commit(self, tmp_path: Path) -> None:
+        _create_recovery_artifacts(tmp_path)
+        uploader = self._make_uploader(tmp_path)
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi.create_commit", return_value=MagicMock()) as mock_create:
+            assert uploader.upload_recovery() is True
+
+        assert mock_create.call_count == 1
 
 
 # ---------------------------------------------------------------------------
@@ -797,11 +909,10 @@ class TestHfIntegration:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-fail-record")
 
-        from huggingface_hub.utils import HfHubHTTPError
         with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
             mock_api = MagicMock()
             mock_api_cls.return_value = mock_api
-            mock_api.create_commit.side_effect = HfHubHTTPError("mock upload failure")
+            mock_api.create_commit.side_effect = RuntimeError("mock upload failure")
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token", max_retries=0)
             uploader.upload_recovery()
             assert uploader.failure_store.has_failures()
