@@ -771,7 +771,7 @@ class TestScientificSmokeV1Profile:
                     ('"--profile", "scientific-smoke-v2"', "profile scientific-smoke-v2"),
                     ('"--protocol-version", "1.0"', "protocol-version 1.0"),
                     ('"--max-attempts", "3"', "max-attempts 3"),
-                    ('"--max-completion-tokens-per-call", "4096"', "max-completion-tokens-per-call 4096"),
+                    ('"--max-completion-tokens-per-call", "1024"', "max-completion-tokens-per-call 1024"),
                     ('"--max-total-workflow-tokens", "0"', "max-total-workflow-tokens 0"),
                     ('"--timeout", "300"', "timeout 300"),
                 ]
@@ -809,6 +809,44 @@ class TestScientificSmokeV1Profile:
                 s2 = c2["source"] if isinstance(c2["source"], str) else "".join(c2["source"])
                 assert s1 == s2, f"code cell [{c1.get('id','')}] source mismatch between notebooks"
 
+    def test_notebook_live_run_helpers_present(self) -> None:
+        """KAGGLE-SMOKE-V2 section 12: live executor + actionable errors."""
+        import json
+
+        nb_path = PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb"
+        with open(nb_path, encoding="utf-8") as f:
+            nb = json.load(f)
+        cells_by_id = {c.get("id"): c for c in nb["cells"]}
+
+        setup_src = "".join(cells_by_id["setup-cell"]["source"])
+        for helper in (
+            "_run_benchmark_live",
+            "_load_smoke_evidence",
+            "_display_smoke_dashboard",
+            "_raise_actionable_smoke_error",
+            "_validate_continuous_precondition",
+            "ScientificSmokeExecutionError",
+        ):
+            assert f"def {helper}" in setup_src or helper in setup_src, (
+                f"setup-cell missing helper: {helper}"
+            )
+
+        for env in (
+            '"PYTHONUNBUFFERED"',
+            "expandable_segments:True",
+            '"TOKENIZERS_PARALLELISM"',
+        ):
+            assert env in setup_src, f"setup-cell missing env: {env}"
+
+        exec_src = "".join(cells_by_id["exec-cell"]["source"])
+        continuous_src = "".join(cells_by_id["continuous-smoke-cell"]["source"])
+        assert "_run_benchmark_live(" in exec_src, "exec-cell missing live runner"
+        assert "_run_benchmark_live(" in continuous_src, "continuous cell missing live runner"
+        assert "_validate_continuous_precondition(" in continuous_src, (
+            "continuous cell missing precondition gate"
+        )
+        assert "kaggle_console.log" in setup_src, "live log file missing"
+
     def test_notebook_sync_display_uses_current_schema(self) -> None:
         """The inspection cell must read the current remote_sync schema keys."""
         import json
@@ -833,3 +871,79 @@ class TestScientificSmokeV1Profile:
             'sync.get("runs_uploaded"',
         ):
             assert obsolete not in progress_src, f"inspection cell still uses obsolete key: {obsolete}"
+
+
+class _FakeRunRecord:
+    def __init__(self, status: str, duration_seconds: float) -> None:
+        self.status = status
+        self.duration_seconds = duration_seconds
+
+
+class _FakeRecordStore:
+    def __init__(self, records: list[_FakeRunRecord]) -> None:
+        self._records = records
+
+    def load_all(self) -> list[_FakeRunRecord]:
+        return self._records
+
+
+class TestRunProgressAndEta:
+    """KAGGLE-SMOKE-V2 section 10: progress line and cross-session ETA."""
+
+    @staticmethod
+    def _format(completed: int, total: int, eta: str = "estimating") -> str:
+        from seven_arm_benchmark import _render_progress_line
+
+        return _render_progress_line(
+            completed=completed,
+            total=total,
+            current_label="scn-001/monolithic",
+            stage="succeeded",
+            elapsed_seconds=63,
+            eta=eta,
+        )
+
+    def test_zero_completed_line(self) -> None:
+        line = self._format(0, 9)
+        assert line.startswith("[--------------------] 0/9 | current=scn-001/monolithic | stage=succeeded |")
+        assert "elapsed=00:01:03" in line
+        assert "ETA=estimating" in line
+
+    def test_partial_line_three_of_nine(self) -> None:
+        line = self._format(3, 9)
+        assert line.startswith("[######--------------] 3/9 | current=scn-001/monolithic |")
+        assert "ETA=estimating" in line
+
+    def test_completed_plan_formats_full_bar(self) -> None:
+        line = self._format(9, 9, eta="00:00:00")
+        assert line.startswith("[####################] 9/9 | current=scn-001/monolithic |")
+        assert "ETA=00:00:00" in line
+
+    def test_eta_zero_completed_is_estimating(self) -> None:
+        from seven_arm_benchmark import _estimate_run_eta
+
+        store = _FakeRecordStore([])
+        assert _estimate_run_eta(store, 9) == "estimating"
+
+    def test_eta_one_completed_terminal_run(self) -> None:
+        from seven_arm_benchmark import _estimate_run_eta
+
+        store = _FakeRecordStore([_FakeRunRecord("succeeded", 600.0)])
+        assert _estimate_run_eta(store, 3) == "00:30:00"
+
+    def test_eta_uses_cross_session_terminal_records_only(self) -> None:
+        from seven_arm_benchmark import _estimate_run_eta
+
+        records = [
+            _FakeRunRecord("succeeded", 500.0),  # session 1
+            _FakeRunRecord("failed", 700.0),     # session 2
+            _FakeRunRecord("pending", 9999.0),   # never counted
+        ]
+        store = _FakeRecordStore(records)
+        assert _estimate_run_eta(store, 4) == "00:40:00"
+
+    def test_eta_no_remaining_runs_is_zero(self) -> None:
+        from seven_arm_benchmark import _estimate_run_eta
+
+        store = _FakeRecordStore([_FakeRunRecord("succeeded", 600.0)])
+        assert _estimate_run_eta(store, 0) == "00:00:00"

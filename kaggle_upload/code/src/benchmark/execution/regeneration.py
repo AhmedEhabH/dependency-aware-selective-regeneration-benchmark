@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import logging
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -10,7 +11,10 @@ from benchmark.core.models import LLMResponse
 from benchmark.core.protocols import LLMBackend
 from benchmark.execution.budgets import resolve_completion_allowance
 from benchmark.execution.isolation import IsolationContext
+from benchmark.llm.output_normalization import normalize_single_payload
 from benchmark.selection.planner import RegenerationPlan
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -230,6 +234,8 @@ class SharedRegenerationExecutor:
                 )
                 continue
 
+            artifact_start = time.monotonic()
+            logger.info("REGEN_ARTIFACT_START path=%s", artifact.path)
             try:
                 response: LLMResponse = await self._backend.generate(prompt=prompt, max_tokens=allowance)
             except Exception as e:
@@ -261,6 +267,10 @@ class SharedRegenerationExecutor:
                             status="rejected",
                         )
                     )
+                    logger.info(
+                        "REGEN_ARTIFACT_END path=%s status=rejected elapsed=%.3f",
+                        artifact.path, time.monotonic() - artifact_start,
+                    )
                     break
                 if local_remaining > 0 and usage.total_tokens > local_remaining:
                     failures.append(
@@ -274,25 +284,22 @@ class SharedRegenerationExecutor:
                             status="rejected",
                         )
                     )
+                    logger.info(
+                        "REGEN_ARTIFACT_END path=%s status=rejected elapsed=%.3f",
+                        artifact.path, time.monotonic() - artifact_start,
+                    )
                     break
                 local_remaining = max(0, local_remaining - usage.total_tokens)
 
             output_text = response.text
 
-            stripped = output_text.strip()
-            if not stripped:
-                failures.append(f"Empty generation for {artifact.path}")
-                generated.append(
-                    GeneratedArtifact(
-                        path=artifact.path,
-                        content="",
-                        status="rejected",
-                    )
-                )
-                continue
-
-            if stripped.startswith("```") or stripped.endswith("```"):
-                failures.append(f"Markdown-fenced output rejected for {artifact.path}")
+            normalized_body, normalization_mode = normalize_single_payload(output_text)
+            if normalized_body is None:
+                if normalization_mode == "empty":
+                    message = f"Empty generation for {artifact.path}"
+                else:
+                    message = f"Output rejected for {artifact.path}: {normalization_mode}"
+                failures.append(message)
                 generated.append(
                     GeneratedArtifact(
                         path=artifact.path,
@@ -300,7 +307,14 @@ class SharedRegenerationExecutor:
                         status="rejected",
                     )
                 )
+                logger.info(
+                    "REGEN_ARTIFACT_END path=%s status=rejected elapsed=%.3f",
+                    artifact.path, time.monotonic() - artifact_start,
+                )
                 continue
+            output_text = normalized_body
+            if normalization_mode == "single_fence_stripped":
+                logger.info("MODEL_OUTPUT_NORMALIZED path=%s mode=single_fence_stripped", artifact.path)
 
             if _is_path_traversal(artifact.path, workspace_root):
                 failures.append(f"Path traversal rejected: {artifact.path}")
@@ -310,6 +324,10 @@ class SharedRegenerationExecutor:
                         content="",
                         status="rejected",
                     )
+                )
+                logger.info(
+                    "REGEN_ARTIFACT_END path=%s status=rejected elapsed=%.3f",
+                    artifact.path, time.monotonic() - artifact_start,
                 )
                 continue
 
@@ -326,6 +344,10 @@ class SharedRegenerationExecutor:
                         status="rejected",
                     )
                 )
+                logger.info(
+                    "REGEN_ARTIFACT_END path=%s status=rejected elapsed=%.3f",
+                    artifact.path, time.monotonic() - artifact_start,
+                )
                 continue
 
             generated.append(
@@ -334,6 +356,10 @@ class SharedRegenerationExecutor:
                     content=output_text,
                     status="generated",
                 )
+            )
+            logger.info(
+                "REGEN_ARTIFACT_END path=%s status=generated elapsed=%.3f",
+                artifact.path, time.monotonic() - artifact_start,
             )
 
         duration = time.monotonic() - start_time

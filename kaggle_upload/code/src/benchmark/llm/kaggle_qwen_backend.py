@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gc
 import logging
 from dataclasses import dataclass
 from pathlib import Path
@@ -50,6 +51,18 @@ def _gpu_info() -> dict[str, object]:
         info["compute_capability_tuple"] = (0, 0)
 
     return info
+
+
+def _empty_cuda_cache() -> None:
+    """Best-effort CUDA cache flush; never raises and works without torch."""
+    import contextlib
+
+    try:
+        import torch
+    except Exception:
+        return
+    with contextlib.suppress(Exception):
+        torch.cuda.empty_cache()
 
 
 def _check_gpu_compatibility() -> None:
@@ -121,7 +134,8 @@ class KaggleQwenBackend:
         if self._tokenizer is None:
             raise ModelBackendError("KaggleQwenBackend: tokenizer not loaded")
         try:
-            return len(self._tokenizer(prompt, return_tensors="pt")["input_ids"][0])
+            chat_prompt = self._format_chat_prompt(prompt)
+            return len(self._tokenizer(chat_prompt, return_tensors="pt")["input_ids"][0])
         except Exception as exc:
             raise ModelBackendError(
                 f"KaggleQwenBackend: tokenizer counting failed: {exc}"
@@ -134,6 +148,13 @@ class KaggleQwenBackend:
         max_tokens: int = 4096,
     ) -> LLMResponse:
         logger.info("GENERATION_STARTED max_tokens=%d temperature=%s", max_tokens, temperature)
+        prompt_tokens: int | None = None
+        inputs = None
+        input_ids = None
+        attention_mask = None
+        gen_kwargs = None
+        output_ids = None
+        generated_ids = None
         try:
             self._ensure_loaded()
             assert self._model is not None
@@ -141,7 +162,8 @@ class KaggleQwenBackend:
 
             import torch
 
-            inputs = self._tokenizer(prompt, return_tensors="pt")
+            chat_prompt = self._format_chat_prompt(prompt)
+            inputs = self._tokenizer(chat_prompt, return_tensors="pt")
             input_ids = inputs["input_ids"].to(self._model.device)
             attention_mask = inputs.get("attention_mask")
             if attention_mask is not None:
@@ -149,7 +171,7 @@ class KaggleQwenBackend:
 
             prompt_tokens = input_ids.shape[1]
 
-            gen_kwargs: dict[str, object] = {
+            gen_kwargs = {
                 "input_ids": input_ids,
                 "max_new_tokens": max_tokens,
                 "do_sample": temperature > 0.0,
@@ -160,7 +182,7 @@ class KaggleQwenBackend:
                 gen_kwargs["temperature"] = temperature
                 gen_kwargs["top_p"] = 0.95
 
-            with torch.no_grad():
+            with torch.inference_mode():
                 output_ids = self._model.generate(**gen_kwargs)
 
             generated_ids = output_ids[0, prompt_tokens:]
@@ -191,6 +213,14 @@ class KaggleQwenBackend:
             raise
         except Exception as exc:
             gpu = _gpu_info()
+            if exc.__class__.__module__.startswith("torch") and "OutOfMemory" in type(exc).__name__:
+                self._log_oom(exc, max_tokens, prompt_tokens)
+                raise ModelBackendError(
+                    "Qwen generation failed: CUDA out-of-memory. "
+                    "Reduce max_completion_tokens_per_call (Smoke uses 1024) or "
+                    "select a GPU with more VRAM. "
+                    f"{type(exc).__name__}: {exc}"
+                ) from exc
             logger.error(
                 "GENERATION_FAILED exception=%s gpu=%s",
                 type(exc).__name__, gpu.get("gpu_name", "unknown"),
@@ -198,6 +228,64 @@ class KaggleQwenBackend:
             raise ModelBackendError(
                 f"Qwen generation failed: {type(exc).__name__}: {exc}"
             ) from exc
+        finally:
+            # Release every per-call tensor reference before returning a result
+            # or before the failure propagates, then reclaim GPU memory. The
+            # model and tokenizer stay loaded and reusable.
+            del inputs
+            del input_ids
+            del attention_mask
+            del gen_kwargs
+            del output_ids
+            del generated_ids
+            gc.collect()
+            _empty_cuda_cache()
+
+    def _format_chat_prompt(self, prompt: str) -> str:
+        """Format one user message with the tokenizer's chat template."""
+        if self._tokenizer is None:
+            raise ModelBackendError("KaggleQwenBackend: tokenizer not loaded")
+        apply_chat_template = getattr(self._tokenizer, "apply_chat_template", None)
+        if not callable(apply_chat_template):
+            raise ModelBackendError(
+                "KaggleQwenBackend: tokenizer has no usable chat template. "
+                "Use a Qwen chat/instruct tokenizer that provides apply_chat_template."
+            )
+        try:
+            return apply_chat_template(
+                [{"role": "user", "content": prompt}],
+                tokenize=False,
+                add_generation_prompt=True,
+            )
+        except Exception as exc:
+            raise ModelBackendError(
+                f"KaggleQwenBackend: chat template failed: {type(exc).__name__}: {exc}"
+            ) from exc
+
+    def _log_oom(self, exc: BaseException, max_tokens: int, prompt_tokens: int | None) -> None:
+        """Log actionable GPU-memory diagnostics for an out-of-memory failure."""
+        allocated_gib: float | None = None
+        reserved_gib: float | None = None
+        free_gib: float | None = None
+        try:
+            import torch
+
+            allocated_gib = torch.cuda.memory_allocated(0) / (1024**3)
+            reserved_gib = torch.cuda.memory_reserved(0) / (1024**3)
+            total_mem = torch.cuda.get_device_properties(0).total_memory
+            free_gib = max(0.0, total_mem - torch.cuda.memory_reserved(0)) / (1024**3)
+        except Exception:
+            pass
+        logger.error(
+            "GENERATION_OOM allocated_gib=%s reserved_gib=%s free_gib=%s "
+            "max_tokens=%d prompt_tokens=%s exception=%s",
+            allocated_gib,
+            reserved_gib,
+            free_gib,
+            max_tokens,
+            prompt_tokens,
+            type(exc).__name__,
+        )
 
     def _ensure_loaded(self) -> None:
         if self._loaded:
