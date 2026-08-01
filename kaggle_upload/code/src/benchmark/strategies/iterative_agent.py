@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import logging
 import time
 from pathlib import Path
@@ -18,6 +17,7 @@ from benchmark.core.models import (
     TokenUsage,
 )
 from benchmark.execution.budgets import resolve_completion_allowance
+from benchmark.llm.output_normalization import parse_single_json_object
 
 if TYPE_CHECKING:
     from benchmark.core.protocols import LLMBackend
@@ -102,16 +102,13 @@ def _format_criteria(criteria: tuple[str, ...]) -> str:
     return "\n".join(f"  - {c}" for c in criteria)
 
 
-def _parse_action_response(text: str) -> dict[str, Any] | None:
-    try:
-        data = json.loads(text)
-    except (json.JSONDecodeError, TypeError):
-        return None
-    if not isinstance(data, dict):
-        return None
+def _parse_action_response(text: str) -> tuple[dict[str, Any] | None, str]:
+    data, reason = parse_single_json_object(text)
+    if data is None:
+        return None, reason
     if "action" in data:
-        return data
-    return None
+        return data, reason
+    return None, "not_object"
 
 
 def _parse_requires_iteration(action: dict[str, Any]) -> bool:
@@ -277,6 +274,8 @@ class IterativeRepositoryAgentStrategy:
         completion_tok_before = self._completion_tokens
         total_tok_before = self._total_tokens
 
+        step_index = 0
+
         while True:
             prompt_estimate = self._backend.count_prompt_tokens(prompt)
             allowance = resolve_completion_allowance(
@@ -316,14 +315,23 @@ class IterativeRepositoryAgentStrategy:
                     break
                 local_remaining = max(0, local_remaining - usage.total_tokens)
 
-            action = _parse_action_response(response.text)
+            action, parse_mode = _parse_action_response(response.text)
             if action is None:
                 prompt += "\n[error] Invalid JSON response"
                 if self._remaining_agent_calls <= 0:
                     break
                 continue
 
+            step_index += 1
             action_name = action.get("action", "")
+            logger.info(
+                "AGENT_STEP index=%d/%d parse=%s action=%s remaining=%d",
+                step_index,
+                MAX_AGENT_CALLS,
+                parse_mode,
+                action_name,
+                MAX_AGENT_CALLS - step_index,
+            )
             if action_name == "final":
                 raw_paths = action.get("selected_paths", [])
                 if not isinstance(raw_paths, list):
@@ -354,6 +362,11 @@ class IterativeRepositoryAgentStrategy:
                     continue
                 selected_paths = list(raw_paths)
                 self._last_requires_iteration = _parse_requires_iteration(action)
+                logger.info(
+                    "AGENT_FINAL selected_count=%d selected_paths=%s",
+                    len(selected_paths),
+                    selected_paths,
+                )
                 break
 
             if action_name in ("list_files", "read_file", "search_text"):
@@ -457,6 +470,8 @@ class IterativeRepositoryAgentStrategy:
         completion_tok_before = self._completion_tokens
         total_tok_before = self._total_tokens
 
+        step_index = 0
+
         while True:
             prompt_estimate = self._backend.count_prompt_tokens(prompt)
             allowance = resolve_completion_allowance(
@@ -479,14 +494,23 @@ class IterativeRepositoryAgentStrategy:
                     break
                 local_remaining = max(0, local_remaining - usage.total_tokens)
 
-            action = _parse_action_response(response.text)
+            action, parse_mode = _parse_action_response(response.text)
             if action is None:
                 prompt += "\n[error] Invalid JSON response"
                 if self._remaining_agent_calls <= 0:
                     break
                 continue
 
+            step_index += 1
             action_name = action.get("action", "")
+            logger.info(
+                "AGENT_STEP index=%d/%d parse=%s action=%s remaining=%d",
+                step_index,
+                MAX_AGENT_CALLS,
+                parse_mode,
+                action_name,
+                MAX_AGENT_CALLS - step_index,
+            )
             if action_name == "final":
                 raw_paths = action.get("selected_paths", [])
                 if not isinstance(raw_paths, list):
@@ -517,6 +541,11 @@ class IterativeRepositoryAgentStrategy:
                     continue
                 self._last_requires_iteration = _parse_requires_iteration(action)
                 selected_set = set(raw_paths)
+                logger.info(
+                    "AGENT_FINAL selected_count=%d selected_paths=%s",
+                    len(raw_paths),
+                    sorted(raw_paths),
+                )
                 decisions = [
                     ImpactDecision(
                         artifact=a,
