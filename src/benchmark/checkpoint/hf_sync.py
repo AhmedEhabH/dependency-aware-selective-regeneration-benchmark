@@ -240,6 +240,7 @@ class HfUploader:
         self._sync_state_path = runs_dir / "remote_sync.json"
         self._failure_store = SyncFailureStore(runs_dir)
         self._chunk_counter = 0
+        self._last_error = ""
 
     @property
     def sync_state_path(self) -> Path:
@@ -265,10 +266,8 @@ class HfUploader:
         self._sync_state_path.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
     def upload_recovery(self) -> bool:
-        self._write_sync_state("pending", self._layout.recovery(), "sync state initialized")
         pairs: list[tuple[Path, str]] = []
-        upload_names = list(RECOVERY_FILES) + ["remote_sync.json"]
-        for local_name in upload_names:
+        for local_name in RECOVERY_FILES:
             local_path = self._runs_dir / local_name
             if not local_path.is_file():
                 continue
@@ -276,13 +275,31 @@ class HfUploader:
                 logger.warning("Security filter blocked: %s", local_name)
                 continue
             pairs.append((local_path, self._remote_path(local_name)))
+
+        # Write the intended successful state BEFORE the commit and include
+        # that exact file in the same recovery commit. The remote must never
+        # see a `pending` state as its final truth.
+        self._write_sync_state(
+            "recovery_uploaded",
+            self._layout.recovery(),
+            "all recovery files uploaded",
+        )
+        pairs.append((self._sync_state_path, self._remote_path("remote_sync.json")))
+
         if not self._upload_batch_with_retry(
             pairs,
             self._layout.recovery(),
             "sync recovery batch",
         ):
+            # On commit failure overwrite the local state with a truthful
+            # failure state, preserving the actual remote path and error
+            # details; the SyncFailureStore record is retained.
+            self._write_sync_state(
+                "failed_local_safe",
+                self._layout.recovery(),
+                self._last_error or "recovery commit failed",
+            )
             return False
-        self._write_sync_state("recovery_uploaded", self._layout.recovery(), "all recovery files uploaded")
         return True
 
     def upload_snapshot(self, packager: Any, first: bool = False) -> bool:
@@ -388,6 +405,7 @@ class HfUploader:
                     delay = self._base_delay * (2 ** attempt)
                     time.sleep(delay)
 
+        self._last_error = last_error
         self._failure_store.record_failure(SyncFailureRecord(
             stage="upload",
             remote_path=remote_dir,
