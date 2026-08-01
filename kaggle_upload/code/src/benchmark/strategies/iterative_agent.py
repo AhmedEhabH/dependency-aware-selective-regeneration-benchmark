@@ -2,29 +2,55 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import TYPE_CHECKING
+import time
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 from benchmark.core.enums import ActionKind
 from benchmark.core.models import (
     ArtifactUniverse,
     ImpactDecision,
     ImpactPrediction,
+    LLMResponse,
     RepositorySnapshot,
     RequirementChange,
     SupportingEvidence,
+    TokenUsage,
 )
+from benchmark.execution.budgets import resolve_completion_allowance
 
 if TYPE_CHECKING:
     from benchmark.core.protocols import LLMBackend
+    from benchmark.strategies.repository_tools import RepositoryTools
 
 logger = logging.getLogger(__name__)
 
-INITIAL_PROMPT_TEMPLATE = """\
-You are an AI software engineer analyzing a repository to determine which artifacts need regeneration after a requirement change.
+MAX_AGENT_CALLS: int = 8
 
-Repository: {repo_name}
-Repository path: {repo_path}
-Commit: {commit_sha}
+
+class AgentCallsExhaustedError(Exception):
+    """Raised when the agent has no remaining LLM calls."""
+    pass
+
+TOOL_SCHEMA = """
+You have access to the following tools. Respond with exactly one JSON object.
+
+1. list_files — List files in the repository.
+   {"action": "list_files", "path": "<directory>"}
+
+2. read_file — Read contents of a file.
+   {"action": "read_file", "path": "<file_path>"}
+
+3. search_text — Case-insensitive text search.
+   {"action": "search_text", "query": "<text>", "path": "<directory>"}
+
+4. final — Submit your final selected paths.
+   {"action": "final", "selected_paths": ["path1", "path2"], "rationale": "..."}
+"""
+
+INITIAL_SYSTEM_PROMPT = """\
+You are analyzing a code repository to determine which files need to be modified.
+Use the tools to explore the repository, then submit your final selection.
 
 Requirement change:
   Before: {before}
@@ -33,101 +59,199 @@ Requirement change:
 Acceptance criteria:
 {acceptance_criteria}
 
-Artifacts:
-{artifact_list}
+Editable paths:
+{editable_paths}
 
-Analyze each artifact's relevance to the requirement change. Consider:
-- The artifact's purpose based on its path and type
-- Whether it likely contains logic affected by the change
-- Whether it needs modification, can be preserved, or needs human review
+{TOOL_SCHEMA}
 
-Respond with a valid JSON object containing:
-{{
-  "decisions": [
-    {{
-      "path": "artifact/path",
-      "action": "regenerate" | "preserve" | "human_review",
-      "rationale": "brief explanation"
-    }}
-  ],
-  "requires_iteration": true | false
-}}
-
-Select only artifacts that are genuinely affected. Prefer preservation over unnecessary regeneration.
-
-Output compact JSON only — no markdown fences, no preamble, no trailing commentary.
+Important rules:
+- You may make up to 8 tool calls to explore.
+- selected_paths must be a non-empty subset of the editable paths.
+- Only include paths that actually need changes.
 """
 
-REVISE_PROMPT_TEMPLATE = """\
-You are an AI software engineer revising your previous plan based on validation feedback.
+REVISE_SYSTEM_PROMPT = """\
+You previously selected files for modification. The validation step failed.
+Revise your selection using the same tools.
 
 Requirement change:
   Before: {before}
   After: {after}
 
-Artifacts:
-{artifact_list}
+Acceptance criteria:
+{acceptance_criteria}
 
-Previous decisions:
-{previous_decisions}
+Editable paths:
+{editable_paths}
 
-Validation result:
-  Exit code: {exit_code}
-  Validation stdout:
-{val_stdout}
-  Validation stderr:
-{val_stderr}
+Previous selected_paths: {previous_paths}
+Validation exit code: {exit_code}
+Validation stdout: {val_stdout}
+Validation stderr: {val_stderr}
 
-Current workspace state (previously generated/selected files):
-{workspace_summary}
+{TOOL_SCHEMA}
 
-Remaining attempts: {remaining_attempts}
-Remaining token budget: {remaining_tokens}
-
-Revise your plan. Consider:
-- The validation errors indicate specific issues in the regenerated code
-- You may need to select different artifacts or change your approach
-- You can generate replacement code for the same or different files
-- If validation already passed, return the same decisions
-
-Respond with a valid JSON object containing:
-{{
-  "decisions": [
-    {{
-      "path": "artifact/path",
-      "action": "regenerate" | "preserve" | "human_review",
-      "rationale": "brief explanation"
-    }}
-  ],
-  "requires_iteration": true | false
-}}
-
-If no further changes are needed, set requires_iteration to false.
-
-Output compact JSON only — no markdown fences, no preamble, no trailing commentary.
+You have {remaining_calls} tool calls remaining.
+Submit a revised final selection.
 """
 
 
-def _build_artifact_list(artifact_universe: ArtifactUniverse) -> str:
-    lines = []
-    for a in artifact_universe.artifacts:
-        lines.append(f"  - {a.path} ({a.artifact_type.value})")
-    return "\n".join(lines)
+def _format_criteria(criteria: tuple[str, ...]) -> str:
+    if not criteria:
+        return "  (none specified)"
+    return "\n".join(f"  - {c}" for c in criteria)
 
 
-def _build_decision_list(prediction: ImpactPrediction) -> str:
-    lines = []
-    for d in prediction.decisions:
-        lines.append(f"  - {d.artifact.path}: {d.action.value} ({d.rationale})")
-    return "\n".join(lines) if lines else "  (no decisions)"
+def _parse_action_response(text: str) -> dict[str, Any] | None:
+    try:
+        data = json.loads(text)
+    except (json.JSONDecodeError, TypeError):
+        return None
+    if not isinstance(data, dict):
+        return None
+    if "action" in data:
+        return data
+    return None
+
+
+def _parse_requires_iteration(action: dict[str, Any]) -> bool:
+    val = action.get("requires_iteration", True) if isinstance(action, dict) else True
+    return bool(val)
+
+
+def _build_tool_context() -> str:
+    return TOOL_SCHEMA.strip()
+
+
+def _build_initial_prompt(
+    requirement_change: RequirementChange,
+    editable_paths: tuple[str, ...],
+) -> str:
+    return INITIAL_SYSTEM_PROMPT.format(
+        before=requirement_change.before,
+        after=requirement_change.after,
+        acceptance_criteria=_format_criteria(requirement_change.acceptance_criteria),
+        editable_paths="\n".join(f"  - {p}" for p in editable_paths),
+        TOOL_SCHEMA=_build_tool_context(),
+    )
+
+
+def _build_revise_prompt(
+    requirement_change: RequirementChange,
+    editable_paths: tuple[str, ...],
+    previous_paths: tuple[str, ...],
+    exit_code: int,
+    val_stdout: str,
+    val_stderr: str,
+    remaining_calls: int,
+) -> str:
+    return REVISE_SYSTEM_PROMPT.format(
+        before=requirement_change.before,
+        after=requirement_change.after,
+        acceptance_criteria=_format_criteria(requirement_change.acceptance_criteria),
+        editable_paths="\n".join(f"  - {p}" for p in editable_paths),
+        previous_paths=", ".join(previous_paths),
+        exit_code=exit_code,
+        val_stdout=val_stdout[:2000],
+        val_stderr=val_stderr[:2000],
+        TOOL_SCHEMA=_build_tool_context(),
+        remaining_calls=remaining_calls,
+    )
 
 
 class IterativeRepositoryAgentStrategy:
-    """Iterative agent that revises its plan using validation feedback."""
-
     def __init__(self, backend: LLMBackend) -> None:
         self._backend = backend
+        self._tool_calls: int = 0
+        self._model_calls: int = 0
+        self._tool_duration: float = 0.0
+        self._prompt_tokens: int = 0
+        self._completion_tokens: int = 0
+        self._total_tokens: int = 0
+        self._inspected_files: set[str] = set()
+        self._tool_transcript: list[str] = []
         self._last_requires_iteration: bool = True
+        self._remaining_agent_calls: int = 0
+        self._tools: RepositoryTools | None = None
+
+    def begin_run(self, workspace_root: str | Path) -> None:
+        root = Path(workspace_root).resolve()
+        if not root.is_dir():
+            raise ValueError(f"workspace_root must be an existing directory: {root}")
+        self._tool_calls = 0
+        self._model_calls = 0
+        self._tool_duration = 0.0
+        self._prompt_tokens = 0
+        self._completion_tokens = 0
+        self._total_tokens = 0
+        self._inspected_files = set()
+        self._tool_transcript = []
+        self._last_requires_iteration = True
+        self._remaining_agent_calls = 8
+        from benchmark.strategies.repository_tools import RepositoryTools
+        self._tools = RepositoryTools(
+            workspace_root=root,
+            max_distinct_files=30,
+        )
+
+    def _record_call(
+        self, prompt_tok: int, completion_tok: int, total_tok: int
+    ) -> None:
+        self._model_calls += 1
+        self._prompt_tokens += prompt_tok
+        self._completion_tokens += completion_tok
+        self._total_tokens += total_tok
+
+    def _record_tool(self, name: str, path: str, result: str, duration: float) -> None:
+        self._tool_calls += 1
+        self._tool_duration += duration
+        self._tool_transcript.append(f"[{self._tool_calls}] {name} {path} -> {result[:100]}")
+
+    def _generate_agent_response(self, prompt: str, max_completion_tokens: int) -> LLMResponse:
+        import asyncio
+        if self._remaining_agent_calls <= 0:
+            raise AgentCallsExhaustedError("No remaining agent calls")
+        self._remaining_agent_calls -= 1
+        response = asyncio.get_event_loop().run_until_complete(
+            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=max_completion_tokens)
+        )
+        tok = response.token_usage
+        if tok:
+            self._record_call(tok.prompt_tokens, tok.completion_tokens, tok.total_tokens)
+        return response
+
+    def _invoke_tool(
+        self,
+        action_name: str,
+        action: dict[str, Any],
+        prompt: str,
+    ) -> str:
+        tools = self._tools
+        assert tools is not None
+        t0 = time.monotonic()
+        if action_name == "list_files":
+            tool_path = action.get("path", ".")
+            result = tools.list_files(tool_path)
+        elif action_name == "read_file":
+            tool_path = action.get("path", "")
+            result = tools.read_file(tool_path)
+        elif action_name == "search_text":
+            query = action.get("query", "")
+            tool_path = action.get("path", ".")
+            result = tools.search_text(query, tool_path)
+        else:
+            return f"\n[error] Unknown action: {action_name}"
+        dur = time.monotonic() - t0
+        tool_path_display = action.get("path", ".")
+        if action_name == "search_text":
+            tool_path_display = f"{action.get('query', '')} in {action.get('path', '.')}"
+        self._record_tool(action_name, tool_path_display,
+            result.output[:200] if result.ok else result.error, dur)
+        tag = action_name
+        if action_name == "read_file":
+            self._inspected_files.add(str(action.get("path", "")))
+        out = result.output[:2000] if result.ok else result.error
+        return f"\n[result] {tag}:\n{out}"
 
     def analyze_impact(
         self,
@@ -135,43 +259,166 @@ class IterativeRepositoryAgentStrategy:
         requirement_change: RequirementChange,
         artifact_universe: ArtifactUniverse,
         max_tokens: int = 0,
+        *,
+        max_completion_tokens_per_call: int = 4096,
+        remaining_total_workflow_tokens: int | None = None,
     ) -> ImpactPrediction:
-        prompt = INITIAL_PROMPT_TEMPLATE.format(
-            repo_name=repository.identity.name,
-            repo_path=repository.path,
-            commit_sha=repository.commit_sha,
-            before=requirement_change.before,
-            after=requirement_change.after,
-            acceptance_criteria=self._format_criteria(requirement_change.acceptance_criteria),
-            artifact_list=_build_artifact_list(artifact_universe),
-        )
+        tools = self._tools
+        assert tools is not None, "begin_run() must be called before analyze_impact()"
+        editable_paths = tuple(a.path for a in artifact_universe.artifacts)
+        editable_set = set(editable_paths)
+        selected_paths: list[str] = []
+        local_remaining = remaining_total_workflow_tokens
+        has_limit = remaining_total_workflow_tokens is not None
 
-        import asyncio
+        prompt = _build_initial_prompt(requirement_change, editable_paths)
 
-        count_fn = getattr(self._backend, "count_prompt_tokens", lambda p: max(1, len(p) // 4))
-        if max_tokens > 0:
-            prompt_estimate = count_fn(prompt)
-            completion_allowance = max(0, max_tokens - prompt_estimate)
-            if completion_allowance <= 0:
+        prompt_tok_before = self._prompt_tokens
+        completion_tok_before = self._completion_tokens
+        total_tok_before = self._total_tokens
+
+        while True:
+            prompt_estimate = self._backend.count_prompt_tokens(prompt)
+            allowance = resolve_completion_allowance(
+                max_completion_tokens_per_call=max_completion_tokens_per_call,
+                remaining_total_workflow_tokens=local_remaining,
+                prompt_tokens=prompt_estimate,
+            )
+            if allowance <= 0:
+                break
+            try:
+                response = self._generate_agent_response(prompt, allowance)
+            except AgentCallsExhaustedError:
+                if selected_paths:
+                    break
                 return ImpactPrediction(
-                    errors=("finish_reason=budget: Token budget exhausted before analyze call",),
+                    token_usage=TokenUsage(
+                        prompt_tokens=self._prompt_tokens - prompt_tok_before,
+                        completion_tokens=self._completion_tokens - completion_tok_before,
+                        total_tokens=self._total_tokens - total_tok_before,
+                    ),
+                    errors=("iterative_agent: no remaining agent calls",),
+                    decisions=tuple(
+                        ImpactDecision(
+                            artifact=a,
+                            action=ActionKind.preserve,
+                            rationale="iterative_agent: no remaining calls",
+                        )
+                        for a in artifact_universe.artifacts
+                    ),
                 )
-            max_tokens_arg = completion_allowance
-        else:
-            max_tokens_arg = 4096
 
-        response = asyncio.get_event_loop().run_until_complete(
-            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=max_tokens_arg)
+            usage = response.token_usage
+            if has_limit and local_remaining is not None:
+                if usage.completion_tokens > allowance:
+                    break
+                if local_remaining > 0 and usage.total_tokens > local_remaining:
+                    break
+                local_remaining = max(0, local_remaining - usage.total_tokens)
+
+            action = _parse_action_response(response.text)
+            if action is None:
+                prompt += "\n[error] Invalid JSON response"
+                if self._remaining_agent_calls <= 0:
+                    break
+                continue
+
+            action_name = action.get("action", "")
+            if action_name == "final":
+                raw_paths = action.get("selected_paths", [])
+                if not isinstance(raw_paths, list):
+                    prompt += "\n[error] selected_paths must be a list"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not raw_paths:
+                    prompt += "\n[error] selected_paths must be non-empty"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not all(isinstance(p, str) for p in raw_paths):
+                    prompt += "\n[error] every selected_path item must be a string"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if len(raw_paths) != len(set(raw_paths)):
+                    prompt += "\n[error] selected_paths must be unique"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not all(p in editable_set for p in raw_paths):
+                    bad = [p for p in raw_paths if p not in editable_set]
+                    prompt += f"\n[error] paths not in editable universe: {bad}"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                selected_paths = list(raw_paths)
+                self._last_requires_iteration = _parse_requires_iteration(action)
+                break
+
+            if action_name in ("list_files", "read_file", "search_text"):
+                prompt += self._invoke_tool(action_name, action, prompt)
+            else:
+                prompt += f"\n[error] Unknown action: {action_name}"
+                if self._remaining_agent_calls <= 0:
+                    break
+
+        delta_prompt = self._prompt_tokens - prompt_tok_before
+        delta_completion = self._completion_tokens - completion_tok_before
+        delta_total = self._total_tokens - total_tok_before
+
+        if not selected_paths:
+            self._last_requires_iteration = False
+            return ImpactPrediction(
+                token_usage=TokenUsage(
+                    prompt_tokens=delta_prompt,
+                    completion_tokens=delta_completion,
+                    total_tokens=delta_total,
+                ),
+                errors=("iterative_agent: no paths selected after exploration",),
+                decisions=tuple(
+                    ImpactDecision(
+                        artifact=a,
+                        action=ActionKind.preserve,
+                        rationale="iterative_agent: no paths selected",
+                    )
+                    for a in artifact_universe.artifacts
+                ),
+            )
+
+        selected_set = set(selected_paths)
+        decisions: list[ImpactDecision] = []
+        for artifact in artifact_universe.artifacts:
+            if artifact.path in selected_set:
+                decisions.append(
+                    ImpactDecision(
+                        artifact=artifact,
+                        action=ActionKind.regenerate,
+                        rationale="iterative_agent: selected by repository exploration",
+                        supporting_evidence=(
+                            SupportingEvidence(
+                                description="Selected through bounded tool exploration",
+                                source="iterative_agent_strategy",
+                            ),
+                        ),
+                    )
+                )
+            else:
+                decisions.append(
+                    ImpactDecision(
+                        artifact=artifact,
+                        action=ActionKind.preserve,
+                        rationale="iterative_agent: outside selected scope",
+                    )
+                )
+        return ImpactPrediction(
+            decisions=tuple(decisions),
+            token_usage=TokenUsage(
+                prompt_tokens=delta_prompt,
+                completion_tokens=delta_completion,
+                total_tokens=delta_total,
+            ),
         )
-
-        parsed = self._parse_response(response.text, artifact_universe)
-        tok = response.token_usage
-        if tok and (tok.prompt_tokens > 0 or tok.completion_tokens > 0):
-            object.__setattr__(parsed, "token_usage", tok)
-        if parsed.errors:
-            fr = response.finish_reason or "unknown"
-            object.__setattr__(parsed, "errors", (f"finish_reason={fr}: {parsed.errors[0]}",))
-        return parsed
 
     def revise_plan(
         self,
@@ -184,110 +431,179 @@ class IterativeRepositoryAgentStrategy:
         workspace_summary: str,
         remaining_attempts: int,
         remaining_tokens: int,
+        *,
+        max_completion_tokens_per_call: int = 4096,
+        remaining_total_workflow_tokens: int | None = None,
     ) -> ImpactPrediction:
-        prompt = REVISE_PROMPT_TEMPLATE.format(
-            before=requirement_change.before,
-            after=requirement_change.after,
-            artifact_list=_build_artifact_list(artifact_universe),
-            previous_decisions=_build_decision_list(previous_prediction),
-            exit_code=exit_code,
-            val_stdout=val_stdout[:2000],
-            val_stderr=val_stderr[:2000],
-            workspace_summary=workspace_summary[:3000],
-            remaining_attempts=remaining_attempts,
-            remaining_tokens=remaining_tokens,
+        tools = self._tools
+        assert tools is not None, "begin_run() must be called before revise_plan()"
+        editable_paths = tuple(a.path for a in artifact_universe.artifacts)
+        previous_paths = tuple(
+            d.artifact.path for d in previous_prediction.decisions
+            if d.action == ActionKind.regenerate
         )
+        local_remaining = remaining_total_workflow_tokens
+        has_limit = remaining_total_workflow_tokens is not None
 
-        import asyncio
+        prompt = _build_revise_prompt(
+            requirement_change, editable_paths, previous_paths,
+            exit_code, val_stdout, val_stderr, self._remaining_agent_calls,
+        )
+        prompt += f"\nWorkspace summary:\n{workspace_summary[:2000]}"
 
-        count_fn = getattr(self._backend, "count_prompt_tokens", lambda p: max(1, len(p) // 4))
-        if remaining_tokens > 0:
-            prompt_estimate = count_fn(prompt)
-            mt = max(0, remaining_tokens - prompt_estimate)
-            if mt <= 0:
+        editable_set = set(editable_paths)
+
+        prompt_tok_before = self._prompt_tokens
+        completion_tok_before = self._completion_tokens
+        total_tok_before = self._total_tokens
+
+        while True:
+            prompt_estimate = self._backend.count_prompt_tokens(prompt)
+            allowance = resolve_completion_allowance(
+                max_completion_tokens_per_call=max_completion_tokens_per_call,
+                remaining_total_workflow_tokens=local_remaining,
+                prompt_tokens=prompt_estimate,
+            )
+            if allowance <= 0:
+                break
+            try:
+                response = self._generate_agent_response(prompt, allowance)
+            except AgentCallsExhaustedError:
+                break
+
+            usage = response.token_usage
+            if has_limit and local_remaining is not None:
+                if usage.completion_tokens > allowance:
+                    break
+                if local_remaining > 0 and usage.total_tokens > local_remaining:
+                    break
+                local_remaining = max(0, local_remaining - usage.total_tokens)
+
+            action = _parse_action_response(response.text)
+            if action is None:
+                prompt += "\n[error] Invalid JSON response"
+                if self._remaining_agent_calls <= 0:
+                    break
+                continue
+
+            action_name = action.get("action", "")
+            if action_name == "final":
+                raw_paths = action.get("selected_paths", [])
+                if not isinstance(raw_paths, list):
+                    prompt += "\n[error] selected_paths must be a list"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not raw_paths:
+                    prompt += "\n[error] selected_paths must be non-empty"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not all(isinstance(p, str) for p in raw_paths):
+                    prompt += "\n[error] every selected_path item must be a string"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if len(raw_paths) != len(set(raw_paths)):
+                    prompt += "\n[error] selected_paths must be unique"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not all(p in editable_set for p in raw_paths):
+                    bad = [p for p in raw_paths if p not in editable_set]
+                    prompt += f"\n[error] paths not in editable universe: {bad}"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                self._last_requires_iteration = _parse_requires_iteration(action)
+                selected_set = set(raw_paths)
+                decisions = [
+                    ImpactDecision(
+                        artifact=a,
+                        action=ActionKind.regenerate if a.path in selected_set else ActionKind.preserve,
+                        rationale="iterative_agent: revised selection",
+                    )
+                    for a in artifact_universe.artifacts
+                ]
+                delta_prompt = self._prompt_tokens - prompt_tok_before
+                delta_completion = self._completion_tokens - completion_tok_before
+                delta_total = self._total_tokens - total_tok_before
                 return ImpactPrediction(
-                    errors=("finish_reason=budget: Token budget exhausted before revise call",),
+                    decisions=tuple(decisions),
+                    token_usage=TokenUsage(
+                        prompt_tokens=delta_prompt,
+                        completion_tokens=delta_completion,
+                        total_tokens=delta_total,
+                    ),
                 )
-        else:
-            mt = 4096
 
-        response = asyncio.get_event_loop().run_until_complete(
-            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=mt)
+            if action_name in ("list_files", "read_file", "search_text"):
+                prompt += self._invoke_tool(action_name, action, prompt)
+            else:
+                prompt += f"\n[error] Unknown action: {action_name}"
+                if self._remaining_agent_calls <= 0:
+                    break
+
+        self._last_requires_iteration = False
+        delta_prompt = self._prompt_tokens - prompt_tok_before
+        delta_completion = self._completion_tokens - completion_tok_before
+        delta_total = self._total_tokens - total_tok_before
+        return ImpactPrediction(
+            token_usage=TokenUsage(
+                prompt_tokens=delta_prompt,
+                completion_tokens=delta_completion,
+                total_tokens=delta_total,
+            ),
+            errors=("iterative_agent: revision failed to select paths",),
+            decisions=tuple(
+                ImpactDecision(
+                    artifact=a,
+                    action=ActionKind.preserve,
+                    rationale="iterative_agent: revision failed",
+                )
+                for a in artifact_universe.artifacts
+            ),
         )
 
-        parsed = self._parse_response(response.text, artifact_universe)
-        tok = response.token_usage
-        if tok and (tok.prompt_tokens > 0 or tok.completion_tokens > 0):
-            object.__setattr__(parsed, "token_usage", tok)
-        if parsed.errors:
-            fr = response.finish_reason or "unknown"
-            object.__setattr__(parsed, "errors", (f"finish_reason={fr}: {parsed.errors[0]}",))
-        return parsed
+    def _set_requires_iteration(self, value: bool) -> None:
+        self._last_requires_iteration = value
 
     @property
     def last_requires_iteration(self) -> bool:
         return self._last_requires_iteration
 
-    def _format_criteria(self, criteria: tuple[str, ...]) -> str:
-        if not criteria:
-            return "  (none specified)"
-        return "\n".join(f"  - {c}" for c in criteria)
+    @property
+    def tool_call_count(self) -> int:
+        return self._tool_calls
 
-    def _parse_response(
-        self,
-        text: str,
-        artifact_universe: ArtifactUniverse,
-    ) -> ImpactPrediction:
-        try:
-            data = json.loads(text)
-        except (json.JSONDecodeError, TypeError):
-            return ImpactPrediction(
-                errors=(f"iterative agent: could not parse LLM response as JSON: {text[:200]}",),
-            )
+    @property
+    def tool_duration_seconds(self) -> float:
+        return self._tool_duration
 
-        if not isinstance(data, dict):
-            return ImpactPrediction(
-                errors=(f"iterative agent: expected JSON object, got {type(data).__name__}",),
-            )
+    @property
+    def model_call_count(self) -> int:
+        return self._model_calls
 
-        raw_decisions = data.get("decisions", [])
-        if not isinstance(raw_decisions, list):
-            return ImpactPrediction(
-                errors=("iterative agent: 'decisions' must be a list",),
-            )
+    @property
+    def prompt_tokens(self) -> int:
+        return self._prompt_tokens
 
-        requires_iteration = data.get("requires_iteration", True)
-        self._last_requires_iteration = bool(requires_iteration)
-        known_paths = {a.path for a in artifact_universe.artifacts}
-        decisions: list[ImpactDecision] = []
+    @property
+    def completion_tokens(self) -> int:
+        return self._completion_tokens
 
-        for entry in raw_decisions:
-            if not isinstance(entry, dict):
-                continue
+    @property
+    def total_tokens(self) -> int:
+        return self._total_tokens
 
-            path = entry.get("path", "")
-            if path not in known_paths:
-                continue
+    @property
+    def inspected_file_count(self) -> int:
+        return len(self._inspected_files)
 
-            action_str = entry.get("action", "preserve")
-            try:
-                action = ActionKind(action_str)
-            except ValueError:
-                action = ActionKind.preserve
+    @property
+    def remaining_agent_calls(self) -> int:
+        return self._remaining_agent_calls
 
-            ref = next(a for a in artifact_universe.artifacts if a.path == path)
-            decisions.append(
-                ImpactDecision(
-                    artifact=ref,
-                    action=action,
-                    rationale=entry.get("rationale", "iterative_agent decision"),
-                    supporting_evidence=(
-                        SupportingEvidence(
-                            description="iterative agent analysis",
-                            source="iterative_agent_strategy",
-                        ),
-                    ),
-                )
-            )
-
-        return ImpactPrediction(decisions=tuple(decisions))
+    @property
+    def compact_tool_transcript(self) -> tuple[str, ...]:
+        return tuple(self._tool_transcript)

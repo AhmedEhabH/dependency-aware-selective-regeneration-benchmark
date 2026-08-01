@@ -25,6 +25,13 @@ versions:
       benchmark_data/repositories/todo. 47 tests pass, manage.py check passes.
       SQLite-backed test configuration. No future scenario features are
       pre-implemented.
+      Pre-results contract amendment R5-BASELINE-CONTRACT-001 (2026-07-31):
+      ProjectSerializer/TaskSerializer field assertions are baseline-field
+      preservation checks; the TaskViewSet common project is created through
+      the authenticated Project API; the unowned-task forbidden test creates
+      its task under a project created via another user's API client; the
+      smoke-002 correct-source fixture keys are todo/models.py and
+      todo/views.py only.
 
   djangocms:
     version: 5.0.0

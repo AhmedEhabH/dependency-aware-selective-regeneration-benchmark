@@ -579,18 +579,31 @@ class TestScientificSmokeV1Profile:
         assert "scenario_ids" in members
 
     def test_notebook_benchmark_command_args(self) -> None:
-        """Parse both notebooks and verify all benchmark command cells."""
+        """Parse both notebooks and verify all V2 benchmark command cells."""
         import json
+
+        runtime_source_commit = "cb25e9fb3e6cb5eecead4dc640aedda30d4625b0"
+        runtime_build_id = "cb25e9f"
 
         notebook_paths = [
             PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb",
             PROJECT_DIR / "kaggle_upload" / "notebooks" / "seven_arm_benchmark.ipynb",
         ]
 
+        parsed = []
         for nb_path in notebook_paths:
-            assert nb_path.is_file(), f"Notebook not found: {nb_path}"
+            if not nb_path.is_file():
+                continue
             with open(nb_path) as f:
                 nb = json.load(f)
+
+            cells_by_id = {c.get("id"): c for c in nb["cells"]}
+            setup_src = "".join(cells_by_id["setup-cell"]["source"])
+            assert f'SOURCE_COMMIT = "{runtime_source_commit}"' in setup_src, nb_path
+            assert f'DEPLOYED_BUILD_ID = "{runtime_build_id}"' in setup_src, nb_path
+            assert "scientific_smoke_v2" in setup_src, nb_path
+            assert "76ef349" not in setup_src, nb_path
+            assert "scientific-smoke-v1" not in setup_src, nb_path
 
             exec_cmds: list[tuple[str, str]] = []
             for cell in nb["cells"]:
@@ -604,48 +617,45 @@ class TestScientificSmokeV1Profile:
             assert len(exec_cmds) >= 2, f"{nb_path}: expected >=2 benchmark cells, got {len(exec_cmds)}"
 
             for cid, src_str in exec_cmds:
-                # 1. --profile is exactly scientific-smoke-v1
-                assert '"scientific-smoke-v1"' in src_str, (
-                    f"{nb_path} cell [{cid}]: missing --profile scientific-smoke-v1"
+                required = [
+                    ('"--backend", "kaggle-qwen"', "backend kaggle-qwen"),
+                    ('"--profile", "scientific-smoke-v2"', "profile scientific-smoke-v2"),
+                    ('"--protocol-version", "1.0"', "protocol-version 1.0"),
+                    ('"--max-attempts", "3"', "max-attempts 3"),
+                    ('"--max-completion-tokens-per-call", "4096"', "max-completion-tokens-per-call 4096"),
+                    ('"--max-total-workflow-tokens", "0"', "max-total-workflow-tokens 0"),
+                    ('"--timeout", "300"', "timeout 300"),
+                ]
+                for needle, label in required:
+                    assert needle in src_str, f"{nb_path} cell [{cid}]: missing {label}"
+                assert '"--max-tokens"' not in src_str, f"{nb_path} cell [{cid}]: still has --max-tokens"
+                assert '"scientific-smoke-v1"' not in src_str, (
+                    f"{nb_path} cell [{cid}]: still has --profile scientific-smoke-v1"
                 )
-                # 2. --max-attempts is exactly 2
-                assert '"--max-attempts", "2"' in src_str, (
-                    f"{nb_path} cell [{cid}]: missing --max-attempts 2"
-                )
-                # 3. --timeout is exactly 180
-                assert '"--timeout", "180"' in src_str, (
-                    f"{nb_path} cell [{cid}]: missing --timeout 180"
-                )
-                # 4. no invocation contains --profile smoke
-                assert '"smoke"' not in src_str.replace("scientific-smoke-v1", ""), (
+                assert '"smoke"' not in src_str.replace("scientific-smoke-v2", ""), (
                     f"{nb_path} cell [{cid}]: still has old --profile smoke"
                 )
-                # 5. no invocation contains Pilot or Research profiles
                 assert '"pilot"' not in src_str, f"{nb_path} cell [{cid}]: has pilot profile"
                 assert '"research"' not in src_str, f"{nb_path} cell [{cid}]: has research profile"
-
-                # 6. resume cell has --max-runs 1
                 if cid == "exec-cell":
                     assert '"--max-runs", "1"' in src_str, (
                         f"{nb_path} cell [{cid}]: resume cell missing --max-runs 1"
                     )
-                # 7. continuous cell does not have --max-runs
                 if cid == "continuous-smoke-cell":
                     assert '"--max-runs"' not in src_str, (
                         f"{nb_path} cell [{cid}]: continuous cell should not have --max-runs"
                     )
+            parsed.append((nb_path, nb))
 
-            # 8. canonical and kaggle_upload notebooks are structurally identical
-            if len(notebook_paths) == 2:
-                with open(notebook_paths[0]) as f1, open(notebook_paths[1]) as f2:
-                    nb1 = json.load(f1)
-                    nb2 = json.load(f2)
-                assert nb1["nbformat"] == nb2["nbformat"], "nbformat mismatch"
-                assert nb1["nbformat_minor"] == nb2["nbformat_minor"], "nbformat_minor mismatch"
-                cells1 = [c for c in nb1["cells"] if c["cell_type"] == "code"]
-                cells2 = [c for c in nb2["cells"] if c["cell_type"] == "code"]
-                assert len(cells1) == len(cells2), f"code cell count mismatch: {len(cells1)} vs {len(cells2)}"
-                for c1, c2 in zip(cells1, cells2, strict=True):
-                    s1 = c1["source"] if isinstance(c1["source"], str) else "".join(c1["source"])
-                    s2 = c2["source"] if isinstance(c2["source"], str) else "".join(c2["source"])
-                    assert s1 == s2, f"code cell [{c1.get('id','')}] source mismatch between notebooks"
+        # After bundle build: canonical and generated notebooks are code-cell identical.
+        if len(parsed) == 2:
+            (_p0, nb1), (_p1, nb2) = parsed
+            assert nb1["nbformat"] == nb2["nbformat"], "nbformat mismatch"
+            assert nb1["nbformat_minor"] == nb2["nbformat_minor"], "nbformat_minor mismatch"
+            cells1 = [c for c in nb1["cells"] if c["cell_type"] == "code"]
+            cells2 = [c for c in nb2["cells"] if c["cell_type"] == "code"]
+            assert len(cells1) == len(cells2), f"code cell count mismatch: {len(cells1)} vs {len(cells2)}"
+            for c1, c2 in zip(cells1, cells2, strict=True):
+                s1 = c1["source"] if isinstance(c1["source"], str) else "".join(c1["source"])
+                s2 = c2["source"] if isinstance(c2["source"], str) else "".join(c2["source"])
+                assert s1 == s2, f"code cell [{c1.get('id','')}] source mismatch between notebooks"

@@ -45,10 +45,32 @@ class ScenarioSelectionConfig(BaseModel, frozen=True):
 
 class ExecutionConfig(BaseModel, frozen=True):
     max_iterations: int = Field(default=3, ge=1)
-    max_tokens: int = Field(default=0, ge=0)
+    max_tokens: int = Field(default=0, ge=0, strict=True)
     timeout_seconds: int = Field(default=0, ge=0)
     random_seed: int = 0
     evidence_tier: EvidenceTier = EvidenceTier.engineering_validation
+    max_completion_tokens_per_call: int = Field(default=4096, ge=1, strict=True)
+    max_total_workflow_tokens: int = Field(default=0, ge=0, strict=True)
+
+    @model_validator(mode="after")
+    def _validate_token_limits(self) -> ExecutionConfig:
+        _ = self.resolved_max_total_workflow_tokens
+        return self
+
+    @property
+    def resolved_max_total_workflow_tokens(self) -> int:
+        explicit_total = self.max_total_workflow_tokens
+        legacy_total = self.max_tokens
+        if explicit_total > 0 and legacy_total > 0 and explicit_total != legacy_total:
+            raise ValueError(
+                f"Explicit max_total_workflow_tokens ({explicit_total}) and "
+                f"legacy max_tokens ({legacy_total}) are both positive but differ"
+            )
+        if explicit_total > 0:
+            return explicit_total
+        if legacy_total > 0:
+            return legacy_total
+        return 0
 
 
 class OutputConfig(BaseModel, frozen=True):

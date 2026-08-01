@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
@@ -116,6 +117,9 @@ class Scenario:
     expected_actions: tuple[tuple[ArtifactRef, ActionKind], ...] = ()
     architecture_constraints: tuple[ArchitectureConstraint, ...] = ()
     hidden_tests: tuple[str, ...] = ()
+    evaluator_asset: str = ""
+    post_generation_command: tuple[str, ...] = ()
+    require_new_migration: bool = False
 
     def __post_init__(self) -> None:
         if not self.scenario_id:
@@ -201,12 +205,30 @@ class TokenUsage:
     total_tokens: int = 0
 
     def __post_init__(self) -> None:
+        if isinstance(self.prompt_tokens, bool):
+            raise ValueError("TokenUsage.prompt_tokens must be an integer, not bool")
+        if isinstance(self.completion_tokens, bool):
+            raise ValueError("TokenUsage.completion_tokens must be an integer, not bool")
+        if isinstance(self.total_tokens, bool):
+            raise ValueError("TokenUsage.total_tokens must be an integer, not bool")
+        if not isinstance(self.prompt_tokens, int):
+            raise ValueError("TokenUsage.prompt_tokens must be an integer")
+        if not isinstance(self.completion_tokens, int):
+            raise ValueError("TokenUsage.completion_tokens must be an integer")
+        if not isinstance(self.total_tokens, int):
+            raise ValueError("TokenUsage.total_tokens must be an integer")
         if self.prompt_tokens < 0:
             raise ValueError("TokenUsage.prompt_tokens must be >= 0")
         if self.completion_tokens < 0:
             raise ValueError("TokenUsage.completion_tokens must be >= 0")
         if self.total_tokens < 0:
             raise ValueError("TokenUsage.total_tokens must be >= 0")
+        if self.total_tokens != self.prompt_tokens + self.completion_tokens:
+            raise ValueError(
+                f"TokenUsage.total_tokens ({self.total_tokens}) must equal "
+                f"prompt_tokens ({self.prompt_tokens}) + completion_tokens ({self.completion_tokens})"
+                f" = {self.prompt_tokens + self.completion_tokens}"
+            )
 
 
 @dataclass(frozen=True)
@@ -272,6 +294,10 @@ class RunRecord:
     selection_total_tokens: int = 0
     selection_model_calls: int = 0
     selection_duration_seconds: float = 0.0
+    selection_tool_calls: int = 0
+    selection_tool_duration_seconds: float = 0.0
+    selection_inspected_file_count: int = 0
+    selection_tool_transcript: tuple[str, ...] = ()
 
     # Regeneration stage metrics
     regeneration_prompt_tokens: int = 0
@@ -280,8 +306,31 @@ class RunRecord:
     regeneration_model_calls: int = 0
     regeneration_duration_seconds: float = 0.0
 
+    # Repair stage metrics
+    repair_prompt_tokens: int = 0
+    repair_completion_tokens: int = 0
+    repair_total_tokens: int = 0
+    repair_model_calls: int = 0
+    repair_duration_seconds: float = 0.0
+    repair_attempts: int = 0
+    token_accounting_mode: str = "unknown"
+
     # Functional validation stage metrics
     functional_validation_duration_seconds: float = 0.0
+
+    # Migration generation stage metrics
+    migration_generation_passed: bool | None = None
+    migration_duration_seconds: float = 0.0
+    generated_migration_paths: tuple[str, ...] = ()
+
+    # Baseline validation stage metrics
+    baseline_validation_passed: bool | None = None
+    baseline_validation_duration_seconds: float = 0.0
+
+    # Scenario evaluator stage metrics
+    scenario_evaluator_passed: bool | None = None
+    scenario_evaluator_duration_seconds: float = 0.0
+    scenario_evaluator_checks: tuple[str, ...] = ()
 
     # Total workflow metrics (aggregated)
     total_workflow_tokens: int = 0
@@ -300,12 +349,148 @@ class RunRecord:
             raise ValueError("RunRecord.duration_seconds must be >= 0")
         if self.selection_duration_seconds < 0:
             raise ValueError("RunRecord.selection_duration_seconds must be >= 0")
+        if self.selection_tool_duration_seconds < 0:
+            raise ValueError("RunRecord.selection_tool_duration_seconds must be >= 0")
         if self.regeneration_duration_seconds < 0:
             raise ValueError("RunRecord.regeneration_duration_seconds must be >= 0")
         if self.functional_validation_duration_seconds < 0:
             raise ValueError("RunRecord.functional_validation_duration_seconds must be >= 0")
         if self.total_workflow_duration_seconds < 0:
             raise ValueError("RunRecord.total_workflow_duration_seconds must be >= 0")
+        if self.migration_duration_seconds < 0:
+            raise ValueError("RunRecord.migration_duration_seconds must be >= 0")
+        if self.baseline_validation_duration_seconds < 0:
+            raise ValueError("RunRecord.baseline_validation_duration_seconds must be >= 0")
+        if self.scenario_evaluator_duration_seconds < 0:
+            raise ValueError("RunRecord.scenario_evaluator_duration_seconds must be >= 0")
+        for field_name in ("selection_prompt_tokens", "selection_completion_tokens",
+                           "selection_total_tokens", "selection_model_calls",
+                           "selection_tool_calls", "selection_inspected_file_count",
+                           "regeneration_prompt_tokens", "regeneration_completion_tokens",
+                           "regeneration_total_tokens", "regeneration_model_calls",
+                           "repair_prompt_tokens", "repair_completion_tokens",
+                           "repair_total_tokens", "repair_model_calls", "repair_attempts",
+                           "total_workflow_tokens", "total_workflow_model_calls"):
+            val = getattr(self, field_name)
+            if isinstance(val, bool):
+                raise ValueError(f"RunRecord.{field_name} must be an integer, not bool")
+            if not isinstance(val, int):
+                raise ValueError(f"RunRecord.{field_name} must be an integer, got {type(val).__name__}")
+            if val < 0:
+                raise ValueError(f"RunRecord.{field_name} must be >= 0, got {val}")
+        for field_name in ("repair_duration_seconds", "selection_duration_seconds",
+                           "selection_tool_duration_seconds", "regeneration_duration_seconds",
+                           "functional_validation_duration_seconds", "migration_duration_seconds",
+                           "baseline_validation_duration_seconds", "scenario_evaluator_duration_seconds",
+                           "total_workflow_duration_seconds"):
+            val = getattr(self, field_name)
+            if not isinstance(val, (int, float)):
+                raise ValueError(f"RunRecord.{field_name} must be a number, got {type(val).__name__}")
+            if isinstance(val, bool):
+                raise ValueError(f"RunRecord.{field_name} must be a number, not bool")
+            if not math.isfinite(val):
+                raise ValueError(f"RunRecord.{field_name} must be finite, got {val}")
+            if val < 0:
+                raise ValueError(f"RunRecord.{field_name} must be >= 0, got {val}")
+        valid_modes = frozenset({
+            "exact_tokenizer", "provider_reported", "approximate_character",
+            "fixture_or_approximate", "none", "unknown",
+        })
+        if self.token_accounting_mode not in valid_modes:
+            raise ValueError(
+                f"RunRecord.token_accounting_mode must be one of {valid_modes}, "
+                f"got {self.token_accounting_mode!r}"
+            )
+        _has_any_r4_metric = (
+            self.selection_prompt_tokens != 0
+            or self.selection_completion_tokens != 0
+            or self.selection_total_tokens != 0
+            or self.selection_model_calls != 0
+            or self.selection_duration_seconds != 0.0
+            or self.regeneration_prompt_tokens != 0
+            or self.regeneration_completion_tokens != 0
+            or self.regeneration_total_tokens != 0
+            or self.regeneration_model_calls != 0
+            or self.regeneration_duration_seconds != 0.0
+            or self.repair_prompt_tokens != 0
+            or self.repair_completion_tokens != 0
+            or self.repair_total_tokens != 0
+            or self.repair_model_calls != 0
+            or self.repair_duration_seconds != 0.0
+            or self.repair_attempts != 0
+            or self.migration_duration_seconds != 0.0
+            or self.baseline_validation_duration_seconds != 0.0
+            or self.scenario_evaluator_duration_seconds != 0.0
+            or self.total_workflow_tokens != 0
+            or self.total_workflow_model_calls != 0
+            or self.total_workflow_duration_seconds != 0.0
+        )
+        if _has_any_r4_metric:
+            if self.selection_total_tokens != self.selection_prompt_tokens + self.selection_completion_tokens:
+                raise ValueError(
+                    f"RunRecord selection identity: {self.selection_total_tokens} != "
+                    f"{self.selection_prompt_tokens} + {self.selection_completion_tokens}"
+                )
+            if self.regeneration_total_tokens != self.regeneration_prompt_tokens + self.regeneration_completion_tokens:
+                raise ValueError(
+                    f"RunRecord regeneration identity: {self.regeneration_total_tokens} != "
+                    f"{self.regeneration_prompt_tokens} + {self.regeneration_completion_tokens}"
+                )
+            if self.repair_total_tokens != self.repair_prompt_tokens + self.repair_completion_tokens:
+                raise ValueError(
+                    f"RunRecord repair identity: {self.repair_total_tokens} != "
+                    f"{self.repair_prompt_tokens} + {self.repair_completion_tokens}"
+                )
+            stage_tokens = (
+                self.selection_total_tokens
+                + self.regeneration_total_tokens
+                + self.repair_total_tokens
+            )
+            if self.total_workflow_tokens != stage_tokens:
+                raise ValueError(
+                    f"RunRecord total_workflow_tokens identity: {self.total_workflow_tokens} != "
+                    f"stage sum {stage_tokens}"
+                )
+            stage_calls = (
+                self.selection_model_calls
+                + self.regeneration_model_calls
+                + self.repair_model_calls
+            )
+            if self.total_workflow_model_calls != stage_calls:
+                raise ValueError(
+                    f"RunRecord total_workflow_model_calls identity: {self.total_workflow_model_calls} != "
+                    f"stage sum {stage_calls}"
+                )
+            stage_duration = (
+                self.selection_duration_seconds
+                + self.regeneration_duration_seconds
+                + self.repair_duration_seconds
+                + self.migration_duration_seconds
+                + self.baseline_validation_duration_seconds
+                + self.scenario_evaluator_duration_seconds
+            )
+            if not math.isclose(self.total_workflow_duration_seconds, stage_duration, rel_tol=1e-9, abs_tol=1e-9):
+                raise ValueError(
+                    f"RunRecord total_workflow_duration_seconds identity: "
+                    f"{self.total_workflow_duration_seconds} != stage sum {stage_duration}"
+                )
+            if self.token_usage.prompt_tokens != (
+                self.selection_prompt_tokens
+                + self.regeneration_prompt_tokens
+                + self.repair_prompt_tokens
+            ):
+                raise ValueError("RunRecord token_usage.prompt_tokens must equal stage sum")
+            if self.token_usage.completion_tokens != (
+                self.selection_completion_tokens
+                + self.regeneration_completion_tokens
+                + self.repair_completion_tokens
+            ):
+                raise ValueError("RunRecord token_usage.completion_tokens must equal stage sum")
+            if self.token_usage.total_tokens != self.total_workflow_tokens:
+                raise ValueError(
+                    f"RunRecord token_usage.total_tokens ({self.token_usage.total_tokens}) must equal "
+                    f"total_workflow_tokens ({self.total_workflow_tokens})"
+                )
 
 
 # ---------------------------------------------------------------------------

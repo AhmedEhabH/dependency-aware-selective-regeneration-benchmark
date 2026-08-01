@@ -5,6 +5,8 @@ from benchmark.core.models import LLMResponse, TokenUsage
 
 
 class MockLLMBackend:
+    token_accounting_mode: str = "approximate_character"
+
     def __init__(self, response_text: str = "mock response") -> None:
         self._response_text = response_text
 
@@ -32,6 +34,7 @@ class MockLLMBackend:
 
 
 class NullLLMBackend:
+    token_accounting_mode: str = "none"
     """Backend that raises if generate() is called unexpectedly."""
 
     async def generate(

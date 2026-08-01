@@ -7,6 +7,8 @@ from benchmark.core.models import LLMResponse, TokenUsage
 
 
 class DryRunLLMBackend:
+    token_accounting_mode: str = "fixture_or_approximate"
+
     def __init__(self, fixture_dir: str | None = None) -> None:
         self._fixture_dir = Path(fixture_dir) if fixture_dir else None
 
