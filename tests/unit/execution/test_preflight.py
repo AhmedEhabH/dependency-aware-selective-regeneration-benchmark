@@ -29,6 +29,21 @@ class TestCollectDependencyVersions:
         assert "accelerate" in names
         assert "bitsandbytes" in names
 
+    def test_drf_uses_rest_framework_import_name(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        imported: list[str] = []
+
+        def fake_import(name: str):
+            imported.append(name)
+            return object()
+
+        monkeypatch.setattr(mod.importlib, "import_module", fake_import)
+        monkeypatch.setattr(mod.importlib.metadata, "version", lambda _name: "x")
+        collect_dependency_versions()
+        assert "rest_framework" in imported
+        assert "djangorestframework" not in imported
+
     def test_local_machine_marks_torch_as_not_installed(self) -> None:
         deps = dict(collect_dependency_versions())
         try:
@@ -71,6 +86,7 @@ class TestRunKaggleSmokePreflight:
         probe_metrics: dict[str, object] | None = None,
         probe_exc: BaseException | None = None,
     ) -> None:
+        monkeypatch.setattr(mod, "_python_runtime_status", lambda: ("3.12.13", True))
         if deps is not None:
             monkeypatch.setattr(mod, "collect_dependency_versions", lambda: deps)
         else:
@@ -119,7 +135,15 @@ class TestRunKaggleSmokePreflight:
         assert result.model_identity == "qwen:1:int8"
 
     def test_fail_when_missing_dependency(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+        probe_calls = 0
+
+        def probe(_model_path: str) -> dict[str, object]:
+            nonlocal probe_calls
+            probe_calls += 1
+            return {}
+
         self._patch(monkeypatch, deps=(("torch", "NOT_INSTALLED"),))
+        monkeypatch.setattr(mod, "_qwen_probe_metrics", probe)
         result = run_kaggle_smoke_preflight(
             model_path="/kaggle/input/qwen",
             data_dir=tmp_path,
@@ -128,6 +152,68 @@ class TestRunKaggleSmokePreflight:
         assert result.passed is False
         assert any(c.startswith("dependency_import_verification: FAIL") for c in result.checks)
         assert "torch" in result.rejection_reason
+        assert probe_calls == 0
+
+    def test_unsupported_python_skips_expensive_model_probe(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch(monkeypatch, deps=(("django", "5.2.16"),))
+        monkeypatch.setattr(mod, "_python_runtime_status", lambda: ("3.13.5", False))
+        calls = 0
+
+        def probe(_model_path: str) -> dict[str, object]:
+            nonlocal calls
+            calls += 1
+            return {}
+
+        monkeypatch.setattr(mod, "_qwen_probe_metrics", probe)
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+        )
+        assert result.passed is False
+        assert calls == 0
+        assert any(c.startswith("python_runtime: FAIL") for c in result.checks)
+
+    def test_fail_when_pinned_dependency_version_drifts(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch(monkeypatch, deps=(("django", "5.2.15"),))
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+        )
+        assert result.passed is False
+        assert "expected 5.2.16" in result.rejection_reason
+
+    def test_baseline_failure_skips_expensive_model_probe(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch(monkeypatch, deps=(("django", "5.2.16"),))
+        calls = 0
+
+        def run_command(_ws: Path, *argv: str, timeout: int = 180):
+            if argv[-1] == "check":
+                return 1, "", "baseline broken"
+            return 0, "", ""
+
+        def probe(_model_path: str) -> dict[str, object]:
+            nonlocal calls
+            calls += 1
+            return {}
+
+        monkeypatch.setattr(mod, "_run_in_workspace", run_command)
+        monkeypatch.setattr(mod, "_qwen_probe_metrics", probe)
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+        )
+        assert result.passed is False
+        assert calls == 0
+        assert any(c.startswith("qwen_int8_load: SKIP") for c in result.checks)
 
     def test_fail_when_vram_headroom_below_threshold(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
@@ -157,6 +243,34 @@ class TestRunKaggleSmokePreflight:
         assert result.passed is False
         assert any(c.startswith("vram_headroom: FAIL") for c in result.checks)
         assert f"{MIN_FREE_VRAM_GIB:.1f} GiB" in result.rejection_reason
+
+    def test_fail_when_device_map_offloads_to_cpu(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch(
+            monkeypatch,
+            deps=(("django", "5.2.16"),),
+            probe_metrics={
+                "model_identity": "qwen:1:int8",
+                "quantization_mode": "int8",
+                "model_memory_footprint_bytes": 4000000000,
+                "device_map_summary": "{'model.layers.0': 0, 'lm_head': 'cpu'}",
+                "gpu_count": 1,
+                "gpu_name": "T4",
+                "allocated_vram_gib": 8.0,
+                "reserved_vram_gib": 8.5,
+                "free_vram_after_probe_gib": 6.0,
+                "probe_prompt_tokens": 8,
+                "probe_completion_tokens": 64,
+            },
+        )
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+        )
+        assert result.passed is False
+        assert any(c.startswith("device_map_gpu_only: FAIL") for c in result.checks)
 
     def test_fail_when_probe_raises(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
         self._patch(
