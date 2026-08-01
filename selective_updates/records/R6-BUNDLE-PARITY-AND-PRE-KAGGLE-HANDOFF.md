@@ -3,8 +3,9 @@
 **Phase:** R6 deployment closure
 **Date:** 2026-08-01
 **Branch:** `experiment/three-arm-smoke-v2`
-**Status:** **R6 FINAL CORRECTION COMPLETE PENDING INDEPENDENT RE-AUDIT**
-**Next:** independent R6 re-audit (GPT-5.6 Thinking) before push / Kaggle launch / tag creation
+**Status:** **R6 ACCEPTED AND FROZEN — FREEZE AND MILESTONE-BRANCH PUBLICATION AUTHORIZED**
+**Accepted HEAD:** `949e9c2`
+**Next:** record R6 freeze, publish branch with upstream, verify local/remote equality, then Kaggle environment preflight / real Qwen launch
 ---
 
 ## 1. Authorized scope
@@ -81,7 +82,7 @@ paths, or secret values.
 ## 5. Validation
 
 ```text
-Full suite        = 1,647 passed, 32 skipped, 0 failed (R5 baseline 1,625 passed)
+Final accepted full suite = 1,648 passed, 32 skipped, 0 failed (final independent re-audit)
 Ruff              = 94 findings at both starting HEAD 7761c48 and R6 HEAD; identical set, zero new
 Mypy --strict     = 0 errors (unchanged from baseline)
 Compileall        = clean
@@ -94,11 +95,12 @@ Final builder run = byte-identical rebuild; working tree clean
 ```text
 R4 accepted/frozen
 R5 accepted/frozen
-R6 complete pending independent audit
+R6 ACCEPTED AND FROZEN
 local scripted = 9/9
+bundled CLI dry-run = 9/9
 real Qwen = 0/9
 Kaggle not launched
-push not performed
+push authorized and pending
 tag not created
 Pilot not authorized
 ```
@@ -117,33 +119,35 @@ Smoke evidence is non-publication. No real Qwen results are claimed.
 
 ```text
 Branch             = experiment/three-arm-smoke-v2
-Audited HEAD       = da6ccf3
-Backup branch      = backup/r6-pre-final-audit-da6ccf3 (no tag)
+Accepted HEAD      = 949e9c2
+Backup branches    = backup/r5-pre-audit-c3ecad2, backup/r6-pre-execution-7761c48,
+                     backup/r6-pre-final-audit-da6ccf3 (all preserved, no tags)
 R5 acceptance      = 5784a4f
 Runtime source     = cb25e9f
 Bundle commit      = 54a0462
 R6 test commit     = 40c7a47
-Documentation      = current docs HEAD (docs(audit): close R6 handoff truth gaps)
+Documentation      = 949e9c2 (docs(audit): close R6 handoff truth gaps)
 Working tree       = clean
 Upstream           = none
-R6 status          = FINAL CORRECTION COMPLETE PENDING INDEPENDENT RE-AUDIT
+R6 status          = ACCEPTED AND FROZEN (949e9c2)
 Real Smoke         = 0/9
 Pilot              = NOT AUTHORIZED
-Push               = BLOCKED PENDING RE-AUDIT
+Push               = AUTHORIZED AND PENDING AT THIS COMMIT
 Tag                = BLOCKED
 ```
 
 ## 8. Next action
 
 ```text
-1. Independent R6 re-audit (GPT-5.6 Thinking) of the final correction before push
-2. Push and local/remote equality
-3. Kaggle preflight and nine real Qwen Smoke records
-4. Independent result audit, then scientific-smoke tag
-5. Pilot authorization under the frozen protocol
+1. Record the R6 freeze (this freeze pass)
+2. Publish experiment/three-arm-smoke-v2 with upstream; verify local/remote equality
+3. Record publication status; push again; verify final equality
+4. Kaggle environment preflight and nine real Qwen Smoke records
+5. Independent result audit, then v2.0.0-scientific-smoke tag
+6. Pilot authorization under the frozen protocol
 ```
 
-Do not push, tag, merge, or launch Kaggle until the independent re-audit accepts.
+Do not tag, merge, force-push, or launch Kaggle now.
 
 ## 9. R6 final correction (2026-08-01)
 
@@ -167,8 +171,12 @@ docs HEAD            docs(audit): close R6 handoff truth gaps
 ```
 
 Final correction gates: preflight file 9/9; grouped gate 79 passed; ruff clean
-on changed file; `git diff --check` clean; full suite reported in the final
-OpenCode report. `.gitattributes` manifest-LF rule = audit-approved scope
-extension, disclosed in `docs/PROJECT_HANDOFF.md` and this ledger.
+on changed file; `git diff --check` clean. The final independent re-audit
+(GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`) **accepted R6** and authorized
+freeze and milestone-branch publication (recorded in
+`docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`); final accepted full
+suite = 1,648 passed / 32 skipped / 0 failed. `.gitattributes` manifest-LF rule
+= audit-approved scope extension, disclosed in `docs/PROJECT_HANDOFF.md` and
+this ledger.
 
-R6_FINAL_CORRECTION_REAUDIT_REQUIRED
+R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED

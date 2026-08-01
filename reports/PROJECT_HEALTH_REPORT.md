@@ -1,117 +1,122 @@
 # Project Health Report
 
-**Report Date:** 2026-07-25  
-**Project:** Selective Regeneration Benchmark  
-**Phase:** Research Design V2 Freeze Complete — SU-0003 Documented
+**Report Date:** 2026-08-01
+**Project:** Dependency-Aware Selective Regeneration Benchmark
+**Branch:** `experiment/three-arm-smoke-v2`
+**Accepted HEAD:** `949e9c2249004dbdeecc5ece531f72867611859c`
+**R4/R5/R6 status:** R4 ACCEPTED AND FROZEN (`f5ae826`); R5 ACCEPTED AND FROZEN (`7761c48`); R6 ACCEPTED AND FROZEN (`949e9c2`) by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01); freeze and milestone-branch publication authorized.
 
 ---
 
 ## Executive Summary
 
-Research Design V2 Freeze and Repository-Agent Baseline Audit completed. Phase A: Merged arm-to-protocol execution audit to `main` (commit `3a16596`). Phase B: Created `docs/research-design-v2` branch with 10 design documents recording researcher-approved decisions RD-V2-01 through RD-V2-06. Current `RepositoryAgentStrategy` audited and classified as `SINGLE_SHOT_LLM_SCOPE_BASELINE` (not iterative). Baseline acceptance criteria defined for iterative `repository_agent` (SU-0011). Shared regeneration executor designed for fair end-to-end comparison (SU-0010). Arm role/naming policy, external dataset policy, and implementation impact plan documented. No production code modified. All frozen protocol documents untouched. Pilot and Research phases remain blocked pending SU-0010 completion and baseline agent implementation.
+R6 deployment closure is **accepted and frozen**. The final independent re-audit (GPT-5.6 Thinking, 2026-08-01, audited HEAD `949e9c2`) accepted the R6 technical implementation, the generated Kaggle deployment bundle, and the bounded final correction (one deployed-entrypoint regression test `40c7a47` plus documentation-truth cleanup at `949e9c2`). Local engineering is deployment-ready: local scripted records = 9/9, bundled CLI dry-run = 9/9, manifests 0/0/0 mismatches. Real-model evidence remains absent: real Qwen records = 0/9, Kaggle not launched, no publication claim authorized. Next action is branch publication with upstream verification, then Kaggle environment preflight.
+
+**Legacy note:** Legacy Seven-Arm V1 results (including the `v0.7.0-smoke-passed` tag and the 7/7-arm Kaggle orchestration smoke) are **historical** and superseded. They are not V2 evidence. The current experiment is the Three-Arm Scientific Smoke V2 (`scientific-smoke-v2` profile): 3 frozen scenarios (todo-smoke-001/002/003) × 3 arms (monolithic, selective, iterative_repository_agent) × 1 repetition = 9 runs. Smoke evidence is non-publication.
 
 ---
 
-## Phase Completion Status
+## Current R6 Health
 
-| Phase | Status | Tests | Files | Quality Gates |
-|-------|--------|-------|-------|---------------|
-| Phase 0 — Bootstrap | ✅ COMPLETE | N/A | 7 dirs | All pass |
-| Phase 1 — Input Audit | ✅ COMPLETE | N/A | 1 report | All pass |
-| Phase 2A — Protocol Draft | ✅ COMPLETE | N/A | 1 draft | All pass |
-| Phase 2B — Protocol Freeze | ✅ COMPLETE | N/A | 8 docs | All pass |
-| Phase 3 — Repo/Scenario Prep | ✅ COMPLETE | N/A | 35 files | All pass |
-| Phase 3.5 — Architecture Audit | ✅ COMPLETE | N/A | 10 docs | All pass |
-| Phase 3.6 — Structure Remediation | ✅ COMPLETE | N/A | Baseline commit | All pass |
-| Phase 3.7 — Canonical Remediation | ✅ COMPLETE | N/A | 1 script + ledger | All pass |
-| **SU-0002 runs_dir Fix** | ✅ **VALIDATED** | **2 new** | **1 src + 1 test** | **ruff:0, mypy:0, pytest:613/615** |
-| Phase 4A — Domain Models | ✅ COMPLETE | 111 | 17 src + 8 test | ruff:0, mypy:0, pytest:111/111 |
-| Phase 4B — Loaders | ✅ COMPLETE | 206 | 11 src + 14 test | ruff:0, mypy:0, pytest:206/206 |
-| Phase 4C — Model Backends | ✅ COMPLETE | 229 | 5 src + 6 test | ruff:0, mypy:0, pytest:229/229 |
-| Phase 4D — Execution Core | ✅ COMPLETE | 288 | 7 src + 7 test | ruff:0, mypy:0, pytest:288/288 |
-| Phase 4E — Impact Strategies | ✅ COMPLETE | 332 | 14 src + 3 test | ruff:0, mypy:0, pytest:332/332 |
-| Phase 4F — Evaluation Engine | ✅ COMPLETE | 410 | 10 src + 15 test | ruff:0, mypy:0, pytest:410/410 |
-| Phase 4F.1 — Scientific Remediation | ✅ COMPLETE | 441 | 7 modified + 2 docs | ruff:0, mypy:0, pytest:441/441 |
-| **Kaggle Smoke Pass** | ✅ **PASSED** | **504** | **2 fixes (8+12 files)** | **ruff:0, mypy:0, pytest:504/505 (1 skipped)** |
-| **SU-0003 RD-V2 Freeze** | ✅ **DOCUMENTED** | **0** | **10 docs + 8 state files** | **ruff:0, mypy:0, pytest:613/615** |
+### Test result
 
----
+| Metric | Value |
+|---|---|
+| Full suite (final accepted R6 re-audit, Windows / Python 3.11.5) | **1,648 passed / 32 skipped / 0 failed** |
+| Tests collected | 1,680 |
+| Independent focused tests (Linux / Python 3.13) | 71 passed / 0 failed |
+| Bundled CLI nine-cell dry-run regression | passed (1 passed) |
+| Builder rerun | success; no tracked diff; tree clean |
 
-## Total Counts
+### Deployment bundle
 
-| Metric | Count |
-|--------|-------|
-| **Production Files (src/benchmark/)** | 62 |
-| **Test Files** | 15 |
-| **Total Tests** | 613 (+1 skipped torch) |
-| **Benchmark Scenarios** | 24 |
-| **Repositories** | 3 (todo, djangocms, saleor) |
-| **Strategies (legacy IDs)** | 7 (monolithic, agent, selective, compiled_ai, delta_mcp, incr_rtl, code_plan) |
-| **Strategies (scientific roles)** | 8 (repository_agent, hybrid_selective, single_shot_llm_scope, static_only, semantic_only, traceability_only, full_scope_reference, retrieval_planning_variant) |
+| Category | Files | Bytes |
+|---|---:|---:|
+| code | 87 | 619,346 |
+| data | 56 | 172,210 |
+| notebooks | 1 | 14,078 |
+| **total** | **144** | **805,634** |
 
----
+The three manifest files add 15,659 bytes and are intentionally outside their own category manifests.
 
-## Quality Gates
+### Integrity and content
 
-| Gate | Status | Details |
-|------|--------|---------|
-| **Ruff Lint** | ✅ PASS | 0 violations |
-| **Mypy Strict** | ✅ PASS | 0 errors, 60 source files; 5 pre-existing in tests |
-| **Pytest** | ✅ PASS | 613/615 passed (2 skipped: torch import) |
-| **pip check** | ✅ PASS | No broken requirements |
-| **Import Isolation** | ✅ PASS | No torch/transformers at package load |
-
----
-
-## Scientific Protocol Coverage
-
-| Category | Count | Percentage |
-|----------|-------|------------|
-| Implemented & validated | 14 | 74% |
-| Partial | 1 | 5% |
-| Missing | 3 | 16% |
-| **Total requirements** | **19** | **100%** |
-
----
-
-## Research Design V2 Decisions (Frozen)
-
-| Decision | Summary |
-|----------|---------|
-| **RD-V2-01** | Primary comparison: iterative repository agent vs hybrid selective (matched LLM, repo, change, params, tools, budget, repair, validation, quality) |
-| **RD-V2-02** | Arm roles: repository_agent, hybrid_selective, single_shot_llm_scope, static_only, semantic_only, traceability_only, full_scope_reference, retrieval_planning_variant |
-| **RD-V2-03** | Literature claims = related work/inspiration only; no head-to-head stats vs published scores |
-| **RD-V2-04** | Measurement boundary: selection + regen + repair + validation with per-stage token accounting |
-| **RD-V2-05** | Efficiency claims require matched correctness/quality |
-| **RD-V2-06** | Experiment A (impact accuracy), B (e2e evolution), C (ablations), D (optional external transfer) |
-
----
-
-## Next Steps
-
-**Blocked on researcher review of RD-V2 decisions.** If authorized:
-
-1. **SU-0010** — Implement shared regeneration executor + types + validators (~21 days)
-2. **SU-0011** — Implement iterative repository agent baseline (separate task)
-3. Then: Pilot → Research execution on Kaggle
-
----
-
-## Environment
-
-- **Platform:** Windows (win32)
-- **Python:** 3.11.15
-- **Conda:** 23.10.0
-- **Git:** 2.49.0
-- **Conda Env:** `selective-regen-benchmark` (activated)
-
----
-
-## Git Status
-
+```text
+Git committed-tree manifest mismatches: code 0 / data 0 / notebook 0
+Canonical/generated normalized parity problems = 0
+Builder rerun working-tree changes             = 0
+Sensitive/absolute-path scan findings          = 0
 ```
-Branch: docs/research-design-v2
-Status: 10 new design docs, 8 state files modified
-Main:   merge commit 3a16596 (audit/arm-to-protocol-execution merged --no-ff)
-Tags:   v0.7.0-smoke-passed at 0c58250 (unchanged)
+
+### Deployed controlled assets
+
+```text
+Todo baseline tests deployed   = exact five files / 47 test methods
+Evaluator assets deployed      = 3 .py + 3 .sha256 fingerprints
+tests/support files            = 0
+scripted/harness files         = 0
+forbidden artifacts            = 0
 ```
+
+### Static and type gates
+
+```text
+Ruff            = 0 new findings vs starting HEAD 7761c48 (94 baseline findings identical, zero new)
+Mypy --strict   = 0 new errors vs starting HEAD 7761c48
+Compileall      = clean
+git diff --check = clean
+git status --short = clean
+pip check       = clean
+```
+
+---
+
+## Phases and milestones
+
+| Phase | Status |
+|---|---|
+| Phase 0 — Bootstrap and Environment | Complete |
+| Phase 1 — Input Audit | Complete |
+| Phase 2B — Research Protocol Freeze | Complete (v1.0 frozen) |
+| Phase 3 — Repository and Scenario Preparation | Complete |
+| Phase 4A–4F, 4F.1 — Benchmark core | Complete |
+| R3B / R3C / R3D closures | Complete |
+| R4 — token/metric contract | ACCEPTED AND FROZEN (`f5ae826`) |
+| R5 — nine scripted production records | ACCEPTED AND FROZEN (`7761c48`) |
+| R6 — deployment closure | ACCEPTED AND FROZEN (`949e9c2`) |
+| Kaggle preflight + nine real Qwen records | Next |
+| Pilot | Not authorized |
+| Research experiment | Planned |
+
+---
+
+## Known evidence boundary
+
+```text
+Local scripted production proof = 9/9
+Generated bundle dry-run plan   = 9/9
+Manifest integrity              = 0/0/0 mismatches
+Real Qwen records               = 0/9
+Kaggle run                      = not launched
+Real token/call/time comparison = unavailable
+Publication evidence            = unavailable
+Pilot evidence                  = unavailable
+```
+
+No real-model success or efficiency claim is authorized before the real Smoke result audit. Smoke evidence is non-publication.
+
+---
+
+## Near goal
+
+Record the R6 freeze → publish `experiment/three-arm-smoke-v2` with upstream → verify local/remote equality → Kaggle environment preflight → nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 repetition).
+
+## Far goal
+
+Independent real-result audit → stable `v2.0.0-scientific-smoke` tag → freeze Pilot matrix → Pilot execution → research experiment → statistical analysis → paper evidence package.
+
+## Next action
+
+Record the R6 freeze and publish the milestone branch, then Kaggle environment preflight. Do not tag, merge, force-push, or launch Kaggle now.
+
+R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED

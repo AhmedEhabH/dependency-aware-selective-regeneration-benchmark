@@ -7,19 +7,19 @@
 ```text
 R4 = accepted and frozen (f5ae826)
 R5 = accepted and frozen (7761c48)
-R6 = technical implementation passed independent audit; final correction complete pending re-audit
-     (test commit 40c7a47 + documentation-truth cleanup at current documentation HEAD)
-Push = next after audit (local/remote equality)
-Real Smoke = 0/9 (local scripted 9/9)
+R6 = ACCEPTED AND FROZEN (949e9c2) — freeze record and milestone-branch publication authorized
+Push = next (publish with upstream, verify local/remote equality)
+Real Smoke = 0/9 (local scripted 9/9; bundled CLI dry-run 9/9)
 Tag = v2.0.0-scientific-smoke after real-result audit
 Pilot = denominator not frozen; not authorized
 ```
 
-Exact path from R6 correction to Pilot freeze:
+Exact path from R6 freeze to Pilot freeze:
 
 ```text
-independent R6 re-audit of the final correction
-→ push branch and verify local/remote equality
+record R6 freeze
+→ push branch and set upstream, verify local/remote equality
+→ record publication status and push again
 → Kaggle environment preflight
 → nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 rep)
 → independent real-result audit
@@ -128,6 +128,6 @@ authoritative track is the section above.
 
 ## R6 Status (2026-08-01)
 
-R6 deployment closure passed the **independent audit** (GPT-5.6 Thinking, 2026-08-01, audited HEAD `da6ccf3`) with technical implementation and bundle accepted. The bounded final correction closed TD-R6-ENTRYPOINT-001 (test commit `40c7a47`, bundled CLI dry-run 9/9) and documentation-truth defects D1–D6 at current documentation HEAD; **R6 final correction is COMPLETE PENDING INDEPENDENT RE-AUDIT**. Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints. Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; push not performed; tag not created; Pilot not authorized. Next: independent R6 re-audit, then push, Kaggle preflight, and nine real Qwen records.
+R6 deployment closure is **ACCEPTED AND FROZEN** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, audited HEAD `949e9c2`), recorded in `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`. The bounded final correction closed TD-R6-ENTRYPOINT-001 (test commit `40c7a47`, bundled CLI dry-run 9/9) and documentation-truth defects D1–D6 (`949e9c2`). Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints. Local scripted records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; Kaggle not launched; push authorized and pending at this commit; tag not created; Pilot not authorized. Final accepted full suite = 1,648 passed / 32 skipped / 0 failed. Next: publish the branch with upstream, verify local/remote equality, then Kaggle environment preflight and nine real Qwen records.
 
-R6_FINAL_CORRECTION_REAUDIT_REQUIRED
+R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED
