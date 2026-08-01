@@ -1099,19 +1099,14 @@ class BenchmarkRunner:
                 FailureKind.timeout,
             ):
                 return False
-            combined = f"{f.message}\n{f.details}".lower()
-            for marker in (
-                "modulenotfounderror",
-                "no module named",
-                "importerror",
-                "cannot import name",
-                "out of memory",
-                "cuda error",
-                "command not found",
-                "no executable",
-            ):
-                if marker in combined:
-                    return False
+            combined = f"{f.message}\n{f.details}"
+            if self.classify_validation_repairability(
+                exit_code=-1,
+                stdout="",
+                stderr=combined,
+                stage=f.stage,
+            ) == "infrastructure_nonrepairable":
+                return False
             if f.stage in (
                 "generation_guard", "regeneration", "migration_generation",
                 "baseline_validation", "scenario_evaluator",

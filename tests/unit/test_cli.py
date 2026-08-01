@@ -970,6 +970,29 @@ class TestScientificSmokeV1Profile:
         )
         assert "kaggle_console.log" in setup_src, "live log file missing"
 
+    def test_notebook_preflight_streams_with_deployed_pythonpath(self) -> None:
+        """Preflight must not buffer output or depend on the parent kernel's sys.path."""
+        import json
+
+        nb_path = PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb"
+        with open(nb_path, encoding="utf-8") as f:
+            nb = json.load(f)
+        cells_by_id = {c.get("id"): c for c in nb["cells"]}
+        preflight_src = "".join(cells_by_id["preflight-cell"]["source"])
+        setup_src = "".join(cells_by_id["setup-cell"]["source"])
+
+        assert "subprocess.Popen(" in preflight_src
+        assert "stdout=subprocess.PIPE" in preflight_src
+        assert "stderr=subprocess.STDOUT" in preflight_src
+        assert "bufsize=1" in preflight_src
+        assert 'preflight_env["PYTHONPATH"]' in preflight_src
+        assert 'preflight_env["PYTHONUNBUFFERED"] = "1"' in preflight_src
+        assert 'preflight_env["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"' in preflight_src
+        assert "kaggle_preflight_console.log" in preflight_src
+        assert "capture_output=True" not in preflight_src
+        assert 'sub_env["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"' in setup_src
+        assert "PYTORCH_CUDA_ALLOC_CONF" not in setup_src
+
     def test_notebook_sync_display_uses_current_schema(self) -> None:
         """The inspection cell must read the current remote_sync schema keys."""
         import json
