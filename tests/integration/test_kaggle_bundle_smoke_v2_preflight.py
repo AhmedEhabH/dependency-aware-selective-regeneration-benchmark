@@ -4,6 +4,7 @@ import ast
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -76,6 +77,29 @@ def _scenario_evaluator_asset(scenario_id: str) -> str:
     asset = data["evaluator_asset"]
     assert asset, f"evaluator_asset missing for {scenario_id}"
     return asset
+
+
+def _bundled_notebook_sources() -> str:
+    nb_path = BUNDLE_ROOT / "notebooks" / "seven_arm_benchmark.ipynb"
+    assert nb_path.is_file(), f"bundled notebook missing: {nb_path}"
+    nb = json.loads(nb_path.read_text(encoding="utf-8"))
+    chunks = []
+    for cell in nb["cells"]:
+        if cell["cell_type"] != "code":
+            continue
+        src = cell["source"]
+        chunks.append("".join(src) if isinstance(src, list) else src)
+    return "\n".join(chunks)
+
+
+def _pinned_identity() -> dict[str, str]:
+    """Extract the notebook's pinned SOURCE_COMMIT / DEPLOYED_BUILD_ID."""
+    text = _bundled_notebook_sources()
+    source = re.search(r'SOURCE_COMMIT = "([0-9a-f]{40})"', text)
+    build = re.search(r'DEPLOYED_BUILD_ID = "([0-9a-f]{7})"', text)
+    assert source, "SOURCE_COMMIT pin missing in bundled notebook"
+    assert build, "DEPLOYED_BUILD_ID pin missing in bundled notebook"
+    return {"source_commit": source.group(1), "build_id": build.group(1)}
 
 
 class TestKaggleBundleSmokeV2Preflight:
@@ -230,6 +254,8 @@ class TestKaggleBundleCliDryRun:
         )
         before_status = before.stdout
 
+        pinned = _pinned_identity()
+
         result = subprocess.run(
             [
                 sys.executable, str(script),
@@ -237,8 +263,8 @@ class TestKaggleBundleCliDryRun:
                 "--profile", "scientific-smoke-v2",
                 "--data-dir", str(data_dir),
                 "--output-dir", str(runs_dir),
-                "--source-commit", "cb25e9fb3e6cb5eecead4dc640aedda30d4625b0",
-                "--deployed-build-id", "cb25e9f",
+                "--source-commit", pinned["source_commit"],
+                "--deployed-build-id", pinned["build_id"],
                 "--max-attempts", "3",
                 "--max-completion-tokens-per-call", "4096",
                 "--max-total-workflow-tokens", "0",
@@ -319,18 +345,18 @@ class TestKaggleBundleCliDryRun:
         assert checkpoint["completion_status"] == "completed", checkpoint["completion_status"]
         assert set(checkpoint["scenario_ids"]) == scenario_set, "checkpoint scenario_ids mismatch"
         assert set(checkpoint["strategy_names"]) == strategy_set, "checkpoint strategy_names mismatch"
-        assert checkpoint["source_commit"] == "cb25e9fb3e6cb5eecead4dc640aedda30d4625b0", (
+        assert checkpoint["source_commit"] == pinned["source_commit"], (
             checkpoint["source_commit"]
         )
-        assert checkpoint["deployed_build_id"] == "cb25e9f", checkpoint["deployed_build_id"]
+        assert checkpoint["deployed_build_id"] == pinned["build_id"], checkpoint["deployed_build_id"]
 
         identity = json.loads(
             (runs_dir / "source_identity.json").read_text(encoding="utf-8")
         )
-        assert identity["source_commit"] == "cb25e9fb3e6cb5eecead4dc640aedda30d4625b0", (
+        assert identity["source_commit"] == pinned["source_commit"], (
             identity["source_commit"]
         )
-        assert identity["deployed_build_id"] == "cb25e9f", identity["deployed_build_id"]
+        assert identity["deployed_build_id"] == pinned["build_id"], identity["deployed_build_id"]
         assert identity["profile"] == "scientific-smoke-v2", identity["profile"]
         assert identity["dry_run"] is True, identity["dry_run"]
 
@@ -345,3 +371,86 @@ class TestKaggleBundleCliDryRun:
             assert agg["failed_count"] == 0, f"{sname} failed_count != 0"
         total_records = sum(len(entry["records"]) for entry in summary.values())
         assert total_records == 9, f"summary records total != 9: {total_records}"
+
+
+class TestKaggleBundleRuntimeGuardrails:
+    """KAGGLE-SMOKE-V2: fail-closed runtime guardrails on the generated bundle."""
+
+    def _bundle_env(self) -> dict[str, str]:
+        env = os.environ.copy()
+        env["PYTHONPATH"] = str(BUNDLE_CODE / "src")
+        env["PYTHONDONTWRITEBYTECODE"] = "1"
+        env.pop("HF_TOKEN", None)
+        env.pop("OPENROUTER_API_KEY", None)
+        return env
+
+    def test_missing_model_fails_before_experiment_creation(self, tmp_path: Path) -> None:
+        script = BUNDLE_CODE / "seven_arm_benchmark.py"
+        assert script.is_file()
+        data_dir = BUNDLE_ROOT / "data"
+        runs_dir = tmp_path / "runs"
+        pinned = _pinned_identity()
+
+        result = subprocess.run(
+            [
+                sys.executable, str(script),
+                "--backend", "kaggle-qwen",
+                "--profile", "scientific-smoke-v2",
+                "--data-dir", str(data_dir),
+                "--output-dir", str(runs_dir),
+                "--model-path", str(tmp_path / "no-such-model"),
+                "--source-commit", pinned["source_commit"],
+                "--deployed-build-id", pinned["build_id"],
+                "--max-runs", "1",
+                "--max-attempts", "3",
+                "--protocol-version", "1.0",
+                "--max-completion-tokens-per-call", "4096",
+                "--max-total-workflow-tokens", "0",
+                "--timeout", "300",
+            ],
+            cwd=str(tmp_path),
+            timeout=120,
+            capture_output=True,
+            text=True,
+            env=self._bundle_env(),
+        )
+        combined = result.stdout + result.stderr
+        assert result.returncode != 0, f"expected non-zero, got {result.returncode}\n{combined}"
+        assert "--model-path" in combined, f"missing --model-path error\n{combined}"
+        assert not (runs_dir / "experiment_id.txt").exists(), (
+            "experiment was created despite a missing model"
+        )
+
+    def test_shared_snapshot_non_dry_wiring_in_bundle(self) -> None:
+        source = (BUNDLE_CODE / "seven_arm_benchmark.py").read_text(encoding="utf-8")
+        assert "snapshot_storage_root" in source, "snapshot_storage_root wiring missing"
+        assert "snapshot_base" in source, "snapshot_base wiring missing"
+        assert 'workspace_dir / "snapshots"' in source, "shared storage root call missing"
+
+    def test_one_run_fail_closed_exit_logic_in_bundle(self) -> None:
+        source = (BUNDLE_CODE / "seven_arm_benchmark.py").read_text(encoding="utf-8")
+        assert "_decide_session_exit_code" in source, "exit-code helper missing"
+        assert "session_created_run_ids" in source, "session run tracking missing"
+        assert "last_run_status" in source, "last-run status tracking missing"
+        assert "completed_with_failures" in source, "truthful completion marker missing"
+
+    def test_notebook_pins_exact_source_and_build_identity(self) -> None:
+        pinned = _pinned_identity()
+        assert re.fullmatch(r"[0-9a-f]{40}", pinned["source_commit"]), pinned["source_commit"]
+        assert pinned["build_id"] == pinned["source_commit"][:7], (
+            f"build id {pinned['build_id']} != short source {pinned['source_commit'][:7]}"
+        )
+
+    def test_notebook_hf_repo_id_is_correct(self) -> None:
+        text = _bundled_notebook_sources()
+        assert 'HF_RESULTS_REPO_ID = "NabilDo/selective-regeneration-experiment-results"' in text, (
+            "bundled notebook HF repo ID is not NabilDo/selective-regeneration-experiment-results"
+        )
+
+    def test_notebook_guardrail_present_in_one_run_and_continuous(self) -> None:
+        text = _bundled_notebook_sources()
+        assert text.count("_verify_scientific_run()") >= 2, (
+            "guardrail call missing from a run cell"
+        )
+        assert "model identity starts with qwen:" in text
+        assert "scenario evaluator passed" in text
