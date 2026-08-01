@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import re
 import time
 from dataclasses import dataclass, field, replace
 from pathlib import Path
@@ -38,6 +39,21 @@ from benchmark.repositories.snapshot import resolve_allowed_artifacts
 from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner, compute_artifact_counts
 
 logger = logging.getLogger(__name__)
+
+
+_EXTERNAL_RUNTIME_MODULES = frozenset(
+    {
+        "accelerate",
+        "bitsandbytes",
+        "django",
+        "pytest",
+        "pytest_django",
+        "rest_framework",
+        "torch",
+        "transformers",
+    }
+)
+_MISSING_MODULE_RE = re.compile(r"no module named ['\"]([^'\"]+)['\"]", re.IGNORECASE)
 
 
 @dataclass
@@ -633,31 +649,66 @@ class BenchmarkRunner:
         loop. Only generated-code, migration-content, baseline-test, and
         evaluator failures may be repairable.
         """
-        combined = f"{stdout}\n{stderr}".lower()
-        if stage == "baseline_validation":
-            return "infrastructure_nonrepairable"
+        combined_raw = f"{stdout}\n{stderr}"
+        combined = combined_raw.lower()
         if exit_code == 127:
             return "infrastructure_nonrepairable"
-        if "command not found" in combined:
+        if any(
+            marker in combined
+            for marker in (
+                "command not found",
+                "executable not found",
+                "no such file or directory: 'python'",
+                "dependency_import_verification: fail",
+                "kaggle smoke preflight failed",
+            )
+        ):
             return "infrastructure_nonrepairable"
-        infra_markers = (
-            "modulenotfounderror",
-            "no module named",
-            "importerror",
-            "cannot import name",
+        if any(
+            marker in combined
+            for marker in (
             "outofmemory",
             "out of memory",
             "cuda error",
             "cuda out of memory",
             "failed to allocate",
-            "no executable",
-            "executable not found",
-            "killed",
-        )
-        for marker in infra_markers:
-            if marker in combined:
+            )
+        ):
+            return "infrastructure_nonrepairable"
+
+        # Missing declared third-party runtime packages are infrastructure.
+        # Missing project-local modules and ordinary ImportError/cannot-import
+        # failures are generated-code defects and remain repairable.
+        missing = _MISSING_MODULE_RE.search(combined_raw)
+        if missing is not None:
+            top_level = missing.group(1).split(".", 1)[0]
+            if top_level in _EXTERNAL_RUNTIME_MODULES:
                 return "infrastructure_nonrepairable"
         return "repairable_code"
+
+    def _infrastructure_failure_from_scientific_result(
+        self,
+        result: _ScientificValidationResult,
+    ) -> FailureRecord:
+        """Create one truthful infrastructure failure without duplication."""
+        ec, so, se = self._scientific_feedback_channels(result)
+        original = self._failure_from_scientific_result(result)
+        evidence = [
+            "classification=infrastructure_nonrepairable",
+            f"original_kind={original.failure_kind.value}",
+            f"stage={result.failed_stage or 'scientific_validation'}",
+            f"exit_code={ec}",
+        ]
+        if so:
+            evidence.append(f"stdout={so[:500]}")
+        if se:
+            evidence.append(f"stderr={se[:500]}")
+        return FailureRecord(
+            failure_kind=FailureKind.infrastructure_nonrepairable,
+            message=original.message,
+            details=" | ".join(evidence),
+            stage=result.failed_stage or "scientific_validation",
+        )
 
     def _build_scenario_context(self, scenario: Scenario) -> RegenerationScenarioContext:
         expected_actions: list[tuple[str, str]] = []
@@ -1088,13 +1139,15 @@ class BenchmarkRunner:
             stage=last_sci.failed_stage or "",
         ) != "infrastructure_nonrepairable":
             return record
-        infra = FailureRecord(
-            failure_kind=FailureKind.infrastructure_nonrepairable,
-            message=last_sci.feedback or "Infrastructure failure; not repairable by the model",
-            details=f"exit={ec} stage={last_sci.failed_stage or 'unknown'}",
-            stage=last_sci.failed_stage or "scientific_validation",
-        )
-        return replace(record, failures=(infra, *record.failures))
+        infra = self._infrastructure_failure_from_scientific_result(last_sci)
+        failures = list(record.failures)
+        for index, failure in enumerate(failures):
+            if failure.stage == infra.stage:
+                failures[index] = infra
+                break
+        else:
+            failures.insert(0, infra)
+        return replace(record, failures=tuple(failures))
 
     def _run_regeneration_repair_flow(
         self,
@@ -1157,22 +1210,12 @@ class BenchmarkRunner:
             )
             if repairability == "infrastructure_nonrepairable":
                 self._state.fail()
-                infra = FailureRecord(
-                    failure_kind=FailureKind.infrastructure_nonrepairable,
-                    message=last_sci.feedback or "Infrastructure failure; not repairable by the model",
-                    details=f"exit={ec} stage={last_sci.failed_stage or 'unknown'}",
-                    stage=last_sci.failed_stage or "scientific_validation",
-                )
-                return RunRecord(
-                    identity=self._build_run_identity(scenario),
-                    status=RunStatus.failed,
-                    prediction=prediction,
-                    failures=(infra, *all_failures),
+                infra = self._infrastructure_failure_from_scientific_result(last_sci)
+                retained = tuple(f for f in all_failures if f.stage != infra.stage)
+                return replace(
+                    first_record,
+                    failures=(infra, *retained),
                     duration_seconds=time.monotonic() - start_time,
-                    selected_artifact_count=counts.get("selected", 0),
-                    regenerated_artifact_count=first_regen_count,
-                    preserved_artifact_count=counts.get("preserve", 0),
-                    unresolved_human_review_count=counts.get("human_review", 0),
                 )
 
         while self._budget.can_attempt:
@@ -1248,14 +1291,8 @@ class BenchmarkRunner:
                     stage=sci_result.failed_stage or "",
                 )
                 if repairability == "infrastructure_nonrepairable":
-                    all_failures.insert(
-                        0,
-                        FailureRecord(
-                            failure_kind=FailureKind.infrastructure_nonrepairable,
-                            message=sci_result.feedback or "Infrastructure failure; not repairable by the model",
-                            details=f"exit={ec} stage={sci_result.failed_stage or 'unknown'}",
-                            stage=sci_result.failed_stage or "scientific_validation",
-                        ),
+                    all_failures.append(
+                        self._infrastructure_failure_from_scientific_result(sci_result)
                     )
                     break
                 all_failures.append(
@@ -1617,15 +1654,8 @@ class BenchmarkRunner:
                     last_feedback_channels = None
 
                 if repairability == "infrastructure_nonrepairable":
-                    ec, so, se = self._scientific_feedback_channels(sci_result)
-                    all_failures.insert(
-                        0,
-                        FailureRecord(
-                            failure_kind=FailureKind.infrastructure_nonrepairable,
-                            message=sci_result.feedback or "Infrastructure failure; not repairable by the model",
-                            details=f"exit={ec} stage={sci_result.failed_stage or 'unknown'}",
-                            stage=sci_result.failed_stage or "scientific_validation",
-                        ),
+                    all_failures.append(
+                        self._infrastructure_failure_from_scientific_result(sci_result)
                     )
                     break
 
