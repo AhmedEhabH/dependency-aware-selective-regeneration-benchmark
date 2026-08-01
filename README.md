@@ -237,8 +237,8 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | Kaggle runtime fix | Committed (`de3163f`) and pinned (`fb60972`) — core accepted by independent audit |
 | R7A pre-rerun hardening | Complete (`d50e89e` + `4c73db6`) — four audit findings closed |
 | R7B Smoke Finish | Complete (`bff0a82` + `17207bf`) — observable Qwen Smoke; independent audit required |
-| R7C real-run root closure | Complete (`7a80e53` + `f01b8f0`) — environment memory + prompt contracts closed; independent audit required |
-| Kaggle relaunch + nine real Qwen records | Blocked until the R7C real-run root closure audit passes |
+| R7C real-run root closure | Complete + corrected (`7a80e53` + `f01b8f0`; exact correction `ffa179a` + `6d6aa36`, HEAD `6d6aa36`) — repair + preflight contracts corrected; full-gate audit required |
+| Kaggle relaunch + nine real Qwen records | Blocked until the independent full-gate audit of the corrected R7C branch passes |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
 
@@ -251,9 +251,18 @@ regenerated files (0/9, not scientific evidence); the latest attempt
 (`exp-20260801-123125`) failed at runtime root (FP16 OOM + dependency drift),
 which the R7C root closure addresses (exact runtime pins, int8 default, frozen
 scenario context, infrastructure-nonrepairable repair classification, and a
-`--kaggle-preflight-only` gate); no tag created; Pilot not authorized. Current
-branch: `fix/kaggle-smoke-v2-real-run-root` (from the R7B tail; R7C runtime
-commit `7a80e53`, bundle pin `f01b8f0`).
+`--kaggle-preflight-only` gate). The prior R7C report incorrectly called a
+1,451-test subset the full suite; the true first full suite was 23 failed /
+1,759 passed / 32 skipped, root cause = blanket `baseline_validation =>
+infrastructure_nonrepairable`. An independent GPT-5.6 Thinking correction
+(`ffa179a` + `6d6aa36`, HEAD `6d6aa36`) was imported via bundle fast-forward:
+the exact 23 former failures now pass, and DRF import mapping, exact version
+verification, fail-fast preflight, driver-level VRAM, CPU-offload rejection,
+the Python 3.12 runtime contract, and stale source identity were corrected.
+Current full gate = 1,790 passed / 32 skipped / 0 failed. Valid real Qwen
+remains 0/9; Kaggle remains blocked pending the independent full-gate audit.
+Current branch: `fix/kaggle-smoke-v2-real-run-root` (HEAD `6d6aa36`; R7C runtime
+commit `7a80e53`, bundle pin `f01b8f0`, correction `ffa179a` + `6d6aa36`).
 
 ## Implemented Components
 
@@ -387,7 +396,7 @@ python -m pip check
 
 Current validated state:
 
-- **1,676 tests passing / 32 skipped / 0 failed** (last full gate, 2026-08-01)
+- **1,790 tests passing / 32 skipped / 0 failed** (full gate, 2026-08-01, Python 3.11.5)
 - **Ruff: 0 new violations** (pre-existing baseline unchanged)
 - **Mypy strict: 0 new errors** (base 5 pre-existing only)
 - **pip check: no broken requirements** (pre-existing conda issues unrelated)
@@ -650,7 +659,16 @@ contracts the failed real attempt exposed: exact runtime pins installed and
 verified in the notebook, int8 model default with VRAM headroom checks, frozen
 scenario context in strategy prompts, infrastructure-nonrepairable failure
 classification, and a `--kaggle-preflight-only` gate that fails fast before any
-model call. Real-model benchmark execution (nine real Qwen Smoke V2 records)
-and scientific validation require an independent R7C real-run root closure
-audit before the preflighted int8 bundle is relaunched. Smoke evidence is
-non-publication; no real Qwen results are claimed.
+model call. The prior R7C report incorrectly called a 1,451-test subset the
+full suite; the true first full suite was 23 failed / 1,759 passed / 32 skipped
+(root cause = blanket `baseline_validation => infrastructure_nonrepairable`).
+The independent GPT-5.6 Thinking correction (`ffa179a` + `6d6aa36`, HEAD
+`6d6aa36`, pushed) makes the exact 23 former failures pass and corrects DRF
+import mapping, exact version verification, fail-fast preflight, driver-level
+VRAM, CPU-offload rejection, the Python 3.12 runtime contract, and stale source
+identity (`SOURCE_COMMIT=ffa179a`). Current full gate = 1,790 passed / 32
+skipped / 0 failed; valid real Qwen remains 0/9. Real-model benchmark execution
+(nine real Qwen Smoke V2 records) and scientific validation require an
+independent full-gate audit of the corrected R7C branch before the preflighted
+int8 bundle is relaunched. Smoke evidence is non-publication; no real Qwen
+results are claimed.

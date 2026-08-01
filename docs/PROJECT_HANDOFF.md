@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-08-01
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 ACCEPTED AND FROZEN (final independent re-audit 2026-08-01 at 949e9c2) — branch experiment/three-arm-smoke-v2 PUBLISHED to origin (freeze commit 4b2dd27 = first publication HEAD; upstream origin/experiment/three-arm-smoke-v2; local/remote equality verified before publication-status commit); post-R6 KAGGLE RUNTIME FIX on branch fix/kaggle-smoke-v2-runtime-blockers — two real Kaggle attempts failed pre-model (exp-20260801-024041, exp-20260801-024624; both 0 model calls; preserved, not deleted), all real runtime blockers closed (fix commit de3163f) and pinned (bundle commit fb60972) with the core fix accepted by the independent runtime-fix audit, and the R7A pre-rerun hardening closed all four audit findings (hardened source d50e89e, hardened bundle 4c73db6); a further real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0 regenerated files (0/9, not scientific evidence); R7B SMOKE FINISH on branch fix/kaggle-smoke-v2-finish (runtime commit bff0a82, bundle pin 17207bf) makes the Qwen Smoke run observable and executable, with the notebook compile correction at 4c7a0af; **R7C REAL-RUN ROOT CLOSURE on branch fix/kaggle-smoke-v2-real-run-root (runtime commit 7a80e53, bundle pin f01b8f0, pushed, local = remote)** closed the four root contracts the FP16/deps-drift attempt exp-20260801-123125 exposed: environment memory (exact pins in requirements-smoke-kaggle.lock installed + verified in the notebook), int8 memory contract (qwen:1:int8 default, PYTORCH_ALLOC_CONF, seeded probe, VRAM headroom), frozen RegenerationScenarioContext prompt contract, and FailureKind.infrastructure_nonrepairable first-failure repair contract — plus a --kaggle-preflight-only gate (kaggle_smoke_preflight.v1, 6 checks, no run side effects); local scripted = 9/9; bundled CLI dry-run = 9/9; real Qwen = 0/9; tag not created; Pilot = NOT AUTHORIZED; independent R7C real-run root closure audit required before any Kaggle relaunch; do not tag/merge/force-push/relaunch Kaggle before that audit. All reading is repository-contained; external prompt packages are historical provenance only.
+**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 ACCEPTED AND FROZEN (final independent re-audit 2026-08-01 at 949e9c2) — branch experiment/three-arm-smoke-v2 PUBLISHED to origin (freeze commit 4b2dd27 = first publication HEAD; upstream origin/experiment/three-arm-smoke-v2; local/remote equality verified before publication-status commit); post-R6 KAGGLE RUNTIME FIX on branch fix/kaggle-smoke-v2-runtime-blockers — two real Kaggle attempts failed pre-model (exp-20260801-024041, exp-20260801-024624; both 0 model calls; preserved, not deleted), all real runtime blockers closed (fix commit de3163f) and pinned (bundle commit fb60972) with the core fix accepted by the independent runtime-fix audit, and the R7A pre-rerun hardening closed all four audit findings (hardened source d50e89e, hardened bundle 4c73db6); a further real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0 regenerated files (0/9, not scientific evidence); R7B SMOKE FINISH on branch fix/kaggle-smoke-v2-finish (runtime commit bff0a82, bundle pin 17207bf) makes the Qwen Smoke run observable and executable, with the notebook compile correction at 4c7a0af; **R7C REAL-RUN ROOT CLOSURE on branch fix/kaggle-smoke-v2-real-run-root (runtime commit 7a80e53, bundle pin f01b8f0, pushed, local = remote)** closed the four root contracts the FP16/deps-drift attempt exp-20260801-123125 exposed: environment memory (exact pins in requirements-smoke-kaggle.lock installed + verified in the notebook), int8 memory contract (qwen:1:int8 default, PYTORCH_ALLOC_CONF, seeded probe, VRAM headroom), frozen RegenerationScenarioContext prompt contract, and FailureKind.infrastructure_nonrepairable first-failure repair contract — plus a --kaggle-preflight-only gate (kaggle_smoke_preflight.v1, 6 checks, no run side effects); the prior R7C report incorrectly called a 1,451-test subset the full suite (true first full suite = 23 failed / 1,759 passed / 32 skipped; root cause = blanket baseline_validation => infrastructure_nonrepairable); the independent GPT-5.6 Thinking correction was imported via bundle fast-forward (**ffa179a + 6d6aa36, HEAD 6d6aa36, pushed**) and the exact 23 former failures now pass, with DRF import mapping, exact version verification, fail-fast preflight, driver-level VRAM, CPU-offload rejection, Python 3.12 contract, and stale source identity (SOURCE_COMMIT=ffa179a) corrected; current full gate = 1,790 passed / 32 skipped / 0 failed; local scripted = 9/9; bundled CLI dry-run = 9/9; real Qwen = 0/9; tag not created; Pilot = NOT AUTHORIZED; independent full-gate audit required before any Kaggle relaunch; do not tag/merge/force-push/relaunch Kaggle before that audit. All reading is repository-contained; external prompt packages are historical provenance only.
 
 ---
 
@@ -774,24 +774,26 @@ verified after each push.
 
 ```text
 Focused set (directive §7)      all passed (unit + integration 100, cli/builder/preflight 91)
-Full suite (final gate, §10)    1,735 passed / 32 skipped / 0 failed
-Ruff                            baseline 91 = current 91 (0 new vs b6a2031)
+Full suite (final gate, §10)    1,790 passed / 32 skipped / 0 failed
+Ruff                            0 new vs a4e9186 except ARG004 (identity-locked; inherent to reviewed commit)
 Mypy --strict src/benchmark     0 issues
 Compileall                      clean
-Builder rerun                   no diff (deterministic)
+Builder rerun                   no content diff (deterministic; only CRLF warnings)
 git diff --check                clean
 git status --short              clean
-Manifest audit                  code 0 / data 0 / notebook 0 mismatches
+Identity test                   SOURCE_COMMIT=ffa179a, DEPLOYED_BUILD_ID=ffa179a passes
 ```
 
-Next action: independent audit of the R7B Smoke Finish
-(R7B_SMOKE_FINISH_AUDIT_REQUIRED). Kaggle rerun remains blocked until that
-audit passes. No tag, no merge, no force-push, no Kaggle relaunch.
+Next action: independent full-gate audit of the corrected R7C branch (HEAD
+`6d6aa36`, R7C_CORRECTION_FULL_GATE_AUDIT_REQUIRED). Kaggle rerun remains
+blocked until that audit passes. No tag, no merge, no force-push, no Kaggle
+relaunch.
 
 ## 24. R7C Real-Run Root Closure — Environment Memory + Prompt Contracts (2026-08-01)
 
-**Status:** IMPLEMENTATION COMPLETE — INDEPENDENT REAL-RUN ROOT CLOSURE AUDIT REQUIRED
+**Status:** IMPLEMENTATION COMPLETE + ROOT CORRECTION IMPORTED — FULL-GATE AUDIT REQUIRED
 **Branch:** `fix/kaggle-smoke-v2-real-run-root` (from the `fix/kaggle-smoke-v2-finish` tail at `fc5c908`)
+**HEAD:** `6d6aa36` (correction `ffa179a` + `6d6aa36` fast-forwarded onto `a4e9186`; pushed)
 **Directive:** `..\R7C_REAL_RUN_ROOT_CLOSURE_PACKAGE\02_OPENCODE_R7C_ROOT_CLOSURE_DIRECTIVE.md`
 **Record:** `selective_updates/records/KAGGLE-SMOKE-V2-REAL-RUN-ROOT-CLOSURE.md`
 
@@ -800,13 +802,32 @@ audit passes. No tag, no merge, no force-push, no Kaggle relaunch.
 ```text
 latest real attempt    = exp-20260801-123125 (FP16 → OOM; deps drifted from lock)
 scientific evidence    = NONE (not scientific evidence)
-R7C implementation     = complete, committed, pushed pending independent audit
+R7C implementation     = complete, committed, pushed; exact correction imported (ffa179a + 6d6aa36)
 root contracts         = environment memory + prompt contracts closed
 preflight gate         = kaggle_smoke_preflight.v1 (6 checks; exit 0/1; no run side effects)
 local scripted         = 9/9 (dry-run scientific-smoke-v2)
-full suite             = contract-first 1,451 passed / 31 skipped / 0 failed
-Kaggle relaunch        = BLOCKED until the independent R7C real-run root closure audit passes
+true first full suite  = 23 failed / 1,759 passed / 32 skipped (corrected full gate)
+full suite after fix   = 1,790 passed / 32 skipped / 0 failed (Windows / Python 3.11.5)
+Kaggle relaunch        = BLOCKED until the independent full-gate audit passes
 ```
+
+### Correction of prior R7C full-gate truth
+
+The prior R7C report incorrectly called a **1,451-test subset the full suite**.
+The true first full suite was **23 failed / 1,759 passed / 32 skipped**. The
+root cause of the 23 failures was the blanket
+`baseline_validation => infrastructure_nonrepairable` classification in
+`src/benchmark/execution/runner.py`, which classified every normal baseline
+test failure as infrastructure so the repair loop never ran. An independent
+GPT-5.6 Thinking audit implemented and tested the exact correction as two
+commits (`ffa179a` + `6d6aa36`) imported via bundle fast-forward. The exact 23
+former failures now pass. Also corrected: DRF import mapping
+(`djangorestframework` distribution → `rest_framework` module), exact version
+verification, fail-fast preflight, driver-level VRAM (`torch.cuda.mem_get_info()`),
+CPU/disk-offload rejection, Python 3.12 runtime contract, and stale source
+identity (`SOURCE_COMMIT = ffa179a`, `DEPLOYED_BUILD_ID = ffa179a`). Valid real
+Qwen remains **0/9**; Kaggle remains **blocked** pending the independent
+full-gate audit.
 
 ### What changed
 
@@ -846,30 +867,38 @@ A = 7a80e53  fix(kaggle): close environment memory and prompt contracts
 B = f01b8f0  chore(deploy): pin preflighted int8 Smoke V2 bundle
              (notebook install-lock + preflight gate + secrets reorder,
               bundle rebuilt; 147 files / 894,735 bytes; notebook 36,351 bytes)
+C = a4e9186  (previous R7C HEAD — published but broken)
+D = ffa179a  fix(kaggle): correct repair and preflight contracts (independent audit)
+E = 6d6aa36  chore(deploy): pin corrected R7C preflight bundle (ffa179a/ffa179a)
 ```
 
-Both pushed to `origin/fix/kaggle-smoke-v2-real-run-root`; local/remote
-equality verified after each push.
+All pushed to `origin/fix/kaggle-smoke-v2-real-run-root`; local/remote
+equality verified after each push. Current HEAD = `6d6aa36`.
 
 ### Gates
 
 ```text
 Changed-file diagnostics        git diff --check clean (CRLF warnings only)
-Ruff on changed files            clean (pre-existing 5 in seven_arm_benchmark.py left)
-Mypy --strict src/benchmark      0 issues (6 source files)
+Ruff on changed files            clean except ARG004 (identity-locked; see record)
+Mypy --strict src/benchmark      0 issues
 Compileall                       clean
-Unit batches                     preflight+runner+llm+builder 74 passed; cli+models 118 passed
-Integration                      scientific-smoke-v2 41 passed; bundle preflight 24 passed
-Full suite (final gate)          contract-first 1,451 passed / 31 skipped / 0 failed
+Regression gates                 r4+su0010a+su0011 119; preflight 13; runner 41;
+                                 cli 72; builder 11; production-path 41; preflight 24
+Full suite (final gate)          contract-first 1,451 was a SUBSET; true first full suite
+                                 23 failed / 1,759 passed / 32 skipped;
+                                 after correction 1,790 passed / 32 skipped / 0 failed
 Dry-run                          scientific-smoke-v2 9/9 succeeded
 Preflight-only (local, fake model) exit 1, 6 checks, no checkpoint/workspace
-Builder rerun                    no diff (deterministic)
+Builder rerun                    no content diff (deterministic)
 ```
 
 Pre-existing failures confirmed identical at base `fc5c908` (worktree checks):
 unit-first ordering → 1 asyncio event-loop failure; `test_su0011` → 8;
 `test_su0010a` → 9. Canonical order `tests/contract tests/unit` passes.
 
-Next action: independent audit of the R7C real-run root closure
-(R7C_REAL_RUN_ROOT_CLOSURE_AUDIT_REQUIRED). Kaggle relaunch remains blocked
+Next action: independent full-gate audit of the corrected R7C branch (HEAD
+`6d6aa36`) — repair classifier, preflight contracts, Python 3.12 runtime
+contract, notebook source identity, the exact 23 former failures passing, and
+the current full gate
+(R7C_CORRECTION_FULL_GATE_AUDIT_REQUIRED). Kaggle relaunch remains blocked
 until that audit passes. No tag, no merge, no force-push, no Kaggle relaunch.
