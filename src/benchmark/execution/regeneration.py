@@ -7,7 +7,7 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
-from benchmark.core.models import LLMResponse
+from benchmark.core.models import LLMResponse, RegenerationScenarioContext
 from benchmark.core.protocols import LLMBackend
 from benchmark.execution.budgets import resolve_completion_allowance
 from benchmark.execution.isolation import IsolationContext
@@ -68,6 +68,63 @@ Fix the issues above so that the functional validation passes. \
 Return the complete replacement file content without explanation or markdown fences.
 """
 
+SCENARIO_CONTEXT_PROMPT_TEMPLATE = """\
+Frozen scenario contract ({scenario_id}):
+Acceptance criteria (must all hold in the final repository):
+{acceptance_criteria}
+
+Architecture constraints (must never be violated):
+{architecture_constraints}
+
+Scope contract for {artifact_path}:
+- Expected action for this file: {expected_action}
+- If the expected action is "preserve", return the current file content byte-identically.
+- Preserve unrelated behavior and unrelated files exactly as they are.
+- Do not re-declare models, serializers, views, or classes that belong in other modules.
+"""
+
+
+def build_generation_prompt(
+    requirement_delta: str,
+    artifact_path: str,
+    language_hint: str,
+    current_content: str,
+    scenario_context: RegenerationScenarioContext | None = None,
+    expected_action: str | None = None,
+    repair_context: str | None = None,
+) -> str:
+    """Build the full regeneration prompt for an artifact.
+
+    When a frozen ``RegenerationScenarioContext`` is supplied, the prompt
+    includes the repository-wide acceptance criteria, architecture
+    constraints, the file-specific expected action, and the preserve-only /
+    no-redeclare scope contract.
+    """
+    prompt = BUILT_IN_PROMPT_TEMPLATE.format(
+        requirement_delta=requirement_delta or "Update the artifact to match the new requirements.",
+        artifact_path=artifact_path,
+        language_hint=language_hint,
+        current_content=current_content,
+    )
+    if scenario_context is not None:
+        ea = expected_action or scenario_context.expected_action_for(artifact_path)
+        prompt += SCENARIO_CONTEXT_PROMPT_TEMPLATE.format(
+            scenario_id=scenario_context.scenario_id,
+            acceptance_criteria=(
+                "\n".join(f"- {c}" for c in scenario_context.acceptance_criteria)
+                or "- (none declared)"
+            ),
+            architecture_constraints=(
+                "\n".join(f"- {c}" for c in scenario_context.architecture_constraints)
+                or "- (none declared)"
+            ),
+            artifact_path=artifact_path,
+            expected_action=ea,
+        )
+    if repair_context:
+        prompt += repair_context
+    return prompt
+
 
 def _language_hint(path: str) -> str:
     suffix = Path(path).suffix
@@ -109,6 +166,7 @@ class SharedRegenerationExecutor:
         requirement_delta: str = "",
         repair_context: str | None = None,
         *,
+        scenario_context: RegenerationScenarioContext | None = None,
         max_completion_tokens_per_call: int = 4096,
         remaining_total_workflow_tokens: int | None = None,
     ) -> RegenerationExecutionResult:
@@ -119,6 +177,7 @@ class SharedRegenerationExecutor:
             return asyncio.run(
                 self._execute_async(
                     plan, isolation, requirement_delta, repair_context,
+                    scenario_context=scenario_context,
                     max_completion_tokens_per_call=max_completion_tokens_per_call,
                     remaining_total_workflow_tokens=remaining_total_workflow_tokens,
                 )
@@ -137,6 +196,7 @@ class SharedRegenerationExecutor:
         requirement_delta: str,
         repair_context: str | None = None,
         *,
+        scenario_context: RegenerationScenarioContext | None = None,
         max_completion_tokens_per_call: int = 4096,
         remaining_total_workflow_tokens: int | None = None,
     ) -> RegenerationExecutionResult:
@@ -183,7 +243,8 @@ class SharedRegenerationExecutor:
 
             src_path = Path(workspace_root) / artifact.path.lstrip("/")
             try:
-                current_content = src_path.read_text(encoding="utf-8")
+                current_bytes = src_path.read_bytes()
+                current_content = current_bytes.decode("utf-8")
             except FileNotFoundError:
                 failures.append(f"Source file not found in workspace: {artifact.path}")
                 generated.append(
@@ -205,14 +266,14 @@ class SharedRegenerationExecutor:
                 )
                 continue
 
-            prompt = BUILT_IN_PROMPT_TEMPLATE.format(
-                requirement_delta=requirement_delta or "Update the artifact to match the new requirements.",
+            prompt = build_generation_prompt(
+                requirement_delta=requirement_delta,
                 artifact_path=artifact.path,
                 language_hint=_language_hint(artifact.path),
                 current_content=current_content,
+                scenario_context=scenario_context,
+                repair_context=repair_context,
             )
-            if repair_context:
-                prompt += repair_context
 
             prompt_estimate = getattr(
                 self._backend, "count_prompt_tokens", lambda p: max(1, len(p) // 4)
@@ -330,6 +391,26 @@ class SharedRegenerationExecutor:
                     artifact.path, time.monotonic() - artifact_start,
                 )
                 continue
+
+            if scenario_context is not None and scenario_context.expected_actions:
+                expected = scenario_context.expected_action_for(artifact.path)
+                if expected == "preserve" and output_text.encode("utf-8") != current_bytes:
+                    failures.append(
+                        f"out_of_scope_change: {artifact.path} expected action 'preserve' "
+                        "but generated output differs from the current file"
+                    )
+                    generated.append(
+                        GeneratedArtifact(
+                            path=artifact.path,
+                            content=output_text,
+                            status="rejected",
+                        )
+                    )
+                    logger.info(
+                        "REGEN_ARTIFACT_END path=%s status=rejected reason=out_of_scope_change elapsed=%.3f",
+                        artifact.path, time.monotonic() - artifact_start,
+                    )
+                    continue
 
             target_path = Path(workspace_root) / artifact.path.lstrip("/")
             try:

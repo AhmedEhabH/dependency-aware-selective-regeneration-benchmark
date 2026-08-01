@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from benchmark.core.enums import ArtifactType, BlastRadius, RunStatus
+from benchmark.core.enums import ActionKind, ArtifactType, BlastRadius, RunStatus
 from benchmark.core.models import (
     AcceptanceCriterion,
     ArchitectureConstraint,
@@ -1155,3 +1155,133 @@ class TestEditableArtifactUniverse:
         _repo, _change, universe = strategy.calls[0]
         runner_paths = {a.path for a in universe.artifacts}
         assert runner_paths == direct_paths
+
+
+class TestClassifyValidationRepairability:
+    """R7C-REAL-RUN-ROOT-CLOSURE: infrastructure failures never enter repair."""
+
+    @staticmethod
+    def _classify(
+        *,
+        exit_code: int = 1,
+        stdout: str = "",
+        stderr: str = "",
+        stage: str = "scenario_evaluator",
+    ) -> str:
+        return BenchmarkRunner.classify_validation_repairability(
+            exit_code=exit_code,
+            stdout=stdout,
+            stderr=stderr,
+            stage=stage,
+        )
+
+    def test_missing_module_is_infrastructure_nonrepairable(self) -> None:
+        assert (
+            self._classify(
+                stderr="ModuleNotFoundError: No module named 'django'",
+            )
+            == "infrastructure_nonrepairable"
+        )
+
+    def test_import_error_is_infrastructure_nonrepairable(self) -> None:
+        assert (
+            self._classify(stderr="ImportError: cannot import name 'settings'")
+            == "infrastructure_nonrepairable"
+        )
+
+    def test_cuda_oom_is_infrastructure_nonrepairable(self) -> None:
+        assert (
+            self._classify(stderr="CUDA out of memory. Tried to allocate 512.00 MiB")
+            == "infrastructure_nonrepairable"
+        )
+
+    def test_exit_127_command_not_found_is_infrastructure_nonrepairable(self) -> None:
+        assert self._classify(exit_code=127) == "infrastructure_nonrepairable"
+        assert (
+            self._classify(stderr="command not found: python") == "infrastructure_nonrepairable"
+        )
+
+    def test_baseline_validation_failure_is_infrastructure_nonrepairable(self) -> None:
+        assert (
+            self._classify(stderr="AssertionError: baseline mismatch", stage="baseline_validation")
+            == "infrastructure_nonrepairable"
+        )
+
+    def test_normal_test_failure_is_repairable_code(self) -> None:
+        assert (
+            self._classify(
+                stdout="FAILED tests/test_models.py::test_x",
+                stderr="AssertionError: expected 3, got 2",
+                stage="scenario_evaluator",
+            )
+            == "repairable_code"
+        )
+
+    def test_empty_feedback_is_repairable_code(self) -> None:
+        assert self._classify() == "repairable_code"
+
+
+class TestBuildScenarioContext:
+    """R7C-REAL-RUN-ROOT-CLOSURE: scenario context maps ground-truth actions."""
+
+    def _runner(self, tmp_path: Path) -> BenchmarkRunner:
+        ws_root = tmp_path / "ws"
+        ws_root.mkdir(parents=True)
+        iso = IsolationContext(
+            workspace=WorkspacePath(root=str(ws_root)),
+            snapshot_base=tmp_path / "snap",
+            active_snapshot_root=tmp_path / "active",
+        )
+        return BenchmarkRunner(
+            strategy=_FakeStrategy(),
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=RunnerConfig(
+                strategy_name="monolithic",
+                backend_name="test_backend",
+                protocol_version="1.0",
+                max_attempts=1,
+                enable_regeneration=True,
+                validation_command=[sys.executable, "-c", "exit(0)"],
+                editable_artifact_paths=("todo/models.py",),
+            ),
+        )
+
+    def test_maps_expected_actions(self, tmp_path: Path) -> None:
+        runner = self._runner(tmp_path)
+        scenario = Scenario(
+            scenario_id="todo-smoke-001",
+            repository="todo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="old",
+            requirement_after="new",
+            rationale="test",
+            acceptance_criteria=(AcceptanceCriterion(description="app runs"),),
+            architecture_constraints=(ArchitectureConstraint(description="single app"),),
+            expected_actions=(
+                (ArtifactRef(path="todo/models.py", artifact_type=ArtifactType.source), ActionKind.regenerate),
+                (ArtifactRef(path="todo/views.py", artifact_type=ArtifactType.source), ActionKind.preserve),
+            ),
+        )
+        ctx = runner._build_scenario_context(scenario)
+        assert ctx.scenario_id == "todo-smoke-001"
+        assert ctx.expected_action_for("todo/models.py") == "modify"
+        assert ctx.expected_action_for("todo/views.py") == "preserve"
+        assert ctx.acceptance_criteria == ("app runs",)
+        assert ctx.architecture_constraints == ("single app",)
+
+    def test_empty_expected_actions_yields_empty_contract(self, tmp_path: Path) -> None:
+        runner = self._runner(tmp_path)
+        scenario = Scenario(
+            scenario_id="s",
+            repository="repo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="old",
+            requirement_after="new",
+            rationale="test",
+        )
+        ctx = runner._build_scenario_context(scenario)
+        assert ctx.expected_actions == ()
+        assert ctx.expected_action_for("anything.py") == "preserve"

@@ -50,6 +50,7 @@ CANONICAL_CODE_SOURCES = [
     PROJECT_ROOT / "src" / "benchmark",
     PROJECT_ROOT / "configs",
     PROJECT_ROOT / "requirements-kaggle.txt",
+    PROJECT_ROOT / "requirements-smoke-kaggle.lock",
     PROJECT_ROOT / "pyproject.toml",
     *(PROJECT_ROOT / rel for rel in EVALUATOR_ASSET_RELATIVE_PATHS),
 ]

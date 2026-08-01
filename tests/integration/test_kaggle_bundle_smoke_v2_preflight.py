@@ -454,3 +454,79 @@ class TestKaggleBundleRuntimeGuardrails:
         )
         assert "model identity starts with qwen:" in text
         assert "scenario evaluator passed" in text
+
+
+class TestKaggleBundleR7CRuntimeClosure:
+    """R7C-REAL-RUN-ROOT-CLOSURE: pinned runtime + preflight gate + repairability."""
+
+    def test_requirements_smoke_kaggle_lock_bundled_with_exact_pins(self) -> None:
+        lock = BUNDLE_CODE / "requirements-smoke-kaggle.lock"
+        assert lock.is_file(), f"requirements-smoke-kaggle.lock not bundled: {lock}"
+        text = lock.read_text(encoding="utf-8")
+        assert "Django==5.2.16" in text
+        assert "djangorestframework==3.17.1" in text
+        assert "pytest==8.4.2" in text
+        assert "pytest-django==4.12.0" in text
+        assert "accelerate==1.14.0" in text
+        assert "bitsandbytes==0.49.2" in text
+        pin_lines = {line.split("==")[0] for line in text.splitlines() if "==" in line}
+        assert "torch" not in pin_lines, "lock must not pin torch (Kaggle image provides it)"
+        assert "transformers" not in pin_lines, "lock must not pin transformers (Kaggle image provides it)"
+
+    def test_bundled_pyproject_pins_django_runtime(self) -> None:
+        pyproject = BUNDLE_CODE / "pyproject.toml"
+        assert pyproject.is_file(), "pyproject.toml not bundled"
+        text = pyproject.read_text(encoding="utf-8")
+        assert "Django==5.2.16" in text
+        assert "djangorestframework==3.17.1" in text
+        assert "pytest-django==4.12.0" in text
+
+    def test_bundled_cli_has_kaggle_preflight_only_gate(self) -> None:
+        source = (BUNDLE_CODE / "seven_arm_benchmark.py").read_text(encoding="utf-8")
+        assert "--kaggle-preflight-only" in source
+        assert "run_kaggle_smoke_preflight" in source
+        assert "render_preflight_table" in source
+        assert "kaggle_smoke_preflight.v1" in source
+
+    def test_bundled_preflight_module_present(self) -> None:
+        module = BUNDLE_CODE / "src" / "benchmark" / "execution" / "preflight.py"
+        assert module.is_file(), "preflight module not bundled"
+        text = module.read_text(encoding="utf-8")
+        assert "kaggle_smoke_preflight.v1" in text
+        assert "MIN_FREE_VRAM_GIB" in text
+        assert "PROBE_MAX_TOKENS" in text
+        assert "BitsAndBytesConfig" in text or "bitsandbytes" in text
+
+    def test_bundled_cli_uses_frozen_int8_identity(self) -> None:
+        source = (BUNDLE_CODE / "seven_arm_benchmark.py").read_text(encoding="utf-8")
+        assert 'return "qwen:1:int8"' in source
+
+    def test_bundled_runner_has_infrastructure_nonrepairable_classification(self) -> None:
+        source = (BUNDLE_CODE / "src" / "benchmark" / "execution" / "runner.py").read_text(
+            encoding="utf-8"
+        )
+        assert "classify_validation_repairability" in source
+        assert "infrastructure_nonrepairable" in source
+        assert "_reclassify_infrastructure_failure" in source
+
+    def test_bundled_regeneration_threads_scenario_context_and_preserve_guard(self) -> None:
+        source = (BUNDLE_CODE / "src" / "benchmark" / "execution" / "regeneration.py").read_text(
+            encoding="utf-8"
+        )
+        assert "SCENARIO_CONTEXT_PROMPT_TEMPLATE" in source
+        assert "expected_action_for" in source
+        assert "out_of_scope_change" in source
+        assert "build_generation_prompt" in source
+
+    def test_bundled_models_include_frozen_scenario_context(self) -> None:
+        source = (BUNDLE_CODE / "src" / "benchmark" / "core" / "models.py").read_text(
+            encoding="utf-8"
+        )
+        assert "class RegenerationScenarioContext" in source
+        assert "expected_action_for" in source
+
+    def test_bundled_enums_include_infrastructure_nonrepairable(self) -> None:
+        source = (BUNDLE_CODE / "src" / "benchmark" / "core" / "enums.py").read_text(
+            encoding="utf-8"
+        )
+        assert "infrastructure_nonrepairable" in source
