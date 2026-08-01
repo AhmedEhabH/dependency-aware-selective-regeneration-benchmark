@@ -44,6 +44,18 @@ def _parse_artifact_ref(ref_str: str) -> ArtifactRef:
     return ArtifactRef(path=path_part, artifact_type=artifact_type)
 
 
+def _parse_artifact_instruction(ref_str: str) -> tuple[str, str] | None:
+    """Parse ``path:instruction`` while keeping legacy path-only entries valid."""
+    if ":" not in ref_str:
+        return None
+    path_part, instruction = ref_str.split(":", 1)
+    path = path_part.strip()
+    detail = instruction.strip()
+    if not path or not detail:
+        return None
+    return path, detail
+
+
 _ACTION_ALIASES: dict[str, ActionKind] = {
     "modify": ActionKind.regenerate,
     "create": ActionKind.regenerate,
@@ -114,6 +126,11 @@ class ScenarioModel:
         affected = tuple(
             _parse_artifact_ref(a) for a in self.expected_affected_artifacts
         )
+        artifact_instructions = tuple(
+            parsed
+            for raw in self.expected_affected_artifacts
+            if (parsed := _parse_artifact_instruction(raw)) is not None
+        )
 
         seen_actions: set[tuple[str, ActionKind]] = set()
         actions: list[tuple[ArtifactRef, ActionKind]] = []
@@ -144,6 +161,7 @@ class ScenarioModel:
             rationale=self.rationale,
             acceptance_criteria=criteria,
             expected_affected_artifacts=affected,
+            expected_artifact_instructions=artifact_instructions,
             expected_actions=tuple(actions),
             architecture_constraints=arch_constraints,
             hidden_tests=tuple(hidden_raw),

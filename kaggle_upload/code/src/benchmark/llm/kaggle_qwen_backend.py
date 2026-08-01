@@ -23,6 +23,13 @@ _MINIMUM_COMPUTE_CAPABILITY = (7, 0)
 
 CANONICAL_ALLOC_CONF = "expandable_segments:True"
 
+SYSTEM_TRANSFORMATION_MESSAGE = (
+    "You are a precise source-code transformation engine. Follow every scope, "
+    "architecture, and output constraint literally. Make minimal edits, preserve "
+    "unrelated behavior, never invent undeclared dependencies, and return only the "
+    "requested complete artifact content."
+)
+
 
 def _set_canonical_alloc_conf() -> None:
     """Set the canonical PyTorch memory allocation environment variable.
@@ -253,13 +260,23 @@ class KaggleQwenBackend:
                 output_ids = self._model.generate(**gen_kwargs)
 
             generated_ids = output_ids[0, prompt_tokens:]
-            output_text = self._tokenizer.decode(generated_ids, skip_special_tokens=True)
-            completion_tokens = generated_ids.shape[0]
+            completion_tokens = len(generated_ids)
 
-            # Detect actual finish reason: EOS token emitted vs length truncation
-            eos_token_id = self._tokenizer.eos_token_id
-            last_token_id = generated_ids[-1].item()
-            finish_reason = "eos" if last_token_id == eos_token_id else "length"
+            # Zero-token output is a measured empty model response, not a backend
+            # crash. The regeneration normalizer will classify it as empty and
+            # feed that evidence to the bounded repair loop.
+            if completion_tokens == 0:
+                output_text = ""
+                finish_reason = "empty"
+            else:
+                output_text = self._tokenizer.decode(
+                    generated_ids, skip_special_tokens=True
+                )
+                eos_token_id = self._tokenizer.eos_token_id
+                last_token_id = generated_ids[-1].item()
+                finish_reason = (
+                    "eos" if last_token_id == eos_token_id else "length"
+                )
 
             logger.info(
                 "GENERATION_SUCCEEDED prompt_tokens=%d completion_tokens=%d total_tokens=%d finish_reason=%s",
@@ -320,7 +337,10 @@ class KaggleQwenBackend:
             )
         try:
             return apply_chat_template(
-                [{"role": "user", "content": prompt}],
+                [
+                    {"role": "system", "content": SYSTEM_TRANSFORMATION_MESSAGE},
+                    {"role": "user", "content": prompt},
+                ],
                 tokenize=False,
                 add_generation_prompt=True,
             )

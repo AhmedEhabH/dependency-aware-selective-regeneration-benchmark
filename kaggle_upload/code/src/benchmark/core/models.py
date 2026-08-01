@@ -114,6 +114,7 @@ class Scenario:
     rationale: str
     acceptance_criteria: tuple[AcceptanceCriterion, ...] = ()
     expected_affected_artifacts: tuple[ArtifactRef, ...] = ()
+    expected_artifact_instructions: tuple[tuple[str, str], ...] = ()
     expected_actions: tuple[tuple[ArtifactRef, ActionKind], ...] = ()
     architecture_constraints: tuple[ArchitectureConstraint, ...] = ()
     hidden_tests: tuple[str, ...] = ()
@@ -152,6 +153,12 @@ class RegenerationScenarioContext:
     ``expected_actions`` is an ordered tuple of ``(path, action)`` pairs where
     ``action`` is one of ``"modify"``, ``"create"``. Any artifact path absent
     from this mapping has an implicit ``expected action = preserve``.
+
+    ``artifact_instructions`` carries the frozen, file-specific instruction
+    written in the scenario YAML (for example ``"expose priority"``).  It is
+    model-facing context.  The executor still independently enforces the
+    expected-action scope after generation, so prompt compliance is never
+    trusted on its own.
     """
 
     scenario_id: str
@@ -160,6 +167,7 @@ class RegenerationScenarioContext:
     acceptance_criteria: tuple[str, ...] = ()
     architecture_constraints: tuple[str, ...] = ()
     expected_actions: tuple[tuple[str, str], ...] = ()
+    artifact_instructions: tuple[tuple[str, str], ...] = ()
 
     def __post_init__(self) -> None:
         if not self.scenario_id:
@@ -180,6 +188,19 @@ class RegenerationScenarioContext:
             if path in seen:
                 raise ValueError(f"Duplicate expected action path: {path}")
             seen.add(path)
+        instruction_paths: set[str] = set()
+        for path, instruction in self.artifact_instructions:
+            if not path:
+                raise ValueError(
+                    "RegenerationScenarioContext artifact instruction path must not be empty"
+                )
+            if not instruction.strip():
+                raise ValueError(
+                    f"RegenerationScenarioContext artifact instruction must not be empty for {path!r}"
+                )
+            if path in instruction_paths:
+                raise ValueError(f"Duplicate artifact instruction path: {path}")
+            instruction_paths.add(path)
 
     def expected_action_for(self, path: str) -> str:
         """Return the frozen expected action ('modify'/'create') or 'preserve'."""
@@ -187,6 +208,18 @@ class RegenerationScenarioContext:
             if path == exp_path or path.startswith(exp_path.rstrip("/") + "/"):
                 return action
         return "preserve"
+
+    def instruction_for(self, path: str) -> str:
+        """Return the frozen file-specific instruction, or a safe default."""
+        for exp_path, instruction in self.artifact_instructions:
+            if path == exp_path or path.startswith(exp_path.rstrip("/") + "/"):
+                return instruction
+        if self.expected_action_for(path) == "preserve":
+            return (
+                "No scenario change is required in this file. Return the current "
+                "content byte-identically."
+            )
+        return "Make only the smallest change required by the scenario contract."
 
 
 # ---------------------------------------------------------------------------

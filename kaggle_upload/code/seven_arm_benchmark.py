@@ -1507,6 +1507,74 @@ def _render_progress_line(
     )
 
 
+_SCIENTIFIC_FAILURE_KINDS = frozenset(
+    {
+        "model_output",
+        "build",
+        "changed_requirement",
+        "regression",
+        "architecture",
+    }
+)
+_ENGINEERING_FAILURE_KINDS = frozenset(
+    {
+        "infrastructure",
+        "infrastructure_nonrepairable",
+        "harness_defect",
+        "timeout",
+        "environment",
+        "environment_preflight",
+    }
+)
+
+
+def _terminal_record_outcome(record: dict[str, Any]) -> str:
+    """Classify a persisted terminal record as scientific or engineering.
+
+    A benchmark model/code failure is a valid measured outcome.  Only
+    infrastructure, harness, timeout/cancellation, or unknown failures should
+    make the process/session fail as an execution job.
+    """
+    status = str(record.get("status", ""))
+    if status == "succeeded":
+        return "scientific_success"
+    if status in ("timed_out", "cancelled"):
+        return "engineering_blocker"
+    if status != "failed":
+        return "engineering_blocker"
+
+    kinds = {
+        str(item.get("kind", ""))
+        for item in (record.get("failure_details") or [])
+        if isinstance(item, dict) and item.get("kind")
+    }
+    classification = str(record.get("failure_classification", ""))
+    if classification:
+        kinds.add(classification)
+    if not kinds or kinds & _ENGINEERING_FAILURE_KINDS:
+        return "engineering_blocker"
+    if kinds <= _SCIENTIFIC_FAILURE_KINDS:
+        return "scientific_failure"
+    return "engineering_blocker"
+
+
+def _read_persisted_run_records(output_dir: Path) -> list[dict[str, Any]]:
+    path = output_dir / "run_records.jsonl"
+    if not path.is_file():
+        return []
+    records: list[dict[str, Any]] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            value = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(value, dict):
+            records.append(value)
+    return records
+
+
 def _decide_session_exit_code(
     *,
     max_runs: int,
@@ -1516,28 +1584,38 @@ def _decide_session_exit_code(
     hf_uploader_configured: bool,
     hf_sync_ok: bool,
     total_failed: int,
+    last_run_failure_classification: str = "",
+    engineering_blocker_count: int = 0,
+    last_run_outcome: str = "",
 ) -> int:
     """Decide the process exit code for this session.
 
     Rules:
       - Any required HF sync upload failure => 1 (local artifacts remain safe).
-      - Incomplete plan caused by ``--max-runs`` truncation where the newly
-        attempted run failed / timed out / was cancelled => 1 immediately
-        (do not wait for all planned runs before returning non-zero).
+      - A measured model/build/requirement/regression/architecture failure is
+        a valid scientific terminal outcome and does not fail the process.
+      - Infrastructure, harness, timeout/cancellation, unknown failures, or
+        required HF sync failure => 1.
       - Incomplete plan otherwise => 0 (resumable).
-      - Complete plan => 1 iff any run failed.
+      - Complete plan => 1 iff an engineering blocker was persisted.
     """
     if hf_uploader_configured and not hf_sync_ok:
         return 1
     if not all_runs_completed:
-        if (
-            max_runs > 0
-            and session_created_run_count > 0
-            and last_run_status in ("failed", "timed_out", "cancelled")
-        ):
-            return 1
+        if max_runs > 0 and session_created_run_count > 0:
+            if last_run_outcome:
+                return 1 if last_run_outcome == "engineering_blocker" else 0
+            if last_run_status in ("timed_out", "cancelled"):
+                return 1
+            if (
+                last_run_status == "failed"
+                and last_run_failure_classification
+                not in _SCIENTIFIC_FAILURE_KINDS
+            ):
+                return 1
         return 0
-    return 1 if total_failed > 0 else 0
+    _ = total_failed  # scientific failures are measured data, not job failure
+    return 1 if engineering_blocker_count > 0 else 0
 
 
 def main() -> int:
@@ -2221,6 +2299,8 @@ def main() -> int:
     run_count = 0
     session_created_run_ids: list[str] = []
     last_run_status: str = ""
+    last_run_failure_classification: str = ""
+    last_run_outcome: str = ""
 
     for run_spec in execution_plan:
         run_id = run_spec["run_id"]
@@ -2365,6 +2445,8 @@ def main() -> int:
         record_store.append(run_record_data)
         session_created_run_ids.append(run_id)
         last_run_status = status
+        last_run_failure_classification = failure_classification
+        last_run_outcome = _terminal_record_outcome(vars(run_record_data))
 
         # Update checkpoint
         if run_id in checkpoint_data.pending_run_ids:
@@ -2498,6 +2580,12 @@ def main() -> int:
         len(audit["missing_run_ids"]),
         len(audit["duplicate_run_ids"]),
     )
+    persisted_records = _read_persisted_run_records(output_dir)
+    engineering_blocker_count = sum(
+        1
+        for persisted in persisted_records
+        if _terminal_record_outcome(persisted) == "engineering_blocker"
+    )
 
     if all_runs_completed:
         checkpoint_mgr.write_atomic(checkpoint_data)
@@ -2532,13 +2620,12 @@ def main() -> int:
                 hf_sync_ok, time.monotonic() - hf_sync_t0,
             )
 
-        if audit["total_failed"] > 0 or audit["duration_totals"].get("experiment_run_duration_seconds", 0) > 0:
-            # Use audit for exit code decision
-            non_zero = audit["total_failed"] > 0
-        else:
-            non_zero = False
-        if non_zero:
-            logger.warning("Non-zero exit due to %d failures", audit["total_failed"])
+        if audit["total_failed"] > 0:
+            logger.info(
+                "Scientific terminal failures recorded: %d; engineering blockers: %d",
+                audit["total_failed"],
+                engineering_blocker_count,
+            )
         return _decide_session_exit_code(
             max_runs=args.max_runs,
             all_runs_completed=True,
@@ -2547,6 +2634,9 @@ def main() -> int:
             hf_uploader_configured=hf_uploader is not None,
             hf_sync_ok=hf_sync_ok,
             total_failed=audit["total_failed"],
+            last_run_failure_classification=last_run_failure_classification,
+            engineering_blocker_count=engineering_blocker_count,
+            last_run_outcome=last_run_outcome,
         )
 
     # Incomplete -- save progress
@@ -2591,6 +2681,9 @@ def main() -> int:
         hf_uploader_configured=hf_uploader is not None,
         hf_sync_ok=hf_sync_ok,
         total_failed=audit["total_failed"],
+        last_run_failure_classification=last_run_failure_classification,
+        engineering_blocker_count=engineering_blocker_count,
+        last_run_outcome=last_run_outcome,
     )
 
 
