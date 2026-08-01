@@ -48,7 +48,19 @@
 - **Priority:** HIGH
 - **Category:** Audit
 - **Description:** Independent audit of the corrected branch HEAD `6d6aa36` (repair classifier, preflight dependency/version/VRAM/device-map contracts, Python 3.12 runtime contract, notebook source identity, exact 23 former failures passing, current full gate); then update Kaggle code dataset + notebook, run one real cell (require 1/9), continue to 9/9
-- **Status:** PENDING (sentinel `R7C_CORRECTION_FULL_GATE_AUDIT_REQUIRED`)
+- **Status:** SUPERSEDED — see R7C-09 (post-gate audit) and R7C-10 (final full-gate audit)
+
+### R7C-09 — Import Independent Post-Gate Correction and Run Full Gate
+- **Priority:** HIGH
+- **Category:** Audit Correction
+- **Description:** An independent post-gate audit performed on `5e47a1e` found (a) the project-local `ImportError` was incorrectly bypassing repair (blanket marker match); (b) the bundled preflight could not import `benchmark` without ambient `PYTHONPATH`; (c) preflight output was buffered. Import the exact audited correction via bundle fast-forward (`6f88823` fix(kaggle): align repair eligibility and script bootstrap + `5797fc0` chore(deploy): pin audited preflight and live gate, HEAD `5797fc0`, pushed): project-local `ModuleNotFoundError` / `cannot import name` now repairable via the canonical classifier; missing declared Django + CUDA OOM stay `infrastructure_nonrepairable`; bundled script bootstraps its own `src/`; preflight output streamed + persisted. Notebook source identity = `SOURCE_COMMIT 6f88823` / `DEPLOYED_BUILD_ID 6f88823`. Full gate = 1,796 passed / 32 skipped / 0 failed; ruff 0 new (93 = 93); mypy 0; compileall clean; builder rerun content-identical. Valid real Qwen remains 0/9; no scientific evidence; Kaggle blocked.
+- **Status:** COMPLETE (6f88823 + 5797fc0 imported, pushed; full gate green)
+
+### R7C-10 — Final Independent Full-Gate Audit of `5797fc0`
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Final independent full-gate audit of the corrected branch HEAD `5797fc0` (repair eligibility, bundled clean-subprocess preflight bootstrap, preflight live streaming, boundary regressions, complete full suite); after it passes, the only authorized Kaggle action is the engineering preflight cell — not the scientific One-Run cell; then update Kaggle code dataset + notebook, run one real cell (require 1/9), continue to 9/9
+- **Status:** PENDING (sentinel `R7C_POST_AUDIT_FULL_GATE_REQUIRED`)
 
 ## Phase 0 — Bootstrap and Environment
 
