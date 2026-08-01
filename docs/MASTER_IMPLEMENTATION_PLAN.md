@@ -2,9 +2,37 @@
 
 ## Dependency-Aware Selective Regeneration for LLM-Assisted Software Evolution
 
-### Overview
+## Authoritative Current Execution Track
 
-This plan defines the sequence of implementation phases for a research-grade benchmark evaluating dependency-aware selective regeneration strategies. The work spans 11 phases, each building on the previous.
+```text
+R4 = accepted and frozen (f5ae826)
+R5 = accepted and frozen (7761c48)
+R6 = technical implementation passed independent audit; final correction complete pending re-audit
+     (test commit 40c7a47 + documentation-truth cleanup at current documentation HEAD)
+Push = next after audit (local/remote equality)
+Real Smoke = 0/9 (local scripted 9/9)
+Tag = v2.0.0-scientific-smoke after real-result audit
+Pilot = denominator not frozen; not authorized
+```
+
+Exact path from R6 correction to Pilot freeze:
+
+```text
+independent R6 re-audit of the final correction
+→ push branch and verify local/remote equality
+→ Kaggle environment preflight
+→ nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 rep)
+→ independent real-result audit
+→ stable v2.0.0-scientific-smoke tag
+→ freeze Pilot matrix and authorize Pilot
+```
+
+## Historical implementation plan — non-authoritative for current execution
+
+The pre-R3 phase map, the legacy approved-repository and approved-strategy
+lists below describe earlier implementation history. They are retained for
+traceability only and are NOT authoritative for current execution. The current
+authoritative track is the section above.
 
 ### Phase Map
 
@@ -72,7 +100,7 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - Phase 9 requires Phase 8.
 - Phase 10 runs at the end.
 
-### Approved Repositories
+### Approved Repositories (historical — pre-R6 plan)
 
 | Size   | Repository            | Status |
 |--------|-----------------------|--------|
@@ -81,7 +109,7 @@ This plan defines the sequence of implementation phases for a research-grade ben
 | Large  | Saleor Core           | PENDING|
 | Stress | ERPNext (optional)    | PENDING|
 
-### Approved Strategies
+### Approved Strategies (historical — pre-R6 plan)
 
 - repository_agent (baseline)
 - static_only
@@ -100,6 +128,6 @@ This plan defines the sequence of implementation phases for a research-grade ben
 
 ## R6 Status (2026-08-01)
 
-R6 deployment closure is **COMPLETE PENDING INDEPENDENT AUDIT** (corrected directive in `..\R6_OpenCode_Package_CORRECTED\`, supersedes all earlier R6 directives). Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints. Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; push not performed; tag not created; Pilot not authorized. Next: independent R6 audit, then push, Kaggle preflight, and nine real Qwen records.
+R6 deployment closure passed the **independent audit** (GPT-5.6 Thinking, 2026-08-01, audited HEAD `da6ccf3`) with technical implementation and bundle accepted. The bounded final correction closed TD-R6-ENTRYPOINT-001 (test commit `40c7a47`, bundled CLI dry-run 9/9) and documentation-truth defects D1–D6 at current documentation HEAD; **R6 final correction is COMPLETE PENDING INDEPENDENT RE-AUDIT**. Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints. Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; push not performed; tag not created; Pilot not authorized. Next: independent R6 re-audit, then push, Kaggle preflight, and nine real Qwen records.
 
-R6_DEPLOYMENT_CLOSURE_AUDIT_REQUIRED
+R6_FINAL_CORRECTION_REAUDIT_REQUIRED

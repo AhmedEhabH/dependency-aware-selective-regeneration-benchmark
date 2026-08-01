@@ -184,6 +184,27 @@
   methods; evaluator assets deployed = 3 + 3 fingerprints; tests/support = 0;
   scripted/harness = 0; final builder run byte-identical, tree clean.
 
+### TD-R6-ENTRYPOINT-001 — bundled CLI entrypoint regression missing
+- **Severity:** TD-0 (deployed-entrypoint integrity)
+- **Opened:** R6 Independent Audit (2026-08-01), section 7 — deployment
+  preflight tests proved baseline/evaluator/scenario/migration behavior but
+  never executed the generated CLI entrypoint itself.
+- **Closure:** CLOSED IN R6 FINAL CORRECTION (2026-08-01) — regression
+  `test_bundled_cli_dry_run_executes_exact_nine_cell_plan` appended to
+  `tests/integration/test_kaggle_bundle_smoke_v2_preflight.py` (test commit
+  `40c7a47`); runs the real generated CLI
+  (`kaggle_upload/code/seven_arm_benchmark.py`) with the bundled data via
+  subprocess and asserts exact persisted matrix and identity: rc=0, 9 succeeded
+  records, exact scenario × strategy Cartesian product, checkpoint
+  `total_planned=9` / `total_completed=9` / `completion_status=completed`,
+  exact source/build identity, `source_identity.json` truth, per-strategy
+  summary counts, unchanged working tree before/after.
+- **Checkpoint:** R6 closure — REACHED (pending independent re-audit)
+- **Evidence:** preflight file 9/9 passed; grouped gate
+  (build_upload_bundle + config_models + cli + preflight) 79 passed; manual
+  probe matched observed audit output (9 cells, 3×3 matrix, exit 0).
+
+
 ## RF-4 status (after R5 scope correction, 2026-07-31)
 
 Scoped RF-4 checks ran after the R5 nine-record matrix:
