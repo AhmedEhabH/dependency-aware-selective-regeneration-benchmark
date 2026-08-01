@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import os
 import sys
 import types
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -37,6 +39,10 @@ class _FakeTorch(types.ModuleType):
     def __init__(self) -> None:
         super().__init__("torch")
         self.cuda = _FakeCuda()
+        self._seed = None
+
+    def manual_seed(self, seed: int) -> None:
+        self._seed = seed
 
     def inference_mode(self) -> Any:
         import contextlib
@@ -138,11 +144,27 @@ class TestKaggleQwenBackend:
             await backend.generate("test")
 
     def test_import_does_not_require_torch(self) -> None:
-        assert "torch" not in sys.modules
-        assert "transformers" not in sys.modules
+        # The backend must be importable without heavy Kaggle-only deps. Check
+        # the module source for any TOP-LEVEL import of torch/transformers/
+        # accelerate/bitsandbytes (imports inside functions and TYPE_CHECKING
+        # are lazy and safe). Source inspection avoids the sys.modules / parent
+        # package attribute poisoning that a real re-import would cause.
+        import ast
+        import inspect
+
+        module_path = Path(inspect.getfile(KaggleQwenBackend))
+        tree = ast.parse(module_path.read_text(encoding="utf-8"))
+        heavy = {"torch", "transformers", "accelerate", "bitsandbytes"}
+        found: list[str] = []
+        for node in tree.body:
+            if isinstance(node, ast.Import):
+                hit = {a.name.split(".")[0] for a in node.names} & heavy
+                found.extend(sorted(hit))
+            elif isinstance(node, ast.ImportFrom):
+                hit = {a.name.split(".")[0] for a in node.names} & heavy
+                found.extend(sorted(hit))
+        assert not found, f"top-level heavy imports in backend module: {sorted(set(found))}"
         _ = KaggleQwenBackend()
-        assert "torch" not in sys.modules
-        assert "transformers" not in sys.modules
 
     def test_kaggle_protocol_conformance(self) -> None:
         from benchmark.core.protocols import LLMBackend
@@ -192,6 +214,46 @@ class TestKaggleQwenBackend:
         count = backend.count_prompt_tokens("write code")
         assert count == 8
         assert tokenizer.apply_calls == 1
+
+    def test_run_probe_seeds_fixed_and_generates(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        backend, _tokenizer = self._inject_fakes(monkeypatch)
+        response = backend.run_probe(max_tokens=64, prompt="def add(a, b):\n    return a + b\n")
+        assert response.text == "generated output"
+        torch_mod = sys.modules["torch"]
+        assert torch_mod._seed == 0, "run_probe must seed torch deterministically"
+
+
+class TestR7CInt8Quantization:
+    """R7C-REAL-RUN-ROOT-CLOSURE: frozen int8 backend contract."""
+
+    def test_default_quantization_mode_is_int8(self) -> None:
+        backend = KaggleQwenBackend()
+        assert backend.quantization_mode == "int8"
+
+    def test_model_identity_is_frozen_qwen_1_int8(self) -> None:
+        assert KaggleQwenBackend().model_identity == "qwen:1:int8"
+        assert KaggleQwenBackend(quantization_mode="fp16").model_identity == "qwen:1:fp16"
+
+    def test_rejects_unsupported_quantization_modes(self) -> None:
+        with pytest.raises(ModelBackendError, match="int8"):
+            KaggleQwenBackend(quantization_mode="int4")
+        with pytest.raises(ModelBackendError, match="int8"):
+            KaggleQwenBackend(quantization_mode="fp8")
+
+    def test_canonical_alloc_conf_set(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        import benchmark.llm.kaggle_qwen_backend as mod
+
+        monkeypatch.delenv("PYTORCH_ALLOC_CONF", raising=False)
+        mod._set_canonical_alloc_conf()
+        assert os.environ.get("PYTORCH_ALLOC_CONF") == "expandable_segments:True"
+
+    def test_load_delegates_to_ensure_loaded(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        calls: list[str] = []
+        backend = KaggleQwenBackend()
+        monkeypatch.setattr(backend, "_ensure_loaded", lambda: calls.append("ensure"))
+        backend.load()
+        assert calls == ["ensure"]
 
 
 class TestCleanup:

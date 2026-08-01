@@ -398,14 +398,15 @@ class TestModelIdentity:
             openrouter_model=openrouter,
         )
 
-    def test_kaggle_qwen_with_model_path_is_qwen_directory(self) -> None:
+    def test_kaggle_qwen_with_model_path_is_frozen_int8_identity(self) -> None:
         identity = self._identity(model_path="/kaggle/input/qwen2.5-coder-7b", backend="kaggle-qwen")
-        assert identity == "qwen:qwen2.5-coder-7b"
+        assert identity == "qwen:1:int8"
 
     def test_kaggle_qwen_without_model_path_never_dry_run_mock(self) -> None:
         identity = self._identity(backend="kaggle-qwen")
         assert identity != "dry-run:mock"
         assert identity.startswith("qwen:")
+        assert identity == "qwen:1:int8"
 
     def test_mock_dry_run_identity_remains_dry_run_mock(self) -> None:
         assert self._identity(backend="mock") == "dry-run:mock"
@@ -414,6 +415,42 @@ class TestModelIdentity:
     def test_openrouter_identity(self) -> None:
         identity = self._identity(backend="openrouter", openrouter="nvidia/nemotron-3-super-120b-a12b:free")
         assert identity == "openrouter:nvidia/nemotron-3-super-120b-a12b:free"
+
+
+class TestKagglePreflightOnly:
+    """R7C-REAL-RUN-ROOT-CLOSURE: preflight gate creates no experiment state."""
+
+    def test_preflight_only_fails_locally_and_creates_no_experiment(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        model_dir = _create_valid_model_dir(tmp_path)
+        output_dir = tmp_path / "runs"
+        result = _run(
+            "--kaggle-preflight-only",
+            "--model-path", str(model_dir),
+            "--data-dir", str(data_dir),
+            "--output-dir", str(output_dir),
+        )
+        combined = result.stdout + result.stderr
+        # Real preflight cannot pass on a torch-less local machine.
+        assert result.returncode == 1, combined
+        assert "KAGGLE SMOKE PREFLIGHT" in combined
+        # No experiment / workspace / checkpoint state is created.
+        assert not (output_dir / "checkpoint.json").exists()
+        assert not (output_dir / "workspace").exists()
+        # The preflight JSON report is still written for the audit trail.
+        assert (output_dir / "kaggle_smoke_preflight.v1.json").is_file()
+
+    def test_preflight_only_rejects_dry_run_combination(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        model_dir = _create_valid_model_dir(tmp_path)
+        result = _run(
+            "--kaggle-preflight-only",
+            "--dry-run",
+            "--model-path", str(model_dir),
+            "--data-dir", str(data_dir),
+        )
+        assert result.returncode == 1
+        assert "must not be combined with --dry-run" in (result.stdout + result.stderr)
 
 
 class TestSessionExitCode:

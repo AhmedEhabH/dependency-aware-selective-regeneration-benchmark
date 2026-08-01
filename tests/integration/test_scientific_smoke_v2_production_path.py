@@ -851,3 +851,84 @@ def test_r7b_nine_cell_plan_creates_one_backend_object(tmp_path, monkeypatch):
     result = cli.main()
     assert result == 0
     assert len(calls) == 1, f"expected exactly one backend factory call, got {len(calls)}"
+
+
+def test_r7c_missing_module_is_infrastructure_nonrepairable_with_no_repair(tmp_path):
+    """Replays the observed real-run root cause: missing Django dependency.
+
+    The V2 real run treated ``ModuleNotFoundError`` as repairable code and
+    looped the repair budget pointlessly. R7C must classify it as
+    infrastructure_nonrepairable, stop immediately, and issue zero repair
+    model calls.
+    """
+    from tests.support.scripted_smoke_v2 import build_scripted_smoke_v2_cell
+
+    cell = build_scripted_smoke_v2_cell(
+        "todo-smoke-001",
+        "monolithic",
+        base_dir=tmp_path,
+        config_kwargs={
+            "validation_command": [sys.executable, "-c", "import definitely_missing_r7c_module_xyz"],
+            "max_attempts_per_run": 3,
+        },
+    )
+    record = cell.record
+    assert record.status == RunStatus.failed
+    assert record.failures, "expected at least one FailureRecord"
+    first = record.failures[0]
+    assert first.failure_kind == FailureKind.infrastructure_nonrepairable
+    assert first.stage in ("scenario_evaluator", "baseline_validation", "migration_generation")
+    assert record.repair_model_calls == 0
+    assert record.repair_attempts == 0
+    assert record.repair_total_tokens == 0
+    # Initial monolithic generation touches all editable paths; zero repair calls.
+    assert record.regeneration_model_calls == 5
+    assert record.total_workflow_model_calls == 5
+
+
+def test_r7c_preserve_only_artifact_change_is_rejected(tmp_path):
+    """The frozen scope contract rejects out-of-scope edits to preserve files.
+
+    The executor receives a RegenerationScenarioContext whose expected_actions
+    mark only the declared files as modify/create. A plan that tries to
+    regenerate a preserve-only file must be rejected (byte-identity enforced)
+    instead of silently overwriting it.
+    """
+    from benchmark.core.enums import ActionKind, ArtifactType
+    from benchmark.core.models import ArtifactRef, RegenerationScenarioContext
+    from benchmark.execution.isolation import IsolationContext
+    from benchmark.execution.regeneration import SharedRegenerationExecutor
+    from benchmark.repositories.workspace import WorkspacePath
+    from benchmark.selection.planner import RegenerationPlan
+    from tests.support.scripted_llm_backend import ScriptedSmokeV2Backend, ScriptedSmokeV2Mode
+
+    ws_root = tmp_path / "ws"
+    (ws_root / "todo").mkdir(parents=True)
+    (ws_root / "todo" / "views.py").write_text("ORIGINAL_VIEWS", encoding="utf-8")
+    workspace = WorkspacePath(root=str(ws_root))
+    iso = IsolationContext(
+        workspace=workspace,
+        snapshot_base=tmp_path / "snap",
+        active_snapshot_root=tmp_path / "active",
+    )
+
+    plan = RegenerationPlan(
+        ordered_artifacts=(ArtifactRef(path="todo/views.py", artifact_type=ArtifactType.source),),
+        actions={"todo/views.py": ActionKind.regenerate},
+    )
+    ctx = RegenerationScenarioContext(
+        scenario_id="todo-smoke-001",
+        requirement_before="before",
+        requirement_after="after",
+        expected_actions=(("todo/models.py", "modify"),),
+    )
+    backend = ScriptedSmokeV2Backend(ScriptedSmokeV2Mode.MONOLITHIC, baseline_repo=BASELINE_TODO)
+    executor = SharedRegenerationExecutor(backend)
+    result = executor.execute(
+        plan, iso, requirement_delta="before -> after", scenario_context=ctx,
+    )
+    assert result.artifacts
+    artifact = result.artifacts[0]
+    assert artifact.status == "rejected"
+    assert any("preserve" in f for f in result.failures)
+    assert (ws_root / "todo" / "views.py").read_text("utf-8") == "ORIGINAL_VIEWS"

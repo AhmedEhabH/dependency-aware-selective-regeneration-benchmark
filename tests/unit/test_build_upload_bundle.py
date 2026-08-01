@@ -60,6 +60,7 @@ def _patch_builder(monkeypatch, project: Path, kaggle: Path) -> None:
             project / "src" / "benchmark",
             project / "configs",
             project / "requirements-kaggle.txt",
+            project / "requirements-smoke-kaggle.lock",
             project / "pyproject.toml",
             *(project / rel for rel in EVALUATOR_ASSET_RELATIVE_PATHS),
         ],
@@ -92,6 +93,7 @@ def _install(tmp_path, monkeypatch):
 
     _write_text(project / "seven_arm_benchmark.py", "print('main')\n", crlf=True)
     _write_text(project / "requirements-kaggle.txt", "numpy\n", crlf=True)
+    _write_text(project / "requirements-smoke-kaggle.lock", "Django==5.2.16\n", crlf=True)
     _write_text(project / "pyproject.toml", "[project]\n", crlf=False)
     _write_text(project / "configs/smoke.yaml", "profile: v2\n", crlf=True)
     _write_text(project / "src/benchmark/core.py", "VALUE = 1\n", crlf=True)
@@ -250,3 +252,12 @@ def test_r6_forbidden_artifacts_are_excluded(tmp_path, monkeypatch):
     )
     for rel in forbidden_rels:
         assert not (kaggle / rel).exists(), rel
+
+
+def test_r7c_smoke_kaggle_lock_is_bundled(tmp_path, monkeypatch):
+    _project, kaggle = _install(tmp_path, monkeypatch)
+    err = builder.build_bundle()
+    assert err == 0
+    bundled = kaggle / "code" / "requirements-smoke-kaggle.lock"
+    assert bundled.is_file()
+    assert "Django==5.2.16" in bundled.read_text(encoding="utf-8")

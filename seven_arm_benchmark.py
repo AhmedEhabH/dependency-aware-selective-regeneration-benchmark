@@ -884,6 +884,17 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Immutable build/bundle ID for the deployed code. Overrides auto-detection.",
     )
+    parser.add_argument(
+        "--kaggle-preflight-only",
+        action="store_true",
+        default=False,
+        help=(
+            "Run only the Kaggle smoke preflight (pinned dependency check, baseline "
+            "manage.py check + makemigrations --check --dry-run, int8 Qwen load + "
+            "deterministic 64-token probe, VRAM headroom) and exit 0 on pass / 1 on "
+            "fail. Creates no experiment, RunRecord, workspace results, or HF state."
+        ),
+    )
     args = parser.parse_args()
     _validate_cli_args(args)
     return args
@@ -891,6 +902,12 @@ def parse_args() -> argparse.Namespace:
 
 def _validate_cli_args(args: argparse.Namespace) -> None:
     errors: list[str] = []
+
+    if args.kaggle_preflight_only and args.dry_run:
+        errors.append(
+            "--kaggle-preflight-only runs the real Kaggle smoke preflight and "
+            "must not be combined with --dry-run."
+        )
 
     if args.data_dir:
         data_dir = Path(args.data_dir)
@@ -1031,12 +1048,14 @@ def _get_model_identity(
     """Resolve the model identity for the experiment.
 
     A non-dry Kaggle backend must never resolve to ``dry-run:mock``.
+    R7C-REAL-RUN-ROOT-CLOSURE freezes the Smoke Qwen to int8:
+    ``qwen:1:int8`` — distinct from the older ``qwen:1`` FP16 identity so that
+    int8 preflight results can never resume prior FP16 experiments.
     """
     if backend_name == "openrouter" and openrouter_model:
         return f"openrouter:{openrouter_model}"
     if backend_name == "kaggle-qwen" or model_path:
-        p = Path(model_path) if model_path else None
-        return f"qwen:{p.name}" if p else "qwen:unresolved"
+        return "qwen:1:int8"
     return "dry-run:mock"
 
 
@@ -1544,6 +1563,34 @@ def main() -> int:
         backend_name=resolved_backend,
         openrouter_model=args.openrouter_model,
     )
+
+    # ---- Kaggle preflight-only gate (R7C-REAL-RUN-ROOT-CLOSURE) ------------
+    # Runs the pinned-dependency + baseline manage.py/makemigrations + int8
+    # Qwen load/probe + VRAM-headroom gate. Creates NO experiment, RunRecord,
+    # workspace results, or HF state. Exit 0 on pass, 1 on fail.
+    if args.kaggle_preflight_only:
+        from benchmark.execution.preflight import (
+            render_preflight_table,
+            run_kaggle_smoke_preflight,
+        )
+
+        preflight_root = output_dir
+        preflight_json = preflight_root / "kaggle_smoke_preflight.v1.json"
+        result = run_kaggle_smoke_preflight(
+            model_path=args.model_path or "",
+            data_dir=data_dir,
+            preflight_root=preflight_root,
+            json_output_path=preflight_json,
+        )
+        print(render_preflight_table(result))
+        if result.passed:
+            logger.info("Kaggle smoke preflight PASSED: %s", preflight_json)
+            return 0
+        logger.error(
+            "Kaggle smoke preflight FAILED: %s (see %s)",
+            result.rejection_reason, preflight_json,
+        )
+        return 1
 
     logger.info(
         "Benchmark config: dry_run=%s  profile=%s  label=%s  output=%s  data_dir=%s  "
