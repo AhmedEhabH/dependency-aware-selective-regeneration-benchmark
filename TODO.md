@@ -1,5 +1,43 @@
 # TODO
 
+## Current — R7C Real-Run Root Closure
+
+### R7C-01 — Close Environment Memory Contract
+- **Priority:** HIGH
+- **Category:** Runtime Contract
+- **Description:** Pin exact Kaggle runtime in `requirements-smoke-kaggle.lock` (Django==5.2.16, djangorestframework==3.17.1, pytest==8.4.2, pytest-django==4.12.0, accelerate==1.14.0, bitsandbytes==0.49.2; torch/transformers unpinned), install + verify in the notebook `install-lock-cell` (`EXPECTED_RUNTIME` via `RUNTIME_ATTR`), write `runtime_environment.json` (schema `kaggle_runtime_environment.v1`)
+- **Status:** COMPLETE (commit 7a80e53)
+
+### R7C-02 — Close Int8 Memory Contract
+- **Priority:** HIGH
+- **Category:** Runtime Contract
+- **Description:** int8 default (`qwen:1:int8`), `PYTORCH_ALLOC_CONF=expandable_segments:True`, seeded 64-token `run_probe`, preflight ≥2.0 GiB VRAM headroom; no 4-bit fallback
+- **Status:** COMPLETE (commit 7a80e53)
+
+### R7C-03 — Close Frozen Scenario-Context Prompt Contract
+- **Priority:** HIGH
+- **Category:** Prompt Contract
+- **Description:** Freeze `RegenerationScenarioContext` into strategy prompts; preserve-only byte-identity enforcement when `expected_actions` is non-empty
+- **Status:** COMPLETE (commit 7a80e53)
+
+### R7C-04 — Close Infrastructure-Nonrepairable Repair Contract
+- **Priority:** HIGH
+- **Category:** Repair Contract
+- **Description:** `FailureKind.infrastructure_nonrepairable` first-failure classification, one execution, zero LLM repair
+- **Status:** COMPLETE (commit 7a80e53)
+
+### R7C-05 — Add Preflight Gate and Pin Bundle
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** `src/benchmark/execution/preflight.py` + `--kaggle-preflight-only` (schema `kaggle_smoke_preflight.v1`, 6 checks; exit 0/1; no run side effects); notebook gate cell before secrets + exec; reorder notebook setup → install-lock → preflight → secrets → run; rebuild bundle (147 files / 894,735 bytes)
+- **Status:** COMPLETE (commit f01b8f0)
+
+### R7C-06 — Independent Real-Run Root Closure Audit
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent audit of the four closed contracts + preflight gate; then update Kaggle code dataset + notebook, run one real cell (require 1/9), continue to 9/9
+- **Status:** PENDING (sentinel `R7C_REAL_RUN_ROOT_CLOSURE_AUDIT_REQUIRED`)
+
 ## Phase 0 — Bootstrap and Environment
 
 ### T001 — Create Repository Structure
