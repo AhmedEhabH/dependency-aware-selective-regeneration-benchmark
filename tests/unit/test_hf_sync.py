@@ -80,6 +80,13 @@ def _create_recovery_artifacts(tmp_path: Path) -> None:
     ProgressManager(tmp_path).write_partial_summary({"agent": {"success": 1}})
     sync_state = tmp_path / "remote_sync.json"
     sync_state.write_text(json.dumps({"last_sync": "ok", "remote_path": "recovery/", "timestamp": "t"}))
+    # R7B-SMOKE-FINISH: deterministic dashboard artifacts are part of the recovery batch.
+    dash = tmp_path / "dashboard"
+    dash.mkdir(parents=True, exist_ok=True)
+    (dash / "dashboard_summary.json").write_text('{"total_planned": 9}', encoding="utf-8")
+    (dash / "run_matrix.csv").write_text("run_id,status\n", encoding="utf-8")
+    (dash / "strategy_summary.csv").write_text("strategy_name,planned\n", encoding="utf-8")
+    (dash / "failure_summary.csv").write_text("failure_classification,count\n", encoding="utf-8")
 
 
 def _make_fake_download(layout: RemoteLayout, source_dir: Path):
@@ -174,6 +181,11 @@ class TestSecurityFilter:
         for name in ["run_records.jsonl", "checkpoint.json", "progress.json", "benchmark_summary.partial.json"]:
             p = tmp_path / name
             assert _is_path_allowed(p, tmp_path), f"Should allow {name}"
+
+    def test_allows_dashboard_artifacts(self, tmp_path: Path) -> None:
+        for name in ["dashboard_summary.json", "run_matrix.csv", "strategy_summary.csv", "failure_summary.csv"]:
+            p = tmp_path / "dashboard" / name
+            assert _is_path_allowed(p, tmp_path), f"Should allow dashboard/{name}"
 
     def test_allows_manifest(self, tmp_path: Path) -> None:
         assert _is_path_allowed(tmp_path / "manifest.json", tmp_path)
@@ -440,7 +452,7 @@ class TestHfUploaderBatchedCommits:
         assert ops, "no commit operations created"
         remote_names = sorted(op.path_in_repo.split("/")[-1] for op in ops)
         expected = sorted(
-            {name for name in list(RECOVERY_FILES) + ["remote_sync.json"] if (tmp_path / name).is_file()}
+            {name.split("/")[-1] for name in list(RECOVERY_FILES) + ["remote_sync.json"] if (tmp_path / name).is_file()}
         )
         assert remote_names == expected
         assert call.kwargs["repo_id"] == TEST_REPO

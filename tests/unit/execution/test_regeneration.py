@@ -111,41 +111,37 @@ class TestSharedRegenerationExecutor:
         assert len(result.failures) >= 1
         assert result.artifacts[0].status == "rejected"
 
-    def test_markdown_fenced_output_is_rejected(self, tmp_path: Path) -> None:
+    def test_markdown_fenced_output_is_normalized_and_accepted(self, tmp_path: Path) -> None:
         iso, ws_root = _make_isolation(tmp_path)
         src = ws_root / "src"
         src.mkdir()
-        orig = "original content"
-        (src / "main.py").write_text(orig, encoding="utf-8")
+        (src / "main.py").write_text("original content", encoding="utf-8")
 
         backend = _make_backend("```python\nprint('hello')\n```")
         executor = SharedRegenerationExecutor(backend)
         plan = _make_plan()
         result = executor.execute(plan, iso)
 
-        assert len(result.failures) == 1
-        assert "Markdown-fenced" in result.failures[0]
-        assert result.artifacts[0].status == "rejected"
-        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
+        assert result.failures == ()
+        assert result.artifacts[0].status == "generated"
+        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == "print('hello')"
 
-    def test_fully_fenced_output_is_rejected(self, tmp_path: Path) -> None:
+    def test_fully_fenced_output_is_normalized_and_accepted(self, tmp_path: Path) -> None:
         iso, ws_root = _make_isolation(tmp_path)
         src = ws_root / "src"
         src.mkdir()
-        orig = "original content"
-        (src / "main.py").write_text(orig, encoding="utf-8")
+        (src / "main.py").write_text("original content", encoding="utf-8")
 
         backend = _make_backend("```\nplain content\n```")
         executor = SharedRegenerationExecutor(backend)
         plan = _make_plan()
         result = executor.execute(plan, iso)
 
-        assert len(result.failures) == 1
-        assert "Markdown-fenced" in result.failures[0]
-        assert result.artifacts[0].status == "rejected"
-        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
+        assert result.failures == ()
+        assert result.artifacts[0].status == "generated"
+        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == "plain content"
 
-    def test_starts_with_code_fence_is_rejected(self, tmp_path: Path) -> None:
+    def test_unbalanced_code_fence_is_rejected(self, tmp_path: Path) -> None:
         iso, ws_root = _make_isolation(tmp_path)
         src = ws_root / "src"
         src.mkdir()
@@ -158,7 +154,24 @@ class TestSharedRegenerationExecutor:
         result = executor.execute(plan, iso)
 
         assert len(result.failures) == 1
-        assert "Markdown-fenced" in result.failures[0]
+        assert "unbalanced_fence" in result.failures[0]
+        assert result.artifacts[0].status == "rejected"
+        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
+
+    def test_multiple_fenced_regions_are_rejected(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        src = ws_root / "src"
+        src.mkdir()
+        orig = "original content"
+        (src / "main.py").write_text(orig, encoding="utf-8")
+
+        backend = _make_backend("```\nfirst\n```\n```\nsecond\n```")
+        executor = SharedRegenerationExecutor(backend)
+        plan = _make_plan()
+        result = executor.execute(plan, iso)
+
+        assert len(result.failures) == 1
+        assert "multiple_fences" in result.failures[0]
         assert result.artifacts[0].status == "rejected"
         assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
 

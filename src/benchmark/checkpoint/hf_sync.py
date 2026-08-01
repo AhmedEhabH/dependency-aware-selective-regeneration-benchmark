@@ -25,6 +25,10 @@ RECOVERY_FILES: tuple[str, ...] = (
     "benchmark_summary.partial.json",
     "experiment_id.txt",
     "source_identity.json",
+    "dashboard/dashboard_summary.json",
+    "dashboard/run_matrix.csv",
+    "dashboard/strategy_summary.csv",
+    "dashboard/failure_summary.csv",
 )
 
 DRY_RUN_REPO_ID = "validkhv/placeholder-mirror"
@@ -49,6 +53,10 @@ ALLOWLIST_PREFIXES: tuple[str, ...] = (
     "experiment_id.txt",
     "source_identity.json",
     "COMPLETED",
+    "dashboard_summary.json",
+    "run_matrix.csv",
+    "strategy_summary.csv",
+    "failure_summary.csv",
 )
 
 DENYLIST_PATTERNS: tuple[str, ...] = (
@@ -654,6 +662,7 @@ class HfResumeManager:
             src = recovery_dir / name
             if src.is_file():
                 dst = self._runs_dir / name
+                dst.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(str(src), str(dst))
                 activated.append(name)
 

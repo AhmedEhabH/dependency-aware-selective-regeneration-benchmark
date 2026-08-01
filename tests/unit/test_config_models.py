@@ -161,7 +161,7 @@ class TestSmokeV2Config:
         ]
         assert config.execution.max_iterations == 3
         assert config.execution.max_tokens == 0
-        assert config.execution.max_completion_tokens_per_call == 4096
+        assert config.execution.max_completion_tokens_per_call == 1024
         assert config.execution.max_total_workflow_tokens == 0
         assert config.execution.timeout_seconds == 300
         assert config.execution.random_seed == 42
