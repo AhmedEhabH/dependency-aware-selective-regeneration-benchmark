@@ -725,7 +725,6 @@ class TestScientificSmokeV1Profile:
     def test_notebook_benchmark_command_args(self) -> None:
         """Parse both notebooks and verify all V2 benchmark command cells."""
         import json
-
         canonical_nb = PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb"
         with open(canonical_nb, encoding="utf-8") as f:
             canonical = json.load(f)
@@ -809,3 +808,28 @@ class TestScientificSmokeV1Profile:
                 s1 = c1["source"] if isinstance(c1["source"], str) else "".join(c1["source"])
                 s2 = c2["source"] if isinstance(c2["source"], str) else "".join(c2["source"])
                 assert s1 == s2, f"code cell [{c1.get('id','')}] source mismatch between notebooks"
+
+    def test_notebook_sync_display_uses_current_schema(self) -> None:
+        """The inspection cell must read the current remote_sync schema keys."""
+        import json
+
+        nb_path = PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb"
+        with open(nb_path, encoding="utf-8") as f:
+            nb = json.load(f)
+        cells_by_id = {c.get("id"): c for c in nb["cells"]}
+        progress_src = "".join(cells_by_id["progress-cell"]["source"])
+
+        for key in (
+            'sync.get("last_sync"',
+            'sync.get("timestamp"',
+            'sync.get("remote_path"',
+            'sync.get("details"',
+        ):
+            assert key in progress_src, f"inspection cell missing current key: {key}"
+
+        for obsolete in (
+            'sync.get("last_sync_time"',
+            'sync.get("experiments_synced"',
+            'sync.get("runs_uploaded"',
+        ):
+            assert obsolete not in progress_src, f"inspection cell still uses obsolete key: {obsolete}"
