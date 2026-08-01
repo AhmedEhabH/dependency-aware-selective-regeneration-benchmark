@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-08-01
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 AUTHORIZED AND IN PROGRESS — branch experiment/three-arm-smoke-v2; R6 deployment closure follows the corrected directive in ..\R6_OpenCode_Package_CORRECTED\ (supersedes all earlier R6 directives); Kaggle/push/tag/merge/Pilot = BLOCKED
+**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 COMPLETE PENDING INDEPENDENT AUDIT — branch experiment/three-arm-smoke-v2; R6 deployment closure executed under the corrected directive in ..\R6_OpenCode_Package_CORRECTED\ (supersedes all earlier R6 directives); local scripted = 9/9; real Qwen = 0/9; Kaggle not launched; push not performed; tag not created; Pilot = NOT AUTHORIZED; push/tag/merge/Kaggle = BLOCKED PENDING INDEPENDENT R6 AUDIT
 
 ---
 
@@ -35,7 +35,7 @@ project/
 │   ├── integration/
 │   └── unit/
 ├── configs/
-│   └── smoke.yaml               (historical; V2 profile defined in seven_arm_benchmark.py)
+│   └── smoke.yaml               (valid exact V2 smoke contract, loads via load_config)
 ├── docs/
 │   ├── FINAL_RESEARCH_PROTOCOL.md  v1.0 FROZEN
 │   ├── MASTER_IMPLEMENTATION_PLAN.md
@@ -86,18 +86,19 @@ project/
 - **R5 test proof:** ee148fa (test(smoke): prove nine scripted production records) — exactly 3 files
 - **R5 audit docs commit:** this commit (docs(audit): accept and freeze R5 production path proof) — documentation only
 - **R5 acceptance/freeze:** ACCEPTED AND FROZEN by independent re-audit (GPT-5.6 Thinking, 2026-08-01) at 7761c48; recorded in docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
-- **HEAD:** this commit (R5 accepted and frozen; R6 authorized/in progress)
+- **HEAD:** this commit (R6 complete pending independent audit)
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** (final full-suite result recorded in this commit's docs) — 1,625 passed / 32 skipped / 0 failed
-- **Lint:** ruff 0 new findings vs backup branch
-- **Types:** mypy strict 0 new errors vs backup branch
+- **Test suite:** 1,647 passed / 32 skipped / 0 failed (R5 baseline 1,625 passed)
+- **Lint:** ruff 0 new findings vs starting HEAD 7761c48 (identical set, 94 baseline findings unchanged)
+- **Types:** mypy strict 0 new errors vs starting HEAD 7761c48
 - **Dependencies:** pip check clean
 - **Benchmark data:** 3 repositories (todo, djangocms, saleor), 24 protocol scenarios + 3 smoke scenarios
-- **Kaggle status:** BLOCKED — not authorized
-- **Pilot status:** BLOCKED — not authorized
+- **Kaggle status:** NOT LAUNCHED — blocked pending independent R6 audit
+- **Pilot status:** NOT AUTHORIZED
+- **R4 status:** ACCEPTED AND FROZEN at f5ae826
 - **R5 status:** ACCEPTED AND FROZEN at 7761c48 (nine non-dry scripted production records = 9/9)
-- **R6 status:** AUTHORIZED / IN PROGRESS — deployment closure
+- **R6 status:** COMPLETE PENDING INDEPENDENT AUDIT — deployment closure; runtime source commit cb25e9f; deployed bundle commit 54a0462; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints
 - **Selective scopes verified:** 001=models,serializers,views | 002=models,views | 003=models,permissions,serializers,views
 
 ## 4. Core Scientific Question
@@ -557,6 +558,39 @@ preflight integration, and committed-byte manifest parity audits. R6 does not
 modify production Runner, strategies, metrics, regeneration, evaluator
 behavior, frozen scenarios, evaluator assets, or controlled Todo source/tests.
 
-Next action: complete R6, stop for the independent R6 audit before push.
+## 20. R6 Deployment Closure (2026-08-01)
 
-**R5_ACCEPTED_R6_AUTHORIZED**
+**Status:** R6 COMPLETE PENDING INDEPENDENT AUDIT
+**Record:** `selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md`
+
+R6 executed the corrected deployment directive in one bounded pass:
+Commit A `5784a4f` recorded R5 acceptance; Commit B `cb25e9f` is the runtime
+source commit; Commit C `54a0462` pinned and built the Scientific Smoke V2
+bundle. Worktree/index/committed-tree manifest audits are all 0/0/0
+mismatches. Todo baseline tests deployed = exact five files / 47 methods;
+evaluator assets deployed = 3 + 3 fingerprints; tests/support = 0;
+scripted/harness = 0. Bundle totals = 144 files / 805,634 bytes.
+
+```text
+R4 accepted/frozen
+R5 accepted/frozen
+R6 complete pending independent audit
+local scripted = 9/9
+real Qwen = 0/9
+Kaggle not launched
+push not performed
+tag not created
+Pilot not authorized
+```
+
+Pilot wording: exact final run denominator not frozen; minimum 7–12 changes
+across at least 3 real repositories; current descriptive 48-run config is not
+authorization. Full suite at R6 closure: 1,647 passed, 32 skipped, 0 failed.
+Ruff set identical to starting HEAD (94 findings, zero new); mypy strict 0
+errors; compileall clean; final builder run left the tree clean.
+
+Next action: independent R6 audit (GPT-5.6 Thinking) before push; then push,
+Kaggle preflight, and nine real Qwen Smoke records. Do not push, tag, merge,
+or launch Kaggle before the audit.
+
+R6_DEPLOYMENT_CLOSURE_AUDIT_REQUIRED

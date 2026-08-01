@@ -548,9 +548,9 @@ repetition): 9 succeeded, 0 failed. The full suite at R5 acceptance was 1,625
 passed, 32 skipped, 0 failed. The old contaminated R5 tail remains preserved
 on `backup/r5-pre-audit-c3ecad2`.
 
-R6 deployment closure is now **AUTHORIZED** under the corrected directive in
+R6 deployment closure was **AUTHORIZED** under the corrected directive in
 `..\R6_OpenCode_Package_CORRECTED\` (supersedes every earlier R6 directive) and
-is executed in one continuous bounded pass covering:
+was executed in one continuous bounded pass covering:
 
 ```text
 R6-F01  R5 acceptance record
@@ -571,17 +571,33 @@ R6 must not modify production Runner, strategies, metrics, regeneration,
 evaluator behavior, frozen scenarios, evaluator assets, or controlled Todo
 source/tests. No push, tag, merge, or Kaggle launch during R6.
 
+### R6 Closure (2026-08-01)
+
+R6 deployment closure is **COMPLETE PENDING INDEPENDENT AUDIT**, recorded in
+`selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md`.
+Commits: A `5784a4f` (R5 acceptance), B `cb25e9f` (runtime source), C `54a0462`
+(pinned/generated bundle), D (documentation). Manifest audits at
+worktree/index/committed-tree: 0 / 0 / 0. Todo baseline tests deployed = 47
+methods; evaluator assets deployed = 3 + 3 fingerprints. Bundle totals = 144
+files / 805,634 bytes. Deployment preflight: all three smoke scenarios passed
+(one new migration, old hashes unchanged, `Ran 47 tests`, evaluator pass,
+no `tests/evaluator_assets` in generated workspace). Full suite at R6 closure:
+1,647 passed, 32 skipped, 0 failed. Ruff set identical to starting HEAD
+`7761c48` (94 findings, zero new); mypy strict 0 errors; compileall clean;
+final builder run left the tree clean.
+
 ### Status
 
 ```
 R4 status: ACCEPTED AND FROZEN at f5ae826
 R5 status: ACCEPTED AND FROZEN at 7761c48 (independent re-audit 2026-08-01)
-R6 status: AUTHORIZED / IN PROGRESS (corrected deployment closure directive)
-Kaggle status: BLOCKED
-Push status: NOT PERFORMED
+R6 status: COMPLETE PENDING INDEPENDENT AUDIT
+Kaggle status: NOT LAUNCHED
+Push status: NOT PERFORMED (BLOCKED PENDING AUDIT)
 Tag status: BLOCKED
-Pilot status: BLOCKED
-Next action: execute R6 deployment closure, then stop for the independent R6 audit before push
+Pilot status: NOT AUTHORIZED
+Real Smoke progress: 0/9 (local scripted 9/9)
+Next action: independent R6 audit (GPT-5.6 Thinking) before push; then push, Kaggle preflight, and nine real Qwen records
 ```
 
-R5_ACCEPTED_R6_AUTHORIZED
+R6_DEPLOYMENT_CLOSURE_AUDIT_REQUIRED

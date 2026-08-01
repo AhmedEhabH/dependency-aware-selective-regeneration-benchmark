@@ -170,15 +170,19 @@
 
 ### TD-R6-BUNDLE-MANIFEST-001 — committed bundle manifests can mismatch committed blobs
 - **Severity:** TD-0 (deployment integrity / traceability)
-- **Closure:** bounded RF-4/R6 bundle-builder correction — normalize data and
-  notebook files before manifest generation (or hash committed blobs), then
-  rebuild and verify the Kaggle bundle from committed bytes. Do not fix
-  `scripts/build_upload_bundle.py` inside R5.
-- **Checkpoint:** R6 closure (blocked until R5 re-audit acceptance)
+- **Closure:** CLOSED IN R6 (2026-08-01) — deterministic builder
+  (`scripts/build_upload_bundle.py`) normalizes code/data/notebook bytes before
+  SHA-256 manifest generation and verification; manifests use POSIX relative
+  paths and LF line endings; builder performs no Git calls; bundle rebuilt and
+  audited at worktree/index/committed-tree = 0 / 0 / 0 mismatches (Commit C
+  `54a0462`).
+- **Checkpoint:** R6 closure (blocked until R5 re-audit acceptance) — REACHED
 - **Evidence:** Git-tree code-manifest mismatches = 0; Git-tree data-manifest
-  mismatches = 10 pre-existing; Git-tree notebook-manifest mismatch introduced
-  by the old `6650b00` = 1 (removed by the R5 history rebuild); final R5 branch
-  contains no `kaggle_upload` diff.
+  mismatches = 0; Git-tree notebook-manifest mismatches = 0; staged
+  (git-index) manifest mismatches = 0; committed-tree (HEAD) manifest
+  mismatches = 0; controlled Todo tests deployed = exact five files / 47
+  methods; evaluator assets deployed = 3 + 3 fingerprints; tests/support = 0;
+  scripted/harness = 0; final builder run byte-identical, tree clean.
 
 ## RF-4 status (after R5 scope correction, 2026-07-31)
 

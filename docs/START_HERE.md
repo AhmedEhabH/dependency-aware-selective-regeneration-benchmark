@@ -4,15 +4,16 @@
 
 You are resuming work on the Dependency-Aware Selective Regeneration Benchmark.
 
-**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at HEAD `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) is **AUTHORIZED AND IN PROGRESS** under the corrected directive in `..\R6_OpenCode_Package_CORRECTED\`, which supersedes every earlier R6 directive. Kaggle, push, tag, merge, and Pilot remain **BLOCKED**.
+**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at HEAD `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) is **COMPLETE PENDING INDEPENDENT AUDIT** under the corrected directive in `..\R6_OpenCode_Package_CORRECTED\`, which supersedes every earlier R6 directive (recorded in `selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md`). Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; push not performed; tag not created; Pilot not authorized. Do not push, tag, merge, or launch Kaggle before the independent R6 audit.
 
 **Phase state:**
 ```text
 R4 = accepted and frozen (explicit freeze commit f5ae826)
 R5 = accepted and frozen (independent re-audit 2026-08-01 at 7761c48)
-R6 = authorized / in progress
-Kaggle = blocked
-Pilot = blocked
+R6 = complete pending independent audit
+Kaggle = not launched
+Pilot = not authorized
+push = blocked pending audit
 stable tag = blocked
 ```
 
@@ -42,12 +43,15 @@ python seven_arm_benchmark.py --dry-run
 
 ## R5 Acceptance and R6 Authorization
 
-R5 was accepted and frozen by the independent re-audit on 2026-08-01 at HEAD `7761c48`. The clean R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. R6 deployment closure is now authorized under the corrected directive and supersedes every earlier R6 prompt/directive. The corrected plan covers the deterministic bundle builder, controlled Todo test deployment, exact evaluator allowlist, valid V2 smoke config, pinned notebook, bundle preflight integration, and manifest parity audits. Do not push, tag, merge, or launch Kaggle before the independent R6 audit.
+R5 was accepted and frozen by the independent re-audit on 2026-08-01 at HEAD `7761c48`. The clean R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. R6 deployment closure was executed under the corrected directive and supersedes every earlier R6 prompt/directive: deterministic bundle builder, controlled Todo test deployment, exact evaluator allowlist, valid V2 smoke config, pinned notebook, bundle preflight integration, and manifest parity audits (0/0/0). R6 is COMPLETE PENDING INDEPENDENT AUDIT. Do not push, tag, merge, or launch Kaggle before the independent R6 audit.
 
 ```text
 R5 = accepted and frozen at 7761c48
-R6 = authorized / in progress
-Kaggle/push/tag/Pilot = blocked
+R6 = complete pending independent audit
+Kaggle = not launched
+push = blocked pending audit
+tag = blocked
+Pilot = not authorized
 ```
 
 ---
@@ -111,7 +115,7 @@ Each starts from the same clean pinned baseline (b8a33e2). They are not cumulati
 
 ## Next Task
 
-**R6 deployment closure.** Execute the corrected R6 directive (`..\R6_OpenCode_Package_CORRECTED\02_OPENCODE_R6_CORRECTED_EXECUTION_DIRECTIVE.md`): deterministic builder, controlled Todo test deployment, exact evaluator allowlist, valid V2 smoke config, CLI help, pinned notebook, bundle preflight, and manifest audits. After the independent R6 audit, push, Kaggle preflight, and nine real Qwen records. Do not push, tag, merge, or launch Kaggle before the audit.
+**R6 deployment closure: COMPLETE PENDING INDEPENDENT AUDIT.** The corrected R6 directive (`..\R6_OpenCode_Package_CORRECTED\02_OPENCODE_R6_CORRECTED_EXECUTION_DIRECTIVE.md`) was executed: deterministic builder, controlled Todo test deployment (47 methods), exact evaluator allowlist (3 + 3 fingerprints), valid V2 smoke config, CLI help, pinned notebook, bundle preflight, and worktree/index/committed-tree manifest audits (0/0/0). Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`. Next: independent R6 audit, then push, Kaggle preflight, and nine real Qwen records. Do not push, tag, merge, or launch Kaggle before the audit.
 
 ---
 
@@ -138,8 +142,11 @@ cat docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
 
 # Read R5 scope correction record
 cat selective_updates/records/R5-INDEPENDENT-AUDIT-SCOPE-CORRECTION.md
+
+# Read R6 bundle parity and pre-Kaggle handoff record
+cat selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md
 ```
 
 ---
 
-**R5_ACCEPTED_R6_AUTHORIZED**
+R6_DEPLOYMENT_CLOSURE_AUDIT_REQUIRED
