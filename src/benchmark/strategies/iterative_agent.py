@@ -102,6 +102,14 @@ def _format_criteria(criteria: tuple[str, ...]) -> str:
     return "\n".join(f"  - {c}" for c in criteria)
 
 
+def _compact_feedback(text: str, *, head: int = 700, tail: int = 1800) -> str:
+    """Retain the beginning and traceback root at the end of validation output."""
+    if len(text) <= head + tail + 32:
+        return text
+    omitted = len(text) - head - tail
+    return f"{text[:head]}\n... [{omitted} chars omitted] ...\n{text[-tail:]}"
+
+
 def _parse_action_response(text: str) -> tuple[dict[str, Any] | None, str]:
     data, reason = parse_single_json_object(text)
     if data is None:
@@ -149,8 +157,8 @@ def _build_revise_prompt(
         editable_paths="\n".join(f"  - {p}" for p in editable_paths),
         previous_paths=", ".join(previous_paths),
         exit_code=exit_code,
-        val_stdout=val_stdout[:2000],
-        val_stderr=val_stderr[:2000],
+        val_stdout=_compact_feedback(val_stdout),
+        val_stderr=_compact_feedback(val_stderr),
         TOOL_SCHEMA=_build_tool_context(),
         remaining_calls=remaining_calls,
     )

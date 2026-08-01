@@ -1,7 +1,13 @@
 import pytest
 
 from benchmark.core.enums import ActionKind, ArtifactType, BlastRadius
-from benchmark.scenarios.models import ScenarioModel, _parse_action_kind, _parse_artifact_ref, _parse_blast_radius
+from benchmark.scenarios.models import (
+    ScenarioModel,
+    _parse_action_kind,
+    _parse_artifact_instruction,
+    _parse_artifact_ref,
+    _parse_blast_radius,
+)
 
 
 class TestParseHelpers:
@@ -18,6 +24,12 @@ class TestParseHelpers:
         ref = _parse_artifact_ref("todo/models.py:Task (add priority field)")
         assert ref.path == "todo/models.py"
         assert ref.artifact_type == ArtifactType.source
+
+    def test_parse_artifact_instruction(self) -> None:
+        assert _parse_artifact_instruction(
+            "todo/models.py:add Task.Priority and priority field"
+        ) == ("todo/models.py", "add Task.Priority and priority field")
+        assert _parse_artifact_instruction("todo/models.py") is None
 
     def test_parse_artifact_ref_config(self) -> None:
         ref = _parse_artifact_ref("config/settings.yaml")
@@ -116,6 +128,32 @@ class TestScenarioModel:
         assert len(core.expected_actions) == 1
         assert core.expected_actions[0][0].path == "todo/models.py"
         assert core.expected_actions[0][1] == ActionKind.regenerate
+
+    def test_to_core_scenario_preserves_file_specific_instructions(self) -> None:
+        model = ScenarioModel(
+            scenario_id="todo-smoke-001",
+            repository="todo",
+            change_type="Schema and field changes",
+            blast_radius="localized",
+            requirement_before="old behavior",
+            requirement_after="new behavior",
+            rationale="test rationale",
+            expected_affected_artifacts=(
+                "todo/models.py:add Task.Priority and priority field",
+                "todo/views.py:add optional priority query filtering",
+            ),
+            expected_actions={
+                "todo/models.py": "modify",
+                "todo/views.py": "modify",
+            },
+        )
+
+        core = model.to_core_scenario()
+
+        assert core.expected_artifact_instructions == (
+            ("todo/models.py", "add Task.Priority and priority field"),
+            ("todo/views.py", "add optional priority query filtering"),
+        )
 
     def test_from_yaml_mapping(self) -> None:
         data = {
