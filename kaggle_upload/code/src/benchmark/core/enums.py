@@ -37,6 +37,7 @@ class RunStatus(StrEnum):
 
 class FailureKind(StrEnum):
     infrastructure = "infrastructure"
+    infrastructure_nonrepairable = "infrastructure_nonrepairable"
     model_output = "model_output"
     build = "build"
     changed_requirement = "changed_requirement"

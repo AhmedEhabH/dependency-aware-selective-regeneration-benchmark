@@ -1,0 +1,10 @@
+# R7C-REAL-RUN-ROOT-CLOSURE: pinned Scientific Smoke V2 Kaggle runtime lock.
+# Installed by the Notebook BEFORE experiment creation (no silent failures).
+# torch/transformers intentionally omitted: use Kaggle's compatible GPU stack
+# and record their runtime versions in environment metadata instead.
+Django==5.2.16
+djangorestframework==3.17.1
+pytest==8.4.2
+pytest-django==4.12.0
+accelerate==1.14.0
+bitsandbytes==0.49.2

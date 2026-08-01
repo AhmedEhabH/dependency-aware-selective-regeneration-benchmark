@@ -141,6 +141,55 @@ class ScenarioSequence:
 
 
 # ---------------------------------------------------------------------------
+# R7C-REAL-RUN-ROOT-CLOSURE: frozen scenario prompt context
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class RegenerationScenarioContext:
+    """Frozen scenario contract threaded into every generation/repair prompt.
+
+    ``expected_actions`` is an ordered tuple of ``(path, action)`` pairs where
+    ``action`` is one of ``"modify"``, ``"create"``. Any artifact path absent
+    from this mapping has an implicit ``expected action = preserve``.
+    """
+
+    scenario_id: str
+    requirement_before: str
+    requirement_after: str
+    acceptance_criteria: tuple[str, ...] = ()
+    architecture_constraints: tuple[str, ...] = ()
+    expected_actions: tuple[tuple[str, str], ...] = ()
+
+    def __post_init__(self) -> None:
+        if not self.scenario_id:
+            raise ValueError("RegenerationScenarioContext.scenario_id must not be empty")
+        if not self.requirement_before:
+            raise ValueError("RegenerationScenarioContext.requirement_before must not be empty")
+        if not self.requirement_after:
+            raise ValueError("RegenerationScenarioContext.requirement_after must not be empty")
+        seen: set[str] = set()
+        for path, action in self.expected_actions:
+            if not path:
+                raise ValueError("RegenerationScenarioContext expected action path must not be empty")
+            if action not in ("modify", "create"):
+                raise ValueError(
+                    f"RegenerationScenarioContext expected action must be 'modify' or 'create', "
+                    f"got {action!r} for {path!r}"
+                )
+            if path in seen:
+                raise ValueError(f"Duplicate expected action path: {path}")
+            seen.add(path)
+
+    def expected_action_for(self, path: str) -> str:
+        """Return the frozen expected action ('modify'/'create') or 'preserve'."""
+        for exp_path, action in self.expected_actions:
+            if path == exp_path or path.startswith(exp_path.rstrip("/") + "/"):
+                return action
+        return "preserve"
+
+
+# ---------------------------------------------------------------------------
 # Impact Models
 # ---------------------------------------------------------------------------
 
