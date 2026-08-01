@@ -1,19 +1,19 @@
 # System State
 
 ## Current Phase
-**R6 — COMPLETE PENDING INDEPENDENT AUDIT** (branch `experiment/three-arm-smoke-v2`)
+**R6 — FINAL CORRECTION COMPLETE PENDING INDEPENDENT RE-AUDIT** (branch `experiment/three-arm-smoke-v2`)
 
-R6 deployment closure was executed under the corrected directive in `..\R6_OpenCode_Package_CORRECTED\` (supersedes every earlier R6 directive) and is **COMPLETE PENDING INDEPENDENT AUDIT**. R4 remains accepted and frozen at `f5ae826`; R5 remains accepted and frozen at `7761c48` (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). Recorded in `selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md`. Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; push not performed; tag not created; Pilot not authorized. Do not push, tag, merge, or launch Kaggle before the independent R6 audit.
+R6 deployment closure was executed under the corrected directive in `..\R6_OpenCode_Package_CORRECTED\` (supersedes every earlier R6 directive). The independent audit (**GPT-5.6 Thinking**, 2026-08-01, audited HEAD `da6ccf3`) passed the technical R6 implementation and bundle. The bounded correction pass (one deployed-entrypoint regression test `40c7a47` plus documentation-truth cleanup at current documentation HEAD) closed TD-R6-ENTRYPOINT-001 and defects D1–D6; R6 freeze is pending the independent re-audit. R4 remains accepted and frozen at `f5ae826`; R5 remains accepted and frozen at `7761c48` (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md` and `docs/R6_INDEPENDENT_AUDIT_AND_CORRECTION_REPORT.md`). Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; push not performed; tag not created; Pilot not authorized. Do not push, tag, merge, or launch Kaggle before the independent R6 re-audit.
 
 ## Phase State
 ```text
 R4 = accepted and frozen (explicit freeze commit f5ae826)
 R5 = accepted and frozen (independent re-audit 2026-08-01, recorded at 7761c48)
-R6 = complete pending independent audit
+R6 = technical implementation passed independent audit; final correction complete pending re-audit
 Kaggle = not launched
 Pilot = not authorized
 README = updated in R6
-push = blocked pending audit
+push = blocked pending re-audit
 stable tag = blocked
 ```
 
@@ -23,13 +23,13 @@ stable tag = blocked
 R5 proved exactly nine non-dry scripted production records (3 frozen scenarios × 3 arms × 1 repetition) through the real production orchestration path. R5 was accepted by the independent re-audit on 2026-08-01 at `7761c48`. The cleaned R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. The old contaminated tail is preserved on `backup/r5-pre-audit-c3ecad2`.
 
 ## Current Task
-R6 deployment closure under the corrected directive is **COMPLETE PENDING INDEPENDENT AUDIT**. Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints. Next: independent R6 audit before push, then Kaggle preflight and nine real Qwen records.
+R6 final audit correction is **COMPLETE PENDING INDEPENDENT RE-AUDIT**. The test commit `40c7a47` proves the generated CLI entrypoint executes the exact 9-cell dry-run plan against the bundled data. Documentation truth defects D1–D6 (README badge/roadmap, SYSTEM_STATE identity, latest_phase_report, START_HERE, MASTER_IMPLEMENTATION_PLAN, PROJECT_HANDOFF) are closed at current documentation HEAD. Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints. Next: independent R6 re-audit before push, then Kaggle preflight and nine real Qwen records.
 
 ## Recent Non-Phase Additions
 - Added `README.md` (project overview, architecture, usage, license)
 - Added `LICENSE` (MIT, copyright Ahmed Ehab H.)
 - Added `reports/PROJECT_HEALTH_REPORT.md` (engineering dashboard)
-- Kaggle smoke passed (tag `v0.7.0-smoke-passed`): 7/7 arms, Qwen inference, non-publication
+- Legacy Seven-Arm Kaggle orchestration smoke passed (tag `v0.7.0-smoke-passed`): 7/7 arms, Qwen inference, non-publication — **historical orchestration evidence only, not V2 evidence**
 - Audit merge commit `3a16596` on `main` adds `ARM_TO_PROTOCOL_EXECUTION_AUDIT.md`, `ARM_AUDIT_DECISION_REQUIRED.md`, `EXISTING_TAGS_AUDIT.md`
 
 ## Completed Work
@@ -265,10 +265,10 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 - Runtime metrics
 
 ## Current Branch
-`experiment/three-arm-smoke-v2` (R4 frozen; R5 frozen; R6 complete pending independent audit)
+`experiment/three-arm-smoke-v2` (R4 frozen; R5 frozen; R6 technical implementation passed independent audit; R6 final correction complete pending re-audit)
 
 ## Latest Commit
-HEAD — `docs(audit): accept and freeze R5 production path proof` (R6-F01)
+Implementation/test HEAD — `test(deploy): prove bundled V2 CLI execution plan` (40c7a47); current documentation at current documentation HEAD (docs(audit): close R6 handoff truth gaps)
 
 ## Known Risks
 1. **LR-3 — No test data boundary:** Test fixtures need a defined home outside `inputs/` and `src/`.
@@ -277,15 +277,15 @@ HEAD — `docs(audit): accept and freeze R5 production path proof` (R6-F01)
 4. **LR-8 — Scenario content quality:** YAML files generated by automated agents; manual review recommended before Phase 4.
 
 ## Exact Next Task
-1. Independent R6 audit (GPT-5.6 Thinking) — required before any push
+1. Independent R6 re-audit (GPT-5.6 Thinking) of the final correction — required before any push
 2. Push and local/remote equality
 3. Kaggle preflight and nine real Qwen Smoke records
 4. Independent result audit, then `v2.0.0-scientific-smoke` tag
 5. Pilot freeze and execution
-6. Do not push, tag, merge, or launch Kaggle until the independent R6 audit passes
+6. Do not push, tag, merge, or launch Kaggle until the independent R6 re-audit passes
 
 ## Handoff Notes
-Phase 4A–4F complete, Phase 4F.1 complete, R3B/R3C/R3D closures complete, R4 token/metric contract ACCEPTED AND FROZEN at `f5ae826`, R5 nine-scripted-records ACCEPTED AND FROZEN by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 deployment closure is COMPLETE PENDING INDEPENDENT AUDIT under the corrected package in `..\R6_OpenCode_Package_CORRECTED\` (supersedes every earlier R6 directive), recorded in `selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md`. R6 closed TD-R6-BUNDLE-MANIFEST-001 and the audit gaps (missing controlled Todo tests, missing evaluator assets, V1 notebook/smoke configuration) with a deterministic builder, controlled Todo tests deployed in the data bundle, exact evaluator allowlist, valid V2 smoke config, pinned notebook, bundle preflight integration, and worktree/index/committed-tree manifest parity audits (0/0/0). Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints. Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; branch not pushed; Pilot not authorized. Full suite at R6 closure: 1,647 passed, 32 skipped, 0 failed (R5 baseline 1,625 passed). Smoke evidence is non-publication. Do not claim publication results without research-profile runs under the frozen protocol. Pilot wording: exact final run denominator not frozen; minimum 7–12 changes across at least 3 real repositories; current descriptive 48-run config is not authorization. Do not download or run LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives).
+Phase 4A–4F complete, Phase 4F.1 complete, R3B/R3C/R3D closures complete, R4 token/metric contract ACCEPTED AND FROZEN at `f5ae826`, R5 nine-scripted-records ACCEPTED AND FROZEN by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 deployment closure was executed under the corrected package in `..\R6_OpenCode_Package_CORRECTED\` (supersedes every earlier R6 directive), recorded in `selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md`. The independent audit (GPT-5.6 Thinking, 2026-08-01, HEAD `da6ccf3`) passed the R6 technical implementation and bundle; the bounded final correction (test commit `40c7a47` proving the bundled CLI dry-run 9/9, plus documentation-truth cleanup D1–D6 at current documentation HEAD) closed TD-R6-ENTRYPOINT-001, and R6 freeze is pending the independent re-audit. `.gitattributes` manifest-LF rule = audit-approved scope extension. No production, builder, bundle, notebook, or config changes were made in the correction pass. Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints. Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; branch not pushed; Pilot not authorized. Full suite at R6 closure: 1,647 passed, 32 skipped, 0 failed (R5 baseline 1,625 passed). Smoke evidence is non-publication. Do not claim publication results without research-profile runs under the frozen protocol. Pilot wording: exact final run denominator not frozen; minimum 7–12 changes across at least 3 real repositories; current descriptive 48-run config is not authorization. Do not download or run LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives).
 
 Environment activation:
 ```bash
@@ -297,4 +297,4 @@ Run tests:
 python -m pytest -q
 ```
 
-R6_DEPLOYMENT_CLOSURE_AUDIT_REQUIRED
+R6_FINAL_CORRECTION_REAUDIT_REQUIRED

@@ -3,9 +3,8 @@
 **Phase:** R6 deployment closure
 **Date:** 2026-08-01
 **Branch:** `experiment/three-arm-smoke-v2`
-**Status:** **R6 COMPLETE PENDING INDEPENDENT AUDIT**
-**Next:** independent R6 audit before push / Kaggle launch / tag creation
-
+**Status:** **R6 FINAL CORRECTION COMPLETE PENDING INDEPENDENT RE-AUDIT**
+**Next:** independent R6 re-audit (GPT-5.6 Thinking) before push / Kaggle launch / tag creation
 ---
 
 ## 1. Authorized scope
@@ -118,30 +117,58 @@ Smoke evidence is non-publication. No real Qwen results are claimed.
 
 ```text
 Branch             = experiment/three-arm-smoke-v2
-Starting HEAD      = 7761c48
+Audited HEAD       = da6ccf3
+Backup branch      = backup/r6-pre-final-audit-da6ccf3 (no tag)
 R5 acceptance      = 5784a4f
 Runtime source     = cb25e9f
 Bundle commit      = 54a0462
-Documentation      = Commit D
+R6 test commit     = 40c7a47
+Documentation      = current docs HEAD (docs(audit): close R6 handoff truth gaps)
 Working tree       = clean
 Upstream           = none
-R6 status          = COMPLETE PENDING INDEPENDENT AUDIT
+R6 status          = FINAL CORRECTION COMPLETE PENDING INDEPENDENT RE-AUDIT
 Real Smoke         = 0/9
 Pilot              = NOT AUTHORIZED
-Push               = BLOCKED PENDING AUDIT
+Push               = BLOCKED PENDING RE-AUDIT
 Tag                = BLOCKED
 ```
 
 ## 8. Next action
 
 ```text
-1. Independent R6 audit (GPT-5.6 Thinking) before push
+1. Independent R6 re-audit (GPT-5.6 Thinking) of the final correction before push
 2. Push and local/remote equality
 3. Kaggle preflight and nine real Qwen Smoke records
 4. Independent result audit, then scientific-smoke tag
 5. Pilot authorization under the frozen protocol
 ```
 
-Do not push, tag, merge, or launch Kaggle during the pending audit.
+Do not push, tag, merge, or launch Kaggle until the independent re-audit accepts.
 
-R6_DEPLOYMENT_CLOSURE_AUDIT_REQUIRED
+## 9. R6 final correction (2026-08-01)
+
+The independent audit (GPT-5.6 Thinking, `docs/R6_INDEPENDENT_AUDIT_AND_CORRECTION_REPORT.md`)
+passed the R6 technical deployment implementation and withheld freeze for one
+missing deployed-entrypoint regression plus documentation-truth cleanup. The
+bounded correction closed both:
+
+```text
+test commit 40c7a47  test(deploy): prove bundled V2 CLI execution plan
+  test_bundled_cli_dry_run_executes_exact_nine_cell_plan runs the real
+  generated CLI with the bundled data via subprocess and asserts the exact
+  3×3×1 persisted matrix and identity; TD-R6-ENTRYPOINT-001 closed.
+docs HEAD            docs(audit): close R6 handoff truth gaps
+  D1 README legacy badge/roadmap relabeled, current V2 milestones authoritative
+  D2 SYSTEM_STATE latest identity = current docs HEAD; 7/7 qualified legacy
+  D3 latest_phase_report = concise current R6 report (latest-first)
+  D4 START_HERE current R6 correction state; repo-contained docs sufficient
+  D5 MASTER_IMPLEMENTATION_PLAN current track + historical markers
+  D6 PROJECT_HANDOFF exact commits + .gitattributes disclosure + bundled CLI 9/9
+```
+
+Final correction gates: preflight file 9/9; grouped gate 79 passed; ruff clean
+on changed file; `git diff --check` clean; full suite reported in the final
+OpenCode report. `.gitattributes` manifest-LF rule = audit-approved scope
+extension, disclosed in `docs/PROJECT_HANDOFF.md` and this ledger.
+
+R6_FINAL_CORRECTION_REAUDIT_REQUIRED

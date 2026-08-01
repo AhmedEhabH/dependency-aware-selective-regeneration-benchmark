@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Protocol](https://img.shields.io/badge/Research%20Protocol-v1.0%20Frozen-success.svg)](PROTOCOL_VERSION.md)
 [![Tests](https://img.shields.io/badge/tests-504%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
-[![Release](https://img.shields.io/badge/release-v0.7.0--smoke--passed-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
+[![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
 ## Overview
 
@@ -210,7 +210,8 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 > (todo-smoke-001/002/003) × 3 arms (monolithic, selective,
 > iterative_repository_agent) × 1 repetition = 9 runs. Smoke evidence is
 > **non-publication**. Real Qwen results = 0/9 (not run); local scripted
-> evidence = 9/9.
+> evidence = 9/9. The legacy `v0.7.0-smoke-passed` tag and the 7/7-arm Kaggle
+> smoke are **historical orchestration evidence only** — not V2 evidence.
 
 | Phase | Status |
 |---|---|
@@ -229,8 +230,8 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | R3B/R3C/R3D closures | Complete |
 | R4 token/metric contract | Accepted and frozen (`f5ae826`) |
 | R5 nine scripted production records | Accepted and frozen (`7761c48`) |
-| R6 deployment closure | **Complete — pending independent audit** |
-| Kaggle preflight + nine real Qwen records | Next (blocked until R6 audit) |
+| R6 deployment closure | Passed independent audit; final correction complete pending re-audit |
+| Kaggle preflight + nine real Qwen records | Next (blocked until R6 re-audit) |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
 
@@ -238,7 +239,8 @@ The repository is **not yet publication-result complete**. Pilot and research
 experiments remain pending. Smoke evidence is non-publication. Local scripted
 records = 9/9; real Qwen records = 0/9; Kaggle not launched; branch not
 pushed; no tag created; Pilot not authorized. Current branch:
-`experiment/three-arm-smoke-v2` (R6 complete pending independent audit).
+`experiment/three-arm-smoke-v2` (R6 final correction complete pending
+independent re-audit).
 
 ## Implemented Components
 
@@ -573,8 +575,15 @@ Immediate next milestones:
 - [x] Phase 4E — dependency graph and impact strategies
 - [x] Phase 4F — evaluation, metrics, statistics, and result export
 - [x] Phase 4F.1 — scientific remediation (5 gaps closed)
-- [x] Kaggle real smoke (7/7 arms, Qwen confirmed)
-- [ ] Checkpoint/resume support
+- [x] Legacy Seven-Arm orchestration smoke (historical, non-publication; not V2 evidence)
+- [x] Checkpoint/resume support
+- [x] R5 local scripted production proof 9/9
+- [x] R6 byte-reproducible deployment bundle
+- [ ] R6 final independent re-audit
+- [ ] Push and local/remote equality
+- [ ] Real Three-Arm Qwen Smoke 0/9
+- [ ] Stable v2.0.0-scientific-smoke tag after result audit
+- [ ] Pilot freeze
 - [ ] Pilot experiment
 - [ ] Research (main confirmatory) experiment
 - [ ] Arm-to-protocol alignment review
@@ -609,4 +618,9 @@ This project uses open-source software and research infrastructure from the Pyth
 
 ---
 
-**Project status:** R4 and R5 accepted and frozen; R6 deployment closure complete pending independent audit on branch `experiment/three-arm-smoke-v2`. Real-model benchmark execution (nine real Qwen Smoke V2 records) and scientific validation require the independent R6 audit, then Kaggle. Smoke evidence is non-publication; no real Qwen results are claimed.
+**Project status:** R4 and R5 accepted and frozen; R6 deployment closure
+passed the independent audit and its final correction is complete pending the
+independent re-audit on branch `experiment/three-arm-smoke-v2`. Real-model
+benchmark execution (nine real Qwen Smoke V2 records) and scientific
+validation require the independent R6 re-audit, then Kaggle. Smoke evidence is
+non-publication; no real Qwen results are claimed.

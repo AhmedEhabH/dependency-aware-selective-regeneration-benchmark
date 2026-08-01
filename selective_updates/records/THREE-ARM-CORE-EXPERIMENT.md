@@ -124,4 +124,4 @@ No previous records are modified. This amendment supersedes the methodology-conf
 
 The three-arm Scientific Smoke V2 deployment is **COMPLETE PENDING INDEPENDENT AUDIT** under the corrected R6 directive. Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47 methods; evaluator assets deployed = 3 + 3 fingerprints. Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; push not performed; tag not created; Pilot not authorized. Smoke evidence is non-publication.
 
-R6_DEPLOYMENT_CLOSURE_AUDIT_REQUIRED
+R6_FINAL_CORRECTION_REAUDIT_REQUIRED
