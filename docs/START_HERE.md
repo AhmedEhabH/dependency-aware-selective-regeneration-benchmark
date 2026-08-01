@@ -4,16 +4,16 @@
 
 You are resuming work on the Dependency-Aware Selective Regeneration Benchmark.
 
-**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) is **ACCEPTED AND FROZEN** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`), recorded in `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`; freeze and milestone-branch publication are authorized. Local scripted records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; Kaggle not launched; push authorized and pending at this commit; tag not created; Pilot not authorized. Next: publish the branch with upstream, verify local/remote equality, then Kaggle environment preflight. Do not tag, merge, force-push, or launch Kaggle now. All required reading is repository-contained; external prompt packages are historical provenance only and are not required to continue.
+**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) is **ACCEPTED AND FROZEN** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`), recorded in `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`. The R6 freeze commit `4b2dd27` is the exact first publication HEAD; the milestone branch is **published** with upstream `origin/experiment/three-arm-smoke-v2` and local/remote equality was verified before the publication-status commit. Local scripted records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; Kaggle not launched; tag not created; Pilot not authorized. Next: Kaggle environment preflight, then nine real Qwen Smoke records. Do not tag, merge, force-push, or launch Kaggle now. All required reading is repository-contained; external prompt packages are historical provenance only and are not required to continue.
 
 **Phase state:**
 ```text
 R4 = accepted and frozen (explicit freeze commit f5ae826)
 R5 = accepted and frozen (independent re-audit 2026-08-01 at 7761c48)
-R6 = ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 949e9c2)
+R6 = ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 949e9c2; freeze commit 4b2dd27)
 Kaggle = not launched
 Pilot = not authorized
-push = authorized and pending
+push = PUBLISHED — upstream origin/experiment/three-arm-smoke-v2, local/remote equal
 stable tag = blocked
 ```
 
@@ -43,13 +43,13 @@ python seven_arm_benchmark.py --dry-run
 
 ## R5 Acceptance and R6 Freeze
 
-R5 was accepted and frozen by the independent re-audit on 2026-08-01 at HEAD `7761c48`. The clean R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. R6 deployment closure was executed under the corrected directive and supersedes every earlier R6 prompt/directive: deterministic bundle builder, controlled Todo test deployment, exact evaluator allowlist, valid V2 smoke config, pinned notebook, bundle preflight integration, and manifest parity audits (0/0/0). The bounded final correction added the bundled CLI dry-run regression test (`40c7a47`) and closed documentation-truth defects D1–D6. The final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`) **accepted R6 and authorized freeze and milestone-branch publication**. R6 is now **ACCEPTED AND FROZEN**. Next: publish the branch with upstream, verify local/remote equality, then Kaggle preflight.
+R5 was accepted and frozen by the independent re-audit on 2026-08-01 at HEAD `7761c48`. The clean R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. R6 deployment closure was executed under the corrected directive and supersedes every earlier R6 prompt/directive: deterministic bundle builder, controlled Todo test deployment, exact evaluator allowlist, valid V2 smoke config, pinned notebook, bundle preflight integration, and manifest parity audits (0/0/0). The bounded final correction added the bundled CLI dry-run regression test (`40c7a47`) and closed documentation-truth defects D1–D6. The final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`) **accepted R6 and authorized freeze and milestone-branch publication**. R6 is now **ACCEPTED AND FROZEN** and the milestone branch is **published** (freeze commit `4b2dd27`, upstream `origin/experiment/three-arm-smoke-v2`, local/remote equality verified). Next: Kaggle environment preflight.
 
 ```text
 R5 = accepted and frozen at 7761c48
-R6 = ACCEPTED AND FROZEN at 949e9c2
+R6 = ACCEPTED AND FROZEN at 949e9c2 (freeze commit 4b2dd27)
 Kaggle = not launched
-push = authorized and pending
+push = PUBLISHED (upstream set, local/remote equal)
 tag = blocked
 Pilot = not authorized
 ```
@@ -117,7 +117,7 @@ Each starts from the same clean pinned baseline (b8a33e2). They are not cumulati
 
 ## Next Task
 
-**R6: ACCEPTED AND FROZEN — MILESTONE-BRANCH PUBLICATION AUTHORIZED.** The final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`) accepted R6 deployment closure. The bounded correction pass closed TD-R6-ENTRYPOINT-001 (test commit `40c7a47`, bundled CLI dry-run 9/9) and documentation-truth defects D1–D6 (`949e9c2`). Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; final accepted full suite = 1,648 passed / 32 skipped / 0 failed. Next: publish the branch with upstream, verify local/remote equality, then Kaggle environment preflight and nine real Qwen records. Do not tag, merge, force-push, or launch Kaggle now.
+**R6: ACCEPTED AND FROZEN — MILESTONE BRANCH PUBLISHED.** The final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`) accepted R6 deployment closure. The bounded correction pass closed TD-R6-ENTRYPOINT-001 (test commit `40c7a47`, bundled CLI dry-run 9/9) and documentation-truth defects D1–D6 (`949e9c2`). The freeze commit `4b2dd27` (docs(audit): accept and freeze R6 deployment closure) is the exact first publication HEAD; the branch is published with upstream `origin/experiment/three-arm-smoke-v2` and local/remote equality was verified. Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; final accepted full suite = 1,648 passed / 32 skipped / 0 failed. Next: Kaggle environment preflight and nine real Qwen records. Do not tag, merge, force-push, or launch Kaggle now.
 
 ---
 

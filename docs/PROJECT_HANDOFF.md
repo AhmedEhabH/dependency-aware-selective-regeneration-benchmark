@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-08-01
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 ACCEPTED AND FROZEN (final independent re-audit 2026-08-01 at 949e9c2; freeze record and milestone-branch publication authorized) — branch experiment/three-arm-smoke-v2; local scripted = 9/9; bundled CLI dry-run = 9/9; real Qwen = 0/9; Kaggle not launched; push authorized and pending at this commit; tag not created; Pilot = NOT AUTHORIZED; do not tag/merge/force-push/launch Kaggle now. All reading is repository-contained; external prompt packages are historical provenance only.
+**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 ACCEPTED AND FROZEN (final independent re-audit 2026-08-01 at 949e9c2) — branch experiment/three-arm-smoke-v2 PUBLISHED to origin (freeze commit 4b2dd27 = first publication HEAD; upstream origin/experiment/three-arm-smoke-v2; local/remote equality verified before publication-status commit); local scripted = 9/9; bundled CLI dry-run = 9/9; real Qwen = 0/9; Kaggle not launched; tag not created; Pilot = NOT AUTHORIZED; do not tag/merge/force-push/launch Kaggle now. All reading is repository-contained; external prompt packages are historical provenance only.
 
 ---
 
@@ -89,8 +89,10 @@ project/
 - **R6 audited implementation HEAD:** da6ccf3 — technical implementation and bundle PASSED the independent audit (GPT-5.6 Thinking, 2026-08-01)
 - **R6 test correction commit:** 40c7a47 (test(deploy): prove bundled V2 CLI execution plan) — TD-R6-ENTRYPOINT-001 closed
 - **R6 documentation correction:** 949e9c2 (docs(audit): close R6 handoff truth gaps) — defects D1–D6 closed
-- **R6 final independent re-audit:** ACCEPTED AND FROZEN (GPT-5.6 Thinking, 2026-08-01, HEAD 949e9c2); freeze record and milestone-branch publication authorized
-- **HEAD:** 949e9c2 (R6 accepted and frozen; publication authorized and pending)
+- **R6 final independent re-audit:** ACCEPTED AND FROZEN (GPT-5.6 Thinking, 2026-08-01, HEAD 949e9c2); freeze and milestone-branch publication authorized
+- **R6 freeze commit:** 4b2dd27 (docs(audit): accept and freeze R6 deployment closure) — exact first publication HEAD
+- **Publication:** branch PUBLISHED to origin with upstream origin/experiment/three-arm-smoke-v2; local/remote equality verified before publication-status commit
+- **HEAD:** this publication-status commit (R6 accepted and frozen; branch published)
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
 - **Test suite:** 1,648 passed / 32 skipped / 0 failed (final accepted R6 full suite); bundled CLI dry-run regression 9/9 at 40c7a47
@@ -223,14 +225,16 @@ R6 audited HEAD:             da6ccf3 (docs(state): prepare Three-Arm Smoke V2 pr
 R6 test correction:          40c7a47 (test(deploy): prove bundled V2 CLI execution plan)
 R6 documentation:            949e9c2 (docs(audit): close R6 handoff truth gaps)
 R6 final re-audit:           ACCEPTED AND FROZEN at 949e9c2 (independent re-audit 2026-08-01)
-HEAD:                        949e9c2 (R6 accepted and frozen; publication authorized and pending)
-Local/remote:         not yet pushed
+R6 freeze commit:            4b2dd27 (docs(audit): accept and freeze R6 deployment closure) — first publication HEAD
+Publication:          PUBLISHED — upstream origin/experiment/three-arm-smoke-v2; local/remote equality verified
+HEAD:                        this publication-status commit (docs(state): record R6 milestone branch publication)
+Local/remote:         equal (verified before and after publication-status commit)
 Working tree:         clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged — historical orchestration smoke, not V2 evidence)
 Stash:           broken methodology-conformance WIP 2026-07-27
 Kaggle:          not launched
 Pilot:           blocked
-R6:              accepted and frozen at 949e9c2
+R6:              accepted and frozen at 949e9c2 (freeze commit 4b2dd27)
 README:          updated in R6
 ```
 
@@ -587,12 +591,12 @@ scripted/harness = 0. Bundle totals = 144 files / 805,634 bytes.
 ```text
 R4 accepted/frozen
 R5 accepted/frozen
-R6 ACCEPTED AND FROZEN at 949e9c2
+R6 ACCEPTED AND FROZEN at 949e9c2 (freeze commit 4b2dd27)
 local scripted = 9/9
 bundled CLI dry-run = 9/9
 real Qwen = 0/9
 Kaggle not launched
-push authorized and pending
+push PUBLISHED (upstream set, local/remote equal)
 tag not created
 Pilot not authorized
 ```
@@ -603,9 +607,8 @@ authorization. Final accepted full suite at R6 closure: 1,648 passed, 32
 skipped, 0 failed. Ruff set identical to starting HEAD (94 findings, zero new);
 mypy strict 0 errors; compileall clean; final builder run left the tree clean.
 
-Next action: record the R6 freeze, publish the branch with upstream, verify
-local/remote equality, then Kaggle environment preflight and nine real Qwen
-Smoke records. Do not tag, merge, force-push, or launch Kaggle now.
+Next action: Kaggle environment preflight, then nine real Qwen Smoke records.
+Do not tag, merge, force-push, or launch Kaggle now.
 
 ## 21. R6 Final Audit Correction (2026-08-01)
 
@@ -644,11 +647,14 @@ evaluator, or R5 change. `.gitattributes` manifest-LF rule is an audit-approved
 scope extension and is disclosed in the final ledger. The final independent
 re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`) **accepted R6** and
 authorized freeze and milestone-branch publication (recorded in
-`docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). Continuation does
-not require any external prompt package; the earlier audit and correction
-packages are historical provenance only. Next action is unambiguous: **record
-the R6 freeze, publish the branch with upstream, verify local/remote equality,
-then Kaggle environment preflight.** Do not tag, merge, force-push, or run
-Kaggle now.
+`docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). The R6 freeze commit
+`4b2dd27` (docs(audit): accept and freeze R6 deployment closure) is the exact
+first publication HEAD; the branch was published to origin with upstream
+`origin/experiment/three-arm-smoke-v2` and local/remote equality was verified.
+Continuation does not require any external prompt package; the earlier audit
+and correction packages are historical provenance only. Next action is
+unambiguous: **record the publication status, push again, verify final
+equality, then Kaggle environment preflight.** Do not tag, merge, force-push,
+or run Kaggle now.
 
 R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED

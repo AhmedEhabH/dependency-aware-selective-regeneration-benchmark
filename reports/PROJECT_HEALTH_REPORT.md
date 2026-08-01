@@ -4,13 +4,13 @@
 **Project:** Dependency-Aware Selective Regeneration Benchmark
 **Branch:** `experiment/three-arm-smoke-v2`
 **Accepted HEAD:** `949e9c2249004dbdeecc5ece531f72867611859c`
-**R4/R5/R6 status:** R4 ACCEPTED AND FROZEN (`f5ae826`); R5 ACCEPTED AND FROZEN (`7761c48`); R6 ACCEPTED AND FROZEN (`949e9c2`) by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01); freeze and milestone-branch publication authorized.
+**R4/R5/R6 status:** R4 ACCEPTED AND FROZEN (`f5ae826`); R5 ACCEPTED AND FROZEN (`7761c48`); R6 ACCEPTED AND FROZEN (`949e9c2`) by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01). Branch **published** to origin — freeze commit `4b2dd27` = exact first publication HEAD, upstream `origin/experiment/three-arm-smoke-v2`, local/remote equality verified.
 
 ---
 
 ## Executive Summary
 
-R6 deployment closure is **accepted and frozen**. The final independent re-audit (GPT-5.6 Thinking, 2026-08-01, audited HEAD `949e9c2`) accepted the R6 technical implementation, the generated Kaggle deployment bundle, and the bounded final correction (one deployed-entrypoint regression test `40c7a47` plus documentation-truth cleanup at `949e9c2`). Local engineering is deployment-ready: local scripted records = 9/9, bundled CLI dry-run = 9/9, manifests 0/0/0 mismatches. Real-model evidence remains absent: real Qwen records = 0/9, Kaggle not launched, no publication claim authorized. Next action is branch publication with upstream verification, then Kaggle environment preflight.
+R6 deployment closure is **accepted, frozen, and published**. The final independent re-audit (GPT-5.6 Thinking, 2026-08-01, audited HEAD `949e9c2`) accepted the R6 technical implementation, the generated Kaggle deployment bundle, and the bounded final correction (one deployed-entrypoint regression test `40c7a47` plus documentation-truth cleanup at `949e9c2`). The R6 freeze commit `4b2dd27` was published as the exact first publication HEAD with upstream set; local/remote equality was verified. Local engineering is deployment-ready: local scripted records = 9/9, bundled CLI dry-run = 9/9, manifests 0/0/0 mismatches. Real-model evidence remains absent: real Qwen records = 0/9, Kaggle not launched, no publication claim authorized. Next action is Kaggle environment preflight, then nine real Qwen Smoke records.
 
 **Legacy note:** Legacy Seven-Arm V1 results (including the `v0.7.0-smoke-passed` tag and the 7/7-arm Kaggle orchestration smoke) are **historical** and superseded. They are not V2 evidence. The current experiment is the Three-Arm Scientific Smoke V2 (`scientific-smoke-v2` profile): 3 frozen scenarios (todo-smoke-001/002/003) × 3 arms (monolithic, selective, iterative_repository_agent) × 1 repetition = 9 runs. Smoke evidence is non-publication.
 
@@ -83,7 +83,8 @@ pip check       = clean
 | R3B / R3C / R3D closures | Complete |
 | R4 — token/metric contract | ACCEPTED AND FROZEN (`f5ae826`) |
 | R5 — nine scripted production records | ACCEPTED AND FROZEN (`7761c48`) |
-| R6 — deployment closure | ACCEPTED AND FROZEN (`949e9c2`) |
+| R6 — deployment closure | ACCEPTED AND FROZEN (`949e9c2`; freeze commit `4b2dd27`) |
+| R6 milestone-branch publication | PUBLISHED (upstream set, local/remote equal) |
 | Kaggle preflight + nine real Qwen records | Next |
 | Pilot | Not authorized |
 | Research experiment | Planned |
@@ -109,7 +110,7 @@ No real-model success or efficiency claim is authorized before the real Smoke re
 
 ## Near goal
 
-Record the R6 freeze → publish `experiment/three-arm-smoke-v2` with upstream → verify local/remote equality → Kaggle environment preflight → nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 repetition).
+Kaggle environment preflight → nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 repetition).
 
 ## Far goal
 
@@ -117,6 +118,6 @@ Independent real-result audit → stable `v2.0.0-scientific-smoke` tag → freez
 
 ## Next action
 
-Record the R6 freeze and publish the milestone branch, then Kaggle environment preflight. Do not tag, merge, force-push, or launch Kaggle now.
+Kaggle environment preflight, then nine real Qwen Smoke records. Do not tag, merge, force-push, or launch Kaggle now.
 
-R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED
+R6_FROZEN_BRANCH_PUBLISHED_KAGGLE_PREFLIGHT_REQUIRED
