@@ -15,6 +15,8 @@ scientific experiment tree.
 
 from __future__ import annotations
 
+import importlib
+import importlib.metadata
 import json
 import logging
 import os
@@ -34,15 +36,15 @@ PROBE_PROMPT = "def add(a, b):\n    return a + b\n"
 CANONICAL_ALLOC_CONF = "expandable_segments:True"
 BASELINE_REPO = "todo"
 
-_REQUIRED_IMPORTS: tuple[tuple[str, str], ...] = (
-    ("django", "get_version"),
-    ("djangorestframework", "VERSION"),
-    ("pytest", "__version__"),
-    ("pytest_django", "__version__"),
-    ("accelerate", "__version__"),
-    ("bitsandbytes", "__version__"),
-    ("torch", "__version__"),
-    ("transformers", "__version__"),
+_REQUIRED_IMPORTS: tuple[tuple[str, str, str, str | None], ...] = (
+    ("django", "Django", "django", "5.2.16"),
+    ("djangorestframework", "djangorestframework", "rest_framework", "3.17.1"),
+    ("pytest", "pytest", "pytest", "8.4.2"),
+    ("pytest_django", "pytest-django", "pytest_django", "4.12.0"),
+    ("accelerate", "accelerate", "accelerate", "1.14.0"),
+    ("bitsandbytes", "bitsandbytes", "bitsandbytes", "0.49.2"),
+    ("torch", "torch", "torch", None),
+    ("transformers", "transformers", "transformers", None),
 )
 
 
@@ -51,6 +53,7 @@ class KaggleSmokePreflightResult:
     passed: bool
     checks: tuple[str, ...] = ()
     rejection_reason: str = ""
+    python_version: str = ""
     model_identity: str = ""
     quantization_mode: str = ""
     model_memory_footprint_bytes: int = 0
@@ -66,26 +69,43 @@ class KaggleSmokePreflightResult:
     duration_seconds: float = 0.0
 
 
-def _import_version(name: str, attr: str) -> str:
+def _import_version(distribution: str, module_name: str) -> str:
     try:
-        module = __import__(name)
+        importlib.import_module(module_name)
     except Exception:
         return "NOT_INSTALLED"
-    value = getattr(module, attr, None)
-    if callable(value):
-        try:
-            value = value()
-        except Exception:
-            value = "unknown"
-    return str(value) if value is not None else "unknown"
+    try:
+        return importlib.metadata.version(distribution)
+    except importlib.metadata.PackageNotFoundError:
+        return "NOT_INSTALLED"
 
 
 def collect_dependency_versions() -> tuple[tuple[str, str], ...]:
     """Exact installed versions of the pinned Smoke runtime and Kaggle stack."""
     records: list[tuple[str, str]] = []
-    for name, attr in _REQUIRED_IMPORTS:
-        records.append((name, _import_version(name, attr)))
+    for key, distribution, module_name, _expected in _REQUIRED_IMPORTS:
+        records.append((key, _import_version(distribution, module_name)))
     return tuple(records)
+
+
+def _python_runtime_status() -> tuple[str, bool]:
+    version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+    return version, sys.version_info[:2] in ((3, 11), (3, 12))
+
+
+def _dependency_issues(
+    dependencies: tuple[tuple[str, str], ...],
+) -> tuple[str, ...]:
+    expected = {key: version for key, _dist, _module, version in _REQUIRED_IMPORTS}
+    issues: list[str] = []
+    for key, actual in dependencies:
+        if actual == "NOT_INSTALLED":
+            issues.append(f"{key}=NOT_INSTALLED")
+            continue
+        pinned = expected[key]
+        if pinned is not None and actual != pinned:
+            issues.append(f"{key}={actual} (expected {pinned})")
+    return tuple(issues)
 
 
 def _stage_baseline_workspace(data_dir: Path, preflight_root: Path) -> Path:
@@ -136,8 +156,9 @@ def _qwen_probe_metrics(
 
     allocated_gib = torch.cuda.memory_allocated(0) / (1024**3)
     reserved_gib = torch.cuda.memory_reserved(0) / (1024**3)
-    total_mem = torch.cuda.get_device_properties(0).total_memory
-    free_gib = max(0.0, total_mem - torch.cuda.memory_reserved(0)) / (1024**3)
+    torch.cuda.synchronize(0)
+    free_bytes, _total_bytes = torch.cuda.mem_get_info(0)
+    free_gib = free_bytes / (1024**3)
     gpu_count = torch.cuda.device_count()
 
     metrics: dict[str, Any] = {
@@ -183,11 +204,21 @@ def run_kaggle_smoke_preflight(
     checks: list[str] = []
     dependencies = collect_dependency_versions()
 
-    # 1. Exact dependency / import verification
-    missing = [name for name, ver in dependencies if ver == "NOT_INSTALLED"]
-    if missing:
+    python_version, python_supported = _python_runtime_status()
+    if python_supported:
+        checks.append(f"python_runtime: PASS ({python_version})")
+    else:
         checks.append(
-            f"dependency_import_verification: FAIL (missing: {', '.join(missing)})"
+            f"python_runtime: FAIL ({python_version}; expected Python 3.11 or 3.12)"
+        )
+
+    # 1. Exact dependency / import verification
+    dependency_issues = _dependency_issues(dependencies)
+    if dependency_issues:
+        checks.append(
+            "dependency_import_verification: FAIL ("
+            + "; ".join(dependency_issues)
+            + ")"
         )
     else:
         checks.append("dependency_import_verification: PASS")
@@ -195,66 +226,113 @@ def run_kaggle_smoke_preflight(
     preflight_root = Path(preflight_root)
     preflight_root.mkdir(parents=True, exist_ok=True)
 
+    # Fail fast before staging or loading the model when the declared runtime
+    # contract is absent or version-drifted.
+    runtime_contract_failed = bool(dependency_issues) or not python_supported
+    if runtime_contract_failed:
+        checks.extend(
+            (
+                "baseline_staging: SKIP (runtime contract failed)",
+                "manage_py_check: SKIP (runtime contract failed)",
+                "makemigrations_check: SKIP (runtime contract failed)",
+                "qwen_int8_load: SKIP (runtime contract failed)",
+                "device_map_gpu_only: SKIP (runtime contract failed)",
+                "vram_headroom: SKIP (runtime contract failed)",
+            )
+        )
+
     # 2. Baseline Todo workspace staging
     staged = None
-    try:
-        staged = _stage_baseline_workspace(Path(data_dir), preflight_root)
-        checks.append(f"baseline_staging: PASS ({staged.name})")
-    except Exception as exc:
-        checks.append(f"baseline_staging: FAIL ({exc})")
+    if not runtime_contract_failed:
+        try:
+            staged = _stage_baseline_workspace(Path(data_dir), preflight_root)
+            checks.append(f"baseline_staging: PASS ({staged.name})")
+        except Exception as exc:
+            checks.append(f"baseline_staging: FAIL ({exc})")
 
     # 3. python manage.py check
-    if staged is not None:
-        rc, out, err = _run_in_workspace(staged, "manage.py", "check")
-        if rc == 0:
-            checks.append("manage_py_check: PASS")
+    if not runtime_contract_failed:
+        if staged is not None:
+            rc, out, err = _run_in_workspace(staged, "manage.py", "check")
+            if rc == 0:
+                checks.append("manage_py_check: PASS")
+            else:
+                checks.append(
+                    f"manage_py_check: FAIL (exit={rc} {err[:200].strip()})"
+                )
         else:
-            checks.append(
-                f"manage_py_check: FAIL (exit={rc} {err[:200].strip()})"
-            )
-    else:
-        checks.append("manage_py_check: SKIP (no staged baseline)")
+            checks.append("manage_py_check: SKIP (no staged baseline)")
 
     # 4. python manage.py makemigrations todo --check --dry-run
-    if staged is not None:
-        rc, out, err = _run_in_workspace(
-            staged, "manage.py", "makemigrations", BASELINE_REPO, "--check", "--dry-run"
-        )
-        if rc == 0:
-            checks.append("makemigrations_check: PASS")
-        else:
-            checks.append(
-                f"makemigrations_check: FAIL (exit={rc} {err[:200].strip()})"
+    if not runtime_contract_failed:
+        if staged is not None:
+            rc, out, err = _run_in_workspace(
+                staged,
+                "manage.py",
+                "makemigrations",
+                BASELINE_REPO,
+                "--check",
+                "--dry-run",
             )
-    else:
-        checks.append("makemigrations_check: SKIP (no staged baseline)")
+            if rc == 0:
+                checks.append("makemigrations_check: PASS")
+            else:
+                checks.append(
+                    f"makemigrations_check: FAIL (exit={rc} {err[:200].strip()})"
+                )
+        else:
+            checks.append("makemigrations_check: SKIP (no staged baseline)")
 
     # 5. Qwen int8 load + 64-token probe + VRAM headroom
     probe_metrics: dict[str, Any] = {}
     probe_failure = ""
-    try:
-        probe_metrics = _qwen_probe_metrics(model_path)
-        checks.append("qwen_int8_load: PASS")
-        free_gib = float(probe_metrics["free_vram_after_probe_gib"])
-        if free_gib >= MIN_FREE_VRAM_GIB:
-            checks.append(f"vram_headroom: PASS (free={free_gib:.2f} GiB)")
-        else:
-            checks.append(
-                f"vram_headroom: FAIL (free={free_gib:.2f} GiB < {MIN_FREE_VRAM_GIB:.1f} GiB)"
+    baseline_failed = any(
+        check.startswith(
+            (
+                "baseline_staging: FAIL",
+                "manage_py_check: FAIL",
+                "makemigrations_check: FAIL",
             )
-    except Exception as exc:
-        probe_failure = f"{type(exc).__name__}: {exc}"
-        checks.append("qwen_int8_load: FAIL")
-        checks.append("vram_headroom: FAIL (probe did not run)")
+        )
+        for check in checks
+    )
+    if not runtime_contract_failed and not baseline_failed:
+        try:
+            probe_metrics = _qwen_probe_metrics(model_path)
+            checks.append("qwen_int8_load: PASS")
+            device_map = str(probe_metrics.get("device_map_summary", ""))
+            lowered_map = device_map.lower()
+            if device_map and "cpu" not in lowered_map and "disk" not in lowered_map:
+                checks.append(f"device_map_gpu_only: PASS ({device_map})")
+            else:
+                checks.append(f"device_map_gpu_only: FAIL ({device_map or 'missing'})")
+            free_gib = float(probe_metrics["free_vram_after_probe_gib"])
+            if free_gib >= MIN_FREE_VRAM_GIB:
+                checks.append(f"vram_headroom: PASS (free={free_gib:.2f} GiB)")
+            else:
+                checks.append(
+                    f"vram_headroom: FAIL (free={free_gib:.2f} GiB < {MIN_FREE_VRAM_GIB:.1f} GiB)"
+                )
+        except Exception as exc:
+            probe_failure = f"{type(exc).__name__}: {exc}"
+            checks.append(f"qwen_int8_load: FAIL ({probe_failure})")
+            checks.append("device_map_gpu_only: FAIL (probe did not run)")
+            checks.append("vram_headroom: FAIL (probe did not run)")
+    elif not runtime_contract_failed:
+        checks.append("qwen_int8_load: SKIP (baseline preflight failed)")
+        checks.append("device_map_gpu_only: SKIP (baseline preflight failed)")
+        checks.append("vram_headroom: SKIP (baseline preflight failed)")
 
     failed = [c for c in checks if ": FAIL" in c or ": SKIP" in c]
-    passed = not failed and not missing
+    passed = not failed and not runtime_contract_failed
 
     rejection = ""
     if failed:
         rejection = "; ".join(failed)
-    elif missing:
-        rejection = "Missing pinned runtime dependencies: " + ", ".join(missing)
+    elif dependency_issues:
+        rejection = "Pinned runtime dependency verification failed: " + "; ".join(
+            dependency_issues
+        )
     elif probe_failure:
         rejection = probe_failure
 
@@ -263,6 +341,7 @@ def run_kaggle_smoke_preflight(
         passed=passed,
         checks=tuple(checks),
         rejection_reason=rejection,
+        python_version=python_version,
         model_identity=str(probe_metrics.get("model_identity", "")),
         quantization_mode=str(probe_metrics.get("quantization_mode", "")),
         model_memory_footprint_bytes=int(probe_metrics.get("model_memory_footprint_bytes", 0) or 0),
@@ -285,6 +364,7 @@ def run_kaggle_smoke_preflight(
             "passed": result.passed,
             "rejection_reason": result.rejection_reason,
             "checks": list(result.checks),
+            "python_version": result.python_version,
             "model_identity": result.model_identity,
             "quantization_mode": result.quantization_mode,
             "model_memory_footprint_bytes": result.model_memory_footprint_bytes,
@@ -309,6 +389,7 @@ def render_preflight_table(result: KaggleSmokePreflightResult) -> str:
     lines = [
         "=== KAGGLE SMOKE PREFLIGHT ===",
         f"passed: {result.passed}",
+        f"python_version: {result.python_version or 'N/A'}",
         f"model_identity: {result.model_identity or 'N/A'}",
         f"quantization_mode: {result.quantization_mode or 'N/A'}",
         f"model_memory_footprint_bytes: {result.model_memory_footprint_bytes}",

@@ -868,7 +868,11 @@ def test_r7c_missing_module_is_infrastructure_nonrepairable_with_no_repair(tmp_p
         "monolithic",
         base_dir=tmp_path,
         config_kwargs={
-            "validation_command": [sys.executable, "-c", "import definitely_missing_r7c_module_xyz"],
+            "validation_command": [
+                sys.executable,
+                "-c",
+                "raise ModuleNotFoundError(\"No module named 'django'\")",
+            ],
             "max_attempts_per_run": 3,
         },
     )
@@ -878,6 +882,13 @@ def test_r7c_missing_module_is_infrastructure_nonrepairable_with_no_repair(tmp_p
     first = record.failures[0]
     assert first.failure_kind == FailureKind.infrastructure_nonrepairable
     assert first.stage in ("scenario_evaluator", "baseline_validation", "migration_generation")
+    assert sum(
+        1
+        for failure in record.failures
+        if failure.failure_kind == FailureKind.infrastructure_nonrepairable
+    ) == 1
+    assert "No module named 'django'" in first.message or "No module named 'django'" in first.details
+    assert "exit_code=" in first.details
     assert record.repair_model_calls == 0
     assert record.repair_attempts == 0
     assert record.repair_total_tokens == 0

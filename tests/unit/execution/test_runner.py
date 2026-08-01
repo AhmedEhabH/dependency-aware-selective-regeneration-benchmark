@@ -1183,10 +1183,16 @@ class TestClassifyValidationRepairability:
             == "infrastructure_nonrepairable"
         )
 
-    def test_import_error_is_infrastructure_nonrepairable(self) -> None:
+    def test_generated_import_error_remains_repairable(self) -> None:
         assert (
             self._classify(stderr="ImportError: cannot import name 'settings'")
-            == "infrastructure_nonrepairable"
+            == "repairable_code"
+        )
+
+    def test_missing_project_module_remains_repairable(self) -> None:
+        assert (
+            self._classify(stderr="ModuleNotFoundError: No module named 'todo.missing'")
+            == "repairable_code"
         )
 
     def test_cuda_oom_is_infrastructure_nonrepairable(self) -> None:
@@ -1201,10 +1207,10 @@ class TestClassifyValidationRepairability:
             self._classify(stderr="command not found: python") == "infrastructure_nonrepairable"
         )
 
-    def test_baseline_validation_failure_is_infrastructure_nonrepairable(self) -> None:
+    def test_baseline_validation_assertion_is_repairable_code(self) -> None:
         assert (
             self._classify(stderr="AssertionError: baseline mismatch", stage="baseline_validation")
-            == "infrastructure_nonrepairable"
+            == "repairable_code"
         )
 
     def test_normal_test_failure_is_repairable_code(self) -> None:
