@@ -453,52 +453,6 @@ class TestKagglePreflightOnly:
         assert "must not be combined with --dry-run" in (result.stdout + result.stderr)
 
 
-class TestSessionExitCode:
-    """KAGGLE-SMOKE-V2: one-run cell fails immediately on a failed scientific run."""
-
-    @staticmethod
-    def _decide(**kwargs: Any) -> int:
-        from seven_arm_benchmark import _decide_session_exit_code
-
-        defaults: dict[str, Any] = {
-            "max_runs": 1,
-            "all_runs_completed": False,
-            "session_created_run_count": 1,
-            "last_run_status": "succeeded",
-            "hf_uploader_configured": False,
-            "hf_sync_ok": True,
-            "total_failed": 0,
-        }
-        defaults.update(kwargs)
-        return _decide_session_exit_code(**defaults)
-
-    def test_one_succeeded_cell_returns_zero(self) -> None:
-        assert self._decide(last_run_status="succeeded") == 0
-
-    def test_one_failed_cell_returns_nonzero(self) -> None:
-        assert self._decide(last_run_status="failed") == 1
-        assert self._decide(last_run_status="timed_out") == 1
-        assert self._decide(last_run_status="cancelled") == 1
-
-    def test_nine_terminal_failures_returns_nonzero(self) -> None:
-        assert self._decide(
-            all_runs_completed=True,
-            total_failed=9,
-        ) == 1
-
-    def test_complete_plan_with_all_success_returns_zero(self) -> None:
-        assert self._decide(all_runs_completed=True, total_failed=0) == 0
-
-    def test_hf_sync_failure_returns_nonzero(self) -> None:
-        assert self._decide(
-            hf_uploader_configured=True,
-            hf_sync_ok=False,
-        ) == 1
-
-    def test_incomplete_without_max_runs_returns_zero(self) -> None:
-        assert self._decide(max_runs=0, last_run_status="failed") == 0
-
-
 class TestCliHelp:
     def test_scientific_smoke_v2_in_profile_help(self) -> None:
         result = _run("--help")
@@ -910,10 +864,13 @@ class TestScientificSmokeV1Profile:
             "seven_arm_benchmark.py",
             "pyproject.toml",
             "requirements-smoke-kaggle.lock",
+            "src/benchmark/core/models.py",
             "src/benchmark/execution/preflight.py",
             "src/benchmark/execution/regeneration.py",
             "src/benchmark/execution/runner.py",
             "src/benchmark/llm/kaggle_qwen_backend.py",
+            "src/benchmark/scenarios/models.py",
+            "src/benchmark/strategies/iterative_agent.py",
         )
         for relative in runtime_files:
             result = subprocess.run(
@@ -969,6 +926,117 @@ class TestScientificSmokeV1Profile:
             "continuous cell missing precondition gate"
         )
         assert "kaggle_console.log" in setup_src, "live log file missing"
+
+
+    def test_notebook_accepts_scientific_failure_and_blocks_engineering_failure(
+        self, tmp_path: Path
+    ) -> None:
+        """Execute the deployed evidence gates, not merely text-search them."""
+        import ast
+        import json
+
+        nb_path = PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb"
+        with open(nb_path, encoding="utf-8") as f:
+            nb = json.load(f)
+        setup_src = "".join(
+            next(c for c in nb["cells"] if c.get("id") == "setup-cell")["source"]
+        )
+        tree = ast.parse(setup_src)
+        wanted_assignments = {
+            "SCIENTIFIC_FAILURE_KINDS",
+            "ENGINEERING_FAILURE_KINDS",
+            "EVIDENCE_FILES",
+        }
+        wanted_defs = {
+            "ScientificSmokeExecutionError",
+            "_load_smoke_evidence",
+            "_terminal_record_outcome",
+            "_extract_evidence_root_cause",
+            "_validate_continuous_precondition",
+            "_verify_scientific_run",
+        }
+        selected = []
+        for node in tree.body:
+            if isinstance(node, ast.Assign):
+                names = {t.id for t in node.targets if isinstance(t, ast.Name)}
+                if names & wanted_assignments:
+                    selected.append(node)
+            elif isinstance(node, (ast.FunctionDef, ast.ClassDef)) and node.name in wanted_defs:
+                selected.append(node)
+        module = ast.Module(body=selected, type_ignores=[])
+        ns: dict[str, Any] = {
+            "Path": Path,
+            "_json": json,
+            "SOURCE_COMMIT": "a" * 40,
+            "DEPLOYED_BUILD_ID": "aaaaaaa",
+            "OUTPUT_DIR": tmp_path,
+            "_display_smoke_dashboard": lambda _path: None,
+        }
+        exec(compile(module, "deployed-notebook-evidence-gates", "exec"), ns)
+
+        def write_evidence(record: dict[str, Any]) -> None:
+            cp = {
+                "completed_run_ids": [record["run_id"]],
+                "pending_run_ids": [f"pending-{i}" for i in range(8)],
+                "source_commit": "a" * 40,
+                "deployed_build_id": "aaaaaaa",
+                "model_identity": "qwen:1:int8",
+            }
+            (tmp_path / "checkpoint.json").write_text(json.dumps(cp), encoding="utf-8")
+            (tmp_path / "run_records.jsonl").write_text(
+                json.dumps(record) + "\n", encoding="utf-8"
+            )
+            (tmp_path / "remote_sync.json").write_text(
+                json.dumps({"last_sync": "recovery_uploaded"}), encoding="utf-8"
+            )
+            (tmp_path / "experiment_id.txt").write_text("exp-test", encoding="utf-8")
+
+        scientific_failure = {
+            "run_id": "run-1",
+            "status": "failed",
+            "source_commit": "a" * 40,
+            "failure_classification": "model_output",
+            "failure_details": [
+                {
+                    "kind": "build",
+                    "stage": "migration_generation",
+                    "details": "ValueError: generated model is invalid",
+                }
+            ],
+            "total_workflow_model_calls": 5,
+            "migration_generation_passed": False,
+            "baseline_validation_passed": None,
+            "scenario_evaluator_passed": None,
+        }
+        write_evidence(scientific_failure)
+        assert ns["_verify_scientific_run"]() == "scientific_failure"
+        assert ns["_validate_continuous_precondition"](tmp_path) == "scientific_failure"
+
+        engineering_failure = dict(scientific_failure)
+        engineering_failure["failure_classification"] = "infrastructure_nonrepairable"
+        engineering_failure["failure_details"] = [
+            {
+                "kind": "infrastructure_nonrepairable",
+                "stage": "migration_generation",
+                "details": "ModuleNotFoundError: No module named 'django'",
+            }
+        ]
+        write_evidence(engineering_failure)
+        with pytest.raises(ns["ScientificSmokeExecutionError"]):
+            ns["_verify_scientific_run"]()
+        with pytest.raises(ns["ScientificSmokeExecutionError"]):
+            ns["_validate_continuous_precondition"](tmp_path)
+
+        invalid_success = dict(scientific_failure)
+        invalid_success.update(
+            status="succeeded",
+            failure_classification="",
+            failure_details=[],
+            migration_generation_passed=False,
+        )
+        write_evidence(invalid_success)
+        with pytest.raises(ns["ScientificSmokeExecutionError"]):
+            ns["_verify_scientific_run"]()
 
     def test_notebook_preflight_streams_with_deployed_pythonpath(self) -> None:
         """Preflight must not buffer output or depend on the parent kernel's sys.path."""

@@ -54,6 +54,46 @@ _EXTERNAL_RUNTIME_MODULES = frozenset(
     }
 )
 _MISSING_MODULE_RE = re.compile(r"no module named ['\"]([^'\"]+)['\"]", re.IGNORECASE)
+_TRACEBACK_ROOT_RE = re.compile(
+    r"^(?P<kind>[A-Za-z_][A-Za-z0-9_.]*(?:Error|Exception)):\s*(?P<message>.*)$",
+    re.MULTILINE,
+)
+
+
+def _compact_head_tail(text: str, *, head: int = 500, tail: int = 1800) -> str:
+    """Compact command output while retaining the traceback root at the end."""
+    if not text:
+        return ""
+    if len(text) <= head + tail + 32:
+        return text
+    omitted = len(text) - head - tail
+    return f"{text[:head]}\n... [{omitted} chars omitted] ...\n{text[-tail:]}"
+
+
+def _extract_root_cause(stderr: str, stdout: str = "") -> str:
+    """Extract the last exception line or last non-empty output line."""
+    combined = f"{stdout}\n{stderr}"
+    matches = list(_TRACEBACK_ROOT_RE.finditer(combined))
+    if matches:
+        match = matches[-1]
+        return f"{match.group('kind')}: {match.group('message')}".strip()
+    lines = [line.strip() for line in combined.splitlines() if line.strip()]
+    return lines[-1] if lines else "(root cause unavailable)"
+
+
+def _format_prior_generation_failures(failures: tuple[FailureRecord, ...] | list[FailureRecord]) -> str:
+    messages: list[str] = []
+    for failure in failures:
+        if failure.stage != "regeneration":
+            continue
+        if failure.message not in messages:
+            messages.append(failure.message)
+    if not messages:
+        return "- (none recorded)"
+    return "\n".join(
+        f"- {_compact_head_tail(message, head=400, tail=800)}"
+        for message in messages[:10]
+    )
 
 
 @dataclass
@@ -417,13 +457,13 @@ class BenchmarkRunner:
                 timeout=self._config.validation_timeout,
             )
             if not migration_result.passed:
-                m_stdout = migration_result.stdout[:1000]
-                m_stderr = migration_result.stderr[:1000]
+                m_stdout = _compact_head_tail(migration_result.stdout)
+                m_stderr = _compact_head_tail(migration_result.stderr)
                 feedback_parts.append(f"Migration failed: exit={migration_result.exit_code}")
                 if m_stdout:
-                    feedback_parts.append(f"stdout: {m_stdout[:500]}")
+                    feedback_parts.append(f"stdout: {m_stdout}")
                 if m_stderr:
-                    feedback_parts.append(f"stderr: {m_stderr[:500]}")
+                    feedback_parts.append(f"stderr: {m_stderr}")
                 logger.info(
                     "STAGE_END scenario=%s stage=migration_generation passed=False elapsed=%.3f",
                     scenario.scenario_id, time.monotonic() - stage_start,
@@ -446,15 +486,15 @@ class BenchmarkRunner:
                 timeout=self._config.validation_timeout,
             )
             if not baseline_result.passed:
-                b_stdout = baseline_result.stdout[:1000]
-                b_stderr = baseline_result.stderr[:1000]
+                b_stdout = _compact_head_tail(baseline_result.stdout)
+                b_stderr = _compact_head_tail(baseline_result.stderr)
                 feedback_parts.append(
                     f"Baseline validation failed (exit={baseline_result.exit_code})"
                 )
                 if b_stdout:
-                    feedback_parts.append(f"stdout: {b_stdout[:500]}")
+                    feedback_parts.append(f"stdout: {b_stdout}")
                 if b_stderr:
-                    feedback_parts.append(f"stderr: {b_stderr[:500]}")
+                    feedback_parts.append(f"stderr: {b_stderr}")
                 logger.info(
                     "STAGE_END scenario=%s stage=baseline_validation passed=False elapsed=%.3f",
                     scenario.scenario_id, time.monotonic() - stage_start,
@@ -491,14 +531,14 @@ class BenchmarkRunner:
                 timeout=self._config.validation_timeout,
             )
             if not evaluator_result.passed:
-                e_error = evaluator_result.error[:1000]
+                e_error = _compact_head_tail(evaluator_result.error)
                 e_checks = evaluator_result.checks
                 check_str = ", ".join(str(c) for c in e_checks[:5]) if e_checks else ""
                 feedback_parts.append("Scenario evaluator failed")
                 if check_str:
                     feedback_parts.append(f"checks: {check_str}")
                 if e_error:
-                    feedback_parts.append(f"error: {e_error[:500]}")
+                    feedback_parts.append(f"error: {e_error}")
                 logger.info(
                     "STAGE_END scenario=%s stage=scenario_evaluator passed=False elapsed=%.3f",
                     scenario.scenario_id, time.monotonic() - stage_start,
@@ -599,7 +639,7 @@ class BenchmarkRunner:
         return FailureRecord(
             failure_kind=kind,
             message=msg,
-            details=result.feedback[:1000] if result.feedback else "",
+            details=_compact_head_tail(result.feedback) if result.feedback else "",
             stage=stage,
         )
 
@@ -610,28 +650,56 @@ class BenchmarkRunner:
         stage = result.failed_stage
         if stage == "migration_generation" and result.migration is not None:
             ec = result.migration.exit_code
-            so = result.migration.stdout[:1000]
-            se = result.migration.stderr[:1000]
+            so = _compact_head_tail(result.migration.stdout)
+            se = _compact_head_tail(result.migration.stderr)
         elif stage == "baseline_validation" and result.baseline is not None:
             ec = result.baseline.exit_code
-            so = result.baseline.stdout[:1000]
-            se = result.baseline.stderr[:1000]
+            so = _compact_head_tail(result.baseline.stdout)
+            se = _compact_head_tail(result.baseline.stderr)
         elif stage == "scenario_evaluator" and result.evaluator is not None:
             ec = result.evaluator.exit_code
-            so = result.evaluator.stdout[:1000]
+            so = _compact_head_tail(result.evaluator.stdout)
             parts = []
             if result.evaluator.stderr:
-                parts.append(result.evaluator.stderr[:400])
+                parts.append(_compact_head_tail(result.evaluator.stderr))
             if result.evaluator.error:
-                parts.append(result.evaluator.error[:400])
+                parts.append(_compact_head_tail(result.evaluator.error))
             if result.evaluator.checks:
                 parts.append("checks: " + ", ".join(str(c) for c in result.evaluator.checks[:5]))
-            se = "; ".join(parts)[:1000]
+            se = "; ".join(parts)
         else:
             ec = -1
             so = ""
-            se = result.feedback[:1000] if result.feedback else ""
+            se = _compact_head_tail(result.feedback) if result.feedback else ""
         return ec, so, se
+
+    def _build_repair_context(
+        self,
+        result: _ScientificValidationResult | None,
+        failures: tuple[FailureRecord, ...] | list[FailureRecord],
+    ) -> str | None:
+        """Build repair evidence without truncating away the root exception."""
+        generation_failures = _format_prior_generation_failures(failures)
+        if result is None or result.passed:
+            if generation_failures == "- (none recorded)":
+                return None
+            return REPAIR_CONTEXT_PROMPT_TEMPLATE.format(
+                stage="regeneration",
+                exit_code=-1,
+                root_cause="Generation/scope output was rejected",
+                generation_failures=generation_failures,
+                stdout="(none)",
+                stderr="(none)",
+            )
+        ec, so, se = self._scientific_feedback_channels(result)
+        return REPAIR_CONTEXT_PROMPT_TEMPLATE.format(
+            stage=result.failed_stage or "scientific_validation",
+            exit_code=ec,
+            root_cause=_extract_root_cause(se, so),
+            generation_failures=generation_failures,
+            stdout=so or "(none)",
+            stderr=se or "(none)",
+        )
 
     @staticmethod
     def classify_validation_repairability(
@@ -681,8 +749,8 @@ class BenchmarkRunner:
         # failures are generated-code defects and remain repairable.
         missing = _MISSING_MODULE_RE.search(combined_raw)
         if missing is not None:
-            top_level = missing.group(1).split(".", 1)[0]
-            if top_level in _EXTERNAL_RUNTIME_MODULES:
+            missing_module = missing.group(1)
+            if missing_module in _EXTERNAL_RUNTIME_MODULES:
                 return "infrastructure_nonrepairable"
         return "repairable_code"
 
@@ -700,9 +768,9 @@ class BenchmarkRunner:
             f"exit_code={ec}",
         ]
         if so:
-            evidence.append(f"stdout={so[:500]}")
+            evidence.append(f"stdout={_compact_head_tail(so, head=300, tail=1200)}")
         if se:
-            evidence.append(f"stderr={se[:500]}")
+            evidence.append(f"stderr={_compact_head_tail(se, head=300, tail=1200)}")
         return FailureRecord(
             failure_kind=FailureKind.infrastructure_nonrepairable,
             message=original.message,
@@ -727,6 +795,7 @@ class BenchmarkRunner:
                 c.description for c in scenario.architecture_constraints
             ),
             expected_actions=tuple(expected_actions),
+            artifact_instructions=scenario.expected_artifact_instructions,
         )
 
     def run(self, scenario: Scenario) -> RunRecord:
@@ -1117,8 +1186,8 @@ class BenchmarkRunner:
     def _reclassify_infrastructure_failure(self, record: RunRecord) -> RunRecord:
         """Promote an infrastructure validation failure to the first FailureRecord.
 
-        When the failing scientific validation is infrastructure (missing module,
-        missing executable, CUDA/OOM, exit 127, baseline failure), the Run is not
+        When the failing scientific validation is infrastructure (missing declared
+        runtime package, missing executable, CUDA/OOM, or exit 127), the Run is not
         repairable by the model. The classification must be the first failure so
         ``_is_repairable_failure`` stops without entering the repair loop and the
         persisted failure_classification is truthful.
@@ -1192,11 +1261,7 @@ class BenchmarkRunner:
         last_sci = self._last_scientific_result
         if last_sci is not None and not last_sci.passed:
             ec, so, se = self._scientific_feedback_channels(last_sci)
-            repair_context = REPAIR_CONTEXT_PROMPT_TEMPLATE.format(
-                exit_code=ec,
-                stdout=so,
-                stderr=se,
-            )
+            repair_context = self._build_repair_context(last_sci, all_failures)
             repairability = self.classify_validation_repairability(
                 exit_code=ec,
                 stdout=so,
@@ -1294,15 +1359,19 @@ class BenchmarkRunner:
                     self._failure_from_scientific_result(sci_result)
                 )
 
-            if sci_result is not None and not sci_result.passed:
-                ec, so, se = self._scientific_feedback_channels(sci_result)
-                repair_context = REPAIR_CONTEXT_PROMPT_TEMPLATE.format(
-                    exit_code=ec, stdout=so, stderr=se,
+            attempt_failures = tuple(
+                FailureRecord(
+                    failure_kind=FailureKind.model_output,
+                    message=message,
+                    details="SharedRegenerationExecutor failure",
+                    stage="regeneration",
                 )
-            elif exec_result.failures:
-                repair_context = "; ".join(exec_result.failures)[:1500]
-            else:
-                repair_context = None
+                for message in exec_result.failures
+            )
+            repair_context = self._build_repair_context(
+                sci_result,
+                attempt_failures,
+            )
 
             if not self._budget.can_attempt:
                 break
@@ -1636,6 +1705,14 @@ class BenchmarkRunner:
                 repairability = "repairable_code"
                 if sci_result is not None and not sci_result.passed:
                     ec, so, se = self._scientific_feedback_channels(sci_result)
+                    if exec_result.failures:
+                        generation_feedback = "\n".join(
+                            f"- {failure}" for failure in exec_result.failures
+                        )
+                        se = (
+                            f"{se}\nGeneration/scope failures:\n"
+                            f"{generation_feedback}"
+                        ).strip()
                     last_feedback_channels = (ec, so, se)
                     repairability = self.classify_validation_repairability(
                         exit_code=ec,
@@ -1644,7 +1721,11 @@ class BenchmarkRunner:
                         stage=sci_result.failed_stage or "",
                     )
                 elif exec_result.failures:
-                    last_feedback_channels = (-1, "", "; ".join(exec_result.failures)[:1000])
+                    last_feedback_channels = (
+                        -1,
+                        "",
+                        _compact_head_tail("\n".join(exec_result.failures)),
+                    )
                 else:
                     last_feedback_channels = None
 
@@ -1663,7 +1744,7 @@ class BenchmarkRunner:
                         FailureRecord(
                             failure_kind=FailureKind.model_output,
                             message="Executor failures present",
-                            details="; ".join(exec_result.failures)[:1000],
+                            details=_compact_head_tail("\n".join(exec_result.failures)),
                             stage="regeneration",
                         )
                     )

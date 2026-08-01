@@ -432,6 +432,9 @@ class TestKaggleBundleRuntimeGuardrails:
         assert "_decide_session_exit_code" in source, "exit-code helper missing"
         assert "session_created_run_ids" in source, "session run tracking missing"
         assert "last_run_status" in source, "last-run status tracking missing"
+        assert "last_run_outcome" in source, "terminal outcome tracking missing"
+        assert "_terminal_record_outcome" in source, "scientific/engineering classifier missing"
+        assert "engineering_blocker_count" in source, "engineering blocker gate missing"
         assert "completed_with_failures" in source, "truthful completion marker missing"
 
     def test_notebook_pins_exact_source_and_build_identity(self) -> None:
@@ -452,8 +455,11 @@ class TestKaggleBundleRuntimeGuardrails:
         assert text.count("_verify_scientific_run()") >= 2, (
             "guardrail call missing from a run cell"
         )
-        assert "model identity starts with qwen:" in text
-        assert "scenario evaluator passed" in text
+        assert "model identity = qwen:1:int8" in text
+        assert "terminal outcome is scientific" in text
+        assert "scientific failure evidence present" in text
+        assert 'cp.get("completed_run_ids"' in text
+        assert "latest terminal record is an engineering blocker" in text
 
 
 class TestKaggleBundleR7CRuntimeClosure:
@@ -499,6 +505,7 @@ class TestKaggleBundleR7CRuntimeClosure:
         output_dir = tmp_path / "preflight"
         env = os.environ.copy()
         env.pop("PYTHONPATH", None)
+        env["PYTHONDONTWRITEBYTECODE"] = "1"
 
         result = subprocess.run(
             [
