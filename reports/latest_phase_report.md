@@ -1,4 +1,4 @@
-# R7C Real-Run Root Closure + Exact Root Correction — Latest Phase Report
+# R7C Real-Run Root Closure + Exact Post-Gate Correction — Latest Phase Report
 
 ## Executive decision
 
@@ -8,16 +8,27 @@ attempt `exp-20260801-123125` exposed. The prior R7C report incorrectly called
 a **1,451-test subset the full suite**; the true first full suite was **23
 failed / 1,759 passed / 32 skipped**, root cause = blanket `baseline_validation
 => infrastructure_nonrepairable` in `src/benchmark/execution/runner.py`. The
-independent GPT-5.6 Thinking correction (`ffa179a` + `6d6aa36`, HEAD
-`6d6aa36`, pushed via bundle fast-forward) makes the exact 23 former failures
-pass and corrects DRF import mapping, exact version verification, fail-fast
-preflight, driver-level VRAM, CPU-offload rejection, the Python 3.12 runtime
-contract, and stale source identity. Current full gate (Windows / Python
-3.11.5) = **1,790 passed / 32 skipped / 0 failed**; mypy strict 0; compileall
-clean; builder rerun clean; identity test passes (`SOURCE_COMMIT=ffa179a`,
-`DEPLOYED_BUILD_ID=ffa179a`). Valid real Qwen remains **0/9**; Kaggle remains
-**blocked** pending the independent full-gate audit. No tag, merge, or
-force-push has been performed.
+independent GPT-5.6 Thinking correction (`ffa179a` + `6d6aa36`) makes the exact
+23 former failures pass and corrects DRF import mapping, exact version
+verification, fail-fast preflight, driver-level VRAM, CPU-offload rejection,
+the Python 3.12 runtime contract, and stale source identity. An independent
+post-gate audit was then performed on `5e47a1e`; it found the project-local
+`ImportError` was still incorrectly bypassing repair, the bundled preflight
+could not import `benchmark` without ambient `PYTHONPATH`, and preflight output
+was buffered. The exact audited correction was imported via bundle
+fast-forward as `6f88823` (fix(kaggle): align repair eligibility and script
+bootstrap) + `5797fc0` (chore(deploy): pin audited preflight and live gate):
+project-local `ModuleNotFoundError`/`cannot import name` are now repairable via
+the canonical classifier, missing declared Django + CUDA OOM stay
+`infrastructure_nonrepairable`, the bundled script bootstraps its own `src/`,
+and preflight output is streamed and persisted. Current full gate (Windows /
+Python 3.11.5) = **1,796 passed / 32 skipped / 0 failed**; mypy strict 0;
+compileall clean; builder rerun content-identical; identity test passes
+(`SOURCE_COMMIT=6f88823`, `DEPLOYED_BUILD_ID=6f88823`). Valid real Qwen remains
+**0/9**; no scientific evidence exists yet; Kaggle remains **blocked** pending
+the final independent full-gate audit, after which only the engineering
+preflight cell is authorized (not the scientific One-Run cell). No tag, merge,
+or force-push has been performed.
 
 This report is the current, latest-first post-R6 report. The R6 acceptance,
 freeze, and publication detail belongs to
@@ -49,7 +60,10 @@ R7C runtime commit = 7a80e53  fix(kaggle): close environment memory and prompt c
 R7C bundle pin     = f01b8f0  chore(deploy): pin preflighted int8 Smoke V2 bundle
 R7C previous HEAD  = a4e9186  (published but broken)
 R7C correction     = ffa179a  fix(kaggle): correct repair and preflight contracts
-R7C correction pin = 6d6aa36  chore(deploy): pin corrected R7C preflight bundle (HEAD)
+R7C correction pin = 6d6aa36  chore(deploy): pin corrected R7C preflight bundle
+R7C audit baseline = 5e47a1e  docs(audit): correct R7C full-gate and deployment truth
+R7C post-gate fix  = 6f88823  fix(kaggle): align repair eligibility and script bootstrap
+R7C post-gate pin  = 5797fc0  chore(deploy): pin audited preflight and live gate (HEAD)
 Failed attempts    = exp-20260801-024041, exp-20260801-024624 (preserved; not deleted)
 Latest real attempt = exp-20260801-123125 (FP16 → OOM; deps drifted; not scientific evidence)
 Record             = selective_updates/records/KAGGLE-SMOKE-V2-REAL-RUN-ROOT-CLOSURE.md
@@ -98,37 +112,47 @@ dataset and must not be deleted.
 ## Fix evidence
 
 ```text
-Focused regression gates                                      all passed
-  r4-metric-contract + su0010a + su0011                       119 passed
-  preflight 13; runner 41; cli 72; builder 11                 passed
-  scientific-smoke-v2 production path 41; bundle preflight 24 passed
+Boundary regressions (post-gate)                             all passed
+  runner RepairEligibilityUsesCanonicalClassifier            4 passed
+  bundle bootstraps_src_without_ambient_pythonpath           1 passed
+  cli preflight_streams_with_deployed_pythonpath +
+      source_commit_matches_deployed_runtime_tree            2 passed
+Focused gates                                                all passed
+  runner 45; cli+builder 84; r4 33; su0010a 61;
+  su0011 25; bundle preflight 25; production-path 41
 Full suite (final gate)                                       prior "1,451" was a SUBSET;
                                                               true first full suite 23 failed /
                                                               1,759 passed / 32 skipped;
                                                               after correction 1,790 passed /
-                                                              32 skipped / 0 failed
-Ruff                                                          0 new except ARG004 (identity-locked;
-                                                             inherent to reviewed commit)
+                                                              32 skipped / 0 failed;
+                                                              after post-gate correction 1,796
+                                                              passed / 32 skipped / 0 failed
+Ruff                                                          0 new versus 5e47a1e (93 = 93);
+                                                              ARG004 identity-locked; 5
+                                                              seven_arm_benchmark.py findings
+                                                              pre-existing at 5e47a1e
 Mypy strict                                                   0 issues
 ```
 
 ## Bundle inventory
 
 ```text
-code = 90 files; data = 56 files; notebooks = 1; total = 147 files / 894,993 bytes
-Builder = scripts/build_upload_bundle.py only; builder rerun no content diff
+code = 90 files; data = 56 files; notebooks = 1; total = 147 files / 895,759 bytes
+Builder = scripts/build_upload_bundle.py only; builder rerun content-identical
+         (byte-hash equal; CRLF warnings only); manifests verified OK
 ```
 
 ## Exact gates
 
 ```text
 git diff --check    clean
-Ruff                0 new versus a4e9186 except ARG004 (identity-locked; inherent to reviewed commit)
+Ruff                0 new versus 5e47a1e (93 = 93)
 Mypy strict         0 issues
 compileall          clean
-full suite (final)  1,790 passed / 32 skipped / 0 failed
+notebook cells      canonical + generated 7/7 code cells compile
+full suite (final)  1,796 passed / 32 skipped / 0 failed
 identity test       test_notebook_source_commit_matches_deployed_runtime_tree passes
-                    (SOURCE_COMMIT=ffa179a, DEPLOYED_BUILD_ID=ffa179a)
+                    (SOURCE_COMMIT=6f88823, DEPLOYED_BUILD_ID=6f88823)
 ```
 
 ## Current status
@@ -142,21 +166,27 @@ Latest real attempt = exp-20260801-123125 (FP16 → OOM; deps drifted) — not s
 Runtime fixes  = committed (de3163f) and pinned (fb60972) — core accepted by independent audit
 R7A hardening  = complete (d50e89e + 4c73db6) — four audit findings closed
 R7B Smoke Finish = complete (bff0a82 + 17207bf)
-R7C root closure = complete (7a80e53 + f01b8f0) + correction imported (ffa179a + 6d6aa36, HEAD 6d6aa36)
+R7C root closure = complete (7a80e53 + f01b8f0) + correction imported (ffa179a + 6d6aa36)
+                    + post-gate correction imported (6f88823 + 5797fc0, HEAD 5797fc0, pushed)
 Full-gate truth = prior "1,451 full suite" was a SUBSET; true first full suite
-                  23 failed / 1,759 passed / 32 skipped; after correction 1,790 passed / 32 skipped / 0 failed
+                  23 failed / 1,759 passed / 32 skipped; after correction 1,790 passed / 32 skipped / 0 failed;
+                  after post-gate correction 1,796 passed / 32 skipped / 0 failed
 Local scripted Smoke = 9/9
 Bundled CLI dry-run  = 9/9
 Real Qwen Smoke      = 0/9
+Scientific evidence  = NONE (no real-model success yet)
 Tag                  = not created
 Pilot                = not authorized
 ```
 
 ## Near goal
 
-Independent full-gate audit of the corrected R7C branch → update the Kaggle
-code dataset + notebook → one real cell (require 1/9 succeeded) → remaining
-eight real Qwen Scientific Smoke V2 records → independent result audit.
+Final independent full-gate audit of the corrected R7C branch (HEAD
+`5797fc0`) → after it passes, the only authorized Kaggle action is the
+engineering preflight cell (not the scientific One-Run cell) → update the
+Kaggle code dataset + notebook → one real cell (require 1/9 succeeded) →
+remaining eight real Qwen Scientific Smoke V2 records → independent result
+audit.
 
 ## Far goal
 
@@ -166,7 +196,8 @@ paper evidence package.
 
 ## Next action
 
-**Independent full-gate audit of the corrected R7C branch (HEAD `6d6aa36`).**
-Do not relaunch Kaggle, tag, merge, or force-push before that audit passes.
+**Final independent full-gate audit of the corrected R7C branch (HEAD
+`5797fc0`).** Do not relaunch Kaggle, tag, merge, or force-push before that
+audit passes.
 
-R7C_CORRECTION_FULL_GATE_AUDIT_REQUIRED
+R7C_POST_AUDIT_FULL_GATE_REQUIRED

@@ -237,8 +237,8 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | Kaggle runtime fix | Committed (`de3163f`) and pinned (`fb60972`) — core accepted by independent audit |
 | R7A pre-rerun hardening | Complete (`d50e89e` + `4c73db6`) — four audit findings closed |
 | R7B Smoke Finish | Complete (`bff0a82` + `17207bf`) — observable Qwen Smoke; independent audit required |
-| R7C real-run root closure | Complete + corrected (`7a80e53` + `f01b8f0`; exact correction `ffa179a` + `6d6aa36`, HEAD `6d6aa36`) — repair + preflight contracts corrected; full-gate audit required |
-| Kaggle relaunch + nine real Qwen records | Blocked until the independent full-gate audit of the corrected R7C branch passes |
+| R7C real-run root closure | Complete + corrected twice (`7a80e53` + `f01b8f0`; first correction `ffa179a` + `6d6aa36`; independent post-gate correction `6f88823` + `5797fc0`, HEAD `5797fc0`) — repair eligibility + preflight bootstrap corrected; final independent full-gate audit required |
+| Kaggle relaunch + nine real Qwen records | Blocked until the final independent full-gate audit passes; next authorized action is the engineering preflight cell only, not the scientific One-Run cell |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
 
@@ -254,15 +254,24 @@ scenario context, infrastructure-nonrepairable repair classification, and a
 `--kaggle-preflight-only` gate). The prior R7C report incorrectly called a
 1,451-test subset the full suite; the true first full suite was 23 failed /
 1,759 passed / 32 skipped, root cause = blanket `baseline_validation =>
-infrastructure_nonrepairable`. An independent GPT-5.6 Thinking correction
-(`ffa179a` + `6d6aa36`, HEAD `6d6aa36`) was imported via bundle fast-forward:
-the exact 23 former failures now pass, and DRF import mapping, exact version
-verification, fail-fast preflight, driver-level VRAM, CPU-offload rejection,
-the Python 3.12 runtime contract, and stale source identity were corrected.
-Current full gate = 1,790 passed / 32 skipped / 0 failed. Valid real Qwen
-remains 0/9; Kaggle remains blocked pending the independent full-gate audit.
-Current branch: `fix/kaggle-smoke-v2-real-run-root` (HEAD `6d6aa36`; R7C runtime
-commit `7a80e53`, bundle pin `f01b8f0`, correction `ffa179a` + `6d6aa36`).
+infrastructure_nonrepairable`. A first independent GPT-5.6 Thinking correction
+(`ffa179a` + `6d6aa36`) was imported via bundle fast-forward and made the exact
+23 former failures pass. A second independent post-gate audit on `5e47a1e`
+found the remaining issues and its exact correction was imported as
+`6f88823` (fix(kaggle): align repair eligibility and script bootstrap) +
+`5797fc0` (chore(deploy): pin audited preflight and live gate): the project-local
+`ImportError` was incorrectly bypassing repair (now repairable via the canonical
+classifier), the bundled preflight could not import `benchmark` without ambient
+`PYTHONPATH` (the bundled script now bootstraps its own `src/`), and preflight
+output was buffered (now streamed and persisted). Notebook source identity is
+now `6f88823`. Current full gate = 1,796 passed / 32 skipped / 0 failed. Valid
+real Qwen remains 0/9; no scientific evidence exists yet; Kaggle remains
+blocked pending the final independent full-gate audit, after which the only
+authorized Kaggle action is the engineering preflight cell — not the scientific
+One-Run cell.
+Current branch: `fix/kaggle-smoke-v2-real-run-root` (HEAD `5797fc0`; R7C runtime
+commit `7a80e53`, bundle pin `f01b8f0`, corrections `ffa179a` + `6d6aa36`,
+post-gate correction `6f88823` + `5797fc0`).
 
 ## Implemented Components
 
@@ -396,7 +405,7 @@ python -m pip check
 
 Current validated state:
 
-- **1,790 tests passing / 32 skipped / 0 failed** (full gate, 2026-08-01, Python 3.11.5)
+- **1,796 tests passing / 32 skipped / 0 failed** (full gate, 2026-08-01, Python 3.11.5)
 - **Ruff: 0 new violations** (pre-existing baseline unchanged)
 - **Mypy strict: 0 new errors** (base 5 pre-existing only)
 - **pip check: no broken requirements** (pre-existing conda issues unrelated)
@@ -606,6 +615,9 @@ Immediate next milestones:
 - [x] First real Kaggle attempts (2) — failed pre-model, preserved, root causes fixed
 - [x] Kaggle runtime fix — committed (`de3163f`) and pinned (`fb60972`)
 - [ ] Independent runtime-fix audit
+- [x] Independent post-gate audit of R7C correction — performed on `5e47a1e`; exact correction imported (`6f88823` + `5797fc0`)
+- [ ] Final independent full-gate audit of `5797fc0`
+- [ ] Kaggle engineering preflight cell only (authorized action after final audit; not the scientific One-Run cell)
 - [ ] Kaggle environment preflight + relaunch
 - [ ] Real Three-Arm Qwen Smoke 0/9
 - [ ] Stable v2.0.0-scientific-smoke tag after result audit
