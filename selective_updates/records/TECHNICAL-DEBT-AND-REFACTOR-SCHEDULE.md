@@ -239,3 +239,15 @@ by the independent runtime-fix audit and opened no new technical debt. It is
 recorded in `selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-HARDENING.md`.
 The pre-existing Mypy strict base in `seven_arm_benchmark.py` is outside the
 R7A authorized scope and remains unchanged.
+
+## Post-R7A R7B Smoke Finish (2026-08-01)
+
+The R7B Smoke Finish (`bff0a82` + `17207bf`) made the Qwen Scientific Smoke V2
+run observable and executable and opened no new technical debt. One new code
+quality finding was introduced and fixed within the pass: `SIM105`
+(`try`/`except`/`pass` in the new `_empty_cuda_cache`) was replaced with
+`contextlib.suppress`, so the working-tree Ruff set equals the `b6a2031`
+baseline (91 = 91, 0 new). The pre-existing Mypy strict base in
+`seven_arm_benchmark.py` is outside the R7B authorized scope and remains
+unchanged. Recorded in
+`selective_updates/records/KAGGLE-SMOKE-V2-FINISH.md`.

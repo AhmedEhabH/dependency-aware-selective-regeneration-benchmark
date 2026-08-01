@@ -4,7 +4,7 @@
 
 You are resuming work on the Dependency-Aware Selective Regeneration Benchmark.
 
-**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) is **ACCEPTED AND FROZEN** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`), recorded in `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`. The R6 freeze commit `4b2dd27` is the exact first publication HEAD; the milestone branch is **published** with upstream `origin/experiment/three-arm-smoke-v2` and local/remote equality was verified. Post-R6: **two real Kaggle attempts failed pre-model** (`exp-20260801-024041`, `exp-20260801-024624`; both 0 model calls; preserved, not deleted). All real runtime blockers were closed and pinned on branch `fix/kaggle-smoke-v2-runtime-blockers` (fix commit `de3163f`, bundle pin `fb60972`). Local scripted records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; tag not created; Pilot not authorized. Next: **independent audit of the runtime fixes**; do not relaunch Kaggle before that. All required reading is repository-contained; external prompt packages are historical provenance only and are not required to continue.
+**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) is **ACCEPTED AND FROZEN** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`), recorded in `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`. The R6 freeze commit `4b2dd27` is the exact first publication HEAD; the milestone branch is **published** with upstream `origin/experiment/three-arm-smoke-v2` and local/remote equality was verified. Post-R6: **two real Kaggle attempts failed pre-model** (`exp-20260801-024041`, `exp-20260801-024624`; both 0 model calls; preserved, not deleted). The real runtime blockers were closed and pinned on branch `fix/kaggle-smoke-v2-runtime-blockers` (fix commit `de3163f`, bundle pin `fb60972`); the R7A hardening closed the four independently reproduced findings (`d50e89e` + `4c73db6`). A subsequent real attempt reached 81 model calls / 47,694 tokens but produced 0 succeeded / 0 regenerated files. The **R7B Smoke Finish** (branch `fix/kaggle-smoke-v2-finish`, commits `bff0a82` + `17207bf`) makes the Qwen Smoke run observable and executable (strict JSON normalization, CUDA cleanup after every generation, live progress + ETA + dashboard artifacts, smoke-only 1024 cap, notebook live-run rewrite with `kaggle_console.log`). Local scripted records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; tag not created; Pilot not authorized. Next: **independent audit of the R7B Smoke Finish**; do not relaunch Kaggle before that. All required reading is repository-contained; external prompt packages are historical provenance only and are not required to continue.
 
 **Phase state:**
 ```text
@@ -12,10 +12,13 @@ R4 = accepted and frozen (explicit freeze commit f5ae826)
 R5 = accepted and frozen (independent re-audit 2026-08-01 at 7761c48)
 R6 = ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 949e9c2; freeze commit 4b2dd27)
 Kaggle attempts = 2 (exp-20260801-024041, exp-20260801-024624) — failed pre-model, preserved
+Latest real attempt = 0/9, 81 model calls, 47,694 tokens, 0 regenerated files — not scientific evidence
 Runtime fixes = committed (de3163f) and pinned (fb60972)
+R7A hardening = complete (d50e89e + 4c73db6)
+R7B Smoke Finish = complete (bff0a82 + 17207bf) — independent audit required
 Real Qwen records = 0/9
 Pilot = not authorized
-push = R6 milestone branch PUBLISHED — upstream origin/experiment/three-arm-smoke-v2, local/remote equal
+push = R7B branch PUBLISHED — upstream origin/fix/kaggle-smoke-v2-finish, local/remote equal
 stable tag = blocked
 ```
 
@@ -119,7 +122,7 @@ Each starts from the same clean pinned baseline (b8a33e2). They are not cumulati
 
 ## Next Task
 
-**R7A PRE-RERUN HARDENING — FOUR AUDIT FINDINGS CLOSED, INDEPENDENT RE-AUDIT REQUIRED.** Two real Kaggle attempts failed pre-model (both 0 model calls; preserved). The core runtime blockers were closed on `fix/kaggle-smoke-v2-runtime-blockers` and accepted by the independent runtime-fix audit; the R7A hardening closed all four audit findings: remote recovery `remote_sync.json` is now committed as `recovery_uploaded` (never `pending`; `failed_local_safe` on failure), the notebook status cell reads `last_sync`/`timestamp`/`remote_path`/`details`, HF exception fixtures are version-compatible, and current docs use the actual final gate. Hardened runtime source commit `d50e89e` (`fix(hf): make recovery sync state remotely truthful`); hardened bundle pin commit `4c73db6` (bundle 144 files / 815,779 bytes). Preflight = 15 passed; last full suite = **1,688 passed / 32 skipped / 0 failed**. Next: short independent re-audit of the R7A hardening, then update the Kaggle code dataset + notebook, then one real cell (require 1/9 succeeded), then the remaining eight. Do not relaunch Kaggle, tag, merge, or force-push before that re-audit passes.
+**R7B SMOKE FINISH — OBSERVABLE QWEN SMOKE COMPLETE, INDEPENDENT AUDIT REQUIRED.** Two real Kaggle attempts failed pre-model (both 0 model calls; preserved); the runtime blockers were closed on `fix/kaggle-smoke-v2-runtime-blockers` (`de3163f` + `fb60972`), the R7A hardening closed the four audit findings (`d50e89e` + `4c73db6`), and a further real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0 regenerated files. The **R7B Smoke Finish** (`fix/kaggle-smoke-v2-finish`, `bff0a82` + `17207bf`) makes the Qwen Smoke run observable and executable: strict single-fence JSON normalization (`output_normalization.py`), Qwen chat-template token counting + `inference_mode` + CUDA cache cleanup after every generation + one shared backend instance per process, live progress line + cross-session ETA + structured log events, deterministic dashboard artifacts under `OUTPUT_DIR/dashboard` allowlisted for HF recovery, smoke-only `max_completion_tokens_per_call: 1024`, and a notebook live-run rewrite (`_run_benchmark_live`, `_load_smoke_evidence`, `_display_smoke_dashboard`, `_raise_actionable_smoke_error`/`ScientificSmokeExecutionError`, `_validate_continuous_precondition`, `kaggle_console.log`). Full suite = **1,735 passed / 32 skipped / 0 failed**; Ruff 0 new vs `b6a2031` (91 = 91); Mypy strict 0 issues; manifest audit 0/0/0; builder rerun deterministic. Next: independent audit of the R7B Smoke Finish, then update the Kaggle code dataset + notebook, then one real cell (require 1/9 succeeded), then the remaining eight. Do not relaunch Kaggle, tag, merge, or force-push before that audit passes.
 
 ---
 
@@ -158,8 +161,14 @@ cat selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md
 
 # Read Kaggle runtime fix record
 cat selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-FIX.md
+
+# Read R7A hardening record
+cat selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-HARDENING.md
+
+# Read R7B Smoke Finish record
+cat selective_updates/records/KAGGLE-SMOKE-V2-FINISH.md
 ```
 
 ---
 
-R7A_HARDENING_REAUDIT_REQUIRED
+R7B_SMOKE_FINISH_AUDIT_REQUIRED

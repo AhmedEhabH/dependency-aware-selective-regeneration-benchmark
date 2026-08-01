@@ -6,7 +6,7 @@
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Protocol](https://img.shields.io/badge/Research%20Protocol-v1.0%20Frozen-success.svg)](PROTOCOL_VERSION.md)
-[![Tests](https://img.shields.io/badge/tests-1%2C648%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-1%2C735%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
 ## Overview
@@ -235,18 +235,21 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | R6 milestone-branch publication | Published (upstream set, local/remote equal) |
 | Kaggle attempts (2) | Failed pre-model — preserved (`exp-20260801-024041`, `exp-20260801-024624`) |
 | Kaggle runtime fix | Committed (`de3163f`) and pinned (`fb60972`) — core accepted by independent audit |
-| R7A pre-rerun hardening | Complete (`d50e89e` + `4c73db6`) — four audit findings closed; re-audit required |
-| Kaggle relaunch + nine real Qwen records | Blocked until R7A hardening re-audit passes |
+| R7A pre-rerun hardening | Complete (`d50e89e` + `4c73db6`) — four audit findings closed |
+| R7B Smoke Finish | Complete (`bff0a82` + `17207bf`) — observable Qwen Smoke; independent audit required |
+| Kaggle relaunch + nine real Qwen records | Blocked until the R7B Smoke Finish audit passes |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
 
 The repository is **not yet publication-result complete**. Pilot and research
 experiments remain pending. Smoke evidence is non-publication. Local scripted
 records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; two real
-Kaggle attempts failed before any model call (preserved, not deleted); no tag
-created; Pilot not authorized. Current branch:
-`fix/kaggle-smoke-v2-runtime-blockers` (from R6 accepted and frozen
-`experiment/three-arm-smoke-v2`; runtime fix `de3163f`, bundle pin `fb60972`).
+Kaggle attempts failed before any model call (preserved, not deleted) and a
+later attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0
+regenerated files (0/9, not scientific evidence); no tag created; Pilot not
+authorized. Current branch:
+`fix/kaggle-smoke-v2-finish` (from the post-R6 runtime-blockers tail; R7B
+runtime commit `bff0a82`, bundle pin `17207bf`).
 
 ## Implemented Components
 
@@ -631,10 +634,13 @@ This project uses open-source software and research infrastructure from the Pyth
 **Project status:** R4, R5, and R6 accepted and frozen. R6 deployment closure
 is frozen at `949e9c2` and the milestone branch `experiment/three-arm-smoke-v2`
 is published (freeze `4b2dd27`). Post-R6, two real Kaggle attempts failed
-pre-model (`exp-20260801-024041`, `exp-20260801-024624`; preserved) and the
-runtime blockers were fixed and pinned on
-`fix/kaggle-smoke-v2-runtime-blockers` (`de3163f`, `fb60972`). Real-model
-benchmark execution (nine real Qwen Smoke V2 records) and scientific validation
-require an independent runtime-fix audit before the corrected bundle is
-relaunched. Smoke evidence is non-publication; no real Qwen results are
-claimed.
+pre-model (`exp-20260801-024041`, `exp-20260801-024624`; preserved), the
+runtime blockers were fixed and pinned (`de3163f`, `fb60972`), the R7A
+hardening closed the four audit findings (`d50e89e`, `4c73db6`), and a later
+real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0
+regenerated files (0/9). The **R7B Smoke Finish**
+(`fix/kaggle-smoke-v2-finish`, `bff0a82` + `17207bf`) makes the Qwen Smoke run
+observable and executable. Real-model benchmark execution (nine real Qwen
+Smoke V2 records) and scientific validation require an independent R7B Smoke
+Finish audit before the observable bundle is relaunched. Smoke evidence is
+non-publication; no real Qwen results are claimed.
