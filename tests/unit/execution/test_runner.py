@@ -23,9 +23,9 @@ from benchmark.execution.post_generation import PostGenerationResult
 from benchmark.execution.runner import (
     BenchmarkRunner,
     RunnerConfig,
-    _ScientificValidationResult,
     _compact_head_tail,
     _extract_root_cause,
+    _ScientificValidationResult,
 )
 from benchmark.repositories.snapshot import resolve_allowed_artifacts
 from benchmark.repositories.workspace import WorkspacePath
