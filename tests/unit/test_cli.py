@@ -874,6 +874,64 @@ class TestScientificSmokeV1Profile:
                     f"{notebook_path}: code cell index {idx} id '{cell_id}' failed to compile: {exc}"
                 ) from exc
 
+    def test_notebook_runtime_lock_uses_distribution_and_import_names(self) -> None:
+        """DRF's distribution is djangorestframework; its import is rest_framework."""
+        import json
+
+        nb_path = PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb"
+        with open(nb_path, encoding="utf-8") as f:
+            nb = json.load(f)
+        cells_by_id = {c.get("id"): c for c in nb["cells"]}
+        source = "".join(cells_by_id["install-lock-cell"]["source"])
+        assert '("djangorestframework", "rest_framework", "3.17.1")' in source
+        assert "importlib.import_module(module_name)" in source
+        assert "importlib.metadata.version(distribution)" in source
+        assert "sys.version_info[:2] not in ((3, 11), (3, 12))" in source
+        assert '"python_version": PYTHON_RUNTIME' in source
+        assert '__import__("djangorestframework")' not in source
+
+    def test_notebook_source_commit_matches_deployed_runtime_tree(self) -> None:
+        """The pinned source commit must contain the exact runtime files bundled for Kaggle."""
+        import json
+        import subprocess
+
+        nb_path = PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb"
+        with open(nb_path, encoding="utf-8") as f:
+            nb = json.load(f)
+        setup = "".join(
+            next(c for c in nb["cells"] if c.get("id") == "setup-cell")["source"]
+        )
+        source_commit = setup.split('SOURCE_COMMIT = "')[1].split('"')[0]
+        build_id = setup.split('DEPLOYED_BUILD_ID = "')[1].split('"')[0]
+        assert len(source_commit) == 40
+        assert build_id == source_commit[:7]
+
+        runtime_files = (
+            "seven_arm_benchmark.py",
+            "pyproject.toml",
+            "requirements-smoke-kaggle.lock",
+            "src/benchmark/execution/preflight.py",
+            "src/benchmark/execution/regeneration.py",
+            "src/benchmark/execution/runner.py",
+            "src/benchmark/llm/kaggle_qwen_backend.py",
+        )
+        for relative in runtime_files:
+            result = subprocess.run(
+                ["git", "show", f"{source_commit}:{relative}"],
+                cwd=PROJECT_DIR,
+                capture_output=True,
+                check=False,
+            )
+            assert result.returncode == 0, (
+                f"Notebook SOURCE_COMMIT does not contain {relative}: "
+                f"{result.stderr.decode(errors='replace')}"
+            )
+            committed = result.stdout.decode("utf-8").replace("\r\n", "\n")
+            current = (PROJECT_DIR / relative).read_text(encoding="utf-8").replace("\r\n", "\n")
+            assert committed == current, (
+                f"Notebook SOURCE_COMMIT {source_commit} is stale for {relative}"
+            )
+
     def test_notebook_live_run_helpers_present(self) -> None:
         """KAGGLE-SMOKE-V2 section 12: live executor + actionable errors."""
         import json
