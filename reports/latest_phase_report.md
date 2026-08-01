@@ -1,8 +1,8 @@
-# R6 Final Acceptance and Freeze — Latest Phase Report
+# R6 Final Acceptance, Freeze, and Publication — Latest Phase Report
 
 ## Executive decision
 
-R6 deployment closure has been **accepted and frozen** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, audited HEAD `949e9c2`). Freeze and milestone-branch publication are authorized. The bounded final correction — one deployed-entrypoint regression test plus documentation-truth cleanup — closed TD-R6-ENTRYPOINT-001 and documentation-truth defects D1–D6. No production, builder, bundle, notebook, config, scenario, evaluator, or R5 change was made in the correction pass or the freeze pass.
+R6 deployment closure has been **accepted and frozen** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, audited HEAD `949e9c2`). The R6 freeze commit `4b2dd27` (docs(audit): accept and freeze R6 deployment closure) is the exact first publication HEAD; the milestone branch was **published to origin** with upstream `origin/experiment/three-arm-smoke-v2`, and **local/remote equality was verified** before the publication-status commit. The bounded final correction — one deployed-entrypoint regression test plus documentation-truth cleanup — closed TD-R6-ENTRYPOINT-001 and documentation-truth defects D1–D6. No production, builder, bundle, notebook, config, scenario, evaluator, or R5 change was made in the correction pass or the freeze/publication pass.
 
 This report is the current, latest-first R6 report. Historical R4/R5 phase detail belongs to their dedicated records (`docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`, `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`) and is not repeated here.
 
@@ -22,6 +22,8 @@ The independent audits were performed by **GPT-5.6 Thinking**.
 ```text
 Branch             = experiment/three-arm-smoke-v2
 Accepted R6 HEAD   = 949e9c2  (docs(audit): close R6 handoff truth gaps)
+R6 freeze commit   = 4b2dd27  docs(audit): accept and freeze R6 deployment closure (first publication HEAD)
+Publication        = branch published to origin; upstream origin/experiment/three-arm-smoke-v2; local/remote equal
 R5 acceptance      = 5784a4f
 Runtime source     = cb25e9f
 Bundle commit      = 54a0462
@@ -29,7 +31,6 @@ R6 test commit     = 40c7a47  test(deploy): prove bundled V2 CLI execution plan
 R6 freeze record   = docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
 Backup branches    = backup/r5-pre-audit-c3ecad2, backup/r6-pre-execution-7761c48,
                      backup/r6-pre-final-audit-da6ccf3 (all preserved, no tags)
-Upstream           = none
 ```
 
 ## What R6 changed
@@ -96,19 +97,19 @@ Compileall                                                 clean
 ```text
 R4 = accepted and frozen (f5ae826)
 R5 = accepted and frozen (7761c48)
-R6 = ACCEPTED AND FROZEN (949e9c2)
+R6 = ACCEPTED AND FROZEN (949e9c2; freeze commit 4b2dd27)
 Local scripted Smoke  = 9/9
 Bundled CLI dry-run   = 9/9
 Real Qwen Smoke       = 0/9
 Kaggle                = not launched
-Push                  = authorized and pending at this commit
+Push                  = PUBLISHED — upstream origin/experiment/three-arm-smoke-v2, local/remote equal
 Tag                   = not created
 Pilot                 = not authorized
 ```
 
 ## Near goal
 
-Record the R6 freeze → publish `experiment/three-arm-smoke-v2` with upstream → verify local/remote equality → Kaggle environment preflight → nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 repetition).
+Kaggle environment preflight → nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 repetition).
 
 ## Far goal
 
@@ -116,6 +117,6 @@ Independent real-result audit → stable `v2.0.0-scientific-smoke` tag → freez
 
 ## Next action
 
-**Record the R6 freeze and publish the milestone branch**, then Kaggle environment preflight. Do not tag, merge, force-push, or run Kaggle now.
+**Kaggle environment preflight**, then nine real Qwen Smoke records. Do not tag, merge, force-push, or run Kaggle now.
 
-R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED
+R6_FROZEN_BRANCH_PUBLISHED_KAGGLE_PREFLIGHT_REQUIRED

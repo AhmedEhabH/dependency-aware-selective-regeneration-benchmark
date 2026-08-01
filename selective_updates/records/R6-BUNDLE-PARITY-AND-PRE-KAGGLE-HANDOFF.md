@@ -3,9 +3,11 @@
 **Phase:** R6 deployment closure
 **Date:** 2026-08-01
 **Branch:** `experiment/three-arm-smoke-v2`
-**Status:** **R6 ACCEPTED AND FROZEN — FREEZE AND MILESTONE-BRANCH PUBLICATION AUTHORIZED**
+**Status:** **R6 ACCEPTED AND FROZEN — MILESTONE BRANCH PUBLISHED**
 **Accepted HEAD:** `949e9c2`
-**Next:** record R6 freeze, publish branch with upstream, verify local/remote equality, then Kaggle environment preflight / real Qwen launch
+**Freeze commit:** `4b2dd27` (docs(audit): accept and freeze R6 deployment closure) — exact first publication HEAD
+**Publication:** branch published to origin; upstream `origin/experiment/three-arm-smoke-v2`; local/remote equality verified before publication-status commit
+**Next:** Kaggle environment preflight / real Qwen launch
 ---
 
 ## 1. Authorized scope
@@ -100,7 +102,7 @@ local scripted = 9/9
 bundled CLI dry-run = 9/9
 real Qwen = 0/9
 Kaggle not launched
-push authorized and pending
+push PUBLISHED (upstream set, local/remote equal)
 tag not created
 Pilot not authorized
 ```
@@ -127,24 +129,25 @@ Runtime source     = cb25e9f
 Bundle commit      = 54a0462
 R6 test commit     = 40c7a47
 Documentation      = 949e9c2 (docs(audit): close R6 handoff truth gaps)
+R6 freeze commit   = 4b2dd27 (first publication HEAD)
 Working tree       = clean
-Upstream           = none
+Upstream           = origin/experiment/three-arm-smoke-v2
+Local/remote       = equal (verified before and after publication-status commit)
 R6 status          = ACCEPTED AND FROZEN (949e9c2)
 Real Smoke         = 0/9
 Pilot              = NOT AUTHORIZED
-Push               = AUTHORIZED AND PENDING AT THIS COMMIT
+Push               = PUBLISHED
 Tag                = BLOCKED
 ```
 
 ## 8. Next action
 
 ```text
-1. Record the R6 freeze (this freeze pass)
-2. Publish experiment/three-arm-smoke-v2 with upstream; verify local/remote equality
-3. Record publication status; push again; verify final equality
-4. Kaggle environment preflight and nine real Qwen Smoke records
-5. Independent result audit, then v2.0.0-scientific-smoke tag
-6. Pilot authorization under the frozen protocol
+1. Record publication status (this pass)
+2. Push normally and verify final local/remote equality
+3. Kaggle environment preflight and nine real Qwen Smoke records
+4. Independent result audit, then v2.0.0-scientific-smoke tag
+5. Pilot authorization under the frozen protocol
 ```
 
 Do not tag, merge, force-push, or launch Kaggle now.
