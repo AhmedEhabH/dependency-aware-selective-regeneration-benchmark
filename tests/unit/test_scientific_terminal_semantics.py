@@ -2,7 +2,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from seven_arm_benchmark import _decide_session_exit_code, _terminal_record_outcome
+from seven_arm_benchmark import (
+    _decide_session_exit_code,
+    _should_stop_after_terminal_run,
+    _terminal_record_outcome,
+)
 
 
 class TestSessionExitCode:
@@ -67,12 +71,21 @@ class TestSessionExitCode:
             hf_sync_ok=False,
         ) == 1
 
-    def test_incomplete_without_max_runs_returns_zero(self) -> None:
+    def test_incomplete_without_max_runs_engineering_blocker_exits_nonzero(self) -> None:
         assert self._decide(
             max_runs=0,
             last_run_status="failed",
             last_run_failure_classification="infrastructure_nonrepairable",
             engineering_blocker_count=1,
+        ) == 1
+
+    def test_continuous_scientific_failure_remains_zero(self) -> None:
+        assert self._decide(
+            max_runs=0,
+            last_run_status="failed",
+            last_run_failure_classification="model_output",
+            engineering_blocker_count=0,
+            total_failed=1,
         ) == 0
 
     def test_terminal_record_outcome(self) -> None:
@@ -120,3 +133,57 @@ class TestSessionExitCode:
             last_run_failure_classification="model_output",
             last_run_outcome="scientific_failure",
         ) == 0
+
+
+class TestShouldStopAfterTerminalRun:
+    """Scientific results persist and continue; engineering blocks stop."""
+
+    def test_scientific_success_does_not_stop(self) -> None:
+        assert (
+            _should_stop_after_terminal_run(
+                last_run_outcome="scientific_success",
+                hf_uploader_configured=True,
+                hf_sync_ok=True,
+            )
+            is False
+        )
+
+    def test_scientific_failure_does_not_stop(self) -> None:
+        assert (
+            _should_stop_after_terminal_run(
+                last_run_outcome="scientific_failure",
+                hf_uploader_configured=True,
+                hf_sync_ok=True,
+            )
+            is False
+        )
+
+    def test_engineering_blocker_stops(self) -> None:
+        assert (
+            _should_stop_after_terminal_run(
+                last_run_outcome="engineering_blocker",
+                hf_uploader_configured=False,
+                hf_sync_ok=True,
+            )
+            is True
+        )
+
+    def test_required_hf_sync_failure_stops(self) -> None:
+        assert (
+            _should_stop_after_terminal_run(
+                last_run_outcome="scientific_success",
+                hf_uploader_configured=True,
+                hf_sync_ok=False,
+            )
+            is True
+        )
+
+    def test_unconfigured_hf_sync_failure_does_not_stop(self) -> None:
+        assert (
+            _should_stop_after_terminal_run(
+                last_run_outcome="scientific_success",
+                hf_uploader_configured=False,
+                hf_sync_ok=False,
+            )
+            is False
+        )
