@@ -237,19 +237,23 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | Kaggle runtime fix | Committed (`de3163f`) and pinned (`fb60972`) — core accepted by independent audit |
 | R7A pre-rerun hardening | Complete (`d50e89e` + `4c73db6`) — four audit findings closed |
 | R7B Smoke Finish | Complete (`bff0a82` + `17207bf`) — observable Qwen Smoke; independent audit required |
-| Kaggle relaunch + nine real Qwen records | Blocked until the R7B Smoke Finish audit passes |
+| R7C real-run root closure | Complete (`7a80e53` + `f01b8f0`) — environment memory + prompt contracts closed; independent audit required |
+| Kaggle relaunch + nine real Qwen records | Blocked until the R7C real-run root closure audit passes |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
 
 The repository is **not yet publication-result complete**. Pilot and research
 experiments remain pending. Smoke evidence is non-publication. Local scripted
 records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; two real
-Kaggle attempts failed before any model call (preserved, not deleted) and a
-later attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0
-regenerated files (0/9, not scientific evidence); no tag created; Pilot not
-authorized. Current branch:
-`fix/kaggle-smoke-v2-finish` (from the post-R6 runtime-blockers tail; R7B
-runtime commit `bff0a82`, bundle pin `17207bf`).
+Kaggle attempts failed before any model call (preserved, not deleted); a later
+attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0
+regenerated files (0/9, not scientific evidence); the latest attempt
+(`exp-20260801-123125`) failed at runtime root (FP16 OOM + dependency drift),
+which the R7C root closure addresses (exact runtime pins, int8 default, frozen
+scenario context, infrastructure-nonrepairable repair classification, and a
+`--kaggle-preflight-only` gate); no tag created; Pilot not authorized. Current
+branch: `fix/kaggle-smoke-v2-real-run-root` (from the R7B tail; R7C runtime
+commit `7a80e53`, bundle pin `f01b8f0`).
 
 ## Implemented Components
 
@@ -640,7 +644,13 @@ hardening closed the four audit findings (`d50e89e`, `4c73db6`), and a later
 real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0
 regenerated files (0/9). The **R7B Smoke Finish**
 (`fix/kaggle-smoke-v2-finish`, `bff0a82` + `17207bf`) makes the Qwen Smoke run
-observable and executable. Real-model benchmark execution (nine real Qwen
-Smoke V2 records) and scientific validation require an independent R7B Smoke
-Finish audit before the observable bundle is relaunched. Smoke evidence is
+observable and executable. The **R7C real-run root closure**
+(`fix/kaggle-smoke-v2-real-run-root`, `7a80e53` + `f01b8f0`) closes the root
+contracts the failed real attempt exposed: exact runtime pins installed and
+verified in the notebook, int8 model default with VRAM headroom checks, frozen
+scenario context in strategy prompts, infrastructure-nonrepairable failure
+classification, and a `--kaggle-preflight-only` gate that fails fast before any
+model call. Real-model benchmark execution (nine real Qwen Smoke V2 records)
+and scientific validation require an independent R7C real-run root closure
+audit before the preflighted int8 bundle is relaunched. Smoke evidence is
 non-publication; no real Qwen results are claimed.
