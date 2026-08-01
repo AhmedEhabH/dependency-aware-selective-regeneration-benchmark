@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import asyncio
 import gc
 import logging
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -18,6 +20,17 @@ _KAGGLE_MODEL_BASE = "/kaggle/input"
 _LOCAL_MODEL_FORBIDDEN = True
 
 _MINIMUM_COMPUTE_CAPABILITY = (7, 0)
+
+CANONICAL_ALLOC_CONF = "expandable_segments:True"
+
+
+def _set_canonical_alloc_conf() -> None:
+    """Set the canonical PyTorch memory allocation environment variable.
+
+    ``PYTORCH_ALLOC_CONF=expandable_segments:True`` must be set before torch is
+    imported. The older ``PYTORCH_CUDA_ALLOC_CONF`` alias is left untouched.
+    """
+    os.environ.setdefault("PYTORCH_ALLOC_CONF", CANONICAL_ALLOC_CONF)
 
 
 def _gpu_info() -> dict[str, object]:
@@ -119,15 +132,69 @@ class KaggleQwenBackend:
         model_path: str | None = None,
         device: str | None = None,
         dtype: str | None = None,
+        quantization_mode: str = "int8",
     ) -> None:
+        if quantization_mode not in ("int8", "fp16"):
+            raise ModelBackendError(
+                f"Unsupported quantization_mode {quantization_mode!r}; "
+                "R7C Smoke uses 'int8' (BitsAndBytes load_in_8bit). No fallback is automatic."
+            )
         self._model_name = model_name
         self._model_path = model_path
         self._device = device
         self._dtype = dtype
+        self._quantization_mode = quantization_mode
         self._model = None
         self._tokenizer = None
         self._loaded = False
-        logger.info("MODEL_INITIALIZATION_STARTED model=%s", model_name)
+        logger.info("MODEL_INITIALIZATION_STARTED model=%s quantization=%s", model_name, quantization_mode)
+
+    @property
+    def model_identity(self) -> str:
+        return f"qwen:1:{self._quantization_mode}"
+
+    @property
+    def quantization_mode(self) -> str:
+        return self._quantization_mode
+
+    @property
+    def model_memory_footprint_bytes(self) -> int:
+        if self._model is None:
+            return 0
+        return int(self._model.get_memory_footprint())
+
+    @property
+    def device_map_summary(self) -> str:
+        if self._model is None:
+            return ""
+        hf_device_map = getattr(self._model, "hf_device_map", None)
+        if hf_device_map:
+            return str(hf_device_map)
+        device = getattr(self._model, "device", None)
+        return str(device) if device is not None else ""
+
+    def load(self) -> None:
+        """Load the model+tokenizer synchronously (preflight-friendly)."""
+        self._ensure_loaded()
+
+    def run_probe(self, max_tokens: int = 64, prompt: str = "def add(a, b):\n    return a + b\n") -> LLMResponse:
+        """Deterministic engineering probe generation.
+
+        Engineering evidence only: never counted as scientific model calls or
+        tokens. Uses a fixed seed and greedy sampling.
+        """
+        self._ensure_loaded()
+
+        async def _run() -> LLMResponse:
+            try:
+                import torch
+
+                torch.manual_seed(0)
+            except Exception:
+                pass
+            return await self.generate(prompt=prompt, temperature=0.0, max_tokens=max_tokens)
+
+        return asyncio.run(_run())
 
     def count_prompt_tokens(self, prompt: str) -> int:
         self._ensure_loaded()
@@ -294,6 +361,7 @@ class KaggleQwenBackend:
         self._load_model()
 
     def _lazy_import(self) -> None:
+        _set_canonical_alloc_conf()
         try:
             import torch  # noqa: F401
             import transformers  # noqa: F401
@@ -330,26 +398,31 @@ class KaggleQwenBackend:
     def _load_model(self) -> None:
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
+        _set_canonical_alloc_conf()
         model_path = self._resolve_model_path()
         logger.info("Loading model from %s", model_path)
 
         _check_gpu_compatibility()
 
-        resolved_dtype = self._resolve_dtype()
-        device = self._resolve_device()
+        tokenizer_kwargs = {
+            "trust_remote_code": True,
+            "local_files_only": True,
+        }
+        self._tokenizer = AutoTokenizer.from_pretrained(str(model_path), **tokenizer_kwargs)
 
-        self._tokenizer = AutoTokenizer.from_pretrained(
-            str(model_path),
-            trust_remote_code=True,
-            local_files_only=True,
-        )
-        self._model = AutoModelForCausalLM.from_pretrained(
-            str(model_path),
-            torch_dtype=resolved_dtype,
-            device_map=device,
-            trust_remote_code=True,
-            local_files_only=True,
-        )
+        load_kwargs = {
+            "trust_remote_code": True,
+            "local_files_only": True,
+            "device_map": "auto",
+        }
+        if self._quantization_mode == "int8":
+            from transformers import BitsAndBytesConfig
+
+            load_kwargs["quantization_config"] = BitsAndBytesConfig(load_in_8bit=True)
+        else:
+            load_kwargs["torch_dtype"] = self._resolve_dtype()
+
+        self._model = AutoModelForCausalLM.from_pretrained(str(model_path), **load_kwargs)
         assert self._model is not None
         self._model.eval()
         self._loaded = True
@@ -357,8 +430,8 @@ class KaggleQwenBackend:
         gpu_info = _gpu_info()
         gpu_name = gpu_info.get("gpu_name", "cpu") if gpu_info.get("available") else "cpu"
         logger.info(
-            "MODEL_INITIALIZATION_SUCCEEDED model=%s device=%s gpu=%s dtype=%s",
-            self._model_name, device, gpu_name, resolved_dtype,
+            "MODEL_INITIALIZATION_SUCCEEDED model=%s device_map=auto gpu=%s quantization=%s footprint_bytes=%d",
+            self._model_name, gpu_name, self._quantization_mode, self.model_memory_footprint_bytes,
         )
 
     def _resolve_dtype(self) -> torch.dtype:
