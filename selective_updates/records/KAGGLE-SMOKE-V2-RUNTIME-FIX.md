@@ -147,17 +147,22 @@ R4 = accepted and frozen (f5ae826)
 R5 = accepted and frozen (7761c48)
 R6 = ACCEPTED AND FROZEN (949e9c2; freeze commit 4b2dd27; branch published)
 Kaggle attempts = 2 (exp-20260801-024041, exp-20260801-024624) — both failed pre-model, preserved
-Runtime fixes  = committed (de3163f) and pinned (fb60972)
+Runtime fixes  = committed (de3163f) and pinned (fb60972) — core accepted by independent audit
+R7A hardening  = complete (d50e89e + 4c73db6; see KAGGLE-SMOKE-V2-RUNTIME-HARDENING.md)
 Local scripted Smoke = 9/9
 Bundled CLI dry-run  = 9/9
-Real Qwen Smoke      = 0/9 (attempts failed before model calls; no new launch without audit)
+Real Qwen Smoke      = 0/9 (attempts failed before model calls; no new launch without re-audit)
 Tag = not created
 Pilot = not authorized
 ```
 
 ## 8. Next action
 
-Independent audit of the runtime fixes (KAGGLE_RUNTIME_FIX_AUDIT_REQUIRED).
-Do not relaunch Kaggle, tag, merge, or force-push before that audit passes.
+The core runtime-fix audit passed (see
+`..\R7A_Pre_Rerun_Hardening_Package\01_R7_RUNTIME_FIX_INDEPENDENT_AUDIT.md`).
+The R7A pre-rerun hardening pass closed all four audit findings and is recorded
+in `selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-HARDENING.md`.
+Independent re-audit of the R7A hardening is required before any Kaggle relaunch.
+Do not relaunch Kaggle, tag, merge, or force-push before that re-audit passes.
 
-KAGGLE_RUNTIME_FIX_AUDIT_REQUIRED
+R7A_HARDENING_REAUDIT_REQUIRED

@@ -119,7 +119,7 @@ Each starts from the same clean pinned baseline (b8a33e2). They are not cumulati
 
 ## Next Task
 
-**POST-R6 KAGGLE RUNTIME FIX — FIXES COMMITTED AND PINNED, INDEPENDENT AUDIT REQUIRED.** Two real Kaggle attempts failed pre-model (both 0 model calls; preserved). All real runtime blockers were closed on `fix/kaggle-smoke-v2-runtime-blockers` per the Kaggle Runtime Blockers Fix directive: shared-snapshot isolation root, Kaggle Qwen fail-closed `--model-path` validation + `qwen:` identity, non-zero session exit on failed last run, batched truthful HF upload, `mark_completed(completed_with_failures=...)`, and notebook guardrails (`discover_model()`, `_verify_scientific_run()` in both run cells, `NabilDo/selective-regeneration-experiment-results`, `Terminal: n/9`). Fix commit `de3163f`; deployment pin commit `fb60972` (bundle 144 files / 815,004 bytes). Preflight = 15 passed; last full suite = 1,676 passed / 32 skipped / 0 failed. Next: record the runtime fix in the ledger (Commit C), push the fix branch, then **independent runtime-fix audit**. Do not relaunch Kaggle, tag, merge, or force-push before that audit passes.
+**R7A PRE-RERUN HARDENING — FOUR AUDIT FINDINGS CLOSED, INDEPENDENT RE-AUDIT REQUIRED.** Two real Kaggle attempts failed pre-model (both 0 model calls; preserved). The core runtime blockers were closed on `fix/kaggle-smoke-v2-runtime-blockers` and accepted by the independent runtime-fix audit; the R7A hardening closed all four audit findings: remote recovery `remote_sync.json` is now committed as `recovery_uploaded` (never `pending`; `failed_local_safe` on failure), the notebook status cell reads `last_sync`/`timestamp`/`remote_path`/`details`, HF exception fixtures are version-compatible, and current docs use the actual final gate. Hardened runtime source commit `d50e89e` (`fix(hf): make recovery sync state remotely truthful`); hardened bundle pin commit `4c73db6` (bundle 144 files / 815,779 bytes). Preflight = 15 passed; last full suite = **1,688 passed / 32 skipped / 0 failed**. Next: short independent re-audit of the R7A hardening, then update the Kaggle code dataset + notebook, then one real cell (require 1/9 succeeded), then the remaining eight. Do not relaunch Kaggle, tag, merge, or force-push before that re-audit passes.
 
 ---
 
@@ -162,4 +162,4 @@ cat selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-FIX.md
 
 ---
 
-KAGGLE_RUNTIME_FIX_AUDIT_REQUIRED
+R7A_HARDENING_REAUDIT_REQUIRED

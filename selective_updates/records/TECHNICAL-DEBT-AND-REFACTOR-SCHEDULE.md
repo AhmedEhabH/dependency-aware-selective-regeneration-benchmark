@@ -231,3 +231,11 @@ are recorded in
 items — they are the primary execution-path fixes needed for the first real
 records. The only new TD-2-style note: pre-existing Mypy strict base of 5
 errors in `seven_arm_benchmark.py` remains open (unchanged from R6).
+
+## Post-R6 R7A pre-rerun hardening (2026-08-01)
+
+The R7A hardening (`d50e89e`, `4c73db6`) closed the four findings reproduced
+by the independent runtime-fix audit and opened no new technical debt. It is
+recorded in `selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-HARDENING.md`.
+The pre-existing Mypy strict base in `seven_arm_benchmark.py` is outside the
+R7A authorized scope and remains unchanged.

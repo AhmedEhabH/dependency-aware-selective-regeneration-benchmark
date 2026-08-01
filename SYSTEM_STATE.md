@@ -1,9 +1,9 @@
 # System State
 
 ## Current Phase
-**POST-R6 KAGGLE RUNTIME FIX — FIXES COMMITTED AND PINNED, INDEPENDENT AUDIT REQUIRED** (branch `fix/kaggle-smoke-v2-runtime-blockers`, from R6-published `experiment/three-arm-smoke-v2`)
+**R7A PRE-RERUN HARDENING — FOUR AUDIT FINDINGS CLOSED, INDEPENDENT RE-AUDIT REQUIRED** (branch `fix/kaggle-smoke-v2-runtime-blockers`, from R6-published `experiment/three-arm-smoke-v2`)
 
-R6 remains ACCEPTED AND FROZEN (`949e9c2`, freeze `4b2dd27`, branch published). Two real Kaggle Scientific Smoke V2 runs launched from the published deployment failed completely before any model call (`exp-20260801-024041` and `exp-20260801-024624`; both 9 planned / 0 succeeded / 9 failed / 0 model calls / 0 tokens; first failure = workspace isolation). The runtime blockers were fixed under the Kaggle Runtime Blockers Fix directive: shared-snapshot isolation root, Kaggle Qwen fail-closed `--model-path` validation + `qwen:` identity, non-zero session exit on failed last run, batched truthful HF upload, `mark_completed(completed_with_failures=...)`, and notebook guardrails (`discover_model()` fail-closed, `_verify_scientific_run()` in both run cells, correct `NabilDo/selective-regeneration-experiment-results` repo, `Terminal: n/9` vocabulary). Fix commit `de3163f`; pinned/rebuilt bundle commit `fb60972`; bundle rebuilt only via `scripts/build_upload_bundle.py` (144 files / 815,004 bytes). Failed attempt outputs remain visible on the results dataset and must NOT be deleted. Next: independent audit of the runtime fixes; do not relaunch Kaggle before that.
+R6 remains ACCEPTED AND FROZEN (`949e9c2`, freeze `4b2dd27`, branch published). Two real Kaggle Scientific Smoke V2 runs launched from the published deployment failed completely before any model call (`exp-20260801-024041` and `exp-20260801-024624`; both 9 planned / 0 succeeded / 9 failed / 0 model calls / 0 tokens; first failure = workspace isolation). The core runtime blockers were fixed under the Kaggle Runtime Blockers Fix directive (record `selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-FIX.md`) and accepted by the independent runtime-fix audit (`docs`/`..\R7A_Pre_Rerun_Hardening_Package\01_R7_RUNTIME_FIX_INDEPENDENT_AUDIT.md`). The independent audit reproduced one remote-state truth defect and found three smaller items, all closed in the R7A pre-rerun hardening pass: remote recovery `remote_sync.json` is now committed as `recovery_uploaded` (never `pending`; `failed_local_safe` on failure), the notebook status cell reads the current `last_sync`/`timestamp`/`remote_path`/`details` schema, HF test fixtures are version-compatible, and current documentation reports the actual final gate count. Hardened runtime source commit `d50e89e` (`fix(hf): make recovery sync state remotely truthful`); hardened bundle pin commit `4c73db6` (`chore(deploy): pin hardened Scientific Smoke V2 rerun bundle`); bundle rebuilt only via `scripts/build_upload_bundle.py` (144 files / 815,779 bytes). Failed attempt outputs remain visible on the results dataset and must NOT be deleted. Next: short independent re-audit of the R7A hardening; do not relaunch Kaggle before that audit passes.
 
 ## Phase State
 ```text
@@ -11,11 +11,12 @@ R4 = accepted and frozen (explicit freeze commit f5ae826)
 R5 = accepted and frozen (independent re-audit 2026-08-01, recorded at 7761c48)
 R6 = ACCEPTED AND FROZEN (independent re-audit 2026-08-01, recorded at 949e9c2; freeze commit 4b2dd27)
 Kaggle attempts = 2 (exp-20260801-024041, exp-20260801-024624) — both failed pre-model, preserved
-Runtime fixes = committed (de3163f) and pinned (fb60972)
+Runtime fixes = committed (de3163f) and pinned (fb60972) — core accepted by independent audit
+R7A hardening = complete (remote sync truth, notebook schema, HF fixtures, docs) — d50e89e + 4c73db6
 Real Qwen records = 0/9
 Pilot = not authorized
 README = updated
-push = PUBLISHED — R6 milestone branch upstream origin/experiment/three-arm-smoke-v2; fix branch unpushed until Commit C
+push = PUBLISHED — fix branch upstream origin/fix/kaggle-smoke-v2-runtime-blockers, local = remote at d50e89e.../4c73db6/docs head
 stable tag = blocked
 ```
 
@@ -25,7 +26,7 @@ stable tag = blocked
 R5 proved exactly nine non-dry scripted production records (3 frozen scenarios × 3 arms × 1 repetition) through the real production orchestration path. R5 was accepted by the independent re-audit on 2026-08-01 at `7761c48`. The cleaned R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. The old contaminated tail is preserved on `backup/r5-pre-audit-c3ecad2`.
 
 ## Current Task
-The Kaggle runtime fix is **committed and pinned**. Two real attempts failed pre-model (isolation, both 0 model calls); all runtime blockers were closed under the Kaggle Runtime Blockers Fix directive: shared-snapshot isolation root (`make_isolation(..., snapshot_storage_root)` → `IsolationContext(snapshot_base=...)`), Kaggle Qwen fail-closed model-path validation + `qwen:` identity, `_decide_session_exit_code` (failed last run → exit 1), batched HF upload via `CommitOperationAdd`/`create_commit` with truthful booleans, `mark_completed(completed_with_failures=...)`, and notebook guardrails (`discover_model()`, `_verify_scientific_run()` in both run cells, `NabilDo/selective-regeneration-experiment-results`, `Terminal: n/9`). Fix commit `de3163f` (8 files); deployment pin commit `fb60972` (rebuilt bundle 144 files / 815,004 bytes). Preflight suite = 15 passed; combined unit+integration = 254 passed / 2 skipped; last full suite = 1,676 passed / 32 skipped. Current task: record the runtime fix in the ledger (Commit C), then independent audit before any Kaggle relaunch.
+The R7A pre-rerun hardening is **complete**. The independent runtime-fix audit accepted the core fix and reproduced one remote-state truth defect (recovery commit uploaded `remote_sync.json` as `pending`), which is now closed: `upload_recovery()` writes `recovery_uploaded` before the commit, commits that exact file, leaves local identical on success, and overwrites local to `failed_local_safe` on failure while retaining `remote_sync_failure.json`. The notebook status cell now reads `last_sync`/`timestamp`/`remote_path`/`details`; HF exception fixtures are version-compatible; current docs report the actual final suite (1,688 passed / 32 skipped / 0 failed). Hardened source commit `d50e89e` (`fix(hf): make recovery sync state remotely truthful`); hardened bundle pin commit `4c73db6` (rebuilt bundle 144 files / 815,779 bytes). Current task: short independent re-audit of the R7A hardening, then update the Kaggle code dataset + notebook, then one real cell, then continue to 9/9 — blocked on the re-audit.
 
 ## Recent Non-Phase Additions
 - Added `README.md` (project overview, architecture, usage, license)
@@ -270,7 +271,7 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 `fix/kaggle-smoke-v2-runtime-blockers` (from R6-published `experiment/three-arm-smoke-v2` at `9ff3c4e`; fix commit `de3163f`; pin commit `fb60972`; R4/R5/R6 history untouched)
 
 ## Latest Commit
-`chore(deploy): pin corrected Scientific Smoke V2 bundle` (`fb60972`) — rebuilt bundle pinned to runtime source `de3163f12d51c31d3f488897ed2047821da3b190`
+`docs(audit): record pre-rerun runtime hardening` — records the R7A hardening ledger (`selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-HARDENING.md`) atop hardened runtime source `d50e89e12d51c...` (fix commit) and hardened bundle pin `4c73db6`
 
 ## Known Risks
 1. **LR-3 — No test data boundary:** Test fixtures need a defined home outside `inputs/` and `src/`.
@@ -279,17 +280,16 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 4. **LR-8 — Scenario content quality:** YAML files generated by automated agents; manual review recommended before Phase 4.
 
 ## Exact Next Task
-1. Record the Kaggle runtime fix in the ledger (Commit C, this docs pass)
-2. Re-run the full suite as the final gate
-3. Push the fix branch normally and verify local/remote equality
-4. Independent audit of the runtime fixes
-5. Only after audit passes: relaunch the nine real Qwen Smoke records on Kaggle
-6. Independent result audit, then `v2.0.0-scientific-smoke` tag
-7. Pilot freeze and execution
-8. Do not tag, merge, force-push, or relaunch Kaggle before the runtime-fix audit
+1. Short independent re-audit of the R7A pre-rerun hardening (four findings closed)
+2. Update the Kaggle code dataset + notebook to the hardened bundle (`4c73db6`)
+3. Run one real cell; require 1/9 succeeded
+4. Continue the remaining eight real Qwen Smoke cells
+5. Independent result audit, then `v2.0.0-scientific-smoke` tag
+6. Pilot freeze and execution
+7. Do not tag, merge, force-push, or relaunch Kaggle before the hardening re-audit
 
 ## Handoff Notes
-Phase 4A–4F complete, Phase 4F.1 complete, R3B/R3C/R3D closures complete, R4 token/metric contract ACCEPTED AND FROZEN at `f5ae826`, R5 nine-scripted-records ACCEPTED AND FROZEN by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 deployment closure is **ACCEPTED AND FROZEN** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`), recorded in `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`; freeze commit `4b2dd27`; milestone branch published with upstream `origin/experiment/three-arm-smoke-v2`. Post-R6: **two real Kaggle attempts failed pre-model** — `exp-20260801-024041` and `exp-20260801-024624` (both 9 planned / 0 succeeded / 9 failed / 0 model calls; first failure = isolation). All real runtime blockers were closed under the Kaggle Runtime Blockers Fix directive (record: `selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-FIX.md`): shared-snapshot isolation root, Kaggle Qwen fail-closed `--model-path` validation + `qwen:` identity, non-zero exit on failed last run, batched truthful HF upload, `mark_completed(completed_with_failures=...)`, and notebook guardrails (`discover_model()`, `_verify_scientific_run()` in both run cells, `NabilDo/selective-regeneration-experiment-results`, `Terminal: n/9`). Fix commit `de3163f12d51c31d3f488897ed2047821da3b190`; deployment pin commit `fb60972` (bundle rebuilt via `scripts/build_upload_bundle.py`: 87 code + 56 data + 1 notebook = 144 files / 815,004 bytes; notebook 18,137 bytes). Local scripted records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; Kaggle attempts = 2 failed, preserved, not deleted. Preflight suite = 15 passed (incl. `TestKaggleBundleRuntimeGuardrails`, 6); combined unit+integration = 254 passed / 2 skipped; last full suite = 1,676 passed / 32 skipped / 0 failed. Mypy strict = base 5 pre-existing errors only; Ruff = 0 new violations. Pilot not authorized. Smoke evidence is non-publication. Do not claim publication results without research-profile runs under the frozen protocol. Do not download or run LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives).
+Phase 4A–4F complete, Phase 4F.1 complete, R3B/R3C/R3D closures complete, R4 token/metric contract ACCEPTED AND FROZEN at `f5ae826`, R5 nine-scripted-records ACCEPTED AND FROZEN by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 deployment closure is **ACCEPTED AND FROZEN** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`), recorded in `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`; freeze commit `4b2dd27`; milestone branch published with upstream `origin/experiment/three-arm-smoke-v2`. Post-R6: **two real Kaggle attempts failed pre-model** — `exp-20260801-024041` and `exp-20260801-024624` (both 9 planned / 0 succeeded / 9 failed / 0 model calls; first failure = isolation). All real runtime blockers were closed under the Kaggle Runtime Blockers Fix directive (record: `selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-FIX.md`): shared-snapshot isolation root, Kaggle Qwen fail-closed `--model-path` validation + `qwen:` identity, non-zero exit on failed last run, batched truthful HF upload, `mark_completed(completed_with_failures=...)`, and notebook guardrails (`discover_model()`, `_verify_scientific_run()` in both run cells, `NabilDo/selective-regeneration-experiment-results`, `Terminal: n/9`). Fix commit `de3163f12d51c31d3f488897ed2047821da3b190`; deployment pin commit `fb60972` (bundle rebuilt via `scripts/build_upload_bundle.py`: 87 code + 56 data + 1 notebook = 144 files / 815,004 bytes; notebook 18,137 bytes). Local scripted records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; Kaggle attempts = 2 failed, preserved, not deleted. Preflight suite = 15 passed (incl. `TestKaggleBundleRuntimeGuardrails`, 6); combined unit+integration = 254 passed / 2 skipped; R7A pre-rerun hardening closed all four independently reproduced findings (record: selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-HARDENING.md): remote recovery remote_sync.json committed as recovery_uploaded (never pending; failed_local_safe on failure, failure record retained), notebook status cell reads last_sync/timestamp/remote_path/details, HF exception fixtures use httpx.Response/RuntimeError (huggingface_hub 1.x constructor compatible), current docs use the actual final gate. Full suite = 1,688 passed / 32 skipped / 0 failed. Mypy strict = 0 issues; Ruff = 0 new violations versus d9068fd. Pilot not authorized. Smoke evidence is non-publication. Do not claim publication results without research-profile runs under the frozen protocol. Do not download or run LLM locally. Do not modify frozen protocol documents. Do not modify anything under `inputs/`. Canonical project root is `project/` (where `.git` lives).
 
 Environment activation:
 ```bash
@@ -301,4 +301,4 @@ Run tests:
 python -m pytest -q
 ```
 
-KAGGLE_RUNTIME_FIX_AUDIT_REQUIRED
+R7A_HARDENING_REAUDIT_REQUIRED
