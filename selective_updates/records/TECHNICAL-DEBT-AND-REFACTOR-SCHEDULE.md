@@ -199,10 +199,11 @@
   `total_planned=9` / `total_completed=9` / `completion_status=completed`,
   exact source/build identity, `source_identity.json` truth, per-strategy
   summary counts, unchanged working tree before/after.
-- **Checkpoint:** R6 closure — REACHED (pending independent re-audit)
+- **Checkpoint:** R6 closure — REACHED — ACCEPTED AND FROZEN (final independent re-audit 2026-08-01 at `949e9c2`)
 - **Evidence:** preflight file 9/9 passed; grouped gate
   (build_upload_bundle + config_models + cli + preflight) 79 passed; manual
-  probe matched observed audit output (9 cells, 3×3 matrix, exit 0).
+  probe matched observed audit output (9 cells, 3×3 matrix, exit 0); final
+  accepted full suite = 1,648 passed / 32 skipped / 0 failed.
 
 
 ## RF-4 status (after R5 scope correction, 2026-07-31)

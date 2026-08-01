@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-08-01
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 technical implementation PASSED independent audit at da6ccf3, final correction COMPLETE PENDING INDEPENDENT RE-AUDIT (test commit 40c7a47 + documentation-truth cleanup at current documentation HEAD) — branch experiment/three-arm-smoke-v2; local scripted = 9/9; real Qwen = 0/9; Kaggle not launched; push not performed; tag not created; Pilot = NOT AUTHORIZED; push/tag/merge/Kaggle = BLOCKED PENDING INDEPENDENT R6 RE-AUDIT. All reading is repository-contained; external prompt packages are historical provenance only.
+**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 ACCEPTED AND FROZEN (final independent re-audit 2026-08-01 at 949e9c2; freeze record and milestone-branch publication authorized) — branch experiment/three-arm-smoke-v2; local scripted = 9/9; bundled CLI dry-run = 9/9; real Qwen = 0/9; Kaggle not launched; push authorized and pending at this commit; tag not created; Pilot = NOT AUTHORIZED; do not tag/merge/force-push/launch Kaggle now. All reading is repository-contained; external prompt packages are historical provenance only.
 
 ---
 
@@ -88,20 +88,21 @@ project/
 - **R5 acceptance/freeze:** ACCEPTED AND FROZEN by independent re-audit (GPT-5.6 Thinking, 2026-08-01) at 7761c48; recorded in docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
 - **R6 audited implementation HEAD:** da6ccf3 — technical implementation and bundle PASSED the independent audit (GPT-5.6 Thinking, 2026-08-01)
 - **R6 test correction commit:** 40c7a47 (test(deploy): prove bundled V2 CLI execution plan) — TD-R6-ENTRYPOINT-001 closed
-- **R6 documentation correction:** current documentation HEAD (docs(audit): close R6 handoff truth gaps) — defects D1–D6 closed
-- **HEAD:** current documentation HEAD (R6 final correction complete pending re-audit)
+- **R6 documentation correction:** 949e9c2 (docs(audit): close R6 handoff truth gaps) — defects D1–D6 closed
+- **R6 final independent re-audit:** ACCEPTED AND FROZEN (GPT-5.6 Thinking, 2026-08-01, HEAD 949e9c2); freeze record and milestone-branch publication authorized
+- **HEAD:** 949e9c2 (R6 accepted and frozen; publication authorized and pending)
 - **Working tree:** clean
 - **Canonical V2 profile source:** PROFILES["scientific-smoke-v2"] in seven_arm_benchmark.py
-- **Test suite:** 1,647 passed / 32 skipped / 0 failed (R5 baseline 1,625 passed); bundled CLI dry-run regression 9/9 at 40c7a47
+- **Test suite:** 1,648 passed / 32 skipped / 0 failed (final accepted R6 full suite); bundled CLI dry-run regression 9/9 at 40c7a47
 - **Lint:** ruff 0 new findings vs starting HEAD 7761c48 (identical set, 94 baseline findings unchanged)
 - **Types:** mypy strict 0 new errors vs starting HEAD 7761c48
 - **Dependencies:** pip check clean
 - **Benchmark data:** 3 repositories (todo, djangocms, saleor), 24 protocol scenarios + 3 smoke scenarios
-- **Kaggle status:** NOT LAUNCHED — blocked pending independent R6 re-audit
+- **Kaggle status:** NOT LAUNCHED — next after branch publication and environment preflight
 - **Pilot status:** NOT AUTHORIZED
 - **R4 status:** ACCEPTED AND FROZEN at f5ae826
 - **R5 status:** ACCEPTED AND FROZEN at 7761c48 (nine non-dry scripted production records = 9/9)
-- **R6 status:** TECHNICAL IMPLEMENTATION PASSED INDEPENDENT AUDIT at da6ccf3; FINAL CORRECTION COMPLETE PENDING INDEPENDENT RE-AUDIT — deployment closure; runtime source commit cb25e9f; deployed bundle commit 54a0462; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints; `.gitattributes` manifest-LF rule = audit-approved scope extension (disclosed in the R6 final correction ledger)
+- **R6 status:** ACCEPTED AND FROZEN at 949e9c2 (final independent re-audit 2026-08-01) — deployment closure; runtime source commit cb25e9f; deployed bundle commit 54a0462; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints; `.gitattributes` manifest-LF rule = audit-approved scope extension (disclosed in the R6 final correction ledger)
 - **Bundled CLI dry-run 9/9:** proven by regression test test_bundled_cli_dry_run_executes_exact_nine_cell_plan (test commit 40c7a47) — generated CLI + bundled data execute all nine cells together (3 scenarios × 3 strategies, all succeeded, exact persisted matrix and identity)
 - **Selective scopes verified:** 001=models,serializers,views | 002=models,views | 003=models,permissions,serializers,views
 
@@ -220,16 +221,17 @@ R5 test proof:               ee148fa (test(smoke): prove nine scripted productio
 R5 audit docs commit:        docs(audit): accept and freeze R5 production path proof (docs only)
 R6 audited HEAD:             da6ccf3 (docs(state): prepare Three-Arm Smoke V2 pre-Kaggle audit)
 R6 test correction:          40c7a47 (test(deploy): prove bundled V2 CLI execution plan)
-R6 documentation:            current documentation HEAD (docs(audit): close R6 handoff truth gaps)
-HEAD:                        current documentation HEAD (R6 final correction complete pending re-audit)
+R6 documentation:            949e9c2 (docs(audit): close R6 handoff truth gaps)
+R6 final re-audit:           ACCEPTED AND FROZEN at 949e9c2 (independent re-audit 2026-08-01)
+HEAD:                        949e9c2 (R6 accepted and frozen; publication authorized and pending)
 Local/remote:         not yet pushed
 Working tree:         clean
 Tags:            v0.7.0-smoke-passed at 0c58250 (unchanged — historical orchestration smoke, not V2 evidence)
 Stash:           broken methodology-conformance WIP 2026-07-27
-Kaggle:          blocked
+Kaggle:          not launched
 Pilot:           blocked
-R6:              final correction complete pending independent re-audit
-README:          intentionally deferred to R6
+R6:              accepted and frozen at 949e9c2
+README:          updated in R6
 ```
 
 > Note: the original R5 tail (6650b00, 88b6f84, c3ecad2) was rebuilt because
@@ -454,7 +456,7 @@ The independent re-audit accepted R4 at the explicit acceptance/freeze commit `f
 ### Blocked
 
 - R5 freeze: blocks R6 (bundle and push), Kaggle execution, Pilot. R6 remains blocked pending R5 completion and independent audit.
-- R5 is in progress; R6 is blocked. **[HISTORICAL/SUPERSEDED — R5 was accepted and frozen at 7761c48 on 2026-08-01; R6 passed the independent audit and its final correction is complete pending re-audit. See sections 20 and 21.]**
+- R5 is in progress; R6 is blocked. **[HISTORICAL/SUPERSEDED — R5 was accepted and frozen at 7761c48 on 2026-08-01; R6 was accepted and frozen by the final independent re-audit at 949e9c2 on 2026-08-01. See sections 20 and 21.]**
 
 ---
 
@@ -569,9 +571,10 @@ behavior, frozen scenarios, evaluator assets, or controlled Todo source/tests.
 
 ## 20. R6 Deployment Closure (2026-08-01)
 
-**Status:** R6 TECHNICAL IMPLEMENTATION PASSED INDEPENDENT AUDIT — FINAL CORRECTION COMPLETE PENDING RE-AUDIT
+**Status:** R6 ACCEPTED AND FROZEN — FINAL INDEPENDENT RE-AUDIT 2026-08-01 AT 949e9c2
 **Record:** `selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md`
 **Audit record:** `docs/R6_INDEPENDENT_AUDIT_AND_CORRECTION_REPORT.md`
+**Freeze record:** `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`
 
 R6 executed the corrected deployment directive in one bounded pass:
 Commit A `5784a4f` recorded R5 acceptance; Commit B `cb25e9f` is the runtime
@@ -584,28 +587,29 @@ scripted/harness = 0. Bundle totals = 144 files / 805,634 bytes.
 ```text
 R4 accepted/frozen
 R5 accepted/frozen
-R6 technical implementation passed independent audit; final correction complete pending re-audit
+R6 ACCEPTED AND FROZEN at 949e9c2
 local scripted = 9/9
+bundled CLI dry-run = 9/9
 real Qwen = 0/9
 Kaggle not launched
-push not performed
+push authorized and pending
 tag not created
 Pilot not authorized
 ```
 
 Pilot wording: exact final run denominator not frozen; minimum 7–12 changes
 across at least 3 real repositories; current descriptive 48-run config is not
-authorization. Full suite at R6 closure: 1,647 passed, 32 skipped, 0 failed.
-Ruff set identical to starting HEAD (94 findings, zero new); mypy strict 0
-errors; compileall clean; final builder run left the tree clean.
+authorization. Final accepted full suite at R6 closure: 1,648 passed, 32
+skipped, 0 failed. Ruff set identical to starting HEAD (94 findings, zero new);
+mypy strict 0 errors; compileall clean; final builder run left the tree clean.
 
-Next action: independent R6 re-audit of the final correction before push; then
-push, Kaggle preflight, and nine real Qwen Smoke records. Do not push, tag,
-merge, or launch Kaggle before the re-audit.
+Next action: record the R6 freeze, publish the branch with upstream, verify
+local/remote equality, then Kaggle environment preflight and nine real Qwen
+Smoke records. Do not tag, merge, force-push, or launch Kaggle now.
 
 ## 21. R6 Final Audit Correction (2026-08-01)
 
-**Status:** COMPLETE PENDING INDEPENDENT RE-AUDIT
+**Status:** ACCEPTED AND FROZEN — FINAL INDEPENDENT RE-AUDIT 2026-08-01 AT 949e9c2
 **Audit source:** `..\R6_Final_Audit_Correction_Package\01_R6_INDEPENDENT_AUDIT.md`
 **Directive source:** `..\R6_Final_Audit_Correction_Package\02_OPENCODE_R6_FINAL_CORRECTION_DIRECTIVE.md`
 **Backup branch:** `backup/r6-pre-final-audit-da6ccf3` (created 2026-08-01; no tag)
@@ -627,8 +631,8 @@ and documentation-truth defects D1–D6. The bounded correction pass closed both
   (total_planned=9, total_completed=9, completion_status=completed, exact
   source/build identity), source_identity truth, and per-strategy summary
   counts. TD-R6-ENTRYPOINT-001 = closed.
-- Documentation commit (current documentation HEAD) — `docs(audit): close R6
-  handoff truth gaps` closes D1–D6 across README.md, SYSTEM_STATE.md,
+- Documentation commit `949e9c2` — `docs(audit): close R6 handoff
+  truth gaps` closes D1–D6 across README.md, SYSTEM_STATE.md,
   docs/START_HERE.md, docs/MASTER_IMPLEMENTATION_PLAN.md, docs/PROJECT_HANDOFF.md,
   reports/latest_phase_report.md, docs/R6_INDEPENDENT_AUDIT_AND_CORRECTION_REPORT.md,
   selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md,
@@ -637,10 +641,14 @@ and documentation-truth defects D1–D6. The bounded correction pass closed both
 
 Scope discipline: no production, builder, bundle, notebook, config, scenario,
 evaluator, or R5 change. `.gitattributes` manifest-LF rule is an audit-approved
-scope extension and is disclosed in the final ledger. Continuation does not
-require any external prompt package; `..\R6_OpenCode_Package_CORRECTED\` and
-the audit package are historical provenance only. Next action is unambiguous:
-**independent R6 re-audit of this final correction**, then push, then Kaggle.
-Do not push, tag, merge, or run Kaggle before acceptance.
+scope extension and is disclosed in the final ledger. The final independent
+re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`) **accepted R6** and
+authorized freeze and milestone-branch publication (recorded in
+`docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). Continuation does
+not require any external prompt package; the earlier audit and correction
+packages are historical provenance only. Next action is unambiguous: **record
+the R6 freeze, publish the branch with upstream, verify local/remote equality,
+then Kaggle environment preflight.** Do not tag, merge, force-push, or run
+Kaggle now.
 
-R6_FINAL_CORRECTION_REAUDIT_REQUIRED
+R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED

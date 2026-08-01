@@ -4,16 +4,16 @@
 
 You are resuming work on the Dependency-Aware Selective Regeneration Benchmark.
 
-**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at HEAD `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) passed the independent audit (GPT-5.6 Thinking, 2026-08-01, HEAD `da6ccf3`), and its **final correction is COMPLETE PENDING INDEPENDENT RE-AUDIT** (test commit `40c7a47` plus documentation-truth cleanup at current documentation HEAD), recorded in `docs/R6_INDEPENDENT_AUDIT_AND_CORRECTION_REPORT.md` and `selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md`. Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; push not performed; tag not created; Pilot not authorized. Do not push, tag, merge, or launch Kaggle before the independent R6 re-audit. All required reading is repository-contained; external prompt packages are historical provenance only and are not required to continue.
+**Current state:** R4 (token limits and truthful workflow metrics) is **ACCEPTED AND FROZEN** at `f5ae826`; R5 (nine non-dry scripted production records) is **ACCEPTED AND FROZEN** by the independent re-audit at `7761c48` on 2026-08-01 (recorded in `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`). R6 (deployment closure) is **ACCEPTED AND FROZEN** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`), recorded in `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`; freeze and milestone-branch publication are authorized. Local scripted records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; Kaggle not launched; push authorized and pending at this commit; tag not created; Pilot not authorized. Next: publish the branch with upstream, verify local/remote equality, then Kaggle environment preflight. Do not tag, merge, force-push, or launch Kaggle now. All required reading is repository-contained; external prompt packages are historical provenance only and are not required to continue.
 
 **Phase state:**
 ```text
 R4 = accepted and frozen (explicit freeze commit f5ae826)
 R5 = accepted and frozen (independent re-audit 2026-08-01 at 7761c48)
-R6 = technical implementation passed independent audit; final correction complete pending re-audit
+R6 = ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 949e9c2)
 Kaggle = not launched
 Pilot = not authorized
-push = blocked pending re-audit
+push = authorized and pending
 stable tag = blocked
 ```
 
@@ -41,15 +41,15 @@ python seven_arm_benchmark.py --dry-run
 
 ---
 
-## R5 Acceptance and R6 Status
+## R5 Acceptance and R6 Freeze
 
-R5 was accepted and frozen by the independent re-audit on 2026-08-01 at HEAD `7761c48`. The clean R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. R6 deployment closure was executed under the corrected directive and supersedes every earlier R6 prompt/directive: deterministic bundle builder, controlled Todo test deployment, exact evaluator allowlist, valid V2 smoke config, pinned notebook, bundle preflight integration, and manifest parity audits (0/0/0). The independent audit (GPT-5.6 Thinking, 2026-08-01, HEAD `da6ccf3`) passed the R6 technical implementation and bundle; the bounded final correction added the bundled CLI dry-run regression test (`40c7a47`) and closed documentation-truth defects D1–D6. R6 is now **FINAL CORRECTION COMPLETE PENDING INDEPENDENT RE-AUDIT**. Do not push, tag, merge, or launch Kaggle before the independent R6 re-audit.
+R5 was accepted and frozen by the independent re-audit on 2026-08-01 at HEAD `7761c48`. The clean R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. R6 deployment closure was executed under the corrected directive and supersedes every earlier R6 prompt/directive: deterministic bundle builder, controlled Todo test deployment, exact evaluator allowlist, valid V2 smoke config, pinned notebook, bundle preflight integration, and manifest parity audits (0/0/0). The bounded final correction added the bundled CLI dry-run regression test (`40c7a47`) and closed documentation-truth defects D1–D6. The final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`) **accepted R6 and authorized freeze and milestone-branch publication**. R6 is now **ACCEPTED AND FROZEN**. Next: publish the branch with upstream, verify local/remote equality, then Kaggle preflight.
 
 ```text
 R5 = accepted and frozen at 7761c48
-R6 = final correction complete pending re-audit
+R6 = ACCEPTED AND FROZEN at 949e9c2
 Kaggle = not launched
-push = blocked pending re-audit
+push = authorized and pending
 tag = blocked
 Pilot = not authorized
 ```
@@ -71,10 +71,11 @@ Before modifying production code, benchmark data, notebooks, or deployment bundl
 | Document | Purpose |
 |----------|---------|
 | `docs/PROJECT_HANDOFF.md` | Full project handoff (read first) |
-| `docs/R6_INDEPENDENT_AUDIT_AND_CORRECTION_REPORT.md` | R6 independent audit + final correction record (read for current R6 state) |
+| `docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md` | R6 acceptance and freeze record (read for current R6 state) |
+| `docs/R6_INDEPENDENT_AUDIT_AND_CORRECTION_REPORT.md` | R6 independent audit + final correction record (historical) |
 | `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md` | R5 acceptance and freeze record |
 | `selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md` | R6 bundle parity and pre-Kaggle handoff record |
-| `reports/latest_phase_report.md` | Current R6 correction phase report (latest-first) |
+| `reports/latest_phase_report.md` | Current R6 phase report (latest-first) |
 | `SYSTEM_STATE.md` | Current system state |
 | `TODO.md` | Task list |
 | `DECISION_LOG.md` | Decision history |
@@ -116,7 +117,7 @@ Each starts from the same clean pinned baseline (b8a33e2). They are not cumulati
 
 ## Next Task
 
-**R6 final correction: COMPLETE PENDING INDEPENDENT RE-AUDIT.** The independent audit (GPT-5.6 Thinking, 2026-08-01, HEAD `da6ccf3`) passed the R6 technical implementation and bundle. The bounded correction pass closed TD-R6-ENTRYPOINT-001 (test commit `40c7a47`, bundled CLI dry-run 9/9) and documentation-truth defects D1–D6 (current documentation HEAD). Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`. Next: independent R6 re-audit of the final correction, then push, Kaggle preflight, and nine real Qwen records. Do not push, tag, merge, or launch Kaggle before acceptance.
+**R6: ACCEPTED AND FROZEN — MILESTONE-BRANCH PUBLICATION AUTHORIZED.** The final independent re-audit (GPT-5.6 Thinking, 2026-08-01, HEAD `949e9c2`) accepted R6 deployment closure. The bounded correction pass closed TD-R6-ENTRYPOINT-001 (test commit `40c7a47`, bundled CLI dry-run 9/9) and documentation-truth defects D1–D6 (`949e9c2`). Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; final accepted full suite = 1,648 passed / 32 skipped / 0 failed. Next: publish the branch with upstream, verify local/remote equality, then Kaggle environment preflight and nine real Qwen records. Do not tag, merge, force-push, or launch Kaggle now.
 
 ---
 
@@ -141,6 +142,9 @@ cat docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
 # Read R5 freeze record
 cat docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
 
+# Read R6 final acceptance and freeze record
+cat docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
+
 # Read R6 independent audit and final correction record
 cat docs/R6_INDEPENDENT_AUDIT_AND_CORRECTION_REPORT.md
 
@@ -153,4 +157,4 @@ cat selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md
 
 ---
 
-R6_FINAL_CORRECTION_REAUDIT_REQUIRED
+R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED
