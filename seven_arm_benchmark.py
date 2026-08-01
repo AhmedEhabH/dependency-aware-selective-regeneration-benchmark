@@ -1435,6 +1435,53 @@ def _preflight_check(
         return False, "unknown", "unknown", f"Preflight exception: {exc}"
 
 
+def _format_hms(seconds: float) -> str:
+    """Format a wall-clock duration as HH:MM:SS."""
+    total = max(0, int(seconds))
+    hh, rem = divmod(total, 3600)
+    mm, ss = divmod(rem, 60)
+    return f"{hh:02d}:{mm:02d}:{ss:02d}"
+
+
+def _estimate_run_eta(record_store: Any, remaining_runs: int) -> str:
+    """ETA string from persisted terminal Run durations (cross-session).
+
+    Never estimates from pending timeouts or idle cross-session gaps: only
+    terminal records with a real measured duration are used. Returns
+    "estimating" when no such history exists yet.
+    """
+    if remaining_runs <= 0:
+        return _format_hms(0.0)
+    durations: list[float] = []
+    try:
+        for rec in record_store.load_all():
+            if rec.status in ("succeeded", "failed", "timed_out", "cancelled") and rec.duration_seconds > 0:
+                durations.append(rec.duration_seconds)
+    except Exception:
+        return "estimating"
+    if not durations:
+        return "estimating"
+    avg = sum(durations) / len(durations)
+    return _format_hms(avg * remaining_runs)
+
+
+def _render_progress_line(
+    completed: int,
+    total: int,
+    current_label: str,
+    stage: str,
+    elapsed_seconds: float,
+    eta: str,
+) -> str:
+    width = 20
+    filled = width * completed // max(total, 1)
+    bar = "#" * filled + "-" * (width - filled)
+    return (
+        f"[{bar}] {completed}/{total} | current={current_label} | "
+        f"stage={stage} | elapsed={_format_hms(elapsed_seconds)} | ETA={eta}"
+    )
+
+
 def _decide_session_exit_code(
     *,
     max_runs: int,
@@ -2083,6 +2130,38 @@ def main() -> int:
     src_id_file = output_dir / "source_identity.json"
     src_id_file.write_text(json.dumps(source_identity, indent=2), encoding="utf-8")
 
+    # ---- Session preflight + one shared backend ------------------------------
+    # When any selected strategy needs an LLM, verify the GPU once and create a
+    # single reusable backend for the whole process. Loading the model per run
+    # caused repeated loads and T4 out-of-memory in the V2 Smoke runs.
+    selected_needs_llm = [
+        sn for sn in strategy_names
+        if STRATEGY_CAPABILITIES_DESIGN.get(sn, {}).get("llm", False)
+    ]
+    shared_backend: object | None = None
+    if selected_needs_llm:
+        if not args.dry_run:
+            preflight_ok, hw_id, sw_id, rejection_reason = _preflight_check(
+                dry_run=args.dry_run,
+                needs_llm=True,
+                strategy_name=selected_needs_llm[0],
+                backend_name=resolved_backend,
+            )
+            if not preflight_ok:
+                logger.error("Session preflight FAILED: %s", rejection_reason)
+                checkpoint_data.completion_status = "incomplete"
+                checkpoint_data.current_run_id = ""
+                checkpoint_mgr.write_atomic(checkpoint_data)
+                return 1
+        shared_backend = make_backend(
+            dry_run=args.dry_run,
+            model_path=args.model_path,
+            backend_name=resolved_backend,
+            openrouter_model=args.openrouter_model,
+            openrouter_timeout=args.openrouter_timeout,
+        )
+        logger.info("Shared backend created once for the whole process")
+
     # ---- Execute plan -------------------------------------------------------
     t_start = time.monotonic()
     results_agg: dict[str, dict[str, Any]] = {}
@@ -2136,6 +2215,11 @@ def main() -> int:
 
         # ---- Execute strategy -----------------------------------------------
         run_started_at = datetime.now(UTC).isoformat()
+        run_t0 = time.monotonic()
+        logger.info(
+            "RUN_START run_id=%s scenario=%s strategy=%s rep=%d",
+            run_id, scenario_id, strategy_name, rep,
+        )
         arm_workspace = workspace_dir / strategy_name
         arm_validation_command = _validation_commands.get(
             repository_id, _validation_commands.get(strategy_name)
@@ -2164,8 +2248,15 @@ def main() -> int:
             artifact_descriptors=_artifact_descriptors.get(repository_id, ()),
             max_completion_tokens_per_call=args.max_completion_tokens_per_call,
             max_total_workflow_tokens=args.max_total_workflow_tokens or max_tokens,
+            _backend=shared_backend if needs_llm else None,
         )
         run_ended_at = datetime.now(UTC).isoformat()
+        run_elapsed = time.monotonic() - run_t0
+        run_status_for_event = record_dict.get("status", "")
+        logger.info(
+            "RUN_END run_id=%s scenario=%s strategy=%s status=%s elapsed=%.3f",
+            run_id, scenario_id, strategy_name, run_status_for_event, run_elapsed,
+        )
 
         # Build persistent record
         failure_details: list[dict[str, Any]] = []
@@ -2253,6 +2344,21 @@ def main() -> int:
         )
         progress_mgr.write(progress_data)
 
+        # ---- Run-level progress line with cross-session ETA -----------------
+        pending_now = len(checkpoint_data.pending_run_ids)
+        eta = _estimate_run_eta(record_store, pending_now)
+        logger.info(
+            "%s",
+            _render_progress_line(
+                completed=checkpoint_data.total_completed,
+                total=total_planned,
+                current_label=f"{scenario_id}/{strategy_name}",
+                stage=status,
+                elapsed_seconds=elapsed,
+                eta=eta,
+            ),
+        )
+
         # Update partial summary
         if strategy_name not in results_agg:
             results_agg[strategy_name] = {
@@ -2268,13 +2374,27 @@ def main() -> int:
 
         progress_mgr.write_partial_summary(results_agg)
 
+        # ---- Deterministic dashboard artifacts after each terminal run ------
+        try:
+            from benchmark.checkpoint.reports import write_dashboard_artifacts
+
+            write_dashboard_artifacts(output_dir)
+        except Exception as exc:  # best-effort, never aborts the session
+            logger.warning("Dashboard artifact write skipped after run: %s", exc)
+
         # ---- HF sync after every completed/failed run --------------------
         if hf_uploader is not None:
+            hf_sync_t0 = time.monotonic()
+            logger.info("HF_SYNC_START run_id=%s kind=recovery", run_id)
             if not hf_uploader.upload_recovery():
                 hf_sync_ok = False
             # Snapshot after every 2 runs (chunk)
             if run_count > 0 and run_count % 2 == 0 and not hf_uploader.upload_snapshot(packager):
                 hf_sync_ok = False
+            logger.info(
+                "HF_SYNC_END run_id=%s kind=recovery ok=%s elapsed=%.3f",
+                run_id, hf_sync_ok, time.monotonic() - hf_sync_t0,
+            )
 
         run_count += 1
 
@@ -2346,12 +2466,18 @@ def main() -> int:
 
         # HF final sync
         if hf_uploader is not None:
+            hf_sync_t0 = time.monotonic()
+            logger.info("HF_SYNC_START run_id=final kind=final")
             if not hf_uploader.upload_snapshot(packager):
                 hf_sync_ok = False
             if not hf_uploader.upload_final(packager):
                 hf_sync_ok = False
             if not hf_uploader.upload_recovery():
                 hf_sync_ok = False
+            logger.info(
+                "HF_SYNC_END run_id=final kind=final ok=%s elapsed=%.3f",
+                hf_sync_ok, time.monotonic() - hf_sync_t0,
+            )
 
         if audit["total_failed"] > 0 or audit["duration_totals"].get("experiment_run_duration_seconds", 0) > 0:
             # Use audit for exit code decision
@@ -2389,10 +2515,16 @@ def main() -> int:
     progress_mgr.write(final_progress)
 
     if hf_uploader is not None:
+        hf_sync_t0 = time.monotonic()
+        logger.info("HF_SYNC_START run_id=incomplete kind=recovery")
         if not hf_uploader.upload_snapshot(packager):
             hf_sync_ok = False
         if not hf_uploader.upload_recovery():
             hf_sync_ok = False
+        logger.info(
+            "HF_SYNC_END run_id=incomplete kind=recovery ok=%s elapsed=%.3f",
+            hf_sync_ok, time.monotonic() - hf_sync_t0,
+        )
 
     logger.info(
         "Session incomplete: %d/%d runs completed. Resume with --resume or --resume-from-hf to continue.",

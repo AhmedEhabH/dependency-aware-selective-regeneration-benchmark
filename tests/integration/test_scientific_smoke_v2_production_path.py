@@ -806,3 +806,48 @@ def test_r5_leakage_agent_tools_reject_evaluator_paths(tmp_path):
     listing = tools.list_files(".")
     assert "evaluator_assets" not in listing.output
     assert not any("evaluator" in line for line in tools.read_file("todo/views.py").output.lower().splitlines())
+
+
+# ---------------------------------------------------------------------------
+# Step 7 — R7B shared-backend factory-count regression
+# ---------------------------------------------------------------------------
+
+
+def test_r7b_nine_cell_plan_creates_one_backend_object(tmp_path, monkeypatch):
+    """A nine-cell dry-run plan must create exactly one backend instance.
+
+    The V2 Smoke failures included repeated model loads per run causing T4
+    OOM. The runtime must create one shared backend before the execution loop
+    and reuse it across all runs.
+    """
+    import seven_arm_benchmark as cli
+
+    original_make_backend = cli.make_backend
+    calls: list[int] = []
+
+    def counting_backend(*args, **kwargs):  # type: ignore[no-untyped-def]
+        calls.append(1)
+        return original_make_backend(*args, **kwargs)
+
+    monkeypatch.setattr(cli, "make_backend", counting_backend)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "seven_arm_benchmark.py",
+            "--dry-run",
+            "--profile", "scientific-smoke-v2",
+            "--data-dir", str(PROJECT_ROOT / "benchmark_data"),
+            "--output-dir", str(tmp_path / "runs"),
+            "--source-commit", "b6a203183572e6ebd5531c83eb0c81ecd7419ec8",
+            "--deployed-build-id", "b6a2031",
+            "--max-attempts", "3",
+            "--max-completion-tokens-per-call", "1024",
+            "--max-total-workflow-tokens", "0",
+            "--timeout", "300",
+        ],
+    )
+
+    result = cli.main()
+    assert result == 0
+    assert len(calls) == 1, f"expected exactly one backend factory call, got {len(calls)}"

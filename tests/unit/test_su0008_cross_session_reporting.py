@@ -1099,3 +1099,290 @@ class TestB2EndToEndMetricsCrossSession:
         assert agg["validation_pass_rate"] == 1.0
         assert agg["sum_selected_artifact_count"] == 5
         assert agg["sum_regenerated_artifact_count"] == 3
+
+
+# ---------------------------------------------------------------------------
+# R7B-SMOKE-FINISH section 11: deterministic dashboard artifacts
+# ---------------------------------------------------------------------------
+
+SMOKE_STRATEGIES = ["monolithic", "selective", "iterative_repository_agent"]
+SMOKE_SCENARIOS = ["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"]
+
+
+def _smoke_plan(config_hash: str = "deadbeef") -> list[str]:
+    return [
+        _make_run_id(scn, strat, 1, config_hash)
+        for scn in SMOKE_SCENARIOS
+        for strat in SMOKE_STRATEGIES
+    ]
+
+
+def _make_smoke_checkpoint(
+    tmp_path: Path,
+    *,
+    completed_run_ids: list[str],
+    succeeded_run_ids: list[str],
+    failed_run_ids: list[str],
+    pending_run_ids: list[str] | None = None,
+    completion_status: str = "incomplete",
+    config_hash: str = "deadbeef",
+) -> CheckpointData:
+    planned = _smoke_plan(config_hash)
+    data = CheckpointData(
+        profile="smoke",
+        execution_plan_hash=config_hash,
+        planned_run_ids=planned,
+        completed_run_ids=completed_run_ids,
+        attempted_run_ids=list(completed_run_ids),
+        succeeded_run_ids=succeeded_run_ids,
+        failed_run_ids=failed_run_ids,
+        retryable_run_ids=[],
+        pending_run_ids=pending_run_ids or [r for r in planned if r not in completed_run_ids],
+        total_planned=9,
+        total_completed=len(completed_run_ids),
+        protocol_version="1.0",
+        model_identity="dry-run:mock",
+        config_hash=config_hash,
+        source_commit="abc1234",
+        completion_status=completion_status,
+        scenario_ids=SMOKE_SCENARIOS,
+        strategy_names=SMOKE_STRATEGIES,
+    )
+    CheckpointManager(tmp_path).write_atomic(data)
+    return data
+
+
+def _make_smoke_record(
+    tmp_path: Path,
+    run_id: str,
+    strategy_id: str,
+    scenario_id: str,
+    *,
+    status: str = "succeeded",
+    duration_seconds: float = 1.0,
+    model_calls: int = 0,
+    failure_classification: str = "",
+    failure_details: list[dict[str, Any]] | None = None,
+    token_usage: dict[str, int] | None = None,
+    selected: int = 0,
+    regenerated: int = 0,
+    preserved: int = 0,
+    migration: bool | None = None,
+    baseline: bool | None = None,
+    evaluator: bool | None = None,
+) -> RunRecordData:
+    rec = RunRecordData(
+        run_id=run_id,
+        profile="smoke",
+        repository_id="todo",
+        scenario_id=scenario_id,
+        strategy_id=strategy_id,
+        repetition=1,
+        seed=42,
+        status=status,
+        duration_seconds=duration_seconds,
+        token_usage=token_usage or {"prompt": 0, "completion": 0, "total": 0},
+        protocol_version="1.0",
+        source_commit="abc1234",
+        config_hash="deadbeef",
+        timestamp=datetime.now(UTC).isoformat(),
+        started_at=datetime.now(UTC).isoformat(),
+        ended_at=datetime.now(UTC).isoformat(),
+        model_calls=model_calls,
+        failure_classification=failure_classification,
+        failure_details=failure_details or [],
+        selected_artifact_count=selected,
+        regenerated_artifact_count=regenerated,
+        preserved_artifact_count=preserved,
+        migration_generation_passed=migration,
+        baseline_validation_passed=baseline,
+        scenario_evaluator_passed=evaluator,
+    )
+    RunRecordStore(tmp_path).append(rec)
+    return rec
+
+
+class TestDashboardArtifacts:
+    def _rebuild(self, tmp_path: Path) -> dict[str, Path]:
+        rebuild_experiment_reports(tmp_path)
+        dash = tmp_path / "dashboard"
+        return {
+            "summary": dash / "dashboard_summary.json",
+            "matrix": dash / "run_matrix.csv",
+            "strategy": dash / "strategy_summary.csv",
+            "failure": dash / "failure_summary.csv",
+        }
+
+    def test_exact_3x3_matrix_rows_sorted(self, tmp_path: Path) -> None:
+        """Smoke plan yields exactly 9 run_matrix rows in deterministic order."""
+        planned = _smoke_plan()
+        for i, run_id in enumerate(planned):
+            _make_smoke_record(
+                tmp_path, run_id, SMOKE_STRATEGIES[i % 3], SMOKE_SCENARIOS[i // 3],
+                status="succeeded", duration_seconds=1.0 + i,
+            )
+        _make_smoke_checkpoint(
+            tmp_path,
+            completed_run_ids=list(planned),
+            succeeded_run_ids=list(planned),
+            failed_run_ids=[],
+            completion_status="completed",
+        )
+
+        files = self._rebuild(tmp_path)
+        lines = files["matrix"].read_text(encoding="utf-8").strip().splitlines()
+        assert len(lines) == 10  # header + 9 rows
+        header = lines[0].split(",")
+        assert header[0] == "run_id"
+        assert header[2] == "strategy_name"
+        assert header[3] == "repetition"
+        assert header[4] == "status"
+        assert header[-1] == "scenario_evaluator_passed"
+        # Rows sorted by run_id
+        row_ids = [line.split(",")[0] for line in lines[1:]]
+        assert row_ids == sorted(planned)
+        assert len(set(row_ids)) == 9
+
+    def test_strategy_summary_exact_headers_and_order(self, tmp_path: Path) -> None:
+        planned = _smoke_plan()
+        for i, run_id in enumerate(planned):
+            _make_smoke_record(
+                tmp_path, run_id, SMOKE_STRATEGIES[i % 3], SMOKE_SCENARIOS[i // 3],
+                status="succeeded", duration_seconds=1.0, model_calls=2,
+                token_usage={"prompt": 10, "completion": 5, "total": 15},
+                selected=2, regenerated=1, preserved=0,
+                migration=True, baseline=True, evaluator=True,
+            )
+        _make_smoke_checkpoint(
+            tmp_path,
+            completed_run_ids=list(planned),
+            succeeded_run_ids=list(planned),
+            failed_run_ids=[],
+            completion_status="completed",
+        )
+
+        files = self._rebuild(tmp_path)
+        lines = files["strategy"].read_text(encoding="utf-8").strip().splitlines()
+        header = lines[0].split(",")
+        assert header == list(
+            ("strategy_name", "planned", "succeeded", "failed", "model_calls",
+             "prompt_tokens", "completion_tokens", "total_tokens", "duration_seconds",
+             "selected_artifact_count", "regenerated_artifact_count",
+             "preserved_artifact_count", "migration_passed", "baseline_passed",
+             "evaluator_passed")
+        )
+        # 3 strategies, sorted by name
+        strat_col = [line.split(",")[0] for line in lines[1:]]
+        assert strat_col == sorted(SMOKE_STRATEGIES)
+        # Each strategy planned 3, succeeded 3, 6 model_calls, 45 tokens
+        for line in lines[1:]:
+            parts = line.split(",")
+            assert parts[1] == "3"
+            assert parts[2] == "3"
+            assert parts[4] == "6"
+            assert parts[5] == "30"
+            assert parts[6] == "15"
+            assert parts[9] == "6"
+            assert parts[10] == "3"
+
+    def test_failure_summary_groups_classifications(self, tmp_path: Path) -> None:
+        planned = _smoke_plan()
+        _make_smoke_record(
+            tmp_path, planned[0], "selective", "todo-smoke-001",
+            status="failed", failure_classification="migration_generation",
+            failure_details=[{"message": "compile failed", "kind": "migration_generation"}],
+        )
+        _make_smoke_record(
+            tmp_path, planned[1], "selective", "todo-smoke-001",
+            status="failed", failure_classification="migration_generation",
+            failure_details=[{"message": "compile failed", "kind": "migration_generation"}],
+        )
+        _make_smoke_record(
+            tmp_path, planned[2], "monolithic", "todo-smoke-001",
+            status="timed_out", failure_classification="timeout",
+            failure_details=[{"message": "timed out", "kind": "timeout"}],
+        )
+        _make_smoke_checkpoint(
+            tmp_path,
+            completed_run_ids=[planned[0], planned[1], planned[2]],
+            succeeded_run_ids=[],
+            failed_run_ids=[planned[0], planned[1], planned[2]],
+        )
+
+        files = self._rebuild(tmp_path)
+        lines = files["failure"].read_text(encoding="utf-8").strip().splitlines()
+        header = lines[0].split(",")
+        assert header == ["failure_classification", "count", "run_ids", "top_messages"]
+        rows = lines[1:]
+        assert len(rows) == 2  # grouped by classification
+        first = rows[0].split(",")
+        assert first[0] == "migration_generation"
+        assert first[1] == "2"
+
+    def test_dashboard_summary_no_timestamp_and_counts(self, tmp_path: Path) -> None:
+        planned = _smoke_plan()
+        for i, run_id in enumerate(planned):
+            _make_smoke_record(
+                tmp_path, run_id, SMOKE_STRATEGIES[i % 3], SMOKE_SCENARIOS[i // 3],
+                status="succeeded", duration_seconds=1.0, model_calls=1,
+            )
+        _make_smoke_checkpoint(
+            tmp_path,
+            completed_run_ids=list(planned),
+            succeeded_run_ids=list(planned),
+            failed_run_ids=[],
+            completion_status="completed",
+        )
+
+        files = self._rebuild(tmp_path)
+        summary = json.loads(files["summary"].read_text(encoding="utf-8"))
+        assert "timestamp" not in summary
+        assert summary["total_planned"] == 9
+        assert summary["total_completed"] == 9
+        assert summary["total_succeeded"] == 9
+        assert summary["total_pending"] == 0
+        assert summary["total_model_calls"] == 9
+        assert summary["matrix_row_count"] == 9
+        assert summary["strategy_row_count"] == 3
+        assert summary["failure_row_count"] == 0
+
+    def test_idempotent_rebuild_produces_identical_files(self, tmp_path: Path) -> None:
+        planned = _smoke_plan()
+        for i, run_id in enumerate(planned):
+            _make_smoke_record(
+                tmp_path, run_id, SMOKE_STRATEGIES[i % 3], SMOKE_SCENARIOS[i // 3],
+                status="succeeded",
+            )
+        _make_smoke_checkpoint(
+            tmp_path,
+            completed_run_ids=list(planned),
+            succeeded_run_ids=list(planned),
+            failed_run_ids=[],
+            completion_status="completed",
+        )
+
+        first = self._rebuild(tmp_path)
+        second = self._rebuild(tmp_path)
+        for key in first:
+            assert first[key].read_text(encoding="utf-8") == second[key].read_text(
+                encoding="utf-8"
+            ), f"{key} changed between rebuilds"
+
+    def test_write_dashboard_artifacts_standalone(self, tmp_path: Path) -> None:
+        """write_dashboard_artifacts works without the full report rebuild."""
+        from benchmark.checkpoint.reports import write_dashboard_artifacts
+
+        planned = _smoke_plan()
+        _make_smoke_record(tmp_path, planned[0], "selective", "todo-smoke-001")
+        _make_smoke_checkpoint(
+            tmp_path,
+            completed_run_ids=[planned[0]],
+            succeeded_run_ids=[planned[0]],
+            failed_run_ids=[],
+        )
+
+        summary = write_dashboard_artifacts(tmp_path)
+        assert summary["total_planned"] == 9
+        assert (tmp_path / "dashboard" / "run_matrix.csv").is_file()
+        assert (tmp_path / "dashboard" / "strategy_summary.csv").is_file()
+        assert (tmp_path / "dashboard" / "failure_summary.csv").is_file()

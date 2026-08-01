@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import time
 from dataclasses import dataclass, field, replace
 from pathlib import Path
@@ -34,6 +35,8 @@ from benchmark.execution.state_machine import RunStateMachine
 from benchmark.execution.validation import FunctionalValidationResult, FunctionalValidator
 from benchmark.repositories.snapshot import resolve_allowed_artifacts
 from benchmark.selection.planner import ArtifactSelector, RegenerationPlanner, compute_artifact_counts
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -361,6 +364,8 @@ class BenchmarkRunner:
 
         # Stage 1 — generation guard
         if exec_result is not None:
+            logger.info("STAGE_START scenario=%s stage=generation_guard", scenario.scenario_id)
+            stage_start = time.monotonic()
             er = exec_result
             model_calls = getattr(er, "model_calls", 0)
             artifacts = getattr(er, "artifacts", [])
@@ -369,7 +374,15 @@ class BenchmarkRunner:
             )
             if model_calls == 0 or generated_count == 0:
                 feedback_parts.append("Generation guard: no model calls or no generated source")
+                logger.info(
+                    "STAGE_END scenario=%s stage=generation_guard passed=False elapsed=%.3f",
+                    scenario.scenario_id, time.monotonic() - stage_start,
+                )
                 return _build(False, "generation_guard", FailureKind.build)
+            logger.info(
+                "STAGE_END scenario=%s stage=generation_guard passed=True elapsed=%.3f",
+                scenario.scenario_id, time.monotonic() - stage_start,
+            )
 
         # Stage 2 — post-generation migration
         pgc = scenario.post_generation_command
@@ -377,6 +390,8 @@ class BenchmarkRunner:
             feedback_parts.append("Harness defect: require_new_migration=True but command is empty")
             return _build(False, "configuration", FailureKind.harness_defect)
         if pgc:
+            logger.info("STAGE_START scenario=%s stage=migration_generation", scenario.scenario_id)
+            stage_start = time.monotonic()
             from benchmark.execution.post_generation import run_post_generation_command
             migration_result = run_post_generation_command(
                 workspace_root=self._isolation.workspace.root,
@@ -392,11 +407,21 @@ class BenchmarkRunner:
                     feedback_parts.append(f"stdout: {m_stdout[:500]}")
                 if m_stderr:
                     feedback_parts.append(f"stderr: {m_stderr[:500]}")
+                logger.info(
+                    "STAGE_END scenario=%s stage=migration_generation passed=False elapsed=%.3f",
+                    scenario.scenario_id, time.monotonic() - stage_start,
+                )
                 return _build(False, "migration_generation", FailureKind.build)
+            logger.info(
+                "STAGE_END scenario=%s stage=migration_generation passed=True elapsed=%.3f",
+                scenario.scenario_id, time.monotonic() - stage_start,
+            )
 
         # Stage 3 — baseline validation
         validation_command = self._config.validation_command
         if validation_command:
+            logger.info("STAGE_START scenario=%s stage=baseline_validation", scenario.scenario_id)
+            stage_start = time.monotonic()
             validator = FunctionalValidator()
             baseline_result = validator.validate(
                 workspace_root=self._isolation.workspace.root,
@@ -413,11 +438,21 @@ class BenchmarkRunner:
                     feedback_parts.append(f"stdout: {b_stdout[:500]}")
                 if b_stderr:
                     feedback_parts.append(f"stderr: {b_stderr[:500]}")
+                logger.info(
+                    "STAGE_END scenario=%s stage=baseline_validation passed=False elapsed=%.3f",
+                    scenario.scenario_id, time.monotonic() - stage_start,
+                )
                 return _build(False, "baseline_validation", FailureKind.build)
+            logger.info(
+                "STAGE_END scenario=%s stage=baseline_validation passed=True elapsed=%.3f",
+                scenario.scenario_id, time.monotonic() - stage_start,
+            )
 
         # Stage 4 — isolated scenario evaluator
         evaluator_asset = scenario.evaluator_asset
         if evaluator_asset:
+            logger.info("STAGE_START scenario=%s stage=scenario_evaluator", scenario.scenario_id)
+            stage_start = time.monotonic()
             cpr = self._config.canonical_project_root
             if not cpr:
                 feedback_parts.append(
@@ -447,7 +482,15 @@ class BenchmarkRunner:
                     feedback_parts.append(f"checks: {check_str}")
                 if e_error:
                     feedback_parts.append(f"error: {e_error[:500]}")
+                logger.info(
+                    "STAGE_END scenario=%s stage=scenario_evaluator passed=False elapsed=%.3f",
+                    scenario.scenario_id, time.monotonic() - stage_start,
+                )
                 return _build(False, "scenario_evaluator", FailureKind.build)
+            logger.info(
+                "STAGE_END scenario=%s stage=scenario_evaluator passed=True elapsed=%.3f",
+                scenario.scenario_id, time.monotonic() - stage_start,
+            )
 
         # Stage 5 — final success decision
         return _build(True, None, None)
