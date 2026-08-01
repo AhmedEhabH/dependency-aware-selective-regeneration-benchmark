@@ -430,7 +430,19 @@ def _populate_workspace_source(workspace_dir: Path, snapshot_root: str | Path) -
             shutil.copy2(entry, dest)
 
 
-def make_isolation(workspace_dir: Path, active_snapshot_root: str | Path | None = None):  # type: ignore[no-untyped-def]
+def make_isolation(  # type: ignore[no-untyped-def]
+    workspace_dir: Path,
+    active_snapshot_root: str | Path | None = None,
+    snapshot_storage_root: str | Path | None = None,
+):
+    """Build an IsolationContext for *workspace_dir*.
+
+    ``snapshot_storage_root`` is the explicit shared snapshot storage root used
+    by ``stage_repository_snapshot`` (e.g. ``<output>/workspace/snapshots``).
+    When supplied it becomes the isolation ``snapshot_base`` so that an active
+    snapshot staged under the shared root is accepted for every child arm
+    workspace instead of falling back to ``<arm workspace>/snapshots``.
+    """
     from benchmark.execution.isolation import IsolationContext
     from benchmark.repositories.workspace import WorkspacePath
 
@@ -439,11 +451,19 @@ def make_isolation(workspace_dir: Path, active_snapshot_root: str | Path | None 
     (workspace_dir / "snapshots").mkdir(exist_ok=True)
     (workspace_dir / "runs").mkdir(exist_ok=True)
     (workspace_dir / "tmp").mkdir(exist_ok=True)
+    snapshot_base = Path(snapshot_storage_root) if snapshot_storage_root is not None else None
     if active_snapshot_root:
-        isolation = IsolationContext(workspace=ws, active_snapshot_root=active_snapshot_root)
+        isolation = IsolationContext(
+            workspace=ws,
+            snapshot_base=snapshot_base,
+            active_snapshot_root=active_snapshot_root,
+        )
         _populate_workspace_source(workspace_dir, active_snapshot_root)
         return isolation
-    return IsolationContext(workspace=ws)
+    return IsolationContext(
+        workspace=ws,
+        snapshot_base=snapshot_base,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -905,9 +925,15 @@ def _validate_cli_args(args: argparse.Namespace) -> None:
             errors.append(
                 "OPENROUTER_API_KEY environment variable is required for --backend openrouter"
             )
-    elif not args.dry_run and not args.backend:
+    elif not args.dry_run:
+        # Fail closed for the resolved Kaggle backend: an explicit
+        # `--backend kaggle-qwen` must NOT bypass the model requirement.
+        resolved_backend = args.backend or "kaggle-qwen"
         if not args.model_path:
-            errors.append("--model-path is required when not using --dry-run")
+            errors.append(
+                "--model-path is required when not using --dry-run "
+                f"(resolved backend: {resolved_backend})"
+            )
 
     if args.max_tokens > 0 and args.max_total_workflow_tokens > 0 and args.max_tokens != args.max_total_workflow_tokens:
         errors.append(
@@ -1002,11 +1028,15 @@ def _get_model_identity(
     backend_name: str | None = None,
     openrouter_model: str = "",
 ) -> str:
+    """Resolve the model identity for the experiment.
+
+    A non-dry Kaggle backend must never resolve to ``dry-run:mock``.
+    """
     if backend_name == "openrouter" and openrouter_model:
         return f"openrouter:{openrouter_model}"
-    if model_path:
-        p = Path(model_path)
-        return f"qwen:{p.name}"
+    if backend_name == "kaggle-qwen" or model_path:
+        p = Path(model_path) if model_path else None
+        return f"qwen:{p.name}" if p else "qwen:unresolved"
     return "dry-run:mock"
 
 
@@ -1126,6 +1156,7 @@ def _stage_and_smoke_run(
         validation_command=validation_command,
         max_tokens=max_tokens,
         active_snapshot_root=arm_active_snapshot_root,
+        snapshot_storage_root=snapshot_storage,
         _backend=_backend,
         max_completion_tokens_per_call=max_completion_tokens_per_call,
         max_total_workflow_tokens=max_total_workflow_tokens,
@@ -1151,6 +1182,7 @@ def _run_single_scenario_strategy(
     validation_command: list[str] | None = None,
     max_tokens: int = 0,
     active_snapshot_root: str | Path | None = None,
+    snapshot_storage_root: str | Path | None = None,
     editable_artifact_paths: tuple[str, ...] = (),
     artifact_descriptors: tuple[object, ...] = (),
     _backend: object = None,
@@ -1179,7 +1211,11 @@ def _run_single_scenario_strategy(
 
     strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph, artifact_descriptors=artifact_descriptors)
 
-    isolation = make_isolation(workspace_dir, active_snapshot_root=active_snapshot_root)
+    isolation = make_isolation(
+        workspace_dir,
+        active_snapshot_root=active_snapshot_root,
+        snapshot_storage_root=snapshot_storage_root,
+    )
 
     _approved_regen_strategies = frozenset({
         "monolithic", "selective", "iterative_repository_agent",
@@ -1399,6 +1435,39 @@ def _preflight_check(
         return False, "unknown", "unknown", f"Preflight exception: {exc}"
 
 
+def _decide_session_exit_code(
+    *,
+    max_runs: int,
+    all_runs_completed: bool,
+    session_created_run_count: int,
+    last_run_status: str,
+    hf_uploader_configured: bool,
+    hf_sync_ok: bool,
+    total_failed: int,
+) -> int:
+    """Decide the process exit code for this session.
+
+    Rules:
+      - Any required HF sync upload failure => 1 (local artifacts remain safe).
+      - Incomplete plan caused by ``--max-runs`` truncation where the newly
+        attempted run failed / timed out / was cancelled => 1 immediately
+        (do not wait for all planned runs before returning non-zero).
+      - Incomplete plan otherwise => 0 (resumable).
+      - Complete plan => 1 iff any run failed.
+    """
+    if hf_uploader_configured and not hf_sync_ok:
+        return 1
+    if not all_runs_completed:
+        if (
+            max_runs > 0
+            and session_created_run_count > 0
+            and last_run_status in ("failed", "timed_out", "cancelled")
+        ):
+            return 1
+        return 0
+    return 1 if total_failed > 0 else 0
+
+
 def main() -> int:
     args = parse_args()
     output_dir = Path(args.output_dir)
@@ -1422,7 +1491,7 @@ def main() -> int:
         source_commit=source_commit,
     )
     config_hash = _compute_config_hash(args)
-    resolved_backend = args.backend or ("kaggle-qwen" if not args.dry_run else "mock")
+    resolved_backend = "mock" if args.dry_run else (args.backend or "kaggle-qwen")
     model_identity = _get_model_identity(
         model_path=args.model_path,
         backend_name=resolved_backend,
@@ -1490,6 +1559,7 @@ def main() -> int:
     hf_uploader: Any = None
     hf_experiment_id = args.experiment_id or time.strftime("exp-%Y%m%d-%H%M%S")
     hf_enabled = bool(args.hf_sync and args.hf_repo_id)
+    hf_sync_ok: bool = True
     skip_run_ids: set[str] = set()
     resume_result = None
 
@@ -1882,7 +1952,12 @@ def main() -> int:
 
     # Apply --max-runs limit
     if args.max_runs > 0 and len(execution_plan) > args.max_runs:
-        logger.info("--max-runs=%d: limiting plan from %d to %d runs", args.max_runs, len(execution_plan), args.max_runs)
+        logger.info(
+            "--max-runs=%d: limiting plan from %d to %d runs",
+            args.max_runs,
+            len(execution_plan),
+            args.max_runs,
+        )
         execution_plan = execution_plan[:args.max_runs]
 
     # ---- Human-readable execution summary -----------------------------------
@@ -2012,6 +2087,8 @@ def main() -> int:
     t_start = time.monotonic()
     results_agg: dict[str, dict[str, Any]] = {}
     run_count = 0
+    session_created_run_ids: list[str] = []
+    last_run_status: str = ""
 
     for run_spec in execution_plan:
         run_id = run_spec["run_id"]
@@ -2082,6 +2159,7 @@ def main() -> int:
             validation_command=arm_validation_command,
             max_tokens=max_tokens,
             active_snapshot_root=arm_active_snapshot_root,
+            snapshot_storage_root=workspace_dir / "snapshots",
             editable_artifact_paths=_editable_paths.get(repository_id, ()),
             artifact_descriptors=_artifact_descriptors.get(repository_id, ()),
             max_completion_tokens_per_call=args.max_completion_tokens_per_call,
@@ -2141,6 +2219,8 @@ def main() -> int:
 
         # Persist immediately
         record_store.append(run_record_data)
+        session_created_run_ids.append(run_id)
+        last_run_status = status
 
         # Update checkpoint
         if run_id in checkpoint_data.pending_run_ids:
@@ -2190,24 +2270,29 @@ def main() -> int:
 
         # ---- HF sync after every completed/failed run --------------------
         if hf_uploader is not None:
-            hf_uploader.upload_recovery()
+            if not hf_uploader.upload_recovery():
+                hf_sync_ok = False
             # Snapshot after every 2 runs (chunk)
-            if run_count > 0 and run_count % 2 == 0:
-                hf_uploader.upload_snapshot(packager)
+            if run_count > 0 and run_count % 2 == 0 and not hf_uploader.upload_snapshot(packager):
+                hf_sync_ok = False
 
         run_count += 1
 
         # ---- Human-readable chunk complete message ------------------------
         completed_now = checkpoint_data.total_completed
         pending_now = len(checkpoint_data.pending_run_ids)
-        remote_status = "SYNCED" if hf_uploader is not None else "N/A"
+        remote_status = (
+            "SYNCED" if hf_sync_ok else "FAILED_LOCAL_SAFE"
+        ) if hf_uploader is not None else "N/A"
         remaining = pending_now
         next_action = "run this same cell again." if remaining > 0 else "all runs complete."
         print(
             f"Chunk complete.\n"
-            f"Completed: {completed_now}/{total_planned}\n"
+            f"Terminal: {completed_now}/{total_planned}\n"
+            f"Succeeded: {len(checkpoint_data.succeeded_run_ids)}\n"
+            f"Failed: {len(checkpoint_data.failed_run_ids)}\n"
             f"Pending: {remaining}\n"
-            f"Remote checkpoint: {remote_status}\n"
+            f"HF sync status: {remote_status}\n"
             f"Next session action: {next_action}"
         )
 
@@ -2244,7 +2329,7 @@ def main() -> int:
     if all_runs_completed:
         checkpoint_mgr.write_atomic(checkpoint_data)
 
-        progress_mgr.mark_completed()
+        progress_mgr.mark_completed(completed_with_failures=audit["total_failed"] > 0)
 
         logger.info(
             "Benchmark complete: %d/%d runs  success=%d failure=%d elapsed=%.1fs  label=%s",
@@ -2261,9 +2346,12 @@ def main() -> int:
 
         # HF final sync
         if hf_uploader is not None:
-            hf_uploader.upload_snapshot(packager)
-            hf_uploader.upload_final(packager)
-            hf_uploader.upload_recovery()
+            if not hf_uploader.upload_snapshot(packager):
+                hf_sync_ok = False
+            if not hf_uploader.upload_final(packager):
+                hf_sync_ok = False
+            if not hf_uploader.upload_recovery():
+                hf_sync_ok = False
 
         if audit["total_failed"] > 0 or audit["duration_totals"].get("experiment_run_duration_seconds", 0) > 0:
             # Use audit for exit code decision
@@ -2272,10 +2360,17 @@ def main() -> int:
             non_zero = False
         if non_zero:
             logger.warning("Non-zero exit due to %d failures", audit["total_failed"])
-            return 1
-        return 0
+        return _decide_session_exit_code(
+            max_runs=args.max_runs,
+            all_runs_completed=True,
+            session_created_run_count=len(session_created_run_ids),
+            last_run_status=last_run_status,
+            hf_uploader_configured=hf_uploader is not None,
+            hf_sync_ok=hf_sync_ok,
+            total_failed=audit["total_failed"],
+        )
 
-    # Incomplete -- save progress and exit cleanly
+    # Incomplete -- save progress
     checkpoint_data.completion_status = "incomplete"
     checkpoint_mgr.write_atomic(checkpoint_data)
 
@@ -2294,14 +2389,24 @@ def main() -> int:
     progress_mgr.write(final_progress)
 
     if hf_uploader is not None:
-        hf_uploader.upload_snapshot(packager)
-        hf_uploader.upload_recovery()
+        if not hf_uploader.upload_snapshot(packager):
+            hf_sync_ok = False
+        if not hf_uploader.upload_recovery():
+            hf_sync_ok = False
 
     logger.info(
         "Session incomplete: %d/%d runs completed. Resume with --resume or --resume-from-hf to continue.",
         checkpoint_data.total_completed, total_planned,
     )
-    return 0
+    return _decide_session_exit_code(
+        max_runs=args.max_runs,
+        all_runs_completed=False,
+        session_created_run_count=len(session_created_run_ids),
+        last_run_status=last_run_status,
+        hf_uploader_configured=hf_uploader is not None,
+        hf_sync_ok=hf_sync_ok,
+        total_failed=audit["total_failed"],
+    )
 
 
 def _build_interrupted_progress_data(

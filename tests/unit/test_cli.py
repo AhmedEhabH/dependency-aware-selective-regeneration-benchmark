@@ -726,8 +726,14 @@ class TestScientificSmokeV1Profile:
         """Parse both notebooks and verify all V2 benchmark command cells."""
         import json
 
-        runtime_source_commit = "cb25e9fb3e6cb5eecead4dc640aedda30d4625b0"
-        runtime_build_id = "cb25e9f"
+        canonical_nb = PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb"
+        with open(canonical_nb, encoding="utf-8") as f:
+            canonical = json.load(f)
+        canonical_setup = "".join(
+            next(c for c in canonical["cells"] if c.get("id") == "setup-cell")["source"]
+        )
+        runtime_source_commit = canonical_setup.split('SOURCE_COMMIT = "')[1].split('"')[0]
+        runtime_build_id = runtime_source_commit[:7]
 
         notebook_paths = [
             PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb",
