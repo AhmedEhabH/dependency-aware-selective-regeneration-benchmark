@@ -7,6 +7,8 @@ import textwrap
 from pathlib import Path
 from typing import Any
 
+import pytest
+
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 SCRIPT = PROJECT_DIR / "seven_arm_benchmark.py"
 BENCHMARK_DATA = PROJECT_DIR / "benchmark_data"
@@ -808,6 +810,32 @@ class TestScientificSmokeV1Profile:
                 s1 = c1["source"] if isinstance(c1["source"], str) else "".join(c1["source"])
                 s2 = c2["source"] if isinstance(c2["source"], str) else "".join(c2["source"])
                 assert s1 == s2, f"code cell [{c1.get('id','')}] source mismatch between notebooks"
+
+    @pytest.mark.parametrize(
+        "notebook_path",
+        [
+            PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb",
+            PROJECT_DIR / "kaggle_upload" / "notebooks" / "seven_arm_benchmark.ipynb",
+        ],
+    )
+    def test_all_deployed_notebook_code_cells_compile(self, notebook_path: Path) -> None:
+        """Every code cell in each deployed notebook must compile as Python."""
+        import json
+
+        assert notebook_path.is_file(), f"notebook not found: {notebook_path}"
+        with open(notebook_path, encoding="utf-8") as f:
+            nb = json.load(f)
+        for idx, cell in enumerate(nb["cells"]):
+            if cell.get("cell_type") != "code":
+                continue
+            cell_id = cell.get("id", "<no-id>")
+            source = "".join(cell.get("source", []))
+            try:
+                compile(source, f"{notebook_path}:{cell_id}", "exec")
+            except SyntaxError as exc:
+                raise AssertionError(
+                    f"{notebook_path}: code cell index {idx} id '{cell_id}' failed to compile: {exc}"
+                ) from exc
 
     def test_notebook_live_run_helpers_present(self) -> None:
         """KAGGLE-SMOKE-V2 section 12: live executor + actionable errors."""
