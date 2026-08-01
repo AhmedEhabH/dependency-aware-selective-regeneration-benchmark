@@ -3,16 +3,18 @@ from pathlib import Path
 
 import pytest
 
-from benchmark.core.enums import ActionKind, ArtifactType, BlastRadius, RunStatus
+from benchmark.core.enums import ActionKind, ArtifactType, BlastRadius, FailureKind, RunStatus
 from benchmark.core.models import (
     AcceptanceCriterion,
     ArchitectureConstraint,
     ArtifactRef,
     ArtifactUniverse,
+    FailureRecord,
     ImpactPrediction,
     LLMResponse,
     RepositorySnapshot,
     RequirementChange,
+    RunIdentity,
     RunRecord,
     Scenario,
 )
@@ -1225,6 +1227,57 @@ class TestClassifyValidationRepairability:
 
     def test_empty_feedback_is_repairable_code(self) -> None:
         assert self._classify() == "repairable_code"
+
+
+class TestRepairEligibilityUsesCanonicalClassifier:
+    """The final repair decision must agree with the canonical classifier."""
+
+    @staticmethod
+    def _record(message: str, *, stage: str = "baseline_validation") -> RunRecord:
+        return RunRecord(
+            identity=RunIdentity(
+                run_id="repair-eligibility",
+                protocol_version="1.0",
+                repository_commit_sha="snapshot",
+                scenario_id="scenario",
+                strategy_name="monolithic",
+            ),
+            status=RunStatus.failed,
+            failures=(
+                FailureRecord(
+                    failure_kind=FailureKind.build,
+                    message=message,
+                    details=message,
+                    stage=stage,
+                ),
+            ),
+        )
+
+    @staticmethod
+    def _eligible(record: RunRecord) -> bool:
+        runner = object.__new__(BenchmarkRunner)
+        return runner._is_repairable_failure(record)
+
+    def test_project_local_missing_module_remains_repairable(self) -> None:
+        record = self._record("ModuleNotFoundError: No module named 'todo.missing'")
+        assert self._eligible(record) is True
+
+    def test_generated_cannot_import_name_remains_repairable(self) -> None:
+        record = self._record(
+            "ImportError: cannot import name 'Task' from 'todo.models'"
+        )
+        assert self._eligible(record) is True
+
+    def test_declared_runtime_module_is_not_repairable(self) -> None:
+        record = self._record("ModuleNotFoundError: No module named 'django'")
+        assert self._eligible(record) is False
+
+    def test_generation_oom_is_not_repairable(self) -> None:
+        record = self._record(
+            "Qwen generation failed: CUDA out of memory",
+            stage="regeneration",
+        )
+        assert self._eligible(record) is False
 
 
 class TestBuildScenarioContext:
