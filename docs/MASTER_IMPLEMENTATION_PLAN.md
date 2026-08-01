@@ -97,3 +97,9 @@ This plan defines the sequence of implementation phases for a research-grade ben
 - OpenRouter backend uses Python standard library only (no external SDK).
 - Correctness > efficiency.
 - Python 3.11, Conda environment.
+
+## R6 Status (2026-08-01)
+
+R6 deployment closure is **COMPLETE PENDING INDEPENDENT AUDIT** (corrected directive in `..\R6_OpenCode_Package_CORRECTED\`, supersedes all earlier R6 directives). Runtime source commit `cb25e9f`; deployed bundle commit `54a0462`; manifest committed-tree counts 0/0/0; Todo baseline tests deployed = 47; evaluator assets deployed = 3 + 3 fingerprints. Local scripted records = 9/9; real Qwen records = 0/9; Kaggle not launched; push not performed; tag not created; Pilot not authorized. Next: independent R6 audit, then push, Kaggle preflight, and nine real Qwen records.
+
+R6_DEPLOYMENT_CLOSURE_AUDIT_REQUIRED
