@@ -265,6 +265,97 @@ def test_r5_representative_agent_cell_todo_smoke_001(tmp_path):
     assert_scripted_smoke_v2_cell(cell)
 
 
+def test_r5_shared_snapshot_root_arm_child_topology_succeeds(tmp_path):
+    """KAGGLE-SMOKE-V2: shared snapshot storage is accepted for every arm child.
+
+    Reproduces the real failing topology:
+      shared storage  = <root>/workspace/snapshots
+      active snapshot = <root>/workspace/snapshots/todo/<revision>
+      arm workspace   = <root>/workspace/<strategy>
+    The isolation base must be the explicit shared storage root, never the
+    arm-local `<arm>/snapshots` directory. Execution must reach successful
+    generation and validation instead of an isolation failure.
+    """
+    from benchmark.repositories.snapshot import stage_repository_snapshot
+    from seven_arm_benchmark import (
+        ExecutionProfile,
+        ScenarioProvider,
+        _run_single_scenario_strategy,
+        make_isolation,
+    )
+    from tests.support.scripted_llm_backend import ScriptedSmokeV2Backend, ScriptedSmokeV2Mode
+    from tests.support.scripted_smoke_v2 import SMOKE_V2_EDITABLE_PATHS, VALIDATION_COMMAND
+
+    root = tmp_path / "shared-topology"
+    shared_workspace = root / "workspace"
+    storage = shared_workspace / "snapshots"
+
+    staged = stage_repository_snapshot(
+        source_root=BASELINE_TODO,
+        snapshot_storage_root=storage,
+        repository_id="todo",
+        revision_id="todo-smoke-001",
+    )
+
+    provider = ScenarioProvider(SCENARIOS_DIR)
+    provider.get_scenario("todo-smoke-001")
+
+    # 1. every child arm workspace accepts the shared storage root and gets the
+    #    immutable active snapshot copied into its workspace.
+    for strategy in SMOKE_V2_STRATEGY_NAMES:
+        arm_ws = shared_workspace / strategy
+        isolation = make_isolation(
+            arm_ws,
+            active_snapshot_root=staged,
+            snapshot_storage_root=storage,
+        )
+        report = isolation.verify()
+        assert report.passed, f"{strategy}: {report.message}"
+        assert isolation.snapshot_base == storage.resolve()
+        assert (arm_ws / "manage.py").is_file(), f"{strategy}: workspace source not populated"
+
+    # 2. one full run through the shared-root topology succeeds end to end.
+    arm_ws = shared_workspace / "monolithic"
+    profile = ExecutionProfile(
+        name="smoke-test",
+        label="scientific-smoke-v2-shared-root",
+        scenario_count=1,
+        strategies=["monolithic"],
+        repetitions=1,
+        is_publication=False,
+    )
+    backend = ScriptedSmokeV2Backend(ScriptedSmokeV2Mode.MONOLITHIC, baseline_repo=BASELINE_TODO)
+    record_dict, success = _run_single_scenario_strategy(
+        scenario_id="todo-smoke-001",
+        strategy_name="monolithic",
+        scenario_provider=provider,
+        dry_run=False,
+        profile=profile,
+        model_path=None,
+        protocol_version="1.0",
+        max_attempts=3,
+        timeout_seconds=300,
+        dep_graph=None,
+        workspace_dir=arm_ws,
+        backend_name="mock",
+        validation_command=VALIDATION_COMMAND,
+        max_tokens=0,
+        active_snapshot_root=str(staged),
+        snapshot_storage_root=storage,
+        editable_artifact_paths=SMOKE_V2_EDITABLE_PATHS,
+        _backend=backend,
+    )
+    assert success == 1, (
+        f"expected success, got status={record_dict.get('status')} "
+        f"failures={record_dict.get('failures')}"
+    )
+    assert record_dict.get("status") == "succeeded"
+    assert record_dict.get("baseline_validation_passed") is True
+    assert record_dict.get("migration_generation_passed") is True
+    assert record_dict.get("scenario_evaluator_passed") is True
+    assert record_dict.get("total_workflow_model_calls", 0) > 0
+
+
 # ---------------------------------------------------------------------------
 # Step 5 — full 3 scenarios x 3 arms x 1 repetition matrix
 # ---------------------------------------------------------------------------

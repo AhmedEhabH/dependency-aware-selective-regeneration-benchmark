@@ -181,11 +181,19 @@ class ProgressManager:
             encoding="utf-8",
         )
 
-    def mark_completed(self) -> None:
+    def mark_completed(self, completed_with_failures: bool = False) -> None:
+        """Write the completed marker.
+
+        ``completed_with_failures`` records whether the plan reached a terminal
+        state while some runs failed — the marker must never conflate plan
+        terminality with scientific success. Defaults to ``False`` for backward
+        compatibility with resume discovery.
+        """
         self._completed_marker.write_text(
             json.dumps({
                 "completed_at": datetime.now(UTC).isoformat(),
                 "status": "completed",
+                "completed_with_failures": completed_with_failures,
             }),
             encoding="utf-8",
         )

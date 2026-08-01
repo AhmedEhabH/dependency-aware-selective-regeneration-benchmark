@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
-import time
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -10,6 +10,7 @@ import pytest
 
 from benchmark.checkpoint.checkpoint import CheckpointData, CheckpointManager, ProgressData, ProgressManager
 from benchmark.checkpoint.hf_sync import (
+    RECOVERY_FILES,
     HfResumeManager,
     HfUploader,
     RemoteLayout,
@@ -280,17 +281,17 @@ class TestHfUploader:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-upload-1")
 
-        with patch.object(HfUploader, "_upload_with_retry", return_value=True) as mock_upload:
+        with patch.object(HfUploader, "_upload_batch_with_retry", return_value=True) as mock_upload:
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
             result = uploader.upload_recovery()
             assert result is True
-            assert mock_upload.call_count >= 1
+            assert mock_upload.call_count == 1
 
     def test_upload_after_failed_run(self, tmp_path: Path) -> None:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-fail")
 
-        with patch.object(HfUploader, "_upload_with_retry", return_value=True):
+        with patch.object(HfUploader, "_upload_batch_with_retry", return_value=True):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
             result = uploader.upload_recovery()
             assert result is True
@@ -302,16 +303,17 @@ class TestHfUploader:
         checkpoint_path = tmp_path / "checkpoint.json"
         assert checkpoint_path.is_file()
 
-        uploaded_files: list[str] = []
+        captured: list[list[tuple[Path, str]]] = []
 
-        def track_upload(local_path, remote_path, **kwargs):
-            uploaded_files.append(local_path.name)
+        def track(pairs, remote_dir, commit_message, **kwargs):
+            captured.append(pairs)
             return True
 
-        with patch.object(HfUploader, "_upload_with_retry", side_effect=track_upload):
+        with patch.object(HfUploader, "_upload_batch_with_retry", side_effect=track):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
             uploader.upload_recovery()
-            assert "checkpoint.json" in uploaded_files
+            assert captured
+            assert any(local.name == "checkpoint.json" for local, _ in captured[0])
 
     def test_no_next_run_before_local_persistence(self, tmp_path: Path) -> None:
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-order")
@@ -328,11 +330,11 @@ class TestHfUploader:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-retry")
 
-        with patch.object(HfUploader, "_upload_with_retry", return_value=False) as mock_upload:
+        with patch.object(HfUploader, "_upload_batch_with_retry", return_value=False) as mock_upload:
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token", max_retries=2)
             result = uploader.upload_recovery()
             assert result is False
-            assert mock_upload.call_count >= 1
+            assert mock_upload.call_count == 1
 
     def test_remote_failure_does_not_corrupt_local(self, tmp_path: Path) -> None:
         _create_recovery_artifacts(tmp_path)
@@ -341,7 +343,7 @@ class TestHfUploader:
         before_checkpoint = (tmp_path / "checkpoint.json").read_bytes()
         before_records = (tmp_path / "run_records.jsonl").read_bytes()
 
-        with patch.object(HfUploader, "_upload_with_retry", return_value=False):
+        with patch.object(HfUploader, "_upload_batch_with_retry", return_value=False):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
             uploader.upload_recovery()
 
@@ -352,32 +354,37 @@ class TestHfUploader:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-backoff")
 
-        sleep_calls: list[float] = []
-
-        original_sleep = time.sleep
-        with patch.object(HfUploader, "_upload_with_retry", return_value=False):
+        with (
+            patch("benchmark.checkpoint.hf_sync.HfApi.create_commit", side_effect=RuntimeError("boom")),
+            patch("time.sleep") as mock_sleep,
+        ):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token", max_retries=1, base_delay=0.1)
-            uploader.upload_recovery()
+            assert uploader.upload_recovery() is False
+        assert mock_sleep.call_count == 1
 
     def test_recovery_files_updated_correctly(self, tmp_path: Path) -> None:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-update")
 
-        uploaded_paths: list[str] = []
+        captured_remotes: list[str] = []
 
-        def track(local_path, remote_path, **kwargs):
-            uploaded_paths.append(remote_path)
+        def track(pairs, remote_dir, commit_message, **kwargs):
+            for _local, remote in pairs:
+                captured_remotes.append(remote)
             return True
 
-        with patch.object(HfUploader, "_upload_with_retry", side_effect=track):
+        with patch.object(HfUploader, "_upload_batch_with_retry", side_effect=track):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
             uploader.upload_recovery()
+
+        assert captured_remotes
+        assert all("recovery/" in r for r in captured_remotes)
 
     def test_snapshot_immutable_chunk(self, tmp_path: Path) -> None:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-chunk")
 
-        with patch.object(HfUploader, "_upload_with_retry", return_value=True):
+        with patch.object(HfUploader, "_upload_batch_with_retry", return_value=True):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
             pkg = ResultsPackager(tmp_path)
             result = uploader.upload_snapshot(pkg)
@@ -387,18 +394,108 @@ class TestHfUploader:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-only-recovery")
 
-        uploaded: list[str] = []
+        captured: list[list[tuple[Path, str]]] = []
 
-        def track(local_path, remote_path, **kwargs):
-            uploaded.append(remote_path)
+        def track(pairs, remote_dir, commit_message, **kwargs):
+            captured.append(pairs)
             return True
 
-        with patch.object(HfUploader, "_upload_with_retry", side_effect=track):
+        with patch.object(HfUploader, "_upload_batch_with_retry", side_effect=track):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
             uploader.upload_recovery()
 
-        for path in uploaded:
-            assert "recovery/" in path
+        assert captured
+        for local, remote in captured[0]:
+            assert "recovery/" in remote
+            assert _is_path_allowed(local, tmp_path)
+
+
+class TestHfUploaderBatchedCommits:
+    """KAGGLE-SMOKE-V2: one commit per batch via HfApi.create_commit."""
+
+    def _uploader(self, tmp_path: Path, exp: str = "exp-batch") -> HfUploader:
+        layout = RemoteLayout("smoke", "1.0", "abc1234", exp)
+        return HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
+
+    def test_one_recovery_batch_is_one_create_commit(self, tmp_path: Path) -> None:
+        _create_recovery_artifacts(tmp_path)
+        uploader = self._uploader(tmp_path)
+
+        with (
+            patch("benchmark.checkpoint.hf_sync.HfApi.create_commit", return_value=MagicMock()) as mock_create,
+            patch("benchmark.checkpoint.hf_sync.HfApi.upload_file") as mock_upload_file,
+        ):
+            assert uploader.upload_recovery() is True
+
+        assert mock_create.call_count == 1
+        assert mock_upload_file.call_count == 0
+        call = mock_create.call_args
+        ops = call.kwargs.get("operations")
+        assert ops, "no commit operations created"
+        remote_names = sorted(op.path_in_repo.split("/")[-1] for op in ops)
+        expected = sorted(
+            {name for name in list(RECOVERY_FILES) + ["remote_sync.json"] if (tmp_path / name).is_file()}
+        )
+        assert remote_names == expected
+        assert call.kwargs["repo_id"] == TEST_REPO
+        assert call.kwargs["repo_type"] == "dataset"
+
+    def test_snapshot_batch_is_one_commit(self, tmp_path: Path) -> None:
+        _create_recovery_artifacts(tmp_path)
+        uploader = self._uploader(tmp_path)
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi.create_commit", return_value=MagicMock()) as mock_create:
+            assert uploader.upload_snapshot(ResultsPackager(tmp_path)) is True
+
+        assert mock_create.call_count == 1
+
+    def test_final_batch_is_one_commit(self, tmp_path: Path) -> None:
+        _create_recovery_artifacts(tmp_path)
+        uploader = self._uploader(tmp_path)
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi.create_commit", return_value=MagicMock()) as mock_create:
+            assert uploader.upload_final(ResultsPackager(tmp_path)) is True
+
+        assert mock_create.call_count == 1
+
+    def test_429_writes_failure_record_and_returns_false(self, tmp_path: Path) -> None:
+        _create_recovery_artifacts(tmp_path)
+        uploader = self._uploader(tmp_path)
+
+        with (
+            patch(
+                "benchmark.checkpoint.hf_sync.HfApi.create_commit",
+                side_effect=RuntimeError("429 Too Many Requests"),
+            ),
+            patch("time.sleep"),
+        ):
+            assert uploader.upload_recovery() is False
+
+        assert uploader.failure_store.has_failures()
+        assert (tmp_path / "checkpoint.json").is_file()
+        assert (tmp_path / "run_records.jsonl").is_file()
+
+    def test_no_empty_commits(self, tmp_path: Path) -> None:
+        uploader = self._uploader(tmp_path)
+
+        with patch("benchmark.checkpoint.hf_sync.HfApi.create_commit", return_value=MagicMock()) as mock_create:
+            assert uploader._upload_batch_with_retry([], "recovery", "empty batch") is False
+
+        assert mock_create.call_count == 0
+
+    def test_no_secret_values_in_logs(self, tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
+        _create_recovery_artifacts(tmp_path)
+        uploader = self._uploader(tmp_path)
+
+        with (
+            caplog.at_level(logging.WARNING, logger="benchmark.hf_sync"),
+            patch("benchmark.checkpoint.hf_sync.HfApi.create_commit", side_effect=RuntimeError("429")),
+            patch("time.sleep"),
+        ):
+            uploader.upload_recovery()
+
+        combined = "\n".join(r.getMessage() for r in caplog.records)
+        assert "hf_test_token" not in combined
 
 
 # ---------------------------------------------------------------------------
@@ -627,7 +724,7 @@ class TestHfResumeManager:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-token")
 
-        with patch.object(HfUploader, "_upload_with_retry", return_value=True):
+        with patch.object(HfUploader, "_upload_batch_with_retry", return_value=True):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_secret_xyz")
             uploader.upload_recovery()
 
@@ -667,7 +764,7 @@ class TestHfIntegration:
 
     def test_remote_sync_exists_before_upload(self, tmp_path: Path) -> None:
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-sync-order")
-        with patch.object(HfUploader, "_upload_with_retry", return_value=True):
+        with patch.object(HfUploader, "_upload_batch_with_retry", return_value=True):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
             uploader.upload_recovery()
         sync_path = tmp_path / "remote_sync.json"
@@ -680,13 +777,7 @@ class TestHfIntegration:
         _create_recovery_artifacts(tmp_path)
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-integ-complete")
 
-        uploaded_after_complete: list[str] = []
-
-        def track(local_path, remote_path, **kwargs):
-            uploaded_after_complete.append(remote_path)
-            return True
-
-        with patch.object(HfUploader, "_upload_with_retry", side_effect=track):
+        with patch.object(HfUploader, "_upload_batch_with_retry", return_value=True):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
             result = uploader.upload_recovery()
             assert result is True
@@ -697,7 +788,7 @@ class TestHfIntegration:
         store.append(_make_record_data("fail-run-1", status="failed"))
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-integ-fail")
 
-        with patch.object(HfUploader, "_upload_with_retry", return_value=True):
+        with patch.object(HfUploader, "_upload_batch_with_retry", return_value=True):
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token")
             result = uploader.upload_recovery()
             assert result is True
@@ -710,7 +801,7 @@ class TestHfIntegration:
         with patch("benchmark.checkpoint.hf_sync.HfApi") as mock_api_cls:
             mock_api = MagicMock()
             mock_api_cls.return_value = mock_api
-            mock_api.upload_file.side_effect = HfHubHTTPError("mock upload failure")
+            mock_api.create_commit.side_effect = HfHubHTTPError("mock upload failure")
             uploader = HfUploader(tmp_path, TEST_REPO, layout, token="hf_test_token", max_retries=0)
             uploader.upload_recovery()
             assert uploader.failure_store.has_failures()

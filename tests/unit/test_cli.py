@@ -316,6 +316,150 @@ class TestCliOpenRouter:
         assert "OPENROUTER_API_KEY" in combined
 
 
+class TestKaggleQwenFailClosed:
+    """KAGGLE-SMOKE-V2: fail closed when the Qwen model is missing or unresolved."""
+
+    def test_explicit_kaggle_qwen_empty_model_path_fails(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        result = _run(
+            "--backend", "kaggle-qwen",
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--model-path", "",
+        )
+        assert result.returncode == 1
+        combined = result.stdout + result.stderr
+        assert "--model-path is required" in combined
+        assert "kaggle-qwen" in combined
+
+    def test_implicit_kaggle_qwen_empty_model_path_fails(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        result = _run(
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+        )
+        assert result.returncode == 1
+        combined = result.stdout + result.stderr
+        assert "--model-path is required" in combined
+
+    def test_explicit_kaggle_qwen_nonexistent_model_path_fails(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        result = _run(
+            "--backend", "kaggle-qwen",
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--model-path", str(tmp_path / "no-such-qwen"),
+        )
+        assert result.returncode == 1
+        combined = result.stdout + result.stderr
+        assert "does not exist" in combined
+
+    def test_kaggle_qwen_requires_config_and_weights(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        model_dir = tmp_path / "model"
+        model_dir.mkdir(parents=True)
+        (model_dir / "config.json").write_text("{}")
+        result = _run(
+            "--backend", "kaggle-qwen",
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--model-path", str(model_dir),
+        )
+        assert result.returncode == 1
+        combined = result.stdout + result.stderr
+        assert "no weight files" in combined
+
+    def test_missing_model_does_not_create_experiment(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        output_dir = tmp_path / "runs"
+        result = _run(
+            "--backend", "kaggle-qwen",
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--model-path", "",
+            "--output-dir", str(output_dir),
+        )
+        assert result.returncode == 1
+        assert not output_dir.exists() or not (output_dir / "checkpoint.json").exists()
+
+
+class TestModelIdentity:
+    """KAGGLE-SMOKE-V2: a non-dry Kaggle backend can never be dry-run:mock."""
+
+    @staticmethod
+    def _identity(model_path: str | None = None, backend: str | None = None, openrouter: str = "") -> str:
+        from seven_arm_benchmark import _get_model_identity
+
+        return _get_model_identity(
+            model_path=model_path,
+            backend_name=backend,
+            openrouter_model=openrouter,
+        )
+
+    def test_kaggle_qwen_with_model_path_is_qwen_directory(self) -> None:
+        identity = self._identity(model_path="/kaggle/input/qwen2.5-coder-7b", backend="kaggle-qwen")
+        assert identity == "qwen:qwen2.5-coder-7b"
+
+    def test_kaggle_qwen_without_model_path_never_dry_run_mock(self) -> None:
+        identity = self._identity(backend="kaggle-qwen")
+        assert identity != "dry-run:mock"
+        assert identity.startswith("qwen:")
+
+    def test_mock_dry_run_identity_remains_dry_run_mock(self) -> None:
+        assert self._identity(backend="mock") == "dry-run:mock"
+        assert self._identity(backend=None) == "dry-run:mock"
+
+    def test_openrouter_identity(self) -> None:
+        identity = self._identity(backend="openrouter", openrouter="nvidia/nemotron-3-super-120b-a12b:free")
+        assert identity == "openrouter:nvidia/nemotron-3-super-120b-a12b:free"
+
+
+class TestSessionExitCode:
+    """KAGGLE-SMOKE-V2: one-run cell fails immediately on a failed scientific run."""
+
+    @staticmethod
+    def _decide(**kwargs: Any) -> int:
+        from seven_arm_benchmark import _decide_session_exit_code
+
+        defaults: dict[str, Any] = {
+            "max_runs": 1,
+            "all_runs_completed": False,
+            "session_created_run_count": 1,
+            "last_run_status": "succeeded",
+            "hf_uploader_configured": False,
+            "hf_sync_ok": True,
+            "total_failed": 0,
+        }
+        defaults.update(kwargs)
+        return _decide_session_exit_code(**defaults)
+
+    def test_one_succeeded_cell_returns_zero(self) -> None:
+        assert self._decide(last_run_status="succeeded") == 0
+
+    def test_one_failed_cell_returns_nonzero(self) -> None:
+        assert self._decide(last_run_status="failed") == 1
+        assert self._decide(last_run_status="timed_out") == 1
+        assert self._decide(last_run_status="cancelled") == 1
+
+    def test_nine_terminal_failures_returns_nonzero(self) -> None:
+        assert self._decide(
+            all_runs_completed=True,
+            total_failed=9,
+        ) == 1
+
+    def test_complete_plan_with_all_success_returns_zero(self) -> None:
+        assert self._decide(all_runs_completed=True, total_failed=0) == 0
+
+    def test_hf_sync_failure_returns_nonzero(self) -> None:
+        assert self._decide(
+            hf_uploader_configured=True,
+            hf_sync_ok=False,
+        ) == 1
+
+    def test_incomplete_without_max_runs_returns_zero(self) -> None:
+        assert self._decide(max_runs=0, last_run_status="failed") == 0
+
+
 class TestCliHelp:
     def test_scientific_smoke_v2_in_profile_help(self) -> None:
         result = _run("--help")

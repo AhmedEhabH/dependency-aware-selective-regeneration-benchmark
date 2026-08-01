@@ -4,6 +4,99 @@ from benchmark.execution.isolation import IsolationContext
 from benchmark.repositories.workspace import WorkspacePath
 
 
+class TestMakeIsolationSharedSnapshot:
+    """KAGGLE-SMOKE-V2: shared snapshot storage accepted for every arm."""
+
+    @staticmethod
+    def _make_shared_topology(tmp_path: Path) -> tuple[Path, Path, Path]:
+        """Build shared storage + a staged snapshot + a child arm workspace."""
+        storage = tmp_path / "workspace" / "snapshots"
+        active = storage / "todo" / "todo-smoke-001"
+        active.mkdir(parents=True)
+        (active / "todo" / "models.py").parent.mkdir(parents=True)
+        (active / "todo" / "models.py").write_text("class Task: pass\n")
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        return storage, active, arm_ws
+
+    def test_shared_snapshot_accepted_for_all_three_arm_workspaces(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import make_isolation
+
+        storage, active, _ = self._make_shared_topology(tmp_path)
+        for strategy in ("monolithic", "selective", "iterative_repository_agent"):
+            arm_ws = tmp_path / "workspace" / strategy
+            isolation = make_isolation(
+                arm_ws,
+                active_snapshot_root=active,
+                snapshot_storage_root=storage,
+            )
+            report = isolation.verify()
+            assert report.passed, f"{strategy}: {report.message}"
+            assert isolation.snapshot_base == storage.resolve()
+
+    def test_active_snapshot_strict_descendant_of_declared_storage(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import make_isolation
+
+        storage, active, arm_ws = self._make_shared_topology(tmp_path)
+        isolation = make_isolation(
+            arm_ws,
+            active_snapshot_root=active,
+            snapshot_storage_root=storage,
+        )
+        rel = isolation.active_snapshot_root.resolve().relative_to(
+            isolation.snapshot_base.resolve()
+        )
+        assert rel != Path(".")
+        assert rel.parts, "active snapshot must be a strict descendant"
+
+    def test_default_arm_snapshots_base_rejects_shared_active(self, tmp_path: Path) -> None:
+        """Without the explicit storage root the arm-local base must reject the shared active."""
+        from seven_arm_benchmark import make_isolation
+
+        storage, active, arm_ws = self._make_shared_topology(tmp_path)
+        isolation = make_isolation(arm_ws, active_snapshot_root=active)
+        report = isolation.verify()
+        assert report.passed is False
+        assert "outside" in report.message
+
+    def test_outside_prefix_sibling_still_fails(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import make_isolation
+
+        storage = tmp_path / "workspace" / "snapshots"
+        storage.mkdir(parents=True)
+        sibling = tmp_path / "workspace" / "snapshots-extra" / "repo" / "rev1"
+        sibling.mkdir(parents=True)
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        isolation = make_isolation(
+            arm_ws,
+            active_snapshot_root=sibling,
+            snapshot_storage_root=storage,
+        )
+        report = isolation.verify()
+        assert report.passed is False
+
+    def test_workspace_source_populated_from_immutable_active_snapshot(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import make_isolation
+
+        storage, active, arm_ws = self._make_shared_topology(tmp_path)
+        make_isolation(
+            arm_ws,
+            active_snapshot_root=active,
+            snapshot_storage_root=storage,
+        )
+        assert (arm_ws / "todo" / "models.py").is_file()
+        assert (arm_ws / "todo" / "models.py").read_text() == "class Task: pass\n"
+
+    def test_snapshot_storage_root_without_active_snapshot(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import make_isolation
+
+        storage = tmp_path / "workspace" / "snapshots"
+        storage.mkdir(parents=True)
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        isolation = make_isolation(arm_ws, snapshot_storage_root=storage)
+        assert isolation.snapshot_base == storage.resolve()
+        assert isolation.verify().passed
+
+
 class TestIsolationContext:
     def test_verify_creates_report(self, tmp_path: Path) -> None:
         ws = WorkspacePath(root=str(tmp_path))
