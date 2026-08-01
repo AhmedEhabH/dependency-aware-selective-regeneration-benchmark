@@ -274,9 +274,10 @@ class KaggleQwenBackend:
                 )
                 eos_token_id = self._tokenizer.eos_token_id
                 last_token_id = generated_ids[-1].item()
-                finish_reason = (
-                    "eos" if last_token_id == eos_token_id else "length"
-                )
+                if last_token_id == eos_token_id:  # noqa: SIM108 - contract requires explicit assignments
+                    finish_reason = "eos"
+                else:
+                    finish_reason = "length"
 
             logger.info(
                 "GENERATION_SUCCEEDED prompt_tokens=%d completion_tokens=%d total_tokens=%d finish_reason=%s",

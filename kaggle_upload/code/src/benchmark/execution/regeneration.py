@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import asyncio
 import ast
+import asyncio
 import contextlib
 import hashlib
 import json
@@ -301,12 +301,12 @@ def _choice_max_length_failures(tree: ast.Module) -> list[str]:
             if not isinstance(choices, ast.Attribute) or choices.attr != "choices":
                 continue
             enum_name = _dotted_name(choices.value)
-            values = enum_values.get(enum_name)
-            if not values or not isinstance(max_length, ast.Constant) or not isinstance(
+            enum_members = enum_values.get(enum_name)
+            if not enum_members or not isinstance(max_length, ast.Constant) or not isinstance(
                 max_length.value, int
             ):
                 continue
-            required = max(len(item) for item in values)
+            required = max(len(item) for item in enum_members)
             if max_length.value < required:
                 failures.append(
                     "choice_max_length_too_small: "

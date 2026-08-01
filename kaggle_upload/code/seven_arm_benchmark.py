@@ -1575,6 +1575,23 @@ def _read_persisted_run_records(output_dir: Path) -> list[dict[str, Any]]:
     return records
 
 
+def _should_stop_after_terminal_run(
+    *,
+    last_run_outcome: str,
+    hf_uploader_configured: bool,
+    hf_sync_ok: bool,
+) -> bool:
+    """Return True when the continuous session must stop before the next run.
+
+    Scientific success and scientific failure are measured data: persist and
+    continue.  An engineering blocker (infrastructure, harness, timeout,
+    unknown) or a required HF sync failure must stop the session immediately.
+    """
+    return last_run_outcome == "engineering_blocker" or (
+        hf_uploader_configured and not hf_sync_ok
+    )
+
+
 def _decide_session_exit_code(
     *,
     max_runs: int,
@@ -1592,14 +1609,19 @@ def _decide_session_exit_code(
 
     Rules:
       - Any required HF sync upload failure => 1 (local artifacts remain safe).
+      - Any persisted engineering blocker => 1, including an incomplete
+        continuous session whose last run was an engineering blocker.
       - A measured model/build/requirement/regression/architecture failure is
         a valid scientific terminal outcome and does not fail the process.
       - Infrastructure, harness, timeout/cancellation, unknown failures, or
         required HF sync failure => 1.
-      - Incomplete plan otherwise => 0 (resumable).
-      - Complete plan => 1 iff an engineering blocker was persisted.
+      - Bounded one-run scientific result => 0.
+      - Incomplete plan without an engineering blocker => 0 (resumable).
+      - Complete plan => 0 unless an engineering blocker was persisted.
     """
     if hf_uploader_configured and not hf_sync_ok:
+        return 1
+    if engineering_blocker_count > 0:
         return 1
     if not all_runs_completed:
         if max_runs > 0 and session_created_run_count > 0:
@@ -1615,7 +1637,7 @@ def _decide_session_exit_code(
                 return 1
         return 0
     _ = total_failed  # scientific failures are measured data, not job failure
-    return 1 if engineering_blocker_count > 0 else 0
+    return 0
 
 
 def main() -> int:
@@ -2532,6 +2554,22 @@ def main() -> int:
             )
 
         run_count += 1
+
+        # ---- Immediate stop for engineering blockers / required HF failures
+        # Terminal record, evidence, progress, and HF-sync state are already
+        # persisted.  A scientific failure or success must NOT stop the
+        # continuous session; an engineering blocker or a required HF sync
+        # failure must stop immediately with a non-zero exit.
+        if _should_stop_after_terminal_run(
+            last_run_outcome=last_run_outcome,
+            hf_uploader_configured=hf_uploader is not None,
+            hf_sync_ok=hf_sync_ok,
+        ):
+            logger.info(
+                "SESSION_STOP run_id=%s outcome=%s hf_sync_ok=%s",
+                run_id, last_run_outcome, hf_sync_ok,
+            )
+            break
 
         # ---- Human-readable chunk complete message ------------------------
         completed_now = checkpoint_data.total_completed
