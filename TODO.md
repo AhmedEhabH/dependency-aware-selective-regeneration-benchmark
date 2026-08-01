@@ -36,7 +36,19 @@
 - **Priority:** HIGH
 - **Category:** Audit
 - **Description:** Independent audit of the four closed contracts + preflight gate; then update Kaggle code dataset + notebook, run one real cell (require 1/9), continue to 9/9
-- **Status:** PENDING (sentinel `R7C_REAL_RUN_ROOT_CLOSURE_AUDIT_REQUIRED`)
+- **Status:** SUPERSEDED — see R7C-07 (full-gate audit of the correction)
+
+### R7C-07 — Import Independent Root Correction and Run Full Gate
+- **Priority:** HIGH
+- **Category:** Audit Correction
+- **Description:** Prior R7C report incorrectly called a 1,451-test subset the full suite; true first full suite = 23 failed / 1,759 passed / 32 skipped (root cause: blanket `baseline_validation => infrastructure_nonrepairable` in `src/benchmark/execution/runner.py`). Import the independent GPT-5.6 Thinking correction via bundle fast-forward (`ffa179a` + `6d6aa36`, HEAD `6d6aa36`, pushed): exact 23 former failures pass; DRF import mapping, exact version verification, fail-fast preflight, driver-level VRAM, CPU-offload rejection, Python 3.12 contract, stale source identity corrected. Run the full Windows gate (full suite now 1,790 passed / 32 skipped / 0 failed; mypy 0; compileall clean; builder rerun clean; identity test passes SOURCE_COMMIT=ffa179a / DEPLOYED_BUILD_ID=ffa179a). Valid real Qwen remains 0/9; Kaggle blocked.
+- **Status:** COMPLETE (ffa179a + 6d6aa36 imported, pushed; full gate green)
+
+### R7C-08 — Independent Full-Gate Audit of Corrected R7C Branch
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent audit of the corrected branch HEAD `6d6aa36` (repair classifier, preflight dependency/version/VRAM/device-map contracts, Python 3.12 runtime contract, notebook source identity, exact 23 former failures passing, current full gate); then update Kaggle code dataset + notebook, run one real cell (require 1/9), continue to 9/9
+- **Status:** PENDING (sentinel `R7C_CORRECTION_FULL_GATE_AUDIT_REQUIRED`)
 
 ## Phase 0 — Bootstrap and Environment
 

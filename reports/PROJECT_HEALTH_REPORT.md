@@ -2,9 +2,9 @@
 
 **Report Date:** 2026-08-01
 **Project:** Dependency-Aware Selective Regeneration Benchmark
-**Branch:** `fix/kaggle-smoke-v2-finish` (from the post-R6 runtime-blockers tail)
+**Branch:** `fix/kaggle-smoke-v2-real-run-root` (from the post-R6 runtime-blockers tail)
 **R4/R5/R6 status:** R4 ACCEPTED AND FROZEN (`f5ae826`); R5 ACCEPTED AND FROZEN (`7761c48`); R6 ACCEPTED AND FROZEN (`949e9c2`) by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01); milestone branch **published** to origin (freeze commit `4b2dd27` = first publication HEAD, local/remote equality verified).
-**Post-R6:** two real Kaggle attempts failed pre-model (`exp-20260801-024041`, `exp-20260801-024624`; both 0 model calls); real runtime blockers closed and pinned — fix `de3163f`, bundle pin `fb60972` (core accepted by the independent runtime-fix audit); R7A hardening closed all four audit findings (source `d50e89e`, bundle `4c73db6`); a later real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0 regenerated files. **R7B Smoke Finish complete (`bff0a82` + `17207bf`) — observable Qwen Smoke; R7B_SMOKE_FINISH_AUDIT_REQUIRED.**
+**Post-R6:** two real Kaggle attempts failed pre-model (`exp-20260801-024041`, `exp-20260801-024624`; both 0 model calls); real runtime blockers closed and pinned — fix `de3163f`, bundle pin `fb60972` (core accepted by the independent runtime-fix audit); R7A hardening closed all four audit findings (source `d50e89e`, bundle `4c73db6`); a later real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0 regenerated files; the attempt `exp-20260801-123125` failed at runtime root (FP16 OOM + dependency drift). **R7B Smoke Finish complete (`bff0a82` + `17207bf`); R7C real-run root closure complete (`7a80e53` + `f01b8f0`) + exact correction imported (`ffa179a` + `6d6aa36`, HEAD `6d6aa36`, pushed); R7C_CORRECTION_FULL_GATE_AUDIT_REQUIRED.**
 
 ---
 
@@ -19,19 +19,23 @@ hardening closed the four independently reproduced findings. A further real
 attempt reached **81 model calls / 47,694 tokens but produced 0 succeeded /
 0 regenerated files (0/9)** — **not scientific evidence**. The **R7B Smoke
 Finish** makes the Qwen Smoke run observable and executable on branch
-`fix/kaggle-smoke-v2-finish` (runtime commit `bff0a82`, bundle pin `17207bf`):
-strict single-fence JSON output normalization, Qwen chat-template token
-counting + `inference_mode` + CUDA cache cleanup after every generation
-(success/OOM/other-exception), one shared backend instance per process, live
-progress line + cross-session ETA + structured log events, deterministic
-dashboard artifacts under `OUTPUT_DIR/dashboard` allowlisted for HF recovery,
-smoke-only `max_completion_tokens_per_call: 1024`, and a notebook live-run
-rewrite (`kaggle_console.log` persistence, actionable failure errors,
-dashboard display, continuous precondition gating). Local engineering is green:
-local scripted records = 9/9, bundled CLI dry-run = 9/9, full suite = 1,735
-passed. Real-model evidence remains absent: real Qwen records = 0/9; the failed
-attempts are preserved and not deleted. An independent audit of the R7B Smoke
-Finish is required before any Kaggle relaunch.
+`fix/kaggle-smoke-v2-finish` (runtime commit `bff0a82`, bundle pin `17207bf`),
+and the **R7C real-run root closure** (branch `fix/kaggle-smoke-v2-real-run-root`,
+`7a80e53` + `f01b8f0`) closed the four root contracts the FP16/deps-drift
+attempt `exp-20260801-123125` exposed (exact runtime pins, int8 default, frozen
+scenario context, infrastructure-nonrepairable repair) plus a
+`--kaggle-preflight-only` gate. The prior R7C report incorrectly called a
+1,451-test subset the full suite; the true first full suite was **23 failed /
+1,759 passed / 32 skipped** (root cause = blanket `baseline_validation =>
+infrastructure_nonrepairable`). The independent GPT-5.6 Thinking correction
+(`ffa179a` + `6d6aa36`, HEAD `6d6aa36`, pushed) makes the exact 23 former
+failures pass and corrects DRF import mapping, exact version verification,
+fail-fast preflight, driver-level VRAM, CPU-offload rejection, the Python 3.12
+runtime contract, and stale source identity. Local engineering is green: local
+scripted records = 9/9, bundled CLI dry-run = 9/9, full suite = 1,790 passed.
+Real-model evidence remains absent: real Qwen records = 0/9; the failed
+attempts are preserved and not deleted. An independent full-gate audit of the
+corrected R7C branch is required before any Kaggle relaunch.
 
 **Legacy note:** Legacy Seven-Arm V1 results (including the `v0.7.0-smoke-passed` tag and the 7/7-arm Kaggle orchestration smoke) are **historical** and superseded. They are not V2 evidence. The current experiment is the Three-Arm Scientific Smoke V2 (`scientific-smoke-v2` profile): 3 frozen scenarios (todo-smoke-001/002/003) × 3 arms (monolithic, selective, iterative_repository_agent) × 1 repetition = 9 runs. Smoke evidence is non-publication.
 
@@ -43,27 +47,30 @@ Finish is required before any Kaggle relaunch.
 
 | Metric | Value |
 |---|---|
-| Full suite (final gate, Windows / Python 3.11.5) | **1,735 passed / 32 skipped / 0 failed** |
-| Focused set (directive §7, unit + integration) | all passed |
-| CLI + builder + bundle preflight | 91 passed |
-| Bundled CLI nine-cell dry-run regression | passed (1 passed) |
+| Full suite (final gate, Windows / Python 3.11.5) | **1,790 passed / 32 skipped / 0 failed** |
+| Prior full-suite truth | "1,451" was a SUBSET; true first full suite 23 failed / 1,759 passed / 32 skipped |
+| Regression gates (r4 + su0010a + su0011) | 119 passed |
+| Preflight / runner / cli / builder | 13 / 41 / 72 / 11 passed |
+| Scientific-smoke-v2 production path / bundle preflight | 41 / 24 passed |
+| Bundled CLI nine-cell dry-run regression | passed |
 | Builder rerun | success; bundle valid; deterministic |
 
 ### Deployment bundle
 
 | Category | Files | Bytes |
 |---|---|---:|
-| code | 88 | — |
+| code | 90 | — |
 | data | 56 | — |
-| notebooks | 1 | 31,023 |
-| **total** | **145** | **858,225** |
+| notebooks | 1 | — |
+| **total** | **147** | **894,993** |
 
 ### Integrity and content
 
 ```text
 Builder                  = scripts/build_upload_bundle.py only
-R7B runtime source       = bff0a82 (fix(kaggle): make Qwen Smoke observable and executable)
-R7B bundle pin           = 17207bf (chore(deploy): pin final observable Smoke V2 bundle)
+R7C runtime source       = 7a80e53 (fix(kaggle): close environment memory and prompt contracts)
+R7C bundle pin           = f01b8f0 (chore(deploy): pin preflighted int8 Smoke V2 bundle)
+R7C correction           = ffa179a + 6d6aa36 (HEAD 6d6aa36; SOURCE_COMMIT=ffa179a, DEPLOYED_BUILD_ID=ffa179a)
 Runtime fix commit       = de3163f (post-R6 runtime blockers; bundle fb60972)
 R7A hardening            = d50e89e + 4c73db6 (four audit findings closed)
 HF results repo          = NabilDo/selective-regeneration-experiment-results
@@ -73,7 +80,7 @@ Preflight over bundle    = passed
 ### Static and type gates
 
 ```text
-Ruff            = 0 new findings versus b6a2031 (baseline 91, current 91)
+Ruff            = 0 new versus a4e9186 except ARG004 (identity-locked; inherent to reviewed commit)
 Mypy --strict   = 0 issues
 Compileall      = clean
 git diff --check = clean
@@ -100,8 +107,9 @@ pip check       = clean
 | Kaggle attempts (2) | FAILED pre-model — preserved (`exp-20260801-024041`, `exp-20260801-024624`) |
 | Kaggle runtime fix | COMMITTED AND PINNED (`de3163f`, `fb60972`) — core accepted by independent audit |
 | R7A pre-rerun hardening | COMPLETE (`d50e89e` + `4c73db6`) — four audit findings closed |
-| R7B Smoke Finish | COMPLETE (`bff0a82` + `17207bf`) — observable Qwen Smoke; independent audit required |
-| Kaggle relaunch + nine real Qwen records | Blocked until R7B Smoke Finish audit passes |
+| R7B Smoke Finish | COMPLETE (`bff0a82` + `17207bf`) — observable Qwen Smoke |
+| R7C real-run root closure | COMPLETE (`7a80e53` + `f01b8f0`) + exact correction imported (`ffa179a` + `6d6aa36`, HEAD `6d6aa36`) — full-gate audit required |
+| Kaggle relaunch + nine real Qwen records | Blocked until the full-gate audit of the corrected R7C branch passes |
 | Pilot | Not authorized |
 | Research experiment | Planned |
 
@@ -113,7 +121,7 @@ pip check       = clean
 Local scripted production proof = 9/9
 Generated bundle dry-run plan   = 9/9
 Kaggle attempts                 = 2 failed pre-model (preserved, 0 model calls)
-Latest real attempt             = 0/9, 81 model calls, 47,694 tokens, 0 regenerated files
+Latest real attempt             = exp-20260801-123125 (FP16 → OOM; deps drifted)
 Real Qwen records               = 0/9
 Real token/call/time comparison = unavailable
 Publication evidence            = unavailable
@@ -126,7 +134,7 @@ No real-model success or efficiency claim is authorized before the real Smoke re
 
 ## Near goal
 
-Independent R7B Smoke Finish audit → relaunch nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 repetition) with the observable bundle.
+Independent full-gate audit of the corrected R7C branch (HEAD `6d6aa36`) → relaunch nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 repetition) with the corrected preflighted bundle.
 
 ## Far goal
 
@@ -134,6 +142,6 @@ Independent real-result audit → stable `v2.0.0-scientific-smoke` tag → freez
 
 ## Next action
 
-Independent audit of the R7B Smoke Finish. Do not relaunch Kaggle, tag, merge, or force-push before that audit passes.
+Independent full-gate audit of the corrected R7C branch (HEAD `6d6aa36`). Do not relaunch Kaggle, tag, merge, or force-push before that audit passes.
 
-R7B_SMOKE_FINISH_AUDIT_REQUIRED
+R7C_CORRECTION_FULL_GATE_AUDIT_REQUIRED
