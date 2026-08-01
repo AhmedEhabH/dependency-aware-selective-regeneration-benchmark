@@ -19,7 +19,14 @@ from benchmark.core.models import (
     Scenario,
 )
 from benchmark.execution.isolation import IsolationContext
-from benchmark.execution.runner import BenchmarkRunner, RunnerConfig
+from benchmark.execution.post_generation import PostGenerationResult
+from benchmark.execution.runner import (
+    BenchmarkRunner,
+    RunnerConfig,
+    _ScientificValidationResult,
+    _compact_head_tail,
+    _extract_root_cause,
+)
 from benchmark.repositories.snapshot import resolve_allowed_artifacts
 from benchmark.repositories.workspace import WorkspacePath
 
@@ -1197,6 +1204,23 @@ class TestClassifyValidationRepairability:
             == "repairable_code"
         )
 
+    def test_invalid_submodule_of_installed_dependency_is_repairable(self) -> None:
+        assert (
+            self._classify(
+                stderr="ModuleNotFoundError: No module named 'django.nonexistent'"
+            )
+            == "repairable_code"
+        )
+        assert (
+            self._classify(
+                stderr=(
+                    "ModuleNotFoundError: No module named "
+                    "'rest_framework_simplejwt'"
+                )
+            )
+            == "repairable_code"
+        )
+
     def test_cuda_oom_is_infrastructure_nonrepairable(self) -> None:
         assert (
             self._classify(stderr="CUDA out of memory. Tried to allocate 512.00 MiB")
@@ -1227,6 +1251,84 @@ class TestClassifyValidationRepairability:
 
     def test_empty_feedback_is_repairable_code(self) -> None:
         assert self._classify() == "repairable_code"
+
+
+class TestRepairEvidencePreservesRootCause:
+    """Replay the exact long-traceback failure shape observed on Kaggle."""
+
+    def test_head_tail_compaction_retains_final_exception(self) -> None:
+        traceback = (
+            "Traceback (most recent call last):\n"
+            + "  File \"django/core/management/__init__.py\", line 1\n" * 200
+            + "ModuleNotFoundError: No module named 'rest_framework_simplejwt'\n"
+        )
+
+        compact = _compact_head_tail(traceback)
+
+        assert "chars omitted" in compact
+        assert compact.startswith("Traceback")
+        assert compact.rstrip().endswith(
+            "ModuleNotFoundError: No module named 'rest_framework_simplejwt'"
+        )
+        assert _extract_root_cause(compact) == (
+            "ModuleNotFoundError: No module named 'rest_framework_simplejwt'"
+        )
+
+    def test_repair_context_contains_root_exception_and_scope_failures(
+        self, tmp_path: Path
+    ) -> None:
+        runner = _make_runner(tmp_path)
+        traceback = (
+            "Traceback (most recent call last):\n"
+            + "  File \"django/core/management/__init__.py\", line 1\n" * 200
+            + "ModuleNotFoundError: No module named 'rest_framework_simplejwt'\n"
+        )
+        scientific = _ScientificValidationResult(
+            migration=PostGenerationResult(
+                passed=False,
+                exit_code=1,
+                stdout="",
+                stderr=traceback,
+                duration_seconds=0.5,
+            ),
+            baseline=None,
+            evaluator=None,
+            passed=False,
+            failed_stage="migration_generation",
+            failure_kind=FailureKind.build,
+            feedback="migration failed",
+            duration_seconds=0.5,
+        )
+        failures = (
+            FailureRecord(
+                failure_kind=FailureKind.model_output,
+                message=(
+                    "out_of_scope_change: todo/permissions.py expected action "
+                    "'preserve' but generated output differs"
+                ),
+                stage="regeneration",
+            ),
+            FailureRecord(
+                failure_kind=FailureKind.model_output,
+                message=(
+                    "out_of_scope_change: todo/urls.py expected action 'preserve' "
+                    "but generated output differs"
+                ),
+                stage="regeneration",
+            ),
+        )
+
+        prompt = runner._build_repair_context(scientific, failures)
+
+        assert prompt is not None
+        assert "Failed stage: migration_generation" in prompt
+        assert (
+            "Root cause: ModuleNotFoundError: No module named "
+            "'rest_framework_simplejwt'"
+        ) in prompt
+        assert "todo/permissions.py" in prompt
+        assert "todo/urls.py" in prompt
+        assert "root exception retained" in prompt
 
 
 class TestRepairEligibilityUsesCanonicalClassifier:
@@ -1322,6 +1424,9 @@ class TestBuildScenarioContext:
                 (ArtifactRef(path="todo/models.py", artifact_type=ArtifactType.source), ActionKind.regenerate),
                 (ArtifactRef(path="todo/views.py", artifact_type=ArtifactType.source), ActionKind.preserve),
             ),
+            expected_artifact_instructions=(
+                ("todo/models.py", "add Task.Priority and priority field"),
+            ),
         )
         ctx = runner._build_scenario_context(scenario)
         assert ctx.scenario_id == "todo-smoke-001"
@@ -1329,6 +1434,9 @@ class TestBuildScenarioContext:
         assert ctx.expected_action_for("todo/views.py") == "preserve"
         assert ctx.acceptance_criteria == ("app runs",)
         assert ctx.architecture_constraints == ("single app",)
+        assert ctx.instruction_for("todo/models.py") == (
+            "add Task.Priority and priority field"
+        )
 
     def test_empty_expected_actions_yields_empty_contract(self, tmp_path: Path) -> None:
         runner = self._runner(tmp_path)

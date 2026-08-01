@@ -120,6 +120,7 @@ class _FakeTokenizer:
 
     def __init__(self, chat_template_ok: bool = True) -> None:
         self.apply_calls = 0
+        self.last_messages: object | None = None
         if chat_template_ok:
             self.apply_chat_template = self._apply  # type: ignore[method-assign]
         else:
@@ -127,6 +128,7 @@ class _FakeTokenizer:
 
     def _apply(self, messages: object, tokenize: bool = False, add_generation_prompt: bool = False) -> str:
         self.apply_calls += 1
+        self.last_messages = messages
         return "<im_start>user\nprompt<im_end>"
 
     def __call__(self, text: str, return_tensors: str | None = None) -> dict[str, _FakeTensor]:
@@ -197,6 +199,30 @@ class TestKaggleQwenBackend:
         assert tokenizer.apply_calls == 1
         assert response.text == "generated output"
         assert response.finish_reason == "eos"
+        assert tokenizer.last_messages == [
+            {
+                "role": "system",
+                "content": (
+                    "You are a precise source-code transformation engine. Follow "
+                    "every scope, architecture, and output constraint literally. "
+                    "Make minimal edits, preserve unrelated behavior, never invent "
+                    "undeclared dependencies, and return only the requested complete "
+                    "artifact content."
+                ),
+            },
+            {"role": "user", "content": "write code"},
+        ]
+
+    @pytest.mark.asyncio
+    async def test_zero_token_generation_is_empty_model_output_not_backend_error(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        backend, _tokenizer = self._inject_fakes(monkeypatch)
+        backend._model = _FakeModel(output_length=8)
+        response = await backend.generate("write code", max_tokens=64)
+        assert response.text == ""
+        assert response.token_usage.completion_tokens == 0
+        assert response.finish_reason == "empty"
 
     @pytest.mark.asyncio
     async def test_generate_fails_without_usable_chat_template(

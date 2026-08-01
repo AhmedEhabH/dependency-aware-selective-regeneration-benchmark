@@ -335,6 +335,10 @@ class TestRegenerationScenarioContext:
                 ("todo/models.py", "modify"),
                 ("todo/migrations/", "create"),
             ),
+            artifact_instructions=(
+                ("todo/models.py", "add Task.Priority and priority field"),
+                ("todo/migrations/", "create exactly one migration"),
+            ),
         )
 
     def test_frozen(self) -> None:
@@ -354,6 +358,21 @@ class TestRegenerationScenarioContext:
         ctx = self._context()
         assert ctx.expected_action_for("todo/views.py") == "preserve"
         assert ctx.expected_action_for("manage.py") == "preserve"
+
+    def test_instruction_for_exact_and_directory_match(self) -> None:
+        ctx = self._context()
+        assert ctx.instruction_for("todo/models.py") == (
+            "add Task.Priority and priority field"
+        )
+        assert ctx.instruction_for("todo/migrations/0004_task_priority.py") == (
+            "create exactly one migration"
+        )
+
+    def test_instruction_for_preserve_path_requires_byte_identity(self) -> None:
+        ctx = self._context()
+        instruction = ctx.instruction_for("todo/permissions.py")
+        assert "No scenario change is required" in instruction
+        assert "byte-identically" in instruction
 
     def test_empty_scenario_id_raises(self) -> None:
         with pytest.raises(ValueError, match="scenario_id"):
@@ -381,4 +400,20 @@ class TestRegenerationScenarioContext:
                 requirement_before="a",
                 requirement_after="b",
                 expected_actions=(("x.py", "modify"), ("x.py", "modify")),
+            )
+
+    def test_invalid_and_duplicate_artifact_instructions_raise(self) -> None:
+        with pytest.raises(ValueError, match="instruction must not be empty"):
+            RegenerationScenarioContext(
+                scenario_id="s",
+                requirement_before="a",
+                requirement_after="b",
+                artifact_instructions=(("x.py", "  "),),
+            )
+        with pytest.raises(ValueError, match="Duplicate artifact instruction"):
+            RegenerationScenarioContext(
+                scenario_id="s",
+                requirement_before="a",
+                requirement_after="b",
+                artifact_instructions=(("x.py", "first"), ("x.py", "second")),
             )

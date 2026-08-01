@@ -1,9 +1,19 @@
 from pathlib import Path
 
+import pytest
+
 from benchmark.core.enums import ActionKind, ArtifactType
-from benchmark.core.models import ArtifactRef, LLMResponse, TokenUsage
+from benchmark.core.models import (
+    ArtifactRef,
+    LLMResponse,
+    RegenerationScenarioContext,
+    TokenUsage,
+)
 from benchmark.execution.isolation import IsolationContext
-from benchmark.execution.regeneration import SharedRegenerationExecutor
+from benchmark.execution.regeneration import (
+    SharedRegenerationExecutor,
+    build_generation_prompt,
+)
 from benchmark.repositories.workspace import WorkspacePath
 from benchmark.selection.planner import RegenerationPlan
 
@@ -46,6 +56,69 @@ def _make_isolation(tmp_path: Path, workspace_subdir: str = "ws") -> tuple[Isola
 
 
 class TestSharedRegenerationExecutor:
+    def test_generation_prompt_includes_file_instruction_and_role_contract(self) -> None:
+        context = RegenerationScenarioContext(
+            scenario_id="todo-smoke-001",
+            requirement_before="Task has no priority",
+            requirement_after="Task gains Priority with HIGH, MEDIUM, LOW",
+            acceptance_criteria=("TaskSerializer exposes priority",),
+            architecture_constraints=(
+                "Priority choices must be an Enum on the Task model",
+                "Priority filtering must be in the view, not the serializer",
+            ),
+            expected_actions=(("todo/serializers.py", "modify"),),
+            artifact_instructions=(("todo/serializers.py", "expose priority"),),
+        )
+
+        prompt = build_generation_prompt(
+            artifact_path="todo/serializers.py",
+            current_content="from rest_framework import serializers\n",
+            requirement_delta="old -> new",
+            language_hint="python",
+            scenario_context=context,
+        )
+
+        assert "File-specific instruction: expose priority" in prompt
+        assert "Define or edit serializers only" in prompt
+        assert "do not re-declare model enums" in prompt.lower()
+        assert "viewsets, permissions, or routes" in prompt
+        assert "Do not add a new third-party dependency" in prompt
+        assert "Priority filtering must be in the view, not the serializer" in prompt
+
+        model_prompt = build_generation_prompt(
+            artifact_path="todo/models.py",
+            current_content="from django.db import models\n",
+            requirement_delta="old -> new",
+            language_hint="python",
+            scenario_context=RegenerationScenarioContext(
+                scenario_id="todo-smoke-001",
+                requirement_before="old",
+                requirement_after="new",
+                expected_actions=(("todo/models.py", "modify"),),
+            ),
+        )
+        assert "max_length to hold the longest stored value" in model_prompt
+
+    def test_preserve_prompt_requires_exact_current_content(self) -> None:
+        context = RegenerationScenarioContext(
+            scenario_id="todo-smoke-001",
+            requirement_before="old",
+            requirement_after="new",
+            expected_actions=(("todo/models.py", "modify"),),
+        )
+
+        prompt = build_generation_prompt(
+            artifact_path="todo/permissions.py",
+            current_content="ORIGINAL = True\n",
+            requirement_delta="old -> new",
+            language_hint="python",
+            scenario_context=context,
+        )
+
+        assert "Expected action for this file: preserve" in prompt
+        assert "No scenario change is required" in prompt
+        assert "return the current file content byte-identically" in prompt.lower()
+
     def test_mock_backend_produces_replacement_content(self, tmp_path: Path) -> None:
         iso, ws_root = _make_isolation(tmp_path)
         src = ws_root / "src"
@@ -292,3 +365,162 @@ class TestSharedRegenerationExecutor:
 
         assert len(result.failures) == 1
         assert "not found" in result.failures[0].lower()
+
+    def test_preserve_rejection_retains_response_hash_and_preview(
+        self, tmp_path: Path
+    ) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        todo = ws_root / "todo"
+        todo.mkdir()
+        original = "from rest_framework.permissions import BasePermission\n"
+        (todo / "permissions.py").write_text(original, encoding="utf-8")
+        ref = ArtifactRef(
+            path="todo/permissions.py", artifact_type=ArtifactType.source
+        )
+        plan = RegenerationPlan(
+            ordered_artifacts=(ref,),
+            actions={"todo/permissions.py": ActionKind.regenerate},
+        )
+        context = RegenerationScenarioContext(
+            scenario_id="todo-smoke-001",
+            requirement_before="old",
+            requirement_after="new",
+            expected_actions=(("todo/models.py", "modify"),),
+        )
+        backend = _make_backend(
+            "from rest_framework.permissions import BasePermission\nCHANGED = True\n"
+        )
+
+        result = SharedRegenerationExecutor(backend).execute(
+            plan, iso, scenario_context=context
+        )
+
+        assert result.artifacts[0].status == "rejected"
+        assert "response_sha256=" in result.failures[0]
+        assert "response_excerpt_json=" in result.failures[0]
+        assert "CHANGED = True" in result.failures[0]
+        assert (todo / "permissions.py").read_text(encoding="utf-8") == original
+
+    @pytest.mark.parametrize(
+        ("artifact_path", "current", "generated", "expected_failure"),
+        (
+            (
+                "todo/models.py",
+                "from django.db import models\nclass Task(models.Model):\n    pass\n",
+                (
+                    "from django.db import models\n"
+                    "class Task(models.Model):\n"
+                    "    class Priority(models.TextChoices):\n"
+                    "        HIGH = 'HIGH', 'High'\n"
+                    "        MEDIUM = 'MEDIUM', 'Medium'\n"
+                    "        LOW = 'LOW', 'Low'\n"
+                    "    priority = models.CharField(max_length=5, "
+                    "choices=Priority.choices, default=Priority.MEDIUM)\n"
+                ),
+                "choice_max_length_too_small",
+            ),
+            (
+                "todo/serializers.py",
+                "from rest_framework import serializers\n",
+                (
+                    "from django.db import models\n"
+                    "from rest_framework import serializers, viewsets\n"
+                    "class Priority(models.TextChoices):\n"
+                    "    HIGH = 'HIGH', 'High'\n"
+                    "class TaskViewSet(viewsets.ModelViewSet):\n"
+                    "    pass\n"
+                ),
+                "module_role_violation",
+            ),
+            (
+                "todo/views.py",
+                "from rest_framework import viewsets\n",
+                (
+                    "from django.db import models\n"
+                    "from rest_framework import viewsets\n"
+                    "from rest_framework_simplejwt.authentication import JWTAuthentication\n"
+                    "class Task(models.Model):\n"
+                    "    pass\n"
+                ),
+                "undeclared_dependency: rest_framework_simplejwt",
+            ),
+        ),
+    )
+    def test_observed_qwen_architecture_failures_are_rejected_before_validation(
+        self,
+        tmp_path: Path,
+        artifact_path: str,
+        current: str,
+        generated: str,
+        expected_failure: str,
+    ) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        (ws_root / "requirements.txt").write_text(
+            "django>=5.0,<6.0\ndjangorestframework>=3.15,<4.0\n",
+            encoding="utf-8",
+        )
+        target = ws_root / artifact_path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(current, encoding="utf-8")
+        ref = ArtifactRef(path=artifact_path, artifact_type=ArtifactType.source)
+        plan = RegenerationPlan(
+            ordered_artifacts=(ref,),
+            actions={artifact_path: ActionKind.regenerate},
+        )
+        context = RegenerationScenarioContext(
+            scenario_id="todo-smoke-001",
+            requirement_before="old",
+            requirement_after="new",
+            expected_actions=((artifact_path, "modify"),),
+        )
+
+        result = SharedRegenerationExecutor(_make_backend(generated)).execute(
+            plan, iso, scenario_context=context
+        )
+
+        assert result.artifacts[0].status == "rejected"
+        assert expected_failure in "\n".join(result.failures)
+        assert target.read_text(encoding="utf-8") == current
+
+    def test_oracle_priority_outputs_pass_generic_artifact_contract(
+        self, tmp_path: Path
+    ) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        (ws_root / "requirements.txt").write_text(
+            "django>=5.0,<6.0\ndjangorestframework>=3.15,<4.0\n",
+            encoding="utf-8",
+        )
+        todo = ws_root / "todo"
+        todo.mkdir()
+        current = "from django.db import models\nclass Task(models.Model):\n    pass\n"
+        output = (
+            "from django.db import models\n"
+            "class Task(models.Model):\n"
+            "    class Priority(models.TextChoices):\n"
+            "        HIGH = 'HIGH', 'High'\n"
+            "        MEDIUM = 'MEDIUM', 'Medium'\n"
+            "        LOW = 'LOW', 'Low'\n"
+            "    priority = models.CharField(max_length=6, "
+            "choices=Priority.choices, default=Priority.MEDIUM)\n"
+        )
+        target = todo / "models.py"
+        target.write_text(current, encoding="utf-8")
+        ref = ArtifactRef(path="todo/models.py", artifact_type=ArtifactType.source)
+        plan = RegenerationPlan(
+            ordered_artifacts=(ref,),
+            actions={"todo/models.py": ActionKind.regenerate},
+        )
+        context = RegenerationScenarioContext(
+            scenario_id="todo-smoke-001",
+            requirement_before="old",
+            requirement_after="new",
+            expected_actions=(("todo/models.py", "modify"),),
+        )
+
+        result = SharedRegenerationExecutor(_make_backend(output)).execute(
+            plan, iso, scenario_context=context
+        )
+
+        assert result.failures == ()
+        assert result.artifacts[0].status == "generated"
+        assert target.read_text(encoding="utf-8") == output

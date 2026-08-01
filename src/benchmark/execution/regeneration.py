@@ -1,8 +1,13 @@
 from __future__ import annotations
 
 import asyncio
+import ast
 import contextlib
+import hashlib
+import json
 import logging
+import re
+import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -36,7 +41,7 @@ class RegenerationExecutionResult:
 
 
 BUILT_IN_PROMPT_TEMPLATE = """\
-You are regenerating a source file for a software project.
+You are regenerating exactly one source artifact in an existing software project.
 
 Requirement change:
 {requirement_delta}
@@ -48,24 +53,35 @@ Current content:
 {current_content}
 ```
 
-Generate the complete replacement file content. \
-Return only the file content, without any explanation or markdown fences.
+Output contract:
+- Make the smallest complete change needed in this artifact.
+- Preserve every unrelated import, class, method, field, permission, route, and behavior.
+- Do not add a new third-party dependency unless it is already imported by the current project.
+- Do not move or duplicate models, serializers, views, permissions, or routes across modules.
+- If this artifact does not require a change, return the current content byte-identically.
+- Return only the complete replacement file content, without explanation or markdown fences.
 """
 
 REPAIR_CONTEXT_PROMPT_TEMPLATE = """\
 
-Previous functional validation attempt failed.
+Previous attempt failed validation.
 
+Failed stage: {stage}
 Exit code: {exit_code}
+Root cause: {root_cause}
 
-Validation stdout:
+Generation/scope failures from the previous attempt:
+{generation_failures}
+
+Validation stdout excerpt (head + tail):
 {stdout}
 
-Validation stderr:
+Validation stderr excerpt (head + tail; root exception retained):
 {stderr}
 
-Fix the issues above so that the functional validation passes. \
-Return the complete replacement file content without explanation or markdown fences.
+Correct the existing artifact using the evidence above. Do not repeat the same
+invalid output. Return the complete replacement file content without explanation
+or markdown fences.
 """
 
 SCENARIO_CONTEXT_PROMPT_TEMPLATE = """\
@@ -78,6 +94,7 @@ Architecture constraints (must never be violated):
 
 Scope contract for {artifact_path}:
 - Expected action for this file: {expected_action}
+- File-specific instruction: {artifact_instruction}
 - If the expected action is "preserve", return the current file content byte-identically.
 - Preserve unrelated behavior and unrelated files exactly as they are.
 - Do not re-declare models, serializers, views, or classes that belong in other modules.
@@ -106,6 +123,11 @@ def build_generation_prompt(
         language_hint=language_hint,
         current_content=current_content,
     )
+    prompt += (
+        "\nArtifact responsibility:\n"
+        + _artifact_role_guidance(artifact_path)
+        + "\n"
+    )
     if scenario_context is not None:
         ea = expected_action or scenario_context.expected_action_for(artifact_path)
         prompt += SCENARIO_CONTEXT_PROMPT_TEMPLATE.format(
@@ -120,10 +142,230 @@ def build_generation_prompt(
             ),
             artifact_path=artifact_path,
             expected_action=ea,
+            artifact_instruction=scenario_context.instruction_for(artifact_path),
         )
     if repair_context:
         prompt += repair_context
     return prompt
+
+
+def _artifact_role_guidance(path: str) -> str:
+    """Return generic module-role guidance without scenario-specific inference."""
+    name = Path(path).name
+    role_map = {
+        "models.py": (
+            "Define or edit data models and model-local enums only. Do not define "
+            "serializers, API views, permissions, or URL routes here. For string "
+            "choices, size max_length to hold the longest stored value."
+        ),
+        "serializers.py": (
+            "Define or edit serializers only. Reuse model classes from the models "
+            "module and expose model-defined choices; do not re-declare model enums "
+            "or define models, viewsets, permissions, or routes here."
+        ),
+        "views.py": (
+            "Define or edit views/viewsets only. Reuse imported models and serializers; "
+            "do not define database models or serializers here. Preserve existing "
+            "authentication, permissions, and unrelated view behavior unless the "
+            "requirement explicitly changes them."
+        ),
+        "permissions.py": (
+            "Define or edit permission classes only. Do not define models, serializers, "
+            "views, or routes here."
+        ),
+        "urls.py": (
+            "Define or edit URL/router registration only. Do not define models, "
+            "serializers, views, or permissions here."
+        ),
+    }
+    return role_map.get(
+        name,
+        "Keep the artifact's existing responsibility and module boundaries unchanged.",
+    )
+
+
+def _output_evidence(text: str, *, excerpt_limit: int = 6000) -> str:
+    """Persist reproducible rejected-output evidence without unbounded records."""
+    digest = hashlib.sha256(text.encode("utf-8", errors="replace")).hexdigest()
+    if len(text) <= excerpt_limit:
+        excerpt = text
+        truncated = False
+    else:
+        half = excerpt_limit // 2
+        omitted = len(text) - excerpt_limit
+        excerpt = (
+            text[:half]
+            + f"\n... [{omitted} chars omitted from rejected output] ...\n"
+            + text[-half:]
+        )
+        truncated = True
+    return (
+        f"response_sha256={digest} response_chars={len(text)} "
+        f"response_truncated={str(truncated).lower()} "
+        f"response_excerpt_json={json.dumps(excerpt, ensure_ascii=False)}"
+    )
+
+
+_DISTRIBUTION_IMPORT_ROOTS = {
+    "django": "django",
+    "djangorestframework": "rest_framework",
+    "pytest": "pytest",
+    "pytestdjango": "pytest_django",
+}
+
+
+def _dotted_name(node: ast.expr) -> str:
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Attribute):
+        prefix = _dotted_name(node.value)
+        return f"{prefix}.{node.attr}" if prefix else node.attr
+    return ""
+
+
+def _import_roots(tree: ast.AST) -> set[str]:
+    roots: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            roots.update(alias.name.split(".", 1)[0] for alias in node.names)
+        elif isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
+            roots.add(node.module.split(".", 1)[0])
+    return roots
+
+
+def _declared_import_roots(workspace_root: str | Path) -> set[str]:
+    root = Path(workspace_root)
+    allowed = set(sys.stdlib_module_names)
+    for child in root.iterdir() if root.is_dir() else ():
+        if child.is_dir() and (child / "__init__.py").is_file():
+            allowed.add(child.name)
+        elif child.is_file() and child.suffix == ".py":
+            allowed.add(child.stem)
+    requirements = root / "requirements.txt"
+    if requirements.is_file():
+        for raw in requirements.read_text(encoding="utf-8", errors="replace").splitlines():
+            item = raw.split("#", 1)[0].split(";", 1)[0].strip()
+            if not item:
+                continue
+            distribution = re.split(r"[<>=!~\[\s]", item, maxsplit=1)[0]
+            normalized = distribution.lower().replace("-", "").replace("_", "")
+            allowed.add(
+                _DISTRIBUTION_IMPORT_ROOTS.get(
+                    normalized,
+                    distribution.replace("-", "_"),
+                )
+            )
+    return allowed
+
+
+def _class_base_names(tree: ast.Module) -> list[tuple[str, tuple[str, ...]]]:
+    values: list[tuple[str, tuple[str, ...]]] = []
+    for node in tree.body:
+        if isinstance(node, ast.ClassDef):
+            values.append((node.name, tuple(_dotted_name(base) for base in node.bases)))
+    return values
+
+
+def _choice_max_length_failures(tree: ast.Module) -> list[str]:
+    failures: list[str] = []
+    for owner in (node for node in tree.body if isinstance(node, ast.ClassDef)):
+        enum_values: dict[str, list[str]] = {}
+        for nested in (node for node in owner.body if isinstance(node, ast.ClassDef)):
+            values: list[str] = []
+            for statement in nested.body:
+                if not isinstance(statement, ast.Assign) or not isinstance(
+                    statement.value, ast.Tuple
+                ):
+                    continue
+                if not statement.value.elts or not isinstance(
+                    statement.value.elts[0], ast.Constant
+                ):
+                    continue
+                stored = statement.value.elts[0].value
+                if isinstance(stored, str):
+                    values.append(stored)
+            if values:
+                enum_values[nested.name] = values
+
+        for statement in owner.body:
+            if not isinstance(statement, (ast.Assign, ast.AnnAssign)):
+                continue
+            value = statement.value
+            if not isinstance(value, ast.Call) or not _dotted_name(value.func).endswith(
+                ".CharField"
+            ):
+                continue
+            keywords = {item.arg: item.value for item in value.keywords if item.arg}
+            choices = keywords.get("choices")
+            max_length = keywords.get("max_length")
+            if not isinstance(choices, ast.Attribute) or choices.attr != "choices":
+                continue
+            enum_name = _dotted_name(choices.value)
+            values = enum_values.get(enum_name)
+            if not values or not isinstance(max_length, ast.Constant) or not isinstance(
+                max_length.value, int
+            ):
+                continue
+            required = max(len(item) for item in values)
+            if max_length.value < required:
+                failures.append(
+                    "choice_max_length_too_small: "
+                    f"{owner.name}.{enum_name} needs >= {required}, got {max_length.value}"
+                )
+    return failures
+
+
+def _python_artifact_contract_failures(
+    *,
+    artifact_path: str,
+    output_text: str,
+    current_content: str,
+    workspace_root: str | Path,
+) -> tuple[str, ...]:
+    """Apply small generic guards for real model outputs before writing them."""
+    try:
+        output_tree = ast.parse(output_text, filename=artifact_path)
+    except SyntaxError as exc:
+        return (
+            f"python_syntax_error: line={exc.lineno} offset={exc.offset} msg={exc.msg}",
+        )
+    try:
+        current_tree = ast.parse(current_content, filename=artifact_path)
+    except SyntaxError:
+        current_tree = ast.parse("")
+
+    failures: list[str] = []
+    new_imports = _import_roots(output_tree) - _import_roots(current_tree)
+    undeclared = sorted(new_imports - _declared_import_roots(workspace_root))
+    if undeclared:
+        failures.append("undeclared_dependency: " + ", ".join(undeclared))
+
+    role = Path(artifact_path).name
+    class_bases = _class_base_names(output_tree)
+    forbidden_prefixes: dict[str, tuple[str, ...]] = {
+        "models.py": ("serializers.", "viewsets.", "permissions.", "APIView"),
+        "serializers.py": ("models.Model", "models.TextChoices", "viewsets.", "APIView"),
+        "views.py": ("models.Model", "models.TextChoices", "serializers."),
+        "permissions.py": ("models.", "serializers.", "viewsets.", "APIView"),
+        "urls.py": ("models.", "serializers.", "viewsets.", "APIView"),
+    }
+    prefixes = forbidden_prefixes.get(role, ())
+    for class_name, bases in class_bases:
+        for base in bases:
+            if any(base == prefix or base.startswith(prefix) for prefix in prefixes):
+                failures.append(
+                    f"module_role_violation: {class_name} cannot inherit {base} in {role}"
+                )
+    if role == "serializers.py":
+        for class_name, _bases in class_bases:
+            if class_name.endswith("ViewSet"):
+                failures.append(
+                    f"module_role_violation: viewset {class_name} belongs in views.py"
+                )
+
+    if role == "models.py":
+        failures.extend(_choice_max_length_failures(output_tree))
+    return tuple(dict.fromkeys(failures))
 
 
 def _language_hint(path: str) -> str:
@@ -397,7 +639,8 @@ class SharedRegenerationExecutor:
                 if expected == "preserve" and output_text.encode("utf-8") != current_bytes:
                     failures.append(
                         f"out_of_scope_change: {artifact.path} expected action 'preserve' "
-                        "but generated output differs from the current file"
+                        "but generated output differs from the current file; "
+                        f"{_output_evidence(output_text)}"
                     )
                     generated.append(
                         GeneratedArtifact(
@@ -409,6 +652,38 @@ class SharedRegenerationExecutor:
                     logger.info(
                         "REGEN_ARTIFACT_END path=%s status=rejected reason=out_of_scope_change elapsed=%.3f",
                         artifact.path, time.monotonic() - artifact_start,
+                    )
+                    continue
+
+            if (
+                scenario_context is not None
+                and scenario_context.expected_actions
+                and artifact.path.endswith(".py")
+            ):
+                contract_failures = _python_artifact_contract_failures(
+                    artifact_path=artifact.path,
+                    output_text=output_text,
+                    current_content=current_content,
+                    workspace_root=workspace_root,
+                )
+                if contract_failures:
+                    for contract_failure in contract_failures:
+                        failures.append(
+                            f"artifact_contract_violation: {artifact.path}: "
+                            f"{contract_failure}; {_output_evidence(output_text)}"
+                        )
+                    generated.append(
+                        GeneratedArtifact(
+                            path=artifact.path,
+                            content=output_text,
+                            status="rejected",
+                        )
+                    )
+                    logger.info(
+                        "REGEN_ARTIFACT_END path=%s status=rejected "
+                        "reason=artifact_contract_violation elapsed=%.3f",
+                        artifact.path,
+                        time.monotonic() - artifact_start,
                     )
                     continue
 
