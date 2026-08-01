@@ -234,8 +234,9 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | R6 deployment closure | Accepted and frozen (`949e9c2`) |
 | R6 milestone-branch publication | Published (upstream set, local/remote equal) |
 | Kaggle attempts (2) | Failed pre-model — preserved (`exp-20260801-024041`, `exp-20260801-024624`) |
-| Kaggle runtime fix | Committed (`de3163f`) and pinned (`fb60972`) — audit required |
-| Kaggle relaunch + nine real Qwen records | Blocked until runtime-fix audit passes |
+| Kaggle runtime fix | Committed (`de3163f`) and pinned (`fb60972`) — core accepted by independent audit |
+| R7A pre-rerun hardening | Complete (`d50e89e` + `4c73db6`) — four audit findings closed; re-audit required |
+| Kaggle relaunch + nine real Qwen records | Blocked until R7A hardening re-audit passes |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
 
