@@ -39,6 +39,12 @@ class BudgetManager:
         timeout_seconds: int = 0,
         clock: Clock | None = None,
     ) -> None:
+        if isinstance(max_attempts, bool):
+            raise ValueError("max_attempts must be an integer, not bool")
+        if isinstance(max_tokens, bool):
+            raise ValueError("max_tokens must be an integer, not bool")
+        if isinstance(timeout_seconds, bool):
+            raise ValueError("timeout_seconds must be an integer, not bool")
         if max_attempts < 1:
             raise ValueError("max_attempts must be >= 1")
         if max_tokens < 0:
@@ -71,6 +77,26 @@ class BudgetManager:
     def remaining_tokens(self) -> int:
         if self._max_tokens <= 0:
             return 0
+        return max(0, self._max_tokens - self._state.total_tokens)
+
+    @property
+    def has_total_token_limit(self) -> bool:
+        return self._max_tokens > 0
+
+    @property
+    def remaining_total_tokens(self) -> int:
+        return self.remaining_tokens
+
+    @property
+    def runtime_remaining_total_tokens(self) -> int | None:
+        """Runtime allowance passed to executors and strategies.
+
+        Returns None when no total workflow limit is configured (unlimited),
+        0 when a configured limit has been exhausted exactly, and a positive
+        integer when a configured limit still has remaining allowance.
+        """
+        if not self.has_total_token_limit:
+            return None
         return max(0, self._max_tokens - self._state.total_tokens)
 
     @property
@@ -110,6 +136,8 @@ class BudgetManager:
         return snapshot
 
     def record_tokens(self, tokens: int) -> None:
+        if isinstance(tokens, bool):
+            raise ValueError("tokens must be an integer, not bool")
         if tokens < 0:
             raise ValueError(f"tokens must be >= 0, got {tokens}")
         self._state.total_tokens += tokens
@@ -124,3 +152,42 @@ class BudgetManager:
 
 class BudgetExhaustedError(RuntimeError):
     pass
+
+
+def resolve_completion_allowance(
+    *,
+    max_completion_tokens_per_call: int,
+    remaining_total_workflow_tokens: int | None,
+    prompt_tokens: int,
+) -> int:
+    """Resolve the completion allowance for a single model call.
+
+    ``remaining_total_workflow_tokens`` is a runtime allowance where None means
+    "no total workflow limit configured" (unlimited), 0 means "a configured
+    limit has been exhausted exactly" (no further calls), and a positive
+    integer is the remaining configured allowance.
+    """
+    if isinstance(max_completion_tokens_per_call, bool):
+        raise ValueError("max_completion_tokens_per_call must be an integer, not bool")
+    if isinstance(remaining_total_workflow_tokens, bool):
+        raise ValueError("remaining_total_workflow_tokens must be an integer, not bool")
+    if isinstance(prompt_tokens, bool):
+        raise ValueError("prompt_tokens must be an integer, not bool")
+    if max_completion_tokens_per_call < 1:
+        raise ValueError(
+            f"max_completion_tokens_per_call must be >= 1, got {max_completion_tokens_per_call}"
+        )
+    if remaining_total_workflow_tokens is not None and remaining_total_workflow_tokens < 0:
+        raise ValueError(
+            f"remaining_total_workflow_tokens must be >= 0, got {remaining_total_workflow_tokens}"
+        )
+    if prompt_tokens < 0:
+        raise ValueError(
+            f"prompt_tokens must be >= 0, got {prompt_tokens}"
+        )
+    if remaining_total_workflow_tokens is None:
+        return max_completion_tokens_per_call
+    if remaining_total_workflow_tokens == 0:
+        return 0
+    available_after_prompt = remaining_total_workflow_tokens - prompt_tokens
+    return max(0, min(max_completion_tokens_per_call, available_after_prompt))

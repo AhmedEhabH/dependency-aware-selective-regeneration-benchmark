@@ -70,4 +70,5 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+norecursedirs = ["evaluator_assets", "__pycache__", ".pytest_cache"]
 addopts = "-v --tb=short --asyncio-mode=auto"
