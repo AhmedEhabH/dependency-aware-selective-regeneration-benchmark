@@ -232,16 +232,20 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | R4 token/metric contract | Accepted and frozen (`f5ae826`) |
 | R5 nine scripted production records | Accepted and frozen (`7761c48`) |
 | R6 deployment closure | Accepted and frozen (`949e9c2`) |
-| Kaggle preflight + nine real Qwen records | Next (after branch publication) |
+| R6 milestone-branch publication | Published (upstream set, local/remote equal) |
+| Kaggle attempts (2) | Failed pre-model — preserved (`exp-20260801-024041`, `exp-20260801-024624`) |
+| Kaggle runtime fix | Committed (`de3163f`) and pinned (`fb60972`) — audit required |
+| Kaggle relaunch + nine real Qwen records | Blocked until runtime-fix audit passes |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
 
 The repository is **not yet publication-result complete**. Pilot and research
 experiments remain pending. Smoke evidence is non-publication. Local scripted
-records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; Kaggle not
-launched; branch publication pending at this commit; no tag created; Pilot not
-authorized. Current branch: `experiment/three-arm-smoke-v2` (R6 accepted and
-frozen).
+records = 9/9; bundled CLI dry-run = 9/9; real Qwen records = 0/9; two real
+Kaggle attempts failed before any model call (preserved, not deleted); no tag
+created; Pilot not authorized. Current branch:
+`fix/kaggle-smoke-v2-runtime-blockers` (from R6 accepted and frozen
+`experiment/three-arm-smoke-v2`; runtime fix `de3163f`, bundle pin `fb60972`).
 
 ## Implemented Components
 
@@ -375,9 +379,9 @@ python -m pip check
 
 Current validated state:
 
-- **1,648 tests passing / 32 skipped / 0 failed** (final accepted R6 full suite, 2026-08-01)
-- **Ruff: 0 violations** (R6 baseline identical, zero new)
-- **Mypy strict: 0 errors** (R6 baseline, zero new)
+- **1,676 tests passing / 32 skipped / 0 failed** (last full gate, 2026-08-01)
+- **Ruff: 0 new violations** (pre-existing baseline unchanged)
+- **Mypy strict: 0 new errors** (base 5 pre-existing only)
 - **pip check: no broken requirements** (pre-existing conda issues unrelated)
 - **No local import dependency on Qwen, torch, or transformers**
 
@@ -581,8 +585,11 @@ Immediate next milestones:
 - [x] R5 local scripted production proof 9/9
 - [x] R6 byte-reproducible deployment bundle
 - [x] R6 final independent re-audit — ACCEPTED AND FROZEN
-- [ ] Push and local/remote equality
-- [ ] Kaggle environment preflight
+- [x] R6 milestone-branch publication (push, local/remote equality)
+- [x] First real Kaggle attempts (2) — failed pre-model, preserved, root causes fixed
+- [x] Kaggle runtime fix — committed (`de3163f`) and pinned (`fb60972`)
+- [ ] Independent runtime-fix audit
+- [ ] Kaggle environment preflight + relaunch
 - [ ] Real Three-Arm Qwen Smoke 0/9
 - [ ] Stable v2.0.0-scientific-smoke tag after result audit
 - [ ] Pilot freeze
@@ -620,9 +627,13 @@ This project uses open-source software and research infrastructure from the Pyth
 
 ---
 
-**Project status:** R4, R5, and R6 accepted and frozen on branch
-`experiment/three-arm-smoke-v2`. R6 deployment closure is frozen at `949e9c2`
-(branch publication pending). Real-model benchmark execution (nine real Qwen
-Smoke V2 records) and scientific validation require branch publication, then
-Kaggle environment preflight. Smoke evidence is non-publication; no real Qwen
-results are claimed.
+**Project status:** R4, R5, and R6 accepted and frozen. R6 deployment closure
+is frozen at `949e9c2` and the milestone branch `experiment/three-arm-smoke-v2`
+is published (freeze `4b2dd27`). Post-R6, two real Kaggle attempts failed
+pre-model (`exp-20260801-024041`, `exp-20260801-024624`; preserved) and the
+runtime blockers were fixed and pinned on
+`fix/kaggle-smoke-v2-runtime-blockers` (`de3163f`, `fb60972`). Real-model
+benchmark execution (nine real Qwen Smoke V2 records) and scientific validation
+require an independent runtime-fix audit before the corrected bundle is
+relaunched. Smoke evidence is non-publication; no real Qwen results are
+claimed.

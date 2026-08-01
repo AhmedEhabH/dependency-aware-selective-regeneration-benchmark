@@ -219,3 +219,15 @@ Scoped RF-4 checks ran after the R5 nine-record matrix:
 RF-4 produced no R5 code change, so the nine-record matrix was not rerun.
 Full RF-4 technical-debt cleanup (all TD-0/1 plus selected TD-2) remains
 scheduled in the R6 window per the checkpoint table above.
+
+## Post-R6 Kaggle runtime fix (2026-08-01)
+
+Two real Kaggle attempts failed pre-model (`exp-20260801-024041`,
+`exp-20260801-024624`). No new technical debt was opened by the runtime fix;
+the pre-existing debt register is unchanged. The runtime blockers closed on
+branch `fix/kaggle-smoke-v2-runtime-blockers` (commits `de3163f`, `fb60972`)
+are recorded in
+`selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-FIX.md` and are not debt
+items — they are the primary execution-path fixes needed for the first real
+records. The only new TD-2-style note: pre-existing Mypy strict base of 5
+errors in `seven_arm_benchmark.py` remains open (unchanged from R6).

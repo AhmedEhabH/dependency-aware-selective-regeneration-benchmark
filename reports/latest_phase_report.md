@@ -1,10 +1,25 @@
-# R6 Final Acceptance, Freeze, and Publication — Latest Phase Report
+# Post-R6 Kaggle Runtime Fix — Latest Phase Report
 
 ## Executive decision
 
-R6 deployment closure has been **accepted and frozen** by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01, audited HEAD `949e9c2`). The R6 freeze commit `4b2dd27` (docs(audit): accept and freeze R6 deployment closure) is the exact first publication HEAD; the milestone branch was **published to origin** with upstream `origin/experiment/three-arm-smoke-v2`, and **local/remote equality was verified** before the publication-status commit. The bounded final correction — one deployed-entrypoint regression test plus documentation-truth cleanup — closed TD-R6-ENTRYPOINT-001 and documentation-truth defects D1–D6. No production, builder, bundle, notebook, config, scenario, evaluator, or R5 change was made in the correction pass or the freeze/publication pass.
+Two real Kaggle Scientific Smoke V2 runs launched from the R6-published
+deployment failed completely before any model call (`exp-20260801-024041`,
+`exp-20260801-024624`; both 9 planned / 0 succeeded / 9 failed / 0 model calls;
+first failure = workspace isolation). The real runtime blockers were closed
+under the Kaggle Runtime Blockers Fix directive on branch
+`fix/kaggle-smoke-v2-runtime-blockers`: runtime fix commit `de3163f`
+(`fix(kaggle): close real Smoke runtime blockers`), deployment pin commit
+`fb60972` (`chore(deploy): pin corrected Scientific Smoke V2 bundle`). The
+corrected bundle is pinned to runtime source `de3163f12d51c31d3f488897ed2047821da3b190`
+and rebuilt only through `scripts/build_upload_bundle.py`. **The fixes are
+committed; an independent runtime-fix audit is required before any Kaggle
+relaunch.** No tag, merge, or force-push has been performed.
 
-This report is the current, latest-first R6 report. Historical R4/R5 phase detail belongs to their dedicated records (`docs/R4_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`, `docs/R5_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md`) and is not repeated here.
+This report is the current, latest-first post-R6 report. The R6 acceptance,
+freeze, and publication detail belongs to
+`docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md` and
+`selective_updates/records/R6-BUNDLE-PARITY-AND-PRE-KAGGLE-HANDOFF.md` and is
+not repeated here.
 
 ## Models used
 
@@ -15,81 +30,86 @@ Mode:             Build
 Provider:         OpenCode Zen
 ```
 
-The independent audits were performed by **GPT-5.6 Thinking**.
-
 ## Branch and commits
 
 ```text
-Branch             = experiment/three-arm-smoke-v2
-Accepted R6 HEAD   = 949e9c2  (docs(audit): close R6 handoff truth gaps)
-R6 freeze commit   = 4b2dd27  docs(audit): accept and freeze R6 deployment closure (first publication HEAD)
-Publication        = branch published to origin; upstream origin/experiment/three-arm-smoke-v2; local/remote equal
-R5 acceptance      = 5784a4f
-Runtime source     = cb25e9f
-Bundle commit      = 54a0462
-R6 test commit     = 40c7a47  test(deploy): prove bundled V2 CLI execution plan
-R6 freeze record   = docs/R6_FINAL_INDEPENDENT_REAUDIT_AND_FREEZE_REPORT.md
-Backup branches    = backup/r5-pre-audit-c3ecad2, backup/r6-pre-execution-7761c48,
-                     backup/r6-pre-final-audit-da6ccf3 (all preserved, no tags)
+Branch             = fix/kaggle-smoke-v2-runtime-blockers (from experiment/three-arm-smoke-v2 @ 9ff3c4e)
+R6 accepted HEAD   = 949e9c2; R6 freeze commit 4b2dd27 (published milestone branch)
+Runtime fix        = de3163f  fix(kaggle): close real Smoke runtime blockers
+Deployment pin     = fb60972  chore(deploy): pin corrected Scientific Smoke V2 bundle
+Runtime source     = de3163f12d51c31d3f488897ed2047821da3b190
+Deployed build id  = de3163f
+Failed attempts    = exp-20260801-024041, exp-20260801-024624 (preserved; not deleted)
+Record             = selective_updates/records/KAGGLE-SMOKE-V2-RUNTIME-FIX.md
 ```
 
-## What R6 changed
-
-R6 executed the corrected deployment directive in one bounded pass: a deterministic cross-platform bundle builder (`scripts/build_upload_bundle.py`), controlled Todo regression tests deployed in the data bundle (exact five files / 47 methods), an exact six-file evaluator allowlist (3 `.py` + 3 `.sha256`), a valid exact V2 smoke config, current CLI help, a V2 notebook pinned to the real existing runtime-source commit, the generated `kaggle_upload/` bundle built only through the builder, deployment preflight integration, and worktree/index/committed-tree manifest parity audits (0/0/0). No canonical production behavior changed.
-
-## Final independent re-audit evidence
+## The two failed attempts (truth)
 
 ```text
-Git HEAD manifest mismatches: code 0 / data 0 / notebook 0
-Canonical/generated normalized parity problems = 0
-Builder rerun working-tree changes             = 0
-Bundle evaluator files                         = exact 3 + 3 fingerprints
-Bundle Todo tests                              = exact five files
-Sensitive/absolute-path scan findings          = 0
-Independent focused tests (Linux/Python 3.13)  = 71 passed, 0 failed
-User full suite (Windows/Python 3.11.5)        = 1,648 passed, 32 skipped, 0 failed
+exp-20260801-024041  planned 9 / succeeded 0 / failed 9 / model calls 0 / tokens 0
+exp-20260801-024624  planned 9 / succeeded 0 / failed 9 / model calls 0 / tokens 0
 ```
 
-The final decision: **R6 ACCEPTED — FREEZE AND MILESTONE-BRANCH PUBLICATION AUTHORIZED.**
+Both failed at the first arm/scenario triplet during workspace **isolation**
+before any LLM call; no `qwen:` identity was ever produced; the framework
+stopped after the first error instead of completing the matrix. These outputs
+remain visible on the results dataset and must not be deleted.
 
-## Manifest/bundle inventory
+## What the runtime fix changed
+
+- **Shared-snapshot isolation root:** `make_isolation(..., snapshot_storage_root)`
+  → `IsolationContext(snapshot_base=...)`, threaded through
+  `_run_single_scenario_strategy` and both `main` call sites, so all arms under
+  a session share `workspace/snapshots` of the same workspace tree.
+- **Kaggle Qwen fail-closed `--model-path` validation + `qwen:` identity** so a
+  missing/absent real model fails before any run and `dry-run:mock` identity can
+  never leak into real sessions.
+- **Session exit code:** `_decide_session_exit_code` returns non-zero when a
+  created run ended failed (e.g., max-runs-terminated session whose last run
+  failed now exits 1).
+- **Batched truthful HF upload:** `_upload_batch_with_retry` /
+  `CommitOperationAdd` / `create_commit`; all upload booleans checked so
+  `remote_sync.json` truthfully reflects what was uploaded; allowlist includes
+  `benchmark-results`.
+- **`mark_completed(completed_with_failures=...)`** in `checkpoint.py`.
+- **Notebook guardrails:** `discover_model()` fail-closed (config.json + >=1
+  weight file required, KAGGLE_INPUT fallback), `_verify_scientific_run()` at
+  the end of both run cells (status succeeded, total_workflow_model_calls > 0,
+  model_identity starts `qwen:`, baseline/migration/evaluator passed,
+  `remote_sync.json` last_sync in recovery/snapshot/final_uploaded),
+  continuous-cell markdown blocks auto-run until guardrail passes,
+  `Terminal: n/9` vocabulary, results repo =
+  `NabilDo/selective-regeneration-experiment-results`.
+
+## Fix evidence
 
 ```text
-code manifest entries      87     mismatches 0
-data manifest entries      56     mismatches 0
-notebook manifest entries   1     mismatches 0
-bundle totals = code 87 files / data 56 files / notebooks 1 = 144 files, 805,634 bytes
+Shared-snapshot integration test (r5 shared root, all 3 child arms)     passed
+Unit isolation TestMakeIsolationSharedSnapshot (7)                      passed
+Unit CLI (test_cli.py, 57, incl. notebook pin derived from canonical)   passed
+Unit HF sync (TestHfUploaderBatchedCommits + 6 rewritten legacy tests)  passed
+Kaggle bundle preflight (15; +TestKaggleBundleRuntimeGuardrails, 6)     passed
+Combined unit + integration (isolation, cli, hf_sync, production path,
+  real smoke, todo smoke evaluator)                                     254 passed / 2 skipped
+Full suite (last full gate)                                             1,676 passed / 32 skipped / 0 failed
 ```
 
-The three manifests add 15,659 bytes and are intentionally outside their own category manifests.
+## Bundle inventory
 
-## Deployment preflight
-
-Three scenario cases (`todo-smoke-001/002/003`) were executed against the generated bundle: baseline copy from `kaggle_upload/data/repositories/todo`, exact five test files / 47 methods proven, `get_correct_sources_for_scenario` applied, `makemigrations todo --noinput` produced exactly one new migration with old migration hashes unchanged, `manage.py test todo --verbosity 1` returned code 0 reporting `Ran 47 tests`, and the real scenario evaluator ran against `kaggle_upload/code` with a workspace outside the code root, returning pass with a non-empty expected check list and no `tests/evaluator_assets` inside the generated workspace.
-
-## Bundled CLI dry-run 9/9
-
-The regression test `test_bundled_cli_dry_run_executes_exact_nine_cell_plan` (test commit `40c7a47`) runs the real generated CLI through subprocess and asserts exact persisted matrix and identity: 9 succeeded records, exact scenario × strategy Cartesian product, checkpoint `total_planned=9` / `total_completed=9` / `completion_status=completed` / exact source and build identity, `source_identity.json` truth, per-strategy summary counts, and an unchanged working tree before/after. TD-R6-ENTRYPOINT-001 = closed.
-
-## Scope and over-engineering judgment
-
-The independent audit found no R6 production over-engineering: `src/benchmark/**` was not modified; `seven_arm_benchmark.py` received help-text changes only. The correction pass added exactly one regression test and documentation-truth cleanup only. Do not refactor the deployment tests before real Smoke.
-
-## Open debt
-
-The correction closed `TD-R6-ENTRYPOINT-001` and documentation-truth defects D1–D6. `.gitattributes` manifest-LF rule is an audit-approved scope extension, disclosed in the final ledger. No new debt was opened. No production, builder, bundle, notebook, or config change was made.
+```text
+code = 87 files; data = 56 files; notebooks = 1 (18,137 bytes); total = 144 files / 815,004 bytes
+Builder = scripts/build_upload_bundle.py only; preflight over rebuilt bundle = 15 passed
+```
 
 ## Exact gates
 
 ```text
-CLI regression (bundled nine-cell plan)                  passed (1 passed)
-builder rerun (python scripts/build_upload_bundle.py)    success; no tracked diff
-git diff --check                                          clean
-git status --short                                        clean
-Final accepted full suite (from re-audit)                 1,648 passed / 32 skipped / 0 failed
-Ruff                                                      0 new vs starting HEAD
-Mypy strict                                               0 new vs starting HEAD
-Compileall                                                 clean
+git diff --check    clean
+Ruff                0 new violations (pre-existing baseline unchanged)
+Mypy strict         base 5 pre-existing errors only (0 new)
+py_compile          clean
+preflight suite     15 passed
+full suite (last)   1,676 passed / 32 skipped / 0 failed
 ```
 
 ## Current status
@@ -97,26 +117,30 @@ Compileall                                                 clean
 ```text
 R4 = accepted and frozen (f5ae826)
 R5 = accepted and frozen (7761c48)
-R6 = ACCEPTED AND FROZEN (949e9c2; freeze commit 4b2dd27)
-Local scripted Smoke  = 9/9
-Bundled CLI dry-run   = 9/9
-Real Qwen Smoke       = 0/9
-Kaggle                = not launched
-Push                  = PUBLISHED — upstream origin/experiment/three-arm-smoke-v2, local/remote equal
-Tag                   = not created
-Pilot                 = not authorized
+R6 = ACCEPTED AND FROZEN (949e9c2; freeze commit 4b2dd27; branch published)
+Kaggle attempts = 2 (exp-20260801-024041, exp-20260801-024624) — failed pre-model, preserved
+Runtime fixes  = committed (de3163f) and pinned (fb60972)
+Local scripted Smoke = 9/9
+Bundled CLI dry-run  = 9/9
+Real Qwen Smoke      = 0/9
+Tag                  = not created
+Pilot                = not authorized
 ```
 
 ## Near goal
 
-Kaggle environment preflight → nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 repetition).
+Independent runtime-fix audit → relaunch nine real Qwen Scientific Smoke V2
+records (3 scenarios × 3 arms × 1 repetition) with the corrected bundle.
 
 ## Far goal
 
-Independent real-result audit → stable `v2.0.0-scientific-smoke` tag → freeze Pilot matrix → Pilot execution → research experiment → statistical analysis → paper evidence package.
+Independent real-result audit → stable `v2.0.0-scientific-smoke` tag → freeze
+Pilot matrix → Pilot execution → research experiment → statistical analysis →
+paper evidence package.
 
 ## Next action
 
-**Kaggle environment preflight**, then nine real Qwen Smoke records. Do not tag, merge, force-push, or run Kaggle now.
+**Independent audit of the runtime fixes.** Do not relaunch Kaggle, tag, merge,
+or force-push before that audit passes.
 
-R6_FROZEN_BRANCH_PUBLISHED_KAGGLE_PREFLIGHT_REQUIRED
+KAGGLE_RUNTIME_FIX_AUDIT_REQUIRED
