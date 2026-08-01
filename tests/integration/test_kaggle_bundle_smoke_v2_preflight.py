@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import ast
 import hashlib
+import json
+import os
 import shutil
 import subprocess
 import sys
@@ -202,3 +204,144 @@ class TestKaggleBundleGlobalContract:
             if p.is_file() and (p.read_bytes().find(b"sk-or-v1-") != -1)
         ]
         assert secret_hits == [], f"embedded API key material in bundle: {secret_hits}"
+
+
+class TestKaggleBundleCliDryRun:
+    def test_bundled_cli_dry_run_executes_exact_nine_cell_plan(self, tmp_path: Path) -> None:
+        script = BUNDLE_CODE / "seven_arm_benchmark.py"
+        assert script.is_file(), f"generated entrypoint not found: {script}"
+        src_dir = BUNDLE_CODE / "src"
+        data_dir = BUNDLE_ROOT / "data"
+        assert data_dir.is_dir(), f"bundled data dir missing: {data_dir}"
+
+        runs_dir = tmp_path / "runs"
+
+        env = os.environ.copy()
+        env["PYTHONPATH"] = str(src_dir)
+        env["PYTHONDONTWRITEBYTECODE"] = "1"
+        env.pop("HF_TOKEN", None)
+        env.pop("OPENROUTER_API_KEY", None)
+
+        before = subprocess.run(
+            ["git", "status", "--short"],
+            cwd=str(PROJECT_ROOT),
+            capture_output=True,
+            text=True,
+        )
+        before_status = before.stdout
+
+        result = subprocess.run(
+            [
+                sys.executable, str(script),
+                "--dry-run",
+                "--profile", "scientific-smoke-v2",
+                "--data-dir", str(data_dir),
+                "--output-dir", str(runs_dir),
+                "--source-commit", "cb25e9fb3e6cb5eecead4dc640aedda30d4625b0",
+                "--deployed-build-id", "cb25e9f",
+                "--max-attempts", "3",
+                "--max-completion-tokens-per-call", "4096",
+                "--max-total-workflow-tokens", "0",
+                "--timeout", "300",
+            ],
+            cwd=str(tmp_path),
+            timeout=120,
+            capture_output=True,
+            text=True,
+            env=env,
+        )
+        combined = result.stdout + result.stderr
+
+        assert result.returncode == 0, (
+            f"bundled CLI dry-run failed rc={result.returncode}\n{combined}"
+        )
+        assert "Selected 3 scenario(s) for profile=scientific-smoke-v2" in combined, (
+            f"missing selection line\n{combined}"
+        )
+        assert "Execution plan: 9 pending" in combined, (
+            f"missing execution-plan line\n{combined}"
+        )
+        assert "Benchmark complete: 9/9 runs" in combined, (
+            f"missing completion line\n{combined}"
+        )
+
+        after = subprocess.run(
+            ["git", "status", "--short"],
+            cwd=str(PROJECT_ROOT),
+            capture_output=True,
+            text=True,
+        )
+        after_status = after.stdout
+        assert before_status == after_status, (
+            f"bundled CLI dry-run changed the working tree\nbefore:\n{before_status}\nafter:\n{after_status}"
+        )
+
+        records = [
+            json.loads(line)
+            for line in (runs_dir / "run_records.jsonl").read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+        assert len(records) == 9, f"expected 9 records, got {len(records)}"
+        assert all(r["status"] == "succeeded" for r in records), "not all statuses succeeded"
+        assert all(r["profile"] == "scientific-smoke-v2" for r in records), "profile mismatch"
+        assert all(r["repetition"] == 1 for r in records), "repetition != 1"
+        assert all(r["model_metadata"]["dry_run"] == "True" for r in records), "dry_run flag mismatch"
+        assert all(r["model_calls"] == 0 for r in records), "model_calls != 0"
+        assert all(r["total_workflow_tokens"] == 0 for r in records), "total_workflow_tokens != 0"
+
+        scenario_set = {r["scenario_id"] for r in records}
+        strategy_set = {r["strategy_id"] for r in records}
+        assert scenario_set == {
+            "todo-smoke-001",
+            "todo-smoke-002",
+            "todo-smoke-003",
+        }, f"scenario set mismatch: {scenario_set}"
+        assert strategy_set == {
+            "monolithic",
+            "selective",
+            "iterative_repository_agent",
+        }, f"strategy set mismatch: {strategy_set}"
+
+        pairs = {(r["scenario_id"], r["strategy_id"]) for r in records}
+        expected_pairs = {
+            (s, st)
+            for s in ("todo-smoke-001", "todo-smoke-002", "todo-smoke-003")
+            for st in ("monolithic", "selective", "iterative_repository_agent")
+        }
+        assert len(records) == len(pairs) == len(expected_pairs) == 9, "not 9 unique pairs"
+        assert pairs == expected_pairs, f"pair set mismatch: {pairs ^ expected_pairs}"
+
+        checkpoint = json.loads(
+            (runs_dir / "checkpoint.json").read_text(encoding="utf-8")
+        )
+        assert checkpoint["total_planned"] == 9, checkpoint["total_planned"]
+        assert checkpoint["total_completed"] == 9, checkpoint["total_completed"]
+        assert checkpoint["completion_status"] == "completed", checkpoint["completion_status"]
+        assert set(checkpoint["scenario_ids"]) == scenario_set, "checkpoint scenario_ids mismatch"
+        assert set(checkpoint["strategy_names"]) == strategy_set, "checkpoint strategy_names mismatch"
+        assert checkpoint["source_commit"] == "cb25e9fb3e6cb5eecead4dc640aedda30d4625b0", (
+            checkpoint["source_commit"]
+        )
+        assert checkpoint["deployed_build_id"] == "cb25e9f", checkpoint["deployed_build_id"]
+
+        identity = json.loads(
+            (runs_dir / "source_identity.json").read_text(encoding="utf-8")
+        )
+        assert identity["source_commit"] == "cb25e9fb3e6cb5eecead4dc640aedda30d4625b0", (
+            identity["source_commit"]
+        )
+        assert identity["deployed_build_id"] == "cb25e9f", identity["deployed_build_id"]
+        assert identity["profile"] == "scientific-smoke-v2", identity["profile"]
+        assert identity["dry_run"] is True, identity["dry_run"]
+
+        summary = json.loads(
+            (runs_dir / "benchmark_summary.json").read_text(encoding="utf-8")
+        )
+        assert set(summary) == strategy_set, f"summary strategy keys mismatch: {set(summary)}"
+        for sname in strategy_set:
+            agg = summary[sname]["aggregate"]
+            assert agg["run_count"] == 3, f"{sname} run_count != 3"
+            assert agg["success_count"] == 3, f"{sname} success_count != 3"
+            assert agg["failed_count"] == 0, f"{sname} failed_count != 0"
+        total_records = sum(len(entry["records"]) for entry in summary.values())
+        assert total_records == 9, f"summary records total != 9: {total_records}"
