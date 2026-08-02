@@ -10,6 +10,7 @@ from benchmark.execution.post_generation import (
     _assess_migration_change,
     _coerce_subprocess_text,
     _MigrationSnapshot,
+    _normalize_interpreter_command,
     _relative_to_root,
     _run_command,
     _take_migration_snapshot,
@@ -1451,14 +1452,17 @@ class TestRegressionCases:
             "todo",
             "--noinput",
         )
-        run_post_generation_command(
+        result = run_post_generation_command(
             workspace_root=tmp_path,
             command=command_tuple,
             require_new_migration=False,
             timeout=10,
         )
 
-        assert call_kwargs.get("popenargs") == (list(command_tuple),)
+        expected = [sys.executable, "manage.py", "makemigrations", "todo", "--noinput"]
+        assert call_kwargs.get("popenargs") == (expected,)
+        assert result.original_command == command_tuple
+        assert result.resolved_executable == sys.executable
         assert Path(call_kwargs.get("cwd", "")).resolve() == Path(
             tmp_path
         ).resolve()
@@ -1777,6 +1781,98 @@ class TestRegressionCases:
         )
         assert result.passed is False
         assert result.exit_code == -1
+
+
+# =============================================================================
+# TestInterpreterNormalization — deterministic interpreter binding
+# =============================================================================
+
+
+class TestInterpreterNormalization:
+    def test_bare_python_resolves_to_sys_executable(self) -> None:
+        normalized = _normalize_interpreter_command(
+            ("python", "manage.py", "makemigrations", "todo", "--noinput")
+        )
+        assert normalized == [sys.executable, "manage.py", "makemigrations", "todo", "--noinput"]
+
+    def test_bare_python_exe_resolves_to_sys_executable(self) -> None:
+        normalized = _normalize_interpreter_command(("python.exe", "-m", "compileall", "."))
+        assert normalized == [sys.executable, "-m", "compileall", "."]
+
+    def test_bare_python3_resolves_to_sys_executable(self) -> None:
+        normalized = _normalize_interpreter_command(("python3", "manage.py", "test", "todo"))
+        assert normalized == [sys.executable, "manage.py", "test", "todo"]
+
+    def test_bare_python3_exe_resolves_to_sys_executable(self) -> None:
+        normalized = _normalize_interpreter_command(("python3.exe", "-V"))
+        assert normalized == [sys.executable, "-V"]
+
+    def test_python_token_case_insensitive(self) -> None:
+        normalized = _normalize_interpreter_command(("PyThOn", "script.py"))
+        assert normalized == [sys.executable, "script.py"]
+
+    def test_absolute_interpreter_path_is_unchanged(self) -> None:
+        command = (sys.executable, "manage.py", "makemigrations", "todo", "--noinput")
+        normalized = _normalize_interpreter_command(command)
+        assert normalized == list(command)
+
+    def test_qualified_interpreter_path_is_unchanged(self) -> None:
+        command = ("venv/bin/python", "-c", "exit(0)")
+        normalized = _normalize_interpreter_command(command)
+        assert normalized == list(command)
+
+    def test_non_python_executable_is_unchanged(self) -> None:
+        command = ("git", "status")
+        normalized = _normalize_interpreter_command(command)
+        assert normalized == list(command)
+
+    def test_django_executable_is_unchanged(self) -> None:
+        command = ("django-admin", "makemigrations", "todo")
+        normalized = _normalize_interpreter_command(command)
+        assert normalized == list(command)
+
+    def test_empty_command_returns_empty_list(self) -> None:
+        assert _normalize_interpreter_command(()) == []
+
+    def test_real_django_bare_python_command_succeeds(self, tmp_path: Path) -> None:
+        import shutil
+
+        from tests.support.evaluator_fixture_workspaces import (
+            get_correct_sources_for_scenario,
+        )
+
+        baseline = (
+            Path(__file__).resolve().parents[3]
+            / "benchmark_data"
+            / "repositories"
+            / "todo"
+        )
+        workspace = tmp_path / "workspace"
+        shutil.copytree(str(baseline), str(workspace), symlinks=False)
+
+        for rel, content in get_correct_sources_for_scenario("todo-smoke-001").items():
+            target = workspace / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content)
+
+        result = run_post_generation_command(
+            workspace_root=workspace,
+            command=("python", "manage.py", "makemigrations", "todo", "--noinput"),
+            require_new_migration=True,
+            timeout=180,
+            migration_directory="todo/migrations",
+        )
+        assert result.passed is True, result.stderr
+        assert result.exit_code == 0
+        assert result.original_command == (
+            "python",
+            "manage.py",
+            "makemigrations",
+            "todo",
+            "--noinput",
+        )
+        assert result.resolved_executable == sys.executable
+        assert len(result.created_paths) == 1
 
 
 # =============================================================================
