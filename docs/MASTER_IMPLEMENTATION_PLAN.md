@@ -138,8 +138,49 @@ Recreated clean Python 3.11.9 validation environment (`_workspace\cache\prebench
 
 ## Pre-Benchmark Final Reproducibility Audit Closure (2026-08-03)
 
-The pre-benchmark reproducibility-and-truth closure on branch `fix/kaggle-smoke-v2-model-output-closure` (HEAD `e5d9430`, pushed, local = remote, tree clean) declares the complete pre-benchmark test environment so it can be recreated purely from project declarations, and records the observed truth. Runtime commit `aac9914` (fix(exec): bind Python scenario commands to active runtime) and deployment commit `311e084` (bundle pin; notebook SOURCE_COMMIT=`aac9914c6dcda054736539a0d0ed649cf9865128`, DEPLOYED_BUILD_ID=`aac9914`) are unchanged. Declaration commits `769d84e` + `e5d9430` extend `pyproject.toml [dev]` + `requirements-dev.txt` with the complete pre-benchmark set: Django==5.2.16, djangorestframework==3.17.1, pytest-django==4.12.0, pytest-asyncio==1.2.0 (required by `--asyncio-mode=auto`), tabulate==0.10.0, httpx==0.28.1, Jinja2==3.1.6, huggingface_hub==0.24.0 (the 1.x line broke positional `hf_hub_download`/`local_dir_use_symlinks` and strict mypy), types-pyyaml>=6.0,<7 (mypy strict yaml stubs), pytest>=8.0,<9. Runtime `[project.dependencies]` and `requirements-smoke-kaggle.lock` untouched.
+The pre-benchmark reproducibility-and-truth closure on branch `fix/kaggle-smoke-v2-model-output-closure` declares the complete pre-benchmark test environment so it can be recreated purely from project declarations, and records the observed truth. Runtime commit `aac9914` (fix(exec): bind Python scenario commands to active runtime) and deployment commit `311e084` (bundle pin; notebook SOURCE_COMMIT=`aac9914c6dcda054736539a0d0ed649cf9865128`, DEPLOYED_BUILD_ID=`aac9914`) are unchanged. Declaration commits `769d84e` + `e5d9430` extend `pyproject.toml [dev]` + `requirements-dev.txt` with the complete pre-benchmark set: Django==5.2.16, djangorestframework==3.17.1, pytest-django==4.12.0, pytest-asyncio==1.2.0 (required by `--asyncio-mode=auto`), tabulate==0.10.0, httpx==0.28.1, Jinja2==3.1.6, huggingface_hub==0.24.0 (the 1.x line broke positional `hf_hub_download`/`local_dir_use_symlinks` and strict mypy), types-pyyaml>=6.0,<7 (mypy strict yaml stubs), pytest>=8.0,<9. Runtime `[project.dependencies]` and `requirements-smoke-kaggle.lock` untouched.
 
-The environment was deleted and recreated from declarations only (Python 3.11.9, pytest 8.4.2, Django 5.2.16, DRF 3.17.1, pytest-django 4.12.0, tabulate 0.10.0, httpx 0.28.1, Jinja2 3.1.6, ruff 0.15.22, mypy 1.20.2). Complete clean gate on the recreated environment: full suite = **1,833 passed / 32 skipped / 1 failed** (sole failure = `test_notebook_source_commit_matches_deployed_runtime_tree`, structural because the mandated `pyproject.toml` declaration change breaks byte-identity with the pinned `aac9914` SOURCE_COMMIT; frozen artifacts were not modified to force green — reported truthfully); Dataset Validation 285 passed / 5 skipped; Prompt Validation 158 passed; Pipeline Smoke 220 passed / 12 skipped; Dry Run 9/9 succeeded (exit 0); Integration PASS; Metric Verification 169 passed; mypy strict src/benchmark Success (77 files); ruff 93 findings = 468a23a baseline (0 new); compileall clean; bundle build verified (147 files / 928,329 bytes) then `kaggle_upload` restored unchanged; git diff --check clean; tree clean. Historical experiment `exp-20260801-210443` produced **one failed model-output terminal record** under source `6f88823` — preserved, excluded from the current `aac9914` aggregation; current accepted `aac9914` records = **0/9**; no scientific evidence; no tag; no Pilot; no Kaggle launch. Next: independent audit (`PRE_BENCHMARK_FINAL_REPRODUCIBILITY_AUDIT_REQUIRED`), then update the Kaggle code dataset + notebook, then the Kaggle engineering preflight cell only.
+The environment was deleted and recreated from declarations only (Python 3.11.9, pytest 8.4.2, Django 5.2.16, DRF 3.17.1, pytest-django 4.12.0, tabulate 0.10.0, httpx 0.28.1, Jinja2 3.1.6, ruff 0.15.22, mypy 1.20.2). Complete clean gate on the recreated environment: full suite = **1,833 passed / 32 skipped / 1 failed** (sole failure = `test_notebook_source_commit_matches_deployed_runtime_tree`, structural because the mandated `pyproject.toml` declaration change breaks byte-identity with the pinned `aac9914` SOURCE_COMMIT; frozen artifacts were not modified to force green — reported truthfully); Dataset Validation 285 passed / 5 skipped; Prompt Validation 158 passed; Pipeline Smoke 220 passed / 12 skipped; Dry Run 9/9 succeeded (exit 0); Integration PASS; Metric Verification 169 passed; mypy strict src/benchmark Success (77 files); ruff 93 findings = 468a23a baseline (0 new); compileall clean; bundle build verified (147 files / 928,329 bytes) then `kaggle_upload` restored unchanged; git diff --check clean; tree clean. Historical experiment `exp-20260801-210443` produced **one failed model-output terminal record** under source `6f88823` — preserved, excluded from the current `aac9914` aggregation; current accepted `aac9914` records = **0/9**; no scientific evidence; no tag; no Pilot; no Kaggle launch. Next action after this independent audit: Kaggle engineering preflight only (update the Kaggle code dataset + notebook to the corrected `e5d9430` deployment, then the preflight cell, not the scientific One-Run cell). Superseded by the deployment-only correction `f8d00d7` below: complete clean suite is green (1,834 passed / 32 skipped / 0 failed); aggregation is now `e5d9430`.
+
+
+## Pre-Benchmark Final Source Repin (2026-08-03) — Deployment-Only Correction
+
+The previous `76a6b16` gate had **1 failure, not a green full suite**: full suite =
+**1,833 passed / 32 skipped / 1 failed**. The sole failure was
+`test_notebook_source_commit_matches_deployed_runtime_tree`, structural because the
+mandated `pyproject.toml` declaration change broke byte-identity with the pinned
+`aac9914` SOURCE_COMMIT. **Root cause:** dependency declarations changed
+`pyproject.toml` after the `aac9914`/`311e084` deployment pin. **No runtime, prompt,
+metric, scenario, evaluator, or data change was needed.**
+
+The exact independently reviewed **deployment-only correction** `f8d00d7`
+(`chore(deploy): repin reproducible pre-benchmark source snapshot`, imported via
+bundle fast-forward `PRE_BENCHMARK_FINAL_REPIN_EXACT.bundle`, exactly one commit)
+re-pins the deployment to the current source snapshot:
+
+1. `kaggle_upload/code/pyproject.toml` gains the six declaration lines
+   (`tabulate==0.10.0`, `httpx==0.28.1`, `Jinja2==3.1.6`, `pytest-asyncio==1.2.0`,
+   `huggingface_hub==0.24.0`, `types-pyyaml>=6.0,<7`) and is now **byte-identical**
+   to the canonical `pyproject.toml` (verified: identical, 1,948 bytes).
+2. Both canonical and generated notebooks re-pin
+   `SOURCE_COMMIT = e5d943065c6f4158c30a1cbbba39436ab2a7a898` /
+   `DEPLOYED_BUILD_ID = e5d9430`. Deployment source snapshot = `e5d9430`;
+   deployment correction = `f8d00d7`.
+3. Manifests re-verified.
+
+The complete clean gate on the declarations-only environment is now **green**:
+full suite = **1,834 passed / 32 skipped / 0 failed** (identity test passes);
+Dataset Validation 285 passed / 5 skipped (data unchanged); Prompt Validation 158
+passed; Pipeline Smoke 220 passed / 12 skipped; Dry Run 9/9; Integration PASS;
+Metric Verification 169 passed; mypy strict Success (77 files); ruff 93 = 93
+baseline (0 new); compileall clean; all notebook code cells compile (7/7 + 7/7);
+bundle build content-identical (147 files / 928,329 bytes); manifests verified;
+no cache files in `kaggle_upload`; tree clean. Historical `exp-20260801-210443`
+failed model-output record under `6f88823` remains excluded from the current
+`e5d9430` aggregation; current accepted real records = **0/9**; no scientific
+evidence; no tag; no Pilot; no Kaggle launch. Next action after this independent
+audit: **Kaggle engineering preflight only** (update the Kaggle code dataset +
+notebook to the corrected `e5d9430` deployment, then the preflight cell, not the
+scientific One-Run cell).
 
 R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED
