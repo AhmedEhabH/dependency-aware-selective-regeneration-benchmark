@@ -23,6 +23,9 @@ dev = [
     "Django==5.2.16",
     "djangorestframework==3.17.1",
     "pytest-django==4.12.0",
+    "tabulate==0.10.0",
+    "httpx==0.28.1",
+    "Jinja2==3.1.6",
 ]
 
 [tool.setuptools.package-dir]
