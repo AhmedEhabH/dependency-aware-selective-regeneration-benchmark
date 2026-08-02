@@ -250,4 +250,25 @@ quality finding was introduced and fixed within the pass: `SIM105`
 baseline (91 = 91, 0 new). The pre-existing Mypy strict base in
 `seven_arm_benchmark.py` is outside the R7B authorized scope and remains
 unchanged. Recorded in
-`selective_updates/records/KAGGLE-SMOKE-V2-FINISH.md`.
+selective_updates/records/KAGGLE-SMOKE-V2-FINISH.md`.
+
+## Post-R7C Pre-Benchmark Final Reproducibility Closure (2026-08-03)
+
+The pre-benchmark final reproducibility closure (branch
+`fix/kaggle-smoke-v2-model-output-closure`, HEAD `e5d9430`, commits `769d84e` +
+`e5d9430`, pushed, local = remote) declared the complete pre-benchmark test
+environment and opened **no new technical debt**; it removed the reproducibility
+defect (the pre-benchmark test environment could not be recreated purely from
+project declarations). It is recorded in
+`selective_updates/records/KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE.md`. Newly
+declared dev dependencies (pytest-asyncio==1.2.0, huggingface_hub==0.24.0,
+types-pyyaml, plus the previously missing tabulate/httpx/Jinja2) are pinned in
+`pyproject.toml [dev]` + `requirements-dev.txt`; the runtime
+`[project.dependencies]` and `requirements-smoke-kaggle.lock` are untouched, so
+the Kaggle runtime lock is not affected. The one structural test failure
+(`test_notebook_source_commit_matches_deployed_runtime_tree`) is not a defect of
+the codebase — the mandated `pyproject.toml` declaration change necessarily
+breaks byte-identity with the pinned `aac9914` SOURCE_COMMIT; frozen notebook
+artifacts were not modified and the truthful 1-failure total is recorded. The
+pre-existing Mypy strict base in `seven_arm_benchmark.py` (outside the
+authorized scope of every recent change) remains unchanged and still open.

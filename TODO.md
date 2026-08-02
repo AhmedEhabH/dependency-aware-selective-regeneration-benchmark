@@ -1,5 +1,43 @@
 # TODO
 
+## Current - Pre-Benchmark Final Reproducibility Audit Closure
+
+### PBF-01 - Recover Exact Passing Dependency Versions
+- **Priority:** HIGH
+- **Category:** Reproducibility
+- **Description:** Recover the exact versions from the previously passing environment: tabulate 0.10.0, httpx 0.28.1, Jinja2 3.1.6, pytest 8.4.2, ruff 0.15.22, mypy 1.20.2
+- **Status:** COMPLETE
+
+### PBF-02 - Declare Complete Pre-Benchmark Dependencies
+- **Priority:** HIGH
+- **Category:** Reproducibility
+- **Description:** Declare the full pre-benchmark test environment in `pyproject.toml [dev]` + `requirements-dev.txt`: Django==5.2.16, djangorestframework==3.17.1, pytest-django==4.12.0, pytest-asyncio==1.2.0 (required by --asyncio-mode=auto), tabulate==0.10.0, httpx==0.28.1, Jinja2==3.1.6, huggingface_hub==0.24.0 (1.x broke positional hf_hub_download/local_dir_use_symlinks + strict mypy), types-pyyaml>=6.0,<7, pytest>=8.0,<9. Runtime [project.dependencies] and requirements-smoke-kaggle.lock untouched. Commits 769d84e + e5d9430 (both pushed)
+- **Status:** COMPLETE
+
+### PBF-03 - Recreate Clean Environment From Declarations Only
+- **Priority:** HIGH
+- **Category:** Reproducibility
+- **Description:** Delete + recreate `_workspace\cache\prebenchmark-py311` (Python 3.11.9) using only `py -3.11 -m venv` + `pip install -e ".[dev]" "pytest==8.4.2" "ruff==0.15.22" "mypy==1.20.2"`; verified pytest 8.4.2 / Django 5.2.16 / DRF 3.17.1 / pytest-django 4.12.0 / tabulate 0.10.0 / httpx 0.28.1 / Jinja2 3.1.6 / ruff 0.15.22 / mypy 1.20.2
+- **Status:** COMPLETE
+
+### PBF-04 - Repeat the Complete Clean Gate
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Full suite 1,833 passed / 32 skipped / 1 failed (sole failure = test_notebook_source_commit_matches_deployed_runtime_tree, structural - mandated pyproject.toml declaration change breaks byte-identity with pinned aac9914 SOURCE_COMMIT; frozen artifacts not modified to force green, reported truthfully); Dataset 285/5; Prompt 158; Pipeline Smoke 220/12; Dry Run 9/9; Integration PASS; Metric Verification 169; mypy strict Success (77 files); ruff 93 = 93 baseline (0 new); compileall clean; bundle build verified then kaggle_upload restored
+- **Status:** COMPLETE
+
+### PBF-05 - Correct Operational Documentation
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md; create selective_updates/records/KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE.md; record historical exp-20260801-210443 (one failed model-output terminal record under 6f88823, preserved, excluded from current aac9914 aggregation) and current aac9914 records = 0/9
+- **Status:** COMPLETE
+
+### PBF-06 - Independent Pre-Benchmark Reproducibility Audit
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent audit of this bounded closure (sentinel `PRE_BENCHMARK_FINAL_REPRODUCIBILITY_AUDIT_REQUIRED`); after it passes, update the Kaggle code dataset + notebook, then the Kaggle engineering preflight cell only (not the scientific One-Run cell); do not relaunch Kaggle, tag, merge, or force-push before that audit passes
+- **Status:** PENDING (sentinel `PRE_BENCHMARK_FINAL_REPRODUCIBILITY_AUDIT_REQUIRED`)
+
 ## Current — R7C Real-Run Root Closure
 
 ### R7C-01 — Close Environment Memory Contract
