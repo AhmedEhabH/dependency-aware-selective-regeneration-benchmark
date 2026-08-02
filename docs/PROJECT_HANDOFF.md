@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-08-01
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 ACCEPTED AND FROZEN (final independent re-audit 2026-08-01 at 949e9c2) — **DETERMINISTIC INTERPRETER CLOSURE (2026-08-02) on branch fix/kaggle-smoke-v2-model-output-closure (runtime commit aac9914, bundle pin 311e084, pushed, local = remote, tree clean)** — branch experiment/three-arm-smoke-v2 PUBLISHED to origin (freeze commit 4b2dd27 = first publication HEAD; upstream origin/experiment/three-arm-smoke-v2; local/remote equality verified before publication-status commit); post-R6 KAGGLE RUNTIME FIX on branch fix/kaggle-smoke-v2-runtime-blockers — two real Kaggle attempts failed pre-model (exp-20260801-024041, exp-20260801-024624; both 0 model calls; preserved, not deleted), all real runtime blockers closed (fix commit de3163f) and pinned (bundle commit fb60972) with the core fix accepted by the independent runtime-fix audit, and the R7A pre-rerun hardening closed all four audit findings (hardened source d50e89e, hardened bundle 4c73db6); a further real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0 regenerated files (0/9, not scientific evidence); R7B SMOKE FINISH on branch fix/kaggle-smoke-v2-finish (runtime commit bff0a82, bundle pin 17207bf) makes the Qwen Smoke run observable and executable, with the notebook compile correction at 4c7a0af; **R7C REAL-RUN ROOT CLOSURE on branch fix/kaggle-smoke-v2-real-run-root (runtime commit 7a80e53, bundle pin f01b8f0, pushed, local = remote)** closed the four root contracts the FP16/deps-drift attempt exp-20260801-123125 exposed: environment memory (exact pins in requirements-smoke-kaggle.lock installed + verified in the notebook), int8 memory contract (qwen:1:int8 default, PYTORCH_ALLOC_CONF, seeded probe, VRAM headroom), frozen RegenerationScenarioContext prompt contract, and FailureKind.infrastructure_nonrepairable first-failure repair contract — plus a --kaggle-preflight-only gate (kaggle_smoke_preflight.v1, 6 checks, no run side effects); the prior R7C report incorrectly called a 1,451-test subset the full suite (true first full suite = 23 failed / 1,759 passed / 32 skipped; root cause = blanket baseline_validation => infrastructure_nonrepairable); the independent GPT-5.6 Thinking correction was imported via bundle fast-forward (**ffa179a + 6d6aa36, HEAD 6d6aa36, pushed**) and the exact 23 former failures now pass, with DRF import mapping, exact version verification, fail-fast preflight, driver-level VRAM, CPU-offload rejection, Python 3.12 contract, and stale source identity (SOURCE_COMMIT=ffa179a) corrected; current full gate = 1,790 passed / 32 skipped / 0 failed; local scripted = 9/9; bundled CLI dry-run = 9/9; real Qwen = 0/9; tag not created; Pilot = NOT AUTHORIZED; independent full-gate audit required before any Kaggle relaunch; do not tag/merge/force-push/relaunch Kaggle before that audit. All reading is repository-contained; external prompt packages are historical provenance only. An independent post-gate audit on `5e47a1e` then found (a) the project-local `ImportError` was incorrectly bypassing repair (blanket marker match), (b) the bundled preflight could not import `benchmark` without ambient `PYTHONPATH`, and (c) preflight output was buffered; its exact correction was imported via bundle fast-forward (**6f88823 + 5797fc0, HEAD 5797fc0, pushed**) and now the project-local `ModuleNotFoundError` / `cannot import name` are repairable via the canonical classifier (missing declared Django + CUDA OOM stay `infrastructure_nonrepairable`), the bundled script bootstraps its own `src/`, and preflight output is streamed and persisted; notebook source identity = `SOURCE_COMMIT 6f88823` / `DEPLOYED_BUILD_ID 6f88823`; current full gate = 1,796 passed / 32 skipped / 0 failed; valid real Qwen remains 0/9; no scientific evidence exists; final independent full-gate audit required before any Kaggle relaunch, after which only the engineering preflight cell is authorized (not the scientific One-Run cell); do not tag/merge/force-push/relaunch Kaggle before that final audit.
+**Handoff type:** R4 ACCEPTED AND FROZEN (explicit freeze commit f5ae826) — R5 ACCEPTED AND FROZEN (independent re-audit 2026-08-01 at 7761c48) — R6 ACCEPTED AND FROZEN (final independent re-audit 2026-08-01 at 949e9c2) — **DETERMINISTIC INTERPRETER CLOSURE (2026-08-02) on branch fix/kaggle-smoke-v2-model-output-closure (runtime commit aac9914, bundle pin 311e084, pushed, local = remote, tree clean)** — **PRE-BENCHMARK FINAL REPRODUCIBILITY AUDIT CLOSURE (2026-08-03) on branch fix/kaggle-smoke-v2-model-output-closure (HEAD e5d9430, dependency declaration commits 769d84e + e5d9430, pushed, local = remote, tree clean)** — branch experiment/three-arm-smoke-v2 PUBLISHED to origin (freeze commit 4b2dd27 = first publication HEAD; upstream origin/experiment/three-arm-smoke-v2; local/remote equality verified before publication-status commit); post-R6 KAGGLE RUNTIME FIX on branch fix/kaggle-smoke-v2-runtime-blockers — two real Kaggle attempts failed pre-model (exp-20260801-024041, exp-20260801-024624; both 0 model calls; preserved, not deleted), all real runtime blockers closed (fix commit de3163f) and pinned (bundle commit fb60972) with the core fix accepted by the independent runtime-fix audit, and the R7A pre-rerun hardening closed all four audit findings (hardened source d50e89e, hardened bundle 4c73db6); a further real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0 regenerated files (0/9, not scientific evidence); R7B SMOKE FINISH on branch fix/kaggle-smoke-v2-finish (runtime commit bff0a82, bundle pin 17207bf) makes the Qwen Smoke run observable and executable, with the notebook compile correction at 4c7a0af; **R7C REAL-RUN ROOT CLOSURE on branch fix/kaggle-smoke-v2-real-run-root (runtime commit 7a80e53, bundle pin f01b8f0, pushed, local = remote)** closed the four root contracts the FP16/deps-drift attempt exp-20260801-123125 exposed: environment memory (exact pins in requirements-smoke-kaggle.lock installed + verified in the notebook), int8 memory contract (qwen:1:int8 default, PYTORCH_ALLOC_CONF, seeded probe, VRAM headroom), frozen RegenerationScenarioContext prompt contract, and FailureKind.infrastructure_nonrepairable first-failure repair contract — plus a --kaggle-preflight-only gate (kaggle_smoke_preflight.v1, 6 checks, no run side effects); the prior R7C report incorrectly called a 1,451-test subset the full suite (true first full suite = 23 failed / 1,759 passed / 32 skipped; root cause = blanket baseline_validation => infrastructure_nonrepairable); the independent GPT-5.6 Thinking correction was imported via bundle fast-forward (**ffa179a + 6d6aa36, HEAD 6d6aa36, pushed**) and the exact 23 former failures now pass, with DRF import mapping, exact version verification, fail-fast preflight, driver-level VRAM, CPU-offload rejection, Python 3.12 contract, and stale source identity (SOURCE_COMMIT=ffa179a) corrected; current full gate = 1,790 passed / 32 skipped / 0 failed; local scripted = 9/9; bundled CLI dry-run = 9/9; real Qwen = 0/9; tag not created; Pilot = NOT AUTHORIZED; independent full-gate audit required before any Kaggle relaunch; do not tag/merge/force-push/relaunch Kaggle before that audit. All reading is repository-contained; external prompt packages are historical provenance only. An independent post-gate audit on `5e47a1e` then found (a) the project-local `ImportError` was incorrectly bypassing repair (blanket marker match), (b) the bundled preflight could not import `benchmark` without ambient `PYTHONPATH`, and (c) preflight output was buffered; its exact correction was imported via bundle fast-forward (**6f88823 + 5797fc0, HEAD 5797fc0, pushed**) and now the project-local `ModuleNotFoundError` / `cannot import name` are repairable via the canonical classifier (missing declared Django + CUDA OOM stay `infrastructure_nonrepairable`), the bundled script bootstraps its own `src/`, and preflight output is streamed and persisted; notebook source identity = `SOURCE_COMMIT 6f88823` / `DEPLOYED_BUILD_ID 6f88823`; current full gate = 1,796 passed / 32 skipped / 0 failed; valid real Qwen remains 0/9; no scientific evidence exists; final independent full-gate audit required before any Kaggle relaunch, after which only the engineering preflight cell is authorized (not the scientific One-Run cell); do not tag/merge/force-push/relaunch Kaggle before that final audit.
 
 ---
 
@@ -108,8 +108,9 @@ project/
 - **Bundled CLI dry-run 9/9:** proven by regression test test_bundled_cli_dry_run_executes_exact_nine_cell_plan (test commit 40c7a47) — generated CLI + bundled data execute all nine cells together (3 scenarios × 3 strategies, all succeeded, exact persisted matrix and identity)
 - **Selective scopes verified:** 001=models,serializers,views | 002=models,views | 003=models,permissions,serializers,views
 - **DETERMINISTIC INTERPRETER CLOSURE (2026-08-02):** runtime commit `aac9914` (fix(exec): bind Python scenario commands to active runtime) + deployment commit `311e084` (chore(deploy): pin deterministic-interpreter Smoke V2 bundle), both pushed, local=remote, working tree clean. Normalizes bare interpreter tokens (python/python.exe/python3/python3.exe, case-insensitive, no directory) to `sys.executable` at the post-generation execution boundary; scenario YAML unchanged; original command preserved in diagnostics, resolved executable recorded. Notebook SOURCE_COMMIT=`aac9914c6dcda054736539a0d0ed649cf9865128`, DEPLOYED_BUILD_ID=`aac9914`; bundle 147 files / 928,175 bytes; identity tests pass.
+- **PRE-BENCHMARK FINAL REPRODUCIBILITY AUDIT CLOSURE (2026-08-03):** branch `fix/kaggle-smoke-v2-model-output-closure`, HEAD `e5d9430` (pushed, local=remote, tree clean). Declared the complete pre-benchmark test environment — `pyproject.toml [dev]` + `requirements-dev.txt` gain Django==5.2.16, djangorestframework==3.17.1, pytest-django==4.12.0, pytest-asyncio==1.2.0, tabulate==0.10.0, httpx==0.28.1, Jinja2==3.1.6, huggingface_hub==0.24.0, types-pyyaml, pytest (runtime `[project.dependencies]` and `requirements-smoke-kaggle.lock` untouched; commits `769d84e` + `e5d9430`). Recreated the clean env from declarations only (Python 3.11.9, `_workspace\cache\prebenchmark-py311`) and repeated the complete clean gate: full suite **1,833 passed / 32 skipped / 1 failed** (sole failure = notebook-pin identity test, structural, reported truthfully, not forced green); Dataset 285/5; Prompt 158; Pipeline Smoke 220/12; Dry Run 9/9; Integration PASS; Metric Verification 169; mypy strict Success (77 files); ruff 93 = 93 baseline (0 new); compileall clean; bundle build verified then `kaggle_upload` restored. Historical `exp-20260801-210443` produced one failed model-output terminal record under `6f88823` — preserved, excluded from the current `aac9914` aggregation; current accepted `aac9914` records = 0/9.
 - **CLEAN-ENV VALIDATION (Python 3.11.9, pytest 8.4.2):** full suite **1,834 passed / 32 skipped / 0 failed**; Dataset 285/5; Prompt 158; Pipeline Smoke 220/12; Metric Verification 169; mypy strict Success (77 files); ruff clean on changed files; compileall clean; bundle idempotent; notebook valid; manifests SHA-256 verified. Bundled CLI dry-run `--profile scientific-smoke-v2` 9/9/9 (9 planned/terminal/succeeded, exit 0); source_identity 311e084/311e084.
-- **First clean-env full-suite attempt** failed 5 tests due to missing optional deps (tabulate, httpx, jinja2) in the recreated environment — installed into the clean env only (tabulate>=0.9.0 required by pandas 2.3.3), no repo change; all 5 then pass.
+- **First clean-env full-suite attempt** failed 5 tests due to missing optional deps (tabulate, httpx, jinja2) in the recreated environment — installed into the clean env only (tabulate>=0.9.0 required by pandas 2.3.3), no repo change; all 5 then pass. The declarations-only recreated environment now includes those deps plus the full declared set (see PRE-BENCHMARK FINAL REPRODUCIBILITY AUDIT CLOSURE above).
 - **Real Qwen records:** 0/9 — no scientific evidence; tag not created; Pilot NOT AUTHORIZED; independent audit required before any Kaggle relaunch.
 
 ## 4. Core Scientific Question
@@ -951,3 +952,73 @@ full suite
 authorized Kaggle action is the engineering preflight cell — not the
 scientific One-Run cell. Kaggle relaunch remains blocked until that final
 audit passes. No tag, no merge, no force-push, no Kaggle relaunch.
+
+## 25. Pre-Benchmark Final Reproducibility Audit Closure (2026-08-03)
+
+**Status:** BOUNDED CLOSURE COMPLETE — INDEPENDENT AUDIT REQUIRED
+**Branch:** `fix/kaggle-smoke-v2-model-output-closure`
+**HEAD:** `e5d9430` (pushed; local = remote; working tree clean)
+**Runtime commit:** `aac9914` (fix(exec): bind Python scenario commands to active runtime)
+**Deployment pin:** `311e084` (chore(deploy): pin deterministic-interpreter Smoke V2 bundle)
+**Declaration commits:** `769d84e` + `e5d9430` (dependency declarations only)
+**Record:** `selective_updates/records/KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE.md`
+
+### Truth
+
+```text
+branch                    = fix/kaggle-smoke-v2-model-output-closure
+HEAD                      = e5d9430 (pushed; local = remote; tree clean)
+runtime commit            = aac9914   deployment pin = 311e084
+declaration commits       = 769d84e + e5d9430
+historical experiment     = exp-20260801-210443 produced ONE failed model-output
+                            terminal record under source 6f88823 — preserved,
+                            excluded from the current aac9914 aggregation
+current aac9914 records   = 0/9 (no accepted aac9914 records; no scientific evidence)
+tag                       = not created   Pilot = not authorized   Kaggle = not launched
+```
+
+### What changed
+
+1. **Step 1 — exact versions recovered** from the previously passing
+   environment: tabulate 0.10.0, httpx 0.28.1, Jinja2 3.1.6, pytest 8.4.2,
+   ruff 0.15.22, mypy 1.20.2.
+2. **Step 2 — complete dependency declarations.** `pyproject.toml [dev]` +
+   `requirements-dev.txt` now declare the full pre-benchmark test environment
+   (Django==5.2.16, djangorestframework==3.17.1, pytest-django==4.12.0,
+   pytest-asyncio==1.2.0, tabulate==0.10.0, httpx==0.28.1, Jinja2==3.1.6,
+   huggingface_hub==0.24.0, types-pyyaml, pytest>=8.0,<9). Runtime
+   `[project.dependencies]` and `requirements-smoke-kaggle.lock` untouched.
+3. **Step 3 — environment recreated from declarations only** (Python 3.11.9,
+   `_workspace\cache\prebenchmark-py311`).
+4. **Step 4 — complete clean gate repeated** on the recreated environment.
+5. **Step 5 — operational documentation corrected** (this handoff + the record
+   + state docs + ledger).
+
+### Gates (on the declarations-only recreated environment)
+
+```text
+Full suite            = 1,833 passed / 32 skipped / 1 failed
+                        (sole failure = test_notebook_source_commit_matches_deployed_runtime_tree,
+                         structural: the mandated pyproject.toml declaration change breaks
+                         byte-identity with the pinned aac9914 SOURCE_COMMIT; frozen artifacts
+                         not modified to force green — reported truthfully)
+Dataset Validation    = 285 passed / 5 skipped (PASS)
+Prompt Validation     = 158 passed (PASS)
+Pipeline Smoke        = 220 passed / 12 skipped (PASS)
+Dry Run               = scientific-smoke-v2 9/9 succeeded, exit 0 (PASS)
+Integration           = PASS
+Metric Verification   = 169 passed (PASS)
+Benchmark data        = unchanged
+Mypy --strict src/benchmark = Success: no issues found in 77 source files
+Ruff                  = 93 findings = 468a23a baseline (verified in detached worktree), 0 new
+Compileall            = clean
+Bundle build          = success: 147 files / 928,329 bytes; verified then kaggle_upload restored
+git diff --check      = clean (LF->CRLF warning on requirements-dev.txt only)
+git status            = clean
+```
+
+Next action: independent audit of this closure
+(`PRE_BENCHMARK_FINAL_REPRODUCIBILITY_AUDIT_REQUIRED`), then update the Kaggle
+code dataset + notebook, then the Kaggle **engineering preflight** cell only
+(not the scientific One-Run cell). Do not relaunch Kaggle, tag, merge, or
+force-push before that audit passes.

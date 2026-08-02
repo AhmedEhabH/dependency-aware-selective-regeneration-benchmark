@@ -238,7 +238,9 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | R7A pre-rerun hardening | Complete (`d50e89e` + `4c73db6`) — four audit findings closed |
 | R7B Smoke Finish | Complete (`bff0a82` + `17207bf`) — observable Qwen Smoke; independent audit required |
 | R7C real-run root closure | Complete + corrected twice (`7a80e53` + `f01b8f0`; first correction `ffa179a` + `6d6aa36`; independent post-gate correction `6f88823` + `5797fc0`, HEAD `5797fc0`) — repair eligibility + preflight bootstrap corrected; final independent full-gate audit required |
-| Kaggle relaunch + nine real Qwen records | Blocked until the final independent full-gate audit passes; next authorized action is the engineering preflight cell only, not the scientific One-Run cell |
+| Deterministic interpreter closure | Complete (`aac9914` + `311e084`) — bare interpreter tokens bound to the active runtime at the post-generation execution boundary |
+| Pre-benchmark reproducibility closure | Complete (`769d84e` + `e5d9430`, HEAD `e5d9430`, pushed) — dependencies fully declared in `pyproject.toml [dev]` + `requirements-dev.txt`; clean env recreated from declarations only; full gate repeated: 1,833 passed / 32 skipped / 1 failed (structural notebook-pin identity test, reported truthfully, not forced green); independent audit required |
+| Kaggle relaunch + nine real Qwen records | Blocked until the independent pre-benchmark audit and the final full-gate audit pass; next authorized action is the engineering preflight cell only, not the scientific One-Run cell |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
 
@@ -269,9 +271,29 @@ real Qwen remains 0/9; no scientific evidence exists yet; Kaggle remains
 blocked pending the final independent full-gate audit, after which the only
 authorized Kaggle action is the engineering preflight cell — not the scientific
 One-Run cell.
-Current branch: `fix/kaggle-smoke-v2-real-run-root` (HEAD `5797fc0`; R7C runtime
-commit `7a80e53`, bundle pin `f01b8f0`, corrections `ffa179a` + `6d6aa36`,
-post-gate correction `6f88823` + `5797fc0`).
+The **pre-benchmark final reproducibility closure** (branch
+`fix/kaggle-smoke-v2-model-output-closure`, HEAD `e5d9430`, pushed) declares the
+complete pre-benchmark test environment (Django==5.2.16,
+djangorestframework==3.17.1, pytest-django==4.12.0, pytest-asyncio==1.2.0,
+tabulate==0.10.0, httpx==0.28.1, Jinja2==3.1.6, huggingface_hub==0.24.0,
+types-pyyaml, pytest) in `pyproject.toml [dev]` + `requirements-dev.txt`
+(runtime `[project.dependencies]` and `requirements-smoke-kaggle.lock`
+untouched), recreated the clean environment from declarations only, and
+repeated the complete clean gate: full suite = 1,833 passed / 32 skipped / 1
+failed (sole failure = the notebook-pin identity test, structural because the
+mandated `pyproject.toml` declaration change breaks byte-identity with the
+`aac9914` SOURCE_COMMIT; frozen artifacts were not modified to force green);
+Dataset Validation 285 passed / 5 skipped; Prompt Validation 158 passed;
+Pipeline Smoke 220 passed / 12 skipped; Dry Run 9/9; Integration PASS; Metric
+Verification 169 passed; mypy strict Success (77 files); ruff 93 = 93 baseline
+(0 new); compileall clean; bundle build verified then `kaggle_upload` restored.
+Historical `exp-20260801-210443` produced one failed model-output terminal
+record under source `6f88823` — preserved, excluded from the current `aac9914`
+aggregation; current accepted `aac9914` records = 0/9; no scientific evidence;
+no tag; no Pilot; no Kaggle launch.
+Current branch: `fix/kaggle-smoke-v2-model-output-closure` (HEAD `e5d9430`;
+runtime commit `aac9914`, bundle pin `311e084`, declaration commits `769d84e` +
+`e5d9430`).
 
 ## Implemented Components
 
@@ -679,8 +701,18 @@ The independent GPT-5.6 Thinking correction (`ffa179a` + `6d6aa36`, HEAD
 import mapping, exact version verification, fail-fast preflight, driver-level
 VRAM, CPU-offload rejection, the Python 3.12 runtime contract, and stale source
 identity (`SOURCE_COMMIT=ffa179a`). Current full gate = 1,790 passed / 32
-skipped / 0 failed; valid real Qwen remains 0/9. Real-model benchmark execution
+skipped / 0 failed; valid real Qwen remains 0/9. The **pre-benchmark
+reproducibility closure** (branch `fix/kaggle-smoke-v2-model-output-closure`,
+HEAD `e5d9430`, pushed) then declared the complete pre-benchmark dependencies
+and recreated the clean environment from declarations only; the repeated clean
+gate = **1,833 passed / 32 skipped / 1 failed** (sole failure = the
+notebook-pin identity test, structural — the mandated `pyproject.toml`
+declaration change breaks byte-identity with the pinned `aac9914` SOURCE_COMMIT
+— reported truthfully, frozen artifacts not modified to force green). Historical
+`exp-20260801-210443` produced one failed model-output terminal record under
+`6f88823` — preserved, excluded from the current `aac9914` aggregation; current
+accepted `aac9914` records = 0/9. Real-model benchmark execution
 (nine real Qwen Smoke V2 records) and scientific validation require an
-independent full-gate audit of the corrected R7C branch before the preflighted
+independent pre-benchmark audit before the preflighted
 int8 bundle is relaunched. Smoke evidence is non-publication; no real Qwen
 results are claimed.
