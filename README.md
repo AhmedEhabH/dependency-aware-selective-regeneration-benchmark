@@ -239,7 +239,7 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | R7B Smoke Finish | Complete (`bff0a82` + `17207bf`) — observable Qwen Smoke; independent audit required |
 | R7C real-run root closure | Complete + corrected twice (`7a80e53` + `f01b8f0`; first correction `ffa179a` + `6d6aa36`; independent post-gate correction `6f88823` + `5797fc0`, HEAD `5797fc0`) — repair eligibility + preflight bootstrap corrected; final independent full-gate audit required |
 | Deterministic interpreter closure | Complete (`aac9914` + `311e084`) — bare interpreter tokens bound to the active runtime at the post-generation execution boundary |
-| Pre-benchmark reproducibility closure | Complete (`769d84e` + `e5d9430`, HEAD `e5d9430`, pushed) — dependencies fully declared in `pyproject.toml [dev]` + `requirements-dev.txt`; clean env recreated from declarations only; full gate repeated: 1,833 passed / 32 skipped / 1 failed (structural notebook-pin identity test, reported truthfully, not forced green); independent audit required |
+| Pre-benchmark reproducibility closure | Complete and green (`769d84e` + `e5d9430` declarations; deployment-only correction `f8d00d7`, HEAD `f8d00d7`, pushed) — dependencies fully declared in `pyproject.toml [dev]` + `requirements-dev.txt`; clean env recreated from declarations only; the previous `76a6b16` gate had 1 failure (structural notebook-pin identity test, reported truthfully, not forced green — root cause: declaration change to `pyproject.toml` after the `aac9914`/`311e084` pin; no runtime/prompt/metric/scenario/evaluator/data change needed); `f8d00d7` re-pins the deployment (SOURCE_COMMIT=`e5d9430`, DEPLOYED_BUILD_ID=`e5d9430`, bundled pyproject.toml byte-identical to canonical); complete clean suite now green: 1,834 passed / 32 skipped / 0 failed |
 | Kaggle relaunch + nine real Qwen records | Blocked until the independent pre-benchmark audit and the final full-gate audit pass; next authorized action is the engineering preflight cell only, not the scientific One-Run cell |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
@@ -272,28 +272,39 @@ blocked pending the final independent full-gate audit, after which the only
 authorized Kaggle action is the engineering preflight cell — not the scientific
 One-Run cell.
 The **pre-benchmark final reproducibility closure** (branch
-`fix/kaggle-smoke-v2-model-output-closure`, HEAD `e5d9430`, pushed) declares the
+`fix/kaggle-smoke-v2-model-output-closure`, HEAD `f8d00d7`, pushed) declares the
 complete pre-benchmark test environment (Django==5.2.16,
 djangorestframework==3.17.1, pytest-django==4.12.0, pytest-asyncio==1.2.0,
 tabulate==0.10.0, httpx==0.28.1, Jinja2==3.1.6, huggingface_hub==0.24.0,
 types-pyyaml, pytest) in `pyproject.toml [dev]` + `requirements-dev.txt`
 (runtime `[project.dependencies]` and `requirements-smoke-kaggle.lock`
 untouched), recreated the clean environment from declarations only, and
-repeated the complete clean gate: full suite = 1,833 passed / 32 skipped / 1
-failed (sole failure = the notebook-pin identity test, structural because the
-mandated `pyproject.toml` declaration change breaks byte-identity with the
-`aac9914` SOURCE_COMMIT; frozen artifacts were not modified to force green);
-Dataset Validation 285 passed / 5 skipped; Prompt Validation 158 passed;
-Pipeline Smoke 220 passed / 12 skipped; Dry Run 9/9; Integration PASS; Metric
-Verification 169 passed; mypy strict Success (77 files); ruff 93 = 93 baseline
-(0 new); compileall clean; bundle build verified then `kaggle_upload` restored.
+repeated the complete clean gate. The previous `76a6b16` gate had **1 failure,
+not a green full suite** (1,833 passed / 32 skipped / 1 failed): the notebook-pin
+identity test failed, structural because the mandated `pyproject.toml`
+declaration change breaks byte-identity with the `aac9914` SOURCE_COMMIT
+(frozen artifacts were not modified to force green). Root cause was dependency
+declarations changing `pyproject.toml` after the `aac9914`/`311e084` deployment
+pin; **no runtime, prompt, metric, scenario, evaluator, or data change was
+needed**. The exact independently reviewed deployment-only correction `f8d00d7`
+(imported via bundle fast-forward, exactly one commit) re-pins the deployment
+to the current source snapshot: bundled `pyproject.toml` becomes byte-identical
+to canonical, and both notebooks re-pin `SOURCE_COMMIT =
+e5d943065c6f4158c30a1cbbba39436ab2a7a898` / `DEPLOYED_BUILD_ID = e5d9430`
+(deployment source snapshot = `e5d9430`; deployment correction = `f8d00d7`).
+The complete clean suite is now **green: 1,834 passed / 32 skipped / 0 failed**;
+Dataset Validation 285 passed / 5 skipped (data unchanged); Prompt Validation
+158 passed; Pipeline Smoke 220 passed / 12 skipped; Dry Run 9/9; Integration
+PASS; Metric Verification 169 passed; mypy strict Success (77 files); ruff 93 =
+93 baseline (0 new); compileall clean; all notebook code cells compile; bundle
+build content-identical; manifests verified; no cache files in `kaggle_upload`.
 Historical `exp-20260801-210443` produced one failed model-output terminal
-record under source `6f88823` — preserved, excluded from the current `aac9914`
-aggregation; current accepted `aac9914` records = 0/9; no scientific evidence;
+record under source `6f88823` — preserved, excluded from the current `e5d9430`
+aggregation; current accepted real records = 0/9; no scientific evidence;
 no tag; no Pilot; no Kaggle launch.
-Current branch: `fix/kaggle-smoke-v2-model-output-closure` (HEAD `e5d9430`;
+Current branch: `fix/kaggle-smoke-v2-model-output-closure` (HEAD `f8d00d7`;
 runtime commit `aac9914`, bundle pin `311e084`, declaration commits `769d84e` +
-`e5d9430`).
+`e5d9430`, deployment correction `f8d00d7`).
 
 ## Implemented Components
 
@@ -703,16 +714,20 @@ VRAM, CPU-offload rejection, the Python 3.12 runtime contract, and stale source
 identity (`SOURCE_COMMIT=ffa179a`). Current full gate = 1,790 passed / 32
 skipped / 0 failed; valid real Qwen remains 0/9. The **pre-benchmark
 reproducibility closure** (branch `fix/kaggle-smoke-v2-model-output-closure`,
-HEAD `e5d9430`, pushed) then declared the complete pre-benchmark dependencies
-and recreated the clean environment from declarations only; the repeated clean
-gate = **1,833 passed / 32 skipped / 1 failed** (sole failure = the
-notebook-pin identity test, structural — the mandated `pyproject.toml`
-declaration change breaks byte-identity with the pinned `aac9914` SOURCE_COMMIT
-— reported truthfully, frozen artifacts not modified to force green). Historical
+HEAD `f8d00d7`, pushed) then declared the complete pre-benchmark dependencies
+and recreated the clean environment from declarations only; the previous
+`76a6b16` repeated clean gate = **1,833 passed / 32 skipped / 1 failed** (sole
+failure = the notebook-pin identity test, structural — the mandated
+`pyproject.toml` declaration change breaks byte-identity with the pinned
+`aac9914` SOURCE_COMMIT — reported truthfully, frozen artifacts not modified to
+force green). The exact deployment-only correction `f8d00d7` re-pins the
+deployment to the current source snapshot (`e5d9430`), and the complete clean
+suite is now **1,834 passed / 32 skipped / 0 failed** with the identity test
+green. Historical
 `exp-20260801-210443` produced one failed model-output terminal record under
-`6f88823` — preserved, excluded from the current `aac9914` aggregation; current
-accepted `aac9914` records = 0/9. Real-model benchmark execution
-(nine real Qwen Smoke V2 records) and scientific validation require an
-independent pre-benchmark audit before the preflighted
+`6f88823` — preserved, excluded from the current `e5d9430` aggregation; current
+accepted real records = 0/9. Real-model benchmark execution
+(nine real Qwen Smoke V2 records) and scientific validation require, after this
+independent audit, only the Kaggle engineering preflight before the preflighted
 int8 bundle is relaunched. Smoke evidence is non-publication; no real Qwen
 results are claimed.

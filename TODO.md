@@ -35,8 +35,14 @@
 ### PBF-06 - Independent Pre-Benchmark Reproducibility Audit
 - **Priority:** HIGH
 - **Category:** Audit
-- **Description:** Independent audit of this bounded closure (sentinel `PRE_BENCHMARK_FINAL_REPRODUCIBILITY_AUDIT_REQUIRED`); after it passes, update the Kaggle code dataset + notebook, then the Kaggle engineering preflight cell only (not the scientific One-Run cell); do not relaunch Kaggle, tag, merge, or force-push before that audit passes
-- **Status:** PENDING (sentinel `PRE_BENCHMARK_FINAL_REPRODUCIBILITY_AUDIT_REQUIRED`)
+- **Description:** Independent audit performed; its exact deployment-only correction was imported via bundle fast-forward (f8d00d7, exactly one commit from e5d9430). Sentinel updated to `PRE_BENCHMARK_FINAL_SOURCE_REPIN_AUDIT_REQUIRED`. Next (only) action after this independent audit = Kaggle engineering preflight only (not the scientific One-Run cell)
+- **Status:** COMPLETE (sentinel `PRE_BENCHMARK_FINAL_SOURCE_REPIN_AUDIT_REQUIRED`)
+
+### PBF-07 - Apply Deployment-Only Correction (f8d00d7) and Re-Run Complete Gate
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** Previous 76a6b16 gate had 1 failure, not a green full suite: test_notebook_source_commit_matches_deployed_runtime_tree failed because the mandated pyproject.toml declaration change broke byte-identity with the pinned aac9914 SOURCE_COMMIT (root cause = dependency declarations changing pyproject.toml after the aac9914/311e084 deployment pin; no runtime/prompt/metric/scenario/evaluator/data change needed). Apply the exact deployment-only correction f8d00d7 (bundle PRE_BENCHMARK_FINAL_REPIN_EXACT.bundle): kaggle_upload/code/pyproject.toml gains the six declaration lines (byte-identical to canonical); notebooks re-pin SOURCE_COMMIT=e5d943065c6f4158c30a1cbbba39436ab2a7a898, DEPLOYED_BUILD_ID=e5d9430; manifests re-verified. Complete clean gate now green: full suite 1,834 passed / 32 skipped / 0 failed; Dataset 285/5 (data unchanged); Prompt 158; Pipeline Smoke 220/12; Dry Run 9/9; Integration PASS; Metric Verification 169; mypy strict Success (77 files); ruff 93 = 93 baseline (0 new); compileall clean; all notebook cells compile; bundle build content-identical (147 files / 928,329 bytes); no cache files in kaggle_upload; tree clean. Historical exp-20260801-210443 failed model-output record under 6f88823 remains excluded from the current e5d9430 aggregation; current accepted real records = 0/9
+- **Status:** COMPLETE (commit f8d00d7, pushed)
 
 ## Current — R7C Real-Run Root Closure
 
