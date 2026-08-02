@@ -1,14 +1,38 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import re
 import subprocess
+import sys
 import time
 from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
 NUMBERED_MIGRATION_RE = re.compile(r"^\d+_[A-Za-z0-9_]+\.py$")
+
+_BARE_INTERPRETER_NAMES = frozenset({"python", "python.exe", "python3", "python3.exe"})
+
+
+def _normalize_interpreter_command(command: tuple[str, ...]) -> list[str]:
+    """Bind bare Python launcher tokens to the active benchmark runtime.
+
+    Scenario YAML files may declare post-generation commands such as
+    ``python manage.py makemigrations ...``.  The bare token is a logical
+    request to use the benchmark's active Python runtime.  Resolving it via
+    PATH is not deterministic across environments (Windows app-execution
+    aliases, virtualenvs, etc.), so the first element is replaced with
+    ``sys.executable`` when -- and only when -- it is a *bare* launcher token
+    whose basename (case-insensitively) is exactly one of the tokens below.
+    Absolute interpreter paths and non-Python executables are left untouched.
+    """
+    if not command:
+        return list(command)
+    executable = command[0]
+    if os.path.basename(executable) == executable and executable.lower() in _BARE_INTERPRETER_NAMES:
+        return [sys.executable, *command[1:]]
+    return list(command)
 
 
 @dataclass(frozen=True)
@@ -20,6 +44,8 @@ class PostGenerationResult:
     duration_seconds: float
     created_paths: tuple[str, ...] = ()
     existing_migrations_unchanged: bool = False
+    original_command: tuple[str, ...] = ()
+    resolved_executable: str = ""
 
 
 @dataclass(frozen=True)
@@ -45,6 +71,7 @@ class _CommandOutcome:
     exit_code: int
     stdout: str
     stderr: str
+    resolved_executable: str = ""
 
 
 @dataclass(frozen=True)
@@ -251,9 +278,10 @@ def _take_migration_snapshot(
 def _run_command(
     request: _ValidatedPostGenerationRequest,
 ) -> _CommandOutcome:
+    resolved_command = _normalize_interpreter_command(request.command)
     try:
         proc = subprocess.run(
-            list(request.command),
+            resolved_command,
             cwd=str(request.workspace_root),
             capture_output=True,
             text=True,
@@ -264,6 +292,7 @@ def _run_command(
             exit_code=proc.returncode,
             stdout=proc.stdout,
             stderr=proc.stderr,
+            resolved_executable=resolved_command[0],
         )
     except subprocess.TimeoutExpired as e:
         stdout = _coerce_subprocess_text(e.stdout)
@@ -276,6 +305,7 @@ def _run_command(
             exit_code=-1,
             stdout=stdout,
             stderr=stderr,
+            resolved_executable=resolved_command[0],
         )
     except FileNotFoundError:
         return _CommandOutcome(
@@ -283,6 +313,7 @@ def _run_command(
             exit_code=-1,
             stdout="",
             stderr=f"Command not found: {request.command[0]}",
+            resolved_executable=resolved_command[0],
         )
     except ValueError as exc:
         return _CommandOutcome(
@@ -290,6 +321,7 @@ def _run_command(
             exit_code=-1,
             stdout="",
             stderr=f"Invalid subprocess argument: {exc}",
+            resolved_executable=resolved_command[0],
         )
     except OSError as e:
         return _CommandOutcome(
@@ -297,6 +329,7 @@ def _run_command(
             exit_code=-1,
             stdout="",
             stderr=f"OS error: {e}",
+            resolved_executable=resolved_command[0],
         )
     except subprocess.SubprocessError as e:
         return _CommandOutcome(
@@ -304,6 +337,7 @@ def _run_command(
             exit_code=-1,
             stdout="",
             stderr=f"Subprocess error: {e}",
+            resolved_executable=resolved_command[0],
         )
 
 
@@ -387,6 +421,7 @@ def run_post_generation_command(
             stdout="",
             stderr=validation_result,
             duration_seconds=duration,
+            original_command=tuple(command),
         )
 
     request = validation_result
@@ -401,6 +436,7 @@ def run_post_generation_command(
             stdout="",
             stderr=stderr,
             duration_seconds=duration,
+            original_command=tuple(command),
         )
 
     command_outcome = _run_command(request)
@@ -429,4 +465,6 @@ def run_post_generation_command(
         duration_seconds=duration,
         created_paths=assessment.created_paths,
         existing_migrations_unchanged=assessment.existing_unchanged,
+        original_command=tuple(command),
+        resolved_executable=command_outcome.resolved_executable,
     )
