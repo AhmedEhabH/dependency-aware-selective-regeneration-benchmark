@@ -122,6 +122,64 @@ class TestSessionExitCode:
             }
         ) == "engineering_blocker"
 
+    def test_scientific_budget_exhaustion_is_scientific_terminal(self) -> None:
+        assert _terminal_record_outcome(
+            {
+                "status": "failed",
+                "failure_classification": "scientific_budget_exhausted",
+                "failure_details": [
+                    {"kind": "scientific_budget_exhausted", "stage": "budget"}
+                ],
+            }
+        ) == "scientific_failure"
+        assert self._decide(
+            last_run_status="failed",
+            last_run_failure_classification="scientific_budget_exhausted",
+            total_failed=1,
+        ) == 0
+        assert (
+            _should_stop_after_terminal_run(
+                last_run_outcome="scientific_failure",
+                hf_uploader_configured=True,
+                hf_sync_ok=True,
+            )
+            is False
+        )
+
+    def test_preflight_timeout_is_engineering_blocker(self) -> None:
+        assert _terminal_record_outcome(
+            {
+                "status": "failed",
+                "failure_classification": "environment_preflight",
+                "failure_details": [
+                    {
+                        "kind": "environment_preflight",
+                        "stage": "preflight",
+                        "message": "Command timed out after 180s",
+                    }
+                ],
+            }
+        ) == "engineering_blocker"
+        assert self._decide(
+            last_run_status="failed",
+            last_run_failure_classification="environment_preflight",
+            engineering_blocker_count=1,
+        ) == 1
+
+    def test_hf_timeout_is_engineering_blocker(self) -> None:
+        assert (
+            _should_stop_after_terminal_run(
+                last_run_outcome="scientific_success",
+                hf_uploader_configured=True,
+                hf_sync_ok=False,
+            )
+            is True
+        )
+        assert self._decide(
+            hf_uploader_configured=True,
+            hf_sync_ok=False,
+        ) == 1
+
     def test_incomplete_exit_uses_full_terminal_outcome(self) -> None:
         assert self._decide(
             last_run_status="failed",

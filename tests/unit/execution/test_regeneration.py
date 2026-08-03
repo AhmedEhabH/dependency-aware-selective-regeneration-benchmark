@@ -22,10 +22,14 @@ def _make_backend(response_text: str = "replacement content"):
     class _Mock:
         def __init__(self, text: str):
             self._text = text
+            self.prompt_tokens = 0
+            self.completion_tokens = 0
 
         async def generate(self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
             pt = max(1, len(prompt) // 4)
             ct = max(1, len(self._text) // 4)
+            self.prompt_tokens += pt
+            self.completion_tokens += ct
             return LLMResponse(
                 text=self._text,
                 token_usage=TokenUsage(
@@ -324,6 +328,54 @@ class TestSharedRegenerationExecutor:
         assert result.total_tokens > 0
         assert result.model_calls == 1
 
+    def test_guard_rejected_attempt_keeps_metrics_exact_and_writes_zero_files(
+        self, tmp_path: Path
+    ) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        (ws_root / "requirements.txt").write_text(
+            "django>=5.0,<6.0\ndjangorestframework>=3.15,<4.0\n",
+            encoding="utf-8",
+        )
+        todo = ws_root / "todo"
+        todo.mkdir()
+        original = "from django.db import models\nclass Task(models.Model):\n    pass\n"
+        output = (
+            "from django.db import models\n"
+            "class Task(models.Model):\n"
+            "    class Priority(models.TextChoices):\n"
+            "        HIGH = 'HIGH', 'High'\n"
+            "        MEDIUM = 'MEDIUM', 'Medium'\n"
+            "        LOW = 'LOW', 'Low'\n"
+            "    priority = models.CharField(max_length=5, "
+            "choices=Priority.choices, default=Priority.MEDIUM)\n"
+        )
+        target = todo / "models.py"
+        target.write_text(original, encoding="utf-8")
+        ref = ArtifactRef(path="todo/models.py", artifact_type=ArtifactType.source)
+        plan = RegenerationPlan(
+            ordered_artifacts=(ref,),
+            actions={"todo/models.py": ActionKind.regenerate},
+        )
+        context = RegenerationScenarioContext(
+            scenario_id="todo-smoke-001",
+            requirement_before="old",
+            requirement_after="new",
+            expected_actions=(("todo/models.py", "modify"),),
+        )
+
+        backend = _make_backend(output)
+        result = SharedRegenerationExecutor(backend).execute(
+            plan, iso, scenario_context=context
+        )
+
+        assert result.artifacts[0].status == "rejected"
+        assert "choice_max_length_too_small" in "\n".join(result.failures)
+        assert target.read_text(encoding="utf-8") == original
+        assert result.model_calls == 1
+        assert result.prompt_tokens == backend.prompt_tokens
+        assert result.completion_tokens == backend.completion_tokens
+        assert result.total_tokens == backend.prompt_tokens + backend.completion_tokens
+
     def test_human_review_artifact_is_skipped(self, tmp_path: Path) -> None:
         iso, ws_root = _make_isolation(tmp_path)
         ref = ArtifactRef(path="src/review.py", artifact_type=ArtifactType.source)
@@ -444,6 +496,17 @@ class TestSharedRegenerationExecutor:
                 ),
                 "undeclared_dependency: rest_framework_simplejwt",
             ),
+            (
+                "todo/views.py",
+                "from django.db import models\nfrom rest_framework import viewsets\n",
+                (
+                    "from django.db import models\n"
+                    "from rest_framework import viewsets\n"
+                    "class Task(models.Model):\n"
+                    "    pass\n"
+                ),
+                "module_role_violation",
+            ),
         ),
     )
     def test_observed_qwen_architecture_failures_are_rejected_before_validation(
@@ -524,3 +587,221 @@ class TestSharedRegenerationExecutor:
         assert result.failures == ()
         assert result.artifacts[0].status == "generated"
         assert target.read_text(encoding="utf-8") == output
+
+
+class TestAtomicRegenerationAttempt:
+    """POST-SMOKE-CALIBRATION-CLOSURE Closure A.
+
+    A single regeneration attempt is atomic: either every artifact in that
+    attempt passes validation and every staged byte is written, or none of
+    them are written. Atomicity applies per generation/repair attempt, never
+    across separate iterative-agent iterations.
+    """
+
+    @staticmethod
+    def _make_plan(paths: tuple[str, ...], action: str = "regenerate") -> RegenerationPlan:
+        refs = tuple(
+            ArtifactRef(path=p, artifact_type=ArtifactType.source)
+            for p in paths
+        )
+        return RegenerationPlan(
+            ordered_artifacts=refs,
+            actions={p: ActionKind(action) for p in paths},
+        )
+
+    @staticmethod
+    def _write_sources(ws_root: Path, paths: tuple[str, ...], contents: tuple[str, ...]) -> None:
+        for rel, text in zip(paths, contents, strict=True):
+            target = ws_root / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(text, encoding="utf-8")
+
+    def _context(self, paths: tuple[str, ...]) -> RegenerationScenarioContext:
+        return RegenerationScenarioContext(
+            scenario_id="todo-smoke-001",
+            requirement_before="old",
+            requirement_after="new",
+            expected_actions=tuple((p, "modify") for p in paths),
+        )
+
+    def test_one_invalid_plus_two_valid_artifacts_yield_zero_workspace_writes(
+        self, tmp_path: Path
+    ) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("todo/a.py", "todo/b.py", "todo/c.py")
+        original = "original content\n"
+        self._write_sources(ws_root, paths, (original, original, original))
+        (ws_root / "requirements.txt").write_text(
+            "django>=5.0,<6.0\ndjangorestframework>=3.15,<4.0\n",
+            encoding="utf-8",
+        )
+
+        backend = _make_backend(
+            "from rest_framework_simplejwt.authentication import JWTAuthentication\n"
+        )
+        result = SharedRegenerationExecutor(backend).execute(
+            self._make_plan(paths), iso, scenario_context=self._context(paths)
+        )
+
+        assert len(result.failures) >= 1
+        assert any("undeclared_dependency" in f for f in result.failures)
+        for rel in paths:
+            assert (ws_root / rel).read_text(encoding="utf-8") == original, rel
+
+    def test_all_valid_artifacts_are_written_exactly_once(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("todo/a.py", "todo/b.py", "todo/c.py")
+        self._write_sources(ws_root, paths, ("old a\n", "old b\n", "old c\n"))
+        (ws_root / "requirements.txt").write_text(
+            "django>=5.0,<6.0\ndjangorestframework>=3.15,<4.0\n",
+            encoding="utf-8",
+        )
+
+        backend = _make_backend("x = 1\n")
+        executor = SharedRegenerationExecutor(backend)
+        result = executor.execute(
+            self._make_plan(paths), iso, scenario_context=self._context(paths)
+        )
+
+        assert result.failures == ()
+        for rel in paths:
+            assert (ws_root / rel).read_text(encoding="utf-8") == "x = 1\n", rel
+
+    def test_preserve_only_rejection_yields_zero_writes(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("todo/a.py", "todo/b.py")
+        self._write_sources(ws_root, paths, ("keep a\n", "keep b\n"))
+        context = RegenerationScenarioContext(
+            scenario_id="todo-smoke-001",
+            requirement_before="old",
+            requirement_after="new",
+            expected_actions=(("todo/b.py", "modify"),),
+        )
+
+        backend = _make_backend("changed content\n")
+        result = SharedRegenerationExecutor(backend).execute(
+            self._make_plan(paths), iso, scenario_context=context
+        )
+
+        assert any("out_of_scope_change" in f for f in result.failures)
+        assert (ws_root / "todo/a.py").read_text(encoding="utf-8") == "keep a\n"
+        assert (ws_root / "todo/b.py").read_text(encoding="utf-8") == "keep b\n"
+
+    def test_later_iterative_agent_iteration_commits_independently(
+        self, tmp_path: Path
+    ) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("todo/a.py", "todo/b.py", "todo/c.py")
+        original = "original content\n"
+        self._write_sources(ws_root, paths, (original, original, original))
+        (ws_root / "requirements.txt").write_text(
+            "django>=5.0,<6.0\ndjangorestframework>=3.15,<4.0\n",
+            encoding="utf-8",
+        )
+
+        bad_backend = _make_backend(
+            "from rest_framework_simplejwt.authentication import JWTAuthentication\n"
+        )
+        first = SharedRegenerationExecutor(bad_backend).execute(
+            self._make_plan(paths), iso, scenario_context=self._context(paths)
+        )
+        assert any("undeclared_dependency" in f for f in first.failures)
+        for rel in paths:
+            assert (ws_root / rel).read_text(encoding="utf-8") == original
+
+        good_backend = _make_backend("x = 2\n")
+        second = SharedRegenerationExecutor(good_backend).execute(
+            self._make_plan(paths), iso, scenario_context=self._context(paths)
+        )
+        assert second.failures == ()
+        for rel in paths:
+            assert (ws_root / rel).read_text(encoding="utf-8") == "x = 2\n", rel
+
+
+class TestRepairNoProgress:
+    """POST-SMOKE-CALIBRATION-CLOSURE Closure B.
+
+    When a repair round reproduces the exact prior output hash for an artifact,
+    the round stops before further model calls, records repair_no_progress, and
+    does not start another repair round for that unchanged failure.
+    """
+
+    @staticmethod
+    def _make_plan(paths: tuple[str, ...], action: str = "regenerate") -> RegenerationPlan:
+        refs = tuple(
+            ArtifactRef(path=p, artifact_type=ArtifactType.source)
+            for p in paths
+        )
+        return RegenerationPlan(
+            ordered_artifacts=refs,
+            actions={p: ActionKind(action) for p in paths},
+        )
+
+    @staticmethod
+    def _write_sources(ws_root: Path, paths: tuple[str, ...], contents: tuple[str, ...]) -> None:
+        for rel, text in zip(paths, contents, strict=True):
+            target = ws_root / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(text, encoding="utf-8")
+
+    @staticmethod
+    def _sha256(text: str) -> str:
+        import hashlib
+
+        return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+    def test_identical_hash_stops_round_before_later_artifact_calls(
+        self, tmp_path: Path
+    ) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("todo/a.py", "todo/b.py", "todo/c.py")
+        self._write_sources(ws_root, paths, ("old\n", "old\n", "old\n"))
+        same_output = "unchanged bad output\n"
+
+        backend = _make_backend(same_output)
+        prior = {path: self._sha256(same_output) for path in paths}
+
+        result = SharedRegenerationExecutor(backend).execute(
+            self._make_plan(paths), iso, prior_attempt_hashes=prior
+        )
+
+        assert result.repair_no_progress is True
+        assert result.model_calls == 1
+        assert len(result.artifacts) == 1
+        assert result.artifacts[0].status == "rejected"
+        assert any("repair_no_progress" in f for f in result.failures)
+        assert result.artifact_hashes[paths[0]] == self._sha256(same_output)
+        for rel in paths:
+            assert (ws_root / rel).read_text(encoding="utf-8") == "old\n"
+
+    def test_changed_hash_continues_round(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("todo/a.py", "todo/b.py")
+        self._write_sources(ws_root, paths, ("old\n", "old\n"))
+        prior = {paths[0]: self._sha256("different\n")}
+
+        backend = _make_backend("new output\n")
+        result = SharedRegenerationExecutor(backend).execute(
+            self._make_plan(paths), iso, prior_attempt_hashes=prior
+        )
+
+        assert result.repair_no_progress is False
+        assert result.model_calls == 2
+        assert result.artifact_hashes[paths[0]] == self._sha256("new output\n")
+
+    def test_truthful_token_accounting_after_no_progress(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("todo/a.py", "todo/b.py", "todo/c.py")
+        self._write_sources(ws_root, paths, ("old\n", "old\n", "old\n"))
+        same_output = "stalled output\n"
+
+        backend = _make_backend(same_output)
+        prior = {path: self._sha256(same_output) for path in paths}
+        result = SharedRegenerationExecutor(backend).execute(
+            self._make_plan(paths), iso, prior_attempt_hashes=prior
+        )
+
+        assert result.model_calls == 1
+        assert result.total_tokens == result.prompt_tokens + result.completion_tokens
+        assert result.prompt_tokens > 0
+        assert result.completion_tokens > 0
