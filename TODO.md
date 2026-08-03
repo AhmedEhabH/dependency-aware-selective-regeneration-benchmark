@@ -1,6 +1,44 @@
 # TODO
 
-## Current - Pre-Benchmark Final Reproducibility Audit Closure
+## Current - Post-Smoke Calibration Closure
+
+### PSC-01 - Close Four Proven Calibration Control Defects
+- **Priority:** HIGH
+- **Category:** Controls
+- **Description:** Commit 27c1693 (pushed) closed: Closure A per-attempt atomic regeneration (normalize + validate every selected artifact, stage accepted bytes, write zero files of the attempt on any guard failure; per-attempt, not cross-iteration); Closure B repair no-progress detection (identical repair response hash after validation feedback → `repair_no_progress`, stop remainder of round before additional model calls, no new round; consumed calls/tokens retained; temperature/prompts never altered); Closure C fail-closed calibration continuation gate (`AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW = False`; `scientific_failure` prints `CALIBRATION_REVIEW_REQUIRED`, no continuous execution without deliberate human change to True; `engineering_blocker` stops and raises); Closure D cooperative deadline semantics (deadline checked before every selection/generation/repair call; workflow budget exhaustion = scientific terminal `scientific_budget_exhausted` with `configured_budget`/`actual_elapsed_seconds` recorded; preflight/env/harness/HF timeouts stay engineering blockers). Unit + integration tests added
+- **Status:** COMPLETE (commit 27c1693, pushed)
+
+### PSC-02 - Pin Calibration-Controlled Smoke V2 Bundle
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** Commit 56772fe (pushed): canonical notebook re-pins `SOURCE_COMMIT = 27c1693e22b1a68be0b299fb146d9ff1e500908b`, `DEPLOYED_BUILD_ID = 27c1693`; kaggle_upload bundle rebuilt via scripts/build_upload_bundle.py (147 files / 934,495 bytes; code 90, data 56, notebook 1); manifests verified; no __pycache__/*.pyc; canonical + generated notebooks compile 7/7 code cells
+- **Status:** COMPLETE (commit 56772fe, pushed)
+
+### PSC-03 - Reconcile Stale Constant-Output Test Fixtures
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** First full gate exposed 9 failures in tests/integration/test_r4_metric_contract.py + tests/integration/test_su0010a_regeneration.py: deterministic backends returned identical text every call, accidentally activating the new no-progress early-stop and lowering observed counts below max-attempt expectations. NOT validly proven pre-existing (ec9ba0b lacked the early-stop; a detached worktree using the main editable installation can import the current branch instead of the worktree source — cross-worktree comparison only valid with isolated env or worktree-local PYTHONPATH). Commit 231b0a5 (pushed, test-fixture-only): `_FixedTokenBackend` gains opt-in `vary_output=True` (3 duration tests), `_SentinelBackend` returns a unique valid Python string per indexed response preserving exact TokenUsage, 5 bounded-repair fixtures return `value = <call_number>`; all expectations preserved (max_attempts 3, calls 3/6, repair_attempts, repair_model_calls 2/4, durations 1.5/2.1, tokens 41/59/90, JSONL/reporting identity); dedicated identical-output no-progress tests unchanged; new boundary test `test_no_progress_and_max_attempts_are_separate_contracts` proves constant output → 2 calls + repair_no_progress vs distinct outputs → 3 calls / 2 repairs
+- **Status:** COMPLETE (commit 231b0a5, pushed)
+
+### PSC-04 - Complete Final Gate
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Full suite 1,849 passed / 32 skipped / 0 failed; mypy --strict src/benchmark Success (77 files); ruff 93 = 93 baseline (0 new, line-set identical); compileall clean; bundle build content-identical; all notebook cells compile; manifests verified; git diff --check clean; tree clean; local = remote = 231b0a5
+- **Status:** COMPLETE
+
+### PSC-05 - Correct Operational Documentation
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md, selective_updates/records/KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE.md; record calibration evidence exp-20260803-002741 (9 records / 0 succeeded / 8 failed / 1 timed_out / 81 calls / 118,211 tokens, preserved, not accepted scientific evidence) and the 9-failure reconciliation truth; commit as docs(audit): record calibration results and safety closure
+- **Status:** IN PROGRESS
+
+### PSC-06 - Independent Calibration Closure Audit
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent audit of the four closed controls, the test-fixture reconciliation, and the green gate; after the audit the ONLY next action = one selective calibration canary (not a full relaunch, not a fine-tune, not a tag/merge)
+- **Status:** PENDING (sentinel `POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED`)
+
+## Previous - Pre-Benchmark Final Reproducibility Audit Closure
 
 ### PBF-01 - Recover Exact Passing Dependency Versions
 - **Priority:** HIGH

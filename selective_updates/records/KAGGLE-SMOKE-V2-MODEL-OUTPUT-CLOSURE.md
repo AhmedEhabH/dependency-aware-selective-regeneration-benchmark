@@ -1,3 +1,148 @@
+# KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE — Post-Smoke Calibration Closure
+
+**Change ID:** KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE (Post-Smoke Calibration Closure)
+**Date:** 2026-08-03
+**Branch:** `fix/kaggle-smoke-v2-model-output-closure`
+**HEAD:** `231b0a5` (pushed; local = remote; working tree clean)
+**Status:** POST-SMOKE-CALIBRATION-CLOSURE COMPLETE — FOUR PROVEN CONTROL DEFECTS CLOSED, DEPLOYMENT RE-PINNED, TEST-CONTRACT RECONCILIATION APPLIED, COMPLETE SUITE GREEN (1,849 PASSED / 32 SKIPPED / 0 FAILED) — INDEPENDENT AUDIT REQUIRED
+
+## Truth
+
+```text
+branch                 = fix/kaggle-smoke-v2-model-output-closure
+HEAD                   = 231b0a5 (pushed; local = remote; working tree clean)
+commit A               = 27c1693  fix(smoke): close calibration atomicity and no-progress controls (runtime + tests)
+commit B               = 56772fe  chore(deploy): pin calibration-controlled Smoke V2 bundle (notebook + bundle + SOURCE_COMMIT)
+commit C               = 231b0a5  test(smoke): separate no-progress and max-attempt contracts (test-fixture reconciliation)
+calibration evidence   = exp-20260803-002741 (9 terminal records: 0 succeeded / 8 failed / 1 timed_out; 81 model calls;
+                         118,211 total tokens; monolithic 50,220/30, selective 32,460/20, iterative 35,531/31) — preserved, not an accepted scientific comparison
+latest real calibration = 0/9 successful records (preserved as evidence)
+scientific evidence    = NONE (no accepted scientific result yet)
+Kaggle rerun           = NOT performed (no real Qwen run since the calibration)
+tag                    = not created
+Pilot                  = not authorized
+next action            = one selective calibration canary ONLY, after independent audit
+```
+
+## The four proven control defects closed
+
+- **Closure A — per-attempt atomic regeneration.** The shared regeneration
+  executor now normalizes and validates every selected artifact, stages accepted
+  bytes in memory, and writes none of an attempt until every artifact required by
+  that attempt has passed. Any normalization/scope/syntax/dependency/module-role
+  failure writes zero files of the attempt. Atomicity applies per generation and
+  repair attempt, not across separate iterative-agent iterations. Proven by four
+  tests (one-invalid-plus-two-valid => zero writes; all-valid => writes exactly
+  once; preserve-only rejection => zero writes; later iterative-agent iteration
+  commits independently).
+- **Closure B — repair no-progress detection.** During a repair round, each
+  repaired artifact response SHA-256 hash is compared with its immediately prior
+  response hash; the first identical hash after validation feedback records
+  `repair_no_progress`, stops the remainder of that round before additional model
+  calls, and does not start another repair round for the unchanged failure.
+  Consumed calls/tokens are retained; temperature/prompts are never altered to
+  force a different answer. Proven by three dedicated identical-hash tests
+  (unchanged).
+- **Closure C — calibration continuation gate.** The canonical notebook is
+  fail-closed: `AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW = False`. The first
+  outcome `scientific_failure` prints `CALIBRATION_REVIEW_REQUIRED` and does NOT
+  authorize continuous execution; only a deliberate human change of the constant
+  to `True` after review allows the continuous cell to proceed. `scientific_success`
+  may authorize after evidence checks; `engineering_blocker` stops and raises.
+  Test `test_notebook_accepts_scientific_failure_and_blocks_engineering_failure`
+  proves the default is fail-closed.
+- **Closure D — cooperative deadline semantics.** Cooperative budget enforcement
+  checks the deadline before every selection, generation, and repair model call;
+  no model call is started after the deadline; an in-flight call returning beyond
+  the deadline stops immediately. Model/strategy workflow budget exhaustion is a
+  scientific terminal outcome `scientific_budget_exhausted`; preflight,
+  model-loading, environment, harness, and required-HF timeouts remain
+  engineering blockers. The configured budget and actual elapsed time are recorded
+  (`configured_budget`, `actual_elapsed_seconds`). Documented explicitly as a
+  cooperative model-call boundary, not unsafe GPU thread termination.
+
+## Reconciliation of the first full gate
+
+The first complete full gate after Commit B exposed **nine stale
+constant-output integration fixtures** (`test_r4_metric_contract.py`,
+`test_su0010a_regeneration.py`) whose deterministic backends returned identical
+text on every call, accidentally activating the new no-progress early-stop and
+lowering observed repair/model-call counts below the max-attempt expectations.
+
+These nine failures are **not validly proven to be pre-existing**: `ec9ba0b`
+(the starting HEAD) did not contain the new `repair_no_progress` early-stop
+behavior, and a detached worktree using the main editable installation can
+import the current branch instead of the detached worktree source — a
+cross-worktree comparison is valid only with an isolated environment or an
+explicit worktree-local `PYTHONPATH=<worktree>\src`.
+
+Reconciliation (Commit C, test-fixture-only):
+
+- `_FixedTokenBackend` gained an opt-in `vary_output=True` flag; the three
+  duration-accumulation tests use it.
+- `_SentinelBackend` returns a unique valid Python string per indexed response
+  while preserving the exact supplied `TokenUsage`.
+- The five bounded-repair `_CountingBackend`/`_KnownMetricBackend` fixtures now
+  return `value = <call_number>` per call.
+- All expected values were preserved unchanged: `max_attempts`, call counts
+  (3 for one artifact, 6 for two), `repair_attempts`, `repair_model_calls`
+  (2 and 4), duration totals (1.5 / 2.1), token totals (41 / 59 / 90), and
+  JSONL/reporting identity.
+- The dedicated identical-output no-progress tests remain unchanged.
+- One new integration boundary test proves both contracts side by side:
+  constant invalid output → 1 initial + 1 identical repair →
+  `repair_no_progress` → 2 calls; distinct invalid outputs → 1 initial +
+  2 repairs → 3 calls / 2 repair attempts.
+
+## Complete final gate (Python 3.11.5 / pytest 9.1.1)
+
+```text
+Full suite            = 1,849 passed / 32 skipped / 0 failed
+Mypy --strict src/benchmark = Success: no issues found in 77 source files
+Ruff check src tests seven_arm_benchmark.py scripts = 93 findings, IDENTICAL
+                         set to the baseline (exported and re-run; 0 new findings)
+Compileall             = clean (exit 0)
+Bundle build           = success: 147 files / 934,495 bytes (code 90 files / 719,660 bytes;
+                         data 56 files / 172,210 bytes; notebook 1 file / 42,625 bytes);
+                         builder rerun content-identical; working tree clean after rerun
+Notebook cells         = all compile (canonical 7/7 + generated 7/7)
+Manifests              = code 90 / data 56 / notebook 1 verified
+git diff --check       = clean
+git status --short     = clean (local HEAD = remote HEAD = 231b0a5)
+```
+
+## Calibration truth
+
+The run `exp-20260803-002741` is **calibration evidence, not an accepted
+scientific comparison**: 9 terminal records, 0 succeeded, 8 failed, 1 timed_out;
+81 model calls; 118,211 total tokens (monolithic 50,220/30; selective 32,460/20;
+iterative_repository_agent 35,531/31). Selective selected 9 artifacts total vs
+monolithic 15 and agent 8; the agent was the only arm to reach the scenario
+evaluator (on `todo-smoke-002`). No Kaggle rerun has occurred since. Fine-tuning
+is deferred to a separate future project and must use held-out benchmark
+scenarios.
+
+## Commit ledger
+
+```text
+ec9ba0b  docs(audit): accept final pre-benchmark source repin            (starting HEAD)
+27c1693  fix(smoke): close calibration atomicity and no-progress controls (Commit A, pushed)
+56772fe  chore(deploy): pin calibration-controlled Smoke V2 bundle        (Commit B, pushed)
+231b0a5  test(smoke): separate no-progress and max-attempt contracts      (Commit C, pushed)
+```
+
+All pushed to `origin/fix/kaggle-smoke-v2-model-output-closure`; local = remote
+verified after each push. Working tree clean.
+
+## Next action
+
+After this independent audit, the only next action is **one selective
+calibration canary only** (not a full relaunch, not a fine-tune, not a tag/merge).
+
+POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED
+
+---
+
 # KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE — Pre-Benchmark Final Reproducibility and Truth Closure
 
 **Change ID:** KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE

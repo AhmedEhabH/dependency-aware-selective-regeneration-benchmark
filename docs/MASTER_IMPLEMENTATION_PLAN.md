@@ -177,10 +177,65 @@ baseline (0 new); compileall clean; all notebook code cells compile (7/7 + 7/7);
 bundle build content-identical (147 files / 928,329 bytes); manifests verified;
 no cache files in `kaggle_upload`; tree clean. Historical `exp-20260801-210443`
 failed model-output record under `6f88823` remains excluded from the current
-`e5d9430` aggregation; current accepted real records = **0/9**; no scientific
+ `e5d9430` aggregation; current accepted real records = **0/9**; no scientific
 evidence; no tag; no Pilot; no Kaggle launch. Next action after this independent
 audit: **Kaggle engineering preflight only** (update the Kaggle code dataset +
 notebook to the corrected `e5d9430` deployment, then the preflight cell, not the
 scientific One-Run cell).
+
+## Post-Smoke Calibration Closure (2026-08-03)
+
+The post-smoke calibration closure on branch `fix/kaggle-smoke-v2-model-output-closure`
+(HEAD `231b0a5`, pushed, local = remote, tree clean) closed the four proven
+control defects the real calibration run `exp-20260803-002741` exposed, then
+pinned and reconciled the gate:
+
+- **Commit `27c1693`** (runtime + tests): per-attempt atomic regeneration
+  (normalize + validate every selected artifact, stage accepted bytes, write
+  zero files of the attempt on any guard failure); repair no-progress detection
+  (`repair_no_progress` early-stop on an identical repair response hash after
+  validation feedback, no new round, consumed calls/tokens retained);
+  fail-closed calibration continuation gate
+  (`AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW = False`;
+  `scientific_failure` prints `CALIBRATION_REVIEW_REQUIRED`, only a deliberate
+  human change to `True` authorizes the continuous cell); cooperative deadline
+  semantics (deadline checked before every selection/generation/repair call;
+  workflow budget exhaustion = scientific terminal
+  `scientific_budget_exhausted` with `configured_budget` /
+  `actual_elapsed_seconds`; preflight/env/harness/HF timeouts stay engineering
+  blockers).
+- **Commit `56772fe`** (deployment): notebook re-pin
+  `SOURCE_COMMIT = 27c1693e22b1a68be0b299fb146d9ff1e500908b` /
+  `DEPLOYED_BUILD_ID = 27c1693`; bundle rebuilt (147 files / 934,495 bytes;
+  code 90 / data 56 / notebook 1); manifests verified; both notebooks compile
+  7/7 code cells.
+- **Commit `231b0a5`** (test-fixture reconciliation): the nine failures of the
+  first full gate were **stale constant-output integration fixtures**
+  (`test_r4_metric_contract.py`, `test_su0010a_regeneration.py`) that
+  accidentally activated the new no-progress early-stop. They were **not
+  validly proven pre-existing**: `ec9ba0b` lacked the early-stop, and a detached
+  worktree using the main editable installation can import the current branch
+  instead of the worktree source. The fixtures now return distinct valid Python
+  per call (`_FixedTokenBackend(vary_output=True)` for the three duration tests,
+  unique per-index `_SentinelBackend` output, `value = <call_number>` for the
+  five bounded-repair fixtures); every expectation was preserved (max_attempts
+  3, calls 3/6, `repair_attempts`, `repair_model_calls` 2/4, durations 1.5/2.1,
+  tokens 41/59/90, JSONL/reporting identity); dedicated identical-output
+  no-progress tests unchanged; new boundary test
+  `test_no_progress_and_max_attempts_are_separate_contracts` proves constant
+  output → 2 calls + `repair_no_progress` vs distinct outputs → 3 calls /
+  2 repairs. Runtime semantics, prompts, scenarios, datasets, evaluators,
+  strategies, and metrics were never changed.
+
+Final gate: full suite = **1,849 passed / 32 skipped / 0 failed**; mypy strict
+`src/benchmark` Success (77 files); ruff 93 = 93 baseline (identical line-set,
+0 new); compileall clean; bundle content-identical; `git diff --check` clean;
+tree clean. Calibration evidence `exp-20260803-002741` (9 terminal records /
+0 succeeded / 8 failed / 1 timed_out / 81 model calls / 118,211 tokens) is
+**preserved and not an accepted scientific comparison**; latest real
+calibration = **0/9**. No Kaggle rerun; no tag; no merge; Pilot not authorized.
+Next action after this independent audit: **one selective calibration canary
+only** (not a full relaunch, not a fine-tune, not a tag/merge).
+Sentinel: `POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED`.
 
 R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED

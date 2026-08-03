@@ -1,3 +1,61 @@
+# Post-Smoke Calibration Closure — Latest Phase Report
+
+## Executive decision
+
+The post-smoke calibration closure is **complete and green** on branch
+`fix/kaggle-smoke-v2-model-output-closure` (HEAD `231b0a5`, pushed, local =
+remote, tree clean). The real calibration run `exp-20260803-002741` (9 terminal
+records: 0 succeeded / 8 failed / 1 timed_out; 81 model calls; 118,211 total
+tokens) exposed four proven control defects that were closed in three commits:
+`27c1693` (runtime + tests: per-attempt atomic regeneration, repair no-progress
+detection, fail-closed calibration continuation gate, cooperative deadline
+semantics), `56772fe` (deployment pin: `SOURCE_COMMIT =
+27c1693e22b1a68be0b299fb146d9ff1e500908b` / `DEPLOYED_BUILD_ID = 27c1693`,
+bundle rebuilt, 147 files / 934,495 bytes), and `231b0a5` (test-fixture
+reconciliation).
+
+The first full gate after `56772fe` exposed **nine stale constant-output
+integration fixtures** that accidentally activated the new no-progress
+early-stop and lowered observed counts below the max-attempt expectations.
+These failures were **not validly proven to be pre-existing**: the starting HEAD
+`ec9ba0b` did not contain the `repair_no_progress` early-stop, and a detached
+worktree using the main editable installation can import the current branch
+instead of the detached worktree source — a cross-worktree comparison is valid
+only with an isolated environment or an explicit worktree-local `PYTHONPATH`.
+The reconciliation (`231b0a5`) changed tests only: `_FixedTokenBackend` gained
+an opt-in `vary_output=True` (three duration tests), `_SentinelBackend` returns
+a unique valid Python string per indexed response while preserving the exact
+`TokenUsage`, and the five bounded-repair fixtures return distinct valid Python
+per call. Every expectation was preserved unchanged (max_attempts, call counts
+3/6, `repair_attempts`, `repair_model_calls` 2/4, durations 1.5/2.1, tokens
+41/59/90, JSONL/reporting identity); the dedicated identical-output no-progress
+tests remain unchanged; a new side-by-side boundary test proves constant output
+→ 2 calls + `repair_no_progress` vs distinct outputs → 3 calls / 2 repair
+attempts. These failures are documented as caused by the stale fixtures, never
+as "pre-existing" production defects, and no runtime, prompt, metric, scenario,
+evaluator, or dataset was changed.
+
+Final gate: full suite = **1,849 passed / 32 skipped / 0 failed**; mypy
+`--strict src/benchmark` Success (77 source files); ruff 93 findings =
+identical 93-finding baseline set (0 new, verified by line-set export); compileall
+clean; bundle build content-identical (147 files / 934,495 bytes; builder rerun
+leaves the tree unchanged); all notebook code cells compile (canonical 7/7 +
+generated 7/7); manifests verified (code 90 / data 56 / notebook 1); `git diff
+--check` clean; working tree clean.
+
+Calibration truth: `exp-20260803-002741` is **calibration evidence, not an
+accepted scientific comparison** — latest real calibration = **0/9** (selective
+9 artifacts vs monolithic 15 / agent 8; agent was the only arm to reach the
+scenario evaluator, on `todo-smoke-002`). No Kaggle rerun has occurred. No tag;
+Pilot not authorized. Next action after this independent audit: **one selective
+calibration canary only** (not a full relaunch, not a fine-tune, not a
+tag/merge). Fine-tuning is deferred to a separate future project on held-out
+benchmark scenarios.
+
+POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED
+
+---
+
 # Pre-Benchmark Final Source Repin — Latest Phase Report
 
 ## Executive decision

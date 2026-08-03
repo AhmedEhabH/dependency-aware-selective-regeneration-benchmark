@@ -272,3 +272,24 @@ breaks byte-identity with the pinned `aac9914` SOURCE_COMMIT; frozen notebook
 artifacts were not modified and the truthful 1-failure total is recorded. The
 pre-existing Mypy strict base in `seven_arm_benchmark.py` (outside the
 authorized scope of every recent change) remains unchanged and still open.
+
+## Post-Smoke Calibration Closure (2026-08-03)
+
+The post-smoke calibration closure (branch
+`fix/kaggle-smoke-v2-model-output-closure`, HEAD `231b0a5`, commits `27c1693` +
+`56772fe` + `231b0a5`, pushed, local = remote) closed four proven calibration
+control defects (per-attempt atomic regeneration; repair no-progress detection
+`repair_no_progress`; fail-closed calibration continuation gate
+`AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW = False`; cooperative deadline
+semantics with `scientific_budget_exhausted` terminal) and opened **no new
+technical debt**. One pre-existing code-quality finding in the reconciliation
+pass was fixed within the pass: `SIM108` (ternary instead of if/else in the
+`test_r4_metric_contract.py` backend) was replaced, so the working-tree Ruff set
+equals the baseline (93 = 93, 0 new). The nine first-gate failures were caused
+by stale constant-output integration fixtures activating the new no-progress
+contract; the fixtures were reconciled in `231b0a5` with every expectation
+preserved and are recorded as fixture-induced, not as pre-existing production
+defects. The pre-existing Mypy strict base in `seven_arm_benchmark.py` remains
+unchanged and still open. Recorded in
+`selective_updates/records/KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE.md`. Sentinel:
+`POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED`.
