@@ -1514,6 +1514,7 @@ _SCIENTIFIC_FAILURE_KINDS = frozenset(
         "changed_requirement",
         "regression",
         "architecture",
+        "scientific_budget_exhausted",
     }
 )
 _ENGINEERING_FAILURE_KINDS = frozenset(

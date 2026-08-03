@@ -379,6 +379,7 @@ class BenchmarkRunner:
         )
         self._last_prediction: ImpactPrediction | None = None
         self._last_scientific_result: _ScientificValidationResult | None = None
+        self._last_regeneration_hashes: dict[str, str] = {}
 
     @property
     def state(self) -> RunStateMachine:
@@ -853,16 +854,10 @@ class BenchmarkRunner:
             try:
                 self._budget.record_attempt()
             except BudgetExhaustedError:
-                self._state.fail()
-                record = RunRecord(
-                    identity=self._build_run_identity(scenario),
-                    status=RunStatus.timed_out,
-                    failures=(FailureRecord(
-                        failure_kind=FailureKind.timeout,
-                        message="Budget exhausted before initial generation attempt",
-                        stage="budget",
-                    ),),
-                    duration_seconds=time.monotonic() - start_time,
+                record = self._workflow_budget_exhausted_record(
+                    scenario,
+                    start_time,
+                    "Budget exhausted before initial generation attempt",
                 )
             else:
                 result = self._run_attempt(scenario, start_time)
@@ -925,13 +920,47 @@ class BenchmarkRunner:
             duration_seconds=0.0,
         )
 
+    def _workflow_budget_exhausted_record(
+        self, scenario: Scenario, start_time: float, message: str
+    ) -> RunRecord:
+        """Model/strategy workflow budget exhaustion is a scientific terminal outcome.
+
+        Cooperative model-call boundary: the deadline is checked before every
+        selection, generation, and repair model call, and no new call is
+        started after the deadline. This is a cooperative boundary in the
+        benchmark process, NOT an unsafe kill of a GPU thread. Preflight,
+        model-loading, environment, harness, and required-HF timeouts remain
+        engineering blockers and are classified elsewhere.
+        """
+        elapsed = time.monotonic() - start_time
+        budget_note = (
+            f"configured_budget={{max_attempts={self._budget.max_attempts};"
+            f"max_total_workflow_tokens={self._config.resolved_max_total_workflow_tokens};"
+            f"timeout_seconds={self._config.timeout_seconds}}};"
+            f"actual_elapsed_seconds={elapsed:.3f}"
+        )
+        self._state.fail()
+        return RunRecord(
+            identity=self._build_run_identity(scenario),
+            status=RunStatus.failed,
+            failures=(
+                FailureRecord(
+                    failure_kind=FailureKind.scientific_budget_exhausted,
+                    message=f"{message} ({budget_note})",
+                    details=budget_note,
+                    stage="budget",
+                ),
+            ),
+            duration_seconds=elapsed,
+        )
+
     def _run_attempt(self, scenario: Scenario, start_time: float) -> RunRecord | BenchmarkError:
         try:
             if self._budget.timed_out:
-                return RunRecord(
-                    identity=self._build_run_identity(scenario),
-                    status=RunStatus.timed_out,
-                    duration_seconds=time.monotonic() - start_time,
+                return self._workflow_budget_exhausted_record(
+                    scenario,
+                    start_time,
+                    "Workflow deadline reached before selection model call",
                 )
 
             repository_snapshot = self._build_repository_snapshot(scenario)
@@ -998,15 +1027,10 @@ class BenchmarkRunner:
                 total_workflow_duration_seconds=selection_duration,
             )
         except BudgetExhaustedError:
-            return RunRecord(
-                identity=self._build_run_identity(scenario),
-                status=RunStatus.timed_out,
-                failures=(FailureRecord(
-                    failure_kind=FailureKind.timeout,
-                    message="Budget exhausted during attempt",
-                    stage="budget",
-                ),),
-                duration_seconds=time.monotonic() - start_time,
+            return self._workflow_budget_exhausted_record(
+                scenario,
+                start_time,
+                "Workflow budget exhausted during attempt",
             )
         except ModelBackendError as e:
             return RunRecord(
@@ -1088,6 +1112,13 @@ class BenchmarkRunner:
             duration_seconds=selection_duration,
         )
 
+        if self._budget.timed_out:
+            return self._workflow_budget_exhausted_record(
+                scenario,
+                start_time,
+                "Workflow deadline reached before generation model call",
+            )
+
         exec_result = executor.execute(
             plan, self._isolation, requirement_delta=requirement_delta,
             scenario_context=self._build_scenario_context(scenario),
@@ -1096,6 +1127,8 @@ class BenchmarkRunner:
         )
 
         self._budget.record_tokens(exec_result.total_tokens)
+
+        self._last_regeneration_hashes = exec_result.artifact_hashes
 
         sci_result = self._execute_scientific_validation(scenario, exec_result)
 
@@ -1281,14 +1314,19 @@ class BenchmarkRunner:
         while self._budget.can_attempt:
             self._budget.record_attempt()
 
+            prior_hashes = dict(self._last_regeneration_hashes) or None
             exec_result = executor.execute(
                 plan, self._isolation, requirement_delta, repair_context=repair_context,
                 scenario_context=self._build_scenario_context(scenario),
                 max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
                 remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
+                prior_attempt_hashes=prior_hashes,
             )
+            self._last_regeneration_hashes = dict(exec_result.artifact_hashes)
 
             self._budget.record_tokens(exec_result.total_tokens)
+
+            no_progress = exec_result.repair_no_progress
 
             sci_result = self._execute_scientific_validation(scenario, exec_result)
 
@@ -1359,6 +1397,18 @@ class BenchmarkRunner:
                     self._failure_from_scientific_result(sci_result)
                 )
 
+            if no_progress:
+                all_failures.append(
+                    FailureRecord(
+                        failure_kind=FailureKind.model_output,
+                        message="repair_no_progress: repair reproduced the prior "
+                        "attempt output; stopping repair rounds",
+                        details="repair_no_progress=true",
+                        stage="regeneration",
+                    )
+                )
+                break
+
             attempt_failures = tuple(
                 FailureRecord(
                     failure_kind=FailureKind.model_output,
@@ -1377,6 +1427,14 @@ class BenchmarkRunner:
                 break
 
         self._state.fail()
+        if self._budget.timed_out:
+            all_failures.append(
+                FailureRecord(
+                    failure_kind=FailureKind.scientific_budget_exhausted,
+                    message="Workflow deadline reached during regeneration repair rounds",
+                    stage="budget",
+                )
+            )
         sci = self._last_scientific_result
         fields = acc.as_record_fields(
             final_scientific_result=sci,
@@ -1417,10 +1475,10 @@ class BenchmarkRunner:
     ) -> RunRecord:
         try:
             if self._budget.timed_out:
-                return RunRecord(
-                    identity=self._build_run_identity(scenario),
-                    status=RunStatus.timed_out,
-                    duration_seconds=time.monotonic() - start_time,
+                return self._workflow_budget_exhausted_record(
+                    scenario,
+                    start_time,
+                    "Workflow deadline reached before iterative agent selection",
                 )
 
             repository_snapshot = self._build_repository_snapshot(scenario)
@@ -1763,6 +1821,14 @@ class BenchmarkRunner:
             self._state.fail()
             tool_transcript = tuple(getattr(self._strategy, "compact_tool_transcript", ()))
             sci = self._last_scientific_result
+            if self._budget.timed_out:
+                all_failures.append(
+                    FailureRecord(
+                        failure_kind=FailureKind.scientific_budget_exhausted,
+                        message="Workflow deadline reached during iterative agent execution",
+                        stage="budget",
+                    )
+                )
             fields = acc.as_record_fields(
                 final_scientific_result=sci,
                 token_accounting_mode=token_accounting_mode,
@@ -1780,7 +1846,7 @@ class BenchmarkRunner:
 
             return RunRecord(
                 identity=self._build_run_identity(scenario),
-                status=RunStatus.timed_out if self._budget.timed_out else RunStatus.failed,
+                status=RunStatus.failed,
                 prediction=final_prediction,
                 token_usage=TokenUsage(
                     prompt_tokens=legacy_prompt,
@@ -1812,15 +1878,10 @@ class BenchmarkRunner:
                 ),
             )
         except BudgetExhaustedError:
-            return RunRecord(
-                identity=self._build_run_identity(scenario),
-                status=RunStatus.timed_out,
-                failures=(FailureRecord(
-                    failure_kind=FailureKind.timeout,
-                    message="Budget exhausted during iterative agent execution",
-                    stage="budget",
-                ),),
-                duration_seconds=time.monotonic() - start_time,
+            return self._workflow_budget_exhausted_record(
+                scenario,
+                start_time,
+                "Budget exhausted during iterative agent execution",
             )
         except ModelBackendError as e:
             return RunRecord(
