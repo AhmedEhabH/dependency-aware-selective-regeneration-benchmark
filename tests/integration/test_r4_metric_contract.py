@@ -39,8 +39,13 @@ from benchmark.statistics.reporting import NotebookExporter
 class _FixedTokenBackend:
     token_accounting_mode: str = "fixture_or_approximate"
 
-    def __init__(self, tokens: TokenUsage = TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15)):
+    def __init__(
+        self,
+        tokens: TokenUsage = TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
+        vary_output: bool = False,
+    ):
         self._tokens = tokens
+        self._vary_output = vary_output
         self.call_count = 0
         self.captured_max_tokens: list[int] = []
 
@@ -50,7 +55,8 @@ class _FixedTokenBackend:
     async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
         self.call_count += 1
         self.captured_max_tokens.append(max_tokens)
-        return LLMResponse(text="content", token_usage=self._tokens, finish_reason="stop")
+        text = f"value = {self.call_count}\n" if self._vary_output else "content"
+        return LLMResponse(text=text, token_usage=self._tokens, finish_reason="stop")
 
 
 class _SentinelBackend:
@@ -68,7 +74,7 @@ class _SentinelBackend:
         tu = self._responses[self._idx] if self._idx < len(self._responses) else TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15)
         self._idx += 1
         self.call_count += 1
-        return LLMResponse(text="content", token_usage=tu, finish_reason="stop")
+        return LLMResponse(text=f"value = {self.call_count}\n", token_usage=tu, finish_reason="stop")
 
 
 class _ThreeFileBackend:
@@ -650,7 +656,7 @@ def test_public_repair_accumulates_baseline_duration_across_attempts(
     monkeypatch.setattr("benchmark.execution.runner.FunctionalValidator", _FailingBaselineValidator)
 
     iso, ws_root = _setup_workspace(tmp_path, (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),))
-    backend = _FixedTokenBackend()
+    backend = _FixedTokenBackend(vary_output=True)
     from benchmark.strategies import MonolithicRegenerationStrategy
     strategy = MonolithicRegenerationStrategy()
     runner = _make_runner(
@@ -689,7 +695,7 @@ def test_public_repair_accumulates_evaluator_duration_across_attempts(
     )
 
     iso, ws_root = _setup_workspace(tmp_path, (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),))
-    backend = _FixedTokenBackend()
+    backend = _FixedTokenBackend(vary_output=True)
     from benchmark.strategies import MonolithicRegenerationStrategy
     strategy = MonolithicRegenerationStrategy()
     scenario = _make_scenario(evaluator_asset="evaluator.py")
@@ -722,7 +728,7 @@ def test_public_total_duration_equals_stage_sum(
     monkeypatch.setattr("benchmark.execution.runner.FunctionalValidator", _FailingBaselineValidator)
 
     iso, ws_root = _setup_workspace(tmp_path, (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),))
-    backend = _FixedTokenBackend()
+    backend = _FixedTokenBackend(vary_output=True)
     from benchmark.strategies import MonolithicRegenerationStrategy
     strategy = MonolithicRegenerationStrategy()
     runner = _make_runner(

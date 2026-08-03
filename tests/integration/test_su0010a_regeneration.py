@@ -932,7 +932,7 @@ class TestBoundedRepairAttempts:
                 nonlocal call_count
                 call_count += 1
                 return LLMResponse(
-                    text="content",
+                    text=f"value = {call_count}\n",
                     token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
                 )
 
@@ -1001,7 +1001,7 @@ class TestBoundedRepairAttempts:
                 nonlocal call_count
                 call_count += 1
                 return LLMResponse(
-                    text="content",
+                    text=f"value = {call_count}\n",
                     token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
                 )
 
@@ -1206,7 +1206,7 @@ class TestBoundedRepairAttempts:
                 self._call_count += 1
                 from benchmark.core.models import LLMResponse, TokenUsage
                 tu = TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15)
-                return LLMResponse(text="content", token_usage=tu, finish_reason="stop")
+                return LLMResponse(text=f"value = {self._call_count}\n", token_usage=tu, finish_reason="stop")
 
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario(artifacts=artifacts)
@@ -1398,7 +1398,7 @@ class TestBoundedRepairAttempts:
                 nonlocal call_count
                 call_count += 1
                 return LLMResponse(
-                    text="content",
+                    text=f"value = {call_count}\n",
                     token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
                 )
 
@@ -1484,9 +1484,13 @@ class TestBoundedRepairAttempts:
         from benchmark.core.models import LLMResponse, TokenUsage
 
         class _KnownMetricBackend:
+            def __init__(self):
+                self._call_count = 0
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                self._call_count += 1
                 return LLMResponse(
-                    text="content",
+                    text=f"value = {self._call_count}\n",
                     token_usage=TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
                 )
 
@@ -1513,6 +1517,61 @@ class TestBoundedRepairAttempts:
         # total_workflow_tokens = selection (0) + regen (30) + repair (60)
         expected_total = 90
         assert record.total_workflow_tokens == expected_total
+
+    def test_no_progress_and_max_attempts_are_separate_contracts(self, tmp_path: Path) -> None:
+        """Side-by-side proof: constant output triggers repair_no_progress (2 calls);
+        distinct failing outputs consume the full max_attempts (3 calls, 2 repairs)."""
+        from benchmark.core.models import LLMResponse, TokenUsage
+
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        scenario = _make_scenario(artifacts=artifacts)
+        strategy = MonolithicRegenerationStrategy()
+
+        constant_calls = 0
+
+        class _ConstantBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal constant_calls
+                constant_calls += 1
+                return LLMResponse(
+                    text="value = 1\n",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
+                )
+
+        distinct_calls = 0
+
+        class _DistinctBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal distinct_calls
+                distinct_calls += 1
+                return LLMResponse(
+                    text=f"value = {distinct_calls}\n",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
+                )
+
+        const_runner = _make_runner(
+            tmp_path, strategy, _ConstantBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        const_record = const_runner.run(scenario)
+        assert constant_calls == 2
+        assert any("repair_no_progress" in f.message for f in const_record.failures)
+
+        dist_runner = _make_runner(
+            tmp_path, strategy, _DistinctBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        dist_record = dist_runner.run(scenario)
+        assert distinct_calls == 3
+        assert not any("repair_no_progress" in f.message for f in dist_record.failures)
+        assert dist_record.repair_attempts == 2
 
 
 class TestStrategyGuard:
