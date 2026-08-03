@@ -717,6 +717,158 @@ class TestAtomicRegenerationAttempt:
         for rel in paths:
             assert (ws_root / rel).read_text(encoding="utf-8") == "x = 2\n", rel
 
+    def test_atomic_abort_remarks_staged_generated_artifact_as_aborted(
+        self, tmp_path: Path
+    ) -> None:
+        """Closure B atomic metric truth: valid staged + invalid artifact.
+
+        The valid artifact is staged but the attempt aborts atomically, so its
+        status is re-marked ``aborted`` (never ``generated``), nothing is
+        written, and hash/content evidence remains available.
+        """
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("todo/a.py", "todo/b.py")
+        original = "original content\n"
+        self._write_sources(ws_root, paths, (original, original))
+        (ws_root / "requirements.txt").write_text(
+            "django>=5.0,<6.0\ndjangorestframework>=3.15,<4.0\n",
+            encoding="utf-8",
+        )
+
+        class _FirstValidSecondInvalid:
+            def __init__(self) -> None:
+                self.prompt_tokens = 0
+                self.completion_tokens = 0
+                self._call = 0
+
+            async def generate(self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
+                self._call += 1
+                text = (
+                    "x = 1\n"
+                    if self._call == 1
+                    else "from rest_framework_simplejwt.authentication import JWTAuthentication\n"
+                )
+                pt = max(1, len(prompt) // 4)
+                ct = max(1, len(text) // 4)
+                self.prompt_tokens += pt
+                self.completion_tokens += ct
+                return LLMResponse(
+                    text=text,
+                    token_usage=TokenUsage(
+                        prompt_tokens=pt, completion_tokens=ct, total_tokens=pt + ct,
+                    ),
+                    finish_reason="stop",
+                )
+
+        backend = _FirstValidSecondInvalid()
+        result = SharedRegenerationExecutor(backend).execute(
+            self._make_plan(paths), iso, scenario_context=self._context(paths)
+        )
+
+        assert any("undeclared_dependency" in f for f in result.failures)
+        statuses = {a.path: a.status for a in result.artifacts}
+        assert statuses["todo/a.py"] == "aborted"
+        assert statuses["todo/b.py"] == "rejected"
+        assert result.artifact_hashes
+        for rel in paths:
+            assert (ws_root / rel).read_text(encoding="utf-8") == original, rel
+
+    def test_all_valid_artifacts_written_once_with_matching_count(
+        self, tmp_path: Path
+    ) -> None:
+        """All-valid control: every artifact written exactly once and the
+        generated count equals the number of files written."""
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("todo/a.py", "todo/b.py", "todo/c.py")
+        original = "original content\n"
+        self._write_sources(ws_root, paths, (original, original, original))
+        (ws_root / "requirements.txt").write_text(
+            "django>=5.0,<6.0\ndjangorestframework>=3.15,<4.0\n",
+            encoding="utf-8",
+        )
+
+        backend = _make_backend("x = 1\n")
+        result = SharedRegenerationExecutor(backend).execute(
+            self._make_plan(paths), iso, scenario_context=self._context(paths)
+        )
+
+        assert result.failures == ()
+        generated = [a for a in result.artifacts if a.status == "generated"]
+        assert len(generated) == len(paths)
+        assert result.model_calls == len(paths)
+        for rel in paths:
+            assert (ws_root / rel).read_text(encoding="utf-8") == "x = 1\n", rel
+
+
+class TestModelCallDeadline:
+    """POST-SMOKE-CALIBRATION-CLOSURE Closure A at the executor level.
+
+    The cooperative deadline is checked immediately before and immediately
+    after every backend model call. When it fires no further call is made,
+    no staged write is committed, and the consumed call/tokens are preserved.
+    """
+
+    @staticmethod
+    def _make_plan(paths: tuple[str, ...], action: str = "regenerate") -> RegenerationPlan:
+        refs = tuple(
+            ArtifactRef(path=p, artifact_type=ArtifactType.source)
+            for p in paths
+        )
+        return RegenerationPlan(
+            ordered_artifacts=refs,
+            actions={p: ActionKind(action) for p in paths},
+        )
+
+    @staticmethod
+    def _write_sources(ws_root: Path, paths: tuple[str, ...]) -> None:
+        for rel in paths:
+            target = ws_root / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(f"original {rel}\n", encoding="utf-8")
+
+    def test_deadline_before_call_makes_no_call(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("src/a.py", "src/b.py", "src/c.py")
+        self._write_sources(ws_root, paths)
+        backend = _make_backend("replacement content")
+
+        result = SharedRegenerationExecutor(
+            backend, can_start_model_call=lambda: False
+        ).execute(self._make_plan(paths), iso)
+
+        assert result.model_calls == 0
+        assert result.model_call_budget_exhausted is True
+        assert len(result.artifacts) == 1
+        assert result.artifacts[0].status == "aborted"
+        for rel in paths:
+            assert (ws_root / rel).read_text(encoding="utf-8") == f"original {rel}\n"
+
+    def test_deadline_after_call_consumes_call_and_stops_loop(self, tmp_path: Path) -> None:
+        iso, ws_root = _make_isolation(tmp_path)
+        paths = ("src/a.py", "src/b.py", "src/c.py")
+        self._write_sources(ws_root, paths)
+        backend = _make_backend("replacement content")
+        guard_calls = 0
+
+        def guard() -> bool:
+            nonlocal guard_calls
+            guard_calls += 1
+            return guard_calls <= 1
+
+        result = SharedRegenerationExecutor(
+            backend, can_start_model_call=guard
+        ).execute(self._make_plan(paths), iso)
+
+        assert result.model_calls == 1
+        assert result.model_call_budget_exhausted is True
+        assert len(result.artifacts) == 1
+        assert result.artifacts[0].status == "aborted"
+        assert result.artifacts[0].content == "replacement content"
+        assert result.total_tokens == result.prompt_tokens + result.completion_tokens
+        assert result.total_tokens > 0
+        for rel in paths:
+            assert (ws_root / rel).read_text(encoding="utf-8") == f"original {rel}\n"
+
 
 class TestRepairNoProgress:
     """POST-SMOKE-CALIBRATION-CLOSURE Closure B.

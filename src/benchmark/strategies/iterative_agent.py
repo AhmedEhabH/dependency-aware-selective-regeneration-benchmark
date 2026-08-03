@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import time
+from collections.abc import Callable
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -30,6 +31,16 @@ MAX_AGENT_CALLS: int = 8
 
 class AgentCallsExhaustedError(Exception):
     """Raised when the agent has no remaining LLM calls."""
+    pass
+
+
+class ModelCallBudgetExhaustedError(Exception):
+    """Raised when the cooperative workflow deadline fires before a model call.
+
+    The strategy records the flag (``model_call_budget_exhausted``) before
+    raising; the runner maps it to a scientific ``scientific_budget_exhausted``
+    terminal outcome. This is a cooperative boundary, not a thread kill.
+    """
     pass
 
 TOOL_SCHEMA = """
@@ -177,6 +188,8 @@ class IterativeRepositoryAgentStrategy:
         self._tool_transcript: list[str] = []
         self._last_requires_iteration: bool = True
         self._remaining_agent_calls: int = 0
+        self._model_call_guard: Callable[[], bool] | None = None
+        self._model_call_budget_exhausted: bool = False
         self._tools: RepositoryTools | None = None
 
     def begin_run(self, workspace_root: str | Path) -> None:
@@ -193,6 +206,7 @@ class IterativeRepositoryAgentStrategy:
         self._tool_transcript = []
         self._last_requires_iteration = True
         self._remaining_agent_calls = 8
+        self._model_call_budget_exhausted = False
         from benchmark.strategies.repository_tools import RepositoryTools
         self._tools = RepositoryTools(
             workspace_root=root,
@@ -216,6 +230,11 @@ class IterativeRepositoryAgentStrategy:
         import asyncio
         if self._remaining_agent_calls <= 0:
             raise AgentCallsExhaustedError("No remaining agent calls")
+        if self._model_call_guard is not None and not self._model_call_guard():
+            self._model_call_budget_exhausted = True
+            raise ModelCallBudgetExhaustedError(
+                "Workflow deadline reached before agent model call"
+            )
         self._remaining_agent_calls -= 1
         response = asyncio.get_event_loop().run_until_complete(
             self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=max_completion_tokens)
@@ -223,6 +242,8 @@ class IterativeRepositoryAgentStrategy:
         tok = response.token_usage
         if tok:
             self._record_call(tok.prompt_tokens, tok.completion_tokens, tok.total_tokens)
+        if self._model_call_guard is not None and not self._model_call_guard():
+            self._model_call_budget_exhausted = True
         return response
 
     def _invoke_tool(
@@ -314,6 +335,8 @@ class IterativeRepositoryAgentStrategy:
                         for a in artifact_universe.artifacts
                     ),
                 )
+            except ModelCallBudgetExhaustedError:
+                break
 
             usage = response.token_usage
             if has_limit and local_remaining is not None:
@@ -322,6 +345,9 @@ class IterativeRepositoryAgentStrategy:
                 if local_remaining > 0 and usage.total_tokens > local_remaining:
                     break
                 local_remaining = max(0, local_remaining - usage.total_tokens)
+
+            if self._model_call_budget_exhausted:
+                break
 
             action, parse_mode = _parse_action_response(response.text)
             if action is None:
@@ -493,6 +519,8 @@ class IterativeRepositoryAgentStrategy:
                 response = self._generate_agent_response(prompt, allowance)
             except AgentCallsExhaustedError:
                 break
+            except ModelCallBudgetExhaustedError:
+                break
 
             usage = response.token_usage
             if has_limit and local_remaining is not None:
@@ -501,6 +529,9 @@ class IterativeRepositoryAgentStrategy:
                 if local_remaining > 0 and usage.total_tokens > local_remaining:
                     break
                 local_remaining = max(0, local_remaining - usage.total_tokens)
+
+            if self._model_call_budget_exhausted:
+                break
 
             action, parse_mode = _parse_action_response(response.text)
             if action is None:
@@ -604,6 +635,20 @@ class IterativeRepositoryAgentStrategy:
 
     def _set_requires_iteration(self, value: bool) -> None:
         self._last_requires_iteration = value
+
+    def set_model_call_guard(self, guard: Callable[[], bool] | None) -> None:
+        """Install the cooperative workflow-deadline guard.
+
+        The guard is checked immediately before and immediately after every
+        internal selection/revision model call. When it returns False the
+        strategy records ``model_call_budget_exhausted`` and makes no further
+        model call or tool action.
+        """
+        self._model_call_guard = guard
+
+    @property
+    def model_call_budget_exhausted(self) -> bool:
+        return self._model_call_budget_exhausted
 
     @property
     def last_requires_iteration(self) -> bool:

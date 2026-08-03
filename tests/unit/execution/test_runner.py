@@ -11,6 +11,7 @@ from benchmark.core.models import (
     ArtifactRef,
     ArtifactUniverse,
     FailureRecord,
+    ImpactDecision,
     ImpactPrediction,
     LLMResponse,
     RepositorySnapshot,
@@ -18,6 +19,7 @@ from benchmark.core.models import (
     RunIdentity,
     RunRecord,
     Scenario,
+    TokenUsage,
 )
 from benchmark.execution.isolation import IsolationContext
 from benchmark.execution.post_generation import PostGenerationResult
@@ -199,6 +201,100 @@ class TestBenchmarkRunner:
         assert record.status == RunStatus.failed
         assert record.failures[0].failure_kind == FailureKind.scientific_budget_exhausted
         assert strategy.calls == []
+
+    def test_generation_deadline_stops_after_first_model_call(self, tmp_path: Path) -> None:
+        """Closure A generation deadline at the runner level.
+
+        Three artifacts are selected; call 1 advances the fake clock beyond
+        the deadline. Exactly one model call happens, no further call is made,
+        nothing is written, and the run is a scientific budget-exhausted
+        terminal with the consumed call/tokens retained.
+        """
+        class _ThreeArtifactStrategy:
+            def analyze_impact(
+                self,
+                repository: RepositorySnapshot,
+                requirement_change: RequirementChange,
+                artifact_universe: ArtifactUniverse,
+            ) -> ImpactPrediction:
+                return ImpactPrediction(
+                    decisions=tuple(
+                        ImpactDecision(
+                            artifact=a,
+                            action=ActionKind.regenerate,
+                            rationale="test",
+                        )
+                        for a in artifact_universe.artifacts
+                    )
+                )
+
+        holder: dict[str, object] = {}
+
+        class _DeadlineRewindingBackend:
+            def __init__(self) -> None:
+                self.call_count = 0
+                self._tok = TokenUsage(
+                    prompt_tokens=10, completion_tokens=5, total_tokens=15
+                )
+
+            async def generate(
+                self,
+                prompt: str,
+                temperature: float = 0.0,
+                max_tokens: int = 4096,
+            ) -> LLMResponse:
+                self.call_count += 1
+                object.__setattr__(
+                    holder["runner"].budget._state, "start_time", time.time() - 1000
+                )
+                return LLMResponse(
+                    text="replacement content",
+                    token_usage=self._tok,
+                    finish_reason="stop",
+                )
+
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir()
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        active_root = snap_base / "repo" / "rev1"
+        active_root.mkdir(parents=True)
+        for rel in ("src/a.py", "src/b.py", "src/c.py"):
+            for root in (ws_root, active_root):
+                target = root / rel
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(f"original {rel}\n", encoding="utf-8")
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=3,
+            timeout_seconds=1,
+            enable_regeneration=True,
+            validation_command=["pytest"],
+            editable_artifact_paths=("src/a.py", "src/b.py", "src/c.py"),
+        )
+        backend = _DeadlineRewindingBackend()
+        runner = BenchmarkRunner(
+            strategy=_ThreeArtifactStrategy(),
+            backend=backend,
+            isolation=iso,
+            config=config,
+        )
+        holder["runner"] = runner
+
+        record = runner.run(_make_scenario())
+
+        assert backend.call_count == 1
+        assert record.status == RunStatus.failed
+        assert record.failures[0].failure_kind == FailureKind.scientific_budget_exhausted
+        assert record.regenerated_artifact_count == 0
+        assert record.regeneration_model_calls == 1
+        assert record.total_workflow_tokens == 15
+        for rel in ("src/a.py", "src/b.py", "src/c.py"):
+            assert (ws_root / rel).read_text(encoding="utf-8") == f"original {rel}\n"
 
     def test_run_id_includes_scenario_and_strategy(self, tmp_path: Path) -> None:
         runner = _make_runner(tmp_path)

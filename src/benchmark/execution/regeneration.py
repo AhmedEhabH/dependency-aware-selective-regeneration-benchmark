@@ -9,7 +9,8 @@ import logging
 import re
 import sys
 import time
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 from benchmark.core.models import LLMResponse, RegenerationScenarioContext
@@ -40,6 +41,7 @@ class RegenerationExecutionResult:
     failures: tuple[str, ...] = ()
     artifact_hashes: dict[str, str] = field(default_factory=dict)
     repair_no_progress: bool = False
+    model_call_budget_exhausted: bool = False
 
 
 BUILT_IN_PROMPT_TEMPLATE = """\
@@ -400,8 +402,14 @@ def _is_path_traversal(target: str, workspace_root: str) -> bool:
 
 
 class SharedRegenerationExecutor:
-    def __init__(self, backend: LLMBackend) -> None:
+    def __init__(
+        self,
+        backend: LLMBackend,
+        *,
+        can_start_model_call: Callable[[], bool] | None = None,
+    ) -> None:
         self._backend = backend
+        self._can_start_model_call = can_start_model_call
 
     def execute(
         self,
@@ -426,6 +434,7 @@ class SharedRegenerationExecutor:
                     max_completion_tokens_per_call=max_completion_tokens_per_call,
                     remaining_total_workflow_tokens=remaining_total_workflow_tokens,
                     prior_attempt_hashes=prior_attempt_hashes,
+                    can_start_model_call=self._can_start_model_call,
                 )
             )
         finally:
@@ -446,6 +455,7 @@ class SharedRegenerationExecutor:
         max_completion_tokens_per_call: int = 4096,
         remaining_total_workflow_tokens: int | None = None,
         prior_attempt_hashes: dict[str, str] | None = None,
+        can_start_model_call: Callable[[], bool] | None = None,
     ) -> RegenerationExecutionResult:
         workspace_root = str(isolation.workspace.root)
         start_time = time.monotonic()
@@ -454,6 +464,7 @@ class SharedRegenerationExecutor:
         pending_writes: list[tuple[Path, str]] = []
         artifact_hashes: dict[str, str] = {}
         atomic_abort = False
+        model_call_budget_exhausted = False
         repair_no_progress = False
         total_prompt = 0
         total_completion = 0
@@ -552,6 +563,24 @@ class SharedRegenerationExecutor:
 
             artifact_start = time.monotonic()
             logger.info("REGEN_ARTIFACT_START path=%s", artifact.path)
+            if can_start_model_call is not None and not can_start_model_call():
+                model_call_budget_exhausted = True
+                failures.append(
+                    f"Workflow deadline reached before generation for {artifact.path}"
+                )
+                atomic_abort = True
+                generated.append(
+                    GeneratedArtifact(
+                        path=artifact.path,
+                        content="",
+                        status="aborted",
+                    )
+                )
+                logger.info(
+                    "REGEN_ARTIFACT_END path=%s status=aborted reason=workflow_deadline_before_call elapsed=%.3f",
+                    artifact.path, time.monotonic() - artifact_start,
+                )
+                break
             try:
                 response: LLMResponse = await self._backend.generate(prompt=prompt, max_tokens=allowance)
             except Exception as e:
@@ -570,6 +599,25 @@ class SharedRegenerationExecutor:
             usage = response.token_usage
             total_prompt += usage.prompt_tokens
             total_completion += usage.completion_tokens
+
+            if can_start_model_call is not None and not can_start_model_call():
+                model_call_budget_exhausted = True
+                failures.append(
+                    f"Workflow deadline reached after generation for {artifact.path}"
+                )
+                atomic_abort = True
+                generated.append(
+                    GeneratedArtifact(
+                        path=artifact.path,
+                        content=response.text,
+                        status="aborted",
+                    )
+                )
+                logger.info(
+                    "REGEN_ARTIFACT_END path=%s status=aborted reason=workflow_deadline_after_call elapsed=%.3f",
+                    artifact.path, time.monotonic() - artifact_start,
+                )
+                break
 
             if has_limit and local_remaining is not None:
                 if usage.completion_tokens > allowance:
@@ -753,6 +801,11 @@ class SharedRegenerationExecutor:
                     target_path.write_text(output_text, encoding="utf-8", newline="")
                 except (OSError, PermissionError) as e:
                     failures.append(f"Cannot write {target_path}: {e}")
+        else:
+            generated = [
+                replace(a, status="aborted") if a.status == "generated" else a
+                for a in generated
+            ]
 
         duration = time.monotonic() - start_time
         return RegenerationExecutionResult(
@@ -765,4 +818,5 @@ class SharedRegenerationExecutor:
             failures=tuple(failures),
             artifact_hashes=artifact_hashes,
             repair_no_progress=repair_no_progress,
+            model_call_budget_exhausted=model_call_budget_exhausted,
         )

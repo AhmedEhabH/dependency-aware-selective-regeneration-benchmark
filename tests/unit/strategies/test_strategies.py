@@ -223,3 +223,43 @@ class TestStrategyRegistry:
         assert not registry.is_frozen
         registry.freeze()
         assert registry.is_frozen
+
+
+class TestIterativeAgentDeadline:
+    def test_agent_selection_deadline_stops_after_first_call(self, tmp_path) -> None:
+        from benchmark.core.models import LLMResponse, TokenUsage
+        from benchmark.strategies.iterative_agent import IterativeRepositoryAgentStrategy
+
+        call_count = 0
+        guard_state: list[int] = [0]
+
+        class _ExpiryBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal call_count
+                call_count += 1
+                return LLMResponse(
+                    text=(
+                        '{"action": "final", "selected_paths": ["src/models.py"],'
+                        ' "requires_iteration": false}'
+                    ),
+                    token_usage=TokenUsage(prompt_tokens=40, completion_tokens=10, total_tokens=50),
+                    finish_reason="stop",
+                )
+
+            def count_prompt_tokens(self, prompt) -> int:
+                return 40
+
+        def guard() -> bool:
+            guard_state[0] += 1
+            return guard_state[0] <= 1
+
+        strategy = IterativeRepositoryAgentStrategy(_ExpiryBackend())
+        strategy.begin_run(tmp_path)
+        strategy.set_model_call_guard(guard)
+        pred = strategy.analyze_impact(_make_snapshot(), _make_change(), _make_universe())
+
+        assert call_count == 1
+        assert strategy.model_call_budget_exhausted is True
+        assert strategy.model_call_count == 1
+        assert strategy.total_tokens == 50
+        assert pred.token_usage.total_tokens == 50
