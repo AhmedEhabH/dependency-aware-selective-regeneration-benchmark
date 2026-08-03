@@ -946,6 +946,7 @@ class TestScientificSmokeV1Profile:
             "SCIENTIFIC_FAILURE_KINDS",
             "ENGINEERING_FAILURE_KINDS",
             "EVIDENCE_FILES",
+            "AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW",
         }
         wanted_defs = {
             "ScientificSmokeExecutionError",
@@ -1010,7 +1011,14 @@ class TestScientificSmokeV1Profile:
         }
         write_evidence(scientific_failure)
         assert ns["_verify_scientific_run"]() == "scientific_failure"
+        assert ns["AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW"] is False
+        with pytest.raises(ns["ScientificSmokeExecutionError"]) as exc_info:
+            ns["_validate_continuous_precondition"](tmp_path)
+        assert "CALIBRATION_REVIEW_REQUIRED" in str(exc_info.value)
+
+        ns["AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW"] = True
         assert ns["_validate_continuous_precondition"](tmp_path) == "scientific_failure"
+        ns["AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW"] = False
 
         engineering_failure = dict(scientific_failure)
         engineering_failure["failure_classification"] = "infrastructure_nonrepairable"
@@ -1026,6 +1034,19 @@ class TestScientificSmokeV1Profile:
             ns["_verify_scientific_run"]()
         with pytest.raises(ns["ScientificSmokeExecutionError"]):
             ns["_validate_continuous_precondition"](tmp_path)
+
+        valid_success = dict(scientific_failure)
+        valid_success.update(
+            status="succeeded",
+            failure_classification="",
+            failure_details=[],
+            migration_generation_passed=True,
+            baseline_validation_passed=True,
+            scenario_evaluator_passed=True,
+        )
+        write_evidence(valid_success)
+        assert ns["_verify_scientific_run"]() == "scientific_success"
+        assert ns["_validate_continuous_precondition"](tmp_path) == "scientific_success"
 
         invalid_success = dict(scientific_failure)
         invalid_success.update(

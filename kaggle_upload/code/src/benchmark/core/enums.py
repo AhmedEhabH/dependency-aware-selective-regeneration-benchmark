@@ -44,6 +44,7 @@ class FailureKind(StrEnum):
     regression = "regression"
     architecture = "architecture"
     timeout = "timeout"
+    scientific_budget_exhausted = "scientific_budget_exhausted"
     harness_defect = "harness_defect"
 
 
