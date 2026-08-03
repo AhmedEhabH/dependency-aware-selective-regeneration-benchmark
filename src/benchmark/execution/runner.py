@@ -708,7 +708,7 @@ class BenchmarkRunner:
         exit_code: int,
         stdout: str,
         stderr: str,
-        stage: str,
+        stage: str,  # noqa: ARG004  (pre-existing; reserved for classification context)
     ) -> str:
         """Classify a validation failure as repairable_code or infrastructure_nonrepairable.
 
@@ -886,7 +886,7 @@ class BenchmarkRunner:
                     else:
                         if result.status == RunStatus.succeeded:
                             self._state.succeed()
-                        else:
+                        elif not self._state.is_terminal:
                             self._state.fail()
                         record = result
         else:
@@ -921,7 +921,13 @@ class BenchmarkRunner:
         )
 
     def _workflow_budget_exhausted_record(
-        self, scenario: Scenario, start_time: float, message: str
+        self,
+        scenario: Scenario,
+        start_time: float,
+        message: str,
+        *,
+        acc: _WorkflowMetricAccumulator | None = None,
+        token_accounting_mode: str = "unknown",
     ) -> RunRecord:
         """Model/strategy workflow budget exhaustion is a scientific terminal outcome.
 
@@ -931,6 +937,10 @@ class BenchmarkRunner:
         benchmark process, NOT an unsafe kill of a GPU thread. Preflight,
         model-loading, environment, harness, and required-HF timeouts remain
         engineering blockers and are classified elsewhere.
+
+        ``acc`` (when provided) preserves the calls/tokens already consumed
+        before the deadline fired; ``regenerated_artifact_count`` is always
+        zero because no attempt is committed under the atomic contract.
         """
         elapsed = time.monotonic() - start_time
         budget_note = (
@@ -939,10 +949,34 @@ class BenchmarkRunner:
             f"timeout_seconds={self._config.timeout_seconds}}};"
             f"actual_elapsed_seconds={elapsed:.3f}"
         )
+        fields: dict[str, Any] = {}
+        if acc is not None:
+            fields = acc.as_record_fields(
+                final_scientific_result=None,
+                token_accounting_mode=token_accounting_mode,
+            )
+            legacy_prompt = (
+                fields["selection_prompt_tokens"]
+                + fields["regeneration_prompt_tokens"]
+                + fields["repair_prompt_tokens"]
+            )
+            legacy_completion = (
+                fields["selection_completion_tokens"]
+                + fields["regeneration_completion_tokens"]
+                + fields["repair_completion_tokens"]
+            )
+            token_usage = TokenUsage(
+                prompt_tokens=legacy_prompt,
+                completion_tokens=legacy_completion,
+                total_tokens=fields["total_workflow_tokens"],
+            )
+        else:
+            token_usage = TokenUsage()
         self._state.fail()
         return RunRecord(
             identity=self._build_run_identity(scenario),
             status=RunStatus.failed,
+            token_usage=token_usage,
             failures=(
                 FailureRecord(
                     failure_kind=FailureKind.scientific_budget_exhausted,
@@ -952,7 +986,23 @@ class BenchmarkRunner:
                 ),
             ),
             duration_seconds=elapsed,
+            regenerated_artifact_count=0,
+            **fields,
         )
+
+    def _apply_strategy_model_call_guard(self) -> None:
+        """Hand the cooperative deadline to any strategy that opts in.
+
+        The iterative agent strategy checks the guard before and after every
+        internal selection/revision model call. Standard strategies do not
+        implement the optional setter and are unaffected.
+        """
+        setter = getattr(self._strategy, "set_model_call_guard", None)
+        if callable(setter):
+            setter(lambda: not self._budget.timed_out)
+
+    def _strategy_model_call_budget_exhausted(self) -> bool:
+        return bool(getattr(self._strategy, "model_call_budget_exhausted", False))
 
     def _run_attempt(self, scenario: Scenario, start_time: float) -> RunRecord | BenchmarkError:
         try:
@@ -963,6 +1013,7 @@ class BenchmarkRunner:
                     "Workflow deadline reached before selection model call",
                 )
 
+            self._apply_strategy_model_call_guard()
             repository_snapshot = self._build_repository_snapshot(scenario)
             requirement_change = self._build_requirement_change(scenario)
             artifact_universe = self._build_artifact_universe(scenario)
@@ -974,6 +1025,13 @@ class BenchmarkRunner:
                 artifact_universe=artifact_universe,
             )
             selection_duration = time.monotonic() - selection_start
+
+            if self._strategy_model_call_budget_exhausted():
+                return self._workflow_budget_exhausted_record(
+                    scenario,
+                    start_time,
+                    "Workflow deadline reached during selection model calls",
+                )
 
             if prediction.errors:
                 return RunRecord(
@@ -1099,7 +1157,10 @@ class BenchmarkRunner:
 
         requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
         assert self._backend is not None
-        executor = SharedRegenerationExecutor(self._backend)
+        executor = SharedRegenerationExecutor(
+            self._backend,
+            can_start_model_call=lambda: not self._budget.timed_out,
+        )
 
         token_accounting_mode = getattr(
             self._backend, "token_accounting_mode", "unknown"
@@ -1129,6 +1190,16 @@ class BenchmarkRunner:
         self._budget.record_tokens(exec_result.total_tokens)
 
         self._last_regeneration_hashes = exec_result.artifact_hashes
+
+        if exec_result.model_call_budget_exhausted:
+            acc.add_code_generation(exec_result, is_repair=False)
+            return self._workflow_budget_exhausted_record(
+                scenario,
+                start_time,
+                "Workflow deadline reached during generation model calls",
+                acc=acc,
+                token_accounting_mode=token_accounting_mode,
+            )
 
         sci_result = self._execute_scientific_validation(scenario, exec_result)
 
@@ -1279,7 +1350,10 @@ class BenchmarkRunner:
 
         requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
         assert self._backend is not None
-        executor = SharedRegenerationExecutor(self._backend)
+        executor = SharedRegenerationExecutor(
+            self._backend,
+            can_start_model_call=lambda: not self._budget.timed_out,
+        )
 
         token_accounting_mode = getattr(
             self._backend, "token_accounting_mode", "unknown"
@@ -1325,6 +1399,16 @@ class BenchmarkRunner:
             self._last_regeneration_hashes = dict(exec_result.artifact_hashes)
 
             self._budget.record_tokens(exec_result.total_tokens)
+
+            if exec_result.model_call_budget_exhausted:
+                acc.add_code_generation(exec_result, is_repair=True)
+                return self._workflow_budget_exhausted_record(
+                    scenario,
+                    start_time,
+                    "Workflow deadline reached during regeneration repair calls",
+                    acc=acc,
+                    token_accounting_mode=token_accounting_mode,
+                )
 
             no_progress = exec_result.repair_no_progress
 
@@ -1516,9 +1600,13 @@ class BenchmarkRunner:
                     duration_seconds=time.monotonic() - start_time,
                 )
             begin_run(self._isolation.workspace.root)
+            self._apply_strategy_model_call_guard()
 
             requirement_delta = f"{requirement_change.before} -> {requirement_change.after}"
-            executor = SharedRegenerationExecutor(self._backend)
+            executor = SharedRegenerationExecutor(
+                self._backend,
+                can_start_model_call=lambda: not self._budget.timed_out,
+            )
 
             token_accounting_mode = getattr(
                 self._backend, "token_accounting_mode", "unknown"
@@ -1649,6 +1737,15 @@ class BenchmarkRunner:
                 final_prediction = prediction
                 self._budget.record_tokens(tok.total_tokens)
 
+                if self._strategy_model_call_budget_exhausted():
+                    return self._workflow_budget_exhausted_record(
+                        scenario,
+                        start_time,
+                        "Workflow deadline reached during iterative agent selection model calls",
+                        acc=acc,
+                        token_accounting_mode=token_accounting_mode,
+                    )
+
                 if prediction.errors:
                     last_requires_iteration = getattr(self._strategy, "last_requires_iteration", True)
                     if not prediction.decisions and not last_requires_iteration:
@@ -1699,6 +1796,16 @@ class BenchmarkRunner:
                 )
 
                 self._budget.record_tokens(exec_result.total_tokens)
+
+                if exec_result.model_call_budget_exhausted:
+                    acc.add_code_generation(exec_result, is_repair=iteration > 0)
+                    return self._workflow_budget_exhausted_record(
+                        scenario,
+                        start_time,
+                        "Workflow deadline reached during iterative agent generation calls",
+                        acc=acc,
+                        token_accounting_mode=token_accounting_mode,
+                    )
 
                 sci_result = self._execute_scientific_validation(scenario, exec_result)
                 has_validation_run = True

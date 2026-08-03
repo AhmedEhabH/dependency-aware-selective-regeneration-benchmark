@@ -1,9 +1,10 @@
 """SU-0010A integration tests: minimal shared regeneration path end-to-end."""
 
 import sys
+import time
 from pathlib import Path
 
-from benchmark.core.enums import ActionKind, ArtifactType, BlastRadius, RunStatus
+from benchmark.core.enums import ActionKind, ArtifactType, BlastRadius, FailureKind, RunStatus
 from benchmark.core.models import (
     AcceptanceCriterion,
     ArtifactRef,
@@ -101,6 +102,7 @@ def _make_runner(
     max_attempts: int = 1,
     max_tokens: int = 0,
     editable_artifact_paths: tuple[str, ...] = ("src/a.py",),
+    timeout_seconds: int = 0,
 ) -> BenchmarkRunner:
     config = RunnerConfig(
         strategy_name=strategy_name,
@@ -108,6 +110,7 @@ def _make_runner(
         protocol_version="1.0",
         max_attempts=max_attempts,
         max_tokens=max_tokens,
+        timeout_seconds=timeout_seconds,
         enable_regeneration=enable_regeneration,
         validation_command=validation_command,
         validation_timeout=validation_timeout,
@@ -597,7 +600,13 @@ class TestRegeneratedArtifactCount:
         assert record.selected_artifact_count == 1
         assert record.regenerated_artifact_count == 0
 
-    def test_mixed_results_count_only_generated(self, tmp_path: Path) -> None:
+    def test_mixed_results_abort_atomically_yield_zero_regenerated(self, tmp_path: Path) -> None:
+        """Closure B atomic metric truth.
+
+        A valid staged artifact plus a rejected artifact aborts the whole
+        attempt: no file is written and the truthful regenerated count is
+        zero, even though one artifact passed generation validation.
+        """
         class _MixedRejectionStrategy:
             def analyze_impact(self, **kwargs):
                 from benchmark.core.models import ImpactDecision, ImpactPrediction
@@ -653,7 +662,10 @@ class TestRegeneratedArtifactCount:
         )
         record = runner.run(scenario)
         assert record.selected_artifact_count == 3
-        assert record.regenerated_artifact_count == 1
+        assert record.regenerated_artifact_count == 0
+        assert (ws_root / "src/good.py").read_text(encoding="utf-8") == "good original"
+        assert (ws_root / "src/bad.py").read_text(encoding="utf-8") == "bad original"
+        assert (ws_root / "src/review.py").read_text(encoding="utf-8") == "review original"
 
 
 class TestModelCallAggregation:
@@ -886,6 +898,62 @@ class TestMissingBackend:
         )
         assert record.regenerated_artifact_count == 0
         assert record.functional_validation_passed is None
+
+
+class TestRepairDeadline:
+    """POST-SMOKE-CALIBRATION-CLOSURE Closure A repair deadline.
+
+    The initial attempt completes; the first repair call advances the
+    deadline. No second repair artifact/call runs and the run is a scientific
+    budget-exhausted terminal with the consumed repair call/tokens retained.
+    """
+
+    def test_repair_deadline_stops_after_first_repair_call(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+        holder: dict[str, object] = {}
+
+        class _RepairDeadlineBackend:
+            def __init__(self) -> None:
+                self.call_count = 0
+
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                self.call_count += 1
+                if self.call_count == 2:
+                    object.__setattr__(
+                        holder["runner"]._budget._state, "start_time", time.time() - 1000
+                    )
+                return LLMResponse(
+                    text=f"value = {self.call_count}\n",
+                    token_usage=TokenUsage(
+                        prompt_tokens=10, completion_tokens=5, total_tokens=15
+                    ),
+                    finish_reason="stop",
+                )
+
+        backend = _RepairDeadlineBackend()
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+            timeout_seconds=1,
+        )
+        holder["runner"] = runner
+
+        record = runner.run(scenario)
+
+        assert backend.call_count == 2
+        assert record.status == RunStatus.failed
+        assert record.failures[0].failure_kind == FailureKind.scientific_budget_exhausted
+        assert record.regenerated_artifact_count == 0
+        assert record.repair_model_calls == 1
+        assert record.repair_total_tokens > 0
 
 
 class TestBoundedRepairAttempts:
