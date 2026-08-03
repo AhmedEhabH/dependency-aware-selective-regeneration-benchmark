@@ -9,7 +9,7 @@ import logging
 import re
 import sys
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from benchmark.core.models import LLMResponse, RegenerationScenarioContext
@@ -38,6 +38,8 @@ class RegenerationExecutionResult:
     model_calls: int = 0
     duration_seconds: float = 0.0
     failures: tuple[str, ...] = ()
+    artifact_hashes: dict[str, str] = field(default_factory=dict)
+    repair_no_progress: bool = False
 
 
 BUILT_IN_PROMPT_TEMPLATE = """\
@@ -411,6 +413,7 @@ class SharedRegenerationExecutor:
         scenario_context: RegenerationScenarioContext | None = None,
         max_completion_tokens_per_call: int = 4096,
         remaining_total_workflow_tokens: int | None = None,
+        prior_attempt_hashes: dict[str, str] | None = None,
     ) -> RegenerationExecutionResult:
         old_loop: asyncio.AbstractEventLoop | None = None
         with contextlib.suppress(RuntimeError):
@@ -422,6 +425,7 @@ class SharedRegenerationExecutor:
                     scenario_context=scenario_context,
                     max_completion_tokens_per_call=max_completion_tokens_per_call,
                     remaining_total_workflow_tokens=remaining_total_workflow_tokens,
+                    prior_attempt_hashes=prior_attempt_hashes,
                 )
             )
         finally:
@@ -441,11 +445,16 @@ class SharedRegenerationExecutor:
         scenario_context: RegenerationScenarioContext | None = None,
         max_completion_tokens_per_call: int = 4096,
         remaining_total_workflow_tokens: int | None = None,
+        prior_attempt_hashes: dict[str, str] | None = None,
     ) -> RegenerationExecutionResult:
         workspace_root = str(isolation.workspace.root)
         start_time = time.monotonic()
 
         generated: list[GeneratedArtifact] = []
+        pending_writes: list[tuple[Path, str]] = []
+        artifact_hashes: dict[str, str] = {}
+        atomic_abort = False
+        repair_no_progress = False
         total_prompt = 0
         total_completion = 0
         calls = 0
@@ -474,6 +483,7 @@ class SharedRegenerationExecutor:
 
             if _is_path_traversal(artifact.path, workspace_root):
                 failures.append(f"Path traversal rejected: {artifact.path}")
+                atomic_abort = True
                 generated.append(
                     GeneratedArtifact(
                         path=artifact.path,
@@ -489,6 +499,7 @@ class SharedRegenerationExecutor:
                 current_content = current_bytes.decode("utf-8")
             except FileNotFoundError:
                 failures.append(f"Source file not found in workspace: {artifact.path}")
+                atomic_abort = True
                 generated.append(
                     GeneratedArtifact(
                         path=artifact.path,
@@ -499,6 +510,7 @@ class SharedRegenerationExecutor:
                 continue
             except (OSError, UnicodeDecodeError) as e:
                 failures.append(f"Cannot read {artifact.path}: {e}")
+                atomic_abort = True
                 generated.append(
                     GeneratedArtifact(
                         path=artifact.path,
@@ -528,6 +540,7 @@ class SharedRegenerationExecutor:
             )
             if allowance <= 0:
                 failures.append(f"Token budget exhausted before {artifact.path}")
+                atomic_abort = True
                 generated.append(
                     GeneratedArtifact(
                         path=artifact.path,
@@ -543,6 +556,7 @@ class SharedRegenerationExecutor:
                 response: LLMResponse = await self._backend.generate(prompt=prompt, max_tokens=allowance)
             except Exception as e:
                 failures.append(f"LLM backend error for {artifact.path}: {e}")
+                atomic_abort = True
                 generated.append(
                     GeneratedArtifact(
                         path=artifact.path,
@@ -563,6 +577,7 @@ class SharedRegenerationExecutor:
                         f"Backend overrun for {artifact.path}: "
                         f"completion_tokens {usage.completion_tokens} > allowance {allowance}"
                     )
+                    atomic_abort = True
                     generated.append(
                         GeneratedArtifact(
                             path=artifact.path,
@@ -580,6 +595,7 @@ class SharedRegenerationExecutor:
                         f"Backend total overrun for {artifact.path}: "
                         f"total_tokens {usage.total_tokens} > remaining {local_remaining}"
                     )
+                    atomic_abort = True
                     generated.append(
                         GeneratedArtifact(
                             path=artifact.path,
@@ -603,6 +619,7 @@ class SharedRegenerationExecutor:
                 else:
                     message = f"Output rejected for {artifact.path}: {normalization_mode}"
                 failures.append(message)
+                atomic_abort = True
                 generated.append(
                     GeneratedArtifact(
                         path=artifact.path,
@@ -618,6 +635,32 @@ class SharedRegenerationExecutor:
             output_text = normalized_body
             if normalization_mode == "single_fence_stripped":
                 logger.info("MODEL_OUTPUT_NORMALIZED path=%s mode=single_fence_stripped", artifact.path)
+
+            output_hash = hashlib.sha256(output_text.encode("utf-8")).hexdigest()
+            artifact_hashes[artifact.path] = output_hash
+            if prior_attempt_hashes is not None:
+                prior = prior_attempt_hashes.get(artifact.path)
+                if prior is not None and prior == output_hash:
+                    repair_no_progress = True
+                    atomic_abort = True
+                    failures.append(
+                        f"repair_no_progress: {artifact.path} identical to previous "
+                        f"attempt (response_sha256={output_hash}); "
+                        "stopping the remainder of this repair round"
+                    )
+                    generated.append(
+                        GeneratedArtifact(
+                            path=artifact.path,
+                            content=output_text,
+                            status="rejected",
+                        )
+                    )
+                    logger.info(
+                        "REGEN_ARTIFACT_END path=%s status=rejected "
+                        "reason=repair_no_progress elapsed=%.3f",
+                        artifact.path, time.monotonic() - artifact_start,
+                    )
+                    break
 
             if _is_path_traversal(artifact.path, workspace_root):
                 failures.append(f"Path traversal rejected: {artifact.path}")
@@ -642,6 +685,7 @@ class SharedRegenerationExecutor:
                         "but generated output differs from the current file; "
                         f"{_output_evidence(output_text)}"
                     )
+                    atomic_abort = True
                     generated.append(
                         GeneratedArtifact(
                             path=artifact.path,
@@ -672,6 +716,7 @@ class SharedRegenerationExecutor:
                             f"artifact_contract_violation: {artifact.path}: "
                             f"{contract_failure}; {_output_evidence(output_text)}"
                         )
+                    atomic_abort = True
                     generated.append(
                         GeneratedArtifact(
                             path=artifact.path,
@@ -688,24 +733,7 @@ class SharedRegenerationExecutor:
                     continue
 
             target_path = Path(workspace_root) / artifact.path.lstrip("/")
-            try:
-                target_path.parent.mkdir(parents=True, exist_ok=True)
-                target_path.write_text(output_text, encoding="utf-8", newline="")
-            except (OSError, PermissionError) as e:
-                failures.append(f"Cannot write {artifact.path}: {e}")
-                generated.append(
-                    GeneratedArtifact(
-                        path=artifact.path,
-                        content="",
-                        status="rejected",
-                    )
-                )
-                logger.info(
-                    "REGEN_ARTIFACT_END path=%s status=rejected elapsed=%.3f",
-                    artifact.path, time.monotonic() - artifact_start,
-                )
-                continue
-
+            pending_writes.append((target_path, output_text))
             generated.append(
                 GeneratedArtifact(
                     path=artifact.path,
@@ -718,6 +746,14 @@ class SharedRegenerationExecutor:
                 artifact.path, time.monotonic() - artifact_start,
             )
 
+        if not atomic_abort:
+            for target_path, output_text in pending_writes:
+                try:
+                    target_path.parent.mkdir(parents=True, exist_ok=True)
+                    target_path.write_text(output_text, encoding="utf-8", newline="")
+                except (OSError, PermissionError) as e:
+                    failures.append(f"Cannot write {target_path}: {e}")
+
         duration = time.monotonic() - start_time
         return RegenerationExecutionResult(
             artifacts=tuple(generated),
@@ -727,4 +763,6 @@ class SharedRegenerationExecutor:
             model_calls=calls,
             duration_seconds=duration,
             failures=tuple(failures),
+            artifact_hashes=artifact_hashes,
+            repair_no_progress=repair_no_progress,
         )

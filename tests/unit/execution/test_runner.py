@@ -1,4 +1,5 @@
 import sys
+import time
 from pathlib import Path
 
 import pytest
@@ -130,6 +131,74 @@ class TestBenchmarkRunner:
     def test_budget_property(self, tmp_path: Path) -> None:
         runner = _make_runner(tmp_path, max_attempts=5)
         assert runner.budget.max_attempts == 5
+
+    def test_deadline_before_selection_stops_next_model_call(self, tmp_path: Path) -> None:
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir()
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        active_root = snap_base / "repo" / "rev1"
+        active_root.mkdir(parents=True)
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=3,
+            timeout_seconds=1,
+            enable_regeneration=True,
+            validation_command=["pytest"],
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        object.__setattr__(runner.budget._state, "start_time", time.time() - 1000)
+
+        record = runner.run(_make_scenario())
+
+        assert record.status == RunStatus.failed
+        assert record.failures[0].failure_kind == FailureKind.scientific_budget_exhausted
+        assert strategy.calls == []
+        assert "configured_budget" in record.failures[0].message
+        assert "actual_elapsed_seconds" in record.failures[0].message
+
+    def test_budget_exhaustion_before_generation_is_scientific(self, tmp_path: Path) -> None:
+        strategy = _FakeStrategy()
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir()
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        active_root = snap_base / "repo" / "rev1"
+        active_root.mkdir(parents=True)
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(workspace=ws, snapshot_base=snap_base, active_snapshot_root=active_root)
+        config = RunnerConfig(
+            strategy_name="monolithic",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=1,
+            timeout_seconds=1,
+            enable_regeneration=True,
+            validation_command=["pytest"],
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=_FakeBackend(),
+            isolation=iso,
+            config=config,
+        )
+        object.__setattr__(runner.budget._state, "start_time", time.time() - 1000)
+
+        record = runner.run(_make_scenario())
+
+        assert record.status == RunStatus.failed
+        assert record.failures[0].failure_kind == FailureKind.scientific_budget_exhausted
+        assert strategy.calls == []
 
     def test_run_id_includes_scenario_and_strategy(self, tmp_path: Path) -> None:
         runner = _make_runner(tmp_path)
