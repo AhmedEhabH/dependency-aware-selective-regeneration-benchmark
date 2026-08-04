@@ -7,10 +7,11 @@ Engineering evidence only. A preflight run:
   * never creates workspace result records
 
 It validates the pinned runtime, the baseline Todo workspace (``manage.py
-check`` + ``makemigrations todo --check --dry-run``), the int8 Qwen load, a
-deterministic 64-token probe, and a >= 2.0 GiB free-VRAM headroom assertion.
-The machine-readable result is written to ``kaggle_preflight.json`` outside the
-scientific experiment tree.
+check`` + ``makemigrations todo --check --dry-run``), the requested Qwen load
+quantization (``bnb-int8``, ``bnb-nf4``, or ``fp16``), a deterministic 64-token
+probe, and a >= 2.0 GiB free-VRAM headroom assertion. The machine-readable
+result is written to ``kaggle_preflight.json`` outside the scientific experiment
+tree.
 """
 
 from __future__ import annotations
@@ -55,7 +56,9 @@ class KaggleSmokePreflightResult:
     rejection_reason: str = ""
     python_version: str = ""
     model_identity: str = ""
-    quantization_mode: str = ""
+    requested_quantization_mode: str = ""
+    model_checkpoint_basename: str = ""
+    checkpoint_quantization_method: str = ""
     model_memory_footprint_bytes: int = 0
     device_map_summary: str = ""
     gpu_count: int = 0
@@ -140,14 +143,15 @@ def _run_in_workspace(workspace: Path, *argv: str, timeout: int = 180) -> tuple[
 
 def _qwen_probe_metrics(
     model_path: str,
+    quantization_mode: str,
 ) -> dict[str, Any]:
-    """Load int8 Qwen, run the deterministic probe, and return memory metrics."""
+    """Load Qwen with the requested quantization, probe it, and return metrics."""
     from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
 
     backend = KaggleQwenBackend(
         model_name="qwen2.5-coder",
         model_path=model_path,
-        quantization_mode="int8",
+        quantization_mode=quantization_mode,
     )
     backend.load()
     response = backend.run_probe(max_tokens=PROBE_MAX_TOKENS, prompt=PROBE_PROMPT)
@@ -163,7 +167,9 @@ def _qwen_probe_metrics(
 
     metrics: dict[str, Any] = {
         "model_identity": backend.model_identity,
-        "quantization_mode": backend.quantization_mode,
+        "requested_quantization_mode": backend.quantization_mode,
+        "model_checkpoint_basename": backend.checkpoint_basename,
+        "checkpoint_quantization_method": backend.checkpoint_quantization_method,
         "model_memory_footprint_bytes": backend.model_memory_footprint_bytes,
         "device_map_summary": backend.device_map_summary,
         "gpu_count": gpu_count,
@@ -192,6 +198,7 @@ def run_kaggle_smoke_preflight(
     data_dir: str | Path,
     preflight_root: str | Path,
     json_output_path: str | Path | None = None,
+    quantization_mode: str = "bnb-int8",
 ) -> KaggleSmokePreflightResult:
     """Run the full Kaggle Smoke preflight gate.
 
@@ -235,9 +242,11 @@ def run_kaggle_smoke_preflight(
                 "baseline_staging: SKIP (runtime contract failed)",
                 "manage_py_check: SKIP (runtime contract failed)",
                 "makemigrations_check: SKIP (runtime contract failed)",
-                "qwen_int8_load: SKIP (runtime contract failed)",
+                f"qwen_model_load[{quantization_mode}]: SKIP (runtime contract failed)",
                 "device_map_gpu_only: SKIP (runtime contract failed)",
                 "vram_headroom: SKIP (runtime contract failed)",
+                "gpu_count_expected: SKIP (runtime contract failed)",
+                "checkpoint_not_prequantized: SKIP (runtime contract failed)",
             )
         )
 
@@ -283,7 +292,7 @@ def run_kaggle_smoke_preflight(
         else:
             checks.append("makemigrations_check: SKIP (no staged baseline)")
 
-    # 5. Qwen int8 load + 64-token probe + VRAM headroom
+    # 5. Qwen load (requested quantization) + 64-token probe + VRAM headroom
     probe_metrics: dict[str, Any] = {}
     probe_failure = ""
     baseline_failed = any(
@@ -298,14 +307,24 @@ def run_kaggle_smoke_preflight(
     )
     if not runtime_contract_failed and not baseline_failed:
         try:
-            probe_metrics = _qwen_probe_metrics(model_path)
-            checks.append("qwen_int8_load: PASS")
+            probe_metrics = _qwen_probe_metrics(model_path, quantization_mode)
+            checks.append(f"qwen_model_load[{quantization_mode}]: PASS")
             device_map = str(probe_metrics.get("device_map_summary", ""))
             lowered_map = device_map.lower()
             if device_map and "cpu" not in lowered_map and "disk" not in lowered_map:
                 checks.append(f"device_map_gpu_only: PASS ({device_map})")
             else:
                 checks.append(f"device_map_gpu_only: FAIL ({device_map or 'missing'})")
+            gpu_count = int(probe_metrics.get("gpu_count", 0) or 0)
+            if gpu_count == 1:
+                checks.append("gpu_count_expected: PASS (1)")
+            else:
+                checks.append(f"gpu_count_expected: FAIL ({gpu_count})")
+            checkpoint_method = str(probe_metrics.get("checkpoint_quantization_method", "") or "")
+            if not checkpoint_method:
+                checks.append("checkpoint_not_prequantized: PASS")
+            else:
+                checks.append(f"checkpoint_not_prequantized: FAIL (method={checkpoint_method})")
             free_gib = float(probe_metrics["free_vram_after_probe_gib"])
             if free_gib >= MIN_FREE_VRAM_GIB:
                 checks.append(f"vram_headroom: PASS (free={free_gib:.2f} GiB)")
@@ -315,13 +334,17 @@ def run_kaggle_smoke_preflight(
                 )
         except Exception as exc:
             probe_failure = f"{type(exc).__name__}: {exc}"
-            checks.append(f"qwen_int8_load: FAIL ({probe_failure})")
+            checks.append(f"qwen_model_load[{quantization_mode}]: FAIL ({probe_failure})")
             checks.append("device_map_gpu_only: FAIL (probe did not run)")
             checks.append("vram_headroom: FAIL (probe did not run)")
+            checks.append("gpu_count_expected: FAIL (probe did not run)")
+            checks.append("checkpoint_not_prequantized: FAIL (probe did not run)")
     elif not runtime_contract_failed:
-        checks.append("qwen_int8_load: SKIP (baseline preflight failed)")
+        checks.append(f"qwen_model_load[{quantization_mode}]: SKIP (baseline preflight failed)")
         checks.append("device_map_gpu_only: SKIP (baseline preflight failed)")
         checks.append("vram_headroom: SKIP (baseline preflight failed)")
+        checks.append("gpu_count_expected: SKIP (baseline preflight failed)")
+        checks.append("checkpoint_not_prequantized: SKIP (baseline preflight failed)")
 
     failed = [c for c in checks if ": FAIL" in c or ": SKIP" in c]
     passed = not failed and not runtime_contract_failed
@@ -343,7 +366,9 @@ def run_kaggle_smoke_preflight(
         rejection_reason=rejection,
         python_version=python_version,
         model_identity=str(probe_metrics.get("model_identity", "")),
-        quantization_mode=str(probe_metrics.get("quantization_mode", "")),
+        requested_quantization_mode=str(probe_metrics.get("requested_quantization_mode", "")),
+        model_checkpoint_basename=str(probe_metrics.get("model_checkpoint_basename", "")),
+        checkpoint_quantization_method=str(probe_metrics.get("checkpoint_quantization_method", "") or ""),
         model_memory_footprint_bytes=int(probe_metrics.get("model_memory_footprint_bytes", 0) or 0),
         device_map_summary=str(probe_metrics.get("device_map_summary", "")),
         gpu_count=int(probe_metrics.get("gpu_count", 0) or 0),
@@ -366,7 +391,9 @@ def run_kaggle_smoke_preflight(
             "checks": list(result.checks),
             "python_version": result.python_version,
             "model_identity": result.model_identity,
-            "quantization_mode": result.quantization_mode,
+            "model_checkpoint_basename": result.model_checkpoint_basename,
+            "requested_quantization_mode": result.requested_quantization_mode,
+            "checkpoint_quantization_method": result.checkpoint_quantization_method,
             "model_memory_footprint_bytes": result.model_memory_footprint_bytes,
             "device_map_summary": result.device_map_summary,
             "gpu_count": result.gpu_count,
@@ -391,7 +418,9 @@ def render_preflight_table(result: KaggleSmokePreflightResult) -> str:
         f"passed: {result.passed}",
         f"python_version: {result.python_version or 'N/A'}",
         f"model_identity: {result.model_identity or 'N/A'}",
-        f"quantization_mode: {result.quantization_mode or 'N/A'}",
+        f"requested_quantization_mode: {result.requested_quantization_mode or 'N/A'}",
+        f"model_checkpoint_basename: {result.model_checkpoint_basename or 'N/A'}",
+        f"checkpoint_quantization_method: {result.checkpoint_quantization_method or 'N/A'}",
         f"model_memory_footprint_bytes: {result.model_memory_footprint_bytes}",
         f"gpu_count: {result.gpu_count}",
         f"gpu_name: {result.gpu_name or 'N/A'}",

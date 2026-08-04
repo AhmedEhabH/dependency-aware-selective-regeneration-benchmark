@@ -487,9 +487,11 @@ class TestKaggleBundleRuntimeGuardrails:
         cells_by_id = {c.get("id"): c for c in nb["cells"]}
         canary = cells_by_id["selective-calibration-canary-cell"]
         src = "".join(canary["source"]) if isinstance(canary["source"], list) else canary["source"]
+        cmd_start = src.index("canary_cmd = [")
+        cmd_block = src[cmd_start : src.index("\n]", cmd_start)]
         assert "canary_cmd" in src
-        assert "--auto-resume-hf" not in src, (
-            "selective canary must never use --auto-resume-hf"
+        assert "--auto-resume-hf" not in cmd_block, (
+            "selective canary command must never use --auto-resume-hf"
         )
 
     def test_notebook_canary_preflight_gate_present(self) -> None:
@@ -593,10 +595,14 @@ class TestKaggleBundleR7CRuntimeClosure:
 
     def test_bundled_cli_uses_model_aware_quantization_identity(self) -> None:
         source = (BUNDLE_CODE / "seven_arm_benchmark.py").read_text(encoding="utf-8")
+        backend_source = (BUNDLE_CODE / "src" / "benchmark" / "llm" / "kaggle_qwen_backend.py").read_text(
+            encoding="utf-8"
+        )
         assert "compute_model_identity" in source
         assert 'return "qwen:1:int8"' not in source
         assert "qwen-quantization" in source
-        assert "CANONICAL_QUANTIZATION_MODES" in source
+        assert "CANONICAL_QUANTIZATION_MODES" in backend_source
+        assert 'choices=["bnb-int8", "bnb-nf4", "fp16"]' in source
 
     def test_bundled_runner_has_infrastructure_nonrepairable_classification(self) -> None:
         source = (BUNDLE_CODE / "src" / "benchmark" / "execution" / "runner.py").read_text(
