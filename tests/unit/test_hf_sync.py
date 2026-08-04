@@ -734,7 +734,7 @@ class TestHfResumeManager:
         cp_mgr = CheckpointManager(tmp_path)
         data = cp_mgr.read()
         assert data is not None
-        data.model_identity = "qwen:old"
+        data.model_identity = "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc"
         cp_mgr.write_atomic(data)
 
         layout = RemoteLayout("smoke", "1.0", "abc1234", "exp-bad-model")
@@ -748,7 +748,7 @@ class TestHfResumeManager:
                 token="hf_test_token",
                 protocol_version="1.0",
                 config_hash="deadbeef",
-                model_identity="qwen:new",
+                model_identity="qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-def",
                 source_commit="abc1234",
                 scenario_ids=["todo-add-feature-toggle"],
                 strategy_names=["agent", "selective"],
