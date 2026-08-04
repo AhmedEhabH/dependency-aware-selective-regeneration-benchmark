@@ -1,3 +1,50 @@
+# Selective Calibration Canary Result — Latest Phase Report
+
+## Executive decision
+
+The dedicated selective calibration canary was executed on Kaggle under the
+pinned bundle and its result has been ingested documentation- and ledger-only
+on branch `fix/kaggle-smoke-v2-model-output-closure` (pushed, local = remote,
+tree clean). **Result: the harness safety controls worked; Qwen code quality
+did not improve; no successful implementation exists.**
+
+- **Canary `exp-20260804-133523`** (`todo-smoke-001 / selective`, source/build
+  `50ec2c1`): **failed / `model_output`**, 4 model calls / 5,804 tokens /
+  257.596 seconds, 3 selected / 2 preserved / **0 written**. Initial generation
+  = 3 calls / 3,372 tokens; repair = 1 call / 2,432 tokens. HF state =
+  `recovery_uploaded`; checkpoint = 1 completed / 2 pending.
+- **Qwen output defects:** `todo/models.py` used `max_length=5` for a `MEDIUM`
+  value of length 6; `todo/serializers.py` and `todo/views.py` each duplicated
+  `Priority(models.TextChoices)`. The first repair of `models.py` was
+  byte-identical to the initial response → `repair_no_progress` stopped the
+  round; the atomic application wrote zero files (workspace stayed at baseline).
+- **Harness vs model:** versus the previous selective run on the same scenario,
+  the canary used 41.6% fewer tokens, 33.3% fewer calls, and was 22.4% faster,
+  but the initial generation tokens (3,372) and the three output SHA-256 hashes
+  were **identical**. The improvement came entirely from the harness controls
+  (per-call deadline, no-progress detection, atomic writes, fail-closed
+  continuation gate); the model produced the same bad code.
+- **Incidental monolithic run `exp-20260804-133016`** (todo-smoke-001 /
+  monolithic, 6 calls / 7,927 tokens / 300.165 s / `scientific_budget_exhausted`
+  / 0 written): the generic one-run cell ran before the canary and is retained as
+  diagnostic calibration evidence only — NOT the authorized canary and NOT an
+  accepted comparison.
+- **Continuous cell:** executed after the canary and correctly stopped
+  fail-closed with `CALIBRATION_REVIEW_REQUIRED`; no additional scientific model
+  calls, no remaining runs launched.
+- **Current scientific truth:** accepted current dedicated canary records = 1,
+  successful = 0; the full current 9-record experiment is **not run**; no
+  merge/tag/Pilot/Kaggle authorized; **no stable release claimed**.
+
+Record: `selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md`.
+Next action: independent result audit (`SELECTIVE_CANARY_RESULT_AUDIT_REQUIRED`),
+then a deliberate decision between repeating the dedicated selective canary and
+proceeding to the full 9-record run.
+
+SELECTIVE_CANARY_RESULTS_DOCUMENTED
+
+---
+
 # Final Selective Canary Readiness Closure — Latest Phase Report
 
 ## Executive decision

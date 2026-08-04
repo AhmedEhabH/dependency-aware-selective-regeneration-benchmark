@@ -8,8 +8,9 @@
 R4 = accepted and frozen (f5ae826)
 R5 = accepted and frozen (7761c48)
 R6 = ACCEPTED AND FROZEN (949e9c2) — freeze record and milestone-branch publication authorized
-Push = next (publish with upstream, verify local/remote equality)
-Real Smoke = 0/9 (local scripted 9/9; bundled CLI dry-run 9/9)
+Push = published (upstream set, local/remote equality verified)
+Selective calibration canary = EXECUTED (exp-20260804-133523, source/build 50ec2c1) — failed model_output, 0 files written; harness controls verified, Qwen quality unchanged
+Real Smoke = 0/9 (local scripted 9/9; bundled CLI dry-run 9/9; 1 dedicated canary record accepted, 0 successful)
 Tag = v2.0.0-scientific-smoke after real-result audit
 Pilot = denominator not frozen; not authorized
 ```
@@ -296,5 +297,41 @@ Next action after this independent re-audit: **run the dedicated selective
 calibration canary cell only** (not the generic one-run cell, not the continuous
 cell, not a full relaunch, not a fine-tune, not a tag/merge).
 Sentinel: `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED`.
+
+## Selective Calibration Canary Result (2026-08-04)
+
+The dedicated selective calibration canary was executed on Kaggle under the
+pinned bundle (source/build `50ec2c1`) and its result is recorded in
+`selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md`.
+
+- **Canary result `exp-20260804-133523`** (`todo-smoke-001 / selective`):
+  **failed / `model_output`**, 4 model calls / 5,804 tokens / 257.596 s,
+  3 selected / 2 preserved / **0 written**; initial 3 calls / 3,372 tokens;
+  repair 1 call / 2,432 tokens; HF `recovery_uploaded`; checkpoint 1 completed /
+  2 pending.
+- **Qwen output defects:** `todo/models.py` `max_length=5` (the `MEDIUM` value
+  has length 6); duplicated `Priority(models.TextChoices)` in
+  `todo/serializers.py` and `todo/views.py`. The first repair was byte-identical
+  to the initial response, so `repair_no_progress` stopped the round and the
+  atomic application wrote zero files.
+- **Harness vs model:** versus the previous selective run the canary used 41.6%
+  fewer tokens, 33.3% fewer calls, and was 22.4% faster — but the initial
+  generation tokens (3,372) and the three output SHA-256 hashes were identical.
+  The harness safety controls (per-call deadline, no-progress detection, atomic
+  writes, fail-closed continuation gate) worked exactly as designed, while
+  **Qwen code quality did not improve**.
+- **Incidental monolithic run `exp-20260804-133016`** (6 calls / 7,927 tokens /
+  300.165 s / `scientific_budget_exhausted`, 0 written) is diagnostic evidence
+  only — NOT the authorized canary and NOT an accepted comparison.
+- **Continuous cell:** correctly blocked fail-closed with
+  `CALIBRATION_REVIEW_REQUIRED`; it made no additional scientific calls.
+- **Current scientific truth:** accepted current dedicated canary records = 1,
+  successful = 0; the full current 9-record experiment is **not run**;
+  merge/tag/Pilot/Kaggle **not authorized**; **no stable release claimed**.
+
+Decision from the independent audit: harness safety controls worked; Qwen code
+quality did not improve. Next action: independent result audit
+(`SELECTIVE_CANARY_RESULT_AUDIT_REQUIRED`), then a deliberate decision between
+repeating the dedicated selective canary and proceeding to the full 9-record run.
 
 R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED

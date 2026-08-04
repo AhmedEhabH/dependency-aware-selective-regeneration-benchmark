@@ -314,3 +314,29 @@ that were already present before the alignment). The pre-existing Mypy strict
 base in `seven_arm_benchmark.py` remains unchanged and still open. Recorded in
 `selective_updates/records/SELECTIVE-CANARY-READINESS-CLOSURE.md`. Sentinel:
 `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED`.
+
+## Selective Calibration Canary Result (2026-08-04)
+
+The dedicated selective calibration canary executed on Kaggle under the pinned
+bundle (source/build `50ec2c1`) and its result was ingested documentation- and
+ledger-only (branch `fix/kaggle-smoke-v2-model-output-closure`, pushed). The
+canary **opened no new technical debt**: no production, test, data, config,
+notebook, or bundle file was modified.
+
+The result `exp-20260804-133523` (`todo-smoke-001 / selective`) failed with
+`model_output` (4 calls / 5,804 tokens / 257.596 s / 3 selected / 2 preserved /
+0 written). Qwen's output defects (`models.py` `max_length=5`; duplicated
+`Priority(models.TextChoices)` in `serializers.py` and `views.py`) are **model
+output-quality findings, not codebase debt**: the harness controls already
+provided the correct safety behavior — the first repair was byte-identical so
+`repair_no_progress` stopped the round, the atomic write produced zero files,
+and the continuous cell stopped fail-closed with `CALIBRATION_REVIEW_REQUIRED`.
+The run's efficiency gains versus the previous selective run (41.6% fewer
+tokens / 33.3% fewer calls / 22.4% faster) came from the harness controls, not
+from the model. The incidental monolithic run `exp-20260804-133016` is retained
+as diagnostic calibration evidence only.
+
+The pre-existing Mypy strict base in `seven_arm_benchmark.py` remains unchanged
+and still open. Recorded in
+`selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md`. Sentinel:
+`SELECTIVE_CANARY_RESULT_AUDIT_REQUIRED`.

@@ -305,6 +305,24 @@ no tag; no Pilot; no Kaggle launch.
 Current branch: `fix/kaggle-smoke-v2-model-output-closure` (HEAD `f8d00d7`;
 runtime commit `aac9914`, bundle pin `311e084`, declaration commits `769d84e` +
 `e5d9430`, deployment correction `f8d00d7`).
+> **SELECTIVE CALIBRATION CANARY EXECUTED (2026-08-04):** the dedicated
+> selective calibration canary cell ran under source/build `50ec2c1` and
+> produced `exp-20260804-133523` (`todo-smoke-001 / selective`): **failed /
+> `model_output`**, 4 calls / 5,804 tokens / 257.596 s, 3 selected / 2 preserved /
+> 0 written; the first repair was byte-identical → `repair_no_progress`;
+> atomic application wrote zero files. Model output defects were in
+> `models.py` (`max_length=5` vs MEDIUM length 6) and duplicated
+> `Priority(models.TextChoices)` in `serializers.py` + `views.py`. Vs the
+> previous selective run: 41.6% fewer tokens, 33.3% fewer calls, 22.4% faster —
+> but initial generation tokens (3,372) and output hashes were identical, so
+> **harness safety controls worked while Qwen code quality did not improve**.
+> The incidental monolithic run `exp-20260804-133016` (6 calls / 7,927 tokens /
+> 300.165 s, `scientific_budget_exhausted`) is diagnostic evidence only, not an
+> accepted comparison. The continuous cell correctly blocked fail-closed with
+> `CALIBRATION_REVIEW_REQUIRED`. Accepted current dedicated canary records = 1,
+> successful = 0; the full 9-record experiment is NOT run; no merge/tag/Pilot/
+> Kaggle authorized; no stable release claimed. Record:
+> `selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md`.
 
 ## Implemented Components
 
@@ -730,4 +748,13 @@ accepted real records = 0/9. Real-model benchmark execution
 (nine real Qwen Smoke V2 records) and scientific validation require, after this
 independent audit, only the Kaggle engineering preflight before the preflighted
 int8 bundle is relaunched. Smoke evidence is non-publication; no real Qwen
-results are claimed.
+results are claimed. The **selective calibration canary** (2026-08-04,
+`exp-20260804-133523`, source/build `50ec2c1`) ran and failed with
+`model_output`: 4 calls / 5,804 tokens / 257.596 s, 0 files written; harness
+safety controls (no-progress detection, atomic writes, continuation gate)
+worked while Qwen code quality did not improve (identical initial generation
+tokens and output hashes vs the previous selective run). The incidental
+monolithic run `exp-20260804-133016` is diagnostic evidence only. The full
+9-record real experiment remains **not run**; no scientific evidence; no tag; no
+Pilot; no Kaggle relaunch. See
+`selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md`.
