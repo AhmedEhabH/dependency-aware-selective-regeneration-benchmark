@@ -293,3 +293,24 @@ defects. The pre-existing Mypy strict base in `seven_arm_benchmark.py` remains
 unchanged and still open. Recorded in
 `selective_updates/records/KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE.md`. Sentinel:
 `POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED`.
+
+## Final Selective Canary Readiness Closure (2026-08-04)
+
+The final selective canary readiness closure (branch
+`fix/kaggle-smoke-v2-model-output-closure`, HEAD `356722b`, commits `50ec2c1` +
+`28ecc5a` + `356722b`, pushed, local = remote) closed the three blockers that
+caused the independent audit at `f727b3e` to reject canary readiness (per-call
+cooperative deadline, atomic-abort metric truth, dedicated selective canary
+cell) and opened **no new technical debt**. The test-alignment commit `356722b`
+updated affected unit tests to match the now-truthful atomic metric behavior:
+the `test_r4_token_and_metrics.py` staged-status assertions became
+`["aborted", "aborted", "rejected"]` / `["aborted", "rejected"]`, and
+`test_r3d_wiring.py` `MagicMock` executor return values gained
+`model_call_budget_exhausted=False` so they do not accidentally trip the new
+budget-exhaustion terminal; these were deliberate alignments to the corrected
+contract, not debt. Ruff findings in this pass: 0 new (175 pre-existing
+repo-wide, including 19 pre-existing E501 lines in `test_r4_token_and_metrics.py`
+that were already present before the alignment). The pre-existing Mypy strict
+base in `seven_arm_benchmark.py` remains unchanged and still open. Recorded in
+`selective_updates/records/SELECTIVE-CANARY-READINESS-CLOSURE.md`. Sentinel:
+`FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED`.

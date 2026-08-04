@@ -238,4 +238,63 @@ Next action after this independent audit: **one selective calibration canary
 only** (not a full relaunch, not a fine-tune, not a tag/merge).
 Sentinel: `POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED`.
 
+## Final Selective Canary Readiness Closure (2026-08-04)
+
+The independent GPT-5.6 Thinking audit at `f727b3e` **rejected canary readiness**
+even though the full suite was green, based on three independently reproduced
+blockers. All three are closed on branch `fix/kaggle-smoke-v2-model-output-closure`
+(HEAD `356722b`, pushed, local = remote, tree clean):
+
+- **Blocker 1 — per-call cooperative deadline.** Direct reproduction: 1s
+  timeout, 3 selected artifacts, budget advanced after call 1 → **3 model calls
+  and false success**. Commit `50ec2c1` checks the workflow deadline before every
+  selection/generation/repair model call; an in-flight call returning beyond the
+  deadline consumes/records its tokens, makes no next call, writes none of the
+  staged attempt, and returns the failed scientific terminal
+  `scientific_budget_exhausted` with truthful elapsed time and budget. The same
+  guard applies to every internal Iterative Agent call, not only before
+  `analyze_impact()`. Direct adversarial proofs: generation (1 call, count 0,
+  15 tokens), repair (2 calls, `repair_model_calls == 1`, repair tokens
+  retained), iterative agent (1 call, `model_call_budget_exhausted`, 50 tokens
+  preserved).
+- **Blocker 2 — atomic metric truth.** Direct reproduction: **0 writes but
+  `regenerated_artifact_count = 1`** when an artifact was rejected. On atomic
+  attempt abort, all staged `generated` statuses become `aborted` or `rejected`,
+  `regenerated_artifact_count = 0`, preserved response hashes/evidence remain
+  available; an all-valid attempt still commits every artifact exactly once.
+  Metric/evidence truth, not a scientific formula change. Commit `356722b`
+  aligns the affected tests with the truthful staged statuses.
+- **Blocker 3 — dedicated selective canary cell.** The generic one-run cell
+  selects `todo-smoke-001 / monolithic` (execution-plan order is scenario first,
+  then strategies), NOT selective. Commit `28ecc5a` adds a dedicated, separately
+  named Selective Calibration Canary cell (`selective-calibration-canary-cell`):
+  `--strategy selective --max-runs 1 --new-experiment --backend kaggle-qwen
+  --profile scientific-smoke-v2 --max-attempts 3 --max-completion-tokens-per-call
+  1024 --max-total-workflow-tokens 0 --timeout 300 --hf-sync`, isolated output
+  `runs/selective_calibration_canary`, NO `--auto-resume-hf`,
+  `AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW = False`.
+  `_verify_selective_canary()` asserts exactly one current-source RunRecord
+  `todo-smoke-001 / selective`, model identity `qwen:1:int8`, model calls > 0,
+  terminal scientific success/failure outcome, HF `recovery_uploaded`, checkpoint
+  `total_planned = 3 / completed = 1 / pending = 2`.
+
+Deployment pinned: `SOURCE_COMMIT = 50ec2c1ca43c230aed4538be32ca7dab2ccc22e5`,
+`DEPLOYED_BUILD_ID = 50ec2c1`; bundle rebuilt (147 files / 948,250 bytes; code
+90 / data 56 / notebook 1); content-identical rerun (tree hash
+`3b8d5b0ebf5e3ab8`); all 8 bundle notebook code cells compile.
+
+Final gate: full suite = **1,856 passed / 32 skipped / 0 failed**; grouped
+per-category 629 passed / 1 skipped; scripted dry run `--profile
+scientific-smoke-v2` into a fresh dir = 9/9 exit 0 (the default `runs` dir held
+a stale checkpoint causing `ReportRebuildError`, not a code defect); mypy strict
+`src` Success (77 files); ruff 0 new findings (175 pre-existing repo-wide, 19
+pre-existing E501 in `test_r4_token_and_metrics.py`); compileall clean; `git
+diff --check` clean; tree clean. Calibration evidence `exp-20260803-002741`
+remains **preserved, 0/9 success, not accepted scientific evidence**. No Kaggle
+rerun; no tag; no merge; Pilot not authorized; **no stable release claimed**.
+Next action after this independent re-audit: **run the dedicated selective
+calibration canary cell only** (not the generic one-run cell, not the continuous
+cell, not a full relaunch, not a fine-tune, not a tag/merge).
+Sentinel: `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED`.
+
 R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED

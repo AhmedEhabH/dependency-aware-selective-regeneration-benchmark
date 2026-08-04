@@ -1,6 +1,44 @@
 # TODO
 
-## Current - Post-Smoke Calibration Closure
+## Current - Final Selective Canary Readiness Closure
+
+### FSR-01 - Close Blocker 1: Per-Call Cooperative Deadline
+- **Priority:** HIGH
+- **Category:** Controls
+- **Description:** Independent audit (GPT-5.6 Thinking) reproduced 3 model calls and false success after a 1s deadline because the deadline was checked only before the whole regeneration attempt. Commit 50ec2c1 (pushed): the workflow budget deadline is now checked before every selection/generation/repair model call; an in-flight call returning beyond the deadline consumes/records its tokens, makes no next call, writes none of the staged attempt, returns the failed scientific terminal `scientific_budget_exhausted` (truthful elapsed time and budget retained). Same guard on every internal Iterative Agent call, not only before `analyze_impact()`. Direct adversarial proofs: TestRunner.test_generation_deadline_stops_after_first_model_call (1 call, count 0, 15 tokens), TestRepairDeadline.test_repair_deadline_stops_after_first_repair_call (2 calls, repair_model_calls 1, repair tokens retained), TestIterativeAgentDeadline.test_agent_selection_deadline_stops_after_first_call (1 call, model_call_budget_exhausted, 50 tokens preserved)
+- **Status:** COMPLETE (commit 50ec2c1, pushed)
+
+### FSR-02 - Close Blocker 2: Atomic Metric Truth
+- **Priority:** HIGH
+- **Category:** Metrics
+- **Description:** Independent audit reproduced 0 writes but `regenerated_artifact_count = 1` when an artifact was rejected. Commit 50ec2c1 (pushed): on atomic attempt abort all staged `generated` statuses become `aborted` or `rejected`, `regenerated_artifact_count = 0`, preserved response hashes/evidence remain available; all-valid attempt still commits every artifact exactly once. Metric/evidence truth, not a scientific formula change. Test alignment commit 356722b (pushed): test_r4_token_and_metrics.py assertions updated to the truthful staged statuses (`["aborted", "aborted", "rejected"]` / `["aborted", "rejected"]`); MagicMock exec_ret gains `model_call_budget_exhausted=False` in test_r3d_wiring.py
+- **Status:** COMPLETE (commits 50ec2c1 + 356722b, pushed)
+
+### FSR-03 - Close Blocker 3: Dedicated Selective Canary Cell
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** Independent audit: the generic one-run cell selects `todo-smoke-001 / monolithic` (execution-plan order is scenario first, then strategies), NOT selective. Commit 28ecc5a (pushed): added dedicated, separately named Selective Calibration Canary cell (`selective-calibration-canary-cell`) with `--strategy selective --max-runs 1 --new-experiment --backend kaggle-qwen --profile scientific-smoke-v2 --max-attempts 3 --max-completion-tokens-per-call 1024 --max-total-workflow-tokens 0 --timeout 300 --hf-sync`, isolated output `runs/selective_calibration_canary`, NO `--auto-resume-hf`, `AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW = False`. `_verify_selective_canary()` asserts exactly one current-source RunRecord `todo-smoke-001 / selective`, model identity `qwen:1:int8`, model calls > 0, terminal scientific success/failure outcome, HF `recovery_uploaded`, checkpoint `total_planned = 3 / completed = 1 / pending = 2`. Bundle pinned: `SOURCE_COMMIT = 50ec2c1ca43c230aed4538be32ca7dab2ccc22e5`, `DEPLOYED_BUILD_ID = 50ec2c1`; rebuilt 147 files / 948,250 bytes; content-identical rerun (tree hash 3b8d5b0ebf5e3ab8)
+- **Status:** COMPLETE (commit 28ecc5a, pushed)
+
+### FSR-04 - Complete Full Gate
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Full suite 1,856 passed / 32 skipped / 0 failed (571.57s); grouped per-category 629 passed / 1 skipped (530.96s); scripted dry run --profile scientific-smoke-v2 into a fresh dir = 9/9 exit 0 (default runs dir held a stale checkpoint causing ReportRebuildError, not a code defect); mypy --strict src Success (77 files); ruff 0 new findings (175 pre-existing repo-wide; 19 pre-existing E501 in test_r4_token_and_metrics.py); compileall clean; notebook code cells compile (8/8 bundle incl. the canary cell); bundle content-identical; manifests verified; git diff --check clean; tree clean; local = remote = 356722b
+- **Status:** COMPLETE
+
+### FSR-05 - Correct Operational Documentation
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Record truthfully: f727b3e full suite was green but the independent audit rejected canary readiness; direct timeout repro (3 calls and false success after deadline); direct atomic metric repro (0 writes but count 1); generic one-run cell selected monolithic, not selective; exact Commit A/B hashes (50ec2c1, 28ecc5a); actual complete test totals (1,856 passed / 32 skipped / 0 failed); calibration exp-20260803-002741 remains preserved, 0/9 success; next action after independent audit = run the dedicated selective canary cell only. Do not claim a stable release. Update SYSTEM_STATE.md, README.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/records/SELECTIVE-CANARY-READINESS-CLOSURE.md (new); commit as `docs(audit): record final selective-canary readiness closure`
+- **Status:** IN PROGRESS
+
+### FSR-06 - Independent Selective Canary Readiness Re-Audit
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent re-audit of the three closed blockers, the deployment pin, and the green gate; after the re-audit the ONLY next action = run the dedicated selective calibration canary cell (not the generic one-run cell, not the continuous cell, not a full relaunch, not a fine-tune, not a tag/merge)
+- **Status:** PENDING (sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED`)
+
+## Previous - Post-Smoke Calibration Closure
 
 ### PSC-01 - Close Four Proven Calibration Control Defects
 - **Priority:** HIGH
@@ -30,13 +68,13 @@
 - **Priority:** HIGH
 - **Category:** Documentation
 - **Description:** Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md, selective_updates/records/KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE.md; record calibration evidence exp-20260803-002741 (9 records / 0 succeeded / 8 failed / 1 timed_out / 81 calls / 118,211 tokens, preserved, not accepted scientific evidence) and the 9-failure reconciliation truth; commit as docs(audit): record calibration results and safety closure
-- **Status:** IN PROGRESS
+- **Status:** COMPLETE (commit f727b3e, pushed)
 
 ### PSC-06 - Independent Calibration Closure Audit
 - **Priority:** HIGH
 - **Category:** Audit
 - **Description:** Independent audit of the four closed controls, the test-fixture reconciliation, and the green gate; after the audit the ONLY next action = one selective calibration canary (not a full relaunch, not a fine-tune, not a tag/merge)
-- **Status:** PENDING (sentinel `POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED`)
+- **Status:** PERFORMED at f727b3e — audit REJECTED canary readiness on three blockers (per-call deadline, atomic metric truth, no selective canary cell); blockers closed under the Final Selective Canary Readiness Closure (see Current section; sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED`)
 
 ## Previous - Pre-Benchmark Final Reproducibility Audit Closure
 

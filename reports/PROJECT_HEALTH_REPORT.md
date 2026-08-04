@@ -1,8 +1,8 @@
 # Project Health Report
 
-**Report Date:** 2026-08-03
+**Report Date:** 2026-08-04
 **Project:** Dependency-Aware Selective Regeneration Benchmark
-**Branch:** `fix/kaggle-smoke-v2-model-output-closure` (HEAD `231b0a5`, pushed)
+**Branch:** `fix/kaggle-smoke-v2-model-output-closure` (HEAD `356722b`, pushed)
 **R4/R5/R6 status:** R4 ACCEPTED AND FROZEN (`f5ae826`); R5 ACCEPTED AND FROZEN (`7761c48`); R6 ACCEPTED AND FROZEN (`949e9c2`) by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01); milestone branch **published** to origin (freeze commit `4b2dd27` = first publication HEAD, local/remote equality verified).
 **Post-R6:** two real Kaggle attempts failed pre-model (`exp-20260801-024041`, `exp-20260801-024624`; both 0 model calls); real runtime blockers closed and pinned — fix `de3163f`, bundle pin `fb60972` (core accepted by the independent runtime-fix audit); R7A hardening closed all four audit findings (source `d50e89e`, bundle `4c73db6`); a later real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0 regenerated files; the attempt `exp-20260801-123125` failed at runtime root (FP16 OOM + dependency drift). **R7B Smoke Finish complete (`bff0a82` + `17207bf`); R7C real-run root closure complete (`7a80e53` + `f01b8f0`) + correction imported (`ffa179a` + `6d6aa36`) + post-gate correction imported (`6f88823` + `5797fc0`, HEAD `5797fc0`, pushed); deterministic interpreter closure complete (`aac9914` + `311e084`); PRE-BENCHMARK FINAL SOURCE REPIN COMPLETE AND GREEN (`769d84e` + `e5d9430` declarations, deployment-only correction `f8d00d7`, HEAD `f8d00d7`, pushed) — previous `76a6b16` gate = 1,833 passed / 32 skipped / 1 failed (structural notebook-pin identity test, truthful, not forced green); complete clean suite then 1,834 passed / 32 skipped / 0 failed. POST-SMOKE CALIBRATION CLOSURE COMPLETE AND GREEN (`27c1693` runtime+tests, `56772fe` deployment pin, `231b0a5` test-fixture reconciliation; HEAD `231b0a5`, pushed, tree clean): four proven control defects closed — per-attempt atomic regeneration, repair no-progress detection, fail-closed calibration continuation gate, cooperative deadline semantics; first full gate's 9 failures = stale constant-output fixtures (not validly proven pre-existing), reconciled without changing any expectation; complete suite now **1,849 passed / 32 skipped / 0 failed**; mypy strict Success (77 files); ruff 93 = 93 baseline (0 new); bundle content-identical (147 files / 934,495 bytes). Calibration evidence `exp-20260803-002741` (9 records / 0 succeeded / 8 failed / 1 timed_out / 81 calls / 118,211 tokens) preserved, not accepted scientific evidence; latest real calibration = 0/9; no Kaggle rerun; no tag; Pilot not authorized; next action = one selective calibration canary only; sentinel `POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED`.**
 
@@ -61,9 +61,38 @@ Metric Verification 169, mypy strict Success (77 files), ruff 93 = 93 baseline
 content-identical. Historical `exp-20260801-210443` produced one failed
 model-output terminal record under source `6f88823` — preserved, excluded
 from the current `e5d9430` aggregation; current accepted real records = **0/9**;
-no scientific evidence exists; no tag; no Pilot; no Kaggle launch. After this
-independent audit the only authorized Kaggle action is the engineering
-preflight cell (not the scientific One-Run cell).
+no scientific evidence exists; no tag; no Pilot; no Kaggle launch. **POST-SMOKE
+CALIBRATION CLOSURE COMPLETE (`27c1693` + `56772fe` + `231b0a5`, HEAD
+`231b0a5`):** four proven calibration control defects closed (per-attempt atomic
+regeneration, repair no-progress detection, fail-closed calibration continuation
+gate, cooperative deadline semantics); full suite 1,849 passed / 32 skipped / 0
+failed; calibration evidence `exp-20260803-002741` = 0/9 (preserved, not
+accepted scientific evidence); sentinel `POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED`.
+**FINAL SELECTIVE CANARY READINESS CLOSURE COMPLETE (`50ec2c1` + `28ecc5a` +
+`356722b`, HEAD `356722b`, pushed, tree clean):** the independent GPT-5.6
+Thinking audit at `f727b3e` REJECTED canary readiness (full suite was green) on
+three independently reproduced blockers — (1) the cooperative deadline was not
+checked before every generation call (direct repro: 3 calls and false success
+after a 1s deadline), now every in-flight call beyond the deadline consumes its
+tokens, makes no next call, writes none of the staged attempt, and returns the
+failed scientific terminal `scientific_budget_exhausted` (same guard on every
+Iterative Agent call); (2) atomic-abort `regenerated_artifact_count` was false
+(0 writes but count 1), now all staged `generated` statuses become
+`aborted`/`rejected` and count = 0 with hashes/evidence preserved; (3) the
+generic one-run cell selects `monolithic`, not `selective` — a dedicated
+Selective Calibration Canary cell was added (`--strategy selective --max-runs 1
+--new-experiment`, isolated output `runs/selective_calibration_canary`, NO
+`--auto-resume-hf`, `AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW = False`)
+whose `_verify_selective_canary()` asserts exactly one current-source
+`todo-smoke-001 / selective` record, model identity `qwen:1:int8`, model calls >
+0, terminal scientific outcome, HF `recovery_uploaded`, checkpoint 3 planned / 1
+completed / 2 pending. Deployment pinned: `SOURCE_COMMIT =
+50ec2c1ca43c230aed4538be32ca7dab2ccc22e5`, `DEPLOYED_BUILD_ID = 50ec2c1`. Full
+suite = **1,856 passed / 32 skipped / 0 failed**; grouped per-category 629
+passed / 1 skipped; scripted dry run 9/9 exit 0 (fresh dir); mypy strict Success
+(77 files); ruff 0 new; compileall clean; notebooks compile (8/8 bundle code
+cells incl. canary cell); bundle content-identical (147 files / 948,250 bytes);
+no stable release claimed; sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED`.**
 
 **Legacy note:** Legacy Seven-Arm V1 results (including the `v0.7.0-smoke-passed` tag and the 7/7-arm Kaggle orchestration smoke) are **historical** and superseded. They are not V2 evidence. The current experiment is the Three-Arm Scientific Smoke V2 (`scientific-smoke-v2` profile): 3 frozen scenarios (todo-smoke-001/002/003) × 3 arms (monolithic, selective, iterative_repository_agent) × 1 repetition = 9 runs. Smoke evidence is non-publication.
 
@@ -75,36 +104,36 @@ preflight cell (not the scientific One-Run cell).
 
 | Metric | Value |
 |---|---|
-| Full suite (previous 76a6b16 gate, recreated clean env, Windows / Python 3.11.9) | **1,833 passed / 32 skipped / 1 failed** — NOT green (structural notebook-pin identity test; root cause = dependency declarations changing pyproject.toml after the aac9914/311e084 pin; frozen artifacts not modified to force green; reported truthfully) |
-| Full suite (after deployment-only correction f8d00d7) | **1,834 passed / 32 skipped / 0 failed** — GREEN |
+| Full suite (final selective canary readiness closure) | **1,856 passed / 32 skipped / 0 failed** — GREEN |
+| Grouped per-category (same closure) | 629 passed / 1 skipped |
 | Dataset Validation | 285 passed / 5 skipped (data unchanged) |
 | Prompt Validation | 158 passed |
 | Pipeline Smoke | 220 passed / 12 skipped |
-| Dry Run | scientific-smoke-v2 9/9 succeeded (exit 0) |
+| Dry Run | scientific-smoke-v2 9/9 succeeded (exit 0; fresh runs dir) |
 | Integration | PASS |
 | Metric Verification | 169 passed |
 | Bundled CLI nine-cell dry-run regression | passed |
-| Builder build | content-identical (147 files / 928,329 bytes); manifests verified; no cache files |
+| Builder build | content-identical (147 files / 948,250 bytes); manifests verified; no cache files |
 
 ### Deployment bundle
 
 | Category | Files | Bytes |
 |---|---:|---:|
-| code | 90 | 715,210 |
-| data | 56 | 172,210 |
-| notebooks | 1 | 40,909 |
-| **total** | **147** | **928,329** |
+| code | 90 | — |
+| data | 56 | — |
+| notebooks | 1 | — |
+| **total** | **147** | **948,250** |
 
 ### Integrity and content
 
 ```text
 Builder                  = scripts/build_upload_bundle.py only (build verified, content-identical)
-Runtime source           = aac9914 (fix(exec): bind Python scenario commands to active runtime)
-Deployment pin           = 311e084 (chore(deploy): pin deterministic-interpreter Smoke V2 bundle)
-Declaration commits      = 769d84e + e5d9430 (dependency declarations only)
-Deployment correction    = f8d00d7 (chore(deploy): repin reproducible pre-benchmark source snapshot)
-Deployment source        = e5d9430 (SOURCE_COMMIT=e5d943065c6f4158c30a1cbbba39436ab2a7a898, DEPLOYED_BUILD_ID=e5d9430)
-Notebook source identity = SOURCE_COMMIT=e5d9430, DEPLOYED_BUILD_ID=e5d9430
+Runtime source           = 50ec2c1 (fix(smoke): enforce per-call deadline and atomic metric truth)
+Deployment pin           = 28ecc5a (chore(deploy): pin selective-canary-ready Smoke V2 bundle)
+Test alignment           = 356722b (test(smoke): align affected unit tests with atomic metric truth)
+Deployment source        = 50ec2c1 (SOURCE_COMMIT=50ec2c1ca43c230aed4538be32ca7dab2ccc22e5, DEPLOYED_BUILD_ID=50ec2c1)
+Notebook source identity = SOURCE_COMMIT=50ec2c1, DEPLOYED_BUILD_ID=50ec2c1
+Selective canary cell    = selective-calibration-canary-cell (isolated output runs/selective_calibration_canary)
 HF results repo          = NabilDo/selective-regeneration-experiment-results
 Preflight over bundle    = passed (historical R7C gate)
 ```
@@ -112,10 +141,10 @@ Preflight over bundle    = passed (historical R7C gate)
 ### Static and type gates
 
 ```text
-Ruff            = 93 findings = 76a6b16 baseline (re-exported and re-run; 93 = 93) — 0 new
+Ruff            = 0 new findings (175 pre-existing repo-wide; 19 pre-existing E501 in test_r4_token_and_metrics.py)
 Mypy --strict   = Success: no issues found in 77 source files
 Compileall      = clean (exit 0)
-Notebook cells  = all compile (7/7 canonical + 7/7 generated)
+Notebook cells  = all compile (8/8 bundle code cells incl. the selective canary cell)
 git diff --check = clean
 git status --short = clean
 Benchmark data  = unchanged
@@ -144,7 +173,9 @@ Benchmark data  = unchanged
 | R7C real-run root closure | COMPLETE (`7a80e53` + `f01b8f0`) + correction imported (`ffa179a` + `6d6aa36`) + post-gate correction imported (`6f88823` + `5797fc0`, HEAD `5797fc0`) — final full-gate audit required |
 | Deterministic interpreter closure | COMPLETE (`aac9914` + `311e084`) — bare interpreter tokens bound to active runtime |
 | Pre-benchmark reproducibility closure | COMPLETE AND GREEN (`769d84e` + `e5d9430` declarations; deployment-only correction `f8d00d7`, HEAD `f8d00d7`, pushed) — previous 76a6b16 gate 1,833 passed / 32 skipped / 1 failed (structural notebook-pin identity test, truthful, not forced green); complete clean suite now 1,834 passed / 32 skipped / 0 failed |
-| Kaggle relaunch + nine real Qwen records | Blocked until the preflight gate; next authorized action = engineering preflight cell only |
+| Post-smoke calibration closure | COMPLETE (`27c1693` + `56772fe` + `231b0a5`, HEAD `231b0a5`) — four control defects closed; suite 1,849 passed / 32 skipped / 0 failed; calibration exp-20260803-002741 preserved 0/9 |
+| Final selective canary readiness closure | COMPLETE (`50ec2c1` + `28ecc5a` + `356722b`, HEAD `356722b`, pushed) — audit at f727b3e REJECTED canary readiness; three blockers closed (per-call deadline, atomic metric truth, dedicated selective canary cell); suite 1,856 passed / 32 skipped / 0 failed; no stable release claimed; sentinel FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED |
+| Selective calibration canary | Blocked until the independent re-audit; next authorized action = run the dedicated selective canary cell only |
 | Pilot | Not authorized |
 | Research experiment | Planned |
 
@@ -170,17 +201,26 @@ Pilot evidence                  = unavailable
 No real-model success or efficiency claim is authorized before the real Smoke result audit. Smoke evidence is non-publication.
 
 ---
-
 ## Near goal
 
-Independent audit complete; its exact deployment-only correction (`f8d00d7`) applied and pushed. After this independent audit, the only authorized Kaggle action is the engineering preflight cell (not the scientific One-Run cell) → update the Kaggle code dataset + notebook to the corrected `e5d9430` deployment → run the engineering preflight → relaunch nine real Qwen Scientific Smoke V2 records (3 scenarios × 3 arms × 1 repetition) with the corrected preflighted bundle.
+Independent re-audit of the final selective canary readiness closure (HEAD
+`356722b`). After that re-audit, the only authorized Kaggle action is running
+the **dedicated selective calibration canary cell** (output
+`runs/selective_calibration_canary`) — NOT the generic one-run cell, NOT the
+continuous cell, NOT a full relaunch, NOT a fine-tune, NOT a tag/merge.
 
 ## Far goal
 
-Independent real-result audit → stable `v2.0.0-scientific-smoke` tag → freeze Pilot matrix → Pilot execution → research experiment → statistical analysis → paper evidence package.
+Independent real-result audit → stable `v2.0.0-scientific-smoke` tag → freeze
+Pilot matrix → Pilot execution → research experiment → statistical analysis →
+paper evidence package.
 
 ## Next action
 
-Only Kaggle engineering preflight (HEAD `f8d00d7`): update the Kaggle code dataset + notebook to the corrected `e5d9430` deployment, then run the preflight cell only. Do not relaunch Kaggle, tag, merge, or force-push beyond that documented preflight step.
+Independent re-audit of HEAD `356722b`. After it passes, run the dedicated
+selective calibration canary cell only (one `todo-smoke-001 / selective` record,
+model identity `qwen:1:int8`, output `runs/selective_calibration_canary`). Do
+not run Kaggle, the generic one-run cell, or the continuous cell before the
+re-audit; do not tag, merge, or force-push.
 
-PRE_BENCHMARK_FINAL_SOURCE_REPIN_AUDIT_REQUIRED
+FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED

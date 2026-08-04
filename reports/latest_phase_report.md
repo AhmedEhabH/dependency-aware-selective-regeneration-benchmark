@@ -1,3 +1,85 @@
+# Final Selective Canary Readiness Closure — Latest Phase Report
+
+## Executive decision
+
+The final selective canary readiness closure is **complete** on branch
+`fix/kaggle-smoke-v2-model-output-closure` (HEAD `356722b`, pushed, local =
+remote, tree clean). The independent GPT-5.6 Thinking audit at `f727b3e`
+**REJECTED canary readiness** even though the full suite was green, based on
+three independently reproduced blockers. All three are now closed, pinned, and
+gated:
+
+1. **Per-call cooperative deadline (Blocker 1).** The workflow deadline was
+   checked only before the whole regeneration attempt; `SharedRegenerationExecutor`
+   looped through every selected artifact without consulting the deadline.
+   Direct reproduction: 1s timeout, 3 selected artifacts, budget advanced after
+   call 1 → **3 model calls and false success**. Now every in-flight call
+   returning beyond the deadline consumes/records its tokens, makes no next
+   call, writes none of the staged attempt, and returns the failed scientific
+   terminal `scientific_budget_exhausted` with truthful elapsed time and budget.
+   The same guard applies to every internal Iterative Agent call, not only once
+   before `analyze_impact()`. Direct adversarial proofs:
+   `TestRunner.test_generation_deadline_stops_after_first_model_call` (1 call,
+   failed terminal, count 0, 15 tokens),
+   `TestRepairDeadline.test_repair_deadline_stops_after_first_repair_call`
+   (2 calls, failed terminal, count 0, `repair_model_calls == 1`, repair tokens
+   retained), `TestIterativeAgentDeadline.test_agent_selection_deadline_stops_after_first_call`
+   (1 call, `model_call_budget_exhausted`, 50 tokens preserved).
+2. **Atomic metric truth (Blocker 2).** Atomic validation prevented writes when
+   any artifact was rejected, but `regenerated_artifact_count` still counted a
+   staged artifact: direct reproduction = **0 writes but count 1**. Now every
+   staged `generated` status becomes `aborted` or `rejected`,
+   `regenerated_artifact_count = 0`, preserved response hashes/evidence remain
+   available, and an all-valid attempt still commits every artifact exactly
+   once. Metric/evidence truth, not a scientific formula change.
+   `test_r4_token_and_metrics.py` assertions updated to the truthful staged
+   statuses (`["aborted", "aborted", "rejected"]` / `["aborted", "rejected"]`);
+   `MagicMock` exec_ret gains `model_call_budget_exhausted=False` in
+   `test_r3d_wiring.py`.
+3. **Dedicated selective canary cell (Blocker 3).** The generic one-run cell
+   selects `todo-smoke-001 / monolithic` (execution-plan order is scenario
+   first, then strategies), not `selective`. A dedicated, separately named
+   Selective Calibration Canary cell (`selective-calibration-canary-cell`) was
+   added: `--strategy selective --max-runs 1 --new-experiment --backend
+   kaggle-qwen --profile scientific-smoke-v2 --max-attempts 3
+   --max-completion-tokens-per-call 1024 --max-total-workflow-tokens 0 --timeout
+   300 --hf-sync`, isolated output `runs/selective_calibration_canary`, **NO**
+   `--auto-resume-hf`, `AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW = False`.
+   `_verify_selective_canary()` asserts exactly one current-source RunRecord
+   `todo-smoke-001 / selective`, model identity `qwen:1:int8`, model calls > 0,
+   terminal scientific success/failure outcome, HF `recovery_uploaded`,
+   checkpoint `total_planned = 3 / completed = 1 / pending = 2`.
+
+Commits: `50ec2c1` (Commit A: `fix(smoke): enforce per-call deadline and atomic
+metric truth`), `28ecc5a` (Commit B: `chore(deploy): pin selective-canary-ready
+Smoke V2 bundle`, `SOURCE_COMMIT = 50ec2c1ca43c230aed4538be32ca7dab2ccc22e5`,
+`DEPLOYED_BUILD_ID = 50ec2c1`, bundle rebuilt 147 files / 948,250 bytes),
+`356722b` (test alignment: `test(smoke): align affected unit tests with atomic
+metric truth`).
+
+Final gate: full suite = **1,856 passed / 32 skipped / 0 failed** (571.57s);
+grouped per-category = 629 passed / 1 skipped (530.96s); scripted dry run
+`--profile scientific-smoke-v2` into a fresh dir = **9/9 exit 0** (the default
+`runs` dir held a stale checkpoint causing `ReportRebuildError: Unexpected Run
+IDs`, not a code defect); mypy `--strict src` Success (77 files); ruff 0 new
+findings (175 pre-existing repo-wide; 19 pre-existing E501 in
+`test_r4_token_and_metrics.py`); compileall clean; notebook code cells compile
+(8/8 bundle, incl. the canary cell); bundle content-identical (tree hash
+`3b8d5b0ebf5e3ab8`); manifests verified (code 90 / data 56 / notebook 1); `git
+diff --check` clean; working tree clean.
+
+Calibration truth: `exp-20260803-002741` remains **preserved, 0/9 success, not
+accepted scientific evidence** (9 terminal records / 0 succeeded / 8 failed / 1
+timed_out / 81 model calls / 118,211 tokens). No Kaggle rerun has occurred. No
+tag; no merge; Pilot not authorized; **no stable release claimed**. Next action:
+after the independent re-audit, run the **dedicated selective calibration canary
+cell only** (not the generic one-run cell, not the continuous cell, not a full
+relaunch, not a fine-tune, not a tag/merge).
+
+FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED
+
+---
+
 # Post-Smoke Calibration Closure — Latest Phase Report
 
 ## Executive decision
