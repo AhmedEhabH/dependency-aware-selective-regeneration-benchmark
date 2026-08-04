@@ -2,17 +2,16 @@ from __future__ import annotations
 
 import asyncio
 import gc
+import hashlib
+import json
 import logging
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import Any
 
 from benchmark.core.exceptions import ModelBackendError
 from benchmark.core.models import LLMResponse, TokenUsage
-
-if TYPE_CHECKING:
-    import torch
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +21,17 @@ _LOCAL_MODEL_FORBIDDEN = True
 _MINIMUM_COMPUTE_CAPABILITY = (7, 0)
 
 CANONICAL_ALLOC_CONF = "expandable_segments:True"
+
+CANONICAL_QUANTIZATION_MODES = ("bnb-int8", "bnb-nf4", "fp16")
+
+_QUANTIZATION_METHOD_SAFE = frozenset({"bitsandbytes", "bnb"})
+
+NF4_LOAD_CONFIG = {
+    "load_in_4bit": True,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "float16",
+    "bnb_4bit_use_double_quant": True,
+}
 
 SYSTEM_TRANSFORMATION_MESSAGE = (
     "You are a precise source-code transformation engine. Follow every scope, "
@@ -112,6 +122,70 @@ def _check_gpu_compatibility() -> None:
         )
 
 
+def _read_checkpoint_config(model_path: Path) -> dict[str, Any]:
+    """Read and validate ``config.json`` from a checkpoint directory."""
+    if not model_path.is_dir():
+        raise ModelBackendError(f"Model path does not exist: {model_path}")
+    config_file = model_path / "config.json"
+    if not config_file.is_file():
+        raise ModelBackendError(f"Model path missing config.json: {model_path}")
+    try:
+        data = json.loads(config_file.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise ModelBackendError(f"Failed to read model config.json: {exc}") from exc
+    if not isinstance(data, dict):
+        raise ModelBackendError(f"Model config.json is not a JSON object: {model_path}")
+    return data
+
+
+def _checkpoint_quantization_method(config: dict[str, Any]) -> str:
+    """Extract a checkpoint's declared quantization method, lowercased.
+
+    Returns ``""`` for unquantized checkpoints. Sources (in precedence order):
+    ``quantization_config.quant_method``, ``quantization_config.quantization_method``,
+    ``quantization_config.quant_type``.
+    """
+    qconf = config.get("quantization_config")
+    if not isinstance(qconf, dict):
+        return ""
+    method = qconf.get("quant_method") or qconf.get("quantization_method") or qconf.get("quant_type") or ""
+    if not isinstance(method, str):
+        return ""
+    return method.strip().lower()
+
+
+def compute_model_identity(model_path: str | Path, quantization_mode: str = "bnb-int8") -> str:
+    """Compute a checkpoint-and-quantization-aware Qwen model identity.
+
+    The identity encodes the checkpoint basename, stable config dimensions, the
+    requested quantization mode, and a config digest. Two runs must never share
+    an identity unless they load the same checkpoint through the same loader —
+    this is what blocks auto-resume cross-model contamination.
+    """
+    if quantization_mode not in CANONICAL_QUANTIZATION_MODES:
+        raise ModelBackendError(
+            f"Unsupported quantization_mode {quantization_mode!r}; supported modes are "
+            f"{', '.join(CANONICAL_QUANTIZATION_MODES)}."
+        )
+    if not model_path:
+        raise ModelBackendError("model_path is required to compute the Kaggle Qwen model identity")
+    path = Path(model_path)
+    config = _read_checkpoint_config(path)
+    payload = {
+        "checkpoint_basename": path.name,
+        "model_type": str(config.get("model_type", "")),
+        "hidden_size": int(config.get("hidden_size", 0)),
+        "num_hidden_layers": int(config.get("num_hidden_layers", 0)),
+        "num_attention_heads": int(config.get("num_attention_heads", 0)),
+        "requested_quantization_mode": quantization_mode,
+        "checkpoint_quantization_method": _checkpoint_quantization_method(config),
+    }
+    digest = hashlib.sha256(
+        json.dumps(payload, sort_keys=True).encode("utf-8")
+    ).hexdigest()[:12]
+    return f"qwen:{path.name}:{quantization_mode}:cfg-{digest}"
+
+
 @dataclass(frozen=True)
 class GpuPreflightResult:
     """Result of a GPU compatibility preflight check.
@@ -139,12 +213,13 @@ class KaggleQwenBackend:
         model_path: str | None = None,
         device: str | None = None,
         dtype: str | None = None,
-        quantization_mode: str = "int8",
+        quantization_mode: str = "bnb-int8",
     ) -> None:
-        if quantization_mode not in ("int8", "fp16"):
+        if quantization_mode not in CANONICAL_QUANTIZATION_MODES:
             raise ModelBackendError(
                 f"Unsupported quantization_mode {quantization_mode!r}; "
-                "R7C Smoke uses 'int8' (BitsAndBytes load_in_8bit). No fallback is automatic."
+                f"supported modes are {', '.join(CANONICAL_QUANTIZATION_MODES)}. "
+                "No fallback is automatic."
             )
         self._model_name = model_name
         self._model_path = model_path
@@ -154,15 +229,41 @@ class KaggleQwenBackend:
         self._model = None
         self._tokenizer = None
         self._loaded = False
+        self._model_identity: str | None = None
+        if self._model_path:
+            self._model_identity = compute_model_identity(self._model_path, quantization_mode)
         logger.info("MODEL_INITIALIZATION_STARTED model=%s quantization=%s", model_name, quantization_mode)
 
     @property
     def model_identity(self) -> str:
-        return f"qwen:1:{self._quantization_mode}"
+        if self._model_identity is None:
+            if not self._model_path:
+                raise ModelBackendError(
+                    "model_identity is unavailable without a model_path; "
+                    "construct KaggleQwenBackend with model_path= pointing at the checkpoint"
+                )
+            self._model_identity = compute_model_identity(self._model_path, self._quantization_mode)
+        return self._model_identity
 
     @property
     def quantization_mode(self) -> str:
         return self._quantization_mode
+
+    @property
+    def checkpoint_basename(self) -> str:
+        if not self._model_path:
+            raise ModelBackendError(
+                "checkpoint_basename is unavailable without a model_path"
+            )
+        return Path(self._model_path).name
+
+    @property
+    def checkpoint_quantization_method(self) -> str:
+        if not self._model_path:
+            raise ModelBackendError(
+                "checkpoint_quantization_method is unavailable without a model_path"
+            )
+        return _checkpoint_quantization_method(_read_checkpoint_config(Path(self._model_path)))
 
     @property
     def model_memory_footprint_bytes(self) -> int:
@@ -417,6 +518,7 @@ class KaggleQwenBackend:
         )
 
     def _load_model(self) -> None:
+        import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         _set_canonical_alloc_conf()
@@ -424,6 +526,20 @@ class KaggleQwenBackend:
         logger.info("Loading model from %s", model_path)
 
         _check_gpu_compatibility()
+
+        checkpoint_config = _read_checkpoint_config(model_path)
+        checkpoint_method = _checkpoint_quantization_method(checkpoint_config)
+
+        if (
+            self._quantization_mode in ("bnb-int8", "bnb-nf4")
+            and checkpoint_method
+            and checkpoint_method not in _QUANTIZATION_METHOD_SAFE
+        ):
+            raise ModelBackendError(
+                f"PREQUANTIZED_CHECKPOINT_INCOMPATIBLE: checkpoint quantization={checkpoint_method}, "
+                f"requested loader={self._quantization_mode}. "
+                "attach the unquantized Qwen2.5-Coder-14B-Instruct checkpoint"
+            )
 
         tokenizer_kwargs = {
             "trust_remote_code": True,
@@ -436,12 +552,20 @@ class KaggleQwenBackend:
             "local_files_only": True,
             "device_map": "auto",
         }
-        if self._quantization_mode == "int8":
+        if self._quantization_mode in ("bnb-int8", "bnb-nf4"):
             from transformers import BitsAndBytesConfig
 
-            load_kwargs["quantization_config"] = BitsAndBytesConfig(load_in_8bit=True)
+            if self._quantization_mode == "bnb-int8":
+                load_kwargs["quantization_config"] = BitsAndBytesConfig(load_in_8bit=True)
+            else:
+                load_kwargs["quantization_config"] = BitsAndBytesConfig(
+                    load_in_4bit=NF4_LOAD_CONFIG["load_in_4bit"],
+                    bnb_4bit_quant_type=NF4_LOAD_CONFIG["bnb_4bit_quant_type"],
+                    bnb_4bit_compute_dtype=torch.float16,
+                    bnb_4bit_use_double_quant=NF4_LOAD_CONFIG["bnb_4bit_use_double_quant"],
+                )
         else:
-            load_kwargs["torch_dtype"] = self._resolve_dtype()
+            load_kwargs["torch_dtype"] = torch.float16
 
         self._model = AutoModelForCausalLM.from_pretrained(str(model_path), **load_kwargs)
         assert self._model is not None
@@ -454,18 +578,6 @@ class KaggleQwenBackend:
             "MODEL_INITIALIZATION_SUCCEEDED model=%s device_map=auto gpu=%s quantization=%s footprint_bytes=%d",
             self._model_name, gpu_name, self._quantization_mode, self.model_memory_footprint_bytes,
         )
-
-    def _resolve_dtype(self) -> torch.dtype:
-        import torch
-
-        if self._dtype:
-            return getattr(torch, self._dtype)
-        if torch.cuda.is_available():
-            capability = torch.cuda.get_device_capability(0)
-            if capability[0] >= 8:
-                return torch.bfloat16
-            return torch.float16
-        return torch.float32
 
     def _resolve_device(self) -> str:
         if self._device:

@@ -394,6 +394,7 @@ def make_backend(  # type: ignore[no-untyped-def]
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    qwen_quantization: str = "bnb-int8",
 ):
     if dry_run or backend_name == "mock":
         from benchmark.llm.mock_backend import MockLLMBackend
@@ -408,6 +409,7 @@ def make_backend(  # type: ignore[no-untyped-def]
     kwargs: dict[str, str] = {}
     if model_path:
         kwargs["model_path"] = model_path
+    kwargs["quantization_mode"] = qwen_quantization
     return KaggleQwenBackend(**kwargs)
 
 
@@ -573,6 +575,7 @@ def run_arm(
     max_tokens: int = 0,
     max_completion_tokens_per_call: int = 4096,
     max_total_workflow_tokens: int = 0,
+    qwen_quantization: str = "bnb-int8",
 ) -> object:
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -590,6 +593,7 @@ def run_arm(
         backend_name=backend_name,
         openrouter_model=openrouter_model,
         openrouter_timeout=openrouter_timeout,
+        qwen_quantization=qwen_quantization,
     ) if needs_llm else None
     strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
 
@@ -815,6 +819,17 @@ def parse_args() -> argparse.Namespace:
         help="Explicit path to the Qwen model directory on Kaggle",
     )
     parser.add_argument(
+        "--qwen-quantization",
+        choices=["bnb-int8", "bnb-nf4", "fp16"],
+        default="bnb-int8",
+        help=(
+            "Qwen load quantization for the Kaggle backend: bnb-int8 "
+            "(BitsAndBytes load_in_8bit, default), bnb-nf4 "
+            "(BitsAndBytes NF4 4-bit, double-quant, float16 compute), or fp16. "
+            "Unknown values are rejected before any execution."
+        ),
+    )
+    parser.add_argument(
         "--resume",
         action="store_true",
         default=False,
@@ -896,9 +911,10 @@ def parse_args() -> argparse.Namespace:
         default=False,
         help=(
             "Run only the Kaggle smoke preflight (pinned dependency check, baseline "
-            "manage.py check + makemigrations --check --dry-run, int8 Qwen load + "
-            "deterministic 64-token probe, VRAM headroom) and exit 0 on pass / 1 on "
-            "fail. Creates no experiment, RunRecord, workspace results, or HF state."
+            "manage.py check + makemigrations --check --dry-run, requested Qwen "
+            "quantization load + deterministic 64-token probe, VRAM headroom) and exit "
+            "0 on pass / 1 on fail. Creates no experiment, RunRecord, workspace "
+            "results, or HF state."
         ),
     )
     args = parser.parse_args()
@@ -1050,18 +1066,24 @@ def _get_model_identity(
     model_path: str | None = None,
     backend_name: str | None = None,
     openrouter_model: str = "",
+    qwen_quantization: str = "bnb-int8",
 ) -> str:
     """Resolve the model identity for the experiment.
 
-    A non-dry Kaggle backend must never resolve to ``dry-run:mock``.
-    R7C-REAL-RUN-ROOT-CLOSURE freezes the Smoke Qwen to int8:
-    ``qwen:1:int8`` — distinct from the older ``qwen:1`` FP16 identity so that
-    int8 preflight results can never resume prior FP16 experiments.
+    A non-dry Kaggle backend must never resolve to ``dry-run:mock``. The
+    identity is checkpoint-and-quantization-aware so that two different Qwen
+    checkpoints or loaders can never share an identity (this is what blocks
+    auto-resume cross-model contamination).
     """
     if backend_name == "openrouter" and openrouter_model:
         return f"openrouter:{openrouter_model}"
     if backend_name == "kaggle-qwen" or model_path:
-        return "qwen:1:int8"
+        from benchmark.llm.kaggle_qwen_backend import compute_model_identity
+        if not model_path:
+            raise ValueError(
+                "model_path is required to compute the Kaggle Qwen model identity"
+            )
+        return compute_model_identity(model_path, qwen_quantization)
     return "dry-run:mock"
 
 
@@ -1213,6 +1235,7 @@ def _run_single_scenario_strategy(
     _backend: object = None,
     max_completion_tokens_per_call: int = 4096,
     max_total_workflow_tokens: int = 0,
+    qwen_quantization: str = "bnb-int8",
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
@@ -1230,6 +1253,7 @@ def _run_single_scenario_strategy(
             backend_name=backend_name,
             openrouter_model=openrouter_model,
             openrouter_timeout=openrouter_timeout,
+            qwen_quantization=qwen_quantization,
         )
     else:
         backend = None
@@ -1371,6 +1395,7 @@ def _compute_config_hash(args: argparse.Namespace) -> str:
         "protocol_version": getattr(args, "protocol_version", "1.0"),
         "max_completion_tokens_per_call": getattr(args, "max_completion_tokens_per_call", 4096),
         "max_total_workflow_tokens": resolved_total,
+        "qwen_quantization": getattr(args, "qwen_quantization", "bnb-int8"),
     }
     raw = json.dumps(config_obj, sort_keys=True)
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
@@ -1669,12 +1694,13 @@ def main() -> int:
         model_path=args.model_path,
         backend_name=resolved_backend,
         openrouter_model=args.openrouter_model,
+        qwen_quantization=args.qwen_quantization,
     )
 
     # ---- Kaggle preflight-only gate (R7C-REAL-RUN-ROOT-CLOSURE) ------------
-    # Runs the pinned-dependency + baseline manage.py/makemigrations + int8
-    # Qwen load/probe + VRAM-headroom gate. Creates NO experiment, RunRecord,
-    # workspace results, or HF state. Exit 0 on pass, 1 on fail.
+    # Runs the pinned-dependency + baseline manage.py/makemigrations + requested
+    # Qwen quantization load/probe + VRAM-headroom gate. Creates NO experiment,
+    # RunRecord, workspace results, or HF state. Exit 0 on pass, 1 on fail.
     if args.kaggle_preflight_only:
         from benchmark.execution.preflight import (
             render_preflight_table,
@@ -1688,6 +1714,7 @@ def main() -> int:
             data_dir=data_dir,
             preflight_root=preflight_root,
             json_output_path=preflight_json,
+            quantization_mode=args.qwen_quantization,
         )
         print(render_preflight_table(result))
         if result.passed:
@@ -2313,6 +2340,7 @@ def main() -> int:
             backend_name=resolved_backend,
             openrouter_model=args.openrouter_model,
             openrouter_timeout=args.openrouter_timeout,
+            qwen_quantization=args.qwen_quantization,
         )
         logger.info("Shared backend created once for the whole process")
 
@@ -2404,6 +2432,7 @@ def main() -> int:
             artifact_descriptors=_artifact_descriptors.get(repository_id, ()),
             max_completion_tokens_per_call=args.max_completion_tokens_per_call,
             max_total_workflow_tokens=args.max_total_workflow_tokens or max_tokens,
+            qwen_quantization=args.qwen_quantization,
             _backend=shared_backend if needs_llm else None,
         )
         run_ended_at = datetime.now(UTC).isoformat()
