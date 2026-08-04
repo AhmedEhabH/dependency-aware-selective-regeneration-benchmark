@@ -751,7 +751,7 @@ def test_repair_validation_duration_uses_complete_stage_sum(tmp_path: Path) -> N
             return_value=MagicMock(
                 prompt_tokens=0, completion_tokens=0, total_tokens=0,
                 model_calls=0, duration_seconds=0.0, artifacts=(),
-                failures=(),
+                failures=(), model_call_budget_exhausted=False,
             ),
         ),
     ):
@@ -1060,7 +1060,7 @@ def test_public_monolithic_migration_failure_repairs_to_success(tmp_path: Path) 
     exec_ret = MagicMock(
         prompt_tokens=10, completion_tokens=10, total_tokens=20,
         model_calls=1, duration_seconds=0.5, artifacts=(),
-        failures=(),
+        failures=(), model_call_budget_exhausted=False,
     )
     with (
         patch.object(runner, "_execute_scientific_validation", side_effect=_sci_side),
@@ -1121,7 +1121,7 @@ def test_public_selective_evaluator_failure_repairs_to_success(tmp_path: Path) -
     exec_ret_sel = MagicMock(
         prompt_tokens=10, completion_tokens=10, total_tokens=20,
         model_calls=1, duration_seconds=0.5, artifacts=(),
-        failures=(),
+        failures=(), model_call_budget_exhausted=False,
     )
     with (
         patch.object(runner, "_execute_scientific_validation", side_effect=_sci_side_sel),
@@ -1268,7 +1268,7 @@ def test_public_agent_evaluator_failure_revises_and_preserves_transcript(tmp_pat
     exec_ret_ag = MagicMock(
         prompt_tokens=10, completion_tokens=10, total_tokens=20,
         model_calls=1, duration_seconds=0.5, artifacts=(),
-        failures=(),
+        failures=(), model_call_budget_exhausted=False,
     )
     mock_revise = MagicMock(return_value=pred_with_decisions)
     strategy.analyze_impact = MagicMock(return_value=pred_with_decisions)

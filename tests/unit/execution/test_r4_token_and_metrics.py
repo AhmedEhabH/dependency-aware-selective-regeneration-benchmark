@@ -1039,7 +1039,7 @@ def test_executor_local_budget_contract(tmp_path: Path) -> None:
     assert result.prompt_tokens == 32
     assert result.completion_tokens == 170
     assert result.total_tokens == 202
-    assert [g.status for g in result.artifacts] == ["generated", "generated", "rejected"]
+    assert [g.status for g in result.artifacts] == ["aborted", "aborted", "rejected"]
 
 
 def test_agent_allowance_below_per_call_limit(tmp_path: Path) -> None:
@@ -1096,7 +1096,7 @@ def test_executor_exact_exhaustion_does_not_reopen_budget(tmp_path: Path) -> Non
     assert result.prompt_tokens == 0
     assert result.completion_tokens == 20
     assert result.total_tokens == 20
-    assert [g.status for g in result.artifacts] == ["generated", "rejected"]
+    assert [g.status for g in result.artifacts] == ["aborted", "rejected"]
     target_b = Path(isolation.workspace.root) / "src" / "b.py"
     assert target_b.read_text(encoding="utf-8") == "original content"
     assert any("Token budget exhausted" in f for f in result.failures)

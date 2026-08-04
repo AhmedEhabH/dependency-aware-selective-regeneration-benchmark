@@ -227,6 +227,8 @@ class TestStrategyRegistry:
 
 class TestIterativeAgentDeadline:
     def test_agent_selection_deadline_stops_after_first_call(self, tmp_path) -> None:
+        import asyncio
+
         from benchmark.core.models import LLMResponse, TokenUsage
         from benchmark.strategies.iterative_agent import IterativeRepositoryAgentStrategy
 
@@ -256,7 +258,20 @@ class TestIterativeAgentDeadline:
         strategy = IterativeRepositoryAgentStrategy(_ExpiryBackend())
         strategy.begin_run(tmp_path)
         strategy.set_model_call_guard(guard)
-        pred = strategy.analyze_impact(_make_snapshot(), _make_change(), _make_universe())
+        try:
+            existing_loop = asyncio.get_event_loop()
+        except RuntimeError:
+            existing_loop = None
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            pred = strategy.analyze_impact(_make_snapshot(), _make_change(), _make_universe())
+        finally:
+            loop.close()
+            if existing_loop is not None:
+                asyncio.set_event_loop(existing_loop)
+            else:
+                asyncio.set_event_loop(None)
 
         assert call_count == 1
         assert strategy.model_call_budget_exhausted is True
