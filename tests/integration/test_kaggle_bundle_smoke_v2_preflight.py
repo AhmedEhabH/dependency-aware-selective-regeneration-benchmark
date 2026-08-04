@@ -455,11 +455,55 @@ class TestKaggleBundleRuntimeGuardrails:
         assert text.count("_verify_scientific_run()") >= 2, (
             "guardrail call missing from a run cell"
         )
-        assert "model identity = qwen:1:int8" in text
+        assert "model identity = expected 14B" in text
         assert "terminal outcome is scientific" in text
         assert "scientific failure evidence present" in text
         assert 'cp.get("completed_run_ids"' in text
         assert "latest terminal record is an engineering blocker" in text
+
+    def test_notebook_pins_14b_base_checkpoint_and_nf4(self) -> None:
+        text = _bundled_notebook_sources()
+        assert "/transformers/14b-instruct/1" in text, (
+            "bundled notebook does not pin the 14b-instruct base checkpoint"
+        )
+        assert "gptq" not in text.lower(), (
+            "bundled notebook must not reference a GPTQ checkpoint"
+        )
+        assert 'QWEN_QUANTIZATION = "bnb-nf4"' in text
+        assert "--qwen-quantization" in text
+
+    def test_notebook_canary_command_contract(self) -> None:
+        text = _bundled_notebook_sources()
+        assert '"--strategy", "selective"' in text
+        assert '"--max-runs", "1"' in text
+        assert '"--new-experiment"' in text
+        assert '"--qwen-quantization", QWEN_QUANTIZATION' in text
+        assert "SELECTIVE_CANARY_OUTPUT_DIR" in text
+        assert 'qwen14b_bnb_nf4_selective_canary' in text
+
+    def test_notebook_canary_uses_no_auto_resume(self) -> None:
+        nb_path = BUNDLE_ROOT / "notebooks" / "seven_arm_benchmark.ipynb"
+        nb = json.loads(nb_path.read_text(encoding="utf-8"))
+        cells_by_id = {c.get("id"): c for c in nb["cells"]}
+        canary = cells_by_id["selective-calibration-canary-cell"]
+        src = "".join(canary["source"]) if isinstance(canary["source"], list) else canary["source"]
+        assert "canary_cmd" in src
+        assert "--auto-resume-hf" not in src, (
+            "selective canary must never use --auto-resume-hf"
+        )
+
+    def test_notebook_canary_preflight_gate_present(self) -> None:
+        text = _bundled_notebook_sources()
+        assert "CANARY PREFLIGHT GUARDRAIL: PASSED" in text
+        assert "preflight_checks" in text
+        assert "requested mode = bnb-nf4" in text
+        assert "checkpoint not prequantized" in text
+        assert "GPU-only device map" in text
+
+    def test_notebook_generic_one_run_disabled_by_default(self) -> None:
+        text = _bundled_notebook_sources()
+        assert "RUN_GENERIC_ONE_RUN = False" in text
+        assert "if RUN_GENERIC_ONE_RUN:" in text
 
 
 class TestKaggleBundleR7CRuntimeClosure:
@@ -547,9 +591,12 @@ class TestKaggleBundleR7CRuntimeClosure:
         assert "PROBE_MAX_TOKENS" in text
         assert "BitsAndBytesConfig" in text or "bitsandbytes" in text
 
-    def test_bundled_cli_uses_frozen_int8_identity(self) -> None:
+    def test_bundled_cli_uses_model_aware_quantization_identity(self) -> None:
         source = (BUNDLE_CODE / "seven_arm_benchmark.py").read_text(encoding="utf-8")
-        assert 'return "qwen:1:int8"' in source
+        assert "compute_model_identity" in source
+        assert 'return "qwen:1:int8"' not in source
+        assert "qwen-quantization" in source
+        assert "CANONICAL_QUANTIZATION_MODES" in source
 
     def test_bundled_runner_has_infrastructure_nonrepairable_classification(self) -> None:
         source = (BUNDLE_CODE / "src" / "benchmark" / "execution" / "runner.py").read_text(

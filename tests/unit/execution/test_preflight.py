@@ -60,8 +60,9 @@ class TestRenderPreflightTable:
             passed=False,
             checks=("dependency_import_verification: PASS", "vram_headroom: FAIL"),
             rejection_reason="vram_headroom: FAIL (free=0.10 GiB < 2.0 GiB)",
-            model_identity="qwen:1:int8",
-            quantization_mode="int8",
+            model_identity="qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123",
+            requested_quantization_mode="bnb-int8",
+            model_checkpoint_basename="qwen2.5-coder-7b-instruct",
             free_vram_after_probe_gib=0.1,
             probe_prompt_tokens=8,
             probe_completion_tokens=64,
@@ -70,8 +71,9 @@ class TestRenderPreflightTable:
         table = render_preflight_table(result)
         assert "KAGGLE SMOKE PREFLIGHT" in table
         assert "passed: False" in table
-        assert "model_identity: qwen:1:int8" in table
-        assert "quantization_mode: int8" in table
+        assert "model_identity: qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123" in table
+        assert "requested_quantization_mode: bnb-int8" in table
+        assert "model_checkpoint_basename: qwen2.5-coder-7b-instruct" in table
         assert "vram_headroom: FAIL" in table
         assert "probe_tokens: 8+64" in table
         assert "dep torch: 2.4.0" in table
@@ -100,12 +102,14 @@ class TestRunKaggleSmokePreflight:
         monkeypatch.setattr(mod, "_stage_baseline_workspace", lambda data_dir, root: staged)
         monkeypatch.setattr(mod, "_run_in_workspace", lambda ws, *argv, timeout=180: (0, "", ""))
 
-        def _probe(model_path: str) -> dict[str, object]:
+        def _probe(model_path: str, quantization_mode: str) -> dict[str, object]:
             if probe_exc is not None:
                 raise probe_exc
             return probe_metrics or {
-                "model_identity": "qwen:1:int8",
-                "quantization_mode": "int8",
+                "model_identity": "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123",
+                "requested_quantization_mode": quantization_mode,
+                "model_checkpoint_basename": "qwen2.5-coder-7b-instruct",
+                "checkpoint_quantization_method": "",
                 "model_memory_footprint_bytes": 4000000000,
                 "device_map_summary": "cuda:0",
                 "gpu_count": 1,
@@ -130,14 +134,53 @@ class TestRunKaggleSmokePreflight:
         assert any(c.startswith("dependency_import_verification: PASS") for c in result.checks)
         assert any(c.startswith("manage_py_check: PASS") for c in result.checks)
         assert any(c.startswith("makemigrations_check: PASS") for c in result.checks)
-        assert any(c.startswith("qwen_int8_load: PASS") for c in result.checks)
+        assert any(c.startswith("qwen_model_load[bnb-int8]: PASS") for c in result.checks)
+        assert any(c.startswith("gpu_count_expected: PASS") for c in result.checks)
+        assert any(c.startswith("checkpoint_not_prequantized: PASS") for c in result.checks)
         assert any(c.startswith("vram_headroom: PASS") for c in result.checks)
-        assert result.model_identity == "qwen:1:int8"
+        assert result.model_identity == "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123"
+        assert result.requested_quantization_mode == "bnb-int8"
+
+    def test_nf4_quantization_is_forwarded_to_probe_and_check_name(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        received: list[str] = []
+
+        def probe(model_path: str, quantization_mode: str) -> dict[str, object]:
+            received.append(quantization_mode)
+            return {
+                "model_identity": "qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-def456",
+                "requested_quantization_mode": quantization_mode,
+                "model_checkpoint_basename": "qwen2.5-coder-14b-instruct",
+                "checkpoint_quantization_method": "",
+                "model_memory_footprint_bytes": 4000000000,
+                "device_map_summary": "cuda:0",
+                "gpu_count": 1,
+                "gpu_name": "T4",
+                "allocated_vram_gib": 10.0,
+                "reserved_vram_gib": 11.0,
+                "free_vram_after_probe_gib": 3.0,
+                "probe_prompt_tokens": 8,
+                "probe_completion_tokens": 64,
+            }
+
+        self._patch(monkeypatch, deps=(("django", "5.2.16"),))
+        monkeypatch.setattr(mod, "_qwen_probe_metrics", probe)
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+            quantization_mode="bnb-nf4",
+        )
+        assert received == ["bnb-nf4"]
+        assert any(c.startswith("qwen_model_load[bnb-nf4]: PASS") for c in result.checks)
+        assert result.requested_quantization_mode == "bnb-nf4"
+        assert result.model_checkpoint_basename == "qwen2.5-coder-14b-instruct"
 
     def test_fail_when_missing_dependency(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
         probe_calls = 0
 
-        def probe(_model_path: str) -> dict[str, object]:
+        def probe(_model_path: str, _quantization_mode: str) -> dict[str, object]:
             nonlocal probe_calls
             probe_calls += 1
             return {}
@@ -161,7 +204,7 @@ class TestRunKaggleSmokePreflight:
         monkeypatch.setattr(mod, "_python_runtime_status", lambda: ("3.13.5", False))
         calls = 0
 
-        def probe(_model_path: str) -> dict[str, object]:
+        def probe(_model_path: str, _quantization_mode: str) -> dict[str, object]:
             nonlocal calls
             calls += 1
             return {}
@@ -199,7 +242,7 @@ class TestRunKaggleSmokePreflight:
                 return 1, "", "baseline broken"
             return 0, "", ""
 
-        def probe(_model_path: str) -> dict[str, object]:
+        def probe(_model_path: str, _quantization_mode: str) -> dict[str, object]:
             nonlocal calls
             calls += 1
             return {}
@@ -213,7 +256,7 @@ class TestRunKaggleSmokePreflight:
         )
         assert result.passed is False
         assert calls == 0
-        assert any(c.startswith("qwen_int8_load: SKIP") for c in result.checks)
+        assert any(c.startswith("qwen_model_load[bnb-int8]: SKIP") for c in result.checks)
 
     def test_fail_when_vram_headroom_below_threshold(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
@@ -222,8 +265,10 @@ class TestRunKaggleSmokePreflight:
             monkeypatch,
             deps=(("django", "5.2.16"),),
             probe_metrics={
-                "model_identity": "qwen:1:int8",
-                "quantization_mode": "int8",
+                "model_identity": "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123",
+                "requested_quantization_mode": "bnb-int8",
+                "model_checkpoint_basename": "qwen2.5-coder-7b-instruct",
+                "checkpoint_quantization_method": "",
                 "model_memory_footprint_bytes": 4000000000,
                 "device_map_summary": "cuda:0",
                 "gpu_count": 1,
@@ -251,8 +296,10 @@ class TestRunKaggleSmokePreflight:
             monkeypatch,
             deps=(("django", "5.2.16"),),
             probe_metrics={
-                "model_identity": "qwen:1:int8",
-                "quantization_mode": "int8",
+                "model_identity": "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123",
+                "requested_quantization_mode": "bnb-int8",
+                "model_checkpoint_basename": "qwen2.5-coder-7b-instruct",
+                "checkpoint_quantization_method": "",
                 "model_memory_footprint_bytes": 4000000000,
                 "device_map_summary": "{'model.layers.0': 0, 'lm_head': 'cpu'}",
                 "gpu_count": 1,
@@ -272,6 +319,36 @@ class TestRunKaggleSmokePreflight:
         assert result.passed is False
         assert any(c.startswith("device_map_gpu_only: FAIL") for c in result.checks)
 
+    def test_fail_when_checkpoint_is_prequantized(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch(
+            monkeypatch,
+            deps=(("django", "5.2.16"),),
+            probe_metrics={
+                "model_identity": "qwen:qwen2.5-coder-14b-instruct-gptq-int4:bnb-nf4:cfg-def456",
+                "requested_quantization_mode": "bnb-nf4",
+                "model_checkpoint_basename": "qwen2.5-coder-14b-instruct-gptq-int4",
+                "checkpoint_quantization_method": "gptq",
+                "model_memory_footprint_bytes": 4000000000,
+                "device_map_summary": "cuda:0",
+                "gpu_count": 1,
+                "gpu_name": "T4",
+                "allocated_vram_gib": 9.0,
+                "reserved_vram_gib": 10.0,
+                "free_vram_after_probe_gib": 4.0,
+                "probe_prompt_tokens": 8,
+                "probe_completion_tokens": 64,
+            },
+        )
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b_gptq",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+        )
+        assert result.passed is False
+        assert any(c.startswith("checkpoint_not_prequantized: FAIL") for c in result.checks)
+
     def test_fail_when_probe_raises(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
         self._patch(
             monkeypatch,
@@ -284,7 +361,7 @@ class TestRunKaggleSmokePreflight:
             preflight_root=tmp_path / "preflight-root",
         )
         assert result.passed is False
-        assert any(c.startswith("qwen_int8_load: FAIL") for c in result.checks)
+        assert any(c.startswith("qwen_model_load[bnb-int8]: FAIL") for c in result.checks)
         assert any(c.startswith("vram_headroom: FAIL") for c in result.checks)
 
     def test_writes_v1_json_schema(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
@@ -300,5 +377,7 @@ class TestRunKaggleSmokePreflight:
         payload = json.loads(out.read_text("utf-8"))
         assert payload["schema"] == "kaggle_smoke_preflight.v1"
         assert payload["passed"] == result.passed
-        assert payload["model_identity"] == "qwen:1:int8"
+        assert payload["model_identity"] == "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123"
+        assert payload["requested_quantization_mode"] == "bnb-int8"
+        assert payload["model_checkpoint_basename"] == "qwen2.5-coder-7b-instruct"
 

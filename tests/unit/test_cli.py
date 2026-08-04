@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 import subprocess
 import sys
 import textwrap
@@ -385,28 +386,64 @@ class TestKaggleQwenFailClosed:
         assert not output_dir.exists() or not (output_dir / "checkpoint.json").exists()
 
 
+QWEN_CONFIG_JSON = (
+    '{"model_type": "qwen2", "hidden_size": 2048, "num_hidden_layers": 28,'
+    ' "num_attention_heads": 16}'
+)
+
+
+def _create_qwen_model_dir(root: Path, name: str = "qwen2.5-coder-14b-instruct") -> Path:
+    model_dir = root / name
+    model_dir.mkdir(parents=True)
+    (model_dir / "config.json").write_text(QWEN_CONFIG_JSON)
+    (model_dir / "model.safetensors").write_text("dummy")
+    return model_dir
+
+
 class TestModelIdentity:
-    """KAGGLE-SMOKE-V2: a non-dry Kaggle backend can never be dry-run:mock."""
+    """QWEN14B-NF4-CANARY: identity is checkpoint-and-quantization-aware, never dry-run:mock."""
 
     @staticmethod
-    def _identity(model_path: str | None = None, backend: str | None = None, openrouter: str = "") -> str:
+    def _identity(
+        model_path: str | None = None,
+        backend: str | None = None,
+        openrouter: str = "",
+        qwen_quantization: str = "bnb-int8",
+    ) -> str:
         from seven_arm_benchmark import _get_model_identity
 
         return _get_model_identity(
             model_path=model_path,
             backend_name=backend,
             openrouter_model=openrouter,
+            qwen_quantization=qwen_quantization,
         )
 
-    def test_kaggle_qwen_with_model_path_is_frozen_int8_identity(self) -> None:
-        identity = self._identity(model_path="/kaggle/input/qwen2.5-coder-7b", backend="kaggle-qwen")
-        assert identity == "qwen:1:int8"
+    def test_kaggle_qwen_with_model_path_is_model_aware_identity(self, tmp_path: Path) -> None:
+        model_dir = _create_qwen_model_dir(tmp_path)
+        identity = self._identity(model_path=str(model_dir), backend="kaggle-qwen")
+        assert identity.startswith("qwen:qwen2.5-coder-14b-instruct:bnb-int8:cfg-")
+        assert len(identity.split("cfg-")[1]) == 12
+        assert identity != "qwen:1:int8"
 
-    def test_kaggle_qwen_without_model_path_never_dry_run_mock(self) -> None:
-        identity = self._identity(backend="kaggle-qwen")
-        assert identity != "dry-run:mock"
-        assert identity.startswith("qwen:")
-        assert identity == "qwen:1:int8"
+    def test_kaggle_qwen_identity_changes_with_quantization_mode(self, tmp_path: Path) -> None:
+        model_dir = _create_qwen_model_dir(tmp_path)
+        int8 = self._identity(model_path=str(model_dir), backend="kaggle-qwen", qwen_quantization="bnb-int8")
+        nf4 = self._identity(model_path=str(model_dir), backend="kaggle-qwen", qwen_quantization="bnb-nf4")
+        assert int8 != nf4
+        assert ":bnb-nf4:" in nf4
+        assert ":bnb-int8:" in int8
+
+    def test_kaggle_qwen_identity_changes_with_checkpoint(self, tmp_path: Path) -> None:
+        model_dir = _create_qwen_model_dir(tmp_path, name="qwen2.5-coder-7b-instruct")
+        identity = self._identity(model_path=str(model_dir), backend="kaggle-qwen")
+        assert identity.startswith("qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-")
+
+    def test_kaggle_qwen_without_model_path_raises(self) -> None:
+        from seven_arm_benchmark import _get_model_identity
+
+        with pytest.raises(ValueError, match="model_path is required"):
+            _get_model_identity(model_path=None, backend_name="kaggle-qwen")
 
     def test_mock_dry_run_identity_remains_dry_run_mock(self) -> None:
         assert self._identity(backend="mock") == "dry-run:mock"
@@ -467,6 +504,75 @@ class TestCliHelp:
     def test_description_is_seven_arm_benchmark(self) -> None:
         result = _run("--help")
         assert "Seven-arm dependency-aware selective regeneration benchmark" in result.stdout
+
+
+class TestQwenQuantizationFlag:
+    """QWEN14B-NF4-CANARY: CLI exposes only the canonical BNB quantization modes."""
+
+    def test_help_lists_canonical_choices(self) -> None:
+        result = _run("--help")
+        combined = result.stdout + result.stderr
+        assert "--qwen-quantization" in combined
+        assert "bnb-int8" in combined
+        assert "bnb-nf4" in combined
+        assert "fp16" in combined
+
+    def test_unknown_quantization_exits_2(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        result = _run(
+            "--dry-run",
+            "--profile", "smoke",
+            "--qwen-quantization", "gptq",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(tmp_path / "runs"),
+        )
+        assert result.returncode == 2
+        assert "invalid choice" in (result.stdout + result.stderr)
+
+    def test_dry_run_accepts_bnb_nf4(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        result = _run(
+            "--dry-run",
+            "--profile", "smoke",
+            "--qwen-quantization", "bnb-nf4",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(tmp_path / "runs"),
+        )
+        assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
+
+    def test_dry_run_default_quantization_is_bnb_int8(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        result = _run(
+            "--dry-run",
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(tmp_path / "runs"),
+        )
+        assert result.returncode == 0
+        combined = result.stdout + result.stderr
+        assert "backend=mock" in combined
+        assert "config_hash=" in combined
+
+    def test_quantization_mode_changes_config_hash(self, tmp_path: Path) -> None:
+        data_dir = _create_valid_data_dir(tmp_path)
+        base = _run(
+            "--dry-run",
+            "--profile", "smoke",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(tmp_path / "runs-base"),
+        )
+        nf4 = _run(
+            "--dry-run",
+            "--profile", "smoke",
+            "--qwen-quantization", "bnb-nf4",
+            "--data-dir", str(data_dir),
+            "--output-dir", str(tmp_path / "runs-nf4"),
+        )
+        assert base.returncode == 0
+        assert nf4.returncode == 0
+        base_hash = re.search(r"config_hash=([0-9a-f]+)", base.stdout + base.stderr).group(1)
+        nf4_hash = re.search(r"config_hash=([0-9a-f]+)", nf4.stdout + nf4.stderr).group(1)
+        assert base_hash != nf4_hash
 
 
 class TestEntryPointConversion:
@@ -955,7 +1061,9 @@ class TestScientificSmokeV1Profile:
             "_extract_evidence_root_cause",
             "_validate_continuous_precondition",
             "_verify_scientific_run",
+            "_expected_model_identity",
         }
+        model_dir = _create_qwen_model_dir(tmp_path)
         selected = []
         for node in tree.body:
             if isinstance(node, ast.Assign):
@@ -971,6 +1079,8 @@ class TestScientificSmokeV1Profile:
             "SOURCE_COMMIT": "a" * 40,
             "DEPLOYED_BUILD_ID": "aaaaaaa",
             "OUTPUT_DIR": tmp_path,
+            "MODEL_PATH": str(model_dir),
+            "QWEN_QUANTIZATION": "bnb-nf4",
             "_display_smoke_dashboard": lambda _path: None,
         }
         exec(compile(module, "deployed-notebook-evidence-gates", "exec"), ns)
@@ -981,7 +1091,7 @@ class TestScientificSmokeV1Profile:
                 "pending_run_ids": [f"pending-{i}" for i in range(8)],
                 "source_commit": "a" * 40,
                 "deployed_build_id": "aaaaaaa",
-                "model_identity": "qwen:1:int8",
+                "model_identity": ns["_expected_model_identity"](),
             }
             (tmp_path / "checkpoint.json").write_text(json.dumps(cp), encoding="utf-8")
             (tmp_path / "run_records.jsonl").write_text(

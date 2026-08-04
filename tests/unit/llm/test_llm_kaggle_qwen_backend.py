@@ -104,6 +104,55 @@ class _FakeModel:
     def generate(self, **kwargs: object) -> _FakeTensor:
         return _FakeTensor(self._output_length)
 
+    def eval(self) -> _FakeModel:
+        return self
+
+    def get_memory_footprint(self) -> int:
+        return 4000000000
+
+
+class _FakeAutoTokenizer:
+    last_args: tuple[Any, ...] = ()
+    last_kwargs: dict[str, Any] = {}
+    calls = 0
+
+    @staticmethod
+    def from_pretrained(*args: Any, **kwargs: Any) -> _FakeTokenizer:
+        _FakeAutoTokenizer.last_args = args
+        _FakeAutoTokenizer.last_kwargs = dict(kwargs)
+        _FakeAutoTokenizer.calls += 1
+        return _FakeTokenizer()
+
+
+class _FakeAutoModelForCausalLM:
+    last_args: tuple[Any, ...] = ()
+    last_kwargs: dict[str, Any] = {}
+    calls = 0
+
+    @staticmethod
+    def from_pretrained(*args: Any, **kwargs: Any) -> _FakeModel:
+        _FakeAutoModelForCausalLM.last_args = args
+        _FakeAutoModelForCausalLM.last_kwargs = dict(kwargs)
+        _FakeAutoModelForCausalLM.calls += 1
+        return _FakeModel(output_length=10)
+
+
+class _FakeBitsAndBytesConfig:
+    last_kwargs: dict[str, Any] = {}
+    last_instance: _FakeBitsAndBytesConfig | None = None
+
+    def __init__(self, **kwargs: Any) -> None:
+        _FakeBitsAndBytesConfig.last_kwargs = dict(kwargs)
+        _FakeBitsAndBytesConfig.last_instance = self
+
+
+class _FakeTransformers(types.ModuleType):
+    def __init__(self) -> None:
+        super().__init__("transformers")
+        self.AutoModelForCausalLM = _FakeAutoModelForCausalLM
+        self.AutoTokenizer = _FakeAutoTokenizer
+        self.BitsAndBytesConfig = _FakeBitsAndBytesConfig
+
 
 class _RaisingModel:
     device = "cuda:0"
@@ -159,10 +208,7 @@ class TestKaggleQwenBackend:
         heavy = {"torch", "transformers", "accelerate", "bitsandbytes"}
         found: list[str] = []
         for node in tree.body:
-            if isinstance(node, ast.Import):
-                hit = {a.name.split(".")[0] for a in node.names} & heavy
-                found.extend(sorted(hit))
-            elif isinstance(node, ast.ImportFrom):
+            if isinstance(node, (ast.Import, ast.ImportFrom)):
                 hit = {a.name.split(".")[0] for a in node.names} & heavy
                 found.extend(sorted(hit))
         assert not found, f"top-level heavy imports in backend module: {sorted(set(found))}"
@@ -250,22 +296,102 @@ class TestKaggleQwenBackend:
         assert torch_mod._seed == 0, "run_probe must seed torch deterministically"
 
 
-class TestR7CInt8Quantization:
-    """R7C-REAL-RUN-ROOT-CLOSURE: frozen int8 backend contract."""
+def _write_qwen_config(
+    path: Path,
+    *,
+    model_type: str = "qwen2",
+    hidden_size: int,
+    num_hidden_layers: int,
+    num_attention_heads: int,
+    quantization_config: dict[str, Any] | None = None,
+) -> None:
+    import json
 
-    def test_default_quantization_mode_is_int8(self) -> None:
+    config: dict[str, Any] = {
+        "model_type": model_type,
+        "hidden_size": hidden_size,
+        "num_hidden_layers": num_hidden_layers,
+        "num_attention_heads": num_attention_heads,
+    }
+    if quantization_config is not None:
+        config["quantization_config"] = quantization_config
+    path.mkdir(parents=True, exist_ok=True)
+    (path / "config.json").write_text(json.dumps(config), encoding="utf-8")
+
+
+def _seven_b_checkpoint(tmp_path: Path) -> Path:
+    checkpoint = tmp_path / "qwen2.5-coder-7b-instruct"
+    _write_qwen_config(
+        checkpoint,
+        hidden_size=3584,
+        num_hidden_layers=28,
+        num_attention_heads=28,
+    )
+    return checkpoint
+
+
+def _fourteen_b_checkpoint(tmp_path: Path) -> Path:
+    checkpoint = tmp_path / "qwen2.5-coder-14b-instruct"
+    _write_qwen_config(
+        checkpoint,
+        hidden_size=5120,
+        num_hidden_layers=40,
+        num_attention_heads=40,
+    )
+    return checkpoint
+
+
+class TestR7CQuantization:
+    """R7C-REAL-RUN-ROOT-CLOSURE: frozen quantization + identity contract."""
+
+    def test_default_quantization_mode_is_bnb_int8(self) -> None:
         backend = KaggleQwenBackend()
-        assert backend.quantization_mode == "int8"
+        assert backend.quantization_mode == "bnb-int8"
 
-    def test_model_identity_is_frozen_qwen_1_int8(self) -> None:
-        assert KaggleQwenBackend().model_identity == "qwen:1:int8"
-        assert KaggleQwenBackend(quantization_mode="fp16").model_identity == "qwen:1:fp16"
+    def test_model_identity_is_checkpoint_and_quantization_aware(
+        self, tmp_path: Path
+    ) -> None:
+        seven_b = _seven_b_checkpoint(tmp_path)
+        fourteen_b = _fourteen_b_checkpoint(tmp_path)
+
+        id_7b = KaggleQwenBackend(model_path=str(seven_b)).model_identity
+        id_14b_int8 = KaggleQwenBackend(model_path=str(fourteen_b)).model_identity
+        id_14b_nf4 = KaggleQwenBackend(
+            model_path=str(fourteen_b), quantization_mode="bnb-nf4"
+        ).model_identity
+        id_14b_fp16 = KaggleQwenBackend(
+            model_path=str(fourteen_b), quantization_mode="fp16"
+        ).model_identity
+
+        assert id_7b != id_14b_int8
+        assert id_14b_int8 != id_14b_nf4
+        assert id_14b_int8 != id_14b_fp16
+        assert id_14b_int8 != id_7b
+        assert "bnb-int8" in id_7b
+        assert "bnb-nf4" in id_14b_nf4
+        assert "14b" in id_14b_nf4 or "qwen2.5-coder-14b-instruct" in id_14b_nf4
+
+    def test_nf4_identity_is_not_colliding_with_legacy_7b_int8(
+        self, tmp_path: Path
+    ) -> None:
+        fourteen_b = _fourteen_b_checkpoint(tmp_path)
+        identity = KaggleQwenBackend(
+            model_path=str(fourteen_b), quantization_mode="bnb-nf4"
+        ).model_identity
+        assert identity != "qwen:1:int8"
+        assert not identity.startswith("qwen:1:")
+
+    def test_model_identity_requires_model_path(self) -> None:
+        with pytest.raises(ModelBackendError, match="model_path"):
+            _ = KaggleQwenBackend().model_identity
 
     def test_rejects_unsupported_quantization_modes(self) -> None:
-        with pytest.raises(ModelBackendError, match="int8"):
+        with pytest.raises(ModelBackendError, match="bnb-int8"):
             KaggleQwenBackend(quantization_mode="int4")
-        with pytest.raises(ModelBackendError, match="int8"):
+        with pytest.raises(ModelBackendError, match="bnb-int8"):
             KaggleQwenBackend(quantization_mode="fp8")
+        with pytest.raises(ModelBackendError, match="bnb-int8"):
+            KaggleQwenBackend(quantization_mode="gptq")
 
     def test_canonical_alloc_conf_set(self, monkeypatch: pytest.MonkeyPatch) -> None:
         import benchmark.llm.kaggle_qwen_backend as mod
@@ -280,6 +406,90 @@ class TestR7CInt8Quantization:
         monkeypatch.setattr(backend, "_ensure_loaded", lambda: calls.append("ensure"))
         backend.load()
         assert calls == ["ensure"]
+
+
+class TestKaggleQuantizationLoad:
+    """Quantization-aware model load: BNB int8, BNB NF4, fp16, and fail-fast."""
+
+    def _install_runtime_fakes(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        monkeypatch.setitem(sys.modules, "transformers", _FakeTransformers())
+        _FakeAutoTokenizer.calls = 0
+        _FakeAutoModelForCausalLM.calls = 0
+        _FakeBitsAndBytesConfig.last_kwargs = {}
+        _FakeBitsAndBytesConfig.last_instance = None
+
+    def test_bnb_nf4_load_uses_canonical_nf4_profile(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._install_runtime_fakes(monkeypatch)
+        checkpoint = _fourteen_b_checkpoint(tmp_path)
+        backend = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="bnb-nf4"
+        )
+        backend._load_model()
+        assert _FakeBitsAndBytesConfig.last_kwargs == {
+            "load_in_4bit": True,
+            "bnb_4bit_quant_type": "nf4",
+            "bnb_4bit_compute_dtype": "float16",
+            "bnb_4bit_use_double_quant": True,
+        }
+        assert _FakeAutoModelForCausalLM.last_kwargs["quantization_config"] is _FakeBitsAndBytesConfig.last_instance
+
+    def test_bnb_int8_load_uses_load_in_8bit(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._install_runtime_fakes(monkeypatch)
+        checkpoint = _seven_b_checkpoint(tmp_path)
+        backend = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="bnb-int8"
+        )
+        backend._load_model()
+        assert _FakeBitsAndBytesConfig.last_kwargs == {"load_in_8bit": True}
+
+    def test_fp16_load_uses_float16_dtype_without_bnb(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._install_runtime_fakes(monkeypatch)
+        checkpoint = _fourteen_b_checkpoint(tmp_path)
+        backend = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="fp16"
+        )
+        backend._load_model()
+        assert _FakeAutoModelForCausalLM.last_kwargs["torch_dtype"] == "float16"
+        assert "quantization_config" not in _FakeAutoModelForCausalLM.last_kwargs
+
+    def test_prequantized_gptq_checkpoint_is_rejected_before_from_pretrained(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._install_runtime_fakes(monkeypatch)
+        checkpoint = _fourteen_b_checkpoint(tmp_path)
+        _write_qwen_config(
+            checkpoint,
+            hidden_size=5120,
+            num_hidden_layers=40,
+            num_attention_heads=40,
+            quantization_config={"quant_method": "gptq"},
+        )
+        backend = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="bnb-nf4"
+        )
+        with pytest.raises(ModelBackendError, match="PREQUANTIZED_CHECKPOINT_INCOMPATIBLE"):
+            backend._load_model()
+        assert _FakeAutoTokenizer.calls == 0, "tokenizer must not load before fail-fast"
+        assert _FakeAutoModelForCausalLM.calls == 0, "model must not load before fail-fast"
+
+    def test_unquantized_checkpoint_loads_under_bnb_modes(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._install_runtime_fakes(monkeypatch)
+        checkpoint = _fourteen_b_checkpoint(tmp_path)
+        backend = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="bnb-nf4"
+        )
+        backend._load_model()
+        assert backend._loaded is True
+        assert _FakeAutoModelForCausalLM.calls == 1
 
 
 class TestCleanup:
