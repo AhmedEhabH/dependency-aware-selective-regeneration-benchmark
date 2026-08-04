@@ -7,9 +7,10 @@
 ```text
 R4 = accepted and frozen (f5ae826)
 R5 = accepted and frozen (7761c48)
-R6 = ACCEPTED AND FROZEN (949e9c2) — freeze record and milestone-branch publication authorized
+R6 = ACCEPTED AND FROZEN (949e9c2) - freeze record and milestone-branch publication authorized
 Push = published (upstream set, local/remote equality verified)
-Selective calibration canary = EXECUTED (exp-20260804-133523, source/build 50ec2c1) — failed model_output, 0 files written; harness controls verified, Qwen quality unchanged
+Selective calibration canary = EXECUTED (exp-20260804-133523, source/build 50ec2c1) - failed model_output, 0 files written; harness controls verified, Qwen quality unchanged
+Qwen 14B BNB-NF4 canary preparation = COMPLETE (2026-08-05) - Commit A 0ece665 + Commit B 0a596b8, pushed, local = remote, tree clean; model-aware identity qwen:<basename>:<mode>:cfg-<12hex> replaces qwen:1:int8 (blocks auto-resume cross-model contamination); bnb-nf4 profile added; notebook pinned to unquantized 14b-instruct/1 with fail-closed canary preflight gate; full suite 1,877 passed / 32 skipped / 0 failed; next action = Kaggle engineering preflight ONLY
 Real Smoke = 0/9 (local scripted 9/9; bundled CLI dry-run 9/9; 1 dedicated canary record accepted, 0 successful)
 Tag = v2.0.0-scientific-smoke after real-result audit
 Pilot = denominator not frozen; not authorized

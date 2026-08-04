@@ -1,3 +1,78 @@
+# Qwen 14B BNB-NF4 Canary Preparation — Latest Phase Report
+
+## Executive decision
+
+The Qwen 14B BNB-NF4 canary preparation closure is **complete** on branch
+`fix/kaggle-smoke-v2-model-output-closure` (Commit A `0ece665` + Commit B
+`0a596b8`, pushed, local = remote, tree clean). The frozen model-blind
+`qwen:1:int8` identity has been replaced with a deterministic model-aware
+identity, an explicit `bnb-nf4` profile exists, prequantized-checkpoint
+conflicts fail fast before model load, and the notebook is pinned to the
+official unquantized 14B base checkpoint with a fail-closed canary preflight
+gate. **Next authorized action = Kaggle engineering preflight only.**
+
+## Why this closure existed
+
+- The generic auto-resume cell downloaded `exp-20260804-133016` because both
+  the 7B and an attempted 14B run were labeled `qwen:1:int8` — identity
+  contamination, not a 14B result.
+- An attempted 14B GPTQ checkpoint run (`exp-20260804-195126`) produced
+  0 records / 0 calls / 0 tokens: the preflight failed before the model probe
+  because a `GPTQConfig` checkpoint cannot be loaded by the `BitsAndBytesConfig`
+  loader. Preserved as engineering evidence; GPTQ support is deferred.
+
+## What changed
+
+- **Identity:** `qwen:<checkpoint-basename>:<quantization>:cfg-<12hex>`, computed
+  before auto-resume from `config.json` fields (model_type, hidden_size,
+  num_hidden_layers, num_attention_heads) + requested mode + checkpoint
+  quantization method. 7B bnb-int8 / 14B bnb-int8 / 14B bnb-nf4 always differ;
+  historical `qwen:1:int8` records preserved.
+- **Profiles:** canonical modes `bnb-int8` / `bnb-nf4` / `fp16` via
+  `--qwen-quantization` (default `bnb-int8`, unknown values exit 2). NF4 =
+  `load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=
+  torch.float16, bnb_4bit_use_double_quant=True` (Tesla T4).
+- **Fail-fast:** a prequantized non-bitsandbytes checkpoint raises
+  `PREQUANTIZED_CHECKPOINT_INCOMPATIBLE` before tokenizer/model load; no
+  automatic fallback.
+- **Notebook:** pinned to the unquantized `14b-instruct/1` base checkpoint
+  (never `14b-instruct-gptq-int4`), `QWEN_QUANTIZATION = "bnb-nf4"`,
+  `RUN_GENERIC_ONE_RUN = False`, isolated
+  `/kaggle/working/runs/qwen14b_bnb_nf4_selective_canary`, a fail-closed
+  canary preflight assertion, `--strategy selective --max-runs 1
+  --new-experiment`, no `--auto-resume-hf`. Notebook identity
+  `SOURCE_COMMIT = 0ece665ef25e1b0ca3aa14f5f25977cadbd06d0c` /
+  `DEPLOYED_BUILD_ID = 0ece665`.
+
+## Gate totals
+
+```text
+Dataset Validation      PASS   27 scenario files / 27 unique IDs / 0 duplicates / 3 smoke IDs; zero dataset changes in closure
+Prompt Validation       PASS   380 passed / 10 skipped / 0 failed
+Pipeline Smoke Test     PASS   189 passed / 12 skipped / 0 failed
+Scripted 9-record Dry   PASS   9/9 succeeded / 0 failed / exit 0 (scientific-smoke-v2, fresh dir)
+Complete Integration    PASS   1,877 passed / 32 skipped / 0 failed (full tests suite, 631.20 s)
+Metric Verification     PASS   169 passed / 0 failed
+Ruff                    PASS   0 new findings (21 pre-existing)
+strict mypy             PASS   0 new findings (5 pre-existing, identical rule set to self-contained HEAD baseline)
+compileall              PASS   8 changed Python files compile
+Notebook compilation    PASS   canonical 8/8 + bundled 8/8 code cells compile
+builder/manifests       PASS   147 files / 962,188 bytes; rerun content-identical; manifests verified; no cache files
+```
+
+## Commit hashes and remote equality
+
+```text
+commit A = 0ece665ef25e1b0ca3aa14f5f25977cadbd06d0c  fix(model): add model-aware Qwen BNB quantization profiles
+commit B = 0a596b83bd971aacad52806461c237a72784eaef  chore(deploy): pin Qwen 14B NF4 selective-canary bundle
+local HEAD = remote HEAD = 0a596b8 (pushed; working tree clean)
+```
+
+Record: `selective_updates/records/QWEN14B-BNB-NF4-CANARY-READINESS.md`.
+Sentinel: `QWEN14B_NF4_CANARY_READINESS_AUDIT_REQUIRED`.
+
+---
+
 # Selective Calibration Canary Result — Latest Phase Report
 
 ## Executive decision
