@@ -6,7 +6,7 @@
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Protocol](https://img.shields.io/badge/Research%20Protocol-v1.0%20Frozen-success.svg)](PROTOCOL_VERSION.md)
-[![Tests](https://img.shields.io/badge/tests-1%2C856%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-1%2C877%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
 ## Overview
@@ -240,6 +240,7 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | R7C real-run root closure | Complete + corrected twice (`7a80e53` + `f01b8f0`; first correction `ffa179a` + `6d6aa36`; independent post-gate correction `6f88823` + `5797fc0`, HEAD `5797fc0`) — repair eligibility + preflight bootstrap corrected; final independent full-gate audit required |
 | Deterministic interpreter closure | Complete (`aac9914` + `311e084`) — bare interpreter tokens bound to the active runtime at the post-generation execution boundary |
 | Pre-benchmark reproducibility closure | Complete and green (`769d84e` + `e5d9430` declarations; deployment-only correction `f8d00d7`, HEAD `f8d00d7`, pushed) — dependencies fully declared in `pyproject.toml [dev]` + `requirements-dev.txt`; clean env recreated from declarations only; the previous `76a6b16` gate had 1 failure (structural notebook-pin identity test, reported truthfully, not forced green — root cause: declaration change to `pyproject.toml` after the `aac9914`/`311e084` pin; no runtime/prompt/metric/scenario/evaluator/data change needed); `f8d00d7` re-pins the deployment (SOURCE_COMMIT=`e5d9430`, DEPLOYED_BUILD_ID=`e5d9430`, bundled pyproject.toml byte-identical to canonical); complete clean suite now green: 1,834 passed / 32 skipped / 0 failed |
+| Qwen 14B BNB-NF4 canary preparation | Complete (`0ece665` Commit A + `0a596b8` Commit B, pushed, local = remote, tree clean) — model-aware identity `qwen:<checkpoint-basename>:<quantization>:cfg-<12hex>` replaces the frozen `qwen:1:int8` (blocking auto-resume cross-model contamination); explicit `bnb-nf4` profile (`load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16, bnb_4bit_use_double_quant=True` on T4); canonical modes `bnb-int8`/`bnb-nf4`/`fp16` via `--qwen-quantization`; prequantized-checkpoint fail-fast before model load; notebook pinned to the unquantized `14b-instruct/1` base checkpoint with `QWEN_QUANTIZATION = "bnb-nf4"`, an isolated `qwen14b_bnb_nf4_selective_canary` output dir, a fail-closed canary preflight gate, and `RUN_GENERIC_ONE_RUN = False`; the failed 14B GPTQ attempt (`exp-20260804-195126`, 0 records / 0 calls / 0 tokens, preflight failed before probe — GPTQConfig vs BitsAndBytesConfig conflict) and the `qwen:1:int8` auto-resume contamination are preserved as engineering evidence; full suite **1,877 passed / 32 skipped / 0 failed**; zero new Ruff/mypy findings; notebook source identity `SOURCE_COMMIT=0ece665` / `DEPLOYED_BUILD_ID=0ece665`; next action = Kaggle engineering preflight only for 14B bnb-nf4 |
 | Kaggle relaunch + nine real Qwen records | Blocked until the independent pre-benchmark audit and the final full-gate audit pass; next authorized action is the engineering preflight cell only, not the scientific One-Run cell |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
@@ -323,6 +324,28 @@ runtime commit `aac9914`, bundle pin `311e084`, declaration commits `769d84e` +
 > successful = 0; the full 9-record experiment is NOT run; no merge/tag/Pilot/
 > Kaggle authorized; no stable release claimed. Record:
 > `selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md`.
+> **QWEN 14B BNB-NF4 CANARY PREPARATION COMPLETE (2026-08-05):** model-aware
+> identity `qwen:<checkpoint-basename>:<quantization>:cfg-<12hex>` (derived from
+> `config.json` fields + requested mode + checkpoint quantization method, no
+> weight loading) replaces the frozen `qwen:1:int8`, so auto-resume can no
+> longer cross-contaminate 7B and 14B executions. The 14B checkpoint is the
+> official unquantized `Qwen2.5-Coder-14B-Instruct` loaded with
+> `bnb-nf4` (`load_in_4bit=True, bnb_4bit_quant_type="nf4",
+> bnb_4bit_compute_dtype=torch.float16, bnb_4bit_use_double_quant=True`, T4).
+> A prequantized checkpoint (e.g. GPTQ) fails fast before model load with
+> `PREQUANTIZED_CHECKPOINT_INCOMPATIBLE`; no fallback. The failed 14B GPTQ
+> attempt (`exp-20260804-195126`: 0 records / 0 calls / 0 tokens, preflight
+> failed before the probe — GPTQConfig + BitsAndBytesConfig conflict) and the
+> auto-resume contamination (downloaded `exp-20260804-133016` because 7B and
+> attempted 14B were both `qwen:1:int8`) are preserved engineering evidence.
+> The notebook is pinned to `14b-instruct/1` with `QWEN_QUANTIZATION = "bnb-nf4"`,
+> an isolated `qwen14b_bnb_nf4_selective_canary` output dir, a fail-closed
+> canary preflight assertion, `RUN_GENERIC_ONE_RUN = False`, and no
+> `--auto-resume-hf`. Full suite **1,877 passed / 32 skipped / 0 failed**;
+> zero new Ruff/mypy findings; notebook identity `SOURCE_COMMIT=0ece665` /
+> `DEPLOYED_BUILD_ID=0ece665`. Record:
+> `selective_updates/records/QWEN14B-BNB-NF4-CANARY-READINESS.md`. Sentinel:
+> `QWEN14B_NF4_CANARY_READINESS_AUDIT_REQUIRED`.
 
 ## Implemented Components
 

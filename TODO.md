@@ -1,5 +1,37 @@
 # TODO
 
+## Current - Qwen 14B BNB-NF4 Canary Preparation
+
+### Q14-01 - Model-Aware Qwen Identity
+- **Priority:** HIGH
+- **Category:** Controls
+- **Description:** Commit A `0ece665` (pushed) replaced the frozen, model-blind `qwen:1:int8` identity with `qwen:<checkpoint-basename>:<quantization>:cfg-<12hex>`, derived before auto-resume from `config.json` fields (model_type, hidden_size, num_hidden_layers, num_attention_heads) + requested mode + checkpoint quantization method + SHA-256 (first 12 hex). 7B bnb-int8 / 14B bnb-int8 / 14B bnb-nf4 now always produce distinct identities; auto-resume and checkpoint validation reject any mismatch; historical `qwen:1:int8` records preserved. This closes the auto-resume contamination that downloaded `exp-20260804-133016` for an attempted 14B run.
+- **Status:** COMPLETE (commit 0ece665, pushed)
+
+### Q14-02 - Explicit BNB-NF4 Profile
+- **Priority:** HIGH
+- **Category:** Controls
+- **Description:** Commit A `0ece665` (pushed) added canonical modes `bnb-int8` / `bnb-nf4` / `fp16` with CLI `--qwen-quantization` (default `bnb-int8`, unknown values exit 2). NF4 = `load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16, bnb_4bit_use_double_quant=True` (Tesla T4). A prequantized non-bitsandbytes checkpoint (e.g. GPTQ) fails fast before tokenizer/model load with `PREQUANTIZED_CHECKPOINT_INCOMPATIBLE`; no automatic fallback. The failed 14B GPTQ attempt (`exp-20260804-195126`, 0 records / 0 calls / 0 tokens, preflight failed before the probe — GPTQConfig + BitsAndBytesConfig conflict) is preserved engineering evidence; GPTQ support is deferred.
+- **Status:** COMPLETE (commit 0ece665, pushed)
+
+### Q14-03 - 14B BNB-NF4 Canary Notebook
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** Commit B `0a596b8` (pushed) pinned the notebook to the unquantized `/kaggle/input/models/qwen-lm/qwen2.5-coder/transformers/14b-instruct/1` (never `14b-instruct-gptq-int4`) with `QWEN_QUANTIZATION = "bnb-nf4"`, `RUN_GENERIC_ONE_RUN = False`, isolated output `/kaggle/working/runs/qwen14b_bnb_nf4_selective_canary`, a fail-closed canary preflight assertion (preflight passed, expected 14B identity, bnb-nf4, checkpoint not prequantized, GPU-only device map, free-VRAM threshold), `--strategy selective --max-runs 1 --new-experiment`, and no `--auto-resume-hf`. Notebook identity `SOURCE_COMMIT = 0ece665ef25e1b0ca3aa14f5f25977cadbd06d0c` / `DEPLOYED_BUILD_ID = 0ece665`; bundle rebuilt (147 files / 962,188 bytes), rerun content-identical, manifests verified.
+- **Status:** COMPLETE (commit 0a596b8, pushed)
+
+### Q14-04 - Full Gate and Readiness Record
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Full suite **1,877 passed / 32 skipped / 0 failed**; Dataset Validation PASS (27 scenarios / 27 unique IDs / zero closure dataset changes); Prompt Validation 380 passed; Pipeline Smoke 189 passed; Scripted 9-record dry run 9/9 exit 0; Metric Verification 169 passed; Ruff 0 new (21 pre-existing); strict mypy 0 new (5 pre-existing, identical rule set to a self-contained HEAD baseline); compileall clean; notebook cells compile 8/8 canonical + 8/8 bundled; no cache files. Recorded at `selective_updates/records/QWEN14B-BNB-NF4-CANARY-READINESS.md`.
+- **Status:** COMPLETE (commit <new> — this documentation commit, pushed)
+
+### Q14-05 - Next Action - Kaggle Preflight Only
+- **Priority:** HIGH
+- **Category:** Scientific Evidence
+- **Description:** Only the Kaggle engineering preflight for the 14B bnb-nf4 profile is authorized next (after the independent readiness audit if required). No scientific canary/9-record run, merge, tag, or Pilot. Sentinel `QWEN14B_NF4_CANARY_READINESS_AUDIT_REQUIRED`.
+- **Status:** PENDING
+
 ## Current - Selective Calibration Canary Result
 
 ### SCC-01 - Execute Dedicated Selective Calibration Canary
