@@ -1,5 +1,25 @@
 # TODO
 
+## Current - Selective Calibration Canary Result
+
+### SCC-01 - Execute Dedicated Selective Calibration Canary
+- **Priority:** HIGH
+- **Category:** Scientific Evidence
+- **Description:** The dedicated selective calibration canary cell ran on Kaggle under source/build `50ec2c1`. Result `exp-20260804-133523` (`todo-smoke-001 / selective`): **failed / `model_output`**, 4 model calls / 5,804 tokens / 257.596 s / 3 selected / 2 preserved / **0 written**; initial 3 calls / 3,372 tokens; repair 1 call / 2,432 tokens (first repair byte-identical → `repair_no_progress` stopped the round); atomic application wrote zero files; HF `recovery_uploaded`; checkpoint 1 completed / 2 pending. Defects: `todo/models.py` `max_length=5` (MEDIUM length 6); duplicated `Priority(models.TextChoices)` in `todo/serializers.py` and `todo/views.py`. Vs previous selective run: 41.6% fewer tokens / 33.3% fewer calls / 22.4% faster, but initial generation tokens (3,372) and output hashes **identical** → harness safety controls worked; Qwen code quality unchanged. Incidental monolithic `exp-20260804-133016` (6 calls / 7,927 tokens / 300.165 s / `scientific_budget_exhausted`) is diagnostic only, NOT an accepted comparison. Continuous cell blocked fail-closed by `CALIBRATION_REVIEW_REQUIRED`. Full 9-record experiment NOT run; no merge/tag/Pilot/Kaggle authorized; no stable release claimed.
+- **Status:** COMPLETE (2026-08-04)
+
+### SCC-02 - Independent Audit of Canary Results
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent audit of the canary results (truth of exp-20260804-133523, harness-control verification, harness-vs-model conclusion). After the audit, a deliberate decision: repeat the dedicated selective canary OR proceed to the full 9-record run. Do not merge/tag/Pilot/fine-tune.
+- **Status:** PENDING (sentinel `SELECTIVE_CANARY_RESULT_AUDIT_REQUIRED`)
+
+### SCC-03 - Document Canary Result (docs + ledgers only)
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Record truthfully: dedicated canary exp-20260804-133523; source/build 50ec2c1; 4 calls / 5,804 tokens / 257.596 s; 3 selected / 2 preserved / 0 written; failure `model_output`; defects in models/serializers/views; `repair_no_progress` after first identical repair; comparison vs previous selective run (41.6% / 33.3% / 22.4%); incidental monolithic run diagnostic only; continuous cell fail-closed; accepted dedicated canary records = 1, successful = 0. Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md (new), selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md; commit as `docs(results): record selective calibration canary outcome`
+- **Status:** COMPLETE (commit <new>, pushed)
+
 ## Current - Final Selective Canary Readiness Closure
 
 ### FSR-01 - Close Blocker 1: Per-Call Cooperative Deadline
@@ -30,7 +50,7 @@
 - **Priority:** HIGH
 - **Category:** Documentation
 - **Description:** Record truthfully: f727b3e full suite was green but the independent audit rejected canary readiness; direct timeout repro (3 calls and false success after deadline); direct atomic metric repro (0 writes but count 1); generic one-run cell selected monolithic, not selective; exact Commit A/B hashes (50ec2c1, 28ecc5a); actual complete test totals (1,856 passed / 32 skipped / 0 failed); calibration exp-20260803-002741 remains preserved, 0/9 success; next action after independent audit = run the dedicated selective canary cell only. Do not claim a stable release. Update SYSTEM_STATE.md, README.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/records/SELECTIVE-CANARY-READINESS-CLOSURE.md (new); commit as `docs(audit): record final selective-canary readiness closure`
-- **Status:** IN PROGRESS
+- **Status:** COMPLETE (commit 25bfe04, pushed)
 
 ### FSR-06 - Independent Selective Canary Readiness Re-Audit
 - **Priority:** HIGH

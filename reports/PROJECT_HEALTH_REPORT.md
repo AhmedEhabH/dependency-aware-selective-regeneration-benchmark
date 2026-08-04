@@ -2,9 +2,9 @@
 
 **Report Date:** 2026-08-04
 **Project:** Dependency-Aware Selective Regeneration Benchmark
-**Branch:** `fix/kaggle-smoke-v2-model-output-closure` (HEAD `356722b`, pushed)
+**Branch:** `fix/kaggle-smoke-v2-model-output-closure` (HEAD `25bfe04`, pushed; selective calibration canary result ingested docs-only)
 **R4/R5/R6 status:** R4 ACCEPTED AND FROZEN (`f5ae826`); R5 ACCEPTED AND FROZEN (`7761c48`); R6 ACCEPTED AND FROZEN (`949e9c2`) by the final independent re-audit (GPT-5.6 Thinking, 2026-08-01); milestone branch **published** to origin (freeze commit `4b2dd27` = first publication HEAD, local/remote equality verified).
-**Post-R6:** two real Kaggle attempts failed pre-model (`exp-20260801-024041`, `exp-20260801-024624`; both 0 model calls); real runtime blockers closed and pinned — fix `de3163f`, bundle pin `fb60972` (core accepted by the independent runtime-fix audit); R7A hardening closed all four audit findings (source `d50e89e`, bundle `4c73db6`); a later real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0 regenerated files; the attempt `exp-20260801-123125` failed at runtime root (FP16 OOM + dependency drift). **R7B Smoke Finish complete (`bff0a82` + `17207bf`); R7C real-run root closure complete (`7a80e53` + `f01b8f0`) + correction imported (`ffa179a` + `6d6aa36`) + post-gate correction imported (`6f88823` + `5797fc0`, HEAD `5797fc0`, pushed); deterministic interpreter closure complete (`aac9914` + `311e084`); PRE-BENCHMARK FINAL SOURCE REPIN COMPLETE AND GREEN (`769d84e` + `e5d9430` declarations, deployment-only correction `f8d00d7`, HEAD `f8d00d7`, pushed) — previous `76a6b16` gate = 1,833 passed / 32 skipped / 1 failed (structural notebook-pin identity test, truthful, not forced green); complete clean suite then 1,834 passed / 32 skipped / 0 failed. POST-SMOKE CALIBRATION CLOSURE COMPLETE AND GREEN (`27c1693` runtime+tests, `56772fe` deployment pin, `231b0a5` test-fixture reconciliation; HEAD `231b0a5`, pushed, tree clean): four proven control defects closed — per-attempt atomic regeneration, repair no-progress detection, fail-closed calibration continuation gate, cooperative deadline semantics; first full gate's 9 failures = stale constant-output fixtures (not validly proven pre-existing), reconciled without changing any expectation; complete suite now **1,849 passed / 32 skipped / 0 failed**; mypy strict Success (77 files); ruff 93 = 93 baseline (0 new); bundle content-identical (147 files / 934,495 bytes). Calibration evidence `exp-20260803-002741` (9 records / 0 succeeded / 8 failed / 1 timed_out / 81 calls / 118,211 tokens) preserved, not accepted scientific evidence; latest real calibration = 0/9; no Kaggle rerun; no tag; Pilot not authorized; next action = one selective calibration canary only; sentinel `POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED`.**
+**Post-R6:** two real Kaggle attempts failed pre-model (`exp-20260801-024041`, `exp-20260801-024624`; both 0 model calls); real runtime blockers closed and pinned — fix `de3163f`, bundle pin `fb60972` (core accepted by the independent runtime-fix audit); R7A hardening closed all four audit findings (source `d50e89e`, bundle `4c73db6`); a later real attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0 regenerated files; the attempt `exp-20260801-123125` failed at runtime root (FP16 OOM + dependency drift). **R7B Smoke Finish complete (`bff0a82` + `17207bf`); R7C real-run root closure complete (`7a80e53` + `f01b8f0`) + correction imported (`ffa179a` + `6d6aa36`) + post-gate correction imported (`6f88823` + `5797fc0`, HEAD `5797fc0`, pushed); deterministic interpreter closure complete (`aac9914` + `311e084`); PRE-BENCHMARK FINAL SOURCE REPIN COMPLETE AND GREEN (`769d84e` + `e5d9430` declarations, deployment-only correction `f8d00d7`, HEAD `f8d00d7`, pushed) — previous `76a6b16` gate = 1,833 passed / 32 skipped / 1 failed (structural notebook-pin identity test, truthful, not forced green); complete clean suite then 1,834 passed / 32 skipped / 0 failed. POST-SMOKE CALIBRATION CLOSURE COMPLETE AND GREEN (`27c1693` runtime+tests, `56772fe` deployment pin, `231b0a5` test-fixture reconciliation; HEAD `231b0a5`, pushed, tree clean): four proven control defects closed — per-attempt atomic regeneration, repair no-progress detection, fail-closed calibration continuation gate, cooperative deadline semantics; first full gate's 9 failures = stale constant-output fixtures (not validly proven pre-existing), reconciled without changing any expectation; complete suite now **1,849 passed / 32 skipped / 0 failed**; mypy strict Success (77 files); ruff 93 = 93 baseline (0 new); bundle content-identical (147 files / 934,495 bytes). Calibration evidence `exp-20260803-002741` (9 records / 0 succeeded / 8 failed / 1 timed_out / 81 calls / 118,211 tokens) preserved, not accepted scientific evidence; latest real calibration = 0/9; no Kaggle rerun; no tag; Pilot not authorized; next action = one selective calibration canary only; sentinel `POST_SMOKE_CALIBRATION_CLOSURE_AUDIT_REQUIRED`.** **SELECTIVE CALIBRATION CANARY EXECUTED (2026-08-04):** the dedicated selective calibration canary ran under source/build `50ec2c1` — `exp-20260804-133523` (`todo-smoke-001 / selective`) **failed `model_output`**: 4 calls / 5,804 tokens / 257.596 s / 3 selected / 2 preserved / **0 written**; Qwen defects in `todo/models.py` (`max_length=5` vs MEDIUM length 6) and duplicated `Priority(models.TextChoices)` in `todo/serializers.py` + `todo/views.py`; first repair byte-identical → `repair_no_progress`; atomic write 0 files; vs previous selective run 41.6% fewer tokens / 33.3% fewer calls / 22.4% faster but identical initial generation tokens (3,372) and output hashes → **harness safety controls verified, Qwen code quality unchanged**; incidental monolithic `exp-20260804-133016` diagnostic only; continuous cell blocked fail-closed (`CALIBRATION_REVIEW_REQUIRED`); accepted dedicated canary records = 1, successful = 0; full 9-record experiment NOT run; no merge/tag/Pilot/Kaggle authorized; no stable release claimed; record `selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md`; sentinel `SELECTIVE_CANARY_RESULT_AUDIT_REQUIRED`.**
 
 ---
 
@@ -175,7 +175,7 @@ Benchmark data  = unchanged
 | Pre-benchmark reproducibility closure | COMPLETE AND GREEN (`769d84e` + `e5d9430` declarations; deployment-only correction `f8d00d7`, HEAD `f8d00d7`, pushed) — previous 76a6b16 gate 1,833 passed / 32 skipped / 1 failed (structural notebook-pin identity test, truthful, not forced green); complete clean suite now 1,834 passed / 32 skipped / 0 failed |
 | Post-smoke calibration closure | COMPLETE (`27c1693` + `56772fe` + `231b0a5`, HEAD `231b0a5`) — four control defects closed; suite 1,849 passed / 32 skipped / 0 failed; calibration exp-20260803-002741 preserved 0/9 |
 | Final selective canary readiness closure | COMPLETE (`50ec2c1` + `28ecc5a` + `356722b`, HEAD `356722b`, pushed) — audit at f727b3e REJECTED canary readiness; three blockers closed (per-call deadline, atomic metric truth, dedicated selective canary cell); suite 1,856 passed / 32 skipped / 0 failed; no stable release claimed; sentinel FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED |
-| Selective calibration canary | Blocked until the independent re-audit; next authorized action = run the dedicated selective canary cell only |
+| Selective calibration canary | EXECUTED (2026-08-04) — `exp-20260804-133523` (`todo-smoke-001 / selective`, source/build `50ec2c1`) failed `model_output`: 4 calls / 5,804 tokens / 257.596 s / 3 selected / 2 preserved / 0 written; `repair_no_progress` after byte-identical first repair; harness controls verified, Qwen code quality unchanged; incidental monolithic `exp-20260804-133016` diagnostic only; full 9-record experiment NOT run; no stable release claimed |
 | Pilot | Not authorized |
 | Research experiment | Planned |
 
@@ -190,7 +190,10 @@ Kaggle attempts                 = 2 failed pre-model (preserved, 0 model calls)
 Latest real attempt             = exp-20260801-123125 (FP16 → OOM; deps drifted)
 Historical experiment           = exp-20260801-210443 (ONE failed model-output terminal record
                                   under 6f88823 — preserved, excluded from current e5d9430 aggregation)
-Current real records            = 0/9
+Selective calibration canary     = exp-20260804-133523 (dedicated, todo-smoke-001 / selective,
+                                  source/build 50ec2c1, FAILED model_output, 0 files written — preserved)
+Incidental monolithic run        = exp-20260804-133016 (diagnostic evidence only, NOT an accepted comparison)
+Current real records            = 0/9 (1 accepted dedicated canary record, 0 successful)
 Real Qwen records               = 0/9
 Scientific evidence             = NONE (no real-model success yet)
 Real token/call/time comparison = unavailable
@@ -203,11 +206,11 @@ No real-model success or efficiency claim is authorized before the real Smoke re
 ---
 ## Near goal
 
-Independent re-audit of the final selective canary readiness closure (HEAD
-`356722b`). After that re-audit, the only authorized Kaggle action is running
-the **dedicated selective calibration canary cell** (output
-`runs/selective_calibration_canary`) — NOT the generic one-run cell, NOT the
-continuous cell, NOT a full relaunch, NOT a fine-tune, NOT a tag/merge.
+Independent audit of the selective calibration canary results
+(`SELECTIVE_CANARY_RESULT_AUDIT_REQUIRED`). After that audit, a deliberate
+decision between repeating the dedicated selective canary cell (output
+`runs/selective_calibration_canary`) and proceeding to the full 9-record run —
+NOT a merge/tag/Pilot, NOT a fine-tune, NOT a full relaunch.
 
 ## Far goal
 
@@ -217,10 +220,9 @@ paper evidence package.
 
 ## Next action
 
-Independent re-audit of HEAD `356722b`. After it passes, run the dedicated
-selective calibration canary cell only (one `todo-smoke-001 / selective` record,
-model identity `qwen:1:int8`, output `runs/selective_calibration_canary`). Do
-not run Kaggle, the generic one-run cell, or the continuous cell before the
-re-audit; do not tag, merge, or force-push.
+Independent audit of the canary results (HEAD `25bfe04`, `exp-20260804-133523`).
+After it passes, make a deliberate decision: repeat the dedicated selective
+canary cell OR proceed to the full 9-record run. Do not merge/tag/Pilot/fine-tune
+or relaunch Kaggle before the independent result audit.
 
-FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED
+SELECTIVE_CANARY_RESULT_AUDIT_REQUIRED
