@@ -1,3 +1,92 @@
+# Qwen 14B Multi-GPU VRAM Preflight Closure — Latest Phase Report
+
+## Executive decision
+
+The independent audit (`QWEN14B_MULTI_GPU_VRAM_PREFLIGHT_INDEPENDENT_AUDIT_2026-08-06.md`) accepted that the `897e323` state was full-suite green but rejected one preflight invariant: **VRAM headroom was measured and enforced on GPU 0 only**. The defect is **closed** on branch `fix/kaggle-smoke-v2-model-output-closure` (Commit A `f7b1ebb` + Commit B `c8f5685`, pushed, local = remote, tree clean). Official clean-env gate (`_workspace\cache\prebenchmark-py311-v4-loader`, Python 3.11.5 / pytest 8.4.2 exactly): full suite **1,915 passed / 32 skipped / 0 failed**, zero new static findings, and all five regression proofs pass. **Next authorized action after independent audit = Kaggle engineering preflight cell only.** No real 14B result and no stable release claimed.
+
+## Why this closure existed
+
+The old `_qwen_probe_metrics` in `src/benchmark/execution/preflight.py` read VRAM from GPU 0 only:
+
+```text
+torch.cuda.synchronize(0)
+torch.cuda.memory_allocated(0)
+torch.cuda.memory_reserved(0)
+torch.cuda.mem_get_info(0)
+```
+
+`free_vram_after_probe_gib` was that single device-0 value and `vram_headroom`
+compared only it against `MIN_FREE_VRAM_GIB = 2.0`. On a 2x Tesla T4 Kaggle
+runtime with `device_map="auto"`, the 14B bnb-nf4 model is distributed across
+both GPUs, so GPU 1 with under 2.0 GiB free was invisible to the gate.
+
+Exact reproduction (mandatory adversarial case from the audit):
+
+```text
+GPU0 free = 3.0 GiB   (>= 2.0)   -> old gate PASSED (read GPU 0 only)
+GPU1 free = 0.125 GiB (< 2.0)    -> corrected gate FAILS (GPU 1 free=0.12 GiB < 2.0 GiB)
+```
+
+## What changed
+
+- **Per-GPU snapshot type:** `GpuVramSnapshot` (frozen) — `device_index`,
+  `gpu_name`, `allocated_gib`, `reserved_gib`, `free_gib`, `total_gib`.
+- **`_collect_gpu_vram_snapshots()`:** iterates `range(torch.cuda.device_count())`,
+  synchronizes every device, reads `memory_allocated(i)` / `memory_reserved(i)` /
+  `mem_get_info(i)` per GPU; three-decimal GiB rounding; returns `()` when CUDA
+  unavailable; a failure on any one GPU is raised, never swallowed; no tensors
+  allocated.
+- **Probe metrics semantics:** called once after the probe; `gpu_vram_by_device`
+  persisted; `free_vram_after_probe_gib = min(snapshot.free_gib)`;
+  `allocated_vram_gib`/`reserved_vram_gib` = sums (three decimals);
+  `gpu_name` = device 0 name; `gpu_count` = visible GPU count; FAIL when
+  `gpu_count > 0` but no snapshots exist.
+- **Minimum-free gate:** every visible GPU must have `free_gib >= 2.0`;
+  `vram_headroom: PASS (minimum free across 2 GPU(s)=X.XX GiB)`; failures list
+  every failing device deterministically by index; free memory never
+  averaged/summed for the gate.
+- **Failure-path evidence:** `_static_model_metadata` includes
+  `gpu_vram_by_device`, so a failed load/probe still preserves the real per-GPU
+  count, names, and memory; probe tokens/footprint may stay zero; the preflight
+  still fails. No forced CUDA imports when dependency verification fails first.
+- **Result + JSON schema:** `KaggleSmokePreflightResult.gpu_vram_by_device:
+  tuple[GpuVramSnapshot, ...] = ()`; ordered per-GPU objects persisted in
+  `kaggle_smoke_preflight.v1` JSON; one concise human line per GPU; no existing
+  JSON field removed or renamed.
+
+## Gate totals (official clean env `_workspace\cache\prebenchmark-py311-v4-loader`, Python 3.11.5 / pytest 8.4.2)
+
+```text
+Complete Integration    PASS   1,915 passed / 32 skipped / 0 failed (500.22 s; +17 net new tests)
+Metric Verification     PASS   169 passed / 0 failed (test_r4_token_and_metrics + test_r4_metric_contract + test_statistics + test_reporting)
+Ruff                    PASS   0 new findings (86 pre-existing baseline in untouched files; changed files clean)
+strict mypy             PASS   Success in 77 source files (0 issues)
+compileall              PASS   clean (src, tests, scripts, seven_arm_benchmark.py)
+Notebook compilation    PASS   canonical + bundled code cells compile; source-commit identity test PASS (SOURCE_COMMIT=f7b1ebb)
+Bundle integration      PASS   32 passed (test_kaggle_bundle_smoke_v2_preflight.py against the repinned bundle)
+builder/manifests       PASS   147 files / 968,722 bytes; two consecutive builder runs content-identical; manifests verified; no cache files
+Regression proof 1      PASS   1 GPU with >= 2 GiB free -> vram_headroom PASS
+Regression proof 2      PASS   2 GPUs both >= 2 GiB free -> PASS (minimum free across 2 GPU(s))
+Regression proof 3      PASS   asymmetric GPU0 3.0 GiB / GPU1 0.125 GiB -> FAIL (the audit case)
+Regression proof 4      PASS   both GPUs low -> FAIL listing every failing device by index (0 then 1)
+Regression proof 5      PASS   failed model load preserves per-GPU snapshots via _static_model_metadata
+```
+
+## Commit hashes and remote equality
+
+```text
+commit A = f7b1ebba73b52868a95c47ef3806d3b09da16d93  fix(model): enforce multi-GPU VRAM headroom per visible GPU
+commit B = c8f56853437eb14211f6afcde6c621ade8cd0abd  chore(deploy): repin multi-GPU VRAM preflight bundle
+local HEAD = remote HEAD = c8f5685 (pushed; working tree clean)
+```
+
+The directive requested exact commit messages `fix(preflight): enforce per-GPU VRAM headroom` and `chore(deploy): repin multi-GPU Qwen preflight bundle`; the execution used the established `fix(model)` / `chore(deploy)` convention instead. Because the directive prohibits amend/rebase/force-push, history was not rewritten; the deviation is recorded truthfully in the closure record and does not alter shipped code, bundle, pins, or gate results.
+
+Record: `selective_updates/records/QWEN14B-MULTI-GPU-VRAM-PREFLIGHT-CLOSURE.md`.
+Sentinel: `QWEN14B_MULTI_GPU_VRAM_CLOSURE_AUDIT_REQUIRED`.
+
+---
+
 # Qwen 14B NF4 v4 Loader Official Gate — Latest Phase Report
 
 ## Executive decision
