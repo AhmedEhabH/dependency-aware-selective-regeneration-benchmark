@@ -1,3 +1,77 @@
+# Qwen 14B Final Preflight Closure — Latest Phase Report
+
+## Executive decision
+
+The three Qwen 14B preflight blockers independently reproduced on the
+`5ef6438` state are **closed** on branch `fix/kaggle-smoke-v2-model-output-closure`
+(Commit A `0aa705d` + Commit B `cc7846b`, pushed, local = remote, tree clean).
+The official gate ran in the declared clean environment (Python 3.11.9 /
+pytest 8.4.2): full suite **1,890 passed / 32 skipped / 0 failed**, zero new
+static findings, and both explicit regression proofs pass. **Next authorized
+action after independent audit = Kaggle engineering preflight cell only.** No
+real 14B result and no stable release claimed.
+
+## Why this closure existed
+
+The independent audit accepted that `5ef6438` was full-suite green but rejected
+it for real preflight after reproducing three defects:
+
+1. **Canary used `SELECTIVE_CANARY_OUTPUT_DIR` before assignment** — the
+   definition sat inside the `selective-calibration-canary` cell while
+   `CANARY_PREFLIGHT_DIR = SELECTIVE_CANARY_OUTPUT_DIR / "preflight"` was
+   computed earlier, so the canary cell raised `NameError` at run time.
+2. **Preflight incorrectly required exactly one visible GPU** — real 2×Tesla T4
+   Kaggle environments were rejected.
+3. **Numeric version dir produced a `qwen:1:*` readable identity** — e.g.
+   `/kaggle/input/models/qwen-lm/qwen2.5-coder/transformers/14b-instruct/1`
+   produced `qwen:1:...` because `path.name` was `"1"`.
+
+## What changed
+
+- **Fix A (notebook):** `SELECTIVE_CANARY_OUTPUT_DIR` definition moved to the
+  `setup-cell` (immediately after `OUTPUT_DIR`); duplicate assignment removed
+  from the canary cell. Order: setup defines → ... → canary cell uses.
+- **Fix B (preflight):** `EXPECTED_VISIBLE_GPU_COUNTS = (1, 2)`; `1` or `2`
+  visible GPUs pass, else `FAIL (N; expected 1 or 2)`.
+- **Fix C (identity):** `_checkpoint_identity_slug` maps a numeric final dir to
+  `<parent>-v<version>` (e.g. `14b-instruct/1` → `14b-instruct-v1`,
+  `7b-instruct/1` → `7b-instruct-v1`), lowercased/sanitized to `[a-z0-9._-]`,
+  used by `compute_model_identity` and `checkpoint_basename`. Real identities
+  read `qwen:14b-instruct-v1:bnb-nf4:cfg-<12hex>` — never `qwen:1:*`.
+
+## Gate totals (declared clean environment — Python 3.11.9 / pytest 8.4.2)
+
+```text
+Dataset Validation      PASS   285 passed / 5 skipped
+Prompt Validation       PASS   174 passed / 0 failed
+Pipeline Smoke Test     PASS   223 passed / 12 skipped / 0 failed
+Scripted 9-record Dry   PASS   9 planned / 9 terminal / 9 succeeded / 0 failed / exit 0; dashboard + evidence files present
+Complete Integration    PASS   1,890 passed / 32 skipped / 0 failed (the only official full-suite gate; 584.37 s)
+Metric Verification     PASS   169 passed / 0 failed
+Ruff                    PASS   0 new findings (91 pre-existing baseline in untouched files; changed files clean)
+strict mypy             PASS   Success in 77 source files (0 issues)
+compileall              PASS   clean
+Notebook compilation    PASS   canonical 8/8 + bundled 8/8 code cells compile
+builder/manifests       PASS   147 files / 963,067 bytes; rerun content-identical; manifests verified; no cache files
+Regression proof 1      PASS   2-GPU otherwise-valid preflight = PASS
+Regression proof 2      PASS   canary setup reaches subprocess construction without NameError
+```
+
+The ambient pytest 9.1.1 result is diagnostic only and never the official gate.
+
+## Commit hashes and remote equality
+
+```text
+commit A = 0aa705d1c071827421461922c24f59f45fced029  fix(model): close Qwen 14B Kaggle preflight blockers
+commit B = cc7846b152a83ae8ea6cfb6b6d56ae1c0f8733a6  chore(deploy): repin final Qwen 14B preflight bundle
+local HEAD = remote HEAD = cc7846b (pushed; working tree clean)
+```
+
+Record: `selective_updates/records/QWEN14B-FINAL-PREFLIGHT-CLOSURE.md`.
+Sentinel: `QWEN14B_FINAL_PREFLIGHT_CLOSURE_AUDIT_REQUIRED`.
+
+---
+
 # Qwen 14B BNB-NF4 Canary Preparation — Latest Phase Report
 
 ## Executive decision
