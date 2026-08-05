@@ -32,6 +32,7 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 MIN_FREE_VRAM_GIB = 2.0
+EXPECTED_VISIBLE_GPU_COUNTS = (1, 2)
 PROBE_MAX_TOKENS = 64
 PROBE_PROMPT = "def add(a, b):\n    return a + b\n"
 CANONICAL_ALLOC_CONF = "expandable_segments:True"
@@ -316,10 +317,11 @@ def run_kaggle_smoke_preflight(
             else:
                 checks.append(f"device_map_gpu_only: FAIL ({device_map or 'missing'})")
             gpu_count = int(probe_metrics.get("gpu_count", 0) or 0)
-            if gpu_count == 1:
-                checks.append("gpu_count_expected: PASS (1)")
+            if gpu_count in EXPECTED_VISIBLE_GPU_COUNTS:
+                checks.append(f"gpu_count_expected: PASS ({gpu_count})")
             else:
-                checks.append(f"gpu_count_expected: FAIL ({gpu_count})")
+                expected = " or ".join(str(c) for c in EXPECTED_VISIBLE_GPU_COUNTS)
+                checks.append(f"gpu_count_expected: FAIL ({gpu_count}; expected {expected})")
             checkpoint_method = str(probe_metrics.get("checkpoint_quantization_method", "") or "")
             if not checkpoint_method:
                 checks.append("checkpoint_not_prequantized: PASS")

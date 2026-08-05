@@ -6,6 +6,7 @@ import hashlib
 import json
 import logging
 import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -154,6 +155,21 @@ def _checkpoint_quantization_method(config: dict[str, Any]) -> str:
     return method.strip().lower()
 
 
+def _checkpoint_identity_slug(model_path: Path) -> str:
+    """Deterministic ASCII-safe checkpoint slug used in model identity.
+
+    A numeric final path component is a Kaggle model-version directory; the
+    slug then combines the parent model directory name and the version (for
+    example ``14b-instruct-v1``). Any other directory keeps its basename. The
+    slug is lowercased and sanitized to ``[a-z0-9._-]`` with any other run of
+    characters replaced by ``-``.
+    """
+    name = model_path.name
+    if name.isdigit():
+        name = f"{model_path.parent.name}-v{name}"
+    return re.sub(r"[^a-z0-9._-]+", "-", name.strip().lower())
+
+
 def compute_model_identity(model_path: str | Path, quantization_mode: str = "bnb-int8") -> str:
     """Compute a checkpoint-and-quantization-aware Qwen model identity.
 
@@ -171,8 +187,9 @@ def compute_model_identity(model_path: str | Path, quantization_mode: str = "bnb
         raise ModelBackendError("model_path is required to compute the Kaggle Qwen model identity")
     path = Path(model_path)
     config = _read_checkpoint_config(path)
+    slug = _checkpoint_identity_slug(path)
     payload = {
-        "checkpoint_basename": path.name,
+        "checkpoint_basename": slug,
         "model_type": str(config.get("model_type", "")),
         "hidden_size": int(config.get("hidden_size", 0)),
         "num_hidden_layers": int(config.get("num_hidden_layers", 0)),
@@ -183,7 +200,7 @@ def compute_model_identity(model_path: str | Path, quantization_mode: str = "bnb
     digest = hashlib.sha256(
         json.dumps(payload, sort_keys=True).encode("utf-8")
     ).hexdigest()[:12]
-    return f"qwen:{path.name}:{quantization_mode}:cfg-{digest}"
+    return f"qwen:{slug}:{quantization_mode}:cfg-{digest}"
 
 
 @dataclass(frozen=True)
@@ -255,7 +272,7 @@ class KaggleQwenBackend:
             raise ModelBackendError(
                 "checkpoint_basename is unavailable without a model_path"
             )
-        return Path(self._model_path).name
+        return _checkpoint_identity_slug(Path(self._model_path))
 
     @property
     def checkpoint_quantization_method(self) -> str:
