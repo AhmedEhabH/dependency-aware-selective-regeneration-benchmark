@@ -572,6 +572,8 @@ class KaggleQwenBackend:
         if self._quantization_mode in ("bnb-int8", "bnb-nf4"):
             from transformers import BitsAndBytesConfig
 
+            load_kwargs["low_cpu_mem_usage"] = True
+
             if self._quantization_mode == "bnb-int8":
                 load_kwargs["quantization_config"] = BitsAndBytesConfig(load_in_8bit=True)
             else:

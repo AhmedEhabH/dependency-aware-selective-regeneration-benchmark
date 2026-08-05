@@ -522,9 +522,10 @@ class TestKaggleBundleR7CRuntimeClosure:
         assert "pytest-django==4.12.0" in text
         assert "accelerate==1.14.0" in text
         assert "bitsandbytes==0.49.2" in text
+        assert "transformers==4.57.6" in text
         pin_lines = {line.split("==")[0] for line in text.splitlines() if "==" in line}
         assert "torch" not in pin_lines, "lock must not pin torch (Kaggle image provides it)"
-        assert "transformers" not in pin_lines, "lock must not pin transformers (Kaggle image provides it)"
+        assert "transformers" in pin_lines, "lock must pin transformers==4.57.6"
 
     def test_bundled_pyproject_pins_django_runtime(self) -> None:
         pyproject = BUNDLE_CODE / "pyproject.toml"

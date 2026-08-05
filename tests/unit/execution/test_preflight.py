@@ -309,6 +309,40 @@ class TestRunKaggleSmokePreflight:
         assert result.passed is False
         assert "expected 5.2.16" in result.rejection_reason
 
+    def test_fail_when_transformers_version_drifts(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        """Qwen14B NF4 v4 closure: the exact transformers 4.57.6 is mandatory.
+
+        The OOM audit reproduced transformers 5.0.0 materializing the 14B BF16
+        weights on GPU before BNB-NF4 quantization; any version other than the
+        pinned loader must fail the preflight before staging/model load.
+        """
+        self._patch(monkeypatch, deps=(("transformers", "5.0.0"),))
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+            quantization_mode="bnb-nf4",
+        )
+        assert result.passed is False
+        assert "transformers=5.0.0 (expected 4.57.6)" in result.rejection_reason
+        assert any(
+            c.startswith("qwen_model_load[bnb-nf4]: SKIP") for c in result.checks
+        )
+
+    def test_fail_when_transformers_not_installed(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch(monkeypatch, deps=(("transformers", "NOT_INSTALLED"),))
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+        )
+        assert result.passed is False
+        assert "transformers=NOT_INSTALLED" in result.rejection_reason
+
     def test_baseline_failure_skips_expensive_model_probe(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
     ) -> None:
@@ -442,6 +476,47 @@ class TestRunKaggleSmokePreflight:
         assert any(c.startswith("qwen_model_load[bnb-int8]: FAIL") for c in result.checks)
         assert any(c.startswith("vram_headroom: FAIL") for c in result.checks)
 
+    def test_static_model_metadata_preserved_when_probe_fails(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        """Model/GPU metadata stays truthful when the model load OOMs/fails.
+
+        Qwen14B NF4 v4 closure: the OOM audit needed the real model identity and
+        GPU state after from_pretrained died; the preflight must not zero them.
+        """
+        self._patch(
+            monkeypatch,
+            deps=(("django", "5.2.16"),),
+            probe_exc=RuntimeError("simulated CUDA OOM"),
+        )
+        monkeypatch.setattr(
+            mod,
+            "_static_model_metadata",
+            lambda model_path, quantization_mode: {
+                "requested_quantization_mode": quantization_mode,
+                "model_identity": "qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-def456",
+                "model_checkpoint_basename": "qwen2.5-coder-14b-instruct",
+                "checkpoint_quantization_method": "",
+                "gpu_count": 2,
+                "gpu_name": "Tesla T4",
+            },
+        )
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+            quantization_mode="bnb-nf4",
+        )
+        assert result.passed is False
+        assert any(c.startswith("qwen_model_load[bnb-nf4]: FAIL") for c in result.checks)
+        assert result.model_identity == "qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-def456"
+        assert result.model_checkpoint_basename == "qwen2.5-coder-14b-instruct"
+        assert result.requested_quantization_mode == "bnb-nf4"
+        assert result.checkpoint_quantization_method == ""
+        assert result.gpu_count == 2
+        assert result.gpu_name == "Tesla T4"
+        assert result.free_vram_after_probe_gib == 0.0
+
     def test_writes_v1_json_schema(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
         self._patch(monkeypatch, deps=(("django", "5.2.16"),))
         out = tmp_path / "kaggle_smoke_preflight.v1.json"
@@ -458,4 +533,44 @@ class TestRunKaggleSmokePreflight:
         assert payload["model_identity"] == "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123"
         assert payload["requested_quantization_mode"] == "bnb-int8"
         assert payload["model_checkpoint_basename"] == "qwen2.5-coder-7b-instruct"
+
+
+class TestStaticModelMetadata:
+    """Qwen14B NF4 v4 closure: static config.json + GPU metadata without loading."""
+
+    def _write_qwen_config(self, checkpoint: Path) -> None:
+        checkpoint.mkdir(parents=True, exist_ok=True)
+        (checkpoint / "config.json").write_text(
+            json.dumps(
+                {
+                    "model_type": "qwen2",
+                    "hidden_size": 5120,
+                    "num_hidden_layers": 40,
+                    "num_attention_heads": 40,
+                    "quantization_config": None,
+                }
+            ),
+            encoding="utf-8",
+        )
+
+    def test_reads_static_metadata_without_loading_weights(self, tmp_path: Path) -> None:
+        from benchmark.llm.kaggle_qwen_backend import compute_model_identity
+
+        checkpoint = tmp_path / "qwen2.5-coder-14b-instruct"
+        self._write_qwen_config(checkpoint)
+        meta = mod._static_model_metadata(str(checkpoint), "bnb-nf4")
+        assert meta["model_identity"] == compute_model_identity(str(checkpoint), "bnb-nf4")
+        assert meta["requested_quantization_mode"] == "bnb-nf4"
+        assert meta["model_checkpoint_basename"] == "qwen2.5-coder-14b-instruct"
+        assert meta["checkpoint_quantization_method"] == ""
+        assert isinstance(meta["gpu_count"], int)
+        assert isinstance(meta["gpu_name"], str)
+
+    def test_missing_checkpoint_preserves_mode_and_blank_identity(
+        self, tmp_path: Path
+    ) -> None:
+        meta = mod._static_model_metadata(str(tmp_path / "missing"), "bnb-int8")
+        assert meta["model_identity"] == ""
+        assert meta["requested_quantization_mode"] == "bnb-int8"
+        assert meta["gpu_count"] == 0
 

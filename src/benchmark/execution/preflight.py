@@ -16,6 +16,7 @@ tree.
 
 from __future__ import annotations
 
+import contextlib
 import importlib
 import importlib.metadata
 import json
@@ -46,7 +47,7 @@ _REQUIRED_IMPORTS: tuple[tuple[str, str, str, str | None], ...] = (
     ("accelerate", "accelerate", "accelerate", "1.14.0"),
     ("bitsandbytes", "bitsandbytes", "bitsandbytes", "0.49.2"),
     ("torch", "torch", "torch", None),
-    ("transformers", "transformers", "transformers", None),
+    ("transformers", "transformers", "transformers", "4.57.6"),
 )
 
 
@@ -193,6 +194,49 @@ def _write_json(path: Path, payload: dict[str, object]) -> None:
     )
 
 
+def _static_model_metadata(
+    model_path: str, quantization_mode: str
+) -> dict[str, Any]:
+    """Model/GPU metadata derivable WITHOUT loading the model.
+
+    Reads ``config.json`` (model identity, checkpoint slug, quantization method)
+    and CUDA device discovery only. Never loads weights, so it stays truthful
+    even when ``from_pretrained`` OOMs or fails.
+    """
+    from benchmark.llm.kaggle_qwen_backend import (
+        _checkpoint_identity_slug,
+        _checkpoint_quantization_method,
+        _read_checkpoint_config,
+        compute_model_identity,
+    )
+
+    metadata: dict[str, Any] = {
+        "requested_quantization_mode": quantization_mode,
+        "model_identity": "",
+        "model_checkpoint_basename": "",
+        "checkpoint_quantization_method": "",
+        "gpu_count": 0,
+        "gpu_name": "",
+    }
+    with contextlib.suppress(Exception):
+        metadata["model_identity"] = compute_model_identity(model_path, quantization_mode)
+    with contextlib.suppress(Exception):
+        metadata["model_checkpoint_basename"] = _checkpoint_identity_slug(Path(model_path))
+    with contextlib.suppress(Exception):
+        metadata["checkpoint_quantization_method"] = _checkpoint_quantization_method(
+            _read_checkpoint_config(Path(model_path))
+        )
+    try:
+        import torch
+
+        if torch.cuda.is_available():
+            metadata["gpu_count"] = torch.cuda.device_count()
+            metadata["gpu_name"] = torch.cuda.get_device_name(0)
+    except Exception:
+        pass
+    return metadata
+
+
 def run_kaggle_smoke_preflight(
     *,
     model_path: str,
@@ -336,6 +380,7 @@ def run_kaggle_smoke_preflight(
                 )
         except Exception as exc:
             probe_failure = f"{type(exc).__name__}: {exc}"
+            probe_metrics = _static_model_metadata(model_path, quantization_mode)
             checks.append(f"qwen_model_load[{quantization_mode}]: FAIL ({probe_failure})")
             checks.append("device_map_gpu_only: FAIL (probe did not run)")
             checks.append("vram_headroom: FAIL (probe did not run)")

@@ -531,6 +531,46 @@ class TestKaggleQuantizationLoad:
         assert _FakeAutoModelForCausalLM.last_kwargs["torch_dtype"] == "float16"
         assert "quantization_config" not in _FakeAutoModelForCausalLM.last_kwargs
 
+    def test_bnb_nf4_load_passes_low_cpu_mem_usage(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        """Qwen14B NF4 v4 closure: BNB loading must avoid the full-precision copy."""
+        self._install_runtime_fakes(monkeypatch)
+        checkpoint = _fourteen_b_checkpoint(tmp_path)
+        backend = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="bnb-nf4"
+        )
+        backend._load_model()
+        assert _FakeAutoModelForCausalLM.last_kwargs["low_cpu_mem_usage"] is True
+        assert _FakeAutoModelForCausalLM.last_kwargs["quantization_config"] is (
+            _FakeBitsAndBytesConfig.last_instance
+        )
+
+    def test_bnb_int8_load_passes_low_cpu_mem_usage(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._install_runtime_fakes(monkeypatch)
+        checkpoint = _seven_b_checkpoint(tmp_path)
+        backend = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="bnb-int8"
+        )
+        backend._load_model()
+        assert _FakeAutoModelForCausalLM.last_kwargs["low_cpu_mem_usage"] is True
+        assert _FakeAutoModelForCausalLM.last_kwargs["quantization_config"] is (
+            _FakeBitsAndBytesConfig.last_instance
+        )
+
+    def test_fp16_load_does_not_set_low_cpu_mem_usage(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._install_runtime_fakes(monkeypatch)
+        checkpoint = _fourteen_b_checkpoint(tmp_path)
+        backend = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="fp16"
+        )
+        backend._load_model()
+        assert "low_cpu_mem_usage" not in _FakeAutoModelForCausalLM.last_kwargs
+
     def test_prequantized_gptq_checkpoint_is_rejected_before_from_pretrained(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
     ) -> None:
