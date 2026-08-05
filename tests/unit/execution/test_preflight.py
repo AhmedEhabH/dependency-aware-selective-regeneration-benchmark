@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import sys
+import types
 from pathlib import Path
 
 import pytest
@@ -9,11 +11,60 @@ from benchmark.execution import preflight as mod
 from benchmark.execution.preflight import (
     EXPECTED_VISIBLE_GPU_COUNTS,
     MIN_FREE_VRAM_GIB,
+    GpuVramSnapshot,
     KaggleSmokePreflightResult,
     collect_dependency_versions,
     render_preflight_table,
     run_kaggle_smoke_preflight,
 )
+
+
+def _install_fake_torch(monkeypatch: pytest.MonkeyPatch, cuda: object) -> types.ModuleType:
+    fake = types.ModuleType("torch")
+    fake.cuda = cuda  # type: ignore[attr-defined]
+    monkeypatch.setitem(sys.modules, "torch", fake)
+    return fake
+
+
+class FakeCuda:
+    def __init__(
+        self,
+        devices: list[tuple[int, int, int, int, str]],
+        *,
+        available: bool = True,
+    ) -> None:
+        self._devices = devices
+        self._available = available
+        self.sync_calls: list[int] = []
+        self.allocated_calls: list[int] = []
+        self.reserved_calls: list[int] = []
+        self.mem_get_info_calls: list[int] = []
+        self.name_calls: list[int] = []
+
+    def is_available(self) -> bool:
+        return self._available
+
+    def device_count(self) -> int:
+        return len(self._devices)
+
+    def get_device_name(self, index: int) -> str:
+        self.name_calls.append(index)
+        return self._devices[index][4]
+
+    def synchronize(self, index: int) -> None:
+        self.sync_calls.append(index)
+
+    def memory_allocated(self, index: int) -> int:
+        self.allocated_calls.append(index)
+        return self._devices[index][0]
+
+    def memory_reserved(self, index: int) -> int:
+        self.reserved_calls.append(index)
+        return self._devices[index][1]
+
+    def mem_get_info(self, index: int) -> tuple[int, int]:
+        self.mem_get_info_calls.append(index)
+        return self._devices[index][2], self._devices[index][3]
 
 
 class TestCollectDependencyVersions:
@@ -79,6 +130,20 @@ class TestRenderPreflightTable:
         assert "probe_tokens: 8+64" in table
         assert "dep torch: 2.4.0" in table
 
+    def test_renders_every_gpu_snapshot_line(self) -> None:
+        result = KaggleSmokePreflightResult(
+            passed=True,
+            gpu_count=2,
+            gpu_name="Tesla T4",
+            gpu_vram_by_device=(
+                GpuVramSnapshot(0, "Tesla T4", 7.125, 7.25, 7.0, 14.56),
+                GpuVramSnapshot(1, "Tesla T4", 6.875, 7.0, 0.125, 14.56),
+            ),
+        )
+        table = render_preflight_table(result)
+        assert "gpu_vram[0] Tesla T4 alloc=7.125 reserved=7.250 free=7.000 total=14.560 GiB" in table
+        assert "gpu_vram[1] Tesla T4 alloc=6.875 reserved=7.000 free=0.125 total=14.560 GiB" in table
+
 
 class TestRunKaggleSmokePreflight:
     def _patch(
@@ -115,6 +180,7 @@ class TestRunKaggleSmokePreflight:
                 "device_map_summary": "cuda:0",
                 "gpu_count": 1,
                 "gpu_name": "T4",
+                "gpu_vram_by_device": (GpuVramSnapshot(0, "T4", 12.5, 14.0, 2.5, 14.56),),
                 "allocated_vram_gib": 12.5,
                 "reserved_vram_gib": 14.0,
                 "free_vram_after_probe_gib": 2.5,
@@ -170,6 +236,10 @@ class TestRunKaggleSmokePreflight:
                 "device_map_summary": "cuda:0",
                 "gpu_count": gpu_count,
                 "gpu_name": "T4",
+                "gpu_vram_by_device": tuple(
+                    GpuVramSnapshot(index, "T4", 12.5, 14.0, 2.5, 14.56)
+                    for index in range(gpu_count)
+                ),
                 "allocated_vram_gib": 12.5,
                 "reserved_vram_gib": 14.0,
                 "free_vram_after_probe_gib": 2.5,
@@ -201,6 +271,10 @@ class TestRunKaggleSmokePreflight:
                 "device_map_summary": "{'model.layers.0': 0, 'model.layers.10': 1}",
                 "gpu_count": 2,
                 "gpu_name": "Tesla T4",
+                "gpu_vram_by_device": (
+                    GpuVramSnapshot(0, "Tesla T4", 13.0, 14.0, 3.0, 14.56),
+                    GpuVramSnapshot(1, "Tesla T4", 13.0, 14.0, 3.0, 14.56),
+                ),
                 "allocated_vram_gib": 13.0,
                 "reserved_vram_gib": 14.0,
                 "free_vram_after_probe_gib": 3.0,
@@ -235,6 +309,7 @@ class TestRunKaggleSmokePreflight:
                 "device_map_summary": "cuda:0",
                 "gpu_count": 1,
                 "gpu_name": "T4",
+                "gpu_vram_by_device": (GpuVramSnapshot(0, "T4", 10.0, 11.0, 3.0, 14.56),),
                 "allocated_vram_gib": 10.0,
                 "reserved_vram_gib": 11.0,
                 "free_vram_after_probe_gib": 3.0,
@@ -385,6 +460,7 @@ class TestRunKaggleSmokePreflight:
                 "device_map_summary": "cuda:0",
                 "gpu_count": 1,
                 "gpu_name": "T4",
+                "gpu_vram_by_device": (GpuVramSnapshot(0, "T4", 14.5, 15.5, 0.4, 14.56),),
                 "allocated_vram_gib": 14.5,
                 "reserved_vram_gib": 15.5,
                 "free_vram_after_probe_gib": 0.4,
@@ -416,6 +492,7 @@ class TestRunKaggleSmokePreflight:
                 "device_map_summary": "{'model.layers.0': 0, 'lm_head': 'cpu'}",
                 "gpu_count": 1,
                 "gpu_name": "T4",
+                "gpu_vram_by_device": (GpuVramSnapshot(0, "T4", 8.0, 8.5, 6.0, 14.56),),
                 "allocated_vram_gib": 8.0,
                 "reserved_vram_gib": 8.5,
                 "free_vram_after_probe_gib": 6.0,
@@ -446,6 +523,7 @@ class TestRunKaggleSmokePreflight:
                 "device_map_summary": "cuda:0",
                 "gpu_count": 1,
                 "gpu_name": "T4",
+                "gpu_vram_by_device": (GpuVramSnapshot(0, "T4", 9.0, 10.0, 4.0, 14.56),),
                 "allocated_vram_gib": 9.0,
                 "reserved_vram_gib": 10.0,
                 "free_vram_after_probe_gib": 4.0,
@@ -499,6 +577,10 @@ class TestRunKaggleSmokePreflight:
                 "checkpoint_quantization_method": "",
                 "gpu_count": 2,
                 "gpu_name": "Tesla T4",
+                "gpu_vram_by_device": (
+                    GpuVramSnapshot(0, "Tesla T4", 7.125, 7.25, 3.0, 14.56),
+                    GpuVramSnapshot(1, "Tesla T4", 6.875, 7.0, 0.125, 14.56),
+                ),
             },
         )
         result = run_kaggle_smoke_preflight(
@@ -516,6 +598,10 @@ class TestRunKaggleSmokePreflight:
         assert result.gpu_count == 2
         assert result.gpu_name == "Tesla T4"
         assert result.free_vram_after_probe_gib == 0.0
+        assert [s.device_index for s in result.gpu_vram_by_device] == [0, 1]
+        assert [s.free_gib for s in result.gpu_vram_by_device] == [3.0, 0.125]
+        assert result.gpu_vram_by_device[0].gpu_name == "Tesla T4"
+        assert result.gpu_vram_by_device[1].total_gib == 14.56
 
     def test_writes_v1_json_schema(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
         self._patch(monkeypatch, deps=(("django", "5.2.16"),))
@@ -533,6 +619,336 @@ class TestRunKaggleSmokePreflight:
         assert payload["model_identity"] == "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123"
         assert payload["requested_quantization_mode"] == "bnb-int8"
         assert payload["model_checkpoint_basename"] == "qwen2.5-coder-7b-instruct"
+        assert payload["gpu_vram_by_device"] == [
+            {
+                "device_index": 0,
+                "gpu_name": "T4",
+                "allocated_gib": 12.5,
+                "reserved_gib": 14.0,
+                "free_gib": 2.5,
+                "total_gib": 14.56,
+            }
+        ]
+        assert payload["free_vram_after_probe_gib"] == 2.5
+
+
+class TestCollectGpuVramSnapshots:
+    """Per-device VRAM snapshot collection across every visible GPU."""
+
+    def test_returns_empty_when_cuda_unavailable(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        _install_fake_torch(monkeypatch, FakeCuda([], available=False))
+        assert mod._collect_gpu_vram_snapshots() == ()
+
+    def test_returns_empty_when_torch_not_importable(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        real_import = __import__
+
+        def fake_import(name: str, *args: object, **kwargs: object) -> object:
+            if name == "torch":
+                raise ModuleNotFoundError("No module named 'torch'")
+            return real_import(name, *args, **kwargs)
+
+        monkeypatch.setattr("builtins.__import__", fake_import)
+        assert mod._collect_gpu_vram_snapshots() == ()
+
+    def test_synchronizes_and_reads_every_visible_gpu(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        cuda = FakeCuda(
+            [
+                (7 * 1024**3, 8 * 1024**3, 7 * 1024**3, 16 * 1024**3, "Tesla T4"),
+                (6 * 1024**3, 7 * 1024**3, 3 * 1024**3, 16 * 1024**3, "Tesla T4"),
+            ]
+        )
+        _install_fake_torch(monkeypatch, cuda)
+        snapshots = mod._collect_gpu_vram_snapshots()
+        assert cuda.sync_calls == [0, 1]
+        assert cuda.allocated_calls == [0, 1]
+        assert cuda.reserved_calls == [0, 1]
+        assert cuda.mem_get_info_calls == [0, 1]
+        assert cuda.name_calls == [0, 1]
+        assert [s.device_index for s in snapshots] == [0, 1]
+        assert [s.gpu_name for s in snapshots] == ["Tesla T4", "Tesla T4"]
+
+    def test_rounds_gib_values_to_three_decimals(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        allocated = int(7.1236 * 1024**3)
+        free = int(0.12501 * 1024**3)
+        cuda = FakeCuda([(allocated, int(8.0 * 1024**3), free, int(16.0 * 1024**3), "Tesla T4")])
+        _install_fake_torch(monkeypatch, cuda)
+        snapshots = mod._collect_gpu_vram_snapshots()
+        assert snapshots[0].allocated_gib == 7.124
+        assert snapshots[0].free_gib == 0.125
+        assert snapshots[0].total_gib == 16.0
+
+    def test_failure_on_one_gpu_is_not_swallowed(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        class FailingCuda(FakeCuda):
+            def mem_get_info(self, index: int) -> tuple[int, int]:
+                if index == 1:
+                    raise RuntimeError("device 1 not queryable")
+                return super().mem_get_info(index)
+
+        cuda = FailingCuda(
+            [
+                (7 * 1024**3, 8 * 1024**3, 7 * 1024**3, 16 * 1024**3, "Tesla T4"),
+                (6 * 1024**3, 7 * 1024**3, 3 * 1024**3, 16 * 1024**3, "Tesla T4"),
+            ]
+        )
+        _install_fake_torch(monkeypatch, cuda)
+        with pytest.raises(RuntimeError, match="device 1 not queryable"):
+            mod._collect_gpu_vram_snapshots()
+
+
+class TestQwenProbeMetricsMultiGpu:
+    """The real probe path with fake Torch/CUDA and a fake backend."""
+
+    @staticmethod
+    def _install_fake_backend(monkeypatch: pytest.MonkeyPatch) -> types.ModuleType:
+        module = types.ModuleType("benchmark.llm.kaggle_qwen_backend")
+
+        class TokenUsage:
+            prompt_tokens = 8
+            completion_tokens = 64
+
+        class FakeResponse:
+            token_usage = TokenUsage()
+
+        class FakeBackend:
+            model_identity = "qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-def456"
+            quantization_mode = "bnb-nf4"
+            checkpoint_basename = "qwen2.5-coder-14b-instruct"
+            checkpoint_quantization_method = ""
+            model_memory_footprint_bytes = 9000000000
+            device_map_summary = "{'model.layers.0': 0, 'model.layers.10': 1}"
+
+            def __init__(self, model_name: str, model_path: str, quantization_mode: str) -> None:
+                return None
+
+            def load(self) -> None:
+                return None
+
+            def run_probe(self, max_tokens: int = 0, prompt: str = "") -> FakeResponse:
+                return FakeResponse()
+
+        module.KaggleQwenBackend = FakeBackend  # type: ignore[attr-defined]
+        monkeypatch.setitem(sys.modules, "benchmark.llm.kaggle_qwen_backend", module)
+        return module
+
+    @staticmethod
+    def _two_t4_devices() -> FakeCuda:
+        return FakeCuda(
+            [
+                (7 * 1024**3, 8 * 1024**3, 7 * 1024**3, 16 * 1024**3, "Tesla T4"),
+                (6 * 1024**3, 7 * 1024**3, 3 * 1024**3, 16 * 1024**3, "Tesla T4"),
+            ]
+        )
+
+    def test_synchronizes_and_reads_every_visible_gpu(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        cuda = self._two_t4_devices()
+        self._install_fake_backend(monkeypatch)
+        _install_fake_torch(monkeypatch, cuda)
+        metrics = mod._qwen_probe_metrics("/kaggle/input/qwen14b", "bnb-nf4")
+        assert cuda.sync_calls == [0, 1]
+        assert cuda.mem_get_info_calls == [0, 1]
+        assert cuda.allocated_calls == [0, 1]
+        assert cuda.reserved_calls == [0, 1]
+        assert metrics["gpu_count"] == 2
+        assert metrics["gpu_name"] == "Tesla T4"
+
+    def test_free_scalar_equals_minimum_not_gpu0_not_sum(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        self._install_fake_backend(monkeypatch)
+        _install_fake_torch(monkeypatch, self._two_t4_devices())
+        metrics = mod._qwen_probe_metrics("/kaggle/input/qwen14b", "bnb-nf4")
+        assert metrics["free_vram_after_probe_gib"] == 3.0
+        assert metrics["free_vram_after_probe_gib"] != 7.0
+        assert metrics["free_vram_after_probe_gib"] != 10.0
+
+    def test_allocated_reserved_scalars_equal_sums(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        self._install_fake_backend(monkeypatch)
+        _install_fake_torch(monkeypatch, self._two_t4_devices())
+        metrics = mod._qwen_probe_metrics("/kaggle/input/qwen14b", "bnb-nf4")
+        assert metrics["allocated_vram_gib"] == 13.0
+        assert metrics["reserved_vram_gib"] == 15.0
+
+    def test_raises_when_gpu_count_positive_but_no_snapshots(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        self._install_fake_backend(monkeypatch)
+        cuda = FakeCuda(
+            [(7 * 1024**3, 8 * 1024**3, 7 * 1024**3, 16 * 1024**3, "Tesla T4")]
+        )
+        _install_fake_torch(monkeypatch, cuda)
+        monkeypatch.setattr(mod, "_collect_gpu_vram_snapshots", lambda: ())
+        with pytest.raises(RuntimeError, match="no per-GPU VRAM snapshots"):
+            mod._qwen_probe_metrics("/kaggle/input/qwen14b", "bnb-nf4")
+
+
+class TestVramHeadroomMultiGpuGate:
+    """Adversarial 1-GPU / 2-GPU headroom gate matrix over fake snapshots."""
+
+    def _run(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        tmp_path: Path,
+        *,
+        snapshots: tuple[GpuVramSnapshot, ...],
+        gpu_count: int = 2,
+        free_scalar: float | None = None,
+        json_output_path: Path | None = None,
+    ) -> KaggleSmokePreflightResult:
+        if free_scalar is None:
+            free_scalar = min(s.free_gib for s in snapshots) if snapshots else 0.0
+        probe_metrics = {
+            "model_identity": "qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-def456",
+            "requested_quantization_mode": "bnb-nf4",
+            "model_checkpoint_basename": "qwen2.5-coder-14b-instruct",
+            "checkpoint_quantization_method": "",
+            "model_memory_footprint_bytes": 9000000000,
+            "device_map_summary": "{'model.layers.0': 0, 'model.layers.10': 1}",
+            "gpu_count": gpu_count,
+            "gpu_name": "Tesla T4",
+            "gpu_vram_by_device": snapshots,
+            "allocated_vram_gib": round(sum(s.allocated_gib for s in snapshots), 3),
+            "reserved_vram_gib": round(sum(s.reserved_gib for s in snapshots), 3),
+            "free_vram_after_probe_gib": free_scalar,
+            "probe_prompt_tokens": 8,
+            "probe_completion_tokens": 64,
+        }
+        TestRunKaggleSmokePreflight()._patch(
+            monkeypatch, deps=(("django", "5.2.16"),), probe_metrics=probe_metrics
+        )
+        return run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+            quantization_mode="bnb-nf4",
+            json_output_path=json_output_path,
+        )
+
+    def test_one_gpu_with_two_gib_free_passes(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+        result = self._run(
+            monkeypatch,
+            tmp_path,
+            snapshots=(GpuVramSnapshot(0, "Tesla T4", 7.0, 8.0, 3.0, 16.0),),
+            gpu_count=1,
+        )
+        assert result.passed is True
+        assert any(
+            c == "vram_headroom: PASS (minimum free across 1 GPU(s)=3.00 GiB)"
+            for c in result.checks
+        )
+
+    def test_two_gpus_both_healthy_pass(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+        result = self._run(
+            monkeypatch,
+            tmp_path,
+            snapshots=(
+                GpuVramSnapshot(0, "Tesla T4", 7.0, 8.0, 3.0, 16.0),
+                GpuVramSnapshot(1, "Tesla T4", 6.0, 7.0, 2.5, 16.0),
+            ),
+            gpu_count=2,
+        )
+        assert result.passed is True
+        assert any(
+            c == "vram_headroom: PASS (minimum free across 2 GPU(s)=2.50 GiB)"
+            for c in result.checks
+        )
+
+    def test_asymmetric_gpu0_healthy_gpu1_low_fails(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+        """Mandatory audit reproduction: GPU0 free 3.0 GiB, GPU1 free 0.125 GiB -> FAIL."""
+        result = self._run(
+            monkeypatch,
+            tmp_path,
+            snapshots=(
+                GpuVramSnapshot(0, "Tesla T4", 7.0, 8.0, 3.0, 16.0),
+                GpuVramSnapshot(1, "Tesla T4", 6.875, 7.0, 0.125, 16.0),
+            ),
+            gpu_count=2,
+            free_scalar=0.125,
+        )
+        assert result.passed is False
+        assert any(
+            c == "vram_headroom: FAIL (GPU 1 free=0.12 GiB < 2.0 GiB)"
+            for c in result.checks
+        )
+        assert result.free_vram_after_probe_gib == 0.125
+
+    def test_gpu0_low_gpu1_healthy_fails(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+        result = self._run(
+            monkeypatch,
+            tmp_path,
+            snapshots=(
+                GpuVramSnapshot(0, "Tesla T4", 7.0, 8.0, 1.5, 16.0),
+                GpuVramSnapshot(1, "Tesla T4", 6.0, 7.0, 3.0, 16.0),
+            ),
+            gpu_count=2,
+        )
+        assert result.passed is False
+        assert any(
+            c == "vram_headroom: FAIL (GPU 0 free=1.50 GiB < 2.0 GiB)"
+            for c in result.checks
+        )
+
+    def test_both_gpus_low_lists_devices_in_order(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+        result = self._run(
+            monkeypatch,
+            tmp_path,
+            snapshots=(
+                GpuVramSnapshot(0, "Tesla T4", 7.0, 8.0, 0.4, 16.0),
+                GpuVramSnapshot(1, "Tesla T4", 6.0, 7.0, 1.5, 16.0),
+            ),
+            gpu_count=2,
+        )
+        assert result.passed is False
+        assert any(
+            c == "vram_headroom: FAIL (GPU 0 free=0.40 GiB < 2.0 GiB; GPU 1 free=1.50 GiB < 2.0 GiB)"
+            for c in result.checks
+        )
+
+    def test_fails_when_gpu_count_positive_but_no_snapshots(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        result = self._run(
+            monkeypatch,
+            tmp_path,
+            snapshots=(),
+            gpu_count=2,
+            free_scalar=3.0,
+        )
+        assert result.passed is False
+        assert any(
+            c == "vram_headroom: FAIL (no per-GPU VRAM snapshots collected)"
+            for c in result.checks
+        )
+
+    def test_json_persists_ordered_per_gpu_objects(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+        out = tmp_path / "kaggle_smoke_preflight.v1.json"
+        result = self._run(
+            monkeypatch,
+            tmp_path,
+            snapshots=(
+                GpuVramSnapshot(0, "Tesla T4", 7.125, 7.25, 7.0, 14.56),
+                GpuVramSnapshot(1, "Tesla T4", 6.875, 7.0, 0.125, 14.56),
+            ),
+            gpu_count=2,
+            free_scalar=0.125,
+            json_output_path=out,
+        )
+        assert out.is_file()
+        payload = json.loads(out.read_text("utf-8"))
+        assert payload["gpu_vram_by_device"] == [
+            {
+                "device_index": 0,
+                "gpu_name": "Tesla T4",
+                "allocated_gib": 7.125,
+                "reserved_gib": 7.25,
+                "free_gib": 7.0,
+                "total_gib": 14.56,
+            },
+            {
+                "device_index": 1,
+                "gpu_name": "Tesla T4",
+                "allocated_gib": 6.875,
+                "reserved_gib": 7.0,
+                "free_gib": 0.125,
+                "total_gib": 14.56,
+            },
+        ]
+        assert result.free_vram_after_probe_gib == 0.125
 
 
 class TestStaticModelMetadata:
@@ -565,6 +981,7 @@ class TestStaticModelMetadata:
         assert meta["checkpoint_quantization_method"] == ""
         assert isinstance(meta["gpu_count"], int)
         assert isinstance(meta["gpu_name"], str)
+        assert isinstance(meta["gpu_vram_by_device"], tuple)
 
     def test_missing_checkpoint_preserves_mode_and_blank_identity(
         self, tmp_path: Path
@@ -573,4 +990,5 @@ class TestStaticModelMetadata:
         assert meta["model_identity"] == ""
         assert meta["requested_quantization_mode"] == "bnb-int8"
         assert meta["gpu_count"] == 0
+        assert meta["gpu_vram_by_device"] == ()
 

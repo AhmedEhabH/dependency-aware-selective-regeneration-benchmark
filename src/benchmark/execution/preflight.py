@@ -52,6 +52,16 @@ _REQUIRED_IMPORTS: tuple[tuple[str, str, str, str | None], ...] = (
 
 
 @dataclass(frozen=True)
+class GpuVramSnapshot:
+    device_index: int
+    gpu_name: str
+    allocated_gib: float
+    reserved_gib: float
+    free_gib: float
+    total_gib: float
+
+
+@dataclass(frozen=True)
 class KaggleSmokePreflightResult:
     passed: bool
     checks: tuple[str, ...] = ()
@@ -65,6 +75,7 @@ class KaggleSmokePreflightResult:
     device_map_summary: str = ""
     gpu_count: int = 0
     gpu_name: str = ""
+    gpu_vram_by_device: tuple[GpuVramSnapshot, ...] = ()
     free_vram_after_probe_gib: float = 0.0
     allocated_vram_gib: float = 0.0
     reserved_vram_gib: float = 0.0
@@ -143,6 +154,38 @@ def _run_in_workspace(workspace: Path, *argv: str, timeout: int = 180) -> tuple[
         return -1, "", f"Command timed out after {timeout}s: {' '.join(argv)}"
 
 
+def _collect_gpu_vram_snapshots() -> tuple[GpuVramSnapshot, ...]:
+    """Capture ordered per-device VRAM evidence for every visible GPU.
+
+    Returns an empty tuple when CUDA is unavailable. Every visible device is
+    synchronized before its memory is read. A failure for one GPU is raised, never
+    silently dropped. No tensors are allocated.
+    """
+    try:
+        import torch
+    except Exception:
+        return ()
+    if not torch.cuda.is_available():
+        return ()
+    snapshots: list[GpuVramSnapshot] = []
+    for index in range(torch.cuda.device_count()):
+        torch.cuda.synchronize(index)
+        allocated_gib = torch.cuda.memory_allocated(index) / (1024**3)
+        reserved_gib = torch.cuda.memory_reserved(index) / (1024**3)
+        free_bytes, total_bytes = torch.cuda.mem_get_info(index)
+        snapshots.append(
+            GpuVramSnapshot(
+                device_index=index,
+                gpu_name=str(torch.cuda.get_device_name(index)),
+                allocated_gib=round(allocated_gib, 3),
+                reserved_gib=round(reserved_gib, 3),
+                free_gib=round(free_bytes / (1024**3), 3),
+                total_gib=round(total_bytes / (1024**3), 3),
+            )
+        )
+    return tuple(snapshots)
+
+
 def _qwen_probe_metrics(
     model_path: str,
     quantization_mode: str,
@@ -160,12 +203,22 @@ def _qwen_probe_metrics(
 
     import torch
 
-    allocated_gib = torch.cuda.memory_allocated(0) / (1024**3)
-    reserved_gib = torch.cuda.memory_reserved(0) / (1024**3)
-    torch.cuda.synchronize(0)
-    free_bytes, _total_bytes = torch.cuda.mem_get_info(0)
-    free_gib = free_bytes / (1024**3)
     gpu_count = torch.cuda.device_count()
+    snapshots = _collect_gpu_vram_snapshots()
+    if gpu_count > 0 and not snapshots:
+        raise RuntimeError(
+            "CUDA is queryable but no per-GPU VRAM snapshots were collected"
+        )
+    if snapshots:
+        free_gib = min(snapshot.free_gib for snapshot in snapshots)
+        allocated_gib = sum(snapshot.allocated_gib for snapshot in snapshots)
+        reserved_gib = sum(snapshot.reserved_gib for snapshot in snapshots)
+        gpu_name = snapshots[0].gpu_name
+    else:
+        free_gib = 0.0
+        allocated_gib = 0.0
+        reserved_gib = 0.0
+        gpu_name = ""
 
     metrics: dict[str, Any] = {
         "model_identity": backend.model_identity,
@@ -175,7 +228,8 @@ def _qwen_probe_metrics(
         "model_memory_footprint_bytes": backend.model_memory_footprint_bytes,
         "device_map_summary": backend.device_map_summary,
         "gpu_count": gpu_count,
-        "gpu_name": torch.cuda.get_device_name(0),
+        "gpu_name": gpu_name,
+        "gpu_vram_by_device": snapshots,
         "allocated_vram_gib": round(allocated_gib, 3),
         "reserved_vram_gib": round(reserved_gib, 3),
         "free_vram_after_probe_gib": round(free_gib, 3),
@@ -217,6 +271,7 @@ def _static_model_metadata(
         "checkpoint_quantization_method": "",
         "gpu_count": 0,
         "gpu_name": "",
+        "gpu_vram_by_device": (),
     }
     with contextlib.suppress(Exception):
         metadata["model_identity"] = compute_model_identity(model_path, quantization_mode)
@@ -232,6 +287,7 @@ def _static_model_metadata(
         if torch.cuda.is_available():
             metadata["gpu_count"] = torch.cuda.device_count()
             metadata["gpu_name"] = torch.cuda.get_device_name(0)
+            metadata["gpu_vram_by_device"] = _collect_gpu_vram_snapshots()
     except Exception:
         pass
     return metadata
@@ -371,12 +427,31 @@ def run_kaggle_smoke_preflight(
                 checks.append("checkpoint_not_prequantized: PASS")
             else:
                 checks.append(f"checkpoint_not_prequantized: FAIL (method={checkpoint_method})")
-            free_gib = float(probe_metrics["free_vram_after_probe_gib"])
-            if free_gib >= MIN_FREE_VRAM_GIB:
-                checks.append(f"vram_headroom: PASS (free={free_gib:.2f} GiB)")
+            snapshots = probe_metrics.get("gpu_vram_by_device", ())
+            if not isinstance(snapshots, tuple):
+                snapshots = tuple(snapshots)
+            gpu_count = int(probe_metrics.get("gpu_count", 0) or 0)
+            failing_devices = [
+                snapshot
+                for snapshot in snapshots
+                if snapshot.free_gib < MIN_FREE_VRAM_GIB
+            ]
+            if failing_devices:
+                details = "; ".join(
+                    f"GPU {snapshot.device_index} free={snapshot.free_gib:.2f} GiB "
+                    f"< {MIN_FREE_VRAM_GIB:.1f} GiB"
+                    for snapshot in failing_devices
+                )
+                checks.append(f"vram_headroom: FAIL ({details})")
+            elif gpu_count > 0 and not snapshots:
+                checks.append("vram_headroom: FAIL (no per-GPU VRAM snapshots collected)")
             else:
+                free_gib = float(
+                    probe_metrics.get("free_vram_after_probe_gib", 0.0) or 0.0
+                )
                 checks.append(
-                    f"vram_headroom: FAIL (free={free_gib:.2f} GiB < {MIN_FREE_VRAM_GIB:.1f} GiB)"
+                    f"vram_headroom: PASS (minimum free across {gpu_count} GPU(s)="
+                    f"{free_gib:.2f} GiB)"
                 )
         except Exception as exc:
             probe_failure = f"{type(exc).__name__}: {exc}"
@@ -420,6 +495,7 @@ def run_kaggle_smoke_preflight(
         device_map_summary=str(probe_metrics.get("device_map_summary", "")),
         gpu_count=int(probe_metrics.get("gpu_count", 0) or 0),
         gpu_name=str(probe_metrics.get("gpu_name", "")),
+        gpu_vram_by_device=tuple(probe_metrics.get("gpu_vram_by_device", ())),
         free_vram_after_probe_gib=float(probe_metrics.get("free_vram_after_probe_gib", 0.0) or 0.0),
         allocated_vram_gib=float(probe_metrics.get("allocated_vram_gib", 0.0) or 0.0),
         reserved_vram_gib=float(probe_metrics.get("reserved_vram_gib", 0.0) or 0.0),
@@ -445,6 +521,17 @@ def run_kaggle_smoke_preflight(
             "device_map_summary": result.device_map_summary,
             "gpu_count": result.gpu_count,
             "gpu_name": result.gpu_name,
+            "gpu_vram_by_device": [
+                {
+                    "device_index": snapshot.device_index,
+                    "gpu_name": snapshot.gpu_name,
+                    "allocated_gib": snapshot.allocated_gib,
+                    "reserved_gib": snapshot.reserved_gib,
+                    "free_gib": snapshot.free_gib,
+                    "total_gib": snapshot.total_gib,
+                }
+                for snapshot in result.gpu_vram_by_device
+            ],
             "free_vram_after_probe_gib": result.free_vram_after_probe_gib,
             "allocated_vram_gib": result.allocated_vram_gib,
             "reserved_vram_gib": result.reserved_vram_gib,
@@ -474,9 +561,17 @@ def render_preflight_table(result: KaggleSmokePreflightResult) -> str:
         f"free_vram_after_probe_gib: {result.free_vram_after_probe_gib:.3f}",
         f"allocated_vram_gib: {result.allocated_vram_gib:.3f}",
         f"reserved_vram_gib: {result.reserved_vram_gib:.3f}",
+    ]
+    for snapshot in result.gpu_vram_by_device:
+        lines.append(
+            f"  gpu_vram[{snapshot.device_index}] {snapshot.gpu_name} "
+            f"alloc={snapshot.allocated_gib:.3f} reserved={snapshot.reserved_gib:.3f} "
+            f"free={snapshot.free_gib:.3f} total={snapshot.total_gib:.3f} GiB"
+        )
+    lines.extend([
         f"probe_tokens: {result.probe_prompt_tokens}+{result.probe_completion_tokens}",
         f"duration_seconds: {result.duration_seconds}",
-    ]
+    ])
     for check in result.checks:
         lines.append(f"  - {check}")
     for name, version in result.dependencies:
