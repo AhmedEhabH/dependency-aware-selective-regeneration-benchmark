@@ -420,4 +420,44 @@ Pilot; no model, quantization, prompt, data, scenario, evaluator, or metric
 change; no GPTQ/AWQ/GGUF/vLLM (no new backend); **no real 14B result and no
 stable release claimed**; accepted real records remain 0/9. Next action after
 independent audit = **Kaggle engineering preflight cell only**.
-Sentinel: `QWEN14B_V4_LOADER_CLOSURE_AUDIT_REQUIRED`.
+Sentinel: `QWEN14B_V4_LOADER_OFFICIAL_GATE_AUDIT_REQUIRED`.
+
+## Qwen 14B NF4 v4 Loader Official Gate (2026-08-05)
+
+The missing official clean-environment gate for the loader closure was run, and
+one stale Notebook markdown statement was corrected (docs/deploy only — no
+runtime code, tests, requirements, data, prompts, scenarios, strategies,
+evaluator logic, metrics, model settings, or runtime limits changed).
+
+1. **Notebook markdown truth (the only file edit).** The markdown cell
+   immediately before `preflight-cell` described the load as `int8`
+   (`load_in_8bit=True` + `device_map="auto"` with `expandable_segments`). It
+   now truthfully reads: **Qwen 14B BNB-NF4 load** — `Qwen2.5-Coder-14B-Instruct`
+   base checkpoint via BitsAndBytes NF4: `load_in_4bit=True`,
+   `bnb_4bit_quant_type="nf4"`, `bnb_4bit_compute_dtype=float16`,
+   `bnb_4bit_use_double_quant=True`, `device_map="auto"`, Transformers 4.57.6.
+   No executable code cell, `SOURCE_COMMIT`/`DEPLOYED_BUILD_ID` (`41e9ad7`),
+   command, quantization setting, model path, timeout, token limit, or auth flag
+   changed.
+2. **Official clean-environment gate.** Fresh disposable env
+   `_workspace\cache\prebenchmark-py311-v4-loader` created from project
+   declarations only (`pip install -e ".[dev]" pytest==8.4.2 ruff==0.15.22
+   mypy==1.20.2`); Python 3.11.5 / pytest 8.4.2 exactly; Django 5.2.16, DRF
+   3.17.1, pytest-django 4.12.0, pytest-asyncio 1.2.0.
+3. **Gate results.** Dataset Validation 281 passed / 4 skipped; Prompt
+   Validation 126 passed / 4 skipped; Pipeline Smoke 177 passed; Scripted dry
+   run `--profile scientific-smoke-v2` 9 planned / 9 terminal / 9 succeeded /
+   0 failed / exit 0; Complete Integration **1,898 passed / 32 skipped / 0
+   failed** (517.97 s); Metric Verification 169 passed; Ruff 0 new (91
+   pre-existing baseline); mypy strict Success (77 files); compileall clean;
+   notebook code cells compile canonical + bundled; bundle rebuilt twice via
+   `scripts/build_upload_bundle.py` — second run content-identical (147 files /
+   965,015 bytes; tree hash 26EA934F16A25C14788484CE1A75EFF4FB453E6C346F5FDCEE72D3004EC5B7D1),
+   manifests verified, no cache files; `git diff --check` clean.
+
+Commit `docs(deploy): finalize Qwen 14B NF4 loader gate truth` pushed, local =
+remote, tree clean. No Kaggle run, no preflight, no canary, no continuous, no
+merge/tag/Pilot; **no real 14B result and no stable release claimed**; accepted
+real records remain 0/9. Next action after independent audit = **Kaggle
+engineering preflight cell only**.
+Sentinel: `QWEN14B_V4_LOADER_OFFICIAL_GATE_AUDIT_REQUIRED`.

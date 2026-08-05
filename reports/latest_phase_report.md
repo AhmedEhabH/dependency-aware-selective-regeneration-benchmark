@@ -1,3 +1,83 @@
+# Qwen 14B NF4 v4 Loader Official Gate — Latest Phase Report
+
+## Executive decision
+
+The missing official clean-environment gate for the Qwen 14B NF4 transformers
+v4 loader closure is **complete** on branch `fix/kaggle-smoke-v2-model-output-closure`,
+and one stale Notebook markdown statement was corrected (docs/deploy only — no
+runtime code, tests, requirements, data, prompts, scenarios, strategies,
+evaluator logic, metrics, model settings, or runtime limits changed). The
+official gate ran in a fresh disposable env created from project declarations
+only (Python 3.11.5 / pytest 8.4.2 exactly): full suite **1,898 passed / 32
+skipped / 0 failed**, all Pre-Benchmark categories pass, zero new static
+findings, and the bundle rebuilt content-identical. **Next authorized action
+after independent audit = Kaggle engineering preflight cell only.** No real 14B
+result and no stable release claimed.
+
+## The authorized change — Notebook markdown truth
+
+The markdown cell immediately before `preflight-cell` in
+`notebooks/seven_arm_benchmark.ipynb` described the load as **int8**
+(`load_in_8bit=True` + `device_map="auto"` with `expandable_segments`). This was
+stale — the deployed loader is the Qwen 14B BNB-NF4 profile. The cell now reads:
+
+```text
+3. **Qwen 14B BNB-NF4 load** — `Qwen2.5-Coder-14B-Instruct` base checkpoint via
+   BitsAndBytes NF4: `load_in_4bit=True`, `bnb_4bit_quant_type="nf4"`,
+   `bnb_4bit_compute_dtype=float16`, `bnb_4bit_use_double_quant=True`,
+   `device_map="auto"`, Transformers 4.57.6
+```
+
+No executable code cell, `SOURCE_COMMIT`/`DEPLOYED_BUILD_ID` (`41e9ad7`),
+command, quantization setting, model path, timeout, token limit, or
+authorization flag was altered. The bundle was regenerated twice with
+`scripts/build_upload_bundle.py`; the second run was byte-identical to the
+first (content-identical), and the bundled notebook now carries the corrected
+markdown with its `notebook_manifest.json` SHA-256 updated.
+
+## Official gate totals (fresh disposable env `_workspace\cache\prebenchmark-py311-v4-loader`, Python 3.11.5 / pytest 8.4.2 exactly)
+
+```text
+Environment              PASS   pip install -e ".[dev]" pytest==8.4.2 ruff==0.15.22 mypy==1.20.2
+                                Python 3.11.5 / pytest 8.4.2 / Django 5.2.16 / DRF 3.17.1 /
+                                pytest-django 4.12.0 / pytest-asyncio 1.2.0
+Dataset Validation      PASS   281 passed / 4 skipped (scenarios + repositories + models + config +
+                                registry + enums + integration test set)
+Prompt Validation       PASS   126 passed / 4 skipped (strategies + output_normalization + llm_factory +
+                                llm_mock + llm_dry_run + llm_openrouter)
+Pipeline Smoke Test     PASS   177 passed / 0 failed (preflight + kaggle_bundle_smoke_v2_preflight +
+                                real_smoke + scientific_smoke_v1/v2 + subprocess_pythonpath +
+                                llm_kaggle_qwen_backend in the established safe order)
+Scripted 9-record Dry   PASS   9 planned / 9 terminal / 9 succeeded / 0 failed / exit 0
+                                (--profile scientific-smoke-v2, fresh disposable output dir)
+Complete Integration    PASS   1,898 passed / 32 skipped / 0 failed (517.97 s; exit 0) — the official full suite
+Metric Verification     PASS   169 passed / 0 failed (test_r4_token_and_metrics + test_r4_metric_contract +
+                                test_statistics + test_reporting)
+Ruff                    PASS   0 new findings (91 pre-existing baseline in untouched files; changed files clean)
+strict mypy             PASS   Success in 77 source files (0 issues)
+compileall              PASS   clean (exit 0)
+Notebook compilation    PASS   canonical + bundled code cells compile
+                                (test_all_deployed_notebook_code_cells_compile, 2 passed)
+Builder/manifests       PASS   147 files / 965,015 bytes; two consecutive builder runs content-identical
+                                (tree hash 26EA934F16A25C14788484CE1A75EFF4FB453E6C346F5FDCEE72D3004EC5B7D1);
+                                manifests verified; no cache files
+git diff --check        PASS   clean; working tree clean
+```
+
+## Commit hashes and remote equality
+
+```text
+loader commit A = 41e9ad70c86ac696ce6ceaacd6b6892889bcc48a  fix(model): pin transformers==4.57.6 BNB loader and preserve static preflight metadata
+loader commit B = 920ab9b75ff86ae41722fc8ec0e6f381282f54b5  chore(deploy): repin Qwen 14B NF4 v4 loader closure bundle
+this commit     = docs(deploy): finalize Qwen 14B NF4 loader gate truth (pushed)
+local HEAD = remote HEAD (pushed; working tree clean)
+```
+
+Record: `selective_updates/records/QWEN14B-NF4-TRANSFORMERS-V4-LOADER-CLOSURE.md`.
+Sentinel: `QWEN14B_V4_LOADER_OFFICIAL_GATE_AUDIT_REQUIRED`.
+
+---
+
 # Qwen 14B NF4 Transformers v4 Loader Closure — Latest Phase Report
 
 ## Executive decision
