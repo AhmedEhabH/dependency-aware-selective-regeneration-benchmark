@@ -371,3 +371,53 @@ change, no GPTQ/AWQ/GGUF/vLLM, no merge/tag/Pilot. **No real 14B result and no
 stable release claimed**; accepted real records remain 0/9. Next action after
 independent audit = **Kaggle engineering preflight cell only**.
 Sentinel: `QWEN14B_FINAL_PREFLIGHT_CLOSURE_AUDIT_REQUIRED`.
+
+## Qwen 14B NF4 Transformers v4 Loader Closure (2026-08-05)
+
+The independent OOM audit reproduced the real preflight OOM on the `9fd4eee`
+state (full suite was green there, but the real load OOM'd on Kaggle). Root
+cause: transformers was unpinned in the Kaggle runtime, image drift installed
+**5.0.0**, and the 5.0.x loader materialized the **14B BF16 weights on GPU
+before BNB-NF4 quantization** — OOM after 232.412 s at ~75% of 579 checkpoint
+params (tried 136 MiB; GPU 1 free 46.81 MiB / allocated 14.38 GiB; runtime
+Python 3.12.13 / transformers 5.0.0 / bitsandbytes 0.49.2 / accelerate 1.14.0 /
+torch 2.10.0+cu128). All fixes are closed on branch
+`fix/kaggle-smoke-v2-model-output-closure`:
+
+1. **Transformers pinned to `==4.57.6`** in `requirements-smoke-kaggle.lock` and
+   `requirements-kaggle.txt`; torch stays unpinned (Kaggle image provides its
+   GPU torch build — no torch pin in the lock).
+2. **Fail-closed preflight version check**: `_REQUIRED_IMPORTS` now requires the
+   exact `"4.57.6"`, so `dependency_import_verification` FAILs with
+   `transformers=5.0.0 (expected 4.57.6)` before staging/model load; absent
+   transformers also FAILs.
+3. **Notebook install-lock-cell**: `EXPECTED_RUNTIME` gains
+   `"transformers": ("transformers", "transformers", "4.57.6")` with the
+   fail-closed mismatch check; setup-cell repinned to `SOURCE_COMMIT =
+   41e9ad70c86ac696ce6ceaacd6b6892889bcc48a` / `DEPLOYED_BUILD_ID = 41e9ad7`.
+4. **BNB loads pass `low_cpu_mem_usage=True`** in
+   `kaggle_qwen_backend._load_model` for `bnb-int8` and `bnb-nf4` (fp16
+   unchanged), so the 4.57.x loader streams/quantizes in place instead of
+   materializing the full-precision temporary copy.
+5. **Static preflight metadata on load failure**: `_static_model_metadata`
+   reads `config.json` + CUDA discovery (no weight load) and fills
+   `model_identity` / `checkpoint_basename` / `checkpoint_quantization_method` /
+   `gpu_count` / `gpu_name` even when the probe OOMs or fails.
+
+Commit A `41e9ad7` (runtime + tests + notebook) and Commit B `920ab9b`
+(deployment repin) are pushed, local = remote, tree clean. Gate = ambient
+Python 3.11.5 / pytest 9.1.1 (declared clean env `_workspace\cache\
+prebenchmark-py311` is NOT present locally — independent audit must recreate it
+for the official gate): full suite **1,898 passed / 32 skipped / 0 failed**;
+Ruff 0 new (86 pre-existing baseline); mypy strict Success (77 files);
+compileall clean; notebook cells compile canonical + bundled; bundle pin
+identity PASS; bundle integration 32 passed; builder content-identical (147
+files / 964,859 bytes). Regression proofs: **preflight FAILs on transformers
+5.0.0 / NOT_INSTALLED before load**, **BNB int8 + NF4 loads pass
+`low_cpu_mem_usage=True` (fp16 does not)**, **static model/GPU metadata
+preserved on failed probe**. No Kaggle run / canary / continuous / merge / tag /
+Pilot; no model, quantization, prompt, data, scenario, evaluator, or metric
+change; no GPTQ/AWQ/GGUF/vLLM (no new backend); **no real 14B result and no
+stable release claimed**; accepted real records remain 0/9. Next action after
+independent audit = **Kaggle engineering preflight cell only**.
+Sentinel: `QWEN14B_V4_LOADER_CLOSURE_AUDIT_REQUIRED`.

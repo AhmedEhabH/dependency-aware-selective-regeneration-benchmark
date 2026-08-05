@@ -1,3 +1,90 @@
+# Qwen 14B NF4 Transformers v4 Loader Closure — Latest Phase Report
+
+## Executive decision
+
+The independent OOM audit reproduced the real preflight OOM on the `9fd4eee`
+state (full suite was green, but the real Qwen 14B load OOM'd on Kaggle). The
+root cause is **closed** on branch `fix/kaggle-smoke-v2-model-output-closure`
+(Commit A `41e9ad7` + Commit B `920ab9b`, pushed, local = remote, tree clean).
+Gate = ambient Python 3.11.5 / pytest 9.1.1: full suite **1,898 passed / 32
+skipped / 0 failed**, zero new static findings, and all three explicit
+regression proofs pass. **Next authorized action after independent audit =
+Kaggle engineering preflight cell only.** No real 14B result and no stable
+release claimed.
+
+## Why this closure existed
+
+The independent audit accepted that `9fd4eee` was full-suite green but rejected
+it for real preflight after reproducing the OOM at runtime. Root cause:
+transformers was **unpinned** in the Kaggle runtime lock, the Kaggle image
+drifted to **transformers 5.0.0**, and the 5.0.x loader **materialized the 14B
+BF16 weights on GPU before BNB-NF4 quantization**.
+
+```text
+Runtime evidence (Kaggle):  Python 3.12.13 / transformers 5.0.0 /
+                            bitsandbytes 0.49.2 / accelerate 1.14.0 / torch 2.10.0+cu128
+OOM signature:              OOM after 232.412 s at ~75% of 579 checkpoint params
+                            (tried 136 MiB; GPU 1 free 46.81 MiB / allocated 14.38 GiB)
+```
+
+With transformers 4.57.x, `from_pretrained(...) + BitsAndBytesConfig` streams
+and quantizes in place; with 5.0.x the full-precision temporary copy caused the
+OOM. The closure makes the 4.57.x loader mandatory and fail-closed.
+
+## What changed
+
+- **Lock pin:** `requirements-smoke-kaggle.lock` now requires
+  `transformers==4.57.6` (with a transformers-add/version-pin header comment;
+  transformers removed from the "intentionally omitted" list). **torch stays
+  unpinned** — Kaggle provides its GPU torch build and no torch pin was added.
+  `requirements-kaggle.txt` updates `transformers>=4.30` → `transformers==4.57.6`.
+- **Fail-closed preflight:** `_REQUIRED_IMPORTS` requires the exact `"4.57.6"`;
+  `dependency_import_verification` FAILs with `transformers=5.0.0 (expected
+  4.57.6)` and with `NOT_INSTALLED` before staging/model load.
+- **Notebook install-lock-cell:** `EXPECTED_RUNTIME` gains
+  `"transformers": ("transformers", "transformers", "4.57.6")` (fail-closed
+  mismatch check). Setup-cell repinned to `SOURCE_COMMIT =
+  41e9ad70c86ac696ce6ceaacd6b6892889bcc48a` / `DEPLOYED_BUILD_ID = 41e9ad7`.
+- **BNB loader:** `kaggle_qwen_backend._load_model` passes
+  `low_cpu_mem_usage=True` for the `bnb-int8` and `bnb-nf4` branches (fp16
+  unchanged), so 4.57.x streams/quantizes in place.
+- **Static preflight metadata:** `_static_model_metadata(model_path,
+  quantization_mode)` reads `config.json` + CUDA discovery (no weight load) and
+  fills `model_identity` / `checkpoint_basename` /
+  `checkpoint_quantization_method` / `gpu_count` / `gpu_name`; the probe-failure
+  path preserves this metadata even when the load OOMs/fails.
+
+## Gate totals (ambient Python 3.11.5 / pytest 9.1.1 — full suite; declared clean env `_workspace\cache\prebenchmark-py311` must be recreated by the independent audit for the official gate)
+
+```text
+Complete Integration    PASS   1,898 passed / 32 skipped / 0 failed (539.32 s; 8 new tests in this closure)
+Ruff                    PASS   0 new findings (86 pre-existing baseline in untouched files; changed files clean)
+strict mypy             PASS   Success in 77 source files (0 issues)
+compileall              PASS   clean (changed Python files)
+Notebook compilation    PASS   canonical + bundled code cells compile; pin identity SOURCE_COMMIT=41e9ad7
+Bundle integration      PASS   32 passed (lock now requires transformers==4.57.6; no torch pin)
+builder/manifests       PASS   147 files / 964,859 bytes; rerun content-identical; manifests verified
+Regression proof 1      PASS   preflight FAILs on transformers 5.0.0 / NOT_INSTALLED before load
+Regression proof 2      PASS   BNB int8 + NF4 loads pass low_cpu_mem_usage=True (fp16 does not)
+Regression proof 3      PASS   static model/GPU metadata preserved when the probe fails
+```
+
+The ambient pytest 9.1.1 result is diagnostic only for the full-suite gate; the
+declared clean environment must be recreated for the official independent gate.
+
+## Commit hashes and remote equality
+
+```text
+commit A = 41e9ad70c86ac696ce6ceaacd6b6892889bcc48a  fix(model): pin transformers==4.57.6 BNB loader and preserve static preflight metadata
+commit B = 920ab9b75ff86ae41722fc8ec0e6f381282f54b5  chore(deploy): repin Qwen 14B NF4 v4 loader closure bundle
+local HEAD = remote HEAD = 920ab9b (pushed; working tree clean)
+```
+
+Record: `selective_updates/records/QWEN14B-NF4-TRANSFORMERS-V4-LOADER-CLOSURE.md`.
+Sentinel: `QWEN14B_V4_LOADER_CLOSURE_AUDIT_REQUIRED`.
+
+---
+
 # Qwen 14B Final Preflight Closure — Latest Phase Report
 
 ## Executive decision

@@ -99,6 +99,8 @@ no stable release claimed; sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQU
 
 **Legacy note:** Legacy Seven-Arm V1 results (including the `v0.7.0-smoke-passed` tag and the 7/7-arm Kaggle orchestration smoke) are **historical** and superseded. They are not V2 evidence. The current experiment is the Three-Arm Scientific Smoke V2 (`scientific-smoke-v2` profile): 3 frozen scenarios (todo-smoke-001/002/003) × 3 arms (monolithic, selective, iterative_repository_agent) × 1 repetition = 9 runs. Smoke evidence is non-publication.
 
+**QWEN 14B NF4 TRANSFORMERS V4 LOADER CLOSURE COMPLETE (2026-08-05) (Commit A `41e9ad7` `fix(model): pin transformers==4.57.6 BNB loader and preserve static preflight metadata` + Commit B `920ab9b` `chore(deploy): repin Qwen 14B NF4 v4 loader closure bundle`, HEAD `920ab9b`, pushed, local = remote, tree clean):** the independent OOM audit reproduced the real preflight OOM at `9fd4eee` (full suite was green): transformers was unpinned, Kaggle image drift installed **5.0.0**, and its loader materialized the **14B BF16 weights on GPU before BNB-NF4 quantization** — OOM after 232.412 s at ~75% of 579 checkpoint params (tried 136 MiB; GPU 1 free 46.81 MiB; allocated 14.38 GiB; runtime Python 3.12.13 / transformers 5.0.0 / bitsandbytes 0.49.2 / accelerate 1.14.0 / torch 2.10.0+cu128). Fixes: (A) `requirements-smoke-kaggle.lock` + `requirements-kaggle.txt` pin `transformers==4.57.6` (torch stays unpinned — Kaggle torch preserved); (B) preflight `_REQUIRED_IMPORTS` requires the exact `"4.57.6"` — `dependency_import_verification` FAILs on any other version before staging/model load; (C) notebook `install-lock-cell` `EXPECTED_RUNTIME` gains transformers 4.57.6 with the fail-closed mismatch check; (D) `kaggle_qwen_backend._load_model` passes `low_cpu_mem_usage=True` for `bnb-int8`/`bnb-nf4` so the 4.57.x loader streams/quantizes in place instead of materializing the full-precision temporary copy; (E) preflight `_static_model_metadata` preserves `model_identity` / `checkpoint_basename` / `checkpoint_quantization_method` / `gpu_count` / `gpu_name` (from `config.json` + CUDA discovery, no weight load) when the load OOMs/fails. Gate = ambient Python 3.11.5 / pytest 9.1.1 (declared clean env `_workspace\cache\prebenchmark-py311` NOT present locally — independent audit should recreate it): full suite **1,898 passed / 32 skipped / 0 failed**; Ruff 0 new (86 pre-existing baseline in untouched files); mypy strict Success (77 files); compileall clean; notebook cells compile canonical + bundled; bundle pin identity PASS (`SOURCE_COMMIT=41e9ad7`); bundle integration 32 passed; builder content-identical (147 files / 964,859 bytes). Regression proofs: **preflight FAILs on transformers≠4.57.6 (incl. 5.0.0 / NOT_INSTALLED) before load**, **BNB int8+NF4 loads pass `low_cpu_mem_usage=True` (fp16 does not)**, **static model/GPU metadata preserved on failed probe**. No Kaggle run / canary / continuous / merge / tag / Pilot; no model, quantization, prompt, data, scenario, evaluator, or metric change; no GPTQ/AWQ/GGUF/vLLM (no new backend); **no real 14B result and no stable release claimed**; accepted real records = 0/9. Next action after independent audit = **Kaggle engineering preflight cell only**. Sentinel `QWEN14B_V4_LOADER_CLOSURE_AUDIT_REQUIRED`.**
+
 ---
 
 ## Current Post-R6 Health
@@ -107,6 +109,7 @@ no stable release claimed; sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQU
 
 | Metric | Value |
 |---|---|
+| Full suite (Qwen 14B NF4 transformers v4 loader closure) | **1,898 passed / 32 skipped / 0 failed** — GREEN (ambient Python 3.11.5 / pytest 9.1.1; clean-env gate to be recreated by independent audit) |
 | Full suite (Qwen 14B final preflight closure) | **1,890 passed / 32 skipped / 0 failed** — GREEN (official clean-env gate, pytest 8.4.2) |
 | Full suite (Qwen 14B BNB-NF4 canary preparation closure) | **1,877 passed / 32 skipped / 0 failed** — GREEN |
 | Full suite (final selective canary readiness closure) | **1,856 passed / 32 skipped / 0 failed** — GREEN |
@@ -119,7 +122,7 @@ no stable release claimed; sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQU
 | Metric Verification | 169 passed |
 | Regression proof | 2-GPU otherwise-valid preflight = PASS; canary reaches subprocess construction without NameError |
 | Bundled CLI nine-cell dry-run regression | passed |
-| Builder build | content-identical (147 files / 962,188 bytes); manifests verified; no cache files |
+| Builder build | content-identical (147 files / 964,859 bytes); manifests verified; no cache files |
 
 ### Deployment bundle
 
@@ -128,7 +131,7 @@ no stable release claimed; sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQU
 | code | 90 | — |
 | data | 56 | — |
 | notebooks | 1 | — |
-| **total** | **147** | **962,188** |
+| **total** | **147** | **964,859** |
 
 ### Integrity and content
 
@@ -185,6 +188,7 @@ Benchmark data  = unchanged
 | Selective calibration canary | EXECUTED (2026-08-04) — `exp-20260804-133523` (`todo-smoke-001 / selective`, source/build `50ec2c1`) failed `model_output`: 4 calls / 5,804 tokens / 257.596 s / 3 selected / 2 preserved / 0 written; `repair_no_progress` after byte-identical first repair; harness controls verified, Qwen code quality unchanged; incidental monolithic `exp-20260804-133016` diagnostic only; full 9-record experiment NOT run; no stable release claimed |
 | Qwen 14B BNB-NF4 canary preparation | COMPLETE (2026-08-05) — Commit A `0ece665` + Commit B `0a596b8`, HEAD `0a596b8`, pushed, local = remote, tree clean; model-aware identity `qwen:<basename>:<mode>:cfg-<12hex>` replaces `qwen:1:int8`; bnb-nf4 profile; prequantized fail-fast; notebook pinned to unquantized 14b-instruct/1 with fail-closed canary gate; suite 1,877 passed / 32 skipped / 0 failed; next action = Kaggle engineering preflight only; no stable release claimed; sentinel QWEN14B_NF4_CANARY_READINESS_AUDIT_REQUIRED |
 | Qwen 14B final preflight closure | COMPLETE (2026-08-05) — Commit A `0aa705d` + Commit B `cc7846b`, HEAD `cc7846b`, pushed, local = remote, tree clean; three independently reproduced preflight blockers closed (canary output dir used before assignment; preflight required exactly one visible GPU; numeric version dir produced `qwen:1:*` identity); official clean-env gate 1,890 passed / 32 skipped / 0 failed (pytest 8.4.2); regression proofs: 2-GPU preflight PASS + canary reaches subprocess construction without NameError; next action = Kaggle engineering preflight cell only after independent audit; no stable release claimed; sentinel QWEN14B_FINAL_PREFLIGHT_CLOSURE_AUDIT_REQUIRED |
+| Qwen 14B NF4 transformers v4 loader closure | COMPLETE (2026-08-05) — Commit A `41e9ad7` + Commit B `920ab9b`, HEAD `920ab9b`, pushed, local = remote, tree clean; transformers pinned `4.57.6` (lock + requirements-kaggle.txt + notebook EXPECTED_RUNTIME + preflight `_REQUIRED_IMPORTS` fail-closed); BNB int8+NF4 loads pass `low_cpu_mem_usage=True`; `_static_model_metadata` preserves identity/gpu metadata on failed load; full suite 1,898 passed / 32 skipped / 0 failed (ambient Python 3.11.5 / pytest 9.1.1); regression proofs: preflight FAILs on transformers 5.0.0/absent before load, BNB loads pass low_cpu_mem_usage (fp16 does not), metadata preserved on failed probe; next action = independent audit then Kaggle engineering preflight cell only; no stable release claimed; sentinel QWEN14B_V4_LOADER_CLOSURE_AUDIT_REQUIRED |
 | Pilot | Not authorized |
 | Research experiment | Planned |
 
