@@ -336,3 +336,38 @@ quality did not improve. Next action: independent result audit
 repeating the dedicated selective canary and proceeding to the full 9-record run.
 
 R6_ACCEPTED_FREEZE_AND_PUBLISH_AUTHORIZED
+
+## Final Qwen 14B NF4 Preflight Closure (2026-08-05)
+
+The independent audit reproduced three preflight blockers on the `5ef6438`
+state (full suite was green there, but the audit rejected real preflight). All
+three are closed on branch `fix/kaggle-smoke-v2-model-output-closure`:
+
+1. **Canary used `SELECTIVE_CANARY_OUTPUT_DIR` before assignment.** The
+   definition lived inside the `selective-calibration-canary` cell while
+   `CANARY_PREFLIGHT_DIR = SELECTIVE_CANARY_OUTPUT_DIR / "preflight"` referenced
+   it earlier — a `NameError` at canary run time. Fix A moved the definition to
+   the `setup-cell` (right after `OUTPUT_DIR`) and removed the duplicate
+   assignment.
+2. **Preflight required exactly one visible GPU.** `EXPECTED_VISIBLE_GPU_COUNTS
+   = (1, 2)` now accepts real 2×Tesla T4 environments and reports
+   `FAIL (N; expected 1 or 2)` otherwise (Fix B).
+3. **Numeric version dirs produced a `qwen:1:*` readable identity.**
+   `_checkpoint_identity_slug` maps e.g. `.../14b-instruct/1` → `14b-instruct-v1`
+   → `qwen:14b-instruct-v1:bnb-nf4:cfg-<12hex>` in `compute_model_identity` and
+   `checkpoint_basename` (Fix C).
+
+Commit A `0aa705d` (runtime + tests + notebook) and Commit B `cc7846b`
+(deployment repin) are pushed, local = remote, tree clean. Official gate =
+declared clean environment (Python 3.11.9 / pytest 8.4.2): full suite
+**1,890 passed / 32 skipped / 0 failed**; Dataset 285/5; Prompt 174; Pipeline
+Smoke 223/12; Dry Run 9/9 (exit 0); Metric Verification 169; Ruff 0 new (91
+pre-existing baseline); mypy strict Success (77 files); compileall clean;
+notebook 8/8 + 8/8 compile; builder content-identical (147 files /
+963,067 bytes). Regression proofs: **2-GPU preflight = PASS** and **canary
+reaches subprocess construction without NameError**. No Kaggle run, no canary,
+no continuous, no model/quantization/prompt/data/scenario/evaluator/metric
+change, no GPTQ/AWQ/GGUF/vLLM, no merge/tag/Pilot. **No real 14B result and no
+stable release claimed**; accepted real records remain 0/9. Next action after
+independent audit = **Kaggle engineering preflight cell only**.
+Sentinel: `QWEN14B_FINAL_PREFLIGHT_CLOSURE_AUDIT_REQUIRED`.
