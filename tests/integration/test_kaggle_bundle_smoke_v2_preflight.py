@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+from typing import Any
 
 import pytest
 import yaml
@@ -633,3 +634,104 @@ class TestKaggleBundleR7CRuntimeClosure:
             encoding="utf-8"
         )
         assert "infrastructure_nonrepairable" in source
+
+
+class TestKaggleCanaryOutputDefinitionOrder:
+    """KAGGLE-SMOKE-V2-FINAL: SELECTIVE_CANARY_OUTPUT_DIR is defined before use."""
+
+    @staticmethod
+    def _notebook_cells() -> tuple[dict[str, Any], dict[str, Any], int, int]:
+        nb_path = PROJECT_ROOT / "notebooks" / "seven_arm_benchmark.ipynb"
+        assert nb_path.is_file(), f"canonical notebook missing: {nb_path}"
+        nb = json.loads(nb_path.read_text(encoding="utf-8"))
+        cells = nb["cells"]
+        setup_idx = next(i for i, c in enumerate(cells) if c.get("id") == "setup-cell")
+        canary_idx = next(
+            i for i, c in enumerate(cells) if c.get("id") == "selective-calibration-canary-cell"
+        )
+        by_id = {c.get("id"): c for c in cells}
+        return by_id["setup-cell"], by_id["selective-calibration-canary-cell"], setup_idx, canary_idx
+
+    @staticmethod
+    def _src(cell: dict[str, Any]) -> str:
+        src = cell["source"]
+        return src if isinstance(src, str) else "".join(src)
+
+    def test_canary_output_dir_defined_before_canary_cell(self) -> None:
+        setup, canary, setup_idx, canary_idx = self._notebook_cells()
+        setup_src = self._src(setup)
+        canary_src = self._src(canary)
+        assert setup_src.count("SELECTIVE_CANARY_OUTPUT_DIR = Path(") == 1, (
+            "setup-cell must define SELECTIVE_CANARY_OUTPUT_DIR exactly once"
+        )
+        assert "qwen14b_bnb_nf4_selective_canary" in setup_src
+        assert "SELECTIVE_CANARY_OUTPUT_DIR = Path(" not in canary_src, (
+            "canary cell must not re-assign SELECTIVE_CANARY_OUTPUT_DIR"
+        )
+        assert "SELECTIVE_CANARY_OUTPUT_DIR" in canary_src, (
+            "canary cell must use SELECTIVE_CANARY_OUTPUT_DIR"
+        )
+        assert setup_idx < canary_idx, (
+            "setup-cell must appear before selective-calibration-canary-cell"
+        )
+
+    def test_reduced_canary_setup_reaches_subprocess_construction_without_nameerror(
+        self, tmp_path: Path
+    ) -> None:
+        """Regression proof: definition-before-use must never raise NameError."""
+        import os as _os
+        import sys as _sys
+
+        out_dir = tmp_path / "qwen14b_bnb_nf4_selective_canary"
+
+        class _FakeSubprocess:
+            PIPE = -1
+            STDOUT = -2
+
+            class _FakeStdout:
+                def __iter__(self) -> Any:
+                    return iter(["fake line\n"])
+
+            class _FakeProc:
+                def __init__(self) -> None:
+                    self.stdout = _FakeSubprocess._FakeStdout()
+
+                def wait(self) -> int:
+                    return 0
+
+            def Popen(self, _cmd: object, **_kwargs: object) -> _FakeProc:  # noqa: N802
+                return self._FakeProc()
+
+        ns: dict[str, Any] = {
+            "Path": Path,
+            "SELECTIVE_CANARY_OUTPUT_DIR": out_dir,
+            "SCRIPT_PATH": tmp_path / "seven_arm_benchmark.py",
+            "CODE_DIR": tmp_path / "code",
+            "os": _os,
+            "sys": _sys,
+            "subprocess": _FakeSubprocess(),
+        }
+        setup_src = (
+            'CANARY_PREFLIGHT_DIR = SELECTIVE_CANARY_OUTPUT_DIR / "preflight"\n'
+            "CANARY_PREFLIGHT_DIR.mkdir(parents=True, exist_ok=True)\n"
+            'CANARY_PREFLIGHT_CONSOLE = CANARY_PREFLIGHT_DIR / "kaggle_preflight_console.log"\n'
+            "canary_preflight_cmd = [\n"
+            '    sys.executable, "-u", str(SCRIPT_PATH),\n'
+            '    "--kaggle-preflight-only",\n'
+            '    "--output-dir", str(CANARY_PREFLIGHT_DIR),\n'
+            "]\n"
+            'with CANARY_PREFLIGHT_CONSOLE.open("a", encoding="utf-8") as console:\n'
+            "    preflight = subprocess.Popen(\n"
+            "        canary_preflight_cmd,\n"
+            "        stdout=subprocess.PIPE,\n"
+            "        stderr=subprocess.STDOUT,\n"
+            "    )\n"
+            "    for line in preflight.stdout:\n"
+            "        console.write(line)\n"
+            "preflight_return_code = preflight.wait()\n"
+        )
+        exec(compile(setup_src, "reduced-canary-setup", "exec"), ns)
+        assert ns["preflight_return_code"] == 0
+        assert Path(ns["CANARY_PREFLIGHT_DIR"]).is_dir()
+        assert Path(ns["CANARY_PREFLIGHT_CONSOLE"]).name == "kaggle_preflight_console.log"
+        assert ns["canary_preflight_cmd"][-1] == str(Path(ns["CANARY_PREFLIGHT_DIR"]))

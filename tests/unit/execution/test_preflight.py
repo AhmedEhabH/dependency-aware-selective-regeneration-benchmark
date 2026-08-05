@@ -7,6 +7,7 @@ import pytest
 
 from benchmark.execution import preflight as mod
 from benchmark.execution.preflight import (
+    EXPECTED_VISIBLE_GPU_COUNTS,
     MIN_FREE_VRAM_GIB,
     KaggleSmokePreflightResult,
     collect_dependency_versions,
@@ -140,6 +141,83 @@ class TestRunKaggleSmokePreflight:
         assert any(c.startswith("vram_headroom: PASS") for c in result.checks)
         assert result.model_identity == "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123"
         assert result.requested_quantization_mode == "bnb-int8"
+
+    @pytest.mark.parametrize(
+        ("gpu_count", "expected_check"),
+        [
+            (1, "gpu_count_expected: PASS (1)"),
+            (2, "gpu_count_expected: PASS (2)"),
+            (0, "gpu_count_expected: FAIL (0; expected 1 or 2)"),
+            (3, "gpu_count_expected: FAIL (3; expected 1 or 2)"),
+        ],
+    )
+    def test_gpu_count_matrix(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        tmp_path: Path,
+        gpu_count: int,
+        expected_check: str,
+    ) -> None:
+        self._patch(
+            monkeypatch,
+            deps=(("django", "5.2.16"),),
+            probe_metrics={
+                "model_identity": "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123",
+                "requested_quantization_mode": "bnb-int8",
+                "model_checkpoint_basename": "qwen2.5-coder-7b-instruct",
+                "checkpoint_quantization_method": "",
+                "model_memory_footprint_bytes": 4000000000,
+                "device_map_summary": "cuda:0",
+                "gpu_count": gpu_count,
+                "gpu_name": "T4",
+                "allocated_vram_gib": 12.5,
+                "reserved_vram_gib": 14.0,
+                "free_vram_after_probe_gib": 2.5,
+                "probe_prompt_tokens": 8,
+                "probe_completion_tokens": 64,
+            },
+        )
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+        )
+        assert any(c == expected_check for c in result.checks)
+        assert result.passed is (gpu_count in EXPECTED_VISIBLE_GPU_COUNTS)
+
+    def test_two_visible_gpus_otherwise_valid_preflight_passes(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        """Regression proof: the real 2x Tesla T4 Kaggle environment must pass."""
+        self._patch(
+            monkeypatch,
+            deps=(("django", "5.2.16"),),
+            probe_metrics={
+                "model_identity": "qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-def456",
+                "requested_quantization_mode": "bnb-nf4",
+                "model_checkpoint_basename": "qwen2.5-coder-14b-instruct",
+                "checkpoint_quantization_method": "",
+                "model_memory_footprint_bytes": 9000000000,
+                "device_map_summary": "{'model.layers.0': 0, 'model.layers.10': 1}",
+                "gpu_count": 2,
+                "gpu_name": "Tesla T4",
+                "allocated_vram_gib": 13.0,
+                "reserved_vram_gib": 14.0,
+                "free_vram_after_probe_gib": 3.0,
+                "probe_prompt_tokens": 8,
+                "probe_completion_tokens": 64,
+            },
+        )
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+            quantization_mode="bnb-nf4",
+        )
+        assert result.passed is True
+        assert any(c == "gpu_count_expected: PASS (2)" for c in result.checks)
+        assert any(c.startswith("device_map_gpu_only: PASS") for c in result.checks)
+        assert any(c.startswith("vram_headroom: PASS") for c in result.checks)
 
     def test_nf4_quantization_is_forwarded_to_probe_and_check_name(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path

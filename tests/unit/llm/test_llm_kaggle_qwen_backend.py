@@ -408,6 +408,78 @@ class TestR7CQuantization:
         assert calls == ["ensure"]
 
 
+class TestCheckpointIdentitySlug:
+    """Kaggle numeric-version directories produce readable, distinct slugs."""
+
+    def test_kaggle_nested_7b_and_14b_slugs_are_readable_and_distinct(
+        self, tmp_path: Path
+    ) -> None:
+        seven = tmp_path / "7b-instruct" / "1"
+        fourteen = tmp_path / "14b-instruct" / "1"
+        _write_qwen_config(seven, hidden_size=3584, num_hidden_layers=28, num_attention_heads=28)
+        _write_qwen_config(fourteen, hidden_size=5120, num_hidden_layers=40, num_attention_heads=40)
+        id_7b = KaggleQwenBackend(
+            model_path=str(seven), quantization_mode="bnb-nf4"
+        ).model_identity
+        id_14b = KaggleQwenBackend(
+            model_path=str(fourteen), quantization_mode="bnb-nf4"
+        ).model_identity
+        assert "7b-instruct-v1" in id_7b
+        assert "14b-instruct-v1" in id_14b
+        assert id_7b != id_14b
+        assert not id_7b.startswith("qwen:1:")
+        assert not id_14b.startswith("qwen:1:")
+
+    def test_kaggle_version_1_and_2_identities_differ(self, tmp_path: Path) -> None:
+        v1 = tmp_path / "14b-instruct" / "1"
+        v2 = tmp_path / "14b-instruct" / "2"
+        _write_qwen_config(v1, hidden_size=5120, num_hidden_layers=40, num_attention_heads=40)
+        _write_qwen_config(v2, hidden_size=5120, num_hidden_layers=40, num_attention_heads=40)
+        id_v1 = KaggleQwenBackend(
+            model_path=str(v1), quantization_mode="bnb-nf4"
+        ).model_identity
+        id_v2 = KaggleQwenBackend(
+            model_path=str(v2), quantization_mode="bnb-nf4"
+        ).model_identity
+        assert "14b-instruct-v1" in id_v1
+        assert "14b-instruct-v2" in id_v2
+        assert id_v1 != id_v2
+
+    def test_checkpoint_basename_uses_slug_for_numeric_version_dir(
+        self, tmp_path: Path
+    ) -> None:
+        v1 = tmp_path / "14b-instruct" / "1"
+        _write_qwen_config(v1, hidden_size=5120, num_hidden_layers=40, num_attention_heads=40)
+        backend = KaggleQwenBackend(model_path=str(v1))
+        assert backend.checkpoint_basename == "14b-instruct-v1"
+
+    def test_normal_non_numeric_directory_basename_is_unchanged(
+        self, tmp_path: Path
+    ) -> None:
+        checkpoint = _fourteen_b_checkpoint(tmp_path)
+        backend = KaggleQwenBackend(model_path=str(checkpoint))
+        assert backend.checkpoint_basename == "qwen2.5-coder-14b-instruct"
+        assert "qwen2.5-coder-14b-instruct" in backend.model_identity
+
+    def test_identity_is_stable_for_same_path_config_and_mode(
+        self, tmp_path: Path
+    ) -> None:
+        checkpoint = _fourteen_b_checkpoint(tmp_path)
+        first = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="bnb-nf4"
+        ).model_identity
+        second = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="bnb-nf4"
+        ).model_identity
+        assert first == second
+
+    def test_slug_is_sanitized_to_lowercase_ascii_safe(self, tmp_path: Path) -> None:
+        checkpoint = tmp_path / "Qwen2.5-Coder 14B Instruct"
+        _write_qwen_config(checkpoint, hidden_size=5120, num_hidden_layers=40, num_attention_heads=40)
+        backend = KaggleQwenBackend(model_path=str(checkpoint))
+        assert backend.checkpoint_basename == "qwen2.5-coder-14b-instruct"
+
+
 class TestKaggleQuantizationLoad:
     """Quantization-aware model load: BNB int8, BNB NF4, fp16, and fail-fast."""
 
