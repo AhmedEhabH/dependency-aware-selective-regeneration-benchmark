@@ -2,7 +2,7 @@
 
 ## Executive decision
 
-The independent GPT-5.6 Thinking audit **ACCEPTED SUCCESSFUL REAL CANARY** on branch `fix/kaggle-smoke-v2-model-output-closure` (documentation HEAD `5561f918`). Docs-only closure — no code, tests, data, prompts, configs, notebook executable cells, or `kaggle_upload` changes. Real engineering preflight **PASS** on 2×Tesla T4 and the dedicated selective canary `exp-20260807-131819` **succeeded**. Accepted real 14B canary records = **1 succeeded / 0 failed** (isolated selective-only plan — NOT `1/9`). **Full 9-record Scientific Smoke V2 = NOT RUN.** **Next action = one fresh Full-9 Scientific Smoke V2** using the frozen runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`. No merge/tag/Pilot; no stable release claimed.
+The independent GPT-5.6 Thinking audit **ACCEPTED SUCCESSFUL REAL CANARY** on branch `fix/kaggle-smoke-v2-model-output-closure` (documentation HEAD `5561f918`). Docs-only closure — no code, tests, data, prompts, configs, notebook executable cells, or `kaggle_upload` changes. Real engineering preflight **PASS** on 2×Tesla T4 and the dedicated selective canary `exp-20260807-131819` **succeeded**. Accepted real 14B canary records = **1 succeeded / 0 failed** (isolated selective-only plan — NOT `1/9`). **Milestone tag `v0.8.0-canary.1` = created and pushed, annotated, NON-STABLE** (first accepted real Qwen 14B NF4 selective-canary milestone, points to `31a619857ce07eb09ab5e206fbc9dc792782c99c`). **Full 9-record Scientific Smoke V2 = NOT RUN.** **Main merge = pending Full-9 audit (NOT YET). Stable Smoke tag = `v0.8.0-smoke-v2-complete`, not yet created. Pilot = NOT AUTHORIZED.** **Next action = one fresh Full-9 Scientific Smoke V2** using the frozen runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`. No stable release claimed.
 
 ## Why this phase existed
 
@@ -809,7 +809,7 @@ Scientific Smoke V2 records → independent result audit.
 
 ## Far goal
 
-Independent real-result audit → stable `v2.0.0-scientific-smoke` tag → freeze
+Independent real-result audit → main merge → stable `v0.8.0-smoke-v2-complete` tag (replaces the stale `v2.0.0-scientific-smoke` future-tag wording; milestone `v0.8.0-canary.1` already created/pushed, non-stable) → freeze
 Pilot matrix → Pilot execution → research experiment → statistical analysis →
 paper evidence package.
 

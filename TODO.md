@@ -14,6 +14,12 @@
 - **Description:** The only next scientific action. One fresh isolated 9-record experiment (3 frozen todo scenarios × 3 strategies × 1 repetition = 9 records) using the frozen runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — runtime source `f7b1ebba73b52868a95c47ef3806d3b09da16d93`, build `f7b1ebb`, profile `scientific-smoke-v2`, protocol 1.0, expected identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`. One engineering preflight + one benchmark process in a fresh isolated output dir (`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke`); no `--strategy`, no `--max-runs`, no `--auto-resume-hf`. NEVER resume or merge the accepted canary. After completion: independent results audit. No merge/tag/Pilot/fine-tune.
 - **Status:** PENDING
 
+### QSC-03 - Record Canary Milestone Tag and Freeze Full-9 Launch (docs only)
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Documentation-only truth update after the annotated milestone tag `v0.8.0-canary.1` was created and pushed. **Milestone tag:** `v0.8.0-canary.1` — created and pushed; annotated; points to `31a619857ce07eb09ab5e206fbc9dc792782c99c`. **Meaning:** first accepted real Qwen 14B NF4 selective-canary milestone. **Stable release = NO.** **Full 9-record Scientific Smoke V2 = NOT RUN.** **Merge to main = NOT YET** (pending Full-9 audit). **Pilot = NOT AUTHORIZED.** **Next action:** one fresh Full-9 Scientific Smoke V2 using `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`. Canonical tag naming: `v0.8.0-canary.N` = isolated calibration milestones; `v0.8.0-smoke-v2-complete` = create only after Full-9 result audit + main merge (stale `v2.0.0-scientific-smoke` future-tag wording replaced in the authoritative current plan). Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md. Commit exactly `docs(state): record canary milestone tag and freeze Full-9 launch`; push; verify clean + local = remote + tag target unchanged. Do NOT modify code/tests/runtime/datasets/prompts/notebook/bundle/frozen runbook. Do NOT run pytest/Kaggle. Do NOT merge main. Do NOT create another tag.
+- **Status:** COMPLETE (this documentation commit, pushed)
+
 ## Current - Qwen 14B BNB-NF4 Canary Preparation
 
 ### Q14-01 - Model-Aware Qwen Identity
