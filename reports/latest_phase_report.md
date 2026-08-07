@@ -1,3 +1,30 @@
+# Qwen 14B Selective Canary Success — Latest Phase Report
+
+## Executive decision
+
+The independent GPT-5.6 Thinking audit **ACCEPTED SUCCESSFUL REAL CANARY** on branch `fix/kaggle-smoke-v2-model-output-closure` (documentation HEAD `5561f918`). Docs-only closure — no code, tests, data, prompts, configs, notebook executable cells, or `kaggle_upload` changes. Real engineering preflight **PASS** on 2×Tesla T4 and the dedicated selective canary `exp-20260807-131819` **succeeded**. Accepted real 14B canary records = **1 succeeded / 0 failed** (isolated selective-only plan — NOT `1/9`). **Full 9-record Scientific Smoke V2 = NOT RUN.** **Next action = one fresh Full-9 Scientific Smoke V2** using the frozen runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`. No merge/tag/Pilot; no stable release claimed.
+
+## Why this phase existed
+
+After the Multi-GPU VRAM preflight closure (2026-08-06) closed the last engineering blocker, the independent audit authorized and the real 14B selective canary was executed on Kaggle to prove the Qwen 14B bnb-nf4 stack end-to-end (preflight → model load → selective plan → generation → validation → evaluation → HF recovery upload) before committing to the full 9-record Scientific Smoke V2.
+
+## What happened (real Kaggle evidence, 2026-08-07)
+
+- **Real engineering preflight PASS** on 2×Tesla T4 (Python 3.12.13 / transformers 4.57.6 / bnb-nf4): identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`; footprint 9,721,981,184 bytes; preflight 174.016 s; probe 68+17 tokens; minimum free VRAM **8.417 GiB** — GPU-only device map, no offload.
+- **Canary `exp-20260807-131819`** (`todo-smoke-001 / selective`, runtime source `f7b1ebba73b52868a95c47ef3806d3b09da16d93` / build `f7b1ebb`) = **succeeded**: 3 selected / 2 preserved / 3 regenerated; one migration `todo/migrations/0004_task_priority.py`; 3 model calls / 2,527 prompt + 720 completion = 3,247 tokens / 295.944 s / 0 repair attempts; functional validation PASS; scenario evaluator **PASS 10/10**; HF `recovery_uploaded`.
+
+## Interpretation and caveats
+
+14B crossed the 7B model-quality floor on the same task: **25.0% fewer calls / 44.1% fewer tokens / repair eliminated / 14.9% slower** — functional viability, not strategy superiority. Generated `views.py` has an unused `Q` import (non-blocking; evidence workspace must NOT be repaired). The continuous cell failed closed with zero model calls because the generic experiment was empty — not a failure; do NOT patch the continuous workflow before Full-9.
+
+## Next action
+
+One fresh Full-9 Scientific Smoke V2 (3 scenarios × 3 arms = 9 records) via `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — one engineering preflight + one benchmark process, fresh isolated experiment, never resume/merge the canary, then independent results audit. Record: `selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md`. Sentinel: `QWEN14B_CANARY_SUCCESS_DOCUMENTED_FULL9_READY`.
+
+---
+
+## Prior phase (2026-08-06) — Multi-GPU VRAM Preflight Closure
+
 # Qwen 14B Multi-GPU VRAM Preflight Closure — Latest Phase Report
 
 ## Executive decision
