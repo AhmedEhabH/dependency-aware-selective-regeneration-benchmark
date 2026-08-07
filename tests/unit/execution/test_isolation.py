@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from benchmark.execution.isolation import IsolationContext
 from benchmark.repositories.workspace import WorkspacePath
 
@@ -278,3 +280,198 @@ class TestActiveSnapshotRoot:
         )
         report = ctx.verify()
         assert report.passed is False
+
+
+class TestResetWorkspaceSourceFromSnapshot:
+    """FULL9 workspace-isolation closure: restaging resets, never overlays."""
+
+    @staticmethod
+    def _make_todo_snapshot(snapshot_root: Path) -> None:
+        (snapshot_root / "manage.py").parent.mkdir(parents=True, exist_ok=True)
+        (snapshot_root / "manage.py").write_text("manage\n")
+        (snapshot_root / "requirements.txt").write_text("django==5.2\n")
+        (snapshot_root / "config" / "settings.py").parent.mkdir(parents=True)
+        (snapshot_root / "config" / "settings.py").write_text("SECRET_KEY='x'\n")
+        (snapshot_root / "todo" / "__init__.py").parent.mkdir(parents=True)
+        (snapshot_root / "todo" / "__init__.py").write_text("")
+        (snapshot_root / "todo" / "models.py").write_text(
+            "from django.db import models\n\n"
+            "class Task(models.Model):\n"
+            "    title = models.CharField(max_length=64)\n"
+            "    done = models.BooleanField(default=False)\n"
+        )
+        migs = snapshot_root / "todo" / "migrations"
+        migs.mkdir(parents=True)
+        (migs / "__init__.py").write_text("")
+        (migs / "0001_initial.py").write_text("# canonical 0001\n")
+        (migs / "0002_task_owner.py").write_text("# canonical 0002\n")
+        (
+            migs / "0003_alter_project_options_alter_tag_options_and_more.py"
+        ).write_text("# canonical 0003\n")
+
+    @staticmethod
+    def _fingerprint(root: Path) -> dict[str, str]:
+        return {
+            str(p.relative_to(root)).replace("\\", "/"): p.read_text()
+            for p in sorted(root.rglob("*"))
+            if p.is_file()
+        }
+
+    def test_reset_removes_stale_generated_migration(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import _reset_workspace_source_from_snapshot
+
+        snapshot_root = tmp_path / "snapshots" / "todo" / "baseline"
+        self._make_todo_snapshot(snapshot_root)
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        self._make_todo_snapshot(arm_ws)
+        stale = arm_ws / "todo" / "migrations" / "0004_task_priority.py"
+        stale.write_text("stale from previous scenario\n")
+
+        _reset_workspace_source_from_snapshot(arm_ws, snapshot_root)
+
+        assert not stale.exists()
+        assert sorted(p.name for p in (arm_ws / "todo" / "migrations").iterdir()) == [
+            "0001_initial.py",
+            "0002_task_owner.py",
+            "0003_alter_project_options_alter_tag_options_and_more.py",
+            "__init__.py",
+        ]
+        assert self._fingerprint(arm_ws) == self._fingerprint(snapshot_root)
+
+    def test_reset_removes_arbitrary_stale_source_file(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import _reset_workspace_source_from_snapshot
+
+        snapshot_root = tmp_path / "snapshots" / "todo" / "baseline"
+        self._make_todo_snapshot(snapshot_root)
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        self._make_todo_snapshot(arm_ws)
+        stale = arm_ws / "db.sqlite3"
+        stale.write_text("stale database\n")
+        stale_dir = arm_ws / "scratch" / "nested"
+        stale_dir.mkdir(parents=True)
+        (stale_dir / "leftover.txt").write_text("leftover\n")
+
+        _reset_workspace_source_from_snapshot(arm_ws, snapshot_root)
+
+        assert not stale.exists()
+        assert not (arm_ws / "scratch").exists()
+        assert self._fingerprint(arm_ws) == self._fingerprint(snapshot_root)
+
+    def test_reset_restores_modified_baseline_file_byte_for_byte(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import _reset_workspace_source_from_snapshot
+
+        snapshot_root = tmp_path / "snapshots" / "todo" / "baseline"
+        self._make_todo_snapshot(snapshot_root)
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        self._make_todo_snapshot(arm_ws)
+        target = arm_ws / "todo" / "models.py"
+        target.write_text("mutated by a previous run\n" + target.read_text())
+
+        _reset_workspace_source_from_snapshot(arm_ws, snapshot_root)
+
+        assert target.read_text() == (snapshot_root / "todo" / "models.py").read_text()
+        assert self._fingerprint(arm_ws) == self._fingerprint(snapshot_root)
+
+    def test_reset_unlinks_stale_symlink_without_following_it(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import _reset_workspace_source_from_snapshot
+
+        snapshot_root = tmp_path / "snapshots" / "todo" / "baseline"
+        self._make_todo_snapshot(snapshot_root)
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        self._make_todo_snapshot(arm_ws)
+
+        outside = tmp_path / "outside" / "models.py"
+        outside.parent.mkdir(parents=True)
+        outside.write_text("do not touch\n")
+
+        stale = arm_ws / "todo" / "models.py"
+        stale.unlink()
+        try:
+            stale.symlink_to(outside)
+        except (OSError, NotImplementedError):
+            pytest.skip("symlink creation not supported on this platform")
+
+        _reset_workspace_source_from_snapshot(arm_ws, snapshot_root)
+
+        assert outside.read_text() == "do not touch\n"
+        assert not stale.is_symlink()
+        assert stale.is_file()
+        assert stale.read_text().startswith("from django.db import models")
+
+    def test_reset_preserves_workspace_infrastructure_directories(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import _reset_workspace_source_from_snapshot
+
+        snapshot_root = tmp_path / "snapshots" / "todo" / "baseline"
+        self._make_todo_snapshot(snapshot_root)
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        self._make_todo_snapshot(arm_ws)
+        (arm_ws / "runs" / "run-001").mkdir(parents=True)
+        (arm_ws / "runs" / "run-001" / "meta.json").write_text("run meta\n")
+        (arm_ws / "tmp").mkdir(parents=True)
+        (arm_ws / "tmp" / "scratch.txt").write_text("scratch\n")
+        (arm_ws / "snapshots").mkdir(parents=True)
+        (arm_ws / "snapshots" / "keep.txt").write_text("keep\n")
+
+        _reset_workspace_source_from_snapshot(arm_ws, snapshot_root)
+
+        assert (arm_ws / "runs" / "run-001" / "meta.json").read_text() == "run meta\n"
+        assert (arm_ws / "tmp" / "scratch.txt").read_text() == "scratch\n"
+        assert (arm_ws / "snapshots" / "keep.txt").read_text() == "keep\n"
+
+    def test_reset_does_not_modify_shared_snapshot(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import _reset_workspace_source_from_snapshot
+
+        snapshot_root = tmp_path / "snapshots" / "todo" / "baseline"
+        self._make_todo_snapshot(snapshot_root)
+        before = self._fingerprint(snapshot_root)
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        self._make_todo_snapshot(arm_ws)
+        (arm_ws / "todo" / "migrations" / "0004_task_priority.py").write_text("stale\n")
+
+        _reset_workspace_source_from_snapshot(arm_ws, snapshot_root)
+
+        assert self._fingerprint(snapshot_root) == before
+
+    def test_reset_is_idempotent(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import _reset_workspace_source_from_snapshot
+
+        snapshot_root = tmp_path / "snapshots" / "todo" / "baseline"
+        self._make_todo_snapshot(snapshot_root)
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        self._make_todo_snapshot(arm_ws)
+        (arm_ws / "todo" / "migrations" / "0004_task_priority.py").write_text("stale\n")
+
+        _reset_workspace_source_from_snapshot(arm_ws, snapshot_root)
+        first = self._fingerprint(arm_ws)
+        _reset_workspace_source_from_snapshot(arm_ws, snapshot_root)
+        second = self._fingerprint(arm_ws)
+
+        assert first == second
+        assert second == self._fingerprint(snapshot_root)
+
+    @pytest.mark.parametrize("strategy", ["monolithic", "selective", "iterative_repository_agent"])
+    def test_make_isolation_removes_stale_migration_for_arm_workspace(
+        self, tmp_path: Path, strategy: str
+    ) -> None:
+        from seven_arm_benchmark import make_isolation
+
+        storage = tmp_path / "workspace" / "snapshots"
+        active = storage / "todo" / "todo-smoke-001"
+        self._make_todo_snapshot(active)
+        arm_ws = tmp_path / "workspace" / strategy
+        self._make_todo_snapshot(arm_ws)
+        stale = arm_ws / "todo" / "migrations" / "0004_task_priority.py"
+        stale.write_text("stale\n")
+        modified = arm_ws / "todo" / "models.py"
+        modified.write_text(modified.read_text() + "# extra\n")
+
+        make_isolation(
+            arm_ws,
+            active_snapshot_root=active,
+            snapshot_storage_root=storage,
+        )
+
+        assert not stale.exists()
+        assert modified.read_text().startswith("from django.db import models")
+        assert not modified.read_text().endswith("# extra\n")
+        assert self._fingerprint(arm_ws) == self._fingerprint(active)

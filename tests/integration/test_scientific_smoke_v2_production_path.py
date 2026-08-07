@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import asyncio
 import sys
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
@@ -34,8 +35,10 @@ from tests.support.scripted_llm_backend import (
     extract_artifact_path_from_generation_prompt,
 )
 from tests.support.scripted_smoke_v2 import (
+    SMOKE_V2_EDITABLE_PATHS,
     SMOKE_V2_SCENARIO_IDS,
     SMOKE_V2_STRATEGY_NAMES,
+    VALIDATION_COMMAND,
     assert_scripted_smoke_v2_cell,
     assert_scripted_smoke_v2_record,
     build_scripted_smoke_v2_cell,
@@ -384,6 +387,272 @@ def test_r5_nine_record_matrix(scripted_matrix, capsys):
     # ids and per-cell contracts above carry the evidence.
     print("scripted token magnitudes are engineering metrics and do not predict Qwen cost")
     print(format_scripted_smoke_v2_evidence_table(list(result.cells)))
+
+
+# ---------------------------------------------------------------------------
+# Step 5b — sequential 001 -> 002 -> 003 workspace isolation
+# ---------------------------------------------------------------------------
+
+_CANONICAL_MIGRATION_NAMES = (
+    "0001_initial.py",
+    "0002_task_owner.py",
+    "0003_alter_project_options_alter_tag_options_and_more.py",
+)
+
+
+@dataclass
+class SequentialCellEvidence:
+    scenario_id: str
+    strategy_name: str
+    status: str
+    stale_before_restage: tuple[str, ...]
+    canonical_after_restage: tuple[str, ...]
+    post_run_migrations: tuple[str, ...]
+    new_migration_content: str
+    migration_generation_passed: bool
+
+
+def _arm_migration_names(arm_ws: Path) -> tuple[str, ...]:
+    mig_dir = arm_ws / "todo" / "migrations"
+    if not mig_dir.is_dir():
+        return ()
+    return tuple(
+        sorted(p.name for p in mig_dir.glob("*.py") if p.name != "__init__.py")
+    )
+
+
+def _migration_bytes(root: Path) -> dict[str, bytes]:
+    mig_dir = root / "todo" / "migrations"
+    if not mig_dir.is_dir():
+        return {}
+    return {
+        p.name: p.read_bytes()
+        for p in sorted(mig_dir.glob("*.py"))
+        if p.name != "__init__.py"
+    }
+
+
+@pytest.fixture(scope="module")
+def sequential_matrix(tmp_path_factory):
+    """Run 3 scenarios x 3 strategies sequentially through the real topology.
+
+    Each strategy reuses ONE arm workspace across all three scenarios, exactly
+    like the production matrix loop (``workspace_dir / strategy_name``). Each
+    scenario call goes through ``_run_single_scenario_strategy`` which restages
+    the immutable snapshot via ``make_isolation``. Evidence captures the
+    migration state at every boundary so cross-run residue is observable.
+    """
+    from benchmark.graph.builder import ProfileGraphBuilder
+    from benchmark.repositories.loader import RepositoryLoader
+    from benchmark.repositories.snapshot import stage_repository_snapshot
+    from benchmark.selection.dependency_scope import descriptors_from_profile
+    from seven_arm_benchmark import (
+        ExecutionProfile,
+        ScenarioProvider,
+        _run_single_scenario_strategy,
+        make_isolation,
+    )
+    from tests.support.scripted_llm_backend import (
+        ScriptedSmokeV2Backend,
+        ScriptedSmokeV2Mode,
+    )
+
+    base = tmp_path_factory.mktemp("r5_sequential")
+    shared_workspace = base / "workspace"
+    storage = shared_workspace / "snapshots"
+
+    staged = stage_repository_snapshot(
+        source_root=BASELINE_TODO,
+        snapshot_storage_root=storage,
+        repository_id="todo",
+        revision_id="todo-baseline",
+    )
+    snapshot_migrations = _migration_bytes(staged)
+    assert set(snapshot_migrations) == set(_CANONICAL_MIGRATION_NAMES)
+
+    provider = ScenarioProvider(SCENARIOS_DIR)
+    for scenario_id in SMOKE_V2_SCENARIO_IDS:
+        provider.get_scenario(scenario_id)
+
+    loader = RepositoryLoader(SCENARIOS_DIR.parent)
+    profile = loader.load_manifest().get_profile("todo")
+    assert profile is not None
+    graph = ProfileGraphBuilder().build_from_profile(profile)
+    descriptors = descriptors_from_profile(
+        tuple(profile.artifact_catalog), SMOKE_V2_EDITABLE_PATHS
+    )
+
+    execution_profile = ExecutionProfile(
+        name="smoke-test",
+        label="scientific-smoke-v2-sequential",
+        scenario_count=len(SMOKE_V2_SCENARIO_IDS),
+        strategies=list(SMOKE_V2_STRATEGY_NAMES),
+        repetitions=1,
+        is_publication=False,
+    )
+
+    mode_by_strategy = {
+        "monolithic": ScriptedSmokeV2Mode.MONOLITHIC,
+        "selective": ScriptedSmokeV2Mode.SELECTIVE,
+        "iterative_repository_agent": ScriptedSmokeV2Mode.AGENT,
+    }
+
+    cells: list[SequentialCellEvidence] = []
+    for strategy_name in SMOKE_V2_STRATEGY_NAMES:
+        arm_ws = shared_workspace / strategy_name
+        for scenario_id in SMOKE_V2_SCENARIO_IDS:
+            stale_before_restage = _arm_migration_names(arm_ws)
+            isolation = make_isolation(
+                arm_ws,
+                active_snapshot_root=staged,
+                snapshot_storage_root=storage,
+            )
+            assert isolation.verify().passed
+            canonical_after_restage = _arm_migration_names(arm_ws)
+            assert canonical_after_restage == _CANONICAL_MIGRATION_NAMES, (
+                f"{scenario_id}/{strategy_name}: stale migrations survived restage: "
+                f"{canonical_after_restage}"
+            )
+
+            backend = ScriptedSmokeV2Backend(
+                mode_by_strategy[strategy_name], baseline_repo=BASELINE_TODO
+            )
+            record_dict, _ = _run_single_scenario_strategy(
+                scenario_id=scenario_id,
+                strategy_name=strategy_name,
+                scenario_provider=provider,
+                dry_run=False,
+                profile=execution_profile,
+                model_path=None,
+                protocol_version="1.0",
+                max_attempts=3,
+                timeout_seconds=300,
+                dep_graph=graph,
+                workspace_dir=arm_ws,
+                backend_name="mock",
+                validation_command=VALIDATION_COMMAND,
+                max_tokens=0,
+                active_snapshot_root=str(staged),
+                snapshot_storage_root=storage,
+                editable_artifact_paths=SMOKE_V2_EDITABLE_PATHS,
+                artifact_descriptors=descriptors,
+                _backend=backend,
+            )
+
+            post_run_migrations = _arm_migration_names(arm_ws)
+            new_migrations = tuple(
+                name
+                for name in post_run_migrations
+                if name not in _CANONICAL_MIGRATION_NAMES
+            )
+            assert len(new_migrations) == 1, (
+                f"{scenario_id}/{strategy_name}: expected exactly one new migration, "
+                f"got {new_migrations} (post_run={post_run_migrations})"
+            )
+            new_migration_content = (
+                arm_ws / "todo" / "migrations" / new_migrations[0]
+            ).read_text()
+
+            # The immutable snapshot and every canonical baseline migration stay
+            # byte-identical after each reset + run.
+            assert _migration_bytes(staged) == snapshot_migrations
+            arm_bytes = _migration_bytes(arm_ws)
+            for name in _CANONICAL_MIGRATION_NAMES:
+                assert arm_bytes[name] == snapshot_migrations[name]
+
+            cells.append(
+                SequentialCellEvidence(
+                    scenario_id=scenario_id,
+                    strategy_name=strategy_name,
+                    status=record_dict.get("status", ""),
+                    stale_before_restage=stale_before_restage,
+                    canonical_after_restage=canonical_after_restage,
+                    post_run_migrations=post_run_migrations,
+                    new_migration_content=new_migration_content,
+                    migration_generation_passed=(
+                        record_dict.get("migration_generation_passed") is True
+                    ),
+                )
+            )
+    return tuple(cells)
+
+
+@pytest.mark.parametrize("strategy_name", SMOKE_V2_STRATEGY_NAMES)
+def test_r5_sequential_workspace_isolation_001_002_003(sequential_matrix, strategy_name):
+    """One arm workspace reused across 001 -> 002 -> 003 must never leak migrations.
+
+    This reproduces the real Full-9 contamination: scenario 001 generates
+    ``0004_task_priority.py`` inside the reused arm workspace. A restage that
+    only overlays source files leaves that migration behind, so scenario 002
+    would generate ``0005_remove_task_priority_task_deleted_at.py``. The reset
+    restage must remove it and regenerate 002 from the canonical baseline only.
+    """
+    cells = [c for c in sequential_matrix if c.strategy_name == strategy_name]
+    assert [c.scenario_id for c in cells] == list(SMOKE_V2_SCENARIO_IDS)
+
+    cell_001, cell_002, cell_003 = cells
+
+    assert cell_001.status == "succeeded"
+    assert cell_001.migration_generation_passed is True
+    assert cell_001.stale_before_restage == ()
+    assert cell_001.canonical_after_restage == _CANONICAL_MIGRATION_NAMES
+    new_001 = tuple(
+        n for n in cell_001.post_run_migrations if n not in _CANONICAL_MIGRATION_NAMES
+    )
+    assert new_001 == ("0004_task_priority.py",)
+    assert "priority" in cell_001.new_migration_content
+
+    assert cell_002.status == "succeeded"
+    assert cell_002.migration_generation_passed is True
+    assert set(cell_002.stale_before_restage) == set(_CANONICAL_MIGRATION_NAMES) | {
+        "0004_task_priority.py"
+    }
+    assert cell_002.canonical_after_restage == _CANONICAL_MIGRATION_NAMES
+    new_002 = tuple(
+        n for n in cell_002.post_run_migrations if n not in _CANONICAL_MIGRATION_NAMES
+    )
+    assert len(new_002) == 1
+    assert "0004_task_priority" not in cell_002.new_migration_content
+    assert "priority" not in cell_002.new_migration_content
+    assert "0003_alter_project_options_alter_tag_options_and_more" in (
+        cell_002.new_migration_content
+    )
+
+    assert cell_003.status == "succeeded"
+    assert cell_003.migration_generation_passed is True
+    assert set(cell_003.stale_before_restage) == set(_CANONICAL_MIGRATION_NAMES) | set(
+        new_002
+    )
+    assert cell_003.canonical_after_restage == _CANONICAL_MIGRATION_NAMES
+    new_003 = tuple(
+        n for n in cell_003.post_run_migrations if n not in _CANONICAL_MIGRATION_NAMES
+    )
+    assert len(new_003) == 1
+    assert "owner" in cell_003.new_migration_content
+
+
+def test_r5_sequential_matrix_nine_runs_zero_residue(sequential_matrix):
+    """Full 3x3 sequential matrix: 9 planned / 9 terminal / 9 successes / 0 residue."""
+    cells = sequential_matrix
+    assert len(cells) == 9
+    assert [c.scenario_id for c in cells] == list(SMOKE_V2_SCENARIO_IDS) * 3
+    assert [c.strategy_name for c in cells] == [
+        s for s in SMOKE_V2_STRATEGY_NAMES for _ in SMOKE_V2_SCENARIO_IDS
+    ]
+
+    assert all(c.status == "succeeded" for c in cells)
+    assert all(c.migration_generation_passed for c in cells)
+    for cell in cells:
+        assert cell.canonical_after_restage == _CANONICAL_MIGRATION_NAMES
+        new_migrations = tuple(
+            name
+            for name in cell.post_run_migrations
+            if name not in _CANONICAL_MIGRATION_NAMES
+        )
+        assert len(new_migrations) == 1, (
+            f"{cell.scenario_id}/{cell.strategy_name}: residue detected: "
+            f"{cell.post_run_migrations}"
+        )
 
 
 # ---------------------------------------------------------------------------
