@@ -1,7 +1,38 @@
 # System State
 
 ## Current Phase
-**QWEN 14B NF4 V4 LOADER OFFICIAL GATE COMPLETE (2026-08-05) — ONE STALE INT8 NOTEBOOK MARKDOWN CELL CORRECTED TO TRUTHFUL BNB-NF4 WORDING; OFFICIAL CLEAN-ENV GATE (PYTHON 3.11.5 / PYTEST 8.4.2, FRESH DISPOSABLE ENV CREATED FROM PROJECT DECLARATIONS ONLY) FULL SUITE 1,898 PASSED / 32 SKIPPED / 0 FAILED, ALL PRE-BENCHMARK CATEGORIES PASS, ZERO NEW STATIC FINDINGS, BUNDLE REBUILT CONTENT-IDENTICAL; NEXT ACTION = INDEPENDENT AUDIT, THEN KAGGLE ENGINEERING PREFLIGHT CELL ONLY; NO MERGE/TAG/PILOT/SCIENTIFIC RUN; NO STABLE RELEASE CLAIMED** (branch `fix/kaggle-smoke-v2-model-output-closure`, loader closure Commit A `41e9ad7` + Commit B `920ab9b`, pushed, local = remote, tree clean; accepted real records remain 0/9; sentinel `QWEN14B_V4_LOADER_OFFICIAL_GATE_AUDIT_REQUIRED`)
+**QWEN 14B SELECTIVE CANARY SUCCESS ACCEPTED AND RECORDED (2026-08-07) — FIRST SUCCESSFUL REAL QWEN IMPLEMENTATION THROUGH EVERY FUNCTIONAL VALIDATION STAGE; REAL ENGINEERING PREFLIGHT PASS (2×TESLA T4, BNB-NF4, MIN FREE VRAM 8.417 GiB, GPU-ONLY); CANARY `exp-20260807-131819` (`todo-smoke-001 / selective`) SUCCEEDED: 3 SELECTED / 2 PRESERVED / 3 REGENERATED, ONE MIGRATION, 3 MODEL CALLS / 3,247 TOKENS / 295.944 S / 0 REPAIRS; FUNCTIONAL VALIDATION PASS; SCENARIO EVALUATOR PASS 10/10; ACCEPTED REAL 14B CANARY RECORDS = 1; FULL 9-RECORD SCIENTIFIC SMOKE V2 = NOT RUN (ISOLATED SELECTIVE-ONLY PLAN, NOT 1/9); NEXT ACTION = ONE FRESH FULL-9 SCIENTIFIC SMOKE V2 USING THE FROZEN RUNBOOK `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`; NO MERGE/TAG/PILOT; NO STABLE RELEASE CLAIMED** (branch `fix/kaggle-smoke-v2-model-output-closure`, documentation HEAD `5561f91845914b320ddc1cb61701cacd94f8502b`; runtime source `f7b1ebba73b52868a95c47ef3806d3b09da16d93` / build `f7b1ebb`; sentinel `QWEN14B_CANARY_SUCCESS_DOCUMENTED_FULL9_READY`)
+
+The Qwen 14B selective canary success (2026-08-07) is the first accepted real
+Qwen result in the current real-model calibration path: for the first time, a
+real Qwen implementation reached and passed every functional validation stage.
+The independent GPT-5.6 Thinking audit **ACCEPTED SUCCESSFUL REAL CANARY**.
+Real engineering preflight = **PASS** on 2×Tesla T4 (Python 3.12.13 / Django
+5.2.16 / DRF 3.17.1 / pytest 8.4.2 / accelerate 1.14.0 / bitsandbytes 0.49.2 /
+torch 2.10.0+cu128 / transformers 4.57.6; model identity
+`qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`, footprint 9,721,981,184 bytes;
+preflight 174.016 s; probe 68+17 tokens; minimum free VRAM 8.417 GiB, GPU-only
+device map). Canary `exp-20260807-131819` (`todo-smoke-001 / selective`) =
+**succeeded**: 3 selected / 2 preserved / 3 regenerated, one migration
+`todo/migrations/0004_task_priority.py`, 3 model calls / 2,527 prompt + 720
+completion = 3,247 tokens / 295.944 s / 0 repair attempts; functional
+validation PASS; scenario evaluator PASS 10/10; HF local evidence
+`recovery_uploaded`. Accepted real 14B canary records = **1 succeeded / 0
+failed** (checkpoint 1 / 0 / 2 pending within the selective-only three-scenario
+canary plan). **Full 9-record Scientific Smoke V2 = NOT RUN** — the canary is an
+isolated selective-only plan; do NOT call it `1/9`. Interpretation: 14B crossed
+the model-quality floor seen with 7B on the same task (25.0% fewer calls, 44.1%
+fewer tokens, repair eliminated, 14.9% slower) — functional viability, not
+strategy superiority. The generated `views.py` includes an unused `Q` import
+(non-blocking evidence quality note; the accepted evidence workspace must NOT
+be modified or regenerated). The continuous cell failed closed with zero model
+calls because the generic experiment was empty — not a failure; do NOT patch
+the continuous workflow before the Full-9 run. Next action = **one fresh
+Full-9 Scientific Smoke V2** (3 scenarios × 3 arms = 9 records) using the
+frozen runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — one
+engineering preflight + one benchmark process in a fresh isolated experiment;
+never merge the canary; then independent results audit. Record:
+`selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md`.
 
 The Qwen 14B NF4 v4 loader official gate (2026-08-05) completed the missing
 official clean-environment gate and corrected one stale Notebook markdown
@@ -152,13 +183,17 @@ FINAL SELECTIVE CANARY READINESS closure = COMPLETE — independent audit (GPT-5
 SELECTIVE CALIBRATION CANARY = EXECUTED (2026-08-04) — dedicated canary exp-20260804-133523 (todo-smoke-001 / selective, source/build 50ec2c1) FAILED model_output: 4 calls / 5,804 tokens / 257.596 s / 3 selected / 2 preserved / 0 written; initial 3 calls / 3,372 tokens, repair 1 call / 2,432 tokens (first repair byte-identical → repair_no_progress stopped the round); atomic application wrote 0 files; defects in todo/models.py (max_length=5 vs MEDIUM length 6) + duplicated Priority(models.TextChoices) in todo/serializers.py and todo/views.py; vs previous selective run 41.6% fewer tokens / 33.3% fewer calls / 22.4% faster but initial generation tokens (3,372) and output hashes identical → harness safety controls verified, Qwen code quality unchanged; HF recovery_uploaded; checkpoint total_planned 3 / 1 completed / 2 pending; incidental monolithic exp-20260804-133016 (6 calls / 7,927 tokens / 300.165 s / scientific_budget_exhausted / 0 written) = diagnostic evidence only, NOT the authorized canary, NOT an accepted comparison; continuous cell blocked fail-closed by CALIBRATION_REVIEW_REQUIRED; accepted current dedicated canary records = 1, successful = 0; full 9-record experiment NOT run; no merge/tag/Pilot/Kaggle authorized; record selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md; audit marker SELECTIVE_CANARY_RESULT_AUDIT_REQUIRED
 QWEN 14B BNB-NF4 CANARY PREPARATION = COMPLETE (2026-08-05) — Commit A 0ece665 (fix(model): add model-aware Qwen BNB quantization profiles) + Commit B 0a596b8 (chore(deploy): pin Qwen 14B NF4 selective-canary bundle), both pushed, local = remote; model-aware identity qwen:<checkpoint-basename>:<quantization>:cfg-<12hex> replaces frozen qwen:1:int8 (blocks auto-resume cross-model contamination; verified 7B int8 / 14B int8 / 14B NF4 differ); canonical modes bnb-int8 / bnb-nf4 / fp16 via --qwen-quantization (default bnb-int8, unknown exits 2); NF4 profile = load_in_4bit=True, bnb_4bit_quant_type=nf4, bnb_4bit_compute_dtype=float16, bnb_4bit_use_double_quant=True (T4); prequantized non-bnb checkpoint fails fast (PREQUANTIZED_CHECKPOINT_INCOMPATIBLE) before model load; notebook pinned to 14b-instruct/1 base (never gptq-int4), QWEN_QUANTIZATION=bnb-nf4, RUN_GENERIC_ONE_RUN=False, isolated qwen14b_bnb_nf4_selective_canary output, fail-closed canary preflight gate, no --auto-resume-hf, SOURCE_COMMIT=0ece665 / DEPLOYED_BUILD_ID=0ece665; preserved engineering evidence = failed 14B GPTQ attempt exp-20260804-195126 (0 records / 0 calls / 0 tokens, preflight failed before probe, GPTQConfig + BitsAndBytesConfig conflict) + auto-resume contamination downloaded exp-20260804-133016 (7B and attempted 14B both labeled qwen:1:int8); GPTQ support deferred (incompatible quantization stack); FULL SUITE GREEN = 1,877 passed / 32 skipped / 0 failed; Dataset 27 scenarios / 27 IDs / 0 duplicates (no closure dataset changes); Prompt 380 passed; Pipeline Smoke 189 passed; Scripted dry run 9/9 exit 0; Metric Verification 169 passed; ruff 0 new (21 pre-existing); mypy 0 new (5 pre-existing, identical rule set to self-contained HEAD baseline); compileall clean; notebooks compile 8/8 canonical + 8/8 bundled; bundle content-identical rerun (147 files / 962,188 bytes), manifests verified, no cache files; next action = Kaggle engineering preflight ONLY for 14B bnb-nf4; audit marker QWEN14B_NF4_CANARY_READINESS_AUDIT_REQUIRED
 QWEN 14B NF4 TRANSFORMERS V4 LOADER CLOSURE + OFFICIAL GATE = COMPLETE (2026-08-05) — Commit A 41e9ad7 (fix(model): pin transformers==4.57.6 BNB loader and preserve static preflight metadata) + Commit B 920ab9b (chore(deploy): repin Qwen 14B NF4 v4 loader closure bundle) + official gate docs/deploy commit (docs(deploy): finalize Qwen 14B NF4 loader gate truth); transformers==4.57.6 pinned in lock + requirements-kaggle.txt (torch unpinned), preflight _REQUIRED_IMPORTS exact version fail-closed, notebook EXPECTED_RUNTIME entry, low_cpu_mem_usage=True for bnb-int8/bnb-nf4, _static_model_metadata preserved on failed probe; stale int8 markdown cell corrected to truthful BNB-NF4 wording (docs-only); official clean-env gate (fresh disposable env from declarations, Python 3.11.5 / pytest 8.4.2 exactly) FULL SUITE = 1,898 passed / 32 skipped / 0 failed (517.97 s); Dataset 281/4, Prompt 126/4, Pipeline Smoke 177, Dry Run 9/9/9/0 exit 0, Metric 169; ruff 0 new (91 baseline); mypy strict Success (77 files); compileall clean; notebook compile canonical + bundled; bundle content-identical double rebuild (147 files / 965,015 bytes); git diff --check clean; audit marker QWEN14B_V4_LOADER_OFFICIAL_GATE_AUDIT_REQUIRED
-Current real records = 0/9
-Real Qwen records = 0/9
+QWEN 14B SELECTIVE CANARY SUCCESS = COMPLETE (2026-08-07) — independent GPT-5.6 Thinking audit ACCEPTED SUCCESSFUL REAL CANARY; real engineering preflight PASS (2×Tesla T4, bnb-nf4, identity qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25, footprint 9,721,981,184 bytes, 174.016 s, probe 68+17, min free VRAM 8.417 GiB, GPU-only); canary exp-20260807-131819 (todo-smoke-001 / selective) SUCCEEDED — 3 selected / 2 preserved / 3 regenerated, migration todo/migrations/0004_task_priority.py, 3 model calls / 2,527+720=3,247 tokens / 295.944 s / 0 repair attempts; functional validation PASS; scenario evaluator PASS 10/10; HF local evidence recovery_uploaded; accepted real 14B canary records = 1 succeeded / 0 failed (isolated selective-only plan, NOT 1/9); full 9-record Scientific Smoke V2 = NOT RUN; vs 7B: 25.0% fewer calls / 44.1% fewer tokens / repair eliminated / 14.9% slower → functional viability, not strategy superiority; unused `Q` import in generated views.py = non-blocking, evidence NOT to be repaired; continuous cell failed closed with zero model calls (generic experiment empty); record selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md
+Current real records = 0/9 (Full-9 Scientific Smoke V2 not yet run)
+Real Qwen records = 1 accepted selective canary / 0 Full-9
+Real 14B engineering preflight = PASS
+Accepted real 14B selective canary = 1 succeeded / 0 failed
+Full 9-record Scientific Smoke V2 = not run
 Pilot = not authorized
 README = updated
 push = PUBLISHED — fix branch upstream origin/fix/kaggle-smoke-v2-model-output-closure, local = remote
 stable tag = blocked
-next action = independent audit of the official gate, then Kaggle engineering preflight ONLY for the 14B bnb-nf4 profile; NOT a merge/tag/Pilot, NOT a scientific canary/9-record run, NOT a fine-tune, NOT a full relaunch
+next action = one fresh Full-9 Scientific Smoke V2 (3 scenarios × 3 arms = 9 records) using the frozen runbook docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md (runtime source f7b1ebba73b52868a95c47ef3806d3b09da16d93 / build f7b1ebb / profile scientific-smoke-v2 / protocol 1.0); one engineering preflight + one benchmark process in a fresh isolated experiment; NEVER merge the canary; then independent results audit; NOT a merge/tag/Pilot, NOT a fine-tune
 ```
 
 ## Previous Phase
@@ -167,27 +202,29 @@ next action = independent audit of the official gate, then Kaggle engineering pr
 R5 proved exactly nine non-dry scripted production records (3 frozen scenarios × 3 arms × 1 repetition) through the real production orchestration path. R5 was accepted by the independent re-audit on 2026-08-01 at `7761c48`. The cleaned R5 tail is `8fafb50`, `a24a9cd`, `875e4d1`, `ee148fa`, `7761c48`. The old contaminated tail is preserved on `backup/r5-pre-audit-c3ecad2`.
 
 ## Current Task
-The **dedicated selective calibration canary** has been executed and its result
-ingested (record: `selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md`).
-`exp-20260804-133523` (`todo-smoke-001 / selective`, source/build `50ec2c1`)
-**failed with classification `model_output`**: 4 model calls / 5,804 tokens /
-257.596 seconds, 3 artifacts selected / 2 preserved / **0 written**. Qwen's
-outputs were defective in `todo/models.py` (`max_length=5` for a `MEDIUM` value
-of length 6) and duplicated `Priority(models.TextChoices)` in both
-`todo/serializers.py` and `todo/views.py`; the first repair was byte-identical,
-so `repair_no_progress` stopped the round and the atomic write produced zero
-files. Versus the previous selective run on the same scenario, the canary used
-41.6% fewer tokens, 33.3% fewer calls, and was 22.4% faster, but the initial
-generation tokens (3,372) and the three output SHA-256 hashes were **identical**
-— meaning the harness safety controls (deadline, no-progress detection, atomic
-writes, continuation gate) worked exactly as designed while **Qwen code quality
-did not improve**. The incidental monolithic run `exp-20260804-133016`
-(6 calls / 7,927 tokens / 300.165 s / `scientific_budget_exhausted`) is
-diagnostic evidence only. The continuous cell correctly stopped fail-closed with
-`CALIBRATION_REVIEW_REQUIRED`. No successful implementation exists; the full
-9-record experiment is **not run**; merge/tag/Pilot/Kaggle remain **not
-authorized**. Next: independent audit of the canary results, then a deliberate
-decision between repeating the canary and proceeding to the full 9-record run.
+The **Qwen 14B selective canary success** has been accepted by the independent
+GPT-5.6 Thinking audit and recorded (record:
+`selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md`).
+`exp-20260807-131819` (`todo-smoke-001 / selective`, runtime source
+`f7b1ebba73b52868a95c47ef3806d3b09da16d93` / build `f7b1ebb`) **succeeded**: 3
+model calls / 2,527 prompt + 720 completion = 3,247 tokens / 295.944 seconds, 3
+selected / 2 preserved / 3 regenerated, one migration
+`todo/migrations/0004_task_priority.py`, functional validation PASS, scenario
+evaluator PASS 10/10, 0 repair attempts. Real engineering preflight PASS on
+2×Tesla T4 (bnb-nf4, minimum free VRAM 8.417 GiB, GPU-only device map). This is
+the first real Qwen implementation through every functional validation stage —
+evidence of a 7B capacity/instruction-following floor for this task, **not**
+proof of strategy superiority. The generated `views.py` has an unused `Q`
+import (non-blocking; the accepted evidence workspace must NOT be repaired).
+The continuous cell failed closed with zero model calls (generic experiment
+empty) — not a failure; do NOT patch the continuous workflow before Full-9.
+The full 9-record Scientific Smoke V2 is **not run**; merge/tag/Pilot remain
+**not authorized**. Next: **one fresh Full-9 Scientific Smoke V2** (3 frozen
+scenarios × 3 arms = 9 records) using the frozen runbook
+`docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — one engineering
+preflight + one benchmark process in a fresh isolated experiment; never merge
+the canary; then independent results audit.
+
  The real attempt `exp-20260801-123125` failed at runtime root (FP16 model exceeded GPU memory; dependency versions had drifted from the previously assumed runtime). R7C (`fix/kaggle-smoke-v2-real-run-root`, commits `7a80e53` + `f01b8f0`) closes the four root contracts: **(1) environment memory** — exact runtime pins in `requirements-smoke-kaggle.lock` (Django==5.2.16, djangorestframework==3.17.1, pytest==8.4.2, pytest-django==4.12.0, accelerate==1.14.0, bitsandbytes==0.49.2, transformers==4.57.6 — Qwen14B NF4 transformers v4 loader closure (2026-08-05); torch intentionally unpinned, Kaggle image provides its GPU torch build) installed and verified in the notebook `install-lock-cell` (`EXPECTED_RUNTIME` via `RUNTIME_ATTR`, `runtime_environment.json` schema `kaggle_runtime_environment.v1`); **(2) memory contract** — int8 default (`qwen:1:int8`), `PYTORCH_ALLOC_CONF=expandable_segments:True`, seeded 64-token `run_probe`, preflight ≥2.0 GiB VRAM headroom; **(3) prompt contract** — frozen `RegenerationScenarioContext` in strategy prompts, preserve-only byte-identity enforcement when `expected_actions` is non-empty; **(4) repair contract** — `FailureKind.infrastructure_nonrepairable` first-failure, one execution, zero LLM repair. `src/benchmark/execution/preflight.py` adds `--kaggle-preflight-only` (exit 0/1, no experiment/RunRecord/checkpoint/workspace/HF state; schema `kaggle_smoke_preflight.v1`, 6 checks), run as a notebook gate cell before the exec cell; `secrets-cell` moved after preflight. Notebook now: setup → install lock → preflight → secrets → run. Bundle rebuilt via `scripts/build_upload_bundle.py` (147 files / 894,735 bytes; notebook 36,351 bytes). Full suite (contract-first) = 1,451 passed / 31 skipped / 0 failed was a SUBSET mislabeled as full suite — the true first full suite was 23 failed / 1,759 passed / 32 skipped (root cause: blanket `baseline_validation => infrastructure_nonrepairable` in `src/benchmark/execution/runner.py`); the independent GPT-5.6 Thinking correction was imported via bundle fast-forward (`ffa179a` + `6d6aa36`, HEAD `6d6aa36`, pushed): the exact 23 former failures now pass, and DRF import mapping, exact version verification, fail-fast preflight, driver-level VRAM, CPU-offload rejection, Python 3.12 runtime contract, and stale source identity (SOURCE_COMMIT=ffa179a / DEPLOYED_BUILD_ID=ffa179a) were corrected. Current full gate (Windows / Python 3.11.5) = 1,790 passed / 32 skipped / 0 failed; mypy strict 0; compileall clean; builder rerun clean. Valid real Qwen remains 0/9; Kaggle remains blocked pending the independent full-gate audit. Current task: **independent full-gate audit of the corrected R7C branch** (`R7C_CORRECTION_FULL_GATE_AUDIT_REQUIRED`), then update the Kaggle code dataset + notebook, then one real cell, then continue to 9/9 — blocked on the audit. **R7C post-gate correction imported (independent post-gate audit on e47a1e\, exact correction f88823\ + /97fc0\, HEAD /97fc0\, pushed):** the audit found (a) the project-local \ImportError\ was incorrectly bypassing repair (the blanket marker match is replaced by the canonical \classify_validation_repairability\ classifier, so project-local \ModuleNotFoundError\ and \cannot import name\ are repairable while missing declared Django and CUDA OOM stay \infrastructure_nonrepairable\), (b) the bundled preflight could not import \enchmark\ without an ambient \PYTHONPATH\ (the bundled script now bootstraps its own \src/\ and reaches its preflight in a clean subprocess), and (c) preflight output was buffered (now streamed and persisted). Notebook source identity is now \SOURCE_COMMIT = 6f88823\, \DEPLOYED_BUILD_ID = 6f88823\. Current full gate (Windows / Python 3.11.5) = 1,796 passed / 32 skipped / 0 failed; mypy strict 0; compileall clean; builder rerun content-identical; bundle manifests verified. Valid real Qwen remains 0/9; no scientific evidence exists yet; Kaggle remains blocked pending the final independent full-gate audit, after which the only authorized Kaggle action is the engineering preflight cell - not the scientific One-Run cell. **QWEN 14B MULTI-GPU VRAM PREFLIGHT CLOSURE (2026-08-06):** the independent audit (`QWEN14B_MULTI_GPU_VRAM_PREFLIGHT_INDEPENDENT_AUDIT_2026-08-06.md`) found the preflight on the `897e323` state (full suite was green) read VRAM from **GPU 0 only** — `_qwen_probe_metrics` used `torch.cuda.memory_allocated(0)` / `memory_reserved(0)` / `mem_get_info(0)` / `synchronize(0)` and `vram_headroom` checked only that single free value, so a 2x Tesla T4 `device_map="auto"` 14B bnb-nf4 load could pass while GPU 1 had <2.0 GiB free. Commit A `f7b1ebb` (`fix(model): enforce multi-GPU VRAM headroom per visible GPU`) + Commit B `c8f5685` (`chore(deploy): repin multi-GPU VRAM preflight bundle`), pushed, local = remote, tree clean. **Fix:** immutable `GpuVramSnapshot` (`device_index/gpu_name/allocated_gib/reserved_gib/free_gib/total_gib`); `_collect_gpu_vram_snapshots()` synchronizes and reads allocated/reserved/free/total on **every** visible GPU (three-decimal rounding, never swallows a per-GPU failure, `()` when CUDA unavailable); `free_vram_after_probe_gib = min(snapshot.free_gib)` with summed allocated/reserved scalars; minimum-free gate requiring **every visible GPU >= 2.0 GiB** (`vram_headroom: PASS (minimum free across 2 GPU(s)=X.XX GiB)` / `FAIL (GPU 1 free=0.12 GiB < 2.0 GiB)`, all failing devices listed by index); ordered per-GPU evidence in the `kaggle_smoke_preflight.v1` JSON (`gpu_vram_by_device`) and one line per GPU in the human preflight table; per-GPU snapshots preserved on failed model loads via `_static_model_metadata`. Official clean-env gate (`_workspace\cache\prebenchmark-py311-v4-loader`, Python 3.11.5 / **pytest 8.4.2 exactly**): full suite **1,915 passed / 32 skipped / 0 failed** (500.22 s; +17 net new tests); Metric Verification 169; Ruff 0 new (86 pre-existing baseline); mypy strict Success (77 files); compileall clean; notebook + bundle pin identity PASS (`SOURCE_COMMIT=f7b1ebb`); bundle integration 32 passed; builder content-identical (147 files / 968,722 bytes). Mandatory adversarial reproduction: **GPU0 free 3.0 GiB / GPU1 free 0.125 GiB → FAIL**. No Kaggle run, no preflight on Kaggle, no canary, no continuous, no model/quantization/prompt/data change, no GPTQ/AWQ/GGUF/vLLM, no merge/tag/Pilot; **no real 14B result and no stable release claimed**; accepted real records remain 0/9. **Next action after independent audit = Kaggle engineering preflight cell ONLY.** Sentinel: `QWEN14B_MULTI_GPU_VRAM_CLOSURE_AUDIT_REQUIRED`. Record: `selective_updates/records/QWEN14B-MULTI-GPU-VRAM-PREFLIGHT-CLOSURE.md`.
 
 ## Recent Non-Phase Additions

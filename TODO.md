@@ -1,5 +1,19 @@
 # TODO
 
+## Current - Qwen 14B Selective Canary Success (2026-08-07)
+
+### QSC-01 - Record Accepted Qwen 14B Selective Canary Success (docs only)
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Independent GPT-5.6 Thinking audit **ACCEPTED SUCCESSFUL REAL CANARY** (2026-08-07, documentation HEAD `5561f918`). Record truthfully: real engineering preflight PASS (2×Tesla T4, bnb-nf4, identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`, footprint 9,721,981,184 bytes, 174.016 s, probe 68+17, min free VRAM 8.417 GiB, GPU-only); canary `exp-20260807-131819` (`todo-smoke-001 / selective`, runtime source `f7b1ebba73b52868a95c47ef3806d3b09da16d93` / build `f7b1ebb`) **succeeded**: 3 selected / 2 preserved / 3 regenerated, migration `todo/migrations/0004_task_priority.py`, 3 model calls / 2,527+720=3,247 tokens / 295.944 s / 0 repair attempts; functional validation PASS; scenario evaluator PASS 10/10; HF `recovery_uploaded`; accepted real 14B canary records = 1 succeeded / 0 failed (isolated selective-only plan, NOT `1/9`); full 9-record Scientific Smoke V2 = NOT RUN; vs 7B: 25.0% fewer calls / 44.1% fewer tokens / repair eliminated / 14.9% slower → functional viability, not strategy superiority; unused `Q` import in generated `views.py` = non-blocking, evidence NOT to be repaired; continuous cell failed closed with zero model calls (generic experiment empty). Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md; create `selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md` + `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` (copied from the frozen workspace runbook). Commit exactly `docs(results): record successful Qwen 14B selective canary`; push; verify clean + local = remote.
+- **Status:** COMPLETE (this documentation commit, pushed)
+
+### QSC-02 - Run One Fresh Full-9 Scientific Smoke V2
+- **Priority:** HIGH
+- **Category:** Scientific Evidence
+- **Description:** The only next scientific action. One fresh isolated 9-record experiment (3 frozen todo scenarios × 3 strategies × 1 repetition = 9 records) using the frozen runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — runtime source `f7b1ebba73b52868a95c47ef3806d3b09da16d93`, build `f7b1ebb`, profile `scientific-smoke-v2`, protocol 1.0, expected identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`. One engineering preflight + one benchmark process in a fresh isolated output dir (`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke`); no `--strategy`, no `--max-runs`, no `--auto-resume-hf`. NEVER resume or merge the accepted canary. After completion: independent results audit. No merge/tag/Pilot/fine-tune.
+- **Status:** PENDING
+
 ## Current - Qwen 14B BNB-NF4 Canary Preparation
 
 ### Q14-01 - Model-Aware Qwen Identity
@@ -26,11 +40,11 @@
 - **Description:** Full suite **1,877 passed / 32 skipped / 0 failed**; Dataset Validation PASS (27 scenarios / 27 unique IDs / zero closure dataset changes); Prompt Validation 380 passed; Pipeline Smoke 189 passed; Scripted 9-record dry run 9/9 exit 0; Metric Verification 169 passed; Ruff 0 new (21 pre-existing); strict mypy 0 new (5 pre-existing, identical rule set to a self-contained HEAD baseline); compileall clean; notebook cells compile 8/8 canonical + 8/8 bundled; no cache files. Recorded at `selective_updates/records/QWEN14B-BNB-NF4-CANARY-READINESS.md`.
 - **Status:** COMPLETE (commit <new> — this documentation commit, pushed)
 
-### Q14-05 - Next Action - Kaggle Preflight Only
+### Q14-05 - Kaggle Engineering Preflight
 - **Priority:** HIGH
 - **Category:** Scientific Evidence
-- **Description:** Only the Kaggle engineering preflight for the 14B bnb-nf4 profile is authorized next (after the independent readiness audit if required). No scientific canary/9-record run, merge, tag, or Pilot. Sentinel `QWEN14B_NF4_CANARY_READINESS_AUDIT_REQUIRED`.
-- **Status:** PENDING
+- **Description:** The Kaggle engineering preflight for the 14B bnb-nf4 profile was the authorized next action after readiness/loader/multi-GPU-VRAM closures. **PASSED on the real target environment (2026-08-07)**: Python 3.12.13 / Django 5.2.16 / DRF 3.17.1 / pytest 8.4.2 / accelerate 1.14.0 / bitsandbytes 0.49.2 / torch 2.10.0+cu128 / transformers 4.57.6; identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`; 2×Tesla T4; minimum free VRAM 8.417 GiB (≥2.0 GiB gate); GPU-only device map; preflight 174.016 s; probe 68+17. This preflight closure is superseded by the accepted successful selective canary (see QSC-01). No scientific canary/9-record run, merge, tag, or Pilot then authorized; now the only next scientific action = one fresh Full-9 run (QSC-02).
+- **Status:** COMPLETE (real preflight PASS, 2026-08-07)
 
 ## Current - Selective Calibration Canary Result
 

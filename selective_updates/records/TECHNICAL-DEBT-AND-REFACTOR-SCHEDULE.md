@@ -10,6 +10,7 @@
 | RF-4 | after R5 nine records | all TD-0/1; selected TD-2 | local production proof path | nine records rerun |
 | R6 closure | after bundle | deployment TD-0/1 | docs/bundle/parity | source/build hash parity |
 | Post-Smoke | after real records | evidence defects only | records/reports | preserved original results |
+| QWEN 14B canary closure | after accepted canary (2026-08-07) | docs-only truth defects (records/reports/ledgers); evidence workspace immutable | records/docs/reports only | canary result preserved (exp-20260807-131819) + Full-9 runbook frozen (`docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`); no code/test/data change |
 
 ## Debt Register
 
