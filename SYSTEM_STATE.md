@@ -1,7 +1,7 @@
 # System State
 
 ## Current Phase
-**QWEN 14B SELECTIVE CANARY SUCCESS ACCEPTED AND RECORDED (2026-08-07) — FIRST SUCCESSFUL REAL QWEN IMPLEMENTATION THROUGH EVERY FUNCTIONAL VALIDATION STAGE; REAL ENGINEERING PREFLIGHT PASS (2×TESLA T4, BNB-NF4, MIN FREE VRAM 8.417 GiB, GPU-ONLY); CANARY `exp-20260807-131819` (`todo-smoke-001 / selective`) SUCCEEDED: 3 SELECTED / 2 PRESERVED / 3 REGENERATED, ONE MIGRATION, 3 MODEL CALLS / 3,247 TOKENS / 295.944 S / 0 REPAIRS; FUNCTIONAL VALIDATION PASS; SCENARIO EVALUATOR PASS 10/10; ACCEPTED REAL 14B CANARY RECORDS = 1; FULL 9-RECORD SCIENTIFIC SMOKE V2 = NOT RUN (ISOLATED SELECTIVE-ONLY PLAN, NOT 1/9); NEXT ACTION = ONE FRESH FULL-9 SCIENTIFIC SMOKE V2 USING THE FROZEN RUNBOOK `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`; NO MERGE/TAG/PILOT; NO STABLE RELEASE CLAIMED** (branch `fix/kaggle-smoke-v2-model-output-closure`, documentation HEAD `5561f91845914b320ddc1cb61701cacd94f8502b`; runtime source `f7b1ebba73b52868a95c47ef3806d3b09da16d93` / build `f7b1ebb`; sentinel `QWEN14B_CANARY_SUCCESS_DOCUMENTED_FULL9_READY`)
+**QWEN 14B SELECTIVE CANARY SUCCESS ACCEPTED AND RECORDED (2026-08-07) — FIRST SUCCESSFUL REAL QWEN IMPLEMENTATION THROUGH EVERY FUNCTIONAL VALIDATION STAGE; REAL ENGINEERING PREFLIGHT PASS (2×TESLA T4, BNB-NF4, MIN FREE VRAM 8.417 GiB, GPU-ONLY); CANARY `exp-20260807-131819` (`todo-smoke-001 / selective`) SUCCEEDED: 3 SELECTED / 2 PRESERVED / 3 REGENERATED, ONE MIGRATION, 3 MODEL CALLS / 3,247 TOKENS / 295.944 S / 0 REPAIRS; FUNCTIONAL VALIDATION PASS; SCENARIO EVALUATOR PASS 10/10; ACCEPTED REAL 14B CANARY RECORDS = 1; MILESTONE TAG `v0.8.0-canary.1` CREATED AND PUSHED (ANNOTATED, NON-STABLE, POINTS TO `31a6198`, FIRST ACCEPTED REAL QWEN 14B NF4 SELECTIVE-CANARY MILESTONE); FULL 9-RECORD SCIENTIFIC SMOKE V2 = NOT RUN (ISOLATED SELECTIVE-ONLY PLAN, NOT 1/9); MAIN MERGE = PENDING FULL-9 AUDIT; STABLE SMOKE TAG = `v0.8.0-smoke-v2-complete`, NOT YET CREATED; NEXT ACTION = ONE FRESH FULL-9 SCIENTIFIC SMOKE V2 USING THE FROZEN RUNBOOK `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`; PILOT = NOT AUTHORIZED; NO STABLE RELEASE CLAIMED** (branch `fix/kaggle-smoke-v2-model-output-closure`, documentation HEAD `5561f91845914b320ddc1cb61701cacd94f8502b`, milestone tag `v0.8.0-canary.1` @ `31a619857ce07eb09ab5e206fbc9dc792782c99c`; runtime source `f7b1ebba73b52868a95c47ef3806d3b09da16d93` / build `f7b1ebb`; sentinel `QWEN14B_CANARY_SUCCESS_DOCUMENTED_FULL9_READY`)
 
 The Qwen 14B selective canary success (2026-08-07) is the first accepted real
 Qwen result in the current real-model calibration path: for the first time, a
@@ -19,7 +19,10 @@ completion = 3,247 tokens / 295.944 s / 0 repair attempts; functional
 validation PASS; scenario evaluator PASS 10/10; HF local evidence
 `recovery_uploaded`. Accepted real 14B canary records = **1 succeeded / 0
 failed** (checkpoint 1 / 0 / 2 pending within the selective-only three-scenario
-canary plan). **Full 9-record Scientific Smoke V2 = NOT RUN** — the canary is an
+canary plan). **Milestone tag `v0.8.0-canary.1` = created and pushed,
+annotated, non-stable** — first accepted real Qwen 14B NF4 selective-canary
+milestone, pointing to `31a619857ce07eb09ab5e206fbc9dc792782c99c`. **Stable
+release = NO. Full 9-record Scientific Smoke V2 = NOT RUN** — the canary is an
 isolated selective-only plan; do NOT call it `1/9`. Interpretation: 14B crossed
 the model-quality floor seen with 7B on the same task (25.0% fewer calls, 44.1%
 fewer tokens, repair eliminated, 14.9% slower) — functional viability, not
@@ -188,12 +191,16 @@ Current real records = 0/9 (Full-9 Scientific Smoke V2 not yet run)
 Real Qwen records = 1 accepted selective canary / 0 Full-9
 Real 14B engineering preflight = PASS
 Accepted real 14B selective canary = 1 succeeded / 0 failed
+Milestone tag = v0.8.0-canary.1 (created/pushed, annotated, non-stable, points to 31a6198)
+Stable release = NO
 Full 9-record Scientific Smoke V2 = not run
+Main merge = pending Full-9 audit (NOT YET merged)
+Stable Smoke tag = v0.8.0-smoke-v2-complete, not yet created
 Pilot = not authorized
 README = updated
 push = PUBLISHED — fix branch upstream origin/fix/kaggle-smoke-v2-model-output-closure, local = remote
-stable tag = blocked
-next action = one fresh Full-9 Scientific Smoke V2 (3 scenarios × 3 arms = 9 records) using the frozen runbook docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md (runtime source f7b1ebba73b52868a95c47ef3806d3b09da16d93 / build f7b1ebb / profile scientific-smoke-v2 / protocol 1.0); one engineering preflight + one benchmark process in a fresh isolated experiment; NEVER merge the canary; then independent results audit; NOT a merge/tag/Pilot, NOT a fine-tune
+milestone tag = v0.8.0-canary.1 (created/pushed, annotated, non-stable, points to 31a6198) — stable tag NOT created
+next action = one fresh Full-9 Scientific Smoke V2 (3 scenarios × 3 arms = 9 records) using the frozen runbook docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md (runtime source f7b1ebba73b52868a95c47ef3806d3b09da16d93 / build f7b1ebb / profile scientific-smoke-v2 / protocol 1.0); one engineering preflight + one benchmark process in a fresh isolated experiment; NEVER merge the canary; then independent results audit; NOT a merge/tag/Pilot, NOT a fine-tune; future stable Smoke tag = v0.8.0-smoke-v2-complete (create only after Full-9 result audit + main merge)
 ```
 
 ## Previous Phase
@@ -218,8 +225,11 @@ proof of strategy superiority. The generated `views.py` has an unused `Q`
 import (non-blocking; the accepted evidence workspace must NOT be repaired).
 The continuous cell failed closed with zero model calls (generic experiment
 empty) — not a failure; do NOT patch the continuous workflow before Full-9.
-The full 9-record Scientific Smoke V2 is **not run**; merge/tag/Pilot remain
-**not authorized**. Next: **one fresh Full-9 Scientific Smoke V2** (3 frozen
+The full 9-record Scientific Smoke V2 is **not run**; milestone tag
+`v0.8.0-canary.1` exists (annotated, pushed, non-stable, points to `31a6198`);
+main merge and stable Smoke tag `v0.8.0-smoke-v2-complete` remain pending the
+Full-9 audit; Pilot remains **not authorized**. Next: **one fresh Full-9
+Scientific Smoke V2** (3 frozen
 scenarios × 3 arms = 9 records) using the frozen runbook
 `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — one engineering
 preflight + one benchmark process in a fresh isolated experiment; never merge

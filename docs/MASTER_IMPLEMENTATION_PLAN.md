@@ -14,7 +14,9 @@ Qwen 14B BNB-NF4 canary preparation = COMPLETE (2026-08-05) - Commit A 0ece665 +
 Qwen 14B SELECTIVE CANARY SUCCESS = ACCEPTED (2026-08-07) - real engineering preflight PASS (2x Tesla T4, bnb-nf4, identity qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25, min free VRAM 8.417 GiB, GPU-only); canary exp-20260807-131819 (todo-smoke-001 / selective, source/build f7b1ebb) SUCCEEDED - 3 selected / 2 preserved / 3 regenerated, migration 0004_task_priority.py, 3 calls / 3,247 tokens / 295.944 s / 0 repairs; functional validation PASS; evaluator PASS 10/10; accepted real 14B canary records = 1 succeeded / 0 failed (isolated selective-only plan, NOT 1/9)
 Full 9-record Scientific Smoke V2 = NOT RUN - next = one fresh Full-9 via docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md
 Real Smoke = canary succeeded 1 / failed 0 (local scripted 9/9; bundled CLI dry-run 9/9); full 9-record run pending
-Tag = v2.0.0-scientific-smoke after real Full-9 result audit
+Milestone tag = v0.8.0-canary.1 (created and pushed 2026-08-07; annotated; NON-STABLE; points to 31a619857ce07eb09ab5e206fbc9dc792782c99c) - first accepted real Qwen 14B NF4 selective-canary milestone
+Tag naming = v0.8.0-canary.N (isolated calibration milestones) | v0.8.0-smoke-v2-complete (create ONLY after Full-9 result audit + main merge; replaces the stale v2.0.0-scientific-smoke future-tag wording)
+Stable release = NO; Full 9-record Scientific Smoke V2 = NOT RUN; main merge = pending Full-9 audit
 Pilot = denominator not frozen; not authorized
 ```
 
@@ -29,7 +31,7 @@ record R6 freeze
 → one fresh Full-9 Scientific Smoke V2 (3 scenarios x 3 arms x 1 rep) via docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md
 → nine real Qwen Scientific Smoke V2 records (3 scenarios x 3 arms x 1 rep)
 → independent real-result audit
-→ stable v2.0.0-scientific-smoke tag
+→ main merge, then stable v0.8.0-smoke-v2-complete tag (create only after Full-9 result audit + main merge; milestone v0.8.0-canary.1 already created/pushed, non-stable)
 → freeze Pilot matrix and authorize Pilot
 ```
 
