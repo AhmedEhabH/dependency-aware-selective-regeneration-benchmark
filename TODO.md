@@ -1,6 +1,18 @@
 # TODO
 
-## Current - Qwen 14B Selective Canary Success (2026-08-07)
+## Current - Full-9 Workspace Isolation Closure (2026-08-08)
+
+### FULL9-WS-01 - Record Full-9 Workspace Isolation Defect (docs only)
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Record the rejected Full-9 `exp-20260807-205422` (physically completed 9/9; raw result 2 succeeded / 7 failed; raw total 62 calls / 76,858 tokens; runtime source `f7b1ebb`) and its closure. Full-9 scientific acceptance = **rejected**. Root cause = **overlay source restaging leaked generated files across scenarios** — `_populate_workspace_source` overlaid the snapshot onto reused per-strategy workspaces without deleting stale generated files, so `0004_task_priority.py` from scenario 001 survived into 002 and produced `0005_remove_task_priority_task_deleted_at`; affected direct records = selective/agent 002 and 003. Fix: exact reset from the immutable snapshot before every matrix run — Commit A `7f2a450` (`fix(smoke): reset workspace source before every matrix run`; `_WORKSPACE_INFRASTRUCTURE_DIRS={runs,tmp,snapshots}`, `_reset_workspace_source_from_snapshot` deletes the source tree then restages, `make_isolation` calls it for every arm workspace on every run) + Commit B `e29c017` (`chore(deploy): repin isolated Full-9 Smoke bundle`; `SOURCE_COMMIT=7f2a4509482dc7e62c2b243374592e9a88e2ff48` / `DEPLOYED_BUILD_ID=7f2a450`). Unit edge cases 33 passed / 1 skipped; sequential 001→002→003 migration proof (002 clean, no `0004_task_priority`, depends on canonical `0003`) + nine-run zero-residue matrix proof. Official pre-benchmark gate (pytest 8.4.2): **1,928 passed / 33 skipped / 0 failed**; Dataset 161/1 (27 scenarios unchanged); Prompt 200/12; Pipeline Smoke 45; Dry Run 9/9/9/0 exit 0; Metric 187; ruff 0 new (5 baseline); mypy 0 new (4 baseline); compileall clean; notebooks compile; bundle content-identical (147 files / 969,713 bytes). Isolated canary remains accepted; `v0.8.0-canary.1` unchanged; main merge not authorized; `v0.8.0-smoke-v2-complete` not created; Pilot not authorized. Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md; create `selective_updates/records/FULL9-WORKSPACE-ISOLATION-DEFECT-2026-08-08.md`. Commit exactly `docs(audit): record Full-9 workspace isolation defect`; push; verify clean + local = remote + tag unchanged.
+- **Status:** COMPLETE (this documentation commit, pushed)
+
+### FULL9-WS-02 - Run One Fresh Full-9 Scientific Smoke V2 (corrected source/build)
+- **Priority:** HIGH
+- **Category:** Scientific Evidence
+- **Description:** The only next scientific action after the independent code audit of Commit A/B. One fresh isolated 9-record experiment (3 frozen todo scenarios × 3 strategies × 1 repetition = 9 records) with the corrected deployment source `7f2a4509482dc7e62c2b243374592e9a88e2ff48` / build `7f2a450`, profile `scientific-smoke-v2`, protocol 1.0. NEVER resume or reuse the rejected `exp-20260807-205422` records or their contaminated workspaces; never merge the accepted canary. After completion: independent results audit. No merge/tag/Pilot/fine-tune.
+- **Status:** PENDING
 
 ### QSC-01 - Record Accepted Qwen 14B Selective Canary Success (docs only)
 - **Priority:** HIGH
@@ -11,7 +23,7 @@
 ### QSC-02 - Run One Fresh Full-9 Scientific Smoke V2
 - **Priority:** HIGH
 - **Category:** Scientific Evidence
-- **Description:** The only next scientific action. One fresh isolated 9-record experiment (3 frozen todo scenarios × 3 strategies × 1 repetition = 9 records) using the frozen runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — runtime source `f7b1ebba73b52868a95c47ef3806d3b09da16d93`, build `f7b1ebb`, profile `scientific-smoke-v2`, protocol 1.0, expected identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`. One engineering preflight + one benchmark process in a fresh isolated output dir (`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke`); no `--strategy`, no `--max-runs`, no `--auto-resume-hf`. NEVER resume or merge the accepted canary. After completion: independent results audit. No merge/tag/Pilot/fine-tune.
+- **Description:** The only next scientific action — NOW SUPERSEDED IN SOURCE BY FULL9-WS-02 (the first Full-9 `exp-20260807-205422` under source `f7b1ebb` was RUN but REJECTED as a stable scientific matrix due to the workspace-isolation defect; the fresh Full-9 must use the corrected deployment source `7f2a4509482dc7e62c2b243374592e9a88e2ff48` / build `7f2a450`, not `f7b1ebb`). One fresh isolated 9-record experiment (3 frozen todo scenarios × 3 strategies × 1 repetition = 9 records) via the frozen runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` (updated for the corrected build), profile `scientific-smoke-v2`, protocol 1.0, expected identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`. One engineering preflight + one benchmark process in a fresh isolated output dir (`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke`); no `--strategy`, no `--max-runs`, no `--auto-resume-hf`. NEVER resume/merge the accepted canary and NEVER reuse the rejected `exp-20260807-205422` records or workspaces. After completion: independent results audit. No merge/tag/Pilot/fine-tune.
 - **Status:** PENDING
 
 ### QSC-03 - Record Canary Milestone Tag and Freeze Full-9 Launch (docs only)
