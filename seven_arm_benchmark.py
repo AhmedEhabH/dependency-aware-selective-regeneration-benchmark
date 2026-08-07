@@ -417,15 +417,40 @@ def make_backend(  # type: ignore[no-untyped-def]
 # Workspace / IsolationContext
 # ---------------------------------------------------------------------------
 
-def _populate_workspace_source(workspace_dir: Path, snapshot_root: str | Path) -> None:
-    """Copy source files from *snapshot_root* into *workspace_dir*.
+_WORKSPACE_INFRASTRUCTURE_DIRS = frozenset({"runs", "tmp", "snapshots"})
+
+
+def _reset_workspace_source_from_snapshot(
+    workspace_dir: Path,
+    snapshot_root: str | Path,
+) -> None:
+    """Reset *workspace_dir* to an exact copy of the immutable *snapshot_root*.
 
     The regeneration executor reads source files from ``workspace.root /
     artifact.path``, so every file that ``discover_eligible_artifacts`` finds
     must already be present in the workspace root.
+
+    Strategy workspaces are reused across scenarios. Source restaging must
+    therefore be a *reset*, not an overlay: every existing top-level child of
+    the workspace is removed except the workspace-internal infrastructure
+    directories (``runs``, ``tmp``, ``snapshots``). Only then is the immutable
+    snapshot source copied in, so stale generated files from a previous scenario
+    can never survive into the next run.
     """
     src = Path(snapshot_root)
     dst = Path(workspace_dir)
+    dst.mkdir(parents=True, exist_ok=True)
+
+    # Delete every existing top-level child except workspace infrastructure.
+    for entry in dst.iterdir():
+        if entry.name in _WORKSPACE_INFRASTRUCTURE_DIRS:
+            continue
+        if entry.is_symlink() or entry.is_file():
+            entry.unlink()
+        elif entry.is_dir():
+            shutil.rmtree(entry)
+
+    # Copy the immutable snapshot source into the now-clean workspace.
     # Ignored metadata subdirectories that are NOT source files.
     _skip_subdirs = frozenset({"_metadata", "manifests"})
     for entry in src.iterdir():
@@ -466,7 +491,7 @@ def make_isolation(  # type: ignore[no-untyped-def]
             snapshot_base=snapshot_base,
             active_snapshot_root=active_snapshot_root,
         )
-        _populate_workspace_source(workspace_dir, active_snapshot_root)
+        _reset_workspace_source_from_snapshot(workspace_dir, active_snapshot_root)
         return isolation
     return IsolationContext(
         workspace=ws,
