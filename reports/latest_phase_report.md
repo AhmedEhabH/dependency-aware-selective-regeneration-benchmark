@@ -1,3 +1,103 @@
+# Full-9 Workspace Isolation Closure — Latest Phase Report
+
+## Executive decision
+
+The real Kaggle Full-9 `exp-20260807-205422` (physically completed 9/9 under
+runtime source `f7b1ebb`) is **REJECTED as a stable scientific matrix** by the
+independent audit — raw result **2 succeeded / 7 failed**, raw total **62 model
+calls / 76,858 tokens**. Root cause = **overlay source restaging leaked
+generated files across scenarios**: each strategy workspace was reused across
+scenarios and `_populate_workspace_source` overlaid the immutable snapshot
+without deleting stale generated files, so `todo/migrations/0004_task_priority.py`
+from scenario 001 survived into scenario 002 and produced
+`0005_remove_task_priority_task_deleted_at`, contaminating the selective/agent
+002 and 003 records. **The defect is closed** on branch
+`fix/kaggle-smoke-v2-model-output-closure` (Commit A `7f2a450` + Commit B
+`e29c017`, pushed, local = remote, tree clean). Official pre-benchmark gate
+(`_workspace\cache\prebenchmark-py311`, Python 3.11.9 / pytest 8.4.2 exactly):
+**1,928 passed / 33 skipped / 0 failed**. The isolated selective canary remains
+accepted; `v0.8.0-canary.1` unchanged. **Next authorized action = fresh Full-9
+with the corrected source/build `7f2a450`** — not a merge, tag, or Pilot.
+
+## Why this closure existed
+
+The first real Full-9 attempt under the previously pinned source/build
+(`f7b1ebb`) completed all 9 planned records, but the audit proved the source
+restaging was an **overlay**, not a reset: workspaces accumulated stale
+generated files across scenarios, so scenario 002/003 records for the
+selective and iterative-repository-agent arms were computed against
+contaminated source trees. The rejected Full-9 is **preserved as evidence
+only** and must never be used as the accepted aggregate.
+
+## The exact reset contract (Commit A `7f2a450`)
+
+- `_WORKSPACE_INFRASTRUCTURE_DIRS = frozenset({"runs", "tmp", "snapshots"})`.
+- `_reset_workspace_source_from_snapshot(workspace_dir, snapshot_root)`
+  replaces `_populate_workspace_source`: the source tree is deleted first
+  (every symlink/file unlinked, every directory removed), then restaged from
+  the snapshot — stale generated files cannot survive.
+- `_skip_subdirs = frozenset({"_metadata", "manifests"})` for generated-command
+  scans.
+- `make_isolation` calls the reset for every arm workspace on every run, so
+  every matrix cell starts byte-identical to the immutable snapshot and leaves
+  zero residue.
+
+## Tests added
+
+- **Unit** (`tests/unit/execution/test_isolation.py`,
+  `TestResetWorkspaceSourceFromSnapshot`): deletes stale generated files,
+  restores canonical files, preserves infrastructure dirs, symlink/empty-dir
+  handling, missing-infra tolerance, root `.gitignore` preservation,
+  3-strategy parameterization — **33 passed / 1 skipped** (symlink skipped on
+  Windows, runs on Linux/Kaggle).
+- **Sequential integration** (`tests/integration/test_scientific_smoke_v2_production_path.py`
+  "Step 5b"): 001→002→003 per strategy — 001 produces exactly
+  `0004_task_priority.py`; restaging returns to canonical-only byte-identical
+  files; 002's migration is clean (depends only on canonical `0003`, no
+  `0004_task_priority`, no `priority`); 003's migration contains `"owner"`;
+  nine-run zero-residue matrix — **4 passed** (production-path file 45 passed).
+
+## Gate totals (official clean env `_workspace\cache\prebenchmark-py311`, Python 3.11.9 / pytest 8.4.2 exactly)
+
+```text
+Dataset Validation      PASS  161 passed / 1 skipped — 27 scenarios unchanged; scopes intact
+Prompt Validation       PASS  200 passed / 12 skipped
+Pipeline Smoke Test     PASS  45 passed — incl. sequential stale-migration regression
+Scripted 9-record Dry Run PASS 9 planned / 9 terminal / 9 succeeded / 0 failed, exit 0
+Complete Integration    PASS  1,928 passed / 33 skipped / 0 failed (859.46 s)
+Metric Verification     PASS  187 passed
+Ruff                    0 new (5 pre-existing baseline)
+strict mypy             0 new (4 pre-existing baseline)
+compileall              clean
+Notebook compilation    PASS  canonical + bundled compile
+builder/manifests       PASS  content-identical rebuild (147 files / 969,713 bytes)
+```
+
+## Commit hashes and remote equality
+
+```text
+86acb29  docs(state): record canary milestone tag and freeze Full-9 launch (starting HEAD)
+7f2a450  fix(smoke): reset workspace source before every matrix run          (Commit A, pushed)
+e29c017  chore(deploy): repin isolated Full-9 Smoke bundle                   (Commit B, pushed)
+```
+
+All pushed to `origin/fix/kaggle-smoke-v2-model-output-closure`; local = remote
+verified after each push. Working tree clean.
+
+## Next action
+
+After the independent code audit: **one fresh Full-9 Scientific Smoke V2** with
+the corrected deployment source/build `7f2a450` — one engineering preflight +
+one benchmark process in a fresh isolated experiment; never resume/merge the
+rejected `exp-20260807-205422` records or workspaces; never merge the accepted
+canary; then independent results audit. Record:
+`selective_updates/records/FULL9-WORKSPACE-ISOLATION-DEFECT-2026-08-08.md`.
+Sentinel: `FULL9_WORKSPACE_ISOLATION_CLOSURE_AUDIT_REQUIRED`.
+
+---
+
+## Prior phase (2026-08-07) — Qwen 14B Selective Canary Success
+
 # Qwen 14B Selective Canary Success — Latest Phase Report
 
 ## Executive decision
