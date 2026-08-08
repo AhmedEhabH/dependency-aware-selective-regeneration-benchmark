@@ -1,5 +1,38 @@
 # Full-9 Workspace Isolation Closure — Latest Phase Report
 
+## Latest closure — FULL9-EXEC-01 canonical corrected Full-9 notebook execution closure
+
+**Status: `COMPLETE — pending independent delta audit before Kaggle Full-9`**
+(2026-08-08, Commit A `c4aee03` `feat(kaggle): make corrected Full-9 notebook
+executable`, pushed, local = remote, tree clean, branch
+`fix/kaggle-smoke-v2-model-output-closure`).
+
+The canonical Kaggle notebook is now the single, tested, fail-closed execution
+artifact for exactly one fresh corrected Full-9. The setup-cell bootstrap
+regression was fixed (undefined `MODEL_DIR` NameError → `MODEL_CANDIDATES`
+initialized from `KNOWN_MODEL` and `MODEL_PATH` derived from it; `src_dir` guard
++ `sys.path.insert`; `SCRIPT_PATH.is_file()` guard) and all stale execution
+routes were removed: setup order = setup-cell → install-lock-cell →
+preflight-cell → secrets-cell → full9-execution-cell → full9-verification-cell →
+export-evidence-cell, with no generic/canary/continuous cells.
+
+**Latest Kaggle attempt truth:** source/build `7f2a450`; runtime
+install/preflight PASS; a redundant corrected-source selective canary ran and
+succeeded — **that attempt is NOT a Full-9**; corrected Full-9 evidence remains
+**0/9**; the evidence ZIP downloaded from that session must NOT be labeled
+accepted Full-9 evidence.
+
+**Validation:** full suite **1,947 passed / 33 skipped / 0 failed**; targeted
+notebook/CLI/bundle 137 passed; related production-path/isolation regression
+45 + 33 passed / 1 skipped; notebook JSON parse OK; all canonical code cells
+compile; bootstrap symbol-closure clean; bundle rebuilt and verified
+(code/data/notebook parity, no forbidden artifacts); canonical/bundled notebook
+parity proven; zero data/prompt/metric/runtime drift.
+
+**Next authorized action = independent delta audit of FULL9-EXEC-01; after
+acceptance, exactly one fresh corrected Full-9.** Main merge / stable tag /
+Pilot / fine-tune remain unauthorized. No Kaggle run was performed in this task.
+
 ## Executive decision
 
 The real Kaggle Full-9 `exp-20260807-205422` (physically completed 9/9 under

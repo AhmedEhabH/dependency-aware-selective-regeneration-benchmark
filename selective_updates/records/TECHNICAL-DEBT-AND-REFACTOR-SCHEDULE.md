@@ -11,6 +11,7 @@
 | R6 closure | after bundle | deployment TD-0/1 | docs/bundle/parity | source/build hash parity |
 | Post-Smoke | after real records | evidence defects only | records/reports | preserved original results |
 | QWEN 14B canary closure | after accepted canary (2026-08-07) | docs-only truth defects (records/reports/ledgers); evidence workspace immutable | records/docs/reports only | canary result preserved (exp-20260807-131819) + Full-9 runbook frozen (`docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`); no code/test/data change |
+| FULL9-EXEC-01 | after corrected Full-9 notebook execution closure (2026-08-08) | TD-0 execution-artifact truth defects (setup-cell bootstrap contract, stale execution routes); no runtime/data/metric change | canonical notebook + bundle + bootstrap regression tests only | Commit A `c4aee03`; full suite 1,947 passed / 33 skipped / 0 failed; canonical/bundled notebook parity proven; corrected Full-9 evidence stays 0/9 (redundant corrected-source canary is NOT a Full-9); independent delta audit required before any Kaggle Full-9 |
 
 ## Debt Register
 
@@ -237,6 +238,45 @@
   `selective_updates/records/FULL9-WORKSPACE-ISOLATION-DEFECT-2026-08-08.md`;
   sentinel `FULL9_WORKSPACE_ISOLATION_CLOSURE_AUDIT_REQUIRED`. Rejected Full-9
   preserved as evidence only, NOT the accepted aggregate.
+
+### TD-FULL9-EXEC-001 — canonical notebook setup-cell bootstrap regression (undefined `MODEL_DIR`)
+- **Severity:** TD-0 (execution artifact integrity — a broken setup-cell would
+  fail or silently alter any notebook execution, including a Full-9)
+- **Opened:** FULL9-EXEC-01 (2026-08-08) — the F9 bootstrap audit found the
+  canonical `notebooks/seven_arm_benchmark.ipynb` setup-cell referenced
+  `MODEL_DIR` before it was ever defined (`MODEL_DIR = MODEL_PATH.parent` in a
+  deleted block; the corrected bootstrap derived `MODEL_PATH` from
+  `MODEL_CANDIDATES` but never re-initialized `MODEL_DIR`), so the canonical
+  notebook would NameError at setup and could not be the execution artifact.
+- **Closure:** CLOSED IN FULL9-EXEC-01 (Commit A `c4aee03`
+  `feat(kaggle): make corrected Full-9 notebook executable`) — restored a
+  fail-closed bootstrap contract in the setup-cell: (1) repo root resolved and
+  validated, (2) `src/` inserted on `sys.path` only after the root is known,
+  (3) every deployment path derived from `KAGGLE_DEPLOYMENT_PATHS`, (4)
+  `MODEL_CANDIDATES` initialized from `KNOWN_MODEL` and `MODEL_PATH` derived
+  from them (no deleted sibling name), (5) `SCRIPT_PATH.is_file()` guard, (6) no
+  variable referenced before definition. Guarded by two new regression tests
+  `test_full9_exec_01_setup_bootstrap_symbols_defined_before_use` and
+  `test_full9_exec_01_setup_bootstrap_contract_preserved`. All stale execution
+  routes removed (setup-cell → install-lock-cell → preflight-cell → secrets-cell
+  → full9-execution-cell → full9-verification-cell → export-evidence-cell).
+  Full suite **1,947 passed / 33 skipped / 0 failed**; bundle rebuilt and
+  verified; canonical/bundled parity proven.
+- **Lesson (Bootstrap Runtime Contract / Bootstrap-Contract-1):** a Kaggle
+  notebook setup-cell is part of the executable artifact — it must be
+  self-contained, deterministic, and fail-closed, and it must never reference a
+  variable that was deleted/renamed elsewhere. Structural notebook tests
+  (defined-before-use, contract preservation) are the enforcement mechanism.
+- **Lesson (automatic gate progression):** PASS is not a STOP. A redundant
+  corrected-source selective canary is engineering evidence only — never a
+  Full-9; corrected Full-9 evidence stays 0/9 until one fresh corrected Full-9
+  runs. The bundled notebook must be byte-reproduced by
+  `scripts/build_upload_bundle.py`, never hand-edited, or the
+  canonical/bundled parity gate fails.
+- **Checkpoint:** FULL9-EXEC-01 closure (2026-08-08) — CLOSED (pending
+  independent delta audit before Kaggle Full-9)
+- **Evidence:** Commit `c4aee03`; record `docs/PROJECT_HANDOFF.md` FULL9-EXEC-01
+  handoff line; sentinel `FULL9_EXEC01_NOTEBOOK_EXECUTION_CLOSURE_AUDIT_REQUIRED`.
 
 ## RF-4 status (after R5 scope correction, 2026-07-31)
 
