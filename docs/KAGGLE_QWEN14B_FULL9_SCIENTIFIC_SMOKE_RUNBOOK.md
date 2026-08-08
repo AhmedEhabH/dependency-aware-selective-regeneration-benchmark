@@ -4,15 +4,60 @@
 first Full-9 was scientifically REJECTED for workspace contamination and the
 runtime workspace-isolation defect was fixed.
 
-This runbook distinguishes exactly three phases of evidence:
+This runbook distinguishes exactly four phases of evidence:
 
 - accepted selective canary `exp-20260807-131819` — accepted, separate
   calibration evidence;
 - rejected Full-9 `exp-20260807-205422` — RUN under runtime source/build
   `f7b1ebb` but scientifically REJECTED because generated files leaked across
   reused strategy workspaces;
-- fresh corrected Full-9 — NOT YET RUN, to be launched under corrected runtime
-  source/build `7f2a450`.
+- **accepted clean 300-second Full-9 baseline** — RUN under corrected runtime
+  source/build `7f2a450` with `--timeout 300`; remains valid and preserved:
+  **9/9 terminal / 2 successes / 7 scientific failures / 0 engineering
+  blockers**, with three runs reaching/crossing the ~300-second workflow
+  ceiling (~307–337 s). This is the accepted 300-second baseline and MUST NOT
+  be overwritten or relabeled;
+- **T600 confirmatory Full-9 (FULL9-T600-01)** — NOT YET RUN, to be launched
+  under the SAME corrected runtime source/build `7f2a450` but with the
+  uniform scientific per-run workflow timeout raised **300 → 600** and a
+  NEW fail-closed output namespace
+  `/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600`
+  and evidence archive prefix `corrected-full9-t600-wsfix-7f2a450-`.
+
+## FULL9-T600-01 — confirmatory timeout-sensitivity Full-9 (T600)
+
+**Status: contract PUBLISHED (2026-08-08); experiment NOT YET RUN.**
+
+### Rationale
+
+> The accepted 300-second clean Full-9 showed three runs at or beyond the
+> scientific per-run workflow ceiling (~307–337 seconds). To reduce timeout
+> censoring while preserving equal computational opportunity across strategies,
+> the scientific workflow timeout was increased uniformly to 600 seconds for
+> one confirmatory Full-9. All other frozen scientific inputs remain unchanged.
+
+### Contract
+
+- **600 seconds applies uniformly** to monolithic, selective, and
+  iterative_repository_agent — every strategy receives the same per-run
+  workflow budget; **no strategy receives extra time**.
+- All three strategies share the same single Full-9 command and therefore the
+  same 600-second per-run workflow budget.
+- The **300-second baseline is NOT invalidated or replaced** — it remains the
+  accepted clean baseline; T600 is a separate confirmatory timeout-sensitivity
+  experiment.
+- **Do NOT increase the timeout beyond 600.** If the T600 experiment also
+  accumulates runs near 600 seconds, do NOT automatically raise the timeout
+  again — analyze the duration/repair distribution and pre-register the Pilot
+  budget instead.
+- T600 changes ONLY the uniform scientific per-run workflow timeout 300 → 600;
+  all other frozen scientific inputs (model, prompts, strategies, scenarios,
+  evaluator, metrics, max attempts, token budgets, deployment identity
+  `7f2a450`) remain unchanged.
+- Output namespace (fail-closed, same non-empty guard):
+  `/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600`
+- Evidence archive prefix: `corrected-full9-t600-wsfix-7f2a450-`
+  (the export cell produces `corrected-full9-t600-wsfix-7f2a450-<stamp>.zip`).
 
 ## Frozen identity
 
@@ -46,6 +91,15 @@ The accepted canary `exp-20260807-131819` remains separate calibration evidence.
 Do not resume or merge it into this experiment.
 
 The previous Full-9 exp-20260807-205422 used runtime source f7b1ebb and is REJECTED scientific evidence. Its records, checkpoint, local output directory, and strategy workspaces must never be resumed, merged, copied forward, or used as the output base for this corrected run.
+
+The accepted clean 300-second Full-9 baseline (runtime source/build `7f2a450`,
+`--timeout 300`, output
+`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450`)
+remains valid, preserved, and separate. The T600 confirmatory Full-9 runs into
+its OWN new output namespace
+`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600`;
+it must NOT resume, merge, copy forward, or reuse the 300-second baseline
+output directory, the rejected `exp-20260807-205422`, or the accepted canary.
 
 ## 1. Kaggle assets
 
@@ -119,11 +173,21 @@ Never run the dedicated Selective Canary preflight again.
 Use a fresh isolated directory that is fail-closed against pre-existing records:
 
 ```text
-/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450
+/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600
 ```
 
-It must not contain the canary experiment, the rejected Full-9
-`exp-20260807-205422`, or old 7B data.
+This is the T600 confirmatory Full-9 namespace. It must not contain the canary
+experiment, the rejected Full-9 `exp-20260807-205422`, the accepted 300-second
+Full-9 baseline
+(`qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450` — without the `_t600`
+suffix), or old 7B data.
+
+Evidence archive prefix (written by the export-evidence cell under
+`/kaggle/working`):
+
+```text
+corrected-full9-t600-wsfix-7f2a450-<stamp>.zip
+```
 
 ## 5. Full-9 command
 
@@ -136,7 +200,7 @@ import sys
 from pathlib import Path
 
 FULL9_OUTPUT_DIR = Path(
-    "/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450"
+    "/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600"
 )
 
 if FULL9_OUTPUT_DIR.exists() and any(FULL9_OUTPUT_DIR.iterdir()):
@@ -158,7 +222,7 @@ full9_cmd = [
     "--protocol-version", "1.0",
     "--max-completion-tokens-per-call", "1024",
     "--max-total-workflow-tokens", "0",
-    "--timeout", "300",
+    "--timeout", "600",
     "--hf-sync",
     "--new-experiment",
     "--hf-repo-id", HF_RESULTS_REPO_ID,
@@ -175,6 +239,11 @@ print("Full-9 return code:", result.returncode)
 if result.returncode != 0:
     raise RuntimeError(f"Full-9 process failed with return code {result.returncode}")
 ```
+
+Note: the uniform scientific per-run workflow timeout is **`--timeout 600`**
+for the T600 confirmatory Full-9. It applies identically to monolithic,
+selective, and iterative_repository_agent. Do NOT raise it above 600. Do NOT
+fall back to 300 for this confirmatory run.
 
 Do not add:
 
@@ -201,7 +270,9 @@ exact identity. Preserve the original output/HF experiment ID.
 
 Never resume, merge, or copy forward the rejected Full-9 `exp-20260807-205422`
 or the accepted selective canary `exp-20260807-131819` into the corrected
-Full-9 experiment.
+Full-9 experiment. Also never resume or reuse the accepted 300-second Full-9
+baseline experiment — the T600 run is a separate confirmatory experiment with
+its own experiment identity and its own `_t600` output namespace.
 
 ## 7. Expected matrix
 
@@ -265,6 +336,22 @@ Full runs ZIP
 <full9-dir>/workspace/**           # preserve generated evidence
 ```
 
+Evidence archive naming for the T600 run:
+`corrected-full9-t600-wsfix-7f2a450-<stamp>.zip`.
+
+## 9a. Pre-benchmark validation recorded for the T600 contract (FULL9-T600-01)
+
+Carried forward and recorded at contract time (2026-08-08) before this run:
+
+```text
+Dataset Validation       PASS / carried forward — zero drift
+Prompt Validation        PASS / carried forward — zero drift
+Pipeline Smoke Test      PASS — T600 command and fail-closed _t600 namespace contract validated
+Dry Run                  PASS — exact 3x3 no-model/bundled dry-run contract validated with scientific timeout 600
+Integration Test         PASS — final executable full suite: 1947 passed / 33 skipped / 0 failed
+Metric Verification      PASS / carried forward — zero metric/evaluator drift
+```
+
 ## 10. Do not do after completion
 
 Even if all 9 records succeed:
@@ -274,6 +361,12 @@ do not merge
 do not tag
 do not start Pilot
 do not modify prompts/data/evaluator
+do not raise the scientific workflow timeout above 600
+do not run a second Full-9 from this session
 ```
+
+If the T600 experiment accumulates runs near 600 seconds, analyze the
+duration/repair distribution and pre-register the Pilot budget instead of
+raising the timeout again.
 
 First upload the Notebook and complete runs archive for independent result audit.
