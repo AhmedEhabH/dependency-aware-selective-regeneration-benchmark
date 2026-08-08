@@ -6,7 +6,7 @@
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Protocol](https://img.shields.io/badge/Research%20Protocol-v1.0%20Frozen-success.svg)](PROTOCOL_VERSION.md)
-[![Tests](https://img.shields.io/badge/tests-1%2C928%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-1%2C947%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
 ## Overview
@@ -227,6 +227,33 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 > corrected Full-9 only if accepted; local scripted evidence = 9/9; bundled CLI dry-run = 9/9. The legacy `v0.7.0-smoke-passed`
 > tag and the 7/7-arm Kaggle smoke are **historical orchestration evidence
 > only** — not V2 evidence.
+>
+> **FULL9-EXEC-01 — Canonical Corrected Full-9 Notebook Execution Closure
+> (2026-08-08), status `COMPLETE — pending independent delta audit before
+> Kaggle Full-9`** (Commit A `c4aee03` `feat(kaggle): make corrected Full-9
+> notebook executable`, pushed, local = remote, tree clean). The canonical
+> Kaggle notebook is now the single, tested, fail-closed execution artifact
+> for exactly one fresh corrected Full-9. Latest Kaggle attempt truth:
+> source/build `7f2a450`; runtime install/preflight PASS; a redundant
+> corrected-source selective canary ran and succeeded — **that attempt is NOT
+> a Full-9**; corrected Full-9 evidence remains **0/9**; the evidence ZIP
+> downloaded from that session must NOT be labeled accepted Full-9 evidence.
+> The canonical notebook removed all stale execution routes: setup order is now
+> setup-cell → install-lock-cell → preflight-cell → secrets-cell →
+> full9-execution-cell → full9-verification-cell → export-evidence-cell, and
+> the setup-cell bootstrap is restored fail-closed (`src/` validated and
+> inserted on `sys.path`; `MODEL_CANDIDATES` initialized from `KNOWN_MODEL`
+> with `MODEL_PATH` derived from them — the deleted `MODEL_DIR` NameError
+> regression is fixed; `SCRIPT_PATH` existence guard). Validation: full suite
+> **1,947 passed / 33 skipped / 0 failed**; targeted notebook/CLI/bundle 137
+> passed; related production-path/isolation regression 45 + 33 passed /
+> 1 skipped; notebook JSON parse OK; all canonical code cells compile;
+> bundle rebuilt and verified (code/data/notebook parity, no forbidden
+> artifacts); canonical/bundled notebook parity proven; zero data/prompt/
+> metric/runtime drift. **Next authorized action = independent delta audit of
+> FULL9-EXEC-01; after acceptance, exactly one fresh corrected Full-9.** Main
+> merge / stable tag / Pilot / fine-tune remain unauthorized. No Kaggle run
+> was performed in this task.
 
 | Phase | Status |
 |---|---|
