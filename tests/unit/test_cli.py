@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import os
 import re
 import subprocess
@@ -874,10 +875,17 @@ class TestScientificSmokeV1Profile:
                     ('"--max-attempts", "3"', "max-attempts 3"),
                     ('"--max-completion-tokens-per-call", "1024"', "max-completion-tokens-per-call 1024"),
                     ('"--max-total-workflow-tokens", "0"', "max-total-workflow-tokens 0"),
-                    ('"--timeout", "300"', "timeout 300"),
+                    ('"--timeout", "600"', "timeout 600"),
                 ]
                 for needle, label in required:
                     assert needle in src_str, f"{nb_path} cell [{cid}]: missing {label}"
+                assert '"--timeout", "300"' not in src_str, (
+                    f"{nb_path} cell [{cid}]: stale 300-second timeout still in the Full-9 command"
+                )
+                assert src_str.count('"--timeout"') == 1, (
+                    f"{nb_path} cell [{cid}]: Full-9 must set exactly one per-run timeout "
+                    "applying uniformly to all three strategies"
+                )
                 assert '"--max-tokens"' not in src_str, f"{nb_path} cell [{cid}]: still has --max-tokens"
                 assert '"scientific-smoke-v1"' not in src_str, (
                     f"{nb_path} cell [{cid}]: still has --profile scientific-smoke-v1"
@@ -901,6 +909,63 @@ class TestScientificSmokeV1Profile:
                 )
                 assert '"--new-experiment"' in src_str, f"{nb_path} cell [{cid}]: missing --new-experiment"
                 assert '"--hf-sync"' in src_str, f"{nb_path} cell [{cid}]: missing --hf-sync"
+                tree = ast.parse(src_str)
+                exec_assign = next(
+                    node
+                    for node in tree.body
+                    if isinstance(node, ast.Assign)
+                    and any(
+                        isinstance(t, ast.Name) and t.id == "exec_cmd"
+                        for t in node.targets
+                    )
+                )
+                assert isinstance(exec_assign.value, ast.List)
+
+                def _token(el: ast.AST) -> str:
+                    if isinstance(el, ast.Constant) and isinstance(el.value, str):
+                        return f'"{el.value}"'
+                    return ast.unparse(el)
+
+                actual_tokens = [_token(el) for el in exec_assign.value.elts]
+                frozen_tokens = [
+                    "sys.executable",
+                    '"-u"',
+                    "str(SCRIPT_PATH)",
+                    '"--backend"',
+                    '"kaggle-qwen"',
+                    '"--profile"',
+                    '"scientific-smoke-v2"',
+                    '"--qwen-quantization"',
+                    "QWEN_QUANTIZATION",
+                    '"--max-attempts"',
+                    '"3"',
+                    '"--protocol-version"',
+                    '"1.0"',
+                    '"--max-completion-tokens-per-call"',
+                    '"1024"',
+                    '"--max-total-workflow-tokens"',
+                    '"0"',
+                    '"--timeout"',
+                    '"600"',
+                    '"--hf-repo-id"',
+                    "HF_RESULTS_REPO_ID",
+                    '"--source-commit"',
+                    "SOURCE_COMMIT",
+                    '"--deployed-build-id"',
+                    "DEPLOYED_BUILD_ID",
+                    '"--data-dir"',
+                    "str(DATA_DIR)",
+                    '"--model-path"',
+                    "MODEL_PATH",
+                    '"--output-dir"',
+                    "str(FULL9_OUTPUT_DIR)",
+                    '"--hf-sync"',
+                    '"--new-experiment"',
+                ]
+                assert actual_tokens == frozen_tokens, (
+                    f"{nb_path} cell [{cid}]: Full-9 command drift from the frozen form:\n"
+                    f"expected={frozen_tokens}\nactual={actual_tokens}"
+                )
             parsed.append((nb_path, nb))
 
         # After bundle build: canonical and generated notebooks are code-cell identical.
