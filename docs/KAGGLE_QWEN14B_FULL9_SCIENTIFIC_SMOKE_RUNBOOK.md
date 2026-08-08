@@ -1,16 +1,27 @@
 # Kaggle Runbook — Qwen2.5-Coder-14B Full 9-Record Scientific Smoke V2
 
-**Purpose:** run the first coherent real three-arm Scientific Smoke V2 after
-the accepted successful Qwen 14B Selective canary.
+**Purpose:** run a fresh corrected three-arm Scientific Smoke V2 after the
+first Full-9 was scientifically REJECTED for workspace contamination and the
+runtime workspace-isolation defect was fixed.
+
+This runbook distinguishes exactly three phases of evidence:
+
+- accepted selective canary `exp-20260807-131819` — accepted, separate
+  calibration evidence;
+- rejected Full-9 `exp-20260807-205422` — RUN under runtime source/build
+  `f7b1ebb` but scientifically REJECTED because generated files leaked across
+  reused strategy workspaces;
+- fresh corrected Full-9 — NOT YET RUN, to be launched under corrected runtime
+  source/build `7f2a450`.
 
 ## Frozen identity
 
 ```text
 Runtime source:
-f7b1ebba73b52868a95c47ef3806d3b09da16d93
+7f2a4509482dc7e62c2b243374592e9a88e2ff48
 
 Build:
-f7b1ebb
+7f2a450
 
 Model:
 Qwen2.5-Coder-14B-Instruct base
@@ -34,9 +45,13 @@ Matrix:
 The accepted canary `exp-20260807-131819` remains separate calibration evidence.
 Do not resume or merge it into this experiment.
 
+The previous Full-9 exp-20260807-205422 used runtime source f7b1ebb and is REJECTED scientific evidence. Its records, checkpoint, local output directory, and strategy workspaces must never be resumed, merged, copied forward, or used as the output base for this corrected run.
+
 ## 1. Kaggle assets
 
-Use the already audited deployment bundle pinned to `f7b1ebb`.
+Use the already audited deployment bundle pinned to the corrected runtime
+`7f2a450`. The deployment was re-pinned by `e29c017` after the workspace-isolation
+fix. Do not attach the pre-fix `f7b1ebb` bundle for the current launch.
 
 Attach:
 
@@ -56,12 +71,14 @@ Use a GPU session with the expected 2 × Tesla T4 when available.
 
 ## 2. Runtime setup
 
-Run the canonical:
+Run the canonical order exactly once for a new Kaggle session:
 
 ```text
 setup-cell
 install-lock-cell
+preflight-cell
 secrets-cell
+Full-9 cell
 ```
 
 Require the exact runtime lock including:
@@ -99,17 +116,19 @@ Never run the dedicated Selective Canary preflight again.
 
 ## 4. Full-9 output directory
 
-Use a fresh isolated directory:
+Use a fresh isolated directory that is fail-closed against pre-existing records:
 
 ```text
-/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke
+/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450
 ```
 
-It must not contain the canary experiment or old 7B data.
+It must not contain the canary experiment, the rejected Full-9
+`exp-20260807-205422`, or old 7B data.
 
 ## 5. Full-9 command
 
-Run one process, with no `--strategy` and no `--max-runs`:
+Run one process. The initial invocation must not include `--strategy`,
+`--max-runs`, or `--auto-resume-hf`:
 
 ```python
 import subprocess
@@ -117,8 +136,15 @@ import sys
 from pathlib import Path
 
 FULL9_OUTPUT_DIR = Path(
-    "/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke"
+    "/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450"
 )
+
+if FULL9_OUTPUT_DIR.exists() and any(FULL9_OUTPUT_DIR.iterdir()):
+    raise RuntimeError(
+        "Refusing to start corrected Full-9 in a non-empty output directory: "
+        f"{FULL9_OUTPUT_DIR}"
+    )
+
 FULL9_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 full9_cmd = [
@@ -136,8 +162,8 @@ full9_cmd = [
     "--hf-sync",
     "--new-experiment",
     "--hf-repo-id", HF_RESULTS_REPO_ID,
-    "--source-commit", "f7b1ebba73b52868a95c47ef3806d3b09da16d93",
-    "--deployed-build-id", "f7b1ebb",
+    "--source-commit", "7f2a4509482dc7e62c2b243374592e9a88e2ff48",
+    "--deployed-build-id", "7f2a450",
     "--data-dir", str(DATA_DIR),
     "--model-path", MODEL_PATH,
     "--output-dir", str(FULL9_OUTPUT_DIR),
@@ -160,16 +186,22 @@ Do not add:
 
 for the initial invocation.
 
+Do not automatically delete or clean the output directory if it is non-empty.
+Fail closed instead, as the guard above does.
+
 The benchmark process must load the backend once and reuse it across the matrix.
 
 ## 6. If the Kaggle session is interrupted
 
-Do not start a new experiment.
+Resume only after this corrected experiment has actually started and has a
+valid experiment identity. Do not start a new experiment.
 
 Resume the same experiment using the existing supported resume workflow and
 exact identity. Preserve the original output/HF experiment ID.
 
-Never merge the prior Selective canary into the Full-9 experiment.
+Never resume, merge, or copy forward the rejected Full-9 `exp-20260807-205422`
+or the accepted selective canary `exp-20260807-131819` into the corrected
+Full-9 experiment.
 
 ## 7. Expected matrix
 

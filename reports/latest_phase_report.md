@@ -16,8 +16,25 @@ from scenario 001 survived into scenario 002 and produced
 `e29c017`, pushed, local = remote, tree clean). Official pre-benchmark gate
 (`_workspace\cache\prebenchmark-py311`, Python 3.11.9 / pytest 8.4.2 exactly):
 **1,928 passed / 33 skipped / 0 failed**. The isolated selective canary remains
-accepted; `v0.8.0-canary.1` unchanged. **Next authorized action = fresh Full-9
-with the corrected source/build `7f2a450`** — not a merge, tag, or Pilot.
+accepted; `v0.8.0-canary.1` unchanged.
+
+**Follow-up docs closure FULL9-WS-02A (2026-08-08, docs/runbook only):** the
+independent GPT-5.6 Sol audit **ACCEPTED the runtime workspace-isolation fix
+(`7f2a450`, deployment re-pinned by `e29c017`)** but **blocked a new Full-9**
+because the canonical runbook still launched source/build `f7b1ebb` and its
+output directory did not fail closed on pre-existing records. This closure
+corrected `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` to launch with
+**SOURCE_COMMIT=`7f2a4509482dc7e62c2b243374592e9a88e2ff48` /
+DEPLOYED_BUILD_ID=`7f2a450`**, setup order **setup-cell -> install-lock-cell ->
+preflight-cell -> secrets-cell -> Full-9**, a fresh fail-closed output directory
+**`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450`**
+(raises if already non-empty), and an initial command with **no
+`--strategy` / `--max-runs` / `--auto-resume-hf`**. Current truth: accepted
+selective canary `exp-20260807-131819`; first Full-9 `exp-20260807-205422` =
+**RUN BUT REJECTED** (workspace contamination); **corrected fresh Full-9 =
+NOT YET RUN**. **Next authorized action = independent delta audit of the
+FULL9-WS-02A docs/runbook closure; only if accepted, exactly one fresh corrected
+Full-9 with source/build `7f2a450`** — not a merge, tag, or Pilot.
 
 ## Why this closure existed
 
@@ -86,8 +103,10 @@ verified after each push. Working tree clean.
 
 ## Next action
 
-After the independent code audit: **one fresh Full-9 Scientific Smoke V2** with
-the corrected deployment source/build `7f2a450` — one engineering preflight +
+After the independent delta audit of the FULL9-WS-02A docs/runbook closure:
+**exactly one fresh corrected Full-9 Scientific Smoke V2** with the corrected
+deployment source/build `7f2a450` (SOURCE_COMMIT=`7f2a4509482dc7e62c2b243374592e9a88e2ff48` /
+DEPLOYED_BUILD_ID=`7f2a450`, fail-closed fresh output dir) — one engineering preflight +
 one benchmark process in a fresh isolated experiment; never resume/merge the
 rejected `exp-20260807-205422` records or workspaces; never merge the accepted
 canary; then independent results audit. Record:
@@ -102,7 +121,7 @@ Sentinel: `FULL9_WORKSPACE_ISOLATION_CLOSURE_AUDIT_REQUIRED`.
 
 ## Executive decision
 
-The independent GPT-5.6 Thinking audit **ACCEPTED SUCCESSFUL REAL CANARY** on branch `fix/kaggle-smoke-v2-model-output-closure` (documentation HEAD `5561f918`). Docs-only closure — no code, tests, data, prompts, configs, notebook executable cells, or `kaggle_upload` changes. Real engineering preflight **PASS** on 2×Tesla T4 and the dedicated selective canary `exp-20260807-131819` **succeeded**. Accepted real 14B canary records = **1 succeeded / 0 failed** (isolated selective-only plan — NOT `1/9`). **Milestone tag `v0.8.0-canary.1` = created and pushed, annotated, NON-STABLE** (first accepted real Qwen 14B NF4 selective-canary milestone, points to `31a619857ce07eb09ab5e206fbc9dc792782c99c`). **Full 9-record Scientific Smoke V2 = NOT RUN.** **Main merge = pending Full-9 audit (NOT YET). Stable Smoke tag = `v0.8.0-smoke-v2-complete`, not yet created. Pilot = NOT AUTHORIZED.** **Next action = one fresh Full-9 Scientific Smoke V2** using the frozen runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`. No stable release claimed.
+The independent GPT-5.6 Thinking audit **ACCEPTED SUCCESSFUL REAL CANARY** on branch `fix/kaggle-smoke-v2-model-output-closure` (documentation HEAD `5561f918`). Docs-only closure — no code, tests, data, prompts, configs, notebook executable cells, or `kaggle_upload` changes. Real engineering preflight **PASS** on 2×Tesla T4 and the dedicated selective canary `exp-20260807-131819` **succeeded**. Accepted real 14B canary records = **1 succeeded / 0 failed** (isolated selective-only plan — NOT `1/9`). **Milestone tag `v0.8.0-canary.1` = created and pushed, annotated, NON-STABLE** (first accepted real Qwen 14B NF4 selective-canary milestone, points to `31a619857ce07eb09ab5e206fbc9dc792782c99c`). At the time this canary was accepted, **Full 9-record Scientific Smoke V2 = NOT RUN** (subsequently the first Full-9 `exp-20260807-205422` ran under `f7b1ebb` and was REJECTED for workspace contamination; a fresh corrected Full-9 under `7f2a450` remains NOT YET RUN, pending the FULL9-WS-02A delta audit). **Main merge = pending corrected Full-9 audit (NOT YET). Stable Smoke tag = `v0.8.0-smoke-v2-complete`, not yet created. Pilot = NOT AUTHORIZED.** **Next action = independent delta audit of the FULL9-WS-02A runbook/docs closure, then exactly one fresh corrected Full-9 Scientific Smoke V2** using the corrected runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`. No stable release claimed.
 
 ## Why this phase existed
 
@@ -119,7 +138,7 @@ After the Multi-GPU VRAM preflight closure (2026-08-06) closed the last engineer
 
 ## Next action
 
-One fresh Full-9 Scientific Smoke V2 (3 scenarios × 3 arms = 9 records) via `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — one engineering preflight + one benchmark process, fresh isolated experiment, never resume/merge the canary, then independent results audit. Record: `selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md`. Sentinel: `QWEN14B_CANARY_SUCCESS_DOCUMENTED_FULL9_READY`.
+Independent delta audit of the FULL9-WS-02A docs/runbook closure; only if accepted, exactly one fresh corrected Full-9 Scientific Smoke V2 (3 scenarios × 3 arms = 9 records; SOURCE_COMMIT=7f2a4509482dc7e62c2b243374592e9a88e2ff48 / DEPLOYED_BUILD_ID=7f2a450, fail-closed fresh output dir) via the corrected `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — one engineering preflight + one benchmark process, fresh isolated experiment, never resume/merge the canary or the rejected `exp-20260807-205422`, then independent results audit. Record: `selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md`. Sentinel: `QWEN14B_CANARY_SUCCESS_DOCUMENTED_FULL9_READY`.
 
 ---
 
