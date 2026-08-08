@@ -849,7 +849,7 @@ class TestScientificSmokeV1Profile:
             setup_src = "".join(cells_by_id["setup-cell"]["source"])
             assert f'SOURCE_COMMIT = "{runtime_source_commit}"' in setup_src, nb_path
             assert f'DEPLOYED_BUILD_ID = "{runtime_build_id}"' in setup_src, nb_path
-            assert "scientific_smoke_v2" in setup_src, nb_path
+            assert "scientific-smoke-v2" in setup_src, nb_path
             assert "76ef349" not in setup_src, nb_path
             assert "scientific-smoke-v1" not in setup_src, nb_path
 
@@ -862,7 +862,9 @@ class TestScientificSmokeV1Profile:
                 if "SCRIPT_PATH" in src_str and "exec_cmd = [" in src_str:
                     exec_cmds.append((cell.get("id", ""), src_str))
 
-            assert len(exec_cmds) >= 2, f"{nb_path}: expected >=2 benchmark cells, got {len(exec_cmds)}"
+            assert len(exec_cmds) == 1, (
+                f"{nb_path}: expected exactly one Full-9 benchmark cell, got {len(exec_cmds)}"
+            )
 
             for cid, src_str in exec_cmds:
                 required = [
@@ -885,14 +887,20 @@ class TestScientificSmokeV1Profile:
                 )
                 assert '"pilot"' not in src_str, f"{nb_path} cell [{cid}]: has pilot profile"
                 assert '"research"' not in src_str, f"{nb_path} cell [{cid}]: has research profile"
-                if cid == "exec-cell":
-                    assert '"--max-runs", "1"' in src_str, (
-                        f"{nb_path} cell [{cid}]: resume cell missing --max-runs 1"
-                    )
-                if cid == "continuous-smoke-cell":
-                    assert '"--max-runs"' not in src_str, (
-                        f"{nb_path} cell [{cid}]: continuous cell should not have --max-runs"
-                    )
+                assert cid == "full9-execution-cell", (
+                    f"{nb_path}: benchmark command must live in full9-execution-cell, got [{cid}]"
+                )
+                assert '"--max-runs"' not in src_str, (
+                    f"{nb_path} cell [{cid}]: Full-9 cell must not use --max-runs"
+                )
+                assert '"--strategy"' not in src_str, (
+                    f"{nb_path} cell [{cid}]: Full-9 cell must not use --strategy"
+                )
+                assert '"--auto-resume-hf"' not in src_str, (
+                    f"{nb_path} cell [{cid}]: Full-9 cell must not use --auto-resume-hf"
+                )
+                assert '"--new-experiment"' in src_str, f"{nb_path} cell [{cid}]: missing --new-experiment"
+                assert '"--hf-sync"' in src_str, f"{nb_path} cell [{cid}]: missing --hf-sync"
             parsed.append((nb_path, nb))
 
         # After bundle build: canonical and generated notebooks are code-cell identical.
@@ -1010,7 +1018,9 @@ class TestScientificSmokeV1Profile:
             "_load_smoke_evidence",
             "_display_smoke_dashboard",
             "_raise_actionable_smoke_error",
-            "_validate_continuous_precondition",
+            "_verify_full9_evidence",
+            "_export_full9_evidence",
+            "_label_bar_containers",
             "ScientificSmokeExecutionError",
         ):
             assert f"def {helper}" in setup_src or helper in setup_src, (
@@ -1024,12 +1034,16 @@ class TestScientificSmokeV1Profile:
         ):
             assert env in setup_src, f"setup-cell missing env: {env}"
 
-        exec_src = "".join(cells_by_id["exec-cell"]["source"])
-        continuous_src = "".join(cells_by_id["continuous-smoke-cell"]["source"])
-        assert "_run_benchmark_live(" in exec_src, "exec-cell missing live runner"
-        assert "_run_benchmark_live(" in continuous_src, "continuous cell missing live runner"
-        assert "_validate_continuous_precondition(" in continuous_src, (
-            "continuous cell missing precondition gate"
+        exec_src = "".join(cells_by_id["full9-execution-cell"]["source"])
+        verify_src = "".join(cells_by_id["full9-verification-cell"]["source"])
+        export_src = "".join(cells_by_id["export-evidence-cell"]["source"])
+        assert "_run_benchmark_live(" in exec_src, "full9-execution-cell missing live runner"
+        assert "FULL9_OUTPUT_DIR" in exec_src, "full9-execution-cell missing output dir"
+        assert "_verify_full9_evidence(FULL9_OUTPUT_DIR)" in verify_src, (
+            "full9-verification-cell missing Full-9 guardrail call"
+        )
+        assert "_export_full9_evidence(FULL9_OUTPUT_DIR)" in export_src, (
+            "export-evidence-cell missing export call"
         )
         assert "kaggle_console.log" in setup_src, "live log file missing"
 
@@ -1037,7 +1051,7 @@ class TestScientificSmokeV1Profile:
     def test_notebook_accepts_scientific_failure_and_blocks_engineering_failure(
         self, tmp_path: Path
     ) -> None:
-        """Execute the deployed evidence gates, not merely text-search them."""
+        """Execute the deployed Full-9 evidence gate, not merely text-search it."""
         import ast
         import json
 
@@ -1052,18 +1066,19 @@ class TestScientificSmokeV1Profile:
             "SCIENTIFIC_FAILURE_KINDS",
             "ENGINEERING_FAILURE_KINDS",
             "EVIDENCE_FILES",
-            "AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW",
+            "SOURCE_COMMIT",
+            "DEPLOYED_BUILD_ID",
+            "EXPECTED_MODEL_IDENTITY",
+            "EXPECTED_PROFILE",
+            "EXPECTED_PROTOCOL_VERSION",
+            "FULL9_EXPECTED_MATRIX",
         }
         wanted_defs = {
             "ScientificSmokeExecutionError",
             "_load_smoke_evidence",
             "_terminal_record_outcome",
-            "_extract_evidence_root_cause",
-            "_validate_continuous_precondition",
-            "_verify_scientific_run",
-            "_expected_model_identity",
+            "_verify_full9_evidence",
         }
-        model_dir = _create_qwen_model_dir(tmp_path)
         selected = []
         for node in tree.body:
             if isinstance(node, ast.Assign):
@@ -1073,101 +1088,97 @@ class TestScientificSmokeV1Profile:
             elif isinstance(node, (ast.FunctionDef, ast.ClassDef)) and node.name in wanted_defs:
                 selected.append(node)
         module = ast.Module(body=selected, type_ignores=[])
-        ns: dict[str, Any] = {
-            "Path": Path,
-            "_json": json,
-            "SOURCE_COMMIT": "a" * 40,
-            "DEPLOYED_BUILD_ID": "aaaaaaa",
-            "OUTPUT_DIR": tmp_path,
-            "MODEL_PATH": str(model_dir),
-            "QWEN_QUANTIZATION": "bnb-nf4",
-            "_display_smoke_dashboard": lambda _path: None,
-        }
+        ns: dict[str, Any] = {"Path": Path, "_json": json}
         exec(compile(module, "deployed-notebook-evidence-gates", "exec"), ns)
 
-        def write_evidence(record: dict[str, Any]) -> None:
-            cp = {
-                "completed_run_ids": [record["run_id"]],
-                "pending_run_ids": [f"pending-{i}" for i in range(8)],
-                "source_commit": "a" * 40,
-                "deployed_build_id": "aaaaaaa",
-                "model_identity": ns["_expected_model_identity"](),
+        source_commit = ns["SOURCE_COMMIT"]
+        build_id = ns["DEPLOYED_BUILD_ID"]
+        model_identity = ns["EXPECTED_MODEL_IDENTITY"]
+        profile = ns["EXPECTED_PROFILE"]
+        protocol = ns["EXPECTED_PROTOCOL_VERSION"]
+        scenarios = ("todo-smoke-001", "todo-smoke-002", "todo-smoke-003")
+        strategies = ("monolithic", "selective", "iterative_repository_agent")
+
+        def record(index: int, status: str = "succeeded", kind: str | None = None) -> dict[str, Any]:
+            scenario = scenarios[index % 3]
+            strategy = strategies[(index // 3) % 3]
+            return {
+                "run_id": f"run-{index}",
+                "scenario_id": scenario,
+                "strategy_id": strategy,
+                "strategy_name": strategy,
+                "status": status,
+                "source_commit": source_commit,
+                "repetition": 1,
+                "profile": profile,
+                "failure_classification": kind or "",
+                "failure_details": (
+                    [{"kind": kind, "stage": "migration_generation", "message": "m"}]
+                    if kind
+                    else []
+                ),
             }
-            (tmp_path / "checkpoint.json").write_text(json.dumps(cp), encoding="utf-8")
+
+        def write_full9_matrix(records: list[dict[str, Any]]) -> None:
+            (tmp_path / "experiment_id.txt").write_text("exp-full9-test\n", encoding="utf-8")
+            (tmp_path / "source_identity.json").write_text(
+                json.dumps({
+                    "source_commit": source_commit,
+                    "deployed_build_id": build_id,
+                    "model_identity": model_identity,
+                    "profile": profile,
+                    "protocol_version": protocol,
+                }),
+                encoding="utf-8",
+            )
             (tmp_path / "run_records.jsonl").write_text(
-                json.dumps(record) + "\n", encoding="utf-8"
+                "".join(json.dumps(r) + "\n" for r in records),
+                encoding="utf-8",
             )
-            (tmp_path / "remote_sync.json").write_text(
-                json.dumps({"last_sync": "recovery_uploaded"}), encoding="utf-8"
+            (tmp_path / "checkpoint.json").write_text(
+                json.dumps({
+                    "source_commit": source_commit,
+                    "deployed_build_id": build_id,
+                    "model_identity": model_identity,
+                    "profile": profile,
+                    "protocol_version": protocol,
+                    "completion_status": "completed",
+                    "total_planned": 9,
+                    "total_completed": 9,
+                    "pending_run_ids": [],
+                }),
+                encoding="utf-8",
             )
-            (tmp_path / "experiment_id.txt").write_text("exp-test", encoding="utf-8")
 
-        scientific_failure = {
-            "run_id": "run-1",
-            "status": "failed",
-            "source_commit": "a" * 40,
-            "failure_classification": "model_output",
-            "failure_details": [
-                {
-                    "kind": "build",
-                    "stage": "migration_generation",
-                    "details": "ValueError: generated model is invalid",
-                }
-            ],
-            "total_workflow_model_calls": 5,
-            "migration_generation_passed": False,
-            "baseline_validation_passed": None,
-            "scenario_evaluator_passed": None,
-        }
-        write_evidence(scientific_failure)
-        assert ns["_verify_scientific_run"]() == "scientific_failure"
-        assert ns["AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW"] is False
-        with pytest.raises(ns["ScientificSmokeExecutionError"]) as exc_info:
-            ns["_validate_continuous_precondition"](tmp_path)
-        assert "CALIBRATION_REVIEW_REQUIRED" in str(exc_info.value)
+        base = [record(i) for i in range(9)]
 
-        ns["AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW"] = True
-        assert ns["_validate_continuous_precondition"](tmp_path) == "scientific_failure"
-        ns["AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW"] = False
-
-        engineering_failure = dict(scientific_failure)
-        engineering_failure["failure_classification"] = "infrastructure_nonrepairable"
-        engineering_failure["failure_details"] = [
-            {
-                "kind": "infrastructure_nonrepairable",
-                "stage": "migration_generation",
-                "details": "ModuleNotFoundError: No module named 'django'",
-            }
+        scientific_failure = list(base)
+        scientific_failure[0]["status"] = "failed"
+        scientific_failure[0]["failure_classification"] = "model_output"
+        scientific_failure[0]["failure_details"] = [
+            {"kind": "build", "stage": "migration_generation", "message": "bad"}
         ]
-        write_evidence(engineering_failure)
-        with pytest.raises(ns["ScientificSmokeExecutionError"]):
-            ns["_verify_scientific_run"]()
-        with pytest.raises(ns["ScientificSmokeExecutionError"]):
-            ns["_validate_continuous_precondition"](tmp_path)
+        write_full9_matrix(scientific_failure)
+        assert ns["_terminal_record_outcome"](scientific_failure[0]) == "scientific_failure"
+        ns["_verify_full9_evidence"](str(tmp_path))
 
-        valid_success = dict(scientific_failure)
-        valid_success.update(
-            status="succeeded",
-            failure_classification="",
-            failure_details=[],
-            migration_generation_passed=True,
-            baseline_validation_passed=True,
-            scenario_evaluator_passed=True,
-        )
-        write_evidence(valid_success)
-        assert ns["_verify_scientific_run"]() == "scientific_success"
-        assert ns["_validate_continuous_precondition"](tmp_path) == "scientific_success"
+        engineering_failure = list(base)
+        engineering_failure[0]["status"] = "failed"
+        engineering_failure[0]["failure_classification"] = "infrastructure_nonrepairable"
+        engineering_failure[0]["failure_details"] = [
+            {"kind": "infrastructure_nonrepairable", "stage": "migration_generation", "message": "m"}
+        ]
+        write_full9_matrix(engineering_failure)
+        assert ns["_terminal_record_outcome"](engineering_failure[0]) == "engineering_blocker"
+        with pytest.raises(ns["ScientificSmokeExecutionError"]) as exc_info:
+            ns["_verify_full9_evidence"](str(tmp_path))
+        assert "engineering blocker record: True" in str(exc_info.value)
 
-        invalid_success = dict(scientific_failure)
-        invalid_success.update(
-            status="succeeded",
-            failure_classification="",
-            failure_details=[],
-            migration_generation_passed=False,
-        )
-        write_evidence(invalid_success)
+        timed_out = list(base)
+        timed_out[0]["status"] = "timed_out"
+        write_full9_matrix(timed_out)
         with pytest.raises(ns["ScientificSmokeExecutionError"]):
-            ns["_verify_scientific_run"]()
+            ns["_verify_full9_evidence"](str(tmp_path))
 
     def test_notebook_preflight_streams_with_deployed_pythonpath(self) -> None:
         """Preflight must not buffer output or depend on the parent kernel's sys.path."""
@@ -1187,35 +1198,43 @@ class TestScientificSmokeV1Profile:
         assert 'preflight_env["PYTHONPATH"]' in preflight_src
         assert 'preflight_env["PYTHONUNBUFFERED"] = "1"' in preflight_src
         assert 'preflight_env["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"' in preflight_src
-        assert "kaggle_preflight_console.log" in preflight_src
+        assert "kaggle_preflight_console.log" in setup_src
+        assert 'KAGGLE_DEPLOYMENT_PATHS["preflight_console_name"]' in preflight_src
+        assert 'KAGGLE_DEPLOYMENT_PATHS["preflight_output_dir"]' in preflight_src
         assert "capture_output=True" not in preflight_src
         assert 'sub_env["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"' in setup_src
         assert "PYTORCH_CUDA_ALLOC_CONF" not in setup_src
 
     def test_notebook_sync_display_uses_current_schema(self) -> None:
-        """The inspection cell must read the current remote_sync schema keys."""
+        """The export helper must read the current remote_sync schema keys."""
         import json
 
         nb_path = PROJECT_DIR / "notebooks" / "seven_arm_benchmark.ipynb"
         with open(nb_path, encoding="utf-8") as f:
             nb = json.load(f)
         cells_by_id = {c.get("id"): c for c in nb["cells"]}
-        progress_src = "".join(cells_by_id["progress-cell"]["source"])
+        setup_src = "".join(cells_by_id["setup-cell"]["source"])
+        export_src = "".join(cells_by_id["export-evidence-cell"]["source"])
 
+        assert "_export_full9_evidence(FULL9_OUTPUT_DIR)" in export_src, (
+            "export-evidence-cell missing the Full-9 export call"
+        )
         for key in (
             'sync.get("last_sync"',
             'sync.get("timestamp"',
             'sync.get("remote_path"',
             'sync.get("details"',
         ):
-            assert key in progress_src, f"inspection cell missing current key: {key}"
+            assert key in setup_src, f"setup-cell export helper missing current key: {key}"
 
         for obsolete in (
             'sync.get("last_sync_time"',
             'sync.get("experiments_synced"',
             'sync.get("runs_uploaded"',
         ):
-            assert obsolete not in progress_src, f"inspection cell still uses obsolete key: {obsolete}"
+            assert obsolete not in setup_src, (
+                f"setup-cell export helper still uses obsolete key: {obsolete}"
+            )
 
 
 class _FakeRunRecord:
