@@ -228,6 +228,40 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 > tag and the 7/7-arm Kaggle smoke are **historical orchestration evidence
 > only** — not V2 evidence.
 >
+> **FULL9-T600-01 — 600s confirmatory timeout-sensitivity Full-9 contract
+> PUBLISHED (2026-08-08), status `COMPLETE — awaiting independent GPT-5.6 Sol
+> delta audit before Kaggle`** (executable commit `e6dbd3e`
+> `chore(smoke): raise confirmatory Full-9 timeout to 600s`, pushed, local =
+> remote; branch `fix/kaggle-smoke-v2-model-output-closure`). The accepted
+> clean 300-second Full-9 baseline (runtime source/build `7f2a450`,
+> `--timeout 300`) showed **three runs at or beyond the scientific per-run
+> workflow ceiling (~307–337 s)**, so the uniform scientific per-run workflow
+> timeout is raised **300 → 600** for **one confirmatory Full-9** (T600) to
+> reduce timeout censoring while preserving equal computational opportunity.
+> The 300-second baseline remains valid and preserved (9/9 terminal /
+> 2 successes / 7 scientific failures / 0 engineering blockers); **T600 is NOT
+> YET RUN** and is a separate confirmatory timeout-sensitivity Full-9 that
+> changes ONLY the timeout — all other frozen scientific inputs remain
+> unchanged. 600 seconds applies uniformly to monolithic, selective, and
+> iterative_repository_agent (one shared Full-9 command; no strategy gets extra
+> time); **do NOT raise the timeout above 600** — if T600 also accumulates runs
+> near 600 s, analyze the duration/repair distribution and pre-register the
+> Pilot budget instead. New fail-closed output namespace:
+> `/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600`;
+> new evidence archive prefix:
+> `corrected-full9-t600-wsfix-7f2a450-`. Audit status: executable implementation
+> PASS (one protocol value, one isolated namespace, contract tests only; no
+> framework/refactor/dependency expansion); over-engineering PASS; scientific
+> identity PASS (runtime source/build remains the frozen `7f2a450` deployment
+> identity — runtime source did not change); full executable suite
+> **1947 passed / 33 skipped / 0 failed** (not rerun after docs). Non-destructive
+> RED proof: the committed HEAD notebook (`--timeout 300`) fails the new
+> 600-second contract; the working notebook satisfies it. **Next authorized
+> action = independent GPT-5.6 Sol delta audit; after acceptance, exactly ONE
+> fresh 600-second confirmatory Full-9 on Kaggle, compared cell-by-cell against
+> the accepted clean 300-second baseline.** Main merge / stable tag / Pilot /
+> fine-tune remain unauthorized. No Kaggle run was performed in this task.
+>
 > **FULL9-EXEC-01 — Canonical Corrected Full-9 Notebook Execution Closure
 > (2026-08-08), status `COMPLETE — pending independent delta audit before
 > Kaggle Full-9`** (Commit A `c4aee03` `feat(kaggle): make corrected Full-9
@@ -287,7 +321,7 @@ Scientific Smoke and Pilot: Not yet authorized for this arm.
 | Qwen 14B multi-GPU VRAM preflight closure | Complete (`f7b1ebb` Commit A + `c8f5685` Commit B, pushed, local = remote, tree clean) — the independent audit found the preflight read VRAM from **GPU 0 only** (`torch.cuda.memory_allocated(0)` etc.), so a 2x Tesla T4 `device_map="auto"` 14B bnb-nf4 load could pass while GPU 1 had <2.0 GiB free; fixed by adding the immutable `GpuVramSnapshot` value type and `_collect_gpu_vram_snapshots()` (synchronize + read allocated/reserved/free/total on **every** visible GPU, three-decimal rounding, never swallow a per-GPU failure), `free_vram_after_probe_gib = min(snapshot.free_gib)` with summed allocated/reserved scalars, a minimum-free gate requiring **every visible GPU >= 2.0 GiB** (`vram_headroom: FAIL (GPU 1 free=0.12 GiB < 2.0 GiB)`), ordered per-GPU evidence in the `kaggle_smoke_preflight.v1` JSON (`gpu_vram_by_device`) and the human preflight table, and per-GPU snapshot preservation on failed model loads via `_static_model_metadata`; official clean-env gate (`prebenchmark-py311-v4-loader`, Python 3.11.5 / pytest 8.4.2): full suite **1,915 passed / 32 skipped / 0 failed** (500.22 s); Metric Verification 169; Ruff 0 new (86 pre-existing baseline); mypy strict Success (77 files); compileall clean; notebook + bundle pin identity PASS (`SOURCE_COMMIT=f7b1ebb`); bundle integration 32 passed; builder content-identical (147 files / 968,722 bytes); mandatory adversarial case reproduced: **GPU0 3.0 GiB / GPU1 0.125 GiB → FAIL**; next action = independent audit then Kaggle engineering preflight cell only |
 | Qwen 14B selective canary success | **ACCEPTED** (independent GPT-5.6 Thinking audit, 2026-08-07, documentation HEAD `5561f918`) — first successful real Qwen implementation through every functional validation stage: real engineering preflight **PASS** on 2×Tesla T4 (Python 3.12.13 / transformers 4.57.6 / bnb-nf4, minimum free VRAM 8.417 GiB, GPU-only device map); `exp-20260807-131819` (`todo-smoke-001 / selective`) **succeeded**: 3 selected / 2 preserved / 3 regenerated, one migration `0004_task_priority.py`, 3 model calls / 2,527+720=3,247 tokens / 295.944 s / 0 repair attempts; functional validation PASS; scenario evaluator **PASS 10/10**; accepted real 14B canary records = 1; **full 9-record Scientific Smoke V2 = NOT RUN** at the time this canary was accepted (isolated selective-only plan, do NOT call it 1/9; subsequently the first Full-9 `exp-20260807-205422` ran under `f7b1ebb` and was REJECTED for workspace contamination, and a fresh corrected Full-9 under `7f2a450` remains NOT YET RUN); vs latest 7B selective: 25.0% fewer calls / 44.1% fewer tokens / repair eliminated / 14.9% slower — functional viability proven, not strategy superiority; generated `views.py` has an unused `Q` import (non-blocking, evidence NOT to be repaired); continuous cell failed closed with zero model calls (generic experiment empty — not a failure); HF local evidence `recovery_uploaded`; no merge/tag/Pilot; no stable release claimed; **milestone tag `v0.8.0-canary.1` created and pushed** (annotated, non-stable, points to `31a6198`); stable Smoke tag naming = `v0.8.0-smoke-v2-complete` (create only after corrected Full-9 audit + main merge); **next action = independent delta audit of the FULL9-WS-02A runbook/docs closure, then one fresh corrected Full-9 only if accepted** (corrected runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`, SOURCE_COMMIT=7f2a450 / DEPLOYED_BUILD_ID=7f2a450); record `selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md` |
 | Full-9 workspace isolation closure | Complete (`7f2a450` Commit A + `e29c017` Commit B, pushed, local = remote, tree clean) — the rejected Full-9 `exp-20260807-205422` (2 succeeded / 7 failed / 62 calls / 76,858 tokens, runtime source `f7b1ebb`) was caused by **overlay source restaging leaking generated files across scenarios**: `_populate_workspace_source` reused each strategy workspace across scenarios and overlaid the snapshot without deleting stale generated files, so `0004_task_priority.py` from scenario 001 survived into 002 and produced `0005_remove_task_priority_task_deleted_at` — contaminating the selective/agent 002 and 003 records (Full-9 scientific acceptance = **rejected**, preserved as evidence only, NOT the accepted aggregate; the isolated selective canary remains accepted; `v0.8.0-canary.1` unchanged). Fixed by replacing overlay with an **exact reset from the immutable snapshot before every matrix run**: `_WORKSPACE_INFRASTRUCTURE_DIRS = {runs, tmp, snapshots}`, `_reset_workspace_source_from_snapshot` (delete source tree incl. stale generated files, then restage), `make_isolation` calls it for every arm workspace on every run. Unit edge cases 33 passed / 1 skipped (symlink skipped on Windows); sequential 001→002→003 migration proof (4 passed; 002 clean, no `0004_task_priority`, depends on canonical `0003`); nine-run zero-residue matrix proof. Official pre-benchmark gate (pytest 8.4.2, `_workspace\cache\prebenchmark-py311`): **1,928 passed / 33 skipped / 0 failed**; Dataset 161/1 (27 scenarios unchanged, scopes intact); Prompt 200/12; Pipeline Smoke 45 (incl. sequential regression); Dry Run 9 planned / 9 terminal / 9 succeeded / 0 failed / exit 0; Metric Verification 187; Ruff 0 new (5 pre-existing); mypy 0 new (4 pre-existing); compileall clean; notebook cells compile; bundle rebuilt content-identical (147 files / 969,713 bytes), manifests verified; notebook re-pinned `SOURCE_COMMIT=7f2a4509482dc7e62c2b243374592e9a88e2ff48` / `DEPLOYED_BUILD_ID=7f2a450`. Next action = fresh Full-9 with the corrected source/build |
-| Kaggle relaunch + nine real Qwen records | Blocked until independent delta audit of the FULL9-WS-02A docs/runbook closure accepts it; then run exactly **one fresh corrected Full-9 Scientific Smoke V2** (3 scenarios × 3 arms = 9 records) using the corrected runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — corrected identity SOURCE_COMMIT=`7f2a4509482dc7e62c2b243374592e9a88e2ff48` / DEPLOYED_BUILD_ID=`7f2a450`, fail-closed output `/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450`; one engineering preflight + one benchmark process in a fresh isolated experiment; never resume/merge the rejected `exp-20260807-205422` or the accepted selective canary `exp-20260807-131819`; then independent results audit |
+| Kaggle relaunch + nine real Qwen records | Blocked until independent GPT-5.6 Sol delta audit of the FULL9-T600-01 contract accepts it; then run exactly **one fresh 600-second confirmatory Full-9 Scientific Smoke V2** (3 scenarios × 3 arms = 9 records) using the corrected runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — corrected identity SOURCE_COMMIT=`7f2a4509482dc7e62c2b243374592e9a88e2ff48` / DEPLOYED_BUILD_ID=`7f2a450`, uniform `--timeout 600`, fail-closed output `/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600`, evidence archive prefix `corrected-full9-t600-wsfix-7f2a450-`; one engineering preflight + one benchmark process in a fresh isolated experiment; never resume/merge the rejected `exp-20260807-205422`, the accepted selective canary `exp-20260807-131819`, or the accepted 300-second Full-9 baseline; then independent results audit |
 | Pilot experiment | Not authorized |
 | Research experiment | Planned |
 
@@ -297,8 +331,11 @@ records = 9/9; bundled CLI dry-run = 9/9; real 14B engineering preflight = PASS;
 accepted real 14B selective canary = 1 succeeded / 0 failed
 (`exp-20260807-131819`, todo-smoke-001/selective, isolated selective-only plan —
 not a `1/9`); first Full-9 (`exp-20260807-205422`) = RUN BUT REJECTED
-(workspace contamination); corrected fresh Full-9 = NOT YET RUN (pending
-independent delta audit of the runbook/docs closure); two real
+(workspace contamination); accepted clean 300-second Full-9 baseline under
+`7f2a450` (`--timeout 300`) = 9/9 terminal / 2 successes / 7 scientific
+failures / 0 engineering blockers (valid, preserved); **T600 confirmatory
+Full-9 (`--timeout 600`, `_t600` namespace) = NOT YET RUN** (contract
+published; pending independent GPT-5.6 Sol delta audit); two real
 Kaggle attempts failed before any model call (preserved, not deleted); a later
 attempt reached 81 model calls / 47,694 tokens with 0 succeeded / 0
 regenerated files (0/9, not scientific evidence); the latest attempt
