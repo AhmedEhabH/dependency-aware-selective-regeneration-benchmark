@@ -53,7 +53,7 @@ SMOKE_SCENARIOS = ("todo-smoke-001", "todo-smoke-002", "todo-smoke-003")
 FULL9_SOURCE_COMMIT = "7f2a4509482dc7e62c2b243374592e9a88e2ff48"
 FULL9_BUILD_ID = "7f2a450"
 FULL9_EXPECTED_MODEL_IDENTITY = "qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25"
-FULL9_OUTPUT_DIR_NAME = "qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450"
+FULL9_OUTPUT_DIR_NAME = "qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600"
 FULL9_OUTPUT_DIR = f"/kaggle/working/runs/{FULL9_OUTPUT_DIR_NAME}"
 FULL9_PREFLIGHT_DIR = "/kaggle/working/runs/preflight_full9_wsfix_7f2a450"
 FULL9_SCENARIOS = ("todo-smoke-001", "todo-smoke-002", "todo-smoke-003")
@@ -267,7 +267,7 @@ def _assert_full9_command_contract(
         "--protocol-version": "1.0",
         "--max-completion-tokens-per-call": "1024",
         "--max-total-workflow-tokens": "0",
-        "--timeout": "300",
+        "--timeout": "600",
         "--hf-repo-id": "NabilDo/selective-regeneration-experiment-results",
         "--source-commit": FULL9_SOURCE_COMMIT,
         "--deployed-build-id": FULL9_BUILD_ID,
@@ -279,6 +279,10 @@ def _assert_full9_command_contract(
     for flag, value in pairs.items():
         assert flag in cmd, f"missing {flag}"
         assert cmd[cmd.index(flag) + 1] == value, f"{flag} value mismatch"
+    assert cmd.count("--timeout") == 1, (
+        "Full-9 must set exactly one --timeout applying uniformly to all three strategies"
+    )
+    assert cmd[cmd.index("--timeout") + 1] == "600", "scientific workflow timeout must be 600"
     for flag in ("--hf-sync", "--new-experiment"):
         assert flag in cmd, f"missing {flag}"
     for forbidden in ("--strategy", "--max-runs", "--auto-resume-hf"):
@@ -616,7 +620,7 @@ class TestKaggleBundleCliDryRun:
                 "--max-attempts", "3",
                 "--max-completion-tokens-per-call", "4096",
                 "--max-total-workflow-tokens", "0",
-                "--timeout", "300",
+                "--timeout", "600",
             ],
             cwd=str(tmp_path),
             timeout=120,
@@ -1562,7 +1566,7 @@ class TestFull9Exec01Boundary:
             archive_root=str(archive_root),
             timestamp="2026-08-08-000000",
         )
-        assert bundle_path.name == "corrected-full9-wsfix-7f2a450-2026-08-08-000000.zip"
+        assert bundle_path.name == "corrected-full9-t600-wsfix-7f2a450-2026-08-08-000000.zip"
         assert bundle_path.is_file()
         with zipfile.ZipFile(bundle_path) as zf:
             names = zf.namelist()
