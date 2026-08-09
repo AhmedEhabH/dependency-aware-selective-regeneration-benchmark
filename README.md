@@ -6,7 +6,7 @@
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Protocol](https://img.shields.io/badge/Research%20Protocol-v1.0%20Frozen-success.svg)](PROTOCOL_VERSION.md)
-[![Tests](https://img.shields.io/badge/tests-1%2C958%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-2%2C026%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
 ## Overview
@@ -203,6 +203,36 @@ yet authorized for this arm.
 
 ## Current Status
 
+> **PILOT-READY-01 = CLOSED (2026-08-10)** on branch `feat/pilot-ready-01` —
+> Scientific Smoke V2 stays CLOSED. The local multi-repo production patch for
+> the selective arm's repository-level input contracts is committed and pushed
+> (`34ecf78`, 7 files, +867/−42): `build_dependency_graph` now fails closed on
+> mixed repositories, `build_repository_dependency_graphs` builds one graph per
+> repository, `expand_editable_paths` is applied per repository profile, and the
+> Pilot run loop selects each repository's own graph/descriptors. The stale
+> real-smoke expectation was corrected (`STRATEGIES_WITH_MISSING_PREREQS =
+> {"agent"}` — selective is now fully provisioned). A focused multi-repo
+> production-path integration contract was added
+> (`tests/integration/test_pilot_multi_repo_production_path.py`, 12 tests)
+> proving per-repository graphs, editable universes, descriptors, and
+> deterministic selections for all 12 Pilot scenarios (Todo / django CMS /
+> Saleor) with zero cross-repository contamination. Full executable suite =
+> **2,026 passed / 33 skipped / 0 failed**. Gate 6 isolation/evidence/export
+> gates = 142 passed. Exact fresh 48-cell Pilot dry-run
+> (`runs/pilot_dryrun_48cell_20260810_012744`, `--profile pilot`) = 48 planned /
+> 48 terminal / 48 succeeded / 0 failed / 0 pending; all 48 run IDs unique and
+> deterministic (`config_hash 7ef6ffc7a2c0d369`, protocol 1.0,
+> `source_commit 34ecf78`); per-repository counts todo/djangocms/saleor
+> 16/16/16; per-strategy iterative_repository_agent/selective 24/24;
+> per-repetition 24/24; checkpoint `completion_status: completed`, model identity
+> `dry-run:mock`; no stale state, no cross-scenario/cross-repository residue.
+> Frozen Pilot matrix: model **Qwen2.5-Coder-14B-Instruct**, quantization
+> **bnb-nf4**, timeout **600s**, **12 scenarios**, **2 strategies**,
+> **2 repetitions** = **48 cells**. **Pilot = NOT STARTED** (execution not
+> authorized); **next task = `PILOT-EXEC-01`**; stable tag `v0.9.0-pilot-ready`
+> after main merge. No further Kaggle Full-9 authorized; no accepted Smoke
+> evidence or frozen source history changed.
+>
 > **Legacy Seven-Arm V1 vs current Three-Arm V2:** The legacy Seven-Arm V1
 > benchmark (`seven_arm_benchmark.py`, arms `monolithic`, `agent`, `selective`,
 > `compiled_ai`, `delta_mcp`, `incr_rtl`, `code_plan`) is **historical** and
@@ -591,7 +621,7 @@ python -m pip check
 
 Current validated state:
 
-- **1,958 tests passing / 33 skipped / 0 failed** (official clean-env gate, carried forward from MAIN-GREEN-01, 2026-08-09)
+- **2,026 tests passing / 33 skipped / 0 failed** (final PILOT-READY-01 gate, 2026-08-10)
 - **Ruff: 0 new violations** (pre-existing baseline unchanged)
 - **Mypy strict: 0 new errors** (base 5 pre-existing only)
 - **pip check: no broken requirements** (pre-existing conda issues unrelated)
@@ -809,9 +839,8 @@ Immediate next milestones:
 - [x] Real Three-Arm Qwen Smoke 9/9 — accepted clean 300-second Full-9 baseline (runtime `7f2a450`, `--timeout 300`: 9/9 terminal / 2 successes / 7 scientific failures / 0 engineering blockers) + accepted 600-second confirmatory Full-9 `exp-20260808-222843` (uniform `--timeout 600`: same 2 successes / 7 scientific failures, 0 budget-exhausted, 63 calls / 77,929 tokens / max run ≈373 s; Full-9 verification PASS; HF synchronization PASS); first Full-9 `exp-20260807-205422` was RUN BUT REJECTED (workspace contamination), canary success recorded 2026-08-07
 - [x] Independent delta audit of the Scientific Smoke V2 closure (SMOKE-V2-CLOSE-01) — closed 2026-08-09 (docs closure merged to main; post-merge regression hotfix MAIN-GREEN-01 also closed)
 - [x] Stable v0.8.0-smoke-v2-complete tag after closure audit + main merge — created at `193d889`; preferred recovery tag `v0.8.2-smoke-v2-complete` at current main `403977b` (prior `v0.8.1-smoke-v2-complete` at `d875c72` kept as historical provenance)
-- [ ] PILOT-READY-01 — Pilot readiness closure (repository/config/strategy/path reconciliation, Stage-Transition Coupling Audit, evidence/export contract verification; timeout stays frozen at 600 s; Pilot itself not authorized)
-- [ ] Pilot freeze
-- [ ] Pilot experiment
+- [x] PILOT-READY-01 — Pilot readiness closure — **CLOSED (2026-08-10)**: multi-repo selective input contracts fixed (`34ecf78`), stale real-smoke expectation corrected, focused 12-test multi-repo production-path contract added, full suite 2,026 passed / 33 skipped / 0 failed, exact 48-cell Pilot dry-run 48/48 deterministic green, isolation/evidence/export gates 142 passed; Pilot execution NOT STARTED
+- [ ] PILOT-EXEC-01 — Pilot freeze and execution (next task; Pilot execution not yet authorized)
 - [ ] Research (main confirmatory) experiment
 - [ ] Arm-to-protocol alignment review
 - [ ] Reproducibility archive and DOI
