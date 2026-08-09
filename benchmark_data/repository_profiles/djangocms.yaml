@@ -29,7 +29,6 @@ architecture:
     key_files:
       - cms/models/pagemodel.py
       - cms/models/contentmodels.py
-      - cms/models/titlemodels.py (deprecated)
 
   placeholder_system:
     description: >
@@ -45,11 +44,10 @@ architecture:
     description: >
       Multilingual content is handled via the PageContent model, which
       represents one language variant of a Page. Each PageContent instance
-      maps to a specific Page and language code. The older Title model
-      is deprecated but kept for backward compatibility.
+      maps to a specific Page and language code. django CMS 5.0 stores all
+      content in PageContent; the legacy Title model was removed.
     key_files:
       - cms/models/contentmodels.py
-      - cms/models/titlemodels.py
 
   permission_system:
     description: >
@@ -58,7 +56,7 @@ architecture:
       PagePermission, and PageUser models control who can view, edit,
       publish, or manage pages.
     key_files:
-      - cms/permissions.py
+      - cms/utils/page_permissions.py
       - cms/models/permissionmodels.py
       - cms/admin/permissionadmin.py
 
@@ -69,8 +67,8 @@ architecture:
       attaches the toolbar to requests. Toolbar items are registered via
       CMSToolbar subclasses.
     key_files:
-      - cms/toolbar.py
-      - cms/middleware.py
+      - cms/cms_toolbars.py
+      - cms/middleware/
 
   caching:
     description: >
@@ -79,8 +77,8 @@ architecture:
       and site. Signals invalidate cache entries on content changes.
     key_files:
       - cms/cache/ (directory)
-      - cms/signals.py
-      - cms/middleware.py
+      - cms/signals/
+      - cms/middleware/
 
   template_tags:
     description: >
@@ -96,31 +94,28 @@ artifact_catalog:
     - __init__.py
     - pagemodel.py: Page (MPTT-enabled page node)
     - contentmodels.py: PageContent (multilingual content per page per language)
-    - titlemodels.py: Title (deprecated, backward compat)
     - pluginmodel.py: CMSPlugin (base plugin tree node)
     - placeholdermodel.py: Placeholder
     - permissionmodels.py: GlobalPermission, PagePermission, PageUser
     - settingmodels.py: UserSettings
-    - static_placeholdermodel.py: StaticPlaceholder
+    - static_placeholder.py: StaticPlaceholder
     - aliaspluginmodel.py: AliasPlugin
   cms/admin/:
     - __init__.py
-    - pageadmin.py: PageAdmin
-    - pagecontentadmin.py: PageContentAdmin
+    - pageadmin.py: PageAdmin, PageContentAdmin
     - permissionadmin.py: PermissionAdmin
-    - static_placeholder_admin.py: StaticPlaceholderAdmin
+    - static_placeholder.py: StaticPlaceholderAdmin
     - placeholderadmin.py: PlaceholderAdmin
   cms/views.py: Public page views
   cms/api.py: High-level API functions (create_page, publish_page, etc.)
   cms/plugin_pool.py: PluginPool registry
   cms/plugin_base.py: CMSPluginBase (base class for plugins)
-  cms/toolbar.py: Toolbar and item registration
-  cms/permissions.py: Permission checking functions
-  cms/middleware.py: CMSToolbarMiddleware, CMSPageMiddleware
+  cms/cms_toolbars.py: Toolbar and item registration
+  cms/utils/page_permissions.py: Permission checking functions
+  cms/middleware/: CMSToolbarMiddleware, CMSPageMiddleware
   cms/templatetags/:
     - "cms_tags.py: {% placeholder %}, {% static_placeholder %}, etc."
-    - cms_admin_tags.py: Admin-specific template tags
-    - menu_tags.py: Menu-related tags
+    - cms_admin.py: Admin-specific template tags
   cms/migrations/: Django migrations
   cms/tests/: Test suite directory
   menus/: Menu system (menu generation, modifiers)
@@ -166,7 +161,88 @@ architecture_boundaries:
 
 known_limitations:
   - "Page tree management with MPTT can lead to complexity with large, deeply nested trees and concurrent modifications."
-  - "The Title model is deprecated but retained for backward compatibility with third-party addons; new code should use PageContent exclusively."
+  - "Multilingual content is stored per language in PageContent; legacy Title-based addons from django CMS 3.x are not supported by the 5.0 core and new code must use PageContent exclusively."
   - "Cache invalidation can be overly aggressive, flushing entire page caches on minor plugin changes."
   - "Permission checks are not fully optimized for sites with thousands of pages and many user groups."
   - "Plugin position management (ordering) within placeholders relies on MPTT tree position and can cause conflicts under concurrent edits."
+
+# ---------------------------------------------------------------------------
+# 7. Artifact Universe (per AC-01)
+# ---------------------------------------------------------------------------
+artifact_universe:
+  description: >
+    The complete set of artifacts eligible for impact analysis and selective
+    regeneration. Exclusions are documented with rationale.
+  included:
+    - cms/models/pagemodel.py
+    - cms/models/contentmodels.py
+    - cms/models/pluginmodel.py
+    - cms/models/placeholdermodel.py
+    - cms/models/permissionmodels.py
+    - cms/models/settingmodels.py
+    - cms/models/static_placeholder.py
+    - cms/models/aliaspluginmodel.py
+    - cms/views.py
+    - cms/api.py
+    - cms/plugin_pool.py
+    - cms/plugin_base.py
+    - cms/cms_toolbars.py
+    - cms/utils/page_permissions.py
+    - cms/middleware/
+    - cms/templatetags/cms_tags.py
+    - cms/templatetags/cms_admin.py
+    - cms/admin/pageadmin.py
+    - cms/admin/permissionadmin.py
+    - cms/admin/placeholderadmin.py
+    - cms/admin/static_placeholder.py
+    - menus/
+    - test_requirements/
+  excluded:
+    - path: cms/migrations/
+      rationale: >
+        Generated Django migrations; deterministic outputs determined by model
+        definitions and not rewritten by an LLM.
+    - path: cms/tests/
+      rationale: baseline test suite; read-only evaluator asset
+    - path: __pycache__/
+      rationale: generated Python cache
+    - path: .pytest_cache/
+      rationale: generated pytest cache
+    - path: "*.pyc"
+      rationale: generated Python bytecode
+
+  llm_editable:
+    - cms/models/pagemodel.py
+    - cms/models/contentmodels.py
+    - cms/models/pluginmodel.py
+    - cms/models/placeholdermodel.py
+    - cms/models/permissionmodels.py
+    - cms/models/settingmodels.py
+    - cms/models/static_placeholder.py
+    - cms/models/aliaspluginmodel.py
+    - cms/views.py
+    - cms/api.py
+    - cms/plugin_pool.py
+    - cms/plugin_base.py
+    - cms/cms_toolbars.py
+    - cms/utils/page_permissions.py
+    - cms/middleware/
+    - cms/templatetags/cms_tags.py
+    - cms/templatetags/cms_admin.py
+    - cms/admin/pageadmin.py
+    - cms/admin/permissionadmin.py
+    - cms/admin/placeholderadmin.py
+    - cms/admin/static_placeholder.py
+    - menus/
+
+  llm_read_only:
+    - cms/tests/
+    - cms/migrations/
+    - test_requirements/
+
+  llm_policy: >
+    llm_editable is the only set whose existing files may be rewritten by an
+    LLM. Migrations are generated by Django and are not written by the LLM.
+    Baseline tests and evaluator assets are read-only. The complete artifact
+    universe may still be used for analysis and post-hoc evaluation, but it
+    is not automatically editable.

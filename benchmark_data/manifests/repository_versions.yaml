@@ -48,10 +48,19 @@ versions:
     branch: release/5.0.x
     dependency_file: test_requirements/requirements_base.txt
     python_version: ">=3.9,<3.13"
-    test_setup_verified: pending
+    test_setup_verified: verified
     notes: >
       django CMS 5.0.x LTS series. Test requirements available in
-      test_requirements/ directory. Uses tox for test execution.
+      test_requirements/ directory. Runner is `python manage.py test`
+      (pinned tree has no tox.ini; upstream CI test.yml uses manage.py
+      with DATABASE_URL, sqlite matrix row). Verified on 2026-08-09:
+      scenario-relevant subset (api, page, page_admin, permissions,
+      permmod, signals, toolbar, views) passed 380/382 against
+      sqlite://localhost/testdb.sqlite on Python 3.11/Django 5.0.14.
+      One upstream skip plus one Windows-only skip
+      (test_toolbar.EditModelTemplateTagTest.test_filters_date uses
+      Unix-only strftime "%-d"; win32 raises ValueError; passes on the
+      Ubuntu CI runner).
 
   saleor:
     version: 3.23.0
@@ -66,10 +75,15 @@ versions:
       Stable tagged release 104 days old at freeze (above 90-day
       minimum). Published 2026-04-09.
     branch: main
-    dependency_file: requirements.txt
-    python_version: ">=3.10,<3.13"
-    test_setup_verified: pending
+    dependency_file: uv.lock
+    python_version: ">=3.12,<3.13"
+    test_setup_verified: verified
     notes: >
-      Saleor 3.23.0 is the initial 3.23.x stable release. Uses
-      Poetry for dependency management with requirements.txt export.
-      Requires PostgreSQL and Redis for full test suite.
+      Saleor 3.23.0 is the initial 3.23.x stable release. Uses uv for
+      dependency management (uv.lock). Requires PostgreSQL and Redis
+      for full test suite. Verified on 2026-08-09: scenario-relevant
+      subset (user_email/admin_email plugin tests) passed 49/49 against
+      postgres:15-alpine + valkey:8.1-alpine on Python 3.12/Django 5.2.
+      Windows-only workarounds: exclude memray/pytest-memray from uv
+      sync (win32-incompatible) and guard `resource` import in
+      saleor/core/rlimit.py (Unix-only).
