@@ -5,7 +5,7 @@
 ### PILOT-READY-01 - Prepare repository for Pilot readiness (docs/config/path reconciliation)
 - **Priority:** HIGH
 - **Category:** Documentation / Readiness
-- **Description:** The next authorized task. Scientific Smoke V2 = COMPLETE AND ACCEPTED; MAIN-GREEN-01 = CLOSED (main `d875c72`); preferred recovery tag = `v0.8.1-smoke-v2-complete`. Reconcile current-state documentation, run the Stage-Transition Coupling Audit, verify the evidence/export contract. Do NOT start Pilot execution. Per-run workflow timeout stays frozen at 600 s uniformly; no further Kaggle Full-9 is authorized.
+- **Description:** The next authorized task. Scientific Smoke V2 = COMPLETE AND ACCEPTED; MAIN-GREEN-01 = CLOSED; HANDOFF-CONSISTENCY-01 = CLOSED (docs reconciliation merged to main `403977b`); preferred recovery tag = `v0.8.2-smoke-v2-complete`. Reconcile current-state documentation, run the Stage-Transition Coupling Audit, verify the evidence/export contract. Do NOT start Pilot execution. Per-run workflow timeout stays frozen at 600 s uniformly; no further Kaggle Full-9 is authorized.
 - **Status:** PENDING (Pilot execution NOT STARTED)
 
 ## Previous - Scientific Smoke V2 Closure (SMOKE-V2-CLOSE-01, 2026-08-09) — HISTORICAL SNAPSHOT

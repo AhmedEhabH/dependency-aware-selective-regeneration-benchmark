@@ -1,6 +1,6 @@
 # MAIN-GREEN-01 Post-Merge Test-Isolation Reproducibility Hotfix — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-09):** main HEAD = `d875c72`; preferred recovery tag = `v0.8.1-smoke-v2-complete`; Scientific Smoke V2 = **COMPLETE / ACCEPTED** (SMOKE-V2-CLOSE-01 = CLOSED); **MAIN-GREEN-01 = CLOSED** (full suite **1,958 passed / 33 skipped / 0 failed / 0 errors**, carried forward); T600 accepted = `exp-20260808-222843`; Pilot scientific timeout frozen at **600s uniform**; **next exact task = `PILOT-READY-01`** (Pilot execution **NOT STARTED**); **no further Smoke Full-9 authorized**. Older "Next authorized action" paragraphs below are HISTORICAL — their steps have all been completed.
+> **CURRENT TRUTH (2026-08-09):** main HEAD = `403977b`; preferred recovery tag = `v0.8.2-smoke-v2-complete`; Scientific Smoke V2 = **COMPLETE / ACCEPTED** (SMOKE-V2-CLOSE-01 = CLOSED); **MAIN-GREEN-01 = CLOSED** (full suite **1,958 passed / 33 skipped / 0 failed / 0 errors**, carried forward); **HANDOFF-CONSISTENCY-01 = CLOSED** (docs reconciliation merged to main `403977b`); T600 accepted = `exp-20260808-222843`; Pilot scientific timeout frozen at **600s uniform**; **next exact task = `PILOT-READY-01`** (Pilot execution **NOT STARTED**); **no further Smoke Full-9 authorized**. Older "Next authorized action" paragraphs below are HISTORICAL — their steps have all been completed.
 
 ## Latest closure — MAIN-GREEN-01 (post-merge test-isolation and reproducibility hotfix)
 

@@ -1,11 +1,12 @@
 # System State
 
 ## Current Truth
-- Current main SHA: `d875c72` (pre-merge base; this docs closure merges to main)
-- Preferred recovery tag: `v0.8.1-smoke-v2-complete`
+- Current main SHA: `403977b` (HANDOFF-CONSISTENCY-01 docs reconciliation merged)
+- Preferred recovery tag: `v0.8.2-smoke-v2-complete`
 - Scientific Smoke V2: COMPLETE / ACCEPTED
 - MAIN-GREEN-01: CLOSED
-- Full suite: 1,958 passed / 33 skipped / 0 failed / 0 errors
+- HANDOFF-CONSISTENCY-01: CLOSED (docs reconciliation merged to main `403977b`)
+- Full suite: 1,958 passed / 33 skipped / 0 failed / 0 errors (carried forward)
 - T600 accepted: `exp-20260808-222843`; Pilot scientific timeout: 600s uniform
 - Next exact task: `PILOT-READY-01`; Pilot execution: NOT STARTED
 - No further Smoke Full-9 authorized
