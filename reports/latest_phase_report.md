@@ -1,6 +1,87 @@
-# Full-9 Workspace Isolation Closure — Latest Phase Report
+# MAIN-GREEN-01 Post-Merge Test-Isolation Reproducibility Hotfix — Latest Phase Report
 
-## Latest closure — SCIENTIFIC SMOKE V2 COMPLETE AND ACCEPTED (SMOKE-V2-CLOSE-01)
+## Latest closure — MAIN-GREEN-01 (post-merge test-isolation and reproducibility hotfix)
+
+**Status: `FIXED AND CLOSED`** (2026-08-09, branch `fix/main-green-test-isolation`,
+commit A `34b9fc7` pushed). After the SMOKE-V2-CLOSE-01 merge to main
+(`193d889`), the full suite regressed to **12 failed / 4 errors** on the Windows
+working tree. This was a **working-tree state defect, NOT a scientific or merge
+regression**.
+
+### Symptoms (RED, all deterministically reproduced)
+- Bundle fingerprint: `tests/evaluator_assets/todo_smoke_*_checks.py` SHA-256
+  mismatch (recorded LF blob hash vs CRLF working-tree hash).
+- Scripted/integration cells: wrong-stage failures; sequential isolation
+  `expected exactly one new migration, got ()` — cell diagnostics showed
+  `todo/permissions.py` / `todo/urls.py` rejected as `out_of_scope_change`.
+- Baseline compatibility: comparing `__pycache__/test_models.cpython-311.pyc`
+  bytecode residue.
+
+### Root cause
+`core.autocrlf=true` on Windows checked out byte-frozen LF fixtures as CRLF:
+(A) bundle evaluator assets (only the root `tests/evaluator_assets/` path was
+LF-pinned in `.gitattributes`, not the `kaggle_upload/code/...` bundle path);
+(B) `benchmark_data/repositories/todo/**` — backend reads LF (universal
+newlines), executor writes verbatim LF (`regeneration.py:801
+write_text(..., newline="")`), so preserve-files differed byte-wise and were
+rejected; (C) `_baseline_hashes()` included regenerated `.pyc` residue.
+
+### Merge drift
+Ruled out: `193d889^{tree}` == `65f9fb8^{tree}` == `fdd72f6…`;
+`git diff --name-status 65f9fb8..193d889` empty.
+
+### Changed files (zero scientific drift)
+- `.gitattributes` — `text eol=lf` pins for the bundle evaluator assets,
+  `benchmark_data/repositories/todo/**`, `kaggle_upload/data/repositories/todo/**`;
+  LF renormalization verified (zero CRLF remain; only `.gitattributes` shows
+  modified → zero blob changes).
+- `tests/support/evaluator_fixture_workspaces.py` — `_EPHEMERAL_BASELINE_MARKERS`
+  + `_is_ephemeral_baseline_path`; `_copy_baseline` copytree ignore.
+- `tests/integration/test_todo_smoke_evaluator_assets.py` — `_baseline_hashes()`
+  skips ephemeral paths.
+- NEW `tests/unit/test_baseline_ephemeral_policy.py` (T1/T2);
+  `tests/unit/execution/test_isolation.py` (T3).
+No production `src/` code, prompts, datasets, strategies, metrics, model
+identity, or timeout changed.
+
+### Repeatability evidence
+- T4 representative monolithic cell `test_r5_representative_monolithic_cell_todo_smoke_001`: 2/2 PASS (18.20s, 18.52s).
+- T5 sequential isolation `test_r5_sequential_workspace_isolation_001_002_003`: 2/2 PASS (160.27s, 158.62s).
+- T6 fingerprint contract: PASS.
+- T7 affected subset twice each: production-path 45 (447.21s, 464.50s); todo
+  evaluator assets 53 passed + 1 skipped (129.61s, 129.74s); kaggle bundle 51
+  (58.18s, 57.05s).
+- T8 related regression: 380 passed / 22 skipped (14.68s).
+
+### Full-suite evidence
+T9 full suite once: **1,958 passed / 33 skipped / 0 failed / 0 errors**
+(724.84s). Static gates: compileall clean; ruff clean on changed files;
+`git diff --check` clean; mypy unchanged (no production files changed — only
+pre-existing findings in unchanged test code).
+
+### Scientific non-impact
+Zero. Merge-tree equality + zero blob changes prove no scientific input
+changed. Pre-benchmark validation: Dataset/Prompt/Metric carried-forward
+(zero drift); Pipeline Smoke + Dry Run PASS (8/8, 0 failed, fresh output dir);
+Integration Test PASS (production-path module twice). Note: re-running the
+dry-run in the SAME output dir hits pre-existing stale-record validation
+(`ReportRebuildError: Unexpected Run IDs`, `reports.py:164`) — pre-existing,
+out of scope, documented in PROJECT_HANDOFF.
+
+### GitHub/tag state
+- Branch `fix/main-green-test-isolation` pushed (upstream
+  `origin/fix/main-green-test-isolation`).
+- Commit A `34b9fc7` pushed; commit B (this docs commit) pending.
+- Old tag `v0.8.0-smoke-v2-complete` unchanged (immutable provenance at
+  `193d889`).
+- After audit + non-ff merge: new annotated tag `v0.8.1-smoke-v2-complete`
+  (peeled == new main HEAD).
+
+### Next phase
+`PILOT-READY-01` — repository ready for the Pilot phase; Pilot NOT started.
+Sentinel: `MAIN_GREEN_01_CLOSURE_AUDIT_REQUIRED`.
+
+## Previous closure — SCIENTIFIC SMOKE V2 COMPLETE AND ACCEPTED (SMOKE-V2-CLOSE-01)
 
 **Status: `CLOSED — EXECUTED AND ACCEPTED`** (2026-08-09, branch
 `fix/kaggle-smoke-v2-model-output-closure`). The 600-second confirmatory
