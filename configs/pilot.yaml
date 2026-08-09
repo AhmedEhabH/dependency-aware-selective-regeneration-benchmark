@@ -1,47 +1,81 @@
-# Protocol pilot profile: 3 repos x 4 scenarios x 2 strategies x 2 reps
-# Descriptive only; not for publication.
-# See PROTOCOL_VERSION.md §6 (DA-09)
+# Pilot — Frozen descriptive Pilot configuration (PILOT-READY-01)
+# 3 repositories x 4 scenarios x 2 strategies x 2 repetitions = 48 run cells.
+# Descriptive / non-publication only (DA-09). See PROTOCOL_VERSION.md.
+#
+# Config source of truth for the Pilot stage. The runtime adapter
+# PROFILES["pilot"] in seven_arm_benchmark.py must match this file exactly
+# (see tests/unit/test_pilot_readiness.py parity contract).
+#
+# Frozen strategy mapping (01_FROZEN_PROTOCOL_AND_DECISIONS.md):
+#   protocol repository_agent -> implementation iterative_repository_agent
+#   protocol hybrid_selective -> implementation selective
+#
+# Repository refs are exact immutable manifest SHAs
+# (benchmark_data/manifests/repository_versions.yaml). No floating refs.
+# todo uses the established canonical project URI (same as configs/smoke.yaml).
+#
+# DA-07 amendment (recorded before any Pilot result):
+#   djangocms-loc-001 replaced by djangocms-mod-005. djangocms-loc-001 is
+#   objectively infeasible at pinned revision 0f633fc: PageContent already has
+#   meta_description in cms/models/contentmodels.py (django-cms 5.0.0).
+#   Replacement keeps repository count at 4 and all three blast-radius classes
+#   represented per repository. Reason recorded in the decision/change ledger.
 
 profile_label: protocol-pilot
 protocol_version: "1.0"
 execution_mode: kaggle
 
 strategies:
-  - name: agent
+  - name: iterative_repository_agent
+    protocol_label: repository_agent
   - name: selective
+    protocol_label: hybrid_selective
 
 backends:
   - name: qwen
     kind: kaggle_qwen
     params:
-      model_name: qwen2.5-coder
+      model_name: Qwen/Qwen2.5-Coder-14B-Instruct
+      quantization_mode: bnb-nf4
+      temperature: 0
 
 repositories:
   - name: todo
-    url: https://github.com/example/todo-app
-    ref: main
+    url: https://github.com/ahmed-ehab/controlled-django-todo
+    ref: b8a33e20bdaf5b329114273063fbe8d5aa66e9cf
   - name: djangocms
     url: https://github.com/django-cms/django-cms
-    ref: main
+    ref: 0f633fc9fa213357f4202482aab2b0edad680f95
   - name: saleor
     url: https://github.com/saleor/saleor
-    ref: main
+    ref: e11a5557eff29fbb2eed36e6ff3cd0af08ab9e10
 
 scenario_selection:
-  repository_names:
-    - todo
-    - djangocms
-    - saleor
+  scenario_ids:
+    - todo-loc-001
+    - todo-loc-002
+    - todo-mod-004
+    - todo-cross-007
+    - djangocms-mod-005
+    - djangocms-loc-002
+    - djangocms-mod-004
+    - djangocms-cross-007
+    - saleor-loc-001
+    - saleor-loc-002
+    - saleor-mod-004
+    - saleor-cross-007
   blast_radii:
     - localized
     - moderate
     - cross_cutting
-  count: 12
 
 execution:
+  # AC-05 frozen repair budget: initial generation + max 2 repairs = 3 attempts.
   max_iterations: 3
-  max_tokens: 4096
-  timeout_seconds: 0
+  max_tokens: 0
+  max_completion_tokens_per_call: 4096
+  max_total_workflow_tokens: 0
+  timeout_seconds: 600
   random_seed: 42
   evidence_tier: engineering_validation
   repetitions: 2
@@ -50,4 +84,3 @@ output:
   output_dir: runs/pilot
   format: jsonl
   write_provenance: true
-  is_publication: false

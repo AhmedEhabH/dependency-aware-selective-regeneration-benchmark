@@ -9,7 +9,7 @@ Supports dry-run (mock backend) and three execution profiles:
     Default profile for Kaggle orchestration validation.
 
   pilot (protocol pilot):
-    3 repos x 4 scenarios x 2 strategies (agent, selective) x 2 repetitions.
+    3 repos x 4 scenarios x 2 strategies (iterative_repository_agent, selective) x 2 repetitions.
     Descriptive only; not for publication.
 
   research (protocol research):
@@ -236,6 +236,14 @@ def _to_run_record_data(
 
 REPO_IDS = ["todo", "djangocms", "saleor"]
 
+# Frozen protocol: which strategies enter the repository-level full-evolution
+# (regeneration) path. 'agent' is a single-shot baseline and is intentionally
+# NOT in this set; the Pilot repository_agent baseline is
+# 'iterative_repository_agent' (see 01_FROZEN_PROTOCOL_AND_DECISIONS.md).
+REGENERATION_APPROVED_STRATEGIES = frozenset({
+    "monolithic", "selective", "iterative_repository_agent",
+})
+
 
 @dataclass
 class ExecutionProfile:
@@ -266,12 +274,19 @@ PROFILES: dict[str, ExecutionProfile] = {
         name="pilot",
         label="protocol-pilot",
         scenario_count=12,
-        strategies=["agent", "selective"],
+        strategies=["iterative_repository_agent", "selective"],
         repetitions=2,
         is_publication=False,
         description="3 repos x 4 scenarios x 2 strategies x 2 reps, descriptive only",
         repository_names=["todo", "djangocms", "saleor"],
-        blast_radii=["localized", "moderate"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=[
+            "todo-loc-001", "todo-loc-002", "todo-mod-004", "todo-cross-007",
+            "djangocms-mod-005", "djangocms-loc-002", "djangocms-mod-004",
+            "djangocms-cross-007", "saleor-loc-001", "saleor-loc-002",
+            "saleor-mod-004", "saleor-cross-007",
+        ],
+        timeout_seconds=600,
     ),
     "research": ExecutionProfile(
         name="research",
@@ -624,10 +639,7 @@ def run_arm(
 
     isolation = make_isolation(isolation_workspace)
 
-    _approved_regen_strategies = frozenset({
-        "monolithic", "selective", "iterative_repository_agent",
-    })
-    enable_regen = not dry_run and strategy_name in _approved_regen_strategies
+    enable_regen = not dry_run and strategy_name in REGENERATION_APPROVED_STRATEGIES
 
     if max_total_workflow_tokens > 0 and max_tokens > 0 and max_total_workflow_tokens != max_tokens:
         raise ValueError(
@@ -1291,10 +1303,7 @@ def _run_single_scenario_strategy(
         snapshot_storage_root=snapshot_storage_root,
     )
 
-    _approved_regen_strategies = frozenset({
-        "monolithic", "selective", "iterative_repository_agent",
-    })
-    enable_regen = not dry_run and strategy_name in _approved_regen_strategies
+    enable_regen = not dry_run and strategy_name in REGENERATION_APPROVED_STRATEGIES
 
     if max_total_workflow_tokens > 0 and max_tokens > 0 and max_total_workflow_tokens != max_tokens:
         raise ValueError(
@@ -2035,10 +2044,7 @@ def main() -> int:
             # CLI override applies to all repos
             cmd = shlex.split(args.validation_command)
             for sn in strategy_names:
-                _approved_regen = frozenset({
-                    "monolithic", "selective", "iterative_repository_agent",
-                })
-                if sn in _approved_regen:
+                if sn in REGENERATION_APPROVED_STRATEGIES:
                     _validation_commands[sn] = cmd
         elif _manifest_collection is not None:
             for scenario in selected_scenarios:
@@ -2093,8 +2099,7 @@ def main() -> int:
     # ---- Resolve llm_editable paths per repository from profile ----------------
     _editable_paths: dict[str, tuple[str, ...]] = {}
     if not args.dry_run and _manifest_collection is not None and selected_scenarios:
-        _approved_regen = frozenset({"monolithic", "selective", "iterative_repository_agent"})
-        uses_regen = any(sn in _approved_regen for sn in strategy_names)
+        uses_regen = any(sn in REGENERATION_APPROVED_STRATEGIES for sn in strategy_names)
         repo_ids_for_scenarios = set(s.repository for s in selected_scenarios)
 
         for repo_id in repo_ids_for_scenarios:
@@ -2118,7 +2123,7 @@ def main() -> int:
                     "Repository '%s' has no valid non-empty llm_editable list "
                     "in its profile. A regeneration strategy (%s) requires a "
                     "complete editable-policy configuration.",
-                    repo_id, ", ".join(sorted(_approved_regen)),
+                    repo_id, ", ".join(sorted(REGENERATION_APPROVED_STRATEGIES)),
                 )
                 return 1
 
