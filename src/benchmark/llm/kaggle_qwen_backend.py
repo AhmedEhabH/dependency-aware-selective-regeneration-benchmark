@@ -1,15 +1,18 @@
 from __future__ import annotations
 
+import asyncio
+import gc
+import hashlib
+import json
 import logging
+import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import Any
 
 from benchmark.core.exceptions import ModelBackendError
 from benchmark.core.models import LLMResponse, TokenUsage
-
-if TYPE_CHECKING:
-    import torch
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +20,35 @@ _KAGGLE_MODEL_BASE = "/kaggle/input"
 _LOCAL_MODEL_FORBIDDEN = True
 
 _MINIMUM_COMPUTE_CAPABILITY = (7, 0)
+
+CANONICAL_ALLOC_CONF = "expandable_segments:True"
+
+CANONICAL_QUANTIZATION_MODES = ("bnb-int8", "bnb-nf4", "fp16")
+
+_QUANTIZATION_METHOD_SAFE = frozenset({"bitsandbytes", "bnb"})
+
+NF4_LOAD_CONFIG = {
+    "load_in_4bit": True,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "float16",
+    "bnb_4bit_use_double_quant": True,
+}
+
+SYSTEM_TRANSFORMATION_MESSAGE = (
+    "You are a precise source-code transformation engine. Follow every scope, "
+    "architecture, and output constraint literally. Make minimal edits, preserve "
+    "unrelated behavior, never invent undeclared dependencies, and return only the "
+    "requested complete artifact content."
+)
+
+
+def _set_canonical_alloc_conf() -> None:
+    """Set the canonical PyTorch memory allocation environment variable.
+
+    ``PYTORCH_ALLOC_CONF=expandable_segments:True`` must be set before torch is
+    imported. The older ``PYTORCH_CUDA_ALLOC_CONF`` alias is left untouched.
+    """
+    os.environ.setdefault("PYTORCH_ALLOC_CONF", CANONICAL_ALLOC_CONF)
 
 
 def _gpu_info() -> dict[str, object]:
@@ -52,6 +84,18 @@ def _gpu_info() -> dict[str, object]:
     return info
 
 
+def _empty_cuda_cache() -> None:
+    """Best-effort CUDA cache flush; never raises and works without torch."""
+    import contextlib
+
+    try:
+        import torch
+    except Exception:
+        return
+    with contextlib.suppress(Exception):
+        torch.cuda.empty_cache()
+
+
 def _check_gpu_compatibility() -> None:
     """Preflight check: fail if the PyTorch CUDA build cannot execute on the selected GPU.
 
@@ -79,6 +123,86 @@ def _check_gpu_compatibility() -> None:
         )
 
 
+def _read_checkpoint_config(model_path: Path) -> dict[str, Any]:
+    """Read and validate ``config.json`` from a checkpoint directory."""
+    if not model_path.is_dir():
+        raise ModelBackendError(f"Model path does not exist: {model_path}")
+    config_file = model_path / "config.json"
+    if not config_file.is_file():
+        raise ModelBackendError(f"Model path missing config.json: {model_path}")
+    try:
+        data = json.loads(config_file.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise ModelBackendError(f"Failed to read model config.json: {exc}") from exc
+    if not isinstance(data, dict):
+        raise ModelBackendError(f"Model config.json is not a JSON object: {model_path}")
+    return data
+
+
+def _checkpoint_quantization_method(config: dict[str, Any]) -> str:
+    """Extract a checkpoint's declared quantization method, lowercased.
+
+    Returns ``""`` for unquantized checkpoints. Sources (in precedence order):
+    ``quantization_config.quant_method``, ``quantization_config.quantization_method``,
+    ``quantization_config.quant_type``.
+    """
+    qconf = config.get("quantization_config")
+    if not isinstance(qconf, dict):
+        return ""
+    method = qconf.get("quant_method") or qconf.get("quantization_method") or qconf.get("quant_type") or ""
+    if not isinstance(method, str):
+        return ""
+    return method.strip().lower()
+
+
+def _checkpoint_identity_slug(model_path: Path) -> str:
+    """Deterministic ASCII-safe checkpoint slug used in model identity.
+
+    A numeric final path component is a Kaggle model-version directory; the
+    slug then combines the parent model directory name and the version (for
+    example ``14b-instruct-v1``). Any other directory keeps its basename. The
+    slug is lowercased and sanitized to ``[a-z0-9._-]`` with any other run of
+    characters replaced by ``-``.
+    """
+    name = model_path.name
+    if name.isdigit():
+        name = f"{model_path.parent.name}-v{name}"
+    return re.sub(r"[^a-z0-9._-]+", "-", name.strip().lower())
+
+
+def compute_model_identity(model_path: str | Path, quantization_mode: str = "bnb-int8") -> str:
+    """Compute a checkpoint-and-quantization-aware Qwen model identity.
+
+    The identity encodes the checkpoint basename, stable config dimensions, the
+    requested quantization mode, and a config digest. Two runs must never share
+    an identity unless they load the same checkpoint through the same loader —
+    this is what blocks auto-resume cross-model contamination.
+    """
+    if quantization_mode not in CANONICAL_QUANTIZATION_MODES:
+        raise ModelBackendError(
+            f"Unsupported quantization_mode {quantization_mode!r}; supported modes are "
+            f"{', '.join(CANONICAL_QUANTIZATION_MODES)}."
+        )
+    if not model_path:
+        raise ModelBackendError("model_path is required to compute the Kaggle Qwen model identity")
+    path = Path(model_path)
+    config = _read_checkpoint_config(path)
+    slug = _checkpoint_identity_slug(path)
+    payload = {
+        "checkpoint_basename": slug,
+        "model_type": str(config.get("model_type", "")),
+        "hidden_size": int(config.get("hidden_size", 0)),
+        "num_hidden_layers": int(config.get("num_hidden_layers", 0)),
+        "num_attention_heads": int(config.get("num_attention_heads", 0)),
+        "requested_quantization_mode": quantization_mode,
+        "checkpoint_quantization_method": _checkpoint_quantization_method(config),
+    }
+    digest = hashlib.sha256(
+        json.dumps(payload, sort_keys=True).encode("utf-8")
+    ).hexdigest()[:12]
+    return f"qwen:{slug}:{quantization_mode}:cfg-{digest}"
+
+
 @dataclass(frozen=True)
 class GpuPreflightResult:
     """Result of a GPU compatibility preflight check.
@@ -98,21 +222,116 @@ class GpuPreflightResult:
 
 
 class KaggleQwenBackend:
+    token_accounting_mode: str = "exact_tokenizer"
+
     def __init__(
         self,
         model_name: str = "qwen2.5-coder",
         model_path: str | None = None,
         device: str | None = None,
         dtype: str | None = None,
+        quantization_mode: str = "bnb-int8",
     ) -> None:
+        if quantization_mode not in CANONICAL_QUANTIZATION_MODES:
+            raise ModelBackendError(
+                f"Unsupported quantization_mode {quantization_mode!r}; "
+                f"supported modes are {', '.join(CANONICAL_QUANTIZATION_MODES)}. "
+                "No fallback is automatic."
+            )
         self._model_name = model_name
         self._model_path = model_path
         self._device = device
         self._dtype = dtype
+        self._quantization_mode = quantization_mode
         self._model = None
         self._tokenizer = None
         self._loaded = False
-        logger.info("MODEL_INITIALIZATION_STARTED model=%s", model_name)
+        self._model_identity: str | None = None
+        if self._model_path:
+            self._model_identity = compute_model_identity(self._model_path, quantization_mode)
+        logger.info("MODEL_INITIALIZATION_STARTED model=%s quantization=%s", model_name, quantization_mode)
+
+    @property
+    def model_identity(self) -> str:
+        if self._model_identity is None:
+            if not self._model_path:
+                raise ModelBackendError(
+                    "model_identity is unavailable without a model_path; "
+                    "construct KaggleQwenBackend with model_path= pointing at the checkpoint"
+                )
+            self._model_identity = compute_model_identity(self._model_path, self._quantization_mode)
+        return self._model_identity
+
+    @property
+    def quantization_mode(self) -> str:
+        return self._quantization_mode
+
+    @property
+    def checkpoint_basename(self) -> str:
+        if not self._model_path:
+            raise ModelBackendError(
+                "checkpoint_basename is unavailable without a model_path"
+            )
+        return _checkpoint_identity_slug(Path(self._model_path))
+
+    @property
+    def checkpoint_quantization_method(self) -> str:
+        if not self._model_path:
+            raise ModelBackendError(
+                "checkpoint_quantization_method is unavailable without a model_path"
+            )
+        return _checkpoint_quantization_method(_read_checkpoint_config(Path(self._model_path)))
+
+    @property
+    def model_memory_footprint_bytes(self) -> int:
+        if self._model is None:
+            return 0
+        return int(self._model.get_memory_footprint())
+
+    @property
+    def device_map_summary(self) -> str:
+        if self._model is None:
+            return ""
+        hf_device_map = getattr(self._model, "hf_device_map", None)
+        if hf_device_map:
+            return str(hf_device_map)
+        device = getattr(self._model, "device", None)
+        return str(device) if device is not None else ""
+
+    def load(self) -> None:
+        """Load the model+tokenizer synchronously (preflight-friendly)."""
+        self._ensure_loaded()
+
+    def run_probe(self, max_tokens: int = 64, prompt: str = "def add(a, b):\n    return a + b\n") -> LLMResponse:
+        """Deterministic engineering probe generation.
+
+        Engineering evidence only: never counted as scientific model calls or
+        tokens. Uses a fixed seed and greedy sampling.
+        """
+        self._ensure_loaded()
+
+        async def _run() -> LLMResponse:
+            try:
+                import torch
+
+                torch.manual_seed(0)
+            except Exception:
+                pass
+            return await self.generate(prompt=prompt, temperature=0.0, max_tokens=max_tokens)
+
+        return asyncio.run(_run())
+
+    def count_prompt_tokens(self, prompt: str) -> int:
+        self._ensure_loaded()
+        if self._tokenizer is None:
+            raise ModelBackendError("KaggleQwenBackend: tokenizer not loaded")
+        try:
+            chat_prompt = self._format_chat_prompt(prompt)
+            return len(self._tokenizer(chat_prompt, return_tensors="pt")["input_ids"][0])
+        except Exception as exc:
+            raise ModelBackendError(
+                f"KaggleQwenBackend: tokenizer counting failed: {exc}"
+            ) from exc
 
     async def generate(
         self,
@@ -121,6 +340,13 @@ class KaggleQwenBackend:
         max_tokens: int = 4096,
     ) -> LLMResponse:
         logger.info("GENERATION_STARTED max_tokens=%d temperature=%s", max_tokens, temperature)
+        prompt_tokens: int | None = None
+        inputs = None
+        input_ids = None
+        attention_mask = None
+        gen_kwargs = None
+        output_ids = None
+        generated_ids = None
         try:
             self._ensure_loaded()
             assert self._model is not None
@@ -128,7 +354,8 @@ class KaggleQwenBackend:
 
             import torch
 
-            inputs = self._tokenizer(prompt, return_tensors="pt")
+            chat_prompt = self._format_chat_prompt(prompt)
+            inputs = self._tokenizer(chat_prompt, return_tensors="pt")
             input_ids = inputs["input_ids"].to(self._model.device)
             attention_mask = inputs.get("attention_mask")
             if attention_mask is not None:
@@ -136,7 +363,7 @@ class KaggleQwenBackend:
 
             prompt_tokens = input_ids.shape[1]
 
-            gen_kwargs: dict[str, object] = {
+            gen_kwargs = {
                 "input_ids": input_ids,
                 "max_new_tokens": max_tokens,
                 "do_sample": temperature > 0.0,
@@ -147,30 +374,56 @@ class KaggleQwenBackend:
                 gen_kwargs["temperature"] = temperature
                 gen_kwargs["top_p"] = 0.95
 
-            with torch.no_grad():
+            with torch.inference_mode():
                 output_ids = self._model.generate(**gen_kwargs)
 
             generated_ids = output_ids[0, prompt_tokens:]
-            output_text = self._tokenizer.decode(generated_ids, skip_special_tokens=True)
-            completion_tokens = generated_ids.shape[0]
+            completion_tokens = len(generated_ids)
+
+            # Zero-token output is a measured empty model response, not a backend
+            # crash. The regeneration normalizer will classify it as empty and
+            # feed that evidence to the bounded repair loop.
+            if completion_tokens == 0:
+                output_text = ""
+                finish_reason = "empty"
+            else:
+                output_text = self._tokenizer.decode(
+                    generated_ids, skip_special_tokens=True
+                )
+                eos_token_id = self._tokenizer.eos_token_id
+                last_token_id = generated_ids[-1].item()
+                if last_token_id == eos_token_id:  # noqa: SIM108 - contract requires explicit assignments
+                    finish_reason = "eos"
+                else:
+                    finish_reason = "length"
 
             logger.info(
-                "GENERATION_SUCCEEDED prompt_tokens=%d completion_tokens=%d total_tokens=%d",
+                "GENERATION_SUCCEEDED prompt_tokens=%d completion_tokens=%d total_tokens=%d finish_reason=%s",
                 prompt_tokens, completion_tokens, prompt_tokens + completion_tokens,
+                finish_reason,
             )
+            total_tokens = prompt_tokens + completion_tokens
             return LLMResponse(
                 text=output_text,
                 token_usage=TokenUsage(
                     prompt_tokens=prompt_tokens,
                     completion_tokens=completion_tokens,
-                    total_tokens=prompt_tokens + completion_tokens,
+                    total_tokens=total_tokens,
                 ),
-                finish_reason="stop",
+                finish_reason=finish_reason,
             )
         except ModelBackendError:
             raise
         except Exception as exc:
             gpu = _gpu_info()
+            if exc.__class__.__module__.startswith("torch") and "OutOfMemory" in type(exc).__name__:
+                self._log_oom(exc, max_tokens, prompt_tokens)
+                raise ModelBackendError(
+                    "Qwen generation failed: CUDA out-of-memory. "
+                    "Reduce max_completion_tokens_per_call (Smoke uses 1024) or "
+                    "select a GPU with more VRAM. "
+                    f"{type(exc).__name__}: {exc}"
+                ) from exc
             logger.error(
                 "GENERATION_FAILED exception=%s gpu=%s",
                 type(exc).__name__, gpu.get("gpu_name", "unknown"),
@@ -178,6 +431,67 @@ class KaggleQwenBackend:
             raise ModelBackendError(
                 f"Qwen generation failed: {type(exc).__name__}: {exc}"
             ) from exc
+        finally:
+            # Release every per-call tensor reference before returning a result
+            # or before the failure propagates, then reclaim GPU memory. The
+            # model and tokenizer stay loaded and reusable.
+            del inputs
+            del input_ids
+            del attention_mask
+            del gen_kwargs
+            del output_ids
+            del generated_ids
+            gc.collect()
+            _empty_cuda_cache()
+
+    def _format_chat_prompt(self, prompt: str) -> str:
+        """Format one user message with the tokenizer's chat template."""
+        if self._tokenizer is None:
+            raise ModelBackendError("KaggleQwenBackend: tokenizer not loaded")
+        apply_chat_template = getattr(self._tokenizer, "apply_chat_template", None)
+        if not callable(apply_chat_template):
+            raise ModelBackendError(
+                "KaggleQwenBackend: tokenizer has no usable chat template. "
+                "Use a Qwen chat/instruct tokenizer that provides apply_chat_template."
+            )
+        try:
+            return apply_chat_template(
+                [
+                    {"role": "system", "content": SYSTEM_TRANSFORMATION_MESSAGE},
+                    {"role": "user", "content": prompt},
+                ],
+                tokenize=False,
+                add_generation_prompt=True,
+            )
+        except Exception as exc:
+            raise ModelBackendError(
+                f"KaggleQwenBackend: chat template failed: {type(exc).__name__}: {exc}"
+            ) from exc
+
+    def _log_oom(self, exc: BaseException, max_tokens: int, prompt_tokens: int | None) -> None:
+        """Log actionable GPU-memory diagnostics for an out-of-memory failure."""
+        allocated_gib: float | None = None
+        reserved_gib: float | None = None
+        free_gib: float | None = None
+        try:
+            import torch
+
+            allocated_gib = torch.cuda.memory_allocated(0) / (1024**3)
+            reserved_gib = torch.cuda.memory_reserved(0) / (1024**3)
+            total_mem = torch.cuda.get_device_properties(0).total_memory
+            free_gib = max(0.0, total_mem - torch.cuda.memory_reserved(0)) / (1024**3)
+        except Exception:
+            pass
+        logger.error(
+            "GENERATION_OOM allocated_gib=%s reserved_gib=%s free_gib=%s "
+            "max_tokens=%d prompt_tokens=%s exception=%s",
+            allocated_gib,
+            reserved_gib,
+            free_gib,
+            max_tokens,
+            prompt_tokens,
+            type(exc).__name__,
+        )
 
     def _ensure_loaded(self) -> None:
         if self._loaded:
@@ -186,6 +500,7 @@ class KaggleQwenBackend:
         self._load_model()
 
     def _lazy_import(self) -> None:
+        _set_canonical_alloc_conf()
         try:
             import torch  # noqa: F401
             import transformers  # noqa: F401
@@ -220,28 +535,58 @@ class KaggleQwenBackend:
         )
 
     def _load_model(self) -> None:
+        import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
+        _set_canonical_alloc_conf()
         model_path = self._resolve_model_path()
         logger.info("Loading model from %s", model_path)
 
         _check_gpu_compatibility()
 
-        resolved_dtype = self._resolve_dtype()
-        device = self._resolve_device()
+        checkpoint_config = _read_checkpoint_config(model_path)
+        checkpoint_method = _checkpoint_quantization_method(checkpoint_config)
 
-        self._tokenizer = AutoTokenizer.from_pretrained(
-            str(model_path),
-            trust_remote_code=True,
-            local_files_only=True,
-        )
-        self._model = AutoModelForCausalLM.from_pretrained(
-            str(model_path),
-            torch_dtype=resolved_dtype,
-            device_map=device,
-            trust_remote_code=True,
-            local_files_only=True,
-        )
+        if (
+            self._quantization_mode in ("bnb-int8", "bnb-nf4")
+            and checkpoint_method
+            and checkpoint_method not in _QUANTIZATION_METHOD_SAFE
+        ):
+            raise ModelBackendError(
+                f"PREQUANTIZED_CHECKPOINT_INCOMPATIBLE: checkpoint quantization={checkpoint_method}, "
+                f"requested loader={self._quantization_mode}. "
+                "attach the unquantized Qwen2.5-Coder-14B-Instruct checkpoint"
+            )
+
+        tokenizer_kwargs = {
+            "trust_remote_code": True,
+            "local_files_only": True,
+        }
+        self._tokenizer = AutoTokenizer.from_pretrained(str(model_path), **tokenizer_kwargs)
+
+        load_kwargs = {
+            "trust_remote_code": True,
+            "local_files_only": True,
+            "device_map": "auto",
+        }
+        if self._quantization_mode in ("bnb-int8", "bnb-nf4"):
+            from transformers import BitsAndBytesConfig
+
+            load_kwargs["low_cpu_mem_usage"] = True
+
+            if self._quantization_mode == "bnb-int8":
+                load_kwargs["quantization_config"] = BitsAndBytesConfig(load_in_8bit=True)
+            else:
+                load_kwargs["quantization_config"] = BitsAndBytesConfig(
+                    load_in_4bit=NF4_LOAD_CONFIG["load_in_4bit"],
+                    bnb_4bit_quant_type=NF4_LOAD_CONFIG["bnb_4bit_quant_type"],
+                    bnb_4bit_compute_dtype=torch.float16,
+                    bnb_4bit_use_double_quant=NF4_LOAD_CONFIG["bnb_4bit_use_double_quant"],
+                )
+        else:
+            load_kwargs["torch_dtype"] = torch.float16
+
+        self._model = AutoModelForCausalLM.from_pretrained(str(model_path), **load_kwargs)
         assert self._model is not None
         self._model.eval()
         self._loaded = True
@@ -249,21 +594,9 @@ class KaggleQwenBackend:
         gpu_info = _gpu_info()
         gpu_name = gpu_info.get("gpu_name", "cpu") if gpu_info.get("available") else "cpu"
         logger.info(
-            "MODEL_INITIALIZATION_SUCCEEDED model=%s device=%s gpu=%s dtype=%s",
-            self._model_name, device, gpu_name, resolved_dtype,
+            "MODEL_INITIALIZATION_SUCCEEDED model=%s device_map=auto gpu=%s quantization=%s footprint_bytes=%d",
+            self._model_name, gpu_name, self._quantization_mode, self.model_memory_footprint_bytes,
         )
-
-    def _resolve_dtype(self) -> torch.dtype:
-        import torch
-
-        if self._dtype:
-            return getattr(torch, self._dtype)
-        if torch.cuda.is_available():
-            capability = torch.cuda.get_device_capability(0)
-            if capability[0] >= 8:
-                return torch.bfloat16
-            return torch.float16
-        return torch.float32
 
     def _resolve_device(self) -> str:
         if self._device:

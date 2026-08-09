@@ -1,5 +1,297 @@
 # TODO
 
+## Current - Scientific Smoke V2 Closure (SMOKE-V2-CLOSE-01, 2026-08-09)
+
+### SMOKE-V2-CLOSE-01 - Close Scientific Smoke V2 permanently (docs/results closure)
+- **Priority:** HIGH
+- **Category:** Documentation / Milestone Closure
+- **Description:** Scientific Smoke V2 is complete and accepted: the accepted clean 300-second Full-9 baseline and the accepted 600-second confirmatory Full-9 (`exp-20260808-222843`, uniform `--timeout 600`, 9/9 terminal / 2 successes / 7 scientific failures / 0 engineering blockers / 0 budget-exhausted / 63 model calls / 77,929 tokens / max run ≈373 s, same 2/9 result, timeout sensitivity confirmed, NOT an improvement claim). Freeze per-run workflow timeout = 600s uniformly. Close the milestone: update all authoritative docs (SYSTEM_STATE.md, README.md, TODO.md, START_HERE.md, PROJECT_HANDOFF.md, MASTER_IMPLEMENTATION_PLAN.md, runbook, reports, ledgers, debt schedule) to the accepted state; audit the closure; commit/push (prove local = remote); non-fast-forward merge to main; create/push stable tag `v0.8.0-smoke-v2-complete`; leave the repo ready for a weaker AI to continue directly with `PILOT-READY-01` (do NOT start Pilot). **Next authorized action = independent delta audit of this closure; after acceptance, main merge + stable tag, then `PILOT-READY-01`.**
+- **Status:** IN PROGRESS (2026-08-09)
+
+## Previous - Full-9 Workspace Isolation Closure (2026-08-08)
+
+### FULL9-T600-01 - 600s Confirmatory Timeout-Sensitivity Full-9 Contract (executable + docs closure)
+- **Priority:** HIGH
+- **Category:** Scientific Evidence / Documentation
+- **Description:** The accepted clean 300-second Full-9 baseline (runtime source/build `7f2a450`, `--timeout 300`) showed three runs at or beyond the scientific per-run workflow ceiling (~307–337 s). To reduce timeout censoring while preserving equal computational opportunity across strategies, the uniform scientific per-run workflow timeout was raised **300 → 600** for ONE confirmatory Full-9 (T600). **The 300-second baseline remains valid and preserved** (9/9 terminal / 2 successes / 7 scientific failures / 0 engineering blockers); **T600 was EXECUTED AND ACCEPTED** — run `exp-20260808-222843`, uniform `--timeout 600` on frozen runtime source/build `7f2a450`, fail-closed `_t600` output namespace, evidence prefix `corrected-full9-t600-wsfix-7f2a450-`: **9/9 terminal / 2 successes / 7 scientific failures / 0 engineering blockers / 0 budget-exhausted / 63 model calls / 77,929 tokens / max run ≈373 s / Full-9 verification PASS / HF synchronization PASS** — the **same 2/9 result** as the accepted 300-second baseline. **Timeout sensitivity confirmed: the 600-second ceiling did NOT change the accepted result; the 300-second baseline signal was not distorted by timeout censoring. This is NOT an improvement claim.** The 600s timeout applies uniformly to monolithic / selective / iterative_repository_agent (one shared Full-9 command; no strategy receives extra time); the uniform per-run workflow timeout is now frozen at **600s**. **Do NOT raise the timeout above 600** — if Pilot runs accumulate near 600 s, analyze the duration/repair distribution and pre-register the Pilot budget instead. New fail-closed output namespace `/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600`; evidence archive prefix `corrected-full9-t600-wsfix-7f2a450-`. Executable commit `e6dbd3e` `chore(smoke): raise confirmatory Full-9 timeout to 600s` (5 files: canonical + bundled notebook, notebook_manifest.json, tests/integration/test_kaggle_bundle_smoke_v2_preflight.py, tests/unit/test_cli.py), pushed, local = remote. Pre-benchmark validation recorded at contract time: Dataset PASS/carried-forward (zero drift); Prompt PASS/carried-forward (zero drift); Pipeline Smoke PASS (T600 command + fail-closed `_t600` namespace contract); Dry Run PASS (exact 3x3 no-model/bundled dry-run contract with scientific timeout 600); Integration Test PASS (final executable full suite **1947 passed / 33 skipped / 0 failed**); Metric Verification PASS/carried-forward (zero metric/evaluator drift). Audit: executable implementation PASS; over-engineering PASS (one protocol value, one isolated namespace, contract tests only); scientific identity PASS (runtime source/build remains the frozen `7f2a450` deployment identity — runtime source did not change). Non-destructive RED proof: committed HEAD notebook (`--timeout 300`) FAILS the new 600-second contract; working notebook satisfies it. **Task CLOSED (SMOKE-V2-CLOSE-01). Next authorized action = independent delta audit of the Scientific Smoke V2 closure; after acceptance, main merge + stable tag `v0.8.0-smoke-v2-complete`, then `PILOT-READY-01`.** Main merge / stable tag / Pilot / fine-tune remain unauthorized until the closure audit passes. The accepted T600 run is the final Smoke evidence; no further Kaggle Full-9 authorized.
+- **Status:** CLOSED (2026-08-09) — EXECUTED, ACCEPTED (SMOKE-V2-CLOSE-01); Scientific Smoke V2 milestone complete; pending closure delta audit before merge + stable tag
+
+### FULL9-EXEC-01 - Canonical Corrected Full-9 Notebook Execution Closure (runtime/fix)
+- **Priority:** HIGH
+- **Category:** Runtime / Execution Artifact
+- **Description:** The canonical Kaggle notebook is now the single, tested, fail-closed execution artifact for exactly one fresh corrected Full-9. Fixed the F9 bootstrap runtime regression in the canonical `notebooks/seven_arm_benchmark.ipynb` setup-cell: `src_dir` guard + `sys.path.insert` after assignment; `MODEL_CANDIDATES` initialized from `KNOWN_MODEL` with `MODEL_PATH` derived from it (the previously deleted `MODEL_DIR` NameError — old code `MODEL_DIR = MODEL_PATH.parent` referenced an undefined name — is fixed); `SCRIPT_PATH.is_file()` guard. Removed all stale execution routes: setup order = setup-cell → install-lock-cell → preflight-cell → secrets-cell → full9-execution-cell → full9-verification-cell → export-evidence-cell; no generic/canary/continuous cells. Latest Kaggle attempt truth: source/build `7f2a450`; runtime install/preflight PASS; a redundant corrected-source selective canary ran and succeeded — **that attempt is NOT a Full-9**; corrected Full-9 evidence remains **0/9**; the evidence ZIP downloaded from that session must NOT be labeled accepted Full-9 evidence. Commit A `c4aee03` `feat(kaggle): make corrected Full-9 notebook executable` (5 files: canonical + bundled notebook, manifest, 2 new F9 preflight tests, pre-existing CLI test), pushed, local = remote, tree clean. Validation: full suite **1,947 passed / 33 skipped / 0 failed**; targeted notebook/CLI/bundle 137 passed; related production-path/isolation regression 45 + 33 passed / 1 skipped; FULL9-EXEC-01 gate set 22 passed; notebook JSON parse OK; all canonical code cells compile; bootstrap symbol-closure clean; bundle rebuilt via `python scripts/build_upload_bundle.py` (exit 0, code/data/notebook parity, no forbidden artifacts); canonical/bundled notebook parity proven; zero data/prompt/metric/runtime drift. **Next authorized action = independent delta audit of FULL9-EXEC-01; after acceptance, exactly one fresh corrected Full-9.** Main merge / stable tag / Pilot / fine-tune remain unauthorized; no Kaggle run performed in this task.
+- **Status:** COMPLETE (Commit A pushed; pending independent delta audit before Kaggle Full-9)
+
+
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Record the rejected Full-9 `exp-20260807-205422` (physically completed 9/9; raw result 2 succeeded / 7 failed; raw total 62 calls / 76,858 tokens; runtime source `f7b1ebb`) and its closure. Full-9 scientific acceptance = **rejected**. Root cause = **overlay source restaging leaked generated files across scenarios** — `_populate_workspace_source` overlaid the snapshot onto reused per-strategy workspaces without deleting stale generated files, so `0004_task_priority.py` from scenario 001 survived into 002 and produced `0005_remove_task_priority_task_deleted_at`; affected direct records = selective/agent 002 and 003. Fix: exact reset from the immutable snapshot before every matrix run — Commit A `7f2a450` (`fix(smoke): reset workspace source before every matrix run`; `_WORKSPACE_INFRASTRUCTURE_DIRS={runs,tmp,snapshots}`, `_reset_workspace_source_from_snapshot` deletes the source tree then restages, `make_isolation` calls it for every arm workspace on every run) + Commit B `e29c017` (`chore(deploy): repin isolated Full-9 Smoke bundle`; `SOURCE_COMMIT=7f2a4509482dc7e62c2b243374592e9a88e2ff48` / `DEPLOYED_BUILD_ID=7f2a450`). Unit edge cases 33 passed / 1 skipped; sequential 001→002→003 migration proof (002 clean, no `0004_task_priority`, depends on canonical `0003`) + nine-run zero-residue matrix proof. Official pre-benchmark gate (pytest 8.4.2): **1,928 passed / 33 skipped / 0 failed**; Dataset 161/1 (27 scenarios unchanged); Prompt 200/12; Pipeline Smoke 45; Dry Run 9/9/9/0 exit 0; Metric 187; ruff 0 new (5 baseline); mypy 0 new (4 baseline); compileall clean; notebooks compile; bundle content-identical (147 files / 969,713 bytes). Isolated canary remains accepted; `v0.8.0-canary.1` unchanged; main merge not authorized; `v0.8.0-smoke-v2-complete` not created; Pilot not authorized. Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md; create `selective_updates/records/FULL9-WORKSPACE-ISOLATION-DEFECT-2026-08-08.md`. Commit exactly `docs(audit): record Full-9 workspace isolation defect`; push; verify clean + local = remote + tag unchanged.
+- **Status:** COMPLETE (this documentation commit, pushed)
+
+### FULL9-WS-02A - Fail-Close Corrected Full-9 Launch Instructions (docs/runbook only)
+- **Priority:** HIGH
+- **Category:** Launch Safety / Documentation
+- **Description:** Independent GPT-5.6 Sol audit accepted the runtime workspace-isolation fix but blocked a new Full-9 because the canonical runbook still launched source/build f7b1ebb and did not fail closed on a non-empty local output directory. Correct the runbook to SOURCE_COMMIT=7f2a4509482dc7e62c2b243374592e9a88e2ff48 / DEPLOYED_BUILD_ID=7f2a450; enforce setup -> install-lock -> preflight -> secrets -> Full-9; use /kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450; fail closed if that directory is already non-empty; reconcile current-state docs so the first Full-9 is RUN BUT REJECTED and the fresh corrected Full-9 is NOT YET RUN. No runtime/test/data/prompt/metric/notebook/bundle change. No Kaggle run. After this closure: independent delta audit, then one fresh Full-9 only if accepted.
+- **Status:** COMPLETE (docs/runbook closure; pending independent delta audit before Kaggle)
+
+### FULL9-WS-02 - Run One Fresh Full-9 Scientific Smoke V2 (corrected source/build)
+- **Priority:** HIGH
+- **Category:** Scientific Evidence
+- **Description:** The next scientific action, BLOCKED ONLY on the independent delta audit of FULL9-EXEC-01 (canonical corrected Full-9 notebook execution closure, which supersedes the FULL9-WS-02A docs/runbook closure as the execution artifact). After that audit accepts the closure, run one fresh isolated 9-record experiment (3 frozen todo scenarios × 3 strategies × 1 repetition = 9 records) with the corrected deployment source `7f2a4509482dc7e62c2b243374592e9a88e2ff48` / build `7f2a450`, profile `scientific-smoke-v2`, protocol 1.0, into the corrected fail-closed output directory `/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450`. NEVER resume or reuse the rejected `exp-20260807-205422` records or their contaminated workspaces; never merge the accepted canary `exp-20260807-131819`. After completion: independent results audit. No merge/tag/Pilot/fine-tune.
+- **Status:** PENDING (blocked only on independent delta audit of FULL9-EXEC-01; superseded as the next scientific action by the FULL9-T600-01 confirmatory contract — run the fresh Full-9 with uniform `--timeout 600` into the `_t600` namespace after the T600 audit accepts)
+
+### QSC-01 - Record Accepted Qwen 14B Selective Canary Success (docs only)
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Independent GPT-5.6 Thinking audit **ACCEPTED SUCCESSFUL REAL CANARY** (2026-08-07, documentation HEAD `5561f918`). Record truthfully: real engineering preflight PASS (2×Tesla T4, bnb-nf4, identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`, footprint 9,721,981,184 bytes, 174.016 s, probe 68+17, min free VRAM 8.417 GiB, GPU-only); canary `exp-20260807-131819` (`todo-smoke-001 / selective`, runtime source `f7b1ebba73b52868a95c47ef3806d3b09da16d93` / build `f7b1ebb`) **succeeded**: 3 selected / 2 preserved / 3 regenerated, migration `todo/migrations/0004_task_priority.py`, 3 model calls / 2,527+720=3,247 tokens / 295.944 s / 0 repair attempts; functional validation PASS; scenario evaluator PASS 10/10; HF `recovery_uploaded`; accepted real 14B canary records = 1 succeeded / 0 failed (isolated selective-only plan, NOT `1/9`); full 9-record Scientific Smoke V2 = NOT RUN; vs 7B: 25.0% fewer calls / 44.1% fewer tokens / repair eliminated / 14.9% slower → functional viability, not strategy superiority; unused `Q` import in generated `views.py` = non-blocking, evidence NOT to be repaired; continuous cell failed closed with zero model calls (generic experiment empty). Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md; create `selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md` + `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` (copied from the frozen workspace runbook). Commit exactly `docs(results): record successful Qwen 14B selective canary`; push; verify clean + local = remote.
+- **Status:** COMPLETE (this documentation commit, pushed)
+
+### QSC-02 - Run One Fresh Full-9 Scientific Smoke V2
+- **Priority:** HIGH
+- **Category:** Scientific Evidence
+- **Description:** The only next scientific action — NOW SUPERSEDED IN SOURCE BY FULL9-WS-02 (the first Full-9 `exp-20260807-205422` under source `f7b1ebb` was RUN but REJECTED as a stable scientific matrix due to the workspace-isolation defect; the fresh Full-9 must use the corrected deployment source `7f2a4509482dc7e62c2b243374592e9a88e2ff48` / build `7f2a450`, not `f7b1ebb`). One fresh isolated 9-record experiment (3 frozen todo scenarios × 3 strategies × 1 repetition = 9 records) via the frozen runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` (updated for the corrected build), profile `scientific-smoke-v2`, protocol 1.0, expected identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`. One engineering preflight + one benchmark process in a fresh isolated output dir (`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke`); no `--strategy`, no `--max-runs`, no `--auto-resume-hf`. NEVER resume/merge the accepted canary and NEVER reuse the rejected `exp-20260807-205422` records or workspaces. After completion: independent results audit. No merge/tag/Pilot/fine-tune.
+- **Status:** PENDING
+
+### QSC-03 - Record Canary Milestone Tag and Freeze Full-9 Launch (docs only)
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Documentation-only truth update after the annotated milestone tag `v0.8.0-canary.1` was created and pushed. **Milestone tag:** `v0.8.0-canary.1` — created and pushed; annotated; points to `31a619857ce07eb09ab5e206fbc9dc792782c99c`. **Meaning:** first accepted real Qwen 14B NF4 selective-canary milestone. **Stable release = NO.** **Full 9-record Scientific Smoke V2 = NOT RUN.** **Merge to main = NOT YET** (pending Full-9 audit). **Pilot = NOT AUTHORIZED.** **Next action:** one fresh Full-9 Scientific Smoke V2 using `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`. Canonical tag naming: `v0.8.0-canary.N` = isolated calibration milestones; `v0.8.0-smoke-v2-complete` = create only after Full-9 result audit + main merge (stale `v2.0.0-scientific-smoke` future-tag wording replaced in the authoritative current plan). Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md. Commit exactly `docs(state): record canary milestone tag and freeze Full-9 launch`; push; verify clean + local = remote + tag target unchanged. Do NOT modify code/tests/runtime/datasets/prompts/notebook/bundle/frozen runbook. Do NOT run pytest/Kaggle. Do NOT merge main. Do NOT create another tag.
+- **Status:** COMPLETE (this documentation commit, pushed)
+
+## Current - Qwen 14B BNB-NF4 Canary Preparation
+
+### Q14-01 - Model-Aware Qwen Identity
+- **Priority:** HIGH
+- **Category:** Controls
+- **Description:** Commit A `0ece665` (pushed) replaced the frozen, model-blind `qwen:1:int8` identity with `qwen:<checkpoint-basename>:<quantization>:cfg-<12hex>`, derived before auto-resume from `config.json` fields (model_type, hidden_size, num_hidden_layers, num_attention_heads) + requested mode + checkpoint quantization method + SHA-256 (first 12 hex). 7B bnb-int8 / 14B bnb-int8 / 14B bnb-nf4 now always produce distinct identities; auto-resume and checkpoint validation reject any mismatch; historical `qwen:1:int8` records preserved. This closes the auto-resume contamination that downloaded `exp-20260804-133016` for an attempted 14B run.
+- **Status:** COMPLETE (commit 0ece665, pushed)
+
+### Q14-02 - Explicit BNB-NF4 Profile
+- **Priority:** HIGH
+- **Category:** Controls
+- **Description:** Commit A `0ece665` (pushed) added canonical modes `bnb-int8` / `bnb-nf4` / `fp16` with CLI `--qwen-quantization` (default `bnb-int8`, unknown values exit 2). NF4 = `load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16, bnb_4bit_use_double_quant=True` (Tesla T4). A prequantized non-bitsandbytes checkpoint (e.g. GPTQ) fails fast before tokenizer/model load with `PREQUANTIZED_CHECKPOINT_INCOMPATIBLE`; no automatic fallback. The failed 14B GPTQ attempt (`exp-20260804-195126`, 0 records / 0 calls / 0 tokens, preflight failed before the probe — GPTQConfig + BitsAndBytesConfig conflict) is preserved engineering evidence; GPTQ support is deferred.
+- **Status:** COMPLETE (commit 0ece665, pushed)
+
+### Q14-03 - 14B BNB-NF4 Canary Notebook
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** Commit B `0a596b8` (pushed) pinned the notebook to the unquantized `/kaggle/input/models/qwen-lm/qwen2.5-coder/transformers/14b-instruct/1` (never `14b-instruct-gptq-int4`) with `QWEN_QUANTIZATION = "bnb-nf4"`, `RUN_GENERIC_ONE_RUN = False`, isolated output `/kaggle/working/runs/qwen14b_bnb_nf4_selective_canary`, a fail-closed canary preflight assertion (preflight passed, expected 14B identity, bnb-nf4, checkpoint not prequantized, GPU-only device map, free-VRAM threshold), `--strategy selective --max-runs 1 --new-experiment`, and no `--auto-resume-hf`. Notebook identity `SOURCE_COMMIT = 0ece665ef25e1b0ca3aa14f5f25977cadbd06d0c` / `DEPLOYED_BUILD_ID = 0ece665`; bundle rebuilt (147 files / 962,188 bytes), rerun content-identical, manifests verified.
+- **Status:** COMPLETE (commit 0a596b8, pushed)
+
+### Q14-04 - Full Gate and Readiness Record
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Full suite **1,877 passed / 32 skipped / 0 failed**; Dataset Validation PASS (27 scenarios / 27 unique IDs / zero closure dataset changes); Prompt Validation 380 passed; Pipeline Smoke 189 passed; Scripted 9-record dry run 9/9 exit 0; Metric Verification 169 passed; Ruff 0 new (21 pre-existing); strict mypy 0 new (5 pre-existing, identical rule set to a self-contained HEAD baseline); compileall clean; notebook cells compile 8/8 canonical + 8/8 bundled; no cache files. Recorded at `selective_updates/records/QWEN14B-BNB-NF4-CANARY-READINESS.md`.
+- **Status:** COMPLETE (commit <new> — this documentation commit, pushed)
+
+### Q14-05 - Kaggle Engineering Preflight
+- **Priority:** HIGH
+- **Category:** Scientific Evidence
+- **Description:** The Kaggle engineering preflight for the 14B bnb-nf4 profile was the authorized next action after readiness/loader/multi-GPU-VRAM closures. **PASSED on the real target environment (2026-08-07)**: Python 3.12.13 / Django 5.2.16 / DRF 3.17.1 / pytest 8.4.2 / accelerate 1.14.0 / bitsandbytes 0.49.2 / torch 2.10.0+cu128 / transformers 4.57.6; identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`; 2×Tesla T4; minimum free VRAM 8.417 GiB (≥2.0 GiB gate); GPU-only device map; preflight 174.016 s; probe 68+17. This preflight closure is superseded by the accepted successful selective canary (see QSC-01). No scientific canary/9-record run, merge, tag, or Pilot then authorized; now the only next scientific action = one fresh Full-9 run (QSC-02).
+- **Status:** COMPLETE (real preflight PASS, 2026-08-07)
+
+## Current - Selective Calibration Canary Result
+
+### SCC-01 - Execute Dedicated Selective Calibration Canary
+- **Priority:** HIGH
+- **Category:** Scientific Evidence
+- **Description:** The dedicated selective calibration canary cell ran on Kaggle under source/build `50ec2c1`. Result `exp-20260804-133523` (`todo-smoke-001 / selective`): **failed / `model_output`**, 4 model calls / 5,804 tokens / 257.596 s / 3 selected / 2 preserved / **0 written**; initial 3 calls / 3,372 tokens; repair 1 call / 2,432 tokens (first repair byte-identical → `repair_no_progress` stopped the round); atomic application wrote zero files; HF `recovery_uploaded`; checkpoint 1 completed / 2 pending. Defects: `todo/models.py` `max_length=5` (MEDIUM length 6); duplicated `Priority(models.TextChoices)` in `todo/serializers.py` and `todo/views.py`. Vs previous selective run: 41.6% fewer tokens / 33.3% fewer calls / 22.4% faster, but initial generation tokens (3,372) and output hashes **identical** → harness safety controls worked; Qwen code quality unchanged. Incidental monolithic `exp-20260804-133016` (6 calls / 7,927 tokens / 300.165 s / `scientific_budget_exhausted`) is diagnostic only, NOT an accepted comparison. Continuous cell blocked fail-closed by `CALIBRATION_REVIEW_REQUIRED`. Full 9-record experiment NOT run; no merge/tag/Pilot/Kaggle authorized; no stable release claimed.
+- **Status:** COMPLETE (2026-08-04)
+
+### SCC-02 - Independent Audit of Canary Results
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent audit of the canary results (truth of exp-20260804-133523, harness-control verification, harness-vs-model conclusion). After the audit, a deliberate decision: repeat the dedicated selective canary OR proceed to the full 9-record run. Do not merge/tag/Pilot/fine-tune.
+- **Status:** PENDING (sentinel `SELECTIVE_CANARY_RESULT_AUDIT_REQUIRED`)
+
+### SCC-03 - Document Canary Result (docs + ledgers only)
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Record truthfully: dedicated canary exp-20260804-133523; source/build 50ec2c1; 4 calls / 5,804 tokens / 257.596 s; 3 selected / 2 preserved / 0 written; failure `model_output`; defects in models/serializers/views; `repair_no_progress` after first identical repair; comparison vs previous selective run (41.6% / 33.3% / 22.4%); incidental monolithic run diagnostic only; continuous cell fail-closed; accepted dedicated canary records = 1, successful = 0. Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md (new), selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md; commit as `docs(results): record selective calibration canary outcome`
+- **Status:** COMPLETE (commit <new>, pushed)
+
+## Current - Final Selective Canary Readiness Closure
+
+### FSR-01 - Close Blocker 1: Per-Call Cooperative Deadline
+- **Priority:** HIGH
+- **Category:** Controls
+- **Description:** Independent audit (GPT-5.6 Thinking) reproduced 3 model calls and false success after a 1s deadline because the deadline was checked only before the whole regeneration attempt. Commit 50ec2c1 (pushed): the workflow budget deadline is now checked before every selection/generation/repair model call; an in-flight call returning beyond the deadline consumes/records its tokens, makes no next call, writes none of the staged attempt, returns the failed scientific terminal `scientific_budget_exhausted` (truthful elapsed time and budget retained). Same guard on every internal Iterative Agent call, not only before `analyze_impact()`. Direct adversarial proofs: TestRunner.test_generation_deadline_stops_after_first_model_call (1 call, count 0, 15 tokens), TestRepairDeadline.test_repair_deadline_stops_after_first_repair_call (2 calls, repair_model_calls 1, repair tokens retained), TestIterativeAgentDeadline.test_agent_selection_deadline_stops_after_first_call (1 call, model_call_budget_exhausted, 50 tokens preserved)
+- **Status:** COMPLETE (commit 50ec2c1, pushed)
+
+### FSR-02 - Close Blocker 2: Atomic Metric Truth
+- **Priority:** HIGH
+- **Category:** Metrics
+- **Description:** Independent audit reproduced 0 writes but `regenerated_artifact_count = 1` when an artifact was rejected. Commit 50ec2c1 (pushed): on atomic attempt abort all staged `generated` statuses become `aborted` or `rejected`, `regenerated_artifact_count = 0`, preserved response hashes/evidence remain available; all-valid attempt still commits every artifact exactly once. Metric/evidence truth, not a scientific formula change. Test alignment commit 356722b (pushed): test_r4_token_and_metrics.py assertions updated to the truthful staged statuses (`["aborted", "aborted", "rejected"]` / `["aborted", "rejected"]`); MagicMock exec_ret gains `model_call_budget_exhausted=False` in test_r3d_wiring.py
+- **Status:** COMPLETE (commits 50ec2c1 + 356722b, pushed)
+
+### FSR-03 - Close Blocker 3: Dedicated Selective Canary Cell
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** Independent audit: the generic one-run cell selects `todo-smoke-001 / monolithic` (execution-plan order is scenario first, then strategies), NOT selective. Commit 28ecc5a (pushed): added dedicated, separately named Selective Calibration Canary cell (`selective-calibration-canary-cell`) with `--strategy selective --max-runs 1 --new-experiment --backend kaggle-qwen --profile scientific-smoke-v2 --max-attempts 3 --max-completion-tokens-per-call 1024 --max-total-workflow-tokens 0 --timeout 300 --hf-sync`, isolated output `runs/selective_calibration_canary`, NO `--auto-resume-hf`, `AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW = False`. `_verify_selective_canary()` asserts exactly one current-source RunRecord `todo-smoke-001 / selective`, model identity `qwen:1:int8`, model calls > 0, terminal scientific success/failure outcome, HF `recovery_uploaded`, checkpoint `total_planned = 3 / completed = 1 / pending = 2`. Bundle pinned: `SOURCE_COMMIT = 50ec2c1ca43c230aed4538be32ca7dab2ccc22e5`, `DEPLOYED_BUILD_ID = 50ec2c1`; rebuilt 147 files / 948,250 bytes; content-identical rerun (tree hash 3b8d5b0ebf5e3ab8)
+- **Status:** COMPLETE (commit 28ecc5a, pushed)
+
+### FSR-04 - Complete Full Gate
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Full suite 1,856 passed / 32 skipped / 0 failed (571.57s); grouped per-category 629 passed / 1 skipped (530.96s); scripted dry run --profile scientific-smoke-v2 into a fresh dir = 9/9 exit 0 (default runs dir held a stale checkpoint causing ReportRebuildError, not a code defect); mypy --strict src Success (77 files); ruff 0 new findings (175 pre-existing repo-wide; 19 pre-existing E501 in test_r4_token_and_metrics.py); compileall clean; notebook code cells compile (8/8 bundle incl. the canary cell); bundle content-identical; manifests verified; git diff --check clean; tree clean; local = remote = 356722b
+- **Status:** COMPLETE
+
+### FSR-05 - Correct Operational Documentation
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Record truthfully: f727b3e full suite was green but the independent audit rejected canary readiness; direct timeout repro (3 calls and false success after deadline); direct atomic metric repro (0 writes but count 1); generic one-run cell selected monolithic, not selective; exact Commit A/B hashes (50ec2c1, 28ecc5a); actual complete test totals (1,856 passed / 32 skipped / 0 failed); calibration exp-20260803-002741 remains preserved, 0/9 success; next action after independent audit = run the dedicated selective canary cell only. Do not claim a stable release. Update SYSTEM_STATE.md, README.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/records/SELECTIVE-CANARY-READINESS-CLOSURE.md (new); commit as `docs(audit): record final selective-canary readiness closure`
+- **Status:** COMPLETE (commit 25bfe04, pushed)
+
+### FSR-06 - Independent Selective Canary Readiness Re-Audit
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent re-audit of the three closed blockers, the deployment pin, and the green gate; after the re-audit the ONLY next action = run the dedicated selective calibration canary cell (not the generic one-run cell, not the continuous cell, not a full relaunch, not a fine-tune, not a tag/merge)
+- **Status:** PENDING (sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED`)
+
+## Previous - Post-Smoke Calibration Closure
+
+### PSC-01 - Close Four Proven Calibration Control Defects
+- **Priority:** HIGH
+- **Category:** Controls
+- **Description:** Commit 27c1693 (pushed) closed: Closure A per-attempt atomic regeneration (normalize + validate every selected artifact, stage accepted bytes, write zero files of the attempt on any guard failure; per-attempt, not cross-iteration); Closure B repair no-progress detection (identical repair response hash after validation feedback → `repair_no_progress`, stop remainder of round before additional model calls, no new round; consumed calls/tokens retained; temperature/prompts never altered); Closure C fail-closed calibration continuation gate (`AUTHORIZE_CONTINUOUS_AFTER_CALIBRATION_REVIEW = False`; `scientific_failure` prints `CALIBRATION_REVIEW_REQUIRED`, no continuous execution without deliberate human change to True; `engineering_blocker` stops and raises); Closure D cooperative deadline semantics (deadline checked before every selection/generation/repair call; workflow budget exhaustion = scientific terminal `scientific_budget_exhausted` with `configured_budget`/`actual_elapsed_seconds` recorded; preflight/env/harness/HF timeouts stay engineering blockers). Unit + integration tests added
+- **Status:** COMPLETE (commit 27c1693, pushed)
+
+### PSC-02 - Pin Calibration-Controlled Smoke V2 Bundle
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** Commit 56772fe (pushed): canonical notebook re-pins `SOURCE_COMMIT = 27c1693e22b1a68be0b299fb146d9ff1e500908b`, `DEPLOYED_BUILD_ID = 27c1693`; kaggle_upload bundle rebuilt via scripts/build_upload_bundle.py (147 files / 934,495 bytes; code 90, data 56, notebook 1); manifests verified; no __pycache__/*.pyc; canonical + generated notebooks compile 7/7 code cells
+- **Status:** COMPLETE (commit 56772fe, pushed)
+
+### PSC-03 - Reconcile Stale Constant-Output Test Fixtures
+- **Priority:** HIGH
+- **Category:** Tests
+- **Description:** First full gate exposed 9 failures in tests/integration/test_r4_metric_contract.py + tests/integration/test_su0010a_regeneration.py: deterministic backends returned identical text every call, accidentally activating the new no-progress early-stop and lowering observed counts below max-attempt expectations. NOT validly proven pre-existing (ec9ba0b lacked the early-stop; a detached worktree using the main editable installation can import the current branch instead of the worktree source — cross-worktree comparison only valid with isolated env or worktree-local PYTHONPATH). Commit 231b0a5 (pushed, test-fixture-only): `_FixedTokenBackend` gains opt-in `vary_output=True` (3 duration tests), `_SentinelBackend` returns a unique valid Python string per indexed response preserving exact TokenUsage, 5 bounded-repair fixtures return `value = <call_number>`; all expectations preserved (max_attempts 3, calls 3/6, repair_attempts, repair_model_calls 2/4, durations 1.5/2.1, tokens 41/59/90, JSONL/reporting identity); dedicated identical-output no-progress tests unchanged; new boundary test `test_no_progress_and_max_attempts_are_separate_contracts` proves constant output → 2 calls + repair_no_progress vs distinct outputs → 3 calls / 2 repairs
+- **Status:** COMPLETE (commit 231b0a5, pushed)
+
+### PSC-04 - Complete Final Gate
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Full suite 1,849 passed / 32 skipped / 0 failed; mypy --strict src/benchmark Success (77 files); ruff 93 = 93 baseline (0 new, line-set identical); compileall clean; bundle build content-identical; all notebook cells compile; manifests verified; git diff --check clean; tree clean; local = remote = 231b0a5
+- **Status:** COMPLETE
+
+### PSC-05 - Correct Operational Documentation
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md, selective_updates/records/KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE.md; record calibration evidence exp-20260803-002741 (9 records / 0 succeeded / 8 failed / 1 timed_out / 81 calls / 118,211 tokens, preserved, not accepted scientific evidence) and the 9-failure reconciliation truth; commit as docs(audit): record calibration results and safety closure
+- **Status:** COMPLETE (commit f727b3e, pushed)
+
+### PSC-06 - Independent Calibration Closure Audit
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent audit of the four closed controls, the test-fixture reconciliation, and the green gate; after the audit the ONLY next action = one selective calibration canary (not a full relaunch, not a fine-tune, not a tag/merge)
+- **Status:** PERFORMED at f727b3e — audit REJECTED canary readiness on three blockers (per-call deadline, atomic metric truth, no selective canary cell); blockers closed under the Final Selective Canary Readiness Closure (see Current section; sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQUIRED`)
+
+## Previous - Pre-Benchmark Final Reproducibility Audit Closure
+
+### PBF-01 - Recover Exact Passing Dependency Versions
+- **Priority:** HIGH
+- **Category:** Reproducibility
+- **Description:** Recover the exact versions from the previously passing environment: tabulate 0.10.0, httpx 0.28.1, Jinja2 3.1.6, pytest 8.4.2, ruff 0.15.22, mypy 1.20.2
+- **Status:** COMPLETE
+
+### PBF-02 - Declare Complete Pre-Benchmark Dependencies
+- **Priority:** HIGH
+- **Category:** Reproducibility
+- **Description:** Declare the full pre-benchmark test environment in `pyproject.toml [dev]` + `requirements-dev.txt`: Django==5.2.16, djangorestframework==3.17.1, pytest-django==4.12.0, pytest-asyncio==1.2.0 (required by --asyncio-mode=auto), tabulate==0.10.0, httpx==0.28.1, Jinja2==3.1.6, huggingface_hub==0.24.0 (1.x broke positional hf_hub_download/local_dir_use_symlinks + strict mypy), types-pyyaml>=6.0,<7, pytest>=8.0,<9. Runtime [project.dependencies] and requirements-smoke-kaggle.lock untouched. Commits 769d84e + e5d9430 (both pushed)
+- **Status:** COMPLETE
+
+### PBF-03 - Recreate Clean Environment From Declarations Only
+- **Priority:** HIGH
+- **Category:** Reproducibility
+- **Description:** Delete + recreate `_workspace\cache\prebenchmark-py311` (Python 3.11.9) using only `py -3.11 -m venv` + `pip install -e ".[dev]" "pytest==8.4.2" "ruff==0.15.22" "mypy==1.20.2"`; verified pytest 8.4.2 / Django 5.2.16 / DRF 3.17.1 / pytest-django 4.12.0 / tabulate 0.10.0 / httpx 0.28.1 / Jinja2 3.1.6 / ruff 0.15.22 / mypy 1.20.2
+- **Status:** COMPLETE
+
+### PBF-04 - Repeat the Complete Clean Gate
+- **Priority:** HIGH
+- **Category:** Validation
+- **Description:** Full suite 1,833 passed / 32 skipped / 1 failed (sole failure = test_notebook_source_commit_matches_deployed_runtime_tree, structural - mandated pyproject.toml declaration change breaks byte-identity with pinned aac9914 SOURCE_COMMIT; frozen artifacts not modified to force green, reported truthfully); Dataset 285/5; Prompt 158; Pipeline Smoke 220/12; Dry Run 9/9; Integration PASS; Metric Verification 169; mypy strict Success (77 files); ruff 93 = 93 baseline (0 new); compileall clean; bundle build verified then kaggle_upload restored
+- **Status:** COMPLETE
+
+### PBF-05 - Correct Operational Documentation
+- **Priority:** HIGH
+- **Category:** Documentation
+- **Description:** Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md; create selective_updates/records/KAGGLE-SMOKE-V2-MODEL-OUTPUT-CLOSURE.md; record historical exp-20260801-210443 (one failed model-output terminal record under 6f88823, preserved, excluded from current aac9914 aggregation) and current aac9914 records = 0/9
+- **Status:** COMPLETE
+
+### PBF-06 - Independent Pre-Benchmark Reproducibility Audit
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent audit performed; its exact deployment-only correction was imported via bundle fast-forward (f8d00d7, exactly one commit from e5d9430). Sentinel updated to `PRE_BENCHMARK_FINAL_SOURCE_REPIN_AUDIT_REQUIRED`. Next (only) action after this independent audit = Kaggle engineering preflight only (not the scientific One-Run cell)
+- **Status:** COMPLETE (sentinel `PRE_BENCHMARK_FINAL_SOURCE_REPIN_AUDIT_REQUIRED`)
+
+### PBF-07 - Apply Deployment-Only Correction (f8d00d7) and Re-Run Complete Gate
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** Previous 76a6b16 gate had 1 failure, not a green full suite: test_notebook_source_commit_matches_deployed_runtime_tree failed because the mandated pyproject.toml declaration change broke byte-identity with the pinned aac9914 SOURCE_COMMIT (root cause = dependency declarations changing pyproject.toml after the aac9914/311e084 deployment pin; no runtime/prompt/metric/scenario/evaluator/data change needed). Apply the exact deployment-only correction f8d00d7 (bundle PRE_BENCHMARK_FINAL_REPIN_EXACT.bundle): kaggle_upload/code/pyproject.toml gains the six declaration lines (byte-identical to canonical); notebooks re-pin SOURCE_COMMIT=e5d943065c6f4158c30a1cbbba39436ab2a7a898, DEPLOYED_BUILD_ID=e5d9430; manifests re-verified. Complete clean gate now green: full suite 1,834 passed / 32 skipped / 0 failed; Dataset 285/5 (data unchanged); Prompt 158; Pipeline Smoke 220/12; Dry Run 9/9; Integration PASS; Metric Verification 169; mypy strict Success (77 files); ruff 93 = 93 baseline (0 new); compileall clean; all notebook cells compile; bundle build content-identical (147 files / 928,329 bytes); no cache files in kaggle_upload; tree clean. Historical exp-20260801-210443 failed model-output record under 6f88823 remains excluded from the current e5d9430 aggregation; current accepted real records = 0/9
+- **Status:** COMPLETE (commit f8d00d7, pushed)
+
+## Current — R7C Real-Run Root Closure
+
+### R7C-01 — Close Environment Memory Contract
+- **Priority:** HIGH
+- **Category:** Runtime Contract
+- **Description:** Pin exact Kaggle runtime in `requirements-smoke-kaggle.lock` (Django==5.2.16, djangorestframework==3.17.1, pytest==8.4.2, pytest-django==4.12.0, accelerate==1.14.0, bitsandbytes==0.49.2; torch/transformers unpinned), install + verify in the notebook `install-lock-cell` (`EXPECTED_RUNTIME` via `RUNTIME_ATTR`), write `runtime_environment.json` (schema `kaggle_runtime_environment.v1`)
+- **Status:** COMPLETE (commit 7a80e53)
+
+### R7C-02 — Close Int8 Memory Contract
+- **Priority:** HIGH
+- **Category:** Runtime Contract
+- **Description:** int8 default (`qwen:1:int8`), `PYTORCH_ALLOC_CONF=expandable_segments:True`, seeded 64-token `run_probe`, preflight ≥2.0 GiB VRAM headroom; no 4-bit fallback
+- **Status:** COMPLETE (commit 7a80e53)
+
+### R7C-03 — Close Frozen Scenario-Context Prompt Contract
+- **Priority:** HIGH
+- **Category:** Prompt Contract
+- **Description:** Freeze `RegenerationScenarioContext` into strategy prompts; preserve-only byte-identity enforcement when `expected_actions` is non-empty
+- **Status:** COMPLETE (commit 7a80e53)
+
+### R7C-04 — Close Infrastructure-Nonrepairable Repair Contract
+- **Priority:** HIGH
+- **Category:** Repair Contract
+- **Description:** `FailureKind.infrastructure_nonrepairable` first-failure classification, one execution, zero LLM repair
+- **Status:** COMPLETE (commit 7a80e53)
+
+### R7C-05 — Add Preflight Gate and Pin Bundle
+- **Priority:** HIGH
+- **Category:** Deployment
+- **Description:** `src/benchmark/execution/preflight.py` + `--kaggle-preflight-only` (schema `kaggle_smoke_preflight.v1`, 6 checks; exit 0/1; no run side effects); notebook gate cell before secrets + exec; reorder notebook setup → install-lock → preflight → secrets → run; rebuild bundle (147 files / 894,735 bytes)
+- **Status:** COMPLETE (commit f01b8f0)
+
+### R7C-06 — Independent Real-Run Root Closure Audit
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent audit of the four closed contracts + preflight gate; then update Kaggle code dataset + notebook, run one real cell (require 1/9), continue to 9/9
+- **Status:** SUPERSEDED — see R7C-07 (full-gate audit of the correction)
+
+### R7C-07 — Import Independent Root Correction and Run Full Gate
+- **Priority:** HIGH
+- **Category:** Audit Correction
+- **Description:** Prior R7C report incorrectly called a 1,451-test subset the full suite; true first full suite = 23 failed / 1,759 passed / 32 skipped (root cause: blanket `baseline_validation => infrastructure_nonrepairable` in `src/benchmark/execution/runner.py`). Import the independent GPT-5.6 Thinking correction via bundle fast-forward (`ffa179a` + `6d6aa36`, HEAD `6d6aa36`, pushed): exact 23 former failures pass; DRF import mapping, exact version verification, fail-fast preflight, driver-level VRAM, CPU-offload rejection, Python 3.12 contract, stale source identity corrected. Run the full Windows gate (full suite now 1,790 passed / 32 skipped / 0 failed; mypy 0; compileall clean; builder rerun clean; identity test passes SOURCE_COMMIT=ffa179a / DEPLOYED_BUILD_ID=ffa179a). Valid real Qwen remains 0/9; Kaggle blocked.
+- **Status:** COMPLETE (ffa179a + 6d6aa36 imported, pushed; full gate green)
+
+### R7C-08 — Independent Full-Gate Audit of Corrected R7C Branch
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Independent audit of the corrected branch HEAD `6d6aa36` (repair classifier, preflight dependency/version/VRAM/device-map contracts, Python 3.12 runtime contract, notebook source identity, exact 23 former failures passing, current full gate); then update Kaggle code dataset + notebook, run one real cell (require 1/9), continue to 9/9
+- **Status:** SUPERSEDED — see R7C-09 (post-gate audit) and R7C-10 (final full-gate audit)
+
+### R7C-09 — Import Independent Post-Gate Correction and Run Full Gate
+- **Priority:** HIGH
+- **Category:** Audit Correction
+- **Description:** An independent post-gate audit performed on `5e47a1e` found (a) the project-local `ImportError` was incorrectly bypassing repair (blanket marker match); (b) the bundled preflight could not import `benchmark` without ambient `PYTHONPATH`; (c) preflight output was buffered. Import the exact audited correction via bundle fast-forward (`6f88823` fix(kaggle): align repair eligibility and script bootstrap + `5797fc0` chore(deploy): pin audited preflight and live gate, HEAD `5797fc0`, pushed): project-local `ModuleNotFoundError` / `cannot import name` now repairable via the canonical classifier; missing declared Django + CUDA OOM stay `infrastructure_nonrepairable`; bundled script bootstraps its own `src/`; preflight output streamed + persisted. Notebook source identity = `SOURCE_COMMIT 6f88823` / `DEPLOYED_BUILD_ID 6f88823`. Full gate = 1,796 passed / 32 skipped / 0 failed; ruff 0 new (93 = 93); mypy 0; compileall clean; builder rerun content-identical. Valid real Qwen remains 0/9; no scientific evidence; Kaggle blocked.
+- **Status:** COMPLETE (6f88823 + 5797fc0 imported, pushed; full gate green)
+
+### R7C-10 — Final Independent Full-Gate Audit of `5797fc0`
+- **Priority:** HIGH
+- **Category:** Audit
+- **Description:** Final independent full-gate audit of the corrected branch HEAD `5797fc0` (repair eligibility, bundled clean-subprocess preflight bootstrap, preflight live streaming, boundary regressions, complete full suite); after it passes, the only authorized Kaggle action is the engineering preflight cell — not the scientific One-Run cell; then update Kaggle code dataset + notebook, run one real cell (require 1/9), continue to 9/9
+- **Status:** PENDING (sentinel `R7C_POST_AUDIT_FULL_GATE_REQUIRED`)
+
 ## Phase 0 — Bootstrap and Environment
 
 ### T001 — Create Repository Structure

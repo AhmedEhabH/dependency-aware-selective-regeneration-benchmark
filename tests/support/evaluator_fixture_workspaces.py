@@ -1,0 +1,763 @@
+from __future__ import annotations
+
+import shutil
+import sys
+from pathlib import Path
+
+from benchmark.execution.post_generation import run_post_generation_command
+
+_BASELINE_REPO = Path(__file__).resolve().parent.parent.parent / "benchmark_data" / "repositories" / "todo"
+
+
+def _copy_baseline(destination: Path) -> None:
+    if destination.exists():
+        shutil.rmtree(destination)
+    shutil.copytree(str(_BASELINE_REPO), str(destination), symlinks=False)
+
+
+def _overwrite(workspace: Path, relative_path: str, content: str) -> None:
+    target = workspace / relative_path
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(content)
+
+
+def _run_required_migration(workspace: Path) -> None:
+    result = run_post_generation_command(
+        workspace,
+        (sys.executable, "manage.py", "makemigrations", "todo", "--noinput"),
+        require_new_migration=True,
+        timeout=180,
+    )
+    if not result.passed:
+        raise RuntimeError(f"makemigrations failed: {result.stderr or result.stdout}")
+
+
+def _apply_single_replacement(
+    sources: dict[str, str], path: str, old: str, new: str
+) -> dict[str, str]:
+    content = sources[path]
+    count = content.count(old)
+    assert count == 1, f"Expected 1 occurrence of old string in {path}, found {count}"
+    result = dict(sources)
+    result[path] = content.replace(old, new, 1)
+    return result
+
+
+_SMOKE_001_CORRECT_SOURCES: dict[str, str] = {
+    "todo/models.py": '''from django.conf import settings
+from django.db import models
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    color = models.CharField(max_length=7)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class Task(models.Model):
+    class Priority(models.TextChoices):
+        HIGH = "HIGH", "High"
+        MEDIUM = "MEDIUM", "Medium"
+        LOW = "LOW", "Low"
+
+    class Status(models.TextChoices):
+        PENDING = "PENDING", "Pending"
+        IN_PROGRESS = "IN_PROGRESS", "In Progress"
+        COMPLETED = "COMPLETED", "Completed"
+
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING,
+    )
+    priority = models.CharField(
+        max_length=10,
+        choices=Priority.choices,
+        default=Priority.MEDIUM,
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name="tasks",
+    )
+    tags = models.ManyToManyField(Tag, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return self.title
+''',
+    "todo/serializers.py": '''from rest_framework import serializers
+
+from todo.models import Project, Tag, Task
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ["id", "name", "color"]
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ["id", "name", "description"]
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = [
+            "id",
+            "title",
+            "description",
+            "status",
+            "priority",
+            "project",
+            "tags",
+            "created_at",
+            "updated_at",
+        ]
+''',
+    "todo/views.py": '''from rest_framework import viewsets
+
+from todo.models import Project, Tag, Task
+from todo.permissions import IsOwnerOrReadOnly, IsProjectMember
+from todo.serializers import ProjectSerializer, TagSerializer, TaskSerializer
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        priority = self.request.query_params.get("priority")
+        if priority:
+            qs = qs.filter(priority=priority)
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsProjectMember]
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    permission_classes = [IsProjectMember]
+''',
+}
+
+_SMOKE_002_CORRECT_SOURCES: dict[str, str] = {
+    "todo/models.py": '''from django.conf import settings
+from django.db import models
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    color = models.CharField(max_length=7)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class TaskManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted_at__isnull=True)
+
+
+class Task(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "PENDING", "Pending"
+        IN_PROGRESS = "IN_PROGRESS", "In Progress"
+        COMPLETED = "COMPLETED", "Completed"
+
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING,
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name="tasks",
+    )
+    tags = models.ManyToManyField(Tag, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(null=True, blank=True, default=None)
+
+    all_objects = models.Manager()
+    objects = TaskManager()
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return self.title
+''',
+    "todo/views.py": '''from rest_framework import decorators, response, status, viewsets
+
+from todo.models import Project, Tag, Task
+from todo.permissions import IsOwnerOrReadOnly, IsProjectMember
+from todo.serializers import ProjectSerializer, TagSerializer, TaskSerializer
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    def perform_destroy(self, instance):
+        from django.utils import timezone
+        instance.deleted_at = timezone.now()
+        instance.save(update_fields=["deleted_at"])
+
+    @decorators.action(detail=False)
+    def deleted(self, request):
+        qs = Task.all_objects.filter(deleted_at__isnull=False)
+        page = self.paginate_queryset(qs)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(qs, many=True)
+        return response.Response(serializer.data)
+
+    @decorators.action(detail=True, methods=["post"])
+    def restore(self, request, pk=None):
+        task = Task.all_objects.get(pk=pk)
+        self.check_object_permissions(request, task)
+        task.deleted_at = None
+        task.save(update_fields=["deleted_at"])
+        return response.Response(self.get_serializer(task).data)
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsProjectMember]
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    permission_classes = [IsProjectMember]
+''',
+}
+
+_SMOKE_003_CORRECT_SOURCES: dict[str, str] = {
+    "todo/models.py": '''from django.conf import settings
+from django.db import models
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="owned_projects",
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    color = models.CharField(max_length=7)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class Task(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "PENDING", "Pending"
+        IN_PROGRESS = "IN_PROGRESS", "In Progress"
+        COMPLETED = "COMPLETED", "Completed"
+
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING,
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name="tasks",
+    )
+    tags = models.ManyToManyField(Tag, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return self.title
+''',
+    "todo/serializers.py": '''from rest_framework import serializers
+
+from todo.models import Project, Tag, Task
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ["id", "name", "color"]
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source="owner.id")
+
+    class Meta:
+        model = Project
+        fields = ["id", "name", "description", "owner"]
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = [
+            "id",
+            "title",
+            "description",
+            "status",
+            "project",
+            "tags",
+            "created_at",
+            "updated_at",
+        ]
+''',
+    "todo/permissions.py": '''from rest_framework.permissions import SAFE_METHODS, BasePermission
+
+
+class IsOwnerOrReadOnly(BasePermission):
+    def has_permission(self, request, _view):
+        return request.user and request.user.is_authenticated
+
+    def has_object_permission(self, request, _view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        return getattr(obj, "owner", None) == request.user
+
+
+class IsProjectMember(BasePermission):
+    def has_permission(self, request, _view):
+        return request.user and request.user.is_authenticated
+
+    def has_object_permission(self, request, _view, _obj):
+        if request.method in SAFE_METHODS:
+            return True
+        return request.user.is_staff
+
+
+class IsProjectOwner(BasePermission):
+    def has_permission(self, request, _view):
+        if not request.user or not request.user.is_authenticated:
+            return False
+        if request.method == "POST":
+            from todo.models import Project
+            project_id = request.data.get("project")
+            if project_id is not None:
+                try:
+                    project = Project.objects.get(pk=project_id)
+                except Project.DoesNotExist:
+                    return False
+                return project.owner == request.user
+        return True
+
+    def has_object_permission(self, request, _view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        project = getattr(obj, "project", None)
+        if project is not None:
+            return project.owner == request.user
+        return getattr(obj, "owner", None) == request.user
+''',
+    "todo/views.py": '''from rest_framework import viewsets
+
+from todo.models import Project, Tag, Task
+from todo.permissions import IsOwnerOrReadOnly, IsProjectMember, IsProjectOwner
+from todo.serializers import ProjectSerializer, TagSerializer, TaskSerializer
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsProjectOwner]
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsProjectOwner]
+
+    def perform_create(self, serializer):
+        from django.contrib.auth.models import User
+        user = self.request.user
+        if isinstance(user, User):
+            serializer.save(owner=user)
+        else:
+            serializer.save()
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    permission_classes = [IsProjectMember]
+''',
+}
+
+
+_SMOKE_V2_CORRECT_SOURCES: dict[str, dict[str, str]] = {
+    "todo-smoke-001": _SMOKE_001_CORRECT_SOURCES,
+    "todo-smoke-002": _SMOKE_002_CORRECT_SOURCES,
+    "todo-smoke-003": _SMOKE_003_CORRECT_SOURCES,
+}
+
+
+def get_correct_sources_for_scenario(scenario_id: str) -> dict[str, str]:
+    """Return a fresh copy of the correct source mapping for a Smoke V2 scenario.
+
+    Supports only the three frozen Smoke V2 scenario IDs. Returns a new
+    dictionary each call and never mutates the module-level source fixtures.
+    """
+    if scenario_id not in _SMOKE_V2_CORRECT_SOURCES:
+        raise ValueError(
+            f"Unsupported scenario_id {scenario_id!r}: only the three frozen "
+            "Smoke V2 scenario IDs are supported"
+        )
+    return dict(_SMOKE_V2_CORRECT_SOURCES[scenario_id])
+
+
+def build_todo_smoke_001_workspace(destination: Path, variant: str = "correct") -> Path:
+    _copy_baseline(destination)
+
+    if variant == "correct":
+        sources = _SMOKE_001_CORRECT_SOURCES
+    elif variant == "wrong_default":
+        sources = _apply_single_replacement(
+            dict(_SMOKE_001_CORRECT_SOURCES),
+            "todo/models.py",
+            "default=Priority.MEDIUM,",
+            "default=Priority.HIGH,",
+        )
+    elif variant == "missing_filter":
+        sources = _apply_single_replacement(
+            dict(_SMOKE_001_CORRECT_SOURCES),
+            "todo/views.py",
+            '''    def get_queryset(self):
+        qs = super().get_queryset()
+        priority = self.request.query_params.get("priority")
+        if priority:
+            qs = qs.filter(priority=priority)
+        return qs
+
+    def perform_create(self, serializer):''',
+            '''    def perform_create(self, serializer):''',
+        )
+    elif variant == "invalid_serializer_choice":
+        sources = _apply_single_replacement(
+            dict(_SMOKE_001_CORRECT_SOURCES),
+            "todo/serializers.py",
+            "class TaskSerializer(serializers.ModelSerializer):\n    class Meta:",
+            "class TaskSerializer(serializers.ModelSerializer):\n"
+            "    priority = serializers.IntegerField()\n"
+            "\n"
+            "    class Meta:",
+        )
+    else:
+        raise ValueError(f"Unknown variant for smoke-001: {variant}")
+
+    for path, content in sources.items():
+        _overwrite(destination, path, content)
+    _run_required_migration(destination)
+    return destination
+
+
+def build_todo_smoke_002_workspace(destination: Path, variant: str = "correct") -> Path:
+    _copy_baseline(destination)
+
+    if variant == "correct":
+        sources = _SMOKE_002_CORRECT_SOURCES
+    elif variant == "hard_delete":
+        sources = _apply_single_replacement(
+            dict(_SMOKE_002_CORRECT_SOURCES),
+            "todo/views.py",
+            '''    def perform_destroy(self, instance):
+        from django.utils import timezone
+        instance.deleted_at = timezone.now()
+        instance.save(update_fields=["deleted_at"])''',
+            '''    def perform_destroy(self, instance):
+        instance.delete()''',
+        )
+    elif variant == "deleted_visible_in_normal_list":
+        sources = _apply_single_replacement(
+            dict(_SMOKE_002_CORRECT_SOURCES),
+            "todo/models.py",
+            "objects = TaskManager()",
+            "objects = models.Manager()",
+        )
+    elif variant == "restore_keeps_timestamp":
+        sources = _apply_single_replacement(
+            dict(_SMOKE_002_CORRECT_SOURCES),
+            "todo/views.py",
+            "        task.deleted_at = None\n        task.save(update_fields=[\"deleted_at\"])",
+            "        task.save(update_fields=[\"deleted_at\"])",
+        )
+    else:
+        raise ValueError(f"Unknown variant for smoke-002: {variant}")
+
+    for path, content in sources.items():
+        _overwrite(destination, path, content)
+    _run_required_migration(destination)
+    return destination
+
+
+def build_todo_smoke_003_workspace(destination: Path, variant: str = "correct") -> Path:
+    _copy_baseline(destination)
+
+    if variant == "correct":
+        sources = _SMOKE_003_CORRECT_SOURCES
+    elif variant == "task_owner_authority":
+        sources = _apply_single_replacement(
+            dict(_SMOKE_003_CORRECT_SOURCES),
+            "todo/permissions.py",
+            '''    def has_object_permission(self, request, _view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        project = getattr(obj, "project", None)
+        if project is not None:
+            return project.owner == request.user
+        return getattr(obj, "owner", None) == request.user''',
+            '''    def has_object_permission(self, request, _view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        task_owner = getattr(obj, "owner", None)
+        if task_owner is not None:
+            return task_owner == request.user
+        project = getattr(obj, "project", None)
+        if project is not None:
+            return project.owner == request.user
+        return getattr(obj, "owner", None) == request.user''',
+        )
+    elif variant == "project_non_owner_write_allowed":
+        sources = _apply_single_replacement(
+            dict(_SMOKE_003_CORRECT_SOURCES),
+            "todo/views.py",
+            '''class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsProjectOwner]''',
+            '''class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = []''',
+        )
+    elif variant == "project_owner_writable":
+        sources = _apply_single_replacement(
+            dict(_SMOKE_003_CORRECT_SOURCES),
+            "todo/serializers.py",
+            "    owner = serializers.ReadOnlyField(source=\"owner.id\")\n",
+            "",
+        )
+    else:
+        raise ValueError(f"Unknown variant for smoke-003: {variant}")
+
+    for path, content in sources.items():
+        _overwrite(destination, path, content)
+    _run_required_migration(destination)
+    return destination
+
+
+def _assert_workspace_has_no_evaluator_assets(workspace: Path) -> None:
+    evaluator_root = workspace / "tests" / "evaluator_assets"
+    assert not evaluator_root.exists()
+    assert not evaluator_root.is_symlink()
+    assert not (workspace / "scenario_evaluator.py").exists()
+
+
+def _get_sources_for_variant(
+    scenario_id: str,
+    variant: str,
+) -> dict[str, str]:
+    sources_map = {
+        "todo-smoke-001": _SMOKE_001_CORRECT_SOURCES,
+        "todo-smoke-002": _SMOKE_002_CORRECT_SOURCES,
+        "todo-smoke-003": _SMOKE_003_CORRECT_SOURCES,
+    }
+    correct = dict(sources_map[scenario_id])
+
+    if variant == "correct":
+        return correct
+
+    if scenario_id == "todo-smoke-001":
+        if variant == "wrong_default":
+            return _apply_single_replacement(
+                correct, "todo/models.py", "default=Priority.MEDIUM,", "default=Priority.HIGH,"
+            )
+        elif variant == "missing_filter":
+            return _apply_single_replacement(
+                correct, "todo/views.py",
+                '''    def get_queryset(self):
+        qs = super().get_queryset()
+        priority = self.request.query_params.get("priority")
+        if priority:
+            qs = qs.filter(priority=priority)
+        return qs
+
+    def perform_create(self, serializer):''',
+                '''    def perform_create(self, serializer):''',
+            )
+        elif variant == "invalid_serializer_choice":
+            return _apply_single_replacement(
+                correct, "todo/serializers.py",
+                "class TaskSerializer(serializers.ModelSerializer):\n    class Meta:",
+                "class TaskSerializer(serializers.ModelSerializer):\n"
+                "    priority = serializers.IntegerField()\n"
+                "\n"
+                "    class Meta:",
+            )
+    elif scenario_id == "todo-smoke-002":
+        if variant == "hard_delete":
+            return _apply_single_replacement(
+                correct, "todo/views.py",
+                '''    def perform_destroy(self, instance):
+        from django.utils import timezone
+        instance.deleted_at = timezone.now()
+        instance.save(update_fields=["deleted_at"])''',
+                '''    def perform_destroy(self, instance):
+        instance.delete()''',
+            )
+        elif variant == "deleted_visible_in_normal_list":
+            return _apply_single_replacement(
+                correct, "todo/models.py", "objects = TaskManager()", "objects = models.Manager()",
+            )
+        elif variant == "restore_keeps_timestamp":
+            return _apply_single_replacement(
+                correct, "todo/views.py",
+                "        task.deleted_at = None\n        task.save(update_fields=[\"deleted_at\"])",
+                "        task.save(update_fields=[\"deleted_at\"])",
+            )
+    elif scenario_id == "todo-smoke-003":
+        if variant == "task_owner_authority":
+            return _apply_single_replacement(
+                correct, "todo/permissions.py",
+                '''    def has_object_permission(self, request, _view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        project = getattr(obj, "project", None)
+        if project is not None:
+            return project.owner == request.user
+        return getattr(obj, "owner", None) == request.user''',
+                '''    def has_object_permission(self, request, _view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        task_owner = getattr(obj, "owner", None)
+        if task_owner is not None:
+            return task_owner == request.user
+        project = getattr(obj, "project", None)
+        if project is not None:
+            return project.owner == request.user
+        return getattr(obj, "owner", None) == request.user''',
+            )
+        elif variant == "project_non_owner_write_allowed":
+            return _apply_single_replacement(
+                correct, "todo/views.py",
+                '''class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsProjectOwner]''',
+                '''class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = []''',
+            )
+        elif variant == "project_owner_writable":
+            return _apply_single_replacement(
+                correct, "todo/serializers.py",
+                "    owner = serializers.ReadOnlyField(source=\"owner.id\")\n",
+                "",
+            )
+
+    raise ValueError(f"Unknown variant for {scenario_id}: {variant}")

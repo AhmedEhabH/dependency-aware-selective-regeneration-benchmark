@@ -10,6 +10,7 @@ from benchmark.repositories.snapshot import (
     SnapshotMetadata,
     create_snapshot_metadata,
     discover_eligible_artifacts,
+    resolve_allowed_artifacts,
     stage_repository_snapshot,
     validate_snapshot,
 )
@@ -552,3 +553,110 @@ class TestStageRepositorySnapshot:
         result = stage_repository_snapshot(source, storage, "r", "v1")
         assert (result / "real_dir" / "f.py").exists()
         assert not (result / "link_dir" / "f.py").exists()
+
+
+class TestResolveAllowedArtifacts:
+    def test_exact_five_todo_paths(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        todo = snap / "todo"
+        todo.mkdir()
+        for f in ("models.py", "serializers.py", "views.py", "permissions.py", "urls.py"):
+            (todo / f).write_text("")
+        allowed = (
+            "todo/models.py",
+            "todo/serializers.py",
+            "todo/views.py",
+            "todo/permissions.py",
+            "todo/urls.py",
+        )
+        result = resolve_allowed_artifacts(snap, allowed)
+        paths = [r.path for r in result]
+        assert paths == [
+            "todo/models.py",
+            "todo/permissions.py",
+            "todo/serializers.py",
+            "todo/urls.py",
+            "todo/views.py",
+        ]
+        assert all(r.artifact_type == ArtifactType.source for r in result)
+
+    def test_absent_path_fails_closed(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        with pytest.raises(RepositoryError, match="does not exist"):
+            resolve_allowed_artifacts(snap, ("todo/missing.py",))
+
+    def test_absolute_path_rejected(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        with pytest.raises(RepositoryError, match="Absolute path"):
+            resolve_allowed_artifacts(snap, ("/etc/passwd",))
+
+    def test_path_traversal_rejected(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        with pytest.raises(RepositoryError, match="Path traversal"):
+            resolve_allowed_artifacts(snap, ("../outside/foo.py",))
+
+    def test_duplicate_paths_rejected(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        todo = snap / "todo"
+        todo.mkdir()
+        (todo / "models.py").write_text("")
+        with pytest.raises(RepositoryError, match="Duplicate path"):
+            resolve_allowed_artifacts(snap, ("todo/models.py", "todo/models.py"))
+
+    def test_directory_path_rejected(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        (snap / "subdir").mkdir()
+        with pytest.raises(RepositoryError, match="directory"):
+            resolve_allowed_artifacts(snap, ("subdir",))
+
+    def test_escapes_snapshot_root_rejected(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        (outside / "f.py").write_text("")
+        with pytest.raises(RepositoryError, match="escapes snapshot|Path traversal"):
+            resolve_allowed_artifacts(snap, ("../outside/f.py",))
+
+    def test_empty_allowed_paths_rejected(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        with pytest.raises(RepositoryError, match="non-empty"):
+            resolve_allowed_artifacts(snap, ())
+
+    def test_nonexistent_snapshot_path_rejected(self) -> None:
+        with pytest.raises(RepositoryError, match="not a directory"):
+            resolve_allowed_artifacts("/nonexistent", ("foo.py",))
+
+    def test_symlink_escape_rejected(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        (outside / "secret.py").write_text("")
+        link = snap / "evil_link"
+        try:
+            link.symlink_to(outside, target_is_directory=True)
+        except (OSError, NotImplementedError):
+            pytest.skip("symlink not supported on this platform")
+        (link / "secret.py").write_text("")
+        with pytest.raises(RepositoryError, match="escapes snapshot"):
+            resolve_allowed_artifacts(snap, ("evil_link/secret.py",))
+
+    def test_backslash_rejected(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        with pytest.raises(RepositoryError, match="Backslash"):
+            resolve_allowed_artifacts(snap, ("todo\\models.py",))
+
+    def test_windows_absolute_rejected(self, tmp_path: Path) -> None:
+        snap = tmp_path / "snap"
+        snap.mkdir()
+        with pytest.raises(RepositoryError, match="Backslash"):
+            resolve_allowed_artifacts(snap, ("C:\\windows\\f.py",))

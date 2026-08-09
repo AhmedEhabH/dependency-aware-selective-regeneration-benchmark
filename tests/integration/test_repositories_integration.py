@@ -49,9 +49,6 @@ class TestRealManifestLoading:
         loader = RepositoryLoader(Path("benchmark_data"))
         collection = loader.load_manifest()
         for version in collection.versions:
-            if version.repository_id == "todo":
-                assert version.commit_sha == "TBD"
-            else:
-                assert version.commit_sha not in ("TBD", "", "unknown"), (
-                    f"{version.repository_id} commit_sha is not resolved"
-                )
+            assert version.commit_sha not in ("TBD", "", "unknown"), (
+                f"{version.repository_id} commit_sha is not resolved"
+            )

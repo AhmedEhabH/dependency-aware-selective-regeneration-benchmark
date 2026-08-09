@@ -7,6 +7,8 @@ from benchmark.core.models import LLMResponse, TokenUsage
 
 
 class DryRunLLMBackend:
+    token_accounting_mode: str = "fixture_or_approximate"
+
     def __init__(self, fixture_dir: str | None = None) -> None:
         self._fixture_dir = Path(fixture_dir) if fixture_dir else None
 
@@ -34,3 +36,6 @@ class DryRunLLMBackend:
             token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
             finish_reason="stop",
         )
+
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return max(1, len(prompt) // 4)

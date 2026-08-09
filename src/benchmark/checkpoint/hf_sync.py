@@ -10,7 +10,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from huggingface_hub import HfApi, hf_hub_download
+from huggingface_hub import CommitOperationAdd, HfApi, hf_hub_download
 from huggingface_hub.utils import RepositoryNotFoundError
 
 from benchmark.checkpoint.checkpoint import CheckpointManager
@@ -25,6 +25,10 @@ RECOVERY_FILES: tuple[str, ...] = (
     "benchmark_summary.partial.json",
     "experiment_id.txt",
     "source_identity.json",
+    "dashboard/dashboard_summary.json",
+    "dashboard/run_matrix.csv",
+    "dashboard/strategy_summary.csv",
+    "dashboard/failure_summary.csv",
 )
 
 DRY_RUN_REPO_ID = "validkhv/placeholder-mirror"
@@ -39,6 +43,7 @@ ALLOWLIST_PREFIXES: tuple[str, ...] = (
     "checkpoint.json",
     "progress.json",
     "benchmark_summary",
+    "benchmark-results",
     "MANIFEST.json",
     "manifest.json",
     "environment_metadata.json",
@@ -48,6 +53,10 @@ ALLOWLIST_PREFIXES: tuple[str, ...] = (
     "experiment_id.txt",
     "source_identity.json",
     "COMPLETED",
+    "dashboard_summary.json",
+    "run_matrix.csv",
+    "strategy_summary.csv",
+    "failure_summary.csv",
 )
 
 DENYLIST_PATTERNS: tuple[str, ...] = (
@@ -239,6 +248,7 @@ class HfUploader:
         self._sync_state_path = runs_dir / "remote_sync.json"
         self._failure_store = SyncFailureStore(runs_dir)
         self._chunk_counter = 0
+        self._last_error = ""
 
     @property
     def sync_state_path(self) -> Path:
@@ -264,19 +274,40 @@ class HfUploader:
         self._sync_state_path.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
     def upload_recovery(self) -> bool:
-        self._write_sync_state("pending", self._layout.recovery(), "sync state initialized")
-        upload_names = list(RECOVERY_FILES) + ["remote_sync.json"]
-        for local_name in upload_names:
+        pairs: list[tuple[Path, str]] = []
+        for local_name in RECOVERY_FILES:
             local_path = self._runs_dir / local_name
             if not local_path.is_file():
                 continue
             if not _is_path_allowed(local_path, self._runs_dir):
                 logger.warning("Security filter blocked: %s", local_name)
                 continue
-            remote_path = self._remote_path(local_name)
-            if not self._upload_with_retry(local_path, remote_path):
-                return False
-        self._write_sync_state("recovery_uploaded", self._layout.recovery(), "all recovery files uploaded")
+            pairs.append((local_path, self._remote_path(local_name)))
+
+        # Write the intended successful state BEFORE the commit and include
+        # that exact file in the same recovery commit. The remote must never
+        # see a `pending` state as its final truth.
+        self._write_sync_state(
+            "recovery_uploaded",
+            self._layout.recovery(),
+            "all recovery files uploaded",
+        )
+        pairs.append((self._sync_state_path, self._remote_path("remote_sync.json")))
+
+        if not self._upload_batch_with_retry(
+            pairs,
+            self._layout.recovery(),
+            "sync recovery batch",
+        ):
+            # On commit failure overwrite the local state with a truthful
+            # failure state, preserving the actual remote path and error
+            # details; the SyncFailureStore record is retained.
+            self._write_sync_state(
+                "failed_local_safe",
+                self._layout.recovery(),
+                self._last_error or "recovery commit failed",
+            )
+            return False
         return True
 
     def upload_snapshot(self, packager: Any, first: bool = False) -> bool:
@@ -294,15 +325,19 @@ class HfUploader:
             logger.error("Snapshot ZIP creation failed: %s", exc)
             return False
 
-        remote_zip = f"{snapshot_dir}/{zip_name}"
-        if not self._upload_with_retry(local_zip, remote_zip):
-            return False
-
+        pairs: list[tuple[Path, str]] = [
+            (local_zip, f"{snapshot_dir}/{zip_name}"),
+        ]
         local_manifest = self._runs_dir / "manifest.json"
         if local_manifest.is_file():
-            remote_manifest = f"{snapshot_dir}/MANIFEST.json"
-            if not self._upload_with_retry(local_manifest, remote_manifest):
-                return False
+            pairs.append((local_manifest, f"{snapshot_dir}/MANIFEST.json"))
+
+        if not self._upload_batch_with_retry(
+            pairs,
+            snapshot_dir,
+            f"snapshot chunk-{chunk_num:04d}",
+        ):
+            return False
 
         self._write_sync_state("snapshot_uploaded", f"chunk-{chunk_num:04d}")
         return True
@@ -316,51 +351,78 @@ class HfUploader:
             logger.error("Final ZIP creation failed: %s", exc)
             return False
 
-        remote_zip = f"{self._layout.final()}/benchmark-results.zip"
-        if not self._upload_with_retry(local_zip, remote_zip):
-            return False
-
+        pairs: list[tuple[Path, str]] = [
+            (local_zip, f"{self._layout.final()}/benchmark-results.zip"),
+        ]
         local_manifest = self._runs_dir / "manifest.json"
         if local_manifest.is_file():
-            remote_manifest = f"{self._layout.final()}/MANIFEST.json"
-            if not self._upload_with_retry(local_manifest, remote_manifest):
-                return False
+            pairs.append((local_manifest, f"{self._layout.final()}/MANIFEST.json"))
+
+        if not self._upload_batch_with_retry(
+            pairs,
+            self._layout.final(),
+            "final batch",
+        ):
+            return False
 
         self._write_sync_state("final_uploaded", self._layout.final())
         return True
 
-    def _upload_with_retry(self, local_path: Path, remote_path: str) -> bool:
+    def _upload_batch_with_retry(
+        self,
+        pairs: list[tuple[Path, str]],
+        remote_dir: str,
+        commit_message: str,
+    ) -> bool:
+        """Upload a batch of files as exactly one HF commit, with bounded retry.
+
+        Returns False (after writing a SyncFailureRecord) if the commit never
+        succeeds. Never creates an empty commit.
+        """
+        if not pairs:
+            logger.warning("Refusing to create an empty HF commit for %s", remote_dir)
+            return False
+
+        operations = [
+            CommitOperationAdd(
+                path_in_repo=remote_path,
+                path_or_fileobj=str(local_path),
+            )
+            for local_path, remote_path in pairs
+        ]
         last_error = ""
         for attempt in range(self._max_retries + 1):
             try:
-                self._api.upload_file(
-                    path_or_fileobj=str(local_path),
-                    path_in_repo=remote_path,
+                self._api.create_commit(
                     repo_id=self._repo_id,
                     repo_type="dataset",
+                    operations=operations,
+                    commit_message=commit_message,
                     token=self._token,
                 )
-                logger.info("Uploaded: %s -> %s", local_path.name, remote_path)
+                for _local_path, remote_path in pairs:
+                    logger.info("Uploaded: %s", remote_path)
                 return True
             except Exception as exc:
                 last_error = str(exc)
                 logger.warning(
-                    "Upload attempt %d/%d failed for %s: %s",
-                    attempt + 1, self._max_retries + 1, local_path.name, last_error,
+                    "Commit attempt %d/%d failed for %s: %s",
+                    attempt + 1, self._max_retries + 1, remote_dir, last_error,
                 )
                 if attempt < self._max_retries:
                     delay = self._base_delay * (2 ** attempt)
                     time.sleep(delay)
 
+        self._last_error = last_error
         self._failure_store.record_failure(SyncFailureRecord(
             stage="upload",
-            remote_path=remote_path,
+            remote_path=remote_dir,
             error=last_error,
             local_checkpoint_ok=self._check_local_integrity(),
         ))
         logger.error(
-            "Upload failed after %d retries: %s -> %s",
-            self._max_retries + 1, local_path.name, remote_path,
+            "Commit failed after %d retries: %s (%d files)",
+            self._max_retries + 1, remote_dir, len(pairs),
         )
         return False
 
@@ -600,6 +662,7 @@ class HfResumeManager:
             src = recovery_dir / name
             if src.is_file():
                 dst = self._runs_dir / name
+                dst.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(str(src), str(dst))
                 activated.append(name)
 

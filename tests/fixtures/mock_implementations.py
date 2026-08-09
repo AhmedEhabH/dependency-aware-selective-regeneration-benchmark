@@ -36,6 +36,9 @@ class FakeStrategy:
 
 
 class FakeLLMBackend:
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return 5
+
     async def generate(
         self,
         prompt: str,

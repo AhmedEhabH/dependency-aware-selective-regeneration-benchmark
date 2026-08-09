@@ -51,8 +51,8 @@ def test_subprocess_pythonpath_from_arbitrary_cwd(tmp_path: Path) -> None:
     assert result.returncode == 0, (
         f"Exit code {result.returncode}.\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
     )
-    assert "Loaded 24 scenarios" in combined, (
-        f"Missing 'Loaded 24 scenarios'.\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
+    assert "Loaded 27 scenarios" in combined, (
+        f"Missing 'Loaded 27 scenarios'.\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
     )
     assert "Benchmark complete" in combined, (
         f"Missing 'Benchmark complete'.\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"

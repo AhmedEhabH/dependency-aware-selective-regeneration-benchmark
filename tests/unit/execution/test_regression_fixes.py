@@ -708,9 +708,30 @@ class TestRunnerGraphInjection:
 
     def test_selective_succeeds_with_graph_via_runner(self, tmp_path: Path) -> None:
         """selective must succeed with a graph via the runner."""
+        from benchmark.selection.dependency_scope import ArtifactDescriptor
+
         graph = DependencyGraph(nodes=("src/main.py",), edges=())
-        strategy = HybridSelectiveStrategy(graph=graph)
+        desc = ArtifactDescriptor(
+            path="src/main.py",
+            category="source",
+            description="Main entry point with feature flag",
+            provides_symbols=("feature_flag", "main_handler"),
+            typical_change_triggers=("feature changes", "entry point modifications"),
+        )
+        strategy = HybridSelectiveStrategy(graph=graph, artifact_descriptors=(desc,))
+        scenario = Scenario(
+            scenario_id="test-scenario",
+            repository="test-repo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="old",
+            requirement_after="feature flag main handler",
+            rationale="test",
+            expected_affected_artifacts=(
+                ArtifactRef(path="src/main.py", artifact_type=ArtifactType.source),
+            ),
+        )
 
         runner = _make_runner(tmp_path, strategy=strategy)
-        record = runner.run(_scenario())
+        record = runner.run(scenario)
         assert record.status == RunStatus.succeeded

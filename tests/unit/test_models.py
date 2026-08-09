@@ -13,6 +13,7 @@ from benchmark.core.models import (
     ImpactPrediction,
     MetricValue,
     ProvenanceEvent,
+    RegenerationScenarioContext,
     RequirementChange,
     RunIdentity,
     RunRecord,
@@ -317,3 +318,102 @@ class TestAnalysisReport:
         assert report.title == "Test Report"
         assert report.metrics[0].name == "acc"
         assert report.metrics[0].value == 0.95
+
+
+class TestRegenerationScenarioContext:
+    """R7C-REAL-RUN-ROOT-CLOSURE: frozen scenario scope contract."""
+
+    @staticmethod
+    def _context() -> RegenerationScenarioContext:
+        return RegenerationScenarioContext(
+            scenario_id="todo-smoke-001",
+            requirement_before="old requirement",
+            requirement_after="new requirement",
+            acceptance_criteria=("app runs", "migration applies"),
+            architecture_constraints=("single Django app 'todo'",),
+            expected_actions=(
+                ("todo/models.py", "modify"),
+                ("todo/migrations/", "create"),
+            ),
+            artifact_instructions=(
+                ("todo/models.py", "add Task.Priority and priority field"),
+                ("todo/migrations/", "create exactly one migration"),
+            ),
+        )
+
+    def test_frozen(self) -> None:
+        ctx = self._context()
+        with pytest.raises(AttributeError):
+            ctx.scenario_id = "other"  # type: ignore[misc]
+
+    def test_expected_action_for_exact_match(self) -> None:
+        ctx = self._context()
+        assert ctx.expected_action_for("todo/models.py") == "modify"
+
+    def test_expected_action_for_directory_prefix_create(self) -> None:
+        ctx = self._context()
+        assert ctx.expected_action_for("todo/migrations/0002_auto.py") == "create"
+
+    def test_expected_action_for_unlisted_is_preserve(self) -> None:
+        ctx = self._context()
+        assert ctx.expected_action_for("todo/views.py") == "preserve"
+        assert ctx.expected_action_for("manage.py") == "preserve"
+
+    def test_instruction_for_exact_and_directory_match(self) -> None:
+        ctx = self._context()
+        assert ctx.instruction_for("todo/models.py") == (
+            "add Task.Priority and priority field"
+        )
+        assert ctx.instruction_for("todo/migrations/0004_task_priority.py") == (
+            "create exactly one migration"
+        )
+
+    def test_instruction_for_preserve_path_requires_byte_identity(self) -> None:
+        ctx = self._context()
+        instruction = ctx.instruction_for("todo/permissions.py")
+        assert "No scenario change is required" in instruction
+        assert "byte-identically" in instruction
+
+    def test_empty_scenario_id_raises(self) -> None:
+        with pytest.raises(ValueError, match="scenario_id"):
+            RegenerationScenarioContext(scenario_id="", requirement_before="a", requirement_after="b")
+
+    def test_empty_requirement_raises(self) -> None:
+        with pytest.raises(ValueError, match="requirement_before"):
+            RegenerationScenarioContext(scenario_id="s", requirement_before="", requirement_after="b")
+        with pytest.raises(ValueError, match="requirement_after"):
+            RegenerationScenarioContext(scenario_id="s", requirement_before="a", requirement_after="")
+
+    def test_invalid_expected_action_raises(self) -> None:
+        with pytest.raises(ValueError, match="expected action"):
+            RegenerationScenarioContext(
+                scenario_id="s",
+                requirement_before="a",
+                requirement_after="b",
+                expected_actions=(("x.py", "delete"),),
+            )
+
+    def test_duplicate_expected_path_raises(self) -> None:
+        with pytest.raises(ValueError, match="Duplicate"):
+            RegenerationScenarioContext(
+                scenario_id="s",
+                requirement_before="a",
+                requirement_after="b",
+                expected_actions=(("x.py", "modify"), ("x.py", "modify")),
+            )
+
+    def test_invalid_and_duplicate_artifact_instructions_raise(self) -> None:
+        with pytest.raises(ValueError, match="instruction must not be empty"):
+            RegenerationScenarioContext(
+                scenario_id="s",
+                requirement_before="a",
+                requirement_after="b",
+                artifact_instructions=(("x.py", "  "),),
+            )
+        with pytest.raises(ValueError, match="Duplicate artifact instruction"):
+            RegenerationScenarioContext(
+                scenario_id="s",
+                requirement_before="a",
+                requirement_after="b",
+                artifact_instructions=(("x.py", "first"), ("x.py", "second")),
+            )

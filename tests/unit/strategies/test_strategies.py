@@ -2,6 +2,7 @@ from benchmark.core.enums import ActionKind, ArtifactType
 from benchmark.core.models import (
     ArtifactRef,
     ArtifactUniverse,
+    DependencyGraph,
     RepositoryIdentity,
     RepositorySnapshot,
     RequirementChange,
@@ -103,20 +104,42 @@ class TestTraceabilityOnlyStrategy:
 
 
 class TestHybridSelectiveStrategy:
-    def test_multi_signal_agreement_regenerates(self) -> None:
-        from benchmark.core.models import DependencyGraph
-        graph = DependencyGraph(
-            nodes=("src/models.py", "src/views.py"),
-            edges=(("src/models.py", "src/views.py"),),
+    def test_symbol_match_regenerates(self) -> None:
+        from benchmark.selection.dependency_scope import ArtifactDescriptor
+        desc = ArtifactDescriptor(
+            path="src/models.py",
+            category="model",
+            description="User and product models",
+            provides_symbols=("User", "Product", "model_flag"),
+            typical_change_triggers=("schema changes", "field modifications"),
         )
-        coverage = {"test_all": ["src/models.py"]}
-        strategy = HybridSelectiveStrategy(graph=graph, coverage_map=coverage, semantic_threshold=0.01)
+        strategy = HybridSelectiveStrategy(
+            graph=DependencyGraph(nodes=("src/models.py",), edges=()),
+            artifact_descriptors=(desc,),
+        )
+        change = RequirementChange(before="old", after="new behavior with Product model")
+        pred = strategy.analyze_impact(_make_snapshot(), change, _make_universe())
+        assert len(pred.decisions) == 3
+        model_decision = [d for d in pred.decisions if d.artifact.path == "src/models.py"][0]
+        assert model_decision.action == ActionKind.regenerate
+
+    def test_no_descriptor_match_preserves_all(self) -> None:
+        strategy = HybridSelectiveStrategy(
+            graph=DependencyGraph(nodes=("src/models.py",), edges=()),
+            artifact_descriptors=(),
+        )
         pred = strategy.analyze_impact(_make_snapshot(), _make_change(), _make_universe())
         assert len(pred.decisions) == 3
+        assert all(d.action == ActionKind.preserve for d in pred.decisions)
+        assert pred.errors
 
-    def test_no_signals_preserves(self) -> None:
-        strategy = HybridSelectiveStrategy(semantic_threshold=0.99)
+    def test_no_seed_returns_error(self) -> None:
+        strategy = HybridSelectiveStrategy(
+            graph=DependencyGraph(nodes=(), edges=()),
+            artifact_descriptors=(),
+        )
         pred = strategy.analyze_impact(_make_snapshot(), _make_change(), _make_universe())
+        assert pred.errors
         assert all(d.action == ActionKind.preserve for d in pred.decisions)
 
 
@@ -200,3 +223,58 @@ class TestStrategyRegistry:
         assert not registry.is_frozen
         registry.freeze()
         assert registry.is_frozen
+
+
+class TestIterativeAgentDeadline:
+    def test_agent_selection_deadline_stops_after_first_call(self, tmp_path) -> None:
+        import asyncio
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+        from benchmark.strategies.iterative_agent import IterativeRepositoryAgentStrategy
+
+        call_count = 0
+        guard_state: list[int] = [0]
+
+        class _ExpiryBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal call_count
+                call_count += 1
+                return LLMResponse(
+                    text=(
+                        '{"action": "final", "selected_paths": ["src/models.py"],'
+                        ' "requires_iteration": false}'
+                    ),
+                    token_usage=TokenUsage(prompt_tokens=40, completion_tokens=10, total_tokens=50),
+                    finish_reason="stop",
+                )
+
+            def count_prompt_tokens(self, prompt) -> int:
+                return 40
+
+        def guard() -> bool:
+            guard_state[0] += 1
+            return guard_state[0] <= 1
+
+        strategy = IterativeRepositoryAgentStrategy(_ExpiryBackend())
+        strategy.begin_run(tmp_path)
+        strategy.set_model_call_guard(guard)
+        try:
+            existing_loop = asyncio.get_event_loop()
+        except RuntimeError:
+            existing_loop = None
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            pred = strategy.analyze_impact(_make_snapshot(), _make_change(), _make_universe())
+        finally:
+            loop.close()
+            if existing_loop is not None:
+                asyncio.set_event_loop(existing_loop)
+            else:
+                asyncio.set_event_loop(None)
+
+        assert call_count == 1
+        assert strategy.model_call_budget_exhausted is True
+        assert strategy.model_call_count == 1
+        assert strategy.total_tokens == 50
+        assert pred.token_usage.total_tokens == 50

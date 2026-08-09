@@ -187,6 +187,48 @@ def stage_repository_snapshot(
     return destination
 
 
+def resolve_allowed_artifacts(
+    snapshot_path: str | Path,
+    allowed_paths: tuple[str, ...],
+) -> tuple[ArtifactRef, ...]:
+    root = Path(snapshot_path)
+    if not root.is_dir():
+        raise RepositoryError(f"Snapshot path is not a directory: {snapshot_path}")
+
+    if not allowed_paths:
+        raise RepositoryError("allowed_paths must be non-empty for scientific regeneration")
+
+    seen: set[str] = set()
+    result: list[ArtifactRef] = []
+
+    for path_str in allowed_paths:
+        if "\\" in path_str:
+            raise RepositoryError(f"Backslash rejected (use POSIX form): {path_str}")
+        if path_str.startswith("/"):
+            raise RepositoryError(f"Absolute path rejected: {path_str}")
+        if ".." in path_str.split("/"):
+            raise RepositoryError(f"Path traversal rejected: {path_str}")
+        if path_str in seen:
+            raise RepositoryError(f"Duplicate path: {path_str}")
+        seen.add(path_str)
+
+        posix_form = path_str.replace("\\", "/")
+        resolved = (root / posix_form).resolve()
+        if not resolved.exists():
+            raise RepositoryError(f"Path does not exist: {path_str}")
+        if resolved.is_dir():
+            raise RepositoryError(f"Path is a directory (must be a file): {path_str}")
+        try:
+            resolved.relative_to(root.resolve())
+        except ValueError:
+            raise RepositoryError(f"Path escapes snapshot root: {path_str}") from None
+
+        result.append(ArtifactRef(path=posix_form, artifact_type=ArtifactType.source))
+
+    result.sort(key=lambda r: r.path)
+    return tuple(result)
+
+
 def discover_eligible_artifacts(
     snapshot_path: str | Path,
     extensions: tuple[str, ...] = (".py",),

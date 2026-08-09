@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import json
 import logging
 from datetime import UTC, datetime
@@ -399,6 +400,283 @@ def _compute_duration_totals(
     }
 
 
+# ---------------------------------------------------------------------------
+# Deterministic dashboard artifacts (R7B-SMOKE-FINISH)
+#
+# Four files written after each terminal Run and at final rebuild:
+#   dashboard/dashboard_summary.json
+#   dashboard/run_matrix.csv
+#   dashboard/strategy_summary.csv
+#   dashboard/failure_summary.csv
+#
+# All row ordering is deterministic and no timestamp appears in the
+# deterministic comparison fields.
+# ---------------------------------------------------------------------------
+
+DASHBOARD_DIR_NAME = "dashboard"
+
+RUN_MATRIX_COLUMNS = (
+    "run_id",
+    "scenario_id",
+    "strategy_name",
+    "repetition",
+    "status",
+    "failure_classification",
+    "model_calls",
+    "prompt_tokens",
+    "completion_tokens",
+    "total_tokens",
+    "total_workflow_tokens",
+    "total_workflow_model_calls",
+    "duration_seconds",
+    "selected_artifact_count",
+    "regenerated_artifact_count",
+    "preserved_artifact_count",
+    "migration_generation_passed",
+    "baseline_validation_passed",
+    "scenario_evaluator_passed",
+)
+
+STRATEGY_SUMMARY_COLUMNS = (
+    "strategy_name",
+    "planned",
+    "succeeded",
+    "failed",
+    "model_calls",
+    "prompt_tokens",
+    "completion_tokens",
+    "total_tokens",
+    "duration_seconds",
+    "selected_artifact_count",
+    "regenerated_artifact_count",
+    "preserved_artifact_count",
+    "migration_passed",
+    "baseline_passed",
+    "evaluator_passed",
+)
+
+FAILURE_SUMMARY_COLUMNS = (
+    "failure_classification",
+    "count",
+    "run_ids",
+    "top_messages",
+)
+
+
+def _parse_plan_run_id(run_id: str, strategy_names: list[str]) -> tuple[str, str, int] | None:
+    """Recover scenario/strategy/repetition from a canonical planned run id."""
+    for sname in strategy_names:
+        marker = f"_{sname}_rep"
+        if marker in run_id:
+            scenario = run_id.split(marker)[0]
+            tail = run_id.split(marker, 1)[1]
+            rep_str = tail.split("_", 1)[0]
+            try:
+                rep = int(rep_str)
+            except ValueError:
+                rep = 0
+            return scenario, sname, rep
+    return None
+
+
+def _bool_to_str(value: bool | None) -> str:
+    if value is None:
+        return ""
+    return "true" if value else "false"
+
+
+def _build_run_matrix_rows(cp: CheckpointData, records: list[RunRecordData]) -> list[dict[str, Any]]:
+    """Exact one-row-per-planned-run matrix (3x3 for Smoke), deterministic order."""
+    by_run_id = {r.run_id: r for r in records}
+    rows: list[dict[str, Any]] = []
+    for run_id in sorted(cp.planned_run_ids):
+        parsed = _parse_plan_run_id(run_id, cp.strategy_names)
+        base = {
+            "run_id": run_id,
+            "scenario_id": parsed[0] if parsed else "",
+            "strategy_name": parsed[1] if parsed else "",
+            "repetition": parsed[2] if parsed else 0,
+        }
+        rec = by_run_id.get(run_id)
+        if rec is None:
+            rows.append({
+                **base,
+                "status": "pending",
+                "failure_classification": "",
+                "model_calls": 0,
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "total_tokens": 0,
+                "total_workflow_tokens": 0,
+                "total_workflow_model_calls": 0,
+                "duration_seconds": 0.0,
+                "selected_artifact_count": 0,
+                "regenerated_artifact_count": 0,
+                "preserved_artifact_count": 0,
+                "migration_generation_passed": "",
+                "baseline_validation_passed": "",
+                "scenario_evaluator_passed": "",
+            })
+            continue
+        token_usage = rec.token_usage
+        rows.append({
+            **base,
+            "status": rec.status,
+            "failure_classification": rec.failure_classification,
+            "model_calls": rec.model_calls,
+            "prompt_tokens": token_usage.get("prompt", 0),
+            "completion_tokens": token_usage.get("completion", 0),
+            "total_tokens": token_usage.get("total", 0),
+            "total_workflow_tokens": rec.total_workflow_tokens,
+            "total_workflow_model_calls": rec.total_workflow_model_calls,
+            "duration_seconds": rec.duration_seconds,
+            "selected_artifact_count": rec.selected_artifact_count,
+            "regenerated_artifact_count": rec.regenerated_artifact_count,
+            "preserved_artifact_count": rec.preserved_artifact_count,
+            "migration_generation_passed": _bool_to_str(rec.migration_generation_passed),
+            "baseline_validation_passed": _bool_to_str(rec.baseline_validation_passed),
+            "scenario_evaluator_passed": _bool_to_str(rec.scenario_evaluator_passed),
+        })
+    return rows
+
+
+def _build_strategy_summary_rows(
+    cp: CheckpointData, records: list[RunRecordData]
+) -> list[dict[str, Any]]:
+    """Per-strategy aggregate summary, deterministic order by strategy name."""
+    planned_counts: dict[str, int] = {}
+    for run_id in cp.planned_run_ids:
+        parsed = _parse_plan_run_id(run_id, cp.strategy_names)
+        if parsed is not None:
+            planned_counts[parsed[1]] = planned_counts.get(parsed[1], 0) + 1
+
+    planned_set = set(cp.planned_run_ids)
+    rows: list[dict[str, Any]] = []
+    for sname in sorted(cp.strategy_names):
+        recs = [r for r in records if r.strategy_id == sname and r.run_id in planned_set]
+        rows.append({
+            "strategy_name": sname,
+            "planned": planned_counts.get(sname, 0),
+            "succeeded": sum(1 for r in recs if r.status == "succeeded"),
+            "failed": sum(1 for r in recs if r.status in ("failed", "timed_out", "cancelled")),
+            "model_calls": sum(r.model_calls for r in recs),
+            "prompt_tokens": sum(r.token_usage.get("prompt", 0) for r in recs),
+            "completion_tokens": sum(r.token_usage.get("completion", 0) for r in recs),
+            "total_tokens": sum(r.token_usage.get("total", 0) for r in recs),
+            "duration_seconds": round(sum(r.duration_seconds for r in recs), 6),
+            "selected_artifact_count": sum(r.selected_artifact_count for r in recs),
+            "regenerated_artifact_count": sum(r.regenerated_artifact_count for r in recs),
+            "preserved_artifact_count": sum(r.preserved_artifact_count for r in recs),
+            "migration_passed": sum(1 for r in recs if r.migration_generation_passed is True),
+            "baseline_passed": sum(1 for r in recs if r.baseline_validation_passed is True),
+            "evaluator_passed": sum(1 for r in recs if r.scenario_evaluator_passed is True),
+        })
+    return rows
+
+
+def _build_failure_summary_rows(
+    records: list[RunRecordData], planned_set: set[str]
+) -> list[dict[str, Any]]:
+    """Failure summary grouped by primary classification, deterministic order."""
+    by_class: dict[str, dict[str, Any]] = {}
+    for rec in records:
+        if rec.run_id not in planned_set:
+            continue
+        if rec.status not in ("failed", "timed_out", "cancelled"):
+            continue
+        classification = rec.failure_classification or "unknown"
+        entry = by_class.setdefault(classification, {"count": 0, "run_ids": [], "messages": {}})
+        entry["count"] += 1
+        entry["run_ids"].append(rec.run_id)
+        for fd in rec.failure_details:
+            message = str(fd.get("message", "")).strip()
+            if message:
+                entry["messages"][message] = entry["messages"].get(message, 0) + 1
+
+    rows: list[dict[str, Any]] = []
+    for classification in sorted(by_class):
+        entry = by_class[classification]
+        top_messages = sorted(entry["messages"].items(), key=lambda kv: (-kv[1], kv[0]))[:3]
+        rows.append({
+            "failure_classification": classification,
+            "count": entry["count"],
+            "run_ids": ",".join(sorted(entry["run_ids"])),
+            "top_messages": " | ".join(f"{m} (x{c})" for m, c in top_messages),
+        })
+    return rows
+
+
+def _build_dashboard_summary(
+    cp: CheckpointData,
+    records: list[RunRecordData],
+    matrix_rows: list[dict[str, Any]],
+    strategy_rows: list[dict[str, Any]],
+    failure_rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """KPI summary with no timestamp in deterministic fields."""
+    planned_set = set(cp.planned_run_ids)
+    completed = [r for r in records if r.run_id in planned_set]
+    return {
+        "total_planned": len(cp.planned_run_ids),
+        "total_completed": len(cp.completed_run_ids),
+        "total_succeeded": sum(1 for r in completed if r.status == "succeeded"),
+        "total_failed": sum(1 for r in completed if r.status in ("failed", "timed_out", "cancelled")),
+        "total_pending": len(cp.pending_run_ids),
+        "total_model_calls": sum(r.model_calls for r in completed),
+        "total_prompt_tokens": sum(r.token_usage.get("prompt", 0) for r in completed),
+        "total_completion_tokens": sum(r.token_usage.get("completion", 0) for r in completed),
+        "total_tokens": sum(r.token_usage.get("total", 0) for r in completed),
+        "total_duration_seconds": round(sum(r.duration_seconds for r in completed), 6),
+        "matrix_row_count": len(matrix_rows),
+        "strategy_row_count": len(strategy_rows),
+        "failure_row_count": len(failure_rows),
+    }
+
+
+def _write_dashboard_files(
+    runs_dir: Path,
+    cp: CheckpointData,
+    records: list[RunRecordData],
+) -> dict[str, Any]:
+    """Write the four deterministic dashboard artifacts under runs_dir/dashboard."""
+    matrix_rows = _build_run_matrix_rows(cp, records)
+    strategy_rows = _build_strategy_summary_rows(cp, records)
+    planned_set = set(cp.planned_run_ids)
+    failure_rows = _build_failure_summary_rows(records, planned_set)
+    summary = _build_dashboard_summary(cp, records, matrix_rows, strategy_rows, failure_rows)
+
+    dashboard_dir = runs_dir / DASHBOARD_DIR_NAME
+    dashboard_dir.mkdir(parents=True, exist_ok=True)
+
+    (dashboard_dir / "dashboard_summary.json").write_text(
+        json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    with (dashboard_dir / "run_matrix.csv").open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=RUN_MATRIX_COLUMNS)
+        writer.writeheader()
+        for row in matrix_rows:
+            writer.writerow(row)
+    with (dashboard_dir / "strategy_summary.csv").open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=STRATEGY_SUMMARY_COLUMNS)
+        writer.writeheader()
+        for row in strategy_rows:
+            writer.writerow(row)
+    with (dashboard_dir / "failure_summary.csv").open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=FAILURE_SUMMARY_COLUMNS)
+        writer.writeheader()
+        for row in failure_rows:
+            writer.writerow(row)
+
+    return summary
+
+
+def write_dashboard_artifacts(runs_dir: Path) -> dict[str, Any]:
+    """Rebuild the deterministic dashboard artifacts from persisted evidence."""
+    cp = _load_checkpoint(runs_dir)
+    records = _load_all_records(runs_dir)
+    return _write_dashboard_files(runs_dir, cp, records)
+
+
 def rebuild_experiment_reports(
     runs_dir: Path,
     *,
@@ -465,6 +743,9 @@ def rebuild_experiment_reports(
     )
     smoke_path = runs_dir / "smoke_progress_summary.json"
     smoke_path.write_text(json.dumps(smoke_summary, indent=2), encoding="utf-8")
+
+    # --- Write deterministic dashboard artifacts (R7B-SMOKE-FINISH) ---------
+    _write_dashboard_files(runs_dir, cp, records)
 
     # --- Write progress.json ---
     is_completed = cp.completion_status == "completed"
