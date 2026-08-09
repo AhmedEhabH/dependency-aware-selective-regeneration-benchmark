@@ -16,6 +16,92 @@ from benchmark.repositories.manifest import (
 )
 
 
+def _normalize_artifact_catalog(raw: Any) -> tuple[dict[str, Any], ...]:
+    """Convert any supported ``artifact_catalog`` shape to canonical descriptors.
+
+    Canonical entries are descriptor dictionaries carrying an ``id`` that is a
+    repository-relative artifact path. Directory entries keep a trailing ``/``
+    id and are expanded to concrete files by ``descriptors_from_profile``.
+
+    Supported input shapes:
+      - list/tuple of descriptor dicts with ``id`` (todo, canonical);
+      - list/tuple of descriptor dicts with ``path`` (explicit file lists);
+      - list/tuple of path strings;
+      - mapping (django CMS shorthand and Saleor category mapping).
+
+    Preserves the todo behavior exactly: its canonical list passes through
+    unchanged. No Ground Truth enters here; the catalog is profile data only.
+    """
+    if isinstance(raw, dict):
+        result: list[dict[str, Any]] = []
+        for key, value in raw.items():
+            if isinstance(value, str):
+                result.append({"id": str(key), "description": value})
+            elif isinstance(value, list):
+                if all(isinstance(item, dict) for item in value):
+                    for item in value:
+                        item_path = item.get("path", "")
+                        if not isinstance(item_path, str) or not item_path:
+                            raise RepositoryError(
+                                f"artifact_catalog mapping {key!r} has an entry "
+                                f"without a valid 'path': {item!r}"
+                            )
+                        result.append({
+                            "id": item_path,
+                            "category": str(key),
+                            "description": str(item.get("description", "")),
+                        })
+                else:
+                    for item in value:
+                        if isinstance(item, dict):
+                            for name, desc in item.items():
+                                result.append({
+                                    "id": f"{key}{name}",
+                                    "description": str(desc),
+                                })
+                        elif isinstance(item, str):
+                            name, _, desc = item.partition(":")
+                            result.append({
+                                "id": f"{key}{name.strip()}",
+                                "description": desc.strip(),
+                            })
+                        else:
+                            raise RepositoryError(
+                                f"artifact_catalog mapping {key!r} has an "
+                                f"unsupported entry: {item!r}"
+                            )
+            else:
+                raise RepositoryError(
+                    f"artifact_catalog mapping {key!r} has an unsupported value "
+                    f"of type {type(value).__name__}"
+                )
+        return tuple(result)
+
+    if isinstance(raw, (list, tuple)):
+        result = []
+        for entry in raw:
+            if isinstance(entry, dict):
+                item = dict(entry)
+                if "path" in item and "id" not in item:
+                    item["id"] = item.pop("path")
+                if not isinstance(item.get("id"), str) or not item.get("id"):
+                    raise RepositoryError(
+                        f"artifact_catalog entry has no valid 'id': {entry!r}"
+                    )
+                result.append(item)
+            elif isinstance(entry, str):
+                result.append({"id": entry})
+            else:
+                raise RepositoryError(
+                    f"artifact_catalog has an unsupported entry: {entry!r}"
+                )
+        return tuple(result)
+
+    raise RepositoryError(
+        f"artifact_catalog must be a mapping or a sequence, got {type(raw).__name__}"
+    )
+
+
 class RepositoryLoader(RepositoryLoaderBase):
     def __init__(self, base_path: str | Path) -> None:
         self._base_path = Path(base_path)
@@ -149,7 +235,7 @@ class RepositoryLoader(RepositoryLoaderBase):
                         protocol_version=raw_profile.get("protocol_version", ""),
                         overview=overview_str,
                         architecture=raw_profile.get("architecture", {}),
-                        artifact_catalog=tuple(raw_profile.get("artifact_catalog", [])),
+                        artifact_catalog=_normalize_artifact_catalog(raw_profile.get("artifact_catalog", [])),
                         module_boundaries=tuple(raw_profile.get("module_boundaries", [])),
                         test_suite_description=test_suite_str,
                         architecture_boundaries=tuple(raw_profile.get("architecture_boundaries", [])),

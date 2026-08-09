@@ -9,7 +9,7 @@ Supports dry-run (mock backend) and three execution profiles:
     Default profile for Kaggle orchestration validation.
 
   pilot (protocol pilot):
-    3 repos x 4 scenarios x 2 strategies (agent, selective) x 2 repetitions.
+    3 repos x 4 scenarios x 2 strategies (iterative_repository_agent, selective) x 2 repetitions.
     Descriptive only; not for publication.
 
   research (protocol research):
@@ -236,6 +236,14 @@ def _to_run_record_data(
 
 REPO_IDS = ["todo", "djangocms", "saleor"]
 
+# Frozen protocol: which strategies enter the repository-level full-evolution
+# (regeneration) path. 'agent' is a single-shot baseline and is intentionally
+# NOT in this set; the Pilot repository_agent baseline is
+# 'iterative_repository_agent' (see 01_FROZEN_PROTOCOL_AND_DECISIONS.md).
+REGENERATION_APPROVED_STRATEGIES = frozenset({
+    "monolithic", "selective", "iterative_repository_agent",
+})
+
 
 @dataclass
 class ExecutionProfile:
@@ -266,12 +274,19 @@ PROFILES: dict[str, ExecutionProfile] = {
         name="pilot",
         label="protocol-pilot",
         scenario_count=12,
-        strategies=["agent", "selective"],
+        strategies=["iterative_repository_agent", "selective"],
         repetitions=2,
         is_publication=False,
         description="3 repos x 4 scenarios x 2 strategies x 2 reps, descriptive only",
         repository_names=["todo", "djangocms", "saleor"],
-        blast_radii=["localized", "moderate"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=[
+            "todo-loc-001", "todo-loc-002", "todo-mod-004", "todo-cross-007",
+            "djangocms-mod-005", "djangocms-loc-002", "djangocms-mod-004",
+            "djangocms-cross-007", "saleor-loc-001", "saleor-loc-002",
+            "saleor-mod-004", "saleor-cross-007",
+        ],
+        timeout_seconds=600,
     ),
     "research": ExecutionProfile(
         name="research",
@@ -506,6 +521,9 @@ def make_isolation(  # type: ignore[no-untyped-def]
 def build_dependency_graph(data_dir: Path, scenarios: list) -> object:  # type: ignore[no-untyped-def]
     """Build a DependencyGraph from the repo profile for the given scenarios.
 
+    The function is explicitly single-repository: scenarios that span more
+    than one repository fail closed instead of silently using the first one.
+
     Priority:
       1. Profile-based graph with real dependency edges.
       2. Profile-based edgeless graph (nodes from architecture data only).
@@ -516,13 +534,15 @@ def build_dependency_graph(data_dir: Path, scenarios: list) -> object:  # type: 
     from benchmark.core.models import DependencyGraph
     from benchmark.graph.builder import ProfileGraphBuilder
 
-    repo_id = None
-    for s in scenarios:
-        if repo_id is None:
-            repo_id = s.repository
-
-    if not repo_id:
+    repo_ids = {s.repository for s in scenarios}
+    if len(repo_ids) > 1:
+        raise ValueError(
+            "build_dependency_graph requires a single repository, got "
+            f"{sorted(repo_ids)}"
+        )
+    if not repo_ids:
         return None
+    repo_id = next(iter(repo_ids))
 
     builder = ProfileGraphBuilder()
 
@@ -550,6 +570,12 @@ def build_dependency_graph(data_dir: Path, scenarios: list) -> object:  # type: 
                 if arch:
                     node_graph = builder.build_nodes_from_architecture(arch)
                     if node_graph is not None:
+                        from dataclasses import replace
+
+                        node_graph = replace(
+                            node_graph,
+                            metadata=dict(node_graph.metadata, repo_id=repo_id),
+                        )
                         logger.info(
                             "Architecture node graph for repo=%s  nodes=%d  edges=0",
                             repo_id, len(node_graph.nodes),
@@ -580,6 +606,22 @@ def build_dependency_graph(data_dir: Path, scenarios: list) -> object:  # type: 
         repo_id,
     )
     return neutral
+
+
+def build_repository_dependency_graphs(data_dir: Path, scenarios: list) -> dict:
+    """Build one DependencyGraph per repository across the given scenarios.
+
+    Each repository gets its own graph built from that repository's own
+    scenarios/profile. Repository-specific impact inputs must never come from
+    another repository. Returns a dict keyed by repository id.
+    """
+    scenarios_by_repo: dict[str, list] = {}
+    for s in scenarios:
+        scenarios_by_repo.setdefault(s.repository, []).append(s)
+    graphs: dict[str, object] = {}
+    for repo_id, repo_scenarios in sorted(scenarios_by_repo.items()):
+        graphs[repo_id] = build_dependency_graph(data_dir, repo_scenarios)
+    return graphs
 
 
 def run_arm(
@@ -624,10 +666,7 @@ def run_arm(
 
     isolation = make_isolation(isolation_workspace)
 
-    _approved_regen_strategies = frozenset({
-        "monolithic", "selective", "iterative_repository_agent",
-    })
-    enable_regen = not dry_run and strategy_name in _approved_regen_strategies
+    enable_regen = not dry_run and strategy_name in REGENERATION_APPROVED_STRATEGIES
 
     if max_total_workflow_tokens > 0 and max_tokens > 0 and max_total_workflow_tokens != max_tokens:
         raise ValueError(
@@ -1291,10 +1330,7 @@ def _run_single_scenario_strategy(
         snapshot_storage_root=snapshot_storage_root,
     )
 
-    _approved_regen_strategies = frozenset({
-        "monolithic", "selective", "iterative_repository_agent",
-    })
-    enable_regen = not dry_run and strategy_name in _approved_regen_strategies
+    enable_regen = not dry_run and strategy_name in REGENERATION_APPROVED_STRATEGIES
 
     if max_total_workflow_tokens > 0 and max_tokens > 0 and max_total_workflow_tokens != max_tokens:
         raise ValueError(
@@ -2035,10 +2071,7 @@ def main() -> int:
             # CLI override applies to all repos
             cmd = shlex.split(args.validation_command)
             for sn in strategy_names:
-                _approved_regen = frozenset({
-                    "monolithic", "selective", "iterative_repository_agent",
-                })
-                if sn in _approved_regen:
+                if sn in REGENERATION_APPROVED_STRATEGIES:
                     _validation_commands[sn] = cmd
         elif _manifest_collection is not None:
             for scenario in selected_scenarios:
@@ -2074,7 +2107,11 @@ def main() -> int:
                 )
                 return 1
             version = _manifest_collection.get_version(repo_id)
-            revision = version.commit_sha[:12] if version and version.commit_sha and version.commit_sha != "TBD" else "main"
+            revision = (
+                version.commit_sha[:12]
+                if version and version.commit_sha and version.commit_sha != "TBD"
+                else "main"
+            )
             try:
                 staged = stage_repository_snapshot(
                     source_root=source_root,
@@ -2093,8 +2130,9 @@ def main() -> int:
     # ---- Resolve llm_editable paths per repository from profile ----------------
     _editable_paths: dict[str, tuple[str, ...]] = {}
     if not args.dry_run and _manifest_collection is not None and selected_scenarios:
-        _approved_regen = frozenset({"monolithic", "selective", "iterative_repository_agent"})
-        uses_regen = any(sn in _approved_regen for sn in strategy_names)
+        from benchmark.repositories.snapshot import expand_editable_paths
+
+        uses_regen = any(sn in REGENERATION_APPROVED_STRATEGIES for sn in strategy_names)
         repo_ids_for_scenarios = set(s.repository for s in selected_scenarios)
 
         for repo_id in repo_ids_for_scenarios:
@@ -2102,23 +2140,43 @@ def main() -> int:
             au_ok = False
             if profile_obj is not None:
                 au = profile_obj.artifact_universe
-                if isinstance(au, dict):
-                    paths = au.get("llm_editable")
-                    if isinstance(paths, list) and len(paths) > 0:
-                        if all(isinstance(p, str) and len(p) > 0 for p in paths):
-                            _editable_paths[repo_id] = tuple(str(p) for p in paths)
+                paths = au.get("llm_editable") if isinstance(au, dict) else None
+                if (
+                    isinstance(paths, list)
+                    and len(paths) > 0
+                    and all(isinstance(p, str) and len(p) > 0 for p in paths)
+                ):
+                    snapshot_root = _active_snapshot_roots.get(repo_id)
+                    if snapshot_root is None:
+                        logger.error(
+                            "Repository '%s' has no staged active snapshot "
+                            "to resolve its editable policy against.",
+                            repo_id,
+                        )
+                    else:
+                        try:
+                            _editable_paths[repo_id] = expand_editable_paths(
+                                snapshot_root,
+                                tuple(str(p) for p in paths),
+                            )
                             logger.info(
-                                "Editable paths for repo=%s: %s",
-                                repo_id, _editable_paths[repo_id],
+                                "Editable paths for repo=%s: %d concrete files",
+                                repo_id, len(_editable_paths[repo_id]),
                             )
                             au_ok = True
+                        except Exception as exc:
+                            logger.error(
+                                "Failed to resolve editable policy for "
+                                "repo=%s: %s",
+                                repo_id, exc,
+                            )
 
             if uses_regen and not au_ok:
                 logger.error(
                     "Repository '%s' has no valid non-empty llm_editable list "
                     "in its profile. A regeneration strategy (%s) requires a "
                     "complete editable-policy configuration.",
-                    repo_id, ", ".join(sorted(_approved_regen)),
+                    repo_id, ", ".join(sorted(REGENERATION_APPROVED_STRATEGIES)),
                 )
                 return 1
 
@@ -2136,10 +2194,11 @@ def main() -> int:
 
     max_tokens = args.max_tokens
 
-    # Build dependency graph once and reuse across all arms
-    dep_graph = None
+    # Build one dependency graph per selected repository. Repository-specific
+    # impact inputs must never come from another repository's graph.
+    _dep_graphs: dict[str, object] = {}
     if selected_scenarios:
-        dep_graph = build_dependency_graph(data_dir, selected_scenarios)
+        _dep_graphs = build_repository_dependency_graphs(data_dir, selected_scenarios)
 
     # ---- Build execution plan -----------------------------------------------
     # Full plan (no skip) to get complete planned_run_ids for checkpoint.
@@ -2444,7 +2503,7 @@ def main() -> int:
             protocol_version=args.protocol_version,
             max_attempts=args.max_attempts,
             timeout_seconds=args.timeout,
-            dep_graph=dep_graph,
+            dep_graph=_dep_graphs[repository_id],
             workspace_dir=arm_workspace,
             backend_name=resolved_backend,
             openrouter_model=args.openrouter_model,

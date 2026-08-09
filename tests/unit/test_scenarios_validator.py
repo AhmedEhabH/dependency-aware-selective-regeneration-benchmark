@@ -84,6 +84,15 @@ class TestScenarioValidator:
         errors = (exc.value.context or {}).get("errors", [])
         assert any("Duplicate" in e for e in errors)
 
+    def test_duplicate_expected_affected_path_fails(self) -> None:
+        validator = ScenarioValidator()
+        ref = ArtifactRef(path="todo/models.py", artifact_type=ArtifactType.source)
+        scenario = _make_any_scenario(expected_affected_artifacts=(ref, ref))
+        with pytest.raises(ScenarioError) as exc:
+            validator.validate(scenario)
+        errors = (exc.value.context or {}).get("errors", [])
+        assert any("Duplicate expected affected artifact path" in e for e in errors)
+
     def test_validate_all_returns_errors(self) -> None:
         validator = ScenarioValidator()
         valid = _make_any_scenario()

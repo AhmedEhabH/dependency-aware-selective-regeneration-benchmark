@@ -38,15 +38,6 @@ rationale: >
   miss at least one layer. This is the most complex localized-to-moderate
   change type and is classified as cross-cutting because it spans 15+
   artifacts.
-acceptance_calls:
-  - "POST /api/tasks/{id}/transition/ with to_status=IN_PROGRESS on a PENDING task succeeds (status changed, StatusChange recorded)"
-  - "POST /api/tasks/{id}/transition/ with to_status=COMPLETED on a PENDING task returns 400 (must go through IN_PROGRESS)"
-  - "POST /api/tasks/{id}/transition/ with to_status=PENDING on an IN_PROGRESS task returns 400 (no backward transitions)"
-  - "POST /api/tasks/{id}/transition/ with to_status=COMPLETED on an IN_PROGRESS task succeeds"
-  - "GET /api/tasks/{id}/ returns allowed_transitions list based on current status"
-  - "StatusChange model records every transition with from_status, to_status, timestamp, changed_by"
-  - "A non-owner user receives 403 when attempting to transition another user's task"
-  - "The standard PATCH /api/tasks/{id}/ with status field still works for status changes (goes through same validation)"
 acceptance_criteria:
   - "POST /api/tasks/{id}/transition/ with to_status=IN_PROGRESS on a PENDING task succeeds (status changed, StatusChange recorded)"
   - "POST /api/tasks/{id}/transition/ with to_status=COMPLETED on a PENDING task returns 400 (must go through IN_PROGRESS)"
@@ -58,10 +49,8 @@ acceptance_criteria:
   - "PATCH /api/tasks/{id}/ with status field validates transitions identically to the custom endpoint"
   - "All existing CRUD operations on Project and Tag remain unchanged"
 expected_affected_artifacts:
-  - "todo/models.py:Task (add transition validation logic, allowed_transitions property)"
-  - "todo/models.py:StatusChange (new model for transition history)"
-  - "todo/serializers.py:TaskSerializer (add transition validation, allowed_transitions read-only field)"
-  - "todo/serializers.py:TransitionSerializer (new serializer for transition request body)"
+  - "todo/models.py: Task (add transition validation logic, allowed_transitions property) and StatusChange (new model for transition history)"
+  - "todo/serializers.py: TaskSerializer (add transition validation, allowed_transitions read-only field) and TransitionSerializer (new serializer for transition request body)"
   - "todo/views.py:TaskViewSet (add transition custom action endpoint)"
   - "todo/urls.py (add transition route, if not automatically picked up by router)"
   - "todo/permissions.py:IsOwnerOrReadOnly (ensure transition endpoint enforces ownership)"

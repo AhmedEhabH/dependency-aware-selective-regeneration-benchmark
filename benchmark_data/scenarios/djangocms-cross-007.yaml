@@ -52,29 +52,27 @@ acceptance_criteria:
 
 expected_affected_artifacts:
   - "cms/models/contentmodels.py:PageContent"
-  - "cms/admin/pagecontentadmin.py:PageContentAdmin"
-  - "cms/admin/pageadmin.py:PageAdmin"
-  - "cms/permissions.py"
-  - "cms/toolbar.py:PageToolbar"
+  - "cms/admin/pageadmin.py: PageContentAdmin and PageAdmin"
+  - "cms/utils/page_permissions.py"
+  - "cms/cms_toolbars.py:PageToolbar"
   - "cms/api.py"
-  - "cms/signals.py"
+  - "cms/signals/__init__.py"
   - "cms/models/permissionmodels.py"
   - '"cms/migrations/0044_add_workflow_status.py" (new file)'
 
 expected_actions:
   cms/models/contentmodels.py: modify
-  cms/admin/pagecontentadmin.py: modify
   cms/admin/pageadmin.py: modify
-  cms/permissions.py: modify
-  cms/toolbar.py: modify
+  cms/utils/page_permissions.py: modify
+  cms/cms_toolbars.py: modify
   cms/api.py: modify
-  cms/signals.py: modify
+  cms/signals/__init__.py: modify
   cms/models/permissionmodels.py: modify
   cms/migrations/0044_add_workflow_status.py: create
 
 regression_obligations:
-  - "cms/tests/test_contentmodels.py"
-  - "cms/tests/test_pagecontent_admin.py"
+  - "cms/tests/test_page.py"
+  - "cms/tests/test_page_admin.py"
   - "cms/tests/test_permissions.py"
   - "cms/tests/test_toolbar.py"
   - "cms/tests/test_api.py"

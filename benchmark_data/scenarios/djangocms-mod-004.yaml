@@ -44,22 +44,22 @@ acceptance_criteria:
 
 expected_affected_artifacts:
   - "cms/models/contentmodels.py:PageContent"
-  - "cms/admin/pagecontentadmin.py:PageContentAdmin"
+  - "cms/admin/pageadmin.py:PageContentAdmin"
   - '"cms/views.py:page_view" (or similar)'
   - "cms/api.py:publish_page_content"
-  - '"cms/migrations/0041_add_publication_date.py" (new file)'
+  - '"cms/migrations/0042_add_publication_date.py" (new file)'
   - "cms/tests/test_views.py"
 
 expected_actions:
   cms/models/contentmodels.py: modify
-  cms/admin/pagecontentadmin.py: modify
+  cms/admin/pageadmin.py: modify
   cms/views.py: modify
   cms/api.py: modify
-  cms/migrations/0041_add_publication_date.py: create
+  cms/migrations/0042_add_publication_date.py: create
 
 regression_obligations:
-  - "cms/tests/test_contentmodels.py"
-  - "cms/tests/test_pagecontent_admin.py"
+  - "cms/tests/test_page.py"
+  - "cms/tests/test_page_admin.py"
   - "cms/tests/test_views.py"
   - "cms/tests/test_api.py"
 
