@@ -584,4 +584,20 @@
 - **Impact:** Research Design V2 documented and ready for researcher review. No production code modified. SU-0010 (shared executor + types + validators) and SU-0011 (iterative repository agent) identified as required implementation tasks. Pilot and Research phases remain blocked pending SU-0010 completion and baseline agent implementation. Frozen protocol documents untouched — formal amendment may be needed before publication.
 - **Evidence:** Branch `docs/research-design-v2` with 10 design docs; merge commit `3a16596` on `main`; updated state files.
 
+---
+
+## Decision D024 — PILOT-READY-01 Closure (Multi-Repo Selective Input Contracts)
+
+- **Date:** 2026-08-10
+- **Decision ID:** D024
+- **Status:** IMPLEMENTED — CLOSED
+- **Category:** Engineering (feature closure, branch `feat/pilot-ready-01`)
+- **Description:** Close Pilot readiness by fixing the multi-repo selective input-contract defects found by the local Pilot readiness dry-runs: (A) `build_dependency_graph` reused ONE dependency graph built from the first repository's snapshot on mixed-repository plans — now fails closed on mixed repositories and `build_repository_dependency_graphs` builds one graph per repository (Pilot run loop uses `_dep_graphs[repository_id]`); (B) editable-path expansion applied globally instead of per repository profile — now per-repository `expand_editable_paths` in `src/benchmark/repositories/snapshot.py` (root discovery includes allowed-artifact pattern parents; per-profile allowlist; single `ProfileArtifactDescriptor.profile_id` invariant); (C) artifact-catalog normalization produced category-key descriptors for django CMS/Saleor — `_normalize_artifact_catalog`/`descriptors_from_profile` yield file-granular descriptors ⊆ per-repo editable universe; (D) stale real-smoke expectation — `STRATEGIES_WITH_MISSING_PREREQS = {"agent"}` in `tests/integration/test_real_smoke.py`. Added focused multi-repo production-path contract `tests/integration/test_pilot_multi_repo_production_path.py` (12 tests, repeated twice with no state leak). Frozen Pilot matrix unchanged (Qwen2.5-Coder-14B-Instruct / bnb-nf4 / 600s / 12 scenarios / 2 strategies / 2 repetitions = 48 cells; Todo / django CMS / Saleor).
+- **Rationale:** The local dry-runs proved the old one-graph-per-plan model could not faithfully represent per-repository dependency universes; without the fix the frozen 48-cell Pilot would compare strategies over incorrect input universes, invalidating scientific claims.
+- **Alternatives considered:**
+  - Keep one merged graph with a repository-id field — rejected: would re-introduce cross-repository dependencies and violate per-repo editable-universe semantics
+  - Force each repository into its own experiment plan — rejected: changes the frozen Pilot design
+- **Impact:** Pilot input universes are now per-repository and file-granular; full suite 2,026 passed / 33 skipped / 0 failed; exact fresh 48-cell Pilot dry-run 48/48 deterministic green (config_hash `7ef6ffc7a2c0d369`, source_commit `34ecf78`); no scientific inputs (prompts/metrics/evaluators/thresholds/Ground Truth/matrix) changed; 5 pre-existing mypy + 3 pre-existing ruff findings recorded as debt. Pilot = NOT STARTED; next task = `PILOT-EXEC-01`; stable tag `v0.9.0-pilot-ready` after non-ff main merge.
+- **Evidence:** Gates 1–7 (14 / 9 / 12×2 / static clean / 48-cell dry-run / 142 / 2,026); commit `34ecf78` pushed (local = remote); `reports/PILOT_READY_01_FINAL_REPORT.md`.
+
 (End of file)
