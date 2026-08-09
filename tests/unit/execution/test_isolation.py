@@ -475,3 +475,39 @@ class TestResetWorkspaceSourceFromSnapshot:
         assert modified.read_text().startswith("from django.db import models")
         assert not modified.read_text().endswith("# extra\n")
         assert self._fingerprint(arm_ws) == self._fingerprint(active)
+
+    def test_reset_removes_bytecode_residue_and_restores_baseline(self, tmp_path: Path) -> None:
+        from seven_arm_benchmark import _reset_workspace_source_from_snapshot
+
+        snapshot_root = tmp_path / "snapshots" / "todo" / "baseline"
+        self._make_todo_snapshot(snapshot_root)
+        arm_ws = tmp_path / "workspace" / "monolithic"
+        self._make_todo_snapshot(arm_ws)
+
+        pycache = arm_ws / "todo" / "tests" / "__pycache__"
+        pycache.mkdir(parents=True)
+        (pycache / "test_models.cpython-311.pyc").write_bytes(b"\x61\x0d\x0d\x0a pyc residue" * 4)
+        (arm_ws / "todo" / "migrations" / "0004_stale_generated.py").write_text("stale\n")
+        (arm_ws / "runs").mkdir(parents=True)
+        (arm_ws / "runs" / "keep.json").write_text("keep\n")
+
+        _reset_workspace_source_from_snapshot(arm_ws, snapshot_root)
+
+        assert not pycache.exists()
+        assert not (arm_ws / "todo" / "migrations" / "0004_stale_generated.py").exists()
+        assert (arm_ws / "runs" / "keep.json").read_text() == "keep\n"
+
+        source_ok = {
+            str(p.relative_to(arm_ws)).replace("\\", "/"): p.read_text()
+            for p in sorted(arm_ws.rglob("*"))
+            if p.is_file()
+            and "__pycache__" not in str(p)
+            and not str(p.relative_to(arm_ws)).replace("\\", "/").startswith(
+                ("runs/", "tmp/", "snapshots/")
+            )
+        }
+        assert source_ok == {
+            str(p.relative_to(snapshot_root)).replace("\\", "/"): p.read_text()
+            for p in sorted(snapshot_root.rglob("*"))
+            if p.is_file()
+        }
