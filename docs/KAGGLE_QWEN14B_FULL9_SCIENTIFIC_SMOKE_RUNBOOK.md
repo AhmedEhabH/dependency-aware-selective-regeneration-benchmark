@@ -17,16 +17,24 @@ This runbook distinguishes exactly four phases of evidence:
   blockers**, with three runs reaching/crossing the ~300-second workflow
   ceiling (~307–337 s). This is the accepted 300-second baseline and MUST NOT
   be overwritten or relabeled;
-- **T600 confirmatory Full-9 (FULL9-T600-01)** — NOT YET RUN, to be launched
-  under the SAME corrected runtime source/build `7f2a450` but with the
-  uniform scientific per-run workflow timeout raised **300 → 600** and a
-  NEW fail-closed output namespace
+- **T600 confirmatory Full-9 (FULL9-T600-01)** — **EXECUTED AND ACCEPTED** on
+  2026-08-09 (SMOKE-V2-CLOSE-01): run `exp-20260808-222843`, launched under
+  the SAME corrected runtime source/build `7f2a450` with the uniform
+  scientific per-run workflow timeout raised **300 → 600** and a NEW fail-closed
+  output namespace
   `/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600`
-  and evidence archive prefix `corrected-full9-t600-wsfix-7f2a450-`.
+  and evidence archive prefix `corrected-full9-t600-wsfix-7f2a450-`; result =
+  **9/9 terminal / 2 successes / 7 scientific failures / 0 engineering
+  blockers / 0 budget-exhausted / 63 model calls / 77,929 tokens / max run
+  ≈373 s / Full-9 verification PASS / HF synchronization PASS** — the SAME 2/9
+  result as the accepted 300-second baseline (timeout sensitivity confirmed;
+  NOT an improvement claim). No further Kaggle Full-9 is authorized.
 
 ## FULL9-T600-01 — confirmatory timeout-sensitivity Full-9 (T600)
 
-**Status: contract PUBLISHED (2026-08-08); experiment NOT YET RUN.**
+**Status: EXECUTED AND ACCEPTED (2026-08-09, SMOKE-V2-CLOSE-01) — experiment
+closed; run `exp-20260808-222843` recorded above. The instructions below are
+the frozen launch runbook (historical reference; do NOT relaunch).**
 
 ### Rationale
 
@@ -365,8 +373,34 @@ do not raise the scientific workflow timeout above 600
 do not run a second Full-9 from this session
 ```
 
-If the T600 experiment accumulates runs near 600 seconds, analyze the
+If a future Pilot run accumulates runs near 600 seconds, analyze the
 duration/repair distribution and pre-register the Pilot budget instead of
 raising the timeout again.
 
-First upload the Notebook and complete runs archive for independent result audit.
+## 11. Accepted T600 result record (SMOKE-V2-CLOSE-01, 2026-08-09)
+
+The T600 confirmatory Full-9 was executed once and accepted:
+
+```text
+Experiment:      exp-20260808-222843
+Runtime source:  7f2a4509482dc7e62c2b243374592e9a88e2ff48
+Build:           7f2a450
+Timeout:         uniform --timeout 600 (per-run workflow budget, all arms)
+Output namespace: /kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600
+Evidence prefix: corrected-full9-t600-wsfix-7f2a450-
+Result:          9/9 terminal / 2 successes / 7 scientific failures / 0 engineering blockers
+Budget:          0 budget-exhausted / 63 model calls / 77,929 tokens
+Timing:          max run ≈373 s (well under the 600 s ceiling)
+Verification:    Full-9 verification PASS / HF synchronization PASS
+Judgment:        SAME 2/9 result as the accepted clean 300-second baseline
+                 → timeout sensitivity confirmed; the 300-second baseline
+                 signal was NOT distorted by timeout censoring.
+                 This is NOT an improvement claim.
+```
+
+The accepted clean 300-second baseline and this accepted T600 run are the two
+accepted Scientific Smoke V2 evidence sets. The uniform per-run workflow
+timeout is now frozen at **600s**. No further Kaggle Full-9 is authorized; the
+next authorized action is the independent delta audit of the closure
+(SMOKE-V2-CLOSE-01), then main merge + stable tag `v0.8.0-smoke-v2-complete`,
+then `PILOT-READY-01`.

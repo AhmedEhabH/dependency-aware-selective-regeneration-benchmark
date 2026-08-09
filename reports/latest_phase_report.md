@@ -1,32 +1,33 @@
 # Full-9 Workspace Isolation Closure — Latest Phase Report
 
-## Latest closure — FULL9-T600-01 600s confirmatory timeout-sensitivity Full-9 contract
+## Latest closure — SCIENTIFIC SMOKE V2 COMPLETE AND ACCEPTED (SMOKE-V2-CLOSE-01)
 
-**Status: `COMPLETE — awaiting independent GPT-5.6 Sol delta audit before Kaggle`**
-(2026-08-08, executable commit `e6dbd3e` `chore(smoke): raise confirmatory
-Full-9 timeout to 600s`, pushed, local = remote, branch
-`fix/kaggle-smoke-v2-model-output-closure`).
+**Status: `CLOSED — EXECUTED AND ACCEPTED`** (2026-08-09, branch
+`fix/kaggle-smoke-v2-model-output-closure`). The 600-second confirmatory
+timeout-sensitivity Full-9 (**T600**, contract FULL9-T600-01) was **EXECUTED
+AND ACCEPTED**: run `exp-20260808-222843`, uniform `--timeout 600` on the
+frozen runtime source/build `7f2a450`, fail-closed output namespace
+`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600`,
+evidence prefix `corrected-full9-t600-wsfix-7f2a450-`.
 
-The accepted clean 300-second Full-9 baseline (runtime source/build `7f2a450`,
-`--timeout 300`) was **valid and preserved**: 9/9 terminal / 2 successes / 7
-scientific failures / 0 engineering blockers, with three runs at or beyond the
-~300-second scientific per-run workflow ceiling (~307–337 s). To reduce timeout
-censoring while preserving equal computational opportunity across strategies,
-the uniform scientific per-run workflow timeout was raised **300 → 600** for
-exactly **one confirmatory Full-9** (T600). **T600 is NOT YET RUN** and changes
-ONLY the timeout; all other frozen scientific inputs (model, prompts,
-strategies, scenarios, evaluator, metrics, max attempts, token budgets,
-deployment identity `7f2a450`) remain unchanged. 600 seconds applies uniformly
-to monolithic / selective / iterative_repository_agent (one shared Full-9
-command; no strategy receives extra time). **Do NOT raise the timeout above
-600** — if T600 also accumulates runs near 600 s, analyze the duration/repair
-distribution and pre-register the Pilot budget instead.
+**Accepted result: 9/9 terminal / 2 successes / 7 scientific failures / 0
+engineering blockers / 0 budget-exhausted / 63 model calls / 77,929 tokens /
+max run ≈373 s / Full-9 verification PASS / HF synchronization PASS** — the
+**same 2/9 result** as the accepted clean 300-second baseline (runtime
+`7f2a450`, `--timeout 300`, valid and preserved: 9/9 terminal / 2 successes /
+7 scientific failures / 0 engineering blockers, with three runs at or beyond
+the ~300-second scientific per-run workflow ceiling (~307–337 s)).
+**Timeout sensitivity confirmed: the 600-second ceiling did NOT change the
+accepted result; the 300-second baseline signal was not distorted by timeout
+censoring. This is NOT an improvement claim.** The 300-second baseline remains
+valid and preserved and is NOT invalidated or replaced. The uniform per-run
+workflow timeout is now frozen at **600s** for monolithic / selective /
+iterative_repository_agent (one shared Full-9 command; no strategy receives
+extra time). **Do NOT raise the timeout above 600** — if Pilot runs accumulate
+near 600 s, analyze the duration/repair distribution and pre-register the
+Pilot budget instead.
 
-New fail-closed output namespace:
-`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600`;
-new evidence archive prefix: `corrected-full9-t600-wsfix-7f2a450-`.
-
-Pre-benchmark validation recorded at contract time:
+Pre-benchmark validation recorded at contract time (2026-08-08, carried forward):
 - Dataset PASS / carried-forward (zero drift); Prompt PASS / carried-forward
   (zero drift); Metric PASS / carried-forward (zero metric/evaluator drift).
 - Pipeline Smoke PASS (T600 command + fail-closed `_t600` namespace contract).
@@ -44,11 +45,11 @@ Audit:
   (`--timeout 300`) FAILS the new 600-second contract; the working notebook
   satisfies it.
 
-**Next authorized action = independent GPT-5.6 Sol delta audit; after
-acceptance, exactly ONE fresh 600-second confirmatory Full-9 on Kaggle,
-compared cell-by-cell against the accepted clean 300-second baseline.** Main
-merge / stable tag / Pilot / fine-tune remain unauthorized. No Kaggle run was
-performed in this task. Sentinel: `FULL9_T600_CONFIRMATORY_CONTRACT_AUDIT_REQUIRED`.
+**Next authorized action = independent delta audit of the Scientific Smoke V2
+closure (SMOKE-V2-CLOSE-01); after acceptance, main merge + stable tag
+`v0.8.0-smoke-v2-complete`, then `PILOT-READY-01`.** Pilot / fine-tune remain
+unauthorized. No further Kaggle Full-9 is authorized; the accepted T600 run is
+the final Smoke evidence. Sentinel: `SMOKE_V2_CLOSURE_AUDIT_REQUIRED`.
 
 ## Previous closure — FULL9-EXEC-01 canonical corrected Full-9 notebook execution closure
 
