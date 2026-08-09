@@ -22,11 +22,17 @@ class ScenarioValidator:
             errors.append("rationale must not be empty")
 
         if scenario.expected_affected_artifacts:
+            seen_affected_paths: set[str] = set()
             for ref in scenario.expected_affected_artifacts:
                 if not ref.path:
                     errors.append(f"Expected affected artifact has empty path: {ref}")
                 if not ref.artifact_type:
                     errors.append(f"Expected affected artifact has empty type: {ref}")
+                if ref.path in seen_affected_paths:
+                    errors.append(
+                        f"Duplicate expected affected artifact path: {ref.path}"
+                    )
+                seen_affected_paths.add(ref.path)
 
         seen_actions: set[str] = set()
         for ref, action in scenario.expected_actions:

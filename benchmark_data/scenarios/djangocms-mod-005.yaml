@@ -17,8 +17,8 @@ requirement_after:
   content. The permission is stored in PagePermission with a new
   boolean field `can_review`. The GlobalPermission model also gains
   a `can_review` field for site-wide reviewer access. The
-  permission checking functions in cms/permissions.py support the
-  new level. The PageAdmin gets a "Review" action that transitions
+  permission checking functions in cms/utils/page_permissions.py
+  support the new level. The PageAdmin gets a "Review" action that transitions
   page content status (if integrated with a workflow) or marks
   content as reviewed. The PermissionAdmin shows the new field.
   The toolbar shows a "Review" menu item for users with reviewer
@@ -32,7 +32,7 @@ rationale: >
 acceptance_criteria:
   - PagePermission has a `can_review` boolean field.
   - GlobalPermission has a `can_review` boolean field.
-  - cms/permissions.py has `has_review_permission(user, page)` function.
+  - cms/utils/page_permissions.py has `has_review_permission(user, page)` function.
   - PageAdmin has a "Review" action visible to reviewers.
   - PermissionAdmin displays and allows setting `can_review`.
   - Toolbar shows a "Review" item when user has reviewer permission.
@@ -40,24 +40,23 @@ acceptance_criteria:
   - Existing permission tests pass.
 
 expected_affected_artifacts:
-  - "cms/models/permissionmodels.py:PagePermission"
-  - "cms/models/permissionmodels.py:GlobalPermission"
-  - "cms/permissions.py:has_review_permission"
+  - "cms/models/permissionmodels.py: PagePermission (new can_review field) and GlobalPermission (new can_review field)"
+  - "cms/utils/page_permissions.py:has_review_permission"
   - "cms/admin/permissionadmin.py:PermissionAdmin"
   - "cms/admin/pageadmin.py:PageAdmin"
-  - "cms/toolbar.py:PageToolbar"
+  - "cms/cms_toolbars.py:PageToolbar"
 
 expected_actions:
   cms/models/permissionmodels.py: modify
-  cms/permissions.py: modify
+  cms/utils/page_permissions.py: modify
   cms/admin/permissionadmin.py: modify
   cms/admin/pageadmin.py: modify
-  cms/toolbar.py: modify
+  cms/cms_toolbars.py: modify
   cms/migrations/0042_add_review_permission.py: create
 
 regression_obligations:
   - "cms/tests/test_permissions.py"
-  - "cms/tests/test_permission_admin.py"
+  - "cms/tests/test_permmod.py"
   - "cms/tests/test_toolbar.py"
   - "cms/tests/test_page_admin.py"
 

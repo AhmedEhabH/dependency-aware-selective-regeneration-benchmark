@@ -28,15 +28,15 @@ acceptance_criteria:
 expected_affected_artifacts:
   - "saleor/graphql/product/schema.py:ProductSchema"
   - "saleor/graphql/product/resolvers.py"
-  - "saleor/graphql/product/types.py:ProductCountableConnection"
-  - "saleor/graphql/schema.py"
+  - "saleor/graphql/product/types/products.py:ProductCountableConnection"
+  - "saleor/graphql/api.py"
 
 expected_actions:
   modify:
     - "saleor/graphql/product/schema.py"
     - "saleor/graphql/product/resolvers.py"
-    - "saleor/graphql/product/types.py"
-    - "saleor/graphql/schema.py"
+    - "saleor/graphql/product/types/products.py"
+    - "saleor/graphql/api.py"
 
 regression_obligations:
   - "Run saleor/graphql/product/tests/."

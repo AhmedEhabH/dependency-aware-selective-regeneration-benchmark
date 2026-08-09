@@ -32,11 +32,11 @@ acceptance_criteria:
 
 expected_affected_artifacts:
   - "saleor/product/models.py:ProductVariant"
-  - "saleor/graphql/product/types.py:ProductVariantType"
+  - "saleor/graphql/product/types/products.py:ProductVariant"
   - "saleor/graphql/checkout/mutations/checkout_lines_add.py:CheckoutLinesAdd"
   - "saleor/graphql/checkout/mutations/checkout_lines_update.py:CheckoutLinesUpdate"
   - "saleor/graphql/order/mutations/order_lines_create.py:OrderLinesCreate"
-  - "saleor/graphql/order/mutations/order_lines_update.py:OrderLinesUpdate"
+  - "saleor/graphql/order/mutations/order_line_update.py:OrderLineUpdate"
   - "saleor/core/error_codes.py:ProductVariantErrorCode"
   - "saleor/product/migrations/*"
 
@@ -45,11 +45,11 @@ expected_actions:
     - "saleor/product/migrations/XXXX_max_order_quantity.py"
   modify:
     - "saleor/product/models.py"
-    - "saleor/graphql/product/types.py"
+    - "saleor/graphql/product/types/products.py"
     - "saleor/graphql/checkout/mutations/checkout_lines_add.py"
     - "saleor/graphql/checkout/mutations/checkout_lines_update.py"
     - "saleor/graphql/order/mutations/order_lines_create.py"
-    - "saleor/graphql/order/mutations/order_lines_update.py"
+    - "saleor/graphql/order/mutations/order_line_update.py"
     - "saleor/core/error_codes.py"
 
 regression_obligations:
