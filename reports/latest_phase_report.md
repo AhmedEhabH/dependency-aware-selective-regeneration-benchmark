@@ -1,5 +1,7 @@
 # MAIN-GREEN-01 Post-Merge Test-Isolation Reproducibility Hotfix — Latest Phase Report
 
+> **CURRENT TRUTH (2026-08-09):** main HEAD = `d875c72`; preferred recovery tag = `v0.8.1-smoke-v2-complete`; Scientific Smoke V2 = **COMPLETE / ACCEPTED** (SMOKE-V2-CLOSE-01 = CLOSED); **MAIN-GREEN-01 = CLOSED** (full suite **1,958 passed / 33 skipped / 0 failed / 0 errors**, carried forward); T600 accepted = `exp-20260808-222843`; Pilot scientific timeout frozen at **600s uniform**; **next exact task = `PILOT-READY-01`** (Pilot execution **NOT STARTED**); **no further Smoke Full-9 authorized**. Older "Next authorized action" paragraphs below are HISTORICAL — their steps have all been completed.
+
 ## Latest closure — MAIN-GREEN-01 (post-merge test-isolation and reproducibility hotfix)
 
 **Status: `FIXED AND CLOSED`** (2026-08-09, branch `fix/main-green-test-isolation`,
@@ -126,15 +128,19 @@ Audit:
   (`--timeout 300`) FAILS the new 600-second contract; the working notebook
   satisfies it.
 
-**Next authorized action = independent delta audit of the Scientific Smoke V2
-closure (SMOKE-V2-CLOSE-01); after acceptance, main merge + stable tag
-`v0.8.0-smoke-v2-complete`, then `PILOT-READY-01`.** Pilot / fine-tune remain
-unauthorized. No further Kaggle Full-9 is authorized; the accepted T600 run is
-the final Smoke evidence. Sentinel: `SMOKE_V2_CLOSURE_AUDIT_REQUIRED`.
+**HISTORICAL (all completed) — next authorized action was: independent delta
+audit of the Scientific Smoke V2 closure (SMOKE-V2-CLOSE-01); after acceptance,
+main merge + stable tag `v0.8.0-smoke-v2-complete`, then `PILOT-READY-01`.**
+All executed: closure audited and merged (`193d889`), stable tag
+`v0.8.0-smoke-v2-complete` created, MAIN-GREEN-01 merged (main `d875c72`),
+preferred recovery tag `v0.8.1-smoke-v2-complete`; **next = `PILOT-READY-01`
+(Pilot NOT STARTED)**. Pilot / fine-tune remain unauthorized. No further Kaggle
+Full-9 is authorized; the accepted T600 run is the final Smoke evidence.
+Sentinel: `SMOKE_V2_CLOSURE_AUDIT_REQUIRED`.
 
 ## Previous closure — FULL9-EXEC-01 canonical corrected Full-9 notebook execution closure
 
-**Status: `COMPLETE — pending independent delta audit before Kaggle Full-9`**
+**Status (HISTORICAL — superseded by SMOKE-V2-CLOSE-01): `COMPLETE — was pending independent delta audit before Kaggle Full-9`**
 (2026-08-08, Commit A `c4aee03` `feat(kaggle): make corrected Full-9 notebook
 executable`, pushed, local = remote, tree clean, branch
 `fix/kaggle-smoke-v2-model-output-closure`).
@@ -150,8 +156,9 @@ export-evidence-cell, with no generic/canary/continuous cells.
 
 **Latest Kaggle attempt truth:** source/build `7f2a450`; runtime
 install/preflight PASS; a redundant corrected-source selective canary ran and
-succeeded — **that attempt is NOT a Full-9**; corrected Full-9 evidence remains
-**0/9**; the evidence ZIP downloaded from that session must NOT be labeled
+succeeded — **that attempt is NOT a Full-9**; corrected Full-9 evidence remained
+**0/9** at that time (later executed and accepted as `exp-20260808-222843`);
+the evidence ZIP downloaded from that session must NOT be labeled
 accepted Full-9 evidence.
 
 **Validation:** full suite **1,947 passed / 33 skipped / 0 failed**; targeted
@@ -161,9 +168,11 @@ compile; bootstrap symbol-closure clean; bundle rebuilt and verified
 (code/data/notebook parity, no forbidden artifacts); canonical/bundled notebook
 parity proven; zero data/prompt/metric/runtime drift.
 
-**Next authorized action = independent delta audit of FULL9-EXEC-01; after
-acceptance, exactly one fresh corrected Full-9.** Main merge / stable tag /
-Pilot / fine-tune remain unauthorized. No Kaggle run was performed in this task.
+**HISTORICAL next action (superseded — the T600 corrected Full-9 was executed
+and accepted as `exp-20260808-222843`): independent delta audit of
+FULL9-EXEC-01; after acceptance, exactly one fresh corrected Full-9.** Main
+merge / stable tag / Pilot / fine-tune remain unauthorized (all since completed
+except Pilot). No Kaggle run was performed in this task.
 
 ## Executive decision
 
@@ -194,12 +203,14 @@ DEPLOYED_BUILD_ID=`7f2a450`**, setup order **setup-cell -> install-lock-cell ->
 preflight-cell -> secrets-cell -> Full-9**, a fresh fail-closed output directory
 **`/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450`**
 (raises if already non-empty), and an initial command with **no
-`--strategy` / `--max-runs` / `--auto-resume-hf`**. Current truth: accepted
-selective canary `exp-20260807-131819`; first Full-9 `exp-20260807-205422` =
-**RUN BUT REJECTED** (workspace contamination); **corrected fresh Full-9 =
-NOT YET RUN**. **Next authorized action = independent delta audit of the
-FULL9-WS-02A docs/runbook closure; only if accepted, exactly one fresh corrected
-Full-9 with source/build `7f2a450`** — not a merge, tag, or Pilot.
+`--strategy` / `--max-runs` / `--auto-resume-hf`**. Truth at that time
+(HISTORICAL): accepted selective canary `exp-20260807-131819`; first Full-9
+`exp-20260807-205422` = **RUN BUT REJECTED** (workspace contamination);
+**corrected fresh Full-9 = NOT YET RUN** (later executed and accepted as
+`exp-20260808-222843`). **HISTORICAL next action (superseded): independent
+delta audit of the FULL9-WS-02A docs/runbook closure; only if accepted, exactly
+one fresh corrected Full-9 with source/build `7f2a450`** — not a merge, tag, or
+Pilot.
 
 ## Why this closure existed
 
@@ -268,8 +279,10 @@ verified after each push. Working tree clean.
 
 ## Next action
 
-After the independent delta audit of the FULL9-WS-02A docs/runbook closure:
-**exactly one fresh corrected Full-9 Scientific Smoke V2** with the corrected
+**HISTORICAL (superseded — the corrected Full-9 was executed and accepted as
+`exp-20260808-222843`):** after the independent delta audit of the FULL9-WS-02A
+docs/runbook closure: **exactly one fresh corrected Full-9 Scientific Smoke V2**
+with the corrected
 deployment source/build `7f2a450` (SOURCE_COMMIT=`7f2a4509482dc7e62c2b243374592e9a88e2ff48` /
 DEPLOYED_BUILD_ID=`7f2a450`, fail-closed fresh output dir) — one engineering preflight +
 one benchmark process in a fresh isolated experiment; never resume/merge the
@@ -286,7 +299,7 @@ Sentinel: `FULL9_WORKSPACE_ISOLATION_CLOSURE_AUDIT_REQUIRED`.
 
 ## Executive decision
 
-The independent GPT-5.6 Thinking audit **ACCEPTED SUCCESSFUL REAL CANARY** on branch `fix/kaggle-smoke-v2-model-output-closure` (documentation HEAD `5561f918`). Docs-only closure — no code, tests, data, prompts, configs, notebook executable cells, or `kaggle_upload` changes. Real engineering preflight **PASS** on 2×Tesla T4 and the dedicated selective canary `exp-20260807-131819` **succeeded**. Accepted real 14B canary records = **1 succeeded / 0 failed** (isolated selective-only plan — NOT `1/9`). **Milestone tag `v0.8.0-canary.1` = created and pushed, annotated, NON-STABLE** (first accepted real Qwen 14B NF4 selective-canary milestone, points to `31a619857ce07eb09ab5e206fbc9dc792782c99c`). At the time this canary was accepted, **Full 9-record Scientific Smoke V2 = NOT RUN** (subsequently the first Full-9 `exp-20260807-205422` ran under `f7b1ebb` and was REJECTED for workspace contamination; a fresh corrected Full-9 under `7f2a450` remains NOT YET RUN, pending the FULL9-WS-02A delta audit). **Main merge = pending corrected Full-9 audit (NOT YET). Stable Smoke tag = `v0.8.0-smoke-v2-complete`, not yet created. Pilot = NOT AUTHORIZED.** **Next action = independent delta audit of the FULL9-WS-02A runbook/docs closure, then exactly one fresh corrected Full-9 Scientific Smoke V2** using the corrected runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`. No stable release claimed.
+The independent GPT-5.6 Thinking audit **ACCEPTED SUCCESSFUL REAL CANARY** on branch `fix/kaggle-smoke-v2-model-output-closure` (documentation HEAD `5561f918`). Docs-only closure — no code, tests, data, prompts, configs, notebook executable cells, or `kaggle_upload` changes. Real engineering preflight **PASS** on 2×Tesla T4 and the dedicated selective canary `exp-20260807-131819` **succeeded**. Accepted real 14B canary records = **1 succeeded / 0 failed** (isolated selective-only plan — NOT `1/9`). **Milestone tag `v0.8.0-canary.1` = created and pushed, annotated, NON-STABLE** (first accepted real Qwen 14B NF4 selective-canary milestone, points to `31a619857ce07eb09ab5e206fbc9dc792782c99c`). At the time this canary was accepted, **Full 9-record Scientific Smoke V2 = NOT RUN** (subsequently the first Full-9 `exp-20260807-205422` ran under `f7b1ebb` and was REJECTED for workspace contamination; a fresh corrected Full-9 under `7f2a450` was NOT YET RUN at that time, pending the FULL9-WS-02A delta audit — HISTORICAL, later executed and accepted as `exp-20260808-222843`). **HISTORICAL (at that time):** Main merge = pending corrected Full-9 audit (NOT YET) — NOW COMPLETE (SMOKE-V2-CLOSE-01 merged `193d889`, MAIN-GREEN-01 `d875c72`); Stable Smoke tag `v0.8.0-smoke-v2-complete` = not yet created then, CREATED at `193d889` (preferred recovery `v0.8.1-smoke-v2-complete`); Pilot = NOT AUTHORIZED (now NOT STARTED). **HISTORICAL next action (superseded): independent delta audit of the FULL9-WS-02A runbook/docs closure, then exactly one fresh corrected Full-9 Scientific Smoke V2** using the corrected runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`. No stable release claimed at that time (HISTORICAL — stable release `v0.8.0-smoke-v2-complete` now created; preferred recovery `v0.8.1-smoke-v2-complete`).
 
 ## Why this phase existed
 
@@ -303,7 +316,7 @@ After the Multi-GPU VRAM preflight closure (2026-08-06) closed the last engineer
 
 ## Next action
 
-Independent delta audit of the FULL9-WS-02A docs/runbook closure; only if accepted, exactly one fresh corrected Full-9 Scientific Smoke V2 (3 scenarios × 3 arms = 9 records; SOURCE_COMMIT=7f2a4509482dc7e62c2b243374592e9a88e2ff48 / DEPLOYED_BUILD_ID=7f2a450, fail-closed fresh output dir) via the corrected `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — one engineering preflight + one benchmark process, fresh isolated experiment, never resume/merge the canary or the rejected `exp-20260807-205422`, then independent results audit. Record: `selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md`. Sentinel: `QWEN14B_CANARY_SUCCESS_DOCUMENTED_FULL9_READY`.
+**HISTORICAL — SUPERSEDED (the corrected Full-9 was executed and accepted as `exp-20260808-222843`; current next task = `PILOT-READY-01`).** Was: independent delta audit of the FULL9-WS-02A docs/runbook closure; only if accepted, exactly one fresh corrected Full-9 Scientific Smoke V2 (3 scenarios × 3 arms = 9 records; SOURCE_COMMIT=7f2a4509482dc7e62c2b243374592e9a88e2ff48 / DEPLOYED_BUILD_ID=7f2a450, fail-closed fresh output dir) via the corrected `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` — one engineering preflight + one benchmark process, fresh isolated experiment, never resume/merge the canary or the rejected `exp-20260807-205422`, then independent results audit. Record: `selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md`. Sentinel: `QWEN14B_CANARY_SUCCESS_DOCUMENTED_FULL9_READY`.
 
 ---
 
@@ -1093,7 +1106,7 @@ Scientific Smoke V2 records → independent result audit.
 
 ## Far goal
 
-Independent real-result audit → main merge → stable `v0.8.0-smoke-v2-complete` tag (replaces the stale `v2.0.0-scientific-smoke` future-tag wording; milestone `v0.8.0-canary.1` already created/pushed, non-stable) → freeze
+Independent real-result audit → main merge → stable `v0.8.0-smoke-v2-complete` tag (replaces the stale `v2.0.0-scientific-smoke` future-tag wording; milestone `v0.8.0-canary.1` already created/pushed, non-stable) → **EXECUTED (SMOKE-V2-CLOSE-01 closure merged `193d889`, stable tag created; MAIN-GREEN-01 merged `d875c72`, preferred recovery `v0.8.1-smoke-v2-complete`)** → freeze
 Pilot matrix → Pilot execution → research experiment → statistical analysis →
 paper evidence package.
 
