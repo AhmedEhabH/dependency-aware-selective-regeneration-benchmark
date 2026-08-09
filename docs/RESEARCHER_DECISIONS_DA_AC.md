@@ -47,6 +47,18 @@
 - **Rationale:** Prevents post-hoc selection bias.
 - **Applied to:** `docs/SCENARIO_TAXONOMY.md §7`
 
+### DA-07 Amendment 001 (PILOT-READY-01, applied before any Pilot result)
+
+- **ID:** DA-07-A001
+- **Date:** 2026-08-09
+- **Trigger:** Infeasibility of `djangocms-loc-001` at the frozen repository revision.
+- **Already-observed results:** None (amendment recorded before any Pilot execution; no strategy/model results observed).
+- **Old rule / set:** Pilot set contained `djangocms-loc-001` (add `meta_description` to `PageContent`).
+- **Finding:** At pinned django-cms `0f633fc9fa213357f4202482aab2b0edad680f95` (v5.0.0), `PageContent` already defines `meta_description` in `cms/models/contentmodels.py` (~line 58, `TextField(blank=True, null=True)`). The requirement is therefore already satisfied; executing it would be a no-op with no defensible before/after contrast. (For completeness, `djangocms-loc-003` — add `position` ordering to `CMSPlugin` — is also infeasible: `CMSPlugin` already has `position` with `unique_together=("placeholder", "language", "position")` in `cms/models/pluginmodel.py`.)
+- **New rule / set:** Replace `djangocms-loc-001` with `djangocms-mod-005` (new `page reviewer` permission level: `can_review` on `PagePermission`/`GlobalPermission`, `has_review_permission`, admin review action, toolbar item). Preserves repository (djangocms), preserves all three blast-radius classes per repository (djangocms now: localized `loc-002`, moderate `mod-004` + `mod-005`, cross-cutting `cross-007`), and is coherent with `djangocms-cross-007`, which explicitly references "leveraging djangocms-mod-005". Scenario ID was verified feasible against the pinned revision (no existing `can_review` field; permission-check functions live in `cms/utils/page_permissions.py`).
+- **Affected config/artifacts:** `configs/pilot.yaml` `scenario_selection.scenario_ids`; `PROFILES["pilot"]` in `seven_arm_benchmark.py`; `PILOT_SCENARIO_IDS` in `tests/unit/test_pilot_readiness.py` and `tests/integration/test_scenarios_integration.py`; `tests/unit/test_cli.py` pilot-profile assertion.
+- **Approval:** Recorded in the decision/change ledger before any Pilot execution, per AC-11 / DA-07.
+
 ## DA-08 — Non-Inferiority Margin
 
 - **Decision:** Δ = 0.05 for regression pass rate. One-sided 95% CI lower bound > -0.05. Also report two-sided 95% CI and sensitivity at 0.03 and 0.10.
