@@ -45,8 +45,7 @@ acceptance_criteria:
 expected_affected_artifacts:
   - "todo/permission_decorators.py (new file: predicate functions and composable decorators)"
   - "todo/permissions.py (refactor existing classes to delegate to predicates)"
-  - "todo/views.py:TaskViewSet (add decorators to custom actions)"
-  - "todo/views.py:ProjectViewSet (add decorators to custom actions)"
+  - "todo/views.py: TaskViewSet (add decorators to custom actions) and ProjectViewSet (add decorators to custom actions)"
   - "todo/tests/test_permissions.py (add decorator unit tests)"
   - "todo/tests/test_views.py (add decorator integration tests)"
 expected_actions:

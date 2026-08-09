@@ -39,7 +39,7 @@ acceptance_criteria:
 
 expected_affected_artifacts:
   - "saleor/product/models.py:Product"
-  - "saleor/graphql/product/types.py:ProductStatusEnum"
+  - "saleor/graphql/product/enums.py:ProductStatusEnum"
   - "saleor/graphql/product/mutations/product_bulk_set_status.py:ProductBulkSetStatus"
   - "saleor/product/services/status_validation.py"
   - "saleor/webhook/event_types.py:WebhookEventType"
@@ -47,7 +47,7 @@ expected_affected_artifacts:
   - "saleor/graphql/checkout/resolvers.py"
   - "saleor/graphql/order/resolvers.py"
   - "saleor/core/error_codes.py:ProductErrorCode"
-  - "saleor/graphql/schema.py"
+  - "saleor/graphql/api.py"
   - "saleor/product/migrations/*"
 
 expected_actions:
@@ -57,13 +57,14 @@ expected_actions:
     - "saleor/product/migrations/XXXX_product_status.py"
   modify:
     - "saleor/product/models.py"
-    - "saleor/graphql/product/types.py"
+    - "saleor/graphql/product/types/products.py"
+    - "saleor/graphql/product/enums.py"
     - "saleor/webhook/event_types.py"
     - "saleor/webhook/payloads.py"
     - "saleor/graphql/checkout/resolvers.py"
     - "saleor/graphql/order/resolvers.py"
     - "saleor/core/error_codes.py"
-    - "saleor/graphql/schema.py"
+    - "saleor/graphql/api.py"
 
 regression_obligations:
   - "Run all product model tests."

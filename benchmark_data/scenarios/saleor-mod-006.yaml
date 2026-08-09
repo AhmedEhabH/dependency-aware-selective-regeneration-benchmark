@@ -33,8 +33,7 @@ acceptance_criteria:
   - "Down migration restores the ForeignKey and preserves at least one category per product."
 
 expected_affected_artifacts:
-  - "saleor/product/models.py:Product"
-  - "saleor/product/models.py:Category"
+  - "saleor/product/models.py: Product (categories M2M) and Category (related_name)"
   - "saleor/graphql/product/types.py:ProductType"
   - "saleor/graphql/product/mutations/product_create.py:ProductCreate"
   - "saleor/graphql/product/mutations/product_update.py:ProductUpdate"

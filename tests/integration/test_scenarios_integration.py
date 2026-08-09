@@ -383,3 +383,87 @@ class TestRealScenarioLoading:
         assert counts[BlastRadius.localized] >= 1
         assert counts[BlastRadius.moderate] >= 1
         assert counts[BlastRadius.cross_cutting] >= 1
+
+
+PILOT_SCENARIO_IDS = [
+    "todo-loc-001",
+    "todo-loc-002",
+    "todo-mod-004",
+    "todo-cross-007",
+    "djangocms-mod-005",
+    "djangocms-loc-002",
+    "djangocms-mod-004",
+    "djangocms-cross-007",
+    "saleor-loc-001",
+    "saleor-loc-002",
+    "saleor-mod-004",
+    "saleor-cross-007",
+]
+
+
+class TestPilotScenariosGate:
+    """Gate 4: the frozen 12 Pilot scenario set is schema-valid and evaluable."""
+
+    @pytest.fixture(scope="class")
+    @classmethod
+    def pilot_scenarios(cls) -> dict[str, Scenario]:
+        loader = ScenarioLoader(SCENARIOS_DIR)
+        all_scenarios = loader.load_all()
+        loaded = {s.scenario_id: s for s in all_scenarios}
+        return {sid: loaded[sid] for sid in PILOT_SCENARIO_IDS}
+
+    def test_all_twelve_load(self, pilot_scenarios: dict) -> None:
+        assert len(pilot_scenarios) == 12
+
+    def test_correct_repository_per_scenario(self, pilot_scenarios: dict) -> None:
+        for sid, scenario in pilot_scenarios.items():
+            expected_repo = sid.split("-")[0]
+            assert scenario.repository == expected_repo, (
+                f"{sid} repository {scenario.repository!r} != {expected_repo!r}"
+            )
+
+    def test_blast_radius_coverage(self, pilot_scenarios: dict) -> None:
+        from benchmark.core.enums import BlastRadius
+
+        radii = {s.blast_radius for s in pilot_scenarios.values()}
+        assert radii == {
+            BlastRadius.localized,
+            BlastRadius.moderate,
+            BlastRadius.cross_cutting,
+        }
+
+    def test_four_per_repository(self, pilot_scenarios: dict) -> None:
+        from collections import Counter
+
+        counts = Counter(s.repository for s in pilot_scenarios.values())
+        assert counts == {"todo": 4, "djangocms": 4, "saleor": 4}
+
+    def test_all_have_hidden_tests_and_actions(self, pilot_scenarios: dict) -> None:
+        for sid, scenario in pilot_scenarios.items():
+            assert scenario.hidden_tests, f"{sid} has no hidden_tests"
+            assert len(scenario.expected_actions) > 0, f"{sid} has no expected_actions"
+            assert len(scenario.expected_affected_artifacts) > 0, (
+                f"{sid} has no expected_affected_artifacts"
+            )
+
+    def test_schema_valid(self, pilot_scenarios: dict) -> None:
+        from benchmark.scenarios.validator import ScenarioValidator
+
+        validator = ScenarioValidator()
+        errors = validator.validate_all(list(pilot_scenarios.values()))
+        assert errors == [], f"Pilot scenario validation errors: {errors}"
+
+    def test_unique_expected_affected_paths(self, pilot_scenarios: dict) -> None:
+        """Every Pilot scenario has unique normalized expected-affected paths."""
+        for sid, scenario in pilot_scenarios.items():
+            paths = [ref.path for ref in scenario.expected_affected_artifacts]
+            assert len(paths) == len(set(paths)), (
+                f"{sid} has duplicate expected affected artifact paths: {paths}"
+            )
+
+    def test_no_answer_leak_in_inputs(self, pilot_scenarios: dict) -> None:
+        """Frozen inputs must not contain the expected outcome strings."""
+        for scenario in pilot_scenarios.values():
+            combined = scenario.requirement_before + scenario.requirement_after
+            assert "hidden_tests" not in combined.lower()
+            assert "expected_actions" not in combined.lower()
