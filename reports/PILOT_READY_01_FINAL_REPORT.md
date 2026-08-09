@@ -182,13 +182,13 @@ Consistency contract satisfied: all state docs agree on PILOT-READY-01 CLOSED, P
 ## 13. GitHub durability
 
 - code commit SHA: `34ecf786901aec29659ea039a8f1fdf00039b5f2` (`fix(pilot): close multi-repo selective input contracts`)
-- docs commit SHA: `docs(pilot): close PILOT-READY-01 readiness evidence` (see git log)
-- feature remote SHA: `34ecf78` == local feature HEAD (asserted after push)
-- merge commit SHA: `merge(pilot): close PILOT-READY-01` (see git log)
-- origin/main SHA: `592fc508ba1df596f685d80f2e0a35a4317d0299` before closure; final main HEAD after non-ff merge (see git log)
-- tag name: `v0.9.0-pilot-ready`
-- tag dereferenced commit: final main merge commit (verified with `git rev-parse`)
-- local == remote assertions: feature branch local == remote after push; main local == origin/main after push; tag pushed and dereferences to final main merge commit
+- docs commit SHA: `0f3b7fa2c366e72685212d8c63ae81c655bc09bb` (`docs(pilot): close PILOT-READY-01 readiness evidence`)
+- feature remote SHA: `0f3b7fa` == local feature HEAD (asserted after push)
+- merge commit SHA: `90a4282ac96328e26143b4f98d4bcf520c3c1e9b` (`merge(pilot): close PILOT-READY-01`)
+- origin/main SHA: `90a4282ac96328e26143b4f98d4bcf520c3c1e9b` after the non-ff merge (was `592fc508ba1df596f685d80f2e0a35a4317d0299` before closure)
+- tag name: `v0.9.0-pilot-ready` (annotated; tag object `d26aaba9612d84de055d0560aa57e02a29489699`)
+- tag dereferenced commit: `90a4282ac96328e26143b4f98d4bcf520c3c1e9b` == final main merge commit (verified with `git rev-parse 'v0.9.0-pilot-ready^{commit}'` and `git ls-remote --tags origin`)
+- local == remote assertions: feature branch local == remote after push; main local `90a4282` == `origin/main` `90a4282` after push; tag pushed and dereferences to the final main merge commit
 
 ## 14. Final milestone result
 
