@@ -13,6 +13,7 @@ from tests.support.evaluator_fixture_workspaces import (
     _BASELINE_REPO,
     _assert_workspace_has_no_evaluator_assets,
     _get_sources_for_variant,
+    _is_ephemeral_baseline_path,
     build_todo_smoke_001_workspace,
     build_todo_smoke_002_workspace,
     build_todo_smoke_003_workspace,
@@ -95,6 +96,8 @@ def _baseline_hashes():
     for p in _BASELINE_REPO.rglob("*"):
         if p.is_file():
             rel = str(p.relative_to(_BASELINE_REPO).as_posix())
+            if _is_ephemeral_baseline_path(rel):
+                continue
             hashes[rel] = hashlib.sha256(p.read_bytes()).hexdigest()
     return hashes
 

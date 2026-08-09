@@ -4,6 +4,16 @@
 # Scientific evaluator assets are byte-frozen and must use canonical LF endings.
 tests/evaluator_assets/todo_smoke_*_checks.py text eol=lf
 
+# Kaggle bundle evaluator assets are byte-frozen with recorded SHA256 fingerprints
+# that are computed from canonical LF content. Pin LF so checkout line-ending
+# state cannot break the fingerprint contract.
+kaggle_upload/code/tests/evaluator_assets/todo_smoke_*_checks.py text eol=lf
+
+# Baseline and bundled todo repositories are byte-frozen scientific fixtures.
+# Pin LF so snapshot/workspace byte-identity is checkout-state-independent.
+benchmark_data/repositories/todo/** text eol=lf
+kaggle_upload/data/repositories/todo/** text eol=lf
+
 # Python
 *.py text diff=python
 *.pyw text
