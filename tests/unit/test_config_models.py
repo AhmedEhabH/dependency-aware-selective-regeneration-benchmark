@@ -24,6 +24,14 @@ class TestStrategyConfig:
         with pytest.raises(ValueError):
             StrategyConfig(name="")
 
+    def test_protocol_label_default_none(self) -> None:
+        sc = StrategyConfig(name="selective")
+        assert sc.protocol_label is None
+
+    def test_protocol_label_set(self) -> None:
+        sc = StrategyConfig(name="iterative_repository_agent", protocol_label="repository_agent")
+        assert sc.protocol_label == "repository_agent"
+
 
 class TestBackendConfig:
     def test_mock_backend(self) -> None:
@@ -58,6 +66,15 @@ class TestExecutionConfig:
     def test_negative_timeout_raises(self) -> None:
         with pytest.raises(ValueError):
             ExecutionConfig(timeout_seconds=-1)
+
+    def test_repetitions_default_one(self) -> None:
+        ec = ExecutionConfig()
+        assert ec.repetitions == 1
+
+    def test_repetitions_ge_one(self) -> None:
+        assert ExecutionConfig(repetitions=2).repetitions == 2
+        with pytest.raises(ValueError):
+            ExecutionConfig(repetitions=0)
 
 
 class TestOutputConfig:
