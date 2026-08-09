@@ -804,9 +804,23 @@ class TestScientificSmokeV1Profile:
     def test_pilot_profile_selection_unchanged(self) -> None:
         from seven_arm_benchmark import PROFILES
         pilot = PROFILES["pilot"]
-        assert pilot.strategies == ["agent", "selective"]
+        assert pilot.strategies == ["iterative_repository_agent", "selective"]
         assert pilot.repetitions == 2
-        assert pilot.scenario_ids is None
+        assert pilot.timeout_seconds == 600
+        assert pilot.scenario_ids == [
+            "todo-loc-001",
+            "todo-loc-002",
+            "todo-mod-004",
+            "todo-cross-007",
+            "djangocms-mod-005",
+            "djangocms-loc-002",
+            "djangocms-mod-004",
+            "djangocms-cross-007",
+            "saleor-loc-001",
+            "saleor-loc-002",
+            "saleor-mod-004",
+            "saleor-cross-007",
+        ]
 
     def test_research_profile_selection_unchanged(self) -> None:
         from seven_arm_benchmark import PROFILES
@@ -1023,8 +1037,19 @@ class TestScientificSmokeV1Profile:
         assert '"python_version": PYTHON_RUNTIME' in source
         assert '__import__("djangorestframework")' not in source
 
-    def test_notebook_source_commit_matches_deployed_runtime_tree(self) -> None:
-        """The pinned source commit must contain the exact runtime files bundled for Kaggle."""
+    def test_historical_smoke_bundle_matches_frozen_source_commit(self) -> None:
+        """Historical Smoke notebook -> historical deployed bundle integrity.
+
+        The Smoke notebook pins SOURCE_COMMIT at the frozen Smoke source. This
+        test proves the DEPLOYED SMOKE BUNDLE (``kaggle_upload/code``) is a
+        byte-faithful copy of that frozen commit's runtime files.
+
+        It intentionally does NOT compare against the evolving current-main
+        source tree: Pilot-ready adapters legitimately change
+        ``seven_arm_benchmark.py`` on main after the Smoke bundle was built.
+        Current Pilot config/runtime parity is covered by its own contract
+        (tests/unit/test_pilot_readiness.py::TestPilotProfileParity).
+        """
         import json
         import subprocess
 
@@ -1063,9 +1088,12 @@ class TestScientificSmokeV1Profile:
                 f"{result.stderr.decode(errors='replace')}"
             )
             committed = result.stdout.decode("utf-8").replace("\r\n", "\n")
-            current = (PROJECT_DIR / relative).read_text(encoding="utf-8").replace("\r\n", "\n")
-            assert committed == current, (
-                f"Notebook SOURCE_COMMIT {source_commit} is stale for {relative}"
+            bundled = (PROJECT_DIR / "kaggle_upload" / "code" / relative).read_text(
+                encoding="utf-8"
+            ).replace("\r\n", "\n")
+            assert committed == bundled, (
+                f"Deployed Smoke bundle is stale for {relative}: "
+                f"bundle copy differs from frozen SOURCE_COMMIT {source_commit}"
             )
 
     def test_notebook_live_run_helpers_present(self) -> None:
