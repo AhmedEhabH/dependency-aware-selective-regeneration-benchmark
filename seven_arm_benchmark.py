@@ -37,12 +37,13 @@ import hashlib
 import json
 import logging
 import os
+import shlex
+import shutil
 import sys
 import time
-import uuid
 from collections import Counter
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -56,6 +57,12 @@ logging.basicConfig(
 logger = logging.getLogger("benchmark")
 
 BENCHMARK_ROOT = Path(__file__).resolve().parent
+SRC_ROOT = BENCHMARK_ROOT / "src"
+if SRC_ROOT.is_dir():
+    src_root_text = str(SRC_ROOT)
+    if src_root_text not in sys.path:
+        sys.path.insert(0, src_root_text)
+
 SCENARIOS_DIR = BENCHMARK_ROOT / "benchmark_data" / "scenarios"
 OUTPUT_DIR = BENCHMARK_ROOT / "runs"
 DEFAULT_DATA_DIR = BENCHMARK_ROOT / "benchmark_data"
@@ -167,15 +174,21 @@ def _to_run_record_data(
         failure_details=fdetails,
         token_usage=tok,
         duration_seconds=record_dict.get("duration_seconds", 0.0),
-        model_metadata={"model": model_identity, "dry_run": str(dry_run)},
+        model_metadata={
+            "model": model_identity,
+            "dry_run": str(dry_run),
+            "token_accounting_mode": record_dict.get("token_accounting_mode", "unknown"),
+            "max_attempts": str(max_attempts),
+            "max_completion_tokens_per_call": str(record_dict.get("max_completion_tokens_per_call", 4096)),
+            "max_total_workflow_tokens": str(record_dict.get("max_total_workflow_tokens", 0)),
+        },
         protocol_version=protocol_version,
         source_commit=source_commit,
         config_hash=config_hash,
         timestamp=started_at,
         started_at=started_at,
         ended_at=ended_at,
-        model_calls=1 if tok.get("total", 0) > 0 else 0,
-        repair_attempts=max(0, max_attempts - 1) if status != "succeeded" else 0,
+        model_calls=record_dict.get("total_workflow_model_calls", 0),
         hardware_identity=hw_id or "dry-run:mock" if dry_run else hw_id,
         software_environment_identity=sw_id or "dry-run:mock" if dry_run else sw_id,
         failure_classification=failure_classification,
@@ -185,6 +198,10 @@ def _to_run_record_data(
         selection_total_tokens=record_dict.get("selection_total_tokens", 0),
         selection_model_calls=record_dict.get("selection_model_calls", 0),
         selection_duration_seconds=record_dict.get("selection_duration_seconds", 0.0),
+        selection_tool_calls=record_dict.get("selection_tool_calls", 0),
+        selection_tool_duration_seconds=record_dict.get("selection_tool_duration_seconds", 0.0),
+        selection_inspected_file_count=record_dict.get("selection_inspected_file_count", 0),
+        selection_tool_transcript=record_dict.get("selection_tool_transcript", []),
         regeneration_prompt_tokens=record_dict.get("regeneration_prompt_tokens", 0),
         regeneration_completion_tokens=record_dict.get("regeneration_completion_tokens", 0),
         regeneration_total_tokens=record_dict.get("regeneration_total_tokens", 0),
@@ -195,6 +212,21 @@ def _to_run_record_data(
         total_workflow_tokens=record_dict.get("total_workflow_tokens", 0),
         total_workflow_model_calls=record_dict.get("total_workflow_model_calls", 0),
         total_workflow_duration_seconds=record_dict.get("total_workflow_duration_seconds", 0.0),
+        migration_generation_passed=record_dict.get("migration_generation_passed"),
+        migration_duration_seconds=record_dict.get("migration_duration_seconds", 0.0),
+        generated_migration_paths=record_dict.get("generated_migration_paths", []),
+        baseline_validation_passed=record_dict.get("baseline_validation_passed"),
+        baseline_validation_duration_seconds=record_dict.get("baseline_validation_duration_seconds", 0.0),
+        repair_prompt_tokens=record_dict.get("repair_prompt_tokens", 0),
+        repair_completion_tokens=record_dict.get("repair_completion_tokens", 0),
+        repair_total_tokens=record_dict.get("repair_total_tokens", 0),
+        repair_model_calls=record_dict.get("repair_model_calls", 0),
+        repair_duration_seconds=record_dict.get("repair_duration_seconds", 0.0),
+        repair_attempts=record_dict.get("repair_attempts", 0),
+        token_accounting_mode=record_dict.get("token_accounting_mode", "unknown"),
+        scenario_evaluator_passed=record_dict.get("scenario_evaluator_passed"),
+        scenario_evaluator_duration_seconds=record_dict.get("scenario_evaluator_duration_seconds", 0.0),
+        scenario_evaluator_checks=record_dict.get("scenario_evaluator_checks", []),
         selected_artifact_count=record_dict.get("selected_artifact_count", 0),
         regenerated_artifact_count=record_dict.get("regenerated_artifact_count", 0),
         preserved_artifact_count=record_dict.get("preserved_artifact_count", 0),
@@ -214,6 +246,10 @@ class ExecutionProfile:
     repetitions: int
     is_publication: bool
     description: str = ""
+    repository_names: list[str] | None = None
+    blast_radii: list[str] | None = None
+    scenario_ids: list[str] | None = None
+    timeout_seconds: int = 0
 
 
 PROFILES: dict[str, ExecutionProfile] = {
@@ -234,6 +270,8 @@ PROFILES: dict[str, ExecutionProfile] = {
         repetitions=2,
         is_publication=False,
         description="3 repos x 4 scenarios x 2 strategies x 2 reps, descriptive only",
+        repository_names=["todo", "djangocms", "saleor"],
+        blast_radii=["localized", "moderate"],
     ),
     "research": ExecutionProfile(
         name="research",
@@ -243,6 +281,34 @@ PROFILES: dict[str, ExecutionProfile] = {
         repetitions=3,
         is_publication=True,
         description="24 scenarios, full-evolution strategies, 3 reps, publication",
+        repository_names=["todo", "djangocms", "saleor"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+    ),
+    "scientific-smoke-v1": ExecutionProfile(
+        name="scientific-smoke-v1",
+        label="scientific-smoke-v1",
+        scenario_count=1,
+        strategies=["monolithic", "selective", "iterative_repository_agent"],
+        repetitions=1,
+        is_publication=False,
+        description="1 repo (todo) x 1 scenario (todo-loc-001) x 3 arms x 1 run, non-publication scientific smoke",
+        repository_names=["todo"],
+        blast_radii=["localized"],
+        scenario_ids=["todo-loc-001"],
+        timeout_seconds=180,
+    ),
+    "scientific-smoke-v2": ExecutionProfile(
+        name="scientific-smoke-v2",
+        label="scientific-smoke-v2",
+        scenario_count=3,
+        strategies=["monolithic", "selective", "iterative_repository_agent"],
+        repetitions=1,
+        is_publication=False,
+        description="3 smoke scenarios x 3 arms x 1 rep, non-publication three-arm core experiment",
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
+        timeout_seconds=300,
     ),
 }
 
@@ -281,7 +347,7 @@ class ScenarioProvider:
 # Strategy factory
 # ---------------------------------------------------------------------------
 
-def make_strategy(name: str, backend=None, graph=None):  # type: ignore[no-untyped-def]
+def make_strategy(name: str, backend=None, graph=None, artifact_descriptors=None):  # type: ignore[no-untyped-def]
     from benchmark.strategies import (
         FullContextStrategy,
         HybridSelectiveStrategy,
@@ -305,7 +371,7 @@ def make_strategy(name: str, backend=None, graph=None):  # type: ignore[no-untyp
 
     strategies = {
         "monolithic": (MonolithicRegenerationStrategy, {}),
-        "selective": (HybridSelectiveStrategy, {"graph": graph}),
+        "selective": (HybridSelectiveStrategy, {"graph": graph, "artifact_descriptors": artifact_descriptors}),
         "compiled_ai": (StaticOnlyStrategy, {"graph": graph}),
         "delta_mcp": (SemanticOnlyStrategy, {}),
         "incr_rtl": (TraceabilityOnlyStrategy, {}),
@@ -328,6 +394,7 @@ def make_backend(  # type: ignore[no-untyped-def]
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    qwen_quantization: str = "bnb-int8",
 ):
     if dry_run or backend_name == "mock":
         from benchmark.llm.mock_backend import MockLLMBackend
@@ -342,6 +409,7 @@ def make_backend(  # type: ignore[no-untyped-def]
     kwargs: dict[str, str] = {}
     if model_path:
         kwargs["model_path"] = model_path
+    kwargs["quantization_mode"] = qwen_quantization
     return KaggleQwenBackend(**kwargs)
 
 
@@ -349,7 +417,65 @@ def make_backend(  # type: ignore[no-untyped-def]
 # Workspace / IsolationContext
 # ---------------------------------------------------------------------------
 
-def make_isolation(workspace_dir: Path):  # type: ignore[no-untyped-def]
+_WORKSPACE_INFRASTRUCTURE_DIRS = frozenset({"runs", "tmp", "snapshots"})
+
+
+def _reset_workspace_source_from_snapshot(
+    workspace_dir: Path,
+    snapshot_root: str | Path,
+) -> None:
+    """Reset *workspace_dir* to an exact copy of the immutable *snapshot_root*.
+
+    The regeneration executor reads source files from ``workspace.root /
+    artifact.path``, so every file that ``discover_eligible_artifacts`` finds
+    must already be present in the workspace root.
+
+    Strategy workspaces are reused across scenarios. Source restaging must
+    therefore be a *reset*, not an overlay: every existing top-level child of
+    the workspace is removed except the workspace-internal infrastructure
+    directories (``runs``, ``tmp``, ``snapshots``). Only then is the immutable
+    snapshot source copied in, so stale generated files from a previous scenario
+    can never survive into the next run.
+    """
+    src = Path(snapshot_root)
+    dst = Path(workspace_dir)
+    dst.mkdir(parents=True, exist_ok=True)
+
+    # Delete every existing top-level child except workspace infrastructure.
+    for entry in dst.iterdir():
+        if entry.name in _WORKSPACE_INFRASTRUCTURE_DIRS:
+            continue
+        if entry.is_symlink() or entry.is_file():
+            entry.unlink()
+        elif entry.is_dir():
+            shutil.rmtree(entry)
+
+    # Copy the immutable snapshot source into the now-clean workspace.
+    # Ignored metadata subdirectories that are NOT source files.
+    _skip_subdirs = frozenset({"_metadata", "manifests"})
+    for entry in src.iterdir():
+        if entry.is_dir() and entry.name in _skip_subdirs:
+            continue
+        dest = dst / entry.name
+        if entry.is_dir():
+            shutil.copytree(entry, dest, dirs_exist_ok=True)
+        else:
+            shutil.copy2(entry, dest)
+
+
+def make_isolation(  # type: ignore[no-untyped-def]
+    workspace_dir: Path,
+    active_snapshot_root: str | Path | None = None,
+    snapshot_storage_root: str | Path | None = None,
+):
+    """Build an IsolationContext for *workspace_dir*.
+
+    ``snapshot_storage_root`` is the explicit shared snapshot storage root used
+    by ``stage_repository_snapshot`` (e.g. ``<output>/workspace/snapshots``).
+    When supplied it becomes the isolation ``snapshot_base`` so that an active
+    snapshot staged under the shared root is accepted for every child arm
+    workspace instead of falling back to ``<arm workspace>/snapshots``.
+    """
     from benchmark.execution.isolation import IsolationContext
     from benchmark.repositories.workspace import WorkspacePath
 
@@ -358,7 +484,19 @@ def make_isolation(workspace_dir: Path):  # type: ignore[no-untyped-def]
     (workspace_dir / "snapshots").mkdir(exist_ok=True)
     (workspace_dir / "runs").mkdir(exist_ok=True)
     (workspace_dir / "tmp").mkdir(exist_ok=True)
-    return IsolationContext(workspace=ws)
+    snapshot_base = Path(snapshot_storage_root) if snapshot_storage_root is not None else None
+    if active_snapshot_root:
+        isolation = IsolationContext(
+            workspace=ws,
+            snapshot_base=snapshot_base,
+            active_snapshot_root=active_snapshot_root,
+        )
+        _reset_workspace_source_from_snapshot(workspace_dir, active_snapshot_root)
+        return isolation
+    return IsolationContext(
+        workspace=ws,
+        snapshot_base=snapshot_base,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -458,6 +596,11 @@ def run_arm(
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    validation_command: list[str] | None = None,
+    max_tokens: int = 0,
+    max_completion_tokens_per_call: int = 4096,
+    max_total_workflow_tokens: int = 0,
+    qwen_quantization: str = "bnb-int8",
 ) -> object:
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -475,16 +618,34 @@ def run_arm(
         backend_name=backend_name,
         openrouter_model=openrouter_model,
         openrouter_timeout=openrouter_timeout,
+        qwen_quantization=qwen_quantization,
     ) if needs_llm else None
     strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
 
     isolation = make_isolation(isolation_workspace)
 
+    _approved_regen_strategies = frozenset({
+        "monolithic", "selective", "iterative_repository_agent",
+    })
+    enable_regen = not dry_run and strategy_name in _approved_regen_strategies
+
+    if max_total_workflow_tokens > 0 and max_tokens > 0 and max_total_workflow_tokens != max_tokens:
+        raise ValueError(
+            f"Explicit max_total_workflow_tokens ({max_total_workflow_tokens}) and "
+            f"legacy max_tokens ({max_tokens}) are both positive but differ"
+        )
+    resolved_total = max_total_workflow_tokens if max_total_workflow_tokens > 0 else max_tokens
     config = PipelineConfig(
         protocol_version=protocol_version,
         timeout_seconds=timeout_seconds,
         max_attempts_per_run=max_attempts,
+        max_tokens_per_run=resolved_total,
         dry_run=dry_run,
+        enable_regeneration=enable_regen,
+        validation_command=validation_command,
+        validation_timeout=180,
+        max_completion_tokens_per_call=max_completion_tokens_per_call,
+        max_total_workflow_tokens=resolved_total,
     )
 
     pipeline = BenchmarkPipeline(
@@ -611,7 +772,9 @@ def parse_args() -> argparse.Namespace:
         help=(
             "Execution profile: smoke (orchestration, 1 scenario, 7 strategies, non-publication), "
             "pilot (protocol, 12 scenarios, 2 strategies, 2 reps, descriptive), "
-            "research (protocol, 24 scenarios, 4 full-evolution strategies, 3 reps, publication)"
+            "research (protocol, 24 scenarios, 4 full-evolution strategies, 3 reps, publication), "
+            "scientific-smoke-v1 (1 repo x 1 scenario x 3 arms x 1 run, non-publication), "
+            "scientific-smoke-v2 (three-arm, 3 scenarios x 3 arms x 1 repetition, non-publication)"
         ),
     )
     parser.add_argument(
@@ -639,6 +802,30 @@ def parse_args() -> argparse.Namespace:
         help="Per-run timeout in seconds (0 = no limit)",
     )
     parser.add_argument(
+        "--max-tokens",
+        type=int,
+        default=0,
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--max-completion-tokens-per-call",
+        type=int,
+        default=4096,
+        help="Per-backend-call completion token limit (default: 4096)",
+    )
+    parser.add_argument(
+        "--max-total-workflow-tokens",
+        type=int,
+        default=0,
+        help="Total workflow token ceiling per run (0 = unlimited)",
+    )
+    parser.add_argument(
+        "--validation-command",
+        type=str,
+        default=None,
+        help="Shell command for functional validation. Overrides manifest discovery.",
+    )
+    parser.add_argument(
         "--protocol-version",
         type=str,
         default="1.0",
@@ -655,6 +842,17 @@ def parse_args() -> argparse.Namespace:
         type=str,
         default=None,
         help="Explicit path to the Qwen model directory on Kaggle",
+    )
+    parser.add_argument(
+        "--qwen-quantization",
+        choices=["bnb-int8", "bnb-nf4", "fp16"],
+        default="bnb-int8",
+        help=(
+            "Qwen load quantization for the Kaggle backend: bnb-int8 "
+            "(BitsAndBytes load_in_8bit, default), bnb-nf4 "
+            "(BitsAndBytes NF4 4-bit, double-quant, float16 compute), or fp16. "
+            "Unknown values are rejected before any execution."
+        ),
     )
     parser.add_argument(
         "--resume",
@@ -732,6 +930,18 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Immutable build/bundle ID for the deployed code. Overrides auto-detection.",
     )
+    parser.add_argument(
+        "--kaggle-preflight-only",
+        action="store_true",
+        default=False,
+        help=(
+            "Run only the Kaggle smoke preflight (pinned dependency check, baseline "
+            "manage.py check + makemigrations --check --dry-run, requested Qwen "
+            "quantization load + deterministic 64-token probe, VRAM headroom) and exit "
+            "0 on pass / 1 on fail. Creates no experiment, RunRecord, workspace "
+            "results, or HF state."
+        ),
+    )
     args = parser.parse_args()
     _validate_cli_args(args)
     return args
@@ -739,6 +949,12 @@ def parse_args() -> argparse.Namespace:
 
 def _validate_cli_args(args: argparse.Namespace) -> None:
     errors: list[str] = []
+
+    if args.kaggle_preflight_only and args.dry_run:
+        errors.append(
+            "--kaggle-preflight-only runs the real Kaggle smoke preflight and "
+            "must not be combined with --dry-run."
+        )
 
     if args.data_dir:
         data_dir = Path(args.data_dir)
@@ -773,9 +989,22 @@ def _validate_cli_args(args: argparse.Namespace) -> None:
             errors.append(
                 "OPENROUTER_API_KEY environment variable is required for --backend openrouter"
             )
-    elif not args.dry_run and not args.backend:
+    elif not args.dry_run:
+        # Fail closed for the resolved Kaggle backend: an explicit
+        # `--backend kaggle-qwen` must NOT bypass the model requirement.
+        resolved_backend = args.backend or "kaggle-qwen"
         if not args.model_path:
-            errors.append("--model-path is required when not using --dry-run")
+            errors.append(
+                "--model-path is required when not using --dry-run "
+                f"(resolved backend: {resolved_backend})"
+            )
+
+    if args.max_tokens > 0 and args.max_total_workflow_tokens > 0 and args.max_tokens != args.max_total_workflow_tokens:
+        errors.append(
+            f"Conflicting token limits: --max-tokens={args.max_tokens} and "
+            f"--max-total-workflow-tokens={args.max_total_workflow_tokens} "
+            "cannot both be positive and differ."
+        )
 
     if errors:
         for err in errors:
@@ -862,12 +1091,24 @@ def _get_model_identity(
     model_path: str | None = None,
     backend_name: str | None = None,
     openrouter_model: str = "",
+    qwen_quantization: str = "bnb-int8",
 ) -> str:
+    """Resolve the model identity for the experiment.
+
+    A non-dry Kaggle backend must never resolve to ``dry-run:mock``. The
+    identity is checkpoint-and-quantization-aware so that two different Qwen
+    checkpoints or loaders can never share an identity (this is what blocks
+    auto-resume cross-model contamination).
+    """
     if backend_name == "openrouter" and openrouter_model:
         return f"openrouter:{openrouter_model}"
-    if model_path:
-        p = Path(model_path)
-        return f"qwen:{p.name}"
+    if backend_name == "kaggle-qwen" or model_path:
+        from benchmark.llm.kaggle_qwen_backend import compute_model_identity
+        if not model_path:
+            raise ValueError(
+                "model_path is required to compute the Kaggle Qwen model identity"
+            )
+        return compute_model_identity(model_path, qwen_quantization)
     return "dry-run:mock"
 
 
@@ -878,10 +1119,14 @@ def _build_execution_plan(
     skip_run_ids: set[str] | None = None,
     config_hash: str = "",
     protocol_version: str = "1.0",
+    scenarios: list | None = None,
 ) -> list[dict[str, Any]]:
     skip_run_ids = skip_run_ids or set()
-    all_scenarios = scenario_provider.list_scenarios()
-    selected = all_scenarios[:profile.scenario_count]
+    if scenarios is not None:
+        selected = scenarios
+    else:
+        all_scenarios = scenario_provider.list_scenarios()
+        selected = all_scenarios[:profile.scenario_count]
     plan: list[dict[str, Any]] = []
 
     for scenario in selected:
@@ -901,7 +1146,10 @@ def _build_execution_plan(
     return plan
 
 
-def _make_run_id(scenario_id: str, strategy_name: str, rep: int, config_hash: str = "", protocol_version: str = "1.0") -> str:
+def _make_run_id(
+    scenario_id: str, strategy_name: str, rep: int,
+    config_hash: str = "", protocol_version: str = "1.0",
+) -> str:
     payload = json.dumps({
         "scenario_id": scenario_id,
         "strategy_name": strategy_name,
@@ -911,6 +1159,81 @@ def _make_run_id(scenario_id: str, strategy_name: str, rep: int, config_hash: st
     }, sort_keys=True)
     suffix = hashlib.sha256(payload.encode()).hexdigest()[:8]
     return f"{scenario_id}_{strategy_name}_rep{rep}_{suffix}"
+
+
+def _stage_and_smoke_run(
+    data_dir: Path,
+    workspace_dir: Path,
+    repo_id: str,
+    revision_id: str,
+    scenario_id: str,
+    strategy_name: str,
+    scenario_provider: ScenarioProvider,
+    dep_graph: object = None,
+    dry_run: bool = False,
+    validation_command: list[str] | None = None,
+    max_tokens: int = 0,
+    backend_name: str | None = None,
+    model_path: str | None = None,
+    protocol_version: str = "1.0",
+    max_attempts: int = 3,
+    timeout_seconds: int = 180,
+    _backend: object = None,
+    max_completion_tokens_per_call: int = 4096,
+    max_total_workflow_tokens: int = 0,
+) -> dict[str, Any]:
+    """Production path: repository source resolution → snapshot staging → execution.
+
+    Extracted from main() so the execution-contract test exercises the same
+    code path, not a manual wire-up.  Returns the record_dict from
+    _run_single_scenario_strategy.
+    """
+    from benchmark.repositories.snapshot import stage_repository_snapshot
+
+    source_root = data_dir / "repositories" / repo_id
+    if not source_root.is_dir():
+        raise FileNotFoundError(f"Repository source not found: {source_root}")
+
+    snapshot_storage = workspace_dir / "snapshots"
+    staged = stage_repository_snapshot(
+        source_root=source_root,
+        snapshot_storage_root=snapshot_storage,
+        repository_id=repo_id,
+        revision_id=revision_id,
+    )
+    arm_active_snapshot_root: str | None = str(staged)
+
+    profile = ExecutionProfile(
+        name="smoke-test",
+        label="scientific-smoke-v1-acceptance",
+        scenario_count=1,
+        strategies=[strategy_name],
+        repetitions=1,
+        is_publication=False,
+    )
+
+    record_dict, _ = _run_single_scenario_strategy(
+        scenario_id=scenario_id,
+        strategy_name=strategy_name,
+        scenario_provider=scenario_provider,
+        dry_run=dry_run,
+        profile=profile,
+        model_path=model_path,
+        protocol_version=protocol_version,
+        max_attempts=max_attempts,
+        timeout_seconds=timeout_seconds,
+        dep_graph=dep_graph,
+        workspace_dir=workspace_dir,
+        backend_name=backend_name,
+        validation_command=validation_command,
+        max_tokens=max_tokens,
+        active_snapshot_root=arm_active_snapshot_root,
+        snapshot_storage_root=snapshot_storage,
+        _backend=_backend,
+        max_completion_tokens_per_call=max_completion_tokens_per_call,
+        max_total_workflow_tokens=max_total_workflow_tokens,
+    )
+    return record_dict
 
 
 def _run_single_scenario_strategy(
@@ -928,31 +1251,72 @@ def _run_single_scenario_strategy(
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    validation_command: list[str] | None = None,
+    max_tokens: int = 0,
+    active_snapshot_root: str | Path | None = None,
+    snapshot_storage_root: str | Path | None = None,
+    editable_artifact_paths: tuple[str, ...] = (),
+    artifact_descriptors: tuple[object, ...] = (),
+    _backend: object = None,
+    max_completion_tokens_per_call: int = 4096,
+    max_total_workflow_tokens: int = 0,
+    qwen_quantization: str = "bnb-int8",
 ) -> tuple[dict[str, Any], int]:
-    from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig, PipelineResult
+    from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
-    scenario = scenario_provider.get_scenario(scenario_id)
+    scenario_provider.get_scenario(scenario_id)
 
     design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
     needs_llm = design.get("llm", False)
 
-    backend = make_backend(
-        dry_run=dry_run,
-        model_path=model_path,
-        backend_name=backend_name,
-        openrouter_model=openrouter_model,
-        openrouter_timeout=openrouter_timeout,
-    ) if needs_llm else None
+    if _backend is not None:
+        backend = _backend
+    elif needs_llm:
+        backend = make_backend(
+            dry_run=dry_run,
+            model_path=model_path,
+            backend_name=backend_name,
+            openrouter_model=openrouter_model,
+            openrouter_timeout=openrouter_timeout,
+            qwen_quantization=qwen_quantization,
+        )
+    else:
+        backend = None
 
-    strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
+    strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph, artifact_descriptors=artifact_descriptors)
 
-    isolation = make_isolation(workspace_dir)
+    isolation = make_isolation(
+        workspace_dir,
+        active_snapshot_root=active_snapshot_root,
+        snapshot_storage_root=snapshot_storage_root,
+    )
 
+    _approved_regen_strategies = frozenset({
+        "monolithic", "selective", "iterative_repository_agent",
+    })
+    enable_regen = not dry_run and strategy_name in _approved_regen_strategies
+
+    if max_total_workflow_tokens > 0 and max_tokens > 0 and max_total_workflow_tokens != max_tokens:
+        raise ValueError(
+            f"Explicit max_total_workflow_tokens ({max_total_workflow_tokens}) and "
+            f"legacy max_tokens ({max_tokens}) are both positive but differ"
+        )
+    resolved_total = max_total_workflow_tokens if max_total_workflow_tokens > 0 else max_tokens
     config = PipelineConfig(
         protocol_version=protocol_version,
         timeout_seconds=timeout_seconds,
         max_attempts_per_run=max_attempts,
+        max_tokens_per_run=resolved_total,
         dry_run=dry_run,
+        enable_regeneration=enable_regen,
+        validation_command=validation_command,
+        validation_timeout=180,
+        active_snapshot_root=str(active_snapshot_root) if active_snapshot_root else None,
+        editable_artifact_paths=editable_artifact_paths,
+        canonical_project_root=Path(__file__).resolve().parent,
+        python_executable=sys.executable,
+        max_completion_tokens_per_call=max_completion_tokens_per_call,
+        max_total_workflow_tokens=resolved_total,
     )
 
     pipeline = BenchmarkPipeline(
@@ -966,12 +1330,11 @@ def _run_single_scenario_strategy(
 
     t0 = time.monotonic()
     record = pipeline.run_scenario_by_id(scenario_id)
-    elapsed = time.monotonic() - t0
+    time.monotonic() - t0
 
     status = record.status.value if hasattr(record.status, "value") else str(record.status)
     success = 1 if status == "succeeded" else 0
     failure = 1 if status in ("failed",) else 0
-    timeout = 1 if status == "timed_out" else 0
 
     record_dict: dict[str, Any] = {
         "run_id": record.identity.run_id,
@@ -990,6 +1353,10 @@ def _run_single_scenario_strategy(
         "selection_total_tokens": record.selection_total_tokens,
         "selection_model_calls": record.selection_model_calls,
         "selection_duration_seconds": record.selection_duration_seconds,
+        "selection_tool_calls": record.selection_tool_calls,
+        "selection_tool_duration_seconds": record.selection_tool_duration_seconds,
+        "selection_inspected_file_count": record.selection_inspected_file_count,
+        "selection_tool_transcript": list(record.selection_tool_transcript),
         "regeneration_prompt_tokens": record.regeneration_prompt_tokens,
         "regeneration_completion_tokens": record.regeneration_completion_tokens,
         "regeneration_total_tokens": record.regeneration_total_tokens,
@@ -997,6 +1364,21 @@ def _run_single_scenario_strategy(
         "regeneration_duration_seconds": record.regeneration_duration_seconds,
         "functional_validation_duration_seconds": record.functional_validation_duration_seconds,
         "functional_validation_passed": record.functional_validation_passed,
+        "migration_generation_passed": record.migration_generation_passed,
+        "migration_duration_seconds": record.migration_duration_seconds,
+        "generated_migration_paths": list(record.generated_migration_paths),
+        "baseline_validation_passed": record.baseline_validation_passed,
+        "baseline_validation_duration_seconds": record.baseline_validation_duration_seconds,
+        "scenario_evaluator_passed": record.scenario_evaluator_passed,
+        "scenario_evaluator_duration_seconds": record.scenario_evaluator_duration_seconds,
+        "scenario_evaluator_checks": list(record.scenario_evaluator_checks),
+        "repair_prompt_tokens": record.repair_prompt_tokens,
+        "repair_completion_tokens": record.repair_completion_tokens,
+        "repair_total_tokens": record.repair_total_tokens,
+        "repair_model_calls": record.repair_model_calls,
+        "repair_duration_seconds": record.repair_duration_seconds,
+        "repair_attempts": record.repair_attempts,
+        "token_accounting_mode": record.token_accounting_mode,
         "total_workflow_tokens": record.total_workflow_tokens,
         "total_workflow_model_calls": record.total_workflow_model_calls,
         "total_workflow_duration_seconds": record.total_workflow_duration_seconds,
@@ -1004,6 +1386,8 @@ def _run_single_scenario_strategy(
         "regenerated_artifact_count": record.regenerated_artifact_count,
         "preserved_artifact_count": record.preserved_artifact_count,
         "unresolved_human_review_count": record.unresolved_human_review_count,
+        "max_completion_tokens_per_call": max_completion_tokens_per_call,
+        "max_total_workflow_tokens": resolved_total,
     }
     if record.failures:
         record_dict["failures"] = [
@@ -1015,17 +1399,28 @@ def _run_single_scenario_strategy(
             }
             for f in record.failures
         ]
-    return record_dict, int(success or failure or timeout)
+    return record_dict, int(success or failure)
 
 
 def _compute_config_hash(args: argparse.Namespace) -> str:
+    explicit_total = getattr(args, "max_total_workflow_tokens", 0) or 0
+    legacy_total = getattr(args, "max_tokens", 0) or 0
+    if explicit_total > 0 and legacy_total > 0 and explicit_total != legacy_total:
+        raise ValueError(
+            f"Explicit max_total_workflow_tokens ({explicit_total}) and "
+            f"legacy max_tokens ({legacy_total}) are both positive but differ"
+        )
+    resolved_total = explicit_total or legacy_total
     config_obj = {
-        "dry_run": args.dry_run,
-        "profile": args.profile,
-        "strategy": args.strategy,
-        "max_attempts": args.max_attempts,
-        "timeout": args.timeout,
-        "protocol_version": args.protocol_version,
+        "dry_run": getattr(args, "dry_run", False),
+        "profile": getattr(args, "profile", "smoke"),
+        "strategy": getattr(args, "strategy", None),
+        "max_attempts": getattr(args, "max_attempts", 3),
+        "timeout": getattr(args, "timeout", 0),
+        "protocol_version": getattr(args, "protocol_version", "1.0"),
+        "max_completion_tokens_per_call": getattr(args, "max_completion_tokens_per_call", 4096),
+        "max_total_workflow_tokens": resolved_total,
+        "qwen_quantization": getattr(args, "qwen_quantization", "bnb-int8"),
     }
     raw = json.dumps(config_obj, sort_keys=True)
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
@@ -1049,7 +1444,7 @@ def _build_smoke_progress_summary(
     for sname in all_strategy_names:
         plan_ids = [rid for rid in planned_run_ids if f"_{sname}_" in rid]
         completed_ids = [rid for rid in checkpoint_completed if f"_{sname}_" in rid]
-        failed_ids = [rid for rid in checkpoint_failed if f"_{sname}_" in rid]
+        [rid for rid in checkpoint_failed if f"_{sname}_" in rid]
         pending_ids = [rid for rid in pending_run_ids if f"_{sname}_" in rid]
 
         agg = results_agg.get(sname, {})
@@ -1115,6 +1510,187 @@ def _preflight_check(
         return False, "unknown", "unknown", f"Preflight exception: {exc}"
 
 
+def _format_hms(seconds: float) -> str:
+    """Format a wall-clock duration as HH:MM:SS."""
+    total = max(0, int(seconds))
+    hh, rem = divmod(total, 3600)
+    mm, ss = divmod(rem, 60)
+    return f"{hh:02d}:{mm:02d}:{ss:02d}"
+
+
+def _estimate_run_eta(record_store: Any, remaining_runs: int) -> str:
+    """ETA string from persisted terminal Run durations (cross-session).
+
+    Never estimates from pending timeouts or idle cross-session gaps: only
+    terminal records with a real measured duration are used. Returns
+    "estimating" when no such history exists yet.
+    """
+    if remaining_runs <= 0:
+        return _format_hms(0.0)
+    durations: list[float] = []
+    try:
+        for rec in record_store.load_all():
+            if rec.status in ("succeeded", "failed", "timed_out", "cancelled") and rec.duration_seconds > 0:
+                durations.append(rec.duration_seconds)
+    except Exception:
+        return "estimating"
+    if not durations:
+        return "estimating"
+    avg = sum(durations) / len(durations)
+    return _format_hms(avg * remaining_runs)
+
+
+def _render_progress_line(
+    completed: int,
+    total: int,
+    current_label: str,
+    stage: str,
+    elapsed_seconds: float,
+    eta: str,
+) -> str:
+    width = 20
+    filled = width * completed // max(total, 1)
+    bar = "#" * filled + "-" * (width - filled)
+    return (
+        f"[{bar}] {completed}/{total} | current={current_label} | "
+        f"stage={stage} | elapsed={_format_hms(elapsed_seconds)} | ETA={eta}"
+    )
+
+
+_SCIENTIFIC_FAILURE_KINDS = frozenset(
+    {
+        "model_output",
+        "build",
+        "changed_requirement",
+        "regression",
+        "architecture",
+        "scientific_budget_exhausted",
+    }
+)
+_ENGINEERING_FAILURE_KINDS = frozenset(
+    {
+        "infrastructure",
+        "infrastructure_nonrepairable",
+        "harness_defect",
+        "timeout",
+        "environment",
+        "environment_preflight",
+    }
+)
+
+
+def _terminal_record_outcome(record: dict[str, Any]) -> str:
+    """Classify a persisted terminal record as scientific or engineering.
+
+    A benchmark model/code failure is a valid measured outcome.  Only
+    infrastructure, harness, timeout/cancellation, or unknown failures should
+    make the process/session fail as an execution job.
+    """
+    status = str(record.get("status", ""))
+    if status == "succeeded":
+        return "scientific_success"
+    if status in ("timed_out", "cancelled"):
+        return "engineering_blocker"
+    if status != "failed":
+        return "engineering_blocker"
+
+    kinds = {
+        str(item.get("kind", ""))
+        for item in (record.get("failure_details") or [])
+        if isinstance(item, dict) and item.get("kind")
+    }
+    classification = str(record.get("failure_classification", ""))
+    if classification:
+        kinds.add(classification)
+    if not kinds or kinds & _ENGINEERING_FAILURE_KINDS:
+        return "engineering_blocker"
+    if kinds <= _SCIENTIFIC_FAILURE_KINDS:
+        return "scientific_failure"
+    return "engineering_blocker"
+
+
+def _read_persisted_run_records(output_dir: Path) -> list[dict[str, Any]]:
+    path = output_dir / "run_records.jsonl"
+    if not path.is_file():
+        return []
+    records: list[dict[str, Any]] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            value = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(value, dict):
+            records.append(value)
+    return records
+
+
+def _should_stop_after_terminal_run(
+    *,
+    last_run_outcome: str,
+    hf_uploader_configured: bool,
+    hf_sync_ok: bool,
+) -> bool:
+    """Return True when the continuous session must stop before the next run.
+
+    Scientific success and scientific failure are measured data: persist and
+    continue.  An engineering blocker (infrastructure, harness, timeout,
+    unknown) or a required HF sync failure must stop the session immediately.
+    """
+    return last_run_outcome == "engineering_blocker" or (
+        hf_uploader_configured and not hf_sync_ok
+    )
+
+
+def _decide_session_exit_code(
+    *,
+    max_runs: int,
+    all_runs_completed: bool,
+    session_created_run_count: int,
+    last_run_status: str,
+    hf_uploader_configured: bool,
+    hf_sync_ok: bool,
+    total_failed: int,
+    last_run_failure_classification: str = "",
+    engineering_blocker_count: int = 0,
+    last_run_outcome: str = "",
+) -> int:
+    """Decide the process exit code for this session.
+
+    Rules:
+      - Any required HF sync upload failure => 1 (local artifacts remain safe).
+      - Any persisted engineering blocker => 1, including an incomplete
+        continuous session whose last run was an engineering blocker.
+      - A measured model/build/requirement/regression/architecture failure is
+        a valid scientific terminal outcome and does not fail the process.
+      - Infrastructure, harness, timeout/cancellation, unknown failures, or
+        required HF sync failure => 1.
+      - Bounded one-run scientific result => 0.
+      - Incomplete plan without an engineering blocker => 0 (resumable).
+      - Complete plan => 0 unless an engineering blocker was persisted.
+    """
+    if hf_uploader_configured and not hf_sync_ok:
+        return 1
+    if engineering_blocker_count > 0:
+        return 1
+    if not all_runs_completed:
+        if max_runs > 0 and session_created_run_count > 0:
+            if last_run_outcome:
+                return 1 if last_run_outcome == "engineering_blocker" else 0
+            if last_run_status in ("timed_out", "cancelled"):
+                return 1
+            if (
+                last_run_status == "failed"
+                and last_run_failure_classification
+                not in _SCIENTIFIC_FAILURE_KINDS
+            ):
+                return 1
+        return 0
+    _ = total_failed  # scientific failures are measured data, not job failure
+    return 0
+
+
 def main() -> int:
     args = parse_args()
     output_dir = Path(args.output_dir)
@@ -1125,6 +1701,10 @@ def main() -> int:
 
     profile = PROFILES[args.profile]
 
+    # Use profile timeout if CLI arg not explicitly set (default 0 = no limit)
+    if args.timeout == 0 and profile.timeout_seconds > 0:
+        args.timeout = profile.timeout_seconds
+
     source_commit = _get_source_commit(
         explicit_commit=args.source_commit,
         explicit_tag=args.source_tag,
@@ -1134,12 +1714,42 @@ def main() -> int:
         source_commit=source_commit,
     )
     config_hash = _compute_config_hash(args)
-    resolved_backend = args.backend or ("kaggle-qwen" if not args.dry_run else "mock")
+    resolved_backend = "mock" if args.dry_run else (args.backend or "kaggle-qwen")
     model_identity = _get_model_identity(
         model_path=args.model_path,
         backend_name=resolved_backend,
         openrouter_model=args.openrouter_model,
+        qwen_quantization=args.qwen_quantization,
     )
+
+    # ---- Kaggle preflight-only gate (R7C-REAL-RUN-ROOT-CLOSURE) ------------
+    # Runs the pinned-dependency + baseline manage.py/makemigrations + requested
+    # Qwen quantization load/probe + VRAM-headroom gate. Creates NO experiment,
+    # RunRecord, workspace results, or HF state. Exit 0 on pass, 1 on fail.
+    if args.kaggle_preflight_only:
+        from benchmark.execution.preflight import (
+            render_preflight_table,
+            run_kaggle_smoke_preflight,
+        )
+
+        preflight_root = output_dir
+        preflight_json = preflight_root / "kaggle_smoke_preflight.v1.json"
+        result = run_kaggle_smoke_preflight(
+            model_path=args.model_path or "",
+            data_dir=data_dir,
+            preflight_root=preflight_root,
+            json_output_path=preflight_json,
+            quantization_mode=args.qwen_quantization,
+        )
+        print(render_preflight_table(result))
+        if result.passed:
+            logger.info("Kaggle smoke preflight PASSED: %s", preflight_json)
+            return 0
+        logger.error(
+            "Kaggle smoke preflight FAILED: %s (see %s)",
+            result.rejection_reason, preflight_json,
+        )
+        return 1
 
     logger.info(
         "Benchmark config: dry_run=%s  profile=%s  label=%s  output=%s  data_dir=%s  "
@@ -1149,11 +1759,41 @@ def main() -> int:
         args.source_tag or "", resolved_backend,
     )
 
+    # ---- Load and filter scenarios (before resume/checkpoint) ---------------
+    scenario_provider = ScenarioProvider(scenarios_dir)
+    all_scenarios = scenario_provider.list_scenarios()
+    logger.info("Loaded %d scenarios from %s", len(all_scenarios), scenarios_dir)
+    _validate_scenario_count(all_scenarios, profile)
+
+    strategy_names = [args.strategy] if args.strategy else profile.strategies
+
+    selected_scenarios = all_scenarios
+    if profile.repository_names:
+        selected_scenarios = [s for s in selected_scenarios if s.repository in profile.repository_names]
+    if profile.blast_radii:
+        selected_scenarios = [s for s in selected_scenarios if s.blast_radius in profile.blast_radii]
+    if profile.scenario_ids:
+        missing = [sid for sid in profile.scenario_ids if not any(s.scenario_id == sid for s in selected_scenarios)]
+        if missing:
+            logger.error(
+                "Configured scenario IDs not found: %s. Loaded scenarios: %s",
+                missing, [s.scenario_id for s in selected_scenarios],
+            )
+            sys.exit(1)
+        selected_scenarios = [s for s in selected_scenarios if s.scenario_id in profile.scenario_ids]
+    selected_scenarios = selected_scenarios[:profile.scenario_count]
+    logger.info(
+        "Selected %d scenario(s) for profile=%s: %s",
+        len(selected_scenarios), profile.name,
+        [s.scenario_id for s in selected_scenarios],
+    )
+    selected_scenario_ids = [s.scenario_id for s in selected_scenarios]
+
     # ---- Checkpoint / Resume setup -----------------------------------------
-    from benchmark.checkpoint.checkpoint import CheckpointManager, CheckpointData, ProgressManager, ProgressData
+    from benchmark.checkpoint.checkpoint import CheckpointData, CheckpointManager, ProgressData, ProgressManager
+    from benchmark.checkpoint.package import ResultsPackager
     from benchmark.checkpoint.persistence import RunRecordStore
     from benchmark.checkpoint.resume import ResumeManager, ResumeValidationError
-    from benchmark.checkpoint.package import ResultsPackager
 
     resume_mgr = ResumeManager(
         runs_dir=output_dir,
@@ -1172,17 +1812,20 @@ def main() -> int:
     hf_uploader: Any = None
     hf_experiment_id = args.experiment_id or time.strftime("exp-%Y%m%d-%H%M%S")
     hf_enabled = bool(args.hf_sync and args.hf_repo_id)
+    hf_sync_ok: bool = True
     skip_run_ids: set[str] = set()
     resume_result = None
 
     if hf_enabled:
         from benchmark.checkpoint.hf_sync import (
+            HfResumeManager,
             HfUploader,
             RemoteLayout,
-            verify_repo_private,
             RepoVisibilityError,
-            HfResumeManager,
             resolve_auto_resume,
+            verify_repo_private,
+        )
+        from benchmark.checkpoint.hf_sync import (
             ResumeValidationError as HfResumeError,
         )
 
@@ -1210,9 +1853,6 @@ def main() -> int:
                 hashlib.sha256(Path(hf_sync_module.__file__).read_bytes()).hexdigest()[:16],
                 hf_sync_module.__file__,
             )
-            scenario_provider_for_auto = ScenarioProvider(scenarios_dir)
-            all_scenarios_for_auto = scenario_provider_for_auto.list_scenarios()
-            selected_for_auto = all_scenarios_for_auto[:profile.scenario_count]
             strategy_names_for_auto = [args.strategy] if args.strategy else profile.strategies
 
             resume_result = resolve_auto_resume(
@@ -1223,7 +1863,7 @@ def main() -> int:
                 source_commit=source_commit,
                 config_hash=config_hash,
                 model_identity=model_identity,
-                scenario_ids=[s.scenario_id for s in selected_for_auto],
+                scenario_ids=selected_scenario_ids,
                 strategy_names=strategy_names_for_auto,
                 explicit_experiment_id=args.experiment_id,
                 new_experiment=args.new_experiment,
@@ -1257,7 +1897,7 @@ def main() -> int:
                     config_hash=config_hash,
                     model_identity=model_identity,
                     source_commit=source_commit,
-                    scenario_ids=[s.scenario_id for s in selected_for_auto],
+                    scenario_ids=selected_scenario_ids,
                     strategy_names=strategy_names_for_auto,
                 )
                 try:
@@ -1312,12 +1952,13 @@ def main() -> int:
             logger.error("--resume-from-hf requires HF_TOKEN environment variable")
             return 1
         from benchmark.checkpoint.hf_sync import (
-            HfResumeManager, RemoteLayout, ResumeValidationError as HfResumeError,
+            HfResumeManager,
+            RemoteLayout,
+        )
+        from benchmark.checkpoint.hf_sync import (
+            ResumeValidationError as HfResumeError,
         )
 
-        scenario_provider_for_resume = ScenarioProvider(scenarios_dir)
-        all_scenarios_for_resume = scenario_provider_for_resume.list_scenarios()
-        selected_for_resume = all_scenarios_for_resume[:profile.scenario_count]
         strategy_names_for_resume = [args.strategy] if args.strategy else profile.strategies
 
         hf_resume_layout = RemoteLayout(
@@ -1335,7 +1976,7 @@ def main() -> int:
             config_hash=config_hash,
             model_identity=model_identity,
             source_commit=source_commit,
-            scenario_ids=[s.scenario_id for s in selected_for_resume],
+            scenario_ids=selected_scenario_ids,
             strategy_names=strategy_names_for_resume,
         )
         try:
@@ -1357,14 +1998,6 @@ def main() -> int:
             logger.error("Corrupted checkpoint: %s", e)
             return 1
 
-    # ---- Validate scenarios -------------------------------------------------
-    scenario_provider = ScenarioProvider(scenarios_dir)
-    all_scenarios = scenario_provider.list_scenarios()
-    logger.info("Loaded %d scenarios from %s", len(all_scenarios), scenarios_dir)
-    _validate_scenario_count(all_scenarios, profile)
-
-    strategy_names = [args.strategy] if args.strategy else profile.strategies
-
     # Report strategy capabilities per arm
     for sn in strategy_names:
         cap = describe_capabilities(sn)
@@ -1384,11 +2017,129 @@ def main() -> int:
             cap["uses_dependency_graph_by_design"], cap["dependency_graph_attached"], graph_match,
         )
 
+    # ---- Resolve validation command per repository --------------------------
+    # Load the canonical manifest collection to discover test_discovery
+    # for each repository. Used when enable_regeneration=True.
+    _manifest_collection = None
+    _validation_commands: dict[str, list[str]] = {}
+    if not args.dry_run:
+        from benchmark.repositories.loader import RepositoryLoader
+
+        repo_loader = RepositoryLoader(data_dir)
+        try:
+            _manifest_collection = repo_loader.load_manifest()
+        except Exception as exc:
+            logger.warning("Could not load repository manifests: %s", exc)
+
+        if args.validation_command:
+            # CLI override applies to all repos
+            cmd = shlex.split(args.validation_command)
+            for sn in strategy_names:
+                _approved_regen = frozenset({
+                    "monolithic", "selective", "iterative_repository_agent",
+                })
+                if sn in _approved_regen:
+                    _validation_commands[sn] = cmd
+        elif _manifest_collection is not None:
+            for scenario in selected_scenarios:
+                manifest = _manifest_collection.get_manifest(scenario.repository)
+                if manifest and manifest.test_discovery.strip():
+                    parts = shlex.split(manifest.test_discovery)
+                    _validation_commands[scenario.repository] = parts
+                    break
+
+    # ---- Resolve canonical active snapshot per repository -------------------
+    # The active snapshot is an immutable staged copy of the repository source
+    # used as the canonical content for regeneration and ArtifactUniverse.
+    _active_snapshot_roots: dict[str, str] = {}
+    if not args.dry_run and _manifest_collection is not None and selected_scenarios:
+        from benchmark.repositories.snapshot import stage_repository_snapshot
+
+        unique_repos: set[str] = set()
+        for scenario in selected_scenarios:
+            if scenario.repository not in unique_repos:
+                unique_repos.add(scenario.repository)
+
+        for repo_id in unique_repos:
+            manifest = _manifest_collection.get_manifest(repo_id)
+            if manifest is None:
+                logger.warning("No manifest for repository '%s' — cannot stage snapshot", repo_id)
+                continue
+            source_root = data_dir / "repositories" / repo_id
+            if not source_root.is_dir():
+                logger.error(
+                    "Repository source root '%s' does not exist — cannot stage snapshot. "
+                    "Aborting benchmark before model initialization.",
+                    source_root,
+                )
+                return 1
+            version = _manifest_collection.get_version(repo_id)
+            revision = version.commit_sha[:12] if version and version.commit_sha and version.commit_sha != "TBD" else "main"
+            try:
+                staged = stage_repository_snapshot(
+                    source_root=source_root,
+                    snapshot_storage_root=workspace_dir / "snapshots",
+                    repository_id=repo_id,
+                    revision_id=revision,
+                )
+                _active_snapshot_roots[repo_id] = str(staged)
+                logger.info(
+                    "Active snapshot staged for repo=%s revision=%s at %s",
+                    repo_id, revision, staged,
+                )
+            except Exception as exc:
+                logger.warning("Failed to stage snapshot for '%s': %s", repo_id, exc)
+
+    # ---- Resolve llm_editable paths per repository from profile ----------------
+    _editable_paths: dict[str, tuple[str, ...]] = {}
+    if not args.dry_run and _manifest_collection is not None and selected_scenarios:
+        _approved_regen = frozenset({"monolithic", "selective", "iterative_repository_agent"})
+        uses_regen = any(sn in _approved_regen for sn in strategy_names)
+        repo_ids_for_scenarios = set(s.repository for s in selected_scenarios)
+
+        for repo_id in repo_ids_for_scenarios:
+            profile_obj = _manifest_collection.get_profile(repo_id)
+            au_ok = False
+            if profile_obj is not None:
+                au = profile_obj.artifact_universe
+                if isinstance(au, dict):
+                    paths = au.get("llm_editable")
+                    if isinstance(paths, list) and len(paths) > 0:
+                        if all(isinstance(p, str) and len(p) > 0 for p in paths):
+                            _editable_paths[repo_id] = tuple(str(p) for p in paths)
+                            logger.info(
+                                "Editable paths for repo=%s: %s",
+                                repo_id, _editable_paths[repo_id],
+                            )
+                            au_ok = True
+
+            if uses_regen and not au_ok:
+                logger.error(
+                    "Repository '%s' has no valid non-empty llm_editable list "
+                    "in its profile. A regeneration strategy (%s) requires a "
+                    "complete editable-policy configuration.",
+                    repo_id, ", ".join(sorted(_approved_regen)),
+                )
+                return 1
+
+    # ---- Build artifact descriptors per repository from profile catalog ----
+    _artifact_descriptors: dict[str, tuple[object, ...]] = {}
+    if not args.dry_run and _manifest_collection is not None and selected_scenarios:
+        for repo_id in repo_ids_for_scenarios:
+            profile_obj = _manifest_collection.get_profile(repo_id)
+            if profile_obj is not None and profile_obj.artifact_catalog:
+                from benchmark.selection.dependency_scope import descriptors_from_profile
+                _artifact_descriptors[repo_id] = descriptors_from_profile(
+                    profile_obj.artifact_catalog,
+                    _editable_paths.get(repo_id, ()),
+                )
+
+    max_tokens = args.max_tokens
+
     # Build dependency graph once and reuse across all arms
     dep_graph = None
-    first_scenarios = all_scenarios[:profile.scenario_count]
-    if first_scenarios:
-        dep_graph = build_dependency_graph(data_dir, first_scenarios)
+    if selected_scenarios:
+        dep_graph = build_dependency_graph(data_dir, selected_scenarios)
 
     # ---- Build execution plan -----------------------------------------------
     # Full plan (no skip) to get complete planned_run_ids for checkpoint.
@@ -1402,6 +2153,7 @@ def main() -> int:
         skip_run_ids=None,
         config_hash=config_hash,
         protocol_version=args.protocol_version,
+        scenarios=selected_scenarios,
     )
     planned_run_ids = [run["run_id"] for run in full_plan]
 
@@ -1412,6 +2164,7 @@ def main() -> int:
         skip_run_ids=skip_run_ids,
         config_hash=config_hash,
         protocol_version=args.protocol_version,
+        scenarios=selected_scenarios,
     )
 
     total_planned = len(planned_run_ids)
@@ -1452,7 +2205,12 @@ def main() -> int:
 
     # Apply --max-runs limit
     if args.max_runs > 0 and len(execution_plan) > args.max_runs:
-        logger.info("--max-runs=%d: limiting plan from %d to %d runs", args.max_runs, len(execution_plan), args.max_runs)
+        logger.info(
+            "--max-runs=%d: limiting plan from %d to %d runs",
+            args.max_runs,
+            len(execution_plan),
+            args.max_runs,
+        )
         execution_plan = execution_plan[:args.max_runs]
 
     # ---- Human-readable execution summary -----------------------------------
@@ -1473,7 +2231,7 @@ def main() -> int:
         )
 
     # ---- Initialize checkpoint -----------------------------------------------
-    selected_scenario_ids = [s.scenario_id for s in all_scenarios[:profile.scenario_count]]
+    selected_scenario_ids = [s.scenario_id for s in selected_scenarios]
     pending_run_ids = [rid for rid in planned_run_ids if rid not in skip_run_ids]
 
     # Determine if this is a RESUME or START_NEW session.
@@ -1578,10 +2336,47 @@ def main() -> int:
     src_id_file = output_dir / "source_identity.json"
     src_id_file.write_text(json.dumps(source_identity, indent=2), encoding="utf-8")
 
+    # ---- Session preflight + one shared backend ------------------------------
+    # When any selected strategy needs an LLM, verify the GPU once and create a
+    # single reusable backend for the whole process. Loading the model per run
+    # caused repeated loads and T4 out-of-memory in the V2 Smoke runs.
+    selected_needs_llm = [
+        sn for sn in strategy_names
+        if STRATEGY_CAPABILITIES_DESIGN.get(sn, {}).get("llm", False)
+    ]
+    shared_backend: object | None = None
+    if selected_needs_llm:
+        if not args.dry_run:
+            preflight_ok, hw_id, sw_id, rejection_reason = _preflight_check(
+                dry_run=args.dry_run,
+                needs_llm=True,
+                strategy_name=selected_needs_llm[0],
+                backend_name=resolved_backend,
+            )
+            if not preflight_ok:
+                logger.error("Session preflight FAILED: %s", rejection_reason)
+                checkpoint_data.completion_status = "incomplete"
+                checkpoint_data.current_run_id = ""
+                checkpoint_mgr.write_atomic(checkpoint_data)
+                return 1
+        shared_backend = make_backend(
+            dry_run=args.dry_run,
+            model_path=args.model_path,
+            backend_name=resolved_backend,
+            openrouter_model=args.openrouter_model,
+            openrouter_timeout=args.openrouter_timeout,
+            qwen_quantization=args.qwen_quantization,
+        )
+        logger.info("Shared backend created once for the whole process")
+
     # ---- Execute plan -------------------------------------------------------
     t_start = time.monotonic()
     results_agg: dict[str, dict[str, Any]] = {}
     run_count = 0
+    session_created_run_ids: list[str] = []
+    last_run_status: str = ""
+    last_run_failure_classification: str = ""
+    last_run_outcome: str = ""
 
     for run_spec in execution_plan:
         run_id = run_spec["run_id"]
@@ -1628,8 +2423,17 @@ def main() -> int:
                 return 1
 
         # ---- Execute strategy -----------------------------------------------
-        run_started_at = datetime.now(timezone.utc).isoformat()
+        run_started_at = datetime.now(UTC).isoformat()
+        run_t0 = time.monotonic()
+        logger.info(
+            "RUN_START run_id=%s scenario=%s strategy=%s rep=%d",
+            run_id, scenario_id, strategy_name, rep,
+        )
         arm_workspace = workspace_dir / strategy_name
+        arm_validation_command = _validation_commands.get(
+            repository_id, _validation_commands.get(strategy_name)
+        )
+        arm_active_snapshot_root = _active_snapshot_roots.get(repository_id)
         record_dict, _ = _run_single_scenario_strategy(
             scenario_id=scenario_id,
             strategy_name=strategy_name,
@@ -1645,8 +2449,24 @@ def main() -> int:
             backend_name=resolved_backend,
             openrouter_model=args.openrouter_model,
             openrouter_timeout=args.openrouter_timeout,
+            validation_command=arm_validation_command,
+            max_tokens=max_tokens,
+            active_snapshot_root=arm_active_snapshot_root,
+            snapshot_storage_root=workspace_dir / "snapshots",
+            editable_artifact_paths=_editable_paths.get(repository_id, ()),
+            artifact_descriptors=_artifact_descriptors.get(repository_id, ()),
+            max_completion_tokens_per_call=args.max_completion_tokens_per_call,
+            max_total_workflow_tokens=args.max_total_workflow_tokens or max_tokens,
+            qwen_quantization=args.qwen_quantization,
+            _backend=shared_backend if needs_llm else None,
         )
-        run_ended_at = datetime.now(timezone.utc).isoformat()
+        run_ended_at = datetime.now(UTC).isoformat()
+        run_elapsed = time.monotonic() - run_t0
+        run_status_for_event = record_dict.get("status", "")
+        logger.info(
+            "RUN_END run_id=%s scenario=%s strategy=%s status=%s elapsed=%.3f",
+            run_id, scenario_id, strategy_name, run_status_for_event, run_elapsed,
+        )
 
         # Build persistent record
         failure_details: list[dict[str, Any]] = []
@@ -1662,10 +2482,7 @@ def main() -> int:
         status = record_dict.get("status", "")
         failure_classification = ""
         if status in ("failed", "timed_out", "cancelled"):
-            if failure_details:
-                failure_classification = failure_details[0].get("kind", "")
-            else:
-                failure_classification = "unknown"
+            failure_classification = failure_details[0].get("kind", "") if failure_details else "unknown"
 
         # Enforce canonical execution-plan Run ID
         record_dict["run_id"] = run_id
@@ -1703,6 +2520,10 @@ def main() -> int:
 
         # Persist immediately
         record_store.append(run_record_data)
+        session_created_run_ids.append(run_id)
+        last_run_status = status
+        last_run_failure_classification = failure_classification
+        last_run_outcome = _terminal_record_outcome(vars(run_record_data))
 
         # Update checkpoint
         if run_id in checkpoint_data.pending_run_ids:
@@ -1735,6 +2556,21 @@ def main() -> int:
         )
         progress_mgr.write(progress_data)
 
+        # ---- Run-level progress line with cross-session ETA -----------------
+        pending_now = len(checkpoint_data.pending_run_ids)
+        eta = _estimate_run_eta(record_store, pending_now)
+        logger.info(
+            "%s",
+            _render_progress_line(
+                completed=checkpoint_data.total_completed,
+                total=total_planned,
+                current_label=f"{scenario_id}/{strategy_name}",
+                stage=status,
+                elapsed_seconds=elapsed,
+                eta=eta,
+            ),
+        )
+
         # Update partial summary
         if strategy_name not in results_agg:
             results_agg[strategy_name] = {
@@ -1750,26 +2586,61 @@ def main() -> int:
 
         progress_mgr.write_partial_summary(results_agg)
 
+        # ---- Deterministic dashboard artifacts after each terminal run ------
+        try:
+            from benchmark.checkpoint.reports import write_dashboard_artifacts
+
+            write_dashboard_artifacts(output_dir)
+        except Exception as exc:  # best-effort, never aborts the session
+            logger.warning("Dashboard artifact write skipped after run: %s", exc)
+
         # ---- HF sync after every completed/failed run --------------------
         if hf_uploader is not None:
-            hf_uploader.upload_recovery()
+            hf_sync_t0 = time.monotonic()
+            logger.info("HF_SYNC_START run_id=%s kind=recovery", run_id)
+            if not hf_uploader.upload_recovery():
+                hf_sync_ok = False
             # Snapshot after every 2 runs (chunk)
-            if run_count > 0 and run_count % 2 == 0:
-                hf_uploader.upload_snapshot(packager)
+            if run_count > 0 and run_count % 2 == 0 and not hf_uploader.upload_snapshot(packager):
+                hf_sync_ok = False
+            logger.info(
+                "HF_SYNC_END run_id=%s kind=recovery ok=%s elapsed=%.3f",
+                run_id, hf_sync_ok, time.monotonic() - hf_sync_t0,
+            )
 
         run_count += 1
+
+        # ---- Immediate stop for engineering blockers / required HF failures
+        # Terminal record, evidence, progress, and HF-sync state are already
+        # persisted.  A scientific failure or success must NOT stop the
+        # continuous session; an engineering blocker or a required HF sync
+        # failure must stop immediately with a non-zero exit.
+        if _should_stop_after_terminal_run(
+            last_run_outcome=last_run_outcome,
+            hf_uploader_configured=hf_uploader is not None,
+            hf_sync_ok=hf_sync_ok,
+        ):
+            logger.info(
+                "SESSION_STOP run_id=%s outcome=%s hf_sync_ok=%s",
+                run_id, last_run_outcome, hf_sync_ok,
+            )
+            break
 
         # ---- Human-readable chunk complete message ------------------------
         completed_now = checkpoint_data.total_completed
         pending_now = len(checkpoint_data.pending_run_ids)
-        remote_status = "SYNCED" if hf_uploader is not None else "N/A"
+        remote_status = (
+            "SYNCED" if hf_sync_ok else "FAILED_LOCAL_SAFE"
+        ) if hf_uploader is not None else "N/A"
         remaining = pending_now
         next_action = "run this same cell again." if remaining > 0 else "all runs complete."
         print(
             f"Chunk complete.\n"
-            f"Completed: {completed_now}/{total_planned}\n"
+            f"Terminal: {completed_now}/{total_planned}\n"
+            f"Succeeded: {len(checkpoint_data.succeeded_run_ids)}\n"
+            f"Failed: {len(checkpoint_data.failed_run_ids)}\n"
             f"Pending: {remaining}\n"
-            f"Remote checkpoint: {remote_status}\n"
+            f"HF sync status: {remote_status}\n"
             f"Next session action: {next_action}"
         )
 
@@ -1779,6 +2650,13 @@ def main() -> int:
     # ---- Finalize -----------------------------------------------------------
     total_elapsed = time.monotonic() - t_start
     all_runs_completed = checkpoint_data.total_completed >= total_planned
+
+    # Update checkpoint before report rebuild so progress.json reflects
+    # the correct final completion_status.
+    if all_runs_completed:
+        checkpoint_data.completion_status = "completed"
+        checkpoint_data.current_run_id = ""
+        checkpoint_mgr.write_atomic(checkpoint_data)
 
     # ---- Rebuild all reports from persisted records (cross-session safe) ----
     from benchmark.checkpoint.reports import rebuild_experiment_reports
@@ -1795,13 +2673,17 @@ def main() -> int:
         len(audit["missing_run_ids"]),
         len(audit["duplicate_run_ids"]),
     )
+    persisted_records = _read_persisted_run_records(output_dir)
+    engineering_blocker_count = sum(
+        1
+        for persisted in persisted_records
+        if _terminal_record_outcome(persisted) == "engineering_blocker"
+    )
 
     if all_runs_completed:
-        checkpoint_data.completion_status = "completed"
-        checkpoint_data.current_run_id = ""
         checkpoint_mgr.write_atomic(checkpoint_data)
 
-        progress_mgr.mark_completed()
+        progress_mgr.mark_completed(completed_with_failures=audit["total_failed"] > 0)
 
         logger.info(
             "Benchmark complete: %d/%d runs  success=%d failure=%d elapsed=%.1fs  label=%s",
@@ -1818,54 +2700,120 @@ def main() -> int:
 
         # HF final sync
         if hf_uploader is not None:
-            hf_uploader.upload_snapshot(packager)
-            hf_uploader.upload_final(packager)
-            hf_uploader.upload_recovery()
+            hf_sync_t0 = time.monotonic()
+            logger.info("HF_SYNC_START run_id=final kind=final")
+            if not hf_uploader.upload_snapshot(packager):
+                hf_sync_ok = False
+            if not hf_uploader.upload_final(packager):
+                hf_sync_ok = False
+            if not hf_uploader.upload_recovery():
+                hf_sync_ok = False
+            logger.info(
+                "HF_SYNC_END run_id=final kind=final ok=%s elapsed=%.3f",
+                hf_sync_ok, time.monotonic() - hf_sync_t0,
+            )
 
-        if audit["total_failed"] > 0 or audit["duration_totals"].get("experiment_run_duration_seconds", 0) > 0:
-            # Use audit for exit code decision
-            non_zero = audit["total_failed"] > 0
-        else:
-            non_zero = False
-        if non_zero:
-            logger.warning("Non-zero exit due to %d failures", audit["total_failed"])
-            return 1
-        return 0
+        if audit["total_failed"] > 0:
+            logger.info(
+                "Scientific terminal failures recorded: %d; engineering blockers: %d",
+                audit["total_failed"],
+                engineering_blocker_count,
+            )
+        return _decide_session_exit_code(
+            max_runs=args.max_runs,
+            all_runs_completed=True,
+            session_created_run_count=len(session_created_run_ids),
+            last_run_status=last_run_status,
+            hf_uploader_configured=hf_uploader is not None,
+            hf_sync_ok=hf_sync_ok,
+            total_failed=audit["total_failed"],
+            last_run_failure_classification=last_run_failure_classification,
+            engineering_blocker_count=engineering_blocker_count,
+            last_run_outcome=last_run_outcome,
+        )
 
-    # Incomplete -- save progress and exit cleanly
+    # Incomplete -- save progress
     checkpoint_data.completion_status = "incomplete"
     checkpoint_mgr.write_atomic(checkpoint_data)
 
-    final_progress = ProgressData(
-        profile=profile.name,
+    final_progress = _build_interrupted_progress_data(
+        profile_name=profile.name,
         total_planned=total_planned,
         total_completed=checkpoint_data.total_completed,
         total_failed=len(checkpoint_data.failed_run_ids),
         total_pending=len(checkpoint_data.pending_run_ids),
-        elapsed_seconds=total_elapsed,
-        completion_ratio=checkpoint_data.total_completed / max(total_planned, 1),
-        stage="interrupted",
         total_attempted=len(checkpoint_data.attempted_run_ids),
+        total_elapsed=total_elapsed,
         total_succeeded=audit["total_succeeded"],
         total_retryable=audit["total_retryable"],
-        completion_status="incomplete",
-        experiment_run_duration_seconds=audit["duration_totals"]["experiment_run_duration_seconds"],
-        session_elapsed_seconds=total_elapsed,
-        report_generated_at=datetime.now(UTC).isoformat(),
-        experiment_wall_clock_seconds=None,
-        experiment_wall_clock_unavailable_reason="cross-session idle intervals are not measured",
+        experiment_run_duration=audit["duration_totals"]["experiment_run_duration_seconds"],
     )
     progress_mgr.write(final_progress)
 
     if hf_uploader is not None:
-        hf_uploader.upload_snapshot(packager)
-        hf_uploader.upload_recovery()
+        hf_sync_t0 = time.monotonic()
+        logger.info("HF_SYNC_START run_id=incomplete kind=recovery")
+        if not hf_uploader.upload_snapshot(packager):
+            hf_sync_ok = False
+        if not hf_uploader.upload_recovery():
+            hf_sync_ok = False
+        logger.info(
+            "HF_SYNC_END run_id=incomplete kind=recovery ok=%s elapsed=%.3f",
+            hf_sync_ok, time.monotonic() - hf_sync_t0,
+        )
 
     logger.info(
         "Session incomplete: %d/%d runs completed. Resume with --resume or --resume-from-hf to continue.",
         checkpoint_data.total_completed, total_planned,
     )
-    return 0
+    return _decide_session_exit_code(
+        max_runs=args.max_runs,
+        all_runs_completed=False,
+        session_created_run_count=len(session_created_run_ids),
+        last_run_status=last_run_status,
+        hf_uploader_configured=hf_uploader is not None,
+        hf_sync_ok=hf_sync_ok,
+        total_failed=audit["total_failed"],
+        last_run_failure_classification=last_run_failure_classification,
+        engineering_blocker_count=engineering_blocker_count,
+        last_run_outcome=last_run_outcome,
+    )
+
+
+def _build_interrupted_progress_data(
+    *,
+    profile_name: str,
+    total_planned: int,
+    total_completed: int,
+    total_failed: int,
+    total_pending: int,
+    total_attempted: int,
+    total_elapsed: float,
+    total_succeeded: int,
+    total_retryable: int,
+    experiment_run_duration: float,
+):
+    from benchmark.checkpoint.checkpoint import ProgressData
+
+    return ProgressData(
+        profile=profile_name,
+        total_planned=total_planned,
+        total_completed=total_completed,
+        total_failed=total_failed,
+        total_pending=total_pending,
+        elapsed_seconds=total_elapsed,
+        completion_ratio=total_completed / max(total_planned, 1),
+        stage="interrupted",
+        total_attempted=total_attempted,
+        total_succeeded=total_succeeded,
+        total_retryable=total_retryable,
+        completion_status="incomplete",
+        experiment_run_duration_seconds=experiment_run_duration,
+        session_elapsed_seconds=total_elapsed,
+        report_generated_at=datetime.now(UTC).isoformat(),
+        experiment_wall_clock_seconds=None,
+        experiment_wall_clock_unavailable_reason="cross-session idle intervals are not measured",
+    )
 
 
 if __name__ == "__main__":

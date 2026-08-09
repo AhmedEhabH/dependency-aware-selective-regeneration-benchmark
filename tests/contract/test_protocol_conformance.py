@@ -40,6 +40,9 @@ class FakeStrategy:
 
 
 class FakeLLMBackend:
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return 10
+
     async def generate(self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
         usage = TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15)
         return LLMResponse(text="mock response", token_usage=usage)

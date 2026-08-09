@@ -24,6 +24,7 @@ class ImpactStrategy(Protocol):
         repository: RepositorySnapshot,
         requirement_change: RequirementChange,
         artifact_universe: ArtifactUniverse,
+        **kwargs: object,
     ) -> ImpactPrediction:
         ...
 
@@ -36,6 +37,9 @@ class LLMBackend(Protocol):
         temperature: float = 0.0,
         max_tokens: int = 4096,
     ) -> LLMResponse:
+        ...
+
+    def count_prompt_tokens(self, prompt: str) -> int:
         ...
 
 

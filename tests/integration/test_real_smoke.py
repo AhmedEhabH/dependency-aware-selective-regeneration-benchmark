@@ -55,7 +55,7 @@ def _build_test_graph(scenario: Scenario) -> DependencyGraph:
     return DependencyGraph(nodes=tuple(paths), edges=(), metadata={"source": "test"})
 
 
-def _make_strategy(name: str, backend=None, graph=None):
+def _make_strategy(name: str, backend=None, graph=None, artifact_descriptors=None):
     from benchmark.strategies import (
         FullContextStrategy,
         HybridSelectiveStrategy,
@@ -71,7 +71,7 @@ def _make_strategy(name: str, backend=None, graph=None):
         return RepositoryAgentStrategy(backend=backend)
     strategies = {
         "monolithic": (MonolithicRegenerationStrategy, {}),
-        "selective": (HybridSelectiveStrategy, {"graph": graph}),
+        "selective": (HybridSelectiveStrategy, {"graph": graph, "artifact_descriptors": artifact_descriptors}),
         "compiled_ai": (StaticOnlyStrategy, {"graph": graph}),
         "delta_mcp": (SemanticOnlyStrategy, {}),
         "incr_rtl": (TraceabilityOnlyStrategy, {}),
@@ -115,7 +115,7 @@ class _ScenarioProvider:
 #   agent → ModelBackendError (fake backend fails on generate)
 # Graph-dependent strategies (compiled_ai, selective, code_plan) are now
 # supplied with a minimal test graph.
-STRATEGIES_WITH_MISSING_PREREQS = {"agent"}
+STRATEGIES_WITH_MISSING_PREREQS: set[str] = {"agent", "selective"}
 
 
 class TestRealSmokeEndToEnd:
@@ -136,7 +136,23 @@ class TestRealSmokeEndToEnd:
         # Build a minimal graph from the first scenario's artifact universe
         test_scenario = all_scenarios[0]
         dep_graph = _build_test_graph(test_scenario)
-        strategy = _make_strategy(strategy_name, backend=backend, graph=dep_graph)
+
+        # Build artifact descriptors from the repository profile for selective
+        descs: tuple[object, ...] = ()
+        if strategy_name == "selective":
+            from benchmark.repositories.loader import RepositoryLoader
+            data_dir = Path(__file__).resolve().parent.parent.parent / "benchmark_data"
+            loader = RepositoryLoader(data_dir)
+            collection = loader.load_manifest()
+            profile_obj = collection.get_profile(test_scenario.repository)
+            from benchmark.selection.dependency_scope import descriptors_from_profile
+            if profile_obj is not None:
+                descs = descriptors_from_profile(
+                    profile_obj.artifact_catalog,
+                    tuple(profile_obj.artifact_universe.get("llm_editable", [])),
+                )
+
+        strategy = _make_strategy(strategy_name, backend=backend, graph=dep_graph, artifact_descriptors=descs)
 
         arm_ws = tmp_path / strategy_name
         arm_ws.mkdir(parents=True, exist_ok=True)

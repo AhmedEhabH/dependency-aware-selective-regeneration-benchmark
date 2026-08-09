@@ -7,10 +7,10 @@ versions:
   todo:
     version: 1.0.0
     version_type: initial_release
-    commit_sha: TBD
-    commit_date: TBD
+    commit_sha: b8a33e20bdaf5b329114273063fbe8d5aa66e9cf
+    commit_date: 2026-07-27
     tag: v1.0.0
-    release_date: 2026-07-22
+    release_date: 2026-07-27
     age_at_freeze_days: 0
     da_03_compliant: true
     da_03_rationale: >
@@ -19,10 +19,19 @@ versions:
     branch: main
     dependency_file: requirements.txt
     python_version: ">=3.10,<3.13"
-    test_setup_verified: pending
+    test_setup_verified: true
     notes: >
-      To be created as part of Phase 3. Will include Django 5.0+,
-      pytest, and SQLite-backed test configuration.
+      Baseline Django 5.2 + DRF 3.17 application embedded at
+      benchmark_data/repositories/todo. 47 tests pass, manage.py check passes.
+      SQLite-backed test configuration. No future scenario features are
+      pre-implemented.
+      Pre-results contract amendment R5-BASELINE-CONTRACT-001 (2026-07-31):
+      ProjectSerializer/TaskSerializer field assertions are baseline-field
+      preservation checks; the TaskViewSet common project is created through
+      the authenticated Project API; the unowned-task forbidden test creates
+      its task under a project created via another user's API client; the
+      smoke-002 correct-source fixture keys are todo/models.py and
+      todo/views.py only.
 
   djangocms:
     version: 5.0.0

@@ -8,7 +8,7 @@ from typing import Any
 import pandas as pd
 
 from benchmark.core.enums import RunStatus
-from benchmark.core.models import RunIdentity, RunRecord
+from benchmark.core.models import RunIdentity, RunRecord, TokenUsage
 from benchmark.evaluation.engine import EvaluationResult
 from benchmark.statistics.reporting import ExportConfig, NotebookExporter, PublicationTableBuilder
 
@@ -227,7 +227,8 @@ class TestNotebookExporterSerialization:
                 strategy_name="selective",
             ),
             status=RunStatus.succeeded,
-            duration_seconds=12.5,
+            duration_seconds=5.25,
+            token_usage=TokenUsage(prompt_tokens=42, completion_tokens=44, total_tokens=86),
             selection_prompt_tokens=11,
             selection_completion_tokens=12,
             selection_total_tokens=23,
@@ -242,7 +243,7 @@ class TestNotebookExporterSerialization:
             functional_validation_passed=True,
             total_workflow_tokens=86,
             total_workflow_model_calls=4,
-            total_workflow_duration_seconds=9.75,
+            total_workflow_duration_seconds=5.25,
             selected_artifact_count=5,
             regenerated_artifact_count=3,
             preserved_artifact_count=1,
@@ -259,12 +260,12 @@ class TestNotebookExporterSerialization:
         assert serialized["functional_validation_passed"] is True
         assert serialized["total_workflow_tokens"] == 86
         assert serialized["total_workflow_model_calls"] == 4
-        assert serialized["total_workflow_duration_seconds"] == 9.75
+        assert serialized["total_workflow_duration_seconds"] == 5.25
         assert serialized["selected_artifact_count"] == 5
         assert serialized["regenerated_artifact_count"] == 3
         assert serialized["preserved_artifact_count"] == 1
         # Legacy fields preserved
-        assert serialized["duration_seconds"] == 12.5
+        assert serialized["duration_seconds"] == 5.25
         assert serialized["token_usage"] is not None
 
     def test_serialize_record_with_functional_validation_none(self) -> None:

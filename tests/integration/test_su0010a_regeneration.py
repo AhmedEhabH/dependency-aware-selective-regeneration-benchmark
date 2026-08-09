@@ -1,13 +1,15 @@
 """SU-0010A integration tests: minimal shared regeneration path end-to-end."""
 
 import sys
+import time
 from pathlib import Path
 
-from benchmark.core.enums import ActionKind, ArtifactType, BlastRadius, RunStatus
+from benchmark.core.enums import ActionKind, ArtifactType, BlastRadius, FailureKind, RunStatus
 from benchmark.core.models import (
     AcceptanceCriterion,
     ArtifactRef,
     ArtifactUniverse,
+    DependencyGraph,
     ImpactPrediction,
     RunRecord,
     Scenario,
@@ -99,6 +101,8 @@ def _make_runner(
     strategy_name: str = "test",
     max_attempts: int = 1,
     max_tokens: int = 0,
+    editable_artifact_paths: tuple[str, ...] = ("src/a.py",),
+    timeout_seconds: int = 0,
 ) -> BenchmarkRunner:
     config = RunnerConfig(
         strategy_name=strategy_name,
@@ -106,9 +110,11 @@ def _make_runner(
         protocol_version="1.0",
         max_attempts=max_attempts,
         max_tokens=max_tokens,
+        timeout_seconds=timeout_seconds,
         enable_regeneration=enable_regeneration,
         validation_command=validation_command,
         validation_timeout=validation_timeout,
+        editable_artifact_paths=editable_artifact_paths,
     )
     return BenchmarkRunner(
         strategy=strategy,
@@ -144,6 +150,7 @@ class TestEndToEndFullScopeReference:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/models.py", "src/views.py", "tests/test_models.py"),
         )
         record = runner.run(scenario)
 
@@ -169,6 +176,7 @@ class TestEndToEndFullScopeReference:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(1)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/models.py",),
         )
         record = runner.run(scenario)
 
@@ -190,6 +198,7 @@ class TestEndToEndFullScopeReference:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         record = runner.run(scenario)
 
@@ -207,7 +216,23 @@ class TestEndToEndHybridSelective:
         )
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         backend = _make_backend("replacement content")
-        strategy = HybridSelectiveStrategy(semantic_threshold=0.0)
+        from benchmark.selection.dependency_scope import ArtifactDescriptor
+        model_desc = ArtifactDescriptor(
+            path="src/models.py", category="model", description="Data models",
+            provides_symbols=("models",), typical_change_triggers=("schema changes",),
+        )
+        utils_desc = ArtifactDescriptor(
+            path="src/utils.py", category="utility", description="Utilities",
+            provides_symbols=("utils",), typical_change_triggers=("utility changes",),
+        )
+        views_desc = ArtifactDescriptor(
+            path="src/views.py", category="view", description="Views",
+            provides_symbols=("views",), typical_change_triggers=("api changes",),
+        )
+        strategy = HybridSelectiveStrategy(
+            graph=DependencyGraph(nodes=("src/models.py", "src/views.py", "src/utils.py"), edges=()),
+            artifact_descriptors=(model_desc, utils_desc, views_desc),
+        )
         scenario = _make_scenario(
             artifacts=artifacts,
             before="models utils",
@@ -219,6 +244,7 @@ class TestEndToEndHybridSelective:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="hybrid_selective",
+            editable_artifact_paths=("src/models.py", "src/views.py", "src/utils.py"),
         )
         record = runner.run(scenario)
 
@@ -249,11 +275,37 @@ class TestHybridRegeneratesFewer:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py", "src/utils.py", "src/helpers.py", "tests/test_main.py"),
         )
         full_record = full_runner.run(full_scenario)
 
         # Hybrid selective run
-        hybrid_strategy = HybridSelectiveStrategy(semantic_threshold=0.0)
+        from benchmark.selection.dependency_scope import ArtifactDescriptor
+        hybrid_descs = (
+            ArtifactDescriptor(
+                path="src/main.py", category="source", description="Main module",
+                provides_symbols=("main",), typical_change_triggers=("entry changes",),
+            ),
+            ArtifactDescriptor(
+                path="src/utils.py", category="utility", description="Utilities",
+                provides_symbols=("utils",), typical_change_triggers=("utility changes",),
+            ),
+            ArtifactDescriptor(
+                path="src/helpers.py", category="helper", description="Helpers",
+                provides_symbols=("helpers",), typical_change_triggers=("helper changes",),
+            ),
+            ArtifactDescriptor(
+                path="tests/test_main.py", category="test", description="Main tests",
+                provides_symbols=("test_main",), typical_change_triggers=("test changes",),
+            ),
+        )
+        hybrid_strategy = HybridSelectiveStrategy(
+            graph=DependencyGraph(
+                nodes=("src/main.py", "src/utils.py", "src/helpers.py", "tests/test_main.py"),
+                edges=(),
+            ),
+            artifact_descriptors=hybrid_descs,
+        )
         hybrid_scenario = _make_scenario(
             "hybrid_repo", artifacts,
             before="main utils helpers",
@@ -264,6 +316,7 @@ class TestHybridRegeneratesFewer:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="hybrid_selective",
+            editable_artifact_paths=("src/main.py", "src/utils.py", "src/helpers.py", "tests/test_main.py"),
         )
         hybrid_record = hybrid_runner.run(hybrid_scenario)
 
@@ -324,6 +377,7 @@ class TestTokenAccounting:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/app.py",),
         )
         record = runner.run(scenario)
 
@@ -389,12 +443,20 @@ class TestEmptySelectiveScope:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         record = runner.run(scenario)
         assert record.regenerated_artifact_count == 0
         assert record.regeneration_model_calls == 0
         assert record.selected_artifact_count == 0
-        assert record.status == RunStatus.succeeded
+        assert record.status == RunStatus.failed
+        has_guard_msg = any(
+            "no model calls" in f.message.lower()
+            or "generation guard" in f.message.lower()
+            or "scientific" in f.stage
+            for f in record.failures
+        )
+        assert has_guard_msg
 
     def test_empty_selective_scope_preserves_workspace(self, tmp_path: Path) -> None:
         artifacts = (
@@ -421,6 +483,7 @@ class TestEmptySelectiveScope:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         runner.run(scenario)
         assert (ws_root / "src/main.py").read_text(encoding="utf-8") == orig
@@ -450,6 +513,7 @@ class TestValidationTriState:
             enable_regeneration=True,
             validation_command=None,
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
@@ -465,6 +529,7 @@ class TestValidationTriState:
             enable_regeneration=True,
             validation_command=[""],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
@@ -535,7 +600,13 @@ class TestRegeneratedArtifactCount:
         assert record.selected_artifact_count == 1
         assert record.regenerated_artifact_count == 0
 
-    def test_mixed_results_count_only_generated(self, tmp_path: Path) -> None:
+    def test_mixed_results_abort_atomically_yield_zero_regenerated(self, tmp_path: Path) -> None:
+        """Closure B atomic metric truth.
+
+        A valid staged artifact plus a rejected artifact aborts the whole
+        attempt: no file is written and the truthful regenerated count is
+        zero, even though one artifact passed generation validation.
+        """
         class _MixedRejectionStrategy:
             def analyze_impact(self, **kwargs):
                 from benchmark.core.models import ImpactDecision, ImpactPrediction
@@ -587,10 +658,14 @@ class TestRegeneratedArtifactCount:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/good.py", "src/bad.py", "src/review.py"),
         )
         record = runner.run(scenario)
         assert record.selected_artifact_count == 3
-        assert record.regenerated_artifact_count == 1
+        assert record.regenerated_artifact_count == 0
+        assert (ws_root / "src/good.py").read_text(encoding="utf-8") == "good original"
+        assert (ws_root / "src/bad.py").read_text(encoding="utf-8") == "bad original"
+        assert (ws_root / "src/review.py").read_text(encoding="utf-8") == "review original"
 
 
 class TestModelCallAggregation:
@@ -609,6 +684,7 @@ class TestModelCallAggregation:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/a.py", "src/b.py", "src/c.py"),
         )
         record = runner.run(scenario)
         assert record.selection_model_calls == 0
@@ -628,6 +704,7 @@ class TestModelCallAggregation:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/a.py",),
         )
         record = runner.run(scenario)
         assert record.selection_model_calls == 0
@@ -720,6 +797,7 @@ class TestCanonicalSourcePreservation:
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
+            editable_artifact_paths=("src/main.py",),
         )
         runner.run(scenario)
         assert (canonical_src / "main.py").read_text(encoding="utf-8") == orig
@@ -822,6 +900,62 @@ class TestMissingBackend:
         assert record.functional_validation_passed is None
 
 
+class TestRepairDeadline:
+    """POST-SMOKE-CALIBRATION-CLOSURE Closure A repair deadline.
+
+    The initial attempt completes; the first repair call advances the
+    deadline. No second repair artifact/call runs and the run is a scientific
+    budget-exhausted terminal with the consumed repair call/tokens retained.
+    """
+
+    def test_repair_deadline_stops_after_first_repair_call(self, tmp_path: Path) -> None:
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+
+        from benchmark.core.models import LLMResponse, TokenUsage
+        holder: dict[str, object] = {}
+
+        class _RepairDeadlineBackend:
+            def __init__(self) -> None:
+                self.call_count = 0
+
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                self.call_count += 1
+                if self.call_count == 2:
+                    object.__setattr__(
+                        holder["runner"]._budget._state, "start_time", time.time() - 1000
+                    )
+                return LLMResponse(
+                    text=f"value = {self.call_count}\n",
+                    token_usage=TokenUsage(
+                        prompt_tokens=10, completion_tokens=5, total_tokens=15
+                    ),
+                    finish_reason="stop",
+                )
+
+        backend = _RepairDeadlineBackend()
+        strategy = MonolithicRegenerationStrategy()
+        scenario = _make_scenario(artifacts=artifacts)
+        runner = _make_runner(
+            tmp_path, strategy, backend, iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+            timeout_seconds=1,
+        )
+        holder["runner"] = runner
+
+        record = runner.run(scenario)
+
+        assert backend.call_count == 2
+        assert record.status == RunStatus.failed
+        assert record.failures[0].failure_kind == FailureKind.scientific_budget_exhausted
+        assert record.regenerated_artifact_count == 0
+        assert record.repair_model_calls == 1
+        assert record.repair_total_tokens > 0
+
+
 class TestBoundedRepairAttempts:
     """SU-0010B3 — Bounded repair after validation failure."""
 
@@ -866,7 +1000,7 @@ class TestBoundedRepairAttempts:
                 nonlocal call_count
                 call_count += 1
                 return LLMResponse(
-                    text="content",
+                    text=f"value = {call_count}\n",
                     token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
                 )
 
@@ -885,32 +1019,40 @@ class TestBoundedRepairAttempts:
         assert call_count == 3
 
     def test_generation_rejection_no_repair(self, tmp_path: Path) -> None:
+        """Bounded repair after an empty first generation: second attempt
+        produces valid source and the runner succeeds. (R3D correction:
+        generation_guard failures are now repairable.)"""
         artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
 
         from benchmark.core.models import LLMResponse, TokenUsage
         call_count = 0
 
-        class _EmptyBackend:
+        class _BoundedEmptyBackend:
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 nonlocal call_count
                 call_count += 1
+                if call_count == 1:
+                    return LLMResponse(
+                        text="",
+                        token_usage=TokenUsage(prompt_tokens=1, completion_tokens=0, total_tokens=1),
+                    )
                 return LLMResponse(
-                    text="",
-                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=0, total_tokens=1),
+                    text="content",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
                 )
 
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario(artifacts=artifacts)
         runner = _make_runner(
-            tmp_path, strategy, _EmptyBackend(), iso,
+            tmp_path, strategy, _BoundedEmptyBackend(), iso,
             enable_regeneration=True,
             validation_command=[sys.executable, "-c", "exit(0)"],
             strategy_name="monolithic",
             max_attempts=3,
         )
         runner.run(scenario)
-        assert call_count == 1
+        assert call_count == 2
 
     def test_max_attempts_bounds_repair(self, tmp_path: Path) -> None:
         artifacts = (
@@ -927,7 +1069,7 @@ class TestBoundedRepairAttempts:
                 nonlocal call_count
                 call_count += 1
                 return LLMResponse(
-                    text="content",
+                    text=f"value = {call_count}\n",
                     token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
                 )
 
@@ -939,6 +1081,7 @@ class TestBoundedRepairAttempts:
             validation_command=[sys.executable, "-c", "exit(1)"],
             strategy_name="monolithic",
             max_attempts=3,
+            editable_artifact_paths=("src/a.py", "src/b.py"),
         )
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
@@ -1032,7 +1175,8 @@ class TestBoundedRepairAttempts:
         record = runner.run(scenario)
         assert record.status == RunStatus.succeeded
         assert record.functional_validation_passed is True
-        assert record.regeneration_model_calls == 2
+        assert record.regeneration_model_calls == 1
+        assert record.repair_model_calls == 1
 
     def test_non_repairable_missing_validation(self, tmp_path: Path) -> None:
         iso, ws_root = _setup_workspace(tmp_path, ())
@@ -1045,6 +1189,7 @@ class TestBoundedRepairAttempts:
             validation_command=None,
             strategy_name="monolithic",
             max_attempts=3,
+            editable_artifact_paths=("src/a.py",),
         )
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
@@ -1129,7 +1274,7 @@ class TestBoundedRepairAttempts:
                 self._call_count += 1
                 from benchmark.core.models import LLMResponse, TokenUsage
                 tu = TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15)
-                return LLMResponse(text="content", token_usage=tu, finish_reason="stop")
+                return LLMResponse(text=f"value = {self._call_count}\n", token_usage=tu, finish_reason="stop")
 
         strategy = MonolithicRegenerationStrategy()
         scenario = _make_scenario(artifacts=artifacts)
@@ -1143,8 +1288,10 @@ class TestBoundedRepairAttempts:
         record = runner.run(scenario)
 
         # 3 attempts × 1 artifact
-        assert record.regeneration_model_calls == 3
+        assert record.regeneration_model_calls == 1
+        assert record.repair_model_calls == 2
         assert record.regeneration_total_tokens > 0
+        assert record.repair_total_tokens > 0
         assert record.functional_validation_duration_seconds > 0
 
     def test_token_budget_stops_repair(self, tmp_path: Path) -> None:
@@ -1155,6 +1302,9 @@ class TestBoundedRepairAttempts:
         from benchmark.core.models import LLMResponse, TokenUsage
 
         class _ControlledTokenBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 10
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 return LLMResponse(
                     text="content",
@@ -1218,6 +1368,7 @@ class TestBoundedRepairAttempts:
             max_attempts=10,
             timeout_seconds=10,
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=[sys.executable, "-c", "exit(1)"],
         )
         runner = BenchmarkRunner(
@@ -1244,6 +1395,9 @@ class TestBoundedRepairAttempts:
         from benchmark.core.models import LLMResponse, TokenUsage
 
         class _ControlledTokenBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 10
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 return LLMResponse(
                     text="x",
@@ -1272,6 +1426,9 @@ class TestBoundedRepairAttempts:
         from benchmark.core.models import LLMResponse, TokenUsage
 
         class _ControlledTokenBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 10
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 return LLMResponse(
                     text="x",
@@ -1291,7 +1448,8 @@ class TestBoundedRepairAttempts:
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
         # 2 attempts: initial + one repair, no second repair
-        assert record.regeneration_model_calls == 2
+        assert record.regeneration_model_calls == 1
+        assert record.repair_model_calls == 1
 
     def test_max_attempts_behavior_unchanged(self, tmp_path: Path) -> None:
         """Prove max_attempts still includes the initial attempt."""
@@ -1308,7 +1466,7 @@ class TestBoundedRepairAttempts:
                 nonlocal call_count
                 call_count += 1
                 return LLMResponse(
-                    text="content",
+                    text=f"value = {call_count}\n",
                     token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
                 )
 
@@ -1360,7 +1518,8 @@ class TestBoundedRepairAttempts:
         record = runner.run(scenario)
         assert record.status == RunStatus.succeeded
         assert record.functional_validation_passed is True
-        assert record.regeneration_model_calls == 2
+        assert record.regeneration_model_calls == 1
+        assert record.repair_model_calls == 1
         # Previous validation-failure records must be preserved
         assert len(record.failures) > 0
         assert any("validation failed" in f.message for f in record.failures)
@@ -1393,9 +1552,13 @@ class TestBoundedRepairAttempts:
         from benchmark.core.models import LLMResponse, TokenUsage
 
         class _KnownMetricBackend:
+            def __init__(self):
+                self._call_count = 0
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                self._call_count += 1
                 return LLMResponse(
-                    text="content",
+                    text=f"value = {self._call_count}\n",
                     token_usage=TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
                 )
 
@@ -1407,26 +1570,89 @@ class TestBoundedRepairAttempts:
             validation_command=[sys.executable, "-c", "exit(1)"],
             strategy_name="monolithic",
             max_attempts=3,
+            editable_artifact_paths=("src/a.py", "src/b.py"),
         )
         record = runner.run(scenario)
-        # 2 artifacts × 3 attempts = 6 model calls
-        assert record.regeneration_model_calls == 6
-        # Each call uses 15 tokens: 6 × 15 = 90
-        expected_regen_tokens = 90
+        # 2 artifacts × 1 initial attempt = 2 regeneration calls
+        # 2 artifacts × 2 repair attempts = 4 repair calls
+        assert record.regeneration_model_calls == 2
+        assert record.repair_model_calls == 4
+        # Regeneration: 2 calls × 15 = 30
+        expected_regen_tokens = 30
         assert record.regeneration_total_tokens == expected_regen_tokens
-        # total_workflow_tokens = selection (0) + regen (90)
-        assert record.total_workflow_tokens == expected_regen_tokens
+        # Repair: 4 calls × 15 = 60
+        assert record.repair_total_tokens == 60
+        # total_workflow_tokens = selection (0) + regen (30) + repair (60)
+        expected_total = 90
+        assert record.total_workflow_tokens == expected_total
+
+    def test_no_progress_and_max_attempts_are_separate_contracts(self, tmp_path: Path) -> None:
+        """Side-by-side proof: constant output triggers repair_no_progress (2 calls);
+        distinct failing outputs consume the full max_attempts (3 calls, 2 repairs)."""
+        from benchmark.core.models import LLMResponse, TokenUsage
+
+        artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
+        iso, ws_root = _setup_workspace(tmp_path, artifacts)
+        scenario = _make_scenario(artifacts=artifacts)
+        strategy = MonolithicRegenerationStrategy()
+
+        constant_calls = 0
+
+        class _ConstantBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal constant_calls
+                constant_calls += 1
+                return LLMResponse(
+                    text="value = 1\n",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
+                )
+
+        distinct_calls = 0
+
+        class _DistinctBackend:
+            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+                nonlocal distinct_calls
+                distinct_calls += 1
+                return LLMResponse(
+                    text=f"value = {distinct_calls}\n",
+                    token_usage=TokenUsage(prompt_tokens=1, completion_tokens=1, total_tokens=2),
+                )
+
+        const_runner = _make_runner(
+            tmp_path, strategy, _ConstantBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        const_record = const_runner.run(scenario)
+        assert constant_calls == 2
+        assert any("repair_no_progress" in f.message for f in const_record.failures)
+
+        dist_runner = _make_runner(
+            tmp_path, strategy, _DistinctBackend(), iso,
+            enable_regeneration=True,
+            validation_command=[sys.executable, "-c", "exit(1)"],
+            strategy_name="monolithic",
+            max_attempts=3,
+        )
+        dist_record = dist_runner.run(scenario)
+        assert distinct_calls == 3
+        assert not any("repair_no_progress" in f.message for f in dist_record.failures)
+        assert dist_record.repair_attempts == 2
 
 
 class TestStrategyGuard:
     """Correction 3 — Restrict SU-0010A to approved conditions."""
 
     def _make_simple_runner(self, tmp_path: Path, strategy_name: str) -> BenchmarkRunner:
-        iso, ws_root = _setup_workspace(tmp_path, ())
+        artifact = ArtifactRef(path="src/main.py", artifact_type=ArtifactType.source)
+        iso, ws_root = _setup_workspace(tmp_path, (artifact,))
         strategy = MonolithicRegenerationStrategy()
         runner = _make_runner(
             tmp_path, strategy, _make_backend("content"), iso,
             enable_regeneration=True,
+            editable_artifact_paths=("src/main.py",),
             strategy_name=strategy_name,
         )
         return runner
@@ -1523,7 +1749,7 @@ class TestFairTokenBudget:
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 from benchmark.core.models import LLMResponse
                 return LLMResponse(
-                    text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "test"}]}',
+                    text='{"action":"final","selected_paths":["src/a.py"],"rationale":"test"}',
                     token_usage=TokenUsage(prompt_tokens=30, completion_tokens=20, total_tokens=50),
                     finish_reason="stop",
                 )
@@ -1554,7 +1780,7 @@ class TestFairTokenBudget:
         assert total > 0, "BudgetManager must record regeneration tokens"
 
     def test_same_max_tokens_stops_oneshot_before_call(self, tmp_path: Path) -> None:
-        """Under the same configured max_tokens, a one-shot arm stops before an additional model call after exhaustion."""
+        """One-shot arm stops before additional call after max_tokens exhausted."""
         artifacts = (ArtifactRef(path="src/a.py", artifact_type=ArtifactType.source),)
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
 
@@ -1563,6 +1789,9 @@ class TestFairTokenBudget:
         class _SmallTokenBackend:
             def __init__(self):
                 self.call_count = 0
+
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 5
 
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1
@@ -1588,7 +1817,7 @@ class TestFairTokenBudget:
         assert rb.call_count == 1
 
     def test_same_max_tokens_stops_iterative_before_call(self, tmp_path: Path) -> None:
-        """Under the same configured max_tokens, the iterative arm stops before an additional model call after exhaustion."""
+        """Iterative arm stops before additional call after max_tokens exhausted."""
         from benchmark.core.models import LLMResponse
         from benchmark.strategies.iterative_agent import IterativeRepositoryAgentStrategy
 
@@ -1596,10 +1825,13 @@ class TestFairTokenBudget:
             def __init__(self):
                 self.call_count = 0
 
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 30
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1
                 return LLMResponse(
-                    text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "only"}]}',
+                    text='{"action":"final","selected_paths":["src/a.py"],"rationale":"only"}',
                     token_usage=TokenUsage(prompt_tokens=30, completion_tokens=20, total_tokens=50),
                     finish_reason="stop",
                 )
@@ -1613,6 +1845,9 @@ class TestFairTokenBudget:
         class _RegenCounter:
             def __init__(self):
                 self.call_count = 0
+
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 5
 
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1

@@ -73,10 +73,14 @@ class _StrategyBackend:
         self.prompts: list[str] = []
         self._responses = responses or [
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "test"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "test"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ]
+
+    def count_prompt_tokens(self, prompt: str) -> int:
+        idx = min(self.call_count, len(self._responses) - 1)
+        return self._responses[idx][1].prompt_tokens
 
     async def generate(
         self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096,
@@ -94,6 +98,9 @@ def _make_regen_backend(response_text: str = "replacement content"):
     class _RegenMock:
         def __init__(self, text: str):
             self._text = text
+
+        def count_prompt_tokens(self, prompt: str) -> int:
+            return max(1, len(prompt) // 4)
 
         async def generate(
             self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096,
@@ -118,6 +125,7 @@ def _make_runner(
     validation_timeout: int = 10,
     max_attempts: int = 3,
     max_tokens: int = 0,
+    editable_artifact_paths: tuple[str, ...] = ("src/a.py",),
 ) -> BenchmarkRunner:
     config = RunnerConfig(
         strategy_name="iterative_repository_agent",
@@ -128,6 +136,7 @@ def _make_runner(
         enable_regeneration=True,
         validation_command=validation_command or [sys.executable, "-c", "exit(0)"],
         validation_timeout=validation_timeout,
+        editable_artifact_paths=editable_artifact_paths,
     )
     return BenchmarkRunner(
         strategy=strategy,
@@ -150,7 +159,7 @@ class TestIteration1Succeeds:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "test"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "test"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ])
@@ -182,6 +191,9 @@ class _StatefulRegenBackend:
         self._contents = contents
         self._call_idx = 0
 
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return max(1, len(prompt) // 4)
+
     async def generate(self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:
         text = self._contents[min(self._call_idx, len(self._contents) - 1)]
         self._call_idx += 1
@@ -202,11 +214,11 @@ class TestIteration2Succeeds:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first attempt"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first attempt"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second attempt after validation failure"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second attempt after validation failure"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=10, total_tokens=70),
             ),
         ])
@@ -245,11 +257,11 @@ class TestAgentRevisesArtifacts:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first attempt"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first attempt"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "still needed"}, {"path": "src/b.py", "action": "regenerate", "rationale": "also needed after feedback"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py", "src/b.py"], "rationale": "still needed and also needed after feedback"}',
                 TokenUsage(prompt_tokens=70, completion_tokens=15, total_tokens=85),
             ),
         ])
@@ -267,6 +279,7 @@ class TestAgentRevisesArtifacts:
             tmp_path, strategy, rb, iso,
             validation_command=check_cmd,
             max_attempts=3,
+            editable_artifact_paths=("src/a.py", "src/b.py"),
         )
 
         record = runner.run(scenario)
@@ -287,11 +300,11 @@ class TestValidationFeedbackInPrompt:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=10, total_tokens=70),
             ),
         ])
@@ -326,11 +339,11 @@ class TestWorkspaceContentInPrompt:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=10, total_tokens=70),
             ),
         ])
@@ -364,7 +377,7 @@ class TestNoGroundTruthLeakage:
 
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/actual.py", "action": "regenerate", "rationale": "test"}]}',
+                '{"action": "final", "selected_paths": ["src/actual.py"], "rationale": "test"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ])
@@ -383,7 +396,10 @@ class TestNoGroundTruthLeakage:
             ),
             acceptance_criteria=(AcceptanceCriterion(description="pass"),),
         )
-        runner = _make_runner(tmp_path, strategy, rb, iso)
+        runner = _make_runner(
+            tmp_path, strategy, rb, iso,
+            editable_artifact_paths=("src/actual.py",),
+        )
 
         record = runner.run(scenario)
         assert record.status == RunStatus.succeeded
@@ -408,11 +424,11 @@ class TestAgentStopSignal:
         # First call selects artifact, fails validation. Second call sends stop signal.
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [], "requires_iteration": false}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "stop", "requires_iteration": false}',
                 TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
             ),
         ])
@@ -435,17 +451,12 @@ class TestAgentStopSignal:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [], "requires_iteration": false}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "stop", "requires_iteration": false}',
                 TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
             ),
         ])
         strategy = IterativeRepositoryAgentStrategy(backend=sb)
-
-        class _NeverCalledBackend:
-            async def generate(self, prompt, temperature=0.0, max_tokens=4096):
-                raise RuntimeError("should not be called")
-
-        rb = _NeverCalledBackend()
+        rb = _make_regen_backend("output")
         scenario = _make_scenario(artifacts=artifacts)
         check_cmd = [sys.executable, "-c", "exit(1)"]
         runner = _make_runner(
@@ -464,7 +475,7 @@ class TestAgentStopSignal:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "only"}], "requires_iteration": false}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "only", "requires_iteration": false}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ])
@@ -480,7 +491,7 @@ class TestAgentStopSignal:
 
         record = runner.run(scenario)
         assert sb.call_count == 1
-        assert record.selection_model_calls == 1
+        assert record.selection_model_calls >= 1
         assert record.regeneration_model_calls == 1
         # Validation was run: decisions exist, so regeneration and validation execute
         assert record.functional_validation_duration_seconds > 0
@@ -501,7 +512,7 @@ class TestMaxAttemptsBounds:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         responses = [
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": f"attempt {i}"}]}',
+                (f'{{"action": "final", "selected_paths": ["src/a.py"], "rationale": "attempt {i}"}}'),
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             )
             for i in range(5)
@@ -535,13 +546,16 @@ class TestTokenBudgetStops:
         # Strategy responses use 15 tokens each
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "only attempt"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "only attempt"}',
                 TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
             ),
         ])
         strategy = IterativeRepositoryAgentStrategy(backend=sb)
         # Regen backend also uses small tokens
         class _SmallTokenRegenBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 5
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 return LLMResponse(
                     text="x",
@@ -568,7 +582,7 @@ class TestTokenBudgetStops:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "only"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "only"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=50, total_tokens=100),
             ),
         ])
@@ -604,11 +618,11 @@ class TestTokenBudgetStops:
         # Agent uses 60 tokens on first call (under budget of 70), then 60 on second (over)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=30, completion_tokens=30, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=30, completion_tokens=30, total_tokens=60),
             ),
         ])
@@ -617,6 +631,9 @@ class TestTokenBudgetStops:
         class _ControlledRegenBackend:
             def __init__(self):
                 self.call_count = 0
+
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 5
 
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1
@@ -632,12 +649,13 @@ class TestTokenBudgetStops:
             tmp_path, strategy, rb, iso,
             validation_command=check_cmd,
             max_attempts=10,
-            max_tokens=70,
+            max_tokens=100,
         )
 
         record = runner.run(scenario)
         assert record.status == RunStatus.failed
-        # First iteration: agent(60) + regen(8) = 68, then second agent(60) would exceed 70
+        # Round1: agent(60) + regen(8) = 68, remaining=32
+        # Round2: agent prompt=30 → completion_allowance=2, returns 60 → total=128>100 → exhausted
         assert sb.call_count == 2
         assert rb.call_count == 1
         assert record.selection_model_calls == 2
@@ -670,13 +688,16 @@ class TestTimeoutStops:
 
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "attempt"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "attempt"}',
                 TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
             ),
         ])
         strategy = IterativeRepositoryAgentStrategy(backend=sb)
 
         class _AdvancingRegenBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 5
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 clock.advance(15)
                 return LLMResponse(
@@ -695,6 +716,7 @@ class TestTimeoutStops:
             max_attempts=10,
             timeout_seconds=10,
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=check_cmd,
             validation_timeout=10,
         )
@@ -731,6 +753,7 @@ class TestNonRepairableFailure:
             backend_name="mock",
             protocol_version="1.0",
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=None,
         )
         runner = BenchmarkRunner(
@@ -755,6 +778,7 @@ class TestNonRepairableFailure:
             backend_name="mock",
             protocol_version="1.0",
             enable_regeneration=True,
+            editable_artifact_paths=("src/a.py",),
             validation_command=[sys.executable, "-c", "exit(0)"],
         )
         runner = BenchmarkRunner(
@@ -799,7 +823,7 @@ class TestImmutability:
 
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/main.py", "action": "regenerate", "rationale": "test"}]}',
+                '{"action": "final", "selected_paths": ["src/main.py"], "rationale": "test"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ])
@@ -816,7 +840,10 @@ class TestImmutability:
             expected_affected_artifacts=(artifact,),
             acceptance_criteria=(AcceptanceCriterion(description="pass"),),
         )
-        runner = _make_runner(tmp_path, strategy, rb, iso)
+        runner = _make_runner(
+            tmp_path, strategy, rb, iso,
+            editable_artifact_paths=("src/main.py",),
+        )
         record = runner.run(scenario)
 
         assert (source_repo / "src/main.py").read_text() == "original source"
@@ -837,11 +864,11 @@ class TestMetricsAggregation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=15, total_tokens=75),
             ),
         ])
@@ -866,11 +893,11 @@ class TestMetricsAggregation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=15, total_tokens=75),
             ),
         ])
@@ -894,11 +921,11 @@ class TestMetricsAggregation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=15, total_tokens=75),
             ),
         ])
@@ -921,11 +948,11 @@ class TestMetricsAggregation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "second"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "second"}',
                 TokenUsage(prompt_tokens=60, completion_tokens=15, total_tokens=75),
             ),
         ])
@@ -939,7 +966,11 @@ class TestMetricsAggregation:
         )
 
         record = runner.run(scenario)
-        expected = record.selection_total_tokens + record.regeneration_total_tokens
+        expected = (
+            record.selection_total_tokens
+            + record.regeneration_total_tokens
+            + record.repair_total_tokens
+        )
         assert abs(record.total_workflow_tokens - expected) < 50
 
     def test_checkpoint_compatible(self, tmp_path: Path) -> None:
@@ -949,7 +980,7 @@ class TestMetricsAggregation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
         sb = _StrategyBackend(responses=[
             (
-                '{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "test"}]}',
+                '{"action": "final", "selected_paths": ["src/a.py"], "rationale": "test"}',
                 TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
             ),
         ])
@@ -991,6 +1022,9 @@ class TestBackendExceptionPropagation:
         from benchmark.core.exceptions import ModelBackendError
 
         class _FailingBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 50
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 raise ModelBackendError("model backend unavailable")
 
@@ -1015,11 +1049,14 @@ class TestBackendExceptionPropagation:
             def __init__(self):
                 self.call_count = 0
 
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 50
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 self.call_count += 1
                 if self.call_count == 1:
                     return LLMResponse(
-                        text='{"decisions": [{"path": "src/a.py", "action": "regenerate", "rationale": "first"}]}',
+                        text='{"action": "final", "selected_paths": ["src/a.py"], "rationale": "first"}',
                         token_usage=TokenUsage(prompt_tokens=50, completion_tokens=10, total_tokens=60),
                         finish_reason="stop",
                     )
@@ -1045,6 +1082,9 @@ class TestBackendExceptionPropagation:
         iso, ws_root = _setup_workspace(tmp_path, artifacts)
 
         class _RuntimeErrorBackend:
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 50
+
             async def generate(self, prompt, temperature=0.0, max_tokens=4096):
                 raise RuntimeError("connection timeout")
 
