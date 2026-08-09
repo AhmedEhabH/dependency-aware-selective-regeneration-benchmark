@@ -76,6 +76,16 @@ _EXCLUDED_FILE_SUFFIXES: frozenset[str] = frozenset({
     ".pyc",
 })
 
+# Directories excluded during llm_editable directory-policy expansion.
+# This is the profile policy as exercised by the frozen repositories:
+# tests, migrations, caches, and generated artifacts are never editable.
+_EXPANSION_EXCLUDED_DIRS: frozenset[str] = _EXCLUDED_DIRS | frozenset({
+    "tests",
+    "test",
+    "migrations",
+    "node_modules",
+})
+
 
 def _is_egg_info_dir(path: Path) -> bool:
     return path.suffix == ".egg-info" and path.is_dir()
@@ -185,6 +195,102 @@ def stage_repository_snapshot(
     )
 
     return destination
+
+
+def _validate_policy_path(path_str: str, seen: set[str]) -> str:
+    if "\\" in path_str:
+        raise RepositoryError(f"Backslash rejected (use POSIX form): {path_str}")
+    if path_str.startswith("/"):
+        raise RepositoryError(f"Absolute path rejected: {path_str}")
+    if ".." in path_str.split("/"):
+        raise RepositoryError(f"Path traversal rejected: {path_str}")
+    if path_str in seen:
+        raise RepositoryError(f"Duplicate path: {path_str}")
+    seen.add(path_str)
+    return path_str.replace("\\", "/")
+
+
+def _discover_eligible_source_files(dir_path: Path) -> list[str]:
+    """Recursively list repository-relative .py files under a directory.
+
+    Tests, migrations, caches, generated artifacts, and symlinks are excluded.
+    Deterministic sorted order. No Ground Truth enters here.
+    """
+    files: list[str] = []
+    for dirpath, dirnames, filenames in os.walk(dir_path):
+        dirnames[:] = [
+            d for d in dirnames if d not in _EXPANSION_EXCLUDED_DIRS
+            and not _is_egg_info_dir(Path(dirpath) / d)
+        ]
+        for filename in filenames:
+            if any(filename.endswith(suffix) for suffix in _EXCLUDED_FILE_SUFFIXES):
+                continue
+            full = Path(dirpath) / filename
+            if full.is_symlink():
+                continue
+            if full.suffix.lower() == ".py":
+                files.append(full.relative_to(dir_path).as_posix())
+    files.sort()
+    return files
+
+
+def expand_editable_paths(
+    snapshot_path: str | Path,
+    allowed_paths: tuple[str, ...],
+) -> tuple[str, ...]:
+    """Expand an llm_editable policy to concrete eligible source files.
+
+    The runtime artifact universe stays file-granular: directory policy
+    entries (django CMS ``cms/middleware/``, Saleor ``saleor/core/``, ...) are
+    deterministically expanded to their concrete repository-relative .py files.
+    Strict guards:
+      - repository-relative only (no absolute / backslash / traversal);
+      - duplicate normalized paths rejected;
+      - tests, migrations, caches, generated artifacts never expandable;
+      - a directory entry must resolve to at least one file or fail closed.
+    """
+    root = Path(snapshot_path)
+    if not root.is_dir():
+        raise RepositoryError(f"Snapshot path is not a directory: {snapshot_path}")
+    if not allowed_paths:
+        raise RepositoryError("allowed_paths must be non-empty for scientific regeneration")
+
+    expanded: list[str] = []
+    raw_seen: set[str] = set()
+    for path_str in allowed_paths:
+        posix_form = _validate_policy_path(path_str, raw_seen)
+        resolved = (root / posix_form).resolve()
+        if not resolved.exists():
+            raise RepositoryError(f"Path does not exist: {path_str}")
+        try:
+            resolved.relative_to(root.resolve())
+        except ValueError:
+            raise RepositoryError(f"Path escapes snapshot root: {path_str}") from None
+        if resolved.is_dir():
+            files = _discover_eligible_source_files(resolved)
+            if not files:
+                raise RepositoryError(
+                    f"Directory policy entry resolved to no eligible source files: {path_str}"
+                )
+            rel_dir = posix_form.rstrip("/")
+            expanded.extend(
+                f"{rel_dir}/{f}" if rel_dir else f
+                for f in files
+            )
+        elif resolved.is_file():
+            expanded.append(posix_form.rstrip("/"))
+        else:
+            raise RepositoryError(f"Path is not a regular file: {path_str}")
+
+    seen: set[str] = set()
+    result: list[str] = []
+    for p in expanded:
+        if p in seen:
+            raise RepositoryError(f"Duplicate path after expansion: {p}")
+        seen.add(p)
+        result.append(p)
+    result.sort()
+    return tuple(result)
 
 
 def resolve_allowed_artifacts(

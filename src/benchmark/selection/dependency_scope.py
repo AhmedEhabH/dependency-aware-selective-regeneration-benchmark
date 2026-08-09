@@ -146,31 +146,46 @@ def descriptors_from_profile(
 ) -> tuple[ArtifactDescriptor, ...]:
     editable_set = set(editable_paths)
     result: list[ArtifactDescriptor] = []
+
+    def _make_descriptor(
+        path: str,
+        entry: dict[str, Any] | str | None,
+    ) -> ArtifactDescriptor:
+        meta = entry if isinstance(entry, dict) else None
+        return ArtifactDescriptor(
+            path=path,
+            category=str(meta.get("category", "")) if meta else "",
+            description=str(meta.get("description", "")) if meta else "",
+            provides_symbols=tuple(str(s) for s in meta.get("provides_symbols", [])) if meta else (),
+            typical_change_triggers=tuple(str(s) for s in meta.get("typical_change_triggers", [])) if meta else (),
+        )
+
     for entry in artifact_catalog:
         if isinstance(entry, dict):
             path: str = entry.get("id", "")
         else:
             path = str(entry)
+        if not path:
+            continue
+        if path.endswith("/"):
+            # Directory policy entry: valid descendant semantics against the
+            # file-granular editable universe (repository/profile derived).
+            for editable_path in sorted(editable_set):
+                if editable_path.startswith(path):
+                    result.append(_make_descriptor(editable_path, entry))
+            continue
         if path not in editable_set:
             continue
-        if isinstance(entry, dict):
-            result.append(ArtifactDescriptor(
-                path=path,
-                category=str(entry.get("category", "")),
-                description=str(entry.get("description", "")),
-                provides_symbols=tuple(str(s) for s in entry.get("provides_symbols", [])),
-                typical_change_triggers=tuple(str(s) for s in entry.get("typical_change_triggers", [])),
-            ))
-        else:
-            result.append(ArtifactDescriptor(
-                path=path,
-                category="",
-                description="",
-                provides_symbols=(),
-                typical_change_triggers=(),
-            ))
-    result.sort(key=lambda d: d.path)
-    return tuple(result)
+        result.append(_make_descriptor(path, entry))
+
+    seen: set[str] = set()
+    unique: list[ArtifactDescriptor] = []
+    for descriptor in result:
+        if descriptor.path not in seen:
+            seen.add(descriptor.path)
+            unique.append(descriptor)
+    unique.sort(key=lambda d: d.path)
+    return tuple(unique)
 
 
 def derive_requirement_terms(change: RequirementChange) -> frozenset[str]:
