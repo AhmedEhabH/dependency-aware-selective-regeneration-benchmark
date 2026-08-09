@@ -111,11 +111,13 @@ class _ScenarioProvider:
         return list(self._all)
 
 
-# Strategy that fails in this test environment:
-#   agent → ModelBackendError (fake backend fails on generate)
-# Graph-dependent strategies (compiled_ai, selective, code_plan) are now
-# supplied with a minimal test graph.
-STRATEGIES_WITH_MISSING_PREREQS: set[str] = {"agent", "selective"}
+# The only strategy that fails in this test environment is agent:
+# its fake backend raises ModelBackendError on generate.
+# All graph-dependent strategies (compiled_ai, selective, code_plan) are
+# now supplied with a minimal test graph, and selective additionally
+# receives a non-empty repository artifact-descriptor set, so selective
+# completes a valid impact analysis and succeeds.
+STRATEGIES_WITH_MISSING_PREREQS: set[str] = {"agent"}
 
 
 class TestRealSmokeEndToEnd:

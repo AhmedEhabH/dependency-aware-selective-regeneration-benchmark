@@ -1,8 +1,36 @@
-# MAIN-GREEN-01 Post-Merge Test-Isolation Reproducibility Hotfix — Latest Phase Report
+# PILOT-READY-01 Pilot Readiness Closure — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-09):** main HEAD = `403977b`; preferred recovery tag = `v0.8.2-smoke-v2-complete`; Scientific Smoke V2 = **COMPLETE / ACCEPTED** (SMOKE-V2-CLOSE-01 = CLOSED); **MAIN-GREEN-01 = CLOSED** (full suite **1,958 passed / 33 skipped / 0 failed / 0 errors**, carried forward); **HANDOFF-CONSISTENCY-01 = CLOSED** (docs reconciliation merged to main `403977b`); T600 accepted = `exp-20260808-222843`; Pilot scientific timeout frozen at **600s uniform**; **next exact task = `PILOT-READY-01`** (Pilot execution **NOT STARTED**); **no further Smoke Full-9 authorized**. Older "Next authorized action" paragraphs below are HISTORICAL — their steps have all been completed.
+> **CURRENT TRUTH (2026-08-10):** Scientific Smoke V2 = **COMPLETE / ACCEPTED** (SMOKE-V2-CLOSE-01 = CLOSED); MAIN-GREEN-01 = CLOSED; HANDOFF-CONSISTENCY-01 = CLOSED; **PILOT-READY-01 = CLOSED** on branch `feat/pilot-ready-01` (code/test commit `34ecf78` pushed, local = remote) — multi-repo selective input contracts fixed, stale real-smoke expectation corrected, focused multi-repo production-path contract added (12 tests), full suite **2,026 passed / 33 skipped / 0 failed**, exact fresh 48-cell Pilot dry-run 48/48 succeeded / 0 failed / 0 pending (deterministic unique run IDs), isolation/evidence/export gates 142 passed; Pilot scientific timeout frozen at **600s uniform**; frozen Pilot matrix = Qwen2.5-Coder-14B-Instruct / bnb-nf4 / 600s / 12 scenarios / 2 strategies / 2 repetitions = 48 cells (Todo / django CMS / Saleor); **Pilot = NOT STARTED**; **next exact task = `PILOT-EXEC-01`**; stable tag `v0.9.0-pilot-ready` after main merge; **no further Smoke Full-9 authorized**. Older "Latest closure" paragraphs below are HISTORICAL.
 
-## Latest closure — MAIN-GREEN-01 (post-merge test-isolation and reproducibility hotfix)
+## Latest closure — PILOT-READY-01 (Pilot readiness closure)
+
+**Status: `CLOSED`** (2026-08-10, branch `feat/pilot-ready-01`). See
+`reports/PILOT_READY_01_FINAL_REPORT.md` for the full detailed report.
+
+- Root causes fixed: (A) `build_dependency_graph` reused one graph built from
+  the first repository's snapshot on mixed-repository plans → now fails closed
+  on mixed repositories, `build_repository_dependency_graphs` builds one graph
+  per repository, Pilot run loop uses `_dep_graphs[repository_id]`; (B)
+  editable-path expansion applied globally instead of per repository profile →
+  now per-repository `expand_editable_paths`; (C) artifact catalog
+  normalization produced category-key descriptors for django CMS/Saleor →
+  `_normalize_artifact_catalog`/`descriptors_from_profile` yield file-granular
+  descriptors ⊆ editable universe; (D) stale real-smoke expectation →
+  `STRATEGIES_WITH_MISSING_PREREQS = {"agent"}`.
+- Gates: Gate 1 unit contract 14 passed; Gate 2 real-smoke 9 passed; Gate 3
+  production-path 12 passed (twice, no state leak); Gate 4 static/compile clean
+  (feature-caused mypy fixed; 5 pre-existing mypy + 3 pre-existing ruff
+  recorded as debt); Gate 5 exact fresh 48-cell Pilot dry-run 48/48 succeeded /
+  0 failed / 0 pending, deterministic unique run IDs (config_hash
+  `7ef6ffc7a2c0d369`, protocol 1.0, source_commit `34ecf78`), per-repo
+  todo/djangocms/saleor 16/16/16, per-strategy 24/24, per-rep 24/24, checkpoint
+  completed, no residue; Gate 6 isolation/evidence/export 142 passed; Gate 7
+  final full suite **2,026 passed / 33 skipped / 0 failed**.
+- Commit `34ecf78` pushed; local feature HEAD == remote feature HEAD. **Pilot =
+  NOT STARTED; next = `PILOT-EXEC-01`; stable tag `v0.9.0-pilot-ready` after
+  main merge.**
+
+## Previous closure — MAIN-GREEN-01 (post-merge test-isolation and reproducibility hotfix)
 
 **Status: `FIXED AND CLOSED`** (2026-08-09, branch `fix/main-green-test-isolation`,
 commit A `34b9fc7` pushed). After the SMOKE-V2-CLOSE-01 merge to main

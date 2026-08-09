@@ -1,12 +1,20 @@
 # TODO
 
-## Current - PILOT-READY-01 (active next task, 2026-08-09)
+## Current - PILOT-EXEC-01 (next task, 2026-08-10)
+
+### PILOT-EXEC-01 - Pilot freeze and execution
+- **Priority:** HIGH
+- **Category:** Scientific Evidence
+- **Description:** The next authorized task after PILOT-READY-01 CLOSED. Pilot = NOT STARTED (execution not authorized). Frozen Pilot matrix: model Qwen2.5-Coder-14B-Instruct, quantization bnb-nf4, timeout 600s uniform, 12 scenarios, 2 strategies (iterative_repository_agent, selective), 2 repetitions = 48 cells; repositories Todo / django CMS / Saleor. Do NOT raise the timeout above 600; pre-register the Pilot budget.
+- **Status:** PENDING (Pilot execution NOT STARTED)
+
+## Previous - PILOT-READY-01 (CLOSED, 2026-08-10)
 
 ### PILOT-READY-01 - Prepare repository for Pilot readiness (docs/config/path reconciliation)
 - **Priority:** HIGH
 - **Category:** Documentation / Readiness
-- **Description:** The next authorized task. Scientific Smoke V2 = COMPLETE AND ACCEPTED; MAIN-GREEN-01 = CLOSED; HANDOFF-CONSISTENCY-01 = CLOSED (docs reconciliation merged to main `403977b`); preferred recovery tag = `v0.8.2-smoke-v2-complete`. Reconcile current-state documentation, run the Stage-Transition Coupling Audit, verify the evidence/export contract. Do NOT start Pilot execution. Per-run workflow timeout stays frozen at 600 s uniformly; no further Kaggle Full-9 is authorized.
-- **Status:** PENDING (Pilot execution NOT STARTED)
+- **Description:** The Pilot readiness closure is COMPLETE. Scientific Smoke V2 = COMPLETE AND ACCEPTED; MAIN-GREEN-01 = CLOSED; HANDOFF-CONSISTENCY-01 = CLOSED. Branch `feat/pilot-ready-01`; code/test commit `34ecf78` (fix(pilot): close multi-repo selective input contracts, pushed, local = remote). Fixed the selective arm's repository-level input contracts (per-repository dependency graphs via `build_repository_dependency_graphs`, per-repository editable universes, file-granular descriptors for django CMS/Saleor), corrected the stale real-smoke expectation (`STRATEGIES_WITH_MISSING_PREREQS = {"agent"}`), added the focused multi-repo production-path contract (`tests/integration/test_pilot_multi_repo_production_path.py`, 12 tests). Gates: unit contract 14 passed; real-smoke 9 passed; production-path 12 passed (twice); `git diff --check`/compile/ruff/mypy clean (feature-caused only); exact fresh 48-cell Pilot dry-run 48/48 succeeded / 0 failed / 0 pending (deterministic unique run IDs, config_hash `7ef6ffc7a2c0d369`, source_commit `34ecf78`, per-repo 16/16/16, per-strategy 24/24, per-rep 24/24, checkpoint completed, no residue); isolation/evidence/export gates 142 passed; final full suite **2,026 passed / 33 skipped / 0 failed**. Per-run workflow timeout stays frozen at 600 s uniformly; no further Kaggle Full-9 authorized. **Pilot execution NOT STARTED; next = `PILOT-EXEC-01`; stable tag `v0.9.0-pilot-ready` after main merge.**
+- **Status:** CLOSED (2026-08-10)
 
 ## Previous - Scientific Smoke V2 Closure (SMOKE-V2-CLOSE-01, 2026-08-09) — HISTORICAL SNAPSHOT
 

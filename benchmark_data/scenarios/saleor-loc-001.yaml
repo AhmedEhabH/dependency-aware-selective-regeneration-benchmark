@@ -26,8 +26,8 @@ acceptance_criteria:
 
 expected_affected_artifacts:
   - "saleor/product/models.py:Product"
-  - "saleor/graphql/product/types.py:ProductType"
-  - "saleor/graphql/product/filters.py:ProductFilter"
+  - "saleor/graphql/product/types/products.py:Product"
+  - "saleor/graphql/product/filters/product.py:ProductFilter"
   - "saleor/product/migrations/*"
 
 expected_actions:
@@ -35,9 +35,9 @@ expected_actions:
     - "saleor/product/migrations/XXXX_is_featured.py"
   modify:
     - "saleor/product/models.py"
-    - "saleor/graphql/product/types.py"
-    - "saleor/graphql/product/filters.py"
-    - "saleor/graphql/schema.py"
+    - "saleor/graphql/product/types/products.py"
+    - "saleor/graphql/product/filters/product.py"
+    - "saleor/graphql/api.py"
 
 regression_obligations:
   - "Run saleor/product/tests/ model tests."

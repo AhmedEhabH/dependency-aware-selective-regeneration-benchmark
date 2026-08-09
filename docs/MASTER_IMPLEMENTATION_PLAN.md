@@ -6,6 +6,7 @@
 
 ```text
 SCIENTIFIC SMOKE V2 = COMPLETE AND ACCEPTED (SMOKE-V2-CLOSE-01, 2026-08-09) - 600-second confirmatory timeout-sensitivity Full-9 (T600, FULL9-T600-01) EXECUTED AND ACCEPTED: run exp-20260808-222843, uniform --timeout 600 on frozen runtime source/build 7f2a450, fail-closed _t600 output namespace, evidence prefix corrected-full9-t600-wsfix-7f2a450-; 9/9 terminal / 2 successes / 7 scientific failures / 0 engineering blockers / 0 budget-exhausted / 63 model calls / 77,929 tokens / max run ~373 s / Full-9 verification PASS / HF synchronization PASS - SAME 2/9 result as the accepted clean 300-second baseline (runtime 7f2a450, --timeout 300, valid and preserved, NOT invalidated or replaced); timeout sensitivity confirmed (600s ceiling did NOT change the accepted result; 300s baseline signal not distorted by censoring; NOT an improvement claim); uniform per-run workflow timeout frozen at 600s for monolithic / selective / iterative_repository_agent (one shared Full-9 command, no strategy extra time); do NOT raise above 600 (if Pilot runs accumulate near 600 s, analyze duration/repair distribution and pre-register the Pilot budget); SMOKE-V2-CLOSE-01 = CLOSED (closure audited and merged to main 193d889; stable tag v0.8.0-smoke-v2-complete created); MAIN-GREEN-01 = CLOSED (main d875c72; preferred recovery tag v0.8.1-smoke-v2-complete; full suite 1,958 passed / 33 skipped / 0 failed / 0 errors carried forward); HANDOFF-CONSISTENCY-01 = CLOSED (docs reconciliation merged to main 403977b; preferred recovery tag now v0.8.2-smoke-v2-complete); current task = PILOT-READY-01 (do NOT start Pilot); Pilot / fine-tune unauthorized; no further Kaggle Full-9 authorized
+HISTORICAL NOTE (2026-08-10): the above "current task = PILOT-READY-01" is superseded — PILOT-READY-01 = CLOSED (see lines 25-26); current task = PILOT-EXEC-01; Pilot execution NOT STARTED
 R4 = accepted and frozen (f5ae826)
 R5 = accepted and frozen (7761c48)
 R6 = ACCEPTED AND FROZEN (949e9c2) - freeze record and milestone-branch publication authorized
@@ -22,7 +23,8 @@ Real Smoke = canary succeeded 1 / failed 0 (local scripted 9/9; bundled CLI dry-
 Milestone tag = v0.8.0-canary.1 (created and pushed 2026-08-07; annotated; NON-STABLE; points to 31a619857ce07eb09ab5e206fbc9dc792782c99c) - first accepted real Qwen 14B NF4 selective-canary milestone; UNCHANGED
 Tag naming = v0.8.0-canary.N (isolated calibration milestones) | v0.8.0-smoke-v2-complete (create ONLY after a fresh Full-9 result audit + main merge; replaces the stale v2.0.0-scientific-smoke future-tag wording)
 Stable release = YES (v0.8.0-smoke-v2-complete created at 193d889; v0.8.1-smoke-v2-complete at d875c72; preferred recovery v0.8.2-smoke-v2-complete at 403977b); Full 9-record Scientific Smoke V2 = COMPLETE AND ACCEPTED (SMOKE-V2-CLOSE-01 CLOSED); main merge = COMPLETE; HANDOFF-CONSISTENCY-01 = CLOSED
-Pilot = NOT STARTED (execution not authorized); next task = PILOT-READY-01
+Pilot = NOT STARTED (execution not authorized); PILOT-READY-01 = CLOSED (2026-08-10); next task = PILOT-EXEC-01
+PILOT-READY-01 = CLOSED (2026-08-10) - branch feat/pilot-ready-01, code/test commit 34ecf78 (fix(pilot): close multi-repo selective input contracts, pushed, local = remote): per-repository dependency graphs, per-repository editable universes, file-granular descriptors for django CMS/Saleor, stale real-smoke expectation corrected (STRATEGIES_WITH_MISSING_PREREQS = {"agent"}), focused multi-repo production-path contract added (12 tests); full suite 2,026 passed / 33 skipped / 0 failed; exact fresh 48-cell Pilot dry-run 48/48 succeeded / 0 failed / 0 pending (deterministic unique run IDs, config_hash 7ef6ffc7a2c0d369, protocol 1.0, source_commit 34ecf78; per-repo 16/16/16; per-strategy 24/24; per-rep 24/24; checkpoint completed; no residue); isolation/evidence/export gates 142 passed; frozen Pilot matrix = Qwen2.5-Coder-14B-Instruct / bnb-nf4 / 600s / 12 scenarios / 2 strategies / 2 repetitions = 48 cells (Todo / django CMS / Saleor); stable tag v0.9.0-pilot-ready after main merge; no accepted Smoke evidence or frozen source history changed
 ```
 
 Exact path from R6 freeze to Pilot freeze:
@@ -37,7 +39,7 @@ record R6 freeze
 → nine real Qwen Scientific Smoke V2 records (3 scenarios x 3 arms x 1 rep)
 → independent real-result audit
 → main merge, then stable v0.8.0-smoke-v2-complete tag — EXECUTED (closure audited and merged to main 193d889; stable tag v0.8.0-smoke-v2-complete created; MAIN-GREEN-01 merged d875c72; preferred recovery tag v0.8.1-smoke-v2-complete; milestone v0.8.0-canary.1 unchanged, non-stable)
-→ freeze Pilot matrix and authorize Pilot (NOT YET — authorized next task after PILOT-READY-01)
+→ freeze Pilot matrix and authorize Pilot (NOT YET — authorized next task after PILOT-READY-01, which is CLOSED; next = PILOT-EXEC-01)
 ```
 
 ## Historical implementation plan — non-authoritative for current execution
@@ -93,7 +95,8 @@ authoritative track is the section above.
 - **Scientific Smoke V2 = COMPLETE AND ACCEPTED (SMOKE-V2-CLOSE-01, 2026-08-09)** — 600-second confirmatory Full-9 `exp-20260808-222843` EXECUTED AND ACCEPTED (uniform `--timeout 600`, frozen runtime `7f2a450`, `_t600` namespace, 9/9 terminal / 2 successes / 7 scientific failures / 0 engineering blockers / 0 budget-exhausted / 63 calls / 77,929 tokens / max run ≈373 s, Full-9 verification PASS, HF synchronization PASS, SAME 2/9 result as the accepted clean 300-second baseline — timeout sensitivity confirmed, NOT an improvement claim); uniform per-run workflow timeout frozen at 600s; milestone closed
 - **Close Scientific Smoke V2 permanently (SMOKE-V2-CLOSE-01)** — CLOSED (2026-08-09): docs updated to the accepted state; closure audited; non-ff merged to main `193d889`; stable tag `v0.8.0-smoke-v2-complete` created; repo left ready for `PILOT-READY-01`; MAIN-GREEN-01 (main `d875c72`, preferred recovery `v0.8.1-smoke-v2-complete`) also closed
 - **Independent delta audit of the Scientific Smoke V2 closure** — COMPLETED (accepted; main merge `193d889` + stable tag `v0.8.0-smoke-v2-complete` done; MAIN-GREEN-01 merged `d875c72`)
-- Pilot (NOT STARTED; execution not authorized — next task `PILOT-READY-01`)
+- **PILOT-READY-01 = CLOSED (2026-08-10)** — multi-repo selective input contracts fixed (`34ecf78` pushed on `feat/pilot-ready-01`), stale real-smoke expectation corrected, focused 12-test multi-repo production-path contract added, full suite 2,026 passed / 33 skipped / 0 failed, exact fresh 48-cell Pilot dry-run 48/48 deterministic green, isolation/evidence/export gates 142 passed; frozen Pilot matrix Qwen2.5-Coder-14B-Instruct / bnb-nf4 / 600s / 12 scenarios / 2 strategies / 2 repetitions / 48 cells
+- Pilot (NOT STARTED; execution not authorized — next task `PILOT-EXEC-01`)
 - **Complete:** 0a1c603 baseline verified (1063 pass, 5 skip), three-arm core experiment documented, 3 smoke scenarios created, evaluator tests isolated, contract tests added
 
 ## Known Boundary
@@ -101,7 +104,7 @@ authoritative track is the section above.
 - neutral empty graph when no profile graph exists
 - real repository dependency inference remains deferred
 - OpenRouter API backend is provider-integration only; no retries, streaming, or fallback routing
-- Scientific Smoke V2 = COMPLETE AND ACCEPTED (SMOKE-V2-CLOSE-01 CLOSED); Pilot execution NOT STARTED (next task `PILOT-READY-01`); no further Kaggle Full-9 authorized
+- Scientific Smoke V2 = COMPLETE AND ACCEPTED (SMOKE-V2-CLOSE-01 CLOSED); PILOT-READY-01 = CLOSED; Pilot execution NOT STARTED (next task `PILOT-EXEC-01`); no further Kaggle Full-9 authorized
 
 ### Dependencies
 
