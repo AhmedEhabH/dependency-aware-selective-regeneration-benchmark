@@ -2054,12 +2054,16 @@ def main() -> int:
         )
 
     # ---- Resolve validation command per repository --------------------------
-    # Load the canonical manifest collection to discover test_discovery
-    # for each repository. Used when enable_regeneration=True.
+    # PILOT-EXEC-01: the frozen per-repository validation contract
+    # (benchmark_data/manifests/pilot_validation_commands.yaml) is the source
+    # of truth for regeneration baseline validation. Every selected repository
+    # must resolve a non-empty command before the first model call; a missing
+    # mapping FAILS CLOSED (no single-repository behavior, no silent skip).
     _manifest_collection = None
     _validation_commands: dict[str, list[str]] = {}
     if not args.dry_run:
         from benchmark.repositories.loader import RepositoryLoader
+        from benchmark.repositories.validation_commands import load_validation_commands
 
         repo_loader = RepositoryLoader(data_dir)
         try:
@@ -2067,19 +2071,52 @@ def main() -> int:
         except Exception as exc:
             logger.warning("Could not load repository manifests: %s", exc)
 
+        _frozen_validation_commands = None
+        frozen_manifest_path = data_dir / "manifests" / "pilot_validation_commands.yaml"
+        if frozen_manifest_path.is_file():
+            try:
+                _frozen_validation_commands = load_validation_commands(frozen_manifest_path)
+            except Exception as exc:
+                logger.error(
+                    "Could not load frozen validation commands manifest '%s': %s",
+                    frozen_manifest_path,
+                    exc,
+                )
+                return 1
+
         if args.validation_command:
             # CLI override applies to all repos
             cmd = shlex.split(args.validation_command)
             for sn in strategy_names:
                 if sn in REGENERATION_APPROVED_STRATEGIES:
                     _validation_commands[sn] = cmd
-        elif _manifest_collection is not None:
+        else:
+            selected_repo_ids: set[str] = set()
             for scenario in selected_scenarios:
-                manifest = _manifest_collection.get_manifest(scenario.repository)
-                if manifest and manifest.test_discovery.strip():
-                    parts = shlex.split(manifest.test_discovery)
-                    _validation_commands[scenario.repository] = parts
-                    break
+                selected_repo_ids.add(scenario.repository)
+            for repo_id in selected_repo_ids:
+                resolved: list[str] | None = None
+                if _frozen_validation_commands is not None:
+                    frozen = _frozen_validation_commands.get(repo_id)
+                    if frozen is not None:
+                        resolved = list(frozen.resolve_interpreter(sys.executable))
+                if resolved is None and _manifest_collection is not None:
+                    # Fallback for non-Pilot repositories: canonical manifest
+                    # test_discovery (kept for profiles outside the frozen map).
+                    manifest = _manifest_collection.get_manifest(repo_id)
+                    if manifest and manifest.test_discovery.strip():
+                        resolved = shlex.split(manifest.test_discovery)
+                if not resolved:
+                    logger.error(
+                        "No baseline validation command resolved for selected "
+                        "repository '%s'. The Pilot validation contract "
+                        "(benchmark_data/manifests/pilot_validation_commands.yaml) "
+                        "must map every selected repository. Aborting benchmark "
+                        "before model initialization.",
+                        repo_id,
+                    )
+                    return 1
+                _validation_commands[repo_id] = resolved
 
     # ---- Resolve canonical active snapshot per repository -------------------
     # The active snapshot is an immutable staged copy of the repository source
