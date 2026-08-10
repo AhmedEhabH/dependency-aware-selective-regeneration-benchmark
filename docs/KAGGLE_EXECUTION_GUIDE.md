@@ -40,13 +40,22 @@ Qwen2.5-Coder must be available as a Kaggle Model. Model loading uses `local_fil
 
 ### 2.4 Pilot bundle (PILOT-EXEC-01)
 
-For the Pilot, upload the **Pilot deployment bundle** generated from the
-`v0.9.1-pilot-exec-ready` tag: `dist/pilot-kaggle-upload/` (archive
-`dist/pilot-kaggle-upload.zip`), built by `scripts/build_pilot_upload_bundle.py`.
+For the Pilot, upload the **frozen Pilot deployment archive** generated from
+the `v0.9.1-pilot-exec-ready` tag as **ONE Kaggle Dataset** containing at
+minimum:
+
+- `pilot-kaggle-upload.zip`
+- `pilot-kaggle-upload.zip.sha256`
+
+Do not separately reconstruct code/data datasets by hand: the generic
+two-dataset shape in 2.2 applies to the Scientific Smoke deployment, NOT to
+the Pilot. Inside the notebook the archive is extracted to
+`/kaggle/working/pilot_bundle` and the bundled `code/` and `data/` are used
+directly (see 3.7).
 
 Never upload the historical `kaggle_upload/` bundle as Pilot input: it is the
 frozen Scientific Smoke deployment evidence and is stale relative to current
-Pilot canonical sources. Verify uploaded archive hashes against
+Pilot canonical sources. Verify the uploaded archive SHA-256 against
 `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` before launching. Kaggle slugs
 used by the Pilot differ from the Smoke bundle's slugs.
 
@@ -105,18 +114,59 @@ os.environ["HF_RESULTS_REPO_ID"] = (
     --data-dir /kaggle/input/benchmark-data
 ```
 
-### Cell 7 — Real Pilot launch (PILOT-EXEC-01, 48-cell matrix)
+### Cell 7 — Pilot bundle prep (PILOT-EXEC-01)
+
+```python
+import hashlib, zipfile, json
+from pathlib import Path
+
+dataset_mount = Path("/kaggle/input/<pilot-benchmark-bundle>")  # ONE dataset slug
+archive = dataset_mount / "pilot-kaggle-upload.zip"
+sidecar = dataset_mount / "pilot-kaggle-upload.zip.sha256"
+
+# 1) Verify the archive SHA-256 equals the frozen value
+frozen_sha = "dd9b4e291f0db16ebe20bf6e13075e78ad8021a5d8fd6aa8a60fc0ae722c7c50"
+actual_sha = hashlib.sha256(archive.read_bytes()).hexdigest()
+assert actual_sha == frozen_sha, f"SHA-256 mismatch: {actual_sha}"
+
+# 2) Extract to /kaggle/working/pilot_bundle
+bundle_root = Path("/kaggle/working/pilot_bundle")
+with zipfile.ZipFile(archive) as z:
+    z.extractall(bundle_root)
+
+# 3) Verify the frozen deployment identity
+identity = json.loads(
+    (bundle_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+)
+assert identity["task"] == "PILOT-EXEC-01"
+assert identity["source_tag"] == "v0.9.1-pilot-exec-ready"
+
+# 4) Verify code/data manifests against the freeze report
+#    code_manifest.json / data_manifest.json under bundle_root
+
+# 5) Define the bundled paths used by every later cell
+PILOT_CODE = str(bundle_root / "code")
+PILOT_DATA = str(bundle_root / "data")
+```
+
+```python
+!pip install -r /kaggle/working/pilot_bundle/code/requirements-kaggle.txt
+```
+
+### Cell 8 — Real Pilot launch (PILOT-EXEC-01, 48-cell matrix)
 ```bash
 # Uncomment when ready for real execution. The Pilot launch contract is frozen:
 # --qwen-quantization bnb-nf4 is EXPLICIT (generic CLI default is bnb-int8).
 # Do NOT pass --max-runs 2 for the Pilot; run one continuous 48-cell session.
-# python /kaggle/input/pilot-benchmark-code/seven_arm_benchmark.py \
+# python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
 #     --backend kaggle-qwen \
 #     --profile pilot \
-#     --data-dir /kaggle/input/pilot-benchmark-data \
+#     --data-dir /kaggle/working/pilot_bundle/data \
 #     --model-path "$MODEL_PATH" \
 #     --qwen-quantization bnb-nf4 \
 #     --max-attempts 3 \
+#     --max-completion-tokens-per-call 4096 \
+#     --max-total-workflow-tokens 0 \
 #     --timeout 600 \
 #     --source-commit "<40-char SHA>" \
 #     --source-tag v0.9.1-pilot-exec-ready \
@@ -126,13 +176,13 @@ os.environ["HF_RESULTS_REPO_ID"] = (
 #     --new-experiment
 ```
 
-### Cell 8 — Resume the SAME Pilot experiment after external interruption
+### Cell 9 — Resume the SAME Pilot experiment after external interruption
 ```bash
 # Resume only the same compatible experiment (identical source/model/config/
 # matrix/quantization). Never --new-experiment on resume.
-# python /kaggle/input/pilot-benchmark-code/seven_arm_benchmark.py \
+# python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
 #     --profile pilot \
-#     --data-dir /kaggle/input/pilot-benchmark-data \
+#     --data-dir /kaggle/working/pilot_bundle/data \
 #     --model-path "$MODEL_PATH" \
 #     --qwen-quantization bnb-nf4 \
 #     --resume-from-hf \
@@ -141,7 +191,7 @@ os.environ["HF_RESULTS_REPO_ID"] = (
 #     --hf-repo-id "$HF_RESULTS_REPO_ID"
 ```
 
-### Cell 9 — View results
+### Cell 10 — View results
 ```python
 import json
 summary_path = "runs/benchmark_summary.json"
