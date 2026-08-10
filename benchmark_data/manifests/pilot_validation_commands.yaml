@@ -1,0 +1,120 @@
+# Frozen per-repository baseline validation commands — PILOT-EXEC-01
+#
+# Resolved and frozen before the first Pilot run as the union of the selected
+# scenarios' `regression_obligations` (see
+# `_workspace/active/PILOT-EXEC-01-REAL-LAUNCH-CLOSURE/03_VALIDATION_CONTRACT.md`).
+#
+# Each repository declares one primary frozen validation `command` (the argv
+# used by the Pilot runner for per-cell baseline validation) plus any
+# `additional_commands` the preflight must also prove. Commands run with
+# cwd = the pristine staged snapshot root of the repository. The `{python}`
+# token is substituted with the resolved Python interpreter.
+#
+# No performance-driven subset was invented: every path below is required by a
+# frozen scenario `regression_obligations` entry for that repository.
+#
+# protocol_version / task mirror configs/pilot.yaml.
+
+protocol_version: "1.0"
+task: PILOT-EXEC-01
+
+repositories:
+  todo:
+    scenario_ids:
+      - todo-loc-001
+      - todo-loc-002
+      - todo-mod-004
+      - todo-cross-007
+    dependency_runtime: benchmark
+    services: []
+    env: {}
+    command:
+      - "{python}"
+      - "-m"
+      - "pytest"
+    additional_commands: []
+    description: >
+      Complete Todo regression suite (todo/tests: test_models, test_permissions,
+      test_serializers, test_views). The complete suite is the smallest correct
+      union of the four selected scenario obligations (each obligation names
+      these files and no other test files exist in the pinned tree).
+
+  djangocms:
+    scenario_ids:
+      - djangocms-mod-005
+      - djangocms-loc-002
+      - djangocms-mod-004
+      - djangocms-cross-007
+    dependency_runtime: repository_test_requirements
+    dependency_file: test_requirements/django-5.0.txt
+    services: []
+    env:
+      DATABASE_URL: sqlite://localhost/testdb.sqlite
+    command:
+      - "{python}"
+      - "manage.py"
+      - "test"
+      - "cms.tests.test_api"
+      - "cms.tests.test_page"
+      - "cms.tests.test_page_admin"
+      - "cms.tests.test_permissions"
+      - "cms.tests.test_permmod"
+      - "cms.tests.test_signals"
+      - "cms.tests.test_toolbar"
+      - "cms.tests.test_views"
+    additional_commands: []
+    description: >
+      Union of the four selected scenario obligations against the pinned 5.0.0
+      tree, resolved to cms/tests/{api,page,page_admin,permissions,permmod,
+      signals,toolbar,views}. Uses the upstream-supported pinned-tree runner
+      (`python manage.py test`; test.yml at 0f633fc, sqlite matrix row) — not
+      `tox -e tests`, which is absent from the pinned tree. Verified on
+      2026-08-09: 380 passed / 0 failed / 1 upstream skip / 1 Windows-only skip.
+
+  saleor:
+    scenario_ids:
+      - saleor-loc-001
+      - saleor-loc-002
+      - saleor-mod-004
+      - saleor-cross-007
+    dependency_runtime: repository
+    services:
+      - postgresql
+      - valkey
+    env:
+      DATABASE_URL: postgres://saleor:saleor@127.0.0.1:5433/saleor
+      CACHE_URL: redis://127.0.0.1:6379/0
+      SECRET_KEY: ci-test
+    command:
+      - "{python}"
+      - "-m"
+      - "pytest"
+      - "-m"
+      - "not e2e"
+      - "-q"
+      - "-n"
+      - "logical"
+      - "saleor/product/tests"
+      - "saleor/graphql/product/tests"
+      - "saleor/graphql/checkout/tests"
+      - "saleor/graphql/order/tests"
+      - "saleor/webhook/tests"
+    additional_commands:
+      - command:
+          - "{python}"
+          - "manage.py"
+          - "makemigrations"
+          - "--check"
+          - "--dry-run"
+        description: >
+          Migration-regression baseline: the pinned tree must be migration-clean
+          so generated scenario migrations can be validated forward/backward.
+    description: >
+      Union of the four selected scenario obligations against the pinned 3.23.0
+      tree covering product/model (saleor/product/tests), GraphQL product
+      including mutation/permission (saleor/graphql/product/tests), checkout
+      (saleor/graphql/checkout/tests), order (saleor/graphql/order/tests) and
+      webhook/event dispatch (saleor/webhook/tests). Requires PostgreSQL and
+      Valkey/Redis services (reproduced in engineering preflight; no silent
+      SQLite fallback). Parallelized with pytest-xdist `-n logical` matching the
+      upstream CI invocation (tests-and-linters.yml at e11a5557).
