@@ -224,14 +224,68 @@ NOT scientific evidence.
 - Pilot real execution started: NO
 - Pilot real execution completed: NO
 - Remaining blockers: real Pilot launch requires (1) the Kaggle Dataset slug
-  chosen by the researcher for the Pilot bundle, (2) the exact Kaggle mounted
+  chosen by the researcher for the frozen Pilot bundle (ONE dataset containing
+  `pilot-kaggle-upload.zip` + `.sha256`, per §14), (2) the exact Kaggle mounted
   model path for Qwen2.5-Coder-14B-Instruct, (3) the exact HF results
-  repository ID. All pre-execution gates (A1–A8) are complete and the exact
-  launch commands are frozen in `docs/PILOT_KAGGLE_RUNBOOK.md` and
-  `_workspace/active/PILOT-EXEC-01/06_KAGGLE_REAL_EXECUTION_RUNBOOK.md`.
-- Next exact task: on researcher confirmation, upload the A8 bundle, run Gate C
-  runtime identity preflight → bundled 48-cell dry-run → model-load preflight
+  repository ID. All pre-execution gates (A1–A8) are complete, the launch
+  instructions were reconciled to the one-bundle flow (§14), and the exact
+  launch commands are frozen in `docs/PILOT_KAGGLE_RUNBOOK.md`.
+- Next exact task: on researcher confirmation, upload the ONE-bundle dataset
+  (frozen archive + sidecar), then run Gate C runtime identity preflight →
+  SHA-256 verify → extract to `/kaggle/working/pilot_bundle` → identity/manifest
+  verify → bundled 48-cell dry-run → model-load preflight
   (`--qwen-quantization bnb-nf4`) → one continuous 48-cell real Pilot launch.
 - Near goal: exact real Pilot launch
 - Long goal: Pilot results audit → Main-study budget freeze → research
   experiment → statistical analysis → paper evidence package
+
+## 14. Gate C launch-instructions reconciliation (docs-only)
+
+**Purpose:** remove the launch-documentation ambiguity that mixed two
+deployment shapes before the real Kaggle Pilot. No scientific or protocol
+input changed; this is launch-documentation reconciliation only.
+
+**Old ambiguous flow (superseded):** the runbook told the operator to upload
+`code/` and `data/` as two separate Kaggle datasets, but then expected
+`pilot_deployment_identity.json` at the code-dataset root — while that file
+belongs to the frozen bundle root, not `code/` — and the final report referred
+to one Dataset slug while the runbook used two slugs.
+
+**New one-bundle flow (canonical, frozen in `docs/PILOT_KAGGLE_RUNBOOK.md`):**
+
+- ONE Kaggle Dataset for the frozen Pilot archive, containing at minimum
+  `pilot-kaggle-upload.zip` and `pilot-kaggle-upload.zip.sha256`.
+- No hand-reconstruction of code/data datasets.
+- Inside the notebook: resolve the dataset mount → verify the ZIP SHA-256
+  equals the frozen `dd9b4e29…` → extract to
+  `/kaggle/working/pilot_bundle` → verify
+  `pilot_deployment_identity.json` (task `PILOT-EXEC-01`,
+  `v0.9.1-pilot-exec-ready`) → verify code/data manifests → define
+  `PILOT_CODE=/kaggle/working/pilot_bundle/code`,
+  `PILOT_DATA=/kaggle/working/pilot_bundle/data` → install from
+  `$PILOT_CODE/requirements-kaggle.txt` → bundled 48-cell dry-run
+  (`$PILOT_CODE/seven_arm_benchmark.py --dry-run --profile pilot
+  --data-dir $PILOT_DATA --qwen-quantization bnb-nf4`) → model-load preflight
+  (`--qwen-quantization bnb-nf4`) → real 48-cell Pilot launch.
+- The model mount path and the HF results repo ID are still verified at
+  runtime, never assumed.
+
+**Files changed (docs only):** `docs/PILOT_KAGGLE_RUNBOOK.md`,
+`docs/KAGGLE_EXECUTION_GUIDE.md`, `reports/PILOT_EXEC_01_FINAL_REPORT.md`,
+`SYSTEM_STATE.md` (single clarifying bullet).
+
+**Confirmations:**
+
+- NO production code change.
+- NO prompt/metric/scenario/model/quantization/timeout change.
+- NO protocol/execution-contract change (frozen contract untouched).
+- Tag unchanged: `v0.9.1-pilot-exec-ready` remains the immutable executable
+  source tag (peeled `7efdbe60bb…`); no new tag.
+- Bundle NOT rebuilt; `dist/pilot-kaggle-upload.zip` and its SHA-256
+  `dd9b4e29…` unchanged.
+- Full test suite NOT rerun; frozen bundle NOT moved.
+- Real Pilot NOT started during this docs correction.
+
+**Git:** shipped as commit
+`docs(pilot): reconcile Gate C Kaggle bundle launch paths`, pushed immediately
+to `main`; verified local main == origin/main at the end of this step.
