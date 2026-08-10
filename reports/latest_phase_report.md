@@ -1,6 +1,37 @@
-# PILOT-READY-01 Pilot Readiness Closure — Latest Phase Report
+# PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-10):** Scientific Smoke V2 = **COMPLETE / ACCEPTED** (SMOKE-V2-CLOSE-01 = CLOSED); MAIN-GREEN-01 = CLOSED; HANDOFF-CONSISTENCY-01 = CLOSED; **PILOT-READY-01 = CLOSED** on branch `feat/pilot-ready-01` (code/test commit `34ecf78` pushed, local = remote) — multi-repo selective input contracts fixed, stale real-smoke expectation corrected, focused multi-repo production-path contract added (12 tests), full suite **2,026 passed / 33 skipped / 0 failed**, exact fresh 48-cell Pilot dry-run 48/48 succeeded / 0 failed / 0 pending (deterministic unique run IDs), isolation/evidence/export gates 142 passed; Pilot scientific timeout frozen at **600s uniform**; frozen Pilot matrix = Qwen2.5-Coder-14B-Instruct / bnb-nf4 / 600s / 12 scenarios / 2 strategies / 2 repetitions = 48 cells (Todo / django CMS / Saleor); **Pilot = NOT STARTED**; **next exact task = `PILOT-EXEC-01`**; stable tag `v0.9.0-pilot-ready` after main merge; **no further Smoke Full-9 authorized**. Older "Latest closure" paragraphs below are HISTORICAL.
+> **CURRENT TRUTH (2026-08-10):** **PILOT-EXEC-01 pre-execution gates IN PROGRESS on branch `experiment/pilot-exec-01`** (from `main` @ `72d041d`; stable tag `v0.9.0-pilot-ready` @ `90a4282` NOT moved). Gate A PASS: Pilot-specific bundle builder `scripts/build_pilot_upload_bundle.py` + 12-test deployment contract `tests/integration/test_pilot_deployment_bundle.py` (12/12 passed; historical Smoke `kaggle_upload/` byte-identical); Pilot bundle at `dist/pilot-kaggle-upload/` (archive SHA-256 `8c52d26b69e9fc0a072d68ba89b9a300e2e8351ba0902e32c71f96ecc45b2de7`); exact fresh 48-cell bundled dry-run 48/48 (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24); full suite **2,038 passed / 33 skipped / 0 failed** (750.99s). Gate B (in progress): execution contract **pre-registered** (`docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md`, DECISION_LOG D025) — frozen 48-cell matrix, Qwen2.5-Coder-14B-Instruct / bnb-nf4 / temp 0 / 600s / max 3 attempts / 4096 completion tokens/call / cap 0; runbook `docs/PILOT_KAGGLE_RUNBOOK.md` created; `docs/KAGGLE_EXECUTION_GUIDE.md` Pilot instructions corrected. **Pilot = NOT STARTED**; real launch deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID. Remaining: commit/push, independent pre-execution audit, merge to main, tag `v0.9.1-pilot-exec-ready`, rebuild bundle from tagged source, deployment freeze report, exact Kaggle launch prep, final report. Prior closure paragraphs below are HISTORICAL.
+
+## Current — PILOT-EXEC-01 pre-execution gates (Gate A PASS, Gate B in progress)
+
+**Status: `IN PROGRESS`** (2026-08-10, branch `experiment/pilot-exec-01`).
+
+- Gate A3 (deployment build): `scripts/build_pilot_upload_bundle.py` created —
+  reuses `scripts/build_upload_bundle.py` via importlib, redirects output to
+  `dist/pilot-kaggle-upload/`, omits the Smoke notebook, deterministic zip,
+  writes `pilot_deployment_identity.json`, refuses output root ==
+  `kaggle_upload`. Built bundle = 90 code + 56 data files; archive SHA-256
+  `8c52d26b69e9fc0a072d68ba89b9a300e2e8351ba0902e32c71f96ecc45b2de7`;
+  identity `created_utc 2026-08-10T00:00:00+00:00`, `source_commit 72d041d9...`,
+  `source_tag v0.9.1-pilot-exec-ready`, code/data manifest SHA-256s.
+- Gate A4 (deployment contract): new 12-test `test_pilot_deployment_bundle.py`
+  12/12 passed; affected contracts 126/126 passed (incl. historical Smoke
+  identity).
+- Gate A5 (bundled dry-run): fresh 48-cell exact Pilot dry-run 48/48 terminal /
+  48 unique IDs / 0 missing / 0 duplicate; per-repo 16/16/16; per-strategy
+  iterative_repository_agent 24 / selective 24; per-rep 24/24.
+- Gate A6 (full gate): full suite **2,038 passed / 33 skipped / 0 failed**
+  (750.99s); `git diff --check` clean; ruff clean; mypy strict clean on new
+  script; compile clean.
+- Gate B (pre-registration): `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md` +
+  DECISION_LOG D025 pre-registered; `docs/PILOT_KAGGLE_RUNBOOK.md` created;
+  `docs/KAGGLE_EXECUTION_GUIDE.md` Pilot cells/table/session-limits corrected
+  (explicit `--qwen-quantization bnb-nf4`, no `--max-runs 2`, Pilot bundle
+  slug guidance, no pre-Pilot wall-time estimate).
+- Next: commit (deployment code/test + docs) -> push -> independent
+  pre-execution audit -> merge to main -> push -> tag `v0.9.1-pilot-exec-ready`
+  -> rebuild bundle from tagged source -> verify -> deployment freeze report ->
+  exact Kaggle launch prep -> final report. **Pilot = NOT STARTED.**
 
 ## Latest closure — PILOT-READY-01 (Pilot readiness closure)
 

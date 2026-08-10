@@ -38,6 +38,18 @@ Create two Kaggle Datasets:
 ### 2.3 Model
 Qwen2.5-Coder must be available as a Kaggle Model. Model loading uses `local_files_only=True` from the attached Kaggle Model — no HuggingFace download.
 
+### 2.4 Pilot bundle (PILOT-EXEC-01)
+
+For the Pilot, upload the **Pilot deployment bundle** generated from the
+`v0.9.1-pilot-exec-ready` tag: `dist/pilot-kaggle-upload/` (archive
+`dist/pilot-kaggle-upload.zip`), built by `scripts/build_pilot_upload_bundle.py`.
+
+Never upload the historical `kaggle_upload/` bundle as Pilot input: it is the
+frozen Scientific Smoke deployment evidence and is stale relative to current
+Pilot canonical sources. Verify uploaded archive hashes against
+`reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` before launching. Kaggle slugs
+used by the Pilot differ from the Smoke bundle's slugs.
+
 ---
 
 ## 3. Notebook Workflow
@@ -93,26 +105,38 @@ os.environ["HF_RESULTS_REPO_ID"] = (
     --data-dir /kaggle/input/benchmark-data
 ```
 
-### Cell 7 — New automatic chunk (pilot)
+### Cell 7 — Real Pilot launch (PILOT-EXEC-01, 48-cell matrix)
 ```bash
-# Uncomment when ready for real execution:
-# python /kaggle/input/benchmark-code/seven_arm_benchmark.py \
+# Uncomment when ready for real execution. The Pilot launch contract is frozen:
+# --qwen-quantization bnb-nf4 is EXPLICIT (generic CLI default is bnb-int8).
+# Do NOT pass --max-runs 2 for the Pilot; run one continuous 48-cell session.
+# python /kaggle/input/pilot-benchmark-code/seven_arm_benchmark.py \
+#     --backend kaggle-qwen \
 #     --profile pilot \
-#     --max-runs 2 \
-#     --output-dir /kaggle/working/runs \
+#     --data-dir /kaggle/input/pilot-benchmark-data \
+#     --model-path "$MODEL_PATH" \
+#     --qwen-quantization bnb-nf4 \
+#     --max-attempts 3 \
+#     --timeout 600 \
+#     --source-commit "<40-char SHA>" \
+#     --source-tag v0.9.1-pilot-exec-ready \
+#     --output-dir /kaggle/working/runs/pilot-<experiment-id> \
 #     --hf-sync \
-#     --hf-repo-id "$HF_RESULTS_REPO_ID"
+#     --hf-repo-id "$HF_RESULTS_REPO_ID" \
+#     --new-experiment
 ```
 
-### Cell 8 — Resume automatically
+### Cell 8 — Resume the SAME Pilot experiment after external interruption
 ```bash
-# Uncomment to resume from HuggingFace:
-# python /kaggle/input/benchmark-code/seven_arm_benchmark.py \
+# Resume only the same compatible experiment (identical source/model/config/
+# matrix/quantization). Never --new-experiment on resume.
+# python /kaggle/input/pilot-benchmark-code/seven_arm_benchmark.py \
 #     --profile pilot \
+#     --data-dir /kaggle/input/pilot-benchmark-data \
+#     --model-path "$MODEL_PATH" \
+#     --qwen-quantization bnb-nf4 \
 #     --resume-from-hf \
-#     --experiment-id "<experiment-id>" \
-#     --max-runs 2 \
-#     --output-dir /kaggle/working/runs \
+#     --output-dir /kaggle/working/runs/pilot-<experiment-id> \
 #     --hf-sync \
 #     --hf-repo-id "$HF_RESULTS_REPO_ID"
 ```
@@ -132,7 +156,7 @@ with open(summary_path) as f:
 | Profile | Scenarios | Strategies | Reps | Est. Time | Publication | Command |
 |---------|-----------|-----------|------|-----------|-------------|---------|
 | smoke | 1 (djangocms-feature-toggle) | All 7 | 1 | < 30 min | No | `--profile smoke` |
-| pilot | 12 (4 per repo × 3 repos) | agent, selective | 2 | ~2-3h | No | `--profile pilot` |
+| pilot | 12 (4 per repo × 3 repos) | iterative_repository_agent, selective | 2 | 48 cells (48 planned) | No | `--profile pilot --qwen-quantization bnb-nf4` |
 | research | 24 (8 per repo × 3 repos) | agent, selective, compiled_ai, delta_mcp | 3 | ~6-9h | Yes | `--profile research` |
 
 Custom profiles can be created by adding YAML files to `configs/`.
@@ -198,7 +222,8 @@ The benchmark automatically saves checkpoint state after every run. If a Kaggle 
 - **Kaggle session:** 9 hours max; auto-shuts down at limit
 - **GPU hours:** 30 hours/week (free tier); more with Kaggle Pro
 - **Smoke profile:** Well within limits (~30 min)
-- **Pilot profile:** ~2-3 hours
+- **Pilot profile:** 48 cells planned; wall time depends on real Qwen 14B
+  bnb-nf4 generation and must be measured by the Pilot (no pre-Pilot estimate).
 - **Research profile:** ~6-9 hours — may hit limit with larger models
 
 ---
