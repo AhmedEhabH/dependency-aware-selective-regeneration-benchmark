@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-08-01
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** **PILOT-READY-01 CLOSED (2026-08-10) on branch `feat/pilot-ready-01` (code/test commit `34ecf78` `fix(pilot): close multi-repo selective input contracts`, pushed, local = remote)** — Pilot readiness closure complete: per-repository dependency graphs (`build_repository_dependency_graphs`, `_dep_graphs[repository_id]`), per-repository editable universes (`expand_editable_paths` per profile), file-granular descriptors for django CMS/Saleor (`_normalize_artifact_catalog`/`descriptors_from_profile`), stale real-smoke expectation corrected (`STRATEGIES_WITH_MISSING_PREREQS = {"agent"}`), focused multi-repo production-path contract added (`tests/integration/test_pilot_multi_repo_production_path.py`, 12 tests). Gates: unit contract 14 passed; real-smoke 9 passed; production-path 12 passed (twice); static/compile clean (feature-caused mypy only; 5 pre-existing mypy + 3 pre-existing ruff recorded as debt); exact fresh 48-cell Pilot dry-run 48/48 succeeded / 0 failed / 0 pending, 48 unique deterministic run IDs (config_hash `7ef6ffc7a2c0d369`, protocol 1.0, source_commit `34ecf78`), per-repo todo/djangocms/saleor 16/16/16, per-strategy 24/24, per-rep 24/24, checkpoint completed, no residue; isolation/evidence/export gates 142 passed; final full suite **2,026 passed / 33 skipped / 0 failed**. Frozen Pilot matrix: model Qwen2.5-Coder-14B-Instruct, quantization bnb-nf4, timeout 600s, 12 scenarios, 2 strategies, 2 repetitions = 48 cells. **Pilot = NOT STARTED; next = `PILOT-EXEC-01`; stable tag `v0.9.0-pilot-ready` after main merge; no accepted Smoke evidence or frozen source history changed.**
+**Handoff type:** **PILOT-EXEC-01 PRE-EXECUTION GATES IN PROGRESS (2026-08-10) on branch `experiment/pilot-exec-01` (from `main` @ `72d041d`)** — Pilot-specific deployment bundle + pre-registration prepared. New `scripts/build_pilot_upload_bundle.py` (reuses the historical builder, redirects output to `dist/pilot-kaggle-upload/`, omits the Smoke notebook, deterministic zip, writes `pilot_deployment_identity.json`; refuses output root == `kaggle_upload`) + new 12-test contract `tests/integration/test_pilot_deployment_bundle.py` (12/12 passed; historical Smoke bundle byte-identical). Gate A5: exact fresh 48-cell bundled dry-run 48/48 (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24). Gate A6: full suite **2,038 passed / 33 skipped / 0 failed** (750.99s); diff-check/ruff/mypy/compile clean. Gate B: execution contract **pre-registered** before any real Pilot model result (`docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md`; DECISION_LOG D025) — frozen 48-cell matrix, Qwen2.5-Coder-14B-Instruct / bnb-nf4 / temp 0 / 600s / max 3 attempts / 4096 completion tokens/call / cap 0; runbook `docs/PILOT_KAGGLE_RUNBOOK.md` created; `docs/KAGGLE_EXECUTION_GUIDE.md` Pilot instructions corrected (explicit `--qwen-quantization bnb-nf4`, no `--max-runs 2`, Pilot bundle slug guidance). **Pilot = NOT STARTED.** Remaining: commit (deployment + docs) -> push -> independent pre-execution audit -> merge to main -> push -> tag `v0.9.1-pilot-exec-ready` (do NOT move `v0.9.0-pilot-ready`) -> rebuild bundle from tagged source -> verify -> `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` -> exact Kaggle launch prep -> final report. Real launch deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID.
 **Handoff type:** **HANDOFF-CONSISTENCY-01 DOCS RECONCILIATION CLOSED (2026-08-09), merged to main `403977b`** — the 8 authoritative docs (README, SYSTEM_STATE, TODO, MASTER_IMPLEMENTATION_PLAN, PROJECT_HANDOFF, START_HERE, PROJECT_HEALTH_REPORT, latest_phase_report) were reconciled to a single current-state truth (Smoke V2 accepted, MAIN-GREEN-01 closed, full suite 1,958/33/0/0 carried forward, preferred recovery tag now `v0.8.2-smoke-v2-complete` at main `403977b`) and the docs-only closure was committed (`75f90cb` on `docs/handoff-consistency`), non-fast-forward merged to main, and pushed (local `main` == `origin/main` == `403977b`). **Docs-only closure: no code, tests, or scientific inputs changed; no full-suite rerun required (carried forward).** **Next = `PILOT-READY-01`; Pilot NOT started; no further Smoke Full-9 authorized.**
 **Handoff type:** **MAIN-GREEN-01 POST-MERGE TEST-ISOLATION AND REPRODUCIBILITY HOTFIX COMPLETE (2026-08-09) on branch `fix/main-green-test-isolation` (commit A `34b9fc7` `fix(test): make Smoke-v2 integration state-independent`, pushed, local = remote)** — the post-merge full-suite regression (12 failed / 4 errors on the Windows `core.autocrlf=true` working tree) is **FIXED AND CLOSED**: full suite **1,958 passed / 33 skipped / 0 failed / 0 errors**. NOT a scientific or merge regression (merge-tree proof: `193d889^{tree}` == `65f9fb8^{tree}` == `fdd72f6…`; `git diff 65f9fb8..193d889` empty). Root causes: (A) bundle evaluator assets `kaggle_upload/code/tests/evaluator_assets/todo_smoke_*_checks.py` checked out CRLF → fingerprint mismatch; (B) `benchmark_data/repositories/todo/**` checked out CRLF → preserve-files rejected as `out_of_scope_change` (backend reads LF, executor writes LF) → cells failed before migration generation → sequential isolation "expected exactly one new migration, got ()"; (C) `__pycache__/*.pyc` residue inside baseline comparisons. Fix: `.gitattributes` `text eol=lf` pins for the three path groups + LF renormalization (zero CRLF remain; zero blob changes) + ephemeral-baseline predicate in `tests/support/evaluator_fixture_workspaces.py` (`_EPHEMERAL_BASELINE_MARKERS`), `_baseline_hashes()` ephemeral skip, and new T1/T2/T3 unit tests. **Zero scientific drift** — no production `src/` code, prompts, datasets, strategies, metrics, model identity, or timeout changes. Repeatability: T4 representative cell twice PASS; T5 sequential isolation twice PASS; T6 fingerprint PASS; T7 affected subset twice PASS (production-path 45, todo assets 53+1 skipped, kaggle bundle 51); T8 related regression 380 passed / 22 skipped; T9 full suite green once; static gates clean; dry-run pipeline 8/8 clean. **Next = `PILOT-READY-01`; Pilot NOT started.** After this docs commit: independent-style audit, non-ff merge `merge(fix): close Smoke-v2 test-isolation reproducibility defect`, new annotated tag `v0.8.1-smoke-v2-complete` (peeled == new main HEAD); `v0.8.0-smoke-v2-complete` unchanged (immutable provenance at `193d889`). Sentinel: `MAIN_GREEN_01_CLOSURE_AUDIT_REQUIRED`.
 **Handoff type:** **SCIENTIFIC SMOKE V2 COMPLETE AND ACCEPTED (SMOKE-V2-CLOSE-01, 2026-08-09) on branch fix/kaggle-smoke-v2-model-output-closure** — the 600-second confirmatory timeout-sensitivity Full-9 (**T600**, contract FULL9-T600-01) was **EXECUTED AND ACCEPTED**: run `exp-20260808-222843`, uniform `--timeout 600` on the frozen runtime source/build `7f2a450`, fail-closed output namespace `/kaggle/working/runs/qwen14b_bnb_nf4_full9_scientific_smoke_wsfix_7f2a450_t600`, evidence prefix `corrected-full9-t600-wsfix-7f2a450-`; result **9/9 terminal / 2 successes / 7 scientific failures / 0 engineering blockers / 0 budget-exhausted / 63 model calls / 77,929 tokens / max run ≈373 s / Full-9 verification PASS / HF synchronization PASS** — the **same 2/9 result** as the accepted clean 300-second baseline (runtime `7f2a450`, `--timeout 300`, valid and preserved, NOT invalidated or replaced). **Timeout sensitivity confirmed: the 600-second ceiling did NOT change the accepted result; the 300-second baseline signal was not distorted by timeout censoring. This is NOT an improvement claim.** The uniform per-run workflow timeout is now frozen at **600s** for monolithic / selective / iterative_repository_agent (one shared Full-9 command; no strategy receives extra time); do NOT raise the timeout above 600 (analyze duration/repair distribution and pre-register the Pilot budget if Pilot runs again accumulate near 600 s). Executable validation recorded: final executable full suite **1947 passed / 33 skipped / 0 failed**; Pipeline Smoke PASS (T600 command + fail-closed `_t600` namespace contract); Dry Run PASS (exact 3x3 no-model/bundled dry-run contract with scientific timeout 600); Dataset/Prompt/Metric PASS carried-forward (zero drift); audit = implementation PASS / over-engineering PASS / scientific identity PASS (runtime source/build remains frozen `7f2a450`); non-destructive RED proof recorded (committed HEAD notebook with `--timeout 300` FAILS the new 600-second contract). **HISTORICAL (all completed — SMOKE-V2-CLOSE-01 is CLOSED):** at that time the task was to close Scientific Smoke V2 permanently (update all authoritative docs to the accepted state, audit the closure, commit/push proving local = remote, non-fast-forward merge to main, create/push stable tag `v0.8.0-smoke-v2-complete`, leave repo ready for `PILOT-READY-01` without starting Pilot); the next authorized action was an independent delta audit of that closure, then main merge + stable tag, then `PILOT-READY-01` — **all now executed: closure audited and merged (`193d889`), stable tag `v0.8.0-smoke-v2-complete` created, MAIN-GREEN-01 merged (`d875c72`), preferred recovery tag `v0.8.1-smoke-v2-complete`, next task `PILOT-READY-01` (Pilot NOT STARTED)**. No further Kaggle Full-9 is authorized; the accepted T600 run is the final Smoke evidence. Sentinel: `SMOKE_V2_CLOSURE_AUDIT_REQUIRED`.
@@ -13,14 +13,16 @@
 
 ## CURRENT PROJECT STATE
 
-`feat/pilot-ready-01` is GREEN (full suite **2,026 passed / 33 skipped / 0
-failed**). Scientific Smoke V2 is complete and accepted (SMOKE-V2-CLOSE-01);
-the post-merge test-isolation/reproducibility regression is fixed and closed
-(MAIN-GREEN-01); the docs reconciliation closure is merged to main
-(HANDOFF-CONSISTENCY-01 = CLOSED); **PILOT-READY-01 = CLOSED** (2026-08-10) on
-branch `feat/pilot-ready-01` at `34ecf78` (code/test commit pushed, local =
-remote feature HEAD). Preferred recovery tag (pre-Pilot-readiness main) =
-`v0.8.2-smoke-v2-complete`. Next task = `PILOT-EXEC-01`; Pilot NOT started.
+`experiment/pilot-exec-01` is the current branch (PILOT-EXEC-01 pre-execution
+gates). Pilot deployment bundle built to `dist/pilot-kaggle-upload/` (archive
+SHA-256 `8c52d26b69e9fc0a072d68ba89b9a300e2e8351ba0902e32c71f96ecc45b2de7`);
+execution contract pre-registered (`docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md`,
+DECISION_LOG D025); full suite **2,038 passed / 33 skipped / 0 failed**;
+exact fresh 48-cell bundled dry-run 48/48. **Pilot = NOT STARTED**; real
+launch deferred until the user confirms the actual Kaggle mounted model path
+and HF results repository ID. Previous milestone state (PILOT-READY-01 =
+CLOSED at `34ecf78`; Scientific Smoke V2 complete/accepted; preferred Smoke
+recovery tag `v0.8.2-smoke-v2-complete`) is unchanged historical truth.
 
 ## LAST ACCEPTED MILESTONE
 
@@ -32,18 +34,22 @@ scientific evidence with zero drift.
 
 ## PREFERRED RECOVERY TAG
 
-`v0.8.2-smoke-v2-complete` (created after the HANDOFF-CONSISTENCY-01 merge;
-peeled commit == new main HEAD `403977b`). On a new machine/account, clone main
-and check out `v0.8.2-smoke-v2-complete` as the recovery point. The prior
-recovery tags `v0.8.1-smoke-v2-complete` (`d875c72`) and `v0.8.0-smoke-v2-complete`
-(`193d889`) remain immutable historical provenance — do not move or delete them.
+Smoke era: `v0.8.2-smoke-v2-complete` (immutable, do not move). Pilot
+readiness: `v0.9.0-pilot-ready` @ `90a4282` (immutable, do NOT move).
+Pilot deployment source tag to create after pre-execution gates:
+`v0.9.1-pilot-exec-ready` (points to the merged main commit carrying the Pilot
+bundle builder + deployment contract + pre-registration docs).
 
 ## FROZEN SCIENTIFIC IDENTITIES
 
-Runtime source/build `7f2a450` (deployment identity), model
-`qwen:14b-instruct-v1:bnb-nf4:cfg-<12hex>`, scientific per-run workflow timeout
-**600s** (do NOT raise above 600), prompts/datasets/strategies/metrics/evaluator
-frozen. MAIN-GREEN-01 changed NO scientific input.
+Pilot contract (frozen): model `Qwen/Qwen2.5-Coder-14B-Instruct`, quantization
+`bnb-nf4`, temperature 0, scientific per-run workflow timeout **600s** (do NOT
+raise above 600), max 3 attempts (initial + 2 repairs), max completion 4096
+tokens/call, workflow-token ceiling 0 (unlimited for Pilot), 12 scenarios × 2
+strategies (`iterative_repository_agent`, `selective`) × 2 repetitions = 48
+cells; repos Todo / django CMS / Saleor. Prompts/datasets/strategies/metrics/
+evaluator frozen. Every Pilot launch MUST pass `--qwen-quantization bnb-nf4`
+explicitly (generic CLI default is `bnb-int8`).
 
 ## ACCEPTED EXPERIMENTS
 

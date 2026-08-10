@@ -1,12 +1,12 @@
 # TODO
 
-## Current - PILOT-EXEC-01 (next task, 2026-08-10)
+## Current - PILOT-EXEC-01 (in progress, 2026-08-10)
 
 ### PILOT-EXEC-01 - Pilot freeze and execution
 - **Priority:** HIGH
 - **Category:** Scientific Evidence
-- **Description:** The next authorized task after PILOT-READY-01 CLOSED. Pilot = NOT STARTED (execution not authorized). Frozen Pilot matrix: model Qwen2.5-Coder-14B-Instruct, quantization bnb-nf4, timeout 600s uniform, 12 scenarios, 2 strategies (iterative_repository_agent, selective), 2 repetitions = 48 cells; repositories Todo / django CMS / Saleor. Do NOT raise the timeout above 600; pre-register the Pilot budget.
-- **Status:** PENDING (Pilot execution NOT STARTED)
+- **Description:** The authorized task after PILOT-READY-01 CLOSED. Frozen Pilot matrix: model Qwen2.5-Coder-14B-Instruct, quantization bnb-nf4, timeout 600s uniform, 12 scenarios, 2 strategies (iterative_repository_agent, selective), 2 repetitions = 48 cells; repositories Todo / django CMS / Saleor. Do NOT raise the timeout above 600. **Deployment + pre-execution gates IN PROGRESS (branch `experiment/pilot-exec-01` from main @ `72d041d`; main has stable tag `v0.9.0-pilot-ready` @ `90a4282`).** Gate A PASS: Pilot-specific bundle builder `scripts/build_pilot_upload_bundle.py` + 12-test deployment contract `tests/integration/test_pilot_deployment_bundle.py` (12/12 passed; historical Smoke `kaggle_upload/` byte-identical); built `dist/pilot-kaggle-upload/` (90 code + 56 data files; archive SHA-256 `8c52d26b69e9fc0a072d68ba89b9a300e2e8351ba0902e32c71f96ecc45b2de7`); exact fresh 48-cell bundled dry-run 48/48 (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24); full suite **2,038 passed / 33 skipped / 0 failed** (750.99s). Gate B IN PROGRESS: execution contract pre-registered (`docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md`, DECISION_LOG D025); runbook created (`docs/PILOT_KAGGLE_RUNBOOK.md`); `docs/KAGGLE_EXECUTION_GUIDE.md` Pilot instructions updated. **Remaining: commit (deployment + docs) -> push -> independent pre-execution audit -> merge to main -> push -> tag `v0.9.1-pilot-exec-ready` -> rebuild bundle from tagged source -> verify -> `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` -> exact Kaggle launch prep -> final report. Pilot = NOT STARTED** (real launch deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID).
+- **Status:** IN PROGRESS (Pilot execution NOT STARTED; pre-registration complete)
 
 ## Previous - PILOT-READY-01 (CLOSED, 2026-08-10)
 
