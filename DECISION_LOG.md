@@ -601,3 +601,17 @@
 - **Evidence:** Gates 1–7 (14 / 9 / 12×2 / static clean / 48-cell dry-run / 142 / 2,026); commit `34ecf78` pushed (local = remote); `reports/PILOT_READY_01_FINAL_REPORT.md`.
 
 (End of file)
+
+---
+
+## Decision D025 - PILOT-EXEC-01 Execution Contract Pre-registration (Gate B)
+
+- **Date:** 2026-08-10
+- **Decision ID:** D025
+- **Status:** PRE-REGISTERED (before any real Pilot model result)
+- **Category:** Scientific (Pilot budget/execution pre-registration, branch `experiment/pilot-exec-01`)
+- **Description:** Pre-register the frozen PILOT-EXEC-01 execution contract before any real Pilot model result is observed. Scientific matrix = 3 repositories (todo / djangocms / saleor) x 12 frozen scenario IDs (configs/pilot.yaml) x 2 strategies (iterative_repository_agent, selective) x 2 repetitions = 48 cells. Model = Qwen/Qwen2.5-Coder-14B-Instruct, quantization bnb-nf4, temperature 0. Per-run budget = 600s uniform timeout, max 3 attempts (initial + 2 repairs), max completion 4096 tokens/call, workflow-token ceiling 0 (unlimited for Pilot, per DA-09: budgets frozen AFTER Pilot). Stage budget = frozen 48-cell matrix; no performance-driven reruns; infrastructure retry policy = up to 3 retries with identical scientific inputs. Full contract recorded in docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md.
+- **Rationale:** Gate B of PILOT-EXEC-01 requires the budget/execution contract to exist BEFORE any real Pilot model cell so that no budget parameter can be tuned from observed outcomes (03_BUDGET_PREREGISTRATION.md).
+- **Alternatives considered:** Freeze Main-study budgets before the Pilot - rejected: DA-09 requires measuring realistic Pilot token/call/time distributions first.
+- **Impact:** No scientific inputs (prompts/metrics/evaluators/thresholds/Ground Truth/matrix/model/quantization/timeout/repair policy) changed. Pilot = NOT STARTED. Real Pilot launch deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID.
+- **Evidence:** docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md; deployment freeze evidence in tests/integration/test_pilot_deployment_bundle.py (12 passed), bundled exact fresh 48-cell dry-run 48/48 (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24), full suite 2,038 passed / 33 skipped / 0 failed.
