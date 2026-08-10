@@ -9,12 +9,20 @@ Guarantees:
 
 - never clears or writes ``kaggle_upload/`` (historical Smoke bundle stays
   byte-identical);
+- includes the canonical Pilot notebook ``notebooks/pilot_exec_01.ipynb`` and a
+  non-empty, hash-verifiable ``notebook_manifest.json``;
+- materializes ALL THREE pinned repository source trees
+  (``data/repositories/{todo,djangocms,saleor}``) at their exact immutable
+  commits, failing closed on any identity mismatch and recording per-repository
+  snapshot evidence;
 - emits ``pilot_deployment_identity.json`` carrying the frozen Pilot launch
   contract;
 - archives the bundle deterministically to ``dist/pilot-kaggle-upload.zip``.
 
 ``created_utc`` is an explicit CLI input so a second build with identical
-inputs is byte-identical (deterministic archive generation).
+inputs is byte-identical (deterministic archive generation). ``--repo-cache``
+points at a reusable local acquisition cache of git checkouts for the external
+pinned repositories (django CMS, Saleor).
 """
 
 from __future__ import annotations
@@ -23,11 +31,14 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
 from types import ModuleType
 from typing import Any
+
+from pilot_repo_snapshot import materialize_repositories
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS_DIR = Path(__file__).resolve().parent
@@ -35,8 +46,9 @@ HISTORICAL_SMOKE_UPLOAD = PROJECT_ROOT / "kaggle_upload"
 
 DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "dist" / "pilot-kaggle-upload"
 DEFAULT_ARCHIVE_PATH = PROJECT_ROOT / "dist" / "pilot-kaggle-upload.zip"
+DEFAULT_REPO_CACHE = PROJECT_ROOT / "dist" / "pilot-repo-cache"
 
-FROZEN_SOURCE_TAG = "v0.9.1-pilot-exec-ready"
+FROZEN_SOURCE_TAG = "v0.9.2-pilot-exec-ready"
 FROZEN_TASK = "PILOT-EXEC-01"
 FROZEN_PROTOCOL_VERSION = "1.0"
 FROZEN_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct"
@@ -49,6 +61,9 @@ FROZEN_SCENARIO_COUNT = 12
 FROZEN_STRATEGY_COUNT = 2
 FROZEN_REPETITIONS = 2
 FROZEN_EXPECTED_CELLS = 48
+
+PILOT_NOTEBOOK = PROJECT_ROOT / "notebooks" / "pilot_exec_01.ipynb"
+PILOT_RUNTIME_LOCK = PROJECT_ROOT / "requirements-pilot-kaggle.lock"
 
 
 def _load_historical_builder() -> ModuleType:
@@ -70,7 +85,9 @@ def _redirect_builder(builder: Any, output_root: Path) -> None:
     builder.KAGGLE_CODE = output_root / "code"
     builder.KAGGLE_DATA = output_root / "data"
     builder.KAGGLE_NOTEBOOKS = output_root / "notebooks"
-    builder.CANONICAL_NOTEBOOK_SOURCES = []
+    if not PILOT_NOTEBOOK.is_file():
+        raise RuntimeError(f"Pilot notebook missing: {PILOT_NOTEBOOK}")
+    builder.CANONICAL_NOTEBOOK_SOURCES = [PILOT_NOTEBOOK]
 
 
 def _sha256_bytes(data: bytes) -> str:
@@ -103,9 +120,17 @@ def build_identity(
 ) -> dict[str, Any]:
     code_manifest = output_root / "code_manifest.json"
     data_manifest = output_root / "data_manifest.json"
-    for path, label in ((code_manifest, "code_manifest"), (data_manifest, "data_manifest")):
+    notebook_manifest = output_root / "notebook_manifest.json"
+    for path, label in (
+        (code_manifest, "code_manifest"),
+        (data_manifest, "data_manifest"),
+        (notebook_manifest, "notebook_manifest"),
+    ):
         if not path.is_file():
             raise RuntimeError(f"{label} manifest missing: {path}")
+    notebook_entries = json.loads(notebook_manifest.read_text(encoding="utf-8"))
+    if not notebook_entries:
+        raise RuntimeError("notebook_manifest must be non-empty for the Pilot bundle")
     return {
         "task": FROZEN_TASK,
         "protocol_version": FROZEN_PROTOCOL_VERSION,
@@ -124,7 +149,27 @@ def build_identity(
         "created_utc": created_utc,
         "code_manifest_sha256": _sha256_bytes(code_manifest.read_bytes()),
         "data_manifest_sha256": _sha256_bytes(data_manifest.read_bytes()),
+        "notebook_manifest_sha256": _sha256_bytes(notebook_manifest.read_bytes()),
     }
+
+
+def regenerate_data_manifest(output_root: Path) -> None:
+    """Regenerate data_manifest.json after repository snapshot materialization.
+
+    The reused historical builder generates the data manifest before external
+    pinned repository trees are materialized; the corrected Pilot bundle must
+    manifest every materialized repository file.
+    """
+    builder = _load_historical_builder()
+    data_manifest = builder.generate_manifest(output_root / "data", "data")
+    builder.write_manifest(data_manifest, output_root / "data_manifest.json")
+
+
+def regenerate_code_manifest(output_root: Path) -> None:
+    """Regenerate code_manifest.json after the Pilot runtime lock is added."""
+    builder = _load_historical_builder()
+    code_manifest = builder.generate_manifest(output_root / "code", "code")
+    builder.write_manifest(code_manifest, output_root / "code_manifest.json")
 
 
 def write_identity(output_root: Path, identity: dict[str, Any]) -> None:
@@ -164,6 +209,8 @@ def build_pilot_bundle(
     source_commit: str,
     source_tag: str,
     created_utc: str,
+    repo_cache: Path | None = None,
+    allow_acquire: bool = False,
 ) -> dict[str, Any]:
     if output_root.resolve() == HISTORICAL_SMOKE_UPLOAD.resolve():
         raise RuntimeError("refusing to build the Pilot bundle over the historical Smoke bundle")
@@ -172,7 +219,38 @@ def build_pilot_bundle(
     errors = builder.build_bundle()
     if errors:
         raise RuntimeError(f"reused bundle builder reported {errors} verification error(s)")
+
+    # Add the Pilot-specific pinned runtime lock to the code bundle and
+    # regenerate the code manifest so the archive manifests every file.
+    if not PILOT_RUNTIME_LOCK.is_file():
+        raise RuntimeError(f"Pilot runtime lock missing: {PILOT_RUNTIME_LOCK}")
+    lock_dst = output_root / "code" / PILOT_RUNTIME_LOCK.name
+    shutil.copy2(PILOT_RUNTIME_LOCK, lock_dst)
+    builder.normalize_text(lock_dst)
+    regenerate_code_manifest(output_root)
+
+    snapshot_evidence = materialize_repositories(
+        data_repositories_dir=output_root / "data" / "repositories",
+        repo_cache=repo_cache,
+        allow_acquire=allow_acquire,
+    )
+    regenerate_data_manifest(output_root)
+    snapshot_manifest = {
+        "task": FROZEN_TASK,
+        "protocol_version": FROZEN_PROTOCOL_VERSION,
+        "repositories": snapshot_evidence,
+    }
+    snapshot_manifest_path = output_root / "repository_snapshot_manifest.json"
+    snapshot_manifest_path.write_text(
+        json.dumps(snapshot_manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
     identity = build_identity(output_root, source_commit, source_tag, created_utc)
+    identity["repository_snapshot_manifest_sha256"] = _sha256_bytes(
+        snapshot_manifest_path.read_bytes()
+    )
     write_identity(output_root, identity)
     archive_sha = create_deterministic_zip(output_root, archive_path, created_utc)
     print(f"Pilot deployment identity: {output_root / 'pilot_deployment_identity.json'}")
@@ -215,11 +293,28 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Explicit ISO-8601 UTC creation timestamp (deterministic builds).",
     )
+    parser.add_argument(
+        "--repo-cache",
+        type=Path,
+        default=None,
+        help=(
+            "Reusable local acquisition cache containing git checkouts of the "
+            f"external pinned repositories (djangocms, saleor). Default: {DEFAULT_REPO_CACHE}"
+        ),
+    )
+    parser.add_argument(
+        "--allow-acquire",
+        action="store_true",
+        default=False,
+        help="Allow fetching a missing pinned commit into the repo cache.",
+    )
     args = parser.parse_args()
     if args.source_commit is None:
         args.source_commit = _git_head_sha()
     if args.created_utc is None:
         args.created_utc = datetime.now().astimezone().isoformat()
+    if args.repo_cache is None:
+        args.repo_cache = DEFAULT_REPO_CACHE
     return args
 
 
@@ -231,6 +326,8 @@ def main() -> int:
         source_commit=args.source_commit,
         source_tag=args.source_tag,
         created_utc=args.created_utc,
+        repo_cache=args.repo_cache,
+        allow_acquire=args.allow_acquire,
     )
     return 0
 
