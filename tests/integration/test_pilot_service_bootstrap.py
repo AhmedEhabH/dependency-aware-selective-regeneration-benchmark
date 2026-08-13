@@ -141,6 +141,9 @@ def _exec_definitions(
     fake_os.chown = fake_chown
     fake_os.chmod = fake_chmod
     fake_os.environ = os.environ
+    fake_os.path = os.path
+    fake_os.getenv = os.getenv
+    fake_os.sep = os.sep
     monkeypatch.setitem(sys.modules, "os", fake_os)
 
     def fake_run(cmd: list[str], **kwargs: Any) -> _Ok:
