@@ -22,7 +22,6 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
-import re
 import shutil
 import subprocess
 import sys
@@ -37,9 +36,9 @@ SCRIPTS_DIR = PROJECT_DIR / "scripts"
 HISTORICAL_SMOKE_UPLOAD = PROJECT_DIR / "kaggle_upload"
 CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
 
-# Conservative Kaggle-safe archive-name contract.
-KAGGLE_SAFE_NAME_RE = re.compile(r"^[A-Za-z0-9._/-]+$")
-TRANSPORT_MAP_NAME = "kaggle_transport_path_map.json"
+# Transport constants and the Kaggle-safety predicate are read from the module
+# under test to prevent contract drift (charset regex + reserved ``__name__``
+# rule).
 
 # Every bundle built in this file materializes repositories through the shared
 # pilot_repo_snapshot module; the hermetic fixture replaces git-checkout
@@ -105,6 +104,10 @@ def _load_pilot_builder() -> Any:
 
 
 pilot_builder = _load_pilot_builder()
+
+TRANSPORT_MAP_NAME = pilot_builder.TRANSPORT_MAP_NAME
+TRANSPORT_BLOB_PREFIX = pilot_builder.TRANSPORT_BLOB_PREFIX
+TRANSPORT_FILES_PREFIX = f"{TRANSPORT_BLOB_PREFIX}/files/"
 
 
 def _tree_sha256(directory: Path) -> str:
@@ -354,7 +357,8 @@ class TestPilotKaggleTransport:
         return [
             p.relative_to(root).as_posix()
             for p in root.rglob("*")
-            if p.is_file() and not KAGGLE_SAFE_NAME_RE.match(p.relative_to(root).as_posix())
+            if p.is_file()
+            and not pilot_builder.is_kaggle_safe_name(p.relative_to(root).as_posix())
         ]
 
     @staticmethod
@@ -385,8 +389,9 @@ class TestPilotKaggleTransport:
     def test_zip_has_zero_unsafe_member_names(self, tmp_path: Path) -> None:
         _output_root, archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "zunsafe")
         with zipfile.ZipFile(archive) as zf:
-            unsafe = [n for n in zf.namelist() if not KAGGLE_SAFE_NAME_RE.match(n)]
+            unsafe, reserved = pilot_builder.kaggle_unsafe_members(zf.namelist())
         assert unsafe == []
+        assert reserved == []
 
     def test_remapped_members_match_unsafe_files_in_tree(self, tmp_path: Path) -> None:
         output_root, archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "remap")
@@ -394,10 +399,10 @@ class TestPilotKaggleTransport:
         assert len(tree_unsafe) == 5, tree_unsafe  # 2 djangocms + 3 saleor hermetic seeds
         with zipfile.ZipFile(archive) as zf:
             members = zf.namelist()
-        blobs = [n for n in members if n.startswith("__kaggle_transport__/files/")]
+        blobs = [n for n in members if n.startswith(f"{TRANSPORT_FILES_PREFIX}")]
         assert len(blobs) == len(tree_unsafe), (len(blobs), len(tree_unsafe))
         expected_blobs = {
-            f"__kaggle_transport__/files/{hashlib.sha256(rel.encode()).hexdigest()}.blob"
+            f"{TRANSPORT_FILES_PREFIX}{hashlib.sha256(rel.encode()).hexdigest()}.blob"
             for rel in tree_unsafe
         }
         assert set(blobs) == expected_blobs
@@ -415,7 +420,7 @@ class TestPilotKaggleTransport:
         assert any("sr@latin" in rel for rel in unsafe)
         assert any("[http]" in rel for rel in unsafe)
         assert any("[24.39-30.00-True]" in rel for rel in unsafe)
-        assert not (output_root / "__kaggle_transport__").exists()
+        assert not (output_root / TRANSPORT_BLOB_PREFIX).exists()
 
     def test_transport_mapping_deterministic(self, tmp_path: Path) -> None:
         _first_root, first_archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "mdet1")
@@ -444,7 +449,77 @@ class TestPilotKaggleTransport:
             assert (extract_root / rel).read_bytes() == (output_root / rel).read_bytes()
         assert _tree_sha256(extract_root / "data") == _tree_sha256(output_root / "data")
         assert _tree_sha256(extract_root / "code") == _tree_sha256(output_root / "code")
-        assert not (extract_root / "__kaggle_transport__").exists()
+        assert not (extract_root / TRANSPORT_BLOB_PREFIX).exists()
+
+    def test_validator_rejects_old_reserved_transport_root(self) -> None:
+        old_root_member = f"__kaggle_transport__/files/{'a' * 64}.blob"
+        assert not pilot_builder.is_kaggle_safe_name("__kaggle_transport__")
+        with pytest.raises(RuntimeError, match="KAGGLE PRE-UPLOAD VALIDATION FAILED"):
+            pilot_builder.validate_archive_members_kaggle_ready([old_root_member])
+
+    def test_validator_rejects_nested_reserved_name_component(self) -> None:
+        with pytest.raises(RuntimeError, match="reserved-name"):
+            pilot_builder.validate_archive_members_kaggle_ready(["data/x/__name__/y.txt"])
+        with pytest.raises(RuntimeError, match="reserved-name"):
+            pilot_builder.validate_archive_members_kaggle_ready(["data/__pycache__/y.txt"])
+        assert not pilot_builder.is_kaggle_safe_name("data/__name__/y.txt")
+
+    def test_validator_accepts_kaggle_transport_root(self) -> None:
+        assert pilot_builder.is_kaggle_safe_name("kaggle_transport")
+        assert pilot_builder.is_kaggle_safe_name("kaggle_transport/files")
+        count = pilot_builder.validate_archive_members_kaggle_ready(
+            [f"kaggle_transport/files/{'a' * 64}.blob", "data/x/y.txt"]
+        )
+        assert count == (0, 0)
+
+    def test_validator_accepts_init_py_files(self) -> None:
+        assert pilot_builder.is_kaggle_safe_name("code/src/benchmark/__init__.py")
+        assert pilot_builder.validate_archive_members_kaggle_ready(
+            ["code/src/benchmark/__init__.py", "data/repositories/saleor/__init__.py"]
+        ) == (0, 0)
+
+    def test_validator_rejects_unsafe_special_chars_member(self) -> None:
+        with pytest.raises(RuntimeError, match="unsafe-special-char"):
+            pilot_builder.validate_archive_members_kaggle_ready(["data/a[b].yaml"])
+        assert not pilot_builder.is_kaggle_safe_name("saleor/core/tests/sr@latin/LC_MESSAGES/django.po")
+
+    def test_reserved_name_member_is_transported_and_restored(self, tmp_path: Path) -> None:
+        root = tmp_path / "tree"
+        (root / "data").mkdir(parents=True)
+        (root / "data" / "ok.txt").write_bytes(b"ok")
+        reserved = root / "data" / "__pilot__" / "magic.txt"
+        reserved.parent.mkdir(parents=True)
+        reserved.write_bytes(b"reserved-name")
+        mapping = pilot_builder.build_transport_path_map(root)
+        assert list(mapping.values()) == ["data/__pilot__/magic.txt"]
+        pilot_builder.write_transport_path_map(root, mapping)
+        (root / "pilot_deployment_identity.json").write_text(
+            json.dumps(
+                {
+                    "kaggle_transport_path_map_sha256": hashlib.sha256(
+                        (root / TRANSPORT_MAP_NAME).read_bytes()
+                    ).hexdigest()
+                }
+            ),
+            encoding="utf-8",
+        )
+        archive = tmp_path / "t.zip"
+        pilot_builder.create_deterministic_zip(root, archive, "2026-08-10T00:00:00+00:00")
+        with zipfile.ZipFile(archive) as zf:
+            members = zf.namelist()
+        assert "data/__pilot__/magic.txt" not in members
+        assert not any(
+            pilot_builder.KAGGLE_RESERVED_NAME_RE.match(comp)
+            for m in members
+            for comp in m.split("/")
+        )
+        extract_root = tmp_path / "extract"
+        with zipfile.ZipFile(archive) as zf:
+            zf.extractall(extract_root)
+        self._run_restore(extract_root)
+        assert (extract_root / "data" / "__pilot__" / "magic.txt").read_bytes() == b"reserved-name"
+        assert (extract_root / "data" / "ok.txt").read_bytes() == b"ok"
+        assert not (extract_root / TRANSPORT_BLOB_PREFIX).exists()
 
     def test_data_manifest_passes_after_restore(self, tmp_path: Path) -> None:
         output_root, archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "dman")
@@ -483,13 +558,13 @@ class TestPilotKaggleTransport:
     def test_path_traversal_mapping_fails_closed(self, tmp_path: Path) -> None:
         extract_root = tmp_path / "traversal"
         extract_root.mkdir(parents=True)
-        blob_dir = extract_root / "__kaggle_transport__" / "files"
+        blob_dir = extract_root / TRANSPORT_BLOB_PREFIX / "files"
         blob_dir.mkdir(parents=True)
         blob = blob_dir / f"{'a' * 64}.blob"
         blob.write_bytes(b"data")
         map_path = extract_root / TRANSPORT_MAP_NAME
         map_path.write_text(
-            json.dumps({f"__kaggle_transport__/files/{'a' * 64}.blob": "../escape.txt"})
+            json.dumps({f"{TRANSPORT_FILES_PREFIX}{'a' * 64}.blob": "../escape.txt"})
             + "\n",
             encoding="utf-8",
         )
@@ -506,7 +581,7 @@ class TestPilotKaggleTransport:
     def test_destination_collision_fails_closed(self, tmp_path: Path) -> None:
         extract_root = tmp_path / "collision"
         extract_root.mkdir(parents=True)
-        blob_dir = extract_root / "__kaggle_transport__" / "files"
+        blob_dir = extract_root / TRANSPORT_BLOB_PREFIX / "files"
         blob_dir.mkdir(parents=True)
         blob = blob_dir / f"{'a' * 64}.blob"
         blob.write_bytes(b"data")
@@ -516,7 +591,7 @@ class TestPilotKaggleTransport:
         map_path = extract_root / TRANSPORT_MAP_NAME
         map_path.write_text(
             json.dumps(
-                {f"__kaggle_transport__/files/{'a' * 64}.blob": "data/repos/existing[a].yaml"}
+                {f"{TRANSPORT_FILES_PREFIX}{'a' * 64}.blob": "data/repos/existing[a].yaml"}
             )
             + "\n",
             encoding="utf-8",
@@ -534,7 +609,7 @@ class TestPilotKaggleTransport:
     def test_duplicate_encoded_target_fails_closed(self, tmp_path: Path) -> None:
         extract_root = tmp_path / "dup"
         extract_root.mkdir(parents=True)
-        blob_dir = extract_root / "__kaggle_transport__" / "files"
+        blob_dir = extract_root / TRANSPORT_BLOB_PREFIX / "files"
         blob_dir.mkdir(parents=True)
         blob_a = blob_dir / f"{'a' * 64}.blob"
         blob_b = blob_dir / f"{'b' * 64}.blob"
@@ -544,8 +619,8 @@ class TestPilotKaggleTransport:
         map_path.write_text(
             json.dumps(
                 {
-                    f"__kaggle_transport__/files/{'a' * 64}.blob": "data/x.yaml",
-                    f"__kaggle_transport__/files/{'b' * 64}.blob": "data/x.yaml",
+                    f"{TRANSPORT_FILES_PREFIX}{'a' * 64}.blob": "data/x.yaml",
+                    f"{TRANSPORT_FILES_PREFIX}{'b' * 64}.blob": "data/x.yaml",
                 }
             )
             + "\n",
@@ -567,7 +642,7 @@ class TestPilotKaggleTransport:
         map_path = extract_root / TRANSPORT_MAP_NAME
         map_path.write_text(
             json.dumps(
-                {f"__kaggle_transport__/files/{'c' * 64}.blob": "data/y.yaml"}
+                {f"{TRANSPORT_FILES_PREFIX}{'c' * 64}.blob": "data/y.yaml"}
             )
             + "\n",
             encoding="utf-8",
