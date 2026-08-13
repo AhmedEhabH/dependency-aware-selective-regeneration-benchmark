@@ -1,5 +1,19 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
+> **NOTE (2026-08-13, LATEST):** superseded by the KAGGLE RESERVED-NAME
+> TRANSPORT CORRECTION (branch `fix/pilot-kaggle-reserved-transport-name`,
+> non-fast-forward merged to main, tagged `v0.9.5-pilot-exec-ready`). Kaggle
+> rejected the v0.9.4 archive because its transport root `__kaggle_transport__`
+> matches Kaggle's reserved `__name__` pattern (`^__.*__$`). Transport root is
+> now `kaggle_transport` everywhere, and a mandatory pre-upload validator
+> (`validate_archive_members_kaggle_ready`) scans EVERY ZIP member and fails
+> closed on any unsafe-special-char or reserved-name component. No scientific
+> inputs changed. Gates: notebook contract 28/28, deployment bundle contract
+> 33/33 (targeted 61/61), full suite **2,125 passed / 33 skipped / 0 failed**,
+> diff-check/ruff/mypy/compile clean. Deployment archive rebuilt from the
+> exact tag: `dist/pilot-kaggle-upload.zip` + `.sha256` (archive SHA-256
+> `7be899d1…`, deterministic). Final closure section appended below.
+
 > **NOTE (2026-08-13):** the pre-execution gate report below is SUPERSEDED by
 > the KAGGLE SERVICE BOOTSTRAP LAST-MILE CORRECTION (branch
 > `fix/pilot-kaggle-service-bootstrap`, merged to main, tagged
@@ -369,7 +383,112 @@ Next action: upload exact `dist/pilot-kaggle-upload.zip` + `dist/pilot-kaggle-up
 
 ---
 
+## FINAL CLOSURE — KAGGLE RESERVED-NAME TRANSPORT CORRECTION (2026-08-13, `v0.9.5-pilot-exec-ready`)
+
+**Executor:** opencode (provider `opencode/big-pickle`, model `big-pickle`).
+**Reason for this correction:** the v0.9.4 Pilot archive was rejected by Kaggle
+because its transport root `__kaggle_transport__` matches Kaggle's reserved
+`__name__` naming pattern (`^__.*__$`). The transport root is now
+`kaggle_transport` everywhere (builder, notebook `transport-restore-cell`,
+`kaggle_transport_path_map.json` contract, tests, docs).
+
+**What changed (transport layer only, fully reversible):**
+
+- `scripts/build_pilot_upload_bundle.py`: `TRANSPORT_BLOB_PREFIX =
+  "kaggle_transport"`; `is_kaggle_safe_name` now ALSO flags reserved-name
+  components (`^__.*__$`), so reserved-name canonical files (e.g.
+  `data/__pilot__/magic.txt` in the hermetic fixture) are transported like
+  unsafe-special-char files; `kaggle_unsafe_members` reports unsafe AND
+  reserved members; a mandatory pre-upload validator
+  (`validate_archive_members_kaggle_ready`) scans EVERY planned member and the
+  written archive `namelist()` and fails closed with
+  `KAGGLE PRE-UPLOAD VALIDATION FAILED - archive is NOT Kaggle-ready`;
+  `FROZEN_SOURCE_TAG` → `v0.9.5-pilot-exec-ready`.
+- `notebooks/pilot_exec_01.ipynb` (18 cells): `transport-restore-cell` restore
+  paths updated to `kaggle_transport/` (3 lines). The cell still verifies the
+  map hash against the identity, rejects traversal/collisions/missing/leftover
+  blobs, restores EXACT original paths and bytes, removes `kaggle_transport/`,
+  and prints `PILOT KAGGLE TRANSPORT RESTORE: PASSED` BEFORE any manifest or
+  repository verification.
+- Canonical upstream filenames are NEVER renamed or deleted. No scientific
+  input changed (scenarios, prompts, metrics, model, quantization, timeout
+  600, repair budget, repository pins, validation scope).
+
+### Pre-Benchmark Validation
+
+| Gate | Result |
+|---|---|
+| Dataset Validation | PASS (carried forward — zero data drift; 57 data files, manifest `8b859ecc…`, byte-identical to v0.9.4) |
+| Prompt Validation | PASS (carried forward — zero prompt drift; no scenario/prompt changes in the correction) |
+| Pipeline Smoke Test | PASS (bundled exact 48-cell dry-run executes the full pipeline end-to-end on the v0.9.5 tagged-rebuild bundle) |
+| Dry Run | PASS (48/48 terminal / 48 succeeded / 0 failed / 0 pending / 48 unique run IDs; profile `pilot`) |
+| Integration Test | PASS (full suite **2,125 passed / 33 skipped / 0 failed / 0 errors**) |
+| Metric Verification | PASS (carried forward — zero metric/evaluator drift; no evaluator/metric changes in the correction) |
+
+### Independent audit
+
+| Item | Verdict |
+|---|---|
+| Kaggle-safety | PASS — `dist/pilot-kaggle-upload.zip` has 6396 members, **0 unsafe** under `^[A-Za-z0-9._/-]+$` and **0 reserved-name (`^__.*__$`) components**; exactly 50 transport blobs under `kaggle_transport/files/`; validator PASS on planned members AND written archive |
+| Reversibility | PASS — extract + execute the real `transport-restore-cell`: 50/50 restored to EXACT original paths/bytes; `kaggle_transport/` fully removed; all five identity manifest hashes PASS; restored repo content hashes PASS (todo `f72bc9df…`, djangocms `729b5f41…`, saleor `708d0a7b…` — identical to v0.9.4); restored tree == canonical tree |
+| Notebook ordering | PASS — `transport-restore-cell` after `pilot-archive-verify-cell` and BEFORE `pilot-identity-verify-cell`; REQUIRED_CELL_ORDER enforced by tests |
+| Fail-closed guards | PASS — traversal/drive/`..` destinations, destination collisions, duplicate/missing blobs, leftover blobs, and reserved-name/unsafe ZIP members all rejected by the cell and by `TestPilotKaggleTransport` |
+| Determinism | PASS — two identical tagged builds → byte-identical archives (SHA-256 `7be899d1…` both times); blob names content-hash-derived |
+| Identity binding | PASS — `kaggle_transport_path_map_sha256` in identity == emitted map hash (`07036a36…`) |
+| No scientific RunRecord before all preflights | PASS — `pilot-launch-cell` runs last; no real run executed; dry-run records are mock-only |
+| 48-cell matrix unchanged | PASS — 12 scenarios × 2 strategies × 2 reps = 48; dry-run per-repo 16/16/16, per-strategy 24/24; no `--max-runs` |
+| Metrics/prompts/model/quantization/timeout unchanged | PASS — no `src/benchmark`, prompt, scenario, metric, config, or model-identity change in the correction |
+| No Ground Truth leakage | PASS — no evaluator/ground-truth data changed |
+| Historical Smoke untouched | PASS — `kaggle_upload/` not in the change set; byte-identical |
+| No upstream file rename/delete | PASS — transport is ZIP-only; canonical repo files kept exact names/bytes |
+| Over-engineering | PASS — single deterministic encoding layer + one self-contained fail-closed restore cell + one mandatory validator |
+| Technical debt | PASS — no new debt; transport contract-tested, deterministic, documented |
+
+### Exact artifact report
+
+- Feature commits: `189cc60` (`fix(pilot): replace reserved __kaggle_transport__
+  root with kaggle_transport + mandatory pre-upload validator`, 8 files) and
+  `99348d1` (`docs(pilot): reconcile authoritative docs to
+  v0.9.5-pilot-exec-ready reserved-name transport correction`) on
+  `fix/pilot-kaggle-reserved-transport-name`; local == remote at `99348d1`.
+- Merge SHA `eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab` (non-fast-forward);
+  tag `v0.9.5-pilot-exec-ready` (annotated object
+  `b99fe9b9f426fc3fe7b269c448d9737e3f20cd4c`) peels to the merge commit;
+  archive SHA-256 `7be899d1398b7e7061dd98d7d8d710482bfe3f1f66f1663be26dce7de7e0997a`;
+  sidecar `dist/pilot-kaggle-upload.zip.sha256` matches; final `created_utc`
+  `2026-08-13T12:00:00+00:00`.
+- Code manifest SHA-256 `99688e4e…` (byte-identical to v0.9.4); data manifest
+  SHA-256 `8b859ecc…` (byte-identical to v0.9.4); notebook manifest SHA-256
+  `052efe08…` (notebook content hash `8b0ef489…`, byte-identical to the git
+  blob at the tag; 18 cells, incl. `transport-restore-cell` and
+  `service-bootstrap-cell`); repository snapshot manifest SHA-256 `49d91d39…`
+  (identical to v0.9.4).
+- Transport path map SHA-256 `07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce` (50 exact-path entries).
+- Final full-suite counts: **2,125 passed / 33 skipped / 0 failed / 0 errors** (2026-08-13)
+- Final bundled dry-run counts (v0.9.5 tagged rebuild): **48/48 terminal, 48 succeeded, 0 failed, 0 pending, 48 unique run IDs** (profile `pilot`; per-repo todo 16 / djangocms 16 / saleor 16; per-strategy iterative_repository_agent 24 / selective 24)
+- Tagged-rebuild acceptance: archive SHA `7be899d1…` (byte-deterministic across two identical builds), 6396 members / 0 unsafe / 0 reserved / 50 transport blobs, roundtrip restore 50/50, all five identity manifest hashes PASS, repo content hashes PASS (todo `f72bc9df…`, djangocms `729b5f41…`, saleor `708d0a7b…`), restored data tree == canonical data tree.
+
+### Final state
+
+PILOT-EXEC-01 GATE C READY (reserved-name-safe transport archive)
+Real Pilot NOT STARTED
+
+Next action: upload exact `dist/pilot-kaggle-upload.zip` +
+`dist/pilot-kaggle-upload.zip.sha256` (rebuilt from `v0.9.5-pilot-exec-ready`)
+as ONE Kaggle Dataset, attach the Pilot notebook + Qwen 14B model, enable
+Internet, configure `HF_TOKEN`, then run cells in order through target
+preflight. Only after all preflight gates pass may the real 48-cell cell be
+executed.
+
+---
+
 ## FINAL CLOSURE — KAGGLE FILENAME TRANSPORT CORRECTION (2026-08-13, `v0.9.4-pilot-exec-ready`)
+
+> **SUPERSEDED** by the reserved-name transport correction on
+> `v0.9.5-pilot-exec-ready` above (2026-08-13). `v0.9.4-pilot-exec-ready` is
+> immutable and NOT moved; its archive is retained for reference only. Kaggle
+> rejected the v0.9.4 upload because the transport root `__kaggle_transport__`
+> matches the reserved `__name__` pattern `^__.*__$`.
 
 **Executor:** opencode (provider `opencode/big-pickle`, model `big-pickle`).
 **Reason for this correction:** the v0.9.3 Pilot archive was rejected by Kaggle —
