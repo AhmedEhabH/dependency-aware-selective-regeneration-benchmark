@@ -430,17 +430,22 @@ contain `[ ] & @ =`, which the Kaggle Dataset upload does not accept.
   filenames in transport`) and `ed142f8` (`fix(pilot): keep notebook title cell
   byte-identical (ascii-safe dump)`) on `fix/pilot-kaggle-filename-transport`;
   local == remote at `ed142f8`.
-- Merge SHA / tag peel / archive SHA-256 / sidecar / final `created_utc`:
-  RECORDED at the STEP 9–11 closure (merge + `v0.9.4-pilot-exec-ready` tag +
-  exact tagged rebuild).
+- Merge SHA `96b6481a64ba76a74580f5a3d371c39e27df00ea`; tag
+  `v0.9.4-pilot-exec-ready` (annotated object `b48537928d3313624fbdbba1a1a69709356a561f`)
+  peels to the merge commit; archive SHA-256
+  `be98be8d2f0696bf8e916afbee7e83dd4522594e24f8f9f7c4837e008aaf8a19`; sidecar
+  `dist/pilot-kaggle-upload.zip.sha256` matches; final `created_utc`
+  `2026-08-13T00:00:00+00:00`.
 - Code manifest SHA-256 `99688e4e…` (byte-identical to v0.9.3); data manifest
   SHA-256 `8b859ecc…` (byte-identical to v0.9.3); notebook manifest SHA-256
-  `8514a96a…` (18 cells, incl. `transport-restore-cell` and
+  `8c13c671…` (notebook content hash `9f139c23…`, byte-identical to the git
+  blob at the tag; 18 cells, incl. `transport-restore-cell` and
   `service-bootstrap-cell`); repository snapshot manifest SHA-256 `49d91d39…`
   (identical to v0.9.3).
 - Transport path map SHA-256 `a5c1e2cbae309b89c3268fa177a7cd68bcef285f5a483e4354ba54ef982b875e` (50 exact-path entries).
 - Final full-suite counts: **2,119 passed / 33 skipped / 0 failed / 0 errors** (2026-08-13)
-- Final bundled dry-run counts (STEP 5): **48/48 terminal, 48 succeeded, 0 failed, 0 pending, 48 unique run IDs** (profile `pilot`)
+- Final bundled dry-run counts (STEP 11 tagged rebuild): **48/48 terminal, 48 succeeded, 0 failed, 0 pending, 48 unique run IDs** (profile `pilot`; per-repo todo 16 / djangocms 16 / saleor 16; per-strategy iterative_repository_agent 24 / selective 24; per-rep 24 / 24)
+- Tagged-rebuild acceptance (STEP 11): archive SHA `be98be8d…`, 6396 members / 0 unsafe / 50 transport blobs, roundtrip restore 50/50, `data_manifest` 6296 entries / 0 errors, repo content hashes PASS (todo `f72bc9df…`, djangocms `729b5f41…`, saleor `708d0a7b…`), restored data tree == canonical data tree.
 
 ### Final state
 
