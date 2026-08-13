@@ -1,13 +1,15 @@
 # PILOT-EXEC-01 — Deployment Freeze Report
 
-**Date:** 2026-08-13 (Kaggle reserved-name transport correction freeze;
-supersedes the 2026-08-13 filename-transport freeze on
-`v0.9.4-pilot-exec-ready`, which superseded the 2026-08-13 service-bootstrap
-freeze on `v0.9.3-pilot-exec-ready`, which superseded the 2026-08-13 freeze on
-`v0.9.2-pilot-exec-ready`, which superseded the 2026-08-10 freeze on
-`v0.9.1-pilot-exec-ready`)
-**Task:** `PILOT-EXEC-01` (Pilot deployment + KAGGLE RESERVED-NAME TRANSPORT
-last-mile correction)
+**Date:** 2026-08-13 (Kaggle PostgreSQL root-safe bootstrap freeze; supersedes
+the 2026-08-13 stable-anchor freeze on `v0.9.6-pilot-exec-ready`, which
+superseded the 2026-08-13 reserved-name transport freeze on
+`v0.9.5-pilot-exec-ready`, which superseded the 2026-08-13 filename-transport
+freeze on `v0.9.4-pilot-exec-ready`, which superseded the 2026-08-13
+service-bootstrap freeze on `v0.9.3-pilot-exec-ready`, which superseded the
+2026-08-13 freeze on `v0.9.2-pilot-exec-ready`, which superseded the
+2026-08-10 freeze on `v0.9.1-pilot-exec-ready`)
+**Task:** `PILOT-EXEC-01` (Pilot deployment + KAGGLE POSTGRESQL ROOT-SAFE
+BOOTSTRAP last-mile correction)
 **Status:** FROZEN (Pilot deployment locked; Pilot execution NOT STARTED)
 
 ---
@@ -16,42 +18,34 @@ last-mile correction)
 
 | Field | Value |
 |---|---|
-| Branch | `main` (after `merge(pilot): Kaggle reserved-name transport correction …` on `fix/pilot-kaggle-reserved-transport-name`) |
-| Merge commit | `eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab` |
-| Stable source tag | `v0.9.5-pilot-exec-ready` → peeled commit `eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab` |
-| Historical execution-ready points (NOT moved) | `v0.9.4-pilot-exec-ready` → `96b6481a64ba76a74580f5a3d371c39e27df00ea`; `v0.9.3-pilot-exec-ready` → `4fa6e1dfb1a45782d9e5176ef6325405d848b70b`; `v0.9.2-pilot-exec-ready` → `e030be5f4736e22ce40cfa798633b186858b0221` |
+| Branch | `main` (after `merge(pilot): root-safe unprivileged PostgreSQL bootstrap for Kaggle (v0.9.7-pilot-exec-ready)` on `fix/pilot-kaggle-postgres-unprivileged-bootstrap`) |
+| Merge commit | `f94853aeff9f32dea9355468eedb74e891e2b9a5` |
+| Stable source tag | `v0.9.7-pilot-exec-ready` → peeled commit `f94853aeff9f32dea9355468eedb74e891e2b9a5` |
+| Historical execution-ready points (NOT moved) | `v0.9.6-pilot-exec-ready` → `af9b47444fafac260d887dabbe4e3ddc3b22a00f`; `v0.9.5-pilot-exec-ready` → `eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab`; `v0.9.4-pilot-exec-ready` → `96b6481a64ba76a74580f5a3d371c39e27df00ea`; `v0.9.3-pilot-exec-ready` → `4fa6e1dfb1a45782d9e5176ef6325405d848b70b`; `v0.9.2-pilot-exec-ready` → `e030be5f4736e22ce40cfa798633b186858b0221` |
 | Prior tag (NOT moved) | `v0.9.0-pilot-ready` → `90a4282ac96328e26143b4f98d4bcf520c3c1e9b` (unchanged, immutable) |
 | Superseded interim tags (NOT moved) | `v0.9.1-pilot-exec-ready` → `7efdbe60bb195b1f3ca5854fd98057e29559a510` |
-| Feature branch (pre-merge) | `fix/pilot-kaggle-reserved-transport-name` (commits `189cc60`, `99348d1`) |
-| Builder | `scripts/build_pilot_upload_bundle.py` (transport-aware + mandatory pre-upload validator) |
+| Feature branch (pre-merge) | `fix/pilot-kaggle-postgres-unprivileged-bootstrap` (commits `c06dadf`, `539eb03`, `8e562aa`) |
+| Builder | `scripts/build_pilot_upload_bundle.py` (transport-aware + mandatory pre-upload validator; deterministic single-pass stable-anchor freeze via `scripts/finalize_pilot_notebook_trust.py`) |
 | Real repo cache | git checkouts at pinned SHAs: django CMS `0f633fc9fa213357f4202482aab2b0edad680f95`, Saleor `e11a5557eff29fbb2eed36e6ff3cd0af08ab9e10` (todo embedded) |
-| Deployment contract tests | `tests/integration/test_pilot_notebook_contract.py` (28, incl. reserved-name transport-root assertion) + `tests/integration/test_pilot_deployment_bundle.py` (33, incl. 19 `TestPilotKaggleTransport` tests) — targeted 61/61 |
+| Deployment contract tests | `tests/integration/test_pilot_service_bootstrap.py` (28) + `tests/integration/test_pilot_notebook_contract.py` (42, incl. 2 root-safe static tests) + `tests/integration/test_pilot_deployment_bundle.py` (51) + `tests/integration/test_pilot_real_launch_preflight.py` (13) — targeted 134/134 |
 
-The last-mile corrections made the frozen Pilot archive Kaggle-upload-safe.
-Kaggle rejects Dataset/ZIP member names containing `[ ] & @ =` and reserves
-any path component matching `^__.*__$`; the pinned upstream repos contain 50
-such filename-unsafe files (45 Saleor, 5 django CMS) and the v0.9.4 transport
-root `__kaggle_transport__` itself matched Kaggle's reserved `__name__`
-pattern and was rejected. The corrections add a reversible TRANSPORT ENCODING
-to `scripts/build_pilot_upload_bundle.py` (member names restricted to
-`^[A-Za-z0-9._/-]+$` with NO reserved `__name__` component; transport root
-`kaggle_transport`; unsafe files stored under
-`kaggle_transport/files/<deterministic-blob>` with the exact-path map
-`kaggle_transport/kaggle_transport_path_map.json`, whose SHA-256 is bound
-into `pilot_deployment_identity.json` as `kaggle_transport_path_map_sha256`;
-a mandatory pre-upload validator (`validate_archive_members_kaggle_ready`)
-scans EVERY ZIP member and fails closed on any unsafe-special-char or
-reserved-name component) and ONE `transport-restore-cell` to the frozen Pilot
-notebook (`notebooks/pilot_exec_01.ipynb`, now 18 cells) between archive
-verification and identity verification. The cell verifies the map hash
-against the identity, rejects traversal/drive/`..` destinations, destination
-collisions, missing blobs, and leftover blobs, restores the EXACT original
-paths and bytes, removes `kaggle_transport/`, and prints
-`PILOT KAGGLE TRANSPORT RESTORE: PASSED` BEFORE any manifest or repository
-verification. Canonical upstream filenames are NEVER renamed or deleted; the
-encoding exists only inside the ZIP and inside the notebook restore step.
-No scientific inputs changed (scenarios, prompts, metrics, model,
-quantization, timeout 600, repair budget, repository pins, validation scope).
+The last-mile correction closes the real Kaggle blocker: the Kaggle notebook
+process runs as root, while PostgreSQL `initdb`/`pg_ctl` refuse root
+(`initdb: error: cannot be run as root`), which blocked the v0.9.6 service
+bootstrap. The `service-bootstrap-cell` now resolves the package-native
+unprivileged `postgres` OS account when the notebook effective uid is 0 and
+runs the PostgreSQL server lifecycle (initdb, pg_ctl and the postgres server
+it launches) under that account via `subprocess.run(..., user=...)`
+(POSIX-only, checked, fail-closed; no `runuser`, no `shell=True`); it FAILS
+CLOSED before initdb when the account is missing and NEVER falls back to root;
+non-root notebook processes keep the direct path. Ownership/log preparation is
+limited to the private service paths (data dir `0o700`, log `0o600`, chown to
+the postgres uid/gid; incomplete previous clusters safely recreated, ONLY
+`PG_DATA_DIR`). The frozen TCP client probe (psql) still runs from the
+notebook process against `127.0.0.1:5433 saleor/saleor/saleor`; Valkey/Redis
+`127.0.0.1:6379` unchanged. No scientific inputs changed (scenarios, prompts,
+metrics, model, quantization, timeout 600, repair budget, repository pins,
+validation scope; the four frozen manifest/map hashes stay byte-identical).
 
 ## 2. Bundle (built from the tagged source)
 
@@ -59,22 +53,25 @@ quantization, timeout 600, repair budget, repository pins, validation scope).
 |---|---|
 | Output root | `dist/pilot-kaggle-upload/` (gitignored) |
 | Archive | `dist/pilot-kaggle-upload.zip` |
-| Archive SHA-256 | `7be899d1398b7e7061dd98d7d8d710482bfe3f1f66f1663be26dce7de7e0997a` (rebuilt from the tag at this closure; verified byte-deterministic across two identical builds) |
+| Archive SHA-256 | `92a82606a2d0b9b8b5a4c91bfe2416ee5682f2a3d460c901e556d32df467fbd3` (rebuilt from the tag at this closure; verified byte-deterministic across multiple identical builds + finalize invariance check) |
 | Sidecar | `dist/pilot-kaggle-upload.zip.sha256` (matches archive hash) |
 | ZIP member names | all match `^[A-Za-z0-9._/-]+$` with no `^__.*__$` component (0 unsafe-special-char; 0 reserved-name; 50 transport blobs in `kaggle_transport/files/`) |
-| Code files | 91 (manifest SHA-256 `99688e4e03291606399126061ae8305bb768a68d10fee0dc43964846272fbe96` — byte-identical to v0.9.4, zero scientific drift) |
-| Data files | 57 (manifest SHA-256 `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a` — byte-identical to v0.9.4) |
-| Notebook files | 1 (manifest SHA-256 `052efe08e0f942abac367f90a0f7073a9ba724e97cb3ebb9ccbae16816890cad`; notebook content hash `8b0ef4892345cbd8760085d578e055045a11d881985d1fe5c845c3f35807e9ba` — 18 cells incl. `transport-restore-cell`; byte-identical to the git blob at the tag) |
-| Repository snapshot manifest | SHA-256 `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c` (identical to v0.9.4; pinned repo content unchanged) |
+| Code files | 91 (manifest SHA-256 `99688e4e03291606399126061ae8305bb768a68d10fee0dc43964846272fbe96` — byte-identical to v0.9.5/v0.9.6, zero scientific drift) |
+| Data files | 57 (manifest SHA-256 `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a` — byte-identical to v0.9.5/v0.9.6) |
+| Notebook files | 1 (manifest SHA-256 `a9f5fcdf1cd0a59b48780e19123467bf3ec4466e202ad3143497783c922979c7`; notebook content hash `082b4e84688e2bff3ca3e38afb65ab08dc73e2e4a53576b9688422cae8cd6ede` — 18 cells incl. `transport-restore-cell` and the root-safe `service-bootstrap-cell`; byte-identical to the LF-normalized git blob at the tag) |
+| Repository snapshot manifest | SHA-256 `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c` (identical to v0.9.5/v0.9.6; pinned repo content unchanged) |
 | Transport path map | `kaggle_transport_path_map_sha256` `07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce` (50 exact-path entries) |
-| `pilot_deployment_identity.json` | task `PILOT-EXEC-01`; protocol 1.0; source_commit `eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab` (tag peel); source_tag `v0.9.5-pilot-exec-ready`; created_utc `2026-08-13T12:00:00+00:00`; model `Qwen/Qwen2.5-Coder-14B-Instruct`; quantization `bnb-nf4`; timeout 600; max_attempts 3; max_completion_tokens_per_call 4096; max_total_workflow_tokens 0; scenario_count 12; strategy_count 2; repetitions 2; expected_cells 48 |
+| `pilot_deployment_identity.json` | task `PILOT-EXEC-01`; protocol 1.0; source_commit `f94853aeff9f32dea9355468eedb74e891e2b9a5` (tag peel); source_tag `v0.9.7-pilot-exec-ready`; created_utc `2026-08-13T20:00:00+00:00`; model `Qwen/Qwen2.5-Coder-14B-Instruct`; quantization `bnb-nf4`; timeout 600; max_attempts 3; max_completion_tokens_per_call 4096; max_total_workflow_tokens 0; scenario_count 12; strategy_count 2; repetitions 2; expected_cells 48 |
+| Notebook trust freeze | `reports/pilot_notebook_trust_freeze.json` (single-pass stable-anchor freeze: FROZEN_SOURCE_TAG `v0.9.7-pilot-exec-ready`, four frozen manifest/map hashes, archive SHA `92a82606…`, deployed notebook SHA `082b4e84…`, source notebook SHA `a763ac4827219669b6ca4a1a8a195fb620fcbd46a4aae6b253ce30b650d8c890`) |
 
-The bundled notebook byte-matches the git blob at the tag and contains the
-`transport-restore-cell` and the `service-bootstrap-cell`. The historical
-Scientific Smoke bundle (`kaggle_upload/`) is NOT the Pilot deployment bundle.
-It remains frozen and byte-identical.
+The bundled notebook byte-matches the LF-normalized git blob at the tag and
+contains the `transport-restore-cell`, the `service-bootstrap-cell`
+(root-safe), the pilot identity/archive verification cells, the model-preflight
+cell, and the 48-cell pilot-launch cell. The historical Scientific Smoke bundle
+(`kaggle_upload/`) is NOT the Pilot deployment bundle. It remains frozen and
+byte-identical.
 
-## 3. Verification performed on the frozen bundle (v0.9.5 tagged rebuild + suite)
+## 3. Verification performed on the frozen bundle (v0.9.7 tagged rebuild + suite)
 
 1. **Kaggle-safety:** `dist/pilot-kaggle-upload.zip` has 6396 members, **0
    unsafe member names** under `^[A-Za-z0-9._/-]+$` and **0 reserved-name
@@ -82,66 +79,73 @@ It remains frozen and byte-identical.
    written archive `namelist()`); exactly 50 members are transport blobs under
    `kaggle_transport/files/`; the path map is present and its SHA-256 equals
    the identity binding.
-2. **Determinism:** two identical builds from the same source commit + tag +
-   `created_utc` + repo cache produced byte-identical archives (SHA-256
-   `7be899d1…` both times); the transport blob names are content-hash-derived,
-   so the encoding is deterministic.
+2. **Determinism:** multiple identical builds from the same source commit +
+   tag + `created_utc` + repo cache produced byte-identical archives (SHA-256
+   `92a82606…` every time, including the finalize invariance rebuild); the
+   transport blob names are content-hash-derived, so the encoding is
+   deterministic.
 3. **Reversibility (roundtrip):** extract the archive to a fresh dir, run the
    actual `transport-restore-cell` from the bundled notebook → 50/50 restored
    to EXACT original paths and bytes; `kaggle_transport/` fully removed; the
-   restored repository content hashes PASS: todo `f72bc9df58882261eb2a2724e358b477cf68ed9586821d0cd2d9d8a47829113f` (24 files), djangocms `729b5f418ec79d06b20e6e78ce827d58cde6812622f6e600c63777457b05247e` (1662), saleor `708d0a7bfeddb92a441e5d1d047ba6d5cdf373bdb9978a8d22ee4622055ccc73` (4577) — identical to v0.9.4; restored data tree == canonical tree.
+   restored repository content hashes PASS: todo `f72bc9df58882261eb2a2724e358b477cf68ed9586821d0cd2d9d8a47829113f` (24 files), djangocms `729b5f418ec79d06b20e6e78ce827d58cde6812622f6e600c63777457b05247e` (1662), saleor `708d0a7bfeddb92a441e5d1d047ba6d5cdf373bdb9978a8d22ee4622055ccc73` (4577) — identical to v0.9.5/v0.9.6; restored data tree == canonical tree.
 4. **Identity contract:** `pilot_deployment_identity.json` holds the frozen
    values (section 2); code/data/notebook/repository-snapshot manifest hashes
-   and the transport map hash match the emitted bundle bytes.
+   and the transport map hash match the emitted bundle bytes and the notebook
+   `FROZEN_MANIFEST_HASHES` anchors.
 5. **Bundled exact 48-cell dry-run** (fresh output dir, mock backend, bundled
-   CLI at `dist/pilot-kaggle-upload/code/seven_arm_benchmark.py`):
+   CLI at `dist/pilot-kaggle-upload/code/seven_arm_benchmark.py`, bundled data
+   at `dist/pilot-kaggle-upload/data`):
    **48/48 terminal / 48 succeeded / 0 failed / 0 pending / 48 unique run
    IDs**; profile `pilot`; per-repo todo 16 / djangocms 16 / saleor 16;
-   per-strategy iterative_repository_agent 24 / selective 24.
-6. **Gates on the correction:** notebook contract 28/28; deployment bundle
-   contract 33/33 (targeted 61/61); full suite **2,125 passed /
-   33 skipped / 0 failed**; `git diff --check`, ruff, mypy strict, py_compile
-   clean.
+   per-strategy iterative_repository_agent 24 / selective 24; per-rep 24 / 24;
+   0 model calls / 0 tokens.
+6. **Gates on the correction:** service bootstrap 28/28; notebook contract
+   42/42; deployment bundle contract 51/51; real-launch preflight 13/13
+   (targeted 134/134); full suite **2,185 passed / 33 skipped / 0 failed**;
+   `git diff --check`, ruff, mypy strict, py_compile clean.
 
 ## 4. Launch flags frozen for every real Pilot invocation
 
 `--backend kaggle-qwen --profile pilot --qwen-quantization bnb-nf4
---max-attempts 3 --max-completion-tokens-per-call 4096
+--max-attempts 3 --protocol-version 1.0 --max-completion-tokens-per-call 4096
 --max-total-workflow-tokens 0 --timeout 600 --source-commit
-eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab --source-tag v0.9.5-pilot-exec-ready
---hf-sync` plus the exact model path and HF results repo ID recorded at launch
-time. One
-continuous 48-cell session; no `--max-runs` subsetting.
+f94853aeff9f32dea9355468eedb74e891e2b9a5 --source-tag v0.9.7-pilot-exec-ready
+--deployed-build-id f94853a --data-dir <bundled data> --model-path <Kaggle
+mounted model> --hf-sync` plus the exact HF results repo ID recorded at launch
+time. One continuous 48-cell session; no `--max-runs` subsetting.
 
-## 5. Post-freeze gate plan (reserved-name correction evidence)
+## 5. Post-freeze gate plan (root-safe bootstrap correction evidence)
 
-- [x] `transport-restore-cell` added to the frozen Pilot notebook (fail-closed:
-      identity-bound map hash, traversal/drive/`..` rejection, destination
-      collision rejection, missing-blob rejection, no leftover blob; restores
-      exact paths/bytes before manifest/repo verification; removes transport
-      dir).
-- [x] Notebook contract (28) + deployment bundle contract (33, incl. 8 new
-      reserved-name/validator cases in `TestPilotKaggleTransport`), full suite
-      2,125/33/0 all green.
-- [x] Correction committed (`189cc60`, `99348d1`) on
-      `fix/pilot-kaggle-reserved-transport-name`; branch pushed; local == remote.
+- [x] `service-bootstrap-cell` corrected to run initdb/pg_ctl/postgres under
+      the package-native unprivileged `postgres` account when euid==0
+      (`subprocess.run(..., user=...)`, POSIX-only, fail-closed before initdb,
+      no `runuser`, no `shell=True`, NEVER falls back to root); notebook
+      `FROZEN_SOURCE_TAG` → `v0.9.7-pilot-exec-ready`.
+- [x] Hermetic Gate-H contract `test_pilot_service_bootstrap.py` (28) execs
+      the EXACT cell definitions with os/pwd/subprocess/socket fakes (root
+      mode, non-root mode, missing account, partial cluster, proof semantics);
+      notebook contract (42) + deployment bundle contract (51) + preflight (13)
+      green; full suite **2,185 passed / 33 skipped / 0 failed**.
+- [x] Correction committed (`c06dadf`, `539eb03`, `8e562aa`) on
+      `fix/pilot-kaggle-postgres-unprivileged-bootstrap`; branch pushed;
+      local == remote.
 - [x] Non-fast-forward merge to `main`; pushed; local == origin/main
-      (`eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab`).
-- [x] Tag `v0.9.5-pilot-exec-ready` created + pushed (annotated object
-      `b99fe9b9f426fc3fe7b269c448d9737e3f20cd4c`; peels to the merge commit);
-      `v0.9.0`/`v0.9.1`/`v0.9.2`/`v0.9.3`/`v0.9.4` NOT moved.
+      (`f94853aeff9f32dea9355468eedb74e891e2b9a5`).
+- [x] Tag `v0.9.7-pilot-exec-ready` created + pushed (annotated object; peels
+      to the merge commit); `v0.9.0`/`v0.9.1`/`v0.9.2`/`v0.9.3`/`v0.9.4`/
+      `v0.9.5`/`v0.9.6` NOT moved.
 - [x] Bundle rebuilt from the tagged source (`--source-commit
-      eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab --source-tag
-      v0.9.5-pilot-exec-ready --created-utc 2026-08-13T12:00:00+00:00` with the
+      f94853aeff9f32dea9355468eedb74e891e2b9a5 --source-tag
+      v0.9.7-pilot-exec-ready --created-utc 2026-08-13T20:00:00+00:00` with the
       real repo cache) and re-verified: archive SHA-256
-      `7be899d1398b7e7061dd98d7d8d710482bfe3f1f66f1663be26dce7de7e0997a`
-      (sidecar matches; second identical build byte-equal), 0 unsafe members /
-      0 reserved-name components, roundtrip restore 50/50, all five identity
-      manifest hashes PASS, repo content hashes PASS, exact 48-cell bundled
-      dry-run 48/48.
+      `92a82606a2d0b9b8b5a4c91bfe2416ee5682f2a3d460c901e556d32df467fbd3`
+      (sidecar matches; repeated identical builds byte-equal; finalize
+      invariance PASS), 0 unsafe members / 0 reserved-name components,
+      roundtrip restore 50/50, all five identity manifest hashes PASS, repo
+      content hashes PASS, exact 48-cell bundled dry-run 48/48.
 - [x] Exact Kaggle launch commands + evidence prepared (runtime identity
-      preflight, bundled 48-cell dry-run, transport restore, service bootstrap,
-      model-load preflight, real launch).
+      preflight, bundled 48-cell dry-run, transport restore, root-safe service
+      bootstrap, model-load preflight, real launch).
 - [x] Final closure report recorded.
 
 **Pilot = NOT STARTED.** Real launch is deferred until the user confirms the
@@ -156,11 +160,50 @@ after all preflight gates pass may the real 48-cell cell be executed.
 
 ## Historical record (superseded 2026-08-13)
 
-### v0.9.4-pilot-exec-ready — filename transport freeze (superseded by this reserved-name freeze)
+### v0.9.6-pilot-exec-ready — dual fail-closed Kaggle input modes + stable-anchor freeze (superseded by this root-safe freeze)
+
+The 2026-08-13 freeze on `v0.9.6-pilot-exec-ready`
+(`af9b47444fafac260d887dabbe4e3ddc3b22a00f`, merge of `46dbfd4` +
+`4d8d87a`) replaced the mathematically unsound hash-fixpoint finalizer (archive
+SHA and notebook-manifest SHA each hash content that includes the notebook
+bytes that would embed the value, so no embedded value can equal its own hash)
+with a deterministic single-pass stable-anchor freezer: the notebook now
+freezes ONLY notebook-independent anchors (FROZEN_SOURCE_TAG, FROZEN_DEPLOYMENT,
+and the four stable manifest/map hashes — code, data, repository snapshot,
+transport path map); archive SHA and notebook-manifest SHA are verified
+self-consistently at runtime in BOTH Kaggle input modes (archive mode: actual
+ZIP SHA must equal the sidecar; auto-expanded mount mode: sidecar is
+provenance-only and the mounted tree is trusted against the frozen anchors plus
+self-consistent notebook-manifest verification before copy). FROZEN_SOURCE_COMMIT
+is not embedded; deployed source_commit equals the tag peel and is recorded in
+`reports/pilot_notebook_trust_freeze.json`. Archive SHA-256
+`afca4205583ccca1c29e7fb846993f944210805d676d509f1624985da36b16b8`; created_utc
+`2026-08-13T18:00:00+00:00`; full suite 2,156 passed / 33 skipped / 0 failed.
+It was superseded because the real Kaggle session exposed the PostgreSQL
+`cannot be run as root` blocker in the service-bootstrap cell. The deployment
+source tag moved from `v0.9.6-pilot-exec-ready` to `v0.9.7-pilot-exec-ready`
+(this freeze). `v0.9.6-pilot-exec-ready` is immutable and NOT moved.
+
+### v0.9.5-pilot-exec-ready — reserved-name transport freeze (superseded)
+
+The 2026-08-13 freeze on `v0.9.5-pilot-exec-ready`
+(`eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab`) covered the KAGGLE RESERVED-NAME
+TRANSPORT correction: Kaggle rejects any path component matching `^__.*__$`,
+and the v0.9.4 transport root `__kaggle_transport__` itself matched that
+reserved `__name__` pattern. The transport root became `kaggle_transport`
+everywhere (builder, notebook `transport-restore-cell`, the exact-path map
+contract, tests, runbook/contract docs) with a MANDATORY pre-upload archive
+validator (`validate_archive_members_kaggle_ready`) scanning EVERY ZIP member
+and failing closed on any unsafe-special-char or reserved-name component.
+Archive SHA-256 `7be899d1398b7e7061dd98d7d8d710482bfe3f1f66f1663be26dce7de7e0997a`;
+transport map hash `07036a36…`; created_utc `2026-08-13T12:00:00+00:00`; full
+suite 2,125 passed / 33 skipped / 0 failed. Superseded by the v0.9.6
+stable-anchor freeze. `v0.9.5-pilot-exec-ready` is immutable and NOT moved.
+
+### v0.9.4-pilot-exec-ready — filename transport freeze (superseded)
 
 The 2026-08-13 freeze on `v0.9.4-pilot-exec-ready`
-(`96b6481a64ba76a74580f5a3d371c39e27df00ea`, annotated tag object
-`b48537928d3313624fbdbba1a1a69709356a561f`) covered the KAGGLE FILENAME
+(`96b6481a64ba76a74580f5a3d371c39e27df00ea`) covered the KAGGLE FILENAME
 TRANSPORT correction: reversible transport encoding (unsafe `[ ] & @ =` names
 stored as content-hash blobs under `__kaggle_transport__/files/` with the
 exact-path map) plus ONE `transport-restore-cell`. Archive SHA-256
@@ -168,18 +211,17 @@ exact-path map) plus ONE `transport-restore-cell`. Archive SHA-256
 map hash `a5c1e2cb…`; created_utc `2026-08-13T00:00:00+00:00`; full suite
 2,119 passed / 33 skipped / 0 failed. It was superseded because Kaggle rejects
 any path component matching `^__.*__$`, and the v0.9.4 transport root
-`__kaggle_transport__` itself matched that reserved `__name__` pattern. The
-deployment source tag moved to `v0.9.5-pilot-exec-ready` (this freeze).
+`__kaggle_transport__` itself matched that reserved `__name__` pattern.
 `v0.9.4-pilot-exec-ready` is immutable and NOT moved.
 
-### v0.9.3-pilot-exec-ready — service-bootstrap freeze (superseded by this transport freeze)
+### v0.9.3-pilot-exec-ready — service-bootstrap freeze (superseded)
 
 The 2026-08-13 freeze on `v0.9.3-pilot-exec-ready`
-(`4fa6e1dfb1a45782d9e5176ef6325405d848b70b`, annotated tag object `47a65ef`)
-covered the KAGGLE SERVICE BOOTSTRAP last-mile correction: ONE fail-closed,
-idempotent `service-bootstrap-cell` added to the frozen Pilot notebook
-(PostgreSQL `127.0.0.1:5433`, Valkey/Redis `127.0.0.1:6379`, before repository
-validation and model load). Archive SHA-256
+(`4fa6e1dfb1a45782d9e5176ef6325405d848b70b`) covered the KAGGLE SERVICE
+BOOTSTRAP last-mile correction: ONE fail-closed, idempotent
+`service-bootstrap-cell` added to the frozen Pilot notebook (PostgreSQL
+`127.0.0.1:5433`, Valkey/Redis `127.0.0.1:6379`, before repository validation
+and model load). Archive SHA-256
 `27e9cd612b33ebc433dafb7a42b7ebe2149f560bc6b73f16b969d3031a6baae1`; code
 manifest `99688e4e…`, data manifest `8b859ecc…`, notebook manifest
 `64cb33b9c800b8ac2fc38b71fff4290474a192137f982a5a5d0892e0728a7a0c`,
@@ -187,9 +229,7 @@ repository snapshot manifest `49d91d39…`; created_utc `2026-08-13T07:15:24+00:
 full suite 2,098 passed / 33 skipped / 0 failed. It was superseded because
 Kaggle rejected the upload: 50 ZIP member names from the pinned upstream repos
 (45 Saleor, 5 django CMS) contain `[ ] & @ =`, which Kaggle does not accept.
-The deployment source tag moved from `v0.9.3-pilot-exec-ready` to
-`v0.9.4-pilot-exec-ready` (this freeze). `v0.9.3-pilot-exec-ready` is
-immutable and NOT moved.
+`v0.9.3-pilot-exec-ready` is immutable and NOT moved.
 
 ### v0.9.2-pilot-exec-ready — real-launch closure freeze (superseded)
 
