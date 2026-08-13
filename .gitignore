@@ -59,6 +59,7 @@ reports/*.md
 !reports/PILOT_READY_01_FINAL_REPORT.md
 !reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md
 !reports/PILOT_EXEC_01_FINAL_REPORT.md
+!reports/PILOT_EXEC_01_GATE9_ENGINEERING_PREFLIGHT_LEDGER.md
 
 # Lock file (regenerated per environment)
 requirements-lock.txt
@@ -84,6 +85,15 @@ _auto_resume_temp/
 
 # Generated benchmark archive
 benchmark-results.zip
+
+# PILOT-EXEC-01: real-acquired third-party source trees (django CMS, Saleor).
+# These are materialized deterministically by scripts/pilot_repo_snapshot.py
+# from the pinned repo cache at build time (fail-closed on SHA mismatch), so
+# they are never committed. Manifests, pinned SHAs, validation commands,
+# snapshot hashes, acquisition scripts, and evidence reports remain tracked.
+# The embedded Todo source tree stays tracked (untouched).
+benchmark_data/repositories/djangocms/
+benchmark_data/repositories/saleor/
 
 # OS
 .DS_Store

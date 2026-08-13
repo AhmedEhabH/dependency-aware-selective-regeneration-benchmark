@@ -1,0 +1,13 @@
+# PILOT-EXEC-01: pinned Pilot Kaggle runtime lock.
+# Installed and verified by the Pilot notebook install-lock-cell BEFORE any
+# experiment is created (no silent failures).
+# torch intentionally omitted: preserve Kaggle's compatible GPU torch build and
+# record its runtime version in environment metadata instead (same contract as
+# the accepted Scientific Smoke runtime; the Pilot reuses the exact pins).
+Django==5.2.16
+djangorestframework==3.17.1
+pytest==8.4.2
+pytest-django==4.12.0
+accelerate==1.14.0
+bitsandbytes==0.49.2
+transformers==4.57.6
