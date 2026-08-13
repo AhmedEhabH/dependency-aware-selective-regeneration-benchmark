@@ -85,6 +85,11 @@ repositories:
       DATABASE_URL: postgres://saleor:saleor@127.0.0.1:5433/saleor
       CACHE_URL: redis://127.0.0.1:6379/0
       SECRET_KEY: ci-test
+      # Upstream CI (tests-and-linters.yml at e11a5557) runs with the host in
+      # UTC. Saleor parses local-naive webhook timestamps against the box TZ;
+      # without TZ=UTC the two `test_transaction_schema_time_valid[...]` cases
+      # drift by the local UTC offset (verified 2026-08-11, Gate 9).
+      TZ: UTC
     command:
       - "{python}"
       - "-m"
@@ -117,4 +122,11 @@ repositories:
       webhook/event dispatch (saleor/webhook/tests). Requires PostgreSQL and
       Valkey/Redis services (reproduced in engineering preflight; no silent
       SQLite fallback). Parallelized with pytest-xdist `-n logical` matching the
-      upstream CI invocation (tests-and-linters.yml at e11a5557).
+      upstream CI invocation (tests-and-linters.yml at e11a5557). Gate 9
+      (verified 2026-08-11): 6~7k tests pass; remaining failures are a known
+      nondeterministic cluster of ~31-36 order/pricing tests caused by saleor
+      fixtures bulk-creating rows with an identical `created_at` microsecond on
+      fast hardware (OrderLine.Meta ordering is `(created_at, random uuid)`), so
+      `order.lines.first()` picks a random line. Classified as an upstream
+      fixture/hardware artifact, not a regression; the exact failing set varies
+      run to run (33 vs 38 observed).
