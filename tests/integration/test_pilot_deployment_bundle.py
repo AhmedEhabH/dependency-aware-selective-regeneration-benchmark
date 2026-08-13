@@ -19,12 +19,16 @@ verification, failing closed on traversal/collision/missing-blob maps.
 
 from __future__ import annotations
 
+import datetime
 import hashlib
 import importlib.util
 import json
+import os
 import shutil
+import socket
 import subprocess
 import sys
+import urllib
 import zipfile
 from pathlib import Path
 from typing import Any
@@ -35,6 +39,7 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 HISTORICAL_SMOKE_UPLOAD = PROJECT_DIR / "kaggle_upload"
 CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
+DIST_ARTIFACT = PROJECT_DIR / "dist" / "pilot-kaggle-upload.zip"
 
 # Transport constants and the Kaggle-safety predicate are read from the module
 # under test to prevent contract drift (charset regex + reserved ``__name__``
@@ -656,3 +661,550 @@ class TestPilotKaggleTransport:
         )
         with pytest.raises(RuntimeError, match="transport blob missing"):
             self._run_restore(extract_root)
+
+
+class TestPilotKaggleExpandedMount:
+    """PILOT-EXEC-01 KAGGLE-AUTO-EXPANDED-MOUNT execution contract.
+
+    Simulates the two real Kaggle input mounts - (A) the original frozen
+    archive and (B) the auto-expanded ``pilot-kaggle-upload/`` directory plus a
+    sibling ``.sha256`` sidecar - against the REAL notebook setup + input-verify
+    + transport-restore + identity-verify cells. The notebook's frozen trust
+    constants are overridden to match the bundle under test (mirroring what the
+    tagged build freezes). Mode B must fail closed on every tamper/mis-mount,
+    copy the expanded tree into the writable working root (never mutating
+    /kaggle/input), and converge on the exact same canonical tree as Mode A.
+    """
+
+    @staticmethod
+    def _cell_source(cell_id: str) -> str:
+        nb = json.loads(CANONICAL_NOTEBOOK.read_text(encoding="utf-8"))
+        cell = next(c for c in nb["cells"] if c.get("id") == cell_id)
+        src = cell["source"]
+        return src if isinstance(src, str) else "".join(src)
+
+    @staticmethod
+    def _setup_source(sim_input: Path) -> str:
+        src = TestPilotKaggleExpandedMount._cell_source("setup-cell")
+        marker = 'KAGGLE_INPUT = Path("/kaggle/input")'
+        assert marker in src
+        return src.replace(marker, f"KAGGLE_INPUT = Path({str(sim_input.resolve())!r})")
+
+    @staticmethod
+    def _make_model_mount(sim_input: Path) -> None:
+        model_dir = sim_input / "models/qwen-lm/qwen2.5-coder/transformers/14b-instruct/1"
+        model_dir.mkdir(parents=True, exist_ok=True)
+        (model_dir / "config.json").write_text("{}", encoding="utf-8")
+        (model_dir / "model.safetensors").write_bytes(b"w")
+
+    @staticmethod
+    def _make_dataset_dir(sim_input: Path) -> Path:
+        dataset = (
+            sim_input
+            / "datasets/ahmedehabh/dependency-aware-selective-regeneration-pilot"
+        )
+        dataset.mkdir(parents=True, exist_ok=True)
+        return dataset
+
+    @staticmethod
+    def _archive_sha(archive: Path) -> str:
+        return hashlib.sha256(archive.read_bytes()).hexdigest()
+
+    @classmethod
+    def _mount_expanded(cls, sim_input: Path, archive: Path) -> Path:
+        dataset = cls._make_dataset_dir(sim_input)
+        target = dataset / "pilot-kaggle-upload"
+        with zipfile.ZipFile(archive) as zf:
+            zf.extractall(target)
+        (dataset / "pilot-kaggle-upload.zip.sha256").write_text(
+            cls._archive_sha(archive), encoding="utf-8"
+        )
+        return dataset
+
+    @classmethod
+    def _mount_archive(cls, sim_input: Path, archive: Path) -> Path:
+        dataset = cls._make_dataset_dir(sim_input)
+        shutil.copy2(archive, dataset / "pilot-kaggle-upload.zip")
+        (dataset / "pilot-kaggle-upload.zip.sha256").write_text(
+            cls._archive_sha(archive), encoding="utf-8"
+        )
+        return dataset
+
+    def _provision(
+        self,
+        sim_input: Path,
+        working_root: Path,
+        identity: dict[str, Any],
+        frozen_archive_sha: str,
+        *,
+        overrides: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Exec the real setup cell then the real input-verify cell.
+
+        The frozen trust constants are injected AFTER setup (which declares
+        development placeholders) so the verify cell checks the bundle under
+        test. ``extract_root`` is redirected to a writable working root.
+        """
+        self._make_model_mount(sim_input)
+        ns: dict[str, Any] = {
+            "os": os,
+            "sys": sys,
+            "subprocess": subprocess,
+            "zipfile": zipfile,
+            "_json": json,
+            "socket": socket,
+            "urllib": urllib,
+            "shutil": shutil,
+            "hashlib": hashlib,
+            "datetime": datetime,
+            "Path": Path,
+            "KNOWN_PILOT_DATASET": (
+                sim_input
+                / "datasets/ahmedehabh/dependency-aware-selective-regeneration-pilot"
+            ),
+            "FALLBACK_PILOT_DATASET": (
+                sim_input / "dependency-aware-selective-regeneration-pilot"
+            ),
+        }
+        _saved_path = list(sys.path)
+        try:
+            exec(self._setup_source(sim_input), ns)
+            deployment_paths = dict(ns["KAGGLE_DEPLOYMENT_PATHS"])
+            deployment_paths["extract_root"] = working_root / "pilot_bundle"
+            ns["KAGGLE_DEPLOYMENT_PATHS"] = deployment_paths
+            ns["FROZEN_ARCHIVE_SHA"] = frozen_archive_sha
+            ns["FROZEN_SOURCE_COMMIT"] = identity["source_commit"]
+            ns["FROZEN_SOURCE_TAG"] = identity["source_tag"]
+            ns["FROZEN_DEPLOYMENT"] = {k: identity[k] for k in FROZEN_IDENTITY}
+            ns["FROZEN_MANIFEST_HASHES"] = {
+                "code_manifest_sha256": identity["code_manifest_sha256"],
+                "data_manifest_sha256": identity["data_manifest_sha256"],
+                "notebook_manifest_sha256": identity["notebook_manifest_sha256"],
+                "repository_snapshot_manifest_sha256": identity[
+                    "repository_snapshot_manifest_sha256"
+                ],
+                "kaggle_transport_path_map_sha256": identity[
+                    "kaggle_transport_path_map_sha256"
+                ],
+            }
+            if overrides:
+                ns.update(overrides)
+            exec(self._cell_source("pilot-archive-verify-cell"), ns)
+        finally:
+            sys.path[:] = _saved_path
+        return ns
+
+    def _finish_flow(self, ns: dict[str, Any]) -> int:
+        """Exec the real transport-restore and identity-verify cells."""
+        _saved_path = list(sys.path)
+        try:
+            exec(self._cell_source("transport-restore-cell"), ns)
+            exec(self._cell_source("pilot-identity-verify-cell"), ns)
+        finally:
+            sys.path[:] = _saved_path
+        return int(ns["_restored_count"])
+
+    @staticmethod
+    def _dry_run_records(ns: dict[str, Any], tmp_path: Path) -> list[dict[str, Any]]:
+        extract_root = Path(ns["EXTRACT_ROOT"])
+        script = extract_root / "code" / "seven_arm_benchmark.py"
+        output_dir = tmp_path / "dryrun-expanded"
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(script),
+                "--dry-run",
+                "--profile", "pilot",
+                "--data-dir", str(extract_root / "data"),
+                "--qwen-quantization", "bnb-nf4",
+                "--output-dir", str(output_dir),
+            ],
+            capture_output=True,
+            text=True,
+            cwd=tmp_path,
+        )
+        assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
+        records_path = output_dir / "run_records.jsonl"
+        return [
+            json.loads(line)
+            for line in records_path.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+
+    def test_archive_mode_roundtrip(self, tmp_path: Path) -> None:
+        output_root, archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "archrt"
+        )
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sim_input = tmp_path / "kaggle_input"
+        self._mount_archive(sim_input, archive)
+        ns = self._provision(
+            sim_input, tmp_path / "working", identity, self._archive_sha(archive)
+        )
+        assert ns["PILOT_INPUT_MODE"] == "archive"
+        restored = self._finish_flow(ns)
+        assert restored == 5, restored  # hermetic unsafe-file seed count
+        extract_root = Path(ns["EXTRACT_ROOT"])
+        assert _tree_sha256(extract_root / "data") == _tree_sha256(output_root / "data")
+        assert _tree_sha256(extract_root / "code") == _tree_sha256(output_root / "code")
+
+    def test_expanded_mode_copies_to_working_root_and_never_mutates_input(
+        self, tmp_path: Path
+    ) -> None:
+        output_root, archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "exprt"
+        )
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sim_input = tmp_path / "kaggle_input"
+        self._make_model_mount(sim_input)
+        self._mount_expanded(sim_input, archive)
+        before = _tree_sha256(sim_input)
+        working = tmp_path / "working"
+        ns = self._provision(
+            sim_input, working, identity, self._archive_sha(archive)
+        )
+        assert ns["PILOT_INPUT_MODE"] == "expanded"
+        assert _tree_sha256(sim_input) == before, "/kaggle/input mount was mutated"
+        extract_root = Path(ns["EXTRACT_ROOT"])
+        assert extract_root.is_dir()
+        assert extract_root != Path(ns["PILOT_BUNDLE_INPUT"])
+        assert extract_root.is_relative_to(working)
+        assert (extract_root / "kaggle_transport").is_dir()
+        assert (extract_root / "kaggle_transport_path_map.json").is_file()
+
+    def test_expanded_mode_roundtrip_identical_to_archive_mode(self, tmp_path: Path) -> None:
+        output_root, archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "modes"
+        )
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sha = self._archive_sha(archive)
+
+        sim_arch = tmp_path / "kaggle_input_archive"
+        self._mount_archive(sim_arch, archive)
+        ns_arch = self._provision(sim_arch, tmp_path / "working_arch", identity, sha)
+        assert ns_arch["PILOT_INPUT_MODE"] == "archive"
+        restored_arch = self._finish_flow(ns_arch)
+        arch_root = Path(ns_arch["EXTRACT_ROOT"])
+
+        sim_exp = tmp_path / "kaggle_input_expanded"
+        self._mount_expanded(sim_exp, archive)
+        ns_exp = self._provision(sim_exp, tmp_path / "working_exp", identity, sha)
+        assert ns_exp["PILOT_INPUT_MODE"] == "expanded"
+        restored_exp = self._finish_flow(ns_exp)
+        exp_root = Path(ns_exp["EXTRACT_ROOT"])
+
+        assert restored_arch == restored_exp == 5
+        assert _tree_sha256(arch_root / "data") == _tree_sha256(exp_root / "data")
+        assert _tree_sha256(arch_root / "code") == _tree_sha256(exp_root / "code")
+        assert not (exp_root / "kaggle_transport").exists()
+
+    def test_expanded_mode_data_manifest_and_repo_hashes_pass(self, tmp_path: Path) -> None:
+        output_root, archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "exphash"
+        )
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sim_input = tmp_path / "kaggle_input"
+        self._mount_expanded(sim_input, archive)
+        ns = self._provision(sim_input, tmp_path / "working", identity, self._archive_sha(archive))
+        self._finish_flow(ns)
+        extract_root = Path(ns["EXTRACT_ROOT"])
+        manifest = json.loads((extract_root / "data_manifest.json").read_text(encoding="utf-8"))
+        errors = []
+        for rel, expected in sorted(manifest.items()):
+            p = extract_root / "data" / rel
+            if not p.is_file():
+                errors.append(f"missing: {rel}")
+            elif hashlib.sha256(p.read_bytes()).hexdigest() != expected:
+                errors.append(f"hash mismatch: {rel}")
+        assert errors == []
+        snapshot = json.loads(
+            (extract_root / "repository_snapshot_manifest.json").read_text(encoding="utf-8")
+        )
+        for repo_id, entry in snapshot["repositories"].items():
+            repo_root = extract_root / "data" / "repositories" / repo_id
+            digest = hashlib.sha256()
+            for rel in sorted(
+                p.relative_to(repo_root).as_posix() for p in repo_root.rglob("*") if p.is_file()
+            ):
+                digest.update(rel.encode("utf-8"))
+                digest.update(b"\0")
+                digest.update((repo_root / rel).read_bytes())
+                digest.update(b"\0")
+            assert digest.hexdigest() == entry["content_hash"], (
+                f"restored repo content hash mismatch: {repo_id}"
+            )
+
+    def test_expanded_mode_dry_run_48_cells(self, tmp_path: Path) -> None:
+        _output_root, archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "expdry"
+        )
+        identity = json.loads(
+            (_output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sim_input = tmp_path / "kaggle_input"
+        self._mount_expanded(sim_input, archive)
+        ns = self._provision(sim_input, tmp_path / "working", identity, self._archive_sha(archive))
+        self._finish_flow(ns)
+        records = self._dry_run_records(ns, tmp_path)
+        assert len(records) == 48
+        run_ids = [r["run_id"] for r in records]
+        assert len(set(run_ids)) == 48
+        from collections import Counter
+
+        assert Counter(r["repository_id"] for r in records) == {
+            "todo": 16, "djangocms": 16, "saleor": 16
+        }
+
+    @pytest.mark.parametrize(
+        "tamper, match",
+        [
+            ("sidecar_wrong_sha", "FROZEN-SHA MISMATCH"),
+            ("identity_source_commit", "SOURCE COMMIT MISMATCH"),
+            ("identity_source_tag", "SOURCE TAG MISMATCH"),
+            ("identity_deployment_field", "DEPLOYMENT IDENTITY MISMATCH"),
+            ("manifest_bytes", "MANIFEST/MAP SHA MISMATCH"),
+        ],
+    )
+    def test_expanded_mode_rejects_tampered_mount(
+        self, tmp_path: Path, tamper: str, match: str
+    ) -> None:
+        output_root, archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "tamper"
+        )
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sim_input = tmp_path / "kaggle_input"
+        dataset = self._make_dataset_dir(sim_input)
+        with zipfile.ZipFile(archive) as zf:
+            zf.extractall(dataset / "pilot-kaggle-upload")
+        expanded = dataset / "pilot-kaggle-upload"
+        if tamper == "sidecar_wrong_sha":
+            (dataset / "pilot-kaggle-upload.zip.sha256").write_text("f" * 64, encoding="utf-8")
+        elif tamper == "identity_source_commit":
+            idp = expanded / "pilot_deployment_identity.json"
+            doc = json.loads(idp.read_text(encoding="utf-8"))
+            doc["source_commit"] = "b" * 40
+            idp.write_text(json.dumps(doc), encoding="utf-8")
+        elif tamper == "identity_source_tag":
+            idp = expanded / "pilot_deployment_identity.json"
+            doc = json.loads(idp.read_text(encoding="utf-8"))
+            doc["source_tag"] = "v9.9.9-pilot-exec-ready"
+            idp.write_text(json.dumps(doc), encoding="utf-8")
+        elif tamper == "identity_deployment_field":
+            idp = expanded / "pilot_deployment_identity.json"
+            doc = json.loads(idp.read_text(encoding="utf-8"))
+            doc["expected_cells"] = 47
+            idp.write_text(json.dumps(doc), encoding="utf-8")
+        else:
+            (expanded / "data_manifest.json").write_bytes(b"tampered")
+        if tamper != "sidecar_wrong_sha":
+            (dataset / "pilot-kaggle-upload.zip.sha256").write_text(
+                self._archive_sha(archive), encoding="utf-8"
+            )
+        with pytest.raises(RuntimeError, match=match):
+            self._provision(
+                sim_input, tmp_path / "working", identity, self._archive_sha(archive)
+            )
+
+    def test_expanded_mode_missing_sidecar_fails_closed(self, tmp_path: Path) -> None:
+        output_root, archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "nosh"
+        )
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sim_input = tmp_path / "kaggle_input"
+        dataset = self._make_dataset_dir(sim_input)
+        with zipfile.ZipFile(archive) as zf:
+            zf.extractall(dataset / "pilot-kaggle-upload")
+        with pytest.raises(FileNotFoundError, match="missing SHA-256 sidecar"):
+            self._provision(
+                sim_input, tmp_path / "working", identity, self._archive_sha(archive)
+            )
+
+    def test_both_archive_and_expanded_fail_closed(self, tmp_path: Path) -> None:
+        output_root, archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "both"
+        )
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sim_input = tmp_path / "kaggle_input"
+        self._mount_archive(sim_input, archive)
+        self._mount_expanded(sim_input, archive)
+        with pytest.raises(RuntimeError, match="BOTH an original archive"):
+            self._provision(
+                sim_input, tmp_path / "working", identity, self._archive_sha(archive)
+            )
+
+    def test_two_expanded_candidates_fail_closed(self, tmp_path: Path) -> None:
+        output_root, archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "twoexp"
+        )
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sim_input = tmp_path / "kaggle_input"
+        dataset = self._make_dataset_dir(sim_input)
+        with zipfile.ZipFile(archive) as zf:
+            zf.extractall(dataset / "pilot-kaggle-upload")
+        second = sim_input / "datasets/other/dependency-aware-selective-regeneration-pilot"
+        second.mkdir(parents=True)
+        with zipfile.ZipFile(archive) as zf:
+            zf.extractall(second / "pilot-kaggle-upload")
+        with pytest.raises(RuntimeError, match="Ambiguous Pilot bundle input mounts"):
+            self._provision(
+                sim_input, tmp_path / "working", identity, self._archive_sha(archive)
+            )
+
+    def test_no_input_shape_fails_closed(self, tmp_path: Path) -> None:
+        output_root, _archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "noinput"
+        )
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sim_input = tmp_path / "kaggle_input"
+        with pytest.raises(FileNotFoundError, match="Cannot find"):
+            self._provision(
+                sim_input, tmp_path / "working", identity, "0" * 64
+            )
+
+    def test_non_empty_extract_root_fails_closed(self, tmp_path: Path) -> None:
+        output_root, archive = _build(
+            tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "nonempty"
+        )
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        sim_input = tmp_path / "kaggle_input"
+        self._mount_expanded(sim_input, archive)
+        working = tmp_path / "working"
+        (working / "pilot_bundle").mkdir(parents=True)
+        (working / "pilot_bundle" / "stale.txt").write_text("x", encoding="utf-8")
+        with pytest.raises(RuntimeError, match="refusing to reuse a non-empty"):
+            self._provision(
+                sim_input, working, identity, self._archive_sha(archive)
+            )
+
+    @pytest.mark.skipif(
+        not DIST_ARTIFACT.is_file(),
+        reason="current frozen Pilot artifact not present under dist/",
+    )
+    def test_real_kaggle_artifact_expanded_simulation(self, tmp_path: Path) -> None:
+        """Full real-mount simulation against the frozen dist/ artifact.
+
+        The dist archive is the exact frozen upload (v0.9.5 while developing,
+        replaced by the v0.9.6 tagged rebuild at finalization). The frozen trust
+        constants are overridden from the artifact's own identity so the current
+        notebook logic is exercised against the real Kaggle-shaped mount: 50
+        transport blobs restored, manifests verified, repo hashes verified, and
+        the exact 48-cell dry-run passes.
+        """
+        with zipfile.ZipFile(DIST_ARTIFACT) as zf:
+            identity = json.loads(
+                zf.read("pilot_deployment_identity.json").decode("utf-8")
+            )
+        sha = hashlib.sha256(DIST_ARTIFACT.read_bytes()).hexdigest()
+        sim_input = tmp_path / "kaggle_input"
+        dataset = self._make_dataset_dir(sim_input)
+        with zipfile.ZipFile(DIST_ARTIFACT) as zf:
+            zf.extractall(dataset / "pilot-kaggle-upload")
+        (dataset / "pilot-kaggle-upload.zip.sha256").write_text(sha, encoding="utf-8")
+        ns = self._provision(
+            sim_input,
+            tmp_path / "working",
+            identity,
+            sha,
+        )
+        assert ns["PILOT_INPUT_MODE"] == "expanded"
+        restored = self._finish_flow(ns)
+        assert restored == 50, f"expected 50 transport blobs restored, got {restored}"
+        records = self._dry_run_records(ns, tmp_path)
+        assert len(records) == 48
+        run_ids = [r["run_id"] for r in records]
+        assert len(set(run_ids)) == 48
+        from collections import Counter
+
+        assert Counter(r["repository_id"] for r in records) == {
+            "todo": 16, "djangocms": 16, "saleor": 16
+        }
+
+
+class TestPilotNotebookTrustFreeze:
+    """Frozen trust-anchor convergence (PILOT-EXEC-01 KAGGLE-AUTO-EXPANDED-MOUNT).
+
+    The notebook's ``FROZEN_*`` anchors are self-referential: the archive SHA
+    hashes the ZIP that contains the notebook, and ``notebook_manifest_sha256``
+    hashes a manifest that hashes the notebook bytes. The finalize script must
+    iterate deterministic builds to a fixpoint, leave the notebook frozen with
+    the converged values, and be idempotent (converge in one build, byte-identical
+    notebook) on any subsequent run.
+    """
+
+    @staticmethod
+    def _load_finalizer() -> Any:
+        spec = importlib.util.spec_from_file_location(
+            "finalize_pilot_notebook_trust_under_test",
+            str(SCRIPTS_DIR / "finalize_pilot_notebook_trust.py"),
+        )
+        assert spec is not None and spec.loader is not None
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = mod
+        spec.loader.exec_module(mod)
+        return mod
+
+    def test_converges_and_is_idempotent(self, tmp_path: Path) -> None:
+        mod = self._load_finalizer()
+        notebook = tmp_path / "pilot_exec_01.ipynb"
+        notebook.write_bytes(CANONICAL_NOTEBOOK.read_bytes())
+        common = dict(
+            notebook_path=notebook,
+            output_root=tmp_path / "freeze-output",
+            archive_path=tmp_path / "freeze-archive.zip",
+            source_commit="a" * 40,
+            source_tag="v0.9.6-pilot-exec-ready",
+            created_utc="2026-08-13T12:00:00+00:00",
+            repo_cache=None,
+            allow_acquire=False,
+            max_iterations=8,
+            report_path=tmp_path / "freeze-report.json",
+        )
+        first = mod.converge(**common)
+        assert first["status"] == "CONVERGED"
+        assert 1 <= len(first["iterations"]) <= 4
+        assert first["frozen_source_commit"] == "a" * 40
+        assert first["frozen_source_tag"] == "v0.9.6-pilot-exec-ready"
+        assert len(first["frozen_archive_sha256"]) == 64
+        for key, value in first["frozen_manifest_hashes"].items():
+            assert len(value) == 64, f"frozen {key} not 64 hex: {value}"
+        assert first["iterations"][-1]["archive_sha256"] == first["frozen_archive_sha256"]
+
+        # The converged notebook must self-reproduce on a fresh build: one
+        # iteration, no change, byte-identical notebook.
+        frozen_bytes = notebook.read_bytes()
+        second = mod.converge(**common)
+        assert second["status"] == "CONVERGED"
+        assert len(second["iterations"]) == 1
+        assert second["iterations"][0]["changed"] is False
+        assert second["frozen_archive_sha256"] == first["frozen_archive_sha256"]
+        assert notebook.read_bytes() == frozen_bytes
+
+    def test_placeholder_notebook_is_still_frozen_shaped(self, tmp_path: Path) -> None:
+        """The canonical development notebook must still carry well-formed anchors."""
+        mod = self._load_finalizer()
+        values = mod.read_frozen_values(CANONICAL_NOTEBOOK)
+        assert len(values["FROZEN_ARCHIVE_SHA"]) == 64
+        assert len(values["FROZEN_SOURCE_COMMIT"]) == 40
+        assert values["FROZEN_SOURCE_TAG"] == "v0.9.6-pilot-exec-ready"
+        for key, value in values["FROZEN_MANIFEST_HASHES"].items():
+            assert len(value) == 64, f"frozen {key} not 64 hex: {value}"
