@@ -1,14 +1,15 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
 **Status:** READY FOR USE (Kaggle filename transport correction merged + tagged
-`v0.9.4-pilot-exec-ready`; bundle rebuilt from the exact tag). Pilot NOT started.
+`v0.9.5-pilot-exec-ready`; bundle rebuilt from the exact tag). Pilot NOT started.
 **Branches used:** `fix/pilot-kaggle-filename-transport` (Kaggle-safe ZIP
-encoding correction), then
-`main` @ tag `v0.9.4-pilot-exec-ready` (deployment source).
+encoding correction), `fix/pilot-kaggle-reserved-transport-name` (reserved
+`__name__` transport-root correction), then
+`main` @ tag `v0.9.5-pilot-exec-ready` (deployment source).
 **Execution contract:** `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md` (frozen
 before any real Pilot model result).
 **Bundle:** `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip`
-+ `.sha256`; built from the TAGGED SOURCE `v0.9.4-pilot-exec-ready` (real repo
++ `.sha256`; built from the TAGGED SOURCE `v0.9.5-pilot-exec-ready` (real repo
 cache: djangocms/saleor at pinned SHAs, todo embedded) by
 `scripts/build_pilot_upload_bundle.py`. `dist/` is gitignored. The archive
 contains the 18-cell Pilot notebook including the `service-bootstrap-cell`
@@ -17,10 +18,15 @@ that provisions PostgreSQL + Valkey/Redis on a fresh Kaggle session AND the
 
 **Kaggle filename transport (why the ZIP is now safe to upload):** the pinned
 upstream repos contain filenames with `[ ] & @ =` (e.g. Saleor cassettes),
-which the Kaggle Dataset upload rejects. The archive stores such files under
-`__kaggle_transport__/files/<blob>` (names matching `^[A-Za-z0-9._/-]+$` only)
-with an exact-path map `__kaggle_transport__/kaggle_transport_path_map.json`
-(SHA-256 bound into `pilot_deployment_identity.json`). The notebook's
+which the Kaggle Dataset upload rejects; Kaggle also reserves any path
+component matching `^__.*__$`, so the transport root is
+`kaggle_transport` (NOT `__kaggle_transport__`). The archive stores such files
+under `kaggle_transport/files/<blob>` (names matching `^[A-Za-z0-9._/-]+$` only,
+no reserved `__name__` component) with an exact-path map
+`kaggle_transport/kaggle_transport_path_map.json` (SHA-256 bound into
+`pilot_deployment_identity.json`). A mandatory pre-upload validator scans EVERY
+ZIP member and fails closed on any unsafe-special-char or reserved-name
+component before the artifact is declared Kaggle-ready. The notebook's
 `transport-restore-cell` restores the EXACT original paths/bytes before any
 manifest or repository verification. Canonical upstream filenames are NEVER
 renamed or deleted — the encoding is ZIP-only and fully reversible.
@@ -46,7 +52,7 @@ Frozen values (authoritative in
 `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` — updated for the Kaggle
 filename transport correction):
 
-- Source tag: `v0.9.4-pilot-exec-ready` (peeled commit recorded in the
+- Source tag: `v0.9.5-pilot-exec-ready` (peeled commit recorded in the
   deployment freeze report; previous execution-ready points
   `v0.9.3-pilot-exec-ready` (service bootstrap) and
   `v0.9.2-pilot-exec-ready` @ `e030be5f4736e22ce40cfa798633b186858b0221`
@@ -69,7 +75,7 @@ runtime instead of assuming them.
 
 ## 1. Before launching (all must be done first)
 
-1. Confirm the working tree is at tag `v0.9.4-pilot-exec-ready` and
+1. Confirm the working tree is at tag `v0.9.5-pilot-exec-ready` and
    `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` records the exact tag->commit
    dereference and the bundle manifest SHA-256s.
 2. Confirm `dist/pilot-kaggle-upload.zip.sha256` matches the freeze report.
@@ -102,16 +108,17 @@ runtime instead of assuming them.
 3. Run the notebook's `transport-restore-cell`: it verifies
    `kaggle_transport_path_map.json` SHA-256 against the identity and restores
    every transport-encoded canonical repository filename from
-   `__kaggle_transport__/files/` back to its EXACT original path (rejects
+   `kaggle_transport/files/` back to its EXACT original path (rejects
    traversal/drive/`..` destinations, destination collisions, missing blobs,
-   and any leftover blob), then removes `__kaggle_transport__/`. This happens
+   and any leftover blob), then removes `kaggle_transport/`. This happens
    BEFORE any manifest or repository verification. Canonical upstream
    filenames are never renamed — the ZIP is Kaggle-safe (zero unsafe member
-   names under `^[A-Za-z0-9._/-]+$`) because unsafe names ride in the transport
-   directory until this cell restores them.
+   names under `^[A-Za-z0-9._/-]+$` and zero reserved `__name__` components)
+   because unsafe names ride in the transport directory until this cell
+   restores them.
 4. Verify
    `/kaggle/working/pilot_bundle/pilot_deployment_identity.json`
-   (task = `PILOT-EXEC-01`, source tag = `v0.9.4-pilot-exec-ready`).
+   (task = `PILOT-EXEC-01`, source tag = `v0.9.5-pilot-exec-ready`).
 6. Verify the code/data manifests against the freeze report.
 7. Define the bundled paths:
    ```python
@@ -150,7 +157,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --max-total-workflow-tokens 0 \
     --timeout 600 \
     --source-commit <40-char SHA from freeze report> \
-    --source-tag v0.9.4-pilot-exec-ready \
+    --source-tag v0.9.5-pilot-exec-ready \
     --output-dir /kaggle/working/runs/pilot-<experiment-id> \
     --hf-sync \
     --hf-repo-id <exact HF results repo id> \

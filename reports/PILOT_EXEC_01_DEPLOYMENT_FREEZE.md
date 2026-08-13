@@ -25,21 +25,24 @@ last-mile correction)
 | Real repo cache | git checkouts at pinned SHAs: django CMS `0f633fc9fa213357f4202482aab2b0edad680f95`, Saleor `e11a5557eff29fbb2eed36e6ff3cd0af08ab9e10` (todo embedded) |
 | Deployment contract tests | `tests/integration/test_pilot_notebook_contract.py` (28, incl. 8 new transport-restore tests) + `tests/integration/test_pilot_deployment_bundle.py` (27, incl. 13 new `TestPilotKaggleTransport` tests) |
 
-The last-mile correction made the frozen Pilot archive Kaggle-upload-safe.
-Kaggle rejects Dataset/ZIP member names containing `[ ] & @ =`; the pinned
-upstream repos contain 50 such filenames (45 Saleor, 5 django CMS). The
-correction adds a reversible TRANSPORT ENCODING to
-`scripts/build_pilot_upload_bundle.py` (member names restricted to
-`^[A-Za-z0-9._/-]+$`; unsafe files stored under
-`__kaggle_transport__/files/<deterministic-blob>` with the exact-path map
-`__kaggle_transport__/kaggle_transport_path_map.json`, whose SHA-256 is bound
-into `pilot_deployment_identity.json` as `kaggle_transport_path_map_sha256`)
-and ONE `transport-restore-cell` to the frozen Pilot notebook
+The last-mile corrections made the frozen Pilot archive Kaggle-upload-safe.
+Kaggle rejects Dataset/ZIP member names containing `[ ] & @ =` and reserves
+any path component matching `^__.*__$`; the pinned upstream repos contain 50
+such filename-unsafe files (45 Saleor, 5 django CMS). The corrections add a
+reversible TRANSPORT ENCODING to `scripts/build_pilot_upload_bundle.py`
+(member names restricted to `^[A-Za-z0-9._/-]+$` with NO reserved `__name__`
+component; transport root `kaggle_transport`; unsafe files stored under
+`kaggle_transport/files/<deterministic-blob>` with the exact-path map
+`kaggle_transport/kaggle_transport_path_map.json`, whose SHA-256 is bound
+into `pilot_deployment_identity.json` as `kaggle_transport_path_map_sha256`;
+a mandatory pre-upload validator scans EVERY ZIP member and fails closed on
+any unsafe-special-char or reserved-name component) and ONE
+`transport-restore-cell` to the frozen Pilot notebook
 (`notebooks/pilot_exec_01.ipynb`, now 18 cells) between archive verification
 and identity verification. The cell verifies the map hash against the
 identity, rejects traversal/drive/`..` destinations, destination collisions,
 missing blobs, and leftover blobs, restores the EXACT original paths and
-bytes, removes `__kaggle_transport__/`, and prints
+bytes, removes `kaggle_transport/`, and prints
 `PILOT KAGGLE TRANSPORT RESTORE: PASSED` BEFORE any manifest or repository
 verification. Canonical upstream filenames are NEVER renamed or deleted; the
 encoding exists only inside the ZIP and inside the notebook restore step.
@@ -54,7 +57,7 @@ quantization, timeout 600, repair budget, repository pins, validation scope).
 | Archive | `dist/pilot-kaggle-upload.zip` |
 | Archive SHA-256 | `be98be8d2f0696bf8e916afbee7e83dd4522594e24f8f9f7c4837e008aaf8a19` (rebuilt from the tag at the STEP 11 closure; STEP 5 validation archive SHA `90eb7410…` is NOT the frozen artifact) |
 | Sidecar | `dist/pilot-kaggle-upload.zip.sha256` (matches archive hash) |
-| ZIP member names | all match `^[A-Za-z0-9._/-]+$` (0 unsafe; 50 transport blobs in `__kaggle_transport__/files/`) |
+| ZIP member names | all match `^[A-Za-z0-9._/-]+$` with no `^__.*__$` component (0 unsafe-special-char; 0 reserved-name; 50 transport blobs in `kaggle_transport/files/`) |
 | Code files | 91 (manifest SHA-256 `99688e4e03291606399126061ae8305bb768a68d10fee0dc43964846272fbe96` — byte-identical to v0.9.3, zero scientific drift) |
 | Data files | 57 (manifest SHA-256 `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a` — byte-identical to v0.9.3) |
 | Notebook files | 1 (manifest SHA-256 `8c13c67192c5d23dd294c387c46889bb8d6d6eca06d6b013cd5a77a445124381`; notebook content hash `9f139c239a014f599310dd0eaadd6f95b75a0258eb124df338fa3ea492ce2b49` — 18 cells incl. `transport-restore-cell`; byte-identical to the git blob at the tag) |
