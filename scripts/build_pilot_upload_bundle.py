@@ -31,6 +31,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import re
 import shutil
 import sys
 from datetime import datetime
@@ -46,7 +47,7 @@ DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "dist" / "pilot-kaggle-upload"
 DEFAULT_ARCHIVE_PATH = PROJECT_ROOT / "dist" / "pilot-kaggle-upload.zip"
 DEFAULT_REPO_CACHE = PROJECT_ROOT / "dist" / "pilot-repo-cache"
 
-FROZEN_SOURCE_TAG = "v0.9.3-pilot-exec-ready"
+FROZEN_SOURCE_TAG = "v0.9.4-pilot-exec-ready"
 FROZEN_TASK = "PILOT-EXEC-01"
 FROZEN_PROTOCOL_VERSION = "1.0"
 FROZEN_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct"
@@ -64,6 +65,70 @@ PILOT_NOTEBOOK = PROJECT_ROOT / "notebooks" / "pilot_exec_01.ipynb"
 PILOT_RUNTIME_LOCK = PROJECT_ROOT / "requirements-pilot-kaggle.lock"
 
 PILOT_SNAPSHOT_SCRIPT = SCRIPTS_DIR / "pilot_repo_snapshot.py"
+
+# ---- Kaggle transport-safe archive member encoding -------------------------
+#
+# Kaggle rejects upload archive members whose names fall outside
+# ``[A-Za-z0-9._/-]`` (observed: ``[``, ``]``, ``&``, ``@``, ``=`` in exact
+# upstream repository filenames). The canonical execution tree on disk is never
+# renamed: unsafe members are transported inside the ZIP under deterministic
+# hashed blob names plus a root-level path map, and the Pilot notebook restores
+# the exact original paths BEFORE any manifest / snapshot verification.
+KAGGLE_SAFE_NAME_RE = re.compile(r"^[A-Za-z0-9._/-]+$")
+TRANSPORT_BLOB_PREFIX = "__kaggle_transport__"
+TRANSPORT_FILES_DIR = f"{TRANSPORT_BLOB_PREFIX}/files"
+TRANSPORT_MAP_NAME = "kaggle_transport_path_map.json"
+
+
+def is_kaggle_safe_name(rel_path: str) -> bool:
+    """True when an archive member name satisfies the Kaggle-safe charset."""
+    return bool(KAGGLE_SAFE_NAME_RE.match(rel_path))
+
+
+def transport_blob_name(rel_path: str) -> str:
+    """Deterministic safe blob member name for one original archive member."""
+    return f"{TRANSPORT_FILES_DIR}/{_sha256_bytes(rel_path.encode('utf-8'))}.blob"
+
+
+def build_transport_path_map(bundle_root: Path) -> dict[str, str]:
+    """Deterministic mapping of ``blob -> original path`` for unsafe members.
+
+    Safe members are never mapped. Fails closed on any transport-name
+    collision or on a canonical member that collides with the transport
+    namespace.
+    """
+    files = sorted(
+        p.relative_to(bundle_root).as_posix()
+        for p in bundle_root.rglob("*")
+        if p.is_file() and p.name != TRANSPORT_MAP_NAME
+    )
+    for rel in files:
+        if rel.startswith(f"{TRANSPORT_BLOB_PREFIX}/") or rel == TRANSPORT_BLOB_PREFIX:
+            raise RuntimeError(
+                f"canonical member collides with the reserved transport namespace: {rel}"
+            )
+    mapping: dict[str, str] = {}
+    seen_blobs: set[str] = set()
+    for rel in files:
+        if is_kaggle_safe_name(rel):
+            continue
+        blob = transport_blob_name(rel)
+        if blob in seen_blobs or blob in files:
+            raise RuntimeError(f"transport blob collision for member: {rel}")
+        seen_blobs.add(blob)
+        mapping[blob] = rel
+    return mapping
+
+
+def write_transport_path_map(bundle_root: Path, mapping: dict[str, str]) -> str:
+    """Emit the root-level transport path map and return its SHA-256."""
+    target = bundle_root / TRANSPORT_MAP_NAME
+    target.write_text(
+        json.dumps(mapping, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    return _sha256_bytes(target.read_bytes())
 
 
 def _load_pilot_repo_snapshot() -> ModuleType:
@@ -147,10 +212,12 @@ def build_identity(
     code_manifest = output_root / "code_manifest.json"
     data_manifest = output_root / "data_manifest.json"
     notebook_manifest = output_root / "notebook_manifest.json"
+    transport_map = output_root / TRANSPORT_MAP_NAME
     for path, label in (
         (code_manifest, "code_manifest"),
         (data_manifest, "data_manifest"),
         (notebook_manifest, "notebook_manifest"),
+        (transport_map, TRANSPORT_MAP_NAME),
     ):
         if not path.is_file():
             raise RuntimeError(f"{label} manifest missing: {path}")
@@ -176,6 +243,7 @@ def build_identity(
         "code_manifest_sha256": _sha256_bytes(code_manifest.read_bytes()),
         "data_manifest_sha256": _sha256_bytes(data_manifest.read_bytes()),
         "notebook_manifest_sha256": _sha256_bytes(notebook_manifest.read_bytes()),
+        "kaggle_transport_path_map_sha256": _sha256_bytes(transport_map.read_bytes()),
     }
 
 
@@ -217,9 +285,27 @@ def create_deterministic_zip(bundle_root: Path, archive_path: Path, created_utc:
         for p in bundle_root.rglob("*")
         if p.is_file()
     )
+    transport_map = build_transport_path_map(bundle_root)
+    on_disk_map = json.loads((bundle_root / TRANSPORT_MAP_NAME).read_text(encoding="utf-8"))
+    if transport_map != on_disk_map:
+        raise RuntimeError(
+            "transport path map on disk does not match the deterministic scan of the bundle tree"
+        )
+    unsafe_orig = sorted(rel for rel in files if not is_kaggle_safe_name(rel))
+    if set(transport_map.values()) != set(unsafe_orig):
+        raise RuntimeError(
+            "transport map members do not match unsafe members in the bundle tree"
+        )
+    for rel in unsafe_orig:
+        if transport_map[transport_blob_name(rel)] != rel:
+            raise RuntimeError(
+                f"transport map does not round-trip original member: {rel}"
+            )
+    member_for = {rel: transport_blob_name(rel) for rel in unsafe_orig}
     with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for rel in files:
-            info = zipfile.ZipInfo(rel, date_time=date_time)
+            member = member_for.get(rel, rel)
+            info = zipfile.ZipInfo(member, date_time=date_time)
             info.compress_type = zipfile.ZIP_DEFLATED
             zf.writestr(info, (bundle_root / rel).read_bytes())
     archive_sha = _sha256_bytes(archive_path.read_bytes())
@@ -283,6 +369,9 @@ def build_pilot_bundle(
         encoding="utf-8",
         newline="\n",
     )
+
+    transport_map = build_transport_path_map(output_root)
+    write_transport_path_map(output_root, transport_map)
 
     identity = build_identity(output_root, source_commit, source_tag, created_utc)
     identity["repository_snapshot_manifest_sha256"] = _sha256_bytes(
