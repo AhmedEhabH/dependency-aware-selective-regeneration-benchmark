@@ -256,6 +256,17 @@ class TestServiceBootstrap:
         assert "SALEOR VALIDATION SERVICE BOOTSTRAP: PASSED" in src
         assert "model load" in src
 
+    def test_root_safe_unprivileged_postgres_lifecycle(self) -> None:
+        """Kaggle runs the notebook as root; initdb/pg_ctl must run unprivileged."""
+        src = self._src("service-bootstrap-cell")
+        assert "geteuid" in src
+        assert "pwd.getpwnam" in src
+        assert '"postgres"' in src
+        assert "user=pg_user" in src
+        assert "user=None" in src
+        assert "shell=True" not in src
+        assert "runuser" not in src
+
     def test_never_prints_unknown_secrets(self) -> None:
         src = self._src("service-bootstrap-cell")
         assert "HF_TOKEN" not in src
@@ -407,7 +418,7 @@ class TestKaggleAutoExpandedMount:
 
     def test_frozen_trust_anchors_present(self) -> None:
         setup = self._src("setup-cell")
-        assert 'FROZEN_SOURCE_TAG = "v0.9.6-pilot-exec-ready"' in setup
+        assert 'FROZEN_SOURCE_TAG = "v0.9.7-pilot-exec-ready"' in setup
         assert "FROZEN_DEPLOYMENT" in setup
         assert "FROZEN_MANIFEST_HASHES" in setup
 
