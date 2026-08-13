@@ -8,6 +8,13 @@ Covers the exact Pilot bundle contract from 02_PILOT_DEPLOYMENT_FREEZE.md:
 output isolation, canonical-to-Pilot parity, frozen deployment identity,
 no forbidden files, manifest verification, deterministic rebuilds, bundled
 CLI import, and the bundled exact 48-cell ``--dry-run --profile pilot``.
+
+Also covers the PILOT-EXEC-01 KAGGLE-FILENAME-TRANSPORT contract: the ZIP has
+zero archive members outside ``^[A-Za-z0-9._/-]+$`` (unsafe upstream names are
+transported under deterministic hashed blobs plus a hashed path map), the
+canonical tree keeps its original filenames, and the exact notebook restore
+round-trips blobs back to original paths before manifest/repository-hash
+verification, failing closed on traversal/collision/missing-blob maps.
 """
 
 from __future__ import annotations
@@ -15,8 +22,11 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import re
+import shutil
 import subprocess
 import sys
+import zipfile
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +35,11 @@ import pytest
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 HISTORICAL_SMOKE_UPLOAD = PROJECT_DIR / "kaggle_upload"
+CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
+
+# Conservative Kaggle-safe archive-name contract.
+KAGGLE_SAFE_NAME_RE = re.compile(r"^[A-Za-z0-9._/-]+$")
+TRANSPORT_MAP_NAME = "kaggle_transport_path_map.json"
 
 # Every bundle built in this file materializes repositories through the shared
 # pilot_repo_snapshot module; the hermetic fixture replaces git-checkout
@@ -322,3 +337,247 @@ class TestPilotBundleRuntime:
             "selective": 24,
         }
         assert rep_counts == {1: 24, 2: 24}
+
+
+class TestPilotKaggleTransport:
+    """Kaggle-safe transport encoding contract (PILOT-EXEC-01 KAGGLE-FILENAME-TRANSPORT).
+
+    The canonical bundle tree keeps every original upstream filename; the ZIP
+    transports unsafe members under deterministic safe blobs plus a hashed path
+    map; the Pilot notebook restores exact original paths BEFORE manifest and
+    repository content-hash verification. The hermetic fixture seeds
+    upstream-style unsafe names (``[ ] & @ =``) in every build.
+    """
+
+    @staticmethod
+    def _unsafe_files_in_tree(root: Path) -> list[str]:
+        return [
+            p.relative_to(root).as_posix()
+            for p in root.rglob("*")
+            if p.is_file() and not KAGGLE_SAFE_NAME_RE.match(p.relative_to(root).as_posix())
+        ]
+
+    @staticmethod
+    def _restore_cell_source() -> str:
+        nb = json.loads(CANONICAL_NOTEBOOK.read_text(encoding="utf-8"))
+        cell = next(c for c in nb["cells"] if c.get("id") == "transport-restore-cell")
+        src = cell["source"]
+        return src if isinstance(src, str) else "".join(src)
+
+    def _run_restore(self, extract_root: Path) -> int:
+        """Execute the REAL notebook restore cell against an extracted bundle."""
+        namespace: dict[str, Any] = {
+            "EXTRACT_ROOT": extract_root,
+            "_json": json,
+            "shutil": shutil,
+            "_sha256_bytes": lambda data: hashlib.sha256(data).hexdigest(),
+        }
+        exec(self._restore_cell_source(), namespace)
+        return int(namespace["_restored_count"])
+
+    def _extract_and_restore(self, archive: Path, tmp_path: Path) -> Path:
+        extract_root = tmp_path / "extract"
+        with zipfile.ZipFile(archive) as zf:
+            zf.extractall(extract_root)
+        self._run_restore(extract_root)
+        return extract_root
+
+    def test_zip_has_zero_unsafe_member_names(self, tmp_path: Path) -> None:
+        _output_root, archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "zunsafe")
+        with zipfile.ZipFile(archive) as zf:
+            unsafe = [n for n in zf.namelist() if not KAGGLE_SAFE_NAME_RE.match(n)]
+        assert unsafe == []
+
+    def test_remapped_members_match_unsafe_files_in_tree(self, tmp_path: Path) -> None:
+        output_root, archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "remap")
+        tree_unsafe = self._unsafe_files_in_tree(output_root)
+        assert len(tree_unsafe) == 5, tree_unsafe  # 2 djangocms + 3 saleor hermetic seeds
+        with zipfile.ZipFile(archive) as zf:
+            members = zf.namelist()
+        blobs = [n for n in members if n.startswith("__kaggle_transport__/files/")]
+        assert len(blobs) == len(tree_unsafe), (len(blobs), len(tree_unsafe))
+        expected_blobs = {
+            f"__kaggle_transport__/files/{hashlib.sha256(rel.encode()).hexdigest()}.blob"
+            for rel in tree_unsafe
+        }
+        assert set(blobs) == expected_blobs
+
+    def test_safe_filename_remains_unchanged(self, tmp_path: Path) -> None:
+        _output_root, archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "safe")
+        with zipfile.ZipFile(archive) as zf:
+            assert "code/configs/pilot.yaml" in zf.namelist()
+            assert "data/repositories/todo/pilot_hermetic_marker.txt" in zf.namelist()
+
+    def test_canonical_bundle_tree_keeps_original_unsafe_names(self, tmp_path: Path) -> None:
+        output_root, _archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "keepsrc")
+        unsafe = self._unsafe_files_in_tree(output_root)
+        assert len(unsafe) == 5
+        assert any("sr@latin" in rel for rel in unsafe)
+        assert any("[http]" in rel for rel in unsafe)
+        assert any("[24.39-30.00-True]" in rel for rel in unsafe)
+        assert not (output_root / "__kaggle_transport__").exists()
+
+    def test_transport_mapping_deterministic(self, tmp_path: Path) -> None:
+        _first_root, first_archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "mdet1")
+        _second_root, second_archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "mdet2")
+        with zipfile.ZipFile(first_archive) as zf:
+            first = json.loads(zf.read(TRANSPORT_MAP_NAME).decode("utf-8"))
+        with zipfile.ZipFile(second_archive) as zf:
+            second = json.loads(zf.read(TRANSPORT_MAP_NAME).decode("utf-8"))
+        assert first == second
+        assert len(first) == 5
+
+    def test_mapping_identity_hash_correct(self, tmp_path: Path) -> None:
+        output_root, _archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "idhash")
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        map_bytes = (output_root / TRANSPORT_MAP_NAME).read_bytes()
+        assert identity["kaggle_transport_path_map_sha256"] == hashlib.sha256(map_bytes).hexdigest()
+        assert len(identity["kaggle_transport_path_map_sha256"]) == 64
+
+    def test_roundtrip_extract_restore_recreates_original_paths_and_bytes(self, tmp_path: Path) -> None:
+        output_root, archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "rt")
+        extract_root = self._extract_and_restore(archive, tmp_path)
+        for rel in self._unsafe_files_in_tree(output_root):
+            assert (extract_root / rel).is_file(), f"restore missed: {rel}"
+            assert (extract_root / rel).read_bytes() == (output_root / rel).read_bytes()
+        assert _tree_sha256(extract_root / "data") == _tree_sha256(output_root / "data")
+        assert _tree_sha256(extract_root / "code") == _tree_sha256(output_root / "code")
+        assert not (extract_root / "__kaggle_transport__").exists()
+
+    def test_data_manifest_passes_after_restore(self, tmp_path: Path) -> None:
+        output_root, archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "dman")
+        extract_root = self._extract_and_restore(archive, tmp_path)
+        manifest = json.loads((extract_root / "data_manifest.json").read_text(encoding="utf-8"))
+        errors = []
+        for rel, expected in sorted(manifest.items()):
+            p = extract_root / "data" / rel
+            if not p.is_file():
+                errors.append(f"missing: {rel}")
+            elif hashlib.sha256(p.read_bytes()).hexdigest() != expected:
+                errors.append(f"hash mismatch: {rel}")
+        assert errors == []
+
+    def test_repository_content_hash_passes_after_restore(self, tmp_path: Path) -> None:
+        output_root, archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "rhash")
+        extract_root = self._extract_and_restore(archive, tmp_path)
+        snapshot = json.loads(
+            (extract_root / "repository_snapshot_manifest.json").read_text(encoding="utf-8")
+        )
+        for repo_id, entry in snapshot["repositories"].items():
+            repo_root = extract_root / "data" / "repositories" / repo_id
+            digest = hashlib.sha256()
+            for rel in sorted(
+                p.relative_to(repo_root).as_posix() for p in repo_root.rglob("*") if p.is_file()
+            ):
+                digest.update(rel.encode("utf-8"))
+                digest.update(b"\0")
+                digest.update((repo_root / rel).read_bytes())
+                digest.update(b"\0")
+            assert digest.hexdigest() == entry["content_hash"], (
+                f"restored repo content hash mismatch: {repo_id}"
+            )
+        assert _tree_sha256(extract_root / "data") == _tree_sha256(output_root / "data")
+
+    def test_path_traversal_mapping_fails_closed(self, tmp_path: Path) -> None:
+        extract_root = tmp_path / "traversal"
+        extract_root.mkdir(parents=True)
+        blob_dir = extract_root / "__kaggle_transport__" / "files"
+        blob_dir.mkdir(parents=True)
+        blob = blob_dir / f"{'a' * 64}.blob"
+        blob.write_bytes(b"data")
+        map_path = extract_root / TRANSPORT_MAP_NAME
+        map_path.write_text(
+            json.dumps({f"__kaggle_transport__/files/{'a' * 64}.blob": "../escape.txt"})
+            + "\n",
+            encoding="utf-8",
+        )
+        identity_path = extract_root / "pilot_deployment_identity.json"
+        identity_path.write_text(
+            json.dumps(
+                {"kaggle_transport_path_map_sha256": hashlib.sha256(map_path.read_bytes()).hexdigest()}
+            ),
+            encoding="utf-8",
+        )
+        with pytest.raises(RuntimeError, match="safe relative path"):
+            self._run_restore(extract_root)
+
+    def test_destination_collision_fails_closed(self, tmp_path: Path) -> None:
+        extract_root = tmp_path / "collision"
+        extract_root.mkdir(parents=True)
+        blob_dir = extract_root / "__kaggle_transport__" / "files"
+        blob_dir.mkdir(parents=True)
+        blob = blob_dir / f"{'a' * 64}.blob"
+        blob.write_bytes(b"data")
+        dest = extract_root / "data" / "repos" / "existing[a].yaml"
+        dest.parent.mkdir(parents=True)
+        dest.write_bytes(b"already-present")
+        map_path = extract_root / TRANSPORT_MAP_NAME
+        map_path.write_text(
+            json.dumps(
+                {f"__kaggle_transport__/files/{'a' * 64}.blob": "data/repos/existing[a].yaml"}
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        identity_path = extract_root / "pilot_deployment_identity.json"
+        identity_path.write_text(
+            json.dumps(
+                {"kaggle_transport_path_map_sha256": hashlib.sha256(map_path.read_bytes()).hexdigest()}
+            ),
+            encoding="utf-8",
+        )
+        with pytest.raises(RuntimeError, match="destination collision"):
+            self._run_restore(extract_root)
+
+    def test_duplicate_encoded_target_fails_closed(self, tmp_path: Path) -> None:
+        extract_root = tmp_path / "dup"
+        extract_root.mkdir(parents=True)
+        blob_dir = extract_root / "__kaggle_transport__" / "files"
+        blob_dir.mkdir(parents=True)
+        blob_a = blob_dir / f"{'a' * 64}.blob"
+        blob_b = blob_dir / f"{'b' * 64}.blob"
+        blob_a.write_bytes(b"one")
+        blob_b.write_bytes(b"two")
+        map_path = extract_root / TRANSPORT_MAP_NAME
+        map_path.write_text(
+            json.dumps(
+                {
+                    f"__kaggle_transport__/files/{'a' * 64}.blob": "data/x.yaml",
+                    f"__kaggle_transport__/files/{'b' * 64}.blob": "data/x.yaml",
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        identity_path = extract_root / "pilot_deployment_identity.json"
+        identity_path.write_text(
+            json.dumps(
+                {"kaggle_transport_path_map_sha256": hashlib.sha256(map_path.read_bytes()).hexdigest()}
+            ),
+            encoding="utf-8",
+        )
+        with pytest.raises(RuntimeError, match="destination collision"):
+            self._run_restore(extract_root)
+
+    def test_missing_blob_fails_closed(self, tmp_path: Path) -> None:
+        extract_root = tmp_path / "missing"
+        extract_root.mkdir(parents=True)
+        map_path = extract_root / TRANSPORT_MAP_NAME
+        map_path.write_text(
+            json.dumps(
+                {f"__kaggle_transport__/files/{'c' * 64}.blob": "data/y.yaml"}
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        identity_path = extract_root / "pilot_deployment_identity.json"
+        identity_path.write_text(
+            json.dumps(
+                {"kaggle_transport_path_map_sha256": hashlib.sha256(map_path.read_bytes()).hexdigest()}
+            ),
+            encoding="utf-8",
+        )
+        with pytest.raises(RuntimeError, match="transport blob missing"):
+            self._run_restore(extract_root)
