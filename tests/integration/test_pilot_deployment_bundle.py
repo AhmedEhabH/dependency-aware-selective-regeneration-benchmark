@@ -113,7 +113,7 @@ def _build(tmp_path: Path, created_utc: str, source_commit: str, label: str) -> 
         output_root=output_root,
         archive_path=archive,
         source_commit=source_commit,
-        source_tag="v0.9.2-pilot-exec-ready",
+        source_tag="v0.9.3-pilot-exec-ready",
         created_utc=created_utc,
     )
     return output_root, archive
@@ -198,7 +198,7 @@ class TestPilotBundleIdentityAndManifests:
         for key, value in FROZEN_IDENTITY.items():
             assert identity.get(key) == value, f"identity[{key!r}] != {value!r}"
         assert identity["source_commit"] == "a" * 40
-        assert identity["source_tag"] == "v0.9.2-pilot-exec-ready"
+        assert identity["source_tag"] == "v0.9.3-pilot-exec-ready"
         assert identity["created_utc"] == "2026-08-10T00:00:00+00:00"
 
     def test_identity_manifest_hashes_match_emitted_bytes(self, tmp_path: Path) -> None:
