@@ -1,14 +1,16 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** READY FOR USE (Gates 9/10 complete; real-launch bundle frozen). Pilot NOT started.
-**Branches used:** `fix/pilot-real-launch-closure` (real-launch closure work), then
-`main` @ tag `v0.9.2-pilot-exec-ready` (deployment source).
+**Status:** READY FOR USE (service-bootstrap correction merged + tagged `v0.9.3-pilot-exec-ready`; bundle rebuilt from the exact tag). Pilot NOT started.
+**Branches used:** `fix/pilot-kaggle-service-bootstrap` (last-mile correction), then
+`main` @ tag `v0.9.3-pilot-exec-ready` (deployment source).
 **Execution contract:** `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md` (frozen
 before any real Pilot model result).
 **Bundle:** `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip`
-+ `.sha256`; built from the closure state (real repo cache: djangocms/saleor
-at pinned SHAs, todo embedded) by
-`scripts/build_pilot_upload_bundle.py`. `dist/` is gitignored.
++ `.sha256`; built from the TAGGED SOURCE `v0.9.3-pilot-exec-ready` (real repo
+cache: djangocms/saleor at pinned SHAs, todo embedded) by
+`scripts/build_pilot_upload_bundle.py`. `dist/` is gitignored. The archive
+contains the 17-cell Pilot notebook including the new `service-bootstrap-cell`
+that provisions PostgreSQL + Valkey/Redis on a fresh Kaggle session.
 
 > Do NOT upload the historical `kaggle_upload/` bundle (frozen Scientific
 > Smoke deployment) as Pilot input. It is stale for the Pilot.
@@ -28,12 +30,15 @@ two-dataset shape (code + data) used by the Scientific Smoke deployment does
 NOT apply to the Pilot.
 
 Frozen values (authoritative in
-`reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md`):
+`reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` — updated for the
+service-bootstrap correction):
 
-- Source tag: `v0.9.2-pilot-exec-ready` (peeled commit
-  `e030be5f4736e22ce40cfa798633b186858b0221`)
-- Archive SHA-256:
-  `ecb7ea7c85d8bdc527a0384f141b47a1e84ee0b3c3f12b6b8305d880098015f1`
+- Source tag: `v0.9.3-pilot-exec-ready` (peeled commit recorded in the
+  deployment freeze report; previous execution-ready point
+  `v0.9.2-pilot-exec-ready` @ `e030be5f4736e22ce40cfa798633b186858b0221`
+  is historical and NOT moved)
+- Archive SHA-256: recorded in the deployment freeze report and in
+  `dist/pilot-kaggle-upload.zip.sha256` after the exact tagged rebuild
 - Model: `Qwen/Qwen2.5-Coder-14B-Instruct`
 - Quantization: `bnb-nf4`
 - Previously accepted Kaggle model mount candidate:
@@ -50,10 +55,11 @@ runtime instead of assuming them.
 
 ## 1. Before launching (all must be done first)
 
-1. Confirm the working tree is at tag `v0.9.2-pilot-exec-ready` and
+1. Confirm the working tree is at tag `v0.9.3-pilot-exec-ready` and
    `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` records the exact tag->commit
    dereference and the bundle manifest SHA-256s.
 2. Confirm `dist/pilot-kaggle-upload.zip.sha256` matches the freeze report.
+   Use the zip + sidecar as ONE frozen unit; never re-zip the folder by hand.
 3. Upload the frozen Pilot archive as ONE Kaggle Dataset containing exactly:
    - `pilot-kaggle-upload.zip`
    - `pilot-kaggle-upload.zip.sha256`
@@ -66,12 +72,22 @@ runtime instead of assuming them.
 
 ## 2. Notebook cells (first launch)
 
+0. The notebook runs its `service-bootstrap-cell` after dataset/repo snapshot
+   verification and BEFORE the repo-specific preflight / any repository
+   validation / any model load. It provisions PostgreSQL `127.0.0.1:5433`
+   (role/db `saleor/saleor@saleor`) and Valkey/Redis `127.0.0.1:6379`
+   (persistence disabled) idempotently, installing OS packages via apt-get
+   when the services are absent. This requires the Kaggle notebook to have
+   **Internet ENABLED** (the cell fails loudly, never silently, if the OS
+   install is needed and offline). Model loading itself remains offline.
+   Prints `SALEOR VALIDATION SERVICE BOOTSTRAP: PASSED` on success; any
+   install/startup/health failure STOPS the run before validation/model load.
 1. Resolve the attached dataset mount and verify the ZIP SHA-256 equals the
    frozen value above.
 2. Extract the ZIP to `/kaggle/working/pilot_bundle`.
 3. Verify
    `/kaggle/working/pilot_bundle/pilot_deployment_identity.json`
-   (task = `PILOT-EXEC-01`, source tag = `v0.9.2-pilot-exec-ready`).
+   (task = `PILOT-EXEC-01`, source tag = `v0.9.3-pilot-exec-ready`).
 4. Verify the code/data manifests against the freeze report.
 5. Define the bundled paths:
    ```python
@@ -110,7 +126,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --max-total-workflow-tokens 0 \
     --timeout 600 \
     --source-commit <40-char SHA from freeze report> \
-    --source-tag v0.9.2-pilot-exec-ready \
+    --source-tag v0.9.3-pilot-exec-ready \
     --output-dir /kaggle/working/runs/pilot-<experiment-id> \
     --hf-sync \
     --hf-repo-id <exact HF results repo id> \

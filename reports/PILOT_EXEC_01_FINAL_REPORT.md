@@ -1,5 +1,21 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
+> **NOTE (2026-08-13):** the pre-execution gate report below is SUPERSEDED by
+> the KAGGLE SERVICE BOOTSTRAP LAST-MILE CORRECTION (branch
+> `fix/pilot-kaggle-service-bootstrap`, merged to main, tagged
+> `v0.9.3-pilot-exec-ready`). The frozen Pilot notebook gained ONE fail-closed,
+> idempotent `service-bootstrap-cell` (PostgreSQL `127.0.0.1:5433` role/db
+> `saleor/saleor@saleor`; Valkey/Redis `127.0.0.1:6379` persistence-disabled;
+> apt-get non-interactive, Kaggle Internet ON required) placed between
+> repository snapshot verification and the repo-specific preflight — BEFORE any
+> repository validation and model load. No scientific inputs changed. Gates:
+> notebook contract 20/20 (incl. 5 new tests), deployment bundle contract
+> 14/14, targeted pilot gates 77/77, full suite **2,098 passed / 33 skipped /
+> 0 failed**, diff-check/ruff/mypy/compile clean. Deployment archive rebuilt
+> from the exact tag: `dist/pilot-kaggle-upload.zip` + `.sha256`. The final
+> post-merge audit report (exact artifact report) is appended below when the
+> closure audit completes.
+
 Per `08_DETAILED_OPENCODE_REPORT_TEMPLATE.md`.
 
 ## 1. Executor identity

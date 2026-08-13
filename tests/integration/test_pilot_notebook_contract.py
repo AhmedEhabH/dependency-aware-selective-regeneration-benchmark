@@ -39,6 +39,7 @@ REQUIRED_CELL_ORDER = (
     "pilot-identity-verify-cell",
     "install-lock-cell",
     "pilot-snapshot-verify-cell",
+    "service-bootstrap-cell",
     "pilot-repo-preflight-cell",
     "gpu-verify-cell",
     "model-preflight-cell",
@@ -202,6 +203,49 @@ class TestExecutionOrdering:
         assert "--new-experiment" not in tokens
 
 
+class TestServiceBootstrap:
+    def _index(self, cell_id: str) -> int:
+        return [c.get("id", "") for c in _nb()["cells"]].index(cell_id)
+
+    def _src(self, cell_id: str) -> str:
+        return _src(_cells_by_id(_nb())[cell_id])
+
+    def test_cell_exists(self) -> None:
+        assert "service-bootstrap-cell" in _cells_by_id(_nb())
+
+    def test_after_snapshot_before_repo_preflight(self) -> None:
+        assert self._index("pilot-snapshot-verify-cell") < self._index(
+            "service-bootstrap-cell"
+        )
+        assert self._index("service-bootstrap-cell") < self._index(
+            "pilot-repo-preflight-cell"
+        )
+        assert self._index("service-bootstrap-cell") < self._index("model-preflight-cell")
+
+    def test_topology_matches_frozen_manifest(self) -> None:
+        src = self._src("service-bootstrap-cell")
+        assert "127.0.0.1" in src
+        assert "5433" in src
+        assert "6379" in src
+        assert "saleor" in src
+        assert "postgres://saleor:saleor@127.0.0.1:5433/saleor" in src
+        assert "redis://127.0.0.1:6379/0" in src
+        assert "valkey-server" in src
+        assert "redis-server" in src
+
+    def test_fail_closed_and_idempotent(self) -> None:
+        src = self._src("service-bootstrap-cell")
+        assert "raise RuntimeError" in src
+        assert "already listening" in src or "already open" in src
+        assert "SALEOR VALIDATION SERVICE BOOTSTRAP: PASSED" in src
+        assert "model load" in src
+
+    def test_never_prints_unknown_secrets(self) -> None:
+        src = self._src("service-bootstrap-cell")
+        assert "HF_TOKEN" not in src
+        assert "get_secret" not in src
+
+
 class TestRepoPreflight:
     def test_all_three_repos_preflight_no_model_call(self) -> None:
         preflight = _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
@@ -237,7 +281,7 @@ class TestBundledNotebookParity:
             output_root=output_root,
             archive_path=archive,
             source_commit="a" * 40,
-            source_tag="v0.9.2-pilot-exec-ready",
+            source_tag="v0.9.3-pilot-exec-ready",
             created_utc="2026-08-10T00:00:00+00:00",
         )
         bundled = output_root / "notebooks" / "pilot_exec_01.ipynb"
