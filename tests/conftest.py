@@ -53,6 +53,21 @@ def hermetic_pilot_repo_materialize(monkeypatch: Any) -> Any:
     """
     snapshot_mod = load_pilot_builder_module()._load_pilot_repo_snapshot()
 
+    # Upstream-style Kaggle-unsafe filenames exercised in every hermetic bundle
+    # build so the transport encoding is always under test (brackets, at-sign,
+    # ampersand, equals-sign, square brackets).
+    unsafe_filenames: dict[str, tuple[str, ...]] = {
+        "djangocms": (
+            "cms/locale/sr@latin/LC_MESSAGES/django.po",
+            "cms/static/cms/img/loader@2x.gif",
+        ),
+        "saleor": (
+            "saleor/core/tests/cassettes/test_http_client/test_http_client_disallows_private_ip_ranges[http].yaml",
+            "saleor/graphql/core/tests/cassettes/test_core/test_get_oembed_data[https---www.youtube.com-watch-v=dQw4w9WgXcQ-VIDEO].yaml",
+            "saleor/plugins/avatax/tests/cassettes/test_avatax/test_calculate_checkout_total[24.39-30.00-True].yaml",
+        ),
+    }
+
     def _stub(
         data_repositories_dir: Path,
         repo_cache: Path | None,
@@ -69,14 +84,27 @@ def hermetic_pilot_repo_materialize(monkeypatch: Any) -> Any:
             payload = f"pilot-hermetic-marker-{repo_id}\n".encode()
             marker = root / "pilot_hermetic_marker.txt"
             marker.write_bytes(payload)
+            for rel in unsafe_filenames.get(repo_id, ()):
+                unsafe_path = root / rel
+                unsafe_path.parent.mkdir(parents=True, exist_ok=True)
+                unsafe_path.write_bytes(
+                    f"pilot-hermetic-unsafe-{repo_id}\n".encode()
+                )
+            staged_files = [p for p in root.rglob("*") if p.is_file()]
+            digest = hashlib.sha256()
+            for staged in sorted(staged_files, key=lambda p: p.relative_to(root).as_posix()):
+                digest.update(staged.relative_to(root).as_posix().encode("utf-8"))
+                digest.update(b"\0")
+                digest.update(staged.read_bytes())
+                digest.update(b"\0")
             evidence[repo_id] = {
                 "repo_id": repo_id,
                 "mode": "hermetic-stub",
                 "requested_sha": PINNED_SHAS[repo_id],
                 "resolved_head": "hermetic",
-                "file_count": 1,
-                "content_hash": hashlib.sha256(payload).hexdigest(),
-                "size_bytes": len(payload),
+                "file_count": len(staged_files),
+                "content_hash": digest.hexdigest(),
+                "size_bytes": sum(p.stat().st_size for p in staged_files),
             }
         return evidence
 
