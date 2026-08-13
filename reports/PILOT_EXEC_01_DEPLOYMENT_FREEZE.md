@@ -14,9 +14,9 @@ last-mile correction)
 
 | Field | Value |
 |---|---|
-| Branch | `main` (after `merge(pilot): …` on `fix/pilot-kaggle-filename-transport`) |
-| Merge commit | RECORDED at the STEP 9 non-ff merge + STEP 10 tag closure |
-| Stable source tag | `v0.9.4-pilot-exec-ready` → peeled commit RECORDED at the STEP 10 tag closure |
+| Branch | `main` (after `merge(pilot): Kaggle filename transport correction …` on `fix/pilot-kaggle-filename-transport`) |
+| Merge commit | `96b6481a64ba76a74580f5a3d371c39e27df00ea` |
+| Stable source tag | `v0.9.4-pilot-exec-ready` → peeled commit `96b6481a64ba76a74580f5a3d371c39e27df00ea` |
 | Historical execution-ready points (NOT moved) | `v0.9.3-pilot-exec-ready` → `4fa6e1dfb1a45782d9e5176ef6325405d848b70b`; `v0.9.2-pilot-exec-ready` → `e030be5f4736e22ce40cfa798633b186858b0221` |
 | Prior tag (NOT moved) | `v0.9.0-pilot-ready` → `90a4282ac96328e26143b4f98d4bcf520c3c1e9b` (unchanged, immutable) |
 | Superseded interim tags (NOT moved) | `v0.9.1-pilot-exec-ready` → `7efdbe60bb195b1f3ca5854fd98057e29559a510` |
@@ -52,22 +52,22 @@ quantization, timeout 600, repair budget, repository pins, validation scope).
 |---|---|
 | Output root | `dist/pilot-kaggle-upload/` (gitignored) |
 | Archive | `dist/pilot-kaggle-upload.zip` |
-| Archive SHA-256 | RECORDED at the STEP 11 tagged-rebuild closure (this report is amended there; STEP 5 validation archive SHA `90eb7410…` is NOT the frozen artifact) |
+| Archive SHA-256 | `be98be8d2f0696bf8e916afbee7e83dd4522594e24f8f9f7c4837e008aaf8a19` (rebuilt from the tag at the STEP 11 closure; STEP 5 validation archive SHA `90eb7410…` is NOT the frozen artifact) |
 | Sidecar | `dist/pilot-kaggle-upload.zip.sha256` (matches archive hash) |
 | ZIP member names | all match `^[A-Za-z0-9._/-]+$` (0 unsafe; 50 transport blobs in `__kaggle_transport__/files/`) |
 | Code files | 91 (manifest SHA-256 `99688e4e03291606399126061ae8305bb768a68d10fee0dc43964846272fbe96` — byte-identical to v0.9.3, zero scientific drift) |
 | Data files | 57 (manifest SHA-256 `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a` — byte-identical to v0.9.3) |
-| Notebook files | 1 (manifest SHA-256 `8514a96a371fad68ca02febc37f558fa4ac81ae2a4b583ce52b9ed53276b1978`; notebook content hash `17a0ee65018332c5447b6b54c37e2f01ac7df320ab5b6ff43f700103aeafa4ab` — 18 cells incl. `transport-restore-cell`) |
+| Notebook files | 1 (manifest SHA-256 `8c13c67192c5d23dd294c387c46889bb8d6d6eca06d6b013cd5a77a445124381`; notebook content hash `9f139c239a014f599310dd0eaadd6f95b75a0258eb124df338fa3ea492ce2b49` — 18 cells incl. `transport-restore-cell`; byte-identical to the git blob at the tag) |
 | Repository snapshot manifest | SHA-256 `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c` (identical to v0.9.3; pinned repo content unchanged) |
 | Transport path map | `kaggle_transport_path_map_sha256` `a5c1e2cbae309b89c3268fa177a7cd68bcef285f5a483e4354ba54ef982b875e` (50 exact-path entries) |
-| `pilot_deployment_identity.json` | task `PILOT-EXEC-01`; protocol 1.0; source_commit/source_tag `v0.9.4-pilot-exec-ready` (exact commit + `created_utc` recorded at the STEP 11 closure); model `Qwen/Qwen2.5-Coder-14B-Instruct`; quantization `bnb-nf4`; timeout 600; max_attempts 3; max_completion_tokens_per_call 4096; max_total_workflow_tokens 0; scenario_count 12; strategy_count 2; repetitions 2; expected_cells 48 |
+| `pilot_deployment_identity.json` | task `PILOT-EXEC-01`; protocol 1.0; source_commit `96b6481a64ba76a74580f5a3d371c39e27df00ea` (tag peel); source_tag `v0.9.4-pilot-exec-ready`; created_utc `2026-08-13T00:00:00+00:00`; model `Qwen/Qwen2.5-Coder-14B-Instruct`; quantization `bnb-nf4`; timeout 600; max_attempts 3; max_completion_tokens_per_call 4096; max_total_workflow_tokens 0; scenario_count 12; strategy_count 2; repetitions 2; expected_cells 48 |
 
 The bundled notebook byte-matches the git blob at the tag and contains the
 `transport-restore-cell` and the `service-bootstrap-cell`. The historical
 Scientific Smoke bundle (`kaggle_upload/`) is NOT the Pilot deployment bundle.
 It remains frozen and byte-identical.
 
-## 3. Verification performed on the frozen bundle (STEP 5 real bundle + suite)
+## 3. Verification performed on the frozen bundle (STEP 11 tagged rebuild + suite)
 
 1. **Kaggle-safety:** `dist/pilot-kaggle-upload.zip` has 6396 members, **0
    unsafe member names** under `^[A-Za-z0-9._/-]+$`; exactly 50 members are
@@ -98,8 +98,9 @@ It remains frozen and byte-identical.
 `--backend kaggle-qwen --profile pilot --qwen-quantization bnb-nf4
 --max-attempts 3 --max-completion-tokens-per-call 4096
 --max-total-workflow-tokens 0 --timeout 600 --source-commit
-<STEP 11 recorded tag peel> --source-tag v0.9.4-pilot-exec-ready --hf-sync`
-plus the exact model path and HF results repo ID recorded at launch time. One
+96b6481a64ba76a74580f5a3d371c39e27df00ea --source-tag v0.9.4-pilot-exec-ready
+--hf-sync` plus the exact model path and HF results repo ID recorded at launch
+time. One
 continuous 48-cell session; no `--max-runs` subsetting.
 
 ## 5. Post-freeze gate plan (transport correction evidence)
@@ -114,18 +115,23 @@ continuous 48-cell session; no `--max-runs` subsetting.
       2,119/33/0 all green.
 - [x] Correction committed (`7d63d9f`, `ed142f8`) on
       `fix/pilot-kaggle-filename-transport`; branch pushed; local == remote.
-- [ ] Non-fast-forward merge to `main`; pushed; local == origin/main.
-- [ ] Tag `v0.9.4-pilot-exec-ready` created + pushed (annotated; peels to the
-      merge commit); `v0.9.0`/`v0.9.1`/`v0.9.2`/`v0.9.3` NOT moved.
-- [ ] Bundle rebuilt from the tagged source (`--source-commit <tag peel>
-      --source-tag v0.9.4-pilot-exec-ready --created-utc <fixed UTC>` with the
-      real repo cache) and re-verified (0 unsafe members, roundtrip restore,
-      repo content hashes PASS, exact 48-cell bundled dry-run 48/48); archive
-      SHA-256 + `created_utc` recorded in this report.
-- [ ] Exact Kaggle launch commands + evidence prepared (runtime identity
+- [x] Non-fast-forward merge to `main`; pushed; local == origin/main
+      (`96b6481a64ba76a74580f5a3d371c39e27df00ea`).
+- [x] Tag `v0.9.4-pilot-exec-ready` created + pushed (annotated object
+      `b48537928d3313624fbdbba1a1a69709356a561f`; peels to the merge commit);
+      `v0.9.0`/`v0.9.1`/`v0.9.2`/`v0.9.3` NOT moved.
+- [x] Bundle rebuilt from the tagged source (`--source-commit
+      96b6481a64ba76a74580f5a3d371c39e27df00ea --source-tag
+      v0.9.4-pilot-exec-ready --created-utc 2026-08-13T00:00:00+00:00` with the
+      real repo cache) and re-verified: archive SHA-256
+      `be98be8d2f0696bf8e916afbee7e83dd4522594e24f8f9f7c4837e008aaf8a19` (sidecar
+      matches), 0 unsafe members, roundtrip restore 50/50, `data_manifest`
+      6296/0 errors, repo content hashes PASS, exact 48-cell bundled dry-run
+      48/48.
+- [x] Exact Kaggle launch commands + evidence prepared (runtime identity
       preflight, bundled 48-cell dry-run, transport restore, service bootstrap,
       model-load preflight, real launch).
-- [ ] Final closure report recorded.
+- [x] Final closure report recorded.
 
 **Pilot = NOT STARTED.** Real launch is deferred until the user confirms the
 actual Kaggle mounted model path (e.g. `/kaggle/input/<model-slug>`) and the
