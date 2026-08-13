@@ -258,7 +258,7 @@ def parse_args() -> argparse.Namespace:
         help="Allow fetching a missing pinned commit into the repo cache.",
     )
     parser.add_argument("--source-commit", type=str, required=True)
-    parser.add_argument("--source-tag", type=str, default="v0.9.6-pilot-exec-ready")
+    parser.add_argument("--source-tag", type=str, default="v0.9.7-pilot-exec-ready")
     parser.add_argument("--created-utc", type=str, required=True)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     return parser.parse_args()
