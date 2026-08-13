@@ -11,7 +11,11 @@ Validates the canonical ``notebooks/pilot_exec_01.ipynb``:
   the real launch; the mock dry-run runs before the model run; the secrets cell
   never prints the token;
 - the bundled notebook byte-equals the canonical notebook (via the Pilot
-  deployment bundle builder).
+  deployment bundle builder);
+- the Kaggle transport restore cell runs immediately after extraction, verifies
+  the hashed path map against the deployment identity, restores exact original
+  paths BEFORE manifest/snapshot verification, keeps fail-closed traversal
+  guards, and leaves scientific cell ordering unchanged.
 """
 
 from __future__ import annotations
@@ -36,6 +40,7 @@ pytestmark = pytest.mark.usefixtures("hermetic_pilot_repo_materialize")
 REQUIRED_CELL_ORDER = (
     "setup-cell",
     "pilot-archive-verify-cell",
+    "transport-restore-cell",
     "pilot-identity-verify-cell",
     "install-lock-cell",
     "pilot-snapshot-verify-cell",
@@ -263,6 +268,66 @@ class TestRepoPreflight:
         # iterate over it rather than hard-coding a single repository.
         setup = _src(_cells_by_id(_nb())["setup-cell"])
         assert 'PILOT_REPOSITORIES = ("todo", "djangocms", "saleor")' in setup
+
+
+class TestKaggleTransportRestore:
+    """PILOT-EXEC-01 KAGGLE-FILENAME-TRANSPORT notebook contract.
+
+    The transport restore must run immediately AFTER archive extraction and
+    BEFORE any code/data/notebook manifest or repository snapshot verification,
+    must verify the hashed path map against the deployment identity, and must
+    fail closed on any traversal/escaping destination. Scientific cell ordering
+    is otherwise unchanged.
+    """
+
+    def _index(self, cell_id: str) -> int:
+        return [c.get("id", "") for c in _nb()["cells"]].index(cell_id)
+
+    def _src(self, cell_id: str) -> str:
+        return _src(_cells_by_id(_nb())[cell_id])
+
+    def test_cell_present(self) -> None:
+        assert "transport-restore-cell" in _cells_by_id(_nb())
+
+    def test_restore_after_extraction(self) -> None:
+        assert self._index("transport-restore-cell") > self._index("pilot-archive-verify-cell")
+
+    def test_restore_before_manifest_verification(self) -> None:
+        assert self._index("transport-restore-cell") < self._index("pilot-identity-verify-cell")
+        assert self._index("transport-restore-cell") < self._index("pilot-snapshot-verify-cell")
+
+    def test_transport_map_hash_verified_against_identity(self) -> None:
+        src = self._src("transport-restore-cell")
+        assert "kaggle_transport_path_map_sha256" in src
+        assert "pilot_deployment_identity.json" in src
+        assert "_sha256_bytes(TRANSPORT_MAP_PATH.read_bytes())" in src
+        assert "SHA VERIFICATION FAILED" in src
+
+    def test_fail_closed_path_traversal_guards_exist(self) -> None:
+        src = self._src("transport-restore-cell")
+        assert '".." in _dest_rel.split("/")' in src
+        assert "is_relative_to(EXTRACT_ROOT.resolve())" in src
+        assert "escape" in src.lower()
+        assert "destination collision" in src
+        assert "transport blob missing" in src
+        assert "__kaggle_transport__" in src
+
+    def test_restore_requires_nonempty_map(self) -> None:
+        src = self._src("transport-restore-cell")
+        assert "must be a non-empty JSON object" in src
+
+    def test_restore_verifies_no_mapped_blob_remains(self) -> None:
+        src = self._src("transport-restore-cell")
+        assert "unmapped transport members remain" in src
+
+    def test_scientific_cell_ordering_unchanged(self) -> None:
+        order = list(REQUIRED_CELL_ORDER)
+        code_ids = [
+            c.get("id", "") for c in _nb()["cells"] if c.get("cell_type") == "code"
+        ]
+        for cell_id in order:
+            assert cell_id in code_ids, f"missing cell: {cell_id}"
+        assert code_ids == order
 
 
 class TestBundledNotebookParity:
