@@ -96,7 +96,7 @@ PILOT-EXEC-01.
 
 ## 7. Execution identity
 
-- Source tag: `v0.9.1-pilot-exec-ready`
+- Source tag: `v0.9.2-pilot-exec-ready`
 - Source commit: the exact 40-char SHA the tag dereferences to (recorded in
   `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` after the tagged-source rebuild).
 - Deployment bundle: `dist/pilot-kaggle-upload/` (archive
@@ -116,7 +116,7 @@ PILOT-EXEC-01.
 - `--max-total-workflow-tokens 0`
 - `--timeout 600`
 - `--source-commit <40-char SHA>`
-- `--source-tag v0.9.1-pilot-exec-ready`
+- `--source-tag v0.9.2-pilot-exec-ready`
 - `--hf-sync` with exact HF results repository ID (recorded before launch)
 - fresh `--output-dir` per experiment; `--new-experiment` on initial launch;
   do NOT pass `--new-experiment` on resume.

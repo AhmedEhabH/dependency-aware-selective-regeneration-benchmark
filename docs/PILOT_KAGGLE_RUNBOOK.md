@@ -1,12 +1,13 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** READY FOR USE (Gate C launch instructions reconciled). Pilot NOT started.
-**Branches used:** `experiment/pilot-exec-01` (deployment work), then
-`main` @ tag `v0.9.1-pilot-exec-ready` (deployment source).
+**Status:** READY FOR USE (Gates 9/10 complete; real-launch bundle frozen). Pilot NOT started.
+**Branches used:** `fix/pilot-real-launch-closure` (real-launch closure work), then
+`main` @ tag `v0.9.2-pilot-exec-ready` (deployment source).
 **Execution contract:** `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md` (frozen
 before any real Pilot model result).
 **Bundle:** `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip`
-+ `.sha256`; built from the tagged source by
++ `.sha256`; built from the closure state (real repo cache: djangocms/saleor
+at pinned SHAs, todo embedded) by
 `scripts/build_pilot_upload_bundle.py`. `dist/` is gitignored.
 
 > Do NOT upload the historical `kaggle_upload/` bundle (frozen Scientific
@@ -29,10 +30,10 @@ NOT apply to the Pilot.
 Frozen values (authoritative in
 `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md`):
 
-- Source tag: `v0.9.1-pilot-exec-ready` (peeled commit
-  `7efdbe60bb195b1f3ca5854fd98057e29559a510`)
+- Source tag: `v0.9.2-pilot-exec-ready` (peeled commit
+  `e030be5f4736e22ce40cfa798633b186858b0221`)
 - Archive SHA-256:
-  `dd9b4e291f0db16ebe20bf6e13075e78ad8021a5d8fd6aa8a60fc0ae722c7c50`
+  `ecb7ea7c85d8bdc527a0384f141b47a1e84ee0b3c3f12b6b8305d880098015f1`
 - Model: `Qwen/Qwen2.5-Coder-14B-Instruct`
 - Quantization: `bnb-nf4`
 - Previously accepted Kaggle model mount candidate:
@@ -49,7 +50,7 @@ runtime instead of assuming them.
 
 ## 1. Before launching (all must be done first)
 
-1. Confirm the working tree is at tag `v0.9.1-pilot-exec-ready` and
+1. Confirm the working tree is at tag `v0.9.2-pilot-exec-ready` and
    `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` records the exact tag->commit
    dereference and the bundle manifest SHA-256s.
 2. Confirm `dist/pilot-kaggle-upload.zip.sha256` matches the freeze report.
@@ -70,7 +71,7 @@ runtime instead of assuming them.
 2. Extract the ZIP to `/kaggle/working/pilot_bundle`.
 3. Verify
    `/kaggle/working/pilot_bundle/pilot_deployment_identity.json`
-   (task = `PILOT-EXEC-01`, source tag = `v0.9.1-pilot-exec-ready`).
+   (task = `PILOT-EXEC-01`, source tag = `v0.9.2-pilot-exec-ready`).
 4. Verify the code/data manifests against the freeze report.
 5. Define the bundled paths:
    ```python
@@ -109,7 +110,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --max-total-workflow-tokens 0 \
     --timeout 600 \
     --source-commit <40-char SHA from freeze report> \
-    --source-tag v0.9.1-pilot-exec-ready \
+    --source-tag v0.9.2-pilot-exec-ready \
     --output-dir /kaggle/working/runs/pilot-<experiment-id> \
     --hf-sync \
     --hf-repo-id <exact HF results repo id> \
