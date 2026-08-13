@@ -1,24 +1,30 @@
-"""PILOT-EXEC-01 KAGGLE-AUTO-EXPANDED-MOUNT: converge and freeze trust anchors.
+"""PILOT-EXEC-01 KAGGLE-AUTO-EXPANDED-MOUNT: deterministic stable-anchor freezer.
 
-The Pilot notebook embeds frozen trust anchors that are self-referential: the
-archive SHA-256 hashes the deterministic ZIP (which contains the notebook), and
-``notebook_manifest_sha256`` hashes the manifest (which hashes the notebook
-bytes). ``FROZEN_SOURCE_COMMIT`` is the implementation commit that precedes the
-freeze commit, so it is supplied explicitly and never derived.
+The Pilot notebook embeds only frozen anchors that are INDEPENDENT of the
+notebook bytes and of the final Git commit: ``FROZEN_SOURCE_TAG``, the
+``FROZEN_DEPLOYMENT`` identity, and the four stable manifest/map hashes
+(``code``, ``data``, ``repository_snapshot``, ``kaggle_transport_path_map``).
 
-This script iterates the deterministic bundle build until the notebook's frozen
-values reproduce themselves (the fixpoint), leaving ``notebooks/pilot_exec_01.ipynb``
-with the converged constants. The developer then commits the notebook as the
-freeze commit, tags it, and rebuilds once from the tag to emit the exact
-artifact whose identity matches the frozen anchors.
+The archive SHA-256 and the notebook-manifest SHA-256 are NOT frozen: each
+hashes content that includes the notebook bytes themselves, so any embedded
+value would need to equal its own hash (uncomputable). They are instead
+verified self-consistently at runtime (sidecar vs actual ZIP SHA in archive
+mode; manifest file hash vs identity field; manifest notebook entry vs the
+bundled notebook bytes). ``FROZEN_SOURCE_COMMIT`` is not embedded either; the
+deployed ``source_commit`` equals the final tag peel and is recorded/verified
+externally in the freeze report.
 
-Idempotent: a run against an already-finalized notebook converges on the first
-build and leaves every input byte-identical.
+This script is a deterministic single-pass freezer: build once, verify the
+frozen anchors against the emitted identity, write the four stable manifest
+hashes, then REBUILD once to confirm invariance (the frozen values reproduce
+byte-identically and the notebook is left unchanged). No hash iteration.
+Idempotent: re-running against an already-frozen notebook changes nothing.
 """
 
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import importlib.util
 import json
@@ -35,10 +41,9 @@ DEFAULT_ARCHIVE_PATH = PROJECT_ROOT / "dist" / "pilot-kaggle-upload.zip"
 DEFAULT_REPO_CACHE = PROJECT_ROOT / "dist" / "pilot-repo-cache"
 DEFAULT_REPORT = PROJECT_ROOT / "reports" / "pilot_notebook_trust_freeze.json"
 
-MANIFEST_HASH_KEYS = (
+STABLE_MANIFEST_HASH_KEYS = (
     "code_manifest_sha256",
     "data_manifest_sha256",
-    "notebook_manifest_sha256",
     "repository_snapshot_manifest_sha256",
     "kaggle_transport_path_map_sha256",
 )
@@ -66,6 +71,16 @@ def _setup_cell_text(notebook_path: Path) -> str:
     return src if isinstance(src, str) else "".join(src)
 
 
+def _parse_deployment(text: str) -> dict[str, Any]:
+    match = re.search(r"FROZEN_DEPLOYMENT\s*=\s*\{.*?\}", text, re.DOTALL)
+    if match is None:
+        raise RuntimeError("FROZEN_DEPLOYMENT block not found in notebook")
+    value = ast.literal_eval(match.group(0).split("=", 1)[1].strip())
+    if not isinstance(value, dict) or not value:
+        raise RuntimeError("FROZEN_DEPLOYMENT must be a non-empty dict literal")
+    return value
+
+
 def read_frozen_values(notebook_path: Path) -> dict[str, Any]:
     text = _setup_cell_text(notebook_path)
 
@@ -76,11 +91,10 @@ def read_frozen_values(notebook_path: Path) -> dict[str, Any]:
         return match.group(1)
 
     return {
-        "FROZEN_ARCHIVE_SHA": capture(r'FROZEN_ARCHIVE_SHA = "([0-9a-fA-F]+)"'),
-        "FROZEN_SOURCE_COMMIT": capture(r'FROZEN_SOURCE_COMMIT = "([0-9a-fA-F]+)"'),
         "FROZEN_SOURCE_TAG": capture(r'FROZEN_SOURCE_TAG = "([^"]+)"'),
+        "FROZEN_DEPLOYMENT": _parse_deployment(text),
         "FROZEN_MANIFEST_HASHES": {
-            key: capture(rf'"{key}": "([0-9a-fA-F]+)"') for key in MANIFEST_HASH_KEYS
+            key: capture(rf'"{key}": "([0-9a-fA-F]+)"') for key in STABLE_MANIFEST_HASH_KEYS
         },
     }
 
@@ -88,41 +102,22 @@ def read_frozen_values(notebook_path: Path) -> dict[str, Any]:
 def write_frozen_values(
     notebook_path: Path, current: dict[str, Any], desired: dict[str, Any]
 ) -> None:
-    """Byte-level replace of the frozen anchor values.
+    """Byte-level replace of the four stable manifest hashes.
 
-    Every anchor value has a fixed length (64-hex archive/manifest hashes,
-    40-hex source commit, tag string), so the replacements leave all other
-    bytes (including CRLF line endings) untouched. The notebook JSON stores cell
-    source with escaped quotes, so the byte patterns use the backslash-quote
-    form; hex/tag values contain no escapes, so replacement is lossless.
+    Every value has a fixed length (64 hex chars), so the replacements leave
+    all other bytes (including CRLF line endings) untouched. The notebook JSON
+    stores cell source with escaped quotes, so the byte patterns use the
+    backslash-quote form; hex values contain no escapes, so replacement is
+    lossless. Idempotent: equal old/new values are skipped.
     """
 
     def esc(value: str) -> str:
         return f'\\"{value}\\"'
 
     raw = notebook_path.read_bytes()
-    replaces = [
-        (
-            f'FROZEN_ARCHIVE_SHA = {esc(current["FROZEN_ARCHIVE_SHA"])}',
-            f'FROZEN_ARCHIVE_SHA = {esc(desired["FROZEN_ARCHIVE_SHA"])}',
-        ),
-        (
-            f'FROZEN_SOURCE_COMMIT = {esc(current["FROZEN_SOURCE_COMMIT"])}',
-            f'FROZEN_SOURCE_COMMIT = {esc(desired["FROZEN_SOURCE_COMMIT"])}',
-        ),
-        (
-            f'FROZEN_SOURCE_TAG = {esc(current["FROZEN_SOURCE_TAG"])}',
-            f'FROZEN_SOURCE_TAG = {esc(desired["FROZEN_SOURCE_TAG"])}',
-        ),
-    ]
-    for key in MANIFEST_HASH_KEYS:
-        replaces.append(
-            (
-                f'\\"{key}\\": {esc(current["FROZEN_MANIFEST_HASHES"][key])}',
-                f'\\"{key}\\": {esc(desired["FROZEN_MANIFEST_HASHES"][key])}',
-            )
-        )
-    for old, new in replaces:
+    for key in STABLE_MANIFEST_HASH_KEYS:
+        old = f'\\"{key}\\": {esc(current["FROZEN_MANIFEST_HASHES"][key])}'
+        new = f'\\"{key}\\": {esc(desired["FROZEN_MANIFEST_HASHES"][key])}'
         if old == new:
             continue
         if old.encode("utf-8") not in raw:
@@ -131,7 +126,7 @@ def write_frozen_values(
     notebook_path.write_bytes(raw)
 
 
-def converge(
+def freeze(
     notebook_path: Path,
     output_root: Path,
     archive_path: Path,
@@ -140,16 +135,14 @@ def converge(
     created_utc: str,
     repo_cache: Path | None,
     allow_acquire: bool,
-    max_iterations: int,
     report_path: Path,
 ) -> dict[str, Any]:
     if len(source_commit) != 40 or not all(c in "0123456789abcdef" for c in source_commit):
         raise ValueError(f"source_commit must be a 40-char lowercase hex SHA, got {source_commit!r}")
     builder = load_pilot_builder()
     current = read_frozen_values(notebook_path)
-    history: list[dict[str, Any]] = []
-    archive_sha = ""
-    for iteration in range(max_iterations + 1):
+
+    def build_and_verify() -> tuple[dict[str, Any], str]:
         identity = builder.build_pilot_bundle(
             output_root=output_root,
             archive_path=archive_path,
@@ -160,51 +153,73 @@ def converge(
             allow_acquire=allow_acquire,
         )
         archive_sha = hashlib.sha256(archive_path.read_bytes()).hexdigest()
-        desired = {
-            "FROZEN_ARCHIVE_SHA": archive_sha,
-            "FROZEN_SOURCE_COMMIT": source_commit,
-            "FROZEN_SOURCE_TAG": source_tag,
-            "FROZEN_MANIFEST_HASHES": {
-                key: identity[key] for key in MANIFEST_HASH_KEYS
-            },
-        }
-        changed = desired != current
-        history.append(
-            {
-                "iteration": iteration,
-                "archive_sha256": archive_sha,
-                "notebook_manifest_sha256": identity["notebook_manifest_sha256"],
-                "changed": changed,
-            }
-        )
-        print(
-            f"[freeze] iteration {iteration}: archive={archive_sha[:16]}... "
-            f"notebook_manifest={identity['notebook_manifest_sha256'][:16]}... "
-            f"changed={changed}"
-        )
-        if not changed:
-            break
-        write_frozen_values(notebook_path, current, desired)
-        current = desired
-    else:
+        if identity["source_commit"] != source_commit:
+            raise RuntimeError(
+                f"identity source_commit mismatch: identity={identity['source_commit']!r} "
+                f"expected={source_commit!r}"
+            )
+        if identity["source_tag"] != source_tag:
+            raise RuntimeError(
+                f"identity source_tag mismatch: identity={identity['source_tag']!r} "
+                f"expected={source_tag!r}"
+            )
+        if identity["source_tag"] != current["FROZEN_SOURCE_TAG"]:
+            raise RuntimeError(
+                f"notebook FROZEN_SOURCE_TAG does not match the build tag: "
+                f"notebook={current['FROZEN_SOURCE_TAG']!r} build={identity['source_tag']!r}"
+            )
+        mismatch = [k for k, v in current["FROZEN_DEPLOYMENT"].items() if identity.get(k) != v]
+        if mismatch:
+            raise RuntimeError(
+                "built identity does not match the notebook FROZEN_DEPLOYMENT: "
+                + "; ".join(f"{k}={identity.get(k)!r}" for k in mismatch)
+            )
+        return identity, archive_sha
+
+    identity, archive_sha = build_and_verify()
+    desired = {
+        "FROZEN_SOURCE_TAG": source_tag,
+        "FROZEN_MANIFEST_HASHES": {key: identity[key] for key in STABLE_MANIFEST_HASH_KEYS},
+    }
+
+    notebook_bytes_before = notebook_path.read_bytes()
+    write_frozen_values(notebook_path, current, desired)
+    notebook_changed = notebook_path.read_bytes() != notebook_bytes_before
+
+    # Rebuild invariance check: a second build from the (now) frozen notebook
+    # must reproduce identical stable anchors. The archive SHA is only required
+    # to be invariant when the freeze did not change the notebook (already
+    # frozen, idempotent run) — a fresh freeze legitimately changes the archive
+    # because the archive embeds the notebook bytes themselves.
+    identity2, archive_sha2 = build_and_verify()
+    for key in STABLE_MANIFEST_HASH_KEYS:
+        if identity2[key] != identity[key]:
+            raise RuntimeError(
+                f"rebuild invariance failed for {key}: {identity[key]} != {identity2[key]}"
+            )
+    if not notebook_changed and archive_sha2 != archive_sha:
         raise RuntimeError(
-            f"frozen trust anchors failed to converge within {max_iterations} iterations"
+            f"rebuild invariance failed for archive: {archive_sha} != {archive_sha2}"
         )
+    archive_sha = archive_sha2
 
     report = {
-        "status": "CONVERGED",
-        "iterations": history,
+        "status": "FROZEN",
         "source_commit": source_commit,
         "source_tag": source_tag,
         "created_utc": created_utc,
-        "frozen_archive_sha256": current["FROZEN_ARCHIVE_SHA"],
-        "frozen_source_commit": current["FROZEN_SOURCE_COMMIT"],
         "frozen_source_tag": current["FROZEN_SOURCE_TAG"],
-        "frozen_manifest_hashes": current["FROZEN_MANIFEST_HASHES"],
+        "frozen_deployment": current["FROZEN_DEPLOYMENT"],
+        "frozen_manifest_hashes": {key: identity[key] for key in STABLE_MANIFEST_HASH_KEYS},
+        "archive_sha256": archive_sha,
         "notebook_sha256": hashlib.sha256(notebook_path.read_bytes()).hexdigest(),
         "output_root": str(output_root.resolve()),
         "archive_path": str(archive_path.resolve()),
-        "archive_sha256": archive_sha,
+        "note": (
+            "source_commit must equal the final tag peel; the deployed identity "
+            "source_commit is recorded here and must be re-verified after the "
+            "immutable tag is created."
+        ),
     }
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(
@@ -212,13 +227,19 @@ def converge(
         encoding="utf-8",
         newline="\n",
     )
-    print(f"[freeze] CONVERGED after {len(history)} iteration(s); report: {report_path}")
+    print(
+        f"[freeze] FROZEN single pass + invariance OK; archive={archive_sha[:16]}... "
+        f"report: {report_path}"
+    )
     return report
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Converge and freeze the Pilot notebook trust anchors (PILOT-EXEC-01).",
+        description=(
+            "Deterministic single-pass freeze of the Pilot notebook stable anchors "
+            "(PILOT-EXEC-01), plus one rebuild invariance check."
+        ),
     )
     parser.add_argument("--notebook", type=Path, default=DEFAULT_NOTEBOOK)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
@@ -233,14 +254,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--source-commit", type=str, required=True)
     parser.add_argument("--source-tag", type=str, default="v0.9.6-pilot-exec-ready")
     parser.add_argument("--created-utc", type=str, required=True)
-    parser.add_argument("--max-iterations", type=int, default=8)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    converge(
+    freeze(
         notebook_path=args.notebook,
         output_root=args.output_root,
         archive_path=args.archive_path,
@@ -249,7 +269,6 @@ def main() -> int:
         created_utc=args.created_utc,
         repo_cache=args.repo_cache,
         allow_acquire=args.allow_acquire,
-        max_iterations=args.max_iterations,
         report_path=args.report,
     )
     return 0
