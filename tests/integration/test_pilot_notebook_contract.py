@@ -310,7 +310,8 @@ class TestKaggleTransportRestore:
         assert "escape" in src.lower()
         assert "destination collision" in src
         assert "transport blob missing" in src
-        assert "__kaggle_transport__" in src
+        assert "kaggle_transport" in src
+        assert "__kaggle_transport__" not in src
 
     def test_restore_requires_nonempty_map(self) -> None:
         src = self._src("transport-restore-cell")
