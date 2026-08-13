@@ -41,7 +41,7 @@ Qwen2.5-Coder must be available as a Kaggle Model. Model loading uses `local_fil
 ### 2.4 Pilot bundle (PILOT-EXEC-01)
 
 For the Pilot, upload the **frozen Pilot deployment archive** generated from
-the `v0.9.1-pilot-exec-ready` tag as **ONE Kaggle Dataset** containing at
+the `v0.9.2-pilot-exec-ready` tag as **ONE Kaggle Dataset** containing at
 minimum:
 
 - `pilot-kaggle-upload.zip`
@@ -125,7 +125,7 @@ archive = dataset_mount / "pilot-kaggle-upload.zip"
 sidecar = dataset_mount / "pilot-kaggle-upload.zip.sha256"
 
 # 1) Verify the archive SHA-256 equals the frozen value
-frozen_sha = "dd9b4e291f0db16ebe20bf6e13075e78ad8021a5d8fd6aa8a60fc0ae722c7c50"
+frozen_sha = "ecb7ea7c85d8bdc527a0384f141b47a1e84ee0b3c3f12b6b8305d880098015f1"
 actual_sha = hashlib.sha256(archive.read_bytes()).hexdigest()
 assert actual_sha == frozen_sha, f"SHA-256 mismatch: {actual_sha}"
 
@@ -139,7 +139,7 @@ identity = json.loads(
     (bundle_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
 )
 assert identity["task"] == "PILOT-EXEC-01"
-assert identity["source_tag"] == "v0.9.1-pilot-exec-ready"
+assert identity["source_tag"] == "v0.9.2-pilot-exec-ready"
 
 # 4) Verify code/data manifests against the freeze report
 #    code_manifest.json / data_manifest.json under bundle_root
@@ -169,7 +169,7 @@ PILOT_DATA = str(bundle_root / "data")
 #     --max-total-workflow-tokens 0 \
 #     --timeout 600 \
 #     --source-commit "<40-char SHA>" \
-#     --source-tag v0.9.1-pilot-exec-ready \
+#     --source-tag v0.9.2-pilot-exec-ready \
 #     --output-dir /kaggle/working/runs/pilot-<experiment-id> \
 #     --hf-sync \
 #     --hf-repo-id "$HF_RESULTS_REPO_ID" \

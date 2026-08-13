@@ -1,15 +1,17 @@
 # System State
 
 ## Current Truth
-- Current feature branch: `feat/pilot-ready-01` (HEAD `34ecf78` code/test commit pushed; docs closure pending)
+- **PILOT-EXEC-01 real-launch closure: MERGED TO MAIN + TAGGED.** Branch `fix/pilot-real-launch-closure` (HEAD `e030be5`) non-fast-forward merged to `main` (merge `e030be5`), pushed; annotated tag `v0.9.2-pilot-exec-ready` created at `e030be5` and pushed (do NOT move `v0.9.0-pilot-ready`). Bundle `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip` rebuilt FROM THE TAGGED SOURCE (identity `source_commit=e030be5…`, `source_tag=v0.9.2-pilot-exec-ready`, `created_utc=2026-08-13T00:00:00+00:00`); re-proved on the tagged bundle: targeted gates 67/67 passed (90.88s), 48-cell bundled dry-run 48/48, sidecar SHA matches. Archive SHA-256 `ecb7ea7c85d8bdc527a0384f141b47a1e84ee0b3c3f12b6b8305d880098015f1`.
 - Scientific Smoke V2: COMPLETE / ACCEPTED (unchanged)
 - PILOT-READY-01: **CLOSED** (2026-08-10) after all gates green — multi-repo selective input contracts fixed, stale real-smoke expectation corrected, focused multi-repo production-path contract added, exact fresh 48-cell Pilot dry-run 48/48 deterministic, isolation/evidence/export gates 142 passed, full suite green
-- Full suite: 2,026 passed / 33 skipped / 0 failed (2026-08-10, final PILOT-READY-01 gate)
+- Full suite: 2,093 passed / 33 skipped / 0 failed (2026-08-11 final closure gate; NOT re-run in the Gate 9/10 step — no runtime/test change)
 - Pilot: **NOT STARTED** (execution not authorized)
 - Next exact task: `PILOT-EXEC-01` (Pilot freeze + execution)
 - Frozen Pilot matrix: model Qwen2.5-Coder-14B-Instruct, quantization bnb-nf4, timeout 600s uniform, 12 scenarios, 2 strategies (iterative_repository_agent, selective), 2 repetitions = 48 cells; repositories Todo / django CMS / Saleor
-- Stable tag: `v0.9.0-pilot-ready` after main merge (not yet created)
+- Stable tag: `v0.9.0-pilot-ready` (not yet created)
 - No further Smoke Full-9 authorized
+- PILOT-EXEC-01 Gate 9 (2026-08-13): engineering preflight evidence ledger written — saleor `TZ=UTC` frozen (`pilot_validation_commands.yaml`); nondeterministic order/pricing cluster classified as upstream fixture artifact (33 vs 38 observed), not a regression; djangocms `test_filters_date` Windows-only artifact (passes on Linux/Kaggle)
+- PILOT-EXEC-01 Gate 10 (2026-08-13): `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip` rebuilt from the closure state with the real repo cache (djangocms/saleor at pinned SHAs, todo embedded); all proofs pass (notebook parity, non-empty verifiable `notebook_manifest.json`, 3 repos + SHA verification, frozen identity, manifest hash match, archive contents, deterministic rebuild byte-identical, fresh 48-cell bundled dry-run 48/48); archive SHA-256 `ecb7ea7c85d8bdc527a0384f141b47a1e84ee0b3c3f12b6b8305d880098015f1`
 - PILOT-EXEC-01 Gate C: launch instructions reconciled (docs-only) to the
   ONE-bundle Kaggle flow — one Dataset with `pilot-kaggle-upload.zip` +
   `.sha256`, extracted to `/kaggle/working/pilot_bundle`. Real Pilot is
@@ -520,10 +522,10 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 - Runtime metrics
 
 ## Current Branch
-`experiment/pilot-exec-01` (PILOT-EXEC-01 deployment + pre-registration work; created from `main` at `72d041d92ee7854fcc1b1eea535e5aa150a7ed85`, the only post-tag commit after stable tag `v0.9.0-pilot-ready` @ `90a4282ac96328e26143b4f98d4bcf520c3c1e9b`; after pre-execution gates, merges back to `main`, then annotated tag `v0.9.1-pilot-exec-ready` becomes the Pilot deployment source; `v0.9.0-pilot-ready` must NOT be moved)
+`main` @ `e030be5` (PILOT-EXEC-01 real-launch closure merged; annotated tag `v0.9.2-pilot-exec-ready` created + pushed at `e030be5` = Pilot deployment source; `v0.9.0-pilot-ready` @ `90a4282` NOT moved; `v0.9.1-pilot-exec-ready` @ `7efdbe6` superseded). The pre-closure branch was `fix/pilot-real-launch-closure` (from `main` @ `98863d0`, commits `17bd4ca` + `4279f1c`).
 
 ## Latest Commit
-`72d041d` `docs(handoff): update handoff to PILOT-READY-01 CLOSED, PILOT-EXEC-01` (main HEAD before `experiment/pilot-exec-01`; stable tag `v0.9.0-pilot-ready` @ `90a4282` points to the pre-tag state; the pre-execution branch tip adds the Pilot bundle builder + deployment test + pre-registration docs).
+`e030be5` `merge(pilot): PILOT-EXEC-01 real-launch closure (Gate 9 preflight evidence, saleor TZ=UTC freeze)` (main HEAD; deployment source tag `v0.9.2-pilot-exec-ready` points here).
 
 ## Known Risks
 1. **LR-3 - No test data boundary:** Test fixtures need a defined home outside `inputs/` and `src/`.
@@ -533,7 +535,7 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 
 ## Exact Next Task
 1. `PILOT-READY-01` - **CLOSED (2026-08-10)** - Pilot readiness closure completed on `feat/pilot-ready-01` (`34ecf78` pushed): multi-repo selective input contracts fixed, stale real-smoke expectation corrected, 12-test multi-repo production-path contract added, full suite 2,026 passed / 33 skipped / 0 failed, exact 48-cell Pilot dry-run 48/48 deterministic, isolation/evidence/export gates 142 passed. Pilot execution NOT STARTED.
-2. `PILOT-EXEC-01` - **PRE-REGISTERED (Gate B, 2026-08-10, on `experiment/pilot-exec-01`)** - Pilot deployment + pre-execution gates IN PROGRESS: Pilot-specific bundle builder `scripts/build_pilot_upload_bundle.py` + 12-test deployment contract `tests/integration/test_pilot_deployment_bundle.py` created (12/12 passed; historical Smoke bundle byte-identical), exact fresh 48-cell bundled dry-run 48/48 (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24), full suite 2,038 passed / 33 skipped / 0 failed; execution contract pre-registered in `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md` (D025); Pilot runbook `docs/PILOT_KAGGLE_RUNBOOK.md` created. **Pilot = NOT STARTED.** Real launch deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID. Deployment source tag to create: `v0.9.1-pilot-exec-ready`.
+2. `PILOT-EXEC-01` - **PRE-REGISTERED (Gate B, 2026-08-10, on `experiment/pilot-exec-01`)** - Pilot deployment + pre-execution gates IN PROGRESS: Pilot-specific bundle builder `scripts/build_pilot_upload_bundle.py` + 12-test deployment contract `tests/integration/test_pilot_deployment_bundle.py` created (12/12 passed; historical Smoke bundle byte-identical), exact fresh 48-cell bundled dry-run 48/48 (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24), full suite 2,038 passed / 33 skipped / 0 failed; execution contract pre-registered in `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md` (D025); Pilot runbook `docs/PILOT_KAGGLE_RUNBOOK.md` created. **Pilot = NOT STARTED.** Real launch deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID. **MILESTONE UPDATED (2026-08-13):** real-launch closure Gates 9/10 COMPLETE and MERGED to `main` @ `e030be5`; deployment source tag created = `v0.9.2-pilot-exec-ready` (`v0.9.1-pilot-exec-ready` superseded).
 3. Per-run workflow timeout stays frozen at 600 s uniformly; no further Kaggle Full-9 is authorized.
 
 ## Handoff Notes
