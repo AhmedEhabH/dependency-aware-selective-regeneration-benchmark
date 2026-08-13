@@ -23,6 +23,7 @@ from __future__ import annotations
 import ast
 import importlib.util
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -132,9 +133,20 @@ class TestFrozenIdentity:
     def test_identity_cell_reads_bundled_identity(self) -> None:
         cells = _cells_by_id(_nb())
         identity_src = _src(cells["pilot-identity-verify-cell"])
+        setup_src = _src(cells["setup-cell"])
         assert "pilot_deployment_identity.json" in identity_src
-        assert '"task": "PILOT-EXEC-01"' in identity_src
-        assert '"expected_cells": 48' in identity_src
+        # Frozen deployment identity now lives once in the setup cell and is
+        # referenced by the verify cell for both input modes.
+        assert "FROZEN_DEPLOYMENT" in identity_src
+        assert '"task": "PILOT-EXEC-01"' in setup_src
+        assert '"expected_cells": 48' in setup_src
+
+    def test_identity_cell_anchors_source_commit_and_tag(self) -> None:
+        identity_src = _src(_cells_by_id(_nb())["pilot-identity-verify-cell"])
+        assert "FROZEN_SOURCE_COMMIT" in identity_src
+        assert "FROZEN_SOURCE_TAG" in identity_src
+        assert "SOURCE COMMIT MISMATCH" in identity_src
+        assert "SOURCE TAG MISMATCH" in identity_src
 
 
 class TestForbiddenContent:
@@ -329,6 +341,149 @@ class TestKaggleTransportRestore:
         for cell_id in order:
             assert cell_id in code_ids, f"missing cell: {cell_id}"
         assert code_ids == order
+
+
+class TestKaggleAutoExpandedMount:
+    """PILOT-EXEC-01 KAGGLE-AUTO-EXPANDED-MOUNT notebook contract.
+
+    The notebook must support exactly two fail-closed input modes: (A) the
+    original frozen archive and (B) the Kaggle auto-expanded directory mounted
+    as ``<dataset>/pilot-kaggle-upload/`` with a sibling ``.sha256`` sidecar.
+    Mode B is trusted only against notebook-frozen anchors (archive SHA, source
+    commit/tag, deployment identity, exact manifest/map SHA values) and the
+    expanded tree is copied to the writable working root - /kaggle/input is
+    never mutated. Either mode converges on the same EXTRACT_ROOT provisioning
+    before the unchanged transport-restore + identity-verify cells.
+    """
+
+    def _index(self, cell_id: str) -> int:
+        return [c.get("id", "") for c in _nb()["cells"]].index(cell_id)
+
+    def _src(self, cell_id: str) -> str:
+        return _src(_cells_by_id(_nb())[cell_id])
+
+    def test_dual_mode_discovery_present(self) -> None:
+        setup = self._src("setup-cell")
+        assert 'PILOT_ARCHIVE_NAME = "pilot-kaggle-upload.zip"' in setup
+        assert 'EXPANDED_BUNDLE_DIR_NAME = "pilot-kaggle-upload"' in setup
+        assert "PILOT_ARCHIVE_SIDECAR_NAME" in setup
+        assert "_discover_expanded_bundle" in setup
+        assert "_is_pilot_expanded_root" in setup
+
+    def test_expanded_root_signature_members(self) -> None:
+        setup = self._src("setup-cell")
+        for member in (
+            "pilot_deployment_identity.json",
+            "code_manifest.json",
+            "data_manifest.json",
+            "notebook_manifest.json",
+            "repository_snapshot_manifest.json",
+            "kaggle_transport_path_map.json",
+            "code",
+            "data",
+            "notebooks",
+            "kaggle_transport",
+        ):
+            assert member in setup, f"expanded-root member missing: {member}"
+
+    def test_exactly_one_input_shape_selected(self) -> None:
+        setup = self._src("setup-cell")
+        assert 'PILOT_INPUT_MODE = "archive"' in setup
+        assert 'PILOT_INPUT_MODE = "expanded"' in setup
+        assert "PILOT_BUNDLE_INPUT" in setup
+        assert "Ambiguous Pilot bundle input mounts" in setup
+        assert "BOTH an original archive" in setup
+        assert "len(_pilot_archives) > 1 or len(_pilot_expanded) > 1" in setup
+        # The single-shape archive discovery variable must no longer exist.
+        assert "PILOT_ARCHIVE =" not in setup
+
+    def test_sidecar_required_in_both_modes(self) -> None:
+        setup = self._src("setup-cell")
+        assert "missing SHA-256 sidecar for Pilot bundle input" in setup
+        assert "PILOT_ARCHIVE_SHA" in setup
+
+    def test_frozen_trust_anchors_present(self) -> None:
+        setup = self._src("setup-cell")
+        assert 'FROZEN_SOURCE_TAG = "v0.9.6-pilot-exec-ready"' in setup
+        assert "FROZEN_DEPLOYMENT" in setup
+        assert "FROZEN_MANIFEST_HASHES" in setup
+
+    def test_frozen_anchor_shapes(self) -> None:
+        setup = self._src("setup-cell")
+        archive = re.search(r'FROZEN_ARCHIVE_SHA = "([0-9a-fA-F]+)"', setup)
+        commit = re.search(r'FROZEN_SOURCE_COMMIT = "([0-9a-fA-F]+)"', setup)
+        assert archive is not None and len(archive.group(1)) == 64
+        assert commit is not None and len(commit.group(1)) == 40
+        for key in (
+            "code_manifest_sha256",
+            "data_manifest_sha256",
+            "notebook_manifest_sha256",
+            "repository_snapshot_manifest_sha256",
+            "kaggle_transport_path_map_sha256",
+        ):
+            m = re.search(rf'"{key}": "([0-9a-fA-F]+)"', setup)
+            assert m is not None, f"missing frozen hash: {key}"
+            assert len(m.group(1)) == 64, f"frozen hash not 64 hex: {key}"
+
+    def test_frozen_deployment_identity_values(self) -> None:
+        setup = self._src("setup-cell")
+        for fragment in (
+            '"task": "PILOT-EXEC-01"',
+            '"protocol_version": "1.0"',
+            '"model_name": "Qwen/Qwen2.5-Coder-14B-Instruct"',
+            '"quantization": "bnb-nf4"',
+            '"timeout_seconds": 600',
+            '"max_attempts": 3',
+            '"max_completion_tokens_per_call": 4096',
+            '"max_total_workflow_tokens": 0',
+            '"scenario_count": 12',
+            '"strategy_count": 2',
+            '"repetitions": 2',
+            '"expected_cells": 48',
+        ):
+            assert fragment in setup, f"frozen deployment field missing: {fragment}"
+
+    def test_verify_cell_checks_frozen_archive_sha(self) -> None:
+        verify = self._src("pilot-archive-verify-cell")
+        assert "FROZEN_ARCHIVE_SHA" in verify
+        assert "FROZEN-SHA MISMATCH" in verify
+        assert "PILOT_ARCHIVE_SHA.read_text" in verify
+        assert "PILOT ARCHIVE SHA VERIFICATION FAILED" in verify
+
+    def test_expanded_mode_trust_checks_before_copy(self) -> None:
+        verify = self._src("pilot-archive-verify-cell")
+        assert "SOURCE COMMIT MISMATCH" in verify
+        assert "SOURCE TAG MISMATCH" in verify
+        assert "DEPLOYMENT IDENTITY MISMATCH" in verify
+        assert "MANIFEST/MAP SHA MISMATCH" in verify
+        assert "FROZEN_MANIFEST_HASHES" in verify
+        assert "refusing to copy" in verify
+
+    def test_expanded_mode_copies_to_working_root(self) -> None:
+        verify = self._src("pilot-archive-verify-cell")
+        assert "NEVER mutate /kaggle/input" in verify
+        assert "shutil.copytree(PILOT_BUNDLE_INPUT, EXTRACT_ROOT" in verify
+        assert "PILOT BUNDLE PROVISIONING: PASSED (auto-expanded copy)" in verify
+        assert "EXTRACT_ROOT" in verify
+
+    def test_verify_cell_never_mutates_input(self) -> None:
+        verify = self._src("pilot-archive-verify-cell")
+        for fragment in ("rmtree", ".unlink(", ".rename(", "remove("):
+            assert fragment not in verify, f"mutating fragment present: {fragment!r}"
+
+    def test_both_modes_converge_on_same_provisioning(self) -> None:
+        verify = self._src("pilot-archive-verify-cell")
+        assert 'CODE_DIR = EXTRACT_ROOT / "code"' in verify
+        assert 'DATA_DIR = EXTRACT_ROOT / "data"' in verify
+        # The unchanged transport-restore cell must only ever touch the working
+        # copy, never the /kaggle/input bundle path.
+        restore = self._src("transport-restore-cell")
+        assert "PILOT_BUNDLE_INPUT" not in restore
+        assert "PILOT_ARCHIVE" not in restore
+        assert "EXTRACT_ROOT" in restore
+        assert self._index("pilot-archive-verify-cell") < self._index(
+            "transport-restore-cell"
+        )
 
 
 class TestBundledNotebookParity:
