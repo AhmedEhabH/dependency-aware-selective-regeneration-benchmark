@@ -772,20 +772,16 @@ class TestPilotKaggleExpandedMount:
             deployment_paths = dict(ns["KAGGLE_DEPLOYMENT_PATHS"])
             deployment_paths["extract_root"] = working_root / "pilot_bundle"
             ns["KAGGLE_DEPLOYMENT_PATHS"] = deployment_paths
-            ns["FROZEN_ARCHIVE_SHA"] = frozen_archive_sha
-            ns["FROZEN_SOURCE_COMMIT"] = identity["source_commit"]
             ns["FROZEN_SOURCE_TAG"] = identity["source_tag"]
             ns["FROZEN_DEPLOYMENT"] = {k: identity[k] for k in FROZEN_IDENTITY}
             ns["FROZEN_MANIFEST_HASHES"] = {
-                "code_manifest_sha256": identity["code_manifest_sha256"],
-                "data_manifest_sha256": identity["data_manifest_sha256"],
-                "notebook_manifest_sha256": identity["notebook_manifest_sha256"],
-                "repository_snapshot_manifest_sha256": identity[
-                    "repository_snapshot_manifest_sha256"
-                ],
-                "kaggle_transport_path_map_sha256": identity[
-                    "kaggle_transport_path_map_sha256"
-                ],
+                key: identity[key]
+                for key in (
+                    "code_manifest_sha256",
+                    "data_manifest_sha256",
+                    "repository_snapshot_manifest_sha256",
+                    "kaggle_transport_path_map_sha256",
+                )
             }
             if overrides:
                 ns.update(overrides)
@@ -966,11 +962,11 @@ class TestPilotKaggleExpandedMount:
     @pytest.mark.parametrize(
         "tamper, match",
         [
-            ("sidecar_wrong_sha", "FROZEN-SHA MISMATCH"),
-            ("identity_source_commit", "SOURCE COMMIT MISMATCH"),
+            ("sidecar_malformed", "SIDECAR MALFORMED"),
             ("identity_source_tag", "SOURCE TAG MISMATCH"),
             ("identity_deployment_field", "DEPLOYMENT IDENTITY MISMATCH"),
             ("manifest_bytes", "MANIFEST/MAP SHA MISMATCH"),
+            ("notebook_manifest_self_consistency", "MANIFEST/MAP SHA MISMATCH"),
         ],
     )
     def test_expanded_mode_rejects_tampered_mount(
@@ -987,13 +983,8 @@ class TestPilotKaggleExpandedMount:
         with zipfile.ZipFile(archive) as zf:
             zf.extractall(dataset / "pilot-kaggle-upload")
         expanded = dataset / "pilot-kaggle-upload"
-        if tamper == "sidecar_wrong_sha":
-            (dataset / "pilot-kaggle-upload.zip.sha256").write_text("f" * 64, encoding="utf-8")
-        elif tamper == "identity_source_commit":
-            idp = expanded / "pilot_deployment_identity.json"
-            doc = json.loads(idp.read_text(encoding="utf-8"))
-            doc["source_commit"] = "b" * 40
-            idp.write_text(json.dumps(doc), encoding="utf-8")
+        if tamper == "sidecar_malformed":
+            (dataset / "pilot-kaggle-upload.zip.sha256").write_text("z" * 64, encoding="utf-8")
         elif tamper == "identity_source_tag":
             idp = expanded / "pilot_deployment_identity.json"
             doc = json.loads(idp.read_text(encoding="utf-8"))
@@ -1004,9 +995,12 @@ class TestPilotKaggleExpandedMount:
             doc = json.loads(idp.read_text(encoding="utf-8"))
             doc["expected_cells"] = 47
             idp.write_text(json.dumps(doc), encoding="utf-8")
-        else:
+        elif tamper == "manifest_bytes":
             (expanded / "data_manifest.json").write_bytes(b"tampered")
-        if tamper != "sidecar_wrong_sha":
+        else:
+            nb = expanded / "notebooks" / "pilot_exec_01.ipynb"
+            nb.write_bytes(nb.read_bytes() + b"x")
+        if tamper != "sidecar_malformed":
             (dataset / "pilot-kaggle-upload.zip.sha256").write_text(
                 self._archive_sha(archive), encoding="utf-8"
             )
@@ -1141,14 +1135,15 @@ class TestPilotKaggleExpandedMount:
 
 
 class TestPilotNotebookTrustFreeze:
-    """Frozen trust-anchor convergence (PILOT-EXEC-01 KAGGLE-AUTO-EXPANDED-MOUNT).
+    """Deterministic stable-anchor freeze (PILOT-EXEC-01 KAGGLE-AUTO-EXPANDED-MOUNT).
 
-    The notebook's ``FROZEN_*`` anchors are self-referential: the archive SHA
-    hashes the ZIP that contains the notebook, and ``notebook_manifest_sha256``
-    hashes a manifest that hashes the notebook bytes. The finalize script must
-    iterate deterministic builds to a fixpoint, leave the notebook frozen with
-    the converged values, and be idempotent (converge in one build, byte-identical
-    notebook) on any subsequent run.
+    The notebook embeds ONLY notebook-independent anchors: source tag, the
+    deployment identity, and the four stable manifest/map hashes. The archive
+    SHA and notebook-manifest SHA are self-referential (they hash the notebook
+    bytes that would embed them) and are therefore NEVER frozen; they are
+    verified self-consistently at runtime. The freezer must be a deterministic
+    single pass (no hash iteration), write the four stable hashes, and be
+    idempotent (second run changes nothing, archive byte-identical).
     """
 
     @staticmethod
@@ -1163,7 +1158,7 @@ class TestPilotNotebookTrustFreeze:
         spec.loader.exec_module(mod)
         return mod
 
-    def test_converges_and_is_idempotent(self, tmp_path: Path) -> None:
+    def test_freezes_single_pass_and_is_idempotent(self, tmp_path: Path) -> None:
         mod = self._load_finalizer()
         notebook = tmp_path / "pilot_exec_01.ipynb"
         notebook.write_bytes(CANONICAL_NOTEBOOK.read_bytes())
@@ -1176,35 +1171,49 @@ class TestPilotNotebookTrustFreeze:
             created_utc="2026-08-13T12:00:00+00:00",
             repo_cache=None,
             allow_acquire=False,
-            max_iterations=8,
             report_path=tmp_path / "freeze-report.json",
         )
-        first = mod.converge(**common)
-        assert first["status"] == "CONVERGED"
-        assert 1 <= len(first["iterations"]) <= 4
-        assert first["frozen_source_commit"] == "a" * 40
+        first = mod.freeze(**common)
+        assert first["status"] == "FROZEN"
         assert first["frozen_source_tag"] == "v0.9.6-pilot-exec-ready"
-        assert len(first["frozen_archive_sha256"]) == 64
+        assert len(first["archive_sha256"]) == 64
+        assert set(first["frozen_manifest_hashes"]) == {
+            "code_manifest_sha256",
+            "data_manifest_sha256",
+            "repository_snapshot_manifest_sha256",
+            "kaggle_transport_path_map_sha256",
+        }
         for key, value in first["frozen_manifest_hashes"].items():
             assert len(value) == 64, f"frozen {key} not 64 hex: {value}"
-        assert first["iterations"][-1]["archive_sha256"] == first["frozen_archive_sha256"]
+            assert value != "0" * 64, f"frozen {key} still a zero placeholder"
+        assert first["frozen_deployment"]["task"] == "PILOT-EXEC-01"
+        # The frozen notebook must now carry exactly the frozen values.
+        written = mod.read_frozen_values(notebook)
+        assert written["FROZEN_MANIFEST_HASHES"] == first["frozen_manifest_hashes"]
+        assert written["FROZEN_SOURCE_TAG"] == "v0.9.6-pilot-exec-ready"
+        assert "FROZEN_ARCHIVE_SHA" not in written
+        assert "FROZEN_SOURCE_COMMIT" not in written
 
-        # The converged notebook must self-reproduce on a fresh build: one
-        # iteration, no change, byte-identical notebook.
+        # Idempotent: a second run changes no bytes and reproduces the archive.
         frozen_bytes = notebook.read_bytes()
-        second = mod.converge(**common)
-        assert second["status"] == "CONVERGED"
-        assert len(second["iterations"]) == 1
-        assert second["iterations"][0]["changed"] is False
-        assert second["frozen_archive_sha256"] == first["frozen_archive_sha256"]
+        second = mod.freeze(**common)
+        assert second["status"] == "FROZEN"
+        assert second["frozen_manifest_hashes"] == first["frozen_manifest_hashes"]
+        assert second["archive_sha256"] == first["archive_sha256"]
         assert notebook.read_bytes() == frozen_bytes
 
     def test_placeholder_notebook_is_still_frozen_shaped(self, tmp_path: Path) -> None:
         """The canonical development notebook must still carry well-formed anchors."""
         mod = self._load_finalizer()
         values = mod.read_frozen_values(CANONICAL_NOTEBOOK)
-        assert len(values["FROZEN_ARCHIVE_SHA"]) == 64
-        assert len(values["FROZEN_SOURCE_COMMIT"]) == 40
         assert values["FROZEN_SOURCE_TAG"] == "v0.9.6-pilot-exec-ready"
+        assert isinstance(values["FROZEN_DEPLOYMENT"], dict)
+        assert values["FROZEN_DEPLOYMENT"]["task"] == "PILOT-EXEC-01"
+        assert set(values["FROZEN_MANIFEST_HASHES"]) == {
+            "code_manifest_sha256",
+            "data_manifest_sha256",
+            "repository_snapshot_manifest_sha256",
+            "kaggle_transport_path_map_sha256",
+        }
         for key, value in values["FROZEN_MANIFEST_HASHES"].items():
             assert len(value) == 64, f"frozen {key} not 64 hex: {value}"

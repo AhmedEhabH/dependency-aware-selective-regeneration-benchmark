@@ -141,11 +141,10 @@ class TestFrozenIdentity:
         assert '"task": "PILOT-EXEC-01"' in setup_src
         assert '"expected_cells": 48' in setup_src
 
-    def test_identity_cell_anchors_source_commit_and_tag(self) -> None:
+    def test_identity_cell_anchors_source_tag(self) -> None:
         identity_src = _src(_cells_by_id(_nb())["pilot-identity-verify-cell"])
-        assert "FROZEN_SOURCE_COMMIT" in identity_src
+        assert "FROZEN_SOURCE_COMMIT" not in identity_src
         assert "FROZEN_SOURCE_TAG" in identity_src
-        assert "SOURCE COMMIT MISMATCH" in identity_src
         assert "SOURCE TAG MISMATCH" in identity_src
 
 
@@ -349,11 +348,15 @@ class TestKaggleAutoExpandedMount:
     The notebook must support exactly two fail-closed input modes: (A) the
     original frozen archive and (B) the Kaggle auto-expanded directory mounted
     as ``<dataset>/pilot-kaggle-upload/`` with a sibling ``.sha256`` sidecar.
-    Mode B is trusted only against notebook-frozen anchors (archive SHA, source
-    commit/tag, deployment identity, exact manifest/map SHA values) and the
-    expanded tree is copied to the writable working root - /kaggle/input is
-    never mutated. Either mode converges on the same EXTRACT_ROOT provisioning
-    before the unchanged transport-restore + identity-verify cells.
+    Mode B is trusted only against the notebook-frozen anchors that are
+    INDEPENDENT of the notebook bytes (source tag, deployment identity, the
+    four stable manifest/map SHA values); the archive SHA and notebook-manifest
+    SHA are verified self-consistently at runtime (sidecar vs actual ZIP SHA,
+    manifest file vs identity field, manifest notebook entry vs the bundled
+    notebook bytes). The expanded tree is copied to the writable working root -
+    /kaggle/input is never mutated. Either mode converges on the same
+    EXTRACT_ROOT provisioning before the unchanged transport-restore +
+    identity-verify cells.
     """
 
     def _index(self, cell_id: str) -> int:
@@ -410,20 +413,20 @@ class TestKaggleAutoExpandedMount:
 
     def test_frozen_anchor_shapes(self) -> None:
         setup = self._src("setup-cell")
-        archive = re.search(r'FROZEN_ARCHIVE_SHA = "([0-9a-fA-F]+)"', setup)
-        commit = re.search(r'FROZEN_SOURCE_COMMIT = "([0-9a-fA-F]+)"', setup)
-        assert archive is not None and len(archive.group(1)) == 64
-        assert commit is not None and len(commit.group(1)) == 40
+        # Anchors that hash content containing the notebook bytes must NOT be
+        # embedded (they cannot equal their own hash).
+        assert not re.search(r'FROZEN_ARCHIVE_SHA = "', setup)
+        assert not re.search(r'FROZEN_SOURCE_COMMIT = "', setup)
         for key in (
             "code_manifest_sha256",
             "data_manifest_sha256",
-            "notebook_manifest_sha256",
             "repository_snapshot_manifest_sha256",
             "kaggle_transport_path_map_sha256",
         ):
             m = re.search(rf'"{key}": "([0-9a-fA-F]+)"', setup)
             assert m is not None, f"missing frozen hash: {key}"
             assert len(m.group(1)) == 64, f"frozen hash not 64 hex: {key}"
+        assert not re.search(r'"notebook_manifest_sha256": "', setup)
 
     def test_frozen_deployment_identity_values(self) -> None:
         setup = self._src("setup-cell")
@@ -443,21 +446,29 @@ class TestKaggleAutoExpandedMount:
         ):
             assert fragment in setup, f"frozen deployment field missing: {fragment}"
 
-    def test_verify_cell_checks_frozen_archive_sha(self) -> None:
+    def test_verify_cell_checks_sidecar_against_zip(self) -> None:
         verify = self._src("pilot-archive-verify-cell")
-        assert "FROZEN_ARCHIVE_SHA" in verify
-        assert "FROZEN-SHA MISMATCH" in verify
+        assert "FROZEN_ARCHIVE_SHA" not in verify
         assert "PILOT_ARCHIVE_SHA.read_text" in verify
+        assert "SIDECAR MALFORMED" in verify
         assert "PILOT ARCHIVE SHA VERIFICATION FAILED" in verify
+        assert "_sha256_bytes(PILOT_BUNDLE_INPUT.read_bytes())" in verify
+        assert "provenance only" in verify
 
-    def test_expanded_mode_trust_checks_before_copy(self) -> None:
+    def test_verify_cell_frozen_tree_trust_in_both_modes(self) -> None:
         verify = self._src("pilot-archive-verify-cell")
-        assert "SOURCE COMMIT MISMATCH" in verify
         assert "SOURCE TAG MISMATCH" in verify
         assert "DEPLOYMENT IDENTITY MISMATCH" in verify
         assert "MANIFEST/MAP SHA MISMATCH" in verify
         assert "FROZEN_MANIFEST_HASHES" in verify
-        assert "refusing to copy" in verify
+        assert "SOURCE COMMIT MISMATCH" not in verify
+        assert "refusing to proceed" in verify
+        assert "refusing to copy" not in verify
+        # notebook_manifest must be verified self-consistently, not against a
+        # frozen equality anchor.
+        assert "identity field does not match manifest file hash" in verify
+        assert "entry does not match the bundled notebook bytes" in verify
+        assert "_tree = PILOT_BUNDLE_INPUT if PILOT_INPUT_MODE" in verify
 
     def test_expanded_mode_copies_to_working_root(self) -> None:
         verify = self._src("pilot-archive-verify-cell")
