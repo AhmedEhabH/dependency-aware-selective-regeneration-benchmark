@@ -20,9 +20,18 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import pytest
+
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 HISTORICAL_SMOKE_UPLOAD = PROJECT_DIR / "kaggle_upload"
+
+# Every bundle built in this file materializes repositories through the shared
+# pilot_repo_snapshot module; the hermetic fixture replaces git-checkout
+# acquisition with a deterministic local stub (no developer-local cache, no
+# network). Real pinned acquisition is the explicit Gate 8 step, not part of
+# the default suite.
+pytestmark = pytest.mark.usefixtures("hermetic_pilot_repo_materialize")
 
 PILOT_SCENARIO_IDS = [
     "todo-loc-001",
@@ -104,7 +113,7 @@ def _build(tmp_path: Path, created_utc: str, source_commit: str, label: str) -> 
         output_root=output_root,
         archive_path=archive,
         source_commit=source_commit,
-        source_tag="v0.9.1-pilot-exec-ready",
+        source_tag="v0.9.2-pilot-exec-ready",
         created_utc=created_utc,
     )
     return output_root, archive
@@ -189,7 +198,7 @@ class TestPilotBundleIdentityAndManifests:
         for key, value in FROZEN_IDENTITY.items():
             assert identity.get(key) == value, f"identity[{key!r}] != {value!r}"
         assert identity["source_commit"] == "a" * 40
-        assert identity["source_tag"] == "v0.9.1-pilot-exec-ready"
+        assert identity["source_tag"] == "v0.9.2-pilot-exec-ready"
         assert identity["created_utc"] == "2026-08-10T00:00:00+00:00"
 
     def test_identity_manifest_hashes_match_emitted_bytes(self, tmp_path: Path) -> None:
@@ -200,11 +209,39 @@ class TestPilotBundleIdentityAndManifests:
         for key, manifest_name in (
             ("code_manifest_sha256", "code_manifest.json"),
             ("data_manifest_sha256", "data_manifest.json"),
+            ("notebook_manifest_sha256", "notebook_manifest.json"),
+            ("repository_snapshot_manifest_sha256", "repository_snapshot_manifest.json"),
         ):
             manifest_bytes = (output_root / manifest_name).read_bytes()
             assert identity[key] == hashlib.sha256(manifest_bytes).hexdigest(), (
                 f"identity {key} does not match emitted {manifest_name}"
             )
+
+    def test_three_repository_snapshots_materialized(self, tmp_path: Path) -> None:
+        output_root, _archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "snapshots")
+        manifest = json.loads(
+            (output_root / "repository_snapshot_manifest.json").read_text(encoding="utf-8")
+        )
+        repos = manifest["repositories"]
+        assert set(repos) == {"todo", "djangocms", "saleor"}
+        for repo_id, entry in repos.items():
+            assert entry["file_count"] > 0
+            assert entry["content_hash"]
+            staged_root = output_root / "data" / "repositories" / repo_id
+            assert staged_root.is_dir(), f"bundled snapshot missing: {staged_root}"
+            assert not (staged_root / ".git").exists()
+
+    def test_pilot_runtime_lock_bundled_and_manifested(self, tmp_path: Path) -> None:
+        output_root, _archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "lock")
+        lock_path = output_root / "code" / "requirements-pilot-kaggle.lock"
+        assert lock_path.is_file()
+        assert _normalized_bytes(lock_path) == _normalized_bytes(
+            PROJECT_DIR / "requirements-pilot-kaggle.lock"
+        )
+        code_manifest = json.loads(
+            (output_root / "code_manifest.json").read_text(encoding="utf-8")
+        )
+        assert "requirements-pilot-kaggle.lock" in code_manifest
 
     def test_no_forbidden_files_in_bundle(self, tmp_path: Path) -> None:
         output_root, _archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "forbid")
