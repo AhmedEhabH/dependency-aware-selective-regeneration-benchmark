@@ -1,10 +1,47 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-13):** **PILOT-EXEC-01 real-launch closure Gates 9/10 COMPLETE AND MERGED — main @ `e030be5`; annotated tag `v0.9.2-pilot-exec-ready` created at `e030be5` and pushed** (stable tag `v0.9.0-pilot-ready` @ `90a4282` NOT moved). Gate 9 (engineering preflight): evidence ledger written (`reports/PILOT_EXEC_01_GATE9_ENGINEERING_PREFLIGHT_LEDGER.md`) — saleor `TZ=UTC` frozen in `benchmark_data/manifests/pilot_validation_commands.yaml` (verified 2026-08-11; two `test_transaction_schema_time_valid` cases were drifting by the box UTC offset); the remaining ~31-36 order/pricing saleor failures are an upstream nondeterministic fixture artifact (33 vs 38 observed), not a regression; djangocms `test_filters_date` is a Windows-only strftime artifact (passes on Linux/Kaggle). Gate 10 (final bundle rebuild + proofs): `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip` rebuilt from the TAGGED SOURCE `v0.9.2-pilot-exec-ready` (= merge `e030be5`) with the real repo cache (djangocms `0f633fc9…`, saleor `e11a5557…` at pinned SHAs; todo embedded); notebook byte-matches canonical; `notebook_manifest.json` non-empty + hash-verifies; three repos materialized with pinned SHAs verified; identity frozen contract `v0.9.2-pilot-exec-ready` / `source_commit=e030be5…` / `created_utc=2026-08-13T00:00:00+00:00`; code/data/notebook/repository-snapshot manifest hashes match; archive contains notebook + three repos with no `.git`; deterministic rebuild byte-identical; fresh 48-cell bundled dry-run 48/48 unique / 0 missing / 0 duplicate (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24); targeted gates 67/67 passed (90.88s) on the tagged bundle; sidecar SHA matches (archive SHA-256 `ecb7ea7c85d8bdc527a0384f141b47a1e84ee0b3c3f12b6b8305d880098015f1`); diff-check/ruff/mypy/compile clean. **Pilot = NOT STARTED**; real launch deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID. Remaining: deployment freeze report (`reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md`), exact Kaggle launch prep, final report. Prior closure paragraphs below are HISTORICAL.
+> **CURRENT TRUTH (2026-08-13):** **PILOT-EXEC-01 KAGGLE SERVICE BOOTSTRAP LAST-MILE CORRECTION COMPLETE AND MERGED — tagged `v0.9.3-pilot-exec-ready`** (historical execution-ready point `v0.9.2-pilot-exec-ready` @ `e030be5` immutable, NOT moved; `v0.9.0-pilot-ready` @ `90a4282` NOT moved). The frozen Pilot notebook (`notebooks/pilot_exec_01.ipynb`) gained ONE fail-closed, idempotent `service-bootstrap-cell` between repository snapshot verification and the repo-specific preflight — BEFORE any repository validation and model load — that provisions the Saleor validation OS services on a fresh Kaggle session: PostgreSQL `127.0.0.1:5433` (role/db `saleor/saleor@saleor`, private data dir `/kaggle/working/pilot_services/postgres`, `pg_config --bindir` preferred) and Valkey/Redis `127.0.0.1:6379` (persistence disabled), topology mirroring `benchmark_data/manifests/pilot_validation_commands.yaml`; OS installs non-interactive (apt-get; Kaggle Internet ON required, fail loudly offline); no benchmark/model Python environment modification; no secrets printed beyond the frozen non-secret test credentials. **No scientific inputs changed** (scenarios, prompts, metrics, model, quantization, timeout 600, repair budget, repository pins, validation scope). Gates: notebook contract 20/20 (incl. 5 new service-bootstrap tests), deployment bundle contract 14/14, targeted pilot gates 77/77, full suite **2,098 passed / 33 skipped / 0 failed**, diff-check/ruff/mypy/compile clean. Deployment archive rebuilt from the exact tagged source: **`dist/pilot-kaggle-upload.zip` + `dist/pilot-kaggle-upload.zip.sha256`** (authoritative frozen upload artifacts; never manually re-zip). **Pilot = NOT STARTED**; next = exact Kaggle launch prep (upload zip + sidecar as ONE Dataset, attach Pilot notebook + Qwen 14B, Internet ON, HF_TOKEN) -> target preflight -> real Pilot (only after all preflights pass); real launch deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID.
+>
+> **HISTORICAL TRUTH (2026-08-13, superseded by the service-bootstrap correction):** **PILOT-EXEC-01 real-launch closure Gates 9/10 COMPLETE AND MERGED — main @ `e030be5`; annotated tag `v0.9.2-pilot-exec-ready` created at `e030be5` and pushed** (stable tag `v0.9.0-pilot-ready` @ `90a4282` NOT moved). Gate 9 (engineering preflight): evidence ledger written (`reports/PILOT_EXEC_01_GATE9_ENGINEERING_PREFLIGHT_LEDGER.md`) — saleor `TZ=UTC` frozen in `benchmark_data/manifests/pilot_validation_commands.yaml` (verified 2026-08-11; two `test_transaction_schema_time_valid` cases were drifting by the box UTC offset); the remaining ~31-36 order/pricing saleor failures are an upstream nondeterministic fixture artifact (33 vs 38 observed), not a regression; djangocms `test_filters_date` is a Windows-only strftime artifact (passes on Linux/Kaggle). Gate 10 (final bundle rebuild + proofs): `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip` rebuilt from the TAGGED SOURCE `v0.9.2-pilot-exec-ready` (= merge `e030be5`) with the real repo cache (djangocms `0f633fc9…`, saleor `e11a5557…` at pinned SHAs; todo embedded); notebook byte-matches canonical; `notebook_manifest.json` non-empty + hash-verifies; three repos materialized with pinned SHAs verified; identity frozen contract `v0.9.2-pilot-exec-ready` / `source_commit=e030be5…` / `created_utc=2026-08-13T00:00:00+00:00`; code/data/notebook/repository-snapshot manifest hashes match; archive contains notebook + three repos with no `.git`; deterministic rebuild byte-identical; fresh 48-cell bundled dry-run 48/48 unique / 0 missing / 0 duplicate (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24); targeted gates 67/67 passed (90.88s) on the tagged bundle; sidecar SHA matches (archive SHA-256 `ecb7ea7c85d8bdc527a0384f141b47a1e84ee0b3c3f12b6b8305d880098015f1`); diff-check/ruff/mypy/compile clean. **Pilot = NOT STARTED**; real launch deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID. Remaining: deployment freeze report (`reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md`), exact Kaggle launch prep, final report. Prior closure paragraphs below are HISTORICAL.
 
-## Current — PILOT-EXEC-01 real-launch closure (Gates 9/10 complete)
+## Current — PILOT-EXEC-01 Kaggle service bootstrap last-mile correction
 
-**Status: `COMPLETE`** (2026-08-13, branch `fix/pilot-real-launch-closure`).
+**Status: `COMPLETE`** (2026-08-13, branch `fix/pilot-kaggle-service-bootstrap`, merged to main, tagged `v0.9.3-pilot-exec-ready`).
+
+- **Launch blocker closed:** the frozen Pilot notebook only probed the Saleor
+  PostgreSQL/Valkey services in the shared preflight and assumed they were
+  already running. A fresh Kaggle session has no such OS services, so the
+  notebook now provisions them in ONE new fail-closed, idempotent
+  `service-bootstrap-cell` (placed after repository snapshot verification,
+  before the repo-specific preflight — i.e. before any repository validation
+  and any model load):
+  - PostgreSQL `127.0.0.1:5433` — role/db `saleor/saleor@saleor`, private
+    data dir `/kaggle/working/pilot_services/postgres`, binaries located
+    deterministically (prefer `pg_config --bindir`), non-interactive OS
+    install fallback via apt-get (Kaggle Internet ON required — fail loud,
+    never silent).
+  - Valkey/Redis `127.0.0.1:6379` — `valkey-server` preferred, else
+    `redis-server` (Redis protocol contract), persistence disabled.
+  - Proves both ports reachable, proves a real PostgreSQL connection with the
+    frozen credentials, prints service versions/host/ports, prints no secrets
+    beyond the frozen non-secret test credentials, and STOPs before
+    repository validation / model load on any install/startup/health failure.
+- **Isolation preserved:** OS provisioning never modifies the benchmark/model
+  Python environment; the isolated django CMS and Saleor environments remain
+  untouched; no `pip install` of Saleor/django CMS deps into the model runtime.
+- **Zero scientific drift:** scenarios, prompts, metrics, model, quantization,
+  timeout 600, repair budget, repository pins, validation scope all unchanged.
+- **Gates:** notebook contract 20/20 (incl. 5 new service-bootstrap tests);
+  deployment bundle contract 14/14; targeted pilot gates 77/77; full suite
+  **2,098 passed / 33 skipped / 0 failed**; `git diff --check` / ruff / mypy /
+  compile clean.
+- **Artifacts:** `dist/pilot-kaggle-upload.zip` + `dist/pilot-kaggle-upload.zip.sha256`
+  rebuilt from the exact tag `v0.9.3-pilot-exec-ready` (authoritative frozen
+  upload archive + sidecar; never manually re-zip).
+
+## Historical — PILOT-EXEC-01 real-launch closure (Gates 9/10 complete)
+
+**Status: `COMPLETE`** (2026-08-13, branch `fix/pilot-real-launch-closure`; superseded by the service-bootstrap correction above).
 
 - Gate 9 (engineering preflight evidence): recorded preflight runs
   (`preflight_todo_djangocms.json`, `preflight_saleor.json`,
