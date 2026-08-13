@@ -1,6 +1,6 @@
 {
   "archive_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload.zip",
-  "archive_sha256": "5ca12ad1103d40530debad33c4db82ed8e53d43778cdceac26f5fdf66dc0f2f2",
+  "archive_sha256": "afca4205583ccca1c29e7fb846993f944210805d676d509f1624985da36b16b8",
   "created_utc": "2026-08-13T18:00:00+00:00",
   "frozen_deployment": {
     "expected_cells": 48,
@@ -23,10 +23,11 @@
     "repository_snapshot_manifest_sha256": "49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c"
   },
   "frozen_source_tag": "v0.9.6-pilot-exec-ready",
-  "note": "source_commit must equal the final tag peel; the deployed identity source_commit is recorded here and must be re-verified after the immutable tag is created.",
-  "notebook_sha256": "45d61901dc686cc857369201f35a1ce0d7519f4eba2ba832e9673c88c03a0a51",
+  "note": "source_commit must equal the final tag peel; the deployed identity source_commit is recorded here and must be re-verified after the immutable tag is created. notebook_sha256 hashes the DEPLOYED (line-ending-normalized) notebook bytes inside the artifact; notebook_source_sha256 hashes the source notebook file on this recording machine.",
+  "notebook_sha256": "20ed14a71dff453138d0dfc92e5b0d481daa402d22534e8cd1a01a2dffad9980",
+  "notebook_source_sha256": "45d61901dc686cc857369201f35a1ce0d7519f4eba2ba832e9673c88c03a0a51",
   "output_root": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload",
-  "source_commit": "32a96512dd87f0e3bf68cdd7bd31d260db673d49",
+  "source_commit": "af9b47444fafac260d887dabbe4e3ddc3b22a00f",
   "source_tag": "v0.9.6-pilot-exec-ready",
   "status": "FROZEN"
 }

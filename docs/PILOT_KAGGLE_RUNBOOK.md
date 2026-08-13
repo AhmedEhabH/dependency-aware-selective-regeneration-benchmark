@@ -131,7 +131,7 @@ the emitted identity, write the four stable hashes, then rebuild once to
 confirm invariance. The freeze report lands in
 `reports/pilot_notebook_trust_freeze.json` and records the deployed
 `source_commit` (which MUST equal the final tag peel), the archive SHA-256,
-and the notebook SHA-256.
+and the SHA-256 of the deployed (line-ending-normalized) notebook bytes.
 
 ---
 
