@@ -1,22 +1,26 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** READY FOR USE (Kaggle auto-expanded mount correction merged +
-tagged `v0.9.6-pilot-exec-ready`; bundle rebuilt from the exact tag). Pilot NOT
+**Status:** READY FOR USE (root-safe unprivileged PostgreSQL bootstrap merged +
+tagged `v0.9.7-pilot-exec-ready`; bundle rebuilt from the exact tag). Pilot NOT
 started.
 **Branches used:** `fix/pilot-kaggle-filename-transport` (Kaggle-safe ZIP
 encoding), `fix/pilot-kaggle-reserved-transport-name` (reserved `__name__`
-transport-root correction), then
+transport-root correction),
 `fix/pilot-kaggle-autoexpanded-mount` (dual fail-closed input modes; the real
 Kaggle failure mounted the dataset as an auto-expanded directory, NOT the ZIP),
-then `main` @ tag `v0.9.6-pilot-exec-ready` (deployment source).
+`fix/pilot-kaggle-postgres-unprivileged-bootstrap` (real Kaggle blocker: the
+notebook runs as root while PostgreSQL `initdb`/`pg_ctl` refuse root), then
+`main` @ tag `v0.9.7-pilot-exec-ready` (deployment source).
 **Execution contract:** `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md` (frozen
 before any real Pilot model result).
 **Bundle:** `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip`
-+ `.sha256`; built from the TAGGED SOURCE `v0.9.6-pilot-exec-ready` (real repo
++ `.sha256`; built from the TAGGED SOURCE `v0.9.7-pilot-exec-ready` (real repo
 cache: djangocms/saleor at pinned SHAs, todo embedded) by
 `scripts/build_pilot_upload_bundle.py`. `dist/` is gitignored. The archive
 contains the 18-cell Pilot notebook including the `service-bootstrap-cell`
-that provisions PostgreSQL + Valkey/Redis on a fresh Kaggle session AND the
+that provisions PostgreSQL + Valkey/Redis on a fresh Kaggle session (running
+the PostgreSQL server lifecycle under the unprivileged `postgres` OS account
+when the notebook effective uid is 0, fail-closed) AND the
 `transport-restore-cell` that makes the ZIP Kaggle-safe.
 
 **Kaggle auto-expanded mount (why two input modes exist):** the real Kaggle
@@ -89,11 +93,11 @@ Frozen values (authoritative in
 `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` — updated for the Kaggle
 auto-expanded mount correction):
 
-- Source tag: `v0.9.6-pilot-exec-ready` (peeled commit recorded in the
+- Source tag: `v0.9.7-pilot-exec-ready` (peeled commit recorded in the
   deployment freeze report; previous execution-ready points
-  `v0.9.5-pilot-exec-ready`, `v0.9.3-pilot-exec-ready` (service bootstrap)
-  and `v0.9.2-pilot-exec-ready` @ `e030be5f4736e22ce40cfa798633b186858b0221`
-  are historical and NOT moved)
+  `v0.9.6-pilot-exec-ready`, `v0.9.5-pilot-exec-ready`, `v0.9.3-pilot-exec-ready`
+  (service bootstrap) and `v0.9.2-pilot-exec-ready` @
+  `e030be5f4736e22ce40cfa798633b186858b0221` are historical and NOT moved)
 - Archive SHA-256: recorded in the deployment freeze report and in
   `dist/pilot-kaggle-upload.zip.sha256` after the exact tagged rebuild. It is
   NOT embedded in the notebook (the archive contains the notebook bytes, so an
@@ -137,7 +141,7 @@ and the SHA-256 of the deployed (line-ending-normalized) notebook bytes.
 
 ## 1. Before launching (all must be done first)
 
-1. Confirm the working tree is at tag `v0.9.6-pilot-exec-ready` and
+1. Confirm the working tree is at tag `v0.9.7-pilot-exec-ready` and
    `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` records the exact tag->commit
    dereference and the bundle manifest SHA-256s.
 2. Confirm `dist/pilot-kaggle-upload.zip.sha256` matches the freeze report.
@@ -164,9 +168,17 @@ and the SHA-256 of the deployed (line-ending-normalized) notebook bytes.
    validation / any model load. It provisions PostgreSQL `127.0.0.1:5433`
    (role/db `saleor/saleor@saleor`) and Valkey/Redis `127.0.0.1:6379`
    (persistence disabled) idempotently, installing OS packages via apt-get
-   when the services are absent. This requires the Kaggle notebook to have
-   **Internet ENABLED** (the cell fails loudly, never silently, if the OS
-   install is needed and offline). Model loading itself remains offline.
+   when the services are absent. **Root handling:** the Kaggle notebook
+   process runs as root while PostgreSQL `initdb`/`pg_ctl` refuse root, so
+   when the notebook effective uid is 0 the PostgreSQL server lifecycle
+   (initdb, pg_ctl and the postgres server it launches) runs under the
+   package-native unprivileged `postgres` OS account; the cell FAILS CLOSED
+   before initdb if that account is missing and never falls back to root.
+   Non-root notebook processes keep the direct path. Ownership/log
+   preparation is limited to the private service paths. This requires the
+   Kaggle notebook to have **Internet ENABLED** (the cell fails loudly, never
+   silently, if the OS install is needed and offline). Model loading itself
+   remains offline.
    Prints `SALEOR VALIDATION SERVICE BOOTSTRAP: PASSED` on success; any
    install/startup/health failure STOPS the run before validation/model load.
 1. Resolve the attached dataset mount. The setup cell discovers EXACTLY ONE
@@ -199,7 +211,7 @@ and the SHA-256 of the deployed (line-ending-normalized) notebook bytes.
    here.
 4. Verify
    `/kaggle/working/pilot_bundle/pilot_deployment_identity.json`
-   (task = `PILOT-EXEC-01`, source tag = `v0.9.6-pilot-exec-ready`); the
+   (task = `PILOT-EXEC-01`, source tag = `v0.9.7-pilot-exec-ready`); the
    identity-verify cell anchors `source_tag` and the full `FROZEN_DEPLOYMENT`
    to the frozen constants in BOTH modes. `source_commit` is recorded in the
    deployment freeze report (it equals the final tag peel) and is NOT a frozen
@@ -242,7 +254,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --max-total-workflow-tokens 0 \
     --timeout 600 \
     --source-commit <40-char SHA from freeze report> \
-    --source-tag v0.9.6-pilot-exec-ready \
+    --source-tag v0.9.7-pilot-exec-ready \
     --output-dir /kaggle/working/runs/pilot-<experiment-id> \
     --hf-sync \
     --hf-repo-id <exact HF results repo id> \
