@@ -1,0 +1,32 @@
+{
+  "archive_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload.zip",
+  "archive_sha256": "5ca12ad1103d40530debad33c4db82ed8e53d43778cdceac26f5fdf66dc0f2f2",
+  "created_utc": "2026-08-13T18:00:00+00:00",
+  "frozen_deployment": {
+    "expected_cells": 48,
+    "max_attempts": 3,
+    "max_completion_tokens_per_call": 4096,
+    "max_total_workflow_tokens": 0,
+    "model_name": "Qwen/Qwen2.5-Coder-14B-Instruct",
+    "protocol_version": "1.0",
+    "quantization": "bnb-nf4",
+    "repetitions": 2,
+    "scenario_count": 12,
+    "strategy_count": 2,
+    "task": "PILOT-EXEC-01",
+    "timeout_seconds": 600
+  },
+  "frozen_manifest_hashes": {
+    "code_manifest_sha256": "99688e4e03291606399126061ae8305bb768a68d10fee0dc43964846272fbe96",
+    "data_manifest_sha256": "8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a",
+    "kaggle_transport_path_map_sha256": "07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce",
+    "repository_snapshot_manifest_sha256": "49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c"
+  },
+  "frozen_source_tag": "v0.9.6-pilot-exec-ready",
+  "note": "source_commit must equal the final tag peel; the deployed identity source_commit is recorded here and must be re-verified after the immutable tag is created.",
+  "notebook_sha256": "45d61901dc686cc857369201f35a1ce0d7519f4eba2ba832e9673c88c03a0a51",
+  "output_root": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload",
+  "source_commit": "32a96512dd87f0e3bf68cdd7bd31d260db673d49",
+  "source_tag": "v0.9.6-pilot-exec-ready",
+  "status": "FROZEN"
+}
