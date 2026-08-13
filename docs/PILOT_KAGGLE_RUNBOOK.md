@@ -1,20 +1,55 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** READY FOR USE (Kaggle filename transport correction merged + tagged
-`v0.9.5-pilot-exec-ready`; bundle rebuilt from the exact tag). Pilot NOT started.
+**Status:** READY FOR USE (Kaggle auto-expanded mount correction merged +
+tagged `v0.9.6-pilot-exec-ready`; bundle rebuilt from the exact tag). Pilot NOT
+started.
 **Branches used:** `fix/pilot-kaggle-filename-transport` (Kaggle-safe ZIP
-encoding correction), `fix/pilot-kaggle-reserved-transport-name` (reserved
-`__name__` transport-root correction), then
-`main` @ tag `v0.9.5-pilot-exec-ready` (deployment source).
+encoding), `fix/pilot-kaggle-reserved-transport-name` (reserved `__name__`
+transport-root correction), then
+`fix/pilot-kaggle-autoexpanded-mount` (dual fail-closed input modes; the real
+Kaggle failure mounted the dataset as an auto-expanded directory, NOT the ZIP),
+then `main` @ tag `v0.9.6-pilot-exec-ready` (deployment source).
 **Execution contract:** `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md` (frozen
 before any real Pilot model result).
 **Bundle:** `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip`
-+ `.sha256`; built from the TAGGED SOURCE `v0.9.5-pilot-exec-ready` (real repo
++ `.sha256`; built from the TAGGED SOURCE `v0.9.6-pilot-exec-ready` (real repo
 cache: djangocms/saleor at pinned SHAs, todo embedded) by
 `scripts/build_pilot_upload_bundle.py`. `dist/` is gitignored. The archive
 contains the 18-cell Pilot notebook including the `service-bootstrap-cell`
 that provisions PostgreSQL + Valkey/Redis on a fresh Kaggle session AND the
 `transport-restore-cell` that makes the ZIP Kaggle-safe.
+
+**Kaggle auto-expanded mount (why two input modes exist):** the real Kaggle
+run mounted the dataset at
+`/kaggle/input/datasets/ahmedehabh/dependency-aware-selective-regeneration-pilot/`
+containing ONLY `pilot-kaggle-upload/` (the unzipped bundle) plus the
+`pilot-kaggle-upload.zip.sha256` sidecar — Kaggle auto-expanded the ZIP and the
+original `.zip` was NOT mounted, so the notebook failed with
+`FileNotFoundError: Cannot find pilot-kaggle-upload.zip`. The notebook now
+supports BOTH shapes and fails closed:
+
+- **Mode A (archive):** the original `pilot-kaggle-upload.zip` is mounted with
+  its sidecar; the ZIP SHA-256 must equal the sidecar before extraction.
+- **Mode B (auto-expanded):** `pilot-kaggle-upload/` directory + sidecar.
+  The sidecar is required provenance metadata only (it cannot verify a ZIP
+  that is no longer mounted). The expanded tree is trusted ONLY against the
+  notebook-frozen anchors — `FROZEN_SOURCE_TAG`, the full `FROZEN_DEPLOYMENT`
+  identity, and the four stable `FROZEN_MANIFEST_HASHES` values (code, data,
+  repository snapshot, transport path map; identity fields AND manifest file
+  bytes) — plus self-consistent notebook-manifest verification (manifest file
+  hash vs the identity field; manifest notebook entry vs the mounted notebook
+  bytes), BEFORE the tree is copied to `/kaggle/working/pilot_bundle`.
+  `/kaggle/input` is NEVER mutated (no delete/rename/unlink; copy only).
+
+Both modes then run the identical, unchanged `transport-restore-cell` +
+identity-verify + manifest verification against the working copy, so the
+canonical trees are byte-identical whichever shape Kaggle presents. Only
+notebook-independent anchors are frozen into the notebook: the archive SHA
+and `notebook_manifest_sha256` depend on the notebook's own bytes and CANNOT
+be embedded (a hash cannot contain its own bytes), so they are verified
+self-consistently at runtime. The frozen anchors are written once by the
+deterministic single-pass freezer
+`scripts/finalize_pilot_notebook_trust.py` (no hash iteration).
 
 **Kaggle filename transport (why the ZIP is now safe to upload):** the pinned
 upstream repos contain filenames with `[ ] & @ =` (e.g. Saleor cassettes),
@@ -44,21 +79,30 @@ at minimum:
 - `pilot-kaggle-upload.zip`
 - `pilot-kaggle-upload.zip.sha256`
 
-Do not separately reconstruct code/data datasets by hand. The generic
-two-dataset shape (code + data) used by the Scientific Smoke deployment does
-NOT apply to the Pilot.
+Kaggle will auto-expand the ZIP on mount; the notebook accepts EITHER the raw
+`.zip` (Mode A) OR the auto-expanded `pilot-kaggle-upload/` directory next to
+the sidecar (Mode B). Do not separately reconstruct code/data datasets by hand.
+The generic two-dataset shape (code + data) used by the Scientific Smoke
+deployment does NOT apply to the Pilot.
 
 Frozen values (authoritative in
 `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` — updated for the Kaggle
-filename transport correction):
+auto-expanded mount correction):
 
-- Source tag: `v0.9.5-pilot-exec-ready` (peeled commit recorded in the
+- Source tag: `v0.9.6-pilot-exec-ready` (peeled commit recorded in the
   deployment freeze report; previous execution-ready points
-  `v0.9.3-pilot-exec-ready` (service bootstrap) and
-  `v0.9.2-pilot-exec-ready` @ `e030be5f4736e22ce40cfa798633b186858b0221`
+  `v0.9.5-pilot-exec-ready`, `v0.9.3-pilot-exec-ready` (service bootstrap)
+  and `v0.9.2-pilot-exec-ready` @ `e030be5f4736e22ce40cfa798633b186858b0221`
   are historical and NOT moved)
 - Archive SHA-256: recorded in the deployment freeze report and in
-  `dist/pilot-kaggle-upload.zip.sha256` after the exact tagged rebuild
+  `dist/pilot-kaggle-upload.zip.sha256` after the exact tagged rebuild. It is
+  NOT embedded in the notebook (the archive contains the notebook bytes, so an
+  embedded archive SHA could never equal its own value); at runtime Mode A
+  verifies the mounted ZIP against its sidecar.
+- Deployment `source_commit`: equals the actual peel of tag
+  `v0.9.6-pilot-exec-ready` (the final merged commit). It is recorded/verified
+  in the deployment freeze report and is NOT a frozen notebook anchor (it
+  would embed the very commit that contains the notebook).
 - Model: `Qwen/Qwen2.5-Coder-14B-Instruct`
 - Quantization: `bnb-nf4`
 - Previously accepted Kaggle model mount candidate:
@@ -71,24 +115,47 @@ filename transport correction):
 The Kaggle preflight MUST verify the model mount and the HF results repo at
 runtime instead of assuming them.
 
+## Freeze procedure (how the notebook's trust anchors are finalized)
+
+The notebook embeds ONLY notebook-independent anchors: `FROZEN_SOURCE_TAG`,
+`FROZEN_DEPLOYMENT`, and the four stable `FROZEN_MANIFEST_HASHES` values
+(`code_manifest_sha256`, `data_manifest_sha256`,
+`repository_snapshot_manifest_sha256`, `kaggle_transport_path_map_sha256`).
+The archive SHA and `notebook_manifest_sha256` are self-referential (each
+hashes content that includes the notebook bytes that would embed it), so they
+are verified self-consistently at runtime instead of frozen.
+
+`scripts/finalize_pilot_notebook_trust.py` is a DETERMINISTIC SINGLE-PASS
+freezer (no hash iteration): build once, verify the frozen anchors against
+the emitted identity, write the four stable hashes, then rebuild once to
+confirm invariance. The freeze report lands in
+`reports/pilot_notebook_trust_freeze.json` and records the deployed
+`source_commit` (which MUST equal the final tag peel), the archive SHA-256,
+and the notebook SHA-256.
+
 ---
 
 ## 1. Before launching (all must be done first)
 
-1. Confirm the working tree is at tag `v0.9.5-pilot-exec-ready` and
+1. Confirm the working tree is at tag `v0.9.6-pilot-exec-ready` and
    `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` records the exact tag->commit
    dereference and the bundle manifest SHA-256s.
 2. Confirm `dist/pilot-kaggle-upload.zip.sha256` matches the freeze report.
    Use the zip + sidecar as ONE frozen unit; never re-zip the folder by hand.
+   The notebook's four stable frozen manifest hashes must match the identity
+   inside the deployed artifact.
 3. Upload the frozen Pilot archive as ONE Kaggle Dataset containing exactly:
    - `pilot-kaggle-upload.zip`
    - `pilot-kaggle-upload.zip.sha256`
    Use a NEW slug for the Pilot (e.g. `pilot-benchmark-bundle`). The Smoke
    dataset slugs are reserved evidence. Do not create separate code/data
-   datasets for the Pilot.
-4. Record the actual Kaggle dataset slug, the mounted model path
-   (`/kaggle/input/<model-slug>`), and the exact HF results repo ID in the
-   launch log BEFORE the first real Pilot cell.
+   datasets for the Pilot. The notebook accepts the dataset whether Kaggle
+   mounts the raw `.zip` or auto-expands it into `pilot-kaggle-upload/`
+   (the observed real-mount shape).
+4. Record the actual Kaggle dataset slug, the mounted dataset path
+   (`/kaggle/input/datasets/.../dependency-aware-selective-regeneration-pilot`),
+   the mounted model path (`/kaggle/input/<model-slug>`), and the exact HF
+   results repo ID in the launch log BEFORE the first real Pilot cell.
 
 ## 2. Notebook cells (first launch)
 
@@ -102,9 +169,22 @@ runtime instead of assuming them.
    install is needed and offline). Model loading itself remains offline.
    Prints `SALEOR VALIDATION SERVICE BOOTSTRAP: PASSED` on success; any
    install/startup/health failure STOPS the run before validation/model load.
-1. Resolve the attached dataset mount and verify the ZIP SHA-256 equals the
-   frozen value above.
-2. Extract the ZIP to `/kaggle/working/pilot_bundle`.
+1. Resolve the attached dataset mount. The setup cell discovers EXACTLY ONE
+   input shape and fails closed on ambiguity (more than one archive, more than
+   one auto-expanded directory, both shapes, or neither):
+   - **Mode A:** `pilot-kaggle-upload.zip` — the ZIP SHA-256 must equal its
+     sidecar, then the tree is verified against the frozen anchors.
+   - **Mode B:** `pilot-kaggle-upload/` auto-expanded directory — the sidecar
+     is required as provenance metadata only; the tree is trusted ONLY against
+     the frozen `FROZEN_SOURCE_TAG` / `FROZEN_DEPLOYMENT` / four stable
+     `FROZEN_MANIFEST_HASHES` anchors plus self-consistent notebook-manifest
+     verification, then copied to `/kaggle/working/pilot_bundle`.
+     `/kaggle/input` is never mutated.
+2. Provision `/kaggle/working/pilot_bundle` (extract for Mode A, copy for
+   Mode B). The extract root must be empty or absent; a non-empty root fails
+   closed. Both modes verify the tree (source tag, deployment identity, four
+   stable manifest/map hashes, notebook-manifest self-consistency) against
+   the frozen anchors before proceeding.
 3. Run the notebook's `transport-restore-cell`: it verifies
    `kaggle_transport_path_map.json` SHA-256 against the identity and restores
    every transport-encoded canonical repository filename from
@@ -115,10 +195,15 @@ runtime instead of assuming them.
    filenames are never renamed — the ZIP is Kaggle-safe (zero unsafe member
    names under `^[A-Za-z0-9._/-]+$` and zero reserved `__name__` components)
    because unsafe names ride in the transport directory until this cell
-   restores them.
+   restores them. The two input modes converge on identical canonical trees
+   here.
 4. Verify
    `/kaggle/working/pilot_bundle/pilot_deployment_identity.json`
-   (task = `PILOT-EXEC-01`, source tag = `v0.9.5-pilot-exec-ready`).
+   (task = `PILOT-EXEC-01`, source tag = `v0.9.6-pilot-exec-ready`); the
+   identity-verify cell anchors `source_tag` and the full `FROZEN_DEPLOYMENT`
+   to the frozen constants in BOTH modes. `source_commit` is recorded in the
+   deployment freeze report (it equals the final tag peel) and is NOT a frozen
+   notebook anchor.
 6. Verify the code/data manifests against the freeze report.
 7. Define the bundled paths:
    ```python
@@ -157,7 +242,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --max-total-workflow-tokens 0 \
     --timeout 600 \
     --source-commit <40-char SHA from freeze report> \
-    --source-tag v0.9.5-pilot-exec-ready \
+    --source-tag v0.9.6-pilot-exec-ready \
     --output-dir /kaggle/working/runs/pilot-<experiment-id> \
     --hf-sync \
     --hf-repo-id <exact HF results repo id> \
