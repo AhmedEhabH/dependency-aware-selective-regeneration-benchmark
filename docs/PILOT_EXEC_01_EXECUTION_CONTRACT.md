@@ -96,7 +96,7 @@ PILOT-EXEC-01.
 
 ## 7. Execution identity
 
-- Source tag: `v0.9.2-pilot-exec-ready`
+- Source tag: `v0.9.4-pilot-exec-ready`
 - Source commit: the exact 40-char SHA the tag dereferences to (recorded in
   `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` after the tagged-source rebuild).
 - Deployment bundle: `dist/pilot-kaggle-upload/` (archive
@@ -105,6 +105,38 @@ PILOT-EXEC-01.
   deployment bundle and must not be modified or uploaded as Pilot input.
 - Every Pilot preflight/real/resume command MUST pass
   `--qwen-quantization bnb-nf4` explicitly (generic CLI default is `bnb-int8`).
+
+### 7.1 Kaggle filename transport contract (deployment-only, no scientific change)
+
+The frozen repository snapshots contain upstream filenames with characters
+(`[ ] & @ =`) that the Kaggle Dataset upload rejects. The Pilot deployment
+bundle therefore carries a deterministic, reversible TRANSPORT ENCODING:
+
+- ZIP members are restricted to names matching
+  `^[A-Za-z0-9._/-]+$` (zero unsafe member names allowed).
+- Any canonical repository file whose path fails that predicate is stored in
+  the archive under `__kaggle_transport__/files/<deterministic-blob-name>`
+  (content-hash-derived, so the encoding is deterministic and deduplicated).
+- The exact original path for every blob is recorded in
+  `__kaggle_transport__/kaggle_transport_path_map.json`; the map's SHA-256 is
+  bound into `pilot_deployment_identity.json` as
+  `kaggle_transport_path_map_sha256`.
+- The notebook's `transport-restore-cell` (between
+  `pilot-archive-verify-cell` and `pilot-identity-verify-cell`) verifies the
+  map hash against the identity, rejects path traversal / drive / `..`
+  destinations, rejects destination collisions and missing blobs, restores the
+  EXACT original paths and bytes, verifies no mapped blob remains, removes
+  `__kaggle_transport__/`, and prints
+  `PILOT KAGGLE TRANSPORT RESTORE: PASSED` BEFORE any manifest or repository
+  snapshot verification.
+- Canonical upstream filenames are NEVER renamed or deleted; the transport
+  layer exists only inside the ZIP and inside the notebook restore step.
+  Roundtrip equivalence (extract -> restore == original tree, byte-identical)
+  is contract-tested (`TestPilotKaggleTransport`) and was verified on the real
+  STEP 5 bundle.
+
+No scenario, prompt, metric, model, quantization, timeout, repair budget,
+repository pin, or validation-scope input changed.
 
 ## 8. Launch flags frozen
 
@@ -116,7 +148,7 @@ PILOT-EXEC-01.
 - `--max-total-workflow-tokens 0`
 - `--timeout 600`
 - `--source-commit <40-char SHA>`
-- `--source-tag v0.9.2-pilot-exec-ready`
+- `--source-tag v0.9.4-pilot-exec-ready`
 - `--hf-sync` with exact HF results repository ID (recorded before launch)
 - fresh `--output-dir` per experiment; `--new-experiment` on initial launch;
   do NOT pass `--new-experiment` on resume.

@@ -366,3 +366,90 @@ PILOT-EXEC-01 GATE C READY
 Real Pilot NOT STARTED
 
 Next action: upload exact `dist/pilot-kaggle-upload.zip` + `dist/pilot-kaggle-upload.zip.sha256` as ONE Kaggle Dataset, attach the Pilot notebook + Qwen 14B model, enable Internet, configure `HF_TOKEN`, then run cells in order through target preflight. Only after all preflight gates pass may the real 48-cell cell be executed.
+
+---
+
+## FINAL CLOSURE — KAGGLE FILENAME TRANSPORT CORRECTION (2026-08-13, `v0.9.4-pilot-exec-ready`)
+
+**Executor:** opencode (provider `opencode/big-pickle`, model `big-pickle`).
+**Reason for this correction:** the v0.9.3 Pilot archive was rejected by Kaggle —
+50 ZIP member names from the pinned upstream repos (45 Saleor, 5 django CMS)
+contain `[ ] & @ =`, which the Kaggle Dataset upload does not accept.
+
+**What changed (transport layer only, fully reversible):**
+
+- `scripts/build_pilot_upload_bundle.py`: ZIP member names restricted to
+  `^[A-Za-z0-9._/-]+$`; unsafe canonical repository files stored as
+  `__kaggle_transport__/files/<content-hash-blob>`; exact-path map
+  `__kaggle_transport__/kaggle_transport_path_map.json` (SHA-256 bound into
+  `pilot_deployment_identity.json` as `kaggle_transport_path_map_sha256`);
+  `FROZEN_SOURCE_TAG` → `v0.9.4-pilot-exec-ready`.
+- `notebooks/pilot_exec_01.ipynb` (now 18 cells): `transport-restore-cell`
+  between `pilot-archive-verify-cell` and `pilot-identity-verify-cell` —
+  verifies the map hash against the identity; rejects path traversal / drive /
+  `..` destinations, destination collisions, missing blobs, and leftover
+  blobs; restores the EXACT original paths and bytes; removes
+  `__kaggle_transport__/`; prints `PILOT KAGGLE TRANSPORT RESTORE: PASSED`
+  BEFORE any manifest or repository verification.
+- Canonical upstream filenames are NEVER renamed or deleted. No scientific
+  input changed.
+
+### Pre-Benchmark Validation
+
+| Gate | Result |
+|---|---|
+| Dataset Validation | PASS (carried forward — zero data drift; 57 data files, manifest `8b859ecc…`, byte-identical to v0.9.3) |
+| Prompt Validation | PASS (carried forward — zero prompt drift; no scenario/prompt changes in the correction) |
+| Pipeline Smoke Test | PASS (bundled exact 48-cell dry-run executes the full pipeline end-to-end on the STEP 5 transport bundle) |
+| Dry Run | PASS (48/48 terminal / 48 succeeded / 0 failed / 0 pending / 48 unique run IDs; profile `pilot`) |
+| Integration Test | PASS (full suite **2,119 passed / 33 skipped / 0 failed / 0 errors**) |
+| Metric Verification | PASS (carried forward — zero metric/evaluator drift; no evaluator/metric changes in the correction) |
+
+### Independent audit
+
+| Item | Verdict |
+|---|---|
+| Kaggle-safety | PASS — `dist/pilot-kaggle-upload.zip` (STEP 5) has 6396 members, **0 unsafe** under `^[A-Za-z0-9._/-]+$`; exactly 50 transport blobs |
+| Reversibility | PASS — extract + execute the real `transport-restore-cell`: 50/50 restored; `data_manifest` PASS (6296 entries, 0 errors); restored repo content hashes PASS (todo `f72bc9df…`, djangocms `729b5f41…`, saleor `708d0a7b…` — identical to v0.9.3); restored tree == canonical tree |
+| Notebook ordering | PASS — `transport-restore-cell` after `pilot-archive-verify-cell` and BEFORE `pilot-identity-verify-cell`; REQUIRED_CELL_ORDER enforced by tests |
+| Fail-closed guards | PASS — traversal/drive/`..` destinations, destination collisions, duplicate/missing blobs, leftover blobs all rejected by the cell and by `TestPilotKaggleTransport` |
+| Determinism | PASS — blob names are content-hash-derived; identical inputs → byte-identical archive |
+| Identity binding | PASS — `kaggle_transport_path_map_sha256` in identity == emitted map hash (`a5c1e2cb…`) |
+| No scientific RunRecord before all preflights | PASS — `pilot-launch-cell` runs last; no real run executed; dry-run records are mock-only |
+| 48-cell matrix unchanged | PASS — 12 scenarios × 2 strategies × 2 reps = 48; dry-run per-repo 16/16/16, per-strategy 24/24, per-rep 24/24; no `--max-runs` |
+| Metrics/prompts/model/quantization/timeout unchanged | PASS — no `src/benchmark`, prompt, scenario, metric, config, or model-identity change in the correction |
+| No Ground Truth leakage | PASS — no evaluator/ground-truth data changed |
+| Historical Smoke untouched | PASS — `kaggle_upload/` not in the change set; byte-identical |
+| No upstream file rename/delete | PASS — transport is ZIP-only; canonical repo files kept exact names/bytes |
+| Over-engineering | PASS — single deterministic encoding layer + one self-contained fail-closed restore cell |
+| Technical debt | PASS — no new debt; transport contract-tested, deterministic, documented |
+
+### Exact artifact report
+
+- Feature commits: `7d63d9f` (`fix(pilot): encode Kaggle-unsafe repository
+  filenames in transport`) and `ed142f8` (`fix(pilot): keep notebook title cell
+  byte-identical (ascii-safe dump)`) on `fix/pilot-kaggle-filename-transport`;
+  local == remote at `ed142f8`.
+- Merge SHA / tag peel / archive SHA-256 / sidecar / final `created_utc`:
+  RECORDED at the STEP 9–11 closure (merge + `v0.9.4-pilot-exec-ready` tag +
+  exact tagged rebuild).
+- Code manifest SHA-256 `99688e4e…` (byte-identical to v0.9.3); data manifest
+  SHA-256 `8b859ecc…` (byte-identical to v0.9.3); notebook manifest SHA-256
+  `8514a96a…` (18 cells, incl. `transport-restore-cell` and
+  `service-bootstrap-cell`); repository snapshot manifest SHA-256 `49d91d39…`
+  (identical to v0.9.3).
+- Transport path map SHA-256 `a5c1e2cbae309b89c3268fa177a7cd68bcef285f5a483e4354ba54ef982b875e` (50 exact-path entries).
+- Final full-suite counts: **2,119 passed / 33 skipped / 0 failed / 0 errors** (2026-08-13)
+- Final bundled dry-run counts (STEP 5): **48/48 terminal, 48 succeeded, 0 failed, 0 pending, 48 unique run IDs** (profile `pilot`)
+
+### Final state
+
+PILOT-EXEC-01 GATE C READY (transport-safe archive)
+Real Pilot NOT STARTED
+
+Next action: upload exact `dist/pilot-kaggle-upload.zip` +
+`dist/pilot-kaggle-upload.zip.sha256` (rebuilt from `v0.9.4-pilot-exec-ready`)
+as ONE Kaggle Dataset, attach the Pilot notebook + Qwen 14B model, enable
+Internet, configure `HF_TOKEN`, then run cells in order through target
+preflight (transport restore + service bootstrap included). Only after all
+preflight gates pass may the real 48-cell cell be executed.
