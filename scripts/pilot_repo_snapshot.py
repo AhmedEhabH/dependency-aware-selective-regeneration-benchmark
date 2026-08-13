@@ -712,3 +712,7 @@ def main() -> int:
             print(f"  {repo_id}: {'PASS' if entry['passed'] else 'FAIL'}")
         return 0 if result["overall"] == "PASS" else 1
     raise SystemExit("subcommand required: materialize | preflight")
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
