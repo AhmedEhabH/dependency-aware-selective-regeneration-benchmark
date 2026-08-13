@@ -212,13 +212,19 @@ def freeze(
         "frozen_deployment": current["FROZEN_DEPLOYMENT"],
         "frozen_manifest_hashes": {key: identity[key] for key in STABLE_MANIFEST_HASH_KEYS},
         "archive_sha256": archive_sha,
-        "notebook_sha256": hashlib.sha256(notebook_path.read_bytes()).hexdigest(),
+        "notebook_sha256": hashlib.sha256(
+            (output_root / "notebooks" / "pilot_exec_01.ipynb").read_bytes()
+        ).hexdigest(),
+        "notebook_source_sha256": hashlib.sha256(notebook_path.read_bytes()).hexdigest(),
         "output_root": str(output_root.resolve()),
         "archive_path": str(archive_path.resolve()),
         "note": (
             "source_commit must equal the final tag peel; the deployed identity "
             "source_commit is recorded here and must be re-verified after the "
-            "immutable tag is created."
+            "immutable tag is created. notebook_sha256 hashes the DEPLOYED "
+            "(line-ending-normalized) notebook bytes inside the artifact; "
+            "notebook_source_sha256 hashes the source notebook file on this "
+            "recording machine."
         ),
     }
     report_path.parent.mkdir(parents=True, exist_ok=True)
