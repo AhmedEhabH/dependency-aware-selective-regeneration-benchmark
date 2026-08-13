@@ -379,17 +379,21 @@ contain `[ ] & @ =`, which the Kaggle Dataset upload does not accept.
 **What changed (transport layer only, fully reversible):**
 
 - `scripts/build_pilot_upload_bundle.py`: ZIP member names restricted to
-  `^[A-Za-z0-9._/-]+$`; unsafe canonical repository files stored as
-  `__kaggle_transport__/files/<content-hash-blob>`; exact-path map
-  `__kaggle_transport__/kaggle_transport_path_map.json` (SHA-256 bound into
+  `^[A-Za-z0-9._/-]+$` with NO path component matching the reserved Kaggle
+  pattern `^__.*__$` (transport root `kaggle_transport`, replacing the
+  rejected `__kaggle_transport__`); unsafe canonical repository files stored
+  as `kaggle_transport/files/<content-hash-blob>`; exact-path map
+  `kaggle_transport/kaggle_transport_path_map.json` (SHA-256 bound into
   `pilot_deployment_identity.json` as `kaggle_transport_path_map_sha256`);
-  `FROZEN_SOURCE_TAG` → `v0.9.4-pilot-exec-ready`.
+  mandatory pre-upload archive validator scans EVERY ZIP member and fails
+  closed on any unsafe-special-char or reserved-name component;
+  `FROZEN_SOURCE_TAG` → `v0.9.5-pilot-exec-ready`.
 - `notebooks/pilot_exec_01.ipynb` (now 18 cells): `transport-restore-cell`
   between `pilot-archive-verify-cell` and `pilot-identity-verify-cell` —
   verifies the map hash against the identity; rejects path traversal / drive /
   `..` destinations, destination collisions, missing blobs, and leftover
   blobs; restores the EXACT original paths and bytes; removes
-  `__kaggle_transport__/`; prints `PILOT KAGGLE TRANSPORT RESTORE: PASSED`
+  `kaggle_transport/`; prints `PILOT KAGGLE TRANSPORT RESTORE: PASSED`
   BEFORE any manifest or repository verification.
 - Canonical upstream filenames are NEVER renamed or deleted. No scientific
   input changed.

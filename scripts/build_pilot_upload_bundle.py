@@ -34,6 +34,7 @@ import json
 import re
 import shutil
 import sys
+from collections.abc import Iterable
 from datetime import datetime
 from pathlib import Path
 from types import ModuleType
@@ -47,7 +48,7 @@ DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "dist" / "pilot-kaggle-upload"
 DEFAULT_ARCHIVE_PATH = PROJECT_ROOT / "dist" / "pilot-kaggle-upload.zip"
 DEFAULT_REPO_CACHE = PROJECT_ROOT / "dist" / "pilot-repo-cache"
 
-FROZEN_SOURCE_TAG = "v0.9.4-pilot-exec-ready"
+FROZEN_SOURCE_TAG = "v0.9.5-pilot-exec-ready"
 FROZEN_TASK = "PILOT-EXEC-01"
 FROZEN_PROTOCOL_VERSION = "1.0"
 FROZEN_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct"
@@ -70,19 +71,74 @@ PILOT_SNAPSHOT_SCRIPT = SCRIPTS_DIR / "pilot_repo_snapshot.py"
 #
 # Kaggle rejects upload archive members whose names fall outside
 # ``[A-Za-z0-9._/-]`` (observed: ``[``, ``]``, ``&``, ``@``, ``=`` in exact
-# upstream repository filenames). The canonical execution tree on disk is never
-# renamed: unsafe members are transported inside the ZIP under deterministic
-# hashed blob names plus a root-level path map, and the Pilot notebook restores
-# the exact original paths BEFORE any manifest / snapshot verification.
-KAGGLE_SAFE_NAME_RE = re.compile(r"^[A-Za-z0-9._/-]+$")
-TRANSPORT_BLOB_PREFIX = "__kaggle_transport__"
+# upstream repository filenames) and reserves any path component matching the
+# ``__name__`` pattern (``^__.*__$``; the old ``__kaggle_transport__`` root was
+# rejected by Kaggle for exactly this reason). The canonical execution tree on
+# disk is never renamed: unsafe members are transported inside the ZIP under
+# deterministic hashed blob names plus a root-level path map, and the Pilot
+# notebook restores the exact original paths BEFORE any manifest / snapshot
+# verification. A mandatory pre-upload archive validator scans EVERY ZIP member
+# and fails closed on any unsafe-special-char or reserved-name component.
+KAGGLE_SAFE_COMPONENT_RE = re.compile(r"^[A-Za-z0-9._-]+$")
+KAGGLE_RESERVED_NAME_RE = re.compile(r"^__.*__$")
+TRANSPORT_BLOB_PREFIX = "kaggle_transport"
 TRANSPORT_FILES_DIR = f"{TRANSPORT_BLOB_PREFIX}/files"
 TRANSPORT_MAP_NAME = "kaggle_transport_path_map.json"
 
 
 def is_kaggle_safe_name(rel_path: str) -> bool:
-    """True when an archive member name satisfies the Kaggle-safe charset."""
-    return bool(KAGGLE_SAFE_NAME_RE.match(rel_path))
+    """True when every path component is Kaggle-safe.
+
+    A member is Kaggle-safe only when each component stays inside the
+    ``[A-Za-z0-9._-]`` charset AND no component matches the reserved
+    ``__name__`` pattern (``^__.*__$``).
+    """
+    if not rel_path:
+        return False
+    return all(
+        KAGGLE_SAFE_COMPONENT_RE.match(comp) is not None
+        and KAGGLE_RESERVED_NAME_RE.match(comp) is None
+        for comp in rel_path.split("/")
+    )
+
+
+def kaggle_unsafe_members(members: Iterable[str]) -> tuple[list[str], list[str]]:
+    """Classify archive members as (unsafe-charset, reserved-name) offenders."""
+    unsafe_chars: list[str] = []
+    reserved_names: list[str] = []
+    for member in members:
+        if not member:
+            unsafe_chars.append(member)
+            continue
+        for comp in member.split("/"):
+            if not KAGGLE_SAFE_COMPONENT_RE.match(comp):
+                unsafe_chars.append(member)
+                break
+            if KAGGLE_RESERVED_NAME_RE.match(comp):
+                reserved_names.append(member)
+                break
+    return unsafe_chars, reserved_names
+
+
+def validate_archive_members_kaggle_ready(members: Iterable[str]) -> tuple[int, int]:
+    """Mandatory pre-upload archive validator (fail closed).
+
+    Rejects the artifact if ANY ZIP member has a path component with
+    characters outside ``[A-Za-z0-9._-]`` or a component matching the
+    reserved ``^__.*__$`` pattern. Returns
+    ``(unsafe_special_char_count, reserved_name_count)``, which is always
+    ``(0, 0)`` when the artifact is Kaggle-ready.
+    """
+    scanned = list(members)
+    unsafe_chars, reserved_names = kaggle_unsafe_members(scanned)
+    if unsafe_chars or reserved_names:
+        raise RuntimeError(
+            "KAGGLE PRE-UPLOAD VALIDATION FAILED - archive is NOT Kaggle-ready "
+            f"({len(scanned)} members scanned): "
+            f"unsafe-special-char members={unsafe_chars!r}; "
+            f"reserved-name components={reserved_names!r}"
+        )
+    return len(unsafe_chars), len(reserved_names)
 
 
 def transport_blob_name(rel_path: str) -> str:
@@ -302,12 +358,16 @@ def create_deterministic_zip(bundle_root: Path, archive_path: Path, created_utc:
                 f"transport map does not round-trip original member: {rel}"
             )
     member_for = {rel: transport_blob_name(rel) for rel in unsafe_orig}
+    planned_members = [member_for.get(rel, rel) for rel in files]
+    validate_archive_members_kaggle_ready(planned_members)
     with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for rel in files:
             member = member_for.get(rel, rel)
             info = zipfile.ZipInfo(member, date_time=date_time)
             info.compress_type = zipfile.ZIP_DEFLATED
             zf.writestr(info, (bundle_root / rel).read_bytes())
+    with zipfile.ZipFile(archive_path, "r") as zf:
+        validate_archive_members_kaggle_ready(zf.namelist())
     archive_sha = _sha256_bytes(archive_path.read_bytes())
     archive_path.with_name(archive_path.name + ".sha256").write_text(
         archive_sha + "\n", encoding="utf-8", newline="\n"
