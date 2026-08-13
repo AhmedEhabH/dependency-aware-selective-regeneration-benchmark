@@ -1,6 +1,23 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
-> **NOTE (2026-08-13, LATEST):** superseded by the KAGGLE RESERVED-NAME
+> **NOTE (2026-08-13, LATEST):** superseded by the KAGGLE POSTGRESQL ROOT-SAFE
+> BOOTSTRAP CORRECTION (branch `fix/pilot-kaggle-postgres-unprivileged-bootstrap`,
+> non-fast-forward merged to main, tagged `v0.9.7-pilot-exec-ready`). The real
+> Kaggle blocker is closed: the notebook process runs as root while PostgreSQL
+> `initdb`/`pg_ctl` refuse root (`initdb: error: cannot be run as root`). The
+> `service-bootstrap-cell` now runs the PostgreSQL server lifecycle under the
+> package-native unprivileged `postgres` OS account when euid==0 via
+> `subprocess.run(..., user=...)` (POSIX-only, fail-closed before initdb, no
+> `runuser`, no `shell=True`, NEVER falls back to root); non-root processes
+> keep the direct path. No scientific inputs changed; the four frozen
+> manifest/map hashes stay byte-identical. Gates: service bootstrap 28/28,
+> notebook contract 42/42, deployment bundle 51/51, preflight 13/13 (targeted
+> 134/134), full suite **2,185 passed / 33 skipped / 0 failed**. Deployment
+> archive rebuilt from the exact tag: `dist/pilot-kaggle-upload.zip` + `.sha256`
+> (archive SHA-256 `92a82606…`, byte-deterministic; finalize invariance PASS).
+> Final closure section appended below.
+
+> **NOTE (2026-08-13):** superseded by the KAGGLE RESERVED-NAME
 > TRANSPORT CORRECTION (branch `fix/pilot-kaggle-reserved-transport-name`,
 > non-fast-forward merged to main, tagged `v0.9.5-pilot-exec-ready`). Kaggle
 > rejected the v0.9.4 archive because its transport root `__kaggle_transport__`
@@ -581,3 +598,180 @@ as ONE Kaggle Dataset, attach the Pilot notebook + Qwen 14B model, enable
 Internet, configure `HF_TOKEN`, then run cells in order through target
 preflight (transport restore + service bootstrap included). Only after all
 preflight gates pass may the real 48-cell cell be executed.
+
+---
+
+## FINAL CLOSURE — KAGGLE STABLE-ANCHOR FREEZE / DUAL INPUT MODES (2026-08-13, `v0.9.6-pilot-exec-ready`)
+
+> **SUPERSEDED** by the root-safe bootstrap correction on
+> `v0.9.7-pilot-exec-ready` above. `v0.9.6-pilot-exec-ready` is immutable and
+> NOT moved; its archive is retained for reference only.
+
+**Executor:** opencode (provider `opencode/big-pickle`, model `big-pickle`).
+**Reason for this correction:** the v0.9.5 hash-fixpoint finalizer was
+mathematically unsound (archive SHA and notebook-manifest SHA each hash content
+that includes the notebook bytes that would embed the value, so no embedded
+value can equal its own hash). Replaced with a deterministic single-pass
+stable-anchor freezer: the notebook now freezes ONLY notebook-independent
+anchors (FROZEN_SOURCE_TAG, FROZEN_DEPLOYMENT, and the four stable
+manifest/map hashes); archive SHA and notebook-manifest SHA are verified
+self-consistently at runtime in BOTH Kaggle input modes (archive mode: actual
+ZIP SHA must equal the sidecar; auto-expanded mount mode: sidecar is
+provenance-only and the mounted tree is trusted against the frozen anchors plus
+self-consistent notebook-manifest verification before copy). FROZEN_SOURCE_COMMIT
+is not embedded; deployed source_commit equals the tag peel and is recorded in
+`reports/pilot_notebook_trust_freeze.json`. Added
+`scripts/finalize_pilot_notebook_trust.py` (deterministic single-pass freeze +
+invariance rebuild) and expanded the deployment bundle contract (561 new
+lines). Frozen values verified: the four stable hashes match v0.9.5 exactly.
+Full suite **2,156 passed / 33 skipped / 0 failed**. Merge SHA
+`af9b47444fafac260d887dabbe4e3ddc3b22a00f`; archive SHA-256
+`afca4205583ccca1c29e7fb846993f944210805d676d509f1624985da36b16b8`;
+created_utc `2026-08-13T18:00:00+00:00`. It was superseded because the real
+Kaggle session exposed the PostgreSQL `cannot be run as root` blocker.
+
+### Final state
+
+PILOT-EXEC-01 GATE C READY (stable-anchor freeze) — Real Pilot NOT STARTED
+(bootstrap blocked until the v0.9.7 root-safe correction).
+
+---
+
+## FINAL CLOSURE — KAGGLE POSTGRESQL ROOT-SAFE BOOTSTRAP (2026-08-13, `v0.9.7-pilot-exec-ready`)
+
+**Executor:** opencode (provider `opencode/big-pickle`, model `big-pickle`).
+**Reason for this correction:** the real Kaggle session exposed a blocker in
+the v0.9.6 service bootstrap: the Kaggle notebook process runs as root, and
+PostgreSQL `initdb`/`pg_ctl` refuse root (`initdb: error: cannot be run as
+root`). The `service-bootstrap-cell` now resolves the package-native
+unprivileged `postgres` OS account when the notebook effective uid is 0 and
+runs the PostgreSQL server lifecycle (initdb, pg_ctl and the postgres server
+it launches) under that account via `subprocess.run(..., user=...)`
+(POSIX-only, checked, fail-closed; no `runuser`, no `shell=True`); FAILS
+CLOSED before initdb when the account is missing and NEVER falls back to root;
+non-root notebook processes keep the direct path. Ownership/log preparation is
+limited to the private service paths (data dir `0o700`, log `0o600`, chown to
+the postgres uid/gid; incomplete previous clusters safely recreated, ONLY
+`PG_DATA_DIR`). The frozen TCP client probe (psql) still runs from the
+notebook process against `127.0.0.1:5433 saleor/saleor/saleor`; Valkey/Redis
+`127.0.0.1:6379` unchanged. **No scientific inputs changed** (scenarios,
+prompts, metrics, model, quantization, timeout 600, repair budget, repository
+pins, validation scope; the four frozen manifest/map hashes stay
+byte-identical).
+
+**What changed (bootstrap layer only):**
+
+- `notebooks/pilot_exec_01.ipynb` (18 cells): `service-bootstrap-cell` replaced
+  (299 lines) — `_run(..., user=...)`, `_pg_service_user()`, root-aware initdb
+  cluster preparation, `pg_ctl`/postgres under the postgres account when
+  euid==0, fail-closed missing-account handling; `FROZEN_SOURCE_TAG` →
+  `v0.9.7-pilot-exec-ready`. Cell id `service-bootstrap-cell` preserved; all
+  other cells byte-identical (canonical LF-normalized blob `082b4e84…` at the
+  tag).
+- `tests/integration/test_pilot_service_bootstrap.py` (NEW, 28 hermetic
+  tests): execs the EXACT cell definitions with `sys.modules["os"]`/`pwd`
+  fakes + fake `subprocess.run`/`socket.create_connection` (Gates B/C/D/E/F/H)
+  — root mode, non-root mode, missing account, partial cluster state, proof
+  semantics; exact argv assertions for initdb and pg_ctl.
+- `tests/integration/test_pilot_notebook_contract.py` (42): 2 new root-safe
+  static tests (`test_root_safe_unprivileged_postgres_lifecycle`,
+  `test_never_prints_unknown_secrets`) + `FROZEN_SOURCE_TAG` v0.9.7.
+- `tests/integration/test_pilot_deployment_bundle.py` (51),
+  `scripts/build_pilot_upload_bundle.py`,
+  `scripts/finalize_pilot_notebook_trust.py`: v0.9.7 defaults.
+
+### Pre-Benchmark Validation
+
+| Gate | Result |
+|---|---|
+| Dataset Validation | PASS (carried forward — zero data drift; 57 data files, manifest `8b859ecc…`, byte-identical to v0.9.6) |
+| Prompt Validation | PASS (carried forward — zero prompt drift; no scenario/prompt changes in the correction) |
+| Pipeline Smoke Test | PASS (bundled exact 48-cell dry-run executes the full pipeline end-to-end on the v0.9.7 tagged-rebuild bundle) |
+| Dry Run | PASS (48/48 terminal / 48 succeeded / 0 failed / 0 pending / 48 unique run IDs; profile `pilot`) |
+| Integration Test | PASS (full suite **2,185 passed / 33 skipped / 0 failed / 0 errors**) |
+| Metric Verification | PASS (carried forward — zero metric/evaluator drift; no evaluator/metric changes in the correction) |
+
+### Independent audit
+
+| Item | Verdict |
+|---|---|
+| Root-safe bootstrap correctness | PASS — `_pg_service_user()` returns None for non-root (direct path preserved), `pwd.getpwnam("postgres")` for root else fail-closed RuntimeError BEFORE initdb; `_run(..., user=...)` only on POSIX + euid==0; no `runuser`, no `shell=True`; never falls back to root (verified: missing account → no run_calls, no chown_calls) |
+| Exact command construction | PASS — Gate H seam execs the exact cell definitions; initdb/pg_ctl argv asserted exactly (`-p 5433 -h 127.0.0.1 -k <data_dir>`, `--auth=trust`, `--username=saleor`); psql client probe runs from the notebook process with env assertions on the final `SELECT 1` |
+| Fail-closed behavior | PASS — incomplete previous cluster recreated ONLY as `PG_DATA_DIR`; tampered/destroyed paths never repaired; any failure stops before repository validation and model load |
+| Privilege surface | PASS — ownership/chmod limited to private service paths (data dir `0o700`, log `0o600`, chown to postgres uid/gid); notebook process never grants the benchmark/model tree to postgres |
+| Non-root parity | PASS — non-root notebook keeps the direct path; no behavior regression for the Smoke/prior notebooks |
+| Test realism | PASS — hermetic seam replicates Kaggle root-euid conditions with exact cell source; no global `os` mutation (sys.modules fakes avoid pathlib breakage); 28/28 green in 0.36s |
+| Notebook ordering | PASS — `service-bootstrap-cell` is cell index 7, after `pilot-snapshot-verify-cell` and before `pilot-repo-preflight-cell` / `gpu-verify-cell` / `model-preflight-cell` / `dryrun-cell` / `pilot-launch-cell`; REQUIRED_CELL_ORDER + `test_scientific_cell_ordering_unchanged` enforced by tests |
+| No scientific RunRecord before all preflights | PASS — `pilot-launch-cell` runs last; no real run executed; dry-run records are mock-only with `hardware_identity "dry-run:mock"` |
+| 48-cell matrix unchanged | PASS — 12 scenarios × 2 strategies × 2 reps = 48; dry-run per-repo 16/16/16, per-strategy 24/24, per-rep 24/24; no `--max-runs` |
+| Metrics/prompts/model/quantization/timeout unchanged | PASS — no `src/benchmark`, prompt, scenario, metric, config, or model-identity change in the correction |
+| Frozen manifest anchors unchanged | PASS — code `99688e4e…`, data `8b859ecc…`, repository snapshot `49d91d39…`, transport map `07036a36…` all byte-identical; notebook `FROZEN_MANIFEST_HASHES` == identity hashes |
+| No Ground Truth leakage | PASS — no evaluator/ground-truth data changed |
+| Historical Smoke untouched | PASS — `kaggle_upload/` not in the change set; byte-identical |
+| Over-engineering | PASS — single self-contained fail-closed cell; no new abstractions/dependencies (option A, no `runuser`, no `shell=True`) |
+| Technical debt | PASS — no new debt; hermetic seam is test-only; cell documented, contract-tested, deterministic |
+| GitHub durability | PASS — branch pushed (`origin/fix/pilot-kaggle-postgres-unprivileged-bootstrap`, commits `c06dadf`/`539eb03`/`8e562aa`); main pushed non-ff to `f94853a`; tag `v0.9.7-pilot-exec-ready` pushed; local == remote |
+| Docs consistency | PASS — runbook, SYSTEM_STATE, PROJECT_HANDOFF, phase report, deployment freeze, notebook trust freeze all reconciled to v0.9.7 current truth |
+
+### Exact artifact report
+
+- Final main SHA: `f94853aeff9f32dea9355468eedb74e891e2b9a5`
+- Feature commits: `c06dadf` (`fix(pilot): root-safe unprivileged PostgreSQL
+  bootstrap for Kaggle`, 6 files, +580/−17), `539eb03`
+  (`docs(pilot): record v0.9.7 root-safe PostgreSQL bootstrap closure`,
+  4 files, +119/−49), `8e562aa`
+  (`test(pilot): harden hermetic os shim with path/getenv/sep`, +3/−0)
+- Merge SHA: `f94853aeff9f32dea9355468eedb74e891e2b9a5` (non-ff
+  `merge(pilot): root-safe unprivileged PostgreSQL bootstrap for Kaggle
+  (v0.9.7-pilot-exec-ready)`; 10 files, +702/−66)
+- `v0.9.7-pilot-exec-ready` dereference: annotated tag object peels to
+  `f94853aeff9f32dea9355468eedb74e891e2b9a5` == merge commit
+- Exact archive path: `dist/pilot-kaggle-upload.zip`
+- Exact archive SHA-256: `92a82606a2d0b9b8b5a4c91bfe2416ee5682f2a3d460c901e556d32df467fbd3`
+- Sidecar: `dist/pilot-kaggle-upload.zip.sha256` → matches archive hash
+- Determinism: repeated identical builds from the tag (incl. the finalize
+  invariance rebuild) all produced the SAME archive SHA-256 `92a82606…`
+- Notebook SHA-256 (LF-normalized git blob @ tag == bundled deployed):
+  `082b4e84688e2bff3ca3e38afb65ab08dc73e2e4a53576b9688422cae8cd6ede`;
+  source notebook file SHA-256 `a763ac4827219669b6ca4a1a8a195fb620fcbd46a4aae6b253ce30b650d8c890`
+  (18 cells, incl. root-safe `service-bootstrap-cell` and
+  `transport-restore-cell`)
+- Code manifest SHA-256 `99688e4e…` (byte-identical to v0.9.6); data manifest
+  SHA-256 `8b859ecc…` (byte-identical to v0.9.6); notebook manifest SHA-256
+  `a9f5fcdf…`; repository snapshot manifest SHA-256 `49d91d39…` (identical to
+  v0.9.6); transport path map SHA-256 `07036a36…` (50 exact-path entries)
+- Repository snapshot SHAs/hashes (from `repository_snapshot_manifest.json`):
+  todo (embedded) `b8a33e20…` / content `f72bc9df…` / 24 files; djangocms
+  `0f633fc9…` / content `729b5f41…` / 1662 files; saleor `e11a5557…` /
+  content `708d0a7b…` / 4577 files — all identical to v0.9.6
+- `pilot_deployment_identity.json`: source_commit `f94853aeff9f32dea9355468eedb74e891e2b9a5`
+  (tag peel), source_tag `v0.9.7-pilot-exec-ready`, created_utc
+  `2026-08-13T20:00:00+00:00`; expected_cells 48; all frozen values match the
+  notebook `FROZEN_MANIFEST_HASHES`
+- Notebook trust freeze: `reports/pilot_notebook_trust_freeze.json`
+  (single-pass stable-anchor freeze, invariance OK; archive `92a82606…`,
+  deployed notebook `082b4e84…`, source notebook `a763ac48…`)
+- Final full-suite counts: **2,185 passed / 33 skipped / 0 failed / 0 errors**
+  (2026-08-13)
+- Final bundled dry-run counts (v0.9.7 tagged rebuild): **48/48 terminal, 48
+  succeeded, 0 failed, 0 pending, 48 unique run IDs** (profile `pilot`;
+  per-repo todo 16 / djangocms 16 / saleor 16; per-strategy
+  iterative_repository_agent 24 / selective 24; per-rep 24 / 24)
+- Tagged-rebuild acceptance: archive SHA `92a82606…`, 6396 members / 0 unsafe /
+  0 reserved / 50 transport blobs, roundtrip restore 50/50, all five identity
+  manifest hashes PASS, repo content hashes PASS, restored data tree ==
+  canonical data tree, bundle dry-run 48/48
+
+### Final state
+
+PILOT-EXEC-01 GATE C READY (root-safe service bootstrap archive)
+Real Pilot NOT STARTED
+
+Next action: upload exact `dist/pilot-kaggle-upload.zip` +
+`dist/pilot-kaggle-upload.zip.sha256` (rebuilt from
+`v0.9.7-pilot-exec-ready`) as ONE Kaggle Dataset, attach the Pilot notebook +
+Qwen 14B model, enable Internet, configure `HF_TOKEN`, then run cells in order
+through target preflight (archive verify → transport restore → identity verify
+→ install lock → snapshot verify → root-safe service bootstrap → repo preflight
+→ GPU verify → model preflight → dry-run). Only after all preflight gates pass
+may the real 48-cell cell be executed.
