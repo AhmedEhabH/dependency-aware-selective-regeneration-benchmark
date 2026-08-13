@@ -305,3 +305,64 @@ to one Dataset slug while the runbook used two slugs.
 **Git:** shipped as commit
 `docs(pilot): reconcile Gate C Kaggle bundle launch paths`, pushed immediately
 to `main`; verified local main == origin/main at the end of this step.
+
+---
+
+## FINAL CLOSURE — KAGGLE SERVICE BOOTSTRAP LAST-MILE CORRECTION (2026-08-13)
+
+**Executor:** opencode (provider `opencode/big-pickle`, model `big-pickle`).
+
+### Pre-Benchmark Validation
+
+| Gate | Result |
+|---|---|
+| Dataset Validation | PASS (carried forward — zero data drift; 57 data files, manifest `8b859ecc…`, byte-identical to the v0.9.2 bundle) |
+| Prompt Validation | PASS (carried forward — zero prompt drift; no scenario/prompt changes in the correction) |
+| Pipeline Smoke Test | PASS (bundled exact 48-cell dry-run executes the full pipeline end-to-end on the tagged bundle) |
+| Dry Run | PASS (48/48 terminal / 48 succeeded / 0 failed / 0 pending / 48 unique run IDs; profile `pilot`) |
+| Integration Test | PASS (full suite **2,098 passed / 33 skipped / 0 failed / 0 errors**) |
+| Metric Verification | PASS (carried forward — zero metric/evaluator drift; no evaluator/metric changes in the correction) |
+
+### Independent audit
+
+| Item | Verdict |
+|---|---|
+| Notebook ordering | PASS — `service-bootstrap-cell` is cell index 6, after `pilot-snapshot-verify-cell` (5) and before `pilot-repo-preflight-cell` (7) / `model-preflight-cell` (9) / `dryrun-cell` (10) / `pilot-launch-cell` (12); REQUIRED_CELL_ORDER contract enforced by tests |
+| Service bootstrap correctness | PASS — fail-closed (RuntimeError stops before repository validation/model load on any failure), idempotent (port-open + proven frozen connection short-circuit; role/db created idempotently), topology matches `benchmark_data/manifests/pilot_validation_commands.yaml` (PostgreSQL 127.0.0.1:5433 user/pass/db `saleor`, Valkey/Redis 127.0.0.1:6379), `pg_config --bindir` preferred, private data dir `/kaggle/working/pilot_services/postgres`, apt-get non-interactive with loud offline failure |
+| Repository validation isolation | PASS — OS service provisioning never touches the benchmark/model Python environment; django CMS/Saleor isolated envs untouched; no `pip install` of Saleor/django CMS deps into the model runtime |
+| No scientific RunRecord before all preflights | PASS — `pilot-launch-cell` runs last; no real run executed; dry-run records are mock-only with `hardware_identity "dry-run:mock"` |
+| Model identity 14B | PASS — `EXPECTED_MODEL_IDENTITY = "qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25"`, `KNOWN_MODEL = …/qwen2.5-coder/transformers/14b-instruct/1`, identity JSON model `Qwen/Qwen2.5-Coder-14B-Instruct` |
+| bnb-nf4 | PASS — `QWEN_QUANTIZATION = "bnb-nf4"`; every launch/preflight passes `--qwen-quantization bnb-nf4`; FORBIDDEN_CODE_FRAGMENTS rejects `bnb-int8` |
+| 600s timeout | PASS — launch cell `--timeout 600`; identity JSON `timeout_seconds 600` |
+| 48-cell matrix unchanged | PASS — 12 scenarios × 2 strategies × 2 reps = 48; dry-run per-repo 16/16/16, per-strategy 24/24, per-rep 24/24; no `--max-runs` |
+| Metrics/prompts unchanged | PASS — no `src/benchmark`, prompt, scenario, or metric files changed in the correction (diff limited to notebook + 2 test files + builder tag + docs) |
+| No Ground Truth leakage | PASS — no evaluator/ground-truth data changed; evaluator is evaluation-only, frozen |
+| Historical Smoke untouched | PASS — `kaggle_upload/` not in the change set; byte-identical |
+| GitHub durability | PASS — branch pushed (`origin/fix/pilot-kaggle-service-bootstrap`), main pushed (`c0bcaa5..4fa6e1d`), tag pushed (`v0.9.3-pilot-exec-ready` on origin); local == remote |
+| Docs consistency | PASS — all 10 authoritative docs reconciled to v0.9.3 current truth + v0.9.2 historical |
+| Over-engineering | PASS — single self-contained fail-closed cell; no new abstractions/dependencies |
+| Technical debt | PASS — no new debt; cell documented, contract-tested, deterministic |
+
+### Exact artifact report
+
+- Final main SHA: `4fa6e1dfb1a45782d9e5176ef6325405d848b70b`
+- Feature commits: `d40feb2` (`feat(pilot): add fail-closed Kaggle service bootstrap cell…`) and `37486f8` (`docs(pilot): reconcile authoritative docs…`)
+- Merge SHA: `4fa6e1dfb1a45782d9e5176ef6325405d848b70b` (non-ff `merge(pilot): Kaggle service bootstrap last-mile correction…`)
+- `v0.9.3-pilot-exec-ready` dereference: annotated tag object `47a65efda99ec55b0abe4ec7abf79f0efe0ad8a9` → peeled commit `4fa6e1dfb1a45782d9e5176ef6325405d848b70b`
+- Exact archive path: `dist/pilot-kaggle-upload.zip`
+- Exact archive SHA-256: `27e9cd612b33ebc433dafb7a42b7ebe2149f560bc6b73f16b969d3031a6baae1`
+- Sidecar: `dist/pilot-kaggle-upload.zip.sha256` → `27e9cd612b33ebc433dafb7a42b7ebe2149f560bc6b73f16b969d3031a6baae1` (matches)
+- Notebook SHA-256 (git blob @ tag == bundled): `8378edf542bb0ed12b29bc5498fd8f5d0e550319154c59f7c097c2b032349089` (17 cells, incl. `service-bootstrap-cell`)
+- Repository snapshot SHAs/hashes (from `repository_snapshot_manifest.json`, manifest SHA-256 `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c`):
+  - todo (embedded): requested `b8a33e20bdaf5b329114273063fbe8d5aa66e9cf`, content_hash `f72bc9df58882261eb2a2724e358b477cf68ed9586821d0cd2d9d8a47829113f`, 24 files
+  - djangocms: requested `0f633fc9fa213357f4202482aab2b0edad680f95`, content_hash `729b5f418ec79d06b20e6e78ce827d58cde6812622f6e600c63777457b05247e`, 1662 files
+  - saleor: requested `e11a5557eff29fbb2eed36e6ff3cd0af08ab9e10`, content_hash `708d0a7bfeddb92a441e5d1d047ba6d5cdf373bdb9978a8d22ee4622055ccc73`, 4577 files
+- Final full-suite counts: **2,098 passed / 33 skipped / 0 failed / 0 errors** (2026-08-13)
+- Final bundled dry-run counts: **48/48 terminal, 48 succeeded, 0 failed, 0 pending, 48 unique run IDs** (profile `pilot`, source_commit `4fa6e1d`)
+
+### Final state
+
+PILOT-EXEC-01 GATE C READY
+Real Pilot NOT STARTED
+
+Next action: upload exact `dist/pilot-kaggle-upload.zip` + `dist/pilot-kaggle-upload.zip.sha256` as ONE Kaggle Dataset, attach the Pilot notebook + Qwen 14B model, enable Internet, configure `HF_TOKEN`, then run cells in order through target preflight. Only after all preflight gates pass may the real 48-cell cell be executed.
