@@ -148,28 +148,29 @@ explicitly (generic CLI default is `bnb-int8`).
 
 ## CURRENT GIT STATE
 
-`main` = pre-closure `7e0a908` (v0.9.8 Redis fallback closure merged; do not
-move the `v0.9.8-pilot-exec-ready` tag). The repo-env provisioning closure lives
-on branch `fix/pilot-kaggle-env-provisioning-closure` @ `28f0405` (pushed to
-`origin`), NOT yet merged/tagged — merge + tag `v0.9.9-pilot-exec-ready` + exact
-artifact rebuild are the pending final steps (see EXACT NEXT TASK). Prior
-milestones: MAIN-GREEN-01 closed at `d875c72`; SMOKE-V2-CLOSE-01 merged at
-`193d889`. Tags: preferred recovery `v0.8.2-smoke-v2-complete` at `403977b`;
-historical `v0.8.1-smoke-v2-complete` at `d875c72`; `v0.8.0-smoke-v2-complete` at
+`main` = `f211e4d` (tag `v0.9.9-pilot-exec-ready` peels here; the non-ff merge
+`44d0102` merged the repo-env provisioning closure from
+`fix/pilot-kaggle-env-provisioning-closure` — fix `28f0405` + docs `fd6353c`;
+`FROZEN_SOURCE_TAG` bump `f211e4d`; all pushed). Prior deployment source
+`v0.9.8-pilot-exec-ready` @ `7e0a908` NOT moved. Earlier milestones: MAIN-GREEN-01
+closed at `d875c72`; SMOKE-V2-CLOSE-01 merged at `193d889`. Tags: preferred
+recovery `v0.8.2-smoke-v2-complete` at `403977b`; historical
+`v0.8.1-smoke-v2-complete` at `d875c72`; `v0.8.0-smoke-v2-complete` at
 `193d889` — all immutable, never force push.
 
 ## EXACT NEXT TASK
 
 `PILOT-EXEC-01` — Pilot freeze and execution. The repo-env provisioning closure
-(`fix/pilot-kaggle-env-provisioning-closure` @ `28f0405`, full suite green) is
-PENDING MERGE + TAG: push docs, independent audit, non-fast-forward merge to
-`main`, push `origin/main`, bump `FROZEN_SOURCE_TAG` to
-`v0.9.9-pilot-exec-ready` (builder ~line 51 + notebook ~line 198 + contract
-tests), tag `v0.9.9-pilot-exec-ready`, rebuild the exact
-`dist/pilot-kaggle-upload.zip` + `.sha256` from the tagged source, run the
-bundled 48-cell mock dry-run (48/48), then STOP — the real Pilot remains NOT
-STARTED and NOT yet authorized. Do NOT raise the timeout above 600s;
-pre-register the Pilot budget. Frozen Pilot matrix: model
+is MERGED AND TAGGED: `v0.9.9-pilot-exec-ready` @ `f211e4d` (non-ff merge
+`44d0102`), exact `dist/pilot-kaggle-upload.zip` SHA-256 `3f93b0a9…` + sidecar
+rebuilt from the tagged source, bundled 48-cell mock dry-run 48/48, full suite
+2,225 passed / 33 skipped / 0 failed. The real Pilot remains **NOT STARTED and
+NOT yet authorized**: upload the exact archive as ONE Kaggle Dataset, attach the
+Pilot notebook + Qwen 14B model, enable Internet, configure `HF_TOKEN`, run the
+preflight cells in order, and execute the real 48-cell Pilot ONLY after all
+preflight gates pass — still deferred until the user confirms the actual Kaggle
+mounted model path and HF results repository ID. Do NOT raise the timeout above
+600s; pre-register the Pilot budget. Frozen Pilot matrix: model
 Qwen2.5-Coder-14B-Instruct, quantization bnb-nf4, timeout 600s, 12 scenarios, 2
 strategies (iterative_repository_agent, selective), 2 repetitions = 48 cells;
 repositories Todo / django CMS / Saleor.
