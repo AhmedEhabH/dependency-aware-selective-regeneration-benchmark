@@ -869,23 +869,24 @@ the four frozen manifest/map hashes stay byte-identical).
 
 - Feature commit: `9cf1745` (`fix(pilot): fall back to available
   Redis-compatible server package on Kaggle`, 6 files, +530/−20)
-- Docs commit: recorded below (after merge; suggested
-  `docs(pilot): record Kaggle Redis package fallback evidence`)
-- Final main SHA: `_MERGED_COMMIT_` (filled after the non-ff merge)
-- Merge SHA: `_MERGED_COMMIT_` (non-ff
+- Docs commit: `1f3f911` (`docs(pilot): record Kaggle Redis package fallback
+  evidence`, 5 files, +278/−49)
+- Final main SHA: `7e0a908588f8b5e0817659518b4e0928ce7c9943`
+- Merge SHA: `7e0a908588f8b5e0817659518b4e0928ce7c9943` (non-ff
   `merge(pilot): fall back to available Redis-compatible server package on
-  Kaggle (v0.9.8-pilot-exec-ready)`)
-- `v0.9.8-pilot-exec-ready` dereference: annotated tag peels to the merge
-  commit (filled after tagging)
+  Kaggle (v0.9.8-pilot-exec-ready)`; 11 files, +808/−69)
+- `v0.9.8-pilot-exec-ready` dereference: annotated tag object peels to
+  `7e0a908588f8b5e0817659518b4e0928ce7c9943` == merge commit
 - Exact archive path: `dist/pilot-kaggle-upload.zip`
-- Exact archive SHA-256: `_FILLED_AFTER_TAGGED_REBUILD_`
+- Exact archive SHA-256: `21e1d933d4d26c45818be8048cd42b3aeedd044a59b41fa442e93023d174662b`
 - Sidecar: `dist/pilot-kaggle-upload.zip.sha256` → matches archive hash
-- Determinism: repeated identical builds from the tag all produce the SAME
-  archive SHA-256 (filled after rebuild)
+- Determinism: repeated identical builds from the tag all produced the SAME
+  archive SHA-256 `21e1d933…`
 - Notebook SHA-256 (LF-normalized git blob @ tag == bundled deployed):
-  `_FILLED_AFTER_TAGGED_REBUILD_`; source notebook file SHA-256
-  `_FILLED_AFTER_TAGGED_REBUILD_` (18 cells, incl. Redis-fallback
-  `service-bootstrap-cell` and `transport-restore-cell`)
+  `eff87bd76b412341d5ffc969ab3b7bb4a4400fc4`;
+  source notebook file SHA-256 `d16009bfa618999ed380982cea3e908b399f2283a2ef602cb9933eb7aa12d633`
+  (18 cells, incl. Redis-fallback `service-bootstrap-cell` and
+  `transport-restore-cell`)
 - Code manifest SHA-256 `99688e4e…` (byte-identical to v0.9.7); data manifest
   SHA-256 `8b859ecc…` (byte-identical to v0.9.7); repository snapshot
   manifest SHA-256 `49d91d39…` (identical to v0.9.7); transport path map
@@ -898,7 +899,7 @@ the four frozen manifest/map hashes stay byte-identical).
   succeeded, 0 failed, 0 pending, 48 unique run IDs** (profile `pilot`;
   per-repo todo 16 / djangocms 16 / saleor 16; per-strategy
   iterative_repository_agent 24 / selective 24; per-rep 24 / 24)
-- Tagged-rebuild acceptance: archive SHA (filled after rebuild), 0 unsafe /
+- Tagged-rebuild acceptance: archive SHA `21e1d933…`, 0 unsafe /
   0 reserved / 50 transport blobs, roundtrip restore 50/50, all five identity
   manifest hashes PASS, repo content hashes PASS, restored data tree ==
   canonical data tree, bundle dry-run 48/48
