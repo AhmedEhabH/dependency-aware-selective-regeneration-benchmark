@@ -1,4 +1,4 @@
-"""PILOT-EXEC-01 KAGGLE-AUTO-EXPANDED-MOUNT: deterministic stable-anchor freezer.
+"""PILOT-EXEC-01: deterministic stable-anchor freezer (release trust gate).
 
 The Pilot notebook embeds only frozen anchors that are INDEPENDENT of the
 notebook bytes and of the final Git commit: ``FROZEN_SOURCE_TAG``, the
@@ -14,21 +14,30 @@ bundled notebook bytes). ``FROZEN_SOURCE_COMMIT`` is not embedded either; the
 deployed ``source_commit`` equals the final tag peel and is recorded/verified
 externally in the freeze report.
 
-This script is a deterministic single-pass freezer: build once, verify the
-frozen anchors against the emitted identity, write the four stable manifest
-hashes, then REBUILD once to confirm invariance (the frozen values reproduce
-byte-identically and the notebook is left unchanged). No hash iteration.
-Idempotent: re-running against an already-frozen notebook changes nothing.
+This script is the ONLY authorized bridge from stale -> frozen notebook
+anchors. It performs exactly TWO builder passes:
+
+1. a controlled DISCOVERY build with the embedded-notebook trust gate disabled
+   (``validate_notebook_trust=False``) - legitimate because the notebook still
+   embeds the OLD anchors while bundled code changed; the emitted identity is
+   the source of truth for the new anchors;
+2. writes the new ``FROZEN_SOURCE_TAG`` and the four stable manifest hashes
+   into the notebook bytes (byte-level, CRLF-safe, idempotent);
+3. a validation-enabled REBUILD (``validate_notebook_trust=True``) that passes
+   the exact same fail-closed gate production release builds use, plus an
+   invariance check confirming the stable anchors reproduce byte-identically
+   and an idempotent second run changes nothing.
+
+No hash iteration. No casual ``--skip-trust`` flag exists anywhere; the gate is
+only relaxed for this internal discovery pass.
 """
 
 from __future__ import annotations
 
 import argparse
-import ast
 import hashlib
 import importlib.util
 import json
-import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -40,13 +49,6 @@ DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "dist" / "pilot-kaggle-upload"
 DEFAULT_ARCHIVE_PATH = PROJECT_ROOT / "dist" / "pilot-kaggle-upload.zip"
 DEFAULT_REPO_CACHE = PROJECT_ROOT / "dist" / "pilot-repo-cache"
 DEFAULT_REPORT = PROJECT_ROOT / "reports" / "pilot_notebook_trust_freeze.json"
-
-STABLE_MANIFEST_HASH_KEYS = (
-    "code_manifest_sha256",
-    "data_manifest_sha256",
-    "repository_snapshot_manifest_sha256",
-    "kaggle_transport_path_map_sha256",
-)
 
 
 def load_pilot_builder() -> Any:
@@ -62,60 +64,42 @@ def load_pilot_builder() -> Any:
     return module
 
 
-def _setup_cell_text(notebook_path: Path) -> str:
-    nb = json.loads(notebook_path.read_text(encoding="utf-8"))
-    cells = [c for c in nb["cells"] if c.get("id") == "setup-cell"]
-    if len(cells) != 1:
-        raise RuntimeError("expected exactly one 'setup-cell' in the Pilot notebook")
-    src = cells[0]["source"]
-    return src if isinstance(src, str) else "".join(src)
-
-
-def _parse_deployment(text: str) -> dict[str, Any]:
-    match = re.search(r"FROZEN_DEPLOYMENT\s*=\s*\{.*?\}", text, re.DOTALL)
-    if match is None:
-        raise RuntimeError("FROZEN_DEPLOYMENT block not found in notebook")
-    value = ast.literal_eval(match.group(0).split("=", 1)[1].strip())
-    if not isinstance(value, dict) or not value:
-        raise RuntimeError("FROZEN_DEPLOYMENT must be a non-empty dict literal")
-    return value
-
-
 def read_frozen_values(notebook_path: Path) -> dict[str, Any]:
-    text = _setup_cell_text(notebook_path)
-
-    def capture(pattern: str) -> str:
-        match = re.search(pattern, text)
-        if match is None:
-            raise RuntimeError(f"pattern not found in notebook: {pattern!r}")
-        return match.group(1)
-
-    return {
-        "FROZEN_SOURCE_TAG": capture(r'FROZEN_SOURCE_TAG = "([^"]+)"'),
-        "FROZEN_DEPLOYMENT": _parse_deployment(text),
-        "FROZEN_MANIFEST_HASHES": {
-            key: capture(rf'"{key}": "([0-9a-fA-F]+)"') for key in STABLE_MANIFEST_HASH_KEYS
-        },
-    }
+    """Delegate to the shared notebook parsing in the Pilot bundle builder."""
+    values = load_pilot_builder().read_frozen_values(notebook_path)
+    if not isinstance(values, dict):
+        raise RuntimeError("unexpected frozen-values type from Pilot builder")
+    return values
 
 
 def write_frozen_values(
     notebook_path: Path, current: dict[str, Any], desired: dict[str, Any]
 ) -> None:
-    """Byte-level replace of the four stable manifest hashes.
+    """Byte-level replace of the source tag and the four stable manifest hashes.
 
-    Every value has a fixed length (64 hex chars), so the replacements leave
-    all other bytes (including CRLF line endings) untouched. The notebook JSON
-    stores cell source with escaped quotes, so the byte patterns use the
-    backslash-quote form; hex values contain no escapes, so replacement is
-    lossless. Idempotent: equal old/new values are skipped.
+    Every hash value has a fixed length (64 hex chars), so those replacements
+    leave all other bytes (including CRLF line endings) untouched. The source
+    tag replacement carries its own fixed-length markers
+    (``FROZEN_SOURCE_TAG = \"...\"``) so it is likewise a lossless, length-safe
+    byte swap. The notebook JSON stores cell source with escaped quotes, so the
+    byte patterns use the backslash-quote form; hex values contain no escapes,
+    so replacement is lossless. Idempotent: equal old/new values are skipped.
     """
 
     def esc(value: str) -> str:
         return f'\\"{value}\\"'
 
     raw = notebook_path.read_bytes()
-    for key in STABLE_MANIFEST_HASH_KEYS:
+
+    old_tag = f"FROZEN_SOURCE_TAG = {esc(current['FROZEN_SOURCE_TAG'])}"
+    new_tag = f"FROZEN_SOURCE_TAG = {esc(desired['FROZEN_SOURCE_TAG'])}"
+    if old_tag != new_tag:
+        if old_tag.encode("utf-8") not in raw:
+            raise RuntimeError(f"FROZEN_SOURCE_TAG pattern missing from notebook: {old_tag!r}")
+        raw = raw.replace(old_tag.encode("utf-8"), new_tag.encode("utf-8"))
+
+    builder = load_pilot_builder()
+    for key in builder.STABLE_MANIFEST_HASH_KEYS:
         old = f'\\"{key}\\": {esc(current["FROZEN_MANIFEST_HASHES"][key])}'
         new = f'\\"{key}\\": {esc(desired["FROZEN_MANIFEST_HASHES"][key])}'
         if old == new:
@@ -142,7 +126,7 @@ def freeze(
     builder = load_pilot_builder()
     current = read_frozen_values(notebook_path)
 
-    def build_and_verify() -> tuple[dict[str, Any], str]:
+    def build_and_verify(*, validate: bool) -> tuple[dict[str, Any], str]:
         identity = builder.build_pilot_bundle(
             output_root=output_root,
             archive_path=archive_path,
@@ -151,6 +135,8 @@ def freeze(
             created_utc=created_utc,
             repo_cache=repo_cache,
             allow_acquire=allow_acquire,
+            notebook=notebook_path,
+            validate_notebook_trust=validate,
         )
         archive_sha = hashlib.sha256(archive_path.read_bytes()).hexdigest()
         if identity["source_commit"] != source_commit:
@@ -163,36 +149,33 @@ def freeze(
                 f"identity source_tag mismatch: identity={identity['source_tag']!r} "
                 f"expected={source_tag!r}"
             )
-        if identity["source_tag"] != current["FROZEN_SOURCE_TAG"]:
-            raise RuntimeError(
-                f"notebook FROZEN_SOURCE_TAG does not match the build tag: "
-                f"notebook={current['FROZEN_SOURCE_TAG']!r} build={identity['source_tag']!r}"
-            )
-        mismatch = [k for k, v in current["FROZEN_DEPLOYMENT"].items() if identity.get(k) != v]
-        if mismatch:
-            raise RuntimeError(
-                "built identity does not match the notebook FROZEN_DEPLOYMENT: "
-                + "; ".join(f"{k}={identity.get(k)!r}" for k in mismatch)
-            )
         return identity, archive_sha
 
-    identity, archive_sha = build_and_verify()
+    # Discovery build: the ONLY authorized bridge from stale -> frozen anchors.
+    # The notebook legitimately still embeds the OLD anchors (bundled code
+    # changed since the last freeze), so the embedded-notebook trust gate is
+    # disabled for this single private pass. The emitted identity is the source
+    # of truth for the new anchors.
+    identity, archive_sha = build_and_verify(validate=False)
     desired = {
         "FROZEN_SOURCE_TAG": source_tag,
-        "FROZEN_MANIFEST_HASHES": {key: identity[key] for key in STABLE_MANIFEST_HASH_KEYS},
+        "FROZEN_MANIFEST_HASHES": {
+            key: identity[key] for key in builder.STABLE_MANIFEST_HASH_KEYS
+        },
     }
 
     notebook_bytes_before = notebook_path.read_bytes()
     write_frozen_values(notebook_path, current, desired)
     notebook_changed = notebook_path.read_bytes() != notebook_bytes_before
 
-    # Rebuild invariance check: a second build from the (now) frozen notebook
-    # must reproduce identical stable anchors. The archive SHA is only required
+    # Validation-enabled rebuild: must pass the exact same fail-closed gate used
+    # by production release builds (stale source tag / deployment field / any of
+    # the four manifest hashes all abort here). The archive SHA is only required
     # to be invariant when the freeze did not change the notebook (already
-    # frozen, idempotent run) — a fresh freeze legitimately changes the archive
+    # frozen, idempotent run) - a fresh freeze legitimately changes the archive
     # because the archive embeds the notebook bytes themselves.
-    identity2, archive_sha2 = build_and_verify()
-    for key in STABLE_MANIFEST_HASH_KEYS:
+    identity2, archive_sha2 = build_and_verify(validate=True)
+    for key in builder.STABLE_MANIFEST_HASH_KEYS:
         if identity2[key] != identity[key]:
             raise RuntimeError(
                 f"rebuild invariance failed for {key}: {identity[key]} != {identity2[key]}"
@@ -202,18 +185,21 @@ def freeze(
             f"rebuild invariance failed for archive: {archive_sha} != {archive_sha2}"
         )
     archive_sha = archive_sha2
+    final = read_frozen_values(notebook_path)
 
     report = {
         "status": "FROZEN",
         "source_commit": source_commit,
         "source_tag": source_tag,
         "created_utc": created_utc,
-        "frozen_source_tag": current["FROZEN_SOURCE_TAG"],
-        "frozen_deployment": current["FROZEN_DEPLOYMENT"],
-        "frozen_manifest_hashes": {key: identity[key] for key in STABLE_MANIFEST_HASH_KEYS},
+        "frozen_source_tag": final["FROZEN_SOURCE_TAG"],
+        "frozen_deployment": final["FROZEN_DEPLOYMENT"],
+        "frozen_manifest_hashes": {
+            key: identity2[key] for key in builder.STABLE_MANIFEST_HASH_KEYS
+        },
         "archive_sha256": archive_sha,
         "notebook_sha256": hashlib.sha256(
-            (output_root / "notebooks" / "pilot_exec_01.ipynb").read_bytes()
+            (output_root / "notebooks" / notebook_path.name).read_bytes()
         ).hexdigest(),
         "notebook_source_sha256": hashlib.sha256(notebook_path.read_bytes()).hexdigest(),
         "output_root": str(output_root.resolve()),
@@ -224,7 +210,9 @@ def freeze(
             "immutable tag is created. notebook_sha256 hashes the DEPLOYED "
             "(line-ending-normalized) notebook bytes inside the artifact; "
             "notebook_source_sha256 hashes the source notebook file on this "
-            "recording machine."
+            "recording machine. Discovery build (validate_notebook_trust=False) "
+            "+ validation-enabled rebuild (validate_notebook_trust=True) "
+            "confirmed; the artifact is the validation-enabled rebuild."
         ),
     }
     report_path.parent.mkdir(parents=True, exist_ok=True)
@@ -234,7 +222,7 @@ def freeze(
         newline="\n",
     )
     print(
-        f"[freeze] FROZEN single pass + invariance OK; archive={archive_sha[:16]}... "
+        f"[freeze] FROZEN discovery+validation OK; archive={archive_sha[:16]}... "
         f"report: {report_path}"
     )
     return report
@@ -243,8 +231,9 @@ def freeze(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Deterministic single-pass freeze of the Pilot notebook stable anchors "
-            "(PILOT-EXEC-01), plus one rebuild invariance check."
+            "Deterministic two-pass freeze of the Pilot notebook stable anchors "
+            "(PILOT-EXEC-01): discovery build (trust gate off), write anchors, "
+            "then validation-enabled rebuild (trust gate on) + invariance check."
         ),
     )
     parser.add_argument("--notebook", type=Path, default=DEFAULT_NOTEBOOK)
@@ -258,7 +247,12 @@ def parse_args() -> argparse.Namespace:
         help="Allow fetching a missing pinned commit into the repo cache.",
     )
     parser.add_argument("--source-commit", type=str, required=True)
-    parser.add_argument("--source-tag", type=str, default="v0.9.8-pilot-exec-ready")
+    parser.add_argument(
+        "--source-tag",
+        type=str,
+        required=True,
+        help="Exact pre-execution stable release tag (e.g. v0.9.10-pilot-exec-ready).",
+    )
     parser.add_argument("--created-utc", type=str, required=True)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     return parser.parse_args()
