@@ -1184,7 +1184,7 @@ class TestPilotNotebookTrustFreeze:
             output_root=tmp_path / "freeze-output",
             archive_path=tmp_path / "freeze-archive.zip",
             source_commit="a" * 40,
-            source_tag="v0.9.8-pilot-exec-ready",
+            source_tag="v0.9.9-pilot-exec-ready",
             created_utc="2026-08-13T12:00:00+00:00",
             repo_cache=None,
             allow_acquire=False,
@@ -1192,7 +1192,7 @@ class TestPilotNotebookTrustFreeze:
         )
         first = mod.freeze(**common)
         assert first["status"] == "FROZEN"
-        assert first["frozen_source_tag"] == "v0.9.8-pilot-exec-ready"
+        assert first["frozen_source_tag"] == "v0.9.9-pilot-exec-ready"
         assert len(first["archive_sha256"]) == 64
         assert set(first["frozen_manifest_hashes"]) == {
             "code_manifest_sha256",
@@ -1207,7 +1207,7 @@ class TestPilotNotebookTrustFreeze:
         # The frozen notebook must now carry exactly the frozen values.
         written = mod.read_frozen_values(notebook)
         assert written["FROZEN_MANIFEST_HASHES"] == first["frozen_manifest_hashes"]
-        assert written["FROZEN_SOURCE_TAG"] == "v0.9.8-pilot-exec-ready"
+        assert written["FROZEN_SOURCE_TAG"] == "v0.9.9-pilot-exec-ready"
         assert "FROZEN_ARCHIVE_SHA" not in written
         assert "FROZEN_SOURCE_COMMIT" not in written
 
@@ -1223,7 +1223,7 @@ class TestPilotNotebookTrustFreeze:
         """The canonical development notebook must still carry well-formed anchors."""
         mod = self._load_finalizer()
         values = mod.read_frozen_values(CANONICAL_NOTEBOOK)
-        assert values["FROZEN_SOURCE_TAG"] == "v0.9.8-pilot-exec-ready"
+        assert values["FROZEN_SOURCE_TAG"] == "v0.9.9-pilot-exec-ready"
         assert isinstance(values["FROZEN_DEPLOYMENT"], dict)
         assert values["FROZEN_DEPLOYMENT"]["task"] == "PILOT-EXEC-01"
         assert set(values["FROZEN_MANIFEST_HASHES"]) == {

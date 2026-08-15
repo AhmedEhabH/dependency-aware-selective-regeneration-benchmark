@@ -48,7 +48,7 @@ DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "dist" / "pilot-kaggle-upload"
 DEFAULT_ARCHIVE_PATH = PROJECT_ROOT / "dist" / "pilot-kaggle-upload.zip"
 DEFAULT_REPO_CACHE = PROJECT_ROOT / "dist" / "pilot-repo-cache"
 
-FROZEN_SOURCE_TAG = "v0.9.8-pilot-exec-ready"
+FROZEN_SOURCE_TAG = "v0.9.9-pilot-exec-ready"
 FROZEN_TASK = "PILOT-EXEC-01"
 FROZEN_PROTOCOL_VERSION = "1.0"
 FROZEN_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct"
