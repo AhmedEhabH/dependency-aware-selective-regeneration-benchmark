@@ -450,7 +450,7 @@ class TestKaggleAutoExpandedMount:
 
     def test_frozen_trust_anchors_present(self) -> None:
         setup = self._src("setup-cell")
-        assert 'FROZEN_SOURCE_TAG = "v0.9.9-pilot-exec-ready"' in setup
+        assert 'FROZEN_SOURCE_TAG = "v0.9.10-pilot-exec-ready"' in setup
         assert "FROZEN_DEPLOYMENT" in setup
         assert "FROZEN_MANIFEST_HASHES" in setup
 
@@ -558,6 +558,7 @@ class TestBundledNotebookParity:
             source_commit="a" * 40,
             source_tag="v0.9.3-pilot-exec-ready",
             created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
         )
         bundled = output_root / "notebooks" / "pilot_exec_01.ipynb"
         assert bundled.is_file()

@@ -24,6 +24,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import shutil
 import socket
 import subprocess
@@ -115,6 +116,18 @@ TRANSPORT_BLOB_PREFIX = pilot_builder.TRANSPORT_BLOB_PREFIX
 TRANSPORT_FILES_PREFIX = f"{TRANSPORT_BLOB_PREFIX}/files/"
 
 
+def _load_finalizer() -> Any:
+    spec = importlib.util.spec_from_file_location(
+        "finalize_pilot_notebook_trust_under_test",
+        str(SCRIPTS_DIR / "finalize_pilot_notebook_trust.py"),
+    )
+    assert spec is not None and spec.loader is not None
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def _tree_sha256(directory: Path) -> str:
     digest = hashlib.sha256()
     for rel in sorted(p.relative_to(directory).as_posix() for p in directory.rglob("*") if p.is_file()):
@@ -130,6 +143,13 @@ def _normalized_bytes(path: Path) -> bytes:
 
 
 def _build(tmp_path: Path, created_utc: str, source_commit: str, label: str) -> tuple[Path, Path]:
+    """Construction-only bundle (NOT a release-gated artifact).
+
+    These builds exercise output isolation, parity, manifests, runtime and
+    transport; they intentionally build with the embedded-notebook trust gate
+    disabled because the canonical notebook legitimately still carries
+    development/stale anchors until the finalizer freezes a release.
+    """
     output_root = tmp_path / f"pilot-upload-{label}"
     archive = tmp_path / f"pilot-upload-{label}.zip"
     pilot_builder.build_pilot_bundle(
@@ -138,8 +158,46 @@ def _build(tmp_path: Path, created_utc: str, source_commit: str, label: str) -> 
         source_commit=source_commit,
         source_tag="v0.9.3-pilot-exec-ready",
         created_utc=created_utc,
+        validate_notebook_trust=False,
     )
     return output_root, archive
+
+
+PILOT_SOURCE_TAG = "v0.9.10-pilot-exec-ready"
+
+
+def _build_frozen(
+    tmp_path: Path, created_utc: str, source_commit: str, label: str
+) -> tuple[Path, Path, Path]:
+    """Build a FINALIZED hermetic bundle whose notebook anchors match identity.
+
+    Runs the real two-pass freezer on a temp copy of the canonical notebook
+    (discovery build with the gate off, write anchors, then a validation build
+    with the gate on). Returns ``(output_root, archive, frozen_notebook)``. The
+    provisioning cells MUST be exec'd from ``frozen_notebook`` - not the
+    canonical notebook - because only the frozen copy carries the anchors that
+    match the bundle's identity. Nothing is injected.
+    """
+    finalizer = _load_finalizer()
+    notebook_dir = tmp_path / f"pilot_frozen_{label}"
+    notebook_dir.mkdir(parents=True, exist_ok=True)
+    notebook = notebook_dir / "pilot_exec_01.ipynb"
+    notebook.write_bytes(CANONICAL_NOTEBOOK.read_bytes())
+    output_root = tmp_path / f"pilot-upload-{label}"
+    archive = tmp_path / f"pilot-upload-{label}.zip"
+    report = finalizer.freeze(
+        notebook_path=notebook,
+        output_root=output_root,
+        archive_path=archive,
+        source_commit=source_commit,
+        source_tag=PILOT_SOURCE_TAG,
+        created_utc=created_utc,
+        repo_cache=None,
+        allow_acquire=False,
+        report_path=tmp_path / f"freeze-report-{label}.json",
+    )
+    assert report["status"] == "FROZEN", report
+    return output_root, archive, notebook
 
 
 class TestPilotBundleOutputIsolation:
@@ -680,6 +738,14 @@ class TestPilotKaggleTransport:
             self._run_restore(extract_root)
 
 
+def _dist_artifact_is_v0_9_10() -> bool:
+    if not DIST_ARTIFACT.is_file():
+        return False
+    with zipfile.ZipFile(DIST_ARTIFACT) as zf:
+        identity = json.loads(zf.read("pilot_deployment_identity.json").decode("utf-8"))
+    return identity.get("source_tag") == PILOT_SOURCE_TAG
+
+
 class TestPilotKaggleExpandedMount:
     """PILOT-EXEC-01 KAGGLE-AUTO-EXPANDED-MOUNT execution contract.
 
@@ -694,15 +760,15 @@ class TestPilotKaggleExpandedMount:
     """
 
     @staticmethod
-    def _cell_source(cell_id: str) -> str:
-        nb = json.loads(CANONICAL_NOTEBOOK.read_text(encoding="utf-8"))
+    def _cell_source(cell_id: str, notebook_path: Path = CANONICAL_NOTEBOOK) -> str:
+        nb = json.loads(notebook_path.read_text(encoding="utf-8"))
         cell = next(c for c in nb["cells"] if c.get("id") == cell_id)
         src = cell["source"]
         return src if isinstance(src, str) else "".join(src)
 
     @staticmethod
-    def _setup_source(sim_input: Path) -> str:
-        src = TestPilotKaggleExpandedMount._cell_source("setup-cell")
+    def _setup_source(sim_input: Path, notebook_path: Path = CANONICAL_NOTEBOOK) -> str:
+        src = TestPilotKaggleExpandedMount._cell_source("setup-cell", notebook_path)
         marker = 'KAGGLE_INPUT = Path("/kaggle/input")'
         assert marker in src
         return src.replace(marker, f"KAGGLE_INPUT = Path({str(sim_input.resolve())!r})")
@@ -751,16 +817,20 @@ class TestPilotKaggleExpandedMount:
         self,
         sim_input: Path,
         working_root: Path,
-        identity: dict[str, Any],
-        frozen_archive_sha: str,
+        notebook_path: Path,
         *,
         overrides: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Exec the real setup cell then the real input-verify cell.
 
-        The frozen trust constants are injected AFTER setup (which declares
-        development placeholders) so the verify cell checks the bundle under
-        test. ``extract_root`` is redirected to a writable working root.
+        The setup cell declares the notebook's frozen trust constants (source
+        tag, deployment identity, the four stable manifest/map hashes). NO
+        identity values are injected here: the cell source comes from the exact
+        notebook that was bundled (a finalized copy for hermetic builds), so the
+        anchors in the exec namespace already match the bundle under test.
+        ``overrides`` exists ONLY for negative tamper tests and must be named as
+        such at the call site. ``extract_root`` is redirected to a writable
+        working root.
         """
         self._make_model_mount(sim_input)
         ns: dict[str, Any] = {
@@ -785,34 +855,23 @@ class TestPilotKaggleExpandedMount:
         }
         _saved_path = list(sys.path)
         try:
-            exec(self._setup_source(sim_input), ns)
+            exec(self._setup_source(sim_input, notebook_path), ns)
             deployment_paths = dict(ns["KAGGLE_DEPLOYMENT_PATHS"])
             deployment_paths["extract_root"] = working_root / "pilot_bundle"
             ns["KAGGLE_DEPLOYMENT_PATHS"] = deployment_paths
-            ns["FROZEN_SOURCE_TAG"] = identity["source_tag"]
-            ns["FROZEN_DEPLOYMENT"] = {k: identity[k] for k in FROZEN_IDENTITY}
-            ns["FROZEN_MANIFEST_HASHES"] = {
-                key: identity[key]
-                for key in (
-                    "code_manifest_sha256",
-                    "data_manifest_sha256",
-                    "repository_snapshot_manifest_sha256",
-                    "kaggle_transport_path_map_sha256",
-                )
-            }
             if overrides:
                 ns.update(overrides)
-            exec(self._cell_source("pilot-archive-verify-cell"), ns)
+            exec(self._cell_source("pilot-archive-verify-cell", notebook_path), ns)
         finally:
             sys.path[:] = _saved_path
         return ns
 
-    def _finish_flow(self, ns: dict[str, Any]) -> int:
+    def _finish_flow(self, ns: dict[str, Any], notebook_path: Path = CANONICAL_NOTEBOOK) -> int:
         """Exec the real transport-restore and identity-verify cells."""
         _saved_path = list(sys.path)
         try:
-            exec(self._cell_source("transport-restore-cell"), ns)
-            exec(self._cell_source("pilot-identity-verify-cell"), ns)
+            exec(self._cell_source("transport-restore-cell", notebook_path), ns)
+            exec(self._cell_source("pilot-identity-verify-cell", notebook_path), ns)
         finally:
             sys.path[:] = _saved_path
         return int(ns["_restored_count"])
@@ -845,19 +904,14 @@ class TestPilotKaggleExpandedMount:
         ]
 
     def test_archive_mode_roundtrip(self, tmp_path: Path) -> None:
-        output_root, archive = _build(
+        output_root, archive, frozen_notebook = _build_frozen(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "archrt"
-        )
-        identity = json.loads(
-            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
         )
         sim_input = tmp_path / "kaggle_input"
         self._mount_archive(sim_input, archive)
-        ns = self._provision(
-            sim_input, tmp_path / "working", identity, self._archive_sha(archive)
-        )
+        ns = self._provision(sim_input, tmp_path / "working", frozen_notebook)
         assert ns["PILOT_INPUT_MODE"] == "archive"
-        restored = self._finish_flow(ns)
+        restored = self._finish_flow(ns, frozen_notebook)
         assert restored == 5, restored  # hermetic unsafe-file seed count
         extract_root = Path(ns["EXTRACT_ROOT"])
         assert _tree_sha256(extract_root / "data") == _tree_sha256(output_root / "data")
@@ -866,20 +920,15 @@ class TestPilotKaggleExpandedMount:
     def test_expanded_mode_copies_to_working_root_and_never_mutates_input(
         self, tmp_path: Path
     ) -> None:
-        output_root, archive = _build(
+        output_root, archive, frozen_notebook = _build_frozen(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "exprt"
-        )
-        identity = json.loads(
-            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
         )
         sim_input = tmp_path / "kaggle_input"
         self._make_model_mount(sim_input)
         self._mount_expanded(sim_input, archive)
         before = _tree_sha256(sim_input)
         working = tmp_path / "working"
-        ns = self._provision(
-            sim_input, working, identity, self._archive_sha(archive)
-        )
+        ns = self._provision(sim_input, working, frozen_notebook)
         assert ns["PILOT_INPUT_MODE"] == "expanded"
         assert _tree_sha256(sim_input) == before, "/kaggle/input mount was mutated"
         extract_root = Path(ns["EXTRACT_ROOT"])
@@ -890,26 +939,21 @@ class TestPilotKaggleExpandedMount:
         assert (extract_root / "kaggle_transport_path_map.json").is_file()
 
     def test_expanded_mode_roundtrip_identical_to_archive_mode(self, tmp_path: Path) -> None:
-        output_root, archive = _build(
+        output_root, archive, frozen_notebook = _build_frozen(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "modes"
         )
-        identity = json.loads(
-            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
-        )
-        sha = self._archive_sha(archive)
-
         sim_arch = tmp_path / "kaggle_input_archive"
         self._mount_archive(sim_arch, archive)
-        ns_arch = self._provision(sim_arch, tmp_path / "working_arch", identity, sha)
+        ns_arch = self._provision(sim_arch, tmp_path / "working_arch", frozen_notebook)
         assert ns_arch["PILOT_INPUT_MODE"] == "archive"
-        restored_arch = self._finish_flow(ns_arch)
+        restored_arch = self._finish_flow(ns_arch, frozen_notebook)
         arch_root = Path(ns_arch["EXTRACT_ROOT"])
 
         sim_exp = tmp_path / "kaggle_input_expanded"
         self._mount_expanded(sim_exp, archive)
-        ns_exp = self._provision(sim_exp, tmp_path / "working_exp", identity, sha)
+        ns_exp = self._provision(sim_exp, tmp_path / "working_exp", frozen_notebook)
         assert ns_exp["PILOT_INPUT_MODE"] == "expanded"
-        restored_exp = self._finish_flow(ns_exp)
+        restored_exp = self._finish_flow(ns_exp, frozen_notebook)
         exp_root = Path(ns_exp["EXTRACT_ROOT"])
 
         assert restored_arch == restored_exp == 5
@@ -918,16 +962,13 @@ class TestPilotKaggleExpandedMount:
         assert not (exp_root / "kaggle_transport").exists()
 
     def test_expanded_mode_data_manifest_and_repo_hashes_pass(self, tmp_path: Path) -> None:
-        output_root, archive = _build(
+        output_root, archive, frozen_notebook = _build_frozen(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "exphash"
-        )
-        identity = json.loads(
-            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
         )
         sim_input = tmp_path / "kaggle_input"
         self._mount_expanded(sim_input, archive)
-        ns = self._provision(sim_input, tmp_path / "working", identity, self._archive_sha(archive))
-        self._finish_flow(ns)
+        ns = self._provision(sim_input, tmp_path / "working", frozen_notebook)
+        self._finish_flow(ns, frozen_notebook)
         extract_root = Path(ns["EXTRACT_ROOT"])
         manifest = json.loads((extract_root / "data_manifest.json").read_text(encoding="utf-8"))
         errors = []
@@ -956,16 +997,13 @@ class TestPilotKaggleExpandedMount:
             )
 
     def test_expanded_mode_dry_run_48_cells(self, tmp_path: Path) -> None:
-        _output_root, archive = _build(
+        _output_root, archive, frozen_notebook = _build_frozen(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "expdry"
-        )
-        identity = json.loads(
-            (_output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
         )
         sim_input = tmp_path / "kaggle_input"
         self._mount_expanded(sim_input, archive)
-        ns = self._provision(sim_input, tmp_path / "working", identity, self._archive_sha(archive))
-        self._finish_flow(ns)
+        ns = self._provision(sim_input, tmp_path / "working", frozen_notebook)
+        self._finish_flow(ns, frozen_notebook)
         records = self._dry_run_records(ns, tmp_path)
         assert len(records) == 48
         run_ids = [r["run_id"] for r in records]
@@ -989,11 +1027,8 @@ class TestPilotKaggleExpandedMount:
     def test_expanded_mode_rejects_tampered_mount(
         self, tmp_path: Path, tamper: str, match: str
     ) -> None:
-        output_root, archive = _build(
+        _output_root, archive, frozen_notebook = _build_frozen(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "tamper"
-        )
-        identity = json.loads(
-            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
         )
         sim_input = tmp_path / "kaggle_input"
         dataset = self._make_dataset_dir(sim_input)
@@ -1022,47 +1057,32 @@ class TestPilotKaggleExpandedMount:
                 self._archive_sha(archive), encoding="utf-8"
             )
         with pytest.raises(RuntimeError, match=match):
-            self._provision(
-                sim_input, tmp_path / "working", identity, self._archive_sha(archive)
-            )
+            self._provision(sim_input, tmp_path / "working", frozen_notebook)
 
     def test_expanded_mode_missing_sidecar_fails_closed(self, tmp_path: Path) -> None:
-        output_root, archive = _build(
+        _output_root, archive, frozen_notebook = _build_frozen(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "nosh"
-        )
-        identity = json.loads(
-            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
         )
         sim_input = tmp_path / "kaggle_input"
         dataset = self._make_dataset_dir(sim_input)
         with zipfile.ZipFile(archive) as zf:
             zf.extractall(dataset / "pilot-kaggle-upload")
         with pytest.raises(FileNotFoundError, match="missing SHA-256 sidecar"):
-            self._provision(
-                sim_input, tmp_path / "working", identity, self._archive_sha(archive)
-            )
+            self._provision(sim_input, tmp_path / "working", frozen_notebook)
 
     def test_both_archive_and_expanded_fail_closed(self, tmp_path: Path) -> None:
-        output_root, archive = _build(
+        _output_root, archive, frozen_notebook = _build_frozen(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "both"
-        )
-        identity = json.loads(
-            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
         )
         sim_input = tmp_path / "kaggle_input"
         self._mount_archive(sim_input, archive)
         self._mount_expanded(sim_input, archive)
         with pytest.raises(RuntimeError, match="BOTH an original archive"):
-            self._provision(
-                sim_input, tmp_path / "working", identity, self._archive_sha(archive)
-            )
+            self._provision(sim_input, tmp_path / "working", frozen_notebook)
 
     def test_two_expanded_candidates_fail_closed(self, tmp_path: Path) -> None:
-        output_root, archive = _build(
+        _output_root, archive, frozen_notebook = _build_frozen(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "twoexp"
-        )
-        identity = json.loads(
-            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
         )
         sim_input = tmp_path / "kaggle_input"
         dataset = self._make_dataset_dir(sim_input)
@@ -1073,29 +1093,19 @@ class TestPilotKaggleExpandedMount:
         with zipfile.ZipFile(archive) as zf:
             zf.extractall(second / "pilot-kaggle-upload")
         with pytest.raises(RuntimeError, match="Ambiguous Pilot bundle input mounts"):
-            self._provision(
-                sim_input, tmp_path / "working", identity, self._archive_sha(archive)
-            )
+            self._provision(sim_input, tmp_path / "working", frozen_notebook)
 
     def test_no_input_shape_fails_closed(self, tmp_path: Path) -> None:
-        output_root, _archive = _build(
+        _output_root, _archive = _build(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "noinput"
-        )
-        identity = json.loads(
-            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
         )
         sim_input = tmp_path / "kaggle_input"
         with pytest.raises(FileNotFoundError, match="Cannot find"):
-            self._provision(
-                sim_input, tmp_path / "working", identity, "0" * 64
-            )
+            self._provision(sim_input, tmp_path / "working", CANONICAL_NOTEBOOK)
 
     def test_non_empty_extract_root_fails_closed(self, tmp_path: Path) -> None:
-        output_root, archive = _build(
+        _output_root, archive, frozen_notebook = _build_frozen(
             tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "nonempty"
-        )
-        identity = json.loads(
-            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
         )
         sim_input = tmp_path / "kaggle_input"
         self._mount_expanded(sim_input, archive)
@@ -1103,42 +1113,32 @@ class TestPilotKaggleExpandedMount:
         (working / "pilot_bundle").mkdir(parents=True)
         (working / "pilot_bundle" / "stale.txt").write_text("x", encoding="utf-8")
         with pytest.raises(RuntimeError, match="refusing to reuse a non-empty"):
-            self._provision(
-                sim_input, working, identity, self._archive_sha(archive)
-            )
+            self._provision(sim_input, working, frozen_notebook)
 
     @pytest.mark.skipif(
-        not DIST_ARTIFACT.is_file(),
-        reason="current frozen Pilot artifact not present under dist/",
+        not _dist_artifact_is_v0_9_10(),
+        reason="current frozen Pilot artifact under dist/ is not v0.9.10",
     )
     def test_real_kaggle_artifact_expanded_simulation(self, tmp_path: Path) -> None:
         """Full real-mount simulation against the frozen dist/ artifact.
 
-        The dist archive is the exact frozen upload (v0.9.5 while developing,
-        replaced by the v0.9.7 tagged rebuild at finalization). The frozen trust
-        constants are overridden from the artifact's own identity so the current
-        notebook logic is exercised against the real Kaggle-shaped mount: 50
-        transport blobs restored, manifests verified, repo hashes verified, and
-        the exact 48-cell dry-run passes.
+        The dist archive is the exact frozen upload (replaced by the v0.9.10
+        tagged rebuild at finalization). The notebook source used for the
+        setup/verify cells is the canonical notebook, which the finalizer
+        freezes with the real anchors; NO identity values are injected. The
+        verify cell must pass against the artifact as-is: 50 transport blobs
+        restored, manifests verified, repo hashes verified, and the exact
+        48-cell dry-run passes.
         """
-        with zipfile.ZipFile(DIST_ARTIFACT) as zf:
-            identity = json.loads(
-                zf.read("pilot_deployment_identity.json").decode("utf-8")
-            )
         sha = hashlib.sha256(DIST_ARTIFACT.read_bytes()).hexdigest()
         sim_input = tmp_path / "kaggle_input"
         dataset = self._make_dataset_dir(sim_input)
         with zipfile.ZipFile(DIST_ARTIFACT) as zf:
             zf.extractall(dataset / "pilot-kaggle-upload")
         (dataset / "pilot-kaggle-upload.zip.sha256").write_text(sha, encoding="utf-8")
-        ns = self._provision(
-            sim_input,
-            tmp_path / "working",
-            identity,
-            sha,
-        )
+        ns = self._provision(sim_input, tmp_path / "working", CANONICAL_NOTEBOOK)
         assert ns["PILOT_INPUT_MODE"] == "expanded"
-        restored = self._finish_flow(ns)
+        restored = self._finish_flow(ns, CANONICAL_NOTEBOOK)
         assert restored == 50, f"expected 50 transport blobs restored, got {restored}"
         records = self._dry_run_records(ns, tmp_path)
         assert len(records) == 48
@@ -1184,7 +1184,7 @@ class TestPilotNotebookTrustFreeze:
             output_root=tmp_path / "freeze-output",
             archive_path=tmp_path / "freeze-archive.zip",
             source_commit="a" * 40,
-            source_tag="v0.9.9-pilot-exec-ready",
+            source_tag="v0.9.10-pilot-exec-ready",
             created_utc="2026-08-13T12:00:00+00:00",
             repo_cache=None,
             allow_acquire=False,
@@ -1192,7 +1192,7 @@ class TestPilotNotebookTrustFreeze:
         )
         first = mod.freeze(**common)
         assert first["status"] == "FROZEN"
-        assert first["frozen_source_tag"] == "v0.9.9-pilot-exec-ready"
+        assert first["frozen_source_tag"] == "v0.9.10-pilot-exec-ready"
         assert len(first["archive_sha256"]) == 64
         assert set(first["frozen_manifest_hashes"]) == {
             "code_manifest_sha256",
@@ -1207,7 +1207,7 @@ class TestPilotNotebookTrustFreeze:
         # The frozen notebook must now carry exactly the frozen values.
         written = mod.read_frozen_values(notebook)
         assert written["FROZEN_MANIFEST_HASHES"] == first["frozen_manifest_hashes"]
-        assert written["FROZEN_SOURCE_TAG"] == "v0.9.9-pilot-exec-ready"
+        assert written["FROZEN_SOURCE_TAG"] == "v0.9.10-pilot-exec-ready"
         assert "FROZEN_ARCHIVE_SHA" not in written
         assert "FROZEN_SOURCE_COMMIT" not in written
 
@@ -1223,7 +1223,7 @@ class TestPilotNotebookTrustFreeze:
         """The canonical development notebook must still carry well-formed anchors."""
         mod = self._load_finalizer()
         values = mod.read_frozen_values(CANONICAL_NOTEBOOK)
-        assert values["FROZEN_SOURCE_TAG"] == "v0.9.9-pilot-exec-ready"
+        assert values["FROZEN_SOURCE_TAG"] == "v0.9.10-pilot-exec-ready"
         assert isinstance(values["FROZEN_DEPLOYMENT"], dict)
         assert values["FROZEN_DEPLOYMENT"]["task"] == "PILOT-EXEC-01"
         assert set(values["FROZEN_MANIFEST_HASHES"]) == {
@@ -1234,3 +1234,211 @@ class TestPilotNotebookTrustFreeze:
         }
         for key, value in values["FROZEN_MANIFEST_HASHES"].items():
             assert len(value) == 64, f"frozen {key} not 64 hex: {value}"
+
+
+STALE_CODE_MANIFEST_SHA = "99688e4e03291606399126061ae8305bb768a68d10fee0dc43964846272fbe96"
+
+
+def _tamper_notebook(
+    src: Path,
+    dest: Path,
+    *,
+    source_tag: str | None = None,
+    deployment_fields: dict[str, Any] | None = None,
+    manifest_hashes: dict[str, str] | None = None,
+) -> Path:
+    """Copy a notebook and tamper its frozen trust anchors (byte-safe, JSON-roundtrip)."""
+    nb = json.loads(src.read_text(encoding="utf-8"))
+    setup = next(c for c in nb["cells"] if c.get("id") == "setup-cell")
+    text = setup["source"]
+    text = text if isinstance(text, str) else "".join(text)
+    if source_tag is not None:
+        new, n = re.subn(
+            r'FROZEN_SOURCE_TAG = "[^"]*"',
+            f'FROZEN_SOURCE_TAG = "{source_tag}"',
+            text,
+        )
+        assert n == 1, "FROZEN_SOURCE_TAG pattern not found"
+        text = new
+    if deployment_fields:
+        match = re.search(r"(FROZEN_DEPLOYMENT\s*=\s*\{.*?\})", text, re.DOTALL)
+        assert match is not None, "FROZEN_DEPLOYMENT block not found"
+        block = match.group(1)
+        new_block = block
+        for key, value in deployment_fields.items():
+            new_block, n = re.subn(
+                rf'"{key}":\s*[^,}}]+',
+                f'"{key}": {value}',
+                new_block,
+            )
+            assert n == 1, f"deployment field {key!r} not found"
+        text = text.replace(block, new_block)
+    if manifest_hashes:
+        match = re.search(r"(FROZEN_MANIFEST_HASHES\s*=\s*\{.*?\})", text, re.DOTALL)
+        assert match is not None, "FROZEN_MANIFEST_HASHES block not found"
+        block = match.group(1)
+        new_block = block
+        for key, value in manifest_hashes.items():
+            new_block, n = re.subn(
+                rf'"{key}":\s*"[0-9a-fA-F]*"',
+                f'"{key}": "{value}"',
+                new_block,
+            )
+            assert n == 1, f"manifest hash {key!r} not found"
+        text = text.replace(block, new_block)
+    setup["source"] = text.splitlines(keepends=True) if "\n" in text else text
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(json.dumps(nb, indent=1) + "\n", encoding="utf-8")
+    return dest
+
+
+class TestPilotReleaseTrustGate:
+    """Release trust gate regression suite (Gates 1, 3, 4 of v0.9.10 closure).
+
+    Gate 1: a bundle whose embedded frozen code-manifest hash is stale (the
+    exact v0.9.9 value) MUST fail the normal ``build_pilot_bundle`` gate.
+    Gate 3: the finalizer repairs a stale code anchor in one pass, the real
+    setup+verify cells then pass with NO identity injection, and a second run
+    is byte-idempotent.
+    Gate 4: the builder gate predicate rejects every tampered anchor
+    (tag / deployment field / code / data / repo / transport) and accepts a
+    finalized notebook.
+    """
+
+    @staticmethod
+    def _build_validated(
+        tmp_path: Path,
+        label: str,
+        notebook: Path,
+        source_tag: str = PILOT_SOURCE_TAG,
+    ) -> dict[str, Any]:
+        return pilot_builder.build_pilot_bundle(
+            output_root=tmp_path / f"pilot-upload-{label}",
+            archive_path=tmp_path / f"pilot-upload-{label}.zip",
+            source_commit="a" * 40,
+            source_tag=source_tag,
+            created_utc="2026-08-13T12:00:00+00:00",
+            repo_cache=None,
+            allow_acquire=False,
+            notebook=notebook,
+            validate_notebook_trust=True,
+        )
+
+    def test_gate1_stale_code_anchor_fails_release_build(self, tmp_path: Path) -> None:
+        """Exact v0.9.9 regression: stale embedded code hash + zero placeholders."""
+        tampered = _tamper_notebook(
+            CANONICAL_NOTEBOOK,
+            tmp_path / "gate1" / "pilot_exec_01.ipynb",
+            manifest_hashes={
+                "code_manifest_sha256": STALE_CODE_MANIFEST_SHA,
+                "data_manifest_sha256": "0" * 64,
+                "repository_snapshot_manifest_sha256": "0" * 64,
+                "kaggle_transport_path_map_sha256": "0" * 64,
+            },
+        )
+        with pytest.raises(RuntimeError) as exc:
+            self._build_validated(tmp_path, "gate1", tampered)
+        msg = str(exc.value)
+        assert "PILOT DEPLOYMENT MANIFEST/MAP SHA MISMATCH" in msg
+        assert "code_manifest_sha256" in msg
+        assert STALE_CODE_MANIFEST_SHA in msg
+
+    def test_gate3_finalizer_repairs_stale_anchor_and_verifies_without_injection(
+        self, tmp_path: Path
+    ) -> None:
+        """One freeze pass repairs a stale code anchor; real cells then pass cleanly."""
+        stale = _tamper_notebook(
+            CANONICAL_NOTEBOOK,
+            tmp_path / "gate3-stale" / "pilot_exec_01.ipynb",
+            manifest_hashes={"code_manifest_sha256": STALE_CODE_MANIFEST_SHA},
+        )
+        mod = _load_finalizer()
+        frozen_nb = tmp_path / "gate3-frozen" / "pilot_exec_01.ipynb"
+        frozen_nb.parent.mkdir(parents=True, exist_ok=True)
+        frozen_nb.write_bytes(stale.read_bytes())
+        output_root = tmp_path / "pilot-upload-gate3"
+        archive = tmp_path / "pilot-upload-gate3.zip"
+        report = mod.freeze(
+            notebook_path=frozen_nb,
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag=PILOT_SOURCE_TAG,
+            created_utc="2026-08-13T12:00:00+00:00",
+            repo_cache=None,
+            allow_acquire=False,
+            report_path=tmp_path / "gate3-report.json",
+        )
+        assert report["status"] == "FROZEN"
+        assert report["frozen_manifest_hashes"]["code_manifest_sha256"] != STALE_CODE_MANIFEST_SHA
+        identity = json.loads(
+            (output_root / "pilot_deployment_identity.json").read_text(encoding="utf-8")
+        )
+        assert (
+            report["frozen_manifest_hashes"]["code_manifest_sha256"]
+            == identity["code_manifest_sha256"]
+        )
+
+        mount = TestPilotKaggleExpandedMount()
+        sim_input = tmp_path / "kaggle_input"
+        mount._mount_expanded(sim_input, archive)
+        ns = mount._provision(sim_input, tmp_path / "working", frozen_nb)
+        assert ns["PILOT_INPUT_MODE"] == "expanded"
+        restored = mount._finish_flow(ns, frozen_nb)
+        assert restored == 5, f"expected 5 hermetic unsafe-file seeds, got {restored}"
+
+        frozen_bytes = frozen_nb.read_bytes()
+        second = mod.freeze(
+            notebook_path=frozen_nb,
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag=PILOT_SOURCE_TAG,
+            created_utc="2026-08-13T12:00:00+00:00",
+            repo_cache=None,
+            allow_acquire=False,
+            report_path=tmp_path / "gate3-report-2.json",
+        )
+        assert second["status"] == "FROZEN"
+        assert second["frozen_manifest_hashes"] == report["frozen_manifest_hashes"]
+        assert second["archive_sha256"] == report["archive_sha256"]
+        assert frozen_nb.read_bytes() == frozen_bytes
+
+    @pytest.mark.parametrize(
+        ("tamper_kwargs", "expected_fragment"),
+        [
+            ({"source_tag": "v9.9.9-pilot-exec-ready"}, "FROZEN_SOURCE_TAG"),
+            ({"deployment_fields": {"expected_cells": 47}}, "FROZEN_DEPLOYMENT"),
+            ({"manifest_hashes": {"code_manifest_sha256": "0" * 64}}, "code_manifest_sha256"),
+            ({"manifest_hashes": {"data_manifest_sha256": "0" * 64}}, "data_manifest_sha256"),
+            (
+                {"manifest_hashes": {"repository_snapshot_manifest_sha256": "0" * 64}},
+                "repository_snapshot_manifest_sha256",
+            ),
+            (
+                {"manifest_hashes": {"kaggle_transport_path_map_sha256": "0" * 64}},
+                "kaggle_transport_path_map_sha256",
+            ),
+        ],
+    )
+    def test_gate4_every_tampered_anchor_fails(
+        self, tmp_path: Path, tamper_kwargs: dict[str, Any], expected_fragment: str
+    ) -> None:
+        tampered = _tamper_notebook(
+            CANONICAL_NOTEBOOK,
+            tmp_path / "gate4" / "pilot_exec_01.ipynb",
+            **tamper_kwargs,
+        )
+        with pytest.raises(RuntimeError) as exc:
+            self._build_validated(tmp_path, "gate4", tampered)
+        msg = str(exc.value)
+        assert expected_fragment in msg
+
+    def test_gate4_finalized_notebook_passes_builder_gate(self, tmp_path: Path) -> None:
+        """A properly finalized notebook builds cleanly through the gate."""
+        _output_root, archive, frozen_nb = _build_frozen(
+            tmp_path, "2026-08-13T12:00:00+00:00", "a" * 40, "gate4pass"
+        )
+        identity = self._build_validated(tmp_path, "gate4pass", frozen_nb)
+        assert identity["source_tag"] == PILOT_SOURCE_TAG
+        assert len(identity["code_manifest_sha256"]) == 64
