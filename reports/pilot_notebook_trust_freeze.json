@@ -1,7 +1,7 @@
 {
   "archive_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload.zip",
-  "archive_sha256": "92a82606a2d0b9b8b5a4c91bfe2416ee5682f2a3d460c901e556d32df467fbd3",
-  "created_utc": "2026-08-13T20:00:00+00:00",
+  "archive_sha256": "dd5ee529e3a0066f40a5a2d037526bcef20a7a04b469874ec05e55b9978777be",
+  "created_utc": "2026-08-15T14:00:00+00:00",
   "frozen_deployment": {
     "expected_cells": 48,
     "max_attempts": 3,
@@ -17,17 +17,17 @@
     "timeout_seconds": 600
   },
   "frozen_manifest_hashes": {
-    "code_manifest_sha256": "99688e4e03291606399126061ae8305bb768a68d10fee0dc43964846272fbe96",
+    "code_manifest_sha256": "bb976f67fefe184796469efcd3f6916fbd592ec9f226b7b0365a237a0ef654d5",
     "data_manifest_sha256": "8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a",
     "kaggle_transport_path_map_sha256": "07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce",
     "repository_snapshot_manifest_sha256": "49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c"
   },
-  "frozen_source_tag": "v0.9.7-pilot-exec-ready",
-  "note": "source_commit must equal the final tag peel; the deployed identity source_commit is recorded here and must be re-verified after the immutable tag is created. notebook_sha256 hashes the DEPLOYED (line-ending-normalized) notebook bytes inside the artifact; notebook_source_sha256 hashes the source notebook file on this recording machine.",
-  "notebook_sha256": "082b4e84688e2bff3ca3e38afb65ab08dc73e2e4a53576b9688422cae8cd6ede",
-  "notebook_source_sha256": "a763ac4827219669b6ca4a1a8a195fb620fcbd46a4aae6b253ce30b650d8c890",
+  "frozen_source_tag": "v0.9.10-pilot-exec-ready",
+  "note": "source_commit must equal the final tag peel; the deployed identity source_commit is recorded here and must be re-verified after the immutable tag is created. notebook_sha256 hashes the DEPLOYED (line-ending-normalized) notebook bytes inside the artifact; notebook_source_sha256 hashes the source notebook file on this recording machine. Discovery build (validate_notebook_trust=False) + validation-enabled rebuild (validate_notebook_trust=True) confirmed; the artifact is the validation-enabled rebuild.",
+  "notebook_sha256": "d15d86831bf805e7bcc9e811eb87158b2e4f56732082d1e6326ee9d94ccb81ec",
+  "notebook_source_sha256": "873e97735cd22b9f7686b56b3d058d1cd01f75513e6a6c8603f1e9dcf70ed71b",
   "output_root": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload",
-  "source_commit": "f94853aeff9f32dea9355468eedb74e891e2b9a5",
-  "source_tag": "v0.9.7-pilot-exec-ready",
+  "source_commit": "80d4d6e581cef60463efde31b414643ba182f35a",
+  "source_tag": "v0.9.10-pilot-exec-ready",
   "status": "FROZEN"
 }

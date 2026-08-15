@@ -28,6 +28,7 @@ pinned repositories (django CMS, Saleor).
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import importlib.util
 import json
@@ -48,7 +49,6 @@ DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "dist" / "pilot-kaggle-upload"
 DEFAULT_ARCHIVE_PATH = PROJECT_ROOT / "dist" / "pilot-kaggle-upload.zip"
 DEFAULT_REPO_CACHE = PROJECT_ROOT / "dist" / "pilot-repo-cache"
 
-FROZEN_SOURCE_TAG = "v0.9.9-pilot-exec-ready"
 FROZEN_TASK = "PILOT-EXEC-01"
 FROZEN_PROTOCOL_VERSION = "1.0"
 FROZEN_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct"
@@ -85,6 +85,86 @@ KAGGLE_RESERVED_NAME_RE = re.compile(r"^__.*__$")
 TRANSPORT_BLOB_PREFIX = "kaggle_transport"
 TRANSPORT_FILES_DIR = f"{TRANSPORT_BLOB_PREFIX}/files"
 TRANSPORT_MAP_NAME = "kaggle_transport_path_map.json"
+
+# Stable manifest/map hashes the Pilot notebook freezes in its setup cell.
+# These are INDEPENDENT of the notebook bytes (unlike the archive SHA and the
+# notebook-manifest SHA), so the bundled notebook can be trusted against the
+# deployment identity at build time and verified against the mounted tree at
+# runtime. Shared with the deterministic freezer
+# (scripts/finalize_pilot_notebook_trust.py) so the builder gate and the
+# freezer parse the exact same anchors.
+STABLE_MANIFEST_HASH_KEYS = (
+    "code_manifest_sha256",
+    "data_manifest_sha256",
+    "repository_snapshot_manifest_sha256",
+    "kaggle_transport_path_map_sha256",
+)
+
+
+def _setup_cell_text(notebook_path: Path) -> str:
+    nb = json.loads(notebook_path.read_text(encoding="utf-8"))
+    cells = [c for c in nb["cells"] if c.get("id") == "setup-cell"]
+    if len(cells) != 1:
+        raise RuntimeError("expected exactly one 'setup-cell' in the Pilot notebook")
+    src = cells[0]["source"]
+    return src if isinstance(src, str) else "".join(src)
+
+
+def _parse_deployment(text: str) -> dict[str, Any]:
+    match = re.search(r"FROZEN_DEPLOYMENT\s*=\s*\{.*?\}", text, re.DOTALL)
+    if match is None:
+        raise RuntimeError("FROZEN_DEPLOYMENT block not found in notebook")
+    value = ast.literal_eval(match.group(0).split("=", 1)[1].strip())
+    if not isinstance(value, dict) or not value:
+        raise RuntimeError("FROZEN_DEPLOYMENT must be a non-empty dict literal")
+    return value
+
+
+def read_frozen_values(notebook_path: Path) -> dict[str, Any]:
+    text = _setup_cell_text(notebook_path)
+
+    def capture(pattern: str) -> str:
+        match = re.search(pattern, text)
+        if match is None:
+            raise RuntimeError(f"pattern not found in notebook: {pattern!r}")
+        return match.group(1)
+
+    return {
+        "FROZEN_SOURCE_TAG": capture(r'FROZEN_SOURCE_TAG = "([^"]+)"'),
+        "FROZEN_DEPLOYMENT": _parse_deployment(text),
+        "FROZEN_MANIFEST_HASHES": {
+            key: capture(rf'"{key}": "([0-9a-fA-F]+)"') for key in STABLE_MANIFEST_HASH_KEYS
+        },
+    }
+
+
+def validate_bundled_notebook_trust(identity: dict[str, Any], bundled_notebook: Path) -> list[str]:
+    """Fail-closed comparison of the bundled notebook trust anchors vs identity.
+
+    Returns every mismatch as a human-readable message; an empty list means the
+    artifact is upload-ready. The bundled notebook is parsed from the exact
+    bytes the archive will carry (setup cell), so a stale embedded anchor can
+    never survive a release build.
+    """
+    frozen = read_frozen_values(bundled_notebook)
+    mismatches: list[str] = []
+    if frozen["FROZEN_SOURCE_TAG"] != identity["source_tag"]:
+        mismatches.append(
+            f"FROZEN_SOURCE_TAG={frozen['FROZEN_SOURCE_TAG']!r} "
+            f"!= identity source_tag={identity['source_tag']!r}"
+        )
+    for key, value in frozen["FROZEN_DEPLOYMENT"].items():
+        if identity.get(key) != value:
+            mismatches.append(
+                f"FROZEN_DEPLOYMENT[{key}]={value!r} != identity={identity.get(key)!r}"
+            )
+    for key in STABLE_MANIFEST_HASH_KEYS:
+        frozen_hash = frozen["FROZEN_MANIFEST_HASHES"][key]
+        if frozen_hash != identity[key]:
+            mismatches.append(
+                f"FROZEN_MANIFEST_HASHES[{key}]={frozen_hash} != identity={identity[key]}"
+            )
+    return mismatches
 
 
 def is_kaggle_safe_name(rel_path: str) -> bool:
@@ -227,15 +307,52 @@ def _load_historical_builder() -> ModuleType:
     return module
 
 
-def _redirect_builder(builder: Any, output_root: Path) -> None:
-    """Redirect the reused builder's output constants to the Pilot root only."""
+def _redirect_builder(builder: Any, output_root: Path, notebook: Path) -> None:
+    """Redirect the reused builder's output constants to the Pilot root only.
+
+    The Pilot builder may bundle a notebook that lives outside ``PROJECT_ROOT``
+    (a frozen temp copy produced by the finalizer). The reused historical
+    builder verifies flat notebook sources with ``src.relative_to(base_rel)``,
+    which crashes for out-of-tree sources; the flat (basename-only) notebook
+    comparison does not need the relative path, so the verification is wrapped
+    to fall back to the bare filename in that case.
+    """
     builder.KAGGLE_UPLOAD = output_root
     builder.KAGGLE_CODE = output_root / "code"
     builder.KAGGLE_DATA = output_root / "data"
     builder.KAGGLE_NOTEBOOKS = output_root / "notebooks"
-    if not PILOT_NOTEBOOK.is_file():
-        raise RuntimeError(f"Pilot notebook missing: {PILOT_NOTEBOOK}")
-    builder.CANONICAL_NOTEBOOK_SOURCES = [PILOT_NOTEBOOK]
+    if not notebook.is_file():
+        raise RuntimeError(f"Pilot notebook missing: {notebook}")
+    builder.CANONICAL_NOTEBOOK_SOURCES = [notebook]
+    original_verify = builder.verify_bundle
+
+    def _verify_flat_notebook(
+        canonical: list[Path],
+        bundle_base: Path,
+        base_rel: Path | None = None,
+        flat: bool = False,
+    ) -> int:
+        if not flat:
+            return int(original_verify(canonical, bundle_base, base_rel))
+        errors = 0
+        for src in canonical:
+            try:
+                rel = src.relative_to(
+                    builder.PROJECT_ROOT if base_rel is None else base_rel
+                )
+            except ValueError:
+                rel = Path(src.name)
+            bundle_path = bundle_base / src.name
+            if src.is_file():
+                if not bundle_path.exists():
+                    print(f"  MISSING: {bundle_path}")
+                    errors += 1
+                elif builder.normalized_sha256(src) != builder.normalized_sha256(bundle_path):
+                    print(f"  MISMATCH: {rel}")
+                    errors += 1
+        return errors
+
+    builder.verify_bundle = _verify_flat_notebook
 
 
 def _sha256_bytes(data: bytes) -> str:
@@ -384,11 +501,14 @@ def build_pilot_bundle(
     created_utc: str,
     repo_cache: Path | None = None,
     allow_acquire: bool = False,
+    notebook: Path | None = None,
+    validate_notebook_trust: bool = True,
 ) -> dict[str, Any]:
     if output_root.resolve() == HISTORICAL_SMOKE_UPLOAD.resolve():
         raise RuntimeError("refusing to build the Pilot bundle over the historical Smoke bundle")
     builder = _load_historical_builder()
-    _redirect_builder(builder, output_root)
+    notebook_path = PILOT_NOTEBOOK if notebook is None else notebook
+    _redirect_builder(builder, output_root, notebook_path)
     errors = builder.build_bundle()
     if errors:
         raise RuntimeError(f"reused bundle builder reported {errors} verification error(s)")
@@ -446,6 +566,17 @@ def build_pilot_bundle(
         snapshot_manifest_path.read_bytes()
     )
     write_identity(output_root, identity)
+
+    if validate_notebook_trust:
+        bundled_notebook = output_root / "notebooks" / notebook_path.name
+        mismatches = validate_bundled_notebook_trust(identity, bundled_notebook)
+        if mismatches:
+            raise RuntimeError(
+                "PILOT DEPLOYMENT MANIFEST/MAP SHA MISMATCH - embedded notebook "
+                "trust validation FAILED (stale frozen anchors in the bundled "
+                "notebook):\n- " + "\n- ".join(mismatches)
+            )
+
     archive_sha = create_deterministic_zip(output_root, archive_path, created_utc)
     print(f"Pilot deployment identity: {output_root / 'pilot_deployment_identity.json'}")
     print(f"Pilot archive: {archive_path}")
@@ -478,14 +609,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--source-tag",
         type=str,
-        default=FROZEN_SOURCE_TAG,
-        help=f"Pre-execution stable tag (default: {FROZEN_SOURCE_TAG}).",
+        required=True,
+        help="Exact pre-execution stable release tag (e.g. v0.9.10-pilot-exec-ready).",
     )
     parser.add_argument(
         "--created-utc",
         type=str,
         default=None,
         help="Explicit ISO-8601 UTC creation timestamp (deterministic builds).",
+    )
+    parser.add_argument(
+        "--notebook",
+        type=Path,
+        default=None,
+        help=(
+            "Pilot notebook source to bundle (default: "
+            f"{PILOT_NOTEBOOK}). Used by the finalizer to bundle the exact "
+            "frozen copy; the canonical path is used for normal release builds."
+        ),
     )
     parser.add_argument(
         "--repo-cache",
@@ -522,6 +663,7 @@ def main() -> int:
         created_utc=args.created_utc,
         repo_cache=args.repo_cache,
         allow_acquire=args.allow_acquire,
+        notebook=args.notebook,
     )
     return 0
 
