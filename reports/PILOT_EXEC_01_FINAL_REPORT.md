@@ -1086,42 +1086,60 @@ line `PROVISIONING: PASSED (elapsed=...)`.
 
 - Feature commit: `28f0405` (`fix(pilot): no-pip repository env provisioning
   closure for Kaggle`, 6 files, +1726/−119)
-- Docs commit: (see post-tag docs evidence commit; recorded after push)
-- Final main SHA: **PENDING** (non-ff merge not yet executed)
-- Merge SHA: **PENDING** (`merge(pilot): ... (v0.9.9-pilot-exec-ready)`)
-- `v0.9.9-pilot-exec-ready` dereference: **PENDING** (tag created after merge;
-  annotated tag object peels to the merge commit)
+- Docs commit: `fd6353c` (`docs(pilot): record no-pip repository env
+  provisioning closure evidence`, 5 files, +423/−70)
+- Final main SHA: `f211e4de664da0f0745e5cde5e1fd5138b3172f0`
+- Merge SHA: `44d01028cb3b4576a28c136bad1c2e2f08b7971f` (non-ff
+  `merge(pilot): no-pip repository env provisioning closure for Kaggle
+  (v0.9.9-pilot-exec-ready)`; 11 files, +2149/−189)
+- `v0.9.9-pilot-exec-ready` dereference: annotated tag object
+  `ac4d4818d8490c67aa925a1bf496a408c687b0c2` peels to
+  `f211e4de664da0f0745e5cde5e1fd5138b3172f0` (== main HEAD; the
+  `FROZEN_SOURCE_TAG` bump commit following the merge)
 - Exact archive path: `dist/pilot-kaggle-upload.zip`
-- Exact archive SHA-256: **PENDING** (rebuilt from the tagged source; recorded
-  in the post-tag docs evidence commit)
+- Exact archive SHA-256: `3f93b0a97309ac84250f291a25bad7cf3527bdf1df3a1b40a29f04a5c5f52493`
 - Sidecar: `dist/pilot-kaggle-upload.zip.sha256` → matches archive hash
-- Notebook SHA-256 (LF-normalized git blob @ tag == bundled deployed): **PENDING**
-- Code manifest SHA-256 `99688e4e…`; data manifest SHA-256 `8b859ecc…`;
-  repository snapshot manifest SHA-256 `49d91d39…`; transport path map SHA-256
-  `07036a36…` — all byte-identical to v0.9.8
+- Determinism: repeated identical builds from the tag with the same
+  `--created-utc` produce the SAME archive SHA-256 `3f93b0a9…`
+- Notebook SHA-256 (LF-normalized git blob @ tag == bundled deployed):
+  `e53eca001307db735b7b0e25e83833c326d4ff1a74c4d75870ac1b501a545e1e`;
+  source notebook file SHA-256
+  `7a6c8c0c0c6e312c8d567ecbda6b5144c843e28671c97971f7fe72e9e40bfd4b`
+  (18 cells, incl. no-pip `pilot-repo-preflight-cell`, `service-bootstrap-cell`
+  and `transport-restore-cell`); notebook manifest SHA-256
+  `f982a2e5bd0be32555ec24367680023396988813d9290a3a375710c0d7760531`
+- Code manifest SHA-256 `99688e4e…` (byte-identical to v0.9.8); data manifest
+  SHA-256 `8b859ecc…` (byte-identical to v0.9.8); repository snapshot
+  manifest SHA-256 `49d91d39…` (identical to v0.9.8); transport path map
+  SHA-256 `07036a36…` (50 exact-path entries)
 - Repository snapshot SHAs/hashes: todo (embedded), djangocms `0f633fc9…`,
   saleor `e11a5557…` — all identical to v0.9.8
+- `pilot_deployment_identity.json`: source_commit
+  `f211e4de664da0f0745e5cde5e1fd5138b3172f0` (tag peel), source_tag
+  `v0.9.9-pilot-exec-ready`, created_utc `2026-08-15T12:00:00+00:00`;
+  expected_cells 48; all frozen values match the notebook
+  `FROZEN_MANIFEST_HASHES`
 - Final full-suite counts: **2,225 passed / 33 skipped / 0 failed / 0 errors**
   (2026-08-15)
-- Final bundled dry-run counts (v0.9.9 tagged rebuild): **PENDING** (expected
-  48/48 terminal, 48 unique run IDs; profile `pilot`)
-- Tagged-rebuild acceptance: **PENDING** (archive SHA, 0 unsafe / 0 reserved /
-  50 transport blobs, roundtrip restore 50/50, all five identity manifest
-  hashes PASS, repo content hashes PASS, restored data tree == canonical data
-  tree, bundle dry-run 48/48)
+- Final bundled dry-run counts (v0.9.9 tagged rebuild): **48/48 terminal, 48
+  succeeded, 0 failed, 0 pending, 48 unique run IDs** (profile `pilot`;
+  per-repo todo 16 / djangocms 16 / saleor 16; per-strategy
+  iterative_repository_agent 24 / selective 24; per-rep 24 / 24)
+- Tagged-rebuild acceptance: archive SHA `3f93b0a9…`, 0 unsafe /
+  0 reserved / 50 transport blobs, roundtrip restore 50/50, all five identity
+  manifest hashes PASS, repo content hashes PASS, restored data tree ==
+  canonical data tree, bundle dry-run 48/48
 
 ### Final state
 
 PILOT-EXEC-01 GATE C READY (no-pip repository env provisioning archive)
 Real Pilot NOT STARTED
 
-Next action: complete the pending merge/tag/rebuild steps (docs evidence
-commit + push, independent audit, non-ff merge to main, push `origin/main`,
-bump `FROZEN_SOURCE_TAG` to `v0.9.9-pilot-exec-ready`, tag, rebuild exact
-`dist/pilot-kaggle-upload.zip` + `.sha256` from the tagged source), then upload
-as ONE Kaggle Dataset, attach the Pilot notebook + Qwen 14B model, enable
-Internet, configure `HF_TOKEN`, run cells in order through target preflight
-(archive verify → transport restore → identity verify → install lock →
-snapshot verify → service bootstrap → repo preflight → GPU verify → model
-preflight → dry-run). Only after all preflight gates pass may the real 48-cell
-cell be executed.
+Next action: upload exact `dist/pilot-kaggle-upload.zip` +
+`dist/pilot-kaggle-upload.zip.sha256` (rebuilt from
+`v0.9.9-pilot-exec-ready`) as ONE Kaggle Dataset, attach the Pilot notebook +
+Qwen 14B model, enable Internet, configure `HF_TOKEN`, then run cells in order
+through target preflight (archive verify → transport restore → identity verify
+→ install lock → snapshot verify → service bootstrap → repo preflight → GPU
+verify → model preflight → dry-run). Only after all preflight gates pass may
+the real 48-cell cell be executed.

@@ -1,20 +1,78 @@
 # PILOT-EXEC-01 — Deployment Freeze Report
 
-**Date:** 2026-08-13 (Kaggle PostgreSQL root-safe bootstrap freeze; supersedes
-the 2026-08-13 stable-anchor freeze on `v0.9.6-pilot-exec-ready`, which
-superseded the 2026-08-13 reserved-name transport freeze on
-`v0.9.5-pilot-exec-ready`, which superseded the 2026-08-13 filename-transport
-freeze on `v0.9.4-pilot-exec-ready`, which superseded the 2026-08-13
-service-bootstrap freeze on `v0.9.3-pilot-exec-ready`, which superseded the
-2026-08-13 freeze on `v0.9.2-pilot-exec-ready`, which superseded the
-2026-08-10 freeze on `v0.9.1-pilot-exec-ready`)
-**Task:** `PILOT-EXEC-01` (Pilot deployment + KAGGLE POSTGRESQL ROOT-SAFE
-BOOTSTRAP last-mile correction)
+**Date:** 2026-08-15 (Kaggle NO-PIP REPOSITORY ENV PROVISIONING freeze on
+`v0.9.9-pilot-exec-ready`; supersedes the 2026-08-15 Redis package-fallback
+freeze on `v0.9.8-pilot-exec-ready`, which superseded the 2026-08-13 root-safe
+PostgreSQL freeze on `v0.9.7-pilot-exec-ready`, which superseded the 2026-08-13
+stable-anchor freeze on `v0.9.6-pilot-exec-ready`, which superseded the
+2026-08-13 reserved-name transport freeze on `v0.9.5-pilot-exec-ready`, which
+superseded the 2026-08-13 filename-transport freeze on `v0.9.4-pilot-exec-ready`,
+which superseded the 2026-08-13 service-bootstrap freeze on
+`v0.9.3-pilot-exec-ready`, which superseded the 2026-08-13 freeze on
+`v0.9.2-pilot-exec-ready`, which superseded the 2026-08-10 freeze on
+`v0.9.1-pilot-exec-ready`)
+**Task:** `PILOT-EXEC-01` (Pilot deployment + KAGGLE NO-PIP REPOSITORY ENV
+PROVISIONING closure)
 **Status:** FROZEN (Pilot deployment locked; Pilot execution NOT STARTED)
 
 ---
 
-## 1. Deployment source identity
+## 1. CURRENT FREEZE — `v0.9.9-pilot-exec-ready` (no-pip repository env provisioning closure)
+
+| Field | Value |
+|---|---|
+| Branch | `main` (after `merge(pilot): no-pip repository env provisioning closure for Kaggle (v0.9.9-pilot-exec-ready)`; merge `44d01028cb3b4576a28c136bad1c2e2f08b7971f`; `FROZEN_SOURCE_TAG` bump `f211e4de664da0f0745e5cde5e1fd5138b3172f0`) |
+| Feature branch | `fix/pilot-kaggle-env-provisioning-closure` (fix `28f0405`, docs `fd6353c`) |
+| Stable source tag | `v0.9.9-pilot-exec-ready` → peeled commit `f211e4de664da0f0745e5cde5e1fd5138b3172f0` (== main HEAD) |
+| Historical execution-ready points (NOT moved) | `v0.9.8-pilot-exec-ready` → `7e0a908588f8b5e0817659518b4e0928ce7c9943`; `v0.9.7-pilot-exec-ready` → `f94853aeff9f32dea9355468eedb74e891e2b9a5`; `v0.9.6-pilot-exec-ready` → `af9b47444fafac260d887dabbe4e3ddc3b22a00f`; `v0.9.5-pilot-exec-ready` → `eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab`; `v0.9.4-pilot-exec-ready` → `96b6481a64ba76a74580f5a3d371c39e27df00ea`; `v0.9.3-pilot-exec-ready` → `4fa6e1dfb1a45782d9e5176ef6325405d848b70b`; `v0.9.2-pilot-exec-ready` → `e030be5f4736e22ce40cfa798633b186858b0221` |
+| Prior tag (NOT moved) | `v0.9.0-pilot-ready` → `90a4282ac96328e26143b4f98d4bcf520c3c1e9b` (unchanged, immutable) |
+| Superseded interim tags (NOT moved) | `v0.9.1-pilot-exec-ready` → `7efdbe60bb195b1f3ca5854fd98057e29559a510` |
+| Builder | `scripts/build_pilot_upload_bundle.py` (transport-aware + mandatory pre-upload validator; deterministic single-pass stable-anchor freeze via `scripts/finalize_pilot_notebook_trust.py`; ships `scripts/pilot_kaggle_repo_envs.py`) |
+| Real repo cache | git checkouts at pinned SHAs: django CMS `0f633fc9fa213357f4202482aab2b0edad680f95`, Saleor `e11a5557eff29fbb2eed36e6ff3cd0af08ab9e10` (todo embedded) |
+| Deployment contract tests | `tests/integration/test_pilot_repo_env_provisioning.py` (24) + `tests/integration/test_pilot_notebook_contract.py` (46) + `tests/integration/test_pilot_service_bootstrap.py` (41) + `tests/integration/test_pilot_deployment_bundle.py` (52) + `tests/integration/test_pilot_real_launch_preflight.py` (13) — full suite **2,225 passed / 33 skipped / 0 failed** |
+| Archive | `dist/pilot-kaggle-upload.zip` — SHA-256 `3f93b0a97309ac84250f291a25bad7cf3527bdf1df3a1b40a29f04a5c5f52493` (sidecar matches; repeated identical builds byte-equal; finalize invariance PASS) |
+| `pilot_deployment_identity.json` | task `PILOT-EXEC-01`; protocol 1.0; source_commit `f211e4de664da0f0745e5cde5e1fd5138b3172f0` (tag peel); source_tag `v0.9.9-pilot-exec-ready`; created_utc `2026-08-15T12:00:00+00:00`; model `Qwen/Qwen2.5-Coder-14B-Instruct`; quantization `bnb-nf4`; timeout 600; max_attempts 3; max_completion_tokens_per_call 4096; max_total_workflow_tokens 0; scenario_count 12; strategy_count 2; repetitions 2; expected_cells 48 |
+| Notebook trust | LF-normalized git blob @ tag == bundled deployed: SHA-256 `e53eca001307db735b7b0e25e83833c326d4ff1a74c4d75870ac1b501a545e1e`; source file SHA-256 `7a6c8c0c0c6e312c8d567ecbda6b5144c843e28671c97971f7fe72e9e40bfd4b`; notebook manifest SHA-256 `f982a2e5bd0be32555ec24367680023396988813d9290a3a375710c0d7760531` (18 cells, incl. no-pip `pilot-repo-preflight-cell`, `service-bootstrap-cell`, `transport-restore-cell`) |
+| Code manifest | `99688e4e03291606399126061ae8305bb768a68d10fee0dc43964846272fbe96` (91 entries; byte-identical to v0.9.8 — helper addition hashed, no scientific drift) |
+| Data manifest | `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a` (57 entries; byte-identical to v0.9.8) |
+| Repository snapshot manifest | `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c` (identical to v0.9.8) |
+| Transport path map | `kaggle_transport_path_map_sha256` `07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce` (50 exact-path entries) |
+
+This freeze locks the Kaggle deployment source that provisions every
+repository validation env WITHOUT the failing `ensurepip` path (see
+`reports/PILOT_EXEC_01_FINAL_REPORT.md` FINAL CLOSURE section for the full
+A–E evidence): stdlib venv always `--without-pip`, HOST pip `-m pip --python
+<target>` bootstrap, `uv` tool env, django CMS deps via `uv pip install -r`
+from the frozen snapshot, Saleor pinned-snapshot copy + `uv venv .venv
+--python <existing 3.12>` with `UV_PYTHON_DOWNLOADS=never` + `uv sync
+--locked`, markers + health probes, rebuild ONLY the invalid private env dir,
+`gettext`+`gcc`+`libpq-dev` in ONE apt transaction (fail closed),
+secret-redacting provisioning log, thin-adapter `pilot-repo-preflight-cell`,
+bundle-shipped helper (byte-equal + hashed in `code_manifest.json`). **No
+scientific inputs changed**; the four frozen manifest/map hashes are
+byte-identical to v0.9.8.
+
+**Frozen launch flags:** `--backend kaggle-qwen --profile pilot
+--qwen-quantization bnb-nf4 --max-attempts 3 --protocol-version 1.0
+--max-completion-tokens-per-call 4096 --max-total-workflow-tokens 0 --timeout
+600 --source-commit f211e4de664da0f0745e5cde5e1fd5138b3172f0 --source-tag
+v0.9.9-pilot-exec-ready --deployed-build-id f211e4d --data-dir <bundled data>
+--model-path <Kaggle mounted model> --hf-sync` plus the exact HF results repo
+ID recorded at launch time. One continuous 48-cell session; no `--max-runs`
+subsetting.
+
+**Verified on the frozen bundle (v0.9.9 tagged rebuild):** archive SHA-256
+`3f93b0a9…` (sidecar matches), 0 unsafe member names / 0 reserved-name
+components / 50 transport blobs, roundtrip restore 50/50, all five identity
+manifest hashes PASS, repo content hashes PASS (todo `f72bc9df…` 24 files,
+djangocms `729b5f41…` 1662, saleor `708d0a7b…` 4577), restored data tree ==
+canonical tree, exact bundled 48-cell dry-run **48/48 terminal / 48 succeeded /
+0 failed / 0 pending / 48 unique run IDs** (per-repo 16/16/16; per-strategy
+24/24; per-rep 24/24; 0 model calls).
+
+---
+
+## 1. Historical — v0.9.7-pilot-exec-ready deployment source identity (superseded by the v0.9.8 freeze)
 
 | Field | Value |
 |---|---|
@@ -47,7 +105,7 @@ notebook process against `127.0.0.1:5433 saleor/saleor/saleor`; Valkey/Redis
 metrics, model, quantization, timeout 600, repair budget, repository pins,
 validation scope; the four frozen manifest/map hashes stay byte-identical).
 
-## 2. Bundle (built from the tagged source)
+## 2. Historical — Bundle (v0.9.7 tagged rebuild, superseded)
 
 | Field | Value |
 |---|---|
@@ -71,7 +129,7 @@ cell, and the 48-cell pilot-launch cell. The historical Scientific Smoke bundle
 (`kaggle_upload/`) is NOT the Pilot deployment bundle. It remains frozen and
 byte-identical.
 
-## 3. Verification performed on the frozen bundle (v0.9.7 tagged rebuild + suite)
+## 3. Historical — Verification (v0.9.7 tagged rebuild + suite, superseded)
 
 1. **Kaggle-safety:** `dist/pilot-kaggle-upload.zip` has 6396 members, **0
    unsafe member names** under `^[A-Za-z0-9._/-]+$` and **0 reserved-name
@@ -104,7 +162,7 @@ byte-identical.
    (targeted 134/134); full suite **2,185 passed / 33 skipped / 0 failed**;
    `git diff --check`, ruff, mypy strict, py_compile clean.
 
-## 4. Launch flags frozen for every real Pilot invocation
+## 4. Historical — Launch flags frozen for every real Pilot invocation (v0.9.7, superseded)
 
 `--backend kaggle-qwen --profile pilot --qwen-quantization bnb-nf4
 --max-attempts 3 --protocol-version 1.0 --max-completion-tokens-per-call 4096
@@ -114,7 +172,7 @@ f94853aeff9f32dea9355468eedb74e891e2b9a5 --source-tag v0.9.7-pilot-exec-ready
 mounted model> --hf-sync` plus the exact HF results repo ID recorded at launch
 time. One continuous 48-cell session; no `--max-runs` subsetting.
 
-## 5. Post-freeze gate plan (root-safe bootstrap correction evidence)
+## 5. Historical — Post-freeze gate plan (root-safe bootstrap correction evidence, superseded)
 
 - [x] `service-bootstrap-cell` corrected to run initdb/pg_ctl/postgres under
       the package-native unprivileged `postgres` account when euid==0
