@@ -3,7 +3,7 @@
 **Handoff Date:** 2026-08-01
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
-**Handoff type:** **PILOT-EXEC-01 RELEASE TRUST GATE CLOSURE (2026-08-15) ON BRANCH `fix/pilot-release-trust-gate-closure` (COMMIT `097768e`), FULL SUITE GREEN — MERGE + TAG `v0.9.10-pilot-exec-ready` + TAGGED REBUILD PENDING** — the deployment source is re-frozen at `v0.9.10-pilot-exec-ready` via a REAL two-pass deterministic release-trust-gate finalizer run against the LOCAL repo cache (`dist/pilot-repo-cache`, NO `--allow-acquire`, no network acquisition): `python scripts/finalize_pilot_notebook_trust.py --source-commit 80d4d6e581cef60463efde31b414643ba182f35a --source-tag v0.9.10-pilot-exec-ready --repo-cache dist/pilot-repo-cache --created-utc "2026-08-15T14:00:00+00:00"`. Both pinned repo cat-file checks PASS (django CMS `0f633fc9…`, Saleor `e11a5557…`) and `git archive` works in both cache dirs. **Notebook == Identity == Actual proven 4/4** for the four frozen manifest/map hashes: code `bb976f67fefe…` (the v0.9.9 recorded `99688e4e` was stale — it predated the bundled helper-script additions and was never validated against the build; the new gate freezes the true value), data `8b859ecc7216…`, repository snapshot `49d91d39435f…`, transport path map `07036a36cd97…` (the last three byte-identical to v0.9.9); deployed notebook SHA-256 `d15d86831bf8…` == bundled archive bytes, normalized bundled notebook == source `873e97735cd2…`. **No scientific inputs changed** (scenarios, prompts, metrics, model, quantization, timeout 600, repair budget, repository pins, validation scope). Freeze evidence `reports/pilot_notebook_trust_freeze.json` tracked; validation-rebuild archive SHA-256 `dd5ee529e3a0…`. Gates: targeted trust-gate closures 142/142 (deployment bundle 52/52, notebook contract 46/46, repo-env provisioning 24/24, real-launch preflight 13/13), full suite **2,234 passed / 33 skipped / 0 failed**, diff-check/ruff/mypy/compile clean. Next: independent audit → non-ff merge to main → tagged rebuild (SAME `--created-utc "2026-08-15T14:00:00+00:00"`, `--source-commit` = merge SHA) → FINAL ARTIFACT TRUST GATE → immutable tag `v0.9.10-pilot-exec-ready` on the merge commit → exact 48-cell bundled dry-run. **Pilot = NOT STARTED.**
+**Handoff type:** **PILOT-EXEC-01 RELEASE TRUST GATE CLOSED AND FROZEN AT `v0.9.10-pilot-exec-ready` (2026-08-15): MERGED TO MAIN + TAGGED + TAGGED REBUILD + FINAL ARTIFACT TRUST GATE PASS + 48-CELL DRY-RUN 48/48** — the deployment source is re-frozen at `v0.9.10-pilot-exec-ready` via a REAL two-pass deterministic release-trust-gate finalizer run against the LOCAL repo cache (`dist/pilot-repo-cache`, NO `--allow-acquire`, no network acquisition): `python scripts/finalize_pilot_notebook_trust.py --source-commit 80d4d6e581cef60463efde31b414643ba182f35a --source-tag v0.9.10-pilot-exec-ready --repo-cache dist/pilot-repo-cache --created-utc "2026-08-15T14:00:00+00:00"`. Both pinned repo cat-file checks PASS (django CMS `0f633fc9…`, Saleor `e11a5557…`) and `git archive` works in both cache dirs. **Notebook == Identity == Actual proven 4/4** for the four frozen manifest/map hashes: code `bb976f67fefe…` (the v0.9.9 recorded `99688e4e` was stale — it predated the bundled helper-script additions and was never validated against the build; the new gate freezes the true value), data `8b859ecc7216…`, repository snapshot `49d91d39435f…`, transport path map `07036a36cd97…` (the last three byte-identical to v0.9.9); deployed notebook SHA-256 `d15d86831bf8…` == bundled archive bytes, normalized bundled notebook == source `873e97735cd2…`. **No scientific inputs changed** (scenarios, prompts, metrics, model, quantization, timeout 600, repair budget, repository pins, validation scope). Freeze evidence `reports/pilot_notebook_trust_freeze.json` tracked; validation-rebuild archive SHA-256 `dd5ee529e3a0…`. Gates: targeted trust-gate closures 142/142 (deployment bundle 52/52, notebook contract 46/46, repo-env provisioning 24/24, real-launch preflight 13/13), full suite **2,234 passed / 33 skipped / 0 failed**, diff-check/ruff/mypy/compile clean. **ALL SUBSEQUENT STEPS COMPLETE:** independent audit PASS → non-ff merge to main `44e9a1f…` → tagged rebuild (`--source-commit` = merge SHA `44e9a1f…`, SAME `--created-utc "2026-08-15T14:00:00+00:00"`) → **FINAL ARTIFACT TRUST GATE PASS** (Notebook == Identity == Actual 4/4) → annotated tag `v0.9.10-pilot-exec-ready` created on the merge commit and pushed (peels to `44e9a1f…`; main HEAD) → exact 48-cell bundled dry-run on the tagged rebuild **48/48 terminal / 48 succeeded / 0 failed / 0 pending / 48 unique run IDs** (per-repo 16/16/16; per-strategy 24/24; per-rep 24/24; 0 model calls). Tagged-rebuild archive SHA-256 `9df1396d50a9…` (sidecar matches). **Pilot = NOT STARTED** — real launch deferred until the user confirms the Kaggle mounted model path and HF results repository ID.
 **Handoff type (HISTORICAL — superseded by the 2026-08-15 v0.9.10 release trust gate closure):** **PILOT-EXEC-01 KAGGLE REPO-ENV PROVISIONING CLOSURE (2026-08-15) ON BRANCH `fix/pilot-kaggle-env-provisioning-closure` (COMMIT `28f0405`), FULL SUITE GREEN — MERGE + TAG `v0.9.9-pilot-exec-ready` PENDING** — the real Kaggle `pilot-repo-preflight-cell` blocker closed: `python -m venv /kaggle/working/pilot_envs/djangocms` -> `/kaggle/working/pilot_envs/djangocms/bin/python3 -m ensurepip --upgrade --default-pip` returned non-zero exit status 1 in ~0.24 s (NOT a hang). The runtime lock installs pip into the base interpreter on Kaggle, so `venv`+`ensurepip` cannot build a working pip inside a fresh env. The bundled helper `scripts/pilot_kaggle_repo_envs.py` (new, stdlib-only) provisions every repository validation env WITHOUT the ensurepip path: stdlib venv uses `--without-pip` everywhere; HOST pip (`<benchmark-python> -m pip --python <target>`) bootstraps the no-pip tool/target envs (documented pip 22.3+ feature for pip-less envs); dedicated no-pip `pilot_envs/tools` env gets `uv` via host pip `--python`; django CMS deps installed with `uv pip install -r test_requirements/django-5.0.txt` from the frozen snapshot root (SHA-256 recorded); Saleor = copy of pinned snapshot into `pilot_envs/saleor`, then `uv venv .venv --python <existing 3.12>` with `UV_PYTHON_DOWNLOADS=never` (no silent download/switch) then `uv sync --locked`. Completion markers (`.pilot_env_ready.json`, schema `pilot_repo_environment.v1`) + health probes (django `5.0.*` + `import cms`, `import saleor`, `uv --version`) drive reuse; ONLY the specific invalid private env dir is rebuilt (`_remove_private_env`), never arbitrary `/kaggle/working`. Upstream OS prerequisites `gettext` + `gcc` + `libpq-dev` (ALL mandatory) install in ONE `apt-get install` transaction (fail closed listing ALL missing when apt unavailable or still missing after install; the Redis `valkey-server`/`redis-server` alternatives bug is never reintroduced). Visible START/END/elapsed output + 30 s heartbeat threads; provisioning log `preflight/environment_provisioning.log` redacts `HF_TOKEN=`/`SECRET_KEY=`/`PGPASSWORD=` secrets. The notebook `pilot-repo-preflight-cell` is now a thin adapter: `_assert_service_port` on 5433/6379, `importlib.util` load of the bundled helper, `provision_repository_envs(...)`, then the shared `scripts/pilot_repo_snapshot.py preflight` with todo=`sys.executable` + the provisioned djangocms/saleor interpreters. `scripts/build_pilot_upload_bundle.py` ships the helper at `code/scripts/pilot_kaggle_repo_envs.py` (byte-equal normalized + hashed in `code_manifest.json`). **No scientific inputs changed** (scenarios, prompts, metrics, model, quantization, timeout 600, repair budget, repository pins, validation scope). New regression matrix `tests/integration/test_pilot_repo_env_provisioning.py` (24 tests, Gates B/C/D/E/G/J/K + end-to-end) all green; notebook contract (+ thin-adapter static test) and deployment bundle contract (+ helper-shipped test) updated. Gates: provisioning 24/24, notebook contract 46/46, service bootstrap 41/41, real-launch preflight 13/13, deployment bundle 52/52, full suite **2,225 passed / 33 skipped / 0 failed**, diff-check/ruff/mypy/compile clean. `dist/pilot-kaggle-upload.zip` + `.sha256` rebuilt from the exact tag `v0.9.9-pilot-exec-ready` after merge. **Pilot = NOT STARTED**; real launch still deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID.
 **Handoff type (HISTORICAL — superseded by the 2026-08-15 repo-env provisioning closure):** **PILOT-EXEC-01 KAGGLE-REDIS-PACKAGE-FALLBACK MERGED TO MAIN + TAGGED `v0.9.8-pilot-exec-ready` (2026-08-15) via non-fast-forward merge of branch `fix/pilot-kaggle-redis-package-fallback`** — the final real Kaggle preflight blocker closed: the v0.9.7 cell ran `apt-get install -y valkey-server redis-server`, which aborts the WHOLE apt transaction with `E: Unable to locate package valkey-server` because the real Kaggle Ubuntu (Jammy-shaped) runtime exposes `redis-server` in its configured apt repositories but NOT `valkey-server`. The `service-bootstrap-cell` now provisions the Redis-compatible server binary-first, refreshes apt metadata at most once per invocation (`_apt_update_once`), probes each alternative candidate individually via `apt-cache policy <name>` (`_apt_package_available`, argument-list only, no shell), installs EXACTLY ONE package per `apt-get install` (`_apt_install_one`), records UNAVAILABLE and failed candidates, and FAILS CLOSED with distro/runtime diagnostics when no candidate can be installed — there is NO pip client-package and NO in-process fake-server fallback. A selected-implementation label and a proven server `--version` are printed after start; the endpoint stays `127.0.0.1:6379` / `redis://127.0.0.1:6379/0`. **No scientific inputs changed** (scenarios, prompts, metrics, model, quantization, timeout 600, repair budget, repository pins, validation scope). New hermetic Gate-R contract in `tests/integration/test_pilot_service_bootstrap.py` (14 new tests: already-installed, MANDATORY Jammy-shaped valkey-unavailable→redis-only, reverse future-distro valkey-only, install-failure fallback, neither-available fail-closed, apt-get/apt-cache missing fail-closed, apt update-once, start/version service semantics, full-cell end-to-end PG+Redis green; full-cell executor `_exec_cell` runs the EXACT provisioning + prove section with per-port open flags + apt fakes); static notebook contract gains `test_redis_package_fallback_contract` (combined `"valkey-server redis-server"` string forbidden); notebook + `build_pilot_upload_bundle.py`/`finalize_pilot_notebook_trust.py` + deployment-bundle contract move to `FROZEN_SOURCE_TAG = "v0.9.8-pilot-exec-ready"`. Gates: service bootstrap 41/41, notebook contract 43/43, deployment bundle 51/51, full suite **2,199 passed / 33 skipped / 0 failed**, diff-check/ruff/mypy/compile clean. Tagged rebuild recreated `dist/pilot-kaggle-upload.zip` + `.sha256` (authoritative frozen upload artifacts — never manually re-zip). **Pilot = NOT STARTED**; real launch still deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID.
 **Handoff type (HISTORICAL — superseded by the 2026-08-15 Redis package-fallback correction):** **PILOT-EXEC-01 KAGGLE POSTGRES ROOT-FIX MERGED TO MAIN + TAGGED `v0.9.7-pilot-exec-ready` (2026-08-13) via non-fast-forward merge of branch `fix/pilot-kaggle-postgres-unprivileged-bootstrap` → tag `v0.9.7-pilot-exec-ready` → tagged rebuild** — the real Kaggle blocker closed: the Kaggle notebook process runs as root while PostgreSQL `initdb`/`pg_ctl` refuse root (`initdb: error: cannot be run as root`), which blocked the v0.9.6 service bootstrap. The `service-bootstrap-cell` now resolves the package-native unprivileged `postgres` OS account when the notebook effective uid is 0 and runs the PostgreSQL server lifecycle (initdb, pg_ctl and the postgres server it launches) under that account via `subprocess.run(..., user=...)` (POSIX-only, checked, fail-closed; no `runuser`, no `shell=True`); FAILS CLOSED before initdb when the account is missing and NEVER falls back to root; non-root notebook processes keep the direct path. Ownership/log preparation is limited to the private service paths (data dir `0o700`, log `0o600`, chown to the postgres uid/gid; incomplete previous clusters safely recreated, ONLY `PG_DATA_DIR`). The frozen TCP client probe (psql) still runs from the notebook process against `127.0.0.1:5433 saleor/saleor/saleor`; Valkey/Redis `127.0.0.1:6379` unchanged. **No scientific inputs changed** (scenarios, prompts, metrics, model, quantization, timeout 600, repair budget, repository pins, validation scope; the four frozen manifest hashes stay byte-identical). New hermetic Gate-H contract `tests/integration/test_pilot_service_bootstrap.py` (28 tests) execs the EXACT cell definitions with os/pwd/subprocess/socket fakes (Gates B/C/D/E/F/H); notebook contract gains 2 root-safe static tests and moves to `FROZEN_SOURCE_TAG = "v0.9.7-pilot-exec-ready"`; deployment bundle contract + `build_pilot_upload_bundle.py`/`finalize_pilot_notebook_trust.py` defaults updated to v0.9.7. Gates: service bootstrap 28/28, notebook contract 42/42, deployment bundle 51/51, real-launch preflight 13/13, full suite **2,185 passed / 33 skipped / 0 failed**, diff-check/ruff/mypy/compile clean. Tagged rebuild recreated `dist/pilot-kaggle-upload.zip` + `.sha256` (authoritative frozen upload artifacts — never manually re-zip). **Pilot = NOT STARTED.**
@@ -21,41 +21,47 @@
 
 ## CURRENT PROJECT STATE
 
-The current deployment source is **`v0.9.10-pilot-exec-ready`** (2026-08-15,
-branch `fix/pilot-release-trust-gate-closure` @ `097768e`; merge + tag +
-tagged rebuild pending). The release trust gate re-freezes the deployment
-source with a REAL two-pass deterministic finalizer run against the LOCAL repo
-cache (NO `--allow-acquire`): the frozen notebook anchors are proven equal to
-the deployment identity AND the actually-built bundle bytes for ALL four
-manifest/map hashes (Notebook == Identity == Actual 4/4). Code manifest hash
-`bb976f67fefe184796469efcd3f6916fbd592ec9f226b7b0365a237a0ef654d5` — the v0.9.9
-recorded value `99688e4e…` was stale (it predated the bundled helper-script
-additions and was never validated against the build). Data
-`8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a`, repository
-snapshot `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c`,
-transport path map
-`07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce` remain
-byte-identical to v0.9.9. Deployed notebook SHA-256
+The current deployment source is **`v0.9.10-pilot-exec-ready`** (2026-08-15):
+**MERGED TO MAIN + TAGGED**. Feature branch `fix/pilot-release-trust-gate-closure`
+(fix `097768e`, docs `4ac7f0d`) was non-fast-forward merged to `main` as
+`44e9a1f4314c2ce8ec0b7abb16c88cbc3f83bfb6` (`merge(pilot): release trust gate
+closure (notebook==identity==actual, v0.9.10-pilot-exec-ready)`; main HEAD ==
+merge SHA), and the annotated tag `v0.9.10-pilot-exec-ready` was created on
+that merge commit and pushed to origin (peels to `44e9a1f…`). The release
+trust gate re-freezes the deployment source: the frozen notebook anchors are
+proven equal to the deployment identity AND the actually-built bundle bytes
+for ALL four manifest/map hashes (Notebook == Identity == Actual 4/4). Code
+manifest hash `bb976f67fefe184796469efcd3f6916fbd592ec9f226b7b0365a237a0ef654d5`
+(91 entries) — the v0.9.9 recorded value `99688e4e…` was stale (it predated the
+bundled helper-script additions and was never validated against the build).
+Data `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a`,
+repository snapshot `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c`,
+transport path map `07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce`
+remain byte-identical to v0.9.9. Deployed notebook SHA-256
 `d15d86831bf805e7bcc9e811eb87158b2e4f56732082d1e6326ee9d94ccb81ec` == bundled
-archive bytes; normalized bundled notebook == source
+archive bytes == freeze report; normalized bundled notebook == source
 `873e97735cd22b9f7686b56b3d058d1cd01f75513e6a6c8603f1e9dcf70ed71b`. Freeze
-evidence `reports/pilot_notebook_trust_freeze.json` (tracked); validation-
-rebuild archive SHA-256 `dd5ee529e3a0066f40a5a2d037526bcef20a7a04b469874ec05e55b9978777be`.
-Both pinned repo cat-file checks PASS; `git archive` works in both cache dirs.
-**No scientific inputs changed.** No-pip repository env provisioning (v0.9.9),
-Redis-compatible per-candidate OS package fallback (v0.9.8), root-safe
-unprivileged PostgreSQL bootstrap (v0.9.7), transport encoding and
-`service-bootstrap-cell` are all unchanged. Targeted trust-gate closures
-142/142; full suite **2,234 passed / 33 skipped / 0 failed**;
-diff-check/ruff/mypy/compile clean. Pilot deployment bundle rebuilt to
-`dist/pilot-kaggle-upload/` by the validation rebuild; authoritative upload
-artifacts = `dist/pilot-kaggle-upload.zip` + `dist/pilot-kaggle-upload.zip.sha256`
-(never manually re-zip). Execution contract pre-registered
+evidence `reports/pilot_notebook_trust_freeze.json` (tracked). Tagged-rebuild
+archive SHA-256 `9df1396d50a99da7b3dd101fefe79013c3c253da8fd65251dbd9eb4650e71436`
+(sidecar matches; `pilot_deployment_identity.json` source_commit `44e9a1f…`
+== tag peel; created_utc `2026-08-15T14:00:00+00:00`).
+**FINAL ARTIFACT TRUST GATE PASS** (Notebook == Identity == Actual 4/4 on the
+tagged rebuild; deployed notebook == freeze; trust-gate regression + real
+artifact expanded simulation 19/19). **No scientific inputs changed.** No-pip
+repository env provisioning (v0.9.9), Redis-compatible per-candidate OS
+package fallback (v0.9.8), root-safe unprivileged PostgreSQL bootstrap
+(v0.9.7), transport encoding and `service-bootstrap-cell` are all unchanged.
+Targeted trust-gate closures 142/142; full suite **2,234 passed / 33 skipped /
+0 failed**; diff-check/ruff/mypy/compile clean. Authoritative upload artifacts
+= `dist/pilot-kaggle-upload.zip` + `dist/pilot-kaggle-upload.zip.sha256`
+(tagged rebuild; never manually re-zip). Execution contract pre-registered
 (`docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md`, DECISION_LOG D025); exact fresh
-48-cell bundled dry-run 48/48. **Pilot = NOT STARTED**; real launch deferred
-until the user confirms the actual Kaggle mounted model path and HF results
-repository ID. Previous milestone state (PILOT-READY-01 = CLOSED at `34ecf78`;
-Scientific Smoke V2 complete/accepted; preferred Smoke recovery tag
+48-cell bundled dry-run on the tagged rebuild **48/48 terminal / 48 succeeded /
+0 failed / 0 pending / 48 unique run IDs** (per-repo 16/16/16; per-strategy
+24/24; per-rep 24/24; 0 model calls). **Pilot = NOT STARTED**; real launch
+deferred until the user confirms the actual Kaggle mounted model path and HF
+results repository ID. Previous milestone state (PILOT-READY-01 = CLOSED at
+`34ecf78`; Scientific Smoke V2 complete/accepted; preferred Smoke recovery tag
 `v0.8.2-smoke-v2-complete`; no-pip repo-env provisioning closure
 `v0.9.9-pilot-exec-ready`) is unchanged historical truth.
 
@@ -72,11 +78,12 @@ scientific evidence with zero drift.
 Smoke era: `v0.8.2-smoke-v2-complete` (immutable, do not move). Pilot
 readiness: `v0.9.0-pilot-ready` @ `90a4282` (immutable, do NOT move).
 Pilot deployment source tag (v0.9.10 release trust gate closure, 2026-08-15):
-**`v0.9.10-pilot-exec-ready`** (current deployment source; carries the
-validated release-trust-gate freeze — Notebook == Identity == Actual 4/4 for
-the four frozen manifest/map hashes against a real build from the LOCAL repo
-cache, code manifest `bb976f67…` validated). Historical execution-ready
-points:
+**`v0.9.10-pilot-exec-ready`** (current deployment source; MERGED TO MAIN
+`44e9a1f…` + TAGGED; peels to the merge commit; carries the validated
+release-trust-gate freeze — Notebook == Identity == Actual 4/4 for the four
+frozen manifest/map hashes against a real build from the LOCAL repo cache,
+code manifest `bb976f67…` validated; tagged-rebuild archive `9df1396d…`;
+48-cell dry-run 48/48). Historical execution-ready points:
 `v0.9.9-pilot-exec-ready` (2026-08-15 no-pip repository environment
 provisioning closure — stdlib venv always `--without-pip`, HOST pip `--python`
 bootstrap of the no-pip tool/target envs, `uv` tool env, django CMS deps via
@@ -145,23 +152,25 @@ explicitly (generic CLI default is `bnb-int8`).
 
 ## CURRENT GIT STATE
 
-`main` = `f211e4d` (tag `v0.9.9-pilot-exec-ready` peels here; the non-ff merge
-`44d0102` merged the repo-env provisioning closure from
-`fix/pilot-kaggle-env-provisioning-closure` — fix `28f0405` + docs `fd6353c`;
-`FROZEN_SOURCE_TAG` bump `f211e4d`; all pushed). Prior deployment source
-`v0.9.8-pilot-exec-ready` @ `7e0a908` NOT moved. Earlier milestones: MAIN-GREEN-01
-closed at `d875c72`; SMOKE-V2-CLOSE-01 merged at `193d889`. Tags: preferred
-recovery `v0.8.2-smoke-v2-complete` at `403977b`; historical
-`v0.8.1-smoke-v2-complete` at `d875c72`; `v0.8.0-smoke-v2-complete` at
-`193d889` — all immutable, never force push.
+`main` = `44e9a1f` (merge `merge(pilot): release trust gate closure
+(notebook==identity==actual, v0.9.10-pilot-exec-ready)`; tag
+`v0.9.10-pilot-exec-ready` peels here; non-ff merged from
+`fix/pilot-release-trust-gate-closure` — fix `097768e` + docs `4ac7f0d`; all
+pushed). Prior deployment source `v0.9.9-pilot-exec-ready` @ `f211e4d` (non-ff
+merge `44d0102`) NOT moved; `v0.9.8-pilot-exec-ready` @ `7e0a908` NOT moved.
+Earlier milestones: MAIN-GREEN-01 closed at `d875c72`; SMOKE-V2-CLOSE-01 merged
+at `193d889`. Tags: preferred recovery `v0.8.2-smoke-v2-complete` at `403977b`;
+historical `v0.8.1-smoke-v2-complete` at `d875c72`; `v0.8.0-smoke-v2-complete`
+at `193d889` — all immutable, never force push.
 
 ## EXACT NEXT TASK
 
-`PILOT-EXEC-01` — Pilot freeze and execution. The repo-env provisioning closure
-is MERGED AND TAGGED: `v0.9.9-pilot-exec-ready` @ `f211e4d` (non-ff merge
-`44d0102`), exact `dist/pilot-kaggle-upload.zip` SHA-256 `3f93b0a9…` + sidecar
-rebuilt from the tagged source, bundled 48-cell mock dry-run 48/48, full suite
-2,225 passed / 33 skipped / 0 failed. The real Pilot remains **NOT STARTED and
+`PILOT-EXEC-01` — Pilot freeze and execution. The release trust gate closure
+is MERGED AND TAGGED: `v0.9.10-pilot-exec-ready` @ `44e9a1f` (non-ff merge),
+FINAL ARTIFACT TRUST GATE PASS (Notebook == Identity == Actual 4/4), exact
+`dist/pilot-kaggle-upload.zip` SHA-256 `9df1396d…` + sidecar rebuilt from the
+tagged source, bundled 48-cell mock dry-run 48/48, full suite 2,234 passed /
+33 skipped / 0 failed. The real Pilot remains **NOT STARTED and
 NOT yet authorized**: upload the exact archive as ONE Kaggle Dataset, attach the
 Pilot notebook + Qwen 14B model, enable Internet, configure `HF_TOKEN`, run the
 preflight cells in order, and execute the real 48-cell Pilot ONLY after all
