@@ -1,9 +1,12 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
 > **NOTE (2026-08-15, LATEST):** superseded by the PILOT-EXEC-01 v0.9.10 RELEASE
-> TRUST GATE CLOSURE (branch `fix/pilot-release-trust-gate-closure` @
-> `097768e`; merge + tag `v0.9.10-pilot-exec-ready` + exact artifact rebuild
-> PENDING). The deployment source is re-frozen at `v0.9.10-pilot-exec-ready`
+> TRUST GATE CLOSURE (MERGED TO MAIN + TAGGED: branch
+> `fix/pilot-release-trust-gate-closure` fix `097768e` + docs `4ac7f0d`,
+> non-ff merge `44e9a1f…`, annotated tag `v0.9.10-pilot-exec-ready` on the
+> merge commit, tagged rebuild + FINAL ARTIFACT TRUST GATE PASS + 48-cell
+> dry-run 48/48 — see FINAL CLOSURE section below). The deployment source is
+> re-frozen at `v0.9.10-pilot-exec-ready`
 > via a REAL two-pass deterministic release-trust-gate finalizer run against
 > the LOCAL repo cache (`dist/pilot-repo-cache`, NO `--allow-acquire`, no
 > network acquisition): `python scripts/finalize_pilot_notebook_trust.py
@@ -1170,9 +1173,11 @@ the real 48-cell cell be executed.
 **Executor:** opencode (provider `opencode`, model `big-pickle`, model ID
 `opencode/big-pickle`). Branch `fix/pilot-release-trust-gate-closure`; base
 HEAD `80d4d6e581cef60463efde31b414643ba182f35a` (== main == origin/main at
-start); feature HEAD `097768e` (+ docs evidence commit). Merge SHA / main HEAD /
-tag + peel / tagged-rebuild archive SHA: recorded under "Exact artifact report"
-below (PENDING until the merge + tag + tagged-rebuild steps complete).
+start); feature HEAD `097768e` (+ docs evidence commit `4ac7f0d`). Merge SHA /
+main HEAD `44e9a1f4314c2ce8ec0b7abb16c88cbc3f83bfb6`; tag `v0.9.10-pilot-exec-ready`
+peels to the merge commit; tagged-rebuild archive SHA
+`9df1396d50a99da7b3dd101fefe79013c3c253da8fd65251dbd9eb4650e71436` — all
+recorded under "Exact artifact report" below (COMPLETE).
 
 **Reason for this closure:** every prior freeze recorded the four manifest/map
 hashes from values carried forward across releases WITHOUT validating them
@@ -1190,10 +1195,10 @@ validation scope).
 - Provider: `opencode`; model: `big-pickle`; model ID: `opencode/big-pickle`
 - Base HEAD: `80d4d6e581cef60463efde31b414643ba182f35a` (== origin/main at start)
 - Feature branch: `fix/pilot-release-trust-gate-closure`
-- Feature HEAD: `097768e` (fix commit) + docs evidence commit (see Exact
-  artifact report for final SHAs)
-- Merge SHA / main HEAD / tag + peel: recorded in "Exact artifact report"
-  (PENDING until the merge + tag steps complete)
+- Feature HEAD: `097768e` (fix commit) + docs evidence commit `4ac7f0d`
+- Merge SHA / main HEAD / tag + peel: `44e9a1f4314c2ce8ec0b7abb16c88cbc3f83bfb6`
+  (non-ff merge; main HEAD; annotated tag `v0.9.10-pilot-exec-ready` peels to
+  the merge commit — see "Exact artifact report")
 
 ### B. Real freeze evidence
 
@@ -1279,43 +1284,57 @@ Scientific semantics changed: **NO**.
 
 - Feature commit: `097768e` (`fix(pilot): v0.9.10 release trust gate closure
   (notebook==identity==actual)`, 7 files, +579/−234)
-- Docs commit: (this closure evidence commit — see git log)
-- Final main SHA: PENDING (post-merge; this closure evidence commit precedes
-  the merge)
-- Merge SHA: PENDING (non-ff `merge(pilot): ...` — recorded here after the
-  merge step)
-- `v0.9.10-pilot-exec-ready` dereference: PENDING (annotated tag on the merge
-  commit — created ONLY after the FINAL ARTIFACT TRUST GATE passes)
+- Docs commit: `4ac7f0d` (`docs(pilot): record v0.9.10 release trust gate
+  closure evidence`, 4 files, +267/−62)
+- Final main SHA: `44e9a1f4314c2ce8ec0b7abb16c88cbc3f83bfb6` (== merge SHA ==
+  main HEAD after the non-ff merge)
+- Merge SHA: `44e9a1f4314c2ce8ec0b7abb16c88cbc3f83bfb6` (non-ff
+  `merge(pilot): release trust gate closure (notebook==identity==actual,
+  v0.9.10-pilot-exec-ready)`; 11 files, +846/−296)
+- `v0.9.10-pilot-exec-ready` dereference: annotated tag object peels to
+  `44e9a1f4314c2ce8ec0b7abb16c88cbc3f83bfb6` (== main HEAD == the non-ff merge
+  commit; created ONLY after the FINAL ARTIFACT TRUST GATE passed)
 - Exact archive path: `dist/pilot-kaggle-upload.zip` (gitignored)
-- Exact archive SHA-256 (freeze validation rebuild):
-  `dd5ee529e3a0066f40a5a2d037526bcef20a7a04b469874ec05e55b9978777be`
-- Tagged-rebuild archive SHA-256: PENDING (rebuilt after the tag with the SAME
-  `--created-utc "2026-08-15T14:00:00+00:00"` and `--source-commit` = merge SHA)
+- Exact archive SHA-256 (freeze validation rebuild, source_commit provisional
+  `80d4d6e…`): `dd5ee529e3a0066f40a5a2d037526bcef20a7a04b469874ec05e55b9978777be`
+- Tagged-rebuild archive SHA-256: `9df1396d50a99da7b3dd101fefe79013c3c253da8fd65251dbd9eb4650e71436`
+  (rebuilt after the merge/tag with the SAME `--created-utc
+  "2026-08-15T14:00:00+00:00"` and `--source-commit` = merge SHA
+  `44e9a1f…`; differs from the freeze validation rebuild ONLY by the
+  identity `source_commit` — the four frozen manifest/map hashes are
+  identical)
 - Notebook SHA-256 (deployed, == bundled archive bytes):
   `d15d86831bf805e7bcc9e811eb87158b2e4f56732082d1e6326ee9d94ccb81ec`; source
   notebook SHA-256 `873e97735cd22b9f7686b56b3d058d1cd01f75513e6a6c8603f1e9dcf70ed71b`
 - Code manifest `bb976f67fefe184796469efcd3f6916fbd592ec9f226b7b0365a237a0ef654d5`
-  (validated, 94 entries); data manifest
+  (validated, 91 entries); data manifest
   `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a`;
   repository snapshot manifest
   `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c`;
   transport path map
   `07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce`
-- `pilot_deployment_identity.json`: source_commit PENDING (merge SHA at the
-  tagged rebuild), source_tag `v0.9.10-pilot-exec-ready`, created_utc
-  `2026-08-15T14:00:00+00:00`; expected_cells 48; all frozen values match the
-  notebook `FROZEN_MANIFEST_HASHES`
+- `pilot_deployment_identity.json`: source_commit
+  `44e9a1f4314c2ce8ec0b7abb16c88cbc3f83bfb6` (tag peel), source_tag
+  `v0.9.10-pilot-exec-ready`, created_utc `2026-08-15T14:00:00+00:00`;
+  expected_cells 48; all frozen values match the notebook
+  `FROZEN_MANIFEST_HASHES`
 - Final full-suite counts: **2,234 passed / 33 skipped / 0 failed / 0 errors**
   (2026-08-15)
 - Final bundled dry-run counts (v0.9.10 tagged rebuild): **48/48 terminal, 48
   succeeded, 0 failed, 0 pending, 48 unique run IDs** (profile `pilot`;
   per-repo todo 16 / djangocms 16 / saleor 16; per-strategy
   iterative_repository_agent 24 / selective 24; per-rep 24 / 24)
-- Tagged-rebuild acceptance: PENDING (FINAL ARTIFACT TRUST GATE — Notebook ==
-  Identity == Actual 4/4 — after the merge + tag; then the tag is created)
+- Tagged-rebuild acceptance: **PASS — FINAL ARTIFACT TRUST GATE** (Notebook ==
+  Identity == Actual 4/4 for the four frozen manifest/map hashes; deployed
+  notebook == freeze report; trust-gate regression + real artifact expanded
+  simulation 19/19 passed on the tagged rebuild)
 
 ### Final state
 
-PILOT-EXEC-01 RELEASE TRUST GATE: closure evidence complete on the feature
-branch; full suite green. Merge + tag `v0.9.10-pilot-exec-ready` + tagged
-rebuild + FINAL ARTIFACT TRUST GATE pending. Real Pilot NOT STARTED.
+PILOT-EXEC-01 RELEASE TRUST GATE: **CLOSED and FROZEN at
+`v0.9.10-pilot-exec-ready`** (merge `44e9a1f…` on `main`; annotated tag created
+on the merge commit; tagged-rebuild archive `9df1396d…`; FINAL ARTIFACT TRUST
+GATE PASS — Notebook == Identity == Actual 4/4; exact bundled 48-cell mock
+dry-run 48/48 PASS on the tagged rebuild). Deployment is locked and ready for
+Real Pilot. **Real Pilot execution NOT STARTED** — deferred until the user
+confirms the Kaggle mounted model path and the exact HF results repository ID.
