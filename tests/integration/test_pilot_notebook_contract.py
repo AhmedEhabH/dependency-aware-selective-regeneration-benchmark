@@ -272,6 +272,22 @@ class TestServiceBootstrap:
         assert "HF_TOKEN" not in src
         assert "get_secret" not in src
 
+    def test_redis_package_fallback_contract(self) -> None:
+        """KAGGLE-REDIS-PACKAGE-FALLBACK: never install alternative packages in
+        one apt transaction; probe and install exactly one candidate at a time.
+        """
+        src = self._src("service-bootstrap-cell")
+        assert '"valkey-server redis-server"' not in src
+        assert "REDIS_CANDIDATE_PACKAGES" in src
+        assert "_apt_update_once" in src
+        assert "_apt_install_one" in src
+        assert "_apt_package_available" in src
+        assert "_provision_redis_server" in src
+        assert '"apt-cache", "policy"' in src
+        assert "no pip" in src
+        assert "in-process fake server" in src
+        assert "shell=True" not in src
+
 
 class TestRepoPreflight:
     def test_all_three_repos_preflight_no_model_call(self) -> None:
@@ -418,7 +434,7 @@ class TestKaggleAutoExpandedMount:
 
     def test_frozen_trust_anchors_present(self) -> None:
         setup = self._src("setup-cell")
-        assert 'FROZEN_SOURCE_TAG = "v0.9.7-pilot-exec-ready"' in setup
+        assert 'FROZEN_SOURCE_TAG = "v0.9.8-pilot-exec-ready"' in setup
         assert "FROZEN_DEPLOYMENT" in setup
         assert "FROZEN_MANIFEST_HASHES" in setup
 
