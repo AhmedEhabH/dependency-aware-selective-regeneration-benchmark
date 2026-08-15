@@ -535,10 +535,10 @@ All under `tests/unit/execution/`: `__init__.py`, `test_budgets.py` (14), `test_
 - Runtime metrics
 
 ## Current Branch
-`fix/pilot-kaggle-redis-package-fallback` (PILOT-EXEC-01 KAGGLE-REDIS-PACKAGE-FALLBACK; created from clean `origin/main`; fix commit `9cf1745` `fix(pilot): fall back to available Redis-compatible server package on Kaggle` pushed; docs commit pending; merge to main + tag `v0.9.8-pilot-exec-ready` are the next steps and are recorded exactly in the closure report). Main is at the v0.9.7 closure (root-safe unprivileged PostgreSQL bootstrap; historical execution-ready tag `v0.9.7-pilot-exec-ready`, NOT moved; earlier execution-ready tags `v0.9.0`/`v0.9.1`/`v0.9.2`/`v0.9.3`/`v0.9.6` historical, NOT moved).
+`main` @ `7e0a908` = **PILOT-EXEC-01 KAGGLE-REDIS-PACKAGE-FALLBACK CLOSURE** (non-ff merge of `fix/pilot-kaggle-redis-package-fallback`, commits `9cf1745` fix + `1f3f911` docs; tagged `v0.9.8-pilot-exec-ready`, pushed; archive `dist/pilot-kaggle-upload.zip` SHA-256 `21e1d933…` + sidecar rebuilt from the tag, deterministic). Historical execution-ready tags `v0.9.0`/`v0.9.1`/`v0.9.2`/`v0.9.3`/`v0.9.6`/`v0.9.7`-pilot-exec-ready NOT moved.
 
-## Latest Commit (pre-correction main HEAD)
-`f724483` (PILOT-EXEC-01 KAGGLE POSTGRES ROOT-FIX merge; historical execution-ready tag `v0.9.7-pilot-exec-ready` points here). The v0.9.8 Redis package-fallback merge SHA is recorded in the closure report after the merge.
+## Latest Commit (main HEAD)
+`7e0a908588f8b5e0817659518b4e0928ce7c9943` `merge(pilot): fall back to available Redis-compatible server package on Kaggle (v0.9.8-pilot-exec-ready)`; tag `v0.9.8-pilot-exec-ready` peels to this commit.
 
 ## Known Risks
 1. **LR-3 - No test data boundary:** Test fixtures need a defined home outside `inputs/` and `src/`.
