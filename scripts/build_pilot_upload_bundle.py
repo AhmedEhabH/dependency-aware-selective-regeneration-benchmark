@@ -66,6 +66,7 @@ PILOT_NOTEBOOK = PROJECT_ROOT / "notebooks" / "pilot_exec_01.ipynb"
 PILOT_RUNTIME_LOCK = PROJECT_ROOT / "requirements-pilot-kaggle.lock"
 
 PILOT_SNAPSHOT_SCRIPT = SCRIPTS_DIR / "pilot_repo_snapshot.py"
+PILOT_ENVS_SCRIPT = SCRIPTS_DIR / "pilot_kaggle_repo_envs.py"
 
 # ---- Kaggle transport-safe archive member encoding -------------------------
 #
@@ -400,15 +401,22 @@ def build_pilot_bundle(
     shutil.copy2(PILOT_RUNTIME_LOCK, lock_dst)
     builder.normalize_text(lock_dst)
 
-    # The Kaggle preflight consumes the shared snapshot/preflight module; it
-    # must ride in the code bundle (the historical builder never included
-    # scripts/). Only the Pilot bundle gains this file.
+    # The Kaggle preflight consumes the shared snapshot/preflight module and the
+    # repository-environment provisioning helper; they must ride in the code
+    # bundle (the historical builder never included scripts/). Only the Pilot
+    # bundle gains these files.
     if not PILOT_SNAPSHOT_SCRIPT.is_file():
         raise RuntimeError(f"Pilot snapshot script missing: {PILOT_SNAPSHOT_SCRIPT}")
     snapshot_dst = output_root / "code" / "scripts" / PILOT_SNAPSHOT_SCRIPT.name
     snapshot_dst.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(PILOT_SNAPSHOT_SCRIPT, snapshot_dst)
     builder.normalize_text(snapshot_dst)
+
+    if not PILOT_ENVS_SCRIPT.is_file():
+        raise RuntimeError(f"Pilot repository-env provisioning helper missing: {PILOT_ENVS_SCRIPT}")
+    envs_dst = output_root / "code" / "scripts" / PILOT_ENVS_SCRIPT.name
+    shutil.copy2(PILOT_ENVS_SCRIPT, envs_dst)
+    builder.normalize_text(envs_dst)
 
     regenerate_code_manifest(output_root)
 

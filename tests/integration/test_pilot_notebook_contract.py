@@ -307,6 +307,22 @@ class TestRepoPreflight:
         setup = _src(_cells_by_id(_nb())["setup-cell"])
         assert 'PILOT_REPOSITORIES = ("todo", "djangocms", "saleor")' in setup
 
+    def test_preflight_is_a_thin_provisioning_helper_adapter(self) -> None:
+        preflight = _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
+        assert "pilot_kaggle_repo_envs.py" in preflight
+        assert "importlib.util.spec_from_file_location" in preflight
+        assert "provision_repository_envs(" in preflight
+        assert "host_python=sys.executable" in preflight
+        assert "source_tag=SOURCE_TAG" in preflight
+        assert 'log_path=PREFLIGHT_DIR / "environment_provisioning.log"' in preflight
+        assert 'envs_evidence["djangocms"]["python"]' in preflight
+        assert 'envs_evidence["saleor"]["python"]' in preflight
+        assert "def _assert_service_port(host, port, label):" in preflight
+        assert "SALEOR_PG_PORT" in preflight and "SALEOR_REDIS_PORT" in preflight
+        assert '"-m", "venv"' not in preflight
+        assert "ensurepip" not in preflight
+        assert "--strategy" not in preflight and "--max-runs" not in preflight
+
 
 class TestKaggleTransportRestore:
     """PILOT-EXEC-01 KAGGLE-FILENAME-TRANSPORT notebook contract.
