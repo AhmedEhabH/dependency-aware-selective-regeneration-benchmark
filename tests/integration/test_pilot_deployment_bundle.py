@@ -266,6 +266,23 @@ class TestPilotBundleIdentityAndManifests:
         )
         assert "requirements-pilot-kaggle.lock" in code_manifest
 
+    def test_repo_env_provisioning_helper_bundled_byte_equal_and_hashed(
+        self, tmp_path: Path
+    ) -> None:
+        output_root, _archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "envs")
+        bundled = output_root / "code" / "scripts" / "pilot_kaggle_repo_envs.py"
+        canonical = SCRIPTS_DIR / "pilot_kaggle_repo_envs.py"
+        assert bundled.is_file()
+        assert _normalized_bytes(bundled) == _normalized_bytes(canonical)
+        code_manifest = json.loads(
+            (output_root / "code_manifest.json").read_text(encoding="utf-8")
+        )
+        rel = "scripts/pilot_kaggle_repo_envs.py"
+        assert rel in code_manifest
+        entry_hash = code_manifest[rel]
+        assert isinstance(entry_hash, str)
+        assert entry_hash == hashlib.sha256(_normalized_bytes(bundled)).hexdigest()
+
     def test_no_forbidden_files_in_bundle(self, tmp_path: Path) -> None:
         output_root, _archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "forbid")
         rels = [p.relative_to(output_root).as_posix() for p in output_root.rglob("*") if p.is_file()]

@@ -1,7 +1,7 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** READY FOR USE (Redis package-fallback correction merged + tagged
-`v0.9.8-pilot-exec-ready`; bundle rebuilt from the exact tag). Pilot NOT
+**Status:** READY FOR USE (repository-environment provisioning closure merged +
+tagged `v0.9.9-pilot-exec-ready`; bundle rebuilt from the exact tag). Pilot NOT
 started.
 **Branches used:** `fix/pilot-kaggle-filename-transport` (Kaggle-safe ZIP
 encoding), `fix/pilot-kaggle-reserved-transport-name` (reserved `__name__`
@@ -14,12 +14,19 @@ notebook runs as root while PostgreSQL `initdb`/`pg_ctl` refuse root),
 installed the two Redis-compatible ALTERNATIVE packages in ONE apt transaction,
 which aborts whenever one candidate is unavailable — real Kaggle exposes
 `redis-server` but NOT `valkey-server`; the cell now probes each candidate
-individually and installs ONE package per `apt-get install`), then
-`main` @ tag `v0.9.8-pilot-exec-ready` (deployment source).
+individually and installs ONE package per `apt-get install`),
+`fix/pilot-kaggle-env-provisioning-closure` (real Kaggle blocker: `python -m
+venv` -> `ensurepip` exits 1 when the runtime lock installs `pip` into the
+benchmark interpreter; the repo preflight now provisions no-pip isolated envs
+via the bundled `scripts/pilot_kaggle_repo_envs.py` helper — stdlib
+`--without-pip` venvs bootstrapped by host pip `--python`, uv for django CMS
+and Saleor, markers + health probes, upstream OS prerequisites gettext/gcc/
+libpq-dev in one apt transaction), then
+`main` @ tag `v0.9.9-pilot-exec-ready` (deployment source).
 **Execution contract:** `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md` (frozen
 before any real Pilot model result).
 **Bundle:** `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip`
-+ `.sha256`; built from the TAGGED SOURCE `v0.9.8-pilot-exec-ready` (real repo
++ `.sha256`; built from the TAGGED SOURCE `v0.9.9-pilot-exec-ready` (real repo
 cache: djangocms/saleor at pinned SHAs, todo embedded) by
 `scripts/build_pilot_upload_bundle.py`. `dist/` is gitignored. The archive
 contains the 18-cell Pilot notebook including the `service-bootstrap-cell`
@@ -27,7 +34,9 @@ that provisions PostgreSQL + Valkey/Redis on a fresh Kaggle session (running
 the PostgreSQL server lifecycle under the unprivileged `postgres` OS account
 when the notebook effective uid is 0, fail-closed; Redis-compatible server
 resolved binary-first and provisioned one apt candidate at a time, fail-closed
-if neither is available) AND the
+if neither is available), the `pilot-repo-preflight-cell` that provisions the
+no-pip repository validation environments through the bundled
+`scripts/pilot_kaggle_repo_envs.py` helper, AND the
 `transport-restore-cell` that makes the ZIP Kaggle-safe.
 
 **Kaggle auto-expanded mount (why two input modes exist):** the real Kaggle
@@ -100,9 +109,10 @@ Frozen values (authoritative in
 `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` — updated for the Kaggle
 auto-expanded mount correction):
 
-- Source tag: `v0.9.8-pilot-exec-ready` (peeled commit recorded in the
+- Source tag: `v0.9.9-pilot-exec-ready` (peeled commit recorded in the
   deployment freeze report; previous execution-ready points
-  `v0.9.7-pilot-exec-ready`, `v0.9.6-pilot-exec-ready`, `v0.9.5-pilot-exec-ready`,
+  `v0.9.8-pilot-exec-ready`, `v0.9.7-pilot-exec-ready`, `v0.9.6-pilot-exec-ready`,
+  `v0.9.5-pilot-exec-ready`,
   `v0.9.3-pilot-exec-ready`
   (service bootstrap) and `v0.9.2-pilot-exec-ready` @
   `e030be5f4736e22ce40cfa798633b186858b0221` are historical and NOT moved)
@@ -112,7 +122,7 @@ auto-expanded mount correction):
   embedded archive SHA could never equal its own value); at runtime Mode A
   verifies the mounted ZIP against its sidecar.
 - Deployment `source_commit`: equals the actual peel of tag
-  `v0.9.8-pilot-exec-ready` (the final merged commit). It is recorded/verified
+  `v0.9.9-pilot-exec-ready` (the final merged commit). It is recorded/verified
   in the deployment freeze report and is NOT a frozen notebook anchor (it
   would embed the very commit that contains the notebook).
 - Model: `Qwen/Qwen2.5-Coder-14B-Instruct`
@@ -149,7 +159,7 @@ and the SHA-256 of the deployed (line-ending-normalized) notebook bytes.
 
 ## 1. Before launching (all must be done first)
 
-1. Confirm the working tree is at tag `v0.9.8-pilot-exec-ready` and
+1. Confirm the working tree is at tag `v0.9.9-pilot-exec-ready` and
    `reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md` records the exact tag->commit
    dereference and the bundle manifest SHA-256s.
 2. Confirm `dist/pilot-kaggle-upload.zip.sha256` matches the freeze report.
@@ -228,7 +238,7 @@ and the SHA-256 of the deployed (line-ending-normalized) notebook bytes.
    here.
 4. Verify
    `/kaggle/working/pilot_bundle/pilot_deployment_identity.json`
-   (task = `PILOT-EXEC-01`, source tag = `v0.9.8-pilot-exec-ready`); the
+   (task = `PILOT-EXEC-01`, source tag = `v0.9.9-pilot-exec-ready`); the
    identity-verify cell anchors `source_tag` and the full `FROZEN_DEPLOYMENT`
    to the frozen constants in BOTH modes. `source_commit` is recorded in the
    deployment freeze report (it equals the final tag peel) and is NOT a frozen
@@ -257,6 +267,41 @@ and the SHA-256 of the deployed (line-ending-normalized) notebook bytes.
     scientific cells).
 13. REAL Pilot launch (below).
 
+The `pilot-repo-preflight-cell` runs the repository environment/baseline
+preflight for ALL THREE repos with NO model call. It first asserts the two
+service ports (PostgreSQL `127.0.0.1:5433`, Valkey/Redis `127.0.0.1:6379`)
+are reachable via `_assert_service_port`, then loads the bundled
+`scripts/pilot_kaggle_repo_envs.py` helper with `importlib.util` and calls
+`provision_repository_envs(...)` to build the ISOLATED environments under
+`/kaggle/working/pilot_envs`:
+
+- `tools/` — no-pip venv (`python -m venv --without-pip`); `uv` is installed
+  into it by HOST pip via `--python <target>` (documented pip feature for
+  pip-less envs). This NEVER runs the failing `ensurepip` path and NEVER
+  touches the benchmark/model interpreter.
+- `djangocms/` — no-pip venv; its pinned `test_requirements/django-5.0.txt`
+  (SHA-256 recorded) is installed with `uv pip install --python <venv>` from
+  the frozen snapshot root.
+- `saleor/` — exact copy of the pinned snapshot, then
+  `uv venv .venv --python <existing 3.12>` with `UV_PYTHON_DOWNLOADS=never`
+  (no silent download/switch) and `uv sync --locked`.
+- Upstream OS prerequisites `gettext`, `gcc`, `libpq-dev` are installed in ONE
+  `apt-get install` transaction when any is missing (fail closed listing ALL
+  missing when apt is unavailable or they remain missing).
+- Completion markers (`.pilot_env_ready.json`, schema
+  `pilot_repo_environment.v1`) + health probes (django `5.0.*` + `import cms`;
+  `import saleor`; `uv --version`) decide reuse; only the specific invalid
+  private env dir is rebuilt, never arbitrary `/kaggle/working`.
+- A provisioning log is written to
+  `preflight/environment_provisioning.log` (`PROVISIONING: PASSED` final line)
+  and NEVER records secret values; long installs emit heartbeats every 30 s.
+
+The provisioned interpreter paths (todo = `sys.executable`) are then passed to
+the shared `scripts/pilot_repo_snapshot.py preflight` runner, which executes
+the frozen per-repo validation commands from
+`benchmark_data/manifests/pilot_validation_commands.yaml` and fails closed
+unless `overall == PASS`.
+
 ## 3. Real Pilot launch (frozen flags)
 
 ```bash
@@ -271,7 +316,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --max-total-workflow-tokens 0 \
     --timeout 600 \
     --source-commit <40-char SHA from freeze report> \
-    --source-tag v0.9.8-pilot-exec-ready \
+    --source-tag v0.9.9-pilot-exec-ready \
     --output-dir /kaggle/working/runs/pilot-<experiment-id> \
     --hf-sync \
     --hf-repo-id <exact HF results repo id> \
