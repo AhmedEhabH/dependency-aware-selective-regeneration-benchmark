@@ -33,6 +33,7 @@ import pytest
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
+EXPECTED_FROZEN_SOURCE_TAG = "v0.9.12-pilot-exec-ready"
 
 # The bundled-notebook parity test builds a full Pilot bundle; the hermetic
 # fixture keeps that build deterministic without developer-local repo caches.
@@ -450,7 +451,7 @@ class TestKaggleAutoExpandedMount:
 
     def test_frozen_trust_anchors_present(self) -> None:
         setup = self._src("setup-cell")
-        assert 'FROZEN_SOURCE_TAG = "v0.9.11-pilot-exec-ready"' in setup
+        assert f'FROZEN_SOURCE_TAG = "{EXPECTED_FROZEN_SOURCE_TAG}"' in setup
         assert "FROZEN_DEPLOYMENT" in setup
         assert "FROZEN_MANIFEST_HASHES" in setup
 
