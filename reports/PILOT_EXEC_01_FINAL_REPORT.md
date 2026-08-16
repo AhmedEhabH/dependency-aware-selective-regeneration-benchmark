@@ -1429,7 +1429,7 @@ always probes with `cwd=work_dir`; BOTH call sites fixed (marker/reuse
 | downstream preflight parity (Gate H) | PASS |
 | no semantic drift | PASS |
 | diff-check / ruff / mypy / py_compile | PASS |
-| targeted integration | PASS — provisioning 28, notebook contract 46, deployment bundle 61, real-launch preflight 14, service bootstrap 39 (188 passed) |
+| targeted integration | PASS — provisioning 28, notebook contract 44, deployment bundle 61, real-launch preflight 14, service bootstrap 41 (188 passed) |
 | full suite | PASS — **2,239 passed / 33 skipped / 0 failed** (2026-08-16) |
 
 ### Release closure (v0.9.11-pilot-exec-ready)

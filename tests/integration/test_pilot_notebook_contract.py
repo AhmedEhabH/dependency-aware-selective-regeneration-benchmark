@@ -450,7 +450,7 @@ class TestKaggleAutoExpandedMount:
 
     def test_frozen_trust_anchors_present(self) -> None:
         setup = self._src("setup-cell")
-        assert 'FROZEN_SOURCE_TAG = "v0.9.10-pilot-exec-ready"' in setup
+        assert 'FROZEN_SOURCE_TAG = "v0.9.11-pilot-exec-ready"' in setup
         assert "FROZEN_DEPLOYMENT" in setup
         assert "FROZEN_MANIFEST_HASHES" in setup
 
