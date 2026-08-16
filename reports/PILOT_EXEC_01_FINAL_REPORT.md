@@ -1,9 +1,43 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
-> **NOTE (2026-08-16, LATEST):** superseded by the PILOT-EXEC-01 SALEOR
+> **NOTE (2026-08-16, LATEST):** superseded by the PILOT-EXEC-01
+> RELEASE-PROVENANCE CLOSURE — **`v0.9.11-pilot-exec-ready` REJECTED FOR LAUNCH;
+> `v0.9.12-pilot-exec-ready` SHIPPED WITH A FAIL-CLOSED `source_commit`
+> GIT-TREE PROVENANCE GATE** (branch `fix/pilot-release-provenance-closure`
+> from clean `origin/main` `5cee179`; code/test commit `6cd2767`, freeze commit
+> `7923b37`). The v0.9.11 immutable tag peeled to the merge commit `8801304`,
+> whose notebook is the v0.9.10 notebook `d15d8683…`, while the deployed
+> artifact carried the re-frozen notebook `85edbd33…` that landed only in the
+> POST-tag re-freeze commit `b87aa49` — embedded notebook trust could be made
+> internally self-consistent, yet the tag does not contain the deployed
+> notebook. v0.9.11 = `internally-valid artifact, but rejected for launch
+> because the immutable tag does not contain the deployed re-frozen notebook
+> and therefore cannot reproduce the claimed source snapshot.` FIX (minimal):
+> fail-closed `validate_source_commit_provenance(*, source_commit,
+> bundled_root, …, git_reader=None)` in `scripts/build_pilot_upload_bundle.py`
+> proves the bundled Pilot notebook AND every `code_manifest.json` entry equal
+> the normalized (CRLF→LF for text suffixes) tracked Git blob at
+> `identity.source_commit`; standalone release acceptance step run BEFORE the
+> immutable tag is created; no skip flag; never falls back to the working tree;
+> deliberately NOT wired into `build_pilot_bundle`/`freeze()`. Companion
+> byte-faithfulness fix: bundled `*.lock` files LF-normalized in the code bundle
+> (`_normalize_lock_files`) — the Windows-checkout CRLF lock manifest
+> `95ad3b2b…` had drifted from the LF blob `1f4b1875…`. New suite
+> `tests/integration/test_pilot_release_provenance.py` Gates 1–5 (exact v0.9.11
+> forensic RED from real git blobs `8801304` vs `b87aa49`, notebook CRLF/LF
+> parity, code-manifest modified/missing FAIL naming exact paths, invalid SHA /
+> unknown commit fail closed, `.lock` LF PASS vs CRLF FAIL, v0.9.12 release-tag
+> sequencing contract). Finalizer re-freeze `--source-tag
+> v0.9.12-pilot-exec-ready`: code `0fd86fc9…` (94/94 source-faithful incl. both
+> locks), data `8b859ecc…`, repository snapshot `49d91d39…`, transport map
+> `07036a36…`; archive `3ad779120a…`. Full suite **2,255 passed / 33 skipped /
+> 0 failed** (2026-08-16). **Pilot = NOT STARTED.**
+>
+> **NOTE (2026-08-16, REJECTED FOR LAUNCH — superseded by the v0.9.12 release-provenance closure):** superseded by the PILOT-EXEC-01 SALEOR
 > SOURCE-VISIBILITY HEALTH-PROBE FIX (REAL KAGGLE v0.9.10 FAILURE CLOSED on
 > branch `fix/pilot-saleor-source-visibility-probe`, code/test commit `ee3d88b`
-> pushed; release `v0.9.11-pilot-exec-ready` CLOSED AND FROZEN — see the final
+> pushed; release `v0.9.11-pilot-exec-ready` internally-valid but REJECTED FOR
+> LAUNCH — see the final
 > closure note above). Real Kaggle v0.9.10
 > PASSED every preflight stage (release trust, transport restore, runtime lock,
 > repository snapshots, PostgreSQL, Redis, uv tool, django CMS, Saleor copy,
@@ -24,8 +58,11 @@
 > preflight parity, no semantic drift. Targeted integration 188 passed; full
 > suite **2,239 passed / 33 skipped / 0 failed** (2026-08-16). v0.9.10 remains
 > immutable (real Kaggle preflight reached the Saleor post-sync health probe
-> then failed because the probe did not run from the repository root). Remaining
-> **ALL SUBSEQUENT STEPS COMPLETE:** independent audit PASS → non-ff merge to
+> then failed because the probe did not run from the repository root). This
+> v0.9.11 record completed
+> **ALL SUBSEQUENT STEPS** (internally-valid; SUBSEQUENTLY REJECTED FOR LAUNCH
+> because the immutable tag does not contain the deployed re-frozen notebook):
+> independent audit PASS → non-ff merge to
 > main `8801304d855fe29c694f2a3c0500f661685b0d72` (merge SHA == main HEAD ==
 > tag peel) → release-trust-gate finalizer re-freeze (`--source-commit` = merge
 > SHA, `--source-tag v0.9.11-pilot-exec-ready`, `--created-utc

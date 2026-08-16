@@ -1,15 +1,48 @@
 # PILOT-EXEC-01 — Deployment Freeze Report
 
-**Date:** 2026-08-16 (Saleor source-visibility fix — real Kaggle v0.9.10
-failure closed; **v0.9.11-pilot-exec-ready CLOSED AND FROZEN** — see current
-freeze section 1 below; the 2026-08-15 v0.9.10 RELEASE TRUST GATE freeze
-remains immutable and historical;
-this file superseded freeze chain: v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → v0.9.6
+**Date:** 2026-08-16 (release-provenance closure — **v0.9.12-pilot-exec-ready
+CLOSED AND FROZEN**, see current freeze section 1 below; **v0.9.11-pilot-exec-ready
+REJECTED FOR LAUNCH** (internally-valid artifact, but the immutable tag does
+not contain the deployed re-frozen notebook); the 2026-08-15 v0.9.10 RELEASE
+TRUST GATE freeze remains immutable and historical;
+this file superseded freeze chain: v0.9.12 → v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → v0.9.6
 → v0.9.5 → v0.9.4 → v0.9.3 → v0.9.2 → v0.9.1)
 **Task:** `PILOT-EXEC-01` (Pilot deployment + RELEASE TRUST GATE closure)
-**Status:** FROZEN at `v0.9.11-pilot-exec-ready` (current, annotated tag ON the merge commit `8801304`, pushed); `v0.9.10-pilot-exec-ready` immutable/historical (Pilot execution NOT STARTED)
+**Status:** FROZEN at `v0.9.12-pilot-exec-ready` (current, annotated tag ON the merge commit, pushed); `v0.9.11-pilot-exec-ready` REJECTED FOR LAUNCH (NOT moved); `v0.9.10-pilot-exec-ready` immutable/historical (Pilot execution NOT STARTED)
 
-> **REAL KAGGLE v0.9.10 FAILURE + FIX (2026-08-16):** v0.9.10 PASSED on real
+> **RELEASE-PROVENANCE CLOSURE + v0.9.11 REJECTION (2026-08-16):** The v0.9.11
+> immutable tag peeled to the merge commit `8801304`, whose notebook is the
+> v0.9.10 notebook `d15d8683…`, while the deployed artifact carried the re-frozen
+> notebook `85edbd33…` that landed only in the POST-tag re-freeze commit
+> `b87aa49` — embedded notebook trust could be made internally self-consistent,
+> yet the tag does not contain the deployed notebook. v0.9.11 =
+> `internally-valid artifact, but rejected for launch because the immutable tag
+> does not contain the deployed re-frozen notebook and therefore cannot
+> reproduce the claimed source snapshot.` FIX (minimal, branch
+> `fix/pilot-release-provenance-closure` from clean `origin/main` `5cee179`;
+> code/test `6cd2767`, freeze `7923b37`): fail-closed
+> `validate_source_commit_provenance(*, source_commit, bundled_root, …, git_reader=None)`
+> in `scripts/build_pilot_upload_bundle.py` proves the bundled Pilot notebook
+> AND every `code_manifest.json` entry equal the normalized (CRLF→LF for text
+> suffixes) tracked Git blob at `identity.source_commit`; standalone release
+> acceptance step run BEFORE the immutable tag is created; no skip flag; never
+> falls back to the working tree; deliberately NOT wired into
+> `build_pilot_bundle`/`freeze()` (the finalizer's validation rebuild predates
+> the anchor commit). Companion byte-faithfulness fix: bundled `*.lock` files
+> LF-normalized in the code bundle (`_normalize_lock_files`) — the
+> Windows-checkout CRLF lock manifest `95ad3b2b…` had drifted from the LF blob
+> `1f4b1875…`. New suite `tests/integration/test_pilot_release_provenance.py`
+> Gates 1–5 (exact v0.9.11 forensic RED from real git blobs, notebook CRLF/LF
+> parity, code-manifest modified/missing FAIL naming exact paths, invalid SHA /
+> unknown commit fail closed, `.lock` LF PASS vs CRLF FAIL, v0.9.12 release-tag
+> sequencing contract). Finalizer re-freeze `--source-tag
+> v0.9.12-pilot-exec-ready`: code manifest `0fd86fc9…` (94/94 source-faithful
+> incl. both locks), data `8b859ecc…`, repository snapshot `49d91d39…`,
+> transport map `07036a36…` (last three byte-identical to v0.9.10/v0.9.11);
+> archive `3ad779120a…`. Full suite **2,255 passed / 33 skipped / 0 failed**.
+> Pilot = NOT STARTED.
+
+> **REAL KAGGLE v0.9.10 FAILURE + FIX (2026-08-16, v0.9.11 — REJECTED FOR LAUNCH):** v0.9.10 PASSED on real
 > Kaggle through release trust, transport restore, runtime lock, repository
 > snapshots, PostgreSQL, Redis, uv tool, django CMS, Saleor copy, Saleor 3.12
 > `.venv`, and `uv sync --locked` (`uv sync --locked = PASS`); it failed ONLY at
@@ -30,7 +63,37 @@ this file superseded freeze chain: v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → 
 
 ---
 
-## 1. CURRENT FREEZE — `v0.9.11-pilot-exec-ready` (Saleor source-visibility health-probe fix for real Kaggle)
+## 1. CURRENT FREEZE — `v0.9.12-pilot-exec-ready` (release-provenance closure)
+
+| Field | Value |
+|---|---|
+| Branch | `fix/pilot-release-provenance-closure` (from clean `origin/main` `5cee179`): code/test commit `6cd2767` (`fix(pilot): enforce source-commit provenance for deployment bundles`) + freeze commit `7923b37` (`chore(pilot): freeze v0.9.12 notebook and release constants`); non-ff merge to `main` + annotated tag on the merge commit = next release-flow step |
+| Stable source tag | `v0.9.12-pilot-exec-ready` — to be created on the merge commit; the source-provenance gate must PASS on the exact artifact built from the tagged commit before the immutable tag is created (fail-closed; no skip flag) |
+| Defect closed | v0.9.11 rejected for launch: immutable tag `8801304` does NOT contain the deployed re-frozen notebook `85edbd33…` (it carries the v0.9.10 notebook `d15d8683…`; the re-freeze landed only in post-tag `b87aa49`). Tag NOT moved |
+| Provenance gate | `validate_source_commit_provenance(*, source_commit, bundled_root, …, git_reader=None)` in `scripts/build_pilot_upload_bundle.py`: bundled Pilot notebook AND every `code_manifest.json` entry must equal the normalized (CRLF→LF for text suffixes) tracked Git blob at `identity.source_commit`; errors name exact paths; standalone release acceptance step (NOT wired into `build_pilot_bundle`/`freeze()`); no skip flag; never falls back to the working tree |
+| Lock faithfulness | `_normalize_lock_files` LF-normalizes all bundled `*.lock` under the code bundle before the manifest is regenerated (`requirements-pilot-kaggle.lock` + `requirements-smoke-kaggle.lock`; Windows-checkout CRLF `95ad3b2b…` had drifted from LF blob `1f4b1875…`) |
+| Builder | `scripts/build_pilot_upload_bundle.py` + two-pass deterministic `scripts/finalize_pilot_notebook_trust.py` (`--source-commit` = the tagged merge SHA, re-run at merge time so identity.source_commit == tag peel; local repo cache, NO `--allow-acquire`) |
+| Deployment contract tests | + `tests/integration/test_pilot_release_provenance.py` (16; Gates 1–5: exact v0.9.11 forensic RED from real git blobs `8801304` vs `b87aa49`, notebook CRLF/LF parity, code-manifest modified/missing FAIL, invalid SHA / unknown commit fail closed, `.lock` LF PASS vs CRLF FAIL, v0.9.12 release-tag sequencing contract) |
+| Notebook trust | deployed SHA-256 `b8d3cf5e…` == bundled archive bytes; source file SHA-256 `5dc4afbe…`; freeze report `reports/pilot_notebook_trust_freeze.json` (status FROZEN, source_commit `6cd2767…` provisional — re-run at merge SHA) |
+| Code manifest | `0fd86fc994518461172e0893e9b7f92b2eafda777d27c403dfd1b9f25159d0f3` (94 entries; all 94 source-faithful at the freeze commit, incl. both LF locks) |
+| Data manifest | `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a` (byte-identical to v0.9.10/v0.9.11) |
+| Repository snapshot manifest | `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c` (identical to v0.9.10/v0.9.11) |
+| Transport path map | `kaggle_transport_path_map_sha256` `07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce` (identical to v0.9.10/v0.9.11) |
+| Archive | `dist/pilot-kaggle-upload.zip` — SHA-256 `3ad779120a45506192d45737a8a72161d8ef133adf5fb7188f3241c6f23bf583` (validation-enabled rebuild; deterministic) |
+| Full suite | **2,255 passed / 33 skipped / 0 failed** (2026-08-16) |
+
+The v0.9.12 freeze re-locks the Kaggle deployment source with a fail-closed
+source-provenance guarantee: the immutable tag will contain exactly the bytes
+that were provenance-verified against `identity.source_commit`, and the bundled
+code (including both `*.lock` files) is byte-faithful to the source tree.
+**Pilot = NOT STARTED.**
+
+## 2. REJECTED — `v0.9.11-pilot-exec-ready` (Saleor source-visibility health-probe fix for real Kaggle)
+
+**REJECTED FOR LAUNCH (superseded by the v0.9.12 release-provenance closure):
+internally-valid artifact, but the immutable tag does not contain the deployed
+re-frozen notebook and therefore cannot reproduce the claimed source snapshot.
+Tag NOT moved.**
 
 | Field | Value |
 |---|---|
@@ -51,16 +114,20 @@ this file superseded freeze chain: v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → 
 | Transport path map | `kaggle_transport_path_map_sha256` `07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce` (50 exact-path entries; identical to v0.9.10) |
 | Dry-run | bundled 48-cell mock dry-run **48/48** terminal / 48 succeeded / 0 failed (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24; 48 unique / 0 missing / 0 duplicate / 0 model calls) |
 
-This freeze re-locks the Kaggle deployment source at `v0.9.11-pilot-exec-ready`
+This freeze re-locked the Kaggle deployment source at `v0.9.11-pilot-exec-ready`
 after a REAL two-pass deterministic release-trust-gate finalizer run against
 the LOCAL repo cache (NO `--allow-acquire`, no network acquisition).
 **Notebook == Identity == Actual proven 4/4** for all four frozen hashes; the
 deployed notebook bytes equal the archive bytes; source_tag/peel re-verified.
-**Pilot = NOT STARTED.**
+**REJECTED FOR LAUNCH:** the re-frozen notebook `85edbd33e81b…` landed only in
+the POST-tag re-freeze commit `b87aa49`, NOT in the tagged merge commit
+`8801304` (which carries the v0.9.10 notebook `d15d86831bf8…`), so the immutable
+tag does not contain the deployed notebook. Superseded by v0.9.12. **Pilot =
+NOT STARTED.**
 
 ---
 
-## 2. CURRENT FREEZE — `v0.9.10-pilot-exec-ready` (release trust gate closure, HISTORICAL)
+## 3. Historical — `v0.9.10-pilot-exec-ready` (release trust gate closure, IMMUTABLE)
 
 | Field | Value |
 |---|---|
