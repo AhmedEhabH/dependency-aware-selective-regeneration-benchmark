@@ -1,6 +1,35 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
-> **NOTE (2026-08-15, LATEST):** superseded by the PILOT-EXEC-01 v0.9.10 RELEASE
+> **NOTE (2026-08-16, LATEST):** superseded by the PILOT-EXEC-01 SALEOR
+> SOURCE-VISIBILITY HEALTH-PROBE FIX (REAL KAGGLE v0.9.10 FAILURE CLOSED on
+> branch `fix/pilot-saleor-source-visibility-probe`, code/test commit `ee3d88b`
+> pushed; release `v0.9.11-pilot-exec-ready` in progress). Real Kaggle v0.9.10
+> PASSED every preflight stage (release trust, transport restore, runtime lock,
+> repository snapshots, PostgreSQL, Redis, uv tool, django CMS, Saleor copy,
+> Saleor 3.12 `.venv`, `uv sync --locked` = PASS) and failed ONLY at the new
+> health probe: `import saleor` exit 1, `ModuleNotFoundError: No module named
+> 'saleor'`. Root cause: pinned Saleor `pyproject.toml` sets `[tool.uv] package
+> = false` (upstream), so `uv sync --locked` installs the locked dependencies
+> but never the root project into site-packages; the v0.9.10 probe ran
+> `<saleor .venv>/bin/python -c "import saleor"` without `cwd=the Saleor working
+> copy`, while the frozen downstream preflight already runs Saleor commands with
+> `cwd = pristine staged repository root`. Fix (minimal): `_import_probe`
+> optional `cwd`; `_saleor_probe` always `cwd=work_dir`; BOTH call sites fixed
+> (marker/reuse + post-sync). NO `package=true`, NO pip/uv editable install, NO
+> global `PYTHONPATH`; `uv sync --locked` / Python 3.12 / `UV_PYTHON_DOWNLOADS=
+> never` preserved. Strong tests: real-subprocess source-visibility regression
+> (RED vs old helper), `_FakeRunner` cwd assertion, pinned `package=false`
+> contract, fresh/reuse cwd topology, missing-source fail-closed, downstream
+> preflight parity, no semantic drift. Targeted integration 188 passed; full
+> suite **2,239 passed / 33 skipped / 0 failed** (2026-08-16). v0.9.10 remains
+> immutable (real Kaggle preflight reached the Saleor post-sync health probe
+> then failed because the probe did not run from the repository root). Remaining
+> for v0.9.11: docs push → independent audit → non-ff merge → release finalizer
+> (code_manifest changed) → FINAL ARTIFACT TRUST GATE → immutable
+> `v0.9.11-pilot-exec-ready` → exact 48-cell mock dry-run → STOP. Pilot = NOT
+> STARTED.
+
+> **NOTE (2026-08-15, HISTORICAL — superseded by the 2026-08-16 Saleor source-visibility fix):** superseded by the PILOT-EXEC-01 v0.9.10 RELEASE
 > TRUST GATE CLOSURE (MERGED TO MAIN + TAGGED: branch
 > `fix/pilot-release-trust-gate-closure` fix `097768e` + docs `4ac7f0d`,
 > non-ff merge `44e9a1f…`, annotated tag `v0.9.10-pilot-exec-ready` on the

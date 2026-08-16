@@ -213,6 +213,36 @@ class TestPreflightRunnerPath:
                 f"repo '{repo_id}' ran a different frozen command: {primary['argv']}"
             )
 
+    def test_saleor_validation_runs_from_staged_root_with_provided_venv_python(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """Gate H - downstream preflight parity for the Saleor source topology.
+
+        The frozen downstream preflight runs the Saleor validation command with
+        ``cwd == pristine staged repository root`` and the provided Saleor
+        ``.venv/bin/python`` (never a site-packages-import assumption). The
+        provisioning health probe must therefore use the same cwd topology.
+        """
+        _stub_materialization(monkeypatch)
+        calls = _stub_run_command(monkeypatch, passed=True)
+        _stub_service_reachability(monkeypatch, unreachable=set())
+        saleor_python = "/saleor/work/.venv/bin/python"
+        staging = tmp_path / "staged-saleor"
+        result = snapshot_mod.run_repo_preflight(
+            repo_id="saleor",
+            staging_dir=staging,
+            repo_cache=None,
+            venv_python=saleor_python,
+            command=command_map.require("saleor"),
+            timeout=60,
+        )
+        assert result["passed"] is True
+        primary = next(c for c in calls if c["label"] == "primary")
+        assert primary["cwd"] == staging
+        assert tuple(primary["argv"]) == command_map.require("saleor").resolve_interpreter(
+            saleor_python
+        )
+
     def test_preflight_fails_closed_on_failing_command(
         self, tmp_path: Path, monkeypatch: Any
     ) -> None:
