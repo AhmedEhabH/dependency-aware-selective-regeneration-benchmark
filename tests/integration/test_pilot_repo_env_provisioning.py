@@ -29,6 +29,7 @@ Strong test matrix for ``scripts/pilot_kaggle_repo_envs.py``
 from __future__ import annotations
 
 import importlib.util
+import re
 import subprocess
 import sys
 from collections.abc import Callable
@@ -128,6 +129,18 @@ class _FakeRunner:
         if "-c" in args and "import cms" in joined:
             return self._result(args, "")
         if "-c" in args and "import saleor" in joined:
+            # Fail-closed: the Saleor health probe must run from the working
+            # copy root (pinned [tool.uv] package=false never installs the root
+            # project into site-packages). Blindly succeeding without checking
+            # cwd is exactly the gap that let v0.9.10 pass locally.
+            if cwd is None or not (Path(cwd) / "saleor" / "__init__.py").is_file():
+                raise self.helper.ProvisioningError(
+                    "simulated import saleor probe ran without cwd=saleor work dir "
+                    "(module only visible from the repository root)",
+                    command=args,
+                    exit_code=1,
+                    tail="ModuleNotFoundError: No module named 'saleor'",
+                )
             return self._result(args, "")
         if joined.endswith("uv --version"):
             return self._result(args, "uv 0.5.14")
@@ -361,6 +374,7 @@ class TestGateGSaleorLockedEnvironment:
         source = tmp_path / "repositories" / "saleor"
         _touch(source / "uv.lock", "lock")
         _touch(source / "pyproject.toml", "")
+        _touch(source / "saleor" / "__init__.py", "")
         work = tmp_path / "pilot_envs" / "saleor"
         py312 = tmp_path / "python3.12"
         _touch(py312)
@@ -383,6 +397,9 @@ class TestGateGSaleorLockedEnvironment:
         assert uv_sync[0]["cwd"] == str(work)
         for call in uv_venv + uv_sync:
             assert call["env"].get("UV_PYTHON_DOWNLOADS") == "never"
+        saleor_imports = [c for c in runner.calls if c["argv"][1] == "-c" and "import saleor" in " ".join(c["argv"])]
+        assert len(saleor_imports) == 1
+        assert saleor_imports[0]["cwd"] == str(work)
         assert evidence["services"]["postgresql"]["reachable"] is True
         marker = helper._read_marker(work)
         assert marker is not None
@@ -397,6 +414,7 @@ class TestGateGSaleorLockedEnvironment:
         source = tmp_path / "repositories" / "saleor"
         _touch(source / "uv.lock", "lock")
         _touch(source / "pyproject.toml", "")
+        _touch(source / "saleor" / "__init__.py", "")
         work = tmp_path / "pilot_envs" / "saleor"
         py312 = tmp_path / "python3.12"
         _touch(py312)
@@ -412,6 +430,9 @@ class TestGateGSaleorLockedEnvironment:
             assert "venv" not in call["argv"]
             assert "sync" not in call["argv"]
             assert "uv" not in call["argv"]
+        saleor_imports = [c for c in runner.calls if c["argv"][1] == "-c" and "import saleor" in " ".join(c["argv"])]
+        assert len(saleor_imports) == 1
+        assert saleor_imports[0]["cwd"] == str(work)
 
     def test_saleor_without_python_312_fails_closed(self, helper: Any, tmp_path: Path, monkeypatch: Any) -> None:
         runner = _FakeRunner(helper)
@@ -420,6 +441,7 @@ class TestGateGSaleorLockedEnvironment:
         source = tmp_path / "repositories" / "saleor"
         _touch(source / "uv.lock", "lock")
         _touch(source / "pyproject.toml", "")
+        _touch(source / "saleor" / "__init__.py", "")
         with pytest.raises(helper.ProvisioningError, match="refusing to silently download"):
             helper.provision_saleor(
                 tmp_path / "pilot_envs" / "saleor",
@@ -435,6 +457,7 @@ class TestGateGSaleorLockedEnvironment:
         source = tmp_path / "repositories" / "saleor"
         _touch(source / "uv.lock", "lock")
         _touch(source / "pyproject.toml", "")
+        _touch(source / "saleor" / "__init__.py", "")
         py312 = tmp_path / "python3.12"
         _touch(py312)
         with pytest.raises(helper.ProvisioningError, match="PostgreSQL/Redis"):
@@ -445,6 +468,142 @@ class TestGateGSaleorLockedEnvironment:
                 source_tag=SOURCE_TAG,
                 python_312=py312,
             )
+
+
+class TestSaleorSourceVisibilityProbe:
+    """PILOT-EXEC-01 SALEOR SOURCE VISIBILITY FIX.
+
+    v0.9.10 failed on REAL Kaggle at ``import saleor`` (exit 1,
+    ModuleNotFoundError) AFTER ``uv sync --locked`` passed, because the pinned
+    Saleor ``pyproject.toml`` sets ``[tool.uv] package = false`` (uv installs
+    the locked dependencies but never the root project into site-packages) and
+    the new health probe ran ``<venv>/bin/python -c "import saleor"`` from an
+    unrelated cwd. Saleor is a flat application repository; the frozen
+    downstream preflight already runs Saleor commands with ``cwd = pristine
+    staged repository root``, so the probe must test the same topology by
+    running from the working copy root.
+    """
+
+    def test_real_subprocess_import_saleor_requires_repo_root_cwd(
+        self, helper: Any, tmp_path: Path
+    ) -> None:
+        """Gate B - exact real source-visibility regression with a real Python.
+
+        Creates ``work/saleor/__init__.py`` and proves ``import saleor`` is NOT
+        discoverable from an unrelated cwd but IS discoverable with
+        ``cwd=work``, then that ``_saleor_probe(..., work_dir=work)`` passes and
+        fails from an unrelated cwd. This runs a real subprocess, not
+        ``_FakeRunner``.
+        """
+        work = tmp_path / "work"
+        (work / "saleor").mkdir(parents=True)
+        (work / "saleor" / "__init__.py").write_text("", encoding="utf-8")
+        unrelated = tmp_path / "unrelated"
+        unrelated.mkdir()
+
+        not_visible = subprocess.run(
+            [sys.executable, "-c", "import saleor"],
+            cwd=str(unrelated),
+            capture_output=True,
+            text=True,
+        )
+        assert not_visible.returncode != 0, (
+            "import saleor must NOT resolve from an unrelated cwd "
+            "(no site-packages install; package=false)"
+        )
+        assert "ModuleNotFoundError" in (not_visible.stderr or "")
+
+        visible = subprocess.run(
+            [sys.executable, "-c", "import saleor"],
+            cwd=str(work),
+            capture_output=True,
+            text=True,
+        )
+        assert visible.returncode == 0, (
+            "import saleor must resolve from the Saleor working copy root "
+            f"(cwd={work}):\n{visible.stderr}"
+        )
+
+        assert helper._saleor_probe(sys.executable, work_dir=work) is True
+        assert helper._saleor_probe(sys.executable, work_dir=unrelated) is False
+
+    def test_pinned_saleor_pyproject_declares_package_false(self) -> None:
+        """Gate C - the exact bundled/pinned Saleor pyproject contract.
+
+        ``[tool.uv] package = false`` means uv deliberately does NOT install the
+        root project into site-packages, which is why the health probe must
+        expose the source via the repository-root cwd (as the frozen downstream
+        preflight does) instead of expecting a site-packages module.
+        """
+        pyproject = (
+            PROJECT_DIR
+            / "dist"
+            / "pilot-kaggle-upload"
+            / "data"
+            / "repositories"
+            / "saleor"
+            / "pyproject.toml"
+        )
+        if not pyproject.is_file():
+            pytest.skip(
+                "bundled Saleor snapshot not materialized; run the Pilot bundle builder first"
+            )
+        text = pyproject.read_text(encoding="utf-8")
+        assert "[tool.uv]" in text
+        tool_uv = text.split("[tool.uv]", 1)[1]
+        next_section = re.search(r"^\s*\[", tool_uv, re.M)
+        if next_section is not None:
+            tool_uv = tool_uv[: next_section.start()]
+        assert re.search(r"^\s*package\s*=\s*false\s*$", tool_uv, re.M), (
+            "pinned Saleor pyproject must keep [tool.uv] package = false; the "
+            "root project is therefore never installed into site-packages"
+        )
+        assert re.search(r"^\s*package\s*=\s*true\s*$", tool_uv, re.M) is None
+
+    def test_missing_saleor_source_fails_closed_after_sync(
+        self, helper: Any, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """Gate G - a genuinely missing source package is never hidden.
+
+        If the staged working copy has no ``saleor/`` package after copy+sync,
+        the repository-root probe must FAIL and abort provisioning (fail closed).
+        """
+        runner = _FakeRunner(helper)
+        monkeypatch.setattr(helper, "run_command", runner)
+        source = tmp_path / "repositories" / "saleor"
+        _touch(source / "uv.lock", "lock")
+        _touch(source / "pyproject.toml", "")
+        py312 = tmp_path / "python3.12"
+        _touch(py312)
+        with pytest.raises(
+            helper.ProvisioningError, match="Saleor health probe failed after uv sync --locked"
+        ):
+            helper.provision_saleor(
+                tmp_path / "pilot_envs" / "saleor",
+                source,
+                uv_bin=Path("uv"),
+                source_tag=SOURCE_TAG,
+                python_312=py312,
+            )
+        saleor_imports = [c for c in runner.calls if c["argv"][1] == "-c" and "import saleor" in " ".join(c["argv"])]
+        assert len(saleor_imports) >= 1
+        for call in saleor_imports:
+            assert call["cwd"] is not None
+
+    def test_no_semantic_drift(self, helper: Any) -> None:
+        """Gate I - the fix only changes probe topology, not runtime semantics."""
+        source = HELPER_PATH.read_text(encoding="utf-8")
+        assert "uv sync --locked" in source
+        assert "UV_PYTHON_DOWNLOADS" in source
+        assert 'UV_PYTHON_DOWNLOADS"] = "never"' in source
+        assert "package = true" not in source
+        assert "package = false" not in source.replace(
+            "The pinned Saleor ``pyproject.toml`` sets ``[tool.uv] package = false``",
+            "",
+        )
+        assert '"--editable"' not in source
+        assert '"-e",' not in source
+        assert "PYTHONPATH" not in source
 
 
 class TestGateJProvisioningLogAndOsPrereqs:
@@ -605,6 +764,7 @@ class TestEndToEndProvisioning:
         saleor_source = data_repositories / "saleor"
         _touch(saleor_source / "uv.lock", "lock")
         _touch(saleor_source / "pyproject.toml", "")
+        _touch(saleor_source / "saleor" / "__init__.py", "")
         pilot_envs = tmp_path / "pilot_envs"
         _touch(pilot_envs / "tools" / "bin" / "python")
         _touch(pilot_envs / "tools" / "bin" / "uv")

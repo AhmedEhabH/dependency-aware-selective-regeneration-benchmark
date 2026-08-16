@@ -1,23 +1,31 @@
 # PILOT-EXEC-01 — Deployment Freeze Report
 
-**Date:** 2026-08-15 (RELEASE TRUST GATE freeze on
-`v0.9.10-pilot-exec-ready`; supersedes the 2026-08-15 no-pip repository env
-provisioning freeze on `v0.9.9-pilot-exec-ready`, which superseded the 2026-08-15
-Redis package-fallback freeze on `v0.9.8-pilot-exec-ready`, which superseded the 2026-08-13 root-safe
-PostgreSQL freeze on `v0.9.7-pilot-exec-ready`, which superseded the 2026-08-13
-stable-anchor freeze on `v0.9.6-pilot-exec-ready`, which superseded the
-2026-08-13 reserved-name transport freeze on `v0.9.5-pilot-exec-ready`, which
-superseded the 2026-08-13 filename-transport freeze on `v0.9.4-pilot-exec-ready`,
-which superseded the 2026-08-13 service-bootstrap freeze on
-`v0.9.3-pilot-exec-ready`, which superseded the 2026-08-13 freeze on
-`v0.9.2-pilot-exec-ready`, which superseded the 2026-08-10 freeze on
-`v0.9.1-pilot-exec-ready`)
+**Date:** 2026-08-16 (Saleor source-visibility fix — real Kaggle v0.9.10
+failure closed; v0.9.11 release finalizer/trust-gate/tag in progress; the
+2026-08-15 v0.9.10 RELEASE TRUST GATE freeze remains immutable and historical;
+this file superseded freeze chain: v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → v0.9.6
+→ v0.9.5 → v0.9.4 → v0.9.3 → v0.9.2 → v0.9.1)
 **Task:** `PILOT-EXEC-01` (Pilot deployment + RELEASE TRUST GATE closure)
-**Status:** FROZEN (Pilot deployment locked; Pilot execution NOT STARTED)
+**Status:** FROZEN at v0.9.10-pilot-exec-ready (immutable); **v0.9.11-pilot-exec-ready PENDING** (Pilot execution NOT STARTED)
+
+> **REAL KAGGLE v0.9.10 FAILURE + FIX (2026-08-16):** v0.9.10 PASSED on real
+> Kaggle through release trust, transport restore, runtime lock, repository
+> snapshots, PostgreSQL, Redis, uv tool, django CMS, Saleor copy, Saleor 3.12
+> `.venv`, and `uv sync --locked` (`uv sync --locked = PASS`); it failed ONLY at
+> the new health probe `import saleor` (exit 1, `ModuleNotFoundError`). Root
+> cause: pinned Saleor `[tool.uv] package = false` → `uv sync --locked` never
+> installs the root project into site-packages; the probe ran without
+> `cwd=Saleor working copy`, while the frozen downstream preflight already runs
+> Saleor commands with `cwd = pristine staged repository root`. Fixed on branch
+> `fix/pilot-saleor-source-visibility-probe` (commit `ee3d88b`): `_import_probe`
+> optional `cwd`; `_saleor_probe` always `cwd=work_dir`; both call sites fixed.
+> Full suite **2,239 passed / 33 skipped / 0 failed**. `code_manifest.json`
+> changes → v0.9.11 release finalizer + FINAL ARTIFACT TRUST GATE + tag + exact
+> 48-cell dry-run. Pilot = NOT STARTED.
 
 ---
 
-## 1. CURRENT FREEZE — `v0.9.10-pilot-exec-ready` (release trust gate closure)
+## 1. CURRENT FREEZE — `v0.9.10-pilot-exec-ready` (release trust gate closure, HISTORICAL)
 
 | Field | Value |
 |---|---|
