@@ -30,7 +30,7 @@
 > sequencing contract). Finalizer re-freeze `--source-tag
 > v0.9.12-pilot-exec-ready`: code `0fd86fc9…` (94/94 source-faithful incl. both
 > locks), data `8b859ecc…`, repository snapshot `49d91d39…`, transport map
-> `07036a36…`; archive `3ad779120a…`. Full suite **2,255 passed / 33 skipped /
+> `07036a36…`; archive `5a7d7e0a…`. Full suite **2,255 passed / 33 skipped /
 > 0 failed** (2026-08-16). **Pilot = NOT STARTED.**
 >
 > **NOTE (2026-08-16, REJECTED FOR LAUNCH — superseded by the v0.9.12 release-provenance closure):** superseded by the PILOT-EXEC-01 SALEOR

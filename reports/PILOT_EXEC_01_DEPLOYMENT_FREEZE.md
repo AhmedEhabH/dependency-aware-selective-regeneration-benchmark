@@ -39,7 +39,7 @@ this file superseded freeze chain: v0.9.12 → v0.9.10 → v0.9.9 → v0.9.8 →
 > v0.9.12-pilot-exec-ready`: code manifest `0fd86fc9…` (94/94 source-faithful
 > incl. both locks), data `8b859ecc…`, repository snapshot `49d91d39…`,
 > transport map `07036a36…` (last three byte-identical to v0.9.10/v0.9.11);
-> archive `3ad779120a…`. Full suite **2,255 passed / 33 skipped / 0 failed**.
+> archive `5a7d7e0a…`. Full suite **2,255 passed / 33 skipped / 0 failed**.
 > Pilot = NOT STARTED.
 
 > **REAL KAGGLE v0.9.10 FAILURE + FIX (2026-08-16, v0.9.11 — REJECTED FOR LAUNCH):** v0.9.10 PASSED on real
@@ -67,26 +67,29 @@ this file superseded freeze chain: v0.9.12 → v0.9.10 → v0.9.9 → v0.9.8 →
 
 | Field | Value |
 |---|---|
-| Branch | `fix/pilot-release-provenance-closure` (from clean `origin/main` `5cee179`): code/test commit `6cd2767` (`fix(pilot): enforce source-commit provenance for deployment bundles`) + freeze commit `7923b37` (`chore(pilot): freeze v0.9.12 notebook and release constants`); non-ff merge to `main` + annotated tag on the merge commit = next release-flow step |
-| Stable source tag | `v0.9.12-pilot-exec-ready` — to be created on the merge commit; the source-provenance gate must PASS on the exact artifact built from the tagged commit before the immutable tag is created (fail-closed; no skip flag) |
+| Branch | `fix/pilot-release-provenance-closure` (from clean `origin/main` `5cee179`): code/test commit `6cd2767` (`fix(pilot): enforce source-commit provenance for deployment bundles`) + freeze commit `7923b37` (`chore(pilot): freeze v0.9.12 notebook and release constants`) + docs `06ec7e8`; **non-ff merged to `main` `bfeff97caaebd6fd6ae4840118e6f90bc5336475` (merge SHA == main HEAD, pushed)** |
+| Stable source tag | **`v0.9.12-pilot-exec-ready` → peeled commit `bfeff97caaebd6fd6ae4840118e6f90bc5336475`** (== the non-ff merge commit == main HEAD; annotated tag created on the merge commit and pushed to origin; == freeze report `source_commit`, re-verified after tag creation) |
+| Gate evidence (post-tag) | source-provenance gate PASS on the exact artifact built from the tagged commit (bundled notebook `b8d3cf5e…` + all 94 `code_manifest.json` entries == normalized tracked Git blobs at `bfeff97…`); Notebook == Identity == Actual 4/4 (finalizer two-pass FROZEN); tag-tree notebook blob SHA-256 `b8d3cf5e…` == deployed anchor; archive round-trip + sidecar PASS; no `.git` in archive; bundled 48-cell mock dry-run **48/48 terminal / 48 succeeded / 0 failed / 0 pending** |
 | Defect closed | v0.9.11 rejected for launch: immutable tag `8801304` does NOT contain the deployed re-frozen notebook `85edbd33…` (it carries the v0.9.10 notebook `d15d8683…`; the re-freeze landed only in post-tag `b87aa49`). Tag NOT moved |
 | Provenance gate | `validate_source_commit_provenance(*, source_commit, bundled_root, …, git_reader=None)` in `scripts/build_pilot_upload_bundle.py`: bundled Pilot notebook AND every `code_manifest.json` entry must equal the normalized (CRLF→LF for text suffixes) tracked Git blob at `identity.source_commit`; errors name exact paths; standalone release acceptance step (NOT wired into `build_pilot_bundle`/`freeze()`); no skip flag; never falls back to the working tree |
 | Lock faithfulness | `_normalize_lock_files` LF-normalizes all bundled `*.lock` under the code bundle before the manifest is regenerated (`requirements-pilot-kaggle.lock` + `requirements-smoke-kaggle.lock`; Windows-checkout CRLF `95ad3b2b…` had drifted from LF blob `1f4b1875…`) |
 | Builder | `scripts/build_pilot_upload_bundle.py` + two-pass deterministic `scripts/finalize_pilot_notebook_trust.py` (`--source-commit` = the tagged merge SHA, re-run at merge time so identity.source_commit == tag peel; local repo cache, NO `--allow-acquire`) |
 | Deployment contract tests | + `tests/integration/test_pilot_release_provenance.py` (16; Gates 1–5: exact v0.9.11 forensic RED from real git blobs `8801304` vs `b87aa49`, notebook CRLF/LF parity, code-manifest modified/missing FAIL, invalid SHA / unknown commit fail closed, `.lock` LF PASS vs CRLF FAIL, v0.9.12 release-tag sequencing contract) |
-| Notebook trust | deployed SHA-256 `b8d3cf5e…` == bundled archive bytes; source file SHA-256 `5dc4afbe…`; freeze report `reports/pilot_notebook_trust_freeze.json` (status FROZEN, source_commit `6cd2767…` provisional — re-run at merge SHA) |
+| Notebook trust | deployed SHA-256 `b8d3cf5e4e327473c3ea0e4f2032ec11e4c678ebbca0ea285a309d84fd1deeb3` == bundled archive bytes == tag-tree notebook blob; source file SHA-256 `5dc4afbe602ac6d8f739dc8d4c60c68bc12ddd57273fb15c664215e33adefd80`; freeze report `reports/pilot_notebook_trust_freeze.json` (status FROZEN, source_commit `bfeff97…` == tag peel, finalized at merge re-freeze) |
 | Code manifest | `0fd86fc994518461172e0893e9b7f92b2eafda777d27c403dfd1b9f25159d0f3` (94 entries; all 94 source-faithful at the freeze commit, incl. both LF locks) |
 | Data manifest | `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a` (byte-identical to v0.9.10/v0.9.11) |
 | Repository snapshot manifest | `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c` (identical to v0.9.10/v0.9.11) |
 | Transport path map | `kaggle_transport_path_map_sha256` `07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce` (identical to v0.9.10/v0.9.11) |
-| Archive | `dist/pilot-kaggle-upload.zip` — SHA-256 `3ad779120a45506192d45737a8a72161d8ef133adf5fb7188f3241c6f23bf583` (validation-enabled rebuild; deterministic) |
+| Archive | `dist/pilot-kaggle-upload.zip` — SHA-256 `5a7d7e0af7bdc3d7ed118542a1d1c65edfa64a852ff71ae6237ed5916b9ca4ed` (validation-enabled rebuild from the tagged merge SHA; deterministic; sidecar matches) |
 | Full suite | **2,255 passed / 33 skipped / 0 failed** (2026-08-16) |
 
 The v0.9.12 freeze re-locks the Kaggle deployment source with a fail-closed
-source-provenance guarantee: the immutable tag will contain exactly the bytes
+source-provenance guarantee: the immutable tag contains exactly the bytes
 that were provenance-verified against `identity.source_commit`, and the bundled
-code (including both `*.lock` files) is byte-faithful to the source tree.
-**Pilot = NOT STARTED.**
+code (including both `*.lock` files) is byte-faithful to the source tree. The
+tag tree notebook blob `b8d3cf5e…` == the deployed notebook == the freeze
+anchor (Notebook == Identity == Actual); identity.source_commit `bfeff97…` ==
+tag peel == main HEAD. **Pilot = NOT STARTED.**
 
 ## 2. REJECTED — `v0.9.11-pilot-exec-ready` (Saleor source-visibility health-probe fix for real Kaggle)
 
