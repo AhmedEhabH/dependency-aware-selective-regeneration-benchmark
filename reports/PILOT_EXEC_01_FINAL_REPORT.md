@@ -3,7 +3,8 @@
 > **NOTE (2026-08-16, LATEST):** superseded by the PILOT-EXEC-01 SALEOR
 > SOURCE-VISIBILITY HEALTH-PROBE FIX (REAL KAGGLE v0.9.10 FAILURE CLOSED on
 > branch `fix/pilot-saleor-source-visibility-probe`, code/test commit `ee3d88b`
-> pushed; release `v0.9.11-pilot-exec-ready` in progress). Real Kaggle v0.9.10
+> pushed; release `v0.9.11-pilot-exec-ready` CLOSED AND FROZEN — see the final
+> closure note above). Real Kaggle v0.9.10
 > PASSED every preflight stage (release trust, transport restore, runtime lock,
 > repository snapshots, PostgreSQL, Redis, uv tool, django CMS, Saleor copy,
 > Saleor 3.12 `.venv`, `uv sync --locked` = PASS) and failed ONLY at the new
@@ -24,10 +25,21 @@
 > suite **2,239 passed / 33 skipped / 0 failed** (2026-08-16). v0.9.10 remains
 > immutable (real Kaggle preflight reached the Saleor post-sync health probe
 > then failed because the probe did not run from the repository root). Remaining
-> for v0.9.11: docs push → independent audit → non-ff merge → release finalizer
-> (code_manifest changed) → FINAL ARTIFACT TRUST GATE → immutable
-> `v0.9.11-pilot-exec-ready` → exact 48-cell mock dry-run → STOP. Pilot = NOT
-> STARTED.
+> **ALL SUBSEQUENT STEPS COMPLETE:** independent audit PASS → non-ff merge to
+> main `8801304d855fe29c694f2a3c0500f661685b0d72` (merge SHA == main HEAD ==
+> tag peel) → release-trust-gate finalizer re-freeze (`--source-commit` = merge
+> SHA, `--source-tag v0.9.11-pilot-exec-ready`, `--created-utc
+> "2026-08-16T12:00:00+00:00"`; code manifest `7e86eb5dd651…`, data
+> `8b859ecc7216…`, repository snapshot `49d91d39435f…`, transport map
+> `07036a36cd97…` — last three byte-identical to v0.9.10) → FINAL ARTIFACT
+> TRUST GATE **Notebook == Identity == Actual 4/4** (deployed notebook
+> `85edbd33e81b…` == bundled bytes; archive SHA-256
+> `039818bde60edcc9693ca88f779c7987bde818ddbfbca705426747b08c6d5453`) →
+> immutable annotated tag `v0.9.11-pilot-exec-ready` ON the merge commit,
+> pushed → bundled 48-cell mock dry-run **48/48** (todo 16 / djangocms 16 /
+> saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24;
+> 48 unique / 0 missing / 0 duplicate / 0 model calls) → **STOP. Pilot = NOT
+> STARTED.**
 
 > **NOTE (2026-08-15, HISTORICAL — superseded by the 2026-08-16 Saleor source-visibility fix):** superseded by the PILOT-EXEC-01 v0.9.10 RELEASE
 > TRUST GATE CLOSURE (MERGED TO MAIN + TAGGED: branch
@@ -1367,3 +1379,80 @@ GATE PASS — Notebook == Identity == Actual 4/4; exact bundled 48-cell mock
 dry-run 48/48 PASS on the tagged rebuild). Deployment is locked and ready for
 Real Pilot. **Real Pilot execution NOT STARTED** — deferred until the user
 confirms the Kaggle mounted model path and the exact HF results repository ID.
+
+## FINAL CLOSURE — SALEOR SOURCE-VISIBILITY HEALTH PROBE (2026-08-16, `v0.9.11-pilot-exec-ready`)
+
+**Executor:** opencode (provider `opencode/big-pickle`, model `big-pickle`).
+
+### Real Kaggle failure chain (v0.9.10)
+
+| Stage | Result |
+|---|---|
+| release trust / transport restore / runtime lock | PASS |
+| repository snapshot verification | PASS |
+| PostgreSQL provisioning + TCP proof | PASS |
+| Redis fallback + reachability | PASS |
+| uv tool env | PASS |
+| django CMS no-pip env + deps + health probe | PASS |
+| Saleor source copy | PASS |
+| Saleor Python 3.12 `.venv` creation | PASS |
+| `uv sync --locked` | **PASS** (`uv sync --locked = PASS`) |
+| `import saleor` health probe | **FAILED** — exit 1, `ModuleNotFoundError: No module named 'saleor'` |
+
+### Root cause (audited)
+
+The pinned Saleor `pyproject.toml` (commit `e11a5557…`) sets
+`[tool.uv] package = false` (upstream), so uv correctly installs the locked
+dependencies but deliberately does NOT install the root Saleor project into
+site-packages. The v0.9.10 probe ran `<saleor .venv>/bin/python -c "import
+saleor"` WITHOUT `cwd=the Saleor working copy`, while the frozen downstream
+preflight already runs Saleor commands with `cwd = pristine staged repository
+root`. **Kaggle is NOT the root cause.** Non-solutions explicitly excluded:
+NO `package=true`, NO pip/uv editable install, NO global `PYTHONPATH`;
+`uv sync --locked` / Python 3.12 / `UV_PYTHON_DOWNLOADS=never` preserved.
+
+### Fix (minimal, source-faithful)
+
+`_import_probe` gained optional `cwd`; `_saleor_probe` requires `work_dir` and
+always probes with `cwd=work_dir`; BOTH call sites fixed (marker/reuse
+`_needs_rebuild` probe and post-`uv sync --locked` probe).
+
+### Gates
+
+| Gate | Result |
+|---|---|
+| RED (vs old helper) | PASS — new tests failed with `TypeError: _saleor_probe() got an unexpected keyword argument 'work_dir'` |
+| real-subprocess source-visibility regression | PASS — `import saleor` FAILS from unrelated cwd, PASSES with `cwd=work` |
+| `_FakeRunner` cwd assertion | PASS — the exact local-pass gap (fail-closed on `import saleor` unless cwd exposes the package) |
+| pinned `[tool.uv] package=false` contract | PASS — bundled pyproject not mutated |
+| fresh/reuse cwd topology + missing-source fail-closed | PASS |
+| downstream preflight parity (Gate H) | PASS |
+| no semantic drift | PASS |
+| diff-check / ruff / mypy / py_compile | PASS |
+| targeted integration | PASS — provisioning 28, notebook contract 46, deployment bundle 61, real-launch preflight 14, service bootstrap 39 (188 passed) |
+| full suite | PASS — **2,239 passed / 33 skipped / 0 failed** (2026-08-16) |
+
+### Release closure (v0.9.11-pilot-exec-ready)
+
+| Item | Value |
+|---|---|
+| Feature branch | `fix/pilot-saleor-source-visibility-probe` (fix `ee3d88b`, docs `228b2e8`) |
+| Non-ff merge | `8801304d855fe29c694f2a3c0500f661685b0d72` (main HEAD == merge SHA) |
+| Finalizer re-freeze | `b87aa49`; `--source-commit` = merge SHA; `--source-tag v0.9.11-pilot-exec-ready`; `--created-utc "2026-08-16T12:00:00+00:00"` |
+| Code manifest | `7e86eb5dd65122c2714c97ed84f20d8328adbe2b3e838fe6a2218c293ce72adb` (91 entries; only delta vs v0.9.10 is the bundled helper) |
+| Data / repo snapshot / transport map | `8b859ecc7216…` / `49d91d39435f…` / `07036a36cd97…` (byte-identical to v0.9.10) |
+| FINAL ARTIFACT TRUST GATE | **PASS — Notebook == Identity == Actual 4/4** (deployed notebook `85edbd33e81b…` == archive bytes; source `a0382061954e…`) |
+| Archive | `dist/pilot-kaggle-upload.zip` SHA-256 `039818bde60edcc9693ca88f779c7987bde818ddbfbca705426747b08c6d5453` |
+| Annotated tag | `v0.9.11-pilot-exec-ready` ON the merge commit, pushed (peels to `8801304d855fe29c694f2a3c0500f661685b0d72` == freeze report `source_commit`) |
+| Bundled 48-cell mock dry-run | **PASS — 48/48** terminal / 48 succeeded / 0 failed; todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24; 48 unique / 0 missing / 0 duplicate / 0 model calls |
+| Scientific inputs | unchanged (scenarios, prompts, metrics, model, quantization, timeout 600, repair budget, repository pins, validation scope) |
+
+### Final state
+
+PILOT-EXEC-01 v0.9.11: **CLOSED and FROZEN at `v0.9.11-pilot-exec-ready`**
+(merge `8801304…` on `main`; annotated tag on the merge commit; archive
+`039818bde60edcc9…`; FINAL ARTIFACT TRUST GATE PASS 4/4; bundled 48-cell mock
+dry-run 48/48). The Saleor source-visibility health-probe blocker from real
+Kaggle v0.9.10 is fixed and the deployment source is re-frozen. **STOP. Real
+Pilot execution NOT STARTED** — deferred until the user confirms the Kaggle
+mounted model path and the exact HF results repository ID.

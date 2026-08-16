@@ -1,12 +1,13 @@
 # PILOT-EXEC-01 — Deployment Freeze Report
 
 **Date:** 2026-08-16 (Saleor source-visibility fix — real Kaggle v0.9.10
-failure closed; v0.9.11 release finalizer/trust-gate/tag in progress; the
-2026-08-15 v0.9.10 RELEASE TRUST GATE freeze remains immutable and historical;
+failure closed; **v0.9.11-pilot-exec-ready CLOSED AND FROZEN** — see current
+freeze section 1 below; the 2026-08-15 v0.9.10 RELEASE TRUST GATE freeze
+remains immutable and historical;
 this file superseded freeze chain: v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → v0.9.6
 → v0.9.5 → v0.9.4 → v0.9.3 → v0.9.2 → v0.9.1)
 **Task:** `PILOT-EXEC-01` (Pilot deployment + RELEASE TRUST GATE closure)
-**Status:** FROZEN at v0.9.10-pilot-exec-ready (immutable); **v0.9.11-pilot-exec-ready PENDING** (Pilot execution NOT STARTED)
+**Status:** FROZEN at `v0.9.11-pilot-exec-ready` (current, annotated tag ON the merge commit `8801304`, pushed); `v0.9.10-pilot-exec-ready` immutable/historical (Pilot execution NOT STARTED)
 
 > **REAL KAGGLE v0.9.10 FAILURE + FIX (2026-08-16):** v0.9.10 PASSED on real
 > Kaggle through release trust, transport restore, runtime lock, repository
@@ -19,13 +20,47 @@ this file superseded freeze chain: v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → 
 > Saleor commands with `cwd = pristine staged repository root`. Fixed on branch
 > `fix/pilot-saleor-source-visibility-probe` (commit `ee3d88b`): `_import_probe`
 > optional `cwd`; `_saleor_probe` always `cwd=work_dir`; both call sites fixed.
-> Full suite **2,239 passed / 33 skipped / 0 failed**. `code_manifest.json`
-> changes → v0.9.11 release finalizer + FINAL ARTIFACT TRUST GATE + tag + exact
-> 48-cell dry-run. Pilot = NOT STARTED.
+> Full suite **2,239 passed / 33 skipped / 0 failed**. **v0.9.11 RELEASE CLOSED:**
+> finalizer re-freeze (code manifest `7e86eb5dd651…`, data `8b859ecc7216…`,
+> repository snapshot `49d91d39435f…`, transport map `07036a36cd97…` — last
+> three byte-identical to v0.9.10), FINAL ARTIFACT TRUST GATE **Notebook ==
+> Identity == Actual 4/4** (deployed notebook `85edbd33e81b…`), archive SHA-256
+> `039818bde60edcc9693ca88f779c7987bde818ddbfbca705426747b08c6d5453`, bundled
+> 48-cell mock dry-run **48/48**. Pilot = NOT STARTED.
 
 ---
 
-## 1. CURRENT FREEZE — `v0.9.10-pilot-exec-ready` (release trust gate closure, HISTORICAL)
+## 1. CURRENT FREEZE — `v0.9.11-pilot-exec-ready` (Saleor source-visibility health-probe fix for real Kaggle)
+
+| Field | Value |
+|---|---|
+| Branch | `main` (after `merge(pilot): fix Saleor source-visibility health probe for real Kaggle (v0.9.11-pilot-exec-ready)`; merge `8801304d855fe29c694f2a3c0500f661685b0d72`) |
+| Feature branch | `fix/pilot-saleor-source-visibility-probe` (fix `ee3d88b`, docs `228b2e8`); finalizer re-freeze commit `b87aa49` |
+| Stable source tag | `v0.9.11-pilot-exec-ready` → peeled commit `8801304d855fe29c694f2a3c0500f661685b0d72` (== main HEAD == the non-ff merge commit; == freeze report `source_commit`, re-verified after tag creation) |
+| Prior release (NOT moved) | `v0.9.10-pilot-exec-ready` → `44e9a1f4314c2ce8ec0b7abb16c88cbc3f83bfb6` (immutable; real Kaggle v0.9.10 preflight reached the Saleor post-sync health probe and failed ONLY because the probe did not run from the repository root) |
+| Real Kaggle failure + fix | Real v0.9.10 PASSED release trust, transport, runtime lock, repo snapshots, PostgreSQL, Redis, uv tool, django CMS, Saleor copy, Saleor 3.12 venv, `uv sync --locked = PASS`; failed ONLY at `import saleor` probe (exit 1, ModuleNotFoundError). Root cause: pinned Saleor `[tool.uv] package = false` (upstream) → root project never installed into site-packages. Fix: `_import_probe` optional `cwd`; `_saleor_probe` always `cwd=work_dir`; both call sites fixed. NO `package=true`, NO editable install, NO global `PYTHONPATH`. |
+| Builder | `scripts/build_pilot_upload_bundle.py` + two-pass deterministic `scripts/finalize_pilot_notebook_trust.py` (`--source-commit 8801304d855fe29c694f2a3c0500f661685b0d72 --source-tag v0.9.11-pilot-exec-ready --created-utc "2026-08-16T12:00:00+00:00"`; local repo cache, NO `--allow-acquire`) |
+| Real repo cache | git checkouts at pinned SHAs: django CMS `0f633fc9fa213357f4202482aab2b0edad680f95`, Saleor `e11a5557eff29fbb2eed36e6ff3cd0af08ab9e10` (todo embedded); cat-file checks + `git archive` PASS |
+| Deployment contract tests | `tests/integration/test_pilot_repo_env_provisioning.py` (28) + `tests/integration/test_pilot_notebook_contract.py` (46) + `tests/integration/test_pilot_service_bootstrap.py` (39) + `tests/integration/test_pilot_deployment_bundle.py` (61) + `tests/integration/test_pilot_real_launch_preflight.py` (14) — targeted 188 passed; full suite **2,239 passed / 33 skipped / 0 failed** (2026-08-16) |
+| Archive | `dist/pilot-kaggle-upload.zip` — SHA-256 `039818bde60edcc9693ca88f779c7987bde818ddbfbca705426747b08c6d5453` (validation-enabled rebuild; deterministic) |
+| `pilot_deployment_identity.json` | task `PILOT-EXEC-01`; protocol 1.0; source_commit `8801304d855fe29c694f2a3c0500f661685b0d72`; source_tag `v0.9.11-pilot-exec-ready`; created_utc `2026-08-16T12:00:00+00:00`; model `Qwen/Qwen2.5-Coder-14B-Instruct`; quantization `bnb-nf4`; timeout 600; max_attempts 3; max_completion_tokens_per_call 4096; max_total_workflow_tokens 0; scenario_count 12; strategy_count 2; repetitions 2; expected_cells 48 |
+| Notebook trust | deployed SHA-256 `85edbd33e81bb05065c66a1630f75a02043df9fbd0a8f8091b3bff9712181ed0` == bundled archive bytes; source file SHA-256 `a0382061954e5c30215653cde6e59f31919df4b4f680d911d0c4991ef1ac9037`; freeze report `reports/pilot_notebook_trust_freeze.json` (status FROZEN) |
+| Code manifest | `7e86eb5dd65122c2714c97ed84f20d8328adbe2b3e838fe6a2218c293ce72adb` (91 entries; helper `scripts/pilot_kaggle_repo_envs.py` changed — the only delta vs v0.9.10) |
+| Data manifest | `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a` (57 entries; byte-identical to v0.9.10) |
+| Repository snapshot manifest | `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c` (identical to v0.9.10) |
+| Transport path map | `kaggle_transport_path_map_sha256` `07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce` (50 exact-path entries; identical to v0.9.10) |
+| Dry-run | bundled 48-cell mock dry-run **48/48** terminal / 48 succeeded / 0 failed (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24; 48 unique / 0 missing / 0 duplicate / 0 model calls) |
+
+This freeze re-locks the Kaggle deployment source at `v0.9.11-pilot-exec-ready`
+after a REAL two-pass deterministic release-trust-gate finalizer run against
+the LOCAL repo cache (NO `--allow-acquire`, no network acquisition).
+**Notebook == Identity == Actual proven 4/4** for all four frozen hashes; the
+deployed notebook bytes equal the archive bytes; source_tag/peel re-verified.
+**Pilot = NOT STARTED.**
+
+---
+
+## 2. CURRENT FREEZE — `v0.9.10-pilot-exec-ready` (release trust gate closure, HISTORICAL)
 
 | Field | Value |
 |---|---|
