@@ -251,9 +251,21 @@ def _python_is_venv(interpreter: Path | str, *, log: ProvisioningLog | None = No
     return (proc.stdout or "").strip().endswith("1")
 
 
-def _import_probe(interpreter: Path | str, module: str, *, log: ProvisioningLog | None = None) -> bool:
+def _import_probe(
+    interpreter: Path | str,
+    module: str,
+    *,
+    cwd: Path | None = None,
+    log: ProvisioningLog | None = None,
+) -> bool:
     try:
-        run_command([str(interpreter), "-c", f"import {module}"], log=log, label=f"import {module} probe", timeout=120)
+        run_command(
+            [str(interpreter), "-c", f"import {module}"],
+            cwd=cwd,
+            log=log,
+            label=f"import {module} probe",
+            timeout=120,
+        )
         return True
     except ProvisioningError:
         return False
@@ -285,8 +297,22 @@ def _django_version(interpreter: Path | str, *, log: ProvisioningLog | None = No
     return text.splitlines()[-1]
 
 
-def _saleor_probe(interpreter: Path | str, *, log: ProvisioningLog | None = None) -> bool:
-    return _import_probe(interpreter, "saleor", log=log)
+def _saleor_probe(
+    interpreter: Path | str,
+    *,
+    work_dir: Path,
+    log: ProvisioningLog | None = None,
+) -> bool:
+    """Probe ``import saleor`` from the Saleor working copy root.
+
+    The pinned Saleor ``pyproject.toml`` sets ``[tool.uv] package = false``, so
+    ``uv sync --locked`` installs the locked dependencies but never installs the
+    root project into site-packages. Saleor is a flat application repository;
+    the frozen downstream preflight runs Saleor commands with
+    ``cwd = pristine staged repository root``, so the health probe must test the
+    same source-visibility topology by running from ``work_dir``.
+    """
+    return _import_probe(interpreter, "saleor", cwd=work_dir, log=log)
 
 
 def _uv_version(uv_bin: Path, *, log: ProvisioningLog | None = None) -> str:
@@ -750,7 +776,7 @@ def provision_saleor(
     }
 
     def _probe(interp: Path) -> bool:
-        return _saleor_probe(interp, log=log)
+        return _saleor_probe(interp, work_dir=work_dir, log=log)
 
     reason = _needs_rebuild(work_dir, expected, probe=_probe)
     if reason is None:
@@ -791,7 +817,7 @@ def provision_saleor(
         timeout=2400,
         heartbeat=True,
     )
-    if not _saleor_probe(venv_py, log=log):
+    if not _saleor_probe(venv_py, work_dir=work_dir, log=log):
         raise ProvisioningError("Saleor health probe failed after uv sync --locked (import saleor)")
     marker = dict(expected)
     _write_marker(work_dir, marker)
