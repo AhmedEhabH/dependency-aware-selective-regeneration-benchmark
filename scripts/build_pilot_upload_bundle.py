@@ -35,7 +35,7 @@ import json
 import re
 import shutil
 import sys
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from datetime import datetime
 from pathlib import Path
 from types import ModuleType
@@ -377,6 +377,115 @@ def _git_head_sha() -> str:
     return sha
 
 
+def _git_show_blob(source_commit: str, rel_path: str, project_root: Path) -> bytes:
+    import subprocess
+
+    result = subprocess.run(
+        ["git", "show", f"{source_commit}:{rel_path}"],
+        cwd=project_root,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        stderr = result.stderr.decode("utf-8", "replace").strip()
+        raise RuntimeError(
+            f"git show {source_commit}:{rel_path} failed: {stderr or result.returncode}"
+        )
+    return result.stdout
+
+
+def _normalize_blob_bytes(data: bytes, rel_path: str) -> bytes:
+    if Path(rel_path).suffix in _load_historical_builder().TEXT_SUFFIXES:
+        return data.replace(b"\r\n", b"\n")
+    return data
+
+
+def validate_source_commit_provenance(
+    *,
+    source_commit: str,
+    bundled_root: Path,
+    notebook_source_path: str = "notebooks/pilot_exec_01.ipynb",
+    project_root: Path | None = None,
+    git_reader: Callable[[str, str], bytes] | None = None,
+) -> list[str]:
+    """Fail-closed source-commit provenance gate.
+
+    Proves the deployed artifact is a truthful snapshot of
+    ``identity.source_commit``: the bundled Pilot notebook and every
+    ``code_manifest.json`` entry must equal the normalized tracked Git blob at
+    that commit. Runs only in the development/release environment against the
+    exact artifact built from the candidate merge SHA, and must execute BEFORE
+    the immutable release tag is created. Returns every mismatch as a
+    human-readable message; an empty list means the artifact is source-faithful.
+    Never silently falls back to the working tree.
+    """
+    root = PROJECT_ROOT if project_root is None else project_root
+
+    def default_reader(commit: str, rel_path: str) -> bytes:
+        return _git_show_blob(commit, rel_path, root)
+
+    reader = default_reader if git_reader is None else git_reader
+    mismatches: list[str] = []
+
+    if len(source_commit) != 40 or not all(c in "0123456789abcdef" for c in source_commit):
+        return [f"source_commit is not a 40-char lowercase hex SHA: {source_commit!r}"]
+
+    def normalized_sha(rel_path: str, data: bytes) -> str:
+        return _sha256_bytes(_normalize_blob_bytes(data, rel_path))
+
+    bundled_notebook = bundled_root / notebook_source_path
+    if not bundled_notebook.is_file():
+        mismatches.append(f"bundled notebook missing at {bundled_notebook}")
+    else:
+        try:
+            blob = reader(source_commit, notebook_source_path)
+        except Exception as exc:
+            mismatches.append(
+                f"notebook blob unavailable at {source_commit}:{notebook_source_path}: {exc}"
+            )
+        else:
+            bundled_sha = normalized_sha(notebook_source_path, bundled_notebook.read_bytes())
+            source_sha = normalized_sha(notebook_source_path, blob)
+            if source_sha != bundled_sha:
+                mismatches.append(
+                    "bundled notebook does not match the normalized git blob at "
+                    f"source_commit {source_commit}:{notebook_source_path} "
+                    f"(bundled sha256 {bundled_sha[:16]}... != source {source_sha[:16]}...)"
+                )
+
+    code_manifest_path = bundled_root / "code_manifest.json"
+    if not code_manifest_path.is_file():
+        mismatches.append(f"code_manifest.json missing at {code_manifest_path}")
+        return mismatches
+    try:
+        manifest = json.loads(code_manifest_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        mismatches.append(f"code_manifest.json is unreadable: {exc}")
+        return mismatches
+    if not isinstance(manifest, dict):
+        mismatches.append("code_manifest.json must be a JSON object mapping paths to sha256")
+        return mismatches
+    for rel_path in sorted(manifest):
+        expected = manifest[rel_path]
+        if not isinstance(expected, str):
+            mismatches.append(f"code_manifest entry for {rel_path} must be a sha256 string")
+            continue
+        try:
+            blob = reader(source_commit, rel_path)
+        except Exception as exc:
+            mismatches.append(
+                f"code_manifest path not found in source tree at {source_commit}: {rel_path}: {exc}"
+            )
+            continue
+        actual = normalized_sha(rel_path, blob)
+        if actual != expected:
+            mismatches.append(
+                f"code_manifest entry mismatch at source_commit {source_commit}: "
+                f"{rel_path}: source blob={actual[:16]}... != bundled manifest={expected[:16]}..."
+            )
+    return mismatches
+
+
 def build_identity(
     output_root: Path,
     source_commit: str,
@@ -493,6 +602,21 @@ def create_deterministic_zip(bundle_root: Path, archive_path: Path, created_utc:
     return archive_sha
 
 
+def _normalize_lock_files(bundle_root: Path) -> None:
+    """LF-normalize every bundled *.lock file for source-faithful hashing.
+
+    ``.lock`` is not in the historical builder's TEXT_SUFFIXES set, so its
+    generic normalize pass leaves those files at whatever line-ending state the
+    checkout produced (CRLF on a ``core.autocrlf=true`` Windows checkout). The
+    bundled code must equal the committed LF blobs at ``source_commit`` or the
+    source-provenance gate can never pass; this keeps the Pilot code bundle
+    host-independent without touching the historical Smoke bundle.
+    """
+    for path in (bundle_root / "code").rglob("*.lock"):
+        if path.is_file():
+            path.write_bytes(path.read_bytes().replace(b"\r\n", b"\n"))
+
+
 def build_pilot_bundle(
     output_root: Path,
     archive_path: Path,
@@ -519,7 +643,6 @@ def build_pilot_bundle(
         raise RuntimeError(f"Pilot runtime lock missing: {PILOT_RUNTIME_LOCK}")
     lock_dst = output_root / "code" / PILOT_RUNTIME_LOCK.name
     shutil.copy2(PILOT_RUNTIME_LOCK, lock_dst)
-    builder.normalize_text(lock_dst)
 
     # The Kaggle preflight consumes the shared snapshot/preflight module and the
     # repository-environment provisioning helper; they must ride in the code
@@ -538,6 +661,7 @@ def build_pilot_bundle(
     shutil.copy2(PILOT_ENVS_SCRIPT, envs_dst)
     builder.normalize_text(envs_dst)
 
+    _normalize_lock_files(output_root)
     regenerate_code_manifest(output_root)
 
     snapshot_evidence = _load_pilot_repo_snapshot().materialize_repositories(
