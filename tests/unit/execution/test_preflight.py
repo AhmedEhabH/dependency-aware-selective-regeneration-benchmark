@@ -192,6 +192,23 @@ class TestRunKaggleSmokePreflight:
 
         monkeypatch.setattr(mod, "_qwen_probe_metrics", _probe)
 
+        # Patch long-context probe to succeed in unit tests (no real GPU/model).
+        def _lc_probe(model_path: str, quantization_mode: str) -> dict[str, object]:
+            return {
+                "passed": True,
+                "prompt_tokens": 12000,
+                "target_prompt_tokens": 12000,
+                "completion_tokens": 64,
+                "elapsed_seconds": 0.1,
+                "cache_implementation": "offloaded",
+                "gpu_name": "T4",
+                "gpu_count": True,
+                "peak_allocated_gib": 12.5,
+                "peak_reserved_gib": 14.0,
+                "finish_reason": "eos",
+            }
+        monkeypatch.setattr(mod, "_run_long_context_probe", _lc_probe)
+
     def test_pass_when_all_checks_succeed(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
         self._patch(monkeypatch, deps=(("django", "5.2.16"),))
         result = run_kaggle_smoke_preflight(
@@ -703,6 +720,23 @@ class TestRepositoryPreflightGating:
             }
 
         monkeypatch.setattr(mod, "_qwen_probe_metrics", _probe)
+
+        def _lc_probe(model_path: str, quantization_mode: str) -> dict[str, object]:
+            return {
+                "passed": True,
+                "prompt_tokens": 12000,
+                "target_prompt_tokens": 12000,
+                "completion_tokens": 64,
+                "elapsed_seconds": 0.1,
+                "cache_implementation": "offloaded",
+                "gpu_name": "T4",
+                "gpu_count": True,
+                "peak_allocated_gib": 12.5,
+                "peak_reserved_gib": 14.0,
+                "finish_reason": "eos",
+            }
+        monkeypatch.setattr(mod, "_run_long_context_probe", _lc_probe)
+
         return probe_calls
 
     def test_missing_repo_preflight_blocks_model_load(

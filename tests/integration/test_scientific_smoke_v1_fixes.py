@@ -406,12 +406,12 @@ class TestFixDFinishReason:
 
         from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
 
-        source = inspect.getsource(KaggleQwenBackend.generate)
+        source = inspect.getsource(KaggleQwenBackend._generate_sync)
         assert "finish_reason = \"stop\"" not in source, (
             "finish_reason must not be hardcoded to 'stop'"
         )
         assert "eos_token_id" in source, (
-            "generate() must inspect eos_token_id for actual finish reason"
+            "_generate_sync() must inspect eos_token_id for actual finish reason"
         )
 
     def test_finish_reason_dynamic_detection(self) -> None:
@@ -421,7 +421,7 @@ class TestFixDFinishReason:
 
         from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
 
-        source = inspect.getsource(KaggleQwenBackend.generate)
+        source = inspect.getsource(KaggleQwenBackend._generate_sync)
         assert "finish_reason = \"eos\"" in source or 'finish_reason = "length"' in source
 
     def test_finish_reason_eos_on_normal_completion(self) -> None:
@@ -439,9 +439,9 @@ class TestFixDFinishReason:
 
         from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
 
-        source = inspect.getsource(KaggleQwenBackend.generate)
+        source = inspect.getsource(KaggleQwenBackend._generate_sync)
         assert "max_new_tokens" in source, (
-            "generate() must pass max_tokens as max_new_tokens"
+            "_generate_sync() must pass max_tokens as max_new_tokens"
         )
 
     def test_finish_reason_in_run_record_failures(self) -> None:
@@ -949,7 +949,7 @@ class TestGap1TokenBudget:
 
         from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
 
-        source = inspect.getsource(KaggleQwenBackend.generate)
+        source = inspect.getsource(KaggleQwenBackend._generate_sync)
         assert "max_new_tokens" in source
 
     def test_three_unlimited_calls_each_get_4096(self, tmp_path: Path) -> None:

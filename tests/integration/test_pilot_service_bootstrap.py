@@ -221,6 +221,8 @@ def _exec_definitions(
         if args[-1] == "--version":
             if name in version_fail:
                 return _Ok(returncode=1)
+            if name in ("psql", "postgres", "pg_ctl", "pg_config", "initdb"):
+                return _Ok(stdout=f"{name} (PostgreSQL) 15.0\n")
             return _Ok(stdout=f"{name} fake version 9.9.9\n")
         if "--daemonize" in args:
             if name in start_fail:
@@ -234,6 +236,10 @@ def _exec_definitions(
             sql = args[-1].strip()
             if sql == "SELECT 1":
                 return _Ok(stdout="1" if db_probe_ok else "", stderr="")
+            if "SHOW server_version_num" in sql:
+                return _Ok(stdout="150000", stderr="")
+            if "UNIQUE NULLS NOT DISTINCT" in sql:
+                return _Ok(stdout="", stderr="")
             if "pg_roles" in sql:
                 return _Ok(stdout="1" if role_present else "")
             if "pg_database" in sql:
@@ -482,10 +488,19 @@ class TestPartialClusterState:
         state.ns["_wait_port"] = lambda _h, _p, deadline_seconds=60: True
         data_dir = state.ns["PG_DATA_DIR"]
         data_dir.mkdir(parents=True)
-        (data_dir / "PG_VERSION").write_text("14\n", encoding="utf-8")
+        (data_dir / "PG_VERSION").write_text("15\n", encoding="utf-8")
         state.ns["_ensure_postgres"](_make_bindir(tmp_path))
         assert not _run_cmd(state, "initdb"), "already-initialized dir must not re-initdb"
         assert len(_run_cmd(state, "pg_ctl")) == 1
+
+    def test_wrong_pg_version_triggers_rebuild(self, tmp_path: Path, monkeypatch: Any) -> None:
+        state = _exec_definitions(tmp_path, monkeypatch, euid=0, postgres_user=True)
+        state.ns["_wait_port"] = lambda _h, _p, deadline_seconds=60: True
+        data_dir = state.ns["PG_DATA_DIR"]
+        data_dir.mkdir(parents=True)
+        (data_dir / "PG_VERSION").write_text("14\n", encoding="utf-8")
+        state.ns["_ensure_postgres"](_make_bindir(tmp_path))
+        assert len(_run_cmd(state, "initdb")) == 1, "wrong PG version must trigger rebuild"
 
     def test_incomplete_previous_dir_recreated(self, tmp_path: Path, monkeypatch: Any) -> None:
         state = _exec_definitions(tmp_path, monkeypatch, euid=0, postgres_user=True)
