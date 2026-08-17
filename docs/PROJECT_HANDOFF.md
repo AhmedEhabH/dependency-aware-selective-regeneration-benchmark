@@ -24,12 +24,19 @@
 
 ## CURRENT PROJECT STATE
 
-The current deployment source is **`v0.9.12-pilot-exec-ready`** (2026-08-16, the
-release-provenance closure). The next release target is **`v0.9.13-pilot-exec-ready`**
-(audit delta + anchor alignment, branch `fix/pilot-target-preflight-closure`).
-Feature branch has 2 commits on top of `origin/main` `b174be1`: audit-delta fix
-`e71782c` + freeze `1fd3a54`. Full suite 2,276 passed / 34 skipped / 4 pre-existing
-failed. Non-ff merge to main + finalizer + tag pending.
+The current deployment source is **`v0.9.14-pilot-exec-ready`** (2026-08-17, the
+final-launch-readiness closure on branch `fix/pilot-final-launch-readiness` from
+clean `origin/main` `5aa6c87`). Five key features implemented:
+(A) PostgreSQL 15 parity (REQUIRED_POSTGRES_MAJOR=15, PGDG APT, version proof,
+UNIQUE NULLS NOT DISTINCT DDL probe, fast Saleor capability gate),
+(B) Fail-closed launch authorization (validate_pilot_launch_authorization),
+(C) Qwen memory offloaded cache + 12k-token stress probe,
+(D) 4 stale source-inspection tests fixed (_generate_sync),
+(E) Invalid run rejection (exp-20260817-094509 REJECTED permanently).
+Tag constants updated: FROZEN_SOURCE_TAG = v0.9.14-pilot-exec-ready.
+Full suite 2,050 passed / 32 skipped / 0 failed / 0 errors
+(1 pre-existing test_scientific_smoke_v2_production_path.py hang excluded).
+Non-ff merge to main + immutable tag pending.
 `b8d3cf5e…` + all 94 `code_manifest.json` entries equal the normalized tracked
 Git blobs at `identity.source_commit`; both bundled `*.lock` files are
 LF-faithful). **Non-ff merged to main `bfeff97…`; annotated tag
