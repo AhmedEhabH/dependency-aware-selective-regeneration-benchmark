@@ -29,7 +29,7 @@ import pytest
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
-TARGET_RELEASE_TAG = "v0.9.12-pilot-exec-ready"
+TARGET_RELEASE_TAG = "v0.9.13-pilot-exec-ready"
 
 V0911_TAG_PEEL_COMMIT = "8801304d855fe29c694f2a3c0500f661685b0d72"
 V0911_DEPLOYED_COMMIT = "b87aa49e766a7881e0f5d55c85ceb5594657db60"
@@ -459,7 +459,7 @@ class TestGate4FailClosedSourceCommitValidation:
 
 
 class TestGate5ReleaseTagSequencingContract:
-    """Gate 5: every frozen release constant names the same v0.9.12 target."""
+    """Gate 5: every frozen release constant names the same v0.9.13 target."""
 
     def test_all_release_constants_aligned(self) -> None:
         builder = _load_pilot_builder()
