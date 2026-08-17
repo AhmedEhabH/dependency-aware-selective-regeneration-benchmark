@@ -981,6 +981,35 @@ def parse_args() -> argparse.Namespace:
             "results, or HF state."
         ),
     )
+    parser.add_argument(
+        "--require-launch-authorization",
+        action="store_true",
+        default=False,
+        help=(
+            "Fail-closed pilot launch authorization gate. When set, re-reads repo "
+            "preflight, model preflight, dryrun records, and HF token evidence "
+            "before any experiment creation, output directory population, model "
+            "load, HF sync, or scientific model call."
+        ),
+    )
+    parser.add_argument(
+        "--repo-preflight-json",
+        type=str,
+        default=None,
+        help="Path to repo_preflight.json for launch authorization.",
+    )
+    parser.add_argument(
+        "--model-preflight-json",
+        type=str,
+        default=None,
+        help="Path to model_preflight.json for launch authorization.",
+    )
+    parser.add_argument(
+        "--expected-model-identity",
+        type=str,
+        default=None,
+        help="Expected model identity string for launch authorization.",
+    )
     args = parser.parse_args()
     _validate_cli_args(args)
     return args
@@ -1786,6 +1815,38 @@ def main() -> int:
             result.rejection_reason, preflight_json,
         )
         return 1
+
+    # ---- Fail-closed pilot launch authorization gate ----------------------
+    if args.require_launch_authorization:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_launch_authorization,
+        )
+
+        repo_json = args.repo_preflight_json
+        model_json = args.model_preflight_json
+        if not repo_json or not model_json:
+            logger.error(
+                "--require-launch-authorization requires --repo-preflight-json and "
+                "--model-preflight-json"
+            )
+            return 1
+        expected_identity = args.expected_model_identity or model_identity
+        try:
+            validate_pilot_launch_authorization(
+                repo_preflight_json=repo_json,
+                model_preflight_json=model_json,
+                dryrun_dir=output_dir,
+                expected_source_commit=source_commit,
+                expected_source_tag=args.source_tag or "",
+                expected_model_identity=expected_identity,
+                expected_quantization=args.qwen_quantization,
+                expected_deployed_build_id=deployed_build_id,
+            )
+            logger.info("PILOT LAUNCH AUTHORIZATION: PASSED")
+        except LaunchAuthorizationError as exc:
+            logger.error("%s", exc)
+            return 1
 
     logger.info(
         "Benchmark config: dry_run=%s  profile=%s  label=%s  output=%s  data_dir=%s  "
