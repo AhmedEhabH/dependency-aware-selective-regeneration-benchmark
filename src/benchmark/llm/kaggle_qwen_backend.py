@@ -24,6 +24,8 @@ CANONICAL_ALLOC_CONF = "expandable_segments:True"
 
 CANONICAL_QUANTIZATION_MODES = ("bnb-int8", "bnb-nf4", "fp16")
 
+KAGGLE_CACHE_IMPLEMENTATION = "offloaded"
+
 _QUANTIZATION_METHOD_SAFE = frozenset({"bitsandbytes", "bnb"})
 
 NF4_LOAD_CONFIG = {
@@ -321,6 +323,89 @@ class KaggleQwenBackend:
             pass
         return self._generate_sync(prompt=prompt, temperature=0.0, max_tokens=max_tokens)
 
+    def run_long_context_probe(
+        self,
+        target_prompt_tokens: int = 12000,
+        max_tokens: int = 64,
+    ) -> dict[str, Any]:
+        """Long-context engineering stress probe.
+
+        Builds a synthetic deterministic code-like prompt calibrated by the
+        ACTUAL tokenizer to reach ``target_prompt_tokens`` prompt tokens, then
+        generates ``max_tokens`` output tokens with ``cache_implementation="offloaded"``.
+
+        Engineering evidence only: never creates a scientific RunRecord or
+        token accounting entry. Returns a dict with all required evidence
+        fields.
+
+        Fails on OOM by raising ``RuntimeError`` so the caller can fail-closed.
+        """
+        import time
+
+        self._ensure_loaded()
+        assert self._tokenizer is not None
+
+        snippet = (
+            "def compute_score(items: list[dict], weights: dict[str, float]) -> float:\n"
+            "    total = 0.0\n"
+            "    for item in items:\n"
+            "        key = item.get('category', '')\n"
+            "        weight = weights.get(key, 0.0)\n"
+            "        total += item.get('value', 0.0) * weight\n"
+            "    return total\n\n"
+        )
+        chat_parts = [
+            {"role": "system", "content": SYSTEM_TRANSFORMATION_MESSAGE},
+            {"role": "user", "content": snippet},
+        ]
+        formatted_base = self._tokenizer.apply_chat_template(
+            chat_parts, tokenize=False, add_generation_prompt=True,
+        )
+        base_tokens = len(self._tokenizer(formatted_base, return_tensors="pt")["input_ids"][0])
+        repeat_count = max(1, (target_prompt_tokens - base_tokens) // len(snippet) + 1)
+        repeated_snippet = snippet * repeat_count
+
+        chat_parts_full = [
+            {"role": "system", "content": SYSTEM_TRANSFORMATION_MESSAGE},
+            {"role": "user", "content": repeated_snippet},
+        ]
+        formatted = self._tokenizer.apply_chat_template(
+            chat_parts_full, tokenize=False, add_generation_prompt=True,
+        )
+        inputs = self._tokenizer(formatted, return_tensors="pt")
+        prompt_tokens = inputs["input_ids"].shape[1]
+
+        start_time = time.monotonic()
+        response = self._generate_sync(
+            prompt=repeated_snippet, temperature=0.0, max_tokens=max_tokens,
+        )
+        elapsed = time.monotonic() - start_time
+
+        gpu_info = _gpu_info()
+        peak_allocated: float | None = None
+        peak_reserved: float | None = None
+        try:
+            import torch
+            if torch.cuda.is_available():
+                peak_allocated = torch.cuda.max_memory_allocated(0) / (1024**3)
+                peak_reserved = torch.cuda.max_memory_reserved(0) / (1024**3)
+        except Exception:
+            pass
+
+        return {
+            "passed": response.token_usage.completion_tokens > 0 and prompt_tokens >= target_prompt_tokens,
+            "prompt_tokens": prompt_tokens,
+            "target_prompt_tokens": target_prompt_tokens,
+            "completion_tokens": response.token_usage.completion_tokens,
+            "elapsed_seconds": round(elapsed, 3),
+            "cache_implementation": KAGGLE_CACHE_IMPLEMENTATION,
+            "gpu_name": gpu_info.get("gpu_name", "unknown"),
+            "gpu_count": gpu_info.get("available", False),
+            "peak_allocated_gib": round(peak_allocated, 3) if peak_allocated is not None else None,
+            "peak_reserved_gib": round(peak_reserved, 3) if peak_reserved is not None else None,
+            "finish_reason": response.finish_reason,
+        }
+
     def count_prompt_tokens(self, prompt: str) -> int:
         self._ensure_loaded()
         if self._tokenizer is None:
@@ -375,6 +460,7 @@ class KaggleQwenBackend:
                 "input_ids": input_ids,
                 "max_new_tokens": max_tokens,
                 "do_sample": temperature > 0.0,
+                "cache_implementation": KAGGLE_CACHE_IMPLEMENTATION,
             }
             if attention_mask is not None:
                 gen_kwargs["attention_mask"] = attention_mask

@@ -769,6 +769,72 @@ def run_repo_preflight(
     )
     runs: list[dict[str, object]] = []
     all_passed = True
+
+    # Fast Saleor capability gate: run the known failing checkout test serially
+    # BEFORE the full 6k primary suite. This proves PG15 migration/constraint
+    # path without spending ~13 minutes on the full suite.
+    if repo_id == "saleor" and services_passed:
+        saleor_gate_test = (
+            "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py"
+            "::test_create_checkout"
+        )
+        gate_argv = list(command.resolve_interpreter(venv_python)) + [
+            "-m", "pytest", "-n", "0", "-x", "--tb=line", "--no-header", "-q",
+            saleor_gate_test,
+        ]
+        print(f"  Saleor fast capability gate: {saleor_gate_test}")
+        gate_result = _run_command(
+            gate_argv,
+            staging_dir,
+            env,
+            min(timeout, 300),
+            "saleor-gate",
+            logs_dir=logs_dir,
+            log_prefix=repo_id,
+        )
+        if not gate_result.get("passed"):
+            gate_log = gate_result.get("log_path", "")
+            gate_tail = gate_result.get("output_tail", "")
+            print(
+                f"  Saleor fast capability gate: FAIL (exit={gate_result.get('exit_code')})\n"
+                f"  Skipping full 6k Saleor suite. Gate log: {gate_log}\n"
+                f"  Output tail: {gate_tail[:500]}"
+            )
+            runs.append(gate_result)
+            all_passed = False
+            result_record: dict[str, object] = {
+                "repo_id": repo_id,
+                "mode": evidence.mode,
+                "requested_sha": evidence.requested_sha,
+                "resolved_head": evidence.resolved_head,
+                "file_count": evidence.file_count,
+                "content_hash": evidence.content_hash,
+                "applied_workarounds": workarounds,
+                "services": services,
+                "services_passed": services_passed,
+                "commands": runs,
+                "command_passed": False,
+                "passed": False,
+                "saleor_gate_skipped_full_suite": True,
+            }
+            if diagnostics_dir is not None:
+                diagnostics_dir.mkdir(parents=True, exist_ok=True)
+                diagnostics = _collect_saleor_failure_diagnostics(
+                    python=venv_python,
+                    staging_dir=staging_dir,
+                    env=env,
+                    timeout=timeout,
+                    primary=gate_result,
+                    logs_dir=logs_dir,
+                )
+                diagnostics_path = diagnostics_dir / "saleor_failure_diagnostics.json"
+                diagnostics_path.write_text(
+                    json.dumps(diagnostics, indent=2, sort_keys=True) + "\n",
+                    encoding="utf-8",
+                )
+            return result_record
+        print("  Saleor fast capability gate: PASS")
+
     for label, argv in (
         ("primary", command.resolve_interpreter(venv_python)),
         *(
@@ -787,7 +853,7 @@ def run_repo_preflight(
         )
         runs.append(result)
         all_passed = all_passed and bool(result["passed"])
-    result_record: dict[str, object] = {
+    result_record = {
         "repo_id": repo_id,
         "mode": evidence.mode,
         "requested_sha": evidence.requested_sha,
