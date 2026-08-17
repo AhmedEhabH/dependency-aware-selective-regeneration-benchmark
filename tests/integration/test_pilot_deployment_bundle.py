@@ -1322,6 +1322,7 @@ class TestPilotReleaseTrustGate:
             allow_acquire=False,
             notebook=notebook,
             validate_notebook_trust=True,
+            verify_source_provenance=False,
         )
 
     def test_gate1_stale_code_anchor_fails_release_build(self, tmp_path: Path) -> None:

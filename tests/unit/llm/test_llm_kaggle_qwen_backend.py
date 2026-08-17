@@ -296,6 +296,82 @@ class TestKaggleQwenBackend:
         assert torch_mod._seed == 0, "run_probe must seed torch deterministically"
 
 
+class TestRunProbeEventLoopClosure:
+    """RUN-PROBE-ASYNC-CLOSURE: run_probe must never drive its own event loop.
+
+    ``run_probe`` is executed inside the already-running ipykernel loop of the
+    pilot notebook's model-preflight cell. Calling ``asyncio.run`` there raises
+    ``RuntimeError: asyncio.run() cannot be called from a running event loop``
+    and aborts the preflight. These tests lock the fix: synchronous generation
+    inside ``run_probe``, byte-identical to ``await generate(temperature=0.0)``.
+    """
+
+    _PROBE_PROMPT = "def add(a, b):\n    return a + b\n"
+
+    def _inject_fakes(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> tuple[KaggleQwenBackend, _FakeTokenizer]:
+        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        tokenizer = _FakeTokenizer()
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = tokenizer
+        backend._model = _FakeModel(output_length=10)
+        return backend, tokenizer
+
+    @pytest.mark.asyncio
+    async def test_run_probe_succeeds_inside_a_running_event_loop(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        backend, _tokenizer = self._inject_fakes(monkeypatch)
+        response = backend.run_probe(max_tokens=64, prompt=self._PROBE_PROMPT)
+        assert response.text == "generated output"
+        assert response.finish_reason == "eos"
+
+    @pytest.mark.asyncio
+    async def test_run_probe_and_generate_share_identical_generation_contract(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        backend, _tokenizer = self._inject_fakes(monkeypatch)
+        probe = backend.run_probe(max_tokens=64, prompt=self._PROBE_PROMPT)
+        generated = await backend.generate(
+            prompt=self._PROBE_PROMPT, temperature=0.0, max_tokens=64
+        )
+        assert probe.text == generated.text
+        assert probe.finish_reason == generated.finish_reason
+        assert probe.token_usage == generated.token_usage
+        torch_mod = sys.modules["torch"]
+        assert torch_mod._seed == 0
+
+    def test_run_probe_never_calls_asyncio_run(self) -> None:
+        import ast
+        import inspect
+
+        module_path = Path(inspect.getfile(KaggleQwenBackend))
+        tree = ast.parse(module_path.read_text(encoding="utf-8"))
+
+        top_imports: list[str] = []
+        for node in tree.body:
+            if isinstance(node, ast.Import):
+                top_imports.extend(a.name for a in node.names)
+            elif isinstance(node, ast.ImportFrom):
+                top_imports.append(node.module or "")
+        assert "asyncio" not in top_imports, (
+            "no top-level asyncio import allowed; run_probe must run inline",
+        )
+
+        calls = [
+            node
+            for node in ast.walk(tree)
+            if isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr == "run"
+            and isinstance(node.func.value, ast.Name)
+            and node.func.value.id == "asyncio"
+        ]
+        assert not calls, "run_probe must not invoke asyncio.run"
+
+
 def _write_qwen_config(
     path: Path,
     *,
