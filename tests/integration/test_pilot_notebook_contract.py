@@ -33,7 +33,7 @@ import pytest
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
-EXPECTED_FROZEN_SOURCE_TAG = "v0.9.12-pilot-exec-ready"
+EXPECTED_FROZEN_SOURCE_TAG = "v0.9.13-pilot-exec-ready"
 
 # The bundled-notebook parity test builds a full Pilot bundle; the hermetic
 # fixture keeps that build deterministic without developer-local repo caches.
@@ -323,6 +323,15 @@ class TestRepoPreflight:
         assert '"-m", "venv"' not in preflight
         assert "ensurepip" not in preflight
         assert "--strategy" not in preflight and "--max-runs" not in preflight
+
+    def test_model_preflight_gated_on_repo_preflight_evidence(self) -> None:
+        repo_preflight = _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
+        model_preflight = _src(_cells_by_id(_nb())["model-preflight-cell"])
+        assert "PREFLIGHT_JSON" in repo_preflight
+        assert "repo_preflight_json_path=str(PREFLIGHT_JSON)" in model_preflight, (
+            "the model preflight must consume the repo-preflight evidence file so "
+            "a FAILED repo preflight can never be followed by a model load"
+        )
 
 
 class TestKaggleTransportRestore:

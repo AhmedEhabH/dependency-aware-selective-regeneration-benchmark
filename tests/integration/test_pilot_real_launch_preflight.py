@@ -108,7 +108,10 @@ def _stub_materialization(monkeypatch: Any) -> list[str]:
 def _stub_run_command(monkeypatch: Any, *, passed: bool) -> list[dict[str, Any]]:
     calls: list[dict[str, Any]] = []
 
-    def fake_run(argv: list[str], cwd: Path, env: dict[str, str], timeout: int, label: str) -> dict[str, Any]:
+    def fake_run(
+        argv: list[str], cwd: Path, env: dict[str, str], timeout: int,
+        label: str, **kwargs: Any,
+    ) -> dict[str, Any]:
         calls.append({"argv": argv, "cwd": Path(cwd), "label": label})
         return {
             "label": label,

@@ -39,6 +39,42 @@ PROBE_PROMPT = "def add(a, b):\n    return a + b\n"
 CANONICAL_ALLOC_CONF = "expandable_segments:True"
 BASELINE_REPO = "todo"
 
+_REPO_PREFLIGHT_BLOCKED_SUFFIX = "repository preflight failed"
+
+
+class RepositoryPreflightUnavailableError(RuntimeError):
+    """Repo-preflight evidence is missing, unreadable, or reports overall != PASS."""
+
+
+def load_repo_preflight_evidence(path: str | Path) -> dict[str, Any]:
+    """Fail-closed loader for the ``pilot-repo-preflight-cell`` evidence file.
+
+    Returns the parsed evidence only when ``overall == "PASS"``; any other
+    outcome raises ``RepositoryPreflightUnavailableError`` so the model-load
+    preflight can never proceed after a FAILED repository preflight.
+    """
+    evidence_path = Path(path)
+    if not evidence_path.is_file():
+        raise RepositoryPreflightUnavailableError(
+            f"repo-preflight evidence missing: {evidence_path}"
+        )
+    try:
+        evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise RepositoryPreflightUnavailableError(
+            f"repo-preflight evidence invalid json: {evidence_path} "
+            f"({type(exc).__name__})"
+        ) from exc
+    if not isinstance(evidence, dict):
+        raise RepositoryPreflightUnavailableError(
+            f"repo-preflight evidence not an object: {evidence_path}"
+        )
+    if evidence.get("overall") != "PASS":
+        raise RepositoryPreflightUnavailableError(
+            f"overall != PASS for repo-preflight evidence {evidence_path}"
+        )
+    return evidence
+
 _REQUIRED_IMPORTS: tuple[tuple[str, str, str, str | None], ...] = (
     ("django", "Django", "django", "5.2.16"),
     ("djangorestframework", "djangorestframework", "rest_framework", "3.17.1"),
@@ -300,11 +336,18 @@ def run_kaggle_smoke_preflight(
     preflight_root: str | Path,
     json_output_path: str | Path | None = None,
     quantization_mode: str = "bnb-int8",
+    repo_preflight_json_path: str | Path | None = None,
 ) -> KaggleSmokePreflightResult:
     """Run the full Kaggle Smoke preflight gate.
 
     Returns a KaggleSmokePreflightResult. The caller must exit non-zero on
     ``passed=False`` and must not create any experiment state.
+
+    ``repo_preflight_json_path`` optionally points at the repo-preflight
+    evidence written by the pilot notebook's earlier ``pilot-repo-preflight-cell``
+    (``overall`` field). When provided, the model load is fail-closed: missing,
+    unreadable, or non-PASS evidence blocks staging and the Qwen probe and marks
+    the affected checks ``SKIP (repository preflight failed)``.
     """
     start = time.monotonic()
     os.environ.setdefault("PYTORCH_ALLOC_CONF", CANONICAL_ALLOC_CONF)
@@ -334,9 +377,23 @@ def run_kaggle_smoke_preflight(
     preflight_root = Path(preflight_root)
     preflight_root.mkdir(parents=True, exist_ok=True)
 
+    # Repo-preflight evidence gate: the model probe must never run after a
+    # FAILED (or missing) repository preflight.
+    repo_preflight_failed = False
+    if repo_preflight_json_path is not None:
+        try:
+            load_repo_preflight_evidence(repo_preflight_json_path)
+            checks.append("repository_preflight_evidence: PASS")
+        except RepositoryPreflightUnavailableError as exc:
+            repo_preflight_failed = True
+            checks.append(
+                f"repository_preflight_evidence: FAIL ({type(exc).__name__}: {exc})"
+            )
+
     # Fail fast before staging or loading the model when the declared runtime
-    # contract is absent or version-drifted.
+    # contract is absent or version-drifted, or when the repo preflight failed.
     runtime_contract_failed = bool(dependency_issues) or not python_supported
+    blocked = runtime_contract_failed or repo_preflight_failed
     if runtime_contract_failed:
         checks.extend(
             (
@@ -350,10 +407,23 @@ def run_kaggle_smoke_preflight(
                 "checkpoint_not_prequantized: SKIP (runtime contract failed)",
             )
         )
+    elif repo_preflight_failed:
+        checks.extend(
+            (
+                f"baseline_staging: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
+                f"manage_py_check: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
+                f"makemigrations_check: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
+                f"qwen_model_load[{quantization_mode}]: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
+                f"device_map_gpu_only: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
+                f"vram_headroom: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
+                f"gpu_count_expected: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
+                f"checkpoint_not_prequantized: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
+            )
+        )
 
     # 2. Baseline Todo workspace staging
     staged = None
-    if not runtime_contract_failed:
+    if not blocked:
         try:
             staged = _stage_baseline_workspace(Path(data_dir), preflight_root)
             checks.append(f"baseline_staging: PASS ({staged.name})")
@@ -361,7 +431,7 @@ def run_kaggle_smoke_preflight(
             checks.append(f"baseline_staging: FAIL ({exc})")
 
     # 3. python manage.py check
-    if not runtime_contract_failed:
+    if not blocked:
         if staged is not None:
             rc, out, err = _run_in_workspace(staged, "manage.py", "check")
             if rc == 0:
@@ -374,7 +444,7 @@ def run_kaggle_smoke_preflight(
             checks.append("manage_py_check: SKIP (no staged baseline)")
 
     # 4. python manage.py makemigrations todo --check --dry-run
-    if not runtime_contract_failed:
+    if not blocked:
         if staged is not None:
             rc, out, err = _run_in_workspace(
                 staged,
@@ -406,7 +476,7 @@ def run_kaggle_smoke_preflight(
         )
         for check in checks
     )
-    if not runtime_contract_failed and not baseline_failed:
+    if not blocked and not baseline_failed:
         try:
             probe_metrics = _qwen_probe_metrics(model_path, quantization_mode)
             checks.append(f"qwen_model_load[{quantization_mode}]: PASS")
@@ -461,7 +531,7 @@ def run_kaggle_smoke_preflight(
             checks.append("vram_headroom: FAIL (probe did not run)")
             checks.append("gpu_count_expected: FAIL (probe did not run)")
             checks.append("checkpoint_not_prequantized: FAIL (probe did not run)")
-    elif not runtime_contract_failed:
+    elif not blocked:
         checks.append(f"qwen_model_load[{quantization_mode}]: SKIP (baseline preflight failed)")
         checks.append("device_map_gpu_only: SKIP (baseline preflight failed)")
         checks.append("vram_headroom: SKIP (baseline preflight failed)")
@@ -469,7 +539,7 @@ def run_kaggle_smoke_preflight(
         checks.append("checkpoint_not_prequantized: SKIP (baseline preflight failed)")
 
     failed = [c for c in checks if ": FAIL" in c or ": SKIP" in c]
-    passed = not failed and not runtime_contract_failed
+    passed = not failed and not blocked
 
     rejection = ""
     if failed:
