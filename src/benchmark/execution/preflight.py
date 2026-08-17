@@ -38,6 +38,8 @@ PROBE_MAX_TOKENS = 64
 PROBE_PROMPT = "def add(a, b):\n    return a + b\n"
 CANONICAL_ALLOC_CONF = "expandable_segments:True"
 BASELINE_REPO = "todo"
+LONG_CONTEXT_TARGET_PROMPT_TOKENS = 12000
+LONG_CONTEXT_MAX_TOKENS = 64
 
 _REPO_PREFLIGHT_BLOCKED_SUFFIX = "repository preflight failed"
 
@@ -117,6 +119,7 @@ class KaggleSmokePreflightResult:
     reserved_vram_gib: float = 0.0
     probe_prompt_tokens: int = 0
     probe_completion_tokens: int = 0
+    long_context_probe: dict[str, Any] | None = None
     dependencies: tuple[tuple[str, str], ...] = ()
     duration_seconds: float = 0.0
 
@@ -281,6 +284,24 @@ def _write_json(path: Path, payload: dict[str, object]) -> None:
         json.dumps(payload, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
         newline="\n",
+    )
+
+
+def _run_long_context_probe(
+    model_path: str, quantization_mode: str
+) -> dict[str, Any]:
+    """Run the long-context stress probe as a separate monkeypatchable step."""
+    from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
+
+    lc_backend = KaggleQwenBackend(
+        model_name="qwen2.5-coder",
+        model_path=model_path,
+        quantization_mode=quantization_mode,
+    )
+    lc_backend.load()
+    return lc_backend.run_long_context_probe(
+        target_prompt_tokens=LONG_CONTEXT_TARGET_PROMPT_TOKENS,
+        max_tokens=LONG_CONTEXT_MAX_TOKENS,
     )
 
 
@@ -541,6 +562,33 @@ def run_kaggle_smoke_preflight(
     failed = [c for c in checks if ": FAIL" in c or ": SKIP" in c]
     passed = not failed and not blocked
 
+    # Long-context stress probe (>= 12k tokens): engineering evidence only.
+    long_context_probe: dict[str, Any] | None = None
+    if passed and not probe_failure:
+        try:
+            long_context_probe = _run_long_context_probe(model_path, quantization_mode)
+            if long_context_probe.get("passed"):
+                checks.append(
+                    f"long_context_probe: PASS (prompt_tokens={long_context_probe['prompt_tokens']}, "
+                    f"completion_tokens={long_context_probe['completion_tokens']}, "
+                    f"elapsed={long_context_probe['elapsed_seconds']}s)"
+                )
+            else:
+                checks.append(
+                    f"long_context_probe: FAIL (prompt_tokens={long_context_probe.get('prompt_tokens', 0)}, "
+                    f"completion_tokens={long_context_probe.get('completion_tokens', 0)})"
+                )
+        except Exception as exc:
+            long_context_probe = {
+                "passed": False,
+                "error": f"{type(exc).__name__}: {exc}",
+            }
+            checks.append(f"long_context_probe: FAIL ({type(exc).__name__}: {exc})")
+
+    # Re-evaluate pass/fail after long-context probe
+    failed = [c for c in checks if ": FAIL" in c or ": SKIP" in c]
+    passed = not failed and not blocked
+
     rejection = ""
     if failed:
         rejection = "; ".join(failed)
@@ -560,7 +608,7 @@ def run_kaggle_smoke_preflight(
         model_identity=str(probe_metrics.get("model_identity", "")),
         requested_quantization_mode=str(probe_metrics.get("requested_quantization_mode", "")),
         model_checkpoint_basename=str(probe_metrics.get("model_checkpoint_basename", "")),
-        checkpoint_quantization_method=str(probe_metrics.get("checkpoint_quantization_method", "") or ""),
+        checkpoint_quantization_method=str(probe_metrics.get("checkpoint_quantization_method", "")),
         model_memory_footprint_bytes=int(probe_metrics.get("model_memory_footprint_bytes", 0) or 0),
         device_map_summary=str(probe_metrics.get("device_map_summary", "")),
         gpu_count=int(probe_metrics.get("gpu_count", 0) or 0),
@@ -571,6 +619,7 @@ def run_kaggle_smoke_preflight(
         reserved_vram_gib=float(probe_metrics.get("reserved_vram_gib", 0.0) or 0.0),
         probe_prompt_tokens=int(probe_metrics.get("probe_prompt_tokens", 0) or 0),
         probe_completion_tokens=int(probe_metrics.get("probe_completion_tokens", 0) or 0),
+        long_context_probe=long_context_probe,
         dependencies=dependencies,
         duration_seconds=round(duration, 3),
     )
@@ -607,6 +656,7 @@ def run_kaggle_smoke_preflight(
             "reserved_vram_gib": result.reserved_vram_gib,
             "probe_prompt_tokens": result.probe_prompt_tokens,
             "probe_completion_tokens": result.probe_completion_tokens,
+            "long_context_probe": result.long_context_probe,
             "dependencies": [list(pair) for pair in result.dependencies],
             "duration_seconds": result.duration_seconds,
         }
@@ -640,6 +690,17 @@ def render_preflight_table(result: KaggleSmokePreflightResult) -> str:
         )
     lines.extend([
         f"probe_tokens: {result.probe_prompt_tokens}+{result.probe_completion_tokens}",
+    ])
+    if result.long_context_probe:
+        lc = result.long_context_probe
+        lines.append(
+            f"long_context_probe: prompt_tokens={lc.get('prompt_tokens', '?')} "
+            f"completion_tokens={lc.get('completion_tokens', '?')} "
+            f"elapsed={lc.get('elapsed_seconds', '?')}s "
+            f"cache={lc.get('cache_implementation', '?')} "
+            f"passed={lc.get('passed', '?')}"
+        )
+    lines.extend([
         f"duration_seconds: {result.duration_seconds}",
     ])
     for check in result.checks:
@@ -649,3 +710,166 @@ def render_preflight_table(result: KaggleSmokePreflightResult) -> str:
     if result.rejection_reason:
         lines.append(f"rejection_reason: {result.rejection_reason}")
     return "\n".join(lines)
+
+
+class LaunchAuthorizationError(RuntimeError):
+    """Raised when pilot launch authorization fails any gate."""
+
+
+def validate_pilot_launch_authorization(
+    *,
+    repo_preflight_json: str | Path,
+    model_preflight_json: str | Path,
+    dryrun_dir: str | Path,
+    expected_source_commit: str,
+    expected_source_tag: str,
+    expected_model_identity: str,
+    expected_quantization: str = "bnb-nf4",
+    expected_deployed_build_id: str = "",
+) -> None:
+    """Fail-closed pilot launch authorization gate.
+
+    Re-reads ALL evidence files from disk immediately before launch. Must pass
+    every gate before experiment creation, output directory population, model
+    load, HF sync, or any scientific model call.
+
+    Raises ``LaunchAuthorizationError`` on any failure.
+    """
+    errors: list[str] = []
+
+    # --- Repository preflight evidence ---
+    repo_path = Path(repo_preflight_json)
+    if not repo_path.is_file():
+        errors.append(f"repo_preflight.json missing: {repo_path}")
+    else:
+        try:
+            repo_evidence = json.loads(repo_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            errors.append(f"repo_preflight.json unreadable: {type(exc).__name__}: {exc}")
+            repo_evidence = {}
+        if isinstance(repo_evidence, dict):
+            if repo_evidence.get("overall") != "PASS":
+                errors.append(
+                    f"repo_preflight.json overall={repo_evidence.get('overall')!r} (expected PASS)"
+                )
+            repos = repo_evidence.get("repositories", {})
+            if isinstance(repos, dict):
+                for repo_id in ("todo", "djangocms", "saleor"):
+                    repo_data = repos.get(repo_id)
+                    if not isinstance(repo_data, dict) or not repo_data.get("passed"):
+                        errors.append(
+                            f"repo_preflight.json repositories.{repo_id}.passed != true"
+                        )
+            else:
+                errors.append("repo_preflight.json missing 'repositories' object")
+
+    # --- Model preflight evidence ---
+    model_path = Path(model_preflight_json)
+    if not model_path.is_file():
+        errors.append(f"model_preflight.json missing: {model_path}")
+    else:
+        try:
+            model_evidence = json.loads(model_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            errors.append(f"model_preflight.json unreadable: {type(exc).__name__}: {exc}")
+            model_evidence = {}
+        if isinstance(model_evidence, dict):
+            if not model_evidence.get("passed"):
+                errors.append("model_preflight.json passed != true")
+            if model_evidence.get("model_identity") != expected_model_identity:
+                errors.append(
+                    f"model_preflight.json model_identity="
+                    f"{model_evidence.get('model_identity')!r} "
+                    f"(expected {expected_model_identity!r})"
+                )
+            if model_evidence.get("requested_quantization_mode") != expected_quantization:
+                errors.append(
+                    f"model_preflight.json quantization="
+                    f"{model_evidence.get('requested_quantization_mode')!r} "
+                    f"(expected {expected_quantization!r})"
+                )
+            checks_list = model_evidence.get("checks", [])
+            if isinstance(checks_list, list):
+                repo_preflight_check = [
+                    c for c in checks_list if "repository_preflight_evidence" in c
+                ]
+                if repo_preflight_check and any("FAIL" in c for c in repo_preflight_check):
+                    errors.append(
+                        "model_preflight.json repository_preflight_evidence check FAILED"
+                    )
+            lc_probe = model_evidence.get("long_context_probe")
+            if isinstance(lc_probe, dict) and not lc_probe.get("passed"):
+                errors.append(
+                    "model_preflight.json long_context_probe passed != true"
+                )
+
+    # --- Dry-run records ---
+    dryrun_path = Path(dryrun_dir) / "run_records.jsonl"
+    if not dryrun_path.is_file():
+        errors.append(f"dryrun records missing: {dryrun_path}")
+    else:
+        try:
+            lines = [
+                line.strip()
+                for line in dryrun_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            records = [json.loads(line) for line in lines]
+        except (OSError, ValueError) as exc:
+            errors.append(f"dryrun records unreadable: {type(exc).__name__}: {exc}")
+            records = []
+
+        if records:
+            if len(records) != 48:
+                errors.append(f"dryrun record count={len(records)} (expected 48)")
+            run_ids = [r.get("run_id") for r in records]
+            if len(set(run_ids)) != 48:
+                errors.append(f"dryrun unique run_ids={len(set(run_ids))} (expected 48)")
+            failed_records = [r for r in records if r.get("status") != "succeeded"]
+            if failed_records:
+                errors.append(
+                    f"dryrun has {len(failed_records)} non-succeeded records"
+                )
+            source_commits = {r.get("source_commit") for r in records}
+            if source_commits - {None, "", "unknown-source"}:
+                bad_commits = source_commits - {None, "", "unknown-source"}
+                if bad_commits and expected_source_commit not in bad_commits:
+                    errors.append(
+                        f"dryrun source_commit mismatch: {bad_commits}"
+                    )
+            if expected_source_commit and expected_source_commit != "unknown-source":
+                unknown_commits = sum(
+                    1 for r in records
+                    if r.get("source_commit") in (None, "", "unknown-source")
+                )
+                if unknown_commits:
+                    errors.append(
+                        f"dryrun has {unknown_commits} records with unknown source_commit"
+                    )
+            source_tags = {r.get("source_tag") for r in records}  # noqa: F841 (evidence)
+            if expected_source_tag and expected_source_tag != "unknown-source":
+                unknown_tags = sum(
+                    1 for r in records
+                    if r.get("source_tag") in (None, "", "unknown-source")
+                )
+                if unknown_tags:
+                    errors.append(
+                        f"dryrun has {unknown_tags} records with unknown source_tag"
+                    )
+            if expected_deployed_build_id:
+                build_ids = {r.get("deployed_build_id", "") for r in records}
+                if expected_deployed_build_id not in build_ids and build_ids - {""}:
+                    errors.append(
+                        f"dryrun deployed_build_id mismatch: {build_ids}"
+                    )
+
+    # --- HF token ---
+    hf_token = os.environ.get("HF_TOKEN", "").strip()
+    if not hf_token:
+        errors.append("HF_TOKEN is missing or blank in the environment")
+
+    if errors:
+        raise LaunchAuthorizationError(
+            "PILOT LAUNCH AUTHORIZATION FAILED:\n"
+            + "\n".join(f"  - {e}" for e in errors)
+        )

@@ -368,7 +368,18 @@ class TestSaleorFailureDiagnostics:
     def _patch_runtime(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        monkeypatch.setattr(snapshot_mod.subprocess, "run", TestBoundedCommandLogs()._fake_run)
+        base_fake_run = TestBoundedCommandLogs()._fake_run
+
+        def _fake_run_with_gate(
+            argv: list[str], **kwargs: object
+        ) -> types.SimpleNamespace:
+            if "test_create_checkout" in " ".join(str(a) for a in argv):
+                return types.SimpleNamespace(
+                    returncode=0, stdout="1 passed in 0.50s", stderr=""
+                )
+            return base_fake_run(argv, **kwargs)
+
+        monkeypatch.setattr(snapshot_mod.subprocess, "run", _fake_run_with_gate)
         monkeypatch.setattr(snapshot_mod, "_copy_embedded_tree", lambda source, target: None)
         monkeypatch.setattr(
             snapshot_mod, "_service_reachable", lambda url, timeout=5.0: True
