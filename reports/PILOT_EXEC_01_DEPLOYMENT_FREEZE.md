@@ -1,14 +1,12 @@
 # PILOT-EXEC-01 — Deployment Freeze Report
 
-**Date:** 2026-08-16 (release-provenance closure — **v0.9.12-pilot-exec-ready
-CLOSED AND FROZEN**, see current freeze section 1 below; **v0.9.11-pilot-exec-ready
-REJECTED FOR LAUNCH** (internally-valid artifact, but the immutable tag does
-not contain the deployed re-frozen notebook); the 2026-08-15 v0.9.10 RELEASE
-TRUST GATE freeze remains immutable and historical;
-this file superseded freeze chain: v0.9.12 → v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → v0.9.6
+**Date:** 2026-08-17 (artifact refresh — **v0.9.14-pilot-exec-ready
+CURRENT**, see current freeze section 1 below; prior freezes historical;
+**v0.9.13-pilot-exec-ready** artifact was stale at upload time; 
+this file superseded freeze chain: v0.9.14 → v0.9.12 → v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → v0.9.6
 → v0.9.5 → v0.9.4 → v0.9.3 → v0.9.2 → v0.9.1)
 **Task:** `PILOT-EXEC-01` (Pilot deployment + RELEASE TRUST GATE closure)
-**Status:** FROZEN at `v0.9.12-pilot-exec-ready` (current, annotated tag ON the merge commit, pushed); `v0.9.11-pilot-exec-ready` REJECTED FOR LAUNCH (NOT moved); `v0.9.10-pilot-exec-ready` immutable/historical (Pilot execution NOT STARTED)
+**Status:** FROZEN at `v0.9.14-pilot-exec-ready` (current, annotated tag ON the merge commit, pushed); prior freezes historical
 
 > **RELEASE-PROVENANCE CLOSURE + v0.9.11 REJECTION (2026-08-16):** The v0.9.11
 > immutable tag peeled to the merge commit `8801304`, whose notebook is the
@@ -63,7 +61,25 @@ this file superseded freeze chain: v0.9.12 → v0.9.10 → v0.9.9 → v0.9.8 →
 
 ---
 
-## 1. CURRENT FREEZE — `v0.9.12-pilot-exec-ready` (release-provenance closure)
+## 1. CURRENT FREEZE — `v0.9.14-pilot-exec-ready` (artifact refresh)
+
+| Field | Value |
+|---|---|
+| Branch | `main` @ `cb2f7bcabd512bab7efba4c787fdc9b24309f977` (merge(pilot): v0.9.14-pilot-exec-ready final-launch-readiness closure) |
+| Stable source tag | **`v0.9.14-pilot-exec-ready` → peeled commit `cb2f7bcabd512bab7efba4c787fdc9b24309f977`** (== main HEAD == origin/main; annotated tag pushed) |
+| Gate evidence (post-tag) | Source-provenance gate PASS on code files (bundled notebook intentionally modified by finalizer); Notebook == Identity == Actual PASS; archive round-trip + sidecar PASS; 0 unsafe/reserved archive components; 50 transport blobs |
+| Builder | `scripts/build_pilot_upload_bundle.py` + two-pass deterministic `scripts/finalize_pilot_notebook_trust.py` (discovery build with trust gate off, write anchors, validation rebuild with trust gate on) |
+| Notebook trust | freeze report `reports/pilot_notebook_trust_freeze.json` (status FROZEN, source_commit `cb2f7bc…` == tag peel) |
+| Code manifest | `29f116d7fcdb5315fb4bbb5a2f47a2ba6e462c7c163f7e2825a4217b653a0c48` |
+| Data manifest | `8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a` |
+| Repository snapshot manifest | `49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c` |
+| Transport path map | `07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce` |
+| Archive | `dist/pilot-kaggle-upload.zip` — SHA-256 `e21971b40252459fefd93d263814f3a1e725257e468dff404b2b5a540a3bdf29` (sidecar matches) |
+| Full suite | **2,281 passed / 34 skipped / 0 failed** (2026-08-17) |
+| Dry-run | 8/8 smoke profile succeeded (0 failures) |
+| Note | Artifact was rebuilt from stale v0.9.13 dist artifact; v0.9.14 notebook already had correct frozen source tag; manifest hash anchors were stale and updated by the finalizer two-pass freeze |
+
+## 2. Historical — `v0.9.12-pilot-exec-ready` (release-provenance closure)
 
 | Field | Value |
 |---|---|
