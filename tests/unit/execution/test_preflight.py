@@ -13,7 +13,9 @@ from benchmark.execution.preflight import (
     MIN_FREE_VRAM_GIB,
     GpuVramSnapshot,
     KaggleSmokePreflightResult,
+    RepositoryPreflightUnavailableError,
     collect_dependency_versions,
+    load_repo_preflight_evidence,
     render_preflight_table,
     run_kaggle_smoke_preflight,
 )
@@ -630,6 +632,163 @@ class TestRunKaggleSmokePreflight:
             }
         ]
         assert payload["free_vram_after_probe_gib"] == 2.5
+
+
+class TestRepositoryPreflightEvidence:
+    """REPO-PREFLIGHT-EVIDENCE: the repo-preflight gate is fail-closed."""
+
+    def test_missing_evidence_file_raises(self, tmp_path: Path) -> None:
+        with pytest.raises(RepositoryPreflightUnavailableError, match="missing"):
+            load_repo_preflight_evidence(tmp_path / "repo_preflight.json")
+
+    def test_unreadable_evidence_raises(self, tmp_path: Path) -> None:
+        path = tmp_path / "repo_preflight.json"
+        path.write_text("{not json", encoding="utf-8")
+        with pytest.raises(RepositoryPreflightUnavailableError, match="invalid json"):
+            load_repo_preflight_evidence(path)
+
+    def test_non_pass_overall_raises(self, tmp_path: Path) -> None:
+        path = tmp_path / "repo_preflight.json"
+        path.write_text('{"overall": "FAIL"}', encoding="utf-8")
+        with pytest.raises(RepositoryPreflightUnavailableError, match="overall != PASS"):
+            load_repo_preflight_evidence(path)
+
+    def test_pass_overall_returns_evidence(self, tmp_path: Path) -> None:
+        path = tmp_path / "repo_preflight.json"
+        path.write_text(
+            '{"overall": "PASS", "repositories": {"todo": {"passed": true}}}',
+            encoding="utf-8",
+        )
+        evidence = load_repo_preflight_evidence(path)
+        assert evidence["overall"] == "PASS"
+        assert evidence["repositories"]["todo"]["passed"] is True
+
+
+class TestRepositoryPreflightGating:
+    """REPO-PREFLIGHT-GATING: a failed repo preflight blocks the model probe."""
+
+    def _patch(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> list[int]:
+        monkeypatch.setattr(mod, "_python_runtime_status", lambda: ("3.12.13", True))
+        monkeypatch.setattr(
+            mod,
+            "collect_dependency_versions",
+            lambda: (("django", "5.2.16"), ("djangorestframework", "3.17.1")),
+        )
+        staged = Path("fake-staged")
+        monkeypatch.setattr(mod, "_stage_baseline_workspace", lambda data_dir, root: staged)
+        monkeypatch.setattr(mod, "_run_in_workspace", lambda ws, *argv, timeout=180: (0, "", ""))
+
+        probe_calls: list[int] = []
+
+        def _probe(model_path: str, quantization_mode: str) -> dict[str, object]:
+            probe_calls.append(1)
+            return {
+                "model_identity": "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123",
+                "requested_quantization_mode": quantization_mode,
+                "model_checkpoint_basename": "qwen2.5-coder-7b-instruct",
+                "checkpoint_quantization_method": "",
+                "model_memory_footprint_bytes": 4000000000,
+                "device_map_summary": "cuda:0",
+                "gpu_count": 1,
+                "gpu_name": "T4",
+                "gpu_vram_by_device": (GpuVramSnapshot(0, "T4", 12.5, 14.0, 2.5, 14.56),),
+                "allocated_vram_gib": 12.5,
+                "reserved_vram_gib": 14.0,
+                "free_vram_after_probe_gib": 2.5,
+                "probe_prompt_tokens": 8,
+                "probe_completion_tokens": 64,
+            }
+
+        monkeypatch.setattr(mod, "_qwen_probe_metrics", _probe)
+        return probe_calls
+
+    def test_missing_repo_preflight_blocks_model_load(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        probe_calls = self._patch(monkeypatch)
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+            repo_preflight_json_path=tmp_path / "missing-repo-preflight.json",
+        )
+        assert result.passed is False
+        assert probe_calls == [], (
+            "the model probe must never run when the repo preflight failed"
+        )
+        assert any(
+            c.startswith("repository_preflight_evidence: FAIL") for c in result.checks
+        )
+        assert any(
+            c == "baseline_staging: SKIP (repository preflight failed)" for c in result.checks
+        )
+        assert any(
+            c == "manage_py_check: SKIP (repository preflight failed)" for c in result.checks
+        )
+        assert any(
+            c == "makemigrations_check: SKIP (repository preflight failed)" for c in result.checks
+        )
+        assert any(
+            c == "qwen_model_load[bnb-int8]: SKIP (repository preflight failed)"
+            for c in result.checks
+        )
+        assert any(
+            c == "device_map_gpu_only: SKIP (repository preflight failed)" for c in result.checks
+        )
+        assert any(
+            c == "vram_headroom: SKIP (repository preflight failed)" for c in result.checks
+        )
+        assert any(
+            c == "gpu_count_expected: SKIP (repository preflight failed)" for c in result.checks
+        )
+        assert any(
+            c == "checkpoint_not_prequantized: SKIP (repository preflight failed)"
+            for c in result.checks
+        )
+
+    def test_failed_overall_in_evidence_blocks_model_load(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        probe_calls = self._patch(monkeypatch)
+        path = tmp_path / "repo_preflight.json"
+        path.write_text(
+            '{"overall": "FAIL", "repositories": {"saleor": {"passed": false}}}',
+            encoding="utf-8",
+        )
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+            repo_preflight_json_path=path,
+        )
+        assert result.passed is False
+        assert probe_calls == []
+        assert any(
+            c.startswith("repository_preflight_evidence: FAIL") for c in result.checks
+        )
+        assert "overall != PASS" in result.rejection_reason
+
+    def test_pass_overall_in_evidence_allows_model_load(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        probe_calls = self._patch(monkeypatch)
+        path = tmp_path / "repo_preflight.json"
+        path.write_text(
+            '{"overall": "PASS", "repositories": {"todo": {"passed": true}}}',
+            encoding="utf-8",
+        )
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+            repo_preflight_json_path=path,
+        )
+        assert result.passed is True
+        assert probe_calls == [1]
+        assert any(c == "repository_preflight_evidence: PASS" for c in result.checks)
 
 
 class TestCollectGpuVramSnapshots:

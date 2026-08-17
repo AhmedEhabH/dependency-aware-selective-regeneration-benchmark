@@ -29,7 +29,7 @@ import pytest
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
-TARGET_RELEASE_TAG = "v0.9.12-pilot-exec-ready"
+TARGET_RELEASE_TAG = "v0.9.13-pilot-exec-ready"
 
 V0911_TAG_PEEL_COMMIT = "8801304d855fe29c694f2a3c0500f661685b0d72"
 V0911_DEPLOYED_COMMIT = "b87aa49e766a7881e0f5d55c85ceb5594657db60"
@@ -190,6 +190,40 @@ def _write_bundle(
         encoding="utf-8",
     )
     return bundled_root
+
+
+def _load_finalizer() -> Any:
+    return _load_module(
+        "finalize_pilot_notebook_trust_release_provenance",
+        SCRIPTS_DIR / "finalize_pilot_notebook_trust.py",
+    )
+
+
+def _hermetic_frozen_notebook(tmp_path: Path) -> Path:
+    """Freeze a hermetic copy of the canonical notebook via the finalizer bridge.
+
+    Under the hermetic repo-materialization stub the bundled repository snapshot
+    differs from the real pinned trees, so the canonical anchors do not match a
+    hermetic build. Freezing a copy first makes it self-consistent (the exact
+    pattern the deployment-bundle Gate 4 tests use) and yields a notebook whose
+    bytes legitimately differ from the tracked canonical blob - the v0.9.11
+    defect class the acceptance gate must reject.
+    """
+    notebook = tmp_path / "bridge" / "pilot_exec_01.ipynb"
+    notebook.parent.mkdir(parents=True, exist_ok=True)
+    notebook.write_bytes(CANONICAL_NOTEBOOK.read_bytes())
+    _load_finalizer().freeze(
+        notebook_path=notebook,
+        output_root=tmp_path / "bridge" / "pilot-kaggle-upload",
+        archive_path=tmp_path / "bridge" / "pilot-kaggle-upload.zip",
+        source_commit="a" * 40,
+        source_tag=TARGET_RELEASE_TAG,
+        created_utc="2026-08-16T12:00:00+00:00",
+        repo_cache=None,
+        allow_acquire=False,
+        report_path=tmp_path / "bridge" / "report.json",
+    )
+    return notebook
 
 
 class TestGate1ExactV0911ForensicRegression:
@@ -425,7 +459,7 @@ class TestGate4FailClosedSourceCommitValidation:
 
 
 class TestGate5ReleaseTagSequencingContract:
-    """Gate 5: every frozen release constant names the same v0.9.12 target."""
+    """Gate 5: every frozen release constant names the same v0.9.13 target."""
 
     def test_all_release_constants_aligned(self) -> None:
         builder = _load_pilot_builder()
@@ -438,3 +472,136 @@ class TestGate5ReleaseTagSequencingContract:
         assert deployment.PILOT_SOURCE_TAG == TARGET_RELEASE_TAG
         assert contract.EXPECTED_FROZEN_SOURCE_TAG == TARGET_RELEASE_TAG
         assert provisioning.SOURCE_TAG == TARGET_RELEASE_TAG
+
+
+class TestReleaseBuildProvenanceWiring:
+    """Gate 6 (release acceptance wiring): the source-provenance gate must be
+    enforced by validated release builds and by the finalizer's explicit
+    acceptance flag, while the finalizer's internal validation rebuild stays a
+    bridge self-check (fresh anchors predate any commit).
+
+    ``build_pilot_bundle(validate_notebook_trust=True)`` defaults to verifying
+    source provenance; the only way out is the explicit
+    ``verify_source_provenance=False`` used by the finalizer's internal rebuild.
+    """
+
+    def _build(
+        self,
+        tmp_path: Path,
+        label: str,
+        notebook: Path,
+        source_commit: str,
+        *,
+        verify_source_provenance: bool = True,
+    ) -> dict[str, Any]:
+        return _load_pilot_builder().build_pilot_bundle(
+            output_root=tmp_path / f"bundle-{label}",
+            archive_path=tmp_path / f"bundle-{label}.zip",
+            source_commit=source_commit,
+            source_tag=TARGET_RELEASE_TAG,
+            created_utc="2026-08-16T12:00:00+00:00",
+            repo_cache=None,
+            allow_acquire=False,
+            notebook=notebook,
+            validate_notebook_trust=True,
+            verify_source_provenance=verify_source_provenance,
+        )
+
+    def test_validated_build_rejects_refrozen_notebook_at_head(
+        self, tmp_path: Path, hermetic_pilot_repo_materialize: Any
+    ) -> None:
+        """Exact v0.9.11 defect class: the deployed notebook differs from the
+        tracked blob at the declared source commit -> the provenance gate must
+        abort the release build even though embedded trust passes."""
+        notebook = _hermetic_frozen_notebook(tmp_path)
+        with pytest.raises(RuntimeError) as exc:
+            self._build(tmp_path, "refrozen", notebook, _head_sha())
+        assert "PILOT SOURCE-PROVENANCE GATE FAILED" in str(exc.value)
+
+    def test_verify_source_provenance_false_disables_the_gate(
+        self, tmp_path: Path, hermetic_pilot_repo_materialize: Any
+    ) -> None:
+        notebook = _hermetic_frozen_notebook(tmp_path)
+        identity = self._build(
+            tmp_path,
+            "bridge-only",
+            notebook,
+            _head_sha(),
+            verify_source_provenance=False,
+        )
+        assert identity["source_commit"] == _head_sha()
+
+    def test_finalizer_acceptance_gate_fails_on_divergent_commit(
+        self, tmp_path: Path, hermetic_pilot_repo_materialize: Any
+    ) -> None:
+        notebook = tmp_path / "acceptance-fail" / "pilot_exec_01.ipynb"
+        notebook.parent.mkdir(parents=True, exist_ok=True)
+        notebook.write_bytes(CANONICAL_NOTEBOOK.read_bytes())
+        with pytest.raises(RuntimeError) as exc:
+            _load_finalizer().freeze(
+                notebook_path=notebook,
+                output_root=tmp_path / "acceptance-fail" / "pilot-kaggle-upload",
+                archive_path=tmp_path / "acceptance-fail" / "pilot-kaggle-upload.zip",
+                source_commit=V0911_TAG_PEEL_COMMIT,
+                source_tag=TARGET_RELEASE_TAG,
+                created_utc="2026-08-16T12:00:00+00:00",
+                repo_cache=None,
+                allow_acquire=False,
+                report_path=tmp_path / "acceptance-fail" / "report.json",
+                verify_source_provenance=True,
+            )
+        assert "PILOT SOURCE-PROVENANCE GATE FAILED" in str(exc.value)
+
+    def test_finalizer_acceptance_gate_runs_only_on_validation_rebuild(
+        self, tmp_path: Path, hermetic_pilot_repo_materialize: Any, monkeypatch: Any
+    ) -> None:
+        builder = _load_finalizer().load_pilot_builder()
+        calls: list[str] = []
+        monkeypatch.setattr(
+            builder,
+            "validate_source_commit_provenance",
+            lambda source_commit, bundled_root, **kwargs: (
+                calls.append(str(source_commit)) or []
+            ),
+        )
+        notebook = tmp_path / "acceptance-pass" / "pilot_exec_01.ipynb"
+        notebook.parent.mkdir(parents=True, exist_ok=True)
+        notebook.write_bytes(CANONICAL_NOTEBOOK.read_bytes())
+        report = _load_finalizer().freeze(
+            notebook_path=notebook,
+            output_root=tmp_path / "acceptance-pass" / "pilot-kaggle-upload",
+            archive_path=tmp_path / "acceptance-pass" / "pilot-kaggle-upload.zip",
+            source_commit="a" * 40,
+            source_tag=TARGET_RELEASE_TAG,
+            created_utc="2026-08-16T12:00:00+00:00",
+            repo_cache=None,
+            allow_acquire=False,
+            report_path=tmp_path / "acceptance-pass" / "report.json",
+            verify_source_provenance=True,
+        )
+        assert report["status"] == "FROZEN"
+        assert calls == ["a" * 40], (
+            "source provenance must run exactly once: on the validation-enabled "
+            "rebuild, never on the discovery pass and never twice"
+        )
+
+    def test_finalizer_cli_exposes_verify_source_provenance_flag(
+        self, monkeypatch: Any
+    ) -> None:
+        monkeypatch.setattr(
+            sys,
+            "argv",
+            [
+                "finalize_pilot_notebook_trust",
+                "--notebook", str(CANONICAL_NOTEBOOK),
+                "--output-root", "out",
+                "--archive-path", "out.zip",
+                "--source-commit", "a" * 40,
+                "--source-tag", TARGET_RELEASE_TAG,
+                "--created-utc", "2026-08-16T12:00:00+00:00",
+                "--report", "report.json",
+                "--verify-source-provenance",
+            ],
+        )
+        args = _load_finalizer().parse_args()
+        assert args.verify_source_provenance is True

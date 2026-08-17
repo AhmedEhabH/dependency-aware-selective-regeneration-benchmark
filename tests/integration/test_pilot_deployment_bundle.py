@@ -163,7 +163,7 @@ def _build(tmp_path: Path, created_utc: str, source_commit: str, label: str) -> 
     return output_root, archive
 
 
-PILOT_SOURCE_TAG = "v0.9.12-pilot-exec-ready"
+PILOT_SOURCE_TAG = "v0.9.13-pilot-exec-ready"
 
 
 def _build_frozen(
@@ -1322,6 +1322,7 @@ class TestPilotReleaseTrustGate:
             allow_acquire=False,
             notebook=notebook,
             validate_notebook_trust=True,
+            verify_source_provenance=False,
         )
 
     def test_gate1_stale_code_anchor_fails_release_build(self, tmp_path: Path) -> None:

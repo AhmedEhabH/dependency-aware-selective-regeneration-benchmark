@@ -63,3 +63,22 @@ Do not commit, push, merge, tag, reset, stash, force, or delete files unless exp
 - Keep PROJECT_HANDOFF and MASTER_IMPLEMENTATION_PLAN truthful.
 - Update README only when user-facing behavior changes.
 - Stable tag only after a successful Scientific Smoke audit.
+
+## Stop / Blocker Reporting Contract
+
+Before stopping for ANY reason (needs auth, missing input, blocker, task
+complete, uncertain decision, permission rule, resource boundary), print a
+structured report containing:
+
+1. **Execution Identity** — provider, model, branch, HEAD, origin/main, tree state
+2. **Why I Am Stopping** — exact reason; COMPLETE / BLOCKED / NEEDS AUTHORIZATION / NEEDS INPUT
+3. **What I Completed** — per-file table: File | Symbol | Old | New | Why | Dependencies
+4. **Verification Performed** — compile, lint, mypy, tests (PASS/FAIL/NOT RUN/BLOCKED with exact counts)
+5. **Pre-Benchmark Validation** — dataset, prompt, pipeline, dry-run, integration, metrics
+6. **Independent Self-Audit** — objective unchanged, plan adherence, over-engineering, debt, durability, freshness, tag state
+7. **Exact Current State** — where project stops in the pipeline
+8. **What Remains** — ordered remaining tasks
+9. **What I Need From User** — minimum input or `Nothing — I can continue automatically.`
+10. **Recommended Next Action** — exact next command; if existing instructions authorize it, continue without stopping
+
+Never end with only "Proceed?" or a bare question.
