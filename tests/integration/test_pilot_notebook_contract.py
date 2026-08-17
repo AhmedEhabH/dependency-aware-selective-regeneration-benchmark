@@ -324,6 +324,15 @@ class TestRepoPreflight:
         assert "ensurepip" not in preflight
         assert "--strategy" not in preflight and "--max-runs" not in preflight
 
+    def test_model_preflight_gated_on_repo_preflight_evidence(self) -> None:
+        repo_preflight = _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
+        model_preflight = _src(_cells_by_id(_nb())["model-preflight-cell"])
+        assert "PREFLIGHT_JSON" in repo_preflight
+        assert "repo_preflight_json_path=str(PREFLIGHT_JSON)" in model_preflight, (
+            "the model preflight must consume the repo-preflight evidence file so "
+            "a FAILED repo preflight can never be followed by a model load"
+        )
+
 
 class TestKaggleTransportRestore:
     """PILOT-EXEC-01 KAGGLE-FILENAME-TRANSPORT notebook contract.

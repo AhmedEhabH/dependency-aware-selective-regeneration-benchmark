@@ -39,7 +39,7 @@ import urllib.parse
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Sequence, cast
 
 if TYPE_CHECKING:
     from benchmark.repositories.validation_commands import FrozenValidationCommand
@@ -335,6 +335,68 @@ def _tail_output(raw: str, *, max_lines: int = 25) -> str:
     lines = [line.rstrip("\r") for line in raw.splitlines() if line.strip()]
     return "\n".join(lines[-max_lines:])
 
+MAX_LOG_CHARS = 5_000_000
+
+
+def _write_bounded_log(
+    text: str, path: Path, *, limit: int = MAX_LOG_CHARS
+) -> None:
+    """Persist a full command log, capping pathological outputs.
+
+    Keeps the head and the tail (the diagnostic first root cause and the final
+    pytest summary both live at the edges), with an explicit truncation marker
+    that is reserved inside the ``limit`` budget. Untruncated logs are written
+    verbatim.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if len(text) <= limit:
+        path.write_text(text, encoding="utf-8", newline="\n")
+        return
+    marker = f"\n... [TRUNCATED: output exceeded {limit} characters] ...\n"
+    budget = limit - len(marker)
+    if budget <= 0:
+        path.write_text(marker, encoding="utf-8", newline="\n")
+        return
+    head_len = budget // 2
+    tail_len = budget - head_len
+    path.write_text(
+        text[:head_len] + marker + text[-tail_len:],
+        encoding="utf-8",
+        newline="\n",
+    )
+
+
+def _load_lastfailed(staging_dir: Path) -> tuple[int, tuple[str, ...]] | None:
+    """Parse the pytest ``lastfailed`` cache left by the primary run.
+
+    Must be called BEFORE any serial rerun (a rerun rewrites the cache).
+    Returns ``(count, sorted_nodeids)`` or ``None`` when absent/unreadable.
+    """
+    cache = staging_dir / ".pytest_cache" / "v" / "cache" / "lastfailed"
+    if not cache.is_file():
+        return None
+    try:
+        data = json.loads(cache.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    if not isinstance(data, dict):
+        return None
+    nodeids = tuple(sorted(str(key) for key in data if isinstance(key, str)))
+    return len(nodeids), nodeids
+
+
+def _group_failures_by_source_file(nodeids: tuple[str, ...]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for nodeid in nodeids:
+        source = nodeid.split("::", 1)[0]
+        counts[source] = counts.get(source, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _failed_subtree_prefixes(nodeids: tuple[str, ...]) -> tuple[str, ...]:
+    prefixes = {Path(nodeid.split("::", 1)[0]).parent.as_posix() for nodeid in nodeids}
+    return tuple(sorted(prefixes))
+
 
 def _host_port_from_url(url: str) -> tuple[str, int] | None:
     parsed = urllib.parse.urlparse(url)
@@ -431,11 +493,14 @@ def apply_windows_infra_workarounds(staged_dir: Path, repo_id: str) -> list[str]
 
 
 def _run_command(
-    argv: list[str],
+    argv: Sequence[str],
     cwd: Path,
     env: dict[str, str],
     timeout: int,
     label: str,
+    *,
+    logs_dir: Path | None = None,
+    log_prefix: str = "",
 ) -> dict[str, object]:
     start = time.monotonic()
     try:
@@ -448,34 +513,203 @@ def _run_command(
             timeout=timeout,
         )
         duration = round(time.monotonic() - start, 2)
-        return {
+        combined = proc.stdout + proc.stderr
+        record: dict[str, object] = {
             "label": label,
             "command": argv,
             "passed": proc.returncode == 0,
             "exit_code": proc.returncode,
             "duration_seconds": duration,
-            "output_tail": _tail_output(proc.stdout + proc.stderr),
+            "output_tail": _tail_output(combined),
         }
     except subprocess.TimeoutExpired as exc:
         duration = round(time.monotonic() - start, 2)
-        return {
+        parts: list[str] = []
+        out = getattr(exc, "output", None)
+        if out:
+            parts.append(out if isinstance(out, str) else out.decode(errors="replace"))
+        err = getattr(exc, "stderr", None)
+        if err:
+            parts.append(err if isinstance(err, str) else err.decode(errors="replace"))
+        combined = "\n".join(parts) if parts else ""
+        record = {
             "label": label,
             "command": argv,
             "passed": False,
             "exit_code": -1,
             "duration_seconds": duration,
-            "output_tail": _tail_output(str(getattr(exc, "output", "") or "")),
+            "output_tail": _tail_output(combined),
         }
     except FileNotFoundError:
         duration = round(time.monotonic() - start, 2)
-        return {
+        combined = f"command not found: {argv[0]}"
+        record = {
             "label": label,
             "command": argv,
             "passed": False,
             "exit_code": -1,
             "duration_seconds": duration,
-            "output_tail": f"command not found: {argv[0]}",
+            "output_tail": combined,
         }
+    if logs_dir is not None:
+        log_file = logs_dir / f"{log_prefix}-{label}.log"
+        _write_bounded_log(combined, log_file)
+        record["log_path"] = log_file.relative_to(logs_dir.parent).as_posix()
+    return record
+
+
+_DIAGNOSTIC_VERSIONS_SNIPPET = r"""import json, os, sys, platform, time
+out = {
+    "python_version": "%d.%d.%d" % sys.version_info[:3],
+    "platform": platform.platform(),
+    "timezone": (time.tzname[0] if time.tzname else ""),
+    "cpu_count": os.cpu_count(),
+    "pytest_version": getattr(__import__("pytest"), "__version__", ""),
+}
+try:
+    out["xdist_version"] = __import__("xdist").__version__
+except Exception as exc:
+    out["xdist_version"] = "unavailable: %s" % type(exc).__name__
+try:
+    db_url = os.environ.get("DATABASE_URL", "")
+    conn_mod = None
+    try:
+        import psycopg2 as conn_mod
+    except Exception:
+        try:
+            import psycopg as conn_mod
+        except Exception:
+            pass
+    if conn_mod is not None and db_url:
+        conn = conn_mod.connect(db_url)
+        cur = conn.cursor()
+        cur.execute("SHOW server_version")
+        out["postgresql_server_version"] = str(cur.fetchone()[0])
+        conn.close()
+    else:
+        out["postgresql_server_version"] = "no DATABASE_URL or driver"
+except Exception as exc:
+    out["postgresql_server_version"] = "unavailable: %s" % type(exc).__name__
+try:
+    import redis
+    info = redis.Redis.from_url(os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/0")).info("server")
+    out["redis_server_version"] = str(info.get("redis_version", info.get("valkey_version", "")))
+except Exception as exc:
+    out["redis_server_version"] = "unavailable: %s" % type(exc).__name__
+print(json.dumps(out, sort_keys=True))
+"""
+
+
+def _collect_diagnostic_versions(
+    python: str, env: dict[str, str], *, timeout: int = 90
+) -> dict[str, object]:
+    """Best-effort environment versions (python/platform/PG/Redis)."""
+    try:
+        proc = subprocess.run(
+            [python, "-c", _DIAGNOSTIC_VERSIONS_SNIPPET],
+            cwd=str(PROJECT_ROOT),
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+        )
+        if proc.returncode != 0:
+            return {
+                "error": (
+                    f"exit={proc.returncode}: "
+                    f"{_tail_output(proc.stdout + proc.stderr)}"
+                )
+            }
+        payload = json.loads(proc.stdout)
+        if not isinstance(payload, dict):
+            return {"error": "unexpected non-object stdout"}
+        return payload
+    except Exception as exc:
+        return {"error": f"{type(exc).__name__}: {exc}"}
+
+
+def _run_lastfailed_serial(
+    python: str,
+    staging_dir: Path,
+    env: dict[str, str],
+    timeout: int,
+    logs_dir: Path | None,
+) -> dict[str, object]:
+    """Serial, single-process rerun of just the lastfailed tests.
+
+    Diagnostic-only: the result is never added to the declared command list and
+    never changes the primary verdict.
+    """
+    argv = [python, "-m", "pytest", "--lf", "-n", "0", "-x", "-vv", "--tb=long"]
+    return _run_command(
+        argv,
+        staging_dir,
+        env,
+        timeout,
+        "lastfailed-serial",
+        logs_dir=logs_dir,
+        log_prefix=staging_dir.name,
+    )
+
+
+_SKIPPED_NO_LASTFAILED: dict[str, object] = {
+    "lastfailed_serial_status": "SKIPPED_NO_LASTFAILED",
+    "lastfailed_serial_command": None,
+    "lastfailed_serial_exit_code": None,
+    "lastfailed_serial_passed": None,
+    "lastfailed_serial_output_tail": "",
+    "lastfailed_serial_log_path": "",
+}
+
+
+def _collect_saleor_failure_diagnostics(
+    *,
+    python: str,
+    staging_dir: Path,
+    env: dict[str, str],
+    timeout: int,
+    primary: dict[str, object],
+    logs_dir: Path | None,
+) -> dict[str, object]:
+    """Persistable evidence for a FAILED Saleor primary run.
+
+    Captures the pytest ``lastfailed`` cache BEFORE the serial rerun, groups the
+    failing nodeids by source file and subtree prefix, and runs a serial
+    ``--lf`` rerun to prove whether the failures reproduce head-of-file.
+
+    The serial diagnostic is only executed when the primary run left a non-empty
+    ``lastfailed`` cache.  An absent, unreadable, or empty cache is recorded as
+    ``SKIPPED_NO_LASTFAILED`` so the diagnostic can never accidentally become a
+    full serial Saleor suite.
+    """
+    lastfailed = _load_lastfailed(staging_dir)
+    nodeids = lastfailed[1] if lastfailed is not None else ()
+    if lastfailed is not None and len(nodeids) > 0:
+        raw = _run_lastfailed_serial(python, staging_dir, env, timeout, logs_dir)
+        serial: dict[str, object] = {
+            "lastfailed_serial_status": "RAN",
+            "lastfailed_serial_command": raw.get("command"),
+            "lastfailed_serial_exit_code": raw.get("exit_code"),
+            "lastfailed_serial_passed": raw.get("passed"),
+            "lastfailed_serial_output_tail": raw.get("output_tail", ""),
+            "lastfailed_serial_log_path": raw.get("log_path", ""),
+        }
+    else:
+        serial = dict(_SKIPPED_NO_LASTFAILED)
+    return {
+        "repo_id": "saleor",
+        "primary_command": primary.get("command"),
+        "primary_exit_code": primary.get("exit_code"),
+        "primary_command_log_path": primary.get("log_path", ""),
+        "failed_count": len(nodeids),
+        "failed_nodeids": list(nodeids),
+        "failures_by_source_file": _group_failures_by_source_file(nodeids),
+        "failed_subtree_prefixes": list(_failed_subtree_prefixes(nodeids)),
+        "lastfailed_cache_read": lastfailed is not None,
+        **serial,
+        "diagnostic_versions": _collect_diagnostic_versions(python, env),
+        "created_utc": datetime.now(UTC).isoformat(),
+    }
 
 
 def run_repo_preflight(
@@ -487,6 +721,8 @@ def run_repo_preflight(
     timeout: int,
     pins: tuple[RepositoryPin, ...] = DEFAULT_PINS,
     repo_source: Path | None = None,
+    logs_dir: Path | None = None,
+    diagnostics_dir: Path | None = None,
 ) -> dict[str, object]:
     """Materialize one pristine snapshot and run every frozen command in it.
 
@@ -540,10 +776,18 @@ def run_repo_preflight(
             for idx, extra in enumerate(command.resolved_additional_commands(venv_python))
         ),
     ):
-        result = _run_command(argv, staging_dir, env, timeout, label)
+        result = _run_command(
+            argv,
+            staging_dir,
+            env,
+            timeout,
+            label,
+            logs_dir=logs_dir,
+            log_prefix=repo_id,
+        )
         runs.append(result)
         all_passed = all_passed and bool(result["passed"])
-    return {
+    result_record: dict[str, object] = {
         "repo_id": repo_id,
         "mode": evidence.mode,
         "requested_sha": evidence.requested_sha,
@@ -557,6 +801,32 @@ def run_repo_preflight(
         "command_passed": all_passed,
         "passed": all_passed and services_passed,
     }
+    if (
+        repo_id == "saleor"
+        and diagnostics_dir is not None
+        and runs
+        and not bool(runs[0].get("passed"))
+    ):
+        diagnostics_dir.mkdir(parents=True, exist_ok=True)
+        diagnostics = _collect_saleor_failure_diagnostics(
+            python=venv_python,
+            staging_dir=staging_dir,
+            env=env,
+            timeout=timeout,
+            primary=runs[0],
+            logs_dir=logs_dir,
+        )
+        diagnostics_path = diagnostics_dir / "saleor_failure_diagnostics.json"
+        diagnostics_path.write_text(
+            json.dumps(diagnostics, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        result_record["failure_diagnostics"] = {
+            "path": diagnostics_path.relative_to(diagnostics_dir).as_posix(),
+            "failed_count": diagnostics["failed_count"],
+            "failed_subtree_prefixes": diagnostics["failed_subtree_prefixes"],
+        }
+    return result_record
 
 
 def run_preflight(
@@ -594,6 +864,8 @@ def run_preflight(
                 command=command,
                 timeout=timeout,
                 repo_source=(repo_sources or {}).get(repo_id),
+                logs_dir=staging_root / "logs",
+                diagnostics_dir=staging_root,
             )
         except Exception as exc:
             result = {

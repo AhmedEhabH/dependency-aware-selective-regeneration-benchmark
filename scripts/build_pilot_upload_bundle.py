@@ -627,6 +627,8 @@ def build_pilot_bundle(
     allow_acquire: bool = False,
     notebook: Path | None = None,
     validate_notebook_trust: bool = True,
+    *,
+    verify_source_provenance: bool = True,
 ) -> dict[str, Any]:
     if output_root.resolve() == HISTORICAL_SMOKE_UPLOAD.resolve():
         raise RuntimeError("refusing to build the Pilot bundle over the historical Smoke bundle")
@@ -699,6 +701,19 @@ def build_pilot_bundle(
                 "PILOT DEPLOYMENT MANIFEST/MAP SHA MISMATCH - embedded notebook "
                 "trust validation FAILED (stale frozen anchors in the bundled "
                 "notebook):\n- " + "\n- ".join(mismatches)
+            )
+
+    if validate_notebook_trust and verify_source_provenance:
+        provenance_mismatches = validate_source_commit_provenance(
+            source_commit=source_commit,
+            bundled_root=output_root,
+            notebook_source_path=f"notebooks/{notebook_path.name}",
+        )
+        if provenance_mismatches:
+            raise RuntimeError(
+                "PILOT SOURCE-PROVENANCE GATE FAILED - the deployed artifact is "
+                "not a truthful snapshot of the release commit:\n- "
+                + "\n- ".join(provenance_mismatches)
             )
 
     archive_sha = create_deterministic_zip(output_root, archive_path, created_utc)

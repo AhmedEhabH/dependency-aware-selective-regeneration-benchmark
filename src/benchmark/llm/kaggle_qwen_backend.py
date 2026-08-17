@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import asyncio
 import gc
 import hashlib
 import json
@@ -307,19 +306,20 @@ class KaggleQwenBackend:
 
         Engineering evidence only: never counted as scientific model calls or
         tokens. Uses a fixed seed and greedy sampling.
+
+        This runs fully synchronously and MUST never drive its own event loop:
+        it is executed inside the already-running ipykernel loop of the pilot
+        notebook's model-preflight cell, where ``asyncio.run`` would raise
+        ``RuntimeError: asyncio.run() cannot be called from a running event loop``.
         """
         self._ensure_loaded()
+        try:
+            import torch
 
-        async def _run() -> LLMResponse:
-            try:
-                import torch
-
-                torch.manual_seed(0)
-            except Exception:
-                pass
-            return await self.generate(prompt=prompt, temperature=0.0, max_tokens=max_tokens)
-
-        return asyncio.run(_run())
+            torch.manual_seed(0)
+        except Exception:
+            pass
+        return self._generate_sync(prompt=prompt, temperature=0.0, max_tokens=max_tokens)
 
     def count_prompt_tokens(self, prompt: str) -> int:
         self._ensure_loaded()
@@ -334,6 +334,14 @@ class KaggleQwenBackend:
             ) from exc
 
     async def generate(
+        self,
+        prompt: str,
+        temperature: float = 0.0,
+        max_tokens: int = 4096,
+    ) -> LLMResponse:
+        return self._generate_sync(prompt=prompt, temperature=temperature, max_tokens=max_tokens)
+
+    def _generate_sync(
         self,
         prompt: str,
         temperature: float = 0.0,

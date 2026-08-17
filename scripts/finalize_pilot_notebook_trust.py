@@ -51,9 +51,15 @@ DEFAULT_REPO_CACHE = PROJECT_ROOT / "dist" / "pilot-repo-cache"
 DEFAULT_REPORT = PROJECT_ROOT / "reports" / "pilot_notebook_trust_freeze.json"
 
 
+_PILOT_BUILDER_MODULE_NAME = "build_pilot_upload_bundle_trust_freeze"
+
+
 def load_pilot_builder() -> Any:
+    cached = sys.modules.get(_PILOT_BUILDER_MODULE_NAME)
+    if cached is not None:
+        return cached
     spec = importlib.util.spec_from_file_location(
-        "build_pilot_upload_bundle_trust_freeze",
+        _PILOT_BUILDER_MODULE_NAME,
         str(SCRIPTS_DIR / "build_pilot_upload_bundle.py"),
     )
     if spec is None or spec.loader is None:
@@ -120,6 +126,8 @@ def freeze(
     repo_cache: Path | None,
     allow_acquire: bool,
     report_path: Path,
+    *,
+    verify_source_provenance: bool = False,
 ) -> dict[str, Any]:
     if len(source_commit) != 40 or not all(c in "0123456789abcdef" for c in source_commit):
         raise ValueError(f"source_commit must be a 40-char lowercase hex SHA, got {source_commit!r}")
@@ -137,6 +145,9 @@ def freeze(
             allow_acquire=allow_acquire,
             notebook=notebook_path,
             validate_notebook_trust=validate,
+            verify_source_provenance=(
+                validate and verify_source_provenance
+            ),
         )
         archive_sha = hashlib.sha256(archive_path.read_bytes()).hexdigest()
         if identity["source_commit"] != source_commit:
@@ -255,6 +266,16 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--created-utc", type=str, required=True)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
+    parser.add_argument(
+        "--verify-source-provenance",
+        action="store_true",
+        default=False,
+        help=(
+            "Also run the fail-closed source-commit provenance gate on the "
+            "validation-enabled rebuild (source_commit must equal the release "
+            "merge SHA)."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -270,6 +291,7 @@ def main() -> int:
         repo_cache=args.repo_cache,
         allow_acquire=args.allow_acquire,
         report_path=args.report,
+        verify_source_provenance=args.verify_source_provenance,
     )
     return 0
 

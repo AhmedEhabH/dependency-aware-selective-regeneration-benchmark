@@ -18,13 +18,17 @@ Covers:
 from __future__ import annotations
 
 import importlib.util
+import json
 import shutil
 import subprocess
 import sys
+import types
 from pathlib import Path
 from typing import Any
 
 import pytest
+
+from benchmark.repositories.validation_commands import FrozenValidationCommand
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
@@ -258,3 +262,319 @@ class TestTreeHashContract:
         assert pins["todo"].mode == "embedded"
         assert pins["djangocms"].mode == "git"
         assert pins["saleor"].mode == "git"
+
+
+class TestBoundedCommandLogs:
+    """SALEOR-DIAGNOSTICS: bounded full-output logs + relative ``log_path``."""
+
+    def _fake_run(self, argv: list[str], **kwargs: object) -> types.SimpleNamespace:
+        if argv[:2] == ["python", "-c"]:
+            return types.SimpleNamespace(
+                returncode=0,
+                stdout='{"python_version": "3.11.0", "platform": "test"}',
+                stderr="",
+            )
+        if "--lf" in argv:
+            return types.SimpleNamespace(
+                returncode=0, stdout="2 passed, 317 deselected, 1 skipped in 3.00s", stderr=""
+            )
+        if "--collect-only" in argv:
+            return types.SimpleNamespace(returncode=0, stdout="collected 1 item", stderr="")
+        body = "\n".join(f"line_{i:04d}" for i in range(400))
+        return types.SimpleNamespace(
+            returncode=1,
+            stdout="",
+            stderr=(
+                "=================== FAILURES ===================\n"
+                f"{body}\n"
+                "FAILED saleor/graphql/checkout/tests/test_checkout.py::test_one\n"
+                "319 failed, 6056 passed, 1 skipped in 512.00s\n"
+            ),
+        )
+
+    def test_run_command_persists_full_primary_log_beyond_tail_cap(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        monkeypatch.setattr(snapshot_mod.subprocess, "run", self._fake_run)
+        logs_dir = tmp_path / "logs"
+        record = snapshot_mod._run_command(
+            ["python", "-m", "pytest", "-q", "saleor/graphql/checkout/tests"],
+            cwd=tmp_path,
+            env={},
+            timeout=30,
+            label="primary",
+            logs_dir=logs_dir,
+            log_prefix="saleor",
+        )
+        assert record["passed"] is False
+        assert record["exit_code"] == 1
+        assert record["log_path"] == "logs/saleor-primary.log"
+        log_file = logs_dir / "saleor-primary.log"
+        assert log_file.is_file()
+        content = log_file.read_text(encoding="utf-8")
+        assert content.count("line_") == 400, "the full body must be persisted, not just the tail"
+        assert "319 failed, 6056 passed" in content
+        assert "line_0001" not in record["output_tail"], (
+            "output_tail keeps only the last 25 lines; the persisted log must exceed it"
+        )
+
+    def test_bounded_log_cap_keeps_head_and_tail(
+        self, tmp_path: Path
+    ) -> None:
+        path = tmp_path / "bounded.log"
+        text = "A" * 500 + "MIDDLE" + "Z" * 500
+        snapshot_mod._write_bounded_log(text, path, limit=300)
+        content = path.read_text(encoding="utf-8")
+        assert content.startswith("A" * 100)
+        assert content.endswith("Z" * 100)
+        assert "[TRUNCATED" in content
+        assert len(content) <= 300
+
+
+class TestSaleorFailureDiagnostics:
+    """SALEOR-DIAGNOSTICS: persist the primary failure artifact and prove the
+    serial last-failed rerun never changes the primary verdict."""
+
+    @staticmethod
+    def _nodeids() -> tuple[str, ...]:
+        return tuple(
+            f"saleor/graphql/checkout/tests/test_checkout_{i % 64}.py::test_case_{i}"
+            for i in range(319)
+        )
+
+    def _write_lastfailed(self, staging_dir: Path) -> None:
+        cache = staging_dir / ".pytest_cache" / "v" / "cache"
+        cache.mkdir(parents=True, exist_ok=True)
+        (cache / "lastfailed").write_text(
+            json.dumps(dict.fromkeys(self._nodeids(), True)), encoding="utf-8"
+        )
+
+    def _saleor_command(self) -> FrozenValidationCommand:
+        return FrozenValidationCommand(
+            repo_id="saleor",
+            scenario_ids=("saleor-loc-001",),
+            dependency_runtime="poetry",
+            dependency_file="pyproject.toml",
+            services=("postgresql", "valkey"),
+            env=(
+                ("DATABASE_URL", "postgres://saleor:saleor@127.0.0.1:5433/saleor"),
+                ("REDIS_URL", "redis://127.0.0.1:6379/0"),
+            ),
+            command=("{python}", "-m", "pytest", "-q", "saleor/graphql/checkout/tests"),
+            additional_commands=(("{python}", "-m", "pytest", "--collect-only", "-q"),),
+            description="saleor baseline validation",
+        )
+
+    def _patch_runtime(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setattr(snapshot_mod.subprocess, "run", TestBoundedCommandLogs()._fake_run)
+        monkeypatch.setattr(snapshot_mod, "_copy_embedded_tree", lambda source, target: None)
+        monkeypatch.setattr(
+            snapshot_mod, "_service_reachable", lambda url, timeout=5.0: True
+        )
+
+    def test_load_lastfailed_parses_319_checkout_nodeids(self, tmp_path: Path) -> None:
+        staging_dir = tmp_path / "staging"
+        staging_dir.mkdir()
+        self._write_lastfailed(staging_dir)
+        count, nodeids = snapshot_mod._load_lastfailed(staging_dir)
+        assert count == 319
+        assert len(nodeids) == 319
+        assert all(n.startswith("saleor/graphql/checkout/tests") for n in nodeids)
+        assert nodeids == tuple(sorted(nodeids))
+
+    def test_load_lastfailed_missing_cache_returns_none(self, tmp_path: Path) -> None:
+        staging_dir = tmp_path / "staging"
+        staging_dir.mkdir()
+        assert snapshot_mod._load_lastfailed(staging_dir) is None
+
+    def test_run_repo_preflight_writes_diagnostics_without_touching_primary_verdict(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch_runtime(monkeypatch)
+        run_root = tmp_path / "run"
+        staging_dir = run_root / "repo_staging" / "saleor"
+        staging_dir.mkdir(parents=True, exist_ok=True)
+        (staging_dir / "saleor" / "core").mkdir(parents=True, exist_ok=True)
+        (staging_dir / "saleor" / "core" / "rlimit.py").write_text(
+            "# dummy; contains: except ImportError\n", encoding="utf-8"
+        )
+        self._write_lastfailed(staging_dir)
+        repo_source = tmp_path / "saleor-src"
+        repo_source.mkdir()
+
+        result = snapshot_mod.run_repo_preflight(
+            repo_id="saleor",
+            staging_dir=staging_dir,
+            repo_cache=None,
+            venv_python="python",
+            command=self._saleor_command(),
+            timeout=300,
+            repo_source=repo_source,
+            logs_dir=run_root / "logs",
+            diagnostics_dir=run_root,
+        )
+
+        primary = result["commands"][0]
+        assert primary["label"] == "primary"
+        assert primary["passed"] is False
+        assert primary["exit_code"] == 1
+        assert primary["log_path"] == "logs/saleor-primary.log"
+        primary_log = (run_root / "logs" / "saleor-primary.log").read_text(encoding="utf-8")
+        assert "319 failed, 6056 passed, 1 skipped" in primary_log
+
+        diag_path = run_root / "saleor_failure_diagnostics.json"
+        assert diag_path.is_file()
+        payload = json.loads(diag_path.read_text(encoding="utf-8"))
+        assert payload["repo_id"] == "saleor"
+        assert payload["primary_exit_code"] == 1
+        assert payload["primary_command"][:2] == ["python", "-m"]
+        assert payload["failed_count"] == 319
+        assert payload["failed_nodeids"] == sorted(payload["failed_nodeids"])
+        assert len(payload["failed_nodeids"]) == 319
+        assert all(
+            n.startswith("saleor/graphql/checkout/tests") for n in payload["failed_nodeids"]
+        )
+        assert payload["failures_by_source_file"]["saleor/graphql/checkout/tests/test_checkout_0.py"] > 0
+        assert payload["failed_subtree_prefixes"] == ["saleor/graphql/checkout/tests"]
+        assert payload["lastfailed_serial_status"] == "RAN"
+        assert payload["lastfailed_serial_command"] == [
+            "python",
+            "-m",
+            "pytest",
+            "--lf",
+            "-n",
+            "0",
+            "-x",
+            "-vv",
+            "--tb=long",
+        ]
+        assert payload["lastfailed_serial_exit_code"] == 0
+        assert payload["lastfailed_serial_passed"] is True
+        assert payload["lastfailed_serial_log_path"] == "logs/saleor-lastfailed-serial.log"
+        assert payload["diagnostic_versions"]["python_version"] == "3.11.0"
+
+        assert result["passed"] is False, "diagnostics must never flip the primary verdict"
+        serial = [r for r in result["commands"] if r["label"] == "additional-1"]
+        assert serial == [], "the serial rerun is diagnostic-only and not a declared command"
+
+    # --- lastfailed-guard tests (audit delta) --------------------------------
+
+    @staticmethod
+    def _primary_record() -> dict[str, object]:
+        return {
+            "label": "primary",
+            "command": ["python", "-m", "pytest", "-q"],
+            "passed": False,
+            "exit_code": 1,
+            "log_path": "logs/saleor-primary.log",
+        }
+
+    def _call_diagnostics(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        staging_dir: Path,
+        logs_dir: Path | None = None,
+    ) -> dict[str, object]:
+        spy_calls: list[str] = []
+        _orig = snapshot_mod._run_lastfailed_serial
+
+        def _spy(*args: object, **kwargs: object) -> dict[str, object]:
+            spy_calls.append("called")
+            return _orig(*args, **kwargs)  # type: ignore[no-any-return]
+
+        monkeypatch.setattr(snapshot_mod, "_run_lastfailed_serial", _spy)
+        diag = snapshot_mod._collect_saleor_failure_diagnostics(
+            python="python",
+            staging_dir=staging_dir,
+            env={},
+            timeout=30,
+            primary=self._primary_record(),
+            logs_dir=logs_dir,
+        )
+        return diag, spy_calls
+
+    def test_missing_lastfailed_skips_serial_subprocess(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        staging = tmp_path / "staging"
+        staging.mkdir()
+        diag, spy = self._call_diagnostics(monkeypatch, staging)
+        assert spy == [], "no serial pytest invocation when lastfailed cache is absent"
+        assert diag["lastfailed_serial_status"] == "SKIPPED_NO_LASTFAILED"
+        assert diag["lastfailed_serial_command"] is None
+        assert diag["lastfailed_serial_exit_code"] is None
+        assert diag["lastfailed_serial_passed"] is None
+        assert diag["failed_count"] == 0
+        assert diag["failed_nodeids"] == []
+        assert diag["lastfailed_cache_read"] is False
+
+    def test_empty_lastfailed_skips_serial_subprocess(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        staging = tmp_path / "staging"
+        staging.mkdir()
+        cache = staging / ".pytest_cache" / "v" / "cache"
+        cache.mkdir(parents=True)
+        (cache / "lastfailed").write_text("{}", encoding="utf-8")
+        diag, spy = self._call_diagnostics(monkeypatch, staging)
+        assert spy == [], "no serial pytest invocation when lastfailed cache is empty"
+        assert diag["lastfailed_serial_status"] == "SKIPPED_NO_LASTFAILED"
+        assert diag["failed_count"] == 0
+        assert diag["lastfailed_cache_read"] is True
+
+    def test_malformed_lastfailed_skips_serial_subprocess(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        staging = tmp_path / "staging"
+        staging.mkdir()
+        cache = staging / ".pytest_cache" / "v" / "cache"
+        cache.mkdir(parents=True)
+        (cache / "lastfailed").write_text("[not-a-dict]", encoding="utf-8")
+        diag, spy = self._call_diagnostics(monkeypatch, staging)
+        assert spy == [], "no serial pytest invocation when lastfailed cache is malformed"
+        assert diag["lastfailed_serial_status"] == "SKIPPED_NO_LASTFAILED"
+        assert diag["failed_count"] == 0
+        assert diag["lastfailed_cache_read"] is False
+
+    def test_nonempty_lastfailed_runs_serial_subprocess(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        staging = tmp_path / "staging"
+        staging.mkdir()
+        self._write_lastfailed(staging)
+        diag, spy = self._call_diagnostics(monkeypatch, staging)
+        assert spy == ["called"], "serial pytest must run when lastfailed is non-empty"
+        assert diag["lastfailed_serial_status"] == "RAN"
+        assert diag["lastfailed_serial_command"] is not None
+        assert diag["failed_count"] == 319
+
+    def test_all_guard_cases_keep_primary_verdict_fail(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        """Every possible lastfailed state must preserve the FAIL verdict."""
+
+        def _write_empty_cache(d: Path) -> None:
+            cache = d / ".pytest_cache" / "v" / "cache"
+            cache.mkdir(parents=True)
+            (cache / "lastfailed").write_text("{}", encoding="utf-8")
+
+        def _write_bad_cache(d: Path) -> None:
+            cache = d / ".pytest_cache" / "v" / "cache"
+            cache.mkdir(parents=True)
+            (cache / "lastfailed").write_text("bad", encoding="utf-8")
+
+        setcases: list[tuple[str, Any]] = [
+            ("missing", lambda d: None),
+            ("empty", _write_empty_cache),
+            ("malformed", _write_bad_cache),
+            ("nonempty", self._write_lastfailed),
+        ]
+        for label, setup in setcases:
+            staging = tmp_path / f"staging-{label}"
+            staging.mkdir()
+            setup(staging)
+            diag, _ = self._call_diagnostics(monkeypatch, staging)
+            assert diag["primary_exit_code"] == 1, f"FAIL verdict flipped for {label}"
+            assert diag["failed_count"] >= 0
