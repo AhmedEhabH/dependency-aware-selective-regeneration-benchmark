@@ -459,7 +459,7 @@ class TestGate4FailClosedSourceCommitValidation:
 
 
 class TestGate5ReleaseTagSequencingContract:
-    """Gate 5: every frozen release constant names the same v0.9.13 target."""
+    """Gate 5: every frozen release constant names the same v0.9.14 target."""
 
     def test_all_release_constants_aligned(self) -> None:
         builder = _load_pilot_builder()
