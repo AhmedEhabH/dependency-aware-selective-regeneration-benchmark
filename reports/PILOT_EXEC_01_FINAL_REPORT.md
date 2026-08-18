@@ -1,14 +1,12 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
-> **NOTE (2026-08-18, LATEST):** v0.9.16-pilot-exec-ready RELEASE-ONLY CLOSURE.
-> Independent audit found: (1) dist/pilot-kaggle-upload.zip still v0.9.14,
-> (2) notebook code-manifest SHA stale at 29f116d7..., (3) commit 0fecf03
-> single-parent (not non-ff merge). v0.9.14 REJECTED (artifact provenance
-> mismatch); v0.9.15 REJECTED FOR ACCEPTED PILOT LAUNCH (release finalization
-> not completed). v0.9.16 corrects all: notebook anchors frozen with correct
-> code_manifest_sha256 c3c7a8b5..., non-ff merge to main, artifact built from
-> merge SHA with trust + source-provenance gates ON. No production/scientific
-> code changes. Carried full suite 2,301 passed / 34 skipped / 0 failed.
+> **NOTE (2026-08-18, LATEST):** v0.9.18-pilot-exec-ready TAG-PROVENANCE/DOCS CORRECTION.
+> v0.9.17 tag/source-commit release-provenance mismatch (immutable tag peel
+> `28a18e6` != artifact source_commit `adf72d4`). v0.9.17 REJECTED FOR ACCEPTED
+> PILOT LAUNCH — PGDG fix is GOOD but the tag was created on post-artifact
+> freeze-report commit, not on the merge SHA. v0.9.18 corrects: release-only
+> provenance/docs correction, no production/scientific code changes.
+> Carried full suite 2,320 passed / 34 skipped / 0 failed.
 
 > **NOTE (2026-08-16, LATEST):** superseded by the PILOT-EXEC-01
 > RELEASE-PROVENANCE CLOSURE — **`v0.9.11-pilot-exec-ready` REJECTED FOR LAUNCH;
