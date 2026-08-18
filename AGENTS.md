@@ -36,12 +36,13 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-- **Candidate tag:** `v0.9.16-pilot-exec-ready`
-- **Branch:** `fix/pilot-v0916-release-only-closure`
+- **Candidate tag:** `v0.9.17-pilot-exec-ready`
+- **Branch:** `fix/pilot-v0917-pgdg-bootstrap-closure`
 - **Source commit:** HEAD at merge time
 - **v0.9.14 status:** REJECTED — artifact notebook provenance did not match immutable tag notebook
 - **v0.9.15 status:** REJECTED FOR ACCEPTED PILOT LAUNCH — release finalization/artifact not completed (dist artifact still v0.9.14; code-manifest SHA stale; single-parent commit)
-- **v0.9.16 status:** CANDIDATE — release-only closure (no production behavior changes)
+- **v0.9.16 status:** RELEASE-ONLY CLOSURE (no production behavior changes; notebook anchors corrected)
+- **v0.9.17 status:** CANDIDATE — PGDG bootstrap fix for real Kaggle failure (shell-string elimination, Deb822 + direct curl)
 
 ## Validation order
 
