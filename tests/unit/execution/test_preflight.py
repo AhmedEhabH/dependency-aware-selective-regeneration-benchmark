@@ -1240,7 +1240,7 @@ class TestValidatePilotLaunchAuthorization:
                 "strategy_id": strats[i],
                 "repetition": 1 if i < 24 else 2,
                 "source_commit": source_commit,
-                "source_tag": "v0.9.16-pilot-exec-ready",
+                "source_tag": "v0.9.17-pilot-exec-ready",
                 "model_calls": 0,
                 "total_tokens": 0,
             }))
@@ -1250,7 +1250,7 @@ class TestValidatePilotLaunchAuthorization:
             "profile": "pilot",
             "protocol_version": "1.0",
             "source_commit": source_commit,
-            "source_tag": "v0.9.16-pilot-exec-ready",
+            "source_tag": "v0.9.17-pilot-exec-ready",
             "deployed_build_id": "build-001",
             "model_identity": "dry-run:mock",
         }), encoding="utf-8")
@@ -1266,7 +1266,7 @@ class TestValidatePilotLaunchAuthorization:
             model_preflight_json=tmp_path / "model.json",
             dryrun_dir=tmp_path / "dryrun",
             expected_source_commit="abc123",
-            expected_source_tag="v0.9.16-pilot-exec-ready",
+            expected_source_tag="v0.9.17-pilot-exec-ready",
             expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             expected_deployed_build_id="build-001",
         )
@@ -1282,7 +1282,7 @@ class TestValidatePilotLaunchAuthorization:
                 model_preflight_json=tmp_path / "model.json",
                 dryrun_dir=tmp_path / "dryrun",
                 expected_source_commit="abc123",
-                expected_source_tag="v0.9.16-pilot-exec-ready",
+                expected_source_tag="v0.9.17-pilot-exec-ready",
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
@@ -1303,7 +1303,7 @@ class TestValidatePilotLaunchAuthorization:
                 model_preflight_json=tmp_path / "model.json",
                 dryrun_dir=tmp_path / "dryrun",
                 expected_source_commit="abc123",
-                expected_source_tag="v0.9.16-pilot-exec-ready",
+                expected_source_tag="v0.9.17-pilot-exec-ready",
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
@@ -1319,7 +1319,7 @@ class TestValidatePilotLaunchAuthorization:
                 model_preflight_json=tmp_path / "model.json",
                 dryrun_dir=tmp_path / "dryrun",
                 expected_source_commit="abc123",
-                expected_source_tag="v0.9.16-pilot-exec-ready",
+                expected_source_tag="v0.9.17-pilot-exec-ready",
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
@@ -1335,7 +1335,7 @@ class TestValidatePilotLaunchAuthorization:
                 model_preflight_json=tmp_path / "model.json",
                 dryrun_dir=tmp_path / "dryrun",
                 expected_source_commit="abc123",
-                expected_source_tag="v0.9.16-pilot-exec-ready",
+                expected_source_tag="v0.9.17-pilot-exec-ready",
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
@@ -1360,7 +1360,7 @@ class TestValidatePilotLaunchAuthorization:
                 model_preflight_json=tmp_path / "model.json",
                 dryrun_dir=tmp_path / "dryrun",
                 expected_source_commit="abc123",
-                expected_source_tag="v0.9.16-pilot-exec-ready",
+                expected_source_tag="v0.9.17-pilot-exec-ready",
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
@@ -1382,7 +1382,7 @@ class TestValidatePilotLaunchAuthorization:
                 model_preflight_json=tmp_path / "model.json",
                 dryrun_dir=tmp_path / "dryrun",
                 expected_source_commit="abc123",
-                expected_source_tag="v0.9.16-pilot-exec-ready",
+                expected_source_tag="v0.9.17-pilot-exec-ready",
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
@@ -1398,7 +1398,7 @@ class TestValidatePilotLaunchAuthorization:
                 model_preflight_json=tmp_path / "model.json",
                 dryrun_dir=tmp_path / "dryrun",
                 expected_source_commit="abc123",
-                expected_source_tag="v0.9.16-pilot-exec-ready",
+                expected_source_tag="v0.9.17-pilot-exec-ready",
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
@@ -1429,7 +1429,7 @@ class TestValidatePilotLaunchAuthorization:
                 model_preflight_json=tmp_path / "model.json",
                 dryrun_dir=tmp_path / "dryrun",
                 expected_source_commit="abc123",
-                expected_source_tag="v0.9.16-pilot-exec-ready",
+                expected_source_tag="v0.9.17-pilot-exec-ready",
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
@@ -1460,7 +1460,7 @@ class TestValidatePilotLaunchAuthorization:
                 model_preflight_json=tmp_path / "model.json",
                 dryrun_dir=tmp_path / "dryrun",
                 expected_source_commit="abc123",
-                expected_source_tag="v0.9.16-pilot-exec-ready",
+                expected_source_tag="v0.9.17-pilot-exec-ready",
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
@@ -1476,7 +1476,7 @@ class TestValidatePilotLaunchAuthorization:
                 model_preflight_json=tmp_path / "model.json",
                 dryrun_dir=tmp_path / "dryrun",
                 expected_source_commit="abc123",
-                expected_source_tag="v0.9.16-pilot-exec-ready",
+                expected_source_tag="v0.9.17-pilot-exec-ready",
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
@@ -1494,7 +1494,7 @@ class TestCLIAuthorizationPath:
         dryrun_dir.mkdir()
         (dryrun_dir / "source_identity.json").write_text(json.dumps({
             "dry_run": True, "profile": "pilot", "protocol_version": "1.0",
-            "source_commit": "abc", "source_tag": "v0.9.16-pilot-exec-ready",
+            "source_commit": "abc", "source_tag": "v0.9.17-pilot-exec-ready",
             "deployed_build_id": "b1", "model_identity": "dry-run:mock",
         }), encoding="utf-8")
         repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
@@ -1505,7 +1505,7 @@ class TestCLIAuthorizationPath:
                 "run_id": f"r{i:03d}", "status": "succeeded",
                 "repository_id": repos[i], "strategy_id": strats[i],
                 "repetition": 1 if i < 24 else 2,
-                "source_commit": "abc", "source_tag": "v0.9.16-pilot-exec-ready",
+                "source_commit": "abc", "source_tag": "v0.9.17-pilot-exec-ready",
                 "model_calls": 0, "total_tokens": 0,
             }))
         (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
@@ -1524,7 +1524,7 @@ class TestCLIAuthorizationPath:
             hf_repo_id=None, resume_from_hf=False,
             auto_resume_hf=False, new_experiment=False,
             experiment_id=None, source_commit="abc",
-            source_tag="v0.9.16-pilot-exec-ready",
+            source_tag="v0.9.17-pilot-exec-ready",
             deployed_build_id="b1", kaggle_preflight_only=False,
             require_launch_authorization=True,
             repo_preflight_json=None, model_preflight_json=None,
@@ -1544,7 +1544,7 @@ class TestCLIAuthorizationPath:
         dryrun_dir.mkdir()
         (dryrun_dir / "source_identity.json").write_text(json.dumps({
             "dry_run": True, "profile": "pilot", "protocol_version": "1.0",
-            "source_commit": "abc", "source_tag": "v0.9.16-pilot-exec-ready",
+            "source_commit": "abc", "source_tag": "v0.9.17-pilot-exec-ready",
             "deployed_build_id": "b1", "model_identity": "dry-run:mock",
         }), encoding="utf-8")
         repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
@@ -1555,7 +1555,7 @@ class TestCLIAuthorizationPath:
                 "run_id": f"r{i:03d}", "status": "succeeded",
                 "repository_id": repos[i], "strategy_id": strats[i],
                 "repetition": 1 if i < 24 else 2,
-                "source_commit": "abc", "source_tag": "v0.9.16-pilot-exec-ready",
+                "source_commit": "abc", "source_tag": "v0.9.17-pilot-exec-ready",
                 "model_calls": 0, "total_tokens": 0,
             }))
         (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
@@ -1597,7 +1597,7 @@ class TestCLIAuthorizationPath:
             hf_repo_id=None, resume_from_hf=False,
             auto_resume_hf=False, new_experiment=False,
             experiment_id=None, source_commit="abc",
-            source_tag="v0.9.16-pilot-exec-ready",
+            source_tag="v0.9.17-pilot-exec-ready",
             deployed_build_id="b1", kaggle_preflight_only=False,
             require_launch_authorization=True,
             repo_preflight_json=str(repo_json),
