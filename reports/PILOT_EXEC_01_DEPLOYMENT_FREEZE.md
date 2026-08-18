@@ -1,12 +1,14 @@
 # PILOT-EXEC-01 — Deployment Freeze Report
 
-**Date:** 2026-08-17 (artifact refresh — **v0.9.14-pilot-exec-ready
+**Date:** 2026-08-18 (release-only closure — **v0.9.16-pilot-exec-ready
 CURRENT**, see current freeze section 1 below; prior freezes historical;
+**v0.9.15-pilot-exec-ready** REJECTED FOR ACCEPTED PILOT LAUNCH (release finalization not completed);
+**v0.9.14-pilot-exec-ready** REJECTED (artifact notebook provenance mismatch);
 **v0.9.13-pilot-exec-ready** artifact was stale at upload time; 
-this file superseded freeze chain: v0.9.14 → v0.9.12 → v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → v0.9.6
+this file superseded freeze chain: v0.9.16 → v0.9.14 → v0.9.12 → v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → v0.9.6
 → v0.9.5 → v0.9.4 → v0.9.3 → v0.9.2 → v0.9.1)
-**Task:** `PILOT-EXEC-01` (Pilot deployment + RELEASE TRUST GATE closure)
-**Status:** FROZEN at `v0.9.14-pilot-exec-ready` (current, annotated tag ON the merge commit, pushed); prior freezes historical
+**Task:** `PILOT-EXEC-01` (release-only closure)
+**Status:** FROZEN at `v0.9.16-pilot-exec-ready` (current, non-ff merge to main, artifact built from merge SHA); prior freezes historical
 
 > **RELEASE-PROVENANCE CLOSURE + v0.9.11 REJECTION (2026-08-16):** The v0.9.11
 > immutable tag peeled to the merge commit `8801304`, whose notebook is the
