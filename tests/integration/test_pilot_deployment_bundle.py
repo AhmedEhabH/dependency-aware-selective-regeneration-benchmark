@@ -163,7 +163,7 @@ def _build(tmp_path: Path, created_utc: str, source_commit: str, label: str) -> 
     return output_root, archive
 
 
-PILOT_SOURCE_TAG = "v0.9.16-pilot-exec-ready"
+PILOT_SOURCE_TAG = "v0.9.17-pilot-exec-ready"
 
 
 def _build_frozen(
