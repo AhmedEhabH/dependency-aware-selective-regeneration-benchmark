@@ -1010,6 +1010,17 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Expected model identity string for launch authorization.",
     )
+    parser.add_argument(
+        "--launch-auth-dryrun-dir",
+        type=str,
+        default=None,
+        help=(
+            "Explicit path to the dry-run directory for launch authorization "
+            "(source_identity.json + run_records.jsonl). When not set, the "
+            "CLI uses output_dir, which is the real pilot output directory "
+            "and NOT the dry-run directory."
+        ),
+    )
     args = parser.parse_args()
     _validate_cli_args(args)
     return args
@@ -1831,12 +1842,13 @@ def main() -> int:
                 "--model-preflight-json"
             )
             return 1
+        auth_dryrun_dir = args.launch_auth_dryrun_dir or output_dir
         expected_identity = args.expected_model_identity or model_identity
         try:
             validate_pilot_launch_authorization(
                 repo_preflight_json=repo_json,
                 model_preflight_json=model_json,
-                dryrun_dir=output_dir,
+                dryrun_dir=auth_dryrun_dir,
                 expected_source_commit=source_commit,
                 expected_source_tag=args.source_tag or "",
                 expected_model_identity=expected_identity,

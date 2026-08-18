@@ -225,24 +225,47 @@ def _collect_gpu_vram_snapshots() -> tuple[GpuVramSnapshot, ...]:
     return tuple(snapshots)
 
 
-def _qwen_probe_metrics(
+def _create_qwen_backend(
     model_path: str,
     quantization_mode: str,
-) -> dict[str, Any]:
-    """Load Qwen with the requested quantization, probe it, and return metrics."""
+) -> Any:
+    """Create a KaggleQwenBackend instance (no load yet)."""
     from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
 
-    backend = KaggleQwenBackend(
+    return KaggleQwenBackend(
         model_name="qwen2.5-coder",
         model_path=model_path,
         quantization_mode=quantization_mode,
     )
+
+
+def _qwen_probe_metrics(
+    model_path: str,
+    quantization_mode: str,
+    *,
+    _backend: Any = None,
+) -> dict[str, Any]:
+    """Load Qwen with the requested quantization, probe it, and return metrics.
+
+    When ``_backend`` is provided and already loaded, reuse it instead of
+    constructing a second backend (single model load per preflight cell).
+    """
+    from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
+
+    if _backend is not None:
+        backend = _backend
+    else:
+        backend = KaggleQwenBackend(
+            model_name="qwen2.5-coder",
+            model_path=model_path,
+            quantization_mode=quantization_mode,
+        )
     backend.load()
     response = backend.run_probe(max_tokens=PROBE_MAX_TOKENS, prompt=PROBE_PROMPT)
 
     import torch
 
-    gpu_count = torch.cuda.device_count()
+    gpu_count = int(torch.cuda.device_count())
     snapshots = _collect_gpu_vram_snapshots()
     if gpu_count > 0 and not snapshots:
         raise RuntimeError(
@@ -288,17 +311,24 @@ def _write_json(path: Path, payload: dict[str, object]) -> None:
 
 
 def _run_long_context_probe(
-    model_path: str, quantization_mode: str
+    model_path: str, quantization_mode: str, *, _backend: Any = None,
 ) -> dict[str, Any]:
-    """Run the long-context stress probe as a separate monkeypatchable step."""
+    """Run the long-context stress probe as a separate monkeypatchable step.
+
+    When ``_backend`` is provided and already loaded, reuse it instead of
+    constructing a second model load (single model load per preflight cell).
+    """
     from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
 
-    lc_backend = KaggleQwenBackend(
-        model_name="qwen2.5-coder",
-        model_path=model_path,
-        quantization_mode=quantization_mode,
-    )
-    lc_backend.load()
+    if _backend is not None:
+        lc_backend = _backend
+    else:
+        lc_backend = KaggleQwenBackend(
+            model_name="qwen2.5-coder",
+            model_path=model_path,
+            quantization_mode=quantization_mode,
+        )
+        lc_backend.load()
     return lc_backend.run_long_context_probe(
         target_prompt_tokens=LONG_CONTEXT_TARGET_PROMPT_TOKENS,
         max_tokens=LONG_CONTEXT_MAX_TOKENS,
@@ -487,6 +517,7 @@ def run_kaggle_smoke_preflight(
     # 5. Qwen load (requested quantization) + 64-token probe + VRAM headroom
     probe_metrics: dict[str, Any] = {}
     probe_failure = ""
+    _shared_backend = None
     baseline_failed = any(
         check.startswith(
             (
@@ -499,7 +530,8 @@ def run_kaggle_smoke_preflight(
     )
     if not blocked and not baseline_failed:
         try:
-            probe_metrics = _qwen_probe_metrics(model_path, quantization_mode)
+            _shared_backend = _create_qwen_backend(model_path, quantization_mode)
+            probe_metrics = _qwen_probe_metrics(model_path, quantization_mode, _backend=_shared_backend)
             checks.append(f"qwen_model_load[{quantization_mode}]: PASS")
             device_map = str(probe_metrics.get("device_map_summary", ""))
             lowered_map = device_map.lower()
@@ -563,10 +595,13 @@ def run_kaggle_smoke_preflight(
     passed = not failed and not blocked
 
     # Long-context stress probe (>= 12k tokens): engineering evidence only.
+    # Reuses the single backend loaded above (no second model load).
     long_context_probe: dict[str, Any] | None = None
     if passed and not probe_failure:
         try:
-            long_context_probe = _run_long_context_probe(model_path, quantization_mode)
+            long_context_probe = _run_long_context_probe(
+                model_path, quantization_mode, _backend=_shared_backend,
+            )
             if long_context_probe.get("passed"):
                 checks.append(
                     f"long_context_probe: PASS (prompt_tokens={long_context_probe['prompt_tokens']}, "
@@ -793,18 +828,57 @@ def validate_pilot_launch_authorization(
                 repo_preflight_check = [
                     c for c in checks_list if "repository_preflight_evidence" in c
                 ]
-                if repo_preflight_check and any("FAIL" in c for c in repo_preflight_check):
+                if not repo_preflight_check:
                     errors.append(
-                        "model_preflight.json repository_preflight_evidence check FAILED"
+                        "model_preflight.json missing repository_preflight_evidence "
+                        "check (positive PASS required)"
                     )
+                else:
+                    if any("FAIL" in c for c in repo_preflight_check):
+                        errors.append(
+                            "model_preflight.json repository_preflight_evidence check FAILED"
+                        )
+                    elif not any("PASS" in c for c in repo_preflight_check):
+                        errors.append(
+                            "model_preflight.json repository_preflight_evidence check "
+                            "exists but contains no PASS signal"
+                        )
+            # C4/D: long_context_probe must be present, passed, and meet thresholds.
             lc_probe = model_evidence.get("long_context_probe")
-            if isinstance(lc_probe, dict) and not lc_probe.get("passed"):
+            if not isinstance(lc_probe, dict):
                 errors.append(
-                    "model_preflight.json long_context_probe passed != true"
+                    "model_preflight.json long_context_probe missing or not a dict"
                 )
+            else:
+                if not lc_probe.get("passed"):
+                    errors.append(
+                        "model_preflight.json long_context_probe passed != true"
+                    )
+                lc_tokens = lc_probe.get("prompt_tokens", 0) or 0
+                lc_target = lc_probe.get("target_prompt_tokens", 0) or 0
+                lc_completion = lc_probe.get("completion_tokens", 0) or 0
+                lc_cache = lc_probe.get("cache_implementation", "")
+                if lc_target < 12000:
+                    errors.append(
+                        f"model_preflight.json long_context_probe target_prompt_tokens={lc_target} (expected >= 12000)"
+                    )
+                if lc_tokens < 12000:
+                    errors.append(
+                        f"model_preflight.json long_context_probe prompt_tokens={lc_tokens} (expected >= 12000)"
+                    )
+                if lc_completion <= 0:
+                    errors.append(
+                        "model_preflight.json long_context_probe completion_tokens <= 0"
+                    )
+                if lc_cache != "offloaded":
+                    errors.append(
+                        "model_preflight.json long_context_probe "
+                        f"cache_implementation={lc_cache!r} (expected 'offloaded')"
+                    )
 
-    # --- Dry-run records ---
+    # --- Dry-run records + source_identity.json (C1-C4) ---
     dryrun_path = Path(dryrun_dir) / "run_records.jsonl"
+    source_identity_path = Path(dryrun_dir) / "source_identity.json"
     if not dryrun_path.is_file():
         errors.append(f"dryrun records missing: {dryrun_path}")
     else:
@@ -820,48 +894,105 @@ def validate_pilot_launch_authorization(
             records = []
 
         if records:
+            # C4: strict topology
             if len(records) != 48:
                 errors.append(f"dryrun record count={len(records)} (expected 48)")
             run_ids = [r.get("run_id") for r in records]
             if len(set(run_ids)) != 48:
                 errors.append(f"dryrun unique run_ids={len(set(run_ids))} (expected 48)")
+
             failed_records = [r for r in records if r.get("status") != "succeeded"]
             if failed_records:
                 errors.append(
                     f"dryrun has {len(failed_records)} non-succeeded records"
                 )
-            source_commits = {r.get("source_commit") for r in records}
-            if source_commits - {None, "", "unknown-source"}:
-                bad_commits = source_commits - {None, "", "unknown-source"}
-                if bad_commits and expected_source_commit not in bad_commits:
-                    errors.append(
-                        f"dryrun source_commit mismatch: {bad_commits}"
-                    )
+
+            # C4: repo distribution exactly todo=16, djangocms=16, saleor=16
+            repo_counts = {}
+            for r in records:
+                rid = r.get("repository_id", "")
+                repo_counts[rid] = repo_counts.get(rid, 0) + 1
+            expected_repo = {"todo": 16, "djangocms": 16, "saleor": 16}
+            if repo_counts != expected_repo:
+                errors.append(f"dryrun repo_counts={repo_counts} (expected {expected_repo})")
+
+            # C4: strategy distribution exactly iterative_repository_agent=24, selective=24
+            strat_counts = {}
+            for r in records:
+                sid = r.get("strategy_id", "")
+                strat_counts[sid] = strat_counts.get(sid, 0) + 1
+            expected_strat = {"iterative_repository_agent": 24, "selective": 24}
+            if strat_counts != expected_strat:
+                errors.append(f"dryrun strategy_counts={strat_counts} (expected {expected_strat})")
+
+            # C4: repetition distribution exactly rep1=24, rep2=24
+            rep_counts = {}
+            for r in records:
+                rep = r.get("repetition", 0)
+                rep_counts[rep] = rep_counts.get(rep, 0) + 1
+            expected_rep = {1: 24, 2: 24}
+            if rep_counts != expected_rep:
+                errors.append(f"dryrun rep_counts={rep_counts} (expected {expected_rep})")
+
+            # C4: model_calls exactly 0 on EVERY record
+            nonzero_calls = [r for r in records if (r.get("model_calls") or 0) != 0]
+            if nonzero_calls:
+                errors.append(
+                    f"dryrun has {len(nonzero_calls)} records with model_calls != 0"
+                )
+
+            # C4: token_usage total exactly 0 on EVERY record
+            nonzero_tokens = [r for r in records if (r.get("total_tokens") or 0) != 0]
+            if nonzero_tokens:
+                errors.append(
+                    f"dryrun has {len(nonzero_tokens)} records with token_usage total != 0"
+                )
+
+            # C1: exact source commit on EVERY record (strict, no set membership)
             if expected_source_commit and expected_source_commit != "unknown-source":
-                unknown_commits = sum(
-                    1 for r in records
-                    if r.get("source_commit") in (None, "", "unknown-source")
+                bad_source = [r for r in records if r.get("source_commit") != expected_source_commit]
+                if bad_source:
+                    errors.append(
+                        f"dryrun has {len(bad_source)} records with source_commit != {expected_source_commit}"
+                    )
+
+    # --- source_identity.json (C3) ---
+    if source_identity_path.is_file():
+        try:
+            si = json.loads(source_identity_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            errors.append(f"source_identity.json unreadable: {type(exc).__name__}: {exc}")
+            si = {}
+        if isinstance(si, dict):
+            if si.get("dry_run") is not True:
+                errors.append(f"source_identity.json dry_run={si.get('dry_run')!r} (expected true)")
+            if si.get("profile") != "pilot":
+                errors.append(f"source_identity.json profile={si.get('profile')!r} (expected 'pilot')")
+            if si.get("protocol_version") != "1.0":
+                errors.append(
+                    f"source_identity.json protocol_version="
+                    f"{si.get('protocol_version')!r} (expected '1.0')"
                 )
-                if unknown_commits:
-                    errors.append(
-                        f"dryrun has {unknown_commits} records with unknown source_commit"
-                    )
-            source_tags = {r.get("source_tag") for r in records}  # noqa: F841 (evidence)
-            if expected_source_tag and expected_source_tag != "unknown-source":
-                unknown_tags = sum(
-                    1 for r in records
-                    if r.get("source_tag") in (None, "", "unknown-source")
+            if expected_source_commit and si.get("source_commit") != expected_source_commit:
+                errors.append(
+                    f"source_identity.json source_commit="
+                    f"{si.get('source_commit')!r} (expected {expected_source_commit!r})"
                 )
-                if unknown_tags:
-                    errors.append(
-                        f"dryrun has {unknown_tags} records with unknown source_tag"
-                    )
-            if expected_deployed_build_id:
-                build_ids = {r.get("deployed_build_id", "") for r in records}
-                if expected_deployed_build_id not in build_ids and build_ids - {""}:
-                    errors.append(
-                        f"dryrun deployed_build_id mismatch: {build_ids}"
-                    )
+            if expected_source_tag and si.get("source_tag") != expected_source_tag:
+                errors.append(
+                    f"source_identity.json source_tag={si.get('source_tag')!r} (expected {expected_source_tag!r})"
+                )
+            if expected_deployed_build_id and si.get("deployed_build_id") != expected_deployed_build_id:
+                errors.append(
+                    f"source_identity.json deployed_build_id={si.get('deployed_build_id')!r} "
+                    f"(expected {expected_deployed_build_id!r})"
+                )
+            if si.get("model_identity") != "dry-run:mock":
+                errors.append(
+                    f"source_identity.json model_identity={si.get('model_identity')!r} (expected 'dry-run:mock')"
+                )
+    else:
+        errors.append(f"source_identity.json missing: {source_identity_path}")
 
     # --- HF token ---
     hf_token = os.environ.get("HF_TOKEN", "").strip()

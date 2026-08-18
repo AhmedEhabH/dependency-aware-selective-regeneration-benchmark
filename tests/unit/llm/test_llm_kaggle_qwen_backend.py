@@ -100,8 +100,10 @@ class _FakeModel:
 
     def __init__(self, output_length: int) -> None:
         self._output_length = output_length
+        self.last_generate_kwargs: dict[str, object] = {}
 
     def generate(self, **kwargs: object) -> _FakeTensor:
+        self.last_generate_kwargs = dict(kwargs)
         return _FakeTensor(self._output_length)
 
     def eval(self) -> _FakeModel:
@@ -734,3 +736,232 @@ class TestCleanup:
             await backend.generate("write code")
         assert gc_calls == [1], "gc.collect must run exactly once after a generic generation exception"
         assert empty_calls == [1], "torch.cuda.empty_cache must run exactly once after a generic exception"
+
+
+class TestCacheImplementationAlwaysOffloaded:
+    """Every generation path must pass cache_implementation='offloaded' to model.generate()."""
+
+    def _install_model(self, monkeypatch: pytest.MonkeyPatch) -> _FakeModel:
+        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        model = _FakeModel(output_length=10)
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = _FakeTokenizer()
+        backend._model = model
+        return model
+
+    @pytest.mark.asyncio
+    async def test_generate_passes_offloaded_cache(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        model = self._install_model(monkeypatch)
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = _FakeTokenizer()
+        backend._model = model
+        await backend.generate("write code", max_tokens=64)
+        assert model.last_generate_kwargs.get("cache_implementation") == "offloaded"
+
+    def test_run_probe_passes_offloaded_cache(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        model = self._install_model(monkeypatch)
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = _FakeTokenizer()
+        backend._model = model
+        backend.run_probe(max_tokens=64, prompt="def add(a, b):\n    return a + b\n")
+        assert model.last_generate_kwargs.get("cache_implementation") == "offloaded"
+
+    @pytest.mark.asyncio
+    async def test_oom_still_passes_offloaded_cache(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """OOM on generate still uses cache_implementation='offloaded' before raising."""
+        model = self._install_model(monkeypatch)
+        oom = type("OutOfMemoryError", (RuntimeError,), {"__module__": "torch.cuda"})
+
+        def _oom_generate(**kw: object) -> _FakeTensor:
+            model.last_generate_kwargs = dict(kw)
+            raise oom("simulated CUDA OOM")
+
+        model.generate = _oom_generate  # type: ignore[assignment]
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = _FakeTokenizer()
+        backend._model = model
+        with pytest.raises(ModelBackendError, match="out-of-memory"):
+            await backend.generate("write code", max_tokens=64)
+        assert model.last_generate_kwargs.get("cache_implementation") == "offloaded"
+
+
+class _FakeCalibratingTokenizer:
+    """Tokenizer where character count != token count (1 token = 3 chars)."""
+
+    eos_token_id = 1
+
+    def __init__(self, tokens_per_char: float = 1 / 3) -> None:
+        self.apply_calls = 0
+        self.last_messages: object | None = None
+        self._tokens_per_char = tokens_per_char
+        self.apply_chat_template = self._apply
+
+    def _apply(self, messages: object, tokenize: bool = False, add_generation_prompt: bool = False) -> str:
+        self.apply_calls += 1
+        self.last_messages = messages
+        # Build a formatted string whose length is proportional to the input
+        # content, so that _compute_probe_repeat_count exponential search works.
+        parts: list[str] = []
+        if isinstance(messages, list):
+            for msg in messages:
+                if isinstance(msg, dict):
+                    parts.append(str(msg.get("content", "")))
+        joined = "".join(parts)
+        # Add overhead tokens (chat template overhead)
+        return "t " + joined + " e"
+
+    def __call__(self, text: str, return_tensors: str | None = None) -> dict[str, _FakeTensor]:
+        token_count = max(1, int(len(text) * self._tokens_per_char))
+        return {"input_ids": _FakeTensor(token_count), "attention_mask": _FakeTensor(token_count)}
+
+    def decode(self, ids: object, skip_special_tokens: bool = True) -> str:
+        return "generated output"
+
+
+class TestLongContextProbeTokenCalibration:
+    """E: Long-context calibration must use actual tokenizer, not char-length."""
+
+    def _install_fakes(self, monkeypatch: pytest.MonkeyPatch) -> tuple[_FakeModel, _FakeCalibratingTokenizer]:
+        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        tokenizer = _FakeCalibratingTokenizer(tokens_per_char=1 / 3)
+        model = _FakeModel(output_length=512)
+        return model, tokenizer
+
+    def test_probe_repeats_until_target_tokens_reached(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        model, tokenizer = self._install_fakes(monkeypatch)
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = tokenizer
+        backend._model = model
+        result = backend.run_long_context_probe(target_prompt_tokens=100, max_tokens=10)
+        assert result["passed"] is True
+        assert result["prompt_tokens"] >= 100
+        assert result["completion_tokens"] > 0
+        assert result["cache_implementation"] == "offloaded"
+
+    def test_minimal_repeat_count_is_deterministic(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        tokenizer = _FakeCalibratingTokenizer(tokens_per_char=1 / 5)
+        model = _FakeModel(output_length=512)
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = tokenizer
+        backend._model = model
+
+        r1 = backend.run_long_context_probe(target_prompt_tokens=50, max_tokens=10)
+        r2 = backend.run_long_context_probe(target_prompt_tokens=50, max_tokens=10)
+        assert r1["prompt_tokens"] == r2["prompt_tokens"]
+        assert r1["completion_tokens"] == r2["completion_tokens"]
+
+    def test_long_context_probe_passes_offloaded_cache(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """H: Long-context probe must pass cache_implementation='offloaded'."""
+        model, _tokenizer = self._install_fakes(monkeypatch)
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = _FakeCalibratingTokenizer()
+        backend._model = model
+        backend.run_long_context_probe(target_prompt_tokens=100, max_tokens=10)
+        assert model.last_generate_kwargs.get("cache_implementation") == "offloaded"
+
+
+class TestSingleModelLoad:
+    """F: model-preflight creates/loads exactly ONE backend/model."""
+
+    def test_preflight_reuses_shared_backend(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        from benchmark.core.models import LLMResponse, TokenUsage
+        from benchmark.execution import preflight as pf_mod
+
+        load_count = 0
+        probe_count = 0
+
+        class CountingBackend:
+            def __init__(self, **kwargs: object) -> None:
+                nonlocal load_count
+                load_count += 1
+                self.model_identity = "qwen:test"
+                self.quantization_mode = "bnb-int8"
+                self.checkpoint_basename = "test"
+                self.checkpoint_quantization_method = ""
+                self.model_memory_footprint_bytes = 4000000000
+                self.device_map_summary = "cuda:0"
+
+            def load(self) -> None:
+                pass
+
+            def run_probe(self, max_tokens: int = 64, prompt: str = "") -> LLMResponse:
+                nonlocal probe_count
+                probe_count += 1
+                return LLMResponse(
+                    text="ok",
+                    token_usage=TokenUsage(prompt_tokens=8, completion_tokens=64, total_tokens=72),
+                    finish_reason="eos",
+                )
+
+        monkeypatch.setattr(pf_mod, "_python_runtime_status", lambda: ("3.12.13", True))
+        monkeypatch.setattr(
+            pf_mod,
+            "collect_dependency_versions",
+            lambda: (("django", "5.2.16"),),
+        )
+        staged = tmp_path / "staged"
+        staged.mkdir()
+        monkeypatch.setattr(pf_mod, "_stage_baseline_workspace", lambda data_dir, root: staged)
+        monkeypatch.setattr(
+            pf_mod, "_run_in_workspace", lambda ws, *a, **kw: (0, "", "")
+        )
+
+        monkeypatch.setattr(pf_mod, "_create_qwen_backend", lambda mp, qm: CountingBackend())
+
+        gpu_snapshot = pf_mod.GpuVramSnapshot(
+            device_index=0, gpu_name="T4",
+            allocated_gib=12.5, reserved_gib=14.0,
+            free_gib=2.5, total_gib=14.56,
+        )
+
+        def fake_probe(mp, qm, **kw):
+            return {
+                "model_identity": "qwen:test",
+                "requested_quantization_mode": qm,
+                "model_checkpoint_basename": "test",
+                "checkpoint_quantization_method": "",
+                "model_memory_footprint_bytes": 4000000000,
+                "device_map_summary": "cuda:0",
+                "gpu_count": 1,
+                "gpu_name": "T4",
+                "gpu_vram_by_device": (gpu_snapshot,),
+                "allocated_vram_gib": 12.5,
+                "reserved_vram_gib": 14.0,
+                "free_vram_after_probe_gib": 2.5,
+                "probe_prompt_tokens": 8,
+                "probe_completion_tokens": 64,
+            }
+
+        monkeypatch.setattr(pf_mod, "_qwen_probe_metrics", fake_probe)
+        monkeypatch.setattr(pf_mod, "_run_long_context_probe", lambda mp, qm, **kw: {
+            "passed": True,
+            "prompt_tokens": 12000,
+            "target_prompt_tokens": 12000,
+            "completion_tokens": 64,
+            "elapsed_seconds": 0.1,
+            "cache_implementation": "offloaded",
+        })
+
+        result = pf_mod.run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+        )
+        assert result.passed is True
+        assert load_count == 1

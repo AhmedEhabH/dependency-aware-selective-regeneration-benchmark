@@ -34,6 +34,14 @@ Use exact searches before reading whole files. Read only:
 
 Do not read entire repository, generated code (unless verifying derivatives), datasets, large logs, or unrelated documentation.
 
+## Release facts
+
+- **Candidate tag:** `v0.9.15-pilot-exec-ready`
+- **Branch:** `fix/pilot-v0915-provenance-export-closure`
+- **Source commit:** HEAD at merge time
+- **v0.9.14 status:** REJECTED — artifact notebook provenance did not match immutable tag notebook
+- **v0.9.15 status:** CANDIDATE — all Tasks A–I implemented; awaiting Scientific Smoke audit before stable promotion
+
 ## Validation order
 
 1. `git diff --check`
@@ -82,3 +90,38 @@ structured report containing:
 10. **Recommended Next Action** — exact next command; if existing instructions authorize it, continue without stopping
 
 Never end with only "Proceed?" or a bare question.
+
+## Project Export Rule (every mandatory stop)
+
+At every STOP / Mandatory Stop Report, create a filtered audit ZIP in the
+parent directory of `project/` named exactly `project-YYYY-MM-DD-HHmm.zip`
+(local creation timestamp). This is workflow/documentation only — do NOT
+create a release, move, or tag for this rule.
+
+**Include:** ALL files tracked by `git ls-files` (source, tests, notebooks,
+docs, configs, scripts, `benchmark_data/`, `reports/`, `runs_dryrun/`,
+`.opencode/` workflow files, etc.), `.git/`,
+`dist/pilot-kaggle-upload.zip`, `dist/pilot-kaggle-upload.zip.sha256`.
+
+**Exclude:** `.mypy_cache/`, `.ruff_cache/`, `.pytest_cache/`,
+`__pycache__/`, `*.pyc`, `.opencode/node_modules/`, `dist/_provcheck*`,
+extracted `dist/pilot-kaggle-upload/`, `dist/pilot-repo-cache/`.
+
+**Do not delete** anything from the real project. Only the share ZIP is
+filtered.
+
+After creation verify required members inside the ZIP (`.git/HEAD`,
+`dist/pilot-kaggle-upload.zip`, `.sha256`), compute size + SHA-256, and
+print:
+
+```
+PROJECT_EXPORT_READY
+PROJECT_EXPORT_NAME=project-YYYY-MM-DD-HHmm.zip
+PROJECT_EXPORT_PATH=<absolute path>
+PROJECT_EXPORT_SIZE_BYTES=<bytes>
+PROJECT_EXPORT_SHA256=<sha256>
+UPLOAD_THIS_FILE=project-YYYY-MM-DD-HHmm.zip
+```
+
+The Stop Report must include this filename so the user knows which file to
+upload.

@@ -323,6 +323,67 @@ class KaggleQwenBackend:
             pass
         return self._generate_sync(prompt=prompt, temperature=0.0, max_tokens=max_tokens)
 
+    def _tokenize_prompt_for_probe(self, repeated_snippet: str) -> int:
+        """Tokenize a probe prompt and return the prompt token count."""
+        assert self._tokenizer is not None
+        chat_parts_full = [
+            {"role": "system", "content": SYSTEM_TRANSFORMATION_MESSAGE},
+            {"role": "user", "content": repeated_snippet},
+        ]
+        formatted = self._tokenizer.apply_chat_template(
+            chat_parts_full, tokenize=False, add_generation_prompt=True,
+        )
+        inputs = self._tokenizer(formatted, return_tensors="pt")
+        return int(inputs["input_ids"].shape[1])
+
+    def _compute_probe_repeat_count(
+        self,
+        target_prompt_tokens: int,
+        snippet: str,
+    ) -> int:
+        """Compute the repetition count that reaches target_prompt_tokens using the ACTUAL tokenizer.
+
+        Uses exponential search then binary search to find the smallest repeat
+        count whose tokenized prompt length >= target_prompt_tokens.  Never
+        estimates tokens from character length.
+        """
+        assert self._tokenizer is not None
+        chat_parts_base = [
+            {"role": "system", "content": SYSTEM_TRANSFORMATION_MESSAGE},
+            {"role": "user", "content": snippet},
+        ]
+        formatted_base = self._tokenizer.apply_chat_template(
+            chat_parts_base, tokenize=False, add_generation_prompt=True,
+        )
+        base_tokens = len(self._tokenizer(formatted_base, return_tensors="pt")["input_ids"][0])
+
+        if base_tokens >= target_prompt_tokens:
+            return 1
+
+        lo = 1
+        hi = 2
+        while self._tokenize_prompt_for_probe(snippet * hi) < target_prompt_tokens:
+            lo = hi
+            hi *= 2
+
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if self._tokenize_prompt_for_probe(snippet * mid) >= target_prompt_tokens:
+                hi = mid
+            else:
+                lo = mid + 1
+        return lo
+
+    def _gpu_device_count(self) -> int:
+        """Return the integer GPU device count, or 0 if CUDA is unavailable."""
+        try:
+            import torch
+            if torch.cuda.is_available():
+                return int(torch.cuda.device_count())
+        except Exception:
+            pass
+        return 0
+
     def run_long_context_probe(
         self,
         target_prompt_tokens: int = 12000,
@@ -354,26 +415,10 @@ class KaggleQwenBackend:
             "        total += item.get('value', 0.0) * weight\n"
             "    return total\n\n"
         )
-        chat_parts = [
-            {"role": "system", "content": SYSTEM_TRANSFORMATION_MESSAGE},
-            {"role": "user", "content": snippet},
-        ]
-        formatted_base = self._tokenizer.apply_chat_template(
-            chat_parts, tokenize=False, add_generation_prompt=True,
-        )
-        base_tokens = len(self._tokenizer(formatted_base, return_tensors="pt")["input_ids"][0])
-        repeat_count = max(1, (target_prompt_tokens - base_tokens) // len(snippet) + 1)
-        repeated_snippet = snippet * repeat_count
 
-        chat_parts_full = [
-            {"role": "system", "content": SYSTEM_TRANSFORMATION_MESSAGE},
-            {"role": "user", "content": repeated_snippet},
-        ]
-        formatted = self._tokenizer.apply_chat_template(
-            chat_parts_full, tokenize=False, add_generation_prompt=True,
-        )
-        inputs = self._tokenizer(formatted, return_tensors="pt")
-        prompt_tokens = inputs["input_ids"].shape[1]
+        repeat_count = self._compute_probe_repeat_count(target_prompt_tokens, snippet)
+        repeated_snippet = snippet * repeat_count
+        prompt_tokens = self._tokenize_prompt_for_probe(repeated_snippet)
 
         start_time = time.monotonic()
         response = self._generate_sync(
@@ -400,7 +445,7 @@ class KaggleQwenBackend:
             "elapsed_seconds": round(elapsed, 3),
             "cache_implementation": KAGGLE_CACHE_IMPLEMENTATION,
             "gpu_name": gpu_info.get("gpu_name", "unknown"),
-            "gpu_count": gpu_info.get("available", False),
+            "gpu_count": self._gpu_device_count(),
             "peak_allocated_gib": round(peak_allocated, 3) if peak_allocated is not None else None,
             "peak_reserved_gib": round(peak_reserved, 3) if peak_reserved is not None else None,
             "finish_reason": response.finish_reason,

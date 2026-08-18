@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 import types
@@ -170,7 +171,10 @@ class TestRunKaggleSmokePreflight:
         monkeypatch.setattr(mod, "_stage_baseline_workspace", lambda data_dir, root: staged)
         monkeypatch.setattr(mod, "_run_in_workspace", lambda ws, *argv, timeout=180: (0, "", ""))
 
-        def _probe(model_path: str, quantization_mode: str) -> dict[str, object]:
+        # Patch _create_qwen_backend to return a dummy object (no real model load).
+        monkeypatch.setattr(mod, "_create_qwen_backend", lambda model_path, quantization_mode: None)
+
+        def _probe(model_path: str, quantization_mode: str, **_kw: object) -> dict[str, object]:
             if probe_exc is not None:
                 raise probe_exc
             return probe_metrics or {
@@ -193,7 +197,7 @@ class TestRunKaggleSmokePreflight:
         monkeypatch.setattr(mod, "_qwen_probe_metrics", _probe)
 
         # Patch long-context probe to succeed in unit tests (no real GPU/model).
-        def _lc_probe(model_path: str, quantization_mode: str) -> dict[str, object]:
+        def _lc_probe(model_path: str, quantization_mode: str, **_kw: object) -> dict[str, object]:
             return {
                 "passed": True,
                 "prompt_tokens": 12000,
@@ -317,7 +321,7 @@ class TestRunKaggleSmokePreflight:
     ) -> None:
         received: list[str] = []
 
-        def probe(model_path: str, quantization_mode: str) -> dict[str, object]:
+        def probe(model_path: str, quantization_mode: str, **_kw: object) -> dict[str, object]:
             received.append(quantization_mode)
             return {
                 "model_identity": "qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-def456",
@@ -352,7 +356,7 @@ class TestRunKaggleSmokePreflight:
     def test_fail_when_missing_dependency(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
         probe_calls = 0
 
-        def probe(_model_path: str, _quantization_mode: str) -> dict[str, object]:
+        def probe(_model_path: str, _quantization_mode: str, **_kw: object) -> dict[str, object]:
             nonlocal probe_calls
             probe_calls += 1
             return {}
@@ -376,7 +380,7 @@ class TestRunKaggleSmokePreflight:
         monkeypatch.setattr(mod, "_python_runtime_status", lambda: ("3.13.5", False))
         calls = 0
 
-        def probe(_model_path: str, _quantization_mode: str) -> dict[str, object]:
+        def probe(_model_path: str, _quantization_mode: str, **_kw: object) -> dict[str, object]:
             nonlocal calls
             calls += 1
             return {}
@@ -448,7 +452,7 @@ class TestRunKaggleSmokePreflight:
                 return 1, "", "baseline broken"
             return 0, "", ""
 
-        def probe(_model_path: str, _quantization_mode: str) -> dict[str, object]:
+        def probe(_model_path: str, _quantization_mode: str, **_kw: object) -> dict[str, object]:
             nonlocal calls
             calls += 1
             return {}
@@ -698,9 +702,12 @@ class TestRepositoryPreflightGating:
         monkeypatch.setattr(mod, "_stage_baseline_workspace", lambda data_dir, root: staged)
         monkeypatch.setattr(mod, "_run_in_workspace", lambda ws, *argv, timeout=180: (0, "", ""))
 
+        # Patch _create_qwen_backend to return a dummy object (no real model load).
+        monkeypatch.setattr(mod, "_create_qwen_backend", lambda model_path, quantization_mode: None)
+
         probe_calls: list[int] = []
 
-        def _probe(model_path: str, quantization_mode: str) -> dict[str, object]:
+        def _probe(model_path: str, quantization_mode: str, **_kw: object) -> dict[str, object]:
             probe_calls.append(1)
             return {
                 "model_identity": "qwen:qwen2.5-coder-7b-instruct:bnb-int8:cfg-abc123",
@@ -721,7 +728,7 @@ class TestRepositoryPreflightGating:
 
         monkeypatch.setattr(mod, "_qwen_probe_metrics", _probe)
 
-        def _lc_probe(model_path: str, quantization_mode: str) -> dict[str, object]:
+        def _lc_probe(model_path: str, quantization_mode: str, **_kw: object) -> dict[str, object]:
             return {
                 "passed": True,
                 "prompt_tokens": 12000,
@@ -1184,4 +1191,432 @@ class TestStaticModelMetadata:
         assert meta["requested_quantization_mode"] == "bnb-int8"
         assert meta["gpu_count"] == 0
         assert meta["gpu_vram_by_device"] == ()
+
+
+class TestValidatePilotLaunchAuthorization:
+    """C1-C5 + D: strict launch authorization with required long-context evidence."""
+
+    def _write_valid_repo_preflight(self, path: Path) -> None:
+        path.write_text(
+            json.dumps({
+                "overall": "PASS",
+                "repositories": {
+                    "todo": {"passed": True},
+                    "djangocms": {"passed": True},
+                    "saleor": {"passed": True},
+                },
+            }),
+            encoding="utf-8",
+        )
+
+    def _write_valid_model_preflight(self, path: Path, *, lc_passed: bool = True) -> None:
+        path.write_text(
+            json.dumps({
+                "passed": True,
+                "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+                "requested_quantization_mode": "bnb-nf4",
+                "checks": ["repository_preflight_evidence: PASS"],
+                "long_context_probe": {
+                    "passed": lc_passed,
+                    "target_prompt_tokens": 16000,
+                    "prompt_tokens": 16384,
+                    "completion_tokens": 512,
+                    "cache_implementation": "offloaded",
+                },
+            }),
+            encoding="utf-8",
+        )
+
+    def _write_valid_dryrun(self, dryrun_dir: Path, *, source_commit: str = "abc123") -> None:
+        dryrun_dir.mkdir(parents=True, exist_ok=True)
+        records = []
+        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
+        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
+        for i in range(48):
+            records.append(json.dumps({
+                "run_id": f"run-{i:03d}",
+                "status": "succeeded",
+                "repository_id": repos[i],
+                "strategy_id": strats[i],
+                "repetition": 1 if i < 24 else 2,
+                "source_commit": source_commit,
+                "source_tag": "v0.9.15-pilot-exec-ready",
+                "model_calls": 0,
+                "total_tokens": 0,
+            }))
+        (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
+        (dryrun_dir / "source_identity.json").write_text(json.dumps({
+            "dry_run": True,
+            "profile": "pilot",
+            "protocol_version": "1.0",
+            "source_commit": source_commit,
+            "source_tag": "v0.9.15-pilot-exec-ready",
+            "deployed_build_id": "build-001",
+            "model_identity": "dry-run:mock",
+        }), encoding="utf-8")
+
+    def test_passes_with_valid_evidence(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        from benchmark.execution.preflight import validate_pilot_launch_authorization
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=tmp_path / "dryrun",
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.15-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            expected_deployed_build_id="build-001",
+        )
+
+    def test_fails_on_missing_repo_preflight(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="repo_preflight.json missing"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "missing.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.15-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    def test_fails_on_missing_long_context_probe(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        (tmp_path / "model.json").write_text(json.dumps({
+            "passed": True,
+            "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            "requested_quantization_mode": "bnb-nf4",
+            "checks": [],
+        }), encoding="utf-8")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="long_context_probe missing"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.15-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    def test_fails_on_long_context_probe_not_passed(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        self._write_valid_model_preflight(tmp_path / "model.json", lc_passed=False)
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="long_context_probe passed != true"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.15-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    def test_fails_on_wrong_source_commit(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun", source_commit="wrong-commit")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="source_commit"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.15-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    def test_fails_on_wrong_source_tag(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        (tmp_path / "dryrun" / "source_identity.json").write_text(json.dumps({
+            "dry_run": True,
+            "profile": "pilot",
+            "protocol_version": "1.0",
+            "source_commit": "abc123",
+            "source_tag": "v0.9.14-pilot-exec-ready",
+            "deployed_build_id": "build-001",
+            "model_identity": "dry-run:mock",
+        }), encoding="utf-8")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="source_tag"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.15-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    def test_fails_on_nonzero_model_calls(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        # Overwrite one record with model_calls != 0
+        lines = (tmp_path / "dryrun" / "run_records.jsonl").read_text(encoding="utf-8").splitlines()
+        bad = json.loads(lines[0])
+        bad["model_calls"] = 1
+        lines[0] = json.dumps(bad)
+        (tmp_path / "dryrun" / "run_records.jsonl").write_text("\n".join(lines), encoding="utf-8")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="model_calls != 0"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.15-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    def test_fails_on_missing_hf_token(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.delenv("HF_TOKEN", raising=False)
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="HF_TOKEN"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.15-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    def test_fails_when_repository_preflight_evidence_missing_from_checks(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        # Model preflight with NO repository_preflight_evidence in checks
+        (tmp_path / "model.json").write_text(json.dumps({
+            "passed": True,
+            "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            "requested_quantization_mode": "bnb-nf4",
+            "checks": ["qwen_model_load: PASS"],
+            "long_context_probe": {
+                "passed": True,
+                "target_prompt_tokens": 16000,
+                "prompt_tokens": 16384,
+                "completion_tokens": 512,
+                "cache_implementation": "offloaded",
+            },
+        }), encoding="utf-8")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="missing repository_preflight_evidence"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.15-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    def test_fails_when_repository_preflight_evidence_exists_but_no_pass(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        # Check exists but has neither PASS nor FAIL
+        (tmp_path / "model.json").write_text(json.dumps({
+            "passed": True,
+            "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            "requested_quantization_mode": "bnb-nf4",
+            "checks": ["repository_preflight_evidence: SKIP (not run)"],
+            "long_context_probe": {
+                "passed": True,
+                "target_prompt_tokens": 16000,
+                "prompt_tokens": 16384,
+                "completion_tokens": 512,
+                "cache_implementation": "offloaded",
+            },
+        }), encoding="utf-8")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="contains no PASS signal"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.15-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    def test_fails_on_wrong_repo_preflight_overall(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        (tmp_path / "repo.json").write_text(json.dumps({"overall": "FAIL", "repositories": {}}), encoding="utf-8")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="repo_preflight.json overall=.FAIL"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.15-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+
+class TestCLIAuthorizationPath:
+    """G: CLI real-path authorization integration with seven_arm_benchmark.main."""
+
+    def test_invalid_evidence_blocks_launch_and_returns_nonzero(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        output_dir = tmp_path / "output"
+        output_dir.mkdir()
+        dryrun_dir = tmp_path / "dryrun"
+        dryrun_dir.mkdir()
+        (dryrun_dir / "source_identity.json").write_text(json.dumps({
+            "dry_run": True, "profile": "pilot", "protocol_version": "1.0",
+            "source_commit": "abc", "source_tag": "v0.9.15-pilot-exec-ready",
+            "deployed_build_id": "b1", "model_identity": "dry-run:mock",
+        }), encoding="utf-8")
+        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
+        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
+        records = []
+        for i in range(48):
+            records.append(json.dumps({
+                "run_id": f"r{i:03d}", "status": "succeeded",
+                "repository_id": repos[i], "strategy_id": strats[i],
+                "repetition": 1 if i < 24 else 2,
+                "source_commit": "abc", "source_tag": "v0.9.15-pilot-exec-ready",
+                "model_calls": 0, "total_tokens": 0,
+            }))
+        (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
+
+        import seven_arm_benchmark as saber
+        monkeypatch.setattr(saber, "_get_model_identity", lambda **kw: "qwen:test:nf4")
+        monkeypatch.setattr(saber, "parse_args", lambda: argparse.Namespace(
+            dry_run=False, profile="pilot", strategy=None,
+            output_dir=str(output_dir), data_dir=str(tmp_path / "data"),
+            max_attempts=3, timeout=0, max_tokens=0,
+            max_completion_tokens_per_call=4096,
+            max_total_workflow_tokens=0, validation_command=None,
+            protocol_version="1.0", model_path=None,
+            qwen_quantization="bnb-nf4", resume=False,
+            resume_from=None, max_runs=0, hf_sync=False,
+            hf_repo_id=None, resume_from_hf=False,
+            auto_resume_hf=False, new_experiment=False,
+            experiment_id=None, source_commit="abc",
+            source_tag="v0.9.15-pilot-exec-ready",
+            deployed_build_id="b1", kaggle_preflight_only=False,
+            require_launch_authorization=True,
+            repo_preflight_json=None, model_preflight_json=None,
+            expected_model_identity=None, launch_auth_dryrun_dir=None,
+            backend=None, openrouter_model="", openrouter_timeout=120.0,
+        ))
+        rc = saber.main()
+        assert rc != 0
+
+    def test_valid_evidence_passes_authorization_gate(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        output_dir = tmp_path / "output"
+        output_dir.mkdir()
+        dryrun_dir = tmp_path / "dryrun"
+        dryrun_dir.mkdir()
+        (dryrun_dir / "source_identity.json").write_text(json.dumps({
+            "dry_run": True, "profile": "pilot", "protocol_version": "1.0",
+            "source_commit": "abc", "source_tag": "v0.9.15-pilot-exec-ready",
+            "deployed_build_id": "b1", "model_identity": "dry-run:mock",
+        }), encoding="utf-8")
+        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
+        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
+        records = []
+        for i in range(48):
+            records.append(json.dumps({
+                "run_id": f"r{i:03d}", "status": "succeeded",
+                "repository_id": repos[i], "strategy_id": strats[i],
+                "repetition": 1 if i < 24 else 2,
+                "source_commit": "abc", "source_tag": "v0.9.15-pilot-exec-ready",
+                "model_calls": 0, "total_tokens": 0,
+            }))
+        (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
+
+        repo_json = tmp_path / "repo.json"
+        repo_json.write_text(json.dumps({
+            "overall": "PASS",
+            "repositories": {"todo": {"passed": True}, "djangocms": {"passed": True}, "saleor": {"passed": True}},
+        }), encoding="utf-8")
+
+        model_json = tmp_path / "model.json"
+        model_json.write_text(json.dumps({
+            "passed": True,
+            "model_identity": "qwen:test:nf4",
+            "requested_quantization_mode": "bnb-nf4",
+            "checks": ["repository_preflight_evidence: PASS"],
+            "long_context_probe": {
+                "passed": True,
+                "target_prompt_tokens": 16000,
+                "prompt_tokens": 16384,
+                "completion_tokens": 512,
+                "cache_implementation": "offloaded",
+            },
+        }), encoding="utf-8")
+
+        import seven_arm_benchmark as saber
+        from benchmark.execution import preflight as pf_mod
+
+        monkeypatch.setattr(saber, "_get_model_identity", lambda **kw: "qwen:test:nf4")
+        monkeypatch.setattr(saber, "parse_args", lambda: argparse.Namespace(
+            dry_run=False, profile="pilot", strategy=None,
+            output_dir=str(output_dir), data_dir=str(tmp_path / "data"),
+            max_attempts=3, timeout=0, max_tokens=0,
+            max_completion_tokens_per_call=4096,
+            max_total_workflow_tokens=0, validation_command=None,
+            protocol_version="1.0", model_path=None,
+            qwen_quantization="bnb-nf4", resume=False,
+            resume_from=None, max_runs=0, hf_sync=False,
+            hf_repo_id=None, resume_from_hf=False,
+            auto_resume_hf=False, new_experiment=False,
+            experiment_id=None, source_commit="abc",
+            source_tag="v0.9.15-pilot-exec-ready",
+            deployed_build_id="b1", kaggle_preflight_only=False,
+            require_launch_authorization=True,
+            repo_preflight_json=str(repo_json),
+            model_preflight_json=str(model_json),
+            expected_model_identity="qwen:test:nf4",
+            launch_auth_dryrun_dir=str(dryrun_dir),
+            backend=None, openrouter_model="", openrouter_timeout=120.0,
+        ))
+        auth_passed: list[bool] = []
+        real_validate = pf_mod.validate_pilot_launch_authorization
+
+        def counting_validate(**kwargs: object) -> None:
+            real_validate(**kwargs)  # type: ignore[arg-type]
+            auth_passed.append(True)
+
+        monkeypatch.setattr(pf_mod, "validate_pilot_launch_authorization", counting_validate)
+        # main() proceeds past auth but may fail later on missing data/scenarios.
+        # That's fine — we only need to verify authorization was invoked and passed.
+        with pytest.raises((SystemExit, Exception)):
+            saber.main()
+        assert auth_passed, "authorization must have been invoked and passed"
 
