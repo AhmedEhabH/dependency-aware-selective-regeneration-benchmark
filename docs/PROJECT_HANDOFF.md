@@ -24,13 +24,16 @@
 
 ## CURRENT PROJECT STATE
 
-The current deployment source is **`v0.9.16-pilot-exec-ready`** (2026-08-18, the
-release-only closure on branch `fix/pilot-v0916-release-only-closure` from
-clean `origin/main` `0fecf03`). Release-only closure:
+The current deployment source is **`v0.9.17-pilot-exec-ready`** (2026-08-18, the
+PGDG bootstrap fix on branch `fix/pilot-v0917-pgdg-bootstrap-closure` from
+clean `origin/main`). Fix: v0.9.16 `_ensure_pgdg_apt()` used malformed bash -c
+/ echo / gpg pipeline causing real Kaggle PG15 setup failure. Eliminated
+shell-string construction entirely: direct curl, Deb822, codename safety.
 - v0.9.14 REJECTED: artifact notebook provenance did not match immutable tag notebook
 - v0.9.15 REJECTED FOR ACCEPTED PILOT LAUNCH: dist artifact still v0.9.14; code-manifest SHA stale; single-parent commit
-- v0.9.16: notebook anchors corrected (code_manifest_sha256 = c3c7a8b5..., FROZEN_SOURCE_TAG = v0.9.16-pilot-exec-ready), non-ff merge to main, artifact built from merge SHA with trust + source-provenance gates ON.
-Tag constants updated: FROZEN_SOURCE_TAG = v0.9.16-pilot-exec-ready.
+- v0.9.16: release-only closure (notebook anchors corrected); PGDG bootstrap bug discovered during real Kaggle run
+- v0.9.17: PGDG bootstrap fix for real Kaggle failure, FROZEN_SOURCE_TAG = v0.9.17-pilot-exec-ready
+Tag constants updated: FROZEN_SOURCE_TAG = v0.9.17-pilot-exec-ready.
 Carried full suite 2,301 passed / 34 skipped / 0 failed (no production changes).
 `b8d3cf5e…` + all 94 `code_manifest.json` entries equal the normalized tracked
 Git blobs at `identity.source_commit`; both bundled `*.lock` files are
