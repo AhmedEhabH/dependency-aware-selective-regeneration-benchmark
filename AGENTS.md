@@ -36,13 +36,14 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-- **Candidate tag:** `v0.9.17-pilot-exec-ready`
-- **Branch:** `fix/pilot-v0917-pgdg-bootstrap-closure`
+- **Candidate tag:** `v0.9.18-pilot-exec-ready`
+- **Branch:** `fix/pilot-v0918-tag-provenance-docs-closure`
 - **Source commit:** HEAD at merge time
 - **v0.9.14 status:** REJECTED — artifact notebook provenance did not match immutable tag notebook
 - **v0.9.15 status:** REJECTED FOR ACCEPTED PILOT LAUNCH — release finalization/artifact not completed (dist artifact still v0.9.14; code-manifest SHA stale; single-parent commit)
 - **v0.9.16 status:** RELEASE-ONLY CLOSURE (no production behavior changes; notebook anchors corrected)
-- **v0.9.17 status:** CANDIDATE — PGDG bootstrap fix for real Kaggle failure (shell-string elimination, Deb822 + direct curl)
+- **v0.9.17 status:** REJECTED FOR ACCEPTED PILOT LAUNCH — tag/source-commit release-provenance mismatch (immutable tag peel `28a18e6...` != artifact source_commit `adf72d4...`; the artifact itself is internally trustworthy and the PGDG fix is GOOD)
+- **v0.9.18 status:** CANDIDATE — release-only provenance/docs correction (no scientific or production code changes)
 
 ## Validation order
 
@@ -73,6 +74,12 @@ Do not commit, push, merge, tag, reset, stash, force, or delete files unless exp
 - Keep PROJECT_HANDOFF and MASTER_IMPLEMENTATION_PLAN truthful.
 - Update README only when user-facing behavior changes.
 - Stable tag only after a successful Scientific Smoke audit.
+
+## Release provenance invariant
+
+- Artifact source commit MUST equal immutable release tag peel.
+- Create the tag explicitly on the accepted artifact source commit (not HEAD).
+- Post-tag docs evidence commits are never tag targets.
 
 ## Stop / Blocker Reporting Contract
 

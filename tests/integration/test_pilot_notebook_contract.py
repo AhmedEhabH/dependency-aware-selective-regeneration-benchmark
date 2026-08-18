@@ -33,7 +33,7 @@ import pytest
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
-EXPECTED_FROZEN_SOURCE_TAG = "v0.9.17-pilot-exec-ready"
+EXPECTED_FROZEN_SOURCE_TAG = "v0.9.18-pilot-exec-ready"
 
 # The bundled-notebook parity test builds a full Pilot bundle; the hermetic
 # fixture keeps that build deterministic without developer-local repo caches.
