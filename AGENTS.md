@@ -36,11 +36,12 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-- **Candidate tag:** `v0.9.15-pilot-exec-ready`
-- **Branch:** `fix/pilot-v0915-provenance-export-closure`
+- **Candidate tag:** `v0.9.16-pilot-exec-ready`
+- **Branch:** `fix/pilot-v0916-release-only-closure`
 - **Source commit:** HEAD at merge time
 - **v0.9.14 status:** REJECTED — artifact notebook provenance did not match immutable tag notebook
-- **v0.9.15 status:** CANDIDATE — all Tasks A–I implemented; awaiting Scientific Smoke audit before stable promotion
+- **v0.9.15 status:** REJECTED FOR ACCEPTED PILOT LAUNCH — release finalization/artifact not completed (dist artifact still v0.9.14; code-manifest SHA stale; single-parent commit)
+- **v0.9.16 status:** CANDIDATE — release-only closure (no production behavior changes)
 
 ## Validation order
 

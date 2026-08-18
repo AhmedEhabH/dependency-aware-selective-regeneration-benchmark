@@ -24,19 +24,14 @@
 
 ## CURRENT PROJECT STATE
 
-The current deployment source is **`v0.9.14-pilot-exec-ready`** (2026-08-17, the
-final-launch-readiness closure on branch `fix/pilot-final-launch-readiness` from
-clean `origin/main` `5aa6c87`). Five key features implemented:
-(A) PostgreSQL 15 parity (REQUIRED_POSTGRES_MAJOR=15, PGDG APT, version proof,
-UNIQUE NULLS NOT DISTINCT DDL probe, fast Saleor capability gate),
-(B) Fail-closed launch authorization (validate_pilot_launch_authorization),
-(C) Qwen memory offloaded cache + 12k-token stress probe,
-(D) 4 stale source-inspection tests fixed (_generate_sync),
-(E) Invalid run rejection (exp-20260817-094509 REJECTED permanently).
-Tag constants updated: FROZEN_SOURCE_TAG = v0.9.14-pilot-exec-ready.
-Full suite 2,050 passed / 32 skipped / 0 failed / 0 errors
-(1 pre-existing test_scientific_smoke_v2_production_path.py hang excluded).
-Non-ff merge to main + immutable tag pending.
+The current deployment source is **`v0.9.16-pilot-exec-ready`** (2026-08-18, the
+release-only closure on branch `fix/pilot-v0916-release-only-closure` from
+clean `origin/main` `0fecf03`). Release-only closure:
+- v0.9.14 REJECTED: artifact notebook provenance did not match immutable tag notebook
+- v0.9.15 REJECTED FOR ACCEPTED PILOT LAUNCH: dist artifact still v0.9.14; code-manifest SHA stale; single-parent commit
+- v0.9.16: notebook anchors corrected (code_manifest_sha256 = c3c7a8b5..., FROZEN_SOURCE_TAG = v0.9.16-pilot-exec-ready), non-ff merge to main, artifact built from merge SHA with trust + source-provenance gates ON.
+Tag constants updated: FROZEN_SOURCE_TAG = v0.9.16-pilot-exec-ready.
+Carried full suite 2,301 passed / 34 skipped / 0 failed (no production changes).
 `b8d3cf5e…` + all 94 `code_manifest.json` entries equal the normalized tracked
 Git blobs at `identity.source_commit`; both bundled `*.lock` files are
 LF-faithful). **Non-ff merged to main `bfeff97…`; annotated tag
