@@ -246,6 +246,10 @@ def _exec_definitions(
                 return _Ok(stdout="1" if db_present else "")
             if sql.startswith("CREATE ROLE") or sql.startswith("CREATE DATABASE"):
                 return _Ok()
+        if name == "dpkg" and len(args) >= 2 and args[-1] == "--print-architecture":
+            return _Ok(stdout="amd64")
+        if name == "curl" and "-o" in args:
+            return _Ok()
         return _Ok()
 
     monkeypatch.setattr(subprocess, "run", fake_run)
@@ -818,3 +822,329 @@ class TestFullCellEndToEnd:
         out = capsys.readouterr().out
         assert "SALEOR VALIDATION SERVICE BOOTSTRAP: PASSED" in out
         assert "implementation=redis-server" in out
+
+
+# ---------------------------------------------------------------------------
+# PGDG-001: the exact branch that failed on real Kaggle v0.9.16
+# PG15 absent -> _ensure_pgdg_apt() -> PGDG configured -> PG15 installed
+# ---------------------------------------------------------------------------
+
+
+def _exec_definitions_for_pgdg(
+    tmp_path: Path,
+    monkeypatch: Any,
+    *,
+    euid: int = 0,
+    os_release_content: str = "VERSION_CODENAME=jammy\n",
+) -> _Ns:
+    """Set up definitions for PGDG testing with hermetic paths.
+
+    Returns a namespace with overridden path constants and ``_pg_bindir``
+    returning ``None`` so ``_ensure_pgdg_apt`` takes the full PGDG branch.
+    """
+    state = _exec_definitions(tmp_path, monkeypatch, euid=euid, postgres_user=True)
+    os_release = tmp_path / "os-release"
+    os_release.write_text(os_release_content, encoding="utf-8")
+    state.ns["OS_RELEASE_PATH"] = os_release
+    pgdg_dir = tmp_path / "pgdg"
+    pgdg_dir.mkdir()
+    state.ns["PGDG_KEY_DIR"] = pgdg_dir
+    state.ns["PGDG_KEY_PATH"] = pgdg_dir / "apt.postgresql.org.asc"
+    state.ns["PGDG_SOURCES_PATH"] = tmp_path / "pgdg.sources"
+    state.which_map["dpkg"] = "/usr/bin/dpkg"
+    state.which_map["curl"] = "/usr/bin/curl"
+    state.which_map["ca-certificates"] = "/usr/share/ca-certificates"
+    state.which_map["gpg"] = "/usr/bin/gpg"
+    state.ns["_pg_bindir"] = lambda: None
+    return state
+
+
+def _pgdg_run_calls(state: _Ns) -> list[dict[str, Any]]:
+    """Return all subprocess.run calls made during a _ensure_pgdg_apt invocation."""
+    return [
+        c for c in state.run_calls
+        if str(c["cmd"][0]) in ("bash", "sh", "curl", "dpkg")
+        or (str(c["cmd"][0]).endswith("apt-get") and "install" in c["cmd"])
+    ]
+
+
+class TestPgdgSetupPath:
+    """PGDG-001: _ensure_pgdg_apt uses no shell-string construction.
+
+    The real Kaggle v0.9.16 failure was a malformed bash -c command with
+    mismatched single quotes. These tests assert the replacement approach:
+    direct curl argv, Python-written Deb822 .sources file, exact pg15
+    packages, codename safety, and fail-closed error handling.
+    """
+
+    def test_no_bash_or_sh_c_in_pgdg_setup(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001A: zero bash -c / sh -c commands in _ensure_pgdg_apt."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        state.ns["_ensure_pgdg_apt"]()
+        for call in state.run_calls:
+            cmd = call["cmd"]
+            assert not (isinstance(cmd[0], str) and cmd[0] in ("bash", "sh") and len(cmd) > 1 and cmd[1] == "-c"), (
+                f"shell -c used in _ensure_pgdg_apt: {cmd}"
+            )
+            assert "shell" not in call["kwargs"], f"shell=True used: {call}"
+
+    def test_no_gpg_dearmor_pipeline(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001B: no gpg --dearmor in any run call."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        state.ns["_ensure_pgdg_apt"]()
+        for call in state.run_calls:
+            cmd = call["cmd"]
+            name = Path(str(cmd[0])).name
+            assert name != "gpg", f"gpg invoked directly: {cmd}"
+            assert "gpg --dearmor" not in " ".join(str(c) for c in cmd), f"gpg pipeline used: {cmd}"
+
+    def test_curl_direct_with_output_flag(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001C: curl -o <path> --fail <url> (direct, no pipe)."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        state.ns["_ensure_pgdg_apt"]()
+        curl_calls = [c for c in state.run_calls if str(c["cmd"][0]) == "curl"]
+        assert len(curl_calls) == 1
+        cmd = curl_calls[0]["cmd"]
+        assert cmd[0] == "curl"
+        assert "-o" in cmd
+        assert "--fail" in cmd
+        assert "ACCC4CF8.asc" in cmd[-1]
+
+    def test_deb822_sources_format(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001D: .sources file uses Deb822 format with exact content."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        state.ns["_ensure_pgdg_apt"]()
+        sources_path = state.ns["PGDG_SOURCES_PATH"]
+        assert sources_path.is_file()
+        content = sources_path.read_text(encoding="utf-8")
+        assert "Types: deb" in content
+        assert "URIs: https://apt.postgresql.org/pub/repos/apt" in content
+        assert "Suites: jammy-pgdg" in content
+        assert "Components: main" in content
+        assert "Signed-By:" in content
+
+    def test_codename_jammy(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001E: jammy codename produces Suites: jammy-pgdg."""
+        state = _exec_definitions_for_pgdg(
+            tmp_path, monkeypatch, os_release_content="VERSION_CODENAME=jammy\n"
+        )
+        state.ns["_ensure_pgdg_apt"]()
+        content = state.ns["PGDG_SOURCES_PATH"].read_text(encoding="utf-8")
+        assert "Suites: jammy-pgdg" in content
+
+    def test_codename_noble(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001F: noble codename produces Suites: noble-pgdg."""
+        state = _exec_definitions_for_pgdg(
+            tmp_path, monkeypatch, os_release_content="VERSION_CODENAME=noble\n"
+        )
+        state.ns["_ensure_pgdg_apt"]()
+        content = state.ns["PGDG_SOURCES_PATH"].read_text(encoding="utf-8")
+        assert "Suites: noble-pgdg" in content
+
+    def test_missing_codename_fails(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001G: missing VERSION_CODENAME -> fail closed."""
+        state = _exec_definitions_for_pgdg(
+            tmp_path, monkeypatch, os_release_content=""
+        )
+        with pytest.raises(RuntimeError, match="VERSION_CODENAME not found"):
+            state.ns["_ensure_pgdg_apt"]()
+
+    def test_unsafe_codename_fails(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001H: codename with whitespace/quotes -> fail closed."""
+        state = _exec_definitions_for_pgdg(
+            tmp_path, monkeypatch, os_release_content='VERSION_CODENAME="jam my"\n'
+        )
+        with pytest.raises(RuntimeError, match="unsafe characters"):
+            state.ns["_ensure_pgdg_apt"]()
+
+    def test_curl_failure_fails_closed(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001I: curl key download failure -> no apt install attempted."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        original_fake_run = subprocess.run
+
+        def failing_curl_run(cmd: list[str], **kwargs: Any) -> _Ok:
+            state.run_calls.append({"cmd": list(cmd), "kwargs": dict(kwargs)})
+            name = Path(str(cmd[0])).name
+            args = [str(c) for c in cmd]
+            if name == "curl" and "-o" in args:
+                return _Ok(returncode=22, stderr="curl: (22) The requested URL returned error: 404")
+            return original_fake_run(cmd, **kwargs)
+
+        monkeypatch.setattr(subprocess, "run", failing_curl_run)
+        with pytest.raises(RuntimeError):
+            state.ns["_ensure_pgdg_apt"]()
+        install_calls = [
+            c for c in state.run_calls
+            if str(c["cmd"][0]).endswith("apt-get") and "install" in c["cmd"]
+            and any("postgresql" in str(a) for a in c["cmd"])
+        ]
+        assert not install_calls, "apt install must not run after curl failure"
+
+    def test_apt_update_failure_after_repo_write_fails_closed(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001J: apt-get update failure -> no PG15 lifecycle starts."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        original_fake_run = subprocess.run
+        update_failed = [False]
+
+        def apt_update_fail_run(cmd: list[str], **kwargs: Any) -> _Ok:
+            state.run_calls.append({"cmd": list(cmd), "kwargs": dict(kwargs)})
+            name = Path(str(cmd[0])).name
+            args = [str(c) for c in cmd]
+            if name == "apt-get" and len(args) > 1 and args[1] == "update":
+                update_failed[0] = True
+                return _Ok(returncode=100)
+            return original_fake_run(cmd, **kwargs)
+
+        monkeypatch.setattr(subprocess, "run", apt_update_fail_run)
+        with pytest.raises(RuntimeError):
+            state.ns["_ensure_pgdg_apt"]()
+
+    def test_installs_exact_pg15_packages_only(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001K: installs postgresql-15 + postgresql-client-15, no generic."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        state.ns["_ensure_pgdg_apt"]()
+        install_calls = [
+            c for c in state.run_calls
+            if str(c["cmd"][0]).endswith("apt-get") and "install" in c["cmd"]
+        ]
+        assert len(install_calls) == 1
+        pkgs = [a for a in install_calls[0]["cmd"][2:] if not a.startswith("-")]
+        assert set(pkgs) == {"postgresql-15", "postgresql-client-15"}
+
+    def test_arch_detected_via_dpkg(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001L: dpkg --print-architecture called for .sources file."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        state.ns["_ensure_pgdg_apt"]()
+        dpkg_calls = [
+            c for c in state.run_calls
+            if str(c["cmd"][0]) == "dpkg" and "--print-architecture" in c["cmd"]
+        ]
+        assert len(dpkg_calls) == 1
+        content = state.ns["PGDG_SOURCES_PATH"].read_text(encoding="utf-8")
+        assert "Architectures: amd64" in content
+
+    def test_key_dir_created(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-001M: PGDG key directory is created before key download."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        state.ns["_ensure_pgdg_apt"]()
+        key_dir = state.ns["PGDG_KEY_DIR"]
+        assert key_dir.is_dir()
+
+
+class TestFullCellPgdgBranch:
+    """PGDG-002: full service cell with the exact Kaggle failure branch.
+
+    PG15 absent -> _ensure_pgdg_apt() -> PGDG configured -> PG15 installed
+    -> bindir resolved -> entire service-bootstrap cell reaches PASS.
+    This is the regression that should have caught the v0.9.16 failure.
+    """
+
+    def test_kaggle_pgdg_branch_full_cell_passes(
+        self, tmp_path: Path, monkeypatch: Any, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """PGDG-002A: entire cell green with PGDG path."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        pgbin = tmp_path / "pgbin"
+        pgbin.mkdir()
+        for name in ("pg_ctl", "initdb", "psql", "postgres"):
+            (pgbin / name).write_text("", encoding="utf-8")
+        install_done = [False]
+
+        def pg_bindir_with_install() -> Path | None:
+            if install_done[0]:
+                return pgbin
+            return None
+
+        state.ns["_pg_bindir"] = pg_bindir_with_install
+
+        def pgdg_full_run(cmd: list[str], **kwargs: Any) -> _Ok:
+            state.run_calls.append({"cmd": list(cmd), "kwargs": dict(kwargs)})
+            name = Path(str(cmd[0])).name
+            args = [str(c) for c in cmd]
+            if name == "apt-get" and len(args) > 1 and args[1] == "install":
+                packages = [a for a in args[2:] if not a.startswith("-")]
+                if any("postgresql" in p for p in packages):
+                    install_done[0] = True
+                return _Ok()
+            if name == "apt-get" and len(args) > 1 and args[1] == "update":
+                return _Ok()
+            if name == "dpkg" and "--print-architecture" in args:
+                return _Ok(stdout="amd64")
+            if name == "curl" and "-o" in args:
+                return _Ok()
+            if name == "pg_ctl":
+                state.pg_started = True
+                return _Ok()
+            if name == "psql":
+                sql = args[-1].strip()
+                if sql == "SELECT 1":
+                    return _Ok(stdout="1")
+                if "SHOW server_version_num" in sql:
+                    return _Ok(stdout="150000")
+                if "UNIQUE NULLS NOT DISTINCT" in sql:
+                    return _Ok()
+                if "pg_roles" in sql:
+                    return _Ok(stdout="1")
+                if "pg_database" in sql:
+                    return _Ok(stdout="1")
+                if sql.startswith("CREATE ROLE") or sql.startswith("CREATE DATABASE"):
+                    return _Ok()
+            if name == "redis-server" or name == "valkey-server":
+                if "--daemonize" in args:
+                    state.redis_started = True
+                    return _Ok()
+                if args[-1] == "--version":
+                    return _Ok(stdout=f"{name} 7.0.0\n")
+            if args[-1] == "--version":
+                return _Ok(stdout=f"{name} (PostgreSQL) 15.0\n")
+            return _Ok()
+
+        monkeypatch.setattr(subprocess, "run", pgdg_full_run)
+        state.ns["_wait_port"] = lambda _h, _p, deadline_seconds=60: True
+        state.ns["_ensure_pgdg_apt"]()
+        state.ns["_ensure_postgres"](pgbin)
+        redis_bin = tmp_path / "redis-server"
+        redis_bin.write_text("", encoding="utf-8")
+        state.ns["which"] = lambda n: str(redis_bin) if n == "redis-server" else state.which_map.get(n)
+        state.ns["_ensure_redis"](redis_bin)
+        out = capsys.readouterr().out
+        assert "Configuring PostgreSQL PGDG APT repository for PG15" in out
+        assert "UNIQUE NULLS NOT DISTINCT DDL probe: PASS" in out
+        assert state.pg_started and state.redis_started
+
+    def test_no_shell_commands_in_pgdg_full_cell(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """PGDG-002B: full cell with PGDG path has zero shell -c commands."""
+        state = _exec_definitions_for_pgdg(tmp_path, monkeypatch)
+        for call in state.run_calls:
+            cmd = call["cmd"]
+            assert not (isinstance(cmd[0], str) and cmd[0] in ("bash", "sh") and len(cmd) > 1 and cmd[1] == "-c"), (
+                f"shell -c in full cell: {cmd}"
+            )

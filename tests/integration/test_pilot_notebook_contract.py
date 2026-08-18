@@ -289,6 +289,41 @@ class TestServiceBootstrap:
         assert "in-process fake server" in src
         assert "shell=True" not in src
 
+    def test_pgdg_no_shell_string_construction(self) -> None:
+        """PGDG-CONTRACT: PGDG path must use no bash -c / sh -c / gpg pipeline."""
+        src = self._src("service-bootstrap-cell")
+        full_pgdg = src[src.index("_ensure_pgdg_prerequisites"):src.index("def _psql")]
+        code_lines = [
+            ln for ln in full_pgdg.splitlines()
+            if ln.strip() and not ln.strip().startswith("#") and not ln.strip().startswith('"""')
+        ]
+        code_text = "\n".join(code_lines)
+        assert '"bash", "-c"' not in code_text
+        assert '"sh", "-c"' not in code_text
+        assert "gpg --dearmor" not in code_text
+        assert "echo 'deb" not in code_text
+
+    def test_pgdg_uses_deb822_sources_format(self) -> None:
+        """PGDG-CONTRACT: PGDG path uses Deb822 .sources, not legacy .list."""
+        src = self._src("service-bootstrap-cell")
+        assert "pgdg.sources" in src
+        assert "Types: deb" in src
+        assert "Signed-By:" in src
+        assert "Path.write_text" in src
+
+    def test_pgdg_uses_official_https_repo_url(self) -> None:
+        """PGDG-CONTRACT: official HTTPS PGDG repo URL."""
+        src = self._src("service-bootstrap-cell")
+        assert "https://apt.postgresql.org/pub/repos/apt" in src
+        assert "https://www.postgresql.org/media/keys/ACCC4CF8.asc" in src
+
+    def test_pgdg_codename_safety(self) -> None:
+        """PGDG-CONTRACT: no silent jammy fallback; fail on missing/unsafe."""
+        src = self._src("service-bootstrap-cell")
+        assert "VERSION_CODENAME not found" in src
+        assert "unsafe characters" in src
+        assert "OS_RELEASE_PATH" in src
+
 
 class TestRepoPreflight:
     def test_all_three_repos_preflight_no_model_call(self) -> None:
