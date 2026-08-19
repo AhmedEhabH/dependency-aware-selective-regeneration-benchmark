@@ -24,18 +24,16 @@
 
 ## CURRENT PROJECT STATE
 
-The current deployment source is **`v0.9.18-pilot-exec-ready`** (2026-08-18, the
-tag-provenance/docs correction on branch `fix/pilot-v0918-tag-provenance-docs-closure` from
-clean `origin/main`). v0.9.17 PGDG bootstrap fix is GOOD (internually trustworthy
-artifact), but the v0.9.17 immutable tag peel `28a18e6...` != artifact
-source_commit `adf72d4...` (tag was created on post-artifact freeze-report commit,
-not on the merge SHA).
+The current deployment source is **`v0.9.19-pilot-exec-ready`** (2026-08-19, the
+PostgreSQL admin/application bootstrap + partial recovery closure on branch `fix/pilot-v0919-postgres-admin-bootstrap-recovery` from
+clean `origin/main`). v0.9.18 release-only provenance/docs correction is PRIOR.
 - v0.9.14 REJECTED: artifact notebook provenance did not match immutable tag notebook
 - v0.9.15 REJECTED FOR ACCEPTED PILOT LAUNCH: dist artifact still v0.9.14; code-manifest SHA stale; single-parent commit
 - v0.9.16: release-only closure (notebook anchors corrected); PGDG bootstrap bug discovered during real Kaggle run
 - v0.9.17 REJECTED FOR ACCEPTED PILOT LAUNCH: tag/source-commit release-provenance mismatch (PGDG fix GOOD)
+- v0.9.19: PostgreSQL admin/application bootstrap + partial recovery closure (real Kaggle defect fix)
 - v0.9.18: release-only provenance/docs correction (no scientific or production code changes)
-Tag constants updated: FROZEN_SOURCE_TAG = v0.9.18-pilot-exec-ready.
+Tag constants updated: FROZEN_SOURCE_TAG = v0.9.19-pilot-exec-ready.
 Carried full suite 2,320 passed / 34 skipped / 0 failed (no production changes).
 `b8d3cf5e…` + all 94 `code_manifest.json` entries equal the normalized tracked
 Git blobs at `identity.source_commit`; both bundled `*.lock` files are

@@ -541,7 +541,7 @@ class TestServiceProofSemantics:
             tmp_path, monkeypatch, euid=1000, postgres_user=True, port_open=True,
             db_probe_ok=False,
         )
-        with pytest.raises(RuntimeError, match="not serving the frozen"):
+        with pytest.raises(RuntimeError, match="foreign service"):
             state.ns["_ensure_postgres"](_make_bindir(tmp_path))
         assert not _run_cmd(state, "initdb")
 
@@ -1148,3 +1148,408 @@ class TestFullCellPgdgBranch:
             assert not (isinstance(cmd[0], str) and cmd[0] in ("bash", "sh") and len(cmd) > 1 and cmd[1] == "-c"), (
                 f"shell -c in full cell: {cmd}"
             )
+
+
+# ---------------------------------------------------------------------------
+# Stateful PostgreSQL lifecycle fake — v0.9.19 admin-bootstrap-recovery tests
+#
+# Replaces permissive SQL-string mocks with a narrow lifecycle model that
+# FAILS any connection to PGDATABASE=saleor before the DB exists.
+# The old v0.9.18 code must fail these RED tests.
+# ---------------------------------------------------------------------------
+
+
+class _PgLifecycleState:
+    """Narrow stateful PostgreSQL lifecycle model for the hermetic test seam."""
+
+    def __init__(
+        self,
+        *,
+        data_dir: str = "",
+        server_major: int = 15,
+        databases: set[str] | None = None,
+        port_open: bool = False,
+        show_data_directory: str = "",
+    ) -> None:
+        self.server_major = server_major
+        self.data_dir = data_dir or "/kaggle/working/pilot_services/postgres"
+        self.show_data_directory = show_data_directory or self.data_dir
+        self.databases: set[str] = set(databases) if databases is not None else {"postgres"}
+        self.port_open = port_open
+        self.initdb_called = False
+        self.role_created = False
+        self.db_created = False
+        self.redis_started = False
+        self.server_started = False
+        self.pgdatabase_calls: list[tuple[str, str]] = []
+        self.psql_calls: list[dict[str, Any]] = []
+
+    def handle_psql(self, cmd: list[str], kwargs: dict[str, Any]) -> _Ok:
+        env = kwargs.get("env") or {}
+        db = env.get("PGDATABASE", "")
+        sql = cmd[-1].strip() if cmd else ""
+        self.psql_calls.append({"sql": sql, "db": db, "env": dict(env)})
+
+        if db and db not in self.databases:
+            return _Ok(returncode=2, stderr=f'psql: error: FATAL:  database "{db}" does not exist\n')
+
+        if sql == "SELECT 1":
+            return _Ok(stdout="1")
+        if "SHOW server_version_num" in sql:
+            return _Ok(stdout=str(self.server_major * 10000))
+        if "SHOW data_directory" in sql:
+            return _Ok(stdout=self.show_data_directory)
+        if "UNIQUE NULLS NOT DISTINCT" in sql:
+            return _Ok()
+        if "pg_roles" in sql:
+            return _Ok(stdout="1" if self.role_created else "")
+        if "pg_database" in sql:
+            return _Ok(stdout="1" if self.db_created else "")
+        if sql.startswith("CREATE ROLE"):
+            self.role_created = True
+            return _Ok()
+        if sql.startswith("CREATE DATABASE"):
+            self.databases.add("saleor")
+            self.db_created = True
+            return _Ok()
+        return _Ok()
+
+    def make_fake_run(self) -> Any:
+        def _fake_run(cmd: list[str], **kwargs: Any) -> _Ok:
+            name = Path(str(cmd[0])).name
+            args = [str(c) for c in cmd]
+
+            if name == "pg_config" and "--bindir" in args:
+                return _Ok(stdout=str(Path(self.data_dir).parent / "pgbin"))
+            if name in ("psql",) and not args[-1].startswith("--"):
+                return self.handle_psql(cmd, kwargs)
+            if name in ("postgres", "psql", "pg_ctl", "initdb") and args[-1] == "--version":
+                return _Ok(stdout=f"{name} (PostgreSQL) {self.server_major}.0\n")
+            if name == "initdb":
+                self.initdb_called = True
+                return _Ok()
+            if name == "pg_ctl":
+                if "start" in args:
+                    self.server_started = True
+                return _Ok()
+            if name == "dpkg" and "--print-architecture" in args:
+                return _Ok(stdout="amd64")
+            if name == "curl" and "-o" in args:
+                return _Ok()
+            if name in ("apt-get",) and len(args) > 1:
+                return _Ok()
+            if "--daemonize" in args:
+                self.redis_started = True
+                return _Ok()
+            if name in ("redis-server", "valkey-server") and "--version" in args:
+                return _Ok(stdout=f"{name} 7.0.0\n")
+            return _Ok()
+
+        return _fake_run
+
+
+def _pg_lifecycle_stateful(
+    tmp_path: Path,
+    monkeypatch: Any,
+    *,
+    port_open: bool = False,
+    databases: set[str] | None = None,
+    data_dir: str = "",
+    show_data_directory: str = "",
+    euid: int = 0,
+    redis_port_open: bool = False,
+    redis_binary_name: str = "redis-server",
+    server_major: int = 15,
+) -> tuple[_PgLifecycleState, dict[str, Any]]:
+    """Exec the full service cell with a stateful PostgreSQL lifecycle fake.
+
+    Returns (state, namespace) for test inspection.
+    """
+    pg_data = data_dir or str(tmp_path / "pilot_services" / "postgres")
+    pg_state = _PgLifecycleState(
+        data_dir=pg_data,
+        show_data_directory=show_data_directory,
+        databases=databases,
+        port_open=port_open,
+        server_major=server_major,
+    )
+
+    if euid == 0:
+        fake_pwd = types.SimpleNamespace(
+            getpwnam=lambda _name: types.SimpleNamespace(pw_uid=PG_UID, pw_gid=PG_GID)
+        )
+    else:
+
+        def _missing(_name: str) -> None:
+            raise KeyError(_name)
+
+        fake_pwd = types.SimpleNamespace(getpwnam=_missing)
+    monkeypatch.setitem(sys.modules, "pwd", fake_pwd)
+
+    fake_os = types.ModuleType("os")
+    fake_os.name = "posix"
+    fake_os.geteuid = lambda: euid
+    fake_os.chown = lambda _p, _u, _g: None
+    fake_os.chmod = lambda _p, _m: None
+    fake_os.environ = os.environ
+    fake_os.path = os.path
+    fake_os.getenv = os.getenv
+    fake_os.sep = os.sep
+    monkeypatch.setitem(sys.modules, "os", fake_os)
+
+    fakebin = tmp_path / "fakebin"
+    fakebin.mkdir(parents=True, exist_ok=True)
+    redis_bin_path = fakebin / redis_binary_name
+    redis_bin_path.write_text("", encoding="utf-8")
+    which_map: dict[str, str] = {
+        "apt-get": "/usr/bin/apt-get",
+        "apt-cache": "/usr/bin/apt-cache",
+        redis_binary_name: str(redis_bin_path),
+    }
+    monkeypatch.setattr(shutil, "which", lambda name: which_map.get(name))
+    monkeypatch.setattr(subprocess, "run", pg_state.make_fake_run())
+    def _fake_conn(addr: Any, *_args: Any, **_kwargs: Any) -> _Conn:
+        host, port = addr
+        if port == SALEOR_PG_PORT and (pg_state.port_open or pg_state.server_started):
+            return _Conn()
+        if port == SALEOR_REDIS_PORT and (redis_port_open or pg_state.redis_started):
+            return _Conn()
+        raise OSError("connection refused (port closed in hermetic model)")
+
+    monkeypatch.setattr(socket, "create_connection", _fake_conn)
+
+    nb = json.loads(CANONICAL_NOTEBOOK.read_text(encoding="utf-8"))
+    cells = [c for c in nb["cells"] if c.get("id") == SERVICE_CELL_ID]
+    assert len(cells) == 1
+    src = cells[0]["source"]
+    full_source = src if isinstance(src, str) else "".join(src)
+    defn_src = full_source.split(PROVISION_MARKER)[0]
+    prov_marker_idx = full_source.index(PROVISION_MARKER)
+    prov_src = full_source[prov_marker_idx:]
+
+    ns: dict[str, Any] = {}
+    exec(compile(defn_src, "<service-bootstrap-cell>", "exec"), ns)
+    services = tmp_path / "pilot_services"
+    ns["SERVICES_ROOT"] = services
+    ns["PG_DATA_DIR"] = Path(pg_data)
+    ns["PG_LOG"] = services / "postgres.log"
+    ns["REDIS_LOG"] = services / "valkey.log"
+    ns["_wait_port"] = lambda _h, _p, deadline_seconds=60: True
+
+    services.mkdir(parents=True, exist_ok=True)
+    (services / "postgres.log").touch(exist_ok=True)
+    (services / "valkey.log").touch(exist_ok=True)
+
+    pgbin = tmp_path / "pgbin"
+    pgbin.mkdir(parents=True, exist_ok=True)
+    for name in ("pg_ctl", "initdb", "psql", "postgres"):
+        (pgbin / name).write_text("", encoding="utf-8")
+    ns["_pg_bindir"] = lambda: pgbin
+
+    exec(compile(prov_src, "<service-bootstrap-cell:provision>", "exec"), ns)
+    return pg_state, ns
+
+
+class TestPgAdminBootstrapRedGreen:
+    """v0.9.19: exact real Kaggle fresh-cluster ordering defect.
+
+    Fresh cluster: initdb created the cluster + role but NOT the Saleor DB.
+    The old v0.9.18 code targets PGDATABASE=saleor for SHOW server_version_num
+    BEFORE the DB exists; the fixed code uses admin DB `postgres`.
+    """
+
+    def test_old_code_fails_targeting_saleor_before_creation(
+        self, tmp_path: Path, monkeypatch: Any, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """RED-to-GREEN: fixed code succeeds on fresh cluster where old code would fail.
+
+        Old v0.9.18 code: _ensure_postgres() -> _psql(bindir, "SHOW server_version_num")
+        with default db=SALEOR_PG_DB -> FATAL: database "saleor" does not exist.
+        Fixed code: uses db="postgres" for all server-level proofs.
+        """
+        pg_state, _ns = _pg_lifecycle_stateful(
+            tmp_path, monkeypatch,
+            databases={"postgres"},
+            euid=0,
+        )
+        assert pg_state.db_created, "saleor database must be created"
+        out = capsys.readouterr().out
+        assert "SALEOR VALIDATION SERVICE BOOTSTRAP: PASSED" in out
+
+    def test_new_code_uses_admin_db_for_server_proofs(
+        self, tmp_path: Path, monkeypatch: Any, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """GREEN: fixed code uses db=postgres for all server-level proofs."""
+        pg_state, _ns = _pg_lifecycle_stateful(
+            tmp_path, monkeypatch,
+            databases={"postgres"},
+            euid=0,
+        )
+        psql_calls = [c for c in pg_state.psql_calls if c["sql"]]
+        create_idx = next(
+            (i for i, c in enumerate(psql_calls)
+             if "CREATE DATABASE" in c["sql"]),
+            len(psql_calls),
+        )
+        before_create = psql_calls[:create_idx]
+        assert all(c["db"] == "postgres" for c in before_create), (
+            "server-level psql calls must target admin DB postgres, "
+            "got: %s" % [(c["sql"][:50], c["db"]) for c in before_create]
+        )
+        out = capsys.readouterr().out
+        assert "SALEOR VALIDATION SERVICE BOOTSTRAP: PASSED" in out
+
+
+class TestPgChronologyInvariant:
+    """v0.9.19: ZERO Saleor-DB psql calls before CREATE DATABASE."""
+
+    def test_zero_saleor_db_queries_before_create_database(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        pg_state, _ns = _pg_lifecycle_stateful(
+            tmp_path, monkeypatch,
+            databases={"postgres"},
+            euid=0,
+        )
+        create_idx = None
+        for i, c in enumerate(pg_state.psql_calls):
+            if c["sql"].startswith("CREATE DATABASE"):
+                create_idx = i
+                break
+        assert create_idx is not None, "CREATE DATABASE saleor must appear in the call log"
+        before = pg_state.psql_calls[:create_idx]
+        for c in before:
+            assert c["db"] != "saleor", (
+                f"psql called with PGDATABASE=saleor before CREATE DATABASE at index "
+                f"{pg_state.psql_calls.index(c)}: {c['sql'][:80]}"
+            )
+
+    def test_final_connection_after_db_creation_uses_saleor(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        pg_state, _ns = _pg_lifecycle_stateful(
+            tmp_path, monkeypatch,
+            databases={"postgres"},
+            euid=0,
+        )
+        create_idx = None
+        for i, c in enumerate(pg_state.psql_calls):
+            if c["sql"].startswith("CREATE DATABASE"):
+                create_idx = i
+                break
+        assert create_idx is not None
+        after = pg_state.psql_calls[create_idx + 1:]
+        saleor_after = [c for c in after if c["sql"] == "SELECT 1"]
+        assert saleor_after, "final frozen SELECT 1 on saleor must appear after DB creation"
+        assert all(c["db"] == "saleor" for c in saleor_after), (
+            "final connection probe must use PGDATABASE=saleor"
+        )
+
+
+class TestPgPartialRecovery:
+    """v0.9.19: safe recovery from partial-state (own PG15, Saleor DB missing)."""
+
+    def test_own_pg15_with_missing_saleor_recovers(
+        self, tmp_path: Path, monkeypatch: Any, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Port open, server PG15, data_directory == PG_DATA_DIR, saleor absent -> recovery."""
+        pg_data = str(tmp_path / "pilot_services" / "postgres")
+        pg_state, _ns = _pg_lifecycle_stateful(
+            tmp_path, monkeypatch,
+            port_open=True,
+            databases={"postgres"},
+            data_dir=pg_data,
+            euid=0,
+        )
+        assert pg_state.db_created, "recovery must create the saleor database"
+        out = capsys.readouterr().out
+        assert "SALEOR VALIDATION SERVICE BOOTSTRAP: PASSED" in out
+
+
+class TestPgForeignServiceProtection:
+    """v0.9.19: foreign/wrong service on port 5433 must FAIL CLOSED."""
+
+    def test_foreign_data_directory_fails_closed(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """Port open but data_directory != PG_DATA_DIR -> fail closed."""
+        with pytest.raises(RuntimeError):
+            _pg_lifecycle_stateful(
+                tmp_path, monkeypatch,
+                port_open=True,
+                databases={"postgres"},
+                show_data_directory="/tmp/foreign_pgdata",
+                euid=0,
+            )
+
+
+class TestPgWrongMajor:
+    """v0.9.19: own-looking but wrong major version -> fail before mutations."""
+
+    def test_pg14_on_own_port_fails(self, tmp_path: Path, monkeypatch: Any) -> None:
+        pg_data = str(tmp_path / "pilot_services" / "postgres")
+        with pytest.raises(RuntimeError):
+            _pg_lifecycle_stateful(
+                tmp_path, monkeypatch,
+                port_open=True,
+                databases={"postgres"},
+                data_dir=pg_data,
+                server_major=14,
+                euid=0,
+            )
+
+
+class TestPgAdminDbUnavailable:
+    """v0.9.19: fresh server started but postgres admin connection fails."""
+
+    def test_admin_connection_failure_before_application_db(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """Admin postgres connection must work before any Saleor DB operations."""
+        with pytest.raises(RuntimeError):
+            _pg_lifecycle_stateful(
+                tmp_path, monkeypatch,
+                databases=set(),
+                euid=0,
+            )
+
+
+class TestPgExplicitDbContract:
+    """v0.9.19: _psql must require explicit db=, no implicit Saleor default."""
+
+    def test_psql_no_longer_defaults_to_saleor_db(
+        self, tmp_path: Path, monkeypatch: Any
+    ) -> None:
+        """_psql signature must not have db=SALEOR_PG_DB as default."""
+        state = _exec_definitions(tmp_path, monkeypatch)
+        import inspect
+        sig = inspect.signature(state.ns["_psql"])
+        db_param = sig.parameters.get("db")
+        assert db_param is not None, "_psql must have a db parameter"
+        assert db_param.default is inspect.Parameter.empty, (
+            f"_psql db parameter must not have a default value "
+            f"(was: {db_param.default!r})"
+        )
+
+
+class TestFullPgdgWithDbLifecycle:
+    """v0.9.19: full PGDG Kaggle-path with Saleor DB absent at start.
+
+    PG15 absent -> PGDG install -> initdb -> server start ->
+    role exists, saleor DB absent -> admin proofs use postgres ->
+    Saleor DB created -> Redis starts -> entire bootstrap PASS.
+    """
+
+    def test_kaggle_full_pgdg_with_saleor_db_absent(
+        self, tmp_path: Path, monkeypatch: Any, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Closest hermetic test to the real Kaggle path."""
+        pg_state, _ns = _pg_lifecycle_stateful(
+            tmp_path, monkeypatch,
+            databases={"postgres"},
+            euid=0,
+        )
+        assert pg_state.initdb_called, "initdb must run on fresh cluster"
+        assert pg_state.db_created, "saleor DB must be created"
+        out = capsys.readouterr().out
+        assert "SALEOR VALIDATION SERVICE BOOTSTRAP: PASSED" in out

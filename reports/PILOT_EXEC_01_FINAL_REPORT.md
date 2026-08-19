@@ -1,12 +1,11 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
-> **NOTE (2026-08-18, LATEST):** v0.9.18-pilot-exec-ready TAG-PROVENANCE/DOCS CORRECTION.
-> v0.9.17 tag/source-commit release-provenance mismatch (immutable tag peel
-> `28a18e6` != artifact source_commit `adf72d4`). v0.9.17 REJECTED FOR ACCEPTED
-> PILOT LAUNCH — PGDG fix is GOOD but the tag was created on post-artifact
-> freeze-report commit, not on the merge SHA. v0.9.18 corrects: release-only
-> provenance/docs correction, no production/scientific code changes.
-> Carried full suite 2,320 passed / 34 skipped / 0 failed.
+> **NOTE (2026-08-19, LATEST):** v0.9.19-pilot-exec-ready POSTGRESQL ADMIN/APPLICATION BOOTSTRAP + PARTIAL RECOVERY CLOSURE.
+> v0.9.18 release-only provenance/docs correction is PRIOR. v0.9.19 is the
+> PostgreSQL admin/application bootstrap + partial recovery closure: `_psql`
+> no longer has implicit Saleor DB default, server proofs use `db="postgres"`,
+> `SHOW data_directory` protects partial recovery, Saleor DB is created before
+> any application DB connection. Real Kaggle defect fix.
 
 > **NOTE (2026-08-16, LATEST):** superseded by the PILOT-EXEC-01
 > RELEASE-PROVENANCE CLOSURE — **`v0.9.11-pilot-exec-ready` REJECTED FOR LAUNCH;
