@@ -1,5 +1,17 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
+> **CURRENT STATE (2026-08-22):** accepted release = **`v0.9.19-pilot-exec-ready`**
+> @ tag peel == artifact source commit `2305991442a4f965d44bb066bb00c0a459fc395a`;
+> `main` is a post-tag docs/evidence child of that merge; v0.9.19 artifact
+> trust/provenance GREEN; OpenCode full suite = 2330 passed / 34 skipped /
+> 0 failed; Real Pilot = NOT STARTED; next action = fresh Kaggle v0.9.19 target
+> preflight, then launch the accepted 48-cell Pilot in the same session if all
+> target gates pass; do NOT open v0.9.20 without real target evidence.
+> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+> The dated "Handoff type" entries and older sections below are a
+> chronological HISTORICAL trail (each superseded by the next); they are kept
+> for traceability only.
+
 **Handoff Date:** 2026-08-17
 **Prepared by:** OpenCode (engineering assistant)
 **Handoff to:** Human researcher (subsequent sessions)
@@ -24,17 +36,30 @@
 
 ## CURRENT PROJECT STATE
 
-The current deployment source is **`v0.9.19-pilot-exec-ready`** (2026-08-19, the
-PostgreSQL admin/application bootstrap + partial recovery closure on branch `fix/pilot-v0919-postgres-admin-bootstrap-recovery` from
-clean `origin/main`). v0.9.18 release-only provenance/docs correction is PRIOR.
+**CURRENT (2026-08-22):** the accepted deployment source is
+**`v0.9.19-pilot-exec-ready`** @ tag peel == artifact source commit
+`2305991442a4f965d44bb066bb00c0a459fc395a` (2026-08-19, the PostgreSQL
+admin/application bootstrap + partial recovery closure on branch
+`fix/pilot-v0919-postgres-admin-bootstrap-recovery` from clean `origin/main`,
+non-ff merged to main; annotated tag ON the merge commit). Artifact
+trust/provenance is GREEN: `pilot_deployment_identity.json.source_commit ==
+2305991…` == tag peel; source-provenance gate PASS; FINAL ARTIFACT TRUST GATE
+PASS; exact archive `dist/pilot-kaggle-upload.zip` SHA-256 `f7a16858…`
+(+ `.sha256` sidecar). v0.9.18 release-only provenance/docs correction is PRIOR.
+Carried full-suite evidence at this state: **2330 passed / 34 skipped /
+0 failed** (OpenCode full suite). Release chain summary:
+
 - v0.9.14 REJECTED: artifact notebook provenance did not match immutable tag notebook
 - v0.9.15 REJECTED FOR ACCEPTED PILOT LAUNCH: dist artifact still v0.9.14; code-manifest SHA stale; single-parent commit
 - v0.9.16: release-only closure (notebook anchors corrected); PGDG bootstrap bug discovered during real Kaggle run
 - v0.9.17 REJECTED FOR ACCEPTED PILOT LAUNCH: tag/source-commit release-provenance mismatch (PGDG fix GOOD)
-- v0.9.19: PostgreSQL admin/application bootstrap + partial recovery closure (real Kaggle defect fix)
-- v0.9.18: release-only provenance/docs correction (no scientific or production code changes)
-Tag constants updated: FROZEN_SOURCE_TAG = v0.9.19-pilot-exec-ready.
-Carried full suite 2,320 passed / 34 skipped / 0 failed (no production changes).
+- v0.9.18: release-only provenance/docs correction (no scientific or production code changes) — historical
+- **v0.9.19: ACCEPTED — PostgreSQL admin/application bootstrap + partial recovery closure (real Kaggle defect fix); trust/provenance GREEN**
+
+Real Pilot = NOT STARTED. Next = fresh Kaggle v0.9.19 target preflight →
+accepted 48-cell Pilot in the same session if all target gates pass.
+
+HISTORICAL release records (superseded — traceability only):
 `b8d3cf5e…` + all 94 `code_manifest.json` entries equal the normalized tracked
 Git blobs at `identity.source_commit`; both bundled `*.lock` files are
 LF-faithful). **Non-ff merged to main `bfeff97…`; annotated tag
@@ -109,8 +134,13 @@ scientific evidence with zero drift.
 
 Smoke era: `v0.8.2-smoke-v2-complete` (immutable, do not move). Pilot
 readiness: `v0.9.0-pilot-ready` @ `90a4282` (immutable, do NOT move).
-Pilot deployment source tag (release-provenance closure, 2026-08-16):
-**`v0.9.12-pilot-exec-ready`** @ main `bfeff97…` (CURRENT deployment source;
+**CURRENT deployment source tag (accepted release, 2026-08-19):
+`v0.9.19-pilot-exec-ready` @ tag peel == artifact source commit
+`2305991442a4f965d44bb066bb00c0a459fc395a`** (annotated tag ON the merge
+commit, pushed; trust/provenance GREEN; exact archive `f7a16858…`).
+Pilot deployment source tags (HISTORICAL — superseded by v0.9.19):
+`v0.9.12-pilot-exec-ready` @ main `bfeff97…`
+(release-provenance closure, 2026-08-16;
 annotated tag ON the merge commit, pushed; the immutable tag
 contains the deployed re-frozen notebook and the source-provenance gate passed
 on the artifact built from the tagged commit — bundled notebook + all
@@ -303,7 +333,7 @@ project/
 └── pyproject.toml
 ```
 
-## 3. Current State
+## 3. Historical State Snapshot (R6 era — SUPERSEDED 2026-08-22; current state = CURRENT PROJECT STATE above and docs/AI_ACCOUNT_TRANSFER_HANDOFF.md)
 
 - **Branch:** experiment/three-arm-smoke-v2
 - **R1 checkpoint:** b129d42 (feat(agent): complete bounded workspace exploration)

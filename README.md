@@ -6,7 +6,7 @@
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Protocol](https://img.shields.io/badge/Research%20Protocol-v1.0%20Frozen-success.svg)](PROTOCOL_VERSION.md)
-[![Tests](https://img.shields.io/badge/tests-2%2C026%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-2%2C330%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
 ## Overview
@@ -202,6 +202,22 @@ Scientific Smoke V2: complete and accepted (see Current Status). Pilot: not
 yet authorized for this arm.
 
 ## Current Status
+
+> **CURRENT TRUTH (2026-08-22):** accepted release = **`v0.9.19-pilot-exec-ready`**
+> @ tag peel == artifact source commit `2305991442a4f965d44bb066bb00c0a459fc395a`
+> (PostgreSQL admin/application bootstrap + partial recovery closure, real
+> Kaggle defect fix). `main` is a post-tag docs/evidence child of that merge.
+> v0.9.19 artifact trust/provenance is **GREEN** (exact upload artifact
+> `dist/pilot-kaggle-upload.zip` SHA-256 `f7a16858…` + `.sha256` sidecar).
+> OpenCode full-suite evidence = **2330 passed / 34 skipped / 0 failed**.
+> Scientific Smoke V2 remains COMPLETE AND ACCEPTED (non-publication evidence).
+> **Real Pilot = NOT STARTED.** Exact next action = fresh Kaggle v0.9.19 target
+> preflight; if all target gates pass, launch the accepted 48-cell Pilot in the
+> same session. Do NOT open v0.9.20 without real target evidence. Authoritative
+> snapshot: [`docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`](docs/AI_ACCOUNT_TRANSFER_HANDOFF.md).
+>
+> **HISTORICAL STATUS TRAIL — everything below is superseded context** (each
+> blockquote was "current" when written and is retained for traceability):
 
 > **PILOT-READY-01 = CLOSED (2026-08-10)** on branch `feat/pilot-ready-01` —
 > Scientific Smoke V2 stays CLOSED. The local multi-repo production patch for
@@ -619,11 +635,11 @@ mypy --strict src tests
 python -m pip check
 ```
 
-Current validated state:
+Current validated state (carried forward from the v0.9.19 accepted release; docs-only changes after it):
 
-- **2,026 tests passing / 33 skipped / 0 failed** (final PILOT-READY-01 gate, 2026-08-10)
+- **2330 tests passing / 34 skipped / 0 failed** (OpenCode full-suite evidence)
 - **Ruff: 0 new violations** (pre-existing baseline unchanged)
-- **Mypy strict: 0 new errors** (base 5 pre-existing only)
+- **Mypy strict: 0 new errors**
 - **pip check: no broken requirements** (pre-existing conda issues unrelated)
 - **No local import dependency on Qwen, torch, or transformers**
 
@@ -840,7 +856,8 @@ Immediate next milestones:
 - [x] Independent delta audit of the Scientific Smoke V2 closure (SMOKE-V2-CLOSE-01) — closed 2026-08-09 (docs closure merged to main; post-merge regression hotfix MAIN-GREEN-01 also closed)
 - [x] Stable v0.8.0-smoke-v2-complete tag after closure audit + main merge — created at `193d889`; preferred recovery tag `v0.8.2-smoke-v2-complete` at current main `403977b` (prior `v0.8.1-smoke-v2-complete` at `d875c72` kept as historical provenance)
 - [x] PILOT-READY-01 — Pilot readiness closure — **CLOSED (2026-08-10)**: multi-repo selective input contracts fixed (`34ecf78`), stale real-smoke expectation corrected, focused 12-test multi-repo production-path contract added, full suite 2,026 passed / 33 skipped / 0 failed, exact 48-cell Pilot dry-run 48/48 deterministic green, isolation/evidence/export gates 142 passed; Pilot execution NOT STARTED
-- [ ] PILOT-EXEC-01 — Pilot freeze and execution (next task; Pilot execution not yet authorized)
+- [x] PILOT-EXEC-01 — Pilot deployment freeze chain through **`v0.9.19-pilot-exec-ready`** (ACCEPTED release @ `2305991`; artifact trust/provenance GREEN; exact artifact `dist/pilot-kaggle-upload.zip` `f7a16858…`)
+- [ ] Fresh Kaggle v0.9.19 target preflight (**NEXT ACTION**) — then launch the accepted 48-cell Pilot in the same session if all target gates pass
 - [ ] Research (main confirmatory) experiment
 - [ ] Arm-to-protocol alignment review
 - [ ] Reproducibility archive and DOI

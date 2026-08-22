@@ -36,15 +36,21 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-- **Candidate tag:** `v0.9.19-pilot-exec-ready`
-- **Branch:** `fix/pilot-v0919-postgres-admin-bootstrap-recovery`
-- **Source commit:** HEAD at merge time
-- **v0.9.14 status:** REJECTED — artifact notebook provenance did not match immutable tag notebook
-- **v0.9.15 status:** REJECTED FOR ACCEPTED PILOT LAUNCH — release finalization/artifact not completed (dist artifact still v0.9.14; code-manifest SHA stale; single-parent commit)
-- **v0.9.16 status:** RELEASE-ONLY CLOSURE (no production behavior changes; notebook anchors corrected)
+> **CURRENT TRUTH (2026-08-22):** accepted release = `v0.9.19-pilot-exec-ready`;
+> release tag peel == artifact source commit = `2305991442a4f965d44bb066bb00c0a459fc395a`;
+> `main` is a post-tag docs/evidence child of that merge; v0.9.19 artifact
+> trust/provenance is GREEN; OpenCode full-suite evidence = 2330 passed /
+> 34 skipped / 0 failed; Real Pilot = NOT STARTED; exact next action = fresh
+> Kaggle v0.9.19 target preflight (launch the accepted 48-cell Pilot in the
+> same session if all target gates pass); do NOT open v0.9.20 without real
+> target evidence. Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.
+
+- **Accepted release/tag (CURRENT):** `v0.9.19-pilot-exec-ready` @ tag peel/source commit `2305991442a4f965d44bb066bb00c0a459fc395a` (PostgreSQL admin/application bootstrap + partial recovery closure, real Kaggle defect fix; trust/provenance GREEN)
+- **v0.9.18 status:** RELEASE-ONLY CLOSURE (release-only provenance/docs correction; no scientific or production code changes) — historical
 - **v0.9.17 status:** REJECTED FOR ACCEPTED PILOT LAUNCH — tag/source-commit release-provenance mismatch (immutable tag peel `28a18e6...` != artifact source_commit `adf72d4...`; the artifact itself is internally trustworthy and the PGDG fix is GOOD)
-- **v0.9.18 status:** RELEASE-ONLY CLOSURE (release-only provenance/docs correction; no scientific or production code changes)
-- **v0.9.19 status:** CANDIDATE — PostgreSQL admin/application bootstrap + partial recovery closure (real Kaggle defect fix)
+- **v0.9.16 status:** RELEASE-ONLY CLOSURE (no production behavior changes; notebook anchors corrected) — historical
+- **v0.9.15 status:** REJECTED FOR ACCEPTED PILOT LAUNCH — release finalization/artifact not completed (dist artifact still v0.9.14; code-manifest SHA stale; single-parent commit)
+- **v0.9.14 status:** REJECTED — artifact notebook provenance did not match immutable tag notebook (historical; see CURRENT TRUTH above)
 
 ## Validation order
 
