@@ -1,6 +1,16 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
-> **NOTE (2026-08-19, LATEST):** v0.9.19-pilot-exec-ready POSTGRESQL ADMIN/APPLICATION BOOTSTRAP + PARTIAL RECOVERY CLOSURE.
+> **UPDATE (2026-08-22, CURRENT):** v0.9.19-pilot-exec-ready is the ACCEPTED
+> release — non-ff merged to main `2305991442a4f965d44bb066bb00c0a459fc395a`
+> with the annotated tag ON that commit (tag peel == artifact source commit);
+> artifact trust/provenance GREEN; exact archive
+> `dist/pilot-kaggle-upload.zip` SHA-256 `f7a16858…`; OpenCode full suite =
+> 2330 passed / 34 skipped / 0 failed. Real Pilot = NOT STARTED. Next = fresh
+> Kaggle v0.9.19 target preflight, then the accepted 48-cell Pilot in the same
+> session if all target gates pass; do NOT open v0.9.20 without real target
+> evidence. Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.
+
+> **NOTE (2026-08-19, HISTORICAL):** v0.9.19-pilot-exec-ready POSTGRESQL ADMIN/APPLICATION BOOTSTRAP + PARTIAL RECOVERY CLOSURE.
 > v0.9.18 release-only provenance/docs correction is PRIOR. v0.9.19 is the
 > PostgreSQL admin/application bootstrap + partial recovery closure: `_psql`
 > no longer has implicit Saleor DB default, server proofs use `db="postgres"`,

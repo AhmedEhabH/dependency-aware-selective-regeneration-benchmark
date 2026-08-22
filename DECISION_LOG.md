@@ -615,3 +615,17 @@
 - **Alternatives considered:** Freeze Main-study budgets before the Pilot - rejected: DA-09 requires measuring realistic Pilot token/call/time distributions first.
 - **Impact:** No scientific inputs (prompts/metrics/evaluators/thresholds/Ground Truth/matrix/model/quantization/timeout/repair policy) changed. Pilot = NOT STARTED. Real Pilot launch deferred until the user confirms the actual Kaggle mounted model path and HF results repository ID.
 - **Evidence:** docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md; deployment freeze evidence in tests/integration/test_pilot_deployment_bundle.py (12 passed), bundled exact fresh 48-cell dry-run 48/48 (todo 16 / djangocms 16 / saleor 16; iterative_repository_agent 24 / selective 24; rep1 24 / rep2 24), full suite 2,038 passed / 33 skipped / 0 failed.
+
+---
+
+## Decision D026 - AI Account-Transfer Docs Reconciliation (docs-only)
+
+- **Date:** 2026-08-22
+- **Decision ID:** D026
+- **Status:** IMPLEMENTED (docs branch `docs/account-transfer-handoff-v0919`, non-ff merge to main; NO new release tag)
+- **Category:** Documentation / Account Transfer
+- **Description:** Make a weaker AI/new account able to understand the CURRENT v0.9.19 project state without reading contradictory historical "current" sections. Added the single authoritative snapshot `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md` (current truth, frozen protocol, exact 12 Pilot scenario IDs incl. djangocms-mod-005, release history/rejections, recurring errors + permanent guards, git/release invariants, OpenCode working rules, exact next action, source-of-truth hierarchy). Reconciled README.md, AGENTS.md, SYSTEM_STATE.md, TODO.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, reports/PILOT_EXEC_01_FINAL_REPORT.md, reports/PILOT_EXEC_01_DEPLOYMENT_FREEZE.md: stale "CURRENT" labels marked HISTORICAL/SUPERSEDED; TODO.md converted to a short current board with the old content preserved as a read-only historical ledger. Current truth recorded: release = v0.9.19-pilot-exec-ready; tag peel == artifact source commit = 2305991442a4f965d44bb066bb00c0a459fc395a; main is a post-tag docs/evidence child; v0.9.19 trust/provenance GREEN; OpenCode full suite = 2330 passed / 34 skipped / 0 failed; Real Pilot NOT STARTED; next action = fresh Kaggle v0.9.19 target preflight, then launch the accepted 48-cell Pilot in the same session if all target gates pass; do NOT open v0.9.20 without real target evidence.
+- **Rationale:** Multiple superseded "Current" sections across state files created contradictions for account transfer; a weaker AI needs one authoritative entry point plus clearly marked history.
+- **Alternatives considered:** Rewriting/deleting historical sections - rejected: history is valuable evidence and ledgers must stay truthful and append-only.
+- **Impact:** Docs-only. NO production code, tests, notebook, configs/manifests, scientific protocol, deployment artifact, or immutable tag changed. No new release tag.
+- **Evidence:** Branch `docs/account-transfer-handoff-v0919`; docs/static sanity checks only (no full-suite rerun required for a docs-only change).
