@@ -64,7 +64,20 @@ this file superseded freeze chain: v0.9.19 → v0.9.18 → v0.9.16 → v0.9.14 �
 
 ---
 
-## 1. CURRENT FREEZE — `v0.9.14-pilot-exec-ready` (artifact refresh)
+## 0. CURRENT FREEZE — `v0.9.19-pilot-exec-ready` (ACCEPTED RELEASE, 2026-08-22)
+
+| Field | Value |
+|---|---|
+| Stable source tag | **`v0.9.19-pilot-exec-ready` → peeled commit `2305991442a4f965d44bb066bb00c0a459fc395a`** (== artifact source commit == merge commit; annotated tag pushed) |
+| Release content | PostgreSQL admin/application bootstrap + partial recovery closure (real Kaggle defect fix): `_psql` no implicit Saleor DB default; server proofs use `db="postgres"`; `SHOW data_directory` protects partial recovery; Saleor DB created before any application DB connection |
+| Trust/provenance | **GREEN** — `pilot_deployment_identity.json.source_commit == 2305991…` == tag peel; source-provenance gate PASS; FINAL ARTIFACT TRUST GATE PASS |
+| Identity | `dist/pilot-kaggle-upload/pilot_deployment_identity.json` — 48 cells / 12 scenarios / 2 strategies / Qwen2.5-Coder-14B-Instruct / bnb-nf4 / timeout 600 s |
+| Freeze evidence | `reports/pilot_notebook_trust_freeze.json` (status FROZEN) |
+| Archive | `dist/pilot-kaggle-upload.zip` — SHA-256 `f7a168584de3db723acbf9d43f81edd4d0720c2e3850b8017f91eee363928862` (sidecar matches) |
+| Suite evidence | OpenCode full suite 2330 passed / 34 skipped / 0 failed at the accepted state |
+| Pilot | **NOT STARTED** — next = fresh Kaggle v0.9.19 target preflight → accepted 48-cell Pilot in the same session if all target gates pass |
+
+## Historical freeze — `v0.9.14-pilot-exec-ready` (artifact refresh; SUPERSEDED by v0.9.19 above)
 
 | Field | Value |
 |---|---|

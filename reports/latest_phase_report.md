@@ -1,6 +1,16 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-19):** **PILOT-EXEC-01 v0.9.19 POSTGRESQL ADMIN/APPLICATION BOOTSTRAP + PARTIAL RECOVERY CLOSURE — `v0.9.19-pilot-exec-ready` (real Kaggle defect fix).** v0.9.18 release-only provenance/docs correction is PRIOR. v0.9.19 = PostgreSQL admin/application bootstrap + partial recovery closure: `_psql` no longer has implicit Saleor DB default, server proofs use `db="postgres"`, `SHOW data_directory` protects partial recovery, Saleor DB is created before any application DB connection. All authoritative docs updated.
+> **CURRENT TRUTH (2026-08-22, UPDATE):** v0.9.19 is now **MERGED to main and
+> TAGGED** — accepted release `v0.9.19-pilot-exec-ready`, tag peel == artifact
+> source commit `2305991442a4f965d44bb066bb00c0a459fc395a`; `main` is a
+> post-tag docs/evidence child of that merge; artifact trust/provenance GREEN;
+> OpenCode full suite = 2330 passed / 34 skipped / 0 failed; Real Pilot = NOT
+> STARTED; exact next action = fresh Kaggle v0.9.19 target preflight, then the
+> accepted 48-cell Pilot in the same session if all target gates pass. Do NOT
+> open v0.9.20 without real target evidence. Authoritative snapshot:
+> `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.
+
+> **CURRENT TRUTH (2026-08-19):** **PILOT-EXEC-01 v0.9.19 POSTGRESQL ADMIN/APPLICATION BOOTSTRAP + PARTIAL RECOVERY CLOSURE — `v0.9.19-pilot-exec-ready` (real Kaggle defect fix).** v0.9.18 release-only provenance/docs correction is PRIOR. v0.9.19 = PostgreSQL admin/application bootstrap + partial recovery closure: `_psql` no longer has implicit Saleor DB default, server proofs use `db="postgres"`, `SHOW data_directory` protects partial recovery, Saleor DB is created before any application DB connection. All authoritative docs updated. *(Historical at the time: non-ff merge/tag were pending — since completed, see the 2026-08-22 UPDATE above.)*
 
 > **CURRENT TRUTH (2026-08-16):** **PILOT-EXEC-01 RELEASE-PROVENANCE CLOSURE — `v0.9.11-pilot-exec-ready` REJECTED FOR LAUNCH; `v0.9.12-pilot-exec-ready` SHIPPED WITH A FAIL-CLOSED `source_commit` GIT-TREE PROVENANCE GATE (branch `fix/pilot-release-provenance-closure` from clean `origin/main` `5cee179`; code/test commit `6cd2767`, freeze commit `7923b37`).** The v0.9.11 immutable tag peeled to the merge commit `8801304`, whose notebook is the v0.9.10 notebook `d15d8683…`, while the deployed artifact carried the re-frozen notebook `85edbd33…` that landed only in the POST-tag re-freeze commit `b87aa49` — embedded notebook trust could be made internally self-consistent, yet the tag does not contain the deployed notebook. v0.9.11 = `internally-valid artifact, but rejected for launch because the immutable tag does not contain the deployed re-frozen notebook and therefore cannot reproduce the claimed source snapshot.` FIX (minimal): fail-closed `validate_source_commit_provenance(*, source_commit, bundled_root, …, git_reader=None)` in `scripts/build_pilot_upload_bundle.py` proves the bundled Pilot notebook AND every `code_manifest.json` entry equal the normalized (CRLF→LF for text suffixes) tracked Git blob at `identity.source_commit`; standalone release acceptance step run BEFORE the immutable tag is created; no skip flag; never falls back to the working tree; deliberately NOT wired into `build_pilot_bundle`/`freeze()` (the finalizer's validation rebuild predates the anchor commit). Companion byte-faithfulness fix: bundled `*.lock` files LF-normalized in the code bundle (`_normalize_lock_files`) — the Windows-checkout CRLF lock manifest `95ad3b2b…` had drifted from the LF blob `1f4b1875…`. New suite `tests/integration/test_pilot_release_provenance.py` Gates 1–5: exact v0.9.11 forensic RED (real git blobs `8801304` vs `b87aa49`; internally-consistent identity PASSES embedded trust while the provenance gate FAILS), notebook CRLF/LF parity, code-manifest modified/missing FAIL naming exact paths, invalid SHA / unknown commit fail closed, `.lock` LF PASS vs CRLF FAIL, v0.9.12 release-tag sequencing contract. Finalizer re-freeze `--source-tag v0.9.12-pilot-exec-ready`: code `0fd86fc9…` (94/94 source-faithful incl. both locks), data `8b859ecc…`, repo snapshot `49d91d39…`, transport `07036a36…`; archive `5a7d7e0a…`. Full suite **2,255 passed / 33 skipped / 0 failed** (2026-08-16). **Pilot = NOT STARTED.**
 >
@@ -20,7 +30,15 @@
 
 ## Current — PILOT-EXEC-01 v0.9.19 PostgreSQL admin/application bootstrap + partial recovery closure
 
-**Status: `v0.9.19-pilot-exec-ready` — PostgreSQL admin/application bootstrap + partial recovery closure (real Kaggle defect fix).** v0.9.18 release-only provenance/docs correction is PRIOR. All authoritative docs updated. Non-ff merge to main pending.
+**Status: `v0.9.19-pilot-exec-ready` — ACCEPTED RELEASE (PostgreSQL
+admin/application bootstrap + partial recovery closure, real Kaggle defect
+fix). Non-ff merged to main `2305991442a4f965d44bb066bb00c0a459fc395a`;
+annotated tag ON that merge commit; artifact trust/provenance GREEN; exact
+archive `dist/pilot-kaggle-upload.zip` SHA-256 `f7a16858…`. v0.9.18
+release-only provenance/docs correction is PRIOR. All authoritative docs
+updated. Real Pilot = NOT STARTED — next = fresh Kaggle v0.9.19 target
+preflight, then the accepted 48-cell Pilot in the same session if all target
+gates pass (see `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`).**
 
 ## Historical — PILOT-EXEC-01 Saleor source-visibility health-probe fix (v0.9.11, REJECTED FOR LAUNCH — superseded by the v0.9.12 release-provenance closure)
 
@@ -1433,7 +1451,7 @@ identity test       test_notebook_source_commit_matches_deployed_runtime_tree PA
 bundle build        content-identical (147 files / 928,329 bytes); manifests verified
 ```
 
-## Current status
+## Historical status snapshot (R7C era — SUPERSEDED; current truth = the CURRENT TRUTH blockquotes at the top of this file)
 
 ```text
 R4 = accepted and frozen (f5ae826)

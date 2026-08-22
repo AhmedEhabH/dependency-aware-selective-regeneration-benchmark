@@ -148,7 +148,20 @@ no stable release claimed; sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQU
 
 ---
 
-## Current Post-R6 Health
+## Current Health (2026-08-22)
+
+| Metric | Value |
+|---|---|
+| Accepted release | `v0.9.19-pilot-exec-ready` @ tag peel == artifact source commit `2305991442a4f965d44bb066bb00c0a459fc395a` |
+| Artifact trust/provenance | GREEN (identity source_commit == tag peel; FINAL ARTIFACT TRUST GATE PASS) |
+| Deployment artifact | `dist/pilot-kaggle-upload.zip` SHA-256 `f7a16858…` + `.sha256` sidecar (exact v0.9.19 artifact; never manually re-zip) |
+| OpenCode full suite | **2330 passed / 34 skipped / 0 failed** (carried forward — docs-only changes after it) |
+| Real Pilot | **NOT STARTED** |
+| Next action | Fresh Kaggle v0.9.19 target preflight → accepted 48-cell Pilot in the same session if all target gates pass |
+
+Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.
+
+## Historical Post-R6 Health Snapshot (SUPERSEDED 2026-08-22 — R6/Smoke-era data below; see Current Health above)
 
 ### Test result
 
