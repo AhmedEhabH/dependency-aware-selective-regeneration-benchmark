@@ -1,6 +1,27 @@
 # TODO
 
-## Current - PILOT-EXEC-01 (2026-08-13, KAGGLE SERVICE BOOTSTRAP LAST-MILE CORRECTION)
+> **CURRENT BOARD (2026-08-22).** Authoritative snapshot:
+> `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`. Everything below the board is the
+> historical task ledger (valuable history — do not delete; headings marked
+> HISTORICAL are superseded and never override the board).
+
+| # | Item | Status |
+|---|---|---|
+| 1 | Accepted release **v0.9.19-pilot-exec-ready** @ tag peel/source commit `2305991442a4f965d44bb066bb00c0a459fc395a`; artifact trust/provenance GREEN | DONE |
+| 2 | OpenCode full-suite evidence 2330 passed / 34 skipped / 0 failed | DONE |
+| 3 | Real Pilot (accepted 48-cell) | **NOT STARTED** |
+| 4 | Fresh Kaggle v0.9.19 target preflight (exact `dist/pilot-kaggle-upload.zip`, SHA `f7a16858…`) | **NEXT ACTION** |
+| 5 | Launch accepted 48-cell Pilot in the same session if all target gates pass | PENDING (gated on #4) |
+| 6 | Open v0.9.20 | BLOCKED — requires real target evidence from the accepted Pilot |
+
+Frozen matrix reminder: Qwen2.5-Coder-14B-Instruct / bnb-nf4 / 600 s uniform
+timeout / 12 scenarios / 2 strategies / 2 repetitions = 48 cells.
+
+---
+
+## HISTORICAL LEDGER (superseded task history — read-only)
+
+## Historical - PILOT-EXEC-01 (2026-08-13, KAGGLE SERVICE BOOTSTRAP LAST-MILE CORRECTION)
 
 ### PILOT-EXEC-01 - Pilot freeze and execution
 - **Priority:** HIGH
@@ -74,7 +95,7 @@
 - **Description:** Documentation-only truth update after the annotated milestone tag `v0.8.0-canary.1` was created and pushed. **Milestone tag:** `v0.8.0-canary.1` — created and pushed; annotated; points to `31a619857ce07eb09ab5e206fbc9dc792782c99c`. **Meaning:** first accepted real Qwen 14B NF4 selective-canary milestone. **Stable release = NO.** **Full 9-record Scientific Smoke V2 = NOT RUN.** **Merge to main = NOT YET** (pending Full-9 audit). **Pilot = NOT AUTHORIZED.** **Next action:** one fresh Full-9 Scientific Smoke V2 using `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md`. Canonical tag naming: `v0.8.0-canary.N` = isolated calibration milestones; `v0.8.0-smoke-v2-complete` = create only after Full-9 result audit + main merge (stale `v2.0.0-scientific-smoke` future-tag wording replaced in the authoritative current plan). Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md. Commit exactly `docs(state): record canary milestone tag and freeze Full-9 launch`; push; verify clean + local = remote + tag target unchanged. Do NOT modify code/tests/runtime/datasets/prompts/notebook/bundle/frozen runbook. Do NOT run pytest/Kaggle. Do NOT merge main. Do NOT create another tag.
 - **Status:** COMPLETE (this documentation commit, pushed)
 
-## Current - Qwen 14B BNB-NF4 Canary Preparation
+## Historical - Qwen 14B BNB-NF4 Canary Preparation
 
 ### Q14-01 - Model-Aware Qwen Identity
 - **Priority:** HIGH
@@ -106,7 +127,7 @@
 - **Description:** The Kaggle engineering preflight for the 14B bnb-nf4 profile was the authorized next action after readiness/loader/multi-GPU-VRAM closures. **PASSED on the real target environment (2026-08-07)**: Python 3.12.13 / Django 5.2.16 / DRF 3.17.1 / pytest 8.4.2 / accelerate 1.14.0 / bitsandbytes 0.49.2 / torch 2.10.0+cu128 / transformers 4.57.6; identity `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`; 2×Tesla T4; minimum free VRAM 8.417 GiB (≥2.0 GiB gate); GPU-only device map; preflight 174.016 s; probe 68+17. This preflight closure is superseded by the accepted successful selective canary (see QSC-01). No scientific canary/9-record run, merge, tag, or Pilot then authorized; now the only next scientific action = one fresh Full-9 run (QSC-02).
 - **Status:** COMPLETE (real preflight PASS, 2026-08-07)
 
-## Current - Selective Calibration Canary Result
+## Historical - Selective Calibration Canary Result
 
 ### SCC-01 - Execute Dedicated Selective Calibration Canary
 - **Priority:** HIGH
@@ -126,7 +147,7 @@
 - **Description:** Record truthfully: dedicated canary exp-20260804-133523; source/build 50ec2c1; 4 calls / 5,804 tokens / 257.596 s; 3 selected / 2 preserved / 0 written; failure `model_output`; defects in models/serializers/views; `repair_no_progress` after first identical repair; comparison vs previous selective run (41.6% / 33.3% / 22.4%); incidental monolithic run diagnostic only; continuous cell fail-closed; accepted dedicated canary records = 1, successful = 0. Update README.md, SYSTEM_STATE.md, TODO.md, docs/START_HERE.md, docs/PROJECT_HANDOFF.md, docs/MASTER_IMPLEMENTATION_PLAN.md, reports/latest_phase_report.md, reports/PROJECT_HEALTH_REPORT.md, selective_updates/CHANGE_INDEX.md, selective_updates/metrics/change_metrics.jsonl, selective_updates/records/SELECTIVE-CANARY-RESULTS-2026-08-04.md (new), selective_updates/records/TECHNICAL-DEBT-AND-REFACTOR-SCHEDULE.md; commit as `docs(results): record selective calibration canary outcome`
 - **Status:** COMPLETE (commit <new>, pushed)
 
-## Current - Final Selective Canary Readiness Closure
+## Historical - Final Selective Canary Readiness Closure
 
 ### FSR-01 - Close Blocker 1: Per-Call Cooperative Deadline
 - **Priority:** HIGH
@@ -246,7 +267,7 @@
 - **Description:** Previous 76a6b16 gate had 1 failure, not a green full suite: test_notebook_source_commit_matches_deployed_runtime_tree failed because the mandated pyproject.toml declaration change broke byte-identity with the pinned aac9914 SOURCE_COMMIT (root cause = dependency declarations changing pyproject.toml after the aac9914/311e084 deployment pin; no runtime/prompt/metric/scenario/evaluator/data change needed). Apply the exact deployment-only correction f8d00d7 (bundle PRE_BENCHMARK_FINAL_REPIN_EXACT.bundle): kaggle_upload/code/pyproject.toml gains the six declaration lines (byte-identical to canonical); notebooks re-pin SOURCE_COMMIT=e5d943065c6f4158c30a1cbbba39436ab2a7a898, DEPLOYED_BUILD_ID=e5d9430; manifests re-verified. Complete clean gate now green: full suite 1,834 passed / 32 skipped / 0 failed; Dataset 285/5 (data unchanged); Prompt 158; Pipeline Smoke 220/12; Dry Run 9/9; Integration PASS; Metric Verification 169; mypy strict Success (77 files); ruff 93 = 93 baseline (0 new); compileall clean; all notebook cells compile; bundle build content-identical (147 files / 928,329 bytes); no cache files in kaggle_upload; tree clean. Historical exp-20260801-210443 failed model-output record under 6f88823 remains excluded from the current e5d9430 aggregation; current accepted real records = 0/9
 - **Status:** COMPLETE (commit f8d00d7, pushed)
 
-## Current — R7C Real-Run Root Closure
+## Historical — R7C Real-Run Root Closure (superseded)
 
 ### R7C-01 — Close Environment Memory Contract
 - **Priority:** HIGH
