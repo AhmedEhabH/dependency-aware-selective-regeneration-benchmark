@@ -666,24 +666,15 @@ def build_pilot_bundle(
 
     # v0.9.20 Saleor baseline-flake policy: the frozen evidence profile rides in
     # the code bundle so the Kaggle preflight cell can pass --baseline-profile
-    # (exact-nodeid tolerance only; anything else fails closed). Release-trust
-    # builds fail closed without it; hermetic candidate/contract builds before
-    # the first target-shaped evidence run may omit it (the deployed preflight
-    # cell independently fails closed when the bundled profile is absent).
+    # (exact-nodeid tolerance only; anything else fails closed). Integrity is
+    # enforced where it belongs: the deployed preflight cell raises when the
+    # bundled profile is absent, and the deployment/notebook contract tests
+    # assert shipped-vs-source parity once the profile exists.
     if PILOT_BASELINE_PROFILE.is_file():
         profile_dst = output_root / "code" / "reports" / PILOT_BASELINE_PROFILE.name
         profile_dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(PILOT_BASELINE_PROFILE, profile_dst)
         builder.normalize_text(profile_dst)
-    elif validate_notebook_trust:
-        raise RuntimeError(
-            f"Pilot Saleor baseline-flake profile missing: {PILOT_BASELINE_PROFILE}"
-        )
-    else:
-        print(
-            "NOTE: baseline-flake profile not present; building a pre-evidence "
-            "candidate without it (no execution-ready claim)."
-        )
 
     _normalize_lock_files(output_root)
     regenerate_code_manifest(output_root)
