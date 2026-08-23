@@ -1,14 +1,25 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
-> **UPDATE (2026-08-22, CURRENT):** v0.9.19-pilot-exec-ready is the ACCEPTED
-> release — non-ff merged to main `2305991442a4f965d44bb066bb00c0a459fc395a`
-> with the annotated tag ON that commit (tag peel == artifact source commit);
-> artifact trust/provenance GREEN; exact archive
-> `dist/pilot-kaggle-upload.zip` SHA-256 `f7a16858…`; OpenCode full suite =
-> 2330 passed / 34 skipped / 0 failed. Real Pilot = NOT STARTED. Next = fresh
-> Kaggle v0.9.19 target preflight, then the accepted 48-cell Pilot in the same
-> session if all target gates pass; do NOT open v0.9.20 without real target
-> evidence. Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.
+> **UPDATE (2026-08-24, CURRENT):** the real Kaggle v0.9.19 session FAILED at
+> the Saleor fast capability gate (Pytest exit 5 = no tests collected; all
+> earlier stages PASS) — **v0.9.19-pilot-exec-ready is REJECTED FOR PILOT
+> LAUNCH**. Root cause: the gate argv concatenated a second `-m pytest` vector
+> onto the already-resolved frozen primary command; local tests were
+> false-green via a substring-based fake runner. v0.9.20 root-cause closure in
+> progress on branch `fix/pilot-v0920-saleor-preflight-root-closure` (exact
+> argv fix + invariant + exact-argv regression tests RED/GREEN-proven and
+> target-proven on Linux CI run 32650273641 + evidence-backed baseline-flake
+> policy + target-shaped CI gate). Report:
+> `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`. Authoritative snapshot:
+> `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.
+>
+> **PRIOR UPDATE (2026-08-22, HISTORICAL for launch purposes):**
+> v0.9.19-pilot-exec-ready was the ACCEPTED release — non-ff merged to main
+> `2305991442a4f965d44bb066bb00c0a459fc395a` with the annotated tag ON that
+> commit (tag peel == artifact source commit); artifact trust/provenance GREEN;
+> exact archive `dist/pilot-kaggle-upload.zip` SHA-256 `f7a16858…`; OpenCode
+> full suite = 2330 passed / 34 skipped / 0 failed at that state. Real Pilot =
+> NOT STARTED.
 
 > **NOTE (2026-08-19, HISTORICAL):** v0.9.19-pilot-exec-ready POSTGRESQL ADMIN/APPLICATION BOOTSTRAP + PARTIAL RECOVERY CLOSURE.
 > v0.9.18 release-only provenance/docs correction is PRIOR. v0.9.19 is the

@@ -133,18 +133,23 @@ jobs:
           python scripts/pilot_repo_snapshot.py preflight "${ARGS[@]}"
           PREFLIGHT_RC=$?
           set -e
+          OVERALL="$(jq -r .overall "$PREFLIGHT_ROOT/pilot-target-preflight.json")"
           if [ -f "$COMMITTED_PROFILE" ]; then
             test "$PREFLIGHT_RC" -eq 0
-            test "$(jq -r .overall "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = PASS
+            test "$OVERALL" = PASS
+          elif [ "$OVERALL" = PASS ]; then
+            # Pristine baseline proven clean end-to-end (Task F case 1): every
+            # repository exited 0; no baseline-flake profile is needed.
+            echo "Target-shaped no-model preflight: overall=PASS (pristine Saleor baseline exit 0; no baseline-flake profile required)."
           else
-            # First evidence run: no committed profile yet. Todo and django CMS
-            # must PASS; Saleor may fail on the pristine baseline cluster while
-            # emitting the fresh profile used to create the committed artifact.
+            # First-evidence run exhibiting the documented pristine cluster:
+            # Todo and django CMS must PASS; Saleor may fail while emitting the
+            # fresh profile used to create the committed evidence artifact.
             test -f "$PREFLIGHT_ROOT/fresh-saleor-baseline-profile.json"
             test "$(jq -r '.repositories.todo.passed' "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = true
             test "$(jq -r '.repositories.djangocms.passed' "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = true
-            echo "Committed baseline profile absent (first evidence run): overall=$(jq -r .overall "$PREFLIGHT_ROOT/pilot-target-preflight.json")."
-            echo "No execution-ready claim is possible from this run; commit reports/pilot_saleor_baseline_flaky_profile.json from the emitted evidence and rerun."
+            echo "Committed baseline profile absent and overall=$OVERALL: emitted fresh-saleor-baseline-profile.json."
+            echo "Commit reports/pilot_saleor_baseline_flaky_profile.json from the emitted evidence and rerun."
           fi
 
       - name: Upload machine-readable evidence

@@ -1,13 +1,23 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-22):** accepted release = **`v0.9.19-pilot-exec-ready`**
+> **CURRENT STATE (2026-08-24, v0.9.20 root-cause closure in progress):** the
+> real Kaggle v0.9.19 run FAILED at the Saleor fast capability gate (Pytest
+> exit 5 = no tests collected; all earlier stages PASS) —
+> **`v0.9.19-pilot-exec-ready` REJECTED FOR PILOT LAUNCH**. Root cause = gate
+> argv concatenated a second `-m pytest` onto the resolved primary command;
+> local tests false-green via substring mock. Fix + exact-argv regression tests
+> + evidence-backed Saleor baseline-flake policy + target-shaped CI preflight
+> gate complete on branch `fix/pilot-v0920-saleor-preflight-root-closure`;
+> v0.9.20 tag NOT created yet (gated on committed-profile CI green, merge,
+> re-freeze, dry-run 48/48, trust/provenance). Real Pilot = NOT STARTED.
+> Report: `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`.
+> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+>
+> **PRIOR STATE (2026-08-22, HISTORICAL for launch purposes):** accepted release = **`v0.9.19-pilot-exec-ready`**
 > @ tag peel == artifact source commit `2305991442a4f965d44bb066bb00c0a459fc395a`;
 > `main` is a post-tag docs/evidence child of that merge; v0.9.19 artifact
-> trust/provenance GREEN; OpenCode full suite = 2330 passed / 34 skipped /
-> 0 failed; Real Pilot = NOT STARTED; next action = fresh Kaggle v0.9.19 target
-> preflight, then launch the accepted 48-cell Pilot in the same session if all
-> target gates pass; do NOT open v0.9.20 without real target evidence.
-> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+> trust/provenance GREEN (archive `f7a16858…`); OpenCode full suite at that
+> state = 2330 passed / 34 skipped / 0 failed.
 > The dated "Handoff type" entries and older sections below are a
 > chronological HISTORICAL trail (each superseded by the next); they are kept
 > for traceability only.
