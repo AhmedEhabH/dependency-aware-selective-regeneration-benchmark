@@ -29,6 +29,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import shutil
 import socket
 import subprocess
@@ -399,6 +400,197 @@ def _failed_subtree_prefixes(nodeids: tuple[str, ...]) -> tuple[str, ...]:
     return tuple(sorted(prefixes))
 
 
+BASELINE_PROFILE_SCHEMA = "pilot_saleor_baseline_flaky_profile.v1"
+
+_PRECOMPUTED_UNSET = object()
+
+
+def _serial_rerun_nodeid(
+    python: str,
+    staging_dir: Path,
+    env: dict[str, str],
+    timeout: int,
+    nodeid: str,
+    logs_dir: Path | None,
+    log_prefix: str,
+) -> dict[str, object]:
+    """Serially (``-n 0``) rerun exactly one failing nodeid.
+
+    Baseline-flake policy evidence: a pristine-baseline failure may only be
+    classified as a pre-existing nondeterministic flake when this exact nodeid
+    passes on a serial rerun (policy criterion 3/6).
+    """
+    argv = [python, "-m", "pytest", "-n", "0", "-q", "--no-header", "--tb=line", nodeid]
+    result = _run_command(
+        argv,
+        staging_dir,
+        env,
+        timeout,
+        f"baseline-flake-rerun-{_safe_log_stem(nodeid)}",
+        logs_dir=logs_dir,
+        log_prefix=log_prefix,
+    )
+    return {
+        "nodeid": nodeid,
+        "exit_code": result.get("exit_code"),
+        "passed": bool(result.get("passed")),
+        "duration_seconds": result.get("duration_seconds"),
+        "log_path": result.get("log_path", ""),
+    }
+
+
+def _safe_log_stem(nodeid: str) -> str:
+    stem = re.sub(r"[^A-Za-z0-9._-]+", "_", nodeid)
+    return stem[-120:] if len(stem) > 120 else stem
+
+
+def build_baseline_profile_evidence(
+    *,
+    saleor_commit_sha: str,
+    frozen_validation_command: Sequence[str],
+    environment_versions: dict[str, object],
+    full_run_exit_code: object,
+    full_run_duration_seconds: object,
+    failed_nodeids: Sequence[str],
+    serial_reruns: Sequence[dict[str, object]],
+    created_utc: str,
+    profile_source_commit: str,
+    platform_name: str,
+) -> dict[str, object]:
+    """Assemble the versioned baseline-flake evidence artifact payload."""
+    return {
+        "schema": BASELINE_PROFILE_SCHEMA,
+        "task": "PILOT-EXEC-01",
+        "saleor_commit_sha": saleor_commit_sha,
+        "frozen_validation_command": list(frozen_validation_command),
+        "environment_versions": environment_versions,
+        "full_run_exit_code": full_run_exit_code,
+        "full_run_duration_seconds": full_run_duration_seconds,
+        "failed_nodeids": sorted(failed_nodeids),
+        "failed_count": len(failed_nodeids),
+        "per_nodeid_serial_rerun": [dict(v) for v in serial_reruns],
+        "created_utc": created_utc,
+        "profile_source_commit": profile_source_commit,
+        "platform": platform_name,
+    }
+
+
+def load_baseline_profile(
+    path: Path,
+    *,
+    expected_saleor_sha: str,
+    expected_frozen_command: Sequence[str],
+) -> dict[str, object]:
+    """Load and validate the frozen baseline-flake profile (fail-closed).
+
+    The profile is only usable when it matches the exact pinned Saleor snapshot
+    and the exact frozen validation command, and every recorded flaky nodeid
+    has a PASSING serial rerun recorded at profile-creation time.
+    """
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise RuntimeError(f"cannot read baseline profile {path}: {exc}") from exc
+    if not isinstance(payload, dict):
+        raise RuntimeError(f"baseline profile {path} is not a JSON object")
+    if payload.get("schema") != BASELINE_PROFILE_SCHEMA:
+        raise RuntimeError(
+            f"baseline profile {path} has unsupported schema "
+            f"{payload.get('schema')!r} (expected {BASELINE_PROFILE_SCHEMA!r})"
+        )
+    if payload.get("saleor_commit_sha") != expected_saleor_sha:
+        raise RuntimeError(
+            f"baseline profile {path} targets Saleor snapshot "
+            f"{payload.get('saleor_commit_sha')!r}, expected {expected_saleor_sha!r}"
+        )
+    recorded_command = payload.get("frozen_validation_command")
+    if list(recorded_command or []) != list(expected_frozen_command):
+        raise RuntimeError(
+            f"baseline profile {path} was generated for a different frozen "
+            f"validation command: {recorded_command!r}"
+        )
+    nodeids = payload.get("failed_nodeids")
+    if (
+        not isinstance(nodeids, list)
+        or not nodeids
+        or not all(isinstance(n, str) and n for n in nodeids)
+    ):
+        raise RuntimeError(
+            f"baseline profile {path} has an empty or invalid failed_nodeids list"
+        )
+    reruns = payload.get("per_nodeid_serial_rerun")
+    if not isinstance(reruns, list) or len(reruns) != len(nodeids):
+        raise RuntimeError(
+            f"baseline profile {path} lacks one serial rerun per failed nodeid"
+        )
+    seen: set[str] = set()
+    for entry in reruns:
+        if not isinstance(entry, dict) or isinstance(entry.get("nodeid"), str) is False:
+            raise RuntimeError(
+                f"baseline profile {path} has an invalid serial-rerun entry"
+            )
+        nodeid = entry["nodeid"]
+        if nodeid not in nodeids or nodeid in seen:
+            raise RuntimeError(
+                f"baseline profile {path} serial reruns do not match failed_nodeids"
+            )
+        seen.add(nodeid)
+        if entry.get("passed") is not True:
+            raise RuntimeError(
+                f"baseline profile {path} records nodeid {nodeid!r} as failing "
+                "its profile-time serial rerun; deterministic failures are not flakes"
+            )
+    missing = [n for n in nodeids if n not in seen]
+    if missing:
+        raise RuntimeError(
+            f"baseline profile {path} lacks serial reruns for: {missing[:5]}"
+        )
+    return payload
+
+
+def classify_saleor_failures_against_profile(
+    failed_nodeids: Sequence[str],
+    serial_reruns: Sequence[dict[str, object]],
+    baseline_profile: dict[str, object],
+) -> dict[str, object]:
+    """Compare observed pristine-baseline failures against the frozen profile.
+
+    Policy (PILOT-EXEC-01 v0.9.20): every observed nodeid must already be in
+    the frozen profile (exact nodeids, never directory allowlists), and every
+    nodeid must STILL pass a current serial rerun; any new nodeid or any
+    deterministically re-failing nodeid is a hard FAIL.
+    """
+    allowed = set(cast("list[str]", baseline_profile["failed_nodeids"]))
+    unclassified = sorted({n for n in failed_nodeids if n not in allowed})
+    if unclassified:
+        return {
+            "status": "FAILED_UNCLASSIFIED_NODEIDS",
+            "profile_schema": baseline_profile.get("schema"),
+            "observed_count": len(failed_nodeids),
+            "unclassified_nodeids": unclassified,
+            "classified": False,
+        }
+    deterministic = sorted(
+        str(v["nodeid"]) for v in serial_reruns if not bool(v.get("passed"))
+    )
+    if deterministic:
+        return {
+            "status": "FAILED_DETERMINISTIC_SERIAL_FAILURES",
+            "profile_schema": baseline_profile.get("schema"),
+            "observed_count": len(failed_nodeids),
+            "deterministic_failures": deterministic,
+            "classified": False,
+        }
+    return {
+        "status": "CLASSIFIED",
+        "profile_schema": baseline_profile.get("schema"),
+        "profile_created_utc": baseline_profile.get("created_utc"),
+        "observed_count": len(failed_nodeids),
+        "classified_nodeids": sorted(failed_nodeids),
+        "classified": True,
+    }
+
+
 def _host_port_from_url(url: str) -> tuple[str, int] | None:
     parsed = urllib.parse.urlparse(url)
     if not parsed.hostname:
@@ -671,6 +863,7 @@ def _collect_saleor_failure_diagnostics(
     timeout: int,
     primary: dict[str, object],
     logs_dir: Path | None,
+    precomputed_lastfailed: object = _PRECOMPUTED_UNSET,
 ) -> dict[str, object]:
     """Persistable evidence for a FAILED Saleor primary run.
 
@@ -682,8 +875,17 @@ def _collect_saleor_failure_diagnostics(
     ``lastfailed`` cache.  An absent, unreadable, or empty cache is recorded as
     ``SKIPPED_NO_LASTFAILED`` so the diagnostic can never accidentally become a
     full serial Saleor suite.
+
+    ``precomputed_lastfailed`` lets a caller that captured the cache BEFORE any
+    baseline-flake serial reruns (which rewrite the cache) preserve the true
+    primary failure set; omit it to read the current on-disk cache.
     """
-    lastfailed = _load_lastfailed(staging_dir)
+    if precomputed_lastfailed is _PRECOMPUTED_UNSET:
+        lastfailed = _load_lastfailed(staging_dir)
+    else:
+        lastfailed = cast(
+            "tuple[int, tuple[str, ...]] | None", precomputed_lastfailed
+        )
     nodeids = lastfailed[1] if lastfailed is not None else ()
     if lastfailed is not None and len(nodeids) > 0:
         raw = _run_lastfailed_serial(python, staging_dir, env, timeout, logs_dir)
@@ -724,6 +926,9 @@ def run_repo_preflight(
     repo_source: Path | None = None,
     logs_dir: Path | None = None,
     diagnostics_dir: Path | None = None,
+    baseline_profile: dict[str, object] | None = None,
+    emit_baseline_profile_path: Path | None = None,
+    profile_source_commit: str = "unrecorded",
 ) -> dict[str, object]:
     """Materialize one pristine snapshot and run every frozen command in it.
 
@@ -735,6 +940,15 @@ def run_repo_preflight(
     PASS/FAIL is fail-closed: ``passed`` requires BOTH every declared required
     service to be reachable AND every frozen command to exit 0. The returned
     record distinguishes service checks, command checks and the overall result.
+
+    Saleor baseline-flake policy (v0.9.20): when the PRISTINE primary command
+    fails with exactly the frozen baseline-flaky nodeid set (loaded via
+    ``baseline_profile``) AND every failed nodeid still passes a current serial
+    rerun, the failure is explicitly classified instead of failing the
+    preflight. Any new nodeid, any deterministically re-failing nodeid, or a
+    missing/unmatched profile fails closed. Raw command results always keep
+    their truthful non-zero exit codes; the classification is recorded
+    separately in ``baseline_classification``.
     """
     pin = next((p for p in pins if p.repo_id == repo_id), None)
     if pin is None:
@@ -869,33 +1083,93 @@ def run_repo_preflight(
         "services_passed": services_passed,
         "commands": runs,
         "command_passed": all_passed,
-        "passed": all_passed and services_passed,
     }
-    if (
-        repo_id == "saleor"
-        and diagnostics_dir is not None
-        and runs
-        and not bool(runs[0].get("passed"))
-    ):
-        diagnostics_dir.mkdir(parents=True, exist_ok=True)
-        diagnostics = _collect_saleor_failure_diagnostics(
-            python=venv_python,
-            staging_dir=staging_dir,
-            env=env,
-            timeout=timeout,
-            primary=runs[0],
-            logs_dir=logs_dir,
-        )
-        diagnostics_path = diagnostics_dir / "saleor_failure_diagnostics.json"
-        diagnostics_path.write_text(
-            json.dumps(diagnostics, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
-        )
-        result_record["failure_diagnostics"] = {
-            "path": diagnostics_path.relative_to(diagnostics_dir).as_posix(),
-            "failed_count": diagnostics["failed_count"],
-            "failed_subtree_prefixes": diagnostics["failed_subtree_prefixes"],
-        }
+    baseline_tolerated = False
+    if repo_id == "saleor" and runs and not bool(runs[0].get("passed")):
+        # Capture the primary failure set BEFORE any serial rerun rewrites the
+        # pytest lastfailed cache.
+        captured_lastfailed = _load_lastfailed(staging_dir)
+        failed_nodeids = captured_lastfailed[1] if captured_lastfailed else ()
+        serial_reruns: list[dict[str, object]] = []
+        if failed_nodeids and (
+            baseline_profile is not None or emit_baseline_profile_path is not None
+        ):
+            serial_reruns = [
+                _serial_rerun_nodeid(
+                    venv_python,
+                    staging_dir,
+                    env,
+                    min(timeout, 300),
+                    nodeid,
+                    logs_dir,
+                    repo_id,
+                )
+                for nodeid in sorted(failed_nodeids)
+            ]
+        if emit_baseline_profile_path is not None:
+            profile_payload = build_baseline_profile_evidence(
+                saleor_commit_sha=pin.commit_sha,
+                frozen_validation_command=list(command.command),
+                environment_versions=dict(
+                    _collect_diagnostic_versions(venv_python, env)
+                ),
+                full_run_exit_code=runs[0].get("exit_code"),
+                full_run_duration_seconds=runs[0].get("duration_seconds"),
+                failed_nodeids=failed_nodeids,
+                serial_reruns=serial_reruns,
+                created_utc=datetime.now(UTC).isoformat(),
+                profile_source_commit=profile_source_commit,
+                platform_name=sys.platform,
+            )
+            emit_baseline_profile_path.parent.mkdir(parents=True, exist_ok=True)
+            emit_baseline_profile_path.write_text(
+                json.dumps(profile_payload, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+                newline="\n",
+            )
+            result_record["emitted_baseline_profile"] = {
+                "path": str(emit_baseline_profile_path),
+                "nodeid_count": len(failed_nodeids),
+                "all_serial_passed": all(
+                    bool(v.get("passed")) for v in serial_reruns
+                ),
+            }
+        if baseline_profile is not None:
+            if not failed_nodeids:
+                classification: dict[str, object] = {
+                    "status": "NOT_CLASSIFIED_NO_LASTFAILED",
+                    "profile_schema": baseline_profile.get("schema"),
+                    "observed_count": 0,
+                    "classified": False,
+                }
+            else:
+                classification = classify_saleor_failures_against_profile(
+                    failed_nodeids, serial_reruns, baseline_profile
+                )
+            result_record["baseline_classification"] = classification
+            baseline_tolerated = bool(classification["classified"])
+        if diagnostics_dir is not None:
+            diagnostics_dir.mkdir(parents=True, exist_ok=True)
+            diagnostics = _collect_saleor_failure_diagnostics(
+                python=venv_python,
+                staging_dir=staging_dir,
+                env=env,
+                timeout=timeout,
+                primary=runs[0],
+                logs_dir=logs_dir,
+                precomputed_lastfailed=captured_lastfailed,
+            )
+            diagnostics_path = diagnostics_dir / "saleor_failure_diagnostics.json"
+            diagnostics_path.write_text(
+                json.dumps(diagnostics, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            result_record["failure_diagnostics"] = {
+                "path": diagnostics_path.relative_to(diagnostics_dir).as_posix(),
+                "failed_count": diagnostics["failed_count"],
+                "failed_subtree_prefixes": diagnostics["failed_subtree_prefixes"],
+            }
+    result_record["passed"] = (all_passed or baseline_tolerated) and services_passed
     return result_record
 
 
@@ -907,11 +1181,26 @@ def run_preflight(
     repos: tuple[str, ...],
     timeout: int,
     repo_sources: dict[str, Path] | None = None,
+    baseline_profile_path: Path | None = None,
+    emit_baseline_profile_path: Path | None = None,
+    profile_source_commit: str = "unrecorded",
 ) -> dict[str, object]:
     """Run the frozen validation contract against pristine staged snapshots."""
     from benchmark.repositories.validation_commands import load_validation_commands
 
     manifest = load_validation_commands(manifest_path)
+    baseline_profile: dict[str, object] | None = None
+    if baseline_profile_path is not None:
+        pin = next(
+            (p for p in DEFAULT_PINS if p.repo_id == "saleor"), None
+        )
+        if pin is None:
+            raise RuntimeError("no RepositoryPin defined for 'saleor'")
+        baseline_profile = load_baseline_profile(
+            baseline_profile_path,
+            expected_saleor_sha=pin.commit_sha,
+            expected_frozen_command=list(manifest.require("saleor").command),
+        )
     results: dict[str, object] = {}
     all_passed = True
     for repo_id in repos:
@@ -936,6 +1225,11 @@ def run_preflight(
                 repo_source=(repo_sources or {}).get(repo_id),
                 logs_dir=staging_root / "logs",
                 diagnostics_dir=staging_root,
+                baseline_profile=baseline_profile,
+                emit_baseline_profile_path=(
+                    emit_baseline_profile_path if repo_id == "saleor" else None
+                ),
+                profile_source_commit=profile_source_commit,
             )
         except Exception as exc:
             result = {
@@ -1005,6 +1299,32 @@ def parse_args() -> argparse.Namespace:
     preflight.add_argument(
         "--timeout", type=int, default=3600, help="Per-command timeout (seconds)."
     )
+    preflight.add_argument(
+        "--baseline-profile",
+        type=Path,
+        default=None,
+        help=(
+            "Frozen Saleor baseline-flake profile JSON; when provided, a "
+            "pristine primary failure whose exact nodeids all match the "
+            "profile AND still pass serial reruns is classified instead of "
+            "failing the preflight (fail-closed otherwise)."
+        ),
+    )
+    preflight.add_argument(
+        "--emit-baseline-profile",
+        type=Path,
+        default=None,
+        help=(
+            "Write baseline-flake evidence (exact failed nodeids + per-nodeid "
+            "serial rerun verdicts) to this path after a failed pristine "
+            "Saleor run. Never changes the pass/fail verdict."
+        ),
+    )
+    preflight.add_argument(
+        "--profile-source-commit",
+        default="unrecorded",
+        help="Project source commit recorded inside an emitted baseline profile.",
+    )
     preflight.add_argument("--out", type=Path, required=True, help="Result JSON path.")
     return parser.parse_args()
 
@@ -1041,6 +1361,9 @@ def main() -> int:
             repos=repos,
             timeout=args.timeout,
             repo_sources=repo_sources,
+            baseline_profile_path=args.baseline_profile,
+            emit_baseline_profile_path=args.emit_baseline_profile,
+            profile_source_commit=args.profile_source_commit,
         )
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(
