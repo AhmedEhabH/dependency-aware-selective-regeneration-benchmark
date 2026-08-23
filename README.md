@@ -203,17 +203,32 @@ yet authorized for this arm.
 
 ## Current Status
 
-> **CURRENT TRUTH (2026-08-22):** accepted release = **`v0.9.19-pilot-exec-ready`**
+> **CURRENT TRUTH (2026-08-24, v0.9.20 root-cause closure in progress):** the
+> real Kaggle v0.9.19 session FAILED at the Saleor fast capability gate
+> (Pytest exit 5 = no tests collected) after every earlier stage passed —
+> **`v0.9.19-pilot-exec-ready` is REJECTED FOR PILOT LAUNCH** despite its
+> artifact being internally trust/provenance-GREEN. Root cause: the gate argv
+> concatenated a second `-m pytest` onto the already-resolved frozen primary
+> command (Pytest read it as a marker expression); local tests were false-green
+> via a substring-based fake runner. The closure on branch
+> `fix/pilot-v0920-saleor-preflight-root-closure` ships the exact standalone
+> gate argv + fail-fast invariant + exact-argv regression tests (RED/GREEN
+> proven; target-proven on Linux CI run 32650273641), the evidence-backed Saleor
+> baseline-flake policy (`pilot_saleor_baseline_flaky_profile.v1`), and a
+> target-shaped no-model Linux preflight workflow. **v0.9.20 tag NOT created
+> yet** — gated on committed-profile CI overall=PASS, merge, re-freeze,
+> dry-run 48/48, trust/provenance 0 mismatches. Report:
+> [`reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`](reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md).
+>
+> **PRIOR TRUTH (2026-08-22, HISTORICAL for launch purposes):** accepted release = **`v0.9.19-pilot-exec-ready`**
 > @ tag peel == artifact source commit `2305991442a4f965d44bb066bb00c0a459fc395a`
 > (PostgreSQL admin/application bootstrap + partial recovery closure, real
 > Kaggle defect fix). `main` is a post-tag docs/evidence child of that merge.
 > v0.9.19 artifact trust/provenance is **GREEN** (exact upload artifact
 > `dist/pilot-kaggle-upload.zip` SHA-256 `f7a16858…` + `.sha256` sidecar).
-> OpenCode full-suite evidence = **2330 passed / 34 skipped / 0 failed**.
+> OpenCode full-suite evidence at that state = **2330 passed / 34 skipped / 0 failed**.
 > Scientific Smoke V2 remains COMPLETE AND ACCEPTED (non-publication evidence).
-> **Real Pilot = NOT STARTED.** Exact next action = fresh Kaggle v0.9.19 target
-> preflight; if all target gates pass, launch the accepted 48-cell Pilot in the
-> same session. Do NOT open v0.9.20 without real target evidence. Authoritative
+> **Real Pilot = NOT STARTED.** Authoritative
 > snapshot: [`docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`](docs/AI_ACCOUNT_TRANSFER_HANDOFF.md).
 >
 > **HISTORICAL STATUS TRAIL — everything below is superseded context** (each

@@ -1,13 +1,28 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-22, UPDATE):** v0.9.19 is now **MERGED to main and
-> TAGGED** — accepted release `v0.9.19-pilot-exec-ready`, tag peel == artifact
-> source commit `2305991442a4f965d44bb066bb00c0a459fc395a`; `main` is a
-> post-tag docs/evidence child of that merge; artifact trust/provenance GREEN;
-> OpenCode full suite = 2330 passed / 34 skipped / 0 failed; Real Pilot = NOT
-> STARTED; exact next action = fresh Kaggle v0.9.19 target preflight, then the
-> accepted 48-cell Pilot in the same session if all target gates pass. Do NOT
-> open v0.9.20 without real target evidence. Authoritative snapshot:
+> **CURRENT TRUTH (2026-08-24, v0.9.20 ROOT-CAUSE CLOSURE):** the real Kaggle
+> v0.9.19 session FAILED at the Saleor fast capability gate (Pytest exit 5 =
+> no tests collected) after every earlier stage passed —
+> **`v0.9.19-pilot-exec-ready` is REJECTED FOR PILOT LAUNCH**. Root cause: the
+> gate argv concatenated a second `-m pytest` vector onto the already-resolved
+> frozen primary command; the local suite was false-green via a substring-based
+> fake runner. Closure complete on branch
+> `fix/pilot-v0920-saleor-preflight-root-closure`: exact standalone gate argv +
+> fail-fast invariant + exact-argv regression tests (RED/GREEN recorded;
+> target-proven on Linux CI run 32650273641) + exact-command mock validation +
+> evidence-backed Saleor baseline-flake policy
+> (`pilot_saleor_baseline_flaky_profile.v1`) + target-shaped no-model Linux CI
+> preflight workflow. v0.9.20 tag NOT created yet — gated on committed-profile
+> CI overall=PASS, merge, re-freeze, dry-run 48/48, trust/provenance 0
+> mismatches. Full detail:
+> `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-22, HISTORICAL for launch purposes):** v0.9.19 is now
+> **MERGED to main and TAGGED** — accepted release `v0.9.19-pilot-exec-ready`,
+> tag peel == artifact source commit `2305991442a4f965d44bb066bb00c0a459fc395a`;
+> `main` is a post-tag docs/evidence child of that merge; artifact
+> trust/provenance GREEN; OpenCode full suite = 2330 passed / 34 skipped / 0
+> failed at that state; Real Pilot = NOT STARTED. Authoritative snapshot:
 > `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.
 
 > **CURRENT TRUTH (2026-08-19):** **PILOT-EXEC-01 v0.9.19 POSTGRESQL ADMIN/APPLICATION BOOTSTRAP + PARTIAL RECOVERY CLOSURE — `v0.9.19-pilot-exec-ready` (real Kaggle defect fix).** v0.9.18 release-only provenance/docs correction is PRIOR. v0.9.19 = PostgreSQL admin/application bootstrap + partial recovery closure: `_psql` no longer has implicit Saleor DB default, server proofs use `db="postgres"`, `SHOW data_directory` protects partial recovery, Saleor DB is created before any application DB connection. All authoritative docs updated. *(Historical at the time: non-ff merge/tag were pending — since completed, see the 2026-08-22 UPDATE above.)*

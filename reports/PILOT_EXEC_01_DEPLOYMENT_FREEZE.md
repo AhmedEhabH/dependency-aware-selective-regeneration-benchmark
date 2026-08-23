@@ -1,7 +1,14 @@
 # PILOT-EXEC-01 — Deployment Freeze Report
 
-**Date:** 2026-08-19 (PostgreSQL admin/application bootstrap + partial recovery closure — **v0.9.19-pilot-exec-ready
-CURRENT**, see current freeze section 1 below; prior freezes historical;
+**Date:** 2026-08-24 (**v0.9.20-pilot-exec-ready CANDIDATE in preparation on
+branch `fix/pilot-v0920-saleor-preflight-root-closure` — the real Kaggle
+v0.9.19 session failed at the Saleor fast capability gate (Pytest exit 5, no
+tests collected) after every earlier stage passed, so the v0.9.19 freeze below
+is REJECTED FOR PILOT LAUNCH despite its internal trust/provenance GREEN; see
+`reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`. The next v0.9.20 freeze entry
+will be appended at finalization.** Prior chain:
+**v0.9.19-pilot-exec-ready** (2026-08-19; PostgreSQL admin/application
+bootstrap + partial recovery closure);
 **v0.9.18-pilot-exec-ready** release-only provenance/docs correction;
 **v0.9.16-pilot-exec-ready** RELEASE-ONLY CLOSURE (notebook anchors corrected);
 **v0.9.14-pilot-exec-ready** REJECTED (artifact notebook provenance mismatch);
@@ -9,7 +16,7 @@ CURRENT**, see current freeze section 1 below; prior freezes historical;
 this file superseded freeze chain: v0.9.19 → v0.9.18 → v0.9.16 → v0.9.14 → v0.9.12 → v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → v0.9.6
 → v0.9.5 → v0.9.4 → v0.9.3 → v0.9.2 → v0.9.1)
 **Task:** `PILOT-EXEC-01` (release-only provenance/docs correction)
-**Status:** FROZEN at `v0.9.19-pilot-exec-ready` (current, PostgreSQL admin/application bootstrap + partial recovery closure); prior freezes historical
+**Status:** FROZEN at `v0.9.19-pilot-exec-ready` (HISTORICAL for launch purposes — rejected by real Kaggle evidence 2026-08-24); prior freezes historical
 
 > **RELEASE-PROVENANCE CLOSURE + v0.9.11 REJECTION (2026-08-16):** The v0.9.11
 > immutable tag peeled to the merge commit `8801304`, whose notebook is the

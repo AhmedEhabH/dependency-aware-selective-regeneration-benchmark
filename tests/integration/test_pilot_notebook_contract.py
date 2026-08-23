@@ -333,15 +333,18 @@ class TestRepoPreflight:
         assert "no model call" in preflight or "no model" in preflight
 
     def test_preflight_wires_baseline_flake_profile_fail_closed(self) -> None:
-        """v0.9.20 Task F: the preflight cell must pass the bundled exact-nodeid
-        baseline-flake profile to the shared preflight and fail closed when the
-        bundle does not carry it."""
+        """v0.9.20 Task F: the preflight cell must arm the bundled exact-nodeid
+        baseline-flake profile when the bundle carries it and stay strictly
+        fail-closed when it does not (both modes fail closed; the profile only
+        widens tolerance to exactly the evidenced nodeid set)."""
         preflight = _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
         assert 'BASELINE_PROFILE_PATH = CODE_DIR / "reports" / ' in preflight
         assert '"pilot_saleor_baseline_flaky_profile.json"' in preflight
-        assert "if not BASELINE_PROFILE_PATH.is_file():" in preflight
-        assert "raise RuntimeError(" in preflight
+        assert "if BASELINE_PROFILE_PATH.is_file():" in preflight
         assert 'preflight_cmd += ["--baseline-profile", str(BASELINE_PROFILE_PATH)]' in preflight
+        # The no-profile branch must be explicit, not an accidental fall-through.
+        assert "else:" in preflight
+        assert "strict fail-closed validation" in preflight
 
     def test_snapshot_verify_checks_three_repos(self) -> None:
         snapshot = _src(_cells_by_id(_nb())["pilot-snapshot-verify-cell"])
