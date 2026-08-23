@@ -20,7 +20,7 @@ permissions:
 jobs:
   no-model-preflight:
     runs-on: ubuntu-22.04
-    timeout-minutes: 90
+    timeout-minutes: 330
     env:
       PREFLIGHT_ROOT: ${{ github.workspace }}/.pilot-target-preflight
       SOURCE_TAG: v0.9.20-pilot-exec-ready-candidate
@@ -107,18 +107,45 @@ jobs:
 
       - name: Run complete frozen no-model preflight
         run: |
-          python scripts/pilot_repo_snapshot.py preflight \
-            --manifest benchmark_data/manifests/pilot_validation_commands.yaml \
-            --staging-root "$PREFLIGHT_ROOT/staged" \
-            --repo-source "todo=$PREFLIGHT_ROOT/artifact/data/repositories/todo" \
-            --repo-source "djangocms=$PREFLIGHT_ROOT/artifact/data/repositories/djangocms" \
-            --repo-source "saleor=$PREFLIGHT_ROOT/artifact/data/repositories/saleor" \
-            --venv-python "todo=$(command -v python)" \
-            --venv-python "djangocms=$PREFLIGHT_ROOT/envs/djangocms/bin/python" \
-            --venv-python "saleor=$PREFLIGHT_ROOT/envs/saleor/.venv/bin/python" \
-            --timeout 3600 \
+          # The frozen pristine Saleor suite needs >3600s on this 2-core runner
+          # (observed ~36% at 3600s in run 32650273641); the CI-side per-command
+          # timeout is harness headroom only — the frozen validation command,
+          # paths, and the notebook's own budget are unchanged.
+          COMMITTED_PROFILE="reports/pilot_saleor_baseline_flaky_profile.json"
+          ARGS=(
+            --manifest benchmark_data/manifests/pilot_validation_commands.yaml
+            --staging-root "$PREFLIGHT_ROOT/staged"
+            --repo-source "todo=$PREFLIGHT_ROOT/artifact/data/repositories/todo"
+            --repo-source "djangocms=$PREFLIGHT_ROOT/artifact/data/repositories/djangocms"
+            --repo-source "saleor=$PREFLIGHT_ROOT/artifact/data/repositories/saleor"
+            --venv-python "todo=$(command -v python)"
+            --venv-python "djangocms=$PREFLIGHT_ROOT/envs/djangocms/bin/python"
+            --venv-python "saleor=$PREFLIGHT_ROOT/envs/saleor/.venv/bin/python"
+            --timeout 14400
+            --profile-source-commit "$GITHUB_SHA"
+            --emit-baseline-profile "$PREFLIGHT_ROOT/fresh-saleor-baseline-profile.json"
             --out "$PREFLIGHT_ROOT/pilot-target-preflight.json"
-          test "$(jq -r .overall "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = PASS
+          )
+          if [ -f "$COMMITTED_PROFILE" ]; then
+            ARGS+=(--baseline-profile "$COMMITTED_PROFILE")
+          fi
+          set +e
+          python scripts/pilot_repo_snapshot.py preflight "${ARGS[@]}"
+          PREFLIGHT_RC=$?
+          set -e
+          if [ -f "$COMMITTED_PROFILE" ]; then
+            test "$PREFLIGHT_RC" -eq 0
+            test "$(jq -r .overall "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = PASS
+          else
+            # First evidence run: no committed profile yet. Todo and django CMS
+            # must PASS; Saleor may fail on the pristine baseline cluster while
+            # emitting the fresh profile used to create the committed artifact.
+            test -f "$PREFLIGHT_ROOT/fresh-saleor-baseline-profile.json"
+            test "$(jq -r '.repositories.todo.passed' "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = true
+            test "$(jq -r '.repositories.djangocms.passed' "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = true
+            echo "Committed baseline profile absent (first evidence run): overall=$(jq -r .overall "$PREFLIGHT_ROOT/pilot-target-preflight.json")."
+            echo "No execution-ready claim is possible from this run; commit reports/pilot_saleor_baseline_flaky_profile.json from the emitted evidence and rerun."
+          fi
 
       - name: Upload machine-readable evidence
         if: always()
@@ -130,5 +157,6 @@ jobs:
             ${{ env.PREFLIGHT_ROOT }}/environment-provisioning.json
             ${{ env.PREFLIGHT_ROOT }}/environment-provisioning.log
             ${{ env.PREFLIGHT_ROOT }}/saleor-gate-collect.log
+            ${{ env.PREFLIGHT_ROOT }}/fresh-saleor-baseline-profile.json
             ${{ env.PREFLIGHT_ROOT }}/pilot-kaggle-upload.zip.sha256
           if-no-files-found: warn

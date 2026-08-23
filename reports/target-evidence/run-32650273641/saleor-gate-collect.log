@@ -1,0 +1,13 @@
+saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py::test_create_checkout
+
+=============================== warnings summary ===============================
+../../../../envs/saleor/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:833
+  /home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:833: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; saleor.account.tests.fixtures
+    self.import_plugin(import_spec)
+
+saleor/settings.py:270
+  /home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/artifact/data/repositories/saleor/saleor/settings.py:270: UserWarning: SECRET_KEY not configured, using a random temporary key.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 test collected in 0.06s
