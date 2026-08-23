@@ -1,0 +1,133 @@
+name: Pilot target-shaped no-model preflight
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "fix/pilot-v0920-saleor-preflight-root-closure"
+  pull_request:
+    paths:
+      - "scripts/pilot_repo_snapshot.py"
+      - "scripts/pilot_kaggle_repo_envs.py"
+      - "scripts/build_pilot_upload_bundle.py"
+      - "benchmark_data/manifests/pilot_validation_commands.yaml"
+      - "notebooks/pilot_exec_01.ipynb"
+      - ".github/workflows/pilot-preflight-target-shape.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  no-model-preflight:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      PREFLIGHT_ROOT: ${{ github.workspace }}/.pilot-target-preflight
+      SOURCE_TAG: v0.9.20-pilot-exec-ready-candidate
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install project validation dependencies
+        run: python -m pip install -r requirements-dev.txt -e .
+
+      - name: Install PostgreSQL 15 and Redis
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(. /etc/os-release && echo "$VERSION_CODENAME")-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update
+          sudo apt-get install -y postgresql-15 redis-server gettext gcc libpq-dev
+          sudo systemctl stop postgresql
+          sudo sed -i "s/^#port = 5432/port = 5433/" /etc/postgresql/15/main/postgresql.conf
+          sudo pg_ctlcluster 15 main start
+          sudo -u postgres psql -p 5433 -v ON_ERROR_STOP=1 -c "CREATE ROLE saleor WITH LOGIN SUPERUSER PASSWORD 'saleor';"
+          sudo -u postgres createdb -p 5433 -O saleor saleor
+          sudo systemctl restart redis-server
+
+      - name: Build exact candidate artifact and acquire frozen snapshots
+        run: |
+          mkdir -p "$PREFLIGHT_ROOT"
+          python - <<'PY'
+          from datetime import UTC, datetime
+          from pathlib import Path
+          import os
+          from scripts.build_pilot_upload_bundle import build_pilot_bundle
+
+          root = Path(os.environ["PREFLIGHT_ROOT"])
+          build_pilot_bundle(
+              output_root=root / "artifact",
+              archive_path=root / "pilot-kaggle-upload.zip",
+              source_commit=os.environ["GITHUB_SHA"],
+              source_tag=os.environ["SOURCE_TAG"],
+              created_utc=datetime.now(UTC).isoformat(),
+              repo_cache=root / "repo-cache",
+              allow_acquire=True,
+              validate_notebook_trust=False,
+              verify_source_provenance=False,
+          )
+          PY
+          test "$(jq -r .source_commit "$PREFLIGHT_ROOT/artifact/pilot_deployment_identity.json")" = "$GITHUB_SHA"
+          sha256sum "$PREFLIGHT_ROOT/pilot-kaggle-upload.zip" > "$PREFLIGHT_ROOT/pilot-kaggle-upload.zip.sha256"
+
+      - name: Validate candidate artifact contracts
+        run: |
+          python -m pytest -q \
+            tests/integration/test_pilot_deployment_bundle.py \
+            tests/integration/test_pilot_release_provenance.py \
+            tests/integration/test_pilot_notebook_contract.py
+
+      - name: Provision isolated repository environments
+        run: |
+          python scripts/pilot_kaggle_repo_envs.py \
+            --host-python "$(command -v python)" \
+            --pilot-envs-root "$PREFLIGHT_ROOT/envs" \
+            --data-repositories-dir "$PREFLIGHT_ROOT/artifact/data/repositories" \
+            --source-tag "$SOURCE_TAG" \
+            --log-path "$PREFLIGHT_ROOT/environment-provisioning.log" \
+            > "$PREFLIGHT_ROOT/environment-provisioning.json"
+
+      - name: Collect exact Saleor capability gate
+        run: |
+          SALEOR_PY="$PREFLIGHT_ROOT/envs/saleor/work/.venv/bin/python"
+          SALEOR_ROOT="$PREFLIGHT_ROOT/artifact/data/repositories/saleor"
+          cd "$SALEOR_ROOT"
+          "$SALEOR_PY" -m pytest -n 0 --collect-only -q \
+            saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py::test_create_checkout \
+            | tee "$PREFLIGHT_ROOT/saleor-gate-collect.log"
+          grep -F "test_checkout_mutations.py::test_create_checkout" "$PREFLIGHT_ROOT/saleor-gate-collect.log"
+
+      - name: Run complete frozen no-model preflight
+        run: |
+          python scripts/pilot_repo_snapshot.py preflight \
+            --manifest benchmark_data/manifests/pilot_validation_commands.yaml \
+            --staging-root "$PREFLIGHT_ROOT/staged" \
+            --repo-source "todo=$PREFLIGHT_ROOT/artifact/data/repositories/todo" \
+            --repo-source "djangocms=$PREFLIGHT_ROOT/artifact/data/repositories/djangocms" \
+            --repo-source "saleor=$PREFLIGHT_ROOT/artifact/data/repositories/saleor" \
+            --venv-python "todo=$(command -v python)" \
+            --venv-python "djangocms=$PREFLIGHT_ROOT/envs/djangocms/bin/python" \
+            --venv-python "saleor=$PREFLIGHT_ROOT/envs/saleor/work/.venv/bin/python" \
+            --timeout 3600 \
+            --out "$PREFLIGHT_ROOT/pilot-target-preflight.json"
+          test "$(jq -r .overall "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = PASS
+
+      - name: Upload machine-readable evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pilot-target-preflight-${{ github.sha }}
+          path: |
+            ${{ env.PREFLIGHT_ROOT }}/pilot-target-preflight.json
+            ${{ env.PREFLIGHT_ROOT }}/environment-provisioning.json
+            ${{ env.PREFLIGHT_ROOT }}/environment-provisioning.log
+            ${{ env.PREFLIGHT_ROOT }}/saleor-gate-collect.log
+            ${{ env.PREFLIGHT_ROOT }}/pilot-kaggle-upload.zip.sha256
+          if-no-files-found: warn
