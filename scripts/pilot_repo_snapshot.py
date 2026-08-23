@@ -36,10 +36,11 @@ import sys
 import tarfile
 import time
 import urllib.parse
+from collections.abc import Sequence
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Sequence, cast
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from benchmark.repositories.validation_commands import FrozenValidationCommand
@@ -778,10 +779,13 @@ def run_repo_preflight(
             "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py"
             "::test_create_checkout"
         )
-        gate_argv = list(command.resolve_interpreter(venv_python)) + [
+        gate_argv = [
+            venv_python,
             "-m", "pytest", "-n", "0", "-x", "--tb=line", "--no-header", "-q",
             saleor_gate_test,
         ]
+        if gate_argv.count("-m") != 1 or gate_argv[1:3] != ["-m", "pytest"]:
+            raise RuntimeError("invalid Saleor capability-gate argv")
         print(f"  Saleor fast capability gate: {saleor_gate_test}")
         gate_result = _run_command(
             gate_argv,
@@ -794,7 +798,7 @@ def run_repo_preflight(
         )
         if not gate_result.get("passed"):
             gate_log = gate_result.get("log_path", "")
-            gate_tail = gate_result.get("output_tail", "")
+            gate_tail = cast(str, gate_result.get("output_tail", ""))
             print(
                 f"  Saleor fast capability gate: FAIL (exit={gate_result.get('exit_code')})\n"
                 f"  Skipping full 6k Saleor suite. Gate log: {gate_log}\n"

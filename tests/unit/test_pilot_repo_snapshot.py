@@ -373,7 +373,26 @@ class TestSaleorFailureDiagnostics:
         def _fake_run_with_gate(
             argv: list[str], **kwargs: object
         ) -> types.SimpleNamespace:
-            if "test_create_checkout" in " ".join(str(a) for a in argv):
+            gate_nodeid = (
+                "saleor/graphql/checkout/tests/benchmark/"
+                "test_checkout_mutations.py::test_create_checkout"
+            )
+            if gate_nodeid in argv:
+                assert argv == [
+                    "python",
+                    "-m",
+                    "pytest",
+                    "-n",
+                    "0",
+                    "-x",
+                    "--tb=line",
+                    "--no-header",
+                    "-q",
+                    gate_nodeid,
+                ]
+                assert argv.count("-m") == 1
+                assert "pytest" not in argv[3:]
+                assert "saleor/graphql/checkout/tests" not in argv
                 return types.SimpleNamespace(
                     returncode=0, stdout="1 passed in 0.50s", stderr=""
                 )
