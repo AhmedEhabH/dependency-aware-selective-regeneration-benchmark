@@ -97,7 +97,7 @@ jobs:
 
       - name: Collect exact Saleor capability gate
         run: |
-          SALEOR_PY="$PREFLIGHT_ROOT/envs/saleor/work/.venv/bin/python"
+          SALEOR_PY="$PREFLIGHT_ROOT/envs/saleor/.venv/bin/python"
           SALEOR_ROOT="$PREFLIGHT_ROOT/artifact/data/repositories/saleor"
           cd "$SALEOR_ROOT"
           "$SALEOR_PY" -m pytest -n 0 --collect-only -q \
@@ -115,7 +115,7 @@ jobs:
             --repo-source "saleor=$PREFLIGHT_ROOT/artifact/data/repositories/saleor" \
             --venv-python "todo=$(command -v python)" \
             --venv-python "djangocms=$PREFLIGHT_ROOT/envs/djangocms/bin/python" \
-            --venv-python "saleor=$PREFLIGHT_ROOT/envs/saleor/work/.venv/bin/python" \
+            --venv-python "saleor=$PREFLIGHT_ROOT/envs/saleor/.venv/bin/python" \
             --timeout 3600 \
             --out "$PREFLIGHT_ROOT/pilot-target-preflight.json"
           test "$(jq -r .overall "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = PASS
