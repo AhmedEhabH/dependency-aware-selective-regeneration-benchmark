@@ -1,11 +1,16 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** READY FOR USE — CURRENT RELEASE `v0.9.21-pilot-exec-ready`
-(per-cell validation runtime closure merged + tagged; bundle frozen from the
-exact release source). Pilot NOT started.
+**Status:** PENDING CANDIDATE ARTIFACT — CURRENT STATE v0.9.22 CANDIDATE
+(long-context attention memory closure branch merged to main; notebook/deployment
+anchors to be frozen for the PLANNED tag `v0.9.22-pilot-exec-ready`; exact
+candidate artifact built from the merge commit). The stable tag DOES NOT EXIST
+YET: the fresh real 2x T4 Kaggle model preflight (same 12k target, same 64-token
+probe) MUST PASS first. Pilot NOT started; no 48-cell launch while untagged.
 
 > **HISTORICAL NOTE:** earlier versions of this runbook targeted
-> `v0.9.9-pilot-exec-ready` (and were never updated through v0.9.19/v0.9.20).
+> `v0.9.9-pilot-exec-ready` (and were never updated through v0.9.19/v0.9.20),
+> then `v0.9.21-pilot-exec-ready` (whose Real Pilot was REJECTED BEFORE LAUNCH at
+> the real 12k attention-prefill OOM now closed by the v0.9.22 candidate).
 > That content is SUPERSEDED — do not follow it. This page is the only current
 > runbook. Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.
 
@@ -13,20 +18,49 @@ exact release source). Pilot NOT started.
 
 | Item | Value |
 |---|---|
-| Source tag | `v0.9.21-pilot-exec-ready` |
-| Source commit (= tag peel) | `e308047c9c05f38316d80ce565bac1b51d105bfa` |
-| Artifact SHA-256 | `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40` |
+| Source tag | `v0.9.22-pilot-exec-ready` (PLANNED — fill/verify at Phase 2 freeze; git tag created ONLY after the Kaggle 12k probe PASSES) |
+| Source commit (= future tag peel) | `<final merge commit>` (record at Phase 2 merge) |
+| Artifact SHA-256 | `<candidate archive hash>` (record at Phase 2 build) |
 | Sidecar | `dist/pilot-kaggle-upload.zip.sha256` (must equal the archive hash) |
-| Trust / provenance | 0 mismatches |
-| Exact artifact dry-run | 48/48 succeeded, 48 unique IDs, 0 model calls |
+| Trust / provenance | 0 mismatches required |
+| Exact artifact dry-run | 48/48 succeeded, 48 unique IDs, 0 model calls required |
+
+Historical reference (superseded): v0.9.21 @ merge/tag peel
+`e308047c9c05f38316d80ce565bac1b51d105bfa`, archive SHA-256
+`62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`.
 
 **Execution contract:** `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md` (frozen
 before any real Pilot model result).
 **Bundle:** `dist/pilot-kaggle-upload/` + `dist/pilot-kaggle-upload.zip` +
-`.sha256`; built by the builder/finalizer from the TAGGED SOURCE
-`v0.9.21-pilot-exec-ready` (real repo cache: djangocms/saleor at pinned SHAs,
+`.sha256`; built by the builder/finalizer from the FINAL MERGE SOURCE COMMIT with
+anchors frozen for the PLANNED tag `v0.9.22-pilot-exec-ready`
+(real repo cache: djangocms/saleor at pinned SHAs,
 todo embedded). NEVER hand-re-zip the folder — the zip + sidecar are ONE
 frozen unit.
+
+## 0. v0.9.22 target memory proof (model preflight ONLY — MANDATORY FIRST)
+
+The v0.9.21 Real Pilot was rejected before launch because the effective runtime
+attention path materialized the math/eager fallback during prompt prefill
+(12,044 prompt tokens → failed allocation 21.62 GiB == exactly
+`12044*12044*40*4 bytes = 21.6153 GiB`). The v0.9.22 candidate closes it; the
+proof is REQUIRED before any tag or Pilot:
+
+1. Upload the exact candidate artifact (zip + sidecar as ONE fresh Dataset);
+   attach the frozen Pilot notebook and Qwen 14B input; Internet ON;
+   `HF_TOKEN` secret set.
+2. Run the notebook cells THROUGH the model preflight ONLY: repository
+   preflight PASS, Qwen 14B BNB-NF4 load PASS (`qwen_model_load[bnb-nf4]: PASS`),
+   short generation probe PASS, **12k long-context probe PASS**, and canonical
+   attention evidence in the persisted JSON:
+   `requested_attn_implementation=sdpa`,
+   `effective_attn_implementation=sdpa`,
+   `sdpa_kernel_policy=flash_or_efficient_no_math`, plus the human-table line
+   `attention_policy: PASS`.
+3. Do NOT launch any scientific cell while the stable tag does not exist. On
+   PASS → annotate `v0.9.22-pilot-exec-ready` AT the tested merge commit, push
+   the tag, THEN continue per Section 3 in a fresh session. On FAIL → return to
+   the SAME v0.9.22 task (never spawn v0.9.23).
 
 ## Canonical Gate C deployment shape
 
@@ -45,14 +79,16 @@ discovery build (trust gate off), writes the anchors
 (`source_commit` — which MUST equal the final tag peel — the archive SHA-256,
 and the deployed-notebook SHA), then a validation-enabled rebuild whose gates
 include `validate_bundled_notebook_trust` and
-`validate_source_commit_provenance`. For v0.9.21 this ran at merge
-`e308047c9c05f38316d80ce565bac1b51d105bfa` with 0 mismatches; freeze evidence:
-`reports/pilot_notebook_trust_freeze.json`.
+`validate_source_commit_provenance`. For v0.9.22 this runs at the FINAL MERGE
+COMMIT (recorded in the table above) with 0 mismatches required; freeze evidence:
+`reports/pilot_notebook_trust_freeze.json`. (Historical: v0.9.21 ran at merge
+`e308047c9c05f38316d80ce565bac1b51d105bfa` with 0 mismatches.)
 
 ## 1. Before launching (all must be done first)
 
-1. Confirm `main` is at/after the release merge `e308047…` and the local tag
-   dereferences to it; verify `dist/pilot-kaggle-upload.zip` SHA-256 equals the
+1. Confirm `main` is at/after the v0.9.22 merge commit recorded in the table
+   above; the git tag `v0.9.22-pilot-exec-ready` exists ONLY after Section 0
+   PASSES; verify `dist/pilot-kaggle-upload.zip` SHA-256 equals the
    sidecar AND the table above.
 2. Upload the zip + sidecar as ONE fresh Kaggle Dataset; attach the frozen
    Pilot notebook (`notebooks/pilot_exec_01.ipynb`) and the Qwen 14B model
@@ -98,8 +134,9 @@ include `validate_bundled_notebook_trust` and
 2. Provision `/kaggle/working/pilot_bundle` (extract for Mode A, copy for
    Mode B). The extract root must be empty or absent; a non-empty root fails
    closed. Both modes verify the tree against the frozen anchors before
-   proceeding. For v0.9.21 the identity must report source tag
-   `v0.9.21-pilot-exec-ready`.
+   proceeding. For the v0.9.22 candidate the identity must report source tag
+   `v0.9.22-pilot-exec-ready` (the PLANNED tag; the git tag itself is created
+   only after Section 0 PASSES).
 3. Run the notebook's `transport-restore-cell`: verifies
    `kaggle_transport_path_map.json` SHA-256 against the identity and restores
    every transport-encoded canonical repository filename from
@@ -108,8 +145,8 @@ include `validate_bundled_notebook_trust` and
    blobs), then removes `kaggle_transport/`. This happens BEFORE any manifest
    or repository verification.
 4. Verify `pilot_deployment_identity.json`: task `PILOT-EXEC-01`, source tag
-   `v0.9.21-pilot-exec-ready`, source commit
-   `e308047c9c05f38316d80ce565bac1b51d105bfa`; the identity-verify cell anchors
+   `v0.9.22-pilot-exec-ready` (planned), source commit
+   `<final merge commit>`; the identity-verify cell anchors
    `source_tag` and the full `FROZEN_DEPLOYMENT` to the frozen constants in
    BOTH modes.
 5. Verify the code/data manifests against the freeze report.
@@ -167,7 +204,7 @@ They drive the shared `scripts/pilot_repo_snapshot.py preflight` runner
 `benchmark_data/manifests/pilot_validation_commands.yaml`; fails closed unless
 `overall == PASS`) — and the SAME three values MUST be passed to the real
 launch/resume commands as `--validation-python` mappings (per-cell validation
-runtime parity, v0.9.21).
+runtime parity, carried forward from v0.9.21).
 
 ## 3. Real Pilot launch (frozen flags)
 
@@ -190,8 +227,8 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
     --validation-timeout 1800 \
-    --source-commit e308047c9c05f38316d80ce565bac1b51d105bfa \
-    --source-tag v0.9.21-pilot-exec-ready \
+    --source-commit <final merge commit> \
+    --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \
     --output-dir /kaggle/working/runs/<experiment-dir> \
@@ -237,8 +274,8 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
     --validation-timeout 1800 \
-    --source-commit e308047c9c05f38316d80ce565bac1b51d105bfa \
-    --source-tag v0.9.21-pilot-exec-ready \
+    --source-commit <final merge commit> \
+    --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \
     --output-dir /kaggle/working/runs/<same-experiment-dir> \
