@@ -18,7 +18,7 @@ superseded — this file wins every contradiction.
 | Accepted release | `v0.9.21-pilot-exec-ready` @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped Gates 1-3 + full preflight GREEN (runs 32692489617 / 32694137255) — **superseded as launch candidate by the v0.9.22 attention closure; its repository/per-cell fixes remain VALID and are carried forward** |
 | v0.9.22 stable tag | **DOES NOT EXIST YET.** Per the one-shot flow: build the exact candidate artifact from the merge commit → run the fresh Kaggle model preflight ONLY (same 12k target, same 64-token probe) → only on PASS create `v0.9.22-pilot-exec-ready`. If the Kaggle proof FAILS, return to the SAME v0.9.22 task (never spawn v0.9.23) |
 | Real Pilot status | **NOT STARTED** (no 48-cell launch while untagged) |
-| Exact next action | Phase 2 release mechanics: non-ff merge branch → `main`, push; freeze notebook/deployment anchors for planned `v0.9.22-pilot-exec-ready`; build exact candidate artifact from the merge commit; trust/provenance/dry-run gates; record artifact SHA — then hand to Kaggle for the model-preflight-only proof |
+| Exact next action | Phase 2 COMPLETE (merge `4827045…` on pushed main; anchors frozen; candidate artifact `9182ea2b…` built; trust/provenance 0 mismatches; exact-artifact dry-run 48/48) → upload the exact artifact to Kaggle for the model-preflight-only proof (12k probe must PASS) |
 | Per-cell validation runtime seam | **CLOSED by v0.9.21 (carried forward).** Generated-workspace validation uses explicit `--validation-python` per-repository interpreters (no sys.executable fallback), carries the frozen repository env into `FunctionalValidator` (parent `os.environ` never mutated), and runs under an explicit bounded `--validation-timeout 1800` on Pilot launch AND resume (separate from the frozen model `--timeout 600`). Target proof: Saleor full primary exit 0 in 941.42s < 1800s (CI run 32692489617) |
 
 Frozen Pilot matrix (unchanged, pre-registered in
@@ -143,8 +143,15 @@ weaken one without an explicit new audit.
 
 ## 8. Exact next action
 
-1. Phase 2 release mechanics (local): non-ff merge `fix/pilot-v0922-long-context-attention-memory-closure` → `main`, push main; freeze notebook/deployment anchors for planned `v0.9.22-pilot-exec-ready`; rebuild the bundle so `kaggle_upload/code/` carries the final merge source commit; build the exact candidate artifact (`dist/pilot-kaggle-upload.zip` + `.sha256`); run trust/provenance/dry-run gates; record the artifact SHA. **DO NOT create the stable tag yet.**
-2. Upload the EXACT v0.9.22 candidate artifact as ONE fresh Kaggle Dataset; attach
+1. ~~Phase 2 release mechanics (local)~~ **DONE:** non-ff merge → `main` @
+   `4827045fce96eb4caa3645e3cf3c8434dca2a1a8` (pushed); notebook/deployment anchors frozen for
+   planned `v0.9.22-pilot-exec-ready` via the idempotent two-pass finalizer with
+   `--verify-source-provenance` (0 mismatches; freeze evidence `reports/pilot_notebook_trust_freeze.json`);
+   exact candidate artifact built from the merge commit: `dist/pilot-kaggle-upload.zip`
+   SHA-256 `9182ea2bb091f785ff325a1355caa5bb0f57283764215059092970bbd8014974` (+ sidecar verified);
+   exact-artifact dry-run 48/48 succeeded / 48 unique IDs / 0 model calls / 0 tokens.
+   **The stable tag still DOES NOT exist — do not create it before step 3 PASSES.**
+2. Upload the EXACT v0.9.22 candidate artifact (`9182ea2b…`) as ONE fresh Kaggle Dataset; attach
    the frozen Pilot notebook (`notebooks/pilot_exec_01.ipynb`) and Qwen 14B input; Internet ON;
    `HF_TOKEN` secret set; confirm mounted model path + HF results repo ID.
 3. Run the **fresh Kaggle v0.9.22 candidate model preflight ONLY** (SHA-256 verify,

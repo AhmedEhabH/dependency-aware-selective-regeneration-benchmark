@@ -65,7 +65,13 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 > reduction); Tasks E/F regression-guard every prior memory fix and the unchanged
 > 12000/64 gate. RED/GREEN proven: 12 backend + 18 preflight contract tests failed
 > against v0.9.21 code before the fix. Full suite **2407 passed / 33 skipped / 0
-> failed**; dry-run pilot profile 48/48 (unique IDs, 0 model calls, 0 tokens). NO stable
+> failed**; dry-run pilot profile 48/48 (unique IDs, 0 model calls, 0 tokens). Phase 2 release
+> mechanics COMPLETE: non-ff merge → main `4827045fce96eb4caa3645e3cf3c8434dca2a1a8` (pushed);
+> anchors frozen for planned `v0.9.22-pilot-exec-ready` via the idempotent two-pass finalizer with
+> `--verify-source-provenance` (0 mismatches; `reports/pilot_notebook_trust_freeze.json`);
+> exact candidate artifact `dist/pilot-kaggle-upload.zip` SHA-256
+> `9182ea2bb091f785ff325a1355caa5bb0f57283764215059092970bbd8014974` (+ sidecar verified) with
+> exact-artifact dry-run 48/48. NO stable
 > tag exists yet: per the one-shot flow the exact candidate artifact is built from the
 > merge commit and the real 2x T4 Kaggle model preflight (same 12k target, same 64-token
 > probe) is MANDATORY before creating `v0.9.22-pilot-exec-ready`; if the Kaggle proof
