@@ -277,6 +277,7 @@ class RunnerConfig:
     enable_regeneration: bool = False
     validation_command: list[str] | None = None
     validation_timeout: int = 30
+    validation_env: dict[str, str] = field(default_factory=dict)
     editable_artifact_paths: tuple[str, ...] = ()
     max_completion_tokens_per_call: int = 4096
     max_total_workflow_tokens: int = 0
@@ -287,6 +288,9 @@ class RunnerConfig:
     def __post_init__(self) -> None:
         if isinstance(self.max_completion_tokens_per_call, bool):
             raise ValueError("RunnerConfig.max_completion_tokens_per_call must be integer, not bool")
+        if isinstance(self.validation_timeout, bool) or self.validation_timeout <= 0:
+            n = self.validation_timeout
+            raise ValueError(f"RunnerConfig.validation_timeout must be a positive integer, got {n}")
         if isinstance(self.max_total_workflow_tokens, bool):
             raise ValueError("RunnerConfig.max_total_workflow_tokens must be integer, not bool")
         if isinstance(self.max_tokens, bool):
@@ -485,6 +489,7 @@ class BenchmarkRunner:
                 workspace_root=self._isolation.workspace.root,
                 command=validation_command,
                 timeout=self._config.validation_timeout,
+                env=dict(self._config.validation_env),
             )
             if not baseline_result.passed:
                 b_stdout = _compact_head_tail(baseline_result.stdout)
