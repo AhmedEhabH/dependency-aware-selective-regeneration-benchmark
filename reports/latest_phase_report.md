@@ -1,6 +1,35 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-24, v0.9.21 RELEASED):** accepted release =
+> **CURRENT TRUTH (2026-08-24, v0.9.22 CANDIDATE — TARGET MEMORY PROOF PENDING):**
+> branch `fix/pilot-v0922-long-context-attention-memory-closure` (from clean main
+> `58d1be533c98ca9bafc9a344f2a73f8a140b9540`, v0.9.21 reconciled) implements the
+> long-context attention memory closure. The real Kaggle v0.9.21 model preflight
+> PASSED repository preflight / dependencies / Qwen 14B BNB-NF4 load
+> (`qwen_model_load[bnb-nf4]: PASS`) / GPU-only device map / 2x Tesla T4 /
+> per-GPU headroom (min free 7.764 GiB) / short generation probe, then FAILED at
+> the long-context probe with CUDA OOM: 12,044 prompt tokens / 64-token output
+> budget / **failed allocation 21.62 GiB == exactly `12044*12044*40*4 bytes =
+> 21.6153 GiB`, the full float32 40-head quadratic attention score matrix** — the
+> effective runtime attention path had materialized the math/eager fallback during
+> prompt prefill. v0.9.21 Real Pilot REJECTED BEFORE LAUNCH; no Experiment ID /
+> no RunRecord created; no stable tag moved. The v0.9.22 candidate closes it
+> WITHOUT touching any scientific input: Task A explicit
+> `attn_implementation="sdpa"` at from_pretrained; Task B fail-closed CUDA
+> generation inside `sdpa_kernel([FLASH_ATTENTION, EFFICIENT_ATTENTION])`; Task C
+> canonical attention evidence (`requested/effective_attn_implementation`,
+> `sdpa_kernel_policy=flash_or_efficient_no_math`) persisted in preflight JSON,
+> rendered in the human table, enforced by the new fail-closed `attention_policy`
+> check and pilot launch authorization; Task D corrected OOM diagnosis;
+> Tasks E/F regression-guard prior memory fixes and the unchanged 12000/64 gate.
+> RED/GREEN proven: 12 backend + 18 preflight contract tests failed against
+> v0.9.21 code before the fix; full suite **2407 passed / 33 skipped / 0 failed**;
+> dry-run pilot profile 48/48 (unique IDs, 0 model calls, 0 tokens). NO stable tag
+> yet: exact candidate artifact from the merge commit → fresh Kaggle model
+> preflight ONLY (12k probe must PASS) → `v0.9.22-pilot-exec-ready`; if it fails,
+> return to the SAME v0.9.22 task. Full detail:
+> `reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-24, HISTORICAL): accepted release =
 > `v0.9.21-pilot-exec-ready` @ annotated tag peel == artifact source commit ==
 > merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive
 > `dist/pilot-kaggle-upload.zip` SHA-256
@@ -18,7 +47,10 @@
 > below measured runtime); v0.9.21 closes all three with `--validation-python`
 > mappings, frozen-env propagation through PipelineConfig/RunnerConfig into
 > FunctionalValidator, and explicit `--validation-timeout 1800` on Pilot
-> launch AND resume. Full detail:
+> launch AND resume — these repository/per-cell fixes remain VALID and are
+> carried forward into v0.9.22; its Real Pilot was rejected before launch only at
+> the real 12k attention-prefill OOM now closed by the v0.9.22 candidate.
+> Full detail:
 > `reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`.
 >
 > **PRIOR TRUTH (2026-08-24 earlier in the day, HISTORICAL):** **v0.9.20

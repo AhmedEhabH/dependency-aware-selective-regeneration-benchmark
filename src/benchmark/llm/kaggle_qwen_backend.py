@@ -26,6 +26,19 @@ CANONICAL_QUANTIZATION_MODES = ("bnb-int8", "bnb-nf4", "fp16")
 
 KAGGLE_CACHE_IMPLEMENTATION = "offloaded"
 
+# V0.9.22 long-context attention memory closure: the effective runtime
+# attention path must be SDPA with a fail-closed fused-kernel policy on CUDA.
+# Target evidence: the v0.9.21 real 12,044-token probe attempted a
+# 21.62 GiB allocation == the full float32 40-head 12044x12044 attention
+# score matrix, i.e. the quadratic math/eager fallback had materialized.
+KAGGLE_ATTENTION_IMPLEMENTATION = "sdpa"
+
+KAGGLE_SDPA_KERNEL_POLICY = "flash_or_efficient_no_math"
+
+# Prompts at or above this token count classify a generation OOM as a
+# prompt-prefill attention failure rather than a completion-budget failure.
+LONG_PROMPT_PREFILL_OOM_TOKEN_THRESHOLD = 2048
+
 _QUANTIZATION_METHOD_SAFE = frozenset({"bitsandbytes", "bnb"})
 
 NF4_LOAD_CONFIG = {
@@ -268,6 +281,25 @@ class KaggleQwenBackend:
         return self._quantization_mode
 
     @property
+    def requested_attention_implementation(self) -> str:
+        """Attention implementation explicitly requested at load time."""
+        return KAGGLE_ATTENTION_IMPLEMENTATION
+
+    @property
+    def sdpa_kernel_policy(self) -> str:
+        """Canonical SDPA kernel policy enforced during CUDA generation."""
+        return KAGGLE_SDPA_KERNEL_POLICY
+
+    @property
+    def effective_attention_implementation(self) -> str:
+        """The model config's effective attention implementation after load."""
+        if self._model is None:
+            return ""
+        config = getattr(self._model, "config", None)
+        value = getattr(config, "_attn_implementation", "") or ""
+        return str(value)
+
+    @property
     def checkpoint_basename(self) -> str:
         if not self._model_path:
             raise ModelBackendError(
@@ -444,6 +476,9 @@ class KaggleQwenBackend:
             "completion_tokens": response.token_usage.completion_tokens,
             "elapsed_seconds": round(elapsed, 3),
             "cache_implementation": KAGGLE_CACHE_IMPLEMENTATION,
+            "requested_attn_implementation": self.requested_attention_implementation,
+            "effective_attn_implementation": self.effective_attention_implementation,
+            "sdpa_kernel_policy": self.sdpa_kernel_policy,
             "gpu_name": gpu_info.get("gpu_name", "unknown"),
             "gpu_count": self._gpu_device_count(),
             "peak_allocated_gib": round(peak_allocated, 3) if peak_allocated is not None else None,
@@ -470,6 +505,35 @@ class KaggleQwenBackend:
         max_tokens: int = 4096,
     ) -> LLMResponse:
         return self._generate_sync(prompt=prompt, temperature=temperature, max_tokens=max_tokens)
+
+    def _sdpa_kernel_policy_context(self) -> Any:
+        """Fail-closed SDPA kernel policy for CUDA generation.
+
+        On CUDA, ``scaled_dot_product_attention`` is restricted to the fused
+        FLASH_ATTENTION / EFFICIENT_ATTENTION backends so a long-prompt
+        prefill can never silently materialize the quadratic math-fallback
+        score matrix (the v0.9.21 target OOM root cause). If the installed
+        PyTorch cannot provide the policy API, this raises instead of falling
+        back. Non-CUDA execution preserves historical behavior.
+        """
+        import contextlib
+
+        try:
+            import torch
+        except Exception:
+            return contextlib.nullcontext()
+        cuda_available = bool(getattr(torch.cuda, "is_available", lambda: False)())
+        if not cuda_available:
+            return contextlib.nullcontext()
+        try:
+            from torch.nn.attention import SDPBackend, sdpa_kernel
+        except Exception as exc:
+            raise ModelBackendError(
+                "CUDA generation requires torch.nn.attention.sdpa_kernel for the "
+                f"fail-closed fused-kernel policy ({KAGGLE_SDPA_KERNEL_POLICY}); "
+                f"the installed PyTorch does not provide it: {type(exc).__name__}: {exc}"
+            ) from exc
+        return sdpa_kernel([SDPBackend.FLASH_ATTENTION, SDPBackend.EFFICIENT_ATTENTION])
 
     def _generate_sync(
         self,
@@ -513,7 +577,7 @@ class KaggleQwenBackend:
                 gen_kwargs["temperature"] = temperature
                 gen_kwargs["top_p"] = 0.95
 
-            with torch.inference_mode():
+            with torch.inference_mode(), self._sdpa_kernel_policy_context():
                 output_ids = self._model.generate(**gen_kwargs)
 
             generated_ids = output_ids[0, prompt_tokens:]
@@ -558,10 +622,7 @@ class KaggleQwenBackend:
             if exc.__class__.__module__.startswith("torch") and "OutOfMemory" in type(exc).__name__:
                 self._log_oom(exc, max_tokens, prompt_tokens)
                 raise ModelBackendError(
-                    "Qwen generation failed: CUDA out-of-memory. "
-                    "Reduce max_completion_tokens_per_call (Smoke uses 1024) or "
-                    "select a GPU with more VRAM. "
-                    f"{type(exc).__name__}: {exc}"
+                    self._format_oom_message(exc, max_tokens, prompt_tokens)
                 ) from exc
             logger.error(
                 "GENERATION_FAILED exception=%s gpu=%s",
@@ -607,6 +668,59 @@ class KaggleQwenBackend:
                 f"KaggleQwenBackend: chat template failed: {type(exc).__name__}: {exc}"
             ) from exc
 
+    def _gpu_memory_line(self) -> str:
+        """Best-effort per-GPU memory summary for error messages (may be '')."""
+        try:
+            import torch
+
+            allocated_gib = torch.cuda.memory_allocated(0) / (1024**3)
+            reserved_gib = torch.cuda.memory_reserved(0) / (1024**3)
+            total_mem = torch.cuda.get_device_properties(0).total_memory
+            free_gib = max(0.0, total_mem - torch.cuda.memory_reserved(0)) / (1024**3)
+        except Exception:
+            return ""
+        return (
+            f"gpu0_memory allocated_gib={allocated_gib:.2f} "
+            f"reserved_gib={reserved_gib:.2f} free_gib={free_gib:.2f}"
+        )
+
+    def _format_oom_message(
+        self, exc: BaseException, max_tokens: int, prompt_tokens: int | None
+    ) -> str:
+        """Build the generation OOM message without misattributing the cause.
+
+        Long-prompt OOM is a prompt-prefill attention failure: the completion
+        budget is NOT the controlling memory term, so the message must not
+        advise reducing it. The original PyTorch exception stays visible and
+        chained.
+        """
+        header = "Qwen generation failed: CUDA out-of-memory."
+        attention_line = (
+            f"effective_attention_implementation={self.effective_attention_implementation!r} "
+            f"(requested={KAGGLE_ATTENTION_IMPLEMENTATION!r}, "
+            f"kernel_policy={KAGGLE_SDPA_KERNEL_POLICY!r})"
+        )
+        memory_line = self._gpu_memory_line()
+        prompt_part = (
+            str(prompt_tokens) if prompt_tokens is not None else "unknown"
+        )
+        original = f"Original exception: {type(exc).__name__}: {exc}"
+        if prompt_tokens is not None and prompt_tokens >= LONG_PROMPT_PREFILL_OOM_TOKEN_THRESHOLD:
+            return (
+                f"{header} Prompt-prefill attention allocation exhausted GPU memory: "
+                f"prompt_tokens={prompt_part} requested_completion_tokens={max_tokens}; "
+                f"{attention_line}; {memory_line}. A prefill OOM with a long prompt is "
+                "typically caused by the attention implementation materializing a "
+                "quadratic score matrix, not by the completion budget; reducing "
+                f"max_completion_tokens will NOT fix it. {original}"
+            )
+        return (
+            f"{header} Reduce max_completion_tokens_per_call (Smoke uses 1024) or "
+            f"select a GPU with more VRAM. prompt_tokens={prompt_part} "
+            f"requested_completion_tokens={max_tokens}; {attention_line}; {memory_line}. "
+            f"{original}"
+        )
+
     def _log_oom(self, exc: BaseException, max_tokens: int, prompt_tokens: int | None) -> None:
         """Log actionable GPU-memory diagnostics for an out-of-memory failure."""
         allocated_gib: float | None = None
@@ -623,12 +737,16 @@ class KaggleQwenBackend:
             pass
         logger.error(
             "GENERATION_OOM allocated_gib=%s reserved_gib=%s free_gib=%s "
-            "max_tokens=%d prompt_tokens=%s exception=%s",
+            "max_tokens=%d prompt_tokens=%s attention_requested=%s "
+            "attention_effective=%s sdpa_kernel_policy=%s exception=%s",
             allocated_gib,
             reserved_gib,
             free_gib,
             max_tokens,
             prompt_tokens,
+            KAGGLE_ATTENTION_IMPLEMENTATION,
+            self.effective_attention_implementation,
+            KAGGLE_SDPA_KERNEL_POLICY,
             type(exc).__name__,
         )
 
@@ -707,6 +825,10 @@ class KaggleQwenBackend:
             "trust_remote_code": True,
             "local_files_only": True,
             "device_map": "auto",
+            # V0.9.22: never rely on the checkpoint/default Transformers choice;
+            # the effective attention path must be SDPA (see
+            # KAGGLE_ATTENTION_IMPLEMENTATION and _sdpa_kernel_policy_context).
+            "attn_implementation": KAGGLE_ATTENTION_IMPLEMENTATION,
         }
         if self._quantization_mode in ("bnb-int8", "bnb-nf4"):
             from transformers import BitsAndBytesConfig

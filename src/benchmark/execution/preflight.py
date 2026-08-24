@@ -119,6 +119,9 @@ class KaggleSmokePreflightResult:
     reserved_vram_gib: float = 0.0
     probe_prompt_tokens: int = 0
     probe_completion_tokens: int = 0
+    requested_attn_implementation: str = ""
+    effective_attn_implementation: str = ""
+    sdpa_kernel_policy: str = ""
     long_context_probe: dict[str, Any] | None = None
     dependencies: tuple[tuple[str, str], ...] = ()
     duration_seconds: float = 0.0
@@ -289,6 +292,14 @@ def _qwen_probe_metrics(
         "checkpoint_quantization_method": backend.checkpoint_quantization_method,
         "model_memory_footprint_bytes": backend.model_memory_footprint_bytes,
         "device_map_summary": backend.device_map_summary,
+        # V0.9.22 long-context attention closure evidence (fail-closed downstream).
+        "requested_attn_implementation": str(
+            getattr(backend, "requested_attention_implementation", "") or ""
+        ),
+        "effective_attn_implementation": str(
+            getattr(backend, "effective_attention_implementation", "") or ""
+        ),
+        "sdpa_kernel_policy": str(getattr(backend, "sdpa_kernel_policy", "") or ""),
         "gpu_count": gpu_count,
         "gpu_name": gpu_name,
         "gpu_vram_by_device": snapshots,
@@ -356,6 +367,9 @@ def _static_model_metadata(
         "model_identity": "",
         "model_checkpoint_basename": "",
         "checkpoint_quantization_method": "",
+        "requested_attn_implementation": "",
+        "effective_attn_implementation": "",
+        "sdpa_kernel_policy": "",
         "gpu_count": 0,
         "gpu_name": "",
         "gpu_vram_by_device": (),
@@ -453,6 +467,7 @@ def run_kaggle_smoke_preflight(
                 "makemigrations_check: SKIP (runtime contract failed)",
                 f"qwen_model_load[{quantization_mode}]: SKIP (runtime contract failed)",
                 "device_map_gpu_only: SKIP (runtime contract failed)",
+                "attention_policy: SKIP (runtime contract failed)",
                 "vram_headroom: SKIP (runtime contract failed)",
                 "gpu_count_expected: SKIP (runtime contract failed)",
                 "checkpoint_not_prequantized: SKIP (runtime contract failed)",
@@ -466,6 +481,7 @@ def run_kaggle_smoke_preflight(
                 f"makemigrations_check: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
                 f"qwen_model_load[{quantization_mode}]: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
                 f"device_map_gpu_only: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
+                f"attention_policy: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
                 f"vram_headroom: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
                 f"gpu_count_expected: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
                 f"checkpoint_not_prequantized: SKIP ({_REPO_PREFLIGHT_BLOCKED_SUFFIX})",
@@ -550,6 +566,37 @@ def run_kaggle_smoke_preflight(
                 checks.append("checkpoint_not_prequantized: PASS")
             else:
                 checks.append(f"checkpoint_not_prequantized: FAIL (method={checkpoint_method})")
+            # V0.9.22: canonical attention evidence gate (fail-closed). The
+            # v0.9.21 target OOM proved the effective attention path had
+            # materialized the quadratic math fallback; the preflight must
+            # refuse to pass (and refuse to run the 12k probe) unless the
+            # requested/effective implementation and fused-kernel policy are
+            # all canonical.
+            from benchmark.llm.kaggle_qwen_backend import (
+                KAGGLE_ATTENTION_IMPLEMENTATION,
+                KAGGLE_SDPA_KERNEL_POLICY,
+            )
+
+            requested_attn = str(probe_metrics.get("requested_attn_implementation", "") or "")
+            effective_attn = str(probe_metrics.get("effective_attn_implementation", "") or "")
+            kernel_policy = str(probe_metrics.get("sdpa_kernel_policy", "") or "")
+            if (
+                requested_attn == KAGGLE_ATTENTION_IMPLEMENTATION
+                and effective_attn == KAGGLE_ATTENTION_IMPLEMENTATION
+                and kernel_policy == KAGGLE_SDPA_KERNEL_POLICY
+            ):
+                checks.append(
+                    "attention_policy: PASS (requested=sdpa effective=sdpa "
+                    f"kernel_policy={KAGGLE_SDPA_KERNEL_POLICY})"
+                )
+            else:
+                checks.append(
+                    f"attention_policy: FAIL (requested={requested_attn or 'missing'} "
+                    f"effective={effective_attn or 'missing'} "
+                    f"kernel_policy={kernel_policy or 'missing'}; "
+                    f"expected requested=sdpa effective=sdpa "
+                    f"kernel_policy={KAGGLE_SDPA_KERNEL_POLICY})"
+                )
             snapshots = probe_metrics.get("gpu_vram_by_device", ())
             if not isinstance(snapshots, tuple):
                 snapshots = tuple(snapshots)
@@ -581,12 +628,14 @@ def run_kaggle_smoke_preflight(
             probe_metrics = _static_model_metadata(model_path, quantization_mode)
             checks.append(f"qwen_model_load[{quantization_mode}]: FAIL ({probe_failure})")
             checks.append("device_map_gpu_only: FAIL (probe did not run)")
+            checks.append("attention_policy: FAIL (probe did not run)")
             checks.append("vram_headroom: FAIL (probe did not run)")
             checks.append("gpu_count_expected: FAIL (probe did not run)")
             checks.append("checkpoint_not_prequantized: FAIL (probe did not run)")
     elif not blocked:
         checks.append(f"qwen_model_load[{quantization_mode}]: SKIP (baseline preflight failed)")
         checks.append("device_map_gpu_only: SKIP (baseline preflight failed)")
+        checks.append("attention_policy: SKIP (baseline preflight failed)")
         checks.append("vram_headroom: SKIP (baseline preflight failed)")
         checks.append("gpu_count_expected: SKIP (baseline preflight failed)")
         checks.append("checkpoint_not_prequantized: SKIP (baseline preflight failed)")
@@ -654,6 +703,9 @@ def run_kaggle_smoke_preflight(
         reserved_vram_gib=float(probe_metrics.get("reserved_vram_gib", 0.0) or 0.0),
         probe_prompt_tokens=int(probe_metrics.get("probe_prompt_tokens", 0) or 0),
         probe_completion_tokens=int(probe_metrics.get("probe_completion_tokens", 0) or 0),
+        requested_attn_implementation=str(probe_metrics.get("requested_attn_implementation", "") or ""),
+        effective_attn_implementation=str(probe_metrics.get("effective_attn_implementation", "") or ""),
+        sdpa_kernel_policy=str(probe_metrics.get("sdpa_kernel_policy", "") or ""),
         long_context_probe=long_context_probe,
         dependencies=dependencies,
         duration_seconds=round(duration, 3),
@@ -691,6 +743,9 @@ def run_kaggle_smoke_preflight(
             "reserved_vram_gib": result.reserved_vram_gib,
             "probe_prompt_tokens": result.probe_prompt_tokens,
             "probe_completion_tokens": result.probe_completion_tokens,
+            "requested_attn_implementation": result.requested_attn_implementation,
+            "effective_attn_implementation": result.effective_attn_implementation,
+            "sdpa_kernel_policy": result.sdpa_kernel_policy,
             "long_context_probe": result.long_context_probe,
             "dependencies": [list(pair) for pair in result.dependencies],
             "duration_seconds": result.duration_seconds,
@@ -710,6 +765,9 @@ def render_preflight_table(result: KaggleSmokePreflightResult) -> str:
         f"requested_quantization_mode: {result.requested_quantization_mode or 'N/A'}",
         f"model_checkpoint_basename: {result.model_checkpoint_basename or 'N/A'}",
         f"checkpoint_quantization_method: {result.checkpoint_quantization_method or 'N/A'}",
+        f"requested_attn_implementation: {result.requested_attn_implementation or 'N/A'}",
+        f"effective_attn_implementation: {result.effective_attn_implementation or 'N/A'}",
+        f"sdpa_kernel_policy: {result.sdpa_kernel_policy or 'N/A'}",
         f"model_memory_footprint_bytes: {result.model_memory_footprint_bytes}",
         f"gpu_count: {result.gpu_count}",
         f"gpu_name: {result.gpu_name or 'N/A'}",
@@ -770,6 +828,11 @@ def validate_pilot_launch_authorization(
 
     Raises ``LaunchAuthorizationError`` on any failure.
     """
+    from benchmark.llm.kaggle_qwen_backend import (
+        KAGGLE_ATTENTION_IMPLEMENTATION,
+        KAGGLE_SDPA_KERNEL_POLICY,
+    )
+
     errors: list[str] = []
 
     # --- Repository preflight evidence ---
@@ -822,6 +885,25 @@ def validate_pilot_launch_authorization(
                     f"model_preflight.json quantization="
                     f"{model_evidence.get('requested_quantization_mode')!r} "
                     f"(expected {expected_quantization!r})"
+                )
+            # V0.9.22: canonical attention evidence is mandatory for launch.
+            requested_attn = str(model_evidence.get("requested_attn_implementation", "") or "")
+            effective_attn = str(model_evidence.get("effective_attn_implementation", "") or "")
+            kernel_policy = str(model_evidence.get("sdpa_kernel_policy", "") or "")
+            if requested_attn != KAGGLE_ATTENTION_IMPLEMENTATION:
+                errors.append(
+                    f"model_preflight.json requested_attn_implementation="
+                    f"{requested_attn!r} (expected {KAGGLE_ATTENTION_IMPLEMENTATION!r})"
+                )
+            if effective_attn != KAGGLE_ATTENTION_IMPLEMENTATION:
+                errors.append(
+                    f"model_preflight.json effective_attn_implementation="
+                    f"{effective_attn!r} (expected {KAGGLE_ATTENTION_IMPLEMENTATION!r})"
+                )
+            if kernel_policy != KAGGLE_SDPA_KERNEL_POLICY:
+                errors.append(
+                    f"model_preflight.json sdpa_kernel_policy="
+                    f"{kernel_policy!r} (expected {KAGGLE_SDPA_KERNEL_POLICY!r})"
                 )
             checks_list = model_evidence.get("checks", [])
             if isinstance(checks_list, list):
