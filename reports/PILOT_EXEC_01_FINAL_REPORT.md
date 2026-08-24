@@ -1,6 +1,19 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
-> **UPDATE (2026-08-24 LATEST, CURRENT):** accepted release =
+> **UPDATE (2026-08-24 LATEST, CURRENT):** v0.9.22 CANDIDATE — TARGET MEMORY
+> PROOF PENDING. Branch `fix/pilot-v0922-long-context-attention-memory-closure`
+> implements the long-context attention memory closure; full suite 2407 passed /
+> 33 skipped / 0 failed; dry-run pilot 48/48. The real Kaggle v0.9.21 model
+> preflight passed every stage through the short generation probe, then FAILED
+> at the 12k long-context probe with CUDA OOM (failed allocation 21.62 GiB ==
+> exactly `12044*12044*40*4 bytes`, the full float32 quadratic attention score
+> matrix) — v0.9.21 Real Pilot REJECTED BEFORE LAUNCH, no stable tag moved.
+> NO v0.9.22 stable tag yet: exact candidate artifact from the merge commit →
+> fresh Kaggle model preflight ONLY (12k probe must PASS) → then
+> `v0.9.22-pilot-exec-ready`. Report:
+> `reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md`.
+>
+> **PRIOR UPDATE (2026-08-24, HISTORICAL):** accepted release =
 > **`v0.9.21-pilot-exec-ready`** @ annotated tag peel == artifact source commit ==
 > merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive
 > `dist/pilot-kaggle-upload.zip` SHA-256
@@ -10,8 +23,8 @@
 > independent audit found the per-cell validation runtime seam (B1 wrong
 > interpreter routing / B2 frozen env discarded / B3 180s timeout below measured
 > runtime); v0.9.21 closes all three and proves target-shaped Gates 1-3 + full
-> no-model preflight GREEN (CI runs 32692489617 / 32694137255). Real Pilot = NOT
-> STARTED; next action = fresh Kaggle v0.9.21 target preflight with this artifact.
+> no-model preflight GREEN (CI runs 32692489617 / 32694137255) — these fixes
+> remain VALID and are carried forward.
 > Report: `reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`.
 >
 > **PRIOR UPDATE (2026-08-24 earlier in the day):** the real Kaggle v0.9.19 session FAILED at

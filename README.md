@@ -203,22 +203,48 @@ yet authorized for this arm.
 
 ## Current Status
 
-> **CURRENT TRUTH (2026-08-24, v0.9.21 RELEASED):** accepted release = **`v0.9.21-pilot-exec-ready`**
+> **CURRENT TRUTH (2026-08-24, v0.9.22 CANDIDATE — TARGET MEMORY PROOF PENDING):** branch
+> `fix/pilot-v0922-long-context-attention-memory-closure` implements the long-context
+> attention memory closure on top of clean main `58d1be533c98ca9bafc9a344f2a73f8a140b9540`
+> (v0.9.21 reconciled). The real Kaggle v0.9.21 model preflight PASSED repository
+> preflight / dependencies / Qwen 14B BNB-NF4 load / GPU-only device map / 2x Tesla T4 /
+> per-GPU headroom (min free 7.764 GiB) / short generation probe, then FAILED at the
+> long-context probe with CUDA OOM: 12,044 prompt tokens / 64-token output budget /
+> **failed allocation 21.62 GiB == exactly `12044*12044*40*4 bytes = 21.6153 GiB`, the
+> full float32 40-head quadratic attention score matrix** — the effective runtime
+> attention path had materialized the math/eager fallback during prompt prefill.
+> v0.9.21 Real Pilot REJECTED BEFORE LAUNCH; no Experiment ID / no RunRecord created.
+> The v0.9.22 candidate closes it WITHOUT touching any scientific input (48-cell matrix,
+> prompts, Ground Truth, metrics, timeouts, gates all unchanged): Task A explicit
+> `attn_implementation="sdpa"` at from_pretrained; Task B fail-closed CUDA generation
+> inside `sdpa_kernel([FLASH_ATTENTION, EFFICIENT_ATTENTION])`; Task C canonical
+> attention evidence persisted/rendered/enforced (`requested/effective_attn_implementation`,
+> `sdpa_kernel_policy=flash_or_efficient_no_math`); Task D corrected OOM diagnosis;
+> Tasks E/F regression-guard prior memory fixes and the unchanged 12000/64 gate.
+> RED/GREEN proven (12 backend + 18 preflight contract tests failed against v0.9.21);
+> full suite **2407 passed / 33 skipped / 0 failed**; dry-run pilot 48/48.
+> **NO stable tag yet:** build the exact candidate artifact from the merge commit, run
+> the fresh Kaggle model preflight ONLY (12k probe must PASS), then create
+> `v0.9.22-pilot-exec-ready`; if the Kaggle proof fails, return to the SAME v0.9.22
+> task. Report:
+> [`reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md`](reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md).
+>
+> **PRIOR TRUTH (2026-08-24, HISTORICAL): accepted release = **`v0.9.21-pilot-exec-ready`**
 > @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`;
 > archive `dist/pilot-kaggle-upload.zip` SHA-256
 > `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40` (+ sidecar);
 > trust/provenance 0 mismatches; exact-artifact dry-run 48/48; full suite 2370 passed /
 > 33 skipped / 0 failed; target-shaped Gates 1-3 + complete no-model preflight GREEN on
 > the released source state (CI runs 32692489617 / 32694137255; Saleor full primary
-> exit 0 in 941.42s < the explicit 1800s per-cell validation budget). v0.9.20 closed
-> the Saleor preflight root cause but was NOT accepted for Real Pilot launch — an
-> independent audit found the per-cell validation runtime seam (B1 sys.executable
-> routing for every repository / B2 frozen validation env discarded / B3 hardcoded
-> 180s timeout below measured runtime); v0.9.21 closes all three.
-> **Real Pilot = NOT STARTED.** Exact next action = fresh Kaggle v0.9.21 target
-> preflight with this artifact; if all target gates pass, launch the accepted 48-cell
-> Pilot in the same session. Report:
-> [`reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`](reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md).
+> exit 0 in 941.42s < the explicit 1800s per-cell validation budget). v0.9.21 closed
+> the per-cell validation runtime seam found by an independent audit of v0.9.20 (B1
+> sys.executable routing for every repository / B2 frozen validation env discarded /
+> B3 hardcoded 180s timeout below measured runtime) with `--validation-python` mappings,
+> frozen-env propagation through PipelineConfig/RunnerConfig into FunctionalValidator,
+> and explicit `--validation-timeout 1800` on launch+resume; the repository/per-cell
+> fixes remain VALID and are carried forward. The Real Pilot was rejected before launch
+> only at the fresh real 12k attention-prefill OOM now closed by the v0.9.22 candidate.
+> See [`reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`](reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md).
 >
 > **PRIOR TRUTH (2026-08-24 earlier in the day, HISTORICAL): accepted release = **`v0.9.20-pilot-exec-ready`**
 > @ annotated tag peel == artifact source commit == merge `febda7938db1284da4090d35e980db472149c3ad`;
@@ -682,13 +708,14 @@ mypy --strict src tests
 python -m pip check
 ```
 
-Current validated state (v0.9.21-pilot-exec-ready accepted release):
+Current validated state (v0.9.22 candidate branch `fix/pilot-v0922-long-context-attention-memory-closure`):
 
-- **2370 tests passing / 33 skipped / 0 failed** (OpenCode full-suite evidence)
+- **2407 tests passing / 33 skipped / 0 failed** (OpenCode full-suite evidence; v0.9.21 accepted release was 2370/33)
 - **Ruff: 0 new violations** (pre-existing baseline unchanged)
-- **Mypy strict: 0 new errors**
+- **Mypy strict: 0 new errors** (4 pre-existing in preflight.py, identical to HEAD baseline)
 - **pip check: no broken requirements** (pre-existing conda issues unrelated)
 - **No local import dependency on Qwen, torch, or transformers**
+- **Dry-run pilot profile: 48/48 succeeded, unique run IDs, 0 model calls / 0 tokens**
 
 ## Local Execution Boundary
 
@@ -903,8 +930,9 @@ Immediate next milestones:
 - [x] Independent delta audit of the Scientific Smoke V2 closure (SMOKE-V2-CLOSE-01) — closed 2026-08-09 (docs closure merged to main; post-merge regression hotfix MAIN-GREEN-01 also closed)
 - [x] Stable v0.8.0-smoke-v2-complete tag after closure audit + main merge — created at `193d889`; preferred recovery tag `v0.8.2-smoke-v2-complete` at current main `403977b` (prior `v0.8.1-smoke-v2-complete` at `d875c72` kept as historical provenance)
 - [x] PILOT-READY-01 — Pilot readiness closure — **CLOSED (2026-08-10)**: multi-repo selective input contracts fixed (`34ecf78`), stale real-smoke expectation corrected, focused 12-test multi-repo production-path contract added, full suite 2,026 passed / 33 skipped / 0 failed, exact 48-cell Pilot dry-run 48/48 deterministic green, isolation/evidence/export gates 142 passed; Pilot execution NOT STARTED
-- [x] PILOT-EXEC-01 — Pilot deployment freeze chain through **`v0.9.21-pilot-exec-ready`** (ACCEPTED release @ tag peel == artifact source commit `e308047`; archive `dist/pilot-kaggle-upload.zip` `62e37746…`; target-shaped Gates 1–3 + full no-model preflight GREEN)
-- [ ] Fresh Kaggle v0.9.21 target preflight (**NEXT ACTION**) — then launch the accepted 48-cell Pilot in the same session if all target gates pass
+- [x] PILOT-EXEC-01 — Pilot deployment freeze chain through **`v0.9.21-pilot-exec-ready`** (ACCEPTED release @ tag peel == artifact source commit `e308047`; archive `dist/pilot-kaggle-upload.zip` `62e37746…`; target-shaped Gates 1–3 + full no-model preflight GREEN — Real Pilot rejected before launch at the real 12k attention-prefill OOM)
+- [x] v0.9.22 long-context attention memory closure — branch `fix/pilot-v0922-long-context-attention-memory-closure` (SDPA + fail-closed kernel policy + canonical evidence; full suite 2407/33/0; dry-run 48/48)
+- [ ] v0.9.22 release mechanics: merge → main, build exact candidate artifact from merge commit (**NEXT ACTION**) — then fresh Kaggle model preflight ONLY (12k probe must PASS) before creating `v0.9.22-pilot-exec-ready`; no 48-cell launch while untagged
 - [ ] Research (main confirmatory) experiment
 - [ ] Arm-to-protocol alignment review
 - [ ] Reproducibility archive and DOI

@@ -1,6 +1,28 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-24, v0.9.21 RELEASED):** accepted release = **`v0.9.21-pilot-exec-ready`** @ annotated tag
+> **CURRENT STATE (2026-08-24, v0.9.22 CANDIDATE — TARGET MEMORY PROOF PENDING):** branch
+> `fix/pilot-v0922-long-context-attention-memory-closure` implements the long-context
+> attention memory closure on top of clean main `58d1be533c98ca9bafc9a344f2a73f8a140b9540`
+> (v0.9.21 reconciled). The real Kaggle v0.9.21 model preflight PASSED repository
+> preflight / dependencies / Qwen 14B BNB-NF4 load (`qwen_model_load[bnb-nf4]: PASS`) /
+> GPU-only device map / 2x Tesla T4 / per-GPU headroom (min free 7.764 GiB) / short probe,
+> then FAILED at the long-context probe with CUDA OOM: 12,044 prompt tokens / 64-token
+> output budget / **failed allocation 21.62 GiB == exactly `12044*12044*40*4 bytes =
+> 21.6153 GiB`, the full float32 40-head quadratic attention score matrix** — the effective
+> runtime attention path materialized the math/eager fallback during prompt prefill.
+> v0.9.21 Real Pilot REJECTED BEFORE LAUNCH (no Experiment ID / no RunRecord; no stable tag moved).
+> v0.9.22 candidate closes it WITHOUT touching any scientific input: Task A explicit
+> `attn_implementation="sdpa"`; Task B fail-closed CUDA generation inside
+> `sdpa_kernel([FLASH_ATTENTION, EFFICIENT_ATTENTION])`; Task C canonical attention evidence
+> + fail-closed `attention_policy` check + launch authorization enforcement; Task D corrected
+> OOM diagnosis; Tasks E/F regression guards. RED/GREEN proven (12 backend + 18 preflight
+> contract tests failed against v0.9.21); full suite 2407 passed / 33 skipped / 0 failed;
+> dry-run pilot 48/48. NO stable tag yet: build exact artifact from merge commit → real Kaggle
+> 12k model preflight MUST PASS → then `v0.9.22-pilot-exec-ready`; if it fails, return to the
+> SAME v0.9.22 task. Report: `reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md`.
+> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+>
+> **PRIOR STATE (2026-08-24, HISTORICAL): accepted release = `v0.9.21-pilot-exec-ready`** @ annotated tag
 > peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive
 > `dist/pilot-kaggle-upload.zip` SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`;
 > trust/provenance 0 mismatches; dry-run 48/48; target-shaped Gates 1-3 + complete no-model preflight GREEN on the
@@ -8,8 +30,8 @@
 > independent audit found B1 (per-cell validation routed every repository through sys.executable), B2 (frozen
 > validation env discarded by FunctionalValidator) and B3 (hardcoded 180s validation timeout below the measured
 > 941.42s Saleor runtime); v0.9.21 closes all three with --validation-python mappings, frozen-env propagation and
-> explicit --validation-timeout 1800 on launch+resume. Real Pilot = NOT STARTED; next action = fresh Kaggle v0.9.21
-> target preflight with this artifact.
+> explicit --validation-timeout 1800 on launch+resume — these repository/per-cell fixes remain VALID and are
+> carried forward into v0.9.22.
 > Report: `reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`.
 > **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
 >
@@ -26,8 +48,8 @@
 > `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024`; trust/
 > provenance 0 mismatches; dry-run 48/48; target-shaped no-model preflight GREEN
 > on the released source state (CI run 32676588800). HISTORICAL next action at
-> that time (SUPERSEDED — v0.9.21 is the current accepted release): fresh
-> Kaggle v0.9.20 target preflight with that artifact.
+> that time (SUPERSEDED — first by v0.9.21, now by the v0.9.22 attention closure
+> candidate): fresh Kaggle v0.9.20 target preflight with that artifact.
 > Report: `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`.
 > **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
 >
