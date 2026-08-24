@@ -2,7 +2,7 @@
 
 **Task:** PILOT-EXEC-01-V0922-LONG-CONTEXT-ATTENTION-MEMORY-CLOSURE
 **Branch:** `fix/pilot-v0922-long-context-attention-memory-closure` (from clean main `58d1be533c98ca9bafc9a344f2a73f8a140b9540`, v0.9.21 reconciled)
-**Status:** COMPLETE ON BRANCH — v0.9.22 CANDIDATE, TARGET MEMORY PROOF PENDING (no stable tag until the real Kaggle 2x T4 12k probe PASSES)
+**Status:** v0.9.22 CANDIDATE — release mechanics COMPLETE, TARGET MEMORY PROOF PENDING (no stable tag until the real Kaggle 2x T4 12k probe PASSES)
 **Frozen scientific contract:** UNCHANGED (model `Qwen/Qwen2.5-Coder-14B-Instruct`, BNB-NF4, 12 scenarios, 3 repository pins, 2 strategies, 2 repetitions = 48 cells, prompts, Ground Truth, metrics, model/request timeout 600 s, per-cell validation timeout 1800 s, max attempts 3, completion cap 4096, the 12000-token long-context gate, the 64-token probe)
 
 ---
@@ -88,13 +88,25 @@ constants.
 - Dry-run pilot profile: **48/48 succeeded / 48 unique IDs / 0 model calls /
   0 tokens** (repos todo/djangocms/saleor x16 each; strategies 24/24).
 
-## 4. Release mechanics (pending)
+## 4. Release mechanics (COMPLETE except the mandatory Kaggle proof)
 
-- Non-fast-forward merge of the branch to `main`, push main.
-- Freeze notebook/deployment anchors for the PLANNED tag
-  `v0.9.22-pilot-exec-ready`; rebuild the bundle so `kaggle_upload/code/`
-  carries the final merge source commit; build the exact candidate artifact;
-  trust/provenance/dry-run gates; record the archive SHA-256.
+- Non-fast-forward merge of the branch to `main`: merge commit
+  `4827045fce96eb4caa3645e3cf3c8434dca2a1a8` (== `origin/main`, pushed). The
+  anchor-freeze notebook commit (`806ee7e`) rode on the branch so the anchored
+  notebook is inside the tagged tree (V0921 pattern); an earlier untagged
+  pre-freeze merge (`b622f58`) was superseded by this final merge.
+- Anchors frozen for the PLANNED tag `v0.9.22-pilot-exec-ready` at
+  `4827045fce96eb4caa3645e3cf3c8434dca2a1a8` via the idempotent two-pass
+  finalizer with `--verify-source-provenance`: embedded trust validation +
+  source-provenance gate **0 mismatches** (freeze evidence
+  `reports/pilot_notebook_trust_freeze.json`; code_manifest_sha256 updated to
+  `3c52b6200d8c1f2c80999ee09d1af0211adfaae71c3785c574737f606e0872a6`).
+- Exact candidate artifact built from the merge commit:
+  `dist/pilot-kaggle-upload.zip` SHA-256
+  `9182ea2bb091f785ff325a1355caa5bb0f57283764215059092970bbd8014974`
+  (+ `.sha256` sidecar, verified byte-equal).
+- Exact-artifact dry-run gate: **48/48 succeeded / 48 unique IDs / 0 model
+  calls / 0 tokens** from `dist/pilot-kaggle-upload/code/seven_arm_benchmark.py`.
 - **MANDATORY before tagging:** fresh real Kaggle 2x T4 model preflight ONLY —
   same 12k target, same 64-token probe — requiring `qwen_model_load[bnb-nf4]:
   PASS`, short probe PASS, 12k probe PASS, and
@@ -118,6 +130,8 @@ constants.
 
 ## 6. Known open items
 
-- The stable tag does not exist yet; everything in Section 4 is pending.
+- The stable tag `v0.9.22-pilot-exec-ready` does not exist yet; it may be
+  created ONLY after the Section 4 Kaggle model-preflight proof PASSES (at
+  merge commit `4827045fce96eb4caa3645e3cf3c8434dca2a1a8`).
 - No scientific claim is made or implied by this closure: Real Pilot remains
   NOT STARTED.
