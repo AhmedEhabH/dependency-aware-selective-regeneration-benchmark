@@ -647,7 +647,7 @@ def test_public_repair_accumulates_baseline_duration_across_attempts(
     from benchmark.execution.validation import FunctionalValidationResult
 
     class _FailingBaselineValidator:
-        def validate(self, workspace_root=None, command=None, timeout=None) -> FunctionalValidationResult:
+        def validate(self, workspace_root=None, command=None, timeout=None, env=None) -> FunctionalValidationResult:
             return FunctionalValidationResult(
                 passed=False, exit_code=1, stdout="baseline failure", stderr="",
                 duration_seconds=0.5,
@@ -719,7 +719,7 @@ def test_public_total_duration_equals_stage_sum(
     from benchmark.execution.validation import FunctionalValidationResult
 
     class _FailingBaselineValidator:
-        def validate(self, workspace_root=None, command=None, timeout=None) -> FunctionalValidationResult:
+        def validate(self, workspace_root=None, command=None, timeout=None, env=None) -> FunctionalValidationResult:
             return FunctionalValidationResult(
                 passed=False, exit_code=1, stdout="baseline failure", stderr="",
                 duration_seconds=0.5,

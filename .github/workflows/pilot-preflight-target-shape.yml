@@ -23,7 +23,7 @@ jobs:
     timeout-minutes: 330
     env:
       PREFLIGHT_ROOT: ${{ github.workspace }}/.pilot-target-preflight
-      SOURCE_TAG: v0.9.20-pilot-exec-ready-candidate
+      SOURCE_TAG: v0.9.21-pilot-exec-ready-candidate
     steps:
       - uses: actions/checkout@v4
         with:
@@ -95,6 +95,127 @@ jobs:
             --log-path "$PREFLIGHT_ROOT/environment-provisioning.log" \
             > "$PREFLIGHT_ROOT/environment-provisioning.json"
 
+      - name: Per-cell validation runtime parity (v0.9.21 Gates 1+3)
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import shutil
+          import sys
+          from pathlib import Path
+
+          root = Path(os.environ["PREFLIGHT_ROOT"])
+          artifact = root / "artifact"
+          code_dir = artifact / "code"
+          sys.path.insert(0, str(code_dir))
+          sys.path.insert(0, str(code_dir / "src"))
+
+          import seven_arm_benchmark as sab  # noqa: E402
+          from benchmark.execution.validation import FunctionalValidator  # noqa: E402
+          from benchmark.repositories.validation_commands import (  # noqa: E402
+              load_validation_commands,
+          )
+
+          manifest = load_validation_commands(
+              artifact / "data" / "manifests" / "pilot_validation_commands.yaml"
+          )
+          interpreters = {
+              "todo": sys.executable,
+              "djangocms": str(root / "envs" / "djangocms" / "bin" / "python"),
+              "saleor": str(root / "envs" / "saleor" / ".venv" / "bin" / "python"),
+          }
+          for repo, interp in interpreters.items():
+              assert Path(interp).is_file(), f"missing provisioned interpreter for {repo}: {interp}"
+
+          # ---- Gate 3: actual resolution path (no substring mock) ----------
+          gate3 = {}
+          for repo in ("todo", "djangocms", "saleor"):
+              argv, env = sab.resolve_frozen_validation_runtime(
+                  repo, manifest.require(repo), interpreters[repo]
+              )
+              assert argv[0] == interpreters[repo], (repo, argv[:1])
+              if repo == "saleor":
+                  assert env == {
+                      "DATABASE_URL": "postgres://saleor:saleor@127.0.0.1:5433/saleor",
+                      "CACHE_URL": "redis://127.0.0.1:6379/0",
+                      "SECRET_KEY": "ci-test",
+                      "TZ": "UTC",
+                  }, env
+                  assert argv[1:3] == ["-m", "pytest"]
+              elif repo == "djangocms":
+                  assert env == {"DATABASE_URL": "sqlite://localhost/testdb.sqlite"}, env
+                  assert argv[1:3] == ["manage.py", "test"]
+              else:
+                  assert env == {}, env
+              gate3[repo] = {"argv": argv, "env": env}
+          print("Gate 3 PASS: resolution begins with provisioned interpreters and carries frozen env")
+
+          # ---- Gate 1: production FunctionalValidator on real targets -----
+          def stage(repo: str) -> Path:
+              src = artifact / "data" / "repositories" / repo
+              dst = root / "staged-parity" / repo
+              if dst.exists():
+                  shutil.rmtree(dst)
+              dst.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copytree(src, dst)
+              return dst
+
+          validator = FunctionalValidator()
+          parity = {}
+          todo_ws = stage("todo")
+          res = validator.validate(
+              workspace_root=todo_ws,
+              command=gate3["todo"]["argv"][:1]
+              + ["-m", "pytest", "-q", "todo/tests/test_models.py"],
+              timeout=600,
+              env=gate3["todo"]["env"],
+          )
+          parity["todo"] = {
+              "exit_code": res.exit_code,
+              "passed": res.passed,
+              "duration_seconds": res.duration_seconds,
+          }
+          assert res.passed, f"Todo parity failed: {res.stderr[-800:]}"
+
+          dj_ws = stage("djangocms")
+          res = validator.validate(
+              workspace_root=dj_ws,
+              command=gate3["djangocms"]["argv"][:2] + ["test", "cms.tests.test_api"],
+              timeout=1200,
+              env=gate3["djangocms"]["env"],
+          )
+          parity["djangocms"] = {
+              "exit_code": res.exit_code,
+              "passed": res.passed,
+              "duration_seconds": res.duration_seconds,
+          }
+          assert res.passed, f"django CMS parity failed: {res.stderr[-800:]}"
+
+          saleor_ws = stage("saleor")
+          saleor_gate_nodeid = (
+              "saleor/graphql/checkout/tests/benchmark/"
+              "test_checkout_mutations.py::test_create_checkout"
+          )
+          res = validator.validate(
+              workspace_root=saleor_ws,
+              command=gate3["saleor"]["argv"][:1]
+              + ["-m", "pytest", "-n", "0", "-x", "--tb=line", "--no-header", "-q", saleor_gate_nodeid],
+              timeout=900,
+              env=gate3["saleor"]["env"],
+          )
+          parity["saleor"] = {
+              "exit_code": res.exit_code,
+              "passed": res.passed,
+              "duration_seconds": res.duration_seconds,
+          }
+          assert res.passed, f"Saleor parity failed: {res.stderr[-800:]}"
+
+          evidence = {"gates": {"interpreter_env_parity": "PASS", "production_validator_real_targets": "PASS"}, "results": parity}
+          out = root / "per-cell-validation-parity.json"
+          out.write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          print("Gate 1 PASS:", json.dumps(parity, sort_keys=True))
+          PY
+
       - name: Collect exact Saleor capability gate
         run: |
           SALEOR_PY="$PREFLIGHT_ROOT/envs/saleor/.venv/bin/python"
@@ -138,19 +259,22 @@ jobs:
             test "$PREFLIGHT_RC" -eq 0
             test "$OVERALL" = PASS
           elif [ "$OVERALL" = PASS ]; then
-            # Pristine baseline proven clean end-to-end (Task F case 1): every
-            # repository exited 0; no baseline-flake profile is needed.
             echo "Target-shaped no-model preflight: overall=PASS (pristine Saleor baseline exit 0; no baseline-flake profile required)."
           else
-            # First-evidence run exhibiting the documented pristine cluster:
-            # Todo and django CMS must PASS; Saleor may fail while emitting the
-            # fresh profile used to create the committed evidence artifact.
             test -f "$PREFLIGHT_ROOT/fresh-saleor-baseline-profile.json"
             test "$(jq -r '.repositories.todo.passed' "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = true
             test "$(jq -r '.repositories.djangocms.passed' "$PREFLIGHT_ROOT/pilot-target-preflight.json")" = true
             echo "Committed baseline profile absent and overall=$OVERALL: emitted fresh-saleor-baseline-profile.json."
             echo "Commit reports/pilot_saleor_baseline_flaky_profile.json from the emitted evidence and rerun."
           fi
+
+      - name: Saleor runtime budget margin (v0.9.21 Gate 2)
+        run: |
+          DUR="$(jq -r '.repositories.saleor.commands[] | select(.label=="primary") | .duration_seconds' "$PREFLIGHT_ROOT/pilot-target-preflight.json")"
+          RC="$(jq -r '.repositories.saleor.commands[] | select(.label=="primary") | .exit_code' "$PREFLIGHT_ROOT/pilot-target-preflight.json")"
+          echo "Saleor full primary: exit=${RC} duration=${DUR}s (Pilot validation budget=1800s)"
+          test "$RC" = "0"
+          python -c "import sys; sys.exit(0 if float('$DUR') < 1800.0 else 1)"
 
       - name: Upload machine-readable evidence
         if: always()
@@ -163,5 +287,6 @@ jobs:
             ${{ env.PREFLIGHT_ROOT }}/environment-provisioning.log
             ${{ env.PREFLIGHT_ROOT }}/saleor-gate-collect.log
             ${{ env.PREFLIGHT_ROOT }}/fresh-saleor-baseline-profile.json
+            ${{ env.PREFLIGHT_ROOT }}/per-cell-validation-parity.json
             ${{ env.PREFLIGHT_ROOT }}/pilot-kaggle-upload.zip.sha256
           if-no-files-found: warn
