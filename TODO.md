@@ -1,18 +1,18 @@
 # TODO
 
-> **CURRENT BOARD (2026-08-22).** Authoritative snapshot:
+> **CURRENT BOARD (2026-08-24).** Authoritative snapshot:
 > `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`. Everything below the board is the
 > historical task ledger (valuable history — do not delete; headings marked
 > HISTORICAL are superseded and never override the board).
 
 | # | Item | Status |
 |---|---|---|
-| 1 | Accepted release **v0.9.19-pilot-exec-ready** @ tag peel/source commit `2305991442a4f965d44bb066bb00c0a459fc395a`; artifact trust/provenance GREEN | DONE |
-| 2 | OpenCode full-suite evidence 2330 passed / 34 skipped / 0 failed | DONE |
-| 3 | Real Pilot (accepted 48-cell) | **NOT STARTED** |
-| 4 | Fresh Kaggle v0.9.19 target preflight (exact `dist/pilot-kaggle-upload.zip`, SHA `f7a16858…`) | **NEXT ACTION** |
-| 5 | Launch accepted 48-cell Pilot in the same session if all target gates pass | PENDING (gated on #4) |
-| 6 | Open v0.9.20 | BLOCKED — requires real target evidence from the accepted Pilot |
+| 1 | Accepted release **v0.9.19-pilot-exec-ready** @ tag peel/source commit `2305991442a4f965d44bb066bb00c0a459fc395a`; artifact trust/provenance GREEN | DONE (artifact) — **REJECTED FOR PILOT LAUNCH 2026-08-24** (real Kaggle Saleor fast-gate Pytest exit 5) |
+| 2 | v0.9.20 root-cause closure: exact gate argv fix + invariant + exact-argv regression tests (RED/GREEN proven; target-proven on Linux CI run 32650273641) + false-green mock removed + evidence-backed baseline-flake policy + target-shaped CI preflight workflow | DONE on branch `fix/pilot-v0920-saleor-preflight-root-closure` |
+| 3 | Full pristine Saleor baseline resolved (Task F case 1): CI run 32672656326 = overall PASS, full frozen Saleor primary exit 0 in 775.71 s (cluster absent on target-shaped env; evidence tracked) | DONE |
+| 4 | Release finalization: green target-shaped CI run on final branch state, bump release constants + freeze at merge commit, dry-run 48/48, trust/provenance 0 mismatches, non-ff merge to main, push, annotated tag `v0.9.20-pilot-exec-ready` at the merge commit | PENDING (gated on final-state CI run) |
+| 5 | Real Pilot (accepted 48-cell) | NOT STARTED |
+| 6 | Known next integration seam (documented, do not open inside this task): per-cell generated-workspace validation resolves the full frozen Saleor command under `validation_timeout=180` (`seven_arm_benchmark.py`) — will surface during the real Pilot Stage 3 | OPEN (next task input) |
 
 Frozen matrix reminder: Qwen2.5-Coder-14B-Instruct / bnb-nf4 / 600 s uniform
 timeout / 12 scenarios / 2 strategies / 2 repetitions = 48 cells.

@@ -1,0 +1,157 @@
+=== PILOT REPOSITORY ENVIRONMENT PROVISIONING ===
+host python: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python
+source tag:  v0.9.20-pilot-exec-ready-candidate
+START python version probe
+END python version probe elapsed=0s exit=0
+START provision_uv_tool (rebuild: env path absent)
+Creating no-pip venv /home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/tools with /opt/hostedtoolcache/Python/3.12.14/x64/bin/python (--without-pip; ensurepip never runs)
+START venv --without-pip
+END venv --without-pip elapsed=0s exit=0
+START python version probe
+END python version probe elapsed=0s exit=0
+START python version probe
+END python version probe elapsed=0s exit=0
+START venv isolation probe
+END venv isolation probe elapsed=0s exit=0
+START host pip --python capability probe
+END host pip --python capability probe elapsed=0s exit=0
+START host pip --python install (isolated target env)
+END host pip --python install (isolated target env) elapsed=3s exit=0
+START uv version probe
+END uv version probe elapsed=0s exit=0
+END provision_uv_tool: uv 0.12.5 (x86_64-unknown-linux-gnu) at /home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/tools/bin/uv
+START python version probe
+END python version probe elapsed=0s exit=0
+START provision_djangocms (rebuild: env path absent)
+Creating no-pip venv /home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/djangocms with /opt/hostedtoolcache/Python/3.12.14/x64/bin/python (--without-pip; ensurepip never runs)
+START venv --without-pip
+END venv --without-pip elapsed=0s exit=0
+START python version probe
+END python version probe elapsed=0s exit=0
+START python version probe
+END python version probe elapsed=0s exit=0
+START venv isolation probe
+END venv isolation probe elapsed=0s exit=0
+START uv pip install (isolated target env)
+END uv pip install (isolated target env) elapsed=5s exit=0
+START django 5.0 + cms probe
+END django 5.0 + cms probe elapsed=0s exit=0
+START django version probe
+END django version probe elapsed=0s exit=0
+END provision_djangocms: Django 5.0.14 at /home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/djangocms/bin/python
+START provision_saleor (rebuild: env path absent)
+Copying exact frozen Saleor snapshot to /home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor
+Creating Saleor .venv with EXISTING Python /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3.12 (UV_PYTHON_DOWNLOADS=never)
+START uv venv .venv (existing 3.12)
+END uv venv .venv (existing 3.12) elapsed=0s exit=0
+START python version probe
+END python version probe elapsed=0s exit=0
+Running uv sync --locked in the Saleor working copy
+START uv sync --locked
+END uv sync --locked elapsed=11s exit=0
+START import saleor probe
+END import saleor probe elapsed=1s exit=0
+END provision_saleor: PASSED at /home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor/.venv/bin/python
+=== PILOT REPOSITORY ENVIRONMENT PROVISIONING: PASSED (elapsed=20.7s) ===
+{
+  "created_utc": "2026-08-23T23:09:45.659955+00:00",
+  "djangocms": {
+    "dependency_file": "test_requirements/django-5.0.txt",
+    "dependency_sha256": "1e3927847a15ad51ecfdfa1c8efb007f7ee700b07a3ab5725f7a3827729c67d6",
+    "django_version": "5.0.14",
+    "env": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/djangocms",
+    "marker": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/djangocms/.pilot_env_ready.json",
+    "python": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/djangocms/bin/python",
+    "python_minor": [
+      3,
+      12
+    ],
+    "repo_id": "djangocms",
+    "reused": false,
+    "source_tag": "v0.9.20-pilot-exec-ready-candidate"
+  },
+  "prerequisites": {
+    "packages": [
+      "gcc",
+      "gettext",
+      "libpq-dev"
+    ]
+  },
+  "repositories": {
+    "djangocms": {
+      "dependency_file": "test_requirements/django-5.0.txt",
+      "dependency_sha256": "1e3927847a15ad51ecfdfa1c8efb007f7ee700b07a3ab5725f7a3827729c67d6",
+      "django_version": "5.0.14",
+      "env": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/djangocms",
+      "marker": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/djangocms/.pilot_env_ready.json",
+      "python": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/djangocms/bin/python",
+      "python_minor": [
+        3,
+        12
+      ],
+      "repo_id": "djangocms",
+      "reused": false,
+      "source_tag": "v0.9.20-pilot-exec-ready-candidate"
+    },
+    "saleor": {
+      "dependency_file": "uv.lock",
+      "dependency_sha256": "86a35ab0bf69629d04cc7f3d09f1c1fa205eb6afc6620b317754490b33f22907",
+      "marker": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor/.pilot_env_ready.json",
+      "python": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor/.venv/bin/python",
+      "python_minor": [
+        3,
+        12
+      ],
+      "repo_id": "saleor",
+      "reused": false,
+      "services": {
+        "postgresql": {
+          "reachable": true,
+          "url": "postgres://saleor:saleor@127.0.0.1:5433/saleor"
+        },
+        "valkey": {
+          "reachable": true,
+          "url": "redis://127.0.0.1:6379/0"
+        }
+      },
+      "source_tag": "v0.9.20-pilot-exec-ready-candidate",
+      "work": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor"
+    }
+  },
+  "saleor": {
+    "dependency_file": "uv.lock",
+    "dependency_sha256": "86a35ab0bf69629d04cc7f3d09f1c1fa205eb6afc6620b317754490b33f22907",
+    "marker": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor/.pilot_env_ready.json",
+    "python": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor/.venv/bin/python",
+    "python_minor": [
+      3,
+      12
+    ],
+    "repo_id": "saleor",
+    "reused": false,
+    "services": {
+      "postgresql": {
+        "reachable": true,
+        "url": "postgres://saleor:saleor@127.0.0.1:5433/saleor"
+      },
+      "valkey": {
+        "reachable": true,
+        "url": "redis://127.0.0.1:6379/0"
+      }
+    },
+    "source_tag": "v0.9.20-pilot-exec-ready-candidate",
+    "work": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor"
+  },
+  "schema": "pilot_repo_environment_provisioning.v1",
+  "source_tag": "v0.9.20-pilot-exec-ready-candidate",
+  "uv": {
+    "bin": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/tools/bin/uv",
+    "env": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/tools",
+    "marker": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/tools/.pilot_env_ready.json",
+    "python": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/tools/bin/python",
+    "repo_id": "uv-tool",
+    "reused": false,
+    "uv_version": "0.12.5 (x86_64-unknown-linux-gnu)",
+    "version": "0.12.5 (x86_64-unknown-linux-gnu)"
+  }
+}

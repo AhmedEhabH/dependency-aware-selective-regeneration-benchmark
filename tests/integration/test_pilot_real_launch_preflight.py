@@ -240,6 +240,23 @@ class TestPreflightRunnerPath:
             timeout=60,
         )
         assert result["passed"] is True
+        gate = next(c for c in calls if c["label"] == "saleor-gate")
+        assert gate["argv"] == [
+            saleor_python,
+            "-m",
+            "pytest",
+            "-n",
+            "0",
+            "-x",
+            "--tb=line",
+            "--no-header",
+            "-q",
+            "saleor/graphql/checkout/tests/benchmark/"
+            "test_checkout_mutations.py::test_create_checkout",
+        ]
+        assert gate["argv"].count("-m") == 1
+        assert gate["argv"][2] == "pytest"
+        assert "not e2e" not in gate["argv"]
         primary = next(c for c in calls if c["label"] == "primary")
         assert primary["cwd"] == staging
         assert tuple(primary["argv"]) == command_map.require("saleor").resolve_interpreter(

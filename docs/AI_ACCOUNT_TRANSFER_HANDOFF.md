@@ -1,4 +1,4 @@
-# AI Account-Transfer Handoff — CURRENT v0.9.19 State (2026-08-22)
+# AI Account-Transfer Handoff — CURRENT v0.9.20-CANDIDATE State (2026-08-24)
 
 **Read this file FIRST.** It is the single authoritative snapshot of the
 current project state for any AI agent or human resuming on a new account.
@@ -11,18 +11,15 @@ superseded — this file wins every contradiction.
 
 | Fact | Value |
 |---|---|
-| Accepted release | **`v0.9.19-pilot-exec-ready`** |
-| Release tag peel == artifact source commit | **`2305991442a4f965d44bb066bb00c0a459fc395a`** |
-| v0.9.19 content | PostgreSQL admin/application bootstrap + partial recovery closure (real Kaggle defect fix) |
-| Artifact trust/provenance | **GREEN** — `pilot_deployment_identity.json.source_commit == 2305991…` == immutable tag peel; source-provenance gate PASS; FINAL ARTIFACT TRUST GATE Notebook == Identity == Actual PASS |
-| Exact deployment artifact | `dist/pilot-kaggle-upload.zip` + `dist/pilot-kaggle-upload.zip.sha256` (SHA-256 `f7a168584de3db723acbf9d43f81edd4d0720c2e3850b8017f91eee363928862`) — NEVER manually re-zip |
-| Freeze evidence | `reports/pilot_notebook_trust_freeze.json` (status FROZEN) |
-| `main` branch state | Post-tag docs/evidence child of the release merge `2305991` (docs commits after the tag are normal and are NOT part of the artifact) |
-| OpenCode full-suite evidence | **2330 passed / 34 skipped / 0 failed** |
-| Real Pilot status | **NOT STARTED** (accepted for launch, zero real model cells executed) |
-| Exact next action | **Fresh Kaggle v0.9.19 target preflight** using the exact v0.9.19 artifact |
-| After preflight | If ALL target gates pass → launch the accepted 48-cell Pilot in the SAME session |
-| Version discipline | Do NOT open v0.9.20 without real target evidence from the accepted Pilot |
+| Real Kaggle v0.9.19 result | **FAILED at the Saleor fast capability gate — Pytest exit 5 (no tests collected)** after services, repo-env provisioning, Todo and django CMS all PASSed; **`v0.9.19-pilot-exec-ready` REJECTED FOR PILOT LAUNCH** (2026-08-24) |
+| Root cause | `run_repo_preflight` concatenated a second `-m pytest …` vector onto the already-resolved frozen primary command; Pytest parsed `-m pytest` as a marker expression → 0 collected. Local suite false-green via a substring-based fake runner (`"test_create_checkout" in argv`) |
+| Closure branch | `fix/pilot-v0920-saleor-preflight-root-closure` (from `origin/main` `aaf80ef`) |
+| Fix set | exact standalone gate argv + fail-fast invariant + exact-argv regression tests (RED/GREEN proven; target-proven on Linux CI run 32650273641: gate PASS, nodeid collected, Todo/django CMS PASS) + substring mock removed + evidence-backed Saleor baseline-flake policy (`pilot_saleor_baseline_flaky_profile.v1`, exact nodeids + serial `-n 0` rerun proof, fail-closed) + target-shaped no-model Linux CI preflight workflow |
+| v0.9.20 status | **CANDIDATE — stable tag NOT created**. Full pristine Saleor baseline RESOLVED via Task F case 1: CI run 32672656326 = overall PASS with the full frozen Saleor primary exit 0 in 775.71 s (cluster absent on the target-shaped environment; evidence `reports/target-evidence/run-32672656326/`). Gates remaining: green target-shaped CI run on the final branch state → non-ff merge to main → idempotent re-freeze at the merge commit → dry-run 48/48 → trust/provenance 0 mismatches → annotated tag `v0.9.20-pilot-exec-ready` AT THE MERGE COMMIT |
+| Prior accepted release | `v0.9.19-pilot-exec-ready` @ tag peel/source commit `2305991442a4f965d44bb066bb00c0a459fc395a`; artifact internally GREEN (archive `f7a16858…`) but rejected for launch by the defect above |
+| Real Pilot status | **NOT STARTED** |
+| Exact next action | Finish v0.9.20 release finalization per `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md` §9; only then a fresh Kaggle preflight with the new artifact |
+| Known next seam | Per-cell generated-workspace validation runs the full frozen Saleor command under `validation_timeout=180` (`seven_arm_benchmark.py`) — will surface during real Pilot Stage 3; do NOT open inside the v0.9.20 task |
 
 Frozen Pilot matrix (unchanged, pre-registered in
 `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md`, DECISION_LOG D025):
