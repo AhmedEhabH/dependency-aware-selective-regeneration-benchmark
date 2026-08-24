@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import subprocess
 import time
 from dataclasses import dataclass
@@ -21,7 +22,18 @@ class FunctionalValidator:
         workspace_root: str | Path,
         command: list[str],
         timeout: int = 30,
+        env: dict[str, str] | None = None,
     ) -> FunctionalValidationResult:
+        """Run the validation command with cwd=workspace_root.
+
+        ``env`` carries the frozen per-repository validation environment
+        overrides (e.g. Saleor's DATABASE_URL/CACHE_URL/SECRET_KEY/TZ). The
+        child process environment is the parent environment plus exactly these
+        overrides; the parent's ``os.environ`` is never mutated.
+        """
+        run_env = os.environ.copy()
+        if env:
+            run_env.update(env)
         start = time.monotonic()
         try:
             proc = subprocess.run(
@@ -30,6 +42,7 @@ class FunctionalValidator:
                 text=True,
                 cwd=str(workspace_root),
                 timeout=timeout,
+                env=run_env,
             )
             duration = time.monotonic() - start
             return FunctionalValidationResult(

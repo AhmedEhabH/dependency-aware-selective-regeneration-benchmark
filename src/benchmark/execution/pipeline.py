@@ -22,6 +22,7 @@ class PipelineConfig:
     enable_regeneration: bool = False
     validation_command: list[str] | None = None
     validation_timeout: int = 180
+    validation_env: dict[str, str] = field(default_factory=dict)
     active_snapshot_root: str | Path | None = None
     editable_artifact_paths: tuple[str, ...] = ()
     max_completion_tokens_per_call: int = 4096
@@ -33,6 +34,9 @@ class PipelineConfig:
     def __post_init__(self) -> None:
         if isinstance(self.max_completion_tokens_per_call, bool):
             raise ValueError("PipelineConfig.max_completion_tokens_per_call must be integer, not bool")
+        if isinstance(self.validation_timeout, bool) or self.validation_timeout <= 0:
+            n = self.validation_timeout
+            raise ValueError(f"PipelineConfig.validation_timeout must be a positive integer, got {n}")
         if isinstance(self.max_total_workflow_tokens, bool):
             raise ValueError("PipelineConfig.max_total_workflow_tokens must be integer, not bool")
         if isinstance(self.max_tokens_per_run, bool):
@@ -143,6 +147,7 @@ class BenchmarkPipeline:
             enable_regeneration=self._config.enable_regeneration,
             validation_command=self._config.validation_command,
             validation_timeout=self._config.validation_timeout,
+            validation_env=dict(self._config.validation_env),
             editable_artifact_paths=self._config.editable_artifact_paths,
             max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
             max_total_workflow_tokens=self._config.resolved_max_total_workflow_tokens,
