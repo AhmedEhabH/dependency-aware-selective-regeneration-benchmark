@@ -203,7 +203,24 @@ yet authorized for this arm.
 
 ## Current Status
 
-> **CURRENT TRUTH (2026-08-24, v0.9.20 RELEASED):** accepted release = **`v0.9.20-pilot-exec-ready`**
+> **CURRENT TRUTH (2026-08-24, v0.9.21 RELEASED):** accepted release = **`v0.9.21-pilot-exec-ready`**
+> @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`;
+> archive `dist/pilot-kaggle-upload.zip` SHA-256
+> `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40` (+ sidecar);
+> trust/provenance 0 mismatches; exact-artifact dry-run 48/48; full suite 2370 passed /
+> 33 skipped / 0 failed; target-shaped Gates 1-3 + complete no-model preflight GREEN on
+> the released source state (CI runs 32692489617 / 32694137255; Saleor full primary
+> exit 0 in 941.42s < the explicit 1800s per-cell validation budget). v0.9.20 closed
+> the Saleor preflight root cause but was NOT accepted for Real Pilot launch — an
+> independent audit found the per-cell validation runtime seam (B1 sys.executable
+> routing for every repository / B2 frozen validation env discarded / B3 hardcoded
+> 180s timeout below measured runtime); v0.9.21 closes all three.
+> **Real Pilot = NOT STARTED.** Exact next action = fresh Kaggle v0.9.21 target
+> preflight with this artifact; if all target gates pass, launch the accepted 48-cell
+> Pilot in the same session. Report:
+> [`reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`](reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md).
+>
+> **PRIOR TRUTH (2026-08-24 earlier in the day, HISTORICAL): accepted release = **`v0.9.20-pilot-exec-ready`**
 > @ annotated tag peel == artifact source commit == merge `febda7938db1284da4090d35e980db472149c3ad`;
 > archive `dist/pilot-kaggle-upload.zip` SHA-256
 > `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024` (+ sidecar);

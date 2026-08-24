@@ -1,6 +1,28 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-24, v0.9.20 ROOT-CAUSE CLOSURE):** the real Kaggle
+> **CURRENT TRUTH (2026-08-24, v0.9.21 RELEASED):** accepted release =
+> `v0.9.21-pilot-exec-ready` @ annotated tag peel == artifact source commit ==
+> merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive
+> `dist/pilot-kaggle-upload.zip` SHA-256
+> `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40` (+ sidecar);
+> trust/provenance 0 mismatches; exact-artifact dry-run 48/48; full suite 2370
+> passed / 33 skipped / 0 failed; target-shaped Gates 1-3 (production
+> FunctionalValidator on real staged Todo/django CMS/Saleor targets exit 0 with
+> provisioned interpreters + exact frozen env; resolution contract without
+> substring mocks; Saleor full primary exit 0 in 941.42s < the explicit 1800s
+> per-cell validation budget) + complete no-model preflight GREEN on the
+> released source state (CI runs 32692489617 / 32694137255). v0.9.20 was
+> superseded for Real Pilot launch after the independent audit found the
+> per-cell validation runtime seam (B1 sys.executable routing for every
+> repository / B2 frozen validation env discarded / B3 hardcoded 180s timeout
+> below measured runtime); v0.9.21 closes all three with `--validation-python`
+> mappings, frozen-env propagation through PipelineConfig/RunnerConfig into
+> FunctionalValidator, and explicit `--validation-timeout 1800` on Pilot
+> launch AND resume. Full detail:
+> `reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-24 earlier in the day, HISTORICAL):** **v0.9.20
+> ROOT-CAUSE CLOSURE** — the real Kaggle
 > v0.9.19 session FAILED at the Saleor fast capability gate (Pytest exit 5 =
 > no tests collected) after every earlier stage passed —
 > **`v0.9.19-pilot-exec-ready` is REJECTED FOR PILOT LAUNCH**. Root cause: the

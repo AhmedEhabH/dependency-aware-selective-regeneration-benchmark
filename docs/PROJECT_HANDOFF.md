@@ -1,6 +1,19 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-24, v0.9.20 RELEASED):** the
+> **CURRENT STATE (2026-08-24, v0.9.21 RELEASED):** accepted release = **`v0.9.21-pilot-exec-ready`** @ annotated tag
+> peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive
+> `dist/pilot-kaggle-upload.zip` SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`;
+> trust/provenance 0 mismatches; dry-run 48/48; target-shaped Gates 1-3 + complete no-model preflight GREEN on the
+> released source state (CI runs 32692489617 / 32694137255). v0.9.20 was NOT accepted for Real Pilot launch: the
+> independent audit found B1 (per-cell validation routed every repository through sys.executable), B2 (frozen
+> validation env discarded by FunctionalValidator) and B3 (hardcoded 180s validation timeout below the measured
+> 941.42s Saleor runtime); v0.9.21 closes all three with --validation-python mappings, frozen-env propagation and
+> explicit --validation-timeout 1800 on launch+resume. Real Pilot = NOT STARTED; next action = fresh Kaggle v0.9.21
+> target preflight with this artifact.
+> Report: `reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`.
+> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+>
+> **PRIOR STATE (2026-08-24 earlier in the day, HISTORICAL):** the
 > real Kaggle v0.9.19 run FAILED at the Saleor fast capability gate (Pytest
 > exit 5 = no tests collected; all earlier stages PASS) —
 > **`v0.9.19-pilot-exec-ready` REJECTED FOR PILOT LAUNCH**. Root cause = gate

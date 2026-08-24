@@ -7,11 +7,11 @@
 
 | # | Item | Status |
 |---|---|---|
-| 1 | **RELEASED `v0.9.20-pilot-exec-ready`** @ annotated tag peel == artifact source commit == merge `febda7938db1284da4090d35e980db472149c3ad`; archive SHA-256 `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024`; trust/provenance 0 mismatches; target-shaped no-model preflight GREEN (run 32676588800); dry-run 48/48; full suite 2346 passed / 33 skipped / 0 failed | DONE |
-| 2 | v0.9.19 REJECTED FOR PILOT LAUNCH (real Kaggle Saleor fast-gate Pytest exit 5) — root cause + false-green closed in v0.9.20 (exact argv, invariant, RED/GREEN tests, exact-command mock validation, armed-if-evidenced baseline-flake policy, target-shaped CI gate) | DONE |
-| 3 | Fresh Kaggle v0.9.20 target preflight with the exact released artifact | **NEXT ACTION** |
-| 4 | Launch accepted 48-cell Pilot in the same session if all target gates pass | PENDING (gated on #3) |
-| 5 | Known next seam (documented; do not open silently): per-cell generated-workspace validation runs the full frozen Saleor command under `validation_timeout=180` (`seven_arm_benchmark.py`) — will surface during real Pilot Stage 3 | OPEN (next task input) |
+| 1 | **RELEASED `v0.9.21-pilot-exec-ready`** @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped Gates 1-3 + full preflight GREEN (runs 32692489617 / 32694137255); dry-run 48/48; full suite 2370 passed / 33 skipped / 0 failed | DONE |
+| 2 | Per-cell validation runtime closure: B1 explicit --validation-python routing (no sys.executable fallback), B2 frozen env into FunctionalValidator, B3 explicit --validation-timeout 1800 on launch+resume; RED/GREEN recorded | DONE |
+| 3 | v0.9.20 status: internally trustworthy, preflight GREEN, superseded for Real Pilot launch by v0.9.21 after independent audit found B1/B2/B3 | DONE |
+| 4 | Fresh Kaggle v0.9.21 target preflight with the exact released artifact | **NEXT ACTION** |
+| 5 | Launch accepted 48-cell Pilot in the same session if all target gates pass | PENDING (gated on #4) |
 
 Frozen matrix reminder: Qwen2.5-Coder-14B-Instruct / bnb-nf4 / 600 s uniform
 timeout / 12 scenarios / 2 strategies / 2 repetitions = 48 cells.

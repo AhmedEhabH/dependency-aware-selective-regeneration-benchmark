@@ -36,7 +36,28 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-> **CURRENT TRUTH (2026-08-24, v0.9.20 RELEASED): accepted release =
+> **CURRENT TRUTH (2026-08-24, v0.9.21 RELEASED): accepted release =
+> `v0.9.21-pilot-exec-ready` @ annotated tag peel == artifact source commit ==
+> merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive
+> `dist/pilot-kaggle-upload.zip` SHA-256
+> `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40` (+ sidecar);
+> trust/provenance 0 mismatches; exact-artifact dry-run 48/48; full suite 2370 passed /
+> 33 skipped / 0 failed; target-shaped no-model preflight GREEN on the released source
+> state (CI run 32694137255; Gates 1-3 green in run 32692489617: production
+> FunctionalValidator real targets exit 0 with provisioned interpreters + frozen env;
+> Saleor full primary exit 0 in 941.42s < the new explicit 1800s per-cell validation
+> budget). v0.9.20 closed the Saleor preflight root cause but was NOT accepted for Real
+> Pilot launch: an independent audit found that generated-workspace validation used
+> sys.executable for every repository (B1), discarded the frozen validation env (B2), and
+> hardcoded a 180s validation timeout below the measured 775.71s/941.42s Saleor runtime
+> (B3). v0.9.21 closes all three with --validation-python mappings,
+--validation-timeout 1800 on launch+resume, and frozen-env propagation through
+PipelineConfig/RunnerConfig into FunctionalValidator. Real Pilot = NOT STARTED; next
+action = fresh Kaggle v0.9.21 target preflight, then the accepted 48-cell Pilot in the
+same session if all target gates pass. Report:
+> `reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-24 earlier in the day, HISTORICAL): accepted release =
 > `v0.9.20-pilot-exec-ready` @ annotated tag peel == artifact source commit ==
 > merge `febda7938db1284da4090d35e980db472149c3ad`; archive
 > `dist/pilot-kaggle-upload.zip` SHA-256
@@ -63,7 +84,8 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 > tag peel/artifact source commit `2305991442a4f965d44bb066bb00c0a459fc395a`
 > (REJECTED FOR PILOT LAUNCH 2026-08-24 by the defect above).
 
-- **Accepted release/tag (CURRENT):** `v0.9.20-pilot-exec-ready` @ tag peel == artifact source commit == merge `febda7938db1284da4090d35e980db472149c3ad`; archive `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024`; trust/provenance 0 mismatches; target-shaped CI green (run 32676588800)
+- **Accepted release/tag (CURRENT):** `v0.9.21-pilot-exec-ready` @ tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped CI green with Gates 1-3 (runs 32692489617 / 32694137255)
+- **v0.9.20 status:** internally trustworthy; no-model target preflight GREEN; superseded for Real Pilot launch by v0.9.21 after the independent audit found the per-cell validation runtime parity blockers (B1 interpreter routing / B2 frozen env discarded / B3 180s timeout below measured runtime)
 - **v0.9.19 status:** REJECTED FOR PILOT LAUNCH 2026-08-24 — real Kaggle Saleor fast-gate Pytest exit 5 (artifact itself was internally GREEN; superseded by v0.9.20)
 - **v0.9.18 status:** RELEASE-ONLY CLOSURE (release-only provenance/docs correction; no scientific or production code changes) — historical
 - **v0.9.17 status:** REJECTED FOR ACCEPTED PILOT LAUNCH — tag/source-commit release-provenance mismatch (immutable tag peel `28a18e6...` != artifact source_commit `adf72d4...`; the artifact itself is internally trustworthy and the PGDG fix is GOOD)
