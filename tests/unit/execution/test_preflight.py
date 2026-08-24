@@ -184,6 +184,9 @@ class TestRunKaggleSmokePreflight:
                 "checkpoint_quantization_method": "",
                 "model_memory_footprint_bytes": 4000000000,
                 "device_map_summary": "cuda:0",
+                "requested_attn_implementation": "sdpa",
+                "effective_attn_implementation": "sdpa",
+                "sdpa_kernel_policy": "flash_or_efficient_no_math",
                 "gpu_count": 1,
                 "gpu_name": "T4",
                 "gpu_vram_by_device": (GpuVramSnapshot(0, "T4", 12.5, 14.0, 2.5, 14.56),),
@@ -205,6 +208,9 @@ class TestRunKaggleSmokePreflight:
                 "completion_tokens": 64,
                 "elapsed_seconds": 0.1,
                 "cache_implementation": "offloaded",
+                "requested_attn_implementation": "sdpa",
+                "effective_attn_implementation": "sdpa",
+                "sdpa_kernel_policy": "flash_or_efficient_no_math",
                 "gpu_name": "T4",
                 "gpu_count": True,
                 "peak_allocated_gib": 12.5,
@@ -257,6 +263,9 @@ class TestRunKaggleSmokePreflight:
                 "checkpoint_quantization_method": "",
                 "model_memory_footprint_bytes": 4000000000,
                 "device_map_summary": "cuda:0",
+                "requested_attn_implementation": "sdpa",
+                "effective_attn_implementation": "sdpa",
+                "sdpa_kernel_policy": "flash_or_efficient_no_math",
                 "gpu_count": gpu_count,
                 "gpu_name": "T4",
                 "gpu_vram_by_device": tuple(
@@ -292,6 +301,9 @@ class TestRunKaggleSmokePreflight:
                 "checkpoint_quantization_method": "",
                 "model_memory_footprint_bytes": 9000000000,
                 "device_map_summary": "{'model.layers.0': 0, 'model.layers.10': 1}",
+                "requested_attn_implementation": "sdpa",
+                "effective_attn_implementation": "sdpa",
+                "sdpa_kernel_policy": "flash_or_efficient_no_math",
                 "gpu_count": 2,
                 "gpu_name": "Tesla T4",
                 "gpu_vram_by_device": (
@@ -716,6 +728,9 @@ class TestRepositoryPreflightGating:
                 "checkpoint_quantization_method": "",
                 "model_memory_footprint_bytes": 4000000000,
                 "device_map_summary": "cuda:0",
+                "requested_attn_implementation": "sdpa",
+                "effective_attn_implementation": "sdpa",
+                "sdpa_kernel_policy": "flash_or_efficient_no_math",
                 "gpu_count": 1,
                 "gpu_name": "T4",
                 "gpu_vram_by_device": (GpuVramSnapshot(0, "T4", 12.5, 14.0, 2.5, 14.56),),
@@ -736,6 +751,9 @@ class TestRepositoryPreflightGating:
                 "completion_tokens": 64,
                 "elapsed_seconds": 0.1,
                 "cache_implementation": "offloaded",
+                "requested_attn_implementation": "sdpa",
+                "effective_attn_implementation": "sdpa",
+                "sdpa_kernel_policy": "flash_or_efficient_no_math",
                 "gpu_name": "T4",
                 "gpu_count": True,
                 "peak_allocated_gib": 12.5,
@@ -916,6 +934,9 @@ class TestQwenProbeMetricsMultiGpu:
             checkpoint_quantization_method = ""
             model_memory_footprint_bytes = 9000000000
             device_map_summary = "{'model.layers.0': 0, 'model.layers.10': 1}"
+            requested_attention_implementation = "sdpa"
+            effective_attention_implementation = "sdpa"
+            sdpa_kernel_policy = "flash_or_efficient_no_math"
 
             def __init__(self, model_name: str, model_path: str, quantization_mode: str) -> None:
                 return None
@@ -999,6 +1020,9 @@ class TestVramHeadroomMultiGpuGate:
             "checkpoint_quantization_method": "",
             "model_memory_footprint_bytes": 9000000000,
             "device_map_summary": "{'model.layers.0': 0, 'model.layers.10': 1}",
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
             "gpu_count": gpu_count,
             "gpu_name": "Tesla T4",
             "gpu_vram_by_device": snapshots,
@@ -1193,6 +1217,160 @@ class TestStaticModelMetadata:
         assert meta["gpu_vram_by_device"] == ()
 
 
+CANONICAL_ATTENTION_FIELDS: dict[str, str] = {
+    "requested_attn_implementation": "sdpa",
+    "effective_attn_implementation": "sdpa",
+    "sdpa_kernel_policy": "flash_or_efficient_no_math",
+}
+
+
+class TestAttentionPolicyGate:
+    """V0.9.22: the canonical attention evidence must gate the model preflight.
+
+    v0.9.21 target evidence: the real 12,044-token probe attempted a
+    21.62 GiB allocation == the full float32 40-head 12044x12044 attention
+    score matrix, so the effective attention path had materialized the
+    quadratic math fallback. The preflight must now fail closed unless the
+    requested/effective attention implementation and the fused-kernel policy
+    are all canonical.
+    """
+
+    def _base_probe_metrics(self) -> dict[str, object]:
+        return {
+            "model_identity": "qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-def456",
+            "requested_quantization_mode": "bnb-nf4",
+            "model_checkpoint_basename": "qwen2.5-coder-14b-instruct",
+            "checkpoint_quantization_method": "",
+            "model_memory_footprint_bytes": 9000000000,
+            "device_map_summary": "{'model.layers.0': 0, 'model.layers.10': 1}",
+            **CANONICAL_ATTENTION_FIELDS,
+            "gpu_count": 2,
+            "gpu_name": "Tesla T4",
+            "gpu_vram_by_device": (
+                GpuVramSnapshot(0, "Tesla T4", 7.0, 8.0, 3.0, 16.0),
+                GpuVramSnapshot(1, "Tesla T4", 6.0, 7.0, 2.5, 16.0),
+            ),
+            "allocated_vram_gib": 13.0,
+            "reserved_vram_gib": 15.0,
+            "free_vram_after_probe_gib": 2.5,
+            "probe_prompt_tokens": 8,
+            "probe_completion_tokens": 64,
+        }
+
+    def _run(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        tmp_path: Path,
+        attention: dict[str, str] | None = None,
+        *,
+        omit_attention_fields: bool = False,
+    ) -> KaggleSmokePreflightResult:
+        metrics = self._base_probe_metrics()
+        if omit_attention_fields:
+            for key in CANONICAL_ATTENTION_FIELDS:
+                metrics.pop(key, None)
+        elif attention is not None:
+            metrics.update(attention)
+        out = tmp_path / "kaggle_smoke_preflight.v1.json"
+        TestRunKaggleSmokePreflight()._patch(
+            monkeypatch, deps=(("django", "5.2.16"),), probe_metrics=metrics
+        )
+        return run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "preflight-root",
+            quantization_mode="bnb-nf4",
+            json_output_path=out,
+        )
+
+    def test_canonical_attention_evidence_passes(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        result = self._run(monkeypatch, tmp_path)
+        assert result.passed is True
+        assert (
+            "attention_policy: PASS (requested=sdpa effective=sdpa "
+            "kernel_policy=flash_or_efficient_no_math)"
+        ) in result.checks
+
+    @pytest.mark.parametrize(
+        ("attention"),
+        [
+            {"requested_attn_implementation": ""},
+            {"requested_attn_implementation": "eager"},
+            {"effective_attn_implementation": ""},
+            {"effective_attn_implementation": "eager"},
+            {"sdpa_kernel_policy": ""},
+            {"sdpa_kernel_policy": "math_only"},
+        ],
+    )
+    def test_non_canonical_attention_fails_closed(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        tmp_path: Path,
+        attention: dict[str, str],
+    ) -> None:
+        result = self._run(monkeypatch, tmp_path, attention)
+        assert result.passed is False
+        assert any(c.startswith("attention_policy: FAIL") for c in result.checks)
+
+    def test_missing_attention_fields_fail_closed(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        result = self._run(monkeypatch, tmp_path, omit_attention_fields=True)
+        assert result.passed is False
+        assert any(c.startswith("attention_policy: FAIL") for c in result.checks)
+
+    def test_attention_failure_prevents_long_context_probe(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        """Fail-closed: never stress a non-canonical attention path at 12k."""
+        result = self._run(
+            monkeypatch, tmp_path, {"effective_attn_implementation": "eager"}
+        )
+        assert result.passed is False
+        assert not any(c.startswith("long_context_probe: PASS") for c in result.checks)
+        assert result.long_context_probe is None
+
+    def test_json_payload_contains_attention_evidence(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        out = tmp_path / "kaggle_smoke_preflight.v1.json"
+        self._run(monkeypatch, tmp_path)
+        payload = json.loads(out.read_text("utf-8"))
+        assert payload["requested_attn_implementation"] == "sdpa"
+        assert payload["effective_attn_implementation"] == "sdpa"
+        assert payload["sdpa_kernel_policy"] == "flash_or_efficient_no_math"
+
+    def test_render_table_shows_attention_evidence(self) -> None:
+        result = KaggleSmokePreflightResult(
+            passed=True,
+            requested_quantization_mode="bnb-nf4",
+            device_map_summary="cuda:0",
+            requested_attn_implementation="sdpa",
+            effective_attn_implementation="sdpa",
+            sdpa_kernel_policy="flash_or_efficient_no_math",
+        )
+        table = render_preflight_table(result)
+        assert "requested_attn_implementation: sdpa" in table
+        assert "effective_attn_implementation: sdpa" in table
+        assert "sdpa_kernel_policy: flash_or_efficient_no_math" in table
+
+    def test_gate_constants_unchanged(self) -> None:
+        from benchmark.llm.kaggle_qwen_backend import (
+            KAGGLE_ATTENTION_IMPLEMENTATION,
+            KAGGLE_CACHE_IMPLEMENTATION,
+            KAGGLE_SDPA_KERNEL_POLICY,
+        )
+
+        assert mod.LONG_CONTEXT_TARGET_PROMPT_TOKENS == 12000
+        assert mod.LONG_CONTEXT_MAX_TOKENS == 64
+        assert mod.PROBE_MAX_TOKENS == 64
+        assert KAGGLE_ATTENTION_IMPLEMENTATION == "sdpa"
+        assert KAGGLE_SDPA_KERNEL_POLICY == "flash_or_efficient_no_math"
+        assert KAGGLE_CACHE_IMPLEMENTATION == "offloaded"
+
+
 class TestValidatePilotLaunchAuthorization:
     """C1-C5 + D: strict launch authorization with required long-context evidence."""
 
@@ -1215,6 +1393,9 @@ class TestValidatePilotLaunchAuthorization:
                 "passed": True,
                 "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
                 "requested_quantization_mode": "bnb-nf4",
+                "requested_attn_implementation": "sdpa",
+                "effective_attn_implementation": "sdpa",
+                "sdpa_kernel_policy": "flash_or_efficient_no_math",
                 "checks": ["repository_preflight_evidence: PASS"],
                 "long_context_probe": {
                     "passed": lc_passed,
@@ -1314,6 +1495,66 @@ class TestValidatePilotLaunchAuthorization:
         self._write_valid_model_preflight(tmp_path / "model.json", lc_passed=False)
         from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
         with pytest.raises(LaunchAuthorizationError, match="long_context_probe passed != true"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.18-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    @pytest.mark.parametrize(
+        "attention_override",
+        [
+            {"requested_attn_implementation": "eager"},
+            {"requested_attn_implementation": ""},
+            {"effective_attn_implementation": "eager"},
+            {"effective_attn_implementation": ""},
+            {"sdpa_kernel_policy": "math_only"},
+            {"sdpa_kernel_policy": ""},
+        ],
+    )
+    def test_fails_on_non_canonical_attention_evidence(
+        self,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        attention_override: dict[str, str],
+    ) -> None:
+        """V0.9.22: launch authorization fails closed without canonical attention."""
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        evidence = json.loads((tmp_path / "model.json").read_text(encoding="utf-8"))
+        evidence.update(attention_override)
+        (tmp_path / "model.json").write_text(json.dumps(evidence), encoding="utf-8")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(
+            LaunchAuthorizationError, match="attn_implementation|sdpa_kernel_policy"
+        ):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.18-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            )
+
+    def test_fails_on_missing_attention_fields(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        evidence = json.loads((tmp_path / "model.json").read_text(encoding="utf-8"))
+        for key in CANONICAL_ATTENTION_FIELDS:
+            evidence.pop(key, None)
+        (tmp_path / "model.json").write_text(json.dumps(evidence), encoding="utf-8")
+        from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
+        with pytest.raises(LaunchAuthorizationError, match="attn_implementation|sdpa_kernel_policy"):
             validate_pilot_launch_authorization(
                 repo_preflight_json=tmp_path / "repo.json",
                 model_preflight_json=tmp_path / "model.json",
@@ -1572,6 +1813,9 @@ class TestCLIAuthorizationPath:
             "passed": True,
             "model_identity": "qwen:test:nf4",
             "requested_quantization_mode": "bnb-nf4",
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
             "checks": ["repository_preflight_evidence: PASS"],
             "long_context_probe": {
                 "passed": True,

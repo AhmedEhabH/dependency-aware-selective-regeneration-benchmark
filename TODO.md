@@ -7,11 +7,13 @@
 
 | # | Item | Status |
 |---|---|---|
-| 1 | **RELEASED `v0.9.21-pilot-exec-ready`** @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped Gates 1-3 + full preflight GREEN (runs 32692489617 / 32694137255); dry-run 48/48; full suite 2370 passed / 33 skipped / 0 failed | DONE |
-| 2 | Per-cell validation runtime closure: B1 explicit --validation-python routing (no sys.executable fallback), B2 frozen env into FunctionalValidator, B3 explicit --validation-timeout 1800 on launch+resume; RED/GREEN recorded | DONE |
-| 3 | v0.9.20 status: internally trustworthy, preflight GREEN, superseded for Real Pilot launch by v0.9.21 after independent audit found B1/B2/B3 | DONE |
-| 4 | Fresh Kaggle v0.9.21 target preflight with the exact released artifact | **NEXT ACTION** |
-| 5 | Launch accepted 48-cell Pilot in the same session if all target gates pass | PENDING (gated on #4) |
+| 1 | **v0.9.22 CANDIDATE — long-context attention memory closure** on branch `fix/pilot-v0922-long-context-attention-memory-closure`: Task A `attn_implementation="sdpa"` at from_pretrained, Task B fail-closed CUDA generation inside `sdpa_kernel([FLASH_ATTENTION, EFFICIENT_ATTENTION])`, Task C canonical attention evidence + fail-closed `attention_policy` check + launch authorization enforcement, Task D corrected OOM diagnosis (long-prompt OOM reports prompt-prefill evidence, never advises completion-cap reduction), Tasks E/F regression-guard prior memory fixes + unchanged 12000/64 gate; RED/GREEN proven (12 backend + 18 preflight contract tests failed against v0.9.21); full suite 2407 passed / 33 skipped / 0 failed; dry-run pilot 48/48 | DONE |
+| 2 | **RELEASED `v0.9.21-pilot-exec-ready`** @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped Gates 1-3 + full preflight GREEN (runs 32692489617 / 32694137255); dry-run 48/48 — **Real Pilot rejected before launch at the real 12k attention-prefill OOM; repository/per-cell fixes remain valid and carried forward** | DONE |
+| 3 | Per-cell validation runtime closure: B1 explicit --validation-python routing (no sys.executable fallback), B2 frozen env into FunctionalValidator, B3 explicit --validation-timeout 1800 on launch+resume; RED/GREEN recorded | DONE |
+| 4 | Phase 2 release mechanics: non-ff merge branch → main, push; freeze notebook/deployment anchors for planned `v0.9.22-pilot-exec-ready`; build exact candidate artifact from the merge commit; trust/provenance/dry-run gates; record artifact SHA — **DO NOT create the stable tag yet** | **NEXT ACTION** |
+| 5 | Fresh Kaggle v0.9.22 candidate model preflight ONLY (repo preflight PASS, Qwen 14B BNB-NF4 load PASS, short probe PASS, **12k probe PASS with attention policy evidence**) using the exact candidate artifact; no 48-cell launch while untagged | PENDING (gated on #4) |
+| 6 | If Kaggle 12k probe PASSES: annotate `v0.9.22-pilot-exec-ready` at the tested merge commit, push tag, update docs; if it FAILS: return to the SAME v0.9.22 task (never spawn v0.9.23) | PENDING (gated on #5) |
+| 7 | Launch accepted 48-cell Pilot in a fresh session after the stable tag exists and all target gates pass | PENDING (gated on #6) |
 
 Frozen matrix reminder: Qwen2.5-Coder-14B-Instruct / bnb-nf4 / 600 s uniform
 timeout / 12 scenarios / 2 strategies / 2 repetitions = 48 cells.
