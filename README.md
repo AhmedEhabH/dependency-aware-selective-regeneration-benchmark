@@ -203,7 +203,22 @@ yet authorized for this arm.
 
 ## Current Status
 
-> **CURRENT TRUTH (2026-08-24, v0.9.20 root-cause closure in progress):** the
+> **CURRENT TRUTH (2026-08-24, v0.9.20 RELEASED):** accepted release = **`v0.9.20-pilot-exec-ready`**
+> @ annotated tag peel == artifact source commit == merge `febda7938db1284da4090d35e980db472149c3ad`;
+> archive `dist/pilot-kaggle-upload.zip` SHA-256
+> `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024` (+ sidecar);
+> trust/provenance 0 mismatches; exact-artifact dry-run 48/48; full suite 2346 passed /
+> 33 skipped / 0 failed; target-shaped no-model preflight GREEN on the released source
+> state (CI run 32676588800; pristine Saleor primary exit 0 in 775.71 s in run
+> 32672656326). The real Kaggle v0.9.19 run FAILED at the Saleor fast capability gate
+> (Pytest exit 5) — v0.9.19 REJECTED FOR PILOT LAUNCH; root cause (second `-m pytest`
+> vector parsed as a marker expression) and the substring-based false-green mock were
+> closed in v0.9.20 together with an armed-if-evidenced baseline-flake policy and a
+> target-shaped Linux CI preflight gate.
+> **Real Pilot = NOT STARTED.** Exact next action = fresh Kaggle v0.9.20 target
+> preflight with this artifact; if all target gates pass, launch the accepted 48-cell
+> Pilot in the same session.
+> **PRIOR TRUTH (2026-08-24 earlier in the day, superseded by RELEASED above):** the
 > real Kaggle v0.9.19 session FAILED at the Saleor fast capability gate
 > (Pytest exit 5 = no tests collected) after every earlier stage passed —
 > **`v0.9.19-pilot-exec-ready` is REJECTED FOR PILOT LAUNCH** despite its
@@ -220,7 +235,7 @@ yet authorized for this arm.
 > dry-run 48/48, trust/provenance 0 mismatches. Report:
 > [`reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`](reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md).
 >
-> **PRIOR TRUTH (2026-08-22, HISTORICAL for launch purposes):** accepted release = **`v0.9.19-pilot-exec-ready`**
+> **HISTORICAL TRUTH (2026-08-22):** accepted-at-the-time release = **`v0.9.19-pilot-exec-ready`**
 > @ tag peel == artifact source commit `2305991442a4f965d44bb066bb00c0a459fc395a`
 > (PostgreSQL admin/application bootstrap + partial recovery closure, real
 > Kaggle defect fix). `main` is a post-tag docs/evidence child of that merge.

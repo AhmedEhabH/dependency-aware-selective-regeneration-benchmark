@@ -1,15 +1,19 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-24, v0.9.20 root-cause closure in progress):** the
+> **CURRENT STATE (2026-08-24, v0.9.20 RELEASED):** the
 > real Kaggle v0.9.19 run FAILED at the Saleor fast capability gate (Pytest
 > exit 5 = no tests collected; all earlier stages PASS) —
 > **`v0.9.19-pilot-exec-ready` REJECTED FOR PILOT LAUNCH**. Root cause = gate
 > argv concatenated a second `-m pytest` onto the resolved primary command;
 > local tests false-green via substring mock. Fix + exact-argv regression tests
 > + evidence-backed Saleor baseline-flake policy + target-shaped CI preflight
-> gate complete on branch `fix/pilot-v0920-saleor-preflight-root-closure`;
-> v0.9.20 tag NOT created yet (gated on committed-profile CI green, merge,
-> re-freeze, dry-run 48/48, trust/provenance). Real Pilot = NOT STARTED.
+> gate complete and RELEASED as **`v0.9.20-pilot-exec-ready`** @ annotated tag
+> peel == artifact source commit == merge `febda7938db1284da4090d35e980db472149c3ad`;
+> archive `dist/pilot-kaggle-upload.zip` SHA-256
+> `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024`; trust/
+> provenance 0 mismatches; dry-run 48/48; target-shaped no-model preflight GREEN
+> on the released source state (CI run 32676588800). Real Pilot = NOT STARTED;
+> next action = fresh Kaggle v0.9.20 target preflight with this artifact.
 > Report: `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`.
 > **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
 >

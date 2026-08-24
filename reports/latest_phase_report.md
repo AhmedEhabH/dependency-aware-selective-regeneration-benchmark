@@ -11,14 +11,16 @@
 > fail-fast invariant + exact-argv regression tests (RED/GREEN recorded;
 > target-proven on Linux CI run 32650273641) + exact-command mock validation +
 > evidence-backed Saleor baseline-flake policy
-> (`pilot_saleor_baseline_flaky_profile.v1`) + target-shaped no-model Linux CI
-> preflight workflow. v0.9.20 tag NOT created yet — gated on committed-profile
-> CI overall=PASS, merge, re-freeze, dry-run 48/48, trust/provenance 0
-> mismatches. Full detail:
+> (`pilot_saleor_baseline_flaky_profile.v1`, armed-if-evidenced) + target-shaped no-model Linux CI
+> preflight workflow. All release gates then passed: non-ff merge to main,
+> idempotent re-freeze at the merge commit with --verify-source-provenance,
+> exact-artifact dry-run 48/48, and the annotated stable tag
+> `v0.9.20-pilot-exec-ready` created AT the merge commit `febda7938db1284da4090d35e980db472149c3ad`
+> (archive `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024`).
+> Full detail:
 > `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`.
 >
-> **PRIOR TRUTH (2026-08-22, HISTORICAL for launch purposes):** v0.9.19 is now
-> **MERGED to main and TAGGED** — accepted release `v0.9.19-pilot-exec-ready`,
+> **HISTORICAL TRUTH (2026-08-22):** v0.9.19 was merged to main and tagged as `v0.9.19-pilot-exec-ready`,
 > tag peel == artifact source commit `2305991442a4f965d44bb066bb00c0a459fc395a`;
 > `main` is a post-tag docs/evidence child of that merge; artifact
 > trust/provenance GREEN; OpenCode full suite = 2330 passed / 34 skipped / 0

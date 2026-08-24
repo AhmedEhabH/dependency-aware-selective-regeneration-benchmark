@@ -1,4 +1,4 @@
-# AI Account-Transfer Handoff — CURRENT v0.9.20-CANDIDATE State (2026-08-24)
+# AI Account-Transfer Handoff — CURRENT v0.9.20 State (2026-08-24)
 
 **Read this file FIRST.** It is the single authoritative snapshot of the
 current project state for any AI agent or human resuming on a new account.
@@ -15,10 +15,10 @@ superseded — this file wins every contradiction.
 | Root cause | `run_repo_preflight` concatenated a second `-m pytest …` vector onto the already-resolved frozen primary command; Pytest parsed `-m pytest` as a marker expression → 0 collected. Local suite false-green via a substring-based fake runner (`"test_create_checkout" in argv`) |
 | Closure branch | `fix/pilot-v0920-saleor-preflight-root-closure` (from `origin/main` `aaf80ef`) |
 | Fix set | exact standalone gate argv + fail-fast invariant + exact-argv regression tests (RED/GREEN proven; target-proven on Linux CI run 32650273641: gate PASS, nodeid collected, Todo/django CMS PASS) + substring mock removed + evidence-backed Saleor baseline-flake policy (`pilot_saleor_baseline_flaky_profile.v1`, exact nodeids + serial `-n 0` rerun proof, fail-closed) + target-shaped no-model Linux CI preflight workflow |
-| v0.9.20 status | **CANDIDATE — stable tag NOT created**. Full pristine Saleor baseline RESOLVED via Task F case 1: CI run 32672656326 = overall PASS with the full frozen Saleor primary exit 0 in 775.71 s (cluster absent on the target-shaped environment; evidence `reports/target-evidence/run-32672656326/`). Gates remaining: green target-shaped CI run on the final branch state → non-ff merge to main → idempotent re-freeze at the merge commit → dry-run 48/48 → trust/provenance 0 mismatches → annotated tag `v0.9.20-pilot-exec-ready` AT THE MERGE COMMIT |
+| v0.9.20 status | **RELEASED — `v0.9.20-pilot-exec-ready` @ tag peel == artifact source commit == merge `febda7938db1284da4090d35e980db472149c3ad`; archive `dist/pilot-kaggle-upload.zip` SHA-256 `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024`; trust/provenance 0 mismatches; dry-run 48/48; target-shaped CI green (run 32676588800)**. Full pristine Saleor baseline RESOLVED via Task F case 1: CI run 32672656326 = overall PASS with the full frozen Saleor primary exit 0 in 775.71 s (cluster absent on the target-shaped environment; evidence `reports/target-evidence/run-32672656326/`). Gates remaining: green target-shaped CI run on the final branch state → non-ff merge to main → idempotent re-freeze at the merge commit → dry-run 48/48 → trust/provenance 0 mismatches → annotated tag `v0.9.20-pilot-exec-ready` AT THE MERGE COMMIT |
 | Prior accepted release | `v0.9.19-pilot-exec-ready` @ tag peel/source commit `2305991442a4f965d44bb066bb00c0a459fc395a`; artifact internally GREEN (archive `f7a16858…`) but rejected for launch by the defect above |
 | Real Pilot status | **NOT STARTED** |
-| Exact next action | Finish v0.9.20 release finalization per `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md` §9; only then a fresh Kaggle preflight with the new artifact |
+| Exact next action | Fresh Kaggle v0.9.20 target preflight with the exact released artifact (`dist/pilot-kaggle-upload.zip` SHA `56b1c2a9…` + sidecar); if ALL target gates pass → launch the accepted 48-cell Pilot in the SAME session |
 | Known next seam | Per-cell generated-workspace validation runs the full frozen Saleor command under `validation_timeout=180` (`seven_arm_benchmark.py`) — will surface during real Pilot Stage 3; do NOT open inside the v0.9.20 task |
 
 Frozen Pilot matrix (unchanged, pre-registered in
