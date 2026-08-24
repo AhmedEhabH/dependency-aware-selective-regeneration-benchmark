@@ -163,7 +163,7 @@ def _build(tmp_path: Path, created_utc: str, source_commit: str, label: str) -> 
     return output_root, archive
 
 
-PILOT_SOURCE_TAG = "v0.9.19-pilot-exec-ready"
+PILOT_SOURCE_TAG = "v0.9.20-pilot-exec-ready"
 
 
 def _build_frozen(
@@ -354,6 +354,39 @@ class TestPilotBundleIdentityAndManifests:
         second_root, second_archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "det2")
         assert _tree_sha256(first_root) == _tree_sha256(second_root)
         assert first_archive.read_bytes() == second_archive.read_bytes()
+
+    def test_baseline_flake_profile_bundled_byte_equal_and_manifested(
+        self, tmp_path: Path
+    ) -> None:
+        """v0.9.20 Task F: once the frozen baseline-flake evidence profile
+        exists, every Pilot bundle must ship it byte-equal under code/reports/
+        and manifest it. Before the first target-shaped evidence run the source
+        profile legitimately does not exist; the deployed preflight cell fails
+        closed on its absence, and this test asserts the consistent state."""
+        output_root, _archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "bfp")
+        bundled = output_root / "code" / "reports" / "pilot_saleor_baseline_flaky_profile.json"
+        source = PROJECT_DIR / "reports" / "pilot_saleor_baseline_flaky_profile.json"
+        if not source.is_file():
+            assert not bundled.exists(), (
+                "bundled baseline-flake profile appeared without a source artifact"
+            )
+            return
+        assert bundled.is_file()
+        assert _normalized_bytes(bundled) == _normalized_bytes(source)
+        code_manifest = json.loads(
+            (output_root / "code_manifest.json").read_text(encoding="utf-8")
+        )
+        rel = "reports/pilot_saleor_baseline_flaky_profile.json"
+        assert rel in code_manifest
+        entry_hash = code_manifest[rel]
+        assert isinstance(entry_hash, str)
+        assert entry_hash == hashlib.sha256(_normalized_bytes(bundled)).hexdigest()
+        payload = json.loads(bundled.read_text(encoding="utf-8"))
+        assert payload["schema"] == "pilot_saleor_baseline_flaky_profile.v1"
+        assert payload["failed_nodeids"]
+        assert all(
+            entry["passed"] is True for entry in payload["per_nodeid_serial_rerun"]
+        )
 
 
 class TestPilotBundleRuntime:

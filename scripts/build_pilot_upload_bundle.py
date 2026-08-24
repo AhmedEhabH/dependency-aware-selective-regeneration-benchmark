@@ -67,6 +67,7 @@ PILOT_RUNTIME_LOCK = PROJECT_ROOT / "requirements-pilot-kaggle.lock"
 
 PILOT_SNAPSHOT_SCRIPT = SCRIPTS_DIR / "pilot_repo_snapshot.py"
 PILOT_ENVS_SCRIPT = SCRIPTS_DIR / "pilot_kaggle_repo_envs.py"
+PILOT_BASELINE_PROFILE = PROJECT_ROOT / "reports" / "pilot_saleor_baseline_flaky_profile.json"
 
 # ---- Kaggle transport-safe archive member encoding -------------------------
 #
@@ -662,6 +663,18 @@ def build_pilot_bundle(
     envs_dst = output_root / "code" / "scripts" / PILOT_ENVS_SCRIPT.name
     shutil.copy2(PILOT_ENVS_SCRIPT, envs_dst)
     builder.normalize_text(envs_dst)
+
+    # v0.9.20 Saleor baseline-flake policy: the frozen evidence profile rides in
+    # the code bundle so the Kaggle preflight cell can pass --baseline-profile
+    # (exact-nodeid tolerance only; anything else fails closed). Integrity is
+    # enforced where it belongs: the deployed preflight cell raises when the
+    # bundled profile is absent, and the deployment/notebook contract tests
+    # assert shipped-vs-source parity once the profile exists.
+    if PILOT_BASELINE_PROFILE.is_file():
+        profile_dst = output_root / "code" / "reports" / PILOT_BASELINE_PROFILE.name
+        profile_dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(PILOT_BASELINE_PROFILE, profile_dst)
+        builder.normalize_text(profile_dst)
 
     _normalize_lock_files(output_root)
     regenerate_code_manifest(output_root)

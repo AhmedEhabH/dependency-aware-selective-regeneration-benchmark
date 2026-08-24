@@ -1,0 +1,140 @@
+{
+  "created_utc": "2026-08-23T23:25:54.921728+00:00",
+  "manifest": "benchmark_data/manifests/pilot_validation_commands.yaml",
+  "overall": "PASS",
+  "platform": "linux",
+  "repositories": {
+    "djangocms": {
+      "applied_workarounds": [],
+      "command_passed": true,
+      "commands": [
+        {
+          "command": [
+            "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/djangocms/bin/python",
+            "manage.py",
+            "test",
+            "cms.tests.test_api",
+            "cms.tests.test_page",
+            "cms.tests.test_page_admin",
+            "cms.tests.test_permissions",
+            "cms.tests.test_permmod",
+            "cms.tests.test_signals",
+            "cms.tests.test_toolbar",
+            "cms.tests.test_views"
+          ],
+          "duration_seconds": 24.32,
+          "exit_code": 0,
+          "label": "primary",
+          "log_path": "logs/djangocms-primary.log",
+          "output_tail": "Found 382 test(s).\nSystem check identified no issues (0 silenced).\nCreating test database for alias 'default'...\n..................................s.....................................Wizard for model <class 'cms.models.pagemodel.Page'> has already been registered\nWizard for model <class 'cms.models.pagemodel.Page'> has already been registered\nModel <class 'cms.models.contentmodels.PageContent'> already registered for frontend rendering\nWizard for model <class 'cms.test_utils.project.sampleapp.models.Category'> has already been registered\nModel <class 'cms.test_utils.project.placeholderapp.models.Example1'> already registered for frontend rendering\n......................................................................................................................................................................................................................................................................................................................\n----------------------------------------------------------------------\nRan 382 tests in 22.447s\nOK (skipped=1)\nDestroying test database for alias 'default'...",
+          "passed": true
+        }
+      ],
+      "content_hash": "10e47cf4020a69d5929602cecedbbf2e9c21c25b153c6b61ebc2d4140deb3ec4",
+      "file_count": 1669,
+      "mode": "bundled",
+      "passed": true,
+      "repo_id": "djangocms",
+      "requested_sha": "0f633fc9fa213357f4202482aab2b0edad680f95",
+      "resolved_head": "bundled",
+      "services": [],
+      "services_passed": true
+    },
+    "saleor": {
+      "applied_workarounds": [],
+      "command_passed": true,
+      "commands": [
+        {
+          "command": [
+            "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor/.venv/bin/python",
+            "-m",
+            "pytest",
+            "-m",
+            "not e2e",
+            "-q",
+            "-n",
+            "logical",
+            "saleor/product/tests",
+            "saleor/graphql/product/tests",
+            "saleor/graphql/checkout/tests",
+            "saleor/graphql/order/tests",
+            "saleor/webhook/tests"
+          ],
+          "duration_seconds": 775.71,
+          "exit_code": 0,
+          "label": "primary",
+          "log_path": "logs/saleor-primary.log",
+          "output_tail": "........................................................................ [ 82%]\n........................................................................ [ 83%]\n........................................................................ [ 84%]\n........................................................................ [ 85%]\n........................................................................ [ 86%]\n........................................................................ [ 88%]\n........................................................................ [ 89%]\n........................................................................ [ 90%]\n........................................................................ [ 91%]\n........................................................................ [ 92%]\n........................................................................ [ 93%]\n........................................................................ [ 94%]\n........................................................................ [ 95%]\n........................................................................ [ 97%]\n........................................................................ [ 98%]\n........................................................................ [ 99%]\n........................................                                 [100%]\n=============================== warnings summary ===============================\n../../envs/saleor/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:833\n../../envs/saleor/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:833\n../../envs/saleor/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:833\n  /home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:833: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; saleor.account.tests.fixtures\n    self.import_plugin(import_spec)\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n6375 passed, 1 skipped, 3 warnings in 769.01s (0:12:49)",
+          "passed": true
+        },
+        {
+          "command": [
+            "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/envs/saleor/.venv/bin/python",
+            "manage.py",
+            "makemigrations",
+            "--check",
+            "--dry-run"
+          ],
+          "duration_seconds": 7.23,
+          "exit_code": 0,
+          "label": "additional-0",
+          "log_path": "logs/saleor-additional-0.log",
+          "output_tail": "No changes detected\n2026-08-23 23:25:51,590 WARNING saleor.core.jwt_manager RSA_PRIVATE_KEY is missing. Using temporary key for local development with DEBUG mode. [PID:6266:MainThread]",
+          "passed": true
+        }
+      ],
+      "content_hash": "f2168877eaaaf988d44aae0e010702c1eb65f87d23587a67a429f2fff5e576b9",
+      "file_count": 4577,
+      "mode": "bundled",
+      "passed": true,
+      "repo_id": "saleor",
+      "requested_sha": "e11a5557eff29fbb2eed36e6ff3cd0af08ab9e10",
+      "resolved_head": "bundled",
+      "services": [
+        {
+          "name": "postgresql",
+          "reachable": true,
+          "required": true,
+          "url_scheme": "postgres"
+        },
+        {
+          "name": "valkey",
+          "reachable": true,
+          "required": true,
+          "url_scheme": "redis"
+        }
+      ],
+      "services_passed": true
+    },
+    "todo": {
+      "applied_workarounds": [],
+      "command_passed": true,
+      "commands": [
+        {
+          "command": [
+            "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+            "-m",
+            "pytest"
+          ],
+          "duration_seconds": 8.51,
+          "exit_code": 0,
+          "label": "primary",
+          "log_path": "logs/todo-primary.log",
+          "output_tail": "============================= test session starts ==============================\nplatform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.6.0\ndjango: version: 5.2.16, settings: config.settings (from ini)\nrootdir: /home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/staged/todo\nconfigfile: pytest.ini\ntestpaths: todo/tests\nplugins: anyio-4.14.2, django-4.12.0, cov-5.0.0, asyncio-1.2.0\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 47 items\ntodo/tests/test_models.py .............                                  [ 27%]\ntodo/tests/test_permissions.py .........                                 [ 46%]\ntodo/tests/test_serializers.py ............                              [ 72%]\ntodo/tests/test_views.py .............                                   [100%]\n============================== 47 passed in 7.79s ==============================",
+          "passed": true
+        }
+      ],
+      "content_hash": "f72bc9df58882261eb2a2724e358b477cf68ed9586821d0cd2d9d8a47829113f",
+      "file_count": 24,
+      "mode": "bundled",
+      "passed": true,
+      "repo_id": "todo",
+      "requested_sha": "b8a33e20bdaf5b329114273063fbe8d5aa66e9cf",
+      "resolved_head": "bundled",
+      "services": [],
+      "services_passed": true
+    }
+  },
+  "staging_root": "/home/runner/work/dependency-aware-selective-regeneration-benchmark/dependency-aware-selective-regeneration-benchmark/.pilot-target-preflight/staged",
+  "task": "PILOT-EXEC-01"
+}

@@ -373,7 +373,26 @@ class TestSaleorFailureDiagnostics:
         def _fake_run_with_gate(
             argv: list[str], **kwargs: object
         ) -> types.SimpleNamespace:
-            if "test_create_checkout" in " ".join(str(a) for a in argv):
+            gate_nodeid = (
+                "saleor/graphql/checkout/tests/benchmark/"
+                "test_checkout_mutations.py::test_create_checkout"
+            )
+            if gate_nodeid in argv:
+                assert argv == [
+                    "python",
+                    "-m",
+                    "pytest",
+                    "-n",
+                    "0",
+                    "-x",
+                    "--tb=line",
+                    "--no-header",
+                    "-q",
+                    gate_nodeid,
+                ]
+                assert argv.count("-m") == 1
+                assert "pytest" not in argv[3:]
+                assert "saleor/graphql/checkout/tests" not in argv
                 return types.SimpleNamespace(
                     returncode=0, stdout="1 passed in 0.50s", stderr=""
                 )
@@ -589,3 +608,349 @@ class TestSaleorFailureDiagnostics:
             diag, _ = self._call_diagnostics(monkeypatch, staging)
             assert diag["primary_exit_code"] == 1, f"FAIL verdict flipped for {label}"
             assert diag["failed_count"] >= 0
+
+
+class TestSaleorBaselineFlakePolicy:
+    """v0.9.20 Task F: evidence-backed pristine baseline-flake classification.
+
+    The frozen pristine Saleor validation command historically exits non-zero
+    with a nondeterministic ~31-36 order/pricing cluster (Gate 9 ledger). The
+    policy tolerates ONLY that exact frozen nodeid set, ONLY while every nodeid
+    still passes a current serial rerun; anything else fails closed.
+    """
+
+    FLAKY_NODEIDS = (
+        "saleor/graphql/order/tests/test_order.py::test_order_lines_first",
+        "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_prices",
+        "saleor/product/tests/test_product.py::test_pricing_annotation",
+    )
+
+    def _saleor_pin_sha(self) -> str:
+        pins = {p.repo_id: p for p in snapshot_mod.DEFAULT_PINS}
+        return str(pins["saleor"].commit_sha)
+
+    def _write_small_lastfailed(self, staging_dir: Path) -> None:
+        cache = staging_dir / ".pytest_cache" / "v" / "cache"
+        cache.mkdir(parents=True, exist_ok=True)
+        (cache / "lastfailed").write_text(
+            json.dumps(dict.fromkeys(self.FLAKY_NODEIDS, True)), encoding="utf-8"
+        )
+
+    def _profile(
+        self,
+        nodeids: tuple[str, ...] = FLAKY_NODEIDS,
+        *,
+        serial_passed: bool = True,
+        sha: str | None = None,
+        command: tuple[str, ...] | None = None,
+        schema: str | None = None,
+    ) -> dict[str, Any]:
+        saleor_command = TestSaleorFailureDiagnostics._saleor_command(self)
+        return {
+            "schema": schema or snapshot_mod.BASELINE_PROFILE_SCHEMA,
+            "task": "PILOT-EXEC-01",
+            "saleor_commit_sha": sha or self._saleor_pin_sha(),
+            "frozen_validation_command": list(command or saleor_command.command),
+            "failed_nodeids": sorted(nodeids),
+            "per_nodeid_serial_rerun": [
+                {"nodeid": n, "exit_code": 0 if serial_passed else 1,
+                 "passed": serial_passed}
+                for n in sorted(nodeids)
+            ],
+            "created_utc": "2026-08-24T00:00:00+00:00",
+        }
+
+    def _patch_flake_runtime(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        *,
+        rerun_passes: bool = True,
+    ) -> list[list[str]]:
+        """Fake runtime: gate PASS, primary FAIL with the flaky set, serial
+        baseline-flake reruns pass/fail per ``rerun_passes``."""
+        calls: list[list[str]] = []
+
+        def _fake_run(argv: list[str], **kwargs: object) -> types.SimpleNamespace:
+            calls.append(list(argv))
+            joined = " ".join(str(a) for a in argv)
+            if argv[:2] == ["python", "-c"]:
+                return types.SimpleNamespace(returncode=0, stdout="{}", stderr="")
+            if "--lf" in argv:
+                return types.SimpleNamespace(
+                    returncode=0, stdout="3 passed", stderr=""
+                )
+            if "--collect-only" in argv:
+                return types.SimpleNamespace(
+                    returncode=0, stdout="collected 1 item", stderr=""
+                )
+            if "--no-header" in argv and any(
+                n in argv for n in self.FLAKY_NODEIDS
+            ):
+                if rerun_passes:
+                    return types.SimpleNamespace(
+                        returncode=0, stdout="1 passed in 0.30s", stderr=""
+                    )
+                return types.SimpleNamespace(
+                    returncode=1, stdout="", stderr="assert 2 == 3\n1 failed"
+                )
+            if "test_create_checkout" in joined:
+                return types.SimpleNamespace(
+                    returncode=0, stdout="1 passed in 0.50s", stderr=""
+                )
+            return types.SimpleNamespace(
+                returncode=1,
+                stdout="",
+                stderr=(
+                    "FAILED saleor/graphql/order/tests/test_order.py::test_order_lines_first\n"
+                    "3 failed, 6056 passed in 512.00s\n"
+                ),
+            )
+
+        monkeypatch.setattr(snapshot_mod.subprocess, "run", _fake_run)
+        monkeypatch.setattr(snapshot_mod, "_copy_embedded_tree", lambda s, t: None)
+        monkeypatch.setattr(
+            snapshot_mod, "_service_reachable", lambda url, timeout=5.0: True
+        )
+        return calls
+
+    def _run_saleor(
+        self,
+        tmp_path: Path,
+        *,
+        baseline_profile: dict[str, Any] | None = None,
+        emit_path: Path | None = None,
+        lastfailed_nodeids: tuple[str, ...] | None = None,
+    ) -> tuple[dict[str, Any], Path]:
+        staging_dir = tmp_path / "repo_staging" / "saleor"
+        staging_dir.mkdir(parents=True, exist_ok=True)
+        (staging_dir / "saleor" / "core").mkdir(parents=True, exist_ok=True)
+        (staging_dir / "saleor" / "core" / "rlimit.py").write_text(
+            "# dummy; contains: except ImportError\n", encoding="utf-8"
+        )
+        if lastfailed_nodeids is None:
+            self._write_small_lastfailed(staging_dir)
+        else:
+            cache = staging_dir / ".pytest_cache" / "v" / "cache"
+            cache.mkdir(parents=True, exist_ok=True)
+            (cache / "lastfailed").write_text(
+                json.dumps(dict.fromkeys(lastfailed_nodeids, True)),
+                encoding="utf-8",
+            )
+        repo_source = tmp_path / "saleor-src"
+        repo_source.mkdir(exist_ok=True)
+        result = snapshot_mod.run_repo_preflight(
+            repo_id="saleor",
+            staging_dir=staging_dir,
+            repo_cache=None,
+            venv_python="python",
+            command=TestSaleorFailureDiagnostics._saleor_command(self),
+            timeout=300,
+            repo_source=repo_source,
+            logs_dir=tmp_path / "logs",
+            diagnostics_dir=None,
+            baseline_profile=baseline_profile,
+            emit_baseline_profile_path=emit_path,
+        )
+        return result, staging_dir
+
+    # --- loader validation ----------------------------------------------------
+
+    def test_loader_accepts_valid_profile(self, tmp_path: Path) -> None:
+        path = tmp_path / "profile.json"
+        path.write_text(json.dumps(self._profile()), encoding="utf-8")
+        loaded = snapshot_mod.load_baseline_profile(
+            path,
+            expected_saleor_sha=self._saleor_pin_sha(),
+            expected_frozen_command=TestSaleorFailureDiagnostics._saleor_command(
+                self
+            ).command,
+        )
+        assert loaded["schema"] == snapshot_mod.BASELINE_PROFILE_SCHEMA
+
+    def test_loader_rejects_wrong_schema(self, tmp_path: Path) -> None:
+        path = tmp_path / "profile.json"
+        path.write_text(json.dumps(self._profile(schema="other.v9")), encoding="utf-8")
+        with pytest.raises(RuntimeError, match="unsupported schema"):
+            snapshot_mod.load_baseline_profile(
+                path,
+                expected_saleor_sha=self._saleor_pin_sha(),
+                expected_frozen_command=TestSaleorFailureDiagnostics._saleor_command(
+                    self
+                ).command,
+            )
+
+    def test_loader_rejects_wrong_saleor_sha(self, tmp_path: Path) -> None:
+        path = tmp_path / "profile.json"
+        path.write_text(json.dumps(self._profile(sha="deadbeef")), encoding="utf-8")
+        with pytest.raises(RuntimeError, match="targets Saleor snapshot"):
+            snapshot_mod.load_baseline_profile(
+                path,
+                expected_saleor_sha=self._saleor_pin_sha(),
+                expected_frozen_command=TestSaleorFailureDiagnostics._saleor_command(
+                    self
+                ).command,
+            )
+
+    def test_loader_rejects_different_frozen_command(self, tmp_path: Path) -> None:
+        path = tmp_path / "profile.json"
+        path.write_text(
+            json.dumps(self._profile(command=("{python}", "-m", "pytest"))),
+            encoding="utf-8",
+        )
+        with pytest.raises(RuntimeError, match="different frozen validation command"):
+            snapshot_mod.load_baseline_profile(
+                path,
+                expected_saleor_sha=self._saleor_pin_sha(),
+                expected_frozen_command=TestSaleorFailureDiagnostics._saleor_command(
+                    self
+                ).command,
+            )
+
+    def test_loader_rejects_deterministic_serial_failure_recorded_in_profile(
+        self, tmp_path: Path
+    ) -> None:
+        path = tmp_path / "profile.json"
+        path.write_text(
+            json.dumps(self._profile(serial_passed=False)), encoding="utf-8"
+        )
+        with pytest.raises(RuntimeError, match="deterministic failures are not flakes"):
+            snapshot_mod.load_baseline_profile(
+                path,
+                expected_saleor_sha=self._saleor_pin_sha(),
+                expected_frozen_command=TestSaleorFailureDiagnostics._saleor_command(
+                    self
+                ).command,
+            )
+
+    # --- classification behavior ----------------------------------------------
+
+    def test_classified_baseline_failure_passes_with_explicit_evidence(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch_flake_runtime(monkeypatch, rerun_passes=True)
+        result, _ = self._run_saleor(
+            tmp_path, baseline_profile=self._profile()
+        )
+        primary = result["commands"][0]
+        assert primary["passed"] is False, "raw command truth must be preserved"
+        assert primary["exit_code"] == 1
+        assert result["command_passed"] is False
+        classification = result["baseline_classification"]
+        assert classification["status"] == "CLASSIFIED"
+        assert classification["classified"] is True
+        assert sorted(classification["classified_nodeids"]) == sorted(
+            self.FLAKY_NODEIDS
+        )
+        assert result["passed"] is True
+
+    def test_new_nodeid_absent_from_profile_fails_closed(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch_flake_runtime(monkeypatch, rerun_passes=True)
+        new_nodeid = "saleor/graphql/order/tests/test_new.py::test_regression"
+        profile = self._profile(self.FLAKY_NODEIDS)
+        result, _ = self._run_saleor(
+            tmp_path,
+            baseline_profile=profile,
+            lastfailed_nodeids=(*self.FLAKY_NODEIDS, new_nodeid),
+        )
+        classification = result["baseline_classification"]
+        assert classification["status"] == "FAILED_UNCLASSIFIED_NODEIDS"
+        assert classification["unclassified_nodeids"] == [new_nodeid]
+        assert classification["classified"] is False
+        assert result["passed"] is False
+        assert result["command_passed"] is False
+
+    def test_deterministic_serial_rerun_failure_fails_closed(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch_flake_runtime(monkeypatch, rerun_passes=False)
+        result, _ = self._run_saleor(tmp_path, baseline_profile=self._profile())
+        classification = result["baseline_classification"]
+        assert classification["status"] == "FAILED_DETERMINISTIC_SERIAL_FAILURES"
+        assert sorted(classification["deterministic_failures"]) == sorted(
+            self.FLAKY_NODEIDS
+        )
+        assert classification["classified"] is False
+        assert result["passed"] is False
+
+    def test_missing_lastfailed_with_profile_fails_closed(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch_flake_runtime(monkeypatch, rerun_passes=True)
+        result, _ = self._run_saleor(
+            tmp_path,
+            baseline_profile=self._profile(),
+            lastfailed_nodeids=(),
+        )
+        classification = result["baseline_classification"]
+        assert classification["status"] == "NOT_CLASSIFIED_NO_LASTFAILED"
+        assert classification["classified"] is False
+        assert result["passed"] is False
+
+    def test_no_profile_keeps_legacy_fail_closed(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch_flake_runtime(monkeypatch, rerun_passes=True)
+        result, _ = self._run_saleor(tmp_path)
+        assert "baseline_classification" not in result
+        assert result["command_passed"] is False
+        assert result["passed"] is False
+
+    def test_serial_reruns_use_exact_serial_argv(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        calls = self._patch_flake_runtime(monkeypatch, rerun_passes=True)
+        result, _ = self._run_saleor(tmp_path, baseline_profile=self._profile())
+        assert result["passed"] is True
+        reruns = [
+            c for c in calls if "--no-header" in c and any(n in c for n in self.FLAKY_NODEIDS)
+        ]
+        assert len(reruns) == len(self.FLAKY_NODEIDS)
+        for argv in reruns:
+            assert argv[:3] == ["python", "-m", "pytest"]
+            assert argv[3:5] == ["-n", "0"], "policy requires serial (-n 0) reruns"
+            assert argv.count("-m") == 1
+            assert sum(1 for a in argv if str(a).startswith("saleor/")) == 1
+
+    # --- emission mode ---------------------------------------------------------
+
+    def test_emit_mode_writes_profile_and_never_changes_verdict(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch_flake_runtime(monkeypatch, rerun_passes=True)
+        emit_path = tmp_path / "evidence" / "fresh_profile.json"
+        result, _ = self._run_saleor(tmp_path, emit_path=emit_path)
+        assert emit_path.is_file()
+        payload = json.loads(emit_path.read_text(encoding="utf-8"))
+        assert payload["schema"] == snapshot_mod.BASELINE_PROFILE_SCHEMA
+        assert payload["saleor_commit_sha"] == self._saleor_pin_sha()
+        assert payload["frozen_validation_command"] == list(
+            TestSaleorFailureDiagnostics._saleor_command(self).command
+        )
+        assert payload["full_run_exit_code"] == 1
+        assert sorted(payload["failed_nodeids"]) == sorted(self.FLAKY_NODEIDS)
+        assert all(
+            entry["passed"] is True for entry in payload["per_nodeid_serial_rerun"]
+        )
+        assert len(payload["per_nodeid_serial_rerun"]) == len(self.FLAKY_NODEIDS)
+        assert payload["created_utc"]
+        assert payload["profile_source_commit"]
+        # Emission alone never flips the verdict.
+        assert "baseline_classification" not in result
+        assert result["passed"] is False
+
+    def test_emitted_profile_round_trips_through_loader(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch_flake_runtime(monkeypatch, rerun_passes=True)
+        emit_path = tmp_path / "fresh_profile.json"
+        self._run_saleor(tmp_path, emit_path=emit_path)
+        loaded = snapshot_mod.load_baseline_profile(
+            emit_path,
+            expected_saleor_sha=self._saleor_pin_sha(),
+            expected_frozen_command=TestSaleorFailureDiagnostics._saleor_command(
+                self
+            ).command,
+        )
+        assert loaded["failed_count"] == len(self.FLAKY_NODEIDS)
