@@ -1,6 +1,20 @@
 # PILOT-EXEC-01 — Detailed OpenCode Report (pre-execution gates A1–A8)
 
-> **UPDATE (2026-08-24, CURRENT):** the real Kaggle v0.9.19 session FAILED at
+> **UPDATE (2026-08-24 LATEST, CURRENT):** accepted release =
+> **`v0.9.21-pilot-exec-ready`** @ annotated tag peel == artifact source commit ==
+> merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive
+> `dist/pilot-kaggle-upload.zip` SHA-256
+> `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/
+> provenance 0 mismatches; exact-artifact dry-run 48/48; full suite 2370 passed /
+> 33 skipped / 0 failed. v0.9.20 was superseded for Real Pilot launch after the
+> independent audit found the per-cell validation runtime seam (B1 wrong
+> interpreter routing / B2 frozen env discarded / B3 180s timeout below measured
+> runtime); v0.9.21 closes all three and proves target-shaped Gates 1-3 + full
+> no-model preflight GREEN (CI runs 32692489617 / 32694137255). Real Pilot = NOT
+> STARTED; next action = fresh Kaggle v0.9.21 target preflight with this artifact.
+> Report: `reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`.
+>
+> **PRIOR UPDATE (2026-08-24 earlier in the day):** the real Kaggle v0.9.19 session FAILED at
 > the Saleor fast capability gate (Pytest exit 5 = no tests collected; all
 > earlier stages PASS) — **v0.9.19-pilot-exec-ready is REJECTED FOR PILOT
 > LAUNCH**. Root cause: the gate argv concatenated a second `-m pytest` vector

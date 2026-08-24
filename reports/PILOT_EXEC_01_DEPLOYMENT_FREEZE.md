@@ -1,6 +1,6 @@
 # PILOT-EXEC-01 — Deployment Freeze Report
 
-**Date:** 2026-08-24 (**v0.9.20-pilot-exec-ready RELEASED — frozen at merge commit `febda7938db1284da4090d35e980db472149c3ad` via the idempotent two-pass finalize with --verify-source-provenance; archive `dist/pilot-kaggle-upload.zip` SHA-256 `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024`; trust/provenance 0 mismatches; exact-artifact dry-run 48/48; target-shaped no-model preflight GREEN on the released source state (CI run 32676588800). The prior v0.9.19 freeze is REJECTED FOR PILOT LAUNCH by the real Kaggle Saleor fast-gate failure it carried (Pytest exit 5); see `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`.** Prior chain:
+**Date:** 2026-08-24 (**v0.9.21-pilot-exec-ready RELEASED — frozen at merge commit `e308047c9c05f38316d80ce565bac1b51d105bfa` via the idempotent two-pass finalize with --verify-source-provenance; archive `dist/pilot-kaggle-upload.zip` SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; exact-artifact dry-run 48/48; target-shaped Gates 1-3 + full no-model preflight GREEN on the released source state (CI runs 32692489617 / 32694137255). The v0.9.20 freeze is internally trustworthy but was superseded for Real Pilot launch after the independent audit found the per-cell validation runtime parity blockers (B1/B2/B3) — see `reports/V0921_PER_CELL_VALIDATION_RUNTIME_CLOSURE_REPORT.md`. The v0.9.19 freeze is REJECTED FOR PILOT LAUNCH by the real Kaggle Saleor fast-gate failure it carried (Pytest exit 5).** Prior chain:
 **v0.9.19-pilot-exec-ready** (2026-08-19; PostgreSQL admin/application
 bootstrap + partial recovery closure);
 **v0.9.18-pilot-exec-ready** release-only provenance/docs correction;
@@ -10,7 +10,7 @@ bootstrap + partial recovery closure);
 this file superseded freeze chain: v0.9.19 → v0.9.18 → v0.9.16 → v0.9.14 → v0.9.12 → v0.9.10 → v0.9.9 → v0.9.8 → v0.9.7 → v0.9.6
 → v0.9.5 → v0.9.4 → v0.9.3 → v0.9.2 → v0.9.1)
 **Task:** `PILOT-EXEC-01` (release-only provenance/docs correction)
-**Status:** FROZEN at `v0.9.20-pilot-exec-ready` (CURRENT ACCEPTED RELEASE); v0.9.19 and earlier freezes historical
+**Status:** FROZEN at `v0.9.21-pilot-exec-ready` (CURRENT ACCEPTED RELEASE); v0.9.20 (superseded for launch) and earlier freezes historical
 
 > **RELEASE-PROVENANCE CLOSURE + v0.9.11 REJECTION (2026-08-16):** The v0.9.11
 > immutable tag peeled to the merge commit `8801304`, whose notebook is the
