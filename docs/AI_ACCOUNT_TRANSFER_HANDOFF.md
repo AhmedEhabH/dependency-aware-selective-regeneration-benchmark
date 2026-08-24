@@ -16,11 +16,11 @@ superseded — this file wins every contradiction.
 | Closure branch | `fix/pilot-v0920-saleor-preflight-root-closure` (from `origin/main` `aaf80ef`) |
 | Fix set | exact standalone gate argv + fail-fast invariant + exact-argv regression tests (RED/GREEN proven; target-proven on Linux CI run 32650273641: gate PASS, nodeid collected, Todo/django CMS PASS) + substring mock removed + evidence-backed Saleor baseline-flake policy (`pilot_saleor_baseline_flaky_profile.v1`, exact nodeids + serial `-n 0` rerun proof, fail-closed) + target-shaped no-model Linux CI preflight workflow |
 | Accepted release | **`v0.9.21-pilot-exec-ready`** @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive `dist/pilot-kaggle-upload.zip` SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; dry-run 48/48; target-shaped Gates 1-3 + full preflight GREEN (runs 32692489617 / 32694137255) |
-| v0.9.20 status | internally trustworthy, no-model preflight GREEN — superseded for Real Pilot launch by v0.9.21 after the independent audit found B1/B2/B3 (per-cell validation runtime parity blockers) | Full pristine Saleor baseline RESOLVED via Task F case 1: CI run 32672656326 = overall PASS with the full frozen Saleor primary exit 0 in 775.71 s (cluster absent on the target-shaped environment; evidence `reports/target-evidence/run-32672656326/`). Gates remaining: green target-shaped CI run on the final branch state → non-ff merge to main → idempotent re-freeze at the merge commit → dry-run 48/48 → trust/provenance 0 mismatches → annotated tag `v0.9.20-pilot-exec-ready` AT THE MERGE COMMIT |
-| Prior accepted release | `v0.9.19-pilot-exec-ready` @ tag peel/source commit `2305991442a4f965d44bb066bb00c0a459fc395a`; artifact internally GREEN (archive `f7a16858…`) but rejected for launch by the defect above |
+| v0.9.20 status | internally trustworthy, no-model target preflight GREEN — superseded for Real Pilot launch by v0.9.21 after the independent audit found B1/B2/B3 (per-cell validation runtime parity blockers: sys.executable routing for every repository / frozen validation env discarded by FunctionalValidator / hardcoded 180s validation timeout below the measured 775.71s–941.42s Saleor runtime). Full pristine Saleor baseline RESOLVED via Task F case 1: CI run 32672656326 = overall PASS with the full frozen Saleor primary exit 0 in 775.71 s (cluster absent on the target-shaped environment; evidence `reports/target-evidence/run-32672656326/`) |
+| Prior accepted release | `v0.9.19-pilot-exec-ready` @ tag peel/source commit `2305991442a4f965d44bb066bb00c0a459fc395a`; artifact internally GREEN (archive `f7a16858…`) but REJECTED FOR PILOT LAUNCH after the real Kaggle session failed at the Saleor fast capability gate |
 | Real Pilot status | **NOT STARTED** |
 | Exact next action | Fresh Kaggle v0.9.21 target preflight with the exact released artifact (`dist/pilot-kaggle-upload.zip` SHA `62e37746…` + sidecar); if ALL target gates pass → launch the accepted 48-cell Pilot in the SAME session |
-| Known next seam | Per-cell generated-workspace validation runs the full frozen Saleor command under `validation_timeout=180` (`seven_arm_benchmark.py`) — will surface during real Pilot Stage 3; do NOT open inside the v0.9.20 task |
+| Per-cell validation runtime seam | **CLOSED by v0.9.21.** Generated-workspace validation now uses explicit `--validation-python` per-repository interpreters (no sys.executable fallback), carries the frozen repository env into `FunctionalValidator` (parent `os.environ` never mutated), and runs under an explicit bounded `--validation-timeout 1800` on Pilot launch AND resume (separate from the frozen model `--timeout 600`). Target proof: Saleor full primary exit 0 in 941.42s < 1800s (CI run 32692489617) |
 
 Frozen Pilot matrix (unchanged, pre-registered in
 `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md`, DECISION_LOG D025):
@@ -74,7 +74,9 @@ scenario list lives in `configs/pilot.yaml` and must match
 | v0.9.16 | RELEASE-ONLY CLOSURE | no production behavior changes; notebook anchors corrected |
 | v0.9.17 | REJECTED FOR ACCEPTED PILOT LAUNCH | tag/source-commit provenance mismatch (tag peel `28a18e6…` != artifact source_commit `adf72d4…`); the PGDG bootstrap fix itself was GOOD |
 | v0.9.18 | historical (release-only) | provenance/docs correction only; no scientific or production code changes |
-| **v0.9.19** | **ACCEPTED — CURRENT** | PostgreSQL admin/application bootstrap + partial recovery closure (real Kaggle defect fix); trust/provenance GREEN |
+| v0.9.19 | REJECTED FOR PILOT LAUNCH | PostgreSQL admin/application bootstrap + partial recovery closure; artifact internally GREEN (trust/provenance 0 mismatches) but the real Kaggle session failed at the Saleor fast capability gate (Pytest exit 5, no tests collected) |
+| v0.9.20 | superseded for Real Pilot launch | Saleor preflight root-cause closure (exact fast-gate argv, false-green removal); internally trustworthy and target-shaped no-model preflight GREEN (run 32676588800), but an independent audit found the per-cell validation runtime parity blockers B1/B2/B3 — closed in v0.9.21 |
+| **v0.9.21** | **ACCEPTED — CURRENT** | per-cell validation runtime closure: explicit `--validation-python` interpreter routing (B1), frozen env into `FunctionalValidator` (B2), explicit `--validation-timeout 1800` on launch+resume (B3); target-shaped Gates 1–3 + full no-model preflight GREEN (runs `32692489617` / `32694137255`); trust/provenance 0 mismatches; dry-run 48/48 |
 
 ## 5. Recurring errors → permanent guards
 
@@ -141,17 +143,18 @@ weaken one without an explicit new audit.
 
 ## 8. Exact next action
 
-1. Upload the EXACT existing artifact (`dist/pilot-kaggle-upload.zip` +
-   `.sha256`, SHA-256 `f7a16858…`) as ONE fresh Kaggle Dataset; attach the
-   frozen Pilot notebook (`notebooks/pilot_exec_01.ipynb`) and Qwen 14B input;
-   Internet ON; `HF_TOKEN` secret set; confirm mounted model path + HF results
-   repo ID.
-2. Run the **fresh Kaggle v0.9.19 target preflight** (SHA-256 verify, identity/
+1. Upload the EXACT v0.9.21 artifact (`dist/pilot-kaggle-upload.zip` +
+   `.sha256`, SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`)
+   as ONE fresh Kaggle Dataset; attach the frozen Pilot notebook
+   (`notebooks/pilot_exec_01.ipynb`) and Qwen 14B input; Internet ON;
+   `HF_TOKEN` secret set; confirm mounted model path + HF results repo ID.
+2. Run the **fresh Kaggle v0.9.21 target preflight** (SHA-256 verify, identity/
    manifest verify, service bootstrap, bundled 48-cell dry-run, model-load
    preflight).
 3. If ALL target gates pass → **launch the accepted 48-cell Pilot in the same
    session**. Do not resume/reuse any older experiment namespace.
-4. Do NOT open v0.9.20 without real target evidence from the accepted Pilot.
+4. Do NOT launch any Pilot from an artifact older than v0.9.21 (v0.9.19/v0.9.20
+   are not accepted for launch).
 
 ## 9. Source-of-truth hierarchy
 
