@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - "fix/pilot-v0920-saleor-preflight-root-closure"
+      - "fix/pilot-v0921-per-cell-validation-runtime-closure"
   pull_request:
     paths:
       - "scripts/pilot_repo_snapshot.py"
