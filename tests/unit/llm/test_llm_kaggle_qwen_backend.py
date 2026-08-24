@@ -35,11 +35,76 @@ class _FakeCuda:
         return 0
 
 
+class _RecordingSdpaPolicyContext:
+    """Context manager mimicking torch.nn.attention.sdpa_kernel(...)."""
+
+    def __init__(self, recorder: dict[str, Any], backend_names: list[str]) -> None:
+        self._recorder = recorder
+        self._backend_names = backend_names
+
+    def __enter__(self) -> _RecordingSdpaPolicyContext:
+        self._recorder["depth"] += 1
+        self._recorder["active"] = True
+        self._recorder["active_allowed"] = list(self._backend_names)
+        return self
+
+    def __exit__(self, *exc: object) -> None:
+        self._recorder["depth"] -= 1
+        if self._recorder["depth"] <= 0:
+            self._recorder["active"] = False
+            self._recorder["active_allowed"] = []
+
+
+class _FakeSdpaKernelFactory:
+    """Callable mimicking torch.nn.attention.sdpa_kernel."""
+
+    def __init__(self, recorder: dict[str, Any]) -> None:
+        self._recorder = recorder
+
+    def __call__(self, backends: Any) -> _RecordingSdpaPolicyContext:
+        names = [str(getattr(b, "name", b)) for b in backends]
+        self._recorder["calls"].append(names)
+        return _RecordingSdpaPolicyContext(self._recorder, names)
+
+
+class _FakeSDPBackend:
+    FLASH_ATTENTION = "FLASH_ATTENTION"
+    EFFICIENT_ATTENTION = "EFFICIENT_ATTENTION"
+    MATH = "MATH"
+
+
+def _build_fake_torch_nn(recorder: dict[str, Any]) -> types.ModuleType:
+    nn_module = types.ModuleType("torch.nn")
+    attention_module = types.ModuleType("torch.nn.attention")
+    attention_module.SDPBackend = _FakeSDPBackend  # type: ignore[attr-defined]
+    attention_module.sdpa_kernel = _FakeSdpaKernelFactory(recorder)  # type: ignore[attr-defined]
+    nn_module.attention = attention_module  # type: ignore[attr-defined]
+    return nn_module
+
+
+def _install_fake_torch_modules(
+    monkeypatch: pytest.MonkeyPatch,
+    fake_torch: types.ModuleType | None = None,
+) -> types.ModuleType:
+    fake = fake_torch if fake_torch is not None else _FakeTorch()
+    monkeypatch.setitem(sys.modules, "torch", fake)
+    monkeypatch.setitem(sys.modules, "torch.nn", fake.nn)
+    monkeypatch.setitem(sys.modules, "torch.nn.attention", fake.nn.attention)
+    return fake
+
+
 class _FakeTorch(types.ModuleType):
     def __init__(self) -> None:
         super().__init__("torch")
         self.cuda = _FakeCuda()
         self._seed = None
+        self.sdpa_recorder: dict[str, Any] = {
+            "calls": [],
+            "active": False,
+            "active_allowed": [],
+            "depth": 0,
+        }
+        self.nn = _build_fake_torch_nn(self.sdpa_recorder)
 
     def manual_seed(self, seed: int) -> None:
         self._seed = seed
@@ -169,7 +234,8 @@ class _RaisingModel:
 class _FakeTokenizer:
     eos_token_id = 1
 
-    def __init__(self, chat_template_ok: bool = True) -> None:
+    def __init__(self, chat_template_ok: bool = True, token_length: int = 8) -> None:
+        self._token_length = token_length
         self.apply_calls = 0
         self.last_messages: object | None = None
         if chat_template_ok:
@@ -183,7 +249,10 @@ class _FakeTokenizer:
         return "<im_start>user\nprompt<im_end>"
 
     def __call__(self, text: str, return_tensors: str | None = None) -> dict[str, _FakeTensor]:
-        return {"input_ids": _FakeTensor(8), "attention_mask": _FakeTensor(8)}
+        return {
+            "input_ids": _FakeTensor(self._token_length),
+            "attention_mask": _FakeTensor(self._token_length),
+        }
 
     def decode(self, ids: object, skip_special_tokens: bool = True) -> str:
         return "generated output"
@@ -223,7 +292,7 @@ class TestKaggleQwenBackend:
         assert isinstance(backend, LLMBackend)
 
     def _install_fake_torch(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        _install_fake_torch_modules(monkeypatch)
 
     def _inject_fakes(
         self,
@@ -290,7 +359,7 @@ class TestKaggleQwenBackend:
         assert tokenizer.apply_calls == 1
 
     def test_run_probe_seeds_fixed_and_generates(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        _install_fake_torch_modules(monkeypatch)
         backend, _tokenizer = self._inject_fakes(monkeypatch)
         response = backend.run_probe(max_tokens=64, prompt="def add(a, b):\n    return a + b\n")
         assert response.text == "generated output"
@@ -313,7 +382,7 @@ class TestRunProbeEventLoopClosure:
     def _inject_fakes(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> tuple[KaggleQwenBackend, _FakeTokenizer]:
-        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        _install_fake_torch_modules(monkeypatch)
         tokenizer = _FakeTokenizer()
         backend = KaggleQwenBackend()
         backend._loaded = True
@@ -562,7 +631,7 @@ class TestKaggleQuantizationLoad:
     """Quantization-aware model load: BNB int8, BNB NF4, fp16, and fail-fast."""
 
     def _install_runtime_fakes(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        _install_fake_torch_modules(monkeypatch)
         monkeypatch.setitem(sys.modules, "transformers", _FakeTransformers())
         _FakeAutoTokenizer.calls = 0
         _FakeAutoModelForCausalLM.calls = 0
@@ -705,7 +774,7 @@ class TestCleanup:
 
     @pytest.mark.asyncio
     async def test_cleanup_after_successful_call(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        _install_fake_torch_modules(monkeypatch)
         backend = self._install_backend(monkeypatch, _FakeModel(output_length=10))
         gc_calls, empty_calls = self._track_cleanup(monkeypatch)
 
@@ -716,7 +785,7 @@ class TestCleanup:
 
     @pytest.mark.asyncio
     async def test_cleanup_after_oom(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        _install_fake_torch_modules(monkeypatch)
         oom = type("OutOfMemoryError", (RuntimeError,), {"__module__": "torch.cuda"})
         backend = self._install_backend(monkeypatch, _RaisingModel(oom("simulated CUDA OOM")))
         gc_calls, empty_calls = self._track_cleanup(monkeypatch)
@@ -728,7 +797,7 @@ class TestCleanup:
 
     @pytest.mark.asyncio
     async def test_cleanup_after_other_generation_exception(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        _install_fake_torch_modules(monkeypatch)
         backend = self._install_backend(monkeypatch, _RaisingModel(RuntimeError("boom")))
         gc_calls, empty_calls = self._track_cleanup(monkeypatch)
 
@@ -742,7 +811,7 @@ class TestCacheImplementationAlwaysOffloaded:
     """Every generation path must pass cache_implementation='offloaded' to model.generate()."""
 
     def _install_model(self, monkeypatch: pytest.MonkeyPatch) -> _FakeModel:
-        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        _install_fake_torch_modules(monkeypatch)
         model = _FakeModel(output_length=10)
         backend = KaggleQwenBackend()
         backend._loaded = True
@@ -826,7 +895,7 @@ class TestLongContextProbeTokenCalibration:
     """E: Long-context calibration must use actual tokenizer, not char-length."""
 
     def _install_fakes(self, monkeypatch: pytest.MonkeyPatch) -> tuple[_FakeModel, _FakeCalibratingTokenizer]:
-        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        _install_fake_torch_modules(monkeypatch)
         tokenizer = _FakeCalibratingTokenizer(tokens_per_char=1 / 3)
         model = _FakeModel(output_length=512)
         return model, tokenizer
@@ -848,7 +917,7 @@ class TestLongContextProbeTokenCalibration:
     def test_minimal_repeat_count_is_deterministic(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+        _install_fake_torch_modules(monkeypatch)
         tokenizer = _FakeCalibratingTokenizer(tokens_per_char=1 / 5)
         model = _FakeModel(output_length=512)
         backend = KaggleQwenBackend()
@@ -938,6 +1007,9 @@ class TestSingleModelLoad:
                 "checkpoint_quantization_method": "",
                 "model_memory_footprint_bytes": 4000000000,
                 "device_map_summary": "cuda:0",
+                "requested_attn_implementation": "sdpa",
+                "effective_attn_implementation": "sdpa",
+                "sdpa_kernel_policy": "flash_or_efficient_no_math",
                 "gpu_count": 1,
                 "gpu_name": "T4",
                 "gpu_vram_by_device": (gpu_snapshot,),
@@ -956,6 +1028,9 @@ class TestSingleModelLoad:
             "completion_tokens": 64,
             "elapsed_seconds": 0.1,
             "cache_implementation": "offloaded",
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
         })
 
         result = pf_mod.run_kaggle_smoke_preflight(
@@ -965,3 +1040,302 @@ class TestSingleModelLoad:
         )
         assert result.passed is True
         assert load_count == 1
+
+
+class _PolicyProbingModel(_FakeModel):
+    """_FakeModel that records the SDPA policy state at generate() time."""
+
+    def __init__(self, output_length: int, fake_torch: types.ModuleType) -> None:
+        super().__init__(output_length)
+        self._fake_torch = fake_torch
+        self.policy_active_at_generate: bool | None = None
+        self.policy_allowed_at_generate: list[str] = []
+
+    def generate(self, **kwargs: object) -> _FakeTensor:
+        recorder = self._fake_torch.sdpa_recorder
+        self.policy_active_at_generate = bool(recorder["active"])
+        self.policy_allowed_at_generate = list(recorder["active_allowed"])
+        return super().generate(**kwargs)
+
+
+def _assert_canonical_sdpa_policy(
+    calls: list[list[str]],
+    active: bool,
+    allowed_at_generate: list[str],
+) -> None:
+    """The v0.9.22 attention contract, encoded independently of production code.
+
+    A malformed implementation that claims ``sdpa`` but permits only the
+    quadratic math fallback must fail at least one assertion here.
+    """
+    assert calls, "CUDA generation must enter an sdpa_kernel policy context"
+    allowed = set(calls[-1])
+    assert "MATH" not in allowed, f"math fallback permitted: {allowed}"
+    assert allowed & {"FLASH_ATTENTION", "EFFICIENT_ATTENTION"}, (
+        f"no fused/memory-efficient backend permitted: {allowed}"
+    )
+    assert active, "policy must be ACTIVE while model.generate() runs"
+    assert "MATH" not in set(allowed_at_generate)
+
+
+class TestSDPAAttentionContract:
+    """V0.9.22: explicit SDPA + fail-closed fused-kernel policy on CUDA.
+
+    v0.9.21 target evidence: the 12,044-token probe attempted a 21.62 GiB
+    allocation == the full float32 40-head 12044x12044 attention matrix,
+    proving the effective attention path materialized the quadratic math
+    fallback. These tests lock the replacement contract.
+    """
+
+    def _install_backend(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        fake_torch: types.ModuleType,
+    ) -> tuple[KaggleQwenBackend, _PolicyProbingModel]:
+        tokenizer = _FakeTokenizer()
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = tokenizer
+        model = _PolicyProbingModel(output_length=18, fake_torch=fake_torch)
+        backend._model = model
+        return backend, model
+
+    def test_from_pretrained_receives_explicit_sdpa_nf4(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        _install_fake_torch_modules(monkeypatch)
+        monkeypatch.setitem(sys.modules, "transformers", _FakeTransformers())
+        checkpoint = _fourteen_b_checkpoint(tmp_path)
+        backend = KaggleQwenBackend(
+            model_path=str(checkpoint), quantization_mode="bnb-nf4"
+        )
+        backend._load_model()
+        assert _FakeAutoModelForCausalLM.last_kwargs["attn_implementation"] == "sdpa"
+        assert _FakeAutoModelForCausalLM.last_kwargs["device_map"] == "auto"
+
+    @pytest.mark.parametrize("mode", ["bnb-int8", "fp16"])
+    def test_from_pretrained_receives_explicit_sdpa_other_modes(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path, mode: str
+    ) -> None:
+        _install_fake_torch_modules(monkeypatch)
+        monkeypatch.setitem(sys.modules, "transformers", _FakeTransformers())
+        checkpoint = _fourteen_b_checkpoint(tmp_path)
+        backend = KaggleQwenBackend(model_path=str(checkpoint), quantization_mode=mode)
+        backend._load_model()
+        assert _FakeAutoModelForCausalLM.last_kwargs["attn_implementation"] == "sdpa"
+
+    def test_cuda_generation_runs_inside_fused_no_math_policy(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        fake_torch = _install_fake_torch_modules(monkeypatch)
+        backend, model = self._install_backend(monkeypatch, fake_torch)
+        response = backend.run_probe(max_tokens=16, prompt="def add(a, b):\n    return a + b\n")
+        assert response.text == "generated output"
+        recorder = fake_torch.sdpa_recorder
+        _assert_canonical_sdpa_policy(
+            recorder["calls"],
+            # The context has been exited by the time we assert; the recorded
+            # call list and the state captured INSIDE generate are the evidence.
+            model.policy_active_at_generate or False,
+            model.policy_allowed_at_generate,
+        )
+
+    def test_generate_contract_matches_probe_contract(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        import asyncio
+
+        fake_torch = _install_fake_torch_modules(monkeypatch)
+        backend, model = self._install_backend(monkeypatch, fake_torch)
+        asyncio.run(backend.generate("write code", max_tokens=16))
+        recorder = fake_torch.sdpa_recorder
+        _assert_canonical_sdpa_policy(
+            recorder["calls"],
+            model.policy_active_at_generate or False,
+            model.policy_allowed_at_generate,
+        )
+
+    def test_non_cuda_generation_preserves_current_behavior(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        class _CpuCuda(_FakeCuda):
+            def is_available(self) -> bool:
+                return False
+
+        fake_torch = _install_fake_torch_modules(monkeypatch)
+        fake_torch.cuda = _CpuCuda()  # type: ignore[assignment]
+        backend, _model = self._install_backend(monkeypatch, fake_torch)
+        response = backend.run_probe(max_tokens=16, prompt="def add(a, b):\n    return a + b\n")
+        assert response.text == "generated output"
+        assert fake_torch.sdpa_recorder["calls"] == [], (
+            "non-CUDA execution must not require the CUDA kernel policy"
+        )
+
+    def test_missing_sdpa_api_on_cuda_fails_closed(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """CUDA runtime without torch.nn.attention must FAIL, never fall back."""
+        fake_torch = _FakeTorch()
+        fake_torch.nn = types.ModuleType("torch.nn")  # no .attention attribute
+        monkeypatch.setitem(sys.modules, "torch", fake_torch)
+        monkeypatch.setitem(sys.modules, "torch.nn", fake_torch.nn)  # type: ignore[attr-defined]
+        tokenizer = _FakeTokenizer()
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = tokenizer
+        backend._model = _FakeModel(output_length=10)
+        with pytest.raises(ModelBackendError, match="sdpa_kernel"):
+            backend.run_probe(max_tokens=8, prompt="def add():\n    pass\n")
+
+    def test_math_only_sdpa_claim_does_not_satisfy_the_contract(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """RED discriminator: a 'sdpa' claim that permits only MATH must fail."""
+        fake_torch = _install_fake_torch_modules(monkeypatch)
+
+        class _MathOnlyFactory(_FakeSdpaKernelFactory):
+            def __call__(self, backends: Any) -> _RecordingSdpaPolicyContext:
+                return super().__call__([_FakeSDPBackend.MATH])
+
+        fake_torch.nn.attention.sdpa_kernel = _MathOnlyFactory(fake_torch.sdpa_recorder)  # type: ignore[attr-defined]
+        backend, model = self._install_backend(monkeypatch, fake_torch)
+        backend.run_probe(max_tokens=8, prompt="def add():\n    pass\n")
+        # The malformed policy WAS actually entered during generation...
+        assert fake_torch.sdpa_recorder["calls"][-1] == ["MATH"]
+        # ...and the contract STILL rejects it.
+        with pytest.raises(AssertionError):
+            _assert_canonical_sdpa_policy(
+                fake_torch.sdpa_recorder["calls"],
+                model.policy_active_at_generate or False,
+                model.policy_allowed_at_generate,
+            )
+
+
+class TestAttentionEvidenceProperties:
+    """Task C: requested/effective/policy attention evidence on the backend."""
+
+    def test_requested_and_policy_constants(self) -> None:
+        from benchmark.llm.kaggle_qwen_backend import (
+            KAGGLE_ATTENTION_IMPLEMENTATION,
+            KAGGLE_SDPA_KERNEL_POLICY,
+        )
+
+        backend = KaggleQwenBackend()
+        assert KAGGLE_ATTENTION_IMPLEMENTATION == "sdpa"
+        assert KAGGLE_SDPA_KERNEL_POLICY == "flash_or_efficient_no_math"
+        assert backend.requested_attention_implementation == "sdpa"
+        assert backend.sdpa_kernel_policy == "flash_or_efficient_no_math"
+
+    def test_effective_attention_empty_before_load(self) -> None:
+        backend = KaggleQwenBackend()
+        assert backend.effective_attention_implementation == ""
+
+    def test_effective_attention_reads_model_config(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        _install_fake_torch_modules(monkeypatch)
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = _FakeTokenizer()
+        model = _FakeModel(output_length=8)
+        model.config = types.SimpleNamespace(_attn_implementation="sdpa")  # type: ignore[attr-defined]
+        backend._model = model
+        assert backend.effective_attention_implementation == "sdpa"
+
+    def test_long_context_probe_reports_attention_evidence(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from benchmark.llm.kaggle_qwen_backend import (
+            KAGGLE_ATTENTION_IMPLEMENTATION,
+            KAGGLE_SDPA_KERNEL_POLICY,
+        )
+
+        _install_fake_torch_modules(monkeypatch)
+        model = _FakeModel(output_length=512)
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = _FakeCalibratingTokenizer()
+        model.config = types.SimpleNamespace(_attn_implementation="sdpa")  # type: ignore[attr-defined]
+        backend._model = model
+        evidence = backend.run_long_context_probe(target_prompt_tokens=100, max_tokens=10)
+        assert evidence["requested_attn_implementation"] == KAGGLE_ATTENTION_IMPLEMENTATION
+        assert evidence["effective_attn_implementation"] == "sdpa"
+        assert evidence["sdpa_kernel_policy"] == KAGGLE_SDPA_KERNEL_POLICY
+
+
+class TestOOMDiagnosisLongPrompt:
+    """Task D: long-prompt OOM must diagnose prompt-prefill attention, not the
+    completion budget. Target evidence: v0.9.21 failed a max_tokens=64 probe
+    yet the old message advised reducing max_completion_tokens_per_call."""
+
+    def _oom_backend(
+        self, monkeypatch: pytest.MonkeyPatch, token_length: int
+    ) -> KaggleQwenBackend:
+        _install_fake_torch_modules(monkeypatch)
+        oom = type("OutOfMemoryError", (RuntimeError,), {"__module__": "torch.cuda"})
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = _FakeTokenizer(token_length=token_length)
+        backend._model = _RaisingModel(oom("CUDA out of memory. Tried to allocate 21.62 GiB"))
+        return backend
+
+    def test_long_prompt_oom_reports_prefill_attention_not_completion_cap(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from benchmark.llm.kaggle_qwen_backend import LONG_PROMPT_PREFILL_OOM_TOKEN_THRESHOLD
+
+        backend = self._oom_backend(monkeypatch, token_length=12044)
+        assert LONG_PROMPT_PREFILL_OOM_TOKEN_THRESHOLD <= 12044
+        with pytest.raises(ModelBackendError) as exc_info:
+            backend.run_long_context_probe(target_prompt_tokens=12000, max_tokens=64)
+        message = str(exc_info.value)
+        assert "prompt_tokens=12044" in message
+        assert "requested_completion_tokens=64" in message
+        lowered = message.lower()
+        assert "prefill" in lowered
+        assert "attention implementation" in lowered
+        assert "flash_or_efficient_no_math" in message
+        assert "free_gib=" in message
+        assert "Reduce max_completion_tokens_per_call" not in message
+        assert exc_info.value.__cause__ is not None
+
+    def test_short_prompt_oom_keeps_completion_advice(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        backend = self._oom_backend(monkeypatch, token_length=8)
+        with pytest.raises(ModelBackendError) as exc_info:
+            backend.run_probe(max_tokens=1024, prompt="short")
+        message = str(exc_info.value)
+        assert "Reduce max_completion_tokens_per_call" in message
+        assert exc_info.value.__cause__ is not None
+
+
+class TestPreservedMemoryFixesV0922:
+    """Task E/F regression guards: no prior memory fix may regress."""
+
+    def test_transformers_pin_remains_4_57_6(self) -> None:
+        from benchmark.execution.preflight import _REQUIRED_IMPORTS
+
+        assert ("transformers", "transformers", "transformers", "4.57.6") in _REQUIRED_IMPORTS
+
+    def test_long_context_gate_constants_unchanged(self) -> None:
+        from benchmark.execution.preflight import (
+            LONG_CONTEXT_MAX_TOKENS,
+            LONG_CONTEXT_TARGET_PROMPT_TOKENS,
+        )
+
+        assert LONG_CONTEXT_TARGET_PROMPT_TOKENS == 12000
+        assert LONG_CONTEXT_MAX_TOKENS == 64
+
+    def test_offloaded_cache_constant_unchanged(self) -> None:
+        from benchmark.llm.kaggle_qwen_backend import KAGGLE_CACHE_IMPLEMENTATION
+
+        assert KAGGLE_CACHE_IMPLEMENTATION == "offloaded"
+
+    def test_nf4_load_config_unchanged(self) -> None:
+        from benchmark.llm.kaggle_qwen_backend import NF4_LOAD_CONFIG
+
+        assert NF4_LOAD_CONFIG == {
+            "load_in_4bit": True,
+            "bnb_4bit_quant_type": "nf4",
+            "bnb_4bit_compute_dtype": "float16",
+            "bnb_4bit_use_double_quant": True,
+        }
