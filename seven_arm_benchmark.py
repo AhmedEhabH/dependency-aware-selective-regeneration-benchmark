@@ -865,6 +865,29 @@ def parse_args() -> argparse.Namespace:
         help="Shell command for functional validation. Overrides manifest discovery.",
     )
     parser.add_argument(
+        "--validation-python",
+        action="append",
+        default=[],
+        metavar="repo_id=path",
+        help=(
+            "Explicit per-repository validation interpreter (repeatable). For "
+            "real Pilot runs every selected repository with a frozen validation "
+            "contract MUST have one before model initialization; missing "
+            "mappings fail closed."
+        ),
+    )
+    parser.add_argument(
+        "--validation-timeout",
+        type=int,
+        default=None,
+        help=(
+            "Per-cell functional-validation subprocess budget in seconds "
+            "(positive integer; default keeps the legacy 180s compatibility "
+            "value). The frozen Pilot launch passes 1800 explicitly. This is "
+            "NOT the scientific/model --timeout."
+        ),
+    )
+    parser.add_argument(
         "--protocol-version",
         type=str,
         default="1.0",
@@ -1240,6 +1263,63 @@ def _make_run_id(
     return f"{scenario_id}_{strategy_name}_rep{rep}_{suffix}"
 
 
+def parse_validation_python_args(items: list[str]) -> dict[str, str]:
+    """Parse repeatable ``--validation-python repo_id=path`` values fail-closed.
+
+    v0.9.21 (B1): duplicate repository keys, empty repository ids/paths, or
+    malformed items abort before any execution; there is never a silent
+    ``sys.executable`` fallback for mapped Pilot repositories.
+    """
+    mapping: dict[str, str] = {}
+    for item in items:
+        repo_id, sep, path = item.partition("=")
+        if not sep or not repo_id.strip() or not path.strip():
+            raise ValueError(
+                f"invalid --validation-python value {item!r}: expected repo_id=path"
+            )
+        key = repo_id.strip()
+        if key in mapping:
+            raise ValueError(f"duplicate --validation-python repository: {key!r}")
+        mapping[key] = path.strip()
+    return mapping
+
+
+def resolve_frozen_validation_runtime(
+    repo_id: str,
+    frozen: Any,
+    validation_python: str,
+) -> tuple[list[str], dict[str, str]]:
+    """Resolve one frozen validation runtime for generated-workspace validation.
+
+    v0.9.21 parity contract (B1/B2): the command MUST start with the explicit
+    per-repository interpreter provisioned by the notebook preflight (never
+    ``sys.executable``), and the frozen per-repository environment from
+    ``benchmark_data/manifests/pilot_validation_commands.yaml`` is carried
+    verbatim into the validation subprocess. Fails closed on a missing mapping
+    or a non-existent interpreter path.
+    """
+    candidate = (validation_python or "").strip()
+    if not candidate:
+        raise RuntimeError(
+            f"missing --validation-python mapping for repository '{repo_id}'; "
+            "the Pilot validation contract requires an explicit "
+            "per-repository validation interpreter (no silent sys.executable "
+            "fallback)"
+        )
+    if not Path(candidate).is_file():
+        raise RuntimeError(
+            f"--validation-python interpreter for '{repo_id}' does not exist: "
+            f"{candidate}"
+        )
+    argv = list(frozen.resolve_interpreter(candidate))
+    if not argv or argv[0] != candidate:
+        raise RuntimeError(
+            f"frozen validation command for '{repo_id}' does not start with "
+            f"the provided interpreter {candidate!r}: {argv!r}"
+        )
+    return argv, dict(frozen.env_dict())
+
+
 def _stage_and_smoke_run(
     data_dir: Path,
     workspace_dir: Path,
@@ -1331,6 +1411,8 @@ def _run_single_scenario_strategy(
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
     validation_command: list[str] | None = None,
+    validation_env: dict[str, str] | None = None,
+    validation_timeout: int | None = None,
     max_tokens: int = 0,
     active_snapshot_root: str | Path | None = None,
     snapshot_storage_root: str | Path | None = None,
@@ -1386,7 +1468,10 @@ def _run_single_scenario_strategy(
         dry_run=dry_run,
         enable_regeneration=enable_regen,
         validation_command=validation_command,
-        validation_timeout=180,
+        validation_env=dict(validation_env or {}),
+        validation_timeout=(
+            validation_timeout if validation_timeout is not None else 180
+        ),
         active_snapshot_root=str(active_snapshot_root) if active_snapshot_root else None,
         editable_artifact_paths=editable_artifact_paths,
         canonical_project_root=Path(__file__).resolve().parent,
@@ -1781,6 +1866,34 @@ def main() -> int:
     if args.timeout == 0 and profile.timeout_seconds > 0:
         args.timeout = profile.timeout_seconds
 
+    # ---- Validation-runtime contract (v0.9.21 B1/B2/B3) ---------------------
+    # Fail closed BEFORE the scientific execution plan is created or any model
+    # call can be made: mapping syntax, positive timeout, and (for non-dry
+    # runs) per-repository interpreter existence are all verified here.
+    try:
+        _validation_pythons = parse_validation_python_args(list(args.validation_python))
+    except ValueError as exc:
+        logger.error("%s", exc)
+        return 1
+    if args.validation_timeout is not None and args.validation_timeout <= 0:
+        logger.error(
+            "--validation-timeout must be a positive integer, got %s",
+            args.validation_timeout,
+        )
+        return 1
+    resolved_validation_timeout = (
+        args.validation_timeout if args.validation_timeout is not None else 180
+    )
+    if not args.dry_run:
+        for repo_key, interpreter in _validation_pythons.items():
+            if not Path(interpreter).is_file():
+                logger.error(
+                    "--validation-python interpreter for '%s' does not exist: %s",
+                    repo_key,
+                    interpreter,
+                )
+                return 1
+
     source_commit = _get_source_commit(
         explicit_commit=args.source_commit,
         explicit_tag=args.source_tag,
@@ -2134,6 +2247,7 @@ def main() -> int:
     # mapping FAILS CLOSED (no single-repository behavior, no silent skip).
     _manifest_collection = None
     _validation_commands: dict[str, list[str]] = {}
+    _validation_envs: dict[str, dict[str, str]] = {}
     if not args.dry_run:
         from benchmark.repositories.loader import RepositoryLoader
         from benchmark.repositories.validation_commands import load_validation_commands
@@ -2172,10 +2286,26 @@ def main() -> int:
                 if _frozen_validation_commands is not None:
                     frozen = _frozen_validation_commands.get(repo_id)
                     if frozen is not None:
-                        resolved = list(frozen.resolve_interpreter(sys.executable))
+                        # v0.9.21 (B1/B2): generated-workspace validation MUST
+                        # use the same provisioned per-repository interpreter
+                        # and frozen env proven by the pristine preflight.
+                        try:
+                            resolved, resolved_env = resolve_frozen_validation_runtime(
+                                repo_id,
+                                frozen,
+                                _validation_pythons.get(repo_id, ""),
+                            )
+                        except RuntimeError as exc:
+                            logger.error(
+                                "%s Aborting benchmark before model initialization.",
+                                exc,
+                            )
+                            return 1
+                        _validation_envs[repo_id] = resolved_env
                 if resolved is None and _manifest_collection is not None:
                     # Fallback for non-Pilot repositories: canonical manifest
-                    # test_discovery (kept for profiles outside the frozen map).
+                    # test_discovery (kept for profiles outside the frozen map;
+                    # legacy behavior preserved — no frozen contract exists).
                     manifest = _manifest_collection.get_manifest(repo_id)
                     if manifest and manifest.test_discovery.strip():
                         resolved = shlex.split(manifest.test_discovery)
@@ -2602,6 +2732,7 @@ def main() -> int:
         arm_validation_command = _validation_commands.get(
             repository_id, _validation_commands.get(strategy_name)
         )
+        arm_validation_env = _validation_envs.get(repository_id, {})
         arm_active_snapshot_root = _active_snapshot_roots.get(repository_id)
         record_dict, _ = _run_single_scenario_strategy(
             scenario_id=scenario_id,
@@ -2619,6 +2750,8 @@ def main() -> int:
             openrouter_model=args.openrouter_model,
             openrouter_timeout=args.openrouter_timeout,
             validation_command=arm_validation_command,
+            validation_env=arm_validation_env,
+            validation_timeout=resolved_validation_timeout,
             max_tokens=max_tokens,
             active_snapshot_root=arm_active_snapshot_root,
             snapshot_storage_root=workspace_dir / "snapshots",
