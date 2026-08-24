@@ -7,12 +7,11 @@
 
 | # | Item | Status |
 |---|---|---|
-| 1 | Accepted release **v0.9.19-pilot-exec-ready** @ tag peel/source commit `2305991442a4f965d44bb066bb00c0a459fc395a`; artifact trust/provenance GREEN | DONE (artifact) — **REJECTED FOR PILOT LAUNCH 2026-08-24** (real Kaggle Saleor fast-gate Pytest exit 5) |
-| 2 | v0.9.20 root-cause closure: exact gate argv fix + invariant + exact-argv regression tests (RED/GREEN proven; target-proven on Linux CI run 32650273641) + false-green mock removed + evidence-backed baseline-flake policy + target-shaped CI preflight workflow | DONE on branch `fix/pilot-v0920-saleor-preflight-root-closure` |
-| 3 | Full pristine Saleor baseline resolved (Task F case 1): CI run 32672656326 = overall PASS, full frozen Saleor primary exit 0 in 775.71 s (cluster absent on target-shaped env; evidence tracked) | DONE |
-| 4 | Release finalization: green target-shaped CI run on final branch state, bump release constants + freeze at merge commit, dry-run 48/48, trust/provenance 0 mismatches, non-ff merge to main, push, annotated tag `v0.9.20-pilot-exec-ready` at the merge commit | PENDING (gated on final-state CI run) |
-| 5 | Real Pilot (accepted 48-cell) | NOT STARTED |
-| 6 | Known next integration seam (documented, do not open inside this task): per-cell generated-workspace validation resolves the full frozen Saleor command under `validation_timeout=180` (`seven_arm_benchmark.py`) — will surface during the real Pilot Stage 3 | OPEN (next task input) |
+| 1 | **RELEASED `v0.9.20-pilot-exec-ready`** @ annotated tag peel == artifact source commit == merge `febda7938db1284da4090d35e980db472149c3ad`; archive SHA-256 `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024`; trust/provenance 0 mismatches; target-shaped no-model preflight GREEN (run 32676588800); dry-run 48/48; full suite 2346 passed / 33 skipped / 0 failed | DONE |
+| 2 | v0.9.19 REJECTED FOR PILOT LAUNCH (real Kaggle Saleor fast-gate Pytest exit 5) — root cause + false-green closed in v0.9.20 (exact argv, invariant, RED/GREEN tests, exact-command mock validation, armed-if-evidenced baseline-flake policy, target-shaped CI gate) | DONE |
+| 3 | Fresh Kaggle v0.9.20 target preflight with the exact released artifact | **NEXT ACTION** |
+| 4 | Launch accepted 48-cell Pilot in the same session if all target gates pass | PENDING (gated on #3) |
+| 5 | Known next seam (documented; do not open silently): per-cell generated-workspace validation runs the full frozen Saleor command under `validation_timeout=180` (`seven_arm_benchmark.py`) — will surface during real Pilot Stage 3 | OPEN (next task input) |
 
 Frozen matrix reminder: Qwen2.5-Coder-14B-Instruct / bnb-nf4 / 600 s uniform
 timeout / 12 scenarios / 2 strategies / 2 repetitions = 48 cells.

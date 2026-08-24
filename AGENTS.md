@@ -36,37 +36,35 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-> **CURRENT TRUTH (2026-08-24, v0.9.20 root-cause closure in progress):** the
-> real Kaggle v0.9.19 run FAILED at the Saleor fast capability gate (Pytest
-> exit 5 = no tests collected; services/env/Todo/django CMS all PASS) —
-> `v0.9.19-pilot-exec-ready` is REJECTED FOR PILOT LAUNCH. Root cause: the gate
+> **CURRENT TRUTH (2026-08-24, v0.9.20 RELEASED): accepted release =
+> `v0.9.20-pilot-exec-ready` @ annotated tag peel == artifact source commit ==
+> merge `febda7938db1284da4090d35e980db472149c3ad`; archive
+> `dist/pilot-kaggle-upload.zip` SHA-256
+> `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024` (+ sidecar);
+> trust/provenance 0 mismatches; dry-run 48/48; full suite 2346 passed /
+> 33 skipped / 0 failed. The real Kaggle v0.9.19 run FAILED at the Saleor fast
+> capability gate (Pytest exit 5 = no tests collected; services/env/Todo/
+> django CMS all PASS) — v0.9.19 REJECTED FOR PILOT LAUNCH. Root cause: the gate
 > argv concatenated a second `-m pytest` vector onto the already-resolved full
 > primary command (Pytest read `-m pytest` as a marker expression). Local tests
-> were false-green via a substring-based fake runner. Fix + exact-argv
-> regression test (RED/GREEN proven) + evidence-backed Saleor baseline-flake
-> policy (`pilot_saleor_baseline_flaky_profile.v1`, exact nodeids + serial-rerun
-> proof, fail-closed) + target-shaped Linux CI preflight gate are complete on
-> branch `fix/pilot-v0920-saleor-preflight-root-closure`; CI run 32650273641
-> proved the fixed gate on real Linux (gate PASS, nodeid collected,
-> Todo/django CMS PASS), and run 32672656326 then proved the COMPLETE no-model
-> preflight green (overall=PASS; full pristine Saleor primary exit 0 in
-> 775.71 s — Task F case 1: the documented flake cluster is absent on the
-> target-shaped environment; the baseline-flake policy stays implemented,
-> tested, and arms automatically if future evidence ever requires it).
-> v0.9.20 tag NOT created yet — only after a fully green target-shaped CI run
-> on the final branch state, merge to main, idempotent re-freeze at the merge
-> commit, dry-run 48/48 and trust/provenance 0 mismatches. Report:
+> were false-green via a substring-based fake runner. Closed in v0.9.20: exact
+> standalone gate argv + fail-fast invariant + exact-argv regression tests
+> (RED/GREEN proven; target-proven on Linux CI runs 32650273641 / 32672656326 /
+> 32676588800 — the last is the fully green no-model preflight on the released
+> source state, pristine Saleor primary exit 0 in 775.71 s) + substring mock
+> replaced by exact-command validation + evidence-backed baseline-flake policy
+> (`pilot_saleor_baseline_flaky_profile.v1`, armed-if-evidenced) +
+> `.github/workflows/pilot-preflight-target-shape.yml`. Stable-tag policy:
+> `*-pilot-exec-ready` means all no-model preflight gates passed in
+> target-shaped Linux CI. Report:
 > `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`.
 >
-> **PRIOR TRUTH (2026-08-22, HISTORICAL for launch purposes):** accepted release = `v0.9.19-pilot-exec-ready`;
-> release tag peel == artifact source commit = `2305991442a4f965d44bb066bb00c0a459fc395a`;
-> `main` is a post-tag docs/evidence child of that merge; v0.9.19 artifact
-> trust/provenance is GREEN (artifact internally valid — but its Saleor gate
-> argv defect was exposed by the real Kaggle session above).
-> Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.
+> **PRIOR TRUTH (HISTORICAL):** accepted source tag `v0.9.19-pilot-exec-ready`;
+> tag peel/artifact source commit `2305991442a4f965d44bb066bb00c0a459fc395a`
+> (REJECTED FOR PILOT LAUNCH 2026-08-24 by the defect above).
 
-- **Accepted release/tag (CURRENT):** `v0.9.19-pilot-exec-ready` @ tag peel/source commit `2305991442a4f965d44bb066bb00c0a459fc395a` — REJECTED FOR PILOT LAUNCH 2026-08-24 (real Kaggle Saleor fast-gate exit 5; see CURRENT TRUTH)
-- **v0.9.20 status:** CANDIDATE (root-cause closure branch; stable tag gated on target-shaped CI green + merge + freeze + dry-run 48/48 + trust/provenance)
+- **Accepted release/tag (CURRENT):** `v0.9.20-pilot-exec-ready` @ tag peel == artifact source commit == merge `febda7938db1284da4090d35e980db472149c3ad`; archive `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024`; trust/provenance 0 mismatches; target-shaped CI green (run 32676588800)
+- **v0.9.19 status:** REJECTED FOR PILOT LAUNCH 2026-08-24 — real Kaggle Saleor fast-gate Pytest exit 5 (artifact itself was internally GREEN; superseded by v0.9.20)
 - **v0.9.18 status:** RELEASE-ONLY CLOSURE (release-only provenance/docs correction; no scientific or production code changes) — historical
 - **v0.9.17 status:** REJECTED FOR ACCEPTED PILOT LAUNCH — tag/source-commit release-provenance mismatch (immutable tag peel `28a18e6...` != artifact source_commit `adf72d4...`; the artifact itself is internally trustworthy and the PGDG fix is GOOD)
 - **v0.9.16 status:** RELEASE-ONLY CLOSURE (no production behavior changes; notebook anchors corrected) — historical
