@@ -1174,7 +1174,26 @@ class TestSDPAAttentionContract:
     def test_missing_sdpa_api_on_cuda_fails_closed(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        """CUDA runtime without torch.nn.attention must FAIL, never fall back."""
+        """CUDA runtime without torch.nn.attention must FAIL, never fall back.
+
+        Order-independent regression guard: a previously imported
+        ``torch.nn.attention`` child module can linger in ``sys.modules``
+        from an earlier test. The cached child must be dropped before the
+        fake no-attention runtime is installed, otherwise the lazy import in
+        ``_sdpa_kernel_policy_context`` is satisfied from the cache and the
+        fail-closed contract silently degrades.
+        """
+        cached_attention = types.ModuleType("torch.nn.attention")
+        cached_attention.SDPBackend = _FakeSDPBackend  # type: ignore[attr-defined]
+        cached_recorder: dict[str, Any] = {
+            "calls": [],
+            "active": False,
+            "active_allowed": [],
+            "depth": 0,
+        }
+        cached_attention.sdpa_kernel = _FakeSdpaKernelFactory(cached_recorder)  # type: ignore[attr-defined]
+        monkeypatch.setitem(sys.modules, "torch.nn.attention", cached_attention)
+        monkeypatch.delitem(sys.modules, "torch.nn.attention", raising=False)
         fake_torch = _FakeTorch()
         fake_torch.nn = types.ModuleType("torch.nn")  # no .attention attribute
         monkeypatch.setitem(sys.modules, "torch", fake_torch)
