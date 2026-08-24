@@ -66,17 +66,26 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 > 12000/64 gate. RED/GREEN proven: 12 backend + 18 preflight contract tests failed
 > against v0.9.21 code before the fix. Full suite **2407 passed / 33 skipped / 0
 > failed**; dry-run pilot profile 48/48 (unique IDs, 0 model calls, 0 tokens). Phase 2 release
-> mechanics COMPLETE: non-ff merge → main `4827045fce96eb4caa3645e3cf3c8434dca2a1a8` (pushed);
-> anchors frozen for planned `v0.9.22-pilot-exec-ready` via the idempotent two-pass finalizer with
+> mechanics COMPLETE, superseded once by the candidate consistency closure (PILOT-EXEC-01,
+> branch `fix/pilot-v0922-candidate-consistency-closure`, non-ff merge → main
+> `ba08392552545baa15c10ae5db2e95ce7496a720` pushed; NO scientific/runtime code delta):
+> four stale v0.9.21 release-test constants aligned to the planned tag, order-independent
+> missing-SDPA-API test isolation (pre-populated `torch.nn.attention` regression condition,
+> RED/GREEN proven), untracked generated dry-run dirs removed after evidence verification;
+> post-correction full suite **2407 passed / 33 skipped / 0 failed** (2440 collected) with the
+> real expanded-artifact simulation re-enabled and passing; anchors frozen for planned
+> `v0.9.22-pilot-exec-ready` at the new merge via the idempotent two-pass finalizer with
 > `--verify-source-provenance` (0 mismatches; `reports/pilot_notebook_trust_freeze.json`);
 > exact candidate artifact `dist/pilot-kaggle-upload.zip` SHA-256
-> `9182ea2bb091f785ff325a1355caa5bb0f57283764215059092970bbd8014974` (+ sidecar verified) with
-> exact-artifact dry-run 48/48. NO stable
+> `3fd986262936972a6f12adbae21e844adef488dfd76ef0e4b2e6e434b2aa65b3` (+ sidecar verified) with
+> exact-artifact dry-run 48/48 (repos 16/16/16, strategies 24/24, reps 24/24, new source commit
+> in every record). Historical first-freeze identity: merge `4827045fce96eb4caa3645e3cf3c8434dca2a1a8`,
+> artifact `9182ea2bb091f785ff325a1355caa5bb0f57283764215059092970bbd8014974`. NO stable
 > tag exists yet: per the one-shot flow the exact candidate artifact is built from the
 > merge commit and the real 2x T4 Kaggle model preflight (same 12k target, same 64-token
 > probe) is MANDATORY before creating `v0.9.22-pilot-exec-ready`; if the Kaggle proof
 > fails, return to the SAME v0.9.22 task (never spawn v0.9.23). Report:
-> `reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md`.
+> `reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md` (Section 7 = consistency audit).
 >
 > **PRIOR TRUTH (2026-08-24, HISTORICAL): accepted release =
 > `v0.9.21-pilot-exec-ready` @ annotated tag peel == artifact source commit ==

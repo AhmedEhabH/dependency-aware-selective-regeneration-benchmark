@@ -90,23 +90,39 @@ constants.
 
 ## 4. Release mechanics (COMPLETE except the mandatory Kaggle proof)
 
-- Non-fast-forward merge of the branch to `main`: merge commit
-  `4827045fce96eb4caa3645e3cf3c8434dca2a1a8` (== `origin/main`, pushed). The
-  anchor-freeze notebook commit (`806ee7e`) rode on the branch so the anchored
-  notebook is inside the tagged tree (V0921 pattern); an earlier untagged
-  pre-freeze merge (`b622f58`) was superseded by this final merge.
+> **SUPERSEDED CANDIDATE IDENTITY:** the first candidate anchor freeze rode on
+> merge `4827045fce96eb4caa3645e3cf3c8434dca2a1a8` with artifact
+> `9182ea2bb091f785ff325a1355caa5bb0f57283764215059092970bbd8014974`; that
+> identity is HISTORICAL. The current exact candidate is the consistency
+> closure below.
+
+### Final candidate — consistency closure (2026-08-24)
+
+- Non-fast-forward merge of `fix/pilot-v0922-candidate-consistency-closure` to
+  `main`: merge commit `ba08392552545baa15c10ae5db2e95ce7496a720`
+  (== `origin/main`, pushed). Expected scientific/runtime code delta vs the
+  superseded candidate: NONE (tests + release-test constants only).
+- Candidate consistency audit (see Section 7): four stale release-test
+  constants corrected; one order-dependence test-isolation fix; working-tree
+  hygiene restored; full suite **2407 passed / 33 skipped / 0 failed**
+  (2440 collected); focused integration 161 passed including the re-enabled
+  real expanded-artifact simulation.
 - Anchors frozen for the PLANNED tag `v0.9.22-pilot-exec-ready` at
-  `4827045fce96eb4caa3645e3cf3c8434dca2a1a8` via the idempotent two-pass
+  `ba08392552545baa15c10ae5db2e95ce7496a720` via the idempotent two-pass
   finalizer with `--verify-source-provenance`: embedded trust validation +
   source-provenance gate **0 mismatches** (freeze evidence
-  `reports/pilot_notebook_trust_freeze.json`; code_manifest_sha256 updated to
-  `3c52b6200d8c1f2c80999ee09d1af0211adfaae71c3785c574737f606e0872a6`).
+  `reports/pilot_notebook_trust_freeze.json`; bundled notebook anchors were
+  already correct and required no change).
 - Exact candidate artifact built from the merge commit:
   `dist/pilot-kaggle-upload.zip` SHA-256
-  `9182ea2bb091f785ff325a1355caa5bb0f57283764215059092970bbd8014974`
+  `3fd986262936972a6f12adbae21e844adef488dfd76ef0e4b2e6e434b2aa65b3`
   (+ `.sha256` sidecar, verified byte-equal).
-- Exact-artifact dry-run gate: **48/48 succeeded / 48 unique IDs / 0 model
-  calls / 0 tokens** from `dist/pilot-kaggle-upload/code/seven_arm_benchmark.py`.
+- Exact-artifact dry-run gate: **48/48 succeeded / 48 unique IDs /
+  repositories todo/djangocms/saleor 16/16/16 / strategies
+  selective/iterative_repository_agent 24/24 / repetitions 1|2 x24/24 /
+  0 model calls / 0 tokens / every record
+  `source_commit == ba08392552545baa15c10ae5db2e95ce7496a720`** from
+  `dist/pilot-kaggle-upload/code/seven_arm_benchmark.py`.
 - **MANDATORY before tagging:** fresh real Kaggle 2x T4 model preflight ONLY —
   same 12k target, same 64-token probe — requiring `qwen_model_load[bnb-nf4]:
   PASS`, short probe PASS, 12k probe PASS, and
@@ -132,6 +148,56 @@ constants.
 
 - The stable tag `v0.9.22-pilot-exec-ready` does not exist yet; it may be
   created ONLY after the Section 4 Kaggle model-preflight proof PASSES (at
-  merge commit `4827045fce96eb4caa3645e3cf3c8434dca2a1a8`).
+  merge commit `ba08392552545baa15c10ae5db2e95ce7496a720`).
 - No scientific claim is made or implied by this closure: Real Pilot remains
   NOT STARTED.
+
+## 7. Candidate consistency audit (2026-08-24, PILOT-EXEC-01 closure)
+
+Independent audit findings and closures, BEFORE the mandatory target proof:
+
+1. **Stale release-test constants** — after the first candidate anchor freeze,
+   three full-suite failures (`2403 passed / 34 skipped / 3 failed`, 2440
+   collected) were all one release-constant mismatch: tests still expected
+   `v0.9.21-pilot-exec-ready` while the notebook/dist identity said v0.9.22.
+   Corrected to `v0.9.22-pilot-exec-ready` in
+   `tests/integration/test_pilot_deployment_bundle.py` (`PILOT_SOURCE_TAG`),
+   `tests/integration/test_pilot_notebook_contract.py`
+   (`EXPECTED_FROZEN_SOURCE_TAG`),
+   `tests/integration/test_pilot_release_provenance.py`
+   (`TARGET_RELEASE_TAG`), `tests/integration/test_pilot_repo_env_provisioning.py`
+   (`SOURCE_TAG`). The fourth constant participates in the release-sequencing
+   contract. This also re-enabled the previously-skipped real expanded-artifact
+   simulation, which now PASSES against the frozen dist artifact. No production
+   code was changed to satisfy these tests.
+2. **Test-isolation fix (Linux order dependence)** —
+   `TestSDPAAttentionContract.test_missing_sdpa_api_on_cuda_fails_closed`
+   could be contaminated by an already-cached real/fake
+   `sys.modules["torch.nn.attention"]`: the test replaced `torch`/`torch.nn`
+   with fakes but left the cached child importable, silently degrading the
+   fail-closed contract. Fixed by explicitly removing the cached child before
+   installing the fake no-attention runtime, plus a pre-populated-cache
+   regression condition inside the same test (RED proven: reverting only the
+   removal makes the test fail with "DID NOT RAISE"; GREEN: full backend file
+   60/60 regardless of order). Production `_sdpa_kernel_policy_context()`
+   untouched.
+3. **Generated dry-run working-tree hygiene** — untracked evidence directories
+   `runs_dryrun/v0922_attention_closure/`,
+   `runs_dryrun/v0922_attention_closure_pilot/`,
+   `runs_dryrun/v0922_candidate_artifact/` were verified as recorded in this
+   tracked report (Section 3/4) and then deleted; they were never added to Git.
+4. **Post-correction full-suite result** — **2407 passed / 33 skipped /
+   0 failed** (2440 collected; +1 pass / -1 skip vs the failing run is exactly
+   the re-enabled expanded-artifact simulation; the three fixed failures are
+   the constants above).
+5. **Exact new candidate source commit** — non-ff merge to main:
+   `ba08392552545baa15c10ae5db2e95ce7496a720` (pushed).
+6. **Exact new artifact SHA** —
+   `3fd986262936972a6f12adbae21e844adef488dfd76ef0e4b2e6e434b2aa65b3`
+   (+ sidecar byte-equal); trust/provenance **0 mismatches** at that source
+   commit; exact-artifact dry-run **48/48** with the new source commit in every
+   record (details in Section 4).
+7. **Target T4 proof still PENDING** — the long-context attention memory fix
+   is NOT yet proven on the real Kaggle 2x Tesla T4 environment; the fresh
+   model-preflight-only run (12k probe) is the mandatory next action. v0.9.22
+   is NOT accepted/marked stable by this audit.
