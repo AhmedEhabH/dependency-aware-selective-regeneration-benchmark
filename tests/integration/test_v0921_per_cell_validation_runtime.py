@@ -158,7 +158,6 @@ class TestValidationPythonMapping:
         """End-to-end CLI gate (B1/Task E): a non-dry-run Pilot invocation with
         a non-existent mapped interpreter is an environment/harness failure —
         exit 1 with zero run records and no model initialization."""
-        data_dir = PROJECT_DIR / "benchmark_data"
         out_dir = tmp_path / "runs"
         model_dir = tmp_path / "model"
         model_dir.mkdir()
