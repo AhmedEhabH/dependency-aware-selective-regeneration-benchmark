@@ -25,8 +25,9 @@
 > archive `dist/pilot-kaggle-upload.zip` SHA-256
 > `56b1c2a9019a03892ce627321b9a415795ac95836ac415694bbc0995263c8024`; trust/
 > provenance 0 mismatches; dry-run 48/48; target-shaped no-model preflight GREEN
-> on the released source state (CI run 32676588800). Real Pilot = NOT STARTED;
-> next action = fresh Kaggle v0.9.20 target preflight with this artifact.
+> on the released source state (CI run 32676588800). HISTORICAL next action at
+> that time (SUPERSEDED — v0.9.21 is the current accepted release): fresh
+> Kaggle v0.9.20 target preflight with that artifact.
 > Report: `reports/V0920_ROOT_CAUSE_CLOSURE_REPORT.md`.
 > **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
 >
