@@ -6,7 +6,7 @@
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Protocol](https://img.shields.io/badge/Research%20Protocol-v1.0%20Frozen-success.svg)](PROTOCOL_VERSION.md)
-[![Tests](https://img.shields.io/badge/tests-2%2C330%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-2%2C370%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
 ## Overview
@@ -682,9 +682,9 @@ mypy --strict src tests
 python -m pip check
 ```
 
-Current validated state (carried forward from the v0.9.19 accepted release; docs-only changes after it):
+Current validated state (v0.9.21-pilot-exec-ready accepted release):
 
-- **2330 tests passing / 34 skipped / 0 failed** (OpenCode full-suite evidence)
+- **2370 tests passing / 33 skipped / 0 failed** (OpenCode full-suite evidence)
 - **Ruff: 0 new violations** (pre-existing baseline unchanged)
 - **Mypy strict: 0 new errors**
 - **pip check: no broken requirements** (pre-existing conda issues unrelated)
@@ -903,8 +903,8 @@ Immediate next milestones:
 - [x] Independent delta audit of the Scientific Smoke V2 closure (SMOKE-V2-CLOSE-01) — closed 2026-08-09 (docs closure merged to main; post-merge regression hotfix MAIN-GREEN-01 also closed)
 - [x] Stable v0.8.0-smoke-v2-complete tag after closure audit + main merge — created at `193d889`; preferred recovery tag `v0.8.2-smoke-v2-complete` at current main `403977b` (prior `v0.8.1-smoke-v2-complete` at `d875c72` kept as historical provenance)
 - [x] PILOT-READY-01 — Pilot readiness closure — **CLOSED (2026-08-10)**: multi-repo selective input contracts fixed (`34ecf78`), stale real-smoke expectation corrected, focused 12-test multi-repo production-path contract added, full suite 2,026 passed / 33 skipped / 0 failed, exact 48-cell Pilot dry-run 48/48 deterministic green, isolation/evidence/export gates 142 passed; Pilot execution NOT STARTED
-- [x] PILOT-EXEC-01 — Pilot deployment freeze chain through **`v0.9.19-pilot-exec-ready`** (ACCEPTED release @ `2305991`; artifact trust/provenance GREEN; exact artifact `dist/pilot-kaggle-upload.zip` `f7a16858…`)
-- [ ] Fresh Kaggle v0.9.19 target preflight (**NEXT ACTION**) — then launch the accepted 48-cell Pilot in the same session if all target gates pass
+- [x] PILOT-EXEC-01 — Pilot deployment freeze chain through **`v0.9.21-pilot-exec-ready`** (ACCEPTED release @ tag peel == artifact source commit `e308047`; archive `dist/pilot-kaggle-upload.zip` `62e37746…`; target-shaped Gates 1–3 + full no-model preflight GREEN)
+- [ ] Fresh Kaggle v0.9.21 target preflight (**NEXT ACTION**) — then launch the accepted 48-cell Pilot in the same session if all target gates pass
 - [ ] Research (main confirmatory) experiment
 - [ ] Arm-to-protocol alignment review
 - [ ] Reproducibility archive and DOI
