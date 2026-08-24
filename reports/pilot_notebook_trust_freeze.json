@@ -1,7 +1,7 @@
 {
   "archive_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload.zip",
-  "archive_sha256": "f7a168584de3db723acbf9d43f81edd4d0720c2e3850b8017f91eee363928862",
-  "created_utc": "2026-08-19T00:00:00+00:00",
+  "archive_sha256": "cf57b475bbca55a40302342130f4fa31745ed586cd18622c14b5cf25392e77c7",
+  "created_utc": "2026-08-24T00:30:00+00:00",
   "frozen_deployment": {
     "expected_cells": 48,
     "max_attempts": 3,
@@ -17,17 +17,17 @@
     "timeout_seconds": 600
   },
   "frozen_manifest_hashes": {
-    "code_manifest_sha256": "c3c7a8b54f2d8d5151b3ff3a195c2c92485daa8181f517e60c9531c1912d62b1",
+    "code_manifest_sha256": "225b4dca221dd3ba5233a676d25f6c6b704fa94e7ade6f5002a9999d4679b6c7",
     "data_manifest_sha256": "8b859ecc72164fe95c0aa122f8179310ccc6375613543c6702c2ca5867c97b5a",
     "kaggle_transport_path_map_sha256": "07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce",
     "repository_snapshot_manifest_sha256": "49d91d39435f7e6f2dbf7d15f1a59188aa059ebb16fb31094c7a1827fb62702c"
   },
-  "frozen_source_tag": "v0.9.19-pilot-exec-ready",
+  "frozen_source_tag": "v0.9.20-pilot-exec-ready",
   "note": "source_commit must equal the final tag peel; the deployed identity source_commit is recorded here and must be re-verified after the immutable tag is created. notebook_sha256 hashes the DEPLOYED (line-ending-normalized) notebook bytes inside the artifact; notebook_source_sha256 hashes the source notebook file on this recording machine. Discovery build (validate_notebook_trust=False) + validation-enabled rebuild (validate_notebook_trust=True) confirmed; the artifact is the validation-enabled rebuild.",
-  "notebook_sha256": "1a3eaf93154cba14764a219447b4e5b625f594d55049c9c5d40b8cb13979407c",
-  "notebook_source_sha256": "bcc4787ade1068d58cb22c0b4b38903fb3245336607c6e55d1dc8a0527183c53",
+  "notebook_sha256": "7e6162e8924b9f61cf816bee5ffda39253987fde57ce23aeb36bb4ddc0d1774b",
+  "notebook_source_sha256": "3ff84ee76fc13879f01e3d1d0522c6aa553fc7352e6cdd21c3800fb627a2342e",
   "output_root": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload",
-  "source_commit": "2305991442a4f965d44bb066bb00c0a459fc395a",
-  "source_tag": "v0.9.19-pilot-exec-ready",
+  "source_commit": "28708ca32a9937cd64c04e3d58b5459c12d5a2b6",
+  "source_tag": "v0.9.20-pilot-exec-ready",
   "status": "FROZEN"
 }
