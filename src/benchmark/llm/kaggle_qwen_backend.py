@@ -35,6 +35,18 @@ KAGGLE_ATTENTION_IMPLEMENTATION = "sdpa"
 
 KAGGLE_SDPA_KERNEL_POLICY = "flash_or_efficient_no_math"
 
+# V0.9.22 PILOT-EXEC-01 T4 GQA closure: Tesla T4 (sm75) cannot use the fused
+# memory-efficient SDPA path with native unequal-head GQA (40 query / 8 KV
+# heads); Flash SDPA requires sm80+; math is correctly disabled to keep the
+# v0.9.21 quadratic-OOM closure. The exact compatibility is to force the pinned
+# Transformers 4.57.6 repeat-KV path on sm75 (it expands KV heads to the query
+# head count before calling PyTorch SDPA), then keep the no-math fused policy.
+KAGGLE_SDPA_GQA_COMPATIBILITY = "repeat_kv_sm75"
+
+# Idempotence sentinel for the sm75 GQA compatibility hook. Module-level so
+# repeated backend construction can never double-wrap the Transformers function.
+_INSTALLED_SM75_GQA_COMPAT_SENTINEL = False
+
 # Prompts at or above this token count classify a generation OOM as a
 # prompt-prefill attention failure rather than a completion-budget failure.
 LONG_PROMPT_PREFILL_OOM_TOKEN_THRESHOLD = 2048
@@ -135,6 +147,89 @@ def _check_gpu_compatibility() -> None:
             f"Select a Kaggle accelerator with sm_70+ (e.g. T4, V100, A100) "
             f"or use a PyTorch build that supports sm_60."
         )
+
+
+def _reset_sm75_gqa_compat_sentinel() -> None:
+    """Test-only: clear the install sentinel so the hook can be re-evaluated."""
+    global _INSTALLED_SM75_GQA_COMPAT_SENTINEL
+    _INSTALLED_SM75_GQA_COMPAT_SENTINEL = False
+
+
+def _sm75_gqa_compat_active() -> str:
+    """Return the active GQA SDPA compatibility mode string, or '' if inactive.
+
+    Active only after the hook is installed AND the runtime CUDA device is
+    Tesla T4 sm75. On every other device the native GQA path is used and this
+    returns an empty string (truthful: no compatibility shim is in effect).
+    """
+    if not _INSTALLED_SM75_GQA_COMPAT_SENTINEL:
+        return ""
+    try:
+        import torch
+    except Exception:
+        return ""
+    if not torch.cuda.is_available():
+        return ""
+    try:
+        capability = tuple(torch.cuda.get_device_capability(0))
+    except Exception:
+        return ""
+    if capability == (7, 5):
+        return KAGGLE_SDPA_GQA_COMPATIBILITY
+    return ""
+
+
+def _install_sm75_sdpa_gqa_compatibility() -> None:
+    """Force the pinned Transformers 4.57.6 repeat-KV GQA path on sm75 (T4).
+
+    Pinned Transformers ``sdpa_attention_forward`` calls
+    ``use_gqa_in_sdpa(...)`` to decide whether to use the native (unequal-head)
+    grouped-query SDPA fast path. On a T4 (compute capability ``(7, 5)``) the
+    fused memory-efficient kernel rejects the unequal 40/8/8 head geometry and
+    Flash is unavailable (sm80+), so with math disabled no kernel remains. By
+    returning ``False`` from the GQA-decision hook on sm75, Transformers itself
+    executes ``repeat_kv(key, num_key_value_groups)`` / ``repeat_kv(value, ...)``
+    to expand KV heads to 40 before calling PyTorch SDPA, which then has equal
+    heads (40/40/40) and is eligible for the memory-efficient backend.
+
+    The hook is installed exactly once (module-level sentinel); repeated backend
+    construction never double-wraps or recurses. The original function is always
+    reachable via ``_wrapped_original`` on the wrapper. On any non-sm75 CUDA
+    device, or when CUDA/Transformers is unavailable, the original is delegated
+    to unchanged. No math backend is enabled and ``scaled_dot_product_attention``
+    itself is never monkeypatched.
+    """
+    global _INSTALLED_SM75_GQA_COMPAT_SENTINEL
+    if _INSTALLED_SM75_GQA_COMPAT_SENTINEL:
+        return
+    try:
+        import torch
+        from transformers.integrations import sdpa_attention
+    except Exception:
+        _INSTALLED_SM75_GQA_COMPAT_SENTINEL = True
+        return
+    if not torch.cuda.is_available():
+        _INSTALLED_SM75_GQA_COMPAT_SENTINEL = True
+        return
+    original = getattr(sdpa_attention, "use_gqa_in_sdpa", None)
+    if original is None:
+        _INSTALLED_SM75_GQA_COMPAT_SENTINEL = True
+        return
+
+    def _wrapped_use_gqa_in_sdpa(*args: object, **kwargs: object) -> bool:
+        try:
+            import torch as _torch
+
+            if tuple(_torch.cuda.get_device_capability(0)) == (7, 5):
+                return False
+        except Exception:
+            pass
+        return bool(original(*args, **kwargs))
+
+    # Preserve the original for reachability/tests and install exactly one wrapper.
+    _wrapped_use_gqa_in_sdpa._wrapped_original = original  # type: ignore[attr-defined]
+    sdpa_attention.use_gqa_in_sdpa = _wrapped_use_gqa_in_sdpa
+    _INSTALLED_SM75_GQA_COMPAT_SENTINEL = True
 
 
 def _read_checkpoint_config(model_path: Path) -> dict[str, Any]:
@@ -289,6 +384,16 @@ class KaggleQwenBackend:
     def sdpa_kernel_policy(self) -> str:
         """Canonical SDPA kernel policy enforced during CUDA generation."""
         return KAGGLE_SDPA_KERNEL_POLICY
+
+    @property
+    def gqa_compatibility_mode(self) -> str:
+        """Active GQA SDPA compatibility mode (e.g. ``repeat_kv_sm75`` on T4 sm75).
+
+        Empty string when the native GQA path is used (non-sm75). Persisted into
+        short-probe metrics, long-context evidence, preflight JSON/table, and
+        the pilot launch-authorization attention gate.
+        """
+        return _sm75_gqa_compat_active()
 
     @property
     def effective_attention_implementation(self) -> str:
@@ -479,6 +584,7 @@ class KaggleQwenBackend:
             "requested_attn_implementation": self.requested_attention_implementation,
             "effective_attn_implementation": self.effective_attention_implementation,
             "sdpa_kernel_policy": self.sdpa_kernel_policy,
+            "gqa_compatibility_mode": self.gqa_compatibility_mode,
             "gpu_name": gpu_info.get("gpu_name", "unknown"),
             "gpu_count": self._gpu_device_count(),
             "peak_allocated_gib": round(peak_allocated, 3) if peak_allocated is not None else None,
@@ -766,6 +872,9 @@ class KaggleQwenBackend:
                 "KaggleQwenBackend requires torch and transformers. "
                 "These are Kaggle-only dependencies and must not be installed locally."
             ) from exc
+        # Install the sm75 GQA repeat-KV compatibility hook before any model is
+        # executed. Idempotent: safe to call on every backend construction.
+        _install_sm75_sdpa_gqa_compatibility()
 
     def _resolve_model_path(self) -> Path:
         if self._model_path:
@@ -927,3 +1036,146 @@ class KaggleQwenBackend:
             pytorch_version=torch_ver,
             rejection_reason=rejection,
         )
+
+
+# ---------------------------------------------------------------------------
+# PILOT-EXEC-01 v0.9.22 T4 GQA SDPA microprobe.
+#
+# A cheap (<1s) real-CUDA kernel compatibility gate that runs BEFORE the
+# expensive ~16.5-minute repository preflight and before loading 14B weights.
+# It reproduces the EXACT Qwen head geometry (40 query / 8 KV heads, head_dim
+# 128), applies the same repeat-KV compatibility path the sm75 hook enables
+# (40/8/8 -> 40/40/40), and executes under the same fail-closed
+# FLASH_OR_EFFICIENT_NO_MATH SDPA policy. If no allowed kernel remains on any
+# visible GPU it fails in seconds instead of wasting ~16.5 minutes. It never
+# loads the model.
+# ---------------------------------------------------------------------------
+
+_QWEN_Q_HEADS = 40
+_QWEN_KV_HEADS = 8
+_QWEN_HEAD_DIM = 128
+_QWEN_MICROPROBE_SEQ = 68
+
+
+def _gqa_microprobe_build_qkv(torch_mod: Any, seq: int) -> tuple[Any, Any, Any]:
+    """Build tiny FP16 Q/K/V tensors matching Qwen2.5-14B GQA geometry."""
+    q = torch_mod.randn(
+        1, _QWEN_Q_HEADS, seq, _QWEN_HEAD_DIM, dtype=torch_mod.float16
+    )
+    k = torch_mod.randn(
+        1, _QWEN_KV_HEADS, seq, _QWEN_HEAD_DIM, dtype=torch_mod.float16
+    )
+    v = torch_mod.randn(
+        1, _QWEN_KV_HEADS, seq, _QWEN_HEAD_DIM, dtype=torch_mod.float16
+    )
+    return q, k, v
+
+
+def _gqa_microprobe_expand_kv(
+    torch_mod: Any, key: Any, value: Any, num_key_value_groups: int
+) -> tuple[Any, Any]:
+    """Expand KV heads to the query-head count (the repeat-KV compatibility path).
+
+    Mirrors ``transformers.modeling_utils.repeat_kv`` so the fused SDPA backend
+    receives equal Q/K/V head counts (40/40/40) instead of unequal (40/8/8).
+    """
+    fn = torch_mod.nn.functional.repeat_kv
+    return fn(key, num_key_value_groups), fn(value, num_key_value_groups)
+
+
+def _gqa_microprobe_run_sdpa(torch_mod: Any, q: Any, k: Any, v: Any) -> Any:
+    """Run SDPA under the fail-closed FLASH_OR_EFFICIENT_NO_MATH policy."""
+    from torch.nn.attention import SDPBackend, sdpa_kernel
+
+    with sdpa_kernel([SDPBackend.FLASH_ATTENTION, SDPBackend.EFFICIENT_ATTENTION]):
+        return torch_mod.nn.functional.scaled_dot_product_attention(q, k, v)
+
+
+def probe_sdpa_gqa_kernel_compatibility() -> dict[str, Any]:
+    """Real-CUDA GQA SDPA kernel microprobe (engineering compatibility gate).
+
+    Returns a machine-readable result:
+
+    - ``available``: torch + CUDA present;
+    - ``all_passed``: every visible GPU accepted the repeat-KV fused SDPA path;
+    - ``devices``: per-GPU evidence (capability, before/after heads, shape, error);
+    - ``error``: top-level failure (e.g. torch/CUDA import or API missing).
+
+    This is a kernel-compatibility gate only. It does NOT replace the real 12k
+    Qwen probe and never loads the model.
+    """
+    result: dict[str, Any] = {
+        "available": False,
+        "device_count": 0,
+        "all_passed": False,
+        "error": "",
+        "sdpa_kernel_policy": KAGGLE_SDPA_KERNEL_POLICY,
+        "gqa_compatibility_mode": "",
+        "q_heads": _QWEN_Q_HEADS,
+        "kv_heads": _QWEN_KV_HEADS,
+        "head_dim": _QWEN_HEAD_DIM,
+        "devices": [],
+    }
+    try:
+        import torch
+    except Exception as exc:  # pragma: no cover - local-only guard
+        result["error"] = f"torch unavailable: {type(exc).__name__}: {exc}"
+        return result
+    if not torch.cuda.is_available():
+        result["error"] = "CUDA not available"
+        return result
+
+    # Ensure the sm75 repeat-KV hook is installed BEFORE probing (so the same
+    # code path the model run will use is exercised) and before recording the
+    # active compatibility mode.
+    _install_sm75_sdpa_gqa_compatibility()
+    result["gqa_compatibility_mode"] = _sm75_gqa_compat_active()
+
+    device_count = int(torch.cuda.device_count())
+    result["device_count"] = device_count
+    result["available"] = True
+    if device_count == 0:
+        result["error"] = "no visible CUDA devices"
+        return result
+
+    per_device: list[dict[str, Any]] = []
+    overall_ok = True
+    for index in range(device_count):
+        entry: dict[str, Any] = {
+            "device_index": index,
+            "gpu_name": torch.cuda.get_device_name(index),
+            "compute_capability": "{}.{}".format(*torch.cuda.get_device_capability(index)),
+            "before_heads": f"{_QWEN_Q_HEADS}/{_QWEN_KV_HEADS}/{_QWEN_KV_HEADS}",
+            "after_heads": "",
+            "output_shape": "",
+            "passed": False,
+            "error": "",
+        }
+        try:
+            q, k, v = _gqa_microprobe_build_qkv(torch, _QWEN_MICROPROBE_SEQ)
+            num_groups = _QWEN_Q_HEADS // _QWEN_KV_HEADS
+            k_exp, v_exp = _gqa_microprobe_expand_kv(torch, k, v, num_groups)
+            entry["after_heads"] = (
+                f"{_QWEN_Q_HEADS}/{_QWEN_Q_HEADS}/{_QWEN_Q_HEADS}"
+            )
+            out = _gqa_microprobe_run_sdpa(torch, q, k_exp, v_exp)
+            finite = bool(torch.isfinite(out).all())
+            shape_ok = tuple(getattr(out, "shape", ())) == (
+                1, _QWEN_Q_HEADS, _QWEN_MICROPROBE_SEQ, _QWEN_HEAD_DIM,
+            )
+            entry["output_shape"] = str(tuple(getattr(out, "shape", ())))
+            if finite and shape_ok:
+                entry["passed"] = True
+            else:
+                entry["error"] = (
+                    "output not finite" if not finite else "output shape mismatch"
+                )
+                overall_ok = False
+        except Exception as exc:
+            entry["error"] = f"{type(exc).__name__}: {exc}"
+            overall_ok = False
+        per_device.append(entry)
+
+    result["devices"] = per_device
+    result["all_passed"] = overall_ok
+    return result
