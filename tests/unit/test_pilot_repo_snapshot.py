@@ -330,6 +330,44 @@ class TestBoundedCommandLogs:
         assert "[TRUNCATED" in content
         assert len(content) <= 300
 
+    def test_run_command_emits_heartbeat_and_stops_thread(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        import time
+
+        events: list[str] = []
+
+        def _slow_run(argv: list[str], **kwargs: object) -> types.SimpleNamespace:
+            time.sleep(0.35)
+            return types.SimpleNamespace(returncode=0, stdout="ok", stderr="")
+
+        monkeypatch.setattr(snapshot_mod.subprocess, "run", _slow_run)
+        record = snapshot_mod._run_command(
+            ["python", "-c", "x"],
+            cwd=tmp_path,
+            env={},
+            timeout=30,
+            label="primary",
+            heartbeat_sink=events.append,
+            heartbeat_interval=0.1,
+        )
+        assert record["passed"] is True
+        assert any(
+            e.startswith("[repo-preflight] START") for e in events
+        ), "heartbeat must emit START"
+        assert any(
+            e.startswith("[repo-preflight] END") for e in events
+        ), "heartbeat must emit END"
+        running_positions = [
+            i for i, e in enumerate(events) if e.startswith("[repo-preflight] RUNNING")
+        ]
+        assert running_positions, "heartbeat must emit at least one RUNNING line"
+        end_pos = next(
+            i for i, e in enumerate(events) if e.startswith("[repo-preflight] END")
+        )
+        # END must come strictly after the final RUNNING line (thread stopped).
+        assert end_pos > max(running_positions)
+
 
 class TestSaleorFailureDiagnostics:
     """SALEOR-DIAGNOSTICS: persist the primary failure artifact and prove the
@@ -418,6 +456,34 @@ class TestSaleorFailureDiagnostics:
         staging_dir = tmp_path / "staging"
         staging_dir.mkdir()
         assert snapshot_mod._load_lastfailed(staging_dir) is None
+
+    def test_run_repo_preflight_records_saleor_capability_gate_evidence(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        self._patch_runtime(monkeypatch)
+        monkeypatch.setattr(
+            snapshot_mod, "apply_windows_infra_workarounds", lambda staging_dir, repo_id: {}
+        )
+        cmd = self._saleor_command()
+        staging = tmp_path / "staging"
+        staging.mkdir()
+        source = tmp_path / "source"
+        source.mkdir()
+        result = snapshot_mod.run_repo_preflight(
+            repo_id="saleor",
+            staging_dir=staging,
+            repo_cache=None,
+            venv_python="python",
+            command=cmd,
+            timeout=30,
+            repo_source=source,
+            logs_dir=tmp_path / "logs",
+        )
+        assert "saleor_capability_gate" in result
+        gate = result["saleor_capability_gate"]
+        assert gate is not None
+        assert gate.get("passed") is True
+        assert gate.get("exit_code") == 0
 
     def test_run_repo_preflight_writes_diagnostics_without_touching_primary_verdict(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path

@@ -1288,10 +1288,13 @@ class TestAttentionPolicyGate:
     ) -> None:
         result = self._run(monkeypatch, tmp_path)
         assert result.passed is True
-        assert (
-            "attention_policy: PASS (requested=sdpa effective=sdpa "
-            "kernel_policy=flash_or_efficient_no_math)"
-        ) in result.checks
+        assert any(
+            c.startswith(
+                "attention_policy: PASS (requested=sdpa effective=sdpa "
+                "kernel_policy=flash_or_efficient_no_math"
+            )
+            for c in result.checks
+        )
 
     @pytest.mark.parametrize(
         ("attention"),
@@ -1865,4 +1868,203 @@ class TestCLIAuthorizationPath:
         with pytest.raises((SystemExit, Exception)):
             saber.main()
         assert auth_passed, "authorization must have been invoked and passed"
+
+
+class TestShortGenerationProbeTruthfulReporting:
+    """V0.9.22 T4 GQA: model-load evidence is reported independently of the
+    short-generation probe, and a broken generation path fails closed (SKIP 12k)
+    without rewriting the load verdict.
+    """
+
+    def _patch_probe(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        tmp_path: Path,
+        metrics: dict[str, object],
+        *,
+        backend: object | None = None,
+    ) -> Path:
+        monkeypatch.setattr(mod, "_python_runtime_status", lambda: ("3.12.13", True))
+        monkeypatch.setattr(
+            mod, "collect_dependency_versions", lambda: (("django", "5.2.16"),)
+        )
+        monkeypatch.setattr(mod, "_stage_baseline_workspace", lambda data_dir, root: Path("fake-staged"))
+        monkeypatch.setattr(mod, "_run_in_workspace", lambda ws, *a, timeout=180: (0, "", ""))
+        monkeypatch.setattr(mod, "_create_qwen_backend", lambda mp, qm: backend)
+        monkeypatch.setattr(mod, "_qwen_probe_metrics", lambda mp, qm, **_k: metrics)
+        return tmp_path / "kaggle_smoke_preflight.v1.json"
+
+    def _ok_metrics(self) -> dict[str, object]:
+        return {
+            "model_identity": "qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-x",
+            "requested_quantization_mode": "bnb-nf4",
+            "model_checkpoint_basename": "qwen2.5-coder-14b-instruct",
+            "checkpoint_quantization_method": "",
+            "model_memory_footprint_bytes": 9000000000,
+            "device_map_summary": "GPU",
+            "gpu_count": 2,
+            "gpu_name": "Tesla T4",
+            "gpu_vram_by_device": (),
+            "free_vram_after_probe_gib": 7.0,
+            "allocated_vram_gib": 1.0,
+            "reserved_vram_gib": 1.0,
+            "probe_prompt_tokens": 40,
+            "probe_completion_tokens": 64,
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
+            "gqa_compatibility_mode": "",
+            "short_generation_probe_error": "",
+        }
+
+    def test_load_pass_short_probe_fail_reports_separately_and_skips_12k(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        metrics = self._ok_metrics()
+        metrics["short_generation_probe_error"] = "RuntimeError: No available kernel"
+        out = self._patch_probe(monkeypatch, tmp_path, metrics, backend=object())
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "r",
+            quantization_mode="bnb-nf4",
+            json_output_path=out,
+        )
+        assert any(c.startswith("qwen_model_load[bnb-nf4]: PASS") for c in result.checks)
+        assert any(c.startswith("short_generation_probe: FAIL") for c in result.checks)
+        assert any(c.startswith("long_context_probe: SKIP") for c in result.checks)
+        assert result.passed is False
+
+    def test_short_probe_pass_emits_pass(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+        out = self._patch_probe(monkeypatch, tmp_path, self._ok_metrics())
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "r",
+            quantization_mode="bnb-nf4",
+            json_output_path=out,
+        )
+        assert any(c.startswith("short_generation_probe: PASS") for c in result.checks)
+
+    def test_gqa_compatibility_mode_persisted_to_json(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        metrics = self._ok_metrics()
+        metrics["gqa_compatibility_mode"] = "repeat_kv_sm75"
+        out = self._patch_probe(monkeypatch, tmp_path, metrics)
+        run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "r",
+            quantization_mode="bnb-nf4",
+            json_output_path=out,
+        )
+        payload = json.loads(out.read_text("utf-8"))
+        assert payload["gqa_compatibility_mode"] == "repeat_kv_sm75"
+
+
+class TestValidatePilotLaunchAuthorizationGqa:
+    """V0.9.22 T4 GQA: launch authorization enforces the GQA compat mode."""
+
+    def _write_valid_repo_preflight(self, path: Path) -> None:
+        path.write_text(
+            json.dumps({
+                "overall": "PASS",
+                "repositories": {
+                    "todo": {"passed": True},
+                    "djangocms": {"passed": True},
+                    "saleor": {"passed": True},
+                },
+            }),
+            encoding="utf-8",
+        )
+
+    def _write_valid_dryrun(self, dryrun_dir: Path) -> None:
+        dryrun_dir.mkdir(parents=True, exist_ok=True)
+        records = []
+        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
+        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
+        for i in range(48):
+            records.append(json.dumps({
+                "run_id": f"run-{i:03d}",
+                "status": "succeeded",
+                "repository_id": repos[i],
+                "strategy_id": strats[i],
+                "repetition": 1 if i < 24 else 2,
+                "source_commit": "abc123",
+                "source_tag": "v0.9.18-pilot-exec-ready",
+                "model_calls": 0,
+                "total_tokens": 0,
+            }))
+        (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
+        (dryrun_dir / "source_identity.json").write_text(json.dumps({
+            "dry_run": True,
+            "profile": "pilot",
+            "protocol_version": "1.0",
+            "source_commit": "abc123",
+            "source_tag": "v0.9.18-pilot-exec-ready",
+            "deployed_build_id": "build-001",
+            "model_identity": "dry-run:mock",
+        }), encoding="utf-8")
+
+    def _model_json(self, path: Path, *, gqa_mode: str | None = None) -> None:
+        payload = {
+            "passed": True,
+            "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            "requested_quantization_mode": "bnb-nf4",
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
+            "checks": ["repository_preflight_evidence: PASS"],
+            "long_context_probe": {
+                "passed": True,
+                "target_prompt_tokens": 16000,
+                "prompt_tokens": 16384,
+                "completion_tokens": 512,
+                "cache_implementation": "offloaded",
+            },
+        }
+        if gqa_mode is not None:
+            payload["gqa_compatibility_mode"] = gqa_mode
+        path.write_text(json.dumps(payload), encoding="utf-8")
+
+    def test_passes_with_correct_gqa_compatibility_mode(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        self._model_json(tmp_path / "model.json", gqa_mode="repeat_kv_sm75")
+        from benchmark.execution.preflight import validate_pilot_launch_authorization
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=tmp_path / "dryrun",
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            expected_deployed_build_id="build-001",
+        )
+
+    def test_fails_on_wrong_gqa_compatibility_mode(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        self._model_json(tmp_path / "model.json", gqa_mode="native")
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_launch_authorization,
+        )
+        with pytest.raises(LaunchAuthorizationError, match="gqa_compatibility_mode"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.18-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+                expected_deployed_build_id="build-001",
+            )
 

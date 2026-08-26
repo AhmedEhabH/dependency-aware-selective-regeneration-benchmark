@@ -41,7 +41,7 @@ from collections.abc import Sequence
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Any, cast
 
 if TYPE_CHECKING:
     from benchmark.repositories.validation_commands import FrozenValidationCommand
@@ -694,8 +694,45 @@ def _run_command(
     *,
     logs_dir: Path | None = None,
     log_prefix: str = "",
+    heartbeat_sink: Any | None = None,
+    heartbeat_interval: float = 30.0,
 ) -> dict[str, object]:
+    """Run a command, capturing its full log, with a live heartbeat.
+
+    The captured-log semantics (full bounded log, tail in the record,
+    timeout fail-closed, FileNotFound fail-closed) are unchanged. A daemon
+    heartbeat thread emits ``[repo-preflight]`` START/RUNNING/END lines on a
+    ``heartbeat_sink`` (default ``print``) every ``heartbeat_interval`` seconds
+    so long-running commands (e.g. the full Saleor suite) are observable instead
+    of appearing hung. The thread always stops and is joined before returning.
+    """
+    import threading
+
+    sink = heartbeat_sink if heartbeat_sink is not None else print
+    repo_tag = log_prefix or "shared"
+    log_path_rel = ""
+    if logs_dir is not None:
+        log_file = logs_dir / f"{log_prefix}-{label}.log"
+        log_path_rel = log_file.relative_to(logs_dir.parent).as_posix()
+
     start = time.monotonic()
+    sink(
+        f"[repo-preflight] START repo={repo_tag} label={label} "
+        f"timeout={timeout}s log={log_path_rel or 'none'}"
+    )
+
+    stop_event = threading.Event()
+
+    def _heartbeat() -> None:
+        while not stop_event.wait(heartbeat_interval):
+            elapsed = round(time.monotonic() - start, 1)
+            sink(
+                f"[repo-preflight] RUNNING repo={repo_tag} label={label} "
+                f"elapsed={elapsed}s"
+            )
+
+    heartbeat = threading.Thread(target=_heartbeat, daemon=True)
+    heartbeat.start()
     try:
         proc = subprocess.run(
             argv,
@@ -744,6 +781,14 @@ def _run_command(
             "duration_seconds": duration,
             "output_tail": combined,
         }
+    finally:
+        stop_event.set()
+        heartbeat.join(timeout=1.0)
+    sink(
+        f"[repo-preflight] END repo={repo_tag} label={label} "
+        f"exit={record['exit_code']} duration={record['duration_seconds']}s"
+    )
+
     if logs_dir is not None:
         log_file = logs_dir / f"{log_prefix}-{label}.log"
         _write_bounded_log(combined, log_file)
@@ -976,6 +1021,10 @@ def run_repo_preflight(
             allow_acquire=True,
         )
     workarounds = apply_windows_infra_workarounds(staging_dir, repo_id)
+    print(
+        f"  STAGING repo={repo_id} mode={evidence.mode} "
+        f"files={evidence.file_count} hash={evidence.content_hash[:12]}"
+    )
     env = dict(os.environ)
     env.update(command.env_dict())
     services = _resolve_services(command.services, command.env_dict())
@@ -984,6 +1033,7 @@ def run_repo_preflight(
     )
     runs: list[dict[str, object]] = []
     all_passed = True
+    saleor_gate_record: dict[str, object] | None = None
 
     # Fast Saleor capability gate: run the known failing checkout test serially
     # BEFORE the full 6k primary suite. This proves PG15 migration/constraint
@@ -1009,7 +1059,10 @@ def run_repo_preflight(
             "saleor-gate",
             logs_dir=logs_dir,
             log_prefix=repo_id,
+            heartbeat_sink=print,
+            heartbeat_interval=30.0,
         )
+        saleor_gate_record = gate_result
         if not gate_result.get("passed"):
             gate_log = gate_result.get("log_path", "")
             gate_tail = cast(str, gate_result.get("output_tail", ""))
@@ -1034,6 +1087,7 @@ def run_repo_preflight(
                 "command_passed": False,
                 "passed": False,
                 "saleor_gate_skipped_full_suite": True,
+                "saleor_capability_gate": gate_result,
             }
             if diagnostics_dir is not None:
                 diagnostics_dir.mkdir(parents=True, exist_ok=True)
@@ -1083,6 +1137,7 @@ def run_repo_preflight(
         "services_passed": services_passed,
         "commands": runs,
         "command_passed": all_passed,
+        "saleor_capability_gate": saleor_gate_record,
     }
     baseline_tolerated = False
     if repo_id == "saleor" and runs and not bool(runs[0].get("passed")):

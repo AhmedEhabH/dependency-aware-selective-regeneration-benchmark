@@ -122,6 +122,7 @@ class KaggleSmokePreflightResult:
     requested_attn_implementation: str = ""
     effective_attn_implementation: str = ""
     sdpa_kernel_policy: str = ""
+    gqa_compatibility_mode: str = ""
     long_context_probe: dict[str, Any] | None = None
     dependencies: tuple[tuple[str, str], ...] = ()
     duration_seconds: float = 0.0
@@ -263,8 +264,11 @@ def _qwen_probe_metrics(
             model_path=model_path,
             quantization_mode=quantization_mode,
         )
+    # V0.9.22 T4 GQA closure: load evidence is collected INDEPENDENTLY of the
+    # short-generation probe. A generation failure (e.g. T4 "No available
+    # kernel") must not erase the truthful "weights loaded" evidence, so the
+    # reported qwen_model_load stays PASS and the memory footprint stays > 0.
     backend.load()
-    response = backend.run_probe(max_tokens=PROBE_MAX_TOKENS, prompt=PROBE_PROMPT)
 
     import torch
 
@@ -300,15 +304,30 @@ def _qwen_probe_metrics(
             getattr(backend, "effective_attention_implementation", "") or ""
         ),
         "sdpa_kernel_policy": str(getattr(backend, "sdpa_kernel_policy", "") or ""),
+        # V0.9.22 T4 GQA repeat-KV compatibility mode (repeat_kv_sm75 on sm75).
+        "gqa_compatibility_mode": str(getattr(backend, "gqa_compatibility_mode", "") or ""),
         "gpu_count": gpu_count,
         "gpu_name": gpu_name,
         "gpu_vram_by_device": snapshots,
         "allocated_vram_gib": round(allocated_gib, 3),
         "reserved_vram_gib": round(reserved_gib, 3),
         "free_vram_after_probe_gib": round(free_gib, 3),
-        "probe_prompt_tokens": response.token_usage.prompt_tokens,
-        "probe_completion_tokens": response.token_usage.completion_tokens,
+        "probe_prompt_tokens": 0,
+        "probe_completion_tokens": 0,
+        # Populated by the separate short-generation probe stage; empty means the
+        # probe has not run yet or failed (load evidence above is preserved).
+        "short_generation_probe_error": "",
     }
+
+    # Short deterministic generation probe, kept separate from load evidence so
+    # a generation failure cannot rewrite load metrics to zero/N/A.
+    try:
+        response = backend.run_probe(max_tokens=PROBE_MAX_TOKENS, prompt=PROBE_PROMPT)
+        metrics["probe_prompt_tokens"] = int(response.token_usage.prompt_tokens)
+        metrics["probe_completion_tokens"] = int(response.token_usage.completion_tokens)
+    except Exception as exc:
+        metrics["short_generation_probe_error"] = f"{type(exc).__name__}: {exc}"
+
     return metrics
 
 
@@ -545,9 +564,13 @@ def run_kaggle_smoke_preflight(
         for check in checks
     )
     if not blocked and not baseline_failed:
+        short_probe_passed = False
         try:
             _shared_backend = _create_qwen_backend(model_path, quantization_mode)
             probe_metrics = _qwen_probe_metrics(model_path, quantization_mode, _backend=_shared_backend)
+            # V0.9.22 T4 GQA closure: load evidence is reported independently of
+            # the short-generation probe. The weights either loaded (PASS) or
+            # they did not (FAIL); a later generation failure cannot rewrite this.
             checks.append(f"qwen_model_load[{quantization_mode}]: PASS")
             device_map = str(probe_metrics.get("device_map_summary", ""))
             lowered_map = device_map.lower()
@@ -580,6 +603,7 @@ def run_kaggle_smoke_preflight(
             requested_attn = str(probe_metrics.get("requested_attn_implementation", "") or "")
             effective_attn = str(probe_metrics.get("effective_attn_implementation", "") or "")
             kernel_policy = str(probe_metrics.get("sdpa_kernel_policy", "") or "")
+            gqa_mode = str(probe_metrics.get("gqa_compatibility_mode", "") or "")
             if (
                 requested_attn == KAGGLE_ATTENTION_IMPLEMENTATION
                 and effective_attn == KAGGLE_ATTENTION_IMPLEMENTATION
@@ -587,7 +611,8 @@ def run_kaggle_smoke_preflight(
             ):
                 checks.append(
                     "attention_policy: PASS (requested=sdpa effective=sdpa "
-                    f"kernel_policy={KAGGLE_SDPA_KERNEL_POLICY})"
+                    f"kernel_policy={KAGGLE_SDPA_KERNEL_POLICY} "
+                    f"gqa_compat={gqa_mode or 'native'})"
                 )
             else:
                 checks.append(
@@ -597,10 +622,23 @@ def run_kaggle_smoke_preflight(
                     f"expected requested=sdpa effective=sdpa "
                     f"kernel_policy={KAGGLE_SDPA_KERNEL_POLICY})"
                 )
+            # V0.9.22 T4 GQA: the short deterministic generation probe is a SEPARATE
+            # stage. A failure here (e.g. T4 "No available kernel") is reported as
+            # short_generation_probe: FAIL while the load evidence above is kept
+            # truthful (footprint > 0, device_map preserved). The 12k probe must
+            # be skipped, never executed with a broken generation path.
+            short_probe_error = str(probe_metrics.get("short_generation_probe_error", "") or "")
+            if short_probe_error:
+                checks.append(f"short_generation_probe: FAIL ({short_probe_error})")
+            else:
+                checks.append(
+                    f"short_generation_probe: PASS "
+                    f"(completion_tokens={probe_metrics.get('probe_completion_tokens', 0)})"
+                )
+                short_probe_passed = True
             snapshots = probe_metrics.get("gpu_vram_by_device", ())
             if not isinstance(snapshots, tuple):
                 snapshots = tuple(snapshots)
-            gpu_count = int(probe_metrics.get("gpu_count", 0) or 0)
             failing_devices = [
                 snapshot
                 for snapshot in snapshots
@@ -632,6 +670,7 @@ def run_kaggle_smoke_preflight(
             checks.append("vram_headroom: FAIL (probe did not run)")
             checks.append("gpu_count_expected: FAIL (probe did not run)")
             checks.append("checkpoint_not_prequantized: FAIL (probe did not run)")
+            short_probe_passed = False
     elif not blocked:
         checks.append(f"qwen_model_load[{quantization_mode}]: SKIP (baseline preflight failed)")
         checks.append("device_map_gpu_only: SKIP (baseline preflight failed)")
@@ -639,14 +678,36 @@ def run_kaggle_smoke_preflight(
         checks.append("vram_headroom: SKIP (baseline preflight failed)")
         checks.append("gpu_count_expected: SKIP (baseline preflight failed)")
         checks.append("checkpoint_not_prequantized: SKIP (baseline preflight failed)")
+        short_probe_passed = False
 
     failed = [c for c in checks if ": FAIL" in c or ": SKIP" in c]
     passed = not failed and not blocked
 
     # Long-context stress probe (>= 12k tokens): engineering evidence only.
-    # Reuses the single backend loaded above (no second model load).
+    # Reuses the single backend loaded above (no second model load). It only
+    # runs when load + attention policy + VRAM + short-generation probe all PASS;
+    # a broken short-generation path fails closed (SKIP) instead of attempting
+    # the expensive 12k probe.
     long_context_probe: dict[str, Any] | None = None
-    if passed and not probe_failure:
+    load_and_policy_ok = not any(
+        c.startswith(
+            (
+                "qwen_model_load: FAIL",
+                "attention_policy: FAIL",
+                "device_map_gpu_only: FAIL",
+                "gpu_count_expected: FAIL",
+                "checkpoint_not_prequantized: FAIL",
+                "vram_headroom: FAIL",
+            )
+        )
+        for c in checks
+    )
+    # The 12k probe must only run when load + policy + VRAM + short-generation
+    # all PASS with a real backend. When the short-generation probe or a policy
+    # gate fails, the 12k probe is skipped (fail-closed) instead of attempting the
+    # expensive probe. The real run always retains the loaded backend, so the SKIP
+    # branch is reached whenever a stage failed.
+    if passed and not probe_failure and load_and_policy_ok and short_probe_passed and _shared_backend is not None:
         try:
             long_context_probe = _run_long_context_probe(
                 model_path, quantization_mode, _backend=_shared_backend,
@@ -668,6 +729,15 @@ def run_kaggle_smoke_preflight(
                 "error": f"{type(exc).__name__}: {exc}",
             }
             checks.append(f"long_context_probe: FAIL ({type(exc).__name__}: {exc})")
+    elif _shared_backend is not None:
+        checks.append(
+            "long_context_probe: SKIP (load/policy/short-generation stage failed "
+            "or blocked; not executed)"
+        )
+        long_context_probe = long_context_probe or {
+            "passed": False,
+            "skipped": True,
+        }
 
     # Re-evaluate pass/fail after long-context probe
     failed = [c for c in checks if ": FAIL" in c or ": SKIP" in c]
@@ -706,6 +776,7 @@ def run_kaggle_smoke_preflight(
         requested_attn_implementation=str(probe_metrics.get("requested_attn_implementation", "") or ""),
         effective_attn_implementation=str(probe_metrics.get("effective_attn_implementation", "") or ""),
         sdpa_kernel_policy=str(probe_metrics.get("sdpa_kernel_policy", "") or ""),
+        gqa_compatibility_mode=str(probe_metrics.get("gqa_compatibility_mode", "") or ""),
         long_context_probe=long_context_probe,
         dependencies=dependencies,
         duration_seconds=round(duration, 3),
@@ -746,6 +817,7 @@ def run_kaggle_smoke_preflight(
             "requested_attn_implementation": result.requested_attn_implementation,
             "effective_attn_implementation": result.effective_attn_implementation,
             "sdpa_kernel_policy": result.sdpa_kernel_policy,
+            "gqa_compatibility_mode": result.gqa_compatibility_mode,
             "long_context_probe": result.long_context_probe,
             "dependencies": [list(pair) for pair in result.dependencies],
             "duration_seconds": result.duration_seconds,
@@ -768,6 +840,7 @@ def render_preflight_table(result: KaggleSmokePreflightResult) -> str:
         f"requested_attn_implementation: {result.requested_attn_implementation or 'N/A'}",
         f"effective_attn_implementation: {result.effective_attn_implementation or 'N/A'}",
         f"sdpa_kernel_policy: {result.sdpa_kernel_policy or 'N/A'}",
+        f"gqa_compatibility_mode: {result.gqa_compatibility_mode or 'N/A'}",
         f"model_memory_footprint_bytes: {result.model_memory_footprint_bytes}",
         f"gpu_count: {result.gpu_count}",
         f"gpu_name: {result.gpu_name or 'N/A'}",
@@ -830,6 +903,7 @@ def validate_pilot_launch_authorization(
     """
     from benchmark.llm.kaggle_qwen_backend import (
         KAGGLE_ATTENTION_IMPLEMENTATION,
+        KAGGLE_SDPA_GQA_COMPATIBILITY,
         KAGGLE_SDPA_KERNEL_POLICY,
     )
 
@@ -904,6 +978,16 @@ def validate_pilot_launch_authorization(
                 errors.append(
                     f"model_preflight.json sdpa_kernel_policy="
                     f"{kernel_policy!r} (expected {KAGGLE_SDPA_KERNEL_POLICY!r})"
+                )
+            # V0.9.22 T4 GQA: when the model evidence reports a GQA compatibility
+            # mode it must equal the canonical repeat-KV sm75 mode. Absent (older
+            # evidence) is tolerated for backward compatibility; present-but-wrong
+            # fails closed.
+            gqa_mode = str(model_evidence.get("gqa_compatibility_mode", "") or "")
+            if gqa_mode and gqa_mode != KAGGLE_SDPA_GQA_COMPATIBILITY:
+                errors.append(
+                    f"model_preflight.json gqa_compatibility_mode="
+                    f"{gqa_mode!r} (expected {KAGGLE_SDPA_GQA_COMPATIBILITY!r})"
                 )
             checks_list = model_evidence.get("checks", [])
             if isinstance(checks_list, list):
