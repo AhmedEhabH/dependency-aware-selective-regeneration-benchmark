@@ -1,11 +1,16 @@
 # v0.9.22 D7 Launch/Resume Validation-ARGV Executability Closure
 
-**Date:** 2026-08-27  
-**Branch:** `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`  
-**Starting HEAD:** `1b857fc9fce77e6b637ef292c393d28620e92fdc`  
-**Artifact source / future tag target:** `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`  
-**Freeze-report commit:** `acae4c4`  
-**Exact artifact:** `dist/pilot-kaggle-upload.zip` SHA-256 `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`  
+**Date:** 2026-08-27
+
+**Branch:** `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`
+
+**Starting HEAD:** `1b857fc9fce77e6b637ef292c393d28620e92fdc`
+
+**Artifact source / future tag target:** `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`
+
+**Freeze-report commit:** `acae4c4`
+
+**Exact artifact:** `dist/pilot-kaggle-upload.zip` SHA-256 `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`
 **Stable tag:** does not exist; real 2x T4 proof remains mandatory
 
 ## Closure
@@ -64,4 +69,3 @@ action remains the real 2x T4 model-preflight-only proof using the exact new
 artifact; create `v0.9.22-pilot-exec-ready` at `3ebc75d…` only after the GQA
 microprobe, short probe, and 12k probe all pass. Do not launch 48 cells while
 untagged; on failure return to this same v0.9.22 task.
-
