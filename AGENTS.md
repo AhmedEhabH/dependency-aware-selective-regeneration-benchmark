@@ -36,38 +36,44 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-> **CURRENT TRUTH (2026-08-26, v0.9.22 CANDIDATE — REAL T4 GQA + PREFLIGHT-OBSERVABILITY PROOF PENDING):** branch
+> **CURRENT TRUTH (2026-08-27, v0.9.22 CANDIDATE — GQA MICROPROBE + NOTEBOOK + EXPORT INTEGRITY CLOSURE; REAL T4 PROOF PENDING):** branch
 > `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` (built on the v0.9.22
-> candidate-consistency merge `ba08392552545baa15c10ae5db2e95ce7496a720`, which already
-> carries the v0.9.22 long-context attention memory closure) implements the T4 GQA SDPA +
-> preflight observability closure. Root cause (reproduced on real 2x T4): T4 = sm75 → Flash
-> SDPA unavailable; native GQA reaches fused SDPA as 40/8/8; memory-efficient kernel rejects
-> unequal heads; math disabled (v0.9.21 quadratic-OOM closure) → no allowed kernel →
-> attention raises. v0.9.22 closes it WITHOUT touching any scientific input (model
-> Qwen2.5-Coder-14B-Instruct, BNB-NF4, 12 scenarios, 3 pins, 2 strategies, 2 reps = 48 cells,
-> prompts, Ground Truth, metrics, --timeout 600, --validation-timeout 1800, max attempts 3,
-> completion cap 4096, 12000-token long-context gate, 64-token probe, the no-math fused SDPA
-> policy): force pinned Transformers 4.57.6 to use its repeat-KV path on sm75
-> (`_install_sm75_sdpa_gqa_compatibility` wraps
-> `transformers.integrations.sdpa_attention.use_gqa_in_sdpa` → False on cap (7,5)) so GQA
-> 40/8/8 reaches fused SDPA as 40/40/40; add a cheap CUDA GQA microprobe
-> `probe_sdpa_gqa_kernel_compatibility` (F.repeat_kv expand 40/8/8 → 40/40/40) run BEFORE the
-> ~16.5-min repository preflight so incompatible kernels fail in seconds; make that preflight
-> observable via a live heartbeat thread in `pilot_repo_snapshot._run_command` + Saleor
-> capability-gate evidence; notebook cell 8 runs the microprobe first (fail-closed) and streams
-> preflight output via `_run_tee`; preflight reports the short-generation probe truthfully
-> (12k SKIP on short-probe FAIL) and persists `gqa_compatibility_mode` in evidence/JSON/table
-> with launch-auth enforcing a lenient GQA policy. RED/GREEN proven: relevant suites
-> **867 passed / 23 skipped / 0 failed**; 48/48 dry-run passes locally. Exact candidate
+> candidate-consistency merge `ba08392552545baa15c10ae5db2e95ce7496a720` + the v0.9.22
+> GQA SDPA + preflight observability closure) now carries the D1–D6 bounded correction
+> task: D1 `_gqa_microprobe_expand_kv` uses local tensor repeat-KV
+> (`repeat_interleave` on the head axis) — NO fabricated `torch.nn.functional.repeat_kv`;
+> D2 the microprobe allocates Q/K/V explicitly on each target `cuda:<index>`, synchronizes
+> the device after SDPA, records/verifies per-device evidence (exact geometry 40/8/8→40/40/40,
+> FP16, seq 68; FLASH+EFFICIENT only, MATH excluded), and `all_passed` only when every
+> visible device passes finite+shape+device; D3 `pilot-repo-preflight-cell` restored to a
+> 210-element newline-preserving source (was a 172-element all-comment no-op) that
+> `compile("".join(source), …)` succeeds on and whose AST carries executable microprobe +
+> fail-closed `raise` + `_run_tee` nodes; D4 `_run_tee` enforces its deadline WHILE the child
+> runs (terminate→kill→reap, bounded tail) instead of only after EOF; D5 em-dash mojibake
+> (`â€"`) restored to proper em dashes across cells (0 mojibake in canonical + bundled); D6
+> export rebuilt only after final commit/push and verified by fresh extraction (empty
+> `git status`, extracted HEAD == report HEAD, origin ref == HEAD, artifact + sidecar match,
+> trust freeze tracked & byte-identical). Frozen scientific contract UNCHANGED (model
+> Qwen2.5-Coder-14B-Instruct, BNB-NF4, sdpa, kernel policy `flash_or_efficient_no_math`
+> (MATH disabled), GQA compat `KAGGLE_SDPA_GQA_COMPATIBILITY = "repeat_kv_sm75"`, 12
+> scenarios, 3 pins, 2 strategies, 2 reps = 48 cells, prompts, Ground Truth, metrics,
+> --timeout 600, --validation-timeout 1800, max attempts 3, completion cap 4096, the
+> 12000/64 long-context gate). Full suite **2441 passed / 33 skipped / 0 failed**; exact
+> final-artifact dry-run **48/48** (48 unique IDs, repos 16/16/16, strategies 24/24, reps
+> 24/24, 0 model calls, 0 tokens, every record source commit == `f72ecda…`). Exact candidate
 > artifact `dist/pilot-kaggle-upload.zip` SHA-256
-> `bfbc935f762b484482eee411c5ea7996412b1e47f759f6dca81fa58b0ab9a850` (+ sidecar verified)
-> built from source commit `de0c5bd8bcc7d499246292f515207ce1d10baba7` via the idempotent
+> `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` (+ sidecar verified)
+> built from source commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` via the idempotent
 > two-pass finalizer with `--verify-source-provenance` (0 mismatches;
 > `reports/pilot_notebook_trust_freeze.json` FROZEN). NO stable `v0.9.22` tag yet: the real 2x
-> T4 Kaggle model preflight (short generation probe + 12k target, same 64-token probe) is
-> MANDATORY before creating `v0.9.22-pilot-exec-ready`; if the Kaggle proof fails, return to
-> the SAME v0.9.22 task (never spawn v0.9.23). Report:
-> `reports/V0922_T4_GQA_SDPA_PREFLIGHT_OBSERVABILITY_CLOSURE_REPORT.md`.
+> T4 Kaggle model preflight (repo preflight + heartbeat, Qwen 14B BNB-NF4 load, GQA microprobe,
+> short probe + 12k target, same 64-token probe) is MANDATORY before creating
+> `v0.9.22-pilot-exec-ready`; if the Kaggle proof fails, return to the SAME v0.9.22 task (never
+> spawn v0.9.23). Report:
+> `reports/V0922_GQA_MICROPROBE_NOTEBOOK_EXPORT_INTEGRITY_CLOSURE_REPORT.md`.
+> **SUPERSEDED:** prior v0.9.22 candidate source `de0c5bd8bcc7d499246292f515207ce1d10baba7` /
+> artifact `bfbc935f762b484482eee411c5ea7996412b1e47f759f6dca81fa58b0ab9a850` — do not run
+> the old artifact (`reports/V0922_T4_GQA_SDPA_PREFLIGHT_OBSERVABILITY_CLOSURE_REPORT.md`).
 >
 > **PRIOR TRUTH (2026-08-24, HISTORICAL): v0.9.22 long-context attention memory closure —
 > branch `fix/pilot-v0922-long-context-attention-memory-closure` implements the long-context
@@ -170,7 +176,7 @@ by the v0.9.22 candidate. Report:
 > (REJECTED FOR PILOT LAUNCH 2026-08-24 by the defect above).
 
 - **Accepted release/tag:** `v0.9.21-pilot-exec-ready` @ tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped CI green with Gates 1-3 (runs 32692489617 / 32694137255) — **superseded as launch candidate by the v0.9.22 attention closure (Real Pilot rejected before launch at the real 12k attention-prefill OOM); no v0.9.22 stable tag until the real 2x T4 12k probe PASSES**
-- **v0.9.22 candidate (CURRENT):** branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` (built on `ba08392552545baa15c10ae5db2e95ce7496a720` which carries the long-context memory closure); T4 GQA SDPA + preflight observability closure; relevant suites 867 passed / 23 skipped / 0 failed; dry-run pilot 48/48; exact artifact SHA `bfbc935f762b484482eee411c5ea7996412b1e47f759f6dca81fa58b0ab9a850` from source commit `de0c5bd8bcc7d499246292f515207ce1d10baba7`; NO stable tag until real 2x T4 12k probe PASSES
+- **v0.9.22 candidate (CURRENT):** branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` (built on `ba08392552545baa15c10ae5db2e95ce7496a720` which carries the long-context memory closure); T4 GQA SDPA + preflight observability closure + D1–D6 microprobe/notebook/export integrity closure; full suite 2441 passed / 33 skipped / 0 failed; exact final-artifact dry-run 48/48; exact artifact SHA `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` from source commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` (supersedes `bfbc935f…`/`de0c5bd…`); trust/provenance 0 mismatches, FROZEN; NO stable tag until real 2x T4 12k probe PASSES
 - **v0.9.20 status:** internally trustworthy; no-model target preflight GREEN; superseded for Real Pilot launch by v0.9.21 after the independent audit found the per-cell validation runtime parity blockers (B1 interpreter routing / B2 frozen env discarded / B3 180s timeout below measured runtime)
 - **v0.9.19 status:** REJECTED FOR PILOT LAUNCH 2026-08-24 — real Kaggle Saleor fast-gate Pytest exit 5 (artifact itself was internally GREEN; superseded by v0.9.20)
 - **v0.9.18 status:** RELEASE-ONLY CLOSURE (release-only provenance/docs correction; no scientific or production code changes) — historical
