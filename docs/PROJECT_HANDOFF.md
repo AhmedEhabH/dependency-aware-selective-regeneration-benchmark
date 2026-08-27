@@ -1,6 +1,23 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-27, v0.9.22 CANDIDATE — GQA MICROPROBE + NOTEBOOK + EXPORT
+> **CURRENT STATE (2026-08-27, v0.9.22 D7 LAUNCH/RESUME VALIDATION-ARGV
+> EXECUTABILITY CLOSURE; REAL T4 PROOF PENDING):** D6 was RESOLVED at
+> `1b857fc…` before D7. D7 makes all three per-repository validation-interpreter
+> mappings and `--validation-timeout 1800` live AST elements in both Pilot launch
+> routes, with exact AST and canonical/fresh-bundle newline regression tests.
+> Genuine RED showed zero live launch mappings; affected GREEN is 102/102; full
+> acceptance is **2442 passed / 33 skipped / 0 failed**. Exact-artifact dry-run is
+> **48/48**, every record source commit ==
+> `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`. Exact artifact SHA-256 is
+> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`;
+> sidecar matches; trust/provenance 0 mismatches, FROZEN. `ce40b330…` /
+> `f72ecda…` are SUPERSEDED. Scientific inputs unchanged. No stable tag exists;
+> next is the exact new-artifact 2x T4 model preflight only, and tag `3ebc75d…`
+> only after GQA microprobe + short + 12k PASS. No 48-cell launch while untagged.
+> Report: `reports/V0922_D7_LAUNCH_RESUME_ARGV_EXECUTABILITY_CLOSURE_REPORT.md`.
+> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+>
+> **PRIOR STATE (2026-08-27, SUPERSEDED by D7 — GQA MICROPROBE + NOTEBOOK + EXPORT
 > INTEGRITY CLOSURE; REAL T4 PROOF PENDING):** branch
 > `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` (built on `ba083925…` + the
 > T4 GQA SDPA/preflight-observability closure) carries the D1–D6 bounded correction:

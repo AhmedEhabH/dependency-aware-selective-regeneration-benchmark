@@ -1,6 +1,24 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-27, v0.9.22 CANDIDATE — GQA MICROPROBE + NOTEBOOK + EXPORT
+> **CURRENT TRUTH (2026-08-27, v0.9.22 D7 LAUNCH/RESUME VALIDATION-ARGV
+> EXECUTABILITY CLOSURE; REAL T4 PROOF PENDING):** D6 was RESOLVED before D7
+> began: branch parity and a post-push verified export were proven at `1b857fc…`.
+> D7 restores the three live per-repository `--validation-python` mappings and
+> `--validation-timeout 1800` in both `exec_cmd` and `resume_cmd`, guarded by
+> exact assigned-list AST tests and canonical/fresh-bundle newline checks.
+> Genuine RED showed zero live launch mappings; affected GREEN is 102/102 and
+> full acceptance is **2442 passed / 33 skipped / 0 failed**. Exact-artifact
+> dry-run is **48/48** with all records at source
+> `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`. Exact artifact SHA-256 is
+> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`;
+> sidecar matches; trust/provenance is 0 mismatches and FROZEN. `ce40b330…` /
+> `f72ecda…` are SUPERSEDED. Scientific inputs are unchanged. No stable tag
+> exists; next is the exact new-artifact real 2x T4 preflight only, and tag
+> `3ebc75d…` only after GQA microprobe + short + 12k PASS. No 48-cell launch
+> while untagged. Full detail:
+> `reports/V0922_D7_LAUNCH_RESUME_ARGV_EXECUTABILITY_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-27, SUPERSEDED by D7 — GQA MICROPROBE + NOTEBOOK + EXPORT
 > INTEGRITY CLOSURE; REAL T4 PROOF PENDING):** branch
 > `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` (built on `ba083925…` +
 > the T4 GQA SDPA/preflight-observability closure) carries the D1–D6 bounded correction:

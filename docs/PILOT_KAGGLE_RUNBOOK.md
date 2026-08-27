@@ -1,11 +1,11 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** PENDING CANDIDATE ARTIFACT — CURRENT STATE v0.9.22 CANDIDATE
-(long-context attention memory closure branch merged to main; notebook/deployment
-anchors to be frozen for the PLANNED tag `v0.9.22-pilot-exec-ready`; exact
-candidate artifact built from the merge commit). The stable tag DOES NOT EXIST
-YET: the fresh real 2x T4 Kaggle model preflight (same 12k target, same 64-token
-probe) MUST PASS first. Pilot NOT started; no 48-cell launch while untagged.
+**Status:** EXACT D7 CANDIDATE ARTIFACT FROZEN — CURRENT v0.9.22 CANDIDATE.
+The launch/resume validation argv is executable and AST-guarded in canonical and
+bundled notebooks. The stable tag DOES NOT EXIST YET: the fresh real 2x T4
+Kaggle model preflight (GQA microprobe + short + same 12k/64 probe) MUST PASS
+first. Pilot NOT started; no 48-cell launch while untagged. The prior
+`ce40b330…` artifact from `f72ecda…` is SUPERSEDED and must not be uploaded.
 
 > **HISTORICAL NOTE:** earlier versions of this runbook targeted
 > `v0.9.9-pilot-exec-ready` (and were never updated through v0.9.19/v0.9.20),
@@ -19,8 +19,8 @@ probe) MUST PASS first. Pilot NOT started; no 48-cell launch while untagged.
 | Item | Value |
 |---|---|
 | Source tag | `v0.9.22-pilot-exec-ready` (PLANNED — fill/verify at Phase 2 freeze; git tag created ONLY after the Kaggle 12k probe PASSES) |
-| Source commit (= future tag peel) | `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` (source commit of the D1–D6 closure artifact; == future tag peel; supersedes de0c5bd/bfbc935f) |
-| Artifact SHA-256 | `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` (+ sidecar verified equal; built from the source commit by the two-pass finalizer with --verify-source-provenance; FROZEN) |
+| Source commit (= future tag peel) | `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c` (D7 executable validation-argv closure artifact source; future tag target) |
+| Artifact SHA-256 | `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` (+ sidecar verified equal; two-pass finalizer with `--verify-source-provenance`; FROZEN) |
 | Sidecar | `dist/pilot-kaggle-upload.zip.sha256` (must equal the archive hash) |
 | Trust / provenance | 0 mismatches required |
 | Exact artifact dry-run | 48/48 succeeded, 48 unique IDs, 0 model calls required |
@@ -148,7 +148,7 @@ COMMIT (recorded in the table above) with 0 mismatches required; freeze evidence
    or repository verification.
 4. Verify `pilot_deployment_identity.json`: task `PILOT-EXEC-01`, source tag
     `v0.9.22-pilot-exec-ready` (planned), source commit
-    `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee`; the identity-verify cell anchors
+    `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`; the identity-verify cell anchors
    `source_tag` and the full `FROZEN_DEPLOYMENT` to the frozen constants in
    BOTH modes.
 5. Verify the code/data manifests against the freeze report.
@@ -229,7 +229,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
     --validation-timeout 1800 \
-    --source-commit f72ecda0e7dac10e81dae34daa6bb1610c94b9ee \
+    --source-commit 3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c \
     --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \
@@ -276,7 +276,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
     --validation-timeout 1800 \
-    --source-commit f72ecda0e7dac10e81dae34daa6bb1610c94b9ee \
+    --source-commit 3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c \
     --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \
