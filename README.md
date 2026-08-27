@@ -9,6 +9,17 @@
 [![Tests](https://img.shields.io/badge/tests-2%2C370%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
+> **Current v0.9.22 candidate (2026-08-27):** D7 restores executable per-repository
+> validation routing and `--validation-timeout 1800` in both Pilot launch and
+> resume command lists, with exact AST and canonical/fresh-bundle newline guards.
+> Full acceptance is 2442 passed / 33 skipped; exact-artifact dry-run is 48/48.
+> Upload only `dist/pilot-kaggle-upload.zip` SHA-256
+> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`,
+> source/future tag target `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`.
+> `ce40b330…` / `f72ecda…` are superseded. No v0.9.22 stable tag exists;
+> the exact new-artifact real 2x T4 preflight remains mandatory before tagging,
+> and no 48-cell Pilot launch is allowed while untagged.
+
 ## Overview
 
 This repository provides a research-grade benchmark for studying **selective regeneration in LLM-driven software evolution**.
@@ -951,8 +962,9 @@ Immediate next milestones:
 - [x] PILOT-READY-01 — Pilot readiness closure — **CLOSED (2026-08-10)**: multi-repo selective input contracts fixed (`34ecf78`), stale real-smoke expectation corrected, focused 12-test multi-repo production-path contract added, full suite 2,026 passed / 33 skipped / 0 failed, exact 48-cell Pilot dry-run 48/48 deterministic green, isolation/evidence/export gates 142 passed; Pilot execution NOT STARTED
 - [x] PILOT-EXEC-01 — Pilot deployment freeze chain through **`v0.9.21-pilot-exec-ready`** (ACCEPTED release @ tag peel == artifact source commit `e308047`; archive `dist/pilot-kaggle-upload.zip` `62e37746…`; target-shaped Gates 1–3 + full no-model preflight GREEN — Real Pilot rejected before launch at the real 12k attention-prefill OOM)
 - [x] v0.9.22 long-context attention memory closure — branch `fix/pilot-v0922-long-context-attention-memory-closure` (SDPA + fail-closed kernel policy + canonical evidence; full suite 2407/33/0; dry-run 48/48)
-- [x] v0.9.22 GQA microprobe + notebook + export integrity closure (D1–D6) — branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; full suite 2441/33/0; exact final-artifact dry-run 48/48; artifact `ce40b330…` from source `f72ecda…`
-- [ ] v0.9.22 release sequence (**NEXT ACTION**): ① push this branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` to origin (exact final-artifact dry-run 48/48 already green; artifact `ce40b330…` already built + FROZEN from source commit `f72ecda…`) ② run the fresh Kaggle model preflight ONLY with the exact `ce40b330…` artifact (GQA microprobe + 12k probe must PASS) ③ only after PASS create `v0.9.22-pilot-exec-ready` at `f72ecda…`; no 48-cell launch while untagged
+- [x] v0.9.22 GQA microprobe + notebook + export integrity closure (D1–D6) — superseded for upload by D7
+- [x] v0.9.22 D7 launch/resume validation-argv executability closure — exact assigned-list AST + canonical/fresh-bundle newline guards; full suite 2442/33/0; exact artifact dry-run 48/48; artifact `e0a64937…` from source/future tag target `3ebc75d…`; `ce40b330…`/`f72ecda…` superseded
+- [ ] v0.9.22 release sequence (**NEXT ACTION**): run the fresh 2x T4 Kaggle model preflight ONLY with exact `e0a64937…` artifact; only after GQA microprobe + short + 12k PASS create `v0.9.22-pilot-exec-ready` at `3ebc75d…`; no 48-cell launch while untagged
 - [ ] Research (main confirmatory) experiment
 - [ ] Arm-to-protocol alignment review
 - [ ] Reproducibility archive and DOI

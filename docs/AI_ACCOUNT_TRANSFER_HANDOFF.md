@@ -1,4 +1,4 @@
-# AI Account-Transfer Handoff — CURRENT v0.9.22 CANDIDATE State (2026-08-24)
+# AI Account-Transfer Handoff — CURRENT v0.9.22 D7 CANDIDATE State (2026-08-27)
 
 **Read this file FIRST.** It is the single authoritative snapshot of the
 current project state for any AI agent or human resuming on a new account.
@@ -13,13 +13,13 @@ superseded — this file wins every contradiction.
 |---|---|
 | Real Kaggle v0.9.21 model preflight result | **FAILED at the long-context probe — CUDA OOM: 12,044 prompt tokens / 64-token output budget / failed allocation 21.62 GiB == exactly `12044*12044*40*4 bytes = 21.6153 GiB`, the full float32 40-head quadratic attention score matrix** after repository preflight / dependencies / Qwen 14B BNB-NF4 load (`qwen_model_load[bnb-nf4]: PASS` — the old 2026-08-05 model-load OOM fix still works) / GPU-only device map / 2x Tesla T4 / per-GPU headroom (min free 7.764 GiB) / short generation probe all PASSED; **v0.9.21 Real Pilot REJECTED BEFORE LAUNCH — no Experiment ID / no RunRecord created; no stable tag moved** |
 | Root cause | The effective runtime attention path materialized the math/eager fallback during prompt prefill (offloaded KV cache does not cover prefill attention; `device_map=auto` is not tensor parallelism) |
-| Closure branch | `fix/pilot-v0922-long-context-attention-memory-closure` (from clean main `58d1be533c98ca9bafc9a344f2a73f8a140b9540`, v0.9.21 reconciled) |
+| Closure branch | `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D6 push/export parity was resolved at `1b857fc…` before D7 |
 | Fix set (Tasks A–F) | Task A explicit `attn_implementation="sdpa"` at from_pretrained; Task B fail-closed CUDA generation inside `sdpa_kernel([FLASH_ATTENTION, EFFICIENT_ATTENTION])` (no math/eager fallback; missing torch.nn.attention API on CUDA fails closed); Task C canonical attention evidence (`requested/effective_attn_implementation`, `sdpa_kernel_policy=flash_or_efficient_no_math`) persisted in preflight JSON + rendered in the human table + enforced by the fail-closed `attention_policy` check and pilot launch authorization; Task D corrected OOM diagnosis (long-prompt OOM reports prompt-prefill evidence + free GiB, never advises completion-cap reduction); Tasks E/F regression-guard prior memory fixes and the unchanged 12000/64 gate. RED/GREEN proven: 12 backend + 18 preflight contract tests failed against v0.9.21 code before the fix; full suite **2407 passed / 33 skipped / 0 failed**; dry-run pilot 48/48 (unique IDs, 0 model calls, 0 tokens) |
 | Accepted release | `v0.9.21-pilot-exec-ready` @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped Gates 1-3 + full preflight GREEN (runs 32692489617 / 32694137255) — **superseded as launch candidate by the v0.9.22 attention closure; its repository/per-cell fixes remain VALID and are carried forward** |
 | v0.9.22 stable tag | **DOES NOT EXIST YET.** Per the one-shot flow: build the exact candidate artifact from the merge commit → run the fresh Kaggle model preflight ONLY (same 12k target, same 64-token probe) → only on PASS create `v0.9.22-pilot-exec-ready`. If the Kaggle proof FAILS, return to the SAME v0.9.22 task (never spawn v0.9.23) |
 | Real Pilot status | **NOT STARTED** (no 48-cell launch while untagged) |
-| Exact next action | Phase 2 COMPLETE + candidate consistency closure COMPLETE + **D1–D6 GQA microprobe / notebook / export integrity closure COMPLETE** (source commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee`; candidate artifact `ce40b330…` built + trust/provenance 0 mismatches + FROZEN; full suite 2441/33/0; exact-artifact dry-run 48/48 with the new source commit in every record; supersedes `de0c5bd…`/`bfbc935f…`) → upload the exact artifact to Kaggle for the model-preflight-only proof (GQA microprobe PASS + 12k probe PASS) |
-| Per-cell validation runtime seam | **CLOSED by v0.9.21 (carried forward).** Generated-workspace validation uses explicit `--validation-python` per-repository interpreters (no sys.executable fallback), carries the frozen repository env into `FunctionalValidator` (parent `os.environ` never mutated), and runs under an explicit bounded `--validation-timeout 1800` on Pilot launch AND resume (separate from the frozen model `--timeout 600`). Target proof: Saleor full primary exit 0 in 941.42s < 1800s (CI run 32692489617) |
+| Exact next action | **D1–D7 COMPLETE.** Upload only exact artifact `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` from source/future tag target `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c` (trust/provenance 0 mismatches, FROZEN; full suite 2442/33/0; exact-artifact dry-run 48/48). Run the model-preflight-only proof; tag only after GQA microprobe + short + 12k PASS; do not launch 48 cells while untagged. `ce40b330…` / `f72ecda…` are SUPERSEDED. |
+| Per-cell validation runtime seam | **CLOSED and executable after D7.** Generated-workspace validation uses live AST `--validation-python` mappings for Todo/django CMS/Saleor, carries the frozen env into `FunctionalValidator`, and passes live `--validation-timeout 1800` on launch and resume (separate from `--timeout 600`). Exact canonical/fresh-bundle AST and newline tests prevent text/comment false greens. Target proof remains Saleor full primary exit 0 in 941.42s < 1800s (CI run 32692489617). |
 
 Frozen Pilot matrix (unchanged, pre-registered in
 `docs/PILOT_EXEC_01_EXECUTION_CONTRACT.md`, DECISION_LOG D025):
@@ -161,7 +161,7 @@ weaken one without an explicit new audit.
    SHA-256 `3fd986262936972a6f12adbae21e844adef488dfd76ef0e4b2e6e434b2aa65b3` (+ sidecar verified);
    exact-artifact dry-run 48/48 succeeded / 48 unique IDs / repos 16/16/16 / strategies 24/24 /
    reps 24/24 / 0 model calls / 0 tokens / new source commit in every record.
-   **SUPERSEDED by the D1–D6 GQA microprobe / notebook / export integrity closure (2026-08-27):**
+   **SUPERSEDED first by D1–D6, then by the D7 executable validation-argv closure (2026-08-27):**
    D1 local repeat-KV (no fabricated `torch.nn.functional.repeat_kv`); D2 microprobe allocates
    Q/K/V per `cuda:<index>` + device sync + per-device finite/shape/device evidence (FLASH+EFFICIENT
    only); D3 `pilot-repo-preflight-cell` restored to a 210-element newline-preserving executable
@@ -174,7 +174,11 @@ weaken one without an explicit new audit.
    exact final-artifact dry-run **48/48**; exact artifact REBUILT: `dist/pilot-kaggle-upload.zip`
    SHA-256 `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` (+ sidecar verified) from
    source commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` (trust/provenance 0 mismatches, FROZEN).
-2. Upload the EXACT v0.9.22 candidate artifact (`ce40b330…`) as ONE fresh Kaggle Dataset; attach
+   D7 exact artifact: SHA-256 `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`
+   from source/future tag target `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`; full suite
+   2442/33/0; exact dry-run 48/48; trust/provenance 0 mismatches, FROZEN. The D1–D6
+   `ce40b330…` / `f72ecda…` artifact is SUPERSEDED and must not be uploaded.
+2. Upload the EXACT D7 v0.9.22 candidate artifact (`e0a64937…`) as ONE fresh Kaggle Dataset; attach
    the frozen Pilot notebook (`notebooks/pilot_exec_01.ipynb`) and Qwen 14B input; Internet ON;
    `HF_TOKEN` secret set; confirm mounted model path + HF results repo ID.
 3. Run the **fresh Kaggle v0.9.22 candidate model preflight ONLY** (SHA-256 verify,
@@ -183,7 +187,7 @@ weaken one without an explicit new audit.
    `requested=sdpa effective=sdpa kernel_policy=flash_or_efficient_no_math`). No 48-cell
    launch while untagged.
 4. If the 12k probe PASSES → annotate `v0.9.22-pilot-exec-ready` at the tested source
-   commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee`, push the tag, update docs, then launch the
+   commit `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`, push the tag, update docs, then launch the
    accepted 48-cell Pilot in a fresh session. If it FAILS → return to the SAME v0.9.22 task
    (never spawn v0.9.23).
 
