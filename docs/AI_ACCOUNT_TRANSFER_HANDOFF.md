@@ -168,7 +168,9 @@ weaken one without an explicit new audit.
    source (was an all-comment no-op) carrying microprobe + fail-closed `raise` + `_run_tee`;
    D4 `_run_tee` deadline enforced while child runs (terminate→kill→reap, bounded tail); D5 em-dash
    mojibake restored (0 mojibake); D6 export rebuilt only after final commit/push + fresh-extraction
-   verified. Frozen scientific contract unchanged. Full suite **2441 passed / 33 skipped / 0 failed**;
+   verified — **truthful status: local export verified, but push/origin parity (`origin ref == HEAD`)
+   and the definitive post-push export remain PENDING until this branch is pushed.** Frozen
+   scientific contract unchanged. Full suite **2441 passed / 33 skipped / 0 failed**;
    exact final-artifact dry-run **48/48**; exact artifact REBUILT: `dist/pilot-kaggle-upload.zip`
    SHA-256 `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` (+ sidecar verified) from
    source commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` (trust/provenance 0 mismatches, FROZEN).

@@ -19,8 +19,8 @@ probe) MUST PASS first. Pilot NOT started; no 48-cell launch while untagged.
 | Item | Value |
 |---|---|
 | Source tag | `v0.9.22-pilot-exec-ready` (PLANNED — fill/verify at Phase 2 freeze; git tag created ONLY after the Kaggle 12k probe PASSES) |
-| Source commit (= future tag peel) | `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee (source commit of the D1–D6 closure artifact; == future tag peel; supersedes de0c5bd/bfbc935f) |
-| Artifact SHA-256 | `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d (+ sidecar verified equal; built from the source commit by the two-pass finalizer with --verify-source-provenance; FROZEN) |
+| Source commit (= future tag peel) | `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` (source commit of the D1–D6 closure artifact; == future tag peel; supersedes de0c5bd/bfbc935f) |
+| Artifact SHA-256 | `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` (+ sidecar verified equal; built from the source commit by the two-pass finalizer with --verify-source-provenance; FROZEN) |
 | Sidecar | `dist/pilot-kaggle-upload.zip.sha256` (must equal the archive hash) |
 | Trust / provenance | 0 mismatches required |
 | Exact artifact dry-run | 48/48 succeeded, 48 unique IDs, 0 model calls required |

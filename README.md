@@ -952,7 +952,7 @@ Immediate next milestones:
 - [x] PILOT-EXEC-01 — Pilot deployment freeze chain through **`v0.9.21-pilot-exec-ready`** (ACCEPTED release @ tag peel == artifact source commit `e308047`; archive `dist/pilot-kaggle-upload.zip` `62e37746…`; target-shaped Gates 1–3 + full no-model preflight GREEN — Real Pilot rejected before launch at the real 12k attention-prefill OOM)
 - [x] v0.9.22 long-context attention memory closure — branch `fix/pilot-v0922-long-context-attention-memory-closure` (SDPA + fail-closed kernel policy + canonical evidence; full suite 2407/33/0; dry-run 48/48)
 - [x] v0.9.22 GQA microprobe + notebook + export integrity closure (D1–D6) — branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; full suite 2441/33/0; exact final-artifact dry-run 48/48; artifact `ce40b330…` from source `f72ecda…`
-- [ ] v0.9.22 release mechanics: merge → main, build exact candidate artifact from source commit (**NEXT ACTION** — artifact `ce40b330…` already built + FROZEN) — then fresh Kaggle model preflight ONLY (GQA microprobe + 12k probe must PASS) before creating `v0.9.22-pilot-exec-ready`; no 48-cell launch while untagged
+- [ ] v0.9.22 release sequence (**NEXT ACTION**): ① push this branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` to origin (exact final-artifact dry-run 48/48 already green; artifact `ce40b330…` already built + FROZEN from source commit `f72ecda…`) ② run the fresh Kaggle model preflight ONLY with the exact `ce40b330…` artifact (GQA microprobe + 12k probe must PASS) ③ only after PASS create `v0.9.22-pilot-exec-ready` at `f72ecda…`; no 48-cell launch while untagged
 - [ ] Research (main confirmatory) experiment
 - [ ] Arm-to-protocol alignment review
 - [ ] Reproducibility archive and DOI
