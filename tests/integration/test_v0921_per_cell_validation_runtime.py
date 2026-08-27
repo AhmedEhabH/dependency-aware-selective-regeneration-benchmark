@@ -15,6 +15,7 @@ BenchmarkRunner Stage 3 → FunctionalValidator) must have runtime parity:
 
 from __future__ import annotations
 
+import ast
 import importlib.util
 import json
 import os
@@ -28,6 +29,30 @@ import pytest
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 FROZEN_MANIFEST = PROJECT_DIR / "benchmark_data" / "manifests" / "pilot_validation_commands.yaml"
 SCRIPT = PROJECT_DIR / "seven_arm_benchmark.py"
+
+
+def _assigned_list_elements(source: str, target: str) -> list[ast.expr]:
+    tree = ast.parse(source)
+    assignments = [
+        node
+        for node in tree.body
+        if isinstance(node, ast.Assign)
+        and any(isinstance(name, ast.Name) and name.id == target for name in node.targets)
+    ]
+    assert len(assignments) == 1, f"expected one assignment to {target}"
+    value = assignments[0].value
+    assert isinstance(value, ast.List), f"{target} must be a list"
+    return list(value.elts)
+
+
+def _assert_string(node: ast.expr, expected: str) -> None:
+    assert isinstance(node, ast.Constant) and node.value == expected
+
+
+def _assert_prefixed_name(node: ast.expr, prefix: str, name: str) -> None:
+    assert isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add)
+    _assert_string(node.left, prefix)
+    assert isinstance(node.right, ast.Name) and node.right.id == name
 
 
 def _load_script() -> Any:
@@ -446,12 +471,46 @@ class TestValidationTimeoutContract:
             if cid not in ("pilot-launch-cell", "pilot-resume-cell"):
                 continue
             src = "".join(cell["source"])
-            assert src.count('"--validation-python"') == 3, cid
-            assert '"--validation-python", "todo=" + TODO_PYTHON' in src, cid
-            assert '"--validation-python", "djangocms=" + DJANGO_PYTHON' in src, cid
-            assert '"--validation-python", "saleor=" + SALEOR_PYTHON' in src, cid
-            assert '"--validation-timeout", "1800"' in src, cid
-            assert src.count('"--timeout", "600"') == 1, cid
+            target = "exec_cmd" if cid == "pilot-launch-cell" else "resume_cmd"
+            elements = _assigned_list_elements(src, target)
+            validation_indices = [
+                index
+                for index, value in enumerate(elements)
+                if isinstance(value, ast.Constant) and value.value == "--validation-python"
+            ]
+            assert len(validation_indices) == 3, cid
+            for index, expected in zip(
+                validation_indices,
+                (
+                    ("todo=", "TODO_PYTHON"),
+                    ("djangocms=", "DJANGO_PYTHON"),
+                    ("saleor=", "SALEOR_PYTHON"),
+                ),
+                strict=True,
+            ):
+                _assert_prefixed_name(elements[index + 1], *expected)
+
+            validation_timeout_indices = [
+                index
+                for index, value in enumerate(elements)
+                if isinstance(value, ast.Constant) and value.value == "--validation-timeout"
+            ]
+            assert len(validation_timeout_indices) == 1, cid
+            _assert_string(elements[validation_timeout_indices[0] + 1], "1800")
+            hf_indices = [
+                index
+                for index, value in enumerate(elements)
+                if isinstance(value, ast.Constant) and value.value == "--hf-repo-id"
+            ]
+            assert len(hf_indices) == 1, cid
+            assert validation_timeout_indices[0] < hf_indices[0], cid
+            scientific_timeout_indices = [
+                index
+                for index, value in enumerate(elements)
+                if isinstance(value, ast.Constant) and value.value == "--timeout"
+            ]
+            assert len(scientific_timeout_indices) == 1, cid
+            _assert_string(elements[scientific_timeout_indices[0] + 1], "600")
             checked += 1
         assert checked == 2
         dryrun = "".join(next(c for c in nb["cells"] if c.get("id") == "dryrun-cell")["source"])

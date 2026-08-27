@@ -92,6 +92,76 @@ def _cells_by_id(nb: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {c.get("id", ""): c for c in nb["cells"]}
 
 
+def _assigned_list_elements(source: str, target: str) -> list[ast.expr]:
+    tree = ast.parse(source)
+    assignments = [
+        node
+        for node in tree.body
+        if isinstance(node, ast.Assign)
+        and any(isinstance(name, ast.Name) and name.id == target for name in node.targets)
+    ]
+    assert len(assignments) == 1, f"expected one assignment to {target}"
+    value = assignments[0].value
+    assert isinstance(value, ast.List), f"{target} must be a list"
+    return list(value.elts)
+
+
+def _assert_string(node: ast.expr, expected: str) -> None:
+    assert isinstance(node, ast.Constant) and node.value == expected
+
+
+def _assert_prefixed_name(node: ast.expr, prefix: str, name: str) -> None:
+    assert isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add)
+    _assert_string(node.left, prefix)
+    assert isinstance(node.right, ast.Name) and node.right.id == name
+
+
+def _assert_validation_argv_contract(nb: dict[str, Any]) -> None:
+    cells = _cells_by_id(nb)
+    for cell_id, target in (
+        ("pilot-launch-cell", "exec_cmd"),
+        ("pilot-resume-cell", "resume_cmd"),
+    ):
+        elements = _assigned_list_elements(_src(cells[cell_id]), target)
+        validation_indices = [
+            index
+            for index, node in enumerate(elements)
+            if isinstance(node, ast.Constant) and node.value == "--validation-python"
+        ]
+        assert len(validation_indices) == 3, cell_id
+        for index, expected in zip(
+            validation_indices,
+            (
+                ("todo=", "TODO_PYTHON"),
+                ("djangocms=", "DJANGO_PYTHON"),
+                ("saleor=", "SALEOR_PYTHON"),
+            ),
+            strict=True,
+        ):
+            _assert_prefixed_name(elements[index + 1], *expected)
+        timeout_indices = [
+            index
+            for index, node in enumerate(elements)
+            if isinstance(node, ast.Constant) and node.value == "--validation-timeout"
+        ]
+        assert len(timeout_indices) == 1, cell_id
+        _assert_string(elements[timeout_indices[0] + 1], "1800")
+        hf_indices = [
+            index
+            for index, node in enumerate(elements)
+            if isinstance(node, ast.Constant) and node.value == "--hf-repo-id"
+        ]
+        assert len(hf_indices) == 1, cell_id
+        assert timeout_indices[0] < hf_indices[0], cell_id
+        scientific_timeout_indices = [
+            index
+            for index, node in enumerate(elements)
+            if isinstance(node, ast.Constant) and node.value == "--timeout"
+        ]
+        assert len(scientific_timeout_indices) == 1, cell_id
+        _assert_string(elements[scientific_timeout_indices[0] + 1], "600")
+
+
 class TestNotebookStructure:
     def test_valid_nbformat(self) -> None:
         nb = _nb()
@@ -121,6 +191,16 @@ class TestCodeCellsCompile:
         nb = _nb()
         for cell in _code_cells(nb):
             ast.parse(_src(cell))  # raises SyntaxError on failure
+
+    def test_list_backed_code_cell_sources_preserve_newlines(self) -> None:
+        for cell in _code_cells(_nb()):
+            source = cell["source"]
+            if not isinstance(source, list):
+                continue
+            for index, element in enumerate(source[:-1]):
+                assert element.endswith("\n"), (
+                    f"code cell {cell.get('id')} source element {index} lacks a newline"
+                )
 
 
 class TestFrozenIdentity:
@@ -858,3 +938,14 @@ class TestBundledNotebookParity:
         canonical_bytes = CANONICAL_NOTEBOOK.read_bytes().replace(b"\r\n", b"\n")
         bundled_bytes = bundled.read_bytes().replace(b"\r\n", b"\n")
         assert bundled_bytes == canonical_bytes, "bundled notebook differs from canonical"
+
+        bundled_nb = json.loads(bundled.read_text(encoding="utf-8"))
+        for cell in _code_cells(bundled_nb):
+            source = cell["source"]
+            if not isinstance(source, list):
+                continue
+            for index, element in enumerate(source[:-1]):
+                assert element.endswith("\n"), (
+                    f"bundled code cell {cell.get('id')} source element {index} lacks a newline"
+                )
+        _assert_validation_argv_contract(bundled_nb)
