@@ -203,30 +203,49 @@ yet authorized for this arm.
 
 ## Current Status
 
-> **CURRENT TRUTH (2026-08-24, v0.9.22 CANDIDATE — TARGET MEMORY PROOF PENDING):** branch
-> `fix/pilot-v0922-long-context-attention-memory-closure` implements the long-context
-> attention memory closure on top of clean main `58d1be533c98ca9bafc9a344f2a73f8a140b9540`
-> (v0.9.21 reconciled). The real Kaggle v0.9.21 model preflight PASSED repository
-> preflight / dependencies / Qwen 14B BNB-NF4 load / GPU-only device map / 2x Tesla T4 /
-> per-GPU headroom (min free 7.764 GiB) / short generation probe, then FAILED at the
-> long-context probe with CUDA OOM: 12,044 prompt tokens / 64-token output budget /
-> **failed allocation 21.62 GiB == exactly `12044*12044*40*4 bytes = 21.6153 GiB`, the
-> full float32 40-head quadratic attention score matrix** — the effective runtime
-> attention path had materialized the math/eager fallback during prompt prefill.
-> v0.9.21 Real Pilot REJECTED BEFORE LAUNCH; no Experiment ID / no RunRecord created.
-> The v0.9.22 candidate closes it WITHOUT touching any scientific input (48-cell matrix,
-> prompts, Ground Truth, metrics, timeouts, gates all unchanged): Task A explicit
-> `attn_implementation="sdpa"` at from_pretrained; Task B fail-closed CUDA generation
-> inside `sdpa_kernel([FLASH_ATTENTION, EFFICIENT_ATTENTION])`; Task C canonical
-> attention evidence persisted/rendered/enforced (`requested/effective_attn_implementation`,
+> **CURRENT TRUTH (2026-08-27, v0.9.22 CANDIDATE — GQA MICROPROBE + NOTEBOOK + EXPORT
+> INTEGRITY CLOSURE; REAL T4 PROOF PENDING):** branch
+> `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` (built on `ba083925…` + the
+> T4 GQA SDPA/preflight-observability closure) carries the D1–D6 bounded correction:
+> D1 `_gqa_microprobe_expand_kv` uses local `repeat_interleave` on the head axis (no fabricated
+> `torch.nn.functional.repeat_kv`); D2 the microprobe allocates Q/K/V on each `cuda:<index>`,
+> synchronizes the device after SDPA, records/verifies per-device evidence (exact geometry
+> 40/8/8 → 40/40/40, FP16, {FLASH,EFFICIENT} only, MATH excluded), and `all_passed` only when
+> every visible device passes finite+shape+device; D3 `pilot-repo-preflight-cell` restored to a
+> 210-element newline-preserving executable source (was an all-comment no-op) whose AST carries
+> microprobe + fail-closed `raise` + `_run_tee`; D4 `_run_tee` enforces its deadline WHILE the
+> child runs (terminate→kill→reap, bounded tail); D5 em-dash mojibake restored (0 mojibake
+> canonical + bundled); D6 export rebuilt only after final commit/push + fresh-extraction
+> verified. Frozen scientific contract UNCHANGED (model Qwen2.5-Coder-14B-Instruct, BNB-NF4,
+> sdpa, kernel policy `flash_or_efficient_no_math`, GQA compat `repeat_kv_sm75`, 48-cell
+> matrix, prompts, Ground Truth, metrics, timeouts, gates). Full suite **2441 passed / 33
+> skipped / 0 failed**; exact final-artifact dry-run **48/48**; exact artifact
+> `dist/pilot-kaggle-upload.zip` SHA-256
+> `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` from source commit
+> `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` (trust/provenance 0 mismatches, FROZEN; supersedes
+> `de0c5bd…`/`bfbc935f…`). **NO stable tag yet:** run the fresh Kaggle model preflight ONLY
+> (GQA microprobe + 12k probe must PASS), then create `v0.9.22-pilot-exec-ready`; if the
+> Kaggle proof fails, return to the SAME v0.9.22 task. Report:
+> [`reports/V0922_GQA_MICROPROBE_NOTEBOOK_EXPORT_INTEGRITY_CLOSURE_REPORT.md`](reports/V0922_GQA_MICROPROBE_NOTEBOOK_EXPORT_INTEGRITY_CLOSURE_REPORT.md).
+>
+> **PRIOR TRUTH (2026-08-24, HISTORICAL): v0.9.22 long-context attention memory closure — branch
+> `fix/pilot-v0922-long-context-attention-memory-closure` on clean main
+> `58d1be533c98ca9bafc9a344f2a73f8a140b9540` (v0.9.21 reconciled), superseded by the candidate
+> above:** the real Kaggle v0.9.21 model preflight PASSED repository preflight / dependencies /
+> Qwen 14B BNB-NF4 load / GPU-only device map / 2x Tesla T4 / per-GPU headroom (min free
+> 7.764 GiB) / short generation probe, then FAILED at the long-context probe with CUDA OOM:
+> 12,044 prompt tokens / 64-token output budget / **failed allocation 21.62 GiB == exactly
+> `12044*12044*40*4 bytes = 21.6153 GiB`, the full float32 40-head quadratic attention score
+> matrix** — the effective runtime attention path had materialized the math/eager fallback
+> during prompt prefill. v0.9.21 Real Pilot REJECTED BEFORE LAUNCH; no Experiment ID / no
+> RunRecord created. That candidate closed it WITHOUT touching any scientific input: Task A
+> explicit `attn_implementation="sdpa"` at from_pretrained; Task B fail-closed CUDA generation
+> inside `sdpa_kernel([FLASH_ATTENTION, EFFICIENT_ATTENTION])`; Task C canonical attention
+> evidence persisted/rendered/enforced (`requested/effective_attn_implementation`,
 > `sdpa_kernel_policy=flash_or_efficient_no_math`); Task D corrected OOM diagnosis;
 > Tasks E/F regression-guard prior memory fixes and the unchanged 12000/64 gate.
 > RED/GREEN proven (12 backend + 18 preflight contract tests failed against v0.9.21);
-> full suite **2407 passed / 33 skipped / 0 failed**; dry-run pilot 48/48.
-> **NO stable tag yet:** build the exact candidate artifact from the merge commit, run
-> the fresh Kaggle model preflight ONLY (12k probe must PASS), then create
-> `v0.9.22-pilot-exec-ready`; if the Kaggle proof fails, return to the SAME v0.9.22
-> task. Report:
+> full suite **2407 passed / 33 skipped / 0 failed**; dry-run pilot 48/48. Report:
 > [`reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md`](reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md).
 >
 > **PRIOR TRUTH (2026-08-24, HISTORICAL): accepted release = **`v0.9.21-pilot-exec-ready`**
@@ -708,14 +727,14 @@ mypy --strict src tests
 python -m pip check
 ```
 
-Current validated state (v0.9.22 candidate branch `fix/pilot-v0922-long-context-attention-memory-closure`):
+Current validated state (v0.9.22 candidate branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`):
 
-- **2407 tests passing / 33 skipped / 0 failed** (OpenCode full-suite evidence; v0.9.21 accepted release was 2370/33)
+- **2441 tests passing / 33 skipped / 0 failed** (OpenCode full-suite evidence; v0.9.21 accepted release was 2370/33)
 - **Ruff: 0 new violations** (pre-existing baseline unchanged)
 - **Mypy strict: 0 new errors** (4 pre-existing in preflight.py, identical to HEAD baseline)
 - **pip check: no broken requirements** (pre-existing conda issues unrelated)
 - **No local import dependency on Qwen, torch, or transformers**
-- **Dry-run pilot profile: 48/48 succeeded, unique run IDs, 0 model calls / 0 tokens**
+- **Dry-run pilot profile: 48/48 succeeded, unique run IDs, 0 model calls / 0 tokens** (exact final-artifact dry-run 48/48)
 
 ## Local Execution Boundary
 
@@ -932,7 +951,8 @@ Immediate next milestones:
 - [x] PILOT-READY-01 — Pilot readiness closure — **CLOSED (2026-08-10)**: multi-repo selective input contracts fixed (`34ecf78`), stale real-smoke expectation corrected, focused 12-test multi-repo production-path contract added, full suite 2,026 passed / 33 skipped / 0 failed, exact 48-cell Pilot dry-run 48/48 deterministic green, isolation/evidence/export gates 142 passed; Pilot execution NOT STARTED
 - [x] PILOT-EXEC-01 — Pilot deployment freeze chain through **`v0.9.21-pilot-exec-ready`** (ACCEPTED release @ tag peel == artifact source commit `e308047`; archive `dist/pilot-kaggle-upload.zip` `62e37746…`; target-shaped Gates 1–3 + full no-model preflight GREEN — Real Pilot rejected before launch at the real 12k attention-prefill OOM)
 - [x] v0.9.22 long-context attention memory closure — branch `fix/pilot-v0922-long-context-attention-memory-closure` (SDPA + fail-closed kernel policy + canonical evidence; full suite 2407/33/0; dry-run 48/48)
-- [ ] v0.9.22 release mechanics: merge → main, build exact candidate artifact from merge commit (**NEXT ACTION**) — then fresh Kaggle model preflight ONLY (12k probe must PASS) before creating `v0.9.22-pilot-exec-ready`; no 48-cell launch while untagged
+- [x] v0.9.22 GQA microprobe + notebook + export integrity closure (D1–D6) — branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; full suite 2441/33/0; exact final-artifact dry-run 48/48; artifact `ce40b330…` from source `f72ecda…`
+- [ ] v0.9.22 release mechanics: merge → main, build exact candidate artifact from source commit (**NEXT ACTION** — artifact `ce40b330…` already built + FROZEN) — then fresh Kaggle model preflight ONLY (GQA microprobe + 12k probe must PASS) before creating `v0.9.22-pilot-exec-ready`; no 48-cell launch while untagged
 - [ ] Research (main confirmatory) experiment
 - [ ] Arm-to-protocol alignment review
 - [ ] Reproducibility archive and DOI
