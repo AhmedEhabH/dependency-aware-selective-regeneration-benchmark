@@ -25,6 +25,7 @@ import importlib.util
 import json
 import re
 import sys
+import time as _time
 from pathlib import Path
 from typing import Any
 
@@ -381,6 +382,239 @@ class TestRepoPreflight:
             "the model preflight must consume the repo-preflight evidence file so "
             "a FAILED repo preflight can never be followed by a model load"
         )
+
+
+class TestRepoPreflightCellExecutable:
+    """PILOT-EXEC-01 D3/D4: the repo-preflight cell must be a GENUINE
+    executable gate, not an accidental no-op.
+
+    The historical defect serialized cell 8's source as a list with ZERO
+    newlines, so ``"".join(source)`` produced a single line starting with ``#``
+    (a comment) and the whole GQA microprobe + repository preflight was skipped.
+    These tests prove (1) the canonical source re-joins to executable Python and
+    (2) the AST contains real executable microprobe / fail-closed / ``_run_tee``
+    nodes — string/comment-only matches are explicitly insufficient because
+    comments never appear as AST nodes.
+    """
+
+    def _preflight_src(self) -> str:
+        return _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
+
+    def test_canonical_cell8_source_joins_and_compiles(self) -> None:
+        src = self._preflight_src()
+        assert "\n" in src, "cell 8 source must be newline-preserving"
+        # compile("".join(source)) must succeed (raises SyntaxError on failure).
+        compile("".join(_cells_by_id(_nb())["pilot-repo-preflight-cell"]["source"]),
+                "<pilot-repo-preflight-cell>", "exec")
+
+    def test_ast_has_executable_microprobe_call(self) -> None:
+        tree = ast.parse(self._preflight_src())
+        microprobe_calls = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.Call)
+            and (
+                (isinstance(n.func, ast.Attribute)
+                 and n.func.attr == "probe_sdpa_gqa_kernel_compatibility")
+                or (isinstance(n.func, ast.Name)
+                    and n.func.id == "probe_sdpa_gqa_kernel_compatibility")
+            )
+        ]
+        # A real call site is REQUIRED; a comment mentioning the name does not
+        # produce an AST Call node, so this cannot be satisfied accidentally.
+        assert microprobe_calls, "no executable probe_sdpa_gqa_kernel_compatibility() call"
+
+    def test_ast_has_fail_closed_raise_branch(self) -> None:
+        tree = ast.parse(self._preflight_src())
+
+        def _contains_raise_with(node: Any, needles: tuple[str, ...]) -> bool:
+            if isinstance(node, ast.Raise):
+                assert node.exc is not None
+                src = ast.get_source_segment(self._preflight_src(), node.exc) or ""
+                return any(nd in src for nd in needles)
+            return any(
+                _contains_raise_with(child, needles)
+                for child in ast.iter_child_nodes(node)
+            )
+
+        assert _contains_raise_with(tree, ("MICROPROBE FAILED", "all_passed")), (
+            "missing executable fail-closed raise gated on the microprobe"
+        )
+        assert _contains_raise_with(tree, ("PILOT REPO PREFLIGHT FAILED",)), (
+            "missing executable fail-closed raise for the repo preflight"
+        )
+
+    def test_ast_has_executable_run_tee_call(self) -> None:
+        tree = ast.parse(self._preflight_src())
+        run_tee_calls = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.Call)
+            and isinstance(n.func, ast.Name)
+            and n.func.id == "_run_tee"
+        ]
+        assert run_tee_calls, "no executable _run_tee(...) call"
+
+    def test_run_tee_enforces_deadline_while_running(self) -> None:
+        """D4: the _run_tee body must enforce the deadline while the child is
+        running (not only after EOF), and terminate/kill on timeout."""
+        src = self._preflight_src()
+        # The deadline is computed from a monotonic clock and the reader loop
+        # checks it while the process is still alive.
+        assert "_time.monotonic()" in src
+        assert "deadline" in src
+        assert "proc.terminate()" in src
+        assert "proc.kill()" in src
+        assert "timed out" in src
+
+
+class TestNoEncodingMojibake:
+    """PILOT-EXEC-01 D5: reject the em-dash mojibake ``â€"`` in canonical and
+    bundled notebook sources. The branch corrupted valid em dashes (U+2014) into
+    the mojibake sequence U+00E2 U+20AC U+201D in several cells; these must be
+    absent and proper em dashes present."""
+
+    MOJIBAKE = "\u00e2\u20ac\u201d"
+    EM_DASH = "\u2014"
+
+    def _walk_strings(self, obj: Any) -> list[str]:
+        out: list[str] = []
+        if isinstance(obj, dict):
+            for v in obj.values():
+                out.extend(self._walk_strings(v))
+        elif isinstance(obj, list):
+            for x in obj:
+                out.extend(self._walk_strings(x))
+        elif isinstance(obj, str):
+            out.append(obj)
+        return out
+
+    def test_canonical_notebook_has_no_mojibake(self) -> None:
+        nb = _nb()
+        strings = self._walk_strings(nb)
+        assert not any(self.MOJIBAKE in s for s in strings), (
+            "canonical notebook contains em-dash mojibake"
+        )
+        # The restored em dashes must be present (they are real, not deleted).
+        assert any(self.EM_DASH in s for s in strings), (
+            "expected restored em dashes in the canonical notebook"
+        )
+
+    def test_canonical_code_cells_contain_no_mojibake(self) -> None:
+        for cell in _code_cells(_nb()):
+            assert self.MOJIBAKE not in _src(cell), (
+                f"code cell {cell.get('id')} contains em-dash mojibake"
+            )
+
+    def test_bundled_notebook_contains_no_mojibake(self, tmp_path: Path) -> None:
+        spec = importlib.util.spec_from_file_location(
+            "build_pilot_upload_bundle_no_mojibake",
+            str(SCRIPTS_DIR / "build_pilot_upload_bundle.py"),
+        )
+        assert spec is not None and spec.loader is not None
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = mod
+        spec.loader.exec_module(mod)
+        output_root = tmp_path / "bundle-no-mojibake"
+        archive = tmp_path / "bundle-no-mojibake.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        bundled = output_root / "notebooks" / "pilot_exec_01.ipynb"
+        bundled_nb = json.loads(bundled.read_text(encoding="utf-8"))
+        strings = self._walk_strings(bundled_nb)
+        assert not any(self.MOJIBAKE in s for s in strings), (
+            "bundled notebook contains em-dash mojibake"
+        )
+
+
+def _load_run_tee() -> Any:
+    """Extract the canonical cell-8 ``_run_tee`` function and load it as a real
+    callable against real stdlib subprocess/threading, so its timeout and
+    fail-closed behavior can be exercised with genuine child processes."""
+    src = _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
+    tree = ast.parse(src)
+    func_node = next(
+        (n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "_run_tee"),
+        None,
+    )
+    assert func_node is not None, "_run_tee not defined in the repo-preflight cell"
+    func_src = ast.get_source_segment(src, func_node) or ""
+    ns: dict[str, Any] = {
+        "subprocess": __import__("subprocess"),
+        "sys": __import__("sys"),
+    }
+    exec(compile(func_src, "<pilot-run-tee>", "exec"), ns)
+    return ns["_run_tee"]
+
+
+class TestRunTeeSubprocessBehavior:
+    """D4: the cell-8 ``_run_tee`` must enforce its deadline WHILE the child is
+    still running and fail-closed (terminate -> kill -> reap, close the console
+    handle, raise with the command and a bounded tail). These run against real
+    subprocesses, not a fake runner, so a regression that only enforced the
+    timeout after EOF would fail."""
+
+    def test_returns_captured_output_on_success(self, tmp_path: Path) -> None:
+        run_tee = _load_run_tee()
+        console = tmp_path / "console.log"
+        result = run_tee(
+            [sys.executable, "-c", "print('hello-from-child')"],
+            timeout=30,
+            console_path=str(console),
+        )
+        assert result.stdout.strip() == "hello-from-child"
+        assert result.returncode == 0
+        assert "hello-from-child" in console.read_text(encoding="utf-8", errors="replace")
+
+    def test_raises_on_nonzero_exit(self) -> None:
+        run_tee = _load_run_tee()
+        with pytest.raises(RuntimeError, match="command failed \\(exit="):
+            run_tee([sys.executable, "-c", "import sys; sys.exit(3)"], timeout=30)
+
+    def test_enforces_deadline_while_child_still_running(self) -> None:
+        """A child that sleeps 60s with a 1s timeout must raise after ~1s, far
+        before the child could complete naturally — proving the deadline is
+        checked while the process is alive, not only after EOF."""
+        run_tee = _load_run_tee()
+        started = _time.monotonic()
+        with pytest.raises(RuntimeError, match="timed out") as excinfo:
+            run_tee(
+                [sys.executable, "-c", "import time; time.sleep(60)"],
+                timeout=1,
+            )
+        elapsed = _time.monotonic() - started
+        assert elapsed < 10, f"deadline not enforced while running (elapsed={elapsed:.1f}s)"
+        msg = str(excinfo.value)
+        assert "timed out after 1s" in msg
+        assert "import time; time.sleep(60)" in msg or "sleep(60)" in msg
+
+    def test_timeout_message_contains_bounded_tail(self) -> None:
+        run_tee = _load_run_tee()
+        with pytest.raises(RuntimeError) as excinfo:
+            run_tee(
+                [sys.executable, "-c", "import time; print('START'); time.sleep(60)"],
+                timeout=1,
+            )
+        msg = str(excinfo.value)
+        # The child's output must appear in the message but the message stays
+        # bounded to a tail window (never an unbounded full capture).
+        assert "START" in msg
+        assert len(msg) < 10_000
+
+
+class TestRepoPreflightTimeoutAndOrdering:
+    """D4/D3: the repo-preflight cell keeps its preflight-before-anything-scary
+    ordering and the shared fail-closed runner."""
+
+    def test_repo_preflight_present_and_before_gpu_verify(self) -> None:
+        def _index(cell_id: str) -> int:
+            return [c.get("id", "") for c in _nb()["cells"]].index(cell_id)
+
+        assert _index("pilot-repo-preflight-cell") < _index("gpu-verify-cell")
 
 
 class TestKaggleTransportRestore:
