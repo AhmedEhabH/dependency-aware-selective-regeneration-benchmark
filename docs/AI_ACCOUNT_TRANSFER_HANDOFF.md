@@ -18,7 +18,7 @@ superseded — this file wins every contradiction.
 | Accepted release | `v0.9.21-pilot-exec-ready` @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped Gates 1-3 + full preflight GREEN (runs 32692489617 / 32694137255) — **superseded as launch candidate by the v0.9.22 attention closure; its repository/per-cell fixes remain VALID and are carried forward** |
 | v0.9.22 stable tag | **DOES NOT EXIST YET.** Per the one-shot flow: build the exact candidate artifact from the merge commit → run the fresh Kaggle model preflight ONLY (same 12k target, same 64-token probe) → only on PASS create `v0.9.22-pilot-exec-ready`. If the Kaggle proof FAILS, return to the SAME v0.9.22 task (never spawn v0.9.23) |
 | Real Pilot status | **NOT STARTED** (no 48-cell launch while untagged) |
-| Exact next action | Phase 2 COMPLETE + candidate consistency closure COMPLETE (final merge `ba08392…` on pushed main; anchors frozen at the new merge; candidate artifact `3fd98626…` built; trust/provenance 0 mismatches; exact-artifact dry-run 48/48 with the new source commit in every record) → upload the exact artifact to Kaggle for the model-preflight-only proof (12k probe must PASS) |
+| Exact next action | Phase 2 COMPLETE + candidate consistency closure COMPLETE + **D1–D6 GQA microprobe / notebook / export integrity closure COMPLETE** (source commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee`; candidate artifact `ce40b330…` built + trust/provenance 0 mismatches + FROZEN; full suite 2441/33/0; exact-artifact dry-run 48/48 with the new source commit in every record; supersedes `de0c5bd…`/`bfbc935f…`) → upload the exact artifact to Kaggle for the model-preflight-only proof (GQA microprobe PASS + 12k probe PASS) |
 | Per-cell validation runtime seam | **CLOSED by v0.9.21 (carried forward).** Generated-workspace validation uses explicit `--validation-python` per-repository interpreters (no sys.executable fallback), carries the frozen repository env into `FunctionalValidator` (parent `os.environ` never mutated), and runs under an explicit bounded `--validation-timeout 1800` on Pilot launch AND resume (separate from the frozen model `--timeout 600`). Target proof: Saleor full primary exit 0 in 941.42s < 1800s (CI run 32692489617) |
 
 Frozen Pilot matrix (unchanged, pre-registered in
@@ -161,17 +161,29 @@ weaken one without an explicit new audit.
    SHA-256 `3fd986262936972a6f12adbae21e844adef488dfd76ef0e4b2e6e434b2aa65b3` (+ sidecar verified);
    exact-artifact dry-run 48/48 succeeded / 48 unique IDs / repos 16/16/16 / strategies 24/24 /
    reps 24/24 / 0 model calls / 0 tokens / new source commit in every record.
-2. Upload the EXACT v0.9.22 candidate artifact (`3fd98626…`) as ONE fresh Kaggle Dataset; attach
+   **SUPERSEDED by the D1–D6 GQA microprobe / notebook / export integrity closure (2026-08-27):**
+   D1 local repeat-KV (no fabricated `torch.nn.functional.repeat_kv`); D2 microprobe allocates
+   Q/K/V per `cuda:<index>` + device sync + per-device finite/shape/device evidence (FLASH+EFFICIENT
+   only); D3 `pilot-repo-preflight-cell` restored to a 210-element newline-preserving executable
+   source (was an all-comment no-op) carrying microprobe + fail-closed `raise` + `_run_tee`;
+   D4 `_run_tee` deadline enforced while child runs (terminate→kill→reap, bounded tail); D5 em-dash
+   mojibake restored (0 mojibake); D6 export rebuilt only after final commit/push + fresh-extraction
+   verified. Frozen scientific contract unchanged. Full suite **2441 passed / 33 skipped / 0 failed**;
+   exact final-artifact dry-run **48/48**; exact artifact REBUILT: `dist/pilot-kaggle-upload.zip`
+   SHA-256 `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` (+ sidecar verified) from
+   source commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` (trust/provenance 0 mismatches, FROZEN).
+2. Upload the EXACT v0.9.22 candidate artifact (`ce40b330…`) as ONE fresh Kaggle Dataset; attach
    the frozen Pilot notebook (`notebooks/pilot_exec_01.ipynb`) and Qwen 14B input; Internet ON;
    `HF_TOKEN` secret set; confirm mounted model path + HF results repo ID.
 3. Run the **fresh Kaggle v0.9.22 candidate model preflight ONLY** (SHA-256 verify,
-   identity/manifest verify, repository preflight, Qwen 14B BNB-NF4 load PASS, short
-   generation probe PASS, **12k long-context probe PASS with attention policy evidence**
+   identity/manifest verify, repository preflight, Qwen 14B BNB-NF4 load PASS, GQA microprobe
+   PASS, short generation probe PASS, **12k long-context probe PASS with attention policy evidence**
    `requested=sdpa effective=sdpa kernel_policy=flash_or_efficient_no_math`). No 48-cell
    launch while untagged.
-4. If the 12k probe PASSES → annotate `v0.9.22-pilot-exec-ready` at the tested merge
-   commit, push the tag, update docs, then launch the accepted 48-cell Pilot in a fresh
-   session. If it FAILS → return to the SAME v0.9.22 task (never spawn v0.9.23).
+4. If the 12k probe PASSES → annotate `v0.9.22-pilot-exec-ready` at the tested source
+   commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee`, push the tag, update docs, then launch the
+   accepted 48-cell Pilot in a fresh session. If it FAILS → return to the SAME v0.9.22 task
+   (never spawn v0.9.23).
 
 ## 9. Source-of-truth hierarchy
 

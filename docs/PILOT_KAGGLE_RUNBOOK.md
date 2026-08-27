@@ -19,8 +19,8 @@ probe) MUST PASS first. Pilot NOT started; no 48-cell launch while untagged.
 | Item | Value |
 |---|---|
 | Source tag | `v0.9.22-pilot-exec-ready` (PLANNED — fill/verify at Phase 2 freeze; git tag created ONLY after the Kaggle 12k probe PASSES) |
-| Source commit (= future tag peel) | `ba08392552545baa15c10ae5db2e95ce7496a720 (main merge; == future tag peel; consistency closure superseded the first freeze 4827045) |
-| Artifact SHA-256 | `3fd986262936972a6f12adbae21e844adef488dfd76ef0e4b2e6e434b2aa65b3 (+ sidecar verified equal; built from the merge commit by the two-pass finalizer with --verify-source-provenance) |
+| Source commit (= future tag peel) | `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee (source commit of the D1–D6 closure artifact; == future tag peel; supersedes de0c5bd/bfbc935f) |
+| Artifact SHA-256 | `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d (+ sidecar verified equal; built from the source commit by the two-pass finalizer with --verify-source-provenance; FROZEN) |
 | Sidecar | `dist/pilot-kaggle-upload.zip.sha256` (must equal the archive hash) |
 | Trust / provenance | 0 mismatches required |
 | Exact artifact dry-run | 48/48 succeeded, 48 unique IDs, 0 model calls required |
@@ -147,8 +147,8 @@ COMMIT (recorded in the table above) with 0 mismatches required; freeze evidence
    blobs), then removes `kaggle_transport/`. This happens BEFORE any manifest
    or repository verification.
 4. Verify `pilot_deployment_identity.json`: task `PILOT-EXEC-01`, source tag
-   `v0.9.22-pilot-exec-ready` (planned), source commit
-   `ba08392552545baa15c10ae5db2e95ce7496a720`; the identity-verify cell anchors
+    `v0.9.22-pilot-exec-ready` (planned), source commit
+    `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee`; the identity-verify cell anchors
    `source_tag` and the full `FROZEN_DEPLOYMENT` to the frozen constants in
    BOTH modes.
 5. Verify the code/data manifests against the freeze report.
@@ -229,7 +229,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
     --validation-timeout 1800 \
-    --source-commit ba08392552545baa15c10ae5db2e95ce7496a720 \
+    --source-commit f72ecda0e7dac10e81dae34daa6bb1610c94b9ee \
     --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \
@@ -276,7 +276,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
     --validation-timeout 1800 \
-    --source-commit ba08392552545baa15c10ae5db2e95ce7496a720 \
+    --source-commit f72ecda0e7dac10e81dae34daa6bb1610c94b9ee \
     --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \

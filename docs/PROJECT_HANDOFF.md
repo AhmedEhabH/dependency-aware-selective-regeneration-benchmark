@@ -1,26 +1,54 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-24, v0.9.22 CANDIDATE — TARGET MEMORY PROOF PENDING):** branch
-> `fix/pilot-v0922-long-context-attention-memory-closure` implements the long-context
-> attention memory closure on top of clean main `58d1be533c98ca9bafc9a344f2a73f8a140b9540`
-> (v0.9.21 reconciled). The real Kaggle v0.9.21 model preflight PASSED repository
-> preflight / dependencies / Qwen 14B BNB-NF4 load (`qwen_model_load[bnb-nf4]: PASS`) /
-> GPU-only device map / 2x Tesla T4 / per-GPU headroom (min free 7.764 GiB) / short probe,
-> then FAILED at the long-context probe with CUDA OOM: 12,044 prompt tokens / 64-token
-> output budget / **failed allocation 21.62 GiB == exactly `12044*12044*40*4 bytes =
-> 21.6153 GiB`, the full float32 40-head quadratic attention score matrix** — the effective
-> runtime attention path materialized the math/eager fallback during prompt prefill.
+> **CURRENT STATE (2026-08-27, v0.9.22 CANDIDATE — GQA MICROPROBE + NOTEBOOK + EXPORT
+> INTEGRITY CLOSURE; REAL T4 PROOF PENDING):** branch
+> `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` (built on `ba083925…` + the
+> T4 GQA SDPA/preflight-observability closure) carries the D1–D6 bounded correction:
+> D1 `_gqa_microprobe_expand_kv` uses local `repeat_interleave` on the head axis (no fabricated
+> `torch.nn.functional.repeat_kv`); D2 the microprobe allocates Q/K/V explicitly on each
+> `cuda:<index>`, synchronizes the device after SDPA, records/verifies per-device evidence
+> (exact geometry 40/8/8 → 40/40/40, FP16, {FLASH,EFFICIENT} only, MATH excluded), and
+> `all_passed` only when every visible device passes finite+shape+device; D3
+> `pilot-repo-preflight-cell` restored to a 210-element newline-preserving source (was a
+> 172-element all-comment no-op) that `compile("".join(source), …)` succeeds on and whose AST
+> carries executable microprobe + fail-closed `raise` + `_run_tee` nodes; D4 `_run_tee`
+> enforces its deadline WHILE the child runs (terminate→kill→reap, bounded tail); D5 em-dash
+> mojibake restored (0 mojibake in canonical + bundled); D6 export rebuilt only after final
+> commit/push + fresh-extraction verified (empty git status, extracted HEAD == report HEAD, origin
+> ref == HEAD, artifact + sidecar match, trust freeze tracked & byte-identical). Frozen scientific
+> contract UNCHANGED (model Qwen2.5-Coder-14B-Instruct, BNB-NF4, sdpa, kernel policy
+> `flash_or_efficient_no_math`, GQA compat `repeat_kv_sm75`, 12 scenarios / 3 pins / 2 strategies /
+> 2 reps = 48 cells, prompts, Ground Truth, metrics, --timeout 600, --validation-timeout 1800,
+> max attempts 3, completion cap 4096, 12000/64 gate). Full suite **2441 passed / 33 skipped /
+> 0 failed**; exact final-artifact dry-run **48/48** (48 unique IDs, repos 16/16/16, strategies
+> 24/24, reps 24/24, 0 model calls/tokens, every record source commit == `f72ecda…`). Exact
+> artifact `dist/pilot-kaggle-upload.zip` SHA-256
+> `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` (+ sidecar verified) built from
+> source commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` (trust/provenance 0 mismatches, FROZEN;
+> supersedes `de0c5bd…`/`bfbc935f…`). NO stable tag yet: real 2x T4 Kaggle model preflight (repo
+> preflight + heartbeat, Qwen 14B BNB-NF4 load, GQA microprobe, short + 12k probe) MUST PASS →
+> then `v0.9.22-pilot-exec-ready`; if it fails, return to the SAME v0.9.22 task. Report:
+> `reports/V0922_GQA_MICROPROBE_NOTEBOOK_EXPORT_INTEGRITY_CLOSURE_REPORT.md`.
+> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+>
+> **PRIOR STATE (2026-08-24, HISTORICAL): v0.9.22 long-context attention memory closure — branch
+> `fix/pilot-v0922-long-context-attention-memory-closure` on clean main
+> `58d1be533c98ca9bafc9a344f2a73f8a140b9540` (v0.9.21 reconciled), superseded by the candidate above:**
+> the real Kaggle v0.9.21 model preflight PASSED repository preflight / dependencies / Qwen 14B
+> BNB-NF4 load (`qwen_model_load[bnb-nf4]: PASS`) / GPU-only device map / 2x Tesla T4 / per-GPU
+> headroom (min free 7.764 GiB) / short probe, then FAILED at the long-context probe with CUDA OOM:
+> 12,044 prompt tokens / 64-token output budget / **failed allocation 21.62 GiB == exactly
+> `12044*12044*40*4 bytes = 21.6153 GiB`, the full float32 40-head quadratic attention score matrix**
+> — the effective runtime attention path materialized the math/eager fallback during prompt prefill.
 > v0.9.21 Real Pilot REJECTED BEFORE LAUNCH (no Experiment ID / no RunRecord; no stable tag moved).
-> v0.9.22 candidate closes it WITHOUT touching any scientific input: Task A explicit
+> That candidate closed it WITHOUT touching any scientific input: Task A explicit
 > `attn_implementation="sdpa"`; Task B fail-closed CUDA generation inside
 > `sdpa_kernel([FLASH_ATTENTION, EFFICIENT_ATTENTION])`; Task C canonical attention evidence
 > + fail-closed `attention_policy` check + launch authorization enforcement; Task D corrected
 > OOM diagnosis; Tasks E/F regression guards. RED/GREEN proven (12 backend + 18 preflight
 > contract tests failed against v0.9.21); full suite 2407 passed / 33 skipped / 0 failed;
-> dry-run pilot 48/48. NO stable tag yet: build exact artifact from merge commit → real Kaggle
-> 12k model preflight MUST PASS → then `v0.9.22-pilot-exec-ready`; if it fails, return to the
-> SAME v0.9.22 task. Report: `reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md`.
-> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+> dry-run pilot 48/48.
+> Report: `reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md`.
 >
 > **PRIOR STATE (2026-08-24, HISTORICAL): accepted release = `v0.9.21-pilot-exec-ready`** @ annotated tag
 > peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive
