@@ -57,6 +57,11 @@
   exists, origin branch ref == HEAD, artifact + sidecar exist and match, trust
   freeze tracked and byte-identical, identity source commit == frozen source
   commit). No `PROJECT_EXPORT_READY` is printed unless every check passes.
+  **Truthful status: the local export was created and its verifiable members
+  (`.git/HEAD`, artifact + sidecar match, trust freeze) were verified; push/origin
+  parity (`origin ref == HEAD`) and the definitive post-push export remain
+  PENDING until this branch is pushed (the earlier push attempt was blocked by a
+  network outage to github.com).**
 
 ## 2. Verification
 
@@ -98,15 +103,17 @@
 | D3 notebook preflight no-op | CLOSED |
 | D4 `_run_tee` timeout not enforced | CLOSED |
 | D5 em-dash mojibake regression | CLOSED |
-| D6 export not faithful snapshot | CLOSED (verified export) |
+| D6 export not faithful snapshot | LOCAL EXPORT VERIFIED; push/origin parity (`origin ref == HEAD`) + definitive post-push export PENDING until the branch is pushed |
 
 ## 5. What remains (ordered)
 
-1. Fresh real 2x T4 Kaggle model preflight (repo preflight + heartbeat, Qwen 14B
+1. Push this branch to origin, fetch, and prove `origin/<branch> == HEAD` — then
+   rebuild/re-verify the post-push export (D6 parity closure).
+2. Fresh real 2x T4 Kaggle model preflight (repo preflight + heartbeat, Qwen 14B
    BNB-NF4 load, GQA microprobe, short probe, then the 12k target with the same
    64-token probe) using the exact artifact `ce40b330…`.
-2. If the 12k probe PASSES: annotate `v0.9.22-pilot-exec-ready` on source commit
+3. If the 12k probe PASSES: annotate `v0.9.22-pilot-exec-ready` on source commit
    `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee`, push tag, refresh docs.
-3. If it FAILS: return to the SAME v0.9.22 task (do not spawn v0.9.23).
-4. Launch accepted 48-cell Pilot only after the stable tag exists and all target
+4. If it FAILS: return to the SAME v0.9.22 task (do not spawn v0.9.23).
+5. Launch accepted 48-cell Pilot only after the stable tag exists and all target
    gates pass.

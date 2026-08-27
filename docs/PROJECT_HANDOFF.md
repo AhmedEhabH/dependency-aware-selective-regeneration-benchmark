@@ -15,7 +15,9 @@
 > enforces its deadline WHILE the child runs (terminate→kill→reap, bounded tail); D5 em-dash
 > mojibake restored (0 mojibake in canonical + bundled); D6 export rebuilt only after final
 > commit/push + fresh-extraction verified (empty git status, extracted HEAD == report HEAD, origin
-> ref == HEAD, artifact + sidecar match, trust freeze tracked & byte-identical). Frozen scientific
+> ref == HEAD, artifact + sidecar match, trust freeze tracked & byte-identical) — **truthful status:
+> local export verified, but push/origin parity (`origin ref == HEAD`) and the definitive post-push
+> export remain PENDING until this branch is pushed.** Frozen scientific
 > contract UNCHANGED (model Qwen2.5-Coder-14B-Instruct, BNB-NF4, sdpa, kernel policy
 > `flash_or_efficient_no_math`, GQA compat `repeat_kv_sm75`, 12 scenarios / 3 pins / 2 strategies /
 > 2 reps = 48 cells, prompts, Ground Truth, metrics, --timeout 600, --validation-timeout 1800,
