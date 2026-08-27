@@ -47,6 +47,13 @@ KAGGLE_SDPA_GQA_COMPATIBILITY = "repeat_kv_sm75"
 # repeated backend construction can never double-wrap the Transformers function.
 _INSTALLED_SM75_GQA_COMPAT_SENTINEL = False
 
+# Tracks whether the repeat-KV hook was ACTUALLY applied to the pinned
+# Transformers `use_gqa_in_sdpa` symbol. The sentinel above only records that a
+# single installation attempt was made (idempotence); this flag distinguishes a
+# genuinely installed hook from a failed/absent-symbol path so compatibility is
+# never reported as active merely because the import/sentinel path succeeded.
+_SM75_GQA_HOOK_INSTALLED = False
+
 # Prompts at or above this token count classify a generation OOM as a
 # prompt-prefill attention failure rather than a completion-budget failure.
 LONG_PROMPT_PREFILL_OOM_TOKEN_THRESHOLD = 2048
@@ -150,19 +157,22 @@ def _check_gpu_compatibility() -> None:
 
 
 def _reset_sm75_gqa_compat_sentinel() -> None:
-    """Test-only: clear the install sentinel so the hook can be re-evaluated."""
-    global _INSTALLED_SM75_GQA_COMPAT_SENTINEL
+    """Test-only: clear the install sentinel + hook-installed flag."""
+    global _INSTALLED_SM75_GQA_COMPAT_SENTINEL, _SM75_GQA_HOOK_INSTALLED
     _INSTALLED_SM75_GQA_COMPAT_SENTINEL = False
+    _SM75_GQA_HOOK_INSTALLED = False
 
 
 def _sm75_gqa_compat_active() -> str:
     """Return the active GQA SDPA compatibility mode string, or '' if inactive.
 
-    Active only after the hook is installed AND the runtime CUDA device is
-    Tesla T4 sm75. On every other device the native GQA path is used and this
-    returns an empty string (truthful: no compatibility shim is in effect).
+    Active only when the repeat-KV hook was ACTUALLY installed (not merely
+    attempted) AND the runtime CUDA device is Tesla T4 sm75. On every other
+    device the native GQA path is used and this returns an empty string
+    (truthful: no compatibility shim is in effect). A missing pinned hook/symbol
+    or a failed install attempt never reports the mode as active (fail-closed).
     """
-    if not _INSTALLED_SM75_GQA_COMPAT_SENTINEL:
+    if not _INSTALLED_SM75_GQA_COMPAT_SENTINEL or not _SM75_GQA_HOOK_INSTALLED:
         return ""
     try:
         import torch
@@ -199,7 +209,7 @@ def _install_sm75_sdpa_gqa_compatibility() -> None:
     to unchanged. No math backend is enabled and ``scaled_dot_product_attention``
     itself is never monkeypatched.
     """
-    global _INSTALLED_SM75_GQA_COMPAT_SENTINEL
+    global _INSTALLED_SM75_GQA_COMPAT_SENTINEL, _SM75_GQA_HOOK_INSTALLED
     if _INSTALLED_SM75_GQA_COMPAT_SENTINEL:
         return
     try:
@@ -213,6 +223,8 @@ def _install_sm75_sdpa_gqa_compatibility() -> None:
         return
     original = getattr(sdpa_attention, "use_gqa_in_sdpa", None)
     if original is None:
+        # Fail closed: the pinned hook/symbol is absent, so no compatibility
+        # shim is in effect and it must NOT be reported as active.
         _INSTALLED_SM75_GQA_COMPAT_SENTINEL = True
         return
 
@@ -230,6 +242,7 @@ def _install_sm75_sdpa_gqa_compatibility() -> None:
     _wrapped_use_gqa_in_sdpa._wrapped_original = original  # type: ignore[attr-defined]
     sdpa_attention.use_gqa_in_sdpa = _wrapped_use_gqa_in_sdpa
     _INSTALLED_SM75_GQA_COMPAT_SENTINEL = True
+    _SM75_GQA_HOOK_INSTALLED = True
 
 
 def _read_checkpoint_config(model_path: Path) -> dict[str, Any]:
@@ -1057,38 +1070,77 @@ _QWEN_HEAD_DIM = 128
 _QWEN_MICROPROBE_SEQ = 68
 
 
-def _gqa_microprobe_build_qkv(torch_mod: Any, seq: int) -> tuple[Any, Any, Any]:
-    """Build tiny FP16 Q/K/V tensors matching Qwen2.5-14B GQA geometry."""
+def _gqa_microprobe_build_qkv(
+    torch_mod: Any, seq: int, device: Any
+) -> tuple[Any, Any, Any]:
+    """Build tiny FP16 Q/K/V tensors matching Qwen2.5-14B GQA geometry.
+
+    Q/K/V are allocated explicitly on ``device`` (e.g. ``torch.device("cuda",
+    0)``) so the probe genuinely exercises the fused kernel on each visible
+    target GPU rather than silently running on the default device or CPU.
+    """
     q = torch_mod.randn(
-        1, _QWEN_Q_HEADS, seq, _QWEN_HEAD_DIM, dtype=torch_mod.float16
+        1, _QWEN_Q_HEADS, seq, _QWEN_HEAD_DIM,
+        dtype=torch_mod.float16, device=device,
     )
     k = torch_mod.randn(
-        1, _QWEN_KV_HEADS, seq, _QWEN_HEAD_DIM, dtype=torch_mod.float16
+        1, _QWEN_KV_HEADS, seq, _QWEN_HEAD_DIM,
+        dtype=torch_mod.float16, device=device,
     )
     v = torch_mod.randn(
-        1, _QWEN_KV_HEADS, seq, _QWEN_HEAD_DIM, dtype=torch_mod.float16
+        1, _QWEN_KV_HEADS, seq, _QWEN_HEAD_DIM,
+        dtype=torch_mod.float16, device=device,
     )
     return q, k, v
 
 
 def _gqa_microprobe_expand_kv(
-    torch_mod: Any, key: Any, value: Any, num_key_value_groups: int
+    key: Any, value: Any, num_key_value_groups: int
 ) -> tuple[Any, Any]:
     """Expand KV heads to the query-head count (the repeat-KV compatibility path).
 
-    Mirrors ``transformers.modeling_utils.repeat_kv`` so the fused SDPA backend
-    receives equal Q/K/V head counts (40/40/40) instead of unequal (40/8/8).
+    Implements the repeat-KV expansion with local tensor operations equivalent to
+    ``transformers.modeling_utils.repeat_kv``:
+    ``[B, Hkv, S, D] -> [B, Hkv, groups, S, D] -> [B, Hkv*groups, S, D]``, i.e.
+    each KV head is repeated ``groups`` times consecutively on the head axis. This
+    gives the fused SDPA backend equal Q/K/V head counts (40/40/40) instead of the
+    native unequal GQA geometry (40/8/8). It deliberately does NOT depend on a
+    fabricated ``torch.nn.functional.repeat_kv`` API: the pinned Transformers
+    implementation expands via ``[..., None, ...]`` + ``.expand(...)``, and the
+    exact per-head interpolation is reproduced by ``repeat_interleave`` on the head
+    dimension. If the group count is non-positive the expansion is invalid and this
+    fails closed rather than silently producing a wrong shape.
     """
-    fn = torch_mod.nn.functional.repeat_kv
-    return fn(key, num_key_value_groups), fn(value, num_key_value_groups)
+    if int(num_key_value_groups) < 1:
+        raise ValueError(
+            f"num_key_value_groups must be a positive integer, got {num_key_value_groups!r}"
+        )
+    k_exp = key.repeat_interleave(int(num_key_value_groups), dim=1)
+    v_exp = value.repeat_interleave(int(num_key_value_groups), dim=1)
+    return k_exp, v_exp
 
 
-def _gqa_microprobe_run_sdpa(torch_mod: Any, q: Any, k: Any, v: Any) -> Any:
-    """Run SDPA under the fail-closed FLASH_OR_EFFICIENT_NO_MATH policy."""
+def _gqa_microprobe_run_sdpa(
+    torch_mod: Any, q: Any, k: Any, v: Any, device: Any
+) -> Any:
+    """Run SDPA under the fail-closed FLASH_OR_EFFICIENT_NO_MATH policy.
+
+    After SDPA the target device is synchronized so asynchronous kernel errors
+    surface inside the probe instead of being deferred (which could otherwise let
+    a failing device be reported as passed). MATH is never enabled.
+    """
     from torch.nn.attention import SDPBackend, sdpa_kernel
 
     with sdpa_kernel([SDPBackend.FLASH_ATTENTION, SDPBackend.EFFICIENT_ATTENTION]):
-        return torch_mod.nn.functional.scaled_dot_product_attention(q, k, v)
+        out = torch_mod.nn.functional.scaled_dot_product_attention(q, k, v)
+    # Synchronize so a fused-kernel error on this device raises inside the probe.
+    prev = torch_mod.cuda.current_device()
+    try:
+        torch_mod.cuda.set_device(device)
+        torch_mod.cuda.synchronize(device)
+    finally:
+        torch_mod.cuda.set_device(prev)
+    return out
 
 
 def probe_sdpa_gqa_kernel_compatibility() -> dict[str, Any]:
@@ -1143,33 +1195,59 @@ def probe_sdpa_gqa_kernel_compatibility() -> dict[str, Any]:
     for index in range(device_count):
         entry: dict[str, Any] = {
             "device_index": index,
+            # The exact CUDA device under test; Q/K/V and the SDPA output must all
+            # live here or the device is not proven.
+            "device": str(torch.device("cuda", index)),
             "gpu_name": torch.cuda.get_device_name(index),
             "compute_capability": "{}.{}".format(*torch.cuda.get_device_capability(index)),
             "before_heads": f"{_QWEN_Q_HEADS}/{_QWEN_KV_HEADS}/{_QWEN_KV_HEADS}",
             "after_heads": "",
+            "q_device": "",
+            "k_device": "",
+            "v_device": "",
+            "output_device": "",
             "output_shape": "",
             "passed": False,
             "error": "",
         }
         try:
-            q, k, v = _gqa_microprobe_build_qkv(torch, _QWEN_MICROPROBE_SEQ)
+            device = torch.device("cuda", index)
+            q, k, v = _gqa_microprobe_build_qkv(torch, _QWEN_MICROPROBE_SEQ, device)
             num_groups = _QWEN_Q_HEADS // _QWEN_KV_HEADS
-            k_exp, v_exp = _gqa_microprobe_expand_kv(torch, k, v, num_groups)
+            k_exp, v_exp = _gqa_microprobe_expand_kv(k, v, num_groups)
             entry["after_heads"] = (
                 f"{_QWEN_Q_HEADS}/{_QWEN_Q_HEADS}/{_QWEN_Q_HEADS}"
             )
-            out = _gqa_microprobe_run_sdpa(torch, q, k_exp, v_exp)
+            out = _gqa_microprobe_run_sdpa(torch, q, k_exp, v_exp, device)
+            entry["q_device"] = str(getattr(q, "device", "unknown"))
+            entry["k_device"] = str(getattr(k, "device", "unknown"))
+            entry["v_device"] = str(getattr(v, "device", "unknown"))
+            entry["output_device"] = str(getattr(out, "device", "unknown"))
             finite = bool(torch.isfinite(out).all())
             shape_ok = tuple(getattr(out, "shape", ())) == (
                 1, _QWEN_Q_HEADS, _QWEN_MICROPROBE_SEQ, _QWEN_HEAD_DIM,
             )
             entry["output_shape"] = str(tuple(getattr(out, "shape", ())))
-            if finite and shape_ok:
+            expected_device = f"cuda:{index}"
+            device_ok = (
+                str(getattr(q, "device", "")) == expected_device
+                and str(getattr(k, "device", "")) == expected_device
+                and str(getattr(v, "device", "")) == expected_device
+                and str(getattr(out, "device", "")) == expected_device
+            )
+            if finite and shape_ok and device_ok:
                 entry["passed"] = True
             else:
-                entry["error"] = (
-                    "output not finite" if not finite else "output shape mismatch"
-                )
+                if not device_ok:
+                    entry["error"] = (
+                        f"expected CUDA device {expected_device} but got "
+                        f"q={entry['q_device']!r} k={entry['k_device']!r} "
+                        f"v={entry['v_device']!r} out={entry['output_device']!r}"
+                    )
+                elif not finite:
+                    entry["error"] = "output not finite"
+                else:
+                    entry["error"] = "output shape mismatch"
                 overall_ok = False
         except Exception as exc:
             entry["error"] = f"{type(exc).__name__}: {exc}"
