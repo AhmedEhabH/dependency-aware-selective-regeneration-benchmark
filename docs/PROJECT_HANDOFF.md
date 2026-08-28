@@ -1,21 +1,40 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-27, v0.9.22 D7 LAUNCH/RESUME VALIDATION-ARGV
-> EXECUTABILITY CLOSURE; REAL T4 PROOF PENDING):** D6 was RESOLVED at
-> `1b857fc…` before D7. D7 makes all three per-repository validation-interpreter
-> mappings and `--validation-timeout 1800` live AST elements in both Pilot launch
-> routes, with exact AST and canonical/fresh-bundle newline regression tests.
-> Genuine RED showed zero live launch mappings; affected GREEN is 102/102; full
-> acceptance is **2442 passed / 33 skipped / 0 failed**. Exact-artifact dry-run is
-> **48/48**, every record source commit ==
-> `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`. Exact artifact SHA-256 is
-> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`;
-> sidecar matches; trust/provenance 0 mismatches, FROZEN. `ce40b330…` /
-> `f72ecda…` are SUPERSEDED. Scientific inputs unchanged. No stable tag exists;
-> next is the exact new-artifact 2x T4 model preflight only, and tag `3ebc75d…`
-> only after GQA microprobe + short + 12k PASS. No 48-cell launch while untagged.
-> Report: `reports/V0922_D7_LAUNCH_RESUME_ARGV_EXECUTABILITY_CLOSURE_REPORT.md`.
+> **CURRENT STATE (2026-08-28, v0.9.22 D8 DRY-RUN TOKEN-SCHEMA + LAUNCH-AUTH
+> EVIDENCE CLOSURE; REAL T4 PROOF PENDING):** D8 closes the proven `RunRecordData`
+> token-schema drift — a real 48-record dry-run writes nested `token_usage`
+> (`prompt/completion/total`), `total_workflow_model_calls` / `total_workflow_tokens`,
+> and phase `selection|regeneration|repair` `_model_calls` / `_total_tokens`, NEVER a
+> top-level `total_tokens`. D8.1 adds canonical `validate_pilot_dryrun_evidence` +
+> `_collect_dryrun_evidence_errors` with strict `_expect_zero_int`, and refactors
+> `validate_pilot_launch_authorization` onto the same collector; D8.2 the bundled
+> `dryrun-cell` calls the canonical validator (`dry-run:mock`) and prints only
+> summary-backed totals; D8.3 the GQA per-device display reads real evidence fields
+> instead of the fabric `.get('available')`. Genuine RED: 39 unit tests + 1
+> false-green proof failed pre-D8.1; GREEN: focused 40/40 plus 136/136
+> (contract+bundle); full acceptance is **2492 passed / 33 skipped / 0 failed**.
+> Exact-artifact dry-run is **48/48** (48 unique IDs, repos 16/16/16, strategies
+> 24/24, reps 24/24, zero calls/tokens), every record source commit ==
+> `8f0b11953a4fe2990b7e6c680288be282b8a6b67`. Exact artifact SHA-256 is
+> `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee`;
+> sidecar matches; trust/provenance 0 mismatches, FROZEN. `e0a64937…` (D7),
+> `ce40b330…` / `f72ecda…` are SUPERSEDED. Scientific inputs unchanged. No stable
+> tag exists; next is the exact new-artifact 2x T4 model preflight only, and tag
+> `8f0b119…` only after GQA microprobe + short + 12k PASS. No 48-cell launch while
+> untagged. Report:
+> `reports/V0922_D8_DRYRUN_TOKEN_SCHEMA_LAUNCH_AUTH_CLOSURE_REPORT.md`.
 > **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+>
+> **PRIOR STATE (2026-08-27, SUPERSEDED by D8 — LAUNCH/RESUME VALIDATION-ARGV
+> EXECUTABILITY CLOSURE):** D6 was RESOLVED at `1b857fc…` before D7. D7 made all three
+> per-repository validation-interpreter mappings and `--validation-timeout 1800` live AST
+> elements in both Pilot launch routes, with exact AST and canonical/fresh-bundle newline
+> regression tests. Affected GREEN 102/102; full acceptance **2442 passed / 33 skipped /
+> 0 failed**; exact-artifact dry-run 48/48 at source
+> `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`; artifact
+> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` FROZEN (superseded by
+> D8; do not upload). Report was
+> `reports/V0922_D7_LAUNCH_RESUME_ARGV_EXECUTABILITY_CLOSURE_REPORT.md`.
 >
 > **PRIOR STATE (2026-08-27, SUPERSEDED by D7 — GQA MICROPROBE + NOTEBOOK + EXPORT
 > INTEGRITY CLOSURE; REAL T4 PROOF PENDING):** branch

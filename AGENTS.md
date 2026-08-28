@@ -36,28 +36,53 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-> **CURRENT TRUTH (2026-08-27, v0.9.22 D7 LAUNCH/RESUME VALIDATION-ARGV
-> EXECUTABILITY CLOSURE; REAL T4 PROOF PENDING):** branch
-> `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`. D6 was RESOLVED
-> before D7 began: local/remote branch parity and a verified post-push project export
-> were proven at `1b857fc9fce77e6b637ef292c393d28620e92fdc`. D7 restores the
-> three live `--validation-python` mappings (Todo, django CMS, Saleor) and live
+> **CURRENT TRUTH (2026-08-28, v0.9.22 D8 DRY-RUN TOKEN-SCHEMA + LAUNCH-AUTH
+> EVIDENCE CLOSURE; REAL T4 PROOF PENDING):** branch
+> `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`. D8 closes the proven
+> `RunRecordData` token-schema drift: a real 48-record CLI dry-run writes nested
+> `token_usage` (`prompt/completion/total`) plus `total_workflow_model_calls`,
+> `total_workflow_tokens`, phase `selection|regeneration|repair` `_model_calls` /
+> `_total_tokens`, and status `succeeded` — NEVER a top-level `total_tokens`. The
+> pre-D8 bundled dryrun-cell read the fabricated top-level `total_tokens`, so the
+> old 48-cell gate was a false green (proven: old code PASSes real records via the
+> fail-open `or 0` check). D8.1 adds the canonical
+> `validate_pilot_dryrun_evidence` + private `_collect_dryrun_evidence_errors` with
+> strict `_expect_zero_int` (None/bool/str/float/non-zero all fail closed), returns a
+> truthful summary, and refactors `validate_pilot_launch_authorization` to reuse the
+> same collector (single source of truth); D8.2 the bundled `dryrun-cell` now calls
+> `validate_pilot_dryrun_evidence(..., expected_model_identity="dry-run:mock")` and
+> prints only summary-backed totals; D8.3 the GQA per-device display reads all real
+> evidence fields (device/passed/gpu/cc/heads/qkv/out) instead of the fabric
+> `.get('available')`; D8.4 notebook-contract AST tests (6), GQA display tests (3),
+> and D8.5 real CLI dry-run + bundled integration tests (2) green; D8.6 release-path
+> tests include the notebook executing the same canonical fixture. Genuine RED: 39
+> new unit tests + 1 false-green proof failed before D8.1. GREEN: focused 40/40 (unit)
+> plus 136/136 (contract+bundle); full acceptance **2492 passed / 33 skipped /
+> 0 failed**. Exact final-artifact dry-run **48/48** (48 unique IDs, repos 16/16/16,
+> strategies 24/24, reps 24/24, zero calls/tokens, every record source commit ==
+> `8f0b11953a4fe2990b7e6c680288be282b8a6b67`). Exact artifact
+> `dist/pilot-kaggle-upload.zip` SHA-256
+> `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee`;
+> sidecar matches; trust/provenance 0 mismatches, FROZEN. `e0a64937…` (D7),
+> `ce40b330…` / `f72ecda…` are SUPERSEDED. Scientific contract unchanged. NO stable
+> tag: run the exact new-artifact real 2x T4 preflight only; tag
+> `v0.9.22-pilot-exec-ready` at `8f0b119…` only after GQA microprobe + short + 12k
+> PASS; no 48-cell launch while untagged. Report:
+> `reports/V0922_D8_DRYRUN_TOKEN_SCHEMA_LAUNCH_AUTH_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-27, SUPERSEDED by D8 — LAUNCH/RESUME VALIDATION-ARGV
+> EXECUTABILITY CLOSURE):** D6 was RESOLVED before D7 began: local/remote branch
+> parity and a verified post-push project export were proven at
+> `1b857fc9fce77e6b637ef292c393d28620e92fdc`. D7 restored the three live
+> `--validation-python` mappings (Todo, django CMS, Saleor) and live
 > `--validation-timeout 1800` in both `pilot-launch-cell` and `pilot-resume-cell` by
 > adding only the missing source-element newlines. Exact assigned-list AST tests prove
 > the mappings/order, timeout-before-`--hf-repo-id`, and unchanged scientific
-> `--timeout 600`; canonical and fresh bundled serialization tests reject comment/string
-> false greens. Genuine RED: zero live launch mappings and launch element 35 without a
-> newline. GREEN: affected suites 102/102; full acceptance **2442 passed / 33 skipped /
-> 0 failed**. Exact final-artifact dry-run **48/48** (48 unique IDs, repos 16/16/16,
-> strategies 24/24, reps 24/24, zero calls/tokens, all records source commit ==
-> `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`). Exact artifact
-> `dist/pilot-kaggle-upload.zip` SHA-256
-> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`;
-> sidecar matches; trust/provenance 0 mismatches, FROZEN. `ce40b330…` / `f72ecda…`
-> are SUPERSEDED. Scientific contract unchanged. NO stable tag: run the exact new-artifact
-> real 2x T4 preflight only; tag `3ebc75d…` only after GQA microprobe + short + 12k PASS;
-> no 48-cell launch while untagged. Report:
-> `reports/V0922_D7_LAUNCH_RESUME_ARGV_EXECUTABILITY_CLOSURE_REPORT.md`.
+> `--timeout 600`. GREEN: affected suites 102/102; full acceptance **2442 passed /
+> 33 skipped / 0 failed**. Exact artifact SHA-256
+> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` from source
+> `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`; sidecar matches; trust/provenance
+> 0 mismatches, FROZEN (superseded by D8; do not upload the old artifact).
 >
 > **PRIOR TRUTH (2026-08-27, SUPERSEDED by D7 — GQA MICROPROBE + NOTEBOOK + EXPORT INTEGRITY CLOSURE):** branch
 > `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` (built on the v0.9.22
@@ -201,7 +226,7 @@ by the v0.9.22 candidate. Report:
 > (REJECTED FOR PILOT LAUNCH 2026-08-24 by the defect above).
 
 - **Accepted release/tag:** `v0.9.21-pilot-exec-ready` @ tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped CI green with Gates 1-3 (runs 32692489617 / 32694137255) — **superseded as launch candidate by the v0.9.22 attention closure (Real Pilot rejected before launch at the real 12k attention-prefill OOM); no v0.9.22 stable tag until the real 2x T4 12k probe PASSES**
-- **v0.9.22 candidate (CURRENT):** branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D1–D7 closures complete; full suite 2442 passed / 33 skipped / 0 failed; exact final-artifact dry-run 48/48; exact artifact SHA `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` from future tag target/source commit `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c` (supersedes `ce40b330…`/`f72ecda…` and all earlier candidates); trust/provenance 0 mismatches, FROZEN; NO stable tag until real 2x T4 GQA microprobe + short + 12k probe PASSES
+- **v0.9.22 candidate (CURRENT, D8):** branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D1–D8 closures complete; full suite 2492 passed / 33 skipped / 0 failed; exact final-artifact dry-run 48/48 (48 unique IDs, repos 16/16/16, strategies 24/24, reps 24/24, 0 calls/tokens, every record source commit == `8f0b11953a4fe2990b7e6c680288be282b8a6b67`); exact artifact SHA `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee` (+ sidecar verified) from future tag target/source commit `8f0b119…` (supersedes `e0a64937…`/`3ebc75d…` and all earlier candidates); trust/provenance 0 mismatches, FROZEN; NO stable tag until real 2x T4 GQA microprobe + short + 12k probe PASSES
 - **v0.9.20 status:** internally trustworthy; no-model target preflight GREEN; superseded for Real Pilot launch by v0.9.21 after the independent audit found the per-cell validation runtime parity blockers (B1 interpreter routing / B2 frozen env discarded / B3 180s timeout below measured runtime)
 - **v0.9.19 status:** REJECTED FOR PILOT LAUNCH 2026-08-24 — real Kaggle Saleor fast-gate Pytest exit 5 (artifact itself was internally GREEN; superseded by v0.9.20)
 - **v0.9.18 status:** RELEASE-ONLY CLOSURE (release-only provenance/docs correction; no scientific or production code changes) — historical

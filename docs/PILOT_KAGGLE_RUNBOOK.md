@@ -1,11 +1,13 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** EXACT D7 CANDIDATE ARTIFACT FROZEN — CURRENT v0.9.22 CANDIDATE.
-The launch/resume validation argv is executable and AST-guarded in canonical and
-bundled notebooks. The stable tag DOES NOT EXIST YET: the fresh real 2x T4
-Kaggle model preflight (GQA microprobe + short + same 12k/64 probe) MUST PASS
-first. Pilot NOT started; no 48-cell launch while untagged. The prior
-`ce40b330…` artifact from `f72ecda…` is SUPERSEDED and must not be uploaded.
+**Status:** EXACT D8 CANDIDATE ARTIFACT FROZEN — CURRENT v0.9.22 CANDIDATE.
+The dry-run gate is canonical (bundled `dryrun-cell` calls
+`validate_pilot_dryrun_evidence`, never a fabricated top-level `total_tokens`),
+and launch/resume validation argv is executable and AST-guarded. The stable tag
+DOES NOT EXIST YET: the fresh real 2x T4 Kaggle model preflight (GQA microprobe +
+short + same 12k/64 probe) MUST PASS first. Pilot NOT started; no 48-cell launch
+while untagged. The prior `e0a64937…` (D7) / `ce40b330…` artifacts are
+SUPERSEDED and must not be uploaded.
 
 > **HISTORICAL NOTE:** earlier versions of this runbook targeted
 > `v0.9.9-pilot-exec-ready` (and were never updated through v0.9.19/v0.9.20),
@@ -19,8 +21,8 @@ first. Pilot NOT started; no 48-cell launch while untagged. The prior
 | Item | Value |
 |---|---|
 | Source tag | `v0.9.22-pilot-exec-ready` (PLANNED — fill/verify at Phase 2 freeze; git tag created ONLY after the Kaggle 12k probe PASSES) |
-| Source commit (= future tag peel) | `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c` (D7 executable validation-argv closure artifact source; future tag target) |
-| Artifact SHA-256 | `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` (+ sidecar verified equal; two-pass finalizer with `--verify-source-provenance`; FROZEN) |
+| Source commit (= future tag peel) | `8f0b11953a4fe2990b7e6c680288be282b8a6b67` (D8 dry-run token-schema + launch-auth evidence closure artifact source; future tag target) |
+| Artifact SHA-256 | `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee` (+ sidecar verified equal; two-pass finalizer with `--verify-source-provenance`; FROZEN) |
 | Sidecar | `dist/pilot-kaggle-upload.zip.sha256` (must equal the archive hash) |
 | Trust / provenance | 0 mismatches required |
 | Exact artifact dry-run | 48/48 succeeded, 48 unique IDs, 0 model calls required |
@@ -147,8 +149,8 @@ COMMIT (recorded in the table above) with 0 mismatches required; freeze evidence
    blobs), then removes `kaggle_transport/`. This happens BEFORE any manifest
    or repository verification.
 4. Verify `pilot_deployment_identity.json`: task `PILOT-EXEC-01`, source tag
-    `v0.9.22-pilot-exec-ready` (planned), source commit
-    `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`; the identity-verify cell anchors
+     `v0.9.22-pilot-exec-ready` (planned), source commit
+     `8f0b11953a4fe2990b7e6c680288be282b8a6b67`; the identity-verify cell anchors
    `source_tag` and the full `FROZEN_DEPLOYMENT` to the frozen constants in
    BOTH modes.
 5. Verify the code/data manifests against the freeze report.
@@ -229,7 +231,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
     --validation-timeout 1800 \
-    --source-commit 3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c \
+--source-commit 8f0b11953a4fe2990b7e6c680288be282b8a6b67 \
     --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \
@@ -276,7 +278,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
     --validation-timeout 1800 \
-    --source-commit 3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c \
+--source-commit 8f0b11953a4fe2990b7e6c680288be282b8a6b67 \
     --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \

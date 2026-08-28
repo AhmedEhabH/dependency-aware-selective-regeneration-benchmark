@@ -9,16 +9,17 @@
 [![Tests](https://img.shields.io/badge/tests-2%2C370%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
-> **Current v0.9.22 candidate (2026-08-27):** D7 restores executable per-repository
-> validation routing and `--validation-timeout 1800` in both Pilot launch and
-> resume command lists, with exact AST and canonical/fresh-bundle newline guards.
-> Full acceptance is 2442 passed / 33 skipped; exact-artifact dry-run is 48/48.
+> **Current v0.9.22 candidate (2026-08-28, D8):** the dry-run gate is now
+> canonical — the bundled `dryrun-cell` calls `validate_pilot_dryrun_evidence`
+> (strict nested `token_usage` + workflow/phase totals, never a top-level
+> `total_tokens`), and the GQA per-device display reads real probe evidence.
+> Full acceptance is 2492 passed / 33 skipped; exact-artifact dry-run is 48/48.
 > Upload only `dist/pilot-kaggle-upload.zip` SHA-256
-> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`,
-> source/future tag target `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`.
-> `ce40b330…` / `f72ecda…` are superseded. No v0.9.22 stable tag exists;
-> the exact new-artifact real 2x T4 preflight remains mandatory before tagging,
-> and no 48-cell Pilot launch is allowed while untagged.
+> `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee`,
+> source/future tag target `8f0b11953a4fe2990b7e6c680288be282b8a6b67`.
+> `e0a64937…` (D7), `ce40b330…` / `f72ecda…` are superseded. No v0.9.22
+> stable tag exists; the exact new-artifact real 2x T4 preflight remains
+> mandatory before tagging, and no 48-cell Pilot launch is allowed while untagged.
 
 ## Overview
 
@@ -963,8 +964,9 @@ Immediate next milestones:
 - [x] PILOT-EXEC-01 — Pilot deployment freeze chain through **`v0.9.21-pilot-exec-ready`** (ACCEPTED release @ tag peel == artifact source commit `e308047`; archive `dist/pilot-kaggle-upload.zip` `62e37746…`; target-shaped Gates 1–3 + full no-model preflight GREEN — Real Pilot rejected before launch at the real 12k attention-prefill OOM)
 - [x] v0.9.22 long-context attention memory closure — branch `fix/pilot-v0922-long-context-attention-memory-closure` (SDPA + fail-closed kernel policy + canonical evidence; full suite 2407/33/0; dry-run 48/48)
 - [x] v0.9.22 GQA microprobe + notebook + export integrity closure (D1–D6) — superseded for upload by D7
-- [x] v0.9.22 D7 launch/resume validation-argv executability closure — exact assigned-list AST + canonical/fresh-bundle newline guards; full suite 2442/33/0; exact artifact dry-run 48/48; artifact `e0a64937…` from source/future tag target `3ebc75d…`; `ce40b330…`/`f72ecda…` superseded
-- [ ] v0.9.22 release sequence (**NEXT ACTION**): run the fresh 2x T4 Kaggle model preflight ONLY with exact `e0a64937…` artifact; only after GQA microprobe + short + 12k PASS create `v0.9.22-pilot-exec-ready` at `3ebc75d…`; no 48-cell launch while untagged
+- [x] v0.9.22 D7 launch/resume validation-argv executability closure — exact assigned-list AST + canonical/fresh-bundle newline guards; full suite 2442/33/0; exact artifact dry-run 48/48; artifact `e0a64937…` from source/future tag target `3ebc75d…`; superseded by D8
+- [x] v0.9.22 D8 dry-run token-schema + launch-auth evidence closure — canonical `validate_pilot_dryrun_evidence` (strict nested token schema, fail-closed `_expect_zero_int`, single-source launch-auth) + canonical bundled dryrun-cell + real GQA per-device display; genuine RED 39 unit; focused 40/40 + 136/136; full suite **2492/33/0**; exact artifact dry-run 48/48; artifact `02d16ca2…` from source/future tag target `8f0b119…`; `e0a64937…`/`3ebc75d…`/`ce40b330…`/`f72ecda…` superseded
+- [ ] v0.9.22 release sequence (**NEXT ACTION**): run the fresh 2x T4 Kaggle model preflight ONLY with exact `02d16ca2…` artifact; only after GQA microprobe + short + 12k PASS create `v0.9.22-pilot-exec-ready` at `8f0b119…`; no 48-cell launch while untagged
 - [ ] Research (main confirmatory) experiment
 - [ ] Arm-to-protocol alignment review
 - [ ] Reproducibility archive and DOI
