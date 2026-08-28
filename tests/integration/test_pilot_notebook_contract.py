@@ -24,6 +24,7 @@ import ast
 import importlib.util
 import json
 import re
+import subprocess
 import sys
 import time as _time
 from pathlib import Path
@@ -949,3 +950,298 @@ class TestBundledNotebookParity:
                     f"bundled code cell {cell.get('id')} source element {index} lacks a newline"
                 )
         _assert_validation_argv_contract(bundled_nb)
+
+
+def _load_bundle_builder() -> Any:
+    spec = importlib.util.spec_from_file_location(
+        "build_pilot_upload_bundle_d8",
+        str(SCRIPTS_DIR / "build_pilot_upload_bundle.py"),
+    )
+    assert spec is not None and spec.loader is not None
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _get_call_literals(tree: ast.AST) -> list[str]:
+    """First-argument string literals of every method call in the AST."""
+    out: list[str] = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        args = node.args
+        if not args or not isinstance(args[0], ast.Constant):
+            continue
+        if isinstance(args[0].value, str):
+            out.append(args[0].value)
+    return out
+
+
+class TestPilotDryrunCellSchema:
+    """PILOT-EXEC-01 D8.2/D8.6: the dryrun-cell MUST delegate verification to
+    the canonical ``benchmark.execution.preflight.validate_pilot_dryrun_evidence``
+    and MUST NOT read the fabricated top-level ``total_tokens`` key (the
+    pre-D8 false-green shape). Proof is AST-driven: a comment mentioning the
+    name produces no Import/Call node."""
+
+    def _src(self) -> str:
+        return _src(_cells_by_id(_nb())["dryrun-cell"])
+
+    def _tree(self) -> ast.Module:
+        return ast.parse(self._src())
+
+    def test_imports_canonical_validator(self) -> None:
+        tree = self._tree()
+        imports = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.ImportFrom)
+            and n.module in ("benchmark.execution.preflight",)
+            and any(
+                alias.name == "validate_pilot_dryrun_evidence"
+                for alias in n.names
+            )
+        ]
+        assert imports, (
+            "dryrun-cell must import validate_pilot_dryrun_evidence from "
+            "benchmark.execution.preflight"
+        )
+
+    def test_calls_canonical_validator(self) -> None:
+        tree = self._tree()
+        calls = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.Call)
+            and (
+                (isinstance(n.func, ast.Name)
+                 and n.func.id == "validate_pilot_dryrun_evidence")
+                or (isinstance(n.func, ast.Attribute)
+                    and n.func.attr == "validate_pilot_dryrun_evidence")
+            )
+        ]
+        assert calls, "no executable validate_pilot_dryrun_evidence(...) call"
+
+    def test_never_reads_top_level_total_tokens(self) -> None:
+        """The cell must never read a per-record top-level ``total_tokens`` key.
+        The ONLY ``['total_tokens']`` subscripts allowed are the canonical
+        validator's summary aggregate (``dryrun_summary['total_tokens']``),
+        printed for truthful evidence display."""
+        src = self._src()
+        tree = self._tree()
+        get_literals = _get_call_literals(tree)
+        assert "total_tokens" not in get_literals, (
+            "dryrun-cell still reads top-level total_tokens via .get() "
+            "(pre-D8 false-green shape)"
+        )
+        subscripts = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.Subscript)
+            and isinstance(n.slice, ast.Constant)
+            and n.slice.value == "total_tokens"
+        ]
+        for node in subscripts:
+            receiver = ast.get_source_segment(src, node.value) or ""
+            assert receiver in ("dryrun_summary", "summary"), (
+                f"top-level total_tokens must only be read from the validator "
+                f"summary, got receiver {receiver!r}"
+            )
+
+    def test_prints_truthful_summary_after_validation(self) -> None:
+        """The cell must print the validated summary (counts + zero tokens +
+        source identity), never a hand-rolled verdict."""
+        src = self._src()
+        assert "validate_pilot_dryrun_evidence(" in src
+        for needle in ("record_count", "unique_run_ids", "repo_counts",
+                       "strategy_counts", "rep_counts", "model_calls",
+                       "total_tokens", "total_workflow_tokens",
+                       "source_commit", "deployed_build_id"):
+            assert needle in src, f"truthful summary must print {needle!r}"
+
+    def test_bundled_dryrun_cell_matches_canonical(self, tmp_path: Path) -> None:
+        mod = _load_bundle_builder()
+        output_root = tmp_path / "bundle-dryrun-schema"
+        archive = tmp_path / "bundle-dryrun-schema.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        bundled = output_root / "notebooks" / "pilot_exec_01.ipynb"
+        bundled_nb = json.loads(bundled.read_text(encoding="utf-8"))
+        bundled_src = _src(_cells_by_id(bundled_nb)["dryrun-cell"])
+        tree = ast.parse(bundled_src)
+        assert any(
+            isinstance(n, ast.ImportFrom)
+            and n.module == "benchmark.execution.preflight"
+            and any(a.name == "validate_pilot_dryrun_evidence" for a in n.names)
+            for n in ast.walk(tree)
+        ), "bundled dryrun-cell lost the canonical validator import"
+        assert any(
+            isinstance(n, ast.Call)
+            and (
+                (isinstance(n.func, ast.Name)
+                 and n.func.id == "validate_pilot_dryrun_evidence")
+                or (isinstance(n.func, ast.Attribute)
+                    and n.func.attr == "validate_pilot_dryrun_evidence")
+            )
+            for n in ast.walk(tree)
+        ), "bundled dryrun-cell lost the canonical validator call"
+        assert "total_tokens" not in _get_call_literals(tree), (
+            "bundled dryrun-cell still reads top-level total_tokens"
+        )
+
+
+class TestGqaPerDeviceEvidenceDisplay:
+    """PILOT-EXEC-01 D8.3/D8.6: the repo-preflight cell must display the SDPA
+    GQA microprobe per visible device using the REAL per-device evidence
+    (``passed``/``gpu_name``/``compute_capability``/``before_heads``/
+    ``after_heads``/``q_device``/``k_device``/``v_device``/``output_device``/
+    ``output_shape``/``error``), NOT the fabricated ``available`` key."""
+
+    REQUIRED_DEVICE_FIELDS = (
+        "device_index", "device", "passed", "gpu_name", "compute_capability",
+        "before_heads", "after_heads", "q_device", "k_device", "v_device",
+        "output_device", "output_shape", "error",
+    )
+
+    def _preflight_src(self) -> str:
+        return _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
+
+    def test_per_device_display_reads_real_fields(self) -> None:
+        tree = ast.parse(self._preflight_src())
+        get_literals = _get_call_literals(tree)
+        for field in self.REQUIRED_DEVICE_FIELDS:
+            assert field in get_literals, (
+                f"GQA per-device display must read {field!r}"
+            )
+        assert "available" not in get_literals, (
+            "GQA per-device display must NOT read the fabricated 'available' key"
+        )
+
+    def test_per_device_loop_shape(self) -> None:
+        """The per-device loop must iterate ``gqa_probe.get('devices', [])`` and
+        print a per-device line (device index/name + passed)."""
+        src = self._preflight_src()
+        assert ".get(\"devices\", [])" in src or ".get('devices', [])" in src
+        assert "device_index" in src
+        assert "passed=" in src
+        assert "output_shape" in src
+
+    def test_bundled_gqa_display_matches_canonical(self, tmp_path: Path) -> None:
+        mod = _load_bundle_builder()
+        output_root = tmp_path / "bundle-gqa-display"
+        archive = tmp_path / "bundle-gqa-display.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        bundled = output_root / "notebooks" / "pilot_exec_01.ipynb"
+        bundled_nb = json.loads(bundled.read_text(encoding="utf-8"))
+        bundled_src = _src(_cells_by_id(bundled_nb)["pilot-repo-preflight-cell"])
+        get_literals = _get_call_literals(ast.parse(bundled_src))
+        for field in self.REQUIRED_DEVICE_FIELDS:
+            assert field in get_literals, (
+                f"bundled GQA per-device display must read {field!r}"
+            )
+        assert "available" not in get_literals
+
+
+class TestPilotDryrunEvidenceValidatorIntegration:
+    """PILOT-EXEC-01 D8.5: run the REAL CLI dry-run and require the canonical
+    dry-run evidence validator to pass on the real artifact (never a fixture),
+    proving 48/48 cells, exact source identity, and zero model calls/tokens."""
+
+    SOURCE_COMMIT = "3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c"
+    SOURCE_TAG = "v0.9.22-pilot-exec-ready"
+    BUILT_ID = "d8-validator-integration"
+
+    def _run_cli(self, script: Path, dryrun_dir: Path, data_dir: Path) -> None:
+        result = subprocess.run(
+            [
+                sys.executable, "-u", str(script),
+                "--dry-run",
+                "--profile", "pilot",
+                "--protocol-version", "1.0",
+                "--max-attempts", "3",
+                "--max-completion-tokens-per-call", "4096",
+                "--max-total-workflow-tokens", "0",
+                "--timeout", "600",
+                "--source-commit", self.SOURCE_COMMIT,
+                "--source-tag", self.SOURCE_TAG,
+                "--deployed-build-id", self.BUILT_ID,
+                "--data-dir", str(data_dir),
+                "--qwen-quantization", "bnb-nf4",
+                "--output-dir", str(dryrun_dir),
+            ],
+            capture_output=True,
+            text=True,
+            cwd=str(PROJECT_DIR),
+            errors="replace",
+        )
+        assert result.returncode == 0, (
+            f"CLI dry-run failed:\nSTDOUT:\n{result.stdout[-2000:]}\n"
+            f"STDERR:\n{result.stderr[-2000:]}"
+        )
+
+    def _assert_validator_pass(self, dryrun_dir: Path) -> None:
+        from benchmark.execution.preflight import validate_pilot_dryrun_evidence
+        summary = validate_pilot_dryrun_evidence(
+            dryrun_dir=dryrun_dir,
+            expected_source_commit=self.SOURCE_COMMIT,
+            expected_source_tag=self.SOURCE_TAG,
+            expected_deployed_build_id=self.BUILT_ID,
+            expected_model_identity="dry-run:mock",
+        )
+        assert summary["passed"] is True
+        assert summary["record_count"] == 48
+        assert summary["unique_run_ids"] == 48
+        assert summary["repo_counts"] == {"todo": 16, "djangocms": 16, "saleor": 16}
+        assert summary["strategy_counts"] == {
+            "iterative_repository_agent": 24,
+            "selective": 24,
+        }
+        assert summary["rep_counts"] == {1: 24, 2: 24}
+        assert summary["model_calls"] == 0
+        assert summary["prompt_tokens"] == 0
+        assert summary["completion_tokens"] == 0
+        assert summary["total_tokens"] == 0
+        assert summary["total_workflow_model_calls"] == 0
+        assert summary["total_workflow_tokens"] == 0
+        assert summary["source_commit"] == self.SOURCE_COMMIT
+        assert summary["source_tag"] == self.SOURCE_TAG
+        assert summary["deployed_build_id"] == self.BUILT_ID
+        assert summary["model_identity"] == "dry-run:mock"
+
+    def test_real_cli_dryrun_passes_canonical_validator(self, tmp_path: Path) -> None:
+        dryrun_dir = tmp_path / "dryrun"
+        self._run_cli(
+            PROJECT_DIR / "seven_arm_benchmark.py",
+            dryrun_dir,
+            PROJECT_DIR / "benchmark_data",
+        )
+        self._assert_validator_pass(dryrun_dir)
+
+    def test_bundled_cli_dryrun_passes_canonical_validator(self, tmp_path: Path) -> None:
+        mod = _load_bundle_builder()
+        output_root = tmp_path / "bundle-validator"
+        archive = tmp_path / "bundle-validator.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        script = output_root / "code" / "seven_arm_benchmark.py"
+        data_dir = output_root / "data"
+        dryrun_dir = tmp_path / "bundled-dryrun"
+        self._run_cli(script, dryrun_dir, data_dir)
+        self._assert_validator_pass(dryrun_dir)
