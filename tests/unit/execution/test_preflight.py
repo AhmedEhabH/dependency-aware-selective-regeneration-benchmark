@@ -5,6 +5,7 @@ import json
 import sys
 import types
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -1374,6 +1375,133 @@ class TestAttentionPolicyGate:
         assert KAGGLE_CACHE_IMPLEMENTATION == "offloaded"
 
 
+def _real_dryrun_record(
+    index: int,
+    *,
+    source_commit: str = "abc123",
+    source_tag: str = "v0.9.18-pilot-exec-ready",
+    overrides: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Build one ``RunRecordData`` serialization EXACTLY as the real CLI dry-run
+    writes it.
+
+    The real serializer stores token accounting under the nested ``token_usage``
+    mapping plus the ``total_workflow_*`` and phase ``*_model_calls`` /
+    ``*_total_tokens`` fields. There is NO top-level ``total_tokens`` key. Tests
+    must exercise this real shape so a fabricated legacy record can never satisfy
+    the canonical dry-run evidence validator.
+    """
+    repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
+    strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
+    record: dict[str, Any] = {
+        "run_id": f"run-{index:03d}",
+        "status": "succeeded",
+        "repository_id": repos[index],
+        "strategy_id": strats[index],
+        "repetition": 1 if index < 24 else 2,
+        "source_commit": source_commit,
+        "source_tag": source_tag,
+        "model_calls": 0,
+        "token_usage": {"prompt": 0, "completion": 0, "total": 0},
+        "total_workflow_model_calls": 0,
+        "total_workflow_tokens": 0,
+        "selection_model_calls": 0,
+        "regeneration_model_calls": 0,
+        "repair_model_calls": 0,
+        "selection_total_tokens": 0,
+        "regeneration_total_tokens": 0,
+        "repair_total_tokens": 0,
+        "protocol_version": "1.0",
+        "profile": "pilot",
+    }
+    if overrides:
+        record.update(overrides)
+    return record
+
+
+def _write_real_dryrun(
+    dryrun_dir: Path,
+    *,
+    source_commit: str = "abc123",
+    source_tag: str = "v0.9.18-pilot-exec-ready",
+    deployed_build_id: str = "build-001",
+    record_overrides: dict[str, Any] | None = None,
+    record_indices: set[int] | None = None,
+) -> Path:
+    dryrun_dir.mkdir(parents=True, exist_ok=True)
+    records = [
+        _real_dryrun_record(
+            i,
+            source_commit=source_commit,
+            source_tag=source_tag,
+            overrides=(
+                record_overrides
+                if record_indices is None or i in record_indices
+                else None
+            ),
+        )
+        for i in range(48)
+    ]
+    (dryrun_dir / "run_records.jsonl").write_text(
+        "\n".join(json.dumps(record) for record in records),
+        encoding="utf-8",
+    )
+    (dryrun_dir / "source_identity.json").write_text(
+        json.dumps({
+            "dry_run": True,
+            "profile": "pilot",
+            "protocol_version": "1.0",
+            "source_commit": source_commit,
+            "source_tag": source_tag,
+            "deployed_build_id": deployed_build_id,
+            "model_identity": "dry-run:mock",
+        }),
+        encoding="utf-8",
+    )
+    return dryrun_dir
+
+
+def _drop_record_fields(
+    dryrun_dir: Path,
+    fields: list[str],
+    indices: set[int] | None = None,
+) -> None:
+    path = dryrun_dir / "run_records.jsonl"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    output = []
+    for index, line in enumerate(lines):
+        record = json.loads(line)
+        if indices is None or index in indices:
+            for field in fields:
+                record.pop(field, None)
+        output.append(json.dumps(record))
+    path.write_text("\n".join(output), encoding="utf-8")
+
+
+def _set_record_field(dryrun_dir: Path, field: str, value: Any) -> None:
+    path = dryrun_dir / "run_records.jsonl"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    output = []
+    for line in lines:
+        record = json.loads(line)
+        record[field] = value
+        output.append(json.dumps(record))
+    path.write_text("\n".join(output), encoding="utf-8")
+
+
+def _set_token_usage_value(dryrun_dir: Path, key: str, value: Any) -> None:
+    path = dryrun_dir / "run_records.jsonl"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    output = []
+    for line in lines:
+        record = json.loads(line)
+        token_usage = record.get("token_usage")
+        if isinstance(token_usage, dict):
+            token_usage[key] = value
+        output.append(json.dumps(record))
+    path.write_text("\n".join(output), encoding="utf-8")
+
+
 class TestValidatePilotLaunchAuthorization:
     """C1-C5 + D: strict launch authorization with required long-context evidence."""
 
@@ -1412,32 +1540,12 @@ class TestValidatePilotLaunchAuthorization:
         )
 
     def _write_valid_dryrun(self, dryrun_dir: Path, *, source_commit: str = "abc123") -> None:
-        dryrun_dir.mkdir(parents=True, exist_ok=True)
-        records = []
-        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
-        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
-        for i in range(48):
-            records.append(json.dumps({
-                "run_id": f"run-{i:03d}",
-                "status": "succeeded",
-                "repository_id": repos[i],
-                "strategy_id": strats[i],
-                "repetition": 1 if i < 24 else 2,
-                "source_commit": source_commit,
-                "source_tag": "v0.9.18-pilot-exec-ready",
-                "model_calls": 0,
-                "total_tokens": 0,
-            }))
-        (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
-        (dryrun_dir / "source_identity.json").write_text(json.dumps({
-            "dry_run": True,
-            "profile": "pilot",
-            "protocol_version": "1.0",
-            "source_commit": source_commit,
-            "source_tag": "v0.9.18-pilot-exec-ready",
-            "deployed_build_id": "build-001",
-            "model_identity": "dry-run:mock",
-        }), encoding="utf-8")
+        _write_real_dryrun(
+            dryrun_dir,
+            source_commit=source_commit,
+            source_tag="v0.9.18-pilot-exec-ready",
+            deployed_build_id="build-001",
+        )
 
     def test_passes_with_valid_evidence(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.setenv("HF_TOKEN", "test-token-123")
@@ -1741,17 +1849,12 @@ class TestCLIAuthorizationPath:
             "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
             "deployed_build_id": "b1", "model_identity": "dry-run:mock",
         }), encoding="utf-8")
-        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
-        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
-        records = []
-        for i in range(48):
-            records.append(json.dumps({
-                "run_id": f"r{i:03d}", "status": "succeeded",
-                "repository_id": repos[i], "strategy_id": strats[i],
-                "repetition": 1 if i < 24 else 2,
-                "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
-                "model_calls": 0, "total_tokens": 0,
-            }))
+        records = [
+            json.dumps(_real_dryrun_record(
+                i, source_commit="abc", source_tag="v0.9.18-pilot-exec-ready",
+            ))
+            for i in range(48)
+        ]
         (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
 
         import seven_arm_benchmark as saber
@@ -1792,17 +1895,12 @@ class TestCLIAuthorizationPath:
             "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
             "deployed_build_id": "b1", "model_identity": "dry-run:mock",
         }), encoding="utf-8")
-        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
-        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
-        records = []
-        for i in range(48):
-            records.append(json.dumps({
-                "run_id": f"r{i:03d}", "status": "succeeded",
-                "repository_id": repos[i], "strategy_id": strats[i],
-                "repetition": 1 if i < 24 else 2,
-                "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
-                "model_calls": 0, "total_tokens": 0,
-            }))
+        records = [
+            json.dumps(_real_dryrun_record(
+                i, source_commit="abc", source_tag="v0.9.18-pilot-exec-ready",
+            ))
+            for i in range(48)
+        ]
         (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
 
         repo_json = tmp_path / "repo.json"
@@ -1980,32 +2078,7 @@ class TestValidatePilotLaunchAuthorizationGqa:
         )
 
     def _write_valid_dryrun(self, dryrun_dir: Path) -> None:
-        dryrun_dir.mkdir(parents=True, exist_ok=True)
-        records = []
-        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
-        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
-        for i in range(48):
-            records.append(json.dumps({
-                "run_id": f"run-{i:03d}",
-                "status": "succeeded",
-                "repository_id": repos[i],
-                "strategy_id": strats[i],
-                "repetition": 1 if i < 24 else 2,
-                "source_commit": "abc123",
-                "source_tag": "v0.9.18-pilot-exec-ready",
-                "model_calls": 0,
-                "total_tokens": 0,
-            }))
-        (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
-        (dryrun_dir / "source_identity.json").write_text(json.dumps({
-            "dry_run": True,
-            "profile": "pilot",
-            "protocol_version": "1.0",
-            "source_commit": "abc123",
-            "source_tag": "v0.9.18-pilot-exec-ready",
-            "deployed_build_id": "build-001",
-            "model_identity": "dry-run:mock",
-        }), encoding="utf-8")
+        _write_real_dryrun(dryrun_dir, source_commit="abc123")
 
     def _model_json(self, path: Path, *, gqa_mode: str | None = None) -> None:
         payload = {
@@ -2067,4 +2140,220 @@ class TestValidatePilotLaunchAuthorizationGqa:
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
                 expected_deployed_build_id="build-001",
             )
+
+
+class TestValidatePilotDryrunEvidence:
+    """PILOT-EXEC-01 D8: the canonical dry-run evidence validator enforces the
+    REAL ``RunRecordData`` serialization schema (nested ``token_usage`` plus the
+    ``total_workflow_*`` and phase ``*_model_calls`` / ``*_total_tokens``
+    fields), never a fabricated top-level ``total_tokens``. Every negative case
+    is fail-closed: missing / ``None`` / bool / string / float / non-zero all
+    fail. The shared fixture writes the exact real record shape.
+    """
+
+    def _validate(self, dryrun_dir: Path) -> dict[str, Any]:
+        from benchmark.execution.preflight import validate_pilot_dryrun_evidence
+        return validate_pilot_dryrun_evidence(
+            dryrun_dir=dryrun_dir,
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_deployed_build_id="build-001",
+            expected_model_identity="dry-run:mock",
+        )
+
+    def _assert_raises(self, dryrun_dir: Path, match: str) -> None:
+        from benchmark.execution.preflight import LaunchAuthorizationError
+        with pytest.raises(LaunchAuthorizationError, match=match):
+            self._validate(dryrun_dir)
+
+    def test_real_schema_evidence_passes(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        summary = self._validate(dryrun)
+        assert summary["passed"] is True
+        assert summary["record_count"] == 48
+        assert summary["unique_run_ids"] == 48
+        assert summary["repo_counts"] == {"todo": 16, "djangocms": 16, "saleor": 16}
+        assert summary["strategy_counts"] == {
+            "iterative_repository_agent": 24,
+            "selective": 24,
+        }
+        assert summary["rep_counts"] == {1: 24, 2: 24}
+        assert summary["model_calls"] == 0
+        assert summary["prompt_tokens"] == 0
+        assert summary["completion_tokens"] == 0
+        assert summary["total_tokens"] == 0
+        assert summary["total_workflow_model_calls"] == 0
+        assert summary["total_workflow_tokens"] == 0
+        assert summary["source_commit"] == "abc123"
+        assert summary["source_tag"] == "v0.9.18-pilot-exec-ready"
+        assert summary["deployed_build_id"] == "build-001"
+        assert summary["model_identity"] == "dry-run:mock"
+
+    def test_real_schema_passes_launch_authorization(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        (tmp_path / "repo.json").write_text(json.dumps({
+            "overall": "PASS",
+            "repositories": {
+                "todo": {"passed": True},
+                "djangocms": {"passed": True},
+                "saleor": {"passed": True},
+            },
+        }), encoding="utf-8")
+        (tmp_path / "model.json").write_text(json.dumps({
+            "passed": True,
+            "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            "requested_quantization_mode": "bnb-nf4",
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
+            "checks": [
+                "repository_preflight_evidence: PASS",
+                "qwen_model_load[bnb-nf4]: PASS",
+                "short_generation_probe: PASS",
+                "long_context_probe: PASS",
+            ],
+            "long_context_probe": {
+                "passed": True,
+                "target_prompt_tokens": 16000,
+                "prompt_tokens": 16384,
+                "completion_tokens": 512,
+                "cache_implementation": "offloaded",
+            },
+        }), encoding="utf-8")
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        from benchmark.execution.preflight import validate_pilot_launch_authorization
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=dryrun,
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            expected_deployed_build_id="build-001",
+        )
+
+    def test_missing_token_usage_fails(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        _drop_record_fields(dryrun, ["token_usage"])
+        self._assert_raises(dryrun, "token_usage")
+
+    def test_missing_token_usage_total_fails(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        path = dryrun / "run_records.jsonl"
+        lines = path.read_text(encoding="utf-8").splitlines()
+        output = []
+        for line in lines:
+            record = json.loads(line)
+            token_usage = record.get("token_usage")
+            if isinstance(token_usage, dict):
+                token_usage.pop("total", None)
+            output.append(json.dumps(record))
+        path.write_text("\n".join(output), encoding="utf-8")
+        self._assert_raises(dryrun, "token_usage.total")
+
+    @pytest.mark.parametrize("key,value", [
+        ("prompt", None), ("completion", None), ("total", None),
+        ("prompt", "0"), ("completion", "0"), ("total", "0"),
+        ("prompt", False), ("completion", False), ("total", False),
+        ("prompt", 1), ("completion", 1), ("total", 1),
+    ])
+    def test_token_usage_invalid_or_nonzero_fails(
+        self, tmp_path: Path, key: str, value: Any
+    ) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        _set_token_usage_value(dryrun, key, value)
+        self._assert_raises(dryrun, "token_usage")
+
+    @pytest.mark.parametrize("value,is_override", [
+        (None, False), (1, True), (None, True), ("0", True), (False, True),
+    ])
+    def test_total_workflow_tokens_missing_nonzero_invalid_fail(
+        self, tmp_path: Path, value: Any, is_override: bool
+    ) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        if is_override:
+            _set_record_field(dryrun, "total_workflow_tokens", value)
+        else:
+            _drop_record_fields(dryrun, ["total_workflow_tokens"])
+        self._assert_raises(dryrun, "total_workflow_tokens")
+
+    @pytest.mark.parametrize("value,is_override", [
+        (None, False), (1, True), (None, True), ("0", True), (True, True),
+    ])
+    def test_total_workflow_model_calls_missing_nonzero_invalid_fail(
+        self, tmp_path: Path, value: Any, is_override: bool
+    ) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        if is_override:
+            _set_record_field(dryrun, "total_workflow_model_calls", value)
+        else:
+            _drop_record_fields(dryrun, ["total_workflow_model_calls"])
+        self._assert_raises(dryrun, "total_workflow_model_calls")
+
+    def test_legacy_only_top_level_total_tokens_fails(self, tmp_path: Path) -> None:
+        """A fabricated legacy record carrying ONLY top-level ``total_tokens``
+        (the pre-D8 false-green shape) must fail: the canonical schema needs the
+        nested ``token_usage`` plus workflow/phase fields."""
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        _drop_record_fields(dryrun, [
+            "token_usage",
+            "total_workflow_model_calls",
+            "total_workflow_tokens",
+            "selection_model_calls",
+            "regeneration_model_calls",
+            "repair_model_calls",
+            "selection_total_tokens",
+            "regeneration_total_tokens",
+            "repair_total_tokens",
+        ])
+        _set_record_field(dryrun, "total_tokens", 0)
+        self._assert_raises(dryrun, "token_usage")
+
+    @pytest.mark.parametrize("phase_field,value", [
+        ("selection_model_calls", 1),
+        ("regeneration_model_calls", 1),
+        ("repair_model_calls", 1),
+        ("selection_total_tokens", 1),
+        ("regeneration_total_tokens", 1),
+        ("repair_total_tokens", 1),
+        ("selection_model_calls", None),
+        ("selection_model_calls", "0"),
+        ("selection_model_calls", False),
+        ("repair_total_tokens", 1.5),
+    ])
+    def test_nonzero_or_invalid_phase_field_fails(
+        self, tmp_path: Path, phase_field: str, value: Any
+    ) -> None:
+        dryrun = _write_real_dryrun(
+            tmp_path / "dryrun", record_overrides={phase_field: value}
+        )
+        self._assert_raises(dryrun, phase_field)
+
+    def test_nonzero_model_calls_fails(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(
+            tmp_path / "dryrun",
+            record_indices={0},
+            record_overrides={"model_calls": 1},
+        )
+        self._assert_raises(dryrun, "model_calls != 0")
+
+    def test_missing_source_identity_fails(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        (dryrun / "source_identity.json").unlink()
+        self._assert_raises(dryrun, "source_identity.json")
+
+    def test_source_identity_model_identity_mismatch_fails(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        (dryrun / "source_identity.json").write_text(json.dumps({
+            "dry_run": True,
+            "profile": "pilot",
+            "protocol_version": "1.0",
+            "source_commit": "abc123",
+            "source_tag": "v0.9.18-pilot-exec-ready",
+            "deployed_build_id": "build-001",
+            "model_identity": "qwen:real",
+        }), encoding="utf-8")
+        self._assert_raises(dryrun, "model_identity")
 

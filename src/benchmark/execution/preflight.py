@@ -359,10 +359,11 @@ def _run_long_context_probe(
             quantization_mode=quantization_mode,
         )
         lc_backend.load()
-    return lc_backend.run_long_context_probe(
+    result = lc_backend.run_long_context_probe(
         target_prompt_tokens=LONG_CONTEXT_TARGET_PROMPT_TOKENS,
         max_tokens=LONG_CONTEXT_MAX_TOKENS,
     )
+    return dict(result)
 
 
 def _static_model_metadata(
@@ -882,6 +883,321 @@ class LaunchAuthorizationError(RuntimeError):
     """Raised when pilot launch authorization fails any gate."""
 
 
+def _expect_zero_int(field: str, value: Any) -> str | None:
+    """Fail-closed int-zero evidence check (no ``or 0`` coercion).
+
+    ``None``, booleans, strings, floats, and non-zero ints all produce an error
+    message naming ``field``; only an exact ``int`` 0 passes. ``bool`` is a
+    subclass of ``int``, so it is rejected explicitly.
+    """
+    if isinstance(value, bool) or not isinstance(value, int):
+        return f"{field}={value!r} (expected int 0)"
+    if value != 0:
+        return f"{field}={value!r} (expected 0)"
+    return None
+
+
+def _collect_dryrun_evidence_errors(
+    dryrun_dir: str | Path,
+    *,
+    expected_source_commit: str,
+    expected_source_tag: str,
+    expected_deployed_build_id: str = "",
+    expected_model_identity: str = "dry-run:mock",
+) -> tuple[list[str], dict[str, Any]]:
+    """Fail-closed dry-run evidence auditor for the REAL ``RunRecordData`` schema.
+
+    Single private implementation shared by ``validate_pilot_dryrun_evidence``
+    and ``validate_pilot_launch_authorization`` so the schema contract exists in
+    exactly one place. Returns ``(errors, summary)``; an empty ``errors`` list
+    means the evidence is launch-ready. Strict, coercion-free checks: missing /
+    ``None`` / bool / string / float / non-zero values all fail.
+
+    Per-record contract (48 records; real serializer never writes a top-level
+    ``total_tokens``):
+      * unique non-empty ``run_id``, ``status == "succeeded"``
+      * topology: todo=16, djangocms=16, saleor=16,
+        iterative_repository_agent=24, selective=24, rep1=24, rep2=24
+      * exact ``source_commit`` on EVERY record
+      * ``model_calls == 0``
+      * ``token_usage: {prompt: 0, completion: 0, total: 0}``
+      * ``total_workflow_model_calls == 0`` and ``total_workflow_tokens == 0``
+      * phase fields ``selection/regeneration/repair`` ``_model_calls`` and
+        ``_total_tokens`` == 0
+
+    ``source_identity.json`` contract: ``dry_run is True``, ``profile ==
+    'pilot'``, ``protocol_version == '1.0'``, exact commit/tag/build id, and
+    ``model_identity`` == ``expected_model_identity``.
+    """
+    errors: list[str] = []
+    summary: dict[str, Any] = {
+        "passed": False,
+        "record_count": 0,
+        "unique_run_ids": 0,
+        "repo_counts": {},
+        "strategy_counts": {},
+        "rep_counts": {},
+        "model_calls": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "total_workflow_model_calls": 0,
+        "total_workflow_tokens": 0,
+        "source_commit": "",
+        "source_tag": "",
+        "deployed_build_id": "",
+        "model_identity": "",
+    }
+
+    dryrun_path = Path(dryrun_dir) / "run_records.jsonl"
+    source_identity_path = Path(dryrun_dir) / "source_identity.json"
+
+    records: list[dict[str, Any]] = []
+    if not dryrun_path.is_file():
+        errors.append(f"dryrun records missing: {dryrun_path}")
+    else:
+        try:
+            lines = [
+                line.strip()
+                for line in dryrun_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            parsed = [json.loads(line) for line in lines]
+        except (OSError, ValueError) as exc:
+            errors.append(f"dryrun records unreadable: {type(exc).__name__}: {exc}")
+            parsed = []
+        records = [r for r in parsed if isinstance(r, dict)]
+
+    summary["record_count"] = len(records)
+    if len(records) != 48:
+        errors.append(f"dryrun record count={len(records)} (expected 48)")
+
+    run_ids: list[object] = []
+    repo_counts: dict[str, int] = {}
+    strat_counts: dict[str, int] = {}
+    rep_counts: dict[Any, int] = {}
+    model_calls_total = 0
+    prompt_tokens = 0
+    completion_tokens = 0
+    total_tokens = 0
+    total_workflow_model_calls = 0
+    total_workflow_tokens = 0
+
+    for index, record in enumerate(records):
+        rid = record.get("run_id")
+        run_ids.append(rid)
+        if not isinstance(rid, str) or not rid:
+            errors.append(
+                f"record {index}: run_id={rid!r} (expected non-empty string)"
+            )
+
+        status = record.get("status")
+        if status != "succeeded":
+            errors.append(
+                f"record {rid!r}: status={status!r} (expected 'succeeded')"
+            )
+
+        repository_id = record.get("repository_id", "")
+        repo_counts[repository_id] = repo_counts.get(repository_id, 0) + 1
+        strategy_id = record.get("strategy_id", "")
+        strat_counts[strategy_id] = strat_counts.get(strategy_id, 0) + 1
+        repetition = record.get("repetition")
+        rep_counts[repetition] = rep_counts.get(repetition, 0) + 1
+
+        if record.get("source_commit") != expected_source_commit:
+            errors.append(
+                f"record {rid!r}: source_commit={record.get('source_commit')!r} "
+                f"(expected {expected_source_commit!r})"
+            )
+
+        model_calls = record.get("model_calls")
+        if isinstance(model_calls, int) and not isinstance(model_calls, bool):
+            model_calls_total += model_calls
+        if isinstance(model_calls, int) and not isinstance(model_calls, bool) and model_calls != 0:
+            errors.append(
+                f"record {rid!r}: model_calls != 0 (actual {model_calls!r})"
+            )
+        elif not isinstance(model_calls, int) or isinstance(model_calls, bool):
+            errors.append(
+                f"record {rid!r}: model_calls={model_calls!r} (expected int 0)"
+            )
+
+        # token_usage mapping (real serializer: {"prompt": 0, "completion": 0, "total": 0}).
+        token_usage = record.get("token_usage")
+        if not isinstance(token_usage, dict):
+            errors.append(
+                f"record {rid!r}: token_usage={token_usage!r} "
+                f"(expected dict with prompt/completion/total)"
+            )
+        else:
+            for token_key in ("prompt", "completion", "total"):
+                if token_key not in token_usage:
+                    errors.append(
+                        f"record {rid!r}: token_usage.{token_key} missing "
+                        f"(expected int 0)"
+                    )
+                    continue
+                token_value = token_usage[token_key]
+                error = _expect_zero_int(f"record {rid!r}: token_usage.{token_key}", token_value)
+                if error:
+                    errors.append(error)
+                if token_key == "prompt" and isinstance(token_value, int) and not isinstance(token_value, bool):
+                    prompt_tokens += token_value
+                if token_key == "completion" and isinstance(token_value, int) and not isinstance(token_value, bool):
+                    completion_tokens += token_value
+                if token_key == "total" and isinstance(token_value, int) and not isinstance(token_value, bool):
+                    total_tokens += token_value
+
+        workflow_calls = record.get("total_workflow_model_calls")
+        error = _expect_zero_int(f"record {rid!r}: total_workflow_model_calls", workflow_calls)
+        if error:
+            errors.append(error)
+        if isinstance(workflow_calls, int) and not isinstance(workflow_calls, bool):
+            total_workflow_model_calls += workflow_calls
+
+        workflow_tokens = record.get("total_workflow_tokens")
+        error = _expect_zero_int(f"record {rid!r}: total_workflow_tokens", workflow_tokens)
+        if error:
+            errors.append(error)
+        if isinstance(workflow_tokens, int) and not isinstance(workflow_tokens, bool):
+            total_workflow_tokens += workflow_tokens
+
+        for phase_field in (
+            "selection_model_calls",
+            "regeneration_model_calls",
+            "repair_model_calls",
+            "selection_total_tokens",
+            "regeneration_total_tokens",
+            "repair_total_tokens",
+        ):
+            value = record.get(phase_field)
+            if phase_field not in record:
+                errors.append(
+                    f"record {rid!r}: {phase_field} missing (expected int 0)"
+                )
+                continue
+            error = _expect_zero_int(f"record {rid!r}: {phase_field}", value)
+            if error:
+                errors.append(error)
+
+    summary["unique_run_ids"] = len({rid for rid in run_ids if rid is not None})
+    if len({rid for rid in run_ids if rid is not None}) != 48:
+        errors.append(
+            f"dryrun unique run_ids="
+            f"{len({rid for rid in run_ids if rid is not None})} (expected 48)"
+        )
+    summary["repo_counts"] = repo_counts
+    expected_repo = {"todo": 16, "djangocms": 16, "saleor": 16}
+    if repo_counts != expected_repo:
+        errors.append(f"dryrun repo_counts={repo_counts} (expected {expected_repo})")
+    summary["strategy_counts"] = strat_counts
+    expected_strat = {"iterative_repository_agent": 24, "selective": 24}
+    if strat_counts != expected_strat:
+        errors.append(
+            f"dryrun strategy_counts={strat_counts} (expected {expected_strat})"
+        )
+    numeric_rep_counts = {
+        key: value
+        for key, value in rep_counts.items()
+        if isinstance(key, int) and not isinstance(key, bool)
+    }
+    summary["rep_counts"] = numeric_rep_counts
+    expected_rep = {1: 24, 2: 24}
+    if numeric_rep_counts != expected_rep:
+        errors.append(
+            f"dryrun rep_counts={rep_counts} (expected {expected_rep})"
+        )
+    summary["model_calls"] = model_calls_total
+    summary["prompt_tokens"] = prompt_tokens
+    summary["completion_tokens"] = completion_tokens
+    summary["total_tokens"] = total_tokens
+    summary["total_workflow_model_calls"] = total_workflow_model_calls
+    summary["total_workflow_tokens"] = total_workflow_tokens
+
+    # --- source_identity.json (C3) ---
+    if not source_identity_path.is_file():
+        errors.append(f"source_identity.json missing: {source_identity_path}")
+    else:
+        si: dict[str, Any] = {}
+        try:
+            loaded = json.loads(source_identity_path.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                si = loaded
+        except (OSError, ValueError) as exc:
+            errors.append(f"source_identity.json unreadable: {type(exc).__name__}: {exc}")
+        summary["source_commit"] = str(si.get("source_commit", ""))
+        summary["source_tag"] = str(si.get("source_tag", ""))
+        summary["deployed_build_id"] = str(si.get("deployed_build_id", ""))
+        summary["model_identity"] = str(si.get("model_identity", ""))
+        if si.get("dry_run") is not True:
+            errors.append(
+                f"source_identity.json dry_run={si.get('dry_run')!r} (expected true)"
+            )
+        if si.get("profile") != "pilot":
+            errors.append(
+                f"source_identity.json profile={si.get('profile')!r} (expected 'pilot')"
+            )
+        if si.get("protocol_version") != "1.0":
+            errors.append(
+                f"source_identity.json protocol_version="
+                f"{si.get('protocol_version')!r} (expected '1.0')"
+            )
+        if expected_source_commit and si.get("source_commit") != expected_source_commit:
+            errors.append(
+                f"source_identity.json source_commit={si.get('source_commit')!r} "
+                f"(expected {expected_source_commit!r})"
+            )
+        if expected_source_tag and si.get("source_tag") != expected_source_tag:
+            errors.append(
+                f"source_identity.json source_tag={si.get('source_tag')!r} "
+                f"(expected {expected_source_tag!r})"
+            )
+        if expected_deployed_build_id and si.get("deployed_build_id") != expected_deployed_build_id:
+            errors.append(
+                f"source_identity.json deployed_build_id={si.get('deployed_build_id')!r} "
+                f"(expected {expected_deployed_build_id!r})"
+            )
+        if si.get("model_identity") != expected_model_identity:
+            errors.append(
+                f"source_identity.json model_identity={si.get('model_identity')!r} "
+                f"(expected {expected_model_identity!r})"
+            )
+
+    summary["passed"] = not errors
+    return errors, summary
+
+
+def validate_pilot_dryrun_evidence(
+    *,
+    dryrun_dir: str | Path,
+    expected_source_commit: str,
+    expected_source_tag: str,
+    expected_deployed_build_id: str = "",
+    expected_model_identity: str = "dry-run:mock",
+) -> dict[str, Any]:
+    """Fail-closed dry-run evidence gate against the REAL ``RunRecordData`` schema.
+
+    Re-validates the full 48-cell mock dry-run artifact (records + source
+    identity) exactly as generated by the CLI ``--dry-run`` run. Strict and
+    coercion-free: missing / ``None`` / bool / string / float / non-zero token
+    and call fields fail closed. Returns the truthful summary only when every
+    check passes; raises ``LaunchAuthorizationError`` on any failure.
+    """
+    errors, summary = _collect_dryrun_evidence_errors(
+        dryrun_dir,
+        expected_source_commit=expected_source_commit,
+        expected_source_tag=expected_source_tag,
+        expected_deployed_build_id=expected_deployed_build_id,
+        expected_model_identity=expected_model_identity,
+    )
+    if errors:
+        raise LaunchAuthorizationError(
+            "PILOT DRY-RUN EVIDENCE VALIDATION FAILED:\n"
+            + "\n".join(f"  - {e}" for e in errors)
+        )
+    return summary
+
+
 def validate_pilot_launch_authorization(
     *,
     repo_preflight_json: str | Path,
@@ -1042,123 +1358,18 @@ def validate_pilot_launch_authorization(
                         f"cache_implementation={lc_cache!r} (expected 'offloaded')"
                     )
 
-    # --- Dry-run records + source_identity.json (C1-C4) ---
-    dryrun_path = Path(dryrun_dir) / "run_records.jsonl"
-    source_identity_path = Path(dryrun_dir) / "source_identity.json"
-    if not dryrun_path.is_file():
-        errors.append(f"dryrun records missing: {dryrun_path}")
-    else:
-        try:
-            lines = [
-                line.strip()
-                for line in dryrun_path.read_text(encoding="utf-8").splitlines()
-                if line.strip()
-            ]
-            records = [json.loads(line) for line in lines]
-        except (OSError, ValueError) as exc:
-            errors.append(f"dryrun records unreadable: {type(exc).__name__}: {exc}")
-            records = []
-
-        if records:
-            # C4: strict topology
-            if len(records) != 48:
-                errors.append(f"dryrun record count={len(records)} (expected 48)")
-            run_ids = [r.get("run_id") for r in records]
-            if len(set(run_ids)) != 48:
-                errors.append(f"dryrun unique run_ids={len(set(run_ids))} (expected 48)")
-
-            failed_records = [r for r in records if r.get("status") != "succeeded"]
-            if failed_records:
-                errors.append(
-                    f"dryrun has {len(failed_records)} non-succeeded records"
-                )
-
-            # C4: repo distribution exactly todo=16, djangocms=16, saleor=16
-            repo_counts = {}
-            for r in records:
-                rid = r.get("repository_id", "")
-                repo_counts[rid] = repo_counts.get(rid, 0) + 1
-            expected_repo = {"todo": 16, "djangocms": 16, "saleor": 16}
-            if repo_counts != expected_repo:
-                errors.append(f"dryrun repo_counts={repo_counts} (expected {expected_repo})")
-
-            # C4: strategy distribution exactly iterative_repository_agent=24, selective=24
-            strat_counts = {}
-            for r in records:
-                sid = r.get("strategy_id", "")
-                strat_counts[sid] = strat_counts.get(sid, 0) + 1
-            expected_strat = {"iterative_repository_agent": 24, "selective": 24}
-            if strat_counts != expected_strat:
-                errors.append(f"dryrun strategy_counts={strat_counts} (expected {expected_strat})")
-
-            # C4: repetition distribution exactly rep1=24, rep2=24
-            rep_counts = {}
-            for r in records:
-                rep = r.get("repetition", 0)
-                rep_counts[rep] = rep_counts.get(rep, 0) + 1
-            expected_rep = {1: 24, 2: 24}
-            if rep_counts != expected_rep:
-                errors.append(f"dryrun rep_counts={rep_counts} (expected {expected_rep})")
-
-            # C4: model_calls exactly 0 on EVERY record
-            nonzero_calls = [r for r in records if (r.get("model_calls") or 0) != 0]
-            if nonzero_calls:
-                errors.append(
-                    f"dryrun has {len(nonzero_calls)} records with model_calls != 0"
-                )
-
-            # C4: token_usage total exactly 0 on EVERY record
-            nonzero_tokens = [r for r in records if (r.get("total_tokens") or 0) != 0]
-            if nonzero_tokens:
-                errors.append(
-                    f"dryrun has {len(nonzero_tokens)} records with token_usage total != 0"
-                )
-
-            # C1: exact source commit on EVERY record (strict, no set membership)
-            if expected_source_commit and expected_source_commit != "unknown-source":
-                bad_source = [r for r in records if r.get("source_commit") != expected_source_commit]
-                if bad_source:
-                    errors.append(
-                        f"dryrun has {len(bad_source)} records with source_commit != {expected_source_commit}"
-                    )
-
-    # --- source_identity.json (C3) ---
-    if source_identity_path.is_file():
-        try:
-            si = json.loads(source_identity_path.read_text(encoding="utf-8"))
-        except (OSError, ValueError) as exc:
-            errors.append(f"source_identity.json unreadable: {type(exc).__name__}: {exc}")
-            si = {}
-        if isinstance(si, dict):
-            if si.get("dry_run") is not True:
-                errors.append(f"source_identity.json dry_run={si.get('dry_run')!r} (expected true)")
-            if si.get("profile") != "pilot":
-                errors.append(f"source_identity.json profile={si.get('profile')!r} (expected 'pilot')")
-            if si.get("protocol_version") != "1.0":
-                errors.append(
-                    f"source_identity.json protocol_version="
-                    f"{si.get('protocol_version')!r} (expected '1.0')"
-                )
-            if expected_source_commit and si.get("source_commit") != expected_source_commit:
-                errors.append(
-                    f"source_identity.json source_commit="
-                    f"{si.get('source_commit')!r} (expected {expected_source_commit!r})"
-                )
-            if expected_source_tag and si.get("source_tag") != expected_source_tag:
-                errors.append(
-                    f"source_identity.json source_tag={si.get('source_tag')!r} (expected {expected_source_tag!r})"
-                )
-            if expected_deployed_build_id and si.get("deployed_build_id") != expected_deployed_build_id:
-                errors.append(
-                    f"source_identity.json deployed_build_id={si.get('deployed_build_id')!r} "
-                    f"(expected {expected_deployed_build_id!r})"
-                )
-            if si.get("model_identity") != "dry-run:mock":
-                errors.append(
-                    f"source_identity.json model_identity={si.get('model_identity')!r} (expected 'dry-run:mock')"
-                )
-    else:
-        errors.append(f"source_identity.json missing: {source_identity_path}")
+    # --- Dry-run records + source_identity.json (C1-C4, REAL RunRecordData schema) ---
+    # Single source of truth: the private collector shared with
+    # validate_pilot_dryrun_evidence keeps the schema contract in ONE place so a
+    # notebook/CLI check can never drift from the launch gate.
+    dryrun_errors, _summary = _collect_dryrun_evidence_errors(
+        dryrun_dir,
+        expected_source_commit=expected_source_commit,
+        expected_source_tag=expected_source_tag,
+        expected_deployed_build_id=expected_deployed_build_id,
+        expected_model_identity="dry-run:mock",
+    )
+    errors.extend(dryrun_errors)
 
     # --- HF token ---
     hf_token = os.environ.get("HF_TOKEN", "").strip()
