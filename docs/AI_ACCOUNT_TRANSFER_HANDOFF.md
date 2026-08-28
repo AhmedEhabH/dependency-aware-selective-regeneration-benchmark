@@ -1,4 +1,4 @@
-# AI Account-Transfer Handoff — CURRENT v0.9.22 D7 CANDIDATE State (2026-08-27)
+# AI Account-Transfer Handoff — CURRENT v0.9.22 D8 CANDIDATE State (2026-08-28)
 
 **Read this file FIRST.** It is the single authoritative snapshot of the
 current project state for any AI agent or human resuming on a new account.
@@ -13,12 +13,13 @@ superseded — this file wins every contradiction.
 |---|---|
 | Real Kaggle v0.9.21 model preflight result | **FAILED at the long-context probe — CUDA OOM: 12,044 prompt tokens / 64-token output budget / failed allocation 21.62 GiB == exactly `12044*12044*40*4 bytes = 21.6153 GiB`, the full float32 40-head quadratic attention score matrix** after repository preflight / dependencies / Qwen 14B BNB-NF4 load (`qwen_model_load[bnb-nf4]: PASS` — the old 2026-08-05 model-load OOM fix still works) / GPU-only device map / 2x Tesla T4 / per-GPU headroom (min free 7.764 GiB) / short generation probe all PASSED; **v0.9.21 Real Pilot REJECTED BEFORE LAUNCH — no Experiment ID / no RunRecord created; no stable tag moved** |
 | Root cause | The effective runtime attention path materialized the math/eager fallback during prompt prefill (offloaded KV cache does not cover prefill attention; `device_map=auto` is not tensor parallelism) |
-| Closure branch | `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D6 push/export parity was resolved at `1b857fc…` before D7 |
+| Closure branch | `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D8 is the CURRENT closure (D1–D7 complete) |
+| D8 closure (current) | **Dry-run token-schema + launch-auth evidence closure.** Prove + close the `RunRecordData` token-schema drift: a real 48-record CLI dry-run writes nested `token_usage` (`prompt/completion/total`), `total_workflow_model_calls` / `total_workflow_tokens`, phase `selection|regeneration|repair` `_model_calls` / `_total_tokens`, and status `succeeded` — NEVER a top-level `total_tokens` (the pre-D8 bundled dryrun-cell read a fabricated top-level field, so its old 48-cell gate was a **false green**, proven to PASS real records via the fail-open `or 0` check). D8.1 canonical `validate_pilot_dryrun_evidence` + `_collect_dryrun_evidence_errors` with strict `_expect_zero_int`; `validate_pilot_launch_authorization` refactored onto the same collector. D8.2 bundled `dryrun-cell` calls the canonical validator (`expected_model_identity="dry-run:mock"`) and prints only summary-backed totals. D8.3 GQA per-device display reads real fields (device/passed/gpu/cc/heads/qkv/out), not the fabric `.get('available')`. Genuine RED: 39 unit tests + 1 false-green proof failed pre-D8.1. GREEN: focused 40/40; contract+bundle 136/136; full suite **2492 passed / 33 skipped / 0 failed**. |
 | Fix set (Tasks A–F) | Task A explicit `attn_implementation="sdpa"` at from_pretrained; Task B fail-closed CUDA generation inside `sdpa_kernel([FLASH_ATTENTION, EFFICIENT_ATTENTION])` (no math/eager fallback; missing torch.nn.attention API on CUDA fails closed); Task C canonical attention evidence (`requested/effective_attn_implementation`, `sdpa_kernel_policy=flash_or_efficient_no_math`) persisted in preflight JSON + rendered in the human table + enforced by the fail-closed `attention_policy` check and pilot launch authorization; Task D corrected OOM diagnosis (long-prompt OOM reports prompt-prefill evidence + free GiB, never advises completion-cap reduction); Tasks E/F regression-guard prior memory fixes and the unchanged 12000/64 gate. RED/GREEN proven: 12 backend + 18 preflight contract tests failed against v0.9.21 code before the fix; full suite **2407 passed / 33 skipped / 0 failed**; dry-run pilot 48/48 (unique IDs, 0 model calls, 0 tokens) |
 | Accepted release | `v0.9.21-pilot-exec-ready` @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped Gates 1-3 + full preflight GREEN (runs 32692489617 / 32694137255) — **superseded as launch candidate by the v0.9.22 attention closure; its repository/per-cell fixes remain VALID and are carried forward** |
 | v0.9.22 stable tag | **DOES NOT EXIST YET.** Per the one-shot flow: build the exact candidate artifact from the merge commit → run the fresh Kaggle model preflight ONLY (same 12k target, same 64-token probe) → only on PASS create `v0.9.22-pilot-exec-ready`. If the Kaggle proof FAILS, return to the SAME v0.9.22 task (never spawn v0.9.23) |
 | Real Pilot status | **NOT STARTED** (no 48-cell launch while untagged) |
-| Exact next action | **D1–D7 COMPLETE.** Upload only exact artifact `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` from source/future tag target `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c` (trust/provenance 0 mismatches, FROZEN; full suite 2442/33/0; exact-artifact dry-run 48/48). Run the model-preflight-only proof; tag only after GQA microprobe + short + 12k PASS; do not launch 48 cells while untagged. `ce40b330…` / `f72ecda…` are SUPERSEDED. |
+| Exact next action | **D1–D8 COMPLETE.** Upload only exact artifact `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee` from source/future tag target `8f0b11953a4fe2990b7e6c680288be282b8a6b67` (trust/provenance 0 mismatches, FROZEN; full suite 2492/33/0; exact-artifact dry-run 48/48). Run the model-preflight-only proof; tag only after GQA microprobe + short + 12k PASS; do not launch 48 cells while untagged. `e0a64937…` (D7), `ce40b330…` / `f72ecda…` are SUPERSEDED. |
 | Per-cell validation runtime seam | **CLOSED and executable after D7.** Generated-workspace validation uses live AST `--validation-python` mappings for Todo/django CMS/Saleor, carries the frozen env into `FunctionalValidator`, and passes live `--validation-timeout 1800` on launch and resume (separate from `--timeout 600`). Exact canonical/fresh-bundle AST and newline tests prevent text/comment false greens. Target proof remains Saleor full primary exit 0 in 941.42s < 1800s (CI run 32692489617). |
 
 Frozen Pilot matrix (unchanged, pre-registered in
@@ -174,11 +175,21 @@ weaken one without an explicit new audit.
    exact final-artifact dry-run **48/48**; exact artifact REBUILT: `dist/pilot-kaggle-upload.zip`
    SHA-256 `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` (+ sidecar verified) from
    source commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` (trust/provenance 0 mismatches, FROZEN).
-   D7 exact artifact: SHA-256 `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`
-   from source/future tag target `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`; full suite
-   2442/33/0; exact dry-run 48/48; trust/provenance 0 mismatches, FROZEN. The D1–D6
-   `ce40b330…` / `f72ecda…` artifact is SUPERSEDED and must not be uploaded.
-2. Upload the EXACT D7 v0.9.22 candidate artifact (`e0a64937…`) as ONE fresh Kaggle Dataset; attach
+D7 exact artifact: SHA-256 `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`
+    from source/future tag target `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`; full suite
+    2442/33/0; exact dry-run 48/48; trust/provenance 0 mismatches, FROZEN. The D1–D6
+    `ce40b330…` / `f72ecda…` artifact is SUPERSEDED and must not be uploaded.
+    **SUPERSEDED once more by the D8 dry-run token-schema + launch-auth evidence closure
+    (2026-08-28):** canonical `validate_pilot_dryrun_evidence` (strict nested token_usage +
+    workflow/phase totals; strict `_expect_zero_int`; launch-auth single-source collector);
+    bundled `dryrun-cell` calls the validator (`dry-run:mock`); GQA per-device display reads
+    real fields. Genuine RED 39 unit + false-green proof; focused 40/40 + 136/136; full suite
+    **2492/33/0**; exact final-artifact dry-run **48/48**. D8 exact artifact: SHA-256
+    `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee` from source/future tag
+    target `8f0b11953a4fe2990b7e6c680288be282b8a6b67`; sidecar verified; trust/provenance
+    0 mismatches, FROZEN. The D7 `e0a64937…` / `3ebc75d…` artifact is SUPERSEDED and must
+    not be uploaded.
+2. Upload the EXACT D8 v0.9.22 candidate artifact (`02d16ca2…`) as ONE fresh Kaggle Dataset; attach
    the frozen Pilot notebook (`notebooks/pilot_exec_01.ipynb`) and Qwen 14B input; Internet ON;
    `HF_TOKEN` secret set; confirm mounted model path + HF results repo ID.
 3. Run the **fresh Kaggle v0.9.22 candidate model preflight ONLY** (SHA-256 verify,
@@ -187,7 +198,7 @@ weaken one without an explicit new audit.
    `requested=sdpa effective=sdpa kernel_policy=flash_or_efficient_no_math`). No 48-cell
    launch while untagged.
 4. If the 12k probe PASSES → annotate `v0.9.22-pilot-exec-ready` at the tested source
-   commit `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`, push the tag, update docs, then launch the
+   commit `8f0b11953a4fe2990b7e6c680288be282b8a6b67`, push the tag, update docs, then launch the
    accepted 48-cell Pilot in a fresh session. If it FAILS → return to the SAME v0.9.22 task
    (never spawn v0.9.23).
 

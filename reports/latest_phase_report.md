@@ -1,21 +1,36 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-27, v0.9.22 D7 LAUNCH/RESUME VALIDATION-ARGV
-> EXECUTABILITY CLOSURE; REAL T4 PROOF PENDING):** D6 was RESOLVED before D7
-> began: branch parity and a post-push verified export were proven at `1b857fc…`.
-> D7 restores the three live per-repository `--validation-python` mappings and
-> `--validation-timeout 1800` in both `exec_cmd` and `resume_cmd`, guarded by
-> exact assigned-list AST tests and canonical/fresh-bundle newline checks.
-> Genuine RED showed zero live launch mappings; affected GREEN is 102/102 and
-> full acceptance is **2442 passed / 33 skipped / 0 failed**. Exact-artifact
-> dry-run is **48/48** with all records at source
-> `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`. Exact artifact SHA-256 is
-> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8`;
-> sidecar matches; trust/provenance is 0 mismatches and FROZEN. `ce40b330…` /
-> `f72ecda…` are SUPERSEDED. Scientific inputs are unchanged. No stable tag
-> exists; next is the exact new-artifact real 2x T4 preflight only, and tag
-> `3ebc75d…` only after GQA microprobe + short + 12k PASS. No 48-cell launch
+> **CURRENT TRUTH (2026-08-28, v0.9.22 D8 DRY-RUN TOKEN-SCHEMA + LAUNCH-AUTH
+> EVIDENCE CLOSURE; REAL T4 PROOF PENDING):** D8 proves and closes the
+> `RunRecordData` token-schema drift — a real 48-record dry-run writes nested
+> `token_usage` (`prompt/completion/total`), `total_workflow_model_calls` /
+> `total_workflow_tokens`, phase `_model_calls` / `_total_tokens`, and status
+> `succeeded`, NEVER a top-level `total_tokens` (the pre-D8 bundled dryrun-cell
+> read a fabricated top-level field — a proven false green via the fail-open `or 0`
+> check). D8.1 canonical `validate_pilot_dryrun_evidence` + strict `_expect_zero_int`,
+> refactoring `validate_pilot_launch_authorization` onto the same collector; D8.2 the
+> bundled `dryrun-cell` calls the canonical validator; D8.3 the GQA per-device display
+> reads real evidence fields. Genuine RED: 39 unit tests + 1 false-green proof;
+> focused GREEN 40/40 + 136/136 (contract+bundle); full acceptance is
+> **2492 passed / 33 skipped / 0 failed**. Exact-artifact dry-run is **48/48**
+> (48 unique IDs, repos 16/16/16, strategies 24/24, reps 24/24, zero calls/tokens)
+> with every record at source `8f0b11953a4fe2990b7e6c680288be282b8a6b67`. Exact
+> artifact SHA-256 is `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee`;
+> sidecar matches; trust/provenance is 0 mismatches and FROZEN. `e0a64937…` (D7),
+> `ce40b330…` / `f72ecda…` are SUPERSEDED. Scientific inputs are unchanged. No
+> stable tag exists; next is the exact new-artifact real 2x T4 preflight only, and
+> tag `8f0b119…` only after GQA microprobe + short + 12k PASS. No 48-cell launch
 > while untagged. Full detail:
+> `reports/V0922_D8_DRYRUN_TOKEN_SCHEMA_LAUNCH_AUTH_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-27, SUPERSEDED by D8 — LAUNCH/RESUME VALIDATION-ARGV
+> EXECUTABILITY CLOSURE):** D6 was RESOLVED before D7 began (parity + post-push
+> export at `1b857fc…`). D7 made the three live per-repository `--validation-python`
+> mappings and `--validation-timeout 1800` live AST elements in `exec_cmd`/`resume_cmd`.
+> Affected GREEN 102/102; full acceptance **2442 passed / 33 skipped / 0 failed**;
+> exact-artifact dry-run 48/48 at `3ebc75d…`; artifact
+> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` FROZEN (superseded by
+> D8; do not upload). Report:
 > `reports/V0922_D7_LAUNCH_RESUME_ARGV_EXECUTABILITY_CLOSURE_REPORT.md`.
 >
 > **PRIOR TRUTH (2026-08-27, SUPERSEDED by D7 — GQA MICROPROBE + NOTEBOOK + EXPORT

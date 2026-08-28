@@ -153,15 +153,15 @@ no stable release claimed; sentinel `FINAL_SELECTIVE_CANARY_READINESS_AUDIT_REQU
 
 | Metric | Value |
 |---|---|
-| Current state | **v0.9.22 D7 LAUNCH/RESUME VALIDATION-ARGV EXECUTABILITY CLOSURE; REAL T4 PROOF PENDING.** D6 push/export parity was RESOLVED at `1b857fc…` before D7. Both Pilot routes now carry live AST Todo/django CMS/Saleor `--validation-python` mappings and live `--validation-timeout 1800`, guarded by exact AST and canonical/fresh-bundle newline tests. Scientific contract unchanged; no Kaggle run; no stable tag. |
+| Current state | **v0.9.22 D8 DRY-RUN TOKEN-SCHEMA + LAUNCH-AUTH EVIDENCE CLOSURE; REAL T4 PROOF PENDING.** D8 proves and closes the `RunRecordData` token-schema drift: real dry-run records write nested `token_usage` + workflow/phase totals, never a top-level `total_tokens` (the old bundled gate was a false green). Canonical `validate_pilot_dryrun_evidence` (strict `_expect_zero_int`) is now the single source of truth for both the bundled dryrun-cell and launch authorization; GQA per-device display reads real evidence fields. Scientific contract unchanged; no Kaggle run; no stable tag. |
 | Accepted release | `v0.9.21-pilot-exec-ready` @ annotated tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa` — superseded as launch candidate; repository/per-cell fixes remain VALID and carried forward |
-| Artifact trust/provenance | v0.9.22 D7 candidate: **0 mismatches** — two-pass finalizer at source/future tag target `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c` with embedded trust + `--verify-source-provenance` GREEN, FROZEN. `ce40b330…` / `f72ecda…` are superseded. |
-| Deployment artifact | **v0.9.22 D7 candidate:** `dist/pilot-kaggle-upload.zip` SHA-256 `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` + matching sidecar; exact-artifact dry-run 48/48, 48 unique IDs, repos 16/16/16, strategies 24/24, reps 24/24, 0 calls/tokens, every record at `3ebc75d…`. |
-| OpenCode full suite | **2442 passed / 33 skipped / 0 failed** (post D7 closure) |
+| Artifact trust/provenance | v0.9.22 D8 candidate: **0 mismatches** — two-pass finalizer at source `8f0b11953a4fe2990b7e6c680288be282b8a6b67` with embedded trust + `--verify-source-provenance` GREEN, FROZEN. `e0a64937…` (D7), `ce40b330…` / `f72ecda…` are superseded. |
+| Deployment artifact | **v0.9.22 D8 candidate:** `dist/pilot-kaggle-upload.zip` SHA-256 `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee` + matching sidecar; exact-artifact dry-run 48/48, 48 unique IDs, repos 16/16/16, strategies 24/24, reps 24/24, 0 calls/tokens, every record at `8f0b119…`. |
+| OpenCode full suite | **2492 passed / 33 skipped / 0 failed** (post D8 closure) |
 | Dry-run pilot | **48/48 succeeded** (unique run IDs, 0 model calls, 0 tokens) on the candidate source state |
-| Stable tag | `v0.9.22-pilot-exec-ready` DOES NOT EXIST YET — create at exact artifact source `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c` only after real 2x T4 GQA microprobe + short + 12k PASS; on failure return to the SAME v0.9.22 task |
+| Stable tag | `v0.9.22-pilot-exec-ready` DOES NOT EXIST YET — create at exact artifact source `8f0b11953a4fe2990b7e6c680288be282b8a6b67` only after real 2x T4 GQA microprobe + short + 12k PASS; on failure return to the SAME v0.9.22 task |
 | Real Pilot | **NOT STARTED** (no 48-cell launch while untagged) |
-| Next action | **D1–D7 COMPLETE** (source `3ebc75d…`; artifact `e0a64937…`; trust/provenance GREEN + FROZEN; exact dry-run 48/48; full suite 2442/33/0) → fresh Kaggle model preflight ONLY using this exact artifact; no 48-cell launch while untagged |
+| Next action | **D1–D8 COMPLETE** (source `8f0b119…`; artifact `02d16ca2…`; trust/provenance GREEN + FROZEN; exact dry-run 48/48; full suite 2492/33/0) → fresh Kaggle model preflight ONLY using this exact artifact; no 48-cell launch while untagged |
 
 Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.
 
@@ -316,7 +316,9 @@ Pilot evidence                   = unavailable
 
 ## Next action
 
-**Next action (CURRENT):** upload only exact D7 artifact `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` and run the fresh real 2x T4 model preflight ONLY (repository preflight + heartbeat, Qwen 14B BNB-NF4 load, GQA microprobe, short probe, and 12k/64 probe with attention-policy evidence). Only on PASS annotate `v0.9.22-pilot-exec-ready` at exact artifact source `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`; on FAIL return to the SAME v0.9.22 task. No 48-cell launch while untagged. Pilot execution is **NOT STARTED**.
+**Next action (CURRENT):** upload only exact D8 artifact `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee` and run the fresh real 2x T4 model preflight ONLY (repository preflight + heartbeat, Qwen 14B BNB-NF4 load, GQA microprobe, short probe, and 12k/64 probe with attention-policy evidence). Only on PASS annotate `v0.9.22-pilot-exec-ready` at exact artifact source `8f0b11953a4fe2990b7e6c680288be282b8a6b67`; on FAIL return to the SAME v0.9.22 task. No 48-cell launch while untagged. Pilot execution is **NOT STARTED**.
+
+**HISTORICAL (superseded by D8 above):** D7 candidate artifact `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` from `3ebc75d…`, full suite 2442/33/0 — superseded for upload; do not upload.
 
 **HISTORICAL (superseded by CURRENT above):** fresh Kaggle v0.9.21 target preflight with the exact released artifact (`dist/pilot-kaggle-upload.zip` SHA-256 `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`) then the accepted 48-cell Pilot in the same session if all target gates pass — the real session PASSED every stage through the short generation probe and REJECTED THE LAUNCH at the 12k attention-prefill OOM now closed by the v0.9.22 candidate.
 
