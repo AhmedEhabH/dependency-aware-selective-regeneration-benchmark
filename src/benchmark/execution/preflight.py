@@ -50,13 +50,6 @@ LONG_CONTEXT_MAX_TOKENS = 64
 # this tiny range (>= 1 and <= the check limit); the canonical bound constant
 # lives in the backend and is imported above (single source of truth).
 
-# D9: public canonical remote for the pre-launch annotated-tag peel proof.
-KAGGLE_PUBLIC_CANONICAL_REMOTE = (
-    "https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark.git"
-)
-PILOT_STABLE_TAG = "v0.9.22-pilot-exec-ready"
-REMOTE_TAG_PROOF_TIMEOUT_SECONDS = 30
-
 _REPO_PREFLIGHT_BLOCKED_SUFFIX = "repository preflight failed"
 
 
@@ -491,102 +484,6 @@ def _generation_deadline_probe_errors(value: Any) -> list[str]:
                 f"{GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND})"
             )
     return errors
-
-
-def verify_remote_annotated_tag_peel(
-    *,
-    source_commit: str,
-    tag: str = PILOT_STABLE_TAG,
-    remote: str = KAGGLE_PUBLIC_CANONICAL_REMOTE,
-    timeout: int = REMOTE_TAG_PROOF_TIMEOUT_SECONDS,
-) -> dict[str, str]:
-    """Bounded, no-shell remote annotated-tag peel proof (pre-launch gate only).
-
-    Runs ``git ls-remote --tags <remote> refs/tags/<tag> refs/tags/<tag>^{}`` as
-    an exact argv (no shell, no credentials) and requires BOTH the annotated tag
-    object ref and its peeled ``^{}`` ref, with the peeled commit equal to the
-    notebook's exact ``SOURCE_COMMIT``. Any miss — lightweight tag, missing tag,
-    malformed/duplicate output, wrong peel, non-zero exit, timeout, network/DNS/
-    TLS failure, or missing ``git`` — raises ``LaunchAuthorizationError``.
-
-    This is an engineering pre-launch gate ONLY; it is not included in any
-    scientific run duration or metric and never prints credentials.
-    """
-    errors: list[str] = []
-    peeled_target = f"refs/tags/{tag}^{{}}"
-    ref_target = f"refs/tags/{tag}"
-    argv = ["git", "ls-remote", "--tags", remote, ref_target, peeled_target]
-    try:
-        completed = subprocess.run(
-            argv,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            check=False,
-        )
-    except FileNotFoundError:
-        raise LaunchAuthorizationError(
-            "REMOTE TAG PEEL PROOF FAILED: 'git' is not installed/on PATH"
-        ) from None
-    except subprocess.TimeoutExpired:
-        raise LaunchAuthorizationError(
-            f"REMOTE TAG PEEL PROOF FAILED: git ls-remote timed out after "
-            f"{timeout}s against {remote}"
-        ) from None
-    except OSError as exc:
-        raise LaunchAuthorizationError(
-            f"REMOTE TAG PEEL PROOF FAILED: git ls-remote raised "
-            f"{type(exc).__name__}: {exc}"
-        ) from exc
-
-    if completed.returncode != 0:
-        raise LaunchAuthorizationError(
-            "REMOTE TAG PEEL PROOF FAILED: git ls-remote exited "
-            f"{completed.returncode} (stderr: "
-            f"{(completed.stderr or '').strip()[:300]})"
-        )
-
-    lines = [ln.strip() for ln in (completed.stdout or "").splitlines() if ln.strip()]
-    ref_line: str | None = None
-    peel_line: str | None = None
-    duplicates = False
-    for ln in lines:
-        parts = ln.split()
-        if len(parts) != 2:
-            errors.append(f"malformed git ls-remote line: {ln[:120]!r}")
-            continue
-        commit, refname = parts
-        if refname == ref_target:
-            if ref_line is not None:
-                duplicates = True
-            ref_line = commit
-        elif refname == peeled_target:
-            if peel_line is not None:
-                duplicates = True
-            peel_line = commit
-
-    if duplicates:
-        errors.append(f"duplicate/malformed git ls-remote output for {tag}")
-    if ref_line is None:
-        errors.append(
-            f"annotated tag ref refs/tags/{tag} not present (lightweight or missing)"
-        )
-    if peel_line is None:
-        errors.append(f"annotated tag peel {peeled_target} not present")
-    if peel_line is not None and peel_line != source_commit:
-        errors.append(
-            f"annotated tag peel {peel_line!r} != source_commit {source_commit!r}"
-        )
-    if len(peel_line or "") < 40 or len(ref_line or "") < 40:
-        errors.append("git ls-remote returned a malformed/truncated commit hash")
-
-    if errors:
-        raise LaunchAuthorizationError(
-            "REMOTE TAG PEEL PROOF FAILED:\n"
-            + "\n".join(f"  - {e}" for e in errors)
-            + f"\n  remote={remote} tag={tag}"
-        )
-    return {"tag": tag, "peel": peel_line or "", "ref": ref_line or ""}
 
 
 def run_kaggle_smoke_preflight(

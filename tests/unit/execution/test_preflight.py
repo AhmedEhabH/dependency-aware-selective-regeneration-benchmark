@@ -2444,137 +2444,108 @@ class TestGenerationDeadlineProbeErrors:
         )
 
 
-class _FakeCompleted:
-    def __init__(self, returncode: int, stdout: str, stderr: str = "") -> None:
-        self.returncode = returncode
-        self.stdout = stdout
-        self.stderr = stderr
+class TestD96KaggleGitHubBoundary:
+    """PILOT-EXEC-01 D9.6 Kaggle/GitHub boundary: launch authorization is
+    entirely LOCAL-evidence based. The preflight module carries NO runtime
+    GitHub/git/network dependency, no GITHUB_TOKEN, and no remote tag-peel gate.
+    The annotated stable tag is release metadata created/pushed/peeled LOCALLY
+    outside Kaggle after a real preflight, never at launch/resume time."""
 
+    FORBIDDEN_MODULE_FRAGMENTS = (
+        "KAGGLE_PUBLIC_CANONICAL_REMOTE",
+        "REMOTE_TAG_PROOF_TIMEOUT_SECONDS",
+        "verify_remote_annotated_tag_peel",
+        "git ls-remote",
+        "ls-remote",
+        "github.com",
+        "GITHUB_TOKEN",
+        "ghp_",
+    )
 
-class TestRemoteTagPeelProof:
-    """D9.5: launch/resume annotated-tag peel proof (no network, no shell)."""
+    def test_module_source_has_no_runtime_git_or_github_gate(self) -> None:
+        assert mod.__file__ is not None
+        source = Path(mod.__file__).read_text(encoding="utf-8")
+        for fragment in self.FORBIDDEN_MODULE_FRAGMENTS:
+            assert fragment not in source, (
+                "preflight.py must not contain runtime GitHub/git machinery: "
+                f"{fragment!r}"
+            )
 
-    @staticmethod
-    def _patch_subprocess(
-        monkeypatch: pytest.MonkeyPatch, completed: _FakeCompleted
-    ) -> list[list[str]]:
+    def test_module_no_longer_defines_tag_peel_machinery(self) -> None:
+        assert not hasattr(mod, "verify_remote_annotated_tag_peel")
+        assert not hasattr(mod, "KAGGLE_PUBLIC_CANONICAL_REMOTE")
+        assert not hasattr(mod, "REMOTE_TAG_PROOF_TIMEOUT_SECONDS")
+        assert not hasattr(mod, "PILOT_STABLE_TAG")
 
-        import benchmark.execution.preflight as pf
-
-        captured: list[list[str]] = []
-
-        def fake_run(argv: list[str], **_kw: object) -> _FakeCompleted:
-            captured.append(argv)
-            return completed
-
-        monkeypatch.setattr(pf.subprocess, "run", fake_run)
-        return captured
-
-    def test_pass_with_annotated_tag_matching_source(
-        self, monkeypatch: pytest.MonkeyPatch
+    def test_valid_complete_evidence_passes_without_git_or_network(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        from benchmark.execution.preflight import verify_remote_annotated_tag_peel
-
-        sha = "9" * 40
-        completed = _FakeCompleted(
-            returncode=0,
-            stdout=f"{sha}\trefs/tags/v0.9.22-pilot-exec-ready\n"
-                   f"{sha}\trefs/tags/v0.9.22-pilot-exec-ready^{{}}\n",
+        """The launch gate passes on the REAL local evidence files with
+        git/network provably impossible (subprocess blocked). The only
+        authorization basis is already-produced local Kaggle evidence."""
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        (tmp_path / "repo.json").write_text(
+            json.dumps({
+                "overall": "PASS",
+                "repositories": {
+                    "todo": {"passed": True},
+                    "djangocms": {"passed": True},
+                    "saleor": {"passed": True},
+                },
+            }),
+            encoding="utf-8",
         )
-        captured = self._patch_subprocess(monkeypatch, completed)
-        result = verify_remote_annotated_tag_peel(source_commit=sha)
-        assert result["peel"] == sha
-        assert result["tag"] == "v0.9.22-pilot-exec-ready"
-        assert "ls-remote" in captured[0][1]
-        assert "--tags" in captured[0]
-        assert any(
-            a == "refs/tags/v0.9.22-pilot-exec-ready^{}" for a in captured[0]
+        (tmp_path / "model.json").write_text(
+            json.dumps({
+                "passed": True,
+                "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+                "requested_quantization_mode": "bnb-nf4",
+                "requested_attn_implementation": "sdpa",
+                "effective_attn_implementation": "sdpa",
+                "sdpa_kernel_policy": "flash_or_efficient_no_math",
+                "checks": ["repository_preflight_evidence: PASS"],
+                "long_context_probe": {
+                    "passed": True,
+                    "target_prompt_tokens": 16000,
+                    "prompt_tokens": 16384,
+                    "completion_tokens": 512,
+                    "cache_implementation": "offloaded",
+                },
+                "generation_deadline_probe": {
+                    "passed": True,
+                    "deadline_fired": True,
+                    "finish_reason": "timeout",
+                    "completion_tokens": 1,
+                },
+            }),
+            encoding="utf-8",
+        )
+        _write_real_dryrun(
+            tmp_path / "dryrun",
+            source_commit="abc123",
+            source_tag="v0.9.18-pilot-exec-ready",
+            deployed_build_id="build-001",
         )
 
-    def test_fails_when_peel_does_not_match_source(
-        self, monkeypatch: pytest.MonkeyPatch
-    ) -> None:
         from benchmark.execution.preflight import (
-            LaunchAuthorizationError,
-            verify_remote_annotated_tag_peel,
+            validate_pilot_launch_authorization,
         )
 
-        ref_sha = "8" * 40
-        peel_sha = "7" * 40
-        completed = _FakeCompleted(
-            returncode=0,
-            stdout=f"{ref_sha}\trefs/tags/v0.9.22-pilot-exec-ready\n"
-                   f"{peel_sha}\trefs/tags/v0.9.22-pilot-exec-ready^{{}}\n",
+        def forbid_network(argv: list[str], **_: object) -> object:
+            raise AssertionError(
+                f"launch authorization must NOT invoke git/network: {argv!r}"
+            )
+
+        monkeypatch.setattr(mod.subprocess, "run", forbid_network)
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=tmp_path / "dryrun",
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            expected_deployed_build_id="build-001",
         )
-        self._patch_subprocess(monkeypatch, completed)
-        with pytest.raises(LaunchAuthorizationError, match="peel .* != source_commit"):
-            verify_remote_annotated_tag_peel(source_commit="1" * 40)
-
-    def test_fails_when_lightweight_tag_missing_peel(
-        self, monkeypatch: pytest.MonkeyPatch
-    ) -> None:
-        from benchmark.execution.preflight import (
-            LaunchAuthorizationError,
-            verify_remote_annotated_tag_peel,
-        )
-
-        sha = "2" * 40
-        completed = _FakeCompleted(
-            returncode=0,
-            stdout=f"{sha}\trefs/tags/v0.9.22-pilot-exec-ready\n",
-        )
-        self._patch_subprocess(monkeypatch, completed)
-        with pytest.raises(LaunchAuthorizationError, match="not present"):
-            verify_remote_annotated_tag_peel(source_commit=sha)
-
-    def test_fails_on_nonzero_exit(
-        self, monkeypatch: pytest.MonkeyPatch
-    ) -> None:
-        from benchmark.execution.preflight import (
-            LaunchAuthorizationError,
-            verify_remote_annotated_tag_peel,
-        )
-
-        self._patch_subprocess(
-            monkeypatch, _FakeCompleted(returncode=128, stdout="")
-        )
-        with pytest.raises(LaunchAuthorizationError, match="exited 128"):
-            verify_remote_annotated_tag_peel(source_commit="3" * 40)
-
-    def test_fails_when_git_missing(
-        self, monkeypatch: pytest.MonkeyPatch
-    ) -> None:
-
-        import benchmark.execution.preflight as pf
-        from benchmark.execution.preflight import (
-            LaunchAuthorizationError,
-            verify_remote_annotated_tag_peel,
-        )
-
-        def raise_fnf(argv: list[str], **_kw: object) -> _FakeCompleted:
-            raise FileNotFoundError()
-
-        monkeypatch.setattr(pf.subprocess, "run", raise_fnf)
-        with pytest.raises(LaunchAuthorizationError, match="'git' is not installed"):
-            verify_remote_annotated_tag_peel(source_commit="4" * 40)
-
-    def test_fails_on_timeout(
-        self, monkeypatch: pytest.MonkeyPatch
-    ) -> None:
-        import subprocess
-
-        import benchmark.execution.preflight as pf
-        from benchmark.execution.preflight import (
-            LaunchAuthorizationError,
-            verify_remote_annotated_tag_peel,
-        )
-
-        def raise_timeout(argv: list[str], **_kw: object) -> _FakeCompleted:
-            raise subprocess.TimeoutExpired(argv, timeout=30)
-
-        monkeypatch.setattr(pf.subprocess, "run", raise_timeout)
-        with pytest.raises(LaunchAuthorizationError, match="timed out"):
-            verify_remote_annotated_tag_peel(source_commit="5" * 40)
 
 
 class TestLaunchAuthMandatoryDeadlineCanary:
