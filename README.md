@@ -223,11 +223,10 @@ yet authorized for this arm.
 
 ## Current Status
 
-> **CURRENT TRUTH (2026-08-29, v0.9.22 D9 — IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT +
-> EAGER MODEL INIT + REMOTE TAG-PEEL PRE-LAUNCH GATE + FREEZE RECOVERY CLOSURE; REAL
-> T4 PROOF PENDING):** branch
-> `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D1–D9 complete
-> locally. D9.1 `_WorkflowDeadlineHeartbeatStoppingCriteria`
+> **CURRENT TRUTH (2026-08-29, v0.9.22 D9.6 — IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT +
+> EAGER MODEL INIT + KAGGLE/GITHUB BOUNDARY CORRECTION; REAL T4 PROOF PENDING):**
+> branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D1–D9.6
+> complete locally. D9.1 `_WorkflowDeadlineHeartbeatStoppingCriteria`
 > (`kaggle_qwen_backend.py`) polls EVERY decode step and stops generation with
 > `finish_reason="timeout"` the instant the injected run guard
 > (`lambda: not budget.timed_out`) first returns false — an in-flight
@@ -237,30 +236,52 @@ yet authorized for this arm.
 > thread kill). D9.2 mandatory real-Qwen generation-deadline canary
 > (`run_generation_deadline_probe`): deterministic counter guard fails closed
 > after 3 criterion checks, proving the deadline (NOT EOS/length) target-side with
-> `completion_tokens` in `[1, 8]`; preflight + launch authorization require it. D9.3
-> eager shared-model init outside the first run's timing/token budget (failure =
-> engineering blocker, 0 RunRecords, exit 1). D9.4 per-run cooperative guard
-> reinstall on strategy AND shared backend. D9.5 no-shell bounded remote
-> annotated-tag-peel launch gate (`verify_remote_annotated_tag_peel`, launch+resume)
-> + interrupt-safe process-group terminate→kill→reap. **D9_SOURCE_COMMIT
-> `9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d`** (freeze recovery: 3 orphan D8 scratch
-> copies deleted after authorized read-only checks; anchors refreshed; finalizer
-> FROZEN 0 mismatches, idempotent). Exact artifact `dist/pilot-kaggle-upload.zip`
-> SHA-256 **`913e8065a384effa2cf6b6a69f11e5840506644873fa54764c3cbe8ee5406d48`**
-> (+ sidecar verified). Full suite **2532 passed / 33 skipped / 0 failed**; focused
-> notebook/finalizer/provenance **165/165**; canonical+bundled compile 16/16; exact
-> fresh-extraction bundled dry-run **48/48** (48 unique IDs, repos 16/16/16,
-> strategies 24/24, reps 24/24, 0 calls/tokens), canonical
+> `completion_tokens` in `[1, 8]`; preflight + launch authorization require it.
+> D9.3 eager shared-model init outside the first run's timing/token budget
+> (failure = engineering blocker, 0 RunRecords, exit 1). D9.4 per-run cooperative
+> guard reinstall on strategy AND shared backend. D9.6 Kaggle/GitHub boundary
+> correction: the D9.5 runtime remote tag-peel gate is REMOVED —
+> the launch/resume cells NEVER contact GitHub (no `git ls-remote`, no token, no
+> `GIT_*`); `validate_pilot_launch_authorization` (pure local evidence: preflight
+> JSON, sdpa kernel policy, mandatory generation-deadline canary) is the ONLY
+> pre-command gate and is now wired into BOTH `pilot-launch-cell` AND
+> `pilot-resume-cell` before command construction. The stable tag is owner-side
+> only: the annotated `v0.9.22-pilot-exec-ready` tag is locally verified against
+> the owner-controlled, locally verified source commit after real preflight
+> passes — no runtime gate ever contacts GitHub. + interrupt-safe process-group
+> terminate→kill→reap. **D9.6_SOURCE_COMMIT
+> `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6`** (supersedes D9 `9ea02b3…`;
+> code+tests `13dc527…` → anchor-refresh `6ff1c93…`; two-pass finalizer with
+> `--verify-source-provenance`, FROZEN, 0 mismatches, idempotent). Exact artifact
+> `dist/pilot-kaggle-upload.zip` SHA-256
+> **`03d8d0ae37b995a362ee90c53a1851588ad024f13ead033814399210ce54dfc4`**
+> (+ sidecar verified). Full suite **2538 passed / 33 skipped / 0 failed**; focused
+> repo-wide boundary + notebook/finalizer/provenance suites green; canonical+bundled
+> compile 16/16; exact fresh-extraction bundled dry-run **48/48** (48 unique IDs,
+> repos 16/16/16, strategies 24/24, reps 24/24, 0 calls/tokens), canonical
 > `validate_pilot_dryrun_evidence` PASS, every record + `source_identity.json` ==
-> `9ea02b3…`. Frozen scientific contract UNCHANGED. REQUIRED TRUTHFUL STATUS: D8's
+> `6ff1c93…`. Frozen scientific contract UNCHANGED. REQUIRED TRUTHFUL STATUS: D8's
 > exact 2x T4 preflight passed but D8 is REJECTED for Pilot launch (the real Pilot
 > exposed the in-flight timeout/heartbeat defect D9 closes); `exp-20260828-151335`
-> has 0 accepted RunRecords, never resume it; D9 remains v0.9.22 (never v0.9.23).
-> NO stable tag yet: run the exact-D9-artifact real 2x T4 model preflight ONLY —
-> repository preflight/heartbeat, Qwen 14B BNB-NF4 load, GQA microprobe,
-> generation-deadline canary, short probe, 12k/64 probe — then create
-> `v0.9.22-pilot-exec-ready` at `9ea02b3…` ONLY after PASS; no 48-cell launch while
-> untagged. On FAIL return to the SAME v0.9.22 task. Report:
+> has 0 accepted RunRecords, never resume it; D9 (`913e8065…`) and D8
+> (`02d16ca2…`) artifacts superseded — do not upload them; this remains v0.9.22
+> (never v0.9.23). NO stable tag yet: run the exact-D9.6-artifact real 2x T4 model
+> preflight ONLY — repository preflight/heartbeat, Qwen 14B BNB-NF4 load, GQA
+> microprobe, generation-deadline canary, short probe, 12k/64 probe — then create
+> the annotated `v0.9.22-pilot-exec-ready` at `6ff1c93…` ONLY after PASS; no
+> 48-cell launch while untagged. On FAIL return to the SAME v0.9.22 task. Report:
+> [`reports/V0922_D9_6_KAGGLE_GITHUB_BOUNDARY_CLOSURE_REPORT.md`](reports/V0922_D9_6_KAGGLE_GITHUB_BOUNDARY_CLOSURE_REPORT.md).
+>
+> **PRIOR TRUTH (2026-08-29, SUPERSEDED by D9.6 — D9 IN-FLIGHT WORKFLOW-DEADLINE
+> HEARTBEAT + EAGER MODEL INIT + FREEZE RECOVERY CLOSURE):** D9 closed the real-run
+> in-flight timeout/heartbeat defect (decode-step workflow-deadline stopping
+> criterion, mandatory real-Qwen generation-deadline canary, eager shared-model
+> init, per-run guard install) and ALSO wired a no-shell remote annotated-tag-peel
+> launch gate into the Kaggle notebook; that gate machinery is REMOVED by D9.6 (the
+> notebook never contacts GitHub; the authorization gate is local-only and identical
+> in both cells). D9 evidence: full suite 2532/33/0; fresh-extraction dry-run 48/48
+> at source commit `9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d`, artifact
+> `913e8065a384effa2cf6b6a69f11e5840506644873fa54764c3cbe8ee5406d48`. Report:
 > [`reports/V0922_D9_INFLIGHT_DEADLINE_HEARTBEAT_EAGER_INIT_TAG_PEEL_FREEZE_CLOSURE_REPORT.md`](reports/V0922_D9_INFLIGHT_DEADLINE_HEARTBEAT_EAGER_INIT_TAG_PEEL_FREEZE_CLOSURE_REPORT.md).
 >
 > **PRIOR TRUTH (2026-08-28, SUPERSEDED by D9 — D8 DRY-RUN TOKEN-SCHEMA + LAUNCH-AUTH
