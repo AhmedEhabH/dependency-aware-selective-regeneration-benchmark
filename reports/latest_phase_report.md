@@ -1,7 +1,7 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-29, v0.9.22 D9 IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT +
-> EAGER MODEL INIT + REMOTE TAG-PEEL PRE-LAUNCH GATE + FREEZE RECOVERY CLOSURE;
+> **CURRENT TRUTH (2026-08-29, v0.9.22 D9.6 IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT +
+> EAGER MODEL INIT + KAGGLE/GITHUB BOUNDARY CORRECTION;
 > REAL T4 PROOF PENDING):** D9.1 `_WorkflowDeadlineHeartbeatStoppingCriteria`
 > (transformers-compatible stopping criterion) is polled at every decode step and
 > stops generation with `finish_reason="timeout"` the moment the injected guard
@@ -18,14 +18,16 @@
 > `t_start`/any `RUN_START` — the one-time Qwen weights load is never charged to
 > the first run's scientific timing/budget; failure blocks with 0 RunRecords.
 > D9.4 the Runner installs the cooperative deadline guard per-run on strategy AND
-> shared backend (fresh lambda over THIS run's budget). D9.5 pre-launch annotated
-> tag-peel gate `verify_remote_annotated_tag_peel` (bounded 30 s, no-shell
-> `git ls-remote --tags` on the public canonical remote) requires the annotated
-> `v0.9.22-pilot-exec-ready` ref AND its peel == the notebook's exact
-> `SOURCE_COMMIT`, wired into `pilot-launch-cell` AND `pilot-resume-cell`;
-> `_run_live` gains process-group terminate→kill→reap with bounded grace. Genuine
+> shared backend (fresh lambda over THIS run's budget). D9.6 Kaggle/GitHub boundary correction: the D9.5 remote tag-peel gate is REMOVED
+> — launch and resume NEVER contact GitHub (no `git ls-remote`, no token);
+> `validate_pilot_launch_authorization` (pure local evidence: preflight JSON, sdpa
+> kernel policy, mandatory generation-deadline canary) is the ONLY pre-command gate,
+> wired into `pilot-launch-cell` AND `pilot-resume-cell`; the stable
+> `v0.9.22-pilot-exec-ready` tag is locally verified against the owner-controlled,
+> locally verified source commit after real preflight passes. `_run_live` keeps
+> process-group terminate→kill→reap with bounded grace. Genuine
 > RED: D8 baseline 17 failures before D9; focused D9 38/38 + D8 closures GREEN;
-> full acceptance **2532 passed / 33 skipped / 0 failed**. FREEZE RECOVERY
+> full acceptance **2538 passed / 33 skipped / 0 failed**. FREEZE RECOVERY
 > (authorized): three orphan untracked D8-baseline scratch copies deleted after
 > the four read-only checks (untracked, zero references, exact D8 blobs at
 > `8f0b119…` — `_base_check_seven.py`=`seven_arm_benchmark.py`
@@ -33,13 +35,13 @@
 > `c7899452…`/`7b583872…`, `_base_check_backend.py`=`kaggle_qwen_backend.py`
 > `6e2ff716…`/`82caa092…`); finalizer discovery at `a91ee87…` (no
 > `--verify-source-provenance`) rewrote the stale code-manifest anchor after the
-> orphans were absent → **D9_SOURCE_COMMIT `9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d`**
+> orphans were absent → **D9.6_SOURCE_COMMIT `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6`**
 > (`chore(freeze): refresh pilot notebook frozen manifest anchors for D9`);
-> provenance-enabled finalizer at `9ea02b3…` FROZEN, **0 mismatches**, idempotent
+> two-pass finalizer at `6ff1c93…` FROZEN, **0 mismatches**, idempotent
 > (notebook/archive SHA/stable hashes unchanged on same-input rerun). Canonical +
 > bundled notebooks compile 16/16; focused notebook/finalizer/provenance 165/165.
 > Exact artifact `dist/pilot-kaggle-upload.zip`
-> SHA-256 **`913e8065a384effa2cf6b6a69f11e5840506644873fa54764c3cbe8ee5406d48`**;
+> SHA-256 **`03d8d0ae37b995a362ee90c53a1851588ad024f13ead033814399210ce54dfc4`**;
 > sidecar matches; freeze report source == `9ea02b3…`, FROZEN. Exact
 > fresh-extraction bundled dry-run **48/48** (48 unique IDs, repos 16/16/16,
 > strategies 24/24, reps 24/24, 0 calls/tokens) with the canonical
@@ -49,10 +51,10 @@
 > REJECTED for Pilot launch (the real Pilot exposed the in-flight
 > timeout/heartbeat defect D9 now closes); `exp-20260828-151335` has 0 accepted
 > RunRecords and must never be resumed; D9 remains v0.9.22 and supersedes D8. No
-> stable tag exists; next is ONE exact-D9-artifact real 2x T4 preflight only, and
+> stable tag exists; next is ONE exact-D9.6-artifact real 2x T4 preflight only, and
 > annotate `9ea02b3…` only after GQA microprobe + short + 12k PASS. No 48-cell
 > launch while untagged. Full detail:
-> `reports/V0922_D9_INFLIGHT_DEADLINE_HEARTBEAT_EAGER_INIT_TAG_PEEL_FREEZE_CLOSURE_REPORT.md`.
+> `reports/V0922_D9_6_KAGGLE_GITHUB_BOUNDARY_CLOSURE_REPORT.md`.
 >
 > **PRIOR TRUTH (2026-08-28, SUPERSEDED by D9 — v0.9.22 D8 DRY-RUN TOKEN-SCHEMA +
 > LAUNCH-AUTH EVIDENCE CLOSURE):** D8 proves and closes the

@@ -1,7 +1,7 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-29, v0.9.22 D9 IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT +
-> EAGER MODEL INIT + REMOTE TAG-PEEL GATE + FREEZE RECOVERY CLOSURE; REAL T4 PROOF
+> **CURRENT STATE (2026-08-29, v0.9.22 D9.6 IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT +
+> EAGER MODEL INIT + KAGGLE/GITHUB BOUNDARY CORRECTION; REAL T4 PROOF
 > PENDING):** D9.1 `_WorkflowDeadlineHeartbeatStoppingCriteria`
 > (`kaggle_qwen_backend.py`) is polled at every decode step and stops a long
 > synchronous Qwen generation with `finish_reason="timeout"` the instant the
@@ -16,28 +16,34 @@
 > D9.3 eager shared-model init (`initialize()` before `t_start`/any `RUN_START`) outside
 > the first run's scientific timing/token budget (failure = engineering blocker, 0
 > RunRecords, exit 1). D9.4 per-run cooperative guard reinstall on strategy AND shared
-> backend (`_apply_model_call_guards`). D9.5 no-shell bounded remote annotated-tag-peel
-> launch gate (`verify_remote_annotated_tag_peel`, wired into `pilot-launch-cell` AND
-> `pilot-resume-cell`) + interrupt-safe process-group terminate→kill→reap. Genuine RED:
-> D8 baseline 17 failures; GREEN: focused 38/38 + green D8 closures; full suite **2532
-> passed / 33 skipped / 0 failed**. Freeze recovery (3 orphan D8 scratch copies deleted
-> after authorized read-only checks; anchors refreshed) → **D9_SOURCE_COMMIT
-> `9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d`**; finalizer FROZEN, **0 mismatches,
-> idempotent**. Exact-artifact dry-run is **48/48** (48 unique IDs, repos 16/16/16,
+> backend (`_apply_model_call_guards`). D9.6 Kaggle/GitHub boundary correction: the
+> D9.5 remote tag-peel gate is REMOVED — launch/resume NEVER contact GitHub (no
+> `git ls-remote`, no token); `validate_pilot_launch_authorization` (pure local evidence)
+> is the ONLY pre-command gate in BOTH `pilot-launch-cell` AND `pilot-resume-cell`; the
+> stable `v0.9.22-pilot-exec-ready` tag is locally verified against the owner-controlled,
+> locally verified source commit after real preflight passes. + interrupt-safe
+> process-group terminate→kill→reap. Genuine RED: the D9.5 baseline left 10 boundary-test
+> failures (tag-peel machinery in preflight.py + notebook; the resume cell lacked the
+> local authorization gate); D9.6 closes all 10. GREEN: focused boundary +
+> notebook/finalizer/provenance suites green; full suite **2538
+> passed / 33 skipped / 0 failed**. FROZEN via the two-pass finalizer
+> (`--verify-source-provenance`) with **0 mismatches, idempotent** → **D9.6_SOURCE_COMMIT
+> `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6`** (supersedes D9 `9ea02b3…`); exact-artifact
+> dry-run is **48/48** (48 unique IDs, repos 16/16/16,
 > strategies 24/24, reps 24/24, 0 calls/tokens), canonical `validate_pilot_dryrun_evidence`
-> PASS, every record + `source_identity.json` == `9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d`.
-> Exact artifact SHA-256 is **`913e8065a384effa2cf6b6a69f11e5840506644873fa54764c3cbe8ee5406d48`**
+> PASS, every record + `source_identity.json` == `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6`.
+> Exact artifact SHA-256 is **`03d8d0ae37b995a362ee90c53a1851588ad024f13ead033814399210ce54dfc4`**
 > (+ sidecar verified; FROZEN). Canonical+bundled compile 16/16; focused
-> notebook/finalizer/provenance **165/165**. Scientific inputs unchanged. REQUIRED
+> boundary + notebook/finalizer/provenance suites green. Scientific inputs unchanged. REQUIRED
 > TRUTHFUL STATUS: D8's exact 2x T4 preflight passed but D8 is **REJECTED for Pilot launch**
 > (the real Pilot exposed the in-flight timeout/heartbeat defect D9 closes);
 > `exp-20260828-151335` has 0 accepted RunRecords, never resume it; `02d16ca2…`
-> (D8), `e0a64937…` (D7), `ce40b330…` / `f72ecda…` are SUPERSEDED. No stable tag
-> exists; next is the exact-D9-artifact 2x T4 model preflight only (repo preflight +
+> (D8), `913e8065…` (D9), `e0a64937…` (D7), `ce40b330…` / `f72ecda…` are SUPERSEDED. No stable tag
+> exists; next is the exact-D9.6-artifact 2x T4 model preflight only (repo preflight +
 > heartbeat, Qwen 14B BNB-NF4 load, GQA microprobe, **generation-deadline canary**,
-> short probe, 12k/64 probe), and tag `9ea02b3…` only after ALL PASS. No 48-cell launch
+> short probe, 12k/64 probe), and tag `6ff1c93…` only after ALL PASS. No 48-cell launch
 > while untagged. On FAIL return to the SAME v0.9.22 task (never v0.9.23). Report:
-> `reports/V0922_D9_INFLIGHT_DEADLINE_HEARTBEAT_EAGER_INIT_TAG_PEEL_FREEZE_CLOSURE_REPORT.md`.
+> `reports/V0922_D9_6_KAGGLE_GITHUB_BOUNDARY_CLOSURE_REPORT.md`.
 > **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
 >
 > **PRIOR STATE (2026-08-28, SUPERSEDED by D9 — D8 DRY-RUN TOKEN-SCHEMA + LAUNCH-AUTH
