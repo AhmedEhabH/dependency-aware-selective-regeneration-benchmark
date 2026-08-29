@@ -29,9 +29,9 @@ are SUPERSEDED and must not be uploaded. Never resume rejected experiment
 
 | Item | Value |
 |---|---|
-| Source tag | `v0.9.22-pilot-exec-ready` (PLANNED — annotate ONLY after the Kaggle 12k probe PASSES at `6ff1c93…`; the annotated tag is then locally verified against the owner-controlled, locally verified source commit — runtime never contacts GitHub) |
-| Source commit (= future tag peel) | `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6` (D9.6 Kaggle/GitHub boundary-correction artifact source; future tag target) |
-| Artifact SHA-256 | `03d8d0ae37b995a362ee90c53a1851588ad024f13ead033814399210ce54dfc4` (+ sidecar verified equal; two-pass finalizer with `--verify-source-provenance`; FROZEN, 0 mismatches, idempotent) |
+| Source tag | `v0.9.22-pilot-exec-ready` (PLANNED — annotate ONLY after the Kaggle 12k probe PASSES at `478261f…`; the annotated tag is then locally verified against the owner-controlled, locally verified source commit — runtime never contacts GitHub) |
+| Source commit (= future tag peel) | `478261ff595d3d64ed9d5bab32d1cc90d7dabd77` (D9.6 notebook-markdown cell-labels closure artifact source on top of the D9.6 Kaggle/GitHub boundary correction; build id `478261f`; future tag target) |
+| Artifact SHA-256 | `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (+ sidecar verified equal; two-pass finalizer with `--verify-source-provenance`; FROZEN, 0 mismatches, idempotent) |
 | Sidecar | `dist/pilot-kaggle-upload.zip.sha256` (must equal the archive hash) |
 | Trust / provenance | 0 mismatches required |
 | Exact artifact dry-run | 48/48 succeeded, 48 unique IDs, 0 model calls required |
@@ -74,7 +74,7 @@ proof is REQUIRED before any tag or Pilot:
    `attention_policy: PASS`.
  3. Do NOT launch any scientific cell while the stable tag does not exist. On
     PASS → locally annotate `v0.9.22-pilot-exec-ready` AT the tested source
-    commit `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6`, verify it locally against
+    commit `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`, verify it locally against
     the owner-controlled source commit, push the tag, THEN continue per
     Section 3 in a fresh session. On FAIL → return to the SAME v0.9.22 task
     (never spawn v0.9.23). Never resume the rejected `exp-20260828-151335`.
@@ -163,7 +163,7 @@ COMMIT (recorded in the table above) with 0 mismatches required; freeze evidence
    or repository verification.
  4. Verify `pilot_deployment_identity.json`: task `PILOT-EXEC-01`, source tag
       `v0.9.22-pilot-exec-ready` (planned), source commit
-      `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6`; the identity-verify cell anchors
+      `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`; the identity-verify cell anchors
     `source_tag` and the full `FROZEN_DEPLOYMENT` to the frozen constants in
     BOTH modes.
 5. Verify the code/data manifests against the freeze report.
@@ -244,7 +244,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
 --validation-timeout 1800 \
---source-commit 6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6 \
+--source-commit 478261ff595d3d64ed9d5bab32d1cc90d7dabd77 \
     --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \
@@ -291,7 +291,7 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
 --validation-timeout 1800 \
---source-commit 6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6 \
+--source-commit 478261ff595d3d64ed9d5bab32d1cc90d7dabd77 \
     --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \

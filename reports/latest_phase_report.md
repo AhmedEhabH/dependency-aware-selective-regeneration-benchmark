@@ -1,8 +1,60 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-29, v0.9.22 D9.6 IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT +
-> EAGER MODEL INIT + KAGGLE/GITHUB BOUNDARY CORRECTION;
-> REAL T4 PROOF PENDING):** D9.1 `_WorkflowDeadlineHeartbeatStoppingCriteria`
+> **CURRENT TRUTH (2026-08-29, v0.9.22 D9.6 NOTEBOOK-MARKDOWN CELL-LABELS
+> CLOSURE (PILOT-EXEC-01) — NOTEBOOK-NAVIGATION REFINEMENT ON TOP OF THE D9.6
+> KAGGLE/GITHUB BOUNDARY CORRECTION; REAL T4 PROOF PENDING; NO STABLE TAG
+> YET):** NOTHING scientific, NOTHING in production/runtime code, and NOT the
+> Kaggle/GitHub boundary changed: 11 exact Markdown navigation cells
+> (`pilot-step-00..10-*md`, e.g. Step 04 model-preflight, Step 08 STOP
+> boundary, Step 09 launch, Step 10 resume) were inserted between the
+> (byte-identical, unchanged) 16 executable code cells in
+> `notebooks/pilot_exec_01.ipynb` so Kaggle's Table of Contents names every
+> operational stage and a visible pre-launch STOP boundary guards
+> `pilot-launch`. New regression tests: TestMarkdownNavigation /
+> TestCodeCellsUnchangedFromBaseline / TestBundledNotebookParity
+> (`tests/integration/test_pilot_notebook_contract.py`) and
+> TestPilotBundleKeepsMarkdownNavigation
+> (`tests/integration/test_pilot_deployment_bundle.py`); notebook diff 126
+> insertions / 0 deletions; code cells compile 16/16; RED-to-GREEN
+> established. The D9.1–D9.4 mechanics (decode-step workflow-deadline
+> stopping criterion with 30 s liveness heartbeats, mandatory real-Qwen
+> generation-deadline canary, eager shared-model init, per-run cooperative
+> guard install) and the D9.6 Kaggle/GitHub boundary correction carry forward
+> unchanged: the D9.5 remote tag-peel gate is REMOVED — launch/resume NEVER
+> contact GitHub (no `git ls-remote`, no token); `validate_pilot_launch_authorization`
+> is the ONLY pre-command gate in BOTH `pilot-launch-cell` AND
+> `pilot-resume-cell`; the stable `v0.9.22-pilot-exec-ready` tag is locally
+> verified against the owner-controlled, locally verified source commit after
+> real preflight passes. Full suite **2538 passed / 33 skipped / 0 failed**.
+> FROZEN via the two-pass finalizer (`--source-commit 478261f…`,
+> `--verify-source-provenance`) **0 mismatches, idempotent**, stable
+> code/data/repository-snapshot/transport manifest hashes UNCHANGED from D9.6;
+> notebook_manifest_sha256 NEW
+> `9d3edac4c20c00ab73a1ecda10d52322a5c57756820ed03f3a6162615e19adb6`, deployed
+> bundle notebook SHA
+> `6720293b922e06a80ecdc44a6d16e5eb12cc777d23c24a7076d005872d7aba68` ==
+> canonical blob at `478261f…` → **SOURCE COMMIT
+> `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`** (build id `478261f`; supersedes
+> the D9.6 boundary-correction source `6ff1c93…`); exact-artifact dry-run
+> **48/48** (48 unique IDs, repos 16/16/16, strategies 24/24, reps 24/24, 0
+> calls/tokens), canonical `validate_pilot_dryrun_evidence` PASS, every record
+> + `source_identity.json` == `478261f…`. Exact artifact
+> `dist/pilot-kaggle-upload.zip` SHA-256 **`edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a`**;
+> sidecar matches. REQUIRED TRUTHFUL STATUS: the prior D9.6 artifact
+> `03d8d0ae…` (source `6ff1c93…`) is SUPERSEDED — do not upload it; D8's exact
+> 2x T4 preflight passed but D8 is REJECTED for Pilot launch (the real Pilot
+> exposed the in-flight timeout/heartbeat defect D9 closes);
+> `exp-20260828-151335` has 0 accepted RunRecords and must never be resumed.
+> No stable tag exists; next is ONE exact-new-artifact real 2x T4 preflight
+> only (GQA microprobe + generation-deadline canary + short + 12k), and tag
+> `v0.9.22-pilot-exec-ready` at `478261f…` ONLY after ALL PASS; on FAIL return
+> to the SAME v0.9.22 task (never v0.9.23). No 48-cell launch while untagged.
+> Report: `reports/V0922_D9_6_NOTEBOOK_MARKDOWN_NAVIGATION_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-29, SUPERSEDED by the D9.6 notebook-markdown
+> cell-labels closure — v0.9.22 D9.6 KAGGLE/GITHUB BOUNDARY CORRECTION +
+> IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT + EAGER MODEL INIT; REAL T4 PROOF
+> PENDING):** D9.1 `_WorkflowDeadlineHeartbeatStoppingCriteria`
 > (transformers-compatible stopping criterion) is polled at every decode step and
 > stops generation with `finish_reason="timeout"` the moment the injected guard
 > (`lambda: not budget.timed_out`) first returns false — an in-flight generation

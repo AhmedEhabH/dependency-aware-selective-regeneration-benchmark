@@ -36,8 +36,78 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-> **CURRENT TRUTH (2026-08-29, v0.9.22 D9.6 IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT +
-> EAGER MODEL INIT + KAGGLE/GITHUB BOUNDARY CORRECTION; REAL T4 PROOF PENDING):**
+> **CURRENT TRUTH (2026-08-29, v0.9.22 D9.6 NOTEBOOK-MARKDOWN CELL-LABELS
+> CLOSURE (PILOT-EXEC-01) — NOTEBOOK-NAVIGATION REFINEMENT ON TOP OF THE D9.6
+> KAGGLE/GITHUB BOUNDARY CORRECTION; REAL T4 PROOF PENDING; NO STABLE TAG
+> YET):** branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`.
+> NOTHING scientific, NOTHING in production/runtime code, and NOT the
+> Kaggle/GitHub boundary changed: 11 exact Markdown navigation cells
+> (`pilot-step-00..10-*md`, e.g. Step 04 model-preflight, Step 08 STOP
+> boundary, Step 09 launch, Step 10 resume) were inserted between the
+> (byte-identical, unchanged) 16 executable code cells in
+> `notebooks/pilot_exec_01.ipynb` so Kaggle's Table of Contents names every
+> operational stage and a visible pre-launch STOP boundary guards
+> `pilot-launch`. New regression tests:
+> `tests/integration/test_pilot_notebook_contract.py`
+> (TestMarkdownNavigation, TestCodeCellsUnchangedFromBaseline,
+> TestBundledNotebookParity) and `tests/integration/test_pilot_deployment_bundle.py`
+> (TestPilotBundleKeepsMarkdownNavigation). No code-cell source changed;
+> witnesses: notebook diff 126 insertions / 0 deletions; code cells compile
+> 16/16; established RED-to-GREEN for the new tests. The D9.6 boundary
+> correction is carried forward unchanged — Kaggle launch and resume NEVER
+> contact GitHub (no `git ls-remote`, no token, no `GIT_*`);
+> `validate_pilot_launch_authorization` (pure local evidence: preflight JSON,
+> sdpa kernel policy, mandatory generation-deadline canary) is the ONLY
+> pre-command gate and is wired into BOTH `pilot-launch-cell` AND
+> `pilot-resume-cell` before command construction; the stable tag is
+> owner-side only: the annotated `v0.9.22-pilot-exec-ready` tag is created and
+> locally verified against the owner-controlled, locally verified source
+> commit after real preflight passes — no runtime gate ever contacts GitHub.
+> D9.1–D9.4 mechanics (decode-step workflow-deadline stopping criterion with
+> 30 s liveness heartbeats, mandatory real-Qwen generation-deadline canary,
+> eager shared-model init, per-run cooperative guard install) and the
+> interrupt-safe process-group terminate→kill→reap are unchanged. DEGREE
+> GREEN: the new notebook-nav tests + focused boundary + notebook/finalizer/
+> provenance suites green; full acceptance **2538 passed / 33 skipped / 0
+> failed**. FROZEN via the two-pass finalizer (`--source-commit 478261f…`,
+> `--verify-source-provenance`): **0 mismatches**, idempotent same-input rerun
+> (archive SHA unchanged); the stable code/data/repository-snapshot/transport
+> manifest hashes are UNCHANGED from D9.6 — `37e79950…`/`8b859ecc…`/
+> `49d91d39…`/`07036a36…` — because only the notebook markdown changed;
+> notebook_manifest_sha256 is NEW
+> `9d3edac4c20c00ab73a1ecda10d52322a5c57756820ed03f3a6162615e19adb6`,
+> deployed bundle notebook SHA
+> `6720293b922e06a80ecdc44a6d16e5eb12cc777d23c24a7076d005872d7aba68` ==
+> canonical source blob at `478261f…` → **SOURCE COMMIT
+> `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`** (build id `478261f`; supersedes
+> the D9.6 boundary-correction source
+> `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6`). Exact artifact
+> `dist/pilot-kaggle-upload.zip` SHA-256
+> **`edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a`**;
+> sidecar matches. Freeze report source == `478261f…`, FROZEN. Canonical+
+> bundled notebooks compile 16/16. Exact fresh-extraction bundled dry-run
+> (bundled CLI, explicit `--source-commit
+> 478261ff595d3d64ed9d5bab32d1cc90d7dabd77`) **48/48**: 48 unique IDs, repos
+> 16/16/16, strategies 24/24, reps 24/24, 0 calls/tokens; canonical
+> `validate_pilot_dryrun_evidence` PASS — every record + `source_identity.json`
+> == `478261f…` and its build id `478261f`. Scientific contract unchanged.
+> REQUIRED TRUTHFUL STATUS: the prior D9.6 artifact
+> `03d8d0ae37b995a362ee90c53a1851588ad024f13ead033814399210ce54dfc4` (source
+> `6ff1c93…`) is SUPERSEDED by this notebook-nav artifact — do not upload the
+> old artifact; D8 (`02d16ca2…`) is REJECTED for Pilot launch (its exact 2×T4
+> preflight passed but the real Pilot exposed the in-flight timeout/heartbeat
+> defect D9 closes) and remains superseded;
+> `exp-20260828-151335` has 0 accepted RunRecords and must never be resumed;
+> this remains v0.9.22 (never v0.9.23). NO stable tag during this local
+> closure: next external step is ONE exact-new-artifact real 2x T4 GQA
+> microprobe + generation-deadline canary + short + 12k preflight ONLY;
+> annotate `v0.9.22-pilot-exec-ready` at `478261f…` ONLY after PASS; on FAIL
+> return to the SAME v0.9.22 task (never v0.9.23). Report:
+> `reports/V0922_D9_6_NOTEBOOK_MARKDOWN_NAVIGATION_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-29, SUPERSEDED by the D9.6 notebook-markdown
+> cell-labels closure — v0.9.22 D9.6 KAGGLE/GITHUB BOUNDARY CORRECTION +
+> IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT + EAGER MODEL INIT):**
 > branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`. D9.1 the
 > `_WorkflowDeadlineHeartbeatStoppingCriteria` (transformers-compatible stopping
 > criterion, `kaggle_qwen_backend.py`) is polled at every decode step and stops
@@ -338,7 +408,7 @@ by the v0.9.22 candidate. Report:
 > (REJECTED FOR PILOT LAUNCH 2026-08-24 by the defect above).
 
 - **Accepted release/tag:** `v0.9.21-pilot-exec-ready` @ tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped CI green with Gates 1-3 (runs 32692489617 / 32694137255) — **superseded as launch candidate by the v0.9.22 attention closure (Real Pilot rejected before launch at the real 12k attention-prefill OOM); no v0.9.22 stable tag until the real 2x T4 12k probe PASSES**
-- **v0.9.22 candidate (CURRENT, D9.6):** branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D1–D9.6 closures complete; full suite 2538 passed / 33 skipped / 0 failed; exact final-artifact dry-run 48/48 (48 unique IDs, repos 16/16/16, strategies 24/24, reps 24/24, 0 calls/tokens, every record source commit/get build id == `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6`); exact artifact SHA `03d8d0ae37b995a362ee90c53a1851588ad024f13ead033814399210ce54dfc4` (+ sidecar verified) from future tag target/source commit `6ff1c93…` (**D9.6_SOURCE_COMMIT**; supersedes D9 `913e8065…`/`9ea02b3…` and all earlier candidates); trust/provenance 0 mismatches, FROZEN, idempotent; the Kaggle launch/resume cells never contact GitHub and the stable tag is locally verified against the owner-controlled, locally verified source commit after real preflight passes; NO stable tag until real 2x T4 GQA microprobe + short + 12k probe PASSES
+- **v0.9.22 candidate (CURRENT, D9.6):** branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D1–D9.6 closures complete; full suite 2538 passed / 33 skipped / 0 failed; exact final-artifact dry-run 48/48 (48 unique IDs, repos 16/16/16, strategies 24/24, reps 24/24, 0 calls/tokens, every record source commit/get build id == `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`); exact artifact SHA `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (+ sidecar verified) from future tag target/source commit `478261f…` (D9.6 notebook-markdown cell-labels closure on top of the D9.6 Kaggle/GitHub boundary correction — 11 exact Markdown navigation cells + pre-launch STOP boundary, nothing scientific/runtime changed, boundary correction unchanged; supersedes `6ff1c93…`/`03d8d0ae…` and all earlier candidates); trust/provenance 0 mismatches, FROZEN, idempotent, stable manifest hashes unchanged from D9.6; the Kaggle launch/resume cells never contact GitHub and the stable tag is locally verified against the owner-controlled, locally verified source commit after real preflight passes; NO stable tag until real 2x T4 GQA microprobe + short + 12k probe PASSES
 - **v0.9.20 status:** internally trustworthy; no-model target preflight GREEN; superseded for Real Pilot launch by v0.9.21 after the independent audit found the per-cell validation runtime parity blockers (B1 interpreter routing / B2 frozen env discarded / B3 180s timeout below measured runtime)
 - **v0.9.19 status:** REJECTED FOR PILOT LAUNCH 2026-08-24 — real Kaggle Saleor fast-gate Pytest exit 5 (artifact itself was internally GREEN; superseded by v0.9.20)
 - **v0.9.18 status:** RELEASE-ONLY CLOSURE (release-only provenance/docs correction; no scientific or production code changes) — historical
