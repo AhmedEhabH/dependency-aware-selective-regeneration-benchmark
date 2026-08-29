@@ -1546,3 +1546,102 @@ class TestD96NoGitHubLaunchRuntimeDependency:
                 )
             assert "validate_pilot_launch_authorization(" in cell_src
             assert not re.search(r"\bgit\b", cell_src)
+
+
+class TestPilotBundleKeepsMarkdownNavigation:
+    """PILOT-EXEC-01 label-closure: a future finalizer/bundle build must never
+    drop the Markdown navigation cells. Proves the frozen (two-pass finalizer)
+    bundled notebook still carries all 11 navigation Markdown cells with the
+    exact ids, correct cell types, and the exact expected interspersed order."""
+
+    MARKDOWN_NAV = {
+        "pilot-step-00-session-setup-md": "setup-cell",
+        "pilot-step-01-artifact-identity-md": "pilot-archive-verify-cell",
+        "pilot-step-02-runtime-repository-setup-md": "install-lock-cell",
+        "pilot-step-03-repository-preflight-md": "pilot-repo-preflight-cell",
+        "pilot-step-04-gpu-model-input-md": "gpu-verify-cell",
+        "pilot-step-05-model-preflight-md": "model-preflight-cell",
+        "pilot-step-06-dryrun-md": "dryrun-cell",
+        "pilot-step-07-hf-secret-md": "secrets-cell",
+        "pilot-step-08-launch-md": "pilot-launch-cell",
+        "pilot-step-09-resume-md": "pilot-resume-cell",
+        "pilot-step-10-verify-export-md": "pilot-verify-cell",
+    }
+
+    @staticmethod
+    def _src(cell: dict[str, Any]) -> str:
+        src = cell.get("source", "")
+        return src if isinstance(src, str) else "".join(src)
+
+    def test_frozen_bundle_retains_markdown_navigation(self, tmp_path: Path) -> None:
+        _output_root, archive, _frozen_notebook = _build_frozen(
+            tmp_path, "2026-08-29T12:00:00+00:00", "a" * 40, "mdnav"
+        )
+        with zipfile.ZipFile(archive) as zf:
+            bundled = json.loads(zf.read("notebooks/pilot_exec_01.ipynb").decode("utf-8"))
+        cells = bundled["cells"]
+        ids = [c.get("id", "") for c in cells]
+        for md_id, code_id in self.MARKDOWN_NAV.items():
+            assert md_id in ids, f"finalizer dropped Markdown navigation cell {md_id}"
+            i = ids.index(md_id)
+            assert cells[i].get("cell_type") == "markdown"
+            assert ids[i + 1] == code_id, (
+                f"{md_id} must immediately precede {code_id}, precedes {ids[i + 1]}"
+            )
+        # No navigation cell may be duplicated and the code order is preserved.
+        from collections import Counter
+
+        dupes = [i for i, n in Counter(ids).items() if n != 1 and i in self.MARKDOWN_NAV]
+        assert dupes == [], f"duplicate navigation ids in frozen bundle: {dupes}"
+        code_ids = [c.get("id", "") for c in cells if c.get("cell_type") == "code"]
+        assert code_ids == [
+            "setup-cell",
+            "pilot-archive-verify-cell",
+            "transport-restore-cell",
+            "pilot-identity-verify-cell",
+            "install-lock-cell",
+            "pilot-snapshot-verify-cell",
+            "service-bootstrap-cell",
+            "pilot-repo-preflight-cell",
+            "gpu-verify-cell",
+            "model-preflight-cell",
+            "dryrun-cell",
+            "secrets-cell",
+            "pilot-launch-cell",
+            "pilot-resume-cell",
+            "pilot-verify-cell",
+            "pilot-export-cell",
+        ]
+
+    def test_frozen_bundle_navigation_headings_exact(self, tmp_path: Path) -> None:
+        _output_root, archive, _frozen_notebook = _build_frozen(
+            tmp_path, "2026-08-29T12:00:00+00:00", "a" * 40, "mdnavh"
+        )
+        with zipfile.ZipFile(archive) as zf:
+            bundled = json.loads(zf.read("notebooks/pilot_exec_01.ipynb").decode("utf-8"))
+        cells = {c.get("id", ""): c for c in bundled["cells"]}
+        expected = {
+            "pilot-step-00-session-setup-md": "## 0. Session Setup",
+            "pilot-step-01-artifact-identity-md": "## 1. Artifact and Identity Verification",
+            "pilot-step-02-runtime-repository-setup-md": "## 2. Runtime and Repository Setup",
+            "pilot-step-03-repository-preflight-md": (
+                "## 3. Repository Preflight, Heartbeat, and GQA Microprobe"
+            ),
+            "pilot-step-04-gpu-model-input-md": "## 4. GPU and Qwen Input Verification",
+            "pilot-step-05-model-preflight-md": "## 5. Model Preflight Only",
+            "pilot-step-06-dryrun-md": "## 6. Exact-Artifact 48-Cell Dry Run",
+            "pilot-step-07-hf-secret-md": "## 7. Hugging Face Results Secret",
+            "pilot-step-08-launch-md": (
+                "## 8. Pilot Launch \u2014 STOP Until Stable Tag Is Confirmed"
+            ),
+            "pilot-step-09-resume-md": "## 9. Resume After External Interruption Only",
+            "pilot-step-10-verify-export-md": "## 10. Final Verification and Export",
+        }
+        for md_id, heading in expected.items():
+            assert md_id in cells, f"missing navigation cell in frozen bundle: {md_id}"
+            assert heading in self._src(cells[md_id]), (
+                f"{md_id} heading missing/incorrect in frozen bundle"
+            )
+        # Frozen source tag must still be present after the two-pass freeze.
+        setup = "".join(self._src(cells["setup-cell"]))
+        assert 'FROZEN_SOURCE_TAG = "v0.9.22-pilot-exec-ready"' in setup

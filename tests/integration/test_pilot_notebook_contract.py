@@ -60,6 +60,77 @@ REQUIRED_CELL_ORDER = (
     "pilot-export-cell",
 )
 
+# PILOT-EXEC-01 label-closure: the canonical notebook carries 11 Markdown
+# navigation cells (Step 00..10) each placed IMMEDIATELY before its mapped
+# operational code cell, so Kaggle's Table of contents names every stage and a
+# visible STOP boundary guards pilot-launch. ``MARKDOWN_NAV`` maps each
+# Markdown cell id -> the code cell it must immediately precede.
+MARKDOWN_NAV: dict[str, str] = {
+    "pilot-step-00-session-setup-md": "setup-cell",
+    "pilot-step-01-artifact-identity-md": "pilot-archive-verify-cell",
+    "pilot-step-02-runtime-repository-setup-md": "install-lock-cell",
+    "pilot-step-03-repository-preflight-md": "pilot-repo-preflight-cell",
+    "pilot-step-04-gpu-model-input-md": "gpu-verify-cell",
+    "pilot-step-05-model-preflight-md": "model-preflight-cell",
+    "pilot-step-06-dryrun-md": "dryrun-cell",
+    "pilot-step-07-hf-secret-md": "secrets-cell",
+    "pilot-step-08-launch-md": "pilot-launch-cell",
+    "pilot-step-09-resume-md": "pilot-resume-cell",
+    "pilot-step-10-verify-export-md": "pilot-verify-cell",
+}
+
+MARKDOWN_HEADINGS: dict[str, str] = {
+    "pilot-step-00-session-setup-md": "## 0. Session Setup",
+    "pilot-step-01-artifact-identity-md": "## 1. Artifact and Identity Verification",
+    "pilot-step-02-runtime-repository-setup-md": "## 2. Runtime and Repository Setup",
+    "pilot-step-03-repository-preflight-md": (
+        "## 3. Repository Preflight, Heartbeat, and GQA Microprobe"
+    ),
+    "pilot-step-04-gpu-model-input-md": "## 4. GPU and Qwen Input Verification",
+    "pilot-step-05-model-preflight-md": "## 5. Model Preflight Only",
+    "pilot-step-06-dryrun-md": "## 6. Exact-Artifact 48-Cell Dry Run",
+    "pilot-step-07-hf-secret-md": "## 7. Hugging Face Results Secret",
+    "pilot-step-08-launch-md": "## 8. Pilot Launch \u2014 STOP Until Stable Tag Is Confirmed",
+    "pilot-step-09-resume-md": "## 9. Resume After External Interruption Only",
+    "pilot-step-10-verify-export-md": "## 10. Final Verification and Export",
+}
+
+# The canonical notebook keeps its original title and final Notes Markdown
+# cells and intersperses exactly the 11 navigation Markdown cells between the
+# unchanged 16 code cells. This is the full expected cell order after the
+# label-closure.
+FULL_EXPECTED_CELL_ORDER = (
+    "pilot-title-md",
+    "pilot-step-00-session-setup-md",
+    "setup-cell",
+    "pilot-step-01-artifact-identity-md",
+    "pilot-archive-verify-cell",
+    "transport-restore-cell",
+    "pilot-identity-verify-cell",
+    "pilot-step-02-runtime-repository-setup-md",
+    "install-lock-cell",
+    "pilot-snapshot-verify-cell",
+    "service-bootstrap-cell",
+    "pilot-step-03-repository-preflight-md",
+    "pilot-repo-preflight-cell",
+    "pilot-step-04-gpu-model-input-md",
+    "gpu-verify-cell",
+    "pilot-step-05-model-preflight-md",
+    "model-preflight-cell",
+    "pilot-step-06-dryrun-md",
+    "dryrun-cell",
+    "pilot-step-07-hf-secret-md",
+    "secrets-cell",
+    "pilot-step-08-launch-md",
+    "pilot-launch-cell",
+    "pilot-step-09-resume-md",
+    "pilot-resume-cell",
+    "pilot-step-10-verify-export-md",
+    "pilot-verify-cell",
+    "pilot-export-cell",
+    "pilot-notes-md",
+)
+
 FORBIDDEN_CODE_FRAGMENTS = (
     "--profile scientific-smoke-v2",
     "scientific-smoke-v2",
@@ -170,14 +241,19 @@ class TestNotebookStructure:
         assert nb["nbformat_minor"] == 5
 
     def test_required_cell_order(self) -> None:
+        # The label-closure intersperses 11 Markdown navigation cells (Step
+        # 00..10) between the unchanged 16 code cells while keeping the original
+        # title and Notes Markdown cells. Assert the exact full ordered layout
+        # (no missing, no extra, no reordering).
         nb = _nb()
-        ids = [c.get("id", "") for c in nb["cells"]]
-        index = {cell_id: idx for idx, cell_id in enumerate(ids)}
-        for idx, cell_id in enumerate(REQUIRED_CELL_ORDER):
-            assert cell_id in index, f"missing required cell: {cell_id}"
-            assert index[cell_id] == idx + 1, (
-                f"cell '{cell_id}' at position {index[cell_id]}, expected {idx + 1}"
-            )
+        actual = [c.get("id", "") for c in nb["cells"]]
+        assert actual == list(FULL_EXPECTED_CELL_ORDER), (
+            f"cell order differs from expected:\nexpected={list(FULL_EXPECTED_CELL_ORDER)}\n"
+            f"actual  ={actual}"
+        )
+        # The 16 operational code cells still appear in REQUIRED_CELL_ORDER.
+        code_ids = [c.get("id", "") for c in nb["cells"] if c.get("cell_type") == "code"]
+        assert code_ids == list(REQUIRED_CELL_ORDER)
 
     def test_title_identifies_pilot_non_publication(self) -> None:
         nb = _nb()
@@ -187,7 +263,162 @@ class TestNotebookStructure:
         assert "bnb-nf4" in title
 
 
-class TestCodeCellsCompile:
+class TestMarkdownNavigation:
+    """PILOT-EXEC-01 label-closure: the 11 Markdown navigation cells."""
+
+    def test_every_navigation_id_exists_exactly_once(self) -> None:
+        nb = _nb()
+        by_id = _cells_by_id(nb)
+        for md_id in MARKDOWN_NAV:
+            assert md_id in by_id, f"missing Markdown navigation cell: {md_id}"
+            cell = by_id[md_id]
+            assert cell.get("cell_type") == "markdown", f"{md_id} must be markdown"
+        ids = [c.get("id", "") for c in nb["cells"]]
+        from collections import Counter
+
+        counts = Counter(i for i in ids if i in MARKDOWN_NAV)
+        duplicates = [i for i, n in counts.items() if n != 1]
+        assert duplicates == [], f"duplicate navigation cell ids: {duplicates}"
+        assert "pilot-title-md" in by_id and "pilot-notes-md" in by_id
+
+    def test_each_markdown_immediately_precedes_mapped_code_cell(self) -> None:
+        nb = _nb()
+        actual = [c.get("id", "") for c in nb["cells"]]
+        for md_id, code_id in MARKDOWN_NAV.items():
+            assert md_id in actual, f"missing navigation cell: {md_id}"
+            i = actual.index(md_id)
+            assert i + 1 < len(actual), f"{md_id} has no following cell"
+            assert actual[i + 1] == code_id, (
+                f"{md_id} must immediately precede {code_id}, "
+                f"but precedes {actual[i + 1]}"
+            )
+
+    def test_headings_are_exact_and_ordered_0_through_10(self) -> None:
+        nb = _nb()
+        by_id = _cells_by_id(nb)
+        headings = []
+        for md_id in ("pilot-title-md", *MARKDOWN_NAV.keys(), "pilot-notes-md"):
+            cell = by_id.get(md_id)
+            if cell is None:
+                continue
+            src = _src(cell)
+            heading = next(
+                (ln for ln in src.splitlines() if ln.startswith("# ")), "# MISSING"
+            )
+            headings.append(heading)
+        expected_ordered = [MARKDOWN_HEADINGS[k] for k in MARKDOWN_NAV]
+        for md_id, expected in MARKDOWN_HEADINGS.items():
+            src = _src(by_id[md_id])
+            assert expected in src, f"{md_id} heading missing: {expected!r}"
+        # All 11 headings present exactly once and strictly ordered 0..10.
+        for idx, md_id in enumerate(MARKDOWN_NAV):
+            assert expected_ordered[idx].startswith(f"## {idx}."), (
+                f"{md_id} heading must start with '## {idx}.', got {expected_ordered[idx]!r}"
+            )
+        # The title keeps its top-level H1 and Notes keeps its H2.
+        assert _src(by_id["pilot-title-md"]).lstrip().startswith("# ")
+        assert "## Notes" in _src(by_id["pilot-notes-md"])
+
+    def test_step5_visibly_lists_the_four_model_preflight_stages(self) -> None:
+        src = _src(_cells_by_id(_nb())["pilot-step-05-model-preflight-md"])
+        for needle in (
+            "Qwen", "BNB-NF4", "load", "GPU-only", "deadline canary",
+            "Short generation", "12k", "64", "long-context", "no scientific RunRecord",
+            "model-preflight-cell",
+        ):
+            assert needle in src, f"step 5 must mention {needle!r}"
+
+    def test_step8_contains_explicit_stop_boundary_and_local_tag_sequence(self) -> None:
+        src = _src(_cells_by_id(_nb())["pilot-step-08-launch-md"])
+        for needle in (
+            "STOP", "Do not run this cell", "export evidence", "OpenCode",
+            "audits evidence", "annotated stable tag", "locally",
+            "tag confirmation", "run this one cell", "Kaggle never contacts GitHub",
+        ):
+            assert needle in src, f"step 8 must contain {needle!r}"
+
+    def test_step7_says_hf_token_only_and_notebook_has_no_github_token(self) -> None:
+        src = _src(_cells_by_id(_nb())["pilot-step-07-hf-secret-md"])
+        assert "HF_TOKEN" in src
+        assert "GitHub access is not required" in src or "no GitHub" in src
+        # The whole notebook (code + markdown) must never mention GITHUB_TOKEN.
+        nb = _nb()
+        all_text = "\n".join(_src(c) for c in nb["cells"])
+        assert "GITHUB_TOKEN" not in all_text
+
+    def test_launch_resume_cells_keep_local_authorization_no_git_gate(self) -> None:
+        # Re-asserted here for the label-closure so the navigation docs can
+        # never drift from the launch gate contract.
+        for cid in ("pilot-launch-cell", "pilot-resume-cell"):
+            src = _src(_cells_by_id(_nb())[cid])
+            assert "validate_pilot_launch_authorization(" in src
+            for fragment in (
+                "github.com", "ls-remote", "GITHUB_TOKEN", "git tag",
+                "git rev-parse", "urlopen", "requests.",
+            ):
+                assert fragment not in src, f"{cid} leaked {fragment!r}"
+
+    def test_no_forbidden_runtime_fragments_in_navigation_markdown(self) -> None:
+        # The navigation Markdown is documentation-only and must not smuggle any
+        # GitHub/git runtime machinery or token material into the bundle.
+        nb = _nb()
+        for md_id in MARKDOWN_NAV:
+            src = _src(_cells_by_id(nb)[md_id])
+            assert "GITHUB_TOKEN" not in src
+            assert "ls-remote" not in src
+            assert "https://github.com" not in src
+
+
+class TestCodeCellsUnchangedFromBaseline:
+    """PILOT-EXEC-01 label-closure: no existing code-cell source may change
+    versus the D9.6 baseline commit ``d0f8269`` (the label-closure only inserts
+    Markdown cells), except the frozen stable anchors in the setup cell that the
+    deterministic two-pass finalizer legitimately rewrites (``FROZEN_SOURCE_TAG``
+    and the four stable manifest hashes)."""
+
+    BASELINE_COMMIT = "d0f82697571ecb000dd0db8047dc49294597ee13"
+    # Anchor lines the frozen tooling may rewrite (exact variable / key names).
+    ANCHOR_KEYS = (
+        "FROZEN_SOURCE_TAG",
+        "code_manifest_sha256",
+        "data_manifest_sha256",
+        "repository_snapshot_manifest_sha256",
+        "kaggle_transport_path_map_sha256",
+    )
+
+    def _load_baseline_nb(self) -> dict[str, Any]:
+        result = subprocess.run(
+            ["git", "show", f"{self.BASELINE_COMMIT}:notebooks/pilot_exec_01.ipynb"],
+            capture_output=True,
+            check=True,
+            cwd=str(PROJECT_DIR),
+        )
+        return json.loads(result.stdout.decode("utf-8"))
+
+    @staticmethod
+    def _normalize(source: str) -> str:
+        lines = [
+            ln for ln in source.replace("\r\n", "\n").splitlines()
+            if not any(
+                ln.strip().startswith(f"{key} =") or ln.strip().startswith(f'"{key}"')
+                for key in TestCodeCellsUnchangedFromBaseline.ANCHOR_KEYS
+            )
+        ]
+        return "\n".join(lines).strip()
+
+    def test_every_code_cell_source_unchanged_from_d96_baseline(self) -> None:
+        baseline = _cells_by_id(self._load_baseline_nb())
+        current = _cells_by_id(_nb())
+        for code_id in REQUIRED_CELL_ORDER:
+            assert code_id in baseline and code_id in current, f"cell missing: {code_id}"
+            assert current[code_id].get("cell_type") == "code"
+            baseline_src = _src(baseline[code_id])
+            current_src = _src(current[code_id])
+            assert (
+                self._normalize(current_src) == self._normalize(baseline_src)
+            ), f"code cell {code_id} source changed versus D9.6 baseline"
+
+
     def test_all_code_cells_compile(self) -> None:
         nb = _nb()
         for cell in _code_cells(nb):
@@ -950,6 +1181,48 @@ class TestBundledNotebookParity:
                     f"bundled code cell {cell.get('id')} source element {index} lacks a newline"
                 )
         _assert_validation_argv_contract(bundled_nb)
+
+    def test_bundled_notebook_keeps_markdown_navigation_and_code_layout(
+        self, tmp_path: Path
+    ) -> None:
+        """A future finalizer/bundle build must never drop the Markdown
+        navigation: canonical and bundled notebooks share identical cell ids,
+        order, cell types, and relevant Markdown/Code source."""
+        spec = importlib.util.spec_from_file_location(
+            "build_pilot_upload_bundle_nav_test",
+            str(SCRIPTS_DIR / "build_pilot_upload_bundle.py"),
+        )
+        assert spec is not None and spec.loader is not None
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = mod
+        spec.loader.exec_module(mod)
+        output_root = tmp_path / "pilot-upload-nav"
+        archive = tmp_path / "pilot-upload-nav.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        bundled_path = output_root / "notebooks" / "pilot_exec_01.ipynb"
+        bundled_nb = json.loads(
+            bundled_path.read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
+        )
+        canonical_nb = _nb()
+        canonical_layout = [
+            (c.get("id", ""), c.get("cell_type"), _src(c)) for c in canonical_nb["cells"]
+        ]
+        bundled_layout = [
+            (c.get("id", ""), c.get("cell_type"), _src(c)) for c in bundled_nb["cells"]
+        ]
+        assert [x[0] for x in bundled_layout] == [x[0] for x in canonical_layout]
+        assert [x[1] for x in bundled_layout] == [x[1] for x in canonical_layout]
+        assert [x[2] for x in bundled_layout] == [x[2] for x in canonical_layout]
+        # Every navigation cell survived bundling.
+        bundled_ids = {c.get("id", "") for c in bundled_nb["cells"]}
+        assert set(MARKDOWN_NAV) <= bundled_ids
 
 
 def _load_bundle_builder() -> Any:
