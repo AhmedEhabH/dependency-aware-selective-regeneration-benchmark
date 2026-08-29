@@ -6,20 +6,28 @@
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Protocol](https://img.shields.io/badge/Research%20Protocol-v1.0%20Frozen-success.svg)](PROTOCOL_VERSION.md)
-[![Tests](https://img.shields.io/badge/tests-2%2C370%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-2%2C532%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
-> **Current v0.9.22 candidate (2026-08-28, D8):** the dry-run gate is now
-> canonical — the bundled `dryrun-cell` calls `validate_pilot_dryrun_evidence`
-> (strict nested `token_usage` + workflow/phase totals, never a top-level
-> `total_tokens`), and the GQA per-device display reads real probe evidence.
-> Full acceptance is 2492 passed / 33 skipped; exact-artifact dry-run is 48/48.
+> **Current v0.9.22 candidate (2026-08-29, D9):** D9 closes the real-run
+> 20+ minute silent-generation defect with decode-step workflow-deadline
+> enforcement (`_WorkflowDeadlineHeartbeatStoppingCriteria` stops in-flight
+> generation with `finish_reason="timeout"` the moment the run budget elapses,
+> 30 s liveness heartbeats), adds the mandatory real-Qwen generation-deadline
+> canary, eager one-time model init outside run timing/token budget, per-run
+> cooperative guard reinstall, a no-shell bounded remote annotated-tag-peel
+> launch gate, and interruption-safe process-group cleanup/resume. The dry-run
+> gate stays canonical (bundled `dryrun-cell` calls
+> `validate_pilot_dryrun_evidence`, strict nested token schema).
+> Full acceptance is 2532 passed / 33 skipped; exact-artifact dry-run is 48/48.
 > Upload only `dist/pilot-kaggle-upload.zip` SHA-256
-> `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee`,
-> source/future tag target `8f0b11953a4fe2990b7e6c680288be282b8a6b67`.
-> `e0a64937…` (D7), `ce40b330…` / `f72ecda…` are superseded. No v0.9.22
-> stable tag exists; the exact new-artifact real 2x T4 preflight remains
-> mandatory before tagging, and no 48-cell Pilot launch is allowed while untagged.
+> `913e8065a384effa2cf6b6a69f11e5840506644873fa54764c3cbe8ee5406d48`,
+> source/future tag target `9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d`.
+> `02d16ca2…` (D8), `e0a64937…` (D7), `ce40b330…` / `f72ecda…` are superseded.
+> No v0.9.22 stable tag exists; the exact-D9-artifact real 2x T4 Kaggle model
+> preflight (GQA microprobe + generation-deadline canary + short + 12k/64)
+> remains mandatory before tagging, and no 48-cell Pilot launch is allowed
+> while untagged.
 
 ## Overview
 
@@ -215,7 +223,57 @@ yet authorized for this arm.
 
 ## Current Status
 
-> **CURRENT TRUTH (2026-08-27, v0.9.22 CANDIDATE — GQA MICROPROBE + NOTEBOOK + EXPORT
+> **CURRENT TRUTH (2026-08-29, v0.9.22 D9 — IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT +
+> EAGER MODEL INIT + REMOTE TAG-PEEL PRE-LAUNCH GATE + FREEZE RECOVERY CLOSURE; REAL
+> T4 PROOF PENDING):** branch
+> `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D1–D9 complete
+> locally. D9.1 `_WorkflowDeadlineHeartbeatStoppingCriteria`
+> (`kaggle_qwen_backend.py`) polls EVERY decode step and stops generation with
+> `finish_reason="timeout"` the instant the injected run guard
+> (`lambda: not budget.timed_out`) first returns false — an in-flight
+> generation can never cross the 600 s deadline; bounded 30 s liveness
+> heartbeats (`GENERATION_RUNNING` / `GENERATION_STOPPED reason=workflow_deadline`)
+> prove a long synchronous decode alive (cooperative step-boundary stop, never a
+> thread kill). D9.2 mandatory real-Qwen generation-deadline canary
+> (`run_generation_deadline_probe`): deterministic counter guard fails closed
+> after 3 criterion checks, proving the deadline (NOT EOS/length) target-side with
+> `completion_tokens` in `[1, 8]`; preflight + launch authorization require it. D9.3
+> eager shared-model init outside the first run's timing/token budget (failure =
+> engineering blocker, 0 RunRecords, exit 1). D9.4 per-run cooperative guard
+> reinstall on strategy AND shared backend. D9.5 no-shell bounded remote
+> annotated-tag-peel launch gate (`verify_remote_annotated_tag_peel`, launch+resume)
+> + interrupt-safe process-group terminate→kill→reap. **D9_SOURCE_COMMIT
+> `9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d`** (freeze recovery: 3 orphan D8 scratch
+> copies deleted after authorized read-only checks; anchors refreshed; finalizer
+> FROZEN 0 mismatches, idempotent). Exact artifact `dist/pilot-kaggle-upload.zip`
+> SHA-256 **`913e8065a384effa2cf6b6a69f11e5840506644873fa54764c3cbe8ee5406d48`**
+> (+ sidecar verified). Full suite **2532 passed / 33 skipped / 0 failed**; focused
+> notebook/finalizer/provenance **165/165**; canonical+bundled compile 16/16; exact
+> fresh-extraction bundled dry-run **48/48** (48 unique IDs, repos 16/16/16,
+> strategies 24/24, reps 24/24, 0 calls/tokens), canonical
+> `validate_pilot_dryrun_evidence` PASS, every record + `source_identity.json` ==
+> `9ea02b3…`. Frozen scientific contract UNCHANGED. REQUIRED TRUTHFUL STATUS: D8's
+> exact 2x T4 preflight passed but D8 is REJECTED for Pilot launch (the real Pilot
+> exposed the in-flight timeout/heartbeat defect D9 closes); `exp-20260828-151335`
+> has 0 accepted RunRecords, never resume it; D9 remains v0.9.22 (never v0.9.23).
+> NO stable tag yet: run the exact-D9-artifact real 2x T4 model preflight ONLY —
+> repository preflight/heartbeat, Qwen 14B BNB-NF4 load, GQA microprobe,
+> generation-deadline canary, short probe, 12k/64 probe — then create
+> `v0.9.22-pilot-exec-ready` at `9ea02b3…` ONLY after PASS; no 48-cell launch while
+> untagged. On FAIL return to the SAME v0.9.22 task. Report:
+> [`reports/V0922_D9_INFLIGHT_DEADLINE_HEARTBEAT_EAGER_INIT_TAG_PEEL_FREEZE_CLOSURE_REPORT.md`](reports/V0922_D9_INFLIGHT_DEADLINE_HEARTBEAT_EAGER_INIT_TAG_PEEL_FREEZE_CLOSURE_REPORT.md).
+>
+> **PRIOR TRUTH (2026-08-28, SUPERSEDED by D9 — D8 DRY-RUN TOKEN-SCHEMA + LAUNCH-AUTH
+> EVIDENCE CLOSURE):** the dry-run gate became canonical — bundled `dryrun-cell`
+> calls `validate_pilot_dryrun_evidence` (strict nested `token_usage` +
+> workflow/phase totals, never top-level `total_tokens`; fail-closed
+> `_expect_zero_int`; launch-auth single-source collector), and the GQA per-device
+> display reads real probe evidence. Genuine RED 39 unit + 1 false-green proof;
+> focused 40/40 + 136/136; full suite 2492/33/0; exact dry-run 48/48; artifact
+> `02d16ca2…` from `8f0b119…`, FROZEN. **D8 REJECTED for Pilot launch (in-flight
+> timeout/heartbeat defect D9 closes); do not upload `02d16ca2…`.**
+>
+> **PRIOR TRUTH (2026-08-27, SUPERSEDED by D9 — GQA MICROPROBE + NOTEBOOK + EXPORT
 > INTEGRITY CLOSURE; REAL T4 PROOF PENDING):** branch
 > `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` (built on `ba083925…` + the
 > T4 GQA SDPA/preflight-observability closure) carries the D1–D6 bounded correction:
@@ -965,8 +1023,9 @@ Immediate next milestones:
 - [x] v0.9.22 long-context attention memory closure — branch `fix/pilot-v0922-long-context-attention-memory-closure` (SDPA + fail-closed kernel policy + canonical evidence; full suite 2407/33/0; dry-run 48/48)
 - [x] v0.9.22 GQA microprobe + notebook + export integrity closure (D1–D6) — superseded for upload by D7
 - [x] v0.9.22 D7 launch/resume validation-argv executability closure — exact assigned-list AST + canonical/fresh-bundle newline guards; full suite 2442/33/0; exact artifact dry-run 48/48; artifact `e0a64937…` from source/future tag target `3ebc75d…`; superseded by D8
-- [x] v0.9.22 D8 dry-run token-schema + launch-auth evidence closure — canonical `validate_pilot_dryrun_evidence` (strict nested token schema, fail-closed `_expect_zero_int`, single-source launch-auth) + canonical bundled dryrun-cell + real GQA per-device display; genuine RED 39 unit; focused 40/40 + 136/136; full suite **2492/33/0**; exact artifact dry-run 48/48; artifact `02d16ca2…` from source/future tag target `8f0b119…`; `e0a64937…`/`3ebc75d…`/`ce40b330…`/`f72ecda…` superseded
-- [ ] v0.9.22 release sequence (**NEXT ACTION**): run the fresh 2x T4 Kaggle model preflight ONLY with exact `02d16ca2…` artifact; only after GQA microprobe + short + 12k PASS create `v0.9.22-pilot-exec-ready` at `8f0b119…`; no 48-cell launch while untagged
+- [x] v0.9.22 D8 dry-run token-schema + launch-auth evidence closure — canonical `validate_pilot_dryrun_evidence` (strict nested token schema, fail-closed `_expect_zero_int`, single-source launch-auth) + canonical bundled dryrun-cell + real GQA per-device display; genuine RED 39 unit; focused 40/40 + 136/136; full suite **2492/33/0**; exact artifact dry-run 48/48; artifact `02d16ca2…` from source/future tag target `8f0b119…` — **superseded by D9 (do not upload)**
+- [x] v0.9.22 **D9** in-flight workflow-deadline heartbeat + eager model init + remote tag-peel gate + freeze recovery closure — `_WorkflowDeadlineHeartbeatStoppingCriteria` (per-step deadline stop + 30 s heartbeats), mandatory real-Qwen generation-deadline canary, eager one-time model init, per-run guard reinstall, no-shell annotated-tag-peel launch gate, interrupt-safe cleanup; genuine RED 17 (D8 baseline); focused 38/38 + green D8 closures; full suite **2532/33/0**; focused notebook/finalizer/provenance **165/165**; freeze recovery → **D9_SOURCE_COMMIT `9ea02b3…`**; artifact `913e8065…` (+ sidecar), finalizer FROZEN 0 mismatches; exact-artifact dry-run 48/48 (every record == `9ea02b3…`); never resume `exp-20260828-151335`
+- [ ] v0.9.22 release sequence (**NEXT ACTION**): run the fresh 2x T4 Kaggle model preflight ONLY with exact `913e8065…` (D9) artifact; only after GQA microprobe + generation-deadline canary + short + 12k PASS create `v0.9.22-pilot-exec-ready` at `9ea02b3…`; no 48-cell launch while untagged
 - [ ] Research (main confirmatory) experiment
 - [ ] Arm-to-protocol alignment review
 - [ ] Reproducibility archive and DOI

@@ -1,7 +1,47 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-28, v0.9.22 D8 DRY-RUN TOKEN-SCHEMA + LAUNCH-AUTH
-> EVIDENCE CLOSURE; REAL T4 PROOF PENDING):** D8 closes the proven `RunRecordData`
+> **CURRENT STATE (2026-08-29, v0.9.22 D9 IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT +
+> EAGER MODEL INIT + REMOTE TAG-PEEL GATE + FREEZE RECOVERY CLOSURE; REAL T4 PROOF
+> PENDING):** D9.1 `_WorkflowDeadlineHeartbeatStoppingCriteria`
+> (`kaggle_qwen_backend.py`) is polled at every decode step and stops a long
+> synchronous Qwen generation with `finish_reason="timeout"` the instant the
+> injected run guard (`lambda: not budget.timed_out`) first returns false — an
+> in-flight generation can never cross the 600 s deadline; bounded 30 s liveness
+> heartbeats (`GENERATION_RUNNING` / `GENERATION_STOPPED reason=workflow_deadline`)
+> prove a decode alive (cooperative step-boundary stop, never a thread kill).
+> D9.2 mandatory real-Qwen generation-deadline canary (`run_generation_deadline_probe`):
+> deterministic counter guard fails closed after 3 criterion checks, proving the
+> deadline (NOT EOS/length) target-side with `completion_tokens` in `[1, 8]`; preflight
+> and launch authorization fail closed through `_generation_deadline_probe_errors`.
+> D9.3 eager shared-model init (`initialize()` before `t_start`/any `RUN_START`) outside
+> the first run's scientific timing/token budget (failure = engineering blocker, 0
+> RunRecords, exit 1). D9.4 per-run cooperative guard reinstall on strategy AND shared
+> backend (`_apply_model_call_guards`). D9.5 no-shell bounded remote annotated-tag-peel
+> launch gate (`verify_remote_annotated_tag_peel`, wired into `pilot-launch-cell` AND
+> `pilot-resume-cell`) + interrupt-safe process-group terminate→kill→reap. Genuine RED:
+> D8 baseline 17 failures; GREEN: focused 38/38 + green D8 closures; full suite **2532
+> passed / 33 skipped / 0 failed**. Freeze recovery (3 orphan D8 scratch copies deleted
+> after authorized read-only checks; anchors refreshed) → **D9_SOURCE_COMMIT
+> `9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d`**; finalizer FROZEN, **0 mismatches,
+> idempotent**. Exact-artifact dry-run is **48/48** (48 unique IDs, repos 16/16/16,
+> strategies 24/24, reps 24/24, 0 calls/tokens), canonical `validate_pilot_dryrun_evidence`
+> PASS, every record + `source_identity.json` == `9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d`.
+> Exact artifact SHA-256 is **`913e8065a384effa2cf6b6a69f11e5840506644873fa54764c3cbe8ee5406d48`**
+> (+ sidecar verified; FROZEN). Canonical+bundled compile 16/16; focused
+> notebook/finalizer/provenance **165/165**. Scientific inputs unchanged. REQUIRED
+> TRUTHFUL STATUS: D8's exact 2x T4 preflight passed but D8 is **REJECTED for Pilot launch**
+> (the real Pilot exposed the in-flight timeout/heartbeat defect D9 closes);
+> `exp-20260828-151335` has 0 accepted RunRecords, never resume it; `02d16ca2…`
+> (D8), `e0a64937…` (D7), `ce40b330…` / `f72ecda…` are SUPERSEDED. No stable tag
+> exists; next is the exact-D9-artifact 2x T4 model preflight only (repo preflight +
+> heartbeat, Qwen 14B BNB-NF4 load, GQA microprobe, **generation-deadline canary**,
+> short probe, 12k/64 probe), and tag `9ea02b3…` only after ALL PASS. No 48-cell launch
+> while untagged. On FAIL return to the SAME v0.9.22 task (never v0.9.23). Report:
+> `reports/V0922_D9_INFLIGHT_DEADLINE_HEARTBEAT_EAGER_INIT_TAG_PEEL_FREEZE_CLOSURE_REPORT.md`.
+> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+>
+> **PRIOR STATE (2026-08-28, SUPERSEDED by D9 — D8 DRY-RUN TOKEN-SCHEMA + LAUNCH-AUTH
+> EVIDENCE CLOSURE):** D8 closed the proven `RunRecordData`
 > token-schema drift — a real 48-record dry-run writes nested `token_usage`
 > (`prompt/completion/total`), `total_workflow_model_calls` / `total_workflow_tokens`,
 > and phase `selection|regeneration|repair` `_model_calls` / `_total_tokens`, NEVER a
@@ -17,16 +57,14 @@
 > 24/24, reps 24/24, zero calls/tokens), every record source commit ==
 > `8f0b11953a4fe2990b7e6c680288be282b8a6b67`. Exact artifact SHA-256 is
 > `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee`;
-> sidecar matches; trust/provenance 0 mismatches, FROZEN. `e0a64937…` (D7),
-> `ce40b330…` / `f72ecda…` are SUPERSEDED. Scientific inputs unchanged. No stable
-> tag exists; next is the exact new-artifact 2x T4 model preflight only, and tag
-> `8f0b119…` only after GQA microprobe + short + 12k PASS. No 48-cell launch while
-> untagged. Report:
+> sidecar matches; trust/provenance 0 mismatches, FROZEN. **D8 is REJECTED for Pilot
+> launch (in-flight timeout/heartbeat defect D9 closes); do not upload `02d16ca2…`.**
+> Report:
 > `reports/V0922_D8_DRYRUN_TOKEN_SCHEMA_LAUNCH_AUTH_CLOSURE_REPORT.md`.
-> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
 >
-> **PRIOR STATE (2026-08-27, SUPERSEDED by D8 — LAUNCH/RESUME VALIDATION-ARGV
-> EXECUTABILITY CLOSURE):** D6 was RESOLVED at `1b857fc…` before D7. D7 made all three
+> **PRIOR STATE (2026-08-27, SUPERSEDED by D9 — LAUNCH/RESUME VALIDATION-ARGV
+> EXECUTABILITY CLOSURE):** D6 was RESOLVED at `1b857fc…` before D7. D7 made all
+> three
 > per-repository validation-interpreter mappings and `--validation-timeout 1800` live AST
 > elements in both Pilot launch routes, with exact AST and canonical/fresh-bundle newline
 > regression tests. Affected GREEN 102/102; full acceptance **2442 passed / 33 skipped /
@@ -150,9 +188,9 @@
 
 ---
 
-## CURRENT PROJECT STATE
+## PRIOR PROJECT STATE SNAPSHOT (2026-08-22 — superseded; the CURRENT STATE block at the top of this file governs)
 
-**CURRENT (2026-08-22):** the accepted deployment source is
+**PRIOR (2026-08-22, SUPERSEDED by the v0.9.21/v0.9.22 candidates):** the accepted deployment source was
 **`v0.9.19-pilot-exec-ready`** @ tag peel == artifact source commit
 `2305991442a4f965d44bb066bb00c0a459fc395a` (2026-08-19, the PostgreSQL
 admin/application bootstrap + partial recovery closure on branch
@@ -172,8 +210,9 @@ Carried full-suite evidence at this state: **2330 passed / 34 skipped /
 - v0.9.18: release-only provenance/docs correction (no scientific or production code changes) — historical
 - **v0.9.19: ACCEPTED — PostgreSQL admin/application bootstrap + partial recovery closure (real Kaggle defect fix); trust/provenance GREEN**
 
-Real Pilot = NOT STARTED. Next = fresh Kaggle v0.9.19 target preflight →
-accepted 48-cell Pilot in the same session if all target gates pass.
+Real Pilot = NOT STARTED. Next (PRIOR, superseded): fresh Kaggle v0.9.19 target preflight →
+accepted 48-cell Pilot — superseded first by the v0.9.20/v0.9.21 releases and then by the
+v0.9.22 D9 candidate; see the CURRENT STATE block at the top.
 
 HISTORICAL release records (superseded — traceability only):
 `b8d3cf5e…` + all 94 `code_manifest.json` entries equal the normalized tracked
@@ -250,9 +289,14 @@ scientific evidence with zero drift.
 
 Smoke era: `v0.8.2-smoke-v2-complete` (immutable, do not move). Pilot
 readiness: `v0.9.0-pilot-ready` @ `90a4282` (immutable, do NOT move).
-**CURRENT deployment source tag (accepted release, 2026-08-19):
+**CURRENT v0.9.22 deployment source tag (PLANNED, does not exist yet):
+`v0.9.22-pilot-exec-ready` at D9 source/future tag target
+`9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d` — create ONLY after the exact-D9-artifact
+real 2x T4 Kaggle preflight PASSES (artifact `913e8065…`); see the CURRENT STATE
+block at the top.**
+PRIOR deployment source tag (accepted release, 2026-08-19, superseded):
 `v0.9.19-pilot-exec-ready` @ tag peel == artifact source commit
-`2305991442a4f965d44bb066bb00c0a459fc395a`** (annotated tag ON the merge
+`2305991442a4f965d44bb066bb00c0a459fc395a` (annotated tag ON the merge
 commit, pushed; trust/provenance GREEN; exact archive `f7a16858…`).
 Pilot deployment source tags (HISTORICAL — superseded by v0.9.19):
 `v0.9.12-pilot-exec-ready` @ main `bfeff97…`
@@ -338,7 +382,7 @@ explicitly (generic CLI default is `bnb-int8`).
   `rebuild_experiment_reports` (src/benchmark/checkpoint/reports.py:164); use a
   fresh `--output-dir` for repeat dry-runs.
 
-## CURRENT GIT STATE
+## PRIOR GIT STATE SNAPSHOT (2026-08-15 — superseded; see the CURRENT STATE block at the top)
 
 `main` = `44e9a1f` (merge `merge(pilot): release trust gate closure
 (notebook==identity==actual, v0.9.10-pilot-exec-ready)`; tag
