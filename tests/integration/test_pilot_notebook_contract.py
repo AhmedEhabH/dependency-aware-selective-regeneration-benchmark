@@ -1280,29 +1280,126 @@ class TestD9InterruptSafeRunLive:
         assert "return_code" in func
 
 
-class TestD9LaunchResumeRemoteTagProof:
-    """PILOT-EXEC-01 D9.5: launch and resume cells run the no-shell annotated-tag
-    peel proof against the canonical remote BEFORE any launch/resume command, and
-    require the exact peeled SOURCE_COMMIT."""
+class TestD96KaggleGitHubBoundary:
+    """PILOT-EXEC-01 D9.6 Kaggle/GitHub boundary: the launch/resume cells
+    authorize ENTIRELY from the already-produced LOCAL Kaggle evidence
+    (``validate_pilot_launch_authorization`` before any command construction)
+    and contain NO GitHub/git/network runtime machinery (no tag-peel, no
+    ``ls-remote``, no GitHub URL, no ``GITHUB_TOKEN``, no credential helper)."""
 
-    def test_launch_cell_peel_proof_before_authorization(self) -> None:
+    FORBIDDEN_RUNTIME_FRAGMENTS = (
+        "verify_remote_annotated_tag_peel",
+        "ls-remote",
+        "github.com",
+        "GITHUB_TOKEN",
+        "ghp_",
+        "PersonalAccessToken",
+        "urlopen",
+        "urllib.request",
+        "requests.",
+        "git clone",
+        "git fetch",
+        "git ls-remote",
+        "git tag",
+        "git rev-parse",
+        "git -C",
+    )
+
+    def test_launch_resume_secrets_cell_ids_are_stable(self) -> None:
+        cells = _cells_by_id(_nb())
+        for cid in ("pilot-launch-cell", "pilot-resume-cell", "secrets-cell"):
+            assert cid in cells, f"required cell id {cid!r} missing"
+
+    def test_launch_cell_authorizes_before_command_construction(self) -> None:
         launch = _src(_cells_by_id(_nb())["pilot-launch-cell"])
-        peel = launch.index("verify_remote_annotated_tag_peel(")
+        auth = launch.index("validate_pilot_launch_authorization(")
         exec_idx = launch.index("exec_cmd = [")
-        assert peel < exec_idx
-        assert "source_commit=" in launch[peel : launch.index(")", peel)]
+        assert auth < exec_idx
+        assert "PILOT LAUNCH AUTHORIZATION: PASSED" in launch
+        tree = ast.parse(launch)
+        imports = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.ImportFrom)
+            and n.module == "benchmark.execution.preflight"
+            and any(
+                alias.name == "validate_pilot_launch_authorization"
+                for alias in n.names
+            )
+        ]
+        assert imports, "launch cell must import validate_pilot_launch_authorization"
 
-    def test_resume_cell_peel_proof_before_resume(self) -> None:
+    def test_resume_cell_authorizes_before_command_construction(self) -> None:
         resume = _src(_cells_by_id(_nb())["pilot-resume-cell"])
-        peel = resume.index("verify_remote_annotated_tag_peel(")
+        auth = resume.index("validate_pilot_launch_authorization(")
         resume_cmd = resume.index("resume_cmd = [")
-        assert peel < resume_cmd
-        assert "source_commit=" in resume[peel : resume.index(")", peel)]
+        assert auth < resume_cmd
+        assert "PILOT RESUME AUTHORIZATION: PASSED" in resume
+        tree = ast.parse(resume)
+        imports = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.ImportFrom)
+            and n.module == "benchmark.execution.preflight"
+            and any(
+                alias.name == "validate_pilot_launch_authorization"
+                for alias in n.names
+            )
+        ]
+        assert imports, "resume cell must import validate_pilot_launch_authorization"
 
-    def test_both_cells_import_the_peel_proof(self) -> None:
+    def test_launch_resume_contain_no_git_or_github_runtime_machinery(self) -> None:
         for cid in ("pilot-launch-cell", "pilot-resume-cell"):
             src = _src(_cells_by_id(_nb())[cid])
-            assert "verify_remote_annotated_tag_peel" in src
+            for fragment in self.FORBIDDEN_RUNTIME_FRAGMENTS:
+                assert fragment not in src, (
+                    f"{cid} contains forbidden runtime fragment {fragment!r}"
+                )
+            import re as _re
+
+            tokens = {
+                t.lower()
+                for t in _re.findall(r"[A-Za-z_][A-Za-z0-9_]*", src)
+            }
+            assert "git" not in tokens, f"{cid} references the git executable"
+
+    def test_secrets_cell_has_hf_token_but_no_github_token(self) -> None:
+        secrets = _src(_cells_by_id(_nb())["secrets-cell"])
+        assert '"HF_TOKEN"' in secrets
+        assert "GITHUB_TOKEN" not in secrets
+
+    def test_launch_resume_cells_compile_via_standard_join(self) -> None:
+        cells = _cells_by_id(_nb())
+        for cid in ("pilot-launch-cell", "pilot-resume-cell"):
+            src = _src(cells[cid])
+            compile(src, f"<{cid}>", "exec")
+
+    def test_bundled_launch_resume_contracts_match_canonical(self, tmp_path: Path) -> None:
+        mod = _load_bundle_builder()
+        output_root = tmp_path / "pilot-upload-d96-boundary"
+        archive = tmp_path / "pilot-upload-d96-boundary.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="b" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-29T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        bundled = json.loads(
+            (output_root / "notebooks" / "pilot_exec_01.ipynb")
+            .read_bytes()
+            .replace(b"\r\n", b"\n")
+            .decode("utf-8")
+        )
+        canonical = _nb()
+        for cid in ("pilot-launch-cell", "pilot-resume-cell"):
+            canonical_src = _src(_cells_by_id(canonical)[cid]).replace("\r\n", "\n")
+            bundled_src = _src(_cells_by_id(bundled)[cid]).replace("\r\n", "\n")
+            assert bundled_src == canonical_src, f"{cid} bundled != canonical"
+            for fragment in self.FORBIDDEN_RUNTIME_FRAGMENTS:
+                assert fragment not in bundled_src, (
+                    f"bundled {cid} contains forbidden fragment {fragment!r}"
+                )
+            compile(bundled_src, f"<bundled {cid}>", "exec")
 
 
 class TestD9RunLiveRealInterrupt:
@@ -1371,50 +1468,3 @@ class TestD9RunLiveRealInterrupt:
         # propagated (re-raised after cleanup) or the child was actively
         # terminated/killed mid-run. A normal self-exit produces neither.
         assert interrupted or "CHILD_TERMINATE" in text or "CHILD_KILL" in text
-
-
-class TestD9RealLocalAnnotatedTagPeel:
-    """PILOT-EXEC-01 D9.5: end-to-end real `git ls-remote --tags <local bare
-    remote>` annotated-tag peel proof against a freshly created local repo,
-    exercising the real peel (`^{}`) logic without any network."""
-
-    def _git(self, repo: Path, *args: str) -> str:
-        result = subprocess.run(
-            ["git", "-C", str(repo), *args],
-            capture_output=True,
-            text=True,
-            check=True,
-            errors="replace",
-        )
-        return result.stdout.strip()
-
-    def test_local_annotated_tag_peel_matches_source(self, tmp_path: Path) -> None:
-        from benchmark.execution.preflight import verify_remote_annotated_tag_peel
-
-        repo = tmp_path / "repo"
-        repo.mkdir()
-        bare = tmp_path / "remote.git"
-        self._git(repo, "init", "-q")
-        self._git(repo, "config", "user.email", "t@example.com")
-        self._git(repo, "config", "user.name", "test")
-        (repo / "f.txt").write_text("x", encoding="utf-8")
-        self._git(repo, "add", ".")
-        self._git(repo, "commit", "-qm", "init")
-        sha = self._git(repo, "rev-parse", "HEAD")
-        assert len(sha) == 40
-        subprocess.run(
-            ["git", "init", "-q", "--bare", str(bare)],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        self._git(repo, "push", "-q", str(bare), "HEAD")
-        self._git(repo, "tag", "-a", "v0.9.22-pilot-exec-ready", "-m", "probe")
-        self._git(repo, "push", "-q", str(bare), "refs/tags/v0.9.22-pilot-exec-ready")
-
-        result = verify_remote_annotated_tag_peel(
-            source_commit=sha,
-            tag="v0.9.22-pilot-exec-ready",
-            remote=str(bare),
-        )
-        assert result["peel"] == sha

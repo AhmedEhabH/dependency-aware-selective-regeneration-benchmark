@@ -1476,3 +1476,73 @@ class TestPilotReleaseTrustGate:
         identity = self._build_validated(tmp_path, "gate4pass", frozen_nb)
         assert identity["source_tag"] == PILOT_SOURCE_TAG
         assert len(identity["code_manifest_sha256"]) == 64
+
+
+class TestD96NoGitHubLaunchRuntimeDependency:
+    """PILOT-EXEC-01 D9.6: the runtime upload artifact contains NO GitHub launch
+    dependency. The bundled code and notebook carry the local-evidence-only
+    launch authorization contract - no git/ls-remote, no remote tag-peel gate,
+    no GITHUB_TOKEN, no credential or network helper."""
+
+    FORBIDDEN_RUNTIME_FRAGMENTS = (
+        "verify_remote_annotated_tag_peel",
+        "KAGGLE_PUBLIC_CANONICAL_REMOTE",
+        "REMOTE_TAG_PROOF_TIMEOUT_SECONDS",
+        "ls-remote",
+        "github.com",
+        "GITHUB_TOKEN",
+        "ghp_",
+        "PersonalAccessToken",
+        "urlopen",
+        "git clone",
+        "git fetch",
+        "git tag",
+        "git rev-parse",
+        "git -C",
+    )
+
+    def _bundled_sources(self, tmp_path: Path) -> tuple[Path, str, str, str]:
+        output_root, _archive = _build(
+            tmp_path, "2026-08-29T00:00:00+00:00", "c" * 40, "d96bundle"
+        )
+        preflight = output_root / "code" / "src" / "benchmark" / "execution" / "preflight.py"
+        entry = output_root / "code" / "seven_arm_benchmark.py"
+        notebook = output_root / "notebooks" / "pilot_exec_01.ipynb"
+        assert preflight.is_file(), preflight
+        assert entry.is_file(), entry
+        assert notebook.is_file(), notebook
+        return (
+            output_root,
+            preflight.read_text(encoding="utf-8"),
+            entry.read_text(encoding="utf-8"),
+            notebook.read_text(encoding="utf-8"),
+        )
+
+    def test_bundled_runtime_code_has_no_github_launch_machinery(
+        self, tmp_path: Path
+    ) -> None:
+        _root, preflight_src, entry_src, _nb_src = self._bundled_sources(tmp_path)
+        for name, src in (
+            ("bundled preflight.py", preflight_src),
+            ("bundled seven_arm_benchmark.py", entry_src),
+        ):
+            for fragment in self.FORBIDDEN_RUNTIME_FRAGMENTS:
+                assert fragment not in src, (
+                    f"{name} contains forbidden runtime fragment {fragment!r}"
+                )
+
+    def test_bundled_notebook_launch_cells_have_local_only_authorization(
+        self, tmp_path: Path
+    ) -> None:
+        _root, _preflight_src, _entry_src, nb_src = self._bundled_sources(tmp_path)
+        nb = json.loads(nb_src)
+        cells = {c.get("id", ""): c for c in nb["cells"]}
+        for cid in ("pilot-launch-cell", "pilot-resume-cell"):
+            src = cells[cid]["source"]
+            cell_src = src if isinstance(src, str) else "".join(src)
+            for fragment in self.FORBIDDEN_RUNTIME_FRAGMENTS:
+                assert fragment not in cell_src, (
+                    f"bundled {cid} contains forbidden fragment {fragment!r}"
+                )
+            assert "validate_pilot_launch_authorization(" in cell_src
+            assert not re.search(r"\bgit\b", cell_src)
