@@ -365,9 +365,14 @@ parent directory of `project/` named exactly `project-YYYY-MM-DD-HHmm.zip`
 create a release, move, or tag for this rule.
 
 **Include:** ALL files tracked by `git ls-files` (source, tests, notebooks,
-docs, configs, scripts, `benchmark_data/`, `reports/`, `runs_dryrun/`,
-`.opencode/` workflow files, etc.), `.git/`,
+docs, configs, scripts, `benchmark_data/`, `reports/`, `.opencode/` workflow
+files, etc.), `.git/`,
 `dist/pilot-kaggle-upload.zip`, `dist/pilot-kaggle-upload.zip.sha256`.
+`runs_dryrun/` is a **frozen HISTORICAL tracked fixture** (7 records,
+`profile=smoke`, source `0c831e3`, added at commit `b203b21`) and is included
+only for historical reproducibility — it is NOT current candidate proof and
+MUST NOT be used for Pilot launch authorization; current D9 evidence is a fresh
+exact-artifact 48/48 run generated into a fresh temporary/output directory.
 
 **Exclude:** `.mypy_cache/`, `.ruff_cache/`, `.pytest_cache/`,
 `__pycache__/`, `*.pyc`, `.opencode/node_modules/`, `dist/_provcheck*`,

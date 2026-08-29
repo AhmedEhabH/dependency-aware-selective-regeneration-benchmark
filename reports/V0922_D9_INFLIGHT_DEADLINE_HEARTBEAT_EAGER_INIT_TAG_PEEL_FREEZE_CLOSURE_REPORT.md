@@ -184,3 +184,28 @@ v0.9.22-pilot-exec-ready --profile pilot --dry-run`:
 - Superseded artifacts (do not upload): D8 `02d16ca2…` from `8f0b119…`; D7
   `e0a64937…` from `3ebc75d…`; D1–D6 `ce40b330…` from `f72ecda…`; earlier
   candidates.
+
+## 9. Post-closure consistency note (docs/evidence-labeling correction, PILOT-EXEC-01 — 2026-08-29)
+
+Added after the D9 acceptance evidence above was frozen, to keep the repository
+current without touching the artifact/freeze:
+
+- A docs/evidence-labeling correction pass aligned the stale D8/older
+  "CURRENT" sections in 8 documents to the D9 truth above: `SYSTEM_STATE.md`,
+  `TODO.md`, `README.md`, `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`,
+  `docs/MASTER_IMPLEMENTATION_PLAN.md`, `docs/PROJECT_HANDOFF.md`,
+  `docs/PILOT_KAGGLE_RUNBOOK.md`, `reports/PROJECT_HEALTH_REPORT.md`. Old D8
+  blocks were relabeled PRIOR/SUPERSEDED; only current/next-action summaries
+  were rewritten; historical chronology was preserved.
+- `runs_dryrun/README.md` added (tracked, docs-only) making explicit that
+  `runs_dryrun/` is a frozen HISTORICAL 7-record Smoke fixture that MUST NOT be
+  used as current candidate proof; the D9 48/48 evidence comes from a fresh
+  exact-artifact dry-run into a fresh output directory. The 11 original fixture
+  files were left byte-identical.
+- `AGENTS.md` Project Export Rule wording updated to describe `runs_dryrun/` as
+  a historical fixture rather than current candidate evidence.
+- **No production, tests, notebook, artifact, or freeze changed.**
+  `D9_SOURCE_COMMIT` remains `9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d` and the
+  artifact remains `913e8065…`; no release, tag, or artifact was moved or
+  rebuilt. The position of "NO stable tag, REAL T4 PROOF PENDING, single exact
+  D9-artifact real 2x T4 preflight next" is unchanged.
