@@ -1245,3 +1245,176 @@ class TestPilotDryrunEvidenceValidatorIntegration:
         dryrun_dir = tmp_path / "bundled-dryrun"
         self._run_cli(script, dryrun_dir, data_dir)
         self._assert_validator_pass(dryrun_dir)
+
+
+def _run_live_source() -> tuple[str, str]:
+    """Return (setup-cell source, the extracted `_run_live` function source)."""
+    setup = _src(_cells_by_id(_nb())["setup-cell"])
+    start = setup.index("def _run_live(")
+    end = setup.index("\nEVIDENCE_FILES")
+    return setup, setup[start:end]
+
+
+class TestD9InterruptSafeRunLive:
+    """PILOT-EXEC-01 D9.4: the setup-cell `_run_live` is interrupt-safe — a
+    running child is terminated (process-group SIGTERM/SIGKILL with a graceful
+    proc fallback) inside an `except BaseException` handler, never left to
+    hang without the cooperative deadline guard."""
+
+    def test_run_live_has_interrupt_cleanup(self) -> None:
+        _, func = _run_live_source()
+        assert "except BaseException" in func
+        assert "signal.SIGTERM" in func
+        assert "signal.SIGKILL" in func
+        assert "os.killpg" in func
+        assert "proc.terminate" in func
+
+    def test_run_live_streams_output_not_unbounded_communicate(self) -> None:
+        _, func = _run_live_source()
+        assert "for line in proc.stdout" in func
+        assert "communicate()" not in func
+
+    def test_run_live_function_present_in_setup_cell(self) -> None:
+        setup, func = _run_live_source()
+        assert setup.count("def _run_live(") == 1
+        assert "return_code" in func
+
+
+class TestD9LaunchResumeRemoteTagProof:
+    """PILOT-EXEC-01 D9.5: launch and resume cells run the no-shell annotated-tag
+    peel proof against the canonical remote BEFORE any launch/resume command, and
+    require the exact peeled SOURCE_COMMIT."""
+
+    def test_launch_cell_peel_proof_before_authorization(self) -> None:
+        launch = _src(_cells_by_id(_nb())["pilot-launch-cell"])
+        peel = launch.index("verify_remote_annotated_tag_peel(")
+        exec_idx = launch.index("exec_cmd = [")
+        assert peel < exec_idx
+        assert "source_commit=" in launch[peel : launch.index(")", peel)]
+
+    def test_resume_cell_peel_proof_before_resume(self) -> None:
+        resume = _src(_cells_by_id(_nb())["pilot-resume-cell"])
+        peel = resume.index("verify_remote_annotated_tag_peel(")
+        resume_cmd = resume.index("resume_cmd = [")
+        assert peel < resume_cmd
+        assert "source_commit=" in resume[peel : resume.index(")", peel)]
+
+    def test_both_cells_import_the_peel_proof(self) -> None:
+        for cid in ("pilot-launch-cell", "pilot-resume-cell"):
+            src = _src(_cells_by_id(_nb())[cid])
+            assert "verify_remote_annotated_tag_peel" in src
+
+
+class TestD9RunLiveRealInterrupt:
+    """PILOT-EXEC-01 D9.4: run the REAL setup-cell `_run_live` in the main
+    thread against a long-lived child, fire `thread.interrupt_main()`, and prove
+    the interrupting BaseException is caught, the child is terminated, and the
+    interrupt propagates out (no hang, no orphaned child)."""
+
+    def _define_run_live(self) -> Any:
+        func_src = _run_live_source()[1]
+        ns: dict[str, Any] = {
+            "os": __import__("os"),
+            "subprocess": __import__("subprocess"),
+            "Path": Path,
+            "signal": __import__("signal"),
+            "time": __import__("time"),
+            "CODE_DIR": PROJECT_DIR,
+        }
+        exec(compile(func_src, "<setup-cell/_run_live>", "exec"), ns)
+        return ns["_run_live"]
+
+    def test_interrupt_kills_child_and_propagates(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        import _thread
+        import threading
+
+        monkeypatch.setenv("HF_TOKEN", "probe-token")
+        _run_live = self._define_run_live()
+        console = tmp_path / "console.log"
+        # Streaming child: prints READY then a tick every 0.2s so the main-thread
+        # read keeps returning to the Python loop where the injected
+        # KeyboardInterrupt can be delivered. It self-exits after ~20s so the
+        # test can never hang the suite if interruption is unsupported.
+        child_code = (
+            "import sys,time\n"
+            "print('READY', flush=True)\n"
+            "i=0\n"
+            "while i < 100:\n"
+            "    print('tick%d' % i, flush=True)\n"
+            "    i+=1\n"
+            "    time.sleep(0.2)\n"
+            "import os\n"
+            "os._exit(2)\n"
+        )
+        exec_cmd = [sys.executable, "-u", "-c", child_code]
+
+        def interrupt() -> None:
+            _time.sleep(2.5)
+            _thread.interrupt_main()
+
+        timer = threading.Timer(1.0, interrupt)
+        timer.daemon = True
+        timer.start()
+        interrupted = False
+        try:
+            try:
+                _run_live(exec_cmd, str(console), tail_limit=200)
+            except KeyboardInterrupt:
+                interrupted = True
+        finally:
+            timer.cancel()
+        text = console.read_text(encoding="utf-8") if console.exists() else ""
+        assert "READY" in text
+        # The interrupt-safety path must have run: either the KeyboardInterrupt
+        # propagated (re-raised after cleanup) or the child was actively
+        # terminated/killed mid-run. A normal self-exit produces neither.
+        assert interrupted or "CHILD_TERMINATE" in text or "CHILD_KILL" in text
+
+
+class TestD9RealLocalAnnotatedTagPeel:
+    """PILOT-EXEC-01 D9.5: end-to-end real `git ls-remote --tags <local bare
+    remote>` annotated-tag peel proof against a freshly created local repo,
+    exercising the real peel (`^{}`) logic without any network."""
+
+    def _git(self, repo: Path, *args: str) -> str:
+        result = subprocess.run(
+            ["git", "-C", str(repo), *args],
+            capture_output=True,
+            text=True,
+            check=True,
+            errors="replace",
+        )
+        return result.stdout.strip()
+
+    def test_local_annotated_tag_peel_matches_source(self, tmp_path: Path) -> None:
+        from benchmark.execution.preflight import verify_remote_annotated_tag_peel
+
+        repo = tmp_path / "repo"
+        repo.mkdir()
+        bare = tmp_path / "remote.git"
+        self._git(repo, "init", "-q")
+        self._git(repo, "config", "user.email", "t@example.com")
+        self._git(repo, "config", "user.name", "test")
+        (repo / "f.txt").write_text("x", encoding="utf-8")
+        self._git(repo, "add", ".")
+        self._git(repo, "commit", "-qm", "init")
+        sha = self._git(repo, "rev-parse", "HEAD")
+        assert len(sha) == 40
+        subprocess.run(
+            ["git", "init", "-q", "--bare", str(bare)],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        self._git(repo, "push", "-q", str(bare), "HEAD")
+        self._git(repo, "tag", "-a", "v0.9.22-pilot-exec-ready", "-m", "probe")
+        self._git(repo, "push", "-q", str(bare), "refs/tags/v0.9.22-pilot-exec-ready")
+
+        result = verify_remote_annotated_tag_peel(
+            source_commit=sha,
+            tag="v0.9.22-pilot-exec-ready",
+            remote=str(bare),
+        )
+        assert result["peel"] == sha

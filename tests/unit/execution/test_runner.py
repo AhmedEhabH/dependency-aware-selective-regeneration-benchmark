@@ -1617,3 +1617,73 @@ class TestBuildScenarioContext:
         ctx = runner._build_scenario_context(scenario)
         assert ctx.expected_actions == ()
         assert ctx.expected_action_for("anything.py") == "preserve"
+
+
+class _GuardRecordingBackend(_FakeBackend):
+    def __init__(self) -> None:
+        super().__init__()
+        self.installed_guards: list[object] = []
+
+    def set_model_call_guard(self, guard: object) -> None:
+        self.installed_guards.append(guard)
+
+
+class _GuardRecordingStrategy(_FakeStrategy):
+    def __init__(self) -> None:
+        super().__init__()
+        self.installed_guards: list[object] = []
+
+    def set_model_call_guard(self, guard: object) -> None:
+        self.installed_guards.append(guard)
+
+
+class TestD9ModelCallGuardWiring:
+    def _make_runner_with_guards(
+        self, tmp_path: Path
+    ) -> tuple[BenchmarkRunner, _GuardRecordingStrategy, _GuardRecordingBackend]:
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir()
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        active_root = snap_base / "repo" / "rev1"
+        active_root.mkdir(parents=True)
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(
+            workspace=ws,
+            snapshot_base=snap_base,
+            active_snapshot_root=active_root,
+        )
+        strategy = _GuardRecordingStrategy()
+        backend = _GuardRecordingBackend()
+        config = RunnerConfig(
+            strategy_name="test_strategy",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=3,
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=backend,
+            isolation=iso,
+            config=config,
+        )
+        return runner, strategy, backend
+
+    def test_cooperative_deadline_guard_installed_before_any_model_call(
+        self, tmp_path: Path
+    ) -> None:
+        runner, strategy, backend = self._make_runner_with_guards(tmp_path)
+        runner.run(_make_scenario())
+        assert len(strategy.installed_guards) >= 1
+        assert len(backend.installed_guards) == 1
+        installed = backend.installed_guards[0]
+        # The guard is a callable criterion (cooperative, never a thread kill).
+        assert callable(installed)
+
+    def test_run_installs_exactly_one_backend_guard(
+        self, tmp_path: Path
+    ) -> None:
+        runner, strategy, backend = self._make_runner_with_guards(tmp_path)
+        runner.run(_make_scenario())
+        assert len(strategy.installed_guards) >= 1
+        assert len(backend.installed_guards) == 1

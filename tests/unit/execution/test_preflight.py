@@ -1535,6 +1535,12 @@ class TestValidatePilotLaunchAuthorization:
                     "completion_tokens": 512,
                     "cache_implementation": "offloaded",
                 },
+                "generation_deadline_probe": {
+                    "passed": True,
+                    "deadline_fired": True,
+                    "finish_reason": "timeout",
+                    "completion_tokens": 1,
+                },
             }),
             encoding="utf-8",
         )
@@ -1925,6 +1931,12 @@ class TestCLIAuthorizationPath:
                 "completion_tokens": 512,
                 "cache_implementation": "offloaded",
             },
+            "generation_deadline_probe": {
+                "passed": True,
+                "deadline_fired": True,
+                "finish_reason": "timeout",
+                "completion_tokens": 1,
+            },
         }), encoding="utf-8")
 
         import seven_arm_benchmark as saber
@@ -2096,6 +2108,12 @@ class TestValidatePilotLaunchAuthorizationGqa:
                 "completion_tokens": 512,
                 "cache_implementation": "offloaded",
             },
+            "generation_deadline_probe": {
+                "passed": True,
+                "deadline_fired": True,
+                "finish_reason": "timeout",
+                "completion_tokens": 1,
+            },
         }
         if gqa_mode is not None:
             payload["gqa_compatibility_mode"] = gqa_mode
@@ -2220,6 +2238,12 @@ class TestValidatePilotDryrunEvidence:
                 "prompt_tokens": 16384,
                 "completion_tokens": 512,
                 "cache_implementation": "offloaded",
+            },
+            "generation_deadline_probe": {
+                "passed": True,
+                "deadline_fired": True,
+                "finish_reason": "timeout",
+                "completion_tokens": 1,
             },
         }), encoding="utf-8")
         dryrun = _write_real_dryrun(tmp_path / "dryrun")
@@ -2356,4 +2380,298 @@ class TestValidatePilotDryrunEvidence:
             "model_identity": "qwen:real",
         }), encoding="utf-8")
         self._assert_raises(dryrun, "model_identity")
+
+
+class TestGenerationDeadlineProbeErrors:
+    """D9.3: fail-closed launch-gate audit of the real-Qwen deadline canary."""
+
+    @staticmethod
+    def _errors(value: Any) -> list[str]:
+        from benchmark.execution.preflight import _generation_deadline_probe_errors
+
+        return _generation_deadline_probe_errors(value)
+
+    def test_valid_canary_is_clean(self) -> None:
+        assert self._errors({
+            "passed": True,
+            "deadline_fired": True,
+            "finish_reason": "timeout",
+            "completion_tokens": 1,
+        }) == []
+
+    @pytest.mark.parametrize(
+        "value, needle",
+        [
+            (None, "missing or not a dict"),
+            ([], "missing or not a dict"),
+            ("x", "missing or not a dict"),
+            ({"passed": False, "deadline_fired": True,
+              "finish_reason": "timeout", "completion_tokens": 1}, "passed != true"),
+            ({"passed": True, "deadline_fired": False,
+              "finish_reason": "timeout", "completion_tokens": 1}, "deadline_fired != true"),
+            ({"passed": True, "deadline_fired": True,
+              "finish_reason": "eos", "completion_tokens": 1}, "expected 'timeout'"),
+            ({"passed": True, "deadline_fired": True,
+              "finish_reason": "timeout", "completion_tokens": True}, "expected int"),
+            ({"passed": True, "deadline_fired": True,
+              "finish_reason": "timeout", "completion_tokens": 0}, "expected >= 1"),
+            ({"passed": True, "deadline_fired": True,
+              "finish_reason": "timeout", "completion_tokens": 9}, "upper bound"),
+        ],
+    )
+    def test_fail_closed_invalid_evidence(
+        self, value: Any, needle: str
+    ) -> None:
+        errors = self._errors(value)
+        assert any(needle in e for e in errors)
+
+    def test_upper_bound_is_canonical_eight(self) -> None:
+        from benchmark.execution.preflight import (
+            GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND,
+        )
+
+        assert GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND == 8
+        assert self._errors({
+            "passed": True, "deadline_fired": True,
+            "finish_reason": "timeout", "completion_tokens": 8,
+        }) == []
+        assert any(
+            "upper bound" in e
+            for e in self._errors({
+                "passed": True, "deadline_fired": True,
+                "finish_reason": "timeout", "completion_tokens": 9,
+            })
+        )
+
+
+class _FakeCompleted:
+    def __init__(self, returncode: int, stdout: str, stderr: str = "") -> None:
+        self.returncode = returncode
+        self.stdout = stdout
+        self.stderr = stderr
+
+
+class TestRemoteTagPeelProof:
+    """D9.5: launch/resume annotated-tag peel proof (no network, no shell)."""
+
+    @staticmethod
+    def _patch_subprocess(
+        monkeypatch: pytest.MonkeyPatch, completed: _FakeCompleted
+    ) -> list[list[str]]:
+
+        import benchmark.execution.preflight as pf
+
+        captured: list[list[str]] = []
+
+        def fake_run(argv: list[str], **_kw: object) -> _FakeCompleted:
+            captured.append(argv)
+            return completed
+
+        monkeypatch.setattr(pf.subprocess, "run", fake_run)
+        return captured
+
+    def test_pass_with_annotated_tag_matching_source(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from benchmark.execution.preflight import verify_remote_annotated_tag_peel
+
+        sha = "9" * 40
+        completed = _FakeCompleted(
+            returncode=0,
+            stdout=f"{sha}\trefs/tags/v0.9.22-pilot-exec-ready\n"
+                   f"{sha}\trefs/tags/v0.9.22-pilot-exec-ready^{{}}\n",
+        )
+        captured = self._patch_subprocess(monkeypatch, completed)
+        result = verify_remote_annotated_tag_peel(source_commit=sha)
+        assert result["peel"] == sha
+        assert result["tag"] == "v0.9.22-pilot-exec-ready"
+        assert "ls-remote" in captured[0][1]
+        assert "--tags" in captured[0]
+        assert any(
+            a == "refs/tags/v0.9.22-pilot-exec-ready^{}" for a in captured[0]
+        )
+
+    def test_fails_when_peel_does_not_match_source(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            verify_remote_annotated_tag_peel,
+        )
+
+        ref_sha = "8" * 40
+        peel_sha = "7" * 40
+        completed = _FakeCompleted(
+            returncode=0,
+            stdout=f"{ref_sha}\trefs/tags/v0.9.22-pilot-exec-ready\n"
+                   f"{peel_sha}\trefs/tags/v0.9.22-pilot-exec-ready^{{}}\n",
+        )
+        self._patch_subprocess(monkeypatch, completed)
+        with pytest.raises(LaunchAuthorizationError, match="peel .* != source_commit"):
+            verify_remote_annotated_tag_peel(source_commit="1" * 40)
+
+    def test_fails_when_lightweight_tag_missing_peel(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            verify_remote_annotated_tag_peel,
+        )
+
+        sha = "2" * 40
+        completed = _FakeCompleted(
+            returncode=0,
+            stdout=f"{sha}\trefs/tags/v0.9.22-pilot-exec-ready\n",
+        )
+        self._patch_subprocess(monkeypatch, completed)
+        with pytest.raises(LaunchAuthorizationError, match="not present"):
+            verify_remote_annotated_tag_peel(source_commit=sha)
+
+    def test_fails_on_nonzero_exit(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            verify_remote_annotated_tag_peel,
+        )
+
+        self._patch_subprocess(
+            monkeypatch, _FakeCompleted(returncode=128, stdout="")
+        )
+        with pytest.raises(LaunchAuthorizationError, match="exited 128"):
+            verify_remote_annotated_tag_peel(source_commit="3" * 40)
+
+    def test_fails_when_git_missing(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+
+        import benchmark.execution.preflight as pf
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            verify_remote_annotated_tag_peel,
+        )
+
+        def raise_fnf(argv: list[str], **_kw: object) -> _FakeCompleted:
+            raise FileNotFoundError()
+
+        monkeypatch.setattr(pf.subprocess, "run", raise_fnf)
+        with pytest.raises(LaunchAuthorizationError, match="'git' is not installed"):
+            verify_remote_annotated_tag_peel(source_commit="4" * 40)
+
+    def test_fails_on_timeout(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        import subprocess
+
+        import benchmark.execution.preflight as pf
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            verify_remote_annotated_tag_peel,
+        )
+
+        def raise_timeout(argv: list[str], **_kw: object) -> _FakeCompleted:
+            raise subprocess.TimeoutExpired(argv, timeout=30)
+
+        monkeypatch.setattr(pf.subprocess, "run", raise_timeout)
+        with pytest.raises(LaunchAuthorizationError, match="timed out"):
+            verify_remote_annotated_tag_peel(source_commit="5" * 40)
+
+
+class TestLaunchAuthMandatoryDeadlineCanary:
+    """D9.3: launch authorization fails closed without a valid deadline canary."""
+
+    def _write_valid_repo_preflight(self, path: Path) -> None:
+        path.write_text(json.dumps({
+            "overall": "PASS",
+            "repositories": {
+                "todo": {"passed": True},
+                "djangocms": {"passed": True},
+                "saleor": {"passed": True},
+            },
+        }), encoding="utf-8")
+
+    def _write_dryrun(self, dryrun_dir: Path) -> None:
+        _write_real_dryrun(
+            dryrun_dir,
+            source_commit="abc123",
+            source_tag="v0.9.18-pilot-exec-ready",
+            deployed_build_id="build-001",
+        )
+
+    def _write_model(self, path: Path, *, canary: Any) -> None:
+        path.write_text(json.dumps({
+            "passed": True,
+            "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            "requested_quantization_mode": "bnb-nf4",
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
+            "checks": ["repository_preflight_evidence: PASS"],
+            "long_context_probe": {
+                "passed": True,
+                "target_prompt_tokens": 16000,
+                "prompt_tokens": 16384,
+                "completion_tokens": 512,
+                "cache_implementation": "offloaded",
+            },
+            "generation_deadline_probe": canary,
+        }), encoding="utf-8")
+
+    def _validate(self, tmp_path: Path, **_kw: object) -> None:
+        from benchmark.execution.preflight import validate_pilot_launch_authorization
+
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=tmp_path / "dryrun",
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+        )
+
+    def test_missing_canary_fails_closed(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_dryrun(tmp_path / "dryrun")
+        self._write_model(tmp_path / "model.json", canary=None)
+        from benchmark.execution.preflight import LaunchAuthorizationError
+
+        with pytest.raises(LaunchAuthorizationError, match="generation_deadline_probe"):
+            self._validate(tmp_path)
+
+    def test_eos_canary_fails_closed(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_dryrun(tmp_path / "dryrun")
+        self._write_model(
+            tmp_path / "model.json",
+            canary={
+                "passed": True,
+                "deadline_fired": False,
+                "finish_reason": "eos",
+                "completion_tokens": 512,
+            },
+        )
+        from benchmark.execution.preflight import LaunchAuthorizationError
+
+        with pytest.raises(LaunchAuthorizationError, match="deadline_fired != true"):
+            self._validate(tmp_path)
+
+    def test_valid_canary_passes(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_dryrun(tmp_path / "dryrun")
+        self._write_model(tmp_path / "model.json", canary={
+            "passed": True,
+            "deadline_fired": True,
+            "finish_reason": "timeout",
+            "completion_tokens": 1,
+        })
+        self._validate(tmp_path)
 
