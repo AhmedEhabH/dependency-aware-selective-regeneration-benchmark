@@ -2668,6 +2668,24 @@ def main() -> int:
         )
         logger.info("Shared backend created once for the whole process")
 
+        # D9: eager shared-model initialization BEFORE t_start / any RUN_START.
+        # One-time Qwen weights load happens here, outside the scientific timing
+        # and token budget of the first run, so model load is never charged to one
+        # strategy/repetition. Failure is an engineering blocker: 0 RunRecords,
+        # no current run, checkpoint left resumable/incomplete, nonzero exit.
+        init = getattr(shared_backend, "initialize", None)
+        if callable(init) and not args.dry_run:
+            logger.info("SESSION_MODEL_INITIALIZE_BEGIN model=%s", resolved_backend)
+            try:
+                init()
+            except Exception as exc:
+                logger.error("SESSION_MODEL_INITIALIZE_FAILED exception=%s: %s", type(exc).__name__, exc)
+                checkpoint_data.completion_status = "incomplete"
+                checkpoint_data.current_run_id = ""
+                checkpoint_mgr.write_atomic(checkpoint_data)
+                return 1
+            logger.info("SESSION_MODEL_READY model=%s", resolved_backend)
+
     # ---- Execute plan -------------------------------------------------------
     t_start = time.monotonic()
     results_agg: dict[str, dict[str, Any]] = {}

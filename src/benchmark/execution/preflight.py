@@ -30,6 +30,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from benchmark.llm.kaggle_qwen_backend import GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND
+
 logger = logging.getLogger(__name__)
 
 MIN_FREE_VRAM_GIB = 2.0
@@ -40,6 +42,20 @@ CANONICAL_ALLOC_CONF = "expandable_segments:True"
 BASELINE_REPO = "todo"
 LONG_CONTEXT_TARGET_PROMPT_TOKENS = 12000
 LONG_CONTEXT_MAX_TOKENS = 64
+
+# D9: real-Qwen generation-deadline canary. The canary installs a deterministic
+# counter guard that becomes false after a tiny bounded number of stopping-
+# criterion checks, so the workflow-deadline path (NOT EOS/length) is proven
+# target-side after only a few decode tokens. completion_tokens is bounded to
+# this tiny range (>= 1 and <= the check limit); the canonical bound constant
+# lives in the backend and is imported above (single source of truth).
+
+# D9: public canonical remote for the pre-launch annotated-tag peel proof.
+KAGGLE_PUBLIC_CANONICAL_REMOTE = (
+    "https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark.git"
+)
+PILOT_STABLE_TAG = "v0.9.22-pilot-exec-ready"
+REMOTE_TAG_PROOF_TIMEOUT_SECONDS = 30
 
 _REPO_PREFLIGHT_BLOCKED_SUFFIX = "repository preflight failed"
 
@@ -124,6 +140,7 @@ class KaggleSmokePreflightResult:
     sdpa_kernel_policy: str = ""
     gqa_compatibility_mode: str = ""
     long_context_probe: dict[str, Any] | None = None
+    generation_deadline_probe: dict[str, Any] | None = None
     dependencies: tuple[tuple[str, str], ...] = ()
     duration_seconds: float = 0.0
 
@@ -328,6 +345,24 @@ def _qwen_probe_metrics(
     except Exception as exc:
         metrics["short_generation_probe_error"] = f"{type(exc).__name__}: {exc}"
 
+    # D9: cheap real-Qwen generation-deadline canary (workflow-deadline path, not
+    # EOS/length). Fail-closed: any error becomes a non-passing canary that the
+    # launch-authorization gate rejects. Only the real backend provides the probe;
+    # mocked unit backends simply omit it (their legacy assertions are unaffected,
+    # while a real launch always requires it).
+    canary_runner = getattr(backend, "run_generation_deadline_probe", None)
+    if callable(canary_runner):
+        try:
+            metrics["generation_deadline_probe"] = canary_runner()
+        except Exception as exc:
+            metrics["generation_deadline_probe"] = {
+                "passed": False,
+                "deadline_fired": False,
+                "finish_reason": "",
+                "completion_tokens": 0,
+                "error": f"{type(exc).__name__}: {exc}",
+            }
+
     return metrics
 
 
@@ -412,6 +447,146 @@ def _static_model_metadata(
     except Exception:
         pass
     return metadata
+
+
+def _generation_deadline_probe_errors(value: Any) -> list[str]:
+    """Fail-closed audit of the real-Qwen generation-deadline canary evidence.
+
+    Returns a list of error strings (empty == PASS). The canary MUST have fired
+    the workflow-deadline path (``finish_reason == 'timeout'``,
+    ``deadline_fired == true``) with a tiny positive completion-token count, and
+    wrong types / missing fields / EOS-or-length / underflow / overflow all fail
+    closed (the canary is never allowed to silently report EOS or a bound overrun
+    as the deadline proof).
+    """
+    errors: list[str] = []
+    if not isinstance(value, dict):
+        return ["model_preflight.json generation_deadline_probe missing or not a dict"]
+    if value.get("passed") is not True:
+        errors.append("model_preflight.json generation_deadline_probe passed != true")
+    if value.get("deadline_fired") is not True:
+        errors.append("model_preflight.json generation_deadline_probe deadline_fired != true")
+    finish = value.get("finish_reason")
+    if finish != "timeout":
+        errors.append(
+            "model_preflight.json generation_deadline_probe "
+            f"finish_reason={finish!r} (expected 'timeout')"
+        )
+    completion = value.get("completion_tokens")
+    if isinstance(completion, bool) or not isinstance(completion, int):
+        errors.append(
+            "model_preflight.json generation_deadline_probe "
+            f"completion_tokens={completion!r} (expected int)"
+        )
+    else:
+        if completion < 1:
+            errors.append(
+                "model_preflight.json generation_deadline_probe "
+                f"completion_tokens={completion} (expected >= 1)"
+            )
+        if completion > GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND:
+            errors.append(
+                "model_preflight.json generation_deadline_probe "
+                f"completion_tokens={completion} (upper bound "
+                f"{GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND})"
+            )
+    return errors
+
+
+def verify_remote_annotated_tag_peel(
+    *,
+    source_commit: str,
+    tag: str = PILOT_STABLE_TAG,
+    remote: str = KAGGLE_PUBLIC_CANONICAL_REMOTE,
+    timeout: int = REMOTE_TAG_PROOF_TIMEOUT_SECONDS,
+) -> dict[str, str]:
+    """Bounded, no-shell remote annotated-tag peel proof (pre-launch gate only).
+
+    Runs ``git ls-remote --tags <remote> refs/tags/<tag> refs/tags/<tag>^{}`` as
+    an exact argv (no shell, no credentials) and requires BOTH the annotated tag
+    object ref and its peeled ``^{}`` ref, with the peeled commit equal to the
+    notebook's exact ``SOURCE_COMMIT``. Any miss — lightweight tag, missing tag,
+    malformed/duplicate output, wrong peel, non-zero exit, timeout, network/DNS/
+    TLS failure, or missing ``git`` — raises ``LaunchAuthorizationError``.
+
+    This is an engineering pre-launch gate ONLY; it is not included in any
+    scientific run duration or metric and never prints credentials.
+    """
+    errors: list[str] = []
+    peeled_target = f"refs/tags/{tag}^{{}}"
+    ref_target = f"refs/tags/{tag}"
+    argv = ["git", "ls-remote", "--tags", remote, ref_target, peeled_target]
+    try:
+        completed = subprocess.run(
+            argv,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            check=False,
+        )
+    except FileNotFoundError:
+        raise LaunchAuthorizationError(
+            "REMOTE TAG PEEL PROOF FAILED: 'git' is not installed/on PATH"
+        ) from None
+    except subprocess.TimeoutExpired:
+        raise LaunchAuthorizationError(
+            f"REMOTE TAG PEEL PROOF FAILED: git ls-remote timed out after "
+            f"{timeout}s against {remote}"
+        ) from None
+    except OSError as exc:
+        raise LaunchAuthorizationError(
+            f"REMOTE TAG PEEL PROOF FAILED: git ls-remote raised "
+            f"{type(exc).__name__}: {exc}"
+        ) from exc
+
+    if completed.returncode != 0:
+        raise LaunchAuthorizationError(
+            "REMOTE TAG PEEL PROOF FAILED: git ls-remote exited "
+            f"{completed.returncode} (stderr: "
+            f"{(completed.stderr or '').strip()[:300]})"
+        )
+
+    lines = [ln.strip() for ln in (completed.stdout or "").splitlines() if ln.strip()]
+    ref_line: str | None = None
+    peel_line: str | None = None
+    duplicates = False
+    for ln in lines:
+        parts = ln.split()
+        if len(parts) != 2:
+            errors.append(f"malformed git ls-remote line: {ln[:120]!r}")
+            continue
+        commit, refname = parts
+        if refname == ref_target:
+            if ref_line is not None:
+                duplicates = True
+            ref_line = commit
+        elif refname == peeled_target:
+            if peel_line is not None:
+                duplicates = True
+            peel_line = commit
+
+    if duplicates:
+        errors.append(f"duplicate/malformed git ls-remote output for {tag}")
+    if ref_line is None:
+        errors.append(
+            f"annotated tag ref refs/tags/{tag} not present (lightweight or missing)"
+        )
+    if peel_line is None:
+        errors.append(f"annotated tag peel {peeled_target} not present")
+    if peel_line is not None and peel_line != source_commit:
+        errors.append(
+            f"annotated tag peel {peel_line!r} != source_commit {source_commit!r}"
+        )
+    if len(peel_line or "") < 40 or len(ref_line or "") < 40:
+        errors.append("git ls-remote returned a malformed/truncated commit hash")
+
+    if errors:
+        raise LaunchAuthorizationError(
+            "REMOTE TAG PEEL PROOF FAILED:\n"
+            + "\n".join(f"  - {e}" for e in errors)
+            + f"\n  remote={remote} tag={tag}"
+        )
+    return {"tag": tag, "peel": peel_line or "", "ref": ref_line or ""}
 
 
 def run_kaggle_smoke_preflight(
@@ -637,6 +812,27 @@ def run_kaggle_smoke_preflight(
                     f"(completion_tokens={probe_metrics.get('probe_completion_tokens', 0)})"
                 )
                 short_probe_passed = True
+            # D9: real-Qwen generation-deadline canary (present only when the real
+            # backend ran it). When present it is fail-closed: any validation
+            # error flips this check to FAIL and the whole preflight to not-passed.
+            deadline_probe = probe_metrics.get("generation_deadline_probe")
+            if deadline_probe is not None:
+                deadline_errors = _generation_deadline_probe_errors(deadline_probe)
+                if deadline_errors:
+                    checks.append(
+                        "generation_deadline_probe: FAIL ("
+                        + "; ".join(
+                            e.replace("model_preflight.json generation_deadline_probe ", "")
+                            for e in deadline_errors
+                        )
+                        + ")"
+                    )
+                else:
+                    checks.append(
+                        "generation_deadline_probe: PASS "
+                        f"(finish_reason={deadline_probe.get('finish_reason')}, "
+                        f"completion_tokens={deadline_probe.get('completion_tokens')})"
+                    )
             snapshots = probe_metrics.get("gpu_vram_by_device", ())
             if not isinstance(snapshots, tuple):
                 snapshots = tuple(snapshots)
@@ -779,6 +975,7 @@ def run_kaggle_smoke_preflight(
         sdpa_kernel_policy=str(probe_metrics.get("sdpa_kernel_policy", "") or ""),
         gqa_compatibility_mode=str(probe_metrics.get("gqa_compatibility_mode", "") or ""),
         long_context_probe=long_context_probe,
+        generation_deadline_probe=probe_metrics.get("generation_deadline_probe"),
         dependencies=dependencies,
         duration_seconds=round(duration, 3),
     )
@@ -820,6 +1017,7 @@ def run_kaggle_smoke_preflight(
             "sdpa_kernel_policy": result.sdpa_kernel_policy,
             "gqa_compatibility_mode": result.gqa_compatibility_mode,
             "long_context_probe": result.long_context_probe,
+            "generation_deadline_probe": result.generation_deadline_probe,
             "dependencies": [list(pair) for pair in result.dependencies],
             "duration_seconds": result.duration_seconds,
         }
@@ -866,6 +1064,14 @@ def render_preflight_table(result: KaggleSmokePreflightResult) -> str:
             f"elapsed={lc.get('elapsed_seconds', '?')}s "
             f"cache={lc.get('cache_implementation', '?')} "
             f"passed={lc.get('passed', '?')}"
+        )
+    if result.generation_deadline_probe:
+        dp = result.generation_deadline_probe
+        lines.append(
+            f"generation_deadline_probe: finish_reason={dp.get('finish_reason', '?')} "
+            f"deadline_fired={dp.get('deadline_fired', '?')} "
+            f"completion_tokens={dp.get('completion_tokens', '?')} "
+            f"passed={dp.get('passed', '?')}"
         )
     lines.extend([
         f"duration_seconds: {result.duration_seconds}",
@@ -1357,6 +1563,14 @@ def validate_pilot_launch_authorization(
                         "model_preflight.json long_context_probe "
                         f"cache_implementation={lc_cache!r} (expected 'offloaded')"
                     )
+            # D9: the real-Qwen generation-deadline canary is mandatory for launch.
+            # Missing / wrong-type / false fields / EOS-or-length / underflow /
+            # overflow all fail closed (the canary proves the deadline path fired).
+            errors.extend(
+                _generation_deadline_probe_errors(
+                    model_evidence.get("generation_deadline_probe")
+                )
+            )
 
     # --- Dry-run records + source_identity.json (C1-C4, REAL RunRecordData schema) ---
     # Single source of truth: the private collector shared with

@@ -6,6 +6,8 @@ import json
 import logging
 import os
 import re
+import time
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -325,6 +327,103 @@ def compute_model_identity(model_path: str | Path, quantization_mode: str = "bnb
     return f"qwen:{slug}:{quantization_mode}:cfg-{digest}"
 
 
+DEFAULT_HEARTBEAT_INTERVAL_SECONDS = 30.0
+
+# D9: tiny upper bound for the real-Qwen generation-deadline canary's
+# completion_tokens. Shared with the preflight launch gate (single source of
+# truth): the canary self-checks with the same bound the preflight enforces.
+GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND = 8
+
+
+class _WorkflowDeadlineHeartbeatStoppingCriteria:
+    """Transformers-compatible stopping criterion that enforces the workflow deadline.
+
+    Evaluated by ``model.generate`` at every decode step. It checks an injected
+    model-call guard (``lambda: not budget.timed_out``) and returns ``True``
+    immediately after the guard first returns false, so an in-flight generation
+    can never cross the 600-second workflow deadline by more than the current
+    decode step. This is a cooperative stopping boundary, never an unsafe Python
+    thread kill.
+
+    It also emits a bounded liveness heartbeat every ``heartbeat_interval``
+    seconds while decoding so a long synchronous generation proves liveness
+    without leaking prompts, source, tokens, or secrets.
+
+    Fully deterministic and testable through injected ``clock`` and ``guard``
+    callables.
+    """
+
+    def __init__(
+        self,
+        prompt_length: int,
+        max_completion: int,
+        model_call_guard: Callable[[], bool] | None = None,
+        clock: Callable[[], float] = time.monotonic,
+        heartbeat_interval: float = DEFAULT_HEARTBEAT_INTERVAL_SECONDS,
+    ) -> None:
+        self.prompt_length = int(prompt_length)
+        self.max_completion = int(max_completion)
+        self._guard = model_call_guard
+        self._clock = clock
+        self._heartbeat_interval = float(heartbeat_interval)
+        self.deadline_fired = False
+        self.observed_tokens = 0
+        self.elapsed_seconds = 0.0
+        self._started = False
+        self._last_heartbeat = 0.0
+        self._heartbeat_count = 0
+        self._terminal_logged = False
+
+    @property
+    def heartbeat_count(self) -> int:
+        return self._heartbeat_count
+
+    def _observe(self, input_ids: Any) -> int:
+        """Number of generated tokens observed so far (input length minus prompt)."""
+        try:
+            seq = int(input_ids.shape[-1])
+        except Exception:  # pragma: no cover - defensive; real tensors always have shape
+            seq = 0
+        return max(0, seq - self.prompt_length)
+
+    def _maybe_log_running(self) -> None:
+        now = self._clock()
+        if now - self._last_heartbeat >= self._heartbeat_interval:
+            self._heartbeat_count += 1
+            self._last_heartbeat = now
+            logger.info(
+                "GENERATION_RUNNING elapsed_seconds=%.3f prompt_tokens=%d "
+                "completion_tokens=%d max_tokens=%d",
+                now - self._start_clock, self.prompt_length,
+                self.observed_tokens, self.max_completion,
+            )
+
+    def __call__(self, input_ids: Any, scores: Any = None, **kwargs: Any) -> bool:
+        now = self._clock()
+        if not self._started:
+            self._started = True
+            self._start_clock = now
+            self._last_heartbeat = now
+        self._now = now
+        self.observed_tokens = self._observe(input_ids)
+
+        if self._guard is not None and not self._guard():
+            self.deadline_fired = True
+            self.elapsed_seconds = now - self._start_clock
+            if not self._terminal_logged:
+                self._terminal_logged = True
+                logger.info(
+                    "GENERATION_STOPPED reason=workflow_deadline elapsed_seconds=%.3f "
+                    "prompt_tokens=%d completion_tokens=%d max_tokens=%d",
+                    self.elapsed_seconds, self.prompt_length,
+                    self.observed_tokens, self.max_completion,
+                )
+            return True
+
+        self._maybe_log_running()
+        return False
+
+
 @dataclass(frozen=True)
 class GpuPreflightResult:
     """Result of a GPU compatibility preflight check.
@@ -369,6 +468,7 @@ class KaggleQwenBackend:
         self._tokenizer = None
         self._loaded = False
         self._model_identity: str | None = None
+        self._model_call_guard: Callable[[], bool] | None = None
         if self._model_path:
             self._model_identity = compute_model_identity(self._model_path, quantization_mode)
         logger.info("MODEL_INITIALIZATION_STARTED model=%s quantization=%s", model_name, quantization_mode)
@@ -452,6 +552,83 @@ class KaggleQwenBackend:
     def load(self) -> None:
         """Load the model+tokenizer synchronously (preflight-friendly)."""
         self._ensure_loaded()
+
+    def initialize(self) -> None:
+        """Eagerly load the shared model+tokenizer without generating tokens.
+
+        Called once per process after the shared backend is created and before
+        the first ``RUN_START`` so the one-time lazy Qwen weights load happens
+        OUTSIDE the scientific timing/budget of the first run. Idempotent:
+        delegates to the existing ``_ensure_loaded`` and is a no-op once loaded.
+        """
+        self._ensure_loaded()
+
+    def set_model_call_guard(self, guard: Callable[[], bool] | None) -> None:
+        """Install a cooperative in-flight deadline guard for synchronous decoding.
+
+        The guard is polled by the workflow-deadline stopping criterion at every
+        decode step. ``None`` clears any previously installed guard (never
+        retaining a prior run's deadline guard on the shared backend). The Runner
+        re-installs a fresh ``lambda: not budget.timed_out`` before every run.
+        """
+        self._model_call_guard = guard
+
+    def run_generation_deadline_probe(
+        self,
+        *,
+        max_checks_before_deadline: int = 3,
+        max_tokens: int = 128,
+        prompt: str = "def add(a, b):\n    return a + b\n",
+        heartbeat_interval: float = 3600.0,
+    ) -> dict[str, Any]:
+        """Cheap real-Qwen deadline-path canary (engineering gate, never scientific).
+
+        Installs a deterministic counter guard that becomes false after
+        ``max_checks_before_deadline`` stopping-criterion checks, so the workflow
+        deadline must fire after only a tiny bounded number of decode tokens —
+        it can never depend on the model choosing EOS. Resets the backend guard
+        in a ``finally`` block so ordinary short and 12k probes are unaffected.
+
+        Returns canonical evidence dict. Raises on any failure (fail closed).
+        """
+        counter: dict[str, int] = {"n": 0}
+        limit = int(max_checks_before_deadline)
+
+        def _canary_guard() -> bool:
+            counter["n"] += 1
+            return counter["n"] <= limit
+
+        self.set_model_call_guard(_canary_guard)
+        try:
+            response = self._generate_sync(
+                prompt=prompt,
+                temperature=0.0,
+                max_tokens=int(max_tokens),
+                model_call_guard=self._model_call_guard,
+                heartbeat_interval=heartbeat_interval,
+            )
+        finally:
+            self.set_model_call_guard(None)
+
+        if response.finish_reason != "timeout":
+            raise RuntimeError(
+                "generation_deadline_probe: expected finish_reason='timeout' "
+                f"but got {response.finish_reason!r} (deadline path did not fire)"
+            )
+        completion = response.token_usage.completion_tokens
+        bound = GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND
+        if completion < 1 or completion > bound:
+            raise RuntimeError(
+                "generation_deadline_probe: completion_tokens "
+                f"={completion} outside the tiny bounded range [1, {bound}]"
+            )
+        return {
+            "passed": True,
+            "deadline_fired": True,
+            "finish_reason": response.finish_reason,
+            "completion_tokens": completion,
+            "max_checks_before_deadline": limit,
+        }
 
     def run_probe(self, max_tokens: int = 64, prompt: str = "def add(a, b):\n    return a + b\n") -> LLMResponse:
         """Deterministic engineering probe generation.
@@ -659,8 +836,10 @@ class KaggleQwenBackend:
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 4096,
+        *,
+        model_call_guard: Callable[[], bool] | None = None,
+        heartbeat_interval: float = DEFAULT_HEARTBEAT_INTERVAL_SECONDS,
     ) -> LLMResponse:
-        logger.info("GENERATION_STARTED max_tokens=%d temperature=%s", max_tokens, temperature)
         prompt_tokens: int | None = None
         inputs = None
         input_ids = None
@@ -668,6 +847,7 @@ class KaggleQwenBackend:
         gen_kwargs = None
         output_ids = None
         generated_ids = None
+        criterion: _WorkflowDeadlineHeartbeatStoppingCriteria | None = None
         try:
             self._ensure_loaded()
             assert self._model is not None
@@ -683,6 +863,10 @@ class KaggleQwenBackend:
                 attention_mask = attention_mask.to(self._model.device)
 
             prompt_tokens = input_ids.shape[1]
+            logger.info(
+                "GENERATION_STARTED prompt_tokens=%d max_tokens=%d temperature=%s",
+                prompt_tokens, max_tokens, temperature,
+            )
 
             gen_kwargs = {
                 "input_ids": input_ids,
@@ -696,10 +880,49 @@ class KaggleQwenBackend:
                 gen_kwargs["temperature"] = temperature
                 gen_kwargs["top_p"] = 0.95
 
+            # D9: enforce the workflow deadline IN-FLIGHT (not only before the
+            # next call). The guard is polled at every decode step; when it
+            # first returns false generation stops on the next completed step.
+            guard = model_call_guard if model_call_guard is not None else self._model_call_guard
+            criterion = _WorkflowDeadlineHeartbeatStoppingCriteria(
+                prompt_length=prompt_tokens,
+                max_completion=max_tokens,
+                model_call_guard=guard,
+                heartbeat_interval=heartbeat_interval,
+            )
+            from transformers import StoppingCriteriaList
+
+            gen_kwargs["stopping_criteria"] = StoppingCriteriaList([criterion])
+
             with torch.inference_mode(), self._sdpa_kernel_policy_context():
                 output_ids = self._model.generate(**gen_kwargs)
 
             generated_ids = output_ids[0, prompt_tokens:]
+
+            # D9 deadline-path: generation ended because the workflow deadline
+            # fired (partial decode), not by EOS/length. Return the measured
+            # partial token usage with finish_reason="timeout" so the existing
+            # post-call guard path creates the canonical workflow-budget-
+            # exhausted RunRecord and the partial text is never committed.
+            if criterion is not None and criterion.deadline_fired:
+                completion_tokens = int(criterion.observed_tokens)
+                if completion_tokens >= 1:
+                    output_text = self._tokenizer.decode(
+                        generated_ids, skip_special_tokens=True
+                    )
+                else:
+                    output_text = ""
+                total_tokens = prompt_tokens + completion_tokens
+                return LLMResponse(
+                    text=output_text,
+                    token_usage=TokenUsage(
+                        prompt_tokens=prompt_tokens,
+                        completion_tokens=completion_tokens,
+                        total_tokens=total_tokens,
+                    ),
+                    finish_reason="timeout",
+                )
+
             completion_tokens = len(generated_ids)
 
             # Zero-token output is a measured empty model response, not a backend
@@ -760,6 +983,8 @@ class KaggleQwenBackend:
             del gen_kwargs
             del output_ids
             del generated_ids
+            if criterion is not None:
+                del criterion
             gc.collect()
             _empty_cuda_cache()
 

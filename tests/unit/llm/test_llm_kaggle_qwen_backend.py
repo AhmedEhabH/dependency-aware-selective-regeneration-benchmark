@@ -90,7 +90,27 @@ def _install_fake_torch_modules(
     monkeypatch.setitem(sys.modules, "torch", fake)
     monkeypatch.setitem(sys.modules, "torch.nn", fake.nn)
     monkeypatch.setitem(sys.modules, "torch.nn.attention", fake.nn.attention)
+    monkeypatch.setitem(sys.modules, "transformers", _build_fake_transformers())
     return fake
+
+
+class _FakeStoppingCriteriaList:
+    """Minimal stand-in so ``from transformers import StoppingCriteriaList``
+    resolves in unit tests without a real torch. The fake model.generate records
+    the stopping_criteria kwarg but never invokes it, so this only needs to wrap
+    and retain the criteria."""
+
+    def __init__(self, criteria: list[object]) -> None:
+        self.criteria = list(criteria)
+
+    def __iter__(self):  # pragma: no cover
+        return iter(self.criteria)
+
+
+def _build_fake_transformers() -> types.ModuleType:
+    mod = types.ModuleType("transformers")
+    mod.StoppingCriteriaList = _FakeStoppingCriteriaList
+    return mod
 
 
 class _FakeTorch(types.ModuleType):
@@ -1198,6 +1218,7 @@ class TestSDPAAttentionContract:
         fake_torch.nn = types.ModuleType("torch.nn")  # no .attention attribute
         monkeypatch.setitem(sys.modules, "torch", fake_torch)
         monkeypatch.setitem(sys.modules, "torch.nn", fake_torch.nn)  # type: ignore[attr-defined]
+        monkeypatch.setitem(sys.modules, "transformers", _build_fake_transformers())
         tokenizer = _FakeTokenizer()
         backend = KaggleQwenBackend()
         backend._loaded = True
@@ -1358,3 +1379,217 @@ class TestPreservedMemoryFixesV0922:
             "bnb_4bit_compute_dtype": "float16",
             "bnb_4bit_use_double_quant": True,
         }
+
+
+class _DeadlineDecodingModel(_FakeModel):
+    """Drives the installed stopping criteria per decode step, like real HF.
+
+    The workflow-deadline criterion is polled once per step; when it returns
+    True (deadline fired) generation stops. The returned tensor reflects the
+    sequence length observed when the deadline fired.
+    """
+
+    def __init__(self, prompt_tokens: int = 8, max_steps: int = 64) -> None:
+        super().__init__(output_length=11)
+        self._prompt_tokens = prompt_tokens
+        self._max_steps = max_steps
+        self.last_generate_kwargs: dict[str, object] = {}
+
+    def generate(self, **kwargs: object) -> _FakeTensor:
+        self.last_generate_kwargs = dict(kwargs)
+        criteria = list(kwargs.get("stopping_criteria") or ())  # type: ignore[arg-type]
+        fired = False
+        seq = self._prompt_tokens
+        for _step in range(self._max_steps):
+            seq += 1
+            for c in criteria:
+                if c(_FakeTensor(length=seq)):  # type: ignore[operator]
+                    fired = True
+                    break
+            if fired:
+                break
+        return _FakeTensor(length=seq)
+
+
+class TestWorkflowDeadlineStoppingCriteria:
+    """D9.1: parametric deadline/heartbeat stopping criterion (no model)."""
+
+    def _criterion(self, **kw: object) -> Any:
+        from benchmark.llm.kaggle_qwen_backend import _WorkflowDeadlineHeartbeatStoppingCriteria
+
+        base: dict[str, object] = dict(
+            prompt_length=5,
+            max_completion=64,
+            model_call_guard=lambda: True,
+            clock=lambda: 1.0,
+        )
+        base.update(kw)
+        return _WorkflowDeadlineHeartbeatStoppingCriteria(**base)  # type: ignore[arg-type]
+
+    def test_never_fires_while_guard_true(self) -> None:
+        crit = self._criterion(prompt_length=5)
+        assert crit(_FakeTensor(length=8)) is False
+        assert crit.deadline_fired is False
+        assert crit.observed_tokens == 3
+
+    def test_fires_when_guard_goes_false(self) -> None:
+        crit = self._criterion(model_call_guard=lambda: False, clock=lambda: 10.0)
+        assert crit(_FakeTensor(length=8)) is True
+        assert crit.deadline_fired is True
+        assert crit.observed_tokens == 3
+        assert crit.elapsed_seconds == 0.0
+
+    def test_terminal_repeat_does_not_repeat_log(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        import logging
+
+        crit = self._criterion(model_call_guard=lambda: False, clock=lambda: 10.0)
+        with caplog.at_level(logging.INFO):
+            crit(_FakeTensor(length=8))
+            crit(_FakeTensor(length=8))
+        assert (
+            sum("GENERATION_STOPPED" in r.message for r in caplog.records) == 1
+        )
+
+    def test_heartbeat_emitted_at_interval(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        import logging
+
+        current = [0.0]
+
+        def growing_clock() -> float:
+            current[0] += 1.0
+            return current[0]
+
+        crit = self._criterion(
+            model_call_guard=lambda: True,
+            clock=growing_clock,
+            heartbeat_interval=1.0,
+        )
+        with caplog.at_level(logging.INFO):
+            crit(_FakeTensor(length=8))
+            crit(_FakeTensor(length=8))
+            crit(_FakeTensor(length=8))
+        assert crit.heartbeat_count >= 2
+        assert any("GENERATION_RUNNING" in r.message for r in caplog.records)
+
+    def test_default_heartbeat_interval_is_30s(self) -> None:
+        from benchmark.llm.kaggle_qwen_backend import DEFAULT_HEARTBEAT_INTERVAL_SECONDS
+
+        assert DEFAULT_HEARTBEAT_INTERVAL_SECONDS == 30.0
+
+
+class TestGenerateSyncDeadlinePath:
+    """D9.1: an in-flight workflow-deadline fires finish_reason='timeout' with a
+    partial completion, and the shared backend guard is honored."""
+
+    def _loaded_backend(
+        self, monkeypatch: pytest.MonkeyPatch, model: _FakeModel
+    ) -> KaggleQwenBackend:
+        _install_fake_torch_modules(monkeypatch)
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = _FakeTokenizer()
+        backend._model = model
+        return backend
+
+    def test_deadline_fires_timeout_with_partial_tokens(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        model = _DeadlineDecodingModel(prompt_tokens=8)
+        backend = self._loaded_backend(monkeypatch, model)
+
+        counter = {"n": 0}
+        guard_limit = 3
+
+        def canary_guard() -> bool:
+            counter["n"] += 1
+            return counter["n"] <= guard_limit
+
+        response = backend._generate_sync(
+            prompt="def add(a, b):\n    return a + b\n",
+            temperature=0.0,
+            max_tokens=128,
+            model_call_guard=canary_guard,
+            heartbeat_interval=3600.0,
+        )
+        assert response.finish_reason == "timeout"
+        assert response.token_usage.completion_tokens >= 1
+        assert response.token_usage.completion_tokens <= 8
+
+    def test_shared_guard_installed_via_set_model_call_guard(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        model = _DeadlineDecodingModel(prompt_tokens=8)
+        backend = self._loaded_backend(monkeypatch, model)
+
+        fired = {"n": 0}
+
+        def always_false() -> bool:
+            fired["n"] += 1
+            return False
+
+        backend.set_model_call_guard(always_false)
+        response = backend._generate_sync(
+            prompt="x", temperature=0.0, max_tokens=16,
+            heartbeat_interval=3600.0,
+        )
+        assert response.finish_reason == "timeout"
+        assert fired["n"] >= 1
+
+
+class TestRunGenerationDeadlineProbe:
+    """D9.1/D9.3: the real-backend canary returns canonical evidence and never
+    leaks the guard onto the shared backend."""
+
+    def _loaded_backend(
+        self, monkeypatch: pytest.MonkeyPatch, model: _FakeModel
+    ) -> KaggleQwenBackend:
+        _install_fake_torch_modules(monkeypatch)
+        backend = KaggleQwenBackend()
+        backend._loaded = True
+        backend._tokenizer = _FakeTokenizer()
+        backend._model = model
+        return backend
+
+    def test_probe_returns_canonical_evidence_and_resets_guard(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        backend = self._loaded_backend(
+            monkeypatch, _DeadlineDecodingModel(prompt_tokens=8)
+        )
+        evidence = backend.run_generation_deadline_probe()
+        assert evidence == {
+            "passed": True,
+            "deadline_fired": True,
+            "finish_reason": "timeout",
+            "completion_tokens": evidence["completion_tokens"],
+            "max_checks_before_deadline": 3,
+        }
+        # guard reset: no deadline guard remains on the shared backend
+        assert backend._model_call_guard is None
+
+    def test_probe_fails_closed_when_deadline_does_not_fire(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        # A normal model that does not drive the criterion to fire -> the probe
+        # must raise rather than report a false PASS.
+        backend = self._loaded_backend(monkeypatch, _FakeModel(output_length=10))
+        with pytest.raises(RuntimeError, match="expected finish_reason='timeout'"):
+            backend.run_generation_deadline_probe()
+
+    def test_probe_bounds_completion_by_canonical_max_check_bound(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from benchmark.llm.kaggle_qwen_backend import (
+            GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND,
+        )
+
+        assert GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND == 8
+        backend = self._loaded_backend(
+            monkeypatch, _DeadlineDecodingModel(prompt_tokens=8)
+        )
+        evidence = backend.run_generation_deadline_probe()
+        assert 1 <= evidence["completion_tokens"] <= 8

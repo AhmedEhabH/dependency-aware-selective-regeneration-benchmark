@@ -841,6 +841,10 @@ class BenchmarkRunner:
 
         self._state.start()
         start_time = time.monotonic()
+        # D9: install the cooperative in-flight deadline guard on the strategy AND
+        # the shared backend for every run, so the backend never retains a prior
+        # run's deadline guard. Must happen before any model call.
+        self._apply_model_call_guards()
 
         # Preflight scientific configuration before model generation
         if self._config.enable_regeneration:
@@ -1005,6 +1009,25 @@ class BenchmarkRunner:
         setter = getattr(self._strategy, "set_model_call_guard", None)
         if callable(setter):
             setter(lambda: not self._budget.timed_out)
+
+    def _apply_backend_model_call_guard(self) -> None:
+        """Hand the cooperative in-flight deadline to the shared LLM backend.
+
+        Installed for EVERY run so a shared backend can never retain a prior
+        run's deadline guard (each Runner owns a fresh ``BudgetManager``; the
+        lambda closes over THIS run's budget). Only backends that implement the
+        optional setter are affected; Mock/OpenRouter backends are untouched.
+        """
+        if self._backend is None:
+            return
+        setter = getattr(self._backend, "set_model_call_guard", None)
+        if callable(setter):
+            setter(lambda: not self._budget.timed_out)
+
+    def _apply_model_call_guards(self) -> None:
+        """Install the cooperative deadline guard on strategy AND backend."""
+        self._apply_strategy_model_call_guard()
+        self._apply_backend_model_call_guard()
 
     def _strategy_model_call_budget_exhausted(self) -> bool:
         return bool(getattr(self._strategy, "model_call_budget_exhausted", False))
