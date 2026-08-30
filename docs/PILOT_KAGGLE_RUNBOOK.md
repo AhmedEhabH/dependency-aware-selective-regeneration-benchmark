@@ -1,22 +1,43 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** EXACT D9.6 CANDIDATE ARTIFACT FROZEN — CURRENT v0.9.22 CANDIDATE.
-The dry-run gate is canonical (bundled `dryrun-cell` calls
-`validate_pilot_dryrun_evidence`, never a fabricated top-level `total_tokens`),
-launch/resume validation argv is executable and AST-guarded, and D9 closes the
-real-run in-flight timeout/heartbeat defect (decode-step workflow-deadline
-enforcement + 30 s heartbeats, mandatory real-Qwen generation-deadline canary,
-eager model init, per-run guard reinstall, interrupt-safe cleanup/resume). The
-Kaggle launch and resume cells NEVER contact GitHub: the only pre-command gate is
-the local `validate_pilot_launch_authorization` in BOTH cells, and the stable
-`v0.9.22-pilot-exec-ready` tag is created and locally verified against the
-owner-controlled, locally verified source commit after real preflight passes.
-The stable tag DOES NOT EXIST YET: the fresh real 2x T4 Kaggle model preflight
-(GQA microprobe + generation-deadline canary + short + same 12k/64 probe) MUST
-PASS first. Pilot NOT started; no 48-cell launch while untagged. The prior
-`02d16ca2…` (D8) / `913e8065…` (D9) / `e0a64937…` (D7) / `ce40b330…` artifacts
-are SUPERSEDED and must not be uploaded. Never resume rejected experiment
-`exp-20260828-151335` (0 accepted RunRecords).
+**Status:** EXACT D9.6 ARTIFACT REAL 2×T4 PREFLIGHT PASSED + STABLE TAG
+EXISTS — CURRENT v0.9.22 RELEASE. The real exact-artifact 2x T4 Kaggle model
+preflight PASSED on 2026-08-30 against the exact D9.6 artifact
+`dist/pilot-kaggle-upload.zip` SHA-256
+`edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (source
+commit `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`, build id `478261f`). The
+annotated stable tag **`v0.9.22-pilot-exec-ready` now EXISTS** and peels to
+`478261ff595d3d64ed9d5bab32d1cc90d7dabd77` (tag object
+`fdcb409670e040a287811840ddbcab475816a7e5`, pushed to origin, verified with
+configured authenticated origin credentials). The real 48-cell Pilot has NOT
+started; the ONLY remaining operational step is, in the still-live Kaggle
+session, to run Step 8 "Pilot Launch — STOP Until Stable Tag Is Confirmed" /
+`pilot-launch-cell`. Never resume `exp-20260828-151335` (zero accepted
+RunRecords). GitHub privacy is irrelevant to Kaggle execution; GitHub is
+owner-controlled source/release storage only; no anonymous/public readability
+probe. Artifact REMAINS `edae1b7e…8c4a`; no rebuild / no finalizer run for this
+closure. Scientific contract unchanged; remains v0.9.22 (never v0.9.23); full
+suite remains previously accepted 2538 passed / 33 skipped / 0 failed (carried).
+Report: `reports/V0922_D9_6_REAL_T4_PASS_STABLE_TAG_CLOSURE_REPORT.md`.
+
+> **PRIOR TRUTH (2026-08-29, SUPERSEDED by the D9.6 real 2×T4 PASS + stable-tag
+> closure): EXACT D9.6 CANDIDATE ARTIFACT FROZEN — CURRENT v0.9.22 CANDIDATE.**
+> The dry-run gate is canonical (bundled `dryrun-cell` calls
+> `validate_pilot_dryrun_evidence`, never a fabricated top-level `total_tokens`),
+> launch/resume validation argv is executable and AST-guarded, and D9 closes the
+> real-run in-flight timeout/heartbeat defect (decode-step workflow-deadline
+> enforcement + 30 s heartbeats, mandatory real-Qwen generation-deadline canary,
+> eager model init, per-run guard reinstall, interrupt-safe cleanup/resume). The
+> Kaggle launch and resume cells NEVER contact GitHub: the only pre-command gate is
+> the local `validate_pilot_launch_authorization` in BOTH cells, and the stable
+> `v0.9.22-pilot-exec-ready` tag is created and locally verified against the
+> owner-controlled, locally verified source commit after real preflight passes.
+> The stable tag DOES NOT EXIST YET: the fresh real 2x T4 Kaggle model preflight
+> (GQA microprobe + generation-deadline canary + short + same 12k/64 probe) MUST
+> PASS first. Pilot NOT started; no 48-cell launch while untagged. The prior
+> `02d16ca2…` (D8) / `913e8065…` (D9) / `e0a64937…` (D7) / `ce40b330…` artifacts
+> are SUPERSEDED and must not be uploaded. Never resume rejected experiment
+> `exp-20260828-151335` (0 accepted RunRecords).
 
 > **HISTORICAL NOTE:** earlier versions of this runbook targeted
 > `v0.9.9-pilot-exec-ready` (and were never updated through v0.9.19/v0.9.20),
