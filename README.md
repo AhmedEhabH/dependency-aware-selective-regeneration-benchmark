@@ -9,7 +9,29 @@
 [![Tests](https://img.shields.io/badge/tests-2%2C532%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
-> **Current v0.9.22 candidate (2026-08-29, D9):** D9 closes the real-run
+> **Current v0.9.22 release (2026-08-30, D9.6 REAL 2×T4 PASS + STABLE-TAG
+> CLOSURE (PILOT-EXEC-01):** the real exact-artifact 2x T4 Kaggle model
+> preflight PASSED on 2026-08-30 against the exact D9.6 artifact
+> `dist/pilot-kaggle-upload.zip` SHA-256
+> `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (source
+> commit `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`, build id `478261f`). The
+> annotated stable tag **`v0.9.22-pilot-exec-ready` now EXISTS** and peels to
+> `478261ff595d3d64ed9d5bab32d1cc90d7dabd77` (tag object
+> `fdcb409670e040a287811840ddbcab475816a7e5`, pushed to origin, verified with
+> configured authenticated origin credentials). The real 48-cell Pilot has NOT
+> started; the only remaining operational step is in the still-live Kaggle
+> session to run Step 8 "Pilot Launch — STOP Until Stable Tag Is Confirmed" /
+> `pilot-launch-cell`. Never resume `exp-20260828-151335` (zero accepted
+> RunRecords). GitHub privacy is irrelevant to Kaggle execution; GitHub is
+> owner-controlled source/release storage only; no anonymous/public
+> readability probe. Artifact REMAINS `edae1b7e…8c4a`; no rebuild / no
+> finalizer run for this closure. Scientific contract unchanged; remains
+> v0.9.22 (never v0.9.23); full suite remains previously accepted 2538 passed
+> / 33 skipped / 0 failed (carried). Report:
+> `reports/V0922_D9_6_REAL_T4_PASS_STABLE_TAG_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-29, SUPERSEDED by the D9.6 real 2×T4 PASS + stable-tag
+> closure): Current v0.9.22 candidate (D9):** D9 closes the real-run
 > 20+ minute silent-generation defect with decode-step workflow-deadline
 > enforcement (`_WorkflowDeadlineHeartbeatStoppingCriteria` stops in-flight
 > generation with `finish_reason="timeout"` the moment the run budget elapses,

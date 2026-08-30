@@ -1,6 +1,52 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-29, v0.9.22 D9.6 NOTEBOOK-MARKDOWN CELL-LABELS
+> **CURRENT TRUTH (2026-08-30, v0.9.22 D9.6 REAL 2×T4 PASS + STABLE-TAG
+> CLOSURE (PILOT-EXEC-01) — REAL EXACT-ARTIFACT 2×T4 PREFLIGHT PASSED ON
+> 2026-08-30; STABLE ANNOTATED TAG EXISTS AND PEELS TO `478261ff…`; REAL
+> PILOT NOT STARTED):** Independent audit of the exact D9.6 artifact
+> `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (source
+> commit `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`, source tag
+> `v0.9.22-pilot-exec-ready`) real 2×T4 Kaggle evidence PASSED every Gate B
+> requirement: the expanded-mode sidecar proof matches the artifact SHA; the
+> deployment identity uses `478261ff…` / `v0.9.22-pilot-exec-ready` / 48 cells
+> / Qwen 14B / BNB-NF4 and all five code/data/repository/notebook/transport
+> manifest hashes recompute and match; repository preflight `overall == PASS`
+> with Todo, django CMS, Saleor all PASS and Saleor PostgreSQL +
+> Valkey/Redis reachable; the T4 SDPA GQA microprobe passes on both `cuda:0`
+> and `cuda:1` (Tesla T4 compute capability 7.5, Q/K/V + output on the
+> intended device, `repeat_kv_sm75`); `model_preflight.json.passed == true`
+> with exactly 2 Tesla T4, `model_identity ==
+> qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`, requested/effective attention
+> `sdpa`, kernel policy `flash_or_efficient_no_math`, GQA `repeat_kv_sm75`,
+> short generation PASS (17 completion tokens), generation-deadline canary
+> PASS (`deadline_fired==true`, `finish_reason==timeout`, 4 completion
+> tokens), long-context probe PASS (12,044 prompt tokens / 64 completion
+> tokens); the bundled canonical `validate_pilot_dryrun_evidence` PASSED (48
+> records / 48 unique IDs / statuses all succeeded / repo 16-16-16 /
+> strategies 24-24 / reps 24-24 / all model-call + token counters integer
+> zero / source identity `478261ff…` + `v0.9.22-pilot-exec-ready` + build
+> `478261f` + `dry-run:mock`); notebook cells 0–7 have no error outputs, the
+> pilot-launch/resume/verify/export cells remain UNEXECUTED, the only
+> `run_records.jsonl` is the 48-record dry-run file, and the HF token value
+> never appears (only "retrieved and set in environment" is printed). On
+> PASS, the annotated stable tag **`v0.9.22-pilot-exec-ready` now EXISTS** and
+> peels to `478261ff595d3d64ed9d5bab32d1cc90d7dabd77` (tag object
+> `fdcb409670e040a287811840ddbcab475816a7e5`; `git cat-file -t` = `tag`;
+> local + remote peeled target == `478261ff…`; pushed to origin and verified
+> with the configured authenticated origin credentials — no anonymous/public
+> readability probe). The artifact REMAINS `edae1b7e…8c4a`; no rebuild and no
+> finalizer run. The real 48-cell Pilot has NOT started; the ONLY remaining
+> operational step is, in the same still-live Kaggle session, to run Step 8
+> "Pilot Launch — STOP Until Stable Tag Is Confirmed" / `pilot-launch-cell`.
+> Never resume `exp-20260828-151335` — it has zero accepted RunRecords.
+> GitHub privacy is irrelevant to Kaggle execution; GitHub is
+> owner-controlled source/release storage only. Full suite remains the
+> previously accepted **2538 passed / 33 skipped / 0 failed** (carried;
+> runtime code unchanged). Report:
+> `reports/V0922_D9_6_REAL_T4_PASS_STABLE_TAG_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-29, SUPERSEDED by the D9.6 real 2×T4 PASS + stable-tag
+> closure — v0.9.22 D9.6 NOTEBOOK-MARKDOWN CELL-LABELS
 > CLOSURE (PILOT-EXEC-01) — NOTEBOOK-NAVIGATION REFINEMENT ON TOP OF THE D9.6
 > KAGGLE/GITHUB BOUNDARY CORRECTION; REAL T4 PROOF PENDING; NO STABLE TAG
 > YET):** NOTHING scientific, NOTHING in production/runtime code, and NOT the
