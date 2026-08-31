@@ -36,7 +36,58 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-> **CURRENT TRUTH (2026-08-30, v0.9.22 D9.6 REAL 2×T4 PASS + STABLE-TAG
+> **CURRENT TRUTH (2026-08-31, v0.9.22 D10 ALL-FAILED PILOT VIABILITY CLOSURE
+> (PILOT-EXEC-01) — REAL 48-CELL PILOT `exp-20260830-134232` FINISHED 48/48
+> TERMINAL FAILURES (0 SUCCEEDED, 0 EVALUATOR-PASSED) AND IS REJECTED; STABLE
+> ANNOTATED TAG `v0.9.22-pilot-exec-ready` UNCHANGED BUT RETIRED AS A LAUNCH
+> CANDIDATE; INTERNAL RUNTIME CONTRACT CORRECTED (PROTOCOL 1.1, TIMEOUT 1200,
+> PILOT-CANARY GATE, STANDALONE FAIL-CLOSED RESUME, TERMINALITY/VIABILITY
+> SPLIT); NO REAL PILOT LAUNCH AND NO TAG MOVE IN THIS CLOSURE):**
+> branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`. The one
+> permitted real 48-cell Pilot launched from the exact D9.6 artifact
+> `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (source
+> commit `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`, tag
+> `v0.9.22-pilot-exec-ready`) on 2026-08-30 completed with **48/48 terminal
+> failures / 0 succeeded / 0 evaluator-passed** (`exp-20260830-134232`;
+> protocol 1.0; config hash `4b5bbcb2abcf62af`; ~23,610 s; 293 model calls;
+> 731,678 prompt + 88,953 completion = 820,631 total tokens; classifications
+> `scientific_budget_exhausted`=33, `model_output`=8, `build`=7; 33 runs killed
+> at the 600 s workflow deadline; iterative agent ran out to "no paths
+> selected" on several Saleor/djangoCMS/Todo scenarios). It is REJECTED and
+> preserved verbatim, never resumed or counted. The stable annotated tag
+> `v0.9.22-pilot-exec-ready` **still exists and still peels to `478261ff...`**
+> — it is NOT deleted/moved/re-forced, but it is **retired as a launch
+> candidate** (the only permitted launch from that artifact was 100%-failed).
+> Scientific version remains v0.9.22 (never v0.9.23); scientific inputs
+> unchanged (model Qwen2.5-Coder-14B-Instruct, BNB-NF4, sdpa
+> `flash_or_efficient_no_math`, GQA `repeat_kv_sm75`, 12 scenarios, 3 repo pins
+> Todo/django CMS/Saleor, 2 strategies, 2 reps = 48 cells, prompts, Ground
+> Truth, metrics, max attempts 3, completion cap 4096, 12000/64 gate). D10
+> (D10.1–D10.7) corrects the internal runtime/operability contract WITHOUT
+> touching scientific inputs: D10.1 truth-only report+docs+commit+push (this
+> closure); D10.2 internal contract correction `protocol_version 1.0 → 1.1`
+> and Pilot profile `timeout_seconds 600 → 1200` uniformly for BOTH strategies
+> (the 600 s ceiling censored 33/48 runs; selective mean was 540 s with zero
+> headroom); D10.3 a real end-to-end pilot-canary mode + canonical fail-closed
+> `validate_pilot_canary_evidence` gate (a genuinely small real run that still
+> exercises select→regenerate→repair→validate, not a no-op) wired as a notebook
+> stage before the full 48; D10.4 the resume cell made standalone
+> (`PILOT_OUTPUT_DIR` recomputed independently — the D9.6 resume cell raised
+> `NameError: name 'PILOT_OUTPUT_DIR' is not defined` when run standalone) and
+> fail-closed against rejected experiment IDs; D10.5 validator separates
+> terminality (did the pipeline finish) from scientific viability (is the
+> result accepted) so deadline-censored / no-path-selection runs are not
+> masked as generic terminal failures; D10.6 all fixes driven tests-first
+> (RED then GREEN); D10.7 freeze, docs, push, verified
+> `project-2026-08-31-*.zip` export, Stop Report. The next REAL Pilot launch
+> requires a NEW freshly-finalized artifact (protocol 1.1, 1200 s, corrected
+> resume + terminality/viability) with its own real pilot-canary pass and its
+> own tag decision — the retired `v0.9.22-pilot-exec-ready` tag and the
+> `edae1b7e…8c4a` artifact are NOT reused as a launch basis. Report:
+> `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`.
+
+> **PRIOR TRUTH (2026-08-30, SUPERSEDED by the D10 all-failed relaunch closure
+> — v0.9.22 D9.6 REAL 2×T4 PASS + STABLE-TAG
 > CLOSURE (PILOT-EXEC-01) — REAL EXACT-ARTIFACT 2×T4 PREFLIGHT PASSED ON
 > 2026-08-30; STABLE ANNOTATED TAG EXISTS AND PEELS TO `478261ff...`; REAL
 > PILOT NOT STARTED):** branch

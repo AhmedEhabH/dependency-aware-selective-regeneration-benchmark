@@ -1,6 +1,29 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-08-30, v0.9.22 D9.6 REAL 2×T4 PASS + STABLE-TAG
+> **CURRENT TRUTH (2026-08-31, v0.9.22 D10 ALL-FAILED PILOT VIABILITY CLOSURE
+> (PILOT-EXEC-01) — REAL 48-CELL PILOT `exp-20260830-134232` FINISHED 48/48
+> TERMINAL FAILURES (0 SUCCEEDED, 0 EVALUATOR-PASSED) AND IS REJECTED; STABLE
+> ANNOTATED TAG `v0.9.22-pilot-exec-ready` UNCHANGED BUT RETIRED AS A LAUNCH
+> CANDIDATE; INTERNAL RUNTIME CONTRACT CORRECTED (PROTOCOL 1.1, TIMEOUT 1200,
+> PILOT-CANARY GATE, STANDALONE FAIL-CLOSED RESUME, TERMINALITY/VIABILITY
+> SPLIT); NO REAL PILOT LAUNCH AND NO TAG MOVE IN THIS CLOSURE):** The one
+> permitted real 48-cell Pilot launched from the exact D9.6 artifact
+> `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (source
+> commit `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`, tag
+> `v0.9.22-pilot-exec-ready`) on 2026-08-30 completed with **48/48 terminal
+> failures / 0 succeeded / 0 evaluator-passed** (`exp-20260830-134232`). It is
+> REJECTED and preserved verbatim, never resumed or counted. The stable
+> annotated tag `v0.9.22-pilot-exec-ready` still exists but is retired as a
+> launch candidate. D10 (D10.1–D10.7) corrects the internal runtime contract
+> (protocol 1.1, timeout 1200, pilot-canary gate, standalone fail-closed
+> resume, terminality/viability split) WITHOUT touching scientific inputs. The
+> next REAL Pilot launch requires a NEW freshly-finalized artifact with its
+> own real pilot-canary pass and its own tag decision — the retired tag and the
+> `edae1b7e…8c4a` artifact are NOT reused. Artifact REMAINS `edae1b7e…8c4a`.
+> Full suite remains 2538 passed / 33 skipped / 0 failed (carried). Report:
+> `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`.
+>
+> **PRIOR TRUTH (2026-08-30, SUPERSEDED by the D10 all-failed relaunch closure — v0.9.22 D9.6 REAL 2×T4 PASS + STABLE-TAG
 > CLOSURE (PILOT-EXEC-01) — REAL EXACT-ARTIFACT 2×T4 PREFLIGHT PASSED ON
 > 2026-08-30; STABLE ANNOTATED TAG EXISTS AND PEELS TO `478261ff…`; REAL
 > PILOT NOT STARTED):** Independent audit of the exact D9.6 artifact
