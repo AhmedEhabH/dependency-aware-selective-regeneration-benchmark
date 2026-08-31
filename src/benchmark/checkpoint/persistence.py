@@ -25,7 +25,7 @@ class RunRecordData:
     token_usage: dict[str, int] = field(default_factory=lambda: {"prompt": 0, "completion": 0, "total": 0})
     duration_seconds: float = 0.0
     model_metadata: dict[str, str] = field(default_factory=dict)
-    protocol_version: str = "1.0"
+    protocol_version: str = "1.1"
     source_commit: str = ""
     config_hash: str = ""
     timestamp: str = ""

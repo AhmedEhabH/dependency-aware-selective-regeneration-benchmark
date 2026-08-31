@@ -22,7 +22,7 @@
 #   represented per repository. Reason recorded in the decision/change ledger.
 
 profile_label: protocol-pilot
-protocol_version: "1.0"
+protocol_version: "1.1"
 execution_mode: kaggle
 
 strategies:
@@ -75,7 +75,7 @@ execution:
   max_tokens: 0
   max_completion_tokens_per_call: 4096
   max_total_workflow_tokens: 0
-  timeout_seconds: 600
+  timeout_seconds: 1200
   random_seed: 42
   evidence_tier: engineering_validation
   repetitions: 2

@@ -1029,7 +1029,7 @@ def _collect_dryrun_evidence_errors(
         ``_total_tokens`` == 0
 
     ``source_identity.json`` contract: ``dry_run is True``, ``profile ==
-    'pilot'``, ``protocol_version == '1.0'``, exact commit/tag/build id, and
+    'pilot'``, ``protocol_version == '1.1'``, exact commit/tag/build id, and
     ``model_identity`` == ``expected_model_identity``.
     """
     errors: list[str] = []
@@ -1240,10 +1240,10 @@ def _collect_dryrun_evidence_errors(
             errors.append(
                 f"source_identity.json profile={si.get('profile')!r} (expected 'pilot')"
             )
-        if si.get("protocol_version") != "1.0":
+        if si.get("protocol_version") != "1.1":
             errors.append(
                 f"source_identity.json protocol_version="
-                f"{si.get('protocol_version')!r} (expected '1.0')"
+                f"{si.get('protocol_version')!r} (expected '1.1')"
             )
         if expected_source_commit and si.get("source_commit") != expected_source_commit:
             errors.append(
@@ -1492,3 +1492,265 @@ def validate_pilot_launch_authorization(
             "PILOT LAUNCH AUTHORIZATION FAILED:\n"
             + "\n".join(f"  - {e}" for e in errors)
         )
+
+
+# ---------------------------------------------------------------------------
+# D10.3/D10.5: Pilot-canary evidence gate + terminality/viability split
+# ---------------------------------------------------------------------------
+
+# Mirrors the CLI's terminality/viability taxonomy so the canary gate and the
+# full-Pilot verify cell share ONE definition (no drift between validator and
+# run classifier). A record is TERMINAL when it reached a final persisted state
+# (status ``succeeded`` or ``failed``); VIABILITY separates accepted measured
+# results from deadline-censored / engineering-blocked outcomes so a run that
+# simply ran out of budget is never masked as an accepted scientific failure.
+_CANARY_DEADLINE_CENSORED = frozenset({"scientific_budget_exhausted"})
+_CANARY_ENGINEERING = frozenset(
+    {
+        "infrastructure",
+        "infrastructure_nonrepairable",
+        "harness_defect",
+        "timeout",
+        "environment",
+        "environment_preflight",
+    }
+)
+_CANARY_SCIENTIFIC = frozenset(
+    {
+        "model_output",
+        "build",
+        "changed_requirement",
+        "regression",
+        "architecture",
+        "scientific_budget_exhausted",
+    }
+)
+
+
+def _pilot_viability(record: dict[str, Any]) -> str:
+    """Return a Pilot record's viability class (D10.5 taxonomy)."""
+    status = str(record.get("status", ""))
+    if status == "succeeded":
+        return "accepted"
+    if status in ("timed_out", "cancelled"):
+        return "engineering_blocker"
+    if status != "failed":
+        return "engineering_blocker"
+
+    kinds: set[str] = set()
+    for item in record.get("failure_details") or []:
+        if isinstance(item, dict) and item.get("kind"):
+            kinds.add(str(item.get("kind")))
+    classification = str(record.get("failure_classification", "") or "")
+    if classification:
+        kinds.add(classification)
+
+    if not kinds or (kinds & _CANARY_ENGINEERING):
+        return "engineering_blocker"
+    if kinds & _CANARY_DEADLINE_CENSORED:
+        return "deadline_censored"
+    if kinds <= _CANARY_SCIENTIFIC:
+        return "scientific_failure"
+    return "engineering_blocker"
+
+
+def validate_pilot_canary_evidence(
+    *,
+    canary_dir: str | Path,
+    expected_source_commit: str,
+    expected_source_tag: str,
+    expected_model_identity: str,
+    expected_deployed_build_id: str = "",
+    expected_strategies: tuple[str, ...] = (
+        "iterative_repository_agent",
+        "selective",
+    ),
+    expected_repetitions: int = 1,
+    expected_repositories: tuple[str, ...] = ("todo", "djangocms"),
+    expected_cells: int = 4,
+) -> dict[str, Any]:
+    """Fail-closed pilot-canary evidence gate (D10.3/D10.5).
+
+    A genuine end-to-end pilot-canary is a SMALL but REAL run (never mock /
+    dry-run, never a no-op). It must:
+
+      * produce exactly ``expected_cells`` terminal records spanning every
+        strategy x repetition for the canary scenarios (terminality);
+      * complete WITHIN its scientific budget - NO ``deadline_censored`` and NO
+        ``engineering_blocker`` record may be present (fail-closed against the
+        D9.6 600 s censoring defect - a deadline-censored run is NOT a valid
+        canary pass);
+      * carry a REAL model identity (never ``dry-run:mock``) in source_identity
+        and be protocol 1.1 / profile ``pilot-canary``.
+
+    Returns a truthful summary only when every check passes; raises
+    ``LaunchAuthorizationError`` otherwise.
+    """
+    canary_path = Path(canary_dir)
+    records_path = canary_path / "run_records.jsonl"
+    source_identity_path = canary_path / "source_identity.json"
+
+    errors: list[str] = []
+    summary: dict[str, Any] = {
+        "records": 0,
+        "unique_run_ids": 0,
+        "terminal": 0,
+        "viability_counts": {},
+        "passed": False,
+    }
+
+    if not records_path.is_file():
+        errors.append(f"canary run_records.jsonl missing: {records_path}")
+    elif not source_identity_path.is_file():
+        errors.append(f"canary source_identity.json missing: {source_identity_path}")
+    else:
+        try:
+            loaded = [
+                json.loads(line)
+                for line in records_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+        except (OSError, ValueError) as exc:
+            errors.append(f"canary run_records.jsonl unreadable: {type(exc).__name__}: {exc}")
+            loaded = []
+
+        records = [r for r in loaded if isinstance(r, dict)]
+        summary["records"] = len(records)
+        summary["unique_run_ids"] = len(
+            {str(r.get("run_id", "")) for r in records if r.get("run_id")}
+        )
+
+        viability: dict[str, int] = {}
+        strat_counts: dict[str, int] = {}
+        rep_counts: dict[int, int] = {}
+        repo_counts: dict[str, int] = {}
+        terminal = 0
+        for record in records:
+            status = str(record.get("status", ""))
+            if status in ("succeeded", "failed"):
+                terminal += 1
+                outcome = _pilot_viability(record)
+            else:
+                outcome = "engineering_blocker"
+            viability[outcome] = viability.get(outcome, 0) + 1
+            strategy_id = str(record.get("strategy_id", ""))
+            strat_counts[strategy_id] = strat_counts.get(strategy_id, 0) + 1
+            repository_id = str(record.get("repository_id", ""))
+            repo_counts[repository_id] = repo_counts.get(repository_id, 0) + 1
+            repetition = record.get("repetition")
+            if isinstance(repetition, int) and not isinstance(repetition, bool):
+                rep_counts[repetition] = rep_counts.get(repetition, 0) + 1
+        summary["terminal"] = terminal
+        summary["viability_counts"] = viability
+        summary["strategy_counts"] = strat_counts
+        summary["rep_counts"] = rep_counts
+        summary["repo_counts"] = repo_counts
+
+        if len(records) != expected_cells:
+            errors.append(
+                f"canary records={len(records)} (expected {expected_cells})"
+            )
+        if summary["unique_run_ids"] != expected_cells:
+            errors.append(
+                f"canary unique_run_ids={summary['unique_run_ids']} "
+                f"(expected {expected_cells})"
+            )
+        if terminal != expected_cells:
+            errors.append(
+                f"canary terminal records={terminal}/{expected_cells} "
+                f"(every record must be terminal: status succeeded or failed)"
+            )
+
+        if viability.get("deadline_censored", 0):
+            errors.append(
+                f"canary has {viability['deadline_censored']} deadline-censored "
+                f"record(s) (workflow budget reached) - a deadline-censored "
+                f"canary is NOT a valid pass (D10.5)"
+            )
+        if viability.get("engineering_blocker", 0):
+            errors.append(
+                f"canary has {viability['engineering_blocker']} engineering-blocker "
+                f"record(s) (infrastructure/harness/timeout/environment) - not a "
+                f"valid canary pass"
+            )
+
+        expected_per_cell = expected_cells // (len(expected_strategies) * expected_repetitions)
+        for strategy_id in expected_strategies:
+            if strat_counts.get(strategy_id, 0) != expected_per_cell:
+                errors.append(
+                    f"canary strategy_counts[{strategy_id}]="
+                    f"{strat_counts.get(strategy_id, 0)} "
+                    f"(expected {expected_per_cell})"
+                )
+        for rep in range(1, expected_repetitions + 1):
+            if rep_counts.get(rep, 0) != expected_per_cell * len(expected_strategies):
+                errors.append(
+                    f"canary rep_counts[{rep}]={rep_counts.get(rep, 0)} "
+                    f"(expected {expected_per_cell * len(expected_strategies)})"
+                )
+
+        expected_per_repo = expected_cells // len(expected_repositories)
+        for repository_id in expected_repositories:
+            if repo_counts.get(repository_id, 0) != expected_per_repo:
+                errors.append(
+                    f"canary repo_counts[{repository_id}]="
+                    f"{repo_counts.get(repository_id, 0)} "
+                    f"(expected {expected_per_repo} - both repositories must be "
+                    f"represented in the canary matrix, D10.3)"
+                )
+
+        si: dict[str, Any] = {}
+        try:
+            si_loaded = json.loads(source_identity_path.read_text(encoding="utf-8"))
+            if isinstance(si_loaded, dict):
+                si = si_loaded
+        except (OSError, ValueError) as exc:
+            errors.append(f"canary source_identity.json unreadable: {type(exc).__name__}: {exc}")
+
+        if si.get("protocol_version") != "1.1":
+            errors.append(
+                f"canary source_identity protocol_version="
+                f"{si.get('protocol_version')!r} (expected '1.1')"
+            )
+        if si.get("profile") != "pilot-canary":
+            errors.append(
+                f"canary source_identity profile={si.get('profile')!r} "
+                f"(expected 'pilot-canary')"
+            )
+        if expected_source_commit and si.get("source_commit") != expected_source_commit:
+            errors.append(
+                f"canary source_identity source_commit={si.get('source_commit')!r} "
+                f"(expected {expected_source_commit!r})"
+            )
+        if expected_source_tag and si.get("source_tag") != expected_source_tag:
+            errors.append(
+                f"canary source_identity source_tag={si.get('source_tag')!r} "
+                f"(expected {expected_source_tag!r})"
+            )
+        if expected_deployed_build_id and si.get("deployed_build_id") != expected_deployed_build_id:
+            errors.append(
+                f"canary source_identity deployed_build_id="
+                f"{si.get('deployed_build_id')!r} (expected {expected_deployed_build_id!r})"
+            )
+        real_identity = str(si.get("model_identity", "") or "")
+        if not real_identity:
+            errors.append("canary source_identity model_identity missing")
+        elif real_identity == "dry-run:mock":
+            errors.append(
+                "canary source_identity model_identity == 'dry-run:mock' - a "
+                "pilot-canary must be a REAL run, never a dry-run/mock"
+            )
+        elif expected_model_identity and real_identity != expected_model_identity:
+            errors.append(
+                f"canary source_identity model_identity={real_identity!r} "
+                f"(expected {expected_model_identity!r})"
+            )
+        summary["model_identity"] = real_identity
+
+    summary["passed"] = not errors
+    if errors:
+        raise LaunchAuthorizationError(
+            "PILOT CANARY EVIDENCE VALIDATION FAILED:\n"
+            + "\n".join(f"  - {e}" for e in errors)
+        )
+    return summary

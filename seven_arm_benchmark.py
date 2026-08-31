@@ -286,7 +286,21 @@ PROFILES: dict[str, ExecutionProfile] = {
             "djangocms-cross-007", "saleor-loc-001", "saleor-loc-002",
             "saleor-mod-004", "saleor-cross-007",
         ],
-        timeout_seconds=600,
+        timeout_seconds=1200,
+    ),
+    "pilot-canary": ExecutionProfile(
+        name="pilot-canary",
+        label="pilot-canary",
+        scenario_count=2,
+        strategies=["iterative_repository_agent", "selective"],
+        repetitions=1,
+        is_publication=False,
+        description="D10.3 real end-to-end pilot-canary: 2 scenarios x 2 strategies x 1 rep "
+        "(select -> regenerate -> repair -> validate), small but not a no-op",
+        repository_names=["todo", "djangocms"],
+        blast_radii=["localized"],
+        scenario_ids=["todo-loc-001", "djangocms-cross-007"],
+        timeout_seconds=1200,
     ),
     "research": ExecutionProfile(
         name="research",
@@ -890,7 +904,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--protocol-version",
         type=str,
-        default="1.0",
+        default="1.1",
         help="Research protocol version string",
     )
     parser.add_argument(
@@ -1728,6 +1742,13 @@ _SCIENTIFIC_FAILURE_KINDS = frozenset(
         "scientific_budget_exhausted",
     }
 )
+# Deadline-censored outcomes (workflow budget / timeout reached): the run did
+# not finish within its scientific budget. They remain in the SCIENTIFIC set for
+# job-exit/resume semantics (a censored run is a valid measured budget outcome,
+# not an engineering job failure), but the Pilot viability classifier (D10.5)
+# separates them so deadline-censored results are never masked as accepted
+# scientific failures.
+_DEADLINE_CENSORED_KINDS = frozenset({"scientific_budget_exhausted"})
 _ENGINEERING_FAILURE_KINDS = frozenset(
     {
         "infrastructure",
@@ -1740,12 +1761,30 @@ _ENGINEERING_FAILURE_KINDS = frozenset(
 )
 
 
+def _record_failure_kinds(record: dict[str, Any]) -> frozenset[str]:
+    """Collect the union of failure-detail kinds and the failure classification."""
+    kinds = {
+        str(item.get("kind", ""))
+        for item in (record.get("failure_details") or [])
+        if isinstance(item, dict) and item.get("kind")
+    }
+    classification = str(record.get("failure_classification", ""))
+    if classification:
+        kinds.add(classification)
+    return frozenset(k for k in kinds if k)
+
+
 def _terminal_record_outcome(record: dict[str, Any]) -> str:
     """Classify a persisted terminal record as scientific or engineering.
 
     A benchmark model/code failure is a valid measured outcome.  Only
     infrastructure, harness, timeout/cancellation, or unknown failures should
     make the process/session fail as an execution job.
+
+    NOTE (D10.5): this shared classifier is intentionally unchanged so the
+    accepted Full-9 Smoke semantics are preserved. The Pilot-specific
+    terminality/viability split lives in ``_pilot_record_viability`` and the
+    Pilot verify cells / ``validate_pilot_canary_evidence``.
     """
     status = str(record.get("status", ""))
     if status == "succeeded":
@@ -1755,16 +1794,43 @@ def _terminal_record_outcome(record: dict[str, Any]) -> str:
     if status != "failed":
         return "engineering_blocker"
 
-    kinds = {
-        str(item.get("kind", ""))
-        for item in (record.get("failure_details") or [])
-        if isinstance(item, dict) and item.get("kind")
-    }
-    classification = str(record.get("failure_classification", ""))
-    if classification:
-        kinds.add(classification)
+    kinds = _record_failure_kinds(record)
     if not kinds or kinds & _ENGINEERING_FAILURE_KINDS:
         return "engineering_blocker"
+    if kinds <= _SCIENTIFIC_FAILURE_KINDS:
+        return "scientific_failure"
+    return "engineering_blocker"
+
+
+def _pilot_record_viability(record: dict[str, Any]) -> str:
+    """D10.5: classify a Pilot record's SCIENTIFIC VIABILITY.
+
+    Separates TERMINALITY (the record is a final persisted state — status
+    ``succeeded`` or ``failed``) from VIABILITY (whether that terminal result is
+    scientifically acceptable). Returns one of:
+
+      * ``accepted``           - the run finished and passed
+      * ``scientific_failure`` - a legitimate measured model/code/requirement/
+                                 regression/architecture failure (a valid result)
+      * ``deadline_censored``  - the workflow budget/timeout was reached; the
+                                 run did NOT finish within its scientific budget
+                                 (NOT an accepted measured failure — D10.5)
+      * ``engineering_blocker``- infrastructure/harness/timed_out/environment or
+                                 unknown; an execution problem, not a result
+    """
+    status = str(record.get("status", ""))
+    if status == "succeeded":
+        return "accepted"
+    if status in ("timed_out", "cancelled"):
+        return "engineering_blocker"
+    if status != "failed":
+        return "engineering_blocker"
+
+    kinds = _record_failure_kinds(record)
+    if not kinds or (kinds & _ENGINEERING_FAILURE_KINDS):
+        return "engineering_blocker"
+    if kinds & _DEADLINE_CENSORED_KINDS:
+        return "deadline_censored"
     if kinds <= _SCIENTIFIC_FAILURE_KINDS:
         return "scientific_failure"
     return "engineering_blocker"
@@ -1845,6 +1911,8 @@ def _decide_session_exit_code(
                 last_run_status == "failed"
                 and last_run_failure_classification
                 not in _SCIENTIFIC_FAILURE_KINDS
+                and last_run_failure_classification
+                not in _DEADLINE_CENSORED_KINDS
             ):
                 return 1
         return 0

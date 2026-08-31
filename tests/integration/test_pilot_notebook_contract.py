@@ -52,19 +52,21 @@ REQUIRED_CELL_ORDER = (
     "pilot-repo-preflight-cell",
     "gpu-verify-cell",
     "model-preflight-cell",
-    "dryrun-cell",
     "secrets-cell",
+    "pilot-canary-cell",
+    "dryrun-cell",
     "pilot-launch-cell",
     "pilot-resume-cell",
     "pilot-verify-cell",
     "pilot-export-cell",
 )
 
-# PILOT-EXEC-01 label-closure: the canonical notebook carries 11 Markdown
-# navigation cells (Step 00..10) each placed IMMEDIATELY before its mapped
-# operational code cell, so Kaggle's Table of contents names every stage and a
-# visible STOP boundary guards pilot-launch. ``MARKDOWN_NAV`` maps each
-# Markdown cell id -> the code cell it must immediately precede.
+# PILOT-EXEC-01 label-closure + D10.3: the canonical notebook carries 12
+# Markdown navigation cells (Step 00..11) each placed IMMEDIATELY before its
+# mapped operational code cell, so Kaggle's Table of contents names every stage
+# and a visible STOP boundary guards pilot-launch. ``MARKDOWN_NAV`` maps each
+# Markdown cell id -> the code cell it must immediately precede. D10.3 inserts a
+# real end-to-end pilot-canary stage between the HF secret and the full launch.
 MARKDOWN_NAV: dict[str, str] = {
     "pilot-step-00-session-setup-md": "setup-cell",
     "pilot-step-01-artifact-identity-md": "pilot-archive-verify-cell",
@@ -72,11 +74,12 @@ MARKDOWN_NAV: dict[str, str] = {
     "pilot-step-03-repository-preflight-md": "pilot-repo-preflight-cell",
     "pilot-step-04-gpu-model-input-md": "gpu-verify-cell",
     "pilot-step-05-model-preflight-md": "model-preflight-cell",
-    "pilot-step-06-dryrun-md": "dryrun-cell",
-    "pilot-step-07-hf-secret-md": "secrets-cell",
-    "pilot-step-08-launch-md": "pilot-launch-cell",
-    "pilot-step-09-resume-md": "pilot-resume-cell",
-    "pilot-step-10-verify-export-md": "pilot-verify-cell",
+    "pilot-step-06-hf-secret-md": "secrets-cell",
+    "pilot-step-07-pilot-canary-md": "pilot-canary-cell",
+    "pilot-step-08-dryrun-md": "dryrun-cell",
+    "pilot-step-09-launch-md": "pilot-launch-cell",
+    "pilot-step-10-resume-md": "pilot-resume-cell",
+    "pilot-step-11-verify-export-md": "pilot-verify-cell",
 }
 
 MARKDOWN_HEADINGS: dict[str, str] = {
@@ -88,17 +91,18 @@ MARKDOWN_HEADINGS: dict[str, str] = {
     ),
     "pilot-step-04-gpu-model-input-md": "## 4. GPU and Qwen Input Verification",
     "pilot-step-05-model-preflight-md": "## 5. Model Preflight Only",
-    "pilot-step-06-dryrun-md": "## 6. Exact-Artifact 48-Cell Dry Run",
-    "pilot-step-07-hf-secret-md": "## 7. Hugging Face Results Secret",
-    "pilot-step-08-launch-md": "## 8. Pilot Launch \u2014 STOP Until Stable Tag Is Confirmed",
-    "pilot-step-09-resume-md": "## 9. Resume After External Interruption Only",
-    "pilot-step-10-verify-export-md": "## 10. Final Verification and Export",
+    "pilot-step-06-hf-secret-md": "## 6. Hugging Face Results Secret",
+    "pilot-step-07-pilot-canary-md": "## 7. Pilot-Canary \u2014 Real End-to-End Gate (D10.3)",
+    "pilot-step-08-dryrun-md": "## 8. Exact-Artifact 48-Cell Dry Run",
+    "pilot-step-09-launch-md": "## 9. Pilot Launch \u2014 STOP Until Stable Tag Is Confirmed",
+    "pilot-step-10-resume-md": "## 10. Resume After External Interruption Only",
+    "pilot-step-11-verify-export-md": "## 11. Final Verification and Export",
 }
 
 # The canonical notebook keeps its original title and final Notes Markdown
-# cells and intersperses exactly the 11 navigation Markdown cells between the
-# unchanged 16 code cells. This is the full expected cell order after the
-# label-closure.
+# cells and intersperses exactly the 12 navigation Markdown cells between the
+# unchanged-16-plus-1 (D10.3 adds pilot-canary-cell) = 17 code cells. This is
+# the full expected cell order after the label-closure + D10.3 canary stage.
 FULL_EXPECTED_CELL_ORDER = (
     "pilot-title-md",
     "pilot-step-00-session-setup-md",
@@ -117,15 +121,17 @@ FULL_EXPECTED_CELL_ORDER = (
     "gpu-verify-cell",
     "pilot-step-05-model-preflight-md",
     "model-preflight-cell",
-    "pilot-step-06-dryrun-md",
-    "dryrun-cell",
-    "pilot-step-07-hf-secret-md",
+    "pilot-step-06-hf-secret-md",
     "secrets-cell",
-    "pilot-step-08-launch-md",
+    "pilot-step-07-pilot-canary-md",
+    "pilot-canary-cell",
+    "pilot-step-08-dryrun-md",
+    "dryrun-cell",
+    "pilot-step-09-launch-md",
     "pilot-launch-cell",
-    "pilot-step-09-resume-md",
+    "pilot-step-10-resume-md",
     "pilot-resume-cell",
-    "pilot-step-10-verify-export-md",
+    "pilot-step-11-verify-export-md",
     "pilot-verify-cell",
     "pilot-export-cell",
     "pilot-notes-md",
@@ -231,7 +237,7 @@ def _assert_validation_argv_contract(nb: dict[str, Any]) -> None:
             if isinstance(node, ast.Constant) and node.value == "--timeout"
         ]
         assert len(scientific_timeout_indices) == 1, cell_id
-        _assert_string(elements[scientific_timeout_indices[0] + 1], "600")
+        _assert_string(elements[scientific_timeout_indices[0] + 1], "1200")
 
 
 class TestNotebookStructure:
@@ -329,7 +335,7 @@ class TestMarkdownNavigation:
             assert needle in src, f"step 5 must mention {needle!r}"
 
     def test_step8_contains_explicit_stop_boundary_and_local_tag_sequence(self) -> None:
-        src = _src(_cells_by_id(_nb())["pilot-step-08-launch-md"])
+        src = _src(_cells_by_id(_nb())["pilot-step-09-launch-md"])
         for needle in (
             "STOP", "Do not run this cell", "export evidence", "OpenCode",
             "audits evidence", "annotated stable tag", "locally",
@@ -337,8 +343,8 @@ class TestMarkdownNavigation:
         ):
             assert needle in src, f"step 8 must contain {needle!r}"
 
-    def test_step7_says_hf_token_only_and_notebook_has_no_github_token(self) -> None:
-        src = _src(_cells_by_id(_nb())["pilot-step-07-hf-secret-md"])
+    def test_step6_says_hf_token_only_and_notebook_has_no_github_token(self) -> None:
+        src = _src(_cells_by_id(_nb())["pilot-step-06-hf-secret-md"])
         assert "HF_TOKEN" in src
         assert "GitHub access is not required" in src or "no GitHub" in src
         # The whole notebook (code + markdown) must never mention GITHUB_TOKEN.
@@ -370,59 +376,63 @@ class TestMarkdownNavigation:
 
 
 class TestCodeCellsUnchangedFromBaseline:
-    """PILOT-EXEC-01 label-closure: no existing code-cell source may change
-    versus the D9.6 baseline commit ``d0f8269`` (the label-closure only inserts
-    Markdown cells), except the frozen stable anchors in the setup cell that the
-    deterministic two-pass finalizer legitimately rewrites (``FROZEN_SOURCE_TAG``
-    and the four stable manifest hashes)."""
+    """PILOT-EXEC-01 D10: the D9.6 baseline-parity invariant is intentionally
+    SUPERSEDED by D10, which corrects the internal runtime/operability contract
+    (protocol 1.0 -> 1.1, pilot timeout 600 -> 1200) and adds the real
+    pilot-canary stage. These tests pin the D10 intent directly: every required
+    code cell still exists and compiles, list-backed sources preserve newlines,
+    and the D10 protocol/timeout/canary markers are present in the canonical
+    sources (so a regression cannot silently revert the contract correction)."""
 
-    BASELINE_COMMIT = "d0f82697571ecb000dd0db8047dc49294597ee13"
-    # Anchor lines the frozen tooling may rewrite (exact variable / key names).
-    ANCHOR_KEYS = (
-        "FROZEN_SOURCE_TAG",
-        "code_manifest_sha256",
-        "data_manifest_sha256",
-        "repository_snapshot_manifest_sha256",
-        "kaggle_transport_path_map_sha256",
-    )
-
-    def _load_baseline_nb(self) -> dict[str, Any]:
-        result = subprocess.run(
-            ["git", "show", f"{self.BASELINE_COMMIT}:notebooks/pilot_exec_01.ipynb"],
-            capture_output=True,
-            check=True,
-            cwd=str(PROJECT_DIR),
-        )
-        return json.loads(result.stdout.decode("utf-8"))
-
-    @staticmethod
-    def _normalize(source: str) -> str:
-        lines = [
-            ln for ln in source.replace("\r\n", "\n").splitlines()
-            if not any(
-                ln.strip().startswith(f"{key} =") or ln.strip().startswith(f'"{key}"')
-                for key in TestCodeCellsUnchangedFromBaseline.ANCHOR_KEYS
-            )
-        ]
-        return "\n".join(lines).strip()
-
-    def test_every_code_cell_source_unchanged_from_d96_baseline(self) -> None:
-        baseline = _cells_by_id(self._load_baseline_nb())
-        current = _cells_by_id(_nb())
-        for code_id in REQUIRED_CELL_ORDER:
-            assert code_id in baseline and code_id in current, f"cell missing: {code_id}"
-            assert current[code_id].get("cell_type") == "code"
-            baseline_src = _src(baseline[code_id])
-            current_src = _src(current[code_id])
-            assert (
-                self._normalize(current_src) == self._normalize(baseline_src)
-            ), f"code cell {code_id} source changed versus D9.6 baseline"
-
-
-    def test_all_code_cells_compile(self) -> None:
+    def test_all_required_code_cells_exist_and_compile(self) -> None:
         nb = _nb()
-        for cell in _code_cells(nb):
-            ast.parse(_src(cell))  # raises SyntaxError on failure
+        by_id = _cells_by_id(nb)
+        code_ids = {c.get("id", "") for c in _code_cells(nb)}
+        for code_id in REQUIRED_CELL_ORDER:
+            assert code_id in code_ids, f"required code cell missing: {code_id}"
+            ast.parse(_src(by_id[code_id]))  # raises SyntaxError on failure
+
+    def test_d10_protocol_and_timeout_correction_in_launch_resume_canary(self) -> None:
+        by_id = _cells_by_id(_nb())
+        for cid in ("dryrun-cell", "pilot-canary-cell", "pilot-launch-cell",
+                    "pilot-resume-cell"):
+            src = _src(by_id[cid])
+            assert '"1.1"' in src, f"{cid} not using protocol 1.1"
+            assert '"1200"' in src, f"{cid} not using timeout 1200"
+
+    def test_d10_resume_cell_is_standalone_and_fail_closed(self) -> None:
+        resume = _src(_cells_by_id(_nb())["pilot-resume-cell"])
+        assert 'PILOT_OUTPUT_DIR = KAGGLE_DEPLOYMENT_PATHS["runs_root"]' in resume, (
+            "resume cell must recompute PILOT_OUTPUT_DIR standalone (D10.4, the "
+            "D9.6 resume cell raised NameError: PILOT_OUTPUT_DIR not defined)"
+        )
+        assert "REJECTED_PILOT_EXPERIMENT_IDS" in resume
+        assert "REJECTED_PILOT_CONFIG_HASHES" in resume
+        assert "exp-20260830-134232" in resume
+
+    def test_d10_verify_cell_splits_terminality_from_viability(self) -> None:
+        verify = _src(_cells_by_id(_nb())["pilot-verify-cell"])
+        assert "_pilot_viability" in verify, "verify cell must use the D10.5 viability classifier"
+        assert "deadline_censored" in verify
+        assert "all records terminal (terminality)" in verify
+
+    def test_d10_canary_cell_present_and_real(self) -> None:
+        by_id = _cells_by_id(_nb())
+        canary = _src(by_id["pilot-canary-cell"])
+        assert '"--profile", "pilot-canary"' in canary
+        assert '"--backend", "kaggle-qwen"' in canary
+        assert "validate_pilot_canary_evidence" in canary
+        assert "kaggle-qwen" in canary  # never a mock/dry-run canary
+
+    def test_setup_carries_d10_protocol_timeout_rejected_exp_viability(self) -> None:
+        setup = _src(_cells_by_id(_nb())["setup-cell"])
+        assert 'EXPECTED_PROTOCOL_VERSION = "1.1"' in setup
+        assert 'EXPECTED_TIMEOUT_SECONDS = 1200' in setup
+        assert '"protocol_version": "1.1"' in setup
+        assert '"timeout_seconds": 1200' in setup
+        assert 'REJECTED_PILOT_EXPERIMENT_IDS = ("exp-20260830-134232",)' in setup
+        assert 'REJECTED_PILOT_CONFIG_HASHES = ("4b5bbcb2abcf62af",)' in setup
+        assert "def _pilot_viability(" in setup
 
     def test_list_backed_code_cell_sources_preserve_newlines(self) -> None:
         for cell in _code_cells(_nb()):
@@ -442,7 +452,8 @@ class TestFrozenIdentity:
         assert 'EXPECTED_PROFILE = "pilot"' in setup
         assert 'EXPECTED_MODEL_IDENTITY = "qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25"' in setup
         assert 'QWEN_QUANTIZATION = "bnb-nf4"' in setup
-        assert 'EXPECTED_PROTOCOL_VERSION = "1.0"' in setup
+        assert 'EXPECTED_PROTOCOL_VERSION = "1.1"' in setup
+        assert 'EXPECTED_TIMEOUT_SECONDS = 1200' in setup
 
     def test_identity_cell_reads_bundled_identity(self) -> None:
         cells = _cells_by_id(_nb())
@@ -515,9 +526,9 @@ class TestExecutionOrdering:
             "--max-attempts",
             "3",
             "--protocol-version",
-            "1.0",
+            "1.1",
             "--timeout",
-            "600",
+            "1200",
             "--hf-sync",
             "--new-experiment",
         ):
@@ -1080,10 +1091,10 @@ class TestKaggleAutoExpandedMount:
         setup = self._src("setup-cell")
         for fragment in (
             '"task": "PILOT-EXEC-01"',
-            '"protocol_version": "1.0"',
+            '"protocol_version": "1.1"',
             '"model_name": "Qwen/Qwen2.5-Coder-14B-Instruct"',
             '"quantization": "bnb-nf4"',
-            '"timeout_seconds": 600',
+            '"timeout_seconds": 1200',
             '"max_attempts": 3',
             '"max_completion_tokens_per_call": 4096',
             '"max_total_workflow_tokens": 0',
@@ -1441,11 +1452,11 @@ class TestPilotDryrunEvidenceValidatorIntegration:
                 sys.executable, "-u", str(script),
                 "--dry-run",
                 "--profile", "pilot",
-                "--protocol-version", "1.0",
+                "--protocol-version", "1.1",
                 "--max-attempts", "3",
                 "--max-completion-tokens-per-call", "4096",
                 "--max-total-workflow-tokens", "0",
-                "--timeout", "600",
+                "--timeout", "1200",
                 "--source-commit", self.SOURCE_COMMIT,
                 "--source-tag", self.SOURCE_TAG,
                 "--deployed-build-id", self.BUILT_ID,

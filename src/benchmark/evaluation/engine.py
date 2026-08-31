@@ -27,7 +27,7 @@ class EvaluationResult:
 
 @dataclass
 class EvaluationConfig:
-    protocol_version: str = "1.0"
+    protocol_version: str = "1.1"
     include_secondary: bool = True
     strict_mode: bool = False
 
