@@ -19,9 +19,16 @@
 > resume, terminality/viability split) WITHOUT touching scientific inputs. The
 > next REAL Pilot launch requires a NEW freshly-finalized artifact with its
 > own real pilot-canary pass and its own tag decision — the retired tag and the
-> `edae1b7e…8c4a` artifact are NOT reused. Artifact REMAINS `edae1b7e…8c4a`.
-> Full suite remains 2538 passed / 33 skipped / 0 failed (carried). Report:
-> `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`.
+> `edae1b7e…8c4a` artifact are NOT reused. D10.2–D10.7 implementation is
+> COMPLETE and a NEW D10 candidate artifact **`v0.9.22-d10-candidate`** was
+> built + provenance-verified FROZEN (source `0b0e2a8…`, archive
+> **`d468ee6341f9a8c652554a814d32e2ff599d0b44359f21f7e7c657eb83c1669c`** +
+> sidecar; protocol 1.1 / timeout 1200; exact-artifact dry-run 48/48; canonical
+> `validate_pilot_dryrun_evidence` PASS) — NOT a launch basis (needs a real
+> pilot-canary pass + own tag decision). Full suite (re-run 2026-08-31):
+> **2572 passed / 33 skipped / 0 failed**. Report:
+> `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`; freeze
+> `reports/pilot_notebook_trust_freeze.json`.
 >
 > **PRIOR TRUTH (2026-08-30, SUPERSEDED by the D10 all-failed relaunch closure — v0.9.22 D9.6 REAL 2×T4 PASS + STABLE-TAG
 > CLOSURE (PILOT-EXEC-01) — REAL EXACT-ARTIFACT 2×T4 PREFLIGHT PASSED ON

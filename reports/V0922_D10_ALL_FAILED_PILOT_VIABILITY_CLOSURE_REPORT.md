@@ -150,10 +150,16 @@ export outside the project dir, and the Mandatory Stop Report.
 - **D10.1** COMPLETE — truth-only closure committed + pushed (no production
   changes).
 - **D10.2–D10.6** COMPLETE — tests-first RED/GREEN; full suite re-run.
-- **D10.7** COMPLETE — freeze, docs, push, export, stop report.
+- **D10.7** COMPLETE — D10 candidate artifact `v0.9.22-d10-candidate` built +
+  provenance-verified FROZEN (source `0b0e2a8…`, archive
+  `d468ee6341f9a8c652554a814d32e2ff599d0b44359f21f7e7c657eb83c1669c`,
+  0 mismatches); docs/constants aligned; freeze commits pushed and parity
+  verified; exact-artifact dry-run 48/48 verified; project export produced
+  (see `reports/pilot_notebook_trust_freeze.json`).
 
-Full acceptance suite: see final gates in the Stop Report (expected
-`2538 passed / 33 skipped / 0 failed` carried baseline + new D10 tests).
+Full acceptance suite: **2572 passed / 33 skipped / 0 failed** (full run
+2026-08-31 re-executed after power-loss resume: includes the carried-baseline
+2538 + new D10 release-tag-alignment tests).
 
 ---
 
