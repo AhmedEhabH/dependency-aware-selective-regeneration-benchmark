@@ -163,7 +163,7 @@ def _build(tmp_path: Path, created_utc: str, source_commit: str, label: str) -> 
     return output_root, archive
 
 
-PILOT_SOURCE_TAG = "v0.9.22-pilot-exec-ready"
+PILOT_SOURCE_TAG = "v0.9.22-d10-candidate"
 
 
 def _build_frozen(
@@ -1649,4 +1649,4 @@ class TestPilotBundleKeepsMarkdownNavigation:
             )
         # Frozen source tag must still be present after the two-pass freeze.
         setup = "".join(self._src(cells["setup-cell"]))
-        assert 'FROZEN_SOURCE_TAG = "v0.9.22-pilot-exec-ready"' in setup
+        assert 'FROZEN_SOURCE_TAG = "v0.9.22-d10-candidate"' in setup
