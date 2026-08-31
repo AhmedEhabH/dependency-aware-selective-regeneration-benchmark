@@ -1,7 +1,9 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** EXACT D9.6 ARTIFACT REAL 2×T4 PREFLIGHT PASSED + STABLE TAG
-EXISTS — CURRENT v0.9.22 RELEASE. The real exact-artifact 2x T4 Kaggle model
+**Status (D10 — 2026-08-31):** REAL 48-CELL PILOT REJECTED (48/48 TERMINAL FAILURES); D10 ALL-FAILED PILOT VIABILITY CLOSURE; INTERNAL RUNTIME CONTRACT CORRECTED (PROTOCOL 1.1, TIMEOUT 1200, PILOT-CANARY GATE, STANDALONE FAIL-CLOSED RESUME, TERMINALITY/VIABILITY SPLIT); NO REAL PILOT LAUNCH AND NO TAG MOVE IN THIS CLOSURE. The next REAL Pilot launch requires a NEW freshly-finalized artifact with its own real pilot-canary pass and its own tag decision — the retired `v0.9.22-pilot-exec-ready` tag and the `edae1b7e…8c4a` artifact are NOT reused. Scientific version remains v0.9.22 (never v0.9.23); scientific inputs unchanged. Artifact REMAINS `edae1b7e…8c4a`. Full suite remains 2538 passed / 33 skipped / 0 failed (carried). Report: `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`.
+
+**Status (PRIOR — 2026-08-30, SUPERSEDED by D10):** EXACT D9.6 ARTIFACT REAL 2×T4 PREFLIGHT PASSED + STABLE TAG
+EXISTS — v0.9.22 RELEASE. The real exact-artifact 2x T4 Kaggle model
 preflight PASSED on 2026-08-30 against the exact D9.6 artifact
 `dist/pilot-kaggle-upload.zip` SHA-256
 `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (source

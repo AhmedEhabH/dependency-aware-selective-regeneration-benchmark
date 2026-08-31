@@ -9,7 +9,23 @@
 [![Tests](https://img.shields.io/badge/tests-2%2C532%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
-> **Current v0.9.22 release (2026-08-30, D9.6 REAL 2×T4 PASS + STABLE-TAG
+> **Current v0.9.22 release (2026-08-31, D10 ALL-FAILED PILOT VIABILITY
+> CLOSURE (PILOT-EXEC-01):** the one permitted real 48-cell Pilot launched
+> from the exact D9.6 artifact on 2026-08-30 completed with 48/48 terminal
+> failures / 0 succeeded / 0 evaluator-passed (`exp-20260830-134232`). It is
+> REJECTED and preserved verbatim, never resumed or counted. The stable
+> annotated tag `v0.9.22-pilot-exec-ready` still exists but is retired as a
+> launch candidate. D10 (D10.1–D10.7) corrects the internal runtime contract
+> (protocol 1.1, timeout 1200, pilot-canary gate, standalone fail-closed
+> resume, terminality/viability split) WITHOUT touching scientific inputs. The
+> next REAL Pilot launch requires a NEW freshly-finalized artifact with its
+> own real pilot-canary pass and its own tag decision. Artifact REMAINS
+> `edae1b7e…8c4a`; no rebuild / no finalizer run for this closure. Scientific
+> contract unchanged; remains v0.9.22 (never v0.9.23); full suite remains
+> previously accepted 2538 passed / 33 skipped / 0 failed (carried). Report:
+> `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`.
+>
+> **Current besides: PRIOR (2026-08-30, SUPERSEDED by D10 — v0.9.22 D9.6 REAL 2×T4 PASS + STABLE-TAG
 > CLOSURE (PILOT-EXEC-01):** the real exact-artifact 2x T4 Kaggle model
 > preflight PASSED on 2026-08-30 against the exact D9.6 artifact
 > `dist/pilot-kaggle-upload.zip` SHA-256

@@ -1,6 +1,9 @@
 # TODO
 
-> **CURRENT BOARD (2026-08-30, v0.9.22 D9.6 — REAL 2×T4 PREFLIGHT PASS + STABLE TAG CREATED; PILOT LAUNCH REMAINS — PILOT-EXEC-01).** Authoritative snapshot:
+> **CURRENT BOARD (2026-08-31, v0.9.22 D10 ALL-FAILED PILOT VIABILITY CLOSURE (PILOT-EXEC-01) — REAL 48-CELL PILOT `exp-20260830-134232` FINISHED 48/48 TERMINAL FAILURES (0 SUCCEEDED, 0 EVALUATOR-PASSED) AND IS REJECTED; STABLE ANNOTATED TAG `v0.9.22-pilot-exec-ready` UNCHANGED BUT RETIRED AS A LAUNCH CANDIDATE; INTERNAL RUNTIME CONTRACT CORRECTED (PROTOCOL 1.1, TIMEOUT 1200, PILOT-CANARY GATE, STANDALONE FAIL-CLOSED RESUME, TERMINALITY/VIABILITY SPLIT); NO REAL PILOT LAUNCH AND NO TAG MOVE IN THIS CLOSURE).** Authoritative snapshot:
+> `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`. D10 report: `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`. Next REAL Pilot launch requires a NEW freshly-finalized artifact (protocol 1.1, 1200 s, corrected resume + terminality/viability) with its own real pilot-canary pass and its own tag decision — the retired tag and the `edae1b7e…8c4a` artifact are NOT reused as a launch basis. The prior D9.6 board entry below is demoted to PRIOR.
+>
+> **PRIOR BOARD (2026-08-30, SUPERSEDED by the D10 all-failed relaunch closure — v0.9.22 D9.6 — REAL 2×T4 PREFLIGHT PASS + STABLE TAG CREATED; PILOT LAUNCH REMAINS — PILOT-EXEC-01).** Authoritative snapshot:
 > `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`. Everything below the board is the
 > historical task ledger (valuable history — do not delete; headings marked
 > HISTORICAL are superseded and never override the board).
