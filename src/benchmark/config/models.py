@@ -82,7 +82,7 @@ class OutputConfig(BaseModel, frozen=True):
 
 
 class BenchmarkConfig(BaseModel, frozen=True):
-    protocol_version: str = "1.0"
+    protocol_version: str = "1.1"
     execution_mode: Literal["local", "kaggle"] = "local"
     strategies: list[StrategyConfig] = Field(default_factory=list)
     backends: list[BackendConfig] = Field(default_factory=list)

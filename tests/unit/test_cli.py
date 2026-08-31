@@ -806,7 +806,7 @@ class TestScientificSmokeV1Profile:
         pilot = PROFILES["pilot"]
         assert pilot.strategies == ["iterative_repository_agent", "selective"]
         assert pilot.repetitions == 2
-        assert pilot.timeout_seconds == 600
+        assert pilot.timeout_seconds == 1200
         assert pilot.scenario_ids == [
             "todo-loc-001",
             "todo-loc-002",
@@ -821,6 +821,15 @@ class TestScientificSmokeV1Profile:
             "saleor-mod-004",
             "saleor-cross-007",
         ]
+
+    def test_pilot_canary_profile_selection(self) -> None:
+        from seven_arm_benchmark import PROFILES
+        canary = PROFILES["pilot-canary"]
+        assert canary.strategies == ["iterative_repository_agent", "selective"]
+        assert canary.repetitions == 1
+        assert canary.timeout_seconds == 1200
+        assert canary.repository_names == ["todo", "djangocms"]
+        assert canary.scenario_ids == ["todo-loc-001", "djangocms-cross-007"]
 
     def test_research_profile_selection_unchanged(self) -> None:
         from seven_arm_benchmark import PROFILES

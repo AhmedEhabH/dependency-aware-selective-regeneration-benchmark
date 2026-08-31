@@ -70,10 +70,10 @@ PILOT_SCENARIO_IDS = [
 
 FROZEN_IDENTITY = {
     "task": "PILOT-EXEC-01",
-    "protocol_version": "1.0",
+    "protocol_version": "1.1",
     "model_name": "Qwen/Qwen2.5-Coder-14B-Instruct",
     "quantization": "bnb-nf4",
-    "timeout_seconds": 600,
+    "timeout_seconds": 1200,
     "max_attempts": 3,
     "max_completion_tokens_per_call": 4096,
     "max_total_workflow_tokens": 0,
@@ -408,7 +408,7 @@ class TestPilotBundleRuntime:
             cwd=tmp_path,
         )
         assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
-        assert result.stdout.strip() == "12 12 2 iterative_repository_agent,selective 600"
+        assert result.stdout.strip() == "12 12 2 iterative_repository_agent,selective 1200"
 
     def test_bundled_exact_dry_run_pilot_48_unique_cells(self, tmp_path: Path) -> None:
         output_root, _archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "dryrun")
@@ -1561,11 +1561,12 @@ class TestPilotBundleKeepsMarkdownNavigation:
         "pilot-step-03-repository-preflight-md": "pilot-repo-preflight-cell",
         "pilot-step-04-gpu-model-input-md": "gpu-verify-cell",
         "pilot-step-05-model-preflight-md": "model-preflight-cell",
-        "pilot-step-06-dryrun-md": "dryrun-cell",
-        "pilot-step-07-hf-secret-md": "secrets-cell",
-        "pilot-step-08-launch-md": "pilot-launch-cell",
-        "pilot-step-09-resume-md": "pilot-resume-cell",
-        "pilot-step-10-verify-export-md": "pilot-verify-cell",
+        "pilot-step-06-hf-secret-md": "secrets-cell",
+        "pilot-step-07-pilot-canary-md": "pilot-canary-cell",
+        "pilot-step-08-dryrun-md": "dryrun-cell",
+        "pilot-step-09-launch-md": "pilot-launch-cell",
+        "pilot-step-10-resume-md": "pilot-resume-cell",
+        "pilot-step-11-verify-export-md": "pilot-verify-cell",
     }
 
     @staticmethod
@@ -1605,8 +1606,9 @@ class TestPilotBundleKeepsMarkdownNavigation:
             "pilot-repo-preflight-cell",
             "gpu-verify-cell",
             "model-preflight-cell",
-            "dryrun-cell",
             "secrets-cell",
+            "pilot-canary-cell",
+            "dryrun-cell",
             "pilot-launch-cell",
             "pilot-resume-cell",
             "pilot-verify-cell",
@@ -1629,13 +1631,16 @@ class TestPilotBundleKeepsMarkdownNavigation:
             ),
             "pilot-step-04-gpu-model-input-md": "## 4. GPU and Qwen Input Verification",
             "pilot-step-05-model-preflight-md": "## 5. Model Preflight Only",
-            "pilot-step-06-dryrun-md": "## 6. Exact-Artifact 48-Cell Dry Run",
-            "pilot-step-07-hf-secret-md": "## 7. Hugging Face Results Secret",
-            "pilot-step-08-launch-md": (
-                "## 8. Pilot Launch \u2014 STOP Until Stable Tag Is Confirmed"
+            "pilot-step-06-hf-secret-md": "## 6. Hugging Face Results Secret",
+            "pilot-step-07-pilot-canary-md": (
+                "## 7. Pilot-Canary \u2014 Real End-to-End Gate (D10.3)"
             ),
-            "pilot-step-09-resume-md": "## 9. Resume After External Interruption Only",
-            "pilot-step-10-verify-export-md": "## 10. Final Verification and Export",
+            "pilot-step-08-dryrun-md": "## 8. Exact-Artifact 48-Cell Dry Run",
+            "pilot-step-09-launch-md": (
+                "## 9. Pilot Launch \u2014 STOP Until Stable Tag Is Confirmed"
+            ),
+            "pilot-step-10-resume-md": "## 10. Resume After External Interruption Only",
+            "pilot-step-11-verify-export-md": "## 11. Final Verification and Export",
         }
         for md_id, heading in expected.items():
             assert md_id in cells, f"missing navigation cell in frozen bundle: {md_id}"

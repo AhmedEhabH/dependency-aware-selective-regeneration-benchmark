@@ -510,7 +510,7 @@ class TestValidationTimeoutContract:
                 if isinstance(value, ast.Constant) and value.value == "--timeout"
             ]
             assert len(scientific_timeout_indices) == 1, cid
-            _assert_string(elements[scientific_timeout_indices[0] + 1], "600")
+            _assert_string(elements[scientific_timeout_indices[0] + 1], "1200")
             checked += 1
         assert checked == 2
         dryrun = "".join(next(c for c in nb["cells"] if c.get("id") == "dryrun-cell")["source"])

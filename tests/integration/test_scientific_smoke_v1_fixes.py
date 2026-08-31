@@ -1634,6 +1634,7 @@ class TestExecutionContract:
         # 12: checkpoint scenario_ids match filtered set
         cp = CheckpointData(
             profile="scientific-smoke-v1",
+            protocol_version="1.0",
             execution_plan_hash="test_hash",
             planned_run_ids=["r1", "r2", "r3"],
             completed_run_ids=[],
@@ -1645,6 +1646,7 @@ class TestExecutionContract:
         # 13: partial checkpoint — completed=1, pending=2
         cp_partial = CheckpointData(
             profile="scientific-smoke-v1",
+            protocol_version="1.0",
             execution_plan_hash="test_hash",
             planned_run_ids=["r1", "r2", "r3"],
             completed_run_ids=["r1"],
@@ -1689,6 +1691,7 @@ class TestExecutionContract:
         # Build a checkpoint that mirrors what production would produce after one completed run
         cp = CheckpointData(
             profile="scientific-smoke-v1",
+            protocol_version="1.0",
             execution_plan_hash="abc123",
             planned_run_ids=["monolithic_todo-loc-001_r1", "selective_todo-loc-001_r1", "iterative_todo-loc-001_r1"],
             completed_run_ids=["monolithic_todo-loc-001_r1"],
@@ -1804,6 +1807,7 @@ class TestExecutionContract:
 
         cp = CheckpointData(
             profile="scientific-smoke-v1",
+            protocol_version="1.0",
             execution_plan_hash="abc",
             planned_run_ids=["r1", "r2", "r3"],
             completed_run_ids=["r1"],
