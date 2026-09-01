@@ -36,7 +36,55 @@ Do not read entire repository, generated code (unless verifying derivatives), da
 
 ## Release facts
 
-> **CURRENT TRUTH (2026-08-31, v0.9.22 D10 ALL-FAILED PILOT VIABILITY CLOSURE
+> **CURRENT TRUTH (2026-09-01, v0.9.22 D11 PRE-PILOT VIABILITY GATE CLOSURE
+> (PILOT-EXEC-01) — PILOT CANARY TOPOLOGY MADE SALEOR-INCLUSIVE 6-CELL
+> (todo/djangocms/saleor), PROTOCOL-PROFILE RESOLUTION SEPARATED PLOT-CANARY
+> 1.1 FROM OTHER PROFILES 1.0, VALIDATION MANIFEST PROTOCOL PARITY RESTORED,
+> EXECUTABLE CANARY INTEGRATION COVERAGE ADDED, D11 CANDIDATE
+> `v0.9.22-d11-candidate` BUILT + PROVENANCE-VERIFIED FROZEN; NOT A RELEASE;
+> NO STABLE TAG MOVE):** branch
+> `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`. D11 (B1–B4)
+> corrects the pilot-canary operational topology WITHOUT touching any
+> scientific input (model Qwen2.5-Coder-14B-Instruct, BNB-NF4, sdpa
+> `flash_or_efficient_no_math`, GQA `repeat_kv_sm75`, 12 scenarios, 3 repo pins
+> Todo/django CMS/Saleor, 2 strategies, 2 reps = 48 cells): B1 the
+> `pilot-canary` profile now represents ALL THREE Pilot repos as a 6-cell matrix
+> (3 canary scenarios `todo-loc-001`/`djangocms-cross-007`/`saleor-loc-001`, 2
+> strategies, 1 rep) and the fix for the contradictory `blast_radii` filter that
+> dropped `djangocms-cross-007` (cross_cutting) and made the canary uncallable;
+> `validate_pilot_canary_evidence` defaults are 3-repo / 6-cell with 2/2/2 repo
+> counts (was internally 1-repo / 1-cell in D10's default path); B2 the
+> `--protocol-version` CLI default is now profile-derived via
+> `resolve_profile_protocol` (pilot/pilot-canary → 1.1; smoke/research/
+> scientific-smoke-v1/v2 → 1.0; explicit `--protocol-version` always overrides
+> — fixes the pre-D11 bug where the CLI default 1.1 leaked into dry-run and
+> other profiles); B3 `benchmark_data/manifests/pilot_validation_commands.yaml`
+> `protocol_version` 1.0 → 1.1 to mirror `configs/pilot.yaml` (parity enforced
+> by new tests); B4 a new executable integration test invokes the actual CLI in
+> dry-run mode against canonical scenario data and proves the six-cell
+> saleor-inclusive canary topology. The D11 candidate artifact
+> `v0.9.22-d11-candidate` was built + **provenance-verified FROZEN**
+> (`--verify-source-provenance`, 0 mismatches): builds `b07da1a` (code) →
+> `c1c892b` (notebook anchor refresh + freeze report) → `224c5a9`
+> (provenance-verified freeze report); archive SHA-256
+> **`4554dced6a438893ed01cbdbce9756613c0b0951459a43eb9a4a467edee4cb8a`**
+> (+ sidecar verified) from source commit `c1c892b…`; full suite **2585 passed
+> / 33 skipped / 0 failed**; exact-artifact dry-runs with the bundled code/data/
+> notebook: Pilot **48/48** (repos 16/16/16, strategies 24/24, reps {1:24,2:24},
+> 0 model calls, 0 tokens, protocol 1.1, canonical `validate_pilot_dryrun_evidence`
+> PASS) and pilot-canary **6/6** (repos 2/2/2, strategies 3/3, rep 1:6, 0 model
+> calls, 0 tokens, protocol 1.1). This candidate is **NOT** a launch basis: the
+> next REAL Pilot launch requires a real pilot-canary pass on this or a fresh
+> exact candidate with its own tag decision. The retired
+> `v0.9.22-pilot-exec-ready` tag (peel `478261ff…`) and the `edae1b7e…8c4a`
+> artifact are NOT reused; the D10 candidate (`v0.9.22-d10-candidate`, archive
+> `d468ee63…`) is SUPERSEDED by D11. Never resume `exp-20260828-151335` (zero
+> accepted RunRecords); `exp-20260830-134232` remains REJECTED (48/48 terminal
+> failures). Report: `reports/V0922_D11_PILOT_CANARY_SALEOR_INCLUSIVE_CLOSURE_REPORT.md`;
+> freeze `reports/pilot_notebook_trust_freeze.json`.
+
+> **PRIOR TRUTH (2026-08-31, SUPERSEDED by the D11 saleor-inclusive canary
+> closure — v0.9.22 D10 ALL-FAILED PILOT VIABILITY CLOSURE
 > (PILOT-EXEC-01) — REAL 48-CELL PILOT `exp-20260830-134232` FINISHED 48/48
 > TERMINAL FAILURES (0 SUCCEEDED, 0 EVALUATOR-PASSED) AND IS REJECTED; STABLE
 > ANNOTATED TAG `v0.9.22-pilot-exec-ready` UNCHANGED BUT RETIRED AS A LAUNCH
@@ -507,7 +555,8 @@ by the v0.9.22 candidate. Report:
 
 - **Accepted release/tag:** `v0.9.21-pilot-exec-ready` @ tag peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive `62e377467e225d336cbcaa70a2c610b5080e329e1a4e6578fbcbdc1af7dbee40`; trust/provenance 0 mismatches; target-shaped CI green with Gates 1-3 (runs 32692489617 / 32694137255) — **superseded as launch candidate by the v0.9.22 attention closure (Real Pilot rejected before launch at the real 12k attention-prefill OOM); no v0.9.22 stable tag until the real 2x T4 12k probe PASSES**
 - **v0.9.22 candidate (CURRENT, D9.6 — REAL 2×T4 PREFLIGHT PASS + STABLE TAG CREATED):** branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`; D1–D9.6 closures complete; full suite 2538 passed / 33 skipped / 0 failed; exact final-artifact dry-run 48/48 (48 unique IDs, repos 16/16/16, strategies 24/24, reps 24/24, 0 calls/tokens, every record source commit/get build id == `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`); exact artifact SHA `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (+ sidecar verified) from tag target/source commit `478261f…` (D9.6 notebook-markdown cell-labels closure on top of the D9.6 Kaggle/GitHub boundary correction — 11 exact Markdown navigation cells + pre-launch STOP boundary, nothing scientific/runtime changed, boundary correction unchanged; supersedes `6ff1c93…`/`03d8d0ae…` and all earlier candidates); trust/provenance 0 mismatches, FROZEN, idempotent, stable manifest hashes unchanged from D9.6; the Kaggle launch/resume cells never contact GitHub; the **real exact-artifact 2×T4 preflight PASSED on 2026-08-30** (GQA microprobe on both `cuda:0`/`cuda:1`, sdpa `flash_or_efficient_no_math` `repeat_kv_sm75`, short probe 17 tokens, generation-deadline canary timeout/4 tokens, 12k long-context 12044/64, repo preflight overall PASS) and the annotated stable tag **`v0.9.22-pilot-exec-ready` now EXISTS and peels to `478261ff...`** (tag object `fdcb409670e040a287811840ddbcab475816a7e5`, pushed to origin, verified with configured authenticated credentials); artifact remains `edae1b7e…8c4a`, no rebuild/finalizer was run; the real 48-cell Pilot has **NOT** started (only Step 8 `pilot-launch-cell` remains, in the still-live Kaggle session); never resume `exp-20260828-151335`
-- **v0.9.22 D10 candidate (CURRENT — D10.2–D10.7 complete; NOT a release; NO stable tag move):** D10 corrects the internal runtime/operability contract WITHOUT touching scientific inputs. The D10.2–D10.7 implementation (protocol_version 1.0→1.1, Pilot timeout 600→1200 uniformly both strategies, real end-to-end pilot-canary mode + canonical fail-closed `validate_pilot_canary_evidence` gate, standalone fail-closed resume against rejected experiment IDs, terminality-vs-viability split, tests-first RED/GREEN) is complete and pushed. A NEW D10 candidate artifact `v0.9.22-d10-candidate` was built + **provenance-verified FROZEN** (`--verify-source-provenance`, 0 mismatches): archive SHA-256 **`d468ee6341f9a8c652554a814d32e2ff599d0b44359f21f7e7c657eb83c1669c`** (+ sidecar verified) from source commit `0b0e2a8…` (build: 0cb8cc9 code + notebook anchor refresh + freeze report 6b0a88c + release-tag alignment a5c2f02); full suite **2572 passed / 33 skipped / 0 failed**; exact-artifact dry-run 48/48 (bundled exact + expanded-mode; bundled canary gate, protocol 1.1/1200, canonical `validate_pilot_dryrun_evidence` PASS). This candidate is **NOT** a launch basis either: the next REAL Pilot launch requires a real pilot-canary pass on this or a fresh exact candidate with its own tag decision. The retired `v0.9.22-pilot-exec-ready` tag (peel `478261ff…`) and the `edae1b7e…8c4a` artifact are NOT reused. Report: `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`; freeze `reports/pilot_notebook_trust_freeze.json`.
+- **v0.9.22 D11 candidate (CURRENT — D11 B1–B4 complete; NOT a release; NO stable tag move):** the D11 pre-pilot viability gate corrects the pilot-canary operational topology WITHOUT touching scientific inputs. B1 `pilot-canary` profile now represents ALL THREE Pilot repos as a 6-cell matrix (todo-loc-001/djangocms-cross-007/saleor-loc-001 × 2 strategies × 1 rep; fixes the contradictory blast_radii filter that dropped `djangocms-cross-007`); `validate_pilot_canary_evidence` defaults 3-repo / 6-cell (2/2/2 repos, 3/3 strategies, rep1=6); B2 `--protocol-version` CLI default profile-derived via `resolve_profile_protocol` (pilot/pilot-canary → 1.1; all other profiles → 1.0; explicit override always wins); B3 validation-manifest `protocol_version` 1.0 → 1.1 parity with `configs/pilot.yaml`; B4 new executable canary integration test. **D11 candidate artifact `v0.9.22-d11-candidate` built + provenance-verified FROZEN** (`--verify-source-provenance`, 0 mismatches): builds `b07da1a` (code) → `c1c892b` (notebook anchor refresh + freeze report) → `224c5a9` (provenance-verified freeze report); archive SHA-256 **`4554dced6a438893ed01cbdbce9756613c0b0951459a43eb9a4a467edee4cb8a`** (+ sidecar verified) from source commit `c1c892b…`; full suite **2585 passed / 33 skipped / 0 failed**; exact-artifact dry-runs (bundled exact): Pilot **48/48** + pilot-canary **6/6**, protocol 1.1 both, canonical `validate_pilot_dryrun_evidence` PASS. This candidate is **NOT** a launch basis: next REAL Pilot launch requires a real pilot-canary pass on this or a fresh exact candidate with its own tag decision. The retired `v0.9.22-pilot-exec-ready` tag (peel `478261ff…`) and the `edae1b7e…8c4a` artifact are NOT reused; the D10 candidate (`v0.9.22-d10-candidate`, archive `d468ee63…`) is SUPERSEDED. Report: `reports/V0922_D11_PILOT_CANARY_SALEOR_INCLUSIVE_CLOSURE_REPORT.md`; freeze `reports/pilot_notebook_trust_freeze.json`.
+- **v0.9.22 D10 candidate (PRIOR — SUPERSEDED by D11; D10.2–D10.7 complete; NOT a release; NO stable tag move):** D10 corrects the internal runtime/operability contract WITHOUT touching scientific inputs. The D10.2–D10.7 implementation (protocol_version 1.0→1.1, Pilot timeout 600→1200 uniformly both strategies, real end-to-end pilot-canary mode + canonical fail-closed `validate_pilot_canary_evidence` gate, standalone fail-closed resume against rejected experiment IDs, terminality-vs-viability split, tests-first RED/GREEN) is complete and pushed. A NEW D10 candidate artifact `v0.9.22-d10-candidate` was built + **provenance-verified FROZEN** (`--verify-source-provenance`, 0 mismatches): archive SHA-256 **`d468ee6341f9a8c652554a814d32e2ff599d0b44359f21f7e7c657eb83c1669c`** (+ sidecar verified) from source commit `0b0e2a8…` (build: 0cb8cc9 code + notebook anchor refresh + freeze report 6b0a88c + release-tag alignment a5c2f02); full suite **2572 passed / 33 skipped / 0 failed**; exact-artifact dry-run 48/48 (bundled exact + expanded-mode; bundled canary gate, protocol 1.1/1200, canonical `validate_pilot_dryrun_evidence` PASS). This candidate is **NOT** a launch basis either: the next REAL Pilot launch requires a real pilot-canary pass on this or a fresh exact candidate with its own tag decision. The retired `v0.9.22-pilot-exec-ready` tag (peel `478261ff…`) and the `edae1b7e…8c4a` artifact are NOT reused. Report: `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`; freeze `reports/pilot_notebook_trust_freeze.json`.
 - **v0.9.20 status:** internally trustworthy; no-model target preflight GREEN; superseded for Real Pilot launch by v0.9.21 after the independent audit found the per-cell validation runtime parity blockers (B1 interpreter routing / B2 frozen env discarded / B3 180s timeout below measured runtime)
 - **v0.9.19 status:** REJECTED FOR PILOT LAUNCH 2026-08-24 — real Kaggle Saleor fast-gate Pytest exit 5 (artifact itself was internally GREEN; superseded by v0.9.20)
 - **v0.9.18 status:** RELEASE-ONLY CLOSURE (release-only provenance/docs correction; no scientific or production code changes) — historical

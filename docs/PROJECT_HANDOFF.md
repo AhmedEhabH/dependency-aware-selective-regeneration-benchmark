@@ -1,6 +1,38 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-31, v0.9.22 D10 ALL-FAILED PILOT VIABILITY CLOSURE
+> **CURRENT STATE (2026-09-01, v0.9.22 D11 PRE-PILOT VIABILITY GATE CLOSURE
+> (PILOT-EXEC-01) — PILOT CANARY TOPOLOGY MADE SALEOR-INCLUSIVE 6-CELL
+> (todo/djangocms/saleor), PROTOCOL-PROFILE RESOLUTION SEPARATED PILOT-CANARY
+> 1.1 FROM OTHER PROFILES 1.0, VALIDATION MANIFEST PROTOCOL PARITY RESTORED,
+> EXECUTABLE CANARY INTEGRATION COVERAGE ADDED, D11 CANDIDATE
+> `v0.9.22-d11-candidate` BUILT + PROVENANCE-VERIFIED FROZEN; NOT A RELEASE;
+> NO STABLE TAG MOVE):** D11 (B1–B4) corrects the pilot-canary operational
+> topology WITHOUT touching scientific inputs (model Qwen2.5-Coder-14B-Instruct,
+> BNB-NF4, sdpa `flash_or_efficient_no_math`, GQA `repeat_kv_sm75`, 12
+> scenarios, 3 repo pins Todo/django CMS/Saleor, 2 strategies, 2 reps = 48
+> cells). B1 the `pilot-canary` profile now represents ALL THREE Pilot repos as
+> a 6-cell matrix (3 canary scenarios `todo-loc-001`/`djangocms-cross-007`/
+> `saleor-loc-001`, 2 strategies, 1 rep) — the fix for the contradictory
+> `blast_radii` filter that dropped `djangocms-cross-007` (cross_cutting) and
+> made the canary uncallable; `validate_pilot_canary_evidence` defaults 3-repo /
+> 6-cell with 2/2/2 repo counts. B2 `--protocol-version` CLI default is
+> profile-derived via `resolve_profile_protocol` (pilot/pilot-canary → 1.1; all
+> other profiles → 1.0; explicit always overrides). B3 validation-manifest
+> `protocol_version` 1.0 → 1.1 parity with `configs/pilot.yaml`. B4 a new
+> executable integration test proves the six-cell saleor-inclusive canary. The
+> D11 candidate artifact **`v0.9.22-d11-candidate`** was built +
+> provenance-verified FROZEN (source commit `c1c892b…`, archive SHA-256
+> **`4554dced6a438893ed01cbdbce9756613c0b0951459a43eb9a4a467edee4cb8a`** +
+> sidecar verified; protocol 1.1; exact-artifact dry-runs Pilot **48/48** +
+> canary **6/6**, canonical `validate_pilot_dryrun_evidence` PASS). This
+> candidate is NOT a launch basis — it still requires a real pilot-canary pass
+> and its own tag decision. Full suite: **2585 passed / 33 skipped / 0
+> failed**. Report:
+> `reports/V0922_D11_PILOT_CANARY_SALEOR_INCLUSIVE_CLOSURE_REPORT.md`; freeze
+> `reports/pilot_notebook_trust_freeze.json`.
+>
+> **PRIOR STATE (2026-08-31, SUPERSEDED by the D11 saleor-inclusive canary
+> closure — v0.9.22 D10 ALL-FAILED PILOT VIABILITY CLOSURE
 > (PILOT-EXEC-01) — REAL 48-CELL PILOT `exp-20260830-134232` FINISHED 48/48
 > TERMINAL FAILURES (0 SUCCEEDED, 0 EVALUATOR-PASSED) AND IS REJECTED; STABLE
 > ANNOTATED TAG `v0.9.22-pilot-exec-ready` UNCHANGED BUT RETIRED AS A LAUNCH
@@ -26,8 +58,8 @@
 > + sidecar verified; protocol 1.1 / timeout 1200; exact-artifact dry-run
 > 48/48; canonical `validate_pilot_dryrun_evidence` PASS). This candidate is
 > NOT a launch basis — it still requires a real pilot-canary pass and its own
-> tag decision. Full suite (re-run 2026-08-31 after power-loss resume):
-> **2572 passed / 33 skipped / 0 failed**. Report:
+> tag decision (and is SUPERSEDED by D11). Full suite (re-run 2026-08-31 after
+> power-loss resume): **2572 passed / 33 skipped / 0 failed**. Report:
 > `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`; freeze
 > `reports/pilot_notebook_trust_freeze.json`.
 >
