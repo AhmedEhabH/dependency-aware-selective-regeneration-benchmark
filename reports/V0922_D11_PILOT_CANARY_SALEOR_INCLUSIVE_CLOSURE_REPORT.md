@@ -1,10 +1,11 @@
+IMPLEMENTATION_MODEL_USED=opencode/big-pickle
+
 # v0.9.22 D11 — PILOT-CANARY SALEOR-INCLUSIVE PRE-PILOT VIABILITY GATE CLOSURE REPORT (PILOT-EXEC-01)
 
 **Report Date:** 2026-09-01
 **Project:** Dependency-Aware Selective Regeneration Benchmark
 **Branch:** `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`
 **Task Pack:** `_workspace/active/00_EXECUTE_D11.md`
-**IMPLEMENTATION_MODEL_USED=opencode/big-pickle**
 **Builds:** `b07da1a` (code) → `c1c892b` (notebook anchor refresh + freeze report) → `224c5a9` (provenance-verified freeze report)
 
 ---
