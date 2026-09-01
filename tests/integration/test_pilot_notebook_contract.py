@@ -553,6 +553,88 @@ class TestExecutionOrdering:
         assert "--new-experiment" not in tokens
 
 
+class TestD12ScriptPathOrchestration:
+    """D12 regression: SCRIPT_PATH must exist before pilot-canary-cell uses it."""
+
+    @staticmethod
+    def _assigns_script_path(source: str) -> bool:
+        tree = ast.parse(source)
+        return any(
+            isinstance(node, ast.Assign)
+            and any(
+                isinstance(t, ast.Name) and t.id == "SCRIPT_PATH"
+                for t in node.targets
+            )
+            for node in tree.body
+        )
+
+    @staticmethod
+    def _uses_script_path(source: str) -> bool:
+        tree = ast.parse(source)
+        return any(
+            isinstance(n, ast.Name) and n.id == "SCRIPT_PATH"
+            for n in ast.walk(tree)
+        )
+
+    def test_script_path_defined_in_cell_before_first_canary_use(self) -> None:
+        nb = _nb()
+        cells = nb["cells"]
+        canary_index = [
+            i for i, c in enumerate(cells) if c.get("id") == "pilot-canary-cell"
+        ][0]
+        defining = [
+            i
+            for i, c in enumerate(cells)
+            if c.get("cell_type") == "code" and self._assigns_script_path(_src(c))
+        ]
+        assert len(defining) == 1, (
+            "expected exactly one canonical SCRIPT_PATH definition, "
+            f"found in cells {defining}"
+        )
+        defining_index = defining[0]
+        assert defining_index < canary_index, (
+            f"SCRIPT_PATH first defined in cell {defining_index} but "
+            f"pilot-canary-cell (cell {canary_index}) needs it earlier"
+        )
+
+    def test_no_cell_uses_script_path_before_canonical_definition(self) -> None:
+        nb = _nb()
+        cells = nb["cells"]
+        defining = [
+            i
+            for i, c in enumerate(cells)
+            if c.get("cell_type") == "code" and self._assigns_script_path(_src(c))
+        ]
+        assert len(defining) == 1
+        offenders = [
+            i
+            for i, c in enumerate(cells[: defining[0]])
+            if c.get("cell_type") == "code"
+            and c.get("id", "") != "pilot-archive-verify-cell"
+            and self._uses_script_path(_src(c))
+        ]
+        assert not offenders, (
+            f"cells use SCRIPT_PATH before it is defined: {offenders}"
+        )
+
+    def test_canonical_definition_lives_in_archive_verify_cell_with_guard(
+        self,
+    ) -> None:
+        src = _src(_cells_by_id(_nb())["pilot-archive-verify-cell"])
+        assert 'SCRIPT_PATH = CODE_DIR / "seven_arm_benchmark.py"' in src
+        assert "FileNotFoundError" in src
+        defining_cells = [
+            c.get("id", "")
+            for c in _code_cells(_nb())
+            if self._assigns_script_path(_src(c))
+        ]
+        assert defining_cells == ["pilot-archive-verify-cell"]
+
+    def test_all_code_cells_still_parse(self) -> None:
+        for cell in _code_cells(_nb()):
+            ast.parse(_src(cell), filename=cell.get("id", "<cell>"))
+
+
 class TestServiceBootstrap:
     def _index(self, cell_id: str) -> int:
         return [c.get("id", "") for c in _nb()["cells"]].index(cell_id)
