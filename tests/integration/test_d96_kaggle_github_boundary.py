@@ -74,7 +74,7 @@ REQUIRED_DOC_MARKERS = (
     "owner-controlled",
     "locally verified against",
     "after real preflight",
-    "v0.9.22-d10-candidate",
+    "v0.9.22-d11-candidate",
 )
 
 
