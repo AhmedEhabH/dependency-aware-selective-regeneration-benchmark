@@ -291,15 +291,16 @@ PROFILES: dict[str, ExecutionProfile] = {
     "pilot-canary": ExecutionProfile(
         name="pilot-canary",
         label="pilot-canary",
-        scenario_count=2,
+        scenario_count=3,
         strategies=["iterative_repository_agent", "selective"],
         repetitions=1,
         is_publication=False,
-        description="D10.3 real end-to-end pilot-canary: 2 scenarios x 2 strategies x 1 rep "
+        description="D11: real end-to-end pilot-canary representing ALL Pilot repos "
+        "(todo/djangocms/saleor): 3 scenarios x 2 strategies x 1 rep = 6 cells "
         "(select -> regenerate -> repair -> validate), small but not a no-op",
-        repository_names=["todo", "djangocms"],
-        blast_radii=["localized"],
-        scenario_ids=["todo-loc-001", "djangocms-cross-007"],
+        repository_names=["todo", "djangocms", "saleor"],
+        blast_radii=["localized", "cross_cutting"],
+        scenario_ids=["todo-loc-001", "djangocms-cross-007", "saleor-loc-001"],
         timeout_seconds=1200,
     ),
     "research": ExecutionProfile(
@@ -340,6 +341,21 @@ PROFILES: dict[str, ExecutionProfile] = {
         timeout_seconds=300,
     ),
 }
+
+
+def resolve_profile_protocol(profile_name: str, explicit: str | None = None) -> str:
+    """Resolve the protocol version for a profile (D11 B2).
+
+    Only the Pilot contract (``pilot`` and ``pilot-canary``) is protocol 1.1;
+    every other profile defaults to 1.0 so the Pilot protocol correction never
+    leaks into non-Pilot profiles (smoke/research/scientific-smoke-v1/v2). An
+    explicit ``--protocol-version`` always overrides the profile-derived value.
+    """
+    if explicit is not None:
+        return explicit
+    if profile_name in ("pilot", "pilot-canary"):
+        return "1.1"
+    return "1.0"
 
 # ---------------------------------------------------------------------------
 # ScenarioProvider wrapper
@@ -904,8 +920,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--protocol-version",
         type=str,
-        default="1.1",
-        help="Research protocol version string",
+        default=None,
+        help=(
+            "Research protocol version string. When omitted it is derived from "
+            "the profile: pilot and pilot-canary default to 1.1, all other "
+            "profiles default to 1.0 (D11 B2)."
+        ),
     )
     parser.add_argument(
         "--data-dir",
@@ -1929,6 +1949,16 @@ def main() -> int:
     scenarios_dir = data_dir / "scenarios"
 
     profile = PROFILES[args.profile]
+
+    # D11 B2: resolve the per-profile default protocol (pilot/pilot-canary ->
+    # 1.1, all other profiles -> 1.0) unless the user passed an explicit
+    # --protocol-version. Doing this here makes every later use of
+    # args.protocol_version (config hash, source identity, checkpoint, HF sync)
+    # see the resolved value.
+    args.protocol_version = resolve_profile_protocol(
+        args.profile,
+        explicit=args.protocol_version,
+    )
 
     # Use profile timeout if CLI arg not explicitly set (default 0 = no limit)
     if args.timeout == 0 and profile.timeout_seconds > 0:

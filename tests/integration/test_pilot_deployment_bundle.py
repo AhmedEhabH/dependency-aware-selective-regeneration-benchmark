@@ -1633,7 +1633,7 @@ class TestPilotBundleKeepsMarkdownNavigation:
             "pilot-step-05-model-preflight-md": "## 5. Model Preflight Only",
             "pilot-step-06-hf-secret-md": "## 6. Hugging Face Results Secret",
             "pilot-step-07-pilot-canary-md": (
-                "## 7. Pilot-Canary \u2014 Real End-to-End Gate (D10.3)"
+                "## 7. Pilot-Canary \u2014 Real End-to-End Gate (D11, Saleor-inclusive)"
             ),
             "pilot-step-08-dryrun-md": "## 8. Exact-Artifact 48-Cell Dry Run",
             "pilot-step-09-launch-md": (

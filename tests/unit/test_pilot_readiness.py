@@ -313,3 +313,65 @@ class TestPilotStrategySemantics:
         from seven_arm_benchmark import PROFILES
 
         assert "agent" not in PROFILES["pilot"].strategies
+
+
+class TestPilotManifestProtocolParity:
+    """D11 B3: Pilot validation manifest must mirror the active Pilot contract.
+
+    The Pilot runtime protocol is 1.1 (configs/pilot.yaml). The frozen per-cell
+    validation-command manifest claims to mirror the active Pilot contract, so
+    it must agree on ``protocol_version``. A silent drift here (e.g. a manifest
+    left on 1.0 while the runtime moved to 1.1) must fail a test.
+    """
+
+    PILOT_CONFIG = PROJECT_DIR / "configs" / "pilot.yaml"
+    VALIDATION_MANIFEST = PROJECT_DIR / "benchmark_data" / "manifests" / "pilot_validation_commands.yaml"
+
+    def test_manifest_protocol_matches_pilot_config(self) -> None:
+        with self.PILOT_CONFIG.open(encoding="utf-8") as f:
+            pilot_yaml = yaml.safe_load(f)
+        with self.VALIDATION_MANIFEST.open(encoding="utf-8") as f:
+            manifest_yaml = yaml.safe_load(f)
+
+        pilot_protocol = str(pilot_yaml["protocol_version"])
+        manifest_protocol = str(manifest_yaml["protocol_version"])
+        assert manifest_protocol == pilot_protocol, (
+            "pilot_validation_commands.yaml protocol_version "
+            f"{manifest_protocol!r} must mirror configs/pilot.yaml "
+            f"protocol_version {pilot_protocol!r}"
+        )
+
+    def test_manifest_protocol_is_active_version(self) -> None:
+        with self.VALIDATION_MANIFEST.open(encoding="utf-8") as f:
+            manifest_yaml = yaml.safe_load(f)
+        assert str(manifest_yaml["protocol_version"]) == PILOT_PROTOCOL_VERSION
+
+
+class TestPilotCanaryTopology:
+    """D11 B1: the pre-Pilot canary must represent ALL three repositories."""
+
+    def test_canary_profile_covers_three_repositories(self) -> None:
+        from seven_arm_benchmark import PROFILES
+
+        canary = PROFILES["pilot-canary"]
+        assert canary.repository_names == ["todo", "djangocms", "saleor"]
+        assert canary.scenario_ids == [
+            "todo-loc-001",
+            "djangocms-cross-007",
+            "saleor-loc-001",
+        ]
+
+    def test_canary_profile_scenario_count_is_three(self) -> None:
+        from seven_arm_benchmark import PROFILES
+
+        assert PROFILES["pilot-canary"].scenario_count == 3
+
+    def test_canary_profile_blast_radii_cover_canary_scenarios(self) -> None:
+        from seven_arm_benchmark import PROFILES
+
+        canary = PROFILES["pilot-canary"]
+        # todo-loc-001 (localized) and djangocms-cross-007 (cross_cutting) and
+        # saleor-loc-001 (localized) must all survive the blast-radius filter.
+        assert "localized" in canary.blast_radii
+        assert "cross_cutting" in canary.blast_radii
+        assert canary.scenario_count == len(canary.scenario_ids)

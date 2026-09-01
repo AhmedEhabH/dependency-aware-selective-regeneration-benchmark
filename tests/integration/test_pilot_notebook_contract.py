@@ -92,7 +92,9 @@ MARKDOWN_HEADINGS: dict[str, str] = {
     "pilot-step-04-gpu-model-input-md": "## 4. GPU and Qwen Input Verification",
     "pilot-step-05-model-preflight-md": "## 5. Model Preflight Only",
     "pilot-step-06-hf-secret-md": "## 6. Hugging Face Results Secret",
-    "pilot-step-07-pilot-canary-md": "## 7. Pilot-Canary \u2014 Real End-to-End Gate (D10.3)",
+    "pilot-step-07-pilot-canary-md": (
+        "## 7. Pilot-Canary \u2014 Real End-to-End Gate (D11, Saleor-inclusive)"
+    ),
     "pilot-step-08-dryrun-md": "## 8. Exact-Artifact 48-Cell Dry Run",
     "pilot-step-09-launch-md": "## 9. Pilot Launch \u2014 STOP Until Stable Tag Is Confirmed",
     "pilot-step-10-resume-md": "## 10. Resume After External Interruption Only",
@@ -423,6 +425,13 @@ class TestCodeCellsUnchangedFromBaseline:
         assert '"--backend", "kaggle-qwen"' in canary
         assert "validate_pilot_canary_evidence" in canary
         assert "kaggle-qwen" in canary  # never a mock/dry-run canary
+
+    def test_d11_canary_cell_saleor_inclusive_validation_commands(self) -> None:
+        by_id = _cells_by_id(_nb())
+        canary = _src(by_id["pilot-canary-cell"])
+        assert '"--validation-python", "saleor=" + SALEOR_PYTHON' in canary
+        assert '"--validation-python", "djangocms=" + DJANGO_PYTHON' in canary
+        assert '"--validation-python", "todo=" + TODO_PYTHON' in canary
 
     def test_setup_carries_d10_protocol_timeout_rejected_exp_viability(self) -> None:
         setup = _src(_cells_by_id(_nb())["setup-cell"])

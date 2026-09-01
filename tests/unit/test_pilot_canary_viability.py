@@ -80,8 +80,8 @@ def _write_canary(
 
 
 def _valid_records() -> list[dict[str, Any]]:
-    # 2 strategies x 2 repositories x 1 rep = 4 records, all accepted.
-    # todo-loc-001 and djangocms-cross-007 (D10.3 exact canary matrix).
+    # 3 repositories (todo, djangocms, saleor) x 2 strategies x 1 rep = 6 records,
+    # all accepted (D11 B1: the canary represents ALL three Pilot repositories).
     accepted = [
         _terminal_record(status="succeeded", strategy_id="iterative_repository_agent",
                          repository_id="todo", repetition=1),
@@ -91,6 +91,10 @@ def _valid_records() -> list[dict[str, Any]]:
                          repository_id="djangocms", repetition=1),
         _terminal_record(status="succeeded", strategy_id="selective",
                          repository_id="djangocms", repetition=1),
+        _terminal_record(status="succeeded", strategy_id="iterative_repository_agent",
+                         repository_id="saleor", repetition=1),
+        _terminal_record(status="succeeded", strategy_id="selective",
+                         repository_id="saleor", repetition=1),
     ]
     for index, record in enumerate(accepted):
         record["run_id"] = f"canary-{index:02d}"
@@ -155,7 +159,7 @@ class TestPilotViabilityMirror:
 class TestValidatePilotCanaryEvidence:
     """D10.3: the fail-closed pilot-canary gate."""
 
-    def test_passes_on_real_four_cell_canary(self, tmp_path: Path) -> None:
+    def test_passes_on_real_six_cell_canary(self, tmp_path: Path) -> None:
         canary_dir = _write_canary(
             tmp_path, _valid_records(), _source_identity()
         )
@@ -167,9 +171,9 @@ class TestValidatePilotCanaryEvidence:
             expected_deployed_build_id="abcdef12",
         )
         assert summary["passed"] is True
-        assert summary["records"] == 4
-        assert summary["terminal"] == 4
-        assert summary["viability_counts"]["accepted"] == 4
+        assert summary["records"] == 6
+        assert summary["terminal"] == 6
+        assert summary["viability_counts"]["accepted"] == 6
 
     def test_fails_closed_on_deadline_censored(self, tmp_path: Path) -> None:
         records = _valid_records()
@@ -244,7 +248,7 @@ class TestValidatePilotCanaryEvidence:
     def test_fails_closed_when_a_repository_is_missing(self, tmp_path: Path) -> None:
         records = _valid_records()
         for record in records:
-            record["repository_id"] = "todo"  # all records now Todo -> djangocms unrepresented
+            record["repository_id"] = "todo"  # all records now Todo -> djangocms/saleor unrepresented
         canary_dir = _write_canary(tmp_path, records, _source_identity())
         with pytest.raises(LaunchAuthorizationError) as exc:
             validate_pilot_canary_evidence(
@@ -253,4 +257,16 @@ class TestValidatePilotCanaryEvidence:
                 expected_source_tag="v0.9.22-d10-candidate",
                 expected_model_identity="qwen:14b-instruct-v1:bnb-nf4:cfg-test",
             )
-        assert "repo_counts" in str(exc.value) or "djangocms" in str(exc.value)
+        assert "repo_counts" in str(exc.value) or "djangocms" in str(exc.value) or "saleor" in str(exc.value)
+
+    def test_fails_closed_when_saleor_is_missing(self, tmp_path: Path) -> None:
+        records = _valid_records()[:4]  # only todo + djangocms -> saleor missing / cell count 6
+        canary_dir = _write_canary(tmp_path, records, _source_identity())
+        with pytest.raises(LaunchAuthorizationError) as exc:
+            validate_pilot_canary_evidence(
+                canary_dir=canary_dir,
+                expected_source_commit="abcdef1234567890abcdef1234567890abcdef12",
+                expected_source_tag="v0.9.22-d10-candidate",
+                expected_model_identity="qwen:14b-instruct-v1:bnb-nf4:cfg-test",
+            )
+        assert "records" in str(exc.value) or "saleor" in str(exc.value)
