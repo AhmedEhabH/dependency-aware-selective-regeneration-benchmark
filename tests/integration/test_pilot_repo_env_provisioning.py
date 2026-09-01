@@ -42,7 +42,7 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 HELPER_PATH = SCRIPTS_DIR / "pilot_kaggle_repo_envs.py"
 
-SOURCE_TAG = "v0.9.22-d10-candidate"
+SOURCE_TAG = "v0.9.22-d11-candidate"
 
 
 def _load_helper() -> Any:
