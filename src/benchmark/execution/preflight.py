@@ -1566,16 +1566,17 @@ def validate_pilot_canary_evidence(
         "selective",
     ),
     expected_repetitions: int = 1,
-    expected_repositories: tuple[str, ...] = ("todo", "djangocms"),
-    expected_cells: int = 4,
+    expected_repositories: tuple[str, ...] = ("todo", "djangocms", "saleor"),
+    expected_cells: int = 6,
 ) -> dict[str, Any]:
-    """Fail-closed pilot-canary evidence gate (D10.3/D10.5).
+    """Fail-closed pilot-canary evidence gate (D10.3/D10.5, D11 B1).
 
     A genuine end-to-end pilot-canary is a SMALL but REAL run (never mock /
     dry-run, never a no-op). It must:
 
       * produce exactly ``expected_cells`` terminal records spanning every
-        strategy x repetition for the canary scenarios (terminality);
+        strategy x repetition for the canary scenarios (terminality) with ALL
+        three Pilot repositories (todo/djangocms/saleor) represented;
       * complete WITHIN its scientific budget - NO ``deadline_censored`` and NO
         ``engineering_blocker`` record may be present (fail-closed against the
         D9.6 600 s censoring defect - a deadline-censored run is NOT a valid
@@ -1695,8 +1696,8 @@ def validate_pilot_canary_evidence(
                 errors.append(
                     f"canary repo_counts[{repository_id}]="
                     f"{repo_counts.get(repository_id, 0)} "
-                    f"(expected {expected_per_repo} - both repositories must be "
-                    f"represented in the canary matrix, D10.3)"
+                    f"(expected {expected_per_repo} - every Pilot repository must be "
+                    f"represented in the canary matrix, D10.3/D11 B1)"
                 )
 
         si: dict[str, Any] = {}
