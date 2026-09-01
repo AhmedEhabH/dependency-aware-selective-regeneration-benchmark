@@ -9,26 +9,27 @@
 [![Tests](https://img.shields.io/badge/tests-2%2C532%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
-> **Current v0.9.22 candidate (2026-09-01, D11 PRE-PILOT VIABILITY GATE
-> CLOSURE (PILOT-EXEC-01):** the pilot-canary operational topology was
-> corrected WITHOUT touching scientific inputs: B1 the `pilot-canary` profile
-> now represents ALL THREE Pilot repos (todo/djangocms/saleor) as a 6-cell
-> matrix (3 canary scenarios × 2 strategies × 1 rep; fixes the blast_radii
-> filter that dropped `djangocms-cross-007`); B2 `--protocol-version` default
-> is profile-derived via `resolve_profile_protocol` (pilot/pilot-canary → 1.1,
-> all other profiles → 1.0, explicit override wins); B3 validation-manifest
-> protocol 1.0 → 1.1 parity; B4 new executable canary integration test. The
-> D11 candidate artifact **`v0.9.22-d11-candidate`** was built +
-> provenance-verified FROZEN (source commit `c1c892b…`, archive SHA-256
-> **`4554dced6a438893ed01cbdbce9756613c0b0951459a43eb9a4a467edee4cb8a`** +
-> sidecar; protocol 1.1; exact-artifact dry-runs: Pilot **48/48** + pilot-canary
-> **6/6**, canonical `validate_pilot_dryrun_evidence` PASS) — this candidate is
-> NOT a launch basis (still requires a real pilot-canary pass and its own tag
-> decision). The retired `v0.9.22-pilot-exec-ready` tag and the `edae1b7e…8c4a`
-> artifact are NOT reused; the D10 candidate is SUPERSEDED. Scientific contract
-> unchanged; remains v0.9.22 (never v0.9.23); full suite **2585 passed / 33
-> skipped / 0 failed**. Report:
-> `reports/V0922_D11_PILOT_CANARY_SALEOR_INCLUSIVE_CLOSURE_REPORT.md`;
+> **Current v0.9.22 candidate (2026-09-01, D12 NOTEBOOK ORCHESTRATION FIX
+> CLOSURE (PILOT-EXEC-01):** the in-flight SCRIPT_PATH orchestration blocker
+> was fixed WITHOUT touching scientific inputs: cell 20 (`pilot-canary-cell`)
+> reads SCRIPT_PATH but only cell 22 (`dryrun-cell`) defined it, so the
+> canary could not run as an independent stage (`NameError`). The single
+> canonical `SCRIPT_PATH = CODE_DIR / "seven_arm_benchmark.py"` + `FileNotFoundError`
+> guard now lives in cell 4 (`pilot-archive-verify-cell`) after CODE_DIR
+> checks and before ANY use; the duplicate def/guard was deleted from the
+> dry-run cell; new `TestD12ScriptPathOrchestration` (4 tests) RED→GREEN. The
+> D12 candidate artifact **`v0.9.22-d12-candidate`** was built +
+> provenance-verified FROZEN (source commit `84acb8b…`, archive SHA-256
+> **`812d37555a42f8fbdfbbb2e5441c814fb733cfd424ca75c810ead96a0bc4346a`** +
+> sidecar; deployed build id `84acb8b`; protocol 1.1; exact-artifact dry-runs:
+> Pilot **48/48** + pilot-canary **6/6**, canonical `validate_pilot_dryrun_evidence`
+> PASS) — this candidate is NOT a launch basis (still requires a real
+> pilot-canary pass and its own tag decision). The retired
+> `v0.9.22-pilot-exec-ready` tag and the `edae1b7e…8c4a` artifact are NOT
+> reused; the D11 candidate is SUPERSEDED. Scientific contract unchanged;
+> remains v0.9.22 (never v0.9.23); full suite **2589 passed / 33 skipped /
+> 0 failed**. Report:
+> `reports/V0922_D12_NOTEBOOK_ORCHESTRATION_FIX_CLOSURE_REPORT.md`;
 > freeze `reports/pilot_notebook_trust_freeze.json`.
 >
 > **Current besides: PRIOR (2026-08-30, SUPERSEDED by D10 — v0.9.22 D9.6 REAL 2×T4 PASS + STABLE-TAG

@@ -1,32 +1,28 @@
 # PILOT-EXEC-01 Pre-Execution Gates — Latest Phase Report
 
-> **CURRENT TRUTH (2026-09-01, v0.9.22 D11 PRE-PILOT VIABILITY GATE CLOSURE
-> (PILOT-EXEC-01) — PILOT CANARY TOPOLOGY MADE SALEOR-INCLUSIVE 6-CELL
-> (todo/djangocms/saleor), PROTOCOL-PROFILE RESOLUTION SEPARATED PILOT-CANARY
-> 1.1 FROM OTHER PROFILES 1.0, VALIDATION MANIFEST PROTOCOL PARITY RESTORED,
-> EXECUTABLE CANARY INTEGRATION COVERAGE ADDED, D11 CANDIDATE
-> `v0.9.22-d11-candidate` BUILT + PROVENANCE-VERIFIED FROZEN; NOT A RELEASE;
-> NO STABLE TAG MOVE):** D11 (B1–B4) corrects the pilot-canary operational
-> topology WITHOUT touching scientific inputs. B1 the `pilot-canary` profile
-> now represents ALL THREE Pilot repos (todo/djangocms/saleor) as a 6-cell
-> matrix (3 canary scenarios `todo-loc-001`/`djangocms-cross-007`/
-> `saleor-loc-001`, 2 strategies, 1 rep; fixes the blast_radii filter that
-> dropped `djangocms-cross-007`); `validate_pilot_canary_evidence` defaults
-> 3-repo / 6-cell. B2 `--protocol-version` CLI default is profile-derived via
-> `resolve_profile_protocol` (pilot/pilot-canary → 1.1; all other profiles →
-> 1.0; explicit override always wins). B3 validation-manifest protocol 1.0 →
-> 1.1 parity. B4 a new executable canary integration test. The next REAL Pilot
-> launch requires a NEW freshly-finalized artifact with its own real
-> pilot-canary pass and its own tag decision — the retired tag and the
-> `edae1b7e…8c4a` artifact are NOT reused, and the D10 candidate is
-> SUPERSEDED. D11 candidate artifact **`v0.9.22-d11-candidate`** was built +
-> provenance-verified FROZEN (source `c1c892b…`, archive
-> **`4554dced6a438893ed01cbdbce9756613c0b0951459a43eb9a4a467edee4cb8a`** +
-> sidecar; protocol 1.1; exact-artifact dry-runs Pilot 48/48 + canary 6/6;
-> canonical `validate_pilot_dryrun_evidence` PASS) — NOT a launch basis (needs
-> a real pilot-canary pass + own tag decision). Full suite: **2585 passed / 33
+> **CURRENT TRUTH (2026-09-01, v0.9.22 D12 NOTEBOOK ORCHESTRATION FIX CLOSURE
+> (PILOT-EXEC-01) — SCRIPT_PATH DEFINED ONCE IN CELL 4 BEFORE FIRST CANARY
+> USE (FIXES THE CANARY STANDALONE NameError), D12 CANDIDATE
+> `v0.9.22-d12-candidate` BUILT + PROVENANCE-VERIFIED FROZEN; NOT A RELEASE;
+> NO STABLE TAG MOVE; D11 CANDIDATE SUPERSEDED):** D12 fixes the verified
+> in-flight blocker: cell 20 (`pilot-canary-cell`) reads SCRIPT_PATH but only
+> cell 22 (`dryrun-cell`) defined it, so the canary could not run as an
+> independent notebook stage (`NameError: name 'SCRIPT_PATH' is not defined`).
+> The single canonical `SCRIPT_PATH = CODE_DIR / "seven_arm_benchmark.py"` +
+> `FileNotFoundError` guard now lives in cell 4 (`pilot-archive-verify-cell`)
+> after CODE_DIR existence checks and before ANY use; the duplicate def/guard
+> was deleted from the dry-run cell; new `TestD12ScriptPathOrchestration` (4
+> tests) RED→GREEN. NOTHING scientific changed. **D12 candidate artifact
+> `v0.9.22-d12-candidate` was built + provenance-verified FROZEN** (source
+> `84acb8b…`, deployed build id `84acb8b`, archive SHA-256
+> **`812d37555a42f8fbdfbbb2e5441c814fb733cfd424ca75c810ead96a0bc4346a`** +
+> sidecar; protocol 1.1; exact-artifact dry-runs Pilot **48/48** + canary
+> **6/6**; canonical `validate_pilot_dryrun_evidence` PASS) — NOT a launch
+> basis (needs a real pilot-canary pass + own tag decision); the retired
+> `v0.9.22-pilot-exec-ready` tag and the `edae1b7e…8c4a` artifact are NOT
+> reused; the D11 candidate is SUPERSEDED. Full suite: **2589 passed / 33
 > skipped / 0 failed**. Report:
-> `reports/V0922_D11_PILOT_CANARY_SALEOR_INCLUSIVE_CLOSURE_REPORT.md`; freeze
+> `reports/V0922_D12_NOTEBOOK_ORCHESTRATION_FIX_CLOSURE_REPORT.md`; freeze
 > `reports/pilot_notebook_trust_freeze.json`.
 >
 > **PRIOR TRUTH (2026-08-30, SUPERSEDED by the D10 all-failed relaunch closure — v0.9.22 D9.6 REAL 2×T4 PASS + STABLE-TAG
