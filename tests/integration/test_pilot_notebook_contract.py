@@ -35,7 +35,7 @@ import pytest
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
-EXPECTED_FROZEN_SOURCE_TAG = "v0.9.22-d11-candidate"
+EXPECTED_FROZEN_SOURCE_TAG = "v0.9.22-d12-candidate"
 
 # The bundled-notebook parity test builds a full Pilot bundle; the hermetic
 # fixture keeps that build deterministic without developer-local repo caches.
@@ -1534,7 +1534,7 @@ class TestPilotDryrunEvidenceValidatorIntegration:
     proving 48/48 cells, exact source identity, and zero model calls/tokens."""
 
     SOURCE_COMMIT = "3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c"
-    SOURCE_TAG = "v0.9.22-d11-candidate"
+    SOURCE_TAG = "v0.9.22-d12-candidate"
     BUILT_ID = "d8-validator-integration"
 
     def _run_cli(self, script: Path, dryrun_dir: Path, data_dir: Path) -> None:
