@@ -135,6 +135,7 @@ Before modifying production code, benchmark data, notebooks, or deployment bundl
 | `SYSTEM_STATE.md` | Current system state |
 | `TODO.md` | Task list |
 | `DECISION_LOG.md` | Decision history |
+| `docs/ASSUMPTION_DECISION_EVOLUTION.md` | Assumption/decision learning ledger (causal history behind major choices) |
 | `reports/PROJECT_HEALTH_REPORT.md` | Project health dashboard |
 | `selective_updates/records/R5-INDEPENDENT-AUDIT-SCOPE-CORRECTION.md` | R5 scope correction and evidence record |
 
