@@ -889,6 +889,7 @@ This learning ledger is grounded in the project's formal decisions:
 - D035: Saleor-inclusive 6-cell canary + protocol correction
 - D036: notebook execution-order failure and D12 correction (SCRIPT_PATH defined once)
 - D13 (this closure): 2026-09-02 canary production-scale execution defects — exact-patch editing (B1), separate agent-control cap (B2), repository-aware migration directory (B3), Pilot-only protocol 1.1→1.2, `v0.9.22-d13-candidate` supersedes D12; B4 executability gate deferred (known-incomplete).
+- D13r1: canary launch-readiness finalizer — F1 semantic-executability gate WIRED into the real pilot/pilot-canary PRE-MODEL launch path (full 48-cell Pilot is NOT a launch basis while any scenario is semantically unexecutable; canary is a launch basis after a real target pass); F2 migration metadata ONLY on the 3 canary scenarios; F3 migration execution decoupled from `evaluator_asset`; F4 exact-patch repair-prompt contradiction removed; F5 `exact_patch` + `agent_control_max_completion_tokens` in frozen config/provenance identity. `v0.9.22-d13r1-candidate` (archive `9f120412…`, source `6bc946a`) supersedes `v0.9.22-d13-candidate`; CANARY_LAUNCH_BASIS=YES, FULL_48_LAUNCH_BASIS=NO.
 
 ---
 
