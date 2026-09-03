@@ -6,6 +6,14 @@ repository: todo
 change_type: "Schema and field changes"
 blast_radius: localized
 migration_directory: "todo/migrations"
+# D13R2 Fix 1: complete executable migration metadata for canary launch.
+post_generation_command:
+  - python
+  - manage.py
+  - makemigrations
+  - todo
+  - --noinput
+require_new_migration: true
 requirement_before: >
   The Task model has only basic fields: title (CharField, max_length=200),
   description (TextField, blank=True), status (CharField with choices

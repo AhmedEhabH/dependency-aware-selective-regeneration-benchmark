@@ -474,6 +474,7 @@ class BenchmarkRunner:
                 migration_directory=scenario.migration_directory,
                 timeout=self._config.validation_timeout,
                 resolved_interpreter=self._config.validation_python,
+                env=self._config.validation_env,
             )
             if not migration_result.passed:
                 m_stdout = _compact_head_tail(migration_result.stdout)

@@ -2,6 +2,14 @@ scenario_id: djangocms-cross-007
 repository: djangocms
 change_type: cross_cutting_workflow
 migration_directory: "cms/migrations"
+# D13R2 Fix 1: complete executable migration metadata for canary launch.
+post_generation_command:
+  - python
+  - manage.py
+  - makemigrations
+  - cms
+  - --noinput
+require_new_migration: true
 
 blast_radius: cross_cutting
 

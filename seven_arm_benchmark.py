@@ -1661,6 +1661,13 @@ def _compute_config_hash(args: argparse.Namespace) -> str:
         "max_completion_tokens_per_call": getattr(args, "max_completion_tokens_per_call", 4096),
         "max_total_workflow_tokens": resolved_total,
         "qwen_quantization": getattr(args, "qwen_quantization", "bnb-int8"),
+        # D13R2 Fix 4 — Protocol-1.2 execution controls must participate in the
+        # config identity: changing exact_patch or the agent-control cap changes
+        # the hash (D13r1 F5 contract).
+        "exact_patch": getattr(args, "exact_patch", False),
+        "agent_control_max_completion_tokens": getattr(
+            args, "agent_control_max_completion_tokens", 512
+        ),
     }
     raw = json.dumps(config_obj, sort_keys=True)
     return hashlib.sha256(raw.encode()).hexdigest()[:16]

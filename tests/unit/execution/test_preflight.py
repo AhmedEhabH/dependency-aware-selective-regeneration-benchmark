@@ -1848,15 +1848,34 @@ class TestValidatePilotLaunchAuthorization:
         data_dir = tmp_path / "data"
         scenarios = data_dir / "scenarios"
         scenarios.mkdir(parents=True)
-        for sid, repo in (
-            ("todo-loc-001", "todo"),
-            ("djangocms-cross-007", "djangocms"),
-            ("saleor-loc-001", "saleor"),
-        ):
+        # D13R2 Fix 1/2: the 3 canary scenarios must carry the frozen migration
+        # execution metadata so the semantic gate can prove executability.
+        migration_meta = {
+            "todo-loc-001": (
+                "todo",
+                ["python", "manage.py", "makemigrations", "todo", "--noinput"],
+                "todo/migrations",
+            ),
+            "djangocms-cross-007": (
+                "djangocms",
+                ["python", "manage.py", "makemigrations", "cms", "--noinput"],
+                "cms/migrations",
+            ),
+            "saleor-loc-001": (
+                "saleor",
+                ["python", "manage.py", "makemigrations", "product", "--noinput"],
+                "saleor/product/migrations",
+            ),
+        }
+        for sid, (repo, command, migration_dir) in migration_meta.items():
+            command_block = "\n".join(f"  - {part}" for part in command)
             (scenarios / f"{sid}.yaml").write_text(
                 f"scenario_id: {sid}\nrepository: {repo}\n"
                 f"change_type: test\nblast_radius: localized\n"
-                f"requirement_before: before\nrequirement_after: after\nrationale: test\n",
+                f"requirement_before: before\nrequirement_after: after\nrationale: test\n"
+                f"post_generation_command:\n{command_block}\n"
+                f"require_new_migration: true\n"
+                f"migration_directory: \"{migration_dir}\"\n",
                 encoding="utf-8",
             )
         repos = data_dir / "repositories"
@@ -2012,6 +2031,92 @@ class TestPilotSemanticExecutabilityGate:
                 scenario_dir=data_dir / "scenarios",
             )
 
+    def test_fails_closed_on_missing_migration_metadata(self, tmp_path: Path) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        (data_dir / "scenarios" / "todo-loc-001.yaml").write_text(
+            "scenario_id: todo-loc-001\nrepository: todo\n"
+            "change_type: test\nblast_radius: localized\n"
+            "requirement_before: before\nrequirement_after: after\nrationale: test\n"
+            "migration_directory: \"todo/migrations\"\n",
+            encoding="utf-8",
+        )
+        with pytest.raises(LaunchAuthorizationError, match="todo-loc-001"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("todo-loc-001",),
+                scenario_dir=data_dir / "scenarios",
+            )
+
+    def test_fails_closed_on_wrong_migration_command(self, tmp_path: Path) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        (data_dir / "scenarios" / "saleor-loc-001.yaml").write_text(
+            "scenario_id: saleor-loc-001\nrepository: saleor\n"
+            "change_type: test\nblast_radius: localized\n"
+            "requirement_before: before\nrequirement_after: after\nrationale: test\n"
+            "post_generation_command:\n"
+            "  - python\n  - manage.py\n  - makemigrations\n"
+            "  - WRONG\n  - --noinput\n"
+            "require_new_migration: true\n"
+            "migration_directory: \"saleor/product/migrations\"\n",
+            encoding="utf-8",
+        )
+        with pytest.raises(LaunchAuthorizationError, match="saleor-loc-001"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("saleor-loc-001",),
+                scenario_dir=data_dir / "scenarios",
+            )
+
+    def test_launch_auth_migration_failure_never_initializes_backend(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        launch_helper = TestValidatePilotLaunchAuthorization()
+        launch_helper._write_valid_repo_preflight(tmp_path / "repo.json")
+        launch_helper._write_valid_model_preflight(tmp_path / "model.json")
+        launch_helper._write_valid_dryrun(tmp_path / "dryrun")
+        data_dir = self._write_data(tmp_path, executable=True)
+        (data_dir / "scenarios" / "todo-loc-001.yaml").write_text(
+            "scenario_id: todo-loc-001\nrepository: todo\n"
+            "change_type: test\nblast_radius: localized\n"
+            "requirement_before: before\nrequirement_after: after\nrationale: test\n"
+            "require_new_migration: false\n",
+            encoding="utf-8",
+        )
+        import seven_arm_benchmark as saber
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_launch_authorization,
+        )
+
+        backend_calls: list[object] = []
+        monkeypatch.setattr(
+            saber,
+            "make_backend",
+            lambda *args, **kwargs: backend_calls.append("init") or object(),
+        )
+        with pytest.raises(LaunchAuthorizationError, match="semantic-executability"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.18-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+                expected_deployed_build_id="build-001",
+                scenario_dir=data_dir / "scenarios",
+                scenario_ids=("todo-loc-001", "djangocms-cross-007", "saleor-loc-001"),
+            )
+        assert backend_calls == [], "backend must never be initialized on gate failure"
+
 
 class TestCLIAuthorizationPath:
     """G: CLI real-path authorization integration with seven_arm_benchmark.main."""
@@ -2165,7 +2270,7 @@ class TestCLIAuthorizationPath:
             try:
                 real_validate(**kwargs)  # type: ignore[arg-type]
                 auth_outcomes.append(True)
-            except Exception as exc:  # noqa: BLE001 - recorded for assertion
+            except Exception as exc:  # recorded for assertion
                 auth_outcomes.append(exc)
                 raise
 
