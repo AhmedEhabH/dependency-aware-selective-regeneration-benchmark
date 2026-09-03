@@ -281,9 +281,11 @@ class RunnerConfig:
     editable_artifact_paths: tuple[str, ...] = ()
     max_completion_tokens_per_call: int = 4096
     max_total_workflow_tokens: int = 0
+    agent_control_max_completion_tokens: int = 512
     canonical_project_root: str | Path | None = None
     python_executable: str = ""
     exact_patch: bool = False
+    validation_python: str | None = None
     extra: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -305,6 +307,15 @@ class RunnerConfig:
         if self.max_tokens < 0:
             n = self.max_tokens
             raise ValueError(f"RunnerConfig.max_tokens must be >= 0, got {n}")
+        if isinstance(self.agent_control_max_completion_tokens, bool):
+            raise ValueError(
+                "RunnerConfig.agent_control_max_completion_tokens must be integer, not bool"
+            )
+        if self.agent_control_max_completion_tokens <= 0:
+            n = self.agent_control_max_completion_tokens
+            raise ValueError(
+                "RunnerConfig.agent_control_max_completion_tokens must be > 0, got {n}"
+            )
         _ = self.resolved_max_total_workflow_tokens
 
     @property
@@ -462,6 +473,7 @@ class BenchmarkRunner:
                 require_new_migration=scenario.require_new_migration,
                 migration_directory=scenario.migration_directory,
                 timeout=self._config.validation_timeout,
+                resolved_interpreter=self._config.validation_python,
             )
             if not migration_result.passed:
                 m_stdout = _compact_head_tail(migration_result.stdout)

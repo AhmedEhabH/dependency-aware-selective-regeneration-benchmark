@@ -1088,7 +1088,7 @@ def test_public_iterative_agent_unlimited_workflow_stays_unlimited(tmp_path: Pat
     record = runner.run(_make_scenario(artifacts))
     assert record.status == RunStatus.succeeded
     assert sb.call_count == 1
-    assert sb.captured_max_tokens == [4096]
+    assert sb.captured_max_tokens == [512]
     assert record.selection_model_calls == 1
     assert record.selection_total_tokens == 60
     assert record.regeneration_model_calls == 1

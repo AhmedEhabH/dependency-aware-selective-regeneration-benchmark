@@ -27,9 +27,11 @@ class PipelineConfig:
     editable_artifact_paths: tuple[str, ...] = ()
     max_completion_tokens_per_call: int = 4096
     max_total_workflow_tokens: int = 0
+    agent_control_max_completion_tokens: int = 512
     canonical_project_root: str | Path | None = None
     python_executable: str = ""
     exact_patch: bool = False
+    validation_python: str | None = None
     extra: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -51,6 +53,15 @@ class PipelineConfig:
         if self.max_tokens_per_run < 0:
             n = self.max_tokens_per_run
             raise ValueError(f"PipelineConfig.max_tokens_per_run must be >= 0, got {n}")
+        if isinstance(self.agent_control_max_completion_tokens, bool):
+            raise ValueError(
+                "PipelineConfig.agent_control_max_completion_tokens must be integer, not bool"
+            )
+        if self.agent_control_max_completion_tokens <= 0:
+            n = self.agent_control_max_completion_tokens
+            raise ValueError(
+                "PipelineConfig.agent_control_max_completion_tokens must be > 0, got {n}"
+            )
         _ = self.resolved_max_total_workflow_tokens
 
     @property
@@ -152,9 +163,11 @@ class BenchmarkPipeline:
             editable_artifact_paths=self._config.editable_artifact_paths,
             max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
             max_total_workflow_tokens=self._config.resolved_max_total_workflow_tokens,
+            agent_control_max_completion_tokens=self._config.agent_control_max_completion_tokens,
             canonical_project_root=self._config.canonical_project_root,
             python_executable=self._config.python_executable,
             exact_patch=self._config.exact_patch,
+            validation_python=self._config.validation_python,
         )
         return BenchmarkRunner(
             strategy=self._strategy,

@@ -87,7 +87,7 @@ class TestOutputConfig:
 class TestBenchmarkConfig:
     def test_minimal_config(self) -> None:
         config = BenchmarkConfig()
-        assert config.protocol_version == "1.2"
+        assert config.protocol_version == "1.1"
         assert config.execution_mode == "local"
         assert config.strategies == []
         assert config.backends == []

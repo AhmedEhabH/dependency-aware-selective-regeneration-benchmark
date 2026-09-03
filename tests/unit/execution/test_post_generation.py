@@ -259,6 +259,32 @@ class TestInputValidation:
         assert result.exit_code == -1
         assert "backslash" in result.stderr
 
+    def test_resolved_interpreter_nul_fails(self, tmp_path: Path) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+            resolved_interpreter="/opt/x\x00y/python",
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert "NUL" in result.stderr
+
+    def test_resolved_interpreter_non_string_fails(self, tmp_path: Path) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+            resolved_interpreter=123,  # type: ignore[arg-type]
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert "resolved_interpreter" in result.stderr
+
     def test_missing_migration_directory_fails(self, tmp_path: Path) -> None:
         result = run_post_generation_command(
             workspace_root=tmp_path,
@@ -1833,6 +1859,43 @@ class TestInterpreterNormalization:
 
     def test_empty_command_returns_empty_list(self) -> None:
         assert _normalize_interpreter_command(()) == []
+
+    def test_bare_python_binds_to_absolute_resolved_interpreter(self) -> None:
+        custom = "C:/custom/runtimes/python.exe"
+        normalized = _normalize_interpreter_command(
+            ("python", "manage.py", "makemigrations", "todo", "--noinput"),
+            resolved_interpreter=custom,
+        )
+        assert normalized == [custom, "manage.py", "makemigrations", "todo", "--noinput"]
+
+    def test_bare_python_binds_to_absolute_posix_resolved_interpreter(self) -> None:
+        custom = "/opt/venv/repo/bin/python"
+        normalized = _normalize_interpreter_command(
+            ("python", "manage.py", "migrate"),
+            resolved_interpreter=custom,
+        )
+        assert normalized == [custom, "manage.py", "migrate"]
+
+    def test_bare_resolved_interpreter_falls_back_to_sys_executable(self) -> None:
+        normalized = _normalize_interpreter_command(
+            ("python", "manage.py", "makemigrations"),
+            resolved_interpreter="python",  # bare name: no deterministic mapping
+        )
+        assert normalized == [sys.executable, "manage.py", "makemigrations"]
+
+    def test_absolute_command_ignores_resolved_interpreter(self) -> None:
+        command = (sys.executable, "manage.py", "makemigrations")
+        normalized = _normalize_interpreter_command(
+            command, resolved_interpreter="C:/custom/python.exe"
+        )
+        assert normalized == list(command)
+
+    def test_non_python_command_ignores_resolved_interpreter(self) -> None:
+        command = ("git", "status")
+        normalized = _normalize_interpreter_command(
+            command, resolved_interpreter="C:/custom/python.exe"
+        )
+        assert normalized == list(command)
 
     def test_real_django_bare_python_command_succeeds(self, tmp_path: Path) -> None:
         import shutil
