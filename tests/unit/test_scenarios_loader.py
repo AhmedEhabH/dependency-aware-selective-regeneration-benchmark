@@ -228,3 +228,50 @@ class TestScenarioLoader:
 
         with pytest.raises(ScenarioError, match="migration_directory"):
             ScenarioLoader(tmp_path).load_scenario(scenario_file)
+class TestCanaryMigrationMetadata:
+    """D13r1 F2/F3: repository-aware migration metadata on the 3 canary
+    scenarios ONLY.
+
+    F2 adds the per-repository migration directory to exactly the three canary
+    scenarios (todo-loc-001, saleor-loc-001, djangocms-cross-007) so the real
+    pilot-canary runs the migration stage repository-aware. Every OTHER
+    scenario keeps the frozen default ("todo/migrations") - migration metadata
+    must NOT leak into the other nine Pilot scenarios or any non-Pilot scenario.
+    """
+
+    CANARY_EXPECTED = {
+        "todo-loc-001": "todo/migrations",
+        "saleor-loc-001": "saleor/product/migrations",
+        "djangocms-cross-007": "cms/migrations",
+    }
+
+    def test_canary_scenarios_carry_per_repo_migration_directory(self) -> None:
+        scenarios_dir = (
+            Path(__file__).resolve().parent.parent.parent
+            / "benchmark_data" / "scenarios"
+        )
+        if not scenarios_dir.is_dir():
+            pytest.skip("benchmark_data/scenarios directory not found")
+        scenarios = {s.scenario_id: s for s in ScenarioLoader(scenarios_dir).load_all()}
+        for scenario_id, expected in self.CANARY_EXPECTED.items():
+            assert scenarios[scenario_id].migration_directory == expected, (
+                f"{scenario_id} migration_directory="
+                f"{scenarios[scenario_id].migration_directory!r} (expected {expected!r})"
+            )
+
+    def test_migration_directory_added_only_to_three_canary_scenarios(self) -> None:
+        scenarios_dir = (
+            Path(__file__).resolve().parent.parent.parent
+            / "benchmark_data" / "scenarios"
+        )
+        if not scenarios_dir.is_dir():
+            pytest.skip("benchmark_data/scenarios directory not found")
+        declared = set()
+        for scenario_file in sorted(scenarios_dir.glob("*.yaml")):
+            data = yaml.safe_load(scenario_file.read_text(encoding="utf-8"))
+            if isinstance(data, dict) and "migration_directory" in data:
+                declared.add(str(data.get("scenario_id", "")))
+        assert declared == set(self.CANARY_EXPECTED), (
+            f"migration_directory explicitly declared on {sorted(declared)}; "
+            f"expected exactly {sorted(self.CANARY_EXPECTED)}"
+        )

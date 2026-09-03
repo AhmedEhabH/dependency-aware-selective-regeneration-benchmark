@@ -2,6 +2,7 @@ scenario_id: saleor-loc-001
 repository: saleor
 change_type: localized_schema
 blast_radius: localized
+migration_directory: "saleor/product/migrations"
 
 requirement_before: >
   The Product model in saleor/product/models.py has no field for indicating

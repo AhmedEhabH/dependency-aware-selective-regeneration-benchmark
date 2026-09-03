@@ -57,6 +57,11 @@ FROZEN_TIMEOUT_SECONDS = 1200
 FROZEN_MAX_ATTEMPTS = 3
 FROZEN_MAX_COMPLETION_TOKENS = 4096
 FROZEN_MAX_TOTAL_WORKFLOW_TOKENS = 0
+# D13 B1/B2 / D13r1 F5: the exact-patch source-edit mode and the separate
+# agent control-plane completion cap are part of the frozen execution contract
+# and MUST appear in the deployment identity / notebook trust anchors.
+FROZEN_EXACT_PATCH = True
+FROZEN_AGENT_CONTROL_MAX_COMPLETION_TOKENS = 512
 FROZEN_SCENARIO_COUNT = 12
 FROZEN_STRATEGY_COUNT = 2
 FROZEN_REPETITIONS = 2
@@ -519,6 +524,8 @@ def build_identity(
         "max_attempts": FROZEN_MAX_ATTEMPTS,
         "max_completion_tokens_per_call": FROZEN_MAX_COMPLETION_TOKENS,
         "max_total_workflow_tokens": FROZEN_MAX_TOTAL_WORKFLOW_TOKENS,
+        "exact_patch": FROZEN_EXACT_PATCH,
+        "agent_control_max_completion_tokens": FROZEN_AGENT_CONTROL_MAX_COMPLETION_TOKENS,
         "scenario_count": FROZEN_SCENARIO_COUNT,
         "strategy_count": FROZEN_STRATEGY_COUNT,
         "repetitions": FROZEN_REPETITIONS,

@@ -1455,6 +1455,8 @@ def _write_real_dryrun(
             "source_tag": source_tag,
             "deployed_build_id": deployed_build_id,
             "model_identity": "dry-run:mock",
+            "exact_patch": True,
+            "agent_control_max_completion_tokens": 512,
         }),
         encoding="utf-8",
     )
@@ -1710,6 +1712,8 @@ class TestValidatePilotLaunchAuthorization:
             "source_tag": "v0.9.14-pilot-exec-ready",
             "deployed_build_id": "build-001",
             "model_identity": "dry-run:mock",
+            "exact_patch": True,
+            "agent_control_max_completion_tokens": 512,
         }), encoding="utf-8")
         from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
         with pytest.raises(LaunchAuthorizationError, match="source_tag"):
@@ -1838,6 +1842,176 @@ class TestValidatePilotLaunchAuthorization:
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
+    # --- D13r1 F1: PRE-MODEL semantic-executability wiring -----------------
+
+    def _write_semantic_scenario_dir(self, tmp_path: Path, *, executable: bool = True) -> Path:
+        data_dir = tmp_path / "data"
+        scenarios = data_dir / "scenarios"
+        scenarios.mkdir(parents=True)
+        for sid, repo in (
+            ("todo-loc-001", "todo"),
+            ("djangocms-cross-007", "djangocms"),
+            ("saleor-loc-001", "saleor"),
+        ):
+            (scenarios / f"{sid}.yaml").write_text(
+                f"scenario_id: {sid}\nrepository: {repo}\n"
+                f"change_type: test\nblast_radius: localized\n"
+                f"requirement_before: before\nrequirement_after: after\nrationale: test\n",
+                encoding="utf-8",
+            )
+        repos = data_dir / "repositories"
+        (repos / "todo" / "todo").mkdir(parents=True)
+        (repos / "djangocms" / "cms" / "models").mkdir(parents=True)
+        (repos / "saleor" / "saleor" / "product").mkdir(parents=True)
+        if executable:
+            (repos / "todo" / "todo" / "models.py").write_text("class Task:\n    pass\n", encoding="utf-8")
+            (repos / "djangocms" / "cms" / "models" / "pagemodel.py").write_text(
+                "class Page:\n    pass\n", encoding="utf-8"
+            )
+            (repos / "saleor" / "saleor" / "product" / "models.py").write_text(
+                "class Product:\n    pass\n", encoding="utf-8"
+            )
+        return data_dir
+
+    def test_launch_auth_fails_closed_on_semantically_unexecutable_scenario(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        data_dir = self._write_semantic_scenario_dir(tmp_path, executable=False)
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_launch_authorization,
+        )
+        with pytest.raises(LaunchAuthorizationError, match="semantic-executability"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.18-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+                expected_deployed_build_id="build-001",
+                scenario_dir=data_dir / "scenarios",
+                scenario_ids=("todo-loc-001", "djangocms-cross-007", "saleor-loc-001"),
+            )
+
+    def test_launch_auth_passes_when_semantic_gate_verifies(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        data_dir = self._write_semantic_scenario_dir(tmp_path, executable=True)
+        from benchmark.execution.preflight import validate_pilot_launch_authorization
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=tmp_path / "dryrun",
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            expected_deployed_build_id="build-001",
+            scenario_dir=data_dir / "scenarios",
+            scenario_ids=("todo-loc-001", "djangocms-cross-007", "saleor-loc-001"),
+        )
+
+
+class TestPilotSemanticExecutabilityGate:
+    """D13 B4 / D13r1 F1: the standalone pre-model semantic gate."""
+
+    def _write_data(self, tmp_path: Path, *, executable: bool = True) -> Path:
+        return TestValidatePilotLaunchAuthorization()._write_semantic_scenario_dir(
+            tmp_path, executable=executable
+        )
+
+    def test_canary_scenarios_pass_when_pinned_bases_staged(
+        self, tmp_path: Path
+    ) -> None:
+        from benchmark.execution.preflight import validate_pilot_semantic_executability
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        roots = {
+            "todo": data_dir / "repositories" / "todo",
+            "djangocms": data_dir / "repositories" / "djangocms",
+            "saleor": data_dir / "repositories" / "saleor",
+        }
+        summary = validate_pilot_semantic_executability(
+            scenario_ids=("todo-loc-001", "djangocms-cross-007", "saleor-loc-001"),
+            scenario_dir=data_dir / "scenarios",
+            repository_roots=roots,
+        )
+        assert summary["passed"] is True
+        assert summary["executable"] is True
+        assert all(v["executable"] and v["verifiable"] for v in summary["verdicts"])
+
+    def test_fails_closed_without_staged_repositories(self, tmp_path: Path) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        with pytest.raises(LaunchAuthorizationError, match="NOT launchable"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("todo-loc-001", "djangocms-cross-007", "saleor-loc-001"),
+                scenario_dir=data_dir / "scenarios",
+                repository_roots={},
+            )
+
+    def test_fails_closed_when_sentinel_absent_from_pinned_base(
+        self, tmp_path: Path
+    ) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=False)
+        with pytest.raises(LaunchAuthorizationError, match="todo-loc-001"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("todo-loc-001",),
+                scenario_dir=data_dir / "scenarios",
+            )
+
+    def test_fails_closed_for_known_unexecutable_saleor_loc_002(
+        self, tmp_path: Path
+    ) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        scenarios = data_dir / "scenarios"
+        (scenarios / "saleor-loc-002.yaml").write_text(
+            "scenario_id: saleor-loc-002\nrepository: saleor\n"
+            "change_type: test\nblast_radius: localized\n"
+            "requirement_before: before\nrequirement_after: after\nrationale: test\n",
+            encoding="utf-8",
+        )
+        with pytest.raises(LaunchAuthorizationError, match="saleor-loc-002"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("saleor-loc-002",),
+                scenario_dir=scenarios,
+            )
+
+    def test_fails_closed_when_scenario_missing_from_data(self, tmp_path: Path) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        with pytest.raises(LaunchAuthorizationError, match="not found"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("no-such-scenario",),
+                scenario_dir=data_dir / "scenarios",
+            )
+
 
 class TestCLIAuthorizationPath:
     """G: CLI real-path authorization integration with seven_arm_benchmark.main."""
@@ -1854,6 +2028,7 @@ class TestCLIAuthorizationPath:
             "dry_run": True, "profile": "pilot", "protocol_version": "1.2",
             "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
             "deployed_build_id": "b1", "model_identity": "dry-run:mock",
+            "exact_patch": True, "agent_control_max_completion_tokens": 512,
         }), encoding="utf-8")
         records = [
             json.dumps(_real_dryrun_record(
@@ -1900,6 +2075,7 @@ class TestCLIAuthorizationPath:
             "dry_run": True, "profile": "pilot", "protocol_version": "1.2",
             "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
             "deployed_build_id": "b1", "model_identity": "dry-run:mock",
+            "exact_patch": True, "agent_control_max_completion_tokens": 512,
         }), encoding="utf-8")
         records = [
             json.dumps(_real_dryrun_record(
@@ -1942,10 +2118,27 @@ class TestCLIAuthorizationPath:
         import seven_arm_benchmark as saber
         from benchmark.execution import preflight as pf_mod
 
+        # D13r1 F1: provide a loadable scenario directory so the CLI pre-model
+        # semantic gate runs (it is part of launch authorization).
+        data_dir = tmp_path / "data"
+        scenarios = data_dir / "scenarios"
+        scenarios.mkdir(parents=True)
+        for sid, repo in (
+            ("todo-loc-001", "todo"),
+            ("djangocms-cross-007", "djangocms"),
+            ("saleor-loc-001", "saleor"),
+        ):
+            (scenarios / f"{sid}.yaml").write_text(
+                f"scenario_id: {sid}\nrepository: {repo}\n"
+                f"change_type: test\nblast_radius: localized\n"
+                f"requirement_before: before\nrequirement_after: after\nrationale: test\n",
+                encoding="utf-8",
+            )
+
         monkeypatch.setattr(saber, "_get_model_identity", lambda **kw: "qwen:test:nf4")
         monkeypatch.setattr(saber, "parse_args", lambda: argparse.Namespace(
             dry_run=False, profile="pilot", strategy=None,
-            output_dir=str(output_dir), data_dir=str(tmp_path / "data"),
+            output_dir=str(output_dir), data_dir=str(data_dir),
             max_attempts=3, timeout=0, max_tokens=0,
             max_completion_tokens_per_call=4096,
             max_total_workflow_tokens=0, validation_command=None,
@@ -1965,19 +2158,30 @@ class TestCLIAuthorizationPath:
             launch_auth_dryrun_dir=str(dryrun_dir),
             backend=None, openrouter_model="", openrouter_timeout=120.0,
         ))
-        auth_passed: list[bool] = []
+        auth_outcomes: list[object] = []
         real_validate = pf_mod.validate_pilot_launch_authorization
 
-        def counting_validate(**kwargs: object) -> None:
-            real_validate(**kwargs)  # type: ignore[arg-type]
-            auth_passed.append(True)
+        def recording_validate(**kwargs: object) -> None:
+            try:
+                real_validate(**kwargs)  # type: ignore[arg-type]
+                auth_outcomes.append(True)
+            except Exception as exc:  # noqa: BLE001 - recorded for assertion
+                auth_outcomes.append(exc)
+                raise
 
-        monkeypatch.setattr(pf_mod, "validate_pilot_launch_authorization", counting_validate)
-        # main() proceeds past auth but may fail later on missing data/scenarios.
-        # That's fine — we only need to verify authorization was invoked and passed.
-        with pytest.raises((SystemExit, Exception)):
-            saber.main()
-        assert auth_passed, "authorization must have been invoked and passed"
+        monkeypatch.setattr(
+            pf_mod, "validate_pilot_launch_authorization", recording_validate
+        )
+        # The FULL 48-cell Pilot is NOT a launch basis (D13r1 F1): the pre-model
+        # semantic gate FAIL-CLOSES on saleor-loc-002 (is_featured absent from
+        # the pinned base) and the seven unregistered Pilot scenarios even when
+        # every other authorization evidence is valid.
+        rc = saber.main()
+        assert rc != 0
+        assert auth_outcomes, "authorization must have been invoked"
+        outcome = auth_outcomes[0]
+        assert not isinstance(outcome, bool), "full-Pilot semantic gate must fail closed"
+        assert "semantic-executability" in str(outcome)
 
 
 class TestShortGenerationProbeTruthfulReporting:
@@ -2378,6 +2582,8 @@ class TestValidatePilotDryrunEvidence:
             "source_tag": "v0.9.18-pilot-exec-ready",
             "deployed_build_id": "build-001",
             "model_identity": "qwen:real",
+            "exact_patch": True,
+            "agent_control_max_completion_tokens": 512,
         }), encoding="utf-8")
         self._assert_raises(dryrun, "model_identity")
 

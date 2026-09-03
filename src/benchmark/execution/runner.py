@@ -577,11 +577,12 @@ class BenchmarkRunner:
     # -------------------------------------------------------------------
 
     def _requires_scenario_evaluator(self, scenario: Scenario) -> bool:
-        return bool(
-            scenario.post_generation_command
-            or scenario.require_new_migration
-            or scenario.evaluator_asset
-        )
+        # D13r1 F3: the scenario evaluator is coupled ONLY to ``evaluator_asset``.
+        # Post-generation migration execution (``post_generation_command`` /
+        # ``require_new_migration``) is a standalone scientific stage and must
+        # NOT drag an evaluator requirement behind it (a migration-only scenario
+        # with no evaluator_asset is valid and must run its migration stage).
+        return bool(scenario.evaluator_asset)
 
     def _validate_scientific_configuration(
         self,
@@ -596,12 +597,9 @@ class BenchmarkRunner:
                 message="require_new_migration=True but post_generation_command is empty",
                 stage="configuration",
             )
-        if self._requires_scenario_evaluator(scenario) and not scenario.evaluator_asset:
-            return FailureRecord(
-                failure_kind=FailureKind.harness_defect,
-                message="Scenario metadata requires evaluator but evaluator_asset is empty",
-                stage="configuration",
-            )
+        # D13r1 F3: a migration-only scenario (post_generation_command /
+        # require_new_migration WITHOUT evaluator_asset) is a valid configuration
+        # — migration execution is decoupled from the scenario evaluator.
         if scenario.evaluator_asset:
             if not                 self._config.canonical_project_root:
                 return FailureRecord(

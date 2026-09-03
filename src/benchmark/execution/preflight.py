@@ -26,6 +26,7 @@ import shutil
 import subprocess
 import sys
 import time
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -1245,6 +1246,17 @@ def _collect_dryrun_evidence_errors(
                 f"source_identity.json protocol_version="
                 f"{si.get('protocol_version')!r} (expected '1.2')"
             )
+        if si.get("exact_patch") is not True:
+            errors.append(
+                f"source_identity.json exact_patch={si.get('exact_patch')!r} "
+                f"(expected true - D13 B1 / D13r1 F5 frozen execution contract)"
+            )
+        if si.get("agent_control_max_completion_tokens") != 512:
+            errors.append(
+                f"source_identity.json agent_control_max_completion_tokens="
+                f"{si.get('agent_control_max_completion_tokens')!r} "
+                f"(expected 512 - D13 B2 / D13r1 F5 frozen control-plane cap)"
+            )
         if expected_source_commit and si.get("source_commit") != expected_source_commit:
             errors.append(
                 f"source_identity.json source_commit={si.get('source_commit')!r} "
@@ -1311,6 +1323,8 @@ def validate_pilot_launch_authorization(
     expected_model_identity: str,
     expected_quantization: str = "bnb-nf4",
     expected_deployed_build_id: str = "",
+    scenario_dir: str | Path | None = None,
+    scenario_ids: tuple[str, ...] | None = None,
 ) -> None:
     """Fail-closed pilot launch authorization gate.
 
@@ -1481,6 +1495,29 @@ def validate_pilot_launch_authorization(
         expected_model_identity="dry-run:mock",
     )
     errors.extend(dryrun_errors)
+
+    # --- D13r1 F1: PRE-MODEL semantic-executability gate ---------------------
+    # When the bundled scenario directory is supplied, every requested Pilot
+    # scenario must be concretely executable against its pinned base BEFORE any
+    # model call. A scenario whose capability is known-absent from the pinned
+    # base (e.g. saleor-loc-002 ``is_featured``) or whose capability cannot be
+    # verified against a staged pinned repository fails closed here — the full
+    # 48-cell Pilot is therefore NOT a launch basis while any of its scenarios
+    # is semantically unexecutable.
+    if scenario_dir is not None:
+        if not scenario_ids:
+            errors.append(
+                "semantic executability: scenario_dir provided but scenario_ids empty"
+            )
+        else:
+            try:
+                validate_pilot_semantic_executability(
+                    scenario_ids=scenario_ids,
+                    scenario_dir=scenario_dir,
+                    repository_roots=_semantic_repository_roots(Path(scenario_dir)),
+                )
+            except LaunchAuthorizationError as exc:
+                errors.append(str(exc))
 
     # --- HF token ---
     hf_token = os.environ.get("HF_TOKEN", "").strip()
@@ -1713,6 +1750,17 @@ def validate_pilot_canary_evidence(
                 f"canary source_identity protocol_version="
                 f"{si.get('protocol_version')!r} (expected '1.2')"
             )
+        if si.get("exact_patch") is not True:
+            errors.append(
+                f"canary source_identity exact_patch={si.get('exact_patch')!r} "
+                f"(expected true - D13 B1 / D13r1 F5 frozen execution contract)"
+            )
+        if si.get("agent_control_max_completion_tokens") != 512:
+            errors.append(
+                f"canary source_identity agent_control_max_completion_tokens="
+                f"{si.get('agent_control_max_completion_tokens')!r} "
+                f"(expected 512 - D13 B2 / D13r1 F5 frozen control-plane cap)"
+            )
         if si.get("profile") != "pilot-canary":
             errors.append(
                 f"canary source_identity profile={si.get('profile')!r} "
@@ -1752,6 +1800,106 @@ def validate_pilot_canary_evidence(
     if errors:
         raise LaunchAuthorizationError(
             "PILOT CANARY EVIDENCE VALIDATION FAILED:\n"
+            + "\n".join(f"  - {e}" for e in errors)
+        )
+    return summary
+
+
+# ---------------------------------------------------------------------------
+# D13r1 F1: fail-closed PRE-MODEL semantic-executability gate
+# ---------------------------------------------------------------------------
+
+
+def _semantic_repository_roots(scenarios_dir: Path) -> dict[str, Path | None]:
+    """Map each pinned Pilot repository to its staged root under the data root.
+
+    The bundled ``data/repositories/<repo>`` tree (a sibling of
+    ``data/scenarios``) carries the exact pinned repository sources on target
+    (Todo / django CMS / Saleor). A repository that is NOT staged locally maps
+    to ``None`` so the gate stays fail-closed (a sentinel-bearing scenario
+    without its staged repo is NOT verifiable).
+    """
+    repos_root = scenarios_dir.parent / "repositories"
+    roots: dict[str, Path | None] = {}
+    for repo_id in ("todo", "djangocms", "saleor"):
+        root = repos_root / repo_id
+        roots[repo_id] = root if root.is_dir() else None
+    return roots
+
+
+def validate_pilot_semantic_executability(
+    *,
+    scenario_ids: Sequence[str],
+    scenario_dir: str | Path,
+    repository_roots: Mapping[str, str | Path | None] | None = None,
+) -> dict[str, Any]:
+    """D13 B4 / D13r1 F1 — fail-closed PRE-MODEL semantic-executability gate.
+
+    Loads the requested Pilot/canary scenarios from the bundled scenario
+    directory and checks every one against the pinned-base capability registry
+    (``benchmark.execution.semantic_executability``). This gate runs BEFORE any
+    model call in the real pilot/pilot-canary launch path: a scenario whose
+    pinned base lacks a required capability (e.g. ``saleor-loc-002``
+    ``is_featured``) or whose capability cannot be verified against a staged
+    pinned repository is NOT launchable and fails closed here. It never
+    fabricates a PASS (the same fail-closed property as the registry module).
+
+    Returns the verdict summary only when every requested scenario is both
+    ``executable`` and ``verifiable``; raises ``LaunchAuthorizationError``
+    otherwise.
+    """
+    from benchmark.core.exceptions import ScenarioError
+    from benchmark.execution.semantic_executability import check_scenario_set_executability
+    from benchmark.scenarios.loader import ScenarioLoader
+
+    errors: list[str] = []
+    scenarios_dir = Path(scenario_dir)
+    loader = ScenarioLoader(scenarios_dir)
+    try:
+        loaded = {s.scenario_id: s for s in loader.load_all()}
+    except ScenarioError as exc:
+        errors.append(f"semantic-executability: cannot load scenarios from {scenarios_dir}: {exc}")
+        loaded = {}
+
+    missing = [sid for sid in scenario_ids if sid not in loaded]
+    for sid in missing:
+        errors.append(
+            f"semantic-executability: scenario not found in {scenarios_dir}: {sid}"
+        )
+
+    selected = [loaded[sid] for sid in scenario_ids if sid in loaded]
+    verdicts = check_scenario_set_executability(
+        selected, repository_roots=repository_roots
+    )
+    verdict_by_id = {v.scenario_id: v for v in verdicts}
+    for sid in scenario_ids:
+        if sid not in loaded:
+            continue
+        verdict = verdict_by_id[sid]
+        if not verdict.executable or not verdict.verifiable:
+            reasons = "; ".join(verdict.reasons)
+            errors.append(
+                f"semantic-executability: scenario {sid} is NOT launchable "
+                f"(executable={verdict.executable}, verifiable={verdict.verifiable}) "
+                f"— {reasons}"
+            )
+
+    summary: dict[str, Any] = {
+        "scenario_ids": list(scenario_ids),
+        "verdicts": [
+            {
+                "scenario_id": v.scenario_id,
+                "executable": v.executable,
+                "verifiable": v.verifiable,
+            }
+            for v in verdicts
+        ],
+        "executable": not errors,
+        "passed": not errors,
+    }
+    if errors:
+        raise LaunchAuthorizationError(
+            "PILOT SEMANTIC EXECUTABILITY GATE FAILED:\n"
             + "\n".join(f"  - {e}" for e in errors)
         )
     return summary
