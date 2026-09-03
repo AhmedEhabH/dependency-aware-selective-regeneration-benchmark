@@ -561,6 +561,111 @@ Status: **INVALIDATED on 2026-09-01; D12 blocker.**
 
 ---
 
+## A017 — Complete-file regeneration is sufficient for large generated files
+
+### Initial assumption
+The regeneration strategy could always rewrite an entire generated file, matching the monolithic arm's output semantics while preserving the selective budget.
+
+### Why it seemed reasonable
+Iterative regeneration had always produced complete files in local/dry-run tests, and exact-match editing was seen as unnecessary complexity.
+
+### Obstacle
+The 2026-09-02 real canary showed a 56k-char djangoCMS file consumed ~1154 s to emit only 1839 completion tokens; complete-file regeneration is O(file) in prompt/attention cost and blew the per-cell deadline and token budget. djangocms-cross-007 was deadline-censored.
+
+### Revised decision (required D13 B1)
+Introduce an exact-patch source editor (`<<<<<<< SEARCH … ======= … >>>>>>> REPLACE`, multi-block, fail-closed, exact string match, no regex/fuzzy) shared by BOTH strategies via `ExecutorConfig.exact_patch`. Both strategies now emit targeted patches, not wholesale file rewrites, so large files no longer dominate the prompt.
+
+### Lesson
+**Complete-file edit cost grows with file size; exact-patch editing makes cost proportional to the change, not the file.**
+
+Status: **CHANGED on 2026-09-02; D13 B1 (done).**
+
+---
+
+## A018 — The iterative agent may plan its own source edits under the same token cap
+
+### Initial assumption
+One completion-token allowance per call (the source-edit cap) is enough to bound an agent's control-plane reasoning and its actual code edits together.
+
+### Why it seemed reasonable
+The plan/analysis text and the emitted code share one model call, so a single cap seemed natural.
+
+### Obstacle
+On the 2026-09-02 canary, the agent's control-plane reasoning (impact analysis, plan revision) consumed completion budget that large-file regeneration then lacked, contributing to censored/under-length outputs.
+
+### Revised decision (required D13 B2)
+Separate the **agent-control-plane** output cap (`AGENT_CONTROL_MAX_COMPLETION_TOKENS = 512`) from the **source-edit** cap. `control_cap = min(max_completion_tokens_per_call, AGENT_CONTROL_MAX_COMPLETION_TOKENS)` is applied to `analyze_impact` and `revise_plan`; the source-edit allowance is unchanged.
+
+### Lesson
+**Control-plane reasoning and production code edits need independent token budgets, or reasoning starves the edit.**
+
+Status: **CHANGED on 2026-09-02; D13 B2 (done).**
+
+---
+
+## A019 — Migration execution is environment-agnostic
+
+### Initial assumption
+A migration directory JSON field and environment-agnostic command targeting were enough; the executor did not need to know which repository a migration belongs to.
+
+### Why it seemed reasonable
+The Todo/django CMS/Saleor repos share a Django-style migration layout.
+
+### Obstacle
+Migrations must run inside the correct repository working tree against the correct `validation_python`; environment-agnostic targeting risks running an interpreter/env that does not match the repository.
+
+### Revised decision (required D13 B3)
+Add `migration_directory: str = "todo/migrations"` to `Scenario` and thread it through `run_post_generation_command`. The per-repo `validation_python` binding (repository-aware interpreter resolution) is a follow-up, deferred within this closure.
+
+### Lesson
+**Command execution must be repository-aware; a shared default directory is a stopgap, not the full binding.**
+
+Status: **PARTIALLY CHANGED on 2026-09-02; D13 B3 (core field + threading done, per-repo interpreter binding deferred).**
+
+---
+
+## A020 — All 12 Pilot scenarios are semantically executable on the pinned base repos
+
+### Initial assumption
+The pinned base repositories already satisfy every hidden capability a Pilot scenario needs to run, so a fail-closed executability gate was unnecessary.
+
+### Why it seemed reasonable
+Local and dry-run execution never exercised a real failure of a hidden assertion against the frozen base.
+
+### Obstacle
+B4 analysis found scenarios that cannot run on the pinned base as-is: todo-loc-001's hidden priority-filter test needs an amended/validated expectation, saleor-loc-002 requires `is_featured` absent from the pinned base (must fail closed), and saleor-cross-007 needs a create capability. Untested, these scenarios silently produce no-path-selection or false-terminal outcomes.
+
+### Revised decision (required D13 B4)
+A fail-closed semantic-executability gate across all 12 Pilot scenarios (B4.1 todo-loc-001 hidden test, B4.2 saleor-loc-002 `is_featured`, B4.3 create capability). **Not implemented in this D13 closure; recorded as a deferred known-incomplete with explicit rationale** to keep the artifact/closure unambiguous about what is and is not proven.
+
+### Lesson
+**Scenario coverage must include a fail-closed executability check against the exact pinned base, or hidden missing-capability scenarios silently fail.**
+
+Status: **KNOWN-INCOMPLETE / deferred on 2026-09-02; D13 B4 not implemented (see WORK STATE).**
+
+---
+
+## A021 — Protocol 1.1 remains the correct Pilot runtime contract after the canary failure
+
+### Initial assumption
+After the 2026-09-02 canary exposed production-scale execution defects (deadline censoring, oversized-file regeneration, build-in-completion failures), the Pilot runtime protocol 1.1 was still correct.
+
+### Why it seemed reasonable
+The canary failures looked like per-scenario execution defects, not a systemic contract problem.
+
+### Obstacle
+The defects (deadline censoring, token-budget starvation, complete-file O(file) cost) indicate the Pilot runtime contract should be tightened to a corrected protocol to reflect the production-grade execution semantics (exact-patch editing, separated budgets, repository-aware migrations).
+
+### Revised decision (required D13 protocol bump)
+Advance **Pilot-only** protocol 1.1 → 1.2: `resolve_profile_protocol` returns 1.2 for `pilot`/`pilot-canary`; preflight validators (preflight.py:1243 and 1711), `configs/pilot.yaml`, `pilot_validation_commands.yaml`, and the canary contract are bumped. Non-Pilot profiles stay 1.0; generic "1.1" source defaults not Pilot-coupled are left intact.
+
+### Lesson
+**A changed runtime contract must be versioned explicitly for the profile it governs, and preflight validators must be moved in lockstep.**
+
+Status: **CHANGED on 2026-09-02; D13 protocol 1.1→1.2 (Pilot-only).**
+
+---
+
 # 4. Latest real Kaggle attempt — 2026-09-01
 
 ## What passed
@@ -616,6 +721,43 @@ This is an engineering orchestration failure, not a failed scientific canary.
 
 ---
 
+# 4b. Latest real Kaggle attempt — 2026-09-02 (pilot-canary)
+
+## What happened
+
+A real Pilot canary was launched on 2026-09-02 from the D12 candidate
+(`v0.9.22-d12-candidate`, source `84acb8bb`, profile `pilot-canary`,
+protocol 1.1, model `qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`,
+hardware 2× Tesla T4).
+
+```text
+planned = 6, completed = 6, failed = 6, succeeded = 0
+wall time ≈ 5525 s
+```
+
+Breakdown:
+- 4 deadline-censored (killed at the workflow deadline),
+- 2 Todo build-in-completion failures,
+- 0 evaluator-passed.
+
+## Root-cause blockers exposed (closed/flagged in D13)
+
+| Blocker | Evidence | D13 closure |
+|---|---|---|
+| Complete-file regeneration | djangoCMS used a 56k-char file consuming ~1154 s to emit only 1839 completion tokens | B1 exact-patch source editing (done) |
+| Agent control-plane token starvation | completion budgets consumed by plan/analysis, starving the source edit | B2 `AGENT_CONTROL_MAX_COMPLETION_TOKENS = 512` (done) |
+| Environment-agnostic migrations | migrations not bound to the correct repo/interpreter | B3 `migration_directory` field + threading (core done; per-repo interpreter binding deferred) |
+| Missing scenario executability | scenarios can't run on the pinned base (hidden missing capability) | B4 fail-closed executability gate (deferred, known-incomplete) |
+| Stale Pilot runtime contract | deadline censoring + oversized-file + build-in-completion indicate contract gap | Pilot protocol 1.1→1.2 (done) |
+
+## Scientific contamination
+
+None. No scientific claim is changed by this closure; v0.9.22 scientific inputs
+are unchanged. The canary itself did not pass, so **no 48-cell Pilot launch and
+no stable release tag** is authorized by this closure.
+
+---
+
 # 5. Obstacle → correction summary
 
 | Obstacle | Incorrect/insufficient assumption | Correction |
@@ -636,6 +778,11 @@ This is an engineering orchestration failure, not a failed scientific canary.
 | Canary blast radius contradiction | Profile unit assertions enough | Executable CLI topology test |
 | Protocol 1.1 leaked globally | Global default is harmless | Profile-derived protocol |
 | `SCRIPT_PATH` NameError | CLI integration proves notebook path | Notebook execution-order regression test |
+| Complete-file regeneration violates deadline/budget | Whole-file edit is always safe | Exact-patch SEARCH/REPLACE editing (B1) |
+| Agent reasoning starves the edit | One token cap is enough | Separate 512 control-plane cap (B2) |
+| Migrations environment-agnostic | Shared default dir is enough | Repository-aware `migration_directory` (B3) |
+| Scenarios silently unexecutable on pinned base | Coverage implies executability | Fail-closed executability gate (B4, deferred) |
+| Pilot runtime contract stale after canary | 1.1 still correct | Pilot-only protocol 1.1→1.2 |
 
 ---
 
@@ -692,25 +839,31 @@ For the current `SCRIPT_PATH` bug, the correct fix is a **small notebook orchest
 D11 code/config scientific contract:     PASS
 D11 exact artifact topology:             PASS
 Real target repository/model preflight:  PASS
-Real pilot-canary execution:             BLOCKED before start
-Cause:                                    notebook SCRIPT_PATH ordering bug
-Scientific canary evidence:              NONE
+D12 notebook orchestration fix:          PASS
+Real pilot-canary execution (2026-09-02):FAILED 6/6 (deadline + build-in-completion)
+Cause:                                    production-scale execution defects (B1-B4)
+D13 closures (B1 exact-patch, B2 caps, B3 migrations):  DONE
+D13 protocol 1.1 -> 1.2 (Pilot-only):    DONE
+D13 B4 semantic executability gate:      DEFERRED (known-incomplete)
+Scientific canary evidence:              NONE (canary did not pass)
 Full 48-cell Pilot authorization:        NO-GO
 ```
 
 Required next action:
 
 ```text
-D12 minimal notebook orchestration fix
-→ targeted regression tests
-→ Gates 1-6 (reuse unaffected gates only with explicit evidence; rerun affected integration)
-→ full suite once
-→ fresh exact artifact + provenance
-→ Kaggle real preflight
-→ real 6-cell canary
+D13 closures verified (B1-B3 + protocol bump, B4 deferred)
+→ targeted regression tests (GREEN)
+→ gates + full suite
+→ freeze fresh exact-artifact candidate v0.9.22-d13-candidate + provenance
+→ real preflight
+→ real 6-cell canary (must PASS before any 48-cell Pilot)
+→ B4 executability gate closed before a launch basis
 ```
 
-Do not launch the 48-cell Pilot until the real 6-cell canary passes and is independently audited.
+Do not launch the 48-cell Pilot until the real 6-cell canary passes and is
+independently audited, and B4 is closed so every Pilot scenario is
+semantically executable against the pinned base.
 
 ---
 
@@ -734,7 +887,8 @@ This learning ledger is grounded in the project's formal decisions:
 - D031-D033: Kaggle/GitHub boundary, notebook navigation, real T4 preflight and old stable tag
 - D034: all-failed real Pilot rejection and viability correction
 - D035: Saleor-inclusive 6-cell canary + protocol correction
-- **Next formal entry should record the 2026-09-01 notebook execution-order failure and D12 correction.**
+- D036: notebook execution-order failure and D12 correction (SCRIPT_PATH defined once)
+- D13 (this closure): 2026-09-02 canary production-scale execution defects — exact-patch editing (B1), separate agent-control cap (B2), repository-aware migration directory (B3), Pilot-only protocol 1.1→1.2, `v0.9.22-d13-candidate` supersedes D12; B4 executability gate deferred (known-incomplete).
 
 ---
 

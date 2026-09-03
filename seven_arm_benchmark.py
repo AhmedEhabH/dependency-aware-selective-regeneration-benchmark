@@ -258,6 +258,7 @@ class ExecutionProfile:
     blast_radii: list[str] | None = None
     scenario_ids: list[str] | None = None
     timeout_seconds: int = 0
+    exact_patch: bool = False
 
 
 PROFILES: dict[str, ExecutionProfile] = {
@@ -287,6 +288,7 @@ PROFILES: dict[str, ExecutionProfile] = {
             "saleor-mod-004", "saleor-cross-007",
         ],
         timeout_seconds=1200,
+        exact_patch=True,
     ),
     "pilot-canary": ExecutionProfile(
         name="pilot-canary",
@@ -302,6 +304,7 @@ PROFILES: dict[str, ExecutionProfile] = {
         blast_radii=["localized", "cross_cutting"],
         scenario_ids=["todo-loc-001", "djangocms-cross-007", "saleor-loc-001"],
         timeout_seconds=1200,
+        exact_patch=True,
     ),
     "research": ExecutionProfile(
         name="research",
@@ -346,7 +349,7 @@ PROFILES: dict[str, ExecutionProfile] = {
 def resolve_profile_protocol(profile_name: str, explicit: str | None = None) -> str:
     """Resolve the protocol version for a profile (D11 B2).
 
-    Only the Pilot contract (``pilot`` and ``pilot-canary``) is protocol 1.1;
+    Only the Pilot contract (``pilot`` and ``pilot-canary``) is protocol 1.2;
     every other profile defaults to 1.0 so the Pilot protocol correction never
     leaks into non-Pilot profiles (smoke/research/scientific-smoke-v1/v2). An
     explicit ``--protocol-version`` always overrides the profile-derived value.
@@ -354,7 +357,7 @@ def resolve_profile_protocol(profile_name: str, explicit: str | None = None) -> 
     if explicit is not None:
         return explicit
     if profile_name in ("pilot", "pilot-canary"):
-        return "1.1"
+        return "1.2"
     return "1.0"
 
 # ---------------------------------------------------------------------------
@@ -673,6 +676,7 @@ def run_arm(
     max_completion_tokens_per_call: int = 4096,
     max_total_workflow_tokens: int = 0,
     qwen_quantization: str = "bnb-int8",
+    exact_patch: bool = False,
 ) -> object:
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -715,6 +719,7 @@ def run_arm(
         validation_timeout=180,
         max_completion_tokens_per_call=max_completion_tokens_per_call,
         max_total_workflow_tokens=resolved_total,
+        exact_patch=exact_patch,
     )
 
     pipeline = BenchmarkPipeline(
@@ -887,6 +892,12 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=0,
         help="Total workflow token ceiling per run (0 = unlimited)",
+    )
+    parser.add_argument(
+        "--exact-patch",
+        action="store_true",
+        default=False,
+        help="Enable exact-patch regeneration mode (SEARCH/REPLACE blocks instead of full-file rewrite)",
     )
     parser.add_argument(
         "--validation-command",
@@ -1374,6 +1385,7 @@ def _stage_and_smoke_run(
     _backend: object = None,
     max_completion_tokens_per_call: int = 4096,
     max_total_workflow_tokens: int = 0,
+    exact_patch: bool = False,
 ) -> dict[str, Any]:
     """Production path: repository source resolution → snapshot staging → execution.
 
@@ -1425,6 +1437,7 @@ def _stage_and_smoke_run(
         _backend=_backend,
         max_completion_tokens_per_call=max_completion_tokens_per_call,
         max_total_workflow_tokens=max_total_workflow_tokens,
+        exact_patch=exact_patch,
     )
     return record_dict
 
@@ -1456,6 +1469,7 @@ def _run_single_scenario_strategy(
     max_completion_tokens_per_call: int = 4096,
     max_total_workflow_tokens: int = 0,
     qwen_quantization: str = "bnb-int8",
+    exact_patch: bool = False,
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
@@ -1512,6 +1526,7 @@ def _run_single_scenario_strategy(
         python_executable=sys.executable,
         max_completion_tokens_per_call=max_completion_tokens_per_call,
         max_total_workflow_tokens=resolved_total,
+        exact_patch=exact_patch,
     )
 
     pipeline = BenchmarkPipeline(
@@ -1963,6 +1978,10 @@ def main() -> int:
     # Use profile timeout if CLI arg not explicitly set (default 0 = no limit)
     if args.timeout == 0 and profile.timeout_seconds > 0:
         args.timeout = profile.timeout_seconds
+
+    # Use profile exact_patch if not explicitly overridden via CLI
+    if not getattr(args, "exact_patch", False) and profile.exact_patch:
+        args.exact_patch = profile.exact_patch
 
     # ---- Validation-runtime contract (v0.9.21 B1/B2/B3) ---------------------
     # Fail closed BEFORE the scientific execution plan is created or any model
@@ -2877,6 +2896,7 @@ def main() -> int:
             max_total_workflow_tokens=args.max_total_workflow_tokens or max_tokens,
             qwen_quantization=args.qwen_quantization,
             _backend=shared_backend if needs_llm else None,
+            exact_patch=getattr(args, "exact_patch", False),
         )
         run_ended_at = datetime.now(UTC).isoformat()
         run_elapsed = time.monotonic() - run_t0

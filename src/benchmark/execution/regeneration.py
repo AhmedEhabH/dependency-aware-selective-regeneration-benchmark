@@ -16,6 +16,7 @@ from pathlib import Path
 from benchmark.core.models import LLMResponse, RegenerationScenarioContext
 from benchmark.core.protocols import LLMBackend
 from benchmark.execution.budgets import resolve_completion_allowance
+from benchmark.execution.exact_patch import ExactPatchError, apply_exact_patches, parse_exact_patch
 from benchmark.execution.isolation import IsolationContext
 from benchmark.llm.output_normalization import normalize_single_payload
 from benchmark.selection.planner import RegenerationPlan
@@ -66,6 +67,23 @@ Output contract:
 - Return only the complete replacement file content, without explanation or markdown fences.
 """
 
+EXACT_PATCH_OUTPUT_CONTRACT = """\
+Output contract (EXACT PATCH mode — do NOT return the complete file):
+- Return ONLY one or more SEARCH/REPLACE blocks.  No explanation, no prose, no markdown fences.
+- Each block has this exact structure:
+    <<<<<<< SEARCH
+    <exact lines to find, byte-for-byte>
+    =======
+    <replacement lines>
+    >>>>>>> REPLACE
+- You may emit multiple blocks in sequence.  Later blocks see the effect of earlier ones.
+- Each SEARCH block must match exactly ONE contiguous region in the current
+  file.  Do not reuse the same search text twice.
+- Whitespace and indentation must match the current file exactly.  No fuzzy matching.
+- For a "preserve" action, return the EXISTING file content byte-identically (not a patch).
+- For a "create" action, return the COMPLETE new file content (not a patch).
+"""
+
 REPAIR_CONTEXT_PROMPT_TEMPLATE = """\
 
 Previous attempt failed validation.
@@ -113,27 +131,45 @@ def build_generation_prompt(
     scenario_context: RegenerationScenarioContext | None = None,
     expected_action: str | None = None,
     repair_context: str | None = None,
+    output_mode: str = "complete_file",
 ) -> str:
     """Build the full regeneration prompt for an artifact.
 
-    When a frozen ``RegenerationScenarioContext`` is supplied, the prompt
-    includes the repository-wide acceptance criteria, architecture
-    constraints, the file-specific expected action, and the preserve-only /
-    no-redeclare scope contract.
+    When ``output_mode == "exact_patch"`` and the expected action is
+    ``modify``, the prompt instructs the model to emit SEARCH/REPLACE blocks
+    rather than the complete file.
     """
-    prompt = BUILT_IN_PROMPT_TEMPLATE.format(
-        requirement_delta=requirement_delta or "Update the artifact to match the new requirements.",
-        artifact_path=artifact_path,
-        language_hint=language_hint,
-        current_content=current_content,
+    effective_action = expected_action
+    if scenario_context is not None:
+        effective_action = expected_action or scenario_context.expected_action_for(artifact_path)
+
+    use_patch_mode = (
+        output_mode == "exact_patch"
+        and effective_action not in (None, "create")
     )
+
+    if use_patch_mode:
+        prompt = (
+            f"You are editing exactly one source artifact in an existing software project.\n\n"
+            f"Requirement change:\n{requirement_delta or 'Update the artifact to match the new requirements.'}\n\n"
+            f"Artifact path: {artifact_path}\n\n"
+            f"Current content:\n```{language_hint}\n{current_content}\n```\n\n"
+            f"{EXACT_PATCH_OUTPUT_CONTRACT}\n"
+        )
+    else:
+        prompt = BUILT_IN_PROMPT_TEMPLATE.format(
+            requirement_delta=requirement_delta or "Update the artifact to match the new requirements.",
+            artifact_path=artifact_path,
+            language_hint=language_hint,
+            current_content=current_content,
+        )
     prompt += (
         "\nArtifact responsibility:\n"
         + _artifact_role_guidance(artifact_path)
         + "\n"
     )
     if scenario_context is not None:
-        ea = expected_action or scenario_context.expected_action_for(artifact_path)
+        ea = effective_action
         prompt += SCENARIO_CONTEXT_PROMPT_TEMPLATE.format(
             scenario_id=scenario_context.scenario_id,
             acceptance_criteria=(
@@ -422,6 +458,7 @@ class SharedRegenerationExecutor:
         max_completion_tokens_per_call: int = 4096,
         remaining_total_workflow_tokens: int | None = None,
         prior_attempt_hashes: dict[str, str] | None = None,
+        enable_exact_patch: bool = False,
     ) -> RegenerationExecutionResult:
         old_loop: asyncio.AbstractEventLoop | None = None
         with contextlib.suppress(RuntimeError):
@@ -435,6 +472,7 @@ class SharedRegenerationExecutor:
                     remaining_total_workflow_tokens=remaining_total_workflow_tokens,
                     prior_attempt_hashes=prior_attempt_hashes,
                     can_start_model_call=self._can_start_model_call,
+                    enable_exact_patch=enable_exact_patch,
                 )
             )
         finally:
@@ -456,6 +494,7 @@ class SharedRegenerationExecutor:
         remaining_total_workflow_tokens: int | None = None,
         prior_attempt_hashes: dict[str, str] | None = None,
         can_start_model_call: Callable[[], bool] | None = None,
+        enable_exact_patch: bool = False,
     ) -> RegenerationExecutionResult:
         workspace_root = str(isolation.workspace.root)
         start_time = time.monotonic()
@@ -538,6 +577,7 @@ class SharedRegenerationExecutor:
                 current_content=current_content,
                 scenario_context=scenario_context,
                 repair_context=repair_context,
+                output_mode="exact_patch" if enable_exact_patch else "complete_file",
             )
 
             prompt_estimate = getattr(
@@ -683,6 +723,39 @@ class SharedRegenerationExecutor:
             output_text = normalized_body
             if normalization_mode == "single_fence_stripped":
                 logger.info("MODEL_OUTPUT_NORMALIZED path=%s mode=single_fence_stripped", artifact.path)
+
+            # --- exact-patch application for modify targets ---
+            _effective_action = (
+                scenario_context.expected_action_for(artifact.path)
+                if scenario_context is not None and scenario_context.expected_actions
+                else "modify"
+            )
+            if (
+                enable_exact_patch
+                and _effective_action not in ("create", "preserve")
+            ):
+                try:
+                    _blocks = parse_exact_patch(output_text)
+                    output_text = apply_exact_patches(current_content, _blocks)
+                except ExactPatchError as exc:
+                    failures.append(
+                        f"exact_patch_failed: {artifact.path}: {exc}"
+                    )
+                    atomic_abort = True
+                    generated.append(
+                        GeneratedArtifact(
+                            path=artifact.path,
+                            content=output_text,
+                            status="rejected",
+                        )
+                    )
+                    logger.info(
+                        "REGEN_ARTIFACT_END path=%s status=rejected "
+                        "reason=exact_patch_failed elapsed=%.3f",
+                        artifact.path,
+                        time.monotonic() - artifact_start,
+                    )
+                    continue
 
             output_hash = hashlib.sha256(output_text.encode("utf-8")).hexdigest()
             artifact_hashes[artifact.path] = output_hash

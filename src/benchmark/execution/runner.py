@@ -283,6 +283,7 @@ class RunnerConfig:
     max_total_workflow_tokens: int = 0
     canonical_project_root: str | Path | None = None
     python_executable: str = ""
+    exact_patch: bool = False
     extra: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -459,6 +460,7 @@ class BenchmarkRunner:
                 workspace_root=self._isolation.workspace.root,
                 command=pgc,
                 require_new_migration=scenario.require_new_migration,
+                migration_directory=scenario.migration_directory,
                 timeout=self._config.validation_timeout,
             )
             if not migration_result.passed:
@@ -1213,6 +1215,7 @@ class BenchmarkRunner:
             scenario_context=self._build_scenario_context(scenario),
             max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
             remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
+            enable_exact_patch=self._config.exact_patch,
         )
 
         self._budget.record_tokens(exec_result.total_tokens)
@@ -1423,6 +1426,7 @@ class BenchmarkRunner:
                 max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
                 remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
                 prior_attempt_hashes=prior_hashes,
+                enable_exact_patch=self._config.exact_patch,
             )
             self._last_regeneration_hashes = dict(exec_result.artifact_hashes)
 
@@ -1821,6 +1825,7 @@ class BenchmarkRunner:
                     scenario_context=self._build_scenario_context(scenario),
                     max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
                     remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
+                    enable_exact_patch=self._config.exact_patch,
                 )
 
                 self._budget.record_tokens(exec_result.total_tokens)

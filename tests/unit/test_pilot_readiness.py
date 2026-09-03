@@ -27,7 +27,7 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 PILOT_CONFIG_PATH = PROJECT_DIR / "configs" / "pilot.yaml"
 
 PILOT_PROFILE_LABEL = "protocol-pilot"
-PILOT_PROTOCOL_VERSION = "1.1"
+PILOT_PROTOCOL_VERSION = "1.2"
 PILOT_TIMEOUT_SECONDS = 1200
 PILOT_REPETITIONS = 2
 PILOT_MAX_ITERATIONS = 3  # initial generation + max 2 repairs (frozen AC-05)

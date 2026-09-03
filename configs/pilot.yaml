@@ -22,7 +22,7 @@
 #   represented per repository. Reason recorded in the decision/change ledger.
 
 profile_label: protocol-pilot
-protocol_version: "1.1"
+protocol_version: "1.2"
 execution_mode: kaggle
 
 strategies:
@@ -78,6 +78,7 @@ execution:
   timeout_seconds: 1200
   random_seed: 42
   evidence_tier: engineering_validation
+  exact_patch: true
   repetitions: 2
 
 output:

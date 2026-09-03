@@ -149,7 +149,7 @@ class TestEvaluationResult:
 class TestEvaluationConfig:
     def test_defaults(self) -> None:
         config = EvaluationConfig()
-        assert config.protocol_version == "1.1"
+        assert config.protocol_version == "1.2"
         assert config.include_secondary is True
         assert config.strict_mode is False
 
