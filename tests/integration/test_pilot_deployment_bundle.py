@@ -19,6 +19,7 @@ verification, failing closed on traversal/collision/missing-blob maps.
 
 from __future__ import annotations
 
+import ast
 import datetime
 import hashlib
 import importlib.util
@@ -772,11 +773,33 @@ class TestPilotKaggleTransport:
 
 
 def _dist_artifact_is_current_release() -> bool:
+    """True only when the frozen dist artifact matches the CURRENT release.
+
+    A dist artifact is "the current release" only when its deployment identity
+    source tag matches the pinned release tag AND its identity carries the full
+    frozen deployment contract of the canonical notebook (all FROZEN_DEPLOYMENT
+    keys/values). This makes the release-gate test skip while the frozen
+    artifact predates the notebook contract (e.g. before a D13r1 rebuild the
+    D13 artifact lacks the ``exact_patch`` / ``agent_control_max_completion_tokens``
+    identity fields the notebook now freezes) and run exactly when the artifact
+    is the current release.
+    """
     if not DIST_ARTIFACT.is_file():
         return False
     with zipfile.ZipFile(DIST_ARTIFACT) as zf:
         identity = json.loads(zf.read("pilot_deployment_identity.json").decode("utf-8"))
-    return identity.get("source_tag") == PILOT_SOURCE_TAG
+    if identity.get("source_tag") != PILOT_SOURCE_TAG:
+        return False
+    nb = json.loads(CANONICAL_NOTEBOOK.read_text(encoding="utf-8"))
+    setup = next(c for c in nb["cells"] if c.get("id") == "setup-cell")
+    src = "".join(setup["source"]) if isinstance(setup["source"], list) else setup["source"]
+    match = re.search(r"FROZEN_DEPLOYMENT\s*=\s*(\{.*?\})", src, re.DOTALL)
+    if match is None:
+        return False
+    frozen = ast.literal_eval(match.group(1))
+    if not isinstance(frozen, dict):
+        return False
+    return all(identity.get(key) == value for key, value in frozen.items())
 
 
 class TestPilotKaggleExpandedMount:

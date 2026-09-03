@@ -5,6 +5,7 @@ scenario_id: "todo-loc-001"
 repository: todo
 change_type: "Schema and field changes"
 blast_radius: localized
+migration_directory: "todo/migrations"
 requirement_before: >
   The Task model has only basic fields: title (CharField, max_length=200),
   description (TextField, blank=True), status (CharField with choices

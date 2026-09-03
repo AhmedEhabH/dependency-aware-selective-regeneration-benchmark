@@ -79,6 +79,8 @@ execution:
   random_seed: 42
   evidence_tier: engineering_validation
   exact_patch: true
+  # D13 B2 / D13r1 F5: separate agent control-plane completion cap.
+  agent_control_max_completion_tokens: 512
   repetitions: 2
 
 output:

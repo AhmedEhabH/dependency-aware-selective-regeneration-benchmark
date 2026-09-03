@@ -957,3 +957,79 @@ class TestRepairNoProgress:
         assert result.total_tokens == result.prompt_tokens + result.completion_tokens
         assert result.prompt_tokens > 0
         assert result.completion_tokens > 0
+class TestRepairPromptExactPatchContract:
+    """D13r1 F4: the repair context must NOT contradict exact-patch mode.
+
+    The legacy repair context told the model to "Return the complete
+    replacement file content" — a direct contradiction of the EXACT PATCH
+    output contract (SEARCH/REPLACE blocks only) that was appended right
+    above it. A repair in exact-patch mode must never instruct complete-file
+    regeneration (the D13 canary root cause for the 56k-char djangoCMS file).
+    """
+
+    def _repair_context(self) -> str:
+        from benchmark.execution.regeneration import REPAIR_CONTEXT_PROMPT_TEMPLATE
+
+        return REPAIR_CONTEXT_PROMPT_TEMPLATE.format(
+            stage="baseline_validation",
+            exit_code=1,
+            root_cause="AssertionError: priority not exposed",
+            generation_failures="- (none recorded)",
+            stdout="(none)",
+            stderr="(none)",
+        )
+
+    def test_exact_patch_prompt_with_repair_has_no_complete_file_instruction(self) -> None:
+        prompt = build_generation_prompt(
+            requirement_delta="add priority",
+            artifact_path="todo/models.py",
+            language_hint="python",
+            current_content="class Task:\n    pass\n",
+            repair_context=self._repair_context(),
+            expected_action="modify",
+            output_mode="exact_patch",
+        )
+        assert "EXACT PATCH mode" in prompt
+        assert "Return the complete replacement file content" not in prompt
+        assert "Return only the complete replacement file content" not in prompt
+        assert "<<<<<<< SEARCH" in prompt
+
+    def test_exact_patch_repair_prompt_still_demands_patch_blocks(self) -> None:
+        prompt = build_generation_prompt(
+            requirement_delta="add priority",
+            artifact_path="todo/models.py",
+            language_hint="python",
+            current_content="class Task:\n    pass\n",
+            repair_context=self._repair_context(),
+            expected_action="modify",
+            output_mode="exact_patch",
+        )
+        assert "Follow the output contract already stated above" in prompt
+        assert prompt.index("EXACT PATCH mode") < prompt.index(
+            "Follow the output contract"
+        )
+
+    def test_complete_file_mode_repair_still_instructs_complete_file(self) -> None:
+        prompt = build_generation_prompt(
+            requirement_delta="add priority",
+            artifact_path="todo/models.py",
+            language_hint="python",
+            current_content="class Task:\n    pass\n",
+            repair_context=self._repair_context(),
+            expected_action="modify",
+            output_mode="complete_file",
+        )
+        assert "Return only the complete replacement file content" in prompt
+        assert "<<<<<<< SEARCH" not in prompt
+
+    def test_repair_context_appended_after_output_contract(self) -> None:
+        prompt = build_generation_prompt(
+            requirement_delta="add priority",
+            artifact_path="todo/models.py",
+            language_hint="python",
+            current_content="class Task:\n    pass\n",
+            repair_context=self._repair_context(),
+            expected_action="modify",
+            output_mode="exact_patch",
+        )
+        assert prompt.rstrip().endswith("without explanation or markdown fences.")

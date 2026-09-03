@@ -102,8 +102,9 @@ Validation stderr excerpt (head + tail; root exception retained):
 {stderr}
 
 Correct the existing artifact using the evidence above. Do not repeat the same
-invalid output. Return the complete replacement file content without explanation
-or markdown fences.
+invalid output. Follow the output contract already stated above for this
+artifact (in EXACT PATCH mode emit SEARCH/REPLACE blocks; otherwise emit the
+complete replacement file), without explanation or markdown fences.
 """
 
 SCENARIO_CONTEXT_PROMPT_TEMPLATE = """\

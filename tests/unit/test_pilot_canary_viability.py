@@ -57,6 +57,8 @@ def _source_identity(**overrides: Any) -> dict[str, Any]:
         "source_tag": "v0.9.22-d13-candidate",
         "deployed_build_id": "abcdef12",
         "model_identity": "qwen:14b-instruct-v1:bnb-nf4:cfg-test",
+        "exact_patch": True,
+        "agent_control_max_completion_tokens": 512,
     }
     identity.update(overrides)
     return identity

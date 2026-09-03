@@ -2114,6 +2114,9 @@ def main() -> int:
                 expected_model_identity=expected_identity,
                 expected_quantization=args.qwen_quantization,
                 expected_deployed_build_id=deployed_build_id,
+                # D13r1 F1: fail-closed PRE-MODEL semantic-executability gate.
+                scenario_dir=scenarios_dir,
+                scenario_ids=tuple(profile.scenario_ids or ()),
             )
             logger.info("PILOT LAUNCH AUTHORIZATION: PASSED")
         except LaunchAuthorizationError as exc:
@@ -2776,6 +2779,7 @@ def main() -> int:
         "agent_control_max_completion_tokens": getattr(
             args, "agent_control_max_completion_tokens", 512
         ),
+        "exact_patch": getattr(args, "exact_patch", False),
         "experiment_id": hf_experiment_id,
         "hf_repo_id": args.hf_repo_id or "",
         "dry_run": args.dry_run,

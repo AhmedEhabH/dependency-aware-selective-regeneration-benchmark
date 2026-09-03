@@ -27,6 +27,7 @@ scenario metadata is available.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -183,7 +184,7 @@ def check_scenario_executability(
 def check_scenario_set_executability(
     scenarios: list[Scenario],
     *,
-    repository_roots: dict[str, str | Path | None] | None = None,
+    repository_roots: Mapping[str, str | Path | None] | None = None,
 ) -> list[ExecutabilityVerdict]:
     roots = repository_roots or {}
     return [
