@@ -1,14 +1,16 @@
 {
   "archive_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload.zip",
-  "archive_sha256": "812d37555a42f8fbdfbbb2e5441c814fb733cfd424ca75c810ead96a0bc4346a",
-  "created_utc": "2026-09-01T18:40:35+00:00",
+  "archive_sha256": "840341107a066f7a31e2eff429e68aebbd7727f004912d098ab7ab8d2a450e02",
+  "created_utc": "2026-09-03T21:10:51+00:00",
   "frozen_deployment": {
+    "agent_control_max_completion_tokens": 512,
+    "exact_patch": true,
     "expected_cells": 48,
     "max_attempts": 3,
     "max_completion_tokens_per_call": 4096,
     "max_total_workflow_tokens": 0,
     "model_name": "Qwen/Qwen2.5-Coder-14B-Instruct",
-    "protocol_version": "1.1",
+    "protocol_version": "1.2",
     "quantization": "bnb-nf4",
     "repetitions": 2,
     "scenario_count": 12,
@@ -17,17 +19,17 @@
     "timeout_seconds": 1200
   },
   "frozen_manifest_hashes": {
-    "code_manifest_sha256": "4c5f828cc643692a30b314bdead10c3df993da2208897f556ea8fd21c70ca992",
-    "data_manifest_sha256": "b89145a7d7f24b12baa8ef8ae79a2c34e50ed07da247efdf8ac93d805c60b8db",
+    "code_manifest_sha256": "1026384ee117657270dbb233c6830dec4e8747f669020f72eaf68694f0fcf27f",
+    "data_manifest_sha256": "2faaac7b0381d1ae919861eb6d31555d11ca0c9e0335226db02062d0698336ef",
     "kaggle_transport_path_map_sha256": "07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce",
-    "repository_snapshot_manifest_sha256": "695ae3397e7b83bce4e8e8d1df6d1d79f3452e47f99ff4dd97efb5b28421132c"
+    "repository_snapshot_manifest_sha256": "5b53af9c099a737ac44ee11f51c354c966b9b830c56c4feb675217c89d66686a"
   },
-  "frozen_source_tag": "v0.9.22-d12-candidate",
+  "frozen_source_tag": "v0.9.22-d13r2-candidate",
   "note": "source_commit must equal the final tag peel; the deployed identity source_commit is recorded here and must be re-verified after the immutable tag is created. notebook_sha256 hashes the DEPLOYED (line-ending-normalized) notebook bytes inside the artifact; notebook_source_sha256 hashes the source notebook file on this recording machine. Discovery build (validate_notebook_trust=False) + validation-enabled rebuild (validate_notebook_trust=True) confirmed; the artifact is the validation-enabled rebuild.",
-  "notebook_sha256": "af2d273beb9a99699c1986cd6d356b23f239ff9d0314cf035890bad558eb745e",
-  "notebook_source_sha256": "74dd6209b6c1614d17632281f531ee252b6fb021c5184739e683be21977fd912",
+  "notebook_sha256": "b44e8da7ef8900923f58c07c69a5d2046c01105032a45ab3cedb18ea49226fce",
+  "notebook_source_sha256": "b9017696bdad7cf2e39bd89ca775c62f8ff652e9a4284b6238d8757d907c87a5",
   "output_root": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload",
-  "source_commit": "84acb8bb01bbae28d6bab260d029af539c80a229",
-  "source_tag": "v0.9.22-d12-candidate",
+  "source_commit": "87da8f31fe2c77dfc6109a9ba21e50b2842e6944",
+  "source_tag": "v0.9.22-d13r2-candidate",
   "status": "FROZEN"
 }
