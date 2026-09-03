@@ -28,6 +28,13 @@ logger = logging.getLogger(__name__)
 
 MAX_AGENT_CALLS: int = 8
 
+# Control-plane output bound for the repository agent's own tool-use / analysis
+# responses (selection JSON, revision JSON).  The agent's control-plane output
+# is bounded SEPARATELY from the source-edit completion cap: the agent only
+# returns small structured JSON, so a full 4096-cap here would let a runaway
+# control loop burn the whole workflow budget before any source edit happens.
+AGENT_CONTROL_MAX_COMPLETION_TOKENS: int = 512
+
 
 class AgentCallsExhaustedError(Exception):
     """Raised when the agent has no remaining LLM calls."""
@@ -305,10 +312,14 @@ class IterativeRepositoryAgentStrategy:
 
         step_index = 0
 
+        control_cap = min(
+            max_completion_tokens_per_call, AGENT_CONTROL_MAX_COMPLETION_TOKENS
+        )
+
         while True:
             prompt_estimate = self._backend.count_prompt_tokens(prompt)
             allowance = resolve_completion_allowance(
-                max_completion_tokens_per_call=max_completion_tokens_per_call,
+                max_completion_tokens_per_call=control_cap,
                 remaining_total_workflow_tokens=local_remaining,
                 prompt_tokens=prompt_estimate,
             )
@@ -506,10 +517,14 @@ class IterativeRepositoryAgentStrategy:
 
         step_index = 0
 
+        control_cap = min(
+            max_completion_tokens_per_call, AGENT_CONTROL_MAX_COMPLETION_TOKENS
+        )
+
         while True:
             prompt_estimate = self._backend.count_prompt_tokens(prompt)
             allowance = resolve_completion_allowance(
-                max_completion_tokens_per_call=max_completion_tokens_per_call,
+                max_completion_tokens_per_call=control_cap,
                 remaining_total_workflow_tokens=local_remaining,
                 prompt_tokens=prompt_estimate,
             )

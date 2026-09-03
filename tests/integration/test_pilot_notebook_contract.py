@@ -35,7 +35,7 @@ import pytest
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
-EXPECTED_FROZEN_SOURCE_TAG = "v0.9.22-d12-candidate"
+EXPECTED_FROZEN_SOURCE_TAG = "v0.9.22-d13-candidate"
 
 # The bundled-notebook parity test builds a full Pilot bundle; the hermetic
 # fixture keeps that build deterministic without developer-local repo caches.
@@ -399,7 +399,7 @@ class TestCodeCellsUnchangedFromBaseline:
         for cid in ("dryrun-cell", "pilot-canary-cell", "pilot-launch-cell",
                     "pilot-resume-cell"):
             src = _src(by_id[cid])
-            assert '"1.1"' in src, f"{cid} not using protocol 1.1"
+            assert '"1.2"' in src, f"{cid} not using protocol 1.1"
             assert '"1200"' in src, f"{cid} not using timeout 1200"
 
     def test_d10_resume_cell_is_standalone_and_fail_closed(self) -> None:
@@ -435,9 +435,9 @@ class TestCodeCellsUnchangedFromBaseline:
 
     def test_setup_carries_d10_protocol_timeout_rejected_exp_viability(self) -> None:
         setup = _src(_cells_by_id(_nb())["setup-cell"])
-        assert 'EXPECTED_PROTOCOL_VERSION = "1.1"' in setup
+        assert 'EXPECTED_PROTOCOL_VERSION = "1.2"' in setup
         assert 'EXPECTED_TIMEOUT_SECONDS = 1200' in setup
-        assert '"protocol_version": "1.1"' in setup
+        assert '"protocol_version": "1.2"' in setup
         assert '"timeout_seconds": 1200' in setup
         assert 'REJECTED_PILOT_EXPERIMENT_IDS = ("exp-20260830-134232",)' in setup
         assert 'REJECTED_PILOT_CONFIG_HASHES = ("4b5bbcb2abcf62af",)' in setup
@@ -461,7 +461,7 @@ class TestFrozenIdentity:
         assert 'EXPECTED_PROFILE = "pilot"' in setup
         assert 'EXPECTED_MODEL_IDENTITY = "qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25"' in setup
         assert 'QWEN_QUANTIZATION = "bnb-nf4"' in setup
-        assert 'EXPECTED_PROTOCOL_VERSION = "1.1"' in setup
+        assert 'EXPECTED_PROTOCOL_VERSION = "1.2"' in setup
         assert 'EXPECTED_TIMEOUT_SECONDS = 1200' in setup
 
     def test_identity_cell_reads_bundled_identity(self) -> None:
@@ -535,7 +535,7 @@ class TestExecutionOrdering:
             "--max-attempts",
             "3",
             "--protocol-version",
-            "1.1",
+            "1.2",
             "--timeout",
             "1200",
             "--hf-sync",
@@ -1182,7 +1182,7 @@ class TestKaggleAutoExpandedMount:
         setup = self._src("setup-cell")
         for fragment in (
             '"task": "PILOT-EXEC-01"',
-            '"protocol_version": "1.1"',
+            '"protocol_version": "1.2"',
             '"model_name": "Qwen/Qwen2.5-Coder-14B-Instruct"',
             '"quantization": "bnb-nf4"',
             '"timeout_seconds": 1200',
@@ -1534,7 +1534,7 @@ class TestPilotDryrunEvidenceValidatorIntegration:
     proving 48/48 cells, exact source identity, and zero model calls/tokens."""
 
     SOURCE_COMMIT = "3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c"
-    SOURCE_TAG = "v0.9.22-d12-candidate"
+    SOURCE_TAG = "v0.9.22-d13-candidate"
     BUILT_ID = "d8-validator-integration"
 
     def _run_cli(self, script: Path, dryrun_dir: Path, data_dir: Path) -> None:
@@ -1543,7 +1543,7 @@ class TestPilotDryrunEvidenceValidatorIntegration:
                 sys.executable, "-u", str(script),
                 "--dry-run",
                 "--profile", "pilot",
-                "--protocol-version", "1.1",
+                "--protocol-version", "1.2",
                 "--max-attempts", "3",
                 "--max-completion-tokens-per-call", "4096",
                 "--max-total-workflow-tokens", "0",

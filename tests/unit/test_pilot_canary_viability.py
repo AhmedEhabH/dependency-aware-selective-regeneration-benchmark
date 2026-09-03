@@ -51,10 +51,10 @@ def _terminal_record(
 
 def _source_identity(**overrides: Any) -> dict[str, Any]:
     identity: dict[str, Any] = {
-        "protocol_version": "1.1",
+        "protocol_version": "1.2",
         "profile": "pilot-canary",
         "source_commit": "abcdef1234567890abcdef1234567890abcdef12",
-        "source_tag": "v0.9.22-d12-candidate",
+        "source_tag": "v0.9.22-d13-candidate",
         "deployed_build_id": "abcdef12",
         "model_identity": "qwen:14b-instruct-v1:bnb-nf4:cfg-test",
     }
@@ -166,7 +166,7 @@ class TestValidatePilotCanaryEvidence:
         summary = validate_pilot_canary_evidence(
             canary_dir=canary_dir,
             expected_source_commit="abcdef1234567890abcdef1234567890abcdef12",
-            expected_source_tag="v0.9.22-d12-candidate",
+            expected_source_tag="v0.9.22-d13-candidate",
             expected_model_identity="qwen:14b-instruct-v1:bnb-nf4:cfg-test",
             expected_deployed_build_id="abcdef12",
         )
@@ -184,7 +184,7 @@ class TestValidatePilotCanaryEvidence:
             validate_pilot_canary_evidence(
                 canary_dir=canary_dir,
                 expected_source_commit="abcdef1234567890abcdef1234567890abcdef12",
-                expected_source_tag="v0.9.22-d12-candidate",
+                expected_source_tag="v0.9.22-d13-candidate",
                 expected_model_identity="qwen:14b-instruct-v1:bnb-nf4:cfg-test",
             )
         assert "deadline-censored" in str(exc.value)
@@ -198,7 +198,7 @@ class TestValidatePilotCanaryEvidence:
             validate_pilot_canary_evidence(
                 canary_dir=canary_dir,
                 expected_source_commit="abcdef1234567890abcdef1234567890abcdef12",
-                expected_source_tag="v0.9.22-d12-candidate",
+                expected_source_tag="v0.9.22-d13-candidate",
                 expected_model_identity="qwen:14b-instruct-v1:bnb-nf4:cfg-test",
             )
         assert "engineering-blocker" in str(exc.value)
@@ -213,7 +213,7 @@ class TestValidatePilotCanaryEvidence:
             validate_pilot_canary_evidence(
                 canary_dir=canary_dir,
                 expected_source_commit="abcdef1234567890abcdef1234567890abcdef12",
-                expected_source_tag="v0.9.22-d12-candidate",
+                expected_source_tag="v0.9.22-d13-candidate",
                 expected_model_identity="qwen:14b-instruct-v1:bnb-nf4:cfg-test",
             )
         assert "dry-run:mock" in str(exc.value)
@@ -228,7 +228,7 @@ class TestValidatePilotCanaryEvidence:
             validate_pilot_canary_evidence(
                 canary_dir=canary_dir,
                 expected_source_commit="abcdef1234567890abcdef1234567890abcdef12",
-                expected_source_tag="v0.9.22-d12-candidate",
+                expected_source_tag="v0.9.22-d13-candidate",
                 expected_model_identity="qwen:14b-instruct-v1:bnb-nf4:cfg-test",
             )
         assert "protocol_version" in str(exc.value)
@@ -240,7 +240,7 @@ class TestValidatePilotCanaryEvidence:
             validate_pilot_canary_evidence(
                 canary_dir=canary_dir,
                 expected_source_commit="abcdef1234567890abcdef1234567890abcdef12",
-                expected_source_tag="v0.9.22-d12-candidate",
+                expected_source_tag="v0.9.22-d13-candidate",
                 expected_model_identity="qwen:14b-instruct-v1:bnb-nf4:cfg-test",
             )
         assert "records" in str(exc.value) or "strategy_counts" in str(exc.value)
@@ -254,7 +254,7 @@ class TestValidatePilotCanaryEvidence:
             validate_pilot_canary_evidence(
                 canary_dir=canary_dir,
                 expected_source_commit="abcdef1234567890abcdef1234567890abcdef12",
-                expected_source_tag="v0.9.22-d12-candidate",
+                expected_source_tag="v0.9.22-d13-candidate",
                 expected_model_identity="qwen:14b-instruct-v1:bnb-nf4:cfg-test",
             )
         assert "repo_counts" in str(exc.value) or "djangocms" in str(exc.value) or "saleor" in str(exc.value)
@@ -266,7 +266,7 @@ class TestValidatePilotCanaryEvidence:
             validate_pilot_canary_evidence(
                 canary_dir=canary_dir,
                 expected_source_commit="abcdef1234567890abcdef1234567890abcdef12",
-                expected_source_tag="v0.9.22-d12-candidate",
+                expected_source_tag="v0.9.22-d13-candidate",
                 expected_model_identity="qwen:14b-instruct-v1:bnb-nf4:cfg-test",
             )
         assert "records" in str(exc.value) or "saleor" in str(exc.value)

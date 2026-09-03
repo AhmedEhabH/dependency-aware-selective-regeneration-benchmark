@@ -1240,10 +1240,10 @@ def _collect_dryrun_evidence_errors(
             errors.append(
                 f"source_identity.json profile={si.get('profile')!r} (expected 'pilot')"
             )
-        if si.get("protocol_version") != "1.1":
+        if si.get("protocol_version") != "1.2":
             errors.append(
                 f"source_identity.json protocol_version="
-                f"{si.get('protocol_version')!r} (expected '1.1')"
+                f"{si.get('protocol_version')!r} (expected '1.2')"
             )
         if expected_source_commit and si.get("source_commit") != expected_source_commit:
             errors.append(
@@ -1708,10 +1708,10 @@ def validate_pilot_canary_evidence(
         except (OSError, ValueError) as exc:
             errors.append(f"canary source_identity.json unreadable: {type(exc).__name__}: {exc}")
 
-        if si.get("protocol_version") != "1.1":
+        if si.get("protocol_version") != "1.2":
             errors.append(
                 f"canary source_identity protocol_version="
-                f"{si.get('protocol_version')!r} (expected '1.1')"
+                f"{si.get('protocol_version')!r} (expected '1.2')"
             )
         if si.get("profile") != "pilot-canary":
             errors.append(

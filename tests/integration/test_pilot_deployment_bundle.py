@@ -70,7 +70,7 @@ PILOT_SCENARIO_IDS = [
 
 FROZEN_IDENTITY = {
     "task": "PILOT-EXEC-01",
-    "protocol_version": "1.1",
+    "protocol_version": "1.2",
     "model_name": "Qwen/Qwen2.5-Coder-14B-Instruct",
     "quantization": "bnb-nf4",
     "timeout_seconds": 1200,
@@ -163,7 +163,7 @@ def _build(tmp_path: Path, created_utc: str, source_commit: str, label: str) -> 
     return output_root, archive
 
 
-PILOT_SOURCE_TAG = "v0.9.22-d12-candidate"
+PILOT_SOURCE_TAG = "v0.9.22-d13-candidate"
 
 
 def _build_frozen(
@@ -1649,4 +1649,4 @@ class TestPilotBundleKeepsMarkdownNavigation:
             )
         # Frozen source tag must still be present after the two-pass freeze.
         setup = "".join(self._src(cells["setup-cell"]))
-        assert 'FROZEN_SOURCE_TAG = "v0.9.22-d12-candidate"' in setup
+        assert 'FROZEN_SOURCE_TAG = "v0.9.22-d13-candidate"' in setup

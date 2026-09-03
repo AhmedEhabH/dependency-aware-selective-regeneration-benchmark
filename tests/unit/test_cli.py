@@ -1361,8 +1361,8 @@ class TestProfileDerivedProtocolResolution:
             "research": "1.0",
             "scientific-smoke-v1": "1.0",
             "scientific-smoke-v2": "1.0",
-            "pilot": "1.1",
-            "pilot-canary": "1.1",
+            "pilot": "1.2",
+            "pilot-canary": "1.2",
         }
         for profile_name, protocol in expected.items():
             assert resolve_profile_protocol(profile_name) == protocol, (
@@ -1373,7 +1373,7 @@ class TestProfileDerivedProtocolResolution:
         from seven_arm_benchmark import resolve_profile_protocol
         # explicit override must beat the profile-derived value on both sides
         assert resolve_profile_protocol("pilot", explicit="1.0") == "1.0"
-        assert resolve_profile_protocol("smoke", explicit="1.1") == "1.1"
+        assert resolve_profile_protocol("smoke", explicit="1.2") == "1.2"
 
 
 class _FakeRunRecord:

@@ -102,7 +102,7 @@ class TestPilotCanaryExecutionPath:
         assert identity_path.is_file()
         identity = json.loads(identity_path.read_text(encoding="utf-8"))
         assert identity.get("profile") == "pilot-canary"
-        assert identity.get("protocol_version") == "1.1"
+        assert identity.get("protocol_version") == "1.2"
         assert identity.get("model_identity") == "dry-run:mock"
         assert identity.get("dry_run") is True
 

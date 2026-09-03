@@ -29,6 +29,7 @@ class PipelineConfig:
     max_total_workflow_tokens: int = 0
     canonical_project_root: str | Path | None = None
     python_executable: str = ""
+    exact_patch: bool = False
     extra: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -153,6 +154,7 @@ class BenchmarkPipeline:
             max_total_workflow_tokens=self._config.resolved_max_total_workflow_tokens,
             canonical_project_root=self._config.canonical_project_root,
             python_executable=self._config.python_executable,
+            exact_patch=self._config.exact_patch,
         )
         return BenchmarkRunner(
             strategy=self._strategy,

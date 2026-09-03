@@ -1411,7 +1411,7 @@ def _real_dryrun_record(
         "selection_total_tokens": 0,
         "regeneration_total_tokens": 0,
         "repair_total_tokens": 0,
-        "protocol_version": "1.1",
+        "protocol_version": "1.2",
         "profile": "pilot",
     }
     if overrides:
@@ -1450,7 +1450,7 @@ def _write_real_dryrun(
         json.dumps({
             "dry_run": True,
             "profile": "pilot",
-            "protocol_version": "1.1",
+            "protocol_version": "1.2",
             "source_commit": source_commit,
             "source_tag": source_tag,
             "deployed_build_id": deployed_build_id,
@@ -1705,7 +1705,7 @@ class TestValidatePilotLaunchAuthorization:
         (tmp_path / "dryrun" / "source_identity.json").write_text(json.dumps({
             "dry_run": True,
             "profile": "pilot",
-            "protocol_version": "1.1",
+            "protocol_version": "1.2",
             "source_commit": "abc123",
             "source_tag": "v0.9.14-pilot-exec-ready",
             "deployed_build_id": "build-001",
@@ -1851,7 +1851,7 @@ class TestCLIAuthorizationPath:
         dryrun_dir = tmp_path / "dryrun"
         dryrun_dir.mkdir()
         (dryrun_dir / "source_identity.json").write_text(json.dumps({
-            "dry_run": True, "profile": "pilot", "protocol_version": "1.1",
+            "dry_run": True, "profile": "pilot", "protocol_version": "1.2",
             "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
             "deployed_build_id": "b1", "model_identity": "dry-run:mock",
         }), encoding="utf-8")
@@ -1872,7 +1872,7 @@ class TestCLIAuthorizationPath:
             max_completion_tokens_per_call=4096,
             max_total_workflow_tokens=0, validation_command=None,
             validation_python=[], validation_timeout=None,
-            protocol_version="1.1", model_path=None,
+            protocol_version="1.2", model_path=None,
             qwen_quantization="bnb-nf4", resume=False,
             resume_from=None, max_runs=0, hf_sync=False,
             hf_repo_id=None, resume_from_hf=False,
@@ -1897,7 +1897,7 @@ class TestCLIAuthorizationPath:
         dryrun_dir = tmp_path / "dryrun"
         dryrun_dir.mkdir()
         (dryrun_dir / "source_identity.json").write_text(json.dumps({
-            "dry_run": True, "profile": "pilot", "protocol_version": "1.1",
+            "dry_run": True, "profile": "pilot", "protocol_version": "1.2",
             "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
             "deployed_build_id": "b1", "model_identity": "dry-run:mock",
         }), encoding="utf-8")
@@ -1950,7 +1950,7 @@ class TestCLIAuthorizationPath:
             max_completion_tokens_per_call=4096,
             max_total_workflow_tokens=0, validation_command=None,
             validation_python=[], validation_timeout=None,
-            protocol_version="1.1", model_path=None,
+            protocol_version="1.2", model_path=None,
             qwen_quantization="bnb-nf4", resume=False,
             resume_from=None, max_runs=0, hf_sync=False,
             hf_repo_id=None, resume_from_hf=False,
@@ -2373,7 +2373,7 @@ class TestValidatePilotDryrunEvidence:
         (dryrun / "source_identity.json").write_text(json.dumps({
             "dry_run": True,
             "profile": "pilot",
-            "protocol_version": "1.1",
+            "protocol_version": "1.2",
             "source_commit": "abc123",
             "source_tag": "v0.9.18-pilot-exec-ready",
             "deployed_build_id": "build-001",
