@@ -197,3 +197,34 @@ class TestScenarioLoader:
         warning_messages = [rec.message for rec in caplog.records]
         assert any("a.yaml" in m for m in warning_messages)
         assert any("b.yaml" in m for m in warning_messages)
+
+    def test_migration_directory_parsed_from_yaml(self, tmp_path: Path) -> None:
+        data = dict(SAMPLE_SCENARIO_YAML)
+        data["migration_directory"] = "saleor/saleor/migrations"
+        data["post_generation_command"] = ["python", "manage.py", "makemigrations", "saleor"]
+        data["require_new_migration"] = True
+        scenario_file = tmp_path / "mig.yaml"
+        scenario_file.write_text(yaml.dump(data), encoding="utf-8")
+
+        scenario = ScenarioLoader(tmp_path).load_scenario(scenario_file)
+        assert scenario.migration_directory == "saleor/saleor/migrations"
+        assert scenario.post_generation_command == (
+            "python", "manage.py", "makemigrations", "saleor",
+        )
+        assert scenario.require_new_migration is True
+
+    def test_migration_directory_default_is_todo(self, tmp_path: Path) -> None:
+        scenario_file = tmp_path / "default.yaml"
+        scenario_file.write_text(yaml.dump(SAMPLE_SCENARIO_YAML), encoding="utf-8")
+
+        scenario = ScenarioLoader(tmp_path).load_scenario(scenario_file)
+        assert scenario.migration_directory == "todo/migrations"
+
+    def test_absolute_migration_directory_rejected(self, tmp_path: Path) -> None:
+        data = dict(SAMPLE_SCENARIO_YAML)
+        data["migration_directory"] = "/todo/migrations"
+        scenario_file = tmp_path / "bad_mig.yaml"
+        scenario_file.write_text(yaml.dump(data), encoding="utf-8")
+
+        with pytest.raises(ScenarioError, match="migration_directory"):
+            ScenarioLoader(tmp_path).load_scenario(scenario_file)

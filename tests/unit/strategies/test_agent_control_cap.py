@@ -4,17 +4,16 @@ from pathlib import Path
 
 import pytest
 
-from benchmark.core.enums import ActionKind
+from benchmark.core.enums import ArtifactType
 from benchmark.core.models import (
-    ArtifactUniverse,
     ArtifactRef,
+    ArtifactUniverse,
+    LLMResponse,
     RepositoryIdentity,
     RepositorySnapshot,
     RequirementChange,
     TokenUsage,
-    LLMResponse,
 )
-from benchmark.core.enums import ArtifactType
 from benchmark.strategies.iterative_agent import (
     AGENT_CONTROL_MAX_COMPLETION_TOKENS,
     IterativeRepositoryAgentStrategy,
@@ -110,3 +109,71 @@ class TestAgentControlPlaneCap:
             remaining_total_workflow_tokens=None,
         )
         assert all(m <= AGENT_CONTROL_MAX_COMPLETION_TOKENS for m in backend.requested_max_tokens)
+
+    def test_constructor_rejects_non_positive_cap(self) -> None:
+        backend = _RecordingBackend(final_action="final")
+        with pytest.raises(ValueError):
+            IterativeRepositoryAgentStrategy(
+                backend, agent_control_max_completion_tokens=0
+            )
+        with pytest.raises(ValueError):
+            IterativeRepositoryAgentStrategy(
+                backend, agent_control_max_completion_tokens=-5
+            )
+
+    def test_custom_cap_is_honored_and_precedes_source_edit_cap(self) -> None:
+        custom_cap = 256
+        assert custom_cap < AGENT_CONTROL_MAX_COMPLETION_TOKENS
+        backend = _RecordingBackend(final_action="final")
+        strategy = IterativeRepositoryAgentStrategy(
+            backend, agent_control_max_completion_tokens=custom_cap
+        )
+        tmp = Path(__file__).parent
+        strategy.begin_run(tmp)
+        backend.requested_max_tokens.clear()
+
+        strategy.analyze_impact(
+            repository=_make_repo(),
+            requirement_change=_make_change(),
+            artifact_universe=_make_universe(),
+            max_completion_tokens_per_call=4096,
+            remaining_total_workflow_tokens=None,
+        )
+        assert backend.requested_max_tokens
+        assert all(m <= custom_cap for m in backend.requested_max_tokens)
+
+
+class TestAgentControlConfig:
+    def test_pipeline_config_default_and_validation(self) -> None:
+        from benchmark.execution.pipeline import PipelineConfig
+
+        assert PipelineConfig(protocol_version="1.2").agent_control_max_completion_tokens == 512
+        assert (
+            PipelineConfig(
+                protocol_version="1.2", agent_control_max_completion_tokens=256
+            ).agent_control_max_completion_tokens
+            == 256
+        )
+        with pytest.raises(ValueError):
+            PipelineConfig(protocol_version="1.2", agent_control_max_completion_tokens=0)
+        with pytest.raises(ValueError):
+            PipelineConfig(protocol_version="1.2", agent_control_max_completion_tokens=True)
+
+    def test_runner_config_default_and_validation(self) -> None:
+        from benchmark.execution.runner import RunnerConfig
+
+        base = dict(
+            strategy_name="iterative_repository_agent",
+            backend_name="qwen",
+            protocol_version="1.2",
+        )
+        assert RunnerConfig(**base).agent_control_max_completion_tokens == 512
+        assert (
+            RunnerConfig(**base, agent_control_max_completion_tokens=128)
+            .agent_control_max_completion_tokens
+            == 128
+        )
+        with pytest.raises(ValueError):
+            RunnerConfig(**base, agent_control_max_completion_tokens=-1)
+        with pytest.raises(ValueError):
+            RunnerConfig(**base, agent_control_max_completion_tokens=True)

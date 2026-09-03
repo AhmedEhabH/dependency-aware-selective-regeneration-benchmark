@@ -71,6 +71,18 @@ def _parse_action_kind(value: str) -> ActionKind:
         raise ValueError(f"Invalid action_kind: {value}") from err
 
 
+def _validate_migration_directory(value: str) -> None:
+    normalized = value.replace("\\", "/")
+    if normalized.startswith("/"):
+        raise ValueError("ScenarioModel.migration_directory must not be absolute")
+    if ".." in normalized.split("/"):
+        raise ValueError("ScenarioModel.migration_directory must not contain '..'")
+    if "\\" in normalized:
+        raise ValueError("ScenarioModel.migration_directory must not contain backslash")
+    if "\x00" in normalized:
+        raise ValueError("ScenarioModel.migration_directory must not contain NUL")
+
+
 @dataclass(frozen=True)
 class ScenarioModel:
     scenario_id: str
@@ -89,6 +101,7 @@ class ScenarioModel:
     evaluator_asset: str = ""
     post_generation_command: tuple[str, ...] = ()
     require_new_migration: bool = False
+    migration_directory: str = "todo/migrations"
 
     def __post_init__(self) -> None:
         if not self.scenario_id:
@@ -111,6 +124,9 @@ class ScenarioModel:
             raise ValueError("ScenarioModel.require_new_migration must be a bool")
         if not isinstance(self.evaluator_asset, str):
             raise ValueError("ScenarioModel.evaluator_asset must be a string")
+        if not isinstance(self.migration_directory, str) or not self.migration_directory.strip():
+            raise ValueError("ScenarioModel.migration_directory must be a non-empty string")
+        _validate_migration_directory(self.migration_directory)
 
     def to_core_scenario(self) -> Scenario:
         blast = _parse_blast_radius(self.blast_radius)
@@ -168,6 +184,7 @@ class ScenarioModel:
             evaluator_asset=self.evaluator_asset,
             post_generation_command=self.post_generation_command,
             require_new_migration=self.require_new_migration,
+            migration_directory=self.migration_directory,
         )
 
     @staticmethod
@@ -220,6 +237,11 @@ class ScenarioModel:
         if not isinstance(raw_evaluator_asset, str):
             raise ValueError("ScenarioModel.evaluator_asset must be a string")
 
+        raw_migration_directory = data.get("migration_directory", "todo/migrations")
+        if not isinstance(raw_migration_directory, str) or not raw_migration_directory.strip():
+            raise ValueError("ScenarioModel.migration_directory must be a non-empty string")
+        _validate_migration_directory(raw_migration_directory)
+
         return ScenarioModel(
             scenario_id=str(data.get("scenario_id", "")),
             repository=str(data.get("repository", "")),
@@ -245,4 +267,5 @@ class ScenarioModel:
             evaluator_asset=raw_evaluator_asset,
             post_generation_command=command_tuple,
             require_new_migration=raw_migration,
+            migration_directory=raw_migration_directory,
         )

@@ -395,7 +395,7 @@ class ScenarioProvider:
 # Strategy factory
 # ---------------------------------------------------------------------------
 
-def make_strategy(name: str, backend=None, graph=None, artifact_descriptors=None):  # type: ignore[no-untyped-def]
+def make_strategy(name, backend=None, graph=None, artifact_descriptors=None, agent_control_max_completion_tokens=512):  # type: ignore[no-untyped-def]
     from benchmark.strategies import (
         FullContextStrategy,
         HybridSelectiveStrategy,
@@ -415,7 +415,10 @@ def make_strategy(name: str, backend=None, graph=None, artifact_descriptors=None
     if name == "iterative_repository_agent":
         if backend is None:
             raise ValueError("IterativeRepositoryAgentStrategy requires a backend")
-        return IterativeRepositoryAgentStrategy(backend=backend)
+        return IterativeRepositoryAgentStrategy(
+            backend=backend,
+            agent_control_max_completion_tokens=agent_control_max_completion_tokens,
+        )
 
     strategies = {
         "monolithic": (MonolithicRegenerationStrategy, {}),
@@ -677,6 +680,7 @@ def run_arm(
     max_total_workflow_tokens: int = 0,
     qwen_quantization: str = "bnb-int8",
     exact_patch: bool = False,
+    agent_control_max_completion_tokens: int = 512,
 ) -> object:
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -696,7 +700,12 @@ def run_arm(
         openrouter_timeout=openrouter_timeout,
         qwen_quantization=qwen_quantization,
     ) if needs_llm else None
-    strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
+    strategy = make_strategy(
+        strategy_name,
+        backend=backend,
+        graph=dep_graph,
+        agent_control_max_completion_tokens=agent_control_max_completion_tokens,
+    )
 
     isolation = make_isolation(isolation_workspace)
 
@@ -898,6 +907,13 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         default=False,
         help="Enable exact-patch regeneration mode (SEARCH/REPLACE blocks instead of full-file rewrite)",
+    )
+    parser.add_argument(
+        "--agent-control-max-completion-tokens",
+        type=int,
+        default=512,
+        help="Maximum completion tokens for the repository agent's control-plane calls "
+        "(analyze_impact / revise_plan), separate from the source-edit cap (D13 B2)",
     )
     parser.add_argument(
         "--validation-command",
@@ -1386,6 +1402,8 @@ def _stage_and_smoke_run(
     max_completion_tokens_per_call: int = 4096,
     max_total_workflow_tokens: int = 0,
     exact_patch: bool = False,
+    agent_control_max_completion_tokens: int = 512,
+    validation_python: str | None = None,
 ) -> dict[str, Any]:
     """Production path: repository source resolution → snapshot staging → execution.
 
@@ -1436,8 +1454,10 @@ def _stage_and_smoke_run(
         snapshot_storage_root=snapshot_storage,
         _backend=_backend,
         max_completion_tokens_per_call=max_completion_tokens_per_call,
-        max_total_workflow_tokens=max_total_workflow_tokens,
+        max_total_workflow_tokens=resolved_total,
+        agent_control_max_completion_tokens=agent_control_max_completion_tokens,
         exact_patch=exact_patch,
+        validation_python=validation_python,
     )
     return record_dict
 
@@ -1470,6 +1490,8 @@ def _run_single_scenario_strategy(
     max_total_workflow_tokens: int = 0,
     qwen_quantization: str = "bnb-int8",
     exact_patch: bool = False,
+    agent_control_max_completion_tokens: int = 512,
+    validation_python: str | None = None,
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
@@ -1492,7 +1514,13 @@ def _run_single_scenario_strategy(
     else:
         backend = None
 
-    strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph, artifact_descriptors=artifact_descriptors)
+    strategy = make_strategy(
+        strategy_name,
+        backend=backend,
+        graph=dep_graph,
+        artifact_descriptors=artifact_descriptors,
+        agent_control_max_completion_tokens=agent_control_max_completion_tokens,
+    )
 
     isolation = make_isolation(
         workspace_dir,
@@ -1526,7 +1554,9 @@ def _run_single_scenario_strategy(
         python_executable=sys.executable,
         max_completion_tokens_per_call=max_completion_tokens_per_call,
         max_total_workflow_tokens=resolved_total,
+        agent_control_max_completion_tokens=agent_control_max_completion_tokens,
         exact_patch=exact_patch,
+        validation_python=validation_python,
     )
 
     pipeline = BenchmarkPipeline(
@@ -2743,6 +2773,9 @@ def main() -> int:
         "model_identity": model_identity,
         "profile": profile.name,
         "protocol_version": args.protocol_version,
+        "agent_control_max_completion_tokens": getattr(
+            args, "agent_control_max_completion_tokens", 512
+        ),
         "experiment_id": hf_experiment_id,
         "hf_repo_id": args.hf_repo_id or "",
         "dry_run": args.dry_run,
@@ -2897,6 +2930,10 @@ def main() -> int:
             qwen_quantization=args.qwen_quantization,
             _backend=shared_backend if needs_llm else None,
             exact_patch=getattr(args, "exact_patch", False),
+            agent_control_max_completion_tokens=getattr(
+                args, "agent_control_max_completion_tokens", 512
+            ),
+            validation_python=_validation_pythons.get(repository_id),
         )
         run_ended_at = datetime.now(UTC).isoformat()
         run_elapsed = time.monotonic() - run_t0

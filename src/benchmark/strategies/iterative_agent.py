@@ -183,8 +183,19 @@ def _build_revise_prompt(
 
 
 class IterativeRepositoryAgentStrategy:
-    def __init__(self, backend: LLMBackend) -> None:
+    def __init__(
+        self,
+        backend: LLMBackend,
+        *,
+        agent_control_max_completion_tokens: int = AGENT_CONTROL_MAX_COMPLETION_TOKENS,
+    ) -> None:
+        if agent_control_max_completion_tokens <= 0:
+            raise ValueError(
+                "agent_control_max_completion_tokens must be a positive integer, "
+                f"got {agent_control_max_completion_tokens}"
+            )
         self._backend = backend
+        self._agent_control_max_completion_tokens = agent_control_max_completion_tokens
         self._tool_calls: int = 0
         self._model_calls: int = 0
         self._tool_duration: float = 0.0
@@ -243,7 +254,12 @@ class IterativeRepositoryAgentStrategy:
                 "Workflow deadline reached before agent model call"
             )
         self._remaining_agent_calls -= 1
-        response = asyncio.get_event_loop().run_until_complete(
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        response = loop.run_until_complete(
             self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=max_completion_tokens)
         )
         tok = response.token_usage
@@ -313,7 +329,7 @@ class IterativeRepositoryAgentStrategy:
         step_index = 0
 
         control_cap = min(
-            max_completion_tokens_per_call, AGENT_CONTROL_MAX_COMPLETION_TOKENS
+            max_completion_tokens_per_call, self._agent_control_max_completion_tokens
         )
 
         while True:
@@ -518,7 +534,7 @@ class IterativeRepositoryAgentStrategy:
         step_index = 0
 
         control_cap = min(
-            max_completion_tokens_per_call, AGENT_CONTROL_MAX_COMPLETION_TOKENS
+            max_completion_tokens_per_call, self._agent_control_max_completion_tokens
         )
 
         while True:
