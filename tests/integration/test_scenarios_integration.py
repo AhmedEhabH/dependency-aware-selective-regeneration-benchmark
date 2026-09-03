@@ -197,8 +197,20 @@ class TestSmokeScenariosV2:
     def test_non_smoke_scenario_defaults(self) -> None:
         loader = ScenarioLoader(SCENARIOS_DIR)
         scenarios = loader.load_all()
+        # D13R2 Fix 1: the 3 canary scenarios are the ONLY non-smoke scenarios that
+        # carry executable migration metadata (frozen post_generation_command +
+        # require_new_migration). Every other non-smoke scenario keeps defaults.
+        canary_ids = {"todo-loc-001", "djangocms-cross-007", "saleor-loc-001"}
         for s in scenarios:
             if s.scenario_id.startswith("todo-smoke"):
+                continue
+            if s.scenario_id in canary_ids:
+                assert s.post_generation_command, (
+                    f"{s.scenario_id}: canary post_generation_command must be non-empty"
+                )
+                assert s.require_new_migration is True, (
+                    f"{s.scenario_id}: canary require_new_migration must be True"
+                )
                 continue
             assert s.evaluator_asset == "", f"{s.scenario_id}: evaluator_asset not empty"
             assert s.post_generation_command == (), f"{s.scenario_id}: post_generation_command not empty"

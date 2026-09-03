@@ -69,6 +69,10 @@ class _ValidatedPostGenerationRequest:
     require_new_migration: bool
     timeout: int
     resolved_interpreter: str | None = None
+    # D13R2 Fix 3: frozen repository validation-environment overrides, merged
+    # into the child environment exactly like FunctionalValidator (the parent
+    # ``os.environ`` is never mutated).
+    env: dict[str, str] | None = None
 
 
 @dataclass(frozen=True)
@@ -122,6 +126,7 @@ def _validate_inputs(
     timeout: int,
     migration_directory: str,
     resolved_interpreter: str | None = None,
+    env: dict[str, str] | None = None,
 ) -> _ValidatedPostGenerationRequest | str:
     try:
         if isinstance(command, (str, bytes)):
@@ -140,6 +145,14 @@ def _validate_inputs(
             return "resolved_interpreter must be a non-empty string or None"
         if resolved_interpreter and "\x00" in resolved_interpreter:
             return "resolved_interpreter must not contain NUL"
+        if env is not None:
+            if not isinstance(env, dict):
+                return "env must be a dict or None"
+            for key, value in env.items():
+                if not isinstance(key, str) or not isinstance(value, str):
+                    return "env must map string keys to string values"
+                if "\x00" in key or "\x00" in value:
+                    return "env must not contain NUL"
         if not isinstance(migration_directory, str) or not migration_directory.strip():
             return "migration_directory is not a valid POSIX path"
         if "\x00" in migration_directory:
@@ -183,6 +196,7 @@ def _validate_inputs(
             require_new_migration=require_new_migration,
             timeout=timeout,
             resolved_interpreter=resolved_interpreter,
+            env=env,
         )
     except (OSError, RuntimeError, ValueError, TypeError) as exc:
         return f"workspace validation error: {exc}"
@@ -302,6 +316,12 @@ def _run_command(
     resolved_command = _normalize_interpreter_command(
         request.command, request.resolved_interpreter
     )
+    # D13R2 Fix 3: same env-merge semantics as FunctionalValidator — child env is
+    # the parent env plus the frozen repository validation overrides; the parent
+    # ``os.environ`` is never mutated.
+    run_env = os.environ.copy()
+    if request.env:
+        run_env.update(request.env)
     try:
         proc = subprocess.run(
             resolved_command,
@@ -309,6 +329,7 @@ def _run_command(
             capture_output=True,
             text=True,
             timeout=request.timeout,
+            env=run_env,
         )
         return _CommandOutcome(
             succeeded=proc.returncode == 0,
@@ -427,6 +448,7 @@ def run_post_generation_command(
     timeout: int = 180,
     migration_directory: str = "todo/migrations",
     resolved_interpreter: str | None = None,
+    env: dict[str, str] | None = None,
 ) -> PostGenerationResult:
     start = time.monotonic()
 
@@ -437,6 +459,7 @@ def run_post_generation_command(
         timeout=timeout,
         migration_directory=migration_directory,
         resolved_interpreter=resolved_interpreter,
+        env=env,
     )
     if isinstance(validation_result, str):
         duration = time.monotonic() - start

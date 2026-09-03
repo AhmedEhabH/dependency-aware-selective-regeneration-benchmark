@@ -50,6 +50,59 @@ class _CapabilityProbe:
     static_path: str | None = None
 
 
+# D13R2 Fix 2 — frozen canary migration-executability fixtures.
+#
+# The runner executes migration generation only when a scenario carries a
+# non-empty ``post_generation_command`` (with ``require_new_migration``).  These
+# three canary scenarios MUST carry the exact frozen command/flag/directory so a
+# real pilot-canary actually runs the repository-aware migration stage (H1/H2).
+# The gate never infers migration requirements from English text; it compares
+# against this explicit frozen map and fails closed on any mismatch.
+#
+# ``(command, require_new_migration, migration_directory)`` per scenario.
+_CANARY_MIGRATION_FIXTURES: dict[str, tuple[tuple[str, ...], bool, str]] = {
+    "todo-loc-001": (
+        ("python", "manage.py", "makemigrations", "todo", "--noinput"),
+        True,
+        "todo/migrations",
+    ),
+    "djangocms-cross-007": (
+        ("python", "manage.py", "makemigrations", "cms", "--noinput"),
+        True,
+        "cms/migrations",
+    ),
+    "saleor-loc-001": (
+        ("python", "manage.py", "makemigrations", "product", "--noinput"),
+        True,
+        "saleor/product/migrations",
+    ),
+}
+
+
+def _migration_executability_reasons(scenario: Scenario) -> list[str]:
+    fixture = _CANARY_MIGRATION_FIXTURES.get(scenario.scenario_id)
+    if fixture is None:
+        return []
+    frozen_command, frozen_require_new, frozen_directory = fixture
+    reasons: list[str] = []
+    if scenario.require_new_migration is not frozen_require_new:
+        reasons.append(
+            f"migration executability requires require_new_migration="
+            f"{frozen_require_new}"
+        )
+    if scenario.post_generation_command != frozen_command:
+        reasons.append(
+            f"post_generation_command does not equal the frozen migration command "
+            f"{frozen_command!r}"
+        )
+    if scenario.migration_directory != frozen_directory:
+        reasons.append(
+            f"migration_directory does not equal the frozen directory "
+            f"{frozen_directory!r}"
+        )
+    return reasons
+
+
 # Deterministic, pinned-base capability facts.  These encode what the FROZEN
 # pinned repository bases provide.  ``present_in_pinned_base=False`` means the
 # capability is CONFIRMED ABSENT from the pinned base → the scenario can never
@@ -171,6 +224,11 @@ def check_scenario_executability(
                 f"capability '{probe.name}' requires an on-disk sentinel that "
                 "could not be verified (no staged repository)"
             )
+
+    migration_reasons = _migration_executability_reasons(scenario)
+    if migration_reasons:
+        all_present = False
+        reasons.extend(migration_reasons)
 
     executable = all_present and all_verified
     return ExecutabilityVerdict(

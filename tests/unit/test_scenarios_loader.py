@@ -245,6 +245,59 @@ class TestCanaryMigrationMetadata:
         "djangocms-cross-007": "cms/migrations",
     }
 
+    CANARY_FROZEN_COMMANDS = {
+        "todo-loc-001": (
+            "python", "manage.py", "makemigrations", "todo", "--noinput",
+        ),
+        "djangocms-cross-007": (
+            "python", "manage.py", "makemigrations", "cms", "--noinput",
+        ),
+        "saleor-loc-001": (
+            "python", "manage.py", "makemigrations", "product", "--noinput",
+        ),
+    }
+
+    def test_canary_scenarios_carry_frozen_migration_command_and_flag(self) -> None:
+        scenarios_dir = (
+            Path(__file__).resolve().parent.parent.parent
+            / "benchmark_data" / "scenarios"
+        )
+        if not scenarios_dir.is_dir():
+            pytest.skip("benchmark_data/scenarios directory not found")
+        scenarios = {s.scenario_id: s for s in ScenarioLoader(scenarios_dir).load_all()}
+        for scenario_id, expected_command in self.CANARY_FROZEN_COMMANDS.items():
+            assert scenarios[scenario_id].post_generation_command == expected_command, (
+                f"{scenario_id} post_generation_command="
+                f"{scenarios[scenario_id].post_generation_command!r} "
+                f"(expected {expected_command!r})"
+            )
+            assert scenarios[scenario_id].require_new_migration is True, (
+                f"{scenario_id} require_new_migration must be True"
+            )
+
+    def test_migration_command_declared_only_on_three_canary_scenarios(self) -> None:
+        scenarios_dir = (
+            Path(__file__).resolve().parent.parent.parent
+            / "benchmark_data" / "scenarios"
+        )
+        if not scenarios_dir.is_dir():
+            pytest.skip("benchmark_data/scenarios directory not found")
+        declared = set()
+        for scenario_file in sorted(scenarios_dir.glob("*.yaml")):
+            data = yaml.safe_load(scenario_file.read_text(encoding="utf-8"))
+            if not isinstance(data, dict):
+                continue
+            sid = str(data.get("scenario_id", ""))
+            if sid.startswith("todo-smoke"):
+                continue
+            if "post_generation_command" in data or "require_new_migration" in data:
+                declared.add(sid)
+        assert declared == set(self.CANARY_FROZEN_COMMANDS), (
+            f"migration execution metadata explicitly declared on non-smoke "
+            f"scenarios {sorted(declared)}; "
+            f"expected exactly {sorted(self.CANARY_FROZEN_COMMANDS)}"
+        )
+
     def test_canary_scenarios_carry_per_repo_migration_directory(self) -> None:
         scenarios_dir = (
             Path(__file__).resolve().parent.parent.parent
