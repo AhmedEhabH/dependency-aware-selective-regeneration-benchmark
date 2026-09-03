@@ -1,0 +1,35 @@
+{
+  "archive_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload.zip",
+  "archive_sha256": "44397531034347ab79817956622d9988ae6520fe0b0dabeac4c4bdc6aef026f6",
+  "created_utc": "2026-09-03T16:30:00+00:00",
+  "frozen_deployment": {
+    "agent_control_max_completion_tokens": 512,
+    "exact_patch": true,
+    "expected_cells": 48,
+    "max_attempts": 3,
+    "max_completion_tokens_per_call": 4096,
+    "max_total_workflow_tokens": 0,
+    "model_name": "Qwen/Qwen2.5-Coder-14B-Instruct",
+    "protocol_version": "1.2",
+    "quantization": "bnb-nf4",
+    "repetitions": 2,
+    "scenario_count": 12,
+    "strategy_count": 2,
+    "task": "PILOT-EXEC-01",
+    "timeout_seconds": 1200
+  },
+  "frozen_manifest_hashes": {
+    "code_manifest_sha256": "dce4b81b66440b2a1a57679f7d2c510ce37ec468ccdd7293883a000160e4c585",
+    "data_manifest_sha256": "6e085b2ba65327dccad00576346ecd75d4f9e07f6c660a5351376e622aaab250",
+    "kaggle_transport_path_map_sha256": "07036a36cd97daef48a39f6490bc055f58e87b336d849a4c1343e82a167cdbce",
+    "repository_snapshot_manifest_sha256": "5b53af9c099a737ac44ee11f51c354c966b9b830c56c4feb675217c89d66686a"
+  },
+  "frozen_source_tag": "v0.9.22-d13r1-candidate",
+  "note": "source_commit must equal the final tag peel; the deployed identity source_commit is recorded here and must be re-verified after the immutable tag is created. notebook_sha256 hashes the DEPLOYED (line-ending-normalized) notebook bytes inside the artifact; notebook_source_sha256 hashes the source notebook file on this recording machine. Discovery build (validate_notebook_trust=False) + validation-enabled rebuild (validate_notebook_trust=True) confirmed; the artifact is the validation-enabled rebuild.",
+  "notebook_sha256": "6706bf72046ecb5b5ba11e3ca5c6559195e067e9087600c8b9a1f1231d4c197a",
+  "notebook_source_sha256": "7634a544de10d3e0ee497d7c273dfbe209e26171fd28b74c303dc45f372f52b5",
+  "output_root": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-kaggle-upload",
+  "source_commit": "48e694da9495f6d1c991cdbf63caca8131f294a9",
+  "source_tag": "v0.9.22-d13r1-candidate",
+  "status": "FROZEN"
+}
