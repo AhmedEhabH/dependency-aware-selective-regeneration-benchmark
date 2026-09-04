@@ -794,3 +794,87 @@
 - **Alternatives considered:** Inferring migration requirements from English scenario text at runtime - REJECTED (fail-closed frozen map is deterministic and auditable). Expanding the migration-executability registry to all 12 Pilot scenarios - REJECTED (Canary-only readiness; the 7 unregistered scenarios fail closed = desired non-launch-basis property). Adding a new env-merge mechanism instead of FunctionalValidator semantics - REJECTED (reuse the exact same child-env semantics for parity). Touching Qwen/Kaggle/timeout/Selective - REJECTED (scientific inputs untouched).
 - **Impact:** Scientific version stays v0.9.22 (never v0.9.23). No scientific input changed. Source commits: `5daf88d` (Fix 1-4 code + tests) -> `87da8f3` (release-tag constants aligned to v0.9.22-d13r2-candidate) -> `fc1c7c8` (notebook anchor refresh + freeze report) -> `b7ebb22` (provenance-verified freeze report). **Candidate artifact** `dist/pilot-kaggle-upload.zip` SHA-256 **`65269528049b1f22f277c508f0b0db5b09d536e99fd31d306cfbbfb42e47ef9f`** (+ sidecar verified) from source commit `fc1c7c8...` tag `v0.9.22-d13r2-candidate`; two-pass finalizer `--verify-source-provenance` **0 mismatches**. The retired `v0.9.22-pilot-exec-ready` tag (peel `478261ff...`) and the `edae1b7e...8c4a` artifact are NOT reused; the D13r1 candidate (`v0.9.22-d13r1-candidate`, archive `9f120412...`) is SUPERSEDED by this D13R2 candidate and stays immutable historical evidence. Never resume `exp-20260828-151335`; `exp-20260830-134232` remains REJECTED.
 - **Evidence:** Six gates GREEN. G1 dataset **276 passed / 4 skipped**; G2 prompt **77 passed**; G3 pipeline smoke **992 passed / 27 skipped**; G4 source dry-runs Pilot **48/48** + canary **6/6** (0 calls, 0 tokens, protocol 1.2, canonical `validate_pilot_dryrun_evidence` PASS) + exact-artifact dry-runs Pilot **48/48** + canary **6/6** (repos 2/2/2, strategies 3/3, rep 1:6, 0 calls/tokens, source_commit `fc1c7c8`, exact_patch True, agent_control 512) + bundled-exact canary SEMANTIC PRE-MODEL gate **PASS** on the 3 canary scenarios; G6 metrics **194 passed**; G5 full suite **2671 passed / 33 skipped / 0 failed**. New/updated tests: canary migration metadata + declared-only-on-3 (test_scenarios_loader), migration-executability fail-closed cases (test_semantic_executability), pre-model gate + no-backend-init (test_preflight), post-generation env parity (test_post_generation), config-hash controls (test_su0007). Report: `reports/V0922_D13R2_LAST_CANARY_HOTFIX_CLOSURE_REPORT.md`.
+
+---
+
+## Decision D040 - Scientific Reset: Retire Qwen14B / 2xT4 / old 48-cell track as the immediate scientific launch target (SCIENTIFIC-RESET-01)
+
+- **Date:** 2026-09-04
+- **Decision ID:** D040
+- **Status:** ACCEPTED / FROZEN (researcher accepted the scientific-management decision). Documentation + decision-freeze only; NO runtime/model code changed; NO new scientific experiment started.
+- **Category:** Scientific Direction / Research Management / Pre-Main Feasibility Gate
+- **Description:** Qwen2.5-Coder-14B + Kaggle 2x T4 is RETIRED as the PRIMARY scientific inference path. The old 48-cell Pilot is NOT launched or repaired; no D14/D15 timeout or infrastructure engineering work is opened to force the old 48-cell matrix; the time-out is NOT increased. All previous runs, rejected experiments, canaries, candidate artifacts (D01 through D13R2), and the retired `v0.9.22-pilot-exec-ready` tag remain immutable **engineering feasibility evidence**. `exp-20260828-151335` (0 accepted RunRecords) is never resumed; `exp-20260830-134232` (48/48 terminal failures) remains REJECTED. The next scientific milestone is a pre-main Todo correctness-first micro-study (`SCIENTIFIC-MICROSTUDY-01`), not another release-readiness candidate.
+- **Rationale:** The real execution evidence (48/48 terminal Pilot failures; 6/6 failed real canary; large-repo sustained-generation throughput limits; empty/fallback strategy-visible dependency graphs in djangoCMS/Saleor) shows the Qwen14B/T4 track no longer offers the fastest path to the first scientific result. Engineering feasibility has been demonstrated; scientific correctness evidence has not. The pre-main feasibility language (not "reset" as a scope change) is accepted.
+- **Alternatives considered:** Continue D14/D15 engineering on the Kayla/Qwen14B line - REJECTED (would delay the first scientific table without changing the blockers). Raise the timeout to force the 48-cell matrix - REJECTED (existing D10 finding: timeout increases are internal corrections, not scientific gains). Launch the old 48-cell Pilot - REJECTED (no launch authorization; it is retired as a launch basis). Reducing the final thesis repository count as part of this task - REJECTED (any permanent reduction remains a supervisor-level scope amendment).
+- **Impact:** Scientific version narrative pivots to `SCIENTIFIC-MICROSTUDY-01`. No scientific input, runtime code, scenario, evaluator, or metric changed. The current scientific target is Todo-only; djangoCMS is conditional on Todo GO + a real reproducible dependency graph; Saleor is not part of the immediate next task. The permanent final thesis scope is NOT decided here.
+- **Evidence:** `docs/SCIENTIFIC_RESET_DECISION_2026-09-04.md`; `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md` (M1-M14); `DECISION_LOG.md` D021-D039 history; real-run records `exp-20260830-134232` / `exp-20260902-canary` preserved verbatim.
+
+---
+
+## Decision D041 - Mandatory non-study operational model/provider acceptance gate before the scientific micro-study (SCIENTIFIC-RESET-01)
+
+- **Date:** 2026-09-04
+- **Decision ID:** D041
+- **Status:** ACCEPTED / FROZEN (preregistration). Gate NOT yet executed - zero real calls in this task.
+- **Category:** Model/Provider Operational Acceptance / Preregistration
+- **Description:** Before any scientific Todo scenario is run, a non-study operational acceptance gate executes exactly **6 throwaway calls** (3 per candidate: T1 exact-patch task, T2 agent-control task, T3 repair task). The candidates are Candidate A = **DeepSeek V4 Flash 0731** and Candidate B = **Qwen2.5-Coder-32B-Instruct**; the winner is selected ONLY by the preregistered NON-SCIENTIFIC operational criteria (eligibility thresholds + ranked tie-breakers: format compliance, truncation, median latency, normalized cost, reproducibility contract) and is then frozen as the ONE exact model/provider/settings before the first scientific run. No scientific scenario is used to choose a model; DeepSeek is NOT pre-selected.
+- **Rationale:** The model/provider must be operationally accepted (latency, truncation, format, transport reliability, usage accounting, no hidden scientific data) and frozen BEFORE scientific results exist, so model choice cannot be tuned on observed study outcomes (anti-cherry-picking).
+- **Alternatives considered:** Skipping the gate and using a previously used model - REJECTED (no accepted scientific result exists to justify it). Selecting the model after a few scientific runs - REJECTED (post-outcome selection invalidates confirmatory go/no-go status).
+- **Impact:** Blocks all scientific work until the gate completes and one configuration is frozen. If neither candidate is eligible, STOP and diagnose the gate only.
+- **Evidence:** `_workspace/active/01_MODEL_PROVIDER_ACCEPTANCE_GATE.md`; `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` section 1; `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md` M11.
+
+---
+
+## Decision D042 - Freeze the Todo correctness-first micro-study design at 3 scenarios x 2 strategies x 5 reps = 30 attempted runs (SCIENTIFIC-RESET-01)
+
+- **Date:** 2026-09-04
+- **Decision ID:** D042
+- **Status:** ACCEPTED / FROZEN (preregistration). Study NOT started; zero real calls in this task.
+- **Category:** Study Design / Preregistration
+- **Description:** The pre-main Todo scientific micro-study (`SCIENTIFIC-MICROSTUDY-01`) is frozen as **3 scenarios x 2 strategies (iterative repository-agent/Agent vs selective/Selective) x 5 independent repetitions = 30 attempted runs**. Evaluation reading order is fixed: correctness first, then preservation, then impact recall, then efficiency (efficiency is secondary and descriptive only among correctness+preservation-qualified runs; NO significance claim from n=5). Study failures are retained and classified.
+- **Rationale:** A small, bounded, pre-main correctness-first study gives the FIRST SCIENTIFIC RESULTS TABLE with the fewest confounds; the large-repo inference-runtime confound is removed by using Todo only; multiple independent repetitions are required even at temperature=0.
+- **Alternatives considered:** A smaller design (e.g., 3 reps) - REJECTED (would not support the >=4/5 thresholds). More scenarios/repos - REJECTED (the final thesis scope is not decided here; djangoCMS/Saleor have graph-eligibility problems). A full 48-cell style relaunch - REJECTED (D040).
+- **Impact:** Bounds the next feature to one vertical slice ending in GO/NO-GO. Tripolar scope: Todo only now; djangoCMS conditional on GO + real dependency graph; Saleor not in the immediate path.
+- **Evidence:** `_workspace/active/03_MICROSTUDY_GO_NOGO_RULES.md`; `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` section 3.
+
+---
+
+## Decision D043 - Freeze GO/NO-GO thresholds BEFORE model calls (SCIENTIFIC-RESET-01)
+
+- **Date:** 2026-09-04
+- **Decision ID:** D043
+- **Status:** ACCEPTED / FROZEN (preregistration).
+- **Category:** Thresholds / Preregistration / Analysis
+- **Description:** Per-scenario Selective gates (5 reps): **G1 correctness** = changed-requirement evaluator pass in >=4/5 AND Selective not worse than Agent by more than 1 passing repetition for the same scenario; **G2 preservation** = >=4/5 Selective runs with zero unintended preserve-artifact edits AND passing regression/preservation checks; **G3 impact recall** = >=4/5 Selective runs where the predicted regenerate-set contains every gold regenerate artifact (recall = 1.0); **G4 efficiency** = descriptive metrics only among correctness+preservation-qualified runs (tokens, calls, selected/regenerated artifacts, latency, repairs; medians + raw), no significance claim from n=5. **Study GO** = all 3 scenarios clear G1 AND all 3 clear G2 AND at least 2/3 clear G3. Otherwise NO-GO / bounded result (analyze failure modes, preserve the negative/bounded result, do not tune on outcomes). No post-hoc threshold edits: changing any threshold after seeing results invalidates the study as confirmatory go/no-go evidence and forces relabeling as exploratory.
+- **Rationale:** Thresholds must exist before outcomes so the study is confirmatory rather than fitted to observed behavior.
+- **Alternatives considered:** Setting thresholds after pilot runs - REJECTED (post-hoc threshold edits are prohibited). Requiring significance for GO - REJECTED (efficiency does not need to win to authorize the next stage).
+- **Impact:** The GO/NO-GO computation is mechanical and auditable from the frozen threshold table.
+- **Evidence:** `_workspace/active/03_MICROSTUDY_GO_NOGO_RULES.md`; `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` section 4; `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md` M13-M14.
+
+---
+
+## Decision D044 - Freeze Todo scenario IDs before scientific inference (SCIENTIFIC-RESET-01)
+
+- **Date:** 2026-09-04
+- **Decision ID:** D044
+- **Status:** ACCEPTED / FROZEN (preregistration).
+- **Category:** Dataset / Preregistration
+- **Description:** The scientific scenario IDs are frozen as **todo-smoke-001** (localized), **todo-smoke-002** (moderate), **todo-smoke-003** (cross_cutting), selected mechanically (one pre-existing Todo scenario per blast-radius class, existing independent evaluator asset, explicit expected actions, selected without reference to strategy outcome; they are pre-existing smoke scenarios, not chosen because of the final 1/6 canary outcome). A mandatory pre-run evaluator audit (traceability, no hidden surprises, aisation/no leakage, independent pinned base) must pass before freezing the dataset; replacement before any scientific call is allowed only for contradiction / leakage / non-executability / invalid pinned-base, staying in the same blast-radius class. Scenario IDs never change because a strategy/model performs poorly.
+- **Rationale:** Pre-registering scenario IDs and rationale before results removes dataset-selection degrees of freedom.
+- **Alternatives considered:** Selecting scenarios from the 12 Pilot scenarios used in prior runs - REJECTED (the 12 include djangoCMS/Saleor scenarios with graph/executability problems and were the venue of failed runs; outcome-based selection is forbidden).
+- **Impact:** The study dataset is fixed; the evaluator assets (`tests/evaluator_assets/todo_smoke_00*_checks.py`) and gold expected-actions are evaluation-only and must stay inaccessible to both strategies.
+- **Evidence:** `_workspace/active/02_TODO_SCENARIO_PREREGISTRATION.md`; `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` section 2.
+
+---
+
+## Decision D045 - Graph eligibility rule: verified-empty != fallback-empty (SCIENTIFIC-RESET-01)
+
+- **Date:** 2026-09-04
+- **Decision ID:** D045
+- **Status:** ACCEPTED / FROZEN (preregistration).
+- **Category:** Construct Validity / Graph Eligibility / Preregistration
+- **Description:** An empty dependency graph is NOT automatically invalid. **verified-empty** (the extractor ran correctly and the scoped case genuinely has no dependency edges) = may remain a low-information but potentially legitimate observation. **fallback-empty / dependency evidence not established** (extractor did not actually run / degraded to a construct) = NOT eligible for a dependency-aware treatment claim. The current djangoCMS/Saleor concern is the fallback-style construct problem; Todo has a real graph with edges.
+- **Rationale:** Confusing a failed/absent extraction with an empty result would let a dependency-aware claim rest on evidence that was never produced.
+- **Alternatives considered:** Treating every empty graph as invalid - REJECTED (would discard legitimate low-information observations). Treating every empty graph as valid - REJECTED (would license claims on missing evidence).
+- **Impact:** Any future djangoCMS extension (conditional on Todo GO) requires a real reproducible dependency graph; repository profile is not equal to a meaningful dependency graph.
+- **Evidence:** `_workspace/active/07_CLAUDE_FEEDBACK_INTEGRATION.md` (amendment); `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` section 5; `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md` M6, M12.

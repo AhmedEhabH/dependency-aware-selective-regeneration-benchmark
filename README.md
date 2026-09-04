@@ -9,7 +9,30 @@
 [![Tests](https://img.shields.io/badge/tests-2%2C532%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
-> **Current v0.9.22 candidate (2026-09-01, D12 NOTEBOOK ORCHESTRATION FIX
+> **CURRENT SCIENTIFIC TARGET (2026-09-04, FREEZED PRE-MAIN FEASIBILITY /
+> MODEL-FREEZING GATE — SCIENTIFIC RESET DECISION ACCEPTED):**
+> **SCIENTIFIC-MICROSTUDY-01** — the pre-main Todo correctness-first
+> micro-study: 3 frozen scenarios × 2 strategies (Agent vs Selective) × 5
+> repetitions = 30 attempted runs, producing the FIRST SCIENTIFIC RESULTS
+> TABLE and a pre-registered GO/NO-GO. Qwen2.5-Coder-14B + Kaggle 2×T4 is
+> RETIRED as the primary scientific inference path and preserved only as
+> engineering feasibility evidence. No old 48-cell Pilot launch/repair, no
+> D14/D15 timeout work, no Saleor, no djangoCMS implementation yet. Next path:
+> one 6-call NON-STUDY operational model/provider acceptance gate (candidates:
+> DeepSeek V4 Flash 0731, Qwen2.5-Coder-32B-Instruct — NOT pre-selected), then
+> freeze ONE exact model/provider/settings, then the Todo study.
+>
+> NOT CURRENT TARGETS: Kaggle Qwen14B engineering, the old 48-cell Pilot,
+> Saleor, djangoCMS implementation.
+>
+> Freeze docs: `docs/SCIENTIFIC_RESET_DECISION_2026-09-04.md`,
+> `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md`,
+> `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md`; decisions `D040`–`D045` in
+> `DECISION_LOG.md`. No scientific model call happens before this freeze
+> commit.
+>
+> **PRIOR ENGINEERING TRUTH (2026-09-01, SUPERSEDED by the 2026-09-04
+> scientific decision — v0.9.22 D12 NOTEBOOK ORCHESTRATION FIX
 > CLOSURE (PILOT-EXEC-01):** the in-flight SCRIPT_PATH orchestration blocker
 > was fixed WITHOUT touching scientific inputs: cell 20 (`pilot-canary-cell`)
 > reads SCRIPT_PATH but only cell 22 (`dryrun-cell`) defined it, so the
