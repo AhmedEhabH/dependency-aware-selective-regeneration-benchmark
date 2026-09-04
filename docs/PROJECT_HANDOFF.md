@@ -1,6 +1,32 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-09-01, v0.9.22 D12 NOTEBOOK ORCHESTRATION FIX CLOSURE
+> **CURRENT STATE (2026-09-04, SCIENTIFIC RESET DECISION ACCEPTED + PRE-MAIN
+> FEASIBILITY / MODEL-FREEZING PREREGISTRATION FROZEN — SCIENTIFIC-MICROSTUDY-01):**
+> **CURRENT SCIENTIFIC TARGET = `SCIENTIFIC-MICROSTUDY-01`** — the pre-main
+> Todo correctness-first micro-study: 3 frozen scenarios
+> (`todo-smoke-001` localized, `todo-smoke-002` moderate, `todo-smoke-003`
+> cross_cutting) × 2 strategies (Agent vs Selective) × 5 repetitions = **30
+> attempted runs**, producing the FIRST SCIENTIFIC RESULTS TABLE and a
+> pre-registered GO/NO-GO. Qwen2.5-Coder-14B + Kaggle 2×T4 is **RETIRED** as
+> the primary scientific inference path; all previous runs/canaries/
+> candidates/artifacts are preserved as immutable **engineering feasibility
+> evidence**. The old 48-cell Pilot is **NOT launched or repaired**; no
+> D14/D15 timeout work; no Saleor; no djangoCMS implementation yet. NOT
+> CURRENT TARGETS: Kaggle Qwen14B engineering, the 48-cell Pilot, Saleor,
+> djangoCMS implementation. NEXT FEATURE = one bounded vertical slice (minimal
+> API seam → 6-call NON-STUDY operational acceptance gate → freeze ONE exact
+> model/provider/settings → final Todo evaluator audit → six Pre-Benchmark
+> Validation gates → independent Audit → 30 real runs → results table →
+> GO/NO-GO → STOP). Model candidates for the gate only (NOT pre-selected):
+> DeepSeek V4 Flash 0731, Qwen2.5-Coder-32B-Instruct; the winner is chosen
+> ONLY by the preregistered NON-SCIENTIFIC operational criteria. Freeze docs:
+> `docs/SCIENTIFIC_RESET_DECISION_2026-09-04.md`,
+> `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md`,
+> `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md`; decisions `D040`–`D045` in
+> `DECISION_LOG.md`. No scientific model call before this freeze commit.
+>
+> **PRIOR STATE (2026-09-01, SUPERSEDED by the 2026-09-04 scientific
+> decision — v0.9.22 D12 NOTEBOOK ORCHESTRATION FIX CLOSURE
 > (PILOT-EXEC-01) — SCRIPT_PATH DEFINED ONCE IN CELL 4 BEFORE FIRST CANARY
 > USE (FIXES THE CANARY STANDALONE NameError), D12 CANDIDATE
 > `v0.9.22-d12-candidate` BUILT + PROVENANCE-VERIFIED FROZEN; NOT A RELEASE;

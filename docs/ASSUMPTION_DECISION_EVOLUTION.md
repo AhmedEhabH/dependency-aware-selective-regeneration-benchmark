@@ -35,13 +35,24 @@ The intended result is not merely “fewer tokens”. Efficiency claims are vali
 
 ### Current near-term goal
 
-Before spending another full 48-cell Pilot:
+**CHANGED on 2026-09-04 by the SCIENTIFIC RESET DECISION (D040–D045).** The
+old immediate goal (real 2×T4 preflight → 6-cell canary → stable tag → full
+48-cell Pilot) is **PRIOR / SUPERSEDED**: Qwen2.5-Coder-14B + Kaggle 2×T4 is
+RETIRED as the primary scientific inference path and the old 48-cell Pilot is
+NOT launched or repaired. The current near-term goal is **SCIENTIFIC-MICROSTUDY-01**:
 
-1. prove the exact frozen artifact on the real Kaggle target;
-2. run a small **real 6-cell Saleor-inclusive pilot-canary**;
-3. reject deadline-censored or engineering-blocked canaries;
-4. only after a real canary PASS make the candidate's stable-tag decision;
-5. then run the full 48-cell Pilot.
+1. free the frozen preregistration (docs + DECISION_LOG D040–D045) — DONE 2026-09-04;
+2. implement the minimal API seam + the 6-call NON-STUDY operational
+   acceptance gate on two candidates (DeepSeek V4 Flash 0731, Qwen2.5-Coder-32B-Instruct);
+3. freeze the ONE model/provider/settings chosen only by operational criteria;
+4. frozen Todo evaluator/scenario audit (`todo-smoke-001/002/003`);
+5. six Pre-Benchmark Validation gates;
+6. independent Audit;
+7. 30 real Todo runs (3 scenarios × 2 strategies × 5 reps) → first scientific
+   results table → pre-registered GO/NO-GO → STOP.
+
+NOT current targets: Kaggle Qwen14B engineering, the old 48-cell Pilot, Saleor,
+djangoCMS implementation.
 
 ---
 
@@ -666,6 +677,153 @@ Status: **CHANGED on 2026-09-02; D13 protocol 1.1→1.2 (Pilot-only).**
 
 ---
 
+## A022 — Long-context attention memory PASS implies scientific throughput viability
+
+### Initial assumption
+Passing the real 2×T4 12k long-context probe (Qwen 14B, SDPA no-math, 12044 tokens in ~29 s with the 64-token probe) meant the Qwen14B/T4 path could deliver scientific results within a usable wall-clock and budget envelope.
+
+### Why it seemed reasonable
+The memory closure (D013-D013R2 line) proved the 12k prompt could be processed without the CUDA OOM; the engineering blockers looked closed.
+
+### Obstacle
+The real 48-cell Pilot (`exp-20260830-134232`) still finished 48/48 terminal failures in ~23,610 s with 293 model calls and 820,631 tokens: 33 runs were killed at the deadline and the iterative agent repeatedly ran out to "no paths selected". Memory viability ≠ throughput/cost viability; the 29 s prefill is a small part of sustained multi-turn generation against large test repos.
+
+### Revised decision (required D040)
+Retire Qwen2.5-Coder-14B + Kaggle 2×T4 as the primary scientific inference path; all Qwen14B/T4 results are **engineering feasibility evidence**, not scientific evidence. Move the first scientific milestone to a Todo-only correctness-first micro-study on a frozen, operationally accepted path.
+
+### Lesson
+**A memory-prefill PASS is a necessary condition, not a scientifically sufficient one; throughput, budget and failure rate are viability properties.**
+
+Status: **CHANGED on 2026-09-04; D040 (insight feeds D041/D042).**
+
+---
+
+## A023 — Exact-patch source editing alone solves the large-repo runtime problem
+
+### Initial assumption
+The D13 B1 exact-patch SEARCH/REPLACE editing fix (which removed complete-file O(file) regeneration) would make the Qwen14B/2×T4 path fast enough on large repositories.
+
+### Why it seemed reasonable
+The 2026-09-02 canary showed complete-file regeneration consuming ~1154 s for one django CMS file; exact-patch removes that specific cost.
+
+### Obstacle
+Exact-patch is an editing-format fix; it does not change the model's sustained generation speed, the agent's multi-turn search, or the per-turn latency on two T4s. The old 48-cell evidence still showed deadline-censored runs and path-explosion even before/independent of file-size per call.
+
+### Revised decision (required D041, D042)
+Do not attempt to force the old large-repo matrix onto the 14B/2×T4 track. The scientific micro-study runs on a Todo-only, correctness-first design on an operationally accepted path; the large-repo runtime question is deferred, not solved by a format change.
+
+### Lesson
+**A single-mechanic fix is not a runtime fix; production-scale runtime is a whole-path property (model, latency, search behavior, repo size).**
+
+Status: **CHANGED on 2026-09-04; D042.**
+
+---
+
+## A024 — Repository profile and presence in the Pilot imply a meaningful dependency graph
+
+### Initial assumption
+Because django CMS and Saleor were pinned repositories in the Pilot, their strategy-visible dependency graphs were usable evidence for a dependency-aware treatment claim.
+
+### Why it seemed reasonable
+Repository complexity (three repos) was treated as a proxy for graph richness.
+
+### Obstacle
+The executed runs produced empty/fallback dependency-graph observations in the large repos — the extractor did not actually establish dependency edges in those cases. An empty graph produced by a failed/degraded extraction is NOT equivalent to a verified empty graph; claiming dependency-aware behavior on fallback-empty evidence would be invalid.
+
+### Revised decision (required D045)
+**verified-empty** (extractor ran, genuinely no edges) ≠ **fallback-empty** (extraction did not run / degraded). Only verified-empty may remain as a possible low-information observation; fallback-empty is NOT eligible for a dependency-aware treatment claim. Todo (real graph with edges) is the scientific venue for now; djangoCMS participation is conditional on a real reproducible graph.
+
+### Lesson
+**A repository's presence is not a dependency-graph fact; graph eligibility must be proven by the extractor ran correctly, not inferred from the repo roster.**
+
+Status: **CHANGED on 2026-09-04; D045.**
+
+---
+
+## A025 — Engineering execution (preflight/canary/dry-run mechanics) implies scientific correctness
+
+### Initial assumption
+Once the exact artifact passed repo preflight, dry-runs 48/48, and the mechanics kept running, a real execution would produce evaluator-passed scientific results.
+
+### Why it seemed reasonable
+Every engineering gate (G1-G6) was green and the pipeline "ran".
+
+### Obstacle
+The only fully permitted real 48-cell Pilot completed 48/48 with **0 succeeded / 0 evaluator-passed**, and the real canary 6/6 also failed. Operational completion (pipeline runs to a terminal state) is not scientific validity (the requirement-change was not correctly handled).
+
+### Revised decision (required D040, D043)
+Separate terminality from viability (D10 already did this in the validator); the scientific evaluation is correctness-first with pre-registered thresholds (D043). Engineering gate success must never be reported as scientific success.
+
+### Lesson
+**Operational completion and scientific correctness are different observables; only the evaluator-passed rate answers the scientific question.**
+
+Status: **CHANGED on 2026-09-04; D043.**
+
+---
+
+## A026 — Free Kaggle GPUs mean the lowest effective cost for the primary path
+
+### Initial assumption
+Running on free Kaggle 2×T4 hardware made the Qwen14B track the cheapest provider option, so cost favored keeping that path.
+
+### Why it seemed reasonable
+The GPU is free; the alternative pays per token/call.
+
+### Obstacle
+Free GPU cost is offset by wall-clock, reproducibility risk, session/timebox fragility, engineering overhead per launch, and the observed 100% failure cost of the old matrix. A per-run cost comparison must include the full operational cost (launch, retries, failures, wall-clock), not the sticker GPU price.
+
+### Revised decision (required D041)
+The model/provider gate scores **normalized cost per candidate** among its operational criteria — including reproducibility and failure overhead, not just sticker price — and the chosen path is frozen. no a priori model/preset decision.
+
+### Lesson
+**Cost is an expected operational cost, not a sticker price; free hardware can be the expensive path when failures dominate.**
+
+Status: **CHANGED on 2026-09-04; D041.**
+
+---
+
+## A027 — temperature=0 makes the runs deterministic, so few repetitions suffice
+
+### Initial assumption
+Because earlier scientific settings froze temperature=0, a single or double repetition would be enough to claim reproducibility.
+
+### Why it seemed reasonable
+Temperature=0 is widely treated as deterministic sampling.
+
+### Obstacle
+Real runs still vary materially (ordering, tokenization, non-deterministic kernels, multi-turn search, repair decisions). The old double-repetition 48-cell plan was not rejected for determinism; and the new study's thresholds (`>=4/5`) explicitly require five independent repetitions even at temperature=0.
+
+### Revised decision (required D042, D043)
+Freeze **5 independent repetitions per cell** regardless of temperature=0; efficiency and correctness are reported across the 5 reps with medians and raw values, and thresholds are stated on the pass counts.
+
+### Lesson
+**temperature=0 is not a determinism guarantee; repetition is a preregistered design property, not a knob to save cost.**
+
+Status: **CHANGED on 2026-09-04; D042.**
+
+---
+
+## A028 — Model/provider may be chosen from within the scientific study as it runs
+
+### Initial assumption
+Picking the best-working model from among available options during (or just after) a few scientific runs is acceptable tuning.
+
+### Why it seemed reasonable
+Running pilots and keeping what works is a common empirical workflow.
+
+### Obstacle
+Selecting the model after seeing scientific outcomes lets model choice be tuned on the target data and turns confirmatory go/no-go claims into exploratory ones (anti-cherry-picking violation; Door 1 of the Go/No-Go doctrine).
+
+### Revised decision (required D041)
+The model/provider/settings are chosen ONLY by a **NON-STUDY operational acceptance gate** (6 throwaway non-scientific calls on two candidates) using pre-registered operational criteria; the winner is frozen before the first scientific call. Scientific scenario data never feeds model selection.
+
+### Lesson
+**Model selection must be operationally determined before scientific outcomes exist, or the study is no longer confirmatory.**
+
+Status: **CHANGED on 2026-09-04; D041.**
+
+---
+
 # 4. Latest real Kaggle attempt — 2026-09-01
 
 ## What passed
@@ -783,6 +941,12 @@ no stable release tag** is authorized by this closure.
 | Migrations environment-agnostic | Shared default dir is enough | Repository-aware `migration_directory` (B3) |
 | Scenarios silently unexecutable on pinned base | Coverage implies executability | Fail-closed executability gate (B4, deferred) |
 | Pilot runtime contract stale after canary | 1.1 still correct | Pilot-only protocol 1.1→1.2 |
+| No scientific result after 48/48 + 6/6 failures | Engineering execution implies scientific correctness (A025) | Retire Qwen14B/T4 track; correctness-first micro-study (D040) |
+| Model choice could tune on outcomes (A028) | Model picked within the study is acceptable | 6-call NON-STUDY operational acceptance gate before any scientific run (D041) |
+| Large-repo throughput threats (A023) | Single-mechanic fix solves runtime | Todo-only correctness-first 30-run study; large-repo deferred (D042) |
+| Post-hoc thresholds | Thresholds may follow observed results | GO/NO-GO thresholds frozen BEFORE model calls (D043) |
+| Scenario IDs chosen after outcomes | Outcome-based scenario selection is fine | `todo-smoke-001/002/003` pre-registered by blast-radius class (D044) |
+| fallback-empty graph treated as empty (A024) | Repo presence implies a meaningful graph | verified-empty ≠ fallback-empty; graph eligibility proven (D045) |
 
 ---
 
@@ -835,6 +999,38 @@ For the current `SCRIPT_PATH` bug, the correct fix is a **small notebook orchest
 
 # 8. Current Go/No-Go state
 
+**CHANGED on 2026-09-04 by the SCIENTIFIC RESET DECISION (D040-D045).**
+
+```text
+Scientific reset decision (D040-D045):     FROZEN (2026-09-04)
+Qwen2.5-Coder-14B + Kaggle 2x T4 primary path: RETIRED (engineering evidence only)
+Old 48-cell Pilot authorization:           NO-GO (not launched, not repaired)
+Model/provider selection gate:             PENDING (6-call NON-STUDY gate, 0 calls made)
+Frozen model/provider:                     NONE YET (must be operationally chosen + frozen)
+Pre-Benchmark Validation gates (new path): PENDING (not yet run for the new scientific path)
+Todo evaluator/scenario audit:             PENDING (mandatory before scientific runs)
+SCIENTIFIC-MICROSTUDY-01 runs:             PENDING (0 real scientific calls)
+First scientific results table:            PENDING
+Study GO/NO-GO:                            PENDING (thresholds frozen in D043)
+```
+
+Required next action:
+
+```text
+preregistration froze + pushed (this closure)
+-> minimal API seam (NON-STUDY only, no scientific data)
+-> 6-call operational acceptance gate (2 candidates, operational criteria only)
+-> freeze ONE exact model/provider/settings
+-> Todo evaluator/scenario audit
+-> six Pre-Benchmark Validation gates
+-> independent Audit
+-> 30 real Todo runs (3 scenarios x 2 strategies x 5 reps)
+-> first scientific results table + pre-registered GO/NO-GO
+-> STOP
+```
+
+PRIOR (2026-09-01/09-03, superseded by the 2026-09-04 decision):
+
 ```text
 D11 code/config scientific contract:     PASS
 D11 exact artifact topology:             PASS
@@ -845,25 +1041,14 @@ Cause:                                    production-scale execution defects (B1
 D13 closures (B1 exact-patch, B2 caps, B3 migrations):  DONE
 D13 protocol 1.1 -> 1.2 (Pilot-only):    DONE
 D13 B4 semantic executability gate:      DEFERRED (known-incomplete)
+D13R1/R2 canary readiness + hotfixes:    DONE (H1-H4; CANARY_LAUNCH_BASIS=YES)
 Scientific canary evidence:              NONE (canary did not pass)
-Full 48-cell Pilot authorization:        NO-GO
+Full 48-cell Pilot authorization:        NO-GO (superseded entirely by the 2026-09-04 decision)
 ```
 
-Required next action:
-
-```text
-D13 closures verified (B1-B3 + protocol bump, B4 deferred)
-→ targeted regression tests (GREEN)
-→ gates + full suite
-→ freeze fresh exact-artifact candidate v0.9.22-d13-candidate + provenance
-→ real preflight
-→ real 6-cell canary (must PASS before any 48-cell Pilot)
-→ B4 executability gate closed before a launch basis
-```
-
-Do not launch the 48-cell Pilot until the real 6-cell canary passes and is
-independently audited, and B4 is closed so every Pilot scenario is
-semantically executable against the pinned base.
+Do not launch the 48-cell Pilot (it is retired and NOT a launch basis); do
+not reopen D14/D15 timeout/infrastructure work; do not run any scientific
+model call until the model/provider gate has selected and frozen a path.
 
 ---
 
@@ -891,6 +1076,12 @@ This learning ledger is grounded in the project's formal decisions:
 - D13 (this closure): 2026-09-02 canary production-scale execution defects — exact-patch editing (B1), separate agent-control cap (B2), repository-aware migration directory (B3), Pilot-only protocol 1.1→1.2, `v0.9.22-d13-candidate` supersedes D12; B4 executability gate deferred (known-incomplete).
 - D13r1: canary launch-readiness finalizer — F1 semantic-executability gate WIRED into the real pilot/pilot-canary PRE-MODEL launch path (full 48-cell Pilot is NOT a launch basis while any scenario is semantically unexecutable; canary is a launch basis after a real target pass); F2 migration metadata ONLY on the 3 canary scenarios; F3 migration execution decoupled from `evaluator_asset`; F4 exact-patch repair-prompt contradiction removed; F5 `exact_patch` + `agent_control_max_completion_tokens` in frozen config/provenance identity. `v0.9.22-d13r1-candidate` (archive `9f120412…`, source `6bc946a`) supersedes `v0.9.22-d13-candidate`; CANARY_LAUNCH_BASIS=YES, FULL_48_LAUNCH_BASIS=NO.
 - D13R2 (last canary hotfix, same D13 line, no D14): H1-H4 audited canary defects closed — the 3 canary scenarios now carry COMPLETE executable migration metadata (`post_generation_command` `python manage.py makemigrations todo|cms|product --noinput` + `require_new_migration: true`; was empty/False); the semantic gate PROVES migration executability via the frozen `_CANARY_MIGRATION_FIXTURES` map (fail-closed on any mismatch); migration generation receives the frozen `validation_env` (FunctionalValidator merge semantics, parent `os.environ` never mutated); `_compute_config_hash` now includes `exact_patch` + `agent_control_max_completion_tokens`. `v0.9.22-d13r2-candidate` (archive `65269528…`, source `fc1c7c8`) supersedes `v0.9.22-d13r1-candidate`; CANARY_LAUNCH_BASIS=YES, FULL_48_LAUNCH_BASIS=NO.
+- D040 (2026-09-04, SCIENTIFIC RESET): retire Qwen2.5-Coder-14B + Kaggle 2×T4 as the primary scientific inference path; old 48-cell Pilot not launched/repaired; all D01–D13R2 evidence stays immutable engineering feasibility evidence (A022-A025).
+- D041 (2026-09-04): mandatory 6-call NON-STUDY operational acceptance gate (DeepSeek V4 Flash 0731 vs Qwen2.5-Coder-32B-Instruct, neither pre-selected; operational criteria only) then freeze ONE exact model/provider/settings before scientific runs (A026-A028).
+- D042 (2026-09-04): freeze the scientific micro-study design — `todo-smoke-001/002/003` × 2 strategies × 5 reps = 30 attempted runs; correctness → preservation → impact recall → efficiency (descriptive only).
+- D043 (2026-09-04): freeze GO/NO-GO thresholds BEFORE model calls (G1 correctness ≥4/5 and not worse than Agent by >1 pass; G2 preservation ≥4/5; G3 impact recall ≥4/5; study GO = all 3 clear G1 + G2 + ≥2/3 clear G3).
+- D044 (2026-09-04): freeze scenario IDs `todo-smoke-001` (localized) / `todo-smoke-002` (moderate) / `todo-smoke-003` (cross_cutting) before scientific inference, with mandatory pre-run evaluator audit.
+- D045 (2026-09-04): graph eligibility rule — verified-empty ≠ fallback-empty; only verified-empty may be a low-information observation; fallback-empty is NOT eligible for a dependency-aware treatment claim.
 
 ---
 
