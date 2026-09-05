@@ -426,7 +426,6 @@ experimental arms and is frozen before any scientific run.
 - model: `qwen/qwen3-coder` — unchanged;
 - provider policy / scenarios / thresholds / treatment / metrics — unchanged;
 - no scientific outcome existed when this amendment was made (the previous A2
-  failures were operational-gate evidence only).- no scientific outcome existed when this amendment was made (the previous A2
   failures were operational-gate evidence only).
 
 ---
@@ -437,20 +436,20 @@ experimental arms and is frozen before any scientific run.
 
 The D048/D049 exit left the primary acceptance gate blocked by a SECOND,
 distinct output-envelope defect: after a syntactically complete SEARCH/REPLACE
-block, qwen/qwen3-coder on DeepInfra emitted trailing duplicate
->>>>>>> REPLACE marker lines, which the parser rejected. The edit content
+block, `qwen/qwen3-coder` on DeepInfra emitted trailing duplicate
+`>>>>>>> REPLACE` marker lines, which the parser rejected. The edit content
 itself was correct.
 
 ## 11.2 Bounded parser rule (frozen before any new model call)
 
 - the OUTER parser loop tolerates a trailing suffix consisting ONLY of
-  duplicate >>>>>>> REPLACE marker lines and blank lines, and ONLY after at
+  duplicate `>>>>>>> REPLACE` marker lines and blank lines, and ONLY after at
   least one complete block has been parsed; parsing then terminates
   successfully;
 - duplicate close markers before another SEARCH block, or followed by
-  prose/code, remain fail-closed (ExactPatchError);
-- inside SEARCH, a nested <<<<<<< SEARCH marker is an error; inside REPLACE,
-  an extra ======= divider is an error;
+  prose/code, remain fail-closed (`ExactPatchError`);
+- inside SEARCH, a nested `<<<<<<< SEARCH` marker is an error; inside REPLACE,
+  an extra `=======` divider is an error;
 - the existing one-trailing-newline UNIQUE-match recovery is unchanged;
 - SEARCH/REPLACE content matching remains literal and fail-closed; no fuzzy
   matching, no general whitespace normalization, no new heuristic beyond this
@@ -458,9 +457,9 @@ itself was correct.
 
 ## 11.3 No scientific impact
 
-- model qwen/qwen3-coder @ DeepInfra (pinned, fallback OFF), Stage-C
-  ImpactPlan protocol, Todo scenarios, repetitions, metrics and thresholds -
+- model `qwen/qwen3-coder` @ DeepInfra (pinned, fallback OFF), Stage-C
+  ImpactPlan protocol, Todo scenarios, repetitions, metrics and thresholds —
   all unchanged;
-- zero scientific cells have run; GO_NO_GO=NOT_REACHED; the previous A2
+- zero scientific cells have run; `GO_NO_GO=NOT_REACHED`; the previous A2
   failures were operational-gate evidence only.
 
