@@ -824,6 +824,43 @@ Status: **CHANGED on 2026-09-04; D041.**
 
 ---
 
+## A029 — The regeneration executor may read scenario gold expected-actions, and counts suffice for preservation
+
+### Initial assumption
+Threading `scenario.expected_actions` into the regeneration scenario context
+(as `Expected action for this file` in the generation/repair prompt) and
+scoring preservation/predicted-impact from persisted counts alone is an
+acceptable measurement design.
+
+### Why it seemed reasonable
+The executor previously used gold expected-actions to drive exact-patch mode and
+scope checks, and the RunRecord had no per-path evidence fields.
+
+### Obstacle
+The independent audit (exact export `project-2026-09-04-2352.zip`) verified this
+is gold-label leakage for a scientific study: the post-selection executor can
+receive gold expected-action information from the scenario YAML. Persisted
+counts cannot reconstruct impact recall or preservation: they do not record the
+actual predicted path/action map nor the actual changed source paths.
+
+### Revised decision (required D046 / PA-001)
+Scientific prompts never receive `scenario.expected_actions` or
+`expected_artifact_instructions`; edit-action semantics come from
+`RegenerationPlan.actions`; generic Python contract guards stay active without
+gold context. Per-run evidence is mandatory: `predicted_actions: dict[str,str]`
+and `changed_artifact_paths: list[str]` survive RunRecord → RunRecordData →
+JSONL. Migrations are shared-executor obligations scored separately. The
+five-file Todo universe is the clean scoring set.
+
+### Lesson
+**Evidence produced by the study must be exactly reconstructable from the
+persisted record; gold labels can never reach the executor. "Preserve" is an
+actual-behavior claim, not a model's word.**
+
+Status: **CHANGED on 2026-09-05; D046.**
+
+---
+
 # 4. Latest real Kaggle attempt — 2026-09-01
 
 ## What passed
@@ -1082,6 +1119,7 @@ This learning ledger is grounded in the project's formal decisions:
 - D043 (2026-09-04): freeze GO/NO-GO thresholds BEFORE model calls (G1 correctness ≥4/5 and not worse than Agent by >1 pass; G2 preservation ≥4/5; G3 impact recall ≥4/5; study GO = all 3 clear G1 + G2 + ≥2/3 clear G3).
 - D044 (2026-09-04): freeze scenario IDs `todo-smoke-001` (localized) / `todo-smoke-002` (moderate) / `todo-smoke-003` (cross_cutting) before scientific inference, with mandatory pre-run evaluator audit.
 - D045 (2026-09-04): graph eligibility rule — verified-empty ≠ fallback-empty; only verified-empty may be a low-information observation; fallback-empty is NOT eligible for a dependency-aware treatment claim.
+- D046 (2026-09-05): freeze PA-001 implementation clarification — five-file Todo source universe; migrations as shared-executor obligations scored separately; mandatory `predicted_actions` + `changed_artifact_paths` per-run evidence; fixed-provider/no-fallback identity (`openrouter:<model>@<provider>` reconfigures config_hash/Run IDs); gold expected-actions isolated from scientific prompts with `RegenerationPlan.actions` driving edit semantics; workflow timeout 900 s / source cap 4096 / agent cap 512 / max attempts 3 / no new token ceiling / provider-reported usage is the metric of record; first-party DeepSeek provider mandatory for candidate A (A029).
 
 ---
 
