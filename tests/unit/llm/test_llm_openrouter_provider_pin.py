@@ -136,6 +136,38 @@ class TestProviderPinRequest:
         assert _FAKE_KEY not in r
 
 
+class TestQuotedApiKeyHandling:
+    @pytest.mark.asyncio
+    async def test_quoted_key_is_stripped(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("OPENROUTER_API_KEY", f'"{_FAKE_KEY}"')
+        sent_headers: list[str] = []
+
+        def capture(req: urllib.request.Request, api_key: str = "") -> bytes:
+            sent_headers.append(req.get_header("Authorization") or "")
+            return _make_success_response()
+
+        b = OpenRouterBackend(model="m", provider="DeepInfra")
+        with pytest.MonkeyPatch.context() as mp:
+            mp.setattr(b, "_do_request", capture)
+            await b.generate("hi")
+        assert sent_headers == [f"Bearer {_FAKE_KEY}"]
+
+    @pytest.mark.asyncio
+    async def test_single_quote_key_is_stripped(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("OPENROUTER_API_KEY", f"'{_FAKE_KEY}'")
+        sent_headers: list[str] = []
+
+        def capture(req: urllib.request.Request, api_key: str = "") -> bytes:
+            sent_headers.append(req.get_header("Authorization") or "")
+            return _make_success_response()
+
+        b = OpenRouterBackend(model="m", provider="DeepInfra")
+        with pytest.MonkeyPatch.context() as mp:
+            mp.setattr(b, "_do_request", capture)
+            await b.generate("hi")
+        assert sent_headers == [f"Bearer {_FAKE_KEY}"]
+
+
 class TestTransientRetryPolicy:
     @pytest.fixture(autouse=True)
     def _key(self, monkeypatch: pytest.MonkeyPatch) -> None:

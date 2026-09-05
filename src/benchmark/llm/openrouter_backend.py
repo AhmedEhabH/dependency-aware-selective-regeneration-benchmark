@@ -73,7 +73,8 @@ class OpenRouterBackend:
             raise ModelBackendError(
                 f"API key not found in environment variable {self._api_key_env}"
             )
-        return key
+        # Strip stray surrounding whitespace/quotes (common env-paste artifact)
+        return key.strip().strip('"').strip("'").strip()
 
     async def generate(
         self,
