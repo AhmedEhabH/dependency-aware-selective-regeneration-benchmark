@@ -932,3 +932,17 @@
 - **Alternatives considered:** Add repeated-`>>>>>>> REPLACE` tolerance (strip duplicated closing markers) - REJECTED (outside D048/PA-003 scope; would be changing the audit target after gate failure). Try Novita / model-shop again - REJECTED (D047 anti-cherry-picking; provider is already fixed). Return FULL evidence to the parent agent for a decision - ACCEPTED (this decision).
 - **Impact:** `MODEL/PROVIDER_FROZEN=NO`; zero scientific cells run; `MICROSTUDY_REAL_RUN_AUTHORIZED=NO` remains. Evidence preserved and pushed. Next scientific action requires a decision by the parent agent (new bounded recovery precisely scoped to repeated closing markers, or a different interface, or re-plan).
 - **Evidence:** `reports/model_acceptance_gate_2026-09-05.json` (A2 `parser_pass=false`, `deterministic_success=false`, `finish_reason=stop`); raw probe showed `<<<<<<< SEARCH ... >>>>>>> REPLACE` followed by 3 extra `>>>>>>> REPLACE` lines. Diagnostic probe script: `C:\Users\Ahmed\AppData\Local\Temp\opencode\a2_probe.py`.
+
+---
+
+## Decision D050 - FAST-RESULTS-02: trailing duplicate closing-marker envelope recovery
+
+- **Date:** 2026-09-05
+- **Decision ID:** D050
+- **Status:** ACCEPTED / FROZEN (preregistration amendment; before any new model call).
+- **Category:** Preregistration / Interface Contract
+- **Description:** The previous A2 failure was a trailing duplicate closing-marker envelope defect: the model emitted a syntactically complete SEARCH/REPLACE block followed by extra `>>>>>>> REPLACE` marker lines. The OUTER parser loop now accepts ONLY a trailing suffix of duplicate `>>>>>>> REPLACE` marker lines (and blank lines) AFTER a complete block; duplicate close markers before another SEARCH block, or followed by prose/code, remain fail-closed; nested SEARCH inside SEARCH and extra `=======` inside REPLACE are now explicit errors; the existing one-newline unique-match recovery is preserved; content matching remains literal/fail-closed. No other normalization was added. No scientific outcome existed when this amendment was made.
+- **Rationale:** The defect is output-envelope grammar only — the actual edit was correct. Tolerating a marker-only trailing suffix restores the A2 gate without changing SEARCH/REPLACE content, fuzzy matching, or general whitespace handling.
+- **Alternatives considered:** Ignore trailing content generically - REJECTED (would accept prose/code). Re-run the old parser / model-shop - REJECTED (D049/D047). Add another heuristic beyond the rule - REJECTED (FAST-RESULTS-02: STOP at the THIRD new grammar defect).
+- **Impact:** Primary acceptance gate (A1/A2/A3, `qwen/qwen3-coder` @ DeepInfra pinned, fallback OFF) rerun ONCE; if 3/3 PASS, freeze model/provider, run six gates + Audit + full suite once, estimate cost, then run the frozen 30 Todo cells if <= $2.50. `GO_NO_GO` is `NOT_REACHED` until a scientific result exists (0/30 is NOT a NO-GO).
+- **Evidence:** `_workspace/active/FAST_RESULTS_02_FINAL_RUN_PACK/00_DECISION.md`, `01_EXACT_PATCH_RULE.md`; `tests/unit/execution/test_exact_patch.py::TestExactPatchTrailingMarkerRecovery`; committed in this phase.

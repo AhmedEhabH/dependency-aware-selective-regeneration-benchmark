@@ -78,6 +78,23 @@ def parse_exact_patch(text: str) -> list[ExactPatchBlock]:
             i += 1
             continue
 
+        if _is_marker_line(lines[i], _REPLACE_MARKER):
+            # Syntax-envelope recovery: after at least one complete block, a
+            # trailing suffix of ONLY duplicate '>>>>>>> REPLACE' marker lines
+            # (plus blank lines) is tolerated by the OUTER parser loop. Any
+            # other nonblank trailing content stays fail-closed.
+            if not blocks:
+                raise ExactPatchError(
+                    "replacement marker without a preceding complete block"
+                )
+            for j in range(i, n):
+                if lines[j].strip() and not _is_marker_line(lines[j], _REPLACE_MARKER):
+                    raise ExactPatchError(
+                        "trailing content after duplicate closing markers; "
+                        "expected only '>>>>>>> REPLACE' marker lines"
+                    )
+            break
+
         if not _is_marker_line(lines[i], _SEARCH_MARKER):
             raise ExactPatchError(
                 "expected '<<<<<<< SEARCH' block start, found: "
@@ -90,6 +107,10 @@ def parse_exact_patch(text: str) -> list[ExactPatchBlock]:
             if _is_marker_line(lines[i], _REPLACE_MARKER):
                 raise ExactPatchError(
                     "replacement marker before SEARCH/REPLACE divider"
+                )
+            if _is_marker_line(lines[i], _SEARCH_MARKER):
+                raise ExactPatchError(
+                    "nested '<<<<<<< SEARCH' marker inside SEARCH block"
                 )
             search_lines.append(lines[i])
             i += 1
@@ -105,6 +126,10 @@ def parse_exact_patch(text: str) -> list[ExactPatchBlock]:
             if _is_marker_line(lines[i], _SEARCH_MARKER):
                 raise ExactPatchError(
                     "new '<<<<<<< SEARCH' marker before closing the previous block"
+                )
+            if _is_marker_line(lines[i], _DIVIDER):
+                raise ExactPatchError(
+                    "extra '=======' divider inside REPLACE block"
                 )
             replace_lines.append(lines[i])
             i += 1
