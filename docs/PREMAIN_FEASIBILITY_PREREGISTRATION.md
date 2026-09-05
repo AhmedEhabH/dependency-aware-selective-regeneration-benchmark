@@ -196,3 +196,102 @@ The `SCIENTIFIC-MICROSTUDY-01` feature is complete only when either (1) the
 30-run scientific results table exists and GO/NO-GO is computed, or (2) a
 pre-registered acceptance/validation gate fails and the Stop Report identifies
 the exact blocker. Green tests alone do not complete it.
+
+---
+
+# PA-001 — Amendment: SCIENTIFIC-MICROSTUDY-01 implementation clarification
+
+**Date:** 2026-09-05
+**Status:** FROZEN (preregistration clarification; discovered by independent
+audit BEFORE any new real model call; NOT post-outcome tuning).
+**Decision IDs:** D046 (this log); A029 (assumption ledger).
+**Audit source:** `_workspace/active/01_INDEPENDENT_AUDIT_FINDINGS.md` (from
+exact export `project-2026-09-04-2352.zip`, SHA-256
+`9cb351419bc0e96bc848c14cb83317ceac5d53c3ee64656111951e2ed2924a8a`).
+
+## 8.1 Five-file scored source universe (A7)
+
+For this Todo micro-study the strategy-scored source-impact universe is frozen
+as EXACTLY:
+
+```text
+todo/models.py
+todo/serializers.py
+todo/views.py
+todo/permissions.py
+todo/urls.py
+```
+
+This matches the existing Todo production dependency graph (5 nodes / 6 edges).
+
+- `gold_regenerate_source_paths` = scenario expected_actions ∩ those 5 files.
+- `gold_preserve_source_paths` = the remaining files among those 5.
+- Regression test files are VALIDATE-ONLY evidence, not selector regenerate
+  targets.
+- Generated migration files are SHARED EXECUTOR obligations and are scored
+  separately through `migration_generation_passed` / `generated_migration_paths`.
+- Migration directories MUST NOT inflate or penalize strategy regenerate
+  recall: `post_generation_command` is executed by the matched shared executor,
+  not selected by either scope strategy.
+
+## 8.2 Evidence obligations (A5 / A6)
+
+- `predicted_actions: dict[str, str]` is MANDATORY per-run evidence; it must
+  contain every final prediction decision path/action. Persisted through
+  RunRecord → RunRecordData → JSONL.
+- `changed_artifact_paths: list[str]` is MANDATORY per-run evidence; it is
+  computed against the frozen active snapshot for the candidate source
+  universe (actual unintended changes to preserve artifacts, not merely the
+  model predicting `preserve`). Created migrations live in the existing
+  `generated_migration_paths` and are excluded from this list.
+
+## 8.3 Fixed provider / no-fallback identity requirement (A2 / A3)
+
+Every OpenRouter generation request for the study MUST carry:
+
+- exactly one pinned provider (no allowlist/order breadth);
+- `allow_fallbacks: false`;
+- `require_parameters: true` where supported.
+
+`model_identity` shape: `openrouter:<model>@<provider>`. Provider/model/backend
+changes MUST alter `config_hash` and Run IDs.
+
+## 8.4 Gold expected-action isolation (A4)
+
+- scientific generation/repair prompts NEVER receive `scenario.expected_actions`
+  or `expected_artifact_instructions` sourced from gold labels;
+- visible requirement/acceptance criteria and visible architecture constraints
+  MAY be shared consistently to both arms;
+- the actual edit action for an artifact comes from the strategy-generated
+  `RegenerationPlan.actions`, NOT from scenario gold;
+- generic Python syntax/module/dependency contract guards remain ACTIVE even
+  when gold labels are hidden;
+- the new scientific profile is fail-closed against gold leakage; historical
+  profiles remain reproducible.
+
+## 8.5 Frozen scientific execution contract
+
+```text
+scientific per-run workflow timeout = 900 seconds
+source-edit completion cap          = 4096
+agent-control completion cap        = 512
+max attempts                        = 3
+total-workflow token ceiling        = NONE unless the already-frozen pipeline
+                                     requires one (no new ceiling invented here)
+usage metric of record              = actual provider-reported usage
+```
+
+## 8.6 Candidate provider policy (frozen before calls)
+
+Both candidates are served through the existing OpenRouter API backend.
+
+- Candidate A: `deepseek/deepseek-v4-flash-0731` — use the FIRST-PARTY DeepSeek
+  provider if it is available for the exact model and required parameters; pin
+  ONLY that provider. If the first-party DeepSeek provider is unavailable,
+  STOP the acceptance gate and require a preregistration amendment (do NOT
+  silently pick a cheaper/faster third party).
+- Candidate B: `qwen/qwen-2.5-coder-32b-instruct` — use its single available
+  provider. If it is no longer single-provider, STOP and document the change
+  before choosing.
+
+Persist the resolved provider slug/name BEFORE the first model call.
