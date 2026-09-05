@@ -1,8 +1,8 @@
 {
   "date": "2026-09-05",
   "model": "qwen/qwen3-coder",
-  "provider": "Novita",
-  "resolved_at": "2026-09-05T16:55:13.844803+00:00",
+  "provider": "DeepInfra",
+  "resolved_at": "2026-09-05T18:53:25.903400+00:00",
   "eligible": false,
   "eligibility": {
     "task_success": 2,
@@ -16,55 +16,55 @@
     "usage_accounting": 3,
     "usage_all_present": true,
     "latency_all_under_120": true,
-    "median_latency": 23.063,
+    "median_latency": 22.781,
     "median_latency_under_60": true,
     "eligible": false
   },
   "tasks": [
     {
       "prompt_tokens": 229,
-      "completion_tokens": 164,
-      "total_tokens": 393,
+      "completion_tokens": 167,
+      "total_tokens": 396,
       "finish_reason": "stop",
       "transient_retry_count": 0,
-      "latency_seconds": 24.641,
+      "latency_seconds": 24.015,
       "parser_pass": true,
       "truncation": false,
       "deterministic_success": true,
-      "response_sha256": "c1d666daf3c875362525594e31f8c27c0dd7d2a433dae232b48718b15ec2e5bf",
+      "response_sha256": "a39fbc2072afac4b29ae316616c3e62478a78706f687309ab07b64276a8e6a72",
       "task": "A1_impact_plan",
       "model": "qwen/qwen3-coder",
-      "provider": "Novita"
+      "provider": "DeepInfra"
     },
     {
       "prompt_tokens": 116,
-      "completion_tokens": 42,
-      "total_tokens": 158,
+      "completion_tokens": 46,
+      "total_tokens": 162,
       "finish_reason": "stop",
       "transient_retry_count": 0,
-      "latency_seconds": 23.063,
+      "latency_seconds": 22.781,
       "parser_pass": false,
       "truncation": false,
       "deterministic_success": false,
-      "response_sha256": "945cb48a6fd3d956ae83677a331112a5950f39353ed4272d77393b8383fa16d1",
+      "response_sha256": "e824c969a9617b2a47550c9fd446a535734ba57eeabdbcdbb1e37d4784c0a4ef",
       "task": "A2_exact_patch",
       "model": "qwen/qwen3-coder",
-      "provider": "Novita"
+      "provider": "DeepInfra"
     },
     {
       "prompt_tokens": 129,
-      "completion_tokens": 37,
-      "total_tokens": 166,
+      "completion_tokens": 46,
+      "total_tokens": 175,
       "finish_reason": "stop",
       "transient_retry_count": 0,
-      "latency_seconds": 22.921,
+      "latency_seconds": 22.688,
       "parser_pass": true,
       "truncation": false,
       "deterministic_success": true,
-      "response_sha256": "3eecde2c3ee5c117257cb70dce9dea2e2b2ac0381ac2cd14a6154b5a84b7f805",
+      "response_sha256": "c7068356c8b96a9db6cbf570580dd4c663a2d14f70559811b1605178813b4b77",
       "task": "A3_agent_control",
       "model": "qwen/qwen3-coder",
-      "provider": "Novita"
+      "provider": "DeepInfra"
     }
   ]
 }

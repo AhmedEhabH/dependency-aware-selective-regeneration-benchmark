@@ -918,3 +918,17 @@
 - **Alternatives considered:** General fuzzy whitespace matching - REJECTED (violates the literal/fail-closed executor contract and could mask real regressions). Model shopping after the gate failure - REJECTED (D047 anti-cherry-picking). Redesigning Stage C - REJECTED (the treatment construct was already audited).
 - **Impact:** Unblocks rerunning the PRIMARY acceptance gate on DeepInfra only. If A1/A2/A3 pass 3/3 under the amended fixed interface, freeze model/provider, rerun the six gates + audit + full suite once, estimate cost, and if <= $2.50 run the frozen 30 Todo cells immediately.
 - **Evidence:** `_workspace/active/FAST_RESULTS_01_PACK/00_DECISION_LOCK.md`; `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` section 10 (PA-003); `tests/unit/execution/test_exact_patch.py::TestExactPatchBoundaryRecovery`.
+
+---
+
+## Decision D049 - FAST-RESULTS-01 STOP: A2 fails for a NEW root cause (repeated closing markers)
+
+- **Date:** 2026-09-05
+- **Decision ID:** D049
+- **Status:** STOP / ESCALATE (per FAST-RESULTS-01 LOW variant; no further pattern extension; no model shopping; no redesign).
+- **Category:** Operational Acceptance / Interface Contract
+- **Description:** After D048 was frozen and pushed (commit `5fecd08`), the PRIMARY acceptance gate was rerun on DeepInfra only (`scripts/run_model_acceptance_gate.py --provider DeepInfra`, `qwen/qwen3-coder`). A1 and A3 passed (`deterministic_success=true`, `parser_pass=true`); **A2 failed again** with a NEW root cause different from the extra-trailing-newline defect: the model emitted a syntactically correct SEARCH/REPLACE block followed by FOUR consecutive `>>>>>>> REPLACE` closing markers; `parse_exact_patch` raises `ExactPatchError: expected '<<<<<<< SEARCH' block start, found: '>>>>>>> REPLACE'`. Because parsing fails first, the bounded newline recovery (D048/PA-003) never executes. The repeated-closing-marker defect is outside the 3 supplied focused tests and outside the frozen one-newline/unique-match recovery scope; the decision lock explicitly prohibits any further normalization.
+- **Rationale:** FAST-RESULTS-01 says STOP when A2 fails for a reason outside the supplied recovery tests. Extending the pattern to swallow repeated delimiters would violate the frozen "no other normalization" bound and reopen the executor contract mid-study.
+- **Alternatives considered:** Add repeated-`>>>>>>> REPLACE` tolerance (strip duplicated closing markers) - REJECTED (outside D048/PA-003 scope; would be changing the audit target after gate failure). Try Novita / model-shop again - REJECTED (D047 anti-cherry-picking; provider is already fixed). Return FULL evidence to the parent agent for a decision - ACCEPTED (this decision).
+- **Impact:** `MODEL/PROVIDER_FROZEN=NO`; zero scientific cells run; `MICROSTUDY_REAL_RUN_AUTHORIZED=NO` remains. Evidence preserved and pushed. Next scientific action requires a decision by the parent agent (new bounded recovery precisely scoped to repeated closing markers, or a different interface, or re-plan).
+- **Evidence:** `reports/model_acceptance_gate_2026-09-05.json` (A2 `parser_pass=false`, `deterministic_success=false`, `finish_reason=stop`); raw probe showed `<<<<<<< SEARCH ... >>>>>>> REPLACE` followed by 3 extra `>>>>>>> REPLACE` lines. Diagnostic probe script: `C:\Users\Ahmed\AppData\Local\Temp\opencode\a2_probe.py`.
