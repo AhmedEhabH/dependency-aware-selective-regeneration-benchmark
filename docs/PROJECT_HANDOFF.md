@@ -1,29 +1,33 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-09-04, SCIENTIFIC RESET DECISION ACCEPTED + PRE-MAIN
-> FEASIBILITY / MODEL-FREEZING PREREGISTRATION FROZEN — SCIENTIFIC-MICROSTUDY-01):**
-> **CURRENT SCIENTIFIC TARGET = `SCIENTIFIC-MICROSTUDY-01`** — the pre-main
-> Todo correctness-first micro-study: 3 frozen scenarios
-> (`todo-smoke-001` localized, `todo-smoke-002` moderate, `todo-smoke-003`
-> cross_cutting) × 2 strategies (Agent vs Selective) × 5 repetitions = **30
-> attempted runs**, producing the FIRST SCIENTIFIC RESULTS TABLE and a
-> pre-registered GO/NO-GO. Qwen2.5-Coder-14B + Kaggle 2×T4 is **RETIRED** as
-> the primary scientific inference path; all previous runs/canaries/
-> candidates/artifacts are preserved as immutable **engineering feasibility
-> evidence**. The old 48-cell Pilot is **NOT launched or repaired**; no
-> D14/D15 timeout work; no Saleor; no djangoCMS implementation yet. NOT
-> CURRENT TARGETS: Kaggle Qwen14B engineering, the 48-cell Pilot, Saleor,
-> djangoCMS implementation. NEXT FEATURE = one bounded vertical slice (minimal
-> API seam → 6-call NON-STUDY operational acceptance gate → freeze ONE exact
-> model/provider/settings → final Todo evaluator audit → six Pre-Benchmark
-> Validation gates → independent Audit → 30 real runs → results table →
-> GO/NO-GO → STOP). Model candidates for the gate only (NOT pre-selected):
-> DeepSeek V4 Flash 0731, Qwen2.5-Coder-32B-Instruct; the winner is chosen
-> ONLY by the preregistered NON-SCIENTIFIC operational criteria. Freeze docs:
-> `docs/SCIENTIFIC_RESET_DECISION_2026-09-04.md`,
-> `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md`,
-> `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md`; decisions `D040`–`D045` in
-> `DECISION_LOG.md`. No scientific model call before this freeze commit.
+> **CURRENT STATE (2026-09-05, IMPACTPLAN-WIP-01 — UNIFIED RESEARCH PATH; SCIENTIFIC-WIP-IMPACTPLAN-V1 FROZEN):**
+> **CURRENT SCIENTIFIC TARGET = `SCIENTIFIC-WIP-IMPACTPLAN-V1`** — the
+> Stage-C first-class persisted `ImpactPlan` treatment for the Selective arm: 3
+> frozen Todo scenarios (`todo-smoke-001` localized, `todo-smoke-002`
+> moderate, `todo-smoke-003` cross_cutting) × 2 strategies (Agent vs
+> ImpactPlan Selective) × 5 repetitions = 30 attempted runs (NOT run in this
+> readiness task). Treatment contract: R/P/V/H exactly-once classification;
+> `write_set == {R}`; P/V/H writes physically blocked; `context_set`
+> independent of action sets; validation/test obligations separate; one
+> bounded expansion (v1→v2) then HUMAN_REVIEW; planner calls/tokens/latency/
+> cost counted; every R cites strategy-visible evidence. Qwen2.5-Coder-14B +
+> Kaggle 2×T4 is **RETIRED** (immutable engineering feasibility evidence).
+> Old 48-cell Pilot NOT launched/repaired; no D14/D15; no Saleor; no djangoCMS
+> implementation yet. The old binary R/P micro-study authorization
+> (`MICROSTUDY_REAL_RUN_AUTHORIZED=YES`) is **SUPERSEDED — current = NO**.
+> Primary scientific model **`qwen/qwen3-coder`**; FIXED COMPATIBLE PROVIDER
+> (DeepInfra Turbo first, NovitaAI only if DeepInfra fails; `allow_fallbacks=false`;
+> first-party-DeepSeek rule superseded). NEXT FEATURE = one bounded vertical
+> slice (ImpactPlan implementation → RED→GREEN unit+integration → six
+> Pre-Benchmark gates for the NEW protocol → model/provider operational
+> acceptance → freeze → independent Audit → full suite once → STOP before 30
+> real runs → export `project-YYYY-MM-DD-HHmm.zip` for external GPT-5.6 Sol
+> audit). Freeze docs: `docs/SCIENTIFIC_RESET_DECISION_2026-09-04.md`,
+> `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` (sections 8–9),
+> `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md`,
+> `_workspace/active/UNIFIED_RESEARCH_PATH_PACK/`; decisions `D040`–`D047` in
+> `DECISION_LOG.md`; assumptions `A029`–`A030`. No scientific model call
+> before this amendment is frozen and pushed.
 >
 > **PRIOR STATE (2026-09-01, SUPERSEDED by the 2026-09-04 scientific
 > decision — v0.9.22 D12 NOTEBOOK ORCHESTRATION FIX CLOSURE

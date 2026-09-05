@@ -295,3 +295,92 @@ Both candidates are served through the existing OpenRouter API backend.
   before choosing.
 
 Persist the resolved provider slug/name BEFORE the first model call.
+---
+
+# PA-002 — Amendment: IMPACTPLAN-WIP-01 (Stage-C R/P/V/H ImpactPlan treatment)
+
+**Date:** 2026-09-05
+**Status:** FROZEN (preregistration amendment; before any new model call).
+**Decision IDs:** D047; A030 (assumption ledger).
+**Supersedes:** Section 8 (PA-001 candidate-provider policy) ONLY for the
+scientific model/provider choice; PA-001 evidence/identity/gold-isolation
+contracts remain in force and are reused. The old binary R/P micro-study
+authorization line `MICROSTUDY_REAL_RUN_AUTHORIZED=YES` is SUPERSEDED: current
+authorization is `NO` until the new treatment passes six gates + independent
+audit.
+
+## 9.1 New WIP protocol
+
+`label: scientific-wip-impactplan-v1`
+
+## 9.2 Treatment construct — first-class ImpactPlan
+
+The Selective arm (proposed arm) MUST: collect automatic evidence, invoke a
+structured Impact Planner, apply a fail-closed invariant gate, and PERSIST the
+ImpactPlan BEFORE any source write. The plan classifies every candidate
+artifact exactly once as:
+
+- `REGENERATE (R)` — edit justified and permitted.
+- `PRESERVE (P)` — no edit justified; writes prohibited.
+- `VALIDATE_ONLY (V)` — no edit expected; artifact inside the validation boundary.
+- `HUMAN_REVIEW (H)` — evidence insufficient/conflicting or scope unsafe.
+
+The plan also records `write_set`, `preserve_set`, `validate_set`,
+`human_review_set`, `context_set` (independent of action sets),
+validation/test obligations (separate from actions), architecture checks,
+evidence references/rationale, confidence/uncertainty, and versioned
+bounded-expansion provenance (parent plan hash, plan version).
+
+## 9.3 Required invariants (fail-closed)
+
+1. every candidate artifact classified exactly once;
+2. `write_set == {R}`;
+3. P/V/H are NOT writable;
+4. action sets pairwise disjoint;
+5. `context_set` independent of action sets (may include R/P/V/H);
+6. every R cites at least one strategy-visible evidence item;
+7. every V cites a validation/test/architecture reason;
+8. unknown paths rejected;
+9. hidden evaluator/gold artifacts never appear in planner inputs/evidence;
+10. plan persisted before the first source write;
+11. prohibited write attempts blocked and logged;
+12. planner model calls/tokens/latency/cost included in proposed-arm total.
+
+## 9.4 Bounded fallback
+
+- initial plan `v1`;
+- at most ONE evidence-driven expansion `v2` (parent hash + newly writable
+  artifacts recorded);
+- then HUMAN_REVIEW / non-automated outcome.
+- Never switch to unrestricted repository writes.
+
+## 9.5 Scientific model and provider (supersedes §8 candidate policy)
+
+- Primary model: `qwen/qwen3-coder` (Qwen3-Coder-480B-A35B-Instruct) through
+  the existing OpenRouter backend.
+- Provider policy: FIXED COMPATIBLE PROVIDER, no fallback. First-party hosting
+  is NOT a scientific requirement.
+- Provider order (operationally test, predeclared): 1) DeepInfra (Turbo); 2)
+  NovitaAI ONLY if DeepInfra fails the frozen operational contract.
+- Freeze the first provider that passes; `allow_fallbacks=false`;
+  `require_parameters=true`; persist provider identity in RunRecord/config hash.
+- If the primary model fails BOTH providers: STOP; do not model-shop.
+- The old first-party-DeepSeek rule and the DeepSeek V4 Flash / Qwen2.5-Coder-32B
+  two-candidate gate are historical.
+
+## 9.6 Non-study operational acceptance (three tasks, frozen)
+
+- A1 structured ImpactPlan task (synthetic, not a scientific scenario);
+- A2 exact-patch task;
+- A3 agent-control/tool task.
+Thresholds: 3/3 deterministic success; 3/3 first responses parse; 0
+truncations; no provider fallback; usage recorded; every successful call
+<= 120 s; median <= 60 s; <= 1 transient retry total (retry must succeed).
+
+## 9.7 Gates before scientific runs
+
+Six Pre-Benchmark gates (Dataset Validation, Prompt Validation, Pipeline Smoke
+Test, Dry Run, Integration Test, Metric Verification) MUST reference
+`scientific-wip-impactplan-v1`, then the Independent Audit, then full suite
+once, then STOP before the 30 scientific cells.
+

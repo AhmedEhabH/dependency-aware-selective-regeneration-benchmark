@@ -861,6 +861,43 @@ Status: **CHANGED on 2026-09-05; D046.**
 
 ---
 
+## A030 — A binary R/P selective prototype is the thesis's intended scientific treatment
+
+### Initial assumption
+The current `HybridSelectiveStrategy` (R = in dependency scope, P = everything
+else) plus the old 30-run topology is the intended scientific construct, so the
+prepared study could start once old gates passed.
+
+### Why it seemed reasonable
+The enum already defined VALIDATE_ONLY and HUMAN_REVIEW, the dry-run topology
+was green, and the six old gates passed.
+
+### Obstacle
+The independent source audit (02_CURRENT_CODE_AND_EVIDENCE_AUDIT.md) showed the
+normal selective path only ever emits R/P. There is no first-class persisted
+ImpactPlan with R/P/V/H over the candidate universe, no separate context set,
+no validation obligations, no architecture checks, no confidence/uncertainty,
+no evidence refs, and no versioned bounded-expansion provenance. Selector and
+counters also make VALIDATE_ONLY effectively unreachable.
+
+### Revised decision (required D047)
+Adopt `IMPACTPLAN-WIP-01` / `scientific-wip-impactplan-v1`: Selective must
+produce and physically enforce a first-class ImpactPlan (R|P|V|H exactly once,
+write_set == R, P/V/H writes blocked, context/action separation, validation
+obligations separate, one bounded expansion then HUMAN_REVIEW, planner cost
+counted). Primary model `qwen/qwen3-coder`; fixed compatible provider
+(DeepInfra Turbo, else NovitaAI), `allow_fallbacks=false`; first-party-DeepSeek
+rule superseded. Old 30-run authorization is now **NO** until the new treatment
+passes six gates + independent audit.
+
+### Lesson
+**The thesis object is the explicit, auditable ImpactPlan; the gates must
+validate that object, not the enabling plumbing.**
+
+Status: **CHANGED on 2026-09-05; D047.**
+
+---
+
 # 4. Latest real Kaggle attempt — 2026-09-01
 
 ## What passed
@@ -1120,6 +1157,7 @@ This learning ledger is grounded in the project's formal decisions:
 - D044 (2026-09-04): freeze scenario IDs `todo-smoke-001` (localized) / `todo-smoke-002` (moderate) / `todo-smoke-003` (cross_cutting) before scientific inference, with mandatory pre-run evaluator audit.
 - D045 (2026-09-04): graph eligibility rule — verified-empty ≠ fallback-empty; only verified-empty may be a low-information observation; fallback-empty is NOT eligible for a dependency-aware treatment claim.
 - D046 (2026-09-05): freeze PA-001 implementation clarification — five-file Todo source universe; migrations as shared-executor obligations scored separately; mandatory `predicted_actions` + `changed_artifact_paths` per-run evidence; fixed-provider/no-fallback identity (`openrouter:<model>@<provider>` reconfigures config_hash/Run IDs); gold expected-actions isolated from scientific prompts with `RegenerationPlan.actions` driving edit semantics; workflow timeout 900 s / source cap 4096 / agent cap 512 / max attempts 3 / no new token ceiling / provider-reported usage is the metric of record; first-party DeepSeek provider mandatory for candidate A (A029).
+- D047 (2026-09-05): IMPACTPLAN-WIP-01 — SUPERSEDE the binary R/P micro-study authorization (now `MICROSTUDY_REAL_RUN_AUTHORIZED=NO`); new protocol `scientific-wip-impactplan-v1`; Selective must produce/enforce a first-class persisted ImpactPlan (R/P/V/H exactly once, `write_set == R`, P/V/H writes blocked, context/action separation, validation obligations separate, one bounded expansion v1->v2 then HUMAN_REVIEW, planner cost counted, every R cites visible evidence, low-confidence/conflict -> H); evidence collector = static graph + descriptors + automatic repository-native test links + normalized visible constraints; primary scientific model `qwen/qwen3-coder`; fixed compatible provider policy (DeepInfra Turbo first, NovitaAI only if DeepInfra fails; `allow_fallbacks=false`; no provider shopping); first-party-DeepSeek rule and old two-candidate gate SUPERSEDED/historical; D046 plumbing reused (A030).
 
 ---
 

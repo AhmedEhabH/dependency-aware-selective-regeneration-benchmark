@@ -9,27 +9,33 @@
 [![Tests](https://img.shields.io/badge/tests-2%2C532%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
-> **CURRENT SCIENTIFIC TARGET (2026-09-04, FREEZED PRE-MAIN FEASIBILITY /
-> MODEL-FREEZING GATE — SCIENTIFIC RESET DECISION ACCEPTED):**
-> **SCIENTIFIC-MICROSTUDY-01** — the pre-main Todo correctness-first
-> micro-study: 3 frozen scenarios × 2 strategies (Agent vs Selective) × 5
-> repetitions = 30 attempted runs, producing the FIRST SCIENTIFIC RESULTS
-> TABLE and a pre-registered GO/NO-GO. Qwen2.5-Coder-14B + Kaggle 2×T4 is
-> RETIRED as the primary scientific inference path and preserved only as
-> engineering feasibility evidence. No old 48-cell Pilot launch/repair, no
-> D14/D15 timeout work, no Saleor, no djangoCMS implementation yet. Next path:
-> one 6-call NON-STUDY operational model/provider acceptance gate (candidates:
-> DeepSeek V4 Flash 0731, Qwen2.5-Coder-32B-Instruct — NOT pre-selected), then
-> freeze ONE exact model/provider/settings, then the Todo study.
+> **CURRENT SCIENTIFIC TARGET (2026-09-05, IMPACTPLAN-WIP-01 — UNIFIED
+> RESEARCH PATH):** the pre-main Todo correctness-first micro-study is now
+> `SCIENTIFIC-WIP-IMPACTPLAN-V1`: the Selective/proposed arm must produce and
+> physically enforce an explicit persisted `ImpactPlan` — every candidate
+> artifact classified exactly once as R/P/V/H, `write_set == {R}`, P/V/H writes
+> blocked, `context_set` independent of action sets, validation/test
+> obligations separate, one bounded expansion (v1→v2) then HUMAN_REVIEW, and
+> planner cost counted. Primary scientific model **`qwen/qwen3-coder`** through
+> the existing OpenRouter backend; provider policy is FIXED COMPATIBLE PROVIDER
+> (DeepInfra Turbo first, NovitaAI only if DeepInfra fails), `allow_fallbacks=false`.
+> The old binary R/P micro-study authorization
+> (`MICROSTUDY_REAL_RUN_AUTHORIZED=YES`) is SUPERSEDED — current authorization
+> is **NO** until the new treatment passes the six gates + independent audit +
+> model/provider freeze. Qwen2.5-Coder-14B + Kaggle 2×T4 is RETIRED (engineering
+> evidence only); no old 48-cell Pilot launch/repair, no D14/D15, no Saleor, no
+> djangoCMS implementation yet; the first-party-DeepSeek rule and the old
+> DeepSeek V4 Flash / Qwen2.5-Coder-32B candidate gate are historical (D047).
 >
 > NOT CURRENT TARGETS: Kaggle Qwen14B engineering, the old 48-cell Pilot,
 > Saleor, djangoCMS implementation.
 >
 > Freeze docs: `docs/SCIENTIFIC_RESET_DECISION_2026-09-04.md`,
-> `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md`,
-> `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md`; decisions `D040`–`D045` in
-> `DECISION_LOG.md`. No scientific model call happens before this freeze
-> commit.
+> `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` (sections 8–9),
+> `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md`,
+> `_workspace/active/UNIFIED_RESEARCH_PATH_PACK/`; decisions `D040`–`D047` in
+> `DECISION_LOG.md`; assumptions `A029`–`A030`. No scientific model call
+> happens before this amendment is frozen and pushed.
 >
 > **PRIOR ENGINEERING TRUTH (2026-09-01, SUPERSEDED by the 2026-09-04
 > scientific decision — v0.9.22 D12 NOTEBOOK ORCHESTRATION FIX
