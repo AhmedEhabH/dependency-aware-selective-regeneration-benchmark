@@ -1,0 +1,56 @@
+# SCIENTIFIC-MICROSTUDY-01 frozen micro-study configuration
+# PA-001 / D046 / D042 / D043. This is documentation/identity support; the
+# executable profile lives in seven_arm_benchmark.py PROFILES under
+# "scientific-microstudy-01".
+
+profile: scientific-microstudy-01
+label: pre-main scientific micro-study / go-no-go
+publication_claim: false
+
+repository: todo
+
+scenarios:
+  - todo-smoke-001   # localized
+  - todo-smoke-002   # moderate
+  - todo-smoke-003   # cross_cutting
+
+strategies:
+  - iterative_repository_agent
+  - selective
+
+repetitions: 5
+total_cells: 30
+
+execution:
+  exact_patch: true
+  timeout_seconds: 900
+  source_edit_completion_cap: 4096
+  agent_control_completion_cap: 512
+  max_attempts: 3
+  total_workflow_token_ceiling: 0   # none invented here
+  usage_metric_of_record: provider_reported
+  provider_pin: true
+  allow_fallbacks: false
+  require_parameters: true
+  gold_expected_actions_visible_to_executor: false
+  edit_action_source: RegenerationPlan.actions
+
+scoring:
+  source_universe:
+    - todo/models.py
+    - todo/serializers.py
+    - todo/views.py
+    - todo/permissions.py
+    - todo/urls.py
+  migration_scoring: shared_executor_obligations_scored_separately
+  evidence_required:
+    - predicted_actions
+    - changed_artifact_paths
+  gates:
+    G1_changed_requirement: "selective >= 4/5 and not worse than agent by >1 pass"
+    G2_preservation: "selective >= 4/5 zero unintended preserve changes + regression passes"
+    G3_impact_recall: "selective >= 4/5 predicted regenerate set contains every gold regenerate artifact"
+    study_go: "all 3 clear G1 AND G2 AND at least 2/3 clear G3"
+
+decision_rule: frozen-before-calls
+model_selection_rule: preregistered 6-call non-study operational acceptance gate (D041)

@@ -231,6 +231,9 @@ def _to_run_record_data(
         regenerated_artifact_count=record_dict.get("regenerated_artifact_count", 0),
         preserved_artifact_count=record_dict.get("preserved_artifact_count", 0),
         unresolved_human_review_count=record_dict.get("unresolved_human_review_count", 0),
+        # SCIENTIFIC-MICROSTUDY-01 / D046 evidence
+        predicted_actions=dict(record_dict.get("predicted_actions") or {}),
+        changed_artifact_paths=list(record_dict.get("changed_artifact_paths") or []),
     )
 
 
@@ -343,6 +346,25 @@ PROFILES: dict[str, ExecutionProfile] = {
         scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
         timeout_seconds=300,
     ),
+    "scientific-microstudy-01": ExecutionProfile(
+        name="scientific-microstudy-01",
+        label="scientific-microstudy-01",
+        scenario_count=3,
+        strategies=["iterative_repository_agent", "selective"],
+        repetitions=5,
+        is_publication=False,
+        description=(
+            "SCIENTIFIC-MICROSTUDY-01 (PA-001/D046): Todo-only 3 scenarios x "
+            "2 strategies x 5 reps = 30 cells; pre-main go/no-go micro-study; "
+            "exact_patch, 900s workflow timeout, gold-isolated prompts, "
+            "provider-pinned fixed-provider OpenRouter."
+        ),
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
+        timeout_seconds=900,
+        exact_patch=True,
+    ),
 }
 
 
@@ -445,6 +467,7 @@ def make_backend(  # type: ignore[no-untyped-def]
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    openrouter_provider: str | None = None,
     qwen_quantization: str = "bnb-int8",
 ):
     if dry_run or backend_name == "mock":
@@ -455,6 +478,7 @@ def make_backend(  # type: ignore[no-untyped-def]
         return OpenRouterBackend(
             model=openrouter_model,
             timeout_seconds=openrouter_timeout,
+            provider=openrouter_provider,
         )
     from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
     kwargs: dict[str, str] = {}
@@ -674,6 +698,7 @@ def run_arm(
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    openrouter_provider: str | None = None,
     validation_command: list[str] | None = None,
     max_tokens: int = 0,
     max_completion_tokens_per_call: int = 4096,
@@ -681,6 +706,7 @@ def run_arm(
     qwen_quantization: str = "bnb-int8",
     exact_patch: bool = False,
     agent_control_max_completion_tokens: int = 512,
+    scientific_gold_isolation: bool = False,
 ) -> object:
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -698,6 +724,7 @@ def run_arm(
         backend_name=backend_name,
         openrouter_model=openrouter_model,
         openrouter_timeout=openrouter_timeout,
+        openrouter_provider=openrouter_provider,
         qwen_quantization=qwen_quantization,
     ) if needs_llm else None
     strategy = make_strategy(
@@ -729,6 +756,7 @@ def run_arm(
         max_completion_tokens_per_call=max_completion_tokens_per_call,
         max_total_workflow_tokens=resolved_total,
         exact_patch=exact_patch,
+        scientific_gold_isolation=scientific_gold_isolation,
     )
 
     pipeline = BenchmarkPipeline(
@@ -847,6 +875,16 @@ def parse_args() -> argparse.Namespace:
         type=float,
         default=120.0,
         help="Request timeout in seconds for OpenRouter API calls",
+    )
+    parser.add_argument(
+        "--openrouter-provider",
+        type=str,
+        default=None,
+        help=(
+            "Exact pinned OpenRouter provider slug (PA-001 / D046). When set, "
+            "every request carries exactly ONE provider with allow_fallbacks=false "
+            "and require_parameters=true. No cross-provider fallback."
+        ),
     )
     parser.add_argument(
         "--profile",
@@ -1254,6 +1292,7 @@ def _get_model_identity(
     model_path: str | None = None,
     backend_name: str | None = None,
     openrouter_model: str = "",
+    openrouter_provider: str = "",
     qwen_quantization: str = "bnb-int8",
 ) -> str:
     """Resolve the model identity for the experiment.
@@ -1262,8 +1301,14 @@ def _get_model_identity(
     identity is checkpoint-and-quantization-aware so that two different Qwen
     checkpoints or loaders can never share an identity (this is what blocks
     auto-resume cross-model contamination).
+
+    OpenRouter identity is ``openrouter:<model>@<provider>`` so a materially
+    different provider (or model) can never share a config identity / run-id
+    namespace (A3 / D046).
     """
     if backend_name == "openrouter" and openrouter_model:
+        if openrouter_provider:
+            return f"openrouter:{openrouter_model}@{openrouter_provider}"
         return f"openrouter:{openrouter_model}"
     if backend_name == "kaggle-qwen" or model_path:
         from benchmark.llm.kaggle_qwen_backend import compute_model_identity
@@ -1477,6 +1522,7 @@ def _run_single_scenario_strategy(
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    openrouter_provider: str | None = None,
     validation_command: list[str] | None = None,
     validation_env: dict[str, str] | None = None,
     validation_timeout: int | None = None,
@@ -1492,6 +1538,7 @@ def _run_single_scenario_strategy(
     exact_patch: bool = False,
     agent_control_max_completion_tokens: int = 512,
     validation_python: str | None = None,
+    scientific_gold_isolation: bool = False,
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
@@ -1509,6 +1556,7 @@ def _run_single_scenario_strategy(
             backend_name=backend_name,
             openrouter_model=openrouter_model,
             openrouter_timeout=openrouter_timeout,
+            openrouter_provider=openrouter_provider,
             qwen_quantization=qwen_quantization,
         )
     else:
@@ -1557,6 +1605,7 @@ def _run_single_scenario_strategy(
         agent_control_max_completion_tokens=agent_control_max_completion_tokens,
         exact_patch=exact_patch,
         validation_python=validation_python,
+        scientific_gold_isolation=scientific_gold_isolation,
     )
 
     pipeline = BenchmarkPipeline(
@@ -1628,6 +1677,9 @@ def _run_single_scenario_strategy(
         "unresolved_human_review_count": record.unresolved_human_review_count,
         "max_completion_tokens_per_call": max_completion_tokens_per_call,
         "max_total_workflow_tokens": resolved_total,
+        # SCIENTIFIC-MICROSTUDY-01 / D046 evidence
+        "predicted_actions": dict(record.predicted_actions),
+        "changed_artifact_paths": list(record.changed_artifact_paths),
     }
     if record.failures:
         record_dict["failures"] = [
@@ -1668,6 +1720,12 @@ def _compute_config_hash(args: argparse.Namespace) -> str:
         "agent_control_max_completion_tokens": getattr(
             args, "agent_control_max_completion_tokens", 512
         ),
+        # D046 — API identity participates in the config hash. Two different
+        # backends/models/providers can never share a config hash or run-ID
+        # namespace.
+        "backend": getattr(args, "backend", None),
+        "openrouter_model": getattr(args, "openrouter_model", None),
+        "openrouter_provider": getattr(args, "openrouter_provider", None),
     }
     raw = json.dumps(config_obj, sort_keys=True)
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
@@ -2062,6 +2120,7 @@ def main() -> int:
         model_path=args.model_path,
         backend_name=resolved_backend,
         openrouter_model=args.openrouter_model,
+        openrouter_provider=getattr(args, "openrouter_provider", "") or "",
         qwen_quantization=args.qwen_quantization,
     )
 
@@ -2825,6 +2884,7 @@ def main() -> int:
             backend_name=resolved_backend,
             openrouter_model=args.openrouter_model,
             openrouter_timeout=args.openrouter_timeout,
+            openrouter_provider=getattr(args, "openrouter_provider", None) or None,
             qwen_quantization=args.qwen_quantization,
         )
         logger.info("Shared backend created once for the whole process")
@@ -2928,6 +2988,7 @@ def main() -> int:
             backend_name=resolved_backend,
             openrouter_model=args.openrouter_model,
             openrouter_timeout=args.openrouter_timeout,
+            openrouter_provider=getattr(args, "openrouter_provider", None) or None,
             validation_command=arm_validation_command,
             validation_env=arm_validation_env,
             validation_timeout=resolved_validation_timeout,
@@ -2945,6 +3006,9 @@ def main() -> int:
                 args, "agent_control_max_completion_tokens", 512
             ),
             validation_python=_validation_pythons.get(repository_id),
+            scientific_gold_isolation=(
+                profile.name == "scientific-microstudy-01"
+            ),
         )
         run_ended_at = datetime.now(UTC).isoformat()
         run_elapsed = time.monotonic() - run_t0

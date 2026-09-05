@@ -139,14 +139,22 @@ def build_generation_prompt(
     When ``output_mode == "exact_patch"`` and the expected action is
     ``modify``, the prompt instructs the model to emit SEARCH/REPLACE blocks
     rather than the complete file.
+
+    Gold isolation (D046 / PA-001): when ``scenario_context.gold_isolated`` is
+    True the expected-action and file-instruction lines are NEVER sourced from
+    scenario gold (``expected_actions`` / ``artifact_instructions``). The caller
+    must provide the plan-derived ``expected_action`` instead; the file
+    instruction falls back to a generic contract-neutral sentence.
     """
     effective_action = expected_action
-    if scenario_context is not None:
+    if scenario_context is not None and not scenario_context.gold_isolated:
         effective_action = expected_action or scenario_context.expected_action_for(artifact_path)
+    if effective_action is None:
+        effective_action = "modify"
 
     use_patch_mode = (
         output_mode == "exact_patch"
-        and effective_action not in (None, "create")
+        and effective_action not in ("create", "preserve")
     )
 
     if use_patch_mode:
@@ -170,7 +178,14 @@ def build_generation_prompt(
         + "\n"
     )
     if scenario_context is not None:
-        ea = effective_action
+        if scenario_context.gold_isolated:
+            artifact_instruction = (
+                "Only the smallest change required by the visible requirement "
+                "and acceptance criteria is allowed in this file. Preserve all "
+                "unrelated behavior and unrelated files exactly as they are."
+            )
+        else:
+            artifact_instruction = scenario_context.instruction_for(artifact_path)
         prompt += SCENARIO_CONTEXT_PROMPT_TEMPLATE.format(
             scenario_id=scenario_context.scenario_id,
             acceptance_criteria=(
@@ -182,12 +197,26 @@ def build_generation_prompt(
                 or "- (none declared)"
             ),
             artifact_path=artifact_path,
-            expected_action=ea,
-            artifact_instruction=scenario_context.instruction_for(artifact_path),
+            expected_action=effective_action,
+            artifact_instruction=artifact_instruction,
         )
     if repair_context:
         prompt += repair_context
     return prompt
+
+
+def _plan_expected_action(plan: RegenerationPlan, path: str) -> str:
+    """Map the strategy-generated plan action to the prompt 'modify/create' label.
+
+    D046 / PA-001: the edit action for an artifact MUST come from the
+    strategy-generated ``RegenerationPlan.actions``, never from scenario gold.
+    ``regenerate`` -> ``modify``; anything else reachable in the executor
+    (``human_review`` is skipped upstream) is treated as ``modify`` too.
+    """
+    action = plan.actions.get(path)
+    if action is not None and str(action) == "preserve":
+        return "preserve"
+    return "modify"
 
 
 def _artifact_role_guidance(path: str) -> str:
@@ -577,6 +606,7 @@ class SharedRegenerationExecutor:
                 language_hint=_language_hint(artifact.path),
                 current_content=current_content,
                 scenario_context=scenario_context,
+                expected_action=_plan_expected_action(plan, artifact.path),
                 repair_context=repair_context,
                 output_mode="exact_patch" if enable_exact_patch else "complete_file",
             )
@@ -726,11 +756,7 @@ class SharedRegenerationExecutor:
                 logger.info("MODEL_OUTPUT_NORMALIZED path=%s mode=single_fence_stripped", artifact.path)
 
             # --- exact-patch application for modify targets ---
-            _effective_action = (
-                scenario_context.expected_action_for(artifact.path)
-                if scenario_context is not None and scenario_context.expected_actions
-                else "modify"
-            )
+            _effective_action = _plan_expected_action(plan, artifact.path)
             if (
                 enable_exact_patch
                 and _effective_action not in ("create", "preserve")
@@ -822,10 +848,16 @@ class SharedRegenerationExecutor:
                     continue
 
             if (
-                scenario_context is not None
-                and scenario_context.expected_actions
-                and artifact.path.endswith(".py")
+                artifact.path.endswith(".py")
+                and scenario_context is not None
+                and (scenario_context.gold_isolated or scenario_context.expected_actions)
             ):
+                # D046 / PA-001: the generic Python syntax/module/dependency
+                # guard is decoupled from gold expected-actions. It stays active
+                # for the scientific (gold-isolated) profile even when gold
+                # labels are hidden; legacy profiles with explicit expected
+                # actions keep the same guard; executor paths without a scenario
+                # context remain unchanged.
                 contract_failures = _python_artifact_contract_failures(
                     artifact_path=artifact.path,
                     output_text=output_text,
