@@ -136,6 +136,51 @@ class TestExactPatchBoundaryRecovery:
             )
 
 
+class TestExactPatchTrailingMarkerRecovery:
+    """FAST-RESULTS-02: trailing duplicate closing-marker envelope recovery (D050).
+
+    After a syntactically complete SEARCH/REPLACE block, a trailing suffix of
+    ONLY duplicate '>>>>>>> REPLACE' marker lines (plus blank lines) is
+    tolerated in the OUTER parser loop. Duplicate close markers before another
+    SEARCH block, or followed by prose/code, remain fail-closed. SEARCH/REPLACE
+    content handling stays literal; no general normalization is added.
+    """
+
+    def test_four_trailing_duplicate_closing_markers_pass(self) -> None:
+        text = (
+            "<<<<<<< SEARCH\na\n=======\nb\n>>>>>>> REPLACE\n"
+            ">>>>>>> REPLACE\n>>>>>>> REPLACE\n>>>>>>> REPLACE\n"
+        )
+        blocks = parse_exact_patch(text)
+        assert blocks == [ExactPatchBlock(search="a\n", replace="b\n")]
+
+    def test_duplicate_close_before_another_block_fails(self) -> None:
+        text = (
+            "<<<<<<< SEARCH\na\n=======\nb\n>>>>>>> REPLACE\n"
+            ">>>>>>> REPLACE\n<<<<<<< SEARCH\nc\n=======\nd\n>>>>>>> REPLACE\n"
+        )
+        with pytest.raises(ExactPatchError):
+            parse_exact_patch(text)
+
+    def test_duplicate_close_then_prose_fails(self) -> None:
+        text = (
+            "<<<<<<< SEARCH\na\n=======\nb\n>>>>>>> REPLACE\n"
+            ">>>>>>> REPLACE\nextra prose\n"
+        )
+        with pytest.raises(ExactPatchError):
+            parse_exact_patch(text)
+
+    def test_nested_search_marker_inside_search_fails(self) -> None:
+        text = "<<<<<<< SEARCH\n<<<<<<< SEARCH\nx\n=======\ny\n>>>>>>> REPLACE\n"
+        with pytest.raises(ExactPatchError):
+            parse_exact_patch(text)
+
+    def test_extra_divider_inside_replace_fails(self) -> None:
+        text = "<<<<<<< SEARCH\nx\n=======\ny\n=======\nz\n>>>>>>> REPLACE\n"
+        with pytest.raises(ExactPatchError):
+            parse_exact_patch(text)
+
+
 class TestExactPatchProductionScale:
     """D13r1 F4/F1: production-shape large-file patch.
 
