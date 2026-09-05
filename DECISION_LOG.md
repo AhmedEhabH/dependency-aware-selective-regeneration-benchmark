@@ -904,3 +904,17 @@
 - **Alternatives considered:** Run 30 now because old G1-G6 passed - REJECTED (validates old plumbing, not the treatment). Keep DeepSeek first-party as a scientific requirement - REJECTED (operational symptom, not scientific; D1/D7). Model-shop after outcomes - REJECTED (anti-cherry-picking).
 - **Impact:** The unified research path proceeds: implement Stage-C ImpactPlan contract, revalidate the six gates against the NEW protocol, freeze Qwen3-Coder + one provider, independent audit, THEN (and only after audit) run the 30 scientific cells.
 - **Evidence:** `_workspace/active/UNIFIED_RESEARCH_PATH_PACK/*` (00-10); `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` section 9 (PA-002).
+
+---
+
+## Decision D048 - Bounded exact-patch delimiter-boundary recovery (FAST-RESULTS-01)
+
+- **Date:** 2026-09-05
+- **Decision ID:** D048
+- **Status:** ACCEPTED / FROZEN (preregistration amendment; before any new model call).
+- **Category:** Preregistration / Interface Contract / Model Selection
+- **Description:** The acceptance gate A2 previously conflated semantic editing ability with one delimiter-boundary newline. The deterministic one-newline/unique-match adapter is now part of the frozen shared executor interface: when a SEARCH block has zero exact matches AND ends in two newline characters, remove exactly one trailing newline; the recovery succeeds ONLY if the trimmed candidate has exactly one literal match in the current content; any other whitespace/fuzzy difference remains a fail-closed rejection. The adapter is shared by both experimental arms and is frozen before scientific runs. Model (`qwen/qwen3-coder`), provider policy (DeepInfra first, no fallback), scenario IDs, thresholds, treatment, and protocol do NOT change. No scientific outcome existed when this amendment was made (the earlier A2 failures were operational-gate evidence only).
+- **Rationale:** DeepInfra's A2 failure was one extra trailing newline in SEARCH before the `=======` divider - an interface-boundary formatting defect, not evidence that the model cannot reason about the edit. The recovery does not guess content: it is allowed only after exact-match failure and only for one unique literal candidate.
+- **Alternatives considered:** General fuzzy whitespace matching - REJECTED (violates the literal/fail-closed executor contract and could mask real regressions). Model shopping after the gate failure - REJECTED (D047 anti-cherry-picking). Redesigning Stage C - REJECTED (the treatment construct was already audited).
+- **Impact:** Unblocks rerunning the PRIMARY acceptance gate on DeepInfra only. If A1/A2/A3 pass 3/3 under the amended fixed interface, freeze model/provider, rerun the six gates + audit + full suite once, estimate cost, and if <= $2.50 run the frozen 30 Todo cells immediately.
+- **Evidence:** `_workspace/active/FAST_RESULTS_01_PACK/00_DECISION_LOCK.md`; `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` section 10 (PA-003); `tests/unit/execution/test_exact_patch.py::TestExactPatchBoundaryRecovery`.

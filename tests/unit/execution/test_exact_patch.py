@@ -99,6 +99,43 @@ class TestApplyExactPatches:
             )
 
 
+class TestExactPatchBoundaryRecovery:
+    """FAST-RESULTS-01: bounded delimiter-boundary newline recovery (D048).
+
+    One extra trailing newline in SEARCH (emitted right before the divider) is
+    recovered ONLY when removing exactly one newline yields a unique literal
+    match. No other whitespace/fuzzy normalization exists.
+    """
+
+    def test_extra_boundary_newline_recovered_when_unique(self) -> None:
+        content = "rename_me = 0\n\ndef increment():\n    return rename_me + 1\n"
+        patch = ExactPatchBlock(
+            search="rename_me = 0\n\n",
+            replace="counter_new = 0\n\n",
+        )
+        result = apply_exact_patches(content, [patch])
+        assert result == (
+            "counter_new = 0\n\ndef increment():\n    return rename_me + 1\n"
+        )
+
+    def test_ambiguous_trimmed_candidate_fails_closed(self) -> None:
+        content = "x = 1\nx = 1\n"
+        patch = ExactPatchBlock(
+            search="x = 1\n\n",
+            replace="y\n\n",
+        )
+        with pytest.raises(ExactPatchError, match="not found"):
+            apply_exact_patches(content, [patch])
+        assert content.count("x = 1\n") != 1
+
+    def test_non_boundary_whitespace_difference_still_rejected(self) -> None:
+        with pytest.raises(ExactPatchError, match="not found"):
+            apply_exact_patches(
+                "def f():\n    return 1\n",
+                [ExactPatchBlock(search="def f():\n    return  1\n", replace="x\n")],
+            )
+
+
 class TestExactPatchProductionScale:
     """D13r1 F4/F1: production-shape large-file patch.
 
