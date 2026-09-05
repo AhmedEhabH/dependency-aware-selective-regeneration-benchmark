@@ -43,6 +43,7 @@ class RegenerationExecutionResult:
     artifact_hashes: dict[str, str] = field(default_factory=dict)
     repair_no_progress: bool = False
     model_call_budget_exhausted: bool = False
+    prohibited_write_attempts: int = 0
 
 
 BUILT_IN_PROMPT_TEMPLATE = """\
@@ -535,6 +536,7 @@ class SharedRegenerationExecutor:
         atomic_abort = False
         model_call_budget_exhausted = False
         repair_no_progress = False
+        prohibited_write_attempts = 0
         total_prompt = 0
         total_completion = 0
         calls = 0
@@ -549,6 +551,12 @@ class SharedRegenerationExecutor:
             action_str = str(action)
 
             if action_str == "human_review":
+                # Stage-C write guard: H is never writable. A human_review path
+                # that reached the executor is recorded as a blocked attempt.
+                prohibited_write_attempts += 1
+                logger.warning(
+                    "WRITE_GUARD_BLOCKED path=%s action=human_review", artifact.path
+                )
                 generated.append(
                     GeneratedArtifact(
                         path=artifact.path,
@@ -559,6 +567,12 @@ class SharedRegenerationExecutor:
                 continue
 
             if action_str == "preserve" or action_str == "validate_only":
+                # Stage-C write guard: P/V are never writable. Any attempt by a
+                # path reaching the executor is blocked and logged.
+                prohibited_write_attempts += 1
+                logger.warning(
+                    "WRITE_GUARD_BLOCKED path=%s action=%s", artifact.path, action_str
+                )
                 continue
 
             if _is_path_traversal(artifact.path, workspace_root):
@@ -925,4 +939,5 @@ class SharedRegenerationExecutor:
             artifact_hashes=artifact_hashes,
             repair_no_progress=repair_no_progress,
             model_call_budget_exhausted=model_call_budget_exhausted,
+            prohibited_write_attempts=prohibited_write_attempts,
         )

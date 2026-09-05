@@ -250,10 +250,18 @@ class ImpactDecision:
     action: ActionKind
     rationale: str = ""
     supporting_evidence: tuple[SupportingEvidence, ...] = ()
+    confidence: float = 1.0
+    reason_codes: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if not self.rationale:
             object.__setattr__(self, "rationale", "")
+        if isinstance(self.confidence, bool):
+            raise ValueError("ImpactDecision.confidence must be a float in [0,1], not bool")
+        if not isinstance(self.confidence, float):
+            raise ValueError(f"ImpactDecision.confidence must be a float, got {type(self.confidence).__name__}")
+        if not 0.0 <= self.confidence <= 1.0:
+            raise ValueError(f"ImpactDecision.confidence must be in [0,1], got {self.confidence}")
 
 
 @dataclass(frozen=True)
@@ -261,10 +269,130 @@ class ImpactPrediction:
     decisions: tuple[ImpactDecision, ...] = ()
     errors: tuple[str, ...] = ()
     token_usage: TokenUsage | None = None
+    impact_plan: ImpactPlan | None = None
 
     def __post_init__(self) -> None:
         if self.decisions and self.errors:
             pass
+
+
+@dataclass(frozen=True)
+class EvidenceItem:
+    """A single strategy-visible evidence item the planner may cite (Stage-C)."""
+
+    evidence_id: str
+    artifact_path: str
+    evidence_type: str  # static | semantic | test_link | architecture
+    source: str
+    direction: str  # e.g. seed, reverse_consumer, test_to_source, architecture_edge
+    description: str
+    score: float | None = None
+
+    def __post_init__(self) -> None:
+        if not self.evidence_id:
+            raise ValueError("EvidenceItem.evidence_id must not be empty")
+        if self.evidence_type not in ("static", "semantic", "test_link", "architecture"):
+            raise ValueError(f"EvidenceItem.evidence_type unknown: {self.evidence_type}")
+        if not self.description:
+            raise ValueError("EvidenceItem.description must not be empty")
+        if self.evidence_type != "architecture" and not self.artifact_path:
+            raise ValueError("EvidenceItem.artifact_path must not be empty")
+
+
+@dataclass(frozen=True)
+class ValidationObligation:
+    """A separate validation/test/build/architecture obligation (Stage-C).
+
+    Obligations are independent of artifact actions: a PRESERVE artifact may
+    still be inside the validation boundary.
+    """
+
+    obligation_id: str
+    kind: str  # changed_requirement | regression | build | static | architecture
+    target: str  # check/target identifier (e.g. test module or check name)
+    reason: str = ""
+    evidence_refs: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        if not self.obligation_id:
+            raise ValueError("ValidationObligation.obligation_id must not be empty")
+        if self.kind not in (
+            "changed_requirement", "regression", "build", "static", "architecture",
+        ):
+            raise ValueError(f"ValidationObligation.kind unknown: {self.kind}")
+        if not self.target:
+            raise ValueError("ValidationObligation.target must not be empty")
+
+
+@dataclass(frozen=True)
+class ImpactPlan:
+    """The Stage-C scientific object: an auditable pre-edit action plan.
+
+    Invariants are enforced by the plan gate (not here):
+    - every candidate artifact classified exactly once;
+    - write_set == {action R};
+    - P/V/H are not writable;
+    - action sets pairwise disjoint;
+    - context_set independent of action sets;
+    - every R cites at least one strategy-visible evidence item;
+    - every V cites a validation/test/architecture reason.
+    """
+
+    run_id: str
+    scenario_id: str
+    source_commit: str
+    planner_version: str
+    plan_version: str
+    parent_plan_hash: str | None = None
+    decisions: tuple[ImpactDecision, ...] = ()
+    context_set: tuple[str, ...] = ()
+    validation_obligations: tuple[ValidationObligation, ...] = ()
+    architecture_checks: tuple[str, ...] = ()
+    escalation_reason: str = ""
+    plan_hash: str = ""
+    planner_token_usage: TokenUsage | None = None
+    planner_model_calls: int = 0
+    planner_latency_seconds: float = 0.0
+
+    def __post_init__(self) -> None:
+        if not self.run_id:
+            raise ValueError("ImpactPlan.run_id must not be empty")
+        if not self.scenario_id:
+            raise ValueError("ImpactPlan.scenario_id must not be empty")
+        if not self.source_commit:
+            raise ValueError("ImpactPlan.source_commit must not be empty")
+        if not self.planner_version:
+            raise ValueError("ImpactPlan.planner_version must not be empty")
+        if not self.plan_version:
+            raise ValueError("ImpactPlan.plan_version must not be empty")
+
+    @property
+    def write_set(self) -> tuple[str, ...]:
+        return tuple(
+            d.artifact.path for d in self.decisions
+            if d.action == ActionKind.regenerate
+        )
+
+    @property
+    def preserve_set(self) -> tuple[str, ...]:
+        return tuple(
+            d.artifact.path for d in self.decisions
+            if d.action == ActionKind.preserve
+        )
+
+    @property
+    def validate_set(self) -> tuple[str, ...]:
+        return tuple(
+            d.artifact.path for d in self.decisions
+            if d.action == ActionKind.validate_only
+        )
+
+    @property
+    def human_review_set(self) -> tuple[str, ...]:
+        return tuple(
+            d.artifact.path for d in self.decisions
+            if d.action == ActionKind.human_review
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -437,6 +565,20 @@ class RunRecord:
     predicted_actions: dict[str, str] = field(default_factory=dict)
     changed_artifact_paths: tuple[str, ...] = ()
 
+    # Stage-C ImpactPlan evidence (scientific-wip-impactplan-v1 / D047)
+    impact_plan: dict[str, Any] | None = None
+    impact_plan_hash: str = ""
+    impact_plan_version: str = ""
+    impact_plan_parent_hash: str | None = None
+    impact_expansion_count: int = 0
+    escalated_to_human_review: bool = False
+    prohibited_write_attempts: int = 0
+    planner_prompt_tokens: int = 0
+    planner_completion_tokens: int = 0
+    planner_total_tokens: int = 0
+    planner_model_calls: int = 0
+    planner_latency_seconds: float = 0.0
+
     def __post_init__(self) -> None:
         if self.duration_seconds < 0:
             raise ValueError("RunRecord.duration_seconds must be >= 0")
@@ -593,6 +735,21 @@ class RunRecord:
         for path in self.changed_artifact_paths:
             if not path or not isinstance(path, str):
                 raise ValueError("RunRecord.changed_artifact_paths items must be non-empty strings")
+
+        for field_name in (
+            "impact_expansion_count", "prohibited_write_attempts",
+            "planner_prompt_tokens", "planner_completion_tokens",
+            "planner_total_tokens", "planner_model_calls",
+        ):
+            val = getattr(self, field_name)
+            if isinstance(val, bool) or not isinstance(val, int) or val < 0:
+                raise ValueError(f"RunRecord.{field_name} must be a non-negative integer")
+        if not isinstance(self.planner_latency_seconds, (int, float)):
+            raise ValueError("RunRecord.planner_latency_seconds must be a number")
+        if isinstance(self.planner_latency_seconds, bool):
+            raise ValueError("RunRecord.planner_latency_seconds must be a number, not bool")
+        if not math.isfinite(self.planner_latency_seconds) or self.planner_latency_seconds < 0:
+            raise ValueError("RunRecord.planner_latency_seconds must be finite and >= 0")
 
 
 # ---------------------------------------------------------------------------

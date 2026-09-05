@@ -76,6 +76,7 @@ STRATEGY_NAMES = [
     "incr_rtl",
     "code_plan",
     "iterative_repository_agent",
+    "impact_plan",
 ]
 
 # Frozen protocol design: which strategies are expected to use an LLM backend
@@ -89,6 +90,7 @@ STRATEGY_CAPABILITIES_DESIGN: dict[str, dict[str, bool]] = {
     "incr_rtl": {"llm": False, "graph": False},
     "code_plan": {"llm": True, "graph": True},
     "iterative_repository_agent": {"llm": True, "graph": False},
+    "impact_plan": {"llm": True, "graph": True},
 }
 
 
@@ -234,6 +236,19 @@ def _to_run_record_data(
         # SCIENTIFIC-MICROSTUDY-01 / D046 evidence
         predicted_actions=dict(record_dict.get("predicted_actions") or {}),
         changed_artifact_paths=list(record_dict.get("changed_artifact_paths") or []),
+        # Stage-C ImpactPlan evidence (scientific-wip-impactplan-v1 / D047)
+        impact_plan=record_dict.get("impact_plan"),
+        impact_plan_hash=record_dict.get("impact_plan_hash", ""),
+        impact_plan_version=record_dict.get("impact_plan_version", ""),
+        impact_plan_parent_hash=record_dict.get("impact_plan_parent_hash"),
+        impact_expansion_count=record_dict.get("impact_expansion_count", 0),
+        escalated_to_human_review=record_dict.get("escalated_to_human_review", False),
+        prohibited_write_attempts=record_dict.get("prohibited_write_attempts", 0),
+        planner_prompt_tokens=record_dict.get("planner_prompt_tokens", 0),
+        planner_completion_tokens=record_dict.get("planner_completion_tokens", 0),
+        planner_total_tokens=record_dict.get("planner_total_tokens", 0),
+        planner_model_calls=record_dict.get("planner_model_calls", 0),
+        planner_latency_seconds=record_dict.get("planner_latency_seconds", 0.0),
     )
 
 
@@ -244,7 +259,7 @@ REPO_IDS = ["todo", "djangocms", "saleor"]
 # NOT in this set; the Pilot repository_agent baseline is
 # 'iterative_repository_agent' (see 01_FROZEN_PROTOCOL_AND_DECISIONS.md).
 REGENERATION_APPROVED_STRATEGIES = frozenset({
-    "monolithic", "selective", "iterative_repository_agent",
+    "monolithic", "selective", "iterative_repository_agent", "impact_plan",
 })
 
 
@@ -365,6 +380,25 @@ PROFILES: dict[str, ExecutionProfile] = {
         timeout_seconds=900,
         exact_patch=True,
     ),
+    "scientific-wip-impactplan-v1": ExecutionProfile(
+        name="scientific-wip-impactplan-v1",
+        label="scientific-wip-impactplan-v1",
+        scenario_count=3,
+        strategies=["iterative_repository_agent", "impact_plan"],
+        repetitions=5,
+        is_publication=False,
+        description=(
+            "IMPACTPLAN-WIP-01 (D047): Todo-only 3 scenarios x 2 strategies "
+            "(Agent vs ImpactPlan Selective) x 5 reps = 30 cells; Stage-C "
+            "ImpactPlan R/P/V/H treatment; exact_patch, 900s workflow timeout, "
+            "gold-isolated prompts, fixed compatible provider."
+        ),
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
+        timeout_seconds=900,
+        exact_patch=True,
+    ),
 }
 
 
@@ -450,6 +484,20 @@ def make_strategy(name, backend=None, graph=None, artifact_descriptors=None, age
         "incr_rtl": (TraceabilityOnlyStrategy, {}),
         "code_plan": (FullContextStrategy, {"graph": graph}),
     }
+    if name == "impact_plan":
+        from benchmark.llm.mock_backend import MockLLMBackend
+        from benchmark.selection.impact_planner import MockImpactPlanner, OpenRouterImpactPlanner
+        from benchmark.strategies.impact_plan import ImpactPlanSelectiveStrategy
+
+        if backend is None or isinstance(backend, MockLLMBackend):
+            planner = MockImpactPlanner()
+        else:
+            planner = OpenRouterImpactPlanner(backend)
+        return ImpactPlanSelectiveStrategy(
+            planner=planner,
+            graph=graph,
+            artifact_descriptors=artifact_descriptors or (),
+        )
     entry = strategies.get(name)
     if entry is None:
         raise ValueError(f"Unknown strategy: {name}")
@@ -1680,6 +1728,19 @@ def _run_single_scenario_strategy(
         # SCIENTIFIC-MICROSTUDY-01 / D046 evidence
         "predicted_actions": dict(record.predicted_actions),
         "changed_artifact_paths": list(record.changed_artifact_paths),
+        # Stage-C ImpactPlan evidence (scientific-wip-impactplan-v1 / D047)
+        "impact_plan": record.impact_plan,
+        "impact_plan_hash": record.impact_plan_hash,
+        "impact_plan_version": record.impact_plan_version,
+        "impact_plan_parent_hash": record.impact_plan_parent_hash,
+        "impact_expansion_count": record.impact_expansion_count,
+        "escalated_to_human_review": record.escalated_to_human_review,
+        "prohibited_write_attempts": record.prohibited_write_attempts,
+        "planner_prompt_tokens": record.planner_prompt_tokens,
+        "planner_completion_tokens": record.planner_completion_tokens,
+        "planner_total_tokens": record.planner_total_tokens,
+        "planner_model_calls": record.planner_model_calls,
+        "planner_latency_seconds": record.planner_latency_seconds,
     }
     if record.failures:
         record_dict["failures"] = [

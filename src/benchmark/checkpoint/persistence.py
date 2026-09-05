@@ -98,6 +98,20 @@ class RunRecordData:
     predicted_actions: dict[str, str] = field(default_factory=dict)
     changed_artifact_paths: list[str] = field(default_factory=list)
 
+    # Stage-C ImpactPlan evidence (scientific-wip-impactplan-v1 / D047)
+    impact_plan: dict[str, Any] | None = None
+    impact_plan_hash: str = ""
+    impact_plan_version: str = ""
+    impact_plan_parent_hash: str | None = None
+    impact_expansion_count: int = 0
+    escalated_to_human_review: bool = False
+    prohibited_write_attempts: int = 0
+    planner_prompt_tokens: int = 0
+    planner_completion_tokens: int = 0
+    planner_total_tokens: int = 0
+    planner_model_calls: int = 0
+    planner_latency_seconds: float = 0.0
+
 
 def _utc_now_str() -> str:
     return datetime.now(UTC).isoformat()

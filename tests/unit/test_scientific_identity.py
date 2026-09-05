@@ -107,3 +107,15 @@ class TestRunIdCoversIdentity:
             config_hash="bbbbbbbbbbbbbbbb", protocol_version="1.0",
         )
         assert id1 != id2
+
+
+class TestImpactPlanStrategyIdentity:
+    def test_strategy_registered_and_hashable(self):
+        """impact_plan strategy is part of the config identity namespace
+        (backend/model/provider + strategy are hashed together)."""
+        from seven_arm_benchmark import STRATEGY_NAMES, _compute_config_hash
+
+        assert "impact_plan" in STRATEGY_NAMES
+        h1 = _compute_config_hash(_make_args(strategy="impact_plan"))
+        h2 = _compute_config_hash(_make_args(strategy="selective"))
+        assert h1 != h2
