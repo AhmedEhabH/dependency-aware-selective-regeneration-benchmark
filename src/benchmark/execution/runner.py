@@ -1476,7 +1476,7 @@ class BenchmarkRunner:
             impact_plan_parent_hash=impact_plan_parent_hash,
             impact_expansion_count=expansion_count,
             escalated_to_human_review=escalated_to_h,
-            prohibited_write_attempts=exec_result.prohibited_write_attempts,
+            prohibited_write_attempts=int(getattr(exec_result, "prohibited_write_attempts", 0)),
             planner_prompt_tokens=planner_metrics["prompt_tokens"],
             planner_completion_tokens=planner_metrics["completion_tokens"],
             planner_total_tokens=planner_metrics["total_tokens"],
