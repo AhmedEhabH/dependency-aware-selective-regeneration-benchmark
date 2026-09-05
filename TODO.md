@@ -1901,3 +1901,5 @@ timeout / 12 scenarios / 2 strategies / 2 repetitions = 48 cells.
 - **Owner:** OpenCode
 - **Evidence:** Not started
 
+
+| 0b | **IMPACTPLAN-WIP-01 STEP 9 (CURRENT STATUS 2026-09-05) - MODEL/PROVIDER ACCEPTANCE GATE FAILED on both predeclared providers**: `qwen/qwen3-coder` failed the frozen A2 exact-patch task on DeepInfra AND Novita (3/3 deterministic success not met). Per D047: do not model-shop; no freeze; 30-run execution stays blocked until a documented preregistration amendment resolves the model/provider path. Six Pre-Benchmark gates for `scientific-wip-impactplan-v1` all PASS; full suite 2805/33/0 PASS; internal Audit produced. | **BLOCKED - awaiting preregistration amendment** |
