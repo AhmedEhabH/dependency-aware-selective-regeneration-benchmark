@@ -134,7 +134,18 @@ def apply_exact_patches(current_content: str, blocks: list[ExactPatchBlock]) -> 
     """
     content = current_content
     for index, block in enumerate(blocks, start=1):
-        count = content.count(block.search)
+        search = block.search
+        count = content.count(search)
+        if count == 0 and search.endswith("\n\n"):
+            # Bounded delimiter-boundary recovery: models sometimes emit one
+            # extra blank line immediately before the SEARCH/REPLACE divider.
+            # Recover only when removing exactly one trailing newline yields a
+            # unique literal match. No other whitespace/fuzzy matching occurs.
+            candidate = search[:-1]
+            candidate_count = content.count(candidate)
+            if candidate_count == 1:
+                search = candidate
+                count = 1
         if count == 0:
             raise ExactPatchError(
                 f"block {index}: SEARCH content not found in current file "
@@ -145,5 +156,5 @@ def apply_exact_patches(current_content: str, blocks: list[ExactPatchBlock]) -> 
                 f"block {index}: SEARCH content is ambiguous, matched {count} "
                 f"times; search={block.search[:80]!r}"
             )
-        content = content.replace(block.search, block.replace, 1)
+        content = content.replace(search, block.replace, 1)
     return content

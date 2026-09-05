@@ -384,3 +384,47 @@ Test, Dry Run, Integration Test, Metric Verification) MUST reference
 `scientific-wip-impactplan-v1`, then the Independent Audit, then full suite
 once, then STOP before the 30 scientific cells.
 
+---
+
+# PA-003 — Amendment: exact-patch delimiter-boundary recovery (FAST-RESULTS-01)
+
+**Date:** 2026-09-05
+**Status:** FROZEN (preregistration amendment; before any new model call).
+**Decision IDs:** D048; A031 (assumption ledger).
+**Supersedes:** the implicit "no whitespace normalisation at all" reading of
+the exact-patch executor for the single bounded case below. Model, provider,
+scenario IDs, thresholds, treatment and protocol do NOT change.
+
+## 10.1 Context
+
+The operative acceptance gate (Section 9.6, A2) previously conflated semantic
+editing ability with one interface-boundary formatting artifact: the A2
+exact-patch task FAILED on DeepInfra because the model emitted ONE extra
+trailing newline at the end of the SEARCH block (immediately before the
+`=======` divider), which the byte-exact apply rejected. This is a
+delimiter-boundary formatting defect, not evidence about the model's ability
+to reason about the edit.
+
+## 10.2 Bounded adapter (single, frozen)
+
+The executor remains literal and fail-closed by default. Exactly ONE bounded
+recovery is added:
+
+- when a SEARCH block has zero exact matches AND the SEARCH ends in exactly two
+  newline characters, remove exactly one trailing newline;
+- the recovery succeeds ONLY if the resulting candidate SEARCH has exactly one
+  literal match in the current content;
+- any other whitespace difference, ambiguity, or fuzziness remains a
+  fail-closed rejection.
+
+The recovery never guesses content: it is attempted only after exact-match
+failure and only for a unique literal candidate. This adapter is shared by both
+experimental arms and is frozen before any scientific run.
+
+## 10.3 No scientific impact
+
+- model: `qwen/qwen3-coder` — unchanged;
+- provider policy / scenarios / thresholds / treatment / metrics — unchanged;
+- no scientific outcome existed when this amendment was made (the previous A2
+  failures were operational-gate evidence only).
+
