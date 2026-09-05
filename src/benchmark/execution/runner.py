@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import logging
 import re
 import time
@@ -859,6 +860,7 @@ class BenchmarkRunner:
                 "selective",
                 "hybrid_selective",
                 "iterative_repository_agent",
+                "impact_plan",
             })
             if self._config.strategy_name not in _approved_strategies:
                 return self._build_failure_record(
@@ -1203,10 +1205,21 @@ class BenchmarkRunner:
         start_time: float,
         selection_duration: float = 0.0,
     ) -> RunRecord:
-        selector = ArtifactSelector()
-        selection = selector.select(prediction, artifact_universe)
-        regen_planner = RegenerationPlanner()
-        plan = regen_planner.plan(selection, prediction)
+        # Stage-C ImpactPlan arm: if the strategy produced a first-class plan,
+        # build the executable plan from its write_set (write_set == {R}) and
+        # persist the plan BEFORE any source write. Otherwise use the legacy
+        # selector path (unchanged).
+        impact_plan = prediction.impact_plan
+        if impact_plan is not None:
+            from benchmark.selection.planner import plan_from_impact_plan
+
+            plan = plan_from_impact_plan(impact_plan)
+            self._persist_impact_plan(impact_plan, scenario)
+        else:
+            selector = ArtifactSelector()
+            selection = selector.select(prediction, artifact_universe)
+            regen_planner = RegenerationPlanner()
+            plan = regen_planner.plan(selection, prediction)
 
         counts = compute_artifact_counts(prediction)
 
@@ -1230,9 +1243,15 @@ class BenchmarkRunner:
         acc = _WorkflowMetricAccumulator()
         acc.add_selection(
             selection_tok,
-            model_calls=0,
+            model_calls=int(getattr(self._strategy, "model_call_count", 0)),
             duration_seconds=selection_duration,
         )
+
+        # --- planner cost for the impact-plan arm (counted in proposed total) ---
+        impact_plan_hash = ""
+        impact_plan_version = ""
+        impact_plan_parent_hash: str | None = None
+        planner_metrics = self._impact_plan_metrics(impact_plan)
 
         if self._budget.timed_out:
             return self._workflow_budget_exhausted_record(
@@ -1251,7 +1270,7 @@ class BenchmarkRunner:
 
         self._budget.record_tokens(exec_result.total_tokens)
 
-        self._last_regeneration_hashes = exec_result.artifact_hashes
+        self._last_regeneration_hashes = dict(exec_result.artifact_hashes)
 
         if exec_result.model_call_budget_exhausted:
             acc.add_code_generation(exec_result, is_repair=False)
@@ -1280,14 +1299,136 @@ class BenchmarkRunner:
                 )
             )
 
-        if sci_result is not None and not sci_result.passed:
+        # --- one bounded expansion (v2) for the impact-plan arm ---
+        expansion_count = 0
+        escalated_to_h = False
+        if (
+            impact_plan is not None
+            and sci_result is not None
+            and not sci_result.passed
+            and impact_plan.plan_version == "v1"
+        ):
+            expand = getattr(self._strategy, "expand_plan", None)
+            if callable(expand):
+                v2_prediction = self._expand_plan_once(
+                    scenario=scenario,
+                    requirement_change=requirement_change,
+                    artifact_universe=artifact_universe,
+                    strategy_expand=expand,
+                    failure_summary=(sci_result.feedback or "validation failed"),
+                    parent_plan=impact_plan,
+                )
+                if v2_prediction is not None and v2_prediction.impact_plan is not None:
+                    v2_plan_obj = v2_prediction.impact_plan
+                    v2_plan = plan_from_impact_plan(v2_plan_obj)
+                    self._persist_impact_plan(v2_plan_obj, scenario)
+                    v2_tok = v2_prediction.token_usage or TokenUsage()
+                    acc.add_selection(
+                        v2_tok,
+                        model_calls=int(getattr(self._strategy, "model_call_count", 0)),
+                        duration_seconds=0.0,
+                    )
+                    v2_exec = executor.execute(
+                        v2_plan, self._isolation, requirement_delta=requirement_delta,
+                        scenario_context=self._build_scenario_context(scenario),
+                        max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
+                        remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
+                        enable_exact_patch=self._config.exact_patch,
+                    )
+                    self._budget.record_tokens(v2_exec.total_tokens)
+                    v2_sci = self._execute_scientific_validation(scenario, v2_exec)
+                    acc.add_code_generation(v2_exec, is_repair=True)
+                    if v2_sci is not None:
+                        acc.add_scientific(v2_sci)
+                    expansion_count += 1
+                    if v2_exec.model_call_budget_exhausted:
+                        return self._workflow_budget_exhausted_record(
+                            scenario,
+                            start_time,
+                            "Workflow deadline reached during impact-plan expansion",
+                            acc=acc,
+                            token_accounting_mode=token_accounting_mode,
+                        )
+                    if v2_sci is not None and v2_sci.passed and not v2_exec.failures:
+                        # resolved by v2: succeed below
+                        sci_result = v2_sci
+                        exec_result = v2_exec
+                        failures = []
+                        for f_msg in v2_exec.failures:
+                            failures.append(
+                                FailureRecord(
+                                    failure_kind=FailureKind.model_output,
+                                    message=f_msg,
+                                    details="SharedRegenerationExecutor failure (v2)",
+                                    stage="regeneration",
+                                )
+                            )
+                        impact_plan_hash = v2_plan_obj.plan_hash
+                        impact_plan_version = v2_plan_obj.plan_version
+                        impact_plan_parent_hash = v2_plan_obj.parent_plan_hash
+                        planner_metrics = self._impact_plan_metrics(v2_plan_obj)
+                    else:
+                        escalated_to_h = True
+                        failures.append(
+                            FailureRecord(
+                                failure_kind=FailureKind.build,
+                                message=(
+                                    "ImpactPlan bounded expansion (v2) exhausted; "
+                                    "escalating to HUMAN_REVIEW"
+                                ),
+                                details=(
+                                    f"plan_version={impact_plan.plan_version} parent_hash={impact_plan.plan_hash}"
+                                ),
+                                stage="human_review",
+                            )
+                        )
+                        if v2_sci is not None and not v2_sci.passed:
+                            failures.append(
+                                self._failure_from_scientific_result(v2_sci)
+                            )
+                        impact_plan_hash = v2_plan_obj.plan_hash
+                        impact_plan_version = v2_plan_obj.plan_version
+                        impact_plan_parent_hash = v2_plan_obj.parent_plan_hash
+                        planner_metrics = self._impact_plan_metrics(v2_plan_obj)
+
+        # --- final record assembly ---
+        if sci_result is not None and not sci_result.passed and impact_plan is None:
             failures.append(
                 self._failure_from_scientific_result(sci_result)
             )
+        elif impact_plan is not None and sci_result is not None and not sci_result.passed:
+            # Impact-plan arm: if v1 failed and expansion did not resolve the
+            # failure (or was not attempted), the v1 failure must be recorded.
+            if not escalated_to_h:
+                failures.append(
+                    self._failure_from_scientific_result(sci_result)
+                )
+            if expansion_count == 0:
+                # No bounded expansion was available/possible -> escalate to H.
+                escalated_to_h = True
+                failures.append(
+                    FailureRecord(
+                        failure_kind=FailureKind.build,
+                        message=(
+                            "ImpactPlan v1 failed and no further bounded expansion "
+                            "was possible; escalating to HUMAN_REVIEW"
+                        ),
+                        details=(
+                            f"plan_version={impact_plan.plan_version} "
+                            f"parent_hash={impact_plan.parent_plan_hash}"
+                        ),
+                        stage="human_review",
+                    )
+                )
 
         status = RunStatus.failed if failures else RunStatus.succeeded
 
         regenerated_count = sum(1 for a in exec_result.artifacts if a.status == "generated")
+        if impact_plan is not None and impact_plan_hash == "":
+            impact_plan_hash = impact_plan.plan_hash
+            impact_plan_version = impact_plan.plan_version
+            impact_plan_parent_hash = impact_plan.parent_plan_hash
+            planner_metrics = self._impact_plan_metrics(impact_plan)
 
         fields = acc.as_record_fields(
             final_scientific_result=sci_result,
@@ -1323,6 +1464,24 @@ class BenchmarkRunner:
             unresolved_human_review_count=counts.get("human_review", 0),
             predicted_actions=self._predicted_actions_map(prediction),
             changed_artifact_paths=self._compute_changed_artifact_paths(),
+            # Stage-C impact-plan evidence
+            impact_plan=None if impact_plan is None else {
+                "plan": self._impact_plan_to_dict(impact_plan),
+                "final_after_expansion": bool(
+                    impact_plan is not None and expansion_count > 0
+                ),
+            },
+            impact_plan_hash=impact_plan_hash,
+            impact_plan_version=impact_plan_version,
+            impact_plan_parent_hash=impact_plan_parent_hash,
+            impact_expansion_count=expansion_count,
+            escalated_to_human_review=escalated_to_h,
+            prohibited_write_attempts=exec_result.prohibited_write_attempts,
+            planner_prompt_tokens=planner_metrics["prompt_tokens"],
+            planner_completion_tokens=planner_metrics["completion_tokens"],
+            planner_total_tokens=planner_metrics["total_tokens"],
+            planner_model_calls=planner_metrics["model_calls"],
+            planner_latency_seconds=planner_metrics["latency_seconds"],
         )
 
     def _is_repairable_failure(self, record: RunRecord) -> bool:
@@ -2200,6 +2359,79 @@ class BenchmarkRunner:
                 changed.append(rel)
         changed.sort()
         return tuple(changed)
+
+    def _persist_impact_plan(self, plan: Any, scenario: Scenario) -> None:
+        """Persist the ImpactPlan sidecar BEFORE any source write (Stage-C)."""
+        try:
+            from benchmark.selection.impact_planner import to_plan_dict
+
+            plan_dir = Path(self._isolation.workspace.root) / "impact_plans"
+            plan_dir.mkdir(parents=True, exist_ok=True)
+            run_tag = self._build_run_id(scenario)
+            sidecar = plan_dir / f"{run_tag}_{plan.plan_version}.json"
+            sidecar.write_text(
+                json.dumps(to_plan_dict(plan), indent=2, sort_keys=True),
+                encoding="utf-8",
+            )
+            logger.info(
+                "IMPACT_PLAN_PERSISTED path=%s plan_version=%s hash=%s",
+                sidecar, plan.plan_version, plan.plan_hash,
+            )
+        except Exception as exc:
+            logger.warning("ImpactPlan persistence failed: %s", exc)
+
+    def _impact_plan_metrics(self, plan: Any) -> dict[str, int]:
+        if plan is None:
+            return {
+                "prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0,
+                "model_calls": 0, "latency_seconds": 0,
+            }
+        tu = getattr(plan, "planner_token_usage", None)
+        prompt = getattr(tu, "prompt_tokens", 0)
+        completion = getattr(tu, "completion_tokens", 0)
+        total = getattr(tu, "total_tokens", prompt + completion)
+        return {
+            "prompt_tokens": int(prompt),
+            "completion_tokens": int(completion),
+            "total_tokens": int(total),
+            "model_calls": int(getattr(plan, "planner_model_calls", 0)),
+            "latency_seconds": int(round(float(getattr(plan, "planner_latency_seconds", 0.0)))),
+        }
+
+    def _impact_plan_to_dict(self, plan: Any) -> dict[str, Any]:
+        try:
+            from benchmark.selection.impact_planner import to_plan_dict
+
+            return to_plan_dict(plan)
+        except Exception:
+            return {}
+
+    def _expand_plan_once(
+        self,
+        *,
+        scenario: Scenario,
+        requirement_change: RequirementChange,
+        artifact_universe: ArtifactUniverse,
+        strategy_expand: Any,
+        failure_summary: str,
+        parent_plan: Any,
+    ) -> ImpactPrediction | None:
+        try:
+            repository_snapshot = self._build_repository_snapshot(scenario)
+            result = strategy_expand(
+                repository_snapshot,
+                requirement_change,
+                artifact_universe,
+                failure_summary=failure_summary,
+                parent_plan=parent_plan,
+            )
+            if result is None:
+                return None
+            assert isinstance(result, ImpactPrediction)
+            return result
+        except Exception as exc:
+            logger.warning("ImpactPlan expansion error: %s", exc)
+            return None
 
     def _build_repository_snapshot(self, scenario: Scenario) -> RepositorySnapshot:
         if self._config.enable_regeneration:

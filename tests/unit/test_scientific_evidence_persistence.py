@@ -99,6 +99,34 @@ class TestChangedArtifactPathsPersistence:
         assert "todo/migrations/0003_foo.py" in loaded.generated_migration_paths
 
 
+class TestImpactPlanEvidencePersistence:
+    def test_impact_plan_fields_roundtrip(self, tmp_path: Path) -> None:
+        store = RunRecordStore(tmp_path)
+        rec = _make_record_data(
+            impact_plan={"plan": {"write_set": ["todo/models.py"]}, "final_after_expansion": True},
+            impact_plan_hash="abc123def456",
+            impact_plan_version="v2",
+            impact_plan_parent_hash="v1parent",
+            impact_expansion_count=1,
+            escalated_to_human_review=False,
+            prohibited_write_attempts=1,
+            planner_prompt_tokens=50,
+            planner_completion_tokens=20,
+            planner_total_tokens=70,
+            planner_model_calls=1,
+            planner_latency_seconds=0.7,
+        )
+        store.append(rec)
+        loaded = store.load_all()[0]
+        assert loaded.impact_plan_hash == "abc123def456"
+        assert loaded.impact_plan_version == "v2"
+        assert loaded.impact_plan_parent_hash == "v1parent"
+        assert loaded.impact_expansion_count == 1
+        assert loaded.planner_total_tokens == 70
+        assert loaded.planner_model_calls == 1
+        assert loaded.prohibited_write_attempts == 1
+
+
 class TestRunRecordToRecordDataLinkage:
     def test_seven_arm_record_to_run_record_data_forward_fields(self) -> None:
         """The single entry-point conversion in seven_arm_benchmark forwards both fields."""
