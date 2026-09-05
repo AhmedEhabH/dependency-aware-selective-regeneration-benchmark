@@ -23,161 +23,142 @@ class _MockBackend:
         self._texts = list(texts)
         self.transient_retry_count = 0
 
-    async def generate(self, prompt: str, temperature: float = 0.0, max_tokens: int = 4096):
+    async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096):
+        from benchmark.core.exceptions import ModelBackendError
         from benchmark.core.models import LLMResponse, TokenUsage
 
         text = self._texts.pop(0)
-        from benchmark.core.exceptions import ModelBackendError
-
         if text.startswith("ERR:"):
             raise ModelBackendError(f"OpenRouter HTTP 429: {text[4:]}")
         return LLMResponse(
             text=text,
-            token_usage=TokenUsage(prompt_tokens=10, completion_tokens=len(text), total_tokens=10 + len(text)),
+            token_usage=TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
             finish_reason="stop",
         )
 
 
-_CORRECT_T1 = (
-    "<<<<<<< SEARCH\ncounter = 0\n=======\ncounter_new = 0\n>>>>>>> REPLACE\n"
-    "<<<<<<< SEARCH\n    return counter + 1\n=======\n    return counter_new + 1\n>>>>>>> REPLACE"
-)
-
-_CORRECT_T2 = json = (
+_A1_OK = (
     '{"decisions": ['
-    '{"path": "todo/models.py", "action": "regenerate"},'
-    '{"path": "todo/serializers.py", "action": "regenerate"},'
-    '{"path": "todo/views.py", "action": "regenerate"},'
-    '{"path": "todo/permissions.py", "action": "preserve"},'
-    '{"path": "todo/urls.py", "action": "preserve"}],'
-    '"rationale": "models/serializers/views must change; permissions and urls are invariant"}'
+    '{"path": "pkg/alpha.py", "action": "REGENERATE", "rationale": "edit", "confidence": 0.9},'
+    '{"path": "pkg/beta.py", "action": "REGENERATE", "rationale": "edit", "confidence": 0.9},'
+    '{"path": "pkg/gamma.py", "action": "PRESERVE", "rationale": "no edit", "confidence": 0.9}],'
+    '"context_set": ["pkg/alpha.py", "pkg/beta.py"],'
+    '"validation_obligations": [], "architecture_checks": []}'
 )
 
-_CORRECT_T3 = (
-    "<<<<<<< SEARCH\n    return counter + 1\n    print('after')\n=======\n    return counter + 1\n>>>>>>> REPLACE"
+_A2_OK = (
+    "<<<<<<< SEARCH\nrename_me = 0\n=======\ncounter_new = 0\n>>>>>>> REPLACE\n"
+    "<<<<<<< SEARCH\n    return rename_me + 1\n=======\n    return counter_new + 1\n>>>>>>> REPLACE"
 )
+
+_A3_OK = '{"selected_paths": ["pkg/alpha.py", "pkg/beta.py"], "rationale": "need edits"}'
 
 
 class TestProviderResolution:
-    def test_first_party_deepseek_pinned(self) -> None:
-        metadata = [
-            {
-                "id": "deepseek/deepseek-v4-flash-0731",
-                "endpoints": [
-                    {"provider_name": "DeepSeek", "name": "deepseek"},
-                    {"provider_name": "Fireworks", "name": "fireworks"},
-                ],
-            }
+    def test_deepinfra_resolved_first(self) -> None:
+        endpoints = [
+            {"provider_name": "DeepInfra", "tag": "deepinfra/turbo"},
+            {"provider_name": "Novita", "tag": "novita"},
         ]
-        provider = _MOD.resolve_provider_for_candidate(
-            "deepseek/deepseek-v4-flash-0731", metadata,
-            policy="first_party_deepseek", first_party_provider="DeepSeek",
+        provider = _MOD.resolve_provider_from_endpoints(
+            "qwen/qwen3-coder", endpoints, ("DeepInfra", "Novita")
         )
-        assert provider == "DeepSeek"
+        assert provider == "DeepInfra"
 
-    def test_first_party_deepseek_absent_stops(self) -> None:
-        metadata = [
-            {
-                "id": "deepseek/deepseek-v4-flash-0731",
-                "endpoints": [{"provider_name": "Fireworks", "name": "fireworks"}],
-            }
-        ]
-        with pytest.raises(RuntimeError, match="preregistration amendment"):
-            _MOD.resolve_provider_for_candidate(
-                "deepseek/deepseek-v4-flash-0731", metadata,
-                policy="first_party_deepseek", first_party_provider="DeepSeek",
-            )
-
-    def test_single_provider_qwen_pinned(self) -> None:
-        metadata = [
-            {
-                "id": "qwen/qwen-2.5-coder-32b-instruct",
-                "endpoints": [{"provider_name": "Together", "name": "together"}],
-            }
-        ]
-        provider = _MOD.resolve_provider_for_candidate(
-            "qwen/qwen-2.5-coder-32b-instruct", metadata, policy="single_provider"
+    def test_novita_fallback_when_deepinfra_absent(self) -> None:
+        endpoints = [{"provider_name": "Novita", "tag": "novita"}]
+        provider = _MOD.resolve_provider_from_endpoints(
+            "qwen/qwen3-coder", endpoints, ("DeepInfra", "Novita")
         )
-        assert provider == "Together"
+        assert provider == "Novita"
 
-    def test_single_provider_no_longer_single_stops(self) -> None:
-        metadata = [
-            {
-                "id": "qwen/qwen-2.5-coder-32b-instruct",
-                "endpoints": [
-                    {"provider_name": "Together", "name": "together"},
-                    {"provider_name": "Fireworks", "name": "fireworks"},
-                ],
-            }
+    def test_no_provider_in_order_raises(self) -> None:
+        with pytest.raises(RuntimeError, match="do not model-shop"):
+            _MOD.resolve_provider_from_endpoints(
+                "qwen/qwen3-coder", [{"provider_name": "Google"}], ("DeepInfra", "Novita")
+            )
+
+    def test_empty_endpoints_raises(self) -> None:
+        with pytest.raises(RuntimeError, match="do not model-shop"):
+            _MOD.resolve_provider_from_endpoints("qwen/qwen3-coder", [], ("DeepInfra", "Novita"))
+
+
+class TestPricingSnapshot:
+    def test_extracts_deepinfra_pricing(self) -> None:
+        endpoints = [
+            {"provider_name": "DeepInfra", "tag": "deepinfra/turbo",
+             "pricing": {"prompt": "0.0000003", "completion": "0.000001"}}
         ]
-        with pytest.raises(RuntimeError, match="single-provider"):
-            _MOD.resolve_provider_for_candidate(
-                "qwen/qwen-2.5-coder-32b-instruct", metadata, policy="single_provider"
-            )
+        snap = _MOD.pricing_snapshot("qwen/qwen3-coder", endpoints, "DeepInfra")
+        assert snap["prompt_per_token_usd"] == "0.0000003"
+        assert snap["tag"] == "deepinfra/turbo"
 
-    def test_unknown_model_stops(self) -> None:
-        with pytest.raises(RuntimeError, match="not found in OpenRouter"):
-            _MOD.resolve_provider_for_candidate(
-                "nope/no-model", [], policy="single_provider"
-            )
+    def test_missing_provider_returns_empty(self) -> None:
+        snap = _MOD.pricing_snapshot("m", [{"provider_name": "X"}], "Y")
+        assert snap == {}
 
 
 class TestTaskParsers:
-    def test_t1_correct_patch_success(self) -> None:
-        backend = _MockBackend([_CORRECT_T1])
-        outcome = _MOD.run_task_t1(backend)
+    def test_a1_correct_plan_success(self) -> None:
+        backend = _MockBackend([_A1_OK])
+        outcome = _MOD.run_task_a1(backend)
         assert outcome["deterministic_success"] is True
         assert outcome["parser_pass"] is True
         assert outcome["truncation"] is False
 
-    def test_t1_garbage_fails(self) -> None:
-        backend = _MockBackend(["not a patch at all"])
-        outcome = _MOD.run_task_t1(backend)
+    def test_a1_garbage_fails(self) -> None:
+        backend = _MockBackend(["not json"])
+        outcome = _MOD.run_task_a1(backend)
         assert outcome["deterministic_success"] is False
         assert outcome["parser_pass"] is False
 
-    def test_t2_correct_json_success(self) -> None:
-        backend = _MockBackend([json])
-        outcome = _MOD.run_task_t2(backend)
+    def test_a1_wrong_action_fails(self) -> None:
+        bad = _A1_OK.replace('"pkg/gamma.py", "action": "PRESERVE"',
+                             '"pkg/gamma.py", "action": "REGENERATE"')
+        backend = _MockBackend([bad])
+        outcome = _MOD.run_task_a1(backend)
+        assert outcome["deterministic_success"] is False
+
+    def test_a2_correct_patch_success(self) -> None:
+        backend = _MockBackend([_A2_OK])
+        outcome = _MOD.run_task_a2(backend)
         assert outcome["deterministic_success"] is True
         assert outcome["parser_pass"] is True
 
-    def test_t2_wrong_regen_set_fails(self) -> None:
-        bad = json.replace('"todo/views.py", "action": "regenerate"',
-                           '"todo/views.py", "action": "preserve"')
-        backend = _MockBackend([bad])
-        outcome = _MOD.run_task_t2(backend)
+    def test_a2_garbage_fails(self) -> None:
+        backend = _MockBackend(["not a patch"])
+        outcome = _MOD.run_task_a2(backend)
         assert outcome["deterministic_success"] is False
+        assert outcome["parser_pass"] is False
 
-    def test_t3_correct_repair_success(self) -> None:
-        backend = _MockBackend([_CORRECT_T3])
-        outcome = _MOD.run_task_t3(backend)
+    def test_a3_correct_control_success(self) -> None:
+        backend = _MockBackend([_A3_OK])
+        outcome = _MOD.run_task_a3(backend)
         assert outcome["deterministic_success"] is True
-        assert "print('after')" not in outcome.get("repaired", "")
+        assert outcome["parser_pass"] is True
 
-    def test_t3_incomplete_repair_fails(self) -> None:
-        backend = _MockBackend(["<<<<<<< SEARCH\ncounter = 0\n=======\nx = 1\n>>>>>>> REPLACE"])
-        outcome = _MOD.run_task_t3(backend)
+    def test_a3_wrong_paths_fails(self) -> None:
+        bad = '{"selected_paths": ["pkg/alpha.py"], "rationale": "missing beta"}'
+        backend = _MockBackend([bad])
+        outcome = _MOD.run_task_a3(backend)
         assert outcome["deterministic_success"] is False
 
 
 class TestEligibility:
     def _good_tasks(self, n=3) -> list[dict]:
-        tasks = []
-        for _i in range(n):
-            tasks.append(
-                {
-                    "deterministic_success": True,
-                    "parser_pass": True,
-                    "truncation": False,
-                    "prompt_tokens": 10,
-                    "completion_tokens": 5,
-                    "total_tokens": 15,
-                    "latency_seconds": 5.0,
-                    "transient_retry_count": 0,
-                }
-            )
-        return tasks
+        return [
+            {
+                "deterministic_success": True,
+                "parser_pass": True,
+                "truncation": False,
+                "prompt_tokens": 10,
+                "completion_tokens": 5,
+                "total_tokens": 15,
+                "latency_seconds": 5.0,
+                "transient_retry_count": 0,
+            }
+            for _i in range(n)
+        ]
 
     def test_all_thresholds_met(self) -> None:
         el = _MOD.compute_eligibility(self._good_tasks())
@@ -186,7 +167,6 @@ class TestEligibility:
     def test_truncation_fails(self) -> None:
         tasks = self._good_tasks()
         tasks[0]["truncation"] = True
-        tasks[0]["finish_reason"] = "length"
         tasks[0]["deterministic_success"] = False
         el = _MOD.compute_eligibility(tasks)
         assert el["eligible"] is False
@@ -197,76 +177,35 @@ class TestEligibility:
         el = _MOD.compute_eligibility(tasks)
         assert el["eligible"] is False
 
-    def test_median_latency_over_60_fails(self) -> None:
+    def test_median_over_60_fails(self) -> None:
         tasks = self._good_tasks()
         for t in tasks:
             t["latency_seconds"] = 70
         el = _MOD.compute_eligibility(tasks)
         assert el["eligible"] is False
 
-    def test_one_transient_allowed(self) -> None:
+    def test_one_transient_ok(self) -> None:
         tasks = self._good_tasks()
         tasks[0]["transient_retry_count"] = 1
         el = _MOD.compute_eligibility(tasks)
         assert el["eligible"] is True
 
 
-class TestSelection:
-    def _candidate(self, cid: str, eligible: bool) -> _MOD.CandidateGateResult:
-        return _MOD.CandidateGateResult(
-            id=cid, model=f"m-{cid}", provider="P",
-            eligible=eligible,
-            tasks=[
-                {"parser_pass": True, "truncation": False, "latency_seconds": 5.0},
-                {"parser_pass": True, "truncation": False, "latency_seconds": 5.0},
-                {"parser_pass": True, "truncation": False, "latency_seconds": 5.0},
-            ],
-        )
-
-    def test_neither_eligible_none(self) -> None:
-        winner = _MOD.select_winner([self._candidate("A", False), self._candidate("B", False)])
-        assert winner is None
-
-    def test_single_eligible_wins(self) -> None:
-        winner = _MOD.select_winner([self._candidate("A", False), self._candidate("B", True)])
-        assert winner.id == "B"
-
-    def test_lower_truncation_wins(self) -> None:
-        a = self._candidate("A", True)
-        a.tasks[0]["truncation"] = True
-        b = self._candidate("B", True)
-        winner = _MOD.select_winner([a, b])
-        assert winner.id == "B"
-
-    def test_lower_median_latency_wins(self) -> None:
-        a = self._candidate("A", True)
-        b = self._candidate("B", True)
-        b.tasks = [
-            {"parser_pass": True, "truncation": False, "latency_seconds": 2.0},
-            {"parser_pass": True, "truncation": False, "latency_seconds": 2.0},
-            {"parser_pass": True, "truncation": False, "latency_seconds": 2.0},
-        ]
-        winner = _MOD.select_winner([a, b])
-        assert winner.id == "B"
-
-
 class TestFreeze:
     def test_freeze_identity_shape(self) -> None:
-        winner = _MOD.CandidateGateResult(
-            id="A", model="deepseek/deepseek-v4-flash-0731", provider="DeepSeek",
-            eligible=True, tasks=[],
-        )
+        outcome = _MOD.GateOutcome(model="qwen/qwen3-coder", provider="DeepInfra", eligible=True)
         freeze = _MOD.write_freeze(
-            winner,
+            outcome,
             acceptance_report={},
             prereg_amendment_commit="abc123",
             source_commit="def456",
             pricing_timestamp="2026-09-05T00:00:00Z",
+            pricing={"prompt_per_token_usd": "0.0000003"},
         )
-        assert freeze["identity"] == "openrouter:deepseek/deepseek-v4-flash-0731@DeepSeek"
+        assert freeze["identity"] == "openrouter:qwen/qwen3-coder@DeepInfra"
+        assert freeze["protocol"] == "scientific-wip-impactplan-v1"
         assert freeze["provider_fallbacks"] is False
         assert freeze["require_parameters"] is True
         assert freeze["workflow_timeout_seconds"] == 900
         assert freeze["source_edit_cap"] == 4096
         assert freeze["agent_control_cap"] == 512
-        assert freeze["max_attempts"] == 3
