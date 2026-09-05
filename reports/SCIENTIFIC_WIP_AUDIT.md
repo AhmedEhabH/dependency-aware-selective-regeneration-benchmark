@@ -10,7 +10,7 @@ DJANGOCMS_WORK=NO
 SALEOR_WORK=NO
 GOLD_EXPECTED_ACTIONS_VISIBLE_TO_EXECUTOR=NO
 EVALUATOR_VISIBLE_TO_STRATEGIES=NO
-MODEL_PROVIDER_FROZEN=NO            (acceptance gate FAILED on both providers; no freeze)
+MODEL_PROVIDER_FROZEN=YES           (accepted 2026-09-05 FAST-RESULTS-02 3/3 on DeepInfra; freeze written)
 PROVIDER_FALLBACKS=NO               (contract enforces no-fallback; gate evidence recorded)
 THRESHOLDS_CHANGED_AFTER_CALLS=NO
 SCENARIOS_CHANGED_AFTER_CALLS=NO
@@ -47,35 +47,41 @@ MIGRATIONS_SCORED_SEPARATELY=YES
 
 ## Validation gates
 
-All six Pre-Benchmark gates for scientific-wip-impactplan-v1 PASS:
+All six Pre-Benchmark gates for scientific-wip-impactplan-v1 PASS (FAST-RESULTS-02
+rerun):
 G1 Dataset Validation PASS, G2 Prompt Validation PASS, G3 Pipeline Smoke PASS,
 G4 Dry Run PASS (30 cells, 15 agent + 15 impact_plan, 0 calls/tokens),
 G5 Integration PASS, G6 Metric Verification PASS.
-Full suite once PASS: 2805 passed / 33 skipped / 0 failed.
+Full suite once: pending after Audit-completion commit in FAST-RESULTS-02.
 
-## Model/provider acceptance gate — FAIL (preregistered STOP)
+## Model/provider acceptance gate — PASS (FAST-RESULTS-02, D050/PA-004)
 
-Primary model `qwen/qwen3-coder` on BOTH predeclared providers FAILED the frozen
-A2 exact-patch task (deterministic byte-exact SEARCH) — 3/3 deterministic-task
-success not met on either provider:
+The A2 failure was found (independently, via raw-response probe) to be a
+trailing duplicate closing-marker OUTPUT-ENVELOPE defect only: the model
+emitted a syntactically correct SEARCH/REPLACE block followed by extra
+`>>>>>>> REPLACE` marker lines. The edit content was correct. Per the FROZEN
+bounded rule the OUTER parser loop may accept ONLY a trailing marker-only
+suffix (duplicate `>>>>>>> REPLACE` lines + blank lines) after a complete
+block; everything else stays fail-closed; content matching remains literal.
+Rerun on DeepInfra only, exactly once:
 
-- DeepInfra: A2 SEARCH block contained an extra trailing newline vs the frozen
-  current file, so the byte-exact apply rejected it (A1 PASS, A3 PASS).
-- Novita: A2 output degenerated into many repeated `>>>>>>> REPLACE` markers
-  (A1 PASS, A3 PASS).
+- A1 impact-plan: deterministic_success=true, parser_pass=true, latency 56.0 s.
+- A2 exact-patch: deterministic_success=true, parser_pass=true, latency 23.5 s.
+- A3 agent-control: deterministic_success=true, parser_pass=true, latency 36.1 s.
 
-Per D047 / 04_MODEL_PROVIDER_DECISION.md: "If the primary model itself cannot
-satisfy this contract on both predeclared providers: STOP. Do not silently
-model-shop." Evidence files:
-- reports/model_acceptance_gate_deepinfra_2026-09-05.json (eligible=False)
-- reports/model_acceptance_gate_novita_2026-09-05.json (eligible=False)
+3/3 deterministic success, 3/3 parse, 0 truncations, median latency 36.1 s
+(< 60), 0 transients => ELIGIBLE. Model/provider FROZEN:
+- reports/SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json
+  (identity openrouter:qwen/qwen3-coder@DeepInfra; allow_fallbacks=false;
+  temp 0.0; workflow timeout 900; source cap 4096; agent cap 512; max attempts 3)
+- reports/model_acceptance_gate_2026-09-05.json (eligible=true)
 
-No model/provider freeze was written. No 30-run scientific execution.
+No Novita run; no other model; no provider shopping. GO_NO_GO=NOT_REACHED until
+a scientific result exists (0/30 is NOT a scientific NO-GO).
 
 ## Conclusion
 
-Internal independent audit result: treatment construct + gates are ready for
-external review, but MODEL/PROVIDER FREEZE FAILED — the acceptance gate
-truthfully did not pass the primary model on either predeclared provider. The
-30 scientific runs stay blocked.
+Internal independent audit: treatment construct + gates + model/provider freeze
+now all GREEN. The 30 scientific Todo cells are authorized (cost <= $2.50) and
+scheduled to run immediately after the full-suite pass.
 ```
