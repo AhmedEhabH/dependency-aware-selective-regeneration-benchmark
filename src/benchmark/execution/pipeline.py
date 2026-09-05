@@ -32,6 +32,7 @@ class PipelineConfig:
     python_executable: str = ""
     exact_patch: bool = False
     validation_python: str | None = None
+    scientific_gold_isolation: bool = False
     extra: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -168,6 +169,7 @@ class BenchmarkPipeline:
             python_executable=self._config.python_executable,
             exact_patch=self._config.exact_patch,
             validation_python=self._config.validation_python,
+            scientific_gold_isolation=self._config.scientific_gold_isolation,
         )
         return BenchmarkRunner(
             strategy=self._strategy,

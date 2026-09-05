@@ -160,6 +160,11 @@ class RegenerationScenarioContext:
     model-facing context.  The executor still independently enforces the
     expected-action scope after generation, so prompt compliance is never
     trusted on its own.
+
+    ``gold_isolated=True`` marks the SCIENTIFIC profile context: expected_actions
+    and artifact_instructions are NEVER sourced from scenario gold. Prompt
+    construction must ignore gold-derived content entirely in this mode and
+    rely on plan-derived expected actions.
     """
 
     scenario_id: str
@@ -169,6 +174,7 @@ class RegenerationScenarioContext:
     architecture_constraints: tuple[str, ...] = ()
     expected_actions: tuple[tuple[str, str], ...] = ()
     artifact_instructions: tuple[tuple[str, str], ...] = ()
+    gold_isolated: bool = False
 
     def __post_init__(self) -> None:
         if not self.scenario_id:
@@ -427,6 +433,10 @@ class RunRecord:
     unresolved_human_review_count: int = 0
     functional_validation_passed: bool | None = None
 
+    # Scientific evidence (SCIENTIFIC-MICROSTUDY-01 / D046)
+    predicted_actions: dict[str, str] = field(default_factory=dict)
+    changed_artifact_paths: tuple[str, ...] = ()
+
     def __post_init__(self) -> None:
         if self.duration_seconds < 0:
             raise ValueError("RunRecord.duration_seconds must be >= 0")
@@ -574,6 +584,15 @@ class RunRecord:
                     f"RunRecord token_usage.total_tokens ({self.token_usage.total_tokens}) must equal "
                     f"total_workflow_tokens ({self.total_workflow_tokens})"
                 )
+
+        for path, action in self.predicted_actions.items():
+            if not path or not isinstance(path, str):
+                raise ValueError("RunRecord.predicted_actions keys must be non-empty strings")
+            if not action or not isinstance(action, str):
+                raise ValueError(f"RunRecord.predicted_actions[{path!r}] must be a non-empty string")
+        for path in self.changed_artifact_paths:
+            if not path or not isinstance(path, str):
+                raise ValueError("RunRecord.changed_artifact_paths items must be non-empty strings")
 
 
 # ---------------------------------------------------------------------------

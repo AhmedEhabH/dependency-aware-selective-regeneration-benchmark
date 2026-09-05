@@ -94,6 +94,10 @@ class RunRecordData:
     preserved_artifact_count: int = 0
     unresolved_human_review_count: int = 0
 
+    # Scientific evidence (SCIENTIFIC-MICROSTUDY-01 / D046)
+    predicted_actions: dict[str, str] = field(default_factory=dict)
+    changed_artifact_paths: list[str] = field(default_factory=list)
+
 
 def _utc_now_str() -> str:
     return datetime.now(UTC).isoformat()

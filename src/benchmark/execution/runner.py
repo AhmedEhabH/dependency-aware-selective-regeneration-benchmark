@@ -286,6 +286,7 @@ class RunnerConfig:
     python_executable: str = ""
     exact_patch: bool = False
     validation_python: str | None = None
+    scientific_gold_isolation: bool = False
     extra: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -798,6 +799,25 @@ class BenchmarkRunner:
         )
 
     def _build_scenario_context(self, scenario: Scenario) -> RegenerationScenarioContext:
+        if self._config.scientific_gold_isolation:
+            # D046 / PA-001: the scientific profile is fail-closed against gold
+            # leakage. expected_actions (gold) and gold artifact_instructions are
+            # NEVER exposed to generation/repair prompts. Visible requirements,
+            # acceptance criteria, and architecture constraints may still be shared.
+            return RegenerationScenarioContext(
+                scenario_id=scenario.scenario_id,
+                requirement_before=scenario.requirement_before,
+                requirement_after=scenario.requirement_after,
+                acceptance_criteria=tuple(
+                    c.description for c in scenario.acceptance_criteria
+                ),
+                architecture_constraints=tuple(
+                    c.description for c in scenario.architecture_constraints
+                ),
+                expected_actions=(),
+                artifact_instructions=(),
+                gold_isolated=True,
+            )
         expected_actions: list[tuple[str, str]] = []
         for ref, action in scenario.expected_actions:
             if action == ActionKind.regenerate:
@@ -1301,6 +1321,8 @@ class BenchmarkRunner:
             regenerated_artifact_count=regenerated_count,
             preserved_artifact_count=counts.get("preserve", 0),
             unresolved_human_review_count=counts.get("human_review", 0),
+            predicted_actions=self._predicted_actions_map(prediction),
+            changed_artifact_paths=self._compute_changed_artifact_paths(),
         )
 
     def _is_repairable_failure(self, record: RunRecord) -> bool:
@@ -1505,6 +1527,8 @@ class BenchmarkRunner:
                     ),
                     preserved_artifact_count=counts.get("preserve", 0),
                     unresolved_human_review_count=counts.get("human_review", 0),
+                    predicted_actions=self._predicted_actions_map(prediction),
+                    changed_artifact_paths=self._compute_changed_artifact_paths(),
                 )
 
             if sci_result is not None and not sci_result.passed:
@@ -1593,6 +1617,8 @@ class BenchmarkRunner:
             regenerated_artifact_count=first_regen_count,
             preserved_artifact_count=counts.get("preserve", 0),
             unresolved_human_review_count=counts.get("human_review", 0),
+            predicted_actions=self._predicted_actions_map(prediction),
+            changed_artifact_paths=self._compute_changed_artifact_paths(),
         )
 
     def _run_iterative_flow(
@@ -1909,6 +1935,8 @@ class BenchmarkRunner:
                         regenerated_artifact_count=total_regenerated,
                         preserved_artifact_count=counts.get("preserve", 0),
                         unresolved_human_review_count=counts.get("human_review", 0),
+                        predicted_actions=self._predicted_actions_map(final_prediction),
+                        changed_artifact_paths=self._compute_changed_artifact_paths(),
                     )
 
                 repairability = "repairable_code"
@@ -2027,6 +2055,8 @@ class BenchmarkRunner:
                              if d.action == ActionKind.human_review])
                     or 0
                 ),
+                predicted_actions=self._predicted_actions_map(final_prediction),
+                changed_artifact_paths=self._compute_changed_artifact_paths(),
             )
         except BudgetExhaustedError:
             return self._workflow_budget_exhausted_record(
@@ -2124,6 +2154,52 @@ class BenchmarkRunner:
                 f"Active snapshot path does not exist or is not a directory: {active}"
             )
         return active
+
+    def _predicted_actions_map(
+        self, prediction: ImpactPrediction | None
+    ) -> dict[str, str]:
+        """Persist the strategy's final per-path decision/action map.
+
+        D046 / PA-001: reconstructing the predicted regenerate-set exactly
+        requires the actual predicted action for every decision path.
+        """
+        if prediction is None:
+            return {}
+        return {d.artifact.path: d.action.value for d in prediction.decisions}
+
+    def _compute_changed_artifact_paths(self) -> tuple[str, ...]:
+        """Actual source-change evidence against the frozen active snapshot.
+
+        D046 / PA-001: preservation is scored from ACTUAL unintended changes to
+        preserve artifacts, not from the model predicting ``preserve``. Compare
+        every editable candidate artifact between the active snapshot and the
+        execution workspace; any byte-difference is an actual changed path.
+        Generated migrations are NOT editable candidates and stay in the
+        separate ``generated_migration_paths`` field.
+
+        Returns empty when no active snapshot is configured (legacy / non-scientific
+        contexts; always populated for the scientific profile).
+        """
+        if self._isolation.active_snapshot_root is None:
+            return ()
+        snapshot = Path(self._active_snapshot())
+        workspace_root = Path(self._isolation.workspace.root)
+        changed: list[str] = []
+        for rel in self._config.editable_artifact_paths:
+            snapshot_file = snapshot / rel
+            workspace_file = (workspace_root / rel).resolve()
+            if not snapshot_file.is_file():
+                continue
+            try:
+                if not workspace_file.is_file():
+                    changed.append(rel)
+                    continue
+                if snapshot_file.read_bytes() != workspace_file.read_bytes():
+                    changed.append(rel)
+            except OSError:
+                changed.append(rel)
+        changed.sort()
+        return tuple(changed)
 
     def _build_repository_snapshot(self, scenario: Scenario) -> RepositorySnapshot:
         if self._config.enable_regeneration:

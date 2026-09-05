@@ -32,13 +32,34 @@ class OpenRouterBackend:
         api_key_env: str = "OPENROUTER_API_KEY",
         base_url: str = "https://openrouter.ai/api/v1",
         timeout_seconds: float = 120.0,
+        provider: str | None = None,
+        max_transient_retries: int = 1,
     ) -> None:
         if timeout_seconds < 0:
             raise ValueError("timeout_seconds must be >= 0")
+        if max_transient_retries < 0:
+            raise ValueError("max_transient_retries must be >= 0")
         self._model = model
         self._api_key_env = api_key_env
         self._base_url = base_url.rstrip("/")
         self._timeout_seconds = timeout_seconds
+        self._provider = provider
+        self._max_transient_retries = max_transient_retries
+        self.transient_retry_count = 0
+
+    @property
+    def model(self) -> str:
+        return self._model
+
+    @property
+    def provider(self) -> str | None:
+        return self._provider
+
+    @property
+    def model_identity(self) -> str:
+        if self._provider:
+            return f"openrouter:{self._model}@{self._provider}"
+        return f"openrouter:{self._model}"
 
     def __repr__(self) -> str:
         return f"OpenRouterBackend(model={self._model!r})"
@@ -70,6 +91,15 @@ class OpenRouterBackend:
             "max_tokens": max_tokens,
             "stream": False,
         }
+        if self._provider:
+            # Scientific contract (D046 / PA-001): exactly one pinned provider,
+            # no automatic cross-provider fallback, requested parameters must
+            # be honored where the provider advertises support.
+            body["provider"] = {
+                "order": [self._provider],
+                "allow_fallbacks": False,
+                "require_parameters": True,
+            }
         request_data = json.dumps(body).encode("utf-8")
 
         req = urllib.request.Request(
@@ -82,18 +112,32 @@ class OpenRouterBackend:
             method="POST",
         )
 
-        try:
-            response_data: bytes = await asyncio.to_thread(
-                self._do_request, req, api_key
-            )
-        except ModelBackendError:
-            raise
-        except Exception as exc:
-            msg = _redact(_safe_exc_message(exc), api_key)
-            raise ModelBackendError(
-                f"OpenRouter request failed: {msg}"
-            ) from exc
+        self.transient_retry_count = 0
+        response_data: bytes | None = None
+        for attempt in range(self._max_transient_retries + 1):
+            try:
+                response_data = await asyncio.to_thread(
+                    self._do_request, req, api_key
+                )
+                break
+            except ModelBackendError as exc:
+                if attempt < self._max_transient_retries and _is_transient_exception(exc):
+                    self.transient_retry_count = attempt + 1
+                    continue
+                raise
+            except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as exc:
+                if attempt < self._max_transient_retries and _is_transient_exception(exc):
+                    self.transient_retry_count = attempt + 1
+                    continue
+                msg = _redact(_safe_exc_message(exc), api_key)
+                raise ModelBackendError(f"OpenRouter request failed: {msg}") from exc
+            except Exception as exc:
+                msg = _redact(_safe_exc_message(exc), api_key)
+                raise ModelBackendError(
+                    f"OpenRouter request failed: {msg}"
+                ) from exc
 
+        assert response_data is not None
         try:
             parsed = json.loads(response_data)
         except json.JSONDecodeError as exc:
@@ -126,6 +170,26 @@ class OpenRouterBackend:
             raise ModelBackendError(
                 f"OpenRouter request timed out after {self._timeout_seconds}s"
             ) from exc
+
+
+def _is_transient_exception(exc: BaseException) -> bool:
+    """A transient transport/rate-limit/5xx error is retryable once.
+
+    4xx content/auth errors (e.g. HTTP 401/400/403/404) are NEVER retried:
+    retry-on-auth would hammer the endpoint and mask a frozen-key defect.
+    """
+    if isinstance(exc, urllib.error.HTTPError):
+        return exc.code == 429 or 500 <= exc.code < 600
+    if isinstance(exc, (urllib.error.URLError, TimeoutError)):
+        return True
+    if isinstance(exc, Exception):
+        msg = _safe_exc_message(exc)
+        if "OpenRouter HTTP 429" in msg:
+            return True
+        if "OpenRouter connection failed" in msg:
+            return True
+        return "OpenRouter HTTP 5" in msg or "timed out" in msg
+    return False
 
 
 def _safe_exc_message(exc: Exception) -> str:
