@@ -606,3 +606,5 @@ R7C_POST_AUDIT_FULL_GATE_REQUIRED
 SELECTIVE_CANARY_RESULT_AUDIT_REQUIRED
 
 MAIN_GREEN_01_CLOSURE_AUDIT_REQUIRED
+
+- **CURRENT TRUTH (2026-09-05, IMPACTPLAN-WIP-01 step 9 — MODEL/PROVIDER ACCEPTANCE GATE FAILED on both predeclared providers; NO FREEZE; 30-RUN EXECUTION STAYS BLOCKED):** The Stage-C ImpactPlan treatment + six Pre-Benchmark gates + Audit are ready for external review, but the operational acceptance gate for primary model `qwen/qwen3-coder` FAILED on BOTH predeclared providers (DeepInfra and Novita): the A2 exact-patch task (deterministic byte-exact SEARCH) is not satisfied (DeepInfra SEARCH had an extra trailing newline; Novita output repeated REPLACE markers). D047/"do not model-shop" applies -> STOP. Evidence: `reports/model_acceptance_gate_deepinfra_2026-09-05.json`, `reports/model_acceptance_gate_novita_2026-09-05.json`. No `SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json` was written. `MICROSTUDY_REAL_RUN_AUTHORIZED=NO` remains.
