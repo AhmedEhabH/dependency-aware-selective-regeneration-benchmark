@@ -422,9 +422,22 @@ def main() -> int:
         print("OPENROUTER_API_KEY is required")
         return 1
 
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--provider",
+        choices=list(PROVIDER_SEQUENCE),
+        default=None,
+        help="Force a specific provider for the operational gate.",
+    )
+    args = parser.parse_args()
+
     model = PRIMARY_MODEL
     endpoints = fetch_model_endpoints(model)
-    provider = resolve_provider_from_endpoints(model, endpoints, PROVIDER_SEQUENCE)
+    provider = args.provider or resolve_provider_from_endpoints(
+        model, endpoints, PROVIDER_SEQUENCE
+    )
     backend = build_backend(model, provider)
 
     tasks: list[dict[str, Any]] = []
