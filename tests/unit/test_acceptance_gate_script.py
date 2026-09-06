@@ -37,6 +37,29 @@ class _MockBackend:
         )
 
 
+class _StructuredProbeBackend:
+    model_identity = "openrouter:qwen/qwen3-coder@DeepInfra"
+    transient_retry_count = 0
+
+    def __init__(self, texts: list[str]):
+        self._texts = list(texts)
+
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return max(1, len(prompt) // 4)
+
+    async def generate_structured(
+        self, prompt: str = "", *, schema_name: str, schema: dict,
+        temperature: float = 0.0, max_tokens: int = 4096,
+    ):
+        from benchmark.core.models import LLMResponse, TokenUsage
+
+        return LLMResponse(
+            text=self._texts.pop(0),
+            token_usage=TokenUsage(prompt_tokens=10, completion_tokens=5, total_tokens=15),
+            finish_reason="stop",
+        )
+
+
 _A1_OK = (
     '{"decisions": ['
     '{"path": "pkg/alpha.py", "action": "REGENERATE", "rationale": "edit", "confidence": 0.9},'
@@ -110,7 +133,38 @@ class TestTaskParsers:
         backend = _MockBackend(["not json"])
         outcome = _MOD.run_task_a1(backend)
         assert outcome["deterministic_success"] is False
-        assert outcome["parser_pass"] is False
+
+
+class TestV11RealProbeHarness:
+    def test_agent_probe_reaches_functional_validation(self) -> None:
+        backend = _StructuredProbeBackend([
+            '{"action":"read_file","path":"pkg/counter.py"}',
+            '{"action":"final","selected_paths":["pkg/counter.py"],"rationale":"rename"}',
+            '{"patches":[{"search":"counter = 0\\n\\ndef increment():\\n    return counter + 1\\n",'
+            '"replace":"counter_new = 0\\n\\ndef increment():\\n    return counter_new + 1\\n"}]}',
+        ])
+        outcome = _MOD.run_real_e2e_probe(backend, "agent")
+        assert outcome["functional_validation_reached"] is True
+        assert outcome["functional_validation_passed"] is True
+        assert outcome["agent_tool_calls"] == 1
+        assert outcome["deterministic_success"] is True
+
+    def test_impactplan_probe_reaches_validation_and_persists_provenance(self) -> None:
+        backend = _StructuredProbeBackend([
+            '{"decisions":[{"path":"pkg/counter.py","action":"REGENERATE",'
+            '"rationale":"rename required","confidence":0.99,'
+            '"reason_codes":["visible_requirement"],'
+            '"evidence":[{"source":"probe-visible","description":"counter rename"}]}],'
+            '"context_set":["pkg/counter.py"],"validation_obligations":[],'
+            '"architecture_checks":[],"escalation_reason":""}',
+            '{"patches":[{"search":"counter = 0\\n\\ndef increment():\\n    return counter + 1\\n",'
+            '"replace":"counter_new = 0\\n\\ndef increment():\\n    return counter_new + 1\\n"}]}',
+        ])
+        outcome = _MOD.run_real_e2e_probe(backend, "impact_plan")
+        assert outcome["functional_validation_reached"] is True
+        assert outcome["functional_validation_passed"] is True
+        assert outcome["planner_provenance_persisted"] is True
+        assert outcome["deterministic_success"] is True
 
     def test_a1_wrong_action_fails(self) -> None:
         bad = _A1_OK.replace('"pkg/gamma.py", "action": "PRESERVE"',
@@ -156,36 +210,38 @@ class TestEligibility:
                 "total_tokens": 15,
                 "latency_seconds": 5.0,
                 "transient_retry_count": 0,
+                "functional_validation_reached": True,
+                "functional_validation_passed": True,
             }
             for _i in range(n)
         ]
 
     def test_all_thresholds_met(self) -> None:
-        el = _MOD.compute_eligibility(self._good_tasks())
+        el = _MOD.compute_eligibility(self._good_tasks(n=2))
         assert el["eligible"] is True
 
     def test_truncation_fails(self) -> None:
-        tasks = self._good_tasks()
+        tasks = self._good_tasks(n=2)
         tasks[0]["truncation"] = True
         tasks[0]["deterministic_success"] = False
         el = _MOD.compute_eligibility(tasks)
         assert el["eligible"] is False
 
-    def test_latency_over_120_fails(self) -> None:
-        tasks = self._good_tasks()
+    def test_latency_is_descriptive_not_an_e2e_gate(self) -> None:
+        tasks = self._good_tasks(n=2)
         tasks[0]["latency_seconds"] = 150
         el = _MOD.compute_eligibility(tasks)
-        assert el["eligible"] is False
+        assert el["eligible"] is True
 
-    def test_median_over_60_fails(self) -> None:
-        tasks = self._good_tasks()
+    def test_functional_validation_failure_fails(self) -> None:
+        tasks = self._good_tasks(n=2)
         for t in tasks:
-            t["latency_seconds"] = 70
+            t["functional_validation_passed"] = False
         el = _MOD.compute_eligibility(tasks)
         assert el["eligible"] is False
 
     def test_one_transient_ok(self) -> None:
-        tasks = self._good_tasks()
+        tasks = self._good_tasks(n=2)
         tasks[0]["transient_retry_count"] = 1
         el = _MOD.compute_eligibility(tasks)
         assert el["eligible"] is True
@@ -203,9 +259,11 @@ class TestFreeze:
             pricing={"prompt_per_token_usd": "0.0000003"},
         )
         assert freeze["identity"] == "openrouter:qwen/qwen3-coder@DeepInfra"
-        assert freeze["protocol"] == "scientific-wip-impactplan-v1"
+        assert freeze["protocol"] == "scientific-wip-impactplan-v1.1"
         assert freeze["provider_fallbacks"] is False
         assert freeze["require_parameters"] is True
         assert freeze["workflow_timeout_seconds"] == 900
-        assert freeze["source_edit_cap"] == 4096
-        assert freeze["agent_control_cap"] == 512
+        assert freeze["impact_plan_cap"] == 4096
+        assert freeze["source_edit_cap"] == 8192
+        assert freeze["repair_patch_cap"] == 8192
+        assert freeze["agent_control_cap"] == 1024

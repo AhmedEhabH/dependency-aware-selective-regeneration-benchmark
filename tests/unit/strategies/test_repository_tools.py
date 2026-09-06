@@ -122,6 +122,15 @@ class TestSearchText:
         assert result.ok
         assert "foo" in result.output
 
+    def test_search_accepts_one_file(self, tmp_path: Path) -> None:
+        _make_file(tmp_path, "src/a.py", "needle here\n")
+        _make_file(tmp_path, "src/b.py", "needle elsewhere\n")
+        tools = RepositoryTools(tmp_path)
+        result = tools.search_text("needle", "src/a.py")
+        assert result.ok
+        assert "src/a.py:1:needle here" in result.output
+        assert "src/b.py" not in result.output
+
     def test_search_empty_query_rejected(self, tmp_path: Path) -> None:
         _make_file(tmp_path, "a.py", "content")
         tools = RepositoryTools(tmp_path)

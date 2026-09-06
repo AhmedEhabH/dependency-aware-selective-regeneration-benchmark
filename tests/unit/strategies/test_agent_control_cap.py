@@ -16,6 +16,8 @@ from benchmark.core.models import (
 )
 from benchmark.strategies.iterative_agent import (
     AGENT_CONTROL_MAX_COMPLETION_TOKENS,
+    MAX_AGENT_CALLS,
+    V11_AGENT_CONTROL_MAX_COMPLETION_TOKENS,
     IterativeRepositoryAgentStrategy,
 )
 
@@ -93,7 +95,7 @@ class TestAgentControlPlaneCap:
             )
 
     def test_control_cap_takes_precedence_over_full_edit_cap(self) -> None:
-        """The source-edit cap may be 4096, but control-plane calls stay <= 512."""
+        """The source-edit cap may be 8192, but control-plane calls stay <= 1024."""
         assert AGENT_CONTROL_MAX_COMPLETION_TOKENS < 4096
         backend = _RecordingBackend(final_action="final")
         strategy = IterativeRepositoryAgentStrategy(backend)
@@ -109,6 +111,87 @@ class TestAgentControlPlaneCap:
             remaining_total_workflow_tokens=None,
         )
         assert all(m <= AGENT_CONTROL_MAX_COMPLETION_TOKENS for m in backend.requested_max_tokens)
+
+    def test_default_control_cap_is_frozen_v11_value(self) -> None:
+        assert V11_AGENT_CONTROL_MAX_COMPLETION_TOKENS == 1024
+
+
+class TestAgentFinalCallReservation:
+    def test_calls_one_through_seven_explore_and_call_eight_is_forced_final(
+        self, tmp_path: Path
+    ) -> None:
+        class _ExploreThenFinalBackend:
+            def __init__(self) -> None:
+                self.schemas: list[tuple[str, int]] = []
+
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 1
+
+            async def generate_structured(
+                self, prompt: str, *, schema_name: str, schema: dict,
+                temperature: float = 0.0, max_tokens: int = 4096,
+            ) -> LLMResponse:
+                self.schemas.append((schema_name, max_tokens))
+                if len(self.schemas) < MAX_AGENT_CALLS:
+                    body = '{"action":"list_files","path":"."}'
+                else:
+                    body = (
+                        '{"action":"final","selected_paths":["todo/models.py"],'
+                        '"rationale":"required"}'
+                    )
+                return LLMResponse(body, TokenUsage(1, 1, 2), "stop")
+
+        (tmp_path / "todo").mkdir()
+        (tmp_path / "todo/models.py").write_text("x = 1\n", encoding="utf-8")
+        backend = _ExploreThenFinalBackend()
+        strategy = IterativeRepositoryAgentStrategy(
+            backend,
+            agent_control_max_completion_tokens=V11_AGENT_CONTROL_MAX_COMPLETION_TOKENS,
+        )
+        strategy.begin_run(tmp_path)
+        prediction = strategy.analyze_impact(
+            _make_repo(), _make_change(), _make_universe(),
+            max_completion_tokens_per_call=8192,
+        )
+        assert not prediction.errors
+        assert len(backend.schemas) == MAX_AGENT_CALLS == 8
+        assert [name for name, _ in backend.schemas[:7]] == ["agent_action"] * 7
+        assert backend.schemas[7][0] == "agent_final"
+        assert all(cap == 1024 for _, cap in backend.schemas)
+        assert strategy.remaining_agent_calls == 0
+
+    def test_repeated_identical_tool_request_returns_warning_without_reexecution(
+        self, tmp_path: Path
+    ) -> None:
+        class _RepeatBackend:
+            def __init__(self) -> None:
+                self.calls = 0
+
+            def count_prompt_tokens(self, prompt: str) -> int:
+                return 1
+
+            async def generate_structured(
+                self, prompt: str, *, schema_name: str, schema: dict,
+                temperature: float = 0.0, max_tokens: int = 4096,
+            ) -> LLMResponse:
+                self.calls += 1
+                body = (
+                    '{"action":"read_file","path":"todo/models.py"}'
+                    if self.calls <= 2
+                    else '{"action":"final","selected_paths":["todo/models.py"],"rationale":"done"}'
+                )
+                return LLMResponse(body, TokenUsage(1, 1, 2), "stop")
+
+        (tmp_path / "todo").mkdir()
+        (tmp_path / "todo/models.py").write_text("x = 1\n", encoding="utf-8")
+        backend = _RepeatBackend()
+        strategy = IterativeRepositoryAgentStrategy(backend)
+        strategy.begin_run(tmp_path)
+        prediction = strategy.analyze_impact(_make_repo(), _make_change(), _make_universe())
+        assert not prediction.errors
+        assert backend.calls == 3
+        assert strategy.tool_call_count == 1
+        assert any("read_file" in line for line in strategy.compact_tool_transcript)
 
     def test_constructor_rejects_non_positive_cap(self) -> None:
         backend = _RecordingBackend(final_action="final")

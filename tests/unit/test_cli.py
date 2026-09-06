@@ -1363,6 +1363,7 @@ class TestProfileDerivedProtocolResolution:
             "scientific-smoke-v2": "1.0",
             "pilot": "1.2",
             "pilot-canary": "1.2",
+            "scientific-wip-impactplan-v1.1": "scientific-wip-impactplan-v1.1",
         }
         for profile_name, protocol in expected.items():
             assert resolve_profile_protocol(profile_name) == protocol, (

@@ -148,11 +148,12 @@ class RepositoryTools:
         resolved = self._resolve(path)
         if resolved is None:
             return self._err("Invalid path", t0)
-        if not resolved.is_dir():
-            return self._err("Not a directory", t0)
+        if not resolved.is_dir() and not resolved.is_file():
+            return self._err("Not a file or directory", t0)
         matches: list[str] = []
         query_lower = query.lower()
-        for entry in sorted(resolved.rglob("*")):
+        entries = [resolved] if resolved.is_file() else sorted(resolved.rglob("*"))
+        for entry in entries:
             if not entry.is_file():
                 continue
             resolved_entry = entry.resolve()

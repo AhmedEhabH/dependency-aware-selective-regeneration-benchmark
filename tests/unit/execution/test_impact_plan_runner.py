@@ -322,6 +322,9 @@ class TestBoundedExpansion:
         assert record.escalated_to_human_review is False
         assert record.status == RunStatus.succeeded
         assert record.impact_plan_version == "v2", record.impact_plan_version
+        assert record.impact_plan is not None
+        assert record.impact_plan["plan"]["plan_version"] == "v2"
+        assert record.impact_plan["plan"]["parent_plan_hash"]
 
     def test_adjust_field_for_expansion(self, tmp_path: Path) -> None:
         """Record fields survive RunRecord construction (blocked-attempts field)."""

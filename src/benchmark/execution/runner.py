@@ -921,7 +921,11 @@ class BenchmarkRunner:
                     )
                 else:
                     result = self._reclassify_infrastructure_failure(result)
-                    if self._is_repairable_failure(result) and self._budget.can_attempt:
+                    if (
+                        result.impact_plan is None
+                        and self._is_repairable_failure(result)
+                        and self._budget.can_attempt
+                    ):
                         record = self._run_regeneration_repair_flow(
                             scenario=scenario,
                             first_record=result,
@@ -1210,6 +1214,7 @@ class BenchmarkRunner:
         # persist the plan BEFORE any source write. Otherwise use the legacy
         # selector path (unchanged).
         impact_plan = prediction.impact_plan
+        final_impact_plan = impact_plan
         if impact_plan is not None:
             from benchmark.selection.planner import plan_from_impact_plan
 
@@ -1266,6 +1271,7 @@ class BenchmarkRunner:
             max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
             remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
             enable_exact_patch=self._config.exact_patch,
+            protocol_version=self._config.protocol_version,
         )
 
         self._budget.record_tokens(exec_result.total_tokens)
@@ -1320,6 +1326,7 @@ class BenchmarkRunner:
                 )
                 if v2_prediction is not None and v2_prediction.impact_plan is not None:
                     v2_plan_obj = v2_prediction.impact_plan
+                    final_impact_plan = v2_plan_obj
                     v2_plan = plan_from_impact_plan(v2_plan_obj)
                     self._persist_impact_plan(v2_plan_obj, scenario)
                     v2_tok = v2_prediction.token_usage or TokenUsage()
@@ -1334,6 +1341,7 @@ class BenchmarkRunner:
                         max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
                         remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
                         enable_exact_patch=self._config.exact_patch,
+                        protocol_version=self._config.protocol_version,
                     )
                     self._budget.record_tokens(v2_exec.total_tokens)
                     v2_sci = self._execute_scientific_validation(scenario, v2_exec)
@@ -1465,8 +1473,8 @@ class BenchmarkRunner:
             predicted_actions=self._predicted_actions_map(prediction),
             changed_artifact_paths=self._compute_changed_artifact_paths(),
             # Stage-C impact-plan evidence
-            impact_plan=None if impact_plan is None else {
-                "plan": self._impact_plan_to_dict(impact_plan),
+            impact_plan=None if final_impact_plan is None else {
+                "plan": self._impact_plan_to_dict(final_impact_plan),
                 "final_after_expansion": bool(
                     impact_plan is not None and expansion_count > 0
                 ),
@@ -1619,6 +1627,7 @@ class BenchmarkRunner:
                 remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
                 prior_attempt_hashes=prior_hashes,
                 enable_exact_patch=self._config.exact_patch,
+                protocol_version=self._config.protocol_version,
             )
             self._last_regeneration_hashes = dict(exec_result.artifact_hashes)
 
@@ -2022,6 +2031,7 @@ class BenchmarkRunner:
                     max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
                     remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
                     enable_exact_patch=self._config.exact_patch,
+                    protocol_version=self._config.protocol_version,
                 )
 
                 self._budget.record_tokens(exec_result.total_tokens)

@@ -30,7 +30,9 @@ required the model to resynthesise whole (potentially enormous) files.
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
+from typing import Any
 
 
 class ExactPatchError(ValueError):
@@ -46,6 +48,54 @@ class ExactPatchBlock:
 _SEARCH_MARKER = "<<<<<<< SEARCH"
 _REPLACE_MARKER = ">>>>>>> REPLACE"
 _DIVIDER = "======="
+
+PATCH_ENVELOPE_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "patches": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "search": {"type": "string", "minLength": 1},
+                    "replace": {"type": "string"},
+                },
+                "required": ["search", "replace"],
+                "additionalProperties": False,
+            },
+        }
+    },
+    "required": ["patches"],
+    "additionalProperties": False,
+}
+
+
+def parse_patch_envelope(text: str) -> list[ExactPatchBlock]:
+    """Parse the v1.1 native JSON PatchEnvelope without text recovery."""
+    try:
+        payload: Any = json.loads(text)
+    except json.JSONDecodeError as exc:
+        raise ExactPatchError(f"PatchEnvelope is not exact JSON: {exc}") from exc
+    if not isinstance(payload, dict) or set(payload) != {"patches"}:
+        raise ExactPatchError("PatchEnvelope must contain only 'patches'")
+    raw_patches = payload["patches"]
+    if not isinstance(raw_patches, list) or not raw_patches:
+        raise ExactPatchError("PatchEnvelope patches must be a non-empty list")
+    blocks: list[ExactPatchBlock] = []
+    for index, item in enumerate(raw_patches, start=1):
+        if not isinstance(item, dict) or set(item) != {"search", "replace"}:
+            raise ExactPatchError(
+                f"PatchEnvelope patch {index} must contain only search and replace"
+            )
+        search = item["search"]
+        replace = item["replace"]
+        if not isinstance(search, str) or not search:
+            raise ExactPatchError(f"PatchEnvelope patch {index} search must be non-empty")
+        if not isinstance(replace, str):
+            raise ExactPatchError(f"PatchEnvelope patch {index} replace must be a string")
+        blocks.append(ExactPatchBlock(search=search, replace=replace))
+    return blocks
 
 
 def _strip_trailing_newline(line: str) -> str:

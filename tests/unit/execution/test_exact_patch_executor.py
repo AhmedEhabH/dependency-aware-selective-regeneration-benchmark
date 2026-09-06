@@ -2,10 +2,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from benchmark.core.enums import ActionKind, ArtifactType
 from benchmark.core.models import ArtifactRef, LLMResponse, TokenUsage
+from benchmark.execution.exact_patch import ExactPatchError, parse_patch_envelope
 from benchmark.execution.isolation import IsolationContext
-from benchmark.execution.regeneration import SharedRegenerationExecutor
+from benchmark.execution.regeneration import PATCH_MAX_COMPLETION_TOKENS, SharedRegenerationExecutor
 from benchmark.repositories.workspace import WorkspacePath
 from benchmark.selection.planner import RegenerationPlan
 
@@ -31,6 +34,27 @@ def _backend_with(text: str):
     return _Mock(text)
 
 
+class _StructuredBackend:
+    def __init__(self, payload: str, *, finish_reason: str = "stop") -> None:
+        self.payload = payload
+        self.finish_reason = finish_reason
+        self.calls: list[tuple[str, dict, int]] = []
+
+    def count_prompt_tokens(self, prompt: str) -> int:
+        return max(1, len(prompt) // 4)
+
+    async def generate_structured(
+        self, prompt: str, *, schema_name: str, schema: dict,
+        temperature: float = 0.0, max_tokens: int = 4096,
+    ) -> LLMResponse:
+        self.calls.append((schema_name, schema, max_tokens))
+        return LLMResponse(
+            text=self.payload,
+            token_usage=TokenUsage(20, 10, 30),
+            finish_reason=self.finish_reason,
+        )
+
+
 def _make_plan(path: str = "src/main.py") -> RegenerationPlan:
     ref = ArtifactRef(path=path, artifact_type=ArtifactType.source)
     return RegenerationPlan(ordered_artifacts=(ref,), actions={path: ActionKind("regenerate")})
@@ -46,6 +70,57 @@ def _make_isolation(tmp_path: Path) -> tuple[IsolationContext, Path, Path]:
 
 
 class TestExactPatchExecutor:
+
+    def test_patch_envelope_schema_is_strict_and_ordered(self) -> None:
+        blocks = parse_patch_envelope(
+            '{"patches":[{"search":"a = 1\\n","replace":"a = 2\\n"},'
+            '{"search":"b = 1\\n","replace":"b = 2\\n"}]}'
+        )
+        assert [(b.search, b.replace) for b in blocks] == [
+            ("a = 1\n", "a = 2\n"),
+            ("b = 1\n", "b = 2\n"),
+        ]
+
+    def test_patch_envelope_rejects_empty_search_and_trailing_prose(self) -> None:
+        with pytest.raises(ExactPatchError, match="search"):
+            parse_patch_envelope('{"patches":[{"search":"","replace":"x"}]}')
+        with pytest.raises(ExactPatchError, match="JSON"):
+            parse_patch_envelope('{"patches":[{"search":"x","replace":"y"}]} prose')
+
+    def test_v11_uses_native_patch_envelope_and_8192_cap(self, tmp_path: Path) -> None:
+        iso, ws_root, _ = _make_isolation(tmp_path)
+        src = ws_root / "src"
+        src.mkdir()
+        (src / "main.py").write_text("value = 1\n", encoding="utf-8", newline="")
+        backend = _StructuredBackend(
+            '{"patches":[{"search":"value = 1\\n","replace":"value = 2\\n"}]}'
+        )
+
+        result = SharedRegenerationExecutor(backend).execute(
+            _make_plan(), iso, enable_exact_patch=True,
+            protocol_version="scientific-wip-impactplan-v1.1",
+        )
+
+        assert result.failures == ()
+        assert backend.calls[0][0] == "patch_envelope"
+        assert backend.calls[0][2] == PATCH_MAX_COMPLETION_TOKENS == 8192
+        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == "value = 2\n"
+
+    def test_v11_length_finish_is_a_visible_failure_without_cap_raise(self, tmp_path: Path) -> None:
+        iso, ws_root, _ = _make_isolation(tmp_path)
+        (ws_root / "src").mkdir()
+        original = "value = 1\n"
+        (ws_root / "src/main.py").write_text(original, encoding="utf-8", newline="")
+        backend = _StructuredBackend('{"patches":[]}', finish_reason="length")
+
+        result = SharedRegenerationExecutor(backend).execute(
+            _make_plan(), iso, enable_exact_patch=True,
+            protocol_version="scientific-wip-impactplan-v1.1",
+        )
+
+        assert any("finish_reason=length" in failure for failure in result.failures)
+        assert [call[2] for call in backend.calls] == [8192]
+        assert (ws_root / "src/main.py").read_text(encoding="utf-8") == original
     def test_modify_target_uses_exact_patch(self, tmp_path: Path) -> None:
         iso, ws_root, _ = _make_isolation(tmp_path)
         src = ws_root / "src"

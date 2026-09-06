@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import logging
 import time
 from collections.abc import Callable
@@ -34,6 +35,38 @@ MAX_AGENT_CALLS: int = 8
 # returns small structured JSON, so a full 4096-cap here would let a runaway
 # control loop burn the whole workflow budget before any source edit happens.
 AGENT_CONTROL_MAX_COMPLETION_TOKENS: int = 512
+V11_AGENT_CONTROL_MAX_COMPLETION_TOKENS: int = 1024
+
+_ACTION_NAMES = ("list_files", "read_file", "search_text", "final")
+AGENT_ACTION_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "action": {"type": "string", "enum": list(_ACTION_NAMES)},
+        "path": {"type": "string"},
+        "query": {"type": "string"},
+        "selected_paths": {"type": "array", "items": {"type": "string"}},
+        "rationale": {"type": "string"},
+        "requires_iteration": {"type": "boolean"},
+    },
+    "required": ["action"],
+    "additionalProperties": False,
+}
+AGENT_FINAL_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "action": {"type": "string", "const": "final"},
+        "selected_paths": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": True,
+            "items": {"type": "string"},
+        },
+        "rationale": {"type": "string"},
+        "requires_iteration": {"type": "boolean"},
+    },
+    "required": ["action", "selected_paths", "rationale"],
+    "additionalProperties": False,
+}
 
 
 class AgentCallsExhaustedError(Exception):
@@ -60,7 +93,7 @@ You have access to the following tools. Respond with exactly one JSON object.
    {"action": "read_file", "path": "<file_path>"}
 
 3. search_text — Case-insensitive text search.
-   {"action": "search_text", "query": "<text>", "path": "<directory>"}
+   {"action": "search_text", "query": "<text>", "path": "<file_or_directory>"}
 
 4. final — Submit your final selected paths.
    {"action": "final", "selected_paths": ["path1", "path2"], "rationale": "..."}
@@ -83,7 +116,7 @@ Editable paths:
 {TOOL_SCHEMA}
 
 Important rules:
-- You may make up to 8 tool calls to explore.
+- Calls 1 through 7 may explore. Call 8 is reserved and forced to final.
 - selected_paths must be a non-empty subset of the editable paths.
 - Only include paths that actually need changes.
 """
@@ -209,6 +242,8 @@ class IterativeRepositoryAgentStrategy:
         self._model_call_guard: Callable[[], bool] | None = None
         self._model_call_budget_exhausted: bool = False
         self._tools: RepositoryTools | None = None
+        self._last_tool_request: str | None = None
+        self._last_control_truncation: bool = False
 
     def begin_run(self, workspace_root: str | Path) -> None:
         root = Path(workspace_root).resolve()
@@ -225,6 +260,8 @@ class IterativeRepositoryAgentStrategy:
         self._last_requires_iteration = True
         self._remaining_agent_calls = 8
         self._model_call_budget_exhausted = False
+        self._last_tool_request = None
+        self._last_control_truncation = False
         from benchmark.strategies.repository_tools import RepositoryTools
         self._tools = RepositoryTools(
             workspace_root=root,
@@ -244,7 +281,13 @@ class IterativeRepositoryAgentStrategy:
         self._tool_duration += duration
         self._tool_transcript.append(f"[{self._tool_calls}] {name} {path} -> {result[:100]}")
 
-    def _generate_agent_response(self, prompt: str, max_completion_tokens: int) -> LLMResponse:
+    def _generate_agent_response(
+        self,
+        prompt: str,
+        max_completion_tokens: int,
+        *,
+        force_final: bool,
+    ) -> LLMResponse:
         import asyncio
         if self._remaining_agent_calls <= 0:
             raise AgentCallsExhaustedError("No remaining agent calls")
@@ -254,20 +297,58 @@ class IterativeRepositoryAgentStrategy:
                 "Workflow deadline reached before agent model call"
             )
         self._remaining_agent_calls -= 1
+        schema_name = "agent_final" if force_final else "agent_action"
+        schema = AGENT_FINAL_SCHEMA if force_final else AGENT_ACTION_SCHEMA
+        if force_final:
+            prompt += (
+                "\n[control] This is call 8, the reserved final call. "
+                "You MUST return action=final now; no tool action is permitted."
+            )
         try:
             loop = asyncio.get_event_loop()
         except RuntimeError:
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
-        response = loop.run_until_complete(
-            self._backend.generate(prompt=prompt, temperature=0.0, max_tokens=max_completion_tokens)
-        )
+        generate_structured = getattr(self._backend, "generate_structured", None)
+        if callable(generate_structured):
+            response = loop.run_until_complete(
+                generate_structured(
+                    prompt=prompt,
+                    schema_name=schema_name,
+                    schema=schema,
+                    temperature=0.0,
+                    max_tokens=max_completion_tokens,
+                )
+            )
+        else:
+            response = loop.run_until_complete(
+                self._backend.generate(
+                    prompt=prompt,
+                    temperature=0.0,
+                    max_tokens=max_completion_tokens,
+                )
+            )
+        if not isinstance(response, LLMResponse):
+            raise TypeError("agent backend returned a non-LLMResponse value")
         tok = response.token_usage
         if tok:
             self._record_call(tok.prompt_tokens, tok.completion_tokens, tok.total_tokens)
         if self._model_call_guard is not None and not self._model_call_guard():
             self._model_call_budget_exhausted = True
         return response
+
+    def _is_repeated_tool_request(
+        self, action_name: str, action: dict[str, Any]
+    ) -> bool:
+        relevant = {"action": action_name}
+        if action_name in ("list_files", "read_file", "search_text"):
+            relevant["path"] = str(action.get("path", "."))
+        if action_name == "search_text":
+            relevant["query"] = str(action.get("query", ""))
+        signature = json.dumps(relevant, sort_keys=True, separators=(",", ":"))
+        repeated = signature == self._last_tool_request
+        self._last_tool_request = signature
+        return repeated
 
     def _invoke_tool(
         self,
@@ -342,7 +423,11 @@ class IterativeRepositoryAgentStrategy:
             if allowance <= 0:
                 break
             try:
-                response = self._generate_agent_response(prompt, allowance)
+                response = self._generate_agent_response(
+                    prompt,
+                    allowance,
+                    force_final=self._remaining_agent_calls == 1,
+                )
             except AgentCallsExhaustedError:
                 if selected_paths:
                     break
@@ -372,6 +457,10 @@ class IterativeRepositoryAgentStrategy:
                 if local_remaining > 0 and usage.total_tokens > local_remaining:
                     break
                 local_remaining = max(0, local_remaining - usage.total_tokens)
+
+            if response.finish_reason == "length":
+                self._last_control_truncation = True
+                break
 
             if self._model_call_budget_exhausted:
                 break
@@ -431,7 +520,13 @@ class IterativeRepositoryAgentStrategy:
                 break
 
             if action_name in ("list_files", "read_file", "search_text"):
-                prompt += self._invoke_tool(action_name, action, prompt)
+                if self._is_repeated_tool_request(action_name, action):
+                    prompt += (
+                        "\n[control warning] Repeated identical tool request rejected; "
+                        "use new evidence or submit final."
+                    )
+                else:
+                    prompt += self._invoke_tool(action_name, action, prompt)
             else:
                 prompt += f"\n[error] Unknown action: {action_name}"
                 if self._remaining_agent_calls <= 0:
@@ -449,7 +544,12 @@ class IterativeRepositoryAgentStrategy:
                     completion_tokens=delta_completion,
                     total_tokens=delta_total,
                 ),
-                errors=("iterative_agent: no paths selected after exploration",),
+                errors=((
+                    "finish_reason=length: iterative agent control response truncated "
+                    f"at cap {control_cap}"
+                ) if self._last_control_truncation else (
+                    "iterative_agent: no paths selected after exploration"
+                ),),
                 decisions=tuple(
                     ImpactDecision(
                         artifact=a,
@@ -547,7 +647,11 @@ class IterativeRepositoryAgentStrategy:
             if allowance <= 0:
                 break
             try:
-                response = self._generate_agent_response(prompt, allowance)
+                response = self._generate_agent_response(
+                    prompt,
+                    allowance,
+                    force_final=self._remaining_agent_calls == 1,
+                )
             except AgentCallsExhaustedError:
                 break
             except ModelCallBudgetExhaustedError:
@@ -560,6 +664,10 @@ class IterativeRepositoryAgentStrategy:
                 if local_remaining > 0 and usage.total_tokens > local_remaining:
                     break
                 local_remaining = max(0, local_remaining - usage.total_tokens)
+
+            if response.finish_reason == "length":
+                self._last_control_truncation = True
+                break
 
             if self._model_call_budget_exhausted:
                 break
@@ -637,7 +745,13 @@ class IterativeRepositoryAgentStrategy:
                 )
 
             if action_name in ("list_files", "read_file", "search_text"):
-                prompt += self._invoke_tool(action_name, action, prompt)
+                if self._is_repeated_tool_request(action_name, action):
+                    prompt += (
+                        "\n[control warning] Repeated identical tool request rejected; "
+                        "use new evidence or submit final."
+                    )
+                else:
+                    prompt += self._invoke_tool(action_name, action, prompt)
             else:
                 prompt += f"\n[error] Unknown action: {action_name}"
                 if self._remaining_agent_calls <= 0:
@@ -653,7 +767,12 @@ class IterativeRepositoryAgentStrategy:
                 completion_tokens=delta_completion,
                 total_tokens=delta_total,
             ),
-            errors=("iterative_agent: revision failed to select paths",),
+            errors=((
+                "finish_reason=length: iterative agent control response truncated "
+                f"at cap {control_cap}"
+            ) if self._last_control_truncation else (
+                "iterative_agent: revision failed to select paths"
+            ),),
             decisions=tuple(
                 ImpactDecision(
                     artifact=a,

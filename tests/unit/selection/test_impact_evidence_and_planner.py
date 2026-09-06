@@ -10,7 +10,9 @@ from benchmark.core.models import (
     DependencyGraph,
     EvidenceItem,
     ImpactPrediction,
+    LLMResponse,
     RequirementChange,
+    TokenUsage,
 )
 from benchmark.selection.dependency_scope import ArtifactDescriptor
 from benchmark.selection.impact_evidence import collect_impact_evidence
@@ -257,6 +259,46 @@ class TestPlannerCostPersists:
         assert planner.token_usage.total_tokens == 70
         assert plan.planner_token_usage is not None
         assert plan.planner_token_usage.total_tokens == 70
+
+    def test_real_planner_uses_native_schema_and_4096_cap(self) -> None:
+        from benchmark.selection.impact_planner import (
+            IMPACT_PLAN_MAX_COMPLETION_TOKENS,
+            OpenRouterImpactPlanner,
+        )
+
+        class _StructuredBackend:
+            def __init__(self) -> None:
+                self.calls: list[tuple[str, int]] = []
+
+            async def generate_structured(
+                self, prompt: str, *, schema_name: str, schema: dict,
+                temperature: float = 0.0, max_tokens: int = 4096,
+            ):
+                self.calls.append((schema_name, max_tokens))
+                return LLMResponse(
+                    text=json.dumps({
+                        "decisions": [{
+                            "path": "todo/models.py", "action": "REGENERATE",
+                            "rationale": "required", "confidence": 0.9,
+                            "reason_codes": ["visible_requirement"],
+                            "evidence": [{"source": "e1", "description": "visible"}],
+                        }],
+                        "context_set": ["todo/models.py"],
+                        "validation_obligations": [], "architecture_checks": [],
+                        "escalation_reason": "",
+                    }),
+                    token_usage=TokenUsage(10, 10, 20), finish_reason="stop",
+                )
+
+        backend = _StructuredBackend()
+        plan = OpenRouterImpactPlanner(backend).plan(PlannerInput(
+            requirement_change=_requirement(),
+            artifact_universe=_universe(paths=("todo/models.py",)),
+            evidence=(), run_id="r", scenario_id="s", source_commit="c",
+        ))
+        assert plan.write_set == ("todo/models.py",)
+        assert backend.calls == [("impact_plan", 4096)]
+        assert IMPACT_PLAN_MAX_COMPLETION_TOKENS == 4096
 
 
 class TestRunRecordImpactPlanFields:
