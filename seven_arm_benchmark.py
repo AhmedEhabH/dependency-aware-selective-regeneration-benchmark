@@ -183,6 +183,12 @@ def _to_run_record_data(
             "max_attempts": str(max_attempts),
             "max_completion_tokens_per_call": str(record_dict.get("max_completion_tokens_per_call", 4096)),
             "max_total_workflow_tokens": str(record_dict.get("max_total_workflow_tokens", 0)),
+            "agent_control_max_completion_tokens": str(
+                record_dict.get("agent_control_max_completion_tokens", 1024)
+            ),
+            "impact_plan_max_completion_tokens": "4096",
+            "patch_max_completion_tokens": "8192",
+            "repair_patch_max_completion_tokens": "8192",
         },
         protocol_version=protocol_version,
         source_commit=source_commit,
@@ -399,6 +405,24 @@ PROFILES: dict[str, ExecutionProfile] = {
         timeout_seconds=900,
         exact_patch=True,
     ),
+    "scientific-wip-impactplan-v1.1": ExecutionProfile(
+        name="scientific-wip-impactplan-v1.1",
+        label="scientific-wip-impactplan-v1.1",
+        scenario_count=3,
+        strategies=["iterative_repository_agent", "impact_plan"],
+        repetitions=5,
+        is_publication=False,
+        description=(
+            "RESULTS-RECOVERY-02 (D051): Todo-only 3 scenarios x 2 strategies "
+            "x 5 reps = 30 cells; native JSON-schema ImpactPlan, PatchEnvelope, "
+            "and Agent control; frozen role caps 1024/4096/8192/8192."
+        ),
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
+        timeout_seconds=900,
+        exact_patch=True,
+    ),
 }
 
 
@@ -414,6 +438,8 @@ def resolve_profile_protocol(profile_name: str, explicit: str | None = None) -> 
         return explicit
     if profile_name in ("pilot", "pilot-canary"):
         return "1.2"
+    if profile_name == "scientific-wip-impactplan-v1.1":
+        return "scientific-wip-impactplan-v1.1"
     return "1.0"
 
 # ---------------------------------------------------------------------------
@@ -1527,6 +1553,7 @@ def _stage_and_smoke_run(
         repetitions=1,
         is_publication=False,
     )
+    resolved_total = max_total_workflow_tokens or max_tokens
 
     record_dict, _ = _run_single_scenario_strategy(
         scenario_id=scenario_id,
@@ -1590,6 +1617,7 @@ def _run_single_scenario_strategy(
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
+    _ = profile
     scenario_provider.get_scenario(scenario_id)
 
     design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
@@ -1851,6 +1879,7 @@ def _preflight_check(
 
     Returns (ok, hardware_identity, software_identity, rejection_reason).
     """
+    _ = strategy_name
     if dry_run or not needs_llm:
         return True, "", "", ""
 
@@ -2138,6 +2167,11 @@ def main() -> int:
     # Use profile exact_patch if not explicitly overridden via CLI
     if not getattr(args, "exact_patch", False) and profile.exact_patch:
         args.exact_patch = profile.exact_patch
+
+    if profile.name == "scientific-wip-impactplan-v1.1":
+        # D051: role-sized maxima are frozen before scientific outcomes.
+        args.max_completion_tokens_per_call = 8192
+        args.agent_control_max_completion_tokens = 1024
 
     # ---- Validation-runtime contract (v0.9.21 B1/B2/B3) ---------------------
     # Fail closed BEFORE the scientific execution plan is created or any model
@@ -3068,7 +3102,11 @@ def main() -> int:
             ),
             validation_python=_validation_pythons.get(repository_id),
             scientific_gold_isolation=(
-                profile.name == "scientific-microstudy-01"
+                profile.name in {
+                    "scientific-microstudy-01",
+                    "scientific-wip-impactplan-v1",
+                    "scientific-wip-impactplan-v1.1",
+                }
             ),
         )
         run_ended_at = datetime.now(UTC).isoformat()
@@ -3219,7 +3257,7 @@ def main() -> int:
                 run_id, hf_sync_ok, time.monotonic() - hf_sync_t0,
             )
 
-        run_count += 1
+        run_count += 1  # noqa: SIM113 - count drives persisted chunk checkpoints
 
         # ---- Immediate stop for engineering blockers / required HF failures
         # Terminal record, evidence, progress, and HF-sync state are already

@@ -1,4 +1,4 @@
-"""SCIENTIFIC-MICROSTUDY-01 results computation and GO/NO-GO decision.
+"""Scientific v1.1 Todo results computation and GO/NO-GO decision.
 
 This is a standalone results/analysis module (not a framework). It reads the
 persisted ``run_records.jsonl`` (RunRecordData) or synthetic records and
@@ -64,7 +64,8 @@ PERFECT_001_PREDICTED = {
 }
 
 STRATEGY_AGENT = "iterative_repository_agent"
-STRATEGY_SELECTIVE = "selective"
+STRATEGY_SELECTIVE = "impact_plan"
+V11_PROTOCOL = "scientific-wip-impactplan-v1.1"
 
 _BOTH_STRATEGIES = (STRATEGY_AGENT, STRATEGY_SELECTIVE)
 
@@ -119,6 +120,18 @@ def compute_run_metrics(
     impact_recall = (
         len(predicted_regen & gold_regen) / len(gold_regen) if gold_regen else 1.0
     )
+    true_positive = len(predicted_regen & gold_regen)
+    false_positive = len(predicted_regen - gold_regen)
+    false_negative = len(gold_regen - predicted_regen)
+    precision = true_positive / (true_positive + false_positive) if predicted_regen else 0.0
+    recall = true_positive / len(gold_regen) if gold_regen else 1.0
+    f1 = (2 * precision * recall / (precision + recall)) if precision + recall else 0.0
+    fnr = false_negative / len(gold_regen) if gold_regen else 0.0
+    action_support = {
+        action: sum(1 for value in predicted.values() if value == action)
+        for action in ("regenerate", "preserve", "validate_only", "human_review")
+    }
+    failure_text = json.dumps(record.failure_details, default=str)
 
     preservation_pass = (
         len(unintended) == 0
@@ -134,6 +147,8 @@ def compute_run_metrics(
         "changed_requirement_pass": bool(
             record.scenario_evaluator_passed is True
         ),
+        "functional_validation_reached": record.functional_validation_passed is not None,
+        "functional_validation_passed": record.functional_validation_passed is True,
         "baseline_pass": bool(record.baseline_validation_passed is True),
         "migration_generation_passed": (
             record.migration_generation_passed is True
@@ -142,6 +157,11 @@ def compute_run_metrics(
         "predicted_regenerate_source_paths": sorted(predicted_regen),
         "impact_recall": impact_recall,
         "impact_recall_full": impact_recall == 1.0,
+        "action_precision": precision,
+        "action_recall": recall,
+        "action_f1": f1,
+        "action_fnr": fnr,
+        "action_support": action_support,
         "gold_preserve_source_paths": sorted(preserve_gold),
         "actual_changed_source_paths": sorted(changed_in_universe),
         "unintended_preserve_changes": unintended,
@@ -159,6 +179,28 @@ def compute_run_metrics(
         "regenerated_artifact_count": record.regenerated_artifact_count,
         "duration_seconds": record.duration_seconds,
         "repair_attempts": record.repair_attempts,
+        "agent_finalized_within_8": (
+            record.strategy_id != STRATEGY_AGENT
+            or (record.selection_model_calls <= 8 and record.functional_validation_passed is not None)
+        ),
+        "impact_plan_hash": record.impact_plan_hash,
+        "impact_plan_version": record.impact_plan_version,
+        "impact_plan_parent_hash": record.impact_plan_parent_hash,
+        "impact_expansion_count": record.impact_expansion_count,
+        "escalated_to_human_review": record.escalated_to_human_review,
+        "prohibited_write_attempts": record.prohibited_write_attempts,
+        "planner_prompt_tokens": record.planner_prompt_tokens,
+        "planner_completion_tokens": record.planner_completion_tokens,
+        "planner_total_tokens": record.planner_total_tokens,
+        "planner_model_calls": record.planner_model_calls,
+        "planner_latency_seconds": record.planner_latency_seconds,
+        "truncated": "finish_reason=length" in failure_text,
+        "configured_caps": {
+            "agent_control": 1024,
+            "impact_plan": 4096,
+            "patch": 8192,
+            "repair_patch": 8192,
+        },
     }
 
 
@@ -331,6 +373,13 @@ def load_run_records(runs_dir: str | Path) -> list[RunRecordData]:
 def full_microstudy_results(runs_dir: str | Path) -> dict[str, Any]:
     """Compute the full study table + scenario aggregates + GO/NO-GO."""
     records = load_run_records(runs_dir)
+    relevant = [r for r in records if r.scenario_id in _GOLD_ACTIONS]
+    wrong_protocols = sorted({r.protocol_version for r in relevant if r.protocol_version != V11_PROTOCOL})
+    if wrong_protocols:
+        raise ValueError(
+            "historical/non-v1.1 records cannot be mixed with v1.1 results: "
+            f"{wrong_protocols}"
+        )
     rows: list[dict[str, Any]] = []
     for record in records:
         if record.scenario_id not in _GOLD_ACTIONS:
@@ -346,10 +395,50 @@ def full_microstudy_results(runs_dir: str | Path) -> dict[str, Any]:
         scenario_results[scenario_id] = ev
 
     decision = compute_study_decision(scenario_results)
+    prompt_tokens = sum(r.token_usage.get("prompt", 0) for r in relevant)
+    completion_tokens = sum(r.token_usage.get("completion", 0) for r in relevant)
+    freeze_path = Path(runs_dir).resolve().parent.parent / "SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json"
+    if not freeze_path.is_file():
+        freeze_path = Path(__file__).resolve().parent.parent / "reports" / "SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json"
+    cost: float | None = None
+    if freeze_path.is_file():
+        freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+        pricing = freeze.get("pricing") or {}
+        try:
+            cost = (
+                prompt_tokens * float(pricing["prompt_per_token_usd"])
+                + completion_tokens * float(pricing["completion_per_token_usd"])
+            )
+        except (KeyError, TypeError, ValueError):
+            cost = None
     return {
+        "protocol": V11_PROTOCOL,
         "rows": rows,
         "scenario_results": scenario_results,
         "decision": decision,
+        "summary": {
+            "attempted": len(relevant),
+            "functional_validation_reached": sum(
+                r.functional_validation_passed is not None for r in relevant
+            ),
+            "functional_validation_passed": sum(
+                r.functional_validation_passed is True for r in relevant
+            ),
+            "agent_finalized": sum(
+                r.strategy_id == STRATEGY_AGENT
+                and r.functional_validation_passed is not None
+                and r.selection_model_calls <= 8
+                for r in relevant
+            ),
+            "truncations": sum(
+                "finish_reason=length" in json.dumps(r.failure_details, default=str)
+                for r in relevant
+            ),
+            "planner_tokens": sum(r.planner_total_tokens for r in relevant),
+            "total_prompt_tokens": prompt_tokens,
+            "total_completion_tokens": completion_tokens,
+            "actual_total_api_cost_usd": cost,
+        },
     }
 
 

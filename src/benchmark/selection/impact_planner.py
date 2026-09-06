@@ -38,7 +38,71 @@ from benchmark.core.models import (
 
 # Frozen uncertainty rule (Stage-C contract / D047)
 MIN_CONFIDENCE: float = 0.60
-PLANNER_VERSION: str = "scientific-wip-impactplan-v1-planner-1"
+PLANNER_VERSION: str = "scientific-wip-impactplan-v1.1-planner-1"
+IMPACT_PLAN_MAX_COMPLETION_TOKENS: int = 4096
+
+IMPACT_PLAN_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "decisions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "path": {"type": "string", "minLength": 1},
+                    "action": {
+                        "type": "string",
+                        "enum": ["REGENERATE", "PRESERVE", "VALIDATE_ONLY", "HUMAN_REVIEW"],
+                    },
+                    "rationale": {"type": "string"},
+                    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+                    "reason_codes": {"type": "array", "items": {"type": "string"}},
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "source": {"type": "string"},
+                                "description": {"type": "string"},
+                            },
+                            "required": ["source", "description"],
+                            "additionalProperties": False,
+                        },
+                    },
+                },
+                "required": [
+                    "path", "action", "rationale", "confidence",
+                    "reason_codes", "evidence",
+                ],
+                "additionalProperties": False,
+            },
+        },
+        "context_set": {"type": "array", "items": {"type": "string"}},
+        "validation_obligations": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "obligation_id": {"type": "string"},
+                    "kind": {"type": "string"},
+                    "target": {"type": "string"},
+                    "reason": {"type": "string"},
+                    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+                },
+                "required": ["obligation_id", "kind", "target", "reason", "evidence_refs"],
+                "additionalProperties": False,
+            },
+        },
+        "architecture_checks": {"type": "array", "items": {"type": "string"}},
+        "escalation_reason": {"type": "string"},
+    },
+    "required": [
+        "decisions", "context_set", "validation_obligations",
+        "architecture_checks", "escalation_reason",
+    ],
+    "additionalProperties": False,
+}
 
 
 class ImpactPlanError(RuntimeError):
@@ -639,7 +703,7 @@ class OpenRouterImpactPlanner:
 
         prompt = self._prompt(inp)
         start = time.monotonic()
-        response = _generate(self._backend, prompt)
+        response, native_structured = _generate(self._backend, prompt)
         elapsed = time.monotonic() - start
         self._model_calls += 1
         tu = response.token_usage
@@ -653,9 +717,22 @@ class OpenRouterImpactPlanner:
 
         parsed: dict[str, Any]
         try:
-            parsed = _extract_json_object(response.text)
+            if native_structured:
+                parsed_raw: Any = json.loads(response.text)
+                if not isinstance(parsed_raw, dict):
+                    raise ValueError("structured planner response is not an object")
+                parsed = parsed_raw
+            else:
+                parsed = _extract_json_object(response.text)
         except (ValueError, json.JSONDecodeError) as exc:
-            raise ImpactPlanError(f"planner response not JSON: {exc}") from exc
+            raise ImpactPlanError(
+                f"planner response not JSON (finish_reason={response.finish_reason or 'unknown'}): {exc}"
+            ) from exc
+        if response.finish_reason == "length":
+            raise ImpactPlanError(
+                "planner response truncated: finish_reason=length; "
+                f"configured_completion_cap={IMPACT_PLAN_MAX_COMPLETION_TOKENS}"
+            )
 
         candidate_paths = tuple(a.path for a in inp.artifact_universe.artifacts)
         return impact_plan_from_json(
@@ -673,11 +750,26 @@ class OpenRouterImpactPlanner:
         )
 
 
-def _generate(backend: Any, prompt: str) -> LLMResponse:
+def _generate(backend: Any, prompt: str) -> tuple[LLMResponse, bool]:
     import asyncio
 
+    native_structured = callable(getattr(backend, "generate_structured", None))
+
     async def _run() -> LLMResponse:
-        resp: Any = await backend.generate(prompt=prompt, temperature=0.0, max_tokens=2048)
+        if native_structured:
+            resp: Any = await backend.generate_structured(
+                prompt=prompt,
+                schema_name="impact_plan",
+                schema=IMPACT_PLAN_SCHEMA,
+                temperature=0.0,
+                max_tokens=IMPACT_PLAN_MAX_COMPLETION_TOKENS,
+            )
+        else:
+            resp = await backend.generate(
+                prompt=prompt,
+                temperature=0.0,
+                max_tokens=IMPACT_PLAN_MAX_COMPLETION_TOKENS,
+            )
         assert isinstance(resp, LLMResponse)
         return resp
 
@@ -688,7 +780,7 @@ def _generate(backend: Any, prompt: str) -> LLMResponse:
         asyncio.set_event_loop(loop)
     result = loop.run_until_complete(_run())
     assert isinstance(result, LLMResponse)
-    return result
+    return result, native_structured
 
 
 def _extract_json_object(text: str) -> dict[str, Any]:

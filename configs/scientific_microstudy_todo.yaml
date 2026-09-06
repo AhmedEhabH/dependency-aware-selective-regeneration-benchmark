@@ -1,10 +1,10 @@
-# SCIENTIFIC-MICROSTUDY-01 frozen micro-study configuration
-# PA-001 / D046 / D042 / D043. This is documentation/identity support; the
+# RESULTS-RECOVERY-02 frozen v1.1 micro-study configuration
+# PA-005 / D051 / A032. This is documentation/identity support; the
 # executable profile lives in seven_arm_benchmark.py PROFILES under
-# "scientific-microstudy-01".
+# "scientific-wip-impactplan-v1.1".
 
-profile: scientific-microstudy-01
-label: pre-main scientific micro-study / go-no-go
+profile: scientific-wip-impactplan-v1.1
+label: scientific-wip-impactplan-v1.1
 publication_claim: false
 
 repository: todo
@@ -16,7 +16,7 @@ scenarios:
 
 strategies:
   - iterative_repository_agent
-  - selective
+  - impact_plan
 
 repetitions: 5
 total_cells: 30
@@ -24,8 +24,11 @@ total_cells: 30
 execution:
   exact_patch: true
   timeout_seconds: 900
-  source_edit_completion_cap: 4096
-  agent_control_completion_cap: 512
+  impact_plan_completion_cap: 4096
+  source_edit_completion_cap: 8192
+  repair_patch_completion_cap: 8192
+  agent_control_completion_cap: 1024
+  patch_envelope: native_json_schema
   max_attempts: 3
   total_workflow_token_ceiling: 0   # none invented here
   usage_metric_of_record: provider_reported
@@ -47,10 +50,10 @@ scoring:
     - predicted_actions
     - changed_artifact_paths
   gates:
-    G1_changed_requirement: "selective >= 4/5 and not worse than agent by >1 pass"
-    G2_preservation: "selective >= 4/5 zero unintended preserve changes + regression passes"
-    G3_impact_recall: "selective >= 4/5 predicted regenerate set contains every gold regenerate artifact"
+    G1_changed_requirement: "impact_plan >= 4/5 and not worse than agent by >1 pass"
+    G2_preservation: "impact_plan >= 4/5 zero unintended preserve changes + regression passes"
+    G3_impact_recall: "impact_plan >= 4/5 predicted regenerate set contains every gold regenerate artifact"
     study_go: "all 3 clear G1 AND G2 AND at least 2/3 clear G3"
 
 decision_rule: frozen-before-calls
-model_selection_rule: preregistered 6-call non-study operational acceptance gate (D041)
+model_selection_rule: preregistered native-schema capability check plus two non-study E2E probes (D051)

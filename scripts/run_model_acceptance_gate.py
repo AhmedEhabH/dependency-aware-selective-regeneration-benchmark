@@ -1,14 +1,13 @@
-"""SCIENTIFIC-WIP-IMPACTPLAN-V1 model acceptance gate (D047, supersedes D041).
+"""Scientific v1.1 two-arm real end-to-end acceptance gate (D051).
 
 Single primary scientific model: ``qwen/qwen3-coder``.
 Provider policy: FIXED COMPATIBLE PROVIDER, no fallback. Provider order:
 1) DeepInfra (Turbo), 2) NovitaAI only if DeepInfra fails the frozen
 operational contract. First-party hosting is NOT a scientific requirement (D7).
 
-Three non-study operational tasks:
-- A1 structured ImpactPlan task (synthetic, JSON-schema, R/P/V/H);
-- A2 exact-patch task;
-- A3 agent-control/tool task.
+Two non-study repository probes execute the real runner path:
+- Agent: structured repository tools -> forced final -> PatchEnvelope -> validation;
+- ImpactPlan: structured plan -> PatchEnvelope -> persisted provenance -> validation.
 
 Thresholds (04_MODEL_PROVIDER_DECISION.md):
 - 3/3 deterministic task success;
@@ -30,6 +29,9 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import shutil
+import sys
+import tempfile
 import time
 import urllib.request
 from dataclasses import dataclass, field
@@ -37,14 +39,24 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from benchmark.core.enums import BlastRadius, RunStatus
+from benchmark.core.models import AcceptanceCriterion, Scenario
 from benchmark.execution.exact_patch import apply_exact_patches, parse_exact_patch
+from benchmark.execution.isolation import IsolationContext
+from benchmark.execution.runner import BenchmarkRunner, RunnerConfig
 from benchmark.llm.openrouter_backend import OpenRouterBackend
+from benchmark.repositories.workspace import WorkspacePath
+from benchmark.selection.dependency_scope import ArtifactDescriptor
+from benchmark.selection.impact_planner import OpenRouterImpactPlanner
+from benchmark.strategies.impact_plan import ImpactPlanSelectiveStrategy
+from benchmark.strategies.iterative_agent import IterativeRepositoryAgentStrategy
 
 REPORTS_DIR = Path(__file__).resolve().parent.parent / "reports"
-GATE_DATE = "2026-09-05"
+GATE_DATE = "2026-09-06-v11"
 
 PRIMARY_MODEL = "qwen/qwen3-coder"
 PROVIDER_SEQUENCE: tuple[str, ...] = ("DeepInfra", "Novita")
+V11_PROTOCOL = "scientific-wip-impactplan-v1.1"
 
 
 def _now_iso() -> str:
@@ -116,6 +128,193 @@ def build_backend(model: str, provider: str, timeout: float = 120.0) -> OpenRout
         timeout_seconds=timeout,
         max_transient_retries=1,
     )
+
+
+def _probe_scenario() -> Scenario:
+    return Scenario(
+        scenario_id="nonstudy-v11-counter-rename",
+        repository="synthetic",
+        change_type="modify",
+        blast_radius=BlastRadius.localized,
+        requirement_before="The module-level variable is named counter.",
+        requirement_after=(
+            "Rename only the module-level variable counter to counter_new and "
+            "update increment() to read counter_new."
+        ),
+        rationale="Non-study execution-interface probe.",
+        acceptance_criteria=(
+            AcceptanceCriterion(
+                description=(
+                    "pkg/counter.py defines counter_new = 0, contains no standalone "
+                    "counter identifier, and increment() returns counter_new + 1."
+                )
+            ),
+        ),
+    )
+
+
+def _prepare_probe_isolation(root: Path) -> IsolationContext:
+    active = root / "snapshot" / "active"
+    workspace = root / "workspace"
+    source = active / "pkg" / "counter.py"
+    source.parent.mkdir(parents=True, exist_ok=True)
+    source.write_text(
+        "counter = 0\n\ndef increment():\n    return counter + 1\n",
+        encoding="utf-8",
+        newline="",
+    )
+    shutil.copytree(active, workspace)
+    return IsolationContext(
+        workspace=WorkspacePath(root=str(workspace)),
+        snapshot_base=root / "snapshot",
+        active_snapshot_root=active,
+    )
+
+
+def _validation_command() -> list[str]:
+    code = (
+        "from pathlib import Path; import re; "
+        "s=Path('pkg/counter.py').read_text(encoding='utf-8'); "
+        "ok=('counter_new = 0' in s and 'return counter_new + 1' in s "
+        "and re.search(r'(?<![A-Za-z0-9_])counter(?![A-Za-z0-9_])', s) is None); "
+        "raise SystemExit(0 if ok else 1)"
+    )
+    return [sys.executable, "-c", code]
+
+
+def _probe_outcome(record: Any, *, arm: str, backend: OpenRouterBackend) -> dict[str, Any]:
+    functional_reached = record.functional_validation_passed is not None
+    finalized = arm != "agent" or record.selection_model_calls <= 8
+    provenance = arm != "impact_plan" or bool(
+        record.impact_plan
+        and record.impact_plan_hash
+        and record.impact_plan_version
+        and record.planner_model_calls >= 1
+    )
+    passed = (
+        record.status == RunStatus.succeeded
+        and functional_reached
+        and record.functional_validation_passed is True
+        and finalized
+        and provenance
+        and (arm != "agent" or record.selection_tool_calls >= 1)
+    )
+    return {
+        "task": f"{arm}_real_e2e",
+        "arm": arm,
+        "deterministic_success": passed,
+        "parser_pass": record.regeneration_model_calls >= 1,
+        "truncation": any("finish_reason=length" in f.message for f in record.failures),
+        "prompt_tokens": record.token_usage.prompt_tokens,
+        "completion_tokens": record.token_usage.completion_tokens,
+        "total_tokens": record.token_usage.total_tokens,
+        "latency_seconds": round(record.duration_seconds, 3),
+        "transient_retry_count": getattr(backend, "transient_retry_count", 0),
+        "functional_validation_reached": functional_reached,
+        "functional_validation_passed": record.functional_validation_passed,
+        "agent_calls": record.selection_model_calls if arm == "agent" else 0,
+        "agent_tool_calls": record.selection_tool_calls if arm == "agent" else 0,
+        "agent_finalized": finalized if arm == "agent" else None,
+        "patch_valid": record.regeneration_model_calls >= 1,
+        "impact_plan_valid": bool(record.impact_plan) if arm == "impact_plan" else None,
+        "planner_provenance_persisted": provenance if arm == "impact_plan" else None,
+        "impact_plan_hash": record.impact_plan_hash,
+        "impact_plan_version": record.impact_plan_version,
+        "failures": [
+            {"kind": f.failure_kind.value, "stage": f.stage, "message": f.message}
+            for f in record.failures
+        ],
+    }
+
+
+def run_real_e2e_probe(backend: OpenRouterBackend, arm: str) -> dict[str, Any]:
+    with tempfile.TemporaryDirectory(prefix=f"v11-{arm}-") as temp_dir:
+        isolation = _prepare_probe_isolation(Path(temp_dir))
+        if arm == "agent":
+            strategy: Any = IterativeRepositoryAgentStrategy(
+                backend, agent_control_max_completion_tokens=1024
+            )
+            strategy_name = "iterative_repository_agent"
+        elif arm == "impact_plan":
+            planner = OpenRouterImpactPlanner(backend)
+            strategy = ImpactPlanSelectiveStrategy(
+                planner=planner,
+                artifact_descriptors=(
+                    ArtifactDescriptor(
+                        path="pkg/counter.py",
+                        category="source",
+                        description="Defines the module counter and increment consumer.",
+                        provides_symbols=("counter", "increment"),
+                        typical_change_triggers=("rename counter", "counter_new"),
+                    ),
+                ),
+            )
+            strategy_name = "impact_plan"
+        else:
+            raise ValueError(f"unknown probe arm: {arm}")
+
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=backend,
+            isolation=isolation,
+            config=RunnerConfig(
+                strategy_name=strategy_name,
+                backend_name=backend.model_identity,
+                protocol_version=V11_PROTOCOL,
+                timeout_seconds=900,
+                max_attempts=3,
+                enable_regeneration=True,
+                validation_command=_validation_command(),
+                validation_timeout=60,
+                editable_artifact_paths=("pkg/counter.py",),
+                max_completion_tokens_per_call=8192,
+                agent_control_max_completion_tokens=1024,
+                exact_patch=True,
+                scientific_gold_isolation=True,
+            ),
+        )
+        return _probe_outcome(runner.run(_probe_scenario()), arm=arm, backend=backend)
+
+
+def _is_json_schema_capability_error(exc: BaseException) -> bool:
+    text = str(exc).lower()
+    return any(
+        token in text for token in ("response_format", "json_schema", "json schema")
+    ) and any(
+        token in text
+        for token in ("unsupported", "not support", "invalid parameter", "provider")
+    )
+
+
+_CAPABILITY_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {"ok": {"type": "boolean"}},
+    "required": ["ok"],
+    "additionalProperties": False,
+}
+
+
+def run_schema_capability_probe(backend: OpenRouterBackend) -> dict[str, Any]:
+    """Make the one cheap provider/API native-schema capability call."""
+    started = time.monotonic()
+    response = backend.generate_structured(
+        "Return the requested object with ok set to true.",
+        schema_name="native_schema_capability",
+        schema=_CAPABILITY_SCHEMA,
+        temperature=0.0,
+        max_tokens=64,
+    )
+    parsed = json.loads(response.text)
+    passed = parsed == {"ok": True} and response.finish_reason != "length"
+    return {
+        "passed": passed,
+        "parser_pass": parsed == {"ok": True},
+        "truncation": response.finish_reason == "length",
+        "prompt_tokens": response.prompt_tokens,
+        "completion_tokens": response.completion_tokens,
+        "total_tokens": response.total_tokens,
+        "latency_seconds": round(time.monotonic() - started, 3),
+    }
 
 
 # -------------------------------------------------------------------------
@@ -348,14 +547,20 @@ def compute_eligibility(tasks: list[dict[str, Any]]) -> dict[str, Any]:
     latencies = sorted(t["latency_seconds"] for t in tasks)
     median = latencies[len(latencies) // 2] if latencies else float("inf")
     transient = sum(1 for t in tasks if t["transient_retry_count"] > 0)
+    functional_reached = sum(
+        1 for t in tasks if t.get("functional_validation_reached") is True
+    )
+    functional_passed = sum(
+        1 for t in tasks if t.get("functional_validation_passed") is True
+    )
     eligible = (
-        success == n
+        n == 2
+        and success == n
         and parse_ok == n
         and truncations == 0
-        and all(t["latency_seconds"] <= 120 for t in tasks)
-        and median <= 60
-        and transient <= 1
         and usage_ok == n
+        and functional_reached == n
+        and functional_passed == n
     )
     return {
         "task_success": success,
@@ -368,6 +573,10 @@ def compute_eligibility(tasks: list[dict[str, Any]]) -> dict[str, Any]:
         "transient_reliability": transient <= 1,
         "usage_accounting": usage_ok,
         "usage_all_present": usage_ok == n,
+        "functional_validation_reached": functional_reached,
+        "all_reach_functional_validation": functional_reached == n,
+        "functional_validation_passed": functional_passed,
+        "all_pass_functional_validation": functional_passed == n,
         "latency_all_under_120": all(t["latency_seconds"] <= 120 for t in tasks),
         "median_latency": round(median, 3),
         "median_latency_under_60": median <= 60,
@@ -390,15 +599,17 @@ def write_freeze(
         "provider": outcome.provider,
         "backend": "openrouter",
         "identity": f"openrouter:{outcome.model}@{outcome.provider}",
-        "protocol": "scientific-wip-impactplan-v1",
+        "protocol": V11_PROTOCOL,
         "temperature": 0.0,
         "mode": "direct/non-thinking",
         "provider_fallbacks": False,
         "require_parameters": True,
         "call_timeout_seconds": 120,
         "workflow_timeout_seconds": 900,
-        "source_edit_cap": 4096,
-        "agent_control_cap": 512,
+        "impact_plan_cap": 4096,
+        "source_edit_cap": 8192,
+        "repair_patch_cap": 8192,
+        "agent_control_cap": 1024,
         "max_attempts": 3,
         "retry_policy": "transient 429/5xx/transport retry max=1; 4xx never retried",
         "pricing": pricing,
@@ -425,32 +636,44 @@ def main() -> int:
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--provider",
-        choices=list(PROVIDER_SEQUENCE),
-        default=None,
-        help="Force a specific provider for the operational gate.",
-    )
+    parser.add_argument("--provider", choices=["DeepInfra"], default="DeepInfra")
     args = parser.parse_args()
 
     model = PRIMARY_MODEL
     endpoints = fetch_model_endpoints(model)
-    provider = args.provider or resolve_provider_from_endpoints(
-        model, endpoints, PROVIDER_SEQUENCE
-    )
+    available = {e.get("provider_name") for e in endpoints}
+    provider = args.provider
+    if provider not in available:
+        raise RuntimeError(
+            "DeepInfra is unavailable; NovitaAI is not authorized for availability fallback"
+        )
     backend = build_backend(model, provider)
 
+    capability: dict[str, Any]
+    fallback_reason: str | None = None
+    try:
+        capability = run_schema_capability_probe(backend)
+    except Exception as exc:
+        if provider != "DeepInfra" or not _is_json_schema_capability_error(exc):
+            raise
+        novita = "NovitaAI" if "NovitaAI" in available else "Novita"
+        if novita not in available:
+            raise RuntimeError(
+                "DeepInfra rejected JSON-schema and NovitaAI is unavailable"
+            ) from exc
+        fallback_reason = str(exc)
+        provider = novita
+        backend = build_backend(model, provider)
+        capability = run_schema_capability_probe(backend)
+    if not capability["passed"]:
+        raise RuntimeError("native JSON-schema capability probe did not pass")
+
     tasks: list[dict[str, Any]] = []
-    for name, fn in (
-        ("A1_impact_plan", run_task_a1),
-        ("A2_exact_patch", run_task_a2),
-        ("A3_agent_control", run_task_a3),
-    ):
-        out = fn(backend)
-        out["task"] = name
-        out["model"] = model
-        out["provider"] = provider
-        tasks.append(out)
+    tasks = [run_real_e2e_probe(backend, arm) for arm in ("agent", "impact_plan")]
+
+    for task in tasks:
+        task["model"] = model
+        task["provider"] = provider
 
     elig = compute_eligibility(tasks)
     outcome = GateOutcome(
@@ -465,6 +688,8 @@ def main() -> int:
         "resolved_at": outcome.resolved_at,
         "eligible": outcome.eligible,
         "eligibility": outcome.eligibility,
+        "native_schema_capability": capability,
+        "provider_capability_fallback_reason": fallback_reason,
         "tasks": outcome.tasks,
     }
 

@@ -13,15 +13,24 @@ from collections.abc import Callable
 from dataclasses import dataclass, field, replace
 from pathlib import Path
 
-from benchmark.core.models import LLMResponse, RegenerationScenarioContext
+from benchmark.core.models import RegenerationScenarioContext
 from benchmark.core.protocols import LLMBackend
 from benchmark.execution.budgets import resolve_completion_allowance
-from benchmark.execution.exact_patch import ExactPatchError, apply_exact_patches, parse_exact_patch
+from benchmark.execution.exact_patch import (
+    PATCH_ENVELOPE_SCHEMA,
+    ExactPatchError,
+    apply_exact_patches,
+    parse_exact_patch,
+    parse_patch_envelope,
+)
 from benchmark.execution.isolation import IsolationContext
 from benchmark.llm.output_normalization import normalize_single_payload
 from benchmark.selection.planner import RegenerationPlan
 
 logger = logging.getLogger(__name__)
+
+V11_PROTOCOL = "scientific-wip-impactplan-v1.1"
+PATCH_MAX_COMPLETION_TOKENS = 8192
 
 
 @dataclass(frozen=True)
@@ -83,6 +92,16 @@ Output contract (EXACT PATCH mode — do NOT return the complete file):
 - Whitespace and indentation must match the current file exactly.  No fuzzy matching.
 - For a "preserve" action, return the EXISTING file content byte-identically (not a patch).
 - For a "create" action, return the COMPLETE new file content (not a patch).
+"""
+
+PATCH_ENVELOPE_OUTPUT_CONTRACT = """\
+Output contract (native JSON-schema PatchEnvelope mode):
+- Return the schema-constrained JSON object only.
+- `patches` is a non-empty ordered array of exact literal replacements.
+- Every item has exactly `search` (a non-empty exact existing substring) and
+  `replace` (its replacement substring).
+- Each search must match exactly once at application time.
+- No markdown, marker blocks, prose, fuzzy matching, or whitespace correction.
 """
 
 REPAIR_CONTEXT_PROMPT_TEMPLATE = """\
@@ -158,7 +177,15 @@ def build_generation_prompt(
         and effective_action not in ("create", "preserve")
     )
 
-    if use_patch_mode:
+    if output_mode == "patch_envelope" and effective_action not in ("create", "preserve"):
+        prompt = (
+            f"You are editing exactly one source artifact in an existing software project.\n\n"
+            f"Requirement change:\n{requirement_delta or 'Update the artifact to match the new requirements.'}\n\n"
+            f"Artifact path: {artifact_path}\n\n"
+            f"Current content:\n```{language_hint}\n{current_content}\n```\n\n"
+            f"{PATCH_ENVELOPE_OUTPUT_CONTRACT}\n"
+        )
+    elif use_patch_mode:
         prompt = (
             f"You are editing exactly one source artifact in an existing software project.\n\n"
             f"Requirement change:\n{requirement_delta or 'Update the artifact to match the new requirements.'}\n\n"
@@ -490,6 +517,7 @@ class SharedRegenerationExecutor:
         remaining_total_workflow_tokens: int | None = None,
         prior_attempt_hashes: dict[str, str] | None = None,
         enable_exact_patch: bool = False,
+        protocol_version: str = "",
     ) -> RegenerationExecutionResult:
         old_loop: asyncio.AbstractEventLoop | None = None
         with contextlib.suppress(RuntimeError):
@@ -504,6 +532,7 @@ class SharedRegenerationExecutor:
                     prior_attempt_hashes=prior_attempt_hashes,
                     can_start_model_call=self._can_start_model_call,
                     enable_exact_patch=enable_exact_patch,
+                    protocol_version=protocol_version,
                 )
             )
         finally:
@@ -526,6 +555,7 @@ class SharedRegenerationExecutor:
         prior_attempt_hashes: dict[str, str] | None = None,
         can_start_model_call: Callable[[], bool] | None = None,
         enable_exact_patch: bool = False,
+        protocol_version: str = "",
     ) -> RegenerationExecutionResult:
         workspace_root = str(isolation.workspace.root)
         start_time = time.monotonic()
@@ -543,6 +573,7 @@ class SharedRegenerationExecutor:
         failures: list[str] = []
         local_remaining = remaining_total_workflow_tokens
         has_limit = remaining_total_workflow_tokens is not None
+        use_patch_envelope = enable_exact_patch and protocol_version == V11_PROTOCOL
 
         for artifact in plan.ordered_artifacts:
             action = plan.actions.get(artifact.path)
@@ -622,15 +653,24 @@ class SharedRegenerationExecutor:
                 scenario_context=scenario_context,
                 expected_action=_plan_expected_action(plan, artifact.path),
                 repair_context=repair_context,
-                output_mode="exact_patch" if enable_exact_patch else "complete_file",
+                output_mode=(
+                    "patch_envelope" if use_patch_envelope
+                    else "exact_patch" if enable_exact_patch
+                    else "complete_file"
+                ),
             )
 
             prompt_estimate = getattr(
                 self._backend, "count_prompt_tokens", lambda p: max(1, len(p) // 4)
             )(prompt)
 
+            role_cap = (
+                PATCH_MAX_COMPLETION_TOKENS
+                if use_patch_envelope
+                else max_completion_tokens_per_call
+            )
             allowance = resolve_completion_allowance(
-                max_completion_tokens_per_call=max_completion_tokens_per_call,
+                max_completion_tokens_per_call=role_cap,
                 remaining_total_workflow_tokens=local_remaining,
                 prompt_tokens=prompt_estimate,
             )
@@ -667,7 +707,23 @@ class SharedRegenerationExecutor:
                 )
                 break
             try:
-                response: LLMResponse = await self._backend.generate(prompt=prompt, max_tokens=allowance)
+                if use_patch_envelope:
+                    generate_structured = getattr(self._backend, "generate_structured", None)
+                    if not callable(generate_structured):
+                        raise ExactPatchError(
+                            "scientific v1.1 backend lacks native JSON-schema support"
+                        )
+                    response = await generate_structured(
+                        prompt=prompt,
+                        schema_name="patch_envelope",
+                        schema=PATCH_ENVELOPE_SCHEMA,
+                        temperature=0.0,
+                        max_tokens=allowance,
+                    )
+                else:
+                    response = await self._backend.generate(
+                        prompt=prompt, max_tokens=allowance
+                    )
             except Exception as e:
                 failures.append(f"LLM backend error for {artifact.path}: {e}")
                 atomic_abort = True
@@ -684,6 +740,21 @@ class SharedRegenerationExecutor:
             usage = response.token_usage
             total_prompt += usage.prompt_tokens
             total_completion += usage.completion_tokens
+
+            if response.finish_reason == "length":
+                failures.append(
+                    f"finish_reason=length truncation for {artifact.path}; "
+                    f"configured_completion_cap={allowance}"
+                )
+                atomic_abort = True
+                generated.append(
+                    GeneratedArtifact(
+                        path=artifact.path,
+                        content=response.text,
+                        status="rejected",
+                    )
+                )
+                continue
 
             if can_start_model_call is not None and not can_start_model_call():
                 model_call_budget_exhausted = True
@@ -745,29 +816,30 @@ class SharedRegenerationExecutor:
 
             output_text = response.text
 
-            normalized_body, normalization_mode = normalize_single_payload(output_text)
-            if normalized_body is None:
-                if normalization_mode == "empty":
-                    message = f"Empty generation for {artifact.path}"
-                else:
-                    message = f"Output rejected for {artifact.path}: {normalization_mode}"
-                failures.append(message)
-                atomic_abort = True
-                generated.append(
-                    GeneratedArtifact(
-                        path=artifact.path,
-                        content=output_text,
-                        status="rejected",
+            if not use_patch_envelope:
+                normalized_body, normalization_mode = normalize_single_payload(output_text)
+                if normalized_body is None:
+                    if normalization_mode == "empty":
+                        message = f"Empty generation for {artifact.path}"
+                    else:
+                        message = f"Output rejected for {artifact.path}: {normalization_mode}"
+                    failures.append(message)
+                    atomic_abort = True
+                    generated.append(
+                        GeneratedArtifact(
+                            path=artifact.path,
+                            content=output_text,
+                            status="rejected",
+                        )
                     )
-                )
-                logger.info(
-                    "REGEN_ARTIFACT_END path=%s status=rejected elapsed=%.3f",
-                    artifact.path, time.monotonic() - artifact_start,
-                )
-                continue
-            output_text = normalized_body
-            if normalization_mode == "single_fence_stripped":
-                logger.info("MODEL_OUTPUT_NORMALIZED path=%s mode=single_fence_stripped", artifact.path)
+                    logger.info(
+                        "REGEN_ARTIFACT_END path=%s status=rejected elapsed=%.3f",
+                        artifact.path, time.monotonic() - artifact_start,
+                    )
+                    continue
+                output_text = normalized_body
+                if normalization_mode == "single_fence_stripped":
+                    logger.info("MODEL_OUTPUT_NORMALIZED path=%s mode=single_fence_stripped", artifact.path)
 
             # --- exact-patch application for modify targets ---
             _effective_action = _plan_expected_action(plan, artifact.path)
@@ -776,7 +848,11 @@ class SharedRegenerationExecutor:
                 and _effective_action not in ("create", "preserve")
             ):
                 try:
-                    _blocks = parse_exact_patch(output_text)
+                    _blocks = (
+                        parse_patch_envelope(output_text)
+                        if use_patch_envelope
+                        else parse_exact_patch(output_text)
+                    )
                     output_text = apply_exact_patches(current_content, _blocks)
                 except ExactPatchError as exc:
                     failures.append(

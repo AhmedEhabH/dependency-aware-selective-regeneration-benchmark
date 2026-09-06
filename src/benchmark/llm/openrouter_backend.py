@@ -81,6 +81,8 @@ class OpenRouterBackend:
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 4096,
+        *,
+        response_format: dict[str, Any] | None = None,
     ) -> LLMResponse:
         api_key = self._get_api_key()
         url = f"{self._base_url}/chat/completions"
@@ -92,6 +94,8 @@ class OpenRouterBackend:
             "max_tokens": max_tokens,
             "stream": False,
         }
+        if response_format is not None:
+            body["response_format"] = response_format
         if self._provider:
             # Scientific contract (D046 / PA-001): exactly one pinned provider,
             # no automatic cross-provider fallback, requested parameters must
@@ -148,6 +152,39 @@ class OpenRouterBackend:
             ) from exc
 
         return _parse_openrouter_response(parsed)
+
+    async def generate_structured(
+        self,
+        prompt: str,
+        *,
+        schema_name: str,
+        schema: dict[str, Any],
+        temperature: float = 0.0,
+        max_tokens: int = 4096,
+    ) -> LLMResponse:
+        """Generate provider-native strict JSON-schema output.
+
+        The ordinary ``generate`` API remains backward compatible. Scientific
+        structured callers use this explicit method so their configured role
+        cap and schema are both visible at the transport boundary.
+        """
+        if not schema_name or not schema_name.strip():
+            raise ValueError("schema_name must be non-empty")
+        if not isinstance(schema, dict) or not schema:
+            raise ValueError("schema must be a non-empty object")
+        return await self.generate(
+            prompt,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            response_format={
+                "type": "json_schema",
+                "json_schema": {
+                    "name": schema_name,
+                    "strict": True,
+                    "schema": schema,
+                },
+            },
+        )
 
     def _do_request(
         self, req: urllib.request.Request, api_key: str

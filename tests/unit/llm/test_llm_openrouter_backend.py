@@ -123,6 +123,36 @@ class TestOpenRouterBackendProtocol:
         assert result.token_usage.completion_tokens == 20
         assert result.token_usage.total_tokens == 70
 
+    @pytest.mark.asyncio
+    async def test_json_schema_response_format_is_serialized_natively(
+        self, backend_with_key: OpenRouterBackend
+    ) -> None:
+        captured: dict[str, Any] = {}
+
+        def _capture(req: urllib.request.Request, _api_key: str) -> bytes:
+            captured.update(json.loads(req.data or b"{}"))
+            return _make_success_response('{"value":"ok"}')
+
+        schema = {
+            "type": "object",
+            "properties": {"value": {"type": "string"}},
+            "required": ["value"],
+            "additionalProperties": False,
+        }
+        with patch.object(backend_with_key, "_do_request", side_effect=_capture):
+            await backend_with_key.generate_structured(
+                "return JSON",
+                schema_name="probe",
+                schema=schema,
+                max_tokens=1024,
+            )
+
+        assert captured["max_tokens"] == 1024
+        assert captured["response_format"] == {
+            "type": "json_schema",
+            "json_schema": {"name": "probe", "strict": True, "schema": schema},
+        }
+
 
 class TestOpenRouterBackendApiKey:
     @pytest.mark.asyncio
