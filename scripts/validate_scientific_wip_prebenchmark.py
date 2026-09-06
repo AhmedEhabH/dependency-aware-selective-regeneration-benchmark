@@ -1,4 +1,4 @@
-"""SCIENTIFIC-WIP-IMPACTPLAN-V1 — six Pre-Benchmark validation gates (D047).
+"""SCIENTIFIC-WIP-IMPACTPLAN-V1.1 — exactly six Pre-Benchmark gates (D051).
 
 Two arms for the WIP profile:
 - baseline: ``iterative_repository_agent``;
@@ -38,6 +38,7 @@ CANDIDATES = (
     "todo/permissions.py",
     "todo/urls.py",
 )
+PROTOCOL = "scientific-wip-impactplan-v1.1"
 
 
 @dataclass
@@ -69,7 +70,7 @@ def _load_jsonl(path: Path) -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 
 def gate_g1_dataset() -> GateResult:
-    g = GateResult("G1 Dataset Validation (scientific-wip-impactplan-v1)", passed=True)
+    g = GateResult(f"G1 Dataset Validation ({PROTOCOL})", passed=True)
     data: dict[str, dict[str, Any]] = {}
     for sid in SCENARIO_BLAST:
         p = SCENARIOS_DIR / f"{sid}.yaml"
@@ -129,7 +130,7 @@ def gate_g1_dataset() -> GateResult:
 # ---------------------------------------------------------------------------
 
 def gate_g2_prompt() -> GateResult:
-    g = GateResult("G2 Prompt Validation (scientific-wip-impactplan-v1)", passed=True)
+    g = GateResult(f"G2 Prompt Validation ({PROTOCOL})", passed=True)
     try:
         from benchmark.core.models import RegenerationScenarioContext
         from benchmark.execution.regeneration import build_generation_prompt
@@ -152,10 +153,12 @@ def gate_g2_prompt() -> GateResult:
             language_hint="python",
             scenario_context=ctx,
             expected_action="modify",
+            output_mode="patch_envelope",
         )
         g.add("Task has priority field" in prompt, "prompt has visible acceptance")
         g.add("GOLD_SENTINEL" not in prompt, "prompt has no gold sentinel")
         g.add("todo_smoke_001_checks" not in prompt, "prompt has no evaluator name")
+        g.add("PatchEnvelope" in prompt, "executor requests PatchEnvelope JSON")
 
         # Planner prompt input contract: no gold, no result tables
         g.add("expected_actions" not in PLANNER_PROMPT_TEMPLATE, "planner prompt has no expected_actions")
@@ -170,7 +173,7 @@ def gate_g2_prompt() -> GateResult:
 # ---------------------------------------------------------------------------
 
 def gate_g3_pipeline_smoke() -> GateResult:
-    g = GateResult("G3 Pipeline Smoke Test (scientific-wip-impactplan-v1)", passed=True)
+    g = GateResult(f"G3 Pipeline Smoke Test ({PROTOCOL})", passed=True)
     try:
         _wip_pipeline_smoke()
         g.add(True, "ImpactPlan -> gate -> write_set plan -> executor -> write -> usage OK (stub, 0 model calls)")
@@ -197,9 +200,17 @@ def _wip_pipeline_smoke() -> None:
     from benchmark.selection.planner import plan_from_impact_plan
 
     class _FakeBackend:
-        async def generate(self, prompt: str = "", temperature: float = 0.0, max_tokens: int = 4096) -> LLMResponse:  # noqa: ARG002
-            return LLMResponse(text="<<<<<<< SEARCH\nold line\n=======\nnew line\n>>>>>>> REPLACE",
-                               token_usage=TokenUsage(40, 12, 52), finish_reason="stop")
+        async def generate_structured(
+            self, prompt: str = "", *, schema_name: str, schema: dict[str, Any],
+            temperature: float = 0.0, max_tokens: int = 4096,
+        ) -> LLMResponse:
+            _ = prompt, schema, temperature
+            assert schema_name == "patch_envelope"
+            assert max_tokens == 8192
+            return LLMResponse(
+                text=json.dumps({"patches": [{"search": "old line\n", "replace": "new line\n"}]}),
+                token_usage=TokenUsage(40, 12, 52), finish_reason="stop",
+            )
 
     tmp = Path(tempfile.mkdtemp())
     ws_root = tmp / "ws"
@@ -220,7 +231,9 @@ def _wip_pipeline_smoke() -> None:
     assert gated.passed, gated.violations
     regen_plan = plan_from_impact_plan(gated.plan)
     assert set(regen_plan.regenerate_artifact_paths) == {"a.py"}
-    result = SharedRegenerationExecutor(_FakeBackend()).execute(regen_plan, iso, enable_exact_patch=True)
+    result = SharedRegenerationExecutor(_FakeBackend()).execute(
+        regen_plan, iso, enable_exact_patch=True, protocol_version=PROTOCOL,
+    )
     assert any(a.status == "generated" for a in result.artifacts), result.failures
     assert (ws_root / "a.py").read_text(encoding="utf-8") == "new line\n"
     assert result.total_tokens == 52
@@ -232,13 +245,13 @@ def _wip_pipeline_smoke() -> None:
 # ---------------------------------------------------------------------------
 
 def gate_g4_dry_run(dry_run_dir: Path) -> GateResult:
-    g = GateResult("G4 Dry Run (scientific-wip-impactplan-v1)", passed=True)
+    g = GateResult(f"G4 Dry Run ({PROTOCOL})", passed=True)
     if dry_run_dir.exists():
         shutil.rmtree(dry_run_dir, ignore_errors=True)
     dry_run_dir.mkdir(parents=True, exist_ok=True)
     cmd = [
         sys.executable, str(ROOT / "seven_arm_benchmark.py"),
-        "--profile", "scientific-wip-impactplan-v1",
+        "--profile", PROTOCOL,
         "--dry-run", "--output-dir", str(dry_run_dir),
     ]
     proc = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=900)
@@ -266,7 +279,8 @@ def gate_g4_dry_run(dry_run_dir: Path) -> GateResult:
     tokens = sum((r.get("token_usage") or {}).get("total", 0) for r in records)
     g.add(calls == 0 and tokens == 0, "0 model calls / 0 tokens")
     sid = json.loads((dry_run_dir / "source_identity.json").read_text(encoding="utf-8"))
-    g.add(sid.get("profile") == "scientific-wip-impactplan-v1", "config profile frozen")
+    g.add(sid.get("profile") == PROTOCOL, "config profile frozen")
+    g.add(sid.get("protocol_version") == PROTOCOL, "protocol identity frozen")
     g.add(bool(sid.get("config_hash")), "config_hash frozen")
     return g
 
@@ -276,11 +290,14 @@ def gate_g4_dry_run(dry_run_dir: Path) -> GateResult:
 # ---------------------------------------------------------------------------
 
 def gate_g5_integration() -> GateResult:
-    g = GateResult("G5 Integration Test (scientific-wip-impactplan-v1)", passed=True)
+    g = GateResult(f"G5 Integration Test ({PROTOCOL})", passed=True)
     suites = [
         "tests/unit/selection/test_impact_plan_contract.py",
         "tests/unit/selection/test_impact_evidence_and_planner.py",
         "tests/unit/execution/test_impact_plan_runner.py",
+        "tests/unit/execution/test_exact_patch_executor.py",
+        "tests/unit/strategies/test_agent_control_cap.py",
+        "tests/unit/strategies/test_repository_tools.py",
         "tests/unit/llm/test_llm_openrouter_provider_pin.py",
         "tests/unit/test_scientific_identity.py",
         "tests/unit/test_scientific_evidence_persistence.py",
@@ -301,7 +318,7 @@ def gate_g5_integration() -> GateResult:
 # ---------------------------------------------------------------------------
 
 def gate_g6_metric_verification() -> GateResult:
-    g = GateResult("G6 Metric Verification (scientific-wip-impactplan-v1)", passed=True)
+    g = GateResult(f"G6 Metric Verification ({PROTOCOL})", passed=True)
     # Impact-plan metrics: R recall/F1, class support, expansion rate, planner cost.
     try:
         from benchmark.core.enums import ActionKind, ArtifactType
@@ -353,7 +370,7 @@ def run_all(dry_run_dir: Path) -> list[GateResult]:
 
 def render(results: list[GateResult]) -> str:
     lines = [
-        "# SCIENTIFIC-WIP-IMPACTPLAN-V1 — PRE-BENCHMARK VALIDATION",
+        "# SCIENTIFIC-WIP-IMPACTPLAN-V1.1 — PRE-BENCHMARK VALIDATION",
         "",
     ]
     for g in results:

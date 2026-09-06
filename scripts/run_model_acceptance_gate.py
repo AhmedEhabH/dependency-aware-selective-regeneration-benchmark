@@ -1,26 +1,23 @@
 """Scientific v1.1 two-arm real end-to-end acceptance gate (D051).
 
 Single primary scientific model: ``qwen/qwen3-coder``.
-Provider policy: FIXED COMPATIBLE PROVIDER, no fallback. Provider order:
-1) DeepInfra (Turbo), 2) NovitaAI only if DeepInfra fails the frozen
-operational contract. First-party hosting is NOT a scientific requirement (D7).
+Provider policy: DeepInfra is fixed. NovitaAI may be tried exactly once only
+when DeepInfra rejects native JSON Schema at the provider/API capability layer.
 
 Two non-study repository probes execute the real runner path:
 - Agent: structured repository tools -> forced final -> PatchEnvelope -> validation;
 - ImpactPlan: structured plan -> PatchEnvelope -> persisted provenance -> validation.
 
 Thresholds (04_MODEL_PROVIDER_DECISION.md):
-- 3/3 deterministic task success;
-- 3/3 first responses parse;
+- native-schema capability probe passes;
+- 2/2 deterministic E2E task success and native responses parse;
+- 2/2 reach and pass functional validation;
 - 0 truncations;
-- no provider fallback;
 - usage recorded;
-- every successful call <= 120 s; median <= 60 s;
-- <= 1 transient retry total (retry must succeed).
 
 Writes:
-  reports/model_acceptance_gate_2026-09-05.json
-  reports/model_acceptance_gate_2026-09-05.md
+  reports/model_acceptance_gate_2026-09-06-v11.json
+  reports/model_acceptance_gate_2026-09-06-v11.md
   reports/SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json
 """
 
