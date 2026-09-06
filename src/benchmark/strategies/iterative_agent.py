@@ -55,10 +55,9 @@ AGENT_FINAL_SCHEMA: dict[str, Any] = {
     "type": "object",
     "properties": {
         "action": {"type": "string", "const": "final"},
-        "selected_paths": {
+"selected_paths": {
             "type": "array",
             "minItems": 1,
-            "uniqueItems": True,
             "items": {"type": "string"},
         },
         "rationale": {"type": "string"},

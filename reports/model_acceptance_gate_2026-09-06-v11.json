@@ -2,7 +2,7 @@
   "date": "2026-09-06-v11",
   "model": "qwen/qwen3-coder",
   "provider": "DeepInfra",
-  "resolved_at": "2026-09-06T12:44:23.342880+00:00",
+  "resolved_at": "2026-09-06T13:48:34.431447+00:00",
   "eligible": true,
   "eligibility": {
     "task_success": 2,
@@ -20,7 +20,7 @@
     "functional_validation_passed": 2,
     "all_pass_functional_validation": true,
     "latency_all_under_120": true,
-    "median_latency": 5.078,
+    "median_latency": 4.234,
     "median_latency_under_60": true,
     "eligible": true
   },
@@ -31,7 +31,7 @@
     "prompt_tokens": 18,
     "completion_tokens": 9,
     "total_tokens": 27,
-    "latency_seconds": 1.375
+    "latency_seconds": 1.046
   },
   "provider_capability_fallback_reason": null,
   "tasks": [
@@ -42,9 +42,9 @@
       "parser_pass": true,
       "truncation": false,
       "prompt_tokens": 1298,
-      "completion_tokens": 152,
-      "total_tokens": 1450,
-      "latency_seconds": 5.078,
+      "completion_tokens": 176,
+      "total_tokens": 1474,
+      "latency_seconds": 4.234,
       "transient_retry_count": 0,
       "functional_validation_reached": true,
       "functional_validation_passed": true,
@@ -67,9 +67,9 @@
       "parser_pass": true,
       "truncation": false,
       "prompt_tokens": 944,
-      "completion_tokens": 284,
-      "total_tokens": 1228,
-      "latency_seconds": 4.593,
+      "completion_tokens": 288,
+      "total_tokens": 1232,
+      "latency_seconds": 3.204,
       "transient_retry_count": 0,
       "functional_validation_reached": true,
       "functional_validation_passed": true,
