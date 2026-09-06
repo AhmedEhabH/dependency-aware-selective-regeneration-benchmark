@@ -1,5 +1,17 @@
 # TODO
 
+> **CURRENT BOARD (2026-09-07, RESEARCH-CONSOLIDATION-MAINLINE-01 COMPLETE —
+> TODO RESEARCH EVIDENCE CONSOLIDATED ON MAIN; NOT A RELEASE; NO STABLE TAG
+> MOVE):** Research branch merged to `main` via `--no-ff` (merge `42509b5`;
+> no rebase/squash; evidence tags preserved). Consolidation branch
+> `research/stagec-consolidation-01` added v1.1 root-cause taxonomy
+> (A=1,B=0,C=10,D=8,E=4,F=7,G=0,H=0,I=0), Stage-C latency decomposition
+> (total + median + outliers; held-out total -51.81% with median/outlier
+> caveat), frozen formal model (`docs/STAGEC_FORMAL_MODEL.md`), and Truth
+> Matrix (`reports/RESEARCH_TRUTH_MATRIX.md`). No model calls. Next work is
+> academic-output preparation (proposal/opinion paper/presentation), not
+> executor engineering.
+
 > **CURRENT BOARD (2026-09-06, RESULTS-RECOVERY-02 COMPLETE — v1.1 EVIDENCE
 > PRODUCED; GO/NO-GO=NO-GO; NOT A RELEASE; NO STABLE TAG MOVE):**
 > `scientific-wip-impactplan-v1.1` executed end to end under D051/A032.
