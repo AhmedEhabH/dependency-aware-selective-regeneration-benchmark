@@ -1,0 +1,23 @@
+scenario_id: "todo-heldout-004"
+repository: todo
+change_type: "Tag color validation"
+blast_radius: localized
+requirement_before: >
+  Tags store a color string, but invalid strings are not constrained by a reusable data-level
+  validator.
+requirement_after: >
+  Tag colors must be valid hexadecimal RGB colors in the form `#RRGGBB`. Invalid values must be
+  rejected when validated directly in the application data layer and when submitted through the
+  existing API. The API representation itself must not gain or lose fields.
+rationale: "Held-out data validation change."
+acceptance_criteria:
+  - "Valid six-digit hexadecimal RGB colors are accepted"
+  - "Malformed colors are rejected"
+  - "The existing tag response shape remains unchanged"
+expected_affected_artifacts:
+  - "todo/models.py"
+expected_actions:
+  "todo/models.py": modify
+regression_obligations: []
+architecture_constraints: []
+hidden_tests: []
