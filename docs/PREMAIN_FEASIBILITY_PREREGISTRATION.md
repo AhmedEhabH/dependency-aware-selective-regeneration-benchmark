@@ -1,5 +1,39 @@
 # Pre-Main Feasibility Preregistration
 
+## PA-005 — RESULTS-RECOVERY-02 native structured-interface amendment
+
+**Date:** 2026-09-06
+
+**Status:** FROZEN before any `scientific-wip-impactplan-v1.1` model call.
+
+**Decision IDs:** D051; A032.
+**Historical evidence:** Preserve `exp-20260905-225518` verbatim. Its 30/30
+terminal and 0/30 functional-validation-reached result diagnoses the v1
+execution interface and is excluded from v1.1 method comparison.
+
+The scientific label is `scientific-wip-impactplan-v1.1`. The model remains
+`qwen/qwen3-coder`. DeepInfra is pinned through the existing OpenRouter
+account with `allow_fallbacks=false` and required-parameter enforcement.
+NovitaAI may be tried once only if DeepInfra rejects required JSON-schema
+structured output at provider/API capability level; providers are never
+compared by result quality.
+
+Only four corrections are authorized: provider-native JSON-schema
+PatchEnvelope; structured Agent actions with calls 1-7 available for
+exploration and call 8 forced to final (no call 9); `search_text` over one file
+or directory; and ImpactPlan/planner provenance preservation through repair
+and failure. Maximum completion budgets are frozen by role before outcomes:
+Agent 1024, ImpactPlan 4096, initial PatchEnvelope 8192, repair PatchEnvelope
+8192. `finish_reason=length` is persisted as truncation/failure and never
+causes cap escalation. Production Tier M/L sizing is documentation only.
+
+Before the 30-cell study, one real non-study Agent probe and one real non-study
+ImpactPlan probe must both reach and pass functional validation, followed by
+exactly six Pre-Benchmark gates, an independent Audit, and the full suite once.
+All 30 cells run automatically only if estimated additional cost is <= $1.50.
+
+---
+
 **Status:** FROZEN 2026-09-04 (before any new real model call).
 **Companions:** `docs/SCIENTIFIC_RESET_DECISION_2026-09-04.md`,
 `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md`, `DECISION_LOG.md` D040–D045.
@@ -462,4 +496,3 @@ itself was correct.
   all unchanged;
 - zero scientific cells have run; `GO_NO_GO=NOT_REACHED`; the previous A2
   failures were operational-gate evidence only.
-

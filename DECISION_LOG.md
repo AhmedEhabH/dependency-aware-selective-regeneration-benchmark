@@ -946,3 +946,17 @@
 - **Alternatives considered:** Ignore trailing content generically - REJECTED (would accept prose/code). Re-run the old parser / model-shop - REJECTED (D049/D047). Add another heuristic beyond the rule - REJECTED (FAST-RESULTS-02: STOP at the THIRD new grammar defect).
 - **Impact:** Primary acceptance gate (A1/A2/A3, `qwen/qwen3-coder` @ DeepInfra pinned, fallback OFF) rerun ONCE; if 3/3 PASS, freeze model/provider, run six gates + Audit + full suite once, estimate cost, then run the frozen 30 Todo cells if <= $2.50. `GO_NO_GO` is `NOT_REACHED` until a scientific result exists (0/30 is NOT a NO-GO).
 - **Evidence:** `_workspace/active/FAST_RESULTS_02_FINAL_RUN_PACK/00_DECISION.md`, `01_EXACT_PATCH_RULE.md`; `tests/unit/execution/test_exact_patch.py::TestExactPatchTrailingMarkerRecovery`; committed in this phase.
+
+---
+
+## Decision D051 - RESULTS-RECOVERY-02: native structured execution interfaces and frozen v1.1 output budgets
+
+- **Date:** 2026-09-06
+- **Decision ID:** D051
+- **Status:** ACCEPTED / FROZEN before any `scientific-wip-impactplan-v1.1` model call.
+- **Category:** Preregistration / Execution Interface / Output Budget / Results Recovery
+- **Description:** Preserve historical experiment `exp-20260905-225518` and its raw records as execution-interface diagnostic evidence (30/30 terminal, 0/30 reached functional validation, approximately $0.298) and do not use it for the v1.1 treatment comparison. The replacement protocol is `scientific-wip-impactplan-v1.1`. Its only authorized interface corrections are: native JSON-schema `PatchEnvelope`; native structured Agent actions with calls 1-7 available for exploration and call 8 forced to `final` (no call 9); `search_text` accepting one file or directory; and ImpactPlan/planner provenance surviving repair and failure. The frozen Todo maximum completion budgets are Agent control 1024, ImpactPlan 4096, initial PatchEnvelope 8192, and repair PatchEnvelope 8192. DeepInfra is pinned through the existing OpenRouter account with fallbacks disabled and required-parameter enforcement; NovitaAI may be tried once only if DeepInfra rejects required JSON-schema output at the provider/API capability level.
+- **Rationale:** The historical run diagnosed execution-interface failures before functional validation. Native provider-enforced schemas remove the scientific path's marker-parser dependency while role-sized ceilings bound cost, latency, repetition, and truncation without using the model's maximum output capacity as an operational default.
+- **Alternatives considered:** Raising Todo outputs to 16384/65536 or dynamically after outcomes - REJECTED. Adding parser heuristics, another model/repository/metric/gate/framework, or comparing providers by quality - REJECTED. Production Tier M/L scaling is documented only and is not implemented in this study.
+- **Impact:** Exactly two real non-study E2E probes must reach and pass functional validation, followed by exactly six Pre-Benchmark gates, an independent audit, and the full suite once. If the estimated additional 30-run cost is at most $1.50, all 30 new v1.1 runs execute automatically with a new experiment ID. Length finishes are persisted as truncation/failure and never trigger a cap increase.
+- **Evidence required:** `docs/LLM_OUTPUT_BUDGET_AND_PRODUCTION_SIZING.md`, focused structured-interface tests, two-arm real acceptance evidence, six-gate and audit evidence, full-suite result, v1.1 RunRecords/results, cost, GO/NO-GO, tag decision, and LIGHT export.

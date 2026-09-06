@@ -1,5 +1,17 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
+> **CURRENT STATE (2026-09-06, RESULTS-RECOVERY-02):** the active protocol is
+> `scientific-wip-impactplan-v1.1`. Preserve `exp-20260905-225518` verbatim as
+> invalidated-for-comparison execution-interface diagnostic evidence. Implement
+> only the four D051 corrections: native JSON-schema PatchEnvelope; structured
+> Agent actions with calls 1-7 exploration and call 8 forced final; file or
+> directory `search_text`; and ImpactPlan/planner provenance through repair and
+> failure. Model `qwen/qwen3-coder`, pinned DeepInfra through OpenRouter,
+> fallback off; caps 1024/4096/8192/8192. Production Tier M/L scaling is not
+> implemented. Continue through two real probes, exactly six gates, Audit, one
+> full suite, <=$1.50 cost authorization, 30 runs, results, push, evidence-tag
+> decision, and LIGHT export, then stop.
+
 > **CURRENT STATE (2026-09-05, IMPACTPLAN-WIP-01 — UNIFIED RESEARCH PATH; SCIENTIFIC-WIP-IMPACTPLAN-V1 FROZEN):**
 > **CURRENT SCIENTIFIC TARGET = `SCIENTIFIC-WIP-IMPACTPLAN-V1`** — the
 > Stage-C first-class persisted `ImpactPlan` treatment for the Selective arm: 3
