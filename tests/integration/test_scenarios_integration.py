@@ -382,7 +382,7 @@ class TestRealScenarioLoading:
             parts = s.scenario_id.split("-")
             assert len(parts) == 3, f"Unexpected scenario_id format: {s.scenario_id}"
             assert parts[0] in ("todo", "djangocms", "saleor")
-            assert parts[1] in ("loc", "mod", "cross", "smoke")
+            assert parts[1] in ("loc", "mod", "cross", "smoke", "heldout")
             assert parts[2].isdigit()
 
     def test_blast_radius_distribution(self) -> None:
