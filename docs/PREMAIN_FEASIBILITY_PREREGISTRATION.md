@@ -32,6 +32,13 @@ ImpactPlan probe must both reach and pass functional validation, followed by
 exactly six Pre-Benchmark gates, an independent Audit, and the full suite once.
 All 30 cells run automatically only if estimated additional cost is <= $1.50.
 
+**Execution outcome (2026-09-06):** COMPLETED. Two real probes PASS; six gates
+PASS; Audit PASS; full suite **2825 passed / 33 skipped / 0 failed** once.
+30-run study `exp-20260906-v11` = 30/30 attempted, 5/30 functional-validation
+reached, **0/30 passed**, actual API cost `$0.1789`; **GO_NO_GO=NO-GO** (G1
+correctness not cleared). Results + decision pushed; evidence tag
+`wip-impactplan-v1.1-evidence` (not a release tag).
+
 ---
 
 **Status:** FROZEN 2026-09-04 (before any new real model call).

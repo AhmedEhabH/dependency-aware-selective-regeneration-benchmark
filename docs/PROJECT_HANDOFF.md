@@ -1,16 +1,22 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-09-06, RESULTS-RECOVERY-02):** the active protocol is
-> `scientific-wip-impactplan-v1.1`. Preserve `exp-20260905-225518` verbatim as
-> invalidated-for-comparison execution-interface diagnostic evidence. Implement
+> **CURRENT STATE (2026-09-06, RESULTS-RECOVERY-02 COMPLETE — v1.1 EVIDENCE
+> PRODUCED; GO/NO-GO=NO-GO; NOT A RELEASE; NO STABLE TAG MOVE):** the active
+> protocol `scientific-wip-impactplan-v1.1` was executed end to end under
+> D051/A032. Historical `exp-20260905-225518` preserved verbatim. Implemented
 > only the four D051 corrections: native JSON-schema PatchEnvelope; structured
 > Agent actions with calls 1-7 exploration and call 8 forced final; file or
 > directory `search_text`; and ImpactPlan/planner provenance through repair and
 > failure. Model `qwen/qwen3-coder`, pinned DeepInfra through OpenRouter,
-> fallback off; caps 1024/4096/8192/8192. Production Tier M/L scaling is not
-> implemented. Continue through two real probes, exactly six gates, Audit, one
-> full suite, <=$1.50 cost authorization, 30 runs, results, push, evidence-tag
-> decision, and LIGHT export, then stop.
+> fallback off; caps 1024/4096/8192/8192. Two real non-study E2E probes PASS;
+> exactly six gates PASS; Audit PASS; full suite **2825 passed / 33 skipped / 0
+> failed**; cost gate <= $1.50. 30-run study `exp-20260906-v11`: 30/30
+> attempted, 5/30 functional-validation reached, **0/30 passed**, actual API
+> cost `$0.1789`, **GO_NO_GO=NO-GO** (G1 not cleared in any scenario). Results
+> `reports/SCIENTIFIC_MICROSTUDY_V11_RESULTS.csv/.md` + DECISION pushed;
+> evidence tag `wip-impactplan-v1.1-evidence` created (not a release tag);
+> LIGHT export produced. Next: external independent audit of the NO-GO v1.1
+> evidence; no scientific rerun without a new preregistration.
 
 > **CURRENT STATE (2026-09-05, IMPACTPLAN-WIP-01 — UNIFIED RESEARCH PATH; SCIENTIFIC-WIP-IMPACTPLAN-V1 FROZEN):**
 > **CURRENT SCIENTIFIC TARGET = `SCIENTIFIC-WIP-IMPACTPLAN-V1`** — the

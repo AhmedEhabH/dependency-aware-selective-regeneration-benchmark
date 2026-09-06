@@ -917,6 +917,15 @@ D051 freezes role-sized maximum completion budgets before v1.1 outcomes: Agent c
 
 Status: **CHANGED on 2026-09-06; D051.**
 
+### Execution confirmation (2026-09-06)
+The frozen role budgets were used for the full 30-run v1.1 study
+(`exp-20260906-v11`): Agent 1024, ImpactPlan 4096, initial PatchEnvelope 8192,
+repair PatchEnvelope 8192. **0 `finish_reason=length` truncations** were
+observed across all 335 model calls; actual completion tokens stayed well
+below every role ceiling (actual API cost `$0.1789`). No cap was raised after
+outcomes. The assumption that role-sized budgets are sufficient for the Todo
+universe is confirmed by execution, not by the model's advertised maximum.
+
 ---
 
 # 4. Latest real Kaggle attempt — 2026-09-01
