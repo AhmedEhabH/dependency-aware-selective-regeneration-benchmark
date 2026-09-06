@@ -1,18 +1,20 @@
 {
-  "frozen_at": "2026-09-05T19:22:52.354310+00:00",
+  "frozen_at": "2026-09-06T12:44:23.378896+00:00",
   "model": "qwen/qwen3-coder",
   "provider": "DeepInfra",
   "backend": "openrouter",
   "identity": "openrouter:qwen/qwen3-coder@DeepInfra",
-  "protocol": "scientific-wip-impactplan-v1",
+  "protocol": "scientific-wip-impactplan-v1.1",
   "temperature": 0.0,
   "mode": "direct/non-thinking",
   "provider_fallbacks": false,
   "require_parameters": true,
   "call_timeout_seconds": 120,
   "workflow_timeout_seconds": 900,
-  "source_edit_cap": 4096,
-  "agent_control_cap": 512,
+  "impact_plan_cap": 4096,
+  "source_edit_cap": 8192,
+  "repair_patch_cap": 8192,
+  "agent_control_cap": 1024,
   "max_attempts": 3,
   "retry_policy": "transient 429/5xx/transport retry max=1; 4xx never retried",
   "pricing": {
@@ -23,10 +25,10 @@
     "prompt_per_token_usd": "0.0000003",
     "completion_per_token_usd": "0.000001",
     "input_cache_read_per_token_usd": "0.0000001",
-    "fetched_at": "2026-09-05T19:22:52.317244+00:00"
+    "fetched_at": "2026-09-06T12:44:23.343886+00:00"
   },
-  "pricing_timestamp": "2026-09-05T19:22:52.354310+00:00",
-  "acceptance_report_hash": "b82e46c4a6f0ab93aed602b9edead45fc18b3fabd349d8389a954f957519d81b",
-  "preregistration_amendment_commit": "fb6e87d3b476cccf59d562079fd98e34fdb091d1",
-  "source_commit": "fb6e87d3b476cccf59d562079fd98e34fdb091d1"
+  "pricing_timestamp": "2026-09-06T12:44:23.378896+00:00",
+  "acceptance_report_hash": "7dcd23c2ebac34d41eae7c424e6c6a7b48f2c9f7c14f13ac4b0922b1d71aba65",
+  "preregistration_amendment_commit": "a430eaa2218add909bdcb0f93f9ea06104f6748b",
+  "source_commit": "a430eaa2218add909bdcb0f93f9ea06104f6748b"
 }
