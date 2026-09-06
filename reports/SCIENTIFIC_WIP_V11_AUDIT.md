@@ -91,9 +91,15 @@ of scientific success.
 - No new model, repository, metric, gate, graph/retrieval/agent framework,
   parser heuristic, or cap escalation.
 - Production Tier M/L sizing is documentation only (not implemented).
-- One narrow defect fixed during execution: acceptance-gate capability probe
-  awaited the async `generate_structured` correctly (asyncio.run), a real
-  runtime defect; no scope added.
+- Two narrow demonstrated-defect fixes during execution, both re-verified:
+  1. Acceptance-gate capability probe awaited the async `generate_structured`
+     correctly (asyncio.run) — real runtime defect, no scope added.
+  2. `agent_final` JSON schema dropped `uniqueItems` because DeepInfra's strict
+     JSON-schema grammar rejects it (`Unimplemented keys: ["uniqueItems"]`).
+     Uniqueness of `selected_paths` was already enforced deterministically in
+     the agent control loop (`iterative_agent.py` duplicate check), so no
+     semantic guarantee was lost. Acceptance gate re-passed after the fix
+     (2/2 E2E reach and pass functional validation; 0 truncations).
 - Result: PASS.
 
 ## Audit summary
