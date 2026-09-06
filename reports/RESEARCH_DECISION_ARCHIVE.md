@@ -142,3 +142,27 @@ references only - no submission-ready paper prose.
 - **commit hash:** (recorded with the Phase-0 freeze commit)
 - **exact paths to raw evidence/reports:** future `reports/scientific_stagec_heldout_01/run_records.jsonl` (this study); prior D052 records at `reports/scientific_stagec_selection_01/` preserved.
 - **pre-data or post-data status:** PRE-DATA
+
+---
+
+## Entry 9: held-out challenge-01 60-run result + stop-rule conclusion (POST-DATA)
+
+- **timestamp:** 2026-09-07 (post-60-run)
+- **decision ID/title:** STAGE-C-HELDOUT-CHALLENGE-01 result — 60/60 selection cells; stop-rule conclusion
+- **what was decided:** Ran all 60 selection cells (6 held-out user-level scenarios x 2 arms x 5 reps) on qwen/qwen3-coder @ DeepInfra pinned, fallback OFF, temperature 0, selection-only, Agent cap 1024 / ImpactPlan cap 4096. Every valid outcome persisted; no rerun of any unfavorable-but-valid result.
+- **why:** This is the LAST Todo selection experiment; the frozen stop rule requires reporting the exact result and concluding whether Todo whole-file selection is saturated.
+- **exact evidence supporting it:**
+  - Raw records (60): `reports/scientific_stagec_heldout_01/run_records.jsonl` (SHA-256 `edc3cf098af4d8163093e3b6b3f72c1a9829687add57cdbfcafbc606af3c290`), experiment `exp-20260907-013332`, source commit `01c3565`, config hash `71649a18bfb8ddf6`
+  - Result CSV: `reports/STAGEC_HELDOUT_01_RESULTS.csv` (SHA-256 `6b28416f4dcd16d2604127cd899321ac7fd6b38520104bd8b2cc9400eb60b8bc`)
+  - Tables/decision: `reports/STAGEC_HELDOUT_01_RESULTS.md` (SHA-256 `611e717580a6d7b2bbeb873b0a8d702022c2cd177b64d78c617db8f84bb9d751b`), `reports/STAGEC_HELDOUT_01_DECISION.md` (SHA-256 `164d1715693c12744cadce80fd7588931e63d3cf5f0cb7aa026b83dc683fadd9`)
+  - Six-gate + audit: `reports/STAGEC_HELDOUT_01_PREBENCHMARK_VALIDATION.md` (SHA-256 `4c9bfd83057ce81f92270e9c0d490147dc31a7f968d158c99d54ad16eaa3e3f98`), `reports/STAGEC_HELDOUT_01_AUDIT.md`
+  - Cost estimate: `reports/STAGEC_HELDOUT_01_COST_ESTIMATE.md`
+  - Prior ceiling: `reports/STAGEC_SELECTION_01_RESULTS.md` (smoke: 15/15 full recall per arm, P/R/F1 1.0)
+- **result (exact):** 60/60 attempted, 60/60 valid finals (0 failed), **full recall 30/30 per arm (100%)**. Precision mean: Agent 0.8778 (median 1.0), ImpactPlan 0.7694 (median 0.75); F1 mean: Agent 0.9200, ImpactPlan 0.8540; FNR 0.000 both arm aggregates; write-set size mean Agent 2.27 / ImpactPlan 2.60. ImpactPlan descriptive: R=78, P=51, V=21, H=0 (validate_only rate 14%). Efficiency: ImpactPlan vs Agent tokens -72.98%, model calls -86.36% (30 vs 220), API cost -47.51%, latency -51.81%. Exact total API cost $0.104760.
+- **impact (trade-offs):** ImpactPlan matches full recall with ~73% fewer tokens / ~86% fewer calls / ~48% lower cost / ~52% lower latency, but is less precise (over-selects more; write-set 2.60 vs 2.27). Agent is more precise (F1 0.920 vs 0.854) at ~2x the cost.
+- **alternative(s) rejected + why:** Rerunning any valid unfavorable result REJECTED (frozen protocol); tuning caps/prompts after seeing precision REJECTED (no post-hoc tuning); adding more Todo scenarios REJECTED (pack stop rule: DO NOT add more Todo selection scenarios).
+- **affected protocol/config/artifacts:** none (study is terminal).
+- **commit hash:** (recorded with the durability commit)
+- **exact paths to raw evidence/reports:** as listed above.
+- **pre-data or post-data status:** POST-DATA
+- **stop-rule conclusion:** **`TODO_SELECTION_SATURATED=NO`** — whole-file gold RECALL is saturated (30/30 both arms, 100%) but per-file selection PRECISION is not: the held-out challenge broke the smoke ceiling, both arms over-select, and a measurable between-arm difference appeared (precision 0.878 vs 0.769; F1 0.920 vs 0.854). Per D053 this is reported exactly without tuning/rerunning, and no further Todo selection scenarios will be added.
