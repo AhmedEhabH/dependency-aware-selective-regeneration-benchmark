@@ -20,16 +20,15 @@ from __future__ import annotations
 import csv
 import json
 import statistics
+import sys
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-import sys
-
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from benchmark.checkpoint.persistence import RunRecordData
+from benchmark.checkpoint.persistence import RunRecordData  # noqa: E402
 
 FIVE_FILE_UNIVERSE = frozenset(
     {
@@ -206,15 +205,12 @@ def agg_table(
         gold = gold_map.get(scenario_id, set())
         n = len(recs)
         valid = [r for r in recs if r.get("status") == "succeeded"]
-        metrics = [compute_run_metrics(set((r.get("predicted_actions") or {}).keys()), gold) for r in recs]
         regen_sets = [
             {p for p, a in (r.get("predicted_actions") or {}).items() if a == "regenerate"}
             for r in recs
         ]
-        full_recall = sum(1 for r in recs if compute_run_metrics(
-            {p for p, a in (r.get("predicted_actions") or {}).items() if a == "regenerate"},
-            gold,
-        )["full_recall"])
+        metrics = [compute_run_metrics(s, gold) for s in regen_sets]
+        full_recall = sum(1 for m in metrics if m["full_recall"])
         write_sets = [len(s) for s in regen_sets]
         calls = [int(r.get("total_workflow_model_calls", 0)) for r in recs]
         tokens = [int((r.get("token_usage") or {}).get("total", 0)) for r in recs]
@@ -245,9 +241,13 @@ def agg_table(
 
         if strategy_id == STRATEGY_AGENT:
             finalized = sum(1 for r in recs if r.get("status") == "succeeded")
-            tool_calls = [int((r.get("selection_study") or {}).get("agent_tool_calls", 0)) for r in recs]
+            tool_calls = [int(r.get("selection_tool_calls", 0)) for r in recs]
+            control_calls = [int(r.get("selection_model_calls", 0)) for r in recs]
+            inspected = [int(r.get("selection_inspected_file_count", 0)) for r in recs]
             row["agent_finalization_rate"] = (finalized / n) if n else 0.0
             row["agent_tool_calls"] = sum(tool_calls)
+            row["agent_control_calls"] = sum(control_calls)
+            row["agent_inspected_files"] = sum(inspected)
         if strategy_id == STRATEGY_IMPACT_PLAN:
             rates = [_impact_plan_rates(r) for r in recs]
             row["R"] = sum(x["R"] for x in rates)
@@ -301,20 +301,76 @@ def build(
     agent_groups = {k: v for k, v in groups.items() if k[1] == STRATEGY_AGENT}
     impact_groups = {k: v for k, v in groups.items() if k[1] == STRATEGY_IMPACT_PLAN}
 
-    def _arm_agg(subgroups: dict[tuple[str, str], list[dict[str, Any]]]) -> list[dict[str, Any]]:
+    def _arm_agg(
+        subgroups: dict[tuple[str, str], list[dict[str, Any]]],
+        arm_label: str,
+    ) -> list[dict[str, Any]]:
+        """Aggregate one arm across ALL its scenarios.
+
+        Metrics are computed PER RUN against that run's OWN scenario gold and
+        then averaged/medians over the arm (never against a union gold).
+        """
         if not subgroups:
             return []
         all_recs: list[dict[str, Any]] = []
         for v in subgroups.values():
             all_recs.extend(v)
-        agg_gold: set[str] = set()
-        for k in subgroups:
-            agg_gold |= gold_map.get(k[0], set())
-        sub = {("__all__", "__all__"): all_recs}
-        return agg_table(sub, {"__all__": agg_gold}, pricing)
+        n = len(all_recs)
+        valid = [r for r in all_recs if r.get("status") == "succeeded"]
+        per_run: list[dict[str, Any]] = []
+        for r in all_recs:
+            sid = r.get("scenario_id", "")
+            gold = gold_map.get(sid, set())
+            regen = {p for p, a in (r.get("predicted_actions") or {}).items() if a == "regenerate"}
+            per_run.append(compute_run_metrics(regen, gold))
+        full_recall = sum(1 for m in per_run if m["full_recall"])
+        write_sets = [m["write_set_size"] for m in per_run]
+        calls = [int(r.get("total_workflow_model_calls", 0)) for r in all_recs]
+        tokens = [int((r.get("token_usage") or {}).get("total", 0)) for r in all_recs]
+        latency = [float(r.get("total_workflow_duration_seconds", 0.0)) for r in all_recs]
 
-    agents = _arm_agg(agent_groups)
-    impact_plans = _arm_agg(impact_groups)
+        row: dict[str, Any] = {
+            "scenario_id": "__all__",
+            "strategy_id": arm_label,
+            "n": n,
+            "valid_finals": len(valid),
+            "full_recall_count": full_recall,
+            "precision_mean": _mean_median([m["precision"] for m in per_run])[0],
+            "precision_median": _mean_median([m["precision"] for m in per_run])[1],
+            "recall_mean": _mean_median([m["recall"] for m in per_run])[0],
+            "recall_median": _mean_median([m["recall"] for m in per_run])[1],
+            "f1_mean": _mean_median([m["f1"] for m in per_run])[0],
+            "f1_median": _mean_median([m["f1"] for m in per_run])[1],
+            "fnr_mean": _mean_median([m["fnr"] for m in per_run])[0],
+            "fnr_median": _mean_median([m["fnr"] for m in per_run])[1],
+            "write_set_size_mean": _mean_median(write_sets)[0] if write_sets else 0.0,
+            "write_set_size_median": _mean_median(write_sets)[1] if write_sets else 0.0,
+            "model_calls": sum(calls),
+            "tokens": sum(tokens),
+            "latency_seconds": sum(latency),
+            "api_cost_usd": sum(_record_cost(r, pricing) for r in all_recs),
+        }
+
+        if arm_label == STRATEGY_AGENT:
+            tool_calls = [int(r.get("selection_tool_calls", 0)) for r in all_recs]
+            control_calls = [int(r.get("selection_model_calls", 0)) for r in all_recs]
+            inspected = [int(r.get("selection_inspected_file_count", 0)) for r in all_recs]
+            row["agent_finalization_rate"] = (len(valid) / n) if n else 0.0
+            row["agent_tool_calls"] = sum(tool_calls)
+            row["agent_control_calls"] = sum(control_calls)
+            row["agent_inspected_files"] = sum(inspected)
+        if arm_label == STRATEGY_IMPACT_PLAN:
+            rates = [_impact_plan_rates(r) for r in all_recs]
+            row["R"] = sum(x["R"] for x in rates)
+            row["P"] = sum(x["P"] for x in rates)
+            row["V"] = sum(x["V"] for x in rates)
+            row["H"] = sum(x["H"] for x in rates)
+            row["human_review_rate_mean"] = _mean_median([x["human_review_rate"] for x in rates])[0]
+            row["validate_only_rate_mean"] = _mean_median([x["validate_only_rate"] for x in rates])[0]
+        return [row]
+
+    agents = _arm_agg(agent_groups, STRATEGY_AGENT)
+    impact_plans = _arm_agg(impact_groups, STRATEGY_IMPACT_PLAN)
 
     cost_usd = sum(_record_cost(r, pricing) for r in rec_dicts)
     return {
