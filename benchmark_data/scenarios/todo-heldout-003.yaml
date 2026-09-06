@@ -1,0 +1,27 @@
+scenario_id: "todo-heldout-003"
+repository: todo
+change_type: "Project archival"
+blast_radius: moderate
+requirement_before: >
+  Projects cannot be archived and every project is returned by the normal project listing.
+requirement_after: >
+  Projects must support an archived state that API clients can read and change. Normal project
+  listings hide archived projects by default. Supplying `include_archived=true` includes both
+  active and archived projects. Existing tasks and tags must keep their current behavior.
+rationale: "Held-out schema + representation + list behavior change."
+acceptance_criteria:
+  - "Projects have an archived state defaulting to false"
+  - "Clients can read and update the archived state"
+  - "Normal listings exclude archived projects"
+  - "`include_archived=true` includes archived projects"
+expected_affected_artifacts:
+  - "todo/models.py"
+  - "todo/serializers.py"
+  - "todo/views.py"
+expected_actions:
+  "todo/models.py": modify
+  "todo/serializers.py": modify
+  "todo/views.py": modify
+regression_obligations: []
+architecture_constraints: []
+hidden_tests: []

@@ -1,0 +1,27 @@
+scenario_id: "todo-heldout-005"
+repository: todo
+change_type: "Tag authorization policy"
+blast_radius: moderate
+requirement_before: >
+  Any authenticated user can currently pass the collection-level authorization used when
+  creating tags.
+requirement_after: >
+  Authenticated users may continue reading tags, but only staff users may create, update or
+  delete them. Project and task authorization behavior must remain unchanged. The write policy
+  must be represented as reusable authorization logic rather than duplicated request-method
+  conditionals in endpoint code.
+rationale: "Held-out reusable authorization change."
+acceptance_criteria:
+  - "Authenticated non-staff users can read tags"
+  - "Authenticated non-staff users cannot create, update or delete tags"
+  - "Staff users can perform tag writes"
+  - "Project and task authorization behavior is unchanged"
+expected_affected_artifacts:
+  - "todo/permissions.py"
+  - "todo/views.py"
+expected_actions:
+  "todo/permissions.py": modify
+  "todo/views.py": modify
+regression_obligations: []
+architecture_constraints: []
+hidden_tests: []

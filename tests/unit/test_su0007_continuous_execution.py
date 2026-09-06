@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from datetime import UTC, datetime
@@ -579,6 +580,65 @@ class TestMaxRunsOneIdentity:
         h1 = _compute_config_hash(args)
         h2 = _compute_config_hash(args)
         assert h1 == h2
+
+
+class TestConfigHashProtocol12Controls:
+    """D13R2 Fix 4 — config identity must distinguish Protocol-1.2 execution
+    controls (exact_patch, agent_control_max_completion_tokens)."""
+
+    def _args(
+        self,
+        *,
+        exact_patch: bool = True,
+        agent_control_max_completion_tokens: int = 512,
+    ) -> argparse.Namespace:
+        import argparse
+
+        return argparse.Namespace(
+            dry_run=True,
+            profile="pilot",
+            strategy=None,
+            max_attempts=3,
+            timeout=1200,
+            protocol_version="1.2",
+            max_completion_tokens_per_call=4096,
+            max_total_workflow_tokens=0,
+            max_tokens=0,
+            qwen_quantization="bnb-nf4",
+            exact_patch=exact_patch,
+            agent_control_max_completion_tokens=agent_control_max_completion_tokens,
+        )
+
+    def test_same_args_produce_same_hash(self) -> None:
+        from seven_arm_benchmark import _compute_config_hash
+
+        assert _compute_config_hash(self._args()) == _compute_config_hash(self._args())
+
+    def test_exact_patch_true_vs_false_changes_hash(self) -> None:
+        from seven_arm_benchmark import _compute_config_hash
+
+        assert (
+            _compute_config_hash(self._args(exact_patch=True))
+            != _compute_config_hash(self._args(exact_patch=False))
+        )
+
+    def test_agent_cap_512_vs_256_changes_hash(self) -> None:
+        from seven_arm_benchmark import _compute_config_hash
+
+        assert (
+            _compute_config_hash(self._args(agent_control_max_completion_tokens=512))
+            != _compute_config_hash(self._args(agent_control_max_completion_tokens=256))
+        )
+
+    def test_max_runs_does_not_change_hash_even_with_controls(self) -> None:
+        from seven_arm_benchmark import _compute_config_hash
+
+        args = self._args()
+        args.max_runs = 0
+        h_runs0 = _compute_config_hash(args)
+        args.max_runs = 7
+        h_runs7 = _compute_config_hash(args)
+        assert h_runs0 == h_runs7
 
     def test_max_runs_does_not_change_scenarios_or_strategies(self, tmp_path: Path) -> None:
         _make_checkpoint(tmp_path)

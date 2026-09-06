@@ -32,13 +32,34 @@ class OpenRouterBackend:
         api_key_env: str = "OPENROUTER_API_KEY",
         base_url: str = "https://openrouter.ai/api/v1",
         timeout_seconds: float = 120.0,
+        provider: str | None = None,
+        max_transient_retries: int = 1,
     ) -> None:
         if timeout_seconds < 0:
             raise ValueError("timeout_seconds must be >= 0")
+        if max_transient_retries < 0:
+            raise ValueError("max_transient_retries must be >= 0")
         self._model = model
         self._api_key_env = api_key_env
         self._base_url = base_url.rstrip("/")
         self._timeout_seconds = timeout_seconds
+        self._provider = provider
+        self._max_transient_retries = max_transient_retries
+        self.transient_retry_count = 0
+
+    @property
+    def model(self) -> str:
+        return self._model
+
+    @property
+    def provider(self) -> str | None:
+        return self._provider
+
+    @property
+    def model_identity(self) -> str:
+        if self._provider:
+            return f"openrouter:{self._model}@{self._provider}"
+        return f"openrouter:{self._model}"
 
     def __repr__(self) -> str:
         return f"OpenRouterBackend(model={self._model!r})"
@@ -52,13 +73,16 @@ class OpenRouterBackend:
             raise ModelBackendError(
                 f"API key not found in environment variable {self._api_key_env}"
             )
-        return key
+        # Strip stray surrounding whitespace/quotes (common env-paste artifact)
+        return key.strip().strip('"').strip("'").strip()
 
     async def generate(
         self,
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 4096,
+        *,
+        response_format: dict[str, Any] | None = None,
     ) -> LLMResponse:
         api_key = self._get_api_key()
         url = f"{self._base_url}/chat/completions"
@@ -70,6 +94,17 @@ class OpenRouterBackend:
             "max_tokens": max_tokens,
             "stream": False,
         }
+        if response_format is not None:
+            body["response_format"] = response_format
+        if self._provider:
+            # Scientific contract (D046 / PA-001): exactly one pinned provider,
+            # no automatic cross-provider fallback, requested parameters must
+            # be honored where the provider advertises support.
+            body["provider"] = {
+                "order": [self._provider],
+                "allow_fallbacks": False,
+                "require_parameters": True,
+            }
         request_data = json.dumps(body).encode("utf-8")
 
         req = urllib.request.Request(
@@ -82,18 +117,32 @@ class OpenRouterBackend:
             method="POST",
         )
 
-        try:
-            response_data: bytes = await asyncio.to_thread(
-                self._do_request, req, api_key
-            )
-        except ModelBackendError:
-            raise
-        except Exception as exc:
-            msg = _redact(_safe_exc_message(exc), api_key)
-            raise ModelBackendError(
-                f"OpenRouter request failed: {msg}"
-            ) from exc
+        self.transient_retry_count = 0
+        response_data: bytes | None = None
+        for attempt in range(self._max_transient_retries + 1):
+            try:
+                response_data = await asyncio.to_thread(
+                    self._do_request, req, api_key
+                )
+                break
+            except ModelBackendError as exc:
+                if attempt < self._max_transient_retries and _is_transient_exception(exc):
+                    self.transient_retry_count = attempt + 1
+                    continue
+                raise
+            except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as exc:
+                if attempt < self._max_transient_retries and _is_transient_exception(exc):
+                    self.transient_retry_count = attempt + 1
+                    continue
+                msg = _redact(_safe_exc_message(exc), api_key)
+                raise ModelBackendError(f"OpenRouter request failed: {msg}") from exc
+            except Exception as exc:
+                msg = _redact(_safe_exc_message(exc), api_key)
+                raise ModelBackendError(
+                    f"OpenRouter request failed: {msg}"
+                ) from exc
 
+        assert response_data is not None
         try:
             parsed = json.loads(response_data)
         except json.JSONDecodeError as exc:
@@ -103,6 +152,39 @@ class OpenRouterBackend:
             ) from exc
 
         return _parse_openrouter_response(parsed)
+
+    async def generate_structured(
+        self,
+        prompt: str,
+        *,
+        schema_name: str,
+        schema: dict[str, Any],
+        temperature: float = 0.0,
+        max_tokens: int = 4096,
+    ) -> LLMResponse:
+        """Generate provider-native strict JSON-schema output.
+
+        The ordinary ``generate`` API remains backward compatible. Scientific
+        structured callers use this explicit method so their configured role
+        cap and schema are both visible at the transport boundary.
+        """
+        if not schema_name or not schema_name.strip():
+            raise ValueError("schema_name must be non-empty")
+        if not isinstance(schema, dict) or not schema:
+            raise ValueError("schema must be a non-empty object")
+        return await self.generate(
+            prompt,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            response_format={
+                "type": "json_schema",
+                "json_schema": {
+                    "name": schema_name,
+                    "strict": True,
+                    "schema": schema,
+                },
+            },
+        )
 
     def _do_request(
         self, req: urllib.request.Request, api_key: str
@@ -126,6 +208,26 @@ class OpenRouterBackend:
             raise ModelBackendError(
                 f"OpenRouter request timed out after {self._timeout_seconds}s"
             ) from exc
+
+
+def _is_transient_exception(exc: BaseException) -> bool:
+    """A transient transport/rate-limit/5xx error is retryable once.
+
+    4xx content/auth errors (e.g. HTTP 401/400/403/404) are NEVER retried:
+    retry-on-auth would hammer the endpoint and mask a frozen-key defect.
+    """
+    if isinstance(exc, urllib.error.HTTPError):
+        return exc.code == 429 or 500 <= exc.code < 600
+    if isinstance(exc, (urllib.error.URLError, TimeoutError)):
+        return True
+    if isinstance(exc, Exception):
+        msg = _safe_exc_message(exc)
+        if "OpenRouter HTTP 429" in msg:
+            return True
+        if "OpenRouter connection failed" in msg:
+            return True
+        return "OpenRouter HTTP 5" in msg or "timed out" in msg
+    return False
 
 
 def _safe_exc_message(exc: Exception) -> str:

@@ -52,6 +52,7 @@ class ExecutionConfig(BaseModel, frozen=True):
     evidence_tier: EvidenceTier = EvidenceTier.engineering_validation
     max_completion_tokens_per_call: int = Field(default=4096, ge=1, strict=True)
     max_total_workflow_tokens: int = Field(default=0, ge=0, strict=True)
+    agent_control_max_completion_tokens: int = Field(default=512, ge=1, strict=True)
     repetitions: int = Field(default=1, ge=1)
 
     @model_validator(mode="after")
@@ -82,7 +83,7 @@ class OutputConfig(BaseModel, frozen=True):
 
 
 class BenchmarkConfig(BaseModel, frozen=True):
-    protocol_version: str = "1.0"
+    protocol_version: str = "1.1"
     execution_mode: Literal["local", "kaggle"] = "local"
     strategies: list[StrategyConfig] = Field(default_factory=list)
     backends: list[BackendConfig] = Field(default_factory=list)

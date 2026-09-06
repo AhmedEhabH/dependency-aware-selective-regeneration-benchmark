@@ -26,9 +26,12 @@ import shutil
 import subprocess
 import sys
 import time
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+
+from benchmark.llm.kaggle_qwen_backend import GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +43,13 @@ CANONICAL_ALLOC_CONF = "expandable_segments:True"
 BASELINE_REPO = "todo"
 LONG_CONTEXT_TARGET_PROMPT_TOKENS = 12000
 LONG_CONTEXT_MAX_TOKENS = 64
+
+# D9: real-Qwen generation-deadline canary. The canary installs a deterministic
+# counter guard that becomes false after a tiny bounded number of stopping-
+# criterion checks, so the workflow-deadline path (NOT EOS/length) is proven
+# target-side after only a few decode tokens. completion_tokens is bounded to
+# this tiny range (>= 1 and <= the check limit); the canonical bound constant
+# lives in the backend and is imported above (single source of truth).
 
 _REPO_PREFLIGHT_BLOCKED_SUFFIX = "repository preflight failed"
 
@@ -122,7 +132,9 @@ class KaggleSmokePreflightResult:
     requested_attn_implementation: str = ""
     effective_attn_implementation: str = ""
     sdpa_kernel_policy: str = ""
+    gqa_compatibility_mode: str = ""
     long_context_probe: dict[str, Any] | None = None
+    generation_deadline_probe: dict[str, Any] | None = None
     dependencies: tuple[tuple[str, str], ...] = ()
     duration_seconds: float = 0.0
 
@@ -263,8 +275,11 @@ def _qwen_probe_metrics(
             model_path=model_path,
             quantization_mode=quantization_mode,
         )
+    # V0.9.22 T4 GQA closure: load evidence is collected INDEPENDENTLY of the
+    # short-generation probe. A generation failure (e.g. T4 "No available
+    # kernel") must not erase the truthful "weights loaded" evidence, so the
+    # reported qwen_model_load stays PASS and the memory footprint stays > 0.
     backend.load()
-    response = backend.run_probe(max_tokens=PROBE_MAX_TOKENS, prompt=PROBE_PROMPT)
 
     import torch
 
@@ -300,15 +315,48 @@ def _qwen_probe_metrics(
             getattr(backend, "effective_attention_implementation", "") or ""
         ),
         "sdpa_kernel_policy": str(getattr(backend, "sdpa_kernel_policy", "") or ""),
+        # V0.9.22 T4 GQA repeat-KV compatibility mode (repeat_kv_sm75 on sm75).
+        "gqa_compatibility_mode": str(getattr(backend, "gqa_compatibility_mode", "") or ""),
         "gpu_count": gpu_count,
         "gpu_name": gpu_name,
         "gpu_vram_by_device": snapshots,
         "allocated_vram_gib": round(allocated_gib, 3),
         "reserved_vram_gib": round(reserved_gib, 3),
         "free_vram_after_probe_gib": round(free_gib, 3),
-        "probe_prompt_tokens": response.token_usage.prompt_tokens,
-        "probe_completion_tokens": response.token_usage.completion_tokens,
+        "probe_prompt_tokens": 0,
+        "probe_completion_tokens": 0,
+        # Populated by the separate short-generation probe stage; empty means the
+        # probe has not run yet or failed (load evidence above is preserved).
+        "short_generation_probe_error": "",
     }
+
+    # Short deterministic generation probe, kept separate from load evidence so
+    # a generation failure cannot rewrite load metrics to zero/N/A.
+    try:
+        response = backend.run_probe(max_tokens=PROBE_MAX_TOKENS, prompt=PROBE_PROMPT)
+        metrics["probe_prompt_tokens"] = int(response.token_usage.prompt_tokens)
+        metrics["probe_completion_tokens"] = int(response.token_usage.completion_tokens)
+    except Exception as exc:
+        metrics["short_generation_probe_error"] = f"{type(exc).__name__}: {exc}"
+
+    # D9: cheap real-Qwen generation-deadline canary (workflow-deadline path, not
+    # EOS/length). Fail-closed: any error becomes a non-passing canary that the
+    # launch-authorization gate rejects. Only the real backend provides the probe;
+    # mocked unit backends simply omit it (their legacy assertions are unaffected,
+    # while a real launch always requires it).
+    canary_runner = getattr(backend, "run_generation_deadline_probe", None)
+    if callable(canary_runner):
+        try:
+            metrics["generation_deadline_probe"] = canary_runner()
+        except Exception as exc:
+            metrics["generation_deadline_probe"] = {
+                "passed": False,
+                "deadline_fired": False,
+                "finish_reason": "",
+                "completion_tokens": 0,
+                "error": f"{type(exc).__name__}: {exc}",
+            }
+
     return metrics
 
 
@@ -340,10 +388,11 @@ def _run_long_context_probe(
             quantization_mode=quantization_mode,
         )
         lc_backend.load()
-    return lc_backend.run_long_context_probe(
+    result = lc_backend.run_long_context_probe(
         target_prompt_tokens=LONG_CONTEXT_TARGET_PROMPT_TOKENS,
         max_tokens=LONG_CONTEXT_MAX_TOKENS,
     )
+    return dict(result)
 
 
 def _static_model_metadata(
@@ -392,6 +441,50 @@ def _static_model_metadata(
     except Exception:
         pass
     return metadata
+
+
+def _generation_deadline_probe_errors(value: Any) -> list[str]:
+    """Fail-closed audit of the real-Qwen generation-deadline canary evidence.
+
+    Returns a list of error strings (empty == PASS). The canary MUST have fired
+    the workflow-deadline path (``finish_reason == 'timeout'``,
+    ``deadline_fired == true``) with a tiny positive completion-token count, and
+    wrong types / missing fields / EOS-or-length / underflow / overflow all fail
+    closed (the canary is never allowed to silently report EOS or a bound overrun
+    as the deadline proof).
+    """
+    errors: list[str] = []
+    if not isinstance(value, dict):
+        return ["model_preflight.json generation_deadline_probe missing or not a dict"]
+    if value.get("passed") is not True:
+        errors.append("model_preflight.json generation_deadline_probe passed != true")
+    if value.get("deadline_fired") is not True:
+        errors.append("model_preflight.json generation_deadline_probe deadline_fired != true")
+    finish = value.get("finish_reason")
+    if finish != "timeout":
+        errors.append(
+            "model_preflight.json generation_deadline_probe "
+            f"finish_reason={finish!r} (expected 'timeout')"
+        )
+    completion = value.get("completion_tokens")
+    if isinstance(completion, bool) or not isinstance(completion, int):
+        errors.append(
+            "model_preflight.json generation_deadline_probe "
+            f"completion_tokens={completion!r} (expected int)"
+        )
+    else:
+        if completion < 1:
+            errors.append(
+                "model_preflight.json generation_deadline_probe "
+                f"completion_tokens={completion} (expected >= 1)"
+            )
+        if completion > GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND:
+            errors.append(
+                "model_preflight.json generation_deadline_probe "
+                f"completion_tokens={completion} (upper bound "
+                f"{GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND})"
+            )
+    return errors
 
 
 def run_kaggle_smoke_preflight(
@@ -545,9 +638,13 @@ def run_kaggle_smoke_preflight(
         for check in checks
     )
     if not blocked and not baseline_failed:
+        short_probe_passed = False
         try:
             _shared_backend = _create_qwen_backend(model_path, quantization_mode)
             probe_metrics = _qwen_probe_metrics(model_path, quantization_mode, _backend=_shared_backend)
+            # V0.9.22 T4 GQA closure: load evidence is reported independently of
+            # the short-generation probe. The weights either loaded (PASS) or
+            # they did not (FAIL); a later generation failure cannot rewrite this.
             checks.append(f"qwen_model_load[{quantization_mode}]: PASS")
             device_map = str(probe_metrics.get("device_map_summary", ""))
             lowered_map = device_map.lower()
@@ -580,6 +677,7 @@ def run_kaggle_smoke_preflight(
             requested_attn = str(probe_metrics.get("requested_attn_implementation", "") or "")
             effective_attn = str(probe_metrics.get("effective_attn_implementation", "") or "")
             kernel_policy = str(probe_metrics.get("sdpa_kernel_policy", "") or "")
+            gqa_mode = str(probe_metrics.get("gqa_compatibility_mode", "") or "")
             if (
                 requested_attn == KAGGLE_ATTENTION_IMPLEMENTATION
                 and effective_attn == KAGGLE_ATTENTION_IMPLEMENTATION
@@ -587,7 +685,8 @@ def run_kaggle_smoke_preflight(
             ):
                 checks.append(
                     "attention_policy: PASS (requested=sdpa effective=sdpa "
-                    f"kernel_policy={KAGGLE_SDPA_KERNEL_POLICY})"
+                    f"kernel_policy={KAGGLE_SDPA_KERNEL_POLICY} "
+                    f"gqa_compat={gqa_mode or 'native'})"
                 )
             else:
                 checks.append(
@@ -597,10 +696,44 @@ def run_kaggle_smoke_preflight(
                     f"expected requested=sdpa effective=sdpa "
                     f"kernel_policy={KAGGLE_SDPA_KERNEL_POLICY})"
                 )
+            # V0.9.22 T4 GQA: the short deterministic generation probe is a SEPARATE
+            # stage. A failure here (e.g. T4 "No available kernel") is reported as
+            # short_generation_probe: FAIL while the load evidence above is kept
+            # truthful (footprint > 0, device_map preserved). The 12k probe must
+            # be skipped, never executed with a broken generation path.
+            short_probe_error = str(probe_metrics.get("short_generation_probe_error", "") or "")
+            if short_probe_error:
+                checks.append(f"short_generation_probe: FAIL ({short_probe_error})")
+            else:
+                checks.append(
+                    f"short_generation_probe: PASS "
+                    f"(completion_tokens={probe_metrics.get('probe_completion_tokens', 0)})"
+                )
+                short_probe_passed = True
+            # D9: real-Qwen generation-deadline canary (present only when the real
+            # backend ran it). When present it is fail-closed: any validation
+            # error flips this check to FAIL and the whole preflight to not-passed.
+            deadline_probe = probe_metrics.get("generation_deadline_probe")
+            if deadline_probe is not None:
+                deadline_errors = _generation_deadline_probe_errors(deadline_probe)
+                if deadline_errors:
+                    checks.append(
+                        "generation_deadline_probe: FAIL ("
+                        + "; ".join(
+                            e.replace("model_preflight.json generation_deadline_probe ", "")
+                            for e in deadline_errors
+                        )
+                        + ")"
+                    )
+                else:
+                    checks.append(
+                        "generation_deadline_probe: PASS "
+                        f"(finish_reason={deadline_probe.get('finish_reason')}, "
+                        f"completion_tokens={deadline_probe.get('completion_tokens')})"
+                    )
             snapshots = probe_metrics.get("gpu_vram_by_device", ())
             if not isinstance(snapshots, tuple):
                 snapshots = tuple(snapshots)
-            gpu_count = int(probe_metrics.get("gpu_count", 0) or 0)
             failing_devices = [
                 snapshot
                 for snapshot in snapshots
@@ -632,6 +765,7 @@ def run_kaggle_smoke_preflight(
             checks.append("vram_headroom: FAIL (probe did not run)")
             checks.append("gpu_count_expected: FAIL (probe did not run)")
             checks.append("checkpoint_not_prequantized: FAIL (probe did not run)")
+            short_probe_passed = False
     elif not blocked:
         checks.append(f"qwen_model_load[{quantization_mode}]: SKIP (baseline preflight failed)")
         checks.append("device_map_gpu_only: SKIP (baseline preflight failed)")
@@ -639,14 +773,36 @@ def run_kaggle_smoke_preflight(
         checks.append("vram_headroom: SKIP (baseline preflight failed)")
         checks.append("gpu_count_expected: SKIP (baseline preflight failed)")
         checks.append("checkpoint_not_prequantized: SKIP (baseline preflight failed)")
+        short_probe_passed = False
 
     failed = [c for c in checks if ": FAIL" in c or ": SKIP" in c]
     passed = not failed and not blocked
 
     # Long-context stress probe (>= 12k tokens): engineering evidence only.
-    # Reuses the single backend loaded above (no second model load).
+    # Reuses the single backend loaded above (no second model load). It only
+    # runs when load + attention policy + VRAM + short-generation probe all PASS;
+    # a broken short-generation path fails closed (SKIP) instead of attempting
+    # the expensive 12k probe.
     long_context_probe: dict[str, Any] | None = None
-    if passed and not probe_failure:
+    load_and_policy_ok = not any(
+        c.startswith(
+            (
+                "qwen_model_load: FAIL",
+                "attention_policy: FAIL",
+                "device_map_gpu_only: FAIL",
+                "gpu_count_expected: FAIL",
+                "checkpoint_not_prequantized: FAIL",
+                "vram_headroom: FAIL",
+            )
+        )
+        for c in checks
+    )
+    # The 12k probe must only run when load + policy + VRAM + short-generation
+    # all PASS with a real backend. When the short-generation probe or a policy
+    # gate fails, the 12k probe is skipped (fail-closed) instead of attempting the
+    # expensive probe. The real run always retains the loaded backend, so the SKIP
+    # branch is reached whenever a stage failed.
+    if passed and not probe_failure and load_and_policy_ok and short_probe_passed and _shared_backend is not None:
         try:
             long_context_probe = _run_long_context_probe(
                 model_path, quantization_mode, _backend=_shared_backend,
@@ -668,6 +824,15 @@ def run_kaggle_smoke_preflight(
                 "error": f"{type(exc).__name__}: {exc}",
             }
             checks.append(f"long_context_probe: FAIL ({type(exc).__name__}: {exc})")
+    elif _shared_backend is not None:
+        checks.append(
+            "long_context_probe: SKIP (load/policy/short-generation stage failed "
+            "or blocked; not executed)"
+        )
+        long_context_probe = long_context_probe or {
+            "passed": False,
+            "skipped": True,
+        }
 
     # Re-evaluate pass/fail after long-context probe
     failed = [c for c in checks if ": FAIL" in c or ": SKIP" in c]
@@ -706,7 +871,9 @@ def run_kaggle_smoke_preflight(
         requested_attn_implementation=str(probe_metrics.get("requested_attn_implementation", "") or ""),
         effective_attn_implementation=str(probe_metrics.get("effective_attn_implementation", "") or ""),
         sdpa_kernel_policy=str(probe_metrics.get("sdpa_kernel_policy", "") or ""),
+        gqa_compatibility_mode=str(probe_metrics.get("gqa_compatibility_mode", "") or ""),
         long_context_probe=long_context_probe,
+        generation_deadline_probe=probe_metrics.get("generation_deadline_probe"),
         dependencies=dependencies,
         duration_seconds=round(duration, 3),
     )
@@ -746,7 +913,9 @@ def run_kaggle_smoke_preflight(
             "requested_attn_implementation": result.requested_attn_implementation,
             "effective_attn_implementation": result.effective_attn_implementation,
             "sdpa_kernel_policy": result.sdpa_kernel_policy,
+            "gqa_compatibility_mode": result.gqa_compatibility_mode,
             "long_context_probe": result.long_context_probe,
+            "generation_deadline_probe": result.generation_deadline_probe,
             "dependencies": [list(pair) for pair in result.dependencies],
             "duration_seconds": result.duration_seconds,
         }
@@ -768,6 +937,7 @@ def render_preflight_table(result: KaggleSmokePreflightResult) -> str:
         f"requested_attn_implementation: {result.requested_attn_implementation or 'N/A'}",
         f"effective_attn_implementation: {result.effective_attn_implementation or 'N/A'}",
         f"sdpa_kernel_policy: {result.sdpa_kernel_policy or 'N/A'}",
+        f"gqa_compatibility_mode: {result.gqa_compatibility_mode or 'N/A'}",
         f"model_memory_footprint_bytes: {result.model_memory_footprint_bytes}",
         f"gpu_count: {result.gpu_count}",
         f"gpu_name: {result.gpu_name or 'N/A'}",
@@ -793,6 +963,14 @@ def render_preflight_table(result: KaggleSmokePreflightResult) -> str:
             f"cache={lc.get('cache_implementation', '?')} "
             f"passed={lc.get('passed', '?')}"
         )
+    if result.generation_deadline_probe:
+        dp = result.generation_deadline_probe
+        lines.append(
+            f"generation_deadline_probe: finish_reason={dp.get('finish_reason', '?')} "
+            f"deadline_fired={dp.get('deadline_fired', '?')} "
+            f"completion_tokens={dp.get('completion_tokens', '?')} "
+            f"passed={dp.get('passed', '?')}"
+        )
     lines.extend([
         f"duration_seconds: {result.duration_seconds}",
     ])
@@ -809,6 +987,332 @@ class LaunchAuthorizationError(RuntimeError):
     """Raised when pilot launch authorization fails any gate."""
 
 
+def _expect_zero_int(field: str, value: Any) -> str | None:
+    """Fail-closed int-zero evidence check (no ``or 0`` coercion).
+
+    ``None``, booleans, strings, floats, and non-zero ints all produce an error
+    message naming ``field``; only an exact ``int`` 0 passes. ``bool`` is a
+    subclass of ``int``, so it is rejected explicitly.
+    """
+    if isinstance(value, bool) or not isinstance(value, int):
+        return f"{field}={value!r} (expected int 0)"
+    if value != 0:
+        return f"{field}={value!r} (expected 0)"
+    return None
+
+
+def _collect_dryrun_evidence_errors(
+    dryrun_dir: str | Path,
+    *,
+    expected_source_commit: str,
+    expected_source_tag: str,
+    expected_deployed_build_id: str = "",
+    expected_model_identity: str = "dry-run:mock",
+) -> tuple[list[str], dict[str, Any]]:
+    """Fail-closed dry-run evidence auditor for the REAL ``RunRecordData`` schema.
+
+    Single private implementation shared by ``validate_pilot_dryrun_evidence``
+    and ``validate_pilot_launch_authorization`` so the schema contract exists in
+    exactly one place. Returns ``(errors, summary)``; an empty ``errors`` list
+    means the evidence is launch-ready. Strict, coercion-free checks: missing /
+    ``None`` / bool / string / float / non-zero values all fail.
+
+    Per-record contract (48 records; real serializer never writes a top-level
+    ``total_tokens``):
+      * unique non-empty ``run_id``, ``status == "succeeded"``
+      * topology: todo=16, djangocms=16, saleor=16,
+        iterative_repository_agent=24, selective=24, rep1=24, rep2=24
+      * exact ``source_commit`` on EVERY record
+      * ``model_calls == 0``
+      * ``token_usage: {prompt: 0, completion: 0, total: 0}``
+      * ``total_workflow_model_calls == 0`` and ``total_workflow_tokens == 0``
+      * phase fields ``selection/regeneration/repair`` ``_model_calls`` and
+        ``_total_tokens`` == 0
+
+    ``source_identity.json`` contract: ``dry_run is True``, ``profile ==
+    'pilot'``, ``protocol_version == '1.1'``, exact commit/tag/build id, and
+    ``model_identity`` == ``expected_model_identity``.
+    """
+    errors: list[str] = []
+    summary: dict[str, Any] = {
+        "passed": False,
+        "record_count": 0,
+        "unique_run_ids": 0,
+        "repo_counts": {},
+        "strategy_counts": {},
+        "rep_counts": {},
+        "model_calls": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "total_workflow_model_calls": 0,
+        "total_workflow_tokens": 0,
+        "source_commit": "",
+        "source_tag": "",
+        "deployed_build_id": "",
+        "model_identity": "",
+    }
+
+    dryrun_path = Path(dryrun_dir) / "run_records.jsonl"
+    source_identity_path = Path(dryrun_dir) / "source_identity.json"
+
+    records: list[dict[str, Any]] = []
+    if not dryrun_path.is_file():
+        errors.append(f"dryrun records missing: {dryrun_path}")
+    else:
+        try:
+            lines = [
+                line.strip()
+                for line in dryrun_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            parsed = [json.loads(line) for line in lines]
+        except (OSError, ValueError) as exc:
+            errors.append(f"dryrun records unreadable: {type(exc).__name__}: {exc}")
+            parsed = []
+        records = [r for r in parsed if isinstance(r, dict)]
+
+    summary["record_count"] = len(records)
+    if len(records) != 48:
+        errors.append(f"dryrun record count={len(records)} (expected 48)")
+
+    run_ids: list[object] = []
+    repo_counts: dict[str, int] = {}
+    strat_counts: dict[str, int] = {}
+    rep_counts: dict[Any, int] = {}
+    model_calls_total = 0
+    prompt_tokens = 0
+    completion_tokens = 0
+    total_tokens = 0
+    total_workflow_model_calls = 0
+    total_workflow_tokens = 0
+
+    for index, record in enumerate(records):
+        rid = record.get("run_id")
+        run_ids.append(rid)
+        if not isinstance(rid, str) or not rid:
+            errors.append(
+                f"record {index}: run_id={rid!r} (expected non-empty string)"
+            )
+
+        status = record.get("status")
+        if status != "succeeded":
+            errors.append(
+                f"record {rid!r}: status={status!r} (expected 'succeeded')"
+            )
+
+        repository_id = record.get("repository_id", "")
+        repo_counts[repository_id] = repo_counts.get(repository_id, 0) + 1
+        strategy_id = record.get("strategy_id", "")
+        strat_counts[strategy_id] = strat_counts.get(strategy_id, 0) + 1
+        repetition = record.get("repetition")
+        rep_counts[repetition] = rep_counts.get(repetition, 0) + 1
+
+        if record.get("source_commit") != expected_source_commit:
+            errors.append(
+                f"record {rid!r}: source_commit={record.get('source_commit')!r} "
+                f"(expected {expected_source_commit!r})"
+            )
+
+        model_calls = record.get("model_calls")
+        if isinstance(model_calls, int) and not isinstance(model_calls, bool):
+            model_calls_total += model_calls
+        if isinstance(model_calls, int) and not isinstance(model_calls, bool) and model_calls != 0:
+            errors.append(
+                f"record {rid!r}: model_calls != 0 (actual {model_calls!r})"
+            )
+        elif not isinstance(model_calls, int) or isinstance(model_calls, bool):
+            errors.append(
+                f"record {rid!r}: model_calls={model_calls!r} (expected int 0)"
+            )
+
+        # token_usage mapping (real serializer: {"prompt": 0, "completion": 0, "total": 0}).
+        token_usage = record.get("token_usage")
+        if not isinstance(token_usage, dict):
+            errors.append(
+                f"record {rid!r}: token_usage={token_usage!r} "
+                f"(expected dict with prompt/completion/total)"
+            )
+        else:
+            for token_key in ("prompt", "completion", "total"):
+                if token_key not in token_usage:
+                    errors.append(
+                        f"record {rid!r}: token_usage.{token_key} missing "
+                        f"(expected int 0)"
+                    )
+                    continue
+                token_value = token_usage[token_key]
+                error = _expect_zero_int(f"record {rid!r}: token_usage.{token_key}", token_value)
+                if error:
+                    errors.append(error)
+                if token_key == "prompt" and isinstance(token_value, int) and not isinstance(token_value, bool):
+                    prompt_tokens += token_value
+                if token_key == "completion" and isinstance(token_value, int) and not isinstance(token_value, bool):
+                    completion_tokens += token_value
+                if token_key == "total" and isinstance(token_value, int) and not isinstance(token_value, bool):
+                    total_tokens += token_value
+
+        workflow_calls = record.get("total_workflow_model_calls")
+        error = _expect_zero_int(f"record {rid!r}: total_workflow_model_calls", workflow_calls)
+        if error:
+            errors.append(error)
+        if isinstance(workflow_calls, int) and not isinstance(workflow_calls, bool):
+            total_workflow_model_calls += workflow_calls
+
+        workflow_tokens = record.get("total_workflow_tokens")
+        error = _expect_zero_int(f"record {rid!r}: total_workflow_tokens", workflow_tokens)
+        if error:
+            errors.append(error)
+        if isinstance(workflow_tokens, int) and not isinstance(workflow_tokens, bool):
+            total_workflow_tokens += workflow_tokens
+
+        for phase_field in (
+            "selection_model_calls",
+            "regeneration_model_calls",
+            "repair_model_calls",
+            "selection_total_tokens",
+            "regeneration_total_tokens",
+            "repair_total_tokens",
+        ):
+            value = record.get(phase_field)
+            if phase_field not in record:
+                errors.append(
+                    f"record {rid!r}: {phase_field} missing (expected int 0)"
+                )
+                continue
+            error = _expect_zero_int(f"record {rid!r}: {phase_field}", value)
+            if error:
+                errors.append(error)
+
+    summary["unique_run_ids"] = len({rid for rid in run_ids if rid is not None})
+    if len({rid for rid in run_ids if rid is not None}) != 48:
+        errors.append(
+            f"dryrun unique run_ids="
+            f"{len({rid for rid in run_ids if rid is not None})} (expected 48)"
+        )
+    summary["repo_counts"] = repo_counts
+    expected_repo = {"todo": 16, "djangocms": 16, "saleor": 16}
+    if repo_counts != expected_repo:
+        errors.append(f"dryrun repo_counts={repo_counts} (expected {expected_repo})")
+    summary["strategy_counts"] = strat_counts
+    expected_strat = {"iterative_repository_agent": 24, "selective": 24}
+    if strat_counts != expected_strat:
+        errors.append(
+            f"dryrun strategy_counts={strat_counts} (expected {expected_strat})"
+        )
+    numeric_rep_counts = {
+        key: value
+        for key, value in rep_counts.items()
+        if isinstance(key, int) and not isinstance(key, bool)
+    }
+    summary["rep_counts"] = numeric_rep_counts
+    expected_rep = {1: 24, 2: 24}
+    if numeric_rep_counts != expected_rep:
+        errors.append(
+            f"dryrun rep_counts={rep_counts} (expected {expected_rep})"
+        )
+    summary["model_calls"] = model_calls_total
+    summary["prompt_tokens"] = prompt_tokens
+    summary["completion_tokens"] = completion_tokens
+    summary["total_tokens"] = total_tokens
+    summary["total_workflow_model_calls"] = total_workflow_model_calls
+    summary["total_workflow_tokens"] = total_workflow_tokens
+
+    # --- source_identity.json (C3) ---
+    if not source_identity_path.is_file():
+        errors.append(f"source_identity.json missing: {source_identity_path}")
+    else:
+        si: dict[str, Any] = {}
+        try:
+            loaded = json.loads(source_identity_path.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                si = loaded
+        except (OSError, ValueError) as exc:
+            errors.append(f"source_identity.json unreadable: {type(exc).__name__}: {exc}")
+        summary["source_commit"] = str(si.get("source_commit", ""))
+        summary["source_tag"] = str(si.get("source_tag", ""))
+        summary["deployed_build_id"] = str(si.get("deployed_build_id", ""))
+        summary["model_identity"] = str(si.get("model_identity", ""))
+        if si.get("dry_run") is not True:
+            errors.append(
+                f"source_identity.json dry_run={si.get('dry_run')!r} (expected true)"
+            )
+        if si.get("profile") != "pilot":
+            errors.append(
+                f"source_identity.json profile={si.get('profile')!r} (expected 'pilot')"
+            )
+        if si.get("protocol_version") != "1.2":
+            errors.append(
+                f"source_identity.json protocol_version="
+                f"{si.get('protocol_version')!r} (expected '1.2')"
+            )
+        if si.get("exact_patch") is not True:
+            errors.append(
+                f"source_identity.json exact_patch={si.get('exact_patch')!r} "
+                f"(expected true - D13 B1 / D13r1 F5 frozen execution contract)"
+            )
+        if si.get("agent_control_max_completion_tokens") != 512:
+            errors.append(
+                f"source_identity.json agent_control_max_completion_tokens="
+                f"{si.get('agent_control_max_completion_tokens')!r} "
+                f"(expected 512 - D13 B2 / D13r1 F5 frozen control-plane cap)"
+            )
+        if expected_source_commit and si.get("source_commit") != expected_source_commit:
+            errors.append(
+                f"source_identity.json source_commit={si.get('source_commit')!r} "
+                f"(expected {expected_source_commit!r})"
+            )
+        if expected_source_tag and si.get("source_tag") != expected_source_tag:
+            errors.append(
+                f"source_identity.json source_tag={si.get('source_tag')!r} "
+                f"(expected {expected_source_tag!r})"
+            )
+        if expected_deployed_build_id and si.get("deployed_build_id") != expected_deployed_build_id:
+            errors.append(
+                f"source_identity.json deployed_build_id={si.get('deployed_build_id')!r} "
+                f"(expected {expected_deployed_build_id!r})"
+            )
+        if si.get("model_identity") != expected_model_identity:
+            errors.append(
+                f"source_identity.json model_identity={si.get('model_identity')!r} "
+                f"(expected {expected_model_identity!r})"
+            )
+
+    summary["passed"] = not errors
+    return errors, summary
+
+
+def validate_pilot_dryrun_evidence(
+    *,
+    dryrun_dir: str | Path,
+    expected_source_commit: str,
+    expected_source_tag: str,
+    expected_deployed_build_id: str = "",
+    expected_model_identity: str = "dry-run:mock",
+) -> dict[str, Any]:
+    """Fail-closed dry-run evidence gate against the REAL ``RunRecordData`` schema.
+
+    Re-validates the full 48-cell mock dry-run artifact (records + source
+    identity) exactly as generated by the CLI ``--dry-run`` run. Strict and
+    coercion-free: missing / ``None`` / bool / string / float / non-zero token
+    and call fields fail closed. Returns the truthful summary only when every
+    check passes; raises ``LaunchAuthorizationError`` on any failure.
+    """
+    errors, summary = _collect_dryrun_evidence_errors(
+        dryrun_dir,
+        expected_source_commit=expected_source_commit,
+        expected_source_tag=expected_source_tag,
+        expected_deployed_build_id=expected_deployed_build_id,
+        expected_model_identity=expected_model_identity,
+    )
+    if errors:
+        raise LaunchAuthorizationError(
+            "PILOT DRY-RUN EVIDENCE VALIDATION FAILED:\n"
+            + "\n".join(f"  - {e}" for e in errors)
+        )
+    return summary
+
+
 def validate_pilot_launch_authorization(
     *,
     repo_preflight_json: str | Path,
@@ -819,6 +1323,8 @@ def validate_pilot_launch_authorization(
     expected_model_identity: str,
     expected_quantization: str = "bnb-nf4",
     expected_deployed_build_id: str = "",
+    scenario_dir: str | Path | None = None,
+    scenario_ids: tuple[str, ...] | None = None,
 ) -> None:
     """Fail-closed pilot launch authorization gate.
 
@@ -830,6 +1336,7 @@ def validate_pilot_launch_authorization(
     """
     from benchmark.llm.kaggle_qwen_backend import (
         KAGGLE_ATTENTION_IMPLEMENTATION,
+        KAGGLE_SDPA_GQA_COMPATIBILITY,
         KAGGLE_SDPA_KERNEL_POLICY,
     )
 
@@ -905,6 +1412,16 @@ def validate_pilot_launch_authorization(
                     f"model_preflight.json sdpa_kernel_policy="
                     f"{kernel_policy!r} (expected {KAGGLE_SDPA_KERNEL_POLICY!r})"
                 )
+            # V0.9.22 T4 GQA: when the model evidence reports a GQA compatibility
+            # mode it must equal the canonical repeat-KV sm75 mode. Absent (older
+            # evidence) is tolerated for backward compatibility; present-but-wrong
+            # fails closed.
+            gqa_mode = str(model_evidence.get("gqa_compatibility_mode", "") or "")
+            if gqa_mode and gqa_mode != KAGGLE_SDPA_GQA_COMPATIBILITY:
+                errors.append(
+                    f"model_preflight.json gqa_compatibility_mode="
+                    f"{gqa_mode!r} (expected {KAGGLE_SDPA_GQA_COMPATIBILITY!r})"
+                )
             checks_list = model_evidence.get("checks", [])
             if isinstance(checks_list, list):
                 repo_preflight_check = [
@@ -957,124 +1474,50 @@ def validate_pilot_launch_authorization(
                         "model_preflight.json long_context_probe "
                         f"cache_implementation={lc_cache!r} (expected 'offloaded')"
                     )
-
-    # --- Dry-run records + source_identity.json (C1-C4) ---
-    dryrun_path = Path(dryrun_dir) / "run_records.jsonl"
-    source_identity_path = Path(dryrun_dir) / "source_identity.json"
-    if not dryrun_path.is_file():
-        errors.append(f"dryrun records missing: {dryrun_path}")
-    else:
-        try:
-            lines = [
-                line.strip()
-                for line in dryrun_path.read_text(encoding="utf-8").splitlines()
-                if line.strip()
-            ]
-            records = [json.loads(line) for line in lines]
-        except (OSError, ValueError) as exc:
-            errors.append(f"dryrun records unreadable: {type(exc).__name__}: {exc}")
-            records = []
-
-        if records:
-            # C4: strict topology
-            if len(records) != 48:
-                errors.append(f"dryrun record count={len(records)} (expected 48)")
-            run_ids = [r.get("run_id") for r in records]
-            if len(set(run_ids)) != 48:
-                errors.append(f"dryrun unique run_ids={len(set(run_ids))} (expected 48)")
-
-            failed_records = [r for r in records if r.get("status") != "succeeded"]
-            if failed_records:
-                errors.append(
-                    f"dryrun has {len(failed_records)} non-succeeded records"
+            # D9: the real-Qwen generation-deadline canary is mandatory for launch.
+            # Missing / wrong-type / false fields / EOS-or-length / underflow /
+            # overflow all fail closed (the canary proves the deadline path fired).
+            errors.extend(
+                _generation_deadline_probe_errors(
+                    model_evidence.get("generation_deadline_probe")
                 )
+            )
 
-            # C4: repo distribution exactly todo=16, djangocms=16, saleor=16
-            repo_counts = {}
-            for r in records:
-                rid = r.get("repository_id", "")
-                repo_counts[rid] = repo_counts.get(rid, 0) + 1
-            expected_repo = {"todo": 16, "djangocms": 16, "saleor": 16}
-            if repo_counts != expected_repo:
-                errors.append(f"dryrun repo_counts={repo_counts} (expected {expected_repo})")
+    # --- Dry-run records + source_identity.json (C1-C4, REAL RunRecordData schema) ---
+    # Single source of truth: the private collector shared with
+    # validate_pilot_dryrun_evidence keeps the schema contract in ONE place so a
+    # notebook/CLI check can never drift from the launch gate.
+    dryrun_errors, _summary = _collect_dryrun_evidence_errors(
+        dryrun_dir,
+        expected_source_commit=expected_source_commit,
+        expected_source_tag=expected_source_tag,
+        expected_deployed_build_id=expected_deployed_build_id,
+        expected_model_identity="dry-run:mock",
+    )
+    errors.extend(dryrun_errors)
 
-            # C4: strategy distribution exactly iterative_repository_agent=24, selective=24
-            strat_counts = {}
-            for r in records:
-                sid = r.get("strategy_id", "")
-                strat_counts[sid] = strat_counts.get(sid, 0) + 1
-            expected_strat = {"iterative_repository_agent": 24, "selective": 24}
-            if strat_counts != expected_strat:
-                errors.append(f"dryrun strategy_counts={strat_counts} (expected {expected_strat})")
-
-            # C4: repetition distribution exactly rep1=24, rep2=24
-            rep_counts = {}
-            for r in records:
-                rep = r.get("repetition", 0)
-                rep_counts[rep] = rep_counts.get(rep, 0) + 1
-            expected_rep = {1: 24, 2: 24}
-            if rep_counts != expected_rep:
-                errors.append(f"dryrun rep_counts={rep_counts} (expected {expected_rep})")
-
-            # C4: model_calls exactly 0 on EVERY record
-            nonzero_calls = [r for r in records if (r.get("model_calls") or 0) != 0]
-            if nonzero_calls:
-                errors.append(
-                    f"dryrun has {len(nonzero_calls)} records with model_calls != 0"
+    # --- D13r1 F1: PRE-MODEL semantic-executability gate ---------------------
+    # When the bundled scenario directory is supplied, every requested Pilot
+    # scenario must be concretely executable against its pinned base BEFORE any
+    # model call. A scenario whose capability is known-absent from the pinned
+    # base (e.g. saleor-loc-002 ``is_featured``) or whose capability cannot be
+    # verified against a staged pinned repository fails closed here — the full
+    # 48-cell Pilot is therefore NOT a launch basis while any of its scenarios
+    # is semantically unexecutable.
+    if scenario_dir is not None:
+        if not scenario_ids:
+            errors.append(
+                "semantic executability: scenario_dir provided but scenario_ids empty"
+            )
+        else:
+            try:
+                validate_pilot_semantic_executability(
+                    scenario_ids=scenario_ids,
+                    scenario_dir=scenario_dir,
+                    repository_roots=_semantic_repository_roots(Path(scenario_dir)),
                 )
-
-            # C4: token_usage total exactly 0 on EVERY record
-            nonzero_tokens = [r for r in records if (r.get("total_tokens") or 0) != 0]
-            if nonzero_tokens:
-                errors.append(
-                    f"dryrun has {len(nonzero_tokens)} records with token_usage total != 0"
-                )
-
-            # C1: exact source commit on EVERY record (strict, no set membership)
-            if expected_source_commit and expected_source_commit != "unknown-source":
-                bad_source = [r for r in records if r.get("source_commit") != expected_source_commit]
-                if bad_source:
-                    errors.append(
-                        f"dryrun has {len(bad_source)} records with source_commit != {expected_source_commit}"
-                    )
-
-    # --- source_identity.json (C3) ---
-    if source_identity_path.is_file():
-        try:
-            si = json.loads(source_identity_path.read_text(encoding="utf-8"))
-        except (OSError, ValueError) as exc:
-            errors.append(f"source_identity.json unreadable: {type(exc).__name__}: {exc}")
-            si = {}
-        if isinstance(si, dict):
-            if si.get("dry_run") is not True:
-                errors.append(f"source_identity.json dry_run={si.get('dry_run')!r} (expected true)")
-            if si.get("profile") != "pilot":
-                errors.append(f"source_identity.json profile={si.get('profile')!r} (expected 'pilot')")
-            if si.get("protocol_version") != "1.0":
-                errors.append(
-                    f"source_identity.json protocol_version="
-                    f"{si.get('protocol_version')!r} (expected '1.0')"
-                )
-            if expected_source_commit and si.get("source_commit") != expected_source_commit:
-                errors.append(
-                    f"source_identity.json source_commit="
-                    f"{si.get('source_commit')!r} (expected {expected_source_commit!r})"
-                )
-            if expected_source_tag and si.get("source_tag") != expected_source_tag:
-                errors.append(
-                    f"source_identity.json source_tag={si.get('source_tag')!r} (expected {expected_source_tag!r})"
-                )
-            if expected_deployed_build_id and si.get("deployed_build_id") != expected_deployed_build_id:
-                errors.append(
-                    f"source_identity.json deployed_build_id={si.get('deployed_build_id')!r} "
-                    f"(expected {expected_deployed_build_id!r})"
-                )
-            if si.get("model_identity") != "dry-run:mock":
-                errors.append(
-                    f"source_identity.json model_identity={si.get('model_identity')!r} (expected 'dry-run:mock')"
-                )
-    else:
-        errors.append(f"source_identity.json missing: {source_identity_path}")
+            except LaunchAuthorizationError as exc:
+                errors.append(str(exc))
 
     # --- HF token ---
     hf_token = os.environ.get("HF_TOKEN", "").strip()
@@ -1086,3 +1529,377 @@ def validate_pilot_launch_authorization(
             "PILOT LAUNCH AUTHORIZATION FAILED:\n"
             + "\n".join(f"  - {e}" for e in errors)
         )
+
+
+# ---------------------------------------------------------------------------
+# D10.3/D10.5: Pilot-canary evidence gate + terminality/viability split
+# ---------------------------------------------------------------------------
+
+# Mirrors the CLI's terminality/viability taxonomy so the canary gate and the
+# full-Pilot verify cell share ONE definition (no drift between validator and
+# run classifier). A record is TERMINAL when it reached a final persisted state
+# (status ``succeeded`` or ``failed``); VIABILITY separates accepted measured
+# results from deadline-censored / engineering-blocked outcomes so a run that
+# simply ran out of budget is never masked as an accepted scientific failure.
+_CANARY_DEADLINE_CENSORED = frozenset({"scientific_budget_exhausted"})
+_CANARY_ENGINEERING = frozenset(
+    {
+        "infrastructure",
+        "infrastructure_nonrepairable",
+        "harness_defect",
+        "timeout",
+        "environment",
+        "environment_preflight",
+    }
+)
+_CANARY_SCIENTIFIC = frozenset(
+    {
+        "model_output",
+        "build",
+        "changed_requirement",
+        "regression",
+        "architecture",
+        "scientific_budget_exhausted",
+    }
+)
+
+
+def _pilot_viability(record: dict[str, Any]) -> str:
+    """Return a Pilot record's viability class (D10.5 taxonomy)."""
+    status = str(record.get("status", ""))
+    if status == "succeeded":
+        return "accepted"
+    if status in ("timed_out", "cancelled"):
+        return "engineering_blocker"
+    if status != "failed":
+        return "engineering_blocker"
+
+    kinds: set[str] = set()
+    for item in record.get("failure_details") or []:
+        if isinstance(item, dict) and item.get("kind"):
+            kinds.add(str(item.get("kind")))
+    classification = str(record.get("failure_classification", "") or "")
+    if classification:
+        kinds.add(classification)
+
+    if not kinds or (kinds & _CANARY_ENGINEERING):
+        return "engineering_blocker"
+    if kinds & _CANARY_DEADLINE_CENSORED:
+        return "deadline_censored"
+    if kinds <= _CANARY_SCIENTIFIC:
+        return "scientific_failure"
+    return "engineering_blocker"
+
+
+def validate_pilot_canary_evidence(
+    *,
+    canary_dir: str | Path,
+    expected_source_commit: str,
+    expected_source_tag: str,
+    expected_model_identity: str,
+    expected_deployed_build_id: str = "",
+    expected_strategies: tuple[str, ...] = (
+        "iterative_repository_agent",
+        "selective",
+    ),
+    expected_repetitions: int = 1,
+    expected_repositories: tuple[str, ...] = ("todo", "djangocms", "saleor"),
+    expected_cells: int = 6,
+) -> dict[str, Any]:
+    """Fail-closed pilot-canary evidence gate (D10.3/D10.5, D11 B1).
+
+    A genuine end-to-end pilot-canary is a SMALL but REAL run (never mock /
+    dry-run, never a no-op). It must:
+
+      * produce exactly ``expected_cells`` terminal records spanning every
+        strategy x repetition for the canary scenarios (terminality) with ALL
+        three Pilot repositories (todo/djangocms/saleor) represented;
+      * complete WITHIN its scientific budget - NO ``deadline_censored`` and NO
+        ``engineering_blocker`` record may be present (fail-closed against the
+        D9.6 600 s censoring defect - a deadline-censored run is NOT a valid
+        canary pass);
+      * carry a REAL model identity (never ``dry-run:mock``) in source_identity
+        and be protocol 1.1 / profile ``pilot-canary``.
+
+    Returns a truthful summary only when every check passes; raises
+    ``LaunchAuthorizationError`` otherwise.
+    """
+    canary_path = Path(canary_dir)
+    records_path = canary_path / "run_records.jsonl"
+    source_identity_path = canary_path / "source_identity.json"
+
+    errors: list[str] = []
+    summary: dict[str, Any] = {
+        "records": 0,
+        "unique_run_ids": 0,
+        "terminal": 0,
+        "viability_counts": {},
+        "passed": False,
+    }
+
+    if not records_path.is_file():
+        errors.append(f"canary run_records.jsonl missing: {records_path}")
+    elif not source_identity_path.is_file():
+        errors.append(f"canary source_identity.json missing: {source_identity_path}")
+    else:
+        try:
+            loaded = [
+                json.loads(line)
+                for line in records_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+        except (OSError, ValueError) as exc:
+            errors.append(f"canary run_records.jsonl unreadable: {type(exc).__name__}: {exc}")
+            loaded = []
+
+        records = [r for r in loaded if isinstance(r, dict)]
+        summary["records"] = len(records)
+        summary["unique_run_ids"] = len(
+            {str(r.get("run_id", "")) for r in records if r.get("run_id")}
+        )
+
+        viability: dict[str, int] = {}
+        strat_counts: dict[str, int] = {}
+        rep_counts: dict[int, int] = {}
+        repo_counts: dict[str, int] = {}
+        terminal = 0
+        for record in records:
+            status = str(record.get("status", ""))
+            if status in ("succeeded", "failed"):
+                terminal += 1
+                outcome = _pilot_viability(record)
+            else:
+                outcome = "engineering_blocker"
+            viability[outcome] = viability.get(outcome, 0) + 1
+            strategy_id = str(record.get("strategy_id", ""))
+            strat_counts[strategy_id] = strat_counts.get(strategy_id, 0) + 1
+            repository_id = str(record.get("repository_id", ""))
+            repo_counts[repository_id] = repo_counts.get(repository_id, 0) + 1
+            repetition = record.get("repetition")
+            if isinstance(repetition, int) and not isinstance(repetition, bool):
+                rep_counts[repetition] = rep_counts.get(repetition, 0) + 1
+        summary["terminal"] = terminal
+        summary["viability_counts"] = viability
+        summary["strategy_counts"] = strat_counts
+        summary["rep_counts"] = rep_counts
+        summary["repo_counts"] = repo_counts
+
+        if len(records) != expected_cells:
+            errors.append(
+                f"canary records={len(records)} (expected {expected_cells})"
+            )
+        if summary["unique_run_ids"] != expected_cells:
+            errors.append(
+                f"canary unique_run_ids={summary['unique_run_ids']} "
+                f"(expected {expected_cells})"
+            )
+        if terminal != expected_cells:
+            errors.append(
+                f"canary terminal records={terminal}/{expected_cells} "
+                f"(every record must be terminal: status succeeded or failed)"
+            )
+
+        if viability.get("deadline_censored", 0):
+            errors.append(
+                f"canary has {viability['deadline_censored']} deadline-censored "
+                f"record(s) (workflow budget reached) - a deadline-censored "
+                f"canary is NOT a valid pass (D10.5)"
+            )
+        if viability.get("engineering_blocker", 0):
+            errors.append(
+                f"canary has {viability['engineering_blocker']} engineering-blocker "
+                f"record(s) (infrastructure/harness/timeout/environment) - not a "
+                f"valid canary pass"
+            )
+
+        expected_per_cell = expected_cells // (len(expected_strategies) * expected_repetitions)
+        for strategy_id in expected_strategies:
+            if strat_counts.get(strategy_id, 0) != expected_per_cell:
+                errors.append(
+                    f"canary strategy_counts[{strategy_id}]="
+                    f"{strat_counts.get(strategy_id, 0)} "
+                    f"(expected {expected_per_cell})"
+                )
+        for rep in range(1, expected_repetitions + 1):
+            if rep_counts.get(rep, 0) != expected_per_cell * len(expected_strategies):
+                errors.append(
+                    f"canary rep_counts[{rep}]={rep_counts.get(rep, 0)} "
+                    f"(expected {expected_per_cell * len(expected_strategies)})"
+                )
+
+        expected_per_repo = expected_cells // len(expected_repositories)
+        for repository_id in expected_repositories:
+            if repo_counts.get(repository_id, 0) != expected_per_repo:
+                errors.append(
+                    f"canary repo_counts[{repository_id}]="
+                    f"{repo_counts.get(repository_id, 0)} "
+                    f"(expected {expected_per_repo} - every Pilot repository must be "
+                    f"represented in the canary matrix, D10.3/D11 B1)"
+                )
+
+        si: dict[str, Any] = {}
+        try:
+            si_loaded = json.loads(source_identity_path.read_text(encoding="utf-8"))
+            if isinstance(si_loaded, dict):
+                si = si_loaded
+        except (OSError, ValueError) as exc:
+            errors.append(f"canary source_identity.json unreadable: {type(exc).__name__}: {exc}")
+
+        if si.get("protocol_version") != "1.2":
+            errors.append(
+                f"canary source_identity protocol_version="
+                f"{si.get('protocol_version')!r} (expected '1.2')"
+            )
+        if si.get("exact_patch") is not True:
+            errors.append(
+                f"canary source_identity exact_patch={si.get('exact_patch')!r} "
+                f"(expected true - D13 B1 / D13r1 F5 frozen execution contract)"
+            )
+        if si.get("agent_control_max_completion_tokens") != 512:
+            errors.append(
+                f"canary source_identity agent_control_max_completion_tokens="
+                f"{si.get('agent_control_max_completion_tokens')!r} "
+                f"(expected 512 - D13 B2 / D13r1 F5 frozen control-plane cap)"
+            )
+        if si.get("profile") != "pilot-canary":
+            errors.append(
+                f"canary source_identity profile={si.get('profile')!r} "
+                f"(expected 'pilot-canary')"
+            )
+        if expected_source_commit and si.get("source_commit") != expected_source_commit:
+            errors.append(
+                f"canary source_identity source_commit={si.get('source_commit')!r} "
+                f"(expected {expected_source_commit!r})"
+            )
+        if expected_source_tag and si.get("source_tag") != expected_source_tag:
+            errors.append(
+                f"canary source_identity source_tag={si.get('source_tag')!r} "
+                f"(expected {expected_source_tag!r})"
+            )
+        if expected_deployed_build_id and si.get("deployed_build_id") != expected_deployed_build_id:
+            errors.append(
+                f"canary source_identity deployed_build_id="
+                f"{si.get('deployed_build_id')!r} (expected {expected_deployed_build_id!r})"
+            )
+        real_identity = str(si.get("model_identity", "") or "")
+        if not real_identity:
+            errors.append("canary source_identity model_identity missing")
+        elif real_identity == "dry-run:mock":
+            errors.append(
+                "canary source_identity model_identity == 'dry-run:mock' - a "
+                "pilot-canary must be a REAL run, never a dry-run/mock"
+            )
+        elif expected_model_identity and real_identity != expected_model_identity:
+            errors.append(
+                f"canary source_identity model_identity={real_identity!r} "
+                f"(expected {expected_model_identity!r})"
+            )
+        summary["model_identity"] = real_identity
+
+    summary["passed"] = not errors
+    if errors:
+        raise LaunchAuthorizationError(
+            "PILOT CANARY EVIDENCE VALIDATION FAILED:\n"
+            + "\n".join(f"  - {e}" for e in errors)
+        )
+    return summary
+
+
+# ---------------------------------------------------------------------------
+# D13r1 F1: fail-closed PRE-MODEL semantic-executability gate
+# ---------------------------------------------------------------------------
+
+
+def _semantic_repository_roots(scenarios_dir: Path) -> dict[str, Path | None]:
+    """Map each pinned Pilot repository to its staged root under the data root.
+
+    The bundled ``data/repositories/<repo>`` tree (a sibling of
+    ``data/scenarios``) carries the exact pinned repository sources on target
+    (Todo / django CMS / Saleor). A repository that is NOT staged locally maps
+    to ``None`` so the gate stays fail-closed (a sentinel-bearing scenario
+    without its staged repo is NOT verifiable).
+    """
+    repos_root = scenarios_dir.parent / "repositories"
+    roots: dict[str, Path | None] = {}
+    for repo_id in ("todo", "djangocms", "saleor"):
+        root = repos_root / repo_id
+        roots[repo_id] = root if root.is_dir() else None
+    return roots
+
+
+def validate_pilot_semantic_executability(
+    *,
+    scenario_ids: Sequence[str],
+    scenario_dir: str | Path,
+    repository_roots: Mapping[str, str | Path | None] | None = None,
+) -> dict[str, Any]:
+    """D13 B4 / D13r1 F1 — fail-closed PRE-MODEL semantic-executability gate.
+
+    Loads the requested Pilot/canary scenarios from the bundled scenario
+    directory and checks every one against the pinned-base capability registry
+    (``benchmark.execution.semantic_executability``). This gate runs BEFORE any
+    model call in the real pilot/pilot-canary launch path: a scenario whose
+    pinned base lacks a required capability (e.g. ``saleor-loc-002``
+    ``is_featured``) or whose capability cannot be verified against a staged
+    pinned repository is NOT launchable and fails closed here. It never
+    fabricates a PASS (the same fail-closed property as the registry module).
+
+    Returns the verdict summary only when every requested scenario is both
+    ``executable`` and ``verifiable``; raises ``LaunchAuthorizationError``
+    otherwise.
+    """
+    from benchmark.core.exceptions import ScenarioError
+    from benchmark.execution.semantic_executability import check_scenario_set_executability
+    from benchmark.scenarios.loader import ScenarioLoader
+
+    errors: list[str] = []
+    scenarios_dir = Path(scenario_dir)
+    loader = ScenarioLoader(scenarios_dir)
+    try:
+        loaded = {s.scenario_id: s for s in loader.load_all()}
+    except ScenarioError as exc:
+        errors.append(f"semantic-executability: cannot load scenarios from {scenarios_dir}: {exc}")
+        loaded = {}
+
+    missing = [sid for sid in scenario_ids if sid not in loaded]
+    for sid in missing:
+        errors.append(
+            f"semantic-executability: scenario not found in {scenarios_dir}: {sid}"
+        )
+
+    selected = [loaded[sid] for sid in scenario_ids if sid in loaded]
+    verdicts = check_scenario_set_executability(
+        selected, repository_roots=repository_roots
+    )
+    verdict_by_id = {v.scenario_id: v for v in verdicts}
+    for sid in scenario_ids:
+        if sid not in loaded:
+            continue
+        verdict = verdict_by_id[sid]
+        if not verdict.executable or not verdict.verifiable:
+            reasons = "; ".join(verdict.reasons)
+            errors.append(
+                f"semantic-executability: scenario {sid} is NOT launchable "
+                f"(executable={verdict.executable}, verifiable={verdict.verifiable}) "
+                f"— {reasons}"
+            )
+
+    summary: dict[str, Any] = {
+        "scenario_ids": list(scenario_ids),
+        "verdicts": [
+            {
+                "scenario_id": v.scenario_id,
+                "executable": v.executable,
+                "verifiable": v.verifiable,
+            }
+            for v in verdicts
+        ],
+        "executable": not errors,
+        "passed": not errors,
+    }
+    if errors:
+        raise LaunchAuthorizationError(
+            "PILOT SEMANTIC EXECUTABILITY GATE FAILED:\n"
+            + "\n".join(f"  - {e}" for e in errors)
+        )
+    return summary

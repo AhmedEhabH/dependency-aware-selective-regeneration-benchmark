@@ -1,0 +1,9 @@
+scenario_id,strategy_id,n,valid_finals,full_recall_count,precision_mean,precision_median,recall_mean,recall_median,f1_mean,f1_median,fnr_mean,fnr_median,write_set_size_mean,write_set_size_median,model_calls,tokens,latency_seconds,api_cost_usd,R,P,V,H,human_review_rate_mean,validate_only_rate_mean,agent_finalization_rate,agent_tool_calls,agent_control_calls,agent_inspected_files
+todo-smoke-001,impact_plan,5,5,5,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,0.0000,0.0000,3.0000,3.0000,5,10669,64.0940,0.0066,15,6,4,0,0.0000,0.1600,,,,
+todo-smoke-001,iterative_repository_agent,5,5,5,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,0.0000,0.0000,3.0000,3.0000,25,22603,41.3130,0.0074,,,,,,,1.0000,20,25,15
+todo-smoke-002,impact_plan,5,5,5,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,0.0000,0.0000,2.0000,2.0000,5,11317,70.3900,0.0069,10,10,5,0,0.0000,0.2000,,,,
+todo-smoke-002,iterative_repository_agent,5,5,5,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,0.0000,0.0000,2.0000,2.0000,28,30190,45.5330,0.0097,,,,,,,1.0000,23,28,13
+todo-smoke-003,impact_plan,5,5,5,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,0.0000,0.0000,4.0000,4.0000,5,12098,117.6100,0.0074,20,5,0,0,0.0000,0.0000,,,,
+todo-smoke-003,iterative_repository_agent,5,5,5,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,0.0000,0.0000,4.0000,4.0000,36,45719,60.7980,0.0146,,,,,,,1.0000,31,36,20
+__all__,iterative_repository_agent,15,15,15,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,0.0000,0.0000,3.0000,3.0000,89,98512,147.6440,0.0318,,,,,,,1.0000,74,89,48
+__all__,impact_plan,15,15,15,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,0.0000,0.0000,3.0000,3.0000,15,34084,252.0940,0.0209,45,21,9,0,0.0000,0.1200,,,,

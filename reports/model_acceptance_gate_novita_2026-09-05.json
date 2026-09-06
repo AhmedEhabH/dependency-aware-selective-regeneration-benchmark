@@ -1,0 +1,70 @@
+{
+  "date": "2026-09-05",
+  "model": "qwen/qwen3-coder",
+  "provider": "Novita",
+  "resolved_at": "2026-09-05T16:55:13.844803+00:00",
+  "eligible": false,
+  "eligibility": {
+    "task_success": 2,
+    "all_tasks_reach_success": false,
+    "format_compliance": 2,
+    "all_responses_parse": false,
+    "truncation_count": 0,
+    "no_truncation": true,
+    "transient_events": 0,
+    "transient_reliability": true,
+    "usage_accounting": 3,
+    "usage_all_present": true,
+    "latency_all_under_120": true,
+    "median_latency": 23.063,
+    "median_latency_under_60": true,
+    "eligible": false
+  },
+  "tasks": [
+    {
+      "prompt_tokens": 229,
+      "completion_tokens": 164,
+      "total_tokens": 393,
+      "finish_reason": "stop",
+      "transient_retry_count": 0,
+      "latency_seconds": 24.641,
+      "parser_pass": true,
+      "truncation": false,
+      "deterministic_success": true,
+      "response_sha256": "c1d666daf3c875362525594e31f8c27c0dd7d2a433dae232b48718b15ec2e5bf",
+      "task": "A1_impact_plan",
+      "model": "qwen/qwen3-coder",
+      "provider": "Novita"
+    },
+    {
+      "prompt_tokens": 116,
+      "completion_tokens": 42,
+      "total_tokens": 158,
+      "finish_reason": "stop",
+      "transient_retry_count": 0,
+      "latency_seconds": 23.063,
+      "parser_pass": false,
+      "truncation": false,
+      "deterministic_success": false,
+      "response_sha256": "945cb48a6fd3d956ae83677a331112a5950f39353ed4272d77393b8383fa16d1",
+      "task": "A2_exact_patch",
+      "model": "qwen/qwen3-coder",
+      "provider": "Novita"
+    },
+    {
+      "prompt_tokens": 129,
+      "completion_tokens": 37,
+      "total_tokens": 166,
+      "finish_reason": "stop",
+      "transient_retry_count": 0,
+      "latency_seconds": 22.921,
+      "parser_pass": true,
+      "truncation": false,
+      "deterministic_success": true,
+      "response_sha256": "3eecde2c3ee5c117257cb70dce9dea2e2b2ac0381ac2cd14a6154b5a84b7f805",
+      "task": "A3_agent_control",
+      "model": "qwen/qwen3-coder",
+      "provider": "Novita"
+    }
+  ]
+}

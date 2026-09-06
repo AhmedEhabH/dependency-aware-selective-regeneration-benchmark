@@ -193,14 +193,16 @@ def test_empty_python_executable_fails_before_strategy(tmp_path: Path) -> None:
     assert any(f.stage == "configuration" for f in record.failures)
 
 
-def test_v2_metadata_missing_evaluator_fails_before_strategy(tmp_path: Path) -> None:
+def test_v2_migration_only_metadata_is_valid_without_evaluator(tmp_path: Path) -> None:
+    # D13r1 F3: migration execution is decoupled from evaluator_asset. A
+    # scenario that declares post-generation migration work WITHOUT an
+    # evaluator_asset is a VALID configuration (no harness defect), so the
+    # runner proceeds past the configuration gate to the strategy.
     runner = _make_runner(tmp_path, validation_command=["echo", "ok"], enable_regeneration=True)
-    record = runner.run(
+    cfg_fail = runner._validate_scientific_configuration(
         _scenario(post_generation_command=("echo",), evaluator_asset=""),
     )
-    assert record.status == RunStatus.failed
-    assert any(f.stage == "configuration" for f in record.failures)
-    assert runner._strategy.calls == []
+    assert cfg_fail is None
 
 
 def test_missing_required_migration_command_fails_before_strategy(tmp_path: Path) -> None:
@@ -894,13 +896,16 @@ def test_every_failed_stage_produces_exact_failure_record_stage(tmp_path: Path) 
         assert fr.stage == mig_result.failed_stage
 
 
-def test_missing_metadata_uses_harness_defect(tmp_path: Path) -> None:
+def test_migration_only_metadata_is_not_a_harness_defect(tmp_path: Path) -> None:
+    # D13r1 F3: pre-F3 the runner raised "Scenario metadata requires evaluator
+    # but evaluator_asset is empty" for any migration-bearing scenario. The
+    # migration stage now runs standalone; a migration-only scenario (no
+    # evaluator_asset) is VALID.
     runner = _make_runner(tmp_path, validation_command=["echo", "ok"])
     cfg_fail = runner._validate_scientific_configuration(
         _scenario(post_generation_command=("echo",), evaluator_asset=""),
     )
-    assert cfg_fail is not None
-    assert cfg_fail.failure_kind == FailureKind.harness_defect
+    assert cfg_fail is None
 
 
 def test_migration_baseline_evaluator_use_build_kind(tmp_path: Path) -> None:

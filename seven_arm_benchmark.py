@@ -76,6 +76,7 @@ STRATEGY_NAMES = [
     "incr_rtl",
     "code_plan",
     "iterative_repository_agent",
+    "impact_plan",
 ]
 
 # Frozen protocol design: which strategies are expected to use an LLM backend
@@ -89,6 +90,7 @@ STRATEGY_CAPABILITIES_DESIGN: dict[str, dict[str, bool]] = {
     "incr_rtl": {"llm": False, "graph": False},
     "code_plan": {"llm": True, "graph": True},
     "iterative_repository_agent": {"llm": True, "graph": False},
+    "impact_plan": {"llm": True, "graph": True},
 }
 
 
@@ -181,6 +183,12 @@ def _to_run_record_data(
             "max_attempts": str(max_attempts),
             "max_completion_tokens_per_call": str(record_dict.get("max_completion_tokens_per_call", 4096)),
             "max_total_workflow_tokens": str(record_dict.get("max_total_workflow_tokens", 0)),
+            "agent_control_max_completion_tokens": str(
+                record_dict.get("agent_control_max_completion_tokens", 1024)
+            ),
+            "impact_plan_max_completion_tokens": "4096",
+            "patch_max_completion_tokens": "8192",
+            "repair_patch_max_completion_tokens": "8192",
         },
         protocol_version=protocol_version,
         source_commit=source_commit,
@@ -231,6 +239,23 @@ def _to_run_record_data(
         regenerated_artifact_count=record_dict.get("regenerated_artifact_count", 0),
         preserved_artifact_count=record_dict.get("preserved_artifact_count", 0),
         unresolved_human_review_count=record_dict.get("unresolved_human_review_count", 0),
+        # SCIENTIFIC-MICROSTUDY-01 / D046 evidence
+        predicted_actions=dict(record_dict.get("predicted_actions") or {}),
+        changed_artifact_paths=list(record_dict.get("changed_artifact_paths") or []),
+        # Stage-C ImpactPlan evidence (scientific-wip-impactplan-v1 / D047)
+        impact_plan=record_dict.get("impact_plan"),
+        impact_plan_hash=record_dict.get("impact_plan_hash", ""),
+        impact_plan_version=record_dict.get("impact_plan_version", ""),
+        impact_plan_parent_hash=record_dict.get("impact_plan_parent_hash"),
+        impact_expansion_count=record_dict.get("impact_expansion_count", 0),
+        escalated_to_human_review=record_dict.get("escalated_to_human_review", False),
+        prohibited_write_attempts=record_dict.get("prohibited_write_attempts", 0),
+        planner_prompt_tokens=record_dict.get("planner_prompt_tokens", 0),
+        planner_completion_tokens=record_dict.get("planner_completion_tokens", 0),
+        planner_total_tokens=record_dict.get("planner_total_tokens", 0),
+        planner_model_calls=record_dict.get("planner_model_calls", 0),
+        planner_latency_seconds=record_dict.get("planner_latency_seconds", 0.0),
+        selection_study=record_dict.get("selection_study"),
     )
 
 
@@ -241,7 +266,7 @@ REPO_IDS = ["todo", "djangocms", "saleor"]
 # NOT in this set; the Pilot repository_agent baseline is
 # 'iterative_repository_agent' (see 01_FROZEN_PROTOCOL_AND_DECISIONS.md).
 REGENERATION_APPROVED_STRATEGIES = frozenset({
-    "monolithic", "selective", "iterative_repository_agent",
+    "monolithic", "selective", "iterative_repository_agent", "impact_plan",
 })
 
 
@@ -258,6 +283,7 @@ class ExecutionProfile:
     blast_radii: list[str] | None = None
     scenario_ids: list[str] | None = None
     timeout_seconds: int = 0
+    exact_patch: bool = False
 
 
 PROFILES: dict[str, ExecutionProfile] = {
@@ -286,7 +312,24 @@ PROFILES: dict[str, ExecutionProfile] = {
             "djangocms-cross-007", "saleor-loc-001", "saleor-loc-002",
             "saleor-mod-004", "saleor-cross-007",
         ],
-        timeout_seconds=600,
+        timeout_seconds=1200,
+        exact_patch=True,
+    ),
+    "pilot-canary": ExecutionProfile(
+        name="pilot-canary",
+        label="pilot-canary",
+        scenario_count=3,
+        strategies=["iterative_repository_agent", "selective"],
+        repetitions=1,
+        is_publication=False,
+        description="D11: real end-to-end pilot-canary representing ALL Pilot repos "
+        "(todo/djangocms/saleor): 3 scenarios x 2 strategies x 1 rep = 6 cells "
+        "(select -> regenerate -> repair -> validate), small but not a no-op",
+        repository_names=["todo", "djangocms", "saleor"],
+        blast_radii=["localized", "cross_cutting"],
+        scenario_ids=["todo-loc-001", "djangocms-cross-007", "saleor-loc-001"],
+        timeout_seconds=1200,
+        exact_patch=True,
     ),
     "research": ExecutionProfile(
         name="research",
@@ -325,7 +368,132 @@ PROFILES: dict[str, ExecutionProfile] = {
         scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
         timeout_seconds=300,
     ),
+    "scientific-microstudy-01": ExecutionProfile(
+        name="scientific-microstudy-01",
+        label="scientific-microstudy-01",
+        scenario_count=3,
+        strategies=["iterative_repository_agent", "selective"],
+        repetitions=5,
+        is_publication=False,
+        description=(
+            "SCIENTIFIC-MICROSTUDY-01 (PA-001/D046): Todo-only 3 scenarios x "
+            "2 strategies x 5 reps = 30 cells; pre-main go/no-go micro-study; "
+            "exact_patch, 900s workflow timeout, gold-isolated prompts, "
+            "provider-pinned fixed-provider OpenRouter."
+        ),
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
+        timeout_seconds=900,
+        exact_patch=True,
+    ),
+    "scientific-wip-impactplan-v1": ExecutionProfile(
+        name="scientific-wip-impactplan-v1",
+        label="scientific-wip-impactplan-v1",
+        scenario_count=3,
+        strategies=["iterative_repository_agent", "impact_plan"],
+        repetitions=5,
+        is_publication=False,
+        description=(
+            "IMPACTPLAN-WIP-01 (D047): Todo-only 3 scenarios x 2 strategies "
+            "(Agent vs ImpactPlan Selective) x 5 reps = 30 cells; Stage-C "
+            "ImpactPlan R/P/V/H treatment; exact_patch, 900s workflow timeout, "
+            "gold-isolated prompts, fixed compatible provider."
+        ),
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
+        timeout_seconds=900,
+        exact_patch=True,
+    ),
+"scientific-wip-impactplan-v1.1": ExecutionProfile(
+        name="scientific-wip-impactplan-v1.1",
+        label="scientific-wip-impactplan-v1.1",
+        scenario_count=3,
+        strategies=["iterative_repository_agent", "impact_plan"],
+        repetitions=5,
+        is_publication=False,
+        description=(
+            "RESULTS-RECOVERY-02 (D051): Todo-only 3 scenarios x 2 strategies "
+            "x 5 reps = 30 cells; native JSON-schema ImpactPlan, PatchEnvelope, "
+            "and Agent control; frozen role caps 1024/4096/8192/8192."
+        ),
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
+        timeout_seconds=900,
+        exact_patch=True,
+    ),
+    "scientific-stagec-selection-01": ExecutionProfile(
+        name="scientific-stagec-selection-01",
+        label="scientific-stagec-selection-01",
+        scenario_count=3,
+        strategies=["iterative_repository_agent", "impact_plan"],
+        repetitions=5,
+        is_publication=False,
+        description=(
+            "STAGE-C-SELECTION-01 (D052): Todo-only 3 scenarios x 2 arms "
+            "(Agent vs ImpactPlan) x 5 reps = 30 cells; SELECTION-ONLY: "
+            "analyze_impact exactly once per run, never revise_plan, never "
+            "regenerate/repair/migrate/evaluate; frozen caps Agent 1024 / "
+            "ImpactPlan 4096; hidden gold evaluated after prediction only."
+        ),
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
+        timeout_seconds=900,
+        exact_patch=True,
+    ),
+    "scientific-stagec-heldout-01": ExecutionProfile(
+        name="scientific-stagec-heldout-01",
+        label="scientific-stagec-heldout-01",
+        scenario_count=6,
+        strategies=["iterative_repository_agent", "impact_plan"],
+        repetitions=5,
+        is_publication=False,
+        description=(
+            "STAGE-C-HELDOUT-CHALLENGE-01 (D053): Todo-only 6 held-out user-level "
+            "scenarios x 2 arms (Agent vs ImpactPlan) x 5 reps = 60 cells; "
+            "SELECTION-ONLY: analyze_impact exactly once per run, never revise_plan, "
+            "never regenerate/repair/migrate/evaluate; frozen caps Agent 1024 / "
+            "ImpactPlan 4096; hidden gold evaluated after prediction only; "
+            "architecture_constraints empty for every scenario."
+        ),
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate"],
+        scenario_ids=[
+            "todo-heldout-001",
+            "todo-heldout-002",
+            "todo-heldout-003",
+            "todo-heldout-004",
+            "todo-heldout-005",
+            "todo-heldout-006",
+        ],
+        timeout_seconds=900,
+        exact_patch=True,
+    ),
 }
+
+
+def resolve_profile_protocol(profile_name: str, explicit: str | None = None) -> str:
+    """Resolve the protocol version for a profile (D11 B2).
+
+    Only the Pilot contract (``pilot`` and ``pilot-canary``) is protocol 1.2;
+    every other profile defaults to 1.0 so the Pilot protocol correction never
+    leaks into non-Pilot profiles (smoke/research/scientific-smoke-v1/v2). An
+    explicit ``--protocol-version`` always overrides the profile-derived value.
+    """
+    if explicit is not None:
+        return explicit
+    if profile_name in ("pilot", "pilot-canary"):
+        return "1.2"
+    if profile_name == "scientific-wip-impactplan-v1.1":
+        return "scientific-wip-impactplan-v1.1"
+    if profile_name == "scientific-stagec-selection-01":
+        return "scientific-stagec-selection-01"
+    if profile_name == "scientific-stagec-heldout-01":
+        return "scientific-stagec-heldout-01"
+    return "1.0"
 
 # ---------------------------------------------------------------------------
 # ScenarioProvider wrapper
@@ -362,7 +530,7 @@ class ScenarioProvider:
 # Strategy factory
 # ---------------------------------------------------------------------------
 
-def make_strategy(name: str, backend=None, graph=None, artifact_descriptors=None):  # type: ignore[no-untyped-def]
+def make_strategy(name, backend=None, graph=None, artifact_descriptors=None, agent_control_max_completion_tokens=512):  # type: ignore[no-untyped-def]
     from benchmark.strategies import (
         FullContextStrategy,
         HybridSelectiveStrategy,
@@ -382,7 +550,10 @@ def make_strategy(name: str, backend=None, graph=None, artifact_descriptors=None
     if name == "iterative_repository_agent":
         if backend is None:
             raise ValueError("IterativeRepositoryAgentStrategy requires a backend")
-        return IterativeRepositoryAgentStrategy(backend=backend)
+        return IterativeRepositoryAgentStrategy(
+            backend=backend,
+            agent_control_max_completion_tokens=agent_control_max_completion_tokens,
+        )
 
     strategies = {
         "monolithic": (MonolithicRegenerationStrategy, {}),
@@ -392,6 +563,20 @@ def make_strategy(name: str, backend=None, graph=None, artifact_descriptors=None
         "incr_rtl": (TraceabilityOnlyStrategy, {}),
         "code_plan": (FullContextStrategy, {"graph": graph}),
     }
+    if name == "impact_plan":
+        from benchmark.llm.mock_backend import MockLLMBackend
+        from benchmark.selection.impact_planner import MockImpactPlanner, OpenRouterImpactPlanner
+        from benchmark.strategies.impact_plan import ImpactPlanSelectiveStrategy
+
+        if backend is None or isinstance(backend, MockLLMBackend):
+            planner = MockImpactPlanner()
+        else:
+            planner = OpenRouterImpactPlanner(backend)
+        return ImpactPlanSelectiveStrategy(
+            planner=planner,
+            graph=graph,
+            artifact_descriptors=artifact_descriptors or (),
+        )
     entry = strategies.get(name)
     if entry is None:
         raise ValueError(f"Unknown strategy: {name}")
@@ -409,6 +594,7 @@ def make_backend(  # type: ignore[no-untyped-def]
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    openrouter_provider: str | None = None,
     qwen_quantization: str = "bnb-int8",
 ):
     if dry_run or backend_name == "mock":
@@ -419,6 +605,7 @@ def make_backend(  # type: ignore[no-untyped-def]
         return OpenRouterBackend(
             model=openrouter_model,
             timeout_seconds=openrouter_timeout,
+            provider=openrouter_provider,
         )
     from benchmark.llm.kaggle_qwen_backend import KaggleQwenBackend
     kwargs: dict[str, str] = {}
@@ -638,11 +825,15 @@ def run_arm(
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    openrouter_provider: str | None = None,
     validation_command: list[str] | None = None,
     max_tokens: int = 0,
     max_completion_tokens_per_call: int = 4096,
     max_total_workflow_tokens: int = 0,
     qwen_quantization: str = "bnb-int8",
+    exact_patch: bool = False,
+    agent_control_max_completion_tokens: int = 512,
+    scientific_gold_isolation: bool = False,
 ) -> object:
     """Run a single strategy arm and return a PipelineResult."""
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
@@ -660,9 +851,15 @@ def run_arm(
         backend_name=backend_name,
         openrouter_model=openrouter_model,
         openrouter_timeout=openrouter_timeout,
+        openrouter_provider=openrouter_provider,
         qwen_quantization=qwen_quantization,
     ) if needs_llm else None
-    strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph)
+    strategy = make_strategy(
+        strategy_name,
+        backend=backend,
+        graph=dep_graph,
+        agent_control_max_completion_tokens=agent_control_max_completion_tokens,
+    )
 
     isolation = make_isolation(isolation_workspace)
 
@@ -685,6 +882,8 @@ def run_arm(
         validation_timeout=180,
         max_completion_tokens_per_call=max_completion_tokens_per_call,
         max_total_workflow_tokens=resolved_total,
+        exact_patch=exact_patch,
+        scientific_gold_isolation=scientific_gold_isolation,
     )
 
     pipeline = BenchmarkPipeline(
@@ -805,6 +1004,16 @@ def parse_args() -> argparse.Namespace:
         help="Request timeout in seconds for OpenRouter API calls",
     )
     parser.add_argument(
+        "--openrouter-provider",
+        type=str,
+        default=None,
+        help=(
+            "Exact pinned OpenRouter provider slug (PA-001 / D046). When set, "
+            "every request carries exactly ONE provider with allow_fallbacks=false "
+            "and require_parameters=true. No cross-provider fallback."
+        ),
+    )
+    parser.add_argument(
         "--profile",
         choices=list(PROFILES.keys()),
         default="smoke",
@@ -859,6 +1068,19 @@ def parse_args() -> argparse.Namespace:
         help="Total workflow token ceiling per run (0 = unlimited)",
     )
     parser.add_argument(
+        "--exact-patch",
+        action="store_true",
+        default=False,
+        help="Enable exact-patch regeneration mode (SEARCH/REPLACE blocks instead of full-file rewrite)",
+    )
+    parser.add_argument(
+        "--agent-control-max-completion-tokens",
+        type=int,
+        default=512,
+        help="Maximum completion tokens for the repository agent's control-plane calls "
+        "(analyze_impact / revise_plan), separate from the source-edit cap (D13 B2)",
+    )
+    parser.add_argument(
         "--validation-command",
         type=str,
         default=None,
@@ -890,8 +1112,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--protocol-version",
         type=str,
-        default="1.0",
-        help="Research protocol version string",
+        default=None,
+        help=(
+            "Research protocol version string. When omitted it is derived from "
+            "the profile: pilot and pilot-canary default to 1.1, all other "
+            "profiles default to 1.0 (D11 B2)."
+        ),
     )
     parser.add_argument(
         "--data-dir",
@@ -1193,6 +1419,7 @@ def _get_model_identity(
     model_path: str | None = None,
     backend_name: str | None = None,
     openrouter_model: str = "",
+    openrouter_provider: str = "",
     qwen_quantization: str = "bnb-int8",
 ) -> str:
     """Resolve the model identity for the experiment.
@@ -1201,8 +1428,14 @@ def _get_model_identity(
     identity is checkpoint-and-quantization-aware so that two different Qwen
     checkpoints or loaders can never share an identity (this is what blocks
     auto-resume cross-model contamination).
+
+    OpenRouter identity is ``openrouter:<model>@<provider>`` so a materially
+    different provider (or model) can never share a config identity / run-id
+    namespace (A3 / D046).
     """
     if backend_name == "openrouter" and openrouter_model:
+        if openrouter_provider:
+            return f"openrouter:{openrouter_model}@{openrouter_provider}"
         return f"openrouter:{openrouter_model}"
     if backend_name == "kaggle-qwen" or model_path:
         from benchmark.llm.kaggle_qwen_backend import compute_model_identity
@@ -1340,6 +1573,9 @@ def _stage_and_smoke_run(
     _backend: object = None,
     max_completion_tokens_per_call: int = 4096,
     max_total_workflow_tokens: int = 0,
+    exact_patch: bool = False,
+    agent_control_max_completion_tokens: int = 512,
+    validation_python: str | None = None,
 ) -> dict[str, Any]:
     """Production path: repository source resolution → snapshot staging → execution.
 
@@ -1370,6 +1606,7 @@ def _stage_and_smoke_run(
         repetitions=1,
         is_publication=False,
     )
+    resolved_total = max_total_workflow_tokens or max_tokens
 
     record_dict, _ = _run_single_scenario_strategy(
         scenario_id=scenario_id,
@@ -1390,7 +1627,10 @@ def _stage_and_smoke_run(
         snapshot_storage_root=snapshot_storage,
         _backend=_backend,
         max_completion_tokens_per_call=max_completion_tokens_per_call,
-        max_total_workflow_tokens=max_total_workflow_tokens,
+        max_total_workflow_tokens=resolved_total,
+        agent_control_max_completion_tokens=agent_control_max_completion_tokens,
+        exact_patch=exact_patch,
+        validation_python=validation_python,
     )
     return record_dict
 
@@ -1410,6 +1650,7 @@ def _run_single_scenario_strategy(
     backend_name: str | None = None,
     openrouter_model: str = "nvidia/nemotron-3-super-120b-a12b:free",
     openrouter_timeout: float = 120.0,
+    openrouter_provider: str | None = None,
     validation_command: list[str] | None = None,
     validation_env: dict[str, str] | None = None,
     validation_timeout: int | None = None,
@@ -1422,9 +1663,15 @@ def _run_single_scenario_strategy(
     max_completion_tokens_per_call: int = 4096,
     max_total_workflow_tokens: int = 0,
     qwen_quantization: str = "bnb-int8",
+    exact_patch: bool = False,
+    agent_control_max_completion_tokens: int = 512,
+    validation_python: str | None = None,
+    scientific_gold_isolation: bool = False,
+    selection_only: bool = False,
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
+    _ = profile
     scenario_provider.get_scenario(scenario_id)
 
     design = STRATEGY_CAPABILITIES_DESIGN.get(strategy_name, {})
@@ -1439,12 +1686,19 @@ def _run_single_scenario_strategy(
             backend_name=backend_name,
             openrouter_model=openrouter_model,
             openrouter_timeout=openrouter_timeout,
+            openrouter_provider=openrouter_provider,
             qwen_quantization=qwen_quantization,
         )
     else:
         backend = None
 
-    strategy = make_strategy(strategy_name, backend=backend, graph=dep_graph, artifact_descriptors=artifact_descriptors)
+    strategy = make_strategy(
+        strategy_name,
+        backend=backend,
+        graph=dep_graph,
+        artifact_descriptors=artifact_descriptors,
+        agent_control_max_completion_tokens=agent_control_max_completion_tokens,
+    )
 
     isolation = make_isolation(
         workspace_dir,
@@ -1452,7 +1706,7 @@ def _run_single_scenario_strategy(
         snapshot_storage_root=snapshot_storage_root,
     )
 
-    enable_regen = not dry_run and strategy_name in REGENERATION_APPROVED_STRATEGIES
+    enable_regen = not dry_run and not selection_only and strategy_name in REGENERATION_APPROVED_STRATEGIES
 
     if max_total_workflow_tokens > 0 and max_tokens > 0 and max_total_workflow_tokens != max_tokens:
         raise ValueError(
@@ -1478,6 +1732,11 @@ def _run_single_scenario_strategy(
         python_executable=sys.executable,
         max_completion_tokens_per_call=max_completion_tokens_per_call,
         max_total_workflow_tokens=resolved_total,
+        agent_control_max_completion_tokens=agent_control_max_completion_tokens,
+        exact_patch=exact_patch,
+        validation_python=validation_python,
+        scientific_gold_isolation=scientific_gold_isolation,
+        selection_only=selection_only,
     )
 
     pipeline = BenchmarkPipeline(
@@ -1549,6 +1808,23 @@ def _run_single_scenario_strategy(
         "unresolved_human_review_count": record.unresolved_human_review_count,
         "max_completion_tokens_per_call": max_completion_tokens_per_call,
         "max_total_workflow_tokens": resolved_total,
+        # SCIENTIFIC-MICROSTUDY-01 / D046 evidence
+        "predicted_actions": dict(record.predicted_actions),
+        "changed_artifact_paths": list(record.changed_artifact_paths),
+        # Stage-C ImpactPlan evidence (scientific-wip-impactplan-v1 / D047)
+        "impact_plan": record.impact_plan,
+        "impact_plan_hash": record.impact_plan_hash,
+        "impact_plan_version": record.impact_plan_version,
+        "impact_plan_parent_hash": record.impact_plan_parent_hash,
+        "impact_expansion_count": record.impact_expansion_count,
+        "escalated_to_human_review": record.escalated_to_human_review,
+        "prohibited_write_attempts": record.prohibited_write_attempts,
+        "planner_prompt_tokens": record.planner_prompt_tokens,
+        "planner_completion_tokens": record.planner_completion_tokens,
+        "planner_total_tokens": record.planner_total_tokens,
+        "planner_model_calls": record.planner_model_calls,
+        "planner_latency_seconds": record.planner_latency_seconds,
+        "selection_study": dict(record.selection_study) if record.selection_study else None,
     }
     if record.failures:
         record_dict["failures"] = [
@@ -1582,6 +1858,19 @@ def _compute_config_hash(args: argparse.Namespace) -> str:
         "max_completion_tokens_per_call": getattr(args, "max_completion_tokens_per_call", 4096),
         "max_total_workflow_tokens": resolved_total,
         "qwen_quantization": getattr(args, "qwen_quantization", "bnb-int8"),
+        # D13R2 Fix 4 — Protocol-1.2 execution controls must participate in the
+        # config identity: changing exact_patch or the agent-control cap changes
+        # the hash (D13r1 F5 contract).
+        "exact_patch": getattr(args, "exact_patch", False),
+        "agent_control_max_completion_tokens": getattr(
+            args, "agent_control_max_completion_tokens", 512
+        ),
+        # D046 — API identity participates in the config hash. Two different
+        # backends/models/providers can never share a config hash or run-ID
+        # namespace.
+        "backend": getattr(args, "backend", None),
+        "openrouter_model": getattr(args, "openrouter_model", None),
+        "openrouter_provider": getattr(args, "openrouter_provider", None),
     }
     raw = json.dumps(config_obj, sort_keys=True)
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
@@ -1646,6 +1935,7 @@ def _preflight_check(
 
     Returns (ok, hardware_identity, software_identity, rejection_reason).
     """
+    _ = strategy_name
     if dry_run or not needs_llm:
         return True, "", "", ""
 
@@ -1728,6 +2018,13 @@ _SCIENTIFIC_FAILURE_KINDS = frozenset(
         "scientific_budget_exhausted",
     }
 )
+# Deadline-censored outcomes (workflow budget / timeout reached): the run did
+# not finish within its scientific budget. They remain in the SCIENTIFIC set for
+# job-exit/resume semantics (a censored run is a valid measured budget outcome,
+# not an engineering job failure), but the Pilot viability classifier (D10.5)
+# separates them so deadline-censored results are never masked as accepted
+# scientific failures.
+_DEADLINE_CENSORED_KINDS = frozenset({"scientific_budget_exhausted"})
 _ENGINEERING_FAILURE_KINDS = frozenset(
     {
         "infrastructure",
@@ -1740,12 +2037,30 @@ _ENGINEERING_FAILURE_KINDS = frozenset(
 )
 
 
+def _record_failure_kinds(record: dict[str, Any]) -> frozenset[str]:
+    """Collect the union of failure-detail kinds and the failure classification."""
+    kinds = {
+        str(item.get("kind", ""))
+        for item in (record.get("failure_details") or [])
+        if isinstance(item, dict) and item.get("kind")
+    }
+    classification = str(record.get("failure_classification", ""))
+    if classification:
+        kinds.add(classification)
+    return frozenset(k for k in kinds if k)
+
+
 def _terminal_record_outcome(record: dict[str, Any]) -> str:
     """Classify a persisted terminal record as scientific or engineering.
 
     A benchmark model/code failure is a valid measured outcome.  Only
     infrastructure, harness, timeout/cancellation, or unknown failures should
     make the process/session fail as an execution job.
+
+    NOTE (D10.5): this shared classifier is intentionally unchanged so the
+    accepted Full-9 Smoke semantics are preserved. The Pilot-specific
+    terminality/viability split lives in ``_pilot_record_viability`` and the
+    Pilot verify cells / ``validate_pilot_canary_evidence``.
     """
     status = str(record.get("status", ""))
     if status == "succeeded":
@@ -1755,16 +2070,43 @@ def _terminal_record_outcome(record: dict[str, Any]) -> str:
     if status != "failed":
         return "engineering_blocker"
 
-    kinds = {
-        str(item.get("kind", ""))
-        for item in (record.get("failure_details") or [])
-        if isinstance(item, dict) and item.get("kind")
-    }
-    classification = str(record.get("failure_classification", ""))
-    if classification:
-        kinds.add(classification)
+    kinds = _record_failure_kinds(record)
     if not kinds or kinds & _ENGINEERING_FAILURE_KINDS:
         return "engineering_blocker"
+    if kinds <= _SCIENTIFIC_FAILURE_KINDS:
+        return "scientific_failure"
+    return "engineering_blocker"
+
+
+def _pilot_record_viability(record: dict[str, Any]) -> str:
+    """D10.5: classify a Pilot record's SCIENTIFIC VIABILITY.
+
+    Separates TERMINALITY (the record is a final persisted state — status
+    ``succeeded`` or ``failed``) from VIABILITY (whether that terminal result is
+    scientifically acceptable). Returns one of:
+
+      * ``accepted``           - the run finished and passed
+      * ``scientific_failure`` - a legitimate measured model/code/requirement/
+                                 regression/architecture failure (a valid result)
+      * ``deadline_censored``  - the workflow budget/timeout was reached; the
+                                 run did NOT finish within its scientific budget
+                                 (NOT an accepted measured failure — D10.5)
+      * ``engineering_blocker``- infrastructure/harness/timed_out/environment or
+                                 unknown; an execution problem, not a result
+    """
+    status = str(record.get("status", ""))
+    if status == "succeeded":
+        return "accepted"
+    if status in ("timed_out", "cancelled"):
+        return "engineering_blocker"
+    if status != "failed":
+        return "engineering_blocker"
+
+    kinds = _record_failure_kinds(record)
+    if not kinds or (kinds & _ENGINEERING_FAILURE_KINDS):
+        return "engineering_blocker"
+    if kinds & _DEADLINE_CENSORED_KINDS:
+        return "deadline_censored"
     if kinds <= _SCIENTIFIC_FAILURE_KINDS:
         return "scientific_failure"
     return "engineering_blocker"
@@ -1845,6 +2187,8 @@ def _decide_session_exit_code(
                 last_run_status == "failed"
                 and last_run_failure_classification
                 not in _SCIENTIFIC_FAILURE_KINDS
+                and last_run_failure_classification
+                not in _DEADLINE_CENSORED_KINDS
             ):
                 return 1
         return 0
@@ -1862,9 +2206,39 @@ def main() -> int:
 
     profile = PROFILES[args.profile]
 
+    # D11 B2: resolve the per-profile default protocol (pilot/pilot-canary ->
+    # 1.1, all other profiles -> 1.0) unless the user passed an explicit
+    # --protocol-version. Doing this here makes every later use of
+    # args.protocol_version (config hash, source identity, checkpoint, HF sync)
+    # see the resolved value.
+    args.protocol_version = resolve_profile_protocol(
+        args.profile,
+        explicit=args.protocol_version,
+    )
+
     # Use profile timeout if CLI arg not explicitly set (default 0 = no limit)
     if args.timeout == 0 and profile.timeout_seconds > 0:
         args.timeout = profile.timeout_seconds
+
+# Use profile exact_patch if not explicitly overridden via CLI
+    if not getattr(args, "exact_patch", False) and profile.exact_patch:
+        args.exact_patch = profile.exact_patch
+
+    if profile.name == "scientific-wip-impactplan-v1.1":
+        # D051: role-sized maxima are frozen before scientific outcomes.
+        args.max_completion_tokens_per_call = 8192
+        args.agent_control_max_completion_tokens = 1024
+
+    if profile.name == "scientific-stagec-selection-01":
+        # D052: selection-only study frozen role caps. No source-edit/repair path
+        # exists, so only the Agent control cap (1024) is forced; the ImpactPlan
+        # planner cap is a frozen constant (4096 in impact_planner.py).
+        args.agent_control_max_completion_tokens = 1024
+
+    if profile.name == "scientific-stagec-heldout-01":
+        # D053: held-out selection-only study. Same frozen role caps as D052:
+        # Agent control 1024, ImpactPlan planner 4096 (frozen constant).
+        args.agent_control_max_completion_tokens = 1024
 
     # ---- Validation-runtime contract (v0.9.21 B1/B2/B3) ---------------------
     # Fail closed BEFORE the scientific execution plan is created or any model
@@ -1908,6 +2282,7 @@ def main() -> int:
         model_path=args.model_path,
         backend_name=resolved_backend,
         openrouter_model=args.openrouter_model,
+        openrouter_provider=getattr(args, "openrouter_provider", "") or "",
         qwen_quantization=args.qwen_quantization,
     )
 
@@ -1967,6 +2342,9 @@ def main() -> int:
                 expected_model_identity=expected_identity,
                 expected_quantization=args.qwen_quantization,
                 expected_deployed_build_id=deployed_build_id,
+                # D13r1 F1: fail-closed PRE-MODEL semantic-executability gate.
+                scenario_dir=scenarios_dir,
+                scenario_ids=tuple(profile.scenario_ids or ()),
             )
             logger.info("PILOT LAUNCH AUTHORIZATION: PASSED")
         except LaunchAuthorizationError as exc:
@@ -2245,6 +2623,11 @@ def main() -> int:
     # of truth for regeneration baseline validation. Every selected repository
     # must resolve a non-empty command before the first model call; a missing
     # mapping FAILS CLOSED (no single-repository behavior, no silent skip).
+    # Selection-only profiles never run validation, so they skip this contract.
+    selection_only = profile.name in {
+        "scientific-stagec-selection-01",
+        "scientific-stagec-heldout-01",
+    }
     _manifest_collection = None
     _validation_commands: dict[str, list[str]] = {}
     _validation_envs: dict[str, dict[str, str]] = {}
@@ -2271,13 +2654,13 @@ def main() -> int:
                 )
                 return 1
 
-        if args.validation_command:
+        if not selection_only and args.validation_command:
             # CLI override applies to all repos
             cmd = shlex.split(args.validation_command)
             for sn in strategy_names:
                 if sn in REGENERATION_APPROVED_STRATEGIES:
                     _validation_commands[sn] = cmd
-        else:
+        elif not selection_only:
             selected_repo_ids: set[str] = set()
             for scenario in selected_scenarios:
                 selected_repo_ids.add(scenario.repository)
@@ -2539,10 +2922,15 @@ def main() -> int:
     # NOTE: do NOT infer resume from bool(skip_run_ids) — a resumed experiment
     #       with only retryable failures has an empty skip set but must still
     #       preserve the downloaded normalized checkpoint.
-    is_resume = (
-        args.auto_resume_hf
-        and resume_result is not None
-        and resume_result.action == "resume"
+    is_resume = bool(
+        args.resume
+        or args.resume_from
+        or args.resume_from_hf
+        or (
+            args.auto_resume_hf
+            and resume_result is not None
+            and resume_result.action == "resume"
+        )
     )
 
     if is_resume:
@@ -2626,6 +3014,10 @@ def main() -> int:
         "model_identity": model_identity,
         "profile": profile.name,
         "protocol_version": args.protocol_version,
+        "agent_control_max_completion_tokens": getattr(
+            args, "agent_control_max_completion_tokens", 512
+        ),
+        "exact_patch": getattr(args, "exact_patch", False),
         "experiment_id": hf_experiment_id,
         "hf_repo_id": args.hf_repo_id or "",
         "dry_run": args.dry_run,
@@ -2664,9 +3056,28 @@ def main() -> int:
             backend_name=resolved_backend,
             openrouter_model=args.openrouter_model,
             openrouter_timeout=args.openrouter_timeout,
+            openrouter_provider=getattr(args, "openrouter_provider", None) or None,
             qwen_quantization=args.qwen_quantization,
         )
         logger.info("Shared backend created once for the whole process")
+
+        # D9: eager shared-model initialization BEFORE t_start / any RUN_START.
+        # One-time Qwen weights load happens here, outside the scientific timing
+        # and token budget of the first run, so model load is never charged to one
+        # strategy/repetition. Failure is an engineering blocker: 0 RunRecords,
+        # no current run, checkpoint left resumable/incomplete, nonzero exit.
+        init = getattr(shared_backend, "initialize", None)
+        if callable(init) and not args.dry_run:
+            logger.info("SESSION_MODEL_INITIALIZE_BEGIN model=%s", resolved_backend)
+            try:
+                init()
+            except Exception as exc:
+                logger.error("SESSION_MODEL_INITIALIZE_FAILED exception=%s: %s", type(exc).__name__, exc)
+                checkpoint_data.completion_status = "incomplete"
+                checkpoint_data.current_run_id = ""
+                checkpoint_mgr.write_atomic(checkpoint_data)
+                return 1
+            logger.info("SESSION_MODEL_READY model=%s", resolved_backend)
 
     # ---- Execute plan -------------------------------------------------------
     t_start = time.monotonic()
@@ -2749,6 +3160,7 @@ def main() -> int:
             backend_name=resolved_backend,
             openrouter_model=args.openrouter_model,
             openrouter_timeout=args.openrouter_timeout,
+            openrouter_provider=getattr(args, "openrouter_provider", None) or None,
             validation_command=arm_validation_command,
             validation_env=arm_validation_env,
             validation_timeout=resolved_validation_timeout,
@@ -2761,6 +3173,24 @@ def main() -> int:
             max_total_workflow_tokens=args.max_total_workflow_tokens or max_tokens,
             qwen_quantization=args.qwen_quantization,
             _backend=shared_backend if needs_llm else None,
+            exact_patch=getattr(args, "exact_patch", False),
+            agent_control_max_completion_tokens=getattr(
+                args, "agent_control_max_completion_tokens", 512
+            ),
+validation_python=_validation_pythons.get(repository_id),
+            scientific_gold_isolation=(
+                profile.name in {
+                    "scientific-microstudy-01",
+                    "scientific-wip-impactplan-v1",
+                    "scientific-wip-impactplan-v1.1",
+                    "scientific-stagec-selection-01",
+                    "scientific-stagec-heldout-01",
+                }
+            ),
+            selection_only=(
+                profile.name == "scientific-stagec-selection-01"
+                or profile.name == "scientific-stagec-heldout-01"
+            ),
         )
         run_ended_at = datetime.now(UTC).isoformat()
         run_elapsed = time.monotonic() - run_t0
@@ -2910,7 +3340,7 @@ def main() -> int:
                 run_id, hf_sync_ok, time.monotonic() - hf_sync_t0,
             )
 
-        run_count += 1
+        run_count += 1  # noqa: SIM113 - count drives persisted chunk checkpoints
 
         # ---- Immediate stop for engineering blockers / required HF failures
         # Terminal record, evidence, progress, and HF-sync state are already

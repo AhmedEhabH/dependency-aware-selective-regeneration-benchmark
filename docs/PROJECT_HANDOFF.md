@@ -1,26 +1,349 @@
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
-> **CURRENT STATE (2026-08-24, v0.9.22 CANDIDATE — TARGET MEMORY PROOF PENDING):** branch
-> `fix/pilot-v0922-long-context-attention-memory-closure` implements the long-context
-> attention memory closure on top of clean main `58d1be533c98ca9bafc9a344f2a73f8a140b9540`
-> (v0.9.21 reconciled). The real Kaggle v0.9.21 model preflight PASSED repository
-> preflight / dependencies / Qwen 14B BNB-NF4 load (`qwen_model_load[bnb-nf4]: PASS`) /
-> GPU-only device map / 2x Tesla T4 / per-GPU headroom (min free 7.764 GiB) / short probe,
-> then FAILED at the long-context probe with CUDA OOM: 12,044 prompt tokens / 64-token
-> output budget / **failed allocation 21.62 GiB == exactly `12044*12044*40*4 bytes =
-> 21.6153 GiB`, the full float32 40-head quadratic attention score matrix** — the effective
-> runtime attention path materialized the math/eager fallback during prompt prefill.
+> **CURRENT STATE (2026-09-06, RESULTS-RECOVERY-02 COMPLETE — v1.1 EVIDENCE
+> PRODUCED; GO/NO-GO=NO-GO; NOT A RELEASE; NO STABLE TAG MOVE):** the active
+> protocol `scientific-wip-impactplan-v1.1` was executed end to end under
+> D051/A032. Historical `exp-20260905-225518` preserved verbatim. Implemented
+> only the four D051 corrections: native JSON-schema PatchEnvelope; structured
+> Agent actions with calls 1-7 exploration and call 8 forced final; file or
+> directory `search_text`; and ImpactPlan/planner provenance through repair and
+> failure. Model `qwen/qwen3-coder`, pinned DeepInfra through OpenRouter,
+> fallback off; caps 1024/4096/8192/8192. Two real non-study E2E probes PASS;
+> exactly six gates PASS; Audit PASS; full suite **2825 passed / 33 skipped / 0
+> failed**; cost gate <= $1.50. 30-run study `exp-20260906-v11`: 30/30
+> attempted, 5/30 functional-validation reached, **0/30 passed**, actual API
+> cost `$0.1789`, **GO_NO_GO=NO-GO** (G1 not cleared in any scenario). Results
+> `reports/SCIENTIFIC_MICROSTUDY_V11_RESULTS.csv/.md` + DECISION pushed;
+> evidence tag `wip-impactplan-v1.1-evidence` created (not a release tag);
+> LIGHT export produced. Next: external independent audit of the NO-GO v1.1
+> evidence; no scientific rerun without a new preregistration.
+
+> **CURRENT STATE (2026-09-05, IMPACTPLAN-WIP-01 — UNIFIED RESEARCH PATH; SCIENTIFIC-WIP-IMPACTPLAN-V1 FROZEN):**
+> **CURRENT SCIENTIFIC TARGET = `SCIENTIFIC-WIP-IMPACTPLAN-V1`** — the
+> Stage-C first-class persisted `ImpactPlan` treatment for the Selective arm: 3
+> frozen Todo scenarios (`todo-smoke-001` localized, `todo-smoke-002`
+> moderate, `todo-smoke-003` cross_cutting) × 2 strategies (Agent vs
+> ImpactPlan Selective) × 5 repetitions = 30 attempted runs (NOT run in this
+> readiness task). Treatment contract: R/P/V/H exactly-once classification;
+> `write_set == {R}`; P/V/H writes physically blocked; `context_set`
+> independent of action sets; validation/test obligations separate; one
+> bounded expansion (v1→v2) then HUMAN_REVIEW; planner calls/tokens/latency/
+> cost counted; every R cites strategy-visible evidence. Qwen2.5-Coder-14B +
+> Kaggle 2×T4 is **RETIRED** (immutable engineering feasibility evidence).
+> Old 48-cell Pilot NOT launched/repaired; no D14/D15; no Saleor; no djangoCMS
+> implementation yet. The old binary R/P micro-study authorization
+> (`MICROSTUDY_REAL_RUN_AUTHORIZED=YES`) is **SUPERSEDED — current = NO**.
+> Primary scientific model **`qwen/qwen3-coder`**; FIXED COMPATIBLE PROVIDER
+> (DeepInfra Turbo first, NovitaAI only if DeepInfra fails; `allow_fallbacks=false`;
+> first-party-DeepSeek rule superseded). NEXT FEATURE = one bounded vertical
+> slice (ImpactPlan implementation → RED→GREEN unit+integration → six
+> Pre-Benchmark gates for the NEW protocol → model/provider operational
+> acceptance → freeze → independent Audit → full suite once → STOP before 30
+> real runs → export `project-YYYY-MM-DD-HHmm.zip` for external GPT-5.6 Sol
+> audit). Freeze docs: `docs/SCIENTIFIC_RESET_DECISION_2026-09-04.md`,
+> `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` (sections 8–9),
+> `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md`,
+> `_workspace/active/UNIFIED_RESEARCH_PATH_PACK/`; decisions `D040`–`D047` in
+> `DECISION_LOG.md`; assumptions `A029`–`A030`. No scientific model call
+> before this amendment is frozen and pushed.
+>
+> **PRIOR STATE (2026-09-01, SUPERSEDED by the 2026-09-04 scientific
+> decision — v0.9.22 D12 NOTEBOOK ORCHESTRATION FIX CLOSURE
+> (PILOT-EXEC-01) — SCRIPT_PATH DEFINED ONCE IN CELL 4 BEFORE FIRST CANARY
+> USE (FIXES THE CANARY STANDALONE NameError), D12 CANDIDATE
+> `v0.9.22-d12-candidate` BUILT + PROVENANCE-VERIFIED FROZEN; NOT A RELEASE;
+> NO STABLE TAG MOVE; D11 CANDIDATE SUPERSEDED):** D12 fixes the verified
+> in-flight blocker WITHOUT touching scientific inputs (model
+> Qwen2.5-Coder-14B-Instruct, BNB-NF4, sdpa `flash_or_efficient_no_math`, GQA
+> `repeat_kv_sm75`, 12 scenarios, 3 repo pins Todo/django CMS/Saleor, 2
+> strategies, 2 reps = 48 cells): cell 20 (`pilot-canary-cell`) reads
+> SCRIPT_PATH but only cell 22 (`dryrun-cell`) defined it, so the canary could
+> not run as an independent notebook stage (`NameError: name 'SCRIPT_PATH' is
+> not defined`). The single canonical `SCRIPT_PATH = CODE_DIR /
+> "seven_arm_benchmark.py"` + `FileNotFoundError` guard now lives in cell 4
+> (`pilot-archive-verify-cell`) after CODE_DIR existence checks and before ANY
+> use; the duplicate def/guard was deleted from the dry-run cell; new
+> `TestD12ScriptPathOrchestration` (4 tests) RED→GREEN. The
+> D12 candidate artifact **`v0.9.22-d12-candidate`** was built +
+> provenance-verified FROZEN (source commit `84acb8b…`, deployed build id
+> `84acb8b`, created-utc 2026-09-01T18:40:35+00:00, archive SHA-256
+> **`812d37555a42f8fbdfbbb2e5441c814fb733cfd424ca75c810ead96a0bc4346a`** +
+> sidecar verified; protocol 1.1; exact-artifact dry-runs Pilot **48/48** +
+> canary **6/6**, canonical `validate_pilot_dryrun_evidence` PASS). This
+> candidate is NOT a launch basis — it still requires a real pilot-canary pass
+> and its own tag decision. The retired `v0.9.22-pilot-exec-ready` tag and the
+> `edae1b7e…8c4a` artifact are NOT reused; the D11 candidate is SUPERSEDED.
+> Full suite: **2589 passed / 33 skipped / 0 failed**. Report:
+> `reports/V0922_D12_NOTEBOOK_ORCHESTRATION_FIX_CLOSURE_REPORT.md`; freeze
+> `reports/pilot_notebook_trust_freeze.json`.
+>
+> **PRIOR STATE (2026-08-31, SUPERSEDED by the D11 saleor-inclusive canary
+> closure — v0.9.22 D10 ALL-FAILED PILOT VIABILITY CLOSURE
+> (PILOT-EXEC-01) — REAL 48-CELL PILOT `exp-20260830-134232` FINISHED 48/48
+> TERMINAL FAILURES (0 SUCCEEDED, 0 EVALUATOR-PASSED) AND IS REJECTED; STABLE
+> ANNOTATED TAG `v0.9.22-pilot-exec-ready` UNCHANGED BUT RETIRED AS A LAUNCH
+> CANDIDATE; INTERNAL RUNTIME CONTRACT CORRECTED (PROTOCOL 1.1, TIMEOUT 1200,
+> PILOT-CANARY GATE, STANDALONE FAIL-CLOSED RESUME, TERMINALITY/VIABILITY
+> SPLIT); NO REAL PILOT LAUNCH AND NO TAG MOVE IN THIS CLOSURE):** The one
+> permitted real 48-cell Pilot launched from the exact D9.6 artifact
+> `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (source
+> commit `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`, tag
+> `v0.9.22-pilot-exec-ready`) on 2026-08-30 completed with **48/48 terminal
+> failures / 0 succeeded / 0 evaluator-passed** (`exp-20260830-134232`). It is
+> REJECTED and preserved verbatim, never resumed or counted. The stable
+> annotated tag `v0.9.22-pilot-exec-ready` still exists but is retired as a
+> launch candidate. D10 (D10.1–D10.7) corrects the internal runtime contract
+> (protocol 1.1, timeout 1200, pilot-canary gate, standalone fail-closed
+> resume, terminality/viability split) WITHOUT touching scientific inputs. The
+> next REAL Pilot launch requires a NEW freshly-finalized artifact with its
+> own real pilot-canary pass and its own tag decision — the retired tag and the
+> `edae1b7e…8c4a` artifact are NOT reused. D10.2–D10.7 implementation is
+> COMPLETE and a NEW D10 candidate artifact **`v0.9.22-d10-candidate`** was
+> built + provenance-verified FROZEN (source commit `0b0e2a86f006…`, archive
+> SHA-256 **`d468ee6341f9a8c652554a814d32e2ff599d0b44359f21f7e7c657eb83c1669c`**
+> + sidecar verified; protocol 1.1 / timeout 1200; exact-artifact dry-run
+> 48/48; canonical `validate_pilot_dryrun_evidence` PASS). This candidate is
+> NOT a launch basis — it still requires a real pilot-canary pass and its own
+> tag decision (and is SUPERSEDED by D11). Full suite (re-run 2026-08-31 after
+> power-loss resume): **2572 passed / 33 skipped / 0 failed**. Report:
+> `reports/V0922_D10_ALL_FAILED_PILOT_VIABILITY_CLOSURE_REPORT.md`; freeze
+> `reports/pilot_notebook_trust_freeze.json`.
+>
+> **PRIOR STATE (2026-08-30, SUPERSEDED by the D10 all-failed relaunch
+> closure — v0.9.22 D9.6 REAL 2×T4 PASS + STABLE-TAG
+> CLOSURE (PILOT-EXEC-01) — REAL EXACT-ARTIFACT 2×T4 PREFLIGHT PASSED ON
+> 2026-08-30; STABLE ANNOTATED TAG EXISTS AND PEELS TO `478261ff…`; REAL
+> PILOT NOT STARTED):** Independent audit of the exact D9.6 artifact
+> `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (source
+> commit `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`, source tag
+> `v0.9.22-pilot-exec-ready`) real 2×T4 Kaggle evidence PASSED every Gate B
+> requirement: the expanded-mode sidecar proof matches the artifact SHA; the
+> deployment identity uses `478261ff…` / `v0.9.22-pilot-exec-ready` / 48 cells
+> / Qwen 14B / BNB-NF4 and all five code/data/repository/notebook/transport
+> manifest hashes recompute and match; repository preflight `overall == PASS`
+> with Todo, django CMS, Saleor all PASS and Saleor PostgreSQL +
+> Valkey/Redis reachable; the T4 SDPA GQA microprobe passes on both `cuda:0`
+> and `cuda:1` (Tesla T4 compute capability 7.5, Q/K/V + output on the
+> intended device, `repeat_kv_sm75`); `model_preflight.json.passed == true`
+> with exactly 2 Tesla T4, `model_identity ==
+> qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25`, requested/effective attention
+> `sdpa`, kernel policy `flash_or_efficient_no_math`, GQA `repeat_kv_sm75`,
+> short generation PASS (17 completion tokens), generation-deadline canary
+> PASS (`deadline_fired==true`, `finish_reason==timeout`, 4 completion
+> tokens), long-context probe PASS (12,044 prompt tokens / 64 completion
+> tokens); the bundled canonical `validate_pilot_dryrun_evidence` PASSED (48
+> records / 48 unique IDs / statuses all succeeded / repo 16-16-16 /
+> strategies 24-24 / reps 24-24 / all model-call + token counters integer
+> zero / source identity `478261ff…` + `v0.9.22-pilot-exec-ready` + build
+> `478261f` + `dry-run:mock`); notebook cells 0–7 have no error outputs, the
+> pilot-launch/resume/verify/export cells remain UNEXECUTED, the only
+> `run_records.jsonl` is the 48-record dry-run file, and the HF token value
+> never appears (only "retrieved and set in environment" is printed). On
+> PASS, the annotated stable tag **`v0.9.22-pilot-exec-ready` now EXISTS** and
+> peels to `478261ff595d3d64ed9d5bab32d1cc90d7dabd77` (tag object
+> `fdcb409670e040a287811840ddbcab475816a7e5`; `git cat-file -t` = `tag`;
+> local + remote peeled target == `478261ff…`; pushed to origin and verified
+> with the configured authenticated origin credentials — no anonymous/public
+> readability probe). The artifact REMAINS `edae1b7e…8c4a`; no rebuild and no
+> finalizer run. The real 48-cell Pilot has NOT started; the ONLY remaining
+> operational step is, in the same still-live Kaggle session, to run Step 8
+> "Pilot Launch — STOP Until Stable Tag Is Confirmed" / `pilot-launch-cell`.
+> Never resume `exp-20260828-151335` — it has zero accepted RunRecords.
+> GitHub privacy is irrelevant to Kaggle execution; GitHub is
+> owner-controlled source/release storage only. Full suite remains the
+> previously accepted **2538 passed / 33 skipped / 0 failed** (carried;
+> runtime code unchanged). Report:
+> `reports/V0922_D9_6_REAL_T4_PASS_STABLE_TAG_CLOSURE_REPORT.md`.
+>
+> **PRIOR STATE (2026-08-29, SUPERSEDED by the D9.6 real 2×T4 PASS +
+> stable-tag closure — v0.9.22 D9.6 NOTEBOOK-MARKDOWN CELL-LABELS
+> CLOSURE (PILOT-EXEC-01) — NOTEBOOK-NAVIGATION REFINEMENT ON TOP OF THE D9.6
+> KAGGLE/GITHUB BOUNDARY CORRECTION; REAL T4 PROOF PENDING; NO STABLE TAG
+> YET):**
+> NOTHING scientific, NOTHING in production/runtime code, and NOT the
+> Kaggle/GitHub boundary changed: 11 exact Markdown navigation cells
+> (`pilot-step-00..10-*md`, e.g. Step 04 model-preflight, Step 08 STOP
+> boundary, Step 09 launch, Step 10 resume) were inserted between the
+> (byte-identical, unchanged) 16 executable code cells in
+> `notebooks/pilot_exec_01.ipynb` so Kaggle's Table of Contents names every
+> operational stage and a visible pre-launch STOP boundary guards
+> `pilot-launch`. New regression tests: TestMarkdownNavigation /
+> TestCodeCellsUnchangedFromBaseline / TestBundledNotebookParity
+> (`tests/integration/test_pilot_notebook_contract.py`) and
+> TestPilotBundleKeepsMarkdownNavigation
+> (`tests/integration/test_pilot_deployment_bundle.py`); notebook diff 126
+> insertions / 0 deletions; code cells compile 16/16; RED-to-GREEN
+> established. D9.1–D9.4 mechanics
+> (`_WorkflowDeadlineHeartbeatStoppingCriteria` decode-step deadline, mandatory
+> generation-deadline canary, eager shared-model init, per-run cooperative
+> guard reinstall) and the D9.6 Kaggle/GitHub boundary correction (the D9.5
+> remote tag-peel gate is REMOVED — launch/resume NEVER contact GitHub (no
+> `git ls-remote`, no token); `validate_pilot_launch_authorization` is the ONLY
+> pre-command gate in BOTH `pilot-launch-cell` AND `pilot-resume-cell`; the
+> stable `v0.9.22-pilot-exec-ready` tag is locally verified against the
+> owner-controlled, locally verified source commit after real preflight
+> passes) carry forward unchanged. Full suite **2538 passed / 33 skipped / 0
+> failed**. FROZEN via the two-pass finalizer (`--source-commit 478261f…`,
+> `--verify-source-provenance`) **0 mismatches, idempotent**, stable
+> code/data/repository-snapshot/transport manifest hashes UNCHANGED from D9.6;
+> notebook_manifest_sha256 NEW
+> `9d3edac4c20c00ab73a1ecda10d52322a5c57756820ed03f3a6162615e19adb6`, deployed
+> bundle notebook SHA
+> `6720293b922e06a80ecdc44a6d16e5eb12cc777d23c24a7076d005872d7aba68` ==
+> canonical blob at `478261f…` → **SOURCE COMMIT
+> `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`** (build id `478261f`; supersedes
+> the D9.6 boundary-correction source `6ff1c93…`); exact-artifact dry-run
+> **48/48** (48 unique IDs, repos 16/16/16, strategies 24/24, reps 24/24, 0
+> calls/tokens), canonical `validate_pilot_dryrun_evidence` PASS, every record
+> + `source_identity.json` == `478261f…`. Exact artifact SHA-256 is
+> **`edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a`**
+> (+ sidecar verified; FROZEN). Canonical+bundled compile 16/16. Scientific
+> inputs unchanged. REQUIRED TRUTHFUL STATUS: the prior D9.6 artifact
+> `03d8d0ae…` (source `6ff1c93…`) is SUPERSEDED — do not upload it; D8's exact
+> 2x T4 preflight passed but D8 is **REJECTED for Pilot launch** (the real
+> Pilot exposed the in-flight timeout/heartbeat defect D9 closes);
+> `exp-20260828-151335` has 0 accepted RunRecords, never resume it;
+> `02d16ca2…` (D8), `913e8065…` (D9), `e0a64937…` (D7), `ce40b330…` /
+> `f72ecda…` are SUPERSEDED. No stable tag exists; next is the
+> exact-new-artifact 2x T4 model preflight only (repo preflight + heartbeat,
+> Qwen 14B BNB-NF4 load, GQA microprobe, **generation-deadline canary**, short
+> probe, 12k/64 probe), and tag `478261f…` only after ALL PASS. No 48-cell
+> launch while untagged. On FAIL return to the SAME v0.9.22 task (never
+> v0.9.23). Report:
+> `reports/V0922_D9_6_NOTEBOOK_MARKDOWN_NAVIGATION_CLOSURE_REPORT.md`.
+>
+> **PRIOR STATE (2026-08-29, SUPERSEDED by the D9.6 notebook-markdown
+> cell-labels closure — v0.9.22 D9.6 KAGGLE/GITHUB BOUNDARY CORRECTION +
+> IN-FLIGHT WORKFLOW-DEADLINE HEARTBEAT + EAGER MODEL INIT; REAL T4 PROOF
+> PENDING):** D9.1 `_WorkflowDeadlineHeartbeatStoppingCriteria`
+> (`kaggle_qwen_backend.py`) is polled at every decode step and stops a long
+> synchronous Qwen generation with `finish_reason="timeout"` the instant the
+> injected run guard (`lambda: not budget.timed_out`) first returns false — an
+> in-flight generation can never cross the 600 s deadline; bounded 30 s liveness
+> heartbeats (`GENERATION_RUNNING` / `GENERATION_STOPPED reason=workflow_deadline`)
+> prove a decode alive (cooperative step-boundary stop, never a thread kill).
+> D9.2 mandatory real-Qwen generation-deadline canary (`run_generation_deadline_probe`):
+> deterministic counter guard fails closed after 3 criterion checks, proving the
+> deadline (NOT EOS/length) target-side with `completion_tokens` in `[1, 8]`; preflight
+> and launch authorization fail closed through `_generation_deadline_probe_errors`.
+> D9.3 eager shared-model init (`initialize()` before `t_start`/any `RUN_START`) outside
+> the first run's scientific timing/token budget (failure = engineering blocker, 0
+> RunRecords, exit 1). D9.4 per-run cooperative guard reinstall on strategy AND shared
+> backend (`_apply_model_call_guards`). D9.6 Kaggle/GitHub boundary correction: the
+> D9.5 remote tag-peel gate is REMOVED — launch/resume NEVER contact GitHub (no
+> `git ls-remote`, no token); `validate_pilot_launch_authorization` (pure local evidence)
+> is the ONLY pre-command gate in BOTH `pilot-launch-cell` AND `pilot-resume-cell`; the
+> stable `v0.9.22-pilot-exec-ready` tag is locally verified against the owner-controlled,
+> locally verified source commit after real preflight passes. + interrupt-safe
+> process-group terminate→kill→reap. Genuine RED: the D9.5 baseline left 10 boundary-test
+> failures (tag-peel machinery in preflight.py + notebook; the resume cell lacked the
+> local authorization gate); D9.6 closes all 10. GREEN: focused boundary +
+> notebook/finalizer/provenance suites green; full suite **2538
+> passed / 33 skipped / 0 failed**. FROZEN via the two-pass finalizer
+> (`--verify-source-provenance`) with **0 mismatches, idempotent** → **D9.6_SOURCE_COMMIT
+> `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6`** (supersedes D9 `9ea02b3…`); exact-artifact
+> dry-run is **48/48** (48 unique IDs, repos 16/16/16,
+> strategies 24/24, reps 24/24, 0 calls/tokens), canonical `validate_pilot_dryrun_evidence`
+> PASS, every record + `source_identity.json` == `6ff1c93ed355b6dc73fa3ebd18ba6079ace39ab6`.
+> Exact artifact SHA-256 is **`03d8d0ae37b995a362ee90c53a1851588ad024f13ead033814399210ce54dfc4`**
+> (+ sidecar verified; FROZEN). Canonical+bundled compile 16/16; focused
+> boundary + notebook/finalizer/provenance suites green. Scientific inputs unchanged. REQUIRED
+> TRUTHFUL STATUS: D8's exact 2x T4 preflight passed but D8 is **REJECTED for Pilot launch**
+> (the real Pilot exposed the in-flight timeout/heartbeat defect D9 closes);
+> `exp-20260828-151335` has 0 accepted RunRecords, never resume it; `02d16ca2…`
+> (D8), `913e8065…` (D9), `e0a64937…` (D7), `ce40b330…` / `f72ecda…` are SUPERSEDED. No stable tag
+> exists; next is the exact-D9.6-artifact 2x T4 model preflight only (repo preflight +
+> heartbeat, Qwen 14B BNB-NF4 load, GQA microprobe, **generation-deadline canary**,
+> short probe, 12k/64 probe), and tag `6ff1c93…` only after ALL PASS. No 48-cell launch
+> while untagged. On FAIL return to the SAME v0.9.22 task (never v0.9.23). Report:
+> `reports/V0922_D9_6_KAGGLE_GITHUB_BOUNDARY_CLOSURE_REPORT.md`.
+> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+>
+> **PRIOR STATE (2026-08-28, SUPERSEDED by D9 — D8 DRY-RUN TOKEN-SCHEMA + LAUNCH-AUTH
+> EVIDENCE CLOSURE):** D8 closed the proven `RunRecordData`
+> token-schema drift — a real 48-record dry-run writes nested `token_usage`
+> (`prompt/completion/total`), `total_workflow_model_calls` / `total_workflow_tokens`,
+> and phase `selection|regeneration|repair` `_model_calls` / `_total_tokens`, NEVER a
+> top-level `total_tokens`. D8.1 adds canonical `validate_pilot_dryrun_evidence` +
+> `_collect_dryrun_evidence_errors` with strict `_expect_zero_int`, and refactors
+> `validate_pilot_launch_authorization` onto the same collector; D8.2 the bundled
+> `dryrun-cell` calls the canonical validator (`dry-run:mock`) and prints only
+> summary-backed totals; D8.3 the GQA per-device display reads real evidence fields
+> instead of the fabric `.get('available')`. Genuine RED: 39 unit tests + 1
+> false-green proof failed pre-D8.1; GREEN: focused 40/40 plus 136/136
+> (contract+bundle); full acceptance is **2492 passed / 33 skipped / 0 failed**.
+> Exact-artifact dry-run is **48/48** (48 unique IDs, repos 16/16/16, strategies
+> 24/24, reps 24/24, zero calls/tokens), every record source commit ==
+> `8f0b11953a4fe2990b7e6c680288be282b8a6b67`. Exact artifact SHA-256 is
+> `02d16ca2c3a35969b32ac438e577f41198e376ba0ce9ee88757a07bd46f268ee`;
+> sidecar matches; trust/provenance 0 mismatches, FROZEN. **D8 is REJECTED for Pilot
+> launch (in-flight timeout/heartbeat defect D9 closes); do not upload `02d16ca2…`.**
+> Report:
+> `reports/V0922_D8_DRYRUN_TOKEN_SCHEMA_LAUNCH_AUTH_CLOSURE_REPORT.md`.
+>
+> **PRIOR STATE (2026-08-27, SUPERSEDED by D9 — LAUNCH/RESUME VALIDATION-ARGV
+> EXECUTABILITY CLOSURE):** D6 was RESOLVED at `1b857fc…` before D7. D7 made all
+> three
+> per-repository validation-interpreter mappings and `--validation-timeout 1800` live AST
+> elements in both Pilot launch routes, with exact AST and canonical/fresh-bundle newline
+> regression tests. Affected GREEN 102/102; full acceptance **2442 passed / 33 skipped /
+> 0 failed**; exact-artifact dry-run 48/48 at source
+> `3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c`; artifact
+> `e0a649375104b44d1de7bc5f39145f81bc21365a4380755e73cb1efb719390a8` FROZEN (superseded by
+> D8; do not upload). Report was
+> `reports/V0922_D7_LAUNCH_RESUME_ARGV_EXECUTABILITY_CLOSURE_REPORT.md`.
+>
+> **PRIOR STATE (2026-08-27, SUPERSEDED by D7 — GQA MICROPROBE + NOTEBOOK + EXPORT
+> INTEGRITY CLOSURE; REAL T4 PROOF PENDING):** branch
+> `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` (built on `ba083925…` + the
+> T4 GQA SDPA/preflight-observability closure) carries the D1–D6 bounded correction:
+> D1 `_gqa_microprobe_expand_kv` uses local `repeat_interleave` on the head axis (no fabricated
+> `torch.nn.functional.repeat_kv`); D2 the microprobe allocates Q/K/V explicitly on each
+> `cuda:<index>`, synchronizes the device after SDPA, records/verifies per-device evidence
+> (exact geometry 40/8/8 → 40/40/40, FP16, {FLASH,EFFICIENT} only, MATH excluded), and
+> `all_passed` only when every visible device passes finite+shape+device; D3
+> `pilot-repo-preflight-cell` restored to a 210-element newline-preserving source (was a
+> 172-element all-comment no-op) that `compile("".join(source), …)` succeeds on and whose AST
+> carries executable microprobe + fail-closed `raise` + `_run_tee` nodes; D4 `_run_tee`
+> enforces its deadline WHILE the child runs (terminate→kill→reap, bounded tail); D5 em-dash
+> mojibake restored (0 mojibake in canonical + bundled); D6 export rebuilt only after final
+> commit/push + fresh-extraction verified (empty git status, extracted HEAD == report HEAD, origin
+> ref == HEAD, artifact + sidecar match, trust freeze tracked & byte-identical) — **truthful status:
+> local export verified, but push/origin parity (`origin ref == HEAD`) and the definitive post-push
+> export remain PENDING until this branch is pushed.** Frozen scientific
+> contract UNCHANGED (model Qwen2.5-Coder-14B-Instruct, BNB-NF4, sdpa, kernel policy
+> `flash_or_efficient_no_math`, GQA compat `repeat_kv_sm75`, 12 scenarios / 3 pins / 2 strategies /
+> 2 reps = 48 cells, prompts, Ground Truth, metrics, --timeout 600, --validation-timeout 1800,
+> max attempts 3, completion cap 4096, 12000/64 gate). Full suite **2441 passed / 33 skipped /
+> 0 failed**; exact final-artifact dry-run **48/48** (48 unique IDs, repos 16/16/16, strategies
+> 24/24, reps 24/24, 0 model calls/tokens, every record source commit == `f72ecda…`). Exact
+> artifact `dist/pilot-kaggle-upload.zip` SHA-256
+> `ce40b33019feba58d8cabeef2244a765e157cdba4288a9d9ea2eb186de46a24d` (+ sidecar verified) built from
+> source commit `f72ecda0e7dac10e81dae34daa6bb1610c94b9ee` (trust/provenance 0 mismatches, FROZEN;
+> supersedes `de0c5bd…`/`bfbc935f…`). NO stable tag yet: real 2x T4 Kaggle model preflight (repo
+> preflight + heartbeat, Qwen 14B BNB-NF4 load, GQA microprobe, short + 12k probe) MUST PASS →
+> then `v0.9.22-pilot-exec-ready`; if it fails, return to the SAME v0.9.22 task. Report:
+> `reports/V0922_GQA_MICROPROBE_NOTEBOOK_EXPORT_INTEGRITY_CLOSURE_REPORT.md`.
+> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+>
+> **PRIOR STATE (2026-08-24, HISTORICAL): v0.9.22 long-context attention memory closure — branch
+> `fix/pilot-v0922-long-context-attention-memory-closure` on clean main
+> `58d1be533c98ca9bafc9a344f2a73f8a140b9540` (v0.9.21 reconciled), superseded by the candidate above:**
+> the real Kaggle v0.9.21 model preflight PASSED repository preflight / dependencies / Qwen 14B
+> BNB-NF4 load (`qwen_model_load[bnb-nf4]: PASS`) / GPU-only device map / 2x Tesla T4 / per-GPU
+> headroom (min free 7.764 GiB) / short probe, then FAILED at the long-context probe with CUDA OOM:
+> 12,044 prompt tokens / 64-token output budget / **failed allocation 21.62 GiB == exactly
+> `12044*12044*40*4 bytes = 21.6153 GiB`, the full float32 40-head quadratic attention score matrix**
+> — the effective runtime attention path materialized the math/eager fallback during prompt prefill.
 > v0.9.21 Real Pilot REJECTED BEFORE LAUNCH (no Experiment ID / no RunRecord; no stable tag moved).
-> v0.9.22 candidate closes it WITHOUT touching any scientific input: Task A explicit
+> That candidate closed it WITHOUT touching any scientific input: Task A explicit
 > `attn_implementation="sdpa"`; Task B fail-closed CUDA generation inside
 > `sdpa_kernel([FLASH_ATTENTION, EFFICIENT_ATTENTION])`; Task C canonical attention evidence
 > + fail-closed `attention_policy` check + launch authorization enforcement; Task D corrected
 > OOM diagnosis; Tasks E/F regression guards. RED/GREEN proven (12 backend + 18 preflight
 > contract tests failed against v0.9.21); full suite 2407 passed / 33 skipped / 0 failed;
-> dry-run pilot 48/48. NO stable tag yet: build exact artifact from merge commit → real Kaggle
-> 12k model preflight MUST PASS → then `v0.9.22-pilot-exec-ready`; if it fails, return to the
-> SAME v0.9.22 task. Report: `reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md`.
-> **Authoritative snapshot: `docs/AI_ACCOUNT_TRANSFER_HANDOFF.md`.**
+> dry-run pilot 48/48.
+> Report: `reports/V0922_LONG_CONTEXT_ATTENTION_MEMORY_CLOSURE_REPORT.md`.
 >
 > **PRIOR STATE (2026-08-24, HISTORICAL): accepted release = `v0.9.21-pilot-exec-ready`** @ annotated tag
 > peel == artifact source commit == merge `e308047c9c05f38316d80ce565bac1b51d105bfa`; archive
@@ -84,9 +407,9 @@
 
 ---
 
-## CURRENT PROJECT STATE
+## PRIOR PROJECT STATE SNAPSHOT (2026-08-22 — superseded; the CURRENT STATE block at the top of this file governs)
 
-**CURRENT (2026-08-22):** the accepted deployment source is
+**PRIOR (2026-08-22, SUPERSEDED by the v0.9.21/v0.9.22 candidates):** the accepted deployment source was
 **`v0.9.19-pilot-exec-ready`** @ tag peel == artifact source commit
 `2305991442a4f965d44bb066bb00c0a459fc395a` (2026-08-19, the PostgreSQL
 admin/application bootstrap + partial recovery closure on branch
@@ -106,8 +429,9 @@ Carried full-suite evidence at this state: **2330 passed / 34 skipped /
 - v0.9.18: release-only provenance/docs correction (no scientific or production code changes) — historical
 - **v0.9.19: ACCEPTED — PostgreSQL admin/application bootstrap + partial recovery closure (real Kaggle defect fix); trust/provenance GREEN**
 
-Real Pilot = NOT STARTED. Next = fresh Kaggle v0.9.19 target preflight →
-accepted 48-cell Pilot in the same session if all target gates pass.
+Real Pilot = NOT STARTED. Next (PRIOR, superseded): fresh Kaggle v0.9.19 target preflight →
+accepted 48-cell Pilot — superseded first by the v0.9.20/v0.9.21 releases and then by the
+v0.9.22 D9 candidate; see the CURRENT STATE block at the top.
 
 HISTORICAL release records (superseded — traceability only):
 `b8d3cf5e…` + all 94 `code_manifest.json` entries equal the normalized tracked
@@ -184,9 +508,14 @@ scientific evidence with zero drift.
 
 Smoke era: `v0.8.2-smoke-v2-complete` (immutable, do not move). Pilot
 readiness: `v0.9.0-pilot-ready` @ `90a4282` (immutable, do NOT move).
-**CURRENT deployment source tag (accepted release, 2026-08-19):
+**CURRENT v0.9.22 deployment source tag (PLANNED, does not exist yet):
+`v0.9.22-pilot-exec-ready` at D9 source/future tag target
+`9ea02b35d58a3e4ef2d0d5d980e44fa53d8c079d` — create ONLY after the exact-D9-artifact
+real 2x T4 Kaggle preflight PASSES (artifact `913e8065…`); see the CURRENT STATE
+block at the top.**
+PRIOR deployment source tag (accepted release, 2026-08-19, superseded):
 `v0.9.19-pilot-exec-ready` @ tag peel == artifact source commit
-`2305991442a4f965d44bb066bb00c0a459fc395a`** (annotated tag ON the merge
+`2305991442a4f965d44bb066bb00c0a459fc395a` (annotated tag ON the merge
 commit, pushed; trust/provenance GREEN; exact archive `f7a16858…`).
 Pilot deployment source tags (HISTORICAL — superseded by v0.9.19):
 `v0.9.12-pilot-exec-ready` @ main `bfeff97…`
@@ -272,7 +601,7 @@ explicitly (generic CLI default is `bnb-int8`).
   `rebuild_experiment_reports` (src/benchmark/checkpoint/reports.py:164); use a
   fresh `--output-dir` for repeat dry-runs.
 
-## CURRENT GIT STATE
+## PRIOR GIT STATE SNAPSHOT (2026-08-15 — superseded; see the CURRENT STATE block at the top)
 
 `main` = `44e9a1f` (merge `merge(pilot): release trust gate closure
 (notebook==identity==actual, v0.9.10-pilot-exec-ready)`; tag
@@ -1383,3 +1712,21 @@ audit: update the Kaggle code dataset + notebook to the corrected `e5d9430`
 deployment, then run the Kaggle **engineering preflight** cell only (not the
 scientific One-Run cell). Do not relaunch Kaggle, tag, merge, or force-push
 beyond that documented preflight step.
+
+## STAGE-C-SELECTION-01 (D052) - Exploratory selection-only component study (2026-09-06, in progress)
+
+New profile `scientific-stagec-selection-01` adds a **selection-only** execution
+path (3 Todo smoke scenarios x Agent/ImpactPlan x 5 reps = 30 cells). The runner
+calls `strategy.analyze_impact` exactly once per run, never calls `revise_plan`,
+never invokes the regeneration executor, repairs, migrations, or the functional
+evaluator. INITIAL predictions persist in the additive `selection_study` field
+of RunRecordData (cannot be overwritten by later state). Hidden gold is applied
+only after each prediction for metrics. Frozen caps: Agent control 1024,
+ImpactPlan 4096; model qwen/qwen3-coder @ DeepInfra, fallback OFF.
+
+This is **EXPLORATORY COMPONENT EVIDENCE** motivated by the v1.1 end-to-end
+NO-GO; it does NOT rewrite or weaken the v1.1 result. No executor/parser/model/
+repository redesign is part of this study. The sequential plan is: focused
+tests (18 items) -> six Pre-Benchmark gates + Audit + full suite once -> cost
+guard (<= $0.25) -> 30 real selection runs -> component results tables + LIGHT
+export.

@@ -15,7 +15,10 @@ NUMBERED_MIGRATION_RE = re.compile(r"^\d+_[A-Za-z0-9_]+\.py$")
 _BARE_INTERPRETER_NAMES = frozenset({"python", "python.exe", "python3", "python3.exe"})
 
 
-def _normalize_interpreter_command(command: tuple[str, ...]) -> list[str]:
+def _normalize_interpreter_command(
+    command: tuple[str, ...],
+    resolved_interpreter: str | None = None,
+) -> list[str]:
     """Bind bare Python launcher tokens to the active benchmark runtime.
 
     Scenario YAML files may declare post-generation commands such as
@@ -26,13 +29,22 @@ def _normalize_interpreter_command(command: tuple[str, ...]) -> list[str]:
     ``sys.executable`` when -- and only when -- it is a *bare* launcher token
     whose basename (case-insensitively) is exactly one of the tokens below.
     Absolute interpreter paths and non-Python executables are left untouched.
+
+    When ``resolved_interpreter`` is supplied (the repository's pinned
+    ``validation_python``), a bare launcher token is bound to that interpreter
+    instead of ``sys.executable`` (D13 B3 per-repo migration interpreter
+    binding).  A bare ``resolved_interpreter`` is itself resolved to
+    ``sys.executable`` since there is no reliable cross-environment mapping.
     """
     if not command:
         return list(command)
     executable = command[0]
-    if os.path.basename(executable) == executable and executable.lower() in _BARE_INTERPRETER_NAMES:
-        return [sys.executable, *command[1:]]
-    return list(command)
+    is_bare = os.path.basename(executable) == executable and executable.lower() in _BARE_INTERPRETER_NAMES
+    if not is_bare:
+        return list(command)
+    if resolved_interpreter and os.path.isabs(resolved_interpreter):
+        return [resolved_interpreter, *command[1:]]
+    return [sys.executable, *command[1:]]
 
 
 @dataclass(frozen=True)
@@ -56,6 +68,11 @@ class _ValidatedPostGenerationRequest:
     command: tuple[str, ...]
     require_new_migration: bool
     timeout: int
+    resolved_interpreter: str | None = None
+    # D13R2 Fix 3: frozen repository validation-environment overrides, merged
+    # into the child environment exactly like FunctionalValidator (the parent
+    # ``os.environ`` is never mutated).
+    env: dict[str, str] | None = None
 
 
 @dataclass(frozen=True)
@@ -108,6 +125,8 @@ def _validate_inputs(
     require_new_migration: bool,
     timeout: int,
     migration_directory: str,
+    resolved_interpreter: str | None = None,
+    env: dict[str, str] | None = None,
 ) -> _ValidatedPostGenerationRequest | str:
     try:
         if isinstance(command, (str, bytes)):
@@ -120,6 +139,20 @@ def _validate_inputs(
             return "timeout must be a positive integer"
         if not isinstance(require_new_migration, bool):
             return "require_new_migration must be a bool"
+        if resolved_interpreter is not None and (
+            not isinstance(resolved_interpreter, str) or not resolved_interpreter.strip()
+        ):
+            return "resolved_interpreter must be a non-empty string or None"
+        if resolved_interpreter and "\x00" in resolved_interpreter:
+            return "resolved_interpreter must not contain NUL"
+        if env is not None:
+            if not isinstance(env, dict):
+                return "env must be a dict or None"
+            for key, value in env.items():
+                if not isinstance(key, str) or not isinstance(value, str):
+                    return "env must map string keys to string values"
+                if "\x00" in key or "\x00" in value:
+                    return "env must not contain NUL"
         if not isinstance(migration_directory, str) or not migration_directory.strip():
             return "migration_directory is not a valid POSIX path"
         if "\x00" in migration_directory:
@@ -162,6 +195,8 @@ def _validate_inputs(
             command=tuple(command),
             require_new_migration=require_new_migration,
             timeout=timeout,
+            resolved_interpreter=resolved_interpreter,
+            env=env,
         )
     except (OSError, RuntimeError, ValueError, TypeError) as exc:
         return f"workspace validation error: {exc}"
@@ -278,7 +313,15 @@ def _take_migration_snapshot(
 def _run_command(
     request: _ValidatedPostGenerationRequest,
 ) -> _CommandOutcome:
-    resolved_command = _normalize_interpreter_command(request.command)
+    resolved_command = _normalize_interpreter_command(
+        request.command, request.resolved_interpreter
+    )
+    # D13R2 Fix 3: same env-merge semantics as FunctionalValidator — child env is
+    # the parent env plus the frozen repository validation overrides; the parent
+    # ``os.environ`` is never mutated.
+    run_env = os.environ.copy()
+    if request.env:
+        run_env.update(request.env)
     try:
         proc = subprocess.run(
             resolved_command,
@@ -286,6 +329,7 @@ def _run_command(
             capture_output=True,
             text=True,
             timeout=request.timeout,
+            env=run_env,
         )
         return _CommandOutcome(
             succeeded=proc.returncode == 0,
@@ -403,6 +447,8 @@ def run_post_generation_command(
     require_new_migration: bool,
     timeout: int = 180,
     migration_directory: str = "todo/migrations",
+    resolved_interpreter: str | None = None,
+    env: dict[str, str] | None = None,
 ) -> PostGenerationResult:
     start = time.monotonic()
 
@@ -412,6 +458,8 @@ def run_post_generation_command(
         require_new_migration=require_new_migration,
         timeout=timeout,
         migration_directory=migration_directory,
+        resolved_interpreter=resolved_interpreter,
+        env=env,
     )
     if isinstance(validation_result, str):
         duration = time.monotonic() - start

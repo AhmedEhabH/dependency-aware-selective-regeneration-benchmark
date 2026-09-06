@@ -1,0 +1,70 @@
+{
+  "date": "2026-09-05",
+  "model": "qwen/qwen3-coder",
+  "provider": "DeepInfra",
+  "resolved_at": "2026-09-05T19:22:52.316245+00:00",
+  "eligible": true,
+  "eligibility": {
+    "task_success": 3,
+    "all_tasks_reach_success": true,
+    "format_compliance": 3,
+    "all_responses_parse": true,
+    "truncation_count": 0,
+    "no_truncation": true,
+    "transient_events": 0,
+    "transient_reliability": true,
+    "usage_accounting": 3,
+    "usage_all_present": true,
+    "latency_all_under_120": true,
+    "median_latency": 36.125,
+    "median_latency_under_60": true,
+    "eligible": true
+  },
+  "tasks": [
+    {
+      "prompt_tokens": 229,
+      "completion_tokens": 168,
+      "total_tokens": 397,
+      "finish_reason": "stop",
+      "transient_retry_count": 0,
+      "latency_seconds": 56.0,
+      "parser_pass": true,
+      "truncation": false,
+      "deterministic_success": true,
+      "response_sha256": "2f3b816040cc9f85d74369af5e6704b113e9f7ef96885f2db6f4a93382c710b0",
+      "task": "A1_impact_plan",
+      "model": "qwen/qwen3-coder",
+      "provider": "DeepInfra"
+    },
+    {
+      "prompt_tokens": 116,
+      "completion_tokens": 42,
+      "total_tokens": 158,
+      "finish_reason": "stop",
+      "transient_retry_count": 0,
+      "latency_seconds": 23.453,
+      "parser_pass": true,
+      "truncation": false,
+      "deterministic_success": true,
+      "response_sha256": "920dc8dfb320c2ca16616c1f821ce62b24aeef10999c070dc2591d59cd222360",
+      "task": "A2_exact_patch",
+      "model": "qwen/qwen3-coder",
+      "provider": "DeepInfra"
+    },
+    {
+      "prompt_tokens": 129,
+      "completion_tokens": 36,
+      "total_tokens": 165,
+      "finish_reason": "stop",
+      "transient_retry_count": 0,
+      "latency_seconds": 36.125,
+      "parser_pass": true,
+      "truncation": false,
+      "deterministic_success": true,
+      "response_sha256": "761d0bda44c25ac93c60c8840d900c2eaf05f1bdae691608fb10a639a9f271f5",
+      "task": "A3_agent_control",
+      "model": "qwen/qwen3-coder",
+      "provider": "DeepInfra"
+    }
+  ]
+}

@@ -13,14 +13,24 @@ from collections.abc import Callable
 from dataclasses import dataclass, field, replace
 from pathlib import Path
 
-from benchmark.core.models import LLMResponse, RegenerationScenarioContext
+from benchmark.core.models import RegenerationScenarioContext
 from benchmark.core.protocols import LLMBackend
 from benchmark.execution.budgets import resolve_completion_allowance
+from benchmark.execution.exact_patch import (
+    PATCH_ENVELOPE_SCHEMA,
+    ExactPatchError,
+    apply_exact_patches,
+    parse_exact_patch,
+    parse_patch_envelope,
+)
 from benchmark.execution.isolation import IsolationContext
 from benchmark.llm.output_normalization import normalize_single_payload
 from benchmark.selection.planner import RegenerationPlan
 
 logger = logging.getLogger(__name__)
+
+V11_PROTOCOL = "scientific-wip-impactplan-v1.1"
+PATCH_MAX_COMPLETION_TOKENS = 8192
 
 
 @dataclass(frozen=True)
@@ -42,6 +52,7 @@ class RegenerationExecutionResult:
     artifact_hashes: dict[str, str] = field(default_factory=dict)
     repair_no_progress: bool = False
     model_call_budget_exhausted: bool = False
+    prohibited_write_attempts: int = 0
 
 
 BUILT_IN_PROMPT_TEMPLATE = """\
@@ -66,6 +77,33 @@ Output contract:
 - Return only the complete replacement file content, without explanation or markdown fences.
 """
 
+EXACT_PATCH_OUTPUT_CONTRACT = """\
+Output contract (EXACT PATCH mode — do NOT return the complete file):
+- Return ONLY one or more SEARCH/REPLACE blocks.  No explanation, no prose, no markdown fences.
+- Each block has this exact structure:
+    <<<<<<< SEARCH
+    <exact lines to find, byte-for-byte>
+    =======
+    <replacement lines>
+    >>>>>>> REPLACE
+- You may emit multiple blocks in sequence.  Later blocks see the effect of earlier ones.
+- Each SEARCH block must match exactly ONE contiguous region in the current
+  file.  Do not reuse the same search text twice.
+- Whitespace and indentation must match the current file exactly.  No fuzzy matching.
+- For a "preserve" action, return the EXISTING file content byte-identically (not a patch).
+- For a "create" action, return the COMPLETE new file content (not a patch).
+"""
+
+PATCH_ENVELOPE_OUTPUT_CONTRACT = """\
+Output contract (native JSON-schema PatchEnvelope mode):
+- Return the schema-constrained JSON object only.
+- `patches` is a non-empty ordered array of exact literal replacements.
+- Every item has exactly `search` (a non-empty exact existing substring) and
+  `replace` (its replacement substring).
+- Each search must match exactly once at application time.
+- No markdown, marker blocks, prose, fuzzy matching, or whitespace correction.
+"""
+
 REPAIR_CONTEXT_PROMPT_TEMPLATE = """\
 
 Previous attempt failed validation.
@@ -84,8 +122,9 @@ Validation stderr excerpt (head + tail; root exception retained):
 {stderr}
 
 Correct the existing artifact using the evidence above. Do not repeat the same
-invalid output. Return the complete replacement file content without explanation
-or markdown fences.
+invalid output. Follow the output contract already stated above for this
+artifact (in EXACT PATCH mode emit SEARCH/REPLACE blocks; otherwise emit the
+complete replacement file), without explanation or markdown fences.
 """
 
 SCENARIO_CONTEXT_PROMPT_TEMPLATE = """\
@@ -113,27 +152,68 @@ def build_generation_prompt(
     scenario_context: RegenerationScenarioContext | None = None,
     expected_action: str | None = None,
     repair_context: str | None = None,
+    output_mode: str = "complete_file",
 ) -> str:
     """Build the full regeneration prompt for an artifact.
 
-    When a frozen ``RegenerationScenarioContext`` is supplied, the prompt
-    includes the repository-wide acceptance criteria, architecture
-    constraints, the file-specific expected action, and the preserve-only /
-    no-redeclare scope contract.
+    When ``output_mode == "exact_patch"`` and the expected action is
+    ``modify``, the prompt instructs the model to emit SEARCH/REPLACE blocks
+    rather than the complete file.
+
+    Gold isolation (D046 / PA-001): when ``scenario_context.gold_isolated`` is
+    True the expected-action and file-instruction lines are NEVER sourced from
+    scenario gold (``expected_actions`` / ``artifact_instructions``). The caller
+    must provide the plan-derived ``expected_action`` instead; the file
+    instruction falls back to a generic contract-neutral sentence.
     """
-    prompt = BUILT_IN_PROMPT_TEMPLATE.format(
-        requirement_delta=requirement_delta or "Update the artifact to match the new requirements.",
-        artifact_path=artifact_path,
-        language_hint=language_hint,
-        current_content=current_content,
+    effective_action = expected_action
+    if scenario_context is not None and not scenario_context.gold_isolated:
+        effective_action = expected_action or scenario_context.expected_action_for(artifact_path)
+    if effective_action is None:
+        effective_action = "modify"
+
+    use_patch_mode = (
+        output_mode == "exact_patch"
+        and effective_action not in ("create", "preserve")
     )
+
+    if output_mode == "patch_envelope" and effective_action not in ("create", "preserve"):
+        prompt = (
+            f"You are editing exactly one source artifact in an existing software project.\n\n"
+            f"Requirement change:\n{requirement_delta or 'Update the artifact to match the new requirements.'}\n\n"
+            f"Artifact path: {artifact_path}\n\n"
+            f"Current content:\n```{language_hint}\n{current_content}\n```\n\n"
+            f"{PATCH_ENVELOPE_OUTPUT_CONTRACT}\n"
+        )
+    elif use_patch_mode:
+        prompt = (
+            f"You are editing exactly one source artifact in an existing software project.\n\n"
+            f"Requirement change:\n{requirement_delta or 'Update the artifact to match the new requirements.'}\n\n"
+            f"Artifact path: {artifact_path}\n\n"
+            f"Current content:\n```{language_hint}\n{current_content}\n```\n\n"
+            f"{EXACT_PATCH_OUTPUT_CONTRACT}\n"
+        )
+    else:
+        prompt = BUILT_IN_PROMPT_TEMPLATE.format(
+            requirement_delta=requirement_delta or "Update the artifact to match the new requirements.",
+            artifact_path=artifact_path,
+            language_hint=language_hint,
+            current_content=current_content,
+        )
     prompt += (
         "\nArtifact responsibility:\n"
         + _artifact_role_guidance(artifact_path)
         + "\n"
     )
     if scenario_context is not None:
-        ea = expected_action or scenario_context.expected_action_for(artifact_path)
+        if scenario_context.gold_isolated:
+            artifact_instruction = (
+                "Only the smallest change required by the visible requirement "
+                "and acceptance criteria is allowed in this file. Preserve all "
+                "unrelated behavior and unrelated files exactly as they are."
+            )
+        else:
+            artifact_instruction = scenario_context.instruction_for(artifact_path)
         prompt += SCENARIO_CONTEXT_PROMPT_TEMPLATE.format(
             scenario_id=scenario_context.scenario_id,
             acceptance_criteria=(
@@ -145,12 +225,26 @@ def build_generation_prompt(
                 or "- (none declared)"
             ),
             artifact_path=artifact_path,
-            expected_action=ea,
-            artifact_instruction=scenario_context.instruction_for(artifact_path),
+            expected_action=effective_action,
+            artifact_instruction=artifact_instruction,
         )
     if repair_context:
         prompt += repair_context
     return prompt
+
+
+def _plan_expected_action(plan: RegenerationPlan, path: str) -> str:
+    """Map the strategy-generated plan action to the prompt 'modify/create' label.
+
+    D046 / PA-001: the edit action for an artifact MUST come from the
+    strategy-generated ``RegenerationPlan.actions``, never from scenario gold.
+    ``regenerate`` -> ``modify``; anything else reachable in the executor
+    (``human_review`` is skipped upstream) is treated as ``modify`` too.
+    """
+    action = plan.actions.get(path)
+    if action is not None and str(action) == "preserve":
+        return "preserve"
+    return "modify"
 
 
 def _artifact_role_guidance(path: str) -> str:
@@ -422,6 +516,8 @@ class SharedRegenerationExecutor:
         max_completion_tokens_per_call: int = 4096,
         remaining_total_workflow_tokens: int | None = None,
         prior_attempt_hashes: dict[str, str] | None = None,
+        enable_exact_patch: bool = False,
+        protocol_version: str = "",
     ) -> RegenerationExecutionResult:
         old_loop: asyncio.AbstractEventLoop | None = None
         with contextlib.suppress(RuntimeError):
@@ -435,6 +531,8 @@ class SharedRegenerationExecutor:
                     remaining_total_workflow_tokens=remaining_total_workflow_tokens,
                     prior_attempt_hashes=prior_attempt_hashes,
                     can_start_model_call=self._can_start_model_call,
+                    enable_exact_patch=enable_exact_patch,
+                    protocol_version=protocol_version,
                 )
             )
         finally:
@@ -456,6 +554,8 @@ class SharedRegenerationExecutor:
         remaining_total_workflow_tokens: int | None = None,
         prior_attempt_hashes: dict[str, str] | None = None,
         can_start_model_call: Callable[[], bool] | None = None,
+        enable_exact_patch: bool = False,
+        protocol_version: str = "",
     ) -> RegenerationExecutionResult:
         workspace_root = str(isolation.workspace.root)
         start_time = time.monotonic()
@@ -466,12 +566,14 @@ class SharedRegenerationExecutor:
         atomic_abort = False
         model_call_budget_exhausted = False
         repair_no_progress = False
+        prohibited_write_attempts = 0
         total_prompt = 0
         total_completion = 0
         calls = 0
         failures: list[str] = []
         local_remaining = remaining_total_workflow_tokens
         has_limit = remaining_total_workflow_tokens is not None
+        use_patch_envelope = enable_exact_patch and protocol_version == V11_PROTOCOL
 
         for artifact in plan.ordered_artifacts:
             action = plan.actions.get(artifact.path)
@@ -480,6 +582,12 @@ class SharedRegenerationExecutor:
             action_str = str(action)
 
             if action_str == "human_review":
+                # Stage-C write guard: H is never writable. A human_review path
+                # that reached the executor is recorded as a blocked attempt.
+                prohibited_write_attempts += 1
+                logger.warning(
+                    "WRITE_GUARD_BLOCKED path=%s action=human_review", artifact.path
+                )
                 generated.append(
                     GeneratedArtifact(
                         path=artifact.path,
@@ -490,6 +598,12 @@ class SharedRegenerationExecutor:
                 continue
 
             if action_str == "preserve" or action_str == "validate_only":
+                # Stage-C write guard: P/V are never writable. Any attempt by a
+                # path reaching the executor is blocked and logged.
+                prohibited_write_attempts += 1
+                logger.warning(
+                    "WRITE_GUARD_BLOCKED path=%s action=%s", artifact.path, action_str
+                )
                 continue
 
             if _is_path_traversal(artifact.path, workspace_root):
@@ -537,15 +651,26 @@ class SharedRegenerationExecutor:
                 language_hint=_language_hint(artifact.path),
                 current_content=current_content,
                 scenario_context=scenario_context,
+                expected_action=_plan_expected_action(plan, artifact.path),
                 repair_context=repair_context,
+                output_mode=(
+                    "patch_envelope" if use_patch_envelope
+                    else "exact_patch" if enable_exact_patch
+                    else "complete_file"
+                ),
             )
 
             prompt_estimate = getattr(
                 self._backend, "count_prompt_tokens", lambda p: max(1, len(p) // 4)
             )(prompt)
 
+            role_cap = (
+                PATCH_MAX_COMPLETION_TOKENS
+                if use_patch_envelope
+                else max_completion_tokens_per_call
+            )
             allowance = resolve_completion_allowance(
-                max_completion_tokens_per_call=max_completion_tokens_per_call,
+                max_completion_tokens_per_call=role_cap,
                 remaining_total_workflow_tokens=local_remaining,
                 prompt_tokens=prompt_estimate,
             )
@@ -582,7 +707,23 @@ class SharedRegenerationExecutor:
                 )
                 break
             try:
-                response: LLMResponse = await self._backend.generate(prompt=prompt, max_tokens=allowance)
+                if use_patch_envelope:
+                    generate_structured = getattr(self._backend, "generate_structured", None)
+                    if not callable(generate_structured):
+                        raise ExactPatchError(
+                            "scientific v1.1 backend lacks native JSON-schema support"
+                        )
+                    response = await generate_structured(
+                        prompt=prompt,
+                        schema_name="patch_envelope",
+                        schema=PATCH_ENVELOPE_SCHEMA,
+                        temperature=0.0,
+                        max_tokens=allowance,
+                    )
+                else:
+                    response = await self._backend.generate(
+                        prompt=prompt, max_tokens=allowance
+                    )
             except Exception as e:
                 failures.append(f"LLM backend error for {artifact.path}: {e}")
                 atomic_abort = True
@@ -599,6 +740,21 @@ class SharedRegenerationExecutor:
             usage = response.token_usage
             total_prompt += usage.prompt_tokens
             total_completion += usage.completion_tokens
+
+            if response.finish_reason == "length":
+                failures.append(
+                    f"finish_reason=length truncation for {artifact.path}; "
+                    f"configured_completion_cap={allowance}"
+                )
+                atomic_abort = True
+                generated.append(
+                    GeneratedArtifact(
+                        path=artifact.path,
+                        content=response.text,
+                        status="rejected",
+                    )
+                )
+                continue
 
             if can_start_model_call is not None and not can_start_model_call():
                 model_call_budget_exhausted = True
@@ -660,29 +816,63 @@ class SharedRegenerationExecutor:
 
             output_text = response.text
 
-            normalized_body, normalization_mode = normalize_single_payload(output_text)
-            if normalized_body is None:
-                if normalization_mode == "empty":
-                    message = f"Empty generation for {artifact.path}"
-                else:
-                    message = f"Output rejected for {artifact.path}: {normalization_mode}"
-                failures.append(message)
-                atomic_abort = True
-                generated.append(
-                    GeneratedArtifact(
-                        path=artifact.path,
-                        content=output_text,
-                        status="rejected",
+            if not use_patch_envelope:
+                normalized_body, normalization_mode = normalize_single_payload(output_text)
+                if normalized_body is None:
+                    if normalization_mode == "empty":
+                        message = f"Empty generation for {artifact.path}"
+                    else:
+                        message = f"Output rejected for {artifact.path}: {normalization_mode}"
+                    failures.append(message)
+                    atomic_abort = True
+                    generated.append(
+                        GeneratedArtifact(
+                            path=artifact.path,
+                            content=output_text,
+                            status="rejected",
+                        )
                     )
-                )
-                logger.info(
-                    "REGEN_ARTIFACT_END path=%s status=rejected elapsed=%.3f",
-                    artifact.path, time.monotonic() - artifact_start,
-                )
-                continue
-            output_text = normalized_body
-            if normalization_mode == "single_fence_stripped":
-                logger.info("MODEL_OUTPUT_NORMALIZED path=%s mode=single_fence_stripped", artifact.path)
+                    logger.info(
+                        "REGEN_ARTIFACT_END path=%s status=rejected elapsed=%.3f",
+                        artifact.path, time.monotonic() - artifact_start,
+                    )
+                    continue
+                output_text = normalized_body
+                if normalization_mode == "single_fence_stripped":
+                    logger.info("MODEL_OUTPUT_NORMALIZED path=%s mode=single_fence_stripped", artifact.path)
+
+            # --- exact-patch application for modify targets ---
+            _effective_action = _plan_expected_action(plan, artifact.path)
+            if (
+                enable_exact_patch
+                and _effective_action not in ("create", "preserve")
+            ):
+                try:
+                    _blocks = (
+                        parse_patch_envelope(output_text)
+                        if use_patch_envelope
+                        else parse_exact_patch(output_text)
+                    )
+                    output_text = apply_exact_patches(current_content, _blocks)
+                except ExactPatchError as exc:
+                    failures.append(
+                        f"exact_patch_failed: {artifact.path}: {exc}"
+                    )
+                    atomic_abort = True
+                    generated.append(
+                        GeneratedArtifact(
+                            path=artifact.path,
+                            content=output_text,
+                            status="rejected",
+                        )
+                    )
+                    logger.info(
+                        "REGEN_ARTIFACT_END path=%s status=rejected "
+                        "reason=exact_patch_failed elapsed=%.3f",
+                        artifact.path,
+                        time.monotonic() - artifact_start,
+                    )
+                    continue
 
             output_hash = hashlib.sha256(output_text.encode("utf-8")).hexdigest()
             artifact_hashes[artifact.path] = output_hash
@@ -748,10 +938,16 @@ class SharedRegenerationExecutor:
                     continue
 
             if (
-                scenario_context is not None
-                and scenario_context.expected_actions
-                and artifact.path.endswith(".py")
+                artifact.path.endswith(".py")
+                and scenario_context is not None
+                and (scenario_context.gold_isolated or scenario_context.expected_actions)
             ):
+                # D046 / PA-001: the generic Python syntax/module/dependency
+                # guard is decoupled from gold expected-actions. It stays active
+                # for the scientific (gold-isolated) profile even when gold
+                # labels are hidden; legacy profiles with explicit expected
+                # actions keep the same guard; executor paths without a scenario
+                # context remain unchanged.
                 contract_failures = _python_artifact_contract_failures(
                     artifact_path=artifact.path,
                     output_text=output_text,
@@ -819,4 +1015,5 @@ class SharedRegenerationExecutor:
             artifact_hashes=artifact_hashes,
             repair_no_progress=repair_no_progress,
             model_call_budget_exhausted=model_call_budget_exhausted,
+            prohibited_write_attempts=prohibited_write_attempts,
         )

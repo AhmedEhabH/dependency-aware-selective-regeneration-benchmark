@@ -19,6 +19,7 @@ verification, failing closed on traversal/collision/missing-blob maps.
 
 from __future__ import annotations
 
+import ast
 import datetime
 import hashlib
 import importlib.util
@@ -70,10 +71,10 @@ PILOT_SCENARIO_IDS = [
 
 FROZEN_IDENTITY = {
     "task": "PILOT-EXEC-01",
-    "protocol_version": "1.0",
+    "protocol_version": "1.2",
     "model_name": "Qwen/Qwen2.5-Coder-14B-Instruct",
     "quantization": "bnb-nf4",
-    "timeout_seconds": 600,
+    "timeout_seconds": 1200,
     "max_attempts": 3,
     "max_completion_tokens_per_call": 4096,
     "max_total_workflow_tokens": 0,
@@ -163,7 +164,7 @@ def _build(tmp_path: Path, created_utc: str, source_commit: str, label: str) -> 
     return output_root, archive
 
 
-PILOT_SOURCE_TAG = "v0.9.22-pilot-exec-ready"
+PILOT_SOURCE_TAG = "v0.9.22-d13r2-candidate"
 
 
 def _build_frozen(
@@ -408,7 +409,7 @@ class TestPilotBundleRuntime:
             cwd=tmp_path,
         )
         assert result.returncode == 0, f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
-        assert result.stdout.strip() == "12 12 2 iterative_repository_agent,selective 600"
+        assert result.stdout.strip() == "12 12 2 iterative_repository_agent,selective 1200"
 
     def test_bundled_exact_dry_run_pilot_48_unique_cells(self, tmp_path: Path) -> None:
         output_root, _archive = _build(tmp_path, "2026-08-10T00:00:00+00:00", "a" * 40, "dryrun")
@@ -772,11 +773,33 @@ class TestPilotKaggleTransport:
 
 
 def _dist_artifact_is_current_release() -> bool:
+    """True only when the frozen dist artifact matches the CURRENT release.
+
+    A dist artifact is "the current release" only when its deployment identity
+    source tag matches the pinned release tag AND its identity carries the full
+    frozen deployment contract of the canonical notebook (all FROZEN_DEPLOYMENT
+    keys/values). This makes the release-gate test skip while the frozen
+    artifact predates the notebook contract (e.g. before a D13r1 rebuild the
+    D13 artifact lacks the ``exact_patch`` / ``agent_control_max_completion_tokens``
+    identity fields the notebook now freezes) and run exactly when the artifact
+    is the current release.
+    """
     if not DIST_ARTIFACT.is_file():
         return False
     with zipfile.ZipFile(DIST_ARTIFACT) as zf:
         identity = json.loads(zf.read("pilot_deployment_identity.json").decode("utf-8"))
-    return identity.get("source_tag") == PILOT_SOURCE_TAG
+    if identity.get("source_tag") != PILOT_SOURCE_TAG:
+        return False
+    nb = json.loads(CANONICAL_NOTEBOOK.read_text(encoding="utf-8"))
+    setup = next(c for c in nb["cells"] if c.get("id") == "setup-cell")
+    src = "".join(setup["source"]) if isinstance(setup["source"], list) else setup["source"]
+    match = re.search(r"FROZEN_DEPLOYMENT\s*=\s*(\{.*?\})", src, re.DOTALL)
+    if match is None:
+        return False
+    frozen = ast.literal_eval(match.group(1))
+    if not isinstance(frozen, dict):
+        return False
+    return all(identity.get(key) == value for key, value in frozen.items())
 
 
 class TestPilotKaggleExpandedMount:
@@ -1476,3 +1499,177 @@ class TestPilotReleaseTrustGate:
         identity = self._build_validated(tmp_path, "gate4pass", frozen_nb)
         assert identity["source_tag"] == PILOT_SOURCE_TAG
         assert len(identity["code_manifest_sha256"]) == 64
+
+
+class TestD96NoGitHubLaunchRuntimeDependency:
+    """PILOT-EXEC-01 D9.6: the runtime upload artifact contains NO GitHub launch
+    dependency. The bundled code and notebook carry the local-evidence-only
+    launch authorization contract - no git/ls-remote, no remote tag-peel gate,
+    no GITHUB_TOKEN, no credential or network helper."""
+
+    FORBIDDEN_RUNTIME_FRAGMENTS = (
+        "verify_remote_annotated_tag_peel",
+        "KAGGLE_PUBLIC_CANONICAL_REMOTE",
+        "REMOTE_TAG_PROOF_TIMEOUT_SECONDS",
+        "ls-remote",
+        "github.com",
+        "GITHUB_TOKEN",
+        "ghp_",
+        "PersonalAccessToken",
+        "urlopen",
+        "git clone",
+        "git fetch",
+        "git tag",
+        "git rev-parse",
+        "git -C",
+    )
+
+    def _bundled_sources(self, tmp_path: Path) -> tuple[Path, str, str, str]:
+        output_root, _archive = _build(
+            tmp_path, "2026-08-29T00:00:00+00:00", "c" * 40, "d96bundle"
+        )
+        preflight = output_root / "code" / "src" / "benchmark" / "execution" / "preflight.py"
+        entry = output_root / "code" / "seven_arm_benchmark.py"
+        notebook = output_root / "notebooks" / "pilot_exec_01.ipynb"
+        assert preflight.is_file(), preflight
+        assert entry.is_file(), entry
+        assert notebook.is_file(), notebook
+        return (
+            output_root,
+            preflight.read_text(encoding="utf-8"),
+            entry.read_text(encoding="utf-8"),
+            notebook.read_text(encoding="utf-8"),
+        )
+
+    def test_bundled_runtime_code_has_no_github_launch_machinery(
+        self, tmp_path: Path
+    ) -> None:
+        _root, preflight_src, entry_src, _nb_src = self._bundled_sources(tmp_path)
+        for name, src in (
+            ("bundled preflight.py", preflight_src),
+            ("bundled seven_arm_benchmark.py", entry_src),
+        ):
+            for fragment in self.FORBIDDEN_RUNTIME_FRAGMENTS:
+                assert fragment not in src, (
+                    f"{name} contains forbidden runtime fragment {fragment!r}"
+                )
+
+    def test_bundled_notebook_launch_cells_have_local_only_authorization(
+        self, tmp_path: Path
+    ) -> None:
+        _root, _preflight_src, _entry_src, nb_src = self._bundled_sources(tmp_path)
+        nb = json.loads(nb_src)
+        cells = {c.get("id", ""): c for c in nb["cells"]}
+        for cid in ("pilot-launch-cell", "pilot-resume-cell"):
+            src = cells[cid]["source"]
+            cell_src = src if isinstance(src, str) else "".join(src)
+            for fragment in self.FORBIDDEN_RUNTIME_FRAGMENTS:
+                assert fragment not in cell_src, (
+                    f"bundled {cid} contains forbidden fragment {fragment!r}"
+                )
+            assert "validate_pilot_launch_authorization(" in cell_src
+            assert not re.search(r"\bgit\b", cell_src)
+
+
+class TestPilotBundleKeepsMarkdownNavigation:
+    """PILOT-EXEC-01 label-closure: a future finalizer/bundle build must never
+    drop the Markdown navigation cells. Proves the frozen (two-pass finalizer)
+    bundled notebook still carries all 11 navigation Markdown cells with the
+    exact ids, correct cell types, and the exact expected interspersed order."""
+
+    MARKDOWN_NAV = {
+        "pilot-step-00-session-setup-md": "setup-cell",
+        "pilot-step-01-artifact-identity-md": "pilot-archive-verify-cell",
+        "pilot-step-02-runtime-repository-setup-md": "install-lock-cell",
+        "pilot-step-03-repository-preflight-md": "pilot-repo-preflight-cell",
+        "pilot-step-04-gpu-model-input-md": "gpu-verify-cell",
+        "pilot-step-05-model-preflight-md": "model-preflight-cell",
+        "pilot-step-06-hf-secret-md": "secrets-cell",
+        "pilot-step-07-pilot-canary-md": "pilot-canary-cell",
+        "pilot-step-08-dryrun-md": "dryrun-cell",
+        "pilot-step-09-launch-md": "pilot-launch-cell",
+        "pilot-step-10-resume-md": "pilot-resume-cell",
+        "pilot-step-11-verify-export-md": "pilot-verify-cell",
+    }
+
+    @staticmethod
+    def _src(cell: dict[str, Any]) -> str:
+        src = cell.get("source", "")
+        return src if isinstance(src, str) else "".join(src)
+
+    def test_frozen_bundle_retains_markdown_navigation(self, tmp_path: Path) -> None:
+        _output_root, archive, _frozen_notebook = _build_frozen(
+            tmp_path, "2026-08-29T12:00:00+00:00", "a" * 40, "mdnav"
+        )
+        with zipfile.ZipFile(archive) as zf:
+            bundled = json.loads(zf.read("notebooks/pilot_exec_01.ipynb").decode("utf-8"))
+        cells = bundled["cells"]
+        ids = [c.get("id", "") for c in cells]
+        for md_id, code_id in self.MARKDOWN_NAV.items():
+            assert md_id in ids, f"finalizer dropped Markdown navigation cell {md_id}"
+            i = ids.index(md_id)
+            assert cells[i].get("cell_type") == "markdown"
+            assert ids[i + 1] == code_id, (
+                f"{md_id} must immediately precede {code_id}, precedes {ids[i + 1]}"
+            )
+        # No navigation cell may be duplicated and the code order is preserved.
+        from collections import Counter
+
+        dupes = [i for i, n in Counter(ids).items() if n != 1 and i in self.MARKDOWN_NAV]
+        assert dupes == [], f"duplicate navigation ids in frozen bundle: {dupes}"
+        code_ids = [c.get("id", "") for c in cells if c.get("cell_type") == "code"]
+        assert code_ids == [
+            "setup-cell",
+            "pilot-archive-verify-cell",
+            "transport-restore-cell",
+            "pilot-identity-verify-cell",
+            "install-lock-cell",
+            "pilot-snapshot-verify-cell",
+            "service-bootstrap-cell",
+            "pilot-repo-preflight-cell",
+            "gpu-verify-cell",
+            "model-preflight-cell",
+            "secrets-cell",
+            "pilot-canary-cell",
+            "dryrun-cell",
+            "pilot-launch-cell",
+            "pilot-resume-cell",
+            "pilot-verify-cell",
+            "pilot-export-cell",
+        ]
+
+    def test_frozen_bundle_navigation_headings_exact(self, tmp_path: Path) -> None:
+        _output_root, archive, _frozen_notebook = _build_frozen(
+            tmp_path, "2026-08-29T12:00:00+00:00", "a" * 40, "mdnavh"
+        )
+        with zipfile.ZipFile(archive) as zf:
+            bundled = json.loads(zf.read("notebooks/pilot_exec_01.ipynb").decode("utf-8"))
+        cells = {c.get("id", ""): c for c in bundled["cells"]}
+        expected = {
+            "pilot-step-00-session-setup-md": "## 0. Session Setup",
+            "pilot-step-01-artifact-identity-md": "## 1. Artifact and Identity Verification",
+            "pilot-step-02-runtime-repository-setup-md": "## 2. Runtime and Repository Setup",
+            "pilot-step-03-repository-preflight-md": (
+                "## 3. Repository Preflight, Heartbeat, and GQA Microprobe"
+            ),
+            "pilot-step-04-gpu-model-input-md": "## 4. GPU and Qwen Input Verification",
+            "pilot-step-05-model-preflight-md": "## 5. Model Preflight Only",
+            "pilot-step-06-hf-secret-md": "## 6. Hugging Face Results Secret",
+            "pilot-step-07-pilot-canary-md": (
+                "## 7. Pilot-Canary \u2014 Real End-to-End Gate (D11, Saleor-inclusive)"
+            ),
+            "pilot-step-08-dryrun-md": "## 8. Exact-Artifact 48-Cell Dry Run",
+            "pilot-step-09-launch-md": (
+                "## 9. Pilot Launch \u2014 STOP Until Stable Tag Is Confirmed"
+            ),
+            "pilot-step-10-resume-md": "## 10. Resume After External Interruption Only",
+            "pilot-step-11-verify-export-md": "## 11. Final Verification and Export",
+        }
+        for md_id, heading in expected.items():
+            assert md_id in cells, f"missing navigation cell in frozen bundle: {md_id}"
+            assert heading in self._src(cells[md_id]), (
+                f"{md_id} heading missing/incorrect in frozen bundle"
+            )
+        # Frozen source tag must still be present after the two-pass freeze.
+        setup = "".join(self._src(cells["setup-cell"]))
+        assert 'FROZEN_SOURCE_TAG = "v0.9.22-d13r2-candidate"' in setup

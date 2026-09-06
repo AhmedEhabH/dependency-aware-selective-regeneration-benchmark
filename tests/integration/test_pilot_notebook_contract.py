@@ -24,7 +24,9 @@ import ast
 import importlib.util
 import json
 import re
+import subprocess
 import sys
+import time as _time
 from pathlib import Path
 from typing import Any
 
@@ -33,7 +35,7 @@ import pytest
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = PROJECT_DIR / "scripts"
 CANONICAL_NOTEBOOK = PROJECT_DIR / "notebooks" / "pilot_exec_01.ipynb"
-EXPECTED_FROZEN_SOURCE_TAG = "v0.9.22-pilot-exec-ready"
+EXPECTED_FROZEN_SOURCE_TAG = "v0.9.22-d13r2-candidate"
 
 # The bundled-notebook parity test builds a full Pilot bundle; the hermetic
 # fixture keeps that build deterministic without developer-local repo caches.
@@ -50,12 +52,91 @@ REQUIRED_CELL_ORDER = (
     "pilot-repo-preflight-cell",
     "gpu-verify-cell",
     "model-preflight-cell",
-    "dryrun-cell",
     "secrets-cell",
+    "pilot-canary-cell",
+    "dryrun-cell",
     "pilot-launch-cell",
     "pilot-resume-cell",
     "pilot-verify-cell",
     "pilot-export-cell",
+)
+
+# PILOT-EXEC-01 label-closure + D10.3: the canonical notebook carries 12
+# Markdown navigation cells (Step 00..11) each placed IMMEDIATELY before its
+# mapped operational code cell, so Kaggle's Table of contents names every stage
+# and a visible STOP boundary guards pilot-launch. ``MARKDOWN_NAV`` maps each
+# Markdown cell id -> the code cell it must immediately precede. D10.3 inserts a
+# real end-to-end pilot-canary stage between the HF secret and the full launch.
+MARKDOWN_NAV: dict[str, str] = {
+    "pilot-step-00-session-setup-md": "setup-cell",
+    "pilot-step-01-artifact-identity-md": "pilot-archive-verify-cell",
+    "pilot-step-02-runtime-repository-setup-md": "install-lock-cell",
+    "pilot-step-03-repository-preflight-md": "pilot-repo-preflight-cell",
+    "pilot-step-04-gpu-model-input-md": "gpu-verify-cell",
+    "pilot-step-05-model-preflight-md": "model-preflight-cell",
+    "pilot-step-06-hf-secret-md": "secrets-cell",
+    "pilot-step-07-pilot-canary-md": "pilot-canary-cell",
+    "pilot-step-08-dryrun-md": "dryrun-cell",
+    "pilot-step-09-launch-md": "pilot-launch-cell",
+    "pilot-step-10-resume-md": "pilot-resume-cell",
+    "pilot-step-11-verify-export-md": "pilot-verify-cell",
+}
+
+MARKDOWN_HEADINGS: dict[str, str] = {
+    "pilot-step-00-session-setup-md": "## 0. Session Setup",
+    "pilot-step-01-artifact-identity-md": "## 1. Artifact and Identity Verification",
+    "pilot-step-02-runtime-repository-setup-md": "## 2. Runtime and Repository Setup",
+    "pilot-step-03-repository-preflight-md": (
+        "## 3. Repository Preflight, Heartbeat, and GQA Microprobe"
+    ),
+    "pilot-step-04-gpu-model-input-md": "## 4. GPU and Qwen Input Verification",
+    "pilot-step-05-model-preflight-md": "## 5. Model Preflight Only",
+    "pilot-step-06-hf-secret-md": "## 6. Hugging Face Results Secret",
+    "pilot-step-07-pilot-canary-md": (
+        "## 7. Pilot-Canary \u2014 Real End-to-End Gate (D11, Saleor-inclusive)"
+    ),
+    "pilot-step-08-dryrun-md": "## 8. Exact-Artifact 48-Cell Dry Run",
+    "pilot-step-09-launch-md": "## 9. Pilot Launch \u2014 STOP Until Stable Tag Is Confirmed",
+    "pilot-step-10-resume-md": "## 10. Resume After External Interruption Only",
+    "pilot-step-11-verify-export-md": "## 11. Final Verification and Export",
+}
+
+# The canonical notebook keeps its original title and final Notes Markdown
+# cells and intersperses exactly the 12 navigation Markdown cells between the
+# unchanged-16-plus-1 (D10.3 adds pilot-canary-cell) = 17 code cells. This is
+# the full expected cell order after the label-closure + D10.3 canary stage.
+FULL_EXPECTED_CELL_ORDER = (
+    "pilot-title-md",
+    "pilot-step-00-session-setup-md",
+    "setup-cell",
+    "pilot-step-01-artifact-identity-md",
+    "pilot-archive-verify-cell",
+    "transport-restore-cell",
+    "pilot-identity-verify-cell",
+    "pilot-step-02-runtime-repository-setup-md",
+    "install-lock-cell",
+    "pilot-snapshot-verify-cell",
+    "service-bootstrap-cell",
+    "pilot-step-03-repository-preflight-md",
+    "pilot-repo-preflight-cell",
+    "pilot-step-04-gpu-model-input-md",
+    "gpu-verify-cell",
+    "pilot-step-05-model-preflight-md",
+    "model-preflight-cell",
+    "pilot-step-06-hf-secret-md",
+    "secrets-cell",
+    "pilot-step-07-pilot-canary-md",
+    "pilot-canary-cell",
+    "pilot-step-08-dryrun-md",
+    "dryrun-cell",
+    "pilot-step-09-launch-md",
+    "pilot-launch-cell",
+    "pilot-step-10-resume-md",
+    "pilot-resume-cell",
+    "pilot-step-11-verify-export-md",
+    "pilot-verify-cell",
+    "pilot-export-cell",
+    "pilot-notes-md",
 )
 
 FORBIDDEN_CODE_FRAGMENTS = (
@@ -91,6 +172,76 @@ def _cells_by_id(nb: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {c.get("id", ""): c for c in nb["cells"]}
 
 
+def _assigned_list_elements(source: str, target: str) -> list[ast.expr]:
+    tree = ast.parse(source)
+    assignments = [
+        node
+        for node in tree.body
+        if isinstance(node, ast.Assign)
+        and any(isinstance(name, ast.Name) and name.id == target for name in node.targets)
+    ]
+    assert len(assignments) == 1, f"expected one assignment to {target}"
+    value = assignments[0].value
+    assert isinstance(value, ast.List), f"{target} must be a list"
+    return list(value.elts)
+
+
+def _assert_string(node: ast.expr, expected: str) -> None:
+    assert isinstance(node, ast.Constant) and node.value == expected
+
+
+def _assert_prefixed_name(node: ast.expr, prefix: str, name: str) -> None:
+    assert isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add)
+    _assert_string(node.left, prefix)
+    assert isinstance(node.right, ast.Name) and node.right.id == name
+
+
+def _assert_validation_argv_contract(nb: dict[str, Any]) -> None:
+    cells = _cells_by_id(nb)
+    for cell_id, target in (
+        ("pilot-launch-cell", "exec_cmd"),
+        ("pilot-resume-cell", "resume_cmd"),
+    ):
+        elements = _assigned_list_elements(_src(cells[cell_id]), target)
+        validation_indices = [
+            index
+            for index, node in enumerate(elements)
+            if isinstance(node, ast.Constant) and node.value == "--validation-python"
+        ]
+        assert len(validation_indices) == 3, cell_id
+        for index, expected in zip(
+            validation_indices,
+            (
+                ("todo=", "TODO_PYTHON"),
+                ("djangocms=", "DJANGO_PYTHON"),
+                ("saleor=", "SALEOR_PYTHON"),
+            ),
+            strict=True,
+        ):
+            _assert_prefixed_name(elements[index + 1], *expected)
+        timeout_indices = [
+            index
+            for index, node in enumerate(elements)
+            if isinstance(node, ast.Constant) and node.value == "--validation-timeout"
+        ]
+        assert len(timeout_indices) == 1, cell_id
+        _assert_string(elements[timeout_indices[0] + 1], "1800")
+        hf_indices = [
+            index
+            for index, node in enumerate(elements)
+            if isinstance(node, ast.Constant) and node.value == "--hf-repo-id"
+        ]
+        assert len(hf_indices) == 1, cell_id
+        assert timeout_indices[0] < hf_indices[0], cell_id
+        scientific_timeout_indices = [
+            index
+            for index, node in enumerate(elements)
+            if isinstance(node, ast.Constant) and node.value == "--timeout"
+        ]
+        assert len(scientific_timeout_indices) == 1, cell_id
+        _assert_string(elements[scientific_timeout_indices[0] + 1], "1200")
+
+
 class TestNotebookStructure:
     def test_valid_nbformat(self) -> None:
         nb = _nb()
@@ -98,14 +249,19 @@ class TestNotebookStructure:
         assert nb["nbformat_minor"] == 5
 
     def test_required_cell_order(self) -> None:
+        # The label-closure intersperses 11 Markdown navigation cells (Step
+        # 00..10) between the unchanged 16 code cells while keeping the original
+        # title and Notes Markdown cells. Assert the exact full ordered layout
+        # (no missing, no extra, no reordering).
         nb = _nb()
-        ids = [c.get("id", "") for c in nb["cells"]]
-        index = {cell_id: idx for idx, cell_id in enumerate(ids)}
-        for idx, cell_id in enumerate(REQUIRED_CELL_ORDER):
-            assert cell_id in index, f"missing required cell: {cell_id}"
-            assert index[cell_id] == idx + 1, (
-                f"cell '{cell_id}' at position {index[cell_id]}, expected {idx + 1}"
-            )
+        actual = [c.get("id", "") for c in nb["cells"]]
+        assert actual == list(FULL_EXPECTED_CELL_ORDER), (
+            f"cell order differs from expected:\nexpected={list(FULL_EXPECTED_CELL_ORDER)}\n"
+            f"actual  ={actual}"
+        )
+        # The 16 operational code cells still appear in REQUIRED_CELL_ORDER.
+        code_ids = [c.get("id", "") for c in nb["cells"] if c.get("cell_type") == "code"]
+        assert code_ids == list(REQUIRED_CELL_ORDER)
 
     def test_title_identifies_pilot_non_publication(self) -> None:
         nb = _nb()
@@ -115,11 +271,187 @@ class TestNotebookStructure:
         assert "bnb-nf4" in title
 
 
-class TestCodeCellsCompile:
-    def test_all_code_cells_compile(self) -> None:
+class TestMarkdownNavigation:
+    """PILOT-EXEC-01 label-closure: the 11 Markdown navigation cells."""
+
+    def test_every_navigation_id_exists_exactly_once(self) -> None:
         nb = _nb()
-        for cell in _code_cells(nb):
-            ast.parse(_src(cell))  # raises SyntaxError on failure
+        by_id = _cells_by_id(nb)
+        for md_id in MARKDOWN_NAV:
+            assert md_id in by_id, f"missing Markdown navigation cell: {md_id}"
+            cell = by_id[md_id]
+            assert cell.get("cell_type") == "markdown", f"{md_id} must be markdown"
+        ids = [c.get("id", "") for c in nb["cells"]]
+        from collections import Counter
+
+        counts = Counter(i for i in ids if i in MARKDOWN_NAV)
+        duplicates = [i for i, n in counts.items() if n != 1]
+        assert duplicates == [], f"duplicate navigation cell ids: {duplicates}"
+        assert "pilot-title-md" in by_id and "pilot-notes-md" in by_id
+
+    def test_each_markdown_immediately_precedes_mapped_code_cell(self) -> None:
+        nb = _nb()
+        actual = [c.get("id", "") for c in nb["cells"]]
+        for md_id, code_id in MARKDOWN_NAV.items():
+            assert md_id in actual, f"missing navigation cell: {md_id}"
+            i = actual.index(md_id)
+            assert i + 1 < len(actual), f"{md_id} has no following cell"
+            assert actual[i + 1] == code_id, (
+                f"{md_id} must immediately precede {code_id}, "
+                f"but precedes {actual[i + 1]}"
+            )
+
+    def test_headings_are_exact_and_ordered_0_through_10(self) -> None:
+        nb = _nb()
+        by_id = _cells_by_id(nb)
+        headings = []
+        for md_id in ("pilot-title-md", *MARKDOWN_NAV.keys(), "pilot-notes-md"):
+            cell = by_id.get(md_id)
+            if cell is None:
+                continue
+            src = _src(cell)
+            heading = next(
+                (ln for ln in src.splitlines() if ln.startswith("# ")), "# MISSING"
+            )
+            headings.append(heading)
+        expected_ordered = [MARKDOWN_HEADINGS[k] for k in MARKDOWN_NAV]
+        for md_id, expected in MARKDOWN_HEADINGS.items():
+            src = _src(by_id[md_id])
+            assert expected in src, f"{md_id} heading missing: {expected!r}"
+        # All 11 headings present exactly once and strictly ordered 0..10.
+        for idx, md_id in enumerate(MARKDOWN_NAV):
+            assert expected_ordered[idx].startswith(f"## {idx}."), (
+                f"{md_id} heading must start with '## {idx}.', got {expected_ordered[idx]!r}"
+            )
+        # The title keeps its top-level H1 and Notes keeps its H2.
+        assert _src(by_id["pilot-title-md"]).lstrip().startswith("# ")
+        assert "## Notes" in _src(by_id["pilot-notes-md"])
+
+    def test_step5_visibly_lists_the_four_model_preflight_stages(self) -> None:
+        src = _src(_cells_by_id(_nb())["pilot-step-05-model-preflight-md"])
+        for needle in (
+            "Qwen", "BNB-NF4", "load", "GPU-only", "deadline canary",
+            "Short generation", "12k", "64", "long-context", "no scientific RunRecord",
+            "model-preflight-cell",
+        ):
+            assert needle in src, f"step 5 must mention {needle!r}"
+
+    def test_step8_contains_explicit_stop_boundary_and_local_tag_sequence(self) -> None:
+        src = _src(_cells_by_id(_nb())["pilot-step-09-launch-md"])
+        for needle in (
+            "STOP", "Do not run this cell", "export evidence", "OpenCode",
+            "audits evidence", "annotated stable tag", "locally",
+            "tag confirmation", "run this one cell", "Kaggle never contacts GitHub",
+        ):
+            assert needle in src, f"step 8 must contain {needle!r}"
+
+    def test_step6_says_hf_token_only_and_notebook_has_no_github_token(self) -> None:
+        src = _src(_cells_by_id(_nb())["pilot-step-06-hf-secret-md"])
+        assert "HF_TOKEN" in src
+        assert "GitHub access is not required" in src or "no GitHub" in src
+        # The whole notebook (code + markdown) must never mention GITHUB_TOKEN.
+        nb = _nb()
+        all_text = "\n".join(_src(c) for c in nb["cells"])
+        assert "GITHUB_TOKEN" not in all_text
+
+    def test_launch_resume_cells_keep_local_authorization_no_git_gate(self) -> None:
+        # Re-asserted here for the label-closure so the navigation docs can
+        # never drift from the launch gate contract.
+        for cid in ("pilot-launch-cell", "pilot-resume-cell"):
+            src = _src(_cells_by_id(_nb())[cid])
+            assert "validate_pilot_launch_authorization(" in src
+            for fragment in (
+                "github.com", "ls-remote", "GITHUB_TOKEN", "git tag",
+                "git rev-parse", "urlopen", "requests.",
+            ):
+                assert fragment not in src, f"{cid} leaked {fragment!r}"
+
+    def test_no_forbidden_runtime_fragments_in_navigation_markdown(self) -> None:
+        # The navigation Markdown is documentation-only and must not smuggle any
+        # GitHub/git runtime machinery or token material into the bundle.
+        nb = _nb()
+        for md_id in MARKDOWN_NAV:
+            src = _src(_cells_by_id(nb)[md_id])
+            assert "GITHUB_TOKEN" not in src
+            assert "ls-remote" not in src
+            assert "https://github.com" not in src
+
+
+class TestCodeCellsUnchangedFromBaseline:
+    """PILOT-EXEC-01 D10: the D9.6 baseline-parity invariant is intentionally
+    SUPERSEDED by D10, which corrects the internal runtime/operability contract
+    (protocol 1.0 -> 1.1, pilot timeout 600 -> 1200) and adds the real
+    pilot-canary stage. These tests pin the D10 intent directly: every required
+    code cell still exists and compiles, list-backed sources preserve newlines,
+    and the D10 protocol/timeout/canary markers are present in the canonical
+    sources (so a regression cannot silently revert the contract correction)."""
+
+    def test_all_required_code_cells_exist_and_compile(self) -> None:
+        nb = _nb()
+        by_id = _cells_by_id(nb)
+        code_ids = {c.get("id", "") for c in _code_cells(nb)}
+        for code_id in REQUIRED_CELL_ORDER:
+            assert code_id in code_ids, f"required code cell missing: {code_id}"
+            ast.parse(_src(by_id[code_id]))  # raises SyntaxError on failure
+
+    def test_d10_protocol_and_timeout_correction_in_launch_resume_canary(self) -> None:
+        by_id = _cells_by_id(_nb())
+        for cid in ("dryrun-cell", "pilot-canary-cell", "pilot-launch-cell",
+                    "pilot-resume-cell"):
+            src = _src(by_id[cid])
+            assert '"1.2"' in src, f"{cid} not using protocol 1.1"
+            assert '"1200"' in src, f"{cid} not using timeout 1200"
+
+    def test_d10_resume_cell_is_standalone_and_fail_closed(self) -> None:
+        resume = _src(_cells_by_id(_nb())["pilot-resume-cell"])
+        assert 'PILOT_OUTPUT_DIR = KAGGLE_DEPLOYMENT_PATHS["runs_root"]' in resume, (
+            "resume cell must recompute PILOT_OUTPUT_DIR standalone (D10.4, the "
+            "D9.6 resume cell raised NameError: PILOT_OUTPUT_DIR not defined)"
+        )
+        assert "REJECTED_PILOT_EXPERIMENT_IDS" in resume
+        assert "REJECTED_PILOT_CONFIG_HASHES" in resume
+        assert "exp-20260830-134232" in resume
+
+    def test_d10_verify_cell_splits_terminality_from_viability(self) -> None:
+        verify = _src(_cells_by_id(_nb())["pilot-verify-cell"])
+        assert "_pilot_viability" in verify, "verify cell must use the D10.5 viability classifier"
+        assert "deadline_censored" in verify
+        assert "all records terminal (terminality)" in verify
+
+    def test_d10_canary_cell_present_and_real(self) -> None:
+        by_id = _cells_by_id(_nb())
+        canary = _src(by_id["pilot-canary-cell"])
+        assert '"--profile", "pilot-canary"' in canary
+        assert '"--backend", "kaggle-qwen"' in canary
+        assert "validate_pilot_canary_evidence" in canary
+        assert "kaggle-qwen" in canary  # never a mock/dry-run canary
+
+    def test_d11_canary_cell_saleor_inclusive_validation_commands(self) -> None:
+        by_id = _cells_by_id(_nb())
+        canary = _src(by_id["pilot-canary-cell"])
+        assert '"--validation-python", "saleor=" + SALEOR_PYTHON' in canary
+        assert '"--validation-python", "djangocms=" + DJANGO_PYTHON' in canary
+        assert '"--validation-python", "todo=" + TODO_PYTHON' in canary
+
+    def test_setup_carries_d10_protocol_timeout_rejected_exp_viability(self) -> None:
+        setup = _src(_cells_by_id(_nb())["setup-cell"])
+        assert 'EXPECTED_PROTOCOL_VERSION = "1.2"' in setup
+        assert 'EXPECTED_TIMEOUT_SECONDS = 1200' in setup
+        assert '"protocol_version": "1.2"' in setup
+        assert '"timeout_seconds": 1200' in setup
+        assert 'REJECTED_PILOT_EXPERIMENT_IDS = ("exp-20260830-134232",)' in setup
+        assert 'REJECTED_PILOT_CONFIG_HASHES = ("4b5bbcb2abcf62af",)' in setup
+        assert "def _pilot_viability(" in setup
+
+    def test_list_backed_code_cell_sources_preserve_newlines(self) -> None:
+        for cell in _code_cells(_nb()):
+            source = cell["source"]
+            if not isinstance(source, list):
+                continue
+            for index, element in enumerate(source[:-1]):
+                assert element.endswith("\n"), (
+                    f"code cell {cell.get('id')} source element {index} lacks a newline"
+                )
 
 
 class TestFrozenIdentity:
@@ -129,7 +461,8 @@ class TestFrozenIdentity:
         assert 'EXPECTED_PROFILE = "pilot"' in setup
         assert 'EXPECTED_MODEL_IDENTITY = "qwen:14b-instruct-v1:bnb-nf4:cfg-cc9474140d25"' in setup
         assert 'QWEN_QUANTIZATION = "bnb-nf4"' in setup
-        assert 'EXPECTED_PROTOCOL_VERSION = "1.0"' in setup
+        assert 'EXPECTED_PROTOCOL_VERSION = "1.2"' in setup
+        assert 'EXPECTED_TIMEOUT_SECONDS = 1200' in setup
 
     def test_identity_cell_reads_bundled_identity(self) -> None:
         cells = _cells_by_id(_nb())
@@ -202,9 +535,9 @@ class TestExecutionOrdering:
             "--max-attempts",
             "3",
             "--protocol-version",
-            "1.0",
+            "1.2",
             "--timeout",
-            "600",
+            "1200",
             "--hf-sync",
             "--new-experiment",
         ):
@@ -218,6 +551,88 @@ class TestExecutionOrdering:
         tokens = self._cmd_list_tokens(resume, "resume_cmd")
         assert "--resume-from-hf" in tokens
         assert "--new-experiment" not in tokens
+
+
+class TestD12ScriptPathOrchestration:
+    """D12 regression: SCRIPT_PATH must exist before pilot-canary-cell uses it."""
+
+    @staticmethod
+    def _assigns_script_path(source: str) -> bool:
+        tree = ast.parse(source)
+        return any(
+            isinstance(node, ast.Assign)
+            and any(
+                isinstance(t, ast.Name) and t.id == "SCRIPT_PATH"
+                for t in node.targets
+            )
+            for node in tree.body
+        )
+
+    @staticmethod
+    def _uses_script_path(source: str) -> bool:
+        tree = ast.parse(source)
+        return any(
+            isinstance(n, ast.Name) and n.id == "SCRIPT_PATH"
+            for n in ast.walk(tree)
+        )
+
+    def test_script_path_defined_in_cell_before_first_canary_use(self) -> None:
+        nb = _nb()
+        cells = nb["cells"]
+        canary_index = [
+            i for i, c in enumerate(cells) if c.get("id") == "pilot-canary-cell"
+        ][0]
+        defining = [
+            i
+            for i, c in enumerate(cells)
+            if c.get("cell_type") == "code" and self._assigns_script_path(_src(c))
+        ]
+        assert len(defining) == 1, (
+            "expected exactly one canonical SCRIPT_PATH definition, "
+            f"found in cells {defining}"
+        )
+        defining_index = defining[0]
+        assert defining_index < canary_index, (
+            f"SCRIPT_PATH first defined in cell {defining_index} but "
+            f"pilot-canary-cell (cell {canary_index}) needs it earlier"
+        )
+
+    def test_no_cell_uses_script_path_before_canonical_definition(self) -> None:
+        nb = _nb()
+        cells = nb["cells"]
+        defining = [
+            i
+            for i, c in enumerate(cells)
+            if c.get("cell_type") == "code" and self._assigns_script_path(_src(c))
+        ]
+        assert len(defining) == 1
+        offenders = [
+            i
+            for i, c in enumerate(cells[: defining[0]])
+            if c.get("cell_type") == "code"
+            and c.get("id", "") != "pilot-archive-verify-cell"
+            and self._uses_script_path(_src(c))
+        ]
+        assert not offenders, (
+            f"cells use SCRIPT_PATH before it is defined: {offenders}"
+        )
+
+    def test_canonical_definition_lives_in_archive_verify_cell_with_guard(
+        self,
+    ) -> None:
+        src = _src(_cells_by_id(_nb())["pilot-archive-verify-cell"])
+        assert 'SCRIPT_PATH = CODE_DIR / "seven_arm_benchmark.py"' in src
+        assert "FileNotFoundError" in src
+        defining_cells = [
+            c.get("id", "")
+            for c in _code_cells(_nb())
+            if self._assigns_script_path(_src(c))
+        ]
+        assert defining_cells == ["pilot-archive-verify-cell"]
+
+    def test_all_code_cells_still_parse(self) -> None:
+        for cell in _code_cells(_nb()):
+            ast.parse(_src(cell), filename=cell.get("id", "<cell>"))
 
 
 class TestServiceBootstrap:
@@ -383,6 +798,239 @@ class TestRepoPreflight:
         )
 
 
+class TestRepoPreflightCellExecutable:
+    """PILOT-EXEC-01 D3/D4: the repo-preflight cell must be a GENUINE
+    executable gate, not an accidental no-op.
+
+    The historical defect serialized cell 8's source as a list with ZERO
+    newlines, so ``"".join(source)`` produced a single line starting with ``#``
+    (a comment) and the whole GQA microprobe + repository preflight was skipped.
+    These tests prove (1) the canonical source re-joins to executable Python and
+    (2) the AST contains real executable microprobe / fail-closed / ``_run_tee``
+    nodes — string/comment-only matches are explicitly insufficient because
+    comments never appear as AST nodes.
+    """
+
+    def _preflight_src(self) -> str:
+        return _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
+
+    def test_canonical_cell8_source_joins_and_compiles(self) -> None:
+        src = self._preflight_src()
+        assert "\n" in src, "cell 8 source must be newline-preserving"
+        # compile("".join(source)) must succeed (raises SyntaxError on failure).
+        compile("".join(_cells_by_id(_nb())["pilot-repo-preflight-cell"]["source"]),
+                "<pilot-repo-preflight-cell>", "exec")
+
+    def test_ast_has_executable_microprobe_call(self) -> None:
+        tree = ast.parse(self._preflight_src())
+        microprobe_calls = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.Call)
+            and (
+                (isinstance(n.func, ast.Attribute)
+                 and n.func.attr == "probe_sdpa_gqa_kernel_compatibility")
+                or (isinstance(n.func, ast.Name)
+                    and n.func.id == "probe_sdpa_gqa_kernel_compatibility")
+            )
+        ]
+        # A real call site is REQUIRED; a comment mentioning the name does not
+        # produce an AST Call node, so this cannot be satisfied accidentally.
+        assert microprobe_calls, "no executable probe_sdpa_gqa_kernel_compatibility() call"
+
+    def test_ast_has_fail_closed_raise_branch(self) -> None:
+        tree = ast.parse(self._preflight_src())
+
+        def _contains_raise_with(node: Any, needles: tuple[str, ...]) -> bool:
+            if isinstance(node, ast.Raise):
+                assert node.exc is not None
+                src = ast.get_source_segment(self._preflight_src(), node.exc) or ""
+                return any(nd in src for nd in needles)
+            return any(
+                _contains_raise_with(child, needles)
+                for child in ast.iter_child_nodes(node)
+            )
+
+        assert _contains_raise_with(tree, ("MICROPROBE FAILED", "all_passed")), (
+            "missing executable fail-closed raise gated on the microprobe"
+        )
+        assert _contains_raise_with(tree, ("PILOT REPO PREFLIGHT FAILED",)), (
+            "missing executable fail-closed raise for the repo preflight"
+        )
+
+    def test_ast_has_executable_run_tee_call(self) -> None:
+        tree = ast.parse(self._preflight_src())
+        run_tee_calls = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.Call)
+            and isinstance(n.func, ast.Name)
+            and n.func.id == "_run_tee"
+        ]
+        assert run_tee_calls, "no executable _run_tee(...) call"
+
+    def test_run_tee_enforces_deadline_while_running(self) -> None:
+        """D4: the _run_tee body must enforce the deadline while the child is
+        running (not only after EOF), and terminate/kill on timeout."""
+        src = self._preflight_src()
+        # The deadline is computed from a monotonic clock and the reader loop
+        # checks it while the process is still alive.
+        assert "_time.monotonic()" in src
+        assert "deadline" in src
+        assert "proc.terminate()" in src
+        assert "proc.kill()" in src
+        assert "timed out" in src
+
+
+class TestNoEncodingMojibake:
+    """PILOT-EXEC-01 D5: reject the em-dash mojibake ``â€"`` in canonical and
+    bundled notebook sources. The branch corrupted valid em dashes (U+2014) into
+    the mojibake sequence U+00E2 U+20AC U+201D in several cells; these must be
+    absent and proper em dashes present."""
+
+    MOJIBAKE = "\u00e2\u20ac\u201d"
+    EM_DASH = "\u2014"
+
+    def _walk_strings(self, obj: Any) -> list[str]:
+        out: list[str] = []
+        if isinstance(obj, dict):
+            for v in obj.values():
+                out.extend(self._walk_strings(v))
+        elif isinstance(obj, list):
+            for x in obj:
+                out.extend(self._walk_strings(x))
+        elif isinstance(obj, str):
+            out.append(obj)
+        return out
+
+    def test_canonical_notebook_has_no_mojibake(self) -> None:
+        nb = _nb()
+        strings = self._walk_strings(nb)
+        assert not any(self.MOJIBAKE in s for s in strings), (
+            "canonical notebook contains em-dash mojibake"
+        )
+        # The restored em dashes must be present (they are real, not deleted).
+        assert any(self.EM_DASH in s for s in strings), (
+            "expected restored em dashes in the canonical notebook"
+        )
+
+    def test_canonical_code_cells_contain_no_mojibake(self) -> None:
+        for cell in _code_cells(_nb()):
+            assert self.MOJIBAKE not in _src(cell), (
+                f"code cell {cell.get('id')} contains em-dash mojibake"
+            )
+
+    def test_bundled_notebook_contains_no_mojibake(self, tmp_path: Path) -> None:
+        spec = importlib.util.spec_from_file_location(
+            "build_pilot_upload_bundle_no_mojibake",
+            str(SCRIPTS_DIR / "build_pilot_upload_bundle.py"),
+        )
+        assert spec is not None and spec.loader is not None
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = mod
+        spec.loader.exec_module(mod)
+        output_root = tmp_path / "bundle-no-mojibake"
+        archive = tmp_path / "bundle-no-mojibake.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        bundled = output_root / "notebooks" / "pilot_exec_01.ipynb"
+        bundled_nb = json.loads(bundled.read_text(encoding="utf-8"))
+        strings = self._walk_strings(bundled_nb)
+        assert not any(self.MOJIBAKE in s for s in strings), (
+            "bundled notebook contains em-dash mojibake"
+        )
+
+
+def _load_run_tee() -> Any:
+    """Extract the canonical cell-8 ``_run_tee`` function and load it as a real
+    callable against real stdlib subprocess/threading, so its timeout and
+    fail-closed behavior can be exercised with genuine child processes."""
+    src = _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
+    tree = ast.parse(src)
+    func_node = next(
+        (n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "_run_tee"),
+        None,
+    )
+    assert func_node is not None, "_run_tee not defined in the repo-preflight cell"
+    func_src = ast.get_source_segment(src, func_node) or ""
+    ns: dict[str, Any] = {
+        "subprocess": __import__("subprocess"),
+        "sys": __import__("sys"),
+    }
+    exec(compile(func_src, "<pilot-run-tee>", "exec"), ns)
+    return ns["_run_tee"]
+
+
+class TestRunTeeSubprocessBehavior:
+    """D4: the cell-8 ``_run_tee`` must enforce its deadline WHILE the child is
+    still running and fail-closed (terminate -> kill -> reap, close the console
+    handle, raise with the command and a bounded tail). These run against real
+    subprocesses, not a fake runner, so a regression that only enforced the
+    timeout after EOF would fail."""
+
+    def test_returns_captured_output_on_success(self, tmp_path: Path) -> None:
+        run_tee = _load_run_tee()
+        console = tmp_path / "console.log"
+        result = run_tee(
+            [sys.executable, "-c", "print('hello-from-child')"],
+            timeout=30,
+            console_path=str(console),
+        )
+        assert result.stdout.strip() == "hello-from-child"
+        assert result.returncode == 0
+        assert "hello-from-child" in console.read_text(encoding="utf-8", errors="replace")
+
+    def test_raises_on_nonzero_exit(self) -> None:
+        run_tee = _load_run_tee()
+        with pytest.raises(RuntimeError, match="command failed \\(exit="):
+            run_tee([sys.executable, "-c", "import sys; sys.exit(3)"], timeout=30)
+
+    def test_enforces_deadline_while_child_still_running(self) -> None:
+        """A child that sleeps 60s with a 1s timeout must raise after ~1s, far
+        before the child could complete naturally — proving the deadline is
+        checked while the process is alive, not only after EOF."""
+        run_tee = _load_run_tee()
+        started = _time.monotonic()
+        with pytest.raises(RuntimeError, match="timed out") as excinfo:
+            run_tee(
+                [sys.executable, "-c", "import time; time.sleep(60)"],
+                timeout=1,
+            )
+        elapsed = _time.monotonic() - started
+        assert elapsed < 10, f"deadline not enforced while running (elapsed={elapsed:.1f}s)"
+        msg = str(excinfo.value)
+        assert "timed out after 1s" in msg
+        assert "import time; time.sleep(60)" in msg or "sleep(60)" in msg
+
+    def test_timeout_message_contains_bounded_tail(self) -> None:
+        run_tee = _load_run_tee()
+        with pytest.raises(RuntimeError) as excinfo:
+            run_tee(
+                [sys.executable, "-c", "import time; print('START'); time.sleep(60)"],
+                timeout=1,
+            )
+        msg = str(excinfo.value)
+        # The child's output must appear in the message but the message stays
+        # bounded to a tail window (never an unbounded full capture).
+        assert "START" in msg
+        assert len(msg) < 10_000
+
+
+class TestRepoPreflightTimeoutAndOrdering:
+    """D4/D3: the repo-preflight cell keeps its preflight-before-anything-scary
+    ordering and the shared fail-closed runner."""
+
+    def test_repo_preflight_present_and_before_gpu_verify(self) -> None:
+        def _index(cell_id: str) -> int:
+            return [c.get("id", "") for c in _nb()["cells"]].index(cell_id)
+
+        assert _index("pilot-repo-preflight-cell") < _index("gpu-verify-cell")
+
+
 class TestKaggleTransportRestore:
     """PILOT-EXEC-01 KAGGLE-FILENAME-TRANSPORT notebook contract.
 
@@ -534,10 +1182,10 @@ class TestKaggleAutoExpandedMount:
         setup = self._src("setup-cell")
         for fragment in (
             '"task": "PILOT-EXEC-01"',
-            '"protocol_version": "1.0"',
+            '"protocol_version": "1.2"',
             '"model_name": "Qwen/Qwen2.5-Coder-14B-Instruct"',
             '"quantization": "bnb-nf4"',
-            '"timeout_seconds": 600',
+            '"timeout_seconds": 1200',
             '"max_attempts": 3',
             '"max_completion_tokens_per_call": 4096',
             '"max_total_workflow_tokens": 0',
@@ -624,3 +1272,574 @@ class TestBundledNotebookParity:
         canonical_bytes = CANONICAL_NOTEBOOK.read_bytes().replace(b"\r\n", b"\n")
         bundled_bytes = bundled.read_bytes().replace(b"\r\n", b"\n")
         assert bundled_bytes == canonical_bytes, "bundled notebook differs from canonical"
+
+        bundled_nb = json.loads(bundled.read_text(encoding="utf-8"))
+        for cell in _code_cells(bundled_nb):
+            source = cell["source"]
+            if not isinstance(source, list):
+                continue
+            for index, element in enumerate(source[:-1]):
+                assert element.endswith("\n"), (
+                    f"bundled code cell {cell.get('id')} source element {index} lacks a newline"
+                )
+        _assert_validation_argv_contract(bundled_nb)
+
+    def test_bundled_notebook_keeps_markdown_navigation_and_code_layout(
+        self, tmp_path: Path
+    ) -> None:
+        """A future finalizer/bundle build must never drop the Markdown
+        navigation: canonical and bundled notebooks share identical cell ids,
+        order, cell types, and relevant Markdown/Code source."""
+        spec = importlib.util.spec_from_file_location(
+            "build_pilot_upload_bundle_nav_test",
+            str(SCRIPTS_DIR / "build_pilot_upload_bundle.py"),
+        )
+        assert spec is not None and spec.loader is not None
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = mod
+        spec.loader.exec_module(mod)
+        output_root = tmp_path / "pilot-upload-nav"
+        archive = tmp_path / "pilot-upload-nav.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        bundled_path = output_root / "notebooks" / "pilot_exec_01.ipynb"
+        bundled_nb = json.loads(
+            bundled_path.read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
+        )
+        canonical_nb = _nb()
+        canonical_layout = [
+            (c.get("id", ""), c.get("cell_type"), _src(c)) for c in canonical_nb["cells"]
+        ]
+        bundled_layout = [
+            (c.get("id", ""), c.get("cell_type"), _src(c)) for c in bundled_nb["cells"]
+        ]
+        assert [x[0] for x in bundled_layout] == [x[0] for x in canonical_layout]
+        assert [x[1] for x in bundled_layout] == [x[1] for x in canonical_layout]
+        assert [x[2] for x in bundled_layout] == [x[2] for x in canonical_layout]
+        # Every navigation cell survived bundling.
+        bundled_ids = {c.get("id", "") for c in bundled_nb["cells"]}
+        assert set(MARKDOWN_NAV) <= bundled_ids
+
+
+def _load_bundle_builder() -> Any:
+    spec = importlib.util.spec_from_file_location(
+        "build_pilot_upload_bundle_d8",
+        str(SCRIPTS_DIR / "build_pilot_upload_bundle.py"),
+    )
+    assert spec is not None and spec.loader is not None
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _get_call_literals(tree: ast.AST) -> list[str]:
+    """First-argument string literals of every method call in the AST."""
+    out: list[str] = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        args = node.args
+        if not args or not isinstance(args[0], ast.Constant):
+            continue
+        if isinstance(args[0].value, str):
+            out.append(args[0].value)
+    return out
+
+
+class TestPilotDryrunCellSchema:
+    """PILOT-EXEC-01 D8.2/D8.6: the dryrun-cell MUST delegate verification to
+    the canonical ``benchmark.execution.preflight.validate_pilot_dryrun_evidence``
+    and MUST NOT read the fabricated top-level ``total_tokens`` key (the
+    pre-D8 false-green shape). Proof is AST-driven: a comment mentioning the
+    name produces no Import/Call node."""
+
+    def _src(self) -> str:
+        return _src(_cells_by_id(_nb())["dryrun-cell"])
+
+    def _tree(self) -> ast.Module:
+        return ast.parse(self._src())
+
+    def test_imports_canonical_validator(self) -> None:
+        tree = self._tree()
+        imports = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.ImportFrom)
+            and n.module in ("benchmark.execution.preflight",)
+            and any(
+                alias.name == "validate_pilot_dryrun_evidence"
+                for alias in n.names
+            )
+        ]
+        assert imports, (
+            "dryrun-cell must import validate_pilot_dryrun_evidence from "
+            "benchmark.execution.preflight"
+        )
+
+    def test_calls_canonical_validator(self) -> None:
+        tree = self._tree()
+        calls = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.Call)
+            and (
+                (isinstance(n.func, ast.Name)
+                 and n.func.id == "validate_pilot_dryrun_evidence")
+                or (isinstance(n.func, ast.Attribute)
+                    and n.func.attr == "validate_pilot_dryrun_evidence")
+            )
+        ]
+        assert calls, "no executable validate_pilot_dryrun_evidence(...) call"
+
+    def test_never_reads_top_level_total_tokens(self) -> None:
+        """The cell must never read a per-record top-level ``total_tokens`` key.
+        The ONLY ``['total_tokens']`` subscripts allowed are the canonical
+        validator's summary aggregate (``dryrun_summary['total_tokens']``),
+        printed for truthful evidence display."""
+        src = self._src()
+        tree = self._tree()
+        get_literals = _get_call_literals(tree)
+        assert "total_tokens" not in get_literals, (
+            "dryrun-cell still reads top-level total_tokens via .get() "
+            "(pre-D8 false-green shape)"
+        )
+        subscripts = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.Subscript)
+            and isinstance(n.slice, ast.Constant)
+            and n.slice.value == "total_tokens"
+        ]
+        for node in subscripts:
+            receiver = ast.get_source_segment(src, node.value) or ""
+            assert receiver in ("dryrun_summary", "summary"), (
+                f"top-level total_tokens must only be read from the validator "
+                f"summary, got receiver {receiver!r}"
+            )
+
+    def test_prints_truthful_summary_after_validation(self) -> None:
+        """The cell must print the validated summary (counts + zero tokens +
+        source identity), never a hand-rolled verdict."""
+        src = self._src()
+        assert "validate_pilot_dryrun_evidence(" in src
+        for needle in ("record_count", "unique_run_ids", "repo_counts",
+                       "strategy_counts", "rep_counts", "model_calls",
+                       "total_tokens", "total_workflow_tokens",
+                       "source_commit", "deployed_build_id"):
+            assert needle in src, f"truthful summary must print {needle!r}"
+
+    def test_bundled_dryrun_cell_matches_canonical(self, tmp_path: Path) -> None:
+        mod = _load_bundle_builder()
+        output_root = tmp_path / "bundle-dryrun-schema"
+        archive = tmp_path / "bundle-dryrun-schema.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        bundled = output_root / "notebooks" / "pilot_exec_01.ipynb"
+        bundled_nb = json.loads(bundled.read_text(encoding="utf-8"))
+        bundled_src = _src(_cells_by_id(bundled_nb)["dryrun-cell"])
+        tree = ast.parse(bundled_src)
+        assert any(
+            isinstance(n, ast.ImportFrom)
+            and n.module == "benchmark.execution.preflight"
+            and any(a.name == "validate_pilot_dryrun_evidence" for a in n.names)
+            for n in ast.walk(tree)
+        ), "bundled dryrun-cell lost the canonical validator import"
+        assert any(
+            isinstance(n, ast.Call)
+            and (
+                (isinstance(n.func, ast.Name)
+                 and n.func.id == "validate_pilot_dryrun_evidence")
+                or (isinstance(n.func, ast.Attribute)
+                    and n.func.attr == "validate_pilot_dryrun_evidence")
+            )
+            for n in ast.walk(tree)
+        ), "bundled dryrun-cell lost the canonical validator call"
+        assert "total_tokens" not in _get_call_literals(tree), (
+            "bundled dryrun-cell still reads top-level total_tokens"
+        )
+
+
+class TestGqaPerDeviceEvidenceDisplay:
+    """PILOT-EXEC-01 D8.3/D8.6: the repo-preflight cell must display the SDPA
+    GQA microprobe per visible device using the REAL per-device evidence
+    (``passed``/``gpu_name``/``compute_capability``/``before_heads``/
+    ``after_heads``/``q_device``/``k_device``/``v_device``/``output_device``/
+    ``output_shape``/``error``), NOT the fabricated ``available`` key."""
+
+    REQUIRED_DEVICE_FIELDS = (
+        "device_index", "device", "passed", "gpu_name", "compute_capability",
+        "before_heads", "after_heads", "q_device", "k_device", "v_device",
+        "output_device", "output_shape", "error",
+    )
+
+    def _preflight_src(self) -> str:
+        return _src(_cells_by_id(_nb())["pilot-repo-preflight-cell"])
+
+    def test_per_device_display_reads_real_fields(self) -> None:
+        tree = ast.parse(self._preflight_src())
+        get_literals = _get_call_literals(tree)
+        for field in self.REQUIRED_DEVICE_FIELDS:
+            assert field in get_literals, (
+                f"GQA per-device display must read {field!r}"
+            )
+        assert "available" not in get_literals, (
+            "GQA per-device display must NOT read the fabricated 'available' key"
+        )
+
+    def test_per_device_loop_shape(self) -> None:
+        """The per-device loop must iterate ``gqa_probe.get('devices', [])`` and
+        print a per-device line (device index/name + passed)."""
+        src = self._preflight_src()
+        assert ".get(\"devices\", [])" in src or ".get('devices', [])" in src
+        assert "device_index" in src
+        assert "passed=" in src
+        assert "output_shape" in src
+
+    def test_bundled_gqa_display_matches_canonical(self, tmp_path: Path) -> None:
+        mod = _load_bundle_builder()
+        output_root = tmp_path / "bundle-gqa-display"
+        archive = tmp_path / "bundle-gqa-display.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        bundled = output_root / "notebooks" / "pilot_exec_01.ipynb"
+        bundled_nb = json.loads(bundled.read_text(encoding="utf-8"))
+        bundled_src = _src(_cells_by_id(bundled_nb)["pilot-repo-preflight-cell"])
+        get_literals = _get_call_literals(ast.parse(bundled_src))
+        for field in self.REQUIRED_DEVICE_FIELDS:
+            assert field in get_literals, (
+                f"bundled GQA per-device display must read {field!r}"
+            )
+        assert "available" not in get_literals
+
+
+class TestPilotDryrunEvidenceValidatorIntegration:
+    """PILOT-EXEC-01 D8.5: run the REAL CLI dry-run and require the canonical
+    dry-run evidence validator to pass on the real artifact (never a fixture),
+    proving 48/48 cells, exact source identity, and zero model calls/tokens."""
+
+    SOURCE_COMMIT = "3ebc75dad2f47c8985ce045bcdc8907ce2d52f3c"
+    SOURCE_TAG = "v0.9.22-d13r2-candidate"
+    BUILT_ID = "d8-validator-integration"
+
+    def _run_cli(self, script: Path, dryrun_dir: Path, data_dir: Path) -> None:
+        result = subprocess.run(
+            [
+                sys.executable, "-u", str(script),
+                "--dry-run",
+                "--profile", "pilot",
+                "--protocol-version", "1.2",
+                "--max-attempts", "3",
+                "--max-completion-tokens-per-call", "4096",
+                "--max-total-workflow-tokens", "0",
+                "--timeout", "1200",
+                "--source-commit", self.SOURCE_COMMIT,
+                "--source-tag", self.SOURCE_TAG,
+                "--deployed-build-id", self.BUILT_ID,
+                "--data-dir", str(data_dir),
+                "--qwen-quantization", "bnb-nf4",
+                "--output-dir", str(dryrun_dir),
+            ],
+            capture_output=True,
+            text=True,
+            cwd=str(PROJECT_DIR),
+            errors="replace",
+        )
+        assert result.returncode == 0, (
+            f"CLI dry-run failed:\nSTDOUT:\n{result.stdout[-2000:]}\n"
+            f"STDERR:\n{result.stderr[-2000:]}"
+        )
+
+    def _assert_validator_pass(self, dryrun_dir: Path) -> None:
+        from benchmark.execution.preflight import validate_pilot_dryrun_evidence
+        summary = validate_pilot_dryrun_evidence(
+            dryrun_dir=dryrun_dir,
+            expected_source_commit=self.SOURCE_COMMIT,
+            expected_source_tag=self.SOURCE_TAG,
+            expected_deployed_build_id=self.BUILT_ID,
+            expected_model_identity="dry-run:mock",
+        )
+        assert summary["passed"] is True
+        assert summary["record_count"] == 48
+        assert summary["unique_run_ids"] == 48
+        assert summary["repo_counts"] == {"todo": 16, "djangocms": 16, "saleor": 16}
+        assert summary["strategy_counts"] == {
+            "iterative_repository_agent": 24,
+            "selective": 24,
+        }
+        assert summary["rep_counts"] == {1: 24, 2: 24}
+        assert summary["model_calls"] == 0
+        assert summary["prompt_tokens"] == 0
+        assert summary["completion_tokens"] == 0
+        assert summary["total_tokens"] == 0
+        assert summary["total_workflow_model_calls"] == 0
+        assert summary["total_workflow_tokens"] == 0
+        assert summary["source_commit"] == self.SOURCE_COMMIT
+        assert summary["source_tag"] == self.SOURCE_TAG
+        assert summary["deployed_build_id"] == self.BUILT_ID
+        assert summary["model_identity"] == "dry-run:mock"
+
+    def test_real_cli_dryrun_passes_canonical_validator(self, tmp_path: Path) -> None:
+        dryrun_dir = tmp_path / "dryrun"
+        self._run_cli(
+            PROJECT_DIR / "seven_arm_benchmark.py",
+            dryrun_dir,
+            PROJECT_DIR / "benchmark_data",
+        )
+        self._assert_validator_pass(dryrun_dir)
+
+    def test_bundled_cli_dryrun_passes_canonical_validator(self, tmp_path: Path) -> None:
+        mod = _load_bundle_builder()
+        output_root = tmp_path / "bundle-validator"
+        archive = tmp_path / "bundle-validator.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="a" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-10T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        script = output_root / "code" / "seven_arm_benchmark.py"
+        data_dir = output_root / "data"
+        dryrun_dir = tmp_path / "bundled-dryrun"
+        self._run_cli(script, dryrun_dir, data_dir)
+        self._assert_validator_pass(dryrun_dir)
+
+
+def _run_live_source() -> tuple[str, str]:
+    """Return (setup-cell source, the extracted `_run_live` function source)."""
+    setup = _src(_cells_by_id(_nb())["setup-cell"])
+    start = setup.index("def _run_live(")
+    end = setup.index("\nEVIDENCE_FILES")
+    return setup, setup[start:end]
+
+
+class TestD9InterruptSafeRunLive:
+    """PILOT-EXEC-01 D9.4: the setup-cell `_run_live` is interrupt-safe — a
+    running child is terminated (process-group SIGTERM/SIGKILL with a graceful
+    proc fallback) inside an `except BaseException` handler, never left to
+    hang without the cooperative deadline guard."""
+
+    def test_run_live_has_interrupt_cleanup(self) -> None:
+        _, func = _run_live_source()
+        assert "except BaseException" in func
+        assert "signal.SIGTERM" in func
+        assert "signal.SIGKILL" in func
+        assert "os.killpg" in func
+        assert "proc.terminate" in func
+
+    def test_run_live_streams_output_not_unbounded_communicate(self) -> None:
+        _, func = _run_live_source()
+        assert "for line in proc.stdout" in func
+        assert "communicate()" not in func
+
+    def test_run_live_function_present_in_setup_cell(self) -> None:
+        setup, func = _run_live_source()
+        assert setup.count("def _run_live(") == 1
+        assert "return_code" in func
+
+
+class TestD96KaggleGitHubBoundary:
+    """PILOT-EXEC-01 D9.6 Kaggle/GitHub boundary: the launch/resume cells
+    authorize ENTIRELY from the already-produced LOCAL Kaggle evidence
+    (``validate_pilot_launch_authorization`` before any command construction)
+    and contain NO GitHub/git/network runtime machinery (no tag-peel, no
+    ``ls-remote``, no GitHub URL, no ``GITHUB_TOKEN``, no credential helper)."""
+
+    FORBIDDEN_RUNTIME_FRAGMENTS = (
+        "verify_remote_annotated_tag_peel",
+        "ls-remote",
+        "github.com",
+        "GITHUB_TOKEN",
+        "ghp_",
+        "PersonalAccessToken",
+        "urlopen",
+        "urllib.request",
+        "requests.",
+        "git clone",
+        "git fetch",
+        "git ls-remote",
+        "git tag",
+        "git rev-parse",
+        "git -C",
+    )
+
+    def test_launch_resume_secrets_cell_ids_are_stable(self) -> None:
+        cells = _cells_by_id(_nb())
+        for cid in ("pilot-launch-cell", "pilot-resume-cell", "secrets-cell"):
+            assert cid in cells, f"required cell id {cid!r} missing"
+
+    def test_launch_cell_authorizes_before_command_construction(self) -> None:
+        launch = _src(_cells_by_id(_nb())["pilot-launch-cell"])
+        auth = launch.index("validate_pilot_launch_authorization(")
+        exec_idx = launch.index("exec_cmd = [")
+        assert auth < exec_idx
+        assert "PILOT LAUNCH AUTHORIZATION: PASSED" in launch
+        tree = ast.parse(launch)
+        imports = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.ImportFrom)
+            and n.module == "benchmark.execution.preflight"
+            and any(
+                alias.name == "validate_pilot_launch_authorization"
+                for alias in n.names
+            )
+        ]
+        assert imports, "launch cell must import validate_pilot_launch_authorization"
+
+    def test_resume_cell_authorizes_before_command_construction(self) -> None:
+        resume = _src(_cells_by_id(_nb())["pilot-resume-cell"])
+        auth = resume.index("validate_pilot_launch_authorization(")
+        resume_cmd = resume.index("resume_cmd = [")
+        assert auth < resume_cmd
+        assert "PILOT RESUME AUTHORIZATION: PASSED" in resume
+        tree = ast.parse(resume)
+        imports = [
+            n for n in ast.walk(tree)
+            if isinstance(n, ast.ImportFrom)
+            and n.module == "benchmark.execution.preflight"
+            and any(
+                alias.name == "validate_pilot_launch_authorization"
+                for alias in n.names
+            )
+        ]
+        assert imports, "resume cell must import validate_pilot_launch_authorization"
+
+    def test_launch_resume_contain_no_git_or_github_runtime_machinery(self) -> None:
+        for cid in ("pilot-launch-cell", "pilot-resume-cell"):
+            src = _src(_cells_by_id(_nb())[cid])
+            for fragment in self.FORBIDDEN_RUNTIME_FRAGMENTS:
+                assert fragment not in src, (
+                    f"{cid} contains forbidden runtime fragment {fragment!r}"
+                )
+            import re as _re
+
+            tokens = {
+                t.lower()
+                for t in _re.findall(r"[A-Za-z_][A-Za-z0-9_]*", src)
+            }
+            assert "git" not in tokens, f"{cid} references the git executable"
+
+    def test_secrets_cell_has_hf_token_but_no_github_token(self) -> None:
+        secrets = _src(_cells_by_id(_nb())["secrets-cell"])
+        assert '"HF_TOKEN"' in secrets
+        assert "GITHUB_TOKEN" not in secrets
+
+    def test_launch_resume_cells_compile_via_standard_join(self) -> None:
+        cells = _cells_by_id(_nb())
+        for cid in ("pilot-launch-cell", "pilot-resume-cell"):
+            src = _src(cells[cid])
+            compile(src, f"<{cid}>", "exec")
+
+    def test_bundled_launch_resume_contracts_match_canonical(self, tmp_path: Path) -> None:
+        mod = _load_bundle_builder()
+        output_root = tmp_path / "pilot-upload-d96-boundary"
+        archive = tmp_path / "pilot-upload-d96-boundary.zip"
+        mod.build_pilot_bundle(
+            output_root=output_root,
+            archive_path=archive,
+            source_commit="b" * 40,
+            source_tag="v0.9.3-pilot-exec-ready",
+            created_utc="2026-08-29T00:00:00+00:00",
+            validate_notebook_trust=False,
+        )
+        bundled = json.loads(
+            (output_root / "notebooks" / "pilot_exec_01.ipynb")
+            .read_bytes()
+            .replace(b"\r\n", b"\n")
+            .decode("utf-8")
+        )
+        canonical = _nb()
+        for cid in ("pilot-launch-cell", "pilot-resume-cell"):
+            canonical_src = _src(_cells_by_id(canonical)[cid]).replace("\r\n", "\n")
+            bundled_src = _src(_cells_by_id(bundled)[cid]).replace("\r\n", "\n")
+            assert bundled_src == canonical_src, f"{cid} bundled != canonical"
+            for fragment in self.FORBIDDEN_RUNTIME_FRAGMENTS:
+                assert fragment not in bundled_src, (
+                    f"bundled {cid} contains forbidden fragment {fragment!r}"
+                )
+            compile(bundled_src, f"<bundled {cid}>", "exec")
+
+
+class TestD9RunLiveRealInterrupt:
+    """PILOT-EXEC-01 D9.4: run the REAL setup-cell `_run_live` in the main
+    thread against a long-lived child, fire `thread.interrupt_main()`, and prove
+    the interrupting BaseException is caught, the child is terminated, and the
+    interrupt propagates out (no hang, no orphaned child)."""
+
+    def _define_run_live(self) -> Any:
+        func_src = _run_live_source()[1]
+        ns: dict[str, Any] = {
+            "os": __import__("os"),
+            "subprocess": __import__("subprocess"),
+            "Path": Path,
+            "signal": __import__("signal"),
+            "time": __import__("time"),
+            "CODE_DIR": PROJECT_DIR,
+        }
+        exec(compile(func_src, "<setup-cell/_run_live>", "exec"), ns)
+        return ns["_run_live"]
+
+    def test_interrupt_kills_child_and_propagates(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        import _thread
+        import threading
+
+        monkeypatch.setenv("HF_TOKEN", "probe-token")
+        _run_live = self._define_run_live()
+        console = tmp_path / "console.log"
+        # Streaming child: prints READY then a tick every 0.2s so the main-thread
+        # read keeps returning to the Python loop where the injected
+        # KeyboardInterrupt can be delivered. It self-exits after ~20s so the
+        # test can never hang the suite if interruption is unsupported.
+        child_code = (
+            "import sys,time\n"
+            "print('READY', flush=True)\n"
+            "i=0\n"
+            "while i < 100:\n"
+            "    print('tick%d' % i, flush=True)\n"
+            "    i+=1\n"
+            "    time.sleep(0.2)\n"
+            "import os\n"
+            "os._exit(2)\n"
+        )
+        exec_cmd = [sys.executable, "-u", "-c", child_code]
+
+        def interrupt() -> None:
+            _time.sleep(2.5)
+            _thread.interrupt_main()
+
+        timer = threading.Timer(1.0, interrupt)
+        timer.daemon = True
+        timer.start()
+        interrupted = False
+        try:
+            try:
+                _run_live(exec_cmd, str(console), tail_limit=200)
+            except KeyboardInterrupt:
+                interrupted = True
+        finally:
+            timer.cancel()
+        text = console.read_text(encoding="utf-8") if console.exists() else ""
+        assert "READY" in text
+        # The interrupt-safety path must have run: either the KeyboardInterrupt
+        # propagated (re-raised after cleanup) or the child was actively
+        # terminated/killed mid-run. A normal self-exit produces neither.
+        assert interrupted or "CHILD_TERMINATE" in text or "CHILD_KILL" in text

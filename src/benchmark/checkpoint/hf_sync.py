@@ -810,7 +810,7 @@ def _make_run_id_for_plan(
     strategy_name: str,
     repetition: int,
     config_hash: str = "",
-    protocol_version: str = "1.0",
+    protocol_version: str = "1.1",
 ) -> str:
     """Build a deterministic Run ID matching seven_arm_benchmark._make_run_id."""
     import hashlib

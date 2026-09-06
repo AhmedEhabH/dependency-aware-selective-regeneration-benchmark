@@ -1617,3 +1617,157 @@ class TestBuildScenarioContext:
         ctx = runner._build_scenario_context(scenario)
         assert ctx.expected_actions == ()
         assert ctx.expected_action_for("anything.py") == "preserve"
+
+
+class _GuardRecordingBackend(_FakeBackend):
+    def __init__(self) -> None:
+        super().__init__()
+        self.installed_guards: list[object] = []
+
+    def set_model_call_guard(self, guard: object) -> None:
+        self.installed_guards.append(guard)
+
+
+class _GuardRecordingStrategy(_FakeStrategy):
+    def __init__(self) -> None:
+        super().__init__()
+        self.installed_guards: list[object] = []
+
+    def set_model_call_guard(self, guard: object) -> None:
+        self.installed_guards.append(guard)
+
+
+class TestD9ModelCallGuardWiring:
+    def _make_runner_with_guards(
+        self, tmp_path: Path
+    ) -> tuple[BenchmarkRunner, _GuardRecordingStrategy, _GuardRecordingBackend]:
+        ws_root = tmp_path / "workspace"
+        ws_root.mkdir()
+        snap_base = tmp_path / "snapshots"
+        snap_base.mkdir()
+        active_root = snap_base / "repo" / "rev1"
+        active_root.mkdir(parents=True)
+        ws = WorkspacePath(root=str(ws_root))
+        iso = IsolationContext(
+            workspace=ws,
+            snapshot_base=snap_base,
+            active_snapshot_root=active_root,
+        )
+        strategy = _GuardRecordingStrategy()
+        backend = _GuardRecordingBackend()
+        config = RunnerConfig(
+            strategy_name="test_strategy",
+            backend_name="test_backend",
+            protocol_version="1.0",
+            max_attempts=3,
+        )
+        runner = BenchmarkRunner(
+            strategy=strategy,
+            backend=backend,
+            isolation=iso,
+            config=config,
+        )
+        return runner, strategy, backend
+
+    def test_cooperative_deadline_guard_installed_before_any_model_call(
+        self, tmp_path: Path
+    ) -> None:
+        runner, strategy, backend = self._make_runner_with_guards(tmp_path)
+        runner.run(_make_scenario())
+        assert len(strategy.installed_guards) >= 1
+        assert len(backend.installed_guards) == 1
+        installed = backend.installed_guards[0]
+        # The guard is a callable criterion (cooperative, never a thread kill).
+        assert callable(installed)
+
+    def test_run_installs_exactly_one_backend_guard(
+        self, tmp_path: Path
+    ) -> None:
+        runner, strategy, backend = self._make_runner_with_guards(tmp_path)
+        runner.run(_make_scenario())
+        assert len(strategy.installed_guards) >= 1
+        assert len(backend.installed_guards) == 1
+
+class TestMigrationEvaluatorDecoupling:
+    """D13r1 F3: migration execution is decoupled from the scenario evaluator.
+
+    A scenario that declares post-generation migration work
+    (``post_generation_command`` / ``require_new_migration``) WITHOUT an
+    ``evaluator_asset`` is a VALID configuration: the migration stage must run
+    standalone and must NOT drag an evaluator requirement behind it (the pre-F3
+    code treated every migration-bearing scenario as requiring an evaluator and
+    raised a harness defect when ``evaluator_asset`` was empty).
+    """
+
+    @staticmethod
+    def _scenario_with_migration() -> Scenario:
+        return Scenario(
+            scenario_id="mig-only",
+            repository="todo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before",
+            requirement_after="after",
+            rationale="test",
+            post_generation_command=("python", "manage.py", "makemigrations"),
+            require_new_migration=True,
+        )
+
+    @staticmethod
+    def _scenario_with_evaluator() -> Scenario:
+        return Scenario(
+            scenario_id="eval-only",
+            repository="todo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before",
+            requirement_after="after",
+            rationale="test",
+            evaluator_asset="tests/evaluator_assets/todo_smoke_001_checks.py",
+        )
+
+    def test_migration_only_scenario_does_not_require_evaluator(
+        self, tmp_path: Path
+    ) -> None:
+        runner = _make_runner(tmp_path)
+        assert runner._requires_scenario_evaluator(
+            self._scenario_with_migration()
+        ) is False
+
+    def test_migration_only_scenario_configuration_is_valid(
+        self, tmp_path: Path
+    ) -> None:
+        runner = _make_runner(tmp_path)
+        assert runner._validate_scientific_configuration(
+            self._scenario_with_migration()
+        ) is None
+
+    def test_evaluator_scenario_still_requires_evaluator_configuration(
+        self, tmp_path: Path
+    ) -> None:
+        runner = _make_runner(tmp_path)
+        failure = runner._validate_scientific_configuration(
+            self._scenario_with_evaluator()
+        )
+        assert failure is not None
+        assert failure.failure_kind == FailureKind.harness_defect
+        assert "canonical_project_root" in failure.message
+
+    def test_require_new_migration_without_command_still_fails_closed(
+        self, tmp_path: Path
+    ) -> None:
+        runner = _make_runner(tmp_path)
+        scenario = Scenario(
+            scenario_id="mig-defect",
+            repository="todo",
+            change_type="modify",
+            blast_radius=BlastRadius.localized,
+            requirement_before="before",
+            requirement_after="after",
+            rationale="test",
+            require_new_migration=True,
+        )
+        failure = runner._validate_scientific_configuration(scenario)
+        assert failure is not None
+        assert failure.failure_kind == FailureKind.harness_defect
+        assert "require_new_migration=True but post_generation_command is empty" in failure.message

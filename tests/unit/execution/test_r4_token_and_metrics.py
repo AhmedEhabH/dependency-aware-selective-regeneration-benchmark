@@ -564,7 +564,7 @@ def test_agent_initial_call_receives_per_call_limit(tmp_path: Path) -> None:
         max_completion_tokens_per_call=4096,
         remaining_total_workflow_tokens=None,
     )
-    assert backend.captured_max_tokens == [4096]
+    assert backend.captured_max_tokens == [512]
     assert backend.call_count == 1
     assert prediction.token_usage is not None
     assert prediction.token_usage.prompt_tokens == 50
@@ -602,7 +602,7 @@ def test_agent_revision_call_receives_per_call_limit(tmp_path: Path) -> None:
         max_completion_tokens_per_call=4096,
         remaining_total_workflow_tokens=None,
     )
-    assert backend.captured_max_tokens == [4096]
+    assert backend.captured_max_tokens == [512]
     assert backend.call_count == 1
     assert prediction.token_usage is not None
     assert prediction.token_usage.total_tokens == 60
@@ -626,7 +626,7 @@ def test_agent_unlimited_total_does_not_shrink_later_calls(tmp_path: Path) -> No
         max_completion_tokens_per_call=4096,
         remaining_total_workflow_tokens=None,
     )
-    assert backend.captured_max_tokens == [4096, 4096, 4096]
+    assert backend.captured_max_tokens == [512, 512, 512]
     assert backend.call_count == 3
     assert prediction.token_usage is not None
     assert prediction.token_usage.total_tokens == 0
@@ -716,7 +716,7 @@ def test_agent_eight_call_cap_is_independent_from_token_limit(tmp_path: Path) ->
         remaining_total_workflow_tokens=None,
     )
     assert backend.call_count == 8
-    assert backend.captured_max_tokens == [4096] * 8
+    assert backend.captured_max_tokens == [512] * 8
     assert any("no remaining agent calls" in e for e in prediction.errors)
     assert all(d.action == ActionKind.preserve for d in prediction.decisions)
 
