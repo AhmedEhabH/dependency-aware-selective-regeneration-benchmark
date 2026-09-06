@@ -1712,3 +1712,21 @@ audit: update the Kaggle code dataset + notebook to the corrected `e5d9430`
 deployment, then run the Kaggle **engineering preflight** cell only (not the
 scientific One-Run cell). Do not relaunch Kaggle, tag, merge, or force-push
 beyond that documented preflight step.
+
+## STAGE-C-SELECTION-01 (D052) - Exploratory selection-only component study (2026-09-06, in progress)
+
+New profile `scientific-stagec-selection-01` adds a **selection-only** execution
+path (3 Todo smoke scenarios x Agent/ImpactPlan x 5 reps = 30 cells). The runner
+calls `strategy.analyze_impact` exactly once per run, never calls `revise_plan`,
+never invokes the regeneration executor, repairs, migrations, or the functional
+evaluator. INITIAL predictions persist in the additive `selection_study` field
+of RunRecordData (cannot be overwritten by later state). Hidden gold is applied
+only after each prediction for metrics. Frozen caps: Agent control 1024,
+ImpactPlan 4096; model qwen/qwen3-coder @ DeepInfra, fallback OFF.
+
+This is **EXPLORATORY COMPONENT EVIDENCE** motivated by the v1.1 end-to-end
+NO-GO; it does NOT rewrite or weaken the v1.1 result. No executor/parser/model/
+repository redesign is part of this study. The sequential plan is: focused
+tests (18 items) -> six Pre-Benchmark gates + Audit + full suite once -> cost
+guard (<= $0.25) -> 30 real selection runs -> component results tables + LIGHT
+export.

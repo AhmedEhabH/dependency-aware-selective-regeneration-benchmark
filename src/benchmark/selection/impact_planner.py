@@ -663,6 +663,8 @@ class OpenRouterImpactPlanner:
         self._token_usage = TokenUsage(0, 0, 0)
         self._model_calls = 0
         self._latency = 0.0
+        self._raw_response_hashes: list[str] = []
+        self._last_finish_reason: str = ""
 
     @property
     def token_usage(self) -> TokenUsage:
@@ -675,6 +677,14 @@ class OpenRouterImpactPlanner:
     @property
     def latency_seconds(self) -> float:
         return self._latency
+
+    @property
+    def raw_response_hashes(self) -> list[str]:
+        return list(self._raw_response_hashes)
+
+    @property
+    def last_finish_reason(self) -> str:
+        return self._last_finish_reason
 
     def _prompt(self, inp: PlannerInput) -> str:
         return PLANNER_PROMPT_TEMPLATE.format(
@@ -707,6 +717,11 @@ class OpenRouterImpactPlanner:
         elapsed = time.monotonic() - start
         self._model_calls += 1
         tu = response.token_usage
+        self._last_finish_reason = response.finish_reason or ""
+        if getattr(response, "text", ""):
+            self._raw_response_hashes.append(
+                hashlib.sha256(response.text.encode("utf-8")).hexdigest()
+            )
         if tu:
             self._token_usage = TokenUsage(
                 prompt_tokens=self._token_usage.prompt_tokens + tu.prompt_tokens,

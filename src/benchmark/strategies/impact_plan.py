@@ -200,3 +200,11 @@ class ImpactPlanSelectiveStrategy:
     def total_tokens(self) -> int:
         tu = getattr(self._planner, "token_usage", TokenUsage())
         return tu.total_tokens
+
+    @property
+    def selection_raw_response_hashes(self) -> tuple[str, ...]:
+        return tuple(getattr(self._planner, "raw_response_hashes", []) or [])
+
+    @property
+    def selection_finish_reason(self) -> str:
+        return getattr(self._planner, "last_finish_reason", "")

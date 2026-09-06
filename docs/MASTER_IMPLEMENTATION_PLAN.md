@@ -547,3 +547,14 @@ Accepted real 14B canary records = **1 succeeded / 0 failed** (isolated selectiv
 Interpretation: 14B crossed the 7B model-quality floor on the same task (25.0% fewer calls / 44.1% fewer tokens / repair eliminated / 14.9% slower) - functional viability, not strategy superiority. Generated `views.py` has an unused `Q` import (non-blocking; evidence workspace must NOT be repaired). The continuous cell failed closed with zero model calls because the generic experiment was empty - not a failure; do NOT patch the continuous workflow before Full-9.
 
 No merge/tag/Pilot; no fine-tune; no Kaggle rerun. **Next action = independent delta audit of the FULL9-WS-02A runbook/docs closure**; only if accepted, exactly one fresh corrected Full-9 Scientific Smoke V2 (3 scenarios x 3 arms = 9 records; SOURCE_COMMIT=7f2a4509482dc7e62c2b243374592e9a88e2ff48 / DEPLOYED_BUILD_ID=7f2a450) using the corrected runbook `docs/KAGGLE_QWEN14B_FULL9_SCIENTIFIC_SMOKE_RUNBOOK.md` - one engineering preflight + one benchmark process, fresh isolated experiment, never resume/merge the canary or the rejected `exp-20260807-205422`, then independent results audit. Record: `selective_updates/records/QWEN14B-SELECTIVE-CANARY-SUCCESS-2026-08-07.md`. Sentinel: `QWEN14B_CANARY_SUCCESS_DOCUMENTED_FULL9_READY`.
+
+## STAGE-C-SELECTION-01 (D052) - Selection-only exploratory component study (2026-09-06)
+
+ONE feature: `scientific-stagec-selection-01` profile + dedicated selection-only
+runner path (`BenchmarkRunner._run_selection_only`) + additive `selection_study`
+persistence + `scripts/build_stagec_selection_results.py`. 30 selection cells
+(3 x 2 x 5), analyze_impact once per run, no revise_plan, no regeneration,
+no repair/migration/evaluator. INITIAL predictions persisted immutably; gold
+post-prediction only. EXPLORATORY COMPONENT STUDY; v1.1 NO-GO preserved.
+Frozen caps Agent 1024 / ImpactPlan 4096; qwen/qwen3-coder @ DeepInfra pinned.
+Status: implementation done, focused tests green, proceeding to the six gates.
