@@ -9,17 +9,23 @@
 [![Tests](https://img.shields.io/badge/tests-2%2C532%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
-> **CURRENT SCIENTIFIC TARGET (2026-09-06, RESULTS-RECOVERY-02):**
-> `scientific-wip-impactplan-v1.1`. Historical `exp-20260905-225518` is
-> preserved verbatim as execution-interface diagnostic evidence (0/30 reached
-> functional validation) and is excluded from the v1.1 comparison. The only
-> interface corrections are native JSON-schema PatchEnvelope, structured Agent
-> actions (calls 1-7 explore; call 8 forced final; no call 9), file-or-directory
-> `search_text`, and repair/failure preservation of ImpactPlan/planner
-> provenance. Model `qwen/qwen3-coder`; DeepInfra pinned through OpenRouter;
-> fallback off. Frozen maximum completion budgets are 1024/4096/8192/8192 for
-> Agent/ImpactPlan/initial patch/repair patch. Production Tier M/L scaling is
-> documentation only. D051/A032 govern this recovery.
+> **CURRENT SCIENTIFIC TARGET (2026-09-06, RESULTS-RECOVERY-02 COMPLETE — v1.1
+> EVIDENCE PRODUCED; GO/NO-GO=NO-GO; NOT A RELEASE; NO STABLE TAG MOVE):**
+> `scientific-wip-impactplan-v1.1` executed end-to-end under D051/A032. Historical
+> `exp-20260905-225518` preserved verbatim (0/30 functional validation;
+> excluded from v1.1 comparison). Interface corrections: native JSON-schema
+> PatchEnvelope, structured Agent actions (calls 1-7 explore; call 8 forced
+> final; no call 9), file-or-directory `search_text`, repair/failure preservation
+> of ImpactPlan/planner provenance. Model `qwen/qwen3-coder`; DeepInfra pinned
+> through OpenRouter; fallback off. Frozen budgets 1024/4096/8192/8192
+> Agent/ImpactPlan/initial patch/repair patch; 0 truncations. Production Tier M/L
+> scaling documentation only. Validation: two real non-study E2E probes PASS,
+> six Pre-Benchmark gates PASS, Audit PASS, full suite **2825 passed / 33
+> skipped / 0 failed**. v1.1 30-run study `exp-20260906-v11`: 30/30 attempted,
+> 5/30 reached functional validation, **0/30 passed**, actual API cost $0.1789;
+> **GO_NO_GO=NO-GO**. Results: `reports/SCIENTIFIC_MICROSTUDY_V11_RESULTS.csv/.md`,
+> `reports/SCIENTIFIC_MICROSTUDY_V11_DECISION.md`; evidence tag
+> `wip-impactplan-v1.1-evidence` (not a release tag).
 
 > **CURRENT SCIENTIFIC TARGET (2026-09-05, IMPACTPLAN-WIP-01 — UNIFIED
 > RESEARCH PATH):** the pre-main Todo correctness-first micro-study is now

@@ -1,17 +1,22 @@
 # Master Implementation Plan
 
-CURRENT TRUTH (2026-09-06, RESULTS-RECOVERY-02): execute the bounded
-`scientific-wip-impactplan-v1.1` recovery under D051/A032. Historical
-`exp-20260905-225518` is immutable diagnostic evidence and excluded from the
-new comparison. Authorized implementation is limited to native JSON-schema
+CURRENT TRUTH (2026-09-06, RESULTS-RECOVERY-02 COMPLETE — v1.1 EVIDENCE
+PRODUCED; GO/NO-GO=NO-GO; NOT A RELEASE; NO STABLE TAG MOVE): the bounded
+`scientific-wip-impactplan-v1.1` recovery under D051/A032 was executed end to
+end. Historical `exp-20260905-225518` is immutable diagnostic evidence and
+excluded from the new comparison. Implementation limited to native JSON-schema
 PatchEnvelope, structured Agent calls 1-7 plus forced-final call 8,
 file-or-directory `search_text`, and repair/failure preservation of ImpactPlan
-and planner provenance. Freeze `qwen/qwen3-coder` on DeepInfra through
-OpenRouter with fallback off and maxima 1024/4096/8192/8192. Production Tier
-M/L scaling remains documentation only. The execution sequence is docs push,
-RED/GREEN, provider capability, two real probes, exactly six gates, Audit,
-full suite once, <=$1.50 cost gate, 30 runs with pushes at 10/20/30, results,
-GO/NO-GO, tag decision, final push, LIGHT export, STOP.
+and planner provenance. `qwen/qwen3-coder` frozen on DeepInfra through
+OpenRouter, fallback off, maxima 1024/4096/8192/8192. Production Tier M/L
+scaling remains documentation only. Sequence completed: docs push, RED/GREEN,
+provider capability, two real probes PASS, exactly six gates PASS, Audit PASS,
+full suite once (**2825 passed / 33 skipped / 0 failed**), <=$1.50 cost gate,
+30 runs `exp-20260906-v11` with pushes at 10/20/30 (30/30 attempted, 5/30
+functional-validation reached, 0/30 passed, `$0.1789`), results
+(`SCIENTIFIC_MICROSTUDY_V11_RESULTS.csv/.md` + DECISION),
+**GO/NO-GO=NO-GO**, evidence tag `wip-impactplan-v1.1-evidence`, final push,
+LIGHT export, STOP.
 
 ## Dependency-Aware Selective Regeneration for LLM-Assisted Software Evolution
 

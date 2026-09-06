@@ -9,6 +9,7 @@
 - **Maximum completion budgets:** Agent control 1024; ImpactPlan 4096; initial PatchEnvelope 8192; repair PatchEnvelope 8192.
 - **Interface contract:** provider-native JSON-schema ImpactPlan, PatchEnvelope, and Agent actions; Agent calls 1-7 explore and call 8 is forced final; `search_text` accepts one file or directory; repair/failure preserves ImpactPlan and planner provenance.
 - **Scope:** Todo 3 scenarios x 2 strategies x 5 repetitions. Production Tier M/L scaling is documentation only and is not active.
+- **Executed 2026-09-06:** two real non-study E2E probes PASS; six Pre-Benchmark gates PASS; Audit PASS; full suite **2825 passed / 33 skipped / 0 failed**; 30-run study `exp-20260906-v11` = 30/30 attempted, 5/30 functional-validation reached, **0/30 passed**, actual API cost `$0.1789`; **GO_NO_GO=NO-GO**; evidence tag `wip-impactplan-v1.1-evidence`.
 
 **Protocol Version:** 1.0
 **Status:** FROZEN
