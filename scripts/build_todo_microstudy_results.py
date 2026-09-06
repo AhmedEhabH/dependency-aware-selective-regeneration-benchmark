@@ -148,8 +148,8 @@ def compute_run_metrics(
         "changed_requirement_pass": bool(
             record.scenario_evaluator_passed is True
         ),
-        "functional_validation_reached": record.functional_validation_passed is not None,
-        "functional_validation_passed": record.functional_validation_passed is True,
+        "functional_validation_reached": record.scenario_evaluator_passed is not None,
+        "functional_validation_passed": record.scenario_evaluator_passed is True,
         "baseline_pass": bool(record.baseline_validation_passed is True),
         "migration_generation_passed": (
             record.migration_generation_passed is True
@@ -182,7 +182,7 @@ def compute_run_metrics(
         "repair_attempts": record.repair_attempts,
         "agent_finalized_within_8": (
             record.strategy_id != STRATEGY_AGENT
-            or (record.selection_model_calls <= 8 and record.functional_validation_passed is not None)
+            or (record.selection_model_calls <= 8 and record.scenario_evaluator_passed is not None)
         ),
         "impact_plan_hash": record.impact_plan_hash,
         "impact_plan_version": record.impact_plan_version,
@@ -416,7 +416,7 @@ def full_microstudy_results(runs_dir: str | Path) -> dict[str, Any]:
     for strategy in _BOTH_STRATEGIES:
         qualified = [
             r for r in relevant
-            if r.strategy_id == strategy and r.functional_validation_passed is not None
+            if r.strategy_id == strategy and r.scenario_evaluator_passed is not None
         ]
         denominator = max(len(qualified), 1)
         qualified_efficiency[strategy] = {
@@ -433,14 +433,14 @@ def full_microstudy_results(runs_dir: str | Path) -> dict[str, Any]:
         "summary": {
             "attempted": len(relevant),
             "functional_validation_reached": sum(
-                r.functional_validation_passed is not None for r in relevant
+                r.scenario_evaluator_passed is not None for r in relevant
             ),
             "functional_validation_passed": sum(
-                r.functional_validation_passed is True for r in relevant
+                r.scenario_evaluator_passed is True for r in relevant
             ),
             "agent_finalized": sum(
                 r.strategy_id == STRATEGY_AGENT
-                and r.functional_validation_passed is not None
+                and r.scenario_evaluator_passed is not None
                 and r.selection_model_calls <= 8
                 for r in relevant
             ),
