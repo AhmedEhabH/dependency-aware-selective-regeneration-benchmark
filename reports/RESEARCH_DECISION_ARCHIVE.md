@@ -124,3 +124,21 @@ references only - no submission-ready paper prose.
 - **exact paths to raw evidence/reports:** as listed in Entry 6.
 - **pre-data or post-data status:** POST-DATA
 - **NEXT_ACTION:** archive + evidence tag `stagec-selection-exploratory-01` + LIGHT zip; no executor change in this study; a future held-out/multi-repo preregistered study may examine selection confidence/precision beyond these three smoke scenarios.
+
+---
+
+## Entry 8: held-out challenge-01 freeze + authorization (D053)
+
+- **timestamp:** 2026-09-07 (before any `scientific-stagec-heldout-01` model call)
+- **decision ID/title:** D053 - STAGE-C-HELDOUT-CHALLENGE-01 frozen held-out selection challenge authorized
+- **what was decided:** The 3-smoke selection study hit a 100% ceiling in both arms (15/15 full recall each, P/R/F1 1.0). This is a frozen follow-up held-out challenge: 6 new user-level Todo scenarios x 2 arms x 5 reps = 60 selection cells, selection-only, same qwen/qwen3-coder @ pinned DeepInfra, fallback OFF, temperature 0, Agent cap 1024 / ImpactPlan cap 4096, no executor work. Visible requirements contain no explicit source-file names.
+- **why (1-3 concise lines):** The prior ceiling proves capability but does not discriminate selection quality; held-out user-level requirements without visible file names are harder and remove the visible-requirement leakage that made the smoke scenarios trivial.
+- **exact evidence supporting it:**
+  - Pack design/freeze: `_workspace/active/STAGE_C_HELDOUT_CHALLENGE_01_PACK/00_DECISION_LOCK.md` + `05_EXECUTE_END_TO_END.md` + `07_MANIFEST_SHA256.json` (all 13 file hashes verified against the pack before copy)
+  - Frozen scenarios: `benchmark_data/scenarios/todo-heldout-001..006.yaml` (SHA-256 byte-identical to pack hash list: `5f8a1953…`, `794c93fa…`, `5ea3d587…`, `68f9ca80…`, `a2913614…`, `d210a1d4…`)
+  - Prior ceiling: `reports/STAGEC_SELECTION_01_RESULTS.md` (Agent 15/15 + ImpactPlan 15/15 full recall)
+- **alternative(s) rejected + why:** Executor/regeneration work REJECTED (out of scope; v1.1 NO-GO preserved); scenario/prompt/cap tuning REJECTED (no post-hoc tuning); rerunning valid unfavorable outcomes REJECTED (frozen protocol).
+- **affected protocol/config/artifacts:** New profile `scientific-stagec-heldout-01`; `scripts/build_stagec_heldout_results.py`; `scripts/validate_stagec_heldout_prebenchmark.py`; six scenario YAMLs copied frozen.
+- **commit hash:** (recorded with the Phase-0 freeze commit)
+- **exact paths to raw evidence/reports:** future `reports/scientific_stagec_heldout_01/run_records.jsonl` (this study); prior D052 records at `reports/scientific_stagec_selection_01/` preserved.
+- **pre-data or post-data status:** PRE-DATA
