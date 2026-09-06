@@ -88,3 +88,39 @@ references only - no submission-ready paper prose.
 - **commit hash:** (recorded with the finalization commit)
 - **exact paths to raw evidence/reports:** `reports/STAGEC_SELECTION_01_AUDIT.md`.
 - **pre-data or post-data status:** POST-AUDIT / PRE-30-RUN
+
+---
+
+## Entry 6: 30-run selection-study result summary
+
+- **timestamp:** 2026-09-06 (post-30-run)
+- **decision ID/title:** 30-run selection-only result (EXPLORATORY COMPONENT STUDY)
+- **what was decided:** Ran all 30 selection cells (3 scenarios x 2 arms x 5 reps) on qwen/qwen3-coder @ DeepInfra; measured initial-selection precision/recall/F1/FNR/full-recall against hidden normalized gold.
+- **why:** The study is the frozen exploratory measurement of the Stage-C impact-selection boundary motivated by the v1.1 executor NO-GO.
+- **exact evidence supporting it:**
+  - Raw records (30): `reports/scientific_stagec_selection_01/run_records.jsonl` (SHA-256 `da815cd5bbca21ac6b189b5395c28beb403625bd6d30c72e1598ef6575ee96ff`), experiment `exp-20260906-225222`
+  - Result CSV: `reports/STAGEC_SELECTION_01_RESULTS.csv` (SHA-256 `f95c1badb3b7590a8d2afd75fc7498b52c33114b68707f05157d159695692956`)
+  - Result tables/decision: `reports/STAGEC_SELECTION_01_RESULTS.md`, `reports/STAGEC_SELECTION_01_DECISION.md`
+  - Frozen gold: `scripts/build_stagec_selection_results.py` (normalized), verified by gate G1
+  - Result: 30/30 attempted, 30/30 valid finals, **full recall 15/15 per arm**, precision/recall/F1 1.000, FNR 0.000 per arm; exact API cost `$0.052696`
+- **alternative(s) rejected + why:** Rerunning any valid unfavorable result REJECTED (frozen protocol); union-gold aggregation REJECTED (per-run metrics use each run's own scenario gold).
+- **affected protocol/config/artifacts:** none (study is terminal).
+- **commit hash:** (recorded with the finalization commit)
+- **exact paths to raw evidence/reports:** as listed above.
+- **pre-data or post-data status:** POST-DATA
+
+---
+
+## Entry 7: final interpretation + next-action decision
+
+- **timestamp:** 2026-09-06 (post-data)
+- **decision ID/title:** Final interpretation of the selection-only study
+- **what was decided:** Interpret the result as EXPLORATORY COMPONENT EVIDENCE: both arms' INITIAL selection perfectly identifies the hidden gold source set (15/15 full recall each) on the same three Todo smoke scenarios that produced the v1.1 end-to-end NO-GO (0/30 functional passes). Therefore the v1.1 end-to-end failures are not attributable to initial impact selection; they sit downstream in code-generation/exact-patch/revision/validation.
+- **why:** The selection-only component evidence isolates the Stage-C boundary that the end-to-end result confounds; it refines where executor engineering should focus next.
+- **exact evidence supporting it:** Entry 6 evidence + v1.1 raw records (`reports/scientific_microstudy_v11/run_records.jsonl`) + `reports/SCIENTIFIC_MICROSTUDY_V11_DECISION.md` (NO-GO).
+- **alternative(s) rejected + why:** Claiming end-to-end correctness/efficiency from selection recall REJECTED (no functional validation ran in this study); claiming selection superiority REJECTED (both arms equal on these smoke scenarios; exploratory only, no confirmatory threshold).
+- **affected protocol/config/artifacts:** none.
+- **commit hash:** (recorded with the finalization commit)
+- **exact paths to raw evidence/reports:** as listed in Entry 6.
+- **pre-data or post-data status:** POST-DATA
+- **NEXT_ACTION:** archive + evidence tag `stagec-selection-exploratory-01` + LIGHT zip; no executor change in this study; a future held-out/multi-repo preregistered study may examine selection confidence/precision beyond these three smoke scenarios.
