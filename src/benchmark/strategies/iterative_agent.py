@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import time
@@ -243,6 +244,8 @@ class IterativeRepositoryAgentStrategy:
         self._tools: RepositoryTools | None = None
         self._last_tool_request: str | None = None
         self._last_control_truncation: bool = False
+        self._selection_raw_hashes: list[str] = []
+        self._last_finish_reason: str = ""
 
     def begin_run(self, workspace_root: str | Path) -> None:
         root = Path(workspace_root).resolve()
@@ -261,6 +264,8 @@ class IterativeRepositoryAgentStrategy:
         self._model_call_budget_exhausted = False
         self._last_tool_request = None
         self._last_control_truncation = False
+        self._selection_raw_hashes = []
+        self._last_finish_reason = ""
         from benchmark.strategies.repository_tools import RepositoryTools
         self._tools = RepositoryTools(
             workspace_root=root,
@@ -326,12 +331,17 @@ class IterativeRepositoryAgentStrategy:
                     temperature=0.0,
                     max_tokens=max_completion_tokens,
                 )
-            )
+)
         if not isinstance(response, LLMResponse):
             raise TypeError("agent backend returned a non-LLMResponse value")
         tok = response.token_usage
         if tok:
             self._record_call(tok.prompt_tokens, tok.completion_tokens, tok.total_tokens)
+        self._last_finish_reason = response.finish_reason or ""
+        if getattr(response, "text", ""):
+            self._selection_raw_hashes.append(
+                hashlib.sha256(response.text.encode("utf-8")).hexdigest()
+            )
         if self._model_call_guard is not None and not self._model_call_guard():
             self._model_call_budget_exhausted = True
         return response
@@ -838,3 +848,12 @@ class IterativeRepositoryAgentStrategy:
     @property
     def compact_tool_transcript(self) -> tuple[str, ...]:
         return tuple(self._tool_transcript)
+
+    @property
+    def selection_raw_response_hashes(self) -> tuple[str, ...]:
+        """SHA-256 of every control-plane raw response text (selection-only)."""
+        return tuple(self._selection_raw_hashes)
+
+    @property
+    def selection_finish_reason(self) -> str:
+        return self._last_finish_reason

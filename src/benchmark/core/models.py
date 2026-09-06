@@ -579,6 +579,12 @@ class RunRecord:
     planner_model_calls: int = 0
     planner_latency_seconds: float = 0.0
 
+    # Selection-study evidence (STAGE-C-SELECTION-01 / D052): immutable INITIAL
+    # prediction snapshot captured once by the selection-only runner. This dict
+    # is never overwritten by later workflow state (no revision exists in the
+    # selection-only path).
+    selection_study: dict[str, Any] | None = None
+
     def __post_init__(self) -> None:
         if self.duration_seconds < 0:
             raise ValueError("RunRecord.duration_seconds must be >= 0")

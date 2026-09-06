@@ -112,6 +112,10 @@ class RunRecordData:
     planner_model_calls: int = 0
     planner_latency_seconds: float = 0.0
 
+    # Selection-study evidence (STAGE-C-SELECTION-01 / D052): immutable INITIAL
+    # prediction snapshot persisted once by the selection-only runner.
+    selection_study: dict[str, Any] | None = None
+
 
 def _utc_now_str() -> str:
     return datetime.now(UTC).isoformat()

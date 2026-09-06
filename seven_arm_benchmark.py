@@ -255,6 +255,7 @@ def _to_run_record_data(
         planner_total_tokens=record_dict.get("planner_total_tokens", 0),
         planner_model_calls=record_dict.get("planner_model_calls", 0),
         planner_latency_seconds=record_dict.get("planner_latency_seconds", 0.0),
+        selection_study=record_dict.get("selection_study"),
     )
 
 
@@ -405,7 +406,7 @@ PROFILES: dict[str, ExecutionProfile] = {
         timeout_seconds=900,
         exact_patch=True,
     ),
-    "scientific-wip-impactplan-v1.1": ExecutionProfile(
+"scientific-wip-impactplan-v1.1": ExecutionProfile(
         name="scientific-wip-impactplan-v1.1",
         label="scientific-wip-impactplan-v1.1",
         scenario_count=3,
@@ -416,6 +417,26 @@ PROFILES: dict[str, ExecutionProfile] = {
             "RESULTS-RECOVERY-02 (D051): Todo-only 3 scenarios x 2 strategies "
             "x 5 reps = 30 cells; native JSON-schema ImpactPlan, PatchEnvelope, "
             "and Agent control; frozen role caps 1024/4096/8192/8192."
+        ),
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate", "cross_cutting"],
+        scenario_ids=["todo-smoke-001", "todo-smoke-002", "todo-smoke-003"],
+        timeout_seconds=900,
+        exact_patch=True,
+    ),
+    "scientific-stagec-selection-01": ExecutionProfile(
+        name="scientific-stagec-selection-01",
+        label="scientific-stagec-selection-01",
+        scenario_count=3,
+        strategies=["iterative_repository_agent", "impact_plan"],
+        repetitions=5,
+        is_publication=False,
+        description=(
+            "STAGE-C-SELECTION-01 (D052): Todo-only 3 scenarios x 2 arms "
+            "(Agent vs ImpactPlan) x 5 reps = 30 cells; SELECTION-ONLY: "
+            "analyze_impact exactly once per run, never revise_plan, never "
+            "regenerate/repair/migrate/evaluate; frozen caps Agent 1024 / "
+            "ImpactPlan 4096; hidden gold evaluated after prediction only."
         ),
         repository_names=["todo"],
         blast_radii=["localized", "moderate", "cross_cutting"],
@@ -440,6 +461,8 @@ def resolve_profile_protocol(profile_name: str, explicit: str | None = None) -> 
         return "1.2"
     if profile_name == "scientific-wip-impactplan-v1.1":
         return "scientific-wip-impactplan-v1.1"
+    if profile_name == "scientific-stagec-selection-01":
+        return "scientific-stagec-selection-01"
     return "1.0"
 
 # ---------------------------------------------------------------------------
@@ -1614,6 +1637,7 @@ def _run_single_scenario_strategy(
     agent_control_max_completion_tokens: int = 512,
     validation_python: str | None = None,
     scientific_gold_isolation: bool = False,
+    selection_only: bool = False,
 ) -> tuple[dict[str, Any], int]:
     from benchmark.execution.pipeline import BenchmarkPipeline, PipelineConfig
 
@@ -1652,7 +1676,7 @@ def _run_single_scenario_strategy(
         snapshot_storage_root=snapshot_storage_root,
     )
 
-    enable_regen = not dry_run and strategy_name in REGENERATION_APPROVED_STRATEGIES
+    enable_regen = not dry_run and not selection_only and strategy_name in REGENERATION_APPROVED_STRATEGIES
 
     if max_total_workflow_tokens > 0 and max_tokens > 0 and max_total_workflow_tokens != max_tokens:
         raise ValueError(
@@ -1682,6 +1706,7 @@ def _run_single_scenario_strategy(
         exact_patch=exact_patch,
         validation_python=validation_python,
         scientific_gold_isolation=scientific_gold_isolation,
+        selection_only=selection_only,
     )
 
     pipeline = BenchmarkPipeline(
@@ -1769,6 +1794,7 @@ def _run_single_scenario_strategy(
         "planner_total_tokens": record.planner_total_tokens,
         "planner_model_calls": record.planner_model_calls,
         "planner_latency_seconds": record.planner_latency_seconds,
+        "selection_study": dict(record.selection_study) if record.selection_study else None,
     }
     if record.failures:
         record_dict["failures"] = [
@@ -2164,13 +2190,19 @@ def main() -> int:
     if args.timeout == 0 and profile.timeout_seconds > 0:
         args.timeout = profile.timeout_seconds
 
-    # Use profile exact_patch if not explicitly overridden via CLI
+# Use profile exact_patch if not explicitly overridden via CLI
     if not getattr(args, "exact_patch", False) and profile.exact_patch:
         args.exact_patch = profile.exact_patch
 
     if profile.name == "scientific-wip-impactplan-v1.1":
         # D051: role-sized maxima are frozen before scientific outcomes.
         args.max_completion_tokens_per_call = 8192
+        args.agent_control_max_completion_tokens = 1024
+
+    if profile.name == "scientific-stagec-selection-01":
+        # D052: selection-only study frozen role caps. No source-edit/repair path
+        # exists, so only the Agent control cap (1024) is forced; the ImpactPlan
+        # planner cap is a frozen constant (4096 in impact_planner.py).
         args.agent_control_max_completion_tokens = 1024
 
     # ---- Validation-runtime contract (v0.9.21 B1/B2/B3) ---------------------
@@ -3105,14 +3137,16 @@ def main() -> int:
             agent_control_max_completion_tokens=getattr(
                 args, "agent_control_max_completion_tokens", 512
             ),
-            validation_python=_validation_pythons.get(repository_id),
+validation_python=_validation_pythons.get(repository_id),
             scientific_gold_isolation=(
                 profile.name in {
                     "scientific-microstudy-01",
                     "scientific-wip-impactplan-v1",
                     "scientific-wip-impactplan-v1.1",
+                    "scientific-stagec-selection-01",
                 }
             ),
+            selection_only=(profile.name == "scientific-stagec-selection-01"),
         )
         run_ended_at = datetime.now(UTC).isoformat()
         run_elapsed = time.monotonic() - run_t0
