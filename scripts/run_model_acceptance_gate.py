@@ -23,6 +23,7 @@ Writes:
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import json
 import os
@@ -37,7 +38,7 @@ from pathlib import Path
 from typing import Any
 
 from benchmark.core.enums import BlastRadius, RunStatus
-from benchmark.core.models import AcceptanceCriterion, Scenario
+from benchmark.core.models import AcceptanceCriterion, LLMResponse, Scenario
 from benchmark.execution.exact_patch import apply_exact_patches, parse_exact_patch
 from benchmark.execution.isolation import IsolationContext
 from benchmark.execution.runner import BenchmarkRunner, RunnerConfig
@@ -293,23 +294,27 @@ _CAPABILITY_SCHEMA: dict[str, Any] = {
 
 def run_schema_capability_probe(backend: OpenRouterBackend) -> dict[str, Any]:
     """Make the one cheap provider/API native-schema capability call."""
+
+    async def _probe() -> LLMResponse:
+        return await backend.generate_structured(
+            "Return the requested object with ok set to true.",
+            schema_name="native_schema_capability",
+            schema=_CAPABILITY_SCHEMA,
+            temperature=0.0,
+            max_tokens=64,
+        )
+
     started = time.monotonic()
-    response = backend.generate_structured(
-        "Return the requested object with ok set to true.",
-        schema_name="native_schema_capability",
-        schema=_CAPABILITY_SCHEMA,
-        temperature=0.0,
-        max_tokens=64,
-    )
+    response = asyncio.run(_probe())
     parsed = json.loads(response.text)
     passed = parsed == {"ok": True} and response.finish_reason != "length"
     return {
         "passed": passed,
         "parser_pass": parsed == {"ok": True},
         "truncation": response.finish_reason == "length",
-        "prompt_tokens": response.prompt_tokens,
-        "completion_tokens": response.completion_tokens,
-        "total_tokens": response.total_tokens,
+        "prompt_tokens": response.token_usage.prompt_tokens,
+        "completion_tokens": response.token_usage.completion_tokens,
+        "total_tokens": response.token_usage.total_tokens,
         "latency_seconds": round(time.monotonic() - started, 3),
     }
 
