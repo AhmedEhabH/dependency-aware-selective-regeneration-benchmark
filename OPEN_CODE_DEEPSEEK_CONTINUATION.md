@@ -21,7 +21,9 @@ Continue and finish RESULTS-RECOVERY-02 in this same repository. Do not restart 
 ## Current exact state
 
 - Branch: `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure`
-- HEAD and upstream: `5acf0e366a457fed57e710e34a9d92f1e508a469`
+- Tested implementation baseline: `5acf0e366a457fed57e710e34a9d92f1e508a469`.
+  This handoff was committed afterward, so obtain the live HEAD/upstream with
+  `git rev-parse HEAD` and `git rev-parse '@{upstream}'`; require equality.
 - Required pushed checkpoints already exist:
   - `565d11ccfbbc3009f0e1ba01a4925de3364dc5ba` — freeze scientific interface v1.1 documentation
   - `fa16410852f51e0abdbfd3c5c3cafe057d06d875` — native structured interfaces and focused tests
