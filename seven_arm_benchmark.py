@@ -2588,6 +2588,8 @@ def main() -> int:
     # of truth for regeneration baseline validation. Every selected repository
     # must resolve a non-empty command before the first model call; a missing
     # mapping FAILS CLOSED (no single-repository behavior, no silent skip).
+    # Selection-only profiles never run validation, so they skip this contract.
+    selection_only = profile.name == "scientific-stagec-selection-01"
     _manifest_collection = None
     _validation_commands: dict[str, list[str]] = {}
     _validation_envs: dict[str, dict[str, str]] = {}
@@ -2614,13 +2616,13 @@ def main() -> int:
                 )
                 return 1
 
-        if args.validation_command:
+        if not selection_only and args.validation_command:
             # CLI override applies to all repos
             cmd = shlex.split(args.validation_command)
             for sn in strategy_names:
                 if sn in REGENERATION_APPROVED_STRATEGIES:
                     _validation_commands[sn] = cmd
-        else:
+        elif not selection_only:
             selected_repo_ids: set[str] = set()
             for scenario in selected_scenarios:
                 selected_repo_ids.add(scenario.repository)

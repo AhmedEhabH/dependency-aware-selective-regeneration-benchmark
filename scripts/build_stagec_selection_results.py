@@ -23,6 +23,12 @@ import statistics
 from pathlib import Path
 from typing import Any
 
+ROOT = Path(__file__).resolve().parent.parent
+import sys
+
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from benchmark.checkpoint.persistence import RunRecordData
 
 FIVE_FILE_UNIVERSE = frozenset(

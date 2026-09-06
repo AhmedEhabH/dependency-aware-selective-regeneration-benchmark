@@ -35,6 +35,9 @@ REPORTS_DIR = ROOT / "reports"
 SCENARIOS_DIR = ROOT / "benchmark_data" / "scenarios"
 PROFILES_DIR = ROOT / "benchmark_data" / "repository_profiles"
 
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 SCENARIO_IDS = ("todo-smoke-001", "todo-smoke-002", "todo-smoke-003")
 SCENARIO_BLAST = {
     "todo-smoke-001": "localized",
