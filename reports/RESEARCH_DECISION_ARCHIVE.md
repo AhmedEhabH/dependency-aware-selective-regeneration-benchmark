@@ -166,3 +166,25 @@ references only - no submission-ready paper prose.
 - **exact paths to raw evidence/reports:** as listed above.
 - **pre-data or post-data status:** POST-DATA
 - **stop-rule conclusion:** **`TODO_SELECTION_SATURATED=NO`** — whole-file gold RECALL is saturated (30/30 both arms, 100%) but per-file selection PRECISION is not: the held-out challenge broke the smoke ceiling, both arms over-select, and a measurable between-arm difference appeared (precision 0.878 vs 0.769; F1 0.920 vs 0.854). Per D053 this is reported exactly without tuning/rerunning, and no further Todo selection scenarios will be added.
+
+
+---
+
+## Entry 10: mainline integration decision + v1.1 taxonomy + latency + formal model + Truth Matrix + baseline tag (CONSOLIDATION-MAINLINE-01)
+
+- **timestamp:** 2026-09-07 (post-consolidation; no model calls)
+- **decision ID/title:** RESEARCH-CONSOLIDATION-MAINLINE-01 - integrate completed Todo evidence into main; consolidate analyses; stable research-baseline tag
+- **what was decided:** Merge the long-lived research branch `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` into `main` with `--no-ff` (no rebase/squash, preserving run source commits and evidence tags), then create a short-lived consolidation branch `research/stagec-consolidation-01` to add deterministic v1.1 root-cause taxonomy, Stage-C latency decomposition, the lightweight formal model freeze, the cross-study Truth Matrix, and archive entries. No model/API calls and no executor redesign.
+- **why main was kept separate before:** The research branch intentionally held unstable/rejected scientific candidates, changing protocol contracts, and diagnostic NO-GO states; keeping them off `main` avoided making `main` look like a scientifically validated release. That reason expired once the selection path stabilized, the full suite passed, results became immutable and tagged, and limitations/NO-GO were explicitly documented.
+- **exact evidence supporting it:**
+  - Mainline merge: `main` `6909b5d` (ancestor) -> merge commit `42509b5` (parents `6909b5d` + `3e4224a`); tree diff vs research HEAD empty (verbatim, no conflict); main parity confirmed.
+  - v1.1 taxonomy: `reports/V11_ROOT_CAUSE_TAXONOMY.csv/.md` from `reports/scientific_microstudy_v11/run_records.jsonl` (immutable). Reproduced frozen counts: overall A=1,B=0,C=10,D=8,E=4,F=7,G=0,H=0,I=0; Agent C=5,D=4,E=3,F=3; ImpactPlan A=1,C=5,D=4,E=1,F=4; scenario smoke-001 C=3,D=7, smoke-002 A=1,C=2,F=7, smoke-003 C=5,D=1,E=4. Matches the GPT-5.6 Sol precheck exactly.
+  - Latency decomposition: `reports/STAGEC_LATENCY_DECOMPOSITION.csv/.md`; smoke Agent 147.644s/89 calls/98,512 tokens/median 10.281s, ImpactPlan 252.094s/15 calls/34,084 tokens/median 13.531s; held-out Agent 490.108s/220 calls/210,883 tokens/median 8.211s (two outliers 149.468s + 111.406s = 260.874s > 53%), ImpactPlan 236.162s/30 calls/56,971 tokens/median 6.891s. Matches precheck.
+  - Formal model freeze: `docs/STAGEC_FORMAL_MODEL.md` (no Agent O(2^n) claim).
+  - Truth Matrix: `reports/RESEARCH_TRUTH_MATRIX.md`.
+- **alternative(s) rejected + why:** Rebasing/squashing the research branch REJECTED (would rewrite scientific hashes and evidence-tag ancestry); continuing on the old branch indefinitely REJECTED (governance risk after stable evidence); claiming an O(2^n) Agent bound REJECTED (not a runtime theorem); rerunning the full suite after a content-free merge REJECTED (tree equivalence verified).
+- **affected protocol/config/artifacts:** none scientific changed; additive analysis scripts `scripts/analyze_v11_root_causes.py`, `scripts/analyze_stagec_latency.py`; docs + reports; 21 focused tests in `tests/unit/test_stagec_consolidation.py`.
+- **commit hash:** (recorded with the consolidation and final commits)
+- **exact paths to raw evidence/reports:** as listed above.
+- **pre-data or post-data status:** POST-DATA
+- **NEXT_ACTION:** create annotated research-baseline tag `v0.10.0-stagec-research-baseline` (if unused), regenerate GIT_STATE after final commit/push, ACTUAL LIGHT whitelist export <15 MB; next work is academic-output preparation (proposal/opinion paper/presentation), not executor engineering.

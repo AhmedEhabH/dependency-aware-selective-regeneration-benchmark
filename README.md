@@ -9,6 +9,30 @@
 [![Tests](https://img.shields.io/badge/tests-2%2C532%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
+> **CURRENT SCIENTIFIC TARGET (2026-09-07, RESEARCH-CONSOLIDATION-MAINLINE-01
+> COMPLETE — TODO RESEARCH EVIDENCE CONSOLIDATED ON MAIN; NOT A RELEASE; NO
+> STABLE TAG MOVE):** The long-lived research branch
+> `fix/pilot-v0922-t4-gqa-sdpa-preflight-observability-closure` was merged into
+> `main` via `--no-ff` (merge `42509b5`, parents `6909b5d`+`3e4224a`; no
+> rebase/squash; run source commits and evidence tags preserved). A
+> short-lived consolidation branch `research/stagec-consolidation-01` added:
+> deterministic v1.1 root-cause taxonomy (`reports/V11_ROOT_CAUSE_TAXONOMY.{csv,md}`
+> — A=1,B=0,C=10,D=8,E=4,F=7,G=0,H=0,I=0, reproduced from the immutable v1.1 raw
+> records), Stage-C latency decomposition
+> (`reports/STAGEC_LATENCY_DECOMPOSITION.{csv,md}`), the frozen lightweight
+> formal model (`docs/STAGEC_FORMAL_MODEL.md`, no Agent O(2^n) claim), and the
+> cross-study Truth Matrix (`reports/RESEARCH_TRUTH_MATRIX.md`). Current
+> scientific truth preserved: v1.1 end-to-end NO-GO (30/30 attempted, 0
+> changed-requirement functional passes); Stage-C smoke selection (15/15 full
+> recall per arm, P/R/F1 1.0 ceiling); Stage-C held-out selection (60/60 valid,
+> recall 30/30 per arm, precision Agent 0.8778 vs ImpactPlan 0.7694, F1 0.9200
+> vs 0.8540; ImpactPlan tokens -72.98%, calls -86.36%, cost -47.51%, total
+> latency -51.81% with median/outlier caveat). `TODO_SELECTION_SATURATED=NO`
+> (recall saturated; per-file precision not). Evidence tags unchanged
+> (`stagec-heldout-selection-01` peels to `3e4224a`). No model calls in the
+> consolidation. Next work is academic-output preparation (proposal/opinion
+> paper/presentation), not executor engineering.
+
 > **CURRENT SCIENTIFIC TARGET (2026-09-06, RESULTS-RECOVERY-02 COMPLETE — v1.1
 > EVIDENCE PRODUCED; GO/NO-GO=NO-GO; NOT A RELEASE; NO STABLE TAG MOVE):**
 > `scientific-wip-impactplan-v1.1` executed end-to-end under D051/A032. Historical

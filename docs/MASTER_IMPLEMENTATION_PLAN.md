@@ -1,5 +1,15 @@
 # Master Implementation Plan
 
+CURRENT TRUTH (2026-09-07, RESEARCH-CONSOLIDATION-MAINLINE-01 COMPLETE — TODO
+RESEARCH EVIDENCE CONSOLIDATED ON MAIN; NOT A RELEASE; NO STABLE TAG MOVE):
+the long-lived research branch was merged into `main` via `--no-ff` (merge
+`42509b5`); consolidation branch `research/stagec-consolidation-01` added the
+deterministic v1.1 root-cause taxonomy (A=1,B=0,C=10,D=8,E=4,F=7,G=0,H=0,I=0),
+Stage-C latency decomposition incl. medians/outliers, the frozen lightweight
+formal model (no Agent O(2^n) claim), the cross-study Truth Matrix, and archive
+entries. No model calls. Next work is academic-output preparation
+(proposal/opinion paper/presentation), not executor engineering.
+
 CURRENT TRUTH (2026-09-06, RESULTS-RECOVERY-02 COMPLETE — v1.1 EVIDENCE
 PRODUCED; GO/NO-GO=NO-GO; NOT A RELEASE; NO STABLE TAG MOVE): the bounded
 `scientific-wip-impactplan-v1.1` recovery under D051/A032 was executed end to
