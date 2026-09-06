@@ -444,6 +444,34 @@ PROFILES: dict[str, ExecutionProfile] = {
         timeout_seconds=900,
         exact_patch=True,
     ),
+    "scientific-stagec-heldout-01": ExecutionProfile(
+        name="scientific-stagec-heldout-01",
+        label="scientific-stagec-heldout-01",
+        scenario_count=6,
+        strategies=["iterative_repository_agent", "impact_plan"],
+        repetitions=5,
+        is_publication=False,
+        description=(
+            "STAGE-C-HELDOUT-CHALLENGE-01 (D053): Todo-only 6 held-out user-level "
+            "scenarios x 2 arms (Agent vs ImpactPlan) x 5 reps = 60 cells; "
+            "SELECTION-ONLY: analyze_impact exactly once per run, never revise_plan, "
+            "never regenerate/repair/migrate/evaluate; frozen caps Agent 1024 / "
+            "ImpactPlan 4096; hidden gold evaluated after prediction only; "
+            "architecture_constraints empty for every scenario."
+        ),
+        repository_names=["todo"],
+        blast_radii=["localized", "moderate"],
+        scenario_ids=[
+            "todo-heldout-001",
+            "todo-heldout-002",
+            "todo-heldout-003",
+            "todo-heldout-004",
+            "todo-heldout-005",
+            "todo-heldout-006",
+        ],
+        timeout_seconds=900,
+        exact_patch=True,
+    ),
 }
 
 
@@ -463,6 +491,8 @@ def resolve_profile_protocol(profile_name: str, explicit: str | None = None) -> 
         return "scientific-wip-impactplan-v1.1"
     if profile_name == "scientific-stagec-selection-01":
         return "scientific-stagec-selection-01"
+    if profile_name == "scientific-stagec-heldout-01":
+        return "scientific-stagec-heldout-01"
     return "1.0"
 
 # ---------------------------------------------------------------------------
@@ -2205,6 +2235,11 @@ def main() -> int:
         # planner cap is a frozen constant (4096 in impact_planner.py).
         args.agent_control_max_completion_tokens = 1024
 
+    if profile.name == "scientific-stagec-heldout-01":
+        # D053: held-out selection-only study. Same frozen role caps as D052:
+        # Agent control 1024, ImpactPlan planner 4096 (frozen constant).
+        args.agent_control_max_completion_tokens = 1024
+
     # ---- Validation-runtime contract (v0.9.21 B1/B2/B3) ---------------------
     # Fail closed BEFORE the scientific execution plan is created or any model
     # call can be made: mapping syntax, positive timeout, and (for non-dry
@@ -2589,7 +2624,10 @@ def main() -> int:
     # must resolve a non-empty command before the first model call; a missing
     # mapping FAILS CLOSED (no single-repository behavior, no silent skip).
     # Selection-only profiles never run validation, so they skip this contract.
-    selection_only = profile.name == "scientific-stagec-selection-01"
+    selection_only = profile.name in {
+        "scientific-stagec-selection-01",
+        "scientific-stagec-heldout-01",
+    }
     _manifest_collection = None
     _validation_commands: dict[str, list[str]] = {}
     _validation_envs: dict[str, dict[str, str]] = {}
@@ -3146,9 +3184,13 @@ validation_python=_validation_pythons.get(repository_id),
                     "scientific-wip-impactplan-v1",
                     "scientific-wip-impactplan-v1.1",
                     "scientific-stagec-selection-01",
+                    "scientific-stagec-heldout-01",
                 }
             ),
-            selection_only=(profile.name == "scientific-stagec-selection-01"),
+            selection_only=(
+                profile.name == "scientific-stagec-selection-01"
+                or profile.name == "scientific-stagec-heldout-01"
+            ),
         )
         run_ended_at = datetime.now(UTC).isoformat()
         run_elapsed = time.monotonic() - run_t0
