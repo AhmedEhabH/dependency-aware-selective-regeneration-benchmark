@@ -806,7 +806,7 @@ class TestScientificSmokeV1Profile:
         pilot = PROFILES["pilot"]
         assert pilot.strategies == ["iterative_repository_agent", "selective"]
         assert pilot.repetitions == 2
-        assert pilot.timeout_seconds == 600
+        assert pilot.timeout_seconds == 1200
         assert pilot.scenario_ids == [
             "todo-loc-001",
             "todo-loc-002",
@@ -821,6 +821,21 @@ class TestScientificSmokeV1Profile:
             "saleor-mod-004",
             "saleor-cross-007",
         ]
+
+    def test_pilot_canary_profile_selection(self) -> None:
+        from seven_arm_benchmark import PROFILES
+        canary = PROFILES["pilot-canary"]
+        assert canary.strategies == ["iterative_repository_agent", "selective"]
+        assert canary.repetitions == 1
+        assert canary.timeout_seconds == 1200
+        assert canary.repository_names == ["todo", "djangocms", "saleor"]
+        assert canary.scenario_ids == [
+            "todo-loc-001",
+            "djangocms-cross-007",
+            "saleor-loc-001",
+        ]
+        assert canary.blast_radii == ["localized", "cross_cutting"]
+        assert canary.scenario_count == 3
 
     def test_research_profile_selection_unchanged(self) -> None:
         from seven_arm_benchmark import PROFILES
@@ -1328,6 +1343,38 @@ class TestScientificSmokeV1Profile:
             assert obsolete not in setup_src, (
                 f"setup-cell export helper still uses obsolete key: {obsolete}"
             )
+
+
+class TestProfileDerivedProtocolResolution:
+    """D11 B2: protocol 1.1 must NOT leak into non-Pilot profiles.
+
+    The resolved default protocol is derived from the profile so that only
+    ``pilot`` / ``pilot-canary`` default to 1.1 and all other profiles default
+    to 1.0. An explicit ``--protocol-version`` always overrides the
+    profile-derived default.
+    """
+
+    def test_profile_default_protocol_matrix(self) -> None:
+        from seven_arm_benchmark import resolve_profile_protocol
+        expected = {
+            "smoke": "1.0",
+            "research": "1.0",
+            "scientific-smoke-v1": "1.0",
+            "scientific-smoke-v2": "1.0",
+            "pilot": "1.2",
+            "pilot-canary": "1.2",
+            "scientific-wip-impactplan-v1.1": "scientific-wip-impactplan-v1.1",
+        }
+        for profile_name, protocol in expected.items():
+            assert resolve_profile_protocol(profile_name) == protocol, (
+                f"profile={profile_name} resolved protocol {protocol}"
+            )
+
+    def test_explicit_protocol_override_wins(self) -> None:
+        from seven_arm_benchmark import resolve_profile_protocol
+        # explicit override must beat the profile-derived value on both sides
+        assert resolve_profile_protocol("pilot", explicit="1.0") == "1.0"
+        assert resolve_profile_protocol("smoke", explicit="1.2") == "1.2"
 
 
 class _FakeRunRecord:

@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from benchmark.core.enums import ActionKind
-from benchmark.core.models import ArtifactRef, ArtifactUniverse, ImpactPrediction
+from benchmark.core.models import ArtifactRef, ArtifactUniverse, ImpactPlan, ImpactPrediction
 
 
 @dataclass(frozen=True)
@@ -39,6 +39,7 @@ def compute_artifact_counts(prediction: ImpactPrediction) -> dict[str, int]:
     regenerate = 0
     preserve = 0
     human_review = 0
+    validate_only = 0
     for decision in prediction.decisions:
         if decision.action == ActionKind.regenerate:
             regenerate += 1
@@ -46,12 +47,33 @@ def compute_artifact_counts(prediction: ImpactPrediction) -> dict[str, int]:
             preserve += 1
         elif decision.action == ActionKind.human_review:
             human_review += 1
+        elif decision.action == ActionKind.validate_only:
+            validate_only += 1
     return {
         "selected": regenerate + human_review,
         "regenerate": regenerate,
         "preserve": preserve,
         "human_review": human_review,
+        "validate_only": validate_only,
     }
+
+
+def plan_from_impact_plan(
+    impact_plan: ImpactPlan,
+) -> RegenerationPlan:
+    """Build the executable RegenerationPlan from an ImpactPlan write_set.
+
+    Stage-C invariant #2: write_set == {R}. Only regenerate artifacts enter the
+    executable plan; P/V/H are never editable. Uses the impact plan's decision
+    order (deterministic candidate order).
+    """
+    ordered: list[ArtifactRef] = []
+    actions: dict[str, ActionKind] = {}
+    for decision in impact_plan.decisions:
+        if decision.action == ActionKind.regenerate:
+            ordered.append(decision.artifact)
+            actions[decision.artifact.path] = ActionKind.regenerate
+    return RegenerationPlan(ordered_artifacts=tuple(ordered), actions=actions)
 
 
 class ArtifactSelector:
@@ -72,6 +94,11 @@ class ArtifactSelector:
         selected: list[ArtifactRef] = []
         for decision in prediction.decisions:
             if decision.action in (ActionKind.regenerate, ActionKind.human_review):
+                selected.append(decision.artifact)
+            elif decision.action == ActionKind.validate_only:
+                # V is recorded (validation boundary) but NOT written. Keeping
+                # it in selection makes RegenerationPlanner.validate_last
+                # reachable while the executor still skips writes (Stage-C).
                 selected.append(decision.artifact)
 
         return ArtifactSelection(

@@ -6,6 +6,8 @@ import json
 import logging
 import os
 import re
+import time
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -34,6 +36,25 @@ KAGGLE_CACHE_IMPLEMENTATION = "offloaded"
 KAGGLE_ATTENTION_IMPLEMENTATION = "sdpa"
 
 KAGGLE_SDPA_KERNEL_POLICY = "flash_or_efficient_no_math"
+
+# V0.9.22 PILOT-EXEC-01 T4 GQA closure: Tesla T4 (sm75) cannot use the fused
+# memory-efficient SDPA path with native unequal-head GQA (40 query / 8 KV
+# heads); Flash SDPA requires sm80+; math is correctly disabled to keep the
+# v0.9.21 quadratic-OOM closure. The exact compatibility is to force the pinned
+# Transformers 4.57.6 repeat-KV path on sm75 (it expands KV heads to the query
+# head count before calling PyTorch SDPA), then keep the no-math fused policy.
+KAGGLE_SDPA_GQA_COMPATIBILITY = "repeat_kv_sm75"
+
+# Idempotence sentinel for the sm75 GQA compatibility hook. Module-level so
+# repeated backend construction can never double-wrap the Transformers function.
+_INSTALLED_SM75_GQA_COMPAT_SENTINEL = False
+
+# Tracks whether the repeat-KV hook was ACTUALLY applied to the pinned
+# Transformers `use_gqa_in_sdpa` symbol. The sentinel above only records that a
+# single installation attempt was made (idempotence); this flag distinguishes a
+# genuinely installed hook from a failed/absent-symbol path so compatibility is
+# never reported as active merely because the import/sentinel path succeeded.
+_SM75_GQA_HOOK_INSTALLED = False
 
 # Prompts at or above this token count classify a generation OOM as a
 # prompt-prefill attention failure rather than a completion-budget failure.
@@ -137,6 +158,95 @@ def _check_gpu_compatibility() -> None:
         )
 
 
+def _reset_sm75_gqa_compat_sentinel() -> None:
+    """Test-only: clear the install sentinel + hook-installed flag."""
+    global _INSTALLED_SM75_GQA_COMPAT_SENTINEL, _SM75_GQA_HOOK_INSTALLED
+    _INSTALLED_SM75_GQA_COMPAT_SENTINEL = False
+    _SM75_GQA_HOOK_INSTALLED = False
+
+
+def _sm75_gqa_compat_active() -> str:
+    """Return the active GQA SDPA compatibility mode string, or '' if inactive.
+
+    Active only when the repeat-KV hook was ACTUALLY installed (not merely
+    attempted) AND the runtime CUDA device is Tesla T4 sm75. On every other
+    device the native GQA path is used and this returns an empty string
+    (truthful: no compatibility shim is in effect). A missing pinned hook/symbol
+    or a failed install attempt never reports the mode as active (fail-closed).
+    """
+    if not _INSTALLED_SM75_GQA_COMPAT_SENTINEL or not _SM75_GQA_HOOK_INSTALLED:
+        return ""
+    try:
+        import torch
+    except Exception:
+        return ""
+    if not torch.cuda.is_available():
+        return ""
+    try:
+        capability = tuple(torch.cuda.get_device_capability(0))
+    except Exception:
+        return ""
+    if capability == (7, 5):
+        return KAGGLE_SDPA_GQA_COMPATIBILITY
+    return ""
+
+
+def _install_sm75_sdpa_gqa_compatibility() -> None:
+    """Force the pinned Transformers 4.57.6 repeat-KV GQA path on sm75 (T4).
+
+    Pinned Transformers ``sdpa_attention_forward`` calls
+    ``use_gqa_in_sdpa(...)`` to decide whether to use the native (unequal-head)
+    grouped-query SDPA fast path. On a T4 (compute capability ``(7, 5)``) the
+    fused memory-efficient kernel rejects the unequal 40/8/8 head geometry and
+    Flash is unavailable (sm80+), so with math disabled no kernel remains. By
+    returning ``False`` from the GQA-decision hook on sm75, Transformers itself
+    executes ``repeat_kv(key, num_key_value_groups)`` / ``repeat_kv(value, ...)``
+    to expand KV heads to 40 before calling PyTorch SDPA, which then has equal
+    heads (40/40/40) and is eligible for the memory-efficient backend.
+
+    The hook is installed exactly once (module-level sentinel); repeated backend
+    construction never double-wraps or recurses. The original function is always
+    reachable via ``_wrapped_original`` on the wrapper. On any non-sm75 CUDA
+    device, or when CUDA/Transformers is unavailable, the original is delegated
+    to unchanged. No math backend is enabled and ``scaled_dot_product_attention``
+    itself is never monkeypatched.
+    """
+    global _INSTALLED_SM75_GQA_COMPAT_SENTINEL, _SM75_GQA_HOOK_INSTALLED
+    if _INSTALLED_SM75_GQA_COMPAT_SENTINEL:
+        return
+    try:
+        import torch
+        from transformers.integrations import sdpa_attention
+    except Exception:
+        _INSTALLED_SM75_GQA_COMPAT_SENTINEL = True
+        return
+    if not torch.cuda.is_available():
+        _INSTALLED_SM75_GQA_COMPAT_SENTINEL = True
+        return
+    original = getattr(sdpa_attention, "use_gqa_in_sdpa", None)
+    if original is None:
+        # Fail closed: the pinned hook/symbol is absent, so no compatibility
+        # shim is in effect and it must NOT be reported as active.
+        _INSTALLED_SM75_GQA_COMPAT_SENTINEL = True
+        return
+
+    def _wrapped_use_gqa_in_sdpa(*args: object, **kwargs: object) -> bool:
+        try:
+            import torch as _torch
+
+            if tuple(_torch.cuda.get_device_capability(0)) == (7, 5):
+                return False
+        except Exception:
+            pass
+        return bool(original(*args, **kwargs))
+
+    # Preserve the original for reachability/tests and install exactly one wrapper.
+    _wrapped_use_gqa_in_sdpa._wrapped_original = original  # type: ignore[attr-defined]
+    sdpa_attention.use_gqa_in_sdpa = _wrapped_use_gqa_in_sdpa
+    _INSTALLED_SM75_GQA_COMPAT_SENTINEL = True
+    _SM75_GQA_HOOK_INSTALLED = True
+
+
 def _read_checkpoint_config(model_path: Path) -> dict[str, Any]:
     """Read and validate ``config.json`` from a checkpoint directory."""
     if not model_path.is_dir():
@@ -217,6 +327,103 @@ def compute_model_identity(model_path: str | Path, quantization_mode: str = "bnb
     return f"qwen:{slug}:{quantization_mode}:cfg-{digest}"
 
 
+DEFAULT_HEARTBEAT_INTERVAL_SECONDS = 30.0
+
+# D9: tiny upper bound for the real-Qwen generation-deadline canary's
+# completion_tokens. Shared with the preflight launch gate (single source of
+# truth): the canary self-checks with the same bound the preflight enforces.
+GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND = 8
+
+
+class _WorkflowDeadlineHeartbeatStoppingCriteria:
+    """Transformers-compatible stopping criterion that enforces the workflow deadline.
+
+    Evaluated by ``model.generate`` at every decode step. It checks an injected
+    model-call guard (``lambda: not budget.timed_out``) and returns ``True``
+    immediately after the guard first returns false, so an in-flight generation
+    can never cross the 600-second workflow deadline by more than the current
+    decode step. This is a cooperative stopping boundary, never an unsafe Python
+    thread kill.
+
+    It also emits a bounded liveness heartbeat every ``heartbeat_interval``
+    seconds while decoding so a long synchronous generation proves liveness
+    without leaking prompts, source, tokens, or secrets.
+
+    Fully deterministic and testable through injected ``clock`` and ``guard``
+    callables.
+    """
+
+    def __init__(
+        self,
+        prompt_length: int,
+        max_completion: int,
+        model_call_guard: Callable[[], bool] | None = None,
+        clock: Callable[[], float] = time.monotonic,
+        heartbeat_interval: float = DEFAULT_HEARTBEAT_INTERVAL_SECONDS,
+    ) -> None:
+        self.prompt_length = int(prompt_length)
+        self.max_completion = int(max_completion)
+        self._guard = model_call_guard
+        self._clock = clock
+        self._heartbeat_interval = float(heartbeat_interval)
+        self.deadline_fired = False
+        self.observed_tokens = 0
+        self.elapsed_seconds = 0.0
+        self._started = False
+        self._last_heartbeat = 0.0
+        self._heartbeat_count = 0
+        self._terminal_logged = False
+
+    @property
+    def heartbeat_count(self) -> int:
+        return self._heartbeat_count
+
+    def _observe(self, input_ids: Any) -> int:
+        """Number of generated tokens observed so far (input length minus prompt)."""
+        try:
+            seq = int(input_ids.shape[-1])
+        except Exception:  # pragma: no cover - defensive; real tensors always have shape
+            seq = 0
+        return max(0, seq - self.prompt_length)
+
+    def _maybe_log_running(self) -> None:
+        now = self._clock()
+        if now - self._last_heartbeat >= self._heartbeat_interval:
+            self._heartbeat_count += 1
+            self._last_heartbeat = now
+            logger.info(
+                "GENERATION_RUNNING elapsed_seconds=%.3f prompt_tokens=%d "
+                "completion_tokens=%d max_tokens=%d",
+                now - self._start_clock, self.prompt_length,
+                self.observed_tokens, self.max_completion,
+            )
+
+    def __call__(self, input_ids: Any, scores: Any = None, **kwargs: Any) -> bool:
+        now = self._clock()
+        if not self._started:
+            self._started = True
+            self._start_clock = now
+            self._last_heartbeat = now
+        self._now = now
+        self.observed_tokens = self._observe(input_ids)
+
+        if self._guard is not None and not self._guard():
+            self.deadline_fired = True
+            self.elapsed_seconds = now - self._start_clock
+            if not self._terminal_logged:
+                self._terminal_logged = True
+                logger.info(
+                    "GENERATION_STOPPED reason=workflow_deadline elapsed_seconds=%.3f "
+                    "prompt_tokens=%d completion_tokens=%d max_tokens=%d",
+                    self.elapsed_seconds, self.prompt_length,
+                    self.observed_tokens, self.max_completion,
+                )
+            return True
+
+        self._maybe_log_running()
+        return False
+
+
 @dataclass(frozen=True)
 class GpuPreflightResult:
     """Result of a GPU compatibility preflight check.
@@ -261,6 +468,7 @@ class KaggleQwenBackend:
         self._tokenizer = None
         self._loaded = False
         self._model_identity: str | None = None
+        self._model_call_guard: Callable[[], bool] | None = None
         if self._model_path:
             self._model_identity = compute_model_identity(self._model_path, quantization_mode)
         logger.info("MODEL_INITIALIZATION_STARTED model=%s quantization=%s", model_name, quantization_mode)
@@ -289,6 +497,16 @@ class KaggleQwenBackend:
     def sdpa_kernel_policy(self) -> str:
         """Canonical SDPA kernel policy enforced during CUDA generation."""
         return KAGGLE_SDPA_KERNEL_POLICY
+
+    @property
+    def gqa_compatibility_mode(self) -> str:
+        """Active GQA SDPA compatibility mode (e.g. ``repeat_kv_sm75`` on T4 sm75).
+
+        Empty string when the native GQA path is used (non-sm75). Persisted into
+        short-probe metrics, long-context evidence, preflight JSON/table, and
+        the pilot launch-authorization attention gate.
+        """
+        return _sm75_gqa_compat_active()
 
     @property
     def effective_attention_implementation(self) -> str:
@@ -334,6 +552,83 @@ class KaggleQwenBackend:
     def load(self) -> None:
         """Load the model+tokenizer synchronously (preflight-friendly)."""
         self._ensure_loaded()
+
+    def initialize(self) -> None:
+        """Eagerly load the shared model+tokenizer without generating tokens.
+
+        Called once per process after the shared backend is created and before
+        the first ``RUN_START`` so the one-time lazy Qwen weights load happens
+        OUTSIDE the scientific timing/budget of the first run. Idempotent:
+        delegates to the existing ``_ensure_loaded`` and is a no-op once loaded.
+        """
+        self._ensure_loaded()
+
+    def set_model_call_guard(self, guard: Callable[[], bool] | None) -> None:
+        """Install a cooperative in-flight deadline guard for synchronous decoding.
+
+        The guard is polled by the workflow-deadline stopping criterion at every
+        decode step. ``None`` clears any previously installed guard (never
+        retaining a prior run's deadline guard on the shared backend). The Runner
+        re-installs a fresh ``lambda: not budget.timed_out`` before every run.
+        """
+        self._model_call_guard = guard
+
+    def run_generation_deadline_probe(
+        self,
+        *,
+        max_checks_before_deadline: int = 3,
+        max_tokens: int = 128,
+        prompt: str = "def add(a, b):\n    return a + b\n",
+        heartbeat_interval: float = 3600.0,
+    ) -> dict[str, Any]:
+        """Cheap real-Qwen deadline-path canary (engineering gate, never scientific).
+
+        Installs a deterministic counter guard that becomes false after
+        ``max_checks_before_deadline`` stopping-criterion checks, so the workflow
+        deadline must fire after only a tiny bounded number of decode tokens —
+        it can never depend on the model choosing EOS. Resets the backend guard
+        in a ``finally`` block so ordinary short and 12k probes are unaffected.
+
+        Returns canonical evidence dict. Raises on any failure (fail closed).
+        """
+        counter: dict[str, int] = {"n": 0}
+        limit = int(max_checks_before_deadline)
+
+        def _canary_guard() -> bool:
+            counter["n"] += 1
+            return counter["n"] <= limit
+
+        self.set_model_call_guard(_canary_guard)
+        try:
+            response = self._generate_sync(
+                prompt=prompt,
+                temperature=0.0,
+                max_tokens=int(max_tokens),
+                model_call_guard=self._model_call_guard,
+                heartbeat_interval=heartbeat_interval,
+            )
+        finally:
+            self.set_model_call_guard(None)
+
+        if response.finish_reason != "timeout":
+            raise RuntimeError(
+                "generation_deadline_probe: expected finish_reason='timeout' "
+                f"but got {response.finish_reason!r} (deadline path did not fire)"
+            )
+        completion = response.token_usage.completion_tokens
+        bound = GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND
+        if completion < 1 or completion > bound:
+            raise RuntimeError(
+                "generation_deadline_probe: completion_tokens "
+                f"={completion} outside the tiny bounded range [1, {bound}]"
+            )
+        return {
+            "passed": True,
+            "deadline_fired": True,
+            "finish_reason": response.finish_reason,
+            "completion_tokens": completion,
+            "max_checks_before_deadline": limit,
+        }
 
     def run_probe(self, max_tokens: int = 64, prompt: str = "def add(a, b):\n    return a + b\n") -> LLMResponse:
         """Deterministic engineering probe generation.
@@ -479,6 +774,7 @@ class KaggleQwenBackend:
             "requested_attn_implementation": self.requested_attention_implementation,
             "effective_attn_implementation": self.effective_attention_implementation,
             "sdpa_kernel_policy": self.sdpa_kernel_policy,
+            "gqa_compatibility_mode": self.gqa_compatibility_mode,
             "gpu_name": gpu_info.get("gpu_name", "unknown"),
             "gpu_count": self._gpu_device_count(),
             "peak_allocated_gib": round(peak_allocated, 3) if peak_allocated is not None else None,
@@ -540,8 +836,10 @@ class KaggleQwenBackend:
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 4096,
+        *,
+        model_call_guard: Callable[[], bool] | None = None,
+        heartbeat_interval: float = DEFAULT_HEARTBEAT_INTERVAL_SECONDS,
     ) -> LLMResponse:
-        logger.info("GENERATION_STARTED max_tokens=%d temperature=%s", max_tokens, temperature)
         prompt_tokens: int | None = None
         inputs = None
         input_ids = None
@@ -549,6 +847,7 @@ class KaggleQwenBackend:
         gen_kwargs = None
         output_ids = None
         generated_ids = None
+        criterion: _WorkflowDeadlineHeartbeatStoppingCriteria | None = None
         try:
             self._ensure_loaded()
             assert self._model is not None
@@ -564,6 +863,10 @@ class KaggleQwenBackend:
                 attention_mask = attention_mask.to(self._model.device)
 
             prompt_tokens = input_ids.shape[1]
+            logger.info(
+                "GENERATION_STARTED prompt_tokens=%d max_tokens=%d temperature=%s",
+                prompt_tokens, max_tokens, temperature,
+            )
 
             gen_kwargs = {
                 "input_ids": input_ids,
@@ -577,10 +880,49 @@ class KaggleQwenBackend:
                 gen_kwargs["temperature"] = temperature
                 gen_kwargs["top_p"] = 0.95
 
+            # D9: enforce the workflow deadline IN-FLIGHT (not only before the
+            # next call). The guard is polled at every decode step; when it
+            # first returns false generation stops on the next completed step.
+            guard = model_call_guard if model_call_guard is not None else self._model_call_guard
+            criterion = _WorkflowDeadlineHeartbeatStoppingCriteria(
+                prompt_length=prompt_tokens,
+                max_completion=max_tokens,
+                model_call_guard=guard,
+                heartbeat_interval=heartbeat_interval,
+            )
+            from transformers import StoppingCriteriaList
+
+            gen_kwargs["stopping_criteria"] = StoppingCriteriaList([criterion])
+
             with torch.inference_mode(), self._sdpa_kernel_policy_context():
                 output_ids = self._model.generate(**gen_kwargs)
 
             generated_ids = output_ids[0, prompt_tokens:]
+
+            # D9 deadline-path: generation ended because the workflow deadline
+            # fired (partial decode), not by EOS/length. Return the measured
+            # partial token usage with finish_reason="timeout" so the existing
+            # post-call guard path creates the canonical workflow-budget-
+            # exhausted RunRecord and the partial text is never committed.
+            if criterion is not None and criterion.deadline_fired:
+                completion_tokens = int(criterion.observed_tokens)
+                if completion_tokens >= 1:
+                    output_text = self._tokenizer.decode(
+                        generated_ids, skip_special_tokens=True
+                    )
+                else:
+                    output_text = ""
+                total_tokens = prompt_tokens + completion_tokens
+                return LLMResponse(
+                    text=output_text,
+                    token_usage=TokenUsage(
+                        prompt_tokens=prompt_tokens,
+                        completion_tokens=completion_tokens,
+                        total_tokens=total_tokens,
+                    ),
+                    finish_reason="timeout",
+                )
+
             completion_tokens = len(generated_ids)
 
             # Zero-token output is a measured empty model response, not a backend
@@ -641,6 +983,8 @@ class KaggleQwenBackend:
             del gen_kwargs
             del output_ids
             del generated_ids
+            if criterion is not None:
+                del criterion
             gc.collect()
             _empty_cuda_cache()
 
@@ -766,6 +1110,9 @@ class KaggleQwenBackend:
                 "KaggleQwenBackend requires torch and transformers. "
                 "These are Kaggle-only dependencies and must not be installed locally."
             ) from exc
+        # Install the sm75 GQA repeat-KV compatibility hook before any model is
+        # executed. Idempotent: safe to call on every backend construction.
+        _install_sm75_sdpa_gqa_compatibility()
 
     def _resolve_model_path(self) -> Path:
         if self._model_path:
@@ -927,3 +1274,211 @@ class KaggleQwenBackend:
             pytorch_version=torch_ver,
             rejection_reason=rejection,
         )
+
+
+# ---------------------------------------------------------------------------
+# PILOT-EXEC-01 v0.9.22 T4 GQA SDPA microprobe.
+#
+# A cheap (<1s) real-CUDA kernel compatibility gate that runs BEFORE the
+# expensive ~16.5-minute repository preflight and before loading 14B weights.
+# It reproduces the EXACT Qwen head geometry (40 query / 8 KV heads, head_dim
+# 128), applies the same repeat-KV compatibility path the sm75 hook enables
+# (40/8/8 -> 40/40/40), and executes under the same fail-closed
+# FLASH_OR_EFFICIENT_NO_MATH SDPA policy. If no allowed kernel remains on any
+# visible GPU it fails in seconds instead of wasting ~16.5 minutes. It never
+# loads the model.
+# ---------------------------------------------------------------------------
+
+_QWEN_Q_HEADS = 40
+_QWEN_KV_HEADS = 8
+_QWEN_HEAD_DIM = 128
+_QWEN_MICROPROBE_SEQ = 68
+
+
+def _gqa_microprobe_build_qkv(
+    torch_mod: Any, seq: int, device: Any
+) -> tuple[Any, Any, Any]:
+    """Build tiny FP16 Q/K/V tensors matching Qwen2.5-14B GQA geometry.
+
+    Q/K/V are allocated explicitly on ``device`` (e.g. ``torch.device("cuda",
+    0)``) so the probe genuinely exercises the fused kernel on each visible
+    target GPU rather than silently running on the default device or CPU.
+    """
+    q = torch_mod.randn(
+        1, _QWEN_Q_HEADS, seq, _QWEN_HEAD_DIM,
+        dtype=torch_mod.float16, device=device,
+    )
+    k = torch_mod.randn(
+        1, _QWEN_KV_HEADS, seq, _QWEN_HEAD_DIM,
+        dtype=torch_mod.float16, device=device,
+    )
+    v = torch_mod.randn(
+        1, _QWEN_KV_HEADS, seq, _QWEN_HEAD_DIM,
+        dtype=torch_mod.float16, device=device,
+    )
+    return q, k, v
+
+
+def _gqa_microprobe_expand_kv(
+    key: Any, value: Any, num_key_value_groups: int
+) -> tuple[Any, Any]:
+    """Expand KV heads to the query-head count (the repeat-KV compatibility path).
+
+    Implements the repeat-KV expansion with local tensor operations equivalent to
+    ``transformers.modeling_utils.repeat_kv``:
+    ``[B, Hkv, S, D] -> [B, Hkv, groups, S, D] -> [B, Hkv*groups, S, D]``, i.e.
+    each KV head is repeated ``groups`` times consecutively on the head axis. This
+    gives the fused SDPA backend equal Q/K/V head counts (40/40/40) instead of the
+    native unequal GQA geometry (40/8/8). It deliberately does NOT depend on a
+    fabricated ``torch.nn.functional.repeat_kv`` API: the pinned Transformers
+    implementation expands via ``[..., None, ...]`` + ``.expand(...)``, and the
+    exact per-head interpolation is reproduced by ``repeat_interleave`` on the head
+    dimension. If the group count is non-positive the expansion is invalid and this
+    fails closed rather than silently producing a wrong shape.
+    """
+    if int(num_key_value_groups) < 1:
+        raise ValueError(
+            f"num_key_value_groups must be a positive integer, got {num_key_value_groups!r}"
+        )
+    k_exp = key.repeat_interleave(int(num_key_value_groups), dim=1)
+    v_exp = value.repeat_interleave(int(num_key_value_groups), dim=1)
+    return k_exp, v_exp
+
+
+def _gqa_microprobe_run_sdpa(
+    torch_mod: Any, q: Any, k: Any, v: Any, device: Any
+) -> Any:
+    """Run SDPA under the fail-closed FLASH_OR_EFFICIENT_NO_MATH policy.
+
+    After SDPA the target device is synchronized so asynchronous kernel errors
+    surface inside the probe instead of being deferred (which could otherwise let
+    a failing device be reported as passed). MATH is never enabled.
+    """
+    from torch.nn.attention import SDPBackend, sdpa_kernel
+
+    with sdpa_kernel([SDPBackend.FLASH_ATTENTION, SDPBackend.EFFICIENT_ATTENTION]):
+        out = torch_mod.nn.functional.scaled_dot_product_attention(q, k, v)
+    # Synchronize so a fused-kernel error on this device raises inside the probe.
+    prev = torch_mod.cuda.current_device()
+    try:
+        torch_mod.cuda.set_device(device)
+        torch_mod.cuda.synchronize(device)
+    finally:
+        torch_mod.cuda.set_device(prev)
+    return out
+
+
+def probe_sdpa_gqa_kernel_compatibility() -> dict[str, Any]:
+    """Real-CUDA GQA SDPA kernel microprobe (engineering compatibility gate).
+
+    Returns a machine-readable result:
+
+    - ``available``: torch + CUDA present;
+    - ``all_passed``: every visible GPU accepted the repeat-KV fused SDPA path;
+    - ``devices``: per-GPU evidence (capability, before/after heads, shape, error);
+    - ``error``: top-level failure (e.g. torch/CUDA import or API missing).
+
+    This is a kernel-compatibility gate only. It does NOT replace the real 12k
+    Qwen probe and never loads the model.
+    """
+    result: dict[str, Any] = {
+        "available": False,
+        "device_count": 0,
+        "all_passed": False,
+        "error": "",
+        "sdpa_kernel_policy": KAGGLE_SDPA_KERNEL_POLICY,
+        "gqa_compatibility_mode": "",
+        "q_heads": _QWEN_Q_HEADS,
+        "kv_heads": _QWEN_KV_HEADS,
+        "head_dim": _QWEN_HEAD_DIM,
+        "devices": [],
+    }
+    try:
+        import torch
+    except Exception as exc:  # pragma: no cover - local-only guard
+        result["error"] = f"torch unavailable: {type(exc).__name__}: {exc}"
+        return result
+    if not torch.cuda.is_available():
+        result["error"] = "CUDA not available"
+        return result
+
+    # Ensure the sm75 repeat-KV hook is installed BEFORE probing (so the same
+    # code path the model run will use is exercised) and before recording the
+    # active compatibility mode.
+    _install_sm75_sdpa_gqa_compatibility()
+    result["gqa_compatibility_mode"] = _sm75_gqa_compat_active()
+
+    device_count = int(torch.cuda.device_count())
+    result["device_count"] = device_count
+    result["available"] = True
+    if device_count == 0:
+        result["error"] = "no visible CUDA devices"
+        return result
+
+    per_device: list[dict[str, Any]] = []
+    overall_ok = True
+    for index in range(device_count):
+        entry: dict[str, Any] = {
+            "device_index": index,
+            # The exact CUDA device under test; Q/K/V and the SDPA output must all
+            # live here or the device is not proven.
+            "device": str(torch.device("cuda", index)),
+            "gpu_name": torch.cuda.get_device_name(index),
+            "compute_capability": "{}.{}".format(*torch.cuda.get_device_capability(index)),
+            "before_heads": f"{_QWEN_Q_HEADS}/{_QWEN_KV_HEADS}/{_QWEN_KV_HEADS}",
+            "after_heads": "",
+            "q_device": "",
+            "k_device": "",
+            "v_device": "",
+            "output_device": "",
+            "output_shape": "",
+            "passed": False,
+            "error": "",
+        }
+        try:
+            device = torch.device("cuda", index)
+            q, k, v = _gqa_microprobe_build_qkv(torch, _QWEN_MICROPROBE_SEQ, device)
+            num_groups = _QWEN_Q_HEADS // _QWEN_KV_HEADS
+            k_exp, v_exp = _gqa_microprobe_expand_kv(k, v, num_groups)
+            entry["after_heads"] = (
+                f"{_QWEN_Q_HEADS}/{_QWEN_Q_HEADS}/{_QWEN_Q_HEADS}"
+            )
+            out = _gqa_microprobe_run_sdpa(torch, q, k_exp, v_exp, device)
+            entry["q_device"] = str(getattr(q, "device", "unknown"))
+            entry["k_device"] = str(getattr(k, "device", "unknown"))
+            entry["v_device"] = str(getattr(v, "device", "unknown"))
+            entry["output_device"] = str(getattr(out, "device", "unknown"))
+            finite = bool(torch.isfinite(out).all())
+            shape_ok = tuple(getattr(out, "shape", ())) == (
+                1, _QWEN_Q_HEADS, _QWEN_MICROPROBE_SEQ, _QWEN_HEAD_DIM,
+            )
+            entry["output_shape"] = str(tuple(getattr(out, "shape", ())))
+            expected_device = f"cuda:{index}"
+            device_ok = (
+                str(getattr(q, "device", "")) == expected_device
+                and str(getattr(k, "device", "")) == expected_device
+                and str(getattr(v, "device", "")) == expected_device
+                and str(getattr(out, "device", "")) == expected_device
+            )
+            if finite and shape_ok and device_ok:
+                entry["passed"] = True
+            else:
+                if not device_ok:
+                    entry["error"] = (
+                        f"expected CUDA device {expected_device} but got "
+                        f"q={entry['q_device']!r} k={entry['k_device']!r} "
+                        f"v={entry['v_device']!r} out={entry['output_device']!r}"
+                    )
+                elif not finite:
+                    entry["error"] = "output not finite"
+                else:
+                    entry["error"] = "output shape mismatch"
+                overall_ok = False
+        except Exception as exc:
+            entry["error"] = f"{type(exc).__name__}: {exc}"
+            overall_ok = False
+        per_device.append(entry)
+
+    result["devices"] = per_device
+    result["all_passed"] = overall_ok
+    return result

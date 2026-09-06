@@ -1,0 +1,27 @@
+scenario_id: "todo-heldout-001"
+repository: todo
+change_type: "Optional task estimate"
+blast_radius: localized
+requirement_before: >
+  Tasks have a title, description, status, owner, project and tags, but there is no way to
+  record how many minutes a task is expected to take.
+requirement_after: >
+  A task may optionally carry an estimated duration in whole minutes. API clients must be
+  able to set or clear the estimate when creating or updating a task, and the value must be
+  returned in task responses. Negative estimates are invalid; existing tasks remain valid
+  with no estimate.
+rationale: "Held-out user-level schema/API representation change."
+acceptance_criteria:
+  - "Estimated duration is optional and represented as whole minutes"
+  - "Clients can create and update tasks with the estimate"
+  - "Task responses include the estimate"
+  - "Negative estimates are rejected"
+expected_affected_artifacts:
+  - "todo/models.py"
+  - "todo/serializers.py"
+expected_actions:
+  "todo/models.py": modify
+  "todo/serializers.py": modify
+regression_obligations: []
+architecture_constraints: []
+hidden_tests: []

@@ -25,7 +25,7 @@ class RunRecordData:
     token_usage: dict[str, int] = field(default_factory=lambda: {"prompt": 0, "completion": 0, "total": 0})
     duration_seconds: float = 0.0
     model_metadata: dict[str, str] = field(default_factory=dict)
-    protocol_version: str = "1.0"
+    protocol_version: str = "1.1"
     source_commit: str = ""
     config_hash: str = ""
     timestamp: str = ""
@@ -93,6 +93,28 @@ class RunRecordData:
     regenerated_artifact_count: int = 0
     preserved_artifact_count: int = 0
     unresolved_human_review_count: int = 0
+
+    # Scientific evidence (SCIENTIFIC-MICROSTUDY-01 / D046)
+    predicted_actions: dict[str, str] = field(default_factory=dict)
+    changed_artifact_paths: list[str] = field(default_factory=list)
+
+    # Stage-C ImpactPlan evidence (scientific-wip-impactplan-v1 / D047)
+    impact_plan: dict[str, Any] | None = None
+    impact_plan_hash: str = ""
+    impact_plan_version: str = ""
+    impact_plan_parent_hash: str | None = None
+    impact_expansion_count: int = 0
+    escalated_to_human_review: bool = False
+    prohibited_write_attempts: int = 0
+    planner_prompt_tokens: int = 0
+    planner_completion_tokens: int = 0
+    planner_total_tokens: int = 0
+    planner_model_calls: int = 0
+    planner_latency_seconds: float = 0.0
+
+    # Selection-study evidence (STAGE-C-SELECTION-01 / D052): immutable INITIAL
+    # prediction snapshot persisted once by the selection-only runner.
+    selection_study: dict[str, Any] | None = None
 
 
 def _utc_now_str() -> str:

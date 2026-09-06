@@ -5,6 +5,7 @@ import json
 import sys
 import types
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -1288,10 +1289,13 @@ class TestAttentionPolicyGate:
     ) -> None:
         result = self._run(monkeypatch, tmp_path)
         assert result.passed is True
-        assert (
-            "attention_policy: PASS (requested=sdpa effective=sdpa "
-            "kernel_policy=flash_or_efficient_no_math)"
-        ) in result.checks
+        assert any(
+            c.startswith(
+                "attention_policy: PASS (requested=sdpa effective=sdpa "
+                "kernel_policy=flash_or_efficient_no_math"
+            )
+            for c in result.checks
+        )
 
     @pytest.mark.parametrize(
         ("attention"),
@@ -1371,6 +1375,135 @@ class TestAttentionPolicyGate:
         assert KAGGLE_CACHE_IMPLEMENTATION == "offloaded"
 
 
+def _real_dryrun_record(
+    index: int,
+    *,
+    source_commit: str = "abc123",
+    source_tag: str = "v0.9.18-pilot-exec-ready",
+    overrides: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Build one ``RunRecordData`` serialization EXACTLY as the real CLI dry-run
+    writes it.
+
+    The real serializer stores token accounting under the nested ``token_usage``
+    mapping plus the ``total_workflow_*`` and phase ``*_model_calls`` /
+    ``*_total_tokens`` fields. There is NO top-level ``total_tokens`` key. Tests
+    must exercise this real shape so a fabricated legacy record can never satisfy
+    the canonical dry-run evidence validator.
+    """
+    repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
+    strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
+    record: dict[str, Any] = {
+        "run_id": f"run-{index:03d}",
+        "status": "succeeded",
+        "repository_id": repos[index],
+        "strategy_id": strats[index],
+        "repetition": 1 if index < 24 else 2,
+        "source_commit": source_commit,
+        "source_tag": source_tag,
+        "model_calls": 0,
+        "token_usage": {"prompt": 0, "completion": 0, "total": 0},
+        "total_workflow_model_calls": 0,
+        "total_workflow_tokens": 0,
+        "selection_model_calls": 0,
+        "regeneration_model_calls": 0,
+        "repair_model_calls": 0,
+        "selection_total_tokens": 0,
+        "regeneration_total_tokens": 0,
+        "repair_total_tokens": 0,
+        "protocol_version": "1.2",
+        "profile": "pilot",
+    }
+    if overrides:
+        record.update(overrides)
+    return record
+
+
+def _write_real_dryrun(
+    dryrun_dir: Path,
+    *,
+    source_commit: str = "abc123",
+    source_tag: str = "v0.9.18-pilot-exec-ready",
+    deployed_build_id: str = "build-001",
+    record_overrides: dict[str, Any] | None = None,
+    record_indices: set[int] | None = None,
+) -> Path:
+    dryrun_dir.mkdir(parents=True, exist_ok=True)
+    records = [
+        _real_dryrun_record(
+            i,
+            source_commit=source_commit,
+            source_tag=source_tag,
+            overrides=(
+                record_overrides
+                if record_indices is None or i in record_indices
+                else None
+            ),
+        )
+        for i in range(48)
+    ]
+    (dryrun_dir / "run_records.jsonl").write_text(
+        "\n".join(json.dumps(record) for record in records),
+        encoding="utf-8",
+    )
+    (dryrun_dir / "source_identity.json").write_text(
+        json.dumps({
+            "dry_run": True,
+            "profile": "pilot",
+            "protocol_version": "1.2",
+            "source_commit": source_commit,
+            "source_tag": source_tag,
+            "deployed_build_id": deployed_build_id,
+            "model_identity": "dry-run:mock",
+            "exact_patch": True,
+            "agent_control_max_completion_tokens": 512,
+        }),
+        encoding="utf-8",
+    )
+    return dryrun_dir
+
+
+def _drop_record_fields(
+    dryrun_dir: Path,
+    fields: list[str],
+    indices: set[int] | None = None,
+) -> None:
+    path = dryrun_dir / "run_records.jsonl"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    output = []
+    for index, line in enumerate(lines):
+        record = json.loads(line)
+        if indices is None or index in indices:
+            for field in fields:
+                record.pop(field, None)
+        output.append(json.dumps(record))
+    path.write_text("\n".join(output), encoding="utf-8")
+
+
+def _set_record_field(dryrun_dir: Path, field: str, value: Any) -> None:
+    path = dryrun_dir / "run_records.jsonl"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    output = []
+    for line in lines:
+        record = json.loads(line)
+        record[field] = value
+        output.append(json.dumps(record))
+    path.write_text("\n".join(output), encoding="utf-8")
+
+
+def _set_token_usage_value(dryrun_dir: Path, key: str, value: Any) -> None:
+    path = dryrun_dir / "run_records.jsonl"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    output = []
+    for line in lines:
+        record = json.loads(line)
+        token_usage = record.get("token_usage")
+        if isinstance(token_usage, dict):
+            token_usage[key] = value
+        output.append(json.dumps(record))
+    path.write_text("\n".join(output), encoding="utf-8")
+
+
 class TestValidatePilotLaunchAuthorization:
     """C1-C5 + D: strict launch authorization with required long-context evidence."""
 
@@ -1404,37 +1537,23 @@ class TestValidatePilotLaunchAuthorization:
                     "completion_tokens": 512,
                     "cache_implementation": "offloaded",
                 },
+                "generation_deadline_probe": {
+                    "passed": True,
+                    "deadline_fired": True,
+                    "finish_reason": "timeout",
+                    "completion_tokens": 1,
+                },
             }),
             encoding="utf-8",
         )
 
     def _write_valid_dryrun(self, dryrun_dir: Path, *, source_commit: str = "abc123") -> None:
-        dryrun_dir.mkdir(parents=True, exist_ok=True)
-        records = []
-        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
-        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
-        for i in range(48):
-            records.append(json.dumps({
-                "run_id": f"run-{i:03d}",
-                "status": "succeeded",
-                "repository_id": repos[i],
-                "strategy_id": strats[i],
-                "repetition": 1 if i < 24 else 2,
-                "source_commit": source_commit,
-                "source_tag": "v0.9.18-pilot-exec-ready",
-                "model_calls": 0,
-                "total_tokens": 0,
-            }))
-        (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
-        (dryrun_dir / "source_identity.json").write_text(json.dumps({
-            "dry_run": True,
-            "profile": "pilot",
-            "protocol_version": "1.0",
-            "source_commit": source_commit,
-            "source_tag": "v0.9.18-pilot-exec-ready",
-            "deployed_build_id": "build-001",
-            "model_identity": "dry-run:mock",
-        }), encoding="utf-8")
+        _write_real_dryrun(
+            dryrun_dir,
+            source_commit=source_commit,
+            source_tag="v0.9.18-pilot-exec-ready",
+            deployed_build_id="build-001",
+        )
 
     def test_passes_with_valid_evidence(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.setenv("HF_TOKEN", "test-token-123")
@@ -1588,11 +1707,13 @@ class TestValidatePilotLaunchAuthorization:
         (tmp_path / "dryrun" / "source_identity.json").write_text(json.dumps({
             "dry_run": True,
             "profile": "pilot",
-            "protocol_version": "1.0",
+            "protocol_version": "1.2",
             "source_commit": "abc123",
             "source_tag": "v0.9.14-pilot-exec-ready",
             "deployed_build_id": "build-001",
             "model_identity": "dry-run:mock",
+            "exact_patch": True,
+            "agent_control_max_completion_tokens": 512,
         }), encoding="utf-8")
         from benchmark.execution.preflight import LaunchAuthorizationError, validate_pilot_launch_authorization
         with pytest.raises(LaunchAuthorizationError, match="source_tag"):
@@ -1721,6 +1842,281 @@ class TestValidatePilotLaunchAuthorization:
                 expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
             )
 
+    # --- D13r1 F1: PRE-MODEL semantic-executability wiring -----------------
+
+    def _write_semantic_scenario_dir(self, tmp_path: Path, *, executable: bool = True) -> Path:
+        data_dir = tmp_path / "data"
+        scenarios = data_dir / "scenarios"
+        scenarios.mkdir(parents=True)
+        # D13R2 Fix 1/2: the 3 canary scenarios must carry the frozen migration
+        # execution metadata so the semantic gate can prove executability.
+        migration_meta = {
+            "todo-loc-001": (
+                "todo",
+                ["python", "manage.py", "makemigrations", "todo", "--noinput"],
+                "todo/migrations",
+            ),
+            "djangocms-cross-007": (
+                "djangocms",
+                ["python", "manage.py", "makemigrations", "cms", "--noinput"],
+                "cms/migrations",
+            ),
+            "saleor-loc-001": (
+                "saleor",
+                ["python", "manage.py", "makemigrations", "product", "--noinput"],
+                "saleor/product/migrations",
+            ),
+        }
+        for sid, (repo, command, migration_dir) in migration_meta.items():
+            command_block = "\n".join(f"  - {part}" for part in command)
+            (scenarios / f"{sid}.yaml").write_text(
+                f"scenario_id: {sid}\nrepository: {repo}\n"
+                f"change_type: test\nblast_radius: localized\n"
+                f"requirement_before: before\nrequirement_after: after\nrationale: test\n"
+                f"post_generation_command:\n{command_block}\n"
+                f"require_new_migration: true\n"
+                f"migration_directory: \"{migration_dir}\"\n",
+                encoding="utf-8",
+            )
+        repos = data_dir / "repositories"
+        (repos / "todo" / "todo").mkdir(parents=True)
+        (repos / "djangocms" / "cms" / "models").mkdir(parents=True)
+        (repos / "saleor" / "saleor" / "product").mkdir(parents=True)
+        if executable:
+            (repos / "todo" / "todo" / "models.py").write_text("class Task:\n    pass\n", encoding="utf-8")
+            (repos / "djangocms" / "cms" / "models" / "pagemodel.py").write_text(
+                "class Page:\n    pass\n", encoding="utf-8"
+            )
+            (repos / "saleor" / "saleor" / "product" / "models.py").write_text(
+                "class Product:\n    pass\n", encoding="utf-8"
+            )
+        return data_dir
+
+    def test_launch_auth_fails_closed_on_semantically_unexecutable_scenario(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        data_dir = self._write_semantic_scenario_dir(tmp_path, executable=False)
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_launch_authorization,
+        )
+        with pytest.raises(LaunchAuthorizationError, match="semantic-executability"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.18-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+                expected_deployed_build_id="build-001",
+                scenario_dir=data_dir / "scenarios",
+                scenario_ids=("todo-loc-001", "djangocms-cross-007", "saleor-loc-001"),
+            )
+
+    def test_launch_auth_passes_when_semantic_gate_verifies(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_model_preflight(tmp_path / "model.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        data_dir = self._write_semantic_scenario_dir(tmp_path, executable=True)
+        from benchmark.execution.preflight import validate_pilot_launch_authorization
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=tmp_path / "dryrun",
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            expected_deployed_build_id="build-001",
+            scenario_dir=data_dir / "scenarios",
+            scenario_ids=("todo-loc-001", "djangocms-cross-007", "saleor-loc-001"),
+        )
+
+
+class TestPilotSemanticExecutabilityGate:
+    """D13 B4 / D13r1 F1: the standalone pre-model semantic gate."""
+
+    def _write_data(self, tmp_path: Path, *, executable: bool = True) -> Path:
+        return TestValidatePilotLaunchAuthorization()._write_semantic_scenario_dir(
+            tmp_path, executable=executable
+        )
+
+    def test_canary_scenarios_pass_when_pinned_bases_staged(
+        self, tmp_path: Path
+    ) -> None:
+        from benchmark.execution.preflight import validate_pilot_semantic_executability
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        roots = {
+            "todo": data_dir / "repositories" / "todo",
+            "djangocms": data_dir / "repositories" / "djangocms",
+            "saleor": data_dir / "repositories" / "saleor",
+        }
+        summary = validate_pilot_semantic_executability(
+            scenario_ids=("todo-loc-001", "djangocms-cross-007", "saleor-loc-001"),
+            scenario_dir=data_dir / "scenarios",
+            repository_roots=roots,
+        )
+        assert summary["passed"] is True
+        assert summary["executable"] is True
+        assert all(v["executable"] and v["verifiable"] for v in summary["verdicts"])
+
+    def test_fails_closed_without_staged_repositories(self, tmp_path: Path) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        with pytest.raises(LaunchAuthorizationError, match="NOT launchable"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("todo-loc-001", "djangocms-cross-007", "saleor-loc-001"),
+                scenario_dir=data_dir / "scenarios",
+                repository_roots={},
+            )
+
+    def test_fails_closed_when_sentinel_absent_from_pinned_base(
+        self, tmp_path: Path
+    ) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=False)
+        with pytest.raises(LaunchAuthorizationError, match="todo-loc-001"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("todo-loc-001",),
+                scenario_dir=data_dir / "scenarios",
+            )
+
+    def test_fails_closed_for_known_unexecutable_saleor_loc_002(
+        self, tmp_path: Path
+    ) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        scenarios = data_dir / "scenarios"
+        (scenarios / "saleor-loc-002.yaml").write_text(
+            "scenario_id: saleor-loc-002\nrepository: saleor\n"
+            "change_type: test\nblast_radius: localized\n"
+            "requirement_before: before\nrequirement_after: after\nrationale: test\n",
+            encoding="utf-8",
+        )
+        with pytest.raises(LaunchAuthorizationError, match="saleor-loc-002"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("saleor-loc-002",),
+                scenario_dir=scenarios,
+            )
+
+    def test_fails_closed_when_scenario_missing_from_data(self, tmp_path: Path) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        with pytest.raises(LaunchAuthorizationError, match="not found"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("no-such-scenario",),
+                scenario_dir=data_dir / "scenarios",
+            )
+
+    def test_fails_closed_on_missing_migration_metadata(self, tmp_path: Path) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        (data_dir / "scenarios" / "todo-loc-001.yaml").write_text(
+            "scenario_id: todo-loc-001\nrepository: todo\n"
+            "change_type: test\nblast_radius: localized\n"
+            "requirement_before: before\nrequirement_after: after\nrationale: test\n"
+            "migration_directory: \"todo/migrations\"\n",
+            encoding="utf-8",
+        )
+        with pytest.raises(LaunchAuthorizationError, match="todo-loc-001"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("todo-loc-001",),
+                scenario_dir=data_dir / "scenarios",
+            )
+
+    def test_fails_closed_on_wrong_migration_command(self, tmp_path: Path) -> None:
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_semantic_executability,
+        )
+
+        data_dir = self._write_data(tmp_path, executable=True)
+        (data_dir / "scenarios" / "saleor-loc-001.yaml").write_text(
+            "scenario_id: saleor-loc-001\nrepository: saleor\n"
+            "change_type: test\nblast_radius: localized\n"
+            "requirement_before: before\nrequirement_after: after\nrationale: test\n"
+            "post_generation_command:\n"
+            "  - python\n  - manage.py\n  - makemigrations\n"
+            "  - WRONG\n  - --noinput\n"
+            "require_new_migration: true\n"
+            "migration_directory: \"saleor/product/migrations\"\n",
+            encoding="utf-8",
+        )
+        with pytest.raises(LaunchAuthorizationError, match="saleor-loc-001"):
+            validate_pilot_semantic_executability(
+                scenario_ids=("saleor-loc-001",),
+                scenario_dir=data_dir / "scenarios",
+            )
+
+    def test_launch_auth_migration_failure_never_initializes_backend(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        launch_helper = TestValidatePilotLaunchAuthorization()
+        launch_helper._write_valid_repo_preflight(tmp_path / "repo.json")
+        launch_helper._write_valid_model_preflight(tmp_path / "model.json")
+        launch_helper._write_valid_dryrun(tmp_path / "dryrun")
+        data_dir = self._write_data(tmp_path, executable=True)
+        (data_dir / "scenarios" / "todo-loc-001.yaml").write_text(
+            "scenario_id: todo-loc-001\nrepository: todo\n"
+            "change_type: test\nblast_radius: localized\n"
+            "requirement_before: before\nrequirement_after: after\nrationale: test\n"
+            "require_new_migration: false\n",
+            encoding="utf-8",
+        )
+        import seven_arm_benchmark as saber
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_launch_authorization,
+        )
+
+        backend_calls: list[object] = []
+        monkeypatch.setattr(
+            saber,
+            "make_backend",
+            lambda *args, **kwargs: backend_calls.append("init") or object(),
+        )
+        with pytest.raises(LaunchAuthorizationError, match="semantic-executability"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.18-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+                expected_deployed_build_id="build-001",
+                scenario_dir=data_dir / "scenarios",
+                scenario_ids=("todo-loc-001", "djangocms-cross-007", "saleor-loc-001"),
+            )
+        assert backend_calls == [], "backend must never be initialized on gate failure"
+
 
 class TestCLIAuthorizationPath:
     """G: CLI real-path authorization integration with seven_arm_benchmark.main."""
@@ -1734,21 +2130,17 @@ class TestCLIAuthorizationPath:
         dryrun_dir = tmp_path / "dryrun"
         dryrun_dir.mkdir()
         (dryrun_dir / "source_identity.json").write_text(json.dumps({
-            "dry_run": True, "profile": "pilot", "protocol_version": "1.0",
+            "dry_run": True, "profile": "pilot", "protocol_version": "1.2",
             "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
             "deployed_build_id": "b1", "model_identity": "dry-run:mock",
+            "exact_patch": True, "agent_control_max_completion_tokens": 512,
         }), encoding="utf-8")
-        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
-        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
-        records = []
-        for i in range(48):
-            records.append(json.dumps({
-                "run_id": f"r{i:03d}", "status": "succeeded",
-                "repository_id": repos[i], "strategy_id": strats[i],
-                "repetition": 1 if i < 24 else 2,
-                "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
-                "model_calls": 0, "total_tokens": 0,
-            }))
+        records = [
+            json.dumps(_real_dryrun_record(
+                i, source_commit="abc", source_tag="v0.9.18-pilot-exec-ready",
+            ))
+            for i in range(48)
+        ]
         (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
 
         import seven_arm_benchmark as saber
@@ -1760,7 +2152,7 @@ class TestCLIAuthorizationPath:
             max_completion_tokens_per_call=4096,
             max_total_workflow_tokens=0, validation_command=None,
             validation_python=[], validation_timeout=None,
-            protocol_version="1.0", model_path=None,
+            protocol_version="1.2", model_path=None,
             qwen_quantization="bnb-nf4", resume=False,
             resume_from=None, max_runs=0, hf_sync=False,
             hf_repo_id=None, resume_from_hf=False,
@@ -1785,21 +2177,17 @@ class TestCLIAuthorizationPath:
         dryrun_dir = tmp_path / "dryrun"
         dryrun_dir.mkdir()
         (dryrun_dir / "source_identity.json").write_text(json.dumps({
-            "dry_run": True, "profile": "pilot", "protocol_version": "1.0",
+            "dry_run": True, "profile": "pilot", "protocol_version": "1.2",
             "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
             "deployed_build_id": "b1", "model_identity": "dry-run:mock",
+            "exact_patch": True, "agent_control_max_completion_tokens": 512,
         }), encoding="utf-8")
-        repos = ["todo"] * 16 + ["djangocms"] * 16 + ["saleor"] * 16
-        strats = ["iterative_repository_agent"] * 24 + ["selective"] * 24
-        records = []
-        for i in range(48):
-            records.append(json.dumps({
-                "run_id": f"r{i:03d}", "status": "succeeded",
-                "repository_id": repos[i], "strategy_id": strats[i],
-                "repetition": 1 if i < 24 else 2,
-                "source_commit": "abc", "source_tag": "v0.9.18-pilot-exec-ready",
-                "model_calls": 0, "total_tokens": 0,
-            }))
+        records = [
+            json.dumps(_real_dryrun_record(
+                i, source_commit="abc", source_tag="v0.9.18-pilot-exec-ready",
+            ))
+            for i in range(48)
+        ]
         (dryrun_dir / "run_records.jsonl").write_text("\n".join(records), encoding="utf-8")
 
         repo_json = tmp_path / "repo.json"
@@ -1824,20 +2212,43 @@ class TestCLIAuthorizationPath:
                 "completion_tokens": 512,
                 "cache_implementation": "offloaded",
             },
+            "generation_deadline_probe": {
+                "passed": True,
+                "deadline_fired": True,
+                "finish_reason": "timeout",
+                "completion_tokens": 1,
+            },
         }), encoding="utf-8")
 
         import seven_arm_benchmark as saber
         from benchmark.execution import preflight as pf_mod
 
+        # D13r1 F1: provide a loadable scenario directory so the CLI pre-model
+        # semantic gate runs (it is part of launch authorization).
+        data_dir = tmp_path / "data"
+        scenarios = data_dir / "scenarios"
+        scenarios.mkdir(parents=True)
+        for sid, repo in (
+            ("todo-loc-001", "todo"),
+            ("djangocms-cross-007", "djangocms"),
+            ("saleor-loc-001", "saleor"),
+        ):
+            (scenarios / f"{sid}.yaml").write_text(
+                f"scenario_id: {sid}\nrepository: {repo}\n"
+                f"change_type: test\nblast_radius: localized\n"
+                f"requirement_before: before\nrequirement_after: after\nrationale: test\n",
+                encoding="utf-8",
+            )
+
         monkeypatch.setattr(saber, "_get_model_identity", lambda **kw: "qwen:test:nf4")
         monkeypatch.setattr(saber, "parse_args", lambda: argparse.Namespace(
             dry_run=False, profile="pilot", strategy=None,
-            output_dir=str(output_dir), data_dir=str(tmp_path / "data"),
+            output_dir=str(output_dir), data_dir=str(data_dir),
             max_attempts=3, timeout=0, max_tokens=0,
             max_completion_tokens_per_call=4096,
             max_total_workflow_tokens=0, validation_command=None,
             validation_python=[], validation_timeout=None,
-            protocol_version="1.0", model_path=None,
+            protocol_version="1.2", model_path=None,
             qwen_quantization="bnb-nf4", resume=False,
             resume_from=None, max_runs=0, hf_sync=False,
             hf_repo_id=None, resume_from_hf=False,
@@ -1852,17 +2263,697 @@ class TestCLIAuthorizationPath:
             launch_auth_dryrun_dir=str(dryrun_dir),
             backend=None, openrouter_model="", openrouter_timeout=120.0,
         ))
-        auth_passed: list[bool] = []
+        auth_outcomes: list[object] = []
         real_validate = pf_mod.validate_pilot_launch_authorization
 
-        def counting_validate(**kwargs: object) -> None:
-            real_validate(**kwargs)  # type: ignore[arg-type]
-            auth_passed.append(True)
+        def recording_validate(**kwargs: object) -> None:
+            try:
+                real_validate(**kwargs)  # type: ignore[arg-type]
+                auth_outcomes.append(True)
+            except Exception as exc:  # recorded for assertion
+                auth_outcomes.append(exc)
+                raise
 
-        monkeypatch.setattr(pf_mod, "validate_pilot_launch_authorization", counting_validate)
-        # main() proceeds past auth but may fail later on missing data/scenarios.
-        # That's fine — we only need to verify authorization was invoked and passed.
-        with pytest.raises((SystemExit, Exception)):
-            saber.main()
-        assert auth_passed, "authorization must have been invoked and passed"
+        monkeypatch.setattr(
+            pf_mod, "validate_pilot_launch_authorization", recording_validate
+        )
+        # The FULL 48-cell Pilot is NOT a launch basis (D13r1 F1): the pre-model
+        # semantic gate FAIL-CLOSES on saleor-loc-002 (is_featured absent from
+        # the pinned base) and the seven unregistered Pilot scenarios even when
+        # every other authorization evidence is valid.
+        rc = saber.main()
+        assert rc != 0
+        assert auth_outcomes, "authorization must have been invoked"
+        outcome = auth_outcomes[0]
+        assert not isinstance(outcome, bool), "full-Pilot semantic gate must fail closed"
+        assert "semantic-executability" in str(outcome)
+
+
+class TestShortGenerationProbeTruthfulReporting:
+    """V0.9.22 T4 GQA: model-load evidence is reported independently of the
+    short-generation probe, and a broken generation path fails closed (SKIP 12k)
+    without rewriting the load verdict.
+    """
+
+    def _patch_probe(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        tmp_path: Path,
+        metrics: dict[str, object],
+        *,
+        backend: object | None = None,
+    ) -> Path:
+        monkeypatch.setattr(mod, "_python_runtime_status", lambda: ("3.12.13", True))
+        monkeypatch.setattr(
+            mod, "collect_dependency_versions", lambda: (("django", "5.2.16"),)
+        )
+        monkeypatch.setattr(mod, "_stage_baseline_workspace", lambda data_dir, root: Path("fake-staged"))
+        monkeypatch.setattr(mod, "_run_in_workspace", lambda ws, *a, timeout=180: (0, "", ""))
+        monkeypatch.setattr(mod, "_create_qwen_backend", lambda mp, qm: backend)
+        monkeypatch.setattr(mod, "_qwen_probe_metrics", lambda mp, qm, **_k: metrics)
+        return tmp_path / "kaggle_smoke_preflight.v1.json"
+
+    def _ok_metrics(self) -> dict[str, object]:
+        return {
+            "model_identity": "qwen:qwen2.5-coder-14b-instruct:bnb-nf4:cfg-x",
+            "requested_quantization_mode": "bnb-nf4",
+            "model_checkpoint_basename": "qwen2.5-coder-14b-instruct",
+            "checkpoint_quantization_method": "",
+            "model_memory_footprint_bytes": 9000000000,
+            "device_map_summary": "GPU",
+            "gpu_count": 2,
+            "gpu_name": "Tesla T4",
+            "gpu_vram_by_device": (),
+            "free_vram_after_probe_gib": 7.0,
+            "allocated_vram_gib": 1.0,
+            "reserved_vram_gib": 1.0,
+            "probe_prompt_tokens": 40,
+            "probe_completion_tokens": 64,
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
+            "gqa_compatibility_mode": "",
+            "short_generation_probe_error": "",
+        }
+
+    def test_load_pass_short_probe_fail_reports_separately_and_skips_12k(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        metrics = self._ok_metrics()
+        metrics["short_generation_probe_error"] = "RuntimeError: No available kernel"
+        out = self._patch_probe(monkeypatch, tmp_path, metrics, backend=object())
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "r",
+            quantization_mode="bnb-nf4",
+            json_output_path=out,
+        )
+        assert any(c.startswith("qwen_model_load[bnb-nf4]: PASS") for c in result.checks)
+        assert any(c.startswith("short_generation_probe: FAIL") for c in result.checks)
+        assert any(c.startswith("long_context_probe: SKIP") for c in result.checks)
+        assert result.passed is False
+
+    def test_short_probe_pass_emits_pass(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+        out = self._patch_probe(monkeypatch, tmp_path, self._ok_metrics())
+        result = run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "r",
+            quantization_mode="bnb-nf4",
+            json_output_path=out,
+        )
+        assert any(c.startswith("short_generation_probe: PASS") for c in result.checks)
+
+    def test_gqa_compatibility_mode_persisted_to_json(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
+        metrics = self._ok_metrics()
+        metrics["gqa_compatibility_mode"] = "repeat_kv_sm75"
+        out = self._patch_probe(monkeypatch, tmp_path, metrics)
+        run_kaggle_smoke_preflight(
+            model_path="/kaggle/input/qwen14b",
+            data_dir=tmp_path,
+            preflight_root=tmp_path / "r",
+            quantization_mode="bnb-nf4",
+            json_output_path=out,
+        )
+        payload = json.loads(out.read_text("utf-8"))
+        assert payload["gqa_compatibility_mode"] == "repeat_kv_sm75"
+
+
+class TestValidatePilotLaunchAuthorizationGqa:
+    """V0.9.22 T4 GQA: launch authorization enforces the GQA compat mode."""
+
+    def _write_valid_repo_preflight(self, path: Path) -> None:
+        path.write_text(
+            json.dumps({
+                "overall": "PASS",
+                "repositories": {
+                    "todo": {"passed": True},
+                    "djangocms": {"passed": True},
+                    "saleor": {"passed": True},
+                },
+            }),
+            encoding="utf-8",
+        )
+
+    def _write_valid_dryrun(self, dryrun_dir: Path) -> None:
+        _write_real_dryrun(dryrun_dir, source_commit="abc123")
+
+    def _model_json(self, path: Path, *, gqa_mode: str | None = None) -> None:
+        payload = {
+            "passed": True,
+            "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            "requested_quantization_mode": "bnb-nf4",
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
+            "checks": ["repository_preflight_evidence: PASS"],
+            "long_context_probe": {
+                "passed": True,
+                "target_prompt_tokens": 16000,
+                "prompt_tokens": 16384,
+                "completion_tokens": 512,
+                "cache_implementation": "offloaded",
+            },
+            "generation_deadline_probe": {
+                "passed": True,
+                "deadline_fired": True,
+                "finish_reason": "timeout",
+                "completion_tokens": 1,
+            },
+        }
+        if gqa_mode is not None:
+            payload["gqa_compatibility_mode"] = gqa_mode
+        path.write_text(json.dumps(payload), encoding="utf-8")
+
+    def test_passes_with_correct_gqa_compatibility_mode(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        self._model_json(tmp_path / "model.json", gqa_mode="repeat_kv_sm75")
+        from benchmark.execution.preflight import validate_pilot_launch_authorization
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=tmp_path / "dryrun",
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            expected_deployed_build_id="build-001",
+        )
+
+    def test_fails_on_wrong_gqa_compatibility_mode(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_valid_dryrun(tmp_path / "dryrun")
+        self._model_json(tmp_path / "model.json", gqa_mode="native")
+        from benchmark.execution.preflight import (
+            LaunchAuthorizationError,
+            validate_pilot_launch_authorization,
+        )
+        with pytest.raises(LaunchAuthorizationError, match="gqa_compatibility_mode"):
+            validate_pilot_launch_authorization(
+                repo_preflight_json=tmp_path / "repo.json",
+                model_preflight_json=tmp_path / "model.json",
+                dryrun_dir=tmp_path / "dryrun",
+                expected_source_commit="abc123",
+                expected_source_tag="v0.9.18-pilot-exec-ready",
+                expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+                expected_deployed_build_id="build-001",
+            )
+
+
+class TestValidatePilotDryrunEvidence:
+    """PILOT-EXEC-01 D8: the canonical dry-run evidence validator enforces the
+    REAL ``RunRecordData`` serialization schema (nested ``token_usage`` plus the
+    ``total_workflow_*`` and phase ``*_model_calls`` / ``*_total_tokens``
+    fields), never a fabricated top-level ``total_tokens``. Every negative case
+    is fail-closed: missing / ``None`` / bool / string / float / non-zero all
+    fail. The shared fixture writes the exact real record shape.
+    """
+
+    def _validate(self, dryrun_dir: Path) -> dict[str, Any]:
+        from benchmark.execution.preflight import validate_pilot_dryrun_evidence
+        return validate_pilot_dryrun_evidence(
+            dryrun_dir=dryrun_dir,
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_deployed_build_id="build-001",
+            expected_model_identity="dry-run:mock",
+        )
+
+    def _assert_raises(self, dryrun_dir: Path, match: str) -> None:
+        from benchmark.execution.preflight import LaunchAuthorizationError
+        with pytest.raises(LaunchAuthorizationError, match=match):
+            self._validate(dryrun_dir)
+
+    def test_real_schema_evidence_passes(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        summary = self._validate(dryrun)
+        assert summary["passed"] is True
+        assert summary["record_count"] == 48
+        assert summary["unique_run_ids"] == 48
+        assert summary["repo_counts"] == {"todo": 16, "djangocms": 16, "saleor": 16}
+        assert summary["strategy_counts"] == {
+            "iterative_repository_agent": 24,
+            "selective": 24,
+        }
+        assert summary["rep_counts"] == {1: 24, 2: 24}
+        assert summary["model_calls"] == 0
+        assert summary["prompt_tokens"] == 0
+        assert summary["completion_tokens"] == 0
+        assert summary["total_tokens"] == 0
+        assert summary["total_workflow_model_calls"] == 0
+        assert summary["total_workflow_tokens"] == 0
+        assert summary["source_commit"] == "abc123"
+        assert summary["source_tag"] == "v0.9.18-pilot-exec-ready"
+        assert summary["deployed_build_id"] == "build-001"
+        assert summary["model_identity"] == "dry-run:mock"
+
+    def test_real_schema_passes_launch_authorization(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        (tmp_path / "repo.json").write_text(json.dumps({
+            "overall": "PASS",
+            "repositories": {
+                "todo": {"passed": True},
+                "djangocms": {"passed": True},
+                "saleor": {"passed": True},
+            },
+        }), encoding="utf-8")
+        (tmp_path / "model.json").write_text(json.dumps({
+            "passed": True,
+            "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            "requested_quantization_mode": "bnb-nf4",
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
+            "checks": [
+                "repository_preflight_evidence: PASS",
+                "qwen_model_load[bnb-nf4]: PASS",
+                "short_generation_probe: PASS",
+                "long_context_probe: PASS",
+            ],
+            "long_context_probe": {
+                "passed": True,
+                "target_prompt_tokens": 16000,
+                "prompt_tokens": 16384,
+                "completion_tokens": 512,
+                "cache_implementation": "offloaded",
+            },
+            "generation_deadline_probe": {
+                "passed": True,
+                "deadline_fired": True,
+                "finish_reason": "timeout",
+                "completion_tokens": 1,
+            },
+        }), encoding="utf-8")
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        from benchmark.execution.preflight import validate_pilot_launch_authorization
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=dryrun,
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            expected_deployed_build_id="build-001",
+        )
+
+    def test_missing_token_usage_fails(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        _drop_record_fields(dryrun, ["token_usage"])
+        self._assert_raises(dryrun, "token_usage")
+
+    def test_missing_token_usage_total_fails(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        path = dryrun / "run_records.jsonl"
+        lines = path.read_text(encoding="utf-8").splitlines()
+        output = []
+        for line in lines:
+            record = json.loads(line)
+            token_usage = record.get("token_usage")
+            if isinstance(token_usage, dict):
+                token_usage.pop("total", None)
+            output.append(json.dumps(record))
+        path.write_text("\n".join(output), encoding="utf-8")
+        self._assert_raises(dryrun, "token_usage.total")
+
+    @pytest.mark.parametrize("key,value", [
+        ("prompt", None), ("completion", None), ("total", None),
+        ("prompt", "0"), ("completion", "0"), ("total", "0"),
+        ("prompt", False), ("completion", False), ("total", False),
+        ("prompt", 1), ("completion", 1), ("total", 1),
+    ])
+    def test_token_usage_invalid_or_nonzero_fails(
+        self, tmp_path: Path, key: str, value: Any
+    ) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        _set_token_usage_value(dryrun, key, value)
+        self._assert_raises(dryrun, "token_usage")
+
+    @pytest.mark.parametrize("value,is_override", [
+        (None, False), (1, True), (None, True), ("0", True), (False, True),
+    ])
+    def test_total_workflow_tokens_missing_nonzero_invalid_fail(
+        self, tmp_path: Path, value: Any, is_override: bool
+    ) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        if is_override:
+            _set_record_field(dryrun, "total_workflow_tokens", value)
+        else:
+            _drop_record_fields(dryrun, ["total_workflow_tokens"])
+        self._assert_raises(dryrun, "total_workflow_tokens")
+
+    @pytest.mark.parametrize("value,is_override", [
+        (None, False), (1, True), (None, True), ("0", True), (True, True),
+    ])
+    def test_total_workflow_model_calls_missing_nonzero_invalid_fail(
+        self, tmp_path: Path, value: Any, is_override: bool
+    ) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        if is_override:
+            _set_record_field(dryrun, "total_workflow_model_calls", value)
+        else:
+            _drop_record_fields(dryrun, ["total_workflow_model_calls"])
+        self._assert_raises(dryrun, "total_workflow_model_calls")
+
+    def test_legacy_only_top_level_total_tokens_fails(self, tmp_path: Path) -> None:
+        """A fabricated legacy record carrying ONLY top-level ``total_tokens``
+        (the pre-D8 false-green shape) must fail: the canonical schema needs the
+        nested ``token_usage`` plus workflow/phase fields."""
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        _drop_record_fields(dryrun, [
+            "token_usage",
+            "total_workflow_model_calls",
+            "total_workflow_tokens",
+            "selection_model_calls",
+            "regeneration_model_calls",
+            "repair_model_calls",
+            "selection_total_tokens",
+            "regeneration_total_tokens",
+            "repair_total_tokens",
+        ])
+        _set_record_field(dryrun, "total_tokens", 0)
+        self._assert_raises(dryrun, "token_usage")
+
+    @pytest.mark.parametrize("phase_field,value", [
+        ("selection_model_calls", 1),
+        ("regeneration_model_calls", 1),
+        ("repair_model_calls", 1),
+        ("selection_total_tokens", 1),
+        ("regeneration_total_tokens", 1),
+        ("repair_total_tokens", 1),
+        ("selection_model_calls", None),
+        ("selection_model_calls", "0"),
+        ("selection_model_calls", False),
+        ("repair_total_tokens", 1.5),
+    ])
+    def test_nonzero_or_invalid_phase_field_fails(
+        self, tmp_path: Path, phase_field: str, value: Any
+    ) -> None:
+        dryrun = _write_real_dryrun(
+            tmp_path / "dryrun", record_overrides={phase_field: value}
+        )
+        self._assert_raises(dryrun, phase_field)
+
+    def test_nonzero_model_calls_fails(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(
+            tmp_path / "dryrun",
+            record_indices={0},
+            record_overrides={"model_calls": 1},
+        )
+        self._assert_raises(dryrun, "model_calls != 0")
+
+    def test_missing_source_identity_fails(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        (dryrun / "source_identity.json").unlink()
+        self._assert_raises(dryrun, "source_identity.json")
+
+    def test_source_identity_model_identity_mismatch_fails(self, tmp_path: Path) -> None:
+        dryrun = _write_real_dryrun(tmp_path / "dryrun")
+        (dryrun / "source_identity.json").write_text(json.dumps({
+            "dry_run": True,
+            "profile": "pilot",
+            "protocol_version": "1.2",
+            "source_commit": "abc123",
+            "source_tag": "v0.9.18-pilot-exec-ready",
+            "deployed_build_id": "build-001",
+            "model_identity": "qwen:real",
+            "exact_patch": True,
+            "agent_control_max_completion_tokens": 512,
+        }), encoding="utf-8")
+        self._assert_raises(dryrun, "model_identity")
+
+
+class TestGenerationDeadlineProbeErrors:
+    """D9.3: fail-closed launch-gate audit of the real-Qwen deadline canary."""
+
+    @staticmethod
+    def _errors(value: Any) -> list[str]:
+        from benchmark.execution.preflight import _generation_deadline_probe_errors
+
+        return _generation_deadline_probe_errors(value)
+
+    def test_valid_canary_is_clean(self) -> None:
+        assert self._errors({
+            "passed": True,
+            "deadline_fired": True,
+            "finish_reason": "timeout",
+            "completion_tokens": 1,
+        }) == []
+
+    @pytest.mark.parametrize(
+        "value, needle",
+        [
+            (None, "missing or not a dict"),
+            ([], "missing or not a dict"),
+            ("x", "missing or not a dict"),
+            ({"passed": False, "deadline_fired": True,
+              "finish_reason": "timeout", "completion_tokens": 1}, "passed != true"),
+            ({"passed": True, "deadline_fired": False,
+              "finish_reason": "timeout", "completion_tokens": 1}, "deadline_fired != true"),
+            ({"passed": True, "deadline_fired": True,
+              "finish_reason": "eos", "completion_tokens": 1}, "expected 'timeout'"),
+            ({"passed": True, "deadline_fired": True,
+              "finish_reason": "timeout", "completion_tokens": True}, "expected int"),
+            ({"passed": True, "deadline_fired": True,
+              "finish_reason": "timeout", "completion_tokens": 0}, "expected >= 1"),
+            ({"passed": True, "deadline_fired": True,
+              "finish_reason": "timeout", "completion_tokens": 9}, "upper bound"),
+        ],
+    )
+    def test_fail_closed_invalid_evidence(
+        self, value: Any, needle: str
+    ) -> None:
+        errors = self._errors(value)
+        assert any(needle in e for e in errors)
+
+    def test_upper_bound_is_canonical_eight(self) -> None:
+        from benchmark.execution.preflight import (
+            GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND,
+        )
+
+        assert GENERATION_DEADLINE_PROBE_MAX_CHECK_BOUND == 8
+        assert self._errors({
+            "passed": True, "deadline_fired": True,
+            "finish_reason": "timeout", "completion_tokens": 8,
+        }) == []
+        assert any(
+            "upper bound" in e
+            for e in self._errors({
+                "passed": True, "deadline_fired": True,
+                "finish_reason": "timeout", "completion_tokens": 9,
+            })
+        )
+
+
+class TestD96KaggleGitHubBoundary:
+    """PILOT-EXEC-01 D9.6 Kaggle/GitHub boundary: launch authorization is
+    entirely LOCAL-evidence based. The preflight module carries NO runtime
+    GitHub/git/network dependency, no GITHUB_TOKEN, and no remote tag-peel gate.
+    The annotated stable tag is release metadata created/pushed/peeled LOCALLY
+    outside Kaggle after a real preflight, never at launch/resume time."""
+
+    FORBIDDEN_MODULE_FRAGMENTS = (
+        "KAGGLE_PUBLIC_CANONICAL_REMOTE",
+        "REMOTE_TAG_PROOF_TIMEOUT_SECONDS",
+        "verify_remote_annotated_tag_peel",
+        "git ls-remote",
+        "ls-remote",
+        "github.com",
+        "GITHUB_TOKEN",
+        "ghp_",
+    )
+
+    def test_module_source_has_no_runtime_git_or_github_gate(self) -> None:
+        assert mod.__file__ is not None
+        source = Path(mod.__file__).read_text(encoding="utf-8")
+        for fragment in self.FORBIDDEN_MODULE_FRAGMENTS:
+            assert fragment not in source, (
+                "preflight.py must not contain runtime GitHub/git machinery: "
+                f"{fragment!r}"
+            )
+
+    def test_module_no_longer_defines_tag_peel_machinery(self) -> None:
+        assert not hasattr(mod, "verify_remote_annotated_tag_peel")
+        assert not hasattr(mod, "KAGGLE_PUBLIC_CANONICAL_REMOTE")
+        assert not hasattr(mod, "REMOTE_TAG_PROOF_TIMEOUT_SECONDS")
+        assert not hasattr(mod, "PILOT_STABLE_TAG")
+
+    def test_valid_complete_evidence_passes_without_git_or_network(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """The launch gate passes on the REAL local evidence files with
+        git/network provably impossible (subprocess blocked). The only
+        authorization basis is already-produced local Kaggle evidence."""
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        (tmp_path / "repo.json").write_text(
+            json.dumps({
+                "overall": "PASS",
+                "repositories": {
+                    "todo": {"passed": True},
+                    "djangocms": {"passed": True},
+                    "saleor": {"passed": True},
+                },
+            }),
+            encoding="utf-8",
+        )
+        (tmp_path / "model.json").write_text(
+            json.dumps({
+                "passed": True,
+                "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+                "requested_quantization_mode": "bnb-nf4",
+                "requested_attn_implementation": "sdpa",
+                "effective_attn_implementation": "sdpa",
+                "sdpa_kernel_policy": "flash_or_efficient_no_math",
+                "checks": ["repository_preflight_evidence: PASS"],
+                "long_context_probe": {
+                    "passed": True,
+                    "target_prompt_tokens": 16000,
+                    "prompt_tokens": 16384,
+                    "completion_tokens": 512,
+                    "cache_implementation": "offloaded",
+                },
+                "generation_deadline_probe": {
+                    "passed": True,
+                    "deadline_fired": True,
+                    "finish_reason": "timeout",
+                    "completion_tokens": 1,
+                },
+            }),
+            encoding="utf-8",
+        )
+        _write_real_dryrun(
+            tmp_path / "dryrun",
+            source_commit="abc123",
+            source_tag="v0.9.18-pilot-exec-ready",
+            deployed_build_id="build-001",
+        )
+
+        from benchmark.execution.preflight import (
+            validate_pilot_launch_authorization,
+        )
+
+        def forbid_network(argv: list[str], **_: object) -> object:
+            raise AssertionError(
+                f"launch authorization must NOT invoke git/network: {argv!r}"
+            )
+
+        monkeypatch.setattr(mod.subprocess, "run", forbid_network)
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=tmp_path / "dryrun",
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            expected_deployed_build_id="build-001",
+        )
+
+
+class TestLaunchAuthMandatoryDeadlineCanary:
+    """D9.3: launch authorization fails closed without a valid deadline canary."""
+
+    def _write_valid_repo_preflight(self, path: Path) -> None:
+        path.write_text(json.dumps({
+            "overall": "PASS",
+            "repositories": {
+                "todo": {"passed": True},
+                "djangocms": {"passed": True},
+                "saleor": {"passed": True},
+            },
+        }), encoding="utf-8")
+
+    def _write_dryrun(self, dryrun_dir: Path) -> None:
+        _write_real_dryrun(
+            dryrun_dir,
+            source_commit="abc123",
+            source_tag="v0.9.18-pilot-exec-ready",
+            deployed_build_id="build-001",
+        )
+
+    def _write_model(self, path: Path, *, canary: Any) -> None:
+        path.write_text(json.dumps({
+            "passed": True,
+            "model_identity": "Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+            "requested_quantization_mode": "bnb-nf4",
+            "requested_attn_implementation": "sdpa",
+            "effective_attn_implementation": "sdpa",
+            "sdpa_kernel_policy": "flash_or_efficient_no_math",
+            "checks": ["repository_preflight_evidence: PASS"],
+            "long_context_probe": {
+                "passed": True,
+                "target_prompt_tokens": 16000,
+                "prompt_tokens": 16384,
+                "completion_tokens": 512,
+                "cache_implementation": "offloaded",
+            },
+            "generation_deadline_probe": canary,
+        }), encoding="utf-8")
+
+    def _validate(self, tmp_path: Path, **_kw: object) -> None:
+        from benchmark.execution.preflight import validate_pilot_launch_authorization
+
+        validate_pilot_launch_authorization(
+            repo_preflight_json=tmp_path / "repo.json",
+            model_preflight_json=tmp_path / "model.json",
+            dryrun_dir=tmp_path / "dryrun",
+            expected_source_commit="abc123",
+            expected_source_tag="v0.9.18-pilot-exec-ready",
+            expected_model_identity="Qwen2.5-Coder-14B-Instruct-bnb-nf4",
+        )
+
+    def test_missing_canary_fails_closed(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_dryrun(tmp_path / "dryrun")
+        self._write_model(tmp_path / "model.json", canary=None)
+        from benchmark.execution.preflight import LaunchAuthorizationError
+
+        with pytest.raises(LaunchAuthorizationError, match="generation_deadline_probe"):
+            self._validate(tmp_path)
+
+    def test_eos_canary_fails_closed(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_dryrun(tmp_path / "dryrun")
+        self._write_model(
+            tmp_path / "model.json",
+            canary={
+                "passed": True,
+                "deadline_fired": False,
+                "finish_reason": "eos",
+                "completion_tokens": 512,
+            },
+        )
+        from benchmark.execution.preflight import LaunchAuthorizationError
+
+        with pytest.raises(LaunchAuthorizationError, match="deadline_fired != true"):
+            self._validate(tmp_path)
+
+    def test_valid_canary_passes(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("HF_TOKEN", "test-token-123")
+        self._write_valid_repo_preflight(tmp_path / "repo.json")
+        self._write_dryrun(tmp_path / "dryrun")
+        self._write_model(tmp_path / "model.json", canary={
+            "passed": True,
+            "deadline_fired": True,
+            "finish_reason": "timeout",
+            "completion_tokens": 1,
+        })
+        self._validate(tmp_path)
 

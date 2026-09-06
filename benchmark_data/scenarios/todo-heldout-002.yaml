@@ -1,0 +1,23 @@
+scenario_id: "todo-heldout-002"
+repository: todo
+change_type: "Task list filtering"
+blast_radius: localized
+requirement_before: >
+  The task list returns tasks from all projects and has no request parameter for restricting
+  the list to one project.
+requirement_after: >
+  The task list must accept an optional `project` query parameter containing a project id.
+  When supplied, only tasks belonging to that project are returned. When omitted, listing
+  behavior remains unchanged. The task representation and stored data must not change.
+rationale: "Held-out user-level query behavior change."
+acceptance_criteria:
+  - "Filtering by a valid project id returns only that project's tasks"
+  - "Without the parameter, listing behavior is unchanged"
+  - "Stored task data and response fields are unchanged"
+expected_affected_artifacts:
+  - "todo/views.py"
+expected_actions:
+  "todo/views.py": modify
+regression_obligations: []
+architecture_constraints: []
+hidden_tests: []

@@ -22,7 +22,7 @@ class CheckpointData:
     current_run_id: str = ""
     total_planned: int = 0
     total_completed: int = 0
-    protocol_version: str = "1.0"
+    protocol_version: str = "1.1"
     model_identity: str = ""
     config_hash: str = ""
     source_commit: str = ""

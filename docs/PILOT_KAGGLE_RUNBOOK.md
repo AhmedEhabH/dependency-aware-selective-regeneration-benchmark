@@ -1,11 +1,45 @@
 # PILOT KAGGLE RUNBOOK — PILOT-EXEC-01
 
-**Status:** PENDING CANDIDATE ARTIFACT — CURRENT STATE v0.9.22 CANDIDATE
-(long-context attention memory closure branch merged to main; notebook/deployment
-anchors to be frozen for the PLANNED tag `v0.9.22-pilot-exec-ready`; exact
-candidate artifact built from the merge commit). The stable tag DOES NOT EXIST
-YET: the fresh real 2x T4 Kaggle model preflight (same 12k target, same 64-token
-probe) MUST PASS first. Pilot NOT started; no 48-cell launch while untagged.
+**Status (D12 — 2026-09-01):** D12 NOTEBOOK ORCHESTRATION FIX CLOSURE — SCRIPT_PATH DEFINED ONCE IN CELL 4 BEFORE FIRST CANARY USE (FIXES THE CANARY STANDALONE NameError); D12 CANDIDATE `v0.9.22-d12-candidate` BUILT + PROVENANCE-VERIFIED FROZEN; NOT A RELEASE; NO STABLE TAG MOVE; D11 CANDIDATE SUPERSEDED. D12 fixes the verified in-flight blocker: cell 20 (`pilot-canary-cell`) reads SCRIPT_PATH but only cell 22 (`dryrun-cell`) defined it, so the canary could not run as an independent notebook stage (`NameError: name 'SCRIPT_PATH' is not defined`). The single canonical `SCRIPT_PATH = CODE_DIR / "seven_arm_benchmark.py"` + `FileNotFoundError` guard now lives in cell 4 (`pilot-archive-verify-cell`) after CODE_DIR existence checks and before ANY use; the duplicate def/guard was deleted from the dry-run cell. Nothing scientific changed. The next REAL Pilot launch requires a NEW freshly-finalized artifact with its own real pilot-canary pass and its own tag decision — the retired `v0.9.22-pilot-exec-ready` tag and the `edae1b7e…8c4a` artifact are NOT reused, and the D11 candidate is SUPERSEDED. Scientific version remains v0.9.22 (never v0.9.23); scientific inputs unchanged. A NEW D12 candidate artifact **`v0.9.22-d12-candidate`** was built + provenance-verified FROZEN (source commit `84acb8b…`, archive SHA-256 **`812d37555a42f8fbdfbbb2e5441c814fb733cfd424ca75c810ead96a0bc4346a`** + sidecar; deployed build id `84acb8b`; created-utc 2026-09-01T18:40:35+00:00; protocol 1.1; exact-artifact dry-runs Pilot 48/48 + canary 6/6, canonical `validate_pilot_dryrun_evidence` PASS) — NOT a launch basis (needs a real pilot-canary pass + own tag decision). Full suite: **2589 passed / 33 skipped / 0 failed**. Report: `reports/V0922_D12_NOTEBOOK_ORCHESTRATION_FIX_CLOSURE_REPORT.md`; freeze `reports/pilot_notebook_trust_freeze.json`.
+
+**Status (PRIOR — 2026-08-30, SUPERSEDED by D10):** EXACT D9.6 ARTIFACT REAL 2×T4 PREFLIGHT PASSED + STABLE TAG
+EXISTS — v0.9.22 RELEASE. The real exact-artifact 2x T4 Kaggle model
+preflight PASSED on 2026-08-30 against the exact D9.6 artifact
+`dist/pilot-kaggle-upload.zip` SHA-256
+`edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (source
+commit `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`, build id `478261f`). The
+annotated stable tag **`v0.9.22-pilot-exec-ready` now EXISTS** and peels to
+`478261ff595d3d64ed9d5bab32d1cc90d7dabd77` (tag object
+`fdcb409670e040a287811840ddbcab475816a7e5`, pushed to origin, verified with
+configured authenticated origin credentials). The real 48-cell Pilot has NOT
+started; the ONLY remaining operational step is, in the still-live Kaggle
+session, to run Step 8 "Pilot Launch — STOP Until Stable Tag Is Confirmed" /
+`pilot-launch-cell`. Never resume `exp-20260828-151335` (zero accepted
+RunRecords). GitHub privacy is irrelevant to Kaggle execution; GitHub is
+owner-controlled source/release storage only; no anonymous/public readability
+probe. Artifact REMAINS `edae1b7e…8c4a`; no rebuild / no finalizer run for this
+closure. Scientific contract unchanged; remains v0.9.22 (never v0.9.23); full
+suite remains previously accepted 2538 passed / 33 skipped / 0 failed (carried).
+Report: `reports/V0922_D9_6_REAL_T4_PASS_STABLE_TAG_CLOSURE_REPORT.md`.
+
+> **PRIOR TRUTH (2026-08-29, SUPERSEDED by the D9.6 real 2×T4 PASS + stable-tag
+> closure): EXACT D9.6 CANDIDATE ARTIFACT FROZEN — CURRENT v0.9.22 CANDIDATE.**
+> The dry-run gate is canonical (bundled `dryrun-cell` calls
+> `validate_pilot_dryrun_evidence`, never a fabricated top-level `total_tokens`),
+> launch/resume validation argv is executable and AST-guarded, and D9 closes the
+> real-run in-flight timeout/heartbeat defect (decode-step workflow-deadline
+> enforcement + 30 s heartbeats, mandatory real-Qwen generation-deadline canary,
+> eager model init, per-run guard reinstall, interrupt-safe cleanup/resume). The
+> Kaggle launch and resume cells NEVER contact GitHub: the only pre-command gate is
+> the local `validate_pilot_launch_authorization` in BOTH cells, and the stable
+> `v0.9.22-pilot-exec-ready` tag is created and locally verified against the
+> owner-controlled, locally verified source commit after real preflight passes.
+> The stable tag DOES NOT EXIST YET: the fresh real 2x T4 Kaggle model preflight
+> (GQA microprobe + generation-deadline canary + short + same 12k/64 probe) MUST
+> PASS first. Pilot NOT started; no 48-cell launch while untagged. The prior
+> `02d16ca2…` (D8) / `913e8065…` (D9) / `e0a64937…` (D7) / `ce40b330…` artifacts
+> are SUPERSEDED and must not be uploaded. Never resume rejected experiment
+> `exp-20260828-151335` (0 accepted RunRecords).
 
 > **HISTORICAL NOTE:** earlier versions of this runbook targeted
 > `v0.9.9-pilot-exec-ready` (and were never updated through v0.9.19/v0.9.20),
@@ -18,9 +52,9 @@ probe) MUST PASS first. Pilot NOT started; no 48-cell launch while untagged.
 
 | Item | Value |
 |---|---|
-| Source tag | `v0.9.22-pilot-exec-ready` (PLANNED — fill/verify at Phase 2 freeze; git tag created ONLY after the Kaggle 12k probe PASSES) |
-| Source commit (= future tag peel) | `ba08392552545baa15c10ae5db2e95ce7496a720 (main merge; == future tag peel; consistency closure superseded the first freeze 4827045) |
-| Artifact SHA-256 | `3fd986262936972a6f12adbae21e844adef488dfd76ef0e4b2e6e434b2aa65b3 (+ sidecar verified equal; built from the merge commit by the two-pass finalizer with --verify-source-provenance) |
+| Source tag | `v0.9.22-pilot-exec-ready` (PLANNED — annotate ONLY after the Kaggle 12k probe PASSES at `478261f…`; the annotated tag is then locally verified against the owner-controlled, locally verified source commit — runtime never contacts GitHub) |
+| Source commit (= future tag peel) | `478261ff595d3d64ed9d5bab32d1cc90d7dabd77` (D9.6 notebook-markdown cell-labels closure artifact source on top of the D9.6 Kaggle/GitHub boundary correction; build id `478261f`; future tag target) |
+| Artifact SHA-256 | `edae1b7e5be7ebab642d1e3c068dda3842a8061b8b04ab84c027d43a38dc8c4a` (+ sidecar verified equal; two-pass finalizer with `--verify-source-provenance`; FROZEN, 0 mismatches, idempotent) |
 | Sidecar | `dist/pilot-kaggle-upload.zip.sha256` (must equal the archive hash) |
 | Trust / provenance | 0 mismatches required |
 | Exact artifact dry-run | 48/48 succeeded, 48 unique IDs, 0 model calls required |
@@ -52,17 +86,21 @@ proof is REQUIRED before any tag or Pilot:
    attach the frozen Pilot notebook and Qwen 14B input; Internet ON;
    `HF_TOKEN` secret set.
 2. Run the notebook cells THROUGH the model preflight ONLY: repository
-   preflight PASS, Qwen 14B BNB-NF4 load PASS (`qwen_model_load[bnb-nf4]: PASS`),
-   short generation probe PASS, **12k long-context probe PASS**, and canonical
+   preflight PASS (+ heartbeat), Qwen 14B BNB-NF4 load PASS (`qwen_model_load[bnb-nf4]: PASS`),
+   GQA microprobe PASS, **generation-deadline canary PASS** (`completion_tokens` in
+   `[1, 8]`, proving the workflow-deadline path, NOT EOS/length), short generation
+   probe PASS, **12k long-context probe PASS**, and canonical
    attention evidence in the persisted JSON:
    `requested_attn_implementation=sdpa`,
    `effective_attn_implementation=sdpa`,
    `sdpa_kernel_policy=flash_or_efficient_no_math`, plus the human-table line
    `attention_policy: PASS`.
-3. Do NOT launch any scientific cell while the stable tag does not exist. On
-   PASS → annotate `v0.9.22-pilot-exec-ready` AT the tested merge commit, push
-   the tag, THEN continue per Section 3 in a fresh session. On FAIL → return to
-   the SAME v0.9.22 task (never spawn v0.9.23).
+ 3. Do NOT launch any scientific cell while the stable tag does not exist. On
+    PASS → locally annotate `v0.9.22-pilot-exec-ready` AT the tested source
+    commit `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`, verify it locally against
+    the owner-controlled source commit, push the tag, THEN continue per
+    Section 3 in a fresh session. On FAIL → return to the SAME v0.9.22 task
+    (never spawn v0.9.23). Never resume the rejected `exp-20260828-151335`.
 
 ## Canonical Gate C deployment shape
 
@@ -146,11 +184,11 @@ COMMIT (recorded in the table above) with 0 mismatches required; freeze evidence
    traversal/drive/`..` destinations, collisions, missing blobs, and leftover
    blobs), then removes `kaggle_transport/`. This happens BEFORE any manifest
    or repository verification.
-4. Verify `pilot_deployment_identity.json`: task `PILOT-EXEC-01`, source tag
-   `v0.9.22-pilot-exec-ready` (planned), source commit
-   `ba08392552545baa15c10ae5db2e95ce7496a720`; the identity-verify cell anchors
-   `source_tag` and the full `FROZEN_DEPLOYMENT` to the frozen constants in
-   BOTH modes.
+ 4. Verify `pilot_deployment_identity.json`: task `PILOT-EXEC-01`, source tag
+      `v0.9.22-pilot-exec-ready` (planned), source commit
+      `478261ff595d3d64ed9d5bab32d1cc90d7dabd77`; the identity-verify cell anchors
+    `source_tag` and the full `FROZEN_DEPLOYMENT` to the frozen constants in
+    BOTH modes.
 5. Verify the code/data manifests against the freeze report.
 6. Bundled paths:
    ```python
@@ -228,8 +266,8 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python todo=<TODO_PYTHON> \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
-    --validation-timeout 1800 \
-    --source-commit ba08392552545baa15c10ae5db2e95ce7496a720 \
+--validation-timeout 1800 \
+--source-commit 478261ff595d3d64ed9d5bab32d1cc90d7dabd77 \
     --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \
@@ -275,8 +313,8 @@ python /kaggle/working/pilot_bundle/code/seven_arm_benchmark.py \
     --validation-python todo=<TODO_PYTHON> \
     --validation-python djangocms=<DJANGO_PYTHON> \
     --validation-python saleor=<SALEOR_PYTHON> \
-    --validation-timeout 1800 \
-    --source-commit ba08392552545baa15c10ae5db2e95ce7496a720 \
+--validation-timeout 1800 \
+--source-commit 478261ff595d3d64ed9d5bab32d1cc90d7dabd77 \
     --source-tag v0.9.22-pilot-exec-ready \
     --data-dir /kaggle/working/pilot_bundle/data \
     --model-path /kaggle/input/<pilot-model-slug> \

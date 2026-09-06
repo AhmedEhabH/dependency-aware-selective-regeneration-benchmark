@@ -1,0 +1,29 @@
+scenario_id: "todo-heldout-006"
+repository: todo
+change_type: "Task lock policy"
+blast_radius: moderate
+requirement_before: >
+  Tasks have no locked state. Their existing write authorization is based on ownership.
+requirement_after: >
+  Tasks must support a locked state that API clients can read and change. Locked tasks remain
+  readable, but a locked task cannot be updated or deleted by a normal user even if that user
+  would otherwise be allowed to modify it. Staff users may update or delete locked tasks.
+  Existing authorization for unlocked tasks remains unchanged.
+rationale: "Held-out schema + representation + authorization change."
+acceptance_criteria:
+  - "Tasks have a locked state defaulting to false"
+  - "The locked state is visible and writable through the API"
+  - "Normal users cannot update or delete locked tasks"
+  - "Staff users may update or delete locked tasks"
+  - "Unlocked-task authorization remains unchanged"
+expected_affected_artifacts:
+  - "todo/models.py"
+  - "todo/serializers.py"
+  - "todo/permissions.py"
+expected_actions:
+  "todo/models.py": modify
+  "todo/serializers.py": modify
+  "todo/permissions.py": modify
+regression_obligations: []
+architecture_constraints: []
+hidden_tests: []

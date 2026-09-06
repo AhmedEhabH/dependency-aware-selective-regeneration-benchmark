@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import logging
 import re
 import time
@@ -281,8 +282,13 @@ class RunnerConfig:
     editable_artifact_paths: tuple[str, ...] = ()
     max_completion_tokens_per_call: int = 4096
     max_total_workflow_tokens: int = 0
+    agent_control_max_completion_tokens: int = 512
     canonical_project_root: str | Path | None = None
     python_executable: str = ""
+    exact_patch: bool = False
+    validation_python: str | None = None
+    scientific_gold_isolation: bool = False
+    selection_only: bool = False
     extra: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -304,6 +310,15 @@ class RunnerConfig:
         if self.max_tokens < 0:
             n = self.max_tokens
             raise ValueError(f"RunnerConfig.max_tokens must be >= 0, got {n}")
+        if isinstance(self.agent_control_max_completion_tokens, bool):
+            raise ValueError(
+                "RunnerConfig.agent_control_max_completion_tokens must be integer, not bool"
+            )
+        if self.agent_control_max_completion_tokens <= 0:
+            n = self.agent_control_max_completion_tokens
+            raise ValueError(
+                "RunnerConfig.agent_control_max_completion_tokens must be > 0, got {n}"
+            )
         _ = self.resolved_max_total_workflow_tokens
 
     @property
@@ -459,7 +474,10 @@ class BenchmarkRunner:
                 workspace_root=self._isolation.workspace.root,
                 command=pgc,
                 require_new_migration=scenario.require_new_migration,
+                migration_directory=scenario.migration_directory,
                 timeout=self._config.validation_timeout,
+                resolved_interpreter=self._config.validation_python,
+                env=self._config.validation_env,
             )
             if not migration_result.passed:
                 m_stdout = _compact_head_tail(migration_result.stdout)
@@ -563,11 +581,12 @@ class BenchmarkRunner:
     # -------------------------------------------------------------------
 
     def _requires_scenario_evaluator(self, scenario: Scenario) -> bool:
-        return bool(
-            scenario.post_generation_command
-            or scenario.require_new_migration
-            or scenario.evaluator_asset
-        )
+        # D13r1 F3: the scenario evaluator is coupled ONLY to ``evaluator_asset``.
+        # Post-generation migration execution (``post_generation_command`` /
+        # ``require_new_migration``) is a standalone scientific stage and must
+        # NOT drag an evaluator requirement behind it (a migration-only scenario
+        # with no evaluator_asset is valid and must run its migration stage).
+        return bool(scenario.evaluator_asset)
 
     def _validate_scientific_configuration(
         self,
@@ -582,12 +601,9 @@ class BenchmarkRunner:
                 message="require_new_migration=True but post_generation_command is empty",
                 stage="configuration",
             )
-        if self._requires_scenario_evaluator(scenario) and not scenario.evaluator_asset:
-            return FailureRecord(
-                failure_kind=FailureKind.harness_defect,
-                message="Scenario metadata requires evaluator but evaluator_asset is empty",
-                stage="configuration",
-            )
+        # D13r1 F3: a migration-only scenario (post_generation_command /
+        # require_new_migration WITHOUT evaluator_asset) is a valid configuration
+        # — migration execution is decoupled from the scenario evaluator.
         if scenario.evaluator_asset:
             if not                 self._config.canonical_project_root:
                 return FailureRecord(
@@ -785,6 +801,25 @@ class BenchmarkRunner:
         )
 
     def _build_scenario_context(self, scenario: Scenario) -> RegenerationScenarioContext:
+        if self._config.scientific_gold_isolation:
+            # D046 / PA-001: the scientific profile is fail-closed against gold
+            # leakage. expected_actions (gold) and gold artifact_instructions are
+            # NEVER exposed to generation/repair prompts. Visible requirements,
+            # acceptance criteria, and architecture constraints may still be shared.
+            return RegenerationScenarioContext(
+                scenario_id=scenario.scenario_id,
+                requirement_before=scenario.requirement_before,
+                requirement_after=scenario.requirement_after,
+                acceptance_criteria=tuple(
+                    c.description for c in scenario.acceptance_criteria
+                ),
+                architecture_constraints=tuple(
+                    c.description for c in scenario.architecture_constraints
+                ),
+                expected_actions=(),
+                artifact_instructions=(),
+                gold_isolated=True,
+            )
         expected_actions: list[tuple[str, str]] = []
         for ref, action in scenario.expected_actions:
             if action == ActionKind.regenerate:
@@ -826,6 +861,7 @@ class BenchmarkRunner:
                 "selective",
                 "hybrid_selective",
                 "iterative_repository_agent",
+                "impact_plan",
             })
             if self._config.strategy_name not in _approved_strategies:
                 return self._build_failure_record(
@@ -841,6 +877,29 @@ class BenchmarkRunner:
 
         self._state.start()
         start_time = time.monotonic()
+        # D9: install the cooperative in-flight deadline guard on the strategy AND
+        # the shared backend for every run, so the backend never retains a prior
+        # run's deadline guard. Must happen before any model call.
+        self._apply_model_call_guards()
+
+        # Selection-only terminal path: analyze_impact exactly once, never
+        # revise_plan, never regenerate, never repair. Returns immediately.
+        if self._config.selection_only:
+            record = self._run_selection_only(scenario, start_time)
+            duration = time.monotonic() - start_time
+            identity = RunIdentity(
+                run_id=(record.identity.run_id if record.identity.run_id != "unknown"
+                        else self._build_run_id(scenario)),
+                protocol_version=self._config.protocol_version,
+                repository_commit_sha=scenario.scenario_id,
+                scenario_id=scenario.scenario_id,
+                strategy_name=self._config.strategy_name,
+            )
+            if record.status == RunStatus.succeeded:
+                self._state.succeed()
+            elif not self._state.is_terminal:
+                self._state.fail()
+            return replace(record, identity=identity, duration_seconds=duration)
 
         # Preflight scientific configuration before model generation
         if self._config.enable_regeneration:
@@ -882,7 +941,11 @@ class BenchmarkRunner:
                     )
                 else:
                     result = self._reclassify_infrastructure_failure(result)
-                    if self._is_repairable_failure(result) and self._budget.can_attempt:
+                    if (
+                        result.impact_plan is None
+                        and self._is_repairable_failure(result)
+                        and self._budget.can_attempt
+                    ):
                         record = self._run_regeneration_repair_flow(
                             scenario=scenario,
                             first_record=result,
@@ -1005,6 +1068,25 @@ class BenchmarkRunner:
         setter = getattr(self._strategy, "set_model_call_guard", None)
         if callable(setter):
             setter(lambda: not self._budget.timed_out)
+
+    def _apply_backend_model_call_guard(self) -> None:
+        """Hand the cooperative in-flight deadline to the shared LLM backend.
+
+        Installed for EVERY run so a shared backend can never retain a prior
+        run's deadline guard (each Runner owns a fresh ``BudgetManager``; the
+        lambda closes over THIS run's budget). Only backends that implement the
+        optional setter are affected; Mock/OpenRouter backends are untouched.
+        """
+        if self._backend is None:
+            return
+        setter = getattr(self._backend, "set_model_call_guard", None)
+        if callable(setter):
+            setter(lambda: not self._budget.timed_out)
+
+    def _apply_model_call_guards(self) -> None:
+        """Install the cooperative deadline guard on strategy AND backend."""
+        self._apply_strategy_model_call_guard()
+        self._apply_backend_model_call_guard()
 
     def _strategy_model_call_budget_exhausted(self) -> bool:
         return bool(getattr(self._strategy, "model_call_budget_exhausted", False))
@@ -1138,6 +1220,295 @@ class BenchmarkRunner:
                 duration_seconds=time.monotonic() - start_time,
             )
 
+    def _run_selection_only(
+        self,
+        scenario: Scenario,
+        start_time: float,
+    ) -> RunRecord:
+        """Selection-only terminal path (STAGE-C-SELECTION-01 / D052).
+
+        Calls ``analyze_impact`` EXACTLY ONCE for the given scenario/arm, then
+        returns a terminal record. It NEVER calls ``revise_plan``, NEVER invokes
+        ``SharedRegenerationExecutor``, and NEVER runs migrations, repair, or
+        the functional evaluator. The INITIAL prediction is persisted into
+        ``selection_study`` so later workflow state can never overwrite it.
+        """
+        try:
+            if self._budget.timed_out:
+                return self._workflow_budget_exhausted_record(
+                    scenario,
+                    start_time,
+                    "Workflow deadline reached before selection model call",
+                )
+
+            self._apply_strategy_model_call_guard()
+            repository_snapshot = self._build_repository_snapshot(scenario)
+            requirement_change = self._build_requirement_change(scenario)
+            artifact_universe = self._build_artifact_universe(scenario)
+
+            # Tools-based strategies (iterative agent) require begin_run to set
+            # up RepositoryTools before analyze_impact.
+            begin_run = getattr(self._strategy, "begin_run", None)
+            if callable(begin_run):
+                begin_run(self._isolation.workspace.root)
+                self._apply_strategy_model_call_guard()
+
+            selection_start = time.monotonic()
+            prediction = self._strategy.analyze_impact(
+                repository=repository_snapshot,
+                requirement_change=requirement_change,
+                artifact_universe=artifact_universe,
+            )
+            selection_duration = time.monotonic() - selection_start
+
+            if self._strategy_model_call_budget_exhausted():
+                return self._workflow_budget_exhausted_record(
+                    scenario,
+                    start_time,
+                    "Workflow deadline reached during selection model calls",
+                )
+
+            selection_tok = prediction.token_usage or TokenUsage()
+            if selection_tok.total_tokens > 0:
+                self._budget.record_tokens(selection_tok.total_tokens)
+
+            strategy_model_calls = int(getattr(self._strategy, "model_call_count", 0))
+            strategy_tool_calls = int(getattr(self._strategy, "tool_call_count", 0))
+            strategy_tool_duration = float(
+                getattr(self._strategy, "tool_duration_seconds", 0.0)
+            )
+            strategy_inspected = int(
+                getattr(self._strategy, "inspected_file_count", 0)
+            )
+            strategy_transcript = tuple(
+                getattr(self._strategy, "compact_tool_transcript", ())
+            )
+
+            acc = _WorkflowMetricAccumulator()
+            acc.add_selection(
+                selection_tok,
+                model_calls=strategy_model_calls,
+                duration_seconds=selection_duration,
+                tool_calls=strategy_tool_calls,
+                tool_duration_seconds=strategy_tool_duration,
+                inspected_file_count=strategy_inspected,
+            )
+            token_accounting_mode = getattr(
+                self._backend, "token_accounting_mode", "unknown"
+            )
+            fields = acc.as_record_fields(
+                final_scientific_result=None,
+                token_accounting_mode=token_accounting_mode,
+            )
+
+            predicted_actions = self._predicted_actions_map(prediction)
+            counts = compute_artifact_counts(prediction)
+            regenerate_paths = [
+                path for path, action in predicted_actions.items()
+                if action == ActionKind.regenerate.value
+            ]
+
+            # ImpactPlan evidence (extract the full R/P/V/H actions + context).
+            impact_plan_actions: dict[str, str] = {}
+            context_set: list[str] = []
+            validation_obligations: list[str] = []
+            impact_plan_dict: dict[str, Any] | None = None
+            impact_plan_hash = ""
+            impact_plan_version = ""
+            impact_plan_parent_hash: str | None = None
+            planner_metrics = self._impact_plan_metrics(prediction.impact_plan)
+            if prediction.impact_plan is not None:
+                impact_plan_dict = self._impact_plan_to_dict(prediction.impact_plan)
+                plan_decisions = impact_plan_dict.get("decisions", [])
+                impact_plan_actions = {
+                    d.get("path", ""): d.get("action", "")
+                    for d in plan_decisions
+                    if isinstance(d, dict)
+                }
+                impact_plan_actions = {k: v for k, v in impact_plan_actions.items() if k}
+                context_set = list(impact_plan_dict.get("context_set", []) or [])
+                validation_obligations = [
+                    o.get("obligation_id", str(o))
+                    for o in (impact_plan_dict.get("validation_obligations", []) or [])
+                    if isinstance(o, dict)
+                ]
+                impact_plan_hash = str(impact_plan_dict.get("plan_hash", ""))
+                impact_plan_version = str(
+                    impact_plan_dict.get("plan_version", "")
+                )
+                impact_plan_parent_hash = impact_plan_dict.get("parent_plan_hash")
+            else:
+                impact_plan_actions = {
+                    d.artifact.path: d.action.value
+                    for d in (prediction.decisions or ())
+                    if d.action.value in (
+                        ActionKind.regenerate.value,
+                        ActionKind.preserve.value,
+                        ActionKind.validate_only.value,
+                        ActionKind.human_review.value,
+                    )
+                }
+
+            finish_reason = str(
+                getattr(self._strategy, "selection_finish_reason", "") or ""
+            )
+            raw_hashes = list(
+                getattr(self._strategy, "selection_raw_response_hashes", ()) or ()
+            )
+            failure_evidence = self._bounded_failure_evidence(prediction)
+
+            selection_study: dict[str, Any] = {
+                "initial_predicted_actions": dict(predicted_actions),
+                "initial_regenerate_source_paths": regenerate_paths,
+                "agent_selected_paths": list(regenerate_paths),
+                "agent_control_calls": strategy_model_calls,
+                "agent_tool_calls": strategy_tool_calls,
+                "agent_inspected_files": strategy_inspected,
+                "impact_plan_actions": dict(impact_plan_actions),
+                "context_set": context_set,
+                "validation_obligations": validation_obligations,
+                "prompt_tokens": selection_tok.prompt_tokens,
+                "completion_tokens": selection_tok.completion_tokens,
+                "total_tokens": selection_tok.total_tokens,
+                "latency_seconds": selection_duration,
+                "finish_reason": finish_reason,
+                "truncation": bool(finish_reason == "length"),
+                "provider_usage": {"token_accounting_mode": token_accounting_mode},
+                "errors": list(prediction.errors),
+                "raw_response_sha256": raw_hashes,
+                "failure_evidence": failure_evidence,
+            }
+
+            self._last_prediction = prediction
+
+            legacy_prompt = (
+                fields["selection_prompt_tokens"]
+                + fields["regeneration_prompt_tokens"]
+                + fields["repair_prompt_tokens"]
+            )
+            legacy_completion = (
+                fields["selection_completion_tokens"]
+                + fields["regeneration_completion_tokens"]
+                + fields["repair_completion_tokens"]
+            )
+
+            if prediction.errors:
+                status = RunStatus.failed
+                failures: tuple[FailureRecord, ...] = (
+                    FailureRecord(
+                        failure_kind=FailureKind.model_output,
+                        message=prediction.errors[0],
+                        details="; ".join(prediction.errors),
+                        stage="analyze_impact",
+                    ),
+                )
+            else:
+                status = RunStatus.succeeded
+                failures = ()
+
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=status,
+                prediction=prediction,
+                token_usage=TokenUsage(
+                    prompt_tokens=legacy_prompt,
+                    completion_tokens=legacy_completion,
+                    total_tokens=fields["total_workflow_tokens"],
+                ),
+                duration_seconds=time.monotonic() - start_time,
+                failures=failures,
+                **fields,
+                selection_tool_transcript=strategy_transcript,
+                selected_artifact_count=counts.get("selected", 0),
+                regenerated_artifact_count=0,
+                preserved_artifact_count=counts.get("preserve", 0),
+                unresolved_human_review_count=counts.get("human_review", 0),
+                predicted_actions=predicted_actions,
+                changed_artifact_paths=(),
+                impact_plan=(
+                    {"plan": impact_plan_dict, "final_after_expansion": False}
+                    if impact_plan_dict is not None
+                    else None
+                ),
+                impact_plan_hash=impact_plan_hash,
+                impact_plan_version=impact_plan_version,
+                impact_plan_parent_hash=impact_plan_parent_hash,
+                impact_expansion_count=0,
+                escalated_to_human_review=False,
+                prohibited_write_attempts=0,
+                planner_prompt_tokens=planner_metrics["prompt_tokens"],
+                planner_completion_tokens=planner_metrics["completion_tokens"],
+                planner_total_tokens=planner_metrics["total_tokens"],
+                planner_model_calls=planner_metrics["model_calls"],
+                planner_latency_seconds=planner_metrics["latency_seconds"],
+                selection_study=selection_study,
+            )
+        except BudgetExhaustedError:
+            return self._workflow_budget_exhausted_record(
+                scenario,
+                start_time,
+                "Workflow budget exhausted during attempt",
+            )
+        except ModelBackendError as e:
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.failed,
+                failures=(
+                    FailureRecord(
+                        failure_kind=FailureKind.model_output,
+                        message=str(e.message) if hasattr(e, "message") else str(e),
+                        details=f"{e.__class__.__name__}: {e!r}",
+                        stage="backend.generate",
+                    ),
+                ),
+                duration_seconds=time.monotonic() - start_time,
+            )
+        except ProtocolViolationError as e:
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.failed,
+                failures=(
+                    FailureRecord(
+                        failure_kind=FailureKind.harness_defect,
+                        message=str(e.message) if hasattr(e, "message") else str(e),
+                        details=f"{e.__class__.__name__}: {e!r}",
+                        stage="protocol",
+                    ),
+                ),
+                duration_seconds=time.monotonic() - start_time,
+            )
+        except BenchmarkError as e:
+            return RunRecord(
+                identity=self._build_run_identity(scenario),
+                status=RunStatus.failed,
+                failures=(
+                    FailureRecord(
+                        failure_kind=FailureKind.infrastructure,
+                        message=str(e.message) if hasattr(e, "message") else str(e),
+                        details=f"{e.__class__.__name__}: {e!r}",
+                        stage="runner",
+                    ),
+                ),
+                duration_seconds=time.monotonic() - start_time,
+            )
+
+    def _bounded_failure_evidence(self, prediction: ImpactPrediction) -> str:
+        """Return a bounded redacted excerpt on failure (or empty on success).
+
+        The raw response SHA-256 is persisted separately; this holds only a
+        short head/tail excerpt so no full, potentially secret-bearing raw text
+        is stored.
+        """
+        if not prediction.errors:
+            return ""
+        pieces = [str(err) for err in prediction.errors if str(err)]
+        joined = " || ".join(pieces)
+        if len(joined) <= 700:
+            return joined
+        head = 300
+        tail = 300
+        return joined[:head] + f" [... {len(joined) - head - tail} chars omitted ...] " + joined[-tail:]
+
     def _run_regeneration_flow(
         self,
         scenario: Scenario,
@@ -1147,10 +1518,22 @@ class BenchmarkRunner:
         start_time: float,
         selection_duration: float = 0.0,
     ) -> RunRecord:
-        selector = ArtifactSelector()
-        selection = selector.select(prediction, artifact_universe)
-        regen_planner = RegenerationPlanner()
-        plan = regen_planner.plan(selection, prediction)
+        # Stage-C ImpactPlan arm: if the strategy produced a first-class plan,
+        # build the executable plan from its write_set (write_set == {R}) and
+        # persist the plan BEFORE any source write. Otherwise use the legacy
+        # selector path (unchanged).
+        impact_plan = prediction.impact_plan
+        final_impact_plan = impact_plan
+        if impact_plan is not None:
+            from benchmark.selection.planner import plan_from_impact_plan
+
+            plan = plan_from_impact_plan(impact_plan)
+            self._persist_impact_plan(impact_plan, scenario)
+        else:
+            selector = ArtifactSelector()
+            selection = selector.select(prediction, artifact_universe)
+            regen_planner = RegenerationPlanner()
+            plan = regen_planner.plan(selection, prediction)
 
         counts = compute_artifact_counts(prediction)
 
@@ -1174,9 +1557,15 @@ class BenchmarkRunner:
         acc = _WorkflowMetricAccumulator()
         acc.add_selection(
             selection_tok,
-            model_calls=0,
+            model_calls=int(getattr(self._strategy, "model_call_count", 0)),
             duration_seconds=selection_duration,
         )
+
+        # --- planner cost for the impact-plan arm (counted in proposed total) ---
+        impact_plan_hash = ""
+        impact_plan_version = ""
+        impact_plan_parent_hash: str | None = None
+        planner_metrics = self._impact_plan_metrics(impact_plan)
 
         if self._budget.timed_out:
             return self._workflow_budget_exhausted_record(
@@ -1190,11 +1579,13 @@ class BenchmarkRunner:
             scenario_context=self._build_scenario_context(scenario),
             max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
             remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
+            enable_exact_patch=self._config.exact_patch,
+            protocol_version=self._config.protocol_version,
         )
 
         self._budget.record_tokens(exec_result.total_tokens)
 
-        self._last_regeneration_hashes = exec_result.artifact_hashes
+        self._last_regeneration_hashes = dict(exec_result.artifact_hashes)
 
         if exec_result.model_call_budget_exhausted:
             acc.add_code_generation(exec_result, is_repair=False)
@@ -1223,14 +1614,138 @@ class BenchmarkRunner:
                 )
             )
 
-        if sci_result is not None and not sci_result.passed:
+        # --- one bounded expansion (v2) for the impact-plan arm ---
+        expansion_count = 0
+        escalated_to_h = False
+        if (
+            impact_plan is not None
+            and sci_result is not None
+            and not sci_result.passed
+            and impact_plan.plan_version == "v1"
+        ):
+            expand = getattr(self._strategy, "expand_plan", None)
+            if callable(expand):
+                v2_prediction = self._expand_plan_once(
+                    scenario=scenario,
+                    requirement_change=requirement_change,
+                    artifact_universe=artifact_universe,
+                    strategy_expand=expand,
+                    failure_summary=(sci_result.feedback or "validation failed"),
+                    parent_plan=impact_plan,
+                )
+                if v2_prediction is not None and v2_prediction.impact_plan is not None:
+                    v2_plan_obj = v2_prediction.impact_plan
+                    final_impact_plan = v2_plan_obj
+                    v2_plan = plan_from_impact_plan(v2_plan_obj)
+                    self._persist_impact_plan(v2_plan_obj, scenario)
+                    v2_tok = v2_prediction.token_usage or TokenUsage()
+                    acc.add_selection(
+                        v2_tok,
+                        model_calls=int(getattr(self._strategy, "model_call_count", 0)),
+                        duration_seconds=0.0,
+                    )
+                    v2_exec = executor.execute(
+                        v2_plan, self._isolation, requirement_delta=requirement_delta,
+                        scenario_context=self._build_scenario_context(scenario),
+                        max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
+                        remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
+                        enable_exact_patch=self._config.exact_patch,
+                        protocol_version=self._config.protocol_version,
+                    )
+                    self._budget.record_tokens(v2_exec.total_tokens)
+                    v2_sci = self._execute_scientific_validation(scenario, v2_exec)
+                    acc.add_code_generation(v2_exec, is_repair=True)
+                    if v2_sci is not None:
+                        acc.add_scientific(v2_sci)
+                    expansion_count += 1
+                    if v2_exec.model_call_budget_exhausted:
+                        return self._workflow_budget_exhausted_record(
+                            scenario,
+                            start_time,
+                            "Workflow deadline reached during impact-plan expansion",
+                            acc=acc,
+                            token_accounting_mode=token_accounting_mode,
+                        )
+                    if v2_sci is not None and v2_sci.passed and not v2_exec.failures:
+                        # resolved by v2: succeed below
+                        sci_result = v2_sci
+                        exec_result = v2_exec
+                        failures = []
+                        for f_msg in v2_exec.failures:
+                            failures.append(
+                                FailureRecord(
+                                    failure_kind=FailureKind.model_output,
+                                    message=f_msg,
+                                    details="SharedRegenerationExecutor failure (v2)",
+                                    stage="regeneration",
+                                )
+                            )
+                        impact_plan_hash = v2_plan_obj.plan_hash
+                        impact_plan_version = v2_plan_obj.plan_version
+                        impact_plan_parent_hash = v2_plan_obj.parent_plan_hash
+                        planner_metrics = self._impact_plan_metrics(v2_plan_obj)
+                    else:
+                        escalated_to_h = True
+                        failures.append(
+                            FailureRecord(
+                                failure_kind=FailureKind.build,
+                                message=(
+                                    "ImpactPlan bounded expansion (v2) exhausted; "
+                                    "escalating to HUMAN_REVIEW"
+                                ),
+                                details=(
+                                    f"plan_version={impact_plan.plan_version} parent_hash={impact_plan.plan_hash}"
+                                ),
+                                stage="human_review",
+                            )
+                        )
+                        if v2_sci is not None and not v2_sci.passed:
+                            failures.append(
+                                self._failure_from_scientific_result(v2_sci)
+                            )
+                        impact_plan_hash = v2_plan_obj.plan_hash
+                        impact_plan_version = v2_plan_obj.plan_version
+                        impact_plan_parent_hash = v2_plan_obj.parent_plan_hash
+                        planner_metrics = self._impact_plan_metrics(v2_plan_obj)
+
+        # --- final record assembly ---
+        if sci_result is not None and not sci_result.passed and impact_plan is None:
             failures.append(
                 self._failure_from_scientific_result(sci_result)
             )
+        elif impact_plan is not None and sci_result is not None and not sci_result.passed:
+            # Impact-plan arm: if v1 failed and expansion did not resolve the
+            # failure (or was not attempted), the v1 failure must be recorded.
+            if not escalated_to_h:
+                failures.append(
+                    self._failure_from_scientific_result(sci_result)
+                )
+            if expansion_count == 0:
+                # No bounded expansion was available/possible -> escalate to H.
+                escalated_to_h = True
+                failures.append(
+                    FailureRecord(
+                        failure_kind=FailureKind.build,
+                        message=(
+                            "ImpactPlan v1 failed and no further bounded expansion "
+                            "was possible; escalating to HUMAN_REVIEW"
+                        ),
+                        details=(
+                            f"plan_version={impact_plan.plan_version} "
+                            f"parent_hash={impact_plan.parent_plan_hash}"
+                        ),
+                        stage="human_review",
+                    )
+                )
 
         status = RunStatus.failed if failures else RunStatus.succeeded
 
         regenerated_count = sum(1 for a in exec_result.artifacts if a.status == "generated")
+        if impact_plan is not None and impact_plan_hash == "":
+            impact_plan_hash = impact_plan.plan_hash
+            impact_plan_version = impact_plan.plan_version
+            impact_plan_parent_hash = impact_plan.parent_plan_hash
+            planner_metrics = self._impact_plan_metrics(impact_plan)
 
         fields = acc.as_record_fields(
             final_scientific_result=sci_result,
@@ -1264,6 +1779,26 @@ class BenchmarkRunner:
             regenerated_artifact_count=regenerated_count,
             preserved_artifact_count=counts.get("preserve", 0),
             unresolved_human_review_count=counts.get("human_review", 0),
+            predicted_actions=self._predicted_actions_map(prediction),
+            changed_artifact_paths=self._compute_changed_artifact_paths(),
+            # Stage-C impact-plan evidence
+            impact_plan=None if final_impact_plan is None else {
+                "plan": self._impact_plan_to_dict(final_impact_plan),
+                "final_after_expansion": bool(
+                    impact_plan is not None and expansion_count > 0
+                ),
+            },
+            impact_plan_hash=impact_plan_hash,
+            impact_plan_version=impact_plan_version,
+            impact_plan_parent_hash=impact_plan_parent_hash,
+            impact_expansion_count=expansion_count,
+            escalated_to_human_review=escalated_to_h,
+            prohibited_write_attempts=int(getattr(exec_result, "prohibited_write_attempts", 0)),
+            planner_prompt_tokens=planner_metrics["prompt_tokens"],
+            planner_completion_tokens=planner_metrics["completion_tokens"],
+            planner_total_tokens=planner_metrics["total_tokens"],
+            planner_model_calls=planner_metrics["model_calls"],
+            planner_latency_seconds=planner_metrics["latency_seconds"],
         )
 
     def _is_repairable_failure(self, record: RunRecord) -> bool:
@@ -1400,6 +1935,8 @@ class BenchmarkRunner:
                 max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
                 remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
                 prior_attempt_hashes=prior_hashes,
+                enable_exact_patch=self._config.exact_patch,
+                protocol_version=self._config.protocol_version,
             )
             self._last_regeneration_hashes = dict(exec_result.artifact_hashes)
 
@@ -1467,6 +2004,8 @@ class BenchmarkRunner:
                     ),
                     preserved_artifact_count=counts.get("preserve", 0),
                     unresolved_human_review_count=counts.get("human_review", 0),
+                    predicted_actions=self._predicted_actions_map(prediction),
+                    changed_artifact_paths=self._compute_changed_artifact_paths(),
                 )
 
             if sci_result is not None and not sci_result.passed:
@@ -1555,6 +2094,8 @@ class BenchmarkRunner:
             regenerated_artifact_count=first_regen_count,
             preserved_artifact_count=counts.get("preserve", 0),
             unresolved_human_review_count=counts.get("human_review", 0),
+            predicted_actions=self._predicted_actions_map(prediction),
+            changed_artifact_paths=self._compute_changed_artifact_paths(),
         )
 
     def _run_iterative_flow(
@@ -1798,6 +2339,8 @@ class BenchmarkRunner:
                     scenario_context=self._build_scenario_context(scenario),
                     max_completion_tokens_per_call=self._config.max_completion_tokens_per_call,
                     remaining_total_workflow_tokens=self._budget.runtime_remaining_total_tokens,
+                    enable_exact_patch=self._config.exact_patch,
+                    protocol_version=self._config.protocol_version,
                 )
 
                 self._budget.record_tokens(exec_result.total_tokens)
@@ -1870,6 +2413,8 @@ class BenchmarkRunner:
                         regenerated_artifact_count=total_regenerated,
                         preserved_artifact_count=counts.get("preserve", 0),
                         unresolved_human_review_count=counts.get("human_review", 0),
+                        predicted_actions=self._predicted_actions_map(final_prediction),
+                        changed_artifact_paths=self._compute_changed_artifact_paths(),
                     )
 
                 repairability = "repairable_code"
@@ -1988,6 +2533,8 @@ class BenchmarkRunner:
                              if d.action == ActionKind.human_review])
                     or 0
                 ),
+                predicted_actions=self._predicted_actions_map(final_prediction),
+                changed_artifact_paths=self._compute_changed_artifact_paths(),
             )
         except BudgetExhaustedError:
             return self._workflow_budget_exhausted_record(
@@ -2086,8 +2633,127 @@ class BenchmarkRunner:
             )
         return active
 
+    def _predicted_actions_map(
+        self, prediction: ImpactPrediction | None
+    ) -> dict[str, str]:
+        """Persist the strategy's final per-path decision/action map.
+
+        D046 / PA-001: reconstructing the predicted regenerate-set exactly
+        requires the actual predicted action for every decision path.
+        """
+        if prediction is None:
+            return {}
+        return {d.artifact.path: d.action.value for d in prediction.decisions}
+
+    def _compute_changed_artifact_paths(self) -> tuple[str, ...]:
+        """Actual source-change evidence against the frozen active snapshot.
+
+        D046 / PA-001: preservation is scored from ACTUAL unintended changes to
+        preserve artifacts, not from the model predicting ``preserve``. Compare
+        every editable candidate artifact between the active snapshot and the
+        execution workspace; any byte-difference is an actual changed path.
+        Generated migrations are NOT editable candidates and stay in the
+        separate ``generated_migration_paths`` field.
+
+        Returns empty when no active snapshot is configured (legacy / non-scientific
+        contexts; always populated for the scientific profile).
+        """
+        if self._isolation.active_snapshot_root is None:
+            return ()
+        snapshot = Path(self._active_snapshot())
+        workspace_root = Path(self._isolation.workspace.root)
+        changed: list[str] = []
+        for rel in self._config.editable_artifact_paths:
+            snapshot_file = snapshot / rel
+            workspace_file = (workspace_root / rel).resolve()
+            if not snapshot_file.is_file():
+                continue
+            try:
+                if not workspace_file.is_file():
+                    changed.append(rel)
+                    continue
+                if snapshot_file.read_bytes() != workspace_file.read_bytes():
+                    changed.append(rel)
+            except OSError:
+                changed.append(rel)
+        changed.sort()
+        return tuple(changed)
+
+    def _persist_impact_plan(self, plan: Any, scenario: Scenario) -> None:
+        """Persist the ImpactPlan sidecar BEFORE any source write (Stage-C)."""
+        try:
+            from benchmark.selection.impact_planner import to_plan_dict
+
+            plan_dir = Path(self._isolation.workspace.root) / "impact_plans"
+            plan_dir.mkdir(parents=True, exist_ok=True)
+            run_tag = self._build_run_id(scenario)
+            sidecar = plan_dir / f"{run_tag}_{plan.plan_version}.json"
+            sidecar.write_text(
+                json.dumps(to_plan_dict(plan), indent=2, sort_keys=True),
+                encoding="utf-8",
+            )
+            logger.info(
+                "IMPACT_PLAN_PERSISTED path=%s plan_version=%s hash=%s",
+                sidecar, plan.plan_version, plan.plan_hash,
+            )
+        except Exception as exc:
+            logger.warning("ImpactPlan persistence failed: %s", exc)
+
+    def _impact_plan_metrics(self, plan: Any) -> dict[str, int]:
+        if plan is None:
+            return {
+                "prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0,
+                "model_calls": 0, "latency_seconds": 0,
+            }
+        tu = getattr(plan, "planner_token_usage", None)
+        prompt = getattr(tu, "prompt_tokens", 0)
+        completion = getattr(tu, "completion_tokens", 0)
+        total = getattr(tu, "total_tokens", prompt + completion)
+        return {
+            "prompt_tokens": int(prompt),
+            "completion_tokens": int(completion),
+            "total_tokens": int(total),
+            "model_calls": int(getattr(plan, "planner_model_calls", 0)),
+            "latency_seconds": int(round(float(getattr(plan, "planner_latency_seconds", 0.0)))),
+        }
+
+    def _impact_plan_to_dict(self, plan: Any) -> dict[str, Any]:
+        try:
+            from benchmark.selection.impact_planner import to_plan_dict
+
+            return to_plan_dict(plan)
+        except Exception:
+            return {}
+
+    def _expand_plan_once(
+        self,
+        *,
+        scenario: Scenario,
+        requirement_change: RequirementChange,
+        artifact_universe: ArtifactUniverse,
+        strategy_expand: Any,
+        failure_summary: str,
+        parent_plan: Any,
+    ) -> ImpactPrediction | None:
+        try:
+            repository_snapshot = self._build_repository_snapshot(scenario)
+            result = strategy_expand(
+                repository_snapshot,
+                requirement_change,
+                artifact_universe,
+                failure_summary=failure_summary,
+                parent_plan=parent_plan,
+            )
+            if result is None:
+                return None
+            assert isinstance(result, ImpactPrediction)
+            return result
+        except Exception as exc:
+            logger.warning("ImpactPlan expansion error: %s", exc)
+            return None
+
     def _build_repository_snapshot(self, scenario: Scenario) -> RepositorySnapshot:
-        if self._config.enable_regeneration:
+        if self._config.enable_regeneration or self._config.selection_only:
             return RepositorySnapshot(
                 identity=RepositoryIdentity(
                     name=scenario.repository,
@@ -2113,7 +2779,7 @@ class BenchmarkRunner:
         )
 
     def _build_artifact_universe(self, scenario: Scenario) -> ArtifactUniverse:
-        if self._config.enable_regeneration:
+        if self._config.enable_regeneration or self._config.selection_only:
             return ArtifactUniverse(
                 artifacts=resolve_allowed_artifacts(
                     self._active_snapshot(),

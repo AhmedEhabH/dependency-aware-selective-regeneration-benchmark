@@ -1,0 +1,216 @@
+# STAGE-C-SELECTION-01 results
+
+- Label: EXPLORATORY COMPONENT STUDY
+- Protocol: scientific-stagec-selection-01
+- Records: 30/30
+- Exact API cost: $0.052696
+
+No functional-correctness or end-to-end efficiency claim is made.
+
+## todo-smoke-001 / impact_plan
+- scenario_id: todo-smoke-001
+- strategy_id: impact_plan
+- n: 5
+- valid_finals: 5
+- full_recall_count: 5
+- precision_mean: 1.0000
+- precision_median: 1.0000
+- recall_mean: 1.0000
+- recall_median: 1.0000
+- f1_mean: 1.0000
+- f1_median: 1.0000
+- fnr_mean: 0.0000
+- fnr_median: 0.0000
+- write_set_size_mean: 3.0000
+- write_set_size_median: 3.0000
+- model_calls: 5
+- tokens: 10669
+- latency_seconds: 64.0940
+- api_cost_usd: 0.0066
+- R: 15
+- P: 6
+- V: 4
+- H: 0
+- human_review_rate_mean: 0.0000
+- validate_only_rate_mean: 0.1600
+
+## todo-smoke-001 / iterative_repository_agent
+- scenario_id: todo-smoke-001
+- strategy_id: iterative_repository_agent
+- n: 5
+- valid_finals: 5
+- full_recall_count: 5
+- precision_mean: 1.0000
+- precision_median: 1.0000
+- recall_mean: 1.0000
+- recall_median: 1.0000
+- f1_mean: 1.0000
+- f1_median: 1.0000
+- fnr_mean: 0.0000
+- fnr_median: 0.0000
+- write_set_size_mean: 3.0000
+- write_set_size_median: 3.0000
+- model_calls: 25
+- tokens: 22603
+- latency_seconds: 41.3130
+- api_cost_usd: 0.0074
+- agent_finalization_rate: 1.0000
+- agent_tool_calls: 20
+- agent_control_calls: 25
+- agent_inspected_files: 15
+
+## todo-smoke-002 / impact_plan
+- scenario_id: todo-smoke-002
+- strategy_id: impact_plan
+- n: 5
+- valid_finals: 5
+- full_recall_count: 5
+- precision_mean: 1.0000
+- precision_median: 1.0000
+- recall_mean: 1.0000
+- recall_median: 1.0000
+- f1_mean: 1.0000
+- f1_median: 1.0000
+- fnr_mean: 0.0000
+- fnr_median: 0.0000
+- write_set_size_mean: 2.0000
+- write_set_size_median: 2.0000
+- model_calls: 5
+- tokens: 11317
+- latency_seconds: 70.3900
+- api_cost_usd: 0.0069
+- R: 10
+- P: 10
+- V: 5
+- H: 0
+- human_review_rate_mean: 0.0000
+- validate_only_rate_mean: 0.2000
+
+## todo-smoke-002 / iterative_repository_agent
+- scenario_id: todo-smoke-002
+- strategy_id: iterative_repository_agent
+- n: 5
+- valid_finals: 5
+- full_recall_count: 5
+- precision_mean: 1.0000
+- precision_median: 1.0000
+- recall_mean: 1.0000
+- recall_median: 1.0000
+- f1_mean: 1.0000
+- f1_median: 1.0000
+- fnr_mean: 0.0000
+- fnr_median: 0.0000
+- write_set_size_mean: 2.0000
+- write_set_size_median: 2.0000
+- model_calls: 28
+- tokens: 30190
+- latency_seconds: 45.5330
+- api_cost_usd: 0.0097
+- agent_finalization_rate: 1.0000
+- agent_tool_calls: 23
+- agent_control_calls: 28
+- agent_inspected_files: 13
+
+## todo-smoke-003 / impact_plan
+- scenario_id: todo-smoke-003
+- strategy_id: impact_plan
+- n: 5
+- valid_finals: 5
+- full_recall_count: 5
+- precision_mean: 1.0000
+- precision_median: 1.0000
+- recall_mean: 1.0000
+- recall_median: 1.0000
+- f1_mean: 1.0000
+- f1_median: 1.0000
+- fnr_mean: 0.0000
+- fnr_median: 0.0000
+- write_set_size_mean: 4.0000
+- write_set_size_median: 4.0000
+- model_calls: 5
+- tokens: 12098
+- latency_seconds: 117.6100
+- api_cost_usd: 0.0074
+- R: 20
+- P: 5
+- V: 0
+- H: 0
+- human_review_rate_mean: 0.0000
+- validate_only_rate_mean: 0.0000
+
+## todo-smoke-003 / iterative_repository_agent
+- scenario_id: todo-smoke-003
+- strategy_id: iterative_repository_agent
+- n: 5
+- valid_finals: 5
+- full_recall_count: 5
+- precision_mean: 1.0000
+- precision_median: 1.0000
+- recall_mean: 1.0000
+- recall_median: 1.0000
+- f1_mean: 1.0000
+- f1_median: 1.0000
+- fnr_mean: 0.0000
+- fnr_median: 0.0000
+- write_set_size_mean: 4.0000
+- write_set_size_median: 4.0000
+- model_calls: 36
+- tokens: 45719
+- latency_seconds: 60.7980
+- api_cost_usd: 0.0146
+- agent_finalization_rate: 1.0000
+- agent_tool_calls: 31
+- agent_control_calls: 36
+- agent_inspected_files: 20
+
+## __all__ / iterative_repository_agent
+- scenario_id: __all__
+- strategy_id: iterative_repository_agent
+- n: 15
+- valid_finals: 15
+- full_recall_count: 15
+- precision_mean: 1.0000
+- precision_median: 1.0000
+- recall_mean: 1.0000
+- recall_median: 1.0000
+- f1_mean: 1.0000
+- f1_median: 1.0000
+- fnr_mean: 0.0000
+- fnr_median: 0.0000
+- write_set_size_mean: 3.0000
+- write_set_size_median: 3.0000
+- model_calls: 89
+- tokens: 98512
+- latency_seconds: 147.6440
+- api_cost_usd: 0.0318
+- agent_finalization_rate: 1.0000
+- agent_tool_calls: 74
+- agent_control_calls: 89
+- agent_inspected_files: 48
+
+## __all__ / impact_plan
+- scenario_id: __all__
+- strategy_id: impact_plan
+- n: 15
+- valid_finals: 15
+- full_recall_count: 15
+- precision_mean: 1.0000
+- precision_median: 1.0000
+- recall_mean: 1.0000
+- recall_median: 1.0000
+- f1_mean: 1.0000
+- f1_median: 1.0000
+- fnr_mean: 0.0000
+- fnr_median: 0.0000
+- write_set_size_mean: 3.0000
+- write_set_size_median: 3.0000
+- model_calls: 15
+- tokens: 34084
+- latency_seconds: 252.0940
+- api_cost_usd: 0.0209
+- R: 45
+- P: 21
+- V: 9
+- H: 0
+- human_review_rate_mean: 0.0000
+- validate_only_rate_mean: 0.1200

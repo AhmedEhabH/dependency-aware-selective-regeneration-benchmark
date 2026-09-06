@@ -259,6 +259,32 @@ class TestInputValidation:
         assert result.exit_code == -1
         assert "backslash" in result.stderr
 
+    def test_resolved_interpreter_nul_fails(self, tmp_path: Path) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+            resolved_interpreter="/opt/x\x00y/python",
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert "NUL" in result.stderr
+
+    def test_resolved_interpreter_non_string_fails(self, tmp_path: Path) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=[sys.executable, "-c", "exit(0)"],
+            require_new_migration=False,
+            timeout=10,
+            resolved_interpreter=123,  # type: ignore[arg-type]
+        )
+        assert result.passed is False
+        assert result.exit_code == -1
+        assert "resolved_interpreter" in result.stderr
+
     def test_missing_migration_directory_fails(self, tmp_path: Path) -> None:
         result = run_post_generation_command(
             workspace_root=tmp_path,
@@ -1834,6 +1860,43 @@ class TestInterpreterNormalization:
     def test_empty_command_returns_empty_list(self) -> None:
         assert _normalize_interpreter_command(()) == []
 
+    def test_bare_python_binds_to_absolute_resolved_interpreter(self) -> None:
+        custom = "C:/custom/runtimes/python.exe"
+        normalized = _normalize_interpreter_command(
+            ("python", "manage.py", "makemigrations", "todo", "--noinput"),
+            resolved_interpreter=custom,
+        )
+        assert normalized == [custom, "manage.py", "makemigrations", "todo", "--noinput"]
+
+    def test_bare_python_binds_to_absolute_posix_resolved_interpreter(self) -> None:
+        custom = "/opt/venv/repo/bin/python"
+        normalized = _normalize_interpreter_command(
+            ("python", "manage.py", "migrate"),
+            resolved_interpreter=custom,
+        )
+        assert normalized == [custom, "manage.py", "migrate"]
+
+    def test_bare_resolved_interpreter_falls_back_to_sys_executable(self) -> None:
+        normalized = _normalize_interpreter_command(
+            ("python", "manage.py", "makemigrations"),
+            resolved_interpreter="python",  # bare name: no deterministic mapping
+        )
+        assert normalized == [sys.executable, "manage.py", "makemigrations"]
+
+    def test_absolute_command_ignores_resolved_interpreter(self) -> None:
+        command = (sys.executable, "manage.py", "makemigrations")
+        normalized = _normalize_interpreter_command(
+            command, resolved_interpreter="C:/custom/python.exe"
+        )
+        assert normalized == list(command)
+
+    def test_non_python_command_ignores_resolved_interpreter(self) -> None:
+        command = ("git", "status")
+        normalized = _normalize_interpreter_command(
+            command, resolved_interpreter="C:/custom/python.exe"
+        )
+        assert normalized == list(command)
+
     def test_real_django_bare_python_command_succeeds(self, tmp_path: Path) -> None:
         import shutil
 
@@ -1873,6 +1936,95 @@ class TestInterpreterNormalization:
         )
         assert result.resolved_executable == sys.executable
         assert len(result.created_paths) == 1
+
+
+# =============================================================================
+# TestPostGenerationEnvParity — D13R2 Fix 3
+# =============================================================================
+
+
+class TestPostGenerationEnvParity:
+    """D13R2 Fix 3: post-generation commands must run with the same frozen
+    repository validation environment as baseline validation (FunctionalValidator
+    semantics), without mutating the parent ``os.environ``."""
+
+    def _env_probe_command(self, var: str) -> list[str]:
+        return [
+            sys.executable,
+            "-c",
+            f"import os; print(os.getenv({var!r}, '<unset>'))",
+        ]
+
+    def test_command_sees_test_env_override(self, tmp_path: Path) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=self._env_probe_command("D13R2_TEST_VAR"),
+            require_new_migration=False,
+            timeout=10,
+            env={"D13R2_TEST_VAR": "override-visible"},
+        )
+        assert result.passed is True, result.stderr
+        assert "override-visible" in result.stdout
+
+    def test_parent_os_environ_is_unchanged(self, tmp_path: Path) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        before = dict(os.environ)
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=self._env_probe_command("D13R2_TEST_VAR"),
+            require_new_migration=False,
+            timeout=10,
+            env={"D13R2_TEST_VAR": "override-visible"},
+        )
+        assert result.passed is True, result.stderr
+        after = dict(os.environ)
+        assert "D13R2_TEST_VAR" not in after
+        assert before == after
+
+    def test_saleor_shaped_env_reaches_command(self, tmp_path: Path) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        saleor_env = {
+            "DATABASE_URL": "postgres://saleor:saleor@127.0.0.1:5433/saleor",
+            "CACHE_URL": "redis://127.0.0.1:6379/0",
+            "SECRET_KEY": "ci-test",
+            "TZ": "UTC",
+        }
+        command = [
+            sys.executable,
+            "-c",
+            "import os; print(os.getenv('DATABASE_URL')); "
+            "print(os.getenv('CACHE_URL')); print(os.getenv('SECRET_KEY')); "
+            "print(os.getenv('TZ'))",
+        ]
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=command,
+            require_new_migration=False,
+            timeout=10,
+            env=saleor_env,
+        )
+        assert result.passed is True, result.stderr
+        for value in saleor_env.values():
+            assert value in result.stdout, f"missing {value!r} in stdout"
+
+    def test_resolved_validation_python_remains_command_executable(
+        self, tmp_path: Path
+    ) -> None:
+        _create_migration_dir(tmp_path, {"__init__.py": "# init"})
+        custom = sys.executable
+        assert os.path.isabs(custom)
+        result = run_post_generation_command(
+            workspace_root=tmp_path,
+            command=("python", "-c", "import os; print(os.getenv('D13R2_TEST_VAR'))"),
+            require_new_migration=False,
+            timeout=10,
+            resolved_interpreter=custom,
+            env={"D13R2_TEST_VAR": "override-visible"},
+        )
+        assert result.passed is True, result.stderr
+        assert result.resolved_executable == custom
+        assert "override-visible" in result.stdout
 
 
 # =============================================================================
