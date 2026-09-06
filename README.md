@@ -9,6 +9,18 @@
 [![Tests](https://img.shields.io/badge/tests-2%2C532%20passing-success.svg)](reports/PROJECT_HEALTH_REPORT.md)
 [![Legacy](https://img.shields.io/badge/Legacy%20orchestration%20smoke-v0.7.0-blue.svg)](https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark/releases)
 
+> **CURRENT SCIENTIFIC TARGET (2026-09-06, RESULTS-RECOVERY-02):**
+> `scientific-wip-impactplan-v1.1`. Historical `exp-20260905-225518` is
+> preserved verbatim as execution-interface diagnostic evidence (0/30 reached
+> functional validation) and is excluded from the v1.1 comparison. The only
+> interface corrections are native JSON-schema PatchEnvelope, structured Agent
+> actions (calls 1-7 explore; call 8 forced final; no call 9), file-or-directory
+> `search_text`, and repair/failure preservation of ImpactPlan/planner
+> provenance. Model `qwen/qwen3-coder`; DeepInfra pinned through OpenRouter;
+> fallback off. Frozen maximum completion budgets are 1024/4096/8192/8192 for
+> Agent/ImpactPlan/initial patch/repair patch. Production Tier M/L scaling is
+> documentation only. D051/A032 govern this recovery.
+
 > **CURRENT SCIENTIFIC TARGET (2026-09-05, IMPACTPLAN-WIP-01 — UNIFIED
 > RESEARCH PATH):** the pre-main Todo correctness-first micro-study is now
 > `SCIENTIFIC-WIP-IMPACTPLAN-V1`: the Selective/proposed arm must produce and

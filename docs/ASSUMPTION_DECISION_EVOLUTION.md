@@ -898,6 +898,27 @@ Status: **CHANGED on 2026-09-05; D047.**
 
 ---
 
+## A032 — The model maximum output capacity is the operational output budget
+
+### Initial assumption
+The model/provider maximum completion allowance could safely serve as the default ceiling for scientific repository work.
+
+### Why it seemed reasonable
+A larger limit appears to reduce truncation risk and the selected model exposes substantially more output capacity than the Todo tasks normally require.
+
+### Obstacle
+An open ceiling increases worst-case cost, latency, repetition exposure, and provider variance, while the historical `exp-20260905-225518` still reached functional validation in 0/30 runs despite bounded calls. The four call roles have sharply different, predictable payload shapes.
+
+### Revised decision
+D051 freezes role-sized maximum completion budgets before v1.1 outcomes: Agent control 1024, ImpactPlan 4096, initial PatchEnvelope 8192, and repair PatchEnvelope 8192. A length finish is a persisted truncation/failure and never authorizes a larger retry. Production Tier M/L values are documentation only for this Todo study.
+
+### Lesson
+**Model capacity is capability; an operational output budget is a preregistered safety boundary sized to the response role.**
+
+Status: **CHANGED on 2026-09-06; D051.**
+
+---
+
 # 4. Latest real Kaggle attempt — 2026-09-01
 
 ## What passed

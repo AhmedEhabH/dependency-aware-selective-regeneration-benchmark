@@ -1,5 +1,16 @@
 # TODO
 
+> **CURRENT BOARD (2026-09-06, RESULTS-RECOVERY-02):** execute
+> `scientific-wip-impactplan-v1.1` end to end. Preserve historical
+> `exp-20260905-225518`; implement only native JSON-schema PatchEnvelope,
+> structured Agent control (1-7 explore, 8 forced final), file/directory
+> `search_text`, and repair/failure ImpactPlan provenance. Freeze
+> `qwen/qwen3-coder` @ DeepInfra via OpenRouter with fallback off and output
+> maxima 1024/4096/8192/8192. Production Tier M/L is documentation only.
+> Complete two real functional-validation probes, exactly six gates, Audit,
+> full suite once, cost gate <= $1.50, all 30 runs, results/GO-NO-GO, tag
+> decision, push, and LIGHT export; then STOP. D051/A032.
+
 > **CURRENT BOARD (2026-09-05, IMPACTPLAN-WIP-01 — UNIFIED RESEARCH PATH; SCIENTIFIC-WIP-IMPACTPLAN-V1 FROZEN).** The old binary R/P micro-study authorization is SUPERSEDED (`MICROSTUDY_REAL_RUN_AUTHORIZED=NO`). CURRENT SCIENTIFIC TARGET = **SCIENTIFIC-WIP-IMPACTPLAN-V1**: implement the Stage-C first-class persisted `ImpactPlan` (R/P/V/H exactly-once; `write_set == {R}`; P/V/H writes physically blocked; `context_set` independent; validation obligations separate; one bounded expansion v1→v2 then HUMAN_REVIEW; planner cost counted). Primary scientific model **`qwen/qwen3-coder`**; FIXED COMPATIBLE PROVIDER (DeepInfra Turbo first, NovitaAI only if DeepInfra fails; `allow_fallbacks=false`; first-party-DeepSeek rule superseded). Qwen2.5-Coder-14B + Kaggle 2×T4 RETIRED (engineering evidence only). NOT CURRENT TARGETS = Kaggle Qwen14B engineering, the old 48-cell Pilot, Saleor, djangoCMS implementation. Next feature = implement ImpactPlan treatment → RED→GREEN unit+integration → six Pre-Benchmark gates for the NEW protocol → model/provider acceptance → freeze → independent audit → STOP before 30 real runs → export for external audit. Freeze docs: `docs/SCIENTIFIC_RESET_DECISION_2026-09-04.md`, `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md` (sections 8–9), `docs/POST_2018_RESEARCH_EVIDENCE_MATRIX.md`, `_workspace/active/UNIFIED_RESEARCH_PATH_PACK/`; decisions `D040`–`D047` in `DECISION_LOG.md`; assumptions `A029`–`A030`. No scientific model call before this amendment is frozen and pushed.
 >
 > **PRIOR BOARD (2026-09-01, SUPERSEDED by the 2026-09-04 scientific decision — v0.9.22 D12 NOTEBOOK ORCHESTRATION FIX CLOSURE (PILOT-EXEC-01) — SCRIPT_PATH DEFINED ONCE IN CELL 4 BEFORE FIRST CANARY USE (FIXES THE CANARY STANDALONE NameError), D12 CANDIDATE `v0.9.22-d12-candidate` BUILT + PROVENANCE-VERIFIED FROZEN; NOT A RELEASE; NO STABLE TAG MOVE; D11 CANDIDATE SUPERSEDED).** Authoritative snapshot:
