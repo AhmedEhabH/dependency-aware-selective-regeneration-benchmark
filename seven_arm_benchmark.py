@@ -2850,10 +2850,15 @@ def main() -> int:
     # NOTE: do NOT infer resume from bool(skip_run_ids) — a resumed experiment
     #       with only retryable failures has an empty skip set but must still
     #       preserve the downloaded normalized checkpoint.
-    is_resume = (
-        args.auto_resume_hf
-        and resume_result is not None
-        and resume_result.action == "resume"
+    is_resume = bool(
+        args.resume
+        or args.resume_from
+        or args.resume_from_hf
+        or (
+            args.auto_resume_hf
+            and resume_result is not None
+            and resume_result.action == "resume"
+        )
     )
 
     if is_resume:
