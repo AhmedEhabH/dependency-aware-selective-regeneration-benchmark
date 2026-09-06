@@ -11,6 +11,7 @@ from the persisted evidence.
 
 from __future__ import annotations
 
+import csv
 import hashlib
 import json
 from pathlib import Path
@@ -411,6 +412,19 @@ def full_microstudy_results(runs_dir: str | Path) -> dict[str, Any]:
             )
         except (KeyError, TypeError, ValueError):
             cost = None
+    qualified_efficiency: dict[str, dict[str, Any]] = {}
+    for strategy in _BOTH_STRATEGIES:
+        qualified = [
+            r for r in relevant
+            if r.strategy_id == strategy and r.functional_validation_passed is not None
+        ]
+        denominator = max(len(qualified), 1)
+        qualified_efficiency[strategy] = {
+            "qualified_run_count": len(qualified),
+            "mean_total_workflow_tokens": sum(r.total_workflow_tokens for r in qualified) / denominator,
+            "mean_total_workflow_model_calls": sum(r.total_workflow_model_calls for r in qualified) / denominator,
+            "mean_duration_seconds": sum(r.duration_seconds for r in qualified) / denominator,
+        }
     return {
         "protocol": V11_PROTOCOL,
         "rows": rows,
@@ -438,8 +452,63 @@ def full_microstudy_results(runs_dir: str | Path) -> dict[str, Any]:
             "total_prompt_tokens": prompt_tokens,
             "total_completion_tokens": completion_tokens,
             "actual_total_api_cost_usd": cost,
+            "qualified_run_efficiency": qualified_efficiency,
         },
     }
+
+
+def write_result_artifacts(result: dict[str, Any], reports_dir: Path) -> tuple[Path, Path, Path]:
+    """Write the three frozen v1.1 result artifacts from derived evidence."""
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    csv_path = reports_dir / "SCIENTIFIC_MICROSTUDY_V11_RESULTS.csv"
+    md_path = reports_dir / "SCIENTIFIC_MICROSTUDY_V11_RESULTS.md"
+    decision_path = reports_dir / "SCIENTIFIC_MICROSTUDY_V11_DECISION.md"
+
+    rows = result["rows"]
+    fieldnames = sorted({key for row in rows for key in row})
+    with csv_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({
+                key: json.dumps(value, sort_keys=True) if isinstance(value, (dict, list)) else value
+                for key, value in row.items()
+            })
+
+    summary = result["summary"]
+    lines = [
+        "# Scientific micro-study v1.1 results",
+        "",
+        f"- Protocol: `{result['protocol']}`",
+        f"- Attempted: {summary['attempted']}/30",
+        f"- Functional validation reached: {summary['functional_validation_reached']}/30",
+        f"- Functional validation passed: {summary['functional_validation_passed']}/30",
+        f"- Agent finalized within 8 calls: {summary['agent_finalized']}/15",
+        f"- Truncations: {summary['truncations']}",
+        f"- Planner tokens: {summary['planner_tokens']}",
+        f"- API cost (USD): {summary['actual_total_api_cost_usd']}",
+        "",
+        "## Scenario gates",
+        "",
+    ]
+    for scenario_id, scenario in result["scenario_results"].items():
+        lines.append(
+            f"- {scenario_id}: G1={scenario['G1']['selective']} "
+            f"G2={scenario['G2']['selective']} G3={scenario['G3']['selective']}"
+        )
+    lines.extend(["", "## Qualified-run efficiency", "", "```json",
+                  json.dumps(summary["qualified_run_efficiency"], indent=2), "```", ""])
+    md_path.write_text("\n".join(lines), encoding="utf-8")
+
+    decision = result["decision"]
+    decision_path.write_text(
+        "# Scientific micro-study v1.1 decision\n\n"
+        f"GO_NO_GO={'GO' if decision['go'] else 'NO-GO'}\n\n"
+        f"Reason: {decision['reason']}\n\n"
+        f"Frozen rule: {decision['requirement']}\n",
+        encoding="utf-8",
+    )
+    return csv_path, md_path, decision_path
 
 
 if __name__ == "__main__":
@@ -447,6 +516,10 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Compute SCIENTIFIC-MICROSTUDY-01 results")
     parser.add_argument("--runs-dir", required=True, help="Directory containing run_records.jsonl")
+    parser.add_argument(
+        "--reports-dir", default=str(Path(__file__).resolve().parent.parent / "reports")
+    )
     args = parser.parse_args()
     result = full_microstudy_results(args.runs_dir)
+    write_result_artifacts(result, Path(args.reports_dir))
     print(json.dumps(result, indent=2, default=str))
