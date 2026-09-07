@@ -365,9 +365,28 @@ def _record_to_dict(record: Any) -> dict[str, Any]:
     }
 
 
+def _gates_persisted_passed(output_dir: Path) -> bool:
+    """Verify the six-gate evidence file exists and all gates passed."""
+    gates_path = output_dir / "runtwiring_gates.json"
+    if not gates_path.is_file():
+        return False
+    try:
+        gates = json.loads(gates_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return False
+    if not isinstance(gates, list) or len(gates) != 6:
+        return False
+    return all(bool(g.get("passed")) for g in gates)
+
+
 def cmd_probes(args: argparse.Namespace) -> int:
-    if not args.dry_run and not args.skip_gate_check:
-        # The gates must already be green before any scientific call.
+    if (
+        not args.dry_run
+        and not args.skip_gate_check
+        # The gates must already be green before any scientific call. The
+        # persisted evidence file is the proof (written by the `all` command).
+        and not _gates_persisted_passed(Path(args.output_dir))
+    ):
         print("Refusing to run probes before the six gates pass (run `all` first).")
         return 2
 
