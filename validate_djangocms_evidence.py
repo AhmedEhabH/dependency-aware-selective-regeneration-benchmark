@@ -9,7 +9,14 @@ Deterministic, fail-closed validation of the evidence chain:
     (the pinned-source-derived 144-file artifact) and therefore exists in the
     pinned djangoCMS source, is production Python, and is not a test/migration;
   - no malformed quoting/whitespace in gold paths;
-  - final visible drafts leak no exact path / `.py` / `cms.`-module hints.
+  - final visible drafts leak no exact path / `.py` / `cms.`-module hints;
+  - the source adjudication (schema /2) is the single source of truth for the
+    gold: every gold file MUST carry a source-based write rationale + exact
+    pinned-source symbol location; INCLUDE/EXCLUDE sets must match the final gold;
+    ``historical_audit_lists_path`` claims must be FACTUALLY true against the
+    historical audit (leads are never an excuse for a false claim); every visible
+    ``required_components`` layer must have a corresponding gold file; and a
+    preservation-only constraint can never justify a write-set inclusion.
 
 This script never imports benchmark LLM / strategy / execution code, so it
 cannot issue a scientific model call.
@@ -36,6 +43,9 @@ AUDIT_JSON_PATH = (
 AUDIT_CSV_PATH = PROJECT_DIR / "reports/DJANGOCMS_EXTERNAL_SCENARIO_AUDIT.csv"
 DRAFTS_DIR = PROJECT_DIR / "benchmark_data/external_validity/visible_drafts"
 GOLD_PATH = PROJECT_DIR / "benchmark_data/external_validity/djangocms_hidden_gold_draft.json"
+ADJUDICATION_PATH = (
+    PROJECT_DIR / "benchmark_data/external_validity/djangocms_hidden_gold_adjudication.json"
+)
 
 HISTORICAL_IDS = {
     "djangocms-loc-001", "djangocms-loc-002", "djangocms-loc-003",
@@ -62,7 +72,8 @@ def load_candidate_universe_paths() -> set[str]:
 
 def load_audit_records() -> list[dict[str, Any]]:
     with open(AUDIT_JSON_PATH, encoding="utf-8") as f:
-        return json.load(f)
+        data: list[dict[str, Any]] = json.load(f)
+    return data
 
 
 def derive_selected_historical_ids(audit_data: list[dict[str, Any]]) -> set[str]:
@@ -383,9 +394,207 @@ def validate_consistency() -> bool:
     return True
 
 
+def load_adjudication() -> dict[str, Any] | None:
+    """Load the source-adjudication evidence (schema /2)."""
+    if not ADJUDICATION_PATH.exists():
+        print(f"ERROR: adjudication file not found: {ADJUDICATION_PATH}")
+        return None
+    with open(ADJUDICATION_PATH, encoding="utf-8") as f:
+        data: dict[str, Any] = json.load(f)
+    return data
+
+
+def adjudication_collect_errors(
+    adjud_dict: dict[str, Any],
+    universe_paths: set[str],
+    audit_data: list[dict[str, Any]],
+) -> list[str]:
+    """Collect all blockers in the source-adjudication evidence chain.
+
+    Fail-closed checks:
+      1. structure: schema /2, pinned_commit, exactly 6 scenario records;
+      2. gold-without-rationale: every final gold path must have an INCLUDE
+         adjudication entry with a non-empty source-based ``write_rationale``
+         and an exact ``symbol_location`` in the pinned source;
+      3. adjudication-vs-gold consistency: INCLUDE entries == gold set,
+         EXCLUDE entries not present in gold;
+      4. historical claim consistency: ``historical_audit_lists_path=true``
+         must be FACTUALLY true against the historical audit ``source_files``
+         (leads are never an excuse for a false claim);
+      5. required-component coverage: every ``required_components[].satisfied_by``
+         must be a member of that scenario's final gold (a visible requirement
+         that names a layer leaves no silent gap in the write set);
+      6. preservation-only anti-pattern: a gold path whose write rationale is a
+         negative preservation claim ("must not change", "preservation", "lead
+         only", "no write") is rejected;
+      7. universe membership must be stated correctly (no fabricated membership).
+    """
+    errors: list[str] = []
+
+    if adjud_dict.get("schema") != "djangocms-hidden-gold-source-adjudication/2":
+        errors.append(f"adjudication schema != /2: {adjud_dict.get('schema')!r}")
+
+    pinned = adjud_dict.get("pinned_commit")
+    if pinned is None:
+        errors.append("adjudication missing pinned_commit")
+    elif not isinstance(pinned, str) or len(pinned) != 40:
+        errors.append(f"adjudication pinned_commit not a 40-hex commit: {pinned!r}")
+
+    scenarios = adjud_dict.get("scenarios")
+    if not isinstance(scenarios, list) or len(scenarios) != 6:
+        got = len(scenarios) if isinstance(scenarios, list) else "n/a"
+        errors.append(f"adjudication must have exactly 6 scenarios, got {got}")
+        return errors
+
+    audit_by_scenario = {item["scenario"]: item for item in audit_data}
+
+    for scen in scenarios:
+        sid = scen.get("scenario_id")
+        historical_id = scen.get("source_historical_scenario_id")
+        gold_paths: set[str] = set(scen.get("source_files", []))
+        adjud_entries: dict[str, Any] = scen.get("source_adjudication", {})
+
+        if not isinstance(sid, str) or not sid.startswith("djangocms-external-validity-"):
+            errors.append(f"unexpected scenario_id {sid!r}")
+
+        audit_rec = audit_by_scenario.get(historical_id)
+        if audit_rec is None:
+            errors.append(f"{sid}: historical scenario {historical_id!r} not present in audit")
+            continue
+
+        if not isinstance(gold_paths, set):
+            errors.append(f"{sid}: source_files is not a list")
+            continue
+        if not gold_paths:
+            errors.append(f"{sid}: final gold is empty for an adjudicated scenario")
+
+        # --- 2. every gold path must have an INCLUDE entry with rationale ---------
+        for path in sorted(gold_paths):
+            entry = adjud_entries.get(path)
+            if not isinstance(entry, dict):
+                errors.append(f"{sid}: gold path {path!r} has NO adjudication entry")
+                continue
+            if entry.get("decision") != "INCLUDE":
+                errors.append(f"{sid}: gold path {path!r} is IN gold but adjudicated {entry.get('decision')!r}")
+            if not entry.get("write_rationale", "").strip():
+                errors.append(f"{sid}: gold path {path!r} has NO source-based write rationale")
+            if not entry.get("symbol_location", "").strip():
+                errors.append(f"{sid}: gold path {path!r} has NO exact pinned-source symbol location")
+            if entry.get("candidate_universe_member") is not True:
+                errors.append(f"{sid}: gold path {path!r} candidate_universe_member not true")
+
+        # 3: INCLUDE/EXCLUDE vs gold consistency
+        for path, entry in sorted(adjud_entries.items()):
+            if not isinstance(entry, dict):
+                errors.append(f"{sid}: adjudication entry {path!r} is not an object")
+                continue
+            decision = entry.get("decision")
+            in_gold = path in gold_paths
+            if decision == "INCLUDE" and not in_gold:
+                errors.append(f"{sid}: {path!r} adjudicated INCLUDE but absent from final gold")
+            elif decision == "EXCLUDE" and in_gold:
+                errors.append(f"{sid}: {path!r} adjudicated EXCLUDE but present in final gold")
+            elif decision not in {"INCLUDE", "EXCLUDE"}:
+                errors.append(f"{sid}: {path!r} decision {decision!r} not INCLUDE/EXCLUDE")
+
+            # 4: historical factual consistency
+            claims = entry.get("historical_audit_lists_path", False)
+            audit_lists = path in set(audit_rec.get("source_files", []))
+            if claims is True and not audit_lists:
+                errors.append(
+                    f"{sid}: {path!r} adjudication claims the historical audit lists it, "
+                    f"but {historical_id} source_files does NOT contain it"
+                )
+            if claims is False and audit_lists:
+                lead_only = entry.get("historical_lead_only") is True
+                hint = ""
+                if not lead_only:
+                    hint = " (allowed only when historical_lead_only=true)"
+                errors.append(
+                    f"{sid}: {path!r} historical_audit_lists_path=false but {historical_id} "
+                    f"source_files lists an equivalent path{hint}"
+                )
+
+            # 6 preservation-only anti-pattern for INCLUDED entries
+            if decision == "INCLUDE" and in_gold:
+                _check_preservation_only(entry, path, sid, errors)
+
+            # 7: universe membership truthful
+            member_decl = entry.get("candidate_universe_member")
+            actually_member = path in universe_paths
+            if member_decl is not None and member_decl is not actually_member:
+                actual = f"actual membership is {actually_member}"
+                errors.append(
+                    f"{sid}: {path!r} candidate_universe_member={member_decl!r} but {actual}"
+                )
+            if actually_member and not member_decl:
+                errors.append(f"{sid}: {path!r} candidate_universe_member missing though it IS a universe member")
+
+        # 5: required components must be covered by the final gold
+        required = scen.get("required_components", [])
+        if not isinstance(required, list) or not required:
+            errors.append(f"{sid}: required_components missing/empty - cannot prove layer coverage")
+            continue
+        for comp in required:
+            satisfied_by = (comp or {}).get("satisfied_by")
+            if not satisfied_by:
+                errors.append(f"{sid}: required_component {comp!r} has no satisfied_by")
+            elif satisfied_by not in gold_paths:
+                errors.append(
+                    f"{sid}: required component {comp.get('component')!r} satisfied_by "
+                    f"{satisfied_by!r} has NO corresponding gold file"
+                )
+
+    return errors
+
+
+_PRESERVATION_ONLY_MARKERS = (
+    "preservation constraint",
+    "preservation-only",
+    "must not change",
+    "no source-based write rationale",
+    "does not require a write",
+    "no write is required",
+)
+
+
+def _check_preservation_only(entry: dict[str, Any], path: str, sid: str, errors: list[str]) -> None:
+    """Gold (INCLUDE) entries must not rest on a preservation-only rationale."""
+    rationale = (entry.get("write_rationale") or "").lower()
+    for marker in _PRESERVATION_ONLY_MARKERS:
+        if marker in rationale:
+            errors.append(
+                f"{sid}: gold path {path!r} INCLUDE rationale contains preservation-only marker "
+                f"{marker!r} - a preservation constraint does not justify a write"
+            )
+            return
+
+
+def validate_hidden_gold_adjudication() -> bool:
+    """Validate the source adjudication is the single source of truth for the gold."""
+    print("\nValidating hidden-gold source adjudication (INCLUDE/EXCLUDE, rationale, layers)...")
+    adjud_dict = load_adjudication()
+    if adjud_dict is None:
+        return False
+
+    universe_paths = load_candidate_universe_paths()
+    with open(AUDIT_JSON_PATH, encoding="utf-8") as f:
+        audit_data: list[dict[str, Any]] = json.load(f)
+
+    errors = adjudication_collect_errors(adjud_dict, universe_paths, audit_data)
+    if errors:
+        for e in errors:
+            print(f"ERROR: {e}")
+        print(f"[FAIL] Source adjudication: {len(errors)} blocker(s)")
+        return False
+
+    print("[PASS] Source adjudication: every gold path source-justified; layers covered; claims factual")
+    return True
+
+
 def main() -> bool:
     """Run all validations."""
-    print("=== DJANGOCMS EXTERNAL VALIDITY EVIDENCE CHAIN VALIDATION ===\n")
+    print("=== DJANGO CMS EXTERNAL VALIDITY EVIDENCE CHAIN VALIDATION ===\n")
 
     validations = [
         validate_audit_json,
@@ -393,6 +602,7 @@ def main() -> bool:
         validate_selection_derived_from_audit,
         validate_visible_drafts,
         validate_hidden_gold,
+        validate_hidden_gold_adjudication,
         validate_consistency,
     ]
 
