@@ -1,0 +1,29 @@
+acceptance_criteria:
+- The change must be implemented correctly
+- All existing functionality must continue to work
+- The implementation must follow Django best practices
+- Any new functionality must be properly tested
+architecture_constraints:
+- Must not modify any model, admin, view, or serializer.
+- Must not introduce new imports from non-standard-library modules beyond what a relevant
+  module already imports.
+- Must not alter the behavior of any existing function in a relevant module.
+- '{''Must maintain backward compatibility'': ''no function signature changes.''}'
+blast_radius: localized
+change_type: localized_api
+rationale: 'Centralizing this common lookup pattern reduces duplicated query logic
+  across the codebase. This is a minimal, localized API addition that does not affect
+  models, admin, or views.
+
+  '
+repository: djangocms
+requirement_after: A public utility function `get_page_content_by_language(page, language_code)`
+  is added to a relevant module. It accepts a Page instance and a language code string,
+  returns the PageContent for that page+language combination, and raises PageContent.DoesNotExist
+  if no matching content exists. The function is documented with a docstring and optionally
+  re-exported via __all__.
+requirement_before: There is no convenience function in a relevant module to retrieve
+  a PageContent instance given a Page and a language code. Callers must manually query
+  PageContent.objects.get(page=page, language=code) or traverse Page.pagecontent_set.
+scenario_id: djangocms-external-validity-002
+source_historical_scenario_id: djangocms-loc-002
