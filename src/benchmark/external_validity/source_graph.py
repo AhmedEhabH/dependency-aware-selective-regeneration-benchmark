@@ -104,27 +104,74 @@ def _import_edges_from_file(content: str, package: str, resolve: Any) -> list[st
                 if target is not None:
                     targets.add(target)
         elif isinstance(node, ast.ImportFrom):
+            # Handle relative imports (level > 0)
             if node.level > 0:
-                base = package
-                if node.level >= 2:
-                    for _ in range(node.level - 1):
-                        base = base.rsplit(".", 1)[0] if base else ""
+                # Get the package by removing the module name from the current package
+                # For 'cms.pkg.a', the package is 'cms.pkg'
+                # level=1 (.) means current package, level=2 (..) means parent package, etc.
+                package_parts = package.split('.') if package else []
+                
+                # Always remove the module name to get the containing package
+                # Then go up additional (level - 1) levels
+                # level=1: current package (remove module only)
+                # level=2: parent package (remove module + 1 more)
+                # level=3: grandparent package (remove module + 2 more)
+                keep_parts = max(0, len(package_parts) - node.level)
+                base_parts = package_parts[:keep_parts]
+                
+                # Add the module being imported (if specified)
                 if node.module:
-                    root = f"{base}.{node.module}" if base else node.module
+                    module_parts = node.module.split('.')
                 else:
-                    root = base
+                    module_parts = []
+                
+                base_module = '.'.join(base_parts + module_parts) if base_parts or module_parts else ''
+                
+                # For each imported name
+                for alias in node.names:
+                    if alias.name == "*":
+                        # Wildcard import - try to import the module itself
+                        if base_module:
+                            target = resolve(base_module)
+                            if target is not None:
+                                targets.add(target)
+                        continue
+                    
+                    # Construct full module path
+                    if base_module:
+                        full_module = f"{base_module}.{alias.name}"
+                    else:
+                        full_module = alias.name
+                    
+                    target = resolve(full_module)
+                    if target is not None:
+                        targets.add(target)
+                    
+                    # Also try importing just the module without the specific name
+                    if base_module:
+                        module_target = resolve(base_module)
+                        if module_target is not None:
+                            targets.add(module_target)
             else:
+                # Absolute import
                 root = node.module or ""
-            candidates = {root}
-            for alias in node.names:
-                if alias.name != "*":
-                    candidates.add(f"{root}.{alias.name}" if root else alias.name)
-            for candidate in candidates:
-                if not candidate:
-                    continue
-                target = resolve(candidate)
-                if target is not None:
-                    targets.add(target)
+                candidates = {root}
+                for alias in node.names:
+                    if alias.name != "*":
+                        candidates.add(f"{root}.{alias.name}" if root else alias.name)
+                for candidate in candidates:
+                    if not candidate:
+                        continue
+                    target = resolve(candidate)
+                    if target is not None:
+                        targets.add(target)
+    
+    # Remove self-edges (file importing itself)
+    source_module = package
+    source_path = resolve(source_module) if source_module else None
+    if source_path and source_path in targets:
+        targets.remove(source_path)
+    
     return sorted(targets)
 
 
