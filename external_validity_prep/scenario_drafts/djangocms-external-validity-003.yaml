@@ -1,0 +1,30 @@
+id: djangocms-external-validity-003
+repository: djangocms
+scenario_type: modular
+visible_requirements: 'Create a template tag for rendering breadcrumb navigation.
+
+
+  django CMS has hierarchical page trees but lacks a built-in template tag for breadcrumb
+  navigation. Create a new template tag `{% breadcrumb %}` in the `cms.templatetags`
+  module that:
+
+  1. Takes optional parameters for CSS classes, separator, and max depth
+
+  2. Uses the current page context to traverse up the page tree via parent relationships
+
+  3. Respects page visibility and publication status
+
+  4. Returns HTML markup compatible with Bootstrap and other common CSS frameworks
+
+  5. Includes proper i18n support for multilingual breadcrumb text
+
+
+  The template tag should be registered in the existing `cms_tags.py` module and include
+  appropriate documentation in the template tag docstring. Add corresponding unit
+  tests for edge cases (root pages, unpublished pages, different tree depths).'
+notes: 'Scientifically defensible: Adds missing navigation feature using existing
+  page tree structure. Tests template tag creation, tree traversal, and i18n support.'
+external_validity_draft: true
+created: '2026-09-07'
+scientifically_defensible_rationale: Based on djangoCMS 5.0 architecture analysis
+  and common CMS feature requests
