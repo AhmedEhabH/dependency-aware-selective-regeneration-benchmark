@@ -77,7 +77,7 @@ def _split_symbols(tree: ast.Module) -> tuple[tuple[str, ...], tuple[str, ...]]:
     return tuple(sorted(classes)), tuple(sorted(functions))
 
 
-def _import_edges_from_file(content: str, package: str, resolve: Any) -> list[str]:
+def _import_edges_from_file(content: str, source_path: str, package: str, resolve: Any) -> list[str]:
     """Return the set of universe-relative target paths imported by one source file.
 
     Resolution semantics (AST only):
@@ -87,7 +87,8 @@ def _import_edges_from_file(content: str, package: str, resolve: Any) -> list[st
         (submodule import) if either maps inside the universe;
       - ``from a.b import c as x`` -> same as ``from a.b import c``;
       - ``from . import x`` / ``from .mod import x`` / ``from ..mod import x`` -> resolved
-        relative to the importing file's package.
+        relative to the importing file's package. Correctly handles package ``__init__.py``
+        vs regular module semantics.
 
     External third-party imports resolve to None and are ignored (no local edge).
     """
@@ -106,17 +107,25 @@ def _import_edges_from_file(content: str, package: str, resolve: Any) -> list[st
         elif isinstance(node, ast.ImportFrom):
             # Handle relative imports (level > 0)
             if node.level > 0:
-                # Get the package by removing the module name from the current package
-                # For 'cms.pkg.a', the package is 'cms.pkg'
-                # level=1 (.) means current package, level=2 (..) means parent package, etc.
+                # Determine if this is a package __init__.py file
+                is_package_init = Path(source_path).name == "__init__.py"
+                
+                # For relative imports:
+                # - Regular module: level=1 means parent package (remove 1)
+                # - Package __init__.py: level=1 means current package (remove 0)
+                # - level=2 means parent package (remove 1), etc.
                 package_parts = package.split('.') if package else []
                 
-                # Always remove the module name to get the containing package
-                # Then go up additional (level - 1) levels
-                # level=1: current package (remove module only)
-                # level=2: parent package (remove module + 1 more)
-                # level=3: grandparent package (remove module + 2 more)
-                keep_parts = max(0, len(package_parts) - node.level)
+                if is_package_init:
+                    # In __init__.py, package already represents the package itself
+                    # level=1: current package (remove 0)
+                    # level=2: parent package (remove 1)
+                    # level=3: grandparent package (remove 2)
+                    keep_parts = max(0, len(package_parts) - (node.level - 1))
+                else:
+                    # Regular module: remove node.level parts
+                    keep_parts = max(0, len(package_parts) - node.level)
+                
                 base_parts = package_parts[:keep_parts]
                 
                 # Add the module being imported (if specified)
@@ -279,7 +288,7 @@ def build_dependency_graph(
             continue
         
         package = str(rec["module"])
-        for target in _import_edges_from_file(text, package, resolve):
+        for target in _import_edges_from_file(text, path, package, resolve):
             if target in node_set:
                 edges.add((path, target))
     
@@ -409,7 +418,7 @@ def edge_import_evidence(
         return []
     
     package = _module_name(Path(src_path))
-    targets = set(_import_edges_from_file(text, package, resolve))
+    targets = set(_import_edges_from_file(text, src_path, package, resolve))
     if dst_path not in targets:
         return []
     
@@ -421,11 +430,53 @@ def edge_import_evidence(
                 if resolve(alias.name) == dst_path:
                     evidence.append(lines[node.lineno - 1].strip())
         elif isinstance(node, ast.ImportFrom):
-            for alias in node.names:
-                root = f"{node.module}.{alias.name}" if node.module else alias.name
-                candidates = {root, node.module or ""}
-                if any(resolve(c) == dst_path for c in candidates):
-                    evidence.append(lines[node.lineno - 1].strip())
+            # Handle relative imports like _import_edges_from_file does
+            if node.level > 0:
+                # Same logic as in _import_edges_from_file
+                is_package_init = Path(src_path).name == "__init__.py"
+                package_parts = package.split('.') if package else []
+                
+                if is_package_init:
+                    keep_parts = max(0, len(package_parts) - (node.level - 1))
+                else:
+                    keep_parts = max(0, len(package_parts) - node.level)
+                
+                base_parts = package_parts[:keep_parts]
+                
+                # Add the module being imported (if specified)
+                if node.module:
+                    module_parts = node.module.split('.')
+                else:
+                    module_parts = []
+                
+                base_module = '.'.join(base_parts + module_parts) if base_parts or module_parts else ''
+                
+                for alias in node.names:
+                    if alias.name == "*":
+                        # Wildcard import
+                        if base_module and resolve(base_module) == dst_path:
+                            evidence.append(lines[node.lineno - 1].strip())
+                        continue
+                    
+                    # Check full module path
+                    if base_module:
+                        full_module = f"{base_module}.{alias.name}"
+                    else:
+                        full_module = alias.name
+                    
+                    if resolve(full_module) == dst_path:
+                        evidence.append(lines[node.lineno - 1].strip())
+                    
+                    # Also check module without specific name
+                    if base_module and resolve(base_module) == dst_path:
+                        evidence.append(lines[node.lineno - 1].strip())
+            else:
+                # Absolute import
+                for alias in node.names:
+                    root = f"{node.module}.{alias.name}" if node.module else alias.name
+                    candidates = {root, node.module or ""}
+                    if any(resolve(c) == dst_path for c in candidates):
+                        evidence.append(lines[node.lineno - 1].strip())
     return sorted(set(evidence))
 
 
