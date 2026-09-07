@@ -1,0 +1,57 @@
+acceptance_criteria:
+- The change must be implemented correctly
+- All existing functionality must continue to work
+- The implementation must follow Django best practices
+- Any new functionality must be properly tested
+architecture_constraints:
+- Must not remove the existing is_published field (deprecate rather than remove; is_published
+  should be derived from status).
+- The is_published property on PageContent should return True only when status ==
+  'published'.
+- All state transitions must be validated (no invalid transitions allowed; e.g., draft
+  cannot go directly to published).
+- The signal must include old_status, new_status, and the user who performed the transition.
+- The toolbar must not expose workflow actions to users without the corresponding
+  permission.
+- Admin actions must use confirmation pages for non-reversible actions (e.g., unpublish).
+- Must follow existing code conventions for admin actions (short_description, permissions
+  attribute).
+blast_radius: cross_cutting
+change_type: cross_cutting_workflow
+rationale: 'A formal content approval workflow enables enterprise-grade editorial
+  processes where authors submit content for review, reviewers approve or reject,
+  and only approved content is published. This is a cross-cutting feature affecting
+  the entire CMS stack.
+
+  '
+repository: djangocms
+requirement_after: 'A full content version approval workflow is added to PageContent.
+
+  The workflow has four states: draft -> pending_review -> approved
+
+  -> published. These states are stored in a new `status` field on
+
+  PageContent (CharField with choices). The admin PageContentAdmin
+
+  gains "Submit for Review", "Approve", "Reject", and "Publish"
+
+  actions that transition between states. A new "Reviewer" permission
+
+  level (leveraging djangocms-mod-005) can approve or reject.
+
+  The toolbar shows workflow state and available transitions.
+
+  The a relevant module functions for publishing check the workflow status.
+
+  Signals fire on state transitions (e.g., page_content_status_changed).
+
+  Tests cover model transitions, admin actions, permissions, toolbar,
+
+  API, and signals.
+
+  '
+requirement_before: PageContent has a simple is_published boolean. There is no intermediate
+  workflow state. Content is either draft or published. No approval or review process
+  exists in the CMS core.
+scenario_id: djangocms-external-validity-007
+source_historical_scenario_id: djangocms-cross-007

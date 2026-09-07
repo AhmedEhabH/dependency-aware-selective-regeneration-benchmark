@@ -1,0 +1,232 @@
+{
+  "schema": "djangocms-hidden-gold-source-adjudication/1",
+  "pinned_commit": "0f633fc9fa213357f4202482aab2b0edad680f95",
+  "candidate_universe_artifact": "djangocms_5_0_0_candidate_universe.json",
+  "candidate_universe_file_count": 144,
+  "selection_rule": "confidence in {HIGH, MEDIUM} AND decision in {REUSE, REWRITE_VISIBLE_TEXT}; derived programmatically from the 8-record audit",
+  "historical_audit_record_count": 8,
+  "scenarios": [
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "source_historical_scenario_id": "djangocms-loc-002",
+      "source_files": [
+        "cms/api.py"
+      ],
+      "source_adjudication": {
+        "cms/api.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.api (707 LOC, functions=_verify_apphook,_verify_plugin_type,add_plugin,assign_user_to_page,can_change_page,copy_plugins_to_language,create_page,create_page_content,create_page_user,create_title,get_page_draft,publish_page,publish_pages). Historical audit djangocms-loc-002 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        }
+      }
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "source_historical_scenario_id": "djangocms-mod-004",
+      "source_files": [
+        "cms/models/contentmodels.py",
+        "cms/admin/pageadmin.py",
+        "cms/views.py",
+        "cms/api.py"
+      ],
+      "source_adjudication": {
+        "cms/models/contentmodels.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.models.contentmodels (372 LOC, classes=EmptyPageContent,PageContent). Historical audit djangocms-mod-004 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/admin/pageadmin.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.admin.pageadmin (1420 LOC, classes=PageAdmin,PageContentAdmin,PageDeleteMessageMixin; functions=get_site). Historical audit djangocms-mod-004 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/views.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.views (346 LOC, functions=_clean_redirect_url,details,login,render_object_edit,render_object_endpoint,render_object_preview,render_object_structure,render_placeholder_content). Historical audit djangocms-mod-004 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/api.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.api (707 LOC, functions=_verify_apphook,_verify_plugin_type,add_plugin,assign_user_to_page,can_change_page,copy_plugins_to_language,create_page,create_page_content,create_page_user,create_title,get_page_draft,publish_page,publish_pages). Historical audit djangocms-mod-004 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        }
+      }
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "source_historical_scenario_id": "djangocms-mod-005",
+      "source_files": [
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py",
+        "cms/admin/permissionadmin.py",
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py"
+      ],
+      "source_adjudication": {
+        "cms/models/permissionmodels.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.models.permissionmodels (338 LOC, classes=AbstractPagePermission,GlobalPagePermission,PagePermission,PageUser,PageUserGroup,PageUserManager,PermissionTuple). Historical audit djangocms-mod-005 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/utils/page_permissions.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.utils.page_permissions (558 LOC, functions=_check_delete_translation,_get_all_placeholders,_get_page_permission_tuples_for_action,_perm_tuples_to_ids,auth_permission_required,change_permission_required,get_add_ids,get_add_perm_tuples,get_change_advanced_settings_ids,get_change_advanced_settings_perm_tuples,get_change_ids,get_change_perm_tuples,get_change_permissions_ids,get_change_permissions_perm_tuples,get_delete_ids,get_delete_perm_tuples,get_move_page_ids,get_move_page_perm_tuples,get_publish_ids,get_publish_perm_tuples,get_view_ids,get_view_perm_tuples,has_generic_permission,skip_if_permissions_disabled,user_can_add_page,user_can_add_subpage,user_can_change_all_pages,user_can_change_at_least_one_page,user_can_change_page,user_can_change_page_advanced_settings,user_can_change_page_permissions,user_can_delete_page,user_can_delete_page_translation,user_can_move_page,user_can_publish_page,user_can_view_all_pages,user_can_view_page,user_can_view_page_draft). Historical audit djangocms-mod-005 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/admin/permissionadmin.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.admin.permissionadmin (183 LOC, classes=GlobalPagePermissionAdmin,PagePermissionInlineAdmin,TabularInline,ViewRestrictionInlineAdmin). Historical audit djangocms-mod-005 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/admin/pageadmin.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.admin.pageadmin (1420 LOC, classes=PageAdmin,PageContentAdmin,PageDeleteMessageMixin; functions=get_site). Historical audit djangocms-mod-005 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/cms_toolbars.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.cms_toolbars (686 LOC, classes=AppearanceToolbar,BasicToolbar,PageToolbar,PlaceholderToolbar). Historical audit djangocms-mod-005 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        }
+      }
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "source_historical_scenario_id": "djangocms-mod-006",
+      "source_files": [
+        "cms/models/pluginmodel.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/plugin_pool.py",
+        "cms/templatetags/cms_tags.py",
+        "cms/plugin_base.py"
+      ],
+      "source_adjudication": {
+        "cms/models/pluginmodel.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.models.pluginmodel (481 LOC, classes=BoundRenderMeta,CMSPlugin,PluginModelBase; functions=_get_ancestors_cte,_get_database_connection,_get_database_cursor,_get_database_vendor,_get_descendants_cte,get_plugin_media_path). Historical audit djangocms-mod-006 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/admin/placeholderadmin.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.admin.placeholderadmin (1210 LOC, classes=BaseEditableAdminMixin,FrontendEditableAdminMixin,PlaceholderAdmin,PlaceholderAdminMixin,PlaceholderAdminMixinBase; functions=_instance_overrides_method,get_int). Historical audit djangocms-mod-006 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/plugin_pool.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.plugin_pool (290 LOC, classes=PluginPool). Historical audit djangocms-mod-006 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/templatetags/cms_tags.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.templatetags.cms_tags (1038 LOC, classes=CMSAdminURL,CMSEditableObject,CMSEditableObjectAdd,CMSEditableObjectAddBlock,CMSEditableObjectBlock,CMSEditableObjectIcon,CMSToolbar,EmptyListValue,MultiValueArgumentBeforeKeywordArgument,PageAttribute,PageUrl,Placeholder,PlaceholderOptions,PlaceholderParser,RenderPlaceholder,RenderPluginBlock,RenderUncachedPlaceholder,StaticPlaceholderNode; functions=_get_page_by_untyped_arg,_show_placeholder_by_id,_show_uncached_placeholder_by_id,render_extra_menu_items,render_plugin). Historical audit djangocms-mod-006 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/plugin_base.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.plugin_base (859 LOC, classes=CMSPluginBase,CMSPluginBaseMetaclass,PluginMenuItem; functions=template_slot_caching). Historical audit djangocms-mod-006 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        }
+      }
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "source_historical_scenario_id": "djangocms-cross-007",
+      "source_files": [
+        "cms/models/contentmodels.py",
+        "cms/admin/pageadmin.py",
+        "cms/utils/page_permissions.py",
+        "cms/cms_toolbars.py",
+        "cms/api.py",
+        "cms/signals/__init__.py",
+        "cms/models/permissionmodels.py"
+      ],
+      "source_adjudication": {
+        "cms/models/contentmodels.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.models.contentmodels (372 LOC, classes=EmptyPageContent,PageContent). Historical audit djangocms-cross-007 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/admin/pageadmin.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.admin.pageadmin (1420 LOC, classes=PageAdmin,PageContentAdmin,PageDeleteMessageMixin; functions=get_site). Historical audit djangocms-cross-007 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/utils/page_permissions.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.utils.page_permissions (558 LOC, functions=_check_delete_translation,_get_all_placeholders,_get_page_permission_tuples_for_action,_perm_tuples_to_ids,auth_permission_required,change_permission_required,get_add_ids,get_add_perm_tuples,get_change_advanced_settings_ids,get_change_advanced_settings_perm_tuples,get_change_ids,get_change_perm_tuples,get_change_permissions_ids,get_change_permissions_perm_tuples,get_delete_ids,get_delete_perm_tuples,get_move_page_ids,get_move_page_perm_tuples,get_publish_ids,get_publish_perm_tuples,get_view_ids,get_view_perm_tuples,has_generic_permission,skip_if_permissions_disabled,user_can_add_page,user_can_add_subpage,user_can_change_all_pages,user_can_change_at_least_one_page,user_can_change_page,user_can_change_page_advanced_settings,user_can_change_page_permissions,user_can_delete_page,user_can_delete_page_translation,user_can_move_page,user_can_publish_page,user_can_view_all_pages,user_can_view_page,user_can_view_page_draft). Historical audit djangocms-cross-007 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/cms_toolbars.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.cms_toolbars (686 LOC, classes=AppearanceToolbar,BasicToolbar,PageToolbar,PlaceholderToolbar). Historical audit djangocms-cross-007 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/api.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.api (707 LOC, functions=_verify_apphook,_verify_plugin_type,add_plugin,assign_user_to_page,can_change_page,copy_plugins_to_language,create_page,create_page_content,create_page_user,create_title,get_page_draft,publish_page,publish_pages). Historical audit djangocms-cross-007 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/signals/__init__.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.signals (118 LOC, functions=check_v4_confirmation). Historical audit djangocms-cross-007 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/models/permissionmodels.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.models.permissionmodels (338 LOC, classes=AbstractPagePermission,GlobalPagePermission,PagePermission,PageUser,PageUserGroup,PageUserManager,PermissionTuple). Historical audit djangocms-cross-007 (HIGH/REUSE) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        }
+      }
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "source_historical_scenario_id": "djangocms-cross-008",
+      "source_files": [
+        "cms/cache/__init__.py",
+        "cms/models/pagemodel.py",
+        "cms/models/contentmodels.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "source_adjudication": {
+        "cms/cache/__init__.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.cache (87 LOC, functions=_clean_key,_get_cache_key,_get_cache_version,_set_cache_version,invalidate_cms_page_cache). Historical audit djangocms-cross-008 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/models/pagemodel.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.models.pagemodel (1146 LOC, classes=AdminCacheDict,Page,PageType,PageUrl). Historical audit djangocms-cross-008 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/models/contentmodels.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.models.contentmodels (372 LOC, classes=EmptyPageContent,PageContent). Historical audit djangocms-cross-008 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/models/placeholdermodel.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.models.placeholdermodel (751 LOC, classes=Placeholder). Historical audit djangocms-cross-008 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/models/pluginmodel.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.models.pluginmodel (481 LOC, classes=BoundRenderMeta,CMSPlugin,PluginModelBase; functions=_get_ancestors_cte,_get_database_connection,_get_database_cursor,_get_database_vendor,_get_descendants_cte,get_plugin_media_path). Historical audit djangocms-cross-008 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/signals/__init__.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.signals (118 LOC, functions=check_v4_confirmation). Historical audit djangocms-cross-008 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        },
+        "cms/templatetags/cms_tags.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "evidence": "Exact member of the frozen 144-file candidate universe (pinned djangoCMS commit 0f633fc9fa213357f4202482aab2b0edad680f95); production Python module cms.templatetags.cms_tags (1038 LOC, classes=CMSAdminURL,CMSEditableObject,CMSEditableObjectAdd,CMSEditableObjectAddBlock,CMSEditableObjectBlock,CMSEditableObjectIcon,CMSToolbar,EmptyListValue,MultiValueArgumentBeforeKeywordArgument,PageAttribute,PageUrl,Placeholder,PlaceholderOptions,PlaceholderParser,RenderPlaceholder,RenderPluginBlock,RenderUncachedPlaceholder,StaticPlaceholderNode; functions=_get_page_by_untyped_arg,_show_placeholder_by_id,_show_uncached_placeholder_by_id,render_extra_menu_items,render_plugin). Historical audit djangocms-cross-008 (MEDIUM/REWRITE_VISIBLE_TEXT) lists this file in its source_files lead; the final write set is adjudicated against the candidate universe + pinned source, never copied verbatim."
+        }
+      }
+    }
+  ]
+}

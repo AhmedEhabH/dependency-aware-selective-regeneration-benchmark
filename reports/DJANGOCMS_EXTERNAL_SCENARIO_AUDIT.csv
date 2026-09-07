@@ -1,7 +1,9 @@
 scenario,confidence,recommendation,visible_length,leak_count,notes
-djangocms-external-validity-001,HIGH,REUSE,1024,0,Model field addition
-djangocms-external-validity-002,MEDIUM,REWRITE_VISIBLE_TEXT,896,0,Caching control
-djangocms-external-validity-003,MEDIUM,REWRITE_VISIBLE_TEXT,768,0,Navigation component
-djangocms-external-validity-004,HIGH,REUSE,1152,0,Page versioning
-djangocms-external-validity-005,HIGH,REUSE,1280,0,Export/import
-djangocms-external-validity-006,MEDIUM,REWRITE_VISIBLE_TEXT,960,0,Image optimization
+djangocms-loc-001,LOW,REJECT,1338,2,PageContent.meta_description already exists in pinned source (v5.0.0)
+djangocms-loc-002,HIGH,REUSE,1068,1,API function addition is feasible and doesn't conflict with existing code
+djangocms-loc-003,LOW,REJECT,1254,0,CMSPlugin.position already exists with unique_together constraint
+djangocms-mod-004,MEDIUM,REWRITE_VISIBLE_TEXT,1450,1,Plugin caching control requires analysis of cache integration
+djangocms-mod-005,HIGH,REUSE,1519,1,Navigation component extension is feasible
+djangocms-mod-006,MEDIUM,REWRITE_VISIBLE_TEXT,1605,1,Page versioning requires careful integration with existing versioning
+djangocms-cross-007,HIGH,REUSE,1837,1,Cross-cutting signal handler addition is feasible
+djangocms-cross-008,MEDIUM,REWRITE_VISIBLE_TEXT,2267,4,Export/import functionality requires integration with existing serialization
