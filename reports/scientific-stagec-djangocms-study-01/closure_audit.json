@@ -1,0 +1,92 @@
+{
+  "audit": "POST_STUDY_CLOSURE_AUDIT",
+  "audited_at": "2026-09-08T03:15:08.682473+00:00",
+  "items": [
+    {
+      "detail": "count=19 (raw evidence confirms 19; was wrongly 20)",
+      "item": "truncation_count_is_19",
+      "ok": true
+    },
+    {
+      "detail": "19 truncation records, all finish_reason=length & completion_tokens=4096",
+      "item": "truncations_have_length_finish_and_4096_completion",
+      "ok": true
+    },
+    {
+      "detail": {
+        "failed": 5,
+        "total": 30,
+        "valid": 25,
+        "valid_rate": 0.833333
+      },
+      "item": "arm_counts_agent_25_5",
+      "ok": true
+    },
+    {
+      "detail": {
+        "failed": 24,
+        "total": 30,
+        "valid": 6,
+        "valid_rate": 0.2
+      },
+      "item": "arm_counts_impactplan_6_24",
+      "ok": true
+    },
+    {
+      "detail": {
+        "failed": 29,
+        "valid": 31
+      },
+      "item": "total_31_valid_29_failed",
+      "ok": true
+    },
+    {
+      "detail": "sections present",
+      "item": "main_report_has_valid_headline_and_all_cell_tables",
+      "ok": true
+    },
+    {
+      "detail": "explicit separation statement present",
+      "item": "valid_only_vs_all_cell_not_confused",
+      "ok": true
+    },
+    {
+      "detail": "recorded + missing-cost caveat wording present",
+      "item": "cost_wording_recorded_not_exact_total",
+      "ok": true
+    },
+    {
+      "detail": "recorded $0.264148 <= $0.50",
+      "item": "cost_ceiling_status",
+      "ok": true
+    },
+    {
+      "detail": "both reports document 8x1024 vs 1x4096",
+      "item": "output_budget_asymmetry_documented",
+      "ok": true
+    },
+    {
+      "detail": {
+        "head": "ddb5f67268e5a62d625af3e903e6ad98074cf297",
+        "remote": "ddb5f67268e5a62d625af3e903e6ad98074cf297"
+      },
+      "item": "git_live_head_parity",
+      "ok": true
+    },
+    {
+      "detail": "frozen scientific-results commit 0c110bb documented (manifest + 60 raw records)",
+      "item": "scientific_results_commit_identified",
+      "ok": true
+    },
+    {
+      "detail": {
+        "baseline_keys": 71,
+        "mismatches": []
+      },
+      "item": "raw_scientific_evidence_immutable",
+      "ok": true
+    }
+  ],
+  "passed": true,
+  "zero_scientific_calls": true
+}

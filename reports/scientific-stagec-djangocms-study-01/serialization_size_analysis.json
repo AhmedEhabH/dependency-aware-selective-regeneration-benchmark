@@ -1,0 +1,233 @@
+{
+  "analysis": "ZERO_API_SERIALIZATION_SIZE_ANALYSIS",
+  "minimal_plan": {
+    "action_label_used": "PRESERVE",
+    "evidence": "[] (empty, schema-valid)",
+    "exact_tokenizer_available": false,
+    "json_bytes_utf8": 17364,
+    "json_characters": 17364,
+    "note": "Byte/char counts are exact measurements. No Qwen tokenizer is available locally (only a tokenizer_config.json stub is cached) and none was downloaded; no API call was made. The token figure is a rough heuristic estimate and MUST NOT be reported as a measured fact.",
+    "proxy_tokenizer_note": "local tokenizer Qwen/Qwen2.5-Coder-7B-Instruct not loadable: Tokenizer class Qwen2Tokenizer does not exist or is not currently imported.",
+    "proxy_tokenizer_result": null,
+    "rationale": "\"\" (empty, schema-valid)",
+    "rough_token_estimate": 4341,
+    "rough_token_estimate_method": "project heuristic max(1, n_chars // 4) \u2014 ESTIMATE ONLY, not a tokenizer measurement",
+    "universe_paths": 144
+  },
+  "successful_impactplan_completion_tokens": {
+    "records": [
+      {
+        "completion_tokens": 920,
+        "prompt_tokens": 3129,
+        "run_id": "stgc-djangocms-external-validity-002-impact_plan-r2"
+      },
+      {
+        "completion_tokens": 3750,
+        "prompt_tokens": 3318,
+        "run_id": "stgc-djangocms-external-validity-005-impact_plan-r1"
+      },
+      {
+        "completion_tokens": 1847,
+        "prompt_tokens": 2905,
+        "run_id": "stgc-djangocms-external-validity-007-impact_plan-r2"
+      },
+      {
+        "completion_tokens": 2343,
+        "prompt_tokens": 3476,
+        "run_id": "stgc-djangocms-external-validity-008-impact_plan-r1"
+      },
+      {
+        "completion_tokens": 2165,
+        "prompt_tokens": 3476,
+        "run_id": "stgc-djangocms-external-validity-008-impact_plan-r2"
+      },
+      {
+        "completion_tokens": 1755,
+        "prompt_tokens": 3476,
+        "run_id": "stgc-djangocms-external-validity-008-impact_plan-r4"
+      }
+    ],
+    "stats": {
+      "count": 6,
+      "max": 3750,
+      "median": 2165,
+      "min": 920
+    }
+  },
+  "successful_plans_size_comparison": [
+    {
+      "completion_tokens": 920,
+      "prompt_tokens": 3129,
+      "run_id": "stgc-djangocms-external-validity-002-impact_plan-r2"
+    },
+    {
+      "completion_tokens": 3750,
+      "prompt_tokens": 3318,
+      "run_id": "stgc-djangocms-external-validity-005-impact_plan-r1"
+    },
+    {
+      "completion_tokens": 1847,
+      "prompt_tokens": 2905,
+      "run_id": "stgc-djangocms-external-validity-007-impact_plan-r2"
+    },
+    {
+      "completion_tokens": 2343,
+      "prompt_tokens": 3476,
+      "run_id": "stgc-djangocms-external-validity-008-impact_plan-r1"
+    },
+    {
+      "completion_tokens": 2165,
+      "prompt_tokens": 3476,
+      "run_id": "stgc-djangocms-external-validity-008-impact_plan-r2"
+    },
+    {
+      "completion_tokens": 1755,
+      "prompt_tokens": 3476,
+      "run_id": "stgc-djangocms-external-validity-008-impact_plan-r4"
+    }
+  ],
+  "truncated_responses": {
+    "all_completion_tokens": [
+      4096
+    ],
+    "all_finish_reason": [
+      "length"
+    ],
+    "count": 19,
+    "records": [
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3129,
+        "run_id": "stgc-djangocms-external-validity-002-impact_plan-r1",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3129,
+        "run_id": "stgc-djangocms-external-validity-002-impact_plan-r3",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3129,
+        "run_id": "stgc-djangocms-external-validity-002-impact_plan-r4",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3129,
+        "run_id": "stgc-djangocms-external-validity-002-impact_plan-r5",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 2768,
+        "run_id": "stgc-djangocms-external-validity-004-impact_plan-r1",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 2768,
+        "run_id": "stgc-djangocms-external-validity-004-impact_plan-r2",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 2768,
+        "run_id": "stgc-djangocms-external-validity-004-impact_plan-r3",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 2768,
+        "run_id": "stgc-djangocms-external-validity-004-impact_plan-r4",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 2768,
+        "run_id": "stgc-djangocms-external-validity-004-impact_plan-r5",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3318,
+        "run_id": "stgc-djangocms-external-validity-005-impact_plan-r3",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3318,
+        "run_id": "stgc-djangocms-external-validity-005-impact_plan-r4",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3318,
+        "run_id": "stgc-djangocms-external-validity-005-impact_plan-r5",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3106,
+        "run_id": "stgc-djangocms-external-validity-006-impact_plan-r2",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3106,
+        "run_id": "stgc-djangocms-external-validity-006-impact_plan-r3",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 2905,
+        "run_id": "stgc-djangocms-external-validity-007-impact_plan-r3",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 2905,
+        "run_id": "stgc-djangocms-external-validity-007-impact_plan-r4",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 2905,
+        "run_id": "stgc-djangocms-external-validity-007-impact_plan-r5",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3476,
+        "run_id": "stgc-djangocms-external-validity-008-impact_plan-r3",
+        "truncation_status": true
+      },
+      {
+        "completion_tokens": 4096,
+        "finish_reason": "length",
+        "prompt_tokens": 3476,
+        "run_id": "stgc-djangocms-external-validity-008-impact_plan-r5",
+        "truncation_status": true
+      }
+    ]
+  }
+}
