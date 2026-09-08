@@ -1,7 +1,11 @@
-# Dependency-Aware Selective Regeneration Benchmark
+# Repository-Level LLM Impact Selection Benchmark
+
+> The repository slug is retained for historical/link stability.
+> The completed djangoCMS studies are selection-only and did not inject
+> dependency-graph assistance.
 
 > Research infrastructure for the working paper
-> **"Don't Regenerate What Hasn't Changed: Selective Regeneration for Token-Efficient LLM-Driven Software Evolution."**
+> **Provisional working title: "The Cost of Saying 'Unchanged': Sparse Impact Plans for Token-Efficient Repository-Level Impact Selection"**
 
 ---
 
@@ -28,24 +32,26 @@ benchmark runs are planned. The current task is academic-output preparation.
 
 ## What Is This?
 
-A research-grade benchmark for **selective regeneration in LLM-driven software
-evolution**. When a requirement changes, the goal is to regenerate only the
-software artifacts that are truly affected — while preserving unchanged
-behavior and architecture.
+A research-grade benchmark for **repository-level LLM impact selection** in
+software evolution. Given a requirement change, the completed benchmark
+evaluates which repository artifacts the model predicts must change and the
+inference efficiency of that selection process.
 
-The project measures **impact identification** (which artifacts must change)
-and **selection-stage efficiency** (tokens, calls, latency, cost) using
-open-weight code LLMs and real Python repositories. The frozen protocol
-prioritizes **impact correctness before efficiency**: token savings are not a
-success if the approach misses affected artifacts.
+The frozen protocol prioritizes **impact correctness before efficiency**:
+token savings are not a success if the approach misses affected artifacts.
+Selective regeneration is the broader motivation and future direction, not a
+completed end-to-end measured result of these studies.
 
 ## What Was Evaluated?
 
 - **Repositories:** controlled Django Todo (small), django CMS 5.0.0 (medium),
   and Saleor Core 3.23.0 (large — defined but **not executed**).
-- **Scope of the completed studies:** **selection only** — which repository
-  paths the model predicts must change, scored against source-adjudicated
-  hidden gold applied after inference.
+- **COMPLETED DJANGOCMS SCOPE: SELECTION ONLY** — which repository paths the
+  model predicts must change, scored against source-adjudicated hidden gold
+  applied after inference.
+- **Not measured in the completed djangoCMS treatments:** Functional
+  Correctness, Preservation, Architecture Compliance, or end-to-end
+  regeneration correctness.
 - **Treatment arms:** `iterative_repository_agent` (Agent) vs
   `impact_plan` (ImpactPlan-v1, full explicit plan serialization).
 - **ImpactPlan-v2 (post-hoc / exploratory):** a sparse representation redesign
@@ -188,8 +194,8 @@ The canonical project map is [`docs/PROJECT_STRUCTURE_MAP.md`](docs/PROJECT_STRU
 
 ## Working Paper
 
-**Title:** *Don't Regenerate What Hasn't Changed: Selective Regeneration for
-Token-Efficient LLM-Driven Software Evolution*
+**Provisional working title:** *The Cost of Saying "Unchanged": Sparse Impact
+Plans for Token-Efficient Repository-Level Impact Selection*
 
 **Status:** Benchmark complete; manuscript in preparation
 (paper / figures / supervisor review).
