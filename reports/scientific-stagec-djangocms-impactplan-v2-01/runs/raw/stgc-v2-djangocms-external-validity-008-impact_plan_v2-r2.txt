@@ -1,0 +1,135 @@
+{
+  "decisions": [
+    {
+      "id": 18,
+      "action": "REGENERATE",
+      "rationale": "The cache module requires updates to support tagged invalidation per content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["req-change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "Matches terms: cache, get, invalidate, key, page"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "action": "REGENERATE",
+      "rationale": "Page-level caching logic needs modification to integrate with the new tag-based invalidation system.",
+      "confidence": 0.93,
+      "reason_codes": ["req-change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-19",
+          "description": "Matches terms: cache, get, key, page"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "action": "REGENERATE",
+      "rationale": "Placeholder caching must be enhanced to use tag-based invalidation for fine-grained control.",
+      "confidence": 0.92,
+      "reason_codes": ["req-change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Matches terms: cache, get, key, placeholder"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "action": "REGENERATE",
+      "rationale": "Middleware needs updating to tag responses with relevant cache tags during rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["req-addition"],
+      "evidence": [
+        {
+          "source": "requirement_after",
+          "description": "Middleware update needed to tag response objects with cache tags."
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "Signal handling infrastructure must be extended to trigger cache invalidation on model changes.",
+      "confidence": 0.88,
+      "reason_codes": ["req-addition"],
+      "evidence": [
+        {
+          "source": "requirement_after",
+          "description": "Signal handlers required for post_save/post_delete events."
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "action": "REGENERATE",
+      "rationale": "Template tags need integration with the cache tag system to enable checking before rendering.",
+      "confidence": 0.87,
+      "reason_codes": ["req-change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Matches terms: get, page, placeholder, plugin"
+        },
+        {
+          "source": "requirement_after",
+          "description": "Update {% placeholder %} and related tags to check cache using tag system."
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "action": "VALIDATE",
+      "rationale": "Configuration utilities should preserve backward compatibility while supporting opt-in behavior.",
+      "confidence": 0.85,
+      "reason_codes": ["regression-risk"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "Matches terms: cache, get, toolbar"
+        },
+        {
+          "source": "requirement_after",
+          "description": "System must be opt-in; existing behavior preserved if not configured."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-CACHE-BEHAVIOR",
+      "kind": "regression",
+      "target": "cms.tests.test_cache",
+      "reason": "Ensure legacy cache behavior remains intact when new tag system is disabled",
+      "evidence_refs": ["req-after-opt-in"]
+    },
+    {
+      "obligation_id": "VO-SIGNAL-HANDLERS",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_signals",
+      "reason": "Verify signal-triggered invalidations occur correctly on save/delete operations",
+      "evidence_refs": ["req-after-signals"]
+    },
+    {
+      "obligation_id": "VO-MIDDLEWARE-TAGGING",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_middleware",
+      "reason": "Confirm middleware properly tags HTTP responses with associated cache tags",
+      "evidence_refs": ["req-after-middleware"]
+    },
+    {
+      "obligation_id": "VO-TEMPLATE-CACHE-CHECKS",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_templatetags",
+      "reason": "Validate template tags interact correctly with the new cache checking mechanism",
+      "evidence_refs": ["req-after-template-tags"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

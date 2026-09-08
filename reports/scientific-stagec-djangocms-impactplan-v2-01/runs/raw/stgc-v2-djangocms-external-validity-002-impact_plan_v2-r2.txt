@@ -1,0 +1,61 @@
+{
+  "decisions": [
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "The cms/api.py module is the most appropriate place for a public utility function like get_page_content_by_language based on semantic match and Django best practices.",
+      "confidence": 0.95,
+      "reason_codes": ["semantic_fit", "best_practices"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py contains related terms: change, content, get, language, page"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "action": "REGENERATE",
+      "rationale": "The cms/models/contentmodels.py module directly relates to PageContent models and is a logical place for the utility function.",
+      "confidence": 0.9,
+      "reason_codes": ["model_proximity", "domain_relevance"],
+      "evidence": [
+        {
+          "source": "semantic-seed-65",
+          "description": "cms/models/contentmodels.py contains 'pagecontent' term"
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "The cms/utils/page.py utility module is semantically aligned with page-related operations and would be a suitable location for this function.",
+      "confidence": 0.85,
+      "reason_codes": ["utility_function_context", "semantic_match"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py contains 'get', 'page' terms"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "test_utility_function_exists",
+      "kind": "changed_requirement",
+      "target": "cms.tests",
+      "reason": "Verify that the new utility function get_page_content_by_language is properly implemented and tested",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "test_existing_functionality_intact",
+      "kind": "regression",
+      "target": "cms.tests",
+      "reason": "Ensure all existing functionality continues to work after adding the new utility function",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

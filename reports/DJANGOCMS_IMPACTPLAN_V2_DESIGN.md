@@ -205,8 +205,79 @@ This is stated in `reports/BENCHMARK_VALIDITY_AND_LIMITATIONS.md` and
 ## 9. What v2 does NOT do
 
 - Does NOT modify or rerun the frozen primary 60-run study.
-- Does NOT run the future 30 v2 cells.
 - Does NOT start Saleor.
 - Does NOT inject dependency-graph assistance.
 - Does NOT claim to isolate prompt effects from schema effects.
 - Does NOT reduce the candidate universe.
+
+> The 30-cell v2 study was subsequently executed as a POST-HOC / EXPLORATORY
+> study (`scientific-stagec-djangocms-impactplan-v2-01`); see
+> `reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md`. This design note itself was
+> written BEFORE that execution and is not altered by it.
+
+## 10. Related-work positioning (documentation only)
+
+The following positions the current contribution cautiously. ZERO additional
+scientific calls were made for this section; all references are verified
+external work.
+
+1. **Aider edit formats** — whole-file output, search/replace ("diff") blocks,
+   and unified-diff-like formats demonstrate the established idea of
+   sparse/localized CODE-EDIT OUTPUT rather than always regenerating an entire
+   file.
+2. **Cheng et al., 2026**, *"To Diff or Not to Diff? Structure-Aware and
+   Adaptive Output Formats for Efficient LLM-based Code Editing"*,
+   arXiv:2604.27296 / ACL Findings 2026 — establishes that edit/output
+   representation affects code-editing accuracy, latency, and cost and that
+   diff-format design itself matters.
+3. **Wang et al., 2026**, *"Cascaded Code Editing: Large-Small Model
+   Collaboration for Effective and Efficient Code Editing"*, arXiv:2604.19201 —
+   reports a "Context Tax" for scoped direct-edit formats where old-code
+   anchors/localization context can offset expected output savings.
+4. **Yadavally and Nguyen, ICSE 2026**, *"From Seed to Scope: Reasoning to
+   Identify Change Impact Sets"* (Ripple) — an intent-aware LLM-assisted
+   change-impact-analysis approach that explicitly studies precision/recall
+   tradeoffs with seed-to-scope plus plan-then-predict reasoning. Therefore
+   repository-level LLM change-impact planning itself is NOT claimed as novel.
+
+**Cautious positioning:** the current contribution is the specific combination
+evaluated here — explicit auditable repository-level impact policy; sparse
+non-PRESERVE action serialization; deterministic PRESERVE-by-omission
+reconstruction over a frozen candidate universe; measured selection-stage
+correctness/efficiency behavior; and an empirical diagnosis of full explicit
+policy serialization as an output bottleneck in the current djangoCMS
+treatment. Broad novelty is NOT claimed.
+
+**Constrained statements:**
+- Do NOT claim "ID-anchored sparsity avoids the Context Tax entirely." A safer
+  statement: *the ID-anchored planning representation does not require the
+  old-code localization anchors used by content-addressed code-edit formats at
+  its planning-output stage; however, it still incurs input-side
+  candidate/evidence context costs.*
+- Distinguish CODE EDITING / PATCH REPRESENTATION from REPOSITORY-LEVEL IMPACT
+  SELECTION / POLICY REPRESENTATION. Aider, AdaEdit, Cascaded Code Editing,
+  Ripple, and this study do NOT solve the same task.
+
+## 11. Input-side scalability limitation (documentation only)
+
+ImpactPlan-v2 removes the need to explicitly output a PRESERVE decision for
+every repository candidate. However, the current v2 inference prompt still
+exposes the frozen candidate universe and associated strategy-visible evidence.
+A sufficiently larger repository may therefore encounter an **input-side**
+scalability bottleneck even if sparse output remains compact.
+
+- No repository-size threshold is derived from the single djangoCMS point.
+- Graph scoping is NOT claimed to be uniquely necessary.
+- Possible future approaches (examples): soft dependency-graph evidence;
+  retrieval-based candidate generation; hierarchical localization; repository
+  summaries; learned/ranked candidate retrieval; other candidate-scoping
+  mechanisms.
+- Any future scoping mechanism must be evaluated carefully: hard exclusion of a
+  true gold candidate before LLM selection imposes an upper bound on achievable
+  Recall.
+- The current study uses NO graph assistance.
+
+## 12. Post-study mathematical design note
+
+`docs/RISK_AWARE_SPARSE_IMPACT_SELECTION_MODEL.md` (DESIGN / THEORY for a
+possible future v3; zero scientific calls; does not modify v2).

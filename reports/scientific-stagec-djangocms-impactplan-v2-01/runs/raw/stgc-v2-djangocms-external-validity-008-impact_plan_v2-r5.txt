@@ -1,0 +1,122 @@
+{
+  "decisions": [
+    {
+      "id": 18,
+      "action": "REGENERATE",
+      "rationale": "The cache module requires updates to support tagged cache invalidation per content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["requirement_driven_modification"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "Matches terms: cache, get, invalidate, key, page"
+        },
+        {
+          "source": "semantic-seed-19",
+          "description": "Matches terms: cache, get, key, page"
+        },
+        {
+          "source": "semantic-seed-21",
+          "description": "Matches terms: cache, get, key, placeholder"
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers must be added for post_save and post_delete to trigger cache tag invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["missing_functionality"],
+      "evidence": [
+        {
+          "source": "semantic-seed-86",
+          "description": "Matches terms: delete, post, save"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "action": "REGENERATE",
+      "rationale": "Middleware needs modification to tag responses with cache tags from rendered content.",
+      "confidence": 0.85,
+      "reason_codes": ["integration_point"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "Matches terms: get, toolbar"
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "action": "REGENERATE",
+      "rationale": "Template tags need updating to use the new cache tag system when checking cached content.",
+      "confidence": 0.9,
+      "reason_codes": ["template_integration"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Matches terms: get, page, placeholder, plugin"
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "action": "VALIDATE",
+      "rationale": "Configuration utilities may require validation to ensure opt-in behavior works correctly.",
+      "confidence": 0.75,
+      "reason_codes": ["config_boundary"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "Matches terms: cache, get, toolbar"
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "VALIDATE",
+      "rationale": "Permission utilities interact with caching logic and should be validated for regressions.",
+      "confidence": 0.7,
+      "reason_codes": ["security_impact"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Matches terms: cache, change, delete, get, page, plugin"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-CACHE-TAGS-1",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_cache",
+      "reason": "New cache tagging mechanism must be fully tested",
+      "evidence_refs": ["semantic-seed-17"]
+    },
+    {
+      "obligation_id": "VO-SIGNALS-1",
+      "kind": "regression",
+      "target": "cms.tests.test_signals",
+      "reason": "Ensure existing signal behavior unchanged while adding new hooks",
+      "evidence_refs": ["semantic-seed-86"]
+    },
+    {
+      "obligation_id": "VO-MIDDLEWARE-1",
+      "kind": "static",
+      "target": "run_mypy",
+      "reason": "Type safety of modified middleware components",
+      "evidence_refs": ["semantic-seed-27"]
+    },
+    {
+      "obligation_id": "VO-TEMPLATE-TAGS-1",
+      "kind": "build",
+      "target": "django.test.runner.DiscoverRunner",
+      "reason": "Verify template tags compile and function with new caching",
+      "evidence_refs": ["semantic-seed-95"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

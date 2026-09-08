@@ -83,3 +83,19 @@ The arms have different interaction structures. Agent can distribute output over
 - The single 16K observation where the unchanged v1 planner fallback classified the one omitted candidate as PRESERVE and that happened to be correct is an ILLUSTRATIVE empirical observation that deterministic omitted=>P decoding is operationally feasible; it does NOT prove omitted=>P is universally safe.
 - Any projected v2 token savings from the 16K response remain PRE-EXPERIMENT ESTIMATES until measured by v2; token-per-entry figures are NOT universal constants.
 - The v2 probe is primarily a technical-validity + cost + serialization probe. One-run accuracy differences between v1 and v2 are NOT statistically meaningful.
+---
+
+## 8. ImpactPlan-v2 30-CELL STUDY (POST-HOC / EXPLORATORY) validity notes
+
+**STUDY_ID:** `scientific-stagec-djangocms-impactplan-v2-01` — see `reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md`.
+
+- v2 is ONE representation redesign (sparse output representation + planner instruction changed TOGETHER); prompt/schema effects are NOT independently isolated.
+- v2 uses the EXISTING structured-output mechanism with a v2-specific sparse schema; structured output already existed in v1.
+- Operational completeness is much higher than primary v1 ImpactPlan on the same cap: 29/30 valid (0 truncations) vs primary v1 6/30 valid (19x 4096-cap truncations). This is descriptive; the two treatments are separate studies with separate denominators (30 vs 60 cells) and must NOT be pooled.
+- Correctness is still survivor-restricted to valid cells; the 1 failed cell (002-r3) is recorded and NOT re-run. Bad outcomes are scientific outcomes.
+- The validity of the deterministic omitted=>PRESERVE reconstruction is a REPRESENTATION property (D(E_s(pi)) = pi under the contract), NOT a proof that the LLM identifies every truly impacted candidate.
+- Scenario-006 had the weakest correctness (recall 0.4667, full-recall rate 0.0) — a scientific observation, NOT a tuning trigger.
+- Prompt-evidence parity (zero scientific calls): scenario-004 v1 and v2 rendered inputs contain the SAME strategy-visible evidence block (32 semantic-seed items); semantic-seed evidence was NOT newly introduced by v2.
+- Input-side scalability limitation: v2 removes explicit PRESERVE serialization but still exposes the full candidate universe + evidence in the prompt; a larger repository may face an input-side bottleneck. No threshold is derived from this single repository.
+- Related-work note: Aider edit formats, Cheng et al. 2026 (arXiv:2604.27296), Wang et al. 2026 (arXiv:2604.19201), and Yadavally & Nguyen ICSE 2026 (Ripple) document related output-representation and change-impact work; see `reports/DJANGOCMS_IMPACTPLAN_V2_DESIGN.md` section 10.
+- Future v3 mathematical note is DESIGN-ONLY: `docs/RISK_AWARE_SPARSE_IMPACT_SELECTION_MODEL.md` (zero scientific calls; does not modify v2).

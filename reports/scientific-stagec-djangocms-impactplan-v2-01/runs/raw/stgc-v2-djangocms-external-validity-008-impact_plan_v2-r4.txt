@@ -1,0 +1,115 @@
+{
+  "decisions": [
+    {
+      "id": 18,
+      "action": "REGENERATE",
+      "rationale": "The cache module requires updates to implement the new tag-based invalidation system.",
+      "confidence": 0.95,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "Matches terms: cache, get, invalidate, key, page"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "action": "REGENERATE",
+      "rationale": "Page-level caching logic needs modification to support tagged invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-19",
+          "description": "Matches terms: cache, get, key, page"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "action": "REGENERATE",
+      "rationale": "Placeholder caching must be updated to use the new tag-based invalidation mechanism.",
+      "confidence": 0.9,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Matches terms: cache, get, key, placeholder"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "action": "REGENERATE",
+      "rationale": "Middleware needs updating to tag responses with cache tags of rendered content.",
+      "confidence": 0.85,
+      "reason_codes": ["requirement_change"],
+      "evidence": []
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers are needed for post_save/post_delete events to trigger cache invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-86",
+          "description": "Matches terms: delete, post, save"
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "action": "REGENERATE",
+      "rationale": "Template tags need updating to check cache using the new tag system before rendering.",
+      "confidence": 0.85,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Matches terms: get, page, placeholder, plugin"
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "action": "VALIDATE",
+      "rationale": "Configuration utilities should ensure backward compatibility and proper setup of the new cache system.",
+      "confidence": 0.8,
+      "reason_codes": ["regression_risk"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "Matches terms: cache, get, toolbar"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-1",
+      "kind": "changed_requirement",
+      "target": "cms/tests/test_cache.py",
+      "reason": "New cache tagging functionality must be tested",
+      "evidence_refs": ["semantic-seed-17"]
+    },
+    {
+      "obligation_id": "VO-2",
+      "kind": "regression",
+      "target": "cms/tests/test_middleware.py",
+      "reason": "Existing middleware behavior must remain unchanged",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "VO-3",
+      "kind": "regression",
+      "target": "cms/tests/test_templatetags.py",
+      "reason": "Template tag behavior must maintain backward compatibility",
+      "evidence_refs": ["semantic-seed-95"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

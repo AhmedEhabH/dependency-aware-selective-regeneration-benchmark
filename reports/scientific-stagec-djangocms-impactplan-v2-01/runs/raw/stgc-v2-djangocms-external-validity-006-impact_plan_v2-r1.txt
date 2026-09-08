@@ -1,0 +1,101 @@
+{
+  "decisions": [
+    {
+      "id": 73,
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model requires a new nullable ForeignKey to PageContent to associate plugins with specific language contexts.",
+      "confidence": 0.95,
+      "reason_codes": ["schema_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "artifact descriptor matches requirement terms: ['plugin']"
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "action": "REGENERATE",
+      "rationale": "Placeholder rendering logic must filter plugins by language using the new page_content foreign key.",
+      "confidence": 0.9,
+      "reason_codes": ["behavior_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "artifact descriptor matches requirement terms: ['page', 'placeholder', 'plugin', 'render', 'show']"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "Plugin admin forms need to display associated PageContent context as part of the UI enhancement.",
+      "confidence": 0.85,
+      "reason_codes": ["ui_enhancement"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "artifact descriptor matches requirement terms: ['content', 'filter', 'language', 'page', 'template']"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "VALIDATE",
+      "rationale": "API functions may require updates or validation to ensure proper handling of plugin-to-language associations.",
+      "confidence": 0.8,
+      "reason_codes": ["interface_validation"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "artifact descriptor matches requirement terms: ['change', 'content', 'language', 'page', 'plugin', 'verify']"
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "VALIDATE",
+      "rationale": "Utility functions for plugins might interact with the new field and should be validated for correctness.",
+      "confidence": 0.75,
+      "reason_codes": ["utility_validation"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "artifact descriptor matches requirement terms: ['model', 'placeholder', 'plugin']"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-1",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_plugin_model",
+      "reason": "Verify that the new page_content foreign key is correctly implemented and functional",
+      "evidence_refs": ["semantic-seed-72"]
+    },
+    {
+      "obligation_id": "VO-2",
+      "kind": "regression",
+      "target": "cms.tests.regressions.test_placeholder_rendering",
+      "reason": "Ensure existing placeholder rendering behavior remains intact while adding language filtering",
+      "evidence_refs": ["semantic-seed-95"]
+    },
+    {
+      "obligation_id": "VO-3",
+      "kind": "build",
+      "target": "runserver",
+      "reason": "Confirm migration applies cleanly without breaking application startup",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "VO-4",
+      "kind": "static",
+      "target": "flake8",
+      "reason": "Ensure code changes comply with style guide and static analysis checks",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

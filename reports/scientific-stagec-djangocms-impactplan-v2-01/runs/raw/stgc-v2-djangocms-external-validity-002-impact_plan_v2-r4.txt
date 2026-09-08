@@ -1,0 +1,68 @@
+{
+  "decisions": [
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "The cms/api.py module is the most appropriate place for a public utility function related to content retrieval, aligning with Django best practices for centralizing business logic.",
+      "confidence": 0.95,
+      "reason_codes": ["design_best_practice"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py contains terms 'change', 'content', 'get', 'language', 'page' indicating it's a relevant location for content-related utilities"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "action": "REGENERATE",
+      "rationale": "The models/contentmodels.py file is where PageContent model is defined, making it the natural location for a manager method to retrieve page content by language.",
+      "confidence": 0.9,
+      "reason_codes": ["model_coherence"],
+      "evidence": [
+        {
+          "source": "semantic-seed-65",
+          "description": "cms/models/contentmodels.py contains term 'pagecontent' indicating it's the correct model file"
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "VALIDATE",
+      "rationale": "The cms/utils/page.py utility module should be checked to ensure no existing conflicting implementation exists and that the new function integrates properly with existing page utilities.",
+      "confidence": 0.85,
+      "reason_codes": ["integration_check"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py contains terms 'get', 'page' suggesting existing page utility functions"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "test_utility_function",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_api",
+      "reason": "New utility function requires dedicated unit tests covering success and DoesNotExist cases",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "test_regression_pages",
+      "kind": "regression",
+      "target": "cms.tests.test_models.PageTestCase",
+      "reason": "Existing page functionality must continue working after adding new utility function",
+      "evidence_refs": ["semantic-seed-68"]
+    },
+    {
+      "obligation_id": "lint_django_style",
+      "kind": "static",
+      "target": "django.core.management.commands.check",
+      "reason": "Implementation must follow Django coding standards and best practices",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

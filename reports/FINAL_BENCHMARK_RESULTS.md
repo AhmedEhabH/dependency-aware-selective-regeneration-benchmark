@@ -243,3 +243,20 @@ Values are pooled across the valid repetitions only for that scenario. `N/A` = 0
 - Wiring tag: `stagec-djangocms-study-wiring-verified-01` (ancestor of HEAD).
 - Frozen runtime universe hash: `43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410`.
 - Raw evidence: `reports/scientific-stagec-djangocms-01/run_records.jsonl` + `reports/scientific-stagec-djangocms-01/runs/*.json` (hashes persisted in `raw_evidence_hashes.json`; verified unchanged).
+---
+
+## 12. POST-HOC / EXPLORATORY ImpactPlan-v2 30-CELL STUDY (distinct, NOT pooled)
+
+**STUDY_ID:** `scientific-stagec-djangocms-impactplan-v2-01`
+**Type:** POST-HOC / EXPLORATORY REDESIGN — a distinct 30-cell study (6 scenarios x 5 reps, arm `impact_plan_v2` ONLY), NOT part of the 60-cell primary experiment and NOT pooled with it.
+
+See `reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md` and `reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.csv` for the full report.
+
+- Operational: **30/30 recorded — 29 valid / 1 failed** (002-r3 `v_missing_validation_reason` invariant gate on a VALIDATE decision; scientific outcome, NOT rerun); 0 truncations, 0 invalid IDs, 0 duplicate/conflict; 1 model call per cell.
+- Valid-only micro: TP103 / FP36 / FN16; Precision 0.741007; Recall 0.865546; F1 0.798450; FNR 0.134454; full-recall rate 0.620690.
+- Macro (mean over valid cells): Precision 0.716667; Recall 0.862972; F1 0.766824; FNR 0.137028.
+- All-cell efficiency: 113,880 prompt / 30,473 completion / 144,353 total tokens; 30 calls; latency total 391.437 s (mean 13.270 s / median 11.953 s / min 5.266 s / max 48.843 s); recorded API cost `$0.064634` < `$0.20` (COST_LOCK=PASS).
+- Same-cap observation: historical v1 scenario-004 @4096 was 5/5 truncated at the cap; v2 scenario-004 @4096 was 5/5 succeeded (feasibility evidence only, not an accuracy claim).
+- Descriptive comparisons only: v1 had 6 valid cells vs Agent 25 vs v2 29 — distinct denominators, NOT pooled into a common validity numerator/denominator; NO statistical significance is claimed.
+- Prompt-evidence parity PASS: scenario-004 v1/v2 rendered inputs share the same 32-item strategy-visible evidence block (semantic-seed evidence NOT newly introduced by v2).
+- Six pre-study gates + audit and six post-study closure gates + audit all PASS (zero scientific calls).

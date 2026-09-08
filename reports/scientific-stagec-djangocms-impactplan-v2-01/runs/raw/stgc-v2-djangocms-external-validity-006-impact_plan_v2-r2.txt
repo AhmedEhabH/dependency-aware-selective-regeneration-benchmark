@@ -1,0 +1,107 @@
+{
+  "decisions": [
+    {
+      "id": 73,
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model requires a new nullable ForeignKey to PageContent to associate plugins with specific language contexts.",
+      "confidence": 0.95,
+      "reason_codes": ["schema_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py contains the core plugin model definition requiring modification."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "Admin forms need updates to display and handle the new PageContent context for plugins.",
+      "confidence": 0.9,
+      "reason_codes": ["ui_context"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py handles content, language and template-related form logic."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "action": "REGENERATE",
+      "rationale": "Placeholder admin rendering logic must filter plugins based on the new page_content foreign key.",
+      "confidence": 0.92,
+      "reason_codes": ["render_filter"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/placeholderadmin.py contains placeholder administration methods needing update."
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "action": "REGENERATE",
+      "rationale": "Plugin rendering logic needs adjustment to respect the new page_content-based filtering.",
+      "confidence": 0.89,
+      "reason_codes": ["render_logic"],
+      "evidence": [
+        {
+          "source": "semantic-seed-79",
+          "description": "cms/plugin_rendering.py manages how plugins are rendered in templates."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "VALIDATE",
+      "rationale": "API functions may require verification to ensure they correctly manage plugin-to-page-content associations.",
+      "confidence": 0.85,
+      "reason_codes": ["api_integration"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py includes high-level operations involving pages, plugins and languages."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "VALIDATE",
+      "rationale": "Utility functions dealing with placeholders and plugins should be checked for compatibility with the new field.",
+      "confidence": 0.8,
+      "reason_codes": ["util_compatibility"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "cms/utils/placeholder.py provides utilities interacting closely with placeholder-plugin relationships."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-1",
+      "kind": "changed_requirement",
+      "target": "test_plugin_language_association",
+      "reason": "Verify that plugins can be correctly associated with PageContent and language-specific rendering works.",
+      "evidence_refs": ["semantic-seed-72", "semantic-seed-79"]
+    },
+    {
+      "obligation_id": "VO-2",
+      "kind": "regression",
+      "target": "test_existing_functionality",
+      "reason": "Ensure backward compatibility of plugin behavior when page_content is NULL.",
+      "evidence_refs": ["semantic-seed-72"]
+    },
+    {
+      "obligation_id": "VO-3",
+      "kind": "static",
+      "target": "lint_django_best_practices",
+      "reason": "Confirm adherence to Django modeling and migration best practices during implementation.",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}
