@@ -1,0 +1,544 @@
+{
+  "all_cell_operational": {
+    "impact_plan": {
+      "cost": 0.123298,
+      "failed": 24,
+      "model_calls": 28,
+      "read_file_calls": 0,
+      "time": 2658.733,
+      "tokens": 184401,
+      "tool_calls": 0,
+      "valid": 6,
+      "valid_rate": 0.2
+    },
+    "iterative_repository_agent": {
+      "cost": 0.14085,
+      "failed": 5,
+      "model_calls": 206,
+      "read_file_calls": 27,
+      "time": 2265.517,
+      "tokens": 449792,
+      "tool_calls": 81,
+      "valid": 25,
+      "valid_rate": 0.833333
+    }
+  },
+  "arm_counts": {
+    "impact_plan": {
+      "failed": 24,
+      "total": 30,
+      "valid": 6,
+      "valid_rate": 0.2
+    },
+    "iterative_repository_agent": {
+      "failed": 5,
+      "total": 30,
+      "valid": 25,
+      "valid_rate": 0.833333
+    }
+  },
+  "failed": 29,
+  "failure_taxonomy": {
+    "completion_truncation_4096_cap": {
+      "arm_counts": {
+        "impact_plan": 19
+      },
+      "count": 19
+    },
+    "empty_selection_fail_closed": {
+      "arm_counts": {
+        "iterative_repository_agent": 1
+      },
+      "count": 1
+    },
+    "harness_defect": {
+      "arm_counts": {
+        "impact_plan": 1
+      },
+      "count": 1
+    },
+    "provider_http_429": {
+      "arm_counts": {
+        "impact_plan": 1,
+        "iterative_repository_agent": 4
+      },
+      "count": 5
+    },
+    "unknown_path_non_universe": {
+      "arm_counts": {
+        "impact_plan": 3
+      },
+      "count": 3
+    }
+  },
+  "impactplan_relative_to_agent_all_cell": {
+    "cost_pct": -12.46,
+    "model_calls_pct": -86.41,
+    "time_pct": 17.36,
+    "tokens_pct": -59.0
+  },
+  "latency_outliers_valid": [
+    "stgc-djangocms-external-validity-006-iterative_repository_agent-r2"
+  ],
+  "macro_valid_runs": {
+    "impact_plan": {
+      "cost": {
+        "max": 0.004745,
+        "mean": 0.003119,
+        "median": 0.003003,
+        "min": 0.001859
+      },
+      "full_recall_rate": 0.666667,
+      "latency": {
+        "max": 165.703,
+        "mean": 63.734333,
+        "median": 51.484,
+        "min": 16.578
+      },
+      "mean_f1": 0.765657,
+      "mean_precision": 0.659127,
+      "mean_recall": 0.942857,
+      "median_f1": 0.8,
+      "median_precision": 0.666667,
+      "median_recall": 1.0,
+      "model_calls": {
+        "max": 1.0,
+        "mean": 1.0,
+        "median": 1.0,
+        "min": 1.0
+      },
+      "selected_set_size": {
+        "max": 8.0,
+        "mean": 5.666667,
+        "median": 6.0,
+        "min": 2.0
+      },
+      "tokens": {
+        "max": 7068.0,
+        "mean": 5426.666667,
+        "median": 5436.0,
+        "min": 4049.0
+      },
+      "valid_runs": 6
+    },
+    "iterative_repository_agent": {
+      "cost": {
+        "max": 0.006673,
+        "mean": 0.005413,
+        "median": 0.005476,
+        "min": 0.00406
+      },
+      "full_recall_rate": 0.6,
+      "latency": {
+        "max": 252.0,
+        "mean": 88.64008,
+        "median": 47.266,
+        "min": 11.094
+      },
+      "mean_f1": 0.7121,
+      "mean_precision": 0.674667,
+      "mean_recall": 0.809524,
+      "median_f1": 0.769231,
+      "median_precision": 0.833333,
+      "median_recall": 1.0,
+      "model_calls": {
+        "max": 8.0,
+        "mean": 7.92,
+        "median": 8.0,
+        "min": 7.0
+      },
+      "selected_set_size": {
+        "max": 10.0,
+        "mean": 5.88,
+        "median": 5.0,
+        "min": 2.0
+      },
+      "tokens": {
+        "max": 21204.0,
+        "mean": 17282.28,
+        "median": 17675.0,
+        "min": 12723.0
+      },
+      "valid_runs": 25
+    }
+  },
+  "manifest_cells": 60,
+  "per_scenario_valid": {
+    "djangocms-external-validity-002": {
+      "impact_plan": {
+        "cost": 0.001859,
+        "f1": 0.666667,
+        "fn": 0,
+        "fnr": 0.0,
+        "fp": 1,
+        "model_calls": 1,
+        "precision": 0.5,
+        "recall": 1.0,
+        "selected": 2,
+        "time": 38.438,
+        "tokens": 4049,
+        "tp": 1,
+        "valid_runs": 1
+      },
+      "iterative_repository_agent": {
+        "cost": 0.006569,
+        "f1": 0.0,
+        "fn": 1,
+        "fnr": 1.0,
+        "fp": 2,
+        "model_calls": 8,
+        "precision": 0.0,
+        "recall": 0.0,
+        "selected": 2,
+        "time": 31.188,
+        "tokens": 21141,
+        "tp": 0,
+        "valid_runs": 1
+      }
+    },
+    "djangocms-external-validity-004": {
+      "impact_plan": {
+        "cost": 0,
+        "f1": 0.0,
+        "fn": 0,
+        "fnr": 0.0,
+        "fp": 0,
+        "model_calls": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "selected": 0,
+        "time": 0,
+        "tokens": 0,
+        "tp": 0,
+        "valid_runs": 0
+      },
+      "iterative_repository_agent": {
+        "cost": 0.025595,
+        "f1": 0.952381,
+        "fn": 0,
+        "fnr": 0.0,
+        "fp": 2,
+        "model_calls": 40,
+        "precision": 0.909091,
+        "recall": 1.0,
+        "selected": 22,
+        "time": 119.094,
+        "tokens": 81801,
+        "tp": 20,
+        "valid_runs": 5
+      }
+    },
+    "djangocms-external-validity-005": {
+      "impact_plan": {
+        "cost": 0.004745,
+        "f1": 0.8,
+        "fn": 1,
+        "fnr": 0.2,
+        "fp": 1,
+        "model_calls": 1,
+        "precision": 0.8,
+        "recall": 0.8,
+        "selected": 5,
+        "time": 165.703,
+        "tokens": 7068,
+        "tp": 4,
+        "valid_runs": 1
+      },
+      "iterative_repository_agent": {
+        "cost": 0.027653,
+        "f1": 1.0,
+        "fn": 0,
+        "fnr": 0.0,
+        "fp": 0,
+        "model_calls": 40,
+        "precision": 1.0,
+        "recall": 1.0,
+        "selected": 25,
+        "time": 369.47,
+        "tokens": 89028,
+        "tp": 25,
+        "valid_runs": 5
+      }
+    },
+    "djangocms-external-validity-006": {
+      "impact_plan": {
+        "cost": 0,
+        "f1": 0.0,
+        "fn": 0,
+        "fnr": 0.0,
+        "fp": 0,
+        "model_calls": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "selected": 0,
+        "time": 0,
+        "tokens": 0,
+        "tp": 0,
+        "valid_runs": 0
+      },
+      "iterative_repository_agent": {
+        "cost": 0.020501,
+        "f1": 0.333333,
+        "fn": 7,
+        "fnr": 0.583333,
+        "fp": 13,
+        "model_calls": 31,
+        "precision": 0.277778,
+        "recall": 0.416667,
+        "selected": 18,
+        "time": 515.625,
+        "tokens": 65767,
+        "tp": 5,
+        "valid_runs": 4
+      }
+    },
+    "djangocms-external-validity-007": {
+      "impact_plan": {
+        "cost": 0.002718,
+        "f1": 0.8,
+        "fn": 1,
+        "fnr": 0.142857,
+        "fp": 2,
+        "model_calls": 1,
+        "precision": 0.75,
+        "recall": 0.857143,
+        "selected": 8,
+        "time": 57.5,
+        "tokens": 4752,
+        "tp": 6,
+        "valid_runs": 1
+      },
+      "iterative_repository_agent": {
+        "cost": 0.026955,
+        "f1": 0.769231,
+        "fn": 10,
+        "fnr": 0.285714,
+        "fp": 5,
+        "model_calls": 40,
+        "precision": 0.833333,
+        "recall": 0.714286,
+        "selected": 30,
+        "time": 681.594,
+        "tokens": 85940,
+        "tp": 25,
+        "valid_runs": 5
+      }
+    },
+    "djangocms-external-validity-008": {
+      "impact_plan": {
+        "cost": 0.009392,
+        "f1": 0.774194,
+        "fn": 0,
+        "fnr": 0.0,
+        "fp": 7,
+        "model_calls": 3,
+        "precision": 0.631579,
+        "recall": 1.0,
+        "selected": 19,
+        "time": 120.765,
+        "tokens": 16691,
+        "tp": 12,
+        "valid_runs": 3
+      },
+      "iterative_repository_agent": {
+        "cost": 0.028043,
+        "f1": 0.571429,
+        "fn": 0,
+        "fnr": 0.0,
+        "fp": 30,
+        "model_calls": 39,
+        "precision": 0.4,
+        "recall": 1.0,
+        "selected": 50,
+        "time": 499.031,
+        "tokens": 88380,
+        "tp": 20,
+        "valid_runs": 5
+      }
+    }
+  },
+  "recomputed_at": "2026-09-08T03:09:52.650633+00:00",
+  "records": 60,
+  "records_equal_manifest": true,
+  "total_recorded_cost_usd": 0.264148,
+  "totals_all_cell": {
+    "cost": 0.264148,
+    "model_calls": 234,
+    "read_file_calls": 27,
+    "time": 4924.25,
+    "tokens": 634193,
+    "tool_calls": 81
+  },
+  "truncation_raw_evidence": [
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-002-impact_plan-r1",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-002-impact_plan-r3",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-002-impact_plan-r4",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-002-impact_plan-r5",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-004-impact_plan-r1",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-004-impact_plan-r2",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-004-impact_plan-r3",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-004-impact_plan-r4",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-004-impact_plan-r5",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-005-impact_plan-r3",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-005-impact_plan-r4",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-005-impact_plan-r5",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-006-impact_plan-r2",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-006-impact_plan-r3",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-007-impact_plan-r3",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-007-impact_plan-r4",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-007-impact_plan-r5",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-008-impact_plan-r3",
+      "truncation_status": true
+    },
+    {
+      "completion_tokens": 4096,
+      "finish_reason": "length",
+      "max_cap": 4096,
+      "run_id": "stgc-djangocms-external-validity-008-impact_plan-r5",
+      "truncation_status": true
+    }
+  ],
+  "valid": 31,
+  "valid_headline_micro": {
+    "impact_plan": {
+      "cost": 0.018714,
+      "f1": 0.779661,
+      "fn": 2,
+      "fnr": 0.08,
+      "fp": 11,
+      "inspected_files": 0,
+      "model_calls": 6,
+      "precision": 0.676471,
+      "read_file_calls": 0,
+      "recall": 0.92,
+      "selected": 34,
+      "time": 382.406,
+      "tokens": 32560,
+      "tool_calls": 0,
+      "tp": 23
+    },
+    "iterative_repository_agent": {
+      "cost": 0.135316,
+      "f1": 0.730769,
+      "fn": 18,
+      "fnr": 0.159292,
+      "fp": 52,
+      "inspected_files": 25,
+      "model_calls": 198,
+      "precision": 0.646259,
+      "read_file_calls": 26,
+      "recall": 0.840708,
+      "selected": 147,
+      "time": 2216.002,
+      "tokens": 432057,
+      "tool_calls": 79,
+      "tp": 95
+    }
+  }
+}
