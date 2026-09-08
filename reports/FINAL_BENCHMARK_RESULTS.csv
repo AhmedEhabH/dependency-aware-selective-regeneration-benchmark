@@ -69,3 +69,33 @@ SECTION,ALL_CELL_OPERATIONAL
 Arm,Valid / 30,Failed / 30,Valid Rate,Tokens,Model Calls,Measured Time,Recorded Cost
 iterative_repository_agent,25,5,0.8333,449792,206,2265.517,0.140850
 impact_plan,6,24,0.2000,184401,28,2658.733,0.123298
+
+SECTION,V2_POST_HOC_EXPLORATORY_OPERATIONAL
+Study,Recorded,Valid,Failed,Truncations,Prompt Tokens,Completion Tokens,Total Tokens,Calls,Recorded Cost,Latency All-30
+scientific-stagec-djangocms-impactplan-v2-01,30,29,1,0,113880,30473,144353,30,0.064634,391.437
+
+SECTION,V2_VALID_ONLY_MICRO
+Study,Valid Cells,TP,FP,FN,Precision,Recall,F1,FNR,Full Recall Rate
+scientific-stagec-djangocms-impactplan-v2-01,29,103,36,16,0.741007,0.865546,0.798450,0.134454,0.620690
+
+SECTION,V2_VALID_ONLY_MACRO
+Study,Valid Cells,Mean Precision,Mean Recall,Mean F1,Mean FNR
+scientific-stagec-djangocms-impactplan-v2-01,29,0.716667,0.862972,0.766824,0.137028
+
+SECTION,V2_SAME_CAP_SCENARIO_004_CAP_4096
+Treatment,Scenario-004 outcome
+impact_plan_v1,5/5 truncated at 4096 (finish_reason=length, 4096 completion tokens each)
+impact_plan_v2,5/5 completed without truncation (finish_reason=stop; completion output range 874-1525 tokens)
+
+SECTION,V2_WEAKEST_SCENARIO_006
+Scenario,Valid/5,Precision,Recall,Full Recall Rate
+djangocms-external-validity-006,5,0.388889,0.466667,0.0
+
+SECTION,V2_FAILED_CELL
+run_id,scenario_id,repetition,terminal_status,failure_category
+stgc-v2-djangocms-external-validity-002-impact_plan_v2-r3,djangocms-external-validity-002,3,failed,impact_plan_invariant_failure: v_missing_validation_reason: cms/models/__init__.py
+
+SECTION,V2_DESCRIPTIVE_COMPARISON_AGENT_ALL_CELL
+Treatment,Tokens,Calls,Latency Seconds,Recorded Cost
+iterative_repository_agent,449792,206,2265.517,0.140850
+impact_plan_v2,144353,30,391.437,0.064634

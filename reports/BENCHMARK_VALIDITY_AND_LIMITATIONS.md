@@ -1,5 +1,14 @@
 # BENCHMARK VALIDITY AND LIMITATIONS — djangoCMS External-Validity Study
 
+> **FINAL BENCHMARK CLOSURE (2026-09-08):** the selection-stage benchmark
+> research is closed and audited. GPT-5.6 Sol external audit of the v2 30-cell
+> study PASSED; the audited v2 tag `stagec-djangocms-impactplan-v2-study-01-audited`
+> was created at `f8e7aa8…` and pushed; the research branch was merged to
+> `main`; `v0.11.0-benchmark-complete` was created and pushed (meaning:
+> selection-stage benchmark research closed and audited — NOT end-to-end
+> executor regeneration success). Zero scientific API calls were made during
+> the closure. See `reports/CROSS_REPO_SYNTHESIS.md`.
+
 **STUDY_ID:** `scientific-stagec-djangocms-01`
 **Report corrected (UTC):** 2026-09-08T03:12:51.922429+00:00
 
