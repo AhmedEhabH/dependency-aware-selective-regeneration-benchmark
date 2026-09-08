@@ -1,0 +1,187 @@
+{
+  "identity": {
+    "v1_default_cap": "4096",
+    "v1_planner_prompt_sha256": "d6f8798d2c131afdf8289b01d4b4d826eb5fa997e1f1d748303f3d1a362312fb",
+    "v1_planner_schema_sha256": "12152c5947319fdc85313e0024542c7ea63301c62ebea847f005d71dc8dc87ee",
+    "v2_completion_cap": "4096",
+    "v2_planner_prompt_sha256": "69c2e44d9408d9db95334bafe62cfc706475b2838bffa85e59da543bdbd7cea0",
+    "v2_planner_schema_sha256": "98f7eb91774c29867b09a3d4af21cdbb2f65a05e073efe430531a5f3b0fe9392"
+  },
+  "items": [
+    {
+      "detail": {
+        "head": "07c975e6a9b58725b18042bb5b0d3102c2c1b104",
+        "tag": "stagec-djangocms-study-wiring-verified-01"
+      },
+      "item": "wiring_tag_exists_and_is_ancestor_of_head",
+      "ok": true
+    },
+    {
+      "detail": 144,
+      "item": "runtime_universe_count_equals_144",
+      "ok": true
+    },
+    {
+      "detail": {
+        "frozen": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+        "runtime": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+      },
+      "item": "runtime_and_frozen_canonical_hashes_identical",
+      "ok": true
+    },
+    {
+      "detail": {
+        "extra": [],
+        "missing": []
+      },
+      "item": "missing_extra_paths_empty",
+      "ok": true
+    },
+    {
+      "detail": [],
+      "item": "all_gold_paths_inside_runtime_universe",
+      "ok": true
+    },
+    {
+      "detail": {
+        "expected_actions_count": 0,
+        "gold_not_in_visible": true,
+        "loaded_from_visible_drafts": true,
+        "not_old_historical": true,
+        "path": "C:/Users/Ahmed/Desktop/OpenCode/master-2026-07-21-2355/project-djangocms-prep/benchmark_data/external_validity/visible_drafts/djangocms-external-validity-004.yaml",
+        "scenario_id": "djangocms-external-validity-004",
+        "visible_sha256": "0b25d27452ceff3fae08eecd42b15da8d6788c4af162455f71c2db5cf3450430"
+      },
+      "item": "probe_scenario_is_004_model_facing",
+      "ok": true
+    },
+    {
+      "detail": {
+        "excluded": [
+          2048,
+          8192,
+          16384
+        ],
+        "v1_primary_cap": 4096,
+        "v2_cap": 4096
+      },
+      "item": "v2_cap_is_exactly_4096",
+      "ok": true
+    },
+    {
+      "detail": "impact_planner.py identical to HEAD (v1 prompt/schema/cap unchanged)",
+      "item": "v1_planner_source_unchanged",
+      "ok": true
+    },
+    {
+      "detail": {
+        "v1_default_cap": "4096",
+        "v1_planner_prompt_sha256": "d6f8798d2c131afdf8289b01d4b4d826eb5fa997e1f1d748303f3d1a362312fb",
+        "v1_planner_schema_sha256": "12152c5947319fdc85313e0024542c7ea63301c62ebea847f005d71dc8dc87ee",
+        "v2_completion_cap": "4096",
+        "v2_planner_prompt_sha256": "69c2e44d9408d9db95334bafe62cfc706475b2838bffa85e59da543bdbd7cea0",
+        "v2_planner_schema_sha256": "98f7eb91774c29867b09a3d4af21cdbb2f65a05e073efe430531a5f3b0fe9392"
+      },
+      "item": "v1_prompt_schema_hashes_reproducible",
+      "ok": true
+    },
+    {
+      "detail": {
+        "v1_default_cap": "4096",
+        "v1_planner_prompt_sha256": "d6f8798d2c131afdf8289b01d4b4d826eb5fa997e1f1d748303f3d1a362312fb",
+        "v1_planner_schema_sha256": "12152c5947319fdc85313e0024542c7ea63301c62ebea847f005d71dc8dc87ee",
+        "v2_completion_cap": "4096",
+        "v2_planner_prompt_sha256": "69c2e44d9408d9db95334bafe62cfc706475b2838bffa85e59da543bdbd7cea0",
+        "v2_planner_schema_sha256": "98f7eb91774c29867b09a3d4af21cdbb2f65a05e073efe430531a5f3b0fe9392"
+      },
+      "item": "v2_prompt_schema_hashes_computed",
+      "ok": true
+    },
+    {
+      "detail": {
+        "artifact": {
+          "artifact_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\impactplan_v2_candidate_id_map.json",
+          "artifact_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+          "derived_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+          "entry_count": 144,
+          "errors": [],
+          "passed": true,
+          "universe_sha256": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+        },
+        "entry_count": 144,
+        "first_path": "cms/__init__.py",
+        "ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          "...",
+          142,
+          143,
+          144
+        ],
+        "last_path": "menus/utils.py",
+        "mapping_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+        "universe_sha256": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+      },
+      "item": "candidate_id_mapping_144_deterministic_sha256",
+      "ok": true
+    },
+    {
+      "detail": "v2 planning path carries no frozen dependency graph",
+      "item": "v2_module_has_no_graph_injection",
+      "ok": true
+    },
+    {
+      "detail": {
+        "fallback": "off",
+        "model": "qwen/qwen3-coder",
+        "provider": "DeepInfra pinned through OpenRouter",
+        "temperature": 0.0
+      },
+      "item": "model_provider_temp_fallback_unchanged",
+      "ok": true
+    },
+    {
+      "detail": {
+        "immutable": true,
+        "mismatch": [],
+        "missing": [],
+        "recomputed_count": 71,
+        "stored_count": 71
+      },
+      "item": "primary_evidence_immutable",
+      "ok": true
+    },
+    {
+      "detail": {
+        "disk_sha256": "8a83290e89b2e8090ae88fbfc2cca254f3c301274e9c42633ce14c6ce9f7f2ab",
+        "git_diff_quiet_vs_head": 0,
+        "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\reports\\scientific-stagec-djangocms-impactplan-cap-ablation-01\\costprobe_8192.json",
+        "unchanged": true
+      },
+      "item": "previous_8192_evidence_unchanged",
+      "ok": true
+    },
+    {
+      "detail": {
+        "disk_sha256": "f55d86cd7db0f4d75814f6336290364d01caf8e6fcf1b89ecbdee5e3ffced775",
+        "git_diff_quiet_vs_head": 0,
+        "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\reports\\scientific-stagec-djangocms-impactplan-16k-diagnostic-01\\diagnostic.json",
+        "unchanged": true
+      },
+      "item": "previous_16k_diagnostic_evidence_unchanged",
+      "ok": true
+    },
+    {
+      "detail": "exactly ONE impact_plan_v2 run, no Agent, no repetitions, no second scenario",
+      "item": "exactly_one_v2_probe_no_agent_no_reps",
+      "ok": true
+    }
+  ],
+  "passed": true,
+  "probe_id": "scientific-stagec-djangocms-impactplan-v2-costprobe-01",
+  "section": "IMPACTPLAN_V2_COSTPROBE_PRE_RUN_VALIDATION",
+  "validated_at": "2026-09-08T11:00:18.198754+00:00"
+}
