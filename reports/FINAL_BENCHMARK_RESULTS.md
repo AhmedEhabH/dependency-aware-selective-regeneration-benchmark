@@ -1,7 +1,21 @@
 # FINAL BENCHMARK RESULTS — djangoCMS External-Validity Stage-C Selection Study
 
+> **FINAL BENCHMARK CLOSURE (2026-09-08) — the selection-stage benchmark
+> research is CLOSED and AUDITED.** The djangoCMS ImpactPlan-v2 30-cell
+> POST-HOC / EXPLORATORY study was independently audited by GPT-5.6 Sol
+> (external audit PASS) and the audited v2 study tag
+> `stagec-djangocms-impactplan-v2-study-01-audited` was created at commit
+> `f8e7aa8…`. The research branch was merged to `main` (history-preserving
+> merge) and the final benchmark tag `v0.11.0-benchmark-complete` was created
+> and pushed. **The tag means the selection-stage benchmark research is closed
+> and audited — it does NOT mean successful end-to-end executor regeneration.**
+> The canonical cross-repository synthesis is
+> `reports/CROSS_REPO_SYNTHESIS.md`. Zero new scientific API calls were made
+> during this closure; all six final closure gates + independent audit PASS.
+
 **STUDY_ID:** `scientific-stagec-djangocms-01`
 **Report corrected (UTC):** 2026-09-08T03:12:51.914421+00:00
+**Final closure (UTC):** 2026-09-08
 **Wiring tag:** `stagec-djangocms-study-wiring-verified-01`
 **Scientific model/provider:** `qwen/qwen3-coder` @ `deepinfra/turbo` (DeepInfra pinned through OpenRouter; fallback OFF; temperature 0)
 **Caps:** `iterative_repository_agent` = 1024 / `impact_plan` = 4096 completion tokens (frozen)
@@ -260,3 +274,4 @@ See `reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md` and `reports/DJANGOCMS_IMPACTPL
 - Descriptive comparisons only: v1 had 6 valid cells vs Agent 25 vs v2 29 — distinct denominators, NOT pooled into a common validity numerator/denominator; NO statistical significance is claimed.
 - Prompt-evidence parity PASS: scenario-004 v1/v2 rendered inputs share the same 32-item strategy-visible evidence block (semantic-seed evidence NOT newly introduced by v2).
 - Six pre-study gates + audit and six post-study closure gates + audit all PASS (zero scientific calls).
+- **FINAL CLOSURE:** the v2 30-cell study was externally audited by GPT-5.6 Sol (audit PASS); the annotated audited study tag **`stagec-djangocms-impactplan-v2-study-01-audited`** was created at commit `f8e7aa8…` and pushed (remote verified). The research branch was merged to `main` and the final benchmark tag `v0.11.0-benchmark-complete` was created/pushed. See `reports/CROSS_REPO_SYNTHESIS.md` for the cross-repository synthesis (Todo + djangoCMS primary + v2, kept separate). Zero scientific API calls were made during the closure.
