@@ -80,6 +80,7 @@ instructions, and the structured-output schema together.
 | Recorded | 30/30 |
 | Valid (succeeded) | 29 |
 | Failed | 1 |
+| Operational validity | 29 / 30 = 96.6667% |
 | Truncations | 0 |
 | Invalid-ID failures | 0 |
 | Duplicate / conflict failures | 0 |
@@ -87,20 +88,62 @@ instructions, and the structured-output schema together.
 | Total tokens | 144,353 |
 | Prompt tokens | 113,880 |
 | Completion tokens | 30,473 |
-| Latency total | 391.437 s |
+| Latency total (ALL 30 cells) | 391.437 s |
 | Recorded API cost | **$0.064634** (ceiling $0.20 — COST_LOCK=PASS) |
 
-The single failed cell is `stgc-v2-djangocms-external-validity-002-impact_plan_v2-r3`:
-`impact_plan_invariant_failure: v_missing_validation_reason:
-cms/models/__init__.py`. The model emitted a VALIDATE decision for
-`cms/models/__init__.py` without a validation reason; the existing fail-closed
-invariant gate rejected it. This is a scientific outcome (model output / plan
-gate), NOT a harness defect, and it is NOT re-run.
+The single failed cell is `stgc-v2-djangocms-external-validity-002-impact_plan_v2-r3`
+(scenario-002, repetition 3). Its scientific failure is **precise and narrow**:
 
-### 4.2 Correctness — valid-only micro (pooled across the 29 valid cells)
+- The persisted raw response **is syntactically valid JSON and independently
+  validates against the frozen `IMPACT_PLAN_V2_SCHEMA`** (structured-output
+  conformance holds).
+- The raw response **correctly identified the scenario-002 gold write target
+  `cms/api.py` as `REGENERATE`** (candidate ID 12, with cited semantic-seed
+  evidence).
+- The failure occurs at the **ImpactPlan semantic / invariant layer that
+  follows JSON decoding**: the model also emitted a `VALIDATE` action for
+  `cms/models/__init__.py` (candidate ID 63) with **`evidence = []`**. The
+  frozen ImpactPlan invariant requires every `VALIDATE` decision to cite at
+  least one supporting validation/architecture evidence item.
+- Therefore the plan correctly **failed closed** with:
+  `impact_plan_invariant_failure: v_missing_validation_reason:
+  cms/models/__init__.py`.
+
+The failure is **NOT** malformed JSON. It is **NOT** a missing
+`validation_reason` JSON field — **no such required field exists in the frozen
+v2 schema**. The precise issue is that a `VALIDATE` action lacked the cited
+supporting evidence required by the semantic ImpactPlan invariant. Although the
+model did identify the gold write target in the raw response, the entire plan
+remains **scientifically FAILED under the frozen fail-closed contract**. This
+run is not salvaged, re-scored, or re-run; it is preserved verbatim and reported
+as a separate operational failure (never pooled into the valid-only correctness
+denominators below).
+
+> **Reproducibility note — `schema_valid` terminology.** The study runner's
+> persisted `schema_valid` field is **not** pure JSON-Schema conformance. It is
+> a **composite** condition computed as: terminal success AND successful decode
+> AND no invalid selected paths AND no truncation (see
+> `stagec_djangocms_impactplan_v2_study_execute.py`). It therefore conflates two
+> distinct layers:
+>
+> **A. Native / JSON structured-output conformance** — the raw response parses
+> as JSON and validates against the frozen `IMPACT_PLAN_V2_SCHEMA`.
+>
+> **B. ImpactPlan semantic / invariant validity (terminal plan validity)** —
+> the decoded plan satisfies the frozen ImpactPlan semantic invariants
+> (e.g., every `VALIDATE` decision cites ≥ 1 supporting evidence item) and the
+> cell terminates successfully.
+>
+> For `002-r3`: **A = valid** (JSON schema conformance), **B = failed**
+> (ImpactPlan semantic invariant). The original persisted `schema_valid` field
+> (composite, `false` for the failed cell) is preserved verbatim for provenance;
+> no frozen execution code was changed post hoc.
+
+### 4.2 Correctness — VALID-ONLY micro (pooled across the 29 valid cells)
 
 | Metric | Value |
 |---|---|
+| Denominator | VALID-ONLY, 29 cells |
 | Selected | 139 |
 | TP | 103 |
 | FP | 36 |
@@ -111,10 +154,11 @@ gate), NOT a harness defect, and it is NOT re-run.
 | Micro FNR | 0.134454 |
 | Full-recall rate (fraction of valid runs with recall = 1.0) | 0.620690 |
 
-### 4.3 Correctness — macro (mean over the 29 valid cells)
+### 4.3 Correctness — VALID-ONLY macro (mean over the 29 valid cells)
 
 | Metric | Value |
 |---|---|
+| Denominator | VALID-ONLY, 29 cells |
 | Mean Precision | 0.716667 |
 | Median Precision | 0.800000 |
 | Mean Recall | 0.862972 |
@@ -125,14 +169,22 @@ gate), NOT a harness defect, and it is NOT re-run.
 | Median FNR | 0.000000 |
 | Full-recall rate | 0.620690 |
 
-### 4.4 Latency (valid cells)
+### 4.4 Latency (VALID-ONLY, 29 cells)
 
 | Metric | Value |
 |---|---|
+| Denominator | VALID-ONLY, 29 cells |
+| Total | 384.827 s |
 | Mean | 13.269897 s |
 | Median | 11.953000 s |
 | Min | 5.266000 s |
 | Max | 48.843000 s |
+
+Do not mix denominators: the **all-30-cell** operational latency total in
+section 4.1 is **391.437 s** (includes the failed cell's 6.61 s); the
+**valid-only** descriptive statistics above use the 29 valid cells
+(total **384.827 s**). All-cell totals and valid-only descriptive statistics are
+kept separately labeled and are never mixed.
 
 Defensible latency outliers (> mean + 2·σ): `005-r5` (48.843 s) and `005-r4`
 (31.578 s). Both are single-call provider latency observations on scenario-005,
@@ -155,13 +207,13 @@ files (`cms/models/pluginmodel.py`, `cms/admin/placeholderadmin.py`,
 `cms/utils/plugins.py`) and over-selected. This is a scientific observation,
 NOT a tuning trigger.
 
-## 6. Selected-set / sparsity statistics (valid cells)
+## 6. Selected-set / sparsity statistics (VALID-ONLY, 29 cells)
 
 | Statistic | Mean | Median | Min | Max |
 |---|---|---|---|---|
 | Selected-set size | 4.793 | 5.0 | 1 | 8 |
-| Explicit emitted decisions | 6.379 | 6.0 | 3 | 10 |
-| Decoded PRESERVE | 137.621 | 138.0 | 134 | 141 |
+| Explicit emitted decisions | 6.344828 | 6.0 | 3 | 10 |
+| Decoded PRESERVE | 137.655172 | 138.0 | 134 | 141 |
 
 The sparse representation never emits more than 10 explicit decisions per cell
 while the decoded policy always contains exactly 144 decisions. This is the
