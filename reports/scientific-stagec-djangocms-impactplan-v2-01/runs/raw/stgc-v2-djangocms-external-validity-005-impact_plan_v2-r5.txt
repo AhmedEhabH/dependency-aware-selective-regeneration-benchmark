@@ -1,0 +1,111 @@
+{
+  "decisions": [
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "The PagePermission model must be updated to include the new `can_review` boolean field as specified in the requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ_EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Matches requirement terms: ['action', 'change', 'get', 'page', 'permission', 'user']"
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "The global permission checking logic needs to support the new `can_review` field for site-wide reviewer access.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ_EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Matches requirement terms: ['change', 'get', 'global', 'level', 'model', 'page']"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "PageAdmin requires a new 'Review' action to transition page content status or mark content as reviewed.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ_EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "Matches requirement terms: ['get', 'site']"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "action": "REGENERATE",
+      "rationale": "PermissionAdmin must display the new `can_review` field as part of its interface.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ_EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Matches requirement terms: ['admin', 'boolean', 'field', 'get', 'menu', 'page']"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "Toolbar integration is needed to show a 'Review' menu item for users with reviewer access.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ_EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "Matches requirement terms: ['get', 'toolbar']"
+        },
+        {
+          "source": "semantic-seed-99",
+          "description": "Matches requirement terms: ['content', 'edit', 'get', 'toolbar']"
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "Page permission utilities need updates to incorporate the new reviewer permission level checks.",
+      "confidence": 0.85,
+      "reason_codes": ["REQ_EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Matches requirement terms: ['action', 'change', 'get', 'page', 'permission', 'user']"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-NEW-FUNC-TESTING",
+      "kind": "changed_requirement",
+      "target": "test_page_reviewer_permission",
+      "reason": "New functionality related to page reviewer permissions must be tested thoroughly.",
+      "evidence_refs": ["semantic-seed-119", "semantic-seed-120"]
+    },
+    {
+      "obligation_id": "VO-BACKWARD-COMPATIBILITY",
+      "kind": "regression",
+      "target": "test_existing_page_permissions",
+      "reason": "Ensure all existing page permission behaviors remain intact after adding the new reviewer role.",
+      "evidence_refs": ["semantic-seed-119", "semantic-seed-120"]
+    },
+    {
+      "obligation_id": "VO-DJANGO-BEST-PRACTICES",
+      "kind": "static",
+      "target": "lint_django_best_practices",
+      "reason": "Implementation must adhere to Django best practices including model design, admin configuration, and permission handling.",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

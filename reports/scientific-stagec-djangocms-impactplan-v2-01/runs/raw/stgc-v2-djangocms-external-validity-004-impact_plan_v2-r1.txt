@@ -1,0 +1,120 @@
+{
+  "decisions": [
+    {
+      "id": 66,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model must be updated to include the new publication_date field as per the requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py contains core page models and is central to implementing the new field."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "API functions related to publishing need to respect the new publication_date logic.",
+      "confidence": 0.9,
+      "reason_codes": ["API_LOGIC_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py handles page and content publishing operations which must now consider publication_date."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "Admin forms must display the new publication_date field for PageContent.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_FORM_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py manages admin form definitions including those for content and page management."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "PageAdmin requires updates to support filtering and publishing based on publication_date.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_ACTION_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py supports admin display features such as field rendering; however, primary changes will occur in pageadmin.py itself."
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "action": "REGENERATE",
+      "rationale": "Frontend views must filter out unpublished PageContent instances with future publication dates.",
+      "confidence": 0.9,
+      "reason_codes": ["VIEW_FILTERING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py controls frontend view behavior and needs modification to implement visibility rules based on publication_date."
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "action": "VALIDATE",
+      "rationale": "Managers may require adjustments to ensure proper query filtering by publication status.",
+      "confidence": 0.7,
+      "reason_codes": ["QUERY_MANAGER_CHECK"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py also includes manager classes that might influence how PageContents are queried."
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "action": "VALIDATE",
+      "rationale": "Template tags used in frontend rendering should correctly handle visibility of scheduled content.",
+      "confidence": 0.7,
+      "reason_codes": ["TEMPLATE_TAG_BEHAVIOR"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py provides template-level access to CMS data and must reflect correct content visibility logic."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "validate_publish_scheduled_action",
+      "kind": "changed_requirement",
+      "target": "test_admin_actions",
+      "reason": "New 'Publish Scheduled' admin action must function correctly according to requirements.",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "validate_frontend_filtering",
+      "kind": "regression",
+      "target": "test_views",
+      "reason": "Existing frontend views must not regress while applying new publication_date-based filtering.",
+      "evidence_refs": ["semantic-seed-126"]
+    },
+    {
+      "obligation_id": "validate_api_respects_publication_date",
+      "kind": "changed_requirement",
+      "target": "test_api",
+      "reason": "API publish methods must incorporate publication_date semantics without breaking backward compatibility.",
+      "evidence_refs": ["semantic-seed-11"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

@@ -1,0 +1,162 @@
+{
+  "decisions": [
+    {
+      "id": 66,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model must be updated to include the new `status` field and handle workflow state transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["model_change_required"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Matches requirement terms: page"
+        },
+        {
+          "source": "semantic-seed-115",
+          "description": "Matches requirement terms: model"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "PageContentAdmin needs new actions for workflow transitions and integration with the new status field.",
+      "confidence": 0.9,
+      "reason_codes": ["admin_integration_required"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Matches requirement terms: changed, content, page, permission"
+        },
+        {
+          "source": "semantic-seed-91",
+          "description": "Matches requirement terms: admin, boolean, field, page, show, submit"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "API functions related to publishing need to check workflow status before performing operations.",
+      "confidence": 0.85,
+      "reason_codes": ["api_update_required"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "Matches requirement terms: change, content, draft, page, publish"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "Toolbar must display workflow state and available transitions based on user permissions.",
+      "confidence": 0.9,
+      "reason_codes": ["ui_enhancement_required"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "Matches requirement terms: toolbar"
+        },
+        {
+          "source": "semantic-seed-99",
+          "description": "Matches requirement terms: content, toolbar"
+        },
+        {
+          "source": "semantic-seed-112",
+          "description": "Matches requirement terms: toolbar"
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "New signal handlers are needed to fire on state transitions for workflow changes.",
+      "confidence": 0.85,
+      "reason_codes": ["signal_handlers_required"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "Matches requirement terms: check"
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "Permission models require updates to support the new 'Reviewer' permission level.",
+      "confidence": 0.8,
+      "reason_codes": ["permission_model_update"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Matches requirement terms: action, change, check, draft, page, permission"
+        },
+        {
+          "source": "semantic-seed-120",
+          "description": "Matches requirement terms: change, level, model, page, permission"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "action": "REGENERATE",
+      "rationale": "Constants may need updating to define the new workflow states and their values.",
+      "confidence": 0.75,
+      "reason_codes": ["constants_update_needed"],
+      "evidence": []
+    },
+    {
+      "id": 105,
+      "action": "VALIDATE",
+      "rationale": "This utility might interact with page rendering logic affected by workflow states.",
+      "confidence": 0.6,
+      "reason_codes": ["potential_indirect_impact"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "Matches requirement terms: changed, check"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "workflow_transitions_test",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_workflow",
+      "reason": "Ensure all workflow state transitions function correctly including edge cases",
+      "evidence_refs": ["semantic-seed-68"]
+    },
+    {
+      "obligation_id": "admin_actions_regression",
+      "kind": "regression",
+      "target": "cms.tests.test_admin",
+      "reason": "Verify existing admin functionality remains intact while adding new workflow features",
+      "evidence_refs": ["semantic-seed-3"]
+    },
+    {
+      "obligation_id": "permission_check_build",
+      "kind": "build",
+      "target": "runserver_plus",
+      "reason": "Confirm reviewer permissions integrate without breaking startup or runtime behavior",
+      "evidence_refs": ["semantic-seed-119"]
+    },
+    {
+      "obligation_id": "toolbar_display_static",
+      "kind": "static",
+      "target": "eslint",
+      "reason": "Validate toolbar JavaScript/CSS conforms to coding standards with new workflow elements",
+      "evidence_refs": ["semantic-seed-27"]
+    },
+    {
+      "obligation_id": "signal_architecture",
+      "kind": "architecture",
+      "target": "django.core.checks",
+      "reason": "Ensure signal wiring follows Django architectural patterns and doesn't introduce coupling issues",
+      "evidence_refs": ["semantic-seed-83"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

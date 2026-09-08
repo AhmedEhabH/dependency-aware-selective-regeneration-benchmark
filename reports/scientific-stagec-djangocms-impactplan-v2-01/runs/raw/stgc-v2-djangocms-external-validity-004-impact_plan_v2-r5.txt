@@ -1,0 +1,179 @@
+{
+  "decisions": [
+    {
+      "id": 66,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model must be updated to include the new publication_date field as per the requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["schema_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py contains core page models which likely includes PageContent; this file needs modification to add the new field."
+        },
+        {
+          "source": "requirement_after",
+          "description": "Requirement explicitly states adding a publication_date DateTimeField to PageContent model."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "API functions related to publishing need to respect the new publication_date logic.",
+      "confidence": 0.9,
+      "reason_codes": ["api_compliance"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py deals with content, language, page and publish operations, requiring updates for new scheduling behavior."
+        },
+        {
+          "source": "requirement_after",
+          "description": "Requirement mandates that API functions for publishing should respect publication_date."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "Admin interface requires changes to display the new field and implement the 'Publish Scheduled' action.",
+      "confidence": 0.92,
+      "reason_codes": ["admin_integration"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py handles admin forms including those for PageContent, so it needs updating to show publication_date."
+        },
+        {
+          "source": "requirement_after",
+          "description": "Requirement specifies that admin form must display the field and a new Publish Scheduled action is needed."
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "action": "REGENERATE",
+      "rationale": "Front-end views must filter out future-scheduled PageContent instances based on publication_date.",
+      "confidence": 0.88,
+      "reason_codes": ["view_filtering"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py manages frontend rendering of content and will require filtering logic for publication dates."
+        },
+        {
+          "source": "requirement_after",
+          "description": "Front-end views must exclude PageContent where publication_date is set and in the future."
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "action": "REGENERATE",
+      "rationale": "Model manager/query logic may require adjustment to support efficient querying of published content respecting publication_date.",
+      "confidence": 0.85,
+      "reason_codes": ["query_optimization"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py may contain custom managers or query methods affected by publication_date logic."
+        },
+        {
+          "source": "requirement_after",
+          "description": "Filtering logic implies potential performance considerations around how queries are structured."
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "action": "REGENERATE",
+      "rationale": "Template tags used in templates might need adjustments to ensure they respect the visibility rules imposed by publication_date.",
+      "confidence": 0.8,
+      "reason_codes": ["template_logic"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py provides template-level access to CMS data and could expose unpublished content if not adjusted."
+        },
+        {
+          "source": "requirement_after",
+          "description": "Front-end filtering suggests possible impacts at templating layer to prevent leakage of scheduled content."
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "action": "VALIDATE",
+      "rationale": "Page rendering pipeline may already handle visibility checks but needs validation against new publication_date semantics.",
+      "confidence": 0.75,
+      "reason_codes": ["render_path"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py orchestrates full page rendering process and should enforce correct content visibility."
+        },
+        {
+          "source": "requirement_after",
+          "description": "Ensuring end-to-end compliance with publication_date across entire render path is critical."
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "action": "VALIDATE",
+      "rationale": "Plugin rendering subsystem also needs verification to avoid exposing prematurely published plugins.",
+      "confidence": 0.7,
+      "reason_codes": ["plugin_visibility"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "cms/plugin_rendering.py controls plugin output and must align with overall content visibility policy."
+        },
+        {
+          "source": "requirement_after",
+          "description": "All rendered elements must comply with publication_date restrictions."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-1",
+      "kind": "changed_requirement",
+      "target": "test_admin_pagecontent_publication_date",
+      "reason": "Verify admin form displays publication_date and 'Publish Scheduled' action works correctly.",
+      "evidence_refs": ["requirement_after"]
+    },
+    {
+      "obligation_id": "VO-2",
+      "kind": "regression",
+      "target": "test_existing_functionality_unaffected",
+      "reason": "Ensure all pre-existing features continue working post-introduction of publication_date field.",
+      "evidence_refs": ["acceptance_criteria"]
+    },
+    {
+      "obligation_id": "VO-3",
+      "kind": "build",
+      "target": "migrations_test",
+      "reason": "Confirm database migration applies cleanly without breaking backward compatibility.",
+      "evidence_refs": ["artifact_66_decision"]
+    },
+    {
+      "obligation_id": "VO-4",
+      "kind": "static",
+      "target": "lint_and_type_check",
+      "reason": "Enforce code quality standards following Django best practices during implementation.",
+      "evidence_refs": ["acceptance_criteria"]
+    },
+    {
+      "obligation_id": "VO-5",
+      "kind": "architecture",
+      "target": "cache_coherency_check",
+      "reason": "Validate caching mechanisms properly invalidate entries when publication_date changes take effect.",
+      "evidence_refs": ["semantic-seed-19", "semantic-seed-21"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

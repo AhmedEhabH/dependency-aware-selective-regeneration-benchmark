@@ -1,0 +1,122 @@
+{
+  "decisions": [
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "The PagePermission and GlobalPermission models need to be updated with the new `can_review` field to support the new permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["new_field_required"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py contains global and page-level permission logic which will require updates to support the new `can_review` field."
+        },
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py handles page-specific permission checks including change permissions; it must now include review capabilities."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "PageAdmin requires a new 'Review' action to transition page content status or mark as reviewed based on the new permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["new_admin_action"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "cms/admin/pageadmin.py is responsible for managing page administration actions and needs to implement the new Review functionality."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "action": "REGENERATE",
+      "rationale": "PermissionAdmin must display the new `can_review` field for both PagePermission and GlobalPermission models.",
+      "confidence": 0.95,
+      "reason_codes": ["admin_ui_update"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py already deals with admin fields like boolean flags, indicating where such UI elements are handled."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "The toolbar needs to show a 'Review' menu item conditionally for users who have reviewer access.",
+      "confidence": 0.9,
+      "reason_codes": ["ui_conditional_element"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "cms/toolbar/utils.py involves toolbar-related utilities that would handle conditional rendering of toolbar items."
+        },
+        {
+          "source": "semantic-seed-97",
+          "description": "cms/toolbar/items.py manages toolbar menu items and their visibility conditions."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "Utility functions for checking page permissions must incorporate logic for the new 'reviewer' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["permission_logic_expansion"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py directly implements page permission checking logic that must be extended to cover the new reviewer role."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "General permission utility functions should support the new global reviewer permission capability.",
+      "confidence": 0.9,
+      "reason_codes": ["global_permission_support"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py includes general permission-handling code that must accommodate the new global reviewer permission."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-REQ-CORRECTNESS",
+      "kind": "changed_requirement",
+      "target": "test_page_reviewer_permissions",
+      "reason": "Ensure the new reviewer permission works correctly at both page and global levels",
+      "evidence_refs": ["semantic-seed-120", "semantic-seed-119"]
+    },
+    {
+      "obligation_id": "VO-FUNCTIONALITY-PRESERVATION",
+      "kind": "regression",
+      "target": "test_existing_page_permissions",
+      "reason": "Verify that adding the new reviewer permission does not break existing view/edit functionalities",
+      "evidence_refs": ["semantic-seed-120", "semantic-seed-119"]
+    },
+    {
+      "obligation_id": "VO-DJANGO-BEST-PRACTICES",
+      "kind": "static",
+      "target": "lint_django_best_practices",
+      "reason": "Enforce adherence to Django best practices throughout the implementation",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "VO-ADMIN-UI-INTEGRATION",
+      "kind": "static",
+      "target": "test_admin_forms_and_views",
+      "reason": "Confirm that all admin interfaces properly expose and manage the new reviewer permission settings",
+      "evidence_refs": ["semantic-seed-91"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

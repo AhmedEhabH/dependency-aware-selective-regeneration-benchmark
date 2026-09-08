@@ -1,0 +1,84 @@
+{
+  "decisions": [
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "The cms/api.py module is the most appropriate place for a public utility function related to retrieving page content by language.",
+      "confidence": 0.95,
+      "reason_codes": ["functional_coherence"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py already deals with content, get, language and page operations"
+        },
+        {
+          "source": "semantic-seed-38",
+          "description": "cms/forms/utils.py has some page-related utilities but is less suitable for core API functions"
+        },
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py handles page utilities but cms/api.py is more appropriate for public APIs"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "action": "REGENERATE",
+      "rationale": "The models/contentmodels.py file should be updated to include the new utility function since it directly relates to PageContent model operations.",
+      "confidence": 0.85,
+      "reason_codes": ["model_association"],
+      "evidence": [
+        {
+          "source": "semantic-seed-65",
+          "description": "cms/models/contentmodels.py contains PageContent model definitions"
+        },
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py works with page and pagecontent concepts"
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "The cms/utils/page.py module is a logical location for page-related utility functions and could benefit from hosting this new function.",
+      "confidence": 0.8,
+      "reason_codes": ["utility_centralization"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py already implements various page-related utilities including 'get' operations"
+        },
+        {
+          "source": "semantic-seed-38",
+          "description": "cms/forms/utils.py also handles page utilities but utils/page.py is more central"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "test_new_utility_function",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_api",
+      "reason": "New utility function requires dedicated unit tests covering success case, DoesNotExist exception, and edge cases",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "test_regression_page_operations",
+      "kind": "regression",
+      "target": "cms.tests.test_models",
+      "reason": "Existing page and pagecontent operations must continue working after adding new utility function",
+      "evidence_refs": ["semantic-seed-65", "semantic-seed-68"]
+    },
+    {
+      "obligation_id": "validate_django_best_practices",
+      "kind": "static",
+      "target": "django.core.checks",
+      "reason": "Implementation must follow Django best practices regarding model querying and exception handling",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

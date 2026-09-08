@@ -1,0 +1,114 @@
+{
+  "decisions": [
+    {
+      "id": 73,
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model requires a new nullable ForeignKey to PageContent to associate plugins with specific language contexts.",
+      "confidence": 0.95,
+      "reason_codes": ["model-change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py contains the core plugin model that must be modified to include the page_content foreign key."
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "action": "REGENERATE",
+      "rationale": "Placeholder rendering logic needs updating to filter plugins by language using the new page_content foreign key.",
+      "confidence": 0.9,
+      "reason_codes": ["render-filter"],
+      "evidence": [
+        {
+          "source": "semantic-seed-85",
+          "description": "cms/plugin_rendering.py handles how placeholders and their contained plugins are rendered, requiring updates for language-based filtering."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "Admin forms need to display the associated PageContent context for plugins as part of the requirement.",
+      "confidence": 0.85,
+      "reason_codes": ["admin-forms"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is directly involved in handling form representations of content and will require changes to expose page_content context."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "action": "REGENERATE",
+      "rationale": "Placeholder administration interfaces likely interact with plugin management and may require adjustments for the new field.",
+      "confidence": 0.8,
+      "reason_codes": ["admin-integration"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/placeholderadmin.py may contain methods related to plugin operations within placeholders which now involve page_content."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "VALIDATE",
+      "rationale": "Utility functions for working with plugins should maintain compatibility while supporting the new language-filtering behavior.",
+      "confidence": 0.75,
+      "reason_codes": ["utility-compat"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "cms/utils/plugins.py provides utilities for plugin manipulation; its behavior must remain consistent despite model changes."
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "action": "VALIDATE",
+      "rationale": "Template tags used in rendering must continue functioning correctly with any updated plugin filtering logic.",
+      "confidence": 0.7,
+      "reason_codes": ["template-render"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py includes tags responsible for showing plugins and placeholders, affected by language-specific filtering."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO1",
+      "kind": "changed_requirement",
+      "target": "test_plugin_language_filtering",
+      "reason": "Verify that plugins are correctly filtered by language through the new page_content relation during placeholder rendering.",
+      "evidence_refs": ["semantic-seed-85"]
+    },
+    {
+      "obligation_id": "VO2",
+      "kind": "regression",
+      "target": "test_existing_functionality_intact",
+      "reason": "Ensure all pre-existing plugin behaviors remain functional post-migration where page_content is NULL.",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "VO3",
+      "kind": "static",
+      "target": "flake8",
+      "reason": "Code modifications adhere to Django and project style standards.",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "VO4",
+      "kind": "architecture",
+      "target": "django_check_cmd",
+      "reason": "Confirm no architectural violations from introducing the new field and modifying relationships.",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

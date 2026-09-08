@@ -58,3 +58,35 @@
 - Gates/audit/metrics are deterministic and make zero scientific calls.
 - Scientific inference uses temperature 0, but DeepInfra responses showed non-deterministic token counts across identical inputs; per-run raw response SHA-256 hashes are recorded so each response is independently verifiable.
 - 60 raw records; every run_id maps 1:1 to a manifest cell (True).
+---
+
+## 6. ImpactPlan-v2 30-CELL STUDY (POST-HOC / EXPLORATORY) — evidence index
+
+**STUDY_ID:** `scientific-stagec-djangocms-impactplan-v2-01`
+
+| Input / artifact | Path | SHA-256 / value |
+|---|---|---|
+| Frozen 30-cell manifest | reports/scientific-stagec-djangocms-impactplan-v2-01/manifest_30.json | 30 unique cells (verified) |
+| Aggregated raw records | reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl | 30 records |
+| Per-run evidence | reports/scientific-stagec-djangocms-impactplan-v2-01/runs/*.json | 30 files |
+| Raw model responses | reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/*.txt + .sha256 | 30 + 30 (SHA-verified 30/30) |
+| Checkpoints | reports/scientific-stagec-djangocms-impactplan-v2-01/checkpoint_{5,10,15,20,25,30}.json | non-tuning operational checkpoints |
+| Final metrics | reports/scientific-stagec-djangocms-impactplan-v2-01/final_metrics.json | |
+| Pre-study gates + audit | reports/scientific-stagec-djangocms-impactplan-v2-01/prestudy_gates.json | |
+| Pre-run validation | reports/scientific-stagec-djangocms-impactplan-v2-01/prevalidation.json | |
+| Prompt-evidence parity | reports/scientific-stagec-djangocms-impactplan-v2-01/provenance/prompt_evidence_parity.json | rendered v1 `b97bc1b5...` / v2 `2196af95...`; evidence block `38c6d041...` (32 items, identical v1/v2) |
+| Closure gates + audit (post) | reports/scientific-stagec-djangocms-impactplan-v2-01/closure_gates.json | |
+| Results report / CSV | reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md / .csv | |
+| Mathematical design note (DESIGN-ONLY) | docs/RISK_AWARE_SPARSE_IMPACT_SELECTION_MODEL.md | |
+| Study runner | scripts/stagec_djangocms_impactplan_v2_study_execute.py | |
+| Parity runner | scripts/stagec_djangocms_impactplan_v2_parity_check.py | |
+
+### Repro steps (v2 study)
+
+1. `python scripts/stagec_djangocms_impactplan_v2_study_execute.py prevalidate`
+2. `python scripts/stagec_djangocms_impactplan_v2_study_execute.py parity`
+3. `python scripts/stagec_djangocms_impactplan_v2_study_execute.py gates`
+4. `python scripts/stagec_djangocms_impactplan_v2_study_execute.py freeze-manifest`
+5. `python scripts/stagec_djangocms_impactplan_v2_study_execute.py run` (repeat until 30/30)
+6. `python scripts/stagec_djangocms_impactplan_v2_study_execute.py metrics`
+7. `python scripts/stagec_djangocms_impactplan_v2_study_execute.py close`

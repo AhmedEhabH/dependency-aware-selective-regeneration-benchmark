@@ -1,0 +1,122 @@
+{
+  "decisions": [
+    {
+      "id": 73,
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model requires a new nullable ForeignKey to PageContent to associate plugins with specific language contexts.",
+      "confidence": 0.95,
+      "reason_codes": ["model-change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py contains the CMSPlugin model which needs modification to add the page_content field."
+        },
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py contains PageContent model referenced by the new foreign key."
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "action": "REGENERATE",
+      "rationale": "Placeholder rendering logic must be updated to filter plugins by language using the new page_content foreign key.",
+      "confidence": 0.9,
+      "reason_codes": ["render-filter"],
+      "evidence": [
+        {
+          "source": "semantic-seed-85",
+          "description": "cms/plugin_rendering.py handles plugin rendering and filtering."
+        },
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py contains template tags for showing placeholders and plugins that need language-based filtering."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "Admin forms need updates to display the associated PageContent context for plugins.",
+      "confidence": 0.85,
+      "reason_codes": ["admin-forms"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py deals with content, language and page-related form handling."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "REGENERATE",
+      "rationale": "Utility functions for placeholder operations require updates to support language-specific plugin handling.",
+      "confidence": 0.8,
+      "reason_codes": ["util-update"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "cms/utils/placeholder.py contains utilities related to placeholders and plugins requiring language filtering."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "VALIDATE",
+      "rationale": "API functions may need verification to ensure they correctly handle the new page_content relationship.",
+      "confidence": 0.75,
+      "reason_codes": ["api-compat"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py involves changes related to page, language, and plugin content."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "action": "VALIDATE",
+      "rationale": "Placeholder admin functionality should maintain compatibility while supporting new language-aware plugin management.",
+      "confidence": 0.7,
+      "reason_codes": ["admin-compat"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/placeholderadmin.py contains administrative methods affected by plugin language handling."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-1",
+      "kind": "changed_requirement",
+      "target": "tests.test_plugin_model",
+      "reason": "Verify migration sets existing plugins' page_content to NULL",
+      "evidence_refs": ["semantic-seed-72"]
+    },
+    {
+      "obligation_id": "VO-2",
+      "kind": "changed_requirement",
+      "target": "tests.test_plugin_rendering",
+      "reason": "Ensure placeholder rendering filters plugins by language through page_content FK",
+      "evidence_refs": ["semantic-seed-85", "semantic-seed-95"]
+    },
+    {
+      "obligation_id": "VO-3",
+      "kind": "regression",
+      "target": "tests.regression.test_admin_forms",
+      "reason": "Confirm admin plugin forms show correct PageContent context without breaking existing behavior",
+      "evidence_refs": ["semantic-seed-3"]
+    },
+    {
+      "obligation_id": "VO-4",
+      "kind": "static",
+      "target": "flake8",
+      "reason": "Validate code quality and adherence to Django best practices in modified models and views",
+      "evidence_refs": ["semantic-seed-72", "semantic-seed-85"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}
