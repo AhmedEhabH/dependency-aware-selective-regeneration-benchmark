@@ -120,3 +120,105 @@ single 8192-token response.
 - **No ablation-completed tag** (`stagec-djangocms-impactplan-cap8192-ablation-01`
   NOT created — the ablation did not complete).
 - STOP FOR GPT-5.6 SOL AUDIT.
+
+---
+
+# FULL-PLAN OUTPUT-SCALABILITY DIAGNOSTIC (16K)
+
+**Status:** POST-HOC / EXPLORATORY / ONE-SCENARIO DIAGNOSTIC — **exactly ONE
+scientific run**. NOT part of the primary 60-run study, NOT part of the failed
+8192 ablation, NOT confirmatory evidence, NOT a 30-run experiment.
+
+**Diagnostic ID:** `scientific-stagec-djangocms-impactplan-16k-diagnostic-01`
+**Date (UTC):** 2026-09-08
+**Question:** can the current full explicit 144-path ImpactPlan representation
+terminate within a single 16384-completion-token response on one previously
+truncation-prone scenario?
+
+**Frozen inputs reused EXACTLY** (identical to the 8192 probe): scenario
+`djangocms-external-validity-004` (visible SHA-256
+`0b25d274...`), hidden gold (evaluation-only), 144-path candidate universe
+(canonical hash `43f4279b...`), dependency graph/evidence, ImpactPlan planner
+prompt + schema, model `qwen/qwen3-coder`, provider DeepInfra pinned through
+OpenRouter (`deepinfra/turbo`), fallback OFF, temperature 0, selection-only,
+same failure semantics. **ONLY treatment difference: max_completion_tokens
+8192 -> 16384.**
+
+## 8. 4096 / 8192 / 16384 observation table
+
+| Cap | Scenario | Completion Tokens | Finish Reason | Valid | Entries Emitted | Time (s) | Cost (USD) |
+|---:|---|---:|---|---:|---:|---:|---:|
+| 4096 | djangocms-external-validity-004 | 4096 (truncated; primary study) | length | NO | not persisted | primary evidence | primary evidence |
+| 8192 | djangocms-external-validity-004 | 8192 | length | NO | 0 (unterminated JSON at char 34816) | 202.843 | 0.009022 |
+| **16384** | **djangocms-external-validity-004** | **10650** | **stop** | **YES** | **143** | **179.172** | **0.01148** |
+
+## 9. 16K diagnostic evidence (one scientific call)
+
+| Field | Value |
+| --- | --- |
+| Diagnostic ID | `scientific-stagec-djangocms-impactplan-16k-diagnostic-01` |
+| Scenario | `djangocms-external-validity-004` |
+| Max completion tokens | 16384 |
+| prompt_tokens | 2768 |
+| completion_tokens | **10650** (TERMINATED BEFORE 16384) |
+| total_tokens | 13418 |
+| model_calls | 1 |
+| finish_reason | **stop** |
+| terminal_status | succeeded |
+| schema/path valid | true |
+| invalid_selected_paths | [] |
+| predicted_write_set | 9 paths (4 TP / 5 FP / 0 FN) |
+| precision / recall / F1 / FNR / full_recall | 0.444444 / 1.0 / 0.615385 / 0.0 / true |
+| latency_seconds | 179.172 |
+| api_cost (USD) | 0.01148 |
+| raw_response_bytes / chars / lines | 42773 / 42773 / 1314 |
+| emitted_entry_count | **143** (deterministic valid-JSON count; `cms/toolbar/utils.py` omitted by the model and defaulted to PRESERVE by the unchanged planner fallback, so all 144 paths remain classified exactly once) |
+| first malformed offset | none (full valid JSON) |
+| all 144 paths emitted | false (143 emitted) |
+| plan-level fields emitted | context_set / validation_obligations / architecture_checks / escalation_reason all present |
+| raw_response_sha256 | `5f66423ef5c5dd0e1d89848ec4e5621e7381672a6735d0f36eb1f7428bda3e0e` |
+
+Full evidence: `reports/scientific-stagec-djangocms-impactplan-16k-diagnostic-01/`
+(`diagnostic.json`, `raw_response.txt`, `raw_response.sha256`,
+`response_size_analysis.json`, `diagnostic_gates.json`, `prevalidation.json`,
+`closure_gates.json`, `STOP_REPORT.md`).
+
+## 10. Decision
+
+**CASE A — TERMINATES. `FULL_PLAN_16K_DIAGNOSTIC=TERMINATES`.**
+
+- Actual completion tokens consumed: **10,650** (best observed empirical lower
+  bound for THIS scenario's current full-plan representation — NOT extrapolated
+  to other scenarios).
+- finish_reason=stop, parses normally, schema-valid, valid candidate paths only.
+- **Do NOT launch a 16K 30-run ablation.**
+
+## 11. Interpretation (frozen rule)
+
+- No claim that 16K fixes ImpactPlan generally (one scenario only).
+- No claim that ImpactPlan is more accurate.
+- The primary 4096 study is NOT invalidated and is unchanged (71/71 hashes).
+- The 8192 probe evidence is unchanged.
+- emitted_entry_count was derived deterministically from the raw response
+  (valid-JSON parse), never from line count alone.
+- This diagnostic is NOT confirmatory evidence.
+- Allowed interpretation: the full explicit 144-node representation CAN
+  terminate with a substantially larger output allowance, but its
+  serialization requirement remains a scalability/efficiency concern.
+
+**Recommendation: proceed next to Compact/Sparse ImpactPlan-v2.**
+**STOP FOR GPT-5.6 SOL. DO NOT RUN 32K. DO NOT RUN A MULTI-RUN 16K ABLATION.
+DO NOT START COMPACT V2 WITHOUT REVIEW.**
+
+## 12. Closure
+
+- Pre-benchmark: diagnostic pre-run validation PASS + EXACT six deterministic
+  gates + independent audit PASS (zero scientific calls).
+- Closure: same six closure gates + audit PASS; primary evidence immutable
+  (71/71); 8192 probe evidence unchanged (`git diff --quiet` PASS).
+- Code change: `scripts/stagec_djangocms_16k_diagnostic_execute.py` (new,
+  diagnostic-only runner; cap 16384; full raw-response durability +
+  deterministic response-size recovery analysis). No scientific input changed.
+- Committed + pushed to `research/djangocms-external-validity-prep-01`.
+- No main merge. No `v0.11.0-benchmark-complete`. **No 16K study tag** (one
+  diagnostic only).
