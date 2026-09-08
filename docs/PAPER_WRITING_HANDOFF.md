@@ -5,6 +5,38 @@ without reconstructing earlier sessions. The benchmark is **COMPLETE** at
 `v0.11.0-benchmark-complete`; current phase is **paper / figures / supervisor
 review**; **zero scientific runs remain**.
 
+## 0. Title / claim discipline
+
+**Provisional working title:**
+
+> The Cost of Saying "Unchanged": Sparse Impact Plans for Token-Efficient
+> Repository-Level Impact Selection
+
+**Measured-result terminology** (safe to use for what was actually measured):
+
+- impact selection;
+- impact planning;
+- repository-level change-impact selection;
+- selection-stage efficiency.
+
+**Broader motivation** (may be used as motivation only, never as a measured
+result):
+
+- selective regeneration;
+- LLM-driven software evolution.
+
+**Do NOT claim:**
+
+- dependency-aware measured benefit (graph assistance was not injected);
+- end-to-end regeneration success (not measured);
+- universal scalability (no scaling experiment was run);
+- universal impact-identification correctness (scenario 006).
+
+**Mechanism terminology — Preserve-by-Omission:**
+
+> The sparse representation rule in which explicit non-PRESERVE decisions are
+> emitted while omitted candidates deterministically decode to PRESERVE.
+
 ## 1. Exact research scope
 
 - **Selection stage only.** What was measured: which repository-relative `.py`
@@ -176,7 +208,101 @@ Studies are kept separate; **no 90-cell pooling**.
 - Do not move or recreate either benchmark tag; do not create new benchmark
   treatments.
 
-## 14. Immediate paper tasks
+## 14. POST-HOC DIAGNOSTIC OBSERVATIONS
+
+These are **ZERO-API local diagnostics** recomputed from frozen artifacts only
+(`reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl`,
+`benchmark_data/external_validity/djangocms_5_0_0_dependency_graph.json`,
+`djangocms_5_0_0_candidate_universe.json`, frozen hidden gold). They are
+**POST-HOC / DIAGNOSTIC / NON-CAUSAL** — they are NOT treatment results.
+
+### 14.1 v2 completion-token diagnostic (valid cells)
+
+Across the 29 valid ImpactPlan-v2 cells, completion output ranged from **528 to
+1,525 tokens (mean ≈ 1,031)** against the frozen 4,096 completion cap
+(valid = 29, min = 528, max = 1525, mean ≈ 1030.83, cap = 4096). **No valid v2
+run approached the cap.** Therefore the scenario-006 recall weakness is not
+supported as an output-cap/truncation failure; increasing the completion cap is
+not motivated by the observed v2 outputs. (This states only that the observed
+cap was non-binding; it does not claim that increasing the cap could
+mathematically never change model behavior.)
+
+### 14.2 Scenario-006 REGENERATE selection frequencies (5 valid cells)
+
+Gold write set: `cms/models/pluginmodel.py`, `cms/admin/placeholderadmin.py`,
+`cms/utils/plugins.py`.
+
+| File | Selection frequency (valid cells) |
+|---|---|
+| `cms/models/pluginmodel.py` | 5/5 |
+| `cms/plugin_rendering.py` | 5/5 |
+| `cms/admin/forms.py` | 5/5 |
+| `cms/admin/placeholderadmin.py` | 2/5 |
+| `cms/utils/plugins.py` | 0/5 |
+
+### 14.3 Post-hoc graph reachability diagnostic (frozen AST graph)
+
+Graph-neighbour definition (analysis-only): **undirected one-hop reachability**
+— a candidate is a one-hop neighbour if either `seed -> candidate` or
+`candidate -> seed` exists in the frozen directed AST dependency graph
+(144 nodes / 562 edges).
+
+Diagnostic seeds (the three 5/5 consistently selected files):
+`cms/models/pluginmodel.py`, `cms/plugin_rendering.py`, `cms/admin/forms.py`.
+
+- unique one-hop neighbours **excluding** seed nodes: **41**
+- unique one-hop neighbours **including** seed nodes: **44**
+- `cms/admin/placeholderadmin.py` reachable: **YES**
+- `cms/utils/plugins.py` reachable: **YES**
+
+Exact edges providing reachability (frozen graph):
+
+- `('cms/admin/placeholderadmin.py', 'cms/admin/forms.py')`
+- `('cms/admin/placeholderadmin.py', 'cms/models/pluginmodel.py')`
+- `('cms/admin/forms.py', 'cms/utils/plugins.py')`
+- `('cms/plugin_rendering.py', 'cms/utils/plugins.py')`
+- `('cms/utils/plugins.py', 'cms/models/pluginmodel.py')`
+
+**Cautious interpretation (use only this):**
+
+> The post-hoc graph reachability diagnostic shows that the under-recalled
+> scenario-006 gold files lie locally adjacent, in the frozen AST dependency
+> graph, to files that v2 selected consistently. This motivates evaluating
+> dependency evidence as a SOFT signal or re-ranking feature in a future
+> treatment.
+
+**Do NOT write:** "the graph would have solved scenario 006"; "graph assistance
+improves recall"; "v3 fixes the missed files"; or any causal improvement claim.
+No graph-assisted inference was executed.
+
+## 15. Future Work (documentation only; NOT to be implemented here)
+
+### 15.1 Potential v3 (soft dependency evidence)
+
+- Sparse initial ImpactPlan → soft dependency evidence / graph proximity →
+  risk-aware re-ranking or second-stage verification → final sparse ImpactPlan.
+- Graph evidence should be **SOFT**; do not hard-prune candidates.
+- False-negative cost may be weighted above false-positive cost.
+- Graph weights / thresholds require a **separate development protocol**.
+- The existing six hidden djangoCMS scenarios must **NOT** be used for tuning
+  and then re-used as an unbiased test set.
+
+### 15.2 Hash / content-hash clarification
+
+SHA-256 / content hashes are suitable for: evidence integrity, deterministic
+cache invalidation, detecting whether a PRESERVE file was modified, and
+post-execution preservation verification. They do **not** predict semantic
+impact before a requested change is implemented. No hash/Merkle subsystem is
+implemented in this task.
+
+### 15.3 Candidate-universe scaling (no claim made)
+
+No universal-scalability claim is made. A controlled candidate-universe scaling
+study **could** evaluate serialization growth across increasing universe sizes
+while keeping repository / scenario / model / provider fixed. **No such study
+is authorized now.**
+
+## 16. Immediate paper tasks
 
 1. Finalize research questions.
 2. Freeze contribution claims (use sections 9–10 above).
