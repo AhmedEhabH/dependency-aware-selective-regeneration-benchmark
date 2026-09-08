@@ -1,0 +1,166 @@
+{
+  "decisions": [
+    {
+      "id": 18,
+      "action": "REGENERATE",
+      "rationale": "The cache module requires updates to support tagged cache invalidation as per the new requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["req_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "Matches terms: cache, get, invalidate, key, page"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "action": "REGENERATE",
+      "rationale": "Page-level caching logic needs modification to implement fine-grained tag-based invalidation.",
+      "confidence": 0.93,
+      "reason_codes": ["req_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-19",
+          "description": "Matches terms: cache, get, key, page"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "action": "REGENERATE",
+      "rationale": "Placeholder caching must be enhanced with tag support for selective invalidation.",
+      "confidence": 0.92,
+      "reason_codes": ["req_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Matches terms: cache, get, key, placeholder"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "action": "REGENERATE",
+      "rationale": "Middleware needs update to tag responses with content-specific cache tags.",
+      "confidence": 0.9,
+      "reason_codes": ["req_change"],
+      "evidence": [
+        {
+          "source": "[inferred]",
+          "description": "Middleware must integrate with new cache tagging system"
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers are needed to trigger cache invalidation on model changes.",
+      "confidence": 0.94,
+      "reason_codes": ["req_add"],
+      "evidence": [
+        {
+          "source": "[inferred]",
+          "description": "New signal handling required for post_save/post_delete cache invalidation"
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "action": "REGENERATE",
+      "rationale": "Template tags need integration with the new cache tag checking mechanism.",
+      "confidence": 0.89,
+      "reason_codes": ["req_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Matches terms: get, page, placeholder, plugin"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "VALIDATE",
+      "rationale": "API module interacts with content and plugins; should maintain compatibility.",
+      "confidence": 0.85,
+      "reason_codes": ["regression_risk"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "Matches terms: change, content, get, page, plugin"
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "action": "VALIDATE",
+      "rationale": "PageModel is central to content management and may interact with caching.",
+      "confidence": 0.82,
+      "reason_codes": ["regression_risk"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Matches term: page"
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "action": "VALIDATE",
+      "rationale": "PlaceholderModel directly relates to placeholder caching functionality.",
+      "confidence": 0.87,
+      "reason_codes": ["regression_risk"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "Matches term: placeholder"
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "action": "VALIDATE",
+      "rationale": "PluginModel is involved in plugin-related caching operations.",
+      "confidence": 0.83,
+      "reason_codes": ["regression_risk"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "Matches terms: get, plugin"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-1",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_cache_invalidation",
+      "reason": "Ensure new cache tag system works correctly",
+      "evidence_refs": ["semantic-seed-17"]
+    },
+    {
+      "obligation_id": "VO-2",
+      "kind": "regression",
+      "target": "cms.tests.regressiontests.cache_compatibility",
+      "reason": "Verify existing cache behavior remains when opt-out",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "VO-3",
+      "kind": "static",
+      "target": "flake8",
+      "reason": "Code quality adherence for newly added modules",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "VO-4",
+      "kind": "build",
+      "target": "tox -e py39-django32",
+      "reason": "Cross-version compatibility verification",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

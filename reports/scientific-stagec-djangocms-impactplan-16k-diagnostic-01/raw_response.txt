@@ -1,0 +1,1314 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The PageContent model requires a new publication_date field to support scheduled publishing.",
+      "confidence": 0.95,
+      "reason_codes": ["schema-change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "PageContent model is central to managing page content and needs the new field."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Admin forms must expose the new publication_date field for editing.",
+      "confidence": 0.9,
+      "reason_codes": ["admin-form-update"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Form handling for PageContent in admin needs to include the new field."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "This file contains the admin class for PageContent and needs logic for filtering based on publication_date and the 'Publish Scheduled' action.",
+      "confidence": 0.95,
+      "reason_codes": ["admin-action", "filter-behavior"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Contains core admin behavior related to PageContent display and actions."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "Frontend views need updated query logic to exclude unpublished PageContent instances.",
+      "confidence": 0.9,
+      "reason_codes": ["frontend-filter"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "Views render page content and must respect publication_date constraints."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "API functions for publishing must respect the publication_date constraint.",
+      "confidence": 0.85,
+      "reason_codes": ["api-publish-constraint"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "API module handles publish operations that now require checking publication_date."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "REGENERATE",
+      "rationale": "Template tags rendering page content may need updates to respect visibility rules tied to publication_date.",
+      "confidence": 0.8,
+      "reason_codes": ["template-render-filter"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "CMS template tags often control how content appears in templates."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "Core rendering logic might involve filtering or access patterns affected by publication dates.",
+      "confidence": 0.75,
+      "reason_codes": ["render-context"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "Page rendering pipeline likely interacts with content models and their state."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "Utility functions dealing with pages may require integration with publication scheduling logic.",
+      "confidence": 0.7,
+      "reason_codes": ["utility-integration"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "Utilities around page management could interact with visibility conditions."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/page.py",
+      "action": "REGENERATE",
+      "rationale": "Caching strategies for pages should consider dynamic visibility due to publication_date changes.",
+      "confidence": 0.65,
+      "reason_codes": ["cache-invalidation"],
+      "evidence": [
+        {
+          "source": "semantic-seed-19",
+          "description": "Page caching mechanisms may be impacted by time-based visibility rules."
+        }
+      ]
+    },
+    {
+      "path": "cms/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No functional change required; serves as package initializer only.",
+      "confidence": 1.0,
+      "reason_codes": ["package-init"],
+      "evidence": []
+    },
+    {
+      "path": "cms/__main__.py",
+      "action": "PRESERVE",
+      "rationale": "Not involved in web runtime or data modeling aspects of the feature.",
+      "confidence": 1.0,
+      "reason_codes": ["entry-point"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Initialization file does not contain business logic requiring modification.",
+      "confidence": 1.0,
+      "reason_codes": ["module-import"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "Permissions are unrelated to scheduled publishing logic.",
+      "confidence": 1.0,
+      "reason_codes": ["authorization-scope"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "Placeholder administration deals with structural elements rather than content timing.",
+      "confidence": 1.0,
+      "reason_codes": ["structure-admin"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "Settings administration unrelated to per-content scheduling features.",
+      "confidence": 1.0,
+      "reason_codes": ["configuration-scope"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "Static placeholders do not participate in timed publishing workflows described.",
+      "confidence": 1.0,
+      "reason_codes": ["static-content"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User administration unaffected by content-level scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["user-model"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "PRESERVE",
+      "rationale": "Generic utilities unlikely to embed specific scheduling behaviors unless directly referenced.",
+      "confidence": 0.9,
+      "reason_codes": ["generic-helper"],
+      "evidence": []
+    },
+    {
+      "path": "cms/app_base.py",
+      "action": "PRESERVE",
+      "rationale": "Base application structure doesn't implement content-specific logic.",
+      "confidence": 1.0,
+      "reason_codes": ["base-class"],
+      "evidence": []
+    },
+    {
+      "path": "cms/app_registration.py",
+      "action": "PRESERVE",
+      "rationale": "Application registration process unrelated to individual content item scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["registration-process"],
+      "evidence": []
+    },
+    {
+      "path": "cms/apphook_pool.py",
+      "action": "PRESERVE",
+      "rationale": "App hook pooling mechanism not concerned with content-level publication timing.",
+      "confidence": 1.0,
+      "reason_codes": ["hook-pool"],
+      "evidence": []
+    },
+    {
+      "path": "cms/appresolver.py",
+      "action": "PRESERVE",
+      "rationale": "URL resolution system operates independently of content publication status.",
+      "confidence": 0.95,
+      "reason_codes": ["url-resolution"],
+      "evidence": [
+        {
+          "source": "semantic-seed-15",
+          "description": "App resolver focuses on routing, not content visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/apps.py",
+      "action": "PRESERVE",
+      "rationale": "Application configuration typically doesn't house domain logic like scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["app-config"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Cache initialization file without direct logic needing update.",
+      "confidence": 1.0,
+      "reason_codes": ["cache-init"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/choices.py",
+      "action": "PRESERVE",
+      "rationale": "Choice caching unrelated to timed content visibility.",
+      "confidence": 1.0,
+      "reason_codes": ["choice-cache"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "Permission caches don't factor into content scheduling decisions.",
+      "confidence": 1.0,
+      "reason_codes": ["permission-cache"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "Placeholder caching orthogonal to content publication timing.",
+      "confidence": 1.0,
+      "reason_codes": ["placeholder-cache"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_config.py",
+      "action": "PRESERVE",
+      "rationale": "Configuration settings generally don't encode behavioral logic such as scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["config-file"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_menus.py",
+      "action": "PRESERVE",
+      "rationale": "Menu generation logic not directly tied to per-content publication timing.",
+      "confidence": 0.9,
+      "reason_codes": ["menu-generation"],
+      "evidence": [
+        {
+          "source": "semantic-seed-23",
+          "description": "Menus focus on navigation structure, not timed content visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "Plugin definitions remain unchanged since they're agnostic to scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["plugin-definition"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_toolbars.py",
+      "action": "PRESERVE",
+      "rationale": "Toolbar UI components not responsible for backend scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["ui-component"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_wizards.py",
+      "action": "PRESERVE",
+      "rationale": "Wizards handle creation flows but not ongoing scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["creation-wizard"],
+      "evidence": []
+    },
+    {
+      "path": "cms/constants.py",
+      "action": "PRESERVE",
+      "rationale": "Constants file unlikely to require updates unless new constants are introduced.",
+      "confidence": 1.0,
+      "reason_codes": ["constant-values"],
+      "evidence": []
+    },
+    {
+      "path": "cms/context_processors.py",
+      "action": "PRESERVE",
+      "rationale": "Context processors provide global variables, not conditional content logic.",
+      "confidence": 1.0,
+      "reason_codes": ["global-context"],
+      "evidence": []
+    },
+    {
+      "path": "cms/exceptions.py",
+      "action": "PRESERVE",
+      "rationale": "Exception classes remain stable unless new error types are needed.",
+      "confidence": 1.0,
+      "reason_codes": ["error-handling"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Extensions framework initialization not impacted by content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["extension-framework"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/admin.py",
+      "action": "PRESERVE",
+      "rationale": "Extension admin interfaces not inherently affected by base content scheduling.",
+      "confidence": 0.9,
+      "reason_codes": ["extension-admin"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/extension_pool.py",
+      "action": "PRESERVE",
+      "rationale": "Pool manages extensions but not their interaction with scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["extension-management"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/models.py",
+      "action": "PRESERVE",
+      "rationale": "Unless extended models reference scheduling explicitly, no change needed.",
+      "confidence": 0.9,
+      "reason_codes": ["extended-models"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/toolbar.py",
+      "action": "PRESERVE",
+      "rationale": "Toolbars for extensions not directly involved in scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["extension-toolbar"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Forms package init file not subject to change under current requirements.",
+      "confidence": 1.0,
+      "reason_codes": ["form-package"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/fields.py",
+      "action": "PRESERVE",
+      "rationale": "Custom fields unlikely to be added specifically for publication_date handling.",
+      "confidence": 1.0,
+      "reason_codes": ["custom-fields"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/login.py",
+      "action": "PRESERVE",
+      "rationale": "Login forms unrelated to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["auth-forms"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "PRESERVE",
+      "rationale": "General-purpose form utilities not expected to incorporate scheduling logic.",
+      "confidence": 0.9,
+      "reason_codes": ["form-helpers"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "Form utility files usually abstract common tasks, not domain-specific ones."
+        }
+      ]
+    },
+    {
+      "path": "cms/forms/validators.py",
+      "action": "PRESERVE",
+      "rationale": "Validators apply general validation rules, not time-dependent logic.",
+      "confidence": 1.0,
+      "reason_codes": ["validation-rules"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/widgets.py",
+      "action": "PRESERVE",
+      "rationale": "Widgets define presentation layer details, not backend scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["presentation-layer"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/wizards.py",
+      "action": "PRESERVE",
+      "rationale": "Wizard forms manage step-by-step creation processes, not ongoing scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["wizard-ui"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Management command setup not directly tied to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["command-setup"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Command directory initialization not impacted by scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["command-dir"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/cms.py",
+      "action": "PRESERVE",
+      "rationale": "Main CMS command dispatcher not directly implementing scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["command-dispatcher"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/startcmsproject.py",
+      "action": "PRESERVE",
+      "rationale": "Project starter templates not modified for this feature.",
+      "confidence": 1.0,
+      "reason_codes": ["project-template"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Subcommand setup not directly linked to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["subcommand-setup"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/base.py",
+      "action": "PRESERVE",
+      "rationale": "Base subcommand class not directly implementing scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["base-subcommand"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/check.py",
+      "action": "PRESERVE",
+      "rationale": "Check commands validate system integrity, not content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["system-check"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/copy.py",
+      "action": "PRESERVE",
+      "rationale": "Copy operations deal with duplication, not timed visibility.",
+      "confidence": 1.0,
+      "reason_codes": ["copy-operation"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "Orphan cleanup unrelated to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["cleanup-command"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/list.py",
+      "action": "PRESERVE",
+      "rationale": "List commands enumerate entities, not their scheduling states.",
+      "confidence": 1.0,
+      "reason_codes": ["list-command"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/tree.py",
+      "action": "PRESERVE",
+      "rationale": "Tree structure commands operate at hierarchy level, not content timing.",
+      "confidence": 1.0,
+      "reason_codes": ["tree-command"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/uninstall.py",
+      "action": "PRESERVE",
+      "rationale": "Uninstall commands remove apps/plugins, not schedule content.",
+      "confidence": 1.0,
+      "reason_codes": ["uninstall-command"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/djangocms.py",
+      "action": "PRESERVE",
+      "rationale": "Django CMS CLI entry point not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["cli-entry"],
+      "evidence": []
+    },
+    {
+      "path": "cms/menu_bases.py",
+      "action": "PRESERVE",
+      "rationale": "Menu base classes define interface, not content timing logic.",
+      "confidence": 1.0,
+      "reason_codes": ["menu-base"],
+      "evidence": []
+    },
+    {
+      "path": "cms/middleware/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Middleware initialization not directly affected by content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["middleware-init"],
+      "evidence": []
+    },
+    {
+      "path": "cms/middleware/language.py",
+      "action": "PRESERVE",
+      "rationale": "Language middleware handles i18n concerns, not content timing.",
+      "confidence": 1.0,
+      "reason_codes": ["i18n-middleware"],
+      "evidence": []
+    },
+    {
+      "path": "cms/middleware/page.py",
+      "action": "PRESERVE",
+      "rationale": "Page middleware routes requests but doesn't enforce content timing.",
+      "confidence": 0.95,
+      "reason_codes": ["routing-middleware"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "Page middleware focuses on request routing, not content visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/middleware/toolbar.py",
+      "action": "PRESERVE",
+      "rationale": "Toolbar middleware enables editing tools, not content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["toolbar-middleware"],
+      "evidence": []
+    },
+    {
+      "path": "cms/middleware/user.py",
+      "action": "PRESERVE",
+      "rationale": "User authentication middleware unrelated to content timing.",
+      "confidence": 1.0,
+      "reason_codes": ["auth-middleware"],
+      "evidence": []
+    },
+    {
+      "path": "cms/middleware/utils.py",
+      "action": "PRESERVE",
+      "rationale": "Utility middleware helpers not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["middleware-utils"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Model imports and setup not directly changed by adding a field.",
+      "confidence": 1.0,
+      "reason_codes": ["model-imports"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/aliaspluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "Alias plugins not directly involved in scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["alias-plugin"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/apphooks_reload.py",
+      "action": "PRESERVE",
+      "rationale": "Apphook reloading logic unrelated to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["apphook-reload"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "PRESERVE",
+      "rationale": "Custom model fields not necessarily added for publication_date.",
+      "confidence": 1.0,
+      "reason_codes": ["custom-field"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "PRESERVE",
+      "rationale": "Managers may already support filtering, so no change if default manager suffices.",
+      "confidence": 0.9,
+      "reason_codes": ["query-manager"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "PRESERVE",
+      "rationale": "Page model represents structure; content scheduling handled via PageContent.",
+      "confidence": 0.95,
+      "reason_codes": ["page-structure"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Page model defines structure while PageContent holds schedulable content."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "PRESERVE",
+      "rationale": "Permission models govern access rights, not content timing.",
+      "confidence": 1.0,
+      "reason_codes": ["permission-model"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "PRESERVE",
+      "rationale": "Placeholders hold plugins but aren't directly scheduled themselves.",
+      "confidence": 1.0,
+      "reason_codes": ["placeholder-model"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/placeholderpluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "Placeholder plugin models not directly tied to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["plugin-placeholder"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "Plugin models represent reusable content blocks, not scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["plugin-model"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "PRESERVE",
+      "rationale": "Query sets may already support filtering, so no change if default manager suffices.",
+      "confidence": 0.9,
+      "reason_codes": ["query-set"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "PRESERVE",
+      "rationale": "Setting models store site-wide configurations, not per-content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["site-settings"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "Static placeholders not involved in timed publishing workflows.",
+      "confidence": 1.0,
+      "reason_codes": ["static-placeholder"],
+      "evidence": []
+    },
+    {
+      "path": "cms/operations/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Operations package initialization not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["operation-init"],
+      "evidence": []
+    },
+    {
+      "path": "cms/operations/helpers.py",
+      "action": "PRESERVE",
+      "rationale": "Helper functions may assist operations but not necessarily scheduling.",
+      "confidence": 0.9,
+      "reason_codes": ["helper-functions"],
+      "evidence": [
+        {
+          "source": "semantic-seed-77",
+          "description": "Helpers abstract common tasks but not always domain-specific logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/plugin_base.py",
+      "action": "PRESERVE",
+      "rationale": "Plugin base class defines interfaces, not scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["plugin-interface"],
+      "evidence": []
+    },
+    {
+      "path": "cms/plugin_pool.py",
+      "action": "PRESERVE",
+      "rationale": "Plugin pool manages registration, not scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["plugin-registration"],
+      "evidence": []
+    },
+    {
+      "path": "cms/plugin_processors.py",
+      "action": "PRESERVE",
+      "rationale": "Processors modify output but not input scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["output-processing"],
+      "evidence": []
+    },
+    {
+      "path": "cms/plugin_rendering.py",
+      "action": "PRESERVE",
+      "rationale": "Rendering engine executes plugins but not their scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["plugin-execution"],
+      "evidence": []
+    },
+    {
+      "path": "cms/signals/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Signal setup not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["signal-setup"],
+      "evidence": []
+    },
+    {
+      "path": "cms/signals/apphook.py",
+      "action": "PRESERVE",
+      "rationale": "Apphook signals relate to app loading, not content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["apphook-signals"],
+      "evidence": []
+    },
+    {
+      "path": "cms/signals/log_entries.py",
+      "action": "PRESERVE",
+      "rationale": "Log entries track activity but not content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["logging"],
+      "evidence": []
+    },
+    {
+      "path": "cms/signals/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "Permission-related signals not tied to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["permission-signals"],
+      "evidence": []
+    },
+    {
+      "path": "cms/sitemaps/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Sitemap setup not directly tied to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["sitemap-setup"],
+      "evidence": []
+    },
+    {
+      "path": "cms/sitemaps/cms_sitemap.py",
+      "action": "PRESERVE",
+      "rationale": "Sitemaps index public content but not necessarily filtered by scheduling.",
+      "confidence": 0.9,
+      "reason_codes": ["sitemap-indexing"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templates.py",
+      "action": "PRESERVE",
+      "rationale": "Template loader not directly tied to content scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["template-loader"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Template tag package initialization not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["tag-package"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "PRESERVE",
+      "rationale": "Admin template tags enhance UI but not backend scheduling logic.",
+      "confidence": 0.9,
+      "reason_codes": ["admin-tags"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin tags improve UX but not core scheduling logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "PRESERVE",
+      "rationale": "Alias template tags not directly tied to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["alias-tags"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "JavaScript template tags generate frontend assets, not backend logic.",
+      "confidence": 1.0,
+      "reason_codes": ["js-tags"],
+      "evidence": [
+        {
+          "source": "semantic-seed-93",
+          "description": "JS tags produce client-side scripts, not server-side scheduling."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_static.py",
+      "action": "PRESERVE",
+      "rationale": "Static asset tags unrelated to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["static-assets"],
+      "evidence": []
+    },
+    {
+      "path": "cms/toolbar/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Toolbar package initialization not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["toolbar-package"],
+      "evidence": []
+    },
+    {
+      "path": "cms/toolbar/items.py",
+      "action": "PRESERVE",
+      "rationale": "Toolbar items define UI components, not backend scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["toolbar-items"],
+      "evidence": []
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "PRESERVE",
+      "rationale": "Toolbar class builds UI toolbars, not backend scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["toolbar-class"],
+      "evidence": []
+    },
+    {
+      "path": "cms/toolbar_base.py",
+      "action": "PRESERVE",
+      "rationale": "Base toolbar class defines interfaces, not scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["toolbar-base"],
+      "evidence": []
+    },
+    {
+      "path": "cms/toolbar_pool.py",
+      "action": "PRESERVE",
+      "rationale": "Toolbar pool registers toolbars, not scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["toolbar-pool"],
+      "evidence": []
+    },
+    {
+      "path": "cms/urls.py",
+      "action": "PRESERVE",
+      "rationale": "URL routing not directly tied to content scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["url-routing"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Utils package initialization not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["util-package"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/admin.py",
+      "action": "PRESERVE",
+      "rationale": "Admin utilities assist admin views but not necessarily scheduling logic.",
+      "confidence": 0.9,
+      "reason_codes": ["admin-utils"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/apphook_reload.py",
+      "action": "PRESERVE",
+      "rationale": "Apphook reload utilities unrelated to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["apphook-reload-util"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/check.py",
+      "action": "PRESERVE",
+      "rationale": "System checks validate integrity, not content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["integrity-check"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/compat/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Compatibility layer not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["compat-layer"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/compat/dj.py",
+      "action": "PRESERVE",
+      "rationale": "Django compatibility wrappers not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["django-compat"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/compat/forms.py",
+      "action": "PRESERVE",
+      "rationale": "Form compatibility wrappers not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["form-compat"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/compat/response.py",
+      "action": "PRESERVE",
+      "rationale": "Response compatibility wrappers not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["response-compat"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/compat/warnings.py",
+      "action": "PRESERVE",
+      "rationale": "Warning compatibility wrappers not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["warning-compat"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/conf.py",
+      "action": "PRESERVE",
+      "rationale": "Configuration utilities not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["config-util"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/decorators.py",
+      "action": "PRESERVE",
+      "rationale": "Decorators wrap view functions but not necessarily scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["decorator-wrapper"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/encoder.py",
+      "action": "PRESERVE",
+      "rationale": "Encoders serialize objects but not necessarily scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["serialization"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/helpers.py",
+      "action": "PRESERVE",
+      "rationale": "General-purpose helpers not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["general-helpers"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/i18n.py",
+      "action": "PRESERVE",
+      "rationale": "I18n utilities handle translations, not content scheduling.",
+      "confidence": 0.95,
+      "reason_codes": ["internationalization"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "I18n utilities focus on language variants, not timing."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/mail.py",
+      "action": "PRESERVE",
+      "rationale": "Mail utilities send notifications but not content scheduling.",
+      "confidence": 0.9,
+      "reason_codes": ["notification"],
+      "evidence": [
+        {
+          "source": "semantic-seed-117",
+          "description": "Mail utilities notify about events but not schedule them."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "PRESERVE",
+      "rationale": "Page permission utilities govern access, not content scheduling.",
+      "confidence": 0.95,
+      "reason_codes": ["access-control"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Permissions concern viewing/editing, not timing."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "General permissions utilities not directly tied to scheduling logic.",
+      "confidence": 0.9,
+      "reason_codes": ["general-permissions"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Permissions govern access but not timing."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "Placeholder utilities assist placeholder manipulation, not scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["placeholder-util"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "PRESERVE",
+      "rationale": "Plugin utilities assist plugin manipulation, not scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["plugin-util"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/request_ip_resolvers.py",
+      "action": "PRESERVE",
+      "rationale": "IP resolvers extract client info, not content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["ip-resolver"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/setup.py",
+      "action": "PRESERVE",
+      "rationale": "Setup utilities configure systems, not content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["setup-util"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/urlutils.py",
+      "action": "PRESERVE",
+      "rationale": "URL utilities build URLs, not content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["url-builder"],
+      "evidence": []
+    },
+    {
+      "path": "cms/wizards/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Wizard package initialization not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["wizard-package"],
+      "evidence": []
+    },
+    {
+      "path": "cms/wizards/forms.py",
+      "action": "PRESERVE",
+      "rationale": "Wizard forms manage creation steps, not ongoing scheduling.",
+      "confidence": 0.9,
+      "reason_codes": ["wizard-forms"],
+      "evidence": [
+        {
+          "source": "semantic-seed-128",
+          "description": "Forms capture initial inputs, not ongoing timing logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/wizards/helpers.py",
+      "action": "PRESERVE",
+      "rationale": "Wizard helpers assist creation flows, not ongoing scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["wizard-helpers"],
+      "evidence": []
+    },
+    {
+      "path": "cms/wizards/urls.py",
+      "action": "PRESERVE",
+      "rationale": "Wizard URL routing not directly tied to content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["wizard-routing"],
+      "evidence": []
+    },
+    {
+      "path": "cms/wizards/views.py",
+      "action": "PRESERVE",
+      "rationale": "Wizard views manage creation steps, not ongoing scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["wizard-views"],
+      "evidence": []
+    },
+    {
+      "path": "cms/wizards/wizard_base.py",
+      "action": "PRESERVE",
+      "rationale": "Base wizard class defines interfaces, not scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["wizard-base"],
+      "evidence": []
+    },
+    {
+      "path": "cms/wizards/wizard_pool.py",
+      "action": "PRESERVE",
+      "rationale": "Wizard pool registers wizards, not scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["wizard-pool"],
+      "evidence": []
+    },
+    {
+      "path": "menus/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Menu package initialization not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["menu-package"],
+      "evidence": []
+    },
+    {
+      "path": "menus/apps.py",
+      "action": "PRESERVE",
+      "rationale": "Menu app config not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["menu-app-config"],
+      "evidence": []
+    },
+    {
+      "path": "menus/base.py",
+      "action": "PRESERVE",
+      "rationale": "Menu base class defines interfaces, not scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["menu-base-class"],
+      "evidence": []
+    },
+    {
+      "path": "menus/exceptions.py",
+      "action": "PRESERVE",
+      "rationale": "Menu exceptions not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["menu-exceptions"],
+      "evidence": []
+    },
+    {
+      "path": "menus/menu_pool.py",
+      "action": "PRESERVE",
+      "rationale": "Menu pool registers menus, not scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["menu-pool"],
+      "evidence": []
+    },
+    {
+      "path": "menus/models.py",
+      "action": "PRESERVE",
+      "rationale": "Menu models define menu structures, not content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["menu-models"],
+      "evidence": []
+    },
+    {
+      "path": "menus/modifiers.py",
+      "action": "PRESERVE",
+      "rationale": "Menu modifiers adjust menu rendering, not content scheduling.",
+      "confidence": 1.0,
+      "reason_codes": ["menu-modifiers"],
+      "evidence": []
+    },
+    {
+      "path": "menus/templatetags/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Menu template tag package initialization not directly tied to scheduling logic.",
+      "confidence": 1.0,
+      "reason_codes": ["menu-tag-package"],
+      "evidence": []
+    },
+    {
+      "path": "menus/templatetags/menu_tags.py",
+      "action": "PRESERVE",
+      "rationale": "Menu template tags render navigation, not content scheduling.",
+      "confidence": 0.9,
+      "reason_codes": ["menu-tags"],
+      "evidence": [
+        {
+          "source": "semantic-seed-142",
+          "description": "Menu tags render navigation trees, not timed content."
+        }
+      ]
+    },
+    {
+      "path": "menus/utils.py",
+      "action": "PRESERVE",
+      "rationale": "Menu utilities assist menu building, not content scheduling.",
+      "confidence": 0.9,
+      "reason_codes": ["menu-utils"],
+      "evidence": [
+        {
+          "source": "semantic-seed-143",
+          "description": "Menu utils help build navigation, not timed visibility."
+        }
+      ]
+    }
+  ],
+  "context_set": [
+    "cms/models/contentmodels.py",
+    "cms/admin/pageadmin.py",
+    "cms/views.py",
+    "cms/api.py",
+    "cms/templatetags/cms_tags.py"
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "test_admin_forms",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_admin_forms",
+      "reason": "Ensure the new field is displayed and saved correctly in admin forms.",
+      "evidence_refs": ["semantic-seed-3"]
+    },
+    {
+      "obligation_id": "test_page_content_filtering",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_views",
+      "reason": "Verify frontend views filter out future-dated PageContent instances.",
+      "evidence_refs": ["semantic-seed-126"]
+    },
+    {
+      "obligation_id": "test_api_publish_constraint",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_api",
+      "reason": "Confirm API respects publication_date when publishing content.",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "test_scheduled_publish_action",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_admin_actions",
+      "reason": "Validate the 'Publish Scheduled' admin action works as intended.",
+      "evidence_refs": ["semantic-seed-3"]
+    },
+    {
+      "obligation_id": "test_backwards_compatibility",
+      "kind": "regression",
+      "target": "cms.tests.regression_tests",
+      "reason": "Ensure all existing functionality continues working post-change.",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

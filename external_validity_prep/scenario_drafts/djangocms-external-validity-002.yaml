@@ -1,0 +1,30 @@
+id: djangocms-external-validity-002
+repository: djangocms
+scenario_type: local
+visible_requirements: 'Add plugin-level caching with configurable timeouts.
+
+
+  Currently, django CMS caches entire placeholders or pages, but lacks fine-grained
+  control over individual plugin caching. Extend the CMSPluginBase class to support
+  plugin-specific caching with configurable timeouts. Add:
+
+  1. A `cache_timeout` class attribute to CMSPluginBase (default: 300 seconds)
+
+  2. A `get_cache_key()` method that generates a cache key incorporating plugin ID,
+  language, and timeout
+
+  3. Integration with django CMS''s existing cache infrastructure via the `cms.cache`
+  module
+
+  4. Optional plugin-level cache invalidation signals
+
+
+  The implementation should maintain backward compatibility: plugins without explicit
+  cache_timeout should use the system default (300s). Ensure the cache layer respects
+  the existing `CMS_PLUGIN_CACHE` setting.'
+notes: 'Scientifically defensible: Extends existing caching infrastructure with granular
+  control. Tests class inheritance, caching integration, and backward compatibility.'
+external_validity_draft: true
+created: '2026-09-07'
+scientifically_defensible_rationale: Based on djangoCMS 5.0 architecture analysis
+  and common CMS feature requests

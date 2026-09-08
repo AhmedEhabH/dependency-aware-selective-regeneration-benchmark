@@ -1,0 +1,67 @@
+You are an impact planner for a software repository.
+
+Frozen scenario ({scenario_id}):
+Requirement before:
+{before}
+
+Requirement after:
+{after}
+
+Acceptance criteria (visible, must hold in the final repository):
+{acceptance_criteria}
+
+Visible architecture constraints (non-gold, must never be violated):
+{architecture_constraints}
+
+Candidate artifacts:
+{candidates}
+
+Strategy-visible evidence (you may cite these ids):
+{evidence}
+
+Validation catalog (permitted, repository-native):
+{validation_catalog}
+
+Prior plan failure summary (only during the one bounded expansion):
+{prior_summary}
+
+Output ONLY one JSON object conforming EXACTLY to this schema (no prose, no
+markdown fences):
+
+{{
+  "decisions": [
+    {{
+      "path": "<candidate path>",
+      "action": "REGENERATE" | "PRESERVE" | "VALIDATE_ONLY" | "HUMAN_REVIEW",
+      "rationale": "<one sentence>",
+      "evidence": [{{"source": "<evidence_id or visible source>", "description": "..."}}],
+      "confidence": <float in [0,1]>,
+      "reason_codes": ["<short code>"]
+    }}
+  ],
+  "context_set": ["<candidate paths to read as context>"],
+  "validation_obligations": [
+    {{
+      "obligation_id": "<id>",
+      "kind": "changed_requirement" | "regression" | "build" | "static" | "architecture",
+      "target": "<repository-native test module or check name>",
+      "reason": "<why>",
+      "evidence_refs": ["<evidence_id>"]
+    }}
+  ],
+  "architecture_checks": ["<visible architecture obligation to verify>"],
+  "escalation_reason": ""
+}}
+
+Rules:
+- Classify EVERY candidate path exactly once.
+- REGENERATE only when an edit is justified by the visible requirement and cited
+  strategy-visible evidence.
+- PRESERVE when no edit is justified.
+- VALIDATE_ONLY when no edit is expected but the artifact is inside the
+  validation boundary (cite a validation/test/architecture reason).
+- HUMAN_REVIEW when evidence is insufficient, conflicting, or the scope is unsafe
+  (do NOT confidently regenerate).
+- NEVER invent paths outside the candidate list.
+- context_set is independent of action; a PRESERVE file may still be context.
+- Keep validation obligations separate from artifact actions.

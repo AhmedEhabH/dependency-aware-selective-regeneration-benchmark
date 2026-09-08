@@ -1,0 +1,737 @@
+{
+  "audit": {
+    "items": [
+      {
+        "detail": "Dataset / Prompt / Pipeline Smoke / Dry Run / Integration / Metric Verification",
+        "item": "exactly_six_gates_no_seventh",
+        "ok": true
+      },
+      {
+        "detail": "all gates deterministic mock-only; no real LLM backend",
+        "item": "zero_scientific_calls_in_gates",
+        "ok": true
+      },
+      {
+        "detail": {
+          "branch": "research/djangocms-external-validity-prep-01",
+          "branch_ok": true,
+          "expected_branch": "research/djangocms-external-validity-prep-01",
+          "frozen_inputs": {
+            "all_unchanged": true,
+            "files": {
+              "benchmark_data/external_validity/djangocms_5_0_0_candidate_universe.json": {
+                "disk_sha256": "61e06910555d2be352a6e10d7ef171a8a87e6acdab8a73ba16eb7fe498481fb5",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\djangocms_5_0_0_candidate_universe.json",
+                "unchanged": true
+              },
+              "benchmark_data/external_validity/djangocms_5_0_0_dependency_graph.json": {
+                "disk_sha256": "59a3400842da03471efeb3499b238eb714cf9978215166d7d11afb1da55af0f7",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\djangocms_5_0_0_dependency_graph.json",
+                "unchanged": true
+              },
+              "benchmark_data/external_validity/djangocms_hidden_gold_draft.json": {
+                "disk_sha256": "260bbeacd53efcab6b99366941c64b667f9f227467b70350fcb7c248b6f00882",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\djangocms_hidden_gold_draft.json",
+                "unchanged": true
+              },
+              "benchmark_data/external_validity/impactplan_v2_candidate_id_map.json": {
+                "disk_sha256": "d8070cca062093a9b5e4d807fbf62575c6cee35171e217d3cabcb21530b3e9d8",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\impactplan_v2_candidate_id_map.json",
+                "unchanged": true
+              },
+              "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-002.yaml": {
+                "disk_sha256": "a7e72f7af23541407180d490f5dd03e9df281efb514ab4c4f92f4a59deb4c730",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\visible_drafts\\djangocms-external-validity-002.yaml",
+                "unchanged": true
+              },
+              "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-004.yaml": {
+                "disk_sha256": "0b25d27452ceff3fae08eecd42b15da8d6788c4af162455f71c2db5cf3450430",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\visible_drafts\\djangocms-external-validity-004.yaml",
+                "unchanged": true
+              },
+              "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-005.yaml": {
+                "disk_sha256": "836f42fbbf00cd097b52a928f12e01e463857f4a9fe01aa122729696b223a57b",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\visible_drafts\\djangocms-external-validity-005.yaml",
+                "unchanged": true
+              },
+              "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-006.yaml": {
+                "disk_sha256": "c724fff84d0757e4182e3b127a296b6876964a267be5e3584f1aafcf9aefa0e3",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\visible_drafts\\djangocms-external-validity-006.yaml",
+                "unchanged": true
+              },
+              "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-007.yaml": {
+                "disk_sha256": "1caf61e7a4db2b887e8c14d02f349ef3771e7f19a27ecab2f69e6aa686e5e88c",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\visible_drafts\\djangocms-external-validity-007.yaml",
+                "unchanged": true
+              },
+              "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-008.yaml": {
+                "disk_sha256": "d2076d5bf092ac8a96566c88f413deb1090ab61ebe85733a41174e8aac283021",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\visible_drafts\\djangocms-external-validity-008.yaml",
+                "unchanged": true
+              },
+              "src/benchmark/selection/impact_planner.py": {
+                "disk_sha256": "f54553e512bb41c5e94567cf23e76eedc861695381dfdb4f2af87770ae8e4936",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\src\\benchmark\\selection\\impact_planner.py",
+                "unchanged": true
+              },
+              "src/benchmark/selection/impact_planner_v2.py": {
+                "disk_sha256": "35f5d653c48d1bbe0162ef982bb52adec56d4cf0d56b4d90dbc5f656b45467be",
+                "git_diff_quiet_vs_head": 0,
+                "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\src\\benchmark\\selection\\impact_planner_v2.py",
+                "unchanged": true
+              }
+            }
+          },
+          "frozen_scientific_inputs_unchanged": true,
+          "head": "f8e7aa8114a1919751c415a34bdda25e8b8242c5",
+          "origin_ref": "f8e7aa8114a1919751c415a34bdda25e8b8242c5",
+          "parity": true,
+          "working_tree_has_untracked_study_files": true
+        },
+        "item": "branch_head_origin_truth",
+        "ok": true
+      },
+      {
+        "detail": {
+          "16k": true,
+          "8192": true,
+          "primary": {
+            "immutable": true,
+            "mismatch": [],
+            "missing": [],
+            "recomputed_count": 71,
+            "stored_count": 71
+          }
+        },
+        "item": "historical_evidence_immutability",
+        "ok": true
+      },
+      {
+        "detail": {
+          "v1_default_cap": "4096",
+          "v1_planner_prompt_sha256": "d6f8798d2c131afdf8289b01d4b4d826eb5fa997e1f1d748303f3d1a362312fb",
+          "v1_planner_schema_sha256": "12152c5947319fdc85313e0024542c7ea63301c62ebea847f005d71dc8dc87ee",
+          "v2_completion_cap": "4096",
+          "v2_planner_prompt_sha256": "69c2e44d9408d9db95334bafe62cfc706475b2838bffa85e59da543bdbd7cea0",
+          "v2_planner_schema_sha256": "98f7eb91774c29867b09a3d4af21cdbb2f65a05e073efe430531a5f3b0fe9392"
+        },
+        "item": "frozen_hashes_fixed",
+        "ok": true
+      },
+      {
+        "detail": "frozen v2 prompt/schema/ID map/cap untouched",
+        "item": "v2_treatment_unchanged",
+        "ok": true
+      },
+      {
+        "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\reports\\scientific-stagec-djangocms-impactplan-v2-01\\provenance\\prompt_evidence_parity.json",
+        "item": "provenance_parity_completed",
+        "ok": true
+      },
+      {
+        "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\djangocms_hidden_gold_draft.json",
+        "item": "hidden_gold_isolation",
+        "ok": true
+      },
+      {
+        "detail": {
+          "ceiling_usd": 0.2,
+          "margin": 0.25
+        },
+        "item": "cost_lock",
+        "ok": true
+      },
+      {
+        "detail": "no result-based reruns; transient retry policy only (max 1)",
+        "item": "execution_failure_policy_frozen",
+        "ok": true
+      },
+      {
+        "detail": "6 scenarios x 5 reps = 30 impact_plan_v2 cells",
+        "item": "planned_30_cell_manifest",
+        "ok": true
+      },
+      {
+        "detail": "no graph assistance in v2",
+        "item": "graph_not_injected",
+        "ok": true
+      },
+      {
+        "detail": {
+          "extra_runtime_paths_not_in_frozen": [],
+          "final_gold_paths_missing_from_runtime": [],
+          "frozen_candidate_universe_canonical_hash": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+          "frozen_candidate_universe_count": 144,
+          "loaded_probe_scenario_id": "djangocms-external-validity-008",
+          "loaded_probe_scenario_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\visible_drafts\\djangocms-external-validity-008.yaml",
+          "loaded_probe_scenario_path_under_visible_drafts": true,
+          "loaded_probe_visible_input_sha256": "d2076d5bf092ac8a96566c88f413deb1090ab61ebe85733a41174e8aac283021",
+          "missing_frozen_paths_in_runtime": [],
+          "old_historical_scenario_loaded": false,
+          "passed": true,
+          "runtime_selectable_universe_count": 144,
+          "runtime_universe_canonical_hash": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+        },
+        "item": "preflight_passed",
+        "ok": true
+      }
+    ],
+    "passed": true
+  },
+  "cap_stayed_4096": true,
+  "closure_gates": [
+    {
+      "checks": [
+        {
+          "check": "pinned_djangocms_commit_frozen",
+          "detail": "0f633fc9fa213357f4202482aab2b0edad680f95",
+          "ok": true
+        },
+        {
+          "check": "universe_exactly_144_paths",
+          "detail": 144,
+          "ok": true
+        },
+        {
+          "check": "universe_sha256_frozen",
+          "detail": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+          "ok": true
+        },
+        {
+          "check": "six_exact_scenario_ids",
+          "detail": [
+            "djangocms-external-validity-002",
+            "djangocms-external-validity-004",
+            "djangocms-external-validity-005",
+            "djangocms-external-validity-006",
+            "djangocms-external-validity-007",
+            "djangocms-external-validity-008"
+          ],
+          "ok": true
+        },
+        {
+          "check": "scenario_hashes_recorded",
+          "detail": {
+            "djangocms-external-validity-002": "a7e72f7af23541407180d490f5dd03e9df281efb514ab4c4f92f4a59deb4c730",
+            "djangocms-external-validity-004": "0b25d27452ceff3fae08eecd42b15da8d6788c4af162455f71c2db5cf3450430",
+            "djangocms-external-validity-005": "836f42fbbf00cd097b52a928f12e01e463857f4a9fe01aa122729696b223a57b",
+            "djangocms-external-validity-006": "c724fff84d0757e4182e3b127a296b6876964a267be5e3584f1aafcf9aefa0e3",
+            "djangocms-external-validity-007": "1caf61e7a4db2b887e8c14d02f349ef3771e7f19a27ecab2f69e6aa686e5e88c",
+            "djangocms-external-validity-008": "d2076d5bf092ac8a96566c88f413deb1090ab61ebe85733a41174e8aac283021"
+          },
+          "ok": true
+        },
+        {
+          "check": "candidate_mapping_sha256_frozen",
+          "detail": {
+            "artifact": {
+              "artifact_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\impactplan_v2_candidate_id_map.json",
+              "artifact_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+              "derived_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+              "entry_count": 144,
+              "errors": [],
+              "passed": true,
+              "universe_sha256": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+            },
+            "entry_count": 144,
+            "mapping_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+            "universe_sha256": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+          },
+          "ok": true
+        },
+        {
+          "check": "hidden_gold_files_exist_in_frozen_universe",
+          "detail": [],
+          "ok": true
+        },
+        {
+          "check": "no_hidden_gold_exposed_to_inference_input",
+          "detail": [
+            {
+              "gold_paths": [
+                "cms/api.py"
+              ],
+              "scenario": "djangocms-external-validity-002"
+            },
+            {
+              "gold_paths": [
+                "cms/admin/pageadmin.py",
+                "cms/api.py",
+                "cms/models/contentmodels.py",
+                "cms/views.py"
+              ],
+              "scenario": "djangocms-external-validity-004"
+            },
+            {
+              "gold_paths": [
+                "cms/admin/pageadmin.py",
+                "cms/admin/permissionadmin.py",
+                "cms/cms_toolbars.py",
+                "cms/models/permissionmodels.py",
+                "cms/utils/page_permissions.py"
+              ],
+              "scenario": "djangocms-external-validity-005"
+            },
+            {
+              "gold_paths": [
+                "cms/admin/placeholderadmin.py",
+                "cms/models/pluginmodel.py",
+                "cms/utils/plugins.py"
+              ],
+              "scenario": "djangocms-external-validity-006"
+            },
+            {
+              "gold_paths": [
+                "cms/admin/pageadmin.py",
+                "cms/api.py",
+                "cms/cms_toolbars.py",
+                "cms/models/contentmodels.py",
+                "cms/models/permissionmodels.py",
+                "cms/signals/__init__.py",
+                "cms/utils/page_permissions.py"
+              ],
+              "scenario": "djangocms-external-validity-007"
+            },
+            {
+              "gold_paths": [
+                "cms/cache/__init__.py",
+                "cms/middleware/toolbar.py",
+                "cms/signals/__init__.py",
+                "cms/templatetags/cms_tags.py"
+              ],
+              "scenario": "djangocms-external-validity-008"
+            }
+          ],
+          "ok": true
+        },
+        {
+          "check": "all_source_inputs_resolve",
+          "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\repositories\\djangocms",
+          "ok": true
+        },
+        {
+          "check": "graph_artifact_not_injected_into_v2",
+          "detail": "graph artifact remains historical/contextual only",
+          "ok": true
+        }
+      ],
+      "gate": 1,
+      "name": "Dataset Validation",
+      "passed": true
+    },
+    {
+      "checks": [
+        {
+          "check": "v2_prompt_template_hash_frozen",
+          "detail": "69c2e44d9408d9db95334bafe62cfc706475b2838bffa85e59da543bdbd7cea0",
+          "ok": true
+        },
+        {
+          "check": "v2_schema_hash_frozen",
+          "detail": "98f7eb91774c29867b09a3d4af21cdbb2f65a05e073efe430531a5f3b0fe9392",
+          "ok": true
+        },
+        {
+          "check": "frozen_id_map_144",
+          "detail": {
+            "artifact": {
+              "artifact_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\impactplan_v2_candidate_id_map.json",
+              "artifact_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+              "derived_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+              "entry_count": 144,
+              "errors": [],
+              "passed": true,
+              "universe_sha256": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+            },
+            "entry_count": 144,
+            "mapping_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+            "universe_sha256": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+          },
+          "ok": true
+        },
+        {
+          "check": "rendered_prompt_determinism",
+          "detail": "a5a99b65c8c599374bddd9647330e16e14838e4bbf8545b204ad96ce4dcf84a6",
+          "ok": true
+        },
+        {
+          "check": "candidate_ids_decode_deterministically",
+          "detail": {
+            "id1": "cms/__init__.py",
+            "id144": "menus/utils.py"
+          },
+          "ok": true
+        },
+        {
+          "check": "omitted_candidate_maps_to_preserve",
+          "detail": {
+            "decoded_preserve_count": 144,
+            "emitted_decision_count": 0
+          },
+          "ok": true
+        },
+        {
+          "check": "allowed_emitted_actions_exactly_v2_contract",
+          "detail": [
+            "REGENERATE",
+            "VALIDATE",
+            "HUMAN_REVIEW"
+          ],
+          "ok": true
+        },
+        {
+          "check": "no_graph_assistance_in_prompt",
+          "detail": "v2 prompt carries no graph references",
+          "ok": true
+        },
+        {
+          "check": "hidden_gold_labels_absent_from_rendered_prompt",
+          "detail": "gold paths appear ONLY as ordinary members of the 144-candidate universe; no gold label/marker/structure is present",
+          "ok": true
+        },
+        {
+          "check": "treatment_unchanged_while_adding_provenance",
+          "detail": "v2 module + ID map + prompt/schema hashes unchanged vs HEAD",
+          "ok": true
+        }
+      ],
+      "gate": 2,
+      "name": "Prompt Validation",
+      "passed": true
+    },
+    {
+      "checks": [
+        {
+          "check": "structured_response_parsing",
+          "detail": 2,
+          "ok": true
+        },
+        {
+          "check": "numeric_id_decoding",
+          "detail": {
+            "action": "regenerate",
+            "api_id": 12
+          },
+          "ok": true
+        },
+        {
+          "check": "omitted_implies_preserve",
+          "detail": {
+            "preserve_count": 142
+          },
+          "ok": true
+        },
+        {
+          "check": "complete_144_path_decoded_policy",
+          "detail": 144,
+          "ok": true
+        },
+        {
+          "check": "regenerate_write_set_extraction",
+          "detail": [
+            "cms/api.py"
+          ],
+          "ok": true
+        },
+        {
+          "check": "invalid_id_fail_closed",
+          "detail": "id 999 rejected",
+          "ok": true
+        },
+        {
+          "check": "duplicate_conflict_fail_closed",
+          "detail": "duplicate id with conflicting action rejected",
+          "ok": true
+        },
+        {
+          "check": "terminal_and_schema_validity",
+          "detail": "succeeded",
+          "ok": true
+        },
+        {
+          "check": "zero_scientific_calls",
+          "detail": "mock backend only; no real LLM backend constructed",
+          "ok": true
+        }
+      ],
+      "gate": 3,
+      "name": "Pipeline Smoke Test",
+      "passed": true
+    },
+    {
+      "checks": [
+        {
+          "check": "manifest_iteration_exactly_30",
+          "detail": 30,
+          "ok": true
+        },
+        {
+          "check": "run_ids_unique_and_bound",
+          "detail": {
+            "unique": 30
+          },
+          "ok": true
+        },
+        {
+          "check": "scenario_repetition_binding_5_each",
+          "detail": {
+            "djangocms-external-validity-002": 5,
+            "djangocms-external-validity-004": 5,
+            "djangocms-external-validity-005": 5,
+            "djangocms-external-validity-006": 5,
+            "djangocms-external-validity-007": 5,
+            "djangocms-external-validity-008": 5
+          },
+          "ok": true
+        },
+        {
+          "check": "frozen_configuration_propagation",
+          "detail": "all cells carry frozen v2 config + hashes",
+          "ok": true
+        },
+        {
+          "check": "dry_run_cell_terminal",
+          "detail": "succeeded",
+          "ok": true
+        },
+        {
+          "check": "raw_evidence_persistence_paths",
+          "detail": "runs/{run_id}.json + raw/{run_id}.txt + .sha256 + run_records.jsonl",
+          "ok": true
+        },
+        {
+          "check": "metric_inputs_unavailable_until_after_inference",
+          "detail": "hidden gold enters scoring only after the record is produced",
+          "ok": true
+        },
+        {
+          "check": "zero_scientific_calls",
+          "detail": "dry-run uses mock backend only",
+          "ok": true
+        }
+      ],
+      "gate": 4,
+      "name": "Dry Run",
+      "passed": true
+    },
+    {
+      "checks": [
+        {
+          "check": "prompt_render",
+          "detail": "969a13c030401661d1d2261afc341ad0aeeef8fd221e889ac4c4416d4dd431a6",
+          "ok": true
+        },
+        {
+          "check": "structured_decode_and_full_144_policy_reconstruction",
+          "detail": {
+            "policy_size": 144,
+            "status": "succeeded"
+          },
+          "ok": true
+        },
+        {
+          "check": "predicted_write_set_equals_gold_fixture",
+          "detail": {
+            "fn": 0,
+            "gold": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/contentmodels.py",
+              "cms/views.py"
+            ],
+            "predicted": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/contentmodels.py",
+              "cms/views.py"
+            ],
+            "tp": 4
+          },
+          "ok": true
+        },
+        {
+          "check": "post_inference_hidden_gold_evaluation_metrics",
+          "detail": {
+            "f1": 1.0,
+            "fn": 0,
+            "fnr": 0.0,
+            "full_recall": true,
+            "precision": 1.0,
+            "recall": 1.0,
+            "tp": 4
+          },
+          "ok": true
+        },
+        {
+          "check": "raw_result_persistence_and_checkpoint_aggregation",
+          "detail": {
+            "model_calls": 1,
+            "raw_sha256": "72cdf23f06ad32d0986c9379f35cd046e019a2471da06746009f701fb565fed5",
+            "total_tokens": 3227
+          },
+          "ok": true
+        },
+        {
+          "check": "zero_scientific_calls",
+          "detail": "deterministic fixture backend only",
+          "ok": true
+        }
+      ],
+      "gate": 5,
+      "name": "Integration Test",
+      "passed": true
+    },
+    {
+      "checks": [
+        {
+          "check": "trace_raw_to_decoded_map_to_write_set_to_metrics",
+          "detail": {
+            "f1": 1.0,
+            "fnr": 0.0,
+            "full_recall": true,
+            "precision": 1.0,
+            "recall": 1.0
+          },
+          "ok": true
+        },
+        {
+          "check": "fp_case",
+          "detail": {
+            "f1": 0.0,
+            "fnr": 1.0,
+            "full_recall": false,
+            "precision": 0.0,
+            "recall": 0.0
+          },
+          "ok": true
+        },
+        {
+          "check": "fn_case",
+          "detail": {
+            "f1": 0.0,
+            "fnr": 1.0,
+            "full_recall": false,
+            "precision": 0.0,
+            "recall": 0.0
+          },
+          "ok": true
+        },
+        {
+          "check": "zero_denominator_empty",
+          "detail": {
+            "f1": 0.0,
+            "fnr": 0.0,
+            "full_recall": false,
+            "precision": 0.0,
+            "recall": 0.0
+          },
+          "ok": true
+        },
+        {
+          "check": "zero_denominator_gold_empty",
+          "detail": {
+            "f1": 0.0,
+            "fnr": 0.0,
+            "full_recall": false,
+            "precision": 0.0,
+            "recall": 0.0
+          },
+          "ok": true
+        },
+        {
+          "check": "pooled_micro_aggregation",
+          "detail": {
+            "fn": 1,
+            "fp": 2,
+            "micro_f1": 0.6666666666666665,
+            "micro_fnr": 0.25,
+            "micro_precision": 0.6,
+            "micro_recall": 0.75,
+            "selected": 5,
+            "tp": 3
+          },
+          "ok": true
+        },
+        {
+          "check": "macro_aggregation",
+          "detail": {
+            "macro_f1": 0.7333333333333334,
+            "macro_precision": 0.5833333333333333,
+            "macro_recall": 1.0,
+            "per_run": [
+              {
+                "f1": 0.6666666666666666,
+                "fnr": 0.0,
+                "full_recall": true,
+                "precision": 0.5,
+                "recall": 1.0
+              },
+              {
+                "f1": 0.8,
+                "fnr": 0.0,
+                "full_recall": true,
+                "precision": 0.6666666666666666,
+                "recall": 1.0
+              }
+            ]
+          },
+          "ok": true
+        }
+      ],
+      "gate": 6,
+      "name": "Metric Verification",
+      "passed": true
+    }
+  ],
+  "does_not_modify_scientific_results": true,
+  "frozen_hashes_fixed": true,
+  "gates_all_passed": true,
+  "graph_absent": true,
+  "hidden_gold_evaluation_only": true,
+  "manifest_cells": 30,
+  "model_provider_fallback_frozen": true,
+  "no_replacement_reruns": true,
+  "no_run_31": true,
+  "post_study_note_design_only": true,
+  "previous_16k_diagnostic_evidence_unchanged": {
+    "disk_sha256": "f55d86cd7db0f4d75814f6336290364d01caf8e6fcf1b89ecbdee5e3ffced775",
+    "git_diff_quiet_vs_head": 0,
+    "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\reports\\scientific-stagec-djangocms-impactplan-16k-diagnostic-01\\diagnostic.json",
+    "unchanged": true
+  },
+  "previous_8192_evidence_unchanged": {
+    "disk_sha256": "8a83290e89b2e8090ae88fbfc2cca254f3c301274e9c42633ce14c6ce9f7f2ab",
+    "git_diff_quiet_vs_head": 0,
+    "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\reports\\scientific-stagec-djangocms-impactplan-cap-ablation-01\\costprobe_8192.json",
+    "unchanged": true
+  },
+  "primary_evidence_immutable": {
+    "immutable": true,
+    "mismatch": [],
+    "missing": [],
+    "recomputed_count": 71,
+    "stored_count": 71
+  },
+  "provenance_parity_did_not_alter_treatment": true,
+  "ran_at": "2026-09-08T15:52:53.749924+00:00",
+  "raw_responses_persisted": true,
+  "recorded_cells": 30,
+  "v2_costprobe_evidence_unchanged": {
+    "disk_sha256": "08028f1d7408a00326906581d20a2b07a85a3c39615ee7f8508fb3ded7a30c2d",
+    "git_diff_quiet_vs_head": 0,
+    "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\reports\\scientific-stagec-djangocms-impactplan-v2-costprobe-01\\costprobe.json",
+    "unchanged": true
+  },
+  "zero_scientific_calls": true
+}

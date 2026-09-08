@@ -1,0 +1,107 @@
+{
+  "decisions": [
+    {
+      "id": 66,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model must be modified to include the new publication_date field as per the requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["schema_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py contains core page models and is directly related to content publication logic."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "API functions for publishing need to respect the new publication_date field according to requirements.",
+      "confidence": 0.9,
+      "reason_codes": ["api_compliance"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py handles page content operations including publish actions which must now consider publication_date."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "Admin interface needs to display the new publication_date field and support the 'Publish Scheduled' action.",
+      "confidence": 0.92,
+      "reason_codes": ["admin_feature"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py manages admin forms for content and requires updating to show publication_date field."
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "action": "REGENERATE",
+      "rationale": "Frontend views must filter out PageContent instances with future publication dates.",
+      "confidence": 0.88,
+      "reason_codes": ["frontend_filtering"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py controls frontend rendering and must implement filtering based on publication_date."
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "action": "VALIDATE",
+      "rationale": "Changes to pagemodel.py may affect existing page behavior; regression testing needed.",
+      "confidence": 0.85,
+      "reason_codes": ["regression_risk"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Modifications to cms/models/pagemodel.py require validation of existing functionality."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "VALIDATE",
+      "rationale": "Admin form changes could introduce UI regressions requiring validation.",
+      "confidence": 0.8,
+      "reason_codes": ["ui_regression"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py modifications need UI validation to ensure continued correct operation."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-001",
+      "kind": "changed_requirement",
+      "target": "test_page_content_publication_date",
+      "reason": "New feature requires specific tests covering scheduled publishing behavior",
+      "evidence_refs": ["semantic-seed-11", "semantic-seed-68"]
+    },
+    {
+      "obligation_id": "VO-002",
+      "kind": "regression",
+      "target": "test_existing_page_functionality",
+      "reason": "Model change impacts core page behavior necessitating regression checks",
+      "evidence_refs": ["semantic-seed-68"]
+    },
+    {
+      "obligation_id": "VO-003",
+      "kind": "build",
+      "target": "run_django_checks",
+      "reason": "Schema migration and code changes require build verification",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

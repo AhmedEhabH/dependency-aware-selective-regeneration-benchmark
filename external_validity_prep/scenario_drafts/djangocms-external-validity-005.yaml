@@ -1,0 +1,29 @@
+id: djangocms-external-validity-005
+repository: djangocms
+scenario_type: cross_cutting
+visible_requirements: 'Add content export/import functionality via admin actions.
+
+
+  Enable CMS administrators to export page hierarchies with their plugins and content,
+  then import them into another django CMS instance. Implement:
+
+  1. Admin actions for selected pages in PageAdmin
+
+  2. JSON-based export format including page metadata, content, and plugin configurations
+
+  3. Import validation with conflict resolution (skip, overwrite, rename)
+
+  4. Proper handling of ForeignKey relationships and content dependencies
+
+  5. Progress tracking for large exports/imports
+
+
+  The feature should respect existing permissions - only users with appropriate page
+  permissions should be able to export or import. Include proper error handling for
+  circular dependencies, missing plugin types, and permission violations.'
+notes: 'Scientifically defensible: Adds practical site migration/backup capability.
+  Tests admin actions, serialization, and dependency resolution.'
+external_validity_draft: true
+created: '2026-09-07'
+scientifically_defensible_rationale: Based on djangoCMS 5.0 architecture analysis
+  and common CMS feature requests

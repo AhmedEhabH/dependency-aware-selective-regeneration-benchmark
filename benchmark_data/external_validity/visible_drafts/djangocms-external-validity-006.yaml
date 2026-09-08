@@ -1,0 +1,45 @@
+acceptance_criteria:
+- The change must be implemented correctly
+- All existing functionality must continue to work
+- The implementation must follow Django best practices
+- Any new functionality must be properly tested
+architecture_constraints:
+- 'The migration must be backward-compatible: existing plugins
+
+  get page_content=NULL.
+
+  '
+- Must not remove the Placeholder foreign key from CMSPlugin.
+- Rendering must fall back to showing all plugins for a Placeholder if page_content
+  is NULL (legacy mode).
+- Must not change the CMSPluginBase render() method signature.
+- The filtering change must happen at the queryset level, not in Python loops (performance).
+blast_radius: moderate
+change_type: moderate_cross_entity
+rationale: 'Explicitly linking CMSPlugins to a PageContent language improves data
+  integrity, simplifies multilingual plugin management, and enables language-specific
+  plugin rendering at the database query level instead of in-python filtering.
+
+  '
+repository: djangocms
+requirement_after: A nullable ForeignKey to PageContent (named `page_content`) is
+  added to the CMSPlugin model. This links each plugin to the specific PageContent
+  (and thus language) it belongs to. Existing plugins will have page_content=NULL
+  (migrated). Plugin forms in admin show the associated PageContent context. Placeholder
+  rendering (a relevant module or placeholder rendering logic) filters plugins by
+  the requested language via the page_content foreign key. Tests verify plugin-to-language
+  association and rendering filter correctness.
+requirement_before: 'CMSPlugin instances are associated with a Placeholder but have
+  no
+
+  direct foreign key to PageContent or language. Plugin content is
+
+  language-agnostic at the model level. When rendering a placeholder
+
+  for a specific language, plugins for all languages appear and must
+
+  be filtered manually in template code or plugin render methods.
+
+  '
+scenario_id: djangocms-external-validity-006
+source_historical_scenario_id: djangocms-mod-006

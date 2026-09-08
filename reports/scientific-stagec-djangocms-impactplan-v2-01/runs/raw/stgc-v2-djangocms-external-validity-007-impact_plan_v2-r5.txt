@@ -1,0 +1,167 @@
+{
+  "decisions": [
+    {
+      "id": 66,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model requires a new `status` field and workflow logic to support the four-state approval process.",
+      "confidence": 0.95,
+      "reason_codes": ["model_extension_required"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Matches requirement terms related to page content models."
+        },
+        {
+          "source": "semantic-seed-119",
+          "description": "Contains permission-checking logic relevant to workflow states."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "PageContentAdmin needs new actions ('Submit for Review', 'Approve', etc.) and integration with the updated workflow model.",
+      "confidence": 0.9,
+      "reason_codes": ["admin_action_extension"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Contains form handling that will need updates for workflow-aware submissions."
+        },
+        {
+          "source": "semantic-seed-91",
+          "description": "Provides UI elements like submit buttons which may require adaptation for workflow controls."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "API functions used for publishing must now check workflow status before proceeding.",
+      "confidence": 0.85,
+      "reason_codes": ["api_workflow_integration"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "Describes publish operations needing modification for workflow compliance."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "Toolbar behavior should reflect current workflow state and offer appropriate transitions based on user permissions.",
+      "confidence": 0.88,
+      "reason_codes": ["ui_state_reflection"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "Defines toolbar constants influencing display logic."
+        },
+        {
+          "source": "semantic-seed-99",
+          "description": "Handles content-specific toolbar utilities requiring workflow awareness."
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "New signal definitions are needed to fire upon each workflow state transition.",
+      "confidence": 0.92,
+      "reason_codes": ["signal_definition_update"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "Indicates presence of checks tied to system events such as changes."
+        },
+        {
+          "source": "semantic-seed-86",
+          "description": "Involves logging of changed data, aligning with event emission requirements."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "PermissionModel updates are necessary to define and enforce the new 'Reviewer' role capabilities.",
+      "confidence": 0.87,
+      "reason_codes": ["permission_model_enhancement"],
+      "evidence": [
+        {
+          "source": "semantic-seed-20",
+          "description": "Deals with caching of permission-related metadata subject to change."
+        },
+        {
+          "source": "semantic-seed-120",
+          "description": "Implements low-level permission evaluation potentially affected by reviewer roles."
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "action": "VALIDATE",
+      "rationale": "Existing admin utility functions might interact with new workflow features but do not require structural changes.",
+      "confidence": 0.75,
+      "reason_codes": ["utility_compatibility_check"],
+      "evidence": [
+        {
+          "source": "semantic-seed-108",
+          "description": "References availability patterns possibly impacted by workflow restrictions."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "VALIDATE",
+      "rationale": "Page permission utilities likely interface with workflow mechanisms but don't mandate regeneration unless broken.",
+      "confidence": 0.7,
+      "reason_codes": ["permission_utility_check"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Core permission-checking module interacting closely with draft/published workflows."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-CMS-WF-MODEL",
+      "kind": "changed_requirement",
+      "target": "test_pagecontent_workflow_states",
+      "reason": "Ensure all model-level workflow transitions behave correctly under various conditions.",
+      "evidence_refs": ["semantic-seed-68"]
+    },
+    {
+      "obligation_id": "VO-CMS-WF-API",
+      "kind": "regression",
+      "target": "test_api_publish_workflow_check",
+      "reason": "Verify API methods respect workflow constraints post-refactor.",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "VO-CMS-WF-SIGNALS",
+      "kind": "build",
+      "target": "test_signals_on_transitions",
+      "reason": "Confirm custom signals trigger appropriately during state changes.",
+      "evidence_refs": ["semantic-seed-83", "semantic-seed-86"]
+    },
+    {
+      "obligation_id": "VO-CMS-WF-PERM",
+      "kind": "static",
+      "target": "test_reviewer_permission_enforcement",
+      "reason": "Validate access control rules for newly introduced reviewer role.",
+      "evidence_refs": ["semantic-seed-20", "semantic-seed-120"]
+    },
+    {
+      "obligation_id": "VO-CMS-WF-ADMIN",
+      "kind": "architecture",
+      "target": "test_admin_workflow_ui_elements",
+      "reason": "Guarantee admin panel reflects correct workflow options per user context.",
+      "evidence_refs": ["semantic-seed-3", "semantic-seed-91"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

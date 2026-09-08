@@ -1,0 +1,584 @@
+{
+  "mapping": [
+    {
+      "id": 1,
+      "path": "cms/__init__.py"
+    },
+    {
+      "id": 2,
+      "path": "cms/__main__.py"
+    },
+    {
+      "id": 3,
+      "path": "cms/admin/__init__.py"
+    },
+    {
+      "id": 4,
+      "path": "cms/admin/forms.py"
+    },
+    {
+      "id": 5,
+      "path": "cms/admin/pageadmin.py"
+    },
+    {
+      "id": 6,
+      "path": "cms/admin/permissionadmin.py"
+    },
+    {
+      "id": 7,
+      "path": "cms/admin/placeholderadmin.py"
+    },
+    {
+      "id": 8,
+      "path": "cms/admin/settingsadmin.py"
+    },
+    {
+      "id": 9,
+      "path": "cms/admin/static_placeholder.py"
+    },
+    {
+      "id": 10,
+      "path": "cms/admin/useradmin.py"
+    },
+    {
+      "id": 11,
+      "path": "cms/admin/utils.py"
+    },
+    {
+      "id": 12,
+      "path": "cms/api.py"
+    },
+    {
+      "id": 13,
+      "path": "cms/app_base.py"
+    },
+    {
+      "id": 14,
+      "path": "cms/app_registration.py"
+    },
+    {
+      "id": 15,
+      "path": "cms/apphook_pool.py"
+    },
+    {
+      "id": 16,
+      "path": "cms/appresolver.py"
+    },
+    {
+      "id": 17,
+      "path": "cms/apps.py"
+    },
+    {
+      "id": 18,
+      "path": "cms/cache/__init__.py"
+    },
+    {
+      "id": 19,
+      "path": "cms/cache/choices.py"
+    },
+    {
+      "id": 20,
+      "path": "cms/cache/page.py"
+    },
+    {
+      "id": 21,
+      "path": "cms/cache/permissions.py"
+    },
+    {
+      "id": 22,
+      "path": "cms/cache/placeholder.py"
+    },
+    {
+      "id": 23,
+      "path": "cms/cms_config.py"
+    },
+    {
+      "id": 24,
+      "path": "cms/cms_menus.py"
+    },
+    {
+      "id": 25,
+      "path": "cms/cms_plugins.py"
+    },
+    {
+      "id": 26,
+      "path": "cms/cms_toolbars.py"
+    },
+    {
+      "id": 27,
+      "path": "cms/cms_wizards.py"
+    },
+    {
+      "id": 28,
+      "path": "cms/constants.py"
+    },
+    {
+      "id": 29,
+      "path": "cms/context_processors.py"
+    },
+    {
+      "id": 30,
+      "path": "cms/exceptions.py"
+    },
+    {
+      "id": 31,
+      "path": "cms/extensions/__init__.py"
+    },
+    {
+      "id": 32,
+      "path": "cms/extensions/admin.py"
+    },
+    {
+      "id": 33,
+      "path": "cms/extensions/extension_pool.py"
+    },
+    {
+      "id": 34,
+      "path": "cms/extensions/models.py"
+    },
+    {
+      "id": 35,
+      "path": "cms/extensions/toolbar.py"
+    },
+    {
+      "id": 36,
+      "path": "cms/forms/__init__.py"
+    },
+    {
+      "id": 37,
+      "path": "cms/forms/fields.py"
+    },
+    {
+      "id": 38,
+      "path": "cms/forms/login.py"
+    },
+    {
+      "id": 39,
+      "path": "cms/forms/utils.py"
+    },
+    {
+      "id": 40,
+      "path": "cms/forms/validators.py"
+    },
+    {
+      "id": 41,
+      "path": "cms/forms/widgets.py"
+    },
+    {
+      "id": 42,
+      "path": "cms/forms/wizards.py"
+    },
+    {
+      "id": 43,
+      "path": "cms/management/__init__.py"
+    },
+    {
+      "id": 44,
+      "path": "cms/management/commands/__init__.py"
+    },
+    {
+      "id": 45,
+      "path": "cms/management/commands/cms.py"
+    },
+    {
+      "id": 46,
+      "path": "cms/management/commands/startcmsproject.py"
+    },
+    {
+      "id": 47,
+      "path": "cms/management/commands/subcommands/__init__.py"
+    },
+    {
+      "id": 48,
+      "path": "cms/management/commands/subcommands/base.py"
+    },
+    {
+      "id": 49,
+      "path": "cms/management/commands/subcommands/check.py"
+    },
+    {
+      "id": 50,
+      "path": "cms/management/commands/subcommands/copy.py"
+    },
+    {
+      "id": 51,
+      "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py"
+    },
+    {
+      "id": 52,
+      "path": "cms/management/commands/subcommands/list.py"
+    },
+    {
+      "id": 53,
+      "path": "cms/management/commands/subcommands/tree.py"
+    },
+    {
+      "id": 54,
+      "path": "cms/management/commands/subcommands/uninstall.py"
+    },
+    {
+      "id": 55,
+      "path": "cms/management/djangocms.py"
+    },
+    {
+      "id": 56,
+      "path": "cms/menu_bases.py"
+    },
+    {
+      "id": 57,
+      "path": "cms/middleware/__init__.py"
+    },
+    {
+      "id": 58,
+      "path": "cms/middleware/language.py"
+    },
+    {
+      "id": 59,
+      "path": "cms/middleware/page.py"
+    },
+    {
+      "id": 60,
+      "path": "cms/middleware/toolbar.py"
+    },
+    {
+      "id": 61,
+      "path": "cms/middleware/user.py"
+    },
+    {
+      "id": 62,
+      "path": "cms/middleware/utils.py"
+    },
+    {
+      "id": 63,
+      "path": "cms/models/__init__.py"
+    },
+    {
+      "id": 64,
+      "path": "cms/models/aliaspluginmodel.py"
+    },
+    {
+      "id": 65,
+      "path": "cms/models/apphooks_reload.py"
+    },
+    {
+      "id": 66,
+      "path": "cms/models/contentmodels.py"
+    },
+    {
+      "id": 67,
+      "path": "cms/models/fields.py"
+    },
+    {
+      "id": 68,
+      "path": "cms/models/managers.py"
+    },
+    {
+      "id": 69,
+      "path": "cms/models/pagemodel.py"
+    },
+    {
+      "id": 70,
+      "path": "cms/models/permissionmodels.py"
+    },
+    {
+      "id": 71,
+      "path": "cms/models/placeholdermodel.py"
+    },
+    {
+      "id": 72,
+      "path": "cms/models/placeholderpluginmodel.py"
+    },
+    {
+      "id": 73,
+      "path": "cms/models/pluginmodel.py"
+    },
+    {
+      "id": 74,
+      "path": "cms/models/query.py"
+    },
+    {
+      "id": 75,
+      "path": "cms/models/settingmodels.py"
+    },
+    {
+      "id": 76,
+      "path": "cms/models/static_placeholder.py"
+    },
+    {
+      "id": 77,
+      "path": "cms/operations/__init__.py"
+    },
+    {
+      "id": 78,
+      "path": "cms/operations/helpers.py"
+    },
+    {
+      "id": 79,
+      "path": "cms/page_rendering.py"
+    },
+    {
+      "id": 80,
+      "path": "cms/plugin_base.py"
+    },
+    {
+      "id": 81,
+      "path": "cms/plugin_pool.py"
+    },
+    {
+      "id": 82,
+      "path": "cms/plugin_processors.py"
+    },
+    {
+      "id": 83,
+      "path": "cms/plugin_rendering.py"
+    },
+    {
+      "id": 84,
+      "path": "cms/signals/__init__.py"
+    },
+    {
+      "id": 85,
+      "path": "cms/signals/apphook.py"
+    },
+    {
+      "id": 86,
+      "path": "cms/signals/log_entries.py"
+    },
+    {
+      "id": 87,
+      "path": "cms/signals/permissions.py"
+    },
+    {
+      "id": 88,
+      "path": "cms/sitemaps/__init__.py"
+    },
+    {
+      "id": 89,
+      "path": "cms/sitemaps/cms_sitemap.py"
+    },
+    {
+      "id": 90,
+      "path": "cms/templates.py"
+    },
+    {
+      "id": 91,
+      "path": "cms/templatetags/__init__.py"
+    },
+    {
+      "id": 92,
+      "path": "cms/templatetags/cms_admin.py"
+    },
+    {
+      "id": 93,
+      "path": "cms/templatetags/cms_alias_tags.py"
+    },
+    {
+      "id": 94,
+      "path": "cms/templatetags/cms_js_tags.py"
+    },
+    {
+      "id": 95,
+      "path": "cms/templatetags/cms_static.py"
+    },
+    {
+      "id": 96,
+      "path": "cms/templatetags/cms_tags.py"
+    },
+    {
+      "id": 97,
+      "path": "cms/toolbar/__init__.py"
+    },
+    {
+      "id": 98,
+      "path": "cms/toolbar/items.py"
+    },
+    {
+      "id": 99,
+      "path": "cms/toolbar/toolbar.py"
+    },
+    {
+      "id": 100,
+      "path": "cms/toolbar/utils.py"
+    },
+    {
+      "id": 101,
+      "path": "cms/toolbar_base.py"
+    },
+    {
+      "id": 102,
+      "path": "cms/toolbar_pool.py"
+    },
+    {
+      "id": 103,
+      "path": "cms/urls.py"
+    },
+    {
+      "id": 104,
+      "path": "cms/utils/__init__.py"
+    },
+    {
+      "id": 105,
+      "path": "cms/utils/admin.py"
+    },
+    {
+      "id": 106,
+      "path": "cms/utils/apphook_reload.py"
+    },
+    {
+      "id": 107,
+      "path": "cms/utils/check.py"
+    },
+    {
+      "id": 108,
+      "path": "cms/utils/compat/__init__.py"
+    },
+    {
+      "id": 109,
+      "path": "cms/utils/compat/dj.py"
+    },
+    {
+      "id": 110,
+      "path": "cms/utils/compat/forms.py"
+    },
+    {
+      "id": 111,
+      "path": "cms/utils/compat/response.py"
+    },
+    {
+      "id": 112,
+      "path": "cms/utils/compat/warnings.py"
+    },
+    {
+      "id": 113,
+      "path": "cms/utils/conf.py"
+    },
+    {
+      "id": 114,
+      "path": "cms/utils/decorators.py"
+    },
+    {
+      "id": 115,
+      "path": "cms/utils/encoder.py"
+    },
+    {
+      "id": 116,
+      "path": "cms/utils/helpers.py"
+    },
+    {
+      "id": 117,
+      "path": "cms/utils/i18n.py"
+    },
+    {
+      "id": 118,
+      "path": "cms/utils/mail.py"
+    },
+    {
+      "id": 119,
+      "path": "cms/utils/page.py"
+    },
+    {
+      "id": 120,
+      "path": "cms/utils/page_permissions.py"
+    },
+    {
+      "id": 121,
+      "path": "cms/utils/permissions.py"
+    },
+    {
+      "id": 122,
+      "path": "cms/utils/placeholder.py"
+    },
+    {
+      "id": 123,
+      "path": "cms/utils/plugins.py"
+    },
+    {
+      "id": 124,
+      "path": "cms/utils/request_ip_resolvers.py"
+    },
+    {
+      "id": 125,
+      "path": "cms/utils/setup.py"
+    },
+    {
+      "id": 126,
+      "path": "cms/utils/urlutils.py"
+    },
+    {
+      "id": 127,
+      "path": "cms/views.py"
+    },
+    {
+      "id": 128,
+      "path": "cms/wizards/__init__.py"
+    },
+    {
+      "id": 129,
+      "path": "cms/wizards/forms.py"
+    },
+    {
+      "id": 130,
+      "path": "cms/wizards/helpers.py"
+    },
+    {
+      "id": 131,
+      "path": "cms/wizards/urls.py"
+    },
+    {
+      "id": 132,
+      "path": "cms/wizards/views.py"
+    },
+    {
+      "id": 133,
+      "path": "cms/wizards/wizard_base.py"
+    },
+    {
+      "id": 134,
+      "path": "cms/wizards/wizard_pool.py"
+    },
+    {
+      "id": 135,
+      "path": "menus/__init__.py"
+    },
+    {
+      "id": 136,
+      "path": "menus/apps.py"
+    },
+    {
+      "id": 137,
+      "path": "menus/base.py"
+    },
+    {
+      "id": 138,
+      "path": "menus/exceptions.py"
+    },
+    {
+      "id": 139,
+      "path": "menus/menu_pool.py"
+    },
+    {
+      "id": 140,
+      "path": "menus/models.py"
+    },
+    {
+      "id": 141,
+      "path": "menus/modifiers.py"
+    },
+    {
+      "id": 142,
+      "path": "menus/templatetags/__init__.py"
+    },
+    {
+      "id": 143,
+      "path": "menus/templatetags/menu_tags.py"
+    },
+    {
+      "id": 144,
+      "path": "menus/utils.py"
+    }
+  ],
+  "mapping_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+  "schema_version": 1,
+  "universe_canonical_sha256": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+  "universe_path": "djangocms_5_0_0_candidate_universe.json"
+}

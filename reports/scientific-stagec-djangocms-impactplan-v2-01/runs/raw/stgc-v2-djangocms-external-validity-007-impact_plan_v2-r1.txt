@@ -1,0 +1,126 @@
+{
+  "decisions": [
+    {
+      "id": 66,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model must be updated to include the new `status` field and handle workflow states.",
+      "confidence": 0.95,
+      "reason_codes": ["model_change_required"],
+      "evidence": [
+        {"source": "semantic-seed-68", "description": "Matches requirement terms related to page content models."}
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "PageContentAdmin needs new actions for workflow state transitions and integration with the new status field.",
+      "confidence": 0.9,
+      "reason_codes": ["admin_integration_required"],
+      "evidence": [
+        {"source": "semantic-seed-3", "description": "Matches requirement terms including 'content', 'page', and 'permission'."}
+      ]
+    },
+    {
+      "id": 28,
+      "action": "REGENERATE",
+      "rationale": "Constants need to define the new workflow statuses (draft, pending_review, approved, published).",
+      "confidence": 0.85,
+      "reason_codes": ["constants_update_needed"],
+      "evidence": []
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "API functions for publishing must now check workflow status before proceeding.",
+      "confidence": 0.9,
+      "reason_codes": ["api_behavior_change"],
+      "evidence": [
+        {"source": "semantic-seed-11", "description": "Matches requirement terms like 'publish', 'page', and 'draft'."}
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "Toolbar logic must reflect current workflow state and provide appropriate transition options.",
+      "confidence": 0.85,
+      "reason_codes": ["ui_state_reflection"],
+      "evidence": [
+        {"source": "semantic-seed-27", "description": "Matches requirement term 'toolbar'."},
+        {"source": "semantic-seed-99", "description": "Matches requirement terms 'content' and 'toolbar'."}
+      ]
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "New signal handling is needed for state transitions in PageContent workflow.",
+      "confidence": 0.9,
+      "reason_codes": ["signal_handling_addition"],
+      "evidence": [
+        {"source": "semantic-seed-83", "description": "Matches requirement term 'check' which implies monitoring changes."},
+        {"source": "semantic-seed-86", "description": "Matches requirement term 'changed' indicating event-based behavior."}
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "Permission model updates are required to support the new 'Reviewer' role.",
+      "confidence": 0.85,
+      "reason_codes": ["permission_model_extension"],
+      "evidence": [
+        {"source": "semantic-seed-3", "description": "Matches requirement terms including 'permission' and 'content'."}
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "Utility functions for checking page permissions must account for reviewer-level access.",
+      "confidence": 0.8,
+      "reason_codes": ["permission_check_expansion"],
+      "evidence": [
+        {"source": "semantic-seed-119", "description": "Matches requirement terms such as 'permission', 'page', and 'change'."}
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "General permission utilities require extension to enforce reviewer capabilities.",
+      "confidence": 0.8,
+      "reason_codes": ["utility_enhancement"],
+      "evidence": [
+        {"source": "semantic-seed-120", "description": "Matches requirement terms including 'permission', 'page', and 'model'."}
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "test_workflow_transitions",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_workflow",
+      "reason": "Ensure all valid and invalid workflow transitions behave correctly under different user roles.",
+      "evidence_refs": ["semantic-seed-3"]
+    },
+    {
+      "obligation_id": "test_existing_functionality",
+      "kind": "regression",
+      "target": "cms.tests.regression_tests",
+      "reason": "Verify backward compatibility of existing draft/published functionality post-workflow implementation.",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "lint_django_best_practices",
+      "kind": "static",
+      "target": "pylint_django",
+      "reason": "Enforce adherence to Django coding standards throughout modified modules.",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "validate_toolbar_ui",
+      "kind": "build",
+      "target": "selenium_ui_tests.toolbar_workflow",
+      "reason": "Confirm UI elements display correct workflow states and actions dynamically.",
+      "evidence_refs": ["semantic-seed-27", "semantic-seed-99"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

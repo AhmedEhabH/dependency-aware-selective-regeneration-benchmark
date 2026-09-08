@@ -1,0 +1,121 @@
+{
+  "decisions": [
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "The PagePermission and GlobalPermission models need to be updated to include the new `can_review` boolean field as per the requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ_CHANGE_MODEL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py contains global and page-level permission logic, indicating where model changes should be made."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "PageAdmin requires a new 'Review' action to transition page content status or mark content as reviewed, which necessitates modification of pageadmin.py.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ_ADD_ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "cms/admin/pageadmin.py is responsible for admin interface logic related to pages and will require updates for the Review action."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "action": "REGENERATE",
+      "rationale": "PermissionAdmin needs to display the new `can_review` field, requiring modifications to permissionadmin.py.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ_UPDATE_ADMIN_UI"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py handles form-related aspects of permissions; however, actual rendering in admin likely resides in permissionadmin.py."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "Toolbar integration for the 'Review' menu item based on user permissions requires updating cms_toolbars.py.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ_TOOLBAR_INTEGRATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "cms/constants.py references toolbar elements, suggesting toolbar behavior customization occurs within cms_toolbars.py."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "VALIDATE",
+      "rationale": "This utility file already deals with page permission checks and may need validation to ensure it supports the new reviewer permission level correctly.",
+      "confidence": 0.85,
+      "reason_codes": ["REQ_PERMISSION_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py includes logic for checking page permissions including actions like change, get, etc., relevant to implementing reviewer access control."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "VALIDATE",
+      "rationale": "Global permission utilities might interact with the new `can_review` flag and should be validated for correctness and consistency.",
+      "confidence": 0.85,
+      "reason_codes": ["REQ_GLOBAL_PERM_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py manages global and page-specific permission logic, potentially interacting with the new reviewer permission."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-CMS-PERM-MODEL-FIELDS",
+      "kind": "changed_requirement",
+      "target": "test_page_permission_model_fields",
+      "reason": "Ensure the new `can_review` field exists in both PagePermission and GlobalPermission models.",
+      "evidence_refs": ["semantic-seed-120"]
+    },
+    {
+      "obligation_id": "VO-CMS-PAGEADMIN-ACTIONS",
+      "kind": "changed_requirement",
+      "target": "test_page_admin_review_action",
+      "reason": "Verify that the PageAdmin has a functional 'Review' action that affects page content status appropriately.",
+      "evidence_refs": ["semantic-seed-4"]
+    },
+    {
+      "obligation_id": "VO-CMS-PERMISSIONADMIN-DISPLAY",
+      "kind": "changed_requirement",
+      "target": "test_permission_admin_shows_can_review_field",
+      "reason": "Confirm that the PermissionAdmin UI displays the new `can_review` field.",
+      "evidence_refs": ["semantic-seed-3"]
+    },
+    {
+      "obligation_id": "VO-CMS-TOOLBAR-MENU-ITEM",
+      "kind": "changed_requirement",
+      "target": "test_toolbar_review_menu_item_visibility",
+      "reason": "Check that the toolbar shows a 'Review' menu item only for users with reviewer access.",
+      "evidence_refs": ["semantic-seed-27"]
+    },
+    {
+      "obligation_id": "VO-CMS-BACKWARD-COMPATIBILITY",
+      "kind": "regression",
+      "target": "backward_compatibility_test_suite",
+      "reason": "Ensure all existing functionality continues to operate as intended after introducing the new permission level.",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

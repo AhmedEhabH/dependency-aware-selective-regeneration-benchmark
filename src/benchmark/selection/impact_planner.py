@@ -658,8 +658,11 @@ class OpenRouterImpactPlanner:
     adds it to the proposed-arm total.
     """
 
-    def __init__(self, backend: Any) -> None:
+    def __init__(self, backend: Any, max_completion_tokens: int | None = None) -> None:
         self._backend = backend
+        self._max_completion_tokens = int(
+            max_completion_tokens or IMPACT_PLAN_MAX_COMPLETION_TOKENS
+        )
         self._token_usage = TokenUsage(0, 0, 0)
         self._model_calls = 0
         self._latency = 0.0
@@ -713,7 +716,7 @@ class OpenRouterImpactPlanner:
 
         prompt = self._prompt(inp)
         start = time.monotonic()
-        response, native_structured = _generate(self._backend, prompt)
+        response, native_structured = _generate(self._backend, prompt, self._max_completion_tokens)
         elapsed = time.monotonic() - start
         self._model_calls += 1
         tu = response.token_usage
@@ -746,7 +749,7 @@ class OpenRouterImpactPlanner:
         if response.finish_reason == "length":
             raise ImpactPlanError(
                 "planner response truncated: finish_reason=length; "
-                f"configured_completion_cap={IMPACT_PLAN_MAX_COMPLETION_TOKENS}"
+                f"configured_completion_cap={self._max_completion_tokens}"
             )
 
         candidate_paths = tuple(a.path for a in inp.artifact_universe.artifacts)
@@ -765,7 +768,7 @@ class OpenRouterImpactPlanner:
         )
 
 
-def _generate(backend: Any, prompt: str) -> tuple[LLMResponse, bool]:
+def _generate(backend: Any, prompt: str, max_tokens: int) -> tuple[LLMResponse, bool]:
     import asyncio
 
     native_structured = callable(getattr(backend, "generate_structured", None))
@@ -777,13 +780,13 @@ def _generate(backend: Any, prompt: str) -> tuple[LLMResponse, bool]:
                 schema_name="impact_plan",
                 schema=IMPACT_PLAN_SCHEMA,
                 temperature=0.0,
-                max_tokens=IMPACT_PLAN_MAX_COMPLETION_TOKENS,
+                max_tokens=max_tokens,
             )
         else:
             resp = await backend.generate(
                 prompt=prompt,
                 temperature=0.0,
-                max_tokens=IMPACT_PLAN_MAX_COMPLETION_TOKENS,
+                max_tokens=max_tokens,
             )
         assert isinstance(resp, LLMResponse)
         return resp

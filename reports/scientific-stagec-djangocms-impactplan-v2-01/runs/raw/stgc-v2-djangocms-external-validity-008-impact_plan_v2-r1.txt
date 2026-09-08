@@ -1,0 +1,120 @@
+{
+  "decisions": [
+    {
+      "id": 18,
+      "action": "REGENERATE",
+      "rationale": "The cache module requires updates to support tagged cache invalidation as per the new requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "Matches terms: cache, get, invalidate, key, page"
+        },
+        {
+          "source": "semantic-seed-19",
+          "description": "Matches terms: cache, get, key, page"
+        },
+        {
+          "source": "semantic-seed-21",
+          "description": "Matches terms: cache, get, key, placeholder"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "action": "REGENERATE",
+      "rationale": "Middleware needs modification to tag responses with cache tags of rendered content.",
+      "confidence": 0.9,
+      "reason_codes": ["middleware_update_required"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "Matches terms: get, page"
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "action": "REGENERATE",
+      "rationale": "Template tags need updating to utilize the new cache tag system before rendering placeholders.",
+      "confidence": 0.93,
+      "reason_codes": ["template_tag_integration"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Matches terms: get, page, placeholder, plugin"
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers must be added for post_save and post_delete events to trigger cache invalidation.",
+      "confidence": 0.92,
+      "reason_codes": ["signal_handler_implementation"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "Matches terms: check"
+        },
+        {
+          "source": "semantic-seed-86",
+          "description": "Matches terms: delete, post, save"
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "action": "VALIDATE",
+      "rationale": "Configuration utilities should ensure backward compatibility while enabling opt-in behavior.",
+      "confidence": 0.85,
+      "reason_codes": ["backward_compatibility_check"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "Matches terms: cache, get, toolbar"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-CACHE-BEHAVIOR-PRESERVATION",
+      "kind": "regression",
+      "target": "cms.tests.test_cache",
+      "reason": "Ensure existing caching behavior remains unchanged when feature is disabled",
+      "evidence_refs": ["semantic-seed-17"]
+    },
+    {
+      "obligation_id": "VO-TAGGING-FUNCTIONALITY",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_cache_tags",
+      "reason": "Validate correct generation and usage of cache tags across models",
+      "evidence_refs": ["semantic-seed-17", "semantic-seed-19", "semantic-seed-21"]
+    },
+    {
+      "obligation_id": "VO-SIGNAL-INTEGRATION",
+      "kind": "build",
+      "target": "cms.tests.test_signals",
+      "reason": "Confirm signal-based cache invalidation works on model changes",
+      "evidence_refs": ["semantic-seed-83", "semantic-seed-86"]
+    },
+    {
+      "obligation_id": "VO-MIDDLEWARE-TAGGING",
+      "kind": "static",
+      "target": "cms.middleware.toolbar.CMSToolbarMiddleware",
+      "reason": "Verify middleware correctly applies cache tags to HTTP responses",
+      "evidence_refs": ["semantic-seed-58"]
+    },
+    {
+      "obligation_id": "VO-TEMPLATE-USAGE",
+      "kind": "architecture",
+      "target": "cms.templatetags.cms_tags.Placeholder",
+      "reason": "Check template tags respect cache tag system during render cycle",
+      "evidence_refs": ["semantic-seed-95"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

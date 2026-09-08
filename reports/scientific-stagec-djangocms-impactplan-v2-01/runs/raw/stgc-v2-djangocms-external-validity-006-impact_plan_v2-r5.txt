@@ -1,0 +1,101 @@
+{
+  "decisions": [
+    {
+      "id": 73,
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model requires a new nullable ForeignKey to PageContent to associate plugins with specific language contexts.",
+      "confidence": 0.95,
+      "reason_codes": ["schema_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "artifact descriptor matches requirement terms: ['plugin']"
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "action": "REGENERATE",
+      "rationale": "Placeholder rendering logic must filter plugins by language using the new page_content foreign key.",
+      "confidence": 0.9,
+      "reason_codes": ["behavior_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "artifact descriptor matches requirement terms: ['page', 'placeholder', 'plugin', 'render', 'show']"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "Plugin admin forms need to display and handle the new PageContent context for proper language association.",
+      "confidence": 0.85,
+      "reason_codes": ["ui_enhancement"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "artifact descriptor matches requirement terms: ['content', 'filter', 'language', 'page', 'template']"
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "VALIDATE",
+      "rationale": "Utility functions related to plugins may require updates or verification to ensure compatibility with the new field.",
+      "confidence": 0.75,
+      "reason_codes": ["utility_validation"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "artifact descriptor matches requirement terms: ['model', 'placeholder', 'plugin']"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "VALIDATE",
+      "rationale": "API layer needs testing to confirm correct handling of plugin-to-language associations during creation and retrieval.",
+      "confidence": 0.8,
+      "reason_codes": ["api_integration"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "artifact descriptor matches requirement terms: ['change', 'content', 'language', 'page', 'plugin', 'verify']"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "vo-change-req-1",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_plugin_model",
+      "reason": "Verify that existing functionality continues to work after adding the page_content field",
+      "evidence_refs": ["semantic-seed-72"]
+    },
+    {
+      "obligation_id": "vo-change-req-2",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_templatetags",
+      "reason": "Ensure template tags correctly filter plugins based on language via page_content",
+      "evidence_refs": ["semantic-seed-95"]
+    },
+    {
+      "obligation_id": "vo-regression-1",
+      "kind": "regression",
+      "target": "cms.tests.test_admin_forms",
+      "reason": "Confirm admin form behavior remains consistent while incorporating new PageContent context",
+      "evidence_refs": ["semantic-seed-3"]
+    },
+    {
+      "obligation_id": "vo-build-1",
+      "kind": "build",
+      "target": "run_migration_tests",
+      "reason": "Migrations must successfully apply without breaking existing data structures",
+      "evidence_refs": ["semantic-seed-72"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

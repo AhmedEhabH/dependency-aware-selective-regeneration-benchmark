@@ -1,0 +1,17 @@
+{
+  "pinned_commit_matches": true,
+  "candidate_files": 144,
+  "parse_success_rate_pct": 100.0,
+  "edge_count": 562,
+  "non_isolated_node_count": 132,
+  "graph_source": "python_ast_source_extractor",
+  "criteria": {
+    "pinned_source_commit_exact": true,
+    "candidate_files_ge_25": true,
+    "ast_parse_success_ge_95pct": true,
+    "internal_import_edges_ge_20": true,
+    "non_isolated_nodes_ge_10": true,
+    "graph_source_is_python_ast_extractor": true
+  },
+  "eligible": true
+}

@@ -1,0 +1,145 @@
+{
+  "decisions": [
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "The PagePermission and GlobalPermission models require a new `can_review` field to support the page reviewer permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["model-extension"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "Model file where permission fields are defined; needs update to include can_review"
+        },
+        {
+          "source": "requirement-after",
+          "description": "New permission level requires storage in PagePermission and GlobalPermission models"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "PageAdmin needs a 'Review' action to transition page content status or mark as reviewed.",
+      "confidence": 0.9,
+      "reason_codes": ["admin-action"],
+      "evidence": [
+        {
+          "source": "semantic-seed-5",
+          "description": "Primary admin interface for pages requiring new Review action"
+        },
+        {
+          "source": "requirement-after",
+          "description": "Specifies need for Review action in PageAdmin"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "action": "REGENERATE",
+      "rationale": "PermissionAdmin must display the new `can_review` field for site-wide reviewer access configuration.",
+      "confidence": 0.85,
+      "reason_codes": ["admin-ui-update"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "Admin interface for managing permissions that should show new field"
+        },
+        {
+          "source": "requirement-after",
+          "description": "Requires showing new field in PermissionAdmin"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "Toolbar logic needs updating to show a 'Review' menu item for users with reviewer access.",
+      "confidence": 0.9,
+      "reason_codes": ["ui-behavior"],
+      "evidence": [
+        {
+          "source": "semantic-seed-26",
+          "description": "Contains toolbar behavior logic needing update for new menu item visibility"
+        },
+        {
+          "source": "requirement-after",
+          "description": "Specifies toolbar should show Review menu item based on user permissions"
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "Permission checking functions must be updated to support the new reviewer permission level.",
+      "confidence": 0.85,
+      "reason_codes": ["permission-checking"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Utility functions handling global/model/page permissions requiring extension"
+        },
+        {
+          "source": "requirement-after",
+          "description": "Requires supporting new permission level in permission checking functions"
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "Page permission utilities need updates to handle reviewer-specific checks and actions.",
+      "confidence": 0.8,
+      "reason_codes": ["permission-checking"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Specifically handles page-level permission operations requiring extension"
+        },
+        {
+          "source": "requirement-after",
+          "description": "Implies new permission-based actions at page level"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-1",
+      "kind": "changed_requirement",
+      "target": "cms.tests.admin.test_pageadmin.PageAdminTestCase",
+      "reason": "Verify new Review action appears and functions correctly in PageAdmin",
+      "evidence_refs": ["requirement-after"]
+    },
+    {
+      "obligation_id": "VO-2",
+      "kind": "regression",
+      "target": "cms.tests.regressions.test_page_permissions.PagePermissionRegressionTests",
+      "reason": "Ensure existing view/edit permissions still work alongside new reviewer permission",
+      "evidence_refs": ["requirement-after"]
+    },
+    {
+      "obligation_id": "VO-3",
+      "kind": "static",
+      "target": "flake8",
+      "reason": "Validate code quality and adherence to Django best practices in modified files",
+      "evidence_refs": ["requirement-after"]
+    },
+    {
+      "obligation_id": "VO-4",
+      "kind": "build",
+      "target": "django-admin test cms.tests.admin.test_permissionadmin.PermissionAdminTestCase",
+      "reason": "Confirm new can_review field displays properly in PermissionAdmin UI",
+      "evidence_refs": ["requirement-after"]
+    },
+    {
+      "obligation_id": "VO-5",
+      "kind": "architecture",
+      "target": "cms/tests/test_toolbar_integration.ToolbarIntegrationTest",
+      "reason": "Check toolbar correctly shows/hides Review menu item per user permissions",
+      "evidence_refs": ["requirement-after"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

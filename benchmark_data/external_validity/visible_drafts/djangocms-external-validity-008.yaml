@@ -1,0 +1,60 @@
+acceptance_criteria:
+- The change must be implemented correctly
+- All existing functionality must continue to work
+- The implementation must follow Django best practices
+- Any new functionality must be properly tested
+architecture_constraints:
+- Must NOT import relevant modules classes into cache utility modules (a Python file
+  must accept strings/objects, not import relevant modules).
+- Signals must be idempotent and not raise exceptions if cache backend is unavailable.
+- 'The cache backend must be configurable (default: Django''s
+
+  default cache).
+
+  '
+- 'Tag-based cache checking must be a performance improvement,
+
+  not a degradation: use a single cache get with tag lookup
+
+  rather than multiple round-trips.
+
+  '
+- The system must fall back to existing cache behavior if the tag system raises any
+  error (fail-open, not fail-closed).
+- Third-party plugin models should be supported via a registration mechanism (e.g.,
+  a registry dict in a Python file).
+blast_radius: cross_cutting
+change_type: cross_cutting_broad
+rationale: 'A granular cache tag system dramatically improves cache hit rates by only
+  invalidating cache entries affected by a specific change, rather than flushing all
+  caches. This is essential for sites with large numbers of pages and frequent content
+  updates.
+
+  '
+repository: djangocms
+requirement_after: "A cache invalidation tag system is implemented. Every content\n\
+  object (Page, PageContent, Placeholder, CMSPlugin) has associated\ncache tags. When\
+  \ an object is created, updated, or deleted, its\ncache tags are invalidated. The\
+  \ system consists of:\n  - a relevant module: Utility functions for generating cache\
+  \ tags\n    (make_tag, get_tags_for_object) and invalidating by tag\n    (invalidate_by_tag).\n\
+  \  - a relevant module: Signal handlers connected to post_save and\n    post_delete\
+  \ of Page, PageContent, Placeholder, CMSPlugin that\n    call invalidate_by_tag\
+  \ with the object's tags.\n  - a relevant module: Update CMSToolbarMiddleware (or\
+  \ a new\n    middleware) to tag response objects with the cache tags of\n    rendered\
+  \ content.\n  - a relevant module: Update {% placeholder %} and\n    related tags\
+  \ to check cache using the tag system before\n    rendering.\nThe system must be\
+  \ opt-in: existing cache behavior is preserved\nif the new tag system is not configured.\n"
+requirement_before: 'Cache invalidation in django CMS is broad: entire page caches
+  are
+
+  flushed when any content changes. There is no granular cache tag
+
+  system. Cache keys are simple strings without tagging. Clearing
+
+  cache for a specific plugin, placeholder, or page content
+
+  requires flushing all caches.
+
+  '
+scenario_id: djangocms-external-validity-008
+source_historical_scenario_id: djangocms-cross-008

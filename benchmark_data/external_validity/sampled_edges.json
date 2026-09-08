@@ -1,0 +1,129 @@
+{
+  "sampled_edges": [
+    [
+      "cms/admin/forms.py",
+      "cms/plugin_pool.py"
+    ],
+    [
+      "cms/admin/useradmin.py",
+      "cms/admin/forms.py"
+    ],
+    [
+      "cms/api.py",
+      "cms/constants.py"
+    ],
+    [
+      "cms/api.py",
+      "cms/utils/compat/warnings.py"
+    ],
+    [
+      "cms/cache/page.py",
+      "cms/utils/i18n.py"
+    ],
+    [
+      "cms/management/commands/cms.py",
+      "cms/management/commands/subcommands/tree.py"
+    ],
+    [
+      "cms/menu_bases.py",
+      "cms/apphook_pool.py"
+    ],
+    [
+      "cms/models/contentmodels.py",
+      "cms/utils/placeholder.py"
+    ],
+    [
+      "cms/toolbar/toolbar.py",
+      "cms/utils/conf.py"
+    ],
+    [
+      "menus/templatetags/menu_tags.py",
+      "menus/utils.py"
+    ]
+  ],
+  "import_evidences": [
+    {
+      "src": "cms/admin/forms.py",
+      "dst": "cms/plugin_pool.py",
+      "evidence": [
+        "from cms.plugin_pool import plugin_pool"
+      ],
+      "traceable": true
+    },
+    {
+      "src": "cms/admin/useradmin.py",
+      "dst": "cms/admin/forms.py",
+      "evidence": [
+        "from cms.admin.forms import PageUserChangeForm, PageUserGroupForm"
+      ],
+      "traceable": true
+    },
+    {
+      "src": "cms/api.py",
+      "dst": "cms/constants.py",
+      "evidence": [
+        "from cms import constants",
+        "from cms.constants import TEMPLATE_INHERITANCE_MAGIC"
+      ],
+      "traceable": true
+    },
+    {
+      "src": "cms/api.py",
+      "dst": "cms/utils/compat/warnings.py",
+      "evidence": [
+        "from cms.utils.compat.warnings import RemovedInDjangoCMS51Warning"
+      ],
+      "traceable": true
+    },
+    {
+      "src": "cms/cache/page.py",
+      "dst": "cms/utils/i18n.py",
+      "evidence": [
+        "from cms.utils.i18n import get_default_language_for_site"
+      ],
+      "traceable": true
+    },
+    {
+      "src": "cms/management/commands/cms.py",
+      "dst": "cms/management/commands/subcommands/tree.py",
+      "evidence": [
+        "from .subcommands.tree import FixTreeCommand"
+      ],
+      "traceable": true
+    },
+    {
+      "src": "cms/menu_bases.py",
+      "dst": "cms/apphook_pool.py",
+      "evidence": [
+        "from cms.apphook_pool import apphook_pool"
+      ],
+      "traceable": true
+    },
+    {
+      "src": "cms/models/contentmodels.py",
+      "dst": "cms/utils/placeholder.py",
+      "evidence": [
+        "from cms.utils.placeholder import rescan_placeholders_for_obj"
+      ],
+      "traceable": true
+    },
+    {
+      "src": "cms/toolbar/toolbar.py",
+      "dst": "cms/utils/conf.py",
+      "evidence": [
+        "from cms.utils.conf import get_cms_setting"
+      ],
+      "traceable": true
+    },
+    {
+      "src": "menus/templatetags/menu_tags.py",
+      "dst": "menus/utils.py",
+      "evidence": [
+        "from menus.utils import DefaultLanguageChanger"
+      ],
+      "traceable": true
+    }
+  ],
+  "false_edge_count": 0,
+  "total_sampled": 10
+}

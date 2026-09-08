@@ -1,0 +1,131 @@
+{
+  "arm": "impact_plan",
+  "scenario_id": "djangocms-cross-008",
+  "exact_model": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "exact_provider_used": "deepinfra/turbo",
+  "fallback_status": "off",
+  "prompt_tokens": 1211,
+  "completion_tokens": 3134,
+  "total_tokens": 4345,
+  "model_call_count": 1,
+  "tool_call_count": 0,
+  "inspected_file_count": 0,
+  "latency_seconds": 182.06199999999808,
+  "api_cost": 0.0034973,
+  "api_cost_n_calls_with_cost": 1,
+  "terminal_status": "failed",
+  "predicted_write_set": {},
+  "validity_schema_status": {
+    "finish_reason": "stop",
+    "truncation": false,
+    "errors": [
+      "impact_plan_planner_error: planner produced unknown paths: ['cms/cache/tags.py', 'cms/signals.py']"
+    ],
+    "impact_plan_hash": "",
+    "impact_plan_version": "",
+    "raw_response_sha256": [
+      "f95d94bf0985b05752f90d237d2ab736b26a24aa9fc9d43dc8cf09a8adbe582f"
+    ]
+  },
+  "raw_record": {
+    "run_id": "djangocms-cross-008_impact_plan_0959470b",
+    "scenario_id": "djangocms-cross-008",
+    "strategy_name": "impact_plan",
+    "status": "failed",
+    "duration_seconds": 182.09400000000096,
+    "token_usage": {
+      "prompt": 1211,
+      "completion": 3134,
+      "total": 4345
+    },
+    "selection_prompt_tokens": 1211,
+    "selection_completion_tokens": 3134,
+    "selection_total_tokens": 4345,
+    "selection_model_calls": 1,
+    "selection_duration_seconds": 182.06199999999808,
+    "selection_tool_calls": 0,
+    "selection_tool_duration_seconds": 0.0,
+    "selection_inspected_file_count": 0,
+    "selection_tool_transcript": [],
+    "regeneration_prompt_tokens": 0,
+    "regeneration_completion_tokens": 0,
+    "regeneration_total_tokens": 0,
+    "regeneration_model_calls": 0,
+    "regeneration_duration_seconds": 0.0,
+    "functional_validation_duration_seconds": 0.0,
+    "functional_validation_passed": null,
+    "migration_generation_passed": null,
+    "migration_duration_seconds": 0.0,
+    "generated_migration_paths": [],
+    "baseline_validation_passed": null,
+    "baseline_validation_duration_seconds": 0.0,
+    "scenario_evaluator_passed": null,
+    "scenario_evaluator_duration_seconds": 0.0,
+    "scenario_evaluator_checks": [],
+    "repair_prompt_tokens": 0,
+    "repair_completion_tokens": 0,
+    "repair_total_tokens": 0,
+    "repair_model_calls": 0,
+    "repair_duration_seconds": 0.0,
+    "repair_attempts": 0,
+    "token_accounting_mode": "provider_reported",
+    "total_workflow_tokens": 4345,
+    "total_workflow_model_calls": 1,
+    "total_workflow_duration_seconds": 182.06199999999808,
+    "selected_artifact_count": 0,
+    "regenerated_artifact_count": 0,
+    "preserved_artifact_count": 0,
+    "unresolved_human_review_count": 0,
+    "max_completion_tokens_per_call": 4096,
+    "max_total_workflow_tokens": 0,
+    "predicted_actions": {},
+    "changed_artifact_paths": [],
+    "impact_plan": null,
+    "impact_plan_hash": "",
+    "impact_plan_version": "",
+    "impact_plan_parent_hash": null,
+    "impact_expansion_count": 0,
+    "escalated_to_human_review": false,
+    "prohibited_write_attempts": 0,
+    "planner_prompt_tokens": 0,
+    "planner_completion_tokens": 0,
+    "planner_total_tokens": 0,
+    "planner_model_calls": 0,
+    "planner_latency_seconds": 0,
+    "selection_study": {
+      "initial_predicted_actions": {},
+      "initial_regenerate_source_paths": [],
+      "agent_selected_paths": [],
+      "agent_control_calls": 1,
+      "agent_tool_calls": 0,
+      "agent_inspected_files": 0,
+      "impact_plan_actions": {},
+      "context_set": [],
+      "validation_obligations": [],
+      "prompt_tokens": 1211,
+      "completion_tokens": 3134,
+      "total_tokens": 4345,
+      "latency_seconds": 182.06199999999808,
+      "finish_reason": "stop",
+      "truncation": false,
+      "provider_usage": {
+        "token_accounting_mode": "provider_reported"
+      },
+      "errors": [
+        "impact_plan_planner_error: planner produced unknown paths: ['cms/cache/tags.py', 'cms/signals.py']"
+      ],
+      "raw_response_sha256": [
+        "f95d94bf0985b05752f90d237d2ab736b26a24aa9fc9d43dc8cf09a8adbe582f"
+      ],
+      "failure_evidence": "impact_plan_planner_error: planner produced unknown paths: ['cms/cache/tags.py', 'cms/signals.py']"
+    },
+    "failures": [
+      {
+        "kind": "model_output",
+        "message": "impact_plan_planner_error: planner produced unknown paths: ['cms/cache/tags.py', 'cms/signals.py']",
+        "details": "impact_plan_planner_error: planner produced unknown paths: ['cms/cache/tags.py', 'cms/signals.py']",
+        "stage": "analyze_impact"
+      }
+    ]
+  }
+}

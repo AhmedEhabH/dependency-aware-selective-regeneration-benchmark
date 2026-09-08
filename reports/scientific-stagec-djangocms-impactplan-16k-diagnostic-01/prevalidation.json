@@ -1,0 +1,112 @@
+{
+  "diagnostic_id": "scientific-stagec-djangocms-impactplan-16k-diagnostic-01",
+  "items": [
+    {
+      "detail": {
+        "head": "79165e450d634e63f728bbece7c63d28cec64169",
+        "tag": "stagec-djangocms-study-wiring-verified-01"
+      },
+      "item": "wiring_tag_exists_and_is_ancestor_of_head",
+      "ok": true
+    },
+    {
+      "detail": 144,
+      "item": "runtime_universe_count_equals_144",
+      "ok": true
+    },
+    {
+      "detail": {
+        "frozen": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+        "runtime": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+      },
+      "item": "runtime_and_frozen_canonical_hashes_identical",
+      "ok": true
+    },
+    {
+      "detail": {
+        "extra": [],
+        "missing": []
+      },
+      "item": "missing_extra_paths_empty",
+      "ok": true
+    },
+    {
+      "detail": [],
+      "item": "all_gold_paths_inside_runtime_universe",
+      "ok": true
+    },
+    {
+      "detail": {
+        "records": 6
+      },
+      "item": "hidden_gold_evaluation_only",
+      "ok": true
+    },
+    {
+      "detail": {
+        "expected_actions_count": 0,
+        "gold_not_in_visible": true,
+        "loaded_from_visible_drafts": true,
+        "not_old_historical": true,
+        "path": "C:/Users/Ahmed/Desktop/OpenCode/master-2026-07-21-2355/project-djangocms-prep/benchmark_data/external_validity/visible_drafts/djangocms-external-validity-004.yaml",
+        "scenario_id": "djangocms-external-validity-004",
+        "visible_sha256": "0b25d27452ceff3fae08eecd42b15da8d6788c4af162455f71c2db5cf3450430"
+      },
+      "item": "diagnostic_scenario_is_004_model_facing",
+      "ok": true
+    },
+    {
+      "detail": {
+        "diagnostic_impactplan_cap": 16384,
+        "previous_8192_probe_cap": 8192,
+        "primary_impactplan_cap": 4096
+      },
+      "item": "diagnostic_cap_16384_only_treatment_difference",
+      "ok": true
+    },
+    {
+      "detail": {
+        "fallback": "off",
+        "model": "qwen/qwen3-coder",
+        "provider": "DeepInfra pinned through OpenRouter",
+        "temperature": 0.0
+      },
+      "item": "model_provider_temp_fallback_unchanged",
+      "ok": true
+    },
+    {
+      "detail": "impact_planner.py identical to HEAD (same prompt + schema as the 8192 probe)",
+      "item": "planner_prompt_and_schema_unchanged_since_8192_probe",
+      "ok": true
+    },
+    {
+      "detail": {
+        "disk_bytes_sha256": "8a83290e89b2e8090ae88fbfc2cca254f3c301274e9c42633ce14c6ce9f7f2ab",
+        "git_diff_quiet_vs_head": 0,
+        "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\reports\\scientific-stagec-djangocms-impactplan-cap-ablation-01\\costprobe_8192.json",
+        "unchanged": true
+      },
+      "item": "previous_8192_diagnostic_evidence_unchanged",
+      "ok": true
+    },
+    {
+      "detail": {
+        "immutable": true,
+        "mismatch": [],
+        "missing": [],
+        "recomputed_count": 71,
+        "stored_count": 71
+      },
+      "item": "primary_evidence_immutable",
+      "ok": true
+    },
+    {
+      "detail": "exactly ONE impact_plan run, no Agent, no repetitions, no second scenario",
+      "item": "no_agent_cells_no_repetitions",
+      "ok": true
+    }
+  ],
+  "passed": true,
+  "section": "FULL_PLAN_16K_DIAGNOSTIC_PRE_RUN_VALIDATION",
+  "validated_at": "2026-09-08T09:45:51.668437+00:00"
+}
