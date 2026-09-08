@@ -1,3 +1,4 @@
+> **CURRENT BOARD (2026-09-08, DJANGOCMS-EXTERNAL-VALIDITY-STUDY-01 COMPLETE - 60/60 CELLS RECORDED; STOP FOR GPT-5.6 SOL INDEPENDENT AUDIT; NO STABLE TAG MOVE):** Final 60-run Stage-C selection study `scientific-stagec-djangocms-01` recorded: 31 succeeded / 29 failed; Agent 25/30 valid (F1 0.7308), ImpactPlan 6/30 valid (F1 0.7797, survivor-subset only); total recorded cost $0.264148 <= $0.50; evidence in `reports/scientific-stagec-djangocms-study-01/`. Next work: GPT-5.6 SOL independent audit of the 60-run evidence; do NOT start a new scientific study; do NOT create `v0.11.0-benchmark-complete`.
 # TODO
 
 > **CURRENT BOARD (2026-09-07, RESEARCH-CONSOLIDATION-MAINLINE-01 COMPLETE —

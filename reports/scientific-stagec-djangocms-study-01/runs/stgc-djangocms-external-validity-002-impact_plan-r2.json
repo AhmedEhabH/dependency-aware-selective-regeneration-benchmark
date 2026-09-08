@@ -1,0 +1,49 @@
+{
+  "run_id": "stgc-djangocms-external-validity-002-impact_plan-r2",
+  "scenario_id": "djangocms-external-validity-002",
+  "repetition": 2,
+  "arm": "impact_plan",
+  "exact_model": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "exact_provider_used": "deepinfra/turbo",
+  "fallback_status": "off",
+  "temperature": 0.0,
+  "dry_run": false,
+  "predicted_write_set": [
+    "cms/api.py",
+    "cms/utils/page.py"
+  ],
+  "predicted_write_set_size": 2,
+  "hidden_gold_used_after_inference": [
+    "cms/api.py"
+  ],
+  "tp": 1,
+  "fp": 1,
+  "fn": 0,
+  "precision": 0.5,
+  "recall": 1.0,
+  "f1": 0.666667,
+  "fnr": 0.0,
+  "full_recall": true,
+  "prompt_tokens": 3129,
+  "completion_tokens": 920,
+  "total_tokens": 4049,
+  "model_calls": 1,
+  "tool_calls": 0,
+  "explicit_read_file_count": 0,
+  "inspected_file_count": 0,
+  "latency_seconds": 38.438,
+  "api_cost": 0.001859,
+  "pricing_source": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\reports\\SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json",
+  "finish_reason": "stop",
+  "truncation_status": false,
+  "invalid_selected_paths": [],
+  "terminal_status": "succeeded",
+  "failure_category": "",
+  "failure_evidence": [],
+  "raw_model_response_sha256": [
+    "d7c2ff11d3367000a56570b88755df637601660bb020bb7783427b8a207d802a"
+  ],
+  "visible_scenario_sha256": "a7e72f7af23541407180d490f5dd03e9df281efb514ab4c4f92f4a59deb4c730",
+  "runtime_universe_hash": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+  "recorded_at": "2026-09-07T23:38:01.837671+00:00"
+}

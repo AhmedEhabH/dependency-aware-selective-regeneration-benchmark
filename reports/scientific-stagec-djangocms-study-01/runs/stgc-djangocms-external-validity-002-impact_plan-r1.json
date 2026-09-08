@@ -1,0 +1,52 @@
+{
+  "run_id": "stgc-djangocms-external-validity-002-impact_plan-r1",
+  "scenario_id": "djangocms-external-validity-002",
+  "repetition": 1,
+  "arm": "impact_plan",
+  "exact_model": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "exact_provider_used": "deepinfra/turbo",
+  "fallback_status": "off",
+  "temperature": 0.0,
+  "dry_run": false,
+  "predicted_write_set": [],
+  "predicted_write_set_size": 0,
+  "hidden_gold_used_after_inference": [
+    "cms/api.py"
+  ],
+  "tp": 0,
+  "fp": 0,
+  "fn": 1,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "fnr": 1.0,
+  "full_recall": false,
+  "prompt_tokens": 3129,
+  "completion_tokens": 4096,
+  "total_tokens": 7225,
+  "model_calls": 1,
+  "tool_calls": 0,
+  "explicit_read_file_count": 0,
+  "inspected_file_count": 0,
+  "latency_seconds": 271.406,
+  "api_cost": 0.005035,
+  "pricing_source": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\reports\\SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json",
+  "finish_reason": "length",
+  "truncation_status": true,
+  "invalid_selected_paths": [],
+  "terminal_status": "failed",
+  "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting ',' delimiter: line 531 column 8 (char 16064)",
+  "failure_evidence": [
+    {
+      "kind": "model_output",
+      "stage": "analyze_impact",
+      "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting ',' delimiter: line 531 column 8 (char 16064)"
+    }
+  ],
+  "raw_model_response_sha256": [
+    "b8b2e0f17ae9d606847779293d673c132b9232a6dfe1b92ff8544ff7ecca7693"
+  ],
+  "visible_scenario_sha256": "a7e72f7af23541407180d490f5dd03e9df281efb514ab4c4f92f4a59deb4c730",
+  "runtime_universe_hash": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+  "recorded_at": "2026-09-07T23:37:19.958148+00:00"
+}
