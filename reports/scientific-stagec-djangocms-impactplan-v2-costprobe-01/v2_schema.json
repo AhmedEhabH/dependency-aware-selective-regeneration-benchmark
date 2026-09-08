@@ -1,0 +1,120 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "architecture_checks": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "decisions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "REGENERATE",
+              "VALIDATE",
+              "HUMAN_REVIEW"
+            ],
+            "type": "string"
+          },
+          "confidence": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "evidence": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "source",
+                "description"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "id": {
+            "maximum": 144,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "reason_codes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "action",
+          "rationale",
+          "confidence",
+          "reason_codes",
+          "evidence"
+        ],
+        "type": "object"
+      },
+      "maxItems": 144,
+      "minItems": 0,
+      "type": "array"
+    },
+    "escalation_reason": {
+      "type": "string"
+    },
+    "validation_obligations": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "obligation_id": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "obligation_id",
+          "kind",
+          "target",
+          "reason",
+          "evidence_refs"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "decisions",
+    "validation_obligations",
+    "architecture_checks",
+    "escalation_reason"
+  ],
+  "type": "object"
+}

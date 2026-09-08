@@ -56,14 +56,30 @@ The arms have different interaction structures. Agent can distribute output over
 - ImpactPlan 007-r1 consumed one model call whose token usage/cost could not be recorded (harness `ValueError` before record construction). True spend is slightly above recorded $0.264148 (≈ $0.003). Ceiling is $0.50; COST_LOCK stays PASS with wide margin.
 
 ### 4.7 External validity
-- Single repository (django CMS 5.0.0 pin `0f633fc9…`), single model, single provider session, 6 scenarios × 144-path universe. No general large-repository superiority claim; no end-to-end claim.
+- Single repository (django CMS 5.0.0 pin `0f633fc9.`), single model, single provider session, 6 scenarios x 144-path universe. No general large-repository superiority claim; no end-to-end claim.
+
+### 4.8 PRIMARY IMPACTPLAN WAS INSTANTIATED WITHOUT THE FROZEN DEPENDENCY GRAPH (documented fact)
+- The primary djangoCMS ImpactPlan strategy was instantiated **without** the frozen dependency graph.
+- Therefore the primary djangoCMS study (`scientific-stagec-djangocms-01`) characterizes **explicit-plan selection WITHOUT dependency-graph assistance**.
+- The frozen 144-node / 562-edge AST graph was **NOT strategy-visible evidence** in the primary ImpactPlan treatment.
+- ImpactPlan-v2 likewise does NOT inject graph assistance (graph-assisted planning is a separate possible future treatment).
 
 ## 5. What is NOT measured
 - Regeneration / patching / repair / migration / functional execution correctness. Selection only.
 - Cost-probe runs (costprobe-01, costprobe-02) are NON-STUDY diagnostic evidence and are excluded from the 60 scientific results.
 - The 8192-cap ablation (proposal only; NOT run).
+- The v2 cost/smoke probe (`scientific-stagec-djangocms-impactplan-v2-costprobe-01`) is a POST-HOC / EXPLORATORY / ONE-SCENARIO treatment; it is excluded from the 60 primary scientific results and does NOT modify the primary study.
+- The future 30-run v2 evaluation (NOT executed in this task).
 
 ## 6. Interpretation rules honored
 - Correctness before efficiency; efficiency reported only after correctness.
 - No reruns for bad precision/recall/F1/surprising write sets/empty sets/arm losses.
 - Raw evidence wins over documentation on any conflict.
+
+## 7. ImpactPlan-v2 (POST-HOC / EXPLORATORY REDESIGN) validity notes
+- v2 changes the output representation contract AND the corresponding planner instruction together; it is treated as ONE representation redesign, NOT a schema-only or prompt-only ablation.
+- v2 uses the EXISTING structured-output mechanism (native OpenRouter JSON schema) with a v2-specific sparse schema; structured output already existed in v1.
+- v2 emits ONLY non-PRESERVE decisions (REGENERATE / VALIDATE / HUMAN_REVIEW) keyed by deterministic frozen numeric candidate IDs (1..144); every omitted candidate decodes deterministically to PRESERVE, and the decoded policy contains exactly 144 candidate decisions.
+- The single 16K observation where the unchanged v1 planner fallback classified the one omitted candidate as PRESERVE and that happened to be correct is an ILLUSTRATIVE empirical observation that deterministic omitted=>P decoding is operationally feasible; it does NOT prove omitted=>P is universally safe.
+- Any projected v2 token savings from the 16K response remain PRE-EXPERIMENT ESTIMATES until measured by v2; token-per-entry figures are NOT universal constants.
+- The v2 probe is primarily a technical-validity + cost + serialization probe. One-run accuracy differences between v1 and v2 are NOT statistically meaningful.
