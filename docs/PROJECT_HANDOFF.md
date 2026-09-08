@@ -1,7 +1,21 @@
 > **CURRENT STATE (2026-09-08, D061 — FINAL BENCHMARK CLOSURE; SELECTION-STAGE BENCHMARK RESEARCH CLOSED AND AUDITED; BENCHMARK STATUS: COMPLETE; NEXT PHASE: PAPER / PROPOSAL / FIGURES / SUPERVISOR REVIEW):** GPT-5.6 Sol external audit PASS for the djangoCMS ImpactPlan-v2 30-cell POST-HOC/EXPLORATORY study. Audited v2 study tag `stagec-djangocms-impactplan-v2-study-01-audited` created + pushed (peels to `f8e7aa8…`, remote-verified). EXACT six final closure gates (Dataset / Prompt / Pipeline Smoke / Dry Run / Integration / Metric) + Independent Audit ALL PASS (zero scientific API calls). Research branch `research/djangocms-external-validity-prep-01` merged to `main` (history-preserving merge; scientific provenance preserved). Final benchmark tag `v0.11.0-benchmark-complete` created + pushed (remote-verified) — meaning the selection-stage benchmark research is closed and audited, NOT end-to-end executor regeneration success. Canonical cross-repo synthesis: `reports/CROSS_REPO_SYNTHESIS.md`. Final project export produced. A new AI/account/machine can continue immediately: the benchmark research is complete; remaining work is academic-output preparation (paper/proposal/figures/supervisor review). Do NOT start Saleor, do NOT start v3, do NOT fine-tune, do NOT perform additional scientific calls.
-8e7aa8…\, remote-verified). EXACT six final closure gates (Dataset / Prompt / Pipeline Smoke / Dry Run / Integration / Metric) + Independent Audit ALL PASS (zero scientific API calls). Research branch esearch/djangocms-external-validity-prep-01\ merged to \main\ (history-preserving merge; scientific provenance preserved). Final benchmark tag \
-0.11.0-benchmark-complete\ created + pushed (remote-verified) — meaning the selection-stage benchmark research is closed and audited, NOT end-to-end executor regeneration success. Canonical cross-repo synthesis: eports/CROSS_REPO_SYNTHESIS.md\. Final project export produced. A new AI/account/machine can continue immediately: the benchmark research is complete; remaining work is academic-output preparation (paper/proposal/figures/supervisor review). Do NOT start Saleor, do NOT start v3, do NOT fine-tune, do NOT perform additional scientific calls.
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
+
+## CURRENT STATE
+
+**Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
+**Current phase:** Paper / figures / supervisor review.
+**Scientific runs remaining:** ZERO.
+
+- **Next:** Paper / figures / manuscript / supervisor review. Start with
+  [`docs/PAPER_WRITING_HANDOFF.md`](PAPER_WRITING_HANDOFF.md) and
+  [`../README.md`](../README.md).
+- **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor, graph-aware
+  v3, graph experiment, fine-tuning.
+- **ImpactPlan-v2** is POST-HOC / EXPLORATORY (selection-only; see
+  `reports/CROSS_REPO_SYNTHESIS.md` and `reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md`).
+- The dated handoff entries below are a **HISTORICAL RECORD** (each superseded
+  by the next; kept for traceability only).
 
 > **CURRENT STATE (2026-09-07, RESEARCH-CONSOLIDATION-MAINLINE-01 COMPLETE —
 > TODO RESEARCH EVIDENCE CONSOLIDATED ON MAIN; NOT A RELEASE; NO STABLE TAG
@@ -401,6 +415,15 @@
 > The dated "Handoff type" entries and older sections below are a
 > chronological HISTORICAL trail (each superseded by the next); they are kept
 > for traceability only.
+
+## HISTORICAL RECORD
+
+> **HISTORICAL / SUPERSEDED**
+>
+> The dated handoff entries below record earlier pilot/preflight phases and
+> superseded closures. The benchmark is complete at
+> `v0.11.0-benchmark-complete`. For current state see README.md,
+> SYSTEM_STATE.md, and this file's CURRENT STATE section.
 
 **Handoff Date:** 2026-08-17
 **Prepared by:** OpenCode (engineering assistant)

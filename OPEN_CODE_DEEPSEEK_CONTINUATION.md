@@ -1,5 +1,13 @@
 # Continuation instruction for OpenCode DeepSeek
 
+> **HISTORICAL / SUPERSEDED**
+>
+> This document records the earlier RESULTS-RECOVERY-02 execution phase
+> (2026-09-06), which is complete. Do not follow its instructions as current
+> work. The benchmark is complete at `v0.11.0-benchmark-complete`.
+> For current state see README.md, SYSTEM_STATE.md, and
+> docs/PROJECT_HANDOFF.md.
+
 Continue and finish RESULTS-RECOVERY-02 in this same repository. Do not restart the task, redesign the protocol, or repeat completed work.
 
 ## Required first actions

@@ -1,6 +1,14 @@
 # Protocol Version
 
+> **CURRENT STATE:** The benchmark is COMPLETE at `v0.11.0-benchmark-complete`
+> (paper / figures / supervisor review; zero scientific runs remaining).
+> No protocol amendment is currently active for new scientific execution.
+> The entries below are a historical record of the protocol and its executed
+> amendments. See README.md and docs/PAPER_WRITING_HANDOFF.md for current state.
+
 ## Current pre-main scientific execution amendment
+
+> **HISTORICAL / SUPERSEDED — executed 2026-09-06; the benchmark is complete.**
 
 - **Label:** `scientific-wip-impactplan-v1.1`
 - **Frozen:** 2026-09-06, before any v1.1 model call (D051/A032)
