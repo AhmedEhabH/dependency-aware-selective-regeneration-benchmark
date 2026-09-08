@@ -1,0 +1,96 @@
+{
+  "items": [
+    {
+      "detail": {
+        "head": "bc05722d89fbf35b813b1dcf4e72618ef30e2b8e",
+        "tag": "stagec-djangocms-study-wiring-verified-01"
+      },
+      "item": "wiring_tag_exists_and_is_ancestor_of_head",
+      "ok": true
+    },
+    {
+      "detail": 144,
+      "item": "runtime_universe_count_equals_144",
+      "ok": true
+    },
+    {
+      "detail": {
+        "frozen": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+        "runtime": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+      },
+      "item": "runtime_and_frozen_canonical_hashes_identical",
+      "ok": true
+    },
+    {
+      "detail": {
+        "extra": [],
+        "missing": []
+      },
+      "item": "missing_extra_paths_empty",
+      "ok": true
+    },
+    {
+      "detail": [],
+      "item": "all_gold_paths_inside_runtime_universe",
+      "ok": true
+    },
+    {
+      "detail": [
+        "djangocms-external-validity-002",
+        "djangocms-external-validity-004",
+        "djangocms-external-validity-005",
+        "djangocms-external-validity-006",
+        "djangocms-external-validity-007",
+        "djangocms-external-validity-008"
+      ],
+      "item": "final_visible_scenarios_exactly_six",
+      "ok": true
+    },
+    {
+      "detail": {
+        "hidden_gold_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\djangocms_hidden_gold_draft.json",
+        "records": 6
+      },
+      "item": "hidden_gold_evaluation_only",
+      "ok": true
+    },
+    {
+      "detail": {
+        "loaded_from_visible_drafts": true,
+        "old_scenario_id": "djangocms-cross-008",
+        "old_scenario_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\scenarios\\djangocms-cross-008.yaml"
+      },
+      "item": "old_historical_scenarios_never_model_facing",
+      "ok": true
+    },
+    {
+      "detail": [
+        "impact_plan"
+      ],
+      "item": "ablation_arms_impact_plan_only",
+      "ok": true
+    },
+    {
+      "detail": {
+        "ablation_impactplan_cap": 8192,
+        "primary_impactplan_cap": 4096
+      },
+      "item": "ablation_cap_8192",
+      "ok": true
+    },
+    {
+      "detail": {
+        "immutable": true,
+        "mismatch": [],
+        "missing": [],
+        "recomputed_count": 71,
+        "stored_count": 71
+      },
+      "item": "primary_evidence_immutable",
+      "ok": true
+    }
+  ],
+  "passed": true,
+  "section": "ABLATION_PRE_RUN_VALIDATION",
+  "validated_at": "2026-09-08T03:55:01.936040+00:00"
+}
