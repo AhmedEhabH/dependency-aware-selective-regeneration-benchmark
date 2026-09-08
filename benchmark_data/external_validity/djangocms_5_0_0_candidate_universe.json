@@ -1,0 +1,2076 @@
+[
+  {
+    "path": "cms/__init__.py",
+    "sha256": "27360f629bda825a882511820eb879fa16265c8d084ab0c379dd15d504190065",
+    "loc": 1,
+    "module": "cms",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/__main__.py",
+    "sha256": "e89c785abf8de6fa2f5949f9a382386933dd36dca7592987cf960e8d332da031",
+    "loc": 9,
+    "module": "cms.__main__",
+    "classes": [],
+    "functions": [],
+    "import_count": 1
+  },
+  {
+    "path": "cms/admin/__init__.py",
+    "sha256": "2c155652b755bc7a6007ef1837b7eeeb6e52bdbff2952eb8d4ab32060c5c3248",
+    "loc": 11,
+    "module": "cms.admin",
+    "classes": [],
+    "functions": [],
+    "import_count": 7
+  },
+  {
+    "path": "cms/admin/forms.py",
+    "sha256": "b2fa9aaaf3886cc0733abe4f1f5d980f16d9cc194d4a4e85d964b3ef714e0d82",
+    "loc": 1523,
+    "module": "cms.admin.forms",
+    "classes": [
+      "AddPageForm",
+      "AddPageTypeForm",
+      "AdvancedSettingsForm",
+      "BasePageContentForm",
+      "BasePermissionAdminForm",
+      "ChangeListForm",
+      "ChangePageForm",
+      "CopyPageForm",
+      "CopyPermissionForm",
+      "DuplicatePageForm",
+      "GenericCmsPermissionForm",
+      "GlobalPagePermissionAdminForm",
+      "MovePageForm",
+      "PagePermissionInlineAdminForm",
+      "PageTreeForm",
+      "PageUserAddForm",
+      "PageUserChangeForm",
+      "PageUserGroupForm",
+      "PluginAddValidationForm",
+      "RequestToolbarForm",
+      "SlugWidget",
+      "ViewRestrictionInlineAdminForm"
+    ],
+    "functions": [
+      "get_main_language_page_content_template",
+      "get_page_changed_by_filter_choices",
+      "get_page_template_filter_choices",
+      "get_permission_accessor",
+      "save_permissions"
+    ],
+    "import_count": 39
+  },
+  {
+    "path": "cms/admin/pageadmin.py",
+    "sha256": "a3fbb99614f20b10ccda5ba1b052bd7671b19b756bba9ca005532f9acb9112c8",
+    "loc": 1420,
+    "module": "cms.admin.pageadmin",
+    "classes": [
+      "PageAdmin",
+      "PageContentAdmin",
+      "PageDeleteMessageMixin"
+    ],
+    "functions": [
+      "get_site"
+    ],
+    "import_count": 48
+  },
+  {
+    "path": "cms/admin/permissionadmin.py",
+    "sha256": "9e7731daea0f1e2cef650ee5d2687ca00da42d65e11344bbb43f51be84f540c6",
+    "loc": 183,
+    "module": "cms.admin.permissionadmin",
+    "classes": [
+      "GlobalPagePermissionAdmin",
+      "PagePermissionInlineAdmin",
+      "TabularInline",
+      "ViewRestrictionInlineAdmin"
+    ],
+    "functions": [],
+    "import_count": 14
+  },
+  {
+    "path": "cms/admin/placeholderadmin.py",
+    "sha256": "505396c8b24463d8b3b1d4bb519d1875ec8e10dae80a0857a9e811626297538a",
+    "loc": 1210,
+    "module": "cms.admin.placeholderadmin",
+    "classes": [
+      "BaseEditableAdminMixin",
+      "FrontendEditableAdminMixin",
+      "PlaceholderAdmin",
+      "PlaceholderAdminMixin",
+      "PlaceholderAdminMixinBase"
+    ],
+    "functions": [
+      "_instance_overrides_method",
+      "get_int"
+    ],
+    "import_count": 38
+  },
+  {
+    "path": "cms/admin/settingsadmin.py",
+    "sha256": "841a8c042a05653965161284256436fcc1173e748eaf87a5747ec05de354bd12",
+    "loc": 139,
+    "module": "cms.admin.settingsadmin",
+    "classes": [
+      "SettingsAdmin"
+    ],
+    "functions": [],
+    "import_count": 19
+  },
+  {
+    "path": "cms/admin/static_placeholder.py",
+    "sha256": "48690471ae6c6d2a4e4740dfc08ff6901fdd4937ae8c5f8e685a94d18847ea8b",
+    "loc": 15,
+    "module": "cms.admin.static_placeholder",
+    "classes": [
+      "StaticPlaceholderAdmin"
+    ],
+    "functions": [],
+    "import_count": 3
+  },
+  {
+    "path": "cms/admin/useradmin.py",
+    "sha256": "0c16fff61d5c4a75a6f42627fc7f767ea2146dcc2c58b5d624de7f4c0dd48508",
+    "loc": 148,
+    "module": "cms.admin.useradmin",
+    "classes": [
+      "GenericCmsPermissionAdmin",
+      "PageUserAdmin",
+      "PageUserGroupAdmin"
+    ],
+    "functions": [],
+    "import_count": 12
+  },
+  {
+    "path": "cms/admin/utils.py",
+    "sha256": "d444744c425872037f0d1ad1be5989e788633c7e6d56ee1aa8ac9cd8b9515c2a",
+    "loc": 831,
+    "module": "cms.admin.utils",
+    "classes": [
+      "ChangeListActionsMixin",
+      "GrouperAdminFormMixin",
+      "GrouperChangeListBase",
+      "GrouperModelAdmin",
+      "_GrouperAdminFormMixin"
+    ],
+    "functions": [],
+    "import_count": 27
+  },
+  {
+    "path": "cms/api.py",
+    "sha256": "71641335ae0c429072c611bbb906596d586f51338f944414d3c43a718ed97ee1",
+    "loc": 707,
+    "module": "cms.api",
+    "classes": [],
+    "functions": [
+      "_verify_apphook",
+      "_verify_plugin_type",
+      "add_plugin",
+      "assign_user_to_page",
+      "can_change_page",
+      "copy_plugins_to_language",
+      "create_page",
+      "create_page_content",
+      "create_page_user",
+      "create_title",
+      "get_page_draft",
+      "publish_page",
+      "publish_pages"
+    ],
+    "import_count": 29
+  },
+  {
+    "path": "cms/app_base.py",
+    "sha256": "702df58a3033fe5b20d84a075abba2ef55e4bd89f5045dd12581aa03ac95b1e1",
+    "loc": 177,
+    "module": "cms.app_base",
+    "classes": [
+      "CMSApp",
+      "CMSAppConfig",
+      "CMSAppExtension"
+    ],
+    "functions": [],
+    "import_count": 1
+  },
+  {
+    "path": "cms/app_registration.py",
+    "sha256": "1cde1e1d08c506b0797e3cf21a05aa3706755fe31af302234b6a50b090785403",
+    "loc": 175,
+    "module": "cms.app_registration",
+    "classes": [],
+    "functions": [
+      "_find_config",
+      "_find_extension",
+      "_find_subclasses",
+      "autodiscover_cms_configs",
+      "backwards_compatibility_config",
+      "configure_cms_apps",
+      "get_cms_config_apps",
+      "get_cms_extension_apps",
+      "ready_cms_apps"
+    ],
+    "import_count": 8
+  },
+  {
+    "path": "cms/apphook_pool.py",
+    "sha256": "35cd32a23320b002c140ba00cf2c13f2c486b9caa84b1b331ce39fbfa8bf1a36",
+    "loc": 102,
+    "module": "cms.apphook_pool",
+    "classes": [
+      "ApphookPool"
+    ],
+    "functions": [],
+    "import_count": 7
+  },
+  {
+    "path": "cms/appresolver.py",
+    "sha256": "3a9d50ef6c85c3f902e579da1e54c8e1bcc9fc5585fb2361e0892dc40ce7d489",
+    "loc": 273,
+    "module": "cms.appresolver",
+    "classes": [
+      "AppRegexURLResolver"
+    ],
+    "functions": [
+      "_get_app_patterns",
+      "_set_permissions",
+      "applications_page_check",
+      "clear_app_resolvers",
+      "get_app_patterns",
+      "get_app_urls",
+      "get_patterns_for_page_url",
+      "recurse_patterns"
+    ],
+    "import_count": 13
+  },
+  {
+    "path": "cms/apps.py",
+    "sha256": "9948b1d18e38875f0e978162412bc7a47818128033d443cf63efd4fc19dd253a",
+    "loc": 13,
+    "module": "cms.apps",
+    "classes": [
+      "CMSConfig"
+    ],
+    "functions": [],
+    "import_count": 3
+  },
+  {
+    "path": "cms/cache/__init__.py",
+    "sha256": "142bd5e0138d0796985ece8ab4acffac9ab845e872a2beb8e1a95e1a2bb8cb01",
+    "loc": 87,
+    "module": "cms.cache",
+    "classes": [],
+    "functions": [
+      "_clean_key",
+      "_get_cache_key",
+      "_get_cache_version",
+      "_set_cache_version",
+      "invalidate_cms_page_cache"
+    ],
+    "import_count": 5
+  },
+  {
+    "path": "cms/cache/choices.py",
+    "sha256": "1b83a2255d9df7000d436f4bf8860857393431e22e1f8ab767a6937d8d638830",
+    "loc": 30,
+    "module": "cms.cache.choices",
+    "classes": [],
+    "functions": [
+      "_clean_many",
+      "_page_cache_key",
+      "_site_cache_key",
+      "clean_page_choices_cache",
+      "clean_site_choices_cache"
+    ],
+    "import_count": 3
+  },
+  {
+    "path": "cms/cache/page.py",
+    "sha256": "49e1e80518ff5d2439e570c0dbcd1384db5c283ad3140e93434a34bd7dc32f9f",
+    "loc": 144,
+    "module": "cms.cache.page",
+    "classes": [],
+    "functions": [
+      "_page_cache_key",
+      "_page_url_key",
+      "get_page_cache",
+      "get_page_url_cache",
+      "get_xframe_cache",
+      "set_page_cache",
+      "set_page_url_cache",
+      "set_xframe_cache"
+    ],
+    "import_count": 19
+  },
+  {
+    "path": "cms/cache/permissions.py",
+    "sha256": "47348a155d6b25cc2e3a8f08554aa99f391460628a75f41145d41fa583062998",
+    "loc": 66,
+    "module": "cms.cache.permissions",
+    "classes": [],
+    "functions": [
+      "clear_permission_cache",
+      "clear_user_permission_cache",
+      "get_cache_key",
+      "get_cache_permission_version",
+      "get_cache_permission_version_key",
+      "get_permission_cache",
+      "set_permission_cache"
+    ],
+    "import_count": 6
+  },
+  {
+    "path": "cms/cache/placeholder.py",
+    "sha256": "262d8fb51ce42196302ddc526848bcd9a402bf0f4794442abfc43fc25777124a",
+    "loc": 171,
+    "module": "cms.cache.placeholder",
+    "classes": [],
+    "functions": [
+      "_get_placeholder_cache_key",
+      "_get_placeholder_cache_version",
+      "_get_placeholder_cache_version_key",
+      "_set_placeholder_cache_version",
+      "clear_placeholder_cache",
+      "get_placeholder_cache",
+      "set_placeholder_cache"
+    ],
+    "import_count": 9
+  },
+  {
+    "path": "cms/cms_config.py",
+    "sha256": "f04277ccd586c799d2367252901ac98fc5085b29eb7932356287931e9fb2b46a",
+    "loc": 74,
+    "module": "cms.cms_config",
+    "classes": [
+      "CMSCoreConfig",
+      "CMSCoreExtensions"
+    ],
+    "functions": [],
+    "import_count": 8
+  },
+  {
+    "path": "cms/cms_menus.py",
+    "sha256": "dfee242624c5c42dd5f132c7fe220accd59def5e51658921afb0754935f1704c",
+    "loc": 569,
+    "module": "cms.cms_menus",
+    "classes": [
+      "CMSMenu",
+      "CMSNavigationNode",
+      "NavExtender",
+      "SoftRootCutter"
+    ],
+    "functions": [
+      "get_menu_node_for_page",
+      "get_visible_nodes",
+      "get_visible_page_contents"
+    ],
+    "import_count": 20
+  },
+  {
+    "path": "cms/cms_plugins.py",
+    "sha256": "0ea8591c2cffa4fa80f2c626ffdf8a50c7d25cf929efbb614b2d35b6ea0143b8",
+    "loc": 19,
+    "module": "cms.cms_plugins",
+    "classes": [
+      "PlaceholderPlugin"
+    ],
+    "functions": [],
+    "import_count": 4
+  },
+  {
+    "path": "cms/cms_toolbars.py",
+    "sha256": "01f5a0797f65457214ab4f35bf78d46a16d1dc29b893d8eed7860b0de54c0bd7",
+    "loc": 686,
+    "module": "cms.cms_toolbars",
+    "classes": [
+      "AppearanceToolbar",
+      "BasicToolbar",
+      "PageToolbar",
+      "PlaceholderToolbar"
+    ],
+    "functions": [],
+    "import_count": 24
+  },
+  {
+    "path": "cms/cms_wizards.py",
+    "sha256": "fa9973dc5cc1bf094c69764d1fd37bb8f1fd878a9aab85bc4c7766a508034d55",
+    "loc": 55,
+    "module": "cms.cms_wizards",
+    "classes": [
+      "CMSPageWizard",
+      "CMSSubPageWizard"
+    ],
+    "functions": [],
+    "import_count": 5
+  },
+  {
+    "path": "cms/constants.py",
+    "sha256": "00e672224fc9db21526c281b1158db4b3354d20950f428a41c9bbcff6f750eb7",
+    "loc": 86,
+    "module": "cms.constants",
+    "classes": [],
+    "functions": [
+      "_get_toolbar_js"
+    ],
+    "import_count": 0
+  },
+  {
+    "path": "cms/context_processors.py",
+    "sha256": "b93103912a9ab9154e89ef033a4dbd80830c9a553ac29b03ea23f167baff5729",
+    "loc": 31,
+    "module": "cms.context_processors",
+    "classes": [],
+    "functions": [
+      "cms_settings"
+    ],
+    "import_count": 6
+  },
+  {
+    "path": "cms/exceptions.py",
+    "sha256": "9d1aeb30acc6bb2f41cbaa1bdcfd8918e48199d400b04561bc38d2da4b38c245",
+    "loc": 89,
+    "module": "cms.exceptions",
+    "classes": [
+      "AppAlreadyRegistered",
+      "ConfirmationOfVersion4Required",
+      "Deprecated",
+      "DontUsePageAttributeWarning",
+      "DuplicatePlaceholderWarning",
+      "LanguageError",
+      "MissingFormError",
+      "NoHomeFound",
+      "NoPermissionsException",
+      "NotImplemented",
+      "PermissionsException",
+      "PlaceholderNotFound",
+      "PluginAlreadyRegistered",
+      "PluginConsistencyError",
+      "PluginLimitReached",
+      "PluginNotRegistered",
+      "PublicIsUnmodifiable",
+      "PublicVersionNeeded",
+      "SubClassNeededError",
+      "ToolbarAlreadyRegistered",
+      "ToolbarNotRegistered"
+    ],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/extensions/__init__.py",
+    "sha256": "01a27bf070d442017dc1d5e04f2982959dfb013e1aae3d045cbc45523389005a",
+    "loc": 11,
+    "module": "cms.extensions",
+    "classes": [],
+    "functions": [],
+    "import_count": 3
+  },
+  {
+    "path": "cms/extensions/admin.py",
+    "sha256": "edd4903c28529f97fbdd7975d721d9a1ed7038d28e2ceb943b8bc8355623f74d",
+    "loc": 105,
+    "module": "cms.extensions.admin",
+    "classes": [
+      "ExtensionAdmin",
+      "PageContentExtensionAdmin",
+      "PageExtensionAdmin"
+    ],
+    "functions": [],
+    "import_count": 7
+  },
+  {
+    "path": "cms/extensions/extension_pool.py",
+    "sha256": "1c4cd2c15e80a85108eee777643bbc6ffa2ff3b1281187fd06eb2a3cb76beb05",
+    "loc": 94,
+    "module": "cms.extensions.extension_pool",
+    "classes": [
+      "ExtensionPool"
+    ],
+    "functions": [],
+    "import_count": 2
+  },
+  {
+    "path": "cms/extensions/models.py",
+    "sha256": "dc2b4371f64e596726e868a3ac4180918cececd3e6d26e1c0bae8abf0778961c",
+    "loc": 91,
+    "module": "cms.extensions.models",
+    "classes": [
+      "BaseExtension",
+      "PageContentExtension",
+      "PageExtension"
+    ],
+    "functions": [],
+    "import_count": 4
+  },
+  {
+    "path": "cms/extensions/toolbar.py",
+    "sha256": "ee2ff1870deeaf386e3a5ad9c7497a89f8ea00421afcc8699a98a6e2fb54a443",
+    "loc": 139,
+    "module": "cms.extensions.toolbar",
+    "classes": [
+      "ExtensionToolbar"
+    ],
+    "functions": [],
+    "import_count": 8
+  },
+  {
+    "path": "cms/forms/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loc": 0,
+    "module": "cms.forms",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/forms/fields.py",
+    "sha256": "9a708c474c42dcda628297ef62ab516a278a328c1073249a275b25fbb79e6af2",
+    "loc": 106,
+    "module": "cms.forms.fields",
+    "classes": [
+      "PageSelectFormField",
+      "PageSmartLinkField"
+    ],
+    "functions": [],
+    "import_count": 9
+  },
+  {
+    "path": "cms/forms/login.py",
+    "sha256": "6f4003326f7e52b79e91bfa6be47ca18df5baef7aad9aab671b1e4474c474878",
+    "loc": 15,
+    "module": "cms.forms.login",
+    "classes": [
+      "CMSToolbarLoginForm"
+    ],
+    "functions": [],
+    "import_count": 2
+  },
+  {
+    "path": "cms/forms/utils.py",
+    "sha256": "40e43b59621327f8dbf6d5f7c139e38a7e811e1823ce70fa93a807851b2a04cc",
+    "loc": 105,
+    "module": "cms.forms.utils",
+    "classes": [],
+    "functions": [
+      "get_page_choices",
+      "get_page_choices_for_site",
+      "get_site_choices",
+      "get_sites",
+      "update_site_and_page_choices"
+    ],
+    "import_count": 12
+  },
+  {
+    "path": "cms/forms/validators.py",
+    "sha256": "457b54b96a0247f70feda57d2ffcf0f92ce2edc1f9277b36c0c0651ab00883e9",
+    "loc": 80,
+    "module": "cms.forms.validators",
+    "classes": [],
+    "functions": [
+      "validate_relative_url",
+      "validate_url",
+      "validate_url_uniqueness"
+    ],
+    "import_count": 8
+  },
+  {
+    "path": "cms/forms/widgets.py",
+    "sha256": "f054020f8f3d8810b120354a5c19ff8b686bd225307d92c956449c972dc28898",
+    "loc": 265,
+    "module": "cms.forms.widgets",
+    "classes": [
+      "AppHookSelect",
+      "ApplicationConfigSelect",
+      "PageSelectWidget",
+      "PageSmartLinkWidget",
+      "UserSelectAdminWidget"
+    ],
+    "functions": [],
+    "import_count": 10
+  },
+  {
+    "path": "cms/forms/wizards.py",
+    "sha256": "ed1a1b2d019a7a3b1d1727d5ced9fe62f90e14720c2c236a000bad5ec2a7d108",
+    "loc": 163,
+    "module": "cms.forms.wizards",
+    "classes": [
+      "CreateCMSPageForm",
+      "CreateCMSSubPageForm"
+    ],
+    "functions": [],
+    "import_count": 13
+  },
+  {
+    "path": "cms/management/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loc": 0,
+    "module": "cms.management",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/management/commands/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loc": 0,
+    "module": "cms.management.commands",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/management/commands/cms.py",
+    "sha256": "f7d252dc1b829f96e1452722c396e86e278fb59505bc8891de77f480a1da8a59",
+    "loc": 33,
+    "module": "cms.management.commands.cms",
+    "classes": [
+      "Command"
+    ],
+    "functions": [],
+    "import_count": 9
+  },
+  {
+    "path": "cms/management/commands/startcmsproject.py",
+    "sha256": "50e58d5c16b6beb7f5ac10447af6f4736aeae9562d00aa09c2b6ca04b22fd487",
+    "loc": 177,
+    "module": "cms.management.commands.startcmsproject",
+    "classes": [
+      "Command"
+    ],
+    "functions": [],
+    "import_count": 8
+  },
+  {
+    "path": "cms/management/commands/subcommands/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loc": 0,
+    "module": "cms.management.commands.subcommands",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/management/commands/subcommands/base.py",
+    "sha256": "fa3c10069e5a29aec89f95898b1af4c80a418b9de466d2436932adf9b0f7eee5",
+    "loc": 105,
+    "module": "cms.management.commands.subcommands.base",
+    "classes": [
+      "SubcommandsCommand"
+    ],
+    "functions": [
+      "add_builtin_arguments"
+    ],
+    "import_count": 4
+  },
+  {
+    "path": "cms/management/commands/subcommands/check.py",
+    "sha256": "b223f4177123a872e0cc04fa17ac1d7570846713be7fa861155b3ab744899614",
+    "loc": 14,
+    "module": "cms.management.commands.subcommands.check",
+    "classes": [
+      "CheckInstallation"
+    ],
+    "functions": [],
+    "import_count": 3
+  },
+  {
+    "path": "cms/management/commands/subcommands/copy.py",
+    "sha256": "cf213737c8d4c9f2ec8698fab1290ded39512770d1912a439fdb385b3d6e75d4",
+    "loc": 198,
+    "module": "cms.management.commands.subcommands.copy",
+    "classes": [
+      "CopyCommand",
+      "CopyLangCommand",
+      "CopySiteCommand"
+    ],
+    "functions": [
+      "get_user"
+    ],
+    "import_count": 11
+  },
+  {
+    "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+    "sha256": "29f5062990810c43349c1cf4db9e6ee150be8ac1dbc42e3ad7eae10ac5ec9f30",
+    "loc": 61,
+    "module": "cms.management.commands.subcommands.delete_orphaned_plugins",
+    "classes": [
+      "DeleteOrphanedPluginsCommand"
+    ],
+    "functions": [],
+    "import_count": 2
+  },
+  {
+    "path": "cms/management/commands/subcommands/list.py",
+    "sha256": "dd1476041f688a7545ad1bc80c9f993709348dbaee7008087c28f87ca0783c35",
+    "loc": 115,
+    "module": "cms.management.commands.subcommands.list",
+    "classes": [
+      "ListApphooksCommand",
+      "ListCommand",
+      "ListPluginsCommand"
+    ],
+    "functions": [
+      "plugin_report"
+    ],
+    "import_count": 4
+  },
+  {
+    "path": "cms/management/commands/subcommands/tree.py",
+    "sha256": "842a9901dfabdbbd20ddc1094875ec1a19d5392270037cf4f9e5ed20401c4822",
+    "loc": 110,
+    "module": "cms.management.commands.subcommands.tree",
+    "classes": [
+      "FixTreeCommand"
+    ],
+    "functions": [
+      "get_descendants"
+    ],
+    "import_count": 4
+  },
+  {
+    "path": "cms/management/commands/subcommands/uninstall.py",
+    "sha256": "14e61b1847ff417bd85dbd92889e821617c177e1abd6492ae173585a9edda2fb",
+    "loc": 69,
+    "module": "cms.management.commands.subcommands.uninstall",
+    "classes": [
+      "UninstallApphooksCommand",
+      "UninstallCommand",
+      "UninstallPluginsCommand"
+    ],
+    "functions": [],
+    "import_count": 4
+  },
+  {
+    "path": "cms/management/djangocms.py",
+    "sha256": "d0ac6478c4acc7609122ad2b714d8dd999e27d446b02b584e48685920bbc182e",
+    "loc": 24,
+    "module": "cms.management.djangocms",
+    "classes": [],
+    "functions": [
+      "execute_from_command_line"
+    ],
+    "import_count": 4
+  },
+  {
+    "path": "cms/menu_bases.py",
+    "sha256": "dbde8c10306a676fe9d0ad583e17dc22bb10d303815ac768e6185f12cdd5ed75",
+    "loc": 51,
+    "module": "cms.menu_bases",
+    "classes": [
+      "CMSAttachMenu"
+    ],
+    "functions": [],
+    "import_count": 5
+  },
+  {
+    "path": "cms/middleware/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loc": 0,
+    "module": "cms.middleware",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/middleware/language.py",
+    "sha256": "d0b0961893f6230decc7b5f64e3c4bbe20e6fcb8c124cbe310b2c8ace1c53ee1",
+    "loc": 40,
+    "module": "cms.middleware.language",
+    "classes": [
+      "LanguageCookieMiddleware"
+    ],
+    "functions": [],
+    "import_count": 2
+  },
+  {
+    "path": "cms/middleware/page.py",
+    "sha256": "0a0d15d280f0019d1c6e1751224a7a7f78da1aae5a6968fcf4c825f0b2576d4a",
+    "loc": 27,
+    "module": "cms.middleware.page",
+    "classes": [
+      "CurrentPageMiddleware"
+    ],
+    "functions": [
+      "get_page"
+    ],
+    "import_count": 3
+  },
+  {
+    "path": "cms/middleware/toolbar.py",
+    "sha256": "51f38ba6f8b661ea34cca3b394efc9481c76e441baaad928e71007d2e3e77f2e",
+    "loc": 111,
+    "module": "cms.middleware.toolbar",
+    "classes": [
+      "ToolbarMiddleware"
+    ],
+    "functions": [],
+    "import_count": 10
+  },
+  {
+    "path": "cms/middleware/user.py",
+    "sha256": "a738fda4f73c599d7b3701b26994a3ac149784edffeb45594ab60fcdb58e11e0",
+    "loc": 16,
+    "module": "cms.middleware.user",
+    "classes": [
+      "CurrentUserMiddleware"
+    ],
+    "functions": [],
+    "import_count": 1
+  },
+  {
+    "path": "cms/middleware/utils.py",
+    "sha256": "65d6f7a7605c0afd73956630ea5c2288c3d8e43062ae2f079fbe5e4671368299",
+    "loc": 17,
+    "module": "cms.middleware.utils",
+    "classes": [
+      "ApphookReloadMiddleware"
+    ],
+    "functions": [],
+    "import_count": 1
+  },
+  {
+    "path": "cms/models/__init__.py",
+    "sha256": "6cf5c16a8c783697187a81761ec83d9b414b2d0abbbdcabbae845a315587341f",
+    "loc": 14,
+    "module": "cms.models",
+    "classes": [],
+    "functions": [],
+    "import_count": 11
+  },
+  {
+    "path": "cms/models/aliaspluginmodel.py",
+    "sha256": "432d91ceebcb2f8d033ddea3794fc71c15eec1efde8b5c0cecf44db6036c0219",
+    "loc": 64,
+    "module": "cms.models.aliaspluginmodel",
+    "classes": [
+      "AliasPluginModel"
+    ],
+    "functions": [],
+    "import_count": 4
+  },
+  {
+    "path": "cms/models/apphooks_reload.py",
+    "sha256": "8398e34d15f6b33724e23ca86b690c3a6aafdeebdf005c2354ed107b1af78737",
+    "loc": 39,
+    "module": "cms.models.apphooks_reload",
+    "classes": [
+      "UrlconfRevision"
+    ],
+    "functions": [],
+    "import_count": 2
+  },
+  {
+    "path": "cms/models/contentmodels.py",
+    "sha256": "9cc736f507bacca1d3a47f2b31b1b2ef8aec9ee436036166f0550bbe03fb79bd",
+    "loc": 372,
+    "module": "cms.models.contentmodels",
+    "classes": [
+      "EmptyPageContent",
+      "PageContent"
+    ],
+    "functions": [],
+    "import_count": 9
+  },
+  {
+    "path": "cms/models/fields.py",
+    "sha256": "6ed4e1d7eff87adf110b84a9ce0a9480a85dd87d0d95a040dacf8905bf12f7c5",
+    "loc": 161,
+    "module": "cms.models.fields",
+    "classes": [
+      "PageField",
+      "PlaceholderField",
+      "PlaceholderRelationField"
+    ],
+    "functions": [],
+    "import_count": 9
+  },
+  {
+    "path": "cms/models/managers.py",
+    "sha256": "ccbc9172f6d07c1cd289c60c1aebae9c77bab3bed4e82b7a3f0ef3b9cb2a19f7",
+    "loc": 376,
+    "module": "cms.models.managers",
+    "classes": [
+      "BasicPagePermissionManager",
+      "ContentAdminManager",
+      "ContentAdminQuerySet",
+      "GlobalPagePermissionManager",
+      "PageContentManager",
+      "PageManager",
+      "PagePermissionManager",
+      "PageUrlManager",
+      "PlaceholderForObjQS",
+      "PlaceholderManager",
+      "WithUserMixin"
+    ],
+    "functions": [],
+    "import_count": 16
+  },
+  {
+    "path": "cms/models/pagemodel.py",
+    "sha256": "7736e9ec2d277b9ee7ced554eef75f31f4434b63858fde514feaeb6d1387c057",
+    "loc": 1146,
+    "module": "cms.models.pagemodel",
+    "classes": [
+      "AdminCacheDict",
+      "Page",
+      "PageType",
+      "PageUrl"
+    ],
+    "functions": [],
+    "import_count": 45
+  },
+  {
+    "path": "cms/models/permissionmodels.py",
+    "sha256": "53ad8119de7fbd30deaa5f42b43e3883663c60e377f04cc818dc1e50685a9569",
+    "loc": 338,
+    "module": "cms.models.permissionmodels",
+    "classes": [
+      "AbstractPagePermission",
+      "GlobalPagePermission",
+      "PagePermission",
+      "PageUser",
+      "PageUserGroup",
+      "PageUserManager",
+      "PermissionTuple"
+    ],
+    "functions": [],
+    "import_count": 13
+  },
+  {
+    "path": "cms/models/placeholdermodel.py",
+    "sha256": "8d7a95f05feeaf600707123bd5f660984ed31b6fb4048a882e53f8895e371438",
+    "loc": 751,
+    "module": "cms.models.placeholdermodel",
+    "classes": [
+      "Placeholder"
+    ],
+    "functions": [],
+    "import_count": 28
+  },
+  {
+    "path": "cms/models/placeholderpluginmodel.py",
+    "sha256": "77cfa0b8a68c30bbd7192896b6eedd199a2cecb2245cb63632b5e0058459df0c",
+    "loc": 33,
+    "module": "cms.models.placeholderpluginmodel",
+    "classes": [
+      "PlaceholderReference"
+    ],
+    "functions": [],
+    "import_count": 3
+  },
+  {
+    "path": "cms/models/pluginmodel.py",
+    "sha256": "6f591dea599c25a50641151034d11b4576834498a0cd42fec04c0b2fe391644b",
+    "loc": 481,
+    "module": "cms.models.pluginmodel",
+    "classes": [
+      "BoundRenderMeta",
+      "CMSPlugin",
+      "PluginModelBase"
+    ],
+    "functions": [
+      "_get_ancestors_cte",
+      "_get_database_connection",
+      "_get_database_cursor",
+      "_get_database_vendor",
+      "_get_descendants_cte",
+      "get_plugin_media_path"
+    ],
+    "import_count": 18
+  },
+  {
+    "path": "cms/models/query.py",
+    "sha256": "c3934a6193d0735563293b85dd9a85bb218d531a6446fd2b7dd832e18e0fbac7",
+    "loc": 93,
+    "module": "cms.models.query",
+    "classes": [
+      "PageQuerySet"
+    ],
+    "functions": [],
+    "import_count": 5
+  },
+  {
+    "path": "cms/models/settingmodels.py",
+    "sha256": "ac3659e44da11ffca3e12aa5c888405b214da377d830594f4e32faad3686537f",
+    "loc": 40,
+    "module": "cms.models.settingmodels",
+    "classes": [
+      "PlaceholderForeignKey",
+      "UserSettings"
+    ],
+    "functions": [],
+    "import_count": 4
+  },
+  {
+    "path": "cms/models/static_placeholder.py",
+    "sha256": "92b6b6ee749f549602c46202d0c8b3e3f70601d56a532b61812b1ba278ddc23d",
+    "loc": 77,
+    "module": "cms.models.static_placeholder",
+    "classes": [
+      "StaticPlaceholder"
+    ],
+    "functions": [
+      "static_slotname"
+    ],
+    "import_count": 7
+  },
+  {
+    "path": "cms/operations/__init__.py",
+    "sha256": "1166b4203a06a3daa3735ae21ccbfdb070211980d91b8b6823effd0b120393e7",
+    "loc": 33,
+    "module": "cms.operations",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/operations/helpers.py",
+    "sha256": "4de670879c2c8f7e0b318bbf4b486e007f9b07478cdf89ad959c5300e2c74821",
+    "loc": 26,
+    "module": "cms.operations.helpers",
+    "classes": [],
+    "functions": [
+      "send_post_page_operation",
+      "send_pre_page_operation"
+    ],
+    "import_count": 3
+  },
+  {
+    "path": "cms/page_rendering.py",
+    "sha256": "5e7e77eb36ce6a61494a069462d5f741bf027af4463511b40aae56d8e2f42efd",
+    "loc": 97,
+    "module": "cms.page_rendering",
+    "classes": [],
+    "functions": [
+      "_handle_no_apphook",
+      "_handle_no_page",
+      "_render_welcome_page",
+      "render_page",
+      "render_pagecontent"
+    ],
+    "import_count": 10
+  },
+  {
+    "path": "cms/plugin_base.py",
+    "sha256": "083ed314ac440efe15578d3530f37d8fa4ec2131f2e6f3ee76226e8f322d0902",
+    "loc": 859,
+    "module": "cms.plugin_base",
+    "classes": [
+      "CMSPluginBase",
+      "CMSPluginBaseMetaclass",
+      "PluginMenuItem"
+    ],
+    "functions": [
+      "template_slot_caching"
+    ],
+    "import_count": 26
+  },
+  {
+    "path": "cms/plugin_pool.py",
+    "sha256": "e151a640cde8fc950a295dd361764af1d11f361e43ae1663a9578af33e2c3b47",
+    "loc": 290,
+    "module": "cms.plugin_pool",
+    "classes": [
+      "PluginPool"
+    ],
+    "functions": [],
+    "import_count": 17
+  },
+  {
+    "path": "cms/plugin_processors.py",
+    "sha256": "1c1bbee8d0089d6e1b9c76943396bf7481d365b979c436f051d806865edea891",
+    "loc": 21,
+    "module": "cms.plugin_processors",
+    "classes": [],
+    "functions": [
+      "mark_safe_plugin_processor",
+      "plugin_meta_context_processor"
+    ],
+    "import_count": 1
+  },
+  {
+    "path": "cms/plugin_rendering.py",
+    "sha256": "bffea3abe91f2157415556f4c0e332a8a1c09ea4f0c0e632bbefdb85922b09c9",
+    "loc": 889,
+    "module": "cms.plugin_rendering",
+    "classes": [
+      "BaseRenderer",
+      "ContentRenderer",
+      "LegacyRenderer",
+      "PluginContext",
+      "RenderedPlaceholder",
+      "StructureRenderer"
+    ],
+    "functions": [
+      "_unpack_plugins"
+    ],
+    "import_count": 31
+  },
+  {
+    "path": "cms/signals/__init__.py",
+    "sha256": "91207819d7bec492a09b43a6e2234e89442377e4528da55acff93cb0dcc3ba98",
+    "loc": 118,
+    "module": "cms.signals",
+    "classes": [],
+    "functions": [
+      "check_v4_confirmation"
+    ],
+    "import_count": 11
+  },
+  {
+    "path": "cms/signals/apphook.py",
+    "sha256": "aed0bfb07826baa2f9985b3616da3021b934d8d795c7e16fa44dec82bf0887fd",
+    "loc": 49,
+    "module": "cms.signals.apphook",
+    "classes": [],
+    "functions": [
+      "debug_server_restart",
+      "set_restart_trigger",
+      "trigger_restart",
+      "trigger_server_restart"
+    ],
+    "import_count": 10
+  },
+  {
+    "path": "cms/signals/log_entries.py",
+    "sha256": "c9512d3a9101e50a11dd242df43cca5331beebdba93315621ab92f6bef6cacfe",
+    "loc": 153,
+    "module": "cms.signals.log_entries",
+    "classes": [],
+    "functions": [
+      "_is_valid_page_instance",
+      "create_log_entry",
+      "log_page_operations",
+      "log_placeholder_operations"
+    ],
+    "import_count": 6
+  },
+  {
+    "path": "cms/signals/permissions.py",
+    "sha256": "69582810c9b7fd65797f32f15268d2980b1000cb63ab24775ff2b9b5d3ee0963",
+    "loc": 115,
+    "module": "cms.signals.permissions",
+    "classes": [],
+    "functions": [
+      "_clear_users_permissions",
+      "post_save_user",
+      "post_save_user_group",
+      "pre_delete_globalpagepermission",
+      "pre_delete_group",
+      "pre_delete_pagepermission",
+      "pre_delete_user",
+      "pre_save_globalpagepermission",
+      "pre_save_group",
+      "pre_save_pagepermission",
+      "pre_save_user",
+      "user_m2m_changed"
+    ],
+    "import_count": 6
+  },
+  {
+    "path": "cms/sitemaps/__init__.py",
+    "sha256": "f983ff2d7c1855c3cc00e3fb04f2a87536c09e050aba7dc873060870166d6488",
+    "loc": 1,
+    "module": "cms.sitemaps",
+    "classes": [],
+    "functions": [],
+    "import_count": 1
+  },
+  {
+    "path": "cms/sitemaps/cms_sitemap.py",
+    "sha256": "4ea0c9db3b519949965de2c962da52ddbae0a2807e5b16847fa70ec9074a47d7",
+    "loc": 71,
+    "module": "cms.sitemaps.cms_sitemap",
+    "classes": [
+      "CMSSitemap"
+    ],
+    "functions": [
+      "from_iterable"
+    ],
+    "import_count": 5
+  },
+  {
+    "path": "cms/templates.py",
+    "sha256": "f3624fb150aeeeb2f7f732bb0de3db08631a3dee5ef73e6090308f1f70e6c04d",
+    "loc": 31,
+    "module": "cms.templates",
+    "classes": [
+      "TemplatesCache"
+    ],
+    "functions": [],
+    "import_count": 2
+  },
+  {
+    "path": "cms/templatetags/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loc": 0,
+    "module": "cms.templatetags",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/templatetags/cms_admin.py",
+    "sha256": "48405dde0cb5af157cbbdc8ef208f48913d925c31d6f1a13f308338b7a2047e5",
+    "loc": 279,
+    "module": "cms.templatetags.cms_admin",
+    "classes": [
+      "CMSAdminIconBase",
+      "GetAdminUrlForLanguage",
+      "GetPreviewUrl",
+      "PageSubmitRow",
+      "TreePublishRow",
+      "TreePublishRowMenu"
+    ],
+    "functions": [
+      "admin_static_url",
+      "boolean_icon",
+      "get_page_display_name",
+      "in_filtered",
+      "render_filter_field",
+      "show_admin_menu_for_pages",
+      "submit_row_plugin"
+    ],
+    "import_count": 17
+  },
+  {
+    "path": "cms/templatetags/cms_alias_tags.py",
+    "sha256": "710e17299ec28f44ddf010d818e4500ee3434c49addc23e831183e9ff7ad5f41",
+    "loc": 46,
+    "module": "cms.templatetags.cms_alias_tags",
+    "classes": [],
+    "functions": [
+      "render_alias_plugin"
+    ],
+    "import_count": 6
+  },
+  {
+    "path": "cms/templatetags/cms_js_tags.py",
+    "sha256": "b0c1124ae698e5ca6d315505d5ba7152c432b9f509a0b82dc5f00ecd04bc5df8",
+    "loc": 77,
+    "module": "cms.templatetags.cms_js_tags",
+    "classes": [
+      "JavascriptString"
+    ],
+    "functions": [
+      "bool",
+      "json_filter",
+      "render_cms_structure_js",
+      "render_plugin_init_js"
+    ],
+    "import_count": 9
+  },
+  {
+    "path": "cms/templatetags/cms_static.py",
+    "sha256": "edb5372311499fd82eae1669bd0ebb9b7a56ac5fe3452161c5d689d7084c89af",
+    "loc": 32,
+    "module": "cms.templatetags.cms_static",
+    "classes": [
+      "StaticWithVersionNode"
+    ],
+    "functions": [
+      "do_static_with_version"
+    ],
+    "import_count": 3
+  },
+  {
+    "path": "cms/templatetags/cms_tags.py",
+    "sha256": "ccf956c6fce4396e709b31134c47f83077aa28281049b4c4a2da9f9cfe60d5bb",
+    "loc": 1038,
+    "module": "cms.templatetags.cms_tags",
+    "classes": [
+      "CMSAdminURL",
+      "CMSEditableObject",
+      "CMSEditableObjectAdd",
+      "CMSEditableObjectAddBlock",
+      "CMSEditableObjectBlock",
+      "CMSEditableObjectIcon",
+      "CMSToolbar",
+      "EmptyListValue",
+      "MultiValueArgumentBeforeKeywordArgument",
+      "PageAttribute",
+      "PageUrl",
+      "Placeholder",
+      "PlaceholderOptions",
+      "PlaceholderParser",
+      "RenderPlaceholder",
+      "RenderPluginBlock",
+      "RenderUncachedPlaceholder",
+      "StaticPlaceholderNode"
+    ],
+    "functions": [
+      "_get_page_by_untyped_arg",
+      "_show_placeholder_by_id",
+      "_show_uncached_placeholder_by_id",
+      "render_extra_menu_items",
+      "render_plugin"
+    ],
+    "import_count": 31
+  },
+  {
+    "path": "cms/toolbar/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loc": 0,
+    "module": "cms.toolbar",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/toolbar/items.py",
+    "sha256": "22814551c53ed7523070f209faab4762bffa4cca5eec29f0d073e2e3330a3886",
+    "loc": 704,
+    "module": "cms.toolbar.items",
+    "classes": [
+      "AjaxItem",
+      "BaseButton",
+      "BaseItem",
+      "Break",
+      "Button",
+      "ButtonList",
+      "Dropdown",
+      "DropdownToggleButton",
+      "FrameItem",
+      "ItemSearchResult",
+      "LinkItem",
+      "Menu",
+      "ModalButton",
+      "ModalItem",
+      "SideframeButton",
+      "SideframeItem",
+      "SubMenu",
+      "TemplateItem",
+      "ToolbarAPIMixin"
+    ],
+    "functions": [],
+    "import_count": 8
+  },
+  {
+    "path": "cms/toolbar/toolbar.py",
+    "sha256": "c83e654032c94096fd9d6bd05cc19def6c5c254dbf8eef1a69d9430dc7c0ed94",
+    "loc": 586,
+    "module": "cms.toolbar.toolbar",
+    "classes": [
+      "BaseToolbar",
+      "CMSToolbarBase",
+      "EmptyToolbar"
+    ],
+    "functions": [],
+    "import_count": 28
+  },
+  {
+    "path": "cms/toolbar/utils.py",
+    "sha256": "f4fd6a10606ec45350c8ab06c041fdb6c8a13e2d2e634a39d25a4e50f3bea328",
+    "loc": 333,
+    "module": "cms.toolbar.utils",
+    "classes": [],
+    "functions": [
+      "add_live_url_querystring_param",
+      "create_child_plugin_references",
+      "get_object_edit_url",
+      "get_object_for_language",
+      "get_object_preview_url",
+      "get_object_structure_url",
+      "get_placeholder_toolbar_js",
+      "get_plugin_content",
+      "get_plugin_toolbar_info",
+      "get_plugin_toolbar_js",
+      "get_plugin_tree",
+      "get_plugin_tree_as_json",
+      "get_plugin_tree_ids",
+      "get_toolbar_from_request"
+    ],
+    "import_count": 21
+  },
+  {
+    "path": "cms/toolbar_base.py",
+    "sha256": "ab6cf64739d5de58926210ae6d1ab3f66d5b27e42be2e2fe0bfa02fe342fe2d1",
+    "loc": 39,
+    "module": "cms.toolbar_base",
+    "classes": [
+      "CMSToolbar"
+    ],
+    "functions": [],
+    "import_count": 4
+  },
+  {
+    "path": "cms/toolbar_pool.py",
+    "sha256": "6a84a71e72b70443a0598d2bb0400dea8f04f9bb74c2dd9003119a2318ce03fa",
+    "loc": 65,
+    "module": "cms.toolbar_pool",
+    "classes": [
+      "ToolbarPool"
+    ],
+    "functions": [],
+    "import_count": 6
+  },
+  {
+    "path": "cms/urls.py",
+    "sha256": "bfb949bad2a88590a33935b5709134fd18d3fa30389c354cd354ece82a1c5839",
+    "loc": 27,
+    "module": "cms.urls",
+    "classes": [],
+    "functions": [],
+    "import_count": 6
+  },
+  {
+    "path": "cms/utils/__init__.py",
+    "sha256": "2ade2f4c07117a2acace89dc96a4dd800356743a8885cf3841bf55f2158b9482",
+    "loc": 56,
+    "module": "cms.utils",
+    "classes": [],
+    "functions": [
+      "get_current_site",
+      "get_language_from_request"
+    ],
+    "import_count": 3
+  },
+  {
+    "path": "cms/utils/admin.py",
+    "sha256": "f11ece3f06d7c29fe3813bf7dd873305dd0227315c873bea269b450eaa3eb1ab",
+    "loc": 14,
+    "module": "cms.utils.admin",
+    "classes": [],
+    "functions": [
+      "jsonify_request"
+    ],
+    "import_count": 2
+  },
+  {
+    "path": "cms/utils/apphook_reload.py",
+    "sha256": "3f8573cf051ebc663b88d55c75a83df6b8c9622756930109d0d1eeefdb5aa84a",
+    "loc": 107,
+    "module": "cms.utils.apphook_reload",
+    "classes": [],
+    "functions": [
+      "debug_check_url",
+      "ensure_urlconf_is_up_to_date",
+      "get_global_revision",
+      "get_local_revision",
+      "log_reloading_apphook",
+      "mark_urlconf_as_changed",
+      "reload_urlconf",
+      "set_global_revision",
+      "set_local_revision"
+    ],
+    "import_count": 11
+  },
+  {
+    "path": "cms/utils/check.py",
+    "sha256": "caa430d763334c4eb378d7bbbfb7413f1532bb227538416b5205d75163693e55",
+    "loc": 480,
+    "module": "cms.utils.check",
+    "classes": [
+      "FileOutputWrapper",
+      "FileSectionWrapper"
+    ],
+    "functions": [
+      "check",
+      "check_cmsapps_names",
+      "check_context_processors",
+      "check_copy_relations",
+      "check_i18n",
+      "check_middlewares",
+      "check_plugin_instances",
+      "check_plugin_parent_child_relations",
+      "check_sekizai",
+      "check_template_conf",
+      "define_check"
+    ],
+    "import_count": 19
+  },
+  {
+    "path": "cms/utils/compat/__init__.py",
+    "sha256": "88c16f4ff23fa27ee51c0928071125370ec9440e1258e3182a358f9b60524848",
+    "loc": 17,
+    "module": "cms.utils.compat",
+    "classes": [],
+    "functions": [],
+    "import_count": 3
+  },
+  {
+    "path": "cms/utils/compat/dj.py",
+    "sha256": "458a5d8e475cb466cf7fffc62dfc1efae590d3d146903c000149e2f94986391d",
+    "loc": 17,
+    "module": "cms.utils.compat.dj",
+    "classes": [],
+    "functions": [
+      "available_attrs",
+      "installed_apps",
+      "is_installed"
+    ],
+    "import_count": 2
+  },
+  {
+    "path": "cms/utils/compat/forms.py",
+    "sha256": "c8326da472e6d2df46141a97f02fd50057fc301373fa4cae9262c9fafe09769e",
+    "loc": 42,
+    "module": "cms.utils.compat.forms",
+    "classes": [],
+    "functions": [],
+    "import_count": 10
+  },
+  {
+    "path": "cms/utils/compat/response.py",
+    "sha256": "0314f3c952ba97ef6c2b1182dddc5fd2c00e1e2c97a7292b59f9c3bdb1fa19f6",
+    "loc": 11,
+    "module": "cms.utils.compat.response",
+    "classes": [],
+    "functions": [
+      "get_response_headers"
+    ],
+    "import_count": 0
+  },
+  {
+    "path": "cms/utils/compat/warnings.py",
+    "sha256": "6248ddc92168d4cef101efd107c5f9622711c02f65639a951fa60f3f8b015988",
+    "loc": 6,
+    "module": "cms.utils.compat.warnings",
+    "classes": [
+      "RemovedInDjangoCMS51Warning",
+      "RemovedInDjangoCMS60Warning"
+    ],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/utils/conf.py",
+    "sha256": "04ba5ce3584ae4daf6ab0f36163f02133ca4fedaf3365f90e661152db2db900f",
+    "loc": 311,
+    "module": "cms.utils.conf",
+    "classes": [
+      "VERIFIED"
+    ],
+    "functions": [
+      "_ensure_languages_settings",
+      "_load_from_file",
+      "default",
+      "get_cache_durations",
+      "get_cms_setting",
+      "get_languages",
+      "get_media_root",
+      "get_media_url",
+      "get_placeholders",
+      "get_site_id",
+      "get_templates",
+      "get_toolbar_url__disable",
+      "get_toolbar_url__enable",
+      "get_toolbar_url__persist",
+      "get_unihandecode_host"
+    ],
+    "import_count": 9
+  },
+  {
+    "path": "cms/utils/decorators.py",
+    "sha256": "72c36487c7a9fc3cb38d07ec1f3599e917f03559db17ffb9072c73a9802a9c4f",
+    "loc": 40,
+    "module": "cms.utils.decorators",
+    "classes": [],
+    "functions": [
+      "cms_perms"
+    ],
+    "import_count": 6
+  },
+  {
+    "path": "cms/utils/encoder.py",
+    "sha256": "4f66848f8e30b4ca767d25b21a1851353ddcbc9dcc6e7c15ef305aae1aa3d051",
+    "loc": 27,
+    "module": "cms.utils.encoder",
+    "classes": [
+      "SafeJSONEncoder"
+    ],
+    "functions": [],
+    "import_count": 4
+  },
+  {
+    "path": "cms/utils/helpers.py",
+    "sha256": "4e128be92a7bb2de6283f1589a0944258f65586eb93951a6bb61b7b3d5f01dc7",
+    "loc": 111,
+    "module": "cms.utils.helpers",
+    "classes": [
+      "classproperty"
+    ],
+    "functions": [
+      "find_placeholder_relation",
+      "get_header_name",
+      "get_timezone_name",
+      "is_editable_model",
+      "normalize_name"
+    ],
+    "import_count": 6
+  },
+  {
+    "path": "cms/utils/i18n.py",
+    "sha256": "3add1e319bc212b4e288da90a876fadf5ffc3f7fc67bd82f0213f0a17362759b",
+    "loc": 212,
+    "module": "cms.utils.i18n",
+    "classes": [],
+    "functions": [
+      "force_language",
+      "get_current_language",
+      "get_default_language",
+      "get_default_language_for_site",
+      "get_fallback_languages",
+      "get_language_code",
+      "get_language_dict",
+      "get_language_list",
+      "get_language_object",
+      "get_language_objects",
+      "get_language_tuple",
+      "get_languages",
+      "get_public_languages",
+      "get_redirect_on_fallback",
+      "get_site_language_from_request",
+      "hide_untranslated",
+      "is_language_prefix_patterns_used",
+      "is_valid_site_language"
+    ],
+    "import_count": 8
+  },
+  {
+    "path": "cms/utils/mail.py",
+    "sha256": "e6ff9812c98d617d7b5c21693db2d2cc143424a5b5988175a7b125f6153a62a8",
+    "loc": 44,
+    "module": "cms.utils.mail",
+    "classes": [],
+    "functions": [
+      "mail_page_user_change",
+      "send_mail"
+    ],
+    "import_count": 5
+  },
+  {
+    "path": "cms/utils/page.py",
+    "sha256": "8a5298dc9e62cbac0ebeffb5af595667dc1938185f2ad8a1ad70abba6dea7634",
+    "loc": 137,
+    "module": "cms.utils.page",
+    "classes": [],
+    "functions": [
+      "get_available_slug",
+      "get_clean_username",
+      "get_page_from_request",
+      "get_page_queryset",
+      "get_page_template_from_request"
+    ],
+    "import_count": 9
+  },
+  {
+    "path": "cms/utils/page_permissions.py",
+    "sha256": "41b62546d8d38755a83fe777a4edc5b90943984bdfa97e3123b503956e1a6dfd",
+    "loc": 558,
+    "module": "cms.utils.page_permissions",
+    "classes": [],
+    "functions": [
+      "_check_delete_translation",
+      "_get_all_placeholders",
+      "_get_page_permission_tuples_for_action",
+      "_perm_tuples_to_ids",
+      "auth_permission_required",
+      "change_permission_required",
+      "get_add_ids",
+      "get_add_perm_tuples",
+      "get_change_advanced_settings_ids",
+      "get_change_advanced_settings_perm_tuples",
+      "get_change_ids",
+      "get_change_perm_tuples",
+      "get_change_permissions_ids",
+      "get_change_permissions_perm_tuples",
+      "get_delete_ids",
+      "get_delete_perm_tuples",
+      "get_move_page_ids",
+      "get_move_page_perm_tuples",
+      "get_publish_ids",
+      "get_publish_perm_tuples",
+      "get_view_ids",
+      "get_view_perm_tuples",
+      "has_generic_permission",
+      "skip_if_permissions_disabled",
+      "user_can_add_page",
+      "user_can_add_subpage",
+      "user_can_change_all_pages",
+      "user_can_change_at_least_one_page",
+      "user_can_change_page",
+      "user_can_change_page_advanced_settings",
+      "user_can_change_page_permissions",
+      "user_can_delete_page",
+      "user_can_delete_page_translation",
+      "user_can_move_page",
+      "user_can_publish_page",
+      "user_can_view_all_pages",
+      "user_can_view_page",
+      "user_can_view_page_draft"
+    ],
+    "import_count": 14
+  },
+  {
+    "path": "cms/utils/permissions.py",
+    "sha256": "cd43851ef883790335ccf5ee1478bf1ed9c297f4ad825d14971cb9551ee88f63",
+    "loc": 402,
+    "module": "cms.utils.permissions",
+    "classes": [],
+    "functions": [
+      "_has_global_permission",
+      "cached_func",
+      "clear_func_cache",
+      "clear_permission_lru_caches",
+      "current_user",
+      "get_current_user",
+      "get_current_user_name",
+      "get_global_actions_for_user",
+      "get_model_permission_codename",
+      "get_page_actions_for_user",
+      "get_subordinate_groups",
+      "get_subordinate_users",
+      "get_user_permission_level",
+      "get_view_restrictions",
+      "has_global_permission",
+      "has_page_permission",
+      "has_plugin_permission",
+      "set_current_user",
+      "user_can_add_global_permissions",
+      "user_can_change_global_permissions",
+      "user_can_delete_global_permissions"
+    ],
+    "import_count": 23
+  },
+  {
+    "path": "cms/utils/placeholder.py",
+    "sha256": "1a08933f72f3c8051091344e859bbabb43b12258bd8fce07e4a0acfa00b3086e",
+    "loc": 453,
+    "module": "cms.utils.placeholder",
+    "classes": [
+      "MLNGPlaceholderActions",
+      "PlaceholderNoAction"
+    ],
+    "functions": [
+      "_find_topmost_template",
+      "_get_block_nodes",
+      "_get_nodelist",
+      "_get_placeholder_nodes_from_extend",
+      "_scan_placeholders",
+      "_scan_static_placeholders",
+      "get_context",
+      "get_declared_placeholders_for_obj",
+      "get_placeholder_conf",
+      "get_placeholder_from_slot",
+      "get_placeholders",
+      "get_static_placeholders",
+      "get_toolbar_plugin_struct",
+      "rescan_placeholders_for_obj",
+      "restore_sekizai_context",
+      "validate_placeholder_name"
+    ],
+    "import_count": 21
+  },
+  {
+    "path": "cms/utils/plugins.py",
+    "sha256": "d066d1512bc6b9df5f600ab8798f5df55574ea3fc50518a3141e7bb97ed4ef3a",
+    "loc": 516,
+    "module": "cms.utils.plugins",
+    "classes": [],
+    "functions": [
+      "_reunite_orphaned_placeholder_plugin_children",
+      "assign_plugins",
+      "copy_plugins_to_placeholder",
+      "create_default_plugins",
+      "downcast_plugins",
+      "get_bound_plugins",
+      "get_plugin_class",
+      "get_plugin_model",
+      "get_plugin_restrictions",
+      "get_plugins",
+      "get_plugins_as_layered_tree",
+      "has_reached_plugin_limit"
+    ],
+    "import_count": 20
+  },
+  {
+    "path": "cms/utils/request_ip_resolvers.py",
+    "sha256": "8f37f5920a6a1d9b0b88eda874178179756ce3bcb3cdefb42285fb808f5ecb48",
+    "loc": 72,
+    "module": "cms.utils.request_ip_resolvers",
+    "classes": [],
+    "functions": [
+      "default_request_ip_resolver",
+      "get_request_ip_resolver",
+      "real_ip",
+      "remote_addr_ip",
+      "x_forwarded_ip"
+    ],
+    "import_count": 4
+  },
+  {
+    "path": "cms/utils/setup.py",
+    "sha256": "3400be98c8126c6aeb3e47b10af3930f6e3d73ae9555272693c6a54eed2e8975",
+    "loc": 69,
+    "module": "cms.utils.setup",
+    "classes": [],
+    "functions": [
+      "setup",
+      "setup_cms_apps",
+      "validate_dependencies",
+      "validate_settings"
+    ],
+    "import_count": 6
+  },
+  {
+    "path": "cms/utils/urlutils.py",
+    "sha256": "158b20893acfa35a34acac7b99500300cd4b96a92b57aa19f50b8552e2d02fa2",
+    "loc": 112,
+    "module": "cms.utils.urlutils",
+    "classes": [],
+    "functions": [
+      "add_url_parameters",
+      "admin_reverse",
+      "is_media_request",
+      "levelize_path",
+      "static_with_version",
+      "urljoin"
+    ],
+    "import_count": 10
+  },
+  {
+    "path": "cms/views.py",
+    "sha256": "b18c5e59624892a0eb8c9bdb8a3d3b08e0df55ff877b606aa1bcc25bb264174f",
+    "loc": 346,
+    "module": "cms.views",
+    "classes": [],
+    "functions": [
+      "_clean_redirect_url",
+      "details",
+      "login",
+      "render_object_edit",
+      "render_object_endpoint",
+      "render_object_preview",
+      "render_object_structure",
+      "render_placeholder_content"
+    ],
+    "import_count": 31
+  },
+  {
+    "path": "cms/wizards/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loc": 0,
+    "module": "cms.wizards",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "cms/wizards/forms.py",
+    "sha256": "8dd5a374b8286acb92c29d4502564878318d562c4102f5f91d4733c97391730e",
+    "loc": 90,
+    "module": "cms.wizards.forms",
+    "classes": [
+      "BaseFormMixin",
+      "WizardOptionWidgets",
+      "WizardStep1Form",
+      "WizardStep2BaseForm"
+    ],
+    "functions": [
+      "step2_form_factory"
+    ],
+    "import_count": 4
+  },
+  {
+    "path": "cms/wizards/helpers.py",
+    "sha256": "83d0d48572b73ed040c6e7026a338bfc7d502d7c615b14fc4e3bf95e58148253",
+    "loc": 26,
+    "module": "cms.wizards.helpers",
+    "classes": [],
+    "functions": [
+      "get_entries",
+      "get_entry"
+    ],
+    "import_count": 1
+  },
+  {
+    "path": "cms/wizards/urls.py",
+    "sha256": "51d102f7ca28358925b8eb41f2fb235d7e85e8c9f5552529a5462d786a2be943",
+    "loc": 7,
+    "module": "cms.wizards.urls",
+    "classes": [],
+    "functions": [],
+    "import_count": 2
+  },
+  {
+    "path": "cms/wizards/views.py",
+    "sha256": "b3ba499cd443d22485486dbbe9330ec4127a0950e8d4b0b9b190f748aeac4e9d",
+    "loc": 170,
+    "module": "cms.wizards.views",
+    "classes": [
+      "WizardCreateView"
+    ],
+    "functions": [],
+    "import_count": 15
+  },
+  {
+    "path": "cms/wizards/wizard_base.py",
+    "sha256": "addc79cefccffd966a007ceafe700b89446ef6e52b4758fa28b0b4717f599630",
+    "loc": 176,
+    "module": "cms.wizards.wizard_base",
+    "classes": [
+      "Wizard",
+      "WizardBase"
+    ],
+    "functions": [],
+    "import_count": 8
+  },
+  {
+    "path": "cms/wizards/wizard_pool.py",
+    "sha256": "0ebb18934b43d709cef3ac248ee5b341a884ca8f1e7f6a5e9e501f3f8581d4f5",
+    "loc": 97,
+    "module": "cms.wizards.wizard_pool",
+    "classes": [
+      "AlreadyRegisteredException",
+      "WizardPool"
+    ],
+    "functions": [
+      "entry_choices"
+    ],
+    "import_count": 4
+  },
+  {
+    "path": "menus/__init__.py",
+    "sha256": "2d1fd9554a8c1d9e40907f6d4154097a7bd8f896ff991ab73fd649e675f5c659",
+    "loc": 1,
+    "module": "menus",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "menus/apps.py",
+    "sha256": "47b18d96e67291ea256dc01c531d26176c1c48c453f6b61d866f3f5b9f79377e",
+    "loc": 7,
+    "module": "menus.apps",
+    "classes": [
+      "MenusConfig"
+    ],
+    "functions": [],
+    "import_count": 2
+  },
+  {
+    "path": "menus/base.py",
+    "sha256": "15d2409cf4d0b1adf9ca747480c75628e927b75e4a807f18b5d39f299ad79901",
+    "loc": 183,
+    "module": "menus.base",
+    "classes": [
+      "Menu",
+      "Modifier",
+      "NavigationNode"
+    ],
+    "functions": [],
+    "import_count": 2
+  },
+  {
+    "path": "menus/exceptions.py",
+    "sha256": "4adc97f09c3e37f3fde57e717c43c73caee6a761cfe55117504270c13ae06cb9",
+    "loc": 6,
+    "module": "menus.exceptions",
+    "classes": [
+      "NamespaceAlreadyRegistered",
+      "NoParentFound"
+    ],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "menus/menu_pool.py",
+    "sha256": "2d98335feb132872302823b35ac157f141514c82baad5024fd691aabf359e880",
+    "loc": 393,
+    "module": "menus.menu_pool",
+    "classes": [
+      "MenuPool",
+      "MenuRenderer"
+    ],
+    "functions": [
+      "_build_nodes_inner_for_one_menu",
+      "_get_menu_class_for_instance"
+    ],
+    "import_count": 19
+  },
+  {
+    "path": "menus/models.py",
+    "sha256": "6ac06280bd58f5b04d35037e0cf186824dd548038ab66ae865ecfa0f26e78916",
+    "loc": 38,
+    "module": "menus.models",
+    "classes": [
+      "CacheKey",
+      "CacheKeyManager"
+    ],
+    "functions": [],
+    "import_count": 1
+  },
+  {
+    "path": "menus/modifiers.py",
+    "sha256": "d209c739ed618b59ee76abd43c656cb622c8c6492fc3172b8a700c2e12d7a3d2",
+    "loc": 201,
+    "module": "menus.modifiers",
+    "classes": [
+      "AuthVisibility",
+      "Level",
+      "Marker"
+    ],
+    "functions": [
+      "register"
+    ],
+    "import_count": 4
+  },
+  {
+    "path": "menus/templatetags/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loc": 0,
+    "module": "menus.templatetags",
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  {
+    "path": "menus/templatetags/menu_tags.py",
+    "sha256": "1c07f9a9b70bae77f3e2c64f6a23ecfd32bb31450085f7b489c61fd355c2b9df",
+    "loc": 436,
+    "module": "menus.templatetags.menu_tags",
+    "classes": [
+      "LanguageChooser",
+      "NOT_PROVIDED",
+      "PageLanguageUrl",
+      "ShowBreadcrumb",
+      "ShowMenu",
+      "ShowMenuBelowId",
+      "ShowSubMenu"
+    ],
+    "functions": [
+      "_current_language_marker",
+      "_native_language_marker",
+      "_raw_language_marker",
+      "_short_language_marker",
+      "cut_after",
+      "cut_levels",
+      "flatten",
+      "remove"
+    ],
+    "import_count": 12
+  },
+  {
+    "path": "menus/utils.py",
+    "sha256": "bc1511f9e9e4e3864e9455321010fbbd4a9a6b219348d05b795e263566d7db36",
+    "loc": 303,
+    "module": "menus.utils",
+    "classes": [
+      "DefaultLanguageChanger"
+    ],
+    "functions": [
+      "cut_levels",
+      "find_selected",
+      "language_changer_decorator",
+      "mark_descendants",
+      "set_language_changer"
+    ],
+    "import_count": 5
+  }
+]

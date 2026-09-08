@@ -1,0 +1,30 @@
+id: djangocms-external-validity-004
+repository: djangocms
+scenario_type: cross_cutting
+visible_requirements: 'Implement page versioning with draft/publish workflow.
+
+
+  Extend the page system to support versioned drafts that can be reviewed before publication.
+  Add:
+
+  1. A new `PageVersion` model with ForeignKey to Page and PageContent
+
+  2. Status fields: draft, review, approved, published
+
+  3. Integration with existing permission system for review workflow
+
+  4. Admin actions for creating new versions, comparing changes, and publishing
+
+  5. Automatic creation of new versions when content is edited through the admin
+
+
+  The implementation must not break existing page publishing functionality. Published
+  pages should continue to work as before, while the versioning system provides an
+  optional layer for editorial workflows. Update relevant admin views and template
+  tags to handle versioned content.'
+notes: 'Scientifically defensible: Adds enterprise-grade content workflow feature.
+  Tests model relationships, permission integration, and admin interface extensions.'
+external_validity_draft: true
+created: '2026-09-07'
+scientifically_defensible_rationale: Based on djangoCMS 5.0 architecture analysis
+  and common CMS feature requests

@@ -1,0 +1,29 @@
+id: djangocms-external-validity-006
+repository: djangocms
+scenario_type: local
+visible_requirements: 'Add automatic image optimization for plugin images.
+
+
+  Many CMS plugins include image fields, but uploaded images are not automatically
+  optimized. Create a utility that:
+
+  1. Hooks into Django''s image field save signals for CMSPlugin subclasses
+
+  2. Automatically optimizes uploaded images (resize, compress, convert to WebP)
+
+  3. Maintains original images as backups
+
+  4. Provides configuration options for optimization settings
+
+  5. Integrates with existing storage backends
+
+
+  The optimization should happen asynchronously using Django''s background tasks or
+  a simple threading approach for larger images. Include fallback behavior when optimization
+  libraries are not available.'
+notes: 'Scientifically defensible: Adds performance optimization feature. Tests signal
+  handling, image processing, and async task integration.'
+external_validity_draft: true
+created: '2026-09-07'
+scientifically_defensible_rationale: Based on djangoCMS 5.0 architecture analysis
+  and common CMS feature requests

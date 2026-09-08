@@ -1,0 +1,47 @@
+acceptance_criteria:
+- The change must be implemented correctly
+- All existing functionality must continue to work
+- The implementation must follow Django best practices
+- Any new functionality must be properly tested
+architecture_constraints:
+- Must not remove or alter existing permission fields.
+- '`has_review_permission` must also check for superuser status
+
+  (superusers can always review).
+
+  '
+- The toolbar must not show the "Review" item to users without any review permission
+  (avoid toolbar clutter).
+- The admin review action must be gated by the same permission check at the view level
+  (defense in depth).
+- Must follow existing permission model patterns (use same mixins, same admin registration
+  style).
+blast_radius: moderate
+change_type: moderate_permissions
+rationale: 'Adding a reviewer role separates content creation from content approval,
+  enabling editorial workflows where authors create content and reviewers approve
+  it.
+
+  '
+repository: djangocms
+requirement_after: A new "page reviewer" permission level is added. A user with the
+  "page reviewer" permission can view pages, review page content, and approve/reject
+  pending changes, but cannot directly edit page content. The permission is stored
+  in PagePermission with a new boolean field `can_review`. The GlobalPermission model
+  also gains a `can_review` field for site-wide reviewer access. The permission checking
+  functions in a relevant module support the new level. The PageAdmin gets a "Review"
+  action that transitions page content status (if integrated with a workflow) or marks
+  content as reviewed. The PermissionAdmin shows the new field. The toolbar shows
+  a "Review" menu item for users with reviewer access.
+requirement_before: 'The CMS has two page permission levels: "view" (can see page)
+  and
+
+  "edit" (can edit content). Users either have full edit rights or
+
+  none. There is no intermediate role for reviewing/approving
+
+  content without full edit permissions.
+
+  '
+scenario_id: djangocms-external-validity-005
+source_historical_scenario_id: djangocms-mod-005

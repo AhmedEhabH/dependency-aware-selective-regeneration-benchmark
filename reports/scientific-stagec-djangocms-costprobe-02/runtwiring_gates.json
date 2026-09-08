@@ -1,0 +1,369 @@
+[
+  {
+    "checks": [
+      {
+        "check": "exactly_six_hidden_gold_records",
+        "detail": 6,
+        "ok": true
+      },
+      {
+        "check": "exactly_six_final_scenario_ids",
+        "detail": [
+          "djangocms-external-validity-002",
+          "djangocms-external-validity-004",
+          "djangocms-external-validity-005",
+          "djangocms-external-validity-006",
+          "djangocms-external-validity-007",
+          "djangocms-external-validity-008"
+        ],
+        "ok": true
+      },
+      {
+        "check": "six_draft_files_on_disk",
+        "detail": [
+          "djangocms-external-validity-002",
+          "djangocms-external-validity-004",
+          "djangocms-external-validity-005",
+          "djangocms-external-validity-006",
+          "djangocms-external-validity-007",
+          "djangocms-external-validity-008"
+        ],
+        "ok": true
+      },
+      {
+        "check": "draft_ids_equal_hidden_gold_ids",
+        "detail": [],
+        "ok": true
+      },
+      {
+        "check": "runtime_universe_count_equals_144",
+        "detail": 144,
+        "ok": true
+      },
+      {
+        "check": "runtime_universe_path_set_equals_frozen",
+        "detail": [],
+        "ok": true
+      },
+      {
+        "check": "every_hidden_gold_path_in_runtime_universe",
+        "detail": [],
+        "ok": true
+      }
+    ],
+    "gate": 1,
+    "name": "Dataset Validation",
+    "passed": true
+  },
+  {
+    "checks": [
+      {
+        "check": "scenario_id_equals_final_id",
+        "detail": "djangocms-external-validity-008",
+        "ok": true
+      },
+      {
+        "check": "loaded_from_final_visible_draft_dir",
+        "detail": "C:/Users/Ahmed/Desktop/OpenCode/master-2026-07-21-2355/project-djangocms-prep/benchmark_data/external_validity/visible_drafts/djangocms-external-validity-008.yaml",
+        "ok": true
+      },
+      {
+        "check": "old_historical_scenario_not_loaded",
+        "detail": "C:/Users/Ahmed/Desktop/OpenCode/master-2026-07-21-2355/project-djangocms-prep/benchmark_data/external_validity/visible_drafts/djangocms-external-validity-008.yaml",
+        "ok": true
+      },
+      {
+        "check": "no_dot_py_leak_in_visible_requirement",
+        "detail": [],
+        "ok": true
+      },
+      {
+        "check": "no_exact_path_leak_in_visible_requirement",
+        "detail": [],
+        "ok": true
+      },
+      {
+        "check": "no_module_hint_leak_in_visible_requirement",
+        "detail": [],
+        "ok": true
+      },
+      {
+        "check": "no_hidden_gold_path_in_visible_requirement",
+        "detail": [],
+        "ok": true
+      },
+      {
+        "check": "old_historical_scenario_id_not_in_visible_requirement",
+        "detail": "djangocms-cross-008",
+        "ok": true
+      }
+    ],
+    "gate": 2,
+    "name": "Prompt Validation",
+    "passed": true
+  },
+  {
+    "checks": [
+      {
+        "check": "backend_is_mock_only",
+        "detail": "MockLLMBackend",
+        "ok": true
+      },
+      {
+        "check": "final_scenario_used",
+        "detail": "djangocms-external-validity-008",
+        "ok": true
+      },
+      {
+        "check": "universe_is_144_paths",
+        "detail": 144,
+        "ok": true
+      },
+      {
+        "check": "record_terminal",
+        "detail": "failed",
+        "ok": true
+      },
+      {
+        "check": "zero_scientific_calls",
+        "detail": "mock backend only; no real LLM backend constructed",
+        "ok": true
+      }
+    ],
+    "gate": 3,
+    "name": "Pipeline Smoke Test",
+    "passed": true
+  },
+  {
+    "checks": [
+      {
+        "check": "dry_run_iterative_repository_agent_terminal",
+        "detail": "failed",
+        "ok": true
+      },
+      {
+        "check": "dry_run_impact_plan_terminal",
+        "detail": "failed",
+        "ok": true
+      },
+      {
+        "check": "zero_scientific_calls",
+        "detail": "dry-run uses mock backend only",
+        "ok": true
+      }
+    ],
+    "gate": 4,
+    "name": "Dry Run",
+    "passed": true
+  },
+  {
+    "checks": [
+      {
+        "check": "pinned_source_available",
+        "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\repositories\\djangocms",
+        "ok": true
+      },
+      {
+        "check": "universe_is_exact_144",
+        "detail": 144,
+        "ok": true
+      },
+      {
+        "check": "same_visible_requirement_both_arms",
+        "detail": {
+          "agent": [
+            "Cache invalidation in django CMS",
+            "A cache invalidation tag system "
+          ],
+          "impact_plan": [
+            "Cache invalidation in django CMS",
+            "A cache invalidation tag system "
+          ]
+        },
+        "ok": true
+      },
+      {
+        "check": "same_selectable_universe_both_arms",
+        "detail": [
+          "cms/__init__.py",
+          "cms/__main__.py",
+          "cms/admin/__init__.py",
+          "...",
+          "menus/templatetags/__init__.py",
+          "menus/templatetags/menu_tags.py",
+          "menus/utils.py"
+        ],
+        "ok": true
+      },
+      {
+        "check": "no_hidden_gold_in_scenario",
+        "detail": {
+          "expected_actions_count": 0,
+          "hidden_gold": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\visible_drafts\\djangocms-external-validity-008.yaml"
+        },
+        "ok": true
+      },
+      {
+        "check": "gold_not_in_requirement_and_not_in_universe_inputs",
+        "detail": "hidden gold is evaluation-only; universe carries no gold marker",
+        "ok": true
+      }
+    ],
+    "gate": 5,
+    "name": "Integration Test",
+    "passed": true
+  },
+  {
+    "checks": [
+      {
+        "check": "metrics_support_djangocms-external-validity-002",
+        "detail": {
+          "f1": 0.0,
+          "fnr": 1.0,
+          "full_recall": false,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "ok": true
+      },
+      {
+        "check": "gold_from_hidden_gold_djangocms-external-validity-002",
+        "detail": [
+          "cms/api.py"
+        ],
+        "ok": true
+      },
+      {
+        "check": "metrics_support_djangocms-external-validity-004",
+        "detail": {
+          "f1": 0.0,
+          "fnr": 1.0,
+          "full_recall": false,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "ok": true
+      },
+      {
+        "check": "gold_from_hidden_gold_djangocms-external-validity-004",
+        "detail": [
+          "cms/admin/pageadmin.py",
+          "cms/api.py",
+          "cms/models/contentmodels.py",
+          "cms/views.py"
+        ],
+        "ok": true
+      },
+      {
+        "check": "metrics_support_djangocms-external-validity-005",
+        "detail": {
+          "f1": 0.0,
+          "fnr": 1.0,
+          "full_recall": false,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "ok": true
+      },
+      {
+        "check": "gold_from_hidden_gold_djangocms-external-validity-005",
+        "detail": [
+          "cms/admin/pageadmin.py",
+          "cms/admin/permissionadmin.py",
+          "cms/cms_toolbars.py",
+          "cms/models/permissionmodels.py",
+          "cms/utils/page_permissions.py"
+        ],
+        "ok": true
+      },
+      {
+        "check": "metrics_support_djangocms-external-validity-006",
+        "detail": {
+          "f1": 0.0,
+          "fnr": 1.0,
+          "full_recall": false,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "ok": true
+      },
+      {
+        "check": "gold_from_hidden_gold_djangocms-external-validity-006",
+        "detail": [
+          "cms/admin/placeholderadmin.py",
+          "cms/models/pluginmodel.py",
+          "cms/utils/plugins.py"
+        ],
+        "ok": true
+      },
+      {
+        "check": "metrics_support_djangocms-external-validity-007",
+        "detail": {
+          "f1": 0.0,
+          "fnr": 1.0,
+          "full_recall": false,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "ok": true
+      },
+      {
+        "check": "gold_from_hidden_gold_djangocms-external-validity-007",
+        "detail": [
+          "cms/admin/pageadmin.py",
+          "cms/api.py",
+          "cms/cms_toolbars.py",
+          "cms/models/contentmodels.py",
+          "cms/models/permissionmodels.py",
+          "cms/signals/__init__.py",
+          "cms/utils/page_permissions.py"
+        ],
+        "ok": true
+      },
+      {
+        "check": "metrics_support_djangocms-external-validity-008",
+        "detail": {
+          "f1": 0.0,
+          "fnr": 1.0,
+          "full_recall": false,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "ok": true
+      },
+      {
+        "check": "gold_from_hidden_gold_djangocms-external-validity-008",
+        "detail": [
+          "cms/cache/__init__.py",
+          "cms/middleware/toolbar.py",
+          "cms/signals/__init__.py",
+          "cms/templatetags/cms_tags.py"
+        ],
+        "ok": true
+      },
+      {
+        "check": "old_historical_expected_actions_not_used_as_scoring_gold",
+        "detail": [
+          "cms/cache/__init__.py",
+          "cms/cache/tags.py",
+          "cms/middleware.py",
+          "cms/models/contentmodels.py",
+          "cms/models/pagemodel.py",
+          "cms/models/placeholdermodel.py",
+          "cms/models/pluginmodel.py",
+          "cms/signals.py",
+          "cms/templatetags/cms_tags.py"
+        ],
+        "ok": true
+      },
+      {
+        "check": "scoring_source_is_hidden_gold_file",
+        "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\djangocms_hidden_gold_draft.json",
+        "ok": true
+      }
+    ],
+    "gate": 6,
+    "name": "Metric Verification",
+    "passed": true
+  }
+]

@@ -1,0 +1,64 @@
+{
+  "items": [
+    {
+      "detail": "no scientific input modified",
+      "item": "objective_unchanged_runtime_wiring_only",
+      "ok": true
+    },
+    {
+      "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\djangocms_5_0_0_candidate_universe.json",
+      "item": "frozen_candidate_universe_unmodified",
+      "ok": true
+    },
+    {
+      "detail": "no graph artifact touched",
+      "item": "ast_graph_unmodified",
+      "ok": true
+    },
+    {
+      "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\djangocms_hidden_gold_draft.json",
+      "item": "source_adjudicated_hidden_gold_unmodified",
+      "ok": true
+    },
+    {
+      "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\visible_drafts",
+      "item": "final_visible_scenario_semantics_unmodified",
+      "ok": true
+    },
+    {
+      "detail": "no executor/regeneration/repair changes",
+      "item": "executor_regeneration_repair_untouched",
+      "ok": true
+    },
+    {
+      "detail": "study is djangoCMS-only",
+      "item": "todo_and_saleor_untouched",
+      "ok": true
+    },
+    {
+      "detail": {
+        "frozen_count": 144,
+        "hashes_match": true,
+        "runtime_count": 144
+      },
+      "item": "preflight_passed",
+      "ok": true
+    },
+    {
+      "detail": "all gates deterministic mock-only",
+      "item": "zero_scientific_calls_in_gates",
+      "ok": true
+    },
+    {
+      "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\scenarios\\djangocms-cross-008.yaml",
+      "item": "old_historical_scenario_not_model_facing",
+      "ok": true
+    },
+    {
+      "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\external_validity\\djangocms_hidden_gold_draft.json",
+      "item": "hidden_gold_evaluation_only",
+      "ok": true
+    }
+  ],
+  "passed": true
+}

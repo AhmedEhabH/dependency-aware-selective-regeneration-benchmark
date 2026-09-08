@@ -1,0 +1,63 @@
+{
+  "decisions": [
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "The cms/api.py module is the most appropriate place to add a public utility function for retrieving PageContent by language, aligning with Django best practices for centralizing such logic.",
+      "confidence": 0.95,
+      "reason_codes": ["semantic_fit", "best_practices"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py already contains functions related to getting page content and language, making it semantically consistent with the requirement."
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "action": "VALIDATE",
+      "rationale": "The models/contentmodels.py file defines PageContent and should be validated to ensure it properly integrates with the new utility function without breaking existing behavior.",
+      "confidence": 0.85,
+      "reason_codes": ["model_integration"],
+      "evidence": [
+        {
+          "source": "semantic-seed-65",
+          "description": "cms/models/contentmodels.py directly involves PageContent which is core to the requirement's implementation."
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "action": "VALIDATE",
+      "rationale": "The models/__init__.py may need validation to confirm proper imports or exports if the new function is re-exported from there.",
+      "confidence": 0.7,
+      "reason_codes": ["import_structure"],
+      "evidence": []
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "test_utility_function_exists",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_api",
+      "reason": "Ensure the new get_page_content_by_language function is present and behaves as specified.",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "test_utility_function_behavior",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_api",
+      "reason": "Validate that the function raises PageContent.DoesNotExist when no match is found and returns correct instances otherwise.",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "test_existing_functionality_intact",
+      "kind": "regression",
+      "target": "cms.tests.regressiontests",
+      "reason": "Confirm all pre-existing behaviors remain functional after introducing the new utility function.",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

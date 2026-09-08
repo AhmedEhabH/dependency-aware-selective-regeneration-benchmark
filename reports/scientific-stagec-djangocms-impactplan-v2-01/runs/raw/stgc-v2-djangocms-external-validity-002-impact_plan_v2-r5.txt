@@ -1,0 +1,52 @@
+{
+  "decisions": [
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "The cms/api.py module is the most appropriate place to add a public utility function for retrieving PageContent by language, aligning with Django best practices and existing semantic usage of 'get', 'page', 'content', and 'language'.",
+      "confidence": 0.95,
+      "reason_codes": ["design_best_practices", "semantic_alignment"],
+      "evidence": [
+        {"source": "semantic-seed-11", "description": "cms/api.py already deals with page content operations including get methods"}
+      ]
+    },
+    {
+      "id": 66,
+      "action": "VALIDATE",
+      "rationale": "The models/contentmodels.py file contains the PageContent model definition and should be validated to ensure it properly supports the new utility function without breaking existing functionality.",
+      "confidence": 0.85,
+      "reason_codes": ["model_integrity", "regression_prevention"],
+      "evidence": [
+        {"source": "semantic-seed-65", "description": "cms/models/contentmodels.py contains PageContent model definitions"}
+      ]
+    },
+    {
+      "id": 69,
+      "action": "VALIDATE",
+      "rationale": "The models/pagemodel.py file defines the Page model and its relationship with PageContent, requiring validation to ensure continued compatibility with the new utility function.",
+      "confidence": 0.85,
+      "reason_codes": ["model_integrity", "regression_prevention"],
+      "evidence": [
+        {"source": "semantic-seed-68", "description": "cms/models/pagemodel.py contains Page model definitions"}
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "test_utility_function",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_api",
+      "reason": "New utility function requires dedicated unit tests covering normal operation and DoesNotExist exception",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "test_model_compatibility",
+      "kind": "regression",
+      "target": "cms.tests.test_models",
+      "reason": "Ensure Page and PageContent models continue working correctly with new utility function",
+      "evidence_refs": ["semantic-seed-65", "semantic-seed-68"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

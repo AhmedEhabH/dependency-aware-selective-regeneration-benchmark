@@ -1,0 +1,58 @@
+acceptance_criteria:
+- The change must be implemented correctly
+- All existing functionality must continue to work
+- The implementation must follow Django best practices
+- Any new functionality must be properly tested
+architecture_constraints:
+- Must not affect the Page model or its publish state.
+- 'Must follow multilingual symmetry: publication_date applies
+
+  per-language, not globally.
+
+  '
+- View filtering must use UTC comparison (timezone-aware).
+- 'The "Publish Scheduled" admin action must be idempotent:
+
+  re-running on already-published items is a no-op.
+
+  '
+- Must not introduce new caching logic; cache invalidation should follow existing
+  signal patterns.
+blast_radius: moderate
+change_type: moderate_schema_api
+rationale: 'Scheduled publishing allows content editors to prepare page content in
+  advance and have it go live automatically at a specific date and time, a common
+  CMS requirement.
+
+  '
+repository: djangocms
+requirement_after: 'A `publication_date` DateTimeField (null=True, blank=True) is
+
+  added to PageContent. When set, the page content should only
+
+  appear on the front-end after the specified date/time. The admin
+
+  page content form displays the field. A new "Publish Scheduled"
+
+  admin action publishes all selected PageContent items whose
+
+  publication_date <= now. Front-end views filter out PageContent
+
+  instances where publication_date is set and is in the future.
+
+  The API (a relevant module) functions for publishing should respect
+
+  publication_date. Tests cover admin, views, and API.
+
+  '
+requirement_before: 'PageContent has no publication_date field. All PageContent
+
+  instances are immediately visible on the front-end once their
+
+  associated Page is published. There is no concept of scheduled
+
+  publishing per language variant.
+
+  '
+scenario_id: djangocms-external-validity-004
+source_historical_scenario_id: djangocms-mod-004

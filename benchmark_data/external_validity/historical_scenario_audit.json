@@ -1,0 +1,133 @@
+[
+  {
+    "scenario": "djangocms-loc-001",
+    "audit_result": "FAIL",
+    "notes": "PageContent.meta_description already exists in pinned source (v5.0.0)",
+    "confidence": "LOW",
+    "decision": "REJECT",
+    "visible_length": 1338,
+    "leak_count": 2,
+    "source_files": [
+      "cms/models/contentmodels.py",
+      "cms/admin/pagecontentadmin.py",
+      "cms/forms.py"
+    ],
+    "pinned_commit": "0f633fc9fa213357f4202482aab2b0edad680f95"
+  },
+  {
+    "scenario": "djangocms-loc-002",
+    "audit_result": "FAIL",
+    "notes": "API function addition is feasible and doesn't conflict with existing code",
+    "confidence": "HIGH",
+    "decision": "REUSE",
+    "visible_length": 1068,
+    "leak_count": 1,
+    "source_files": [
+      "cms/api.py"
+    ],
+    "pinned_commit": "0f633fc9fa213357f4202482aab2b0edad680f95"
+  },
+  {
+    "scenario": "djangocms-loc-003",
+    "audit_result": "PASS",
+    "notes": "CMSPlugin.position already exists with unique_together constraint",
+    "confidence": "LOW",
+    "decision": "REJECT",
+    "visible_length": 1254,
+    "leak_count": 0,
+    "source_files": [
+      "cms/models/pluginmodel.py",
+      "cms/admin/placeholderadmin.py"
+    ],
+    "pinned_commit": "0f633fc9fa213357f4202482aab2b0edad680f95"
+  },
+  {
+    "scenario": "djangocms-mod-004",
+    "audit_result": "FAIL",
+    "notes": "Plugin caching control requires analysis of cache integration",
+    "confidence": "MEDIUM",
+    "decision": "REWRITE_VISIBLE_TEXT",
+    "visible_length": 1450,
+    "leak_count": 1,
+    "source_files": [
+      "cms/models/contentmodels.py",
+      "cms/admin/pageadmin.py",
+      "cms/views.py",
+      "cms/api.py"
+    ],
+    "pinned_commit": "0f633fc9fa213357f4202482aab2b0edad680f95"
+  },
+  {
+    "scenario": "djangocms-mod-005",
+    "audit_result": "FAIL",
+    "notes": "Navigation component extension is feasible",
+    "confidence": "HIGH",
+    "decision": "REUSE",
+    "visible_length": 1519,
+    "leak_count": 1,
+    "source_files": [
+      "cms/models/permissionmodels.py",
+      "cms/utils/page_permissions.py",
+      "cms/admin/permissionadmin.py",
+      "cms/admin/pageadmin.py",
+      "cms/cms_toolbars.py"
+    ],
+    "pinned_commit": "0f633fc9fa213357f4202482aab2b0edad680f95"
+  },
+  {
+    "scenario": "djangocms-mod-006",
+    "audit_result": "FAIL",
+    "notes": "Page versioning requires careful integration with existing versioning",
+    "confidence": "MEDIUM",
+    "decision": "REWRITE_VISIBLE_TEXT",
+    "visible_length": 1605,
+    "leak_count": 1,
+    "source_files": [
+      "cms/models/pluginmodel.py",
+      "cms/admin/placeholderadmin.py",
+      "cms/plugin_pool.py",
+      "cms/templatetags/cms_tags.py"
+    ],
+    "pinned_commit": "0f633fc9fa213357f4202482aab2b0edad680f95"
+  },
+  {
+    "scenario": "djangocms-cross-007",
+    "audit_result": "FAIL",
+    "notes": "Cross-cutting signal handler addition is feasible",
+    "confidence": "HIGH",
+    "decision": "REUSE",
+    "visible_length": 1837,
+    "leak_count": 1,
+    "source_files": [
+      "cms/models/contentmodels.py",
+      "cms/admin/pageadmin.py",
+      "cms/utils/page_permissions.py",
+      "cms/cms_toolbars.py",
+      "cms/api.py",
+      "cms/signals/__init__.py",
+      "cms/models/permissionmodels.py"
+    ],
+    "pinned_commit": "0f633fc9fa213357f4202482aab2b0edad680f95"
+  },
+  {
+    "scenario": "djangocms-cross-008",
+    "audit_result": "FAIL",
+    "notes": "Export/import functionality requires integration with existing serialization",
+    "confidence": "MEDIUM",
+    "decision": "REWRITE_VISIBLE_TEXT",
+    "visible_length": 2267,
+    "leak_count": 4,
+    "source_files": [
+      "cms/cache/__init__.py",
+      "cms/cache/tags.py",
+      "cms/signals.py",
+      "cms/models/pagemodel.py",
+      "cms/models/contentmodels.py",
+      "cms/models/placeholdermodel.py",
+      "cms/models/pluginmodel.py",
+      "cms/middleware.py",
+      "cms/templatetags/cms_tags.py"
+    ],
+    "pinned_commit": "0f633fc9fa213357f4202482aab2b0edad680f95"
+  }
+]

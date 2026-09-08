@@ -1,0 +1,30 @@
+id: djangocms-external-validity-001
+repository: djangocms
+scenario_type: local
+visible_requirements: 'Add a "last_modified_by" tracking field to the PageContent
+  model.
+
+
+  The django CMS PageContent model stores multilingual content for pages but lacks
+  built-in tracking of who last modified each content version. Add a ForeignKey field
+  `last_modified_by` to the PageContent model that references Django''s built-in User
+  model. This field should:
+
+  1. Be nullable (allow NULL for content created before this feature)
+
+  2. Auto-populate with the current user on save using Django''s request context
+
+  3. Be displayed as a read-only field in the PageContentAdmin change form
+
+  4. Be included in the default ordering alongside existing fields
+
+
+  Update any existing admin views or API endpoints that create or modify PageContent
+  to ensure the field is properly set when changes are made through both the admin
+  interface and programmatic API calls.'
+notes: 'Scientifically defensible: Adds audit trail capability to core content model
+  without breaking existing functionality. Tests model field addition and admin integration.'
+external_validity_draft: true
+created: '2026-09-07'
+scientifically_defensible_rationale: Based on djangoCMS 5.0 architecture analysis
+  and common CMS feature requests

@@ -1,0 +1,56 @@
+{
+  "run_id": "stgc-djangocms-external-validity-005-impact_plan-r5",
+  "scenario_id": "djangocms-external-validity-005",
+  "repetition": 5,
+  "arm": "impact_plan",
+  "exact_model": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "exact_provider_used": "deepinfra/turbo",
+  "fallback_status": "off",
+  "temperature": 0.0,
+  "dry_run": false,
+  "predicted_write_set": [],
+  "predicted_write_set_size": 0,
+  "hidden_gold_used_after_inference": [
+    "cms/admin/pageadmin.py",
+    "cms/admin/permissionadmin.py",
+    "cms/cms_toolbars.py",
+    "cms/models/permissionmodels.py",
+    "cms/utils/page_permissions.py"
+  ],
+  "tp": 0,
+  "fp": 0,
+  "fn": 5,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "fnr": 1.0,
+  "full_recall": false,
+  "prompt_tokens": 3318,
+  "completion_tokens": 4096,
+  "total_tokens": 7414,
+  "model_calls": 1,
+  "tool_calls": 0,
+  "explicit_read_file_count": 0,
+  "inspected_file_count": 0,
+  "latency_seconds": 274.984,
+  "api_cost": 0.005091,
+  "pricing_source": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\reports\\SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json",
+  "finish_reason": "length",
+  "truncation_status": true,
+  "invalid_selected_paths": [],
+  "terminal_status": "failed",
+  "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 487 column 21 (char 17078)",
+  "failure_evidence": [
+    {
+      "kind": "model_output",
+      "stage": "analyze_impact",
+      "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 487 column 21 (char 17078)"
+    }
+  ],
+  "raw_model_response_sha256": [
+    "3686a708467dc1d764baad08b328f98e5162f99ed5bfd374bec5576b74a600d0"
+  ],
+  "visible_scenario_sha256": "836f42fbbf00cd097b52a928f12e01e463857f4a9fe01aa122729696b223a57b",
+  "runtime_universe_hash": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+  "recorded_at": "2026-09-08T00:21:38.158139+00:00"
+}

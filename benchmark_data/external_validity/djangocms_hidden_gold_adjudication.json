@@ -1,0 +1,470 @@
+{
+  "schema": "djangocms-hidden-gold-source-adjudication/2",
+  "pinned_commit": "0f633fc9fa213357f4202482aab2b0edad680f95",
+  "candidate_universe_artifact": "djangocms_5_0_0_candidate_universe.json",
+  "candidate_universe_file_count": 144,
+  "selection_rule": "confidence in {HIGH, MEDIUM} AND decision in {REUSE, REWRITE_VISIBLE_TEXT}; derived programmatically from the 8-record audit",
+  "historical_audit_record_count": 8,
+  "adjudication_criteria": "INCLUDE only when the final visible requirement NECESSARILY requires writing the file (exact symbol location in the pinned source verified). Candidate-universe membership alone is NOT sufficient. Historical expected_actions/expected_affected_artifacts are LEADS ONLY and never justify inclusion by themselves. Preservation-only constraints are NOT converted into write-set gold.",
+  "scenarios": [
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "source_historical_scenario_id": "djangocms-loc-002",
+      "required_components": [
+        {
+          "component": "public utility function get_page_content_by_language(page, language_code) returning PageContent or raising PageContent.DoesNotExist",
+          "satisfied_by": "cms/api.py"
+        }
+      ],
+      "source_files": [
+        "cms/api.py"
+      ],
+      "source_adjudication": {
+        "cms/api.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/api.py: imports PageContent at line 51 (from cms.models import PageContent, PageUrl); public API functions create_page_content (line 282) and publish_page (line 607).",
+          "write_rationale": "The visible requirement mandates a new PUBLIC utility function in a relevant module that accepts a Page instance and returns its PageContent for a language. cms.api is django CMS's public API facade and already imports PageContent and implements PageContent-targeted API functions (create_page_content/publish_page); the new function is necessarily added here. Constraint \"must not modify any model, admin, view, or serializer\" rules out model/admin/view locations and leaves the API module as the required write.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        }
+      }
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "source_historical_scenario_id": "djangocms-mod-004",
+      "required_components": [
+        {
+          "component": "PageContent model domain change (publication_date field)",
+          "satisfied_by": "cms/models/contentmodels.py"
+        },
+        {
+          "component": "page content admin form displays the field and the new \"Publish Scheduled\" admin action",
+          "satisfied_by": "cms/admin/pageadmin.py"
+        },
+        {
+          "component": "front-end views filter out future-publication PageContent (timezone-aware UTC)",
+          "satisfied_by": "cms/views.py"
+        },
+        {
+          "component": "API publishing functions respect publication_date",
+          "satisfied_by": "cms/api.py"
+        }
+      ],
+      "source_files": [
+        "cms/models/contentmodels.py",
+        "cms/admin/pageadmin.py",
+        "cms/views.py",
+        "cms/api.py"
+      ],
+      "source_adjudication": {
+        "cms/models/contentmodels.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/models/contentmodels.py: class PageContent (line 12).",
+          "write_rationale": "The visible requirement adds a nullable publication_date DateTimeField to PageContent; adding a model field NECESSARILY rewrites this model module (field declaration block in class PageContent).",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/admin/pageadmin.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/admin/pageadmin.py: class PageContentAdmin (line 756).",
+          "write_rationale": "The visible requirement mandates the admin page-content form displays the new field and a \"Publish Scheduled\" admin action that publishes selected items. PageContentAdmin is the admin class that registers the form and admin actions for PageContent.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/views.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/views.py: def details(request, slug) (line 61); imports PageContent (line 34).",
+          "write_rationale": "The visible requirement mandates front-end views filter out PageContent instances whose publication_date is set and in the future (UTC). details() is the public front-end view that selects and renders the published PageContent for the requested slug.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/api.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/api.py: publish_page (line 607), publish_pages (line 623), create_page_content (line 282).",
+          "write_rationale": "The visible requirement states API publishing functions must respect publication_date (a scheduled item must be publishable only when publication_date <= now is satisfied). publish_page/publish_pages are the API publish entry points that must implement this check.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        }
+      }
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "source_historical_scenario_id": "djangocms-mod-005",
+      "required_components": [
+        {
+          "component": "PagePermission/GlobalPagePermission model domain change (can_review fields)",
+          "satisfied_by": "cms/models/permissionmodels.py"
+        },
+        {
+          "component": "permission checking functions support the new reviewer level",
+          "satisfied_by": "cms/utils/page_permissions.py"
+        },
+        {
+          "component": "PermissionAdmin shows the new field",
+          "satisfied_by": "cms/admin/permissionadmin.py"
+        },
+        {
+          "component": "PageAdmin Review action gated by the same permission check",
+          "satisfied_by": "cms/admin/pageadmin.py"
+        },
+        {
+          "component": "toolbar shows a Review item only for users with reviewer access",
+          "satisfied_by": "cms/cms_toolbars.py"
+        }
+      ],
+      "source_files": [
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py",
+        "cms/admin/permissionadmin.py",
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py"
+      ],
+      "source_adjudication": {
+        "cms/models/permissionmodels.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/models/permissionmodels.py: class AbstractPagePermission (line 63), class GlobalPagePermission (line 192), class PagePermission (line 250).",
+          "write_rationale": "The visible requirement stores the reviewer level as a new boolean can_review on PagePermission (plus GlobalPagePermission for site-wide access). Those permission model classes are the only place such a stored field can be declared.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/utils/page_permissions.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/utils/page_permissions.py: user_can_change_page (line 154), has_generic_permission (page, user, action, ...) (line 536), get_change_perm_tuples (line 392), get_publish_perm_tuples (line 498).",
+          "write_rationale": "The visible requirement explicitly requires \"the permission checking functions in a relevant module [to] support the new level\" and that has_review_permission check superuser status. These functions live in cms/utils/page_permissions.py; the new review action and has_review_permission check must be added here.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/admin/permissionadmin.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/admin/permissionadmin.py: class PagePermissionInlineAdmin (line 35), class GlobalPagePermissionAdmin (line 124).",
+          "write_rationale": "The visible requirement requires \"The PermissionAdmin shows the new field\" (can_review). Permission admin registration for the permission models is in cms/admin/permissionadmin.py (PagePermissionInlineAdmin/GlobalPagePermissionAdmin declare the editable fieldsets).",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/admin/pageadmin.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/admin/pageadmin.py: class PageAdmin (line 151).",
+          "write_rationale": "The visible requirement adds a \"Review\" admin action on PageAdmin that is gated by the same permission check at view level (defense in depth). Admin actions are declared on the PageAdmin class.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/cms_toolbars.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/cms_toolbars.py: class PageToolbar (line 383), populate() (line 463).",
+          "write_rationale": "The visible requirement requires the toolbar to show a \"Review\" menu item for reviewers and to not show it to users without reviewer permission. PageToolbar.populate() is where toolbar items are added conditionally on permissions.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        }
+      }
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "source_historical_scenario_id": "djangocms-mod-006",
+      "required_components": [
+        {
+          "component": "CMSPlugin model domain change (nullable page_content FK to PageContent)",
+          "satisfied_by": "cms/models/pluginmodel.py"
+        },
+        {
+          "component": "admin plugin forms show the associated PageContent context",
+          "satisfied_by": "cms/admin/placeholderadmin.py"
+        },
+        {
+          "component": "placeholder rendering filters plugins by requested language via page_content at the QUERYSET LEVEL",
+          "satisfied_by": "cms/utils/plugins.py"
+        }
+      ],
+      "source_files": [
+        "cms/models/pluginmodel.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/utils/plugins.py"
+      ],
+      "source_adjudication": {
+        "cms/models/pluginmodel.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/models/pluginmodel.py: class CMSPlugin (line 152); existing language CharField (line 173), unique_together ('placeholder','language','position') (line 190).",
+          "write_rationale": "The visible requirement adds a nullable ForeignKey page_content to the CMSPlugin model. The model class CMSPlugin is necessarily rewritten to declare the FK.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/admin/placeholderadmin.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/admin/placeholderadmin.py: class PlaceholderAdminMixin (line 205); add_plugin view (line ~391) builds plugin add form with _cms_initial_attributes = {language, placeholder, parent, plugin_type, position}.",
+          "write_rationale": "The visible requirement requires plugin create/edit forms in admin to show the associated PageContent context. The plugin add/edit entry point and initial-attribute construction live in PlaceholderAdminMixin.add_plugin in cms/admin/placeholderadmin.py; the page_content context must be threaded through this admin path.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/utils/plugins.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/utils/plugins.py: assign_plugins (line 76) with the render-path queryset `CMSPlugin.objects.filter(placeholder__in=placeholders, language=lang)` (line 94); get_plugins (line 37).",
+          "write_rationale": "The visible requirement mandates that placeholder rendering filters plugins by the requested language via the page_content foreign key, and — as an explicit constraint — that the change happen AT THE QUERYSET LEVEL, not in Python loops. The render path fetches plugins through utilities and the only queryset used by placeholder/plugin rendering is the CMSPlugin filter in this file, which must be rewritten to filter by the page_content relationship (while keeping the NULL legacy fallback). Neither the model file, the admin mixin, nor the templatetag contains that rendering queryset, so this file is NECESSARILY written.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": false,
+          "decision": "INCLUDE"
+        },
+        "cms/plugin_pool.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/plugin_pool.py: class PluginPool (line 293) is the plugin-type registry (universe record loc 290, class PluginPool).",
+          "write_rationale": "No visible -006 requirement touches plugin registration, the plugin registry, or the pool API. The file came from the historical expected_actions list only. Membership in the universe and a historical lead do NOT make a write necessary, so it is excluded.",
+          "historical_lead_only": true,
+          "historical_audit_lists_path": true,
+          "decision": "EXCLUDE"
+        },
+        "cms/templatetags/cms_tags.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/templatetags/cms_tags.py: class Placeholder (line 284), _show_placeholder_by_id (line 103) delegate to toolbar.get_content_renderer().render_placeholder(...); the queryset-level language query is NOT in this file.",
+          "write_rationale": "No visible -006 requirement requires changing the placeholder templatetag: the language filtering is mandated to occur at the queryset level (in the plugin-query layer), leaving the tag renderer unchanged. Historical expected_actions listed it as a lead only; the file is excluded.",
+          "historical_lead_only": true,
+          "historical_audit_lists_path": true,
+          "decision": "EXCLUDE"
+        },
+        "cms/plugin_base.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/plugin_base.py: class CMSPluginBase (line 120), def render(self, context, instance, placeholder) (line 313).",
+          "write_rationale": "The visible -006 constraint \"Must not change the CMSPluginBase render() method signature\" is a PRESERVATION constraint, not a write requirement; no behavior in plugin_base.py needs to change for the page_content FK feature. The source-adjudication claim that the historical audit lists this file is FACTUALLY FALSE (djangocms-mod-006 source_files does not contain cms/plugin_base.py; the historical scenario only lists it in expected_affected_artifacts, not in expected_actions). Preservation-only constraints are never converted into write-set gold. EXCLUDED.",
+          "historical_lead_only": true,
+          "historical_audit_lists_path": false,
+          "decision": "EXCLUDE"
+        }
+      }
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "source_historical_scenario_id": "djangocms-cross-007",
+      "required_components": [
+        {
+          "component": "PageContent model status field (workflow states)",
+          "satisfied_by": "cms/models/contentmodels.py"
+        },
+        {
+          "component": "admin PageContentAdmin workflow actions (Submit for Review/Approve/Reject/Publish)",
+          "satisfied_by": "cms/admin/pageadmin.py"
+        },
+        {
+          "component": "Reviewer permission level (leveraging scenario 005)",
+          "satisfied_by": "cms/models/permissionmodels.py"
+        },
+        {
+          "component": "permission checking support for reviewer",
+          "satisfied_by": "cms/utils/page_permissions.py"
+        },
+        {
+          "component": "toolbar shows workflow state and transitions",
+          "satisfied_by": "cms/cms_toolbars.py"
+        },
+        {
+          "component": "API publishing functions check workflow status",
+          "satisfied_by": "cms/api.py"
+        },
+        {
+          "component": "signals fire on state transitions (page_content_status_changed)",
+          "satisfied_by": "cms/signals/__init__.py"
+        }
+      ],
+      "source_files": [
+        "cms/models/contentmodels.py",
+        "cms/admin/pageadmin.py",
+        "cms/utils/page_permissions.py",
+        "cms/cms_toolbars.py",
+        "cms/api.py",
+        "cms/signals/__init__.py",
+        "cms/models/permissionmodels.py"
+      ],
+      "source_adjudication": {
+        "cms/models/contentmodels.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/models/contentmodels.py: class PageContent (line 12).",
+          "write_rationale": "The visible requirement stores the four workflow states in a new status CharField on PageContent. The class needs the new field and the derived is_published property (status == 'published').",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/admin/pageadmin.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/admin/pageadmin.py: class PageContentAdmin (line 756).",
+          "write_rationale": "The visible requirement adds \"Submit for Review\", \"Approve\", \"Reject\", \"Publish\" admin actions to PageContentAdmin (with confirmation pages for non-reversible actions).",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/utils/page_permissions.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/utils/page_permissions.py: has_generic_permission (line 536); the reviewer level from scenario 005 is enforced here.",
+          "write_rationale": "The visible requirement leverages the djangocms-mod-005 reviewer level: a Reviewer can approve/reject/publish. The permission-checking functions in page_permissions support the new level and gate the reviewer actions.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/cms_toolbars.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/cms_toolbars.py: class PageToolbar (line 383), populate() (line 463).",
+          "write_rationale": "The visible requirement requires the toolbar to expose the workflow state and available transitions, gated by permission. PageToolbar.populate() is where such items are added.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/api.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/api.py: publish_page (line 607), publish_pages (line 623).",
+          "write_rationale": "The visible requirement requires API publishing functions to check workflow status (publish only allowed from approved/published states).",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/signals/__init__.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/signals/__init__.py: custom Signal declarations (page_moved, urls_need_reloading, pre_obj_operation/post_obj_operation, ...) and connect() wiring block (lines 28-118); functions check_v4_confirmation.",
+          "write_rationale": "The visible requirement adds a page_content_status_changed signal fired on transitions with old_status/new_status/user. Custom CMS signals and their connection wiring live in cms/signals/__init__.py.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/models/permissionmodels.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/models/permissionmodels.py: class PagePermission (line 250), class GlobalPagePermission (line 192).",
+          "write_rationale": "The visible requirement adds a new \"Reviewer\" permission level (leveraging mod-005) which grants approve/reject/publish rights. The reviewer boolean is stored on the permission models.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        }
+      }
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "source_historical_scenario_id": "djangocms-cross-008",
+      "required_components": [
+        {
+          "component": "cache tag utility module (make_tag, get_tags_for_object, invalidate_by_tag) that accepts strings/objects without importing model classes",
+          "satisfied_by": "cms/cache/__init__.py"
+        },
+        {
+          "component": "signal handlers on post_save/post_delete of Page, PageContent, Placeholder, CMSPlugin that call invalidate_by_tag",
+          "satisfied_by": "cms/signals/__init__.py"
+        },
+        {
+          "component": "middleware tags response objects with the cache tags of rendered content (existing middleware)",
+          "satisfied_by": "cms/middleware/toolbar.py"
+        },
+        {
+          "component": "{% placeholder %} and related template tags check cache via the tag system before rendering",
+          "satisfied_by": "cms/templatetags/cms_tags.py"
+        }
+      ],
+      "source_files": [
+        "cms/cache/__init__.py",
+        "cms/signals/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "source_adjudication": {
+        "cms/cache/__init__.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/cache/__init__.py: invalidate_cms_page_cache() (line 45), _get_cache_key (line 71), _get_cache_version/_set_cache_version (lines 14-35).",
+          "write_rationale": "The visible requirement mandates utility functions make_tag/get_tags_for_object/invalidate_by_tag in a cache utility module that accepts strings/objects and must NOT import model classes (explicit cache-utility constraint). cms/cache/__init__.py is the existing universe cache-utility module where these functions belong.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/signals/__init__.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/signals/__init__.py: signal connect() block (lines 28-135).",
+          "write_rationale": "The visible requirement requires signal handlers connected to post_save and post_delete of Page/PageContent/Placeholder/CMSPlugin calling invalidate_by_tag, idempotent and non-raising when the cache backend is unavailable. The signal connection and handler wiring lives in cms/signals/__init__.py.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": false,
+          "decision": "INCLUDE"
+        },
+        "cms/middleware/toolbar.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/middleware/toolbar.py: class ToolbarMiddleware (line 24) with process_response(self, request, response) (line 95) already modifying the response.",
+          "write_rationale": "The visible requirement explicitly requires updating the response-tagging middleware to tag response objects with the cache tags of rendered content. In the pinned source the existing middleware module is cms/middleware/toolbar.py (ToolbarMiddleware, successor to django CMS 4.x CMSToolbarMiddleware) — the ONLY existing middleware that already rewrites the response in a process_response hook, and the correct in-universe mapping. The historical lead `cms/middleware.py` does not exist in the pinned source (middleware is a package); the real file MUST be added to gold so the middleware layer is not silent in the write set.",
+          "historical_lead_only": true,
+          "historical_audit_lists_path": false,
+          "decision": "INCLUDE"
+        },
+        "cms/templatetags/cms_tags.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/templatetags/cms_tags.py: class Placeholder template tag (line 103), _show_placeholder_by_id (line 125), _show_uncached_placeholder_by_id, RenderPlaceholder.",
+          "write_rationale": "The visible requirement requires updating the {% placeholder %} and related tags so they check the cache via the tag system before rendering. The placeholder template tag in cms/templatetags/cms_tags.py is exactly that layer; the cache check is added to its render path.",
+          "historical_lead_only": false,
+          "historical_audit_lists_path": true,
+          "decision": "INCLUDE"
+        },
+        "cms/models/pagemodel.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/models/pagemodel.py: class Page (line 48).",
+          "write_rationale": "No visible -008 requirement necessitates writing the Page model. \"Every content object has associated cache tags\" is satisfied by the tag-generation utility that accepts objects (constraint: cache module must not import model classes). The historical expected_actions/expected_affected_artifacts listed the model files as leads only; no source-based write rationale. EXCLUDED.",
+          "historical_lead_only": true,
+          "historical_audit_lists_path": true,
+          "decision": "EXCLUDE"
+        },
+        "cms/models/contentmodels.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/models/contentmodels.py: class PageContent (line 12).",
+          "write_rationale": "No visible -008 requirement mandates a change to the PageContent model itself. Tag generation and signal connection live in the cache/signals layers; the object-interface (attribute-based duck typing) requires no model edit. Historical lead only. EXCLUDED.",
+          "historical_lead_only": true,
+          "historical_audit_lists_path": true,
+          "decision": "EXCLUDE"
+        },
+        "cms/models/placeholdermodel.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/models/placeholdermodel.py: class Placeholder (line 23).",
+          "write_rationale": "No visible -008 requirement requires editing the Placeholder model. Tag generation operates on object instances from the utility module; the model file is untouched. Historical lead only. EXCLUDED.",
+          "historical_lead_only": true,
+          "historical_audit_lists_path": true,
+          "decision": "EXCLUDE"
+        },
+        "cms/models/pluginmodel.py": {
+          "candidate_universe_member": true,
+          "source_exists": true,
+          "symbol_location": "cms/models/pluginmodel.py: class CMSPlugin (line 152).",
+          "write_rationale": "No visible -008 requirement requires editing the CMSPlugin model. Tag-based invalidation is implemented in the cache/signals layers; the registry-mechanism/third-party extensibility requirement is satisfied by the cache registry dict, not by the model. Historical lead only. EXCLUDED.",
+          "historical_lead_only": true,
+          "historical_audit_lists_path": true,
+          "decision": "EXCLUDE"
+        }
+      }
+    }
+  ]
+}

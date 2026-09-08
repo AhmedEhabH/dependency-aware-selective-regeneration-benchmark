@@ -1,0 +1,144 @@
+{
+  "decisions": [
+    {
+      "id": 66,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model must be updated to include the new publication_date field as per the requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["schema_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "PageContent is managed within pagemodel.py, which directly relates to adding a model field."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "API functions related to publishing need to respect the new publication_date logic.",
+      "confidence": 0.9,
+      "reason_codes": ["api_compliance"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py handles page and content publishing operations that must now consider publication_date."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "Admin forms and actions require updates to display and process the new publication_date field and 'Publish Scheduled' action.",
+      "confidence": 0.95,
+      "reason_codes": ["admin_ui_change"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py manages form rendering for page content including filtering by language."
+        },
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py contains logic for displaying fields like publication_date in admin."
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "action": "REGENERATE",
+      "rationale": "Frontend views must filter out PageContent instances where publication_date is set and in the future.",
+      "confidence": 0.9,
+      "reason_codes": ["frontend_filtering"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "Views handle content visibility and thus must implement publication_date-based filtering."
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "action": "REGENERATE",
+      "rationale": "Model managers or query logic might need adjustment to support filtering based on publication_date.",
+      "confidence": 0.85,
+      "reason_codes": ["query_logic_update"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Managers in models/pagemodel.py control how PageContent data is retrieved and filtered."
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "action": "REGENERATE",
+      "rationale": "Template tags used in frontend rendering may require changes to enforce publication_date restrictions.",
+      "confidence": 0.85,
+      "reason_codes": ["template_tag_enforcement"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py provides template-level access to page content which needs filtering."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "VALIDATE",
+      "rationale": "While not regenerated, it's critical to ensure admin forms behave correctly with the new field without breaking existing behavior.",
+      "confidence": 0.9,
+      "reason_codes": ["form_integrity"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py plays a key role in maintaining backward compatibility while introducing new fields."
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "action": "VALIDATE",
+      "rationale": "Page rendering pipeline must preserve current behavior while incorporating new filtering rules.",
+      "confidence": 0.85,
+      "reason_codes": ["rendering_pipeline_check"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py controls overall page output and must maintain consistency post-change."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-1",
+      "kind": "changed_requirement",
+      "target": "test_page_content_publication_date",
+      "reason": "Ensure new field behaves correctly under various conditions",
+      "evidence_refs": ["semantic-seed-68"]
+    },
+    {
+      "obligation_id": "VO-2",
+      "kind": "regression",
+      "target": "test_existing_page_functionality",
+      "reason": "Verify legacy features remain unaffected by schema addition",
+      "evidence_refs": ["semantic-seed-68", "semantic-seed-11"]
+    },
+    {
+      "obligation_id": "VO-3",
+      "kind": "build",
+      "target": "run_django_migrations",
+      "reason": "Confirm database migration applies cleanly",
+      "evidence_refs": ["semantic-seed-68"]
+    },
+    {
+      "obligation_id": "VO-4",
+      "kind": "static",
+      "target": "flake8_lint_cms_models",
+      "reason": "Code quality assurance for modified core files",
+      "evidence_refs": ["semantic-seed-68"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

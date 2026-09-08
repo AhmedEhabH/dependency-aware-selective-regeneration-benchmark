@@ -1,0 +1,127 @@
+{
+  "decisions": [
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "The PagePermission model must be updated to include the new `can_review` field as per the requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ_FIELD_ADDITION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py contains logic related to permission checks and user actions on pages, indicating it's tightly coupled with permission models."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "GlobalPermission needs to gain a `can_review` field which affects global permission handling logic.",
+      "confidence": 0.93,
+      "reason_codes": ["REQ_FIELD_ADDITION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py handles global permissions and integrates closely with permission models requiring updates for new fields."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "PageAdmin requires a new 'Review' action that interacts with workflows or content status marking.",
+      "confidence": 0.92,
+      "reason_codes": ["REQ_ACTION_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "cms/admin/pageadmin.py is responsible for administrative operations on pages including custom actions like editing and viewing."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "action": "REGENERATE",
+      "rationale": "PermissionAdmin must display the new `can_review` field in its interface.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ_UI_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py includes rendering logic for admin fields such as booleans, suggesting integration points exist for displaying new fields."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "Toolbar should show a 'Review' menu item conditionally based on user permissions.",
+      "confidence": 0.88,
+      "reason_codes": ["REQ_TOOLBAR_INTEGRATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "cms/toolbar/utils.py deals with toolbar elements and conditional visibility based on user capabilities like editing access."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "VALIDATE",
+      "rationale": "This utility manages page-level permissions and should enforce correct behavior for reviewers without direct edit rights.",
+      "confidence": 0.85,
+      "reason_codes": ["BEHAVIORAL_CONSISTENCY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py defines how different roles interact with page resources; critical for ensuring proper segregation between reviewer and editor roles."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "VALIDATE",
+      "rationale": "API layer must support querying and applying reviewer permissions appropriately across services.",
+      "confidence": 0.82,
+      "reason_codes": ["INTERFACE_CONFORMANCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py exposes core functionalities involving page content manipulation and user-based access control."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-001",
+      "kind": "changed_requirement",
+      "target": "test_page_reviewer_permissions",
+      "reason": "Ensure new reviewer role behaves correctly within existing permission framework",
+      "evidence_refs": ["semantic-seed-119"]
+    },
+    {
+      "obligation_id": "VO-002",
+      "kind": "regression",
+      "target": "test_existing_edit_view_functionality",
+      "reason": "Verify that adding reviewer role does not break current edit/view permissions",
+      "evidence_refs": ["semantic-seed-120"]
+    },
+    {
+      "obligation_id": "VO-003",
+      "kind": "build",
+      "target": "django_migrations_check",
+      "reason": "New database fields require migration verification",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "VO-004",
+      "kind": "static",
+      "target": "lint_cms_models",
+      "reason": "Model changes need static analysis compliance confirmation",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

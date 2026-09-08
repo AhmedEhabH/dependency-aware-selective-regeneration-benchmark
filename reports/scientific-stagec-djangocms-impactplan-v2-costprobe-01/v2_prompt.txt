@@ -1,0 +1,261 @@
+You are an impact planner for a software repository using a SPARSE representation.
+
+Frozen scenario (A `publication_date` DateTimeField (null=True, blank=True) is
+ad):
+Requirement before:
+PageContent has no publication_date field. All PageContent
+instances are immediately visible on the front-end once their
+associated Page is published. There is no concept of scheduled
+publishing per language variant.
+
+
+Requirement after:
+A `publication_date` DateTimeField (null=True, blank=True) is
+added to PageContent. When set, the page content should only
+appear on the front-end after the specified date/time. The admin
+page content form displays the field. A new "Publish Scheduled"
+admin action publishes all selected PageContent items whose
+publication_date <= now. Front-end views filter out PageContent
+instances where publication_date is set and is in the future.
+The API (a relevant module) functions for publishing should respect
+publication_date. Tests cover admin, views, and API.
+
+
+Acceptance criteria (visible, must hold in the final repository):
+- The change must be implemented correctly
+- All existing functionality must continue to work
+- The implementation must follow Django best practices
+- Any new functionality must be properly tested
+
+Visible architecture constraints (non-gold, must never be violated):
+- (none declared)
+
+Candidate artifacts (frozen deterministic numeric ids 1..144):
+- 1. cms/__init__.py
+- 2. cms/__main__.py
+- 3. cms/admin/__init__.py
+- 4. cms/admin/forms.py
+- 5. cms/admin/pageadmin.py
+- 6. cms/admin/permissionadmin.py
+- 7. cms/admin/placeholderadmin.py
+- 8. cms/admin/settingsadmin.py
+- 9. cms/admin/static_placeholder.py
+- 10. cms/admin/useradmin.py
+- 11. cms/admin/utils.py
+- 12. cms/api.py
+- 13. cms/app_base.py
+- 14. cms/app_registration.py
+- 15. cms/apphook_pool.py
+- 16. cms/appresolver.py
+- 17. cms/apps.py
+- 18. cms/cache/__init__.py
+- 19. cms/cache/choices.py
+- 20. cms/cache/page.py
+- 21. cms/cache/permissions.py
+- 22. cms/cache/placeholder.py
+- 23. cms/cms_config.py
+- 24. cms/cms_menus.py
+- 25. cms/cms_plugins.py
+- 26. cms/cms_toolbars.py
+- 27. cms/cms_wizards.py
+- 28. cms/constants.py
+- 29. cms/context_processors.py
+- 30. cms/exceptions.py
+- 31. cms/extensions/__init__.py
+- 32. cms/extensions/admin.py
+- 33. cms/extensions/extension_pool.py
+- 34. cms/extensions/models.py
+- 35. cms/extensions/toolbar.py
+- 36. cms/forms/__init__.py
+- 37. cms/forms/fields.py
+- 38. cms/forms/login.py
+- 39. cms/forms/utils.py
+- 40. cms/forms/validators.py
+- 41. cms/forms/widgets.py
+- 42. cms/forms/wizards.py
+- 43. cms/management/__init__.py
+- 44. cms/management/commands/__init__.py
+- 45. cms/management/commands/cms.py
+- 46. cms/management/commands/startcmsproject.py
+- 47. cms/management/commands/subcommands/__init__.py
+- 48. cms/management/commands/subcommands/base.py
+- 49. cms/management/commands/subcommands/check.py
+- 50. cms/management/commands/subcommands/copy.py
+- 51. cms/management/commands/subcommands/delete_orphaned_plugins.py
+- 52. cms/management/commands/subcommands/list.py
+- 53. cms/management/commands/subcommands/tree.py
+- 54. cms/management/commands/subcommands/uninstall.py
+- 55. cms/management/djangocms.py
+- 56. cms/menu_bases.py
+- 57. cms/middleware/__init__.py
+- 58. cms/middleware/language.py
+- 59. cms/middleware/page.py
+- 60. cms/middleware/toolbar.py
+- 61. cms/middleware/user.py
+- 62. cms/middleware/utils.py
+- 63. cms/models/__init__.py
+- 64. cms/models/aliaspluginmodel.py
+- 65. cms/models/apphooks_reload.py
+- 66. cms/models/contentmodels.py
+- 67. cms/models/fields.py
+- 68. cms/models/managers.py
+- 69. cms/models/pagemodel.py
+- 70. cms/models/permissionmodels.py
+- 71. cms/models/placeholdermodel.py
+- 72. cms/models/placeholderpluginmodel.py
+- 73. cms/models/pluginmodel.py
+- 74. cms/models/query.py
+- 75. cms/models/settingmodels.py
+- 76. cms/models/static_placeholder.py
+- 77. cms/operations/__init__.py
+- 78. cms/operations/helpers.py
+- 79. cms/page_rendering.py
+- 80. cms/plugin_base.py
+- 81. cms/plugin_pool.py
+- 82. cms/plugin_processors.py
+- 83. cms/plugin_rendering.py
+- 84. cms/signals/__init__.py
+- 85. cms/signals/apphook.py
+- 86. cms/signals/log_entries.py
+- 87. cms/signals/permissions.py
+- 88. cms/sitemaps/__init__.py
+- 89. cms/sitemaps/cms_sitemap.py
+- 90. cms/templates.py
+- 91. cms/templatetags/__init__.py
+- 92. cms/templatetags/cms_admin.py
+- 93. cms/templatetags/cms_alias_tags.py
+- 94. cms/templatetags/cms_js_tags.py
+- 95. cms/templatetags/cms_static.py
+- 96. cms/templatetags/cms_tags.py
+- 97. cms/toolbar/__init__.py
+- 98. cms/toolbar/items.py
+- 99. cms/toolbar/toolbar.py
+- 100. cms/toolbar/utils.py
+- 101. cms/toolbar_base.py
+- 102. cms/toolbar_pool.py
+- 103. cms/urls.py
+- 104. cms/utils/__init__.py
+- 105. cms/utils/admin.py
+- 106. cms/utils/apphook_reload.py
+- 107. cms/utils/check.py
+- 108. cms/utils/compat/__init__.py
+- 109. cms/utils/compat/dj.py
+- 110. cms/utils/compat/forms.py
+- 111. cms/utils/compat/response.py
+- 112. cms/utils/compat/warnings.py
+- 113. cms/utils/conf.py
+- 114. cms/utils/decorators.py
+- 115. cms/utils/encoder.py
+- 116. cms/utils/helpers.py
+- 117. cms/utils/i18n.py
+- 118. cms/utils/mail.py
+- 119. cms/utils/page.py
+- 120. cms/utils/page_permissions.py
+- 121. cms/utils/permissions.py
+- 122. cms/utils/placeholder.py
+- 123. cms/utils/plugins.py
+- 124. cms/utils/request_ip_resolvers.py
+- 125. cms/utils/setup.py
+- 126. cms/utils/urlutils.py
+- 127. cms/views.py
+- 128. cms/wizards/__init__.py
+- 129. cms/wizards/forms.py
+- 130. cms/wizards/helpers.py
+- 131. cms/wizards/urls.py
+- 132. cms/wizards/views.py
+- 133. cms/wizards/wizard_base.py
+- 134. cms/wizards/wizard_pool.py
+- 135. menus/__init__.py
+- 136. menus/apps.py
+- 137. menus/base.py
+- 138. menus/exceptions.py
+- 139. menus/menu_pool.py
+- 140. menus/models.py
+- 141. menus/modifiers.py
+- 142. menus/templatetags/__init__.py
+- 143. menus/templatetags/menu_tags.py
+- 144. menus/utils.py
+
+Strategy-visible evidence (you may cite these ids):
+- [semantic-seed-3] semantic cms/admin/forms.py semantic_seed: artifact descriptor matches requirement terms: ['content', 'filter', 'language', 'page']
+- [semantic-seed-11] semantic cms/api.py semantic_seed: artifact descriptor matches requirement terms: ['change', 'content', 'language', 'page', 'publish']
+- [semantic-seed-15] semantic cms/appresolver.py semantic_seed: artifact descriptor matches requirement terms: ['page', 'set']
+- [semantic-seed-17] semantic cms/cache/__init__.py semantic_seed: artifact descriptor matches requirement terms: ['page', 'set']
+- [semantic-seed-18] semantic cms/cache/choices.py semantic_seed: artifact descriptor matches requirement terms: ['page']
+- [semantic-seed-19] semantic cms/cache/page.py semantic_seed: artifact descriptor matches requirement terms: ['page', 'set']
+- [semantic-seed-20] semantic cms/cache/permissions.py semantic_seed: artifact descriptor matches requirement terms: ['set']
+- [semantic-seed-21] semantic cms/cache/placeholder.py semantic_seed: artifact descriptor matches requirement terms: ['set']
+- [semantic-seed-23] semantic cms/cms_menus.py semantic_seed: artifact descriptor matches requirement terms: ['page', 'visible']
+- [semantic-seed-38] semantic cms/forms/utils.py semantic_seed: artifact descriptor matches requirement terms: ['page']
+- [semantic-seed-58] semantic cms/middleware/page.py semantic_seed: artifact descriptor matches requirement terms: ['page']
+- [semantic-seed-68] semantic cms/models/pagemodel.py semantic_seed: artifact descriptor matches requirement terms: ['page']
+- [semantic-seed-77] semantic cms/operations/helpers.py semantic_seed: artifact descriptor matches requirement terms: ['page']
+- [semantic-seed-78] semantic cms/page_rendering.py semantic_seed: artifact descriptor matches requirement terms: ['page']
+- [semantic-seed-84] semantic cms/signals/apphook.py semantic_seed: artifact descriptor matches requirement terms: ['set']
+- [semantic-seed-85] semantic cms/signals/log_entries.py semantic_seed: artifact descriptor matches requirement terms: ['page']
+- [semantic-seed-91] semantic cms/templatetags/cms_admin.py semantic_seed: artifact descriptor matches requirement terms: ['admin', 'display', 'field', 'filter', 'page']
+- [semantic-seed-93] semantic cms/templatetags/cms_js_tags.py semantic_seed: artifact descriptor matches requirement terms: ['filter']
+- [semantic-seed-95] semantic cms/templatetags/cms_tags.py semantic_seed: artifact descriptor matches requirement terms: ['page']
+- [semantic-seed-99] semantic cms/toolbar/utils.py semantic_seed: artifact descriptor matches requirement terms: ['content', 'language']
+- [semantic-seed-103] semantic cms/utils/__init__.py semantic_seed: artifact descriptor matches requirement terms: ['language']
+- [semantic-seed-105] semantic cms/utils/apphook_reload.py semantic_seed: artifact descriptor matches requirement terms: ['date', 'set']
+- [semantic-seed-116] semantic cms/utils/i18n.py semantic_seed: artifact descriptor matches requirement terms: ['language']
+- [semantic-seed-117] semantic cms/utils/mail.py semantic_seed: artifact descriptor matches requirement terms: ['change', 'page']
+- [semantic-seed-118] semantic cms/utils/page.py semantic_seed: artifact descriptor matches requirement terms: ['page']
+- [semantic-seed-119] semantic cms/utils/page_permissions.py semantic_seed: artifact descriptor matches requirement terms: ['action', 'change', 'page', 'publish', 'view']
+- [semantic-seed-120] semantic cms/utils/permissions.py semantic_seed: artifact descriptor matches requirement terms: ['change', 'page', 'set', 'view']
+- [semantic-seed-125] semantic cms/utils/urlutils.py semantic_seed: artifact descriptor matches requirement terms: ['admin']
+- [semantic-seed-126] semantic cms/views.py semantic_seed: artifact descriptor matches requirement terms: ['content']
+- [semantic-seed-128] semantic cms/wizards/forms.py semantic_seed: artifact descriptor matches requirement terms: ['form']
+- [semantic-seed-142] semantic menus/templatetags/menu_tags.py semantic_seed: artifact descriptor matches requirement terms: ['language']
+- [semantic-seed-143] semantic menus/utils.py semantic_seed: artifact descriptor matches requirement terms: ['language', 'selected', 'set']
+
+Validation catalog (permitted, repository-native):
+- (permitted repository-native test modules only)
+
+Prior plan failure summary (only during the one bounded expansion):
+- (none)
+
+Output ONLY one JSON object conforming EXACTLY to this schema (no prose, no
+markdown fences):
+
+{
+  "decisions": [
+    {
+      "id": <integer candidate id in [1,144]>,
+      "action": "REGENERATE" | "VALIDATE" | "HUMAN_REVIEW",
+      "rationale": "<one sentence>",
+      "evidence": [{"source": "<evidence_id or visible source>", "description": "..."}],
+      "confidence": <float in [0,1]>,
+      "reason_codes": ["<short code>"]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "<id>",
+      "kind": "changed_requirement" | "regression" | "build" | "static" | "architecture",
+      "target": "<repository-native test module or check name>",
+      "reason": "<why>",
+      "evidence_refs": ["<evidence_id>"]
+    }
+  ],
+  "architecture_checks": ["<visible architecture obligation to verify>"],
+  "escalation_reason": ""
+}
+
+Rules:
+- Emit a decision ONLY for a candidate whose action is NOT PRESERVE.
+- Candidates that are NOT emitted are decoded deterministically by the harness
+  as PRESERVE. Every one of the 144 candidate ids is classified
+  exactly once after decoding.
+- REGENERATE only when an edit is justified by the visible requirement and cited
+  strategy-visible evidence.
+- VALIDATE when no edit is expected but the artifact is inside the validation
+  boundary (cite a validation/test/architecture reason).
+- HUMAN_REVIEW when evidence is insufficient, conflicting, or the scope is unsafe
+  (do NOT confidently regenerate).
+- NEVER emit a PRESERVE decision and NEVER emit an id outside [1,144].
+- NEVER emit the same candidate id more than once.
+- Rationale / confidence / reason_codes / evidence are required for every
+  explicitly emitted non-PRESERVE decision.
+- Keep validation obligations separate from artifact actions.
