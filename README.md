@@ -166,6 +166,32 @@ Expected output: a deterministic dry-run report showing planned runs, terminal
 status, `dry-run:mock` model identity, and zero model calls / zero tokens.
 No API key, GPU, or model download is required.
 
+## Reproduce the Paper's Headline Results
+
+**NO API KEY REQUIRED.** Recompute every headline manuscript metric directly
+from the frozen run evidence:
+
+```bash
+python scripts/verify_paper_claims.py
+```
+
+The verifier recomputes the primary Agent / ImpactPlan-v1 headline metrics
+(valid cells, TP/FP/FN, P/R/F1, tokens, calls, cost), the sparse-v2 metrics
+(29/30 valid, 0 truncations, TP/FP/FN = 103/36/16, P/R/F1/FNR, full-recall
+18/29), the scenario-004 and scenario-006 observations, the single failed v2
+cell, the serialized-record reduction, and verifies the 30/30 sparse raw-response
+SHA-256 sidecars. Exit code 0 means the frozen evidence is internally consistent.
+
+Canonical frozen evidence:
+
+- Manifest: [`reports/scientific-stagec-djangocms-impactplan-v2-01/manifest_30.json`](reports/scientific-stagec-djangocms-impactplan-v2-01/manifest_30.json) / [`reports/scientific-stagec-djangocms-study-01/manifest_60.json`](reports/scientific-stagec-djangocms-study-01/manifest_60.json)
+- Run records: [`reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl`](reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl) / [`reports/scientific-stagec-djangocms-study-01/run_records.jsonl`](reports/scientific-stagec-djangocms-study-01/run_records.jsonl)
+- Final metrics: [`reports/scientific-stagec-djangocms-impactplan-v2-01/final_metrics.json`](reports/scientific-stagec-djangocms-impactplan-v2-01/final_metrics.json) / [`reports/scientific-stagec-djangocms-study-01/final_metrics.json`](reports/scientific-stagec-djangocms-study-01/final_metrics.json)
+- Raw responses: [`reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/`](reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/)
+- Closure gates: [`reports/scientific-stagec-djangocms-impactplan-v2-01/closure_gates.json`](reports/scientific-stagec-djangocms-impactplan-v2-01/closure_gates.json) / [`reports/scientific-stagec-djangocms-study-01/closure_gates.json`](reports/scientific-stagec-djangocms-study-01/closure_gates.json)
+- Claim → evidence map: [`reports/PAPER_CLAIM_EVIDENCE_MAP.md`](reports/PAPER_CLAIM_EVIDENCE_MAP.md)
+- V7 audit reconciliation: [`reports/PAPER_V7_AUDIT_RECONCILIATION.md`](reports/PAPER_V7_AUDIT_RECONCILIATION.md)
+
 ## Reproducibility
 
 Each research run preserves protocol version, repository and commit, scenario

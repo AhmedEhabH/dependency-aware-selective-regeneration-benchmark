@@ -198,6 +198,9 @@ Studies are kept separate; **no 90-cell pooling**.
 | Todo v1.1 NO-GO | `reports/SCIENTIFIC_MICROSTUDY_V11_RESULTS.{md,csv}` / `reports/V11_ROOT_CAUSE_TAXONOMY.{md,csv}` |
 | Primary evidence dir | `reports/scientific-stagec-djangocms-study-01/` |
 | v2 evidence dir | `reports/scientific-stagec-djangocms-impactplan-v2-01/` |
+| Claim → evidence map | `reports/PAPER_CLAIM_EVIDENCE_MAP.md` |
+| V7 audit reconciliation | `reports/PAPER_V7_AUDIT_RECONCILIATION.md` |
+| Paper-claim verifier | `scripts/verify_paper_claims.py` |
 
 ## 13. Current Git / tag milestones
 
@@ -315,3 +318,42 @@ is authorized now.**
 
 **Do NOT generate new scientific findings.** Everything must trace to the
 frozen evidence paths in section 12.
+
+## 17. V7 reproducibility & audit reconciliation
+
+### 17.1 Recompute command (no API key)
+
+```bash
+python scripts/verify_paper_claims.py
+```
+
+Recomputes every headline metric from frozen run evidence, verifies the 30/30
+sparse raw-response SHA-256 sidecars, and exits 0 only when the evidence is
+internally consistent.
+
+- Claim → evidence map: `reports/PAPER_CLAIM_EVIDENCE_MAP.md`
+- V7 audit reconciliation: `reports/PAPER_V7_AUDIT_RECONCILIATION.md`
+
+### 17.2 Verified additions
+
+- **Serialized-record reduction (RECORD COUNT, not tokens):** across the 29
+  valid v2 cells, total explicit decisions = 184, mean = **6.344828 / 144**
+  (= 4.41% of the full-policy 144-file universe emitted), so the serialized
+  file-decision record-count reduction is **95.6%**.
+- **TOKEN SEMANTICS correction:** the manuscript values 449,792 (Agent) /
+  184,401 (v1) / 144,353 (v2) are **TOTAL tokens (all-cell)** —
+  prompt+completion across all recorded cells — **not** completion tokens.
+  Table III column/caption must say TOTAL TOKENS (all-cell).
+- **Failed v2 cell:** scenario 002 rep 3
+  (`stgc-v2-...-002-impact_plan_v2-r3`) failed the frozen semantic invariant
+  (`v_missing_validation_reason: cms/models/__init__.py` — VALIDATE with no
+  cited supporting evidence); not rescored.
+- **S006 sporadic FP:** beyond the five persistent table rows, the additional
+  sporadic non-gold selection is `cms/utils/placeholder.py` at 1/5 (run
+  `...006-impact_plan_v2-r3`), which brings pooled FP to 11.
+- **Cap provenance classification B:** 4096 is the frozen protocol budget
+  (preregistration + decision archive + `impact_planner.py`); no stronger
+  contemporaneous rationale (e.g., provider maximum) is documented.
+
+All claims above stay within frozen evidence and are re-derivable via the
+recompute command.
