@@ -829,6 +829,9 @@ def cmd_probe(_args: argparse.Namespace) -> int:
             "prompt_tokens": usage.get("prompt_tokens"),
             "completion_tokens": usage.get("completion_tokens"),
             "total_tokens": usage.get("total_tokens"),
+            "reasoning_tokens": (usage.get("completion_tokens_details") or {}).get(
+                "reasoning_tokens"
+            ),
         }
         entry["reasoning_returned"] = bool(message.get("reasoning") or message.get("reasoning_content"))
         validation_errors: list[str] = []
@@ -854,12 +857,21 @@ def cmd_probe(_args: argparse.Namespace) -> int:
             and usage_total is not None
         )
         # contract requirements
+        provider_field = entry.get("provider_reported")
+        provider_name = (
+            provider_field.get("provider_name")
+            if isinstance(provider_field, dict)
+            else provider_field
+        )
+        reasoning_tokens = (entry.get("usage") or {}).get("reasoning_tokens")
         contract = (
             entry["schema_valid"]
-            and (entry.get("provider_reported") or {}).get("provider_name") == "DeepInfra"
+            and provider_name == "DeepInfra"
             and not entry["reasoning_returned"]
+            and (reasoning_tokens == 0 or reasoning_tokens is None)
             and entry.get("finish_reason") in ("stop", "length", "")
         )
+        entry["provider_name"] = provider_name
         entry["contract_ok"] = contract
         all_pass = all_pass and contract
         results["probes"][label] = entry
