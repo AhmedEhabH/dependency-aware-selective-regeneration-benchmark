@@ -1,0 +1,46 @@
+{
+  "model_id": "qwen/qwen3-32b",
+  "model_name": "Qwen: Qwen3 32B",
+  "provider_name": "DeepInfra",
+  "provider_tag": "deepinfra/fp8",
+  "quantization": "fp8",
+  "context_length": 40960,
+  "max_completion_tokens": 16384,
+  "supported_parameters": [
+    "reasoning",
+    "include_reasoning",
+    "max_tokens",
+    "temperature",
+    "top_p",
+    "stop",
+    "frequency_penalty",
+    "presence_penalty",
+    "repetition_penalty",
+    "top_k",
+    "seed",
+    "min_p",
+    "response_format",
+    "tools",
+    "tool_choice",
+    "structured_outputs",
+    "logit_bias"
+  ],
+  "input_price_per_1M_usd": 0.08,
+  "output_price_per_1M_usd": 0.28,
+  "reasoning_frozen": {
+    "enabled": false
+  },
+  "reasoning_mode": "disabled",
+  "temperature": 0.0,
+  "completion_cap": 4096,
+  "routing": {
+    "provider": {
+      "order": [
+        "deepinfra/fp8"
+      ],
+      "allow_fallbacks": false,
+      "require_parameters": true
+    }
+  },
+  "metadata_fetched_at_utc": "2026-09-10T23:02:12.509781+00:00"
+}

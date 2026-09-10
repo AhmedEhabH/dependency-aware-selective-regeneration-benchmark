@@ -1,0 +1,108 @@
+{
+  "study_id": "scientific-stagec-djangocms-qwen3-32b-crossmodel-01",
+  "all_input_parity": true,
+  "checks": [
+    {
+      "check": "frozen_prompt_schema_hashes",
+      "ok": true,
+      "detail": [
+        {
+          "check": "v1_prompt_sha",
+          "ok": true,
+          "detail": "d6f8798d2c131afdf8289b01d4b4d826eb5fa997e1f1d748303f3d1a362312fb"
+        },
+        {
+          "check": "v1_schema_sha",
+          "ok": true,
+          "detail": "12152c5947319fdc85313e0024542c7ea63301c62ebea847f005d71dc8dc87ee"
+        },
+        {
+          "check": "v2_prompt_sha",
+          "ok": true,
+          "detail": "69c2e44d9408d9db95334bafe62cfc706475b2838bffa85e59da543bdbd7cea0"
+        },
+        {
+          "check": "v2_schema_sha",
+          "ok": true,
+          "detail": "98f7eb91774c29867b09a3d4af21cdbb2f65a05e073efe430531a5f3b0fe9392"
+        },
+        {
+          "check": "v2_candidate_id_map_sha",
+          "ok": true,
+          "detail": {
+            "mapping_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+            "universe_canonical_sha256": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+            "artifact": {
+              "passed": true,
+              "mapping_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6"
+            }
+          }
+        },
+        {
+          "check": "universe_canonical_sha",
+          "ok": true,
+          "detail": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+        }
+      ]
+    },
+    {
+      "check": "six_scenario_text_hashes_match_historical",
+      "ok": true,
+      "detail": {
+        "djangocms-external-validity-002": "a7e72f7af23541407180d490f5dd03e9df281efb514ab4c4f92f4a59deb4c730",
+        "djangocms-external-validity-004": "0b25d27452ceff3fae08eecd42b15da8d6788c4af162455f71c2db5cf3450430",
+        "djangocms-external-validity-005": "836f42fbbf00cd097b52a928f12e01e463857f4a9fe01aa122729696b223a57b",
+        "djangocms-external-validity-006": "c724fff84d0757e4182e3b127a296b6876964a267be5e3584f1aafcf9aefa0e3",
+        "djangocms-external-validity-007": "1caf61e7a4db2b887e8c14d02f349ef3771e7f19a27ecab2f69e6aa686e5e88c",
+        "djangocms-external-validity-008": "d2076d5bf092ac8a96566c88f413deb1090ab61ebe85733a41174e8aac283021"
+      }
+    },
+    {
+      "check": "candidate_universe_144_unchanged",
+      "ok": true,
+      "detail": {
+        "count": 144,
+        "sha256": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+      }
+    },
+    {
+      "check": "candidate_ordering_deterministic_v2_map",
+      "ok": true,
+      "detail": {
+        "mapping_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+        "universe_count": 144
+      }
+    },
+    {
+      "check": "hidden_gold_unchanged",
+      "ok": true,
+      "detail": {
+        "sha256": "260bbeacd53efcab6b99366941c64b667f9f227467b70350fcb7c248b6f00882",
+        "record_count": 6
+      }
+    },
+    {
+      "check": "graph_absent",
+      "ok": true,
+      "detail": "graph ABSENT / NOT INJECTED"
+    },
+    {
+      "check": "temperature_and_cap_frozen",
+      "ok": true,
+      "detail": {
+        "temperature": 0.0,
+        "completion_cap": 4096
+      }
+    },
+    {
+      "check": "intentional_changed_dimensions_only",
+      "ok": true,
+      "detail": {
+        "model": "qwen/qwen3-coder -> qwen/qwen3-32b",
+        "provider_tag": "deepinfra/turbo -> deepinfra/fp8",
+        "reasoning_mode": "explicit disabled (historical Qwen3-Coder was direct/non-thinking)"
+      }
+    }
+  ],
+  "checked_at": "2026-09-10T22:58:30.304510+00:00"
+}
