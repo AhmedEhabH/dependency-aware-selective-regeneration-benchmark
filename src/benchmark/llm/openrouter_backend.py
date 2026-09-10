@@ -34,6 +34,7 @@ class OpenRouterBackend:
         timeout_seconds: float = 120.0,
         provider: str | None = None,
         max_transient_retries: int = 1,
+        reasoning: dict[str, Any] | None = None,
     ) -> None:
         if timeout_seconds < 0:
             raise ValueError("timeout_seconds must be >= 0")
@@ -45,6 +46,7 @@ class OpenRouterBackend:
         self._timeout_seconds = timeout_seconds
         self._provider = provider
         self._max_transient_retries = max_transient_retries
+        self._reasoning = reasoning
         self.transient_retry_count = 0
 
     @property
@@ -105,6 +107,11 @@ class OpenRouterBackend:
                 "allow_fallbacks": False,
                 "require_parameters": True,
             }
+        if self._reasoning:
+            # Explicit reasoning-mode freeze (Qwen3-32B hybrid model): when set,
+            # reasoning.enabled=False disables the thinking budget so it can never
+            # consume an untracked hidden completion budget.
+            body["reasoning"] = self._reasoning
         request_data = json.dumps(body).encode("utf-8")
 
         req = urllib.request.Request(
