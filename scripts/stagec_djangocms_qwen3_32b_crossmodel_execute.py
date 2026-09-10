@@ -513,7 +513,8 @@ def _parity_passed() -> bool:
     path = STUDY_DIR / "parity.json"
     if not path.is_file():
         return False
-    return bool(json.loads(path.read_text(encoding="utf-8")).get("passed", False))
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return bool(data.get("all_input_parity", data.get("passed", False)))
 
 
 # ---------------------------------------------------------------------------
