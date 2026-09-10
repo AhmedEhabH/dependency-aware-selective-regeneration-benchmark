@@ -34,3 +34,11 @@ kaggle_upload/data/repositories/todo/** text eol=lf
 # Generated bundle manifests are byte-frozen and must use canonical LF endings.
 # This guarantees committed-tree manifest equality across checkout platforms.
 kaggle_upload/*_manifest.json text eol=lf
+
+# Sparse-v2 raw-response evidence is byte-frozen with recorded SHA-256 sidecars
+# (and run-record raw_response_sha256) computed from canonical LF content.
+# scripts/verify_paper_claims.py recomputes those hashes with read_bytes(), so
+# pin LF to make the 30/30 raw-response SHA verification checkout-state
+# independent on Windows (core.autocrlf).
+reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/*.txt text eol=lf
+reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/*.sha256 text eol=lf
