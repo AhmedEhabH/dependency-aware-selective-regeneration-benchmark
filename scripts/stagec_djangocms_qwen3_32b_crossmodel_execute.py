@@ -570,9 +570,8 @@ def cmd_parity(_args: argparse.Namespace) -> int:
         }
     )
     gold = wiring.load_hidden_gold()
-    gold_sha = _sha256_bytes(
-        json.dumps(gold, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    )
+    gold_path = wiring.HIDDEN_GOLD_PATH
+    gold_sha = _sha256_bytes(gold_path.read_bytes())
     checks.append(
         {
             "check": "hidden_gold_unchanged",
