@@ -1,0 +1,161 @@
+{
+  "decisions": [
+    {
+      "id": 18,
+      "action": "REGENERATE",
+      "rationale": "The cache module is central to implementing the new tag system for cache invalidation.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "The cache module is already involved in cache key generation and invalidation."
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers for post_save and post_delete are likely to be connected here for cache tag invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["SIGNAL_HANDLER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-86",
+          "description": "This module is already involved in handling post_save and post_delete events."
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "action": "REGENERATE",
+      "rationale": "Middleware is needed to tag response objects with cache tags of rendered content.",
+      "confidence": 0.9,
+      "reason_codes": ["MIDDLEWARE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "This middleware is already involved in page-related processing."
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "action": "REGENERATE",
+      "rationale": "The placeholder and related tags must be updated to use the new cache tag system before rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TPL_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "This module is already involved in placeholder and plugin rendering."
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "action": "REGENERATE",
+      "rationale": "Page model is a content object and must be associated with cache tags.",
+      "confidence": 0.9,
+      "reason_codes": ["MODEL_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "This module is already involved in page model definitions."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "Placeholder model is a content object and must be associated with cache tags.",
+      "confidence": 0.9,
+      "reason_codes": ["MODEL_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "This module is already involved in placeholder model definitions."
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "action": "REGENERATE",
+      "rationale": "Plugin model is a content object and must be associated with cache tags.",
+      "confidence": 0.9,
+      "reason_codes": ["MODEL_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "This module is already involved in plugin model definitions."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "Utility functions for generating cache tags and handling placeholders and plugins are likely to be added here.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "This module is already involved in placeholder and plugin utility functions."
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers for cache invalidation are likely to be added here.",
+      "confidence": 0.9,
+      "reason_codes": ["SIGNAL_HANDLER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "This module is already involved in signal handling."
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "action": "REGENERATE",
+      "rationale": "Configuration for the new cache tag system is likely to be added here.",
+      "confidence": 0.85,
+      "reason_codes": ["CONFIG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "This module is already involved in configuration settings."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "cache_tag_regression",
+      "kind": "regression",
+      "target": "test_cache_tag_regression",
+      "reason": "Ensure that the new cache tag system does not break existing cache behavior.",
+      "evidence_refs": ["semantic-seed-17", "semantic-seed-19", "semantic-seed-21"]
+    },
+    {
+      "obligation_id": "cache_tag_build",
+      "kind": "build",
+      "target": "test_cache_tag_build",
+      "reason": "Verify that the new cache tag system is built and integrated correctly.",
+      "evidence_refs": ["semantic-seed-18", "semantic-seed-19", "semantic-seed-21"]
+    },
+    {
+      "obligation_id": "cache_tag_static",
+      "kind": "static",
+      "target": "test_cache_tag_static",
+      "reason": "Ensure that the new cache tag system follows Django best practices and is well-structured.",
+      "evidence_refs": ["semantic-seed-17", "semantic-seed-18", "semantic-seed-19"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure that the new cache tag system is opt-in and does not affect existing cache behavior if not configured."
+  ],
+  "escalation_reason": ""
+}

@@ -1,0 +1,95 @@
+{
+  "decisions": [
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "This file is a likely candidate for adding the `get_page_content_by_language` utility function, as it already contains page-related utility functions and aligns with the requirement terms.",
+      "confidence": 0.95,
+      "reason_codes": ["UTIL_FUNC_ADD", "SEMANTIC_MATCH"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "The file contains page-related utility functions, making it a logical place to add the new function."
+        },
+        {
+          "source": "semantic-seed-65",
+          "description": "The `PageContent` model is defined in `contentmodels.py`, which is closely related to `pagemodel.py` and `page.py`."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "This file defines the `PageContent` model but does not need to be modified for the utility function itself.",
+      "confidence": 1.0,
+      "reason_codes": ["MODEL_DEFINITION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-65",
+          "description": "This file defines the `PageContent` model, which is used by the new utility function but not modified by it."
+        }
+      ]
+    },
+    {
+      "path": "cms/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed in the top-level `__init__.py` for this utility function.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "This file may need to re-export the new utility function via `__all__` to make it publicly accessible.",
+      "confidence": 0.85,
+      "reason_codes": ["REEXPORT_PUBLIC_API"],
+      "evidence": [
+        {
+          "source": "semantic-seed-103",
+          "description": "This file already contains language-related utility functions and may be used to re-export the new function."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/utils/test_page.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file is likely to contain tests for page-related utilities and should be used to validate the new function.",
+      "confidence": 1.0,
+      "reason_codes": ["TEST_COVERAGE"],
+      "evidence": [
+        {
+          "source": "validation catalog",
+          "description": "This is a repository-native test module for page utilities."
+        }
+      ]
+    }
+  ],
+  "context_set": [
+    "cms/models/contentmodels.py",
+    "cms/models/pagemodel.py",
+    "cms/utils/page.py",
+    "cms/utils/__init__.py"
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "obligation-001",
+      "kind": "changed_requirement",
+      "target": "cms/tests/utils/test_page.py",
+      "reason": "The new utility function must be tested for correctness and edge cases.",
+      "evidence_refs": ["semantic-seed-118"]
+    },
+    {
+      "obligation_id": "obligation-002",
+      "kind": "regression",
+      "target": "cms/tests/utils/test_page.py",
+      "reason": "Existing page utility tests must continue to pass after the change.",
+      "evidence_refs": ["semantic-seed-118"]
+    }
+  ],
+  "architecture_checks": [
+    "The new function must follow Django best practices for querying the database.",
+    "The function must raise `PageContent.DoesNotExist` as specified in the requirement."
+  ],
+  "escalation_reason": ""
+}

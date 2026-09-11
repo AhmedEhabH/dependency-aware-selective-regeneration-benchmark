@@ -1,0 +1,528 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model must be modified to add a nullable ForeignKey to PageContent.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py is directly related to the CMSPlugin model, which is the subject of the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin interface for CMSPlugin must be updated to show the associated PageContent context.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_INTERFACE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/placeholderadmin.py is likely involved in the admin rendering of plugins and placeholders."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder rendering logic must be updated to filter plugins by the requested language via the page_content foreign key.",
+      "confidence": 0.95,
+      "reason_codes": ["RENDERING_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is directly involved in page rendering, including placeholders and plugins."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin utility functions may need to be updated to handle the new page_content field.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/plugins.py is involved in plugin-related utility functions and may need to be updated."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "PRESERVE",
+      "rationale": "The Placeholder model is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "cms/models/placeholdermodel.py is not directly involved in the change to CMSPlugin."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "PRESERVE",
+      "rationale": "The Page model is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is not directly involved in the change to CMSPlugin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin forms in the admin must be updated to show the associated PageContent context.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_INTERFACE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is likely involved in the admin forms for plugins and may need to be updated."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "REGENERATE",
+      "rationale": "Template tags for rendering plugins may need to be updated to reflect the new filtering logic.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is involved in rendering plugins and placeholders."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/i18n.py",
+      "action": "PRESERVE",
+      "rationale": "The i18n utility is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "cms/utils/i18n.py is not directly involved in the change to CMSPlugin."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+      "action": "REGENERATE",
+      "rationale": "The command for deleting orphaned plugins may need to be updated to handle the new page_content field.",
+      "confidence": 0.85,
+      "reason_codes": ["MANAGEMENT_COMMAND"],
+      "evidence": [
+        {
+          "source": "semantic-seed-51",
+          "description": "cms/management/commands/subcommands/delete_orphaned_plugins.py is involved in plugin management."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_plugins.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "New tests must be added to verify plugin-to-language association and rendering filter correctness.",
+      "confidence": 0.9,
+      "reason_codes": ["TESTING"],
+      "evidence": [
+        {
+          "source": "validation catalog",
+          "description": "The repository-native test module is responsible for verifying the correctness of the new functionality."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_page_rendering.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "Tests for page rendering must be updated to verify the new filtering logic.",
+      "confidence": 0.9,
+      "reason_codes": ["TESTING"],
+      "evidence": [
+        {
+          "source": "validation catalog",
+          "description": "The repository-native test module is responsible for verifying the correctness of the new functionality."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "The admin initialization is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "PRESERVE",
+      "rationale": "The page admin is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "The permission admin is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "The static placeholder admin is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "The user admin is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "PRESERVE",
+      "rationale": "The admin utilities are not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "PRESERVE",
+      "rationale": "The API is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/app_base.py",
+      "action": "PRESERVE",
+      "rationale": "The app base is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/app_registration.py",
+      "action": "PRESERVE",
+      "rationale": "The app registration is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/apphook_pool.py",
+      "action": "PRESERVE",
+      "rationale": "The apphook pool is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/appresolver.py",
+      "action": "PRESERVE",
+      "rationale": "The app resolver is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/apps.py",
+      "action": "PRESERVE",
+      "rationale": "The app configuration is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "The cache initialization is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/choices.py",
+      "action": "PRESERVE",
+      "rationale": "The cache choices are not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/page.py",
+      "action": "PRESERVE",
+      "rationale": "The page cache is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "The permissions cache is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "The placeholder cache is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_config.py",
+      "action": "PRESERVE",
+      "rationale": "The CMS configuration is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_menus.py",
+      "action": "PRESERVE",
+      "rationale": "The CMS menus are not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "The CMS plugins configuration is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_toolbars.py",
+      "action": "PRESERVE",
+      "rationale": "The CMS toolbars are not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_wizards.py",
+      "action": "PRESERVE",
+      "rationale": "The CMS wizards are not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/context_processors.py",
+      "action": "PRESERVE",
+      "rationale": "The context processors are not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/exceptions.py",
+      "action": "PRESERVE",
+      "rationale": "The exceptions module is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/extensions/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "The extensions initialization is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/extensions/admin.py",
+      "action": "PRESERVE",
+      "rationale": "The extensions admin is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/extensions/extension_pool.py",
+      "action": "PRESERVE",
+      "rationale": "The extension pool is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/extensions/models.py",
+      "action": "PRESERVE",
+      "rationale": "The extensions models are not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "none",
+          "description": "No evidence directly links this file to the change."
+        }
+      ]
+    },
+    {
+      "path": "cms/extensions/toolbar.py",
+      "action": "PRESERVE",
+      "rationale": "The extensions toolbar is not directly affected by the change to CMSPlugin.",
+      "confidence": 0.9,
+      "

@@ -1,0 +1,47 @@
+{
+  "decisions": [
+    {
+      "id": 104,
+      "action": "REGENERATE",
+      "rationale": "The utility function `get_page_content_by_language` should be added to the `cms.utils` module, which is a common place for such helper functions.",
+      "confidence": 0.95,
+      "reason_codes": ["UTIL_ADD", "REQ_FULFILL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-104",
+          "description": "The `cms/utils/__init__.py` file is a likely candidate for adding a new utility function."
+        },
+        {
+          "source": "semantic-seed-65",
+          "description": "The `cms/models/contentmodels.py` file defines the `PageContent` model, which is relevant to the function's purpose."
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "action": "VALIDATE",
+      "rationale": "The `cms.utils` module is a good place for the new utility function, and it should be tested to ensure it behaves as expected.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_ADD", "TEST_REQUIREMENT"],
+      "evidence": [
+        {
+          "source": "semantic-seed-104",
+          "description": "The `cms/utils/__init__.py` file is a likely candidate for adding a new utility function."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "UTIL_TEST_001",
+      "kind": "changed_requirement",
+      "target": "cms.tests.utils.test_get_page_content_by_language",
+      "reason": "A new utility function was added, and it must be tested to ensure it behaves as expected.",
+      "evidence_refs": ["semantic-seed-104"]
+    }
+  ],
+  "architecture_checks": [
+    "The new function must follow Django best practices and not violate any architectural constraints."
+  ],
+  "escalation_reason": ""
+}

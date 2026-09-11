@@ -1,0 +1,464 @@
+{
+  "decisions": [
+    {
+      "path": "cms/cache/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "This file is directly related to cache key generation and invalidation, which is central to the new tag system.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'invalidate', 'key', 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "This file is directly involved in placeholder cache logic, which must be updated to support tag-based invalidation.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'key', 'placeholder'."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/page.py",
+      "action": "REGENERATE",
+      "rationale": "This file is directly involved in page cache logic, which must be updated to support tag-based invalidation.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-19",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'key', 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "Page model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Artifact matches requirement terms: 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "Artifact matches requirement terms: 'placeholder'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "Artifact matches requirement terms: 'get', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/signals/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Signal handlers for post_save and post_delete are required to trigger cache invalidation by tag.",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNAL_HANDLER_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "Artifact matches requirement terms: 'check'."
+        }
+      ]
+    },
+    {
+      "path": "cms/middleware/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Middleware must be updated to tag response objects with cache tags of rendered content.",
+      "confidence": 0.95,
+      "reason_codes": ["MIDDLEWARE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'toolbar'."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "REGENERATE",
+      "rationale": "Template tags like {% placeholder %} must be updated to use the new cache tag system before rendering.",
+      "confidence": 0.95,
+      "reason_codes": ["TEMPLATE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Artifact matches requirement terms: 'get', 'page', 'placeholder', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/conf.py",
+      "action": "REGENERATE",
+      "rationale": "Configuration utility is relevant for enabling/disabling the new tag system as an opt-in feature.",
+      "confidence": 0.95,
+      "reason_codes": ["CONFIG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'toolbar'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "Page utility functions may be involved in cache tag generation or retrieval for page content.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "Artifact matches requirement terms: 'get', 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder utility functions may be involved in cache tag generation or retrieval for placeholder content.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "Artifact matches requirement terms: 'get', 'placeholder', 'plugin', 'toolbar'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin utility functions may be involved in cache tag generation or retrieval for plugin content.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "Artifact matches requirement terms: 'get', 'placeholder', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "Page rendering logic may need to be updated to respect the new cache tag system.",
+      "confidence": 0.95,
+      "reason_codes": ["RENDERING_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "Artifact matches requirement terms: 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholderpluginmodel.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder plugin model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "Artifact matches requirement terms: 'placeholder'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "REGENERATE",
+      "rationale": "Setting models may be involved in enabling/disabling the new tag system as an opt-in feature.",
+      "confidence": 0.95,
+      "reason_codes": ["CONFIG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'toolbar'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "Permission models may be involved in cache tag generation or retrieval for page content.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "REGENERATE",
+      "rationale": "Custom fields may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "REGENERATE",
+      "rationale": "Custom managers may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "REGENERATE",
+      "rationale": "Custom query logic may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Static placeholder model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "Artifact matches requirement terms: 'placeholder'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "Permission models may be involved in cache tag generation or retrieval for page content.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "REGENERATE",
+      "rationale": "Custom fields may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "REGENERATE",
+      "rationale": "Custom managers may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "REGENERATE",
+      "rationale": "Custom query logic may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Static placeholder model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "Artifact matches requirement terms: 'placeholder'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "Permission models may be involved in cache tag generation or retrieval for page content.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "REGENERATE",
+      "rationale": "Custom fields may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "REGENERATE",
+      "rationale": "Custom managers may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "REGENERATE",
+      "rationale": "Custom query logic may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Static placeholder model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "Artifact matches requirement terms: 'placeholder'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "Permission models may be involved in cache tag generation or retrieval for page content.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "REGENERATE",
+      "rationale": "Custom fields may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "REGENERATE",
+      "rationale": "Custom managers may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "REGENERATE",
+      "rationale": "Custom query logic may be involved in cache tag generation or retrieval for content objects.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Static placeholder model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_IMPL"],
+      "

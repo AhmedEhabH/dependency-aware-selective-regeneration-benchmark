@@ -1,0 +1,467 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs a new status field with workflow states and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "The PageContent model is directly referenced in the requirement for workflow state changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin actions for workflow transitions (submit, approve, reject, publish) must be added.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTIONS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin-related code is involved in handling page content and boolean fields."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Form logic must be updated to reflect new status field and workflow transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["FORM_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Form logic is involved in handling page content and permission changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission logic must be updated to handle the new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Page permission logic is directly involved in handling draft and page changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar must display workflow state and available transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["TOOLBAR_DISPLAY", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "Toolbar-related code is involved in the requirement for workflow state visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/signals/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "New signals must be added for workflow state transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNAL_IMPLEMENTATION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "Signal handling is involved in the requirement for state change notifications."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "API functions must be updated to respect workflow status during publishing.",
+      "confidence": 0.9,
+      "reason_codes": ["API_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "API functions are involved in handling page content and publishing logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "Page utility functions must be updated to respect workflow status.",
+      "confidence": 0.9,
+      "reason_codes": ["UTILITY_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "Page utility functions are involved in handling page availability and status."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "Permission models must be updated to include the new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_MODEL", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Permission models are involved in handling page and model-level permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin template tags must be updated to reflect new workflow state in the UI.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin template tags are involved in handling page content and boolean fields."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Admin initialization may need to register new permissions or actions.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_INIT", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin initialization is involved in handling page content and boolean fields."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Permission admin logic must be updated to handle the new 'Reviewer' permission.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_ADMIN", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Permission admin logic is involved in handling page and model-level permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/publish.py",
+      "action": "REGENERATE",
+      "rationale": "Publish command must respect workflow status before publishing content.",
+      "confidence": 0.9,
+      "reason_codes": ["COMMAND_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "Publishing logic is involved in handling page content and publishing."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "View logic must respect workflow status when rendering content.",
+      "confidence": 0.9,
+      "reason_codes": ["VIEW_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "View logic is involved in handling content rendering."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/items.py",
+      "action": "REGENERATE",
+      "rationale": "Toolbar items must reflect workflow state and available transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["TOOLBAR_ITEMS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "Toolbar items are involved in handling content and toolbar visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct impact on static placeholder admin logic from workflow changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/page.py",
+      "action": "PRESERVE",
+      "rationale": "Page caching logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "Permission caching is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/cms.py",
+      "action": "PRESERVE",
+      "rationale": "General CMS command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/startcmsproject.py",
+      "action": "PRESERVE",
+      "rationale": "Project setup logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "Plugin cleanup logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/tree.py",
+      "action": "PRESERVE",
+      "rationale": "Tree command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/uninstall.py",
+      "action": "PRESERVE",
+      "rationale": "Uninstall logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/list.py",
+      "action": "PRESERVE",
+      "rationale": "List command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/copy.py",
+      "action": "PRESERVE",
+      "rationale": "Copy command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/check.py",
+      "action": "PRESERVE",
+      "rationale": "Check command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/base.py",
+      "action": "PRESERVE",
+      "rationale": "Base command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/djangocms.py",
+      "action": "PRESERVE",
+      "rationale": "Django CMS management logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Management module initialization is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Command registration is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/cms.py",
+      "action": "PRESERVE",
+      "rationale": "General CMS command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/startcmsproject.py",
+      "action": "PRESERVE",
+      "rationale": "Project setup logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "Plugin cleanup logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/tree.py",
+      "action": "PRESERVE",
+      "rationale": "Tree command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/uninstall.py",
+      "action": "PRESERVE",
+      "rationale": "Uninstall logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/list.py",
+      "action": "PRESERVE",
+      "rationale": "List command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/copy.py",
+      "action": "PRESERVE",
+      "rationale": "Copy command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/check.py",
+      "action": "PRESERVE",
+      "rationale": "Check command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/base.py",
+      "action": "PRESERVE",
+      "rationale": "Base command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/djangocms.py",
+      "action": "PRESERVE",
+      "rationale": "Django CMS management logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Management module initialization is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "Command registration is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/cms.py",
+      "action": "PRESERVE",
+      "rationale": "General CMS command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/startcmsproject.py",
+      "action": "PRESERVE",
+      "rationale": "Project setup logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "Plugin cleanup logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/tree.py",
+      "action": "PRESERVE",
+      "rationale": "Tree command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/uninstall.py",
+      "action": "PRESERVE",
+      "rationale": "Uninstall logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/list.py",
+      "action": "PRESERVE",
+      "rationale": "List command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/copy.py",
+      "action": "PRESERVE",
+      "rationale": "Copy command logic is not directly impacted by workflow state changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMP

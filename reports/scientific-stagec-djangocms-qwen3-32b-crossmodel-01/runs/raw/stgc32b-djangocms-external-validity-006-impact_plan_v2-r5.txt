@@ -1,0 +1,110 @@
+{
+  "decisions": [
+    {
+      "id": 72,
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model must be updated to include a nullable ForeignKey to PageContent to associate plugins with language-specific content.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "FOREIGN_KEY_ADD"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py is directly related to the CMSPlugin model and is a key location for implementing the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "action": "REGENERATE",
+      "rationale": "The PlaceholderAdmin needs to be updated to display the new PageContent context in the admin forms for plugins.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_FORM_UPDATE", "CONTEXT_DISPLAY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/placeholderadmin.py is involved in admin forms and placeholder rendering logic."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "The admin forms need to be updated to include the new PageContent context for plugins.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE", "CONTEXT_DISPLAY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is directly related to form logic and content filtering by language."
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "action": "REGENERATE",
+      "rationale": "The page rendering logic must be updated to filter plugins by the requested language via the new page_content foreign key.",
+      "confidence": 0.9,
+      "reason_codes": ["RENDER_FILTER", "LANGUAGE_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is directly involved in page rendering and filtering logic."
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "action": "VALIDATE",
+      "rationale": "The plugin listing command should verify that plugins are correctly associated with PageContent and filtered by language.",
+      "confidence": 0.8,
+      "reason_codes": ["TEST_PLUGIN_FILTER", "VALIDATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-51",
+          "description": "cms/management/commands/subcommands/list.py is involved in plugin listing and verification."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "action": "VALIDATE",
+      "rationale": "The API should verify that plugins are correctly associated with PageContent and filtered by language.",
+      "confidence": 0.85,
+      "reason_codes": ["API_TEST", "VALIDATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is involved in content and plugin verification logic."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "plugin_language_filter",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_plugins.TestPluginLanguageFilter",
+      "reason": "Verify that plugins are correctly filtered by language via the new page_content foreign key.",
+      "evidence_refs": ["semantic-seed-78", "semantic-seed-51"]
+    },
+    {
+      "obligation_id": "admin_form_context",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_admin_forms.TestAdminFormContext",
+      "reason": "Verify that the admin forms display the correct PageContent context for plugins.",
+      "evidence_refs": ["semantic-seed-4", "semantic-seed-6"]
+    },
+    {
+      "obligation_id": "model_change_regression",
+      "kind": "regression",
+      "target": "cms.tests.test_models.TestCMSPluginModel",
+      "reason": "Ensure that the CMSPlugin model change does not break existing functionality.",
+      "evidence_refs": ["semantic-seed-72"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure that the new ForeignKey to PageContent in CMSPlugin does not violate any existing architectural constraints.",
+    "Verify that the new filtering logic in page rendering does not introduce performance regressions."
+  ],
+  "escalation_reason": ""
+}

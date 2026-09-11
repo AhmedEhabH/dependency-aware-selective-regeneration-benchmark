@@ -1,0 +1,441 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs to be updated to include the publication_date field as per the requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "The admin form for PageContent must be updated to include the publication_date field for display in the admin interface.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_FORM_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is semantically relevant to the 'content', 'filter', 'language', and 'page' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin action 'Publish Scheduled' must be implemented to publish PageContent items with a publication_date <= now.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_ACTION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is semantically relevant to the 'admin', 'display', 'field', 'filter', and 'page' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "The API must be updated to respect the publication_date when publishing PageContent.",
+      "confidence": 0.9,
+      "reason_codes": ["API_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is semantically relevant to the 'change', 'content', 'language', 'page', and 'publish' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "The front-end rendering logic must filter out PageContent instances with a future publication_date.",
+      "confidence": 0.9,
+      "reason_codes": ["VIEW_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_models.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "Model behavior must be tested to ensure the publication_date field is correctly applied and respected.",
+      "confidence": 0.95,
+      "reason_codes": ["TEST_MODEL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_admin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "Admin form and action behavior must be tested to ensure the publication_date field is displayed and processed correctly.",
+      "confidence": 0.9,
+      "reason_codes": ["TEST_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is semantically relevant to the 'content', 'filter', 'language', and 'page' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_api.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "API behavior must be tested to ensure it respects the publication_date when publishing content.",
+      "confidence": 0.9,
+      "reason_codes": ["TEST_API"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is semantically relevant to the 'change', 'content', 'language', 'page', and 'publish' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_views.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "Front-end view behavior must be tested to ensure it filters out PageContent with future publication_date.",
+      "confidence": 0.9,
+      "reason_codes": ["TEST_VIEW"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for page utility functions but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for model managers but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for admin imports but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is semantically relevant to the 'content', 'filter', 'language', and 'page' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/urls.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for URL routing but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-125",
+          "description": "cms/utils/__init__.py is semantically relevant to the 'admin' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/signals/apphook.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for apphook signals but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-84",
+          "description": "cms/signals/apphook.py is semantically relevant to the 'set' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/page.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for page caching but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-19",
+          "description": "cms/cache/page.py is semantically relevant to the 'page' and 'set' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for template tags but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/middleware/page.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for page middleware but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "cms/middleware/page.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/cms.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for management commands but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "cms/utils/i18n.py is semantically relevant to the 'language' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/forms/validators.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for form validation but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "cms/forms/utils.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for toolbar functionality but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "cms/toolbar/utils.py is semantically relevant to the 'content' and 'language' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/operations/helpers.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for operation helpers but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-77",
+          "description": "cms/operations/helpers.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/signals/log_entries.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for logging but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-85",
+          "description": "cms/signals/log_entries.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for permission utilities but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py is semantically relevant to the 'change', 'page', 'set', and 'view' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for page permission utilities but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py is semantically relevant to the 'action', 'change', 'page', 'publish', and 'view' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/urlutils.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for URL utilities but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-125",
+          "description": "cms/utils/__init__.py is semantically relevant to the 'admin' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for views but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is semantically relevant to the 'content' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/wizards/forms.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for wizard forms but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-128",
+          "description": "cms/wizards/forms.py is semantically relevant to the 'form' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for admin template tags but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is semantically relevant to the 'admin', 'display', 'field', 'filter', and 'page' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for JavaScript template tags but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-93",
+          "description": "cms/templatetags/cms_js_tags.py is semantically relevant to the 'filter' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for general template tags but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is semantically relevant to the 'page' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/utils.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for toolbar utilities but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "cms/toolbar/utils.py is semantically relevant to the 'content' and 'language' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for general utilities but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-103",
+          "description": "cms/utils/__init__.py is semantically relevant to the 'language' requirement term."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/apphook_reload.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for apphook reloading but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "cms/utils/apphook_reload.py is semantically relevant to the 'date' and 'set' requirement terms."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/i18n.py",
+      "action": "PRESERVE",
+      "rationale": "This file is likely to be used for i18n utilities but does not require changes for this requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_PRESERVE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "cms/utils/i18n.py is semantically relevant to the 'language' requirement term

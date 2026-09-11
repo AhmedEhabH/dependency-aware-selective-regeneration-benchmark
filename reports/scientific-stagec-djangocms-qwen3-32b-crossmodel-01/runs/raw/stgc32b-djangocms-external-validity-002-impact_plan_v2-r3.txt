@@ -1,0 +1,50 @@
+{
+  "decisions": [
+    {
+      "id": 104,
+      "action": "REGENERATE",
+      "rationale": "The utility function `get_page_content_by_language` should be added to the `cms.utils` module, which is a common place for such helper functions.",
+      "confidence": 0.95,
+      "reason_codes": ["UTIL_ADD", "REQ_FULFILL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-104",
+          "description": "The `cms/utils/__init__.py` file is a logical place to add a public utility function for retrieving page content by language."
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "action": "VALIDATE",
+      "rationale": "The `cms/utils/__init__.py` file should be validated to ensure the new function does not break existing imports or functionality.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_VALIDATE", "IMPORT_STABILITY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-104",
+          "description": "The `cms/utils/__init__.py` is a public-facing module and should be validated for compatibility."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "UTIL-001",
+      "kind": "changed_requirement",
+      "target": "cms.tests.utils.test_get_page_content_by_language",
+      "reason": "A new test is required to verify the behavior of the `get_page_content_by_language` function, including error handling for missing content.",
+      "evidence_refs": ["semantic-seed-104"]
+    },
+    {
+      "obligation_id": "REG-001",
+      "kind": "regression",
+      "target": "cms.tests.utils.test_utils_import",
+      "reason": "Ensure that the addition of the new function does not break existing imports or functionality in the `cms.utils` module.",
+      "evidence_refs": ["semantic-seed-104"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure the new function follows Django best practices for querying the database and raising exceptions."
+  ],
+  "escalation_reason": ""
+}

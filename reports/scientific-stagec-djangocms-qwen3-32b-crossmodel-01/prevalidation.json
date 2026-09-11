@@ -1,0 +1,240 @@
+{
+  "study_id": "scientific-stagec-djangocms-qwen3-32b-crossmodel-01",
+  "passed": true,
+  "checks": [
+    {
+      "check": "branch_expected",
+      "ok": true,
+      "detail": "research/qwen3-32b-crossmodel-01"
+    },
+    {
+      "check": "head_matches_origin_branch",
+      "ok": true,
+      "detail": {
+        "head": "9a7be557c7cff69012afee56b88bc804363d1c40",
+        "origin_ref": "9a7be557c7cff69012afee56b88bc804363d1c40"
+      }
+    },
+    {
+      "check": "frozen_scientific_inputs_unchanged_vs_head",
+      "ok": true,
+      "detail": {
+        "all_unchanged": true,
+        "files": {
+          "src/benchmark/selection/impact_planner.py": {
+            "path": "src/benchmark/selection/impact_planner.py",
+            "unchanged": true,
+            "status": ""
+          },
+          "src/benchmark/selection/impact_planner_v2.py": {
+            "path": "src/benchmark/selection/impact_planner_v2.py",
+            "unchanged": true,
+            "status": ""
+          },
+          "benchmark_data/external_validity/djangocms_5_0_0_candidate_universe.json": {
+            "path": "benchmark_data/external_validity/djangocms_5_0_0_candidate_universe.json",
+            "unchanged": true,
+            "status": ""
+          },
+          "benchmark_data/external_validity/djangocms_5_0_0_dependency_graph.json": {
+            "path": "benchmark_data/external_validity/djangocms_5_0_0_dependency_graph.json",
+            "unchanged": true,
+            "status": ""
+          },
+          "benchmark_data/external_validity/djangocms_hidden_gold_draft.json": {
+            "path": "benchmark_data/external_validity/djangocms_hidden_gold_draft.json",
+            "unchanged": true,
+            "status": ""
+          },
+          "benchmark_data/external_validity/impactplan_v2_candidate_id_map.json": {
+            "path": "benchmark_data/external_validity/impactplan_v2_candidate_id_map.json",
+            "unchanged": true,
+            "status": ""
+          },
+          "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-002.yaml": {
+            "path": "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-002.yaml",
+            "unchanged": true,
+            "status": ""
+          },
+          "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-004.yaml": {
+            "path": "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-004.yaml",
+            "unchanged": true,
+            "status": ""
+          },
+          "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-005.yaml": {
+            "path": "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-005.yaml",
+            "unchanged": true,
+            "status": ""
+          },
+          "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-006.yaml": {
+            "path": "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-006.yaml",
+            "unchanged": true,
+            "status": ""
+          },
+          "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-007.yaml": {
+            "path": "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-007.yaml",
+            "unchanged": true,
+            "status": ""
+          },
+          "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-008.yaml": {
+            "path": "benchmark_data/external_validity/visible_drafts/djangocms-external-validity-008.yaml",
+            "unchanged": true,
+            "status": ""
+          }
+        }
+      }
+    },
+    {
+      "check": "historical_evidence_immutable",
+      "ok": true,
+      "detail": [
+        {
+          "path": "reports/scientific-stagec-djangocms-study-01",
+          "unchanged": true,
+          "status": ""
+        },
+        {
+          "path": "reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl",
+          "unchanged": true,
+          "status": ""
+        },
+        {
+          "path": "benchmark_data/external_validity/djangocms_hidden_gold_draft.json",
+          "unchanged": true,
+          "status": ""
+        },
+        {
+          "path": "benchmark_data/external_validity/djangocms_5_0_0_candidate_universe.json",
+          "unchanged": true,
+          "status": ""
+        },
+        {
+          "path": "reports/SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json",
+          "unchanged": true,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "check": "frozen_hashes_unchanged",
+      "ok": true,
+      "detail": [
+        {
+          "check": "v1_prompt_sha",
+          "ok": true,
+          "detail": "d6f8798d2c131afdf8289b01d4b4d826eb5fa997e1f1d748303f3d1a362312fb"
+        },
+        {
+          "check": "v1_schema_sha",
+          "ok": true,
+          "detail": "12152c5947319fdc85313e0024542c7ea63301c62ebea847f005d71dc8dc87ee"
+        },
+        {
+          "check": "v2_prompt_sha",
+          "ok": true,
+          "detail": "69c2e44d9408d9db95334bafe62cfc706475b2838bffa85e59da543bdbd7cea0"
+        },
+        {
+          "check": "v2_schema_sha",
+          "ok": true,
+          "detail": "98f7eb91774c29867b09a3d4af21cdbb2f65a05e073efe430531a5f3b0fe9392"
+        },
+        {
+          "check": "v2_candidate_id_map_sha",
+          "ok": true,
+          "detail": {
+            "mapping_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+            "universe_canonical_sha256": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+            "artifact": {
+              "passed": true,
+              "mapping_sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6"
+            }
+          }
+        },
+        {
+          "check": "universe_canonical_sha",
+          "ok": true,
+          "detail": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+        }
+      ]
+    },
+    {
+      "check": "hidden_gold_not_in_visible_inputs",
+      "ok": true,
+      "detail": [
+        {
+          "scenario": "djangocms-external-validity-002",
+          "gold_paths": [
+            "cms/api.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-004",
+          "gold_paths": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/models/contentmodels.py",
+            "cms/views.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-005",
+          "gold_paths": [
+            "cms/admin/pageadmin.py",
+            "cms/admin/permissionadmin.py",
+            "cms/cms_toolbars.py",
+            "cms/models/permissionmodels.py",
+            "cms/utils/page_permissions.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-006",
+          "gold_paths": [
+            "cms/admin/placeholderadmin.py",
+            "cms/models/pluginmodel.py",
+            "cms/utils/plugins.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-007",
+          "gold_paths": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/cms_toolbars.py",
+            "cms/models/contentmodels.py",
+            "cms/models/permissionmodels.py",
+            "cms/signals/__init__.py",
+            "cms/utils/page_permissions.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-008",
+          "gold_paths": [
+            "cms/cache/__init__.py",
+            "cms/middleware/toolbar.py",
+            "cms/signals/__init__.py",
+            "cms/templatetags/cms_tags.py"
+          ]
+        }
+      ]
+    },
+    {
+      "check": "pinned_djangocms_source_available",
+      "ok": true,
+      "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-djangocms-prep\\benchmark_data\\repositories\\djangocms"
+    },
+    {
+      "check": "graph_absent_not_injected",
+      "ok": true,
+      "detail": "graph artifact remains historical/contextual only"
+    },
+    {
+      "check": "reasoning_disabled_frozen",
+      "ok": true,
+      "detail": {
+        "enabled": false
+      }
+    }
+  ],
+  "checked_at": "2026-09-10T22:57:29.000274+00:00"
+}

@@ -1,0 +1,466 @@
+{
+  "decisions": [
+    {
+      "path": "cms/cache/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "This file is directly related to cache key generation and invalidation, which is central to the new tag system.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_IMPL", "TAG_SYSTEM"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'invalidate', 'key', 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/page.py",
+      "action": "REGENERATE",
+      "rationale": "This file is directly involved in page cache logic, which needs to be updated to support granular cache tags.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_IMPL", "TAG_SYSTEM"],
+      "evidence": [
+        {
+          "source": "semantic-seed-19",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'key', 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "This file is directly involved in placeholder cache logic, which needs to be updated to support granular cache tags.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_IMPL", "TAG_SYSTEM"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'key', 'placeholder'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "Page model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Artifact matches requirement terms: 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "Artifact matches requirement terms: 'placeholder'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin model is a content object that must be associated with cache tags and invalidate them on save/delete.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "Artifact matches requirement terms: 'get', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/signals/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Signal handlers are needed to connect post_save/post_delete to cache tag invalidation.",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNAL_HANDLER", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "Artifact matches requirement terms: 'check'."
+        }
+      ]
+    },
+    {
+      "path": "cms/middleware/page.py",
+      "action": "REGENERATE",
+      "rationale": "Middleware must be updated to tag response objects with cache tags of rendered content.",
+      "confidence": 0.95,
+      "reason_codes": ["MIDDLEWARE_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "Artifact matches requirement terms: 'get', 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "REGENERATE",
+      "rationale": "Template tags like {% placeholder %} must be updated to use the new cache tag system.",
+      "confidence": 0.95,
+      "reason_codes": ["TPL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Artifact matches requirement terms: 'get', 'page', 'placeholder', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/conf.py",
+      "action": "REGENERATE",
+      "rationale": "Configuration utilities may need to support opt-in configuration for the new tag system.",
+      "confidence": 0.9,
+      "reason_codes": ["CONFIG_OPT_IN", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'toolbar'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "Artifact matches requirement terms: 'get', 'placeholder', 'plugin', 'toolbar'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "Artifact matches requirement terms: 'get', 'placeholder', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of cache tag system involvement in this file.",
+      "confidence": 0.7,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "Artifact matches requirement terms: 'get'."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of cache tag system involvement in this file.",
+      "confidence": 0.7,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "Artifact matches requirement terms: 'get'."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of cache tag system involvement in this file.",
+      "confidence": 0.7,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Artifact matches requirement terms: 'content', 'get', 'page', 'save'."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "REGENERATE",
+      "rationale": "Toolbar middleware must be updated to tag response objects with cache tags of rendered content.",
+      "confidence": 0.95,
+      "reason_codes": ["MIDDLEWARE_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "Artifact matches requirement terms: 'content', 'get', 'object', 'placeholder', 'plugin', 'toolbar'."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/utils.py",
+      "action": "REGENERATE",
+      "rationale": "Toolbar utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "Artifact matches requirement terms: 'content', 'get', 'object', 'placeholder', 'plugin', 'toolbar'."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin template tags may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["TPL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Artifact matches requirement terms: 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "REGENERATE",
+      "rationale": "Alias template tags may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["TPL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-92",
+          "description": "Artifact matches requirement terms: 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "REGENERATE",
+      "rationale": "JS template tags may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["TPL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-93",
+          "description": "Artifact matches requirement terms: 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "REGENERATE",
+      "rationale": "Core template tags like {% placeholder %} must be updated to use the new cache tag system.",
+      "confidence": 0.95,
+      "reason_codes": ["TPL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Artifact matches requirement terms: 'get', 'page', 'placeholder', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "View logic may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["VIEW_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "Artifact matches requirement terms: 'content', 'object', 'placeholder'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "Page utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "Artifact matches requirement terms: 'get', 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Artifact matches requirement terms: 'cache', 'change', 'delete', 'get', 'page', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "Artifact matches requirement terms: 'get', 'placeholder', 'plugin', 'toolbar'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "Artifact matches requirement terms: 'get', 'placeholder', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Page permission utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Artifact matches requirement terms: 'change', 'check', 'delete', 'get', 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/compat/response.py",
+      "action": "REGENERATE",
+      "rationale": "Response compatibility utilities may need to be updated to support cache tag tagging.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-110",
+          "description": "Artifact matches requirement terms: 'get', 'response'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/i18n.py",
+      "action": "REGENERATE",
+      "rationale": "I18n utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "Artifact matches requirement terms: 'get', 'object'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/mail.py",
+      "action": "REGENERATE",
+      "rationale": "Mail utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-117",
+          "description": "Artifact matches requirement terms: 'change', 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/helpers.py",
+      "action": "REGENERATE",
+      "rationale": "Helper utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-115",
+          "description": "Artifact matches requirement terms: 'get', 'placeholder'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/check.py",
+      "action": "REGENERATE",
+      "rationale": "Check utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-106",
+          "description": "Artifact matches requirement terms: 'check', 'plugin'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/apphook_reload.py",
+      "action": "REGENERATE",
+      "rationale": "Apphook reload utilities may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "Artifact matches requirement terms: 'check', 'get'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/conf.py",
+      "action": "REGENERATE",
+      "rationale": "Configuration utilities may need to be updated to support opt-in cache tag system.",
+      "confidence": 0.9,
+      "reason_codes": ["CONFIG_OPT_IN", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "Artifact matches requirement terms: 'cache', 'get', 'toolbar'."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "General utility functions may need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_TAGGING", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-103",
+          "description": "Artifact matches requirement terms: 'get'."
+        }
+      ]
+    },
+    {
+      "path": "cms/signals/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Signal handlers for permissions may need to be updated to support cache tag invalidation.",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNAL_HANDLER", "CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "

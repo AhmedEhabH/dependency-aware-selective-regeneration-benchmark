@@ -1,0 +1,106 @@
+{
+  "decisions": [
+    {
+      "id": 72,
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model must be updated to include a nullable ForeignKey to PageContent to associate plugins with a specific language and page content.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "FOREIGN_KEY_ADD"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py is directly related to the CMSPlugin model and is a key location for implementing the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "action": "REGENERATE",
+      "rationale": "The admin interface for CMSPlugin must be updated to display the associated PageContent context in plugin forms.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_INTERFACE", "FORM_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is relevant to form logic and language filtering, which supports the need for admin form updates."
+        },
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/placeholderadmin.py is relevant to plugin rendering and filtering logic in the admin."
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "action": "REGENERATE",
+      "rationale": "Plugin rendering logic must be updated to filter plugins by the requested language via the new page_content foreign key.",
+      "confidence": 0.92,
+      "reason_codes": ["RENDER_LOGIC", "LANGUAGE_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-81",
+          "description": "cms/plugin_processors.py is involved in plugin rendering and context processing, which is relevant to the new filtering logic."
+        },
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is involved in placeholder and plugin rendering, which is relevant to the new filtering logic."
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "action": "VALIDATE",
+      "rationale": "The plugin listing command should verify that plugins are correctly associated with PageContent and filtered by language.",
+      "confidence": 0.85,
+      "reason_codes": ["COMMAND_TEST", "PLUGIN_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-51",
+          "description": "cms/management/commands/subcommands/list.py is relevant to plugin listing and verification."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "action": "VALIDATE",
+      "rationale": "The API should ensure that plugins are correctly associated with PageContent and filtered by language.",
+      "confidence": 0.88,
+      "reason_codes": ["API_TEST", "PLUGIN_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is relevant to plugin and page content changes and verification."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "plugin_language_filter",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_plugins.TestPluginLanguageFilter",
+      "reason": "Verify that plugins are correctly filtered by language via the new page_content foreign key.",
+      "evidence_refs": ["semantic-seed-81", "semantic-seed-95"]
+    },
+    {
+      "obligation_id": "admin_form_page_content",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_admin.TestPluginAdminForm",
+      "reason": "Verify that the admin form for CMSPlugin displays the associated PageContent context.",
+      "evidence_refs": ["semantic-seed-3", "semantic-seed-6"]
+    },
+    {
+      "obligation_id": "model_change_regression",
+      "kind": "regression",
+      "target": "cms.tests.test_models.TestCMSPluginModel",
+      "reason": "Ensure that the CMSPlugin model change does not break existing functionality.",
+      "evidence_refs": ["semantic-seed-72"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure that the new ForeignKey to PageContent in CMSPlugin follows Django best practices.",
+    "Verify that all existing plugin rendering logic continues to work after the change.",
+    "Ensure that the admin form for CMSPlugin correctly displays the PageContent context."
+  ],
+  "escalation_reason": ""
+}

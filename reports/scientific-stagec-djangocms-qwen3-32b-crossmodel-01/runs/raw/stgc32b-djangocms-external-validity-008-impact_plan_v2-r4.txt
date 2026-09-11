@@ -1,0 +1,177 @@
+{
+  "decisions": [
+    {
+      "id": 18,
+      "action": "REGENERATE",
+      "rationale": "The cache module is central to implementing the new tag system for cache invalidation.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "The cache module is already involved in cache key generation and invalidation."
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers for post_save and post_delete are likely to be implemented or modified here.",
+      "confidence": 0.9,
+      "reason_codes": ["SIGNAL_HANDLER_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-86",
+          "description": "This module already handles post_save and post_delete signals for content objects."
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "action": "REGENERATE",
+      "rationale": "Middleware is needed to tag response objects with cache tags of rendered content.",
+      "confidence": 0.9,
+      "reason_codes": ["MIDDLEWARE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "This middleware is already involved in page-related processing."
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "action": "REGENERATE",
+      "rationale": "The placeholder and related tags must be updated to use the new cache tag system.",
+      "confidence": 0.9,
+      "reason_codes": ["TPL_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "This module already handles placeholder and plugin rendering."
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers for content objects should be extended to include cache tag invalidation.",
+      "confidence": 0.85,
+      "reason_codes": ["SIGNAL_HANDLER_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-85",
+          "description": "This module already handles signals for page and placeholder content."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "REGENERATE",
+      "rationale": "Utility functions for cache tag generation and invalidation are likely to be added here.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "This module already provides utility functions for placeholder and plugin operations."
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "action": "REGENERATE",
+      "rationale": "Configuration for the new cache tag system may be added here.",
+      "confidence": 0.8,
+      "reason_codes": ["CONFIG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "This module already handles configuration for cache and toolbar."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "Permissions logic may need to be extended to support cache tag invalidation.",
+      "confidence": 0.85,
+      "reason_codes": ["PERM_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "This module already handles permissions for page and plugin content."
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "action": "REGENERATE",
+      "rationale": "Helper functions for placeholder content may need to be extended for tag system.",
+      "confidence": 0.8,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-115",
+          "description": "This module already provides helper functions for placeholder content."
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "action": "REGENERATE",
+      "rationale": "Wizard helpers may need to be updated to support the new cache tag system.",
+      "confidence": 0.75,
+      "reason_codes": ["WIZARD_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-129",
+          "description": "This module already provides helper functions for wizard content."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "cache_tag_signal_handlers",
+      "kind": "changed_requirement",
+      "target": "test_cache_tag_signal_handlers",
+      "reason": "Signal handlers for post_save and post_delete must be tested to ensure cache tags are invalidated correctly.",
+      "evidence_refs": ["semantic-seed-86"]
+    },
+    {
+      "obligation_id": "cache_tag_middleware",
+      "kind": "changed_requirement",
+      "target": "test_cache_tag_middleware",
+      "reason": "Middleware must be tested to ensure response objects are tagged correctly.",
+      "evidence_refs": ["semantic-seed-58"]
+    },
+    {
+      "obligation_id": "cache_tag_templatetags",
+      "kind": "changed_requirement",
+      "target": "test_cache_tag_templatetags",
+      "reason": "Templatetags must be tested to ensure they use the new cache tag system correctly.",
+      "evidence_refs": ["semantic-seed-95"]
+    },
+    {
+      "obligation_id": "cache_tag_utils",
+      "kind": "changed_requirement",
+      "target": "test_cache_tag_utils",
+      "reason": "Utility functions for tag generation and invalidation must be tested.",
+      "evidence_refs": ["semantic-seed-122"]
+    },
+    {
+      "obligation_id": "cache_tag_regression",
+      "kind": "regression",
+      "target": "test_regression_cache_behavior",
+      "reason": "Existing cache behavior must be preserved when the new tag system is not configured.",
+      "evidence_refs": ["semantic-seed-17"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure no changes violate the opt-in requirement for the new cache tag system.",
+    "Ensure all new modules and functions follow Django best practices.",
+    "Ensure no changes break existing cache behavior when the new system is not enabled."
+  ],
+  "escalation_reason": ""
+}

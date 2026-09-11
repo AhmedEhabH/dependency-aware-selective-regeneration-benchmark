@@ -1,0 +1,310 @@
+{
+  "decisions": [
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "This file is a likely candidate for adding the `get_page_content_by_language` utility function, as it already contains page-related utility functions and aligns with the requirement terms.",
+      "confidence": 0.95,
+      "reason_codes": ["UTIL_FUNC_ADD", "SEMANTIC_MATCH"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "The file contains page-related utility functions, including 'get' and 'page' terms, which align with the requirement."
+        },
+        {
+          "source": "semantic-seed-65",
+          "description": "The 'PageContent' model is referenced in 'contentmodels.py', which is closely related to 'pagemodel.py' and 'page.py'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "This file defines the PageContent model but does not need to be modified to add the utility function, which should be placed in a utility module.",
+      "confidence": 0.98,
+      "reason_codes": ["MODEL_DEFINITION", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-65",
+          "description": "This file defines the 'PageContent' model, which is the target of the utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed in the top-level __init__ file for this requirement.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_EDIT_REQUIRED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to page administration but not the appropriate place for a general utility function.",
+      "confidence": 0.97,
+      "reason_codes": ["ADMIN_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "This file is related to page administration but not the appropriate place for a general utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to API functions but not the appropriate place for a general utility function.",
+      "confidence": 0.97,
+      "reason_codes": ["API_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "This file is related to API functions but not the appropriate place for a general utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to page rendering and may use the utility function, but it is not the place to define it.",
+      "confidence": 0.96,
+      "reason_codes": ["RENDER_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "This file is related to page rendering and may use the utility function, but it is not the place to define it."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/i18n.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to i18n utilities and may be relevant, but the function should be placed in a more general utility module.",
+      "confidence": 0.95,
+      "reason_codes": ["I18N_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "This file is related to i18n utilities and may be relevant, but the function should be placed in a more general utility module."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "PRESERVE",
+      "rationale": "This file defines the Page model but does not need to be modified to add the utility function.",
+      "confidence": 0.98,
+      "reason_codes": ["MODEL_DEFINITION", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "This file defines the 'Page' model, which is the input to the utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "This file is a top-level utility module but not the most specific place for the function.",
+      "confidence": 0.96,
+      "reason_codes": ["UTILITY_MODULE", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-103",
+          "description": "This file is a top-level utility module but not the most specific place for the function."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to template tags and not the appropriate place for a general utility function.",
+      "confidence": 0.97,
+      "reason_codes": ["TEMPLATE_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "This file is related to template tags and not the appropriate place for a general utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to views and may use the utility function, but it is not the place to define it.",
+      "confidence": 0.96,
+      "reason_codes": ["VIEW_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "This file is related to views and may use the utility function, but it is not the place to define it."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/copy.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to management commands and not the appropriate place for a general utility function.",
+      "confidence": 0.97,
+      "reason_codes": ["MANAGEMENT_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-49",
+          "description": "This file is related to management commands and not the appropriate place for a general utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/tree.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to management commands and not the appropriate place for a general utility function.",
+      "confidence": 0.97,
+      "reason_codes": ["MANAGEMENT_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-52",
+          "description": "This file is related to management commands and not the appropriate place for a general utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/middleware/page.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to page middleware and may use the utility function, but it is not the place to define it.",
+      "confidence": 0.96,
+      "reason_codes": ["MIDDLEWARE_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "This file is related to page middleware and may use the utility function, but it is not the place to define it."
+        }
+      ]
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to form utilities and may use the utility function, but it is not the place to define it.",
+      "confidence": 0.96,
+      "reason_codes": ["FORM_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "This file is related to form utilities and may use the utility function, but it is not the place to define it."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to admin forms and may use the utility function, but it is not the place to define it.",
+      "confidence": 0.96,
+      "reason_codes": ["ADMIN_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "This file is related to admin forms and may use the utility function, but it is not the place to define it."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to placeholder admin and may use the utility function, but it is not the place to define it.",
+      "confidence": 0.96,
+      "reason_codes": ["ADMIN_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "This file is related to placeholder admin and may use the utility function, but it is not the place to define it."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to page admin and may use the utility function, but it is not the place to define it.",
+      "confidence": 0.96,
+      "reason_codes": ["ADMIN_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "This file is related to page admin and may use the utility function, but it is not the place to define it."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to admin template tags and may use the utility function, but it is not the place to define it.",
+      "confidence": 0.96,
+      "reason_codes": ["TEMPLATE_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "This file is related to admin template tags and may use the utility function, but it is not the place to define it."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/utils.py",
+      "action": "PRESERVE",
+      "rationale": "This file is related to toolbar utilities and may use the utility function, but it is not the place to define it.",
+      "confidence": 0.96,
+      "reason_codes": ["TOOLBAR_LOGIC", "NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "This file is related to toolbar utilities and may use the utility function, but it is not the place to define it."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file is a likely candidate for the utility function and should be validated for correctness and test coverage.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_FUNC", "VALIDATE_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "This file is a likely candidate for the utility function and should be validated for correctness and test coverage."
+        }
+      ]
+    }
+  ],
+  "context_set": [
+    "cms/models/contentmodels.py",
+    "cms/models/pagemodel.py",
+    "cms/page_rendering.py",
+    "cms/utils/i18n.py",
+    "cms/utils/page.py"
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "V001",
+      "kind": "changed_requirement",
+      "target": "cms.tests.utils.test_page",
+      "reason": "The new utility function must be tested for correctness and edge cases.",
+      "evidence_refs": ["semantic-seed-118"]
+    },
+    {
+      "obligation_id": "V002",
+      "kind": "regression",
+      "target": "cms.tests.models.test_page",
+      "reason": "Ensure that existing page-related functionality is not affected by the new utility function.",
+      "evidence_refs": ["semantic-seed-68"]
+    },
+    {
+      "obligation_id": "V003",
+      "kind": "static",
+      "target": "cms.utils.page.get_page_content_by_language",
+      "reason": "Ensure the function is properly documented and follows Django best practices.",
+      "evidence_refs": ["semantic-seed-118"]
+    }
+  ],
+  "architecture_checks": [
+    "The new utility function must be placed in a relevant module and follow Django best practices."
+  ],
+  "escalation_reason": ""
+}
