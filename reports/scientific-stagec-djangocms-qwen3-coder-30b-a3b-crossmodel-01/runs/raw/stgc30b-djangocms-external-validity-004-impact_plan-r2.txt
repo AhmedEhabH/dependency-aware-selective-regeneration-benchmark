@@ -1,0 +1,171 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/admin/forms.py",
+    "cms/admin/pageadmin.py",
+    "cms/api.py",
+    "cms/models/contentmodels.py",
+    "cms/models/pagemodel.py",
+    "cms/views.py",
+    "cms/management/commands/cms.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement adds a publication_date field to PageContent, which is modeled in contentmodels.py",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/models/contentmodels.py",
+      "rationale": "The PageContent model needs to be modified to include the new publication_date field.",
+      "reason_codes": [
+        "MODEL_CHANGE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Admin forms need to display the new publication_date field for PageContent",
+          "source": "semantic-seed-91"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "The admin form for PageContent must include the new publication_date field.",
+      "reason_codes": [
+        "ADMIN_FORM"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The admin page for PageContent needs to support the new publication_date field and a new publish scheduled action",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "The PageContent admin interface must be updated to include the publication_date field and a new publish action.",
+      "reason_codes": [
+        "ADMIN_INTERFACE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "API functions for publishing should respect the new publication_date field",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "The API must be updated to handle the new publication_date logic for publishing.",
+      "reason_codes": [
+        "API_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Front-end views need to filter out PageContent instances with future publication dates",
+          "source": "semantic-seed-126"
+        }
+      ],
+      "path": "cms/views.py",
+      "rationale": "Front-end views must filter PageContent based on publication_date to ensure only published content is shown.",
+      "reason_codes": [
+        "FRONTEND_FILTER"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No requirement changes to the pagemodel or related core models",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "The Page model itself does not need changes as the publication_date is on PageContent.",
+      "reason_codes": [
+        "NO_CHANGE"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The management command cms.py is not directly affected by the new publication_date field",
+          "source": "semantic-seed-105"
+        }
+      ],
+      "path": "cms/management/commands/cms.py",
+      "rationale": "No changes required to the cms management command for this feature.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-3",
+        "semantic-seed-11",
+        "semantic-seed-68",
+        "semantic-seed-91",
+        "semantic-seed-126"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_pagecontent_model",
+      "reason": "Ensure PageContent model includes publication_date field and all related functionality works correctly.",
+      "target": "cms/models/contentmodels.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-91"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_admin_forms",
+      "reason": "Admin forms must display the new publication_date field.",
+      "target": "cms/admin/forms.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-68"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_admin_interface",
+      "reason": "Admin interface must support new publication_date field and publish scheduled action.",
+      "target": "cms/admin/pageadmin.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_api_publishing",
+      "reason": "API must respect publication_date when publishing content.",
+      "target": "cms/api.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-126"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_frontend_filtering",
+      "reason": "Front-end views must filter PageContent based on publication_date.",
+      "target": "cms/views.py"
+    }
+  ]
+}

@@ -1,0 +1,507 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/admin/forms.py",
+    "cms/admin/pageadmin.py",
+    "cms/admin/permissionadmin.py",
+    "cms/models/permissionmodels.py",
+    "cms/utils/permissions.py",
+    "cms/utils/page_permissions.py",
+    "cms/cms_toolbars.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing and approving content changes.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/models/permissionmodels.py indicates it handles permission-related logic and is relevant to adding new permission fields.",
+          "source": "semantic-seed-120"
+        }
+      ],
+      "path": "cms/models/permissionmodels.py",
+      "rationale": "The new permission level requires changes to the permission model to include the new `can_review` field.",
+      "reason_codes": [
+        "PERMISSION_MODEL_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement mentions that permission checking functions must support the new level, and the utils/permissions.py module is responsible for permission checks.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/utils/permissions.py shows it handles permission-related logic and is relevant to permission checks.",
+          "source": "semantic-seed-120"
+        }
+      ],
+      "path": "cms/utils/permissions.py",
+      "rationale": "Permission checking logic must be updated to recognize and enforce the new 'page reviewer' permission.",
+      "reason_codes": [
+        "PERMISSION_CHECKING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the PageAdmin gets a 'Review' action, which implies changes to the admin interface.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/admin/pageadmin.py indicates it handles page-related admin logic.",
+          "source": "semantic-seed-4"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "The PageAdmin needs a new 'Review' action to support the new reviewer functionality.",
+      "reason_codes": [
+        "ADMIN_INTERFACE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement states that the PermissionAdmin must show the new field, indicating a need to modify the admin interface for permissions.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/admin/permissionadmin.py indicates it handles permission-related admin logic.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/admin/permissionadmin.py",
+      "rationale": "The PermissionAdmin must be updated to display the new `can_review` field.",
+      "reason_codes": [
+        "ADMIN_INTERFACE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the toolbar shows a 'Review' menu item for users with reviewer access.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/cms_toolbars.py indicates it handles toolbar logic.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/cms_toolbars.py",
+      "rationale": "Toolbar logic must be updated to include a 'Review' menu item for users with reviewer permissions.",
+      "reason_codes": [
+        "TOOLBAR_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "The requirement mentions that the GlobalPermission model gains a `can_review` field for site-wide reviewer access.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/models/permissionmodels.py indicates it handles permission-related models.",
+          "source": "semantic-seed-120"
+        }
+      ],
+      "path": "cms/models/permissionmodels.py",
+      "rationale": "The GlobalPermission model needs to be updated to include the new `can_review` field.",
+      "reason_codes": [
+        "GLOBAL_PERMISSION_MODEL"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "description": "The requirement specifies that permission checking functions in a relevant module support the new level.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/utils/page_permissions.py shows it handles page-specific permission logic.",
+          "source": "semantic-seed-119"
+        }
+      ],
+      "path": "cms/utils/page_permissions.py",
+      "rationale": "Page permission checking logic must be updated to support the new reviewer role.",
+      "reason_codes": [
+        "PAGE_PERMISSION_CHECKING"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/admin/forms.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "The forms module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/admin/placeholderadmin.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-6"
+        }
+      ],
+      "path": "cms/admin/placeholderadmin.py",
+      "rationale": "The placeholder admin does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/api.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "The API module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/app_registration.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-13"
+        }
+      ],
+      "path": "cms/app_registration.py",
+      "rationale": "The app registration module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/appresolver.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-15"
+        }
+      ],
+      "path": "cms/appresolver.py",
+      "rationale": "The app resolver does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/cache/__init__.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-17"
+        }
+      ],
+      "path": "cms/cache/__init__.py",
+      "rationale": "The cache module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/cache/choices.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-18"
+        }
+      ],
+      "path": "cms/cache/choices.py",
+      "rationale": "The cache choices module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/cache/page.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-19"
+        }
+      ],
+      "path": "cms/cache/page.py",
+      "rationale": "The page cache module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/cache/permissions.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-20"
+        }
+      ],
+      "path": "cms/cache/permissions.py",
+      "rationale": "The permission cache module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/cache/placeholder.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-21"
+        }
+      ],
+      "path": "cms/cache/placeholder.py",
+      "rationale": "The placeholder cache module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/cms_menus.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-23"
+        }
+      ],
+      "path": "cms/cms_menus.py",
+      "rationale": "The CMS menus module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/constants.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-27"
+        }
+      ],
+      "path": "cms/constants.py",
+      "rationale": "The constants module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/forms/utils.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-38"
+        }
+      ],
+      "path": "cms/forms/utils.py",
+      "rationale": "The forms utils module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/management/commands/subcommands/copy.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-49"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/copy.py",
+      "rationale": "The copy command does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/management/commands/subcommands/tree.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-52"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/tree.py",
+      "rationale": "The tree command does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/middleware/page.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-58"
+        }
+      ],
+      "path": "cms/middleware/page.py",
+      "rationale": "The page middleware does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/models/pagemodel.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "The page model does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/models/pluginmodel.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-72"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "The plugin model does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/operations/helpers.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-77"
+        }
+      ],
+      "path": "cms/operations/helpers.py",
+      "rationale": "The operations helpers do not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/page_rendering.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-78"
+        }
+      ],
+      "path": "cms/page_rendering.py",
+      "rationale": "The page rendering module does not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/plugin_processors.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-81"
+        }
+      ],
+      "path": "cms/plugin_processors.py",
+      "rationale": "The plugin processors do not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/signals/log_entries.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-85"
+        }
+      ],
+      "path": "cms/signals/log_entries.py",
+      "rationale": "The log entries signals do not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/signals/permissions.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-86"
+        }
+      ],
+      "path": "cms/signals/permissions.py",
+      "rationale": "The permission signals do not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to cms/templatetags/cms_admin.py as it's not directly involved in the new permission logic.",
+          "source": "semantic-seed-91"
+        }
+      ],
+      "path": "cms/templatetags/cms_admin.py",
+      "rationale": "The CMS admin template tags do not require changes for the new permission level.",
+      "reason_codes": [
+        "NO_CHANGES_NEEDED"
+      ]
+    },
+    {
+      "action":

@@ -1,0 +1,147 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/models/pluginmodel.py",
+    "cms/admin/forms.py",
+    "cms/admin/placeholderadmin.py",
+    "cms/models/contentmodels.py",
+    "cms/models/pagemodel.py",
+    "cms/models/placeholdermodel.py",
+    "cms/plugin_rendering.py",
+    "cms/templatetags/cms_tags.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a nullable ForeignKey to PageContent in CMSPlugin model.",
+          "source": "semantic-seed-72"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "The CMSPlugin model must be modified to include the new page_content foreign key field as per the requirement.",
+      "reason_codes": [
+        "model_change"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Plugin forms in admin need to show associated PageContent context.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "Admin forms for plugins need to be updated to display and handle the new page_content field.",
+      "reason_codes": [
+        "admin_ui"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Placeholder rendering logic must filter plugins by language via the page_content foreign key.",
+          "source": "semantic-seed-6"
+        }
+      ],
+      "path": "cms/admin/placeholderadmin.py",
+      "rationale": "The placeholder admin needs to be updated to ensure plugins are filtered by language using the new page_content relationship.",
+      "reason_codes": [
+        "rendering_logic"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Tests should verify plugin-to-language association and rendering filter correctness.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "The model changes should be validated through existing or new tests to ensure correctness.",
+      "reason_codes": [
+        "test_validation"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "description": "Placeholder rendering logic must filter plugins by language via the page_content foreign key.",
+          "source": "semantic-seed-95"
+        }
+      ],
+      "path": "cms/plugin_rendering.py",
+      "rationale": "Plugin rendering logic must be validated to ensure it correctly filters plugins by language using the new page_content foreign key.",
+      "reason_codes": [
+        "rendering_logic"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No requirement or evidence indicates changes to contentmodels or pagemodel are needed beyond the plugin model.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/contentmodels.py",
+      "rationale": "No modification is required in contentmodels as the change is limited to the plugin model.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No requirement or evidence indicates changes to placeholdermodel are needed.",
+          "source": "semantic-seed-70"
+        }
+      ],
+      "path": "cms/models/placeholdermodel.py",
+      "rationale": "Placeholder model does not need modification as the change is in the plugin model.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "Some artifacts like cms/templatetags/cms_tags.py may need updates to support language filtering in templates.",
+          "source": "semantic-seed-95"
+        }
+      ],
+      "path": "cms/templatetags/cms_tags.py",
+      "rationale": "Template tags may require updates to support filtering plugins by language; human review is needed to confirm.",
+      "reason_codes": [
+        "template_logic"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_plugin_language_filtering",
+      "reason": "Tests must verify that plugins are correctly associated with PageContent and filtered by language during rendering.",
+      "target": "cms/tests/test_plugin_rendering.py"
+    }
+  ]
+}

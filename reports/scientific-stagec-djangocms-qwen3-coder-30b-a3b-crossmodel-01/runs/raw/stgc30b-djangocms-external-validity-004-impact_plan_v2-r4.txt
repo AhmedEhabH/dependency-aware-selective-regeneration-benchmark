@@ -1,0 +1,130 @@
+{
+  "architecture_checks": [],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a publication_date field to PageContent and filtering content based on this date in front-end views.",
+          "source": "requirement"
+        }
+      ],
+      "id": 66,
+      "rationale": "The PageContent model needs to be modified to include the new publication_date field, which is central to the requirement.",
+      "reason_codes": [
+        "model_change"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The admin form must display the new publication_date field, and the admin action needs to publish scheduled content.",
+          "source": "semantic-seed-3"
+        },
+        {
+          "description": "Admin forms and actions are handled in cms/admin/forms.py and cms/admin/pageadmin.py.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "id": 4,
+      "rationale": "The admin form needs to be updated to include the publication_date field for PageContent.",
+      "reason_codes": [
+        "admin_ui"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The admin page content form displays the field, and a new 'Publish Scheduled' admin action is required.",
+          "source": "requirement"
+        },
+        {
+          "description": "Page admin functionality is managed in cms/admin/pageadmin.py.",
+          "source": "semantic-seed-5"
+        }
+      ],
+      "id": 5,
+      "rationale": "The PageContent admin needs to support the new publication_date field and the publish scheduled action.",
+      "reason_codes": [
+        "admin_action"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Front-end views must filter out PageContent instances where publication_date is set and in the future.",
+          "source": "requirement"
+        },
+        {
+          "description": "Views that render content are in cms/views.py.",
+          "source": "semantic-seed-126"
+        }
+      ],
+      "id": 126,
+      "rationale": "The views module must be updated to filter content based on publication_date.",
+      "reason_codes": [
+        "view_filter"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "API functions for publishing should respect publication_date.",
+          "source": "requirement"
+        },
+        {
+          "description": "API functions are in cms/api.py.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "id": 12,
+      "rationale": "The API module must be updated to handle publication_date when publishing content.",
+      "reason_codes": [
+        "api_integration"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-3",
+        "semantic-seed-11",
+        "semantic-seed-126"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_content_filtering",
+      "reason": "Front-end views and API must filter content based on publication_date.",
+      "target": "cms/views.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-3",
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_api_publishing",
+      "reason": "API functions must respect publication_date when publishing content.",
+      "target": "cms/api.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-3",
+        "semantic-seed-5"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_admin_ui",
+      "reason": "Admin forms and actions must support publication_date field and publish scheduled action.",
+      "target": "cms/admin/pageadmin.py"
+    }
+  ]
+}

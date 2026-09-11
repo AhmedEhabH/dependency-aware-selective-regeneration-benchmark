@@ -1,0 +1,336 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/admin/forms.py",
+    "cms/admin/pageadmin.py",
+    "cms/admin/permissionadmin.py",
+    "cms/models/permissionmodels.py",
+    "cms/utils/permissions.py",
+    "cms/utils/page_permissions.py",
+    "cms/cms_toolbars.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing and approving content changes, which must be implemented in the permission models and admin interfaces.",
+          "source": "semantic-seed-3"
+        },
+        {
+          "description": "The requirement mentions that the PagePermission model needs a new boolean field `can_review`, and the GlobalPermission model also gains a `can_review` field, indicating changes to permission models.",
+          "source": "semantic-seed-120"
+        }
+      ],
+      "path": "cms/models/permissionmodels.py",
+      "rationale": "The permission models must be updated to include the new `can_review` field for both PagePermission and GlobalPermission.",
+      "reason_codes": [
+        "PERMISSION_MODEL_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that permission checking functions must support the new level, and the PageAdmin needs a 'Review' action, indicating changes to permission utilities and admin logic.",
+          "source": "semantic-seed-120"
+        },
+        {
+          "description": "The PageAdmin needs a 'Review' action that transitions page content status or marks content as reviewed, which requires modification of page admin logic.",
+          "source": "semantic-seed-4"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "The PageAdmin must be updated to include a 'Review' action for handling content review and approval.",
+      "reason_codes": [
+        "ADMIN_ACTION_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement states that the PermissionAdmin shows the new field, and the toolbar shows a 'Review' menu item for users with reviewer access, indicating updates to admin UI and toolbar logic.",
+          "source": "semantic-seed-91"
+        },
+        {
+          "description": "The toolbar needs to show a 'Review' menu item for users with reviewer access, which requires changes to toolbar logic.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/admin/permissionadmin.py",
+      "rationale": "The PermissionAdmin must be updated to display the new `can_review` field.",
+      "reason_codes": [
+        "ADMIN_UI_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that permission checking functions in a relevant module support the new level, and the toolbar shows a 'Review' menu item for users with reviewer access, indicating changes to permission utilities and toolbar logic.",
+          "source": "semantic-seed-120"
+        },
+        {
+          "description": "The toolbar needs to show a 'Review' menu item for users with reviewer access, which requires changes to toolbar logic.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/utils/permissions.py",
+      "rationale": "Permission checking functions must be updated to support the new 'page reviewer' permission level.",
+      "reason_codes": [
+        "PERMISSION_CHECKING_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the toolbar shows a 'Review' menu item for users with reviewer access, which requires changes to toolbar logic.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/cms_toolbars.py",
+      "rationale": "The toolbar logic must be updated to show a 'Review' menu item for users with reviewer access.",
+      "reason_codes": [
+        "TOOLBAR_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "The requirement mentions that the PageAdmin gets a 'Review' action that transitions page content status or marks content as reviewed, which may involve changes to page permissions utilities.",
+          "source": "semantic-seed-119"
+        }
+      ],
+      "path": "cms/utils/page_permissions.py",
+      "rationale": "The page permissions utilities may need to be updated to handle the new review action and permission level.",
+      "reason_codes": [
+        "PAGE_PERMISSIONS_UPDATE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS API functionality, so no changes are needed to the API module.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "No changes are required in the API module as the new permission level does not alter core API behavior.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS forms or form handling logic, so no changes are needed to the forms module.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/forms/__init__.py",
+      "rationale": "No changes are required in the forms module as the new permission level does not alter form handling.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS middleware logic, so no changes are needed to the middleware modules.",
+          "source": "semantic-seed-58"
+        }
+      ],
+      "path": "cms/middleware/page.py",
+      "rationale": "No changes are required in the middleware as the new permission level does not alter page middleware behavior.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS models or model logic, so no changes are needed to the models module.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "No changes are required in the pagemodel as the new permission level does not alter core page model behavior.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS views or view logic, so no changes are needed to the views module.",
+          "source": "semantic-seed-126"
+        }
+      ],
+      "path": "cms/views.py",
+      "rationale": "No changes are required in the views module as the new permission level does not alter core view behavior.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS wizards or wizard logic, so no changes are needed to the wizards module.",
+          "source": "semantic-seed-129"
+        }
+      ],
+      "path": "cms/wizards/helpers.py",
+      "rationale": "No changes are required in the wizards module as the new permission level does not alter wizard behavior.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS templates or template logic, so no changes are needed to the templates module.",
+          "source": "semantic-seed-95"
+        }
+      ],
+      "path": "cms/templates.py",
+      "rationale": "No changes are required in the templates module as the new permission level does not alter template behavior.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS constants or constant logic, so no changes are needed to the constants module.",
+          "source": "semantic-seed-27"
+        }
+      ],
+      "path": "cms/constants.py",
+      "rationale": "No changes are required in the constants module as the new permission level does not alter constant definitions.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS toolbar items or toolbar logic, so no changes are needed to the toolbar items module.",
+          "source": "semantic-seed-97"
+        }
+      ],
+      "path": "cms/toolbar/items.py",
+      "rationale": "No changes are required in the toolbar items module as the new permission level does not alter toolbar item behavior.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS menu logic, so no changes are needed to the menu modules.",
+          "source": "semantic-seed-138"
+        }
+      ],
+      "path": "cms/menus/menu_pool.py",
+      "rationale": "No changes are required in the menu pool module as the new permission level does not alter menu behavior.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the core CMS signals or signal handling logic, so no changes are needed to the signals module.",
+          "source": "semantic-seed-86"
+        }
+      ],
+      "path": "cms/signals/permissions.py",
+      "rationale": "No changes are required in the permissions signals module as the new permission level does not alter signal behavior.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-3",
+        "semantic-seed-120"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "permission_model_update",
+      "reason": "The requirement adds a new 'page reviewer' permission level, which requires changes to the permission models to include the new `can_review` field.",
+      "target": "cms/models/permissionmodels.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-4",
+        "semantic-seed-120"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "pageadmin_review_action",
+      "reason": "The requirement specifies that the PageAdmin gets a 'Review' action, which requires updating the PageAdmin to support this new functionality.",
+      "target": "cms/admin/pageadmin.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-91",
+        "semantic-seed-99"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "toolbar_review_menu",
+      "reason": "The requirement specifies that the toolbar shows a 'Review' menu item for users with reviewer access, which requires updating toolbar logic.",
+      "target": "cms/cms_toolbars.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-120"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "permission_checking_update",
+      "reason": "The requirement specifies that permission checking functions must support the new level, which requires updating permission utilities.",
+      "target": "cms/utils/permissions.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-119"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "page_permissions_update",
+      "reason": "The requirement specifies that the PageAdmin gets a 'Review' action that transitions page content status or marks content as reviewed, which may involve changes to page permissions utilities.",
+      "target": "cms/utils/page_permissions.py"
+    }
+  ]
+}

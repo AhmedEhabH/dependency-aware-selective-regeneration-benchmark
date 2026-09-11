@@ -1,0 +1,579 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/admin/pageadmin.py",
+    "cms/admin/permissionadmin.py",
+    "cms/models/permissionmodels.py",
+    "cms/utils/permissions.py",
+    "cms/utils/page_permissions.py",
+    "cms/cms_toolbars.py",
+    "cms/admin/forms.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing and approving content changes, which must be implemented in the permission models and admin interfaces.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/permissionmodels.py",
+      "rationale": "The permission models need to be updated to include the new 'can_review' field for both PagePermission and GlobalPermission.",
+      "reason_codes": [
+        "PERMISSION_MODEL_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The PageAdmin needs a 'Review' action to transition page content status or mark content as reviewed, which requires changes to the admin interface.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "The PageAdmin class must be modified to include the new 'Review' action for handling content review workflows.",
+      "reason_codes": [
+        "ADMIN_ACTION_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The PermissionAdmin must show the new 'can_review' field to allow administrators to assign reviewer permissions.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/permissionadmin.py",
+      "rationale": "The PermissionAdmin interface needs to be updated to display and manage the new reviewer permission field.",
+      "reason_codes": [
+        "ADMIN_INTERFACE_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The toolbar should show a 'Review' menu item for users with reviewer access, requiring updates to toolbar logic.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_toolbars.py",
+      "rationale": "Toolbar logic must be updated to conditionally display a 'Review' menu item for users with reviewer permissions.",
+      "reason_codes": [
+        "TOOLBAR_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Permission checking functions need to support the new reviewer level, which involves updating utility functions in relevant modules.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/permissions.py",
+      "rationale": "Permission utility functions must be updated to recognize and handle the new 'page reviewer' permission level.",
+      "reason_codes": [
+        "PERMISSION_CHECKING_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Page permission utilities also need to support the new reviewer role for checking access rights.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/page_permissions.py",
+      "rationale": "Page permission checking logic must be extended to include the new reviewer role.",
+      "reason_codes": [
+        "PAGE_PERMISSION_CHECKING_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "description": "The forms module may need updates to support the new permission level in form handling or validation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "Forms used in admin interfaces may require modifications to support the new reviewer permission field.",
+      "reason_codes": [
+        "FORMS_UPDATE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes are required to the API module since the new permission level is internal to the CMS and does not affect public APIs.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "The API layer does not need modification as the new permission is an internal administrative feature.",
+      "reason_codes": [
+        "NO_API_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Other modules like wizards, middleware, and templates do not directly interact with the new permission level.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/wizards/helpers.py",
+      "rationale": "The wizard helpers do not require changes as they are unrelated to page permissions.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Middleware components are not directly affected by the addition of a new permission level.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/middleware/page.py",
+      "rationale": "Page middleware does not need modification for this permission change.",
+      "reason_codes": [
+        "MIDDLEWARE_UNRELATED"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The placeholder admin does not need changes for this permission update.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/placeholderadmin.py",
+      "rationale": "Placeholder admin is not involved in page permission handling.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The plugin model is not directly impacted by the new permission level.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "Plugin models do not require changes for page permission updates.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The page rendering logic is not affected by the new permission level.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/page_rendering.py",
+      "rationale": "Page rendering does not involve permission checks for the new reviewer role.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS menus module does not need changes for this permission update.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_menus.py",
+      "rationale": "Menu rendering logic is not impacted by the new reviewer permission.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS toolbar items module does not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/toolbar/items.py",
+      "rationale": "Toolbar items logic is not directly affected by the new permission level.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS views module does not need modification for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/views.py",
+      "rationale": "View logic is not impacted by the addition of a new permission level.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS constants module does not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/constants.py",
+      "rationale": "Constants are not directly affected by the new permission level.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS signals modules do not need changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/signals/permissions.py",
+      "rationale": "Permission signals are not directly impacted by the new reviewer role.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS forms utils module does not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/forms/utils.py",
+      "rationale": "Form utilities are not directly involved in page permission handling.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS utils modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/page.py",
+      "rationale": "Page utility functions are not directly affected by the new permission.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS cache modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/permissions.py",
+      "rationale": "Permission caching logic is not directly impacted by the new reviewer role.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS management commands do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/copy.py",
+      "rationale": "Copy command is unrelated to page permission handling.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS templates and template tags do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/templatetags/cms_tags.py",
+      "rationale": "Template tags are not directly involved in permission handling.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS extensions modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/extensions/models.py",
+      "rationale": "Extensions are not directly impacted by the new permission level.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS apphook modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/app_registration.py",
+      "rationale": "App registration logic is not affected by the new permission.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS menu modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "menus/menu_pool.py",
+      "rationale": "Menu pool logic is not directly impacted by the new permission.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS wizards modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/wizards/forms.py",
+      "rationale": "Wizard forms are not directly involved in page permission handling.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS middleware modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/middleware/language.py",
+      "rationale": "Language middleware is not related to page permissions.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS context processors do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/context_processors.py",
+      "rationale": "Context processors are not directly involved in permission handling.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS utils modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/conf.py",
+      "rationale": "Configuration utilities are not directly impacted by the new permission.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS utils modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/helpers.py",
+      "rationale": "Helper functions are not directly involved in page permission logic.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS utils modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/i18n.py",
+      "rationale": "Internationalization utilities are not directly impacted by the new permission.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS utils modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/plugins.py",
+      "rationale": "Plugin utilities are not directly involved in page permission handling.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS utils modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/placeholder.py",
+      "rationale": "Placeholder utilities are not directly impacted by the new permission.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS utils modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/request_ip_resolvers.py",
+      "rationale": "IP resolution logic is not related to page permissions.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS utils modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/urlutils.py",
+      "rationale": "URL utilities are not directly involved in permission handling.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS utils modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/admin.py",
+      "rationale": "Admin utilities are not directly impacted by the new permission.",
+      "reason_codes": [
+        "UNRELATED_MODULE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The CMS utils modules do not require changes for this permission.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/apphook_reload.py",
+      "rationale": "Apphook reload logic is not directly affected by the new permission.",
+      "

@@ -1,0 +1,139 @@
+{
+  "architecture_checks": [],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a `publication_date` DateTimeField to PageContent, which is defined in cms/models/contentmodels.py.",
+          "source": "semantic-seed-66"
+        }
+      ],
+      "id": 66,
+      "rationale": "The PageContent model needs to be modified to include the new publication_date field.",
+      "reason_codes": [
+        "model_field_addition"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The admin form needs to display the new publication_date field, as per cms/admin/forms.py.",
+          "source": "semantic-seed-4"
+        }
+      ],
+      "id": 4,
+      "rationale": "The admin form must be updated to include the publication_date field for editing.",
+      "reason_codes": [
+        "admin_form_update"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The admin page content form should display the publication_date field, as per cms/admin/pageadmin.py.",
+          "source": "semantic-seed-5"
+        }
+      ],
+      "id": 5,
+      "rationale": "The PageAdmin needs to be updated to include the publication_date field in its form.",
+      "reason_codes": [
+        "admin_form_update"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "A new 'Publish Scheduled' admin action is required, which involves modifying cms/admin/pageadmin.py.",
+          "source": "semantic-seed-5"
+        }
+      ],
+      "id": 5,
+      "rationale": "The admin action for publishing scheduled content must be implemented in the PageAdmin.",
+      "reason_codes": [
+        "admin_action_addition"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Front-end views need to filter out PageContent instances with future publication dates, as per cms/views.py.",
+          "source": "semantic-seed-126"
+        }
+      ],
+      "id": 126,
+      "rationale": "The views must be updated to respect the publication_date when rendering content.",
+      "reason_codes": [
+        "view_filtering"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "API functions for publishing should respect publication_date, as per cms/api.py.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "id": 12,
+      "rationale": "The API must be updated to handle the publication_date logic for publishing.",
+      "reason_codes": [
+        "api_logic_update"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-66",
+        "semantic-seed-4",
+        "semantic-seed-5",
+        "semantic-seed-126",
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_content_model_field",
+      "reason": "Tests must cover the new publication_date field in PageContent model.",
+      "target": "tests for cms/models/contentmodels.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-4",
+        "semantic-seed-5"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_admin_forms",
+      "reason": "Tests must cover the updated admin forms with publication_date field.",
+      "target": "tests for cms/admin/forms.py and cms/admin/pageadmin.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-126"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_view_filtering",
+      "reason": "Tests must verify that views filter out future-dated content.",
+      "target": "tests for cms/views.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_api_publishing",
+      "reason": "Tests must ensure API respects publication_date when publishing.",
+      "target": "tests for cms/api.py"
+    }
+  ]
+}

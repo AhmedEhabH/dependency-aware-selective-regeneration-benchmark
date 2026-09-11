@@ -1921,16 +1921,16 @@ def run_cell(cell: dict[str, Any], dry_run: bool) -> tuple[dict[str, Any], str |
     )
 
     started = time.monotonic()
-    accounting = {
-        "request_attempted": True,
-        "request_dispatched": bool(getattr(recorder, "dispatched", False)),
-        "usage_received": bool(getattr(recorder, "usage_received", False)),
-    }
     try:
         record = runner.run(scenario)
     except Exception as exc:
         elapsed = time.monotonic() - started
         raw_text = recorder.raw_texts[0] if recorder and recorder.raw_texts else None
+        accounting = {
+            "request_attempted": True,
+            "request_dispatched": bool(getattr(recorder, "dispatched", False)),
+            "usage_received": bool(getattr(recorder, "usage_received", False)),
+        }
         evidence = _build_failed_cell_evidence(
             cell, elapsed, scenario_path, universe_paths,
             raw_text=raw_text, exc=exc,
@@ -1942,7 +1942,11 @@ def run_cell(cell: dict[str, Any], dry_run: bool) -> tuple[dict[str, Any], str |
 
     raw_text = recorder.raw_texts[0] if recorder and recorder.raw_texts else None
     finish_reason = recorder.finish_reasons[0] if recorder and recorder.finish_reasons else ""
-    accounting["usage_received"] = bool(getattr(recorder, "usage_received", False))
+    accounting = {
+        "request_attempted": True,
+        "request_dispatched": bool(getattr(recorder, "dispatched", False)),
+        "usage_received": bool(getattr(recorder, "usage_received", False)),
+    }
     evidence = _build_cell_evidence(
         cell, record, elapsed, scenario_path, universe_paths,
         dry_run=dry_run, raw_text=raw_text, finish_reason=finish_reason,
@@ -2109,7 +2113,10 @@ def _build_cell_evidence(
         "provider_response_received": raw_text is not None,
         "raw_response_persisted": raw_text is not None,
         "usage_received": bool(token_usage is not None or accounting.get("usage_received")),
-        "usage_known": bool(token_usage is not None or accounting.get("usage_received")),
+        "usage_known": bool(
+            (token_usage is not None and (prompt_tokens + completion_tokens) > 0)
+            or accounting.get("usage_received")
+        ),
         "completion_cap_hit": harness_finish == "length",
         "transport_failure": False,
         "frozen_input_hashes": frozen_input_hashes,
@@ -2348,13 +2355,11 @@ def _write_checkpoint(
             "failed": sum(1 for r in v2 if r["terminal_status"] != "succeeded"),
             "truncations": _truncation_count(v2),
         },
-        "requests_issued": sum(1 for r in records.values() if r.get("request_dispatched", True)),
-        "responses_received": sum(
-            1 for r in records.values() if r.get("provider_response_received", False)
-            or r.get("raw_response_sha256")
-        ),
-        "usage_known_cells": sum(1 for r in records.values() if r.get("usage_known", False)),
-        "usage_unknown_cells": sum(1 for r in records.values() if not r.get("usage_known", False)),
+        "requests_issued": sum(1 for r in records.values() if _derived_request_dispatched(r)),
+        "responses_received": sum(1 for r in records.values() if _derived_responses_received(r)),
+        "usage_known_cells": sum(1 for r in records.values() if _derived_usage_known(r)),
+        "usage_unknown_cells": sum(1 for r in records.values() if not _derived_usage_known(r)),
+        "transport_failure_cells": sum(1 for r in records.values() if _transport_failure(r)),
         "prompt_tokens": sum(int(r["prompt_tokens"]) for r in records.values()),
         "completion_tokens": sum(int(r["completion_tokens"]) for r in records.values()),
         "total_tokens": sum(int(r["total_tokens"]) for r in records.values()),
@@ -2568,6 +2573,67 @@ def _count_usage_unknown(rows: list[dict[str, Any]]) -> int:
     return sum(1 for r in rows if not r.get("usage_known", False))
 
 
+def _transport_failure(record: dict[str, Any]) -> bool:
+    """True when a cell's failure evidence indicates a transport-level failure
+    after the request was dispatched (no usable provider response)."""
+    blob = (
+        json.dumps(record.get("failure_evidence", []), default=str)
+        + " "
+        + str(record.get("failure_category", ""))
+    )
+    return any(
+        tok in blob
+        for tok in (
+            "Remote end closed",
+            "RemoteDisconnected",
+            "IncompleteRead",
+            "connection failed",
+            "Connection reset",
+            "timed out",
+            "TimeoutError",
+        )
+    )
+
+
+def _derived_request_dispatched(record: dict[str, Any]) -> bool:
+    """C4 request semantics derived from raw evidence (authoritative).
+
+    A request is counted as issued once the provider request has actually been
+    dispatched. ANY of the following proves dispatch: a persisted raw
+    response, a provider response received, a usage-bearing model call, a
+    transport failure after dispatch, or recorded usage.
+    """
+    if record.get("request_dispatched"):
+        return True
+    if record.get("provider_response_received"):
+        return True
+    if record.get("raw_response_sha256"):
+        return True
+    if int(record.get("model_calls", 0) or 0) > 0:
+        return True
+    if _transport_failure(record):
+        return True
+    if record.get("usage_known"):
+        return True
+    return False
+
+
+def _derived_responses_received(record: dict[str, Any]) -> bool:
+    return bool(record.get("provider_response_received") or record.get("raw_response_sha256"))
+
+
+def _derived_usage_known(record: dict[str, Any]) -> bool:
+    """usage_known requires exact provider usage with actual tokens. A record
+    whose usage object is a zeroed placeholder (e.g. transport failure) does
+    NOT have known usage."""
+    if not record.get("usage_known"):
+        return False
+    if (int(record.get("prompt_tokens", 0) or 0) + int(record.get("completion_tokens", 0) or 0)) > 0:
+        return True
+    # A raw response without captured usage is not known usage.
+    return False
+
+
 def _arm_metrics(records: dict[str, dict[str, Any]], arm: str) -> dict[str, Any]:
     arm_records = {rid: r for rid, r in records.items() if r["arm"] == arm}
     valid = {rid: r for rid, r in arm_records.items() if r["terminal_status"] == "succeeded"}
@@ -2664,7 +2730,11 @@ def _arm_metrics(records: dict[str, dict[str, Any]], arm: str) -> dict[str, Any]
         "prompt_tokens": _stats([float(r["prompt_tokens"]) for r in rows_all]),
         "total_tokens": _stats([float(r["total_tokens"]) for r in rows_all]),
         "calls": sum(int(r["model_calls"]) for r in rows_all),
-        "requests_issued": len(rows_all),
+        "requests_issued": sum(1 for r in rows_all if _derived_request_dispatched(r)),
+        "responses_received": sum(1 for r in rows_all if _derived_responses_received(r)),
+        "usage_known_cells": sum(1 for r in rows_all if _derived_usage_known(r)),
+        "usage_unknown_cells": sum(1 for r in rows_all if not _derived_usage_known(r)),
+        "transport_failure_cells": sum(1 for r in rows_all if _transport_failure(r)),
         "latency_seconds": round(sum(float(r["latency_seconds"]) for r in rows_all), 6),
         "api_cost_usd": round(sum(float(r["api_cost"]) for r in rows_all), 6),
         "live_api_cost_usd": round(sum(_live_cost(r) for r in rows_all), 6),
@@ -2686,18 +2756,15 @@ def compute_metrics(records: dict[str, dict[str, Any]]) -> dict[str, Any]:
         "completion_tokens": sum(int(r["completion_tokens"]) for r in rows_all),
         "total_tokens": sum(int(r["total_tokens"]) for r in rows_all),
         "model_calls": sum(int(r["model_calls"]) for r in rows_all),
-        "requests_issued": sum(1 for r in rows_all if r.get("request_dispatched", True)),
-        "responses_received": sum(
-            1
-            for r in rows_all
-            if r.get("provider_response_received", False) or r.get("raw_response_sha256")
-        ),
-        "usage_known_cells": sum(1 for r in rows_all if r.get("usage_known", False)),
-        "usage_unknown_cells": sum(1 for r in rows_all if not r.get("usage_known", False)),
+        "requests_issued": sum(1 for r in rows_all if _derived_request_dispatched(r)),
+        "responses_received": sum(1 for r in rows_all if _derived_responses_received(r)),
+        "usage_known_cells": sum(1 for r in rows_all if _derived_usage_known(r)),
+        "usage_unknown_cells": sum(1 for r in rows_all if not _derived_usage_known(r)),
+        "transport_failure_cells": sum(1 for r in rows_all if _transport_failure(r)),
         "usage_unrecoverable_cells": sum(
             1
             for r in rows_all
-            if not r.get("usage_known", False)
+            if not _derived_usage_known(r)
             and (r.get("raw_response_sha256") or r.get("model_calls", 0) == 0)
             and int(r.get("prompt_tokens", 0)) == 0
         ),
@@ -2705,7 +2772,7 @@ def compute_metrics(records: dict[str, dict[str, Any]]) -> dict[str, Any]:
         "api_cost_usd": _cumulative_cost(records),
         "live_api_cost_usd": round(sum(_live_cost(r) for r in rows_all), 6),
         "lower_bound_qualified": sum(
-            1 for r in rows_all if not r.get("usage_known", False)
+            1 for r in rows_all if not _derived_usage_known(r)
         ) > 0,
     }
     return {

@@ -1,0 +1,538 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/cache/__init__.py",
+    "cms/cache/page.py",
+    "cms/cache/placeholder.py",
+    "cms/cache/permissions.py",
+    "cms/models/pagemodel.py",
+    "cms/models/placeholdermodel.py",
+    "cms/models/pluginmodel.py",
+    "cms/signals/__init__.py",
+    "cms/templatetags/cms_tags.py",
+    "cms/middleware/toolbar.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies implementing a cache invalidation tag system with utility functions for generating and invalidating cache tags, and signal handlers for Page, PageContent, Placeholder, and CMSPlugin models.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/__init__.py",
+      "rationale": "This file needs to be updated to support the new cache tag system and provide the necessary interface for cache tag generation and invalidation.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that cache tags should be associated with Page, PageContent, Placeholder, and CMSPlugin objects, and that signal handlers should invalidate cache tags on post_save and post_delete.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "The Page model needs to be updated to generate and store cache tags for use in the new cache invalidation system.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that cache tags should be associated with Placeholder objects, and that signal handlers should invalidate cache tags on post_save and post_delete.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/placeholdermodel.py",
+      "rationale": "The Placeholder model needs to be updated to generate and store cache tags for use in the new cache invalidation system.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that cache tags should be associated with CMSPlugin objects, and that signal handlers should invalidate cache tags on post_save and post_delete.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "The CMSPlugin model needs to be updated to generate and store cache tags for use in the new cache invalidation system.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that signal handlers should be connected to post_save and post_delete of Page, PageContent, Placeholder, and CMSPlugin to invalidate cache tags.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/signals/__init__.py",
+      "rationale": "This file needs to be updated to register signal handlers for the new cache invalidation system.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies updating the placeholder template tag to check cache using the tag system before rendering.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/templatetags/cms_tags.py",
+      "rationale": "The placeholder template tag needs to be updated to integrate with the new cache tag system.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies updating middleware to tag response objects with cache tags of rendered content.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/middleware/toolbar.py",
+      "rationale": "The middleware needs to be updated to tag response objects with cache tags for use in the new cache invalidation system.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the cache page module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/page.py",
+      "rationale": "No changes are required to the cache page module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the cache placeholder module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/placeholder.py",
+      "rationale": "No changes are required to the cache placeholder module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the cache permissions module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/permissions.py",
+      "rationale": "No changes are required to the cache permissions module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the cache choices module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/choices.py",
+      "rationale": "No changes are required to the cache choices module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the admin forms module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "No changes are required to the admin forms module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the admin pageadmin module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "No changes are required to the admin pageadmin module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the admin placeholderadmin module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/placeholderadmin.py",
+      "rationale": "No changes are required to the admin placeholderadmin module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the api module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "No changes are required to the api module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the app_registration module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/app_registration.py",
+      "rationale": "No changes are required to the app_registration module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the appresolver module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/appresolver.py",
+      "rationale": "No changes are required to the appresolver module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the cms_menus module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_menus.py",
+      "rationale": "No changes are required to the cms_menus module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the cms_plugins module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_plugins.py",
+      "rationale": "No changes are required to the cms_plugins module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the cms_toolbars module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_toolbars.py",
+      "rationale": "No changes are required to the cms_toolbars module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the cms_wizards module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_wizards.py",
+      "rationale": "No changes are required to the cms_wizards module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the constants module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/constants.py",
+      "rationale": "No changes are required to the constants module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the context_processors module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/context_processors.py",
+      "rationale": "No changes are required to the context_processors module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the exceptions module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/exceptions.py",
+      "rationale": "No changes are required to the exceptions module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the extensions module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/extensions/__init__.py",
+      "rationale": "No changes are required to the extensions module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the forms module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/forms/__init__.py",
+      "rationale": "No changes are required to the forms module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the management commands module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/management/commands/__init__.py",
+      "rationale": "No changes are required to the management commands module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the menu_bases module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/menu_bases.py",
+      "rationale": "No changes are required to the menu_bases module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the middleware language module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/middleware/language.py",
+      "rationale": "No changes are required to the middleware language module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the middleware user module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/middleware/user.py",
+      "rationale": "No changes are required to the middleware user module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the middleware utils module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/middleware/utils.py",
+      "rationale": "No changes are required to the middleware utils module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the models module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/__init__.py",
+      "rationale": "No changes are required to the models module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the models aliaspluginmodel module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/aliaspluginmodel.py",
+      "rationale": "No changes are required to the models aliaspluginmodel module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the models apphooks_reload module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/apphooks_reload.py",
+      "rationale": "No changes are required to the models apphooks_reload module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to the models contentmodels module.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/contentmodels.py",
+      "rationale": "No changes are required to the models contentmodels module as it is not mentioned in the requirement.",
+      "reason_codes": [
+        "no_requirement_change

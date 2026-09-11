@@ -1,0 +1,205 @@
+{
+  "architecture_checks": [
+    "Cache invalidation system must be opt-in and preserve existing behavior when not configured",
+    "Signal handlers must be connected to post_save and post_delete of Page, PageContent, Placeholder, CMSPlugin",
+    "Middleware must tag response objects with cache tags of rendered content",
+    "Template tags must check cache using the tag system before rendering"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "cms/cache/__init__.py is the core module for cache handling and needs to be updated to support tag-based invalidation",
+          "source": "semantic-seed-17"
+        }
+      ],
+      "id": 18,
+      "rationale": "The cache module needs to be updated to support the new tag-based invalidation system.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "cms/models/pagemodel.py contains Page model which needs cache tags support",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "id": 69,
+      "rationale": "The Page model must be updated to generate and store cache tags.",
+      "reason_codes": [
+        "MODEL_CACHE_TAGS"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "cms/models/placeholdermodel.py contains Placeholder model which needs cache tags support",
+          "source": "semantic-seed-70"
+        }
+      ],
+      "id": 71,
+      "rationale": "The Placeholder model must be updated to generate and store cache tags.",
+      "reason_codes": [
+        "MODEL_CACHE_TAGS"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "cms/models/pluginmodel.py contains CMSPlugin model which needs cache tags support",
+          "source": "semantic-seed-72"
+        }
+      ],
+      "id": 73,
+      "rationale": "The CMSPlugin model must be updated to generate and store cache tags.",
+      "reason_codes": [
+        "MODEL_CACHE_TAGS"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "cms/models/contentmodels.py contains PageContent model which needs cache tags support",
+          "source": "semantic-seed-66"
+        }
+      ],
+      "id": 66,
+      "rationale": "The PageContent model must be updated to generate and store cache tags.",
+      "reason_codes": [
+        "MODEL_CACHE_TAGS"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "cms/signals/__init__.py is the central place for signal handling and needs to connect to new cache invalidation signals",
+          "source": "semantic-seed-83"
+        }
+      ],
+      "id": 84,
+      "rationale": "Signal handlers must be implemented to invalidate cache tags on model changes.",
+      "reason_codes": [
+        "SIGNAL_HANDLERS"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "cms/middleware/toolbar.py handles toolbar middleware and needs to be updated to tag responses",
+          "source": "semantic-seed-60"
+        }
+      ],
+      "id": 60,
+      "rationale": "Toolbar middleware must be updated to tag response objects with cache tags.",
+      "reason_codes": [
+        "MIDDLEWARE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "cms/templatetags/cms_tags.py contains placeholder template tags that need to check cache using the tag system",
+          "source": "semantic-seed-95"
+        }
+      ],
+      "id": 95,
+      "rationale": "Template tags must be updated to use the new cache tagging system.",
+      "reason_codes": [
+        "TEMPLATE_TAG_CACHE"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-17"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "cache_tagging",
+      "reason": "The cache module must support tag-based invalidation as per requirement",
+      "target": "cms/cache/__init__.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-68"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "page_model_tags",
+      "reason": "Page model must support cache tagging",
+      "target": "cms/models/pagemodel.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-70"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "placeholder_model_tags",
+      "reason": "Placeholder model must support cache tagging",
+      "target": "cms/models/placeholdermodel.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-72"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "plugin_model_tags",
+      "reason": "CMSPlugin model must support cache tagging",
+      "target": "cms/models/pluginmodel.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-66"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "pagecontent_model_tags",
+      "reason": "PageContent model must support cache tagging",
+      "target": "cms/models/contentmodels.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-83"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "signal_handlers",
+      "reason": "Signal handlers must be implemented for cache invalidation",
+      "target": "cms/signals/__init__.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-60"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "middleware_tagging",
+      "reason": "Middleware must tag responses with cache tags",
+      "target": "cms/middleware/toolbar.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-95"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "template_tag_cache",
+      "reason": "Template tags must use new cache tagging system",
+      "target": "cms/templatetags/cms_tags.py"
+    }
+  ]
+}

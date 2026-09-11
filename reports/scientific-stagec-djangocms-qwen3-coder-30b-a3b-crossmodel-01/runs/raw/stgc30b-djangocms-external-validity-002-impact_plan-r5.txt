@@ -1,0 +1,92 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/api.py",
+    "cms/models/contentmodels.py",
+    "cms/models/pagemodel.py",
+    "cms/utils/i18n.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a utility function to retrieve PageContent by page and language, which aligns with the existing cms/api.py module's role in providing public APIs.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "The cms/api.py module is the most appropriate place to add a public utility function for retrieving page content by language, as it's designed for exposing public APIs.",
+      "reason_codes": [
+        "api_placement"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The contentmodels.py file contains the PageContent model definition and related logic, but the new function is a utility, not a model method.",
+          "source": "semantic-seed-65"
+        }
+      ],
+      "path": "cms/models/contentmodels.py",
+      "rationale": "The PageContent model is not the correct location for a utility function; it should be in an API module.",
+      "reason_codes": [
+        "model_placement"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The pagemodel.py file contains the Page model, but the utility function is not a method of the Page model itself.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "The Page model is not the correct location for a utility function; it should be in an API module.",
+      "reason_codes": [
+        "model_placement"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "The utils/i18n.py module handles internationalization logic and may be relevant for language-related operations, but the new function is a general utility, not an i18n-specific one.",
+          "source": "semantic-seed-116"
+        }
+      ],
+      "path": "cms/utils/i18n.py",
+      "rationale": "This file is not the primary location for general utility functions and should not be modified unless there's a specific reason to integrate with i18n logic.",
+      "reason_codes": [
+        "i18n_relevance"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_api_functionality",
+      "reason": "The new utility function must be tested to ensure it correctly retrieves PageContent by page and language, and raises DoesNotExist when appropriate.",
+      "target": "cms/tests/test_api.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "regression",
+      "obligation_id": "ensure_no_regression",
+      "reason": "Adding a new utility function should not break any existing functionality in the cms/api.py module or related components.",
+      "target": "cms/tests/test_api.py"
+    }
+  ]
+}
