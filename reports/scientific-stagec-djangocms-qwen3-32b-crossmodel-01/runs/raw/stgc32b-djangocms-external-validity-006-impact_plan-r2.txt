@@ -1,0 +1,467 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model must be modified to add a nullable ForeignKey to PageContent named `page_content`.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "FOREIGN_KEY_ADDITION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py is directly related to the CMSPlugin model, which is the target of the ForeignKey addition."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin forms in the admin must be updated to show the associated PageContent context.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_FORM_UPDATE", "CONTEXT_DISPLAY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is relevant to plugin forms and language filtering, which are impacted by the new `page_content` field."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder admin logic may need to be updated to reflect the new language filtering behavior.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_LOGIC_UPDATE", "PLACEHOLDER_FILTERING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/placeholderadmin.py is relevant to placeholder admin methods, which may need to be adjusted for the new filtering logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder rendering logic must be updated to filter plugins by the requested language via the new `page_content` field.",
+      "confidence": 0.95,
+      "reason_codes": ["RENDERING_LOGIC_UPDATE", "LANGUAGE_FILTERING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is directly involved in page rendering and filtering logic, which is a core part of the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin utility functions may need to be updated to handle the new `page_content` field and language filtering.",
+      "confidence": 0.9,
+      "reason_codes": ["UTILITY_UPDATE", "PLUGIN_FILTERING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/plugins.py is relevant to plugin handling and may need to be updated to support the new language filtering logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the Placeholder model, though it may be referenced in queries.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_REFERENCE", "NO_DIRECT_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "cms/models/placeholdermodel.py is relevant to placeholders but not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "PRESERVE",
+      "rationale": "The Page model is not directly modified, though it is related to PageContent.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_REFERENCE", "NO_DIRECT_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is relevant to page models but not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "The PageContent model is referenced but not modified in this change.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_REFERENCE", "NO_DIRECT_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/contentmodels.py is relevant to content models but not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "Template tags may be affected indirectly, but no direct changes are required at this stage.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_REFERENCE", "NO_DIRECT_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is relevant to plugin rendering but not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+      "action": "REGENERATE",
+      "rationale": "The command for deleting orphaned plugins may need to be updated to account for the new `page_content` field.",
+      "confidence": 0.85,
+      "reason_codes": ["COMMAND_LOGIC_UPDATE", "PLUGIN_CLEANUP"],
+      "evidence": [
+        {
+          "source": "semantic-seed-51",
+          "description": "cms/management/commands/subcommands/delete_orphaned_plugins.py is relevant to plugin management and may need to be updated."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_plugins.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "New tests must be added to verify plugin-to-language association and rendering filter correctness.",
+      "confidence": 0.95,
+      "reason_codes": ["TEST_ADDITION", "VALIDATION_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is relevant to plugin verification, and new tests are required to ensure correctness."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_page_rendering.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "Tests for page rendering must be updated to ensure language filtering works correctly.",
+      "confidence": 0.95,
+      "reason_codes": ["TEST_ADDITION", "VALIDATION_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is relevant to rendering logic, and tests must be updated to reflect the new filtering behavior."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the admin initialization file.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "ADMIN_INIT"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/__init__.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the user admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "USER_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/useradmin.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the static placeholder admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "STATIC_PLACEHOLDER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/static_placeholder.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the permission admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "PERMISSION_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/permissionadmin.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the settings admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "SETTINGS_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/settingsadmin.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the admin utility functions.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "ADMIN_UTILS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/utils.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/app_registration.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the app registration logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "APP_REGISTRATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/app_registration.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/apphook_pool.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the apphook pool logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "APPHOOK_POOL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/apphook_pool.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/appresolver.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the app resolver logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "APP_RESOLVER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-15",
+          "description": "cms/admin/appresolver.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_menus.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS menus logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_MENUS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-23",
+          "description": "cms/admin/cms_menus.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_wizards.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS wizards logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_WIZARDS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-128",
+          "description": "cms/admin/cms_wizards.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_toolbars.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS toolbars logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_TOOLBARS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "cms/admin/cms_toolbars.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS plugins admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_PLUGINS_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/cms_plugins.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_forms.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS forms admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_FORMS_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/cms_forms.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_utils.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS utils admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_UTILS_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/cms_utils.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_extensions.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS extensions admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_EXTENSIONS_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/cms_extensions.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_toolbar.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS toolbar admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_TOOLBAR_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "cms/admin/cms_toolbar.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_wizards.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS wizards admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_WIZARDS_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-128",
+          "description": "cms/admin/cms_wizards.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_toolbar.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS toolbar admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_TOOLBAR_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "cms/admin/cms_toolbar.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS plugins admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_PLUGINS_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/cms_plugins.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_forms.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS forms admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_FORMS_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/cms_forms.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_utils.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS utils admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_UTILS_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/cms_utils.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_extensions.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS extensions admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_EXTENSIONS_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/cms_extensions.py is not directly modified by the requirement."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/cms_toolbar.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS toolbar admin logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_DIRECT_CHANGE", "CMS_TOOLBAR_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description":

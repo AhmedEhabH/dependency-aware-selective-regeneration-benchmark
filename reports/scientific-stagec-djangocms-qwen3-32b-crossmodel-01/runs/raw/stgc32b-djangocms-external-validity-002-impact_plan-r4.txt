@@ -1,0 +1,162 @@
+{
+  "decisions": [
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "This file is a likely candidate for adding the `get_page_content_by_language` utility function, as it already contains page-related utility functions and aligns with the requirement terms.",
+      "confidence": 0.95,
+      "reason_codes": ["UTIL_FUNC_ADD", "SEMANTIC_MATCH"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "The file contains page-related utility functions, including 'get' and 'page' terms, making it a natural place to add the new utility."
+        },
+        {
+          "source": "semantic-seed-65",
+          "description": "The 'PageContent' model is defined in 'contentmodels.py', which is closely related to 'pagemodel.py' and 'page.py' utility functions."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "This file defines the PageContent model but does not need to be modified for the utility function itself.",
+      "confidence": 1.0,
+      "reason_codes": ["MODEL_DEFINITION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-65",
+          "description": "This file defines the 'PageContent' model, which is the target of the utility function but not the function itself."
+        }
+      ]
+    },
+    {
+      "path": "cms/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No evidence suggests this file should be modified for the new utility function.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_EDIT_REQUIRED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "This file may need to re-export the new utility function via __all__ to make it public.",
+      "confidence": 0.85,
+      "reason_codes": ["PUBLIC_EXPORT"],
+      "evidence": [
+        {
+          "source": "semantic-seed-103",
+          "description": "This file already contains language-related utility functions and may be used to re-export the new function."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not need to be modified to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "This file already deals with page and pagecontent, and may benefit from the new utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not need to be modified to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "This file already contains page-related logic and may benefit from the new utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not need to be modified to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "This file already contains page-related utility functions and may benefit from the new utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/i18n.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not need to be modified to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "This file already contains language-related utility functions and may benefit from the new utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not need to be modified to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "This file already contains page-related logic and may benefit from the new utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not need to be modified to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "This file already contains page and content-related logic and may benefit from the new utility function."
+        }
+      ]
+    }
+  ],
+  "context_set": [
+    "cms/models/contentmodels.py",
+    "cms/page_rendering.py",
+    "cms/admin/pageadmin.py",
+    "cms/forms/utils.py",
+    "cms/utils/i18n.py",
+    "cms/templatetags/cms_tags.py",
+    "cms/views.py"
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "V001",
+      "kind": "changed_requirement",
+      "target": "cms.tests.utils.test_page",
+      "reason": "The new utility function must be tested for correct behavior, including raising DoesNotExist when no matching content exists.",
+      "evidence_refs": ["semantic-seed-118"]
+    },
+    {
+      "obligation_id": "V002",
+      "kind": "regression",
+      "target": "cms.tests.models.test_pagecontent",
+      "reason": "Ensure that existing pagecontent queries and logic are not affected by the new utility function.",
+      "evidence_refs": ["semantic-seed-65"]
+    }
+  ],
+  "architecture_checks": [
+    "The new utility function must follow Django best practices, including proper exception handling and model querying."
+  ],
+  "escalation_reason": ""
+}

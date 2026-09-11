@@ -1,0 +1,441 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs a new status field with workflow states and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is directly related to page content and is a likely location for the new status field."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin actions for workflow transitions (submit for review, approve, reject, publish) must be added to the PageContentAdmin.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is related to admin UI and field display, indicating that admin changes are relevant."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar must show workflow state and available transitions for PageContent.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "cms/constants.py references the toolbar, indicating that the toolbar is a relevant location for workflow state display."
+        }
+      ]
+    },
+    {
+      "path": "cms/signals/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "A signal (page_content_status_changed) must be added to fire on state transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNAL_IMPLEMENTATION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "cms/signals/__init__.py is a central location for defining new signals."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into permission checks.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_IMPLEMENTATION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py is directly involved in permission checks and is a likely location for new permission logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "REGENERATE",
+      "rationale": "Form utilities may need to be updated to reflect new workflow state logic.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UTIL_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "cms/forms/utils.py is related to page content and may need to be updated for new workflow states."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "API functions that publish content must now check workflow status.",
+      "confidence": 0.95,
+      "reason_codes": ["API_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is involved in content publishing and must be updated to reflect new workflow status checks."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Admin forms may need to reflect new workflow state and transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is related to content and permission changes, indicating it may need to be updated."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin templates may need to display new workflow state and transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is directly involved in admin UI and field display."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "Views that render or handle content must now check workflow status.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is involved in content rendering and must be updated to reflect new workflow status checks."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "Page utility functions may need to be updated to reflect new workflow state logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is directly involved in page content and is a likely location for workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be added to the permission model.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_IMPLEMENTATION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/models/permissionmodels.py is directly involved in permission definitions and is a likely location for new permission logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Admin imports may need to be updated to include new workflow actions or models.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_IMPORT", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/__init__.py is likely to need updates to import new workflow-related components."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Permission admin must be updated to reflect the new 'Reviewer' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_IMPLEMENTATION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/admin/permissionadmin.py is directly involved in permission management and is a likely location for new permission logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/items.py",
+      "action": "REGENERATE",
+      "rationale": "Toolbar items must be updated to show workflow state and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "cms/constants.py references the toolbar, indicating that the toolbar is a relevant location for workflow state display."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "REGENERATE",
+      "rationale": "Template tags may need to be updated to reflect new workflow state logic.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_TAG_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is directly involved in page content display and is a likely location for workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/choices.py",
+      "action": "REGENERATE",
+      "rationale": "The new workflow status choices must be added to the cache choices.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-18",
+          "description": "cms/cache/choices.py is directly involved in page content and is a likely location for new workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission cache must be updated to reflect the new 'Reviewer' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_IMPLEMENTATION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-20",
+          "description": "cms/cache/permissions.py is directly involved in permission caching and is a likely location for new permission logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/page.py",
+      "action": "REGENERATE",
+      "rationale": "Page cache must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-19",
+          "description": "cms/cache/page.py is directly involved in page content and is a likely location for new workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder cache must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "cms/cache/placeholder.py is directly involved in content versioning and is a likely location for new workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission utility functions must be updated to reflect the new 'Reviewer' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py is directly involved in permission logic and is a likely location for new permission logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder utility functions must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "cms/utils/placeholder.py is directly involved in content versioning and is a likely location for new workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin utility functions must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/plugins.py is directly involved in content versioning and is a likely location for new workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/urlutils.py",
+      "action": "REGENERATE",
+      "rationale": "URL utility functions must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-125",
+          "description": "cms/utils/urlutils.py is directly involved in admin and version logic and is a likely location for new workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/publish.py",
+      "action": "REGENERATE",
+      "rationale": "Publish command must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is involved in content publishing and must be updated to reflect new workflow status checks."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/check.py",
+      "action": "REGENERATE",
+      "rationale": "Check command must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-106",
+          "description": "cms/utils/check.py is involved in content checks and must be updated to reflect new workflow status checks."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+      "action": "REGENERATE",
+      "rationale": "Delete orphaned plugins command must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/plugins.py is directly involved in content versioning and is a likely location for new workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/tree.py",
+      "action": "REGENERATE",
+      "rationale": "Tree command must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is directly involved in page content and is a likely location for workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/list.py",
+      "action": "REGENERATE",
+      "rationale": "List command must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is directly involved in page content and is a likely location for workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/copy.py",
+      "action": "REGENERATE",
+      "rationale": "Copy command must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is directly involved in page content and is a likely location for workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/uninstall.py",
+      "action": "REGENERATE",
+      "rationale": "Uninstall command must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is directly involved in page content and is a likely location for workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/base.py",
+      "action": "REGENERATE",
+      "rationale": "Base command must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is directly involved in page content and is a likely location for workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/cms.py",
+      "action": "REGENERATE",
+      "rationale": "CMS command must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is directly involved in page content and is a likely location for workflow state logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/djangocms.py",
+      "action": "REGENERATE",
+      "rationale": "Django CMS command must be updated to reflect new workflow state logic.",
+      "confidence": 0.95,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is

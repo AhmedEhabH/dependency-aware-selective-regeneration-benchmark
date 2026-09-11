@@ -1,0 +1,181 @@
+{
+  "decisions": [
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "The 'page reviewer' permission requires a new 'Review' action in PageAdmin to handle content status transitions or mark as reviewed.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FEATURE", "UI-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "cms/admin/pageadmin.py is relevant to page actions and site permissions."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "action": "REGENERATE",
+      "rationale": "The new 'can_review' field in PagePermission and GlobalPermission must be reflected in the PermissionAdmin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FIELD", "ADMIN-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/permissionadmin.py is relevant to permission management."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "The 'Review' menu item must be added to the toolbar for users with the 'page reviewer' permission.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FEATURE", "UI-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "cms/constants.py and cms/toolbar/ modules are relevant to toolbar configuration."
+        },
+        {
+          "source": "semantic-seed-97",
+          "description": "cms/toolbar/items.py is relevant to menu items and toolbar configuration."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "The PagePermission model must be updated to include the new 'can_review' boolean field.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FIELD", "MODEL-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "cms/models/permissionmodels.py is the likely location of the PagePermission model."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "The page permission checking logic must be updated to support the new 'can_review' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FEATURE", "LOGIC-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/page_permissions.py is relevant to permission logic."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "The global permission checking logic must be updated to support the new 'can_review' field in GlobalPermission.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FIELD", "LOGIC-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "cms/utils/permissions.py is relevant to permission logic."
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "action": "REGENERATE",
+      "rationale": "The admin templates may need to be updated to reflect the new 'can_review' boolean field in the admin interface.",
+      "confidence": 0.9,
+      "reason_codes": ["UI-UPDATE", "ADMIN-TEMPLATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin templates and boolean fields."
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "action": "REGENERATE",
+      "rationale": "The apphook reload utility may need to be updated to handle new permission logic during site reloads.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY-UPDATE", "PERMISSION-LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "cms/utils/apphook_reload.py is relevant to site-wide permission logic."
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "action": "REGENERATE",
+      "rationale": "The wizard helpers may need to be updated to handle new permission logic during page creation or modification.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY-UPDATE", "PERMISSION-LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-129",
+          "description": "cms/wizards/helpers.py is relevant to page creation and permission logic."
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "action": "REGENERATE",
+      "rationale": "The views may need to be updated to handle new permission logic when users attempt to edit or review content.",
+      "confidence": 0.85,
+      "reason_codes": ["VIEW-UPDATE", "PERMISSION-LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is relevant to content editing and permission checks."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "V-001",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_permissions",
+      "reason": "The new 'can_review' permission must be tested for correct behavior in page and global contexts.",
+      "evidence_refs": ["semantic-seed-70", "semantic-seed-120"]
+    },
+    {
+      "obligation_id": "V-002",
+      "kind": "regression",
+      "target": "cms.tests.test_admin",
+      "reason": "Ensure that the PageAdmin and PermissionAdmin interfaces continue to function correctly after adding the 'Review' action and new field.",
+      "evidence_refs": ["semantic-seed-5", "semantic-seed-6"]
+    },
+    {
+      "obligation_id": "V-003",
+      "kind": "regression",
+      "target": "cms.tests.test_toolbar",
+      "reason": "Ensure that the toolbar still functions correctly and only shows the 'Review' menu item to users with the 'page reviewer' permission.",
+      "evidence_refs": ["semantic-seed-26", "semantic-seed-97"]
+    },
+    {
+      "obligation_id": "V-004",
+      "kind": "regression",
+      "target": "cms.tests.test_views",
+      "reason": "Ensure that views continue to correctly enforce the new 'can_review' permission and do not allow unauthorized edits.",
+      "evidence_refs": ["semantic-seed-126"]
+    },
+    {
+      "obligation_id": "V-005",
+      "kind": "static",
+      "target": "flake8",
+      "reason": "Ensure that all code changes follow Django best practices and PEP8 standards.",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [
+    "Ensure that the new 'can_review' field is properly integrated into the permission model hierarchy.",
+    "Ensure that the new permission logic does not violate any existing permission validation rules.",
+    "Ensure that the new 'Review' action in PageAdmin is consistent with the existing Django admin API."
+  ],
+  "escalation_reason": ""
+}

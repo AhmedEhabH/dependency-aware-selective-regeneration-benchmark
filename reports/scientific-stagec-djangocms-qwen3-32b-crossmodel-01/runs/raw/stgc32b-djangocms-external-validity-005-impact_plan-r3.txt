@@ -1,0 +1,501 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'can_review' field must be added to both PagePermission and GlobalPermission models.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The new 'page reviewer' permission level is added with a 'can_review' field in PagePermission and GlobalPermission."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The PermissionAdmin must display the new 'can_review' field in the admin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_INTERFACE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The PermissionAdmin shows the new 'can_review' field."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The PageAdmin must include a 'Review' action for users with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The PageAdmin gets a 'Review' action that transitions page content status."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar must show a 'Review' menu item for users with reviewer access.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The toolbar shows a 'Review' menu item for users with reviewer access."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission checking functions must support the new 'can_review' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_LOGIC"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The permission checking functions in a relevant module support the new level."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "The page model may need to support content status transitions for review.",
+      "confidence": 0.85,
+      "reason_codes": ["MODEL_LOGIC"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The 'Review' action transitions page content status if integrated with a workflow."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "The admin forms may need to include the new 'can_review' field for permissions.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "The file is related to page and permission logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_config.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/views.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/toolbar/items.py",
+      "action": "REGENERATE",
+      "rationale": "The 'Review' menu item must be added to the toolbar for users with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The toolbar shows a 'Review' menu item for users with reviewer access."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "The admin forms may need to include the new 'can_review' field for permissions.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "The file is related to page and permission logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/placeholderpluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/aliaspluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/apphooks_reload.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/placeholderpluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/aliaspluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/apphooks_reload.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/placeholderpluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/aliaspluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/apphooks_reload.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVIDENCE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct evidence of impact on this file.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_EVID

@@ -1,0 +1,183 @@
+{
+  "decisions": [
+    {
+      "id": 64,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs a new status field to support the workflow states.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is directly related to page content and is a likely location for the new status field."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "The admin forms need to be updated to reflect the new workflow states and actions.",
+      "confidence": 0.9,
+      "reason_codes": ["FORM_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/admin/forms.py is likely to be involved in handling admin actions and form logic for the new workflow."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "The page admin needs to be updated to include the new workflow actions and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/admin/pageadmin.py is directly responsible for the admin interface of page content and will need to handle new actions."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "The toolbar must be updated to show the current workflow state and available transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["TOOLBAR_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "cms/cms_toolbars.py is directly related to the toolbar and will need to reflect the new workflow states."
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "New signals need to be added to handle state transitions in the workflow.",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNAL_IMPLEMENTATION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "cms/signals/__init__.py is the likely location for new signals related to content state changes."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "The API must be updated to handle the new workflow states and transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["API_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is likely to be involved in handling page content and workflow transitions via API."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "Permissions need to be updated to support the new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/models/permissionmodels.py is likely to be involved in defining the new 'Reviewer' permission level."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "The page utility functions need to be updated to check the new workflow status.",
+      "confidence": 0.9,
+      "reason_codes": ["UTILITY_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is likely to be involved in checking the new workflow status for page content."
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "action": "REGENERATE",
+      "rationale": "The apphook reload utility may need to be updated to handle new workflow state changes.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "cms/utils/apphook_reload.py is likely to be involved in handling page content state changes."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "The page permissions utility needs to be updated to support the new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py is likely to be involved in defining and checking the new 'Reviewer' permission level."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "obligation-1",
+      "kind": "changed_requirement",
+      "target": "test_page_content_workflow",
+      "reason": "The new workflow states and transitions must be tested to ensure correct behavior.",
+      "evidence_refs": ["semantic-seed-68", "semantic-seed-4", "semantic-seed-5"]
+    },
+    {
+      "obligation_id": "obligation-2",
+      "kind": "regression",
+      "target": "test_admin_actions",
+      "reason": "Admin actions must continue to work after the new workflow is added.",
+      "evidence_refs": ["semantic-seed-4", "semantic-seed-5"]
+    },
+    {
+      "obligation_id": "obligation-3",
+      "kind": "regression",
+      "target": "test_toolbar_display",
+      "reason": "The toolbar must continue to display correctly and reflect the new workflow states.",
+      "evidence_refs": ["semantic-seed-27", "semantic-seed-26"]
+    },
+    {
+      "obligation_id": "obligation-4",
+      "kind": "regression",
+      "target": "test_signals",
+      "reason": "Existing signals must continue to work after the new workflow is added.",
+      "evidence_refs": ["semantic-seed-84"]
+    },
+    {
+      "obligation_id": "obligation-5",
+      "kind": "regression",
+      "target": "test_api",
+      "reason": "The API must continue to function correctly after the new workflow is added.",
+      "evidence_refs": ["semantic-seed-12"]
+    },
+    {
+      "obligation_id": "obligation-6",
+      "kind": "regression",
+      "target": "test_permissions",
+      "reason": "Permissions must continue to work correctly after the new 'Reviewer' level is added.",
+      "evidence_refs": ["semantic-seed-70", "semantic-seed-119"]
+    }
+  ],
+  "architecture_checks": [
+    "All existing functionality must continue to work",
+    "The implementation must follow Django best practices"
+  ],
+  "escalation_reason": ""
+}

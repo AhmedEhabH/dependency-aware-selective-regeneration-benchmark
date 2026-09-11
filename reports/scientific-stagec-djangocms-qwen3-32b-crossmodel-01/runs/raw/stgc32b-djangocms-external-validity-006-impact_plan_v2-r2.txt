@@ -1,0 +1,144 @@
+{
+  "decisions": [
+    {
+      "id": 72,
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model must be updated to include a nullable ForeignKey to PageContent to associate plugins with language-specific content.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "FOREIGN_KEY_ADD"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py is directly related to the CMSPlugin model and is a key location for implementing the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "action": "REGENERATE",
+      "rationale": "The PlaceholderAdmin needs to be updated to display the new PageContent context in the admin forms.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_FORM_UPDATE", "CONTEXT_DISPLAY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/placeholderadmin.py is involved in Placeholder admin logic and methods."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "Admin forms need to be updated to include the new PageContent context for plugins.",
+      "confidence": 0.9,
+      "reason_codes": ["FORM_UPDATE", "CONTEXT_DISPLAY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is directly related to admin forms and includes terms like 'page' and 'language'."
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "action": "REGENERATE",
+      "rationale": "Page rendering logic must be updated to filter plugins by language via the new page_content foreign key.",
+      "confidence": 0.95,
+      "reason_codes": ["RENDER_FILTER", "LANGUAGE_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is directly involved in page rendering and includes terms like 'page' and 'render'."
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "action": "REGENERATE",
+      "rationale": "Plugin rendering logic must be updated to respect the new language filtering via page_content.",
+      "confidence": 0.9,
+      "reason_codes": ["RENDER_FILTER", "PLUGIN_RENDER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "cms/plugin_rendering.py is directly involved in plugin rendering logic."
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "action": "VALIDATE",
+      "rationale": "The plugin listing command should be tested to ensure it respects the new language filtering logic.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATE_PLUGIN_LIST", "LANGUAGE_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-51",
+          "description": "cms/management/commands/subcommands/list.py is related to plugin listing and should be validated."
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "action": "VALIDATE",
+      "rationale": "Language utilities should be validated to ensure compatibility with the new language filtering logic.",
+      "confidence": 0.8,
+      "reason_codes": ["VALIDATE_I18N", "LANGUAGE_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "cms/utils/i18n.py is directly related to language handling and should be validated."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "VALIDATE",
+      "rationale": "Plugin utility functions should be validated to ensure compatibility with the new model structure.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATE_PLUGIN_UTILS", "MODEL_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/plugins.py is directly related to plugin handling and should be validated."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "V001",
+      "kind": "changed_requirement",
+      "target": "cms.tests.models.test_pluginmodel",
+      "reason": "Verify that the new ForeignKey to PageContent is correctly implemented and that plugins are associated with the correct language.",
+      "evidence_refs": ["semantic-seed-72"]
+    },
+    {
+      "obligation_id": "V002",
+      "kind": "changed_requirement",
+      "target": "cms.tests.admin.test_placeholderadmin",
+      "reason": "Ensure that the admin form correctly displays the PageContent context for plugins.",
+      "evidence_refs": ["semantic-seed-6"]
+    },
+    {
+      "obligation_id": "V003",
+      "kind": "changed_requirement",
+      "target": "cms.tests.rendering.test_page_rendering",
+      "reason": "Verify that page rendering filters plugins by the requested language via the new page_content field.",
+      "evidence_refs": ["semantic-seed-78"]
+    },
+    {
+      "obligation_id": "V004",
+      "kind": "regression",
+      "target": "cms.tests.utils.test_plugins",
+      "reason": "Ensure that existing plugin rendering and management logic is not broken by the new field.",
+      "evidence_refs": ["semantic-seed-122"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure that the new ForeignKey to PageContent is nullable and does not break backward compatibility.",
+    "Verify that all plugins are migrated correctly with page_content set to NULL for existing records.",
+    "Ensure that the new field is properly indexed for performance."
+  ],
+  "escalation_reason": ""
+}

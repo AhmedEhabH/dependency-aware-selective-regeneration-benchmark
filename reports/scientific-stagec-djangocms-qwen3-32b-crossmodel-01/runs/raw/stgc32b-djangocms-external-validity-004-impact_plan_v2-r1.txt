@@ -1,0 +1,481 @@
+{
+  "decisions": [
+    {
+      "id": 64,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs a new publication_date field to support scheduled publishing per language variant.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "NEW_FIELD"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is relevant to page content and model definitions."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "The admin form for PageContent must include the new publication_date field for editing in the admin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["FORM_CHANGE", "ADMIN_EDIT"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "cms/forms/utils.py is relevant to page content and form handling."
+        },
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin display and field rendering."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "The admin page content form must be updated to include the new publication_date field and support the new 'Publish Scheduled' admin action.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION", "FORM_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin display and field rendering."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "The API must be updated to respect the publication_date when publishing content.",
+      "confidence": 0.95,
+      "reason_codes": ["API_CHANGE", "DATE_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is relevant to content change and publishing."
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "action": "REGENERATE",
+      "rationale": "The page rendering logic must filter out PageContent instances with a future publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_FILTER", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is relevant to page rendering and visibility logic."
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "action": "REGENERATE",
+      "rationale": "The front-end views must filter out PageContent instances with a future publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_FILTER", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is relevant to content visibility and rendering."
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "action": "REGENERATE",
+      "rationale": "The apphook reload utility may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "cms/utils/apphook_reload.py is relevant to page content and date logic."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "The page utility functions may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page.py is relevant to page content and visibility logic."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "The permissions utility functions may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py is relevant to page content and visibility logic."
+        }
+      ]
+    },
+    {
+      "id": 128,
+      "action": "REGENERATE",
+      "rationale": "The wizard forms may need to handle the new publication_date field for content creation.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-128",
+          "description": "cms/wizards/forms.py is relevant to form handling and content creation."
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "action": "REGENERATE",
+      "rationale": "The admin templatetags may need to display the new publication_date field in the admin interface.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_DISPLAY", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin display and field rendering."
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "action": "REGENERATE",
+      "rationale": "The mail utility may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-117",
+          "description": "cms/utils/mail.py is relevant to page content and visibility logic."
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "action": "REGENERATE",
+      "rationale": "The URL utility may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-125",
+          "description": "cms/utils/urlutils.py is relevant to admin and content visibility."
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "action": "REGENERATE",
+      "rationale": "The utility functions may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-103",
+          "description": "cms/utils/__init__.py is relevant to language and content visibility."
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "action": "REGENERATE",
+      "rationale": "The i18n utility may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "cms/utils/i18n.py is relevant to language and content visibility."
+        }
+      ]
+    },
+    {
+      "id": 142,
+      "action": "REGENERATE",
+      "rationale": "The menu templatetags may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-142",
+          "description": "menus/templatetags/menu_tags.py is relevant to language and content visibility."
+        }
+      ]
+    },
+    {
+      "id": 143,
+      "action": "REGENERATE",
+      "rationale": "The menu utilities may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-143",
+          "description": "menus/utils.py is relevant to language and content visibility."
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "action": "REGENERATE",
+      "rationale": "The page utility may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is relevant to page content and visibility logic."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "The permissions utility may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py is relevant to page content and visibility logic."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "The permissions cache may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["CACHE_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "cms/cache/placeholder.py is relevant to content visibility and caching."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "action": "REGENERATE",
+      "rationale": "The page cache may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["CACHE_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-19",
+          "description": "cms/cache/page.py is relevant to content visibility and caching."
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "action": "REGENERATE",
+      "rationale": "The CMS configuration may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["CONFIG_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-23",
+          "description": "cms/cms_menus.py is relevant to page content and visibility logic."
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "action": "REGENERATE",
+      "rationale": "The CMS plugins may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["PLUGIN_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-25",
+          "description": "cms/cms_plugins.py is relevant to content visibility and plugins."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "The CMS toolbars may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["TOOLBAR_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-26",
+          "description": "cms/cms_toolbars.py is relevant to content visibility and toolbars."
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "action": "REGENERATE",
+      "rationale": "The CMS wizards may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["WIZARD_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "cms/cms_wizards.py is relevant to content visibility and wizards."
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "action": "REGENERATE",
+      "rationale": "The CMS constants may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["CONSTANT_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-28",
+          "description": "cms/constants.py is relevant to content visibility and constants."
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "action": "REGENERATE",
+      "rationale": "The CMS context processors may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["CONTEXT_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-29",
+          "description": "cms/context_processors.py is relevant to content visibility and context."
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "action": "REGENERATE",
+      "rationale": "The CMS exceptions may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["EXCEPTION_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-30",
+          "description": "cms/exceptions.py is relevant to content visibility and exceptions."
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "action": "REGENERATE",
+      "rationale": "The CMS extensions may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["EXTENSION_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-31",
+          "description": "cms/extensions/__init__.py is relevant to content visibility and extensions."
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "action": "REGENERATE",
+      "rationale": "The CMS admin extensions may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_EXTENSION", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-32",
+          "description": "cms/extensions/admin.py is relevant to content visibility and admin."
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "action": "REGENERATE",
+      "rationale": "The CMS extension pool may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["POOL_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-33",
+          "description": "cms/extensions/extension_pool.py is relevant to content visibility and extensions."
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "action": "REGENERATE",
+      "rationale": "The CMS extension models may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["MODEL_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-34",
+          "description": "cms/extensions/models.py is relevant to content visibility and models."
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "action": "REGENERATE",
+      "rationale": "The CMS extension toolbars may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["TOOLBAR_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-35",
+          "description": "cms/extensions/toolbar.py is relevant to content visibility and toolbars."
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "action": "REGENERATE",
+      "rationale": "The CMS forms may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-36",
+          "description": "cms/forms/__init__.py is relevant to content visibility and forms."
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "action": "REGENERATE",
+      "rationale": "The CMS form fields may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_FIELD_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-37",
+          "description": "cms/forms/fields.py is relevant to content visibility and form fields."
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "action": "REGENERATE",
+      "rationale": "The CMS login forms may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE", "DATE_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "cms/forms/login.py is relevant to content visibility and forms."
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "action": "REGENERATE",
+      "rationale": "The CMS form utilities may need to handle new date-based logic for content visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "DATE_LOGIC"],
+      "evidence":

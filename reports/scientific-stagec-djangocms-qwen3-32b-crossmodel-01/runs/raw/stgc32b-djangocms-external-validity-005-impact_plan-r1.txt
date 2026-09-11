@@ -1,0 +1,482 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'can_review' field must be added to both PagePermission and GlobalPermission models.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The new 'can_review' field is added to PagePermission and GlobalPermission."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The PermissionAdmin must display the new 'can_review' field in the admin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The PermissionAdmin shows the new field."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The PageAdmin must include a new 'Review' action for users with the 'can_review' permission.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The PageAdmin gets a 'Review' action."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/cms_toolbars.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar must show a 'Review' menu item for users with the 'can_review' permission.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The toolbar shows a 'Review' menu item for users with reviewer access."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission checking functions must support the new 'can_review' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_LOGIC"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The permission checking functions in a relevant module support the new level."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "Page model may need to support new content status transitions for review.",
+      "confidence": 0.85,
+      "reason_codes": ["MODEL_LOGIC"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "A 'Review' action transitions page content status."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Admin forms may need to include the new 'can_review' field for permissions.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Form logic is likely involved in permission management."
+        }
+      ]
+    },
+    {
+      "path": "cms/operations/helpers.py",
+      "action": "REGENERATE",
+      "rationale": "Page operations may need to handle new 'review' actions and transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["OPERATION_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-77",
+          "description": "Page operations are likely involved in content transitions."
+        }
+      ]
+    },
+    {
+      "path": "cms/signals/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission signals may need to handle new 'can_review' logic.",
+      "confidence": 0.85,
+      "reason_codes": ["SIGNAL_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-86",
+          "description": "Permission signals are likely involved in permission logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Page permission utilities must support the new 'can_review' logic.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_UTIL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Page permission utilities are likely involved in permission logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin templates may need to display the new 'can_review' field in the admin UI.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin templates are likely involved in permission field display."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "REGENERATE",
+      "rationale": "User admin may need to display or manage the new 'can_review' permission.",
+      "confidence": 0.85,
+      "reason_codes": ["USER_ADMIN"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The new permission is stored in PagePermission and GlobalPermission."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required in the admin module's main file.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the main module file.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/__main__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the main entry point.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the placeholder admin unless it's involved in review logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in static placeholder admin unless it's involved in review logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the settings admin unless it's involved in review logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "REGENERATE",
+      "rationale": "User admin may need to display or manage the new 'can_review' permission.",
+      "confidence": 0.85,
+      "reason_codes": ["USER_ADMIN"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The new permission is stored in PagePermission and GlobalPermission."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the admin utilities unless they are involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/api.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the API unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/app_base.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the app base unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/app_registration.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in app registration unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/apphook_pool.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the apphook pool unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/appresolver.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the app resolver unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/apps.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the apps module unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the cache module unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/choices.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the cache choices unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/page.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the page cache unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the permissions cache unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the placeholder cache unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_config.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS config unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_menus.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS menus unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS plugins unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_toolbars.py",
+      "action": "REGENERATE",
+      "rationale": "The CMS toolbars must show a 'Review' menu item for users with the 'can_review' permission.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The toolbar shows a 'Review' menu item for users with reviewer access."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_wizards.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS wizards unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/context_processors.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the context processors unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/exceptions.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the exceptions module unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the extensions module unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/admin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the extensions admin unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/extension_pool.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the extension pool unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/models.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the extensions models unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/toolbar.py",
+      "action": "REGENERATE",
+      "rationale": "The extensions toolbar may need to show a 'Review' menu item for users with the 'can_review' permission.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The toolbar shows a 'Review' menu item for users with reviewer access."
+        }
+      ]
+    },
+    {
+      "path": "cms/forms/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the forms module unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/fields.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the form fields unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/login.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the login forms unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the form utilities unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/validators.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the form validators unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/widgets.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the form widgets unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/wizards.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the form wizards unless it's involved in permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the management module unless it's involved in permission logic.",
+      "confidence": 0.

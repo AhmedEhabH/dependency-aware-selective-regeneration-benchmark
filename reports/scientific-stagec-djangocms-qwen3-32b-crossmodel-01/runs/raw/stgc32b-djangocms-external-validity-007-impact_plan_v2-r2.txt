@@ -1,0 +1,184 @@
+{
+  "decisions": [
+    {
+      "id": 64,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs a new status field to support the workflow states.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is directly related to page content and is a likely location for the new status field."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "The admin forms need to be updated to include the new workflow status and actions.",
+      "confidence": 0.9,
+      "reason_codes": ["FORM_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/admin/forms.py is likely to be involved in handling admin actions and form fields for the new workflow."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "The page admin needs to be updated to include the new workflow actions and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/admin/pageadmin.py is likely to be involved in handling admin actions and form fields for the new workflow."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "The CMS toolbars need to be updated to show the workflow state and available transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["TOOLBAR_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "cms/cms_toolbars.py is likely to be involved in updating the toolbar to reflect the new workflow states."
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "A new signal needs to be added to fire on content status changes.",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNAL_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "cms/signals/__init__.py is likely to be the location for the new page_content_status_changed signal."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "The API needs to be updated to check the workflow status before publishing.",
+      "confidence": 0.9,
+      "reason_codes": ["API_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is likely to be involved in handling publishing logic with the new workflow."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "Permissions need to be updated to support the new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/models/permissionmodels.py is likely to be involved in defining the new 'Reviewer' permission."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "The page permissions utility needs to be updated to check the new workflow state and permissions.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_CHECK", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py is likely to be involved in checking the new workflow state and permissions."
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "action": "REGENERATE",
+      "rationale": "URL utilities may need to be updated to handle versioned content in the workflow.",
+      "confidence": 0.85,
+      "reason_codes": ["URL_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-125",
+          "description": "cms/utils/urlutils.py is likely to be involved in handling versioned content in the workflow."
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "action": "REGENERATE",
+      "rationale": "Apphook reload utilities may need to be updated to handle content version changes.",
+      "confidence": 0.85,
+      "reason_codes": ["APPHOOK_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "cms/utils/apphook_reload.py is likely to be involved in handling content version changes."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "test_page_content_workflow",
+      "kind": "changed_requirement",
+      "target": "cms.tests.models.test_pagecontent",
+      "reason": "The new workflow states and transitions must be tested for correctness.",
+      "evidence_refs": ["semantic-seed-68"]
+    },
+    {
+      "obligation_id": "test_admin_actions",
+      "kind": "changed_requirement",
+      "target": "cms.tests.admin.test_pageadmin",
+      "reason": "The new admin actions must be tested for correct behavior and permissions.",
+      "evidence_refs": ["semantic-seed-4", "semantic-seed-5"]
+    },
+    {
+      "obligation_id": "test_toolbar_display",
+      "kind": "changed_requirement",
+      "target": "cms.tests.toolbar.test_toolbar",
+      "reason": "The toolbar must correctly display the new workflow state and available transitions.",
+      "evidence_refs": ["semantic-seed-27", "semantic-seed-99"]
+    },
+    {
+      "obligation_id": "test_signal_firing",
+      "kind": "changed_requirement",
+      "target": "cms.tests.signals.test_signals",
+      "reason": "The new page_content_status_changed signal must be tested to ensure it fires correctly.",
+      "evidence_refs": ["semantic-seed-84"]
+    },
+    {
+      "obligation_id": "test_api_publishing",
+      "kind": "changed_requirement",
+      "target": "cms.tests.api.test_publishing",
+      "reason": "The API must be tested to ensure it respects the new workflow status before publishing.",
+      "evidence_refs": ["semantic-seed-12"]
+    },
+    {
+      "obligation_id": "test_permissions",
+      "kind": "changed_requirement",
+      "target": "cms.tests.models.test_permissions",
+      "reason": "The new 'Reviewer' permission must be tested for correct behavior and access control.",
+      "evidence_refs": ["semantic-seed-70", "semantic-seed-119"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure that the new workflow does not violate any existing architecture constraints.",
+    "Ensure that the new status field is properly integrated with the existing is_published field.",
+    "Ensure that the new 'Reviewer' permission is properly scoped and does not introduce security issues."
+  ],
+  "escalation_reason": ""
+}

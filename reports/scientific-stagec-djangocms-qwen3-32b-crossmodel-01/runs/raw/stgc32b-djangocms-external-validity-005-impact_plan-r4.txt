@@ -1,0 +1,514 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'can_review' field must be added to both PagePermission and GlobalPermission models.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The new 'page reviewer' permission level is added with a 'can_review' field in PagePermission and GlobalPermission."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin interface for permissions must display the new 'can_review' field.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_INTERFACE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The PermissionAdmin shows the new 'can_review' field."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "A new 'Review' action must be added to PageAdmin for transitioning content status or marking as reviewed.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The PageAdmin gets a 'Review' action that transitions page content status or marks content as reviewed."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar must show a 'Review' menu item for users with reviewer access.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The toolbar shows a 'Review' menu item for users with reviewer access."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission checking functions must support the new 'can_review' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_LOGIC"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The permission checking functions in a relevant module support the new level."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "The page model may need to support content status transitions for review workflows.",
+      "confidence": 0.85,
+      "reason_codes": ["MODEL_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The PageAdmin gets a 'Review' action that transitions page content status."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Permission forms may need to include the new 'can_review' field for user or page-level permissions.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Semantic match for 'page' and 'permission' in admin forms."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Page permission utilities must be updated to handle the new 'can_review' permission.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Semantic match for 'page' and 'permission' in page permission utilities."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Global permission utilities must be updated to handle the new 'can_review' permission.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Semantic match for 'global' and 'permission' in permission utilities."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin templates may need to display the new 'can_review' field in the admin UI.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Semantic match for 'admin' and 'field' in admin templates."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/items.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar menu must include a 'Review' item for users with the new permission.",
+      "confidence": 0.9,
+      "reason_codes": ["TOOLBAR_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "Semantic match for 'toolbar' and 'edit' in toolbar utilities."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required in the admin module's main file.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in the admin module's main file."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Permission forms may need to include the new 'can_review' field for user or page-level permissions.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Semantic match for 'page' and 'permission' in admin forms."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "A new 'Review' action must be added to PageAdmin for transitioning content status or marking as reviewed.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The PageAdmin gets a 'Review' action that transitions page content status or marks content as reviewed."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin interface for permissions must display the new 'can_review' field.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_INTERFACE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The PermissionAdmin shows the new 'can_review' field."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in placeholder admin unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "Semantic match for 'get' in placeholder admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in settings admin unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in settings admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in static placeholder admin unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in static placeholder admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "REGENERATE",
+      "rationale": "User admin may need to display the new 'can_review' field for global permissions.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_INTERFACE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The GlobalPermission model also gains a 'can_review' field for site-wide reviewer access."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in admin utilities unless they interact with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in admin utilities."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the API unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "Semantic match for 'page' and 'user' in API."
+        }
+      ]
+    },
+    {
+      "path": "cms/app_base.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in app base unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in app base."
+        }
+      ]
+    },
+    {
+      "path": "cms/app_registration.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in app registration unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-13",
+          "description": "Semantic match for 'get' in app registration."
+        }
+      ]
+    },
+    {
+      "path": "cms/apphook_pool.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in apphook pool unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in apphook pool."
+        }
+      ]
+    },
+    {
+      "path": "cms/appresolver.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in app resolver unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-15",
+          "description": "Semantic match for 'page' in app resolver."
+        }
+      ]
+    },
+    {
+      "path": "cms/apps.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in apps unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in apps."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in cache unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "Semantic match for 'page' in cache."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/choices.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in cache choices unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-18",
+          "description": "Semantic match for 'page' and 'site' in cache choices."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/page.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in page cache unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-19",
+          "description": "Semantic match for 'page' in page cache."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "The cache for permissions must be updated to include the new 'can_review' field.",
+      "confidence": 0.9,
+      "reason_codes": ["CACHE_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-20",
+          "description": "Semantic match for 'permission' and 'user' in permission cache."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in placeholder cache unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Semantic match for 'get' in placeholder cache."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_config.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in CMS config unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in CMS config."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_menus.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in CMS menus unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-23",
+          "description": "Semantic match for 'page' and 'menu' in CMS menus."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in CMS plugins unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in CMS plugins."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_toolbars.py",
+      "action": "REGENERATE",
+      "rationale": "The CMS toolbars must include a 'Review' menu item for users with the new permission.",
+      "confidence": 0.9,
+      "reason_codes": ["TOOLBAR_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The toolbar shows a 'Review' menu item for users with reviewer access."
+        }
+      ]
+    },
+    {
+      "path": "cms/cms_wizards.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in CMS wizards unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in CMS wizards."
+        }
+      ]
+    },
+    {
+      "path": "cms/constants.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in constants unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "Semantic match for 'toolbar' in constants."
+        }
+      ]
+    },
+    {
+      "path": "cms/context_processors.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in context processors unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in context processors."
+        }
+      ]
+    },
+    {
+      "path": "cms/exceptions.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in exceptions unless it interacts with the new permission.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes are required in exceptions."
+        }
+      ]
+    },
+    {
+      "path": "cms/extensions/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in extensions unless it interacts with the new

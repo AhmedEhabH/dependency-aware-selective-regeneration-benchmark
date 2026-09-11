@@ -1,0 +1,426 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "The PageContent model requires a new 'status' field with workflow states and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-68", "description": "Page model is central to content workflow changes."}
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin actions for workflow transitions (submit, approve, reject, publish) must be added.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTIONS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin interface is involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Form logic must be updated to reflect new workflow states and permissions.",
+      "confidence": 0.9,
+      "reason_codes": ["FORM_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-3", "description": "Form logic is involved in content and permission changes."}
+      ]
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar must show workflow state and available transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["TOOLBAR_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-27", "description": "Toolbar is involved in content state visibility."}
+      ]
+    },
+    {
+      "path": "cms/signals/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "New signals must be added for workflow state transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNALS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-83", "description": "Signal handling is involved in content state changes."}
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission logic must be updated to handle new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-119", "description": "Page permissions are involved in workflow state transitions."}
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "API functions must check workflow status before publishing.",
+      "confidence": 0.9,
+      "reason_codes": ["API_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-11", "description": "API is involved in content publishing logic."}
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin templates must reflect new workflow states and actions.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin templates are involved in content state visibility."}
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "New 'Reviewer' permission level must be added to the permission model.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_MODEL", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-120", "description": "Permission models are involved in new permission levels."}
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission utility functions must be updated to handle new 'Reviewer' level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-120", "description": "Permission utilities are involved in new permission levels."}
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "View logic must check workflow status before rendering content.",
+      "confidence": 0.9,
+      "reason_codes": ["VIEW_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-126", "description": "Views are involved in content rendering and status checks."}
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "Page rendering logic must respect workflow state transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["RENDER_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-78", "description": "Page rendering is involved in content status checks."}
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/publish.py",
+      "action": "REGENERATE",
+      "rationale": "Publish command must check workflow status before execution.",
+      "confidence": 0.9,
+      "reason_codes": ["COMMAND_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-11", "description": "Publish command is involved in content status checks."}
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Admin module must import and register new workflow actions.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_IMPORTS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin module is involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct impact from workflow changes on static placeholder admin.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly involved in content workflow changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Permission admin must reflect new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_ADMIN", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-120", "description": "Permission admin is involved in new permission levels."}
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct impact from workflow changes on placeholder admin.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "Settings admin is not directly involved in content workflow changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "REGENERATE",
+      "rationale": "Admin utility functions may need to handle new workflow states.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_UTILS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin utilities are involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Form logic must be updated to reflect new workflow states and permissions.",
+      "confidence": 0.9,
+      "reason_codes": ["FORM_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-3", "description": "Form logic is involved in content and permission changes."}
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Permission admin must reflect new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_ADMIN", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-120", "description": "Permission admin is involved in new permission levels."}
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin actions for workflow transitions (submit, approve, reject, publish) must be added.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTIONS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin interface is involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Admin module must import and register new workflow actions.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_IMPORTS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin module is involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct impact from workflow changes on static placeholder admin.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly involved in content workflow changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct impact from workflow changes on placeholder admin.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "Settings admin is not directly involved in content workflow changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "REGENERATE",
+      "rationale": "Admin utility functions may need to handle new workflow states.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_UTILS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin utilities are involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Form logic must be updated to reflect new workflow states and permissions.",
+      "confidence": 0.9,
+      "reason_codes": ["FORM_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-3", "description": "Form logic is involved in content and permission changes."}
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Permission admin must reflect new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_ADMIN", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-120", "description": "Permission admin is involved in new permission levels."}
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin actions for workflow transitions (submit, approve, reject, publish) must be added.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTIONS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin interface is involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Admin module must import and register new workflow actions.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_IMPORTS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin module is involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct impact from workflow changes on static placeholder admin.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly involved in content workflow changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct impact from workflow changes on placeholder admin.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "Settings admin is not directly involved in content workflow changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "REGENERATE",
+      "rationale": "Admin utility functions may need to handle new workflow states.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_UTILS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin utilities are involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Form logic must be updated to reflect new workflow states and permissions.",
+      "confidence": 0.9,
+      "reason_codes": ["FORM_LOGIC", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-3", "description": "Form logic is involved in content and permission changes."}
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Permission admin must reflect new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_ADMIN", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-120", "description": "Permission admin is involved in new permission levels."}
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin actions for workflow transitions (submit, approve, reject, publish) must be added.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTIONS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin interface is involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Admin module must import and register new workflow actions.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_IMPORTS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {"source": "semantic-seed-91", "description": "Admin module is involved in content state transitions."}
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct impact from workflow changes on static placeholder admin.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly involved in content workflow changes.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct impact from workflow changes on placeholder admin.",
+      "confidence": 0.95,
+      "reason_codes": ["NO_IMPACT"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale

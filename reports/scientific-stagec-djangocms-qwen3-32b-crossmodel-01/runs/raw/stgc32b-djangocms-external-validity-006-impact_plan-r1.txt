@@ -1,0 +1,441 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model must be modified to include a nullable ForeignKey to PageContent named `page_content`.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "FOREIGN_KEY_ADDITION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py is directly related to plugin models and is a likely candidate for adding the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin forms in the admin must be updated to show the associated PageContent context.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_FORM_UPDATE", "FORM_DISPLAY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is relevant to form logic involving page content and language."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder rendering logic must be updated to filter plugins by the requested language via the new `page_content` foreign key.",
+      "confidence": 0.95,
+      "reason_codes": ["RENDERING_LOGIC", "LANGUAGE_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is directly involved in page rendering and filtering logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin placeholder logic may need to be updated to reflect the new `page_content` field in the UI.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_UI_UPDATE", "PLACEHOLDER_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/placeholderadmin.py is relevant to placeholder admin methods."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin utility functions may need to be updated to handle the new `page_content` field.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_UPDATE", "PLUGIN_UTILS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/plugins.py is directly involved in plugin-related utility functions."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the Placeholder model itself.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "cms/models/placeholdermodel.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "PRESERVE",
+      "rationale": "The Page model is not directly modified by this change.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to template tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+      "action": "REGENERATE",
+      "rationale": "The command for deleting orphaned plugins may need to be updated to account for the new `page_content` field.",
+      "confidence": 0.85,
+      "reason_codes": ["COMMAND_UPDATE", "PLUGIN_CLEANUP"],
+      "evidence": [
+        {
+          "source": "semantic-seed-51",
+          "description": "cms/management/commands/subcommands/delete_orphaned_plugins.py is relevant to plugin management."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_plugins.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "New tests must be added to verify the plugin-to-language association and rendering filter correctness.",
+      "confidence": 0.9,
+      "reason_codes": ["TEST_ADDITION", "VALIDATION_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is relevant to plugin verification logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_page_rendering.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "Tests must be added to ensure that placeholder rendering filters plugins by language correctly.",
+      "confidence": 0.9,
+      "reason_codes": ["TEST_ADDITION", "RENDERING_VALIDATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is directly involved in rendering logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the admin initialization file.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_INIT_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/__init__.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the page admin unless it is involved in plugin rendering, which is already handled.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/pageadmin.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the permission admin unless it is involved in plugin rendering, which is already handled.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/permissionadmin.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the static placeholder admin unless it is involved in plugin rendering, which is already handled.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/static_placeholder.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the user admin unless it is involved in plugin rendering, which is already handled.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/useradmin.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the admin utilities unless they are involved in plugin rendering, which is already handled.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_UTILS_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/utils.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "The API may need to be updated to handle the new `page_content` field in plugin operations.",
+      "confidence": 0.85,
+      "reason_codes": ["API_UPDATE", "PLUGIN_API"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is relevant to plugin operations and may need to be updated."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin template tags may need to be updated to reflect the new `page_content` field in the UI.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_TAG_UPDATE", "ADMIN_RENDERING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin rendering and filtering."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the alias tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-92",
+          "description": "cms/templatetags/cms_alias_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the JS tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-93",
+          "description": "cms/templatetags/cms_js_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin template tags may need to be updated to reflect the new `page_content` field in the UI.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_TAG_UPDATE", "ADMIN_RENDERING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin rendering and filtering."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the alias tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-92",
+          "description": "cms/templatetags/cms_alias_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the JS tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-93",
+          "description": "cms/templatetags/cms_js_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin template tags may need to be updated to reflect the new `page_content` field in the UI.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_TAG_UPDATE", "ADMIN_RENDERING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin rendering and filtering."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the alias tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-92",
+          "description": "cms/templatetags/cms_alias_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the JS tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-93",
+          "description": "cms/templatetags/cms_js_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the CMS tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin template tags may need to be updated to reflect the new `page_content` field in the UI.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_TAG_UPDATE", "ADMIN_RENDERING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin rendering and filtering."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the alias tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-92",
+          "description": "cms/templatetags/cms_alias_tags.py is not directly affected by the new ForeignKey."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required to the JS tags unless rendering logic is affected, which is already handled in page rendering.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAG_UNCHANGED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-93",
+          "description": "cms/templatetags/cms_js
