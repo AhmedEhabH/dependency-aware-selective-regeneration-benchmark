@@ -72,42 +72,55 @@ completed end-to-end measured result of these studies.
 
 ## Headline Results
 
-### Primary djangoCMS study (`scientific-stagec-djangocms-01`, 60 cells)
+### Historical Qwen3-Coder evidence (frozen, unchanged)
 
-Selection-stage correctness on valid cells (micro-aggregated), model
-`qwen/qwen3-coder` @ DeepInfra, cap Agent 1024 / ImpactPlan-v1 4096:
+Model `qwen/qwen3-coder` @ DeepInfra, cap Agent 1024 / ImpactPlan-v1 4096 /
+ImpactPlan-v2 4096. Selection-stage correctness on valid cells
+(micro-aggregated); token/call/cost totals over ALL cells (valid + failed):
 
-| Arm | Valid / 30 | Precision | Recall | F1 | Tokens (all-cell) | Calls (all-cell) | Recorded cost |
-|---|---|---|---|---|---|---|---|
-| iterative_repository_agent | 25 | 0.6463 | 0.8407 | 0.7308 | 449,792 | 206 | $0.140850 |
-| impact_plan (v1) | 6 | 0.6765 | 0.9200 | 0.7797 | 184,401 | 28 | $0.123298 |
+| Model | Study status | Arm | Valid | Trunc. | P | R | F1 | Total tokens | Calls | Cost |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-Coder | Primary | Agent | 25/30 | 0 | 0.6463 | 0.8407 | 0.7308 | 449,792 | 206 | $0.140850 |
+| Qwen3-Coder | Primary | ImpactPlan-v1 | 6/30 | 19 | 0.6765 | 0.9200 | 0.7797 | 184,401 | 28 | $0.123298 |
+| Qwen3-Coder | Post-hoc/exploratory | ImpactPlan-v2 | 29/30 | 0 | 0.7410 | 0.8655 | 0.7985 | 144,353 | 30 | $0.064634 |
 
+> **ImpactPlan-v2 was a separate post-hoc/exploratory 30-cell study.** It is
+> displayed beside the primary arms for descriptive readability only. The rows
+> are **not** one preregistered or pooled three-arm experiment.
+>
 > **Severe missing-data asymmetry:** the v1 headline rests on only **6 valid
-> survivor cells** (19 truncations at the 4096 cap + 3 unknown-path + 1
-> provider-429 + 1 harness defect). **No between-arm accuracy claim is made.**
+> survivor cells** (19 truncations at the 4096 cap + unknown-path / transport /
+> harness failures). **No between-arm accuracy claim is made.**
 
-### djangoCMS ImpactPlan-v2 study (`scientific-stagec-djangocms-impactplan-v2-01`, 30 cells)
+### Cross-Model Robustness Replication (Qwen3-32B)
 
-**POST-HOC / EXPLORATORY** — a distinct 30-cell redesign study, **not** a
-preregistered arm of the primary study and **not** pooled with it.
+POST-HOC CROSS-MODEL ROBUSTNESS REPLICATION — same repositories, cases,
+treatments, gateway and provider, **different Qwen model**. Model
+`qwen/qwen3-32b` @ OpenRouter / DeepInfra (`deepinfra/fp8`), **reasoning
+explicitly disabled**, fallback off, temperature 0, cap 4096. 60 cells
+(6 scenarios × 2 arms × 5 reps); see
+[`reports/QWEN3_32B_CROSSMODEL_PROTOCOL.md`](reports/QWEN3_32B_CROSSMODEL_PROTOCOL.md)
+(preregistered before cell 1). Denominators are per-row and **not** merged with
+the historical rows above.
 
-| Metric | Value |
-|---|---|
-| Recorded / Valid / Failed | 30 / 29 / 1 |
-| Truncations | 0 |
-| TP / FP / FN | 103 / 36 / 16 |
-| Precision | 0.741007 |
-| Recall | 0.865546 |
-| F1 | 0.798450 |
-| FNR | 0.134454 |
-| Full-recall rate | 18 / 29 = 0.620690 |
-| Total tokens / calls / recorded cost | 144,353 / 30 / $0.064634 |
+| Model | Study status | Arm | Valid | Trunc. | P | R | F1 | Total tokens | Calls | Cost (live) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-32B | Replication | ImpactPlan-v1 | 2/30 | 24 | 0.0000 | 0.0000 | 0.0000 | 198,979 | 29 | $0.037617 |
+| Qwen3-32B | Replication | ImpactPlan-v2 | 21/30 | 0 | 0.3600 | 0.6207 | 0.4557 | 122,273 | 23 | $0.016411 |
 
-Same-cap observation (scenario 004, cap 4096): historical ImpactPlan-v1
-**5/5 truncated**; ImpactPlan-v2 **5/5 completed** (874–1,525 completion
-tokens). This proves the frozen v2 representation redesign resolves the
-observed **scenario-004 output-serialization bottleneck** — feasibility /
-mechanism evidence only, **not** an accuracy claim or a universal scaling law.
+> **Directional pattern:** Qwen3-32B v1 (full explicit-policy serialization)
+> truncates at the frozen 4096 cap in **24/30** cells — the verbose output does
+> not fit the frozen cap; recorded verbatim, no reruns. The sparse v2
+> representation remains operational (**21/30 valid, 0 truncations**). The
+> directional replication label (`DIRECTIONALLY REPLICATED`) requires only
+> (1) v2 validity rate > v1 and (2) v2 truncation rate < v1 — both hold. All
+> agreement statistics are **descriptive only**; no equivalence/significance
+> or causal claim. Cross-model Sparse-v2 Jaccard agreement (historical
+> Qwen3-Coder × new Qwen3-32B, 102 cross-product pairs): mean 0.284, median
+> 0.231 — see
+> [`reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md`](reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md)
+> (+ `.csv`). Verify with
+> [`scripts/verify_qwen3_32b_crossmodel_claims.py`](scripts/verify_qwen3_32b_crossmodel_claims.py).
 
 ### Todo component studies (frozen, selection-stage)
 
