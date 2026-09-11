@@ -1,5 +1,20 @@
 # Qwen2.5-Coder-32B-Instruct — Cross-Model Robustness Candidate Note
 
+> **STATUS UPDATE (2026-09-11): EXECUTION ABANDONED — REPLACED BY QWEN3-32B.**
+> The planned Qwen2.5-Coder-32B cross-model robustness replication was **NOT
+> run** and is **ABANDONED** due to provider-contract unavailability: the only
+> OpenRouter endpoint for `qwen/qwen-2.5-coder-32b-instruct` was **Cloudflare**
+> (no DeepInfra, `response_format` not supported — a forbidden route); the
+> direct DeepInfra model is **deprecated and replaced by `Qwen/Qwen3-32B`**;
+> the Hugging Face / Nscale route was unavailable (expired OAuth token). This
+> investigation is preserved as historical provider-selection evidence
+> (`reports/qwen25-coder32b-crossmodel-01/` on branch
+> `research/qwen25-coder32b-crossmodel-01`; **zero scientific cells executed**).
+> The authorized replacement study is the **Qwen3-32B cross-model robustness
+> replication** (`scientific-stagec-djangocms-qwen3-32b-crossmodel-01`,
+> `qwen/qwen3-32b` @ OpenRouter / DeepInfra), which is COMPLETE + AUDITED.
+> Do NOT reuse the Qwen2.5 study ID or names for the new study.
+
 > **STATUS: CANDIDATE DESIGN NOTE ONLY — NOT AUTHORIZED TO RUN IN THIS TASK.**
 > This document preregisters a *possible future* cross-model robustness
 > replication. It is **not** an experiment authorization and **no scientific

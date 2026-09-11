@@ -1,0 +1,184 @@
+{
+  "decisions": [
+    {
+      "id": 18,
+      "action": "REGENERATE",
+      "rationale": "The cache module is central to implementing the new tag system for cache invalidation.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "The cache module is already involved in cache key generation and invalidation."
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers for post_save and post_delete are likely to be connected here for cache tag invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["SIGNAL_HANDLER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-86",
+          "description": "This module already handles post_save and post_delete signals."
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "action": "REGENERATE",
+      "rationale": "Middleware is a natural place to tag response objects with cache tags for rendered content.",
+      "confidence": 0.9,
+      "reason_codes": ["MIDDLEWARE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "This middleware already handles page-related logic."
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "action": "REGENERATE",
+      "rationale": "Templatetags are responsible for rendering placeholders and should be updated to use the new cache tag system.",
+      "confidence": 0.9,
+      "reason_codes": ["TPL_TAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "This module already handles placeholder and plugin rendering."
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "action": "REGENERATE",
+      "rationale": "Page model is a core content object and must be associated with cache tags.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "This module defines the Page model."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "Placeholder model is a core content object and must be associated with cache tags.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "This module defines the Placeholder model."
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "action": "REGENERATE",
+      "rationale": "Plugin model is a core content object and must be associated with cache tags.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "This module defines the Plugin model."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "Utility functions for placeholders and plugins are likely to be extended to support cache tag generation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "This module already handles placeholder and plugin utilities."
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "action": "REGENERATE",
+      "rationale": "Configuration utilities may need to support opt-in configuration for the new cache tag system.",
+      "confidence": 0.85,
+      "reason_codes": ["CONFIG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "This module already handles cache and toolbar configuration."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "REGENERATE",
+      "rationale": "Plugin utilities are likely to be extended to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "This module already handles placeholder and plugin utilities."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "cache_tag_signal_handlers",
+      "kind": "changed_requirement",
+      "target": "test_cache_tag_signal_handlers",
+      "reason": "Signal handlers for post_save and post_delete must be implemented to invalidate cache tags.",
+      "evidence_refs": ["semantic-seed-86"]
+    },
+    {
+      "obligation_id": "cache_tag_middleware",
+      "kind": "changed_requirement",
+      "target": "test_cache_tag_middleware",
+      "reason": "Middleware must tag response objects with cache tags for rendered content.",
+      "evidence_refs": ["semantic-seed-58"]
+    },
+    {
+      "obligation_id": "cache_tag_templatetags",
+      "kind": "changed_requirement",
+      "target": "test_cache_tag_templatetags",
+      "reason": "Templatetags must be updated to use the new cache tag system for placeholders.",
+      "evidence_refs": ["semantic-seed-95"]
+    },
+    {
+      "obligation_id": "cache_tag_models",
+      "kind": "changed_requirement",
+      "target": "test_cache_tag_models",
+      "reason": "Page, Placeholder, and Plugin models must be associated with cache tags.",
+      "evidence_refs": ["semantic-seed-68", "semantic-seed-70", "semantic-seed-72"]
+    },
+    {
+      "obligation_id": "cache_tag_utils",
+      "kind": "changed_requirement",
+      "target": "test_cache_tag_utils",
+      "reason": "Utility functions must be extended to support cache tag generation and invalidation.",
+      "evidence_refs": ["semantic-seed-121", "semantic-seed-122"]
+    },
+    {
+      "obligation_id": "cache_tag_config",
+      "kind": "changed_requirement",
+      "target": "test_cache_tag_config",
+      "reason": "Configuration utilities must support opt-in configuration for the new cache tag system.",
+      "evidence_refs": ["semantic-seed-112"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure no changes violate the visible architecture constraints.",
+    "Ensure all new functionality is opt-in and does not break existing behavior.",
+    "Ensure all new modules follow Django best practices."
+  ],
+  "escalation_reason": ""
+}

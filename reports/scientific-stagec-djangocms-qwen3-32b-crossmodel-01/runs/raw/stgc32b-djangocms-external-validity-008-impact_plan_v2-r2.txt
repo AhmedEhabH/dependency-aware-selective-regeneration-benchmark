@@ -1,0 +1,507 @@
+{
+  "decisions": [
+    {
+      "id": 18,
+      "action": "REGENERATE",
+      "rationale": "The cache module is central to implementing the new tag system for cache invalidation.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "The cache module is already involved in cache key generation and invalidation."
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers for post_save and post_delete are likely to be connected here for cache tag invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["SIGNAL_HANDLER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-86",
+          "description": "Signal handlers for post_save and post_delete are already present in the system."
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "action": "REGENERATE",
+      "rationale": "Middleware is a natural place to tag response objects with cache tags for rendered content.",
+      "confidence": 0.9,
+      "reason_codes": ["MIDDLEWARE_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "Page middleware is already involved in page retrieval and rendering."
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "action": "REGENERATE",
+      "rationale": "Templatetags are responsible for rendering content and should be updated to use the new cache tag system.",
+      "confidence": 0.9,
+      "reason_codes": ["TPLTAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Templatetags are already involved in placeholder and plugin rendering."
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers for post_save and post_delete are likely to be connected here for cache tag invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["SIGNAL_HANDLER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-86",
+          "description": "Signal handlers for post_save and post_delete are already present in the system."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "Utility functions for placeholders and plugins are likely to be extended to support cache tag generation.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "Placeholder and plugin utilities are already involved in content retrieval."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "REGENERATE",
+      "rationale": "Plugin utilities are likely to be extended to support cache tag generation and invalidation.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "Plugin utilities are already involved in placeholder and plugin retrieval."
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "action": "REGENERATE",
+      "rationale": "Configuration utilities are likely to be extended to support opt-in configuration for the new cache tag system.",
+      "confidence": 0.8,
+      "reason_codes": ["CONFIG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "Configuration utilities are already involved in cache and toolbar settings."
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "action": "REGENERATE",
+      "rationale": "Apphook reload utilities may need to be extended to handle cache tag invalidation on apphook changes.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "Apphook reload utilities are already involved in apphook management."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "Permission utilities may need to be extended to handle cache tag invalidation on permission changes.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Permission utilities are already involved in cache and permission checks."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "Page permission utilities may need to be extended to handle cache tag invalidation on page permission changes.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Page permission utilities are already involved in page permission checks."
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "action": "REGENERATE",
+      "rationale": "Page utilities may need to be extended to handle cache tag invalidation on page changes.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "Page utilities are already involved in page retrieval and management."
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "action": "REGENERATE",
+      "rationale": "General helper utilities may need to be extended to support cache tag generation and invalidation.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-115",
+          "description": "Helper utilities are already involved in placeholder and content retrieval."
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "action": "REGENERATE",
+      "rationale": "General utility functions may need to be extended to support cache tag generation and invalidation.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-103",
+          "description": "Utility functions are already involved in content retrieval."
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "action": "REGENERATE",
+      "rationale": "Toolbar utilities may need to be extended to support cache tag generation for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "Toolbar utilities are already involved in content and plugin retrieval."
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "action": "REGENERATE",
+      "rationale": "Views may need to be extended to support cache tag generation for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["VIEW_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "Views are already involved in content and plugin rendering."
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "action": "REGENERATE",
+      "rationale": "Wizard helpers may need to be extended to support cache tag generation for new content.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-129",
+          "description": "Wizard helpers are already involved in content creation."
+        }
+      ]
+    },
+    {
+      "id": 138,
+      "action": "REGENERATE",
+      "rationale": "Menu pool utilities may need to be extended to support cache tag generation for menu content.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-138",
+          "description": "Menu pool utilities are already involved in menu content retrieval."
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "action": "REGENERATE",
+      "rationale": "Check utilities may need to be extended to support cache tag validation and configuration checks.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-106",
+          "description": "Check utilities are already involved in plugin and configuration checks."
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "action": "REGENERATE",
+      "rationale": "Request IP resolver utilities may need to be extended to support cache tag generation for IP-based caching.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-123",
+          "description": "Request IP resolver utilities are already involved in request handling."
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "action": "REGENERATE",
+      "rationale": "Mail utilities may need to be extended to support cache tag invalidation on page content changes.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-117",
+          "description": "Mail utilities are already involved in page content changes."
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "action": "REGENERATE",
+      "rationale": "I18n utilities may need to be extended to support cache tag generation for language-specific content.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "I18n utilities are already involved in object and content retrieval."
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "action": "REGENERATE",
+      "rationale": "Response utilities may need to be extended to support cache tag tagging for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-110",
+          "description": "Response utilities are already involved in response handling."
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "action": "REGENERATE",
+      "rationale": "Compatibility utilities may need to be extended to support cache tag generation for older Django versions.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-109",
+          "description": "Compatibility utilities are already involved in Django version compatibility."
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "action": "REGENERATE",
+      "rationale": "Compatibility utilities may need to be extended to support cache tag generation for older Django versions.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-108",
+          "description": "Compatibility utilities are already involved in Django version compatibility."
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "action": "REGENERATE",
+      "rationale": "Compatibility utilities may need to be extended to support cache tag generation for older Django versions.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-107",
+          "description": "Compatibility utilities are already involved in Django version compatibility."
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "action": "REGENERATE",
+      "rationale": "General utility functions may need to be extended to support cache tag generation and invalidation.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-104",
+          "description": "Utility functions are already involved in general CMS operations."
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "action": "REGENERATE",
+      "rationale": "Toolbar pool utilities may need to be extended to support cache tag generation for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-102",
+          "description": "Toolbar pool utilities are already involved in toolbar content retrieval."
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "action": "REGENERATE",
+      "rationale": "Toolbar item utilities may need to be extended to support cache tag generation for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-98",
+          "description": "Toolbar item utilities are already involved in toolbar content retrieval."
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "action": "REGENERATE",
+      "rationale": "Toolbar base utilities may need to be extended to support cache tag generation for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-97",
+          "description": "Toolbar base utilities are already involved in toolbar content retrieval."
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "action": "REGENERATE",
+      "rationale": "Templatetags may need to be extended to support cache tag generation for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["TPLTAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-96",
+          "description": "Templatetags are already involved in content rendering."
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "action": "REGENERATE",
+      "rationale": "Templatetags may need to be extended to support cache tag generation for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["TPLTAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-94",
+          "description": "Templatetags are already involved in content rendering."
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "action": "REGENERATE",
+      "rationale": "Templatetags may need to be extended to support cache tag generation for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["TPLTAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-93",
+          "description": "Templatetags are already involved in content rendering."
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "action": "REGENERATE",
+      "rationale": "Templatetags may need to be extended to support cache tag generation for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["TPLTAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-92",
+          "description": "Templatetags are already involved in content rendering."
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "action": "REGENERATE",
+      "rationale": "Templatetags may need to be extended to support cache tag generation for rendered content.",
+      "confidence": 0.75,
+      "reason_codes": ["TPLTAG_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Templatetags are already involved in content rendering."
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "action": "REGENERATE",
+      "rationale": "Sitemap utilities may need to be extended to support cache tag generation for sitemap content.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-89",
+          "description": "Sitemap utilities are already involved in sitemap content retrieval."
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "action": "REGENERATE",
+      "rationale": "Sitemap utilities may need to be extended to support cache tag generation for sitemap content.",
+      "confidence": 0.75,
+      "reason_codes": ["UTIL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-88",
+          "description": "Sitemap utilities are already involved in sitemap content retrieval."
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "action": "REGENERATE",
+      "rationale": "Signal utilities may need to be extended to support cache tag generation for permission changes.",
+      "confidence": 0.75,
+      "reason_codes": ["SIGNAL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-87",
+          "description": "Signal utilities are already involved in permission changes."
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "action": "REGENERATE",
+      "rationale": "Signal utilities may need to be extended to support cache tag generation for page and placeholder changes.",
+      "confidence": 0.75,
+      "reason_codes": ["SIGNAL_IMPL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-85",
+          "description": "Signal utilities are already involved in page and placeholder changes."
+       

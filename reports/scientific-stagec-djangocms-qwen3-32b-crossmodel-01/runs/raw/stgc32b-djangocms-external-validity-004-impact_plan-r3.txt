@@ -1,0 +1,202 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs to be updated to include the publication_date field.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is semantically relevant to 'page' and 'set', indicating it is part of the model layer."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "The admin form for PageContent must be updated to include the publication_date field for editing in the admin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["FORM_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is semantically relevant to 'content', 'filter', 'language', and 'page', indicating it is part of the admin form logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin action 'Publish Scheduled' must be implemented to publish PageContent items with a publication_date <= now.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is semantically relevant to 'admin', 'display', 'field', and 'filter', indicating it is part of the admin interface."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "Front-end views must filter out PageContent instances where publication_date is set and is in the future.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is semantically relevant to 'content', indicating it is part of the front-end view logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "The API must respect the publication_date when publishing PageContent items.",
+      "confidence": 0.95,
+      "reason_codes": ["API_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is semantically relevant to 'change', 'content', 'language', 'page', and 'publish', indicating it is part of the API logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "REGENERATE",
+      "rationale": "The manager for PageContent must include logic to filter based on publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["MANAGER_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is semantically relevant to 'page' and 'set', indicating it is part of the model layer."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "Utility functions for page rendering must respect the publication_date when determining visibility.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is semantically relevant to 'page', indicating it is part of page utility logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "The page rendering logic must filter out PageContent with future publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["RENDER_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is semantically relevant to 'page', indicating it is part of the page rendering logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/models/test_contentmodels.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "The model change must be validated with tests to ensure the publication_date field behaves as expected.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_TEST"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is semantically relevant to 'page' and 'set', indicating it is part of the model layer."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/admin/test_forms.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "The admin form must be tested to ensure the publication_date field is displayed and behaves correctly.",
+      "confidence": 0.95,
+      "reason_codes": ["FORM_TEST"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is semantically relevant to 'content', 'filter', 'language', and 'page', indicating it is part of the admin form logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/views/test_views.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "The front-end views must be tested to ensure they filter out PageContent with future publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_TEST"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is semantically relevant to 'content', indicating it is part of the front-end view logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/api/test_api.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "The API must be tested to ensure it respects the publication_date when publishing PageContent.",
+      "confidence": 0.95,
+      "reason_codes": ["API_TEST"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is semantically relevant to 'change', 'content', 'language', 'page', and 'publish', indicating it is part of the API logic."
+        }
+      ]
+    }
+  ],
+  "context_set": [
+    "cms/models/contentmodels.py",
+    "cms/admin/forms.py",
+    "cms/admin/pageadmin.py",
+    "cms/views.py",
+    "cms/api.py",
+    "cms/models/managers.py",
+    "cms/utils/page.py",
+    "cms/page_rendering.py"
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "obligation-1",
+      "kind": "changed_requirement",
+      "target": "cms/tests/models/test_contentmodels.py",
+      "reason": "The model must be tested to ensure the publication_date field is correctly added and behaves as expected.",
+      "evidence_refs": ["semantic-seed-68"]
+    },
+    {
+      "obligation_id": "obligation-2",
+      "kind": "changed_requirement",
+      "target": "cms/tests/admin/test_forms.py",
+      "reason": "The admin form must be tested to ensure the publication_date field is displayed and behaves correctly.",
+      "evidence_refs": ["semantic-seed-3"]
+    },
+    {
+      "obligation_id": "obligation-3",
+      "kind": "changed_requirement",
+      "target": "cms/tests/views/test_views.py",
+      "reason": "The front-end views must be tested to ensure they filter out PageContent with future publication_date.",
+      "evidence_refs": ["semantic-seed-126"]
+    },
+    {
+      "obligation_id": "obligation-4",
+      "kind": "changed_requirement",
+      "target": "cms/tests/api/test_api.py",
+      "reason": "The API must be tested to ensure it respects the publication_date when publishing PageContent.",
+      "evidence_refs": ["semantic-seed-11"]
+    }
+  ],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

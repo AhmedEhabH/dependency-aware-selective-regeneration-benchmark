@@ -1,0 +1,464 @@
+{
+  "decisions": [
+    {
+      "id": 64,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs a new publication_date field to support scheduled publishing per language variant.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is relevant to page content and model structure."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "The admin form for PageContent must include the new publication_date field for editing in the admin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["FORM_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "cms/forms/utils.py is relevant to page content and form handling."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "The admin page content form must be updated to include the new publication_date field and support the new 'Publish Scheduled' admin action.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin display and form fields."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "The API must be updated to respect the new publication_date field when publishing content.",
+      "confidence": 0.95,
+      "reason_codes": ["API_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is relevant to content and page publishing."
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "action": "REGENERATE",
+      "rationale": "The page rendering logic must filter out PageContent instances with a future publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is relevant to page content rendering."
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "action": "REGENERATE",
+      "rationale": "The front-end views must filter out PageContent instances with a future publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is relevant to content display and filtering."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "The page utility functions must be updated to respect the new publication_date field when determining visibility.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page.py is relevant to page visibility and permissions."
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "action": "REGENERATE",
+      "rationale": "The i18n utility functions may need to handle language-specific publication dates.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-117",
+          "description": "cms/utils/i18n.py is relevant to language-specific content handling."
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "action": "REGENERATE",
+      "rationale": "The i18n utility functions may need to handle language-specific publication dates.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "cms/utils/i18n.py is relevant to language-specific content handling."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "The page utility functions must be updated to respect the new publication_date field when determining visibility.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page.py is relevant to page visibility and permissions."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "The permissions utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py is relevant to page permissions and visibility."
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "action": "REGENERATE",
+      "rationale": "The apphook reload utility may need to handle the new publication_date field when publishing content.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "cms/utils/apphook_reload.py is relevant to content publishing."
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "action": "REGENERATE",
+      "rationale": "The page utility functions must be updated to respect the new publication_date field when determining visibility.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is relevant to page visibility and permissions."
+        }
+      ]
+    },
+    {
+      "id": 128,
+      "action": "REGENERATE",
+      "rationale": "The wizard forms may need to include the new publication_date field for scheduled publishing.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-128",
+          "description": "cms/wizards/forms.py is relevant to form handling for content creation."
+        }
+      ]
+    },
+    {
+      "id": 143,
+      "action": "REGENERATE",
+      "rationale": "The menu utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-143",
+          "description": "menus/utils.py is relevant to language and content visibility."
+        }
+      ]
+    },
+    {
+      "id": 142,
+      "action": "REGENERATE",
+      "rationale": "The menu tags may need to filter out PageContent with future publication dates.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_TAG_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-142",
+          "description": "menus/templatetags/menu_tags.py is relevant to language and content visibility."
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "action": "REGENERATE",
+      "rationale": "The CMS template tags may need to filter out PageContent with future publication dates.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_TAG_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is relevant to page content display."
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "action": "REGENERATE",
+      "rationale": "The admin template tags may need to display the new publication_date field in the admin interface.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_TAG_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin display and form fields."
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "action": "REGENERATE",
+      "rationale": "The toolbar utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "cms/toolbar/utils.py is relevant to content and language handling."
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "action": "REGENERATE",
+      "rationale": "The CMS utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-103",
+          "description": "cms/utils/__init__.py is relevant to language and content handling."
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "action": "REGENERATE",
+      "rationale": "The URL utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-125",
+          "description": "cms/utils/urlutils.py is relevant to URL handling and content visibility."
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "action": "REGENERATE",
+      "rationale": "The encoder utility functions may need to handle the new publication_date field when serializing content.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-115",
+          "description": "cms/utils/encoder.py is relevant to content serialization."
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "action": "REGENERATE",
+      "rationale": "The CMS menus may need to filter out PageContent with future publication dates.",
+      "confidence": 0.85,
+      "reason_codes": ["MENU_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-23",
+          "description": "cms/cms_menus.py is relevant to page visibility and menus."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "REGENERATE",
+      "rationale": "The placeholder utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/placeholder.py is relevant to placeholder content handling."
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "action": "REGENERATE",
+      "rationale": "The request IP resolver utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-124",
+          "description": "cms/utils/request_ip_resolvers.py is relevant to content visibility."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "The permissions utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "cms/utils/permissions.py is relevant to page permissions and visibility."
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "action": "REGENERATE",
+      "rationale": "The CMS decorators may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-114",
+          "description": "cms/utils/decorators.py is relevant to content visibility and permissions."
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "action": "REGENERATE",
+      "rationale": "The CMS configuration utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-113",
+          "description": "cms/utils/conf.py is relevant to content visibility and configuration."
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "action": "REGENERATE",
+      "rationale": "The CMS compatibility utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "cms/utils/compat/__init__.py is relevant to content visibility and compatibility."
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "action": "REGENERATE",
+      "rationale": "The CMS compatibility utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-111",
+          "description": "cms/utils/compat/forms.py is relevant to content visibility and compatibility."
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "action": "REGENERATE",
+      "rationale": "The CMS compatibility utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-110",
+          "description": "cms/utils/compat/response.py is relevant to content visibility and compatibility."
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "action": "REGENERATE",
+      "rationale": "The CMS compatibility utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-109",
+          "description": "cms/utils/compat/dj.py is relevant to content visibility and compatibility."
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "action": "REGENERATE",
+      "rationale": "The CMS compatibility utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-108",
+          "description": "cms/utils/compat/__init__.py is relevant to content visibility and compatibility."
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "action": "REGENERATE",
+      "rationale": "The CMS check utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-107",
+          "description": "cms/utils/check.py is relevant to content visibility and checks."
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "action": "REGENERATE",
+      "rationale": "The CMS apphook reload utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-106",
+          "description": "cms/utils/apphook_reload.py is relevant to content visibility and apphooks."
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "action": "REGENERATE",
+      "rationale": "The CMS utility functions may need to handle the new publication_date field when determining visibility.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_CHANGE", "REQUIREMENT_ADDED"],
+      "evidence":

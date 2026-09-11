@@ -1,0 +1,75 @@
+{
+  "study_id": "scientific-stagec-djangocms-qwen3-32b-crossmodel-01",
+  "model": "qwen/qwen3-32b",
+  "provider": "DeepInfra",
+  "provider_tag": "deepinfra/fp8",
+  "quantization": "fp8",
+  "reasoning_frozen": {
+    "enabled": false
+  },
+  "temperature": 0.0,
+  "max_tokens": 4096,
+  "probes": {
+    "impact_plan": {
+      "probe": "impact_plan",
+      "schema_name": "impact_plan",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "DeepInfra",
+      "usage": {
+        "prompt_tokens": 103,
+        "completion_tokens": 561,
+        "total_tokens": 664,
+        "reasoning_tokens": 0
+      },
+      "reasoning_returned": false,
+      "validated_payload_keys": [
+        "architecture_checks",
+        "context_set",
+        "decisions",
+        "escalation_reason",
+        "validation_obligations"
+      ],
+      "decisions_count": 3,
+      "raw_response_sha256": "534349fbf867dc8f98426295b0580c70ca583d39e32e4d40bcfd42c4bb1c6a61",
+      "errors": [],
+      "schema_valid": true,
+      "validated": true,
+      "provider_name": "DeepInfra",
+      "contract_ok": true
+    },
+    "impact_plan_v2": {
+      "probe": "impact_plan_v2",
+      "schema_name": "impact_plan_v2",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "DeepInfra",
+      "usage": {
+        "prompt_tokens": 103,
+        "completion_tokens": 461,
+        "total_tokens": 564,
+        "reasoning_tokens": 0
+      },
+      "reasoning_returned": false,
+      "validated_payload_keys": [
+        "architecture_checks",
+        "decisions",
+        "escalation_reason",
+        "validation_obligations"
+      ],
+      "decisions_count": 3,
+      "raw_response_sha256": "8c0b7dd020dc5f6b3cfd50daee4b07075f319b2f92e63b92731b50a466e316ef",
+      "errors": [],
+      "schema_valid": true,
+      "validated": true,
+      "provider_name": "DeepInfra",
+      "contract_ok": true
+    }
+  },
+  "contract_pass": true,
+  "ran_at": "2026-09-10T23:02:12.511291+00:00"
+}

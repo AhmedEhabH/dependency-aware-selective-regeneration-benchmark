@@ -159,6 +159,29 @@ documented. Sources: `docs/PREMAIN_FEASIBILITY_PREREGISTRATION.md`,
 
 ---
 
+## 12. Qwen3-32B cross-model robustness replication (POST-HOC)
+
+Evidence directory: `reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/`
+(immutable; `run_records.jsonl`, `manifest_60.json`, `final_metrics.json`,
+`cross_model_agreement.json`, `runs/raw/*` + `.sha256`).
+
+| Claim | Value | Canonical artifact | Verifier |
+|---|---|---|---|
+| Recorded cells | 60/60 | `run_records.jsonl` | `verify_qwen3_32b_crossmodel_claims.py` |
+| v1 valid / truncations | 2/30 / 24 | `run_records.jsonl` (`arm=="impact_plan"`) | same |
+| v2 valid / truncations | 21/30 / 0 | `run_records.jsonl` (`arm=="impact_plan_v2"`) | same |
+| v2 pooled P / R / F1 / FNR | 0.360 / 0.621 / 0.456 / 0.379 | `final_metrics.json` | same |
+| v2 full-recall rate | 0.238 | `final_metrics.json` | same |
+| Live cost (all 60) | $0.054028 | `final_metrics.json` (`totals.live_api_cost_usd`) | same |
+| Cross-model Sparse-v2 Jaccard | 102 pairs; mean 0.284 / median 0.231 | `cross_model_agreement.json` + `reports/QWEN3_32B_CROSSMODEL_AGREEMENT.{md,csv}` | same |
+| Reasoning disabled | `reasoning.enabled=false`; `reasoning_tokens==0` | `endpoint_freeze.json`, `capability_probes.json`, every RunRecord | same |
+| Raw SHA verification | 60/60 (where raw exists) | `runs/raw/*` vs `raw_response_sha256` | same |
+
+Recompute: `python scripts/verify_qwen3_32b_crossmodel_claims.py` (exit 0 =
+PASS). This is a **descriptive** post-hoc replication; no equivalence or
+significance claim is supported. Historical Qwen3-Coder evidence is unchanged
+and remains the primary manuscript evidence.
+
 ## Closing notes
 
 - All verifier checks above are implemented in `scripts/verify_paper_claims.py`

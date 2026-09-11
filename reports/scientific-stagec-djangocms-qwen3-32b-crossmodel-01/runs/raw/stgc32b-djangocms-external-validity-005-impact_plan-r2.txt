@@ -1,0 +1,580 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'can_review' field must be added to both PagePermission and GlobalPermission models.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The new 'can_review' field is added to PagePermission and GlobalPermission."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The PermissionAdmin must display the new 'can_review' field in the admin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_UI_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The PermissionAdmin shows the new field."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The PageAdmin must include a new 'Review' action for users with the 'can_review' permission.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION_ADD"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "PageAdmin gets a 'Review' action."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar must show a 'Review' menu item for users with the 'can_review' permission.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "The toolbar shows a 'Review' menu item for users with reviewer access."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission checking functions must support the new 'can_review' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_LOGIC"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "Permission checking functions in a relevant module support the new level."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "Page model may need to support content status transitions for review workflows.",
+      "confidence": 0.85,
+      "reason_codes": ["MODEL_LOGIC"],
+      "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "PageAdmin 'Review' action transitions page content status."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Admin forms may need to include the new 'can_review' field for permissions.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Form logic is likely involved in permission management."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Page permission utilities must be updated to handle the new 'can_review' level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Page permission utilities are involved in permission checks."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin templates may need to reflect the new 'can_review' field in the UI.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin templates are involved in permission field rendering."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "Views may need to handle the new 'Review' action and permission logic.",
+      "confidence": 0.85,
+      "reason_codes": ["VIEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "Views are involved in content and edit logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required in the admin init file.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to admin init are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for static placeholder admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to static placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly affected by the new permission unless extended.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "User admin is not directly involved in page review permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for placeholder admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for settings admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to settings admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Admin forms may need to include the new 'can_review' field for permissions.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Form logic is likely involved in permission management."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly affected by the new permission unless extended.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "User admin is not directly involved in page review permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for placeholder admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for settings admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to settings admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required in the static placeholder admin.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to static placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly affected by the new permission unless extended.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "User admin is not directly involved in page review permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for placeholder admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for settings admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to settings admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required in the static placeholder admin.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to static placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly affected by the new permission unless extended.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "User admin is not directly involved in page review permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for placeholder admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for settings admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to settings admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required in the static placeholder admin.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to static placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly affected by the new permission unless extended.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "User admin is not directly involved in page review permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for placeholder admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for settings admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to settings admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required in the static placeholder admin.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to static placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly affected by the new permission unless extended.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "User admin is not directly involved in page review permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for placeholder admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for settings admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to settings admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required in the static placeholder admin.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to static placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly affected by the new permission unless extended.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "User admin is not directly involved in page review permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for placeholder admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for settings admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to settings admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct changes are required in the static placeholder admin.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to static placeholder admin are required."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "User admin is not directly affected by the new permission unless extended.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "User admin is not directly involved in page review permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required for placeholder admin logic.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE"]
+    ,
+    "evidence": [
+        {
+          "source": "Requirement after",
+          "description": "No changes to placeholder admin are required."
+        }
+      ]
+    },
+    {

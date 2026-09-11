@@ -357,3 +357,38 @@ internally consistent.
 
 All claims above stay within frozen evidence and are re-derivable via the
 recompute command.
+
+## 18. Qwen3-32B Cross-Model Robustness Replication (POST-HOC)
+
+A separate **POST-HOC CROSS-MODEL ROBUSTNESS REPLICATION** study was
+completed and audited (2026-09-11): same repositories, cases, treatments,
+gateway and provider, **different Qwen model** (`qwen/qwen3-coder` →
+`qwen/qwen3-32b`, OpenRouter / DeepInfra `deepinfra/fp8`, reasoning explicitly
+disabled, fallback off, temperature 0, cap 4096, graph OFF). 60 cells
+(6 scenarios × 2 arms × 5 reps). Evidence:
+`reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/`,
+`reports/QWEN3_32B_CROSSMODEL_PROTOCOL.md` (preregistered before cell 1),
+`reports/QWEN3_32B_CROSSMODEL_AGREEMENT.{md,csv}`,
+`reports/QWEN3_32B_PAPER_INTEGRATION_NOTE.md`,
+`scripts/verify_qwen3_32b_crossmodel_claims.py` (zero API).
+
+- New v1 (`impact_plan`): 2/30 valid, 24 truncations at the frozen 4096 cap —
+  Qwen3-32B's verbose full-policy serialization does not fit the frozen budget;
+  recorded verbatim, **no reruns**.
+- New v2 (`impact_plan_v2`): 21/30 valid, 0 truncations; pooled P 0.360 /
+  R 0.621 / F1 0.456 / FNR 0.379; full-recall 0.238.
+- **DIRECTIONALLY REPLICATED** (descriptive): v2 validity rate (70%) > v1
+  (6.7%) and v2 truncation rate (0%) < v1 (80%). This is descriptive only —
+  no significance or causal claim.
+- Cross-model Sparse-v2 Jaccard agreement vs historical Qwen3-Coder:
+  102 cross-product pairs, mean 0.284 / median 0.231 / min 0.0 / max 1.0.
+  Descriptive only; do **not** interpret as internal-reasoning similarity.
+- Denominators are per-row and must **not** be merged with the historical
+  rows (historical Qwen3-Coder evidence is unchanged and remains the primary
+  evidence).
+
+Recommended manuscript framing: report the new rows in a clearly separate
+"cross-model robustness replication" table/section with the explicit
+post-hoc label and the descriptive-agreement caveat. See
+`reports/QWEN3_32B_PAPER_INTEGRATION_NOTE.md` for exact allowed/forbidden
+claims.

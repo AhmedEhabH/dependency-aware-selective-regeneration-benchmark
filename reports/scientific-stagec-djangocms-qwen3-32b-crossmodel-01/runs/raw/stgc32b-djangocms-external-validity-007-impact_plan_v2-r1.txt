@@ -1,0 +1,198 @@
+{
+  "decisions": [
+    {
+      "id": 64,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs a new 'status' field to support the workflow states.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is directly related to page content and is a likely location for the new status field."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "The PageContentAdmin needs new actions for workflow transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTIONS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/admin/pageadmin.py is the likely location for adding new admin actions and workflow state handling."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "The toolbar must show workflow state and available transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "cms/cms_toolbars.py is directly related to the toolbar and its state display."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "API functions must check the workflow status before publishing.",
+      "confidence": 0.95,
+      "reason_codes": ["API_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is likely to contain functions that need to be updated to respect the new workflow status."
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "action": "REGENERATE",
+      "rationale": "A new signal 'page_content_status_changed' must be added to handle state transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNAL_IMPLEMENTATION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "cms/signals/__init__.py is the likely location for defining new signals."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "Permission models must be updated to support the new 'Reviewer' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/models/permissionmodels.py is the likely location for defining new permission levels."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "Page utility functions must be updated to check workflow status for visibility.",
+      "confidence": 0.95,
+      "reason_codes": ["UTIL_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is likely to contain functions that need to be updated to respect the new workflow status."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "Page permission utility functions must be updated to support the new 'Reviewer' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py is likely to contain functions that need to be updated to support the new permission level."
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "action": "REGENERATE",
+      "rationale": "The template tags must be updated to show the new workflow state in the admin or frontend.",
+      "confidence": 0.95,
+      "reason_codes": ["TEMPLATE_TAG_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is likely to contain functions that need to be updated to show the new workflow state."
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "action": "REGENERATE",
+      "rationale": "Admin template tags must be updated to show the new workflow state and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["TEMPLATE_TAG_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is likely to contain functions that need to be updated to show the new workflow state."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "obligation-1",
+      "kind": "changed_requirement",
+      "target": "test_page_content_workflow",
+      "reason": "The new workflow must be tested for model transitions and admin actions.",
+      "evidence_refs": ["semantic-seed-68", "semantic-seed-5"]
+    },
+    {
+      "obligation_id": "obligation-2",
+      "kind": "regression",
+      "target": "test_admin_actions",
+      "reason": "Admin actions must not break existing functionality after adding new workflow actions.",
+      "evidence_refs": ["semantic-seed-5"]
+    },
+    {
+      "obligation_id": "obligation-3",
+      "kind": "regression",
+      "target": "test_toolbar_display",
+      "reason": "The toolbar must still display correctly after workflow state changes.",
+      "evidence_refs": ["semantic-seed-27"]
+    },
+    {
+      "obligation_id": "obligation-4",
+      "kind": "regression",
+      "target": "test_api_publishing",
+      "reason": "API functions must still work correctly after workflow status checks are added.",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "obligation-5",
+      "kind": "regression",
+      "target": "test_signals",
+      "reason": "Existing signals must still fire correctly after adding new workflow signals.",
+      "evidence_refs": ["semantic-seed-83"]
+    },
+    {
+      "obligation_id": "obligation-6",
+      "kind": "regression",
+      "target": "test_permissions",
+      "reason": "Permission checks must still work correctly after adding the new 'Reviewer' level.",
+      "evidence_refs": ["semantic-seed-120"]
+    },
+    {
+      "obligation_id": "obligation-7",
+      "kind": "regression",
+      "target": "test_page_visibility",
+      "reason": "Page visibility must still work correctly after workflow status is used in visibility checks.",
+      "evidence_refs": ["semantic-seed-118"]
+    },
+    {
+      "obligation_id": "obligation-8",
+      "kind": "regression",
+      "target": "test_template_tags",
+      "reason": "Template tags must still render correctly after workflow state is added.",
+      "evidence_refs": ["semantic-seed-95", "semantic-seed-91"]
+    }
+  ],
+  "architecture_checks": [
+    "All existing functionality must continue to work after the workflow is added.",
+    "The implementation must follow Django best practices for model, admin, and signal changes.",
+    "The new 'Reviewer' permission must be properly integrated with the existing permission system."
+  ],
+  "escalation_reason": ""
+}

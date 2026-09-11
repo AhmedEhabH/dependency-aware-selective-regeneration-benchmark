@@ -1,0 +1,460 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs to be updated to include the publication_date field.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is semantically relevant to 'page' and 'set' operations."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "The admin form for PageContent must include the new publication_date field.",
+      "confidence": 0.95,
+      "reason_codes": ["FORM_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is semantically relevant to 'content', 'filter', 'language', and 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin interface for PageContent must display the new publication_date field.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_INTERFACE_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is semantically relevant to 'admin', 'display', 'field', and 'filter'."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "Front-end views must filter out PageContent with future publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_FILTERING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is semantically relevant to 'content'."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "The API must respect the publication_date when publishing content.",
+      "confidence": 0.95,
+      "reason_codes": ["API_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is semantically relevant to 'change', 'content', 'language', 'page', and 'publish'."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "REGENERATE",
+      "rationale": "The 'Publish Scheduled' admin action must be implemented to publish content with publication_date <= now.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "cms/utils/apphook_reload.py is semantically relevant to 'date' and 'set'."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_admin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "Tests for the admin form and action must be added to ensure the new field is displayed and works as expected.",
+      "confidence": 0.9,
+      "reason_codes": ["TEST_ADMIN"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is semantically relevant to 'content', 'filter', 'language', and 'page'."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_views.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "Tests for the front-end views must ensure that PageContent with future publication_date is not visible.",
+      "confidence": 0.9,
+      "reason_codes": ["TEST_VIEW"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is semantically relevant to 'content'."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_api.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "Tests for the API must ensure that publication_date is respected during publishing.",
+      "confidence": 0.9,
+      "reason_codes": ["TEST_API"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is semantically relevant to 'change', 'content', 'language', 'page', and 'publish'."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed to the manager unless it directly affects the new field logic.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the utility functions are directly involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the template tags are used to render PageContent visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/middleware/page.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the middleware is involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/page.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the cache logic is affected by the new field.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/signals/log_entries.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the signal is involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/operations/helpers.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the operation logic is affected by the new field.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the rendering logic is affected by the new field.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/toolbar/utils.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the toolbar is involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the form utilities are involved in the new field.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/i18n.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the i18n logic is affected by the new field.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the permission logic is affected by the new field.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the page permission logic is affected by the new field.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/urlutils.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the URL logic is affected by the new field.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the admin template tags are involved in the new field display.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the template tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the JS tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_static.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the static tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the alias tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the JS tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the template tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the admin template tags are involved in the new field display.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the JS tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_static.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the static tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the alias tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the JS tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the template tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the admin template tags are involved in the new field display.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the JS tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_static.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the static tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the alias tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the JS tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the template tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the admin template tags are involved in the new field display.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the JS tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_static.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the static tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the alias tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the JS tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the template tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the admin template tags are involved in the new field display.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_js_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the JS tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_static.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the static tags are involved in content visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed unless the alias tags are involved in content visibility.",
+      "confidence":

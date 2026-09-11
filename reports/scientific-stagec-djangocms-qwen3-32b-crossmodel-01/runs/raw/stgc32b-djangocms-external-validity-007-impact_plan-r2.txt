@@ -1,0 +1,500 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs a new status field with workflow states and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "The PageContent model is a central artifact for content workflow changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin actions for workflow transitions (submit, approve, reject, publish) must be added.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTIONS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin interface changes are required to show and manage workflow states."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar must display workflow state and available transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "Toolbar-related changes are relevant to the workflow state visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/signals/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "A signal must be added to fire on page content status changes.",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNAL_IMPLEMENTATION", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "Signal handling is relevant to content state transitions."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission logic must be updated to handle the new 'Reviewer' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Permission checks are central to workflow state transitions."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "API functions must be updated to respect the new workflow status.",
+      "confidence": 0.95,
+      "reason_codes": ["API_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "API functions are involved in content state transitions."
+        }
+      ]
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "REGENERATE",
+      "rationale": "Form utilities may need to reflect the new workflow state in form rendering.",
+      "confidence": 0.85,
+      "reason_codes": ["FORM_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "Form utilities are relevant to page content state handling."
+        }
+      ]
+    },
+    {
+      "path": "cms/cache/choices.py",
+      "action": "REGENERATE",
+      "rationale": "The new status field requires updated cache choices for workflow states.",
+      "confidence": 0.9,
+      "reason_codes": ["CACHE_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-18",
+          "description": "Cache choices are relevant to page content state handling."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/check.py",
+      "action": "REGENERATE",
+      "rationale": "The check command may need to validate workflow state transitions.",
+      "confidence": 0.8,
+      "reason_codes": ["COMMAND_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-106",
+          "description": "Check commands are relevant to workflow validation."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin templates must reflect the new workflow state and transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin templates are relevant to workflow state visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Admin forms must reflect the new workflow state and transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["FORM_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "Admin forms are relevant to content state and permission changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be added to the permission model.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Permission models are central to workflow state transitions."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "REGENERATE",
+      "rationale": "Permission utilities must be updated to handle the new 'Reviewer' level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Permission utilities are central to workflow state transitions."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "Views must respect the new workflow state when rendering content.",
+      "confidence": 0.9,
+      "reason_codes": ["VIEW_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "Views are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "Page rendering must respect the new workflow state when publishing.",
+      "confidence": 0.9,
+      "reason_codes": ["RENDERING_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "Page rendering is relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Admin initialization may need to register new actions or permissions.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_INIT", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin initialization is relevant to workflow state visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Permission admin must reflect the new 'Reviewer' level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Permission admin is central to workflow state transitions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Static placeholder admin may need to reflect the new workflow state.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Static placeholders are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "REGENERATE",
+      "rationale": "User admin may need to reflect the new 'Reviewer' permission level.",
+      "confidence": 0.9,
+      "reason_codes": ["PERMISSION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "User admin is relevant to permission level changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "REGENERATE",
+      "rationale": "Admin utilities may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_UTILS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin utilities are relevant to workflow state visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/operations/helpers.py",
+      "action": "REGENERATE",
+      "rationale": "Operations helpers may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["OPERATION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-77",
+          "description": "Operations are relevant to content state transitions."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/items.py",
+      "action": "REGENERATE",
+      "rationale": "Toolbar items must reflect the new workflow state and transitions.",
+      "confidence": 0.9,
+      "reason_codes": ["TOOLBAR_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "Toolbar items are relevant to workflow state visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/utils.py",
+      "action": "REGENERATE",
+      "rationale": "Toolbar utilities may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["TOOLBAR_UTILS", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "Toolbar utilities are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "REGENERATE",
+      "rationale": "Template tags may need to reflect the new workflow state in rendering.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_TAG_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Template tags are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "Page utilities may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILS_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "Page utilities are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder utilities may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILS_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "Placeholder utilities are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin utilities may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILS_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "Plugin utilities are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/urlutils.py",
+      "action": "REGENERATE",
+      "rationale": "URL utilities may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILS_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-125",
+          "description": "URL utilities are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "REGENERATE",
+      "rationale": "New status field must be added to the PageContent model.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_FIELD", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Model fields are central to content state changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "REGENERATE",
+      "rationale": "Managers may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["MODEL_MANAGER", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Model managers are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "REGENERATE",
+      "rationale": "Query utilities may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["QUERY_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Query utilities are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "REGENERATE",
+      "rationale": "Setting models may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["SETTING_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Setting models are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "REGENERATE",
+      "rationale": "Static placeholder models may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["MODEL_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Static placeholder models are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder models may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["MODEL_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Placeholder models are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholderpluginmodel.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder plugin models may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["MODEL_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Placeholder plugin models are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin models may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["MODEL_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-21",
+          "description": "Plugin models are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "REGENERATE",
+      "rationale": "Permission models must be updated to handle the new 'Reviewer' level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Permission models are central to workflow state transitions."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "REGENERATE",
+      "rationale": "Setting models may need to handle new workflow state transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["SETTING_UPDATE", "WORKFLOW_IMPLEMENTATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Setting models are relevant to content state and visibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "REGENERATE",
+      "rationale": "

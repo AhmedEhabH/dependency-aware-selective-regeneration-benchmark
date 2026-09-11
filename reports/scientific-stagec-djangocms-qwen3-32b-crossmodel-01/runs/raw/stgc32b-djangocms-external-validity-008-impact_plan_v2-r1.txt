@@ -1,0 +1,202 @@
+{
+  "decisions": [
+    {
+      "id": 18,
+      "action": "REGENERATE",
+      "rationale": "The cache module is central to implementing the new tag system for cache invalidation.",
+      "confidence": 0.95,
+      "reason_codes": ["CACHE_TAG_SYSTEM"],
+      "evidence": [
+        {
+          "source": "semantic-seed-17",
+          "description": "cms/cache/__init__.py is directly related to cache and invalidation logic."
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "action": "REGENERATE",
+      "rationale": "Signal handlers for post_save and post_delete are needed to trigger cache invalidation for content objects.",
+      "confidence": 0.9,
+      "reason_codes": ["SIGNAL_HANDLERS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-86",
+          "description": "cms/signals/permissions.py is related to post_save and post_delete events."
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "action": "REGENERATE",
+      "rationale": "Middleware needs to be updated to tag response objects with cache tags of rendered content.",
+      "confidence": 0.9,
+      "reason_codes": ["MIDDLEWARE_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "cms/middleware/page.py is involved in page handling and response tagging."
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "action": "REGENERATE",
+      "rationale": "Template tags need to be updated to use the new cache tag system for placeholders and plugins.",
+      "confidence": 0.9,
+      "reason_codes": ["TEMPLATE_TAGS_UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is directly related to placeholder and plugin rendering."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "Placeholder model needs to be updated to support cache tags for invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["MODEL_TAGGING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "cms/models/placeholdermodel.py is directly related to placeholder content."
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "action": "REGENERATE",
+      "rationale": "Plugin model needs to be updated to support cache tags for invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["MODEL_TAGGING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py is directly related to plugin content."
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "action": "REGENERATE",
+      "rationale": "Page model needs to be updated to support cache tags for invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["MODEL_TAGGING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is directly related to page content."
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "action": "REGENERATE",
+      "rationale": "Toolbar utilities need to be updated to tag rendered content with cache tags.",
+      "confidence": 0.9,
+      "reason_codes": ["TOOLBAR_TAGGING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "cms/toolbar/utils.py is directly related to content and placeholder rendering."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "Placeholder utilities need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTILITY_TAGGING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "cms/utils/placeholder.py is directly related to placeholder content."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "REGENERATE",
+      "rationale": "Plugin utilities need to be updated to support cache tag generation and invalidation.",
+      "confidence": 0.9,
+      "reason_codes": ["UTILITY_TAGGING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/plugins.py is directly related to plugin content."
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "action": "REGENERATE",
+      "rationale": "Configuration utilities need to support opt-in configuration for the new cache tag system.",
+      "confidence": 0.9,
+      "reason_codes": ["CONFIGURATION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-112",
+          "description": "cms/utils/conf.py is directly related to configuration and cache settings."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "cache_tag_system_regression",
+      "kind": "regression",
+      "target": "test_cache_invalidation",
+      "reason": "Ensure that the new cache tag system does not break existing cache behavior when not configured.",
+      "evidence_refs": ["semantic-seed-17", "semantic-seed-18", "semantic-seed-19"]
+    },
+    {
+      "obligation_id": "signal_handlers_regression",
+      "kind": "regression",
+      "target": "test_signal_handlers",
+      "reason": "Ensure that signal handlers for post_save and post_delete correctly invalidate cache tags.",
+      "evidence_refs": ["semantic-seed-86", "semantic-seed-49"]
+    },
+    {
+      "obligation_id": "middleware_regression",
+      "kind": "regression",
+      "target": "test_middleware_tagging",
+      "reason": "Ensure that middleware correctly tags response objects with cache tags.",
+      "evidence_refs": ["semantic-seed-58"]
+    },
+    {
+      "obligation_id": "template_tags_regression",
+      "kind": "regression",
+      "target": "test_template_tag_cache",
+      "reason": "Ensure that template tags use the new cache tag system correctly.",
+      "evidence_refs": ["semantic-seed-95"]
+    },
+    {
+      "obligation_id": "model_tagging_regression",
+      "kind": "regression",
+      "target": "test_model_cache_tags",
+      "reason": "Ensure that models for Page, Placeholder, and Plugin support cache tags correctly.",
+      "evidence_refs": ["semantic-seed-68", "semantic-seed-70", "semantic-seed-72"]
+    },
+    {
+      "obligation_id": "toolbar_regression",
+      "kind": "regression",
+      "target": "test_toolbar_cache_tagging",
+      "reason": "Ensure that the toolbar middleware correctly tags rendered content.",
+      "evidence_refs": ["semantic-seed-99"]
+    },
+    {
+      "obligation_id": "utility_tagging_regression",
+      "kind": "regression",
+      "target": "test_utility_cache_tagging",
+      "reason": "Ensure that utility functions for cache tags work as expected.",
+      "evidence_refs": ["semantic-seed-121", "semantic-seed-122", "semantic-seed-112"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure that the new cache tag system is opt-in and does not break existing cache behavior when not configured."
+  ],
+  "escalation_reason": ""
+}

@@ -1,0 +1,348 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The `publication_date` field must be added to the PageContent model to support scheduled publishing.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "The Page model is a central part of the CMS, and the PageContent model is likely defined in contentmodels.py."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin form for PageContent must be updated to display the new `publication_date` field.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_FORM_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "The admin interface is responsible for displaying and managing page content fields."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "The admin form for PageContent must be updated to include the new `publication_date` field.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_FORM_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "The admin forms are responsible for managing page content and language-specific fields."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "The front-end views must filter out PageContent instances where `publication_date` is in the future.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_FILTERING"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "The views module is responsible for rendering page content to the front-end."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "The API must respect the `publication_date` when publishing content.",
+      "confidence": 0.95,
+      "reason_codes": ["API_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "The API is responsible for publishing and managing page content."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "The admin module may need to register the new admin action for scheduled publishing.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "The admin module is responsible for defining and registering admin actions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "REGENERATE",
+      "rationale": "The admin action for publishing scheduled content may be implemented in the admin utilities.",
+      "confidence": 0.85,
+      "reason_codes": ["ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin utilities often contain helper functions for admin actions."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "REGENERATE",
+      "rationale": "The manager for PageContent may need to filter based on `publication_date`.",
+      "confidence": 0.9,
+      "reason_codes": ["MODEL_MANAGER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Model managers are responsible for defining query logic for models."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "The page utility functions may need to respect the `publication_date` when retrieving content.",
+      "confidence": 0.9,
+      "reason_codes": ["UTILITY_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "Page utility functions are responsible for retrieving and managing page content."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "REGENERATE",
+      "rationale": "The template tags may need to filter content based on `publication_date`.",
+      "confidence": 0.85,
+      "reason_codes": ["TEMPLATE_TAG_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "Template tags are used to render page content in templates."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/publish_scheduled.py",
+      "action": "REGENERATE",
+      "rationale": "A new management command may be needed to publish scheduled content.",
+      "confidence": 0.8,
+      "reason_codes": ["MANAGEMENT_COMMAND"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "Management commands are used to perform administrative tasks like publishing."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_admin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "The admin functionality must be tested to ensure the new field and action work correctly.",
+      "confidence": 0.95,
+      "reason_codes": ["TEST_ADMIN"],
+      "evidence": [
+        {
+          "source": "Validation catalog",
+          "description": "Admin functionality must be tested to ensure correctness."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_views.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "The front-end views must be tested to ensure they filter content based on `publication_date`.",
+      "confidence": 0.95,
+      "reason_codes": ["TEST_VIEW"],
+      "evidence": [
+        {
+          "source": "Validation catalog",
+          "description": "View functionality must be tested to ensure correctness."
+        }
+      ]
+    },
+    {
+      "path": "cms/tests/test_api.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "The API must be tested to ensure it respects the `publication_date`.",
+      "confidence": 0.95,
+      "reason_codes": ["TEST_API"],
+      "evidence": [
+        {
+          "source": "Validation catalog",
+          "description": "API functionality must be tested to ensure correctness."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the model change.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the admin form change.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the admin form change.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/views.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the view filtering.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/api.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the API change.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the admin action.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the admin action.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the model manager.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the utility change.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the template tag filter.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/publish_scheduled.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under regeneration for the management command.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/tests/test_admin.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under validation for the admin tests.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/tests/test_views.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under validation for the view tests.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/tests/test_api.py",
+      "action": "PRESERVE",
+      "rationale": "This file is already under validation for the API tests.",
+      "confidence": 1.0,
+      "reason_codes": ["ALREADY_MODIFIED"],
+      "evidence": []
+    }
+  ],
+  "context_set": [
+    "cms/models/contentmodels.py",
+    "cms/admin/pageadmin.py",
+    "cms/admin/forms.py",
+    "cms/views.py",
+    "cms/api.py",
+    "cms/admin/__init__.py",
+    "cms/admin/utils.py",
+    "cms/models/managers.py",
+    "cms/utils/page.py",
+    "cms/templatetags/cms_tags.py",
+    "cms/management/commands/subcommands/publish_scheduled.py",
+    "cms/tests/test_admin.py",
+    "cms/tests/test_views.py",
+    "cms/tests/test_api.py"
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "validate_admin_form",
+      "kind": "changed_requirement",
+      "target": "cms/tests/test_admin.py",
+      "reason": "The admin form must display the new `publication_date` field and allow for scheduled publishing.",
+      "evidence_refs": ["semantic-seed-91"]
+    },
+    {
+      "obligation_id": "validate_view_filtering",
+      "kind": "changed_requirement",
+      "target": "cms/tests/test_views.py",
+      "reason": "The front-end views must filter out PageContent instances where `publication_date` is in the future.",
+      "evidence_refs": ["semantic-seed-126"]
+    },
+    {
+      "obligation_id": "validate_api_publishing",
+      "kind": "changed_requirement",
+      "target": "cms/tests/test_api.py",
+      "reason": "The API must respect the `publication_date` when publishing content.",
+      "evidence_refs": ["semantic-seed-11"]
+    },
+    {
+      "obligation_id": "validate_admin_action",
+      "kind": "changed_requirement",
+      "target": "cms/tests/test_admin.py",
+      "reason": "The admin must provide a new 'Publish Scheduled' action to publish content with `publication_date` <= now.",
+      "evidence_refs": ["semantic-seed-91"]
+    }
+  ],
+  "architecture_checks": [
+    "All existing functionality must continue to work after the change."
+  ],
+  "escalation_reason": ""
+}

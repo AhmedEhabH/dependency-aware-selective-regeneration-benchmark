@@ -1,0 +1,473 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/pluginmodel.py",
+      "action": "REGENERATE",
+      "rationale": "The CMSPlugin model must be modified to add a nullable ForeignKey to PageContent.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-72",
+          "description": "cms/models/pluginmodel.py is directly related to the plugin model and is a likely location for the ForeignKey addition."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin interface for CMSPlugin must be updated to show the associated PageContent context.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_INTERFACE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/placeholderadmin.py is likely to contain admin methods or logic for CMSPlugin."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "Placeholder rendering logic must be updated to filter plugins by the requested language via the page_content foreign key.",
+      "confidence": 0.95,
+      "reason_codes": ["RENDERING_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is directly involved in page rendering and is a likely location for placeholder rendering logic."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin utility functions may need to be updated to handle the new page_content field.",
+      "confidence": 0.85,
+      "reason_codes": ["UTILITY_FUNCTIONS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/plugins.py is likely to contain utility functions for plugins and may need to be updated."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+      "action": "REGENERATE",
+      "rationale": "The command for deleting orphaned plugins may need to be updated to account for the new page_content field.",
+      "confidence": 0.8,
+      "reason_codes": ["MANAGEMENT_COMMAND"],
+      "evidence": [
+        {
+          "source": "semantic-seed-51",
+          "description": "cms/management/commands/subcommands/delete_orphaned_plugins.py is likely to be involved in plugin management."
+        }
+      ]
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "REGENERATE",
+      "rationale": "Form utility functions may need to be updated to handle the new page_content field in forms.",
+      "confidence": 0.8,
+      "reason_codes": ["FORM_UTILS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "cms/forms/utils.py is likely to be involved in form utility functions for plugins."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "Plugin forms in the admin must be updated to show the associated PageContent context.",
+      "confidence": 0.9,
+      "reason_codes": ["ADMIN_FORMS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is likely to be involved in admin forms for plugins."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholdermodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the Placeholder model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "cms/models/placeholdermodel.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the Page model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the content models, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/contentmodels.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the managers, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/managers.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the fields, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/fields.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the query module, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/query.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the setting models, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/settingmodels.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the static placeholder model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/static_placeholder.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/aliaspluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the alias plugin model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/aliaspluginmodel.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the permission models, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/permissionmodels.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/apphooks_reload.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the apphooks reload module, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/apphooks_reload.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholderpluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the placeholder plugin model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/placeholderpluginmodel.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the setting models, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/settingmodels.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the static placeholder model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/static_placeholder.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/aliaspluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the alias plugin model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/aliaspluginmodel.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the permission models, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/permissionmodels.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/apphooks_reload.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the apphooks reload module, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/apphooks_reload.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholderpluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the placeholder plugin model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/placeholderpluginmodel.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the setting models, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/settingmodels.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the static placeholder model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/static_placeholder.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/aliaspluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the alias plugin model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/aliaspluginmodel.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the permission models, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/permissionmodels.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/apphooks_reload.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the apphooks reload module, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/apphooks_reload.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholderpluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the placeholder plugin model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/placeholderpluginmodel.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/settingmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the setting models, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/settingmodels.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the static placeholder model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/static_placeholder.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/aliaspluginmodel.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the alias plugin model, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/aliaspluginmodel.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/permissionmodels.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the permission models, but they may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/permissionmodels.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/apphooks_reload.py",
+      "action": "PRESERVE",
+      "rationale": "No direct change is required to the apphooks reload module, but it may be referenced in the implementation.",
+      "confidence": 0.95,
+      "reason_codes": ["REFERENCE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/apphooks_reload.py is likely to be referenced in the implementation."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/placeholderpluginmodel.py",
+      "action":
