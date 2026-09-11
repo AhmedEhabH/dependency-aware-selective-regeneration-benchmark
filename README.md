@@ -21,12 +21,16 @@
 | Graph-aware v3 | FUTURE WORK |
 | Fine-tuning | FUTURE WORK |
 | djangoCMS ImpactPlan-v2 study | POST-HOC / EXPLORATORY |
+| Qwen3-32B cross-model replication | COMPLETE / AUDITED (post-hoc) |
+| Qwen3-Coder-30B-A3B-Instruct cross-model / cross-provider replication | COMPLETE / AUDITED (post-hoc) |
 
 The selection-stage benchmark research is **closed and audited** (external
 GPT-5.6 Sol audit PASS, 2026-09-08). The benchmark tag means the benchmark
 research is complete and frozen — it does **not** mean successful end-to-end
-executor regeneration. No further scientific model calls, experiments, or
-benchmark runs are planned. The current task is academic-output preparation.
+executor regeneration. Two post-hoc robustness replications
+(Qwen3-32B and Qwen3-Coder-30B-A3B-Instruct) were completed and audited in
+2026-09-11; no further scientific model calls are planned. The current task
+is academic-output preparation.
 
 ---
 
@@ -65,6 +69,9 @@ completed end-to-end measured result of these studies.
 - The Todo selection component studies (smoke + held-out).
 - The primary djangoCMS selection study (60 cells).
 - The post-hoc / exploratory djangoCMS ImpactPlan-v2 study (30 cells), audited.
+- Two post-hoc robustness replications (60 cells each), audited: **Qwen3-32B**
+  (cross-model, DeepInfra) and **Qwen3-Coder-30B-A3B-Instruct**
+  (cross-model / cross-provider, SiliconFlow).
 - All closure gates, evidence freezing, the audited v2 study tag, and the final
   benchmark tag `v0.11.0-benchmark-complete`.
 - A documentation package that lets a fresh researcher start the paper phase
@@ -80,11 +87,26 @@ DeepInfra, cap Agent 1024 / ImpactPlan-v1 4096 / ImpactPlan-v2 4096.
 Selection-stage correctness on valid cells
 (micro-aggregated); token/call/cost totals over ALL cells (valid + failed):
 
-| Model | Study status | Arm | Valid | Trunc. | P | R | F1 | Total tokens | Calls | Cost |
-|---|---|---|---|---|---|---|---|---|---|---|
-| Qwen3-Coder-480B-A35B-Instruct | Primary | Agent | 25/30 | 0 | 0.6463 | 0.8407 | 0.7308 | 449,792 | 206 | $0.140850 |
-| Qwen3-Coder-480B-A35B-Instruct | Primary | ImpactPlan-v1 | 6/30 | 19 | 0.6765 | 0.9200 | 0.7797 | 184,401 | 28 | $0.123298 |
-| Qwen3-Coder-480B-A35B-Instruct | Post-hoc/exploratory | ImpactPlan-v2 | 29/30 | 0 | 0.7410 | 0.8655 | 0.7985 | 144,353 | 30 | $0.064634 |
+| Model | Study status | Arm | Valid | Trunc. | P | R | F1 | Total tokens | Calls |
+|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-Coder-480B-A35B-Instruct | Primary | Agent | 25/30 | 0 | 0.6463 | 0.8407 | 0.7308 | 449,792 | 206 |
+| Qwen3-Coder-480B-A35B-Instruct | Primary | ImpactPlan-v1 | 6/30 | 19 | 0.6765 | 0.9200 | 0.7797 | 184,401 | 28 |
+| Qwen3-Coder-480B-A35B-Instruct | Post-hoc / exploratory | ImpactPlan-v2 | 29/30 | 0 | 0.7410 | 0.8655 | 0.7985 | 144,353 | 30 |
+| Qwen3-32B | Post-hoc cross-model | ImpactPlan-v1 | 2/30 | 24 | 0.0000 | 0.0000 | 0.0000 | >= 198,979 | 30 req (29 usage-known) |
+| Qwen3-32B | Post-hoc cross-model | ImpactPlan-v2 | 21/30 | 6 | 0.3600 | 0.6207 | 0.4557 | >= 122,273 | 30 req (23 usage-known) |
+| Qwen3-Coder-30B-A3B-Instruct | Post-hoc cross-model / cross-provider | ImpactPlan-v1 | 17/30 | 11 | 0.6567 | 0.8000 | 0.7213 | 162,276 | 30 req (30 usage-known) |
+| Qwen3-Coder-30B-A3B-Instruct | Post-hoc cross-model / cross-provider | ImpactPlan-v2 | 28/30 | 0 | 0.5556 | 0.6881 | 0.6148 | >= 138,870 | 30 req (29 usage-known) |
+
+> **Unified table notes.** Rows come from **separate studies**; denominators
+> must not be pooled. The historical Agent / ImpactPlan-v1 rows are the
+> **primary** evidence; historical ImpactPlan-v2 is a separate
+> post-hoc/exploratory study; Qwen3-32B is a separate post-hoc cross-model
+> robustness replication (DeepInfra); Qwen3-Coder-30B-A3B-Instruct is a
+> separate post-hoc cross-model / cross-provider robustness replication
+> (SiliconFlow). Unknown usage is a **lower bound** (`>=`), never silently
+> converted to zero. Cost (secondary): historical Agent $0.140850 /
+> v1 $0.123298 / v2 $0.064634; Qwen3-32B total >= $0.054028; 30B total >=
+> $0.041518.
 
 > **ImpactPlan-v2 was a separate post-hoc/exploratory 30-cell study.** It is
 > displayed beside the primary arms for descriptive readability only. The rows
@@ -103,12 +125,7 @@ explicitly disabled**, fallback off, temperature 0, cap 4096. 60 cells
 (6 scenarios × 2 arms × 5 reps); see
 [`reports/QWEN3_32B_CROSSMODEL_PROTOCOL.md`](reports/QWEN3_32B_CROSSMODEL_PROTOCOL.md)
 (preregistered before cell 1). Denominators are per-row and **not** merged with
-the historical rows above.
-
-| Model | Study status | Arm | Valid | Trunc. | P | R | F1 | Total tokens | Calls | Cost (live) |
-|---|---|---|---|---|---|---|---|---|---|---|
-| Qwen3-32B | Replication | ImpactPlan-v1 | 2/30 | 24 | 0.0000 | 0.0000 | 0.0000 | 198,979 | 29 | $0.037617 |
-| Qwen3-32B | Replication | ImpactPlan-v2 | 21/30 | 6 | 0.3600 | 0.6207 | 0.4557 | 122,273 | 23 | $0.016411 |
+the historical rows above. **Results are included in the unified table above.**
 
 > **Directional pattern:** Qwen3-32B v1 (full explicit-policy serialization)
 > truncates at the frozen 4096 cap in **24/30** cells — the verbose output does
@@ -134,6 +151,34 @@ the historical rows above.
 > persisted raw responses but their exact provider usage is unrecoverable, and
 > 1 (S006 v1 r3) is a transport failure with no response. Details in the
 > correction note.
+
+### Cross-Model / Cross-Provider Robustness Replication (Qwen3-Coder-30B-A3B-Instruct)
+
+POST-HOC CROSS-MODEL / CROSS-PROVIDER ROBUSTNESS REPLICATION — same
+repositories, cases, treatments and gateway, **different coder model AND
+different provider**. Model **Qwen3-Coder-30B-A3B-Instruct** (OpenRouter slug
+`qwen/qwen3-coder-30b-a3b-instruct`) @ OpenRouter / **SiliconFlow**
+(`siliconflow/fp8`), model-native non-thinking, fallback off, temperature 0,
+cap 4096. 60 cells (6 scenarios × 2 arms × 5 reps); see
+[`reports/QWEN3_CODER_30B_A3B_CROSSMODEL_PROTOCOL.md`](reports/QWEN3_CODER_30B_A3B_CROSSMODEL_PROTOCOL.md)
+(preregistered before cell 1). **Results are included in the unified table
+above.**
+
+> **Directional pattern (descriptive):** the new coder model fits the full v1
+> policy at the 4096 cap far better than Qwen3-32B (v1 17/30 valid vs 2/30) but
+> still truncates 11/30 v1 cells; the sparse v2 representation remains the most
+> operational (28/30 valid, **0 truncations**). Directional label:
+> `DIRECTIONALLY REPLICATED` (v2 validity 0.933 > v1 0.567 and v2 truncation
+> 0.000 < v1 0.367). S006 remains the weak case (v2 P 0.053 / R 0.067 /
+> F1 0.059; over-selection + persistent gold misses — same qualitative
+> weakness as the historical model). Accounting: 60 requests issued, 59
+> responses, 59 usage-known / 1 usage-unknown (one transport failure); token
+> and cost totals are **lower bounds**. Cross-model Sparse-v2 Jaccard vs
+> historical Qwen3-Coder-480B-A35B-Instruct: 135 pairs, mean 0.491 /
+> median 0.429 (descriptive) — see
+> [`reports/QWEN3_CODER_30B_A3B_CROSSMODEL_AGREEMENT.md`](reports/QWEN3_CODER_30B_A3B_CROSSMODEL_AGREEMENT.md)
+> (+ `.csv`). Verify with
+> [`scripts/verify_qwen3_coder_30b_a3b_crossmodel_claims.py`](scripts/verify_qwen3_coder_30b_a3b_crossmodel_claims.py).
 
 ### Todo component studies (frozen, selection-stage)
 
