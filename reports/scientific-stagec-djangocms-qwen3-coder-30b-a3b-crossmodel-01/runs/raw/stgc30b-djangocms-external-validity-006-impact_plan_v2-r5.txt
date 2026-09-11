@@ -1,0 +1,107 @@
+{
+  "architecture_checks": [],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a nullable ForeignKey to PageContent in CMSPlugin model, which directly relates to the plugin model definition.",
+          "source": "semantic-seed-72"
+        }
+      ],
+      "id": 72,
+      "rationale": "The CMSPlugin model needs to be modified to include the new page_content foreign key field as per the requirement.",
+      "reason_codes": [
+        "model_change"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Plugin forms in admin need to show the associated PageContent context, indicating a need to modify admin form handling.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "id": 4,
+      "rationale": "The admin form for plugins must be updated to handle the new page_content field and display associated PageContent context.",
+      "reason_codes": [
+        "admin_ui"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Placeholder rendering logic must filter plugins by the requested language via the page_content foreign key, pointing to the placeholder rendering module.",
+          "source": "semantic-seed-83"
+        }
+      ],
+      "id": 83,
+      "rationale": "The plugin rendering logic needs to be updated to filter plugins based on the page_content foreign key for language-specific rendering.",
+      "reason_codes": [
+        "rendering_logic"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Tests must verify plugin-to-language association and rendering filter correctness, indicating a need to update or create test modules.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "id": 11,
+      "rationale": "The API module needs to be updated to support verification of plugin-to-language associations and rendering filters.",
+      "reason_codes": [
+        "testing"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-72",
+        "semantic-seed-4",
+        "semantic-seed-83",
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "plugin_model_modification",
+      "reason": "The requirement mandates changes to the CMSPlugin model, admin forms, rendering logic, and testing to support language-specific plugin associations.",
+      "target": "cms/models/pluginmodel.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-4"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "admin_form_update",
+      "reason": "Admin forms must reflect the new page_content relationship for plugins.",
+      "target": "cms/admin/forms.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-83"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "rendering_filter_logic",
+      "reason": "Placeholder rendering logic must filter plugins by language using the new page_content foreign key.",
+      "target": "cms/plugin_rendering.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_verification",
+      "reason": "Tests must verify plugin-to-language association and rendering filter correctness.",
+      "target": "cms/api.py"
+    }
+  ]
+}

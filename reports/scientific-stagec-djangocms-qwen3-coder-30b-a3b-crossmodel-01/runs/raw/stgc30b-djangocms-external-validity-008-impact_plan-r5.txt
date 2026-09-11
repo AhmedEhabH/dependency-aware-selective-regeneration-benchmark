@@ -1,0 +1,543 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/cache/__init__.py",
+    "cms/cache/page.py",
+    "cms/cache/placeholder.py",
+    "cms/cache/permissions.py",
+    "cms/models/pagemodel.py",
+    "cms/models/placeholdermodel.py",
+    "cms/models/pluginmodel.py",
+    "cms/signals/__init__.py",
+    "cms/templatetags/cms_tags.py",
+    "cms/middleware/toolbar.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies implementing a cache invalidation tag system with utility functions for generating and invalidating cache tags, and signal handlers for content objects.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/__init__.py",
+      "rationale": "This file needs to be updated to support the new cache tag system, including functions for generating and invalidating tags.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that Page, PageContent, Placeholder, and CMSPlugin models should have associated cache tags and that signal handlers should invalidate those tags on save/delete.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "The Page model must be updated to include cache tag generation and integration with the new invalidation system.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that Placeholder and CMSPlugin models should also support cache tagging and invalidation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/placeholdermodel.py",
+      "rationale": "Placeholder model needs to support cache tagging for granular cache invalidation.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that CMSPlugin should support cache tagging and invalidation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "CMSPlugin model must be updated to generate and use cache tags.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Signal handlers are required to invalidate cache tags when content objects are saved or deleted.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/signals/__init__.py",
+      "rationale": "New signal handlers must be added to connect to post_save and post_delete signals for the relevant models.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The template tags must be updated to use the new cache tag system before rendering content.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/templatetags/cms_tags.py",
+      "rationale": "The placeholder tag and related template tags need to integrate with the new cache tagging system.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Middleware must be updated to tag response objects with cache tags of rendered content.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/middleware/toolbar.py",
+      "rationale": "Toolbar middleware needs to be updated to support tagging responses with cache tags.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "No direct changes required for admin forms in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "No direct changes required for page admin in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/placeholderadmin.py",
+      "rationale": "No direct changes required for placeholder admin in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "No direct changes required for API in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/app_registration.py",
+      "rationale": "No direct changes required for app registration in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/appresolver.py",
+      "rationale": "No direct changes required for app resolver in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/choices.py",
+      "rationale": "No direct changes required for cache choices in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/page.py",
+      "rationale": "No direct changes required for page cache in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/permissions.py",
+      "rationale": "No direct changes required for permissions cache in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/placeholder.py",
+      "rationale": "No direct changes required for placeholder cache in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_menus.py",
+      "rationale": "No direct changes required for CMS menus in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_plugins.py",
+      "rationale": "No direct changes required for CMS plugins in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_toolbars.py",
+      "rationale": "No direct changes required for CMS toolbars in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_wizards.py",
+      "rationale": "No direct changes required for CMS wizards in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/constants.py",
+      "rationale": "No direct changes required for constants in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/context_processors.py",
+      "rationale": "No direct changes required for context processors in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/exceptions.py",
+      "rationale": "No direct changes required for exceptions in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/extensions/__init__.py",
+      "rationale": "No direct changes required for extensions in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/extensions/admin.py",
+      "rationale": "No direct changes required for extension admin in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/extensions/extension_pool.py",
+      "rationale": "No direct changes required for extension pool in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/extensions/models.py",
+      "rationale": "No direct changes required for extension models in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/extensions/toolbar.py",
+      "rationale": "No direct changes required for extension toolbar in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/forms/__init__.py",
+      "rationale": "No direct changes required for forms in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/forms/fields.py",
+      "rationale": "No direct changes required for form fields in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/forms/login.py",
+      "rationale": "No direct changes required for login forms in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/forms/utils.py",
+      "rationale": "No direct changes required for form utils in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/forms/validators.py",
+      "rationale": "No direct changes required for form validators in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to these files, and they are not directly involved in the cache tag system implementation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/forms/widgets.py",
+      "rationale": "No direct changes required for form widgets in this implementation.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.

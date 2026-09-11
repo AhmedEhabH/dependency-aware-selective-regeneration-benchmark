@@ -1,0 +1,485 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/cache/__init__.py",
+    "cms/cache/page.py",
+    "cms/cache/placeholder.py",
+    "cms/cache/permissions.py",
+    "cms/models/pagemodel.py",
+    "cms/models/placeholdermodel.py",
+    "cms/models/pluginmodel.py",
+    "cms/signals/__init__.py",
+    "cms/templatetags/cms_tags.py",
+    "cms/middleware/toolbar.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies implementing a cache invalidation tag system for Page, PageContent, Placeholder, and CMSPlugin objects, which aligns with the semantic seed for cms/models/pagemodel.py and cms/models/placeholdermodel.py.",
+          "source": "semantic-seed-68"
+        },
+        {
+          "description": "The requirement mentions updating signal handlers for post_save and post_delete of Page, PageContent, Placeholder, and CMSPlugin, which is supported by semantic-seed-86.",
+          "source": "semantic-seed-86"
+        }
+      ],
+      "path": "cms/cache/__init__.py",
+      "rationale": "The cache module needs to be updated to support tagging and invalidation logic.",
+      "reason_codes": [
+        "cache_tagging"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that cache tags should be associated with Page, PageContent, Placeholder, and CMSPlugin objects, which is supported by semantic-seed-68 and semantic-seed-70.",
+          "source": "semantic-seed-68"
+        },
+        {
+          "description": "The requirement mentions updating signal handlers for post_save and post_delete of Page, PageContent, Placeholder, and CMSPlugin, which is supported by semantic-seed-86.",
+          "source": "semantic-seed-86"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "The Page model needs to be updated to support cache tagging.",
+      "reason_codes": [
+        "cache_tagging"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that cache tags should be associated with Placeholder objects, which is supported by semantic-seed-70.",
+          "source": "semantic-seed-70"
+        }
+      ],
+      "path": "cms/models/placeholdermodel.py",
+      "rationale": "The Placeholder model needs to be updated to support cache tagging.",
+      "reason_codes": [
+        "cache_tagging"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that cache tags should be associated with CMSPlugin objects, which is supported by semantic-seed-72.",
+          "source": "semantic-seed-72"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "The CMSPlugin model needs to be updated to support cache tagging.",
+      "reason_codes": [
+        "cache_tagging"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies updating signal handlers for post_save and post_delete of Page, PageContent, Placeholder, and CMSPlugin, which is supported by semantic-seed-86.",
+          "source": "semantic-seed-86"
+        }
+      ],
+      "path": "cms/signals/__init__.py",
+      "rationale": "Signal handlers need to be updated to invalidate cache tags.",
+      "reason_codes": [
+        "cache_tagging"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies updating the placeholder template tag to check cache using the tag system, which is supported by semantic-seed-95.",
+          "source": "semantic-seed-95"
+        }
+      ],
+      "path": "cms/templatetags/cms_tags.py",
+      "rationale": "The placeholder template tag needs to be updated to use the new cache tagging system.",
+      "reason_codes": [
+        "cache_tagging"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies updating CMSToolbarMiddleware to tag response objects with cache tags, which is supported by semantic-seed-99.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/middleware/toolbar.py",
+      "rationale": "The toolbar middleware needs to be updated to tag responses with cache tags.",
+      "reason_codes": [
+        "cache_tagging"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/admin/forms.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "No changes are required to cms/admin/forms.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/admin/pageadmin.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-4"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "No changes are required to cms/admin/pageadmin.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/admin/placeholderadmin.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-6"
+        }
+      ],
+      "path": "cms/admin/placeholderadmin.py",
+      "rationale": "No changes are required to cms/admin/placeholderadmin.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/api.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "No changes are required to cms/api.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/app_registration.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-13"
+        }
+      ],
+      "path": "cms/app_registration.py",
+      "rationale": "No changes are required to cms/app_registration.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/appresolver.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-15"
+        }
+      ],
+      "path": "cms/appresolver.py",
+      "rationale": "No changes are required to cms/appresolver.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/cache/choices.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-18"
+        }
+      ],
+      "path": "cms/cache/choices.py",
+      "rationale": "No changes are required to cms/cache/choices.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/cache/page.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-19"
+        }
+      ],
+      "path": "cms/cache/page.py",
+      "rationale": "No changes are required to cms/cache/page.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/cache/permissions.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-20"
+        }
+      ],
+      "path": "cms/cache/permissions.py",
+      "rationale": "No changes are required to cms/cache/permissions.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/cache/placeholder.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-21"
+        }
+      ],
+      "path": "cms/cache/placeholder.py",
+      "rationale": "No changes are required to cms/cache/placeholder.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/cms_menus.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-23"
+        }
+      ],
+      "path": "cms/cms_menus.py",
+      "rationale": "No changes are required to cms/cms_menus.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/constants.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-27"
+        }
+      ],
+      "path": "cms/constants.py",
+      "rationale": "No changes are required to cms/constants.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/forms/utils.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-38"
+        }
+      ],
+      "path": "cms/forms/utils.py",
+      "rationale": "No changes are required to cms/forms/utils.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/management/commands/subcommands/copy.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-49"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/copy.py",
+      "rationale": "No changes are required to cms/management/commands/subcommands/copy.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/management/commands/subcommands/list.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-51"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/list.py",
+      "rationale": "No changes are required to cms/management/commands/subcommands/list.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/management/commands/subcommands/tree.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-52"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/tree.py",
+      "rationale": "No changes are required to cms/management/commands/subcommands/tree.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/middleware/page.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-58"
+        }
+      ],
+      "path": "cms/middleware/page.py",
+      "rationale": "No changes are required to cms/middleware/page.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/operations/helpers.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-77"
+        }
+      ],
+      "path": "cms/operations/helpers.py",
+      "rationale": "No changes are required to cms/operations/helpers.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/page_rendering.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-78"
+        }
+      ],
+      "path": "cms/page_rendering.py",
+      "rationale": "No changes are required to cms/page_rendering.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/plugin_processors.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-81"
+        }
+      ],
+      "path": "cms/plugin_processors.py",
+      "rationale": "No changes are required to cms/plugin_processors.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/signals/log_entries.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-85"
+        }
+      ],
+      "path": "cms/signals/log_entries.py",
+      "rationale": "No changes are required to cms/signals/log_entries.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/templatetags/cms_admin.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-91"
+        }
+      ],
+      "path": "cms/templatetags/cms_admin.py",
+      "rationale": "No changes are required to cms/templatetags/cms_admin.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/templatetags/cms_alias_tags.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-92"
+        }
+      ],
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "rationale": "No changes are required to cms/templatetags/cms_alias_tags.py based on the requirement.",
+      "reason_codes": [
+        "no_change_needed"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to cms/templatetags/cms_js_tags.py, and it is not directly related to cache invalidation.",
+          "source": "semantic-seed-93"
+        }
+      ],
+      "path": "cms/templatetags/cms_js_tags.py",
+      "rationale": "No changes are required to cms/templatetags/cms_js_tags.py based on the requirement.",
+      "reason_codes": [

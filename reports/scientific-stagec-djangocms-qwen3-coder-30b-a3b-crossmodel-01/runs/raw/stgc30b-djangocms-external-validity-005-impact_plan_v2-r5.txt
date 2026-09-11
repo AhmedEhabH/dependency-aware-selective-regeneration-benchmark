@@ -1,0 +1,127 @@
+{
+  "architecture_checks": [
+    "The new 'page reviewer' permission must be integrated into the existing permission model without breaking backward compatibility.",
+    "The GlobalPermission model must support the new 'can_review' field to allow site-wide reviewer access.",
+    "The PagePermission model must include the new 'can_review' boolean field to manage per-page reviewer access.",
+    "Permission checking functions must be updated to recognize and handle the new 'page reviewer' role.",
+    "The PageAdmin must include a 'Review' action for transitioning page content status or marking content as reviewed.",
+    "The PermissionAdmin must display the new 'can_review' field for both PagePermission and GlobalPermission models.",
+    "The toolbar must show a 'Review' menu item for users with reviewer access."
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities and integration points.",
+          "source": "requirement"
+        }
+      ],
+      "id": 70,
+      "rationale": "The permission models need to be updated to include the new 'can_review' field to support the new permission level.",
+      "reason_codes": [
+        "PERMISSION_MODEL_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the PageAdmin must get a 'Review' action for managing page content status.",
+          "source": "requirement"
+        }
+      ],
+      "id": 5,
+      "rationale": "The PageAdmin needs to be modified to include the new 'Review' action for handling page content review.",
+      "reason_codes": [
+        "ADMIN_ACTION_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the PermissionAdmin must show the new 'can_review' field.",
+          "source": "requirement"
+        }
+      ],
+      "id": 6,
+      "rationale": "The PermissionAdmin must be updated to display the new 'can_review' field for both PagePermission and GlobalPermission.",
+      "reason_codes": [
+        "ADMIN_FIELD_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the toolbar must show a 'Review' menu item for users with reviewer access.",
+          "source": "requirement"
+        }
+      ],
+      "id": 26,
+      "rationale": "The toolbar implementation needs to be updated to include a 'Review' menu item for users with reviewer permissions.",
+      "reason_codes": [
+        "TOOLBAR_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "The requirement specifies that permission checking functions must support the new level.",
+          "source": "requirement"
+        }
+      ],
+      "id": 120,
+      "rationale": "Permission checking utilities must be updated to recognize and validate the new 'page reviewer' permission level.",
+      "reason_codes": [
+        "PERMISSION_CHECKING_UPDATE"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-20"
+      ],
+      "kind": "static",
+      "obligation_id": "validate_permission_model_changes",
+      "reason": "The permission model changes must be validated to ensure backward compatibility and correct behavior.",
+      "target": "cms/models/permissionmodels.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-99"
+      ],
+      "kind": "static",
+      "obligation_id": "validate_toolbar_integration",
+      "reason": "The toolbar integration must be validated to ensure the 'Review' menu item appears correctly for reviewers.",
+      "target": "cms/toolbar/items.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-119"
+      ],
+      "kind": "static",
+      "obligation_id": "validate_permission_checking",
+      "reason": "Permission checking functions must be validated to ensure they correctly handle the new reviewer role.",
+      "target": "cms/utils/page_permissions.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-120"
+      ],
+      "kind": "static",
+      "obligation_id": "validate_global_permission_model",
+      "reason": "The GlobalPermission model must be validated to ensure it supports the new 'can_review' field.",
+      "target": "cms/models/permissionmodels.py"
+    }
+  ]
+}

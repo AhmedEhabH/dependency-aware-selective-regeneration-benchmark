@@ -1,0 +1,478 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/admin/forms.py",
+    "cms/admin/pageadmin.py",
+    "cms/admin/permissionadmin.py",
+    "cms/models/permissionmodels.py",
+    "cms/utils/permissions.py",
+    "cms/utils/page_permissions.py",
+    "cms/cms_toolbars.py",
+    "cms/admin/__init__.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing content and approving/rejecting changes.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/models/permissionmodels.py indicates it handles permission-related logic and is relevant to adding a new permission field.",
+          "source": "semantic-seed-120"
+        }
+      ],
+      "path": "cms/models/permissionmodels.py",
+      "rationale": "The new 'can_review' field must be added to the PagePermission and GlobalPermission models to support the new permission level.",
+      "reason_codes": [
+        "PERMISSION_MODEL_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement mentions that permission checking functions need to support the new level, and the utils/permissions.py module is responsible for permission checks.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/utils/permissions.py shows it handles permission-related logic and model interactions.",
+          "source": "semantic-seed-120"
+        }
+      ],
+      "path": "cms/utils/permissions.py",
+      "rationale": "Permission checking functions must be updated to recognize and handle the new 'page reviewer' permission level.",
+      "reason_codes": [
+        "PERMISSION_CHECKING_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the PageAdmin gets a 'Review' action, and the pageadmin.py module handles page administration logic.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/admin/pageadmin.py indicates it handles page-related admin logic.",
+          "source": "semantic-seed-4"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "The PageAdmin must be updated to include a 'Review' action for transitioning page content status or marking content as reviewed.",
+      "reason_codes": [
+        "ADMIN_ACTION_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement states that the PermissionAdmin shows the new field, and the permissionadmin.py module handles permission administration.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/admin/permissionadmin.py indicates it handles permission-related admin views.",
+          "source": "semantic-seed-120"
+        }
+      ],
+      "path": "cms/admin/permissionadmin.py",
+      "rationale": "The PermissionAdmin must be updated to display the new 'can_review' field for both page and global permissions.",
+      "reason_codes": [
+        "ADMIN_FIELD_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the toolbar shows a 'Review' menu item for users with reviewer access, and the cms_toolbars.py module handles toolbar logic.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/cms_toolbars.py indicates it handles toolbar-related logic.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/cms_toolbars.py",
+      "rationale": "The toolbar must be updated to include a 'Review' menu item for users with reviewer access.",
+      "reason_codes": [
+        "TOOLBAR_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "The requirement mentions that the PageAdmin gets a 'Review' action, and the utils/page_permissions.py module handles page permission logic.",
+          "source": "requirement"
+        },
+        {
+          "description": "The semantic seed for cms/utils/page_permissions.py indicates it handles page permission-related logic.",
+          "source": "semantic-seed-119"
+        }
+      ],
+      "path": "cms/utils/page_permissions.py",
+      "rationale": "The page permission utilities may need updates to support the new review action and permission level.",
+      "reason_codes": [
+        "PAGE_PERMISSIONS_UPDATE"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not affect the forms module directly, and the semantic seed for cms/admin/forms.py indicates it handles form logic.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "No changes are required to the forms module as the requirement does not involve form modifications.",
+      "reason_codes": [
+        "NO_FORM_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to placeholder admin logic, and the semantic seed for cms/admin/placeholderadmin.py indicates it handles placeholder logic.",
+          "source": "semantic-seed-6"
+        }
+      ],
+      "path": "cms/admin/placeholderadmin.py",
+      "rationale": "No changes are required to the placeholder admin module as the requirement does not involve placeholder modifications.",
+      "reason_codes": [
+        "NO_PLACEHOLDER_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to API logic, and the semantic seed for cms/api.py indicates it handles API logic.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "No changes are required to the API module as the requirement does not involve API modifications.",
+      "reason_codes": [
+        "NO_API_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to app registration logic, and the semantic seed for cms/app_registration.py indicates it handles app registration.",
+          "source": "semantic-seed-13"
+        }
+      ],
+      "path": "cms/app_registration.py",
+      "rationale": "No changes are required to the app registration module as the requirement does not involve app registration modifications.",
+      "reason_codes": [
+        "NO_APP_REGISTRATION_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to app resolver logic, and the semantic seed for cms/appresolver.py indicates it handles app resolution.",
+          "source": "semantic-seed-15"
+        }
+      ],
+      "path": "cms/appresolver.py",
+      "rationale": "No changes are required to the app resolver module as the requirement does not involve app resolution modifications.",
+      "reason_codes": [
+        "NO_APP_RESOLVER_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to cache logic, and the semantic seed for cms/cache/__init__.py indicates it handles caching.",
+          "source": "semantic-seed-17"
+        }
+      ],
+      "path": "cms/cache/__init__.py",
+      "rationale": "No changes are required to the cache module as the requirement does not involve caching modifications.",
+      "reason_codes": [
+        "NO_CACHE_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to cache choices logic, and the semantic seed for cms/cache/choices.py indicates it handles cache choices.",
+          "source": "semantic-seed-18"
+        }
+      ],
+      "path": "cms/cache/choices.py",
+      "rationale": "No changes are required to the cache choices module as the requirement does not involve cache choices modifications.",
+      "reason_codes": [
+        "NO_CACHE_CHOICES_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to page cache logic, and the semantic seed for cms/cache/page.py indicates it handles page caching.",
+          "source": "semantic-seed-19"
+        }
+      ],
+      "path": "cms/cache/page.py",
+      "rationale": "No changes are required to the page cache module as the requirement does not involve page caching modifications.",
+      "reason_codes": [
+        "NO_PAGE_CACHE_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to permission cache logic, and the semantic seed for cms/cache/permissions.py indicates it handles permission caching.",
+          "source": "semantic-seed-20"
+        }
+      ],
+      "path": "cms/cache/permissions.py",
+      "rationale": "No changes are required to the permission cache module as the requirement does not involve permission caching modifications.",
+      "reason_codes": [
+        "NO_PERMISSION_CACHE_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to placeholder cache logic, and the semantic seed for cms/cache/placeholder.py indicates it handles placeholder caching.",
+          "source": "semantic-seed-21"
+        }
+      ],
+      "path": "cms/cache/placeholder.py",
+      "rationale": "No changes are required to the placeholder cache module as the requirement does not involve placeholder caching modifications.",
+      "reason_codes": [
+        "NO_PLACEHOLDER_CACHE_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to menu logic, and the semantic seed for cms/cms_menus.py indicates it handles CMS menus.",
+          "source": "semantic-seed-23"
+        }
+      ],
+      "path": "cms/cms_menus.py",
+      "rationale": "No changes are required to the CMS menus module as the requirement does not involve menu modifications.",
+      "reason_codes": [
+        "NO_MENU_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to constants, and the semantic seed for cms/constants.py indicates it handles constants.",
+          "source": "semantic-seed-27"
+        }
+      ],
+      "path": "cms/constants.py",
+      "rationale": "No changes are required to the constants module as the requirement does not involve constant modifications.",
+      "reason_codes": [
+        "NO_CONSTANT_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to form utilities, and the semantic seed for cms/forms/utils.py indicates it handles form utilities.",
+          "source": "semantic-seed-38"
+        }
+      ],
+      "path": "cms/forms/utils.py",
+      "rationale": "No changes are required to the form utilities module as the requirement does not involve form utility modifications.",
+      "reason_codes": [
+        "NO_FORM_UTILITIES_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to management commands, and the semantic seed for cms/management/commands/subcommands/copy.py indicates it handles copy commands.",
+          "source": "semantic-seed-49"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/copy.py",
+      "rationale": "No changes are required to the copy command module as the requirement does not involve command modifications.",
+      "reason_codes": [
+        "NO_COMMAND_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to tree commands, and the semantic seed for cms/management/commands/subcommands/tree.py indicates it handles tree commands.",
+          "source": "semantic-seed-52"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/tree.py",
+      "rationale": "No changes are required to the tree command module as the requirement does not involve command modifications.",
+      "reason_codes": [
+        "NO_COMMAND_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to page middleware, and the semantic seed for cms/middleware/page.py indicates it handles page middleware.",
+          "source": "semantic-seed-58"
+        }
+      ],
+      "path": "cms/middleware/page.py",
+      "rationale": "No changes are required to the page middleware module as the requirement does not involve middleware modifications.",
+      "reason_codes": [
+        "NO_MIDDLEWARE_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to page model, and the semantic seed for cms/models/pagemodel.py indicates it handles page models.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "No changes are required to the page model module as the requirement does not involve model modifications.",
+      "reason_codes": [
+        "NO_MODEL_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to plugin model, and the semantic seed for cms/models/pluginmodel.py indicates it handles plugin models.",
+          "source": "semantic-seed-72"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "No changes are required to the plugin model module as the requirement does not involve model modifications.",
+      "reason_codes": [
+        "NO_MODEL_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to operations helpers, and the semantic seed for cms/operations/helpers.py indicates it handles operations helpers.",
+          "source": "semantic-seed-77"
+        }
+      ],
+      "path": "cms/operations/helpers.py",
+      "rationale": "No changes are required to the operations helpers module as the requirement does not involve operations modifications.",
+      "reason_codes": [
+        "NO_OPERATIONS_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to page rendering, and the semantic seed for cms/page_rendering.py indicates it handles page rendering.",
+          "source": "semantic-seed-78"
+        }
+      ],
+      "path": "cms/page_rendering.py",
+      "rationale": "No changes are required to the page rendering module as the requirement does not involve rendering modifications.",
+      "reason_codes": [
+        "NO_RENDERING_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to plugin processors, and the semantic seed for cms/plugin_processors.py indicates it handles plugin processors.",
+          "source": "semantic-seed-81"
+        }
+      ],
+      "path": "cms/plugin_processors.py",
+      "rationale": "No changes are required to the plugin processors module as the requirement does not involve processor modifications.",
+      "reason_codes": [
+        "NO_PROCESSOR_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to log entries signals, and the semantic seed for cms/signals/log_entries.py indicates it handles log entries signals.",
+          "source": "semantic-seed-85"
+        }
+      ],
+      "path": "cms/signals/log_entries.py",
+      "rationale": "No changes are required to the log entries signals module as the requirement does not involve signal modifications.",
+      "reason_codes": [
+        "NO_SIGNAL_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not involve changes to permissions signals, and the semantic seed for cms/signals/permissions.py indicates it handles permissions signals.",
+          "source": "semantic-seed-86"
+        }
+      ],
+      "path": "cms/signals/permissions.py",
+      "rationale": "No changes are required to the permissions signals module as the requirement does not involve signal modifications.",
+      "reason_codes": [
+        "NO_SIGNAL_MODIFICATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "
