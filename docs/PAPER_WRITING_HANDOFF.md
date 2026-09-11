@@ -380,11 +380,11 @@ disabled, fallback off, temperature 0, cap 4096, graph OFF). 60 cells
 - **DIRECTIONALLY REPLICATED** (descriptive): v2 validity rate (70%) > v1
   (6.7%) and v2 truncation rate (0%) < v1 (80%). This is descriptive only —
   no significance or causal claim.
-- Cross-model Sparse-v2 Jaccard agreement vs historical Qwen3-Coder:
+- Cross-model Sparse-v2 Jaccard agreement vs historical Qwen3-Coder-480B-A35B-Instruct:
   102 cross-product pairs, mean 0.284 / median 0.231 / min 0.0 / max 1.0.
   Descriptive only; do **not** interpret as internal-reasoning similarity.
 - Denominators are per-row and must **not** be merged with the historical
-  rows (historical Qwen3-Coder evidence is unchanged and remains the primary
+  rows (historical Qwen3-Coder-480B-A35B-Instruct evidence is unchanged and remains the primary
   evidence).
 
 Recommended manuscript framing: report the new rows in a clearly separate

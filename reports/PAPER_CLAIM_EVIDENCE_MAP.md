@@ -187,7 +187,7 @@ Evidence directory: `reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01
 
 Recompute: `python scripts/verify_qwen3_32b_crossmodel_claims.py` (exit 0 =
 PASS). This is a **descriptive** post-hoc replication; no equivalence or
-significance claim is supported. Historical Qwen3-Coder evidence is unchanged
+significance claim is supported. Historical Qwen3-Coder-480B-A35B-Instruct evidence is unchanged
 and remains the primary manuscript evidence.
 
 ## Closing notes

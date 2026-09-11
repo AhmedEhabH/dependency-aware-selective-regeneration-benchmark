@@ -56,7 +56,8 @@ completed end-to-end measured result of these studies.
   `impact_plan` (ImpactPlan-v1, full explicit plan serialization).
 - **ImpactPlan-v2 (post-hoc / exploratory):** a sparse representation redesign
   (explicit non-PRESERVE decisions + deterministic PRESERVE-by-omission).
-- **Model:** `qwen/qwen3-coder` pinned to DeepInfra through OpenRouter,
+- **Model:** **Qwen3-Coder-480B-A35B-Instruct** (OpenRouter slug
+  `qwen/qwen3-coder`) pinned to DeepInfra through OpenRouter,
   fallback OFF, temperature 0.
 
 ## What Is Finished?
@@ -72,17 +73,18 @@ completed end-to-end measured result of these studies.
 
 ## Headline Results
 
-### Historical Qwen3-Coder evidence (frozen, unchanged)
+### Historical Qwen3-Coder-480B-A35B-Instruct evidence (frozen, unchanged)
 
-Model `qwen/qwen3-coder` @ DeepInfra, cap Agent 1024 / ImpactPlan-v1 4096 /
-ImpactPlan-v2 4096. Selection-stage correctness on valid cells
+**Qwen3-Coder-480B-A35B-Instruct** (OpenRouter slug `qwen/qwen3-coder`) @
+DeepInfra, cap Agent 1024 / ImpactPlan-v1 4096 / ImpactPlan-v2 4096.
+Selection-stage correctness on valid cells
 (micro-aggregated); token/call/cost totals over ALL cells (valid + failed):
 
 | Model | Study status | Arm | Valid | Trunc. | P | R | F1 | Total tokens | Calls | Cost |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Qwen3-Coder | Primary | Agent | 25/30 | 0 | 0.6463 | 0.8407 | 0.7308 | 449,792 | 206 | $0.140850 |
-| Qwen3-Coder | Primary | ImpactPlan-v1 | 6/30 | 19 | 0.6765 | 0.9200 | 0.7797 | 184,401 | 28 | $0.123298 |
-| Qwen3-Coder | Post-hoc/exploratory | ImpactPlan-v2 | 29/30 | 0 | 0.7410 | 0.8655 | 0.7985 | 144,353 | 30 | $0.064634 |
+| Qwen3-Coder-480B-A35B-Instruct | Primary | Agent | 25/30 | 0 | 0.6463 | 0.8407 | 0.7308 | 449,792 | 206 | $0.140850 |
+| Qwen3-Coder-480B-A35B-Instruct | Primary | ImpactPlan-v1 | 6/30 | 19 | 0.6765 | 0.9200 | 0.7797 | 184,401 | 28 | $0.123298 |
+| Qwen3-Coder-480B-A35B-Instruct | Post-hoc/exploratory | ImpactPlan-v2 | 29/30 | 0 | 0.7410 | 0.8655 | 0.7985 | 144,353 | 30 | $0.064634 |
 
 > **ImpactPlan-v2 was a separate post-hoc/exploratory 30-cell study.** It is
 > displayed beside the primary arms for descriptive readability only. The rows
@@ -120,7 +122,7 @@ the historical rows above.
 > (0.700 > 0.067 and 0.200 < 0.800). All
 > agreement statistics are **descriptive only**; no equivalence/significance
 > or causal claim. Cross-model Sparse-v2 Jaccard agreement (historical
-> Qwen3-Coder × new Qwen3-32B, 102 cross-product pairs): mean 0.284, median
+> Qwen3-Coder-480B-A35B-Instruct × new Qwen3-32B, 102 cross-product pairs): mean 0.284, median
 > 0.231 — see
 > [`reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md`](reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md)
 > (+ `.csv`). Verify with
