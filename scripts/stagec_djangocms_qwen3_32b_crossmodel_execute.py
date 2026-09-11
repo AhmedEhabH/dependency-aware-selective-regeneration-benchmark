@@ -410,6 +410,30 @@ def _persist_endpoint_freeze() -> dict[str, Any]:
     return freeze
 
 
+def _load_live_pricing() -> dict[str, Any]:
+    """Live DeepInfra pricing for qwen/qwen3-32b from the persisted endpoint freeze.
+
+    The historical Qwen3-Coder freeze (reports/SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json)
+    is Qwen3-Coder pricing ($0.30/$1.00 per 1M) and must NOT be used to cost the new
+    model. Live DeepInfra qwen3-32b rates: $0.08/1M input, $0.28/1M output.
+    """
+    freeze_path = STUDY_DIR / "endpoint_freeze.json"
+    if freeze_path.is_file():
+        data = json.loads(freeze_path.read_text(encoding="utf-8"))
+        prompt = float(data.get("input_price_per_1M_usd", 0.08)) / 1_000_000
+        completion = float(data.get("output_price_per_1M_usd", 0.28)) / 1_000_000
+        return {
+            "prompt_per_token_usd": prompt,
+            "completion_per_token_usd": completion,
+            "source": str(freeze_path),
+        }
+    return {
+        "prompt_per_token_usd": 0.00000008,
+        "completion_per_token_usd": 0.00000028,
+        "source": "frozen live endpoint pricing (DeepInfra $0.08/$0.28 per 1M)",
+    }
+
+
 # ---------------------------------------------------------------------------
 # Pre-validation
 # ---------------------------------------------------------------------------
@@ -1746,6 +1770,51 @@ def _load_manifest() -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 
+class _RecordingBackendWithUsage(costprobe._RecordingBackend):
+    """RecordingBackend that additionally retains the last TokenUsage so failed
+    cells can still account for the real tokens the API billed."""
+
+    def __init__(self, inner: Any) -> None:
+        super().__init__(inner)
+        self.last_usage: Any = None
+
+    async def generate(
+        self,
+        prompt: str,
+        temperature: float = 0.0,
+        max_tokens: int = 4096,
+        *,
+        response_format: dict[str, Any] | None = None,
+    ) -> Any:
+        resp = await super().generate(
+            prompt,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            response_format=response_format,
+        )
+        self.last_usage = resp.token_usage
+        return resp
+
+    async def generate_structured(
+        self,
+        prompt: str,
+        *,
+        schema_name: str,
+        schema: dict[str, Any],
+        temperature: float = 0.0,
+        max_tokens: int = 4096,
+    ) -> Any:
+        resp = await super().generate_structured(
+            prompt=prompt,
+            schema_name=schema_name,
+            schema=schema,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+        self.last_usage = resp.token_usage
+        return resp
+
+
 def _build_backend(dry_run: bool) -> tuple[Any, Any]:
     if dry_run:
         from benchmark.llm.mock_backend import MockLLMBackend
@@ -1761,7 +1830,7 @@ def _build_backend(dry_run: bool) -> tuple[Any, Any]:
         max_transient_retries=MAX_TRANSIENT_RETRIES,
         reasoning=dict(REASONING_FROZEN),
     )
-    recorder = costprobe._RecordingBackend(inner)
+    recorder = _RecordingBackendWithUsage(inner)
     return recorder, recorder
 
 
@@ -1821,7 +1890,9 @@ def run_cell(cell: dict[str, Any], dry_run: bool) -> tuple[dict[str, Any], str |
         elapsed = time.monotonic() - started
         raw_text = recorder.raw_texts[0] if recorder and recorder.raw_texts else None
         evidence = _build_failed_cell_evidence(
-            cell, elapsed, scenario_path, universe_paths, raw_text=raw_text, exc=exc
+            cell, elapsed, scenario_path, universe_paths,
+            raw_text=raw_text, exc=exc,
+            usage=getattr(recorder, "last_usage", None),
         )
         return evidence, raw_text
     elapsed = time.monotonic() - started
@@ -1849,7 +1920,7 @@ def _build_cell_evidence(
     from benchmark.selection import impact_planner_v2 as v2
 
     arm = cell["arm"]
-    pricing = wiring.load_pricing()
+    pricing = _load_live_pricing()
     cost = wiring.compute_api_cost(record, pricing)
     predicted = dict(getattr(record, "predicted_actions", {}) or {})
     regenerate_paths = [p for p, action in predicted.items() if action == "regenerate"]
@@ -2046,9 +2117,17 @@ def _build_failed_cell_evidence(
     *,
     raw_text: str | None,
     exc: BaseException,
+    usage: Any = None,
 ) -> dict[str, Any]:
     gold = sorted(wiring.hidden_gold_paths_for(cell["scenario_id"]))
     raw_sha = _sha256_bytes(raw_text.encode("utf-8")) if raw_text is not None else ""
+    prompt_tokens = int(getattr(usage, "prompt_tokens", 0)) if usage is not None else 0
+    completion_tokens = int(getattr(usage, "completion_tokens", 0)) if usage is not None else 0
+    total_tokens = int(getattr(usage, "total_tokens", 0)) if usage is not None else 0
+    pricing = _load_live_pricing()
+    billed_cost = wiring.compute_api_cost(
+        type("_U", (), {"token_usage": usage, "selection_model_calls": 1}), pricing
+    ) if usage is not None else 0.0
     return {
         "run_id": cell["run_id"],
         "scenario_id": cell["scenario_id"],
@@ -2067,13 +2146,13 @@ def _build_failed_cell_evidence(
         "reasoning_frozen": REASONING_FROZEN,
         "dry_run": False,
         "raw_response_sha256": raw_sha,
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
-        "total_tokens": 0,
-        "model_calls": 0,
+        "prompt_tokens": prompt_tokens,
+        "completion_tokens": completion_tokens,
+        "total_tokens": total_tokens,
+        "model_calls": 1 if usage is not None else 0,
         "latency_seconds": round(elapsed, 6),
-        "api_cost": 0.0,
-        "pricing_source": "",
+        "api_cost": round(float(billed_cost), 6),
+        "pricing_source": pricing.get("source", ""),
         "finish_reason": "",
         "terminal_status": "failed",
         "truncation_status": False,
@@ -2312,6 +2391,23 @@ def _stats(values: list[float]) -> dict[str, float]:
     return {"mean": round(mean, 6), "median": round(median, 6), "min": round(s[0], 6), "max": round(s[-1], 6)}
 
 
+def _live_cost(record: dict[str, Any]) -> float:
+    """Recompute a record's API cost at the LIVE DeepInfra qwen3-32b rates.
+
+    ``api_cost`` in run records for early cells used the frozen Qwen3-Coder
+    pricing as a conservative bound; this recomputes every record at the live
+    $0.08/$0.28 per 1M contract so the headline cost is consistent.
+    """
+    pricing = _load_live_pricing()
+    prompt = int(record.get("prompt_tokens", 0))
+    completion = int(record.get("completion_tokens", 0))
+    return round(
+        prompt * float(pricing["prompt_per_token_usd"])
+        + completion * float(pricing["completion_per_token_usd"]),
+        6,
+    )
+
+
 def _arm_metrics(records: dict[str, dict[str, Any]], arm: str) -> dict[str, Any]:
     arm_records = {rid: r for rid, r in records.items() if r["arm"] == arm}
     valid = {rid: r for rid, r in arm_records.items() if r["terminal_status"] == "succeeded"}
@@ -2356,6 +2452,7 @@ def _arm_metrics(records: dict[str, dict[str, Any]], arm: str) -> dict[str, Any]
             "model_calls": sum(int(r["model_calls"]) for r in all_rows),
             "latency_seconds": round(sum(float(r["latency_seconds"]) for r in all_rows), 6),
             "api_cost": round(sum(float(r["api_cost"]) for r in all_rows), 6),
+            "live_api_cost": round(sum(_live_cost(r) for r in all_rows), 6),
         }
     # S006: full selected-file frequencies
     s006 = [r for r in rows_valid if r["scenario_id"] == "djangocms-external-validity-006"]
@@ -2408,6 +2505,7 @@ def _arm_metrics(records: dict[str, dict[str, Any]], arm: str) -> dict[str, Any]
         "calls": sum(int(r["model_calls"]) for r in rows_all),
         "latency_seconds": round(sum(float(r["latency_seconds"]) for r in rows_all), 6),
         "api_cost_usd": round(sum(float(r["api_cost"]) for r in rows_all), 6),
+        "live_api_cost_usd": round(sum(_live_cost(r) for r in rows_all), 6),
         "per_scenario": per_scenario,
     }
 
@@ -2428,6 +2526,7 @@ def compute_metrics(records: dict[str, dict[str, Any]]) -> dict[str, Any]:
         "model_calls": sum(int(r["model_calls"]) for r in rows_all),
         "latency_seconds": round(sum(float(r["latency_seconds"]) for r in rows_all), 6),
         "api_cost_usd": _cumulative_cost(records),
+        "live_api_cost_usd": round(sum(_live_cost(r) for r in rows_all), 6),
     }
     return {
         "study_id": STUDY_ID,
