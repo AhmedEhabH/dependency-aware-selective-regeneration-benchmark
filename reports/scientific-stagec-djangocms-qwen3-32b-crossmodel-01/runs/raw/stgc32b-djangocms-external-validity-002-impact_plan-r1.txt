@@ -1,0 +1,438 @@
+{
+  "decisions": [
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "This file is a likely candidate for adding the `get_page_content_by_language` utility function, as it already contains page-related utility functions and aligns with the requirement.",
+      "confidence": 0.95,
+      "reason_codes": ["REQUIREMENT_FIT", "SEMANTIC_MATCH"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "The file contains page-related utility functions, including 'get' operations."
+        },
+        {
+          "source": "semantic-seed-65",
+          "description": "The 'contentmodels.py' file defines the 'PageContent' model, which is relevant to the function's return type."
+        }
+      ]
+    },
+    {
+      "path": "cms/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "This file is a likely candidate for re-exporting the new utility function via __all__ to make it publicly accessible.",
+      "confidence": 0.9,
+      "reason_codes": ["REQUIREMENT_FIT", "SEMANTIC_MATCH"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "The 'api.py' file already contains page and language-related functions, suggesting a similar pattern for utility exports."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "This file defines the 'PageContent' model, but no changes are required to the model itself.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_EDIT_REQUIRED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-65",
+          "description": "This file defines the 'PageContent' model, which is the target of the utility function."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/copy.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way, and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-49",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "This file interacts with 'PageContent' and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/i18n.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file handles language-related utilities and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "This file handles language code operations and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/middleware/page.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/placeholder.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/request_ip_resolvers.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-123",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/wizards/helpers.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-129",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-10",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-10",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-10",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-10",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/toolbar.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-10",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-10",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-10",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "VALIDATE_ONLY",
+      "rationale": "This file may use page content in some way and should be validated to ensure it continues to work after the new utility function is added.",
+      "confidence": 0.85,
+      "reason_codes": ["VALIDATION_BOUNDARY"],
+      "evidence": [
+        {
+          "source": "semantic-seed-10",
+          "description": "This file may interact with page content and should be validated for compatibility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+     

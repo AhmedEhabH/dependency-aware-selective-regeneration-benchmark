@@ -1,0 +1,38 @@
+{
+  "decisions": [
+    {
+      "id": 104,
+      "action": "REGENERATE",
+      "rationale": "The utility function `get_page_content_by_language` should be added to the `cms.utils` module, which is a common place for such helper functions.",
+      "confidence": 0.95,
+      "reason_codes": ["UTIL_ADD", "REQ_FULFILL"],
+      "evidence": [
+        {
+          "source": "semantic-seed-104",
+          "description": "The `cms/utils/__init__.py` file is a logical place to add a public utility function for retrieving page content by language."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "req-001",
+      "kind": "changed_requirement",
+      "target": "cms.tests.utils.test_get_page_content_by_language",
+      "reason": "A new test is required to ensure the `get_page_content_by_language` function behaves as expected, including raising `PageContent.DoesNotExist` when appropriate.",
+      "evidence_refs": ["semantic-seed-104"]
+    },
+    {
+      "obligation_id": "req-002",
+      "kind": "regression",
+      "target": "cms.tests.utils.test_utils_regression",
+      "reason": "Existing functionality in `cms.utils` must continue to work after the addition of the new utility function.",
+      "evidence_refs": ["semantic-seed-104"]
+    }
+  ],
+  "architecture_checks": [
+    "The function must be added to a relevant module and follow Django best practices.",
+    "The function must be properly documented with a docstring and optionally re-exported via __all__."
+  ],
+  "escalation_reason": ""
+}

@@ -1,0 +1,483 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs to be updated to include the publication_date field.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is semantically relevant to 'page' and 'set', indicating it is a likely location for model changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "The admin form for PageContent must be updated to include the publication_date field for editing in the admin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["FORM_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "cms/admin/forms.py is semantically relevant to 'content', 'filter', 'language', and 'page', indicating it is a likely location for form changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin action 'Publish Scheduled' must be implemented to publish PageContent items with a publication_date <= now.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is semantically relevant to 'admin', 'display', 'field', and 'filter', indicating it is a likely location for admin interface changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "REGENERATE",
+      "rationale": "The front-end views must filter out PageContent instances where publication_date is set and in the future.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is semantically relevant to 'content', indicating it is a likely location for view logic changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "The API must respect the publication_date when publishing PageContent items.",
+      "confidence": 0.95,
+      "reason_codes": ["API_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is semantically relevant to 'change', 'content', 'language', 'page', and 'publish', indicating it is a likely location for API changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/managers.py",
+      "action": "REGENERATE",
+      "rationale": "The manager for PageContent must include logic to filter based on publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["MANAGER_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is semantically relevant to 'page' and 'set', indicating it is a likely location for model logic changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "The utility functions for page rendering must respect the publication_date when determining visibility.",
+      "confidence": 0.95,
+      "reason_codes": ["UTILITY_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is semantically relevant to 'page', indicating it is a likely location for utility logic changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "REGENERATE",
+      "rationale": "The page rendering logic must filter out PageContent with future publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["RENDER_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is semantically relevant to 'page', indicating it is a likely location for rendering logic changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "REGENERATE",
+      "rationale": "The template tags must respect the publication_date when rendering page content.",
+      "confidence": 0.95,
+      "reason_codes": ["TEMPLATE_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "cms/templatetags/cms_tags.py is semantically relevant to 'page', indicating it is a likely location for template tag changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/query.py",
+      "action": "REGENERATE",
+      "rationale": "The query logic for PageContent must include filtering by publication_date.",
+      "confidence": 0.95,
+      "reason_codes": ["QUERY_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is semantically relevant to 'page' and 'set', indicating it is a likely location for query logic changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the admin initialization file.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the main initialization file.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/__main__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the main entry point.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the admin initialization file.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the permission admin logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the static placeholder admin logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the user admin logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the admin utility functions.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/app_base.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the app base logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/app_registration.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the app registration logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/apphook_pool.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the apphook pool logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/appresolver.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the app resolver logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/apps.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the app configuration.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the cache initialization.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/choices.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the cache choices logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the cache permissions logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the cache placeholder logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_config.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS configuration.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_menus.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS menus logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_plugins.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS plugins logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_toolbars.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS toolbars logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cms_wizards.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS wizards logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/constants.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS constants.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/context_processors.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the context processors.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/exceptions.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the exception handling.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the extensions initialization.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/admin.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the extensions admin logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/extension_pool.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the extension pool logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/models.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the extension models.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/extensions/toolbar.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the extension toolbar logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the forms initialization.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/fields.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the form fields.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/login.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the login form logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the form utility functions.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/validators.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the form validators.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/widgets.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the form widgets.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/forms/wizards.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the form wizards.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the management initialization.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the management commands initialization.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/cms.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the CMS management command.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/startcmsproject.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the startcmsproject command.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the subcommands initialization.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/base.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the subcommand base logic.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/subcommands/check.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required in the check subcommand.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "

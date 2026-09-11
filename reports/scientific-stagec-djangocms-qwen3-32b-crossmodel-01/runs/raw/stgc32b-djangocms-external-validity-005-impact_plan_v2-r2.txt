@@ -1,0 +1,132 @@
+{
+  "decisions": [
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "The 'page reviewer' permission requires a new 'Review' action in PageAdmin to handle content status transitions or mark as reviewed.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FEATURE", "UI-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "cms/admin/pageadmin.py is relevant to page actions and site permissions."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "action": "REGENERATE",
+      "rationale": "The new 'can_review' field must be added to the PermissionAdmin to reflect the new permission level in the admin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FIELD", "ADMIN-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "cms/admin/permissionadmin.py is relevant to permission management."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "The 'Review' menu item must be added to the toolbar for users with the 'page reviewer' permission.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FEATURE", "UI-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "cms/toolbar_base.py is relevant to the toolbar and its items."
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "action": "REGENERATE",
+      "rationale": "The Page model may need to be updated to support the new 'can_review' field or content status transitions.",
+      "confidence": 0.85,
+      "reason_codes": ["REQ-NEW-FIELD", "MODEL-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is relevant to page content and permissions."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "The PagePermission model must be updated to include the new 'can_review' field for page-level permissions.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FIELD", "MODEL-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "cms/models/permissionmodels.py is relevant to permission definitions."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "The page permission utility functions must be updated to support the new 'can_review' permission check.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ-NEW-FEATURE", "LOGIC-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/page_permissions.py is relevant to permission logic."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "The permission utility functions must be updated to support the new 'can_review' global permission check.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ-NEW-FEATURE", "LOGIC-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py is relevant to permission logic."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "V-001",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_permissions",
+      "reason": "Verify that the new 'can_review' permission is correctly checked and applied in all relevant contexts.",
+      "evidence_refs": ["semantic-seed-70", "semantic-seed-120"]
+    },
+    {
+      "obligation_id": "V-002",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_toolbar",
+      "reason": "Ensure the 'Review' menu item appears only for users with the 'page reviewer' permission.",
+      "evidence_refs": ["semantic-seed-26", "semantic-seed-27"]
+    },
+    {
+      "obligation_id": "V-003",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_admin",
+      "reason": "Verify that the 'Review' action is available in PageAdmin for users with the 'page reviewer' permission.",
+      "evidence_refs": ["semantic-seed-5", "semantic-seed-6"]
+    },
+    {
+      "obligation_id": "V-004",
+      "kind": "regression",
+      "target": "cms.tests.test_page_permissions",
+      "reason": "Ensure existing 'view' and 'edit' permissions are not affected by the new 'can_review' permission.",
+      "evidence_refs": ["semantic-seed-120", "semantic-seed-121"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure the new 'can_review' field is added to both PagePermission and GlobalPermission models.",
+    "Ensure the new permission is integrated with the existing permission checking logic.",
+    "Ensure the 'Review' action in PageAdmin is only visible to users with the 'page reviewer' permission.",
+    "Ensure the 'Review' menu item in the toolbar is only visible to users with the 'page reviewer' permission."
+  ],
+  "escalation_reason": ""
+}

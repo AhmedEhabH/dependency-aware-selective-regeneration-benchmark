@@ -1,0 +1,492 @@
+{
+  "decisions": [
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs a new status field to support the workflow states.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "The pagemodel.py is directly related to the PageContent model and its state."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "REGENERATE",
+      "rationale": "Admin actions for workflow transitions (submit for review, approve, reject, publish) must be added.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_ACTION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "The admin interface is involved in managing page content and its state."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/toolbar.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar must show workflow state and available transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "The toolbar is directly involved in the user interface for content state."
+        }
+      ]
+    },
+    {
+      "path": "cms/signals/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "A signal must be added to fire on state transitions (e.g., page_content_status_changed).",
+      "confidence": 0.95,
+      "reason_codes": ["SIGNAL_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-83",
+          "description": "The signals module is responsible for handling content state changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into permission checks.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The page_permissions module is responsible for permission checks on page content."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "REGENERATE",
+      "rationale": "API functions must be updated to check workflow status before publishing.",
+      "confidence": 0.95,
+      "reason_codes": ["API_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "The API is involved in content publishing and must respect the new workflow."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "The admin form must reflect the new status field and its workflow logic.",
+      "confidence": 0.95,
+      "reason_codes": ["FORM_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "The admin forms are involved in content state and permission changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/fields.py",
+      "action": "REGENERATE",
+      "rationale": "A new CharField with choices is needed to represent the workflow status.",
+      "confidence": 0.95,
+      "reason_codes": ["FIELD_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "The fields module is responsible for defining model fields like status."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_admin.py",
+      "action": "REGENERATE",
+      "rationale": "The admin templates must display the new workflow state and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["TEMPLATE_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "The admin templates are responsible for rendering page content state."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/helpers.py",
+      "action": "REGENERATE",
+      "rationale": "Helper functions may be needed to manage workflow state transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["HELPER_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-115",
+          "description": "The helpers module is used for common logic, including model state transitions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "Admin configuration may need to be updated to reflect the new workflow.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_CONFIG"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "The admin configuration is involved in managing page content state."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/static_placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "This file is not directly involved in the workflow or page content model.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/cache/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required to the cache module for this workflow implementation.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/management/commands/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required to management commands for this workflow implementation.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/urls.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required to the URL routing for this workflow implementation.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/views.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required to the views for this workflow implementation.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are required to the CMS tags for this workflow implementation.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/toolbar/items.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar items must reflect the new workflow state and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "The toolbar items are responsible for displaying content state."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/utils.py",
+      "action": "REGENERATE",
+      "rationale": "The toolbar utilities must support the new workflow state and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["TOOLBAR_UTILS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "The toolbar utilities are involved in content state and display."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "REGENERATE",
+      "rationale": "The admin form must reflect the new status field and its workflow logic.",
+      "confidence": 0.95,
+      "reason_codes": ["FORM_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "The admin forms are involved in content state and permission changes."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/useradmin.py",
+      "action": "REGENERATE",
+      "rationale": "User admin may need to reflect the new 'Reviewer' permission level.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The useradmin module is responsible for managing user permissions."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/utils.py",
+      "action": "REGENERATE",
+      "rationale": "Admin utilities may need to support the new workflow state and transitions.",
+      "confidence": 0.95,
+      "reason_codes": ["ADMIN_UTILS"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "The admin utilities are involved in managing page content state."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file is not directly involved in the workflow or page content model.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/settingsadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file is not directly involved in the workflow or page content model.",
+      "confidence": 0.99,
+      "reason_codes": ["NO_CHANGE"],
+      "evidence": []
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing permissions in the admin."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "REGENERATE",
+      "rationale": "The new 'Reviewer' permission level must be integrated into the admin permission system.",
+      "confidence": 0.95,
+      "reason_codes": ["PERMISSION_CHANGE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "The permissionadmin module is responsible for managing

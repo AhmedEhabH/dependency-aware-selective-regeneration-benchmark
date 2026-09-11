@@ -1,0 +1,459 @@
+{
+  "decisions": [
+    {
+      "path": "cms/utils/page.py",
+      "action": "REGENERATE",
+      "rationale": "This file is a likely candidate for adding the `get_page_content_by_language` utility function, as it already contains page-related utility functions and aligns with the requirement terms.",
+      "confidence": 0.95,
+      "reason_codes": ["UTIL_FUNC_ADD", "SEMANTIC_MATCH"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "The file contains page-related utility functions, including 'get' and 'page' terms, making it a natural place to add the new utility."
+        },
+        {
+          "source": "semantic-seed-65",
+          "description": "The 'PageContent' model is defined in 'contentmodels.py', which is closely related to 'pagemodel.py' and 'page.py' utility functions."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/contentmodels.py",
+      "action": "PRESERVE",
+      "rationale": "This file defines the PageContent model but does not need to be modified for the utility function itself.",
+      "confidence": 1.0,
+      "reason_codes": ["MODEL_DEFINITION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-65",
+          "description": "This file defines the 'PageContent' model, which is the target of the utility function, but no code changes are needed here."
+        }
+      ]
+    },
+    {
+      "path": "cms/__init__.py",
+      "action": "PRESERVE",
+      "rationale": "No changes are needed in the top-level __init__ file for this utility function.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": []
+    },
+    {
+      "path": "cms/utils/__init__.py",
+      "action": "REGENERATE",
+      "rationale": "This file may need to re-export the new utility function via __all__ to make it publicly accessible.",
+      "confidence": 0.85,
+      "reason_codes": ["PUBLIC_EXPORT"],
+      "evidence": [
+        {
+          "source": "semantic-seed-103",
+          "description": "This file already contains language-related utility functions and may be used to re-export the new function."
+        }
+      ]
+    },
+    {
+      "path": "cms/models/pagemodel.py",
+      "action": "PRESERVE",
+      "rationale": "This file defines the Page model but does not need to be modified for the utility function.",
+      "confidence": 1.0,
+      "reason_codes": ["MODEL_DEFINITION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "This file defines the 'Page' model, which is used by the utility function, but no code changes are needed here."
+        }
+      ]
+    },
+    {
+      "path": "cms/page_rendering.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "This file already deals with 'page' and 'pagecontent' and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/i18n.py",
+      "action": "PRESERVE",
+      "rationale": "This file handles language-related utilities but is not the right place for the new function.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "This file handles language and code, but the new function is more page-specific."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "This file handles page-related admin logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/api.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "This file handles page and language-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/templatetags/cms_tags.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-95",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/views.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "This file handles content and object logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/toolbar/utils.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-99",
+          "description": "This file handles content and language logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/forms/utils.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/middleware/page.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/copy.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-49",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/management/commands/subcommands/tree.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-52",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/operations/helpers.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-77",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/page_permissions.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/permissions.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/placeholder.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/plugins.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/utils/request_ip_resolvers.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-123",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/wizards/helpers.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-129",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/forms.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-3",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/placeholderadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/pageadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-13",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-13",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-13",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-13",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-13",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-13",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-13",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-13",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",
+      "rationale": "This file may use the new utility function but does not require changes to implement it.",
+      "confidence": 1.0,
+      "reason_codes": ["NO_CHANGE_NEEDED"],
+      "evidence": [
+        {
+          "source": "semantic-seed-13",
+          "description": "This file handles page-related logic and may be a future consumer of the new utility."
+        }
+      ]
+    },
+    {
+      "path": "cms/admin/permissionadmin.py",
+      "action": "PRESERVE",

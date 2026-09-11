@@ -1,0 +1,467 @@
+{
+  "decisions": [
+    {
+      "id": 64,
+      "action": "REGENERATE",
+      "rationale": "The PageContent model needs a new publication_date field to support scheduled publishing per language variant.",
+      "confidence": 0.95,
+      "reason_codes": ["MODEL_CHANGE", "NEW_FIELD"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "cms/models/pagemodel.py is relevant to page content and model definitions."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "The admin form for PageContent must include the new publication_date field for editing in the admin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["FORM_CHANGE", "NEW_FIELD"],
+      "evidence": [
+        {
+          "source": "semantic-seed-38",
+          "description": "cms/forms/utils.py is relevant to page content and form utilities."
+        },
+        {
+          "source": "semantic-seed-91",
+          "description": "cms/templatetags/cms_admin.py is relevant to admin display and field rendering."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "action": "REGENERATE",
+      "rationale": "The API must respect the publication_date field when publishing content, requiring changes to the relevant API functions.",
+      "confidence": 0.95,
+      "reason_codes": ["API_CHANGE", "NEW_FIELD"],
+      "evidence": [
+        {
+          "source": "semantic-seed-11",
+          "description": "cms/api.py is relevant to content change and publishing."
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "action": "REGENERATE",
+      "rationale": "The page rendering logic must filter out PageContent with future publication_date values, requiring changes to the rendering helper functions.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_CHANGE", "NEW_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-78",
+          "description": "cms/page_rendering.py is relevant to page rendering and visibility logic."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "The CMS toolbars may need to reflect the new scheduled publishing functionality, such as adding a 'Publish Scheduled' action.",
+      "confidence": 0.9,
+      "reason_codes": ["TOOLBAR_CHANGE", "NEW_ACTION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-26",
+          "description": "cms/cms_toolbars.py is relevant to admin interface and actions."
+        }
+      ]
+    },
+    {
+      "id": 128,
+      "action": "REGENERATE",
+      "rationale": "The admin action 'Publish Scheduled' must be implemented, likely involving a new form or wizard logic.",
+      "confidence": 0.9,
+      "reason_codes": ["FORM_CHANGE", "NEW_ACTION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-128",
+          "description": "cms/wizards/forms.py is relevant to admin forms and actions."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "The page visibility logic must be updated to respect the new publication_date field, requiring changes to page utility functions.",
+      "confidence": 0.95,
+      "reason_codes": ["UTIL_CHANGE", "NEW_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page.py is relevant to page visibility and permissions."
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "action": "REGENERATE",
+      "rationale": "The i18n utility functions may need to handle language-specific publication dates, requiring updates to i18n logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "I18N"],
+      "evidence": [
+        {
+          "source": "semantic-seed-117",
+          "description": "cms/utils/i18n.py is relevant to language-specific logic."
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "action": "REGENERATE",
+      "rationale": "The front-end views must filter out PageContent with future publication_date values, requiring changes to view logic.",
+      "confidence": 0.95,
+      "reason_codes": ["VIEW_CHANGE", "NEW_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-126",
+          "description": "cms/views.py is relevant to content visibility and filtering."
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "action": "REGENERATE",
+      "rationale": "The page middleware may need to respect the new publication_date field when determining page visibility.",
+      "confidence": 0.9,
+      "reason_codes": ["MIDDLEWARE_CHANGE", "NEW_FILTER"],
+      "evidence": [
+        {
+          "source": "semantic-seed-58",
+          "description": "cms/middleware/page.py is relevant to page visibility and filtering."
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "action": "REGENERATE",
+      "rationale": "The apphook reload utility may need to handle scheduled publishing logic, requiring updates to apphook reload functions.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "cms/utils/apphook_reload.py is relevant to apphook logic and date handling."
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "action": "REGENERATE",
+      "rationale": "The page utility functions may need to handle language-specific publication dates, requiring updates to page utility logic.",
+      "confidence": 0.9,
+      "reason_codes": ["UTIL_CHANGE", "I18N"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "cms/utils/i18n.py is relevant to language-specific logic."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "The permissions utility functions may need to handle scheduled publishing logic, requiring updates to permission logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py is relevant to page permissions and visibility."
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "action": "REGENERATE",
+      "rationale": "The URL utility functions may need to handle scheduled publishing logic, requiring updates to URL logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-125",
+          "description": "cms/utils/urlutils.py is relevant to URL handling and logic."
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "action": "REGENERATE",
+      "rationale": "The page permissions utility functions may need to handle scheduled publishing logic, requiring updates to permission logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page_permissions.py is relevant to page permissions and visibility."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "The permissions utility functions may need to handle scheduled publishing logic, requiring updates to permission logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "cms/utils/permissions.py is relevant to page permissions and visibility."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "REGENERATE",
+      "rationale": "The placeholder utility functions may need to handle scheduled publishing logic, requiring updates to placeholder logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/placeholder.py is relevant to placeholder logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "action": "REGENERATE",
+      "rationale": "The plugin utility functions may need to handle scheduled publishing logic, requiring updates to plugin logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-123",
+          "description": "cms/utils/plugins.py is relevant to plugin logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "action": "REGENERATE",
+      "rationale": "The request IP resolver utility functions may need to handle scheduled publishing logic, requiring updates to IP resolver logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-124",
+          "description": "cms/utils/request_ip_resolvers.py is relevant to IP resolver logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "action": "REGENERATE",
+      "rationale": "The views may need to handle scheduled publishing logic, requiring updates to view logic.",
+      "confidence": 0.85,
+      "reason_codes": ["VIEW_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-127",
+          "description": "cms/views.py is relevant to view logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 132,
+      "action": "REGENERATE",
+      "rationale": "The wizard views may need to handle scheduled publishing logic, requiring updates to wizard logic.",
+      "confidence": 0.85,
+      "reason_codes": ["VIEW_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-132",
+          "description": "cms/wizards/views.py is relevant to wizard logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 134,
+      "action": "REGENERATE",
+      "rationale": "The wizard pool may need to handle scheduled publishing logic, requiring updates to wizard pool logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-134",
+          "description": "cms/wizards/wizard_pool.py is relevant to wizard logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 135,
+      "action": "REGENERATE",
+      "rationale": "The menu module may need to handle scheduled publishing logic, requiring updates to menu logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-135",
+          "description": "menus/__init__.py is relevant to menu logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 143,
+      "action": "REGENERATE",
+      "rationale": "The menu tags may need to handle scheduled publishing logic, requiring updates to menu tag logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-143",
+          "description": "menus/utils.py is relevant to menu logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 144,
+      "action": "REGENERATE",
+      "rationale": "The menu utilities may need to handle scheduled publishing logic, requiring updates to menu utility logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-144",
+          "description": "menus/utils.py is relevant to menu logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "action": "REGENERATE",
+      "rationale": "The CMS utility functions may need to handle language-specific scheduled publishing logic, requiring updates to utility logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "I18N"],
+      "evidence": [
+        {
+          "source": "semantic-seed-103",
+          "description": "cms/utils/__init__.py is relevant to utility logic and language handling."
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "action": "REGENERATE",
+      "rationale": "The apphook reload utility functions may need to handle scheduled publishing logic, requiring updates to apphook reload logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "cms/utils/apphook_reload.py is relevant to apphook logic and date handling."
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "action": "REGENERATE",
+      "rationale": "The i18n utility functions may need to handle language-specific scheduled publishing logic, requiring updates to i18n logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "I18N"],
+      "evidence": [
+        {
+          "source": "semantic-seed-116",
+          "description": "cms/utils/i18n.py is relevant to language-specific logic."
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "action": "REGENERATE",
+      "rationale": "The mail utility functions may need to handle scheduled publishing logic, requiring updates to mail logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-117",
+          "description": "cms/utils/mail.py is relevant to mail logic and page changes."
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "action": "REGENERATE",
+      "rationale": "The page utility functions may need to handle scheduled publishing logic, requiring updates to page utility logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-118",
+          "description": "cms/utils/page.py is relevant to page logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "action": "REGENERATE",
+      "rationale": "The page permissions utility functions may need to handle scheduled publishing logic, requiring updates to page permissions logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "cms/utils/page_permissions.py is relevant to page permissions and visibility."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "The permissions utility functions may need to handle scheduled publishing logic, requiring updates to permissions logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "cms/utils/permissions.py is relevant to permissions and visibility."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "The permissions utility functions may need to handle scheduled publishing logic, requiring updates to permissions logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-121",
+          "description": "cms/utils/permissions.py is relevant to permissions and visibility."
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "action": "REGENERATE",
+      "rationale": "The placeholder utility functions may need to handle scheduled publishing logic, requiring updates to placeholder logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-122",
+          "description": "cms/utils/placeholder.py is relevant to placeholder logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "action": "REGENERATE",
+      "rationale": "The plugin utility functions may need to handle scheduled publishing logic, requiring updates to plugin logic.",
+      "confidence": 0.85,
+      "reason_codes": ["UTIL_CHANGE", "NEW_LOGIC"],
+      "evidence": [
+        {
+          "source": "semantic-seed-123",
+          "description": "cms/utils/plugins.py is relevant to plugin logic and visibility."
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "action": "REGENERATE",
+      "rationale": "The request IP resolver utility functions may need to handle scheduled publishing logic, requiring updates to IP resolver logic.",
+      "confidence": 0.85,
+     

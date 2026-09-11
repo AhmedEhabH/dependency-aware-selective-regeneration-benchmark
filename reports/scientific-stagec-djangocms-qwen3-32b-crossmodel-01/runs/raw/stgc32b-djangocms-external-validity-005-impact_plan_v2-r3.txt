@@ -1,0 +1,170 @@
+{
+  "decisions": [
+    {
+      "id": 5,
+      "action": "REGENERATE",
+      "rationale": "The 'page reviewer' permission requires a new 'Review' action in PageAdmin to handle content status transitions or mark as reviewed.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FEATURE", "UI-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-4",
+          "description": "PageAdmin is involved in page management and likely handles new actions."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "action": "REGENERATE",
+      "rationale": "The new 'can_review' field must be added to the PermissionAdmin to reflect the new permission level in the admin interface.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-NEW-FIELD", "ADMIN-UPDATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-6",
+          "description": "PermissionAdmin is likely involved in managing permission fields."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "action": "REGENERATE",
+      "rationale": "The 'Review' menu item must be added to the toolbar for users with the 'page reviewer' permission.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-UI-UPDATE", "TOOLBAR-EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-27",
+          "description": "Toolbar-related logic is likely in the cms_toolbar module."
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "action": "REGENERATE",
+      "rationale": "The Page model likely needs to be updated to support the new 'can_review' permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-MODEL-UPDATE", "PERMISSION-EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-68",
+          "description": "Page model is likely involved in permission logic."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "action": "REGENERATE",
+      "rationale": "The PagePermission model must be updated to include the new 'can_review' field.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-MODEL-UPDATE", "PERMISSION-EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-70",
+          "description": "Permission models are likely in this module."
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "action": "REGENERATE",
+      "rationale": "The page permission utility functions must be updated to support the new 'can_review' permission logic.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-UTIL-UPDATE", "PERMISSION-EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-119",
+          "description": "Page permission utilities are likely in this module."
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "action": "REGENERATE",
+      "rationale": "The permission utility functions must be updated to support the new 'can_review' global permission.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-UTIL-UPDATE", "PERMISSION-EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-120",
+          "description": "Permission utilities are likely in this module."
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "action": "REGENERATE",
+      "rationale": "The admin template tags may need to be updated to reflect the new 'can_review' boolean field in the admin UI.",
+      "confidence": 0.95,
+      "reason_codes": ["REQ-UI-UPDATE", "ADMIN-TEMPLATE"],
+      "evidence": [
+        {
+          "source": "semantic-seed-91",
+          "description": "Admin-related template tags are likely in this module."
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "action": "REGENERATE",
+      "rationale": "The apphook reload utility may need to be updated to handle new permission logic during app reload.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ-UTIL-UPDATE", "PERMISSION-EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-105",
+          "description": "Apphook reload utilities are likely in this module."
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "action": "REGENERATE",
+      "rationale": "Wizard helpers may need to be updated to handle new permission logic during page creation or editing.",
+      "confidence": 0.9,
+      "reason_codes": ["REQ-UTIL-UPDATE", "PERMISSION-EXTENSION"],
+      "evidence": [
+        {
+          "source": "semantic-seed-129",
+          "description": "Wizard helpers are likely in this module."
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "V-001",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_permissions",
+      "reason": "New permission logic must be tested for correct behavior.",
+      "evidence_refs": ["semantic-seed-70", "semantic-seed-120"]
+    },
+    {
+      "obligation_id": "V-002",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_toolbar",
+      "reason": "The 'Review' menu item must be tested for visibility and functionality.",
+      "evidence_refs": ["semantic-seed-26", "semantic-seed-97"]
+    },
+    {
+      "obligation_id": "V-003",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_admin",
+      "reason": "The new 'Review' action in PageAdmin must be tested for correct behavior.",
+      "evidence_refs": ["semantic-seed-5", "semantic-seed-6"]
+    },
+    {
+      "obligation_id": "V-004",
+      "kind": "regression",
+      "target": "cms.tests.test_page_permissions",
+      "reason": "Existing permission logic must continue to work after the new permission is added.",
+      "evidence_refs": ["semantic-seed-119", "semantic-seed-120"]
+    }
+  ],
+  "architecture_checks": [
+    "Ensure that the new 'can_review' field is added to both PagePermission and GlobalPermission models.",
+    "Ensure that the permission checking functions are updated to support the new permission level.",
+    "Ensure that the 'Review' action in PageAdmin is integrated with the workflow system if one exists."
+  ],
+  "escalation_reason": ""
+}
