@@ -14,7 +14,7 @@ Status: **COMPLETE + AUDITED** (2026-09-11)
 ## 1. What was run
 
 - Same repositories, cases, treatments, gateway and provider as the frozen
-  Qwen3-Coder djangoCMS studies; **only the model changed**
+  Qwen3-Coder-480B-A35B-Instruct djangoCMS studies; **only the model changed**
   (`qwen/qwen3-coder` → `qwen/qwen3-32b`), plus an explicit reasoning-mode
   configuration (see §6).
 - 60 cells: 6 scenarios × 2 arms (`impact_plan` v1, `impact_plan_v2`) × 5 reps.
@@ -58,7 +58,7 @@ Status: **COMPLETE + AUDITED** (2026-09-11)
 - "Directionally replicated (descriptive): v2 operational-validity rate (70%)
   exceeded new-v1 (6.7%) and v2 truncation rate (0%) was below new-v1 (80%)."
 - "Cross-model Sparse-v2 agreement (descriptive): 102 cross-product Jaccard
-  pairs vs historical Qwen3-Coder; mean 0.284, median 0.231, min 0.0,
+  pairs vs historical Qwen3-Coder-480B-A35B-Instruct; mean 0.284, median 0.231, min 0.0,
   max 1.0; per-file selection frequencies in
   `reports/QWEN3_32B_CROSSMODEL_AGREEMENT.{md,csv}`."
 - "Reasoning was explicitly disabled (`reasoning.enabled=false`); verified by
@@ -67,7 +67,7 @@ Status: **COMPLETE + AUDITED** (2026-09-11)
 
 ## 4. Forbidden claims
 
-- **No** model-superiority / inferiority claim between Qwen3-Coder and
+- **No** model-superiority / inferiority claim between Qwen3-Coder-480B-A35B-Instruct and
   Qwen3-32B.
 - **No** "independent confirmation" or "external validation" framing — this is
   post-hoc on the same six cases.
@@ -100,13 +100,13 @@ truncation rate than new v1 (0.000 vs 0.800). No significance claim.
   `cms/utils/placeholder.py`, `cms/wizards/__init__.py`). The gold
   `cms/models/pluginmodel.py` and `cms/utils/plugins.py` were never selected;
   `cms/admin/placeholderadmin.py` was always selected. This is the same
-  qualitative S006 weakness observed for Qwen3-Coder (over-selection +
+  qualitative S006 weakness observed for Qwen3-Coder-480B-A35B-Instruct (over-selection +
   persistent misses) — consistent, but descriptive only.
 
 ## 6a. Scenario 004 (new Qwen3-32B v2, truncated)
 
 - S004 v2 was **5/5 truncated** at the frozen 4096 cap (vs historical
-  Qwen3-Coder S004 v2 **5/5 succeeded**, 6–8 explicit decisions each).
+  Qwen3-Coder-480B-A35B-Instruct S004 v2 **5/5 succeeded**, 6–8 explicit decisions each).
 - The new model emitted **36–38 explicit decisions before truncation**
   (r1: 37, r2: 36, r3: 36, r4: 36, r5: 38) — roughly **5–6× the historical
   explicit-decision count** (historical mean across all v2 cells: 6.34).
@@ -133,13 +133,13 @@ cross-product (never r1-vs-r1).
 
 `reasoning: {"enabled": false}` sent on every request; verified
 `reasoning_tokens == 0`; no reasoning field in any message. This matches the
-historical Qwen3-Coder direct/non-thinking contract and prevents an untracked
+historical Qwen3-Coder-480B-A35B-Instruct direct/non-thinking contract and prevents an untracked
 hidden thinking budget.
 
 ## 9. Same serving route
 
 Both models served through the SAME gateway (OpenRouter) and provider
-(DeepInfra pinned through OpenRouter; Qwen3-Coder `deepinfra/turbo`,
+(DeepInfra pinned through OpenRouter; Qwen3-Coder-480B-A35B-Instruct `deepinfra/turbo`,
 Qwen3-32B `deepinfra/fp8`), fallback off, `require_parameters` on.
 
 ## 10. Remaining limitations (state explicitly)
@@ -150,7 +150,7 @@ Qwen3-32B `deepinfra/fp8`), fallback off, `require_parameters` on.
   no v1 accuracy inference is supported.
 - S006 remains the weak case for both models.
 - Cost reported at live DeepInfra rates; recorded `api_cost` for early cells
-  used the frozen Qwen3-Coder pricing as a conservative bound (the recomputed
+  used the frozen Qwen3-Coder-480B-A35B-Instruct pricing as a conservative bound (the recomputed
   live figure in `final_metrics.json` is authoritative).
 - **Accounting correction (2026-09-11):** exact provider usage for 8 failed
   cells (7 with persisted raw responses but run before usage capture; 1

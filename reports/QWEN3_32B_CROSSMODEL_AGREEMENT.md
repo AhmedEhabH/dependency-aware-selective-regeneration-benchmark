@@ -2,7 +2,7 @@
 
 **DESCRIPTIVE ONLY - no equivalence/significance claim.**
 
-Method: for each scenario, ALL valid historical Qwen3-Coder Sparse-v2 runs x ALL valid new Qwen3-32B Sparse-v2 runs, full cross-product Jaccard of selected-file sets. Runs are NOT paired by repetition.
+Method: for each scenario, ALL valid historical Qwen3-Coder-480B-A35B-Instruct Sparse-v2 runs x ALL valid new Qwen3-32B Sparse-v2 runs, full cross-product Jaccard of selected-file sets. Runs are NOT paired by repetition.
 
 | Scenario | Hist valid | New valid | Pairs | Mean | Median | Min | Max |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |

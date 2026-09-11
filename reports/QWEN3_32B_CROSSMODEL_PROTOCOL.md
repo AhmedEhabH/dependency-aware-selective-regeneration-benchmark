@@ -41,7 +41,7 @@ registered protocol.
 1. Model: `qwen/qwen3-coder` → `qwen/qwen3-32b`.
 2. Explicit reasoning-mode configuration: Qwen3-32B is a hybrid reasoning
    model; reasoning is explicitly disabled so the replication matches the
-   historical direct/non-thinking Qwen3-Coder contract and cannot consume an
+   historical direct/non-thinking Qwen3-Coder-480B-A35B-Instruct contract and cannot consume an
    untracked hidden thinking budget.
 
 Everything else (repositories, cases, prompts, schemas, numeric-ID map,
@@ -62,7 +62,7 @@ TP, FP, FN, Precision, Recall, F1, FNR, full-recall rate.
 P/R/F1, TP/FP/FN, full recall, all selected-file frequencies (gold/non-gold).
 
 ### CM4 — Cross-model Sparse-v2 agreement (DESCRIPTIVE)
-For each scenario: ALL valid historical Qwen3-Coder Sparse-v2 runs × ALL valid
+For each scenario: ALL valid historical Qwen3-Coder-480B-A35B-Instruct Sparse-v2 runs × ALL valid
 new Qwen3-32B Sparse-v2 runs, full cross-product Jaccard of selected-file
 sets. **Do NOT pair r1 with r1.** Report pair count, mean/median/min/max, and
 per-file selection frequencies. No equivalence/significance claim.
