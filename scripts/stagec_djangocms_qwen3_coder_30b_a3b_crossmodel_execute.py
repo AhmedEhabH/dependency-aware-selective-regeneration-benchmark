@@ -11,14 +11,14 @@ and a DIFFERENT provider:
                      @ OpenRouter / DeepInfra (deepinfra/turbo)
 - new model:        qwen/qwen3-coder-30b-a3b-instruct
                      (Qwen3-Coder-30B-A3B-Instruct)
-                     @ OpenRouter / Novita (novita/fp8)
+                     @ OpenRouter / SiliconFlow (siliconflow/fp8)
 
 Design (frozen):
 
 - 6 frozen scenarios x 2 arms x 5 repetitions = EXACTLY 60 manifest cells
 - arms: impact_plan (v1 full policy) AND impact_plan_v2 (sparse numeric IDs)
-- scientific model qwen/qwen3-coder-30b-a3b-instruct @ Novita pinned
-  through OpenRouter (novita/fp8), fallback OFF, temperature 0,
+- scientific model qwen/qwen3-coder-30b-a3b-instruct @ SiliconFlow pinned
+  through OpenRouter (siliconflow/fp8), fallback OFF, temperature 0,
   selection-only, cap 4096,
   max 1 transient retry
 - REASONING: model-native NON-THINKING (no reasoning control parameter is
@@ -98,8 +98,8 @@ REPETITIONS = (1, 2, 3, 4, 5)
 PRIMARY_MODEL = "qwen/qwen3-coder-30b-a3b-instruct"
 MODEL_HUMAN = "Qwen3-Coder-30B-A3B-Instruct"
 MODEL_SLUG = PRIMARY_MODEL
-PROVIDER_PINNED = "Novita"
-PROVIDER_TAG = "novita/fp8"
+PROVIDER_PINNED = "SiliconFlow"
+PROVIDER_TAG = "siliconflow/fp8"
 QUANTIZATION = "fp8"
 TEMPERATURE = 0.0
 CAP = 4096
@@ -362,14 +362,14 @@ def _visible_sha256(scenario_id: str) -> str:
 
 
 def _endpoint_freeze_unchanged() -> dict[str, Any]:
-    """Verify the persisted endpoint freeze matches the live Novita metadata."""
+    """Verify the persisted endpoint freeze matches the live SiliconFlow metadata."""
     path = STUDY_DIR / "endpoint_freeze.json"
     if not path.is_file():
         return {"ok": False, "reason": "endpoint_freeze.json not found"}
     data = json.loads(path.read_text(encoding="utf-8"))
     ok = (
         data.get("model_id") == PRIMARY_MODEL
-        and data.get("provider_name") == "Novita"
+        and data.get("provider_name") == "SiliconFlow"
         and data.get("provider_tag") == PROVIDER_TAG
         and data.get("quantization") == QUANTIZATION
         and data.get("reasoning_frozen") == REASONING_FROZEN
@@ -388,10 +388,10 @@ def _persist_endpoint_freeze() -> dict[str, Any]:
     with urllib.request.urlopen(req, timeout=60) as resp:
         payload = json.loads(resp.read().decode("utf-8"))
     d = payload["data"]
-    novita = [e for e in d.get("endpoints", []) if e.get("provider_name") == "Novita"]
-    if not novita:
-        raise RuntimeError("live OpenRouter metadata has NO Novita endpoint for qwen/qwen3-coder-30b-a3b-instruct")
-    ep = novita[0]
+    silicon = [e for e in d.get("endpoints", []) if e.get("provider_name") == "SiliconFlow"]
+    if not silicon:
+        raise RuntimeError("live OpenRouter metadata has NO SiliconFlow endpoint for qwen/qwen3-coder-30b-a3b-instruct")
+    ep = silicon[0]
     freeze = {
         "model_id": d["id"],
         "model_name": d.get("name"),
@@ -420,17 +420,17 @@ def _persist_endpoint_freeze() -> dict[str, Any]:
 
 
 def _load_live_pricing() -> dict[str, Any]:
-    """Live Novita pricing for qwen/qwen3-coder-30b-a3b-instruct from the persisted endpoint freeze.
+    """Live SiliconFlow pricing for qwen/qwen3-coder-30b-a3b-instruct from the persisted endpoint freeze.
 
     The historical Qwen3-Coder freeze (reports/SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json)
     is Qwen3-Coder pricing ($0.30/$1.00 per 1M) and must NOT be used to cost the new
-    model. Live Novita qwen3-coder-30b-a3b-instruct rates: $0.07/1M input, $0.27/1M output.
+    model. Live SiliconFlow qwen3-coder-30b-a3b-instruct rates: $0.07/1M input, $0.28/1M output.
     """
     freeze_path = STUDY_DIR / "endpoint_freeze.json"
     if freeze_path.is_file():
         data = json.loads(freeze_path.read_text(encoding="utf-8"))
         prompt = float(data.get("input_price_per_1M_usd", 0.07)) / 1_000_000
-        completion = float(data.get("output_price_per_1M_usd", 0.27)) / 1_000_000
+        completion = float(data.get("output_price_per_1M_usd", 0.28)) / 1_000_000
         return {
             "prompt_per_token_usd": prompt,
             "completion_per_token_usd": completion,
@@ -439,7 +439,7 @@ def _load_live_pricing() -> dict[str, Any]:
     return {
         "prompt_per_token_usd": 0.00000008,
         "completion_per_token_usd": 0.00000028,
-        "source": "frozen live endpoint pricing (Novita $0.07/$0.27 per 1M)",
+        "source": "frozen live endpoint pricing (SiliconFlow $0.07/$0.28 per 1M)",
     }
 
 
@@ -633,7 +633,7 @@ def cmd_parity(_args: argparse.Namespace) -> int:
             "ok": True,
             "detail": {
                 "model": f"{'qwen/qwen3-coder'} -> {PRIMARY_MODEL}",
-                "provider_tag": "deepinfra/turbo -> novita/fp8",
+                "provider_tag": "deepinfra/turbo -> siliconflow/fp8",
                 "reasoning_mode": (
                     "model-native non-thinking (no reasoning control parameter; "
                     "historical Qwen3-Coder-480B-A35B-Instruct was direct/non-thinking)"
@@ -656,7 +656,7 @@ def cmd_parity(_args: argparse.Namespace) -> int:
                 "model_historical": "qwen/qwen3-coder",
                 "model_new": PRIMARY_MODEL,
                 "gateway": "OpenRouter",
-                "provider": "Novita",
+                "provider": "SiliconFlow",
                 "provider_tag_historical": "deepinfra/turbo",
                 "provider_tag_new": PROVIDER_TAG,
                 "quantization_new": QUANTIZATION,
@@ -816,7 +816,7 @@ def cmd_probe(_args: argparse.Namespace) -> int:
         "study_id": STUDY_ID,
         "model": PRIMARY_MODEL,
         "model_human": MODEL_HUMAN,
-        "provider": "Novita",
+        "provider": "SiliconFlow",
         "provider_tag": PROVIDER_TAG,
         "quantization": QUANTIZATION,
         "reasoning_frozen": REASONING_FROZEN,
@@ -906,7 +906,7 @@ def cmd_probe(_args: argparse.Namespace) -> int:
         reasoning_tokens = (entry.get("usage") or {}).get("reasoning_tokens")
         contract = (
             entry["schema_valid"]
-            and provider_name == "Novita"
+            and provider_name == "SiliconFlow"
             and not entry["reasoning_returned"]
             and (reasoning_tokens == 0 or reasoning_tokens is None)
             and entry.get("finish_reason") in ("stop", "length", "")
@@ -919,9 +919,9 @@ def cmd_probe(_args: argparse.Namespace) -> int:
 
     results["contract_pass"] = all_pass
     if all_pass:
-        print("\nQWEN3_CODER_30B_A3B_NOVITA_CONTRACT: PASS")
+        print("\nQWEN3_CODER_30B_A3B_SILICONFLOW_CONTRACT: PASS")
     else:
-        print("\nQWEN3_CODER_30B_A3B_NOVITA_CONTRACT: FAIL")
+        print("\nQWEN3_CODER_30B_A3B_SILICONFLOW_CONTRACT: FAIL")
         schema_ok = all(
             p.get("schema_valid") for p in results["probes"].values()
         )
@@ -1275,7 +1275,7 @@ def gate4_dry_run() -> dict[str, Any]:
             ),
             "detail": (
                 "all cells carry frozen qwen3-coder-30b-a3b-instruct / "
-                "novita-fp8 / model-native non-thinking config"
+                "siliconflow-fp8 / model-native non-thinking config"
             ),
         }
     )
@@ -1584,8 +1584,8 @@ def _independent_audit() -> dict[str, Any]:
     )
     checks.append(
         {
-            "check": "provider_novita_frozen",
-            "ok": PROVIDER_TAG == "novita/fp8",
+            "check": "provider_siliconflow_frozen",
+            "ok": PROVIDER_TAG == "siliconflow/fp8",
             "detail": PROVIDER_TAG,
         }
     )
@@ -2297,7 +2297,14 @@ def _projected_completion_cost(
     if not remaining:
         return 0.0
     done_costs = [float(r["api_cost"]) for r in records.values() if r["api_cost"] > 0.0]
-    mean_cost = (sum(done_costs) / len(done_costs)) if done_costs else 0.005
+    # Default conservative per-cell projected cost derived from LIVE SiliconFlow
+    # pricing and the ACTUAL rendered prompt sizes measured for this study
+    # (scenario-004 v1 ~11,222 chars ~2,805 tokens, v2 ~12,109 chars ~3,027
+    # tokens at the len//4 heuristic) with completion at the frozen 4096 cap:
+    #   prompt: 3027 x $0.07/1M = $0.000212
+    #   completion: 4096 x $0.28/1M = $0.001147
+    #   worst-case cell ~ $0.00136 -> conservative default $0.0015.
+    mean_cost = (sum(done_costs) / len(done_costs)) if done_costs else 0.0015
     return round(mean_cost * len(remaining) * (1 + COST_MARGIN), 6)
 
 
@@ -2489,7 +2496,7 @@ def _stats(values: list[float]) -> dict[str, float]:
 
 
 def _live_cost(record: dict[str, Any]) -> float:
-    """Recompute a record's API cost at the LIVE Novita qwen3-coder-30b-a3b-instruct rates.
+    """Recompute a record's API cost at the LIVE SiliconFlow qwen3-coder-30b-a3b-instruct rates.
 
     ``api_cost`` in run records for early cells used the frozen Qwen3-Coder
     pricing as a conservative bound; this recomputes every record at the live

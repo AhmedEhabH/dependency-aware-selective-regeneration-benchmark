@@ -9,14 +9,14 @@ verifies raw-response SHA-256 sidecars, and exits non-zero on any
 inconsistency.
 
 Model: Qwen3-Coder-30B-A3B-Instruct (OpenRouter slug
-`qwen/qwen3-coder-30b-a3b-instruct`) @ OpenRouter / Novita (`novita/fp8`),
+`qwen/qwen3-coder-30b-a3b-instruct`) @ OpenRouter / SiliconFlow (`siliconflow/fp8`),
 model-native non-thinking (no reasoning control parameter), fallback OFF,
 temperature 0, cap 4096.
 
 Checks:
 - 60 recorded cells / 60 unique run_ids / 2 arms / 6 scenarios / 5 reps
 - every record: model == qwen/qwen3-coder-30b-a3b-instruct,
-  provider_tag == novita/fp8, reasoning_mode == model-native non-thinking,
+  provider_tag == siliconflow/fp8, reasoning_mode == model-native non-thinking,
   fallback off, temperature 0, cap 4096
 - raw SHA-256 of runs/raw/{run_id}.txt == record.raw_response_sha256 == .sha256
 - request / response / usage-known / usage-unknown accounting
@@ -54,10 +54,10 @@ FINAL_SCENARIOS = {
 }
 MODEL = "qwen/qwen3-coder-30b-a3b-instruct"
 MODEL_HUMAN = "Qwen3-Coder-30B-A3B-Instruct"
-PROVIDER_TAG = "novita/fp8"
+PROVIDER_TAG = "siliconflow/fp8"
 REASONING_MODE = "model-native non-thinking"
 PRICING_PROMPT = 0.00000007
-PRICING_COMPLETION = 0.00000027
+PRICING_COMPLETION = 0.00000028
 
 failures: list[str] = []
 

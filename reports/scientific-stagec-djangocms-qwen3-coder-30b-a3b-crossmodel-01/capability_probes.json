@@ -1,0 +1,74 @@
+{
+  "study_id": "scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01",
+  "model": "qwen/qwen3-coder-30b-a3b-instruct",
+  "model_human": "Qwen3-Coder-30B-A3B-Instruct",
+  "provider": "SiliconFlow",
+  "provider_tag": "siliconflow/fp8",
+  "quantization": "fp8",
+  "reasoning_frozen": null,
+  "temperature": 0.0,
+  "max_tokens": 4096,
+  "probes": {
+    "impact_plan": {
+      "probe": "impact_plan",
+      "schema_name": "impact_plan",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "SiliconFlow",
+      "usage": {
+        "prompt_tokens": 99,
+        "completion_tokens": 333,
+        "total_tokens": 432,
+        "reasoning_tokens": 0
+      },
+      "reasoning_returned": false,
+      "validated_payload_keys": [
+        "architecture_checks",
+        "context_set",
+        "decisions",
+        "escalation_reason",
+        "validation_obligations"
+      ],
+      "decisions_count": 1,
+      "raw_response_sha256": "154cad21c1582296bd8780f7e9cbd46d8d3f833c7a158aba4612d89eb0a31453",
+      "errors": [],
+      "schema_valid": true,
+      "validated": true,
+      "provider_name": "SiliconFlow",
+      "contract_ok": true
+    },
+    "impact_plan_v2": {
+      "probe": "impact_plan_v2",
+      "schema_name": "impact_plan_v2",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "SiliconFlow",
+      "usage": {
+        "prompt_tokens": 99,
+        "completion_tokens": 519,
+        "total_tokens": 618,
+        "reasoning_tokens": 0
+      },
+      "reasoning_returned": false,
+      "validated_payload_keys": [
+        "architecture_checks",
+        "decisions",
+        "escalation_reason",
+        "validation_obligations"
+      ],
+      "decisions_count": 3,
+      "raw_response_sha256": "9601d9340c050188a38348e567d21ab269374f0e9e7334c4149f7622f98e512c",
+      "errors": [],
+      "schema_valid": true,
+      "validated": true,
+      "provider_name": "SiliconFlow",
+      "contract_ok": true
+    }
+  },
+  "contract_pass": true,
+  "ran_at": "2026-09-11T13:28:52.923069+00:00"
+}
