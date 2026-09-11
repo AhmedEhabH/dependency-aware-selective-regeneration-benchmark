@@ -77,6 +77,35 @@ def load_records() -> list[dict[str, Any]]:
     return out
 
 
+def is_truncation(rec: dict[str, Any]) -> bool:
+    """Mirror of the driver's truncation classifier (accounting audit 2026-09-11).
+
+    A failed cell truncated at the frozen completion cap reports
+    ``finish_reason=length`` in its failure message even though the record's
+    ``truncation_status`` field (set only on the success path) is False.
+    """
+    if rec.get("truncation_status"):
+        return True
+    if rec.get("finish_reason") == "length":
+        return True
+    blob = (
+        json.dumps(rec.get("failure_evidence", []), default=str)
+        + " "
+        + str(rec.get("failure_category", ""))
+    )
+    if "finish_reason=length" in blob:
+        return True
+    raw_sha = rec.get("raw_response_sha256") or ""
+    if raw_sha:
+        raw_path = RAW_DIR / f"{rec['run_id']}.txt"
+        if raw_path.is_file():
+            try:
+                json.loads(raw_path.read_text(encoding="utf-8"))
+            except Exception:
+                return True
+    return False
+
+
 def micro(rows: list[dict[str, Any]]) -> dict[str, Any]:
     selected = sum(int(r["predicted_write_set_size"]) for r in rows)
     tp = sum(int(r["tp"]) for r in rows)
@@ -203,6 +232,17 @@ def main() -> int:
             and metrics["arms"][arm]["failed"] == len(rows) - len(valid),
             f"recorded={len(rows)} valid={len(valid)}",
         )
+        trunc = sum(1 for r in rows if is_truncation(r))
+        check(
+            f"{arm}_truncations_matches",
+            metrics["arms"][arm]["truncations"] == trunc,
+            f"trunc={trunc}",
+        )
+        check(
+            f"{arm}_requests_issued",
+            metrics["arms"][arm]["requests_issued"] == len(rows),
+            len(rows),
+        )
         live = sum(live_cost(r) for r in rows)
         total_live += live
         check(
@@ -222,8 +262,19 @@ def main() -> int:
         "totals_valid_failed_truncations",
         totals["recorded"] == 60
         and totals["valid"] == sum(1 for r in records if r["terminal_status"] == "succeeded")
-        and totals["failed"] == sum(1 for r in records if r["terminal_status"] != "succeeded"),
-        f"valid={totals['valid']} failed={totals['failed']}",
+        and totals["failed"] == sum(1 for r in records if r["terminal_status"] != "succeeded")
+        and totals["truncations"] == sum(1 for r in records if is_truncation(r)),
+        f"valid={totals['valid']} failed={totals['failed']} trunc={totals['truncations']}",
+    )
+    check(
+        "totals_requests_issued_60",
+        totals["requests_issued"] == 60,
+        totals["requests_issued"],
+    )
+    check(
+        "totals_usage_unrecoverable_8",
+        totals["usage_unrecoverable_cells"] == 8,
+        totals["usage_unrecoverable_cells"],
     )
     check(
         "totals_tokens_match",
