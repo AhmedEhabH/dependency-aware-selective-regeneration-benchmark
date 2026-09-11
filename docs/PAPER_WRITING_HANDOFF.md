@@ -392,3 +392,44 @@ Recommended manuscript framing: report the new rows in a clearly separate
 post-hoc label and the descriptive-agreement caveat. See
 `reports/QWEN3_32B_PAPER_INTEGRATION_NOTE.md` for exact allowed/forbidden
 claims.
+
+## 19. Qwen3-Coder-30B-A3B-Instruct Cross-Model / Cross-Provider Robustness Replication (POST-HOC)
+
+Model: **Qwen3-Coder-30B-A3B-Instruct** (OpenRouter slug
+`qwen/qwen3-coder-30b-a3b-instruct`) @ OpenRouter / **SiliconFlow**
+(`siliconflow/fp8`), model-native non-thinking, temperature 0, cap 4096,
+graph OFF. 60 cells (6 scenarios × 2 arms × 5 reps), executed and audited
+2026-09-11. Study id
+`scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01`.
+
+- **Provider note:** Novita was the task-preferred provider but FAILED the
+  capability contract (rejects `response_format=json_schema`); SiliconFlow
+  was the predeclared alternative and passed the identical request shape.
+  Because the historical model was served via DeepInfra, model and provider
+  are **confounded** — always describe this as a cross-model /
+  cross-provider descriptive observation.
+- v1: 17/30 valid, 13 failed, 11 truncations; v2: **28/30 valid**, 2 failed,
+  **0 truncations**.
+- v2 pooled P 0.5556 / R 0.6881 / F1 0.6148 / FNR 0.3119; full-recall 10/28.
+- **DIRECTIONALLY REPLICATED** (descriptive): v2 validity 0.933 > v1 0.567
+  and v2 truncation 0.000 < v1 0.367. This is descriptive only — no
+  significance or causal claim.
+- Cross-model Sparse-v2 Jaccard agreement vs historical
+  Qwen3-Coder-480B-A35B-Instruct: 135 cross-product pairs, mean 0.491 /
+  median 0.429 / min 0.091 / max 1.0. Descriptive only; do **not** interpret
+  as internal-reasoning similarity.
+- Accounting: 60 requests issued, 59 responses, 59 usage-known / 1
+  usage-unknown (one transport failure); recorded 301,146 total tokens and
+  $0.041518 live cost are **lower bounds**. A recorded-field wiring artifact
+  (`request_dispatched` snapshot) is documented in
+  `ACCOUNTING_CORRECTION_NOTE.md`; raw evidence, predictions and selection
+  metrics unchanged.
+- S006 remains the weak case (v2 P 0.053 / R 0.067 / F1 0.059) —
+  qualitatively consistent with the historical model; descriptive only.
+
+Recommended manuscript framing: a clearly separate "post-hoc cross-model /
+cross-provider robustness replication" section with the provider confound
+disclosed and the descriptive-agreement caveat. See
+`reports/QWEN3_CODER_30B_A3B_PAPER_INTEGRATION_NOTE.md` for exact
+allowed/forbidden claims, and `reports/SUPERVISOR_DECISION_MEMO.md` for the
+unified comparison table and supervisor options.

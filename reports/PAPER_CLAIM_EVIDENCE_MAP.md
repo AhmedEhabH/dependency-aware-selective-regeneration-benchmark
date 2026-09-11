@@ -190,9 +190,43 @@ PASS). This is a **descriptive** post-hoc replication; no equivalence or
 significance claim is supported. Historical Qwen3-Coder-480B-A35B-Instruct evidence is unchanged
 and remains the primary manuscript evidence.
 
+
+## 13. Qwen3-Coder-30B-A3B-Instruct cross-model / cross-provider robustness replication (POST-HOC)
+
+Model: **Qwen3-Coder-30B-A3B-Instruct** (OpenRouter slug
+\qwen/qwen3-coder-30b-a3b-instruct\) @ OpenRouter / SiliconFlow
+(\siliconflow/fp8\), model-native non-thinking, temperature 0, cap 4096,
+graph OFF. Study \scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01\.
+Evidence:
+eports/scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01/(manifest_60.json, run_records.jsonl, runs/raw/*.txt + .sha256,
+endpoint_freeze.json, provider_capability_snapshot.json,
+capability_probes.json, FROZEN_INPUT_PARITY.json, final_metrics.json,
+cross_model_agreement.json, ACCOUNTING_CORRECTION_NOTE.md, RESULTS.md).
+
+- 60 cells recorded / 60 unique run IDs / 2 arms / 6 scenarios / 5 reps.
+- 45 valid / 15 failed / 11 truncations (all v1); v1 17/30 valid, v2 28/30
+  valid (0 truncations).
+- v2 pooled P 0.5556 / R 0.6881 / F1 0.6148 / FNR 0.3119; full-recall 10/28.
+- Requests issued 60, responses 59, usage-known 59 / usage-unknown 1,
+  transport failures 1. Recorded 301,146 total tokens and \.041518 live
+  cost are LOWER BOUNDS (one transport-failure cell has unknown billed usage;
+  never silently zeroed).
+- DIRECTIONALLY REPLICATED (descriptive): v2 validity 0.933 > v1 0.567 and
+  v2 truncation 0.000 < v1 0.367.
+- Cross-model Sparse-v2 agreement vs historical
+  Qwen3-Coder-480B-A35B-Instruct: 135 pairs, mean 0.491 / median 0.429
+  (descriptive; eports/QWEN3_CODER_30B_A3B_CROSSMODEL_AGREEMENT.{md,csv}\).
+
+Recompute: \python scripts/verify_qwen3_coder_30b_a3b_crossmodel_claims.py(exit 0 = PASS). This is a **descriptive** post-hoc cross-model /
+cross-provider replication; no equivalence, significance, or superiority
+claim is supported. Historical Qwen3-Coder-480B-A35B-Instruct evidence is
+unchanged and remains the primary manuscript evidence.
+
 ## Closing notes
 
-- All verifier checks above are implemented in `scripts/verify_paper_claims.py`
-  and exit 0 only when evidence is internally consistent.
+- All verifier checks above are implemented in \scripts/verify_paper_claims.py\,
+  \scripts/verify_qwen3_32b_crossmodel_claims.py\, and
+  \scripts/verify_qwen3_coder_30b_a3b_crossmodel_claims.py\; each exits 0 only
+  when its evidence is internally consistent.
 - No frozen artifact, metric, prompt, or schema was modified by this task.
-- Verification: `python scripts/verify_paper_claims.py` (exit 0 = PASS).
+- Verification: \python scripts/verify_paper_claims.py\ (exit 0 = PASS).
