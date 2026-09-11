@@ -1,0 +1,141 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/admin/forms.py",
+    "cms/admin/pageadmin.py",
+    "cms/api.py",
+    "cms/models/contentmodels.py",
+    "cms/views.py",
+    "cms/management/commands/cms.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a publication_date field to PageContent and filtering content based on this date.",
+          "source": "semantic-seed-3"
+        },
+        {
+          "description": "The API needs to respect publication_date for publishing functionality.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/models/contentmodels.py",
+      "rationale": "The PageContent model must be modified to include the new publication_date field.",
+      "reason_codes": [
+        "field_addition"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Admin forms need to display the new publication_date field.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "The admin form for PageContent must include the new publication_date field.",
+      "reason_codes": [
+        "admin_form"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The admin page content form should display the publication_date field.",
+          "source": "semantic-seed-91"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "The PageContent admin interface must support the new publication_date field.",
+      "reason_codes": [
+        "admin_interface"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "Front-end views must filter out PageContent instances where publication_date is in the future.",
+          "source": "semantic-seed-126"
+        }
+      ],
+      "path": "cms/views.py",
+      "rationale": "Views must be updated to filter content based on publication_date.",
+      "reason_codes": [
+        "view_filtering"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "API functions should respect publication_date for publishing.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "API functions must consider publication_date when publishing content.",
+      "reason_codes": [
+        "api_integration"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "A new 'Publish Scheduled' admin action is required to publish items with publication_date <= now.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "Admin actions must be updated to support scheduled publishing.",
+      "reason_codes": [
+        "admin_action"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-3",
+        "semantic-seed-11",
+        "semantic-seed-126"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_content_filtering",
+      "reason": "Ensure that content filtering respects publication_date in views and API.",
+      "target": "cms/views.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-3",
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_api_publishing",
+      "reason": "Ensure API respects publication_date when publishing content.",
+      "target": "cms/api.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-3",
+        "semantic-seed-91"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_admin_form",
+      "reason": "Ensure admin form displays publication_date field correctly.",
+      "target": "cms/admin/forms.py"
+    }
+  ]
+}

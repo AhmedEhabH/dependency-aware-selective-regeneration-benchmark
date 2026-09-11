@@ -1,0 +1,150 @@
+{
+  "architecture_checks": [
+    "The new 'page reviewer' permission must be stored in PagePermission with a new boolean field `can_review`",
+    "The GlobalPermission model must gain a `can_review` field for site-wide reviewer access",
+    "Permission checking functions must support the new level",
+    "The PageAdmin must get a 'Review' action that transitions page content status or marks content as reviewed",
+    "The PermissionAdmin must show the new field",
+    "The toolbar must show a 'Review' menu item for users with reviewer access"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities and storage in PagePermission and GlobalPermission models.",
+          "source": "requirement"
+        }
+      ],
+      "id": 70,
+      "rationale": "The permission models need to be updated to include the new `can_review` field to support the new permission level.",
+      "reason_codes": [
+        "model_field_addition"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the PageAdmin gets a 'Review' action for transitioning page content status or marking content as reviewed.",
+          "source": "requirement"
+        }
+      ],
+      "id": 5,
+      "rationale": "The PageAdmin needs modification to include the new 'Review' action for handling page content review.",
+      "reason_codes": [
+        "admin_action_addition"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the PermissionAdmin must show the new field for reviewer access.",
+          "source": "requirement"
+        }
+      ],
+      "id": 6,
+      "rationale": "The PermissionAdmin must be updated to display the new `can_review` field for managing reviewer permissions.",
+      "reason_codes": [
+        "admin_field_display"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the toolbar shows a 'Review' menu item for users with reviewer access.",
+          "source": "requirement"
+        }
+      ],
+      "id": 26,
+      "rationale": "The toolbar implementation must be updated to include a 'Review' menu item for users with reviewer permissions.",
+      "reason_codes": [
+        "toolbar_menu_addition"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "The requirement mentions permission checking functions must support the new level, which likely involves updating utility functions in cms/utils/permissions.py.",
+          "source": "requirement"
+        }
+      ],
+      "id": 120,
+      "rationale": "The permission utility functions must be updated to handle the new 'page reviewer' permission level.",
+      "reason_codes": [
+        "permission_checking"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "description": "The requirement specifies that the PageAdmin gets a 'Review' action that transitions page content status or marks content as reviewed, which may involve updating page rendering logic.",
+          "source": "requirement"
+        }
+      ],
+      "id": 79,
+      "rationale": "The page rendering logic may need updates to support the new review action and its effects on page content status.",
+      "reason_codes": [
+        "page_rendering_update"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-119"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_page_permissions",
+      "reason": "The page permissions logic must be updated to support the new reviewer permission level.",
+      "target": "cms/utils/page_permissions.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-120"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_global_permissions",
+      "reason": "The global permissions logic must be updated to support the new reviewer permission level.",
+      "target": "cms/utils/permissions.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-117"
+      ],
+      "kind": "regression",
+      "obligation_id": "validate_email_notifications",
+      "reason": "Email notifications related to page changes must still work after adding the new permission level.",
+      "target": "cms/utils/mail.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-118"
+      ],
+      "kind": "regression",
+      "obligation_id": "validate_page_utils",
+      "reason": "Page utility functions must continue to work with the new permission level.",
+      "target": "cms/utils/page.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-105"
+      ],
+      "kind": "regression",
+      "obligation_id": "validate_apphook_reload",
+      "reason": "Apphook reload logic must not be affected by the new permission level.",
+      "target": "cms/utils/apphook_reload.py"
+    }
+  ]
+}

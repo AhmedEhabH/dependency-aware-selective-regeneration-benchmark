@@ -1,0 +1,156 @@
+{
+  "architecture_checks": [
+    "All new functionality must be properly tested",
+    "The implementation must follow Django best practices",
+    "Any new functionality must be properly tested"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a full content version approval workflow to PageContent, including status field, admin actions, permissions, toolbar integration, and signals.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "id": 68,
+      "rationale": "The pagemodel.py file needs to be modified to add the new status field and related logic for the approval workflow.",
+      "reason_codes": [
+        "model_change"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement includes adding admin actions for workflow transitions and a new Reviewer permission level.",
+          "source": "semantic-seed-5"
+        }
+      ],
+      "id": 5,
+      "rationale": "The PageContentAdmin in pageadmin.py must be updated to include the new workflow actions and handle permission checks.",
+      "reason_codes": [
+        "admin_change"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The toolbar needs to show workflow state and available transitions.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "id": 99,
+      "rationale": "The toolbar utils need to be updated to support displaying workflow information in the toolbar.",
+      "reason_codes": [
+        "toolbar_integration"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Signals must fire on state transitions.",
+          "source": "semantic-seed-83"
+        }
+      ],
+      "id": 83,
+      "rationale": "The signals module needs to be updated to include the new page_content_status_changed signal.",
+      "reason_codes": [
+        "signal_integration"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Tests must cover model transitions, admin actions, permissions, toolbar, API, and signals.",
+          "source": "semantic-seed-119"
+        }
+      ],
+      "id": 119,
+      "rationale": "The page_permissions utility needs to be updated to handle the new workflow states and permissions.",
+      "reason_codes": [
+        "test_coverage"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "description": "The requirement mentions a new 'Reviewer' permission level leveraging djangocms-mod-005.",
+          "source": "semantic-seed-120"
+        }
+      ],
+      "id": 120,
+      "rationale": "The permissions utility needs to be updated to support the new reviewer permission level.",
+      "reason_codes": [
+        "permission_change"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-68"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_page_model_changes",
+      "reason": "The PageContent model must be updated to include the new status field and workflow logic",
+      "target": "cms/models/pagemodel.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-5"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_admin_actions",
+      "reason": "The PageContentAdmin must include new workflow actions for submitting, approving, rejecting, and publishing",
+      "target": "cms/admin/pageadmin.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-99"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_toolbar_integration",
+      "reason": "The toolbar must display workflow state and available transitions",
+      "target": "cms/toolbar/utils.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-83"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_signal_handling",
+      "reason": "Signals must fire on state transitions including page_content_status_changed",
+      "target": "cms/signals/__init__.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-119"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_permission_handling",
+      "reason": "New permission checks must be implemented for workflow actions",
+      "target": "cms/utils/page_permissions.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-120"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_reviewer_permission",
+      "reason": "The reviewer permission level must be properly implemented",
+      "target": "cms/utils/permissions.py"
+    }
+  ]
+}

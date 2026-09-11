@@ -1,0 +1,80 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/models/contentmodels.py",
+    "cms/models/pagemodel.py",
+    "cms/api.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a utility function to retrieve PageContent by page and language, which aligns with the existing models and api modules.",
+          "source": "semantic-seed-65"
+        },
+        {
+          "description": "cms/api.py is a logical place for public utility functions and already contains related functionality.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "The new utility function should be added to cms/api.py as it's a public API module and already contains related page/content utilities.",
+      "reason_codes": [
+        "API_FUNCTION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The contentmodels.py file contains PageContent model definitions and is relevant to the functionality being added.",
+          "source": "semantic-seed-65"
+        }
+      ],
+      "path": "cms/models/contentmodels.py",
+      "rationale": "No change is needed in contentmodels.py as the function is a utility and not part of the model definition.",
+      "reason_codes": [
+        "MODEL_DEFINITION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "pagemodel.py contains Page model definitions and is relevant to the functionality being added.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "No change is needed in pagemodel.py as the function is a utility and not part of the model definition.",
+      "reason_codes": [
+        "MODEL_DEFINITION"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_api_functionality",
+      "reason": "New utility function in api.py must be tested to ensure it works correctly and raises appropriate exceptions.",
+      "target": "tests/test_api.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-65"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_content_model_integration",
+      "reason": "The new function interacts with PageContent model, so integration tests are needed.",
+      "target": "tests/test_models.py"
+    }
+  ]
+}

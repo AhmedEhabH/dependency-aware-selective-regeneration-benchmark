@@ -1,0 +1,575 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/admin/pageadmin.py",
+    "cms/models/pagemodel.py",
+    "cms/admin/forms.py",
+    "cms/api.py",
+    "cms/signals/__init__.py",
+    "cms/toolbar/utils.py",
+    "cms/utils/page_permissions.py",
+    "cms/utils/permissions.py",
+    "cms/cms_toolbars.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a status field with choices for workflow states and updating admin actions.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "The PageContent model needs to be modified to include a new status field and workflow logic.",
+      "reason_codes": [
+        "model_change"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Admin actions for workflow transitions (Submit for Review, Approve, Reject, Publish) must be added to PageContentAdmin.",
+          "source": "semantic-seed-91"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "The admin interface needs to be updated to support workflow actions and state transitions.",
+      "reason_codes": [
+        "admin_ui"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "A new 'Reviewer' permission level is required, leveraging djangocms-mod-005.",
+          "source": "semantic-seed-120"
+        }
+      ],
+      "path": "cms/utils/permissions.py",
+      "rationale": "Permissions logic must be updated to support the new 'Reviewer' role.",
+      "reason_codes": [
+        "permission"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Toolbar should show workflow state and available transitions.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/cms_toolbars.py",
+      "rationale": "Toolbar integration is required to display workflow status and actions.",
+      "reason_codes": [
+        "toolbar"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Signals must fire on state transitions (e.g., page_content_status_changed).",
+          "source": "semantic-seed-83"
+        }
+      ],
+      "path": "cms/signals/__init__.py",
+      "rationale": "New signals need to be defined and connected to workflow transitions.",
+      "reason_codes": [
+        "signal"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "description": "API functions should check workflow status before publishing.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "API logic must be updated to respect workflow status during publishing.",
+      "reason_codes": [
+        "api"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Page permissions logic needs to be updated to reflect workflow states.",
+          "source": "semantic-seed-119"
+        }
+      ],
+      "path": "cms/utils/page_permissions.py",
+      "rationale": "Permissions checks must account for workflow states like draft, pending_review, approved.",
+      "reason_codes": [
+        "permission"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "No changes required to existing forms logic unless directly related to workflow.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "No direct impact on form logic from workflow changes.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to cache logic unless directly related to workflow.",
+          "source": "semantic-seed-17"
+        }
+      ],
+      "path": "cms/cache/__init__.py",
+      "rationale": "Workflow does not directly affect caching behavior.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to middleware logic unless directly related to workflow.",
+          "source": "semantic-seed-58"
+        }
+      ],
+      "path": "cms/middleware/page.py",
+      "rationale": "Middleware logic is not directly impacted by workflow state changes.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to constants unless directly related to workflow.",
+          "source": "semantic-seed-27"
+        }
+      ],
+      "path": "cms/constants.py",
+      "rationale": "Constants are not directly affected by workflow implementation.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to page rendering logic unless directly related to workflow.",
+          "source": "semantic-seed-78"
+        }
+      ],
+      "path": "cms/page_rendering.py",
+      "rationale": "Rendering logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to URL routing logic unless directly related to workflow.",
+          "source": "semantic-seed-15"
+        }
+      ],
+      "path": "cms/urls.py",
+      "rationale": "URL routing is not directly affected by workflow implementation.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to wizard logic unless directly related to workflow.",
+          "source": "semantic-seed-125"
+        }
+      ],
+      "path": "cms/wizards/views.py",
+      "rationale": "Wizards are not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS menus logic unless directly related to workflow.",
+          "source": "semantic-seed-23"
+        }
+      ],
+      "path": "cms/cms_menus.py",
+      "rationale": "Menu logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS views logic unless directly related to workflow.",
+          "source": "semantic-seed-126"
+        }
+      ],
+      "path": "cms/views.py",
+      "rationale": "View logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS toolbar utils unless directly related to workflow.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/toolbar/utils.py",
+      "rationale": "Toolbar utils are already covered by the toolbar integration decision.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS apphook logic unless directly related to workflow.",
+          "source": "semantic-seed-105"
+        }
+      ],
+      "path": "cms/utils/apphook_reload.py",
+      "rationale": "Apphook reload logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS check logic unless directly related to workflow.",
+          "source": "semantic-seed-106"
+        }
+      ],
+      "path": "cms/utils/check.py",
+      "rationale": "Check logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS compatibility logic unless directly related to workflow.",
+          "source": "semantic-seed-108"
+        }
+      ],
+      "path": "cms/utils/compat/dj.py",
+      "rationale": "Compatibility logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS configuration logic unless directly related to workflow.",
+          "source": "semantic-seed-112"
+        }
+      ],
+      "path": "cms/utils/conf.py",
+      "rationale": "Configuration logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS helpers logic unless directly related to workflow.",
+          "source": "semantic-seed-115"
+        }
+      ],
+      "path": "cms/utils/helpers.py",
+      "rationale": "Helper logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS mail logic unless directly related to workflow.",
+          "source": "semantic-seed-117"
+        }
+      ],
+      "path": "cms/utils/mail.py",
+      "rationale": "Mail logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS URL utils logic unless directly related to workflow.",
+          "source": "semantic-seed-125"
+        }
+      ],
+      "path": "cms/utils/urlutils.py",
+      "rationale": "URL utils are not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS plugin logic unless directly related to workflow.",
+          "source": "semantic-seed-122"
+        }
+      ],
+      "path": "cms/utils/plugins.py",
+      "rationale": "Plugin logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS placeholder logic unless directly related to workflow.",
+          "source": "semantic-seed-21"
+        }
+      ],
+      "path": "cms/utils/placeholder.py",
+      "rationale": "Placeholder logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS cache choices logic unless directly related to workflow.",
+          "source": "semantic-seed-18"
+        }
+      ],
+      "path": "cms/cache/choices.py",
+      "rationale": "Cache choices logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS cache page logic unless directly related to workflow.",
+          "source": "semantic-seed-19"
+        }
+      ],
+      "path": "cms/cache/page.py",
+      "rationale": "Cache page logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS cache permissions logic unless directly related to workflow.",
+          "source": "semantic-seed-20"
+        }
+      ],
+      "path": "cms/cache/permissions.py",
+      "rationale": "Cache permissions logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS operations helpers logic unless directly related to workflow.",
+          "source": "semantic-seed-77"
+        }
+      ],
+      "path": "cms/operations/helpers.py",
+      "rationale": "Operations helpers are not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS signals log entries logic unless directly related to workflow.",
+          "source": "semantic-seed-85"
+        }
+      ],
+      "path": "cms/signals/log_entries.py",
+      "rationale": "Log entries logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS signals permissions logic unless directly related to workflow.",
+          "source": "semantic-seed-86"
+        }
+      ],
+      "path": "cms/signals/permissions.py",
+      "rationale": "Permissions signals are not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS templates logic unless directly related to workflow.",
+          "source": "semantic-seed-95"
+        }
+      ],
+      "path": "cms/templates.py",
+      "rationale": "Template logic is not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS templatetags logic unless directly related to workflow.",
+          "source": "semantic-seed-95"
+        }
+      ],
+      "path": "cms/templatetags/cms_tags.py",
+      "rationale": "Templatetags are not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS templatetags admin logic unless directly related to workflow.",
+          "source": "semantic-seed-91"
+        }
+      ],
+      "path": "cms/templatetags/cms_admin.py",
+      "rationale": "Admin templatetags are not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS static tags logic unless directly related to workflow.",
+          "source": "semantic-seed-94"
+        }
+      ],
+      "path": "cms/templatetags/cms_static.py",
+      "rationale": "Static tags are not directly impacted by workflow state.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS toolbar logic unless directly related to workflow.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/toolbar/toolbar.py",
+      "rationale": "Toolbar logic is already covered by toolbar integration decision.",
+      "reason_codes": [
+        "no_impact"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to CMS toolbar items

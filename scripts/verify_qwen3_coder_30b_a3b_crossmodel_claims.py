@@ -122,6 +122,52 @@ def is_truncation(rec: dict[str, Any]) -> bool:
     return False
 
 
+def _transport_failure(rec: dict[str, Any]) -> bool:
+    blob = (
+        json.dumps(rec.get("failure_evidence", []), default=str)
+        + " "
+        + str(rec.get("failure_category", ""))
+    )
+    return any(
+        tok in blob
+        for tok in (
+            "Remote end closed",
+            "RemoteDisconnected",
+            "IncompleteRead",
+            "connection failed",
+            "Connection reset",
+            "timed out",
+            "TimeoutError",
+        )
+    )
+
+
+def _derived_request_dispatched(rec: dict[str, Any]) -> bool:
+    if rec.get("request_dispatched"):
+        return True
+    if rec.get("provider_response_received"):
+        return True
+    if rec.get("raw_response_sha256"):
+        return True
+    if int(rec.get("model_calls", 0) or 0) > 0:
+        return True
+    if _transport_failure(rec):
+        return True
+    if rec.get("usage_known"):
+        return True
+    return False
+
+
+def _derived_responses_received(rec: dict[str, Any]) -> bool:
+    return bool(rec.get("provider_response_received") or rec.get("raw_response_sha256"))
+
+
+def _derived_usage_known(rec: dict[str, Any]) -> bool:
+    if not rec.get("usage_known"):
+        return False
+    return (int(rec.get("prompt_tokens", 0) or 0) + int(rec.get("completion_tokens", 0) or 0)) > 0
+
+
 def micro(rows: list[dict[str, Any]]) -> dict[str, Any]:
     selected = sum(int(r["predicted_write_set_size"]) for r in rows)
     tp = sum(int(r["tp"]) for r in rows)
@@ -285,27 +331,28 @@ def main() -> int:
     )
     check(
         "totals_requests_issued",
-        totals["requests_issued"]
-        == sum(1 for r in records if r.get("request_dispatched", True)),
+        totals["requests_issued"] == sum(1 for r in records if _derived_request_dispatched(r)),
         totals["requests_issued"],
     )
     check(
         "totals_responses_received",
         totals["responses_received"]
-        == sum(
-            1
-            for r in records
-            if r.get("provider_response_received", False) or r.get("raw_response_sha256")
-        ),
+        == sum(1 for r in records if _derived_responses_received(r)),
         totals["responses_received"],
     )
     check(
         "totals_usage_known_unknown",
         totals["usage_known_cells"]
-        == sum(1 for r in records if r.get("usage_known", False))
+        == sum(1 for r in records if _derived_usage_known(r))
         and totals["usage_unknown_cells"]
-        == sum(1 for r in records if not r.get("usage_known", False)),
+        == sum(1 for r in records if not _derived_usage_known(r)),
         f"known={totals['usage_known_cells']} unknown={totals['usage_unknown_cells']}",
+    )
+    check(
+        "totals_transport_failures",
+        totals.get("transport_failure_cells")
+        == sum(1 for r in records if _transport_failure(r)),
+        totals.get("transport_failure_cells"),
     )
     check(
         "totals_tokens_match",

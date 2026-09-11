@@ -1,0 +1,143 @@
+{
+  "architecture_checks": [
+    "All new functionality must be properly tested",
+    "The implementation must follow Django best practices",
+    "Any new functionality must be properly tested"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a full content version approval workflow to PageContent with four states and new admin actions.",
+          "source": "requirement"
+        }
+      ],
+      "id": 66,
+      "rationale": "The PageContent model needs to be updated to include a status field and support the new workflow states.",
+      "reason_codes": [
+        "model_change"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Admin actions for submitting, approving, rejecting, and publishing content are required.",
+          "source": "requirement"
+        }
+      ],
+      "id": 5,
+      "rationale": "The PageContentAdmin needs to be modified to include new actions for workflow transitions.",
+      "reason_codes": [
+        "admin_action"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "A new 'Reviewer' permission level is required to approve or reject content.",
+          "source": "requirement"
+        }
+      ],
+      "id": 70,
+      "rationale": "Permission models need to be updated to support the new reviewer role.",
+      "reason_codes": [
+        "permission_change"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "The toolbar must show workflow state and available transitions.",
+          "source": "requirement"
+        }
+      ],
+      "id": 26,
+      "rationale": "Toolbar logic needs to be updated to display workflow information and actions.",
+      "reason_codes": [
+        "toolbar_integration"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Signals must fire on state transitions.",
+          "source": "requirement"
+        }
+      ],
+      "id": 84,
+      "rationale": "Signals module needs to be updated to handle workflow state change events.",
+      "reason_codes": [
+        "signal_handling"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "description": "Tests must cover model transitions, admin actions, permissions, toolbar, API, and signals.",
+          "source": "requirement"
+        }
+      ],
+      "id": 106,
+      "rationale": "The check utility needs to be updated to validate new workflow behavior.",
+      "reason_codes": [
+        "test_coverage"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-11",
+        "semantic-seed-15",
+        "semantic-seed-17",
+        "semantic-seed-19",
+        "semantic-seed-21",
+        "semantic-seed-23",
+        "semantic-seed-27",
+        "semantic-seed-38",
+        "semantic-seed-58",
+        "semantic-seed-68",
+        "semantic-seed-77",
+        "semantic-seed-78",
+        "semantic-seed-83",
+        "semantic-seed-85",
+        "semantic-seed-86",
+        "semantic-seed-91",
+        "semantic-seed-94",
+        "semantic-seed-95",
+        "semantic-seed-99",
+        "semantic-seed-105",
+        "semantic-seed-106",
+        "semantic-seed-108",
+        "semantic-seed-112",
+        "semantic-seed-115",
+        "semantic-seed-117",
+        "semantic-seed-118",
+        "semantic-seed-119",
+        "semantic-seed-120",
+        "semantic-seed-121",
+        "semantic-seed-122",
+        "semantic-seed-125",
+        "semantic-seed-126",
+        "semantic-seed-140"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_workflow_implementation",
+      "reason": "All artifacts related to page content, permissions, toolbar, and signals must be validated for the new workflow implementation.",
+      "target": "repository-native test modules"
+    }
+  ]
+}
