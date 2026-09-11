@@ -1,0 +1,47 @@
+{
+  "architecture_checks": [],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies a utility function to retrieve PageContent by page and language, which aligns with the semantic seed in cms/models/contentmodels.py that deals with pagecontent.",
+          "source": "semantic-seed-65"
+        },
+        {
+          "description": "The cms/api.py module is a logical place for public utility functions and has a semantic seed indicating it handles content and page operations.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "id": 12,
+      "rationale": "The cms/api.py module is the most appropriate place to add the new utility function as it's designed for public APIs and already contains related page/content utilities.",
+      "reason_codes": [
+        "API_LOCATION",
+        "SEMANTIC_ALIGNMENT"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-65",
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_new_utility_function",
+      "reason": "New utility function must be tested to ensure it correctly retrieves PageContent by page and language, and raises DoesNotExist when appropriate.",
+      "target": "cms/tests/test_api.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-65"
+      ],
+      "kind": "architecture",
+      "obligation_id": "ensure_model_consistency",
+      "reason": "The new function interacts with PageContent model, so consistency with existing model usage patterns must be maintained.",
+      "target": "cms/models/contentmodels.py"
+    }
+  ]
+}

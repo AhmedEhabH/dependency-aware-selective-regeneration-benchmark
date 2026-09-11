@@ -1,0 +1,134 @@
+{
+  "architecture_checks": [],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a publication_date field to PageContent and filtering content based on this date in front-end views.",
+          "source": "requirement"
+        }
+      ],
+      "id": 66,
+      "rationale": "The PageContent model needs to be modified to include the new publication_date field.",
+      "reason_codes": [
+        "model_change"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The admin page content form must display the new publication_date field.",
+          "source": "requirement"
+        }
+      ],
+      "id": 4,
+      "rationale": "The admin form needs to be updated to include the new publication_date field.",
+      "reason_codes": [
+        "admin_ui"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "A new 'Publish Scheduled' admin action is required to publish PageContent items whose publication_date is in the past or present.",
+          "source": "requirement"
+        }
+      ],
+      "id": 5,
+      "rationale": "The PageContent admin needs a new action to handle scheduled publishing.",
+      "reason_codes": [
+        "admin_action"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Front-end views must filter out PageContent instances where publication_date is in the future.",
+          "source": "requirement"
+        }
+      ],
+      "id": 126,
+      "rationale": "The views module must be updated to filter content based on publication_date.",
+      "reason_codes": [
+        "view_filter"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "API functions for publishing should respect publication_date.",
+          "source": "requirement"
+        }
+      ],
+      "id": 12,
+      "rationale": "The API module needs to be updated to handle publication_date logic.",
+      "reason_codes": [
+        "api_logic"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-3",
+        "semantic-seed-11",
+        "semantic-seed-23",
+        "semantic-seed-91",
+        "semantic-seed-119",
+        "semantic-seed-120"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_pagecontent_model",
+      "reason": "All relevant modules that interact with PageContent must be validated to ensure they correctly handle the new publication_date field.",
+      "target": "cms/models/contentmodels.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-4",
+        "semantic-seed-91"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_admin_forms",
+      "reason": "Admin forms must correctly display and handle the new publication_date field.",
+      "target": "cms/admin/forms.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-5"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_admin_action",
+      "reason": "The admin action for publishing scheduled content must be properly implemented and tested.",
+      "target": "cms/admin/pageadmin.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-126"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_frontend_filtering",
+      "reason": "Front-end views must correctly filter content based on publication_date.",
+      "target": "cms/views.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-12"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_api_logic",
+      "reason": "API functions must respect the publication_date when publishing content.",
+      "target": "cms/api.py"
+    }
+  ]
+}

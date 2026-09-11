@@ -1,0 +1,45 @@
+{
+  "architecture_checks": [],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies a utility function to retrieve PageContent by page and language, which aligns with the semantic seed in cms/api.py that indicates 'get' and 'content' are relevant terms for API-related functionality.",
+          "source": "semantic-seed-11"
+        },
+        {
+          "description": "The cms/api.py module is a logical place for utility functions related to content retrieval and is already used for API-related operations, making it a suitable location for the new function.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "id": 12,
+      "rationale": "The cms/api.py module is the most appropriate location for a public utility function that retrieves page content by language, as it's already used for API-related functionality and aligns with the requirement's intent.",
+      "reason_codes": [
+        "API_FUNCTION_LOCATION"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_api_functionality",
+      "reason": "The new utility function must be tested to ensure it correctly retrieves PageContent instances and raises PageContent.DoesNotExist when appropriate.",
+      "target": "cms/tests/test_api.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "regression",
+      "obligation_id": "ensure_no_regression",
+      "reason": "The new function should not break any existing functionality related to page content retrieval or API usage.",
+      "target": "cms/tests/test_api.py"
+    }
+  ]
+}

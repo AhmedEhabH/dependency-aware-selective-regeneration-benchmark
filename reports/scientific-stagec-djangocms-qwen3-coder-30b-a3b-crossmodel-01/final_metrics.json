@@ -1,0 +1,1242 @@
+{
+  "study_id": "scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01",
+  "model": "qwen/qwen3-coder-30b-a3b-instruct",
+  "model_human": "Qwen3-Coder-30B-A3B-Instruct",
+  "gateway": "OpenRouter",
+  "provider_tag": "siliconflow/fp8",
+  "reasoning_mode": "model-native non-thinking",
+  "truncation_classifier": "A cell is a truncation if truncation_status is True, or finish_reason is 'length', or the failure message contains finish_reason=length, or the persisted raw response is unterminated JSON (accounting audit 2026-09-11).",
+  "calls_semantics": "model_calls = usage-bearing model calls recorded in run records; requests_issued = number of cells where a provider request was actually dispatched (accounting contract C4); usage_known_cells = cells with exact captured provider usage; usage_unknown_cells = cells where exact provider usage is genuinely unavailable (never silently zeroed); token/cost totals are LOWER-BOUND recorded values when usage_unknown_cells > 0.",
+  "arms": {
+    "impact_plan": {
+      "arm": "impact_plan",
+      "recorded": 30,
+      "valid": 17,
+      "failed": 13,
+      "truncations": 11,
+      "failure_taxonomy": [
+        {
+          "run_id": "stgc30b-djangocms-external-validity-004-impact_plan-r5",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner produced unknown paths: ['cms/tests']",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner produced unknown paths: ['cms/tests']"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-005-impact_plan-r2",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 478 column 11 (char 18269)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 478 column 11 (char 18269)"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-005-impact_plan-r3",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 579 column 7 (char 17725)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 579 column 7 (char 17725)"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-005-impact_plan-r4",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner produced unknown paths: ['cms/menus/menu_pool.py']",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner produced unknown paths: ['cms/menus/menu_pool.py']"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-005-impact_plan-r5",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting value: line 507 column 16 (char 17187)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting value: line 507 column 16 (char 17187)"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-007-impact_plan-r1",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 566 column 6 (char 17023)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 566 column 6 (char 17023)"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-007-impact_plan-r2",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 541 column 1 (char 17350)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 541 column 1 (char 17350)"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-007-impact_plan-r4",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 575 column 26 (char 16747)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 575 column 26 (char 16747)"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-008-impact_plan-r1",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 538 column 9 (char 17607)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 538 column 9 (char 17607)"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-008-impact_plan-r2",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting value: line 486 column 1 (char 16868)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting value: line 486 column 1 (char 16868)"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-008-impact_plan-r3",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 552 column 6 (char 17880)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 552 column 6 (char 17880)"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-008-impact_plan-r4",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 520 column 1 (char 16988)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 520 column 1 (char 16988)"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-008-impact_plan-r5",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting ',' delimiter: line 543 column 22 (char 18036)",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "analyze_impact",
+              "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting ',' delimiter: line 543 column 22 (char 18036)"
+            }
+          ]
+        }
+      ],
+      "overall": {
+        "selected": 67,
+        "tp": 44,
+        "fp": 23,
+        "fn": 11,
+        "precision": 0.656716,
+        "recall": 0.8,
+        "f1": 0.721311,
+        "fnr": 0.2,
+        "valid_runs": 17
+      },
+      "macro": {
+        "mean_precision": 0.711765,
+        "median_precision": 0.714286,
+        "mean_recall": 0.840336,
+        "median_recall": 1.0,
+        "mean_f1": 0.760224,
+        "median_f1": 0.833333,
+        "mean_fnr": 0.159664,
+        "median_fnr": 0.0,
+        "full_recall_rate": 0.588235
+      },
+      "completion_tokens": {
+        "mean": 2292.433333,
+        "median": 1295.5,
+        "min": 634.0,
+        "max": 4096.0
+      },
+      "prompt_tokens": {
+        "mean": 3117.0,
+        "median": 3117.5,
+        "min": 2768.0,
+        "max": 3476.0
+      },
+      "total_tokens": {
+        "mean": 5409.433333,
+        "median": 4431.5,
+        "min": 3763.0,
+        "max": 7572.0
+      },
+      "calls": 30,
+      "requests_issued": 30,
+      "responses_received": 30,
+      "usage_known_cells": 30,
+      "usage_unknown_cells": 0,
+      "transport_failure_cells": 0,
+      "latency_seconds": 2318.577,
+      "api_cost_usd": 0.0258,
+      "live_api_cost_usd": 0.0258,
+      "per_scenario": {
+        "djangocms-external-validity-002": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.833333,
+            "recall": 1.0,
+            "f1": 0.909091,
+            "fnr": 0.0
+          },
+          "macro": {
+            "mean_precision": 0.9,
+            "mean_recall": 1.0,
+            "mean_f1": 0.933333,
+            "mean_fnr": 0.0,
+            "full_recall_rate": 1.0
+          },
+          "selected_set_size": {
+            "mean": 1.2,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 2.0
+          },
+          "completion_tokens": {
+            "mean": 741.4,
+            "median": 780.0,
+            "min": 634.0,
+            "max": 802.0
+          },
+          "prompt_tokens": {
+            "mean": 3129.0,
+            "median": 3129.0,
+            "min": 3129.0,
+            "max": 3129.0
+          },
+          "total_tokens": {
+            "mean": 3870.4,
+            "median": 3909.0,
+            "min": 3763.0,
+            "max": 3931.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 258.814,
+          "api_cost": 0.002133,
+          "live_api_cost": 0.002133
+        },
+        "djangocms-external-validity-004": {
+          "cells": 5,
+          "valid_runs": 4,
+          "failed_runs": 1,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "stgc30b-djangocms-external-validity-004-impact_plan-r5",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner produced unknown paths: ['cms/tests']",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner produced unknown paths: ['cms/tests']"
+                }
+              ]
+            }
+          ],
+          "pooled_micro": {
+            "selected": 20,
+            "tp": 16,
+            "fp": 4,
+            "fn": 0,
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1": 0.888889,
+            "fnr": 0.0
+          },
+          "macro": {
+            "mean_precision": 0.8,
+            "mean_recall": 1.0,
+            "mean_f1": 0.888889,
+            "mean_fnr": 0.0,
+            "full_recall_rate": 1.0
+          },
+          "selected_set_size": {
+            "mean": 5.0,
+            "median": 5.0,
+            "min": 5.0,
+            "max": 5.0
+          },
+          "completion_tokens": {
+            "mean": 1171.0,
+            "median": 1199.0,
+            "min": 1004.0,
+            "max": 1282.0
+          },
+          "prompt_tokens": {
+            "mean": 2768.0,
+            "median": 2768.0,
+            "min": 2768.0,
+            "max": 2768.0
+          },
+          "total_tokens": {
+            "mean": 3930.8,
+            "median": 3948.0,
+            "min": 3772.0,
+            "max": 4050.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 243.452,
+          "api_cost": 0.002597,
+          "live_api_cost": 0.002597
+        },
+        "djangocms-external-validity-005": {
+          "cells": 5,
+          "valid_runs": 1,
+          "failed_runs": 4,
+          "truncations": 3,
+          "failure_taxonomy": [
+            {
+              "run_id": "stgc30b-djangocms-external-validity-005-impact_plan-r2",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 478 column 11 (char 18269)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 478 column 11 (char 18269)"
+                }
+              ]
+            },
+            {
+              "run_id": "stgc30b-djangocms-external-validity-005-impact_plan-r3",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 579 column 7 (char 17725)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 579 column 7 (char 17725)"
+                }
+              ]
+            },
+            {
+              "run_id": "stgc30b-djangocms-external-validity-005-impact_plan-r4",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner produced unknown paths: ['cms/menus/menu_pool.py']",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner produced unknown paths: ['cms/menus/menu_pool.py']"
+                }
+              ]
+            },
+            {
+              "run_id": "stgc30b-djangocms-external-validity-005-impact_plan-r5",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting value: line 507 column 16 (char 17187)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting value: line 507 column 16 (char 17187)"
+                }
+              ]
+            }
+          ],
+          "pooled_micro": {
+            "selected": 7,
+            "tp": 5,
+            "fp": 2,
+            "fn": 0,
+            "precision": 0.714286,
+            "recall": 1.0,
+            "f1": 0.833333,
+            "fnr": 0.0
+          },
+          "macro": {
+            "mean_precision": 0.714286,
+            "mean_recall": 1.0,
+            "mean_f1": 0.833333,
+            "mean_fnr": 0.0,
+            "full_recall_rate": 1.0
+          },
+          "selected_set_size": {
+            "mean": 7.0,
+            "median": 7.0,
+            "min": 7.0,
+            "max": 7.0
+          },
+          "completion_tokens": {
+            "mean": 1176.0,
+            "median": 1176.0,
+            "min": 1176.0,
+            "max": 1176.0
+          },
+          "prompt_tokens": {
+            "mean": 3318.0,
+            "median": 3318.0,
+            "min": 3318.0,
+            "max": 3318.0
+          },
+          "total_tokens": {
+            "mean": 6602.6,
+            "median": 7414.0,
+            "min": 4494.0,
+            "max": 7414.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 515.468,
+          "api_cost": 0.00576,
+          "live_api_cost": 0.00576
+        },
+        "djangocms-external-validity-006": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 20,
+            "tp": 9,
+            "fp": 11,
+            "fn": 6,
+            "precision": 0.45,
+            "recall": 0.6,
+            "f1": 0.514286,
+            "fnr": 0.4
+          },
+          "macro": {
+            "mean_precision": 0.48,
+            "mean_recall": 0.6,
+            "mean_f1": 0.516508,
+            "mean_fnr": 0.4,
+            "full_recall_rate": 0.0
+          },
+          "selected_set_size": {
+            "mean": 4.0,
+            "median": 4.0,
+            "min": 2.0,
+            "max": 6.0
+          },
+          "completion_tokens": {
+            "mean": 1176.8,
+            "median": 1125.0,
+            "min": 1040.0,
+            "max": 1366.0
+          },
+          "prompt_tokens": {
+            "mean": 3106.0,
+            "median": 3106.0,
+            "min": 3106.0,
+            "max": 3106.0
+          },
+          "total_tokens": {
+            "mean": 4282.8,
+            "median": 4231.0,
+            "min": 4146.0,
+            "max": 4472.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 212.016,
+          "api_cost": 0.002734,
+          "live_api_cost": 0.002734,
+          "all_selected_file_frequencies": {
+            "cms/admin/forms.py": {
+              "count": 5,
+              "gold": false
+            },
+            "cms/admin/placeholderadmin.py": {
+              "count": 5,
+              "gold": true
+            },
+            "cms/models/contentmodels.py": {
+              "count": 2,
+              "gold": false
+            },
+            "cms/models/placeholdermodel.py": {
+              "count": 1,
+              "gold": false
+            },
+            "cms/models/pluginmodel.py": {
+              "count": 4,
+              "gold": true
+            },
+            "cms/page_rendering.py": {
+              "count": 1,
+              "gold": false
+            },
+            "cms/plugin_rendering.py": {
+              "count": 2,
+              "gold": false
+            }
+          }
+        },
+        "djangocms-external-validity-007": {
+          "cells": 5,
+          "valid_runs": 2,
+          "failed_runs": 3,
+          "truncations": 3,
+          "failure_taxonomy": [
+            {
+              "run_id": "stgc30b-djangocms-external-validity-007-impact_plan-r1",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 566 column 6 (char 17023)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 566 column 6 (char 17023)"
+                }
+              ]
+            },
+            {
+              "run_id": "stgc30b-djangocms-external-validity-007-impact_plan-r2",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 541 column 1 (char 17350)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 541 column 1 (char 17350)"
+                }
+              ]
+            },
+            {
+              "run_id": "stgc30b-djangocms-external-validity-007-impact_plan-r4",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 575 column 26 (char 16747)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 575 column 26 (char 16747)"
+                }
+              ]
+            }
+          ],
+          "pooled_micro": {
+            "selected": 14,
+            "tp": 9,
+            "fp": 5,
+            "fn": 5,
+            "precision": 0.642857,
+            "recall": 0.642857,
+            "f1": 0.642857,
+            "fnr": 0.357143
+          },
+          "macro": {
+            "mean_precision": 0.642857,
+            "mean_recall": 0.642857,
+            "mean_f1": 0.642857,
+            "mean_fnr": 0.357143,
+            "full_recall_rate": 0.0
+          },
+          "selected_set_size": {
+            "mean": 7.0,
+            "median": 7.0,
+            "min": 7.0,
+            "max": 7.0
+          },
+          "completion_tokens": {
+            "mean": 2088.5,
+            "median": 2088.5,
+            "min": 1306.0,
+            "max": 2871.0
+          },
+          "prompt_tokens": {
+            "mean": 2905.0,
+            "median": 2905.0,
+            "min": 2905.0,
+            "max": 2905.0
+          },
+          "total_tokens": {
+            "mean": 6198.0,
+            "median": 7001.0,
+            "min": 4211.0,
+            "max": 7001.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 444.703,
+          "api_cost": 0.005626,
+          "live_api_cost": 0.005626
+        },
+        "djangocms-external-validity-008": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 5,
+          "failure_taxonomy": [
+            {
+              "run_id": "stgc30b-djangocms-external-validity-008-impact_plan-r1",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 538 column 9 (char 17607)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Unterminated string starting at: line 538 column 9 (char 17607)"
+                }
+              ]
+            },
+            {
+              "run_id": "stgc30b-djangocms-external-validity-008-impact_plan-r2",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting value: line 486 column 1 (char 16868)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting value: line 486 column 1 (char 16868)"
+                }
+              ]
+            },
+            {
+              "run_id": "stgc30b-djangocms-external-validity-008-impact_plan-r3",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 552 column 6 (char 17880)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 552 column 6 (char 17880)"
+                }
+              ]
+            },
+            {
+              "run_id": "stgc30b-djangocms-external-validity-008-impact_plan-r4",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 520 column 1 (char 16988)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting property name enclosed in double quotes: line 520 column 1 (char 16988)"
+                }
+              ]
+            },
+            {
+              "run_id": "stgc30b-djangocms-external-validity-008-impact_plan-r5",
+              "terminal_status": "failed",
+              "failure_category": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting ',' delimiter: line 543 column 22 (char 18036)",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "analyze_impact",
+                  "message": "impact_plan_planner_error: planner response not JSON (finish_reason=length): Expecting ',' delimiter: line 543 column 22 (char 18036)"
+                }
+              ]
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "macro": {
+            "mean_precision": 0.0,
+            "mean_recall": 0.0,
+            "mean_f1": 0.0,
+            "mean_fnr": 0.0,
+            "full_recall_rate": 0.0
+          },
+          "selected_set_size": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "completion_tokens": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "prompt_tokens": {
+            "mean": 3476.0,
+            "median": 3476.0,
+            "min": 3476.0,
+            "max": 3476.0
+          },
+          "total_tokens": {
+            "mean": 7572.0,
+            "median": 7572.0,
+            "min": 7572.0,
+            "max": 7572.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 644.124,
+          "api_cost": 0.00695,
+          "live_api_cost": 0.00695
+        }
+      }
+    },
+    "impact_plan_v2": {
+      "arm": "impact_plan_v2",
+      "recorded": 30,
+      "valid": 28,
+      "failed": 2,
+      "truncations": 0,
+      "failure_taxonomy": [
+        {
+          "run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r3",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "ImpactPlanV2Error: duplicate candidate ids: [5]",
+          "failure_evidence": [
+            {
+              "kind": "ImpactPlanV2Error",
+              "stage": "runner.run",
+              "message": "duplicate candidate ids: [5]"
+            }
+          ]
+        },
+        {
+          "run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r3",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "OpenRouter request failed: Remote end closed connection without response",
+          "failure_evidence": [
+            {
+              "kind": "model_output",
+              "stage": "backend.generate",
+              "message": "OpenRouter request failed: Remote end closed connection without response"
+            }
+          ]
+        }
+      ],
+      "overall": {
+        "selected": 135,
+        "tp": 75,
+        "fp": 60,
+        "fn": 34,
+        "precision": 0.555556,
+        "recall": 0.688073,
+        "f1": 0.614754,
+        "fnr": 0.311927,
+        "valid_runs": 28
+      },
+      "macro": {
+        "mean_precision": 0.607398,
+        "median_precision": 0.6,
+        "mean_recall": 0.698639,
+        "median_recall": 0.75,
+        "mean_f1": 0.637936,
+        "median_f1": 0.666667,
+        "mean_fnr": 0.301361,
+        "median_fnr": 0.25,
+        "full_recall_rate": 0.357143
+      },
+      "completion_tokens": {
+        "mean": 952.233333,
+        "median": 985.0,
+        "min": 0.0,
+        "max": 1555.0
+      },
+      "prompt_tokens": {
+        "mean": 3676.533333,
+        "median": 3796.5,
+        "min": 0.0,
+        "max": 4155.0
+      },
+      "total_tokens": {
+        "mean": 4628.766667,
+        "median": 4608.5,
+        "min": 0.0,
+        "max": 5710.0
+      },
+      "calls": 29,
+      "requests_issued": 30,
+      "responses_received": 29,
+      "usage_known_cells": 29,
+      "usage_unknown_cells": 1,
+      "transport_failure_cells": 1,
+      "latency_seconds": 1141.313,
+      "api_cost_usd": 0.015718,
+      "live_api_cost_usd": 0.015718,
+      "per_scenario": {
+        "djangocms-external-validity-002": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 5,
+            "tp": 5,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          },
+          "macro": {
+            "mean_precision": 1.0,
+            "mean_recall": 1.0,
+            "mean_f1": 1.0,
+            "mean_fnr": 0.0,
+            "full_recall_rate": 1.0
+          },
+          "selected_set_size": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "completion_tokens": {
+            "mean": 394.0,
+            "median": 404.0,
+            "min": 346.0,
+            "max": 411.0
+          },
+          "prompt_tokens": {
+            "mean": 3808.0,
+            "median": 3808.0,
+            "min": 3808.0,
+            "max": 3808.0
+          },
+          "total_tokens": {
+            "mean": 4202.0,
+            "median": 4212.0,
+            "min": 4154.0,
+            "max": 4219.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 174.109,
+          "api_cost": 0.001885,
+          "live_api_cost": 0.001885
+        },
+        "djangocms-external-validity-004": {
+          "cells": 5,
+          "valid_runs": 4,
+          "failed_runs": 1,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r3",
+              "terminal_status": "failed",
+              "failure_category": "ImpactPlanV2Error: duplicate candidate ids: [5]",
+              "failure_evidence": [
+                {
+                  "kind": "ImpactPlanV2Error",
+                  "stage": "runner.run",
+                  "message": "duplicate candidate ids: [5]"
+                }
+              ]
+            }
+          ],
+          "pooled_micro": {
+            "selected": 21,
+            "tp": 12,
+            "fp": 9,
+            "fn": 4,
+            "precision": 0.571429,
+            "recall": 0.75,
+            "f1": 0.648649,
+            "fnr": 0.25
+          },
+          "macro": {
+            "mean_precision": 0.575,
+            "mean_recall": 0.75,
+            "mean_f1": 0.65,
+            "mean_fnr": 0.25,
+            "full_recall_rate": 0.0
+          },
+          "selected_set_size": {
+            "mean": 5.25,
+            "median": 5.0,
+            "min": 5.0,
+            "max": 6.0
+          },
+          "completion_tokens": {
+            "mean": 993.0,
+            "median": 975.0,
+            "min": 961.0,
+            "max": 1061.0
+          },
+          "prompt_tokens": {
+            "mean": 3447.0,
+            "median": 3447.0,
+            "min": 3447.0,
+            "max": 3447.0
+          },
+          "total_tokens": {
+            "mean": 4453.0,
+            "median": 4429.0,
+            "min": 4408.0,
+            "max": 4508.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 126.125,
+          "api_cost": 0.002614,
+          "live_api_cost": 0.002614
+        },
+        "djangocms-external-validity-005": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 26,
+            "tp": 24,
+            "fp": 2,
+            "fn": 1,
+            "precision": 0.923077,
+            "recall": 0.96,
+            "f1": 0.941176,
+            "fnr": 0.04
+          },
+          "macro": {
+            "mean_precision": 0.926667,
+            "mean_recall": 0.96,
+            "mean_f1": 0.941818,
+            "mean_fnr": 0.04,
+            "full_recall_rate": 0.8
+          },
+          "selected_set_size": {
+            "mean": 5.2,
+            "median": 5.0,
+            "min": 5.0,
+            "max": 6.0
+          },
+          "completion_tokens": {
+            "mean": 1084.8,
+            "median": 1069.0,
+            "min": 988.0,
+            "max": 1230.0
+          },
+          "prompt_tokens": {
+            "mean": 3997.0,
+            "median": 3997.0,
+            "min": 3997.0,
+            "max": 3997.0
+          },
+          "total_tokens": {
+            "mean": 5081.8,
+            "median": 5066.0,
+            "min": 4985.0,
+            "max": 5227.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 277.375,
+          "api_cost": 0.002917,
+          "live_api_cost": 0.002917
+        },
+        "djangocms-external-validity-006": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 19,
+            "tp": 1,
+            "fp": 18,
+            "fn": 14,
+            "precision": 0.052632,
+            "recall": 0.066667,
+            "f1": 0.058824,
+            "fnr": 0.933333
+          },
+          "macro": {
+            "mean_precision": 0.05,
+            "mean_recall": 0.066667,
+            "mean_f1": 0.057143,
+            "mean_fnr": 0.933333,
+            "full_recall_rate": 0.0
+          },
+          "selected_set_size": {
+            "mean": 3.8,
+            "median": 4.0,
+            "min": 3.0,
+            "max": 4.0
+          },
+          "completion_tokens": {
+            "mean": 793.4,
+            "median": 808.0,
+            "min": 668.0,
+            "max": 850.0
+          },
+          "prompt_tokens": {
+            "mean": 3785.0,
+            "median": 3785.0,
+            "min": 3785.0,
+            "max": 3785.0
+          },
+          "total_tokens": {
+            "mean": 4578.4,
+            "median": 4593.0,
+            "min": 4453.0,
+            "max": 4635.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 162.249,
+          "api_cost": 0.002436,
+          "live_api_cost": 0.002436,
+          "all_selected_file_frequencies": {
+            "cms/admin/forms.py": {
+              "count": 5,
+              "gold": false
+            },
+            "cms/admin/utils.py": {
+              "count": 4,
+              "gold": false
+            },
+            "cms/models/permissionmodels.py": {
+              "count": 2,
+              "gold": false
+            },
+            "cms/models/placeholderpluginmodel.py": {
+              "count": 4,
+              "gold": false
+            },
+            "cms/models/pluginmodel.py": {
+              "count": 1,
+              "gold": true
+            },
+            "cms/plugin_rendering.py": {
+              "count": 3,
+              "gold": false
+            }
+          }
+        },
+        "djangocms-external-validity-007": {
+          "cells": 5,
+          "valid_runs": 4,
+          "failed_runs": 1,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r3",
+              "terminal_status": "failed",
+              "failure_category": "OpenRouter request failed: Remote end closed connection without response",
+              "failure_evidence": [
+                {
+                  "kind": "model_output",
+                  "stage": "backend.generate",
+                  "message": "OpenRouter request failed: Remote end closed connection without response"
+                }
+              ]
+            }
+          ],
+          "pooled_micro": {
+            "selected": 24,
+            "tp": 17,
+            "fp": 7,
+            "fn": 11,
+            "precision": 0.708333,
+            "recall": 0.607143,
+            "f1": 0.653846,
+            "fnr": 0.392857
+          },
+          "macro": {
+            "mean_precision": 0.705952,
+            "mean_recall": 0.607143,
+            "mean_f1": 0.650183,
+            "mean_fnr": 0.392857,
+            "full_recall_rate": 0.0
+          },
+          "selected_set_size": {
+            "mean": 6.0,
+            "median": 6.0,
+            "min": 5.0,
+            "max": 7.0
+          },
+          "completion_tokens": {
+            "mean": 1120.5,
+            "median": 1131.0,
+            "min": 981.0,
+            "max": 1239.0
+          },
+          "prompt_tokens": {
+            "mean": 2867.2,
+            "median": 3584.0,
+            "min": 0.0,
+            "max": 3584.0
+          },
+          "total_tokens": {
+            "mean": 3763.6,
+            "median": 4655.0,
+            "min": 0.0,
+            "max": 4823.0
+          },
+          "model_calls": 4,
+          "requests_issued": 5,
+          "latency_seconds": 187.033,
+          "api_cost": 0.002259,
+          "live_api_cost": 0.002259
+        },
+        "djangocms-external-validity-008": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 40,
+            "tp": 16,
+            "fp": 24,
+            "fn": 4,
+            "precision": 0.4,
+            "recall": 0.8,
+            "f1": 0.533333,
+            "fnr": 0.2
+          },
+          "macro": {
+            "mean_precision": 0.4,
+            "mean_recall": 0.8,
+            "mean_f1": 0.533333,
+            "mean_fnr": 0.2,
+            "full_recall_rate": 0.2
+          },
+          "selected_set_size": {
+            "mean": 8.0,
+            "median": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "completion_tokens": {
+            "mean": 1538.8,
+            "median": 1551.0,
+            "min": 1502.0,
+            "max": 1555.0
+          },
+          "prompt_tokens": {
+            "mean": 4155.0,
+            "median": 4155.0,
+            "min": 4155.0,
+            "max": 4155.0
+          },
+          "total_tokens": {
+            "mean": 5693.8,
+            "median": 5706.0,
+            "min": 5657.0,
+            "max": 5710.0
+          },
+          "model_calls": 5,
+          "requests_issued": 5,
+          "latency_seconds": 214.422,
+          "api_cost": 0.003607,
+          "live_api_cost": 0.003607
+        }
+      }
+    }
+  },
+  "totals": {
+    "cells": 60,
+    "recorded": 60,
+    "valid": 45,
+    "failed": 15,
+    "truncations": 11,
+    "prompt_tokens": 203806,
+    "completion_tokens": 97340,
+    "total_tokens": 301146,
+    "model_calls": 59,
+    "requests_issued": 60,
+    "responses_received": 59,
+    "usage_known_cells": 59,
+    "usage_unknown_cells": 1,
+    "transport_failure_cells": 1,
+    "usage_unrecoverable_cells": 1,
+    "latency_seconds": 3459.89,
+    "api_cost_usd": 0.041518,
+    "live_api_cost_usd": 0.041518,
+    "lower_bound_qualified": true
+  },
+  "computed_at": "2026-09-11T14:57:13.815040+00:00"
+}

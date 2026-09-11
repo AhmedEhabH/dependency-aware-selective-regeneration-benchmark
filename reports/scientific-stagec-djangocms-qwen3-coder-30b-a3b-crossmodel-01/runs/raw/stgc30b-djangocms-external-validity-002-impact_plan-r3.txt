@@ -1,0 +1,96 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/models/contentmodels.py",
+    "cms/models/pagemodel.py",
+    "cms/api.py",
+    "cms/utils/i18n.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a utility function to retrieve PageContent by page and language, which aligns with the existing models and API structure.",
+          "source": "semantic-seed-65"
+        },
+        {
+          "description": "cms/api.py is a logical place for public utility functions and already contains related functionality.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "The new utility function should be added to cms/api.py as it's a public API module and already contains related page/content retrieval utilities.",
+      "reason_codes": [
+        "API_INTEGRATION"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The models are already structured to support PageContent queries, and no changes are needed to the model definitions.",
+          "source": "semantic-seed-65"
+        }
+      ],
+      "path": "cms/models/contentmodels.py",
+      "rationale": "No changes are required to the contentmodels.py file as the functionality can be implemented in the api module without modifying the model.",
+      "reason_codes": [
+        "NO_MODEL_CHANGES"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The pagemodel.py file contains Page model definitions and does not need modification for this utility function.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "The Page model is not modified; the utility function is a helper that operates on existing model relationships.",
+      "reason_codes": [
+        "NO_MODEL_CHANGES"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "The i18n utilities are relevant to language handling and may be used in testing or validation of the new function.",
+          "source": "semantic-seed-116"
+        }
+      ],
+      "path": "cms/utils/i18n.py",
+      "rationale": "This file may be relevant for testing or validation of language-related functionality but does not require changes.",
+      "reason_codes": [
+        "VALIDATION_CONTEXT"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test_api_functionality",
+      "reason": "New utility function must be tested to ensure it behaves correctly and raises appropriate exceptions.",
+      "target": "cms/tests/test_api.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-65"
+      ],
+      "kind": "regression",
+      "obligation_id": "ensure_no_regression",
+      "reason": "Adding a new utility function should not break existing functionality related to PageContent.",
+      "target": "cms/tests/test_contentmodels.py"
+    }
+  ]
+}

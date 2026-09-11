@@ -1,0 +1,552 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/cache/__init__.py",
+    "cms/cache/page.py",
+    "cms/cache/placeholder.py",
+    "cms/cache/permissions.py",
+    "cms/models/pagemodel.py",
+    "cms/models/placeholdermodel.py",
+    "cms/models/pluginmodel.py",
+    "cms/signals/__init__.py",
+    "cms/templatetags/cms_tags.py",
+    "cms/middleware/toolbar.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies implementing a cache invalidation tag system with utility functions for generating and invalidating cache tags, and signal handlers for Page, PageContent, Placeholder, and CMSPlugin models.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/__init__.py",
+      "rationale": "This file needs to be updated to include new cache tag utility functions and integration points for the tag-based invalidation system.",
+      "reason_codes": [
+        "cache_tag_system"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement mentions updating CMSToolbarMiddleware to tag response objects with cache tags of rendered content.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/middleware/toolbar.py",
+      "rationale": "The toolbar middleware must be modified to support tagging responses with cache tags for proper cache invalidation.",
+      "reason_codes": [
+        "middleware_integration"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies updating the {% placeholder %} and related template tags to check cache using the tag system before rendering.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/templatetags/cms_tags.py",
+      "rationale": "Template tags need to be updated to integrate with the new cache tag system for granular cache checks.",
+      "reason_codes": [
+        "template_tag_integration"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "Signal handlers are required for post_save and post_delete of Page, PageContent, Placeholder, and CMSPlugin to invalidate cache tags.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/signals/__init__.py",
+      "rationale": "New signal handlers must be implemented to trigger cache invalidation based on object changes.",
+      "reason_codes": [
+        "signal_handlers"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Models like Page, Placeholder, and CMSPlugin need to support cache tagging.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "Page model must be updated to generate and manage cache tags for cache invalidation.",
+      "reason_codes": [
+        "model_cache_tags"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Placeholder model must support cache tagging for granular cache invalidation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/placeholdermodel.py",
+      "rationale": "Placeholder model needs to generate and manage cache tags for cache invalidation.",
+      "reason_codes": [
+        "model_cache_tags"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "CMSPlugin model must support cache tagging for granular cache invalidation.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "CMSPlugin model needs to generate and manage cache tags for cache invalidation.",
+      "reason_codes": [
+        "model_cache_tags"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to existing cache modules beyond integration with the new tag system.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/page.py",
+      "rationale": "No direct changes required to page cache logic unless they are part of the new tag system integration.",
+      "reason_codes": [
+        "no_direct_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to placeholder cache logic beyond integration with the new tag system.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/placeholder.py",
+      "rationale": "No direct changes required to placeholder cache logic unless they are part of the new tag system integration.",
+      "reason_codes": [
+        "no_direct_change"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not specify changes to permissions cache logic beyond integration with the new tag system.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cache/permissions.py",
+      "rationale": "No direct changes required to permissions cache logic unless they are part of the new tag system integration.",
+      "reason_codes": [
+        "no_direct_change"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Existing functionality must continue to work as per acceptance criteria.",
+          "source": "acceptance_criteria"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "Admin interface logic should remain unchanged but needs validation to ensure no regression.",
+      "reason_codes": [
+        "regression_check"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Existing functionality must continue to work as per acceptance criteria.",
+          "source": "acceptance_criteria"
+        }
+      ],
+      "path": "cms/admin/placeholderadmin.py",
+      "rationale": "Admin interface logic should remain unchanged but needs validation to ensure no regression.",
+      "reason_codes": [
+        "regression_check"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Existing functionality must continue to work as per acceptance criteria.",
+          "source": "acceptance_criteria"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "API functions should remain unchanged but need validation to ensure no regression.",
+      "reason_codes": [
+        "regression_check"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Existing functionality must continue to work as per acceptance criteria.",
+          "source": "acceptance_criteria"
+        }
+      ],
+      "path": "cms/models/contentmodels.py",
+      "rationale": "Content model logic should remain unchanged but needs validation to ensure no regression.",
+      "reason_codes": [
+        "regression_check"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Existing functionality must continue to work as per acceptance criteria.",
+          "source": "acceptance_criteria"
+        }
+      ],
+      "path": "cms/page_rendering.py",
+      "rationale": "Page rendering logic should remain unchanged but needs validation to ensure no regression.",
+      "reason_codes": [
+        "regression_check"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Existing functionality must continue to work as per acceptance criteria.",
+          "source": "acceptance_criteria"
+        }
+      ],
+      "path": "cms/utils/page.py",
+      "rationale": "Utility functions should remain unchanged but need validation to ensure no regression.",
+      "reason_codes": [
+        "regression_check"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Existing functionality must continue to work as per acceptance criteria.",
+          "source": "acceptance_criteria"
+        }
+      ],
+      "path": "cms/utils/permissions.py",
+      "rationale": "Permission utility functions should remain unchanged but need validation to ensure no regression.",
+      "reason_codes": [
+        "regression_check"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Existing functionality must continue to work as per acceptance criteria.",
+          "source": "acceptance_criteria"
+        }
+      ],
+      "path": "cms/utils/placeholder.py",
+      "rationale": "Placeholder utility functions should remain unchanged but need validation to ensure no regression.",
+      "reason_codes": [
+        "regression_check"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Existing functionality must continue to work as per acceptance criteria.",
+          "source": "acceptance_criteria"
+        }
+      ],
+      "path": "cms/utils/plugins.py",
+      "rationale": "Plugin utility functions should remain unchanged but need validation to ensure no regression.",
+      "reason_codes": [
+        "regression_check"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Existing functionality must continue to work as per acceptance criteria.",
+          "source": "acceptance_criteria"
+        }
+      ],
+      "path": "cms/views.py",
+      "rationale": "View logic should remain unchanged but needs validation to ensure no regression.",
+      "reason_codes": [
+        "regression_check"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "Some artifacts like cms/__init__.py, cms/admin/forms.py, cms/admin/useradmin.py, etc., may require review for compatibility with new tag system.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/__init__.py",
+      "rationale": "This file may need updates to support opt-in behavior of the new tag system.",
+      "reason_codes": [
+        "opt_in_behavior"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/admin/forms.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "Form handling logic may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "form_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/admin/useradmin.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/useradmin.py",
+      "rationale": "User admin logic may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "admin_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/toolbar/utils.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/toolbar/utils.py",
+      "rationale": "Toolbar utility functions may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "toolbar_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/utils/conf.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/conf.py",
+      "rationale": "Configuration utilities may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "config_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/utils/helpers.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/helpers.py",
+      "rationale": "Helper functions may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "helper_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/utils/check.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/check.py",
+      "rationale": "Check utilities may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "check_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/utils/apphook_reload.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/apphook_reload.py",
+      "rationale": "Apphook reload utilities may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "apphook_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/utils/i18n.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/i18n.py",
+      "rationale": "Internationalization utilities may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "i18n_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/utils/mail.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/mail.py",
+      "rationale": "Mail utilities may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "mail_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/utils/request_ip_resolvers.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/request_ip_resolvers.py",
+      "rationale": "Request IP resolver utilities may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "request_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/utils/page_permissions.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/page_permissions.py",
+      "rationale": "Page permission utilities may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "permission_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/templatetags/cms_alias_tags.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "rationale": "Alias template tags may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "template_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/templatetags/cms_js_tags.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/templatetags/cms_js_tags.py",
+      "rationale": "JS template tags may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "template_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/templatetags/cms_admin.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/templatetags/cms_admin.py",
+      "rationale": "Admin template tags may need to be reviewed for compatibility with new cache tagging.",
+      "reason_codes": [
+        "template_compatibility"
+      ]
+    },
+    {
+      "action": "HUMAN_REVIEW",
+      "confidence": 0.7,
+      "evidence": [
+        {
+          "description": "cms/operations/helpers.py may need updates to support new cache tag behavior.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/operations/helpers.py",
+      "rationale": "Operation helpers may need to be reviewed for compatibility with new cache tagging.",
+     

@@ -1,0 +1,146 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/models/pluginmodel.py",
+    "cms/admin/forms.py",
+    "cms/admin/placeholderadmin.py",
+    "cms/models/contentmodels.py",
+    "cms/models/pagemodel.py",
+    "cms/plugin_rendering.py",
+    "cms/templatetags/cms_tags.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a nullable ForeignKey to PageContent in CMSPlugin model.",
+          "source": "semantic-seed-72"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "The CMSPlugin model must be modified to include the new page_content ForeignKey field.",
+      "reason_codes": [
+        "MODEL_FIELD_ADDITION"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Plugin forms in admin need to show the associated PageContent context.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "Admin forms for plugins must be updated to handle the new page_content field.",
+      "reason_codes": [
+        "ADMIN_FORM_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Placeholder rendering logic must filter plugins by the requested language via the page_content foreign key.",
+          "source": "semantic-seed-6"
+        }
+      ],
+      "path": "cms/admin/placeholderadmin.py",
+      "rationale": "The placeholder admin needs to be updated to filter plugins based on the new page_content relationship.",
+      "reason_codes": [
+        "RENDERING_FILTERING"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Tests verify plugin-to-language association and rendering filter correctness.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/models/contentmodels.py",
+      "rationale": "This file contains PageContent model which is referenced by the new field; validation is sufficient.",
+      "reason_codes": [
+        "MODEL_VALIDATION"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "description": "Placeholder rendering logic needs to filter plugins by language.",
+          "source": "semantic-seed-95"
+        }
+      ],
+      "path": "cms/plugin_rendering.py",
+      "rationale": "This module handles plugin rendering and filtering; validation ensures correct behavior.",
+      "reason_codes": [
+        "RENDERING_LOGIC"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to API module for this specific requirement.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "The API does not directly interact with the new field or filtering logic.",
+      "reason_codes": [
+        "NO_DIRECT_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "No changes required to page model for this specific requirement.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "The Page model itself is not modified, only the plugin model is changed.",
+      "reason_codes": [
+        "NO_DIRECT_IMPACT"
+      ]
+    },
+    {
+      "action": "VALIDATE_ONLY",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Template tags may need to render filtered plugins correctly.",
+          "source": "semantic-seed-95"
+        }
+      ],
+      "path": "cms/templatetags/cms_tags.py",
+      "rationale": "Template tag logic may be indirectly affected by plugin filtering; validation is sufficient.",
+      "reason_codes": [
+        "TEMPLATE_TAG_VALIDATION"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-11"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "test-plugin-language-association",
+      "reason": "Tests must verify plugin-to-language association and rendering filter correctness.",
+      "target": "tests for plugin language association"
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "architecture_checks": [
+    "The new 'page reviewer' permission must be integrated into the existing permission model without breaking current functionality.",
+    "The GlobalPermission model must support the new 'can_review' field to allow site-wide reviewer access.",
+    "The PageAdmin must include a 'Review' action for transitioning page content status or marking content as reviewed.",
+    "The toolbar must show a 'Review' menu item for users with reviewer access.",
+    "Permission checking functions must support the new 'page reviewer' level."
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities and integration points.",
+          "source": "requirement"
+        }
+      ],
+      "id": 70,
+      "rationale": "The permission models need to be updated to include the new 'can_review' field in both PagePermission and GlobalPermission.",
+      "reason_codes": [
+        "PERMISSION_MODEL_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The PageAdmin needs a 'Review' action to handle content review and approval.",
+          "source": "requirement"
+        }
+      ],
+      "id": 5,
+      "rationale": "The PageAdmin must be modified to include a 'Review' action for managing page content status.",
+      "reason_codes": [
+        "ADMIN_ACTION_UPDATE"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The toolbar must show a 'Review' menu item for users with reviewer access.",
+          "source": "requirement"
+        }
+      ],
+      "id": 26,
+      "rationale": "The CMS toolbar needs to be updated to include a 'Review' menu item for users with reviewer permissions.",
+      "reason_codes": [
+        "TOOLBAR_INTEGRATION"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Permission checking functions must support the new 'page reviewer' level.",
+          "source": "requirement"
+        }
+      ],
+      "id": 120,
+      "rationale": "Permission utility functions need to be updated to handle the new reviewer permission level.",
+      "reason_codes": [
+        "PERMISSION_CHECKING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The PermissionAdmin must show the new 'can_review' field.",
+          "source": "requirement"
+        }
+      ],
+      "id": 6,
+      "rationale": "The PermissionAdmin needs to be updated to display the new 'can_review' field for managing reviewer permissions.",
+      "reason_codes": [
+        "ADMIN_FIELD_UPDATE"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-20"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_permission_model_changes",
+      "reason": "The permission model changes must be validated to ensure backward compatibility and correct functionality.",
+      "target": "cms/utils/permissions.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-99"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_toolbar_integration",
+      "reason": "The toolbar integration must be validated to ensure the 'Review' menu item appears correctly for reviewer users.",
+      "target": "cms/toolbar/utils.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-119"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_permission_checking",
+      "reason": "Permission checking functions must be validated to ensure they correctly handle the new reviewer permission level.",
+      "target": "cms/utils/page_permissions.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-5"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_page_admin_review_action",
+      "reason": "The PageAdmin's 'Review' action must be validated to ensure it correctly handles content review and approval.",
+      "target": "cms/admin/pageadmin.py"
+    }
+  ]
+}

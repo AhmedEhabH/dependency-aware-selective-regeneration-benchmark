@@ -1,0 +1,519 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/cache/__init__.py",
+    "cms/cache/page.py",
+    "cms/cache/placeholder.py",
+    "cms/cache/permissions.py",
+    "cms/models/pagemodel.py",
+    "cms/models/placeholdermodel.py",
+    "cms/models/pluginmodel.py",
+    "cms/models/contentmodels.py",
+    "cms/middleware/toolbar.py",
+    "cms/templatetags/cms_tags.py",
+    "cms/signals/__init__.py",
+    "cms/utils/conf.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies implementing a cache invalidation tag system for Page, PageContent, Placeholder, and CMSPlugin objects, which aligns with the semantic seed for cms/models/pagemodel.py and cms/models/placeholdermodel.py.",
+          "source": "semantic-seed-68"
+        },
+        {
+          "description": "The requirement mentions updating CMSToolbarMiddleware to tag response objects with cache tags, which is related to cms/middleware/toolbar.py.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/cache/__init__.py",
+      "rationale": "The cache module needs to be updated to support the new tag-based invalidation system.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that cache keys are simple strings without tagging, and a new tagging system is needed, which is directly related to cms/cache/page.py.",
+          "source": "semantic-seed-19"
+        }
+      ],
+      "path": "cms/cache/page.py",
+      "rationale": "This module needs to be updated to integrate with the new cache tagging system.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement mentions cache invalidation for placeholders, and cms/cache/placeholder.py is directly related to placeholder caching.",
+          "source": "semantic-seed-21"
+        }
+      ],
+      "path": "cms/cache/placeholder.py",
+      "rationale": "Placeholder cache handling must be updated to support tag-based invalidation.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Permissions cache handling is mentioned in the requirement, and cms/cache/permissions.py is related to cache handling.",
+          "source": "semantic-seed-20"
+        }
+      ],
+      "path": "cms/cache/permissions.py",
+      "rationale": "Permissions cache behavior must be updated to support the new tagging system.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "The requirement specifies that Page, PageContent, Placeholder, and CMSPlugin objects should have associated cache tags, and cms/models/pagemodel.py handles Page objects.",
+          "source": "semantic-seed-68"
+        }
+      ],
+      "path": "cms/models/pagemodel.py",
+      "rationale": "Page model must be updated to generate and manage cache tags.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Placeholder models need to support cache tagging, and cms/models/placeholdermodel.py handles placeholder objects.",
+          "source": "semantic-seed-70"
+        }
+      ],
+      "path": "cms/models/placeholdermodel.py",
+      "rationale": "Placeholder model must be updated to generate and manage cache tags.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "CMSPlugin objects must support cache tagging, and cms/models/pluginmodel.py handles plugin objects.",
+          "source": "semantic-seed-72"
+        }
+      ],
+      "path": "cms/models/pluginmodel.py",
+      "rationale": "Plugin model must be updated to generate and manage cache tags.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Content models are part of the content hierarchy and must support cache tagging, and cms/models/contentmodels.py handles content objects.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/models/contentmodels.py",
+      "rationale": "Content models must be updated to support cache tagging.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Middleware needs to be updated to tag response objects with cache tags, and cms/middleware/toolbar.py is related to toolbar middleware.",
+          "source": "semantic-seed-99"
+        }
+      ],
+      "path": "cms/middleware/toolbar.py",
+      "rationale": "Toolbar middleware must be updated to tag responses with cache tags.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Template tags must check cache using the tag system before rendering, and cms/templatetags/cms_tags.py is the main template tag module.",
+          "source": "semantic-seed-95"
+        }
+      ],
+      "path": "cms/templatetags/cms_tags.py",
+      "rationale": "Template tags must be updated to use the new cache tagging system.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "description": "Signal handlers are required to invalidate cache tags on save/delete, and cms/signals/__init__.py is the main signals module.",
+          "source": "semantic-seed-83"
+        }
+      ],
+      "path": "cms/signals/__init__.py",
+      "rationale": "Signal handlers must be implemented to invalidate cache tags on object changes.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.85,
+      "evidence": [
+        {
+          "description": "Configuration settings may need to be updated to enable the new cache tagging system, and cms/utils/conf.py handles configuration.",
+          "source": "semantic-seed-112"
+        }
+      ],
+      "path": "cms/utils/conf.py",
+      "rationale": "Configuration handling may need to be updated to support opt-in behavior.",
+      "reason_codes": [
+        "CACHE_TAGGING"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/admin/forms.py, which is related to form handling.",
+          "source": "semantic-seed-3"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "No direct impact on form handling from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/admin/pageadmin.py, which is related to page administration.",
+          "source": "semantic-seed-4"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "No direct impact on page admin from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/admin/placeholderadmin.py, which is related to placeholder administration.",
+          "source": "semantic-seed-6"
+        }
+      ],
+      "path": "cms/admin/placeholderadmin.py",
+      "rationale": "No direct impact on placeholder admin from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/api.py, which is related to API functions.",
+          "source": "semantic-seed-11"
+        }
+      ],
+      "path": "cms/api.py",
+      "rationale": "No direct impact on API functions from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/app_registration.py, which is related to app registration.",
+          "source": "semantic-seed-13"
+        }
+      ],
+      "path": "cms/app_registration.py",
+      "rationale": "No direct impact on app registration from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/appresolver.py, which is related to app resolution.",
+          "source": "semantic-seed-15"
+        }
+      ],
+      "path": "cms/appresolver.py",
+      "rationale": "No direct impact on app resolution from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/cms_menus.py, which is related to menu handling.",
+          "source": "semantic-seed-23"
+        }
+      ],
+      "path": "cms/cms_menus.py",
+      "rationale": "No direct impact on menu handling from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/constants.py, which is related to constants.",
+          "source": "semantic-seed-27"
+        }
+      ],
+      "path": "cms/constants.py",
+      "rationale": "No direct impact on constants from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/forms/utils.py, which is related to form utilities.",
+          "source": "semantic-seed-38"
+        }
+      ],
+      "path": "cms/forms/utils.py",
+      "rationale": "No direct impact on form utilities from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/management/commands/subcommands/copy.py, which is related to copy commands.",
+          "source": "semantic-seed-49"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/copy.py",
+      "rationale": "No direct impact on copy commands from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/management/commands/subcommands/list.py, which is related to list commands.",
+          "source": "semantic-seed-51"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/list.py",
+      "rationale": "No direct impact on list commands from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/management/commands/subcommands/tree.py, which is related to tree commands.",
+          "source": "semantic-seed-52"
+        }
+      ],
+      "path": "cms/management/commands/subcommands/tree.py",
+      "rationale": "No direct impact on tree commands from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/middleware/page.py, which is related to page middleware.",
+          "source": "semantic-seed-58"
+        }
+      ],
+      "path": "cms/middleware/page.py",
+      "rationale": "No direct impact on page middleware from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/operations/helpers.py, which is related to operation helpers.",
+          "source": "semantic-seed-77"
+        }
+      ],
+      "path": "cms/operations/helpers.py",
+      "rationale": "No direct impact on operation helpers from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/page_rendering.py, which is related to page rendering.",
+          "source": "semantic-seed-78"
+        }
+      ],
+      "path": "cms/page_rendering.py",
+      "rationale": "No direct impact on page rendering from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/plugin_processors.py, which is related to plugin processing.",
+          "source": "semantic-seed-81"
+        }
+      ],
+      "path": "cms/plugin_processors.py",
+      "rationale": "No direct impact on plugin processing from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/signals/log_entries.py, which is related to log entries.",
+          "source": "semantic-seed-85"
+        }
+      ],
+      "path": "cms/signals/log_entries.py",
+      "rationale": "No direct impact on log entries from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/signals/permissions.py, which is related to permissions signals.",
+          "source": "semantic-seed-86"
+        }
+      ],
+      "path": "cms/signals/permissions.py",
+      "rationale": "No direct impact on permissions signals from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/templatetags/cms_admin.py, which is related to admin template tags.",
+          "source": "semantic-seed-91"
+        }
+      ],
+      "path": "cms/templatetags/cms_admin.py",
+      "rationale": "No direct impact on admin template tags from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/templatetags/cms_alias_tags.py, which is related to alias template tags.",
+          "source": "semantic-seed-92"
+        }
+      ],
+      "path": "cms/templatetags/cms_alias_tags.py",
+      "rationale": "No direct impact on alias template tags from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement does not directly affect cms/templatetags/cms_js_tags.py, which is related to JS template tags.",
+          "source": "semantic-seed-93"
+        }
+      ],
+      "path": "cms/templatetags/cms_js_tags.py",
+      "rationale": "No direct impact on JS template tags from the cache tagging requirement.",
+      "reason_codes": [
+        "NO_IMPACT"
+      ]
+    },
+    {
+      "action": "PRESERVE",
+      "confidence": 0.95,

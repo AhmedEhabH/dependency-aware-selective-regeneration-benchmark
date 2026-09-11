@@ -1,0 +1,150 @@
+{
+  "architecture_checks": [],
+  "context_set": [
+    "cms/admin/forms.py",
+    "cms/admin/pageadmin.py",
+    "cms/admin/permissionadmin.py",
+    "cms/models/permissionmodels.py",
+    "cms/utils/permissions.py",
+    "cms/utils/page_permissions.py",
+    "cms/cms_toolbars.py"
+  ],
+  "decisions": [
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing and approving content changes.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/forms.py",
+      "rationale": "The forms module needs to be updated to support the new 'can_review' field in PagePermission and GlobalPermission models.",
+      "reason_codes": [
+        "permission_model_update"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing and approving content changes.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/pageadmin.py",
+      "rationale": "The PageAdmin needs to include a 'Review' action for transitioning page content status or marking content as reviewed.",
+      "reason_codes": [
+        "admin_action_addition"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing and approving content changes.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/admin/permissionadmin.py",
+      "rationale": "The PermissionAdmin needs to display the new 'can_review' field for managing page reviewer permissions.",
+      "reason_codes": [
+        "admin_field_display"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing and approving content changes.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/models/permissionmodels.py",
+      "rationale": "The PagePermission and GlobalPermission models need to be updated with the new 'can_review' boolean field.",
+      "reason_codes": [
+        "model_field_addition"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing and approving content changes.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/permissions.py",
+      "rationale": "Permission checking functions need to be updated to support the new 'page reviewer' permission level.",
+      "reason_codes": [
+        "permission_checking_logic"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing and approving content changes.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/utils/page_permissions.py",
+      "rationale": "Page permission utilities need to be updated to handle the new reviewer role.",
+      "reason_codes": [
+        "page_permission_utility_update"
+      ]
+    },
+    {
+      "action": "REGENERATE",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "description": "The requirement specifies adding a new 'page reviewer' permission level with specific capabilities including reviewing and approving content changes.",
+          "source": "requirement"
+        }
+      ],
+      "path": "cms/cms_toolbars.py",
+      "rationale": "The toolbar needs to show a 'Review' menu item for users with reviewer access.",
+      "reason_codes": [
+        "toolbar_menu_addition"
+      ]
+    }
+  ],
+  "escalation_reason": "",
+  "validation_obligations": [
+    {
+      "evidence_refs": [
+        "semantic-seed-119",
+        "semantic-seed-120"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_permission_logic",
+      "reason": "New permission logic must be validated to ensure correct behavior for page reviewers.",
+      "target": "cms/utils/permissions.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-118"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_page_permissions",
+      "reason": "Page permission utilities must correctly handle the new reviewer role.",
+      "target": "cms/utils/page_permissions.py"
+    },
+    {
+      "evidence_refs": [
+        "semantic-seed-99"
+      ],
+      "kind": "changed_requirement",
+      "obligation_id": "validate_toolbar_functionality",
+      "reason": "Toolbar functionality must correctly show review menu items for reviewers.",
+      "target": "cms/cms_toolbars.py"
+    }
+  ]
+}

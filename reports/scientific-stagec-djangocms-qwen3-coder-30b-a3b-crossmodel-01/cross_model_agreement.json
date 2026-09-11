@@ -1,0 +1,3114 @@
+{
+  "method": "cross-product Jaccard of valid selected-file sets (descriptive only; no significance claim)",
+  "historical_model": "qwen/qwen3-coder",
+  "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+  "historical_study": "scientific-stagec-djangocms-impactplan-v2-01",
+  "new_study": "scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01",
+  "total_pair_count": 135,
+  "overall": {
+    "mean": 0.491292,
+    "median": 0.428571,
+    "min": 0.090909,
+    "max": 1.0
+  },
+  "per_scenario": {
+    "djangocms-external-validity-002": {
+      "historical_valid_count": 4,
+      "new_valid_count": 5,
+      "pair_count": 20,
+      "jaccard": {
+        "mean": 0.541667,
+        "median": 0.416667,
+        "min": 0.333333,
+        "max": 1.0
+      },
+      "historical_selection_frequencies": {
+        "cms/api.py": 4,
+        "cms/models/contentmodels.py": 3,
+        "cms/utils/page.py": 2
+      },
+      "new_selection_frequencies": {
+        "cms/api.py": 5
+      }
+    },
+    "djangocms-external-validity-004": {
+      "historical_valid_count": 5,
+      "new_valid_count": 4,
+      "pair_count": 20,
+      "jaccard": {
+        "mean": 0.499405,
+        "median": 0.5,
+        "min": 0.333333,
+        "max": 0.666667
+      },
+      "historical_selection_frequencies": {
+        "cms/admin/forms.py": 2,
+        "cms/admin/pageadmin.py": 5,
+        "cms/api.py": 5,
+        "cms/models/contentmodels.py": 5,
+        "cms/models/managers.py": 2,
+        "cms/templatetags/cms_static.py": 2,
+        "cms/views.py": 5
+      },
+      "new_selection_frequencies": {
+        "cms/admin/__init__.py": 1,
+        "cms/admin/forms.py": 4,
+        "cms/admin/pageadmin.py": 4,
+        "cms/api.py": 4,
+        "cms/models/contentmodels.py": 4,
+        "cms/utils/urlutils.py": 4
+      }
+    },
+    "djangocms-external-validity-005": {
+      "historical_valid_count": 5,
+      "new_valid_count": 5,
+      "pair_count": 25,
+      "jaccard": {
+        "mean": 0.776952,
+        "median": 0.833333,
+        "min": 0.5,
+        "max": 1.0
+      },
+      "historical_selection_frequencies": {
+        "cms/admin/pageadmin.py": 5,
+        "cms/admin/permissionadmin.py": 5,
+        "cms/cms_toolbars.py": 5,
+        "cms/models/permissionmodels.py": 5,
+        "cms/utils/page.py": 2,
+        "cms/utils/page_permissions.py": 4,
+        "cms/utils/permissions.py": 1
+      },
+      "new_selection_frequencies": {
+        "cms/admin/pageadmin.py": 5,
+        "cms/admin/permissionadmin.py": 5,
+        "cms/cms_toolbars.py": 4,
+        "cms/models/permissionmodels.py": 5,
+        "cms/page_rendering.py": 1,
+        "cms/toolbar/toolbar.py": 1,
+        "cms/utils/page_permissions.py": 5
+      }
+    },
+    "djangocms-external-validity-006": {
+      "historical_valid_count": 5,
+      "new_valid_count": 5,
+      "pair_count": 25,
+      "jaccard": {
+        "mean": 0.352952,
+        "median": 0.333333,
+        "min": 0.142857,
+        "max": 0.75
+      },
+      "historical_selection_frequencies": {
+        "cms/admin/forms.py": 5,
+        "cms/admin/placeholderadmin.py": 2,
+        "cms/models/pluginmodel.py": 5,
+        "cms/plugin_rendering.py": 5,
+        "cms/utils/placeholder.py": 1
+      },
+      "new_selection_frequencies": {
+        "cms/admin/forms.py": 5,
+        "cms/admin/utils.py": 4,
+        "cms/models/permissionmodels.py": 2,
+        "cms/models/placeholderpluginmodel.py": 4,
+        "cms/models/pluginmodel.py": 1,
+        "cms/plugin_rendering.py": 3
+      }
+    },
+    "djangocms-external-validity-007": {
+      "historical_valid_count": 5,
+      "new_valid_count": 4,
+      "pair_count": 20,
+      "jaccard": {
+        "mean": 0.478983,
+        "median": 0.5,
+        "min": 0.090909,
+        "max": 0.857143
+      },
+      "historical_selection_frequencies": {
+        "cms/admin/pageadmin.py": 5,
+        "cms/api.py": 5,
+        "cms/cms_toolbars.py": 3,
+        "cms/constants.py": 1,
+        "cms/models/contentmodels.py": 5,
+        "cms/models/permissionmodels.py": 5,
+        "cms/signals/__init__.py": 5,
+        "cms/toolbar/toolbar.py": 2,
+        "cms/utils/page.py": 2,
+        "cms/utils/page_permissions.py": 1
+      },
+      "new_selection_frequencies": {
+        "cms/admin/pageadmin.py": 4,
+        "cms/api.py": 1,
+        "cms/cms_toolbars.py": 3,
+        "cms/models/contentmodels.py": 3,
+        "cms/models/managers.py": 1,
+        "cms/models/permissionmodels.py": 2,
+        "cms/plugin_rendering.py": 1,
+        "cms/signals/__init__.py": 3,
+        "cms/toolbar/toolbar.py": 1,
+        "cms/utils/apphook_reload.py": 3,
+        "cms/utils/page.py": 1,
+        "cms/utils/page_permissions.py": 1
+      }
+    },
+    "djangocms-external-validity-008": {
+      "historical_valid_count": 5,
+      "new_valid_count": 5,
+      "pair_count": 25,
+      "jaccard": {
+        "mean": 0.30703,
+        "median": 0.3,
+        "min": 0.181818,
+        "max": 0.5
+      },
+      "historical_selection_frequencies": {
+        "cms/cache/__init__.py": 5,
+        "cms/cache/page.py": 3,
+        "cms/cache/permissions.py": 1,
+        "cms/cache/placeholder.py": 2,
+        "cms/middleware/toolbar.py": 4,
+        "cms/signals/__init__.py": 5,
+        "cms/templatetags/cms_tags.py": 5
+      },
+      "new_selection_frequencies": {
+        "cms/cache/__init__.py": 5,
+        "cms/middleware/toolbar.py": 5,
+        "cms/models/contentmodels.py": 5,
+        "cms/models/pagemodel.py": 5,
+        "cms/models/placeholdermodel.py": 5,
+        "cms/models/pluginmodel.py": 5,
+        "cms/signals/__init__.py": 5,
+        "cms/templatetags/cms_static.py": 4,
+        "cms/templatetags/cms_tags.py": 1
+      }
+    }
+  },
+  "raw_pairs": [
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/api.py",
+        "cms/models/contentmodels.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 1.0,
+      "historical_selected": [
+        "cms/api.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 1.0,
+      "historical_selected": [
+        "cms/api.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 1.0,
+      "historical_selected": [
+        "cms/api.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 1.0,
+      "historical_selected": [
+        "cms/api.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-002",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-002-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-002-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 1.0,
+      "historical_selected": [
+        "cms/api.py"
+      ],
+      "new_selected": [
+        "cms/api.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.666667,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.571429,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/__init__.py",
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.666667,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.666667,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.428571,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/__init__.py",
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.375,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/managers.py",
+        "cms/templatetags/cms_static.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/managers.py",
+        "cms/templatetags/cms_static.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/__init__.py",
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.375,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/managers.py",
+        "cms/templatetags/cms_static.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.375,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/managers.py",
+        "cms/templatetags/cms_static.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.666667,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.571429,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/__init__.py",
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.666667,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.666667,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.375,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/managers.py",
+        "cms/templatetags/cms_static.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/managers.py",
+        "cms/templatetags/cms_static.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/__init__.py",
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.375,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/managers.py",
+        "cms/templatetags/cms_static.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-004",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-004-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-004-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.375,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/managers.py",
+        "cms/templatetags/cms_static.py",
+        "cms/views.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/utils/urlutils.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.571429,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py",
+        "cms/utils/permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/models/permissionmodels.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.833333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py",
+        "cms/utils/permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.714286,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py",
+        "cms/utils/permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/page_rendering.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.833333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py",
+        "cms/utils/permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.833333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py",
+        "cms/utils/permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/models/permissionmodels.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.8,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.666667,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/page_rendering.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.8,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.8,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.571429,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/models/permissionmodels.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.833333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.714286,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/page_rendering.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.833333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.833333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.666667,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/models/permissionmodels.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 1.0,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.833333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/page_rendering.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 1.0,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 1.0,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.571429,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/models/permissionmodels.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.833333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.714286,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/page_rendering.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.833333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-005",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-005-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-005-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.833333,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/permissionmodels.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.166667,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/permissionmodels.py",
+        "cms/models/placeholderpluginmodel.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/models/placeholderpluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.166667,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/permissionmodels.py",
+        "cms/models/placeholderpluginmodel.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.75,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.4,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/placeholderpluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.142857,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/permissionmodels.py",
+        "cms/models/placeholderpluginmodel.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.4,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/models/placeholderpluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.142857,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/permissionmodels.py",
+        "cms/models/placeholderpluginmodel.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.6,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/placeholderpluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.142857,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py",
+        "cms/utils/placeholder.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/permissionmodels.py",
+        "cms/models/placeholderpluginmodel.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.4,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py",
+        "cms/utils/placeholder.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/models/placeholderpluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.142857,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py",
+        "cms/utils/placeholder.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/permissionmodels.py",
+        "cms/models/placeholderpluginmodel.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.6,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py",
+        "cms/utils/placeholder.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py",
+        "cms/utils/placeholder.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/placeholderpluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.142857,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/permissionmodels.py",
+        "cms/models/placeholderpluginmodel.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.4,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/models/placeholderpluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.142857,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/permissionmodels.py",
+        "cms/models/placeholderpluginmodel.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.6,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/placeholderpluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.166667,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/permissionmodels.py",
+        "cms/models/placeholderpluginmodel.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/models/placeholderpluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.166667,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/permissionmodels.py",
+        "cms/models/placeholderpluginmodel.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.75,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-006",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-006-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-006-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.4,
+      "historical_selected": [
+        "cms/admin/forms.py",
+        "cms/models/pluginmodel.py",
+        "cms/plugin_rendering.py"
+      ],
+      "new_selected": [
+        "cms/admin/forms.py",
+        "cms/admin/utils.py",
+        "cms/models/placeholderpluginmodel.py",
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.666667,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.272727,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/models/managers.py",
+        "cms/plugin_rendering.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.444444,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.555556,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.625,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/toolbar/toolbar.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.2,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/toolbar/toolbar.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/models/managers.py",
+        "cms/plugin_rendering.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.375,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/toolbar/toolbar.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/toolbar/toolbar.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.857143,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.090909,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/models/managers.py",
+        "cms/plugin_rendering.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.571429,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.714286,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/constants.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.272727,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/constants.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/models/managers.py",
+        "cms/plugin_rendering.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.3,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/constants.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.4,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/constants.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.857143,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.090909,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/models/managers.py",
+        "cms/plugin_rendering.py",
+        "cms/toolbar/toolbar.py",
+        "cms/utils/page.py",
+        "cms/utils/page_permissions.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.571429,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-007",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-007-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-007-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.714286,
+      "historical_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/api.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py"
+      ],
+      "new_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/cms_toolbars.py",
+        "cms/models/contentmodels.py",
+        "cms/models/permissionmodels.py",
+        "cms/signals/__init__.py",
+        "cms/utils/apphook_reload.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r1",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.272727,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.272727,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.4,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.272727,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r2",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.272727,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.272727,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.272727,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.4,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.272727,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r3",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.272727,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.181818,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/permissions.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.181818,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/permissions.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.3,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/permissions.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.181818,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/permissions.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r4",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.181818,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/permissions.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r1",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r2",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r3",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.5,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r4",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    },
+    {
+      "scenario_id": "djangocms-external-validity-008",
+      "historical_run_id": "stgc-v2-djangocms-external-validity-008-impact_plan_v2-r5",
+      "new_run_id": "stgc30b-djangocms-external-validity-008-impact_plan_v2-r5",
+      "historical_model": "qwen/qwen3-coder",
+      "new_model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "jaccard": 0.333333,
+      "historical_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_tags.py"
+      ],
+      "new_selected": [
+        "cms/cache/__init__.py",
+        "cms/middleware/toolbar.py",
+        "cms/models/contentmodels.py",
+        "cms/models/pagemodel.py",
+        "cms/models/placeholdermodel.py",
+        "cms/models/pluginmodel.py",
+        "cms/signals/__init__.py",
+        "cms/templatetags/cms_static.py"
+      ]
+    }
+  ],
+  "computed_at": "2026-09-11T14:57:53.698236+00:00"
+}
