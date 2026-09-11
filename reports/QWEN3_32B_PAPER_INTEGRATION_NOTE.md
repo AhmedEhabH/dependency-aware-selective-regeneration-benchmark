@@ -25,16 +25,27 @@ Status: **COMPLETE + AUDITED** (2026-09-11)
 | Arm | Valid / 30 | Failed | Truncations | P | R | F1 | FNR | Full-recall |
 |---|---|---|---|---|---|---|---|---|
 | impact_plan (v1) | 2 | 28 | 24 | 0.0000 | 0.0000 | 0.0000 | 1.0000 | 0/2 |
-| impact_plan_v2 | 21 | 9 | 0 | 0.3600 | 0.6207 | 0.4557 | 0.3793 | 5/21 = 0.238 |
+| impact_plan_v2 | 21 | 9 | 6 | 0.3600 | 0.6207 | 0.4557 | 0.3793 | 5/21 = 0.238 |
 
 - Totals (all 60 cells): 179,641 prompt + 141,611 completion = 321,252 tokens;
-  52 calls; **live cost $0.054028** (DeepInfra `$0.08/$0.28` per 1M).
+  **60 API requests issued** (one per manifest cell), of which **52 are
+  usage-bearing** (recorded `model_calls`); **live cost $0.054028** (DeepInfra
+  `$0.08/$0.28` per 1M).
 - v1 failure taxonomy: 24 truncations at the frozen 4096 cap (verbose
   full-policy serialization does not fit the budget), 4 out-of-universe-path /
   transport failures. Recorded verbatim; **no reruns, no cell 61**.
-- v2 failure taxonomy: 9 failed (6 response-not-JSON at the 4096 cap, 2
-  conflicting-decision invariant failures, 1 duplicate-candidate-id
-  failure); 0 truncations.
+- v2 failure taxonomy: **6 truncations at the frozen 4096 cap**
+  (S004 r1–r5, S008 r2; `finish_reason=length`, unterminated raw JSON ~16 KB)
+  + 2 conflicting-decision invariant failures + 1 duplicate-candidate-id
+  failure.
+- **Accounting correction (2026-09-11):** the originally published "v2
+  truncations = 0" was a derived-classification bug — `truncation_status` was
+  only set on the success path. Corrected v2 truncations = **6**, total = **30**.
+  Valid-run selection metrics (P/R/F1) are **unchanged** (the 6 cells were
+  already failed). `model_calls` (52) is usage-bearing only; all 60 cells
+  issued exactly one request. 8 failed cells ran before usage capture was
+  wired in; 7 have persisted raw responses with **unrecoverable exact provider
+  usage** (see §10 and the correction note).
 
 ## 3. Allowed claims
 
@@ -92,6 +103,17 @@ truncation rate than new v1 (0.000 vs 0.800). No significance claim.
   qualitative S006 weakness observed for Qwen3-Coder (over-selection +
   persistent misses) — consistent, but descriptive only.
 
+## 6a. Scenario 004 (new Qwen3-32B v2, truncated)
+
+- S004 v2 was **5/5 truncated** at the frozen 4096 cap (vs historical
+  Qwen3-Coder S004 v2 **5/5 succeeded**, 6–8 explicit decisions each).
+- The new model emitted **36–38 explicit decisions before truncation**
+  (r1: 37, r2: 36, r3: 36, r4: 36, r5: 38) — roughly **5–6× the historical
+  explicit-decision count** (historical mean across all v2 cells: 6.34).
+- r1–r4 emit **100% REGENERATE** (broad over-selection); r5 splits
+  19 REGENERATE / 19 VALIDATE. The truncated outputs show broad over-selection
+  and fail-closed on the truncated JSON. Descriptive only.
+
 ## 7. Cross-model Sparse-v2 Jaccard summary
 
 | Scenario | Hist valid | New valid | Pairs | Mean | Median | Min | Max |
@@ -130,6 +152,16 @@ Qwen3-32B `deepinfra/fp8`), fallback off, `require_parameters` on.
 - Cost reported at live DeepInfra rates; recorded `api_cost` for early cells
   used the frozen Qwen3-Coder pricing as a conservative bound (the recomputed
   live figure in `final_metrics.json` is authoritative).
+- **Accounting correction (2026-09-11):** exact provider usage for 8 failed
+  cells (7 with persisted raw responses but run before usage capture; 1
+  transport failure with no response) is **unrecoverable** from immutable
+  artifacts — only raw text is persisted. Known lower bounds: the 5 S004 v2
+  truncations each consumed exactly 4096 completion tokens
+  (`finish_reason=length` = cap reached); the 2 S002 v2 conflicting-decision
+  cells returned valid JSON (~1.7–1.9 KB raw) but their exact usage is
+  unknown; S006 v1 r3 (IncompleteRead) is fully unrecoverable. Do **not**
+  report 52 as "total calls" — 60 requests were issued (see
+  `ACCOUNTING_CORRECTION_NOTE.md`).
 
 ## 11. Evidence to cite
 

@@ -2245,18 +2245,18 @@ def _write_checkpoint(
         "total_cells": len(manifest["cells"]),
         "valid": sum(1 for r in records.values() if r["terminal_status"] == "succeeded"),
         "failed": sum(1 for r in records.values() if r["terminal_status"] != "succeeded"),
-        "truncations": sum(1 for r in records.values() if r.get("truncation_status")),
+        "truncations": _truncation_count(list(records.values())),
         "v1": {
             "recorded": len(v1),
             "valid": sum(1 for r in v1 if r["terminal_status"] == "succeeded"),
             "failed": sum(1 for r in v1 if r["terminal_status"] != "succeeded"),
-            "truncations": sum(1 for r in v1 if r.get("truncation_status")),
+            "truncations": _truncation_count(v1),
         },
         "v2": {
             "recorded": len(v2),
             "valid": sum(1 for r in v2 if r["terminal_status"] == "succeeded"),
             "failed": sum(1 for r in v2 if r["terminal_status"] != "succeeded"),
-            "truncations": sum(1 for r in v2 if r.get("truncation_status")),
+            "truncations": _truncation_count(v2),
         },
         "prompt_tokens": sum(int(r["prompt_tokens"]) for r in records.values()),
         "completion_tokens": sum(int(r["completion_tokens"]) for r in records.values()),
@@ -2408,6 +2408,47 @@ def _live_cost(record: dict[str, Any]) -> float:
     )
 
 
+def _is_truncation(record: dict[str, Any]) -> bool:
+    """True if a cell is a completion-cap truncation at the frozen 4096 budget.
+
+    Accounting audit (2026-09-11) correction: the ``truncation_status`` field
+    was only set on the success-path evidence builder, so failed cells that
+    were truncated at the cap by the provider (``finish_reason=length``) were
+    not counted as truncations. A cell is classified as a truncation when ANY
+    of the following holds:
+
+    1. ``truncation_status`` is already True (success-path classifier);
+    2. the record's ``finish_reason`` is ``length``;
+    3. the failure evidence / category message contains ``finish_reason=length``;
+    4. the persisted raw response is present but is unterminated JSON
+       (consistent with a hard stop at the completion cap).
+    """
+    if record.get("truncation_status"):
+        return True
+    if record.get("finish_reason") == "length":
+        return True
+    message_blob = (
+        json.dumps(record.get("failure_evidence", []), default=str)
+        + " "
+        + str(record.get("failure_category", ""))
+    )
+    if "finish_reason=length" in message_blob:
+        return True
+    raw_sha = record.get("raw_response_sha256") or ""
+    if raw_sha:
+        raw_path = STUDY_DIR / "runs" / "raw" / f"{record['run_id']}.txt"
+        if raw_path.is_file():
+            try:
+                json.loads(raw_path.read_text(encoding="utf-8"))
+            except Exception:
+                return True
+    return False
+
+
+def _truncation_count(rows: list[dict[str, Any]]) -> int:
+    return sum(1 for r in rows if _is_truncation(r))
+
+
 def _arm_metrics(records: dict[str, dict[str, Any]], arm: str) -> dict[str, Any]:
     arm_records = {rid: r for rid, r in records.items() if r["arm"] == arm}
     valid = {rid: r for rid, r in arm_records.items() if r["terminal_status"] == "succeeded"}
@@ -2433,7 +2474,7 @@ def _arm_metrics(records: dict[str, dict[str, Any]], arm: str) -> dict[str, Any]
             "cells": len(all_rows),
             "valid_runs": len(v_rows),
             "failed_runs": len(all_rows) - len(v_rows),
-            "truncations": sum(1 for r in all_rows if r.get("truncation_status")),
+            "truncations": _truncation_count(all_rows),
             "failure_taxonomy": failures,
             "pooled_micro": _micro(v_rows) if v_rows else _micro([]),
             "macro": {
@@ -2450,6 +2491,7 @@ def _arm_metrics(records: dict[str, dict[str, Any]], arm: str) -> dict[str, Any]
             "prompt_tokens": _stats([float(r["prompt_tokens"]) for r in all_rows]),
             "total_tokens": _stats([float(r["total_tokens"]) for r in all_rows]),
             "model_calls": sum(int(r["model_calls"]) for r in all_rows),
+            "requests_issued": len(all_rows),
             "latency_seconds": round(sum(float(r["latency_seconds"]) for r in all_rows), 6),
             "api_cost": round(sum(float(r["api_cost"]) for r in all_rows), 6),
             "live_api_cost": round(sum(_live_cost(r) for r in all_rows), 6),
@@ -2486,7 +2528,7 @@ def _arm_metrics(records: dict[str, dict[str, Any]], arm: str) -> dict[str, Any]
         "recorded": len(rows_all),
         "valid": len(rows_valid),
         "failed": len(rows_all) - len(rows_valid),
-        "truncations": sum(1 for r in rows_all if r.get("truncation_status")),
+        "truncations": _truncation_count(rows_all),
         "failure_taxonomy": [
             {
                 k: r[k]
@@ -2503,6 +2545,7 @@ def _arm_metrics(records: dict[str, dict[str, Any]], arm: str) -> dict[str, Any]
         "prompt_tokens": _stats([float(r["prompt_tokens"]) for r in rows_all]),
         "total_tokens": _stats([float(r["total_tokens"]) for r in rows_all]),
         "calls": sum(int(r["model_calls"]) for r in rows_all),
+        "requests_issued": len(rows_all),
         "latency_seconds": round(sum(float(r["latency_seconds"]) for r in rows_all), 6),
         "api_cost_usd": round(sum(float(r["api_cost"]) for r in rows_all), 6),
         "live_api_cost_usd": round(sum(_live_cost(r) for r in rows_all), 6),
@@ -2519,11 +2562,19 @@ def compute_metrics(records: dict[str, dict[str, Any]]) -> dict[str, Any]:
         "recorded": len(rows_all),
         "valid": sum(1 for r in rows_all if r["terminal_status"] == "succeeded"),
         "failed": sum(1 for r in rows_all if r["terminal_status"] != "succeeded"),
-        "truncations": sum(1 for r in rows_all if r.get("truncation_status")),
+        "truncations": _truncation_count(rows_all),
         "prompt_tokens": sum(int(r["prompt_tokens"]) for r in rows_all),
         "completion_tokens": sum(int(r["completion_tokens"]) for r in rows_all),
         "total_tokens": sum(int(r["total_tokens"]) for r in rows_all),
         "model_calls": sum(int(r["model_calls"]) for r in rows_all),
+        "requests_issued": len(rows_all),
+        "usage_unrecoverable_cells": sum(
+            1
+            for r in rows_all
+            if r["terminal_status"] != "succeeded"
+            and (r.get("raw_response_sha256") or r.get("model_calls", 0) == 0)
+            and int(r.get("prompt_tokens", 0)) == 0
+        ),
         "latency_seconds": round(sum(float(r["latency_seconds"]) for r in rows_all), 6),
         "api_cost_usd": _cumulative_cost(records),
         "live_api_cost_usd": round(sum(_live_cost(r) for r in rows_all), 6),
@@ -2533,6 +2584,19 @@ def compute_metrics(records: dict[str, dict[str, Any]]) -> dict[str, Any]:
         "model": PRIMARY_MODEL,
         "provider_tag": PROVIDER_TAG,
         "reasoning_mode": REASONING_MODE_LABEL,
+        "truncation_classifier": (
+            "A cell is a truncation if truncation_status is True, or "
+            "finish_reason is 'length', or the failure message contains "
+            "finish_reason=length, or the persisted raw response is "
+            "unterminated JSON (accounting audit 2026-09-11)."
+        ),
+        "calls_semantics": (
+            "model_calls = usage-bearing model calls recorded in run records; "
+            "requests_issued = one API request per manifest cell (all 60 cells "
+            "issued exactly one request). 7 failed cells with persisted raw "
+            "responses ran under the pre-usage-capture driver and their exact "
+            "provider usage is unrecoverable."
+        ),
         "arms": arms,
         "totals": totals,
         "computed_at": _now_iso(),

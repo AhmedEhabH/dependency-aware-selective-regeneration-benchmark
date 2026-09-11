@@ -3,6 +3,8 @@
   "model": "qwen/qwen3-32b",
   "provider_tag": "deepinfra/fp8",
   "reasoning_mode": "disabled",
+  "truncation_classifier": "A cell is a truncation if truncation_status is True, or finish_reason is 'length', or the failure message contains finish_reason=length, or the persisted raw response is unterminated JSON (accounting audit 2026-09-11).",
+  "calls_semantics": "model_calls = usage-bearing model calls recorded in run records; requests_issued = one API request per manifest cell (all 60 cells issued exactly one request). 7 failed cells with persisted raw responses ran under the pre-usage-capture driver and their exact provider usage is unrecoverable.",
   "arms": {
     "impact_plan": {
       "arm": "impact_plan",
@@ -445,6 +447,7 @@
         "max": 7576.0
       },
       "calls": 29,
+      "requests_issued": 30,
       "latency_seconds": 4097.19,
       "api_cost_usd": 0.084569,
       "live_api_cost_usd": 0.037617,
@@ -534,6 +537,7 @@
             "max": 7229.0
           },
           "model_calls": 5,
+          "requests_issued": 5,
           "latency_seconds": 419.094,
           "api_cost": 0.018271,
           "live_api_cost": 0.005055
@@ -647,6 +651,7 @@
             "max": 6868.0
           },
           "model_calls": 5,
+          "requests_issued": 5,
           "latency_seconds": 453.89,
           "api_cost": 0.021224,
           "live_api_cost": 0.005888
@@ -760,6 +765,7 @@
             "max": 7418.0
           },
           "model_calls": 5,
+          "requests_issued": 5,
           "latency_seconds": 651.767,
           "api_cost": 0.025465,
           "live_api_cost": 0.007065
@@ -873,6 +879,7 @@
             "max": 7206.0
           },
           "model_calls": 4,
+          "requests_issued": 5,
           "latency_seconds": 761.406,
           "api_cost": 0.005584,
           "live_api_cost": 0.005584,
@@ -987,6 +994,7 @@
             "max": 7005.0
           },
           "model_calls": 5,
+          "requests_issued": 5,
           "latency_seconds": 871.392,
           "api_cost": 0.0069,
           "live_api_cost": 0.0069
@@ -1100,6 +1108,7 @@
             "max": 7576.0
           },
           "model_calls": 5,
+          "requests_issued": 5,
           "latency_seconds": 939.641,
           "api_cost": 0.007125,
           "live_api_cost": 0.007125
@@ -1111,7 +1120,7 @@
       "recorded": 30,
       "valid": 21,
       "failed": 9,
-      "truncations": 0,
+      "truncations": 6,
       "failure_taxonomy": [
         {
           "run_id": "stgc32b-djangocms-external-validity-002-impact_plan_v2-r2",
@@ -1281,6 +1290,7 @@
         "max": 8255.0
       },
       "calls": 23,
+      "requests_issued": 30,
       "latency_seconds": 2246.939,
       "api_cost_usd": 0.019751,
       "live_api_cost_usd": 0.016411,
@@ -1358,6 +1368,7 @@
             "max": 4207.0
           },
           "model_calls": 3,
+          "requests_issued": 5,
           "latency_seconds": 62.672,
           "api_cost": 0.004575,
           "live_api_cost": 0.001235
@@ -1366,7 +1377,7 @@
           "cells": 5,
           "valid_runs": 0,
           "failed_runs": 5,
-          "truncations": 0,
+          "truncations": 5,
           "failure_taxonomy": [
             {
               "run_id": "stgc32b-djangocms-external-validity-004-impact_plan_v2-r1",
@@ -1471,6 +1482,7 @@
             "max": 0.0
           },
           "model_calls": 0,
+          "requests_issued": 5,
           "latency_seconds": 708.937,
           "api_cost": 0.0,
           "live_api_cost": 0.0
@@ -1523,6 +1535,7 @@
             "max": 5709.0
           },
           "model_calls": 5,
+          "requests_issued": 5,
           "latency_seconds": 351.36,
           "api_cost": 0.003629,
           "live_api_cost": 0.003629
@@ -1575,6 +1588,7 @@
             "max": 5523.0
           },
           "model_calls": 5,
+          "requests_issued": 5,
           "latency_seconds": 280.985,
           "api_cost": 0.003244,
           "live_api_cost": 0.003244,
@@ -1690,6 +1704,7 @@
             "max": 5398.0
           },
           "model_calls": 5,
+          "requests_issued": 5,
           "latency_seconds": 354.97,
           "api_cost": 0.003793,
           "live_api_cost": 0.003793
@@ -1698,7 +1713,7 @@
           "cells": 5,
           "valid_runs": 4,
           "failed_runs": 1,
-          "truncations": 0,
+          "truncations": 1,
           "failure_taxonomy": [
             {
               "run_id": "stgc32b-djangocms-external-validity-008-impact_plan_v2-r2",
@@ -1755,6 +1770,7 @@
             "max": 8255.0
           },
           "model_calls": 5,
+          "requests_issued": 5,
           "latency_seconds": 488.015,
           "api_cost": 0.00451,
           "live_api_cost": 0.00451
@@ -1767,14 +1783,16 @@
     "recorded": 60,
     "valid": 23,
     "failed": 37,
-    "truncations": 24,
+    "truncations": 30,
     "prompt_tokens": 179641,
     "completion_tokens": 141611,
     "total_tokens": 321252,
     "model_calls": 52,
+    "requests_issued": 60,
+    "usage_unrecoverable_cells": 8,
     "latency_seconds": 6344.129,
     "api_cost_usd": 0.10432,
     "live_api_cost_usd": 0.054028
   },
-  "computed_at": "2026-09-11T02:07:39.119896+00:00"
+  "computed_at": "2026-09-11T11:46:44.373291+00:00"
 }

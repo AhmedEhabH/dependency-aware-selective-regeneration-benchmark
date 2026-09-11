@@ -106,14 +106,18 @@ the historical rows above.
 | Model | Study status | Arm | Valid | Trunc. | P | R | F1 | Total tokens | Calls | Cost (live) |
 |---|---|---|---|---|---|---|---|---|---|---|
 | Qwen3-32B | Replication | ImpactPlan-v1 | 2/30 | 24 | 0.0000 | 0.0000 | 0.0000 | 198,979 | 29 | $0.037617 |
-| Qwen3-32B | Replication | ImpactPlan-v2 | 21/30 | 0 | 0.3600 | 0.6207 | 0.4557 | 122,273 | 23 | $0.016411 |
+| Qwen3-32B | Replication | ImpactPlan-v2 | 21/30 | 6 | 0.3600 | 0.6207 | 0.4557 | 122,273 | 23 | $0.016411 |
 
 > **Directional pattern:** Qwen3-32B v1 (full explicit-policy serialization)
 > truncates at the frozen 4096 cap in **24/30** cells — the verbose output does
 > not fit the frozen cap; recorded verbatim, no reruns. The sparse v2
-> representation remains operational (**21/30 valid, 0 truncations**). The
-> directional replication label (`DIRECTIONALLY REPLICATED`) requires only
-> (1) v2 validity rate > v1 and (2) v2 truncation rate < v1 — both hold. All
+> representation remains operational (**21/30 valid**); v2 truncations = **6**
+> (S004 r1–r5 and S008 r2 hit the frozen 4096 completion cap,
+> `finish_reason=length`; accounting audit 2026-09-11 — see
+> [`reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/ACCOUNTING_CORRECTION_NOTE.md`](reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/ACCOUNTING_CORRECTION_NOTE.md)).
+> The directional replication label (`DIRECTIONALLY REPLICATED`) requires only
+> (1) v2 validity rate > v1 and (2) v2 truncation rate < v1 — both hold
+> (0.700 > 0.067 and 0.200 < 0.800). All
 > agreement statistics are **descriptive only**; no equivalence/significance
 > or causal claim. Cross-model Sparse-v2 Jaccard agreement (historical
 > Qwen3-Coder × new Qwen3-32B, 102 cross-product pairs): mean 0.284, median
@@ -121,6 +125,13 @@ the historical rows above.
 > [`reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md`](reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md)
 > (+ `.csv`). Verify with
 > [`scripts/verify_qwen3_32b_crossmodel_claims.py`](scripts/verify_qwen3_32b_crossmodel_claims.py).
+>
+> **Call accounting:** all 60 manifest cells issued exactly one API request
+> (`requests_issued = 60`). `model_calls` (52 usage-bearing) undercounts the
+> 8 failed cells that ran before usage capture was wired in; 7 of those 8 have
+> persisted raw responses but their exact provider usage is unrecoverable, and
+> 1 (S006 v1 r3) is a transport failure with no response. Details in the
+> correction note.
 
 ### Todo component studies (frozen, selection-stage)
 
