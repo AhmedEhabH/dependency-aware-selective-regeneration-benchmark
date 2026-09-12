@@ -101,6 +101,31 @@ verifier: `scripts/verify_controlled_encoding_4096_claims.py` (27/27 PASS).
 | Scientific study cells executed | 0 | absence | no `manifest_60.json`; no `run_records.jsonl` | §M1A |
 | Probe cost | ≈ $0.00593 | `capability_probes.json` usage | prompt×$0.30/1M + completion×$1.00/1M | §M1A |
 
+## 3b. M1B — Controlled 16K cap-relaxed encoding ablation (2026-09-12)
+
+POST-HOC CONTROLLED CAP-RELAXED ABLATION (NOT a preregistered
+between-model or universal-superiority claim). Evidence directory:
+`research/controlled-encoding-ablation-16k-01/`. Zero-API verifier:
+`scripts/verify_controlled_encoding_16k_claims.py` (42/42 PASS).
+
+| Claim | Value | Canonical artifact | Exact field / aggregation | Verifier check |
+|---|---|---|---|---|
+| Frozen M1A parity (only cap changed) | PASS | `FROZEN_M1A_PARITY.json` | `parity == "PASS"`, `only_study_level_change == "completion_cap 4096 -> 16384"` | §M1B |
+| Manifest cells | 60 | `manifest_60.json` | `total_cells` + per-cell `max_completion_tokens == 16384` | §M1B |
+| Recorded / Valid / Failed | 60 / 60 / 0 | `run_records.jsonl` | counts over all rows | §M1B |
+| Truncations | 0 | `run_records.jsonl` | count `truncation_status == true` | §M1B |
+| Requests / Responses / usage-known | 60 / 60 / 60 | `run_records.jsonl` | `request_issued` / `provider_response_received` / `usage_known` | §M1B |
+| Total tokens (all-cell) | 433,741 | `run_records.jsonl` | sum `total_tokens` (157,980 prompt + 275,761 completion) | §M1B |
+| Recorded cost | $0.323156 | `run_records.jsonl` | sum `api_cost` (recomputes at live DeepInfra rates) | §M1B |
+| Full-v2 valid / trunc / P / R / F1 | 30/30 / 0 / 0.4515 / 0.7750 / 0.5706 | `final_metrics.json` | `arms.full_v2.{valid,truncations,overall.*}` | §M1B |
+| Full-v2 mean completion / records | 8,383 / 144 | `final_metrics.json` | `arms.full_v2.completion_tokens.mean` / `serialized_records.mean` | §M1B |
+| Sparse-v2 valid / trunc / P / R / F1 | 30/30 / 0 / 0.7211 / 0.8833 / 0.7940 | `final_metrics.json` | `arms.sparse_v2.{valid,truncations,overall.*}` | §M1B |
+| Sparse-v2 mean completion / records | 809 / 4.9 | `final_metrics.json` | `arms.sparse_v2.completion_tokens.mean` / `serialized_records.mean` | §M1B |
+| Primary effects (Sparse vs Full) | Δvalidity 0.0pp, Δtrunc 0.0pp, Δmean completion −7,573.9, Δmean records −139.1 | `interpretation.json` | `interpretation.primary_controlled_effects.*` | §M1B |
+| Result label | CONTROLLED ENCODING COST EFFECT: SUPPORTED | `reports/CONTROLLED_ENCODING_16K_RESULT.md` | §M1B (descriptive; no universal semantic superiority) | §M1B |
+| Raw SHA-256 sidecars | 60/60 verified | `runs/raw/*.sha256` | file == sidecar == recorded `raw_response_sha256` | §M1B |
+| Six closure gates + audit | ALL PASS (zero calls) | `closure_gates.json` | `gates_all_passed` + `audit.passed` | §M1B |
+
 ## 4. Token semantics (V7 Table III correction)
 
 | Arm | Paper value | Canonical field | Semantic meaning |

@@ -24,6 +24,7 @@
 | Qwen3-32B cross-model replication | COMPLETE / AUDITED (post-hoc) |
 | Qwen3-Coder-30B-A3B-Instruct cross-model / cross-provider replication | COMPLETE / AUDITED (post-hoc) |
 | **M1A — Controlled 4096-cap feasibility boundary** | **COMPLETE / AUDITED (post-hoc capability/feasibility boundary; NOT a 60-cell ablation)** |
+| **M1B — Controlled 16K cap-relaxed encoding ablation** | **COMPLETE / AUDITED (post-hoc controlled cap-relaxed ablation; 60/60 cells; cost effect SUPPORTED)** |
 
 The selection-stage benchmark research is **closed and audited** (external
 GPT-5.6 Sol audit PASS, 2026-09-08). The benchmark tag means the benchmark
@@ -35,7 +36,9 @@ was closed and audited (a preregistered capability/feasibility result, NOT a
 completed 60-cell controlled ablation; see
 [`reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`](reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md)).
 A separately preregistered cap-relaxed study (M1B, completion cap 16384 for
-both arms) is planned but has NOT been run.
+both arms) has now been completed and audited (2026-09-12) — see the M1B
+section below. M2 (serialization-density stress) and M3 (Sparse-v2 Graph-OFF
+vs Graph-Hints) remain planned but NOT run.
 
 ---
 
@@ -84,6 +87,17 @@ completed end-to-end measured result of these studies.
   probe completes (419 tokens, 144-candidate reconstruction). No semantic
   superiority claim. See
   [`reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`](reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md).
+- **M1B — Controlled 16K cap-relaxed encoding ablation (2026-09-12,
+  audited):** POST-HOC CONTROLLED CAP-RELAXED ABLATION, completion cap 16384
+  for BOTH arms, same audited M1A schema/prompts/policies/scorer (frozen
+  M1A-parity PASS). **60/60 cells recorded, 60 valid, 0 failed, 0
+  truncations.** Full-v2 30/30 valid (mean 8,383 completion tokens, 144
+  serialized records/run, P 0.451 / R 0.775 / F1 0.571); Sparse-v2 30/30
+  valid (mean 809 completion tokens, ~4.9 serialized records/run, P 0.721 /
+  R 0.883 / F1 0.794). **CONTROLLED ENCODING COST EFFECT: SUPPORTED**
+  (descriptive; Sparse uses substantially fewer completion tokens/records at
+  equal 100% validity). No universal semantic superiority claim. See
+  [`reports/CONTROLLED_ENCODING_16K_RESULT.md`](reports/CONTROLLED_ENCODING_16K_RESULT.md).
 - All closure gates, evidence freezing, the audited v2 study tag, and the final
   benchmark tag `v0.11.0-benchmark-complete`.
 - A documentation package that lets a fresh researcher start the paper phase
@@ -220,6 +234,33 @@ temperature 0, fallback OFF, graph OFF, synthetic non-study fixture.
 - This is an operational feasibility boundary, NOT causal proof that
   Preserve-by-Omission is superior. A separately preregistered cap-relaxed
   study (M1B, cap 16384 for BOTH arms) is planned but NOT run.
+
+### Controlled 16K Cap-Relaxed Encoding Ablation (M1B, 2026-09-12)
+
+**POST-HOC CONTROLLED CAP-RELAXED ENCODING ABLATION.** Same model
+(`qwen/qwen3-coder` = Qwen3-Coder-480B-A35B-Instruct @ DeepInfra
+`deepinfra/turbo`), same common semantic-rich Full-v2/Sparse-v2 schema,
+temperature 0, fallback OFF, graph OFF — the ONLY study-level change from M1A
+is the completion cap **4096 → 16384 (BOTH arms)**. Frozen M1A-parity artifact
+PASS (nothing except the cap changed; nothing except the serialization policy
+differs between arms).
+
+**60/60 cells recorded, 60 valid, 0 failed, 0 truncations** (6 curated
+development/mechanism scenarios × 2 arms × 5 reps). 60 requests / 60 responses
+/ 60 usage-known / 0 unknown; 157,980 prompt + 275,761 completion = 433,741
+tokens; recorded cost **$0.323156** (< $0.75 ceiling).
+
+| Arm | Valid | Trunc. | Mean completion tokens | Mean serialized records | P | R | F1 | Cost |
+|---|---|---|---|---|---|---|---|---|
+| Full-v2 | 30/30 | 0 | 8,383 | 144 | 0.4515 | 0.7750 | 0.5706 | $0.275124 |
+| Sparse-v2 | 30/30 | 0 | 809 | 4.9 | 0.7211 | 0.8833 | 0.7940 | $0.048032 |
+
+**CONTROLLED ENCODING COST EFFECT: SUPPORTED** (descriptive): under a
+non-binding 16k budget both arms reach 100% validity (0 truncations), and
+Sparse-v2 uses substantially fewer completion tokens (−7,574 mean) and
+serialized records (−139 mean) for the same decoded 144-candidate policies.
+No universal semantic superiority claim. Verifier:
+`scripts/verify_controlled_encoding_16k_claims.py` (zero API, 42/42 PASS).
 
 ### Todo component studies (frozen, selection-stage)
 
