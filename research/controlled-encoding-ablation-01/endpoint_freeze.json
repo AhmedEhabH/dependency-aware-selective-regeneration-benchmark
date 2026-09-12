@@ -1,0 +1,43 @@
+{
+  "model_id": "qwen/qwen3-coder",
+  "model_name": "Qwen: Qwen3 Coder 480B A35B",
+  "provider_name": "DeepInfra",
+  "provider_tag": "deepinfra/turbo",
+  "quantization": "fp4",
+  "context_length": 262144,
+  "max_completion_tokens": 65536,
+  "supported_parameters": [
+    "max_tokens",
+    "temperature",
+    "top_p",
+    "stop",
+    "frequency_penalty",
+    "presence_penalty",
+    "repetition_penalty",
+    "top_k",
+    "seed",
+    "min_p",
+    "response_format",
+    "tools",
+    "tool_choice",
+    "logit_bias",
+    "structured_outputs"
+  ],
+  "input_price_per_1M_usd": 0.3,
+  "output_price_per_1M_usd": 1.0,
+  "reasoning_frozen": null,
+  "reasoning_mode": "direct/non-thinking (no reasoning control parameter sent)",
+  "temperature": 0.0,
+  "completion_cap": 4096,
+  "graph": "OFF",
+  "routing": {
+    "provider": {
+      "order": [
+        "deepinfra/turbo"
+      ],
+      "allow_fallbacks": false,
+      "require_parameters": true
+    }
+  },
+  "metadata_fetched_at_utc": "2026-09-12T20:20:39.894517+00:00"
+}
