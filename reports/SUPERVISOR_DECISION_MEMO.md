@@ -49,6 +49,17 @@ hash-reproducible, and a ONE-DAY graph-evidence ablation is feasible
 (GRAPH_ONE_DAY_FEASIBILITY: YES). A real historical-commit benchmark is
 recommended to reduce author-created requirement/gold bias.
 
+On 2026-09-12 the **M1A controlled 4096-cap feasibility boundary** was closed
+and audited: under the frozen 4096 completion budget and the common
+semantic-rich Full-v2/Sparse-v2 schema, the Full-v2 capability probe
+terminated at the completion cap (decision id 76) before emitting all 144
+required decisions, whereas the Sparse-v2 probe completed (419 completion
+tokens) and deterministically reconstructed a valid 144-candidate policy.
+This is an operational feasibility boundary — **not** a completed 60-cell
+ablation and **not** causal proof that Preserve-by-Omission is superior.
+A separately preregistered cap-relaxed study (M1B, completion cap 16384 for
+both arms, same schema/prompt design) is planned but NOT run.
+
 ## 2. Supervisor options
 
 ### OPTION A — Keep the paper centered on sparse impact-plan serialization / Preserve-by-Omission
@@ -121,6 +132,10 @@ Do NOT rewrite the manuscript's main claim until supervisor guidance.
 ## 4. Pointers
 
 - Model identities: `docs/MODEL_IDENTITIES.md`
+- **M1A controlled 4096-cap feasibility boundary (2026-09-12):**
+  `reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`,
+  `research/controlled-encoding-ablation-01/`,
+  `scripts/verify_controlled_encoding_4096_claims.py`
 - 30B study: `reports/scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01/`,
   `reports/QWEN3_CODER_30B_A3B_CROSSMODEL_PROTOCOL.md`
 - Qwen3-32B study: `reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/`

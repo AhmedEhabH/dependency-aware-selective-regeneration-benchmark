@@ -77,6 +77,30 @@ Evidence directories (canonical, frozen, do not modify):
 | Calls | 30 | `run_records.jsonl` | sum `model_calls` | §[3] |
 | Recorded cost | $0.064634 | `run_records.jsonl` | sum `api_cost` | §[3] |
 
+## 3a. M1A — Controlled 4096-cap feasibility boundary (2026-09-12)
+
+This is a **preregistered capability/feasibility boundary**, NOT a completed
+60-cell controlled ablation, and NO semantic superiority claim is made.
+Evidence directory: `research/controlled-encoding-ablation-01/`. Zero-API
+verifier: `scripts/verify_controlled_encoding_4096_claims.py` (27/27 PASS).
+
+| Claim | Value | Canonical artifact | Exact field / aggregation | Verifier check |
+|---|---|---|---|---|
+| PROMPT_CONTROLLED_DIFF | PASS | `prompt_control.json` | `PROMPT_CONTROLLED_DIFF == "PASS"` + per-scenario checks | §M1A |
+| Representation equivalence (`D_s(E_s(π)) == π`) | PASS | module recompute | `representation_equivalence_checks()["REPRESENTATION_EQUIVALENCE"]` | §M1A |
+| Six pre-benchmark gates + audit | ALL PASS (zero calls) | `prestudy_gates.json` | `all_passed` + `audit.passed` | §M1A |
+| Probe A (Full-v2) finish_reason | `length` | `capability_probes.json` | `probes.probe_a_full_v2.finish_reason` | §M1A |
+| Probe A completion_tokens | 4096 (== frozen cap) | `capability_probes.json` | `probes.probe_a_full_v2.usage.completion_tokens` | §M1A |
+| Probe A truncated decision id | 76 | `probes/raw/probe_a_full_v2.txt` | last complete `"id"` before unterminated JSON | §M1A |
+| Probe A schema-valid | False | `capability_probes.json` | `probes.probe_a_full_v2.schema_valid` | §M1A |
+| Probe B (Sparse-v2) finish_reason | `stop` | `capability_probes.json` | `probes.probe_b_sparse_v2.finish_reason` | §M1A |
+| Probe B completion_tokens | 419 | `capability_probes.json` | `probes.probe_b_sparse_v2.usage.completion_tokens` | §M1A |
+| Probe B decoded candidate count | 144 | `capability_probes.json` | `probes.probe_b_sparse_v2.decoded_candidate_count` | §M1A |
+| Probe B semantic validation | PASS | `capability_probes.json` | `probes.probe_b_sparse_v2.schema_valid` | §M1A |
+| Raw SHA-256 (both probes) | verified | `probes/raw/*.sha256` | file == sidecar == recorded `raw_response_sha256` | §M1A |
+| Scientific study cells executed | 0 | absence | no `manifest_60.json`; no `run_records.jsonl` | §M1A |
+| Probe cost | ≈ $0.00593 | `capability_probes.json` usage | prompt×$0.30/1M + completion×$1.00/1M | §M1A |
+
 ## 4. Token semantics (V7 Table III correction)
 
 | Arm | Paper value | Canonical field | Semantic meaning |

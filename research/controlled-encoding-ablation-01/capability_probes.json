@@ -1,0 +1,74 @@
+{
+  "study_id": "scientific-djangocms-controlled-encoding-ablation-01",
+  "model": "qwen/qwen3-coder",
+  "model_human": "Qwen3-Coder-480B-A35B-Instruct",
+  "provider": "DeepInfra",
+  "provider_tag": "deepinfra/turbo",
+  "quantization": "fp4",
+  "temperature": 0.0,
+  "max_tokens": 4096,
+  "probes": {
+    "probe_a_full_v2": {
+      "probe": "probe_a_full_v2",
+      "arm": "full_v2",
+      "schema_name": "controlled_encoding_full_v2",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "length",
+      "provider_reported": "DeepInfra",
+      "usage": {
+        "prompt_tokens": 2370,
+        "completion_tokens": 4096,
+        "total_tokens": 6466
+      },
+      "usage_known": true,
+      "prompt_sha256": "7a5584629c5eaa312f597aac5f2a1cf15a9ddbbead1aa9157e5f2e5a10c286f2",
+      "raw_response_sha256": "e7e39e2161fbd85dfc7bf6ccd54f26fdc87c35732c7b8d4baff862f46e3db153",
+      "errors": [
+        "content not valid JSON: Unterminated string starting at: line 78 column 26 (char 13767)"
+      ],
+      "schema_valid": false,
+      "validated": false,
+      "provider_name": "DeepInfra",
+      "contract_ok": false
+    },
+    "probe_b_sparse_v2": {
+      "probe": "probe_b_sparse_v2",
+      "arm": "sparse_v2",
+      "schema_name": "controlled_encoding_sparse_v2",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "DeepInfra",
+      "usage": {
+        "prompt_tokens": 2384,
+        "completion_tokens": 419,
+        "total_tokens": 2803
+      },
+      "usage_known": true,
+      "prompt_sha256": "4ec65cbfb9633ba70335bef75aa4ba2902140615b579cfc2c4bda76111b07210",
+      "raw_response_sha256": "eff2a301d0926a27fbe697682ac0dd2d99e190064d2e992297f2e54314829261",
+      "decoded_candidate_count": 144,
+      "decoded_write_set_ids": [
+        10,
+        11,
+        92
+      ],
+      "validated_payload_keys": [
+        "architecture_checks",
+        "decisions",
+        "escalation_reason",
+        "validation_obligations"
+      ],
+      "errors": [],
+      "schema_valid": true,
+      "validated": true,
+      "provider_name": "DeepInfra",
+      "contract_ok": true
+    }
+  },
+  "contract_pass": false,
+  "ran_at": "2026-09-12T20:20:39.895518+00:00"
+}
