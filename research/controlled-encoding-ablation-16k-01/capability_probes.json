@@ -1,0 +1,84 @@
+{
+  "study_id": "scientific-djangocms-controlled-encoding-ablation-16k-01",
+  "model": "qwen/qwen3-coder",
+  "model_human": "Qwen3-Coder-480B-A35B-Instruct",
+  "provider": "DeepInfra",
+  "provider_tag": "deepinfra/turbo",
+  "quantization": "fp4",
+  "temperature": 0.0,
+  "max_tokens": 16384,
+  "probes": {
+    "probe_a_full_v2": {
+      "probe": "probe_a_full_v2",
+      "arm": "full_v2",
+      "schema_name": "controlled_encoding_full_v2",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "DeepInfra",
+      "usage": {
+        "prompt_tokens": 2370,
+        "completion_tokens": 7937,
+        "total_tokens": 10307
+      },
+      "usage_known": true,
+      "prompt_sha256": "7a5584629c5eaa312f597aac5f2a1cf15a9ddbbead1aa9157e5f2e5a10c286f2",
+      "raw_response_sha256": "be94b6318ad8782b47fee717ab7ae8ae800514a16596d2cd57913df39619ca24",
+      "decoded_candidate_count": 144,
+      "decoded_write_set_ids": [
+        3,
+        10,
+        92
+      ],
+      "validated_payload_keys": [
+        "architecture_checks",
+        "decisions",
+        "escalation_reason",
+        "validation_obligations"
+      ],
+      "errors": [],
+      "schema_valid": true,
+      "validated": true,
+      "provider_name": "DeepInfra",
+      "contract_ok": true
+    },
+    "probe_b_sparse_v2": {
+      "probe": "probe_b_sparse_v2",
+      "arm": "sparse_v2",
+      "schema_name": "controlled_encoding_sparse_v2",
+      "attempts_used": 2,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "DeepInfra",
+      "usage": {
+        "prompt_tokens": 2384,
+        "completion_tokens": 413,
+        "total_tokens": 2797
+      },
+      "usage_known": true,
+      "prompt_sha256": "4ec65cbfb9633ba70335bef75aa4ba2902140615b579cfc2c4bda76111b07210",
+      "raw_response_sha256": "720887140bd8cc822c7774578d2725664912a6c8ef65024c50d2f39c79615c5c",
+      "decoded_candidate_count": 144,
+      "decoded_write_set_ids": [
+        10,
+        92,
+        127
+      ],
+      "validated_payload_keys": [
+        "architecture_checks",
+        "decisions",
+        "escalation_reason",
+        "validation_obligations"
+      ],
+      "errors": [],
+      "schema_valid": true,
+      "validated": true,
+      "provider_name": "DeepInfra",
+      "contract_ok": true
+    }
+  },
+  "contract_pass": true,
+  "ran_at": "2026-09-12T21:20:57.072161+00:00"
+}
