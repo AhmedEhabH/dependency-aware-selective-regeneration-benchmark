@@ -16,21 +16,26 @@
 | **Benchmark** | **COMPLETE** |
 | **Release** | `v0.11.0-benchmark-complete` |
 | **Current phase** | **Paper / figures / supervisor review** |
-| **Scientific runs remaining** | **ZERO** |
+| **Scientific runs remaining** | **ZERO (M1A)**; next separate M1B study preregistered but NOT run |
 | Saleor | FUTURE WORK / NOT CURRENT |
 | Graph-aware v3 | FUTURE WORK |
 | Fine-tuning | FUTURE WORK |
 | djangoCMS ImpactPlan-v2 study | POST-HOC / EXPLORATORY |
 | Qwen3-32B cross-model replication | COMPLETE / AUDITED (post-hoc) |
 | Qwen3-Coder-30B-A3B-Instruct cross-model / cross-provider replication | COMPLETE / AUDITED (post-hoc) |
+| **M1A — Controlled 4096-cap feasibility boundary** | **COMPLETE / AUDITED (post-hoc capability/feasibility boundary; NOT a 60-cell ablation)** |
 
 The selection-stage benchmark research is **closed and audited** (external
 GPT-5.6 Sol audit PASS, 2026-09-08). The benchmark tag means the benchmark
 research is complete and frozen — it does **not** mean successful end-to-end
 executor regeneration. Two post-hoc robustness replications
 (Qwen3-32B and Qwen3-Coder-30B-A3B-Instruct) were completed and audited in
-2026-09-11; no further scientific model calls are planned. The current task
-is academic-output preparation.
+2026-09-11. On 2026-09-12 the **M1A controlled 4096-cap feasibility boundary**
+was closed and audited (a preregistered capability/feasibility result, NOT a
+completed 60-cell controlled ablation; see
+[`reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`](reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md)).
+A separately preregistered cap-relaxed study (M1B, completion cap 16384 for
+both arms) is planned but has NOT been run.
 
 ---
 
@@ -72,6 +77,13 @@ completed end-to-end measured result of these studies.
 - Two post-hoc robustness replications (60 cells each), audited: **Qwen3-32B**
   (cross-model, DeepInfra) and **Qwen3-Coder-30B-A3B-Instruct**
   (cross-model / cross-provider, SiliconFlow).
+- **M1A — Controlled 4096-cap feasibility boundary (2026-09-12, audited):** a
+  preregistered capability/feasibility boundary (NOT a 60-cell controlled
+  ablation) showing the Full-v2 explicit-PRESERVE capability probe terminates
+  at the frozen 4096 completion cap (decision id 76) while the Sparse-v2
+  probe completes (419 tokens, 144-candidate reconstruction). No semantic
+  superiority claim. See
+  [`reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`](reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md).
 - All closure gates, evidence freezing, the audited v2 study tag, and the final
   benchmark tag `v0.11.0-benchmark-complete`.
 - A documentation package that lets a fresh researcher start the paper phase
@@ -179,6 +191,35 @@ above.**
 > [`reports/QWEN3_CODER_30B_A3B_CROSSMODEL_AGREEMENT.md`](reports/QWEN3_CODER_30B_A3B_CROSSMODEL_AGREEMENT.md)
 > (+ `.csv`). Verify with
 > [`scripts/verify_qwen3_coder_30b_a3b_crossmodel_claims.py`](scripts/verify_qwen3_coder_30b_a3b_crossmodel_claims.py).
+
+### Controlled 4096-Cap Feasibility Boundary (M1A, 2026-09-12)
+
+**POST-HOC / EXPLORATORY CAPABILITY-FEASIBILITY BOUNDARY — NOT a completed
+60-cell controlled ablation.** Same model (`qwen/qwen3-coder` =
+Qwen3-Coder-480B-A35B-Instruct @ DeepInfra `deepinfra/turbo`), same common
+semantic-rich Full-v2/Sparse-v2 schema, same frozen 4096 completion cap,
+temperature 0, fallback OFF, graph OFF, synthetic non-study fixture.
+
+> Under the frozen 4096-token completion budget and the common semantic-rich
+> Full-v2/Sparse-v2 schema, the Full-v2 capability probe terminated at the
+> completion cap before emitting all 144 required decisions, whereas the
+> Sparse-v2 probe completed and deterministically reconstructed a valid
+> 144-candidate policy.
+
+- **Probe A (Full-v2):** `finish_reason=length`, completion_tokens=4096,
+  truncated at decision id 76 (≈7,760 tokens needed at observed density);
+  schema-valid False; usage captured; raw SHA verified.
+- **Probe B (Sparse-v2):** `finish_reason=stop`, completion_tokens=419,
+  3 explicit non-PRESERVE decisions, decoded_candidate_count=144, semantic
+  validation PASS; raw SHA verified.
+- Prompt control proof PASS (only SERIALIZATION_POLICY differs between arms);
+  representation equivalence PASS (`D_s(E_s(π)) == π`); six pre-benchmark
+  gates + audit PASS; **ZERO 60-cell scientific study cells executed**.
+- Verifier: `scripts/verify_controlled_encoding_4096_claims.py` (zero API,
+  27/27 PASS).
+- This is an operational feasibility boundary, NOT causal proof that
+  Preserve-by-Omission is superior. A separately preregistered cap-relaxed
+  study (M1B, cap 16384 for BOTH arms) is planned but NOT run.
 
 ### Todo component studies (frozen, selection-stage)
 
