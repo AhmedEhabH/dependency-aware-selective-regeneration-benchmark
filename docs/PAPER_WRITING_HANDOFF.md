@@ -57,8 +57,17 @@ result):
 | Todo v1.1 end-to-end (`exp-20260906-v11`) | 30 | Frozen, NO-GO (0/30 functional passes) |
 | djangoCMS primary (`scientific-stagec-djangocms-01`) | 60 | Frozen, primary selection study |
 | djangoCMS ImpactPlan-v2 (`scientific-stagec-djangocms-impactplan-v2-01`) | 30 | Frozen, POST-HOC / EXPLORATORY (audited) |
+| **M1A — Controlled 4096-cap feasibility boundary** (`scientific-djangocms-controlled-encoding-ablation-01`) | **0 study cells (2 probes)** | Frozen, POST-HOC / EXPLORATORY capability-feasibility boundary (audited) |
 
-Studies are kept separate; **no 90-cell pooling**.
+Studies are kept separate; **no 90-cell pooling**. M1A is a
+capability/feasibility boundary, **NOT** a completed 60-cell controlled
+ablation; it records that the Full-v2 capability probe terminates at the
+frozen 4096 completion cap before emitting all 144 required decisions, whereas
+the Sparse-v2 probe completes and deterministically reconstructs a valid
+144-candidate policy (see
+[`reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`](../reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md)).
+No semantic superiority claim is made. A separately preregistered cap-relaxed
+study (M1B, completion cap 16384 for both arms) is planned but NOT run.
 
 ## 3. Final frozen metrics
 
