@@ -57,8 +57,17 @@ required decisions, whereas the Sparse-v2 probe completed (419 completion
 tokens) and deterministically reconstructed a valid 144-candidate policy.
 This is an operational feasibility boundary — **not** a completed 60-cell
 ablation and **not** causal proof that Preserve-by-Omission is superior.
-A separately preregistered cap-relaxed study (M1B, completion cap 16384 for
-both arms, same schema/prompt design) is planned but NOT run.
+
+The separately preregistered **M1B cap-relaxed controlled encoding ablation**
+(completion cap 16384 for both arms, same schema/prompt design) was then
+completed and audited on 2026-09-12: **60/60 cells valid, 0 failed, 0
+truncations** (Full-v2 30/30, Sparse-v2 30/30). Full-v2 mean completion 8,383
+tokens / 144 serialized records per run (P 0.4515 / R 0.7750 / F1 0.5706);
+Sparse-v2 mean completion 809 tokens / ~4.9 serialized records per run
+(P 0.7211 / R 0.8833 / F1 0.7940). **CONTROLLED ENCODING COST EFFECT:
+SUPPORTED** (descriptive): at equal 100% validity, Sparse-v2 uses
+substantially fewer completion tokens and serialized records. No universal
+semantic superiority is claimed.
 
 ## 2. Supervisor options
 

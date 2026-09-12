@@ -1,0 +1,52 @@
+{
+  "decisions": [
+    {
+      "id": 10,
+      "action": "REGENERATE",
+      "rationale": "The useradmin module likely contains the view logic for the admin dashboard and needs to be updated to render an interactive chart instead of a static table.",
+      "confidence": 0.85,
+      "reason_codes": ["requirement_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 92,
+      "action": "REGENERATE",
+      "rationale": "cms_admin template tags may need modification to support rendering the new interactive chart component in the admin interface.",
+      "confidence": 0.75,
+      "reason_codes": ["requirement_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 127,
+      "action": "REGENERATE",
+      "rationale": "The views module may require updates to handle the new AJAX endpoint for refreshing activity data.",
+      "confidence": 0.8,
+      "reason_codes": ["requirement_change"]
+    ,
+      "evidence": []
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-1",
+      "kind": "changed_requirement",
+      "target": "cms.admin.tests.test_useradmin",
+      "reason": "Verify that the admin dashboard now renders an interactive activity chart per the updated requirement.",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "VO-2",
+      "kind": "changed_requirement",
+      "target": "cms.tests.test_views",
+      "reason": "Ensure the new refresh functionality correctly reloads activity data without page reload.",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [
+    "Keep the existing admin styling",
+    "Do not introduce a new external charting library"
+  ],
+  "escalation_reason": ""
+}
