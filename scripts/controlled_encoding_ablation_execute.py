@@ -59,7 +59,6 @@ import argparse
 import hashlib
 import json
 import os
-import shutil
 import subprocess
 import sys
 import time
@@ -71,7 +70,6 @@ _PROJECT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_PROJECT_DIR))
 sys.path.insert(0, str(_PROJECT_DIR / "src"))
 
-from benchmark.core.enums import ActionKind  # noqa: E402
 from benchmark.external_validity import study_runtime as wiring  # noqa: E402
 from benchmark.selection import encoding_ablation as ea  # noqa: E402
 
@@ -705,7 +703,7 @@ def cmd_probe(_args: argparse.Namespace) -> int:
             continue
         try:
             parsed = json.loads(out["raw"])
-        except json.JSONDecodeError as exc:
+        except json.JSONDecodeError:
             parsed = None
         choices = (parsed or {}).get("choices") or []
         choice = choices[0] if choices else {}
@@ -1092,7 +1090,6 @@ def gate5_integration_test() -> dict[str, Any]:
         payload = _fixture_payload_for_arm(arm, mapping)
         validator = ea.validate_full_v2 if arm == "full_v2" else ea.validate_sparse_v2
         vres = validator(payload)
-        policy = vres.get("policy")
         write_set_paths = [mapping.path_for(i) for i in vres.get("decoded_write_set_ids", [])]
         checks.append(
             {
@@ -1582,7 +1579,7 @@ def _build_cell_evidence(
 
     try:
         parsed = json.loads(raw_text or "")
-    except json.JSONDecodeError as exc:
+    except json.JSONDecodeError:
         parsed = None
 
     choices = (parsed or {}).get("choices") or []
@@ -1633,8 +1630,6 @@ def _build_cell_evidence(
     decoded_candidate_count = 0
     decoded_write_set_ids: list[int] = []
     decoded_policy_sha256 = ""
-    schema_valid = False
-    policy: ea.CompletePolicy | None = None
     if content:
         try:
             payload = json.loads(content)
