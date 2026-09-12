@@ -58,6 +58,7 @@ result):
 | djangoCMS primary (`scientific-stagec-djangocms-01`) | 60 | Frozen, primary selection study |
 | djangoCMS ImpactPlan-v2 (`scientific-stagec-djangocms-impactplan-v2-01`) | 30 | Frozen, POST-HOC / EXPLORATORY (audited) |
 | **M1A — Controlled 4096-cap feasibility boundary** (`scientific-djangocms-controlled-encoding-ablation-01`) | **0 study cells (2 probes)** | Frozen, POST-HOC / EXPLORATORY capability-feasibility boundary (audited) |
+| **M1B — Controlled 16K cap-relaxed encoding ablation** (`scientific-djangocms-controlled-encoding-ablation-16k-01`) | **60 (6×2×5)** | Frozen, POST-HOC CONTROLLED CAP-RELAXED ABLATION (audited) |
 
 Studies are kept separate; **no 90-cell pooling**. M1A is a
 capability/feasibility boundary, **NOT** a completed 60-cell controlled
@@ -66,8 +67,13 @@ frozen 4096 completion cap before emitting all 144 required decisions, whereas
 the Sparse-v2 probe completes and deterministically reconstructs a valid
 144-candidate policy (see
 [`reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`](../reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md)).
-No semantic superiority claim is made. A separately preregistered cap-relaxed
-study (M1B, completion cap 16384 for both arms) is planned but NOT run.
+No semantic superiority claim is made. **M1B** is the separately preregistered
+cap-relaxed controlled ablation (completion cap 16384 for both arms, same
+schema/prompt design) — **60/60 cells valid, 0 truncations, CONTROLLED
+ENCODING COST EFFECT SUPPORTED (descriptive)** (see
+[`reports/CONTROLLED_ENCODING_16K_RESULT.md`](../reports/CONTROLLED_ENCODING_16K_RESULT.md)).
+M2 (serialization-density stress) and M3 (Graph-OFF vs Graph-Hints) remain
+planned but NOT run.
 
 ## 3. Final frozen metrics
 

@@ -1,0 +1,806 @@
+{
+  "gates": [
+    {
+      "gate": 1,
+      "name": "Dataset Validation",
+      "passed": true,
+      "checks": [
+        {
+          "check": "pinned_djangocms_commit_frozen",
+          "ok": true,
+          "detail": "0f633fc9fa213357f4202482aab2b0edad680f95"
+        },
+        {
+          "check": "universe_exactly_144_paths",
+          "ok": true,
+          "detail": 144
+        },
+        {
+          "check": "universe_sha256_frozen",
+          "ok": true,
+          "detail": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+        },
+        {
+          "check": "six_exact_scenario_ids",
+          "ok": true,
+          "detail": [
+            "djangocms-external-validity-002",
+            "djangocms-external-validity-004",
+            "djangocms-external-validity-005",
+            "djangocms-external-validity-006",
+            "djangocms-external-validity-007",
+            "djangocms-external-validity-008"
+          ]
+        },
+        {
+          "check": "scenario_hashes_match_historical",
+          "ok": true,
+          "detail": {
+            "djangocms-external-validity-002": "a7e72f7af23541407180d490f5dd03e9df281efb514ab4c4f92f4a59deb4c730",
+            "djangocms-external-validity-004": "0b25d27452ceff3fae08eecd42b15da8d6788c4af162455f71c2db5cf3450430",
+            "djangocms-external-validity-005": "836f42fbbf00cd097b52a928f12e01e463857f4a9fe01aa122729696b223a57b",
+            "djangocms-external-validity-006": "c724fff84d0757e4182e3b127a296b6876964a267be5e3584f1aafcf9aefa0e3",
+            "djangocms-external-validity-007": "1caf61e7a4db2b887e8c14d02f349ef3771e7f19a27ecab2f69e6aa686e5e88c",
+            "djangocms-external-validity-008": "d2076d5bf092ac8a96566c88f413deb1090ab61ebe85733a41174e8aac283021"
+          }
+        },
+        {
+          "check": "candidate_mapping_sha256_frozen",
+          "ok": true,
+          "detail": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6"
+        },
+        {
+          "check": "hidden_gold_files_exist_in_frozen_universe",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "no_hidden_gold_exposed_to_inference_input",
+          "ok": true,
+          "detail": [
+            {
+              "scenario": "djangocms-external-validity-002",
+              "gold_paths": [
+                "cms/api.py"
+              ]
+            },
+            {
+              "scenario": "djangocms-external-validity-004",
+              "gold_paths": [
+                "cms/admin/pageadmin.py",
+                "cms/api.py",
+                "cms/models/contentmodels.py",
+                "cms/views.py"
+              ]
+            },
+            {
+              "scenario": "djangocms-external-validity-005",
+              "gold_paths": [
+                "cms/admin/pageadmin.py",
+                "cms/admin/permissionadmin.py",
+                "cms/cms_toolbars.py",
+                "cms/models/permissionmodels.py",
+                "cms/utils/page_permissions.py"
+              ]
+            },
+            {
+              "scenario": "djangocms-external-validity-006",
+              "gold_paths": [
+                "cms/admin/placeholderadmin.py",
+                "cms/models/pluginmodel.py",
+                "cms/utils/plugins.py"
+              ]
+            },
+            {
+              "scenario": "djangocms-external-validity-007",
+              "gold_paths": [
+                "cms/admin/pageadmin.py",
+                "cms/api.py",
+                "cms/cms_toolbars.py",
+                "cms/models/contentmodels.py",
+                "cms/models/permissionmodels.py",
+                "cms/signals/__init__.py",
+                "cms/utils/page_permissions.py"
+              ]
+            },
+            {
+              "scenario": "djangocms-external-validity-008",
+              "gold_paths": [
+                "cms/cache/__init__.py",
+                "cms/middleware/toolbar.py",
+                "cms/signals/__init__.py",
+                "cms/templatetags/cms_tags.py"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "gate": 2,
+      "name": "Prompt Validation",
+      "passed": true,
+      "checks": [
+        {
+          "check": "common_template_sha_frozen",
+          "ok": true,
+          "detail": "69ae9820f3ca88aba9b164ff1f21b32cfa8911e1e5a110669dc2041409a43fdf"
+        },
+        {
+          "check": "common_schema_sha_frozen",
+          "ok": true,
+          "detail": "df113fd8595d0f25911abaefb60a89ad26db110facfc0226e6e25b14a924d1ea"
+        },
+        {
+          "check": "full_policy_sha_frozen",
+          "ok": true,
+          "detail": "8192660bb51690a10ef6c1145968310209f55feda73c8076e6c588caa30a0331"
+        },
+        {
+          "check": "sparse_policy_sha_frozen",
+          "ok": true,
+          "detail": "d117dbe94b72f9f2629fdd70d71eab2ba1d9052da2eed667c70e440b19df1739"
+        },
+        {
+          "check": "candidate_id_map_frozen",
+          "ok": true,
+          "detail": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6"
+        },
+        {
+          "check": "prompt_has_no_hidden_gold",
+          "ok": true,
+          "detail": "gold isolated to evaluation-only"
+        },
+        {
+          "check": "prompt_control_diff_pass",
+          "ok": true,
+          "detail": "only SERIALIZATION_POLICY differs between arms"
+        },
+        {
+          "check": "action_vocab_common",
+          "ok": true,
+          "detail": [
+            "PRESERVE",
+            "REGENERATE",
+            "VALIDATE",
+            "HUMAN_REVIEW"
+          ]
+        }
+      ]
+    },
+    {
+      "gate": 3,
+      "name": "Pipeline Smoke Test",
+      "passed": true,
+      "checks": [
+        {
+          "check": "smoke_full_v2_decodes_to_144",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 144,
+            "write_set_ids": [
+              5,
+              12,
+              66,
+              127
+            ]
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_decodes_to_144",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 144,
+            "write_set_ids": [
+              5,
+              12,
+              66,
+              127
+            ]
+          }
+        },
+        {
+          "check": "zero_scientific_calls",
+          "ok": true,
+          "detail": "deterministic encode/decode only; no real LLM backend constructed"
+        }
+      ]
+    },
+    {
+      "gate": 4,
+      "name": "Dry Run",
+      "passed": true,
+      "checks": [
+        {
+          "check": "manifest_iteration_exactly_60",
+          "ok": true,
+          "detail": 60
+        },
+        {
+          "check": "run_ids_unique",
+          "ok": true,
+          "detail": {
+            "unique": 60
+          }
+        },
+        {
+          "check": "six_scenarios",
+          "ok": true,
+          "detail": [
+            "djangocms-external-validity-002",
+            "djangocms-external-validity-004",
+            "djangocms-external-validity-005",
+            "djangocms-external-validity-006",
+            "djangocms-external-validity-007",
+            "djangocms-external-validity-008"
+          ]
+        },
+        {
+          "check": "two_arms",
+          "ok": true,
+          "detail": [
+            "full_v2",
+            "sparse_v2"
+          ]
+        },
+        {
+          "check": "five_reps_per_scenario_per_arm",
+          "ok": true,
+          "detail": {
+            "djangocms-external-validity-002/full_v2": 5,
+            "djangocms-external-validity-002/sparse_v2": 5,
+            "djangocms-external-validity-004/full_v2": 5,
+            "djangocms-external-validity-004/sparse_v2": 5,
+            "djangocms-external-validity-005/full_v2": 5,
+            "djangocms-external-validity-005/sparse_v2": 5,
+            "djangocms-external-validity-006/full_v2": 5,
+            "djangocms-external-validity-006/sparse_v2": 5,
+            "djangocms-external-validity-007/full_v2": 5,
+            "djangocms-external-validity-007/sparse_v2": 5,
+            "djangocms-external-validity-008/full_v2": 5,
+            "djangocms-external-validity-008/sparse_v2": 5
+          }
+        },
+        {
+          "check": "same_common_schema_every_cell",
+          "ok": true,
+          "detail": "df113fd8595d0f25911abaefb60a89ad26db110facfc0226e6e25b14a924d1ea"
+        },
+        {
+          "check": "only_serialization_policy_differs",
+          "ok": true,
+          "detail": "policy block per arm; all other inputs identical"
+        },
+        {
+          "check": "frozen_configuration_propagation",
+          "ok": true,
+          "detail": "all cells carry frozen qwen/qwen3-coder @ deepinfra/turbo config"
+        },
+        {
+          "check": "zero_scientific_calls_and_tokens",
+          "ok": true,
+          "detail": "dry-run is manifest-shape proof only; zero real model calls and zero billed tokens"
+        }
+      ]
+    },
+    {
+      "gate": 5,
+      "name": "Integration Test",
+      "passed": true,
+      "checks": [
+        {
+          "check": "full_v2_decode_and_full_policy_reconstruction",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "policy_size": 144
+          }
+        },
+        {
+          "check": "full_v2_predicted_write_set_equals_gold_fixture",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/contentmodels.py",
+              "cms/views.py"
+            ],
+            "gold": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/contentmodels.py",
+              "cms/views.py"
+            ],
+            "tp": 4,
+            "fn": 0
+          }
+        },
+        {
+          "check": "full_v2_post_inference_hidden_gold_evaluation_metrics",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0,
+            "full_recall": true,
+            "tp": 4,
+            "fn": 0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_and_full_policy_reconstruction",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "policy_size": 144
+          }
+        },
+        {
+          "check": "sparse_v2_predicted_write_set_equals_gold_fixture",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/contentmodels.py",
+              "cms/views.py"
+            ],
+            "gold": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/contentmodels.py",
+              "cms/views.py"
+            ],
+            "tp": 4,
+            "fn": 0
+          }
+        },
+        {
+          "check": "sparse_v2_post_inference_hidden_gold_evaluation_metrics",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0,
+            "full_recall": true,
+            "tp": 4,
+            "fn": 0
+          }
+        },
+        {
+          "check": "same_visible_scenario_for_both_arms",
+          "ok": true,
+          "detail": {
+            "scenario_id": "djangocms-external-validity-004",
+            "gold_size": 4
+          }
+        },
+        {
+          "check": "zero_scientific_calls",
+          "ok": true,
+          "detail": "deterministic fixture payloads only"
+        }
+      ]
+    },
+    {
+      "gate": 6,
+      "name": "Metric Verification",
+      "passed": true,
+      "checks": [
+        {
+          "check": "micro_averaged_precision_recall_f1",
+          "ok": true,
+          "detail": {
+            "computed": {
+              "precision": 0.75,
+              "recall": 1.0,
+              "f1": 0.8571428571428571,
+              "fnr": 0.0,
+              "full_recall": true
+            },
+            "expected": {
+              "precision": 0.75,
+              "recall": 1.0,
+              "f1": 0.8571428571428571
+            }
+          }
+        },
+        {
+          "check": "representation_equivalence",
+          "ok": true,
+          "detail": {
+            "label": "D_s(E_s(pi)) == pi",
+            "checks": 14
+          }
+        },
+        {
+          "check": "both_arms_same_canonical_policy_after_decode",
+          "ok": true,
+          "detail": {
+            "full": {
+              "1": "PRESERVE",
+              "2": "PRESERVE",
+              "3": "REGENERATE",
+              "4": "PRESERVE",
+              "5": "PRESERVE",
+              "6": "PRESERVE",
+              "7": "VALIDATE",
+              "8": "PRESERVE",
+              "9": "PRESERVE",
+              "10": "PRESERVE",
+              "11": "HUMAN_REVIEW",
+              "12": "PRESERVE",
+              "13": "PRESERVE",
+              "14": "PRESERVE",
+              "15": "PRESERVE",
+              "16": "PRESERVE",
+              "17": "PRESERVE",
+              "18": "PRESERVE",
+              "19": "PRESERVE",
+              "20": "PRESERVE",
+              "21": "PRESERVE",
+              "22": "PRESERVE",
+              "23": "PRESERVE",
+              "24": "PRESERVE",
+              "25": "PRESERVE",
+              "26": "PRESERVE",
+              "27": "PRESERVE",
+              "28": "PRESERVE",
+              "29": "PRESERVE",
+              "30": "PRESERVE",
+              "31": "PRESERVE",
+              "32": "PRESERVE",
+              "33": "PRESERVE",
+              "34": "PRESERVE",
+              "35": "PRESERVE",
+              "36": "PRESERVE",
+              "37": "PRESERVE",
+              "38": "PRESERVE",
+              "39": "PRESERVE",
+              "40": "PRESERVE",
+              "41": "PRESERVE",
+              "42": "PRESERVE",
+              "43": "PRESERVE",
+              "44": "PRESERVE",
+              "45": "PRESERVE",
+              "46": "PRESERVE",
+              "47": "PRESERVE",
+              "48": "PRESERVE",
+              "49": "PRESERVE",
+              "50": "PRESERVE",
+              "51": "PRESERVE",
+              "52": "PRESERVE",
+              "53": "PRESERVE",
+              "54": "PRESERVE",
+              "55": "PRESERVE",
+              "56": "PRESERVE",
+              "57": "PRESERVE",
+              "58": "PRESERVE",
+              "59": "PRESERVE",
+              "60": "PRESERVE",
+              "61": "PRESERVE",
+              "62": "PRESERVE",
+              "63": "PRESERVE",
+              "64": "PRESERVE",
+              "65": "PRESERVE",
+              "66": "PRESERVE",
+              "67": "PRESERVE",
+              "68": "PRESERVE",
+              "69": "PRESERVE",
+              "70": "PRESERVE",
+              "71": "PRESERVE",
+              "72": "PRESERVE",
+              "73": "PRESERVE",
+              "74": "PRESERVE",
+              "75": "PRESERVE",
+              "76": "PRESERVE",
+              "77": "PRESERVE",
+              "78": "PRESERVE",
+              "79": "PRESERVE",
+              "80": "PRESERVE",
+              "81": "PRESERVE",
+              "82": "PRESERVE",
+              "83": "PRESERVE",
+              "84": "PRESERVE",
+              "85": "PRESERVE",
+              "86": "PRESERVE",
+              "87": "PRESERVE",
+              "88": "PRESERVE",
+              "89": "PRESERVE",
+              "90": "PRESERVE",
+              "91": "PRESERVE",
+              "92": "PRESERVE",
+              "93": "PRESERVE",
+              "94": "PRESERVE",
+              "95": "PRESERVE",
+              "96": "PRESERVE",
+              "97": "PRESERVE",
+              "98": "PRESERVE",
+              "99": "PRESERVE",
+              "100": "PRESERVE",
+              "101": "PRESERVE",
+              "102": "PRESERVE",
+              "103": "PRESERVE",
+              "104": "PRESERVE",
+              "105": "PRESERVE",
+              "106": "PRESERVE",
+              "107": "PRESERVE",
+              "108": "PRESERVE",
+              "109": "PRESERVE",
+              "110": "PRESERVE",
+              "111": "PRESERVE",
+              "112": "PRESERVE",
+              "113": "PRESERVE",
+              "114": "PRESERVE",
+              "115": "PRESERVE",
+              "116": "PRESERVE",
+              "117": "PRESERVE",
+              "118": "PRESERVE",
+              "119": "PRESERVE",
+              "120": "PRESERVE",
+              "121": "PRESERVE",
+              "122": "PRESERVE",
+              "123": "PRESERVE",
+              "124": "PRESERVE",
+              "125": "PRESERVE",
+              "126": "PRESERVE",
+              "127": "PRESERVE",
+              "128": "PRESERVE",
+              "129": "PRESERVE",
+              "130": "PRESERVE",
+              "131": "PRESERVE",
+              "132": "PRESERVE",
+              "133": "PRESERVE",
+              "134": "PRESERVE",
+              "135": "PRESERVE",
+              "136": "PRESERVE",
+              "137": "PRESERVE",
+              "138": "PRESERVE",
+              "139": "PRESERVE",
+              "140": "PRESERVE",
+              "141": "PRESERVE",
+              "142": "PRESERVE",
+              "143": "PRESERVE",
+              "144": "PRESERVE"
+            },
+            "sparse": {
+              "1": "PRESERVE",
+              "2": "PRESERVE",
+              "3": "REGENERATE",
+              "4": "PRESERVE",
+              "5": "PRESERVE",
+              "6": "PRESERVE",
+              "7": "VALIDATE",
+              "8": "PRESERVE",
+              "9": "PRESERVE",
+              "10": "PRESERVE",
+              "11": "HUMAN_REVIEW",
+              "12": "PRESERVE",
+              "13": "PRESERVE",
+              "14": "PRESERVE",
+              "15": "PRESERVE",
+              "16": "PRESERVE",
+              "17": "PRESERVE",
+              "18": "PRESERVE",
+              "19": "PRESERVE",
+              "20": "PRESERVE",
+              "21": "PRESERVE",
+              "22": "PRESERVE",
+              "23": "PRESERVE",
+              "24": "PRESERVE",
+              "25": "PRESERVE",
+              "26": "PRESERVE",
+              "27": "PRESERVE",
+              "28": "PRESERVE",
+              "29": "PRESERVE",
+              "30": "PRESERVE",
+              "31": "PRESERVE",
+              "32": "PRESERVE",
+              "33": "PRESERVE",
+              "34": "PRESERVE",
+              "35": "PRESERVE",
+              "36": "PRESERVE",
+              "37": "PRESERVE",
+              "38": "PRESERVE",
+              "39": "PRESERVE",
+              "40": "PRESERVE",
+              "41": "PRESERVE",
+              "42": "PRESERVE",
+              "43": "PRESERVE",
+              "44": "PRESERVE",
+              "45": "PRESERVE",
+              "46": "PRESERVE",
+              "47": "PRESERVE",
+              "48": "PRESERVE",
+              "49": "PRESERVE",
+              "50": "PRESERVE",
+              "51": "PRESERVE",
+              "52": "PRESERVE",
+              "53": "PRESERVE",
+              "54": "PRESERVE",
+              "55": "PRESERVE",
+              "56": "PRESERVE",
+              "57": "PRESERVE",
+              "58": "PRESERVE",
+              "59": "PRESERVE",
+              "60": "PRESERVE",
+              "61": "PRESERVE",
+              "62": "PRESERVE",
+              "63": "PRESERVE",
+              "64": "PRESERVE",
+              "65": "PRESERVE",
+              "66": "PRESERVE",
+              "67": "PRESERVE",
+              "68": "PRESERVE",
+              "69": "PRESERVE",
+              "70": "PRESERVE",
+              "71": "PRESERVE",
+              "72": "PRESERVE",
+              "73": "PRESERVE",
+              "74": "PRESERVE",
+              "75": "PRESERVE",
+              "76": "PRESERVE",
+              "77": "PRESERVE",
+              "78": "PRESERVE",
+              "79": "PRESERVE",
+              "80": "PRESERVE",
+              "81": "PRESERVE",
+              "82": "PRESERVE",
+              "83": "PRESERVE",
+              "84": "PRESERVE",
+              "85": "PRESERVE",
+              "86": "PRESERVE",
+              "87": "PRESERVE",
+              "88": "PRESERVE",
+              "89": "PRESERVE",
+              "90": "PRESERVE",
+              "91": "PRESERVE",
+              "92": "PRESERVE",
+              "93": "PRESERVE",
+              "94": "PRESERVE",
+              "95": "PRESERVE",
+              "96": "PRESERVE",
+              "97": "PRESERVE",
+              "98": "PRESERVE",
+              "99": "PRESERVE",
+              "100": "PRESERVE",
+              "101": "PRESERVE",
+              "102": "PRESERVE",
+              "103": "PRESERVE",
+              "104": "PRESERVE",
+              "105": "PRESERVE",
+              "106": "PRESERVE",
+              "107": "PRESERVE",
+              "108": "PRESERVE",
+              "109": "PRESERVE",
+              "110": "PRESERVE",
+              "111": "PRESERVE",
+              "112": "PRESERVE",
+              "113": "PRESERVE",
+              "114": "PRESERVE",
+              "115": "PRESERVE",
+              "116": "PRESERVE",
+              "117": "PRESERVE",
+              "118": "PRESERVE",
+              "119": "PRESERVE",
+              "120": "PRESERVE",
+              "121": "PRESERVE",
+              "122": "PRESERVE",
+              "123": "PRESERVE",
+              "124": "PRESERVE",
+              "125": "PRESERVE",
+              "126": "PRESERVE",
+              "127": "PRESERVE",
+              "128": "PRESERVE",
+              "129": "PRESERVE",
+              "130": "PRESERVE",
+              "131": "PRESERVE",
+              "132": "PRESERVE",
+              "133": "PRESERVE",
+              "134": "PRESERVE",
+              "135": "PRESERVE",
+              "136": "PRESERVE",
+              "137": "PRESERVE",
+              "138": "PRESERVE",
+              "139": "PRESERVE",
+              "140": "PRESERVE",
+              "141": "PRESERVE",
+              "142": "PRESERVE",
+              "143": "PRESERVE",
+              "144": "PRESERVE"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "all_passed": true,
+  "audit": {
+    "passed": true,
+    "checks": [
+      {
+        "check": "study_id_frozen",
+        "ok": true,
+        "detail": "scientific-djangocms-controlled-encoding-ablation-16k-01"
+      },
+      {
+        "check": "model_frozen",
+        "ok": true,
+        "detail": "qwen/qwen3-coder"
+      },
+      {
+        "check": "provider_deepinfra_frozen",
+        "ok": true,
+        "detail": "deepinfra/turbo"
+      },
+      {
+        "check": "reasoning_direct_non_thinking",
+        "ok": true,
+        "detail": "direct/non-thinking (no reasoning control parameter sent)"
+      },
+      {
+        "check": "historical_evidence_immutable",
+        "ok": true,
+        "detail": [
+          {
+            "path": "reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl",
+            "unchanged": true,
+            "status": ""
+          },
+          {
+            "path": "benchmark_data/external_validity/djangocms_hidden_gold_draft.json",
+            "unchanged": true,
+            "status": ""
+          },
+          {
+            "path": "benchmark_data/external_validity/djangocms_5_0_0_candidate_universe.json",
+            "unchanged": true,
+            "status": ""
+          },
+          {
+            "path": "benchmark_data/external_validity/impactplan_v2_candidate_id_map.json",
+            "unchanged": true,
+            "status": ""
+          },
+          {
+            "path": "reports/SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json",
+            "unchanged": true,
+            "status": ""
+          },
+          {
+            "path": "src/benchmark/selection/impact_planner_v2.py",
+            "unchanged": true,
+            "status": ""
+          }
+        ]
+      },
+      {
+        "check": "no_reruns_after_failure",
+        "ok": true,
+        "detail": "result-based reruns FORBIDDEN; cell replacement FORBIDDEN"
+      },
+      {
+        "check": "no_run_61",
+        "ok": true,
+        "detail": 0
+      },
+      {
+        "check": "hidden_gold_evaluation_only",
+        "ok": true,
+        "detail": "gold applied only after inference"
+      },
+      {
+        "check": "graph_absent",
+        "ok": true,
+        "detail": "graph OFF / NOT INJECTED"
+      }
+    ],
+    "ran_at": "2026-09-12T21:20:21.707265+00:00"
+  },
+  "ran_at": "2026-09-12T21:20:21.707265+00:00"
+}

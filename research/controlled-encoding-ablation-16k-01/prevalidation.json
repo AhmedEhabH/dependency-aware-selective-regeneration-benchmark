@@ -1,0 +1,164 @@
+{
+  "study_id": "scientific-djangocms-controlled-encoding-ablation-16k-01",
+  "passed": true,
+  "checks": [
+    {
+      "check": "branch_expected",
+      "ok": true,
+      "detail": "research/controlled-encoding-ablation-16k-01"
+    },
+    {
+      "check": "head_matches_origin_branch",
+      "ok": true,
+      "detail": {
+        "head": "43275f358fe2bebe1cff19211551761e107da9f3",
+        "origin_ref": "43275f358fe2bebe1cff19211551761e107da9f3"
+      }
+    },
+    {
+      "check": "historical_evidence_immutable",
+      "ok": true,
+      "detail": [
+        {
+          "path": "reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl",
+          "unchanged": true,
+          "status": ""
+        },
+        {
+          "path": "benchmark_data/external_validity/djangocms_hidden_gold_draft.json",
+          "unchanged": true,
+          "status": ""
+        },
+        {
+          "path": "benchmark_data/external_validity/djangocms_5_0_0_candidate_universe.json",
+          "unchanged": true,
+          "status": ""
+        },
+        {
+          "path": "benchmark_data/external_validity/impactplan_v2_candidate_id_map.json",
+          "unchanged": true,
+          "status": ""
+        },
+        {
+          "path": "reports/SCIENTIFIC_MICROSTUDY_MODEL_FREEZE.json",
+          "unchanged": true,
+          "status": ""
+        },
+        {
+          "path": "src/benchmark/selection/impact_planner_v2.py",
+          "unchanged": true,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "check": "hidden_gold_not_in_visible_inputs",
+      "ok": true,
+      "detail": [
+        {
+          "scenario": "djangocms-external-validity-002",
+          "gold_paths": [
+            "cms/api.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-004",
+          "gold_paths": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/models/contentmodels.py",
+            "cms/views.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-005",
+          "gold_paths": [
+            "cms/admin/pageadmin.py",
+            "cms/admin/permissionadmin.py",
+            "cms/cms_toolbars.py",
+            "cms/models/permissionmodels.py",
+            "cms/utils/page_permissions.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-006",
+          "gold_paths": [
+            "cms/admin/placeholderadmin.py",
+            "cms/models/pluginmodel.py",
+            "cms/utils/plugins.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-007",
+          "gold_paths": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/cms_toolbars.py",
+            "cms/models/contentmodels.py",
+            "cms/models/permissionmodels.py",
+            "cms/signals/__init__.py",
+            "cms/utils/page_permissions.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-008",
+          "gold_paths": [
+            "cms/cache/__init__.py",
+            "cms/middleware/toolbar.py",
+            "cms/signals/__init__.py",
+            "cms/templatetags/cms_tags.py"
+          ]
+        }
+      ]
+    },
+    {
+      "check": "frozen_universe_artifact_available",
+      "ok": true,
+      "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\benchmark_data\\external_validity\\djangocms_5_0_0_candidate_universe.json"
+    },
+    {
+      "check": "common_schema_sha_frozen",
+      "ok": true,
+      "detail": "df113fd8595d0f25911abaefb60a89ad26db110facfc0226e6e25b14a924d1ea"
+    },
+    {
+      "check": "common_template_sha_frozen",
+      "ok": true,
+      "detail": "69ae9820f3ca88aba9b164ff1f21b32cfa8911e1e5a110669dc2041409a43fdf"
+    },
+    {
+      "check": "full_policy_sha_frozen",
+      "ok": true,
+      "detail": "8192660bb51690a10ef6c1145968310209f55feda73c8076e6c588caa30a0331"
+    },
+    {
+      "check": "sparse_policy_sha_frozen",
+      "ok": true,
+      "detail": "d117dbe94b72f9f2629fdd70d71eab2ba1d9052da2eed667c70e440b19df1739"
+    },
+    {
+      "check": "reason_codes_sha_frozen",
+      "ok": true,
+      "detail": "24139ca3aa3a207b333872f755df71a8e2d34319bc5e7fbffbd448003eb2887c"
+    },
+    {
+      "check": "candidate_id_map_sha_frozen",
+      "ok": true,
+      "detail": {
+        "mapping_sha": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+        "universe_sha": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+      }
+    },
+    {
+      "check": "universe_count_144",
+      "ok": true,
+      "detail": 144
+    },
+    {
+      "check": "graph_absent_not_injected",
+      "ok": true,
+      "detail": "graph OFF / NOT INJECTED (encoding-only study)"
+    }
+  ],
+  "checked_at": "2026-09-12T21:19:47.306402+00:00"
+}

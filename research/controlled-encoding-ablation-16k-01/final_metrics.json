@@ -1,0 +1,344 @@
+{
+  "study_id": "scientific-djangocms-controlled-encoding-ablation-16k-01",
+  "model": "qwen/qwen3-coder",
+  "model_human": "Qwen3-Coder-480B-A35B-Instruct",
+  "gateway": "OpenRouter",
+  "provider_tag": "deepinfra/turbo",
+  "reasoning_mode": "direct/non-thinking (no reasoning control parameter sent)",
+  "graph": "OFF",
+  "arms": {
+    "full_v2": {
+      "arm": "full_v2",
+      "recorded": 30,
+      "valid": 30,
+      "failed": 0,
+      "truncations": 0,
+      "validity_rate": 1.0,
+      "truncation_rate": 0.0,
+      "failure_taxonomy": [],
+      "overall": {
+        "selected": 206,
+        "tp": 93,
+        "fp": 113,
+        "fn": 27,
+        "precision": 0.451456,
+        "recall": 0.775,
+        "f1": 0.570552,
+        "fnr": 0.225,
+        "valid_runs": 30
+      },
+      "serialized_records": {
+        "mean": 144.0,
+        "median": 144.0,
+        "min": 144.0,
+        "max": 144.0
+      },
+      "completion_tokens": {
+        "mean": 8382.966667,
+        "median": 8375.0,
+        "min": 7511.0,
+        "max": 9428.0
+      },
+      "prompt_tokens": {
+        "mean": 2626.0,
+        "median": 2608.0,
+        "min": 2528.0,
+        "max": 2757.0
+      },
+      "total_tokens": {
+        "mean": 11008.966667,
+        "median": 10996.0,
+        "min": 10039.0,
+        "max": 12185.0
+      },
+      "calls": 30,
+      "requests_issued": 30,
+      "responses_received": 30,
+      "usage_known_cells": 30,
+      "usage_unknown_cells": 0,
+      "transport_failure_cells": 0,
+      "latency_seconds": 1659.125,
+      "api_cost_usd": 0.275124,
+      "per_scenario": {
+        "djangocms-external-validity-002": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 5,
+            "tp": 5,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        "djangocms-external-validity-004": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 28,
+            "tp": 17,
+            "fp": 11,
+            "fn": 3,
+            "precision": 0.607143,
+            "recall": 0.85,
+            "f1": 0.708333,
+            "fnr": 0.15
+          }
+        },
+        "djangocms-external-validity-005": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 43,
+            "tp": 20,
+            "fp": 23,
+            "fn": 5,
+            "precision": 0.465116,
+            "recall": 0.8,
+            "f1": 0.588235,
+            "fnr": 0.2
+          }
+        },
+        "djangocms-external-validity-006": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 39,
+            "tp": 12,
+            "fp": 27,
+            "fn": 3,
+            "precision": 0.307692,
+            "recall": 0.8,
+            "f1": 0.444444,
+            "fnr": 0.2
+          }
+        },
+        "djangocms-external-validity-007": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 51,
+            "tp": 24,
+            "fp": 27,
+            "fn": 11,
+            "precision": 0.470588,
+            "recall": 0.685714,
+            "f1": 0.55814,
+            "fnr": 0.314286
+          }
+        },
+        "djangocms-external-validity-008": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 40,
+            "tp": 15,
+            "fp": 25,
+            "fn": 5,
+            "precision": 0.375,
+            "recall": 0.75,
+            "f1": 0.5,
+            "fnr": 0.25
+          }
+        }
+      }
+    },
+    "sparse_v2": {
+      "arm": "sparse_v2",
+      "recorded": 30,
+      "valid": 30,
+      "failed": 0,
+      "truncations": 0,
+      "validity_rate": 1.0,
+      "truncation_rate": 0.0,
+      "failure_taxonomy": [],
+      "overall": {
+        "selected": 147,
+        "tp": 106,
+        "fp": 41,
+        "fn": 14,
+        "precision": 0.721088,
+        "recall": 0.883333,
+        "f1": 0.794007,
+        "fnr": 0.116667,
+        "valid_runs": 30
+      },
+      "serialized_records": {
+        "mean": 4.9,
+        "median": 5.0,
+        "min": 1.0,
+        "max": 8.0
+      },
+      "completion_tokens": {
+        "mean": 809.066667,
+        "median": 810.5,
+        "min": 465.0,
+        "max": 1198.0
+      },
+      "prompt_tokens": {
+        "mean": 2640.0,
+        "median": 2622.0,
+        "min": 2542.0,
+        "max": 2771.0
+      },
+      "total_tokens": {
+        "mean": 3449.066667,
+        "median": 3487.5,
+        "min": 3007.0,
+        "max": 3884.0
+      },
+      "calls": 30,
+      "requests_issued": 30,
+      "responses_received": 30,
+      "usage_known_cells": 30,
+      "usage_unknown_cells": 0,
+      "transport_failure_cells": 0,
+      "latency_seconds": 609.029,
+      "api_cost_usd": 0.048032,
+      "per_scenario": {
+        "djangocms-external-validity-002": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.833333,
+            "recall": 1.0,
+            "f1": 0.909091,
+            "fnr": 0.0
+          }
+        },
+        "djangocms-external-validity-004": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 25,
+            "tp": 20,
+            "fp": 5,
+            "fn": 0,
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1": 0.888889,
+            "fnr": 0.0
+          }
+        },
+        "djangocms-external-validity-005": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 28,
+            "tp": 25,
+            "fp": 3,
+            "fn": 0,
+            "precision": 0.892857,
+            "recall": 1.0,
+            "f1": 0.943396,
+            "fnr": 0.0
+          }
+        },
+        "djangocms-external-validity-006": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 21,
+            "tp": 5,
+            "fp": 16,
+            "fn": 10,
+            "precision": 0.238095,
+            "recall": 0.333333,
+            "f1": 0.277778,
+            "fnr": 0.666667
+          }
+        },
+        "djangocms-external-validity-007": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 33,
+            "tp": 31,
+            "fp": 2,
+            "fn": 4,
+            "precision": 0.939394,
+            "recall": 0.885714,
+            "f1": 0.911765,
+            "fnr": 0.114286
+          }
+        },
+        "djangocms-external-validity-008": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 34,
+            "tp": 20,
+            "fp": 14,
+            "fn": 0,
+            "precision": 0.588235,
+            "recall": 1.0,
+            "f1": 0.740741,
+            "fnr": 0.0
+          }
+        }
+      }
+    }
+  },
+  "totals": {
+    "cells": 60,
+    "recorded": 60,
+    "valid": 60,
+    "failed": 0,
+    "truncations": 0,
+    "prompt_tokens": 157980,
+    "completion_tokens": 275761,
+    "total_tokens": 433741,
+    "model_calls": 60,
+    "requests_issued": 60,
+    "responses_received": 60,
+    "usage_known_cells": 60,
+    "usage_unknown_cells": 0,
+    "transport_failure_cells": 0,
+    "latency_seconds": 2268.154,
+    "api_cost_usd": 0.323156
+  },
+  "computed_at": "2026-09-12T22:06:02.572131+00:00"
+}
