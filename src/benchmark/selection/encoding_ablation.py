@@ -32,13 +32,15 @@ Contract highlights:
   semantic validators.
 """
 
+# ruff: noqa: E501
 from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable, Mapping
+from typing import Any
 
 from benchmark.core.enums import ActionKind
 from benchmark.selection.impact_planner_v2 import (
@@ -262,7 +264,7 @@ SPARSE_POLICY_TEMPLATE_SHA256: str = sha256_text(SERIALIZATION_POLICY_SPARSE)
 REASON_CODES_SHA256: str = sha256_json(list(ABLATION_REASON_CODES))
 
 
-def common_ablation_identity() -> dict[str, str]:
+def common_ablation_identity() -> dict[str, Any]:
     """Persistable identity block (hashes) for provenance."""
     return {
         "common_schema_sha256": COMMON_SCHEMA_SHA256,
@@ -459,7 +461,7 @@ _DEFAULT_DECISION = {
 }
 
 
-def encode_full_policy(policy: CompletePolicy, mapping: CandidateIDMap) -> list[dict[str, Any]]:
+def encode_full_policy(policy: CompletePolicy, _mapping: CandidateIDMap) -> list[dict[str, Any]]:
     """Encode a complete policy as FULL-v2: one decision per id incl. PRESERVE."""
     rows: list[dict[str, Any]] = []
     for i, action in policy.action_by_id:
@@ -485,7 +487,7 @@ def encode_full_policy(policy: CompletePolicy, mapping: CandidateIDMap) -> list[
     return rows
 
 
-def encode_sparse_policy(policy: CompletePolicy, mapping: CandidateIDMap) -> list[dict[str, Any]]:
+def encode_sparse_policy(policy: CompletePolicy, _mapping: CandidateIDMap) -> list[dict[str, Any]]:
     """Encode a complete policy as SPARSE-v2: only non-PRESERVE decisions."""
     rows: list[dict[str, Any]] = []
     for i, action in policy.action_by_id:
@@ -689,7 +691,7 @@ def representation_equivalence_checks() -> dict[str, Any]:
         try:
             decoded = decode_sparse_policy(payload)
             ok = decoded.to_dict() == policy.to_dict()
-        except AblationDecodeError as exc:
+        except AblationDecodeError:
             ok = False
             decoded = None
         return {
