@@ -1,0 +1,208 @@
+{
+  "study_id": "scientific-djangocms-controlled-encoding-ablation-16k-01",
+  "m1a_study_id": "scientific-djangocms-controlled-encoding-ablation-01",
+  "only_study_level_change": "completion_cap 4096 -> 16384 (both arms)",
+  "within_m1b_only_policy_differs": true,
+  "parity": "PASS",
+  "checks": [
+    {
+      "check": "common_schema_sha256",
+      "ok": true,
+      "detail": {
+        "m1a": "df113fd8595d0f25911abaefb60a89ad26db110facfc0226e6e25b14a924d1ea",
+        "m1b": "df113fd8595d0f25911abaefb60a89ad26db110facfc0226e6e25b14a924d1ea",
+        "note": null
+      }
+    },
+    {
+      "check": "common_template_sha256",
+      "ok": true,
+      "detail": {
+        "m1a": "69ae9820f3ca88aba9b164ff1f21b32cfa8911e1e5a110669dc2041409a43fdf",
+        "m1b": "69ae9820f3ca88aba9b164ff1f21b32cfa8911e1e5a110669dc2041409a43fdf",
+        "note": null
+      }
+    },
+    {
+      "check": "full_policy_sha256",
+      "ok": true,
+      "detail": {
+        "m1a": "8192660bb51690a10ef6c1145968310209f55feda73c8076e6c588caa30a0331",
+        "m1b": "8192660bb51690a10ef6c1145968310209f55feda73c8076e6c588caa30a0331",
+        "note": null
+      }
+    },
+    {
+      "check": "sparse_policy_sha256",
+      "ok": true,
+      "detail": {
+        "m1a": "d117dbe94b72f9f2629fdd70d71eab2ba1d9052da2eed667c70e440b19df1739",
+        "m1b": "d117dbe94b72f9f2629fdd70d71eab2ba1d9052da2eed667c70e440b19df1739",
+        "note": null
+      }
+    },
+    {
+      "check": "reason_codes_sha256",
+      "ok": true,
+      "detail": {
+        "m1a": "24139ca3aa3a207b333872f755df71a8e2d34319bc5e7fbffbd448003eb2887c",
+        "m1b": "24139ca3aa3a207b333872f755df71a8e2d34319bc5e7fbffbd448003eb2887c",
+        "note": null
+      }
+    },
+    {
+      "check": "candidate_map_sha256",
+      "ok": true,
+      "detail": {
+        "m1a": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+        "m1b": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6",
+        "note": null
+      }
+    },
+    {
+      "check": "universe_sha256",
+      "ok": true,
+      "detail": {
+        "m1a": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+        "m1b": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410",
+        "note": null
+      }
+    },
+    {
+      "check": "model_slug",
+      "ok": true,
+      "detail": {
+        "m1a": "qwen/qwen3-coder",
+        "m1b": "qwen/qwen3-coder",
+        "note": null
+      }
+    },
+    {
+      "check": "provider_tag",
+      "ok": true,
+      "detail": {
+        "m1a": "deepinfra/turbo",
+        "m1b": "deepinfra/turbo",
+        "note": null
+      }
+    },
+    {
+      "check": "temperature",
+      "ok": true,
+      "detail": {
+        "m1a": 0.0,
+        "m1b": 0.0,
+        "note": null
+      }
+    },
+    {
+      "check": "graph_off",
+      "ok": true,
+      "detail": {
+        "m1a": "OFF",
+        "m1b": "OFF",
+        "note": "graph not injected in M1A or M1B"
+      }
+    },
+    {
+      "check": "m1a_endpoint_model",
+      "ok": true,
+      "detail": {
+        "m1a": "qwen/qwen3-coder",
+        "m1b": "qwen/qwen3-coder",
+        "note": null
+      }
+    },
+    {
+      "check": "m1a_endpoint_provider",
+      "ok": true,
+      "detail": {
+        "m1a": "deepinfra/turbo",
+        "m1b": "deepinfra/turbo",
+        "note": null
+      }
+    },
+    {
+      "check": "m1a_endpoint_cap_was_4096",
+      "ok": true,
+      "detail": {
+        "m1a": 4096,
+        "m1b": 4096,
+        "note": null
+      }
+    },
+    {
+      "check": "completion_cap_changed_to_16384",
+      "ok": true,
+      "detail": {
+        "m1a": 16384,
+        "m1b": 16384,
+        "note": "the ONLY study-level change from M1A"
+      }
+    },
+    {
+      "check": "scenario_sha256_djangocms-external-validity-002",
+      "ok": true,
+      "detail": {
+        "m1a": "a7e72f7af23541407180d490f5dd03e9df281efb514ab4c4f92f4a59deb4c730",
+        "m1b": "a7e72f7af23541407180d490f5dd03e9df281efb514ab4c4f92f4a59deb4c730",
+        "note": null
+      }
+    },
+    {
+      "check": "scenario_sha256_djangocms-external-validity-004",
+      "ok": true,
+      "detail": {
+        "m1a": "0b25d27452ceff3fae08eecd42b15da8d6788c4af162455f71c2db5cf3450430",
+        "m1b": "0b25d27452ceff3fae08eecd42b15da8d6788c4af162455f71c2db5cf3450430",
+        "note": null
+      }
+    },
+    {
+      "check": "scenario_sha256_djangocms-external-validity-005",
+      "ok": true,
+      "detail": {
+        "m1a": "836f42fbbf00cd097b52a928f12e01e463857f4a9fe01aa122729696b223a57b",
+        "m1b": "836f42fbbf00cd097b52a928f12e01e463857f4a9fe01aa122729696b223a57b",
+        "note": null
+      }
+    },
+    {
+      "check": "scenario_sha256_djangocms-external-validity-006",
+      "ok": true,
+      "detail": {
+        "m1a": "c724fff84d0757e4182e3b127a296b6876964a267be5e3584f1aafcf9aefa0e3",
+        "m1b": "c724fff84d0757e4182e3b127a296b6876964a267be5e3584f1aafcf9aefa0e3",
+        "note": null
+      }
+    },
+    {
+      "check": "scenario_sha256_djangocms-external-validity-007",
+      "ok": true,
+      "detail": {
+        "m1a": "1caf61e7a4db2b887e8c14d02f349ef3771e7f19a27ecab2f69e6aa686e5e88c",
+        "m1b": "1caf61e7a4db2b887e8c14d02f349ef3771e7f19a27ecab2f69e6aa686e5e88c",
+        "note": null
+      }
+    },
+    {
+      "check": "scenario_sha256_djangocms-external-validity-008",
+      "ok": true,
+      "detail": {
+        "m1a": "d2076d5bf092ac8a96566c88f413deb1090ab61ebe85733a41174e8aac283021",
+        "m1b": "d2076d5bf092ac8a96566c88f413deb1090ab61ebe85733a41174e8aac283021",
+        "note": null
+      }
+    },
+    {
+      "check": "m1b_prompt_control_only_policy_differs",
+      "ok": true,
+      "detail": {
+        "m1a": null,
+        "m1b": null,
+        "note": "all 6 scenarios: only SERIALIZATION_POLICY differs between M1B arms"
+      }
+    }
+  ],
+  "checked_at": "2026-09-12T21:20:01.444873+00:00"
+}
