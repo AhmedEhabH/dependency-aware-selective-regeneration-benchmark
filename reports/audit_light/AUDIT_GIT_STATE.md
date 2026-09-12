@@ -1,17 +1,34 @@
 # AUDIT_GIT_STATE
 
-Generated: 2026-09-11T18:28:30.174793
+Generated: 2026-09-12T23:03:22.325110+00:00
 
 - Repository URL: https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark.git
 - Default branch: main
-- Final main SHA: 3b8db8103e890d9e3a938cae5709208a1c5990b2
-- Local HEAD (export worktree): 718c47ad5adc3f2823117e10feccb4e23864dddd
+- Final main SHA: f3207fa3e18e4f5cb50375139cd0c06e720cc42b
+- Local HEAD (export worktree): f3207fa3e18e4f5cb50375139cd0c06e720cc42b
 
-## Study tags
+## M1A tags — Controlled 4096-cap feasibility boundary
+controlled-encoding-4096-feasibility-boundary-01 786abf2ac6b0c419daef9fced6f89c07f608f762 (annotated)
+paper-replication-artifact-controlled-encoding-4096-boundary-01 43275f358fe2bebe1cff19211551761e107da9f3 (annotated)
+
+## M1B tags — Controlled 16K cap-relaxed encoding ablation
+
+controlled-encoding-ablation-16k-wiring-verified-01 700e6a0c1452d6ab8c1aed4f94c3436e3b904c94 (annotated)
+controlled-encoding-ablation-16k-study-01-audited 524521381e1b50104bb4a2242dece737dc75f505 (annotated)
+paper-replication-artifact-controlled-encoding-ablation-16k-01 d0b9857da421842cdc5cf0939c57bafdcfbc0e01 (annotated)
+
+## Exact tag peels (all tags, current git state)
+
+controlled-encoding-4096-feasibility-boundary-01 786abf2ac6b0c419daef9fced6f89c07f608f762
+controlled-encoding-ablation-16k-study-01-audited 524521381e1b50104bb4a2242dece737dc75f505
+controlled-encoding-ablation-16k-wiring-verified-01 700e6a0c1452d6ab8c1aed4f94c3436e3b904c94
 paper-replication-artifact-2026-09-10 f0a25b2d8bc9e3edc08dd814c48d10c5017a8f81
+paper-replication-artifact-controlled-encoding-4096-boundary-01 43275f358fe2bebe1cff19211551761e107da9f3
+paper-replication-artifact-controlled-encoding-ablation-16k-01 d0b9857da421842cdc5cf0939c57bafdcfbc0e01
 paper-replication-artifact-qwen3-32b-accounting-corrected-01 257480e41ef2d0e975445f7aaccc0019f3a31424
 paper-replication-artifact-qwen3-32b-crossmodel-01 a9fb9a46ff2c08668dfad0a0696d5e8ebe72dd45
-paper-replication-artifact-qwen3-coder-30b-a3b-crossmodel-01 3b8db8103e890d9e3a938cae5709208a1c5990b2
+paper-replication-artifact-qwen3-coder-30b-a3b-crossmodel-01 b9216d19e50732fa79d6cb872f957d5ed28bcc84
+paper-v16-safe-baseline-2026-09-12 b9216d19e50732fa79d6cb872f957d5ed28bcc84
 paper-v7-codebase-snapshot-2026-09-10 78950854c96399b1eab6480a15756b85a1669ebc
 qwen3-32b-crossmodel-accounting-corrected-01 fae6ce4c645f9a320b218091703731923e27dc15
 qwen3-32b-crossmodel-study-01-audited 7f0221f905e9a5c38477d8676bb9ee4ab06e9aff
@@ -22,7 +39,7 @@ stagec-djangocms-impactplan-v2-costprobe-verified-01 9ef1b46299276137bc1882520a3
 stagec-djangocms-impactplan-v2-study-01-audited f8e7aa8114a1919751c415a34bdda25e8b8242c5
 stagec-djangocms-prep-verified-01 270089a80d46d1aeac99c94043cf09dc7faf4572
 stagec-djangocms-study-01-audited 2c217d7a3f6311567540a2cc48b096338065ffcf
-stagec-djangocms-study-wiring-verified-01 
+stagec-djangocms-study-wiring-verified-01 39f7b3bad558fb4752b935b64fcbcc7a353f0d83
 stagec-heldout-selection-01 3e4224aaf336f6f6f0379d7bfe4f82b53d69b188
 stagec-selection-exploratory-01 3b3d2a883f58b98ad1a17b3d014a827362ec948e
 v0.10.0-stagec-research-baseline 5d8029b26154d215daa8ca4d3ac8325bf79641cc
@@ -54,16 +71,10 @@ v0.9.22-pilot-exec-ready 478261ff595d3d64ed9d5bab32d1cc90d7dabd77
 v0.9.3-pilot-exec-ready 4fa6e1dfb1a45782d9e5176ef6325405d848b70b
 v0.9.4-pilot-exec-ready 96b6481a64ba76a74580f5a3d371c39e27df00ea
 v0.9.5-pilot-exec-ready eb07b7b11d2e7b5ba11bddc71855ddfc6e1d3dab
-v0.9.6-pilot-exec-ready 
+v0.9.6-pilot-exec-ready af9b47444fafac260d887dabbe4e3ddc3b22a00f
 v0.9.7-pilot-exec-ready f94853aeff9f32dea9355468eedb74e891e2b9a5
 v0.9.8-pilot-exec-ready 7e0a908588f8b5e0817659518b4e0928ce7c9943
 v0.9.9-pilot-exec-ready f211e4de664da0f0745e5cde5e1fd5138b3172f0
 wip-impactplan-v1.1-evidence 31acfee91c2fa696baa0922a08c073e988a51c60
 
-## Paper snapshot tags
-- paper-replication-artifact-qwen3-32b-accounting-corrected-01 (peels to 257480e41ef2d0e975445f7aaccc0019f3a31424)
-- paper-replication-artifact-qwen3-coder-30b-a3b-crossmodel-01 (peels to 3b8db8103e890d9e3a938cae5709208a1c5990b2)
-- paper-replication-artifact-qwen3-32b-crossmodel-01 (peels to a9fb9a46ff2c08668dfad0a0696d5e8ebe72dd45)
-- paper-replication-artifact-2026-09-10 (peels to f0a25b2d8bc9e3edc08dd814c48d10c5017a8f81)
-
-Date/time of export: 2026-09-11T18:28:30.174793
+Date/time of export: 2026-09-12T23:03:22.325110+00:00
