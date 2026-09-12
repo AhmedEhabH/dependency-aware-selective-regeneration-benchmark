@@ -179,7 +179,8 @@ def main() -> int:
         "f1": round(2 * (106 / 147) * (106 / 120) / (106 / 147 + 106 / 120), 6),
         "fnr": round(14 / 120, 6), "full_recall_count": sum(1 for r in sparse if r.get("full_recall"))}, sm)
 
-    # 9. raw SHA sidecars
+    # 9. raw SHA sidecars (LF-normalized: recorded SHAs are over canonical LF
+    #    content; on Windows checkouts git may rewrite text files to CRLF)
     raw_dir = STUDY_DIR / "runs" / "raw"
     sha_ok = True
     for r in recs:
@@ -189,7 +190,8 @@ def main() -> int:
         if not raw_path.is_file() or not sha_path.is_file():
             sha_ok = False
             break
-        actual = hashlib.sha256(raw_path.read_bytes()).hexdigest()
+        data = raw_path.read_bytes()
+        actual = hashlib.sha256(data.replace(b"\r\n", b"\n")).hexdigest()
         expected = sha_path.read_text(encoding="utf-8").strip()
         if actual != expected or expected != r.get("raw_response_sha256"):
             sha_ok = False

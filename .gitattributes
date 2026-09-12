@@ -42,3 +42,24 @@ kaggle_upload/*_manifest.json text eol=lf
 # independent on Windows (core.autocrlf).
 reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/*.txt text eol=lf
 reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/*.sha256 text eol=lf
+
+# Qwen3-32B cross-model and Qwen3-Coder-30B-A3B cross-model raw-response
+# evidence is byte-frozen with recorded SHA-256 sidecars (and run-record
+# raw_response_sha256) computed from canonical LF content. Their zero-API
+# verifiers recompute those hashes from the raw files, so pin LF to make the
+# raw-response SHA verification checkout-state independent on Windows
+# (core.autocrlf).
+reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/runs/raw/*.txt text eol=lf
+reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/runs/raw/*.sha256 text eol=lf
+reports/scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01/runs/raw/*.txt text eol=lf
+reports/scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01/runs/raw/*.sha256 text eol=lf
+
+# M1A / M1B controlled-encoding ablation raw-response evidence is byte-frozen
+# with recorded SHA-256 sidecars computed from canonical LF content; the
+# zero-API verifiers recompute those hashes from the raw files.
+research/controlled-encoding-ablation-01/probes/raw/*.txt text eol=lf
+research/controlled-encoding-ablation-01/probes/raw/*.sha256 text eol=lf
+research/controlled-encoding-ablation-16k-01/probes/raw/*.txt text eol=lf
+research/controlled-encoding-ablation-16k-01/probes/raw/*.sha256 text eol=lf
+research/controlled-encoding-ablation-16k-01/runs/raw/*.txt text eol=lf
+research/controlled-encoding-ablation-16k-01/runs/raw/*.sha256 text eol=lf

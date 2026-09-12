@@ -46,6 +46,20 @@ def _sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _sha256_file_lf_normalized(path: Path) -> str:
+    """Hash a raw text file after CRLF -> LF normalization.
+
+    The recorded ``raw_response_sha256`` is computed over the original LF bytes
+    captured at inference time; the committed Git blob is also LF. On Windows
+    checkouts git's ``core.autocrlf`` rewrites text files to CRLF in the working
+    tree, so the on-disk bytes differ while the canonical LF content is
+    unchanged. Normalizing before hashing keeps the verifier faithful to the
+    committed evidence (same convention as the pilot bundle finalizer).
+    """
+    data = path.read_bytes()
+    return hashlib.sha256(data.replace(b"\r\n", b"\n")).hexdigest()
+
+
 def main() -> int:
     failures: list[str] = []
     checks: list[dict[str, Any]] = []
@@ -155,7 +169,7 @@ def main() -> int:
         if not raw_path.is_file() or not sha_path.is_file():
             check(f"raw_persisted_{label}", False, "missing raw or sha file")
             continue
-        actual = _sha256_file(raw_path)
+        actual = _sha256_file_lf_normalized(raw_path)
         expected = sha_path.read_text(encoding="utf-8").strip()
         recorded = (
             pa.get("raw_response_sha256") if label == "probe_a_full_v2"
