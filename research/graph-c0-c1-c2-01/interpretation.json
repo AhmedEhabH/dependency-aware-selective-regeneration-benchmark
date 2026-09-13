@@ -1,0 +1,100 @@
+{
+  "interpretation": {
+    "committed_questions": [
+      "where_does_graph_help",
+      "where_does_graph_hurt",
+      "does_it_reduce_fn",
+      "at_what_fp_token_cost",
+      "is_soft_evidence_ignored",
+      "does_mandatory_disclosure_repair_missed_neighbors",
+      "hop_sensitivity",
+      "s006_improve_why",
+      "which_scenario_worse_why"
+    ],
+    "classification_axes": {
+      "graph_hint_signal": "PENDING (see M3_GRAPH_RESULTS.md)",
+      "graph_gated_disclosure": "PENDING (see M3_GRAPH_RESULTS.md)"
+    },
+    "no_universal_graph_claim": true,
+    "delta_tables": {
+      "deltas": {
+        "c0_to_c1": {
+          "dfn": 10,
+          "dfp": -19,
+          "drecall": -0.083333,
+          "dprecision": 0.092471,
+          "df1": 0.012716,
+          "dtokens": 5458.33
+        },
+        "c0_to_c2_1hop": {
+          "dfn": -10,
+          "dfp": -25,
+          "drecall": -0.283333,
+          "dprecision": -0.448361,
+          "df1": -0.419007,
+          "dtokens": 1178.6
+        },
+        "c2_1hop_to_c2_2hop": {
+          "dfn": -4,
+          "dfp": -16,
+          "drecall": -0.6,
+          "dprecision": -0.272727,
+          "df1": -0.375,
+          "dtokens": 724.7
+        }
+      },
+      "per_condition_overall": {
+        "c0": {
+          "selected": 147,
+          "tp": 106,
+          "fp": 41,
+          "fn": 14,
+          "precision": 0.721088,
+          "recall": 0.883333,
+          "f1": 0.794007,
+          "fnr": 0.116667,
+          "valid_runs": 30
+        },
+        "c1": {
+          "selected": 118,
+          "tp": 96,
+          "fp": 22,
+          "fn": 24,
+          "precision": 0.813559,
+          "recall": 0.8,
+          "f1": 0.806723,
+          "fnr": 0.2,
+          "valid_runs": 30
+        },
+        "c2_1hop": {
+          "selected": 22,
+          "tp": 6,
+          "fp": 16,
+          "fn": 4,
+          "precision": 0.272727,
+          "recall": 0.6,
+          "f1": 0.375,
+          "fnr": 0.4,
+          "valid_runs": 2
+        },
+        "c2_2hop": {
+          "selected": 0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fnr": 0.0,
+          "valid_runs": 0
+        }
+      },
+      "per_condition_mean_total_tokens": {
+        "c0": 3449.066667,
+        "c1": 8907.4,
+        "c2_1hop": 4627.666667,
+        "c2_2hop": 5352.366667
+      }
+    }
+  }
+}

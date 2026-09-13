@@ -1,0 +1,32 @@
+{
+  "completed": 40,
+  "total_cells": 90,
+  "valid": 30,
+  "failed": 10,
+  "truncations": 0,
+  "per_condition": {
+    "c1": {
+      "recorded": 30,
+      "valid": 30,
+      "failed": 0,
+      "truncations": 0
+    },
+    "c2-1hop": {
+      "recorded": 10,
+      "valid": 0,
+      "failed": 10,
+      "truncations": 0
+    },
+    "c2-2hop": {
+      "recorded": 0,
+      "valid": 0,
+      "failed": 0,
+      "truncations": 0
+    }
+  },
+  "prompt_tokens": 272975,
+  "completion_tokens": 37853,
+  "total_tokens": 310828,
+  "cost_usd": 0.119743,
+  "checkpoint_at": "2026-09-13T02:40:03.005571+00:00"
+}

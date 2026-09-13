@@ -1,0 +1,43 @@
+{
+  "eligible": false,
+  "ceiling": 115,
+  "rule": "for ALL 6 scenarios: |zone_3hop| > |zone_2hop| AND |zone_3hop| <= 115",
+  "per_scenario": {
+    "djangocms-external-validity-002": {
+      "zone_2hop_size": 112,
+      "zone_3hop_size": 130,
+      "grows_beyond_2hop": true,
+      "within_ceiling_115": false
+    },
+    "djangocms-external-validity-004": {
+      "zone_2hop_size": 112,
+      "zone_3hop_size": 130,
+      "grows_beyond_2hop": true,
+      "within_ceiling_115": false
+    },
+    "djangocms-external-validity-005": {
+      "zone_2hop_size": 111,
+      "zone_3hop_size": 129,
+      "grows_beyond_2hop": true,
+      "within_ceiling_115": false
+    },
+    "djangocms-external-validity-006": {
+      "zone_2hop_size": 116,
+      "zone_3hop_size": 130,
+      "grows_beyond_2hop": true,
+      "within_ceiling_115": false
+    },
+    "djangocms-external-validity-007": {
+      "zone_2hop_size": 111,
+      "zone_3hop_size": 130,
+      "grows_beyond_2hop": true,
+      "within_ceiling_115": false
+    },
+    "djangocms-external-validity-008": {
+      "zone_2hop_size": 119,
+      "zone_3hop_size": 130,
+      "grows_beyond_2hop": true,
+      "within_ceiling_115": false
+    }
+  }
+}
