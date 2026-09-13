@@ -184,15 +184,23 @@ def _import_edges_from_file(content: str, source_path: str, package: str, resolv
     return sorted(targets)
 
 
-def build_candidate_universe(repo_root: Path) -> list[dict[str, Any]]:
+def build_candidate_universe(
+    repo_root: Path,
+    *,
+    package_roots: tuple[str, ...] = ("cms", "menus"),
+) -> list[dict[str, Any]]:
     """Build the file-granular deterministic candidate universe.
 
     Records are sorted by repository-relative path so the artifact is canonical.
     Each record: ``path``, ``sha256``, ``loc``, ``module``, ``classes``, ``functions``,
     ``import_count``. ``import_count`` counts AST import statements; symbols are top-level.
+
+    Backwards-compatible parameterization (M4A-1): ``package_roots`` defaults to the
+    frozen djangoCMS 5.0.0 roots ``("cms", "menus")`` so existing default behavior is
+    byte/semantically equivalent. Historical parent checkouts pass their own roots.
     """
     records: list[dict[str, Any]] = []
-    for root_dir in ("cms", "menus"):
+    for root_dir in package_roots:
         base = repo_root / root_dir
         if not base.is_dir():
             continue
@@ -256,6 +264,8 @@ def build_dependency_graph(
     candidate_universe_hash: str,
     extractor_hash: str,
     generated_utc: str,
+    repo_id: str = "djangocms",
+    version: str = "5.0.0",
 ) -> dict[str, Any]:
     """Build the deterministic AST dependency graph over the candidate universe.
 
@@ -268,6 +278,11 @@ def build_dependency_graph(
     version/hash, node/edge counts, parse success/fail counts, isolated node count,
     weakly-connected component count, graph_source, generated_utc. The generated_utc
     field is the ONLY timestamp-like field (stripped for the canonical hash).
+
+    Backwards-compatible parameterization (M4A-1): ``repo_id``/``version`` default to
+    the frozen djangoCMS 5.0.0 identity (``djangocms`` / ``5.0.0``) so existing default
+    behavior is byte/semantically equivalent. Historical parent checkouts pass their own
+    repo/version label (version is a deterministic non-semantic label for M4A-1).
     """
     module_map = _build_module_map(records)
     resolve = _make_resolver(module_map)
@@ -306,8 +321,8 @@ def build_dependency_graph(
     
     return {
         "schema": "djangocms-external-validity-dependency-graph/1",
-        "repo_id": "djangocms",
-        "version": "5.0.0",
+        "repo_id": repo_id,
+        "version": version,
         "pinned_commit": pinned_commit,
         "candidate_universe_hash": candidate_universe_hash,
         "extractor_version": EXTRACTOR_VERSION,
