@@ -3,22 +3,31 @@
 ## CURRENT BOARD
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
-**Current phase:** Paper / figures / supervisor review.
+**Current phase:** Paper / figures / supervisor review + **M4A-1 real-commit
+miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**.
 **Scientific runs remaining:** ZERO.
 
 - **Where we are:** selection-stage benchmark research closed and audited
-  (artifact-level consistency audit PASS, 2026-09-08); the only remaining
-  work is the paper / figures / manuscript / supervisor-review phase.
+  (artifact-level consistency audit PASS, 2026-09-08); **M4A-1
+  (RealCommitImpactDataset-v1 miner/schema/leakage barrier + 6 MINER_DEV
+  cases) COMPLETE / AUDITED (2026-09-13)**; remaining work is the 30–40
+  scientific real-commit corpus (M4A-2) and the paper / figures / manuscript /
+  supervisor-review phase.
 - **What is proven:** Todo + djangoCMS selection studies, the
   post-hoc/exploratory ImpactPlan-v2 study, two cross-model robustness
   replications (Qwen3-32B, Qwen3-Coder-30B-A3B-Instruct), the
   controlled-encoding line M1A / M1B with the **M1 defensive closure**
-  (2026-09-13), and the **M3 graph ablation C0/C1/C2** (2026-09-13, 90 new
-  cells, audited).
+  (2026-09-13), the **M3 graph ablation C0/C1/C2** (2026-09-13, 90 new
+  cells, audited), and the **M4A-1 real-commit miner infrastructure**
+  (2026-09-13, audited, zero API calls).
 - **What is not proven:** M2 (serialization-density), any graph claim beyond
-  the six curated development/mechanism scenarios, and any end-to-end
-  regeneration correctness claim.
-- **What is next:** Paper / figures / manuscript / supervisor review; see
+  the six curated development/mechanism scenarios, any end-to-end
+  regeneration correctness claim, and any **real-commit held-out evaluation**
+  (the 30–40 scientific real-commit corpus is NOT YET COMPLETE / NEXT;
+  held-out evaluation NOT RUN).
+- **What is next:** M4A-2 (mine/adjudicate 30–40 clean djangoCMS scientific
+  real-commit cases, freeze TRAIN/VALIDATION/HELD_OUT_TEST splits before model
+  results), then paper / figures / manuscript / supervisor review; see
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md).
 
@@ -85,6 +94,24 @@
       (--no-ff). Reports: `reports/M3_GRAPH_PROTOCOL.md`,
       `reports/M3_GRAPH_RESULTS.md`, `reports/M3_GRAPH_SCENARIO_FAILURE_TAXONOMY.md`,
       `reports/M3_GRAPH_HOP_SENSITIVITY.md`, `reports/M3_GRAPH_COST_RECALL_TRADEOFF.md`.
+- [x] **M4A-1 — RealCommitImpactDataset-v1 miner/schema/leakage barrier
+      (2026-09-13).** ZERO scientific LLM/API calls. Deterministic miner over
+      real djangoCMS history (ancestors of the frozen 5.0.0 anchor
+      `0f633fc9...`) via the system git CLI; versioned record schema; frozen
+      v1 eligibility/exclusion rules; candidate universe + dependency graph
+      built from the **parent commit only**; physical `public/` vs `hidden/`
+      separation with the `intent_mentions_changed_path` leakage detector;
+      **6 MINER_DEV cases** materialized and permanently marked non-held-out
+      (proxy sizes 1/2/1/1/3/4; one leak-flagged case to exercise the
+      detector). Exactly six Pre-Benchmark gates PASS + independent audit
+      PASS (verifier `scripts/verify_real_commit_dataset.py`). Frozen
+      M1/M3 regression identities unchanged (universe 144 / `43f4279b...`,
+      graph 562 edges / `0a6bf0f7...`). 41 new tests (29 unit + 12
+      integration). Reports: `reports/REAL_COMMIT_M4A1_PROTOCOL.md`,
+      `reports/REAL_COMMIT_M4A1_VALIDATION.md`,
+      `reports/REAL_COMMIT_M4A1_AUDIT.md`. Branch
+      `research/real-commit-impact-dataset-v1-miner-01`; stable evidence tag
+      `real-commit-impact-dataset-v1-miner-dev-01-audited`.
 
 ### STUDY STATUS
 
@@ -94,6 +121,9 @@
 - **M3 — Graph ablation C0/C1/C2:** **COMPLETE / AUDITED** (2026-09-13;
   90 new cells; Graph Hint Signal **MIXED**; Graph-Gated Disclosure
   **NOT PROMISING as implemented**).
+- **M4A-1 — RealCommitImpactDataset-v1 miner/schema/leakage barrier:**
+  **COMPLETE / AUDITED** (2026-09-13; 6 MINER_DEV cases; ZERO API calls;
+  30–40 scientific corpus NOT YET COMPLETE / NEXT; held-out NOT RUN).
 - **M2 — Controlled LLM serialization-density characterization:** **NOT
   STARTED**.
 - **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **COMPLETE / AUDITED** (M3
@@ -102,6 +132,9 @@
 
 ### PAPER-PHASE TODOs
 
+- [ ] **M4A-2 — mine/adjudicate 30–40 clean djangoCMS scientific real-commit
+      cases, freeze TRAIN/VALIDATION/HELD_OUT_TEST splits before model
+      results** (NEXT; uses the M4A-1 miner/schema/leakage barrier).
 - [ ] Finalize research questions for the manuscript.
 - [ ] Freeze contribution claims (see `docs/PAPER_WRITING_HANDOFF.md`).
 - [ ] Final Results table.
@@ -110,9 +143,9 @@
 - [ ] Limitations / Threats to Validity.
 - [ ] ≤4-page IEEE manuscript refinement.
 
-**NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor, graph-aware
-v3 (M3 development-set graph study closed; a held-out graph evaluation is not
-authorized), fine-tuning.
+**NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor (after
+miner/scientific corpus stability), graph-aware v3 (M3 development-set graph
+study closed; a held-out graph evaluation is not authorized), fine-tuning, M2.
 
 ---
 
@@ -188,10 +221,11 @@ authorized), fine-tuning.
 - [ ] Limitations / Threats to Validity.
 - [ ] ≤4-page IEEE manuscript refinement.
 
-**NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor, graph-aware
-v3 (M3 development-set graph study closed; a held-out graph evaluation is not
-authorized), fine-tuning. The board entries below record the completed
-benchmark closures; everything under "HISTORICAL LEDGER" is superseded history.
+**NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor (after
+miner/scientific corpus stability), graph-aware v3 (M3 development-set graph
+study closed; a held-out graph evaluation is not authorized), fine-tuning, M2.
+The board entries below record the completed benchmark closures; everything
+under "HISTORICAL LEDGER" is superseded history.
 
 > **CURRENT BOARD (2026-09-07, RESEARCH-CONSOLIDATION-MAINLINE-01 COMPLETE —
 > TODO RESEARCH EVIDENCE CONSOLIDATED ON MAIN; NOT A RELEASE; NO STABLE TAG
