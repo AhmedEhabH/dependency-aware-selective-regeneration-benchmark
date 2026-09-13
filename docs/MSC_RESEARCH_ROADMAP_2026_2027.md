@@ -20,7 +20,7 @@ Status legend:
 |---|---|---|
 | 1 | Sparse impact-policy representation | COMPLETE / AUDITED (M1A + M1B + M1 defensive closure) |
 | 2 | Dependency-aware / risk-aware disclosure | COMPLETE / AUDITED (M3 development-set: hints MIXED, gated disclosure NOT PROMISING as implemented) |
-| 3 | Real historical-change dataset | NOT STARTED |
+| 3 | Real historical-change dataset | **IN PROGRESS — M4A-1 miner/schema/leakage barrier COMPLETE / AUDITED (2026-09-13); 6 MINER_DEV cases; 30–40 scientific corpus = NEXT (M4A-2); held-out evaluation NOT RUN** |
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
@@ -152,19 +152,29 @@ confirmation.
 requirement-change scenarios to real historical code changes?
 
 **Current evidence.** Todo + djangoCMS selection studies use curated,
-source-adjudicated scenarios. A real-commit benchmark is designed but not
-executed (`reports/REAL_COMMIT_BENCHMARK_PLAN.md`; fine-tuning readiness note
-in `research/FINE_TUNING_READINESS.md`).
+source-adjudicated scenarios. **M4A-1 (2026-09-13) implemented and froze the
+RealCommitImpactDataset-v1 miner infrastructure** (branch
+`research/real-commit-impact-dataset-v1-miner-01`): deterministic miner over
+real djangoCMS history (ancestors of the frozen 5.0.0 anchor), versioned
+record schema, frozen v1 eligibility/exclusion rules, candidate universe +
+dependency graph built from the parent commit only, physical `public/` vs
+`hidden/` separation, `intent_mentions_changed_path` leakage detector, and
+**6 MINER_DEV cases** permanently marked non-held-out (ZERO API calls; six
+Pre-Benchmark gates + independent audit PASS). See
+`reports/REAL_COMMIT_M4A1_PROTOCOL.md`, `reports/REAL_COMMIT_M4A1_VALIDATION.md`,
+`reports/REAL_COMMIT_M4A1_AUDIT.md`, `reports/REAL_COMMIT_BENCHMARK_PLAN.md`;
+fine-tuning readiness note in `research/FINE_TUNING_READINESS.md`.
 
-**Missing evidence.** Any real-commit evaluation.
+**Missing evidence.** Any real-commit **scientific** evaluation (the 30–40
+scientific real-commit corpus is NOT YET COMPLETE / NEXT; held-out evaluation
+NOT RUN).
 
-**Next experiment.** Construct **RealCommitImpactDataset-v1** (see
-`research/FINE_TUNING_READINESS.md` for the full record schema): real
-repository commits paired with change-intent text, candidate universes,
-dependency features, observed change-set proxies, action labels, change type,
-provenance hashes, and explicit TRAIN / VALIDATION / HELD-OUT TEST splits.
-Evaluate Sparse-v2 (and Full-v2 control) selection on the held-out test split.
-Held-out test examples must never enter any future fine-tuning.
+**Next experiment.** **M4A-2** — mine/adjudicate **30–40 clean djangoCMS
+scientific real-commit cases** with the frozen M4A-1 miner/schema/leakage
+barrier, and freeze the TRAIN / VALIDATION / HELD-OUT TEST splits **before
+any model result**. Then evaluate Sparse-v2 (and Full-v2 control) selection
+on the held-out test split. Held-out test examples must never enter any
+future fine-tuning.
 
 **Success / failure interpretation.**
 - Success: selection accuracy on real commits is comparable to the curated

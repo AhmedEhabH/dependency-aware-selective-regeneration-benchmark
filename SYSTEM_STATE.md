@@ -3,7 +3,8 @@
 ## CURRENT STATE
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
-**Current phase:** Paper / figures / supervisor review.
+**Current phase:** Paper / figures / supervisor review + **M4A-1 real-commit
+miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**.
 **Scientific runs remaining:** ZERO.
 
 - The selection-stage benchmark research is **closed and audited**
@@ -11,13 +12,20 @@
   benchmark research is complete and frozen — NOT successful end-to-end
   executor regeneration.
 - **Where we are:** paper / figures / manuscript / supervisor review; zero
-  scientific runs remaining.
+  scientific runs remaining; **M4A-1 (RealCommitImpactDataset-v1
+  miner/schema/leakage barrier + 6 MINER_DEV cases) COMPLETE / AUDITED** on
+  2026-09-13 (branch `research/real-commit-impact-dataset-v1-miner-01`).
 - **What is proven:** selection-stage impact-selection benchmark on
   Qwen3-Coder-480B-A35B-Instruct (primary + post-hoc/exploratory
   ImpactPlan-v2 + two cross-model robustness replications), the
   controlled-encoding feasibility/ablation line M1A / M1B (below) with the
-  **M1 defensive closure** (2026-09-13), and the **M3 graph ablation**
-  (2026-09-13, C0/C1/C2, 90 new cells). M1 defensive-closure reports:
+  **M1 defensive closure** (2026-09-13), the **M3 graph ablation**
+  (2026-09-13, C0/C1/C2, 90 new cells), and the **M4A-1 real-commit miner
+  infrastructure** (2026-09-13): deterministic miner over real djangoCMS
+  history, versioned record schema, frozen v1 eligibility/exclusion rules,
+  parent-only candidate universe + dependency graph, physical public/hidden
+  separation, `intent_mentions_changed_path` leakage detector, 6 MINER_DEV
+  cases permanently marked non-held-out. M1 defensive-closure reports:
   `reports/M1_THREATS_TO_VALIDITY_MATRIX.md`,
   `reports/M1_STATISTICAL_ANALYSIS.md`,
   `reports/M1_SCENARIO_LEVEL_ANALYSIS.md` + stats
@@ -26,15 +34,24 @@
   `reports/M3_GRAPH_SCENARIO_FAILURE_TAXONOMY.md`,
   `reports/M3_GRAPH_HOP_SENSITIVITY.md`,
   `reports/M3_GRAPH_COST_RECALL_TRADEOFF.md`, verifier
-  `scripts/verify_graph_ablation_claims.py` (40/40 PASS).
+  `scripts/verify_graph_ablation_claims.py` (40/40 PASS). M4A-1 protocol /
+  gates / audit: `reports/REAL_COMMIT_M4A1_PROTOCOL.md`,
+  `reports/REAL_COMMIT_M4A1_VALIDATION.md`, `reports/REAL_COMMIT_M4A1_AUDIT.md`,
+  verifier `scripts/verify_real_commit_dataset.py`, builder
+  `scripts/build_real_commit_dataset.py`.
 - **What is not proven:** M2 (serialization-density), any graph claim beyond
-  the six curated development/mechanism scenarios, and any end-to-end
-  regeneration correctness claim.
-- **What is next:** Paper / figures / manuscript / supervisor review. See
+  the six curated development/mechanism scenarios, any end-to-end
+  regeneration correctness claim, and any **real-commit held-out evaluation**
+  (the 30–40 scientific real-commit corpus is NOT YET COMPLETE; held-out
+  evaluation NOT RUN). The six curated scenarios remain development/mechanism
+  evidence, not unbiased held-out evidence.
+- **What is next:** M4A-2 (mine/adjudicate 30–40 clean djangoCMS scientific
+  real-commit cases, freeze TRAIN/VALIDATION/HELD_OUT_TEST splits before model
+  results), then paper / figures / manuscript / supervisor review. See
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md) (single front door).
-- **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor,
-  graph-aware v3, graph experiment, fine-tuning.
+- **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor (after
+  miner/scientific corpus stability), graph-aware v3, fine-tuning, M2.
 
 ### Study status
 
@@ -52,6 +69,11 @@
   POST-HOC EXPLORATORY DEVELOPMENT-SET; 90 new cells; C0 = audited M1B
   Sparse-v2 reuse; Graph Hint Signal **MIXED**; Graph-Gated Disclosure
   **NOT PROMISING as implemented**).
+- **M4A-1 — RealCommitImpactDataset-v1 miner/schema/leakage barrier:**
+  **COMPLETE / AUDITED** (2026-09-13; ZERO scientific LLM/API calls; branch
+  `research/real-commit-impact-dataset-v1-miner-01`; 6 MINER_DEV cases
+  permanently marked non-held-out; 30–40 scientific corpus NOT YET COMPLETE /
+  NEXT; held-out evaluation NOT RUN).
 - **M2 — Controlled LLM serialization-density characterization:** **NOT
   STARTED**.
 - **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **COMPLETE / AUDITED** (M3
