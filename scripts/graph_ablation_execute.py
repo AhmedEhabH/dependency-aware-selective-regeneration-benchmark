@@ -1221,6 +1221,9 @@ def cmd_run(args: argparse.Namespace) -> int:
         return 1
 
     pending = [c for c in cells if c["run_id"] not in records]
+    _cond_rank = {"c1": 0, "c2": 1}
+    pending.sort(key=lambda c: (_cond_rank.get(c["condition"], 9),
+                                int(c.get("hop") or 0), c["scenario_id"], c["repetition"]))
     limit = args.limit if args.limit and args.limit > 0 else len(pending)
     batch = pending[:limit]
     delay = max(0.0, float(getattr(args, "inter_cell_delay", 0.0) or 0.0))
