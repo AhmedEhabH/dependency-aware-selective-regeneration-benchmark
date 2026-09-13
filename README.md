@@ -17,7 +17,7 @@
 |---|---|
 | **Benchmark** | **COMPLETE** |
 | **Release** | `v0.11.0-benchmark-complete` |
-| **Current phase** | **Paper / figures / supervisor review; M4A-1 real-commit miner infrastructure COMPLETE/AUDITED; M4A-2 scientific corpus BUILDING** |
+| **Current phase** | **Paper / figures / supervisor review; M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED; M4A-3 held-out evaluation PENDING (separately frozen)** |
 | **Legacy frozen benchmark runs remaining** | **ZERO** |
 | **New RealCommitImpactDataset scientific evaluation** | **PENDING (M4A-2 corpus + split freeze; then M4A-3 held-out evaluation)** |
 | Saleor | FUTURE WORK / NOT CURRENT |
@@ -31,7 +31,7 @@
 | **M1 defensive closure** | **COMPLETE (2026-09-13; threat matrix, scenario-level statistics, S006 counterexample; zero API calls; raw M1 evidence unchanged)** |
 | **M3 — Graph ablation C0/C1/C2** | **COMPLETE / AUDITED (2026-09-13; POST-HOC EXPLORATORY DEVELOPMENT-SET; 90 new cells; Graph Hints MIXED; Graph-Gated Disclosure NOT PROMISING as implemented)** |
 | **M4A-1 — RealCommitImpactDataset-v1 miner** | **COMPLETE / AUDITED (2026-09-13; schema + miner + leakage barrier + 6 MINER_DEV cases; ZERO API calls)** |
-| **M4A-2 — RealCommitImpactDataset-v1 scientific corpus** | **IN PROGRESS (30–40 clean djangoCMS cases; split freeze; ZERO API calls; held-out evaluation NOT RUN)** |
+| **M4A-2 — RealCommitImpactDataset-v1 scientific corpus** | **COMPLETE / AUDITED (2026-09-13; 40 clean scientific cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API calls; held-out evaluation NOT RUN)** |
 
 The selection-stage benchmark research is **closed and audited** (artifact-level
 consistency audit PASS, 2026-09-08). The benchmark tag means the benchmark
@@ -84,11 +84,28 @@ section below.
   exclusion rules, parent-only candidate universe + dependency graph,
   physical `public/` vs `hidden/` separation, and the
   `intent_mentions_changed_path` leakage detector. **6 MINER_DEV cases**
-  materialized and permanently marked non-held-out. **M4A-2** mines and
-  adjudicates the 30–40 clean scientific djangoCMS real-commit cases (ZERO API
-  calls) and freezes TRAIN/VALIDATION/HELD_OUT_TEST splits before any model
-  result; held-out evaluation is **NOT RUN** (M4A-3, separately frozen).
-  Protocol `reports/REAL_COMMIT_M4A1_PROTOCOL.md`; six gates
+  materialized and permanently marked non-held-out.
+- **M4A-2 — RealCommitImpactDataset-v1 scientific corpus:**
+  **COMPLETE / AUDITED** (2026-09-13; ZERO API calls). **40 clean scientific
+  djangoCMS cases** mined from the modern PR-era history (newest 6000
+  ancestors of the frozen anchor, ≈2016–2025) with the frozen M4A-1
+  miner/schema/eligibility/exclusion rules and the leakage barrier
+  (`allow_intent_path_leakage=False`; 92 leaked candidates ineligible). R1/R2/R3
+  related/duplicate removal keeps changes independent (582 exact-set, 0
+  shared-PR, 5 suspected-related adjudicated). **Split freeze before any model
+  result:** TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10 (seed `20260913`,
+  metadata-only, `split_freeze.json`). Held-out evaluation is **NOT RUN**
+  (M4A-3, separately frozen). The historical diff remains an **OBSERVED
+  CHANGE-SET PROXY** — never semantic ground truth, no P/R/V/H fabricated.
+  Protocol `reports/REAL_COMMIT_M4A2_PROTOCOL.md`; adjudication
+  `reports/REAL_COMMIT_M4A2_ADJUDICATION.md`; six gates
+  `reports/REAL_COMMIT_M4A2_VALIDATION.md`; audit
+  `reports/REAL_COMMIT_M4A2_AUDIT.md`; verifier
+  `scripts/verify_real_commit_dataset_scientific.py`; builder
+  `scripts/build_real_commit_dataset_scientific.py`; data
+  `benchmark_data/real_commit_impact_v1/scientific/` +
+  `scientific_manifest.json` + `split_freeze.json`. M4A-1 references:
+  protocol `reports/REAL_COMMIT_M4A1_PROTOCOL.md`; six gates
   `reports/REAL_COMMIT_M4A1_VALIDATION.md`; audit
   `reports/REAL_COMMIT_M4A1_AUDIT.md`; verifier
   `scripts/verify_real_commit_dataset.py`; builder

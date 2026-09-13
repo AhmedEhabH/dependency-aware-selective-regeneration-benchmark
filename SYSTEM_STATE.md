@@ -4,10 +4,13 @@
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
 **Current phase:** Paper / figures / supervisor review + **M4A-1 real-commit
-miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**;
-**M4A-2 scientific real-commit corpus in progress**.
+miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)** +
+**M4A-2 scientific real-commit corpus COMPLETE / AUDITED (2026-09-13; 40
+cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API
+calls)**.
 **Legacy frozen benchmark runs remaining:** ZERO.
-**New RealCommitImpactDataset scientific evaluation:** PENDING.
+**New RealCommitImpactDataset scientific evaluation:** PENDING (M4A-3 held-out
+evaluation under a separately frozen protocol; NOT RUN).
 
 - The selection-stage benchmark research is **closed and audited**
   (artifact-level consistency audit PASS, 2026-09-08). The tag means the
@@ -17,9 +20,11 @@ miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**;
   **legacy frozen** scientific runs remaining; **M4A-1 (RealCommitImpactDataset-v1
   miner/schema/leakage barrier + 6 MINER_DEV cases) COMPLETE / AUDITED** on
   2026-09-13 (branch `research/real-commit-impact-dataset-v1-miner-01`);
-  **M4A-2 (30–40 scientific real-commit corpus + split freeze) is the current
-  milestone and requires ZERO LLM/API calls until model execution is
-  authorized under a separately frozen M4A-3 protocol**.
+  **M4A-2 (40-case scientific real-commit corpus + split freeze) COMPLETE /
+  AUDITED** on 2026-09-13 (branch
+  `research/real-commit-impact-dataset-v2-corpus-01`); **M4A-3 (held-out
+  evaluation) NOT RUN — requires a separately frozen protocol before any
+  model execution**.
 - **What is proven:** selection-stage impact-selection benchmark on
   Qwen3-Coder-480B-A35B-Instruct (primary + post-hoc/exploratory
   ImpactPlan-v2 + two cross-model robustness replications), the
@@ -30,7 +35,14 @@ miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**;
   history, versioned record schema, frozen v1 eligibility/exclusion rules,
   parent-only candidate universe + dependency graph, physical public/hidden
   separation, `intent_mentions_changed_path` leakage detector, 6 MINER_DEV
-  cases permanently marked non-held-out. M1 defensive-closure reports:
+  cases permanently marked non-held-out; **M4A-2 scientific corpus**
+  (2026-09-13): 40 clean scientific cases mined from the newest 6000
+  ancestors (≈2016–2025) with the frozen rules + leakage barrier
+  (92 leaked ineligible), R1/R2/R3 related/duplicate removal (582 exact-set,
+  0 shared-PR, 5 suspected-related adjudicated), deterministic metadata-only
+  split freeze (seed `20260913`, TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10)
+  before any model result; the historical diff is an **OBSERVED CHANGE-SET
+  PROXY**, never semantic ground truth. M1 defensive-closure reports:
   `reports/M1_THREATS_TO_VALIDITY_MATRIX.md`,
   `reports/M1_STATISTICAL_ANALYSIS.md`,
   `reports/M1_SCENARIO_LEVEL_ANALYSIS.md` + stats
@@ -43,16 +55,24 @@ miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**;
   gates / audit: `reports/REAL_COMMIT_M4A1_PROTOCOL.md`,
   `reports/REAL_COMMIT_M4A1_VALIDATION.md`, `reports/REAL_COMMIT_M4A1_AUDIT.md`,
   verifier `scripts/verify_real_commit_dataset.py`, builder
-  `scripts/build_real_commit_dataset.py`.
+  `scripts/build_real_commit_dataset.py`. M4A-2 protocol / adjudication /
+  gates / audit: `reports/REAL_COMMIT_M4A2_PROTOCOL.md`,
+  `reports/REAL_COMMIT_M4A2_ADJUDICATION.md`,
+  `reports/REAL_COMMIT_M4A2_VALIDATION.md`, `reports/REAL_COMMIT_M4A2_AUDIT.md`,
+  verifier `scripts/verify_real_commit_dataset_scientific.py`, builder
+  `scripts/build_real_commit_dataset_scientific.py`, data
+  `benchmark_data/real_commit_impact_v1/scientific/` +
+  `scientific_manifest.json` + `split_freeze.json`.
 - **What is not proven:** M2 (serialization-density), any graph claim beyond
   the six curated development/mechanism scenarios, any end-to-end
   regeneration correctness claim, and any **real-commit held-out evaluation**
-  (the 30–40 scientific real-commit corpus is NOT YET COMPLETE; held-out
-  evaluation NOT RUN). The six curated scenarios remain development/mechanism
-  evidence, not unbiased held-out evidence.
-- **What is next:** M4A-2 (mine/adjudicate 30–40 clean djangoCMS scientific
-  real-commit cases, freeze TRAIN/VALIDATION/HELD_OUT_TEST splits before model
-  results), then paper / figures / manuscript / supervisor review. See
+  (the 40-case scientific corpus + split freeze are COMPLETE; held-out
+  evaluation is **NOT RUN** — M4A-3 requires a separately frozen protocol).
+  The six curated scenarios remain development/mechanism evidence, not
+  unbiased held-out evidence.
+- **What is next:** M4A-3 (held-out evaluation on the frozen 10-case
+  HELD_OUT_TEST split under a separately frozen protocol), then paper /
+  figures / manuscript / supervisor review. See
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md) (single front door).
 - **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor (after
