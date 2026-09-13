@@ -1,8 +1,10 @@
 # Repository-Level LLM Impact Selection Benchmark
 
 > The repository slug is retained for historical/link stability.
-> The completed djangoCMS studies are selection-only and did not inject
-> dependency-graph assistance.
+> The completed djangoCMS studies are selection-only; the M1 encoding studies
+> and M1A/M1B did not inject dependency-graph assistance, while the M3 graph
+> ablation (2026-09-13) is the first study to inject automatic AST
+> dependency-graph evidence (soft hints in C1, gated disclosure in C2).
 
 > Research infrastructure for the working paper
 > **Provisional working title: "The Cost of Saying 'Unchanged': Sparse Impact Plans for Token-Efficient Repository-Level Impact Selection"**
@@ -26,6 +28,7 @@
 | **M1A — Controlled 4096-cap feasibility boundary** | **COMPLETE / AUDITED (post-hoc capability/feasibility boundary; NOT a 60-cell ablation)** |
 | **M1B — Controlled 16K cap-relaxed encoding ablation** | **COMPLETE / AUDITED (post-hoc controlled cap-relaxed ablation; 60/60 cells; cost effect SUPPORTED)** |
 | **M1 defensive closure** | **COMPLETE (2026-09-13; threat matrix, scenario-level statistics, S006 counterexample; zero API calls; raw M1 evidence unchanged)** |
+| **M3 — Graph ablation C0/C1/C2** | **COMPLETE / AUDITED (2026-09-13; POST-HOC EXPLORATORY DEVELOPMENT-SET; 90 new cells; Graph Hints MIXED; Graph-Gated Disclosure NOT PROMISING as implemented)** |
 
 The selection-stage benchmark research is **closed and audited** (artifact-level
 consistency audit PASS, 2026-09-08). The benchmark tag means the benchmark
@@ -61,8 +64,18 @@ section below.
   [`reports/M1_SCENARIO_LEVEL_ANALYSIS.md`](reports/M1_SCENARIO_LEVEL_ANALYSIS.md).
 - **M2 — Controlled LLM serialization-density characterization:** **NOT
   STARTED**.
-- **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **NOT STARTED**.
-- **Graph-Gated Disclosure:** **PROPOSED FOLLOW-UP / NOT EXECUTED**.
+- **M3 — Graph ablation (C0 Graph-OFF / C1 Graph-Hints / C2 Graph-Gated
+  Disclosure):** **COMPLETE / AUDITED** (POST-HOC EXPLORATORY
+  DEVELOPMENT-SET; 2026-09-13; 90 new cells, C0 = audited M1B Sparse-v2
+  reuse). **Graph Hint Signal: MIXED** (precision +9.2pp, FP −19, F1 in 3/6
+  scenarios; but recall −8.3pp, FN 14→24, tokens ×2.6). **Graph-Gated
+  Disclosure: NOT PROMISING as implemented** (mandatory-zone compliance
+  2/30 at 1-hop, 0/30 at 2-hop — sparse output capacity far below the
+  in-zone mandate). Protocol `reports/M3_GRAPH_PROTOCOL.md`; results
+  `reports/M3_GRAPH_RESULTS.md`; verifier
+  `scripts/verify_graph_ablation_claims.py` (40/40 PASS).
+- **Graph-Gated Disclosure:** **EXECUTED / NOT PROMISING as implemented**
+  (was PROPOSED FOLLOW-UP / NOT EXECUTED).
 
 ---
 
