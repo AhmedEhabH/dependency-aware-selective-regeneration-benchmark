@@ -126,6 +126,28 @@ between-model or universal-superiority claim). Evidence directory:
 | Raw SHA-256 sidecars | 60/60 verified | `runs/raw/*.sha256` | file == sidecar == recorded `raw_response_sha256` | §M1B |
 | Six closure gates + audit | ALL PASS (zero calls) | `closure_gates.json` | `gates_all_passed` + `audit.passed` | §M1B |
 
+## 3c. M1 defensive closure (2026-09-13)
+
+Zero scientific API calls; frozen M1A/M1B evidence unchanged. This section
+maps the **claims-limitation statements** produced by the closure to their
+persisted artifacts. Verifier: `scripts/m1_defensive_closure_stats.py`
+(zero API; recomputes `reports/m1_defensive_closure_stats.json`).
+
+| Statement | Value | Canonical artifact | Exact field / aggregation |
+|---|---|---|---|
+| Independent task units = 6 scenarios; 5 repetitions nested (no n=30 claim) | FROZEN CONVENTION | `reports/M1_STATISTICAL_ANALYSIS.md` §1; `m1_defensive_closure_stats.json` `unit_statement` | analysis unit statement |
+| Cross-scenario mean paired ΔF1 (Sparse − Full, n=6 scenario means) | +0.1413 | `m1_defensive_closure_stats.json` | `cross_scenario_paired_effects.f1.mean_of_scenario_means` |
+| Cross-scenario mean paired ΔRecall | +0.0556 | `m1_defensive_closure_stats.json` | `cross_scenario_paired_effects.recall.mean_of_scenario_means` |
+| Cross-scenario mean paired ΔPrecision | +0.1679 | `m1_defensive_closure_stats.json` | `cross_scenario_paired_effects.precision.mean_of_scenario_means` |
+| Cross-scenario mean paired Δcompletion tokens (uniform 6/6 negative) | −7,573.9 | `m1_defensive_closure_stats.json` | `cross_scenario_paired_effects.completion_tokens.mean_of_scenario_means` + `sign_consistency.negative_count == 6` |
+| Cross-scenario mean paired ΔAPI cost (uniform 6/6 negative) | −$0.007569 | `m1_defensive_closure_stats.json` | `cross_scenario_paired_effects.api_cost.mean_of_scenario_means` + `sign_consistency` |
+| Bootstrap over SCENARIOS (10k, n=6) ΔF1 95% CI | [−0.0220, +0.2932] | `m1_defensive_closure_stats.json` | `bootstrap_over_scenarios.f1.ci95_*` (resampling unit = scenario) |
+| Bootstrap over SCENARIOS Δcompletion tokens 95% CI | [−7,695, −7,462] | `m1_defensive_closure_stats.json` | `bootstrap_over_scenarios.completion_tokens.ci95_*` |
+| Survivor-bias funnel (M1A @4096: Full-v2 0 valid semantic observations vs Sparse-v2 1) | QUANTIFIED | `m1_defensive_closure_stats.json` | `sensitivity_and_survivor_bias.m1a_survivor_funnel` |
+| S006 counterexample (Sparse-v2 R 0.333 / F1 0.278 vs Full-v2 R 0.800 / F1 0.444) | DOCUMENTED | `reports/M1_SCENARIO_LEVEL_ANALYSIS.md` §1 S006 + §2 | pooled micro from `final_metrics.json` per-scenario |
+| 15 threats matrix | COMPLETE | `reports/M1_THREATS_TO_VALIDITY_MATRIX.md` | 15 threats, each with 8 fields |
+| Raw M1 evidence unchanged | VERIFIED | `git diff` empty for `research/controlled-encoding-ablation-*/` | byte-identical committed evidence |
+
 ## 4. Token semantics (V7 Table III correction)
 
 | Arm | Paper value | Canonical field | Semantic meaning |

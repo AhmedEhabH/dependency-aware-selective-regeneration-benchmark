@@ -25,6 +25,7 @@
 | Qwen3-Coder-30B-A3B-Instruct cross-model / cross-provider replication | COMPLETE / AUDITED (post-hoc) |
 | **M1A — Controlled 4096-cap feasibility boundary** | **COMPLETE / AUDITED (post-hoc capability/feasibility boundary; NOT a 60-cell ablation)** |
 | **M1B — Controlled 16K cap-relaxed encoding ablation** | **COMPLETE / AUDITED (post-hoc controlled cap-relaxed ablation; 60/60 cells; cost effect SUPPORTED)** |
+| **M1 defensive closure** | **COMPLETE (2026-09-13; threat matrix, scenario-level statistics, S006 counterexample; zero API calls; raw M1 evidence unchanged)** |
 
 The selection-stage benchmark research is **closed and audited** (artifact-level
 consistency audit PASS, 2026-09-08). The benchmark tag means the benchmark
@@ -47,6 +48,17 @@ section below.
 - **M1B — Controlled 16K cap-relaxed encoding ablation:** **COMPLETE /
   AUDITED** (post-hoc controlled cap-relaxed ablation; 60/60 cells valid, 0
   failed, 0 truncations).
+- **M1 defensive closure:** **COMPLETE** (2026-09-13; zero scientific API
+  calls; raw M1 evidence unchanged). Documents the M1A/M1B validity posture:
+  threat-to-validity matrix (15 threats),
+  [`reports/M1_THREATS_TO_VALIDITY_MATRIX.md`](reports/M1_THREATS_TO_VALIDITY_MATRIX.md);
+  scenario-level statistics treating **6 scenarios as the independent task
+  units and 5 repetitions as nested observations** (no n=30 claim),
+  [`reports/M1_STATISTICAL_ANALYSIS.md`](reports/M1_STATISTICAL_ANALYSIS.md) +
+  [`reports/m1_defensive_closure_stats.json`](reports/m1_defensive_closure_stats.json);
+  per-scenario Full-v2 vs Sparse-v2 tables incl. the **S006 counterexample**
+  (Sparse-v2 recall 0.333 vs Full-v2 0.800),
+  [`reports/M1_SCENARIO_LEVEL_ANALYSIS.md`](reports/M1_SCENARIO_LEVEL_ANALYSIS.md).
 - **M2 — Controlled LLM serialization-density characterization:** **NOT
   STARTED**.
 - **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **NOT STARTED**.
