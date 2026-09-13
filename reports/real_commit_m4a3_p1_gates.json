@@ -1,0 +1,1646 @@
+{
+  "gates": [
+    {
+      "gate": 1,
+      "name": "Dataset Validation",
+      "passed": true,
+      "checks": [
+        {
+          "check": "held_out_membership_exact",
+          "ok": true,
+          "detail": [
+            "djangocms-rc-4307e1b8c2e2",
+            "djangocms-rc-50c3576080be",
+            "djangocms-rc-630a50361ada",
+            "djangocms-rc-66c70394c9e1",
+            "djangocms-rc-75978fb1c3ad",
+            "djangocms-rc-8d50660e7bcf",
+            "djangocms-rc-9e33db4f4660",
+            "djangocms-rc-b39799f9fc1c",
+            "djangocms-rc-ba16eb9a1d09",
+            "djangocms-rc-fdda30c271f0"
+          ]
+        },
+        {
+          "check": "held_out_count_10",
+          "ok": true,
+          "detail": 10
+        },
+        {
+          "check": "public_hidden_separation_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "candidate_paths": 140,
+            "records": 140
+          }
+        },
+        {
+          "check": "proxy_subset_of_parent_universe_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "candidate_map_deterministic_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "count": 140,
+            "sha256": "68c166b6664bc7af854afa7fe2b473b746067bc86a2592bb7ffccd0378a7a4f7"
+          }
+        },
+        {
+          "check": "no_hidden_proxy_in_public_bundle_hash_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": "77474ab562d879bf19a2d067932408445f732b0a510630d0dcf40c09d56dd7a2"
+        },
+        {
+          "check": "public_hidden_separation_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "candidate_paths": 144,
+            "records": 144
+          }
+        },
+        {
+          "check": "proxy_subset_of_parent_universe_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "candidate_map_deterministic_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "count": 144,
+            "sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6"
+          }
+        },
+        {
+          "check": "no_hidden_proxy_in_public_bundle_hash_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": "df3f001b70fc3f93f14d5744b13b2975b86696ce6ec5fb90badc163367501ac6"
+        },
+        {
+          "check": "public_hidden_separation_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "candidate_paths": 152,
+            "records": 152
+          }
+        },
+        {
+          "check": "proxy_subset_of_parent_universe_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "candidate_map_deterministic_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "count": 152,
+            "sha256": "affe53f09286f00feb14ecdcf43c0750148de3f722fb5133abe47e09ac5744c0"
+          }
+        },
+        {
+          "check": "no_hidden_proxy_in_public_bundle_hash_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": "f4ad51527c7978a6e40eab7ed9badd6e6b906a9cf6a58e8b91d8c2f83101244c"
+        },
+        {
+          "check": "public_hidden_separation_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "candidate_paths": 140,
+            "records": 140
+          }
+        },
+        {
+          "check": "proxy_subset_of_parent_universe_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "candidate_map_deterministic_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "count": 140,
+            "sha256": "68c166b6664bc7af854afa7fe2b473b746067bc86a2592bb7ffccd0378a7a4f7"
+          }
+        },
+        {
+          "check": "no_hidden_proxy_in_public_bundle_hash_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": "403483df371427898dc23f3367741a4787bc4910b75d73e37847d55abba5cbab"
+        },
+        {
+          "check": "public_hidden_separation_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "candidate_paths": 140,
+            "records": 140
+          }
+        },
+        {
+          "check": "proxy_subset_of_parent_universe_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "candidate_map_deterministic_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "count": 140,
+            "sha256": "68c166b6664bc7af854afa7fe2b473b746067bc86a2592bb7ffccd0378a7a4f7"
+          }
+        },
+        {
+          "check": "no_hidden_proxy_in_public_bundle_hash_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": "101b3ddb82e85b233d016a72fcebb50992df8a1b93a85c8bcb0433fadf1b971a"
+        },
+        {
+          "check": "public_hidden_separation_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "candidate_paths": 144,
+            "records": 144
+          }
+        },
+        {
+          "check": "proxy_subset_of_parent_universe_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "candidate_map_deterministic_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "count": 144,
+            "sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6"
+          }
+        },
+        {
+          "check": "no_hidden_proxy_in_public_bundle_hash_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": "cf29df1c23f066a272f1966a2fcd09a9232462ca7a01961cbcbf4798ab29c770"
+        },
+        {
+          "check": "public_hidden_separation_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "candidate_paths": 144,
+            "records": 144
+          }
+        },
+        {
+          "check": "proxy_subset_of_parent_universe_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "candidate_map_deterministic_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "count": 144,
+            "sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6"
+          }
+        },
+        {
+          "check": "no_hidden_proxy_in_public_bundle_hash_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": "c3c6c08387f77c73223e43531457d070068f2649b883eb1e8bc734b0b2343c36"
+        },
+        {
+          "check": "public_hidden_separation_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "candidate_paths": 140,
+            "records": 140
+          }
+        },
+        {
+          "check": "proxy_subset_of_parent_universe_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "candidate_map_deterministic_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "count": 140,
+            "sha256": "0793ce351b34d1854e7559951d2c95751e7ab47b2030c00c9330df81a0020d6b"
+          }
+        },
+        {
+          "check": "no_hidden_proxy_in_public_bundle_hash_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": "0482746ddd86291e8240cf153f82c11972db729a98684c4ef04a5425433c80f1"
+        },
+        {
+          "check": "public_hidden_separation_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "candidate_paths": 152,
+            "records": 152
+          }
+        },
+        {
+          "check": "proxy_subset_of_parent_universe_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "candidate_map_deterministic_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "count": 152,
+            "sha256": "affe53f09286f00feb14ecdcf43c0750148de3f722fb5133abe47e09ac5744c0"
+          }
+        },
+        {
+          "check": "no_hidden_proxy_in_public_bundle_hash_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": "e92839cc3ec5dae18c45c95da3010f0d8a8cda3e852c7d594bceb4c57685a3a7"
+        },
+        {
+          "check": "public_hidden_separation_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "candidate_paths": 144,
+            "records": 144
+          }
+        },
+        {
+          "check": "proxy_subset_of_parent_universe_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "candidate_map_deterministic_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "count": 144,
+            "sha256": "9d33e163505722e2cfe602ca165777d3d5accbaf5b9f7a82d1b30068ca9d1ca6"
+          }
+        },
+        {
+          "check": "no_hidden_proxy_in_public_bundle_hash_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": "5d28724b48b47b0bdd61dd2f28e5b5cb9b62c9fceb75eb791543eedfd52f50aa"
+        }
+      ]
+    },
+    {
+      "gate": 2,
+      "name": "Prompt Validation",
+      "passed": true,
+      "checks": [
+        {
+          "check": "prompt_control_proof_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "daf99fcca1fb1a87644f03495135ed949b2b11b763651c2efb7d631c750a38aa",
+            "stripped_sparse_sha256": "daf99fcca1fb1a87644f03495135ed949b2b11b763651c2efb7d631c750a38aa",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": "Use PageContent instance in wizard form instead of Page instance (#6532)"
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "ca107c699e25cb77a65af488ea31197753f14c3e72c9b655934a6973d9d0e5ba",
+            "stripped_sparse_sha256": "ca107c699e25cb77a65af488ea31197753f14c3e72c9b655934a6973d9d0e5ba",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": "chore: Minor fixes for django CMS 5.0.0a1 (#8182) * flake8 issues * Capitalize page form titles (#8158) * Add doc'S auto"
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "2b15f3e1893be00b9b00e370c5e76c1c765af454e73ed3e2e4d5e44345c5f674",
+            "stripped_sparse_sha256": "2b15f3e1893be00b9b00e370c5e76c1c765af454e73ed3e2e4d5e44345c5f674",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": "Fixed #6199 -- Show all languages on language chooser if user is staff (#6200)"
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "9d88f18f97498811705ebe647ff8075c9245d0539b460dd6af46649d815e93b9",
+            "stripped_sparse_sha256": "9d88f18f97498811705ebe647ff8075c9245d0539b460dd6af46649d815e93b9",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": "Fix being able to reset the setting PageContent.limit_visibility_in_menu (#7016) * Enable a user to be able to reset a P"
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "5ca3b9739f18f3bc2f0f74969e8f980550351a81e28bc092cef2f0590b892e00",
+            "stripped_sparse_sha256": "5ca3b9739f18f3bc2f0f74969e8f980550351a81e28bc092cef2f0590b892e00",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": "Ported: Fix 'urls.W001' warning with custom apphook urls (#6874) * Added test to expose the issue * Added fix to the App"
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "e7e689ee6945a937f6e89f14c1267557ecf1d39b0796c71235cf5ced4925277a",
+            "stripped_sparse_sha256": "e7e689ee6945a937f6e89f14c1267557ecf1d39b0796c71235cf5ced4925277a",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": "fix: Slug uniqueness not checked when moving page (#8185) * fix: Slug uniqueness not checked when moving page * test: ad"
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "3fd17123f705c79ba4262fba120b1a6deb4a43dda216e70f2f1b133604882a90",
+            "stripped_sparse_sha256": "3fd17123f705c79ba4262fba120b1a6deb4a43dda216e70f2f1b133604882a90",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": "fix: Ensure plugin class properties are available to the Django template engine (#8071) * Fix: Ensure plugin class prope"
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "525621e944ea91f0740cad3108c87fe4c98f60725265e54fef8a65fe8e76f671",
+            "stripped_sparse_sha256": "525621e944ea91f0740cad3108c87fe4c98f60725265e54fef8a65fe8e76f671",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": "feat: [CMS v4] Reintroduce indicator menus (#7426) * fix target of indicator dropdown menu * Add: draft status indicator"
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "f56f0dd84114be6c94da0b08a53c35648aafa10df44ac2913e73c1f4a46473b5",
+            "stripped_sparse_sha256": "f56f0dd84114be6c94da0b08a53c35648aafa10df44ac2913e73c1f4a46473b5",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": "Use Django's language override (#6187)"
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "301e823ca5c8f544da3502d1ad37ced9cc2e1db88ab35184721fefddd3f9296c",
+            "stripped_sparse_sha256": "301e823ca5c8f544da3502d1ad37ced9cc2e1db88ab35184721fefddd3f9296c",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": "fix: Browser reloaded when clearing placeholder (#8188) * fix: Browser reloaded when clearing placeholder * fix tests * "
+        },
+        {
+          "check": "zero_scientific_calls_prompt_render",
+          "ok": true,
+          "detail": "pure string rendering; no backend constructed"
+        }
+      ],
+      "rendered": {
+        "djangocms-rc-4307e1b8c2e2": {
+          "full_prompt_sha256": "06a7716732808422025324f80dcbc8b127db4ea48bd0a7b3037ecc0864ac7b75",
+          "sparse_prompt_sha256": "47cb0dc180e17e6d59b4778f8ef5818e2ef26419562daefa2323315dec69bf01",
+          "stripped_sha256": "daf99fcca1fb1a87644f03495135ed949b2b11b763651c2efb7d631c750a38aa",
+          "byte_identical_after_policy_strip": true
+        },
+        "djangocms-rc-50c3576080be": {
+          "full_prompt_sha256": "39f7062a31c69d05d0e23acc2675cd3ba4f9235664c9d271bcbe498cfe2ba6f8",
+          "sparse_prompt_sha256": "7d12afbce83f4ae8f94f495715ee4bceedc381dc1e6f8ee3a97d40c2233ff6de",
+          "stripped_sha256": "ca107c699e25cb77a65af488ea31197753f14c3e72c9b655934a6973d9d0e5ba",
+          "byte_identical_after_policy_strip": true
+        },
+        "djangocms-rc-630a50361ada": {
+          "full_prompt_sha256": "4fedee8e4a6205f484379201a09f6e8c8721dd6d0a74ef3001f111d14f665bc3",
+          "sparse_prompt_sha256": "9487bb03313562ec5edc9a9f3c7a04fa23e06aa404671a0d3186208f0b577e3a",
+          "stripped_sha256": "2b15f3e1893be00b9b00e370c5e76c1c765af454e73ed3e2e4d5e44345c5f674",
+          "byte_identical_after_policy_strip": true
+        },
+        "djangocms-rc-66c70394c9e1": {
+          "full_prompt_sha256": "1020acc2c1da835beff33eb6414ebad9c39a6cbb7e7b0d77aee8beeda46c6ce2",
+          "sparse_prompt_sha256": "862df27da9d1a2b63d9725efac611938f0492616f772462bee2a38ec8b87635e",
+          "stripped_sha256": "9d88f18f97498811705ebe647ff8075c9245d0539b460dd6af46649d815e93b9",
+          "byte_identical_after_policy_strip": true
+        },
+        "djangocms-rc-75978fb1c3ad": {
+          "full_prompt_sha256": "b06fd08578ce89600e2ac013e9096b17aa7c8a5e7f9b7018b8c1ea3acf1d89d8",
+          "sparse_prompt_sha256": "d12ccdc8580cf70a48d48ac6f86723ece285644f3841d63945dd5d6a3e943580",
+          "stripped_sha256": "5ca3b9739f18f3bc2f0f74969e8f980550351a81e28bc092cef2f0590b892e00",
+          "byte_identical_after_policy_strip": true
+        },
+        "djangocms-rc-8d50660e7bcf": {
+          "full_prompt_sha256": "a9d919bc3a491a43b48f699de39efc26966a9517aae458bcec2462f0ecd4319d",
+          "sparse_prompt_sha256": "c20f5ee55e9950d17ecf02dc0717b77efd4cca867ca2ade54c33b796df1646ed",
+          "stripped_sha256": "e7e689ee6945a937f6e89f14c1267557ecf1d39b0796c71235cf5ced4925277a",
+          "byte_identical_after_policy_strip": true
+        },
+        "djangocms-rc-9e33db4f4660": {
+          "full_prompt_sha256": "c6372dc0ca4a0cd652f943bed1d19be04fdb5bc589af2c1dbe9c1668cb00481b",
+          "sparse_prompt_sha256": "cc04d875f2088d0732e53f039b8096030190fa8856e8ae975560649bfe99aedd",
+          "stripped_sha256": "3fd17123f705c79ba4262fba120b1a6deb4a43dda216e70f2f1b133604882a90",
+          "byte_identical_after_policy_strip": true
+        },
+        "djangocms-rc-b39799f9fc1c": {
+          "full_prompt_sha256": "f0e2b7d42b330570d9952e445f4b175ec803553b763c628ef71940987e3b78ba",
+          "sparse_prompt_sha256": "4b87d6c25297990be5f6d9178118f423895d9ef827cb38da0814a869d0155f93",
+          "stripped_sha256": "525621e944ea91f0740cad3108c87fe4c98f60725265e54fef8a65fe8e76f671",
+          "byte_identical_after_policy_strip": true
+        },
+        "djangocms-rc-ba16eb9a1d09": {
+          "full_prompt_sha256": "7393084d8c12779fb3b00457b27dd63dd2100dbb61a00a51e64f9484e7cd2aa6",
+          "sparse_prompt_sha256": "0d435aa035b0ef38ea6793c7852935389c12293adebbd2b3357d88ead00ff3b6",
+          "stripped_sha256": "f56f0dd84114be6c94da0b08a53c35648aafa10df44ac2913e73c1f4a46473b5",
+          "byte_identical_after_policy_strip": true
+        },
+        "djangocms-rc-fdda30c271f0": {
+          "full_prompt_sha256": "3f70d6c2e945e29b9e6709871928452f23952d508e8210e63f69941bfda0cfb1",
+          "sparse_prompt_sha256": "5e2016f64745b5d7217f5811dd77aad3dd5ef5978e08ee43c3cb418c16d4a5dd",
+          "stripped_sha256": "301e823ca5c8f544da3502d1ad37ced9cc2e1db88ab35184721fefddd3f9296c",
+          "byte_identical_after_policy_strip": true
+        }
+      }
+    },
+    {
+      "gate": 3,
+      "name": "Pipeline Smoke Test",
+      "passed": true,
+      "checks": [
+        {
+          "check": "smoke_full_v2_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 140,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 140,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_full_v2_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 144,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 144,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_full_v2_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 152,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 152,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_full_v2_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 140,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 140,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_full_v2_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 140,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 140,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_full_v2_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 144,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 144,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_full_v2_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 144,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 144,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_full_v2_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 140,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 140,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_full_v2_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 152,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 152,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_full_v2_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 144,
+            "errors": []
+          }
+        },
+        {
+          "check": "smoke_sparse_v2_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "decoded_candidate_count": 144,
+            "errors": []
+          }
+        },
+        {
+          "check": "zero_scientific_calls_smoke",
+          "ok": true,
+          "detail": "deterministic fixture encode/decode only"
+        }
+      ]
+    },
+    {
+      "gate": 4,
+      "name": "Dry Run",
+      "passed": true,
+      "checks": [
+        {
+          "check": "manifest_iteration_exactly_60",
+          "ok": true,
+          "detail": 60
+        },
+        {
+          "check": "run_ids_unique",
+          "ok": true,
+          "detail": {
+            "unique": 60
+          }
+        },
+        {
+          "check": "ten_held_out_cases",
+          "ok": true,
+          "detail": [
+            "djangocms-rc-4307e1b8c2e2",
+            "djangocms-rc-50c3576080be",
+            "djangocms-rc-630a50361ada",
+            "djangocms-rc-66c70394c9e1",
+            "djangocms-rc-75978fb1c3ad",
+            "djangocms-rc-8d50660e7bcf",
+            "djangocms-rc-9e33db4f4660",
+            "djangocms-rc-b39799f9fc1c",
+            "djangocms-rc-ba16eb9a1d09",
+            "djangocms-rc-fdda30c271f0"
+          ]
+        },
+        {
+          "check": "two_arms",
+          "ok": true,
+          "detail": [
+            "full_v2",
+            "sparse_v2"
+          ]
+        },
+        {
+          "check": "three_reps_per_case_per_arm",
+          "ok": true,
+          "detail": "10 cases \u00d7 2 arms \u00d7 3 reps = 60"
+        },
+        {
+          "check": "frozen_configuration_propagation",
+          "ok": true,
+          "detail": "all 60 cells carry frozen model/provider/config"
+        },
+        {
+          "check": "zero_scientific_calls_and_tokens",
+          "ok": true,
+          "detail": "manifest-shape proof only; zero model calls and zero billed tokens"
+        }
+      ],
+      "manifest_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\benchmark_data\\real_commit_impact_v1\\..\\..\\reports\\real_commit_m4a3_p1_manifest.json"
+    },
+    {
+      "gate": 5,
+      "name": "Integration Test",
+      "passed": true,
+      "checks": [
+        {
+          "check": "full_v2_decode_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 140
+          }
+        },
+        {
+          "check": "full_v2_proxy_exact_fixture_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/forms/wizards.py"
+            ],
+            "proxy": [
+              "cms/forms/wizards.py"
+            ]
+          }
+        },
+        {
+          "check": "full_v2_metrics_perfect_fixture_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 140
+          }
+        },
+        {
+          "check": "sparse_v2_proxy_exact_fixture_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/forms/wizards.py"
+            ],
+            "proxy": [
+              "cms/forms/wizards.py"
+            ]
+          }
+        },
+        {
+          "check": "sparse_v2_metrics_perfect_fixture_djangocms-rc-4307e1b8c2e2",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "full_v2_decode_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 144
+          }
+        },
+        {
+          "check": "full_v2_proxy_exact_fixture_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/admin/forms.py",
+              "cms/admin/pageadmin.py",
+              "cms/admin/placeholderadmin.py",
+              "cms/admin/utils.py",
+              "cms/cache/page.py",
+              "cms/middleware/language.py",
+              "cms/middleware/toolbar.py",
+              "cms/plugin_base.py",
+              "cms/sitemaps/__init__.py",
+              "cms/toolbar/utils.py",
+              "cms/utils/compat/warnings.py",
+              "cms/views.py"
+            ],
+            "proxy": [
+              "cms/admin/forms.py",
+              "cms/admin/pageadmin.py",
+              "cms/admin/placeholderadmin.py",
+              "cms/admin/utils.py",
+              "cms/cache/page.py",
+              "cms/middleware/language.py",
+              "cms/middleware/toolbar.py",
+              "cms/plugin_base.py",
+              "cms/sitemaps/__init__.py",
+              "cms/toolbar/utils.py",
+              "cms/utils/compat/warnings.py",
+              "cms/views.py"
+            ]
+          }
+        },
+        {
+          "check": "full_v2_metrics_perfect_fixture_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 144
+          }
+        },
+        {
+          "check": "sparse_v2_proxy_exact_fixture_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/admin/forms.py",
+              "cms/admin/pageadmin.py",
+              "cms/admin/placeholderadmin.py",
+              "cms/admin/utils.py",
+              "cms/cache/page.py",
+              "cms/middleware/language.py",
+              "cms/middleware/toolbar.py",
+              "cms/plugin_base.py",
+              "cms/sitemaps/__init__.py",
+              "cms/toolbar/utils.py",
+              "cms/utils/compat/warnings.py",
+              "cms/views.py"
+            ],
+            "proxy": [
+              "cms/admin/forms.py",
+              "cms/admin/pageadmin.py",
+              "cms/admin/placeholderadmin.py",
+              "cms/admin/utils.py",
+              "cms/cache/page.py",
+              "cms/middleware/language.py",
+              "cms/middleware/toolbar.py",
+              "cms/plugin_base.py",
+              "cms/sitemaps/__init__.py",
+              "cms/toolbar/utils.py",
+              "cms/utils/compat/warnings.py",
+              "cms/views.py"
+            ]
+          }
+        },
+        {
+          "check": "sparse_v2_metrics_perfect_fixture_djangocms-rc-50c3576080be",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "full_v2_decode_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 152
+          }
+        },
+        {
+          "check": "full_v2_proxy_exact_fixture_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "menus/templatetags/menu_tags.py"
+            ],
+            "proxy": [
+              "menus/templatetags/menu_tags.py"
+            ]
+          }
+        },
+        {
+          "check": "full_v2_metrics_perfect_fixture_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 152
+          }
+        },
+        {
+          "check": "sparse_v2_proxy_exact_fixture_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "menus/templatetags/menu_tags.py"
+            ],
+            "proxy": [
+              "menus/templatetags/menu_tags.py"
+            ]
+          }
+        },
+        {
+          "check": "sparse_v2_metrics_perfect_fixture_djangocms-rc-630a50361ada",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "full_v2_decode_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 140
+          }
+        },
+        {
+          "check": "full_v2_proxy_exact_fixture_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/models/titlemodels.py"
+            ],
+            "proxy": [
+              "cms/models/titlemodels.py"
+            ]
+          }
+        },
+        {
+          "check": "full_v2_metrics_perfect_fixture_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 140
+          }
+        },
+        {
+          "check": "sparse_v2_proxy_exact_fixture_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/models/titlemodels.py"
+            ],
+            "proxy": [
+              "cms/models/titlemodels.py"
+            ]
+          }
+        },
+        {
+          "check": "sparse_v2_metrics_perfect_fixture_djangocms-rc-66c70394c9e1",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "full_v2_decode_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 140
+          }
+        },
+        {
+          "check": "full_v2_proxy_exact_fixture_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/appresolver.py"
+            ],
+            "proxy": [
+              "cms/appresolver.py"
+            ]
+          }
+        },
+        {
+          "check": "full_v2_metrics_perfect_fixture_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 140
+          }
+        },
+        {
+          "check": "sparse_v2_proxy_exact_fixture_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/appresolver.py"
+            ],
+            "proxy": [
+              "cms/appresolver.py"
+            ]
+          }
+        },
+        {
+          "check": "sparse_v2_metrics_perfect_fixture_djangocms-rc-75978fb1c3ad",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "full_v2_decode_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 144
+          }
+        },
+        {
+          "check": "full_v2_proxy_exact_fixture_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/admin/forms.py",
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/forms/validators.py",
+              "cms/models/pagemodel.py"
+            ],
+            "proxy": [
+              "cms/admin/forms.py",
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/forms/validators.py",
+              "cms/models/pagemodel.py"
+            ]
+          }
+        },
+        {
+          "check": "full_v2_metrics_perfect_fixture_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 144
+          }
+        },
+        {
+          "check": "sparse_v2_proxy_exact_fixture_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/admin/forms.py",
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/forms/validators.py",
+              "cms/models/pagemodel.py"
+            ],
+            "proxy": [
+              "cms/admin/forms.py",
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/forms/validators.py",
+              "cms/models/pagemodel.py"
+            ]
+          }
+        },
+        {
+          "check": "sparse_v2_metrics_perfect_fixture_djangocms-rc-8d50660e7bcf",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "full_v2_decode_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 144
+          }
+        },
+        {
+          "check": "full_v2_proxy_exact_fixture_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/plugin_base.py",
+              "cms/utils/compat/__init__.py"
+            ],
+            "proxy": [
+              "cms/plugin_base.py",
+              "cms/utils/compat/__init__.py"
+            ]
+          }
+        },
+        {
+          "check": "full_v2_metrics_perfect_fixture_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 144
+          }
+        },
+        {
+          "check": "sparse_v2_proxy_exact_fixture_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/plugin_base.py",
+              "cms/utils/compat/__init__.py"
+            ],
+            "proxy": [
+              "cms/plugin_base.py",
+              "cms/utils/compat/__init__.py"
+            ]
+          }
+        },
+        {
+          "check": "sparse_v2_metrics_perfect_fixture_djangocms-rc-9e33db4f4660",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "full_v2_decode_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 140
+          }
+        },
+        {
+          "check": "full_v2_proxy_exact_fixture_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/admin/pageadmin.py",
+              "cms/cms_toolbars.py",
+              "cms/models/contentmodels.py",
+              "cms/models/pagemodel.py",
+              "cms/templatetags/cms_admin.py"
+            ],
+            "proxy": [
+              "cms/admin/pageadmin.py",
+              "cms/cms_toolbars.py",
+              "cms/models/contentmodels.py",
+              "cms/models/pagemodel.py",
+              "cms/templatetags/cms_admin.py"
+            ]
+          }
+        },
+        {
+          "check": "full_v2_metrics_perfect_fixture_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 140
+          }
+        },
+        {
+          "check": "sparse_v2_proxy_exact_fixture_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/admin/pageadmin.py",
+              "cms/cms_toolbars.py",
+              "cms/models/contentmodels.py",
+              "cms/models/pagemodel.py",
+              "cms/templatetags/cms_admin.py"
+            ],
+            "proxy": [
+              "cms/admin/pageadmin.py",
+              "cms/cms_toolbars.py",
+              "cms/models/contentmodels.py",
+              "cms/models/pagemodel.py",
+              "cms/templatetags/cms_admin.py"
+            ]
+          }
+        },
+        {
+          "check": "sparse_v2_metrics_perfect_fixture_djangocms-rc-b39799f9fc1c",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "full_v2_decode_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 152
+          }
+        },
+        {
+          "check": "full_v2_proxy_exact_fixture_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/cms_menus.py",
+              "cms/cms_toolbars.py",
+              "cms/models/pagemodel.py",
+              "cms/templatetags/cms_tags.py",
+              "cms/toolbar/toolbar.py",
+              "cms/toolbar/utils.py"
+            ],
+            "proxy": [
+              "cms/cms_menus.py",
+              "cms/cms_toolbars.py",
+              "cms/models/pagemodel.py",
+              "cms/templatetags/cms_tags.py",
+              "cms/toolbar/toolbar.py",
+              "cms/toolbar/utils.py"
+            ]
+          }
+        },
+        {
+          "check": "full_v2_metrics_perfect_fixture_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 152
+          }
+        },
+        {
+          "check": "sparse_v2_proxy_exact_fixture_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/cms_menus.py",
+              "cms/cms_toolbars.py",
+              "cms/models/pagemodel.py",
+              "cms/templatetags/cms_tags.py",
+              "cms/toolbar/toolbar.py",
+              "cms/toolbar/utils.py"
+            ],
+            "proxy": [
+              "cms/cms_menus.py",
+              "cms/cms_toolbars.py",
+              "cms/models/pagemodel.py",
+              "cms/templatetags/cms_tags.py",
+              "cms/toolbar/toolbar.py",
+              "cms/toolbar/utils.py"
+            ]
+          }
+        },
+        {
+          "check": "sparse_v2_metrics_perfect_fixture_djangocms-rc-ba16eb9a1d09",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "full_v2_decode_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 144
+          }
+        },
+        {
+          "check": "full_v2_proxy_exact_fixture_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/admin/placeholderadmin.py",
+              "cms/middleware/toolbar.py",
+              "cms/plugin_rendering.py"
+            ],
+            "proxy": [
+              "cms/admin/placeholderadmin.py",
+              "cms/middleware/toolbar.py",
+              "cms/plugin_rendering.py"
+            ]
+          }
+        },
+        {
+          "check": "full_v2_metrics_perfect_fixture_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "sparse_v2_decode_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 144
+          }
+        },
+        {
+          "check": "sparse_v2_proxy_exact_fixture_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "predicted": [
+              "cms/admin/placeholderadmin.py",
+              "cms/middleware/toolbar.py",
+              "cms/plugin_rendering.py"
+            ],
+            "proxy": [
+              "cms/admin/placeholderadmin.py",
+              "cms/middleware/toolbar.py",
+              "cms/plugin_rendering.py"
+            ]
+          }
+        },
+        {
+          "check": "sparse_v2_metrics_perfect_fixture_djangocms-rc-fdda30c271f0",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "gate": 6,
+      "name": "Metric Verification",
+      "passed": true,
+      "checks": [
+        {
+          "check": "micro_precision_recall_f1_recomputed",
+          "ok": true,
+          "detail": {
+            "computed": {
+              "tp": 3,
+              "fp": 1,
+              "fn": 0,
+              "precision": 0.75,
+              "recall": 1.0,
+              "f1": 0.8571428571428571,
+              "fnr": 0.0,
+              "full_recall": true,
+              "proxy_size": 3,
+              "predicted_size": 4
+            },
+            "expected": {
+              "precision": 0.75,
+              "recall": 1.0,
+              "f1": 0.8571428571428571
+            }
+          }
+        },
+        {
+          "check": "empty_prediction_fail_closed_metrics",
+          "ok": true,
+          "detail": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 1.0,
+            "full_recall": false,
+            "proxy_size": 1,
+            "predicted_size": 0
+          }
+        },
+        {
+          "check": "full_incomplete_rejected",
+          "ok": true,
+          "detail": "FULL-v2 output missing ids fails closed"
+        },
+        {
+          "check": "sparse_explicit_preserve_rejected",
+          "ok": true,
+          "detail": "SPARSE-v2 must not contain explicit PRESERVE rows"
+        },
+        {
+          "check": "duplicate_ids_rejected",
+          "ok": true,
+          "detail": "duplicate candidate ids fail closed"
+        }
+      ]
+    }
+  ],
+  "all_passed": true,
+  "audit": {
+    "passed": true,
+    "checks": [
+      {
+        "check": "protocol_frozen_before_result",
+        "ok": true,
+        "detail": "reports/REAL_COMMIT_M4A3_P1_PROTOCOL.md"
+      },
+      {
+        "check": "study_id_frozen",
+        "ok": true,
+        "detail": "real-commit-p1-v1.0.0"
+      },
+      {
+        "check": "model_frozen",
+        "ok": true,
+        "detail": "qwen/qwen3-coder"
+      },
+      {
+        "check": "provider_frozen",
+        "ok": true,
+        "detail": "deepinfra/turbo"
+      },
+      {
+        "check": "repetitions_3_frozen",
+        "ok": true,
+        "detail": 3
+      },
+      {
+        "check": "temperature_0_frozen",
+        "ok": true,
+        "detail": 0.0
+      },
+      {
+        "check": "cap_4096_frozen",
+        "ok": true,
+        "detail": 4096
+      },
+      {
+        "check": "no_hidden_proxy_in_any_public_bundle",
+        "ok": true,
+        "detail": "hidden/ never read during prompt render; proxy is evaluation-only"
+      },
+      {
+        "check": "no_scientific_api_artifacts",
+        "ok": true,
+        "detail": "zero model calls in this milestone"
+      }
+    ],
+    "ran_at": "2026-09-13T22:47:21.147079+00:00"
+  },
+  "ran_at": "2026-09-13T22:47:21.166980+00:00"
+}
