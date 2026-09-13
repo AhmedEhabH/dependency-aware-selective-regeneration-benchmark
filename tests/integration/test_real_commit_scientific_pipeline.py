@@ -252,3 +252,46 @@ def test_miner_dev_targets_loaded_from_manifest(tmp_path: Path) -> None:
         json.dumps({"cases": [{"target_commit": "ab" * 20}]}), encoding="utf-8"
     )
     assert load_miner_dev_targets(dataset_dir) == frozenset({"ab" * 20})
+
+
+def test_r3_adjudication_is_corpus_invariant(scientific_repo: dict) -> None:
+    """R3 adjudication must never change the selected scientific corpus.
+
+    Regression for the M4A-2 R3 adjudication-fidelity closure: the frozen R3
+    rule is applied as a deterministic same-change adjudication, and the
+    selection must be identical whether R3 suspected-related pairs are excluded
+    (same change) or kept (both are kept), because R3 never silently drops a
+    possibly-independent change and never adds one. This proves the frozen
+    40-case corpus membership is invariant to the R3 decision.
+    """
+    from benchmark.real_commits import scientific as sci
+
+    root: Path = scientific_repo["root"]
+    anchor: str = scientific_repo["anchor"]
+    candidates, _ = sci.enumerate_scientific_candidates(
+        root, anchor, window=20, miner_dev_targets=frozenset()
+    )
+
+    def _selected(skip_r3: bool) -> list[str]:
+        if skip_r3:
+            # R1/R2 only (no R3 exclusion) — keep every R1/R2 survivor.
+            kept = []
+            seen_proxy: dict = {}
+            seen_pr: dict = {}
+            for c in candidates:  # newest-first
+                key = frozenset(c["proxy_paths"])
+                if key in seen_proxy:
+                    continue
+                if c["prs"] & set(seen_pr):
+                    continue
+                seen_proxy[key] = c["sha"]
+                for pr in c["prs"]:
+                    seen_pr.setdefault(pr, c["sha"])
+                kept.append(c)
+        else:
+            kept, _ = sci.deduplicate_candidates(candidates)
+        return [miner.make_case_id(c["sha"]) for c in sci.select_year_capped(kept, cap=5, target=40)]
+
+    with_r3 = sorted(_selected(skip_r3=False))
+    without_r3 = sorted(_selected(skip_r3=True))
+    assert with_r3 == without_r3

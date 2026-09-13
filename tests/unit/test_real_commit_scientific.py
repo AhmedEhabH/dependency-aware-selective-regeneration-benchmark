@@ -205,9 +205,47 @@ def test_dedup_r3_suspected_related_keeps_newest() -> None:
     assert any(r["rule"] == "R3_suspected_related" for r in adj)
     r3 = next(r for r in adj if r["rule"] == "R3_suspected_related")
     assert r3["decision"] == "exclude_older_keep_newest"
+    assert r3["decision_source"] == "deterministic_same_change_predicate"
     assert r3["kept_sha"] == "a" * 40
     assert r3["excluded_sha"] == "b" * 40
     assert "rationale" in r3
+
+
+def test_dedup_r3_suspected_related_different_change_keeps_both() -> None:
+    # Jaccard >= 0.5 + shared proxy path, but messages describe DIFFERENT
+    # changes (shared tokens < 3, no subset) -> the frozen R3 rule keeps BOTH
+    # (never drops a possibly independent change).
+    a = _dedup_case("a" * 40, ["cms/x.py", "cms/y.py"], "fix: page menu")
+    b = _dedup_case("b" * 40, ["cms/x.py", "cms/z.py"], "fix: page cache")
+    assert scientific.intent_jaccard("fix: page menu", "fix: page cache") >= 0.5
+    kept, adj = scientific.deduplicate_candidates([a, b])
+    assert sorted(c["sha"] for c in kept) == ["a" * 40, "b" * 40]
+    r3 = next(r for r in adj if r["rule"] == "R3_suspected_related")
+    assert r3["decision"] == "keep_both"
+    assert r3["excluded_sha"] == ""
+    assert r3["kept_sha"] == "a" * 40
+
+
+def test_messages_describe_same_change_predicate() -> None:
+    assert scientific._messages_describe_same_change(
+        "Dropped support for Django < 1.11", "Drop support for Django 1.7."
+    )
+    assert scientific._messages_describe_same_change(
+        "Initial compatibility", "Initial compatibility effort"
+    )
+    assert scientific._messages_describe_same_change(
+        "More fixes", "More context fixes"
+    )
+    assert scientific._messages_describe_same_change(
+        "fixes failing tests", "fixes failing tests"
+    )
+    assert not scientific._messages_describe_same_change(
+        "fix: page menu", "fix: page cache"
+    )
+    assert not scientific._messages_describe_same_change(
+        "fix: menu", "feat: batch publish"
+    )
+    assert not scientific._messages_describe_same_change("", "fix: something")
 
 
 def test_dedup_independent_cases_kept() -> None:
