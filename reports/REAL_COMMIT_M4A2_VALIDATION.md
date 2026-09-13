@@ -1,6 +1,6 @@
 # RealCommitImpactDataset-v1 (M4A-2) — Six Pre-Benchmark Validation Gates (Scientific)
 
-**Generated:** 2026-09-13T20:20:15.364602+00:00
+**Generated:** 2026-09-13T21:05:24.483620+00:00
 **Miner version:** real-commit-miner-v1.0.0
 
 | # | Gate | Result | Checks |
@@ -467,7 +467,7 @@
 
 ## Gate 3 — Pipeline Smoke Test (scientific): PASS
 
-- [PASS] synthetic_pipeline_produced_valid_cases — `['fd4216c1cfd4aac38eb14f703e46633157a3ffe0']`
+- [PASS] synthetic_pipeline_produced_valid_cases — `['9d0a652d83ca543c8031f47e9ce08a020cc1b23e']`
 - [PASS] synthetic_pipeline_recorded_exclusions — `{'duplicate_or_related_change': 1, 'intent_path_leakage': 1, 'merge_commit': 1, 'migrations_only': 1, 'production_add_delete_rename_copy_v1_unsupported': 3, 'tests_only': 1, 'whitespace_only': 1}`
 - [PASS] synthetic_pipeline_zero_api — `synthetic pipeline is deterministic local git only`
 
