@@ -13,10 +13,15 @@ cases are permanently reserved and **NEVER** enter any future fine-tuning.
 > schema, v1 eligibility/exclusion rules, parent-commit candidate universe +
 > dependency graph, physical public/hidden separation, and the
 > `intent_mentions_changed_path` leakage detector. **6 MINER_DEV cases** are
-> materialized and permanently excluded from all final metrics. The **30–40
-> scientific corpus** is the NEXT milestone (M4A-2) and is NOT yet built;
-> split assignment (TRAIN / VALIDATION / HELD_OUT_TEST) will be frozen
-> **before** any model results.
+> materialized and permanently excluded from all final metrics.
+>
+> **M4A-2 status (CURRENT):** mining/adjudicating the **30–40 clean scientific
+> djangoCMS real-commit cases** with the frozen M4A-1 miner/schema/leakage
+> barrier (ZERO LLM/API calls); split assignment (TRAIN / VALIDATION /
+> HELD_OUT_TEST) is frozen **before** any model results; legacy frozen
+> benchmark runs remaining: ZERO; new RealCommitImpactDataset scientific
+> evaluation: PENDING (held-out evaluation is M4A-3 under a separately frozen
+> protocol).
 
 ## IMPORTANT: two label kinds must NOT be conflated
 

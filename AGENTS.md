@@ -1,6 +1,9 @@
 > **CURRENT PROJECT PHASE (benchmark COMPLETE):** the selection-stage benchmark
 > research is closed and audited at `v0.11.0-benchmark-complete`; current phase
-> is **paper / figures / supervisor review** (zero scientific runs remaining).
+> is **paper / figures / supervisor review** (**legacy frozen benchmark runs
+> remaining: ZERO; new RealCommitImpactDataset scientific evaluation: PENDING —
+> M4A-2 corpus + split freeze, then M4A-3 held-out evaluation under a
+> separately frozen protocol**).
 > The release-facts trail below is a HISTORICAL record of earlier
 > pilot/preflight engineering closures. For current state see README.md,
 > SYSTEM_STATE.md, and docs/PROJECT_HANDOFF.md.

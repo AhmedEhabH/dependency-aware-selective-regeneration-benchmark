@@ -12,9 +12,16 @@ automated historical-commit benchmark.
 > eligibility/exclusion rules, builds the candidate universe + dependency
 > graph from the **parent commit only**, and physically separates the public
 > inference bundle from the hidden observed change-set proxy. **6 MINER_DEV
-> cases** are materialized and permanently excluded from held-out. The
-> **30–40 scientific corpus (M4A-2)** and held-out evaluation are NOT yet
-> complete.
+> cases** are materialized and permanently excluded from held-out.
+> Fresh-machine reproduction of the cache (`dist/real-commit-cache/djangocms`)
+> is documented in `reports/REAL_COMMIT_CACHE_REACQUISITION.md`.
+>
+> **M4A-2 STATUS (CURRENT):** mining/adjudicating the **30–40 clean scientific
+> djangoCMS real-commit cases** with the frozen M4A-1 miner/schema/leakage
+> barrier, then freezing TRAIN / VALIDATION / HELD_OUT_TEST splits **before any
+> model result** (ZERO LLM/API calls; legacy frozen benchmark runs remaining:
+> ZERO; new RealCommitImpactDataset scientific evaluation: PENDING). Held-out
+> evaluation itself is M4A-3 under a separately frozen protocol.
 
 ---
 

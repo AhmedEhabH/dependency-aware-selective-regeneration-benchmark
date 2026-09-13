@@ -4,8 +4,10 @@
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
 **Current phase:** Paper / figures / supervisor review + **M4A-1 real-commit
-miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**.
-**Scientific runs remaining:** ZERO.
+miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**;
+**M4A-2 scientific real-commit corpus in progress**.
+**Legacy frozen benchmark runs remaining:** ZERO.
+**New RealCommitImpactDataset scientific evaluation:** PENDING.
 
 - **Where we are:** selection-stage benchmark research closed and audited
   (artifact-level consistency audit PASS, 2026-09-08); **M4A-1

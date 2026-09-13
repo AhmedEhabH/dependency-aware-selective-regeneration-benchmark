@@ -4,17 +4,22 @@
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
 **Current phase:** Paper / figures / supervisor review + **M4A-1 real-commit
-miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**.
-**Scientific runs remaining:** ZERO.
+miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**;
+**M4A-2 scientific real-commit corpus in progress**.
+**Legacy frozen benchmark runs remaining:** ZERO.
+**New RealCommitImpactDataset scientific evaluation:** PENDING.
 
 - The selection-stage benchmark research is **closed and audited**
   (artifact-level consistency audit PASS, 2026-09-08). The tag means the
   benchmark research is complete and frozen — NOT successful end-to-end
   executor regeneration.
 - **Where we are:** paper / figures / manuscript / supervisor review; zero
-  scientific runs remaining; **M4A-1 (RealCommitImpactDataset-v1
+  **legacy frozen** scientific runs remaining; **M4A-1 (RealCommitImpactDataset-v1
   miner/schema/leakage barrier + 6 MINER_DEV cases) COMPLETE / AUDITED** on
-  2026-09-13 (branch `research/real-commit-impact-dataset-v1-miner-01`).
+  2026-09-13 (branch `research/real-commit-impact-dataset-v1-miner-01`);
+  **M4A-2 (30–40 scientific real-commit corpus + split freeze) is the current
+  milestone and requires ZERO LLM/API calls until model execution is
+  authorized under a separately frozen M4A-3 protocol**.
 - **What is proven:** selection-stage impact-selection benchmark on
   Qwen3-Coder-480B-A35B-Instruct (primary + post-hoc/exploratory
   ImpactPlan-v2 + two cross-model robustness replications), the

@@ -20,7 +20,7 @@ Status legend:
 |---|---|---|
 | 1 | Sparse impact-policy representation | COMPLETE / AUDITED (M1A + M1B + M1 defensive closure) |
 | 2 | Dependency-aware / risk-aware disclosure | COMPLETE / AUDITED (M3 development-set: hints MIXED, gated disclosure NOT PROMISING as implemented) |
-| 3 | Real historical-change dataset | **IN PROGRESS — M4A-1 miner/schema/leakage barrier COMPLETE / AUDITED (2026-09-13); 6 MINER_DEV cases; 30–40 scientific corpus = NEXT (M4A-2); held-out evaluation NOT RUN** |
+| 3 | Real historical-change dataset | **IN PROGRESS — M4A-1 miner/schema/leakage barrier COMPLETE / AUDITED (2026-09-13); 6 MINER_DEV cases; M4A-2 scientific corpus (30–40 clean cases + split freeze, ZERO API calls) = CURRENT; held-out evaluation NOT RUN (M4A-3, separately frozen)** |
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
@@ -169,12 +169,15 @@ fine-tuning readiness note in `research/FINE_TUNING_READINESS.md`.
 scientific real-commit corpus is NOT YET COMPLETE / NEXT; held-out evaluation
 NOT RUN).
 
-**Next experiment.** **M4A-2** — mine/adjudicate **30–40 clean djangoCMS
-scientific real-commit cases** with the frozen M4A-1 miner/schema/leakage
-barrier, and freeze the TRAIN / VALIDATION / HELD-OUT TEST splits **before
-any model result**. Then evaluate Sparse-v2 (and Full-v2 control) selection
-on the held-out test split. Held-out test examples must never enter any
-future fine-tuning.
+**Next experiment.** **M4A-2 (CURRENT)** — mine/adjudicate **30–40 clean
+djangoCMS scientific real-commit cases** with the frozen M4A-1
+miner/schema/leakage barrier (ZERO LLM/API calls; quality/provenance over
+case count; all 6 MINER_DEV cases permanently excluded; any
+`intent_path_leakage=true` case ineligible), and freeze the TRAIN /
+VALIDATION / HELD-OUT TEST splits **before any model result**. Then, in a
+separately frozen **M4A-3** protocol, evaluate Sparse-v2 (and Full-v2
+control) selection on the held-out test split. Held-out test examples must
+never enter any future fine-tuning.
 
 **Success / failure interpretation.**
 - Success: selection accuracy on real commits is comparable to the curated

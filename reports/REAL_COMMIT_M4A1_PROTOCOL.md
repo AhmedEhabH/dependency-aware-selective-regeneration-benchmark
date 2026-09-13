@@ -36,6 +36,9 @@ NEVER present in the public inference bundle (`public/`).
 - Cache: ignored directory `dist/real-commit-cache/djangocms` (full clone,
   `--no-checkout`). Acquired with the system `git` CLI via `subprocess`; no
   GitPython. All checkout/verify operations fail closed on SHA mismatch.
+- Fresh-machine reacquisition: the cache is re-derived deterministically from
+  the public upstream without copying any local state; exact clone/verify
+  instructions in `reports/REAL_COMMIT_CACHE_REACQUISITION.md`.
 - Only provenance is committed (URL, anchor, parent/target SHAs, hashes,
   filters, miner version), never the upstream tree.
 
