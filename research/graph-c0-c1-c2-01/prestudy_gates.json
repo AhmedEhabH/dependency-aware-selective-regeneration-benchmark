@@ -1,0 +1,383 @@
+{
+  "gates": [
+    {
+      "gate": 1,
+      "name": "Dataset Validation",
+      "passed": true,
+      "checks": [
+        {
+          "check": "pinned_djangocms_commit_frozen",
+          "ok": true,
+          "detail": "0f633fc9fa213357f4202482aab2b0edad680f95"
+        },
+        {
+          "check": "universe_exactly_144",
+          "ok": true,
+          "detail": 144
+        },
+        {
+          "check": "universe_sha256_frozen",
+          "ok": true,
+          "detail": "43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410"
+        },
+        {
+          "check": "six_exact_scenario_ids",
+          "ok": true,
+          "detail": [
+            "djangocms-external-validity-002",
+            "djangocms-external-validity-004",
+            "djangocms-external-validity-005",
+            "djangocms-external-validity-006",
+            "djangocms-external-validity-007",
+            "djangocms-external-validity-008"
+          ]
+        },
+        {
+          "check": "gold_subset_of_universe",
+          "ok": true,
+          "detail": "all gold paths inside frozen universe"
+        },
+        {
+          "check": "graph_144_562_parsed",
+          "ok": true,
+          "detail": [
+            "node_count_144",
+            "edge_count_562",
+            "ast_parse_144_of_144",
+            "graph_source_is_ast_extractor"
+          ]
+        }
+      ]
+    },
+    {
+      "gate": 2,
+      "name": "Prompt Validation",
+      "passed": true,
+      "checks": [
+        {
+          "check": "common_schema_sha_frozen",
+          "ok": true,
+          "detail": "df113fd8595d0f25911abaefb60a89ad26db110facfc0226e6e25b14a924d1ea"
+        },
+        {
+          "check": "sparse_policy_sha_frozen",
+          "ok": true,
+          "detail": "d117dbe94b72f9f2629fdd70d71eab2ba1d9052da2eed667c70e440b19df1739"
+        },
+        {
+          "check": "controlled_diff_pass",
+          "ok": true,
+          "detail": "only GRAPH_EVIDENCE block differs between conditions"
+        },
+        {
+          "check": "c0_reuse_byte_identical",
+          "ok": true,
+          "detail": "C0 prompts == audited M1B Sparse-v2 prompts"
+        },
+        {
+          "check": "action_vocab_common",
+          "ok": true,
+          "detail": [
+            "PRESERVE",
+            "REGENERATE",
+            "VALIDATE",
+            "HUMAN_REVIEW"
+          ]
+        }
+      ]
+    },
+    {
+      "gate": 3,
+      "name": "Pipeline Smoke Test",
+      "passed": true,
+      "checks": [
+        {
+          "check": "sparse_fixture_decodes_144",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 144
+          }
+        },
+        {
+          "check": "c2_disclosure_compliant_fixture",
+          "ok": true,
+          "detail": {
+            "zone_size": 37,
+            "in_zone_preserved": []
+          }
+        },
+        {
+          "check": "c2_disclosure_violation_fails_closed",
+          "ok": true,
+          "detail": [
+            1,
+            7,
+            8,
+            12,
+            18,
+            20,
+            22,
+            25,
+            28,
+            30,
+            52,
+            54,
+            63,
+            66,
+            67,
+            68,
+            69,
+            71,
+            73,
+            77,
+            80,
+            81,
+            92,
+            96,
+            100,
+            104,
+            107,
+            108,
+            112,
+            113,
+            116,
+            117,
+            119,
+            121,
+            122,
+            123,
+            126
+          ]
+        },
+        {
+          "check": "zero_scientific_calls",
+          "ok": true,
+          "detail": "deterministic encode/decode only"
+        }
+      ]
+    },
+    {
+      "gate": 4,
+      "name": "Dry Run",
+      "passed": true,
+      "checks": [
+        {
+          "check": "manifest_90_cells",
+          "ok": true,
+          "detail": 90
+        },
+        {
+          "check": "run_ids_unique",
+          "ok": true,
+          "detail": {
+            "unique": 90
+          }
+        },
+        {
+          "check": "six_scenarios",
+          "ok": true,
+          "detail": [
+            "djangocms-external-validity-002",
+            "djangocms-external-validity-004",
+            "djangocms-external-validity-005",
+            "djangocms-external-validity-006",
+            "djangocms-external-validity-007",
+            "djangocms-external-validity-008"
+          ]
+        },
+        {
+          "check": "30_cells_per_condition_arm",
+          "ok": true,
+          "detail": {
+            "c2-1hop": 30,
+            "c2-2hop": 30,
+            "c1": 30
+          }
+        },
+        {
+          "check": "five_reps_per_scenario_per_arm",
+          "ok": true,
+          "detail": "6 scenarios x (c1 | c2-1hop | c2-2hop) x 5 reps"
+        },
+        {
+          "check": "same_common_schema_every_cell",
+          "ok": true,
+          "detail": "df113fd8595d0f25911abaefb60a89ad26db110facfc0226e6e25b14a924d1ea"
+        },
+        {
+          "check": "frozen_config_propagation",
+          "ok": true,
+          "detail": "all cells carry frozen qwen/qwen3-coder @ deepinfra/turbo @16384"
+        },
+        {
+          "check": "c2_cells_carry_hop_and_zone_sha",
+          "ok": true,
+          "detail": "per-cell zone identity persisted"
+        },
+        {
+          "check": "zero_scientific_calls_and_tokens",
+          "ok": true,
+          "detail": "dry-run is manifest-shape proof only"
+        }
+      ]
+    },
+    {
+      "gate": 5,
+      "name": "Integration Test",
+      "passed": true,
+      "checks": [
+        {
+          "check": "decode_and_full_policy_reconstruction",
+          "ok": true,
+          "detail": {
+            "valid": true
+          }
+        },
+        {
+          "check": "post_inference_hidden_gold_metrics",
+          "ok": true,
+          "detail": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0,
+            "full_recall": true
+          }
+        },
+        {
+          "check": "prompts_render_djangocms-external-validity-002",
+          "ok": true,
+          "detail": {
+            "c0_len": 8109,
+            "c1_len": 14977
+          }
+        },
+        {
+          "check": "prompts_render_djangocms-external-validity-004",
+          "ok": true,
+          "detail": {
+            "c0_len": 8366,
+            "c1_len": 15234
+          }
+        },
+        {
+          "check": "prompts_render_djangocms-external-validity-005",
+          "ok": true,
+          "detail": {
+            "c0_len": 8574,
+            "c1_len": 15442
+          }
+        },
+        {
+          "check": "prompts_render_djangocms-external-validity-006",
+          "ok": true,
+          "detail": {
+            "c0_len": 8441,
+            "c1_len": 15309
+          }
+        },
+        {
+          "check": "prompts_render_djangocms-external-validity-007",
+          "ok": true,
+          "detail": {
+            "c0_len": 8819,
+            "c1_len": 15687
+          }
+        },
+        {
+          "check": "prompts_render_djangocms-external-validity-008",
+          "ok": true,
+          "detail": {
+            "c0_len": 9118,
+            "c1_len": 15986
+          }
+        },
+        {
+          "check": "zero_scientific_calls",
+          "ok": true,
+          "detail": "deterministic fixtures only"
+        }
+      ]
+    },
+    {
+      "gate": 6,
+      "name": "Metric Verification",
+      "passed": true,
+      "checks": [
+        {
+          "check": "micro_precision_recall_f1",
+          "ok": true,
+          "detail": {
+            "computed": {
+              "precision": 0.75,
+              "recall": 1.0,
+              "f1": 0.8571428571428571,
+              "fnr": 0.0,
+              "full_recall": true
+            },
+            "expected": {
+              "precision": 0.75,
+              "recall": 1.0,
+              "f1": 0.8571428571428571
+            }
+          }
+        },
+        {
+          "check": "representation_equivalence",
+          "ok": true,
+          "detail": 14
+        },
+        {
+          "check": "c0_reuse_counts",
+          "ok": true,
+          "detail": 30
+        }
+      ]
+    }
+  ],
+  "all_passed": true,
+  "audit": {
+    "passed": true,
+    "checks": [
+      {
+        "check": "study_id_frozen",
+        "ok": true,
+        "detail": "scientific-djangocms-graph-c0-c1-c2-01"
+      },
+      {
+        "check": "model_provider_frozen",
+        "ok": true,
+        "detail": {
+          "model": "qwen/qwen3-coder",
+          "provider": "deepinfra/turbo"
+        }
+      },
+      {
+        "check": "graph_verification_passed",
+        "ok": true
+      },
+      {
+        "check": "c0_reuse_exact",
+        "ok": true
+      },
+      {
+        "check": "no_result_based_reruns",
+        "ok": true,
+        "detail": "append-only; reruns and replacements FORBIDDEN"
+      },
+      {
+        "check": "hidden_gold_evaluation_only",
+        "ok": true,
+        "detail": "gold applied only after inference"
+      },
+      {
+        "check": "c2_3hop_not_run",
+        "ok": true,
+        "detail": "frozen eligibility: zones 129-130/144 > ceiling 115"
+      }
+    ],
+    "ran_at": "2026-09-13T02:27:44.242452+00:00"
+  },
+  "ran_at": "2026-09-13T02:27:44.242452+00:00"
+}

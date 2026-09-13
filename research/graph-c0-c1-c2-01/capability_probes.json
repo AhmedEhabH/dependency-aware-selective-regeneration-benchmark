@@ -1,0 +1,63 @@
+{
+  "study_id": "scientific-djangocms-graph-c0-c1-c2-01",
+  "model": "qwen/qwen3-coder",
+  "provider_tag": "deepinfra/turbo",
+  "temperature": 0.0,
+  "max_tokens": 16384,
+  "probes": {
+    "probe_c1_graph_hints": {
+      "probe": "probe_c1_graph_hints",
+      "condition": "c1",
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2496,
+        "completion_tokens": 521
+      },
+      "usage_known": true,
+      "prompt_sha256": "e26c50e692be96337bb2eeff360efab4ef37ee141154a003019a7475d3f54f50",
+      "raw_response_sha256": "48976f3dcddb696810c0823490acfdeef90fbe842b9bbcbb158c987ab057ba0c",
+      "decoded_candidate_count": 144,
+      "decoded_write_set_ids": [
+        10,
+        92,
+        127
+      ],
+      "errors": [],
+      "schema_valid": true,
+      "provider_name": "DeepInfra",
+      "contract_ok": true
+    },
+    "probe_c2_gated_1hop": {
+      "probe": "probe_c2_gated_1hop",
+      "condition": "c2",
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2541,
+        "completion_tokens": 608
+      },
+      "usage_known": true,
+      "prompt_sha256": "80d9ed89303d24322ad359fe790d4ed72fd8485e3f4ee08249c394e9c325dc40",
+      "raw_response_sha256": "067632a054cff56bbeaa1433c0e682c032acf5c12a3f479725f8e29b7ed7c89c",
+      "decoded_candidate_count": 144,
+      "decoded_write_set_ids": [
+        1,
+        2,
+        3,
+        10,
+        92,
+        127
+      ],
+      "disclosure_note": "synthetic zone (not tied to a scientific scenario)",
+      "errors": [],
+      "schema_valid": true,
+      "provider_name": "DeepInfra",
+      "contract_ok": true
+    }
+  },
+  "contract_pass": true,
+  "ran_at": "2026-09-13T02:27:17.398458+00:00"
+}

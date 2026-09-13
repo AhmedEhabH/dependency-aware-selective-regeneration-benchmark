@@ -1,0 +1,64 @@
+{
+  "decisions": [
+    {
+      "id": 10,
+      "action": "REGENERATE",
+      "rationale": "The useradmin.py file likely contains the view logic and template rendering for the admin dashboard's user activity section, which needs to be updated to render an interactive chart instead of a static table.",
+      "confidence": 0.95,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "visible",
+          "description": "User activity display is part of the admin interface, managed in useradmin.py"
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "action": "REGENERATE",
+      "rationale": "cms_templatetags/cms_admin.py may contain template tags used in the admin dashboard that need modification to support interactive charts and refresh functionality.",
+      "confidence": 0.85,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "visible",
+          "description": "Template tags often control UI components like charts and buttons in Django admin interfaces"
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "action": "REGENERATE",
+      "rationale": "Views handling the dashboard data endpoint need updating to provide dynamic data for the interactive chart and handle refresh requests.",
+      "confidence": 0.9,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "visible",
+          "description": "Dashboard views would require changes to serve dynamic chart data and implement refresh behavior"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "vo1",
+      "kind": "changed_requirement",
+      "target": "cms.admin.tests.test_useradmin",
+      "reason": "Tests must verify the new interactive chart renders correctly and refresh button functions as expected",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "vo2",
+      "kind": "architecture",
+      "target": "cms.admin.useradmin",
+      "reason": "Ensure existing admin styling is preserved per architectural constraint",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [
+    "Keep the existing admin styling",
+    "Do not introduce a new external charting library"
+  ],
+  "escalation_reason": ""
+}

@@ -1,0 +1,462 @@
+{
+  "study_id": "scientific-djangocms-graph-c0-c1-c2-01",
+  "PROMPT_CONTROLLED_DIFF": "PASS",
+  "note": "C1/C2 differ from C0 ONLY by the GRAPH_EVIDENCE block; stripping the block returns C0 byte-identical",
+  "scenarios": {
+    "djangocms-external-validity-002": {
+      "c0_sha256": "48fe534ec167bf1c3e2a6a26ae1aae2fb6f2403a7bef0fae22d390cc31238ec6",
+      "c1_sha256": "e5fc3b008f0b9263b5833488bb640465dff5bdbeeb8c81e80f0351bd0a25a83e",
+      "c2_1hop_sha256": "da6d6ae02b1cb6fab2f0fab8937a9b792bb5feea2b2f523b29184a1bd584595f",
+      "c2_2hop_sha256": "253a23d6db1d2c805adce9654c8ad246cba59ad5dc061c0528b78b6b6b1f530b",
+      "seed_ids": [
+        66,
+        69
+      ],
+      "zone_1hop": [
+        1,
+        8,
+        12,
+        16,
+        18,
+        28,
+        31,
+        33,
+        37,
+        40,
+        53,
+        63,
+        66,
+        67,
+        68,
+        69,
+        71,
+        81,
+        92,
+        104,
+        112,
+        113,
+        117,
+        119,
+        120,
+        121,
+        122,
+        139
+      ],
+      "zone_2hop_size": 112
+    },
+    "djangocms-external-validity-004": {
+      "c0_sha256": "427122efc58b222aae7d4128c78272db7e87b0bd60c98689bd82f75c86fba26e",
+      "c1_sha256": "3ff754f7dcde6a994f72b8405eff21a760ec9ac9c13417eb69edda1a1b7fc5c0",
+      "c2_1hop_sha256": "dbf2b3be03fa2a30cb40292ed3a40da03e436c3ed51ec0517d3c87aa9177e465",
+      "c2_2hop_sha256": "ff646c72959f2f30e3da559f177fdd1d0dd7e36ad3fd78957640bb7a837ce60d",
+      "seed_ids": [
+        66,
+        69
+      ],
+      "zone_1hop": [
+        1,
+        8,
+        12,
+        16,
+        18,
+        28,
+        31,
+        33,
+        37,
+        40,
+        53,
+        63,
+        66,
+        67,
+        68,
+        69,
+        71,
+        81,
+        92,
+        104,
+        112,
+        113,
+        117,
+        119,
+        120,
+        121,
+        122,
+        139
+      ],
+      "zone_2hop_size": 112
+    },
+    "djangocms-external-validity-005": {
+      "c0_sha256": "55af011f1d8bf3c631bf81ad6f626ff788aac59792cdc21550edcbc265efdbc5",
+      "c1_sha256": "43d074f5ddd24d89303cb95b359a5029ebcc30b9fd93621b45d27f1efdf7966a",
+      "c2_1hop_sha256": "2b1b17bab414f58ecd10c6b906b59abf732dc872c6891af841884a7ebaa90fb2",
+      "c2_2hop_sha256": "21ff992a629ec946cc039e3832a4401eba680dc4b183f9721fd63db8e9f269f9",
+      "seed_ids": [
+        5,
+        70
+      ],
+      "zone_1hop": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        12,
+        21,
+        28,
+        63,
+        68,
+        70,
+        77,
+        78,
+        81,
+        85,
+        100,
+        104,
+        105,
+        112,
+        113,
+        117,
+        120,
+        121,
+        123,
+        126
+      ],
+      "zone_2hop_size": 111
+    },
+    "djangocms-external-validity-006": {
+      "c0_sha256": "20acb06a1d78cae7f5db27821d8363af7989543d32602345171e2a1221d4c214",
+      "c1_sha256": "6bd2c54e9be025c848991d3b6e86d9ef05e85e648a69bfba9c6e03730db5c059",
+      "c2_1hop_sha256": "ba03657e41eb009ea663139a909ac8131b811bae08fcbff7bbbc582a00fcd753",
+      "c2_2hop_sha256": "39c7468266025b72e6ff95295a383233f47f01704c6176e08fdafb47001ff93f",
+      "seed_ids": [
+        66,
+        71,
+        73,
+        80,
+        96
+      ],
+      "zone_1hop": [
+        1,
+        7,
+        8,
+        12,
+        18,
+        20,
+        22,
+        25,
+        28,
+        30,
+        52,
+        54,
+        63,
+        66,
+        67,
+        68,
+        69,
+        71,
+        73,
+        77,
+        80,
+        81,
+        92,
+        96,
+        100,
+        104,
+        107,
+        108,
+        112,
+        113,
+        116,
+        117,
+        119,
+        121,
+        122,
+        123,
+        126
+      ],
+      "zone_2hop_size": 116
+    },
+    "djangocms-external-validity-007": {
+      "c0_sha256": "966a2ac978811ef56b999677ad7f2cd902c60871774c4b6ce65293eea4ef81bd",
+      "c1_sha256": "e12028a68058f57590db28093f2749eb7ac36e85c3ed340b3c2b8a0c2862c637",
+      "c2_1hop_sha256": "a78e9c817c5cf0d1171d65cfb3b90bcf6443f9616148aba58d87be02f1bde722",
+      "c2_2hop_sha256": "e0dc1430e4e2f6cc8b74be5cf3d77ac9fb3c7250680aafe1cb02b699e5a71521",
+      "seed_ids": [
+        5,
+        66
+      ],
+      "zone_1hop": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        21,
+        28,
+        63,
+        66,
+        67,
+        68,
+        69,
+        71,
+        77,
+        78,
+        81,
+        85,
+        92,
+        100,
+        104,
+        105,
+        113,
+        117,
+        120,
+        121,
+        122,
+        123,
+        126
+      ],
+      "zone_2hop_size": 111
+    },
+    "djangocms-external-validity-008": {
+      "c0_sha256": "176e3017d5d2a880c9c522aabfca503607ad83560488613a843ee9024f7655a6",
+      "c1_sha256": "157cb0fe995f51329ee4396137f3a63e31b118c5d218af96d208d977bd5f46ef",
+      "c2_1hop_sha256": "159cb0c74fa4a842b8a597531845e4c8ce003a6ff9315f98dedb9ca2deafc77a",
+      "c2_2hop_sha256": "b43848927d94ee10bb0bc2d725bef6594695eb25839a88c3e859a5d366322ace",
+      "seed_ids": [
+        66,
+        69,
+        71,
+        73,
+        96
+      ],
+      "zone_1hop": [
+        1,
+        7,
+        8,
+        12,
+        16,
+        18,
+        20,
+        22,
+        28,
+        30,
+        31,
+        33,
+        37,
+        40,
+        52,
+        53,
+        54,
+        63,
+        66,
+        67,
+        68,
+        69,
+        71,
+        73,
+        81,
+        92,
+        96,
+        100,
+        104,
+        107,
+        112,
+        113,
+        116,
+        117,
+        119,
+        120,
+        121,
+        122,
+        123,
+        126,
+        139
+      ],
+      "zone_2hop_size": 119
+    }
+  },
+  "checks": [
+    {
+      "check": "c0_equals_stripped_c1_djangocms-external-validity-002",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_djangocms-external-validity-002",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_2hop_djangocms-external-validity-002",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c1_differs_from_c0_djangocms-external-validity-002",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_differs_from_c0_djangocms-external-validity-002",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_1hop_differs_from_c2_2hop_djangocms-external-validity-002",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c1_djangocms-external-validity-004",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_djangocms-external-validity-004",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_2hop_djangocms-external-validity-004",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c1_differs_from_c0_djangocms-external-validity-004",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_differs_from_c0_djangocms-external-validity-004",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_1hop_differs_from_c2_2hop_djangocms-external-validity-004",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c1_djangocms-external-validity-005",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_djangocms-external-validity-005",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_2hop_djangocms-external-validity-005",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c1_differs_from_c0_djangocms-external-validity-005",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_differs_from_c0_djangocms-external-validity-005",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_1hop_differs_from_c2_2hop_djangocms-external-validity-005",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c1_djangocms-external-validity-006",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_djangocms-external-validity-006",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_2hop_djangocms-external-validity-006",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c1_differs_from_c0_djangocms-external-validity-006",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_differs_from_c0_djangocms-external-validity-006",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_1hop_differs_from_c2_2hop_djangocms-external-validity-006",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c1_djangocms-external-validity-007",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_djangocms-external-validity-007",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_2hop_djangocms-external-validity-007",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c1_differs_from_c0_djangocms-external-validity-007",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_differs_from_c0_djangocms-external-validity-007",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_1hop_differs_from_c2_2hop_djangocms-external-validity-007",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c1_djangocms-external-validity-008",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_djangocms-external-validity-008",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c0_equals_stripped_c2_2hop_djangocms-external-validity-008",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c1_differs_from_c0_djangocms-external-validity-008",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_differs_from_c0_djangocms-external-validity-008",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "c2_1hop_differs_from_c2_2hop_djangocms-external-validity-008",
+      "ok": true,
+      "detail": true
+    }
+  ],
+  "checked_at": "2026-09-13T02:27:02.803970+00:00"
+}
