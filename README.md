@@ -16,7 +16,7 @@
 | **Benchmark** | **COMPLETE** |
 | **Release** | `v0.11.0-benchmark-complete` |
 | **Current phase** | **Paper / figures / supervisor review** |
-| **Scientific runs remaining** | **ZERO (M1A)**; next separate M1B study preregistered but NOT run |
+| **Scientific runs remaining** | **ZERO** |
 | Saleor | FUTURE WORK / NOT CURRENT |
 | Graph-aware v3 | FUTURE WORK |
 | Fine-tuning | FUTURE WORK |
@@ -26,8 +26,8 @@
 | **M1A — Controlled 4096-cap feasibility boundary** | **COMPLETE / AUDITED (post-hoc capability/feasibility boundary; NOT a 60-cell ablation)** |
 | **M1B — Controlled 16K cap-relaxed encoding ablation** | **COMPLETE / AUDITED (post-hoc controlled cap-relaxed ablation; 60/60 cells; cost effect SUPPORTED)** |
 
-The selection-stage benchmark research is **closed and audited** (external
-GPT-5.6 Sol audit PASS, 2026-09-08). The benchmark tag means the benchmark
+The selection-stage benchmark research is **closed and audited** (artifact-level
+consistency audit PASS, 2026-09-08). The benchmark tag means the benchmark
 research is complete and frozen — it does **not** mean successful end-to-end
 executor regeneration. Two post-hoc robustness replications
 (Qwen3-32B and Qwen3-Coder-30B-A3B-Instruct) were completed and audited in
@@ -37,8 +37,20 @@ completed 60-cell controlled ablation; see
 [`reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`](reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md)).
 A separately preregistered cap-relaxed study (M1B, completion cap 16384 for
 both arms) has now been completed and audited (2026-09-12) — see the M1B
-section below. M2 (serialization-density stress) and M3 (Sparse-v2 Graph-OFF
-vs Graph-Hints) remain planned but NOT run.
+section below.
+
+**Explicit study status:**
+
+- **M1A — Controlled 4096-cap feasibility boundary:** **COMPLETE / AUDITED**
+  (post-hoc capability/feasibility boundary; NOT a 60-cell controlled
+  ablation).
+- **M1B — Controlled 16K cap-relaxed encoding ablation:** **COMPLETE /
+  AUDITED** (post-hoc controlled cap-relaxed ablation; 60/60 cells valid, 0
+  failed, 0 truncations).
+- **M2 — Controlled LLM serialization-density characterization:** **NOT
+  STARTED**.
+- **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **NOT STARTED**.
+- **Graph-Gated Disclosure:** **PROPOSED FOLLOW-UP / NOT EXECUTED**.
 
 ---
 
@@ -259,7 +271,9 @@ tokens; recorded cost **$0.323156** (< $0.75 ceiling).
 non-binding 16k budget both arms reach 100% validity (0 truncations), and
 Sparse-v2 uses substantially fewer completion tokens (−7,574 mean) and
 serialized records (−139 mean) for the same decoded 144-candidate policies.
-No universal semantic superiority claim. Verifier:
+Controlled descriptive reductions (Sparse-v2 vs Full-v2): completion tokens
+≈ −90.35%, serialized records ≈ −96.60%, recorded API cost ≈ −82.54%, total
+latency ≈ −63.29%. No universal semantic superiority claim. Verifier:
 `scripts/verify_controlled_encoding_16k_claims.py` (zero API, 42/42 PASS).
 
 ### Todo component studies (frozen, selection-stage)
@@ -301,6 +315,8 @@ No universal semantic superiority claim. Verifier:
 | ImpactPlan-v2 results | [`reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md`](reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md) (+ `.csv`) |
 | ImpactPlan-v2 design | [`reports/DJANGOCMS_IMPACTPLAN_V2_DESIGN.md`](reports/DJANGOCMS_IMPACTPLAN_V2_DESIGN.md) |
 | Paper-writing handoff | [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) |
+| MSC research roadmap (2026–2027) | [`docs/MSC_RESEARCH_ROADMAP_2026_2027.md`](docs/MSC_RESEARCH_ROADMAP_2026_2027.md) |
+| Thesis evidence matrix | [`reports/THESIS_EVIDENCE_MATRIX.md`](reports/THESIS_EVIDENCE_MATRIX.md) |
 
 Historical engineering records (the earlier deployment / execution phases) are
 preserved in the Git history, `reports/`, and `DECISION_LOG.md`; they are

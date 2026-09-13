@@ -1,7 +1,7 @@
 # BENCHMARK REPRODUCIBILITY INDEX — djangoCMS External-Validity Study
 
 > **FINAL BENCHMARK CLOSURE (2026-09-08):** selection-stage benchmark research
-> closed and audited (GPT-5.6 Sol external audit PASS). Audited v2 tag
+> closed and audited (artifact-level consistency audit PASS). Audited v2 tag
 > `stagec-djangocms-impactplan-v2-study-01-audited` @ `f8e7aa8…`; merged to
 > `main`; `v0.11.0-benchmark-complete` created and pushed. Zero scientific API
 > calls in the closure. Synthesis: `reports/CROSS_REPO_SYNTHESIS.md`.

@@ -1,3 +1,85 @@
+# TODO
+
+## CURRENT BOARD
+
+**Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
+**Current phase:** Paper / figures / supervisor review.
+**Scientific runs remaining:** ZERO.
+
+- **Where we are:** selection-stage benchmark research closed and audited
+  (artifact-level consistency audit PASS, 2026-09-08); the only remaining
+  work is the paper / figures / manuscript / supervisor-review phase.
+- **What is proven:** Todo + djangoCMS selection studies, the
+  post-hoc/exploratory ImpactPlan-v2 study, two cross-model robustness
+  replications (Qwen3-32B, Qwen3-Coder-30B-A3B-Instruct), and the
+  controlled-encoding line M1A / M1B.
+- **What is not proven:** M2 (serialization-density), M3 (Graph-OFF vs
+  Graph-Hints), Graph-Gated Disclosure, and any end-to-end regeneration
+  correctness claim.
+- **What is next:** Paper / figures / manuscript / supervisor review; see
+  [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
+  [`README.md`](README.md).
+
+### COMPLETED BENCHMARK WORK
+
+- [x] Todo selection component studies (smoke + held-out).
+- [x] djangoCMS primary selection study `scientific-stagec-djangocms-01` (60 cells).
+- [x] djangoCMS ImpactPlan-v2 POST-HOC / EXPLORATORY study (30 cells) + audited
+      tag `stagec-djangocms-impactplan-v2-study-01-audited`.
+- [x] Artifact-level consistency audit (PASS), final closure gates, cross-repo
+      synthesis, final benchmark tag `v0.11.0-benchmark-complete`.
+- [x] **M1A — Controlled 4096-cap feasibility boundary (2026-09-12).** Post-hoc
+      capability/feasibility boundary: Full-v2 capability probe truncates at
+      the frozen 4096 cap (decision id 76); Sparse-v2 probe passes (419 tokens,
+      decodes to 144). NOT a 60-cell ablation; no semantic superiority claim.
+      Tags `controlled-encoding-4096-feasibility-boundary-01` +
+      `paper-replication-artifact-controlled-encoding-4096-boundary-01`;
+      merged to main (--no-ff). See
+      `reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`.
+- [x] **M1B — Controlled 16K cap-relaxed encoding ablation (2026-09-12).**
+      POST-HOC CONTROLLED CAP-RELAXED ABLATION: completion cap 16384 BOTH
+      arms, same audited M1A schema/prompts/policies/scorer (frozen M1A-parity
+      PASS). **60/60 cells valid, 0 failed, 0 truncations.** Full-v2 30/30
+      (completion mean 8,383, records 144, F1 0.5706); Sparse-v2 30/30
+      (completion mean 809, records 4.9, F1 0.7940). **CONTROLLED ENCODING
+      COST EFFECT: SUPPORTED** (descriptive). Cost $0.323156. Tags
+      `controlled-encoding-ablation-16k-study-01-audited` +
+      `paper-replication-artifact-controlled-encoding-ablation-16k-01`;
+      merged to main (--no-ff). See
+      `reports/CONTROLLED_ENCODING_16K_RESULT.md`.
+
+### STUDY STATUS
+
+- **M1A — Controlled 4096-cap feasibility boundary:** **COMPLETE / AUDITED**.
+- **M1B — Controlled 16K cap-relaxed encoding ablation:** **COMPLETE / AUDITED**.
+- **M2 — Controlled LLM serialization-density characterization:** **NOT
+  STARTED**.
+- **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **NOT STARTED**.
+- **Graph-Gated Disclosure:** **PROPOSED FOLLOW-UP / NOT EXECUTED**.
+
+### PAPER-PHASE TODOs
+
+- [ ] Finalize research questions for the manuscript.
+- [ ] Freeze contribution claims (see `docs/PAPER_WRITING_HANDOFF.md`).
+- [ ] Final Results table.
+- [ ] Figure 1.
+- [ ] Related Work.
+- [ ] Limitations / Threats to Validity.
+- [ ] ≤4-page IEEE manuscript refinement.
+
+**NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor, graph-aware
+v3, graph experiment, fine-tuning.
+
+---
+
+## HISTORICAL RECORD
+
+> Everything below this heading is a **HISTORICAL RECORD** of superseded
+> boards, engineering closures, and prior task ledgers, preserved verbatim.
+> It is internal engineering history, not thesis-facing scientific evidence.
+> For current state use the CURRENT BOARD block above, README.md, and
+> docs/PROJECT_HANDOFF.md.
+
 > **CURRENT BOARD (2026-09-12 — M1B CONTROLLED 16K CAP-RELAXED ENCODING ABLATION COMPLETE + AUDITED; 60/60 CELLS; CONTROLLED ENCODING COST EFFECT SUPPORTED (DESCRIPTIVE)):** `qwen/qwen3-coder` (Qwen3-Coder-480B-A35B-Instruct) @ OpenRouter/DeepInfra (`deepinfra/turbo`, fp4), fallback OFF, temp 0, **cap 16384 BOTH arms** (only study-level change from M1A; frozen M1A-parity PASS), graph OFF. Study `scientific-djangocms-controlled-encoding-ablation-16k-01`: **60/60 cells recorded, 60 valid, 0 failed, 0 truncations**; 60 requests / 60 responses / 60 usage-known / 0 unknown; 433,741 total tokens; cost $0.323156 (< $0.75). Full-v2 30/30 valid (completion mean 8,383, records mean 144, P 0.4515 / R 0.7750 / F1 0.5706, $0.275124); Sparse-v2 30/30 valid (completion mean 809, records mean 4.9, P 0.7211 / R 0.8833 / F1 0.7940, $0.048032). Primary effects (Sparse vs Full): Delta validity 0.0 pp, Delta truncation 0.0 pp, Delta mean completion -7,573.9, Delta mean records -139.1. **CONTROLLED ENCODING COST EFFECT: SUPPORTED** (descriptive; no universal semantic superiority claim). Probes @16384 both PASS; six pre/closure gates + audit PASS; zero-API verifier `verify_controlled_encoding_16k_claims.py` 42/42 PASS. Tags `controlled-encoding-ablation-16k-wiring-verified-01` + `controlled-encoding-ablation-16k-study-01-audited` + snapshot `paper-replication-artifact-controlled-encoding-ablation-16k-01` created/pushed; merged to main (--no-ff). Report: `reports/CONTROLLED_ENCODING_16K_RESULT.md`. Future fine-tuning readiness in `research/FINE_TUNING_READINESS.md` (PLAN ONLY). NEXT (NOT started): M2 controlled LLM serialization-density stress; then M3 Sparse-v2 Graph-OFF vs Graph-Hints.
 > **CURRENT BOARD (2026-09-12 — M1A CONTROLLED 4096-CAP FEASIBILITY BOUNDARY COMPLETE + AUDITED; POST-HOC CAPABILITY/FEASIBILITY BOUNDARY; NOT A 60-CELL CONTROLLED ABLATION; NO SEMANTIC SUPERIORITY CLAIM):** `qwen/qwen3-coder` (Qwen3-Coder-480B-A35B-Instruct) @ OpenRouter/DeepInfra (`deepinfra/turbo`, fp4), fallback OFF, temp 0, cap 4096, graph OFF, response_format=json_schema. Study `scientific-djangocms-controlled-encoding-ablation-01` uses ONE common v2-derived schema (variable-length `decisions`, action vocabulary PRESERVE/REGENERATE/VALIDATE/HUMAN_REVIEW, frozen candidate-ID map, reason-code vocabulary, evidence fields, confidence representation); the ONLY intended treatment difference is the SERIALIZATION_POLICY block (Full-v2 explicit PRESERVE for all 144 vs Sparse-v2 non-PRESERVE only + omitted =>PRESERVE). PROMPT_CONTROLLED_DIFF PASS (all 6 scenarios); representation equivalence PASS (D_s(E_s(pi))==pi, 14/14); six pre-benchmark gates + audit PASS (zero calls). **Capability probes (real, non-study): Probe A (Full-v2) FAILED at the frozen 4096 cap** — finish_reason=length, completion_tokens=4096, truncated at decision id 76 (~7,760 tokens needed at observed 53.9 tokens/row density); schema-valid False; usage captured. **Probe B (Sparse-v2) PASSED** — finish_reason=stop, completion_tokens=419, 3 explicit non-PRESERVE decisions, decoded_candidate_count=144, semantic validation PASS. Per frozen M1.6 gate the 60-cell study was NOT executed: ZERO scientific study cells (no manifest_60.json, no run_records.jsonl). Probe cost ~$0.00593. M1A is a preregistered capability/feasibility boundary, NOT a completed controlled ablation; no semantic superiority claim. Zero-API verifier `scripts/verify_controlled_encoding_4096_claims.py` 27/27 PASS. Tags `controlled-encoding-4096-feasibility-boundary-01` + `paper-replication-artifact-controlled-encoding-4096-boundary-01` created/pushed; merged to main (--no-ff). Report: `reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`. NEXT (separately preregistered, NOT started): M1B cap-relaxed controlled encoding ablation (cap 16384 BOTH arms, same schema/prompt design); then M2 serialization-density stress; then M3 Sparse-v2 Graph-OFF vs Graph-Hints.
 > **CURRENT BOARD (2026-09-12 — M1A CONTROLLED 4096-CAP FEASIBILITY BOUNDARY COMPLETE + AUDITED; POST-HOC CAPABILITY/FEASIBILITY BOUNDARY; NOT A 60-CELL ABLATION; NO SEMANTIC SUPERIORITY CLAIM):** `qwen/qwen3-coder` (Qwen3-Coder-480B-A35B-Instruct) @ OpenRouter/DeepInfra (`deepinfra/turbo`, fp4), fallback OFF, temp 0, cap 4096, graph OFF. Study `scientific-djangocms-controlled-encoding-ablation-01`: common semantic-rich Full-v2/Sparse-v2 schema (ONE schema, variable-length `decisions`, action vocabulary PRESERVE/REGENERATE/VALIDATE/HUMAN_REVIEW). PROMPT_CONTROLLED_DIFF PASS (only SERIALIZATION_POLICY differs, all 6 scenarios); representation equivalence PASS (D_s(E_s(pi)) == pi, 14/14); six pre-benchmark gates + audit PASS; **Probe A (Full-v2) FAIL at the frozen 4096 cap** — finish_reason=length, completion_tokens=4096, truncated at decision id 76; **Probe B (Sparse-v2) PASS** — finish_reason=stop, completion_tokens=419, 3 explicit non-PRESERVE decisions, decoded_candidate_count=144. ZERO 60-cell scientific cells executed (no manifest, no run_records). Cost ≈ $0.00593 (2 probes). Zero-API verifier `scripts/verify_controlled_encoding_4096_claims.py` 27/27 PASS. Tag `controlled-encoding-4096-feasibility-boundary-01` + snapshot `paper-replication-artifact-controlled-encoding-4096-boundary-01` created/pushed; merged to main (--no-ff). Report: `reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`. NEXT (separately preregistered, NOT started): M1B cap-relaxed controlled encoding ablation (cap 16384 BOTH arms, same schema/prompt design); then M2 serialization-density stress; then M3 Sparse-v2 Graph-OFF vs Graph-Hints.
@@ -13,6 +95,7 @@
 
 > **16K OUTPUT-SCALABILITY DIAGNOSTIC CLOSURE (2026-09-08, D058 - POST-HOC/EXPLORATORY/ONE-SCENARIO; ONE SCIENTIFIC RUN; FULL-PLAN-16K-DIAGNOSTIC=TERMINATES; STOP FOR GPT-5.6 SOL REVIEW):** exactly ONE 16K diagnostic scientific run `scientific-stagec-djangocms-impactplan-16k-diagnostic-01` on djangocms-external-validity-004 with the ONLY treatment difference cap 8192 -> 16384: `finish_reason=stop`, completion_tokens **10650** (< 16384), schema-valid, no invalid paths; TP4/FP5/FN0, precision 0.444444, recall 1.0, F1 0.615385, FNR 0.0, full_recall; 1 call, 179.172 s, $0.01148; full raw response persisted (42,773 bytes, SHA-256 `5f66423e...`); emitted_entry_count 143/144 (valid-JSON deterministic). Primary evidence immutable (71/71); 8192 probe evidence unchanged; six gates + audit PASS pre and post. NO 30-run 16K ablation; NO 32K; no retry. Recommend next: Compact/Sparse ImpactPlan-v2. STOP FOR GPT-5.6 SOL.
 > **CURRENT BOARD (2026-09-08, DJANGOCMS-EXTERNAL-VALIDITY-STUDY-01 COMPLETE - 60/60 CELLS RECORDED; STOP FOR GPT-5.6 SOL INDEPENDENT AUDIT; NO STABLE TAG MOVE):** Final 60-run Stage-C selection study `scientific-stagec-djangocms-01` recorded: 31 succeeded / 29 failed; Agent 25/30 valid (F1 0.7308), ImpactPlan 6/30 valid (F1 0.7797, survivor-subset only); total recorded cost $0.264148 <= $0.50; evidence in `reports/scientific-stagec-djangocms-study-01/`. Next work: GPT-5.6 SOL independent audit of the 60-run evidence; do NOT start a new scientific study; do NOT create `v0.11.0-benchmark-complete`.
+
 # TODO
 
 ## CURRENT STATE
