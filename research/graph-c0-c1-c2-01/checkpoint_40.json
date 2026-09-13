@@ -1,8 +1,8 @@
 {
-  "completed": 60,
+  "completed": 40,
   "total_cells": 90,
-  "valid": 32,
-  "failed": 28,
+  "valid": 30,
+  "failed": 10,
   "truncations": 0,
   "per_condition": {
     "c1": {
@@ -12,9 +12,9 @@
       "truncations": 0
     },
     "c2-1hop": {
-      "recorded": 30,
-      "valid": 2,
-      "failed": 28,
+      "recorded": 10,
+      "valid": 0,
+      "failed": 10,
       "truncations": 0
     },
     "c2-2hop": {
@@ -24,9 +24,9 @@
       "truncations": 0
     }
   },
-  "prompt_tokens": 339430,
-  "completion_tokens": 66622,
-  "total_tokens": 406052,
-  "cost_usd": 0.168452,
-  "checkpoint_at": "2026-09-13T02:42:34.849735+00:00"
+  "prompt_tokens": 272975,
+  "completion_tokens": 37853,
+  "total_tokens": 310828,
+  "cost_usd": 0.119743,
+  "checkpoint_at": "2026-09-13T02:40:03.005571+00:00"
 }
