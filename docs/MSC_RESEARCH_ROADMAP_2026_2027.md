@@ -18,8 +18,8 @@ Status legend:
 
 | Pillar | Title | Status |
 |---|---|---|
-| 1 | Sparse impact-policy representation | COMPLETE / AUDITED (M1A + M1B) |
-| 2 | Dependency-aware / risk-aware disclosure | NOT STARTED (M3 design draft) |
+| 1 | Sparse impact-policy representation | COMPLETE / AUDITED (M1A + M1B + M1 defensive closure) |
+| 2 | Dependency-aware / risk-aware disclosure | COMPLETE / AUDITED (M3 development-set: hints MIXED, gated disclosure NOT PROMISING as implemented) |
 | 3 | Real historical-change dataset | NOT STARTED |
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
@@ -97,33 +97,52 @@ provider; no statistical significance testing; descriptive labels only.
 evidence visible to the selector change selection quality or cost, and can the
 disclosure policy be made risk-aware?
 
-**Current evidence.** The completed djangoCMS selection studies explicitly did
-**not** inject the dependency graph (graph OFF). A protocol draft exists
-(`reports/NEXT_GRAPH_EXPERIMENT_PROTOCOL_DRAFT.md`): C0 Sparse-v2 Graph-OFF vs
-C1 Sparse-v2 Graph-Hints, soft evidence only; Graph-Pruned C2 deferred; defined
-as POST-HOC EXPLORATORY DEVELOPMENT-SET.
+**Current evidence.** **M3 — Graph ablation C0/C1/C2** is now COMPLETE /
+AUDITED (2026-09-13; POST-HOC EXPLORATORY DEVELOPMENT-SET; 90 new cells + 30
+reused C0; see `reports/M3_GRAPH_PROTOCOL.md` and `reports/M3_GRAPH_RESULTS.md`):
 
-**Missing evidence.** Any executed Graph-OFF vs Graph-Hints comparison.
+- C0 (Graph OFF) = audited M1B Sparse-v2 reuse: P 0.7211 / R 0.8833 / F1
+  0.7940 / FN 14 / FP 41.
+- C1 (Graph Hints, full 562-edge AST graph as soft evidence): P 0.8136 / R
+  0.8000 / F1 0.8067 / FN 24 / FP 22 — **precision +9.2pp, FP −19, but
+  recall −8.3pp, FN +10, tokens ×2.6** (the graph acted as a pruning signal,
+  not a recall amplifier).
+- C2 (Graph-Gated Disclosure): mandatory-zone compliance **2/30 (1-hop) →
+  0/30 (2-hop)**; all 58 failures were `mandatory-disclosure-failure` (the
+  sparse schema's natural output length is far below the 25–41 / 111–119
+  in-zone mandate).
+- S006: C1 F1 0.278 → 0.414 (precision-driven; the structural miss
+  `cms/utils/plugins.py` persists under soft evidence). 3-hop pre-registered
+  NOT eligible (zones 129–130/144).
+- **GRAPH HINT SIGNAL: MIXED. GRAPH-GATED DISCLOSURE: NOT PROMISING (as
+  implemented).** No universal graph claim.
 
-**Next experiment.** **M3 — Sparse-v2 Graph-OFF vs Graph-Hints** (NOT STARTED;
-the next scientific milestone). Follow the existing draft: six development
-scenarios, Sparse-v2 arm, temperature 0, frozen provider, graph hints injected
-as strategy-visible evidence; soft/exploratory interpretation only; no
-unregistered follow-up.
+**Missing evidence.** A held-out graph evaluation (development-set only so
+far); a disclosure design that matches the sparse output capacity (e.g.,
+smaller zones or an explicit in-zone serialization policy); cross-repository
+graph evidence.
+
+**Next experiment.** A **held-out graph evaluation** is NOT authorized on the
+six curated scenarios (they are exhausted as a mechanism set). The next
+graph-related milestone is a held-out arm of RealCommitImpactDataset-v1
+(development/validation/held-out separation), or a redesigned disclosure
+variant that caps the mandate at the model's demonstrated sparse output
+capacity — both only after supervisor direction.
 
 **Success / failure interpretation.**
-- Success: a measurable, repeatable change in selection P/R/F1 or cost when
-  graph hints are visible.
-- Failure: no measurable difference (graph evidence is redundant with the
-  requirement text / candidate universe on this scenario set).
+- Success (hints): recall improves or FP falls without a recall tax.
+- Failure (hints): FN rises (observed in M3: FN 14 → 24) — the hint signal
+  is then only a precision/FP intervention.
+- Success (disclosure): compliance ≥ 50% with in-zone FN recovered.
+- Failure (disclosure): compliance collapse (observed: 2/30 → 0/30).
 
-**Artifact to be produced.** M3 result report + frozen manifest + zero-API
-verifier; a risk-aware disclosure design note if the graph evidence shows
-value.
+**Artifact to be produced.** (M3 artifacts produced: protocol, results,
+taxonomy, hop sensitivity, cost-recall trade-off, zero-API verifier 40/40.)
 
 **Major threats to validity.** Same six-scenario development set; graph
-construction itself is an extra modeling choice; risk of post-hoc
-over-interpretation (pre-register the comparison before running).
+construction is an extra modeling choice; compliance collapse is schema/
+zone-capacity specific and must not be over-generalized; no held-out
+confirmation.
 
 ---
 
@@ -284,5 +303,5 @@ correctness claims.
 | M1B — Controlled 16K cap-relaxed encoding ablation | **COMPLETE / AUDITED** |
 | M1 defensive closure (threat matrix + statistics + per-scenario) | **COMPLETE** (2026-09-13) |
 | M2 — Controlled LLM serialization-density characterization | **NOT STARTED** |
-| M3 — Sparse-v2 Graph-OFF vs Graph-Hints | **NOT STARTED** |
-| Graph-Gated Disclosure | **PROPOSED FOLLOW-UP / NOT EXECUTED** |
+| M3 — Graph ablation C0/C1/C2 (hints + gated disclosure) | **COMPLETE / AUDITED** (2026-09-13; POST-HOC EXPLORATORY DEVELOPMENT-SET; hints MIXED, gated NOT PROMISING as implemented) |
+| Graph-Gated Disclosure | **EXECUTED / NOT PROMISING as implemented** |

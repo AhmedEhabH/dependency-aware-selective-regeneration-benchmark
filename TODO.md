@@ -11,12 +11,13 @@
   work is the paper / figures / manuscript / supervisor-review phase.
 - **What is proven:** Todo + djangoCMS selection studies, the
   post-hoc/exploratory ImpactPlan-v2 study, two cross-model robustness
-  replications (Qwen3-32B, Qwen3-Coder-30B-A3B-Instruct), and the
-  controlled-encoding line M1A / M1B, now with the **M1 defensive closure**
-  (2026-09-13; zero API calls; raw evidence unchanged).
-- **What is not proven:** M2 (serialization-density), M3 (Graph-OFF vs
-  Graph-Hints), Graph-Gated Disclosure, and any end-to-end regeneration
-  correctness claim.
+  replications (Qwen3-32B, Qwen3-Coder-30B-A3B-Instruct), the
+  controlled-encoding line M1A / M1B with the **M1 defensive closure**
+  (2026-09-13), and the **M3 graph ablation C0/C1/C2** (2026-09-13, 90 new
+  cells, audited).
+- **What is not proven:** M2 (serialization-density), any graph claim beyond
+  the six curated development/mechanism scenarios, and any end-to-end
+  regeneration correctness claim.
 - **What is next:** Paper / figures / manuscript / supervisor review; see
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md).
@@ -65,16 +66,39 @@
       `cms/utils/plugins.py`). Docs updated: README, SYSTEM_STATE, TODO,
       PAPER_WRITING_HANDOFF, PAPER_CLAIM_EVIDENCE_MAP,
       THESIS_EVIDENCE_MATRIX, MSC_RESEARCH_ROADMAP.
+- [x] **M3 — Graph ablation C0/C1/C2 (2026-09-13).** POST-HOC EXPLORATORY
+      DEVELOPMENT-SET. C0 = audited M1B Sparse-v2 reuse (byte-identical
+      prompts). Graph verified ZERO-API (144 nodes / 144/144 parsed / 562
+      edges / hash parity). Seeds algorithm v1 + zones frozen pre-call; 3-hop
+      pre-registered NOT eligible. 90 new cells: C1 30/30 valid (P 0.8136 /
+      R 0.8000 / F1 0.8067; precision +9.2pp, FP −19, but FN 14→24 and
+      recall −8.3pp → **GRAPH HINT SIGNAL MIXED**); C2 1-hop 2/30 valid
+      (28 mandatory-disclosure-failure; compliance 6.7%); C2 2-hop 0/30
+      (compliance 0%) → **GRAPH-GATED DISCLOSURE NOT PROMISING as
+      implemented**. S006: C1 F1 0.278→0.414 (precision-driven; structural
+      miss persists). Totals: 566,623 tokens, $0.234673, 0 truncations; raw
+      SHAs 90/90. Six closure gates + audit PASS; verifier
+      `scripts/verify_graph_ablation_claims.py` 40/40 PASS. Tags: wiring
+      `graph-c0-c1-c2-01-wiring-verified-01` + study
+      `graph-c0-c1-c2-01-study-01-audited` + snapshot
+      `paper-replication-artifact-graph-c0-c1-c2-01`; merged to main
+      (--no-ff). Reports: `reports/M3_GRAPH_PROTOCOL.md`,
+      `reports/M3_GRAPH_RESULTS.md`, `reports/M3_GRAPH_SCENARIO_FAILURE_TAXONOMY.md`,
+      `reports/M3_GRAPH_HOP_SENSITIVITY.md`, `reports/M3_GRAPH_COST_RECALL_TRADEOFF.md`.
 
 ### STUDY STATUS
 
 - **M1A — Controlled 4096-cap feasibility boundary:** **COMPLETE / AUDITED**.
 - **M1B — Controlled 16K cap-relaxed encoding ablation:** **COMPLETE / AUDITED**.
 - **M1 defensive closure:** **COMPLETE** (2026-09-13).
+- **M3 — Graph ablation C0/C1/C2:** **COMPLETE / AUDITED** (2026-09-13;
+  90 new cells; Graph Hint Signal **MIXED**; Graph-Gated Disclosure
+  **NOT PROMISING as implemented**).
 - **M2 — Controlled LLM serialization-density characterization:** **NOT
   STARTED**.
-- **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **NOT STARTED**.
-- **Graph-Gated Disclosure:** **PROPOSED FOLLOW-UP / NOT EXECUTED**.
+- **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **COMPLETE / AUDITED** (M3
+  graph ablation, 2026-09-13).
+- **Graph-Gated Disclosure:** **EXECUTED / NOT PROMISING as implemented**.
 
 ### PAPER-PHASE TODOs
 
@@ -87,7 +111,8 @@
 - [ ] ≤4-page IEEE manuscript refinement.
 
 **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor, graph-aware
-v3, graph experiment, fine-tuning.
+v3 (M3 development-set graph study closed; a held-out graph evaluation is not
+authorized), fine-tuning.
 
 ---
 
@@ -164,7 +189,8 @@ v3, graph experiment, fine-tuning.
 - [ ] ≤4-page IEEE manuscript refinement.
 
 **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor, graph-aware
-v3, graph experiment, fine-tuning. The board entries below record the completed
+v3 (M3 development-set graph study closed; a held-out graph evaluation is not
+authorized), fine-tuning. The board entries below record the completed
 benchmark closures; everything under "HISTORICAL LEDGER" is superseded history.
 
 > **CURRENT BOARD (2026-09-07, RESEARCH-CONSOLIDATION-MAINLINE-01 COMPLETE —

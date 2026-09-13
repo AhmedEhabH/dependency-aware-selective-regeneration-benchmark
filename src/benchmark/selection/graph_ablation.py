@@ -42,7 +42,7 @@ import re
 from collections import deque
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from benchmark.external_validity import study_runtime as wiring
 from benchmark.selection import encoding_ablation as ea
@@ -162,7 +162,7 @@ def sha256_json(payload: Any) -> str:
 def load_graph() -> dict[str, Any]:
     if not GRAPH_PATH.is_file():
         raise FileNotFoundError(f"dependency graph not found: {GRAPH_PATH}")
-    return json.loads(GRAPH_PATH.read_text(encoding="utf-8"))
+    return cast(dict[str, Any], json.loads(GRAPH_PATH.read_text(encoding="utf-8")))
 
 
 def canonical_graph_hash(graph: dict[str, Any]) -> str:
@@ -191,8 +191,9 @@ def graph_verification() -> dict[str, Any]:
     builds: dict[str, Any] = {}
     if CANONICAL_BUILD_HASHES_PATH.is_file():
         builds = json.loads(CANONICAL_BUILD_HASHES_PATH.read_text(encoding="utf-8"))
-    recorded = [b.get("graph_hash") for b in builds.values() if isinstance(b, dict) and b.get("graph_hash")]
-    check("canonical_hash_parity", recomputed == GRAPH_HASH_EXPECTED and recorded
+    recorded = [str(b.get("graph_hash")) for b in builds.values()
+                if isinstance(b, dict) and b.get("graph_hash")]
+    check("canonical_hash_parity", recomputed == GRAPH_HASH_EXPECTED and bool(recorded)
           and all(r == GRAPH_HASH_EXPECTED for r in recorded),
           {"recomputed": recomputed, "expected": GRAPH_HASH_EXPECTED, "recorded_builds": recorded})
     check("two_builds_reproducible", len(recorded) >= 2 and len({r for r in recorded}) == 1,

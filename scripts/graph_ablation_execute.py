@@ -1345,8 +1345,8 @@ def _condition_metrics(records: dict[str, dict[str, Any]], condition: str,
                  "api_cost_usd": round(sum(float(r["api_cost"]) for r in all_rows), 6),
                  "full_recall_runs": sum(1 for r in v_rows if r["full_recall"])}
         if condition != "c0":
-            entry["seed_count"] = rows_all[0].get("seed_count") if rows_all else None
-            entry["zone_size"] = rows_all[0].get("zone_size") if rows_all else None
+            entry["seed_count"] = all_rows[0].get("seed_count") if all_rows else None
+            entry["zone_size"] = all_rows[0].get("zone_size") if all_rows else None
             entry["selected_hop_distances"] = {
                 "all": _stats([d for r in all_rows for d in r.get("selected_hop_distances", {}).get("dists", [])]),
                 "per_run": [[d for d in r.get("selected_hop_distances", {}).get("dists", [])] for r in all_rows],
@@ -1404,7 +1404,7 @@ def compute_metrics(records: dict[str, dict[str, Any]]) -> dict[str, Any]:
         "completion_tokens": sum(int(r["completion_tokens"]) for r in all_new),
         "total_tokens": sum(int(r["total_tokens"]) for r in all_new),
         "model_calls": sum(int(r["model_calls"]) for r in all_new),
-        "cost_usd": _cumulative_cost(all_new),
+        "cost_usd": round(sum(float(r.get("api_cost", 0.0)) for r in all_new), 6),
     }
     return {"study_id": STUDY_ID, "model": PRIMARY_MODEL, "provider_tag": PROVIDER_TAG,
             "graph_hash": ga.GRAPH_HASH_EXPECTED, "conditions": conditions, "totals": totals,
