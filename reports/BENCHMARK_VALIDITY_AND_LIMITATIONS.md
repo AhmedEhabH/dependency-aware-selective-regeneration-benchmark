@@ -1,8 +1,8 @@
 # BENCHMARK VALIDITY AND LIMITATIONS — djangoCMS External-Validity Study
 
 > **FINAL BENCHMARK CLOSURE (2026-09-08):** the selection-stage benchmark
-> research is closed and audited. GPT-5.6 Sol external audit of the v2 30-cell
-> study PASSED; the audited v2 tag `stagec-djangocms-impactplan-v2-study-01-audited`
+> research is closed and audited. The artifact-level consistency audit of the
+> v2 30-cell study PASSED; the audited v2 tag `stagec-djangocms-impactplan-v2-study-01-audited`
 > was created at `f8e7aa8…` and pushed; the research branch was merged to
 > `main`; `v0.11.0-benchmark-complete` was created and pushed (meaning:
 > selection-stage benchmark research closed and audited — NOT end-to-end
@@ -36,7 +36,7 @@
 ### 4.1 Severe missing-data asymmetry (PRIMARY LIMITATION)
 - Agent: 25/30 valid; ImpactPlan: 6/30 valid.
 - 24/30 ImpactPlan cells failed operationally: **19× completion truncation at the frozen 4096 cap**, 3× fail-closed unknown-path hallucination, 1× provider 429, 1× harness defect. All recorded failures; no cell rerun.
-- ImpactPlan MICRO headline rests on 6 survivors and is **not** equal-evidence comparable to Agent's 25-run aggregate. Any arm comparison is provisional and must be re-audited (GPT-5.6 SOL) before any scientific claim.
+- ImpactPlan MICRO headline rests on 6 survivors and is **not** equal-evidence comparable to Agent's 25-run aggregate. Any arm comparison is provisional and must be re-audited before any scientific claim.
 
 ### 4.2 Output-budget asymmetry (DEDICATED SECTION)
 
