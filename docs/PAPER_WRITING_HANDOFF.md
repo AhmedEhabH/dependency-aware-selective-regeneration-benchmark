@@ -59,6 +59,7 @@ result):
 | djangoCMS ImpactPlan-v2 (`scientific-stagec-djangocms-impactplan-v2-01`) | 30 | Frozen, POST-HOC / EXPLORATORY (audited) |
 | **M1A — Controlled 4096-cap feasibility boundary** (`scientific-djangocms-controlled-encoding-ablation-01`) | **0 study cells (2 probes)** | Frozen, POST-HOC / EXPLORATORY capability-feasibility boundary (audited) |
 | **M1B — Controlled 16K cap-relaxed encoding ablation** (`scientific-djangocms-controlled-encoding-ablation-16k-01`) | **60 (6×2×5)** | Frozen, POST-HOC CONTROLLED CAP-RELAXED ABLATION (audited) |
+| **M3 — Graph ablation C0/C1/C2** (`scientific-djangocms-graph-c0-c1-c2-01`) | **90 new + 30 reused C0** | Frozen, POST-HOC EXPLORATORY DEVELOPMENT-SET GRAPH ABLATION (audited) |
 
 Studies are kept separate; **no 90-cell pooling**. M1A is a
 capability/feasibility boundary, **NOT** a completed 60-cell controlled
@@ -86,8 +87,13 @@ tables with the **S006 counterexample**
 Sparse-v2 R 0.333 / F1 0.278 vs Full-v2 R 0.800 / F1 0.444 on
 `djangocms-external-validity-006`). Manuscript wording MUST NOT claim a
 universal semantic advantage for the sparse representation. M2
-(serialization-density stress) and M3 (Graph-OFF vs Graph-Hints) remain
-planned but NOT run.
+(serialization-density stress) remains planned but NOT run. **M3** (the graph
+ablation) is now COMPLETE/AUDITED (2026-09-13): a POST-HOC EXPLORATORY
+DEVELOPMENT-SET graph study, NOT held-out confirmation. Manuscript MUST NOT
+claim graph hints improve recall (they reduced it: FN 14→24, recall −8.3pp)
+and MUST NOT claim graph-gated disclosure works (mandatory-zone compliance
+was 2/30 at 1-hop and 0/30 at 2-hop). See
+[`reports/M3_GRAPH_RESULTS.md`](../reports/M3_GRAPH_RESULTS.md).
 
 ## 3. Final frozen metrics
 
@@ -197,7 +203,10 @@ planned but NOT run.
   Compliance results (not measured).
 - No "v2 statistically beats Agent", "universal superiority", or "no
   trade-off".
-- No graph benefit (graph NOT injected into v1 or v2).
+- No graph benefit (graph NOT injected into v1 or v2). **M3 graph-hint and
+  graph-gated claims are scoped to the six curated development/mechanism
+  scenarios only and report a MIXED hint signal and non-promising disclosure
+  compliance — no universal graph claim is permitted.**
 - No Saleor results (Saleor was not started).
 - No measured repository-size threshold; no claim that v2 solves impact
   identification universally (scenario 006).
@@ -244,6 +253,8 @@ planned but NOT run.
 | M1 threat matrix | `reports/M1_THREATS_TO_VALIDITY_MATRIX.md` |
 | M1 statistical analysis | `reports/M1_STATISTICAL_ANALYSIS.md` + `reports/m1_defensive_closure_stats.json` |
 | M1 scenario-level analysis | `reports/M1_SCENARIO_LEVEL_ANALYSIS.md` |
+| M3 protocol / results | `reports/M3_GRAPH_PROTOCOL.md` / `reports/M3_GRAPH_RESULTS.md` |
+| M3 taxonomy / hop / cost | `reports/M3_GRAPH_SCENARIO_FAILURE_TAXONOMY.md` / `reports/M3_GRAPH_HOP_SENSITIVITY.md` / `reports/M3_GRAPH_COST_RECALL_TRADEOFF.md` |
 | Paper-claim verifier | `scripts/verify_paper_claims.py` |
 
 ## 13. Current Git / tag milestones

@@ -1,0 +1,96 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "node_count_144",
+      "ok": true,
+      "detail": 144
+    },
+    {
+      "check": "edge_count_562",
+      "ok": true,
+      "detail": 562
+    },
+    {
+      "check": "ast_parse_144_of_144",
+      "ok": true,
+      "detail": {
+        "ok": 144,
+        "fail": 0
+      }
+    },
+    {
+      "check": "graph_source_is_ast_extractor",
+      "ok": true,
+      "detail": "python_ast_source_extractor"
+    },
+    {
+      "check": "canonical_hash_parity",
+      "ok": true,
+      "detail": {
+        "recomputed": "0a6bf0f758c9cd7de79adb72138c549a2b0aee3cfd62841496cb455d1ce7cd58",
+        "expected": "0a6bf0f758c9cd7de79adb72138c549a2b0aee3cfd62841496cb455d1ce7cd58",
+        "recorded_builds": [
+          "0a6bf0f758c9cd7de79adb72138c549a2b0aee3cfd62841496cb455d1ce7cd58",
+          "0a6bf0f758c9cd7de79adb72138c549a2b0aee3cfd62841496cb455d1ce7cd58"
+        ]
+      }
+    },
+    {
+      "check": "two_builds_reproducible",
+      "ok": true,
+      "detail": {
+        "recorded_build_count": 2,
+        "distinct_hashes": 1
+      }
+    },
+    {
+      "check": "pinned_source_commit_frozen",
+      "ok": true,
+      "detail": "0f633fc9fa213357f4202482aab2b0edad680f95"
+    },
+    {
+      "check": "every_edge_endpoint_in_universe",
+      "ok": true,
+      "detail": {
+        "out_of_universe": []
+      }
+    },
+    {
+      "check": "no_self_loops",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "no_duplicate_edges",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "no_manually_authored_scenario_edges",
+      "ok": true,
+      "detail": {
+        "keys": [],
+        "edge_hits": []
+      }
+    },
+    {
+      "check": "eligibility_gate",
+      "ok": true,
+      "detail": {
+        "pinned_source_commit_exact": true,
+        "candidate_files_ge_25": true,
+        "ast_parse_success_ge_95pct": true,
+        "internal_import_edges_ge_20": true,
+        "non_isolated_nodes_ge_10": true,
+        "graph_source_is_python_ast_extractor": true
+      }
+    },
+    {
+      "check": "gold_is_universe_subset_only_evaluation",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "graph_hash": "0a6bf0f758c9cd7de79adb72138c549a2b0aee3cfd62841496cb455d1ce7cd58"
+}

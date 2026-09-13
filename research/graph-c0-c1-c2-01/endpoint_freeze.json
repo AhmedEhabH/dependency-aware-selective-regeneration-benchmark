@@ -1,0 +1,24 @@
+{
+  "study_id": "scientific-djangocms-graph-c0-c1-c2-01",
+  "model_id": "qwen/qwen3-coder",
+  "model_name": "Qwen: Qwen3 Coder 480B A35B",
+  "provider_name": "DeepInfra",
+  "provider_tag": "deepinfra/turbo",
+  "quantization": "fp4",
+  "context_length": 262144,
+  "max_completion_tokens": 65536,
+  "input_price_per_1M_usd": 0.3,
+  "output_price_per_1M_usd": 1.0,
+  "temperature": 0.0,
+  "completion_cap": 16384,
+  "routing": {
+    "provider": {
+      "order": [
+        "deepinfra/turbo"
+      ],
+      "allow_fallbacks": false,
+      "require_parameters": true
+    }
+  },
+  "metadata_fetched_at_utc": "2026-09-13T02:27:17.395465+00:00"
+}

@@ -148,6 +148,30 @@ persisted artifacts. Verifier: `scripts/m1_defensive_closure_stats.py`
 | 15 threats matrix | COMPLETE | `reports/M1_THREATS_TO_VALIDITY_MATRIX.md` | 15 threats, each with 8 fields |
 | Raw M1 evidence unchanged | VERIFIED | `git diff` empty for `research/controlled-encoding-ablation-*/` | byte-identical committed evidence |
 
+## 3d. M3 — Graph ablation C0 / C1 / C2 (2026-09-13)
+
+POST-HOC EXPLORATORY DEVELOPMENT-SET GRAPH ABLATION (NOT held-out
+confirmation). Evidence directory: `research/graph-c0-c1-c2-01/`. Zero-API
+verifier: `scripts/verify_graph_ablation_claims.py` (40/40 PASS).
+
+| Claim | Value | Canonical artifact | Exact field / aggregation |
+|---|---|---|---|
+| Automatic graph | 144 nodes / 144/144 AST parsed / 562 edges | `graph_verification.json` | all checks pass |
+| Graph canonical hash parity | `0a6bf0f7…` | `graph_verification.json` + `canonical_build_hashes.json` | recomputed == recorded |
+| Seed algorithm / zones frozen | v1, per-scenario hashes | `seed_zone_identity.json` | seed_ids + zones.{1,2,3} |
+| C2 3-hop eligibility | NOT eligible | `three_hop_eligibility.json` | `eligible == false` |
+| C0 = audited M1B Sparse-v2 reuse | 30 cells, byte-identical prompts | `c0_reuse.json` | `passed` (6/6 scenario prompt hashes match M1B records) |
+| New cells / valid / failed | 90 / 32 / 58 (0 trunc) | `run_records.jsonl` + `final_metrics.json` | totals |
+| C1 (Graph Hints) P / R / F1 | 0.8136 / 0.8000 / 0.8067 (30/30 valid) | `final_metrics.json` | `conditions.c1.overall` |
+| C1 vs C0 Δprecision / Δrecall / ΔFN | +0.0925 / −0.0833 / +10 | `interpretation.json` | `delta_tables.deltas.c0_to_c1` |
+| C2 1-hop compliance / valid | 2/30 / 2 valid (28 mandatory-disclosure-failure) | `final_metrics.json` | `conditions.c2_1hop.per_scenario[*].disclosure_compliance` |
+| C2 2-hop compliance / valid | 0/30 / 0 valid | `final_metrics.json` | `conditions.c2_2hop.*` |
+| S006 C1 vs C0 F1 / recall | 0.414 vs 0.278 / 0.400 vs 0.333 | `final_metrics.json` | `conditions.c1.per_scenario.*006.pooled_micro` |
+| Total tokens / cost | 566,623 / $0.234673 | `final_metrics.json` | `totals.{total_tokens,cost_usd}` |
+| Raw SHA-256 sidecars | 90/90 verified | `runs/raw/*.sha256` | file == sidecar == recorded `raw_response_sha256` |
+| Six closure gates + audit + graph verification | ALL PASS (zero calls) | `closure_gates.json` | `gates_all_passed`, `audit.passed`, `graph_verification.passed` |
+| Classification | GRAPH HINT SIGNAL: MIXED; GRAPH-GATED DISCLOSURE: NOT PROMISING | `reports/M3_GRAPH_RESULTS.md` §8 | interpretation block |
+
 ## 4. Token semantics (V7 Table III correction)
 
 | Arm | Paper value | Canonical field | Semantic meaning |

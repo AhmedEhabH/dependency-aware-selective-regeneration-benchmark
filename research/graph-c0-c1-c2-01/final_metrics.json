@@ -1,0 +1,3321 @@
+{
+  "study_id": "scientific-djangocms-graph-c0-c1-c2-01",
+  "model": "qwen/qwen3-coder",
+  "provider_tag": "deepinfra/turbo",
+  "graph_hash": "0a6bf0f758c9cd7de79adb72138c549a2b0aee3cfd62841496cb455d1ce7cd58",
+  "conditions": {
+    "c0": {
+      "condition": "c0",
+      "recorded": 30,
+      "valid": 30,
+      "failed": 0,
+      "truncations": 0,
+      "validity_rate": 1.0,
+      "failure_taxonomy": [],
+      "overall": {
+        "selected": 147,
+        "tp": 106,
+        "fp": 41,
+        "fn": 14,
+        "precision": 0.721088,
+        "recall": 0.883333,
+        "f1": 0.794007,
+        "fnr": 0.116667,
+        "valid_runs": 30
+      },
+      "serialized_records": {
+        "mean": 4.9,
+        "median": 5.0,
+        "min": 1.0,
+        "max": 8.0
+      },
+      "completion_tokens": {
+        "mean": 809.066667,
+        "median": 810.5,
+        "min": 465.0,
+        "max": 1198.0
+      },
+      "prompt_tokens": {
+        "mean": 2640.0,
+        "median": 2622.0,
+        "min": 2542.0,
+        "max": 2771.0
+      },
+      "total_tokens": {
+        "mean": 3449.066667,
+        "median": 3487.5,
+        "min": 3007.0,
+        "max": 3884.0
+      },
+      "latency_seconds": 609.029,
+      "api_cost_usd": 0.048032,
+      "per_scenario": {
+        "djangocms-external-validity-002": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.833333,
+            "recall": 1.0,
+            "f1": 0.909091,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 1.2,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 2.0
+          },
+          "completion_tokens": {
+            "mean": 485.6,
+            "median": 477.0,
+            "min": 465.0,
+            "max": 528.0
+          },
+          "prompt_tokens": {
+            "mean": 2542.0,
+            "median": 2542.0,
+            "min": 2542.0,
+            "max": 2542.0
+          },
+          "total_tokens": {
+            "mean": 3027.6,
+            "median": 3019.0,
+            "min": 3007.0,
+            "max": 3070.0
+          },
+          "latency_seconds": 36.125,
+          "api_cost_usd": 0.006243,
+          "full_recall_runs": 5
+        },
+        "djangocms-external-validity-004": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 25,
+            "tp": 20,
+            "fp": 5,
+            "fn": 0,
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1": 0.888889,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 5.0,
+            "median": 5.0,
+            "min": 4.0,
+            "max": 6.0
+          },
+          "completion_tokens": {
+            "mean": 860.8,
+            "median": 892.0,
+            "min": 770.0,
+            "max": 960.0
+          },
+          "prompt_tokens": {
+            "mean": 2601.0,
+            "median": 2601.0,
+            "min": 2601.0,
+            "max": 2601.0
+          },
+          "total_tokens": {
+            "mean": 3461.8,
+            "median": 3493.0,
+            "min": 3371.0,
+            "max": 3561.0
+          },
+          "latency_seconds": 127.25,
+          "api_cost_usd": 0.008204,
+          "full_recall_runs": 5
+        },
+        "djangocms-external-validity-005": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 28,
+            "tp": 25,
+            "fp": 3,
+            "fn": 0,
+            "precision": 0.892857,
+            "recall": 1.0,
+            "f1": 0.943396,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 5.6,
+            "median": 6.0,
+            "min": 5.0,
+            "max": 6.0
+          },
+          "completion_tokens": {
+            "mean": 853.4,
+            "median": 816.0,
+            "min": 722.0,
+            "max": 1094.0
+          },
+          "prompt_tokens": {
+            "mean": 2643.0,
+            "median": 2643.0,
+            "min": 2643.0,
+            "max": 2643.0
+          },
+          "total_tokens": {
+            "mean": 3496.4,
+            "median": 3459.0,
+            "min": 3365.0,
+            "max": 3737.0
+          },
+          "latency_seconds": 23.78,
+          "api_cost_usd": 0.008232,
+          "full_recall_runs": 5
+        },
+        "djangocms-external-validity-006": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 21,
+            "tp": 5,
+            "fp": 16,
+            "fn": 10,
+            "precision": 0.238095,
+            "recall": 0.333333,
+            "f1": 0.277778,
+            "fnr": 0.666667
+          },
+          "serialized_records": {
+            "mean": 4.2,
+            "median": 4.0,
+            "min": 4.0,
+            "max": 5.0
+          },
+          "completion_tokens": {
+            "mean": 869.4,
+            "median": 805.0,
+            "min": 739.0,
+            "max": 1091.0
+          },
+          "prompt_tokens": {
+            "mean": 2597.0,
+            "median": 2597.0,
+            "min": 2597.0,
+            "max": 2597.0
+          },
+          "total_tokens": {
+            "mean": 3466.4,
+            "median": 3402.0,
+            "min": 3336.0,
+            "max": 3688.0
+          },
+          "latency_seconds": 119.484,
+          "api_cost_usd": 0.008242,
+          "full_recall_runs": 0
+        },
+        "djangocms-external-validity-007": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 33,
+            "tp": 31,
+            "fp": 2,
+            "fn": 4,
+            "precision": 0.939394,
+            "recall": 0.885714,
+            "f1": 0.911765,
+            "fnr": 0.114286
+          },
+          "serialized_records": {
+            "mean": 6.6,
+            "median": 6.0,
+            "min": 6.0,
+            "max": 8.0
+          },
+          "completion_tokens": {
+            "mean": 938.8,
+            "median": 900.0,
+            "min": 759.0,
+            "max": 1198.0
+          },
+          "prompt_tokens": {
+            "mean": 2686.0,
+            "median": 2686.0,
+            "min": 2686.0,
+            "max": 2686.0
+          },
+          "total_tokens": {
+            "mean": 3624.8,
+            "median": 3586.0,
+            "min": 3445.0,
+            "max": 3884.0
+          },
+          "latency_seconds": 144.156,
+          "api_cost_usd": 0.008724,
+          "full_recall_runs": 1
+        },
+        "djangocms-external-validity-008": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 34,
+            "tp": 20,
+            "fp": 14,
+            "fn": 0,
+            "precision": 0.588235,
+            "recall": 1.0,
+            "f1": 0.740741,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 6.8,
+            "median": 7.0,
+            "min": 5.0,
+            "max": 8.0
+          },
+          "completion_tokens": {
+            "mean": 846.4,
+            "median": 880.0,
+            "min": 737.0,
+            "max": 946.0
+          },
+          "prompt_tokens": {
+            "mean": 2771.0,
+            "median": 2771.0,
+            "min": 2771.0,
+            "max": 2771.0
+          },
+          "total_tokens": {
+            "mean": 3617.4,
+            "median": 3651.0,
+            "min": 3508.0,
+            "max": 3717.0
+          },
+          "latency_seconds": 158.234,
+          "api_cost_usd": 0.008387,
+          "full_recall_runs": 5
+        }
+      }
+    },
+    "c1": {
+      "condition": "c1",
+      "recorded": 30,
+      "valid": 30,
+      "failed": 0,
+      "truncations": 0,
+      "validity_rate": 1.0,
+      "failure_taxonomy": [],
+      "overall": {
+        "selected": 118,
+        "tp": 96,
+        "fp": 22,
+        "fn": 24,
+        "precision": 0.813559,
+        "recall": 0.8,
+        "f1": 0.806723,
+        "fnr": 0.2,
+        "valid_runs": 30
+      },
+      "serialized_records": {
+        "mean": 3.933333,
+        "median": 4.0,
+        "min": 1.0,
+        "max": 6.0
+      },
+      "completion_tokens": {
+        "mean": 855.4,
+        "median": 907.5,
+        "min": 398.0,
+        "max": 1119.0
+      },
+      "prompt_tokens": {
+        "mean": 8052.0,
+        "median": 8034.0,
+        "min": 7954.0,
+        "max": 8183.0
+      },
+      "total_tokens": {
+        "mean": 8907.4,
+        "median": 8948.5,
+        "min": 8352.0,
+        "max": 9217.0
+      },
+      "latency_seconds": 264.907,
+      "api_cost_usd": 0.098127,
+      "per_scenario": {
+        "djangocms-external-validity-002": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 9,
+            "tp": 5,
+            "fp": 4,
+            "fn": 0,
+            "precision": 0.555556,
+            "recall": 1.0,
+            "f1": 0.714286,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 1.8,
+            "median": 2.0,
+            "min": 1.0,
+            "max": 3.0
+          },
+          "completion_tokens": {
+            "mean": 506.8,
+            "median": 461.0,
+            "min": 398.0,
+            "max": 697.0
+          },
+          "prompt_tokens": {
+            "mean": 7954.0,
+            "median": 7954.0,
+            "min": 7954.0,
+            "max": 7954.0
+          },
+          "total_tokens": {
+            "mean": 8460.8,
+            "median": 8415.0,
+            "min": 8352.0,
+            "max": 8651.0
+          },
+          "latency_seconds": 17.937,
+          "api_cost_usd": 0.014464,
+          "full_recall_runs": 5,
+          "seed_count": 2,
+          "zone_size": null,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 0.888889,
+              "median": 1,
+              "min": 0,
+              "max": 1
+            },
+            "per_run": [
+              [
+                1
+              ],
+              [
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                0
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "per_run": [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          }
+        },
+        "djangocms-external-validity-004": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 21,
+            "tp": 20,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.952381,
+            "recall": 1.0,
+            "f1": 0.97561,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 4.2,
+            "median": 4.0,
+            "min": 4.0,
+            "max": 5.0
+          },
+          "completion_tokens": {
+            "mean": 892.4,
+            "median": 914.0,
+            "min": 718.0,
+            "max": 973.0
+          },
+          "prompt_tokens": {
+            "mean": 8013.0,
+            "median": 8013.0,
+            "min": 8013.0,
+            "max": 8013.0
+          },
+          "total_tokens": {
+            "mean": 8905.4,
+            "median": 8927.0,
+            "min": 8731.0,
+            "max": 8986.0
+          },
+          "latency_seconds": 20.297,
+          "api_cost_usd": 0.016482,
+          "full_recall_runs": 5,
+          "seed_count": 2,
+          "zone_size": null,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 1.285714,
+              "median": 2,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                1,
+                2,
+                2,
+                0
+              ],
+              [
+                1,
+                2,
+                2,
+                0
+              ],
+              [
+                2,
+                2,
+                2,
+                0,
+                1
+              ],
+              [
+                1,
+                2,
+                2,
+                0
+              ],
+              [
+                1,
+                2,
+                2,
+                0
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "per_run": [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          }
+        },
+        "djangocms-external-validity-005": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 23,
+            "tp": 21,
+            "fp": 2,
+            "fn": 4,
+            "precision": 0.913043,
+            "recall": 0.84,
+            "f1": 0.875,
+            "fnr": 0.16
+          },
+          "serialized_records": {
+            "mean": 4.6,
+            "median": 4.0,
+            "min": 4.0,
+            "max": 6.0
+          },
+          "completion_tokens": {
+            "mean": 1015.6,
+            "median": 1050.0,
+            "min": 876.0,
+            "max": 1093.0
+          },
+          "prompt_tokens": {
+            "mean": 8055.0,
+            "median": 8055.0,
+            "min": 8055.0,
+            "max": 8055.0
+          },
+          "total_tokens": {
+            "mean": 9070.6,
+            "median": 9105.0,
+            "min": 8931.0,
+            "max": 9148.0
+          },
+          "latency_seconds": 26.983,
+          "api_cost_usd": 0.017158,
+          "full_recall_runs": 1,
+          "seed_count": 2,
+          "zone_size": null,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 1.0,
+              "median": 1,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                2,
+                0,
+                1,
+                1
+              ],
+              [
+                2,
+                0,
+                1,
+                1
+              ],
+              [
+                0,
+                2,
+                1,
+                1,
+                2,
+                1
+              ],
+              [
+                2,
+                0,
+                1,
+                1
+              ],
+              [
+                0,
+                2,
+                1,
+                0,
+                1
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0,
+              "max": 0
+            },
+            "per_run": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                0
+              ],
+              []
+            ]
+          }
+        },
+        "djangocms-external-validity-006": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 14,
+            "tp": 6,
+            "fp": 8,
+            "fn": 9,
+            "precision": 0.428571,
+            "recall": 0.4,
+            "f1": 0.413793,
+            "fnr": 0.6
+          },
+          "serialized_records": {
+            "mean": 2.8,
+            "median": 2.0,
+            "min": 2.0,
+            "max": 5.0
+          },
+          "completion_tokens": {
+            "mean": 867.0,
+            "median": 869.0,
+            "min": 749.0,
+            "max": 939.0
+          },
+          "prompt_tokens": {
+            "mean": 8009.0,
+            "median": 8009.0,
+            "min": 8009.0,
+            "max": 8009.0
+          },
+          "total_tokens": {
+            "mean": 8876.0,
+            "median": 8878.0,
+            "min": 8758.0,
+            "max": 8948.0
+          },
+          "latency_seconds": 23.877,
+          "api_cost_usd": 0.01635,
+          "full_recall_runs": 0,
+          "seed_count": 5,
+          "zone_size": null,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 0.928571,
+              "median": 1.0,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                1,
+                1,
+                0,
+                0,
+                2
+              ],
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                1,
+                2
+              ],
+              [
+                0,
+                2
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 1.0,
+              "median": 1,
+              "min": 1,
+              "max": 1
+            },
+            "per_run": [
+              [
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ]
+          }
+        },
+        "djangocms-external-validity-007": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 26,
+            "tp": 24,
+            "fp": 2,
+            "fn": 11,
+            "precision": 0.923077,
+            "recall": 0.685714,
+            "f1": 0.786885,
+            "fnr": 0.314286
+          },
+          "serialized_records": {
+            "mean": 5.2,
+            "median": 5.0,
+            "min": 5.0,
+            "max": 6.0
+          },
+          "completion_tokens": {
+            "mean": 1058.2,
+            "median": 1068.0,
+            "min": 947.0,
+            "max": 1119.0
+          },
+          "prompt_tokens": {
+            "mean": 8098.0,
+            "median": 8098.0,
+            "min": 8098.0,
+            "max": 8098.0
+          },
+          "total_tokens": {
+            "mean": 9156.2,
+            "median": 9166.0,
+            "min": 9045.0,
+            "max": 9217.0
+          },
+          "latency_seconds": 133.813,
+          "api_cost_usd": 0.017436,
+          "full_recall_runs": 0,
+          "seed_count": 2,
+          "zone_size": null,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 1.153846,
+              "median": 2.0,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                2,
+                1,
+                2,
+                0,
+                0,
+                2
+              ],
+              [
+                2,
+                0,
+                2,
+                0,
+                2
+              ],
+              [
+                2,
+                0,
+                2,
+                0,
+                2
+              ],
+              [
+                1,
+                2,
+                0,
+                0,
+                2
+              ],
+              [
+                2,
+                0,
+                2,
+                0,
+                2
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 1.545455,
+              "median": 2,
+              "min": 1,
+              "max": 2
+            },
+            "per_run": [
+              [
+                1,
+                2
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ]
+            ]
+          }
+        },
+        "djangocms-external-validity-008": {
+          "cells": 5,
+          "valid_runs": 5,
+          "failed_runs": 0,
+          "truncations": 0,
+          "failure_taxonomy": [],
+          "pooled_micro": {
+            "selected": 25,
+            "tp": 20,
+            "fp": 5,
+            "fn": 0,
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1": 0.888889,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 5.0,
+            "median": 5.0,
+            "min": 5.0,
+            "max": 5.0
+          },
+          "completion_tokens": {
+            "mean": 792.4,
+            "median": 777.0,
+            "min": 617.0,
+            "max": 927.0
+          },
+          "prompt_tokens": {
+            "mean": 8183.0,
+            "median": 8183.0,
+            "min": 8183.0,
+            "max": 8183.0
+          },
+          "total_tokens": {
+            "mean": 8975.4,
+            "median": 8960.0,
+            "min": 8800.0,
+            "max": 9110.0
+          },
+          "latency_seconds": 42.0,
+          "api_cost_usd": 0.016237,
+          "full_recall_runs": 5,
+          "seed_count": 5,
+          "zone_size": null,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 1.2,
+              "median": 1,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                0,
+                2,
+                1,
+                2,
+                1
+              ],
+              [
+                0,
+                2,
+                1,
+                2,
+                1
+              ],
+              [
+                0,
+                2,
+                1,
+                2,
+                1
+              ],
+              [
+                0,
+                2,
+                1,
+                2,
+                1
+              ],
+              [
+                0,
+                2,
+                1,
+                2,
+                1
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "per_run": [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          }
+        }
+      }
+    },
+    "c2_1hop": {
+      "condition": "c2-1hop",
+      "recorded": 30,
+      "valid": 2,
+      "failed": 28,
+      "truncations": 0,
+      "validity_rate": 0.066667,
+      "failure_taxonomy": [
+        {
+          "run_id": "gca-djangocms-external-validity-002-c2-1hop-r1",
+          "scenario_id": "djangocms-external-validity-002",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 67, 68, 71, 81, 92, 112, 113, 117, 119, 120, 121, 122, 139]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-002-c2-1hop-r2",
+          "scenario_id": "djangocms-external-validity-002",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 67, 68, 71, 81, 92, 112, 113, 117, 119, 120, 121, 122, 139]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-002-c2-1hop-r3",
+          "scenario_id": "djangocms-external-validity-002",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 67, 68, 71, 81, 92, 112, 113, 117, 119, 120, 121, 122, 139]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-002-c2-1hop-r4",
+          "scenario_id": "djangocms-external-validity-002",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 67, 68, 71, 81, 92, 112, 113, 117, 119, 120, 121, 122, 139]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-002-c2-1hop-r5",
+          "scenario_id": "djangocms-external-validity-002",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 67, 68, 71, 81, 92, 112, 113, 117, 119, 120, 121, 122, 139]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-004-c2-1hop-r1",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 71, 81, 92, 104, 112, 113, 117, 120, 121, 122, 139]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-004-c2-1hop-r2",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 112]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-004-c2-1hop-r3",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 28, 53, 112]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-004-c2-1hop-r4",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 28, 53, 112]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-004-c2-1hop-r5",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 28, 53, 112]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-005-c2-1hop-r1",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 12, 21, 28, 63, 68, 77, 78, 81, 85, 104, 105, 112, 113, 117, 123, 126]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-005-c2-1hop-r2",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 12, 21, 28, 63, 68, 77, 78, 81, 85, 100, 104, 105, 112, 113, 117, 123, 126]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-005-c2-1hop-r3",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 12, 21, 28, 63, 68, 77, 78, 81, 85, 100, 104, 105, 112, 113, 117, 123, 126]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-005-c2-1hop-r4",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 12, 21, 28, 63, 68, 77, 78, 81, 85, 104, 105, 112, 113, 117, 123, 126]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-005-c2-1hop-r5",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 12, 21, 28, 63, 68, 77, 78, 81, 85, 104, 105, 112, 113, 117, 123, 126]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-006-c2-1hop-r2",
+          "scenario_id": "djangocms-external-validity-006",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 18, 20, 22, 25, 28, 30, 52, 54, 63, 67, 77, 92, 100, 104, 107, 108, 112, 113, 116, 119, 121, 126]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-006-c2-1hop-r3",
+          "scenario_id": "djangocms-external-validity-006",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 18, 20, 22, 25, 28, 30, 52, 54, 63, 67, 77, 81, 92, 100, 104, 107, 108, 112, 113, 116, 117, 119, 121, 126]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-006-c2-1hop-r4",
+          "scenario_id": "djangocms-external-validity-006",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [8, 18, 20, 22, 25, 28, 30, 52, 54, 67, 77, 81, 92, 100, 104, 107, 108, 112, 113, 116, 117, 119, 121, 126]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-006-c2-1hop-r5",
+          "scenario_id": "djangocms-external-validity-006",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [8, 18, 20, 22, 28, 30, 52, 54, 67, 77, 92, 100, 104, 107, 108, 112, 113, 116, 117, 119, 121, 126]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-007-c2-1hop-r1",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [104]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-007-c2-1hop-r2",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [71, 104, 117]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-007-c2-1hop-r3",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [71, 104, 117]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-007-c2-1hop-r4",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [6, 71]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-008-c2-1hop-r1",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 16, 28, 30, 31, 33, 37, 40, 52, 53, 54, 63, 67, 68, 81, 92, 100, 104, 107, 112, 113, 116, 117, 119, 120, 121, 122, 123, 126, 139]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-008-c2-1hop-r2",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 16, 28, 30, 31, 33, 37, 40, 52, 53, 54, 63, 67, 68, 81, 92, 100, 104, 107, 112, 113, 116, 117, 119, 120, 121, 122, 123, 126, 139]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-008-c2-1hop-r3",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 16, 28, 30, 31, 33, 37, 40, 52, 53, 54, 63, 67, 68, 81, 92, 100, 104, 107, 112, 113, 116, 117, 119, 120, 121, 122, 123, 126, 139]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-008-c2-1hop-r4",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 16, 28, 30, 31, 33, 37, 40, 52, 53, 54, 63, 67, 68, 81, 92, 100, 104, 107, 112, 113, 116, 117, 119, 120, 121, 122, 123, 126, 139]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-008-c2-1hop-r5",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 16, 28, 30, 31, 33, 37, 40, 52, 53, 54, 63, 67, 68, 81, 92, 100, 104, 107, 112, 113, 116, 117, 119, 120, 121, 122, 123, 126, 139]"
+        }
+      ],
+      "overall": {
+        "selected": 22,
+        "tp": 6,
+        "fp": 16,
+        "fn": 4,
+        "precision": 0.272727,
+        "recall": 0.6,
+        "f1": 0.375,
+        "fnr": 0.4,
+        "valid_runs": 2
+      },
+      "serialized_records": {
+        "mean": 6.433333,
+        "median": 6.5,
+        "min": 1.0,
+        "max": 17.0
+      },
+      "completion_tokens": {
+        "mean": 1365.333333,
+        "median": 1069.0,
+        "min": 596.0,
+        "max": 2988.0
+      },
+      "prompt_tokens": {
+        "mean": 3262.333333,
+        "median": 3216.0,
+        "min": 3112.0,
+        "max": 3552.0
+      },
+      "total_tokens": {
+        "mean": 4627.666667,
+        "median": 4428.0,
+        "min": 3708.0,
+        "max": 6307.0
+      },
+      "latency_seconds": 418.06,
+      "api_cost_usd": 0.070325,
+      "per_scenario": {
+        "djangocms-external-validity-002": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-002-c2-1hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 67, 68, 71, 81, 92, 112, 113, 117, 119, 120, 121, 122, 139]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-002-c2-1hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 67, 68, 71, 81, 92, 112, 113, 117, 119, 120, 121, 122, 139]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-002-c2-1hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 67, 68, 71, 81, 92, 112, 113, 117, 119, 120, 121, 122, 139]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-002-c2-1hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 67, 68, 71, 81, 92, 112, 113, 117, 119, 120, 121, 122, 139]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-002-c2-1hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 67, 68, 71, 81, 92, 112, 113, 117, 119, 120, 121, 122, 139]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 2.2,
+            "median": 3.0,
+            "min": 1.0,
+            "max": 3.0
+          },
+          "completion_tokens": {
+            "mean": 636.0,
+            "median": 603.0,
+            "min": 596.0,
+            "max": 748.0
+          },
+          "prompt_tokens": {
+            "mean": 3112.0,
+            "median": 3112.0,
+            "min": 3112.0,
+            "max": 3112.0
+          },
+          "total_tokens": {
+            "mean": 3748.0,
+            "median": 3715.0,
+            "min": 3708.0,
+            "max": 3860.0
+          },
+          "latency_seconds": 124.702,
+          "api_cost_usd": 0.00785,
+          "full_recall_runs": 0,
+          "seed_count": 2,
+          "zone_size": 28,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 1.0,
+              "median": 1,
+              "min": 1,
+              "max": 1
+            },
+            "per_run": [
+              [
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                1
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "per_run": [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 0,
+            "violated": 5,
+            "not_applicable": 0
+          }
+        },
+        "djangocms-external-validity-004": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-004-c2-1hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 71, 81, 92, 104, 112, 113, 117, 120, 121, 122, 139]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-004-c2-1hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 18, 28, 31, 33, 37, 40, 53, 112]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-004-c2-1hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 28, 53, 112]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-004-c2-1hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 28, 53, 112]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-004-c2-1hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 8, 16, 28, 53, 112]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 6.4,
+            "median": 6.0,
+            "min": 6.0,
+            "max": 8.0
+          },
+          "completion_tokens": {
+            "mean": 1802.2,
+            "median": 1948.0,
+            "min": 957.0,
+            "max": 2141.0
+          },
+          "prompt_tokens": {
+            "mean": 3171.0,
+            "median": 3171.0,
+            "min": 3171.0,
+            "max": 3171.0
+          },
+          "total_tokens": {
+            "mean": 4973.2,
+            "median": 5119.0,
+            "min": 4128.0,
+            "max": 5312.0
+          },
+          "latency_seconds": 143.547,
+          "api_cost_usd": 0.013766,
+          "full_recall_runs": 0,
+          "seed_count": 2,
+          "zone_size": 28,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 1.3125,
+              "median": 1.0,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                2,
+                1,
+                1,
+                1,
+                2,
+                0,
+                1,
+                2
+              ],
+              [
+                2,
+                1,
+                2,
+                0,
+                1,
+                2
+              ],
+              [
+                2,
+                1,
+                2,
+                0,
+                1,
+                2
+              ],
+              [
+                2,
+                1,
+                2,
+                0,
+                1,
+                2
+              ],
+              [
+                2,
+                1,
+                2,
+                0,
+                1,
+                2
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "per_run": [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 0,
+            "violated": 5,
+            "not_applicable": 0
+          }
+        },
+        "djangocms-external-validity-005": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-005-c2-1hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 12, 21, 28, 63, 68, 77, 78, 81, 85, 104, 105, 112, 113, 117, 123, 126]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-005-c2-1hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 12, 21, 28, 63, 68, 77, 78, 81, 85, 100, 104, 105, 112, 113, 117, 123, 126]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-005-c2-1hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 12, 21, 28, 63, 68, 77, 78, 81, 85, 100, 104, 105, 112, 113, 117, 123, 126]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-005-c2-1hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 12, 21, 28, 63, 68, 77, 78, 81, 85, 104, 105, 112, 113, 117, 123, 126]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-005-c2-1hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 12, 21, 28, 63, 68, 77, 78, 81, 85, 104, 105, 112, 113, 117, 123, 126]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 7.2,
+            "median": 7.0,
+            "min": 6.0,
+            "max": 8.0
+          },
+          "completion_tokens": {
+            "mean": 1040.8,
+            "median": 1065.0,
+            "min": 946.0,
+            "max": 1073.0
+          },
+          "prompt_tokens": {
+            "mean": 3159.0,
+            "median": 3159.0,
+            "min": 3159.0,
+            "max": 3159.0
+          },
+          "total_tokens": {
+            "mean": 4199.8,
+            "median": 4224.0,
+            "min": 4105.0,
+            "max": 4232.0
+          },
+          "latency_seconds": 47.281,
+          "api_cost_usd": 0.009944,
+          "full_recall_runs": 0,
+          "seed_count": 2,
+          "zone_size": 25,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 0.916667,
+              "median": 1.0,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                1,
+                0,
+                2,
+                1,
+                1,
+                0,
+                2
+              ],
+              [
+                1,
+                0,
+                2,
+                1,
+                1,
+                0,
+                2
+              ],
+              [
+                1,
+                0,
+                2,
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                2,
+                1,
+                1,
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                2,
+                1,
+                1,
+                1,
+                0,
+                1
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "per_run": [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 0,
+            "violated": 5,
+            "not_applicable": 0
+          }
+        },
+        "djangocms-external-validity-006": {
+          "cells": 5,
+          "valid_runs": 1,
+          "failed_runs": 4,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-006-c2-1hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 18, 20, 22, 25, 28, 30, 52, 54, 63, 67, 77, 92, 100, 104, 107, 108, 112, 113, 116, 119, 121, 126]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-006-c2-1hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 18, 20, 22, 25, 28, 30, 52, 54, 63, 67, 77, 81, 92, 100, 104, 107, 108, 112, 113, 116, 117, 119, 121, 126]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-006-c2-1hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [8, 18, 20, 22, 25, 28, 30, 52, 54, 67, 77, 81, 92, 100, 104, 107, 108, 112, 113, 116, 117, 119, 121, 126]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-006-c2-1hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [8, 18, 20, 22, 28, 30, 52, 54, 67, 77, 92, 100, 104, 107, 108, 112, 113, 116, 117, 119, 121, 126]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 17,
+            "tp": 3,
+            "fp": 14,
+            "fn": 0,
+            "precision": 0.176471,
+            "recall": 1.0,
+            "f1": 0.3,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 9.6,
+            "median": 8.0,
+            "min": 7.0,
+            "max": 17.0
+          },
+          "completion_tokens": {
+            "mean": 1525.6,
+            "median": 1244.0,
+            "min": 912.0,
+            "max": 2988.0
+          },
+          "prompt_tokens": {
+            "mean": 3319.0,
+            "median": 3319.0,
+            "min": 3319.0,
+            "max": 3319.0
+          },
+          "total_tokens": {
+            "mean": 4844.6,
+            "median": 4563.0,
+            "min": 4231.0,
+            "max": 6307.0
+          },
+          "latency_seconds": 33.765,
+          "api_cost_usd": 0.012608,
+          "full_recall_runs": 1,
+          "seed_count": 5,
+          "zone_size": 37,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 0.583333,
+              "median": 1.0,
+              "min": 0,
+              "max": 1
+            },
+            "per_run": [
+              [
+                0,
+                0,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                0,
+                1,
+                1,
+                1,
+                1,
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1
+              ],
+              [
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1
+              ],
+              [
+                0,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                1,
+                1
+              ],
+              [
+                0,
+                0,
+                1,
+                0,
+                1,
+                0,
+                1,
+                1
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 1.0,
+              "median": 1.0,
+              "min": 1,
+              "max": 1
+            },
+            "per_run": [
+              [],
+              [
+                1
+              ],
+              [
+                1
+              ],
+              [],
+              []
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 1,
+            "violated": 4,
+            "not_applicable": 0
+          }
+        },
+        "djangocms-external-validity-007": {
+          "cells": 5,
+          "valid_runs": 1,
+          "failed_runs": 4,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-007-c2-1hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [104]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-007-c2-1hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [71, 104, 117]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-007-c2-1hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [71, 104, 117]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-007-c2-1hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [6, 71]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 5,
+            "tp": 3,
+            "fp": 2,
+            "fn": 4,
+            "precision": 0.6,
+            "recall": 0.428571,
+            "f1": 0.5,
+            "fnr": 0.571429
+          },
+          "serialized_records": {
+            "mean": 5.2,
+            "median": 6.0,
+            "min": 3.0,
+            "max": 6.0
+          },
+          "completion_tokens": {
+            "mean": 2312.8,
+            "median": 2231.0,
+            "min": 2150.0,
+            "max": 2625.0
+          },
+          "prompt_tokens": {
+            "mean": 3261.0,
+            "median": 3261.0,
+            "min": 3261.0,
+            "max": 3261.0
+          },
+          "total_tokens": {
+            "mean": 5573.8,
+            "median": 5492.0,
+            "min": 5411.0,
+            "max": 5886.0
+          },
+          "latency_seconds": 47.187,
+          "api_cost_usd": 0.016454,
+          "full_recall_runs": 0,
+          "seed_count": 2,
+          "zone_size": 29,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 0.615385,
+              "median": 1.0,
+              "min": 0,
+              "max": 1
+            },
+            "per_run": [
+              [
+                1,
+                1,
+                0,
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                0,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                0,
+                0,
+                1
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 1.952381,
+              "median": 2,
+              "min": 1,
+              "max": 2
+            },
+            "per_run": [
+              [
+                2,
+                2,
+                2,
+                2
+              ],
+              [
+                2,
+                2,
+                2,
+                2
+              ],
+              [
+                2,
+                2,
+                2,
+                2
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2
+              ]
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 1,
+            "violated": 4,
+            "not_applicable": 0
+          }
+        },
+        "djangocms-external-validity-008": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-008-c2-1hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 16, 28, 30, 31, 33, 37, 40, 52, 53, 54, 63, 67, 68, 81, 92, 100, 104, 107, 112, 113, 116, 117, 119, 120, 121, 122, 123, 126, 139]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-008-c2-1hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 16, 28, 30, 31, 33, 37, 40, 52, 53, 54, 63, 67, 68, 81, 92, 100, 104, 107, 112, 113, 116, 117, 119, 120, 121, 122, 123, 126, 139]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-008-c2-1hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 16, 28, 30, 31, 33, 37, 40, 52, 53, 54, 63, 67, 68, 81, 92, 100, 104, 107, 112, 113, 116, 117, 119, 120, 121, 122, 123, 126, 139]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-008-c2-1hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 16, 28, 30, 31, 33, 37, 40, 52, 53, 54, 63, 67, 68, 81, 92, 100, 104, 107, 112, 113, 116, 117, 119, 120, 121, 122, 123, 126, 139]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-008-c2-1hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 7, 8, 12, 16, 28, 30, 31, 33, 37, 40, 52, 53, 54, 63, 67, 68, 81, 92, 100, 104, 107, 112, 113, 116, 117, 119, 120, 121, 122, 123, 126, 139]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 8.0,
+            "median": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "completion_tokens": {
+            "mean": 874.6,
+            "median": 876.0,
+            "min": 845.0,
+            "max": 919.0
+          },
+          "prompt_tokens": {
+            "mean": 3552.0,
+            "median": 3552.0,
+            "min": 3552.0,
+            "max": 3552.0
+          },
+          "total_tokens": {
+            "mean": 4426.6,
+            "median": 4428.0,
+            "min": 4397.0,
+            "max": 4471.0
+          },
+          "latency_seconds": 21.578,
+          "api_cost_usd": 0.009703,
+          "full_recall_runs": 0,
+          "seed_count": 5,
+          "zone_size": 41,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 0.375,
+              "median": 0.0,
+              "min": 0,
+              "max": 1
+            },
+            "per_run": [
+              [
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                1
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 2.0,
+              "median": 2.0,
+              "min": 2,
+              "max": 2
+            },
+            "per_run": [
+              [
+                2,
+                2
+              ],
+              [
+                2,
+                2
+              ],
+              [
+                2,
+                2
+              ],
+              [
+                2,
+                2
+              ],
+              [
+                2,
+                2
+              ]
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 0,
+            "violated": 5,
+            "not_applicable": 0
+          }
+        }
+      }
+    },
+    "c2_2hop": {
+      "condition": "c2-2hop",
+      "recorded": 30,
+      "valid": 0,
+      "failed": 30,
+      "truncations": 0,
+      "validity_rate": 0.0,
+      "failure_taxonomy": [
+        {
+          "run_id": "gca-djangocms-external-validity-002-c2-2hop-r1",
+          "scenario_id": "djangocms-external-validity-002",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 64, 65, 67, 68, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 94, 96, 98, 99, 100, 101, 102, 103, 106, 107, 109, 112, 113, 114, 116, 117, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-002-c2-2hop-r2",
+          "scenario_id": "djangocms-external-validity-002",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 94, 96, 98, 99, 100, 101, 102, 103, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-002-c2-2hop-r3",
+          "scenario_id": "djangocms-external-validity-002",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 94, 96, 98, 99, 100, 101, 102, 103, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-002-c2-2hop-r4",
+          "scenario_id": "djangocms-external-validity-002",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 64, 65, 67, 68, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 94, 96, 98, 99, 100, 101, 102, 103, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-002-c2-2hop-r5",
+          "scenario_id": "djangocms-external-validity-002",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 64, 65, 67, 68, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 94, 96, 98, 99, 100, 101, 102, 103, 106, 107, 109, 112, 113, 114, 116, 117, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-004-c2-2hop-r1",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 70, 71, 72, 73, 75, 76, 78, 79, 80, 81, 84, 85, 86, 87, 89, 92, 93, 94, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-004-c2-2hop-r2",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 70, 71, 72, 73, 75, 76, 78, 80, 81, 84, 85, 86, 87, 89, 92, 93, 94, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-004-c2-2hop-r3",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 70, 71, 72, 73, 75, 76, 78, 80, 81, 84, 85, 86, 87, 89, 92, 93, 94, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 112, 113, 114, 116, 117, 120, 121, 122, 123, 124, 125, 126, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-004-c2-2hop-r4",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 70, 71, 72, 73, 75, 76, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-004-c2-2hop-r5",
+          "scenario_id": "djangocms-external-validity-004",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 70, 71, 72, 73, 75, 76, 78, 80, 81, 84, 85, 86, 87, 89, 92, 93, 94, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 112, 113, 114, 116, 117, 120, 121, 122, 123, 124, 125, 126, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-005-c2-2hop-r1",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 89, 92, 93, 95, 96, 98, 100, 101, 102, 103, 104, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 129, 132, 133, 139, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-005-c2-2hop-r2",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 95, 96, 98, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-005-c2-2hop-r3",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 95, 96, 98, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-005-c2-2hop-r4",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 95, 96, 98, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-005-c2-2hop-r5",
+          "scenario_id": "djangocms-external-validity-005",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 95, 96, 98, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-006-c2-2hop-r1",
+          "scenario_id": "djangocms-external-validity-006",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 72, 74, 75, 76, 77, 78, 79, 81, 83, 84, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-006-c2-2hop-r2",
+          "scenario_id": "djangocms-external-validity-006",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 72, 74, 75, 76, 77, 78, 79, 81, 83, 84, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-006-c2-2hop-r3",
+          "scenario_id": "djangocms-external-validity-006",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 72, 74, 75, 76, 77, 78, 79, 81, 83, 84, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-006-c2-2hop-r4",
+          "scenario_id": "djangocms-external-validity-006",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 72, 74, 75, 76, 77, 78, 79, 81, 83, 84, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-006-c2-2hop-r5",
+          "scenario_id": "djangocms-external-validity-006",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 72, 74, 75, 76, 77, 78, 79, 81, 83, 84, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-007-c2-2hop-r1",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 33, 34, 37, 39, 40, 41, 42, 45, 46, 50, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-007-c2-2hop-r2",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 31, 33, 37, 39, 40, 41, 42, 45, 46, 50, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-007-c2-2hop-r3",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 31, 32, 33, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 53, 54, 55, 56, 60, 61, 62, 64, 65, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-007-c2-2hop-r4",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 37, 39, 40, 41, 42, 45, 46, 50, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-007-c2-2hop-r5",
+          "scenario_id": "djangocms-external-validity-007",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 37, 39, 40, 41, 42, 45, 46, 50, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 67, 68, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-008-c2-2hop-r1",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 1,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-008-c2-2hop-r2",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 2,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-008-c2-2hop-r3",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 3,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-008-c2-2hop-r4",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 4,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 137, 138, 139, 140, 141, 143, 144]"
+        },
+        {
+          "run_id": "gca-djangocms-external-validity-008-c2-2hop-r5",
+          "scenario_id": "djangocms-external-validity-008",
+          "repetition": 5,
+          "terminal_status": "failed",
+          "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 137, 138, 139, 140, 141, 143, 144]"
+        }
+      ],
+      "overall": {
+        "selected": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 0.0,
+        "valid_runs": 0
+      },
+      "serialized_records": {
+        "mean": 6.233333,
+        "median": 6.0,
+        "min": 4.0,
+        "max": 10.0
+      },
+      "completion_tokens": {
+        "mean": 859.7,
+        "median": 779.5,
+        "min": 527.0,
+        "max": 1319.0
+      },
+      "prompt_tokens": {
+        "mean": 4492.666667,
+        "median": 4472.0,
+        "min": 4359.0,
+        "max": 4724.0
+      },
+      "total_tokens": {
+        "mean": 5352.366667,
+        "median": 5316.0,
+        "min": 5002.0,
+        "max": 5817.0
+      },
+      "latency_seconds": 133.296,
+      "api_cost_usd": 0.066221,
+      "per_scenario": {
+        "djangocms-external-validity-002": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-002-c2-2hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 64, 65, 67, 68, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 94, 96, 98, 99, 100, 101, 102, 103, 106, 107, 109, 112, 113, 114, 116, 117, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-002-c2-2hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 94, 96, 98, 99, 100, 101, 102, 103, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-002-c2-2hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 94, 96, 98, 99, 100, 101, 102, 103, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-002-c2-2hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 64, 65, 67, 68, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 94, 96, 98, 99, 100, 101, 102, 103, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-002-c2-2hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 64, 65, 67, 68, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 94, 96, 98, 99, 100, 101, 102, 103, 106, 107, 109, 112, 113, 114, 116, 117, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 4.4,
+            "median": 4.0,
+            "min": 4.0,
+            "max": 5.0
+          },
+          "completion_tokens": {
+            "mean": 761.0,
+            "median": 708.0,
+            "min": 643.0,
+            "max": 990.0
+          },
+          "prompt_tokens": {
+            "mean": 4359.0,
+            "median": 4359.0,
+            "min": 4359.0,
+            "max": 4359.0
+          },
+          "total_tokens": {
+            "mean": 5120.0,
+            "median": 5067.0,
+            "min": 5002.0,
+            "max": 5349.0
+          },
+          "latency_seconds": 19.186,
+          "api_cost_usd": 0.010345,
+          "full_recall_runs": 0,
+          "seed_count": 2,
+          "zone_size": 112,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 0.545455,
+              "median": 1.0,
+              "min": 0,
+              "max": 1
+            },
+            "per_run": [
+              [
+                1,
+                0,
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                1,
+                0
+              ],
+              [
+                1,
+                0,
+                1,
+                0
+              ],
+              [
+                1,
+                0,
+                1,
+                0
+              ],
+              [
+                1,
+                0,
+                1,
+                0,
+                1
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "per_run": [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 0,
+            "violated": 5,
+            "not_applicable": 0
+          }
+        },
+        "djangocms-external-validity-004": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-004-c2-2hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 70, 71, 72, 73, 75, 76, 78, 79, 80, 81, 84, 85, 86, 87, 89, 92, 93, 94, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-004-c2-2hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 70, 71, 72, 73, 75, 76, 78, 80, 81, 84, 85, 86, 87, 89, 92, 93, 94, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-004-c2-2hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 70, 71, 72, 73, 75, 76, 78, 80, 81, 84, 85, 86, 87, 89, 92, 93, 94, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 112, 113, 114, 116, 117, 120, 121, 122, 123, 124, 125, 126, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-004-c2-2hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 70, 71, 72, 73, 75, 76, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 112, 113, 114, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-004-c2-2hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 50, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 70, 71, 72, 73, 75, 76, 78, 80, 81, 84, 85, 86, 87, 89, 92, 93, 94, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 112, 113, 114, 116, 117, 120, 121, 122, 123, 124, 125, 126, 129, 132, 137, 138, 139, 140, 141, 143, 144]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 7.8,
+            "median": 8.0,
+            "min": 7.0,
+            "max": 8.0
+          },
+          "completion_tokens": {
+            "mean": 1120.6,
+            "median": 1061.0,
+            "min": 1017.0,
+            "max": 1243.0
+          },
+          "prompt_tokens": {
+            "mean": 4418.0,
+            "median": 4418.0,
+            "min": 4418.0,
+            "max": 4418.0
+          },
+          "total_tokens": {
+            "mean": 5538.6,
+            "median": 5479.0,
+            "min": 5435.0,
+            "max": 5661.0
+          },
+          "latency_seconds": 26.032,
+          "api_cost_usd": 0.012228,
+          "full_recall_runs": 0,
+          "seed_count": 2,
+          "zone_size": 112,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 1.487179,
+              "median": 2,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                2,
+                2,
+                1,
+                0,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                1,
+                0,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                1,
+                0,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                1,
+                0,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                1,
+                0,
+                2,
+                2,
+                2,
+                1
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "per_run": [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 0,
+            "violated": 5,
+            "not_applicable": 0
+          }
+        },
+        "djangocms-external-validity-005": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-005-c2-2hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 89, 92, 93, 95, 96, 98, 100, 101, 102, 103, 104, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 129, 132, 133, 139, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-005-c2-2hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 95, 96, 98, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-005-c2-2hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 95, 96, 98, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-005-c2-2hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 95, 96, 98, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-005-c2-2hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 95, 96, 98, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 7.0,
+            "median": 7.0,
+            "min": 7.0,
+            "max": 7.0
+          },
+          "completion_tokens": {
+            "mean": 846.2,
+            "median": 783.0,
+            "min": 764.0,
+            "max": 1110.0
+          },
+          "prompt_tokens": {
+            "mean": 4446.0,
+            "median": 4446.0,
+            "min": 4446.0,
+            "max": 4446.0
+          },
+          "total_tokens": {
+            "mean": 5292.2,
+            "median": 5229.0,
+            "min": 5210.0,
+            "max": 5556.0
+          },
+          "latency_seconds": 20.359,
+          "api_cost_usd": 0.010901,
+          "full_recall_runs": 0,
+          "seed_count": 2,
+          "zone_size": 111,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 1.0,
+              "median": 1,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                0,
+                1,
+                1,
+                0,
+                1,
+                2,
+                2
+              ],
+              [
+                0,
+                1,
+                1,
+                0,
+                1,
+                2,
+                2
+              ],
+              [
+                0,
+                1,
+                1,
+                0,
+                1,
+                2,
+                2
+              ],
+              [
+                0,
+                1,
+                1,
+                0,
+                1,
+                2,
+                2
+              ],
+              [
+                0,
+                1,
+                1,
+                0,
+                1,
+                2,
+                2
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "per_run": [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 0,
+            "violated": 5,
+            "not_applicable": 0
+          }
+        },
+        "djangocms-external-validity-006": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-006-c2-2hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 72, 74, 75, 76, 77, 78, 79, 81, 83, 84, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-006-c2-2hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 72, 74, 75, 76, 77, 78, 79, 81, 83, 84, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-006-c2-2hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 72, 74, 75, 76, 77, 78, 79, 81, 83, 84, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-006-c2-2hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 72, 74, 75, 76, 77, 78, 79, 81, 83, 84, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-006-c2-2hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 72, 74, 75, 76, 77, 78, 79, 81, 83, 84, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 141, 143, 144]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 4.2,
+            "median": 4.0,
+            "min": 4.0,
+            "max": 5.0
+          },
+          "completion_tokens": {
+            "mean": 661.2,
+            "median": 674.0,
+            "min": 609.0,
+            "max": 676.0
+          },
+          "prompt_tokens": {
+            "mean": 4511.0,
+            "median": 4511.0,
+            "min": 4511.0,
+            "max": 4511.0
+          },
+          "total_tokens": {
+            "mean": 5172.2,
+            "median": 5185.0,
+            "min": 5120.0,
+            "max": 5187.0
+          },
+          "latency_seconds": 17.203,
+          "api_cost_usd": 0.010071,
+          "full_recall_runs": 0,
+          "seed_count": 5,
+          "zone_size": 116,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0,
+              "min": 0,
+              "max": 0
+            },
+            "per_run": [
+              [
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 1.0,
+              "median": 1.0,
+              "min": 1,
+              "max": 1
+            },
+            "per_run": [
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 0,
+            "violated": 5,
+            "not_applicable": 0
+          }
+        },
+        "djangocms-external-validity-007": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-007-c2-2hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 33, 34, 37, 39, 40, 41, 42, 45, 46, 50, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-007-c2-2hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 31, 33, 37, 39, 40, 41, 42, 45, 46, 50, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-007-c2-2hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 31, 32, 33, 35, 37, 39, 40, 41, 42, 45, 46, 50, 52, 53, 54, 55, 56, 60, 61, 62, 64, 65, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-007-c2-2hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 37, 39, 40, 41, 42, 45, 46, 50, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-007-c2-2hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 37, 39, 40, 41, 42, 45, 46, 50, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 67, 68, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 106, 107, 109, 110, 112, 113, 114, 116, 117, 118, 119, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 139, 143, 144]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 9.0,
+            "median": 9.0,
+            "min": 7.0,
+            "max": 10.0
+          },
+          "completion_tokens": {
+            "mean": 1174.8,
+            "median": 1153.0,
+            "min": 1074.0,
+            "max": 1319.0
+          },
+          "prompt_tokens": {
+            "mean": 4498.0,
+            "median": 4498.0,
+            "min": 4498.0,
+            "max": 4498.0
+          },
+          "total_tokens": {
+            "mean": 5672.8,
+            "median": 5651.0,
+            "min": 5572.0,
+            "max": 5817.0
+          },
+          "latency_seconds": 31.345,
+          "api_cost_usd": 0.012619,
+          "full_recall_runs": 0,
+          "seed_count": 2,
+          "zone_size": 111,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 1.488889,
+              "median": 2,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                0,
+                2,
+                2,
+                2,
+                0,
+                2,
+                2,
+                2,
+                2
+              ],
+              [
+                0,
+                2,
+                2,
+                2,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              [
+                0,
+                2,
+                0,
+                2,
+                2,
+                2,
+                2
+              ],
+              [
+                0,
+                2,
+                2,
+                0,
+                1,
+                2,
+                2,
+                1,
+                2,
+                2
+              ],
+              [
+                0,
+                2,
+                2,
+                0,
+                2,
+                1,
+                2,
+                2,
+                2
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 1.0,
+              "median": 1.0,
+              "min": 1,
+              "max": 1
+            },
+            "per_run": [
+              [
+                1
+              ],
+              [
+                1
+              ],
+              [
+                1
+              ],
+              [
+                1
+              ],
+              []
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 0,
+            "violated": 5,
+            "not_applicable": 0
+          }
+        },
+        "djangocms-external-validity-008": {
+          "cells": 5,
+          "valid_runs": 0,
+          "failed_runs": 5,
+          "truncations": 0,
+          "failure_taxonomy": [
+            {
+              "run_id": "gca-djangocms-external-validity-008-c2-2hop-r1",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-008-c2-2hop-r2",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-008-c2-2hop-r3",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-008-c2-2hop-r4",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 137, 138, 139, 140, 141, 143, 144]"
+            },
+            {
+              "run_id": "gca-djangocms-external-validity-008-c2-2hop-r5",
+              "terminal_status": "failed",
+              "failure_category": "mandatory-disclosure-failure: in-zone candidates omitted (decoded PRESERVE): [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 40, 41, 42, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85, 86, 87, 89, 92, 93, 94, 95, 98, 99, 100, 101, 102, 103, 104, 106, 107, 109, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 129, 132, 133, 137, 138, 139, 140, 141, 143, 144]"
+            }
+          ],
+          "pooled_micro": {
+            "selected": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 0.0
+          },
+          "serialized_records": {
+            "mean": 5.0,
+            "median": 5.0,
+            "min": 5.0,
+            "max": 5.0
+          },
+          "completion_tokens": {
+            "mean": 594.4,
+            "median": 595.0,
+            "min": 527.0,
+            "max": 649.0
+          },
+          "prompt_tokens": {
+            "mean": 4724.0,
+            "median": 4724.0,
+            "min": 4724.0,
+            "max": 4724.0
+          },
+          "total_tokens": {
+            "mean": 5318.4,
+            "median": 5319.0,
+            "min": 5251.0,
+            "max": 5373.0
+          },
+          "latency_seconds": 19.171,
+          "api_cost_usd": 0.010057,
+          "full_recall_runs": 0,
+          "seed_count": 5,
+          "zone_size": 119,
+          "selected_hop_distances": {
+            "all": {
+              "mean": 1.2,
+              "median": 1,
+              "min": 0,
+              "max": 2
+            },
+            "per_run": [
+              [
+                1,
+                0,
+                1,
+                2,
+                2
+              ],
+              [
+                1,
+                0,
+                1,
+                2,
+                2
+              ],
+              [
+                1,
+                0,
+                1,
+                2,
+                2
+              ],
+              [
+                1,
+                0,
+                1,
+                2,
+                2
+              ],
+              [
+                1,
+                0,
+                1,
+                2,
+                2
+              ]
+            ]
+          },
+          "missed_gold_hop_distances": {
+            "all": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "per_run": [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          },
+          "disclosure_compliance": {
+            "runs": 5,
+            "compliant": 0,
+            "violated": 5,
+            "not_applicable": 0
+          }
+        }
+      }
+    }
+  },
+  "totals": {
+    "new_cells": 90,
+    "new_recorded": 90,
+    "new_valid": 32,
+    "new_failed": 58,
+    "new_truncations": 0,
+    "prompt_tokens": 474210,
+    "completion_tokens": 92413,
+    "total_tokens": 566623,
+    "model_calls": 90,
+    "cost_usd": 0.234673
+  },
+  "computed_at": "2026-09-13T02:52:23.880921+00:00"
+}
