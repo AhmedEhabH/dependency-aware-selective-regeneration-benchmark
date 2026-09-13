@@ -40,7 +40,7 @@ class EligibilityDecision(StrEnum):
     INELIGIBLE = "INELIGIBLE"
 
 
-# Section 9 exclusion reason codes (frozen for v1).
+# Section 9 exclusion reason codes (frozen for v1; M4A-2 adds miner_dev_target).
 EXCLUSION_REASON_CODES: tuple[str, ...] = (
     "merge_commit",
     "no_meaningful_intent",
@@ -55,6 +55,7 @@ EXCLUSION_REASON_CODES: tuple[str, ...] = (
     "diff_too_large",
     "intent_path_leakage",
     "duplicate_or_related_change",
+    "miner_dev_target",
 )
 
 # Conservative change taxonomy (intent-derived, NOT diff-derived semantic gold).

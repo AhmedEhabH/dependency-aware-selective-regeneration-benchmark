@@ -53,26 +53,28 @@ def dataset_root() -> Path:
     return Path(__file__).resolve().parent.parent.parent.parent / "benchmark_data" / "real_commit_impact_v1"
 
 
-def case_dir(dataset: Path, case_id: str) -> Path:
-    return dataset / "miner_dev" / case_id
+def case_dir(dataset: Path, case_id: str, partition: str = "miner_dev") -> Path:
+    return dataset / partition / case_id
 
 
-def load_case_manifest(dataset: Path, case_id: str) -> dict[str, Any]:
-    path = case_dir(dataset, case_id) / "case_manifest.json"
+def load_case_manifest(dataset: Path, case_id: str, partition: str = "miner_dev") -> dict[str, Any]:
+    path = case_dir(dataset, case_id, partition) / "case_manifest.json"
     if not path.is_file():
         raise FileNotFoundError(f"case manifest not found: {path}")
     return cast(dict[str, Any], load_json(path))
 
 
-def load_public_artifact(dataset: Path, case_id: str, artifact: str) -> dict[str, Any]:
-    path = case_dir(dataset, case_id) / "public" / artifact
+def load_public_artifact(
+    dataset: Path, case_id: str, artifact: str, partition: str = "miner_dev"
+) -> dict[str, Any]:
+    path = case_dir(dataset, case_id, partition) / "public" / artifact
     if not path.is_file():
         raise FileNotFoundError(f"public artifact not found: {path}")
     return cast(dict[str, Any], load_json(path))
 
 
-def load_hidden_proxy(dataset: Path, case_id: str) -> dict[str, Any]:
-    path = case_dir(dataset, case_id) / "hidden" / HIDDEN_PROXY_FILENAME
+def load_hidden_proxy(dataset: Path, case_id: str, partition: str = "miner_dev") -> dict[str, Any]:
+    path = case_dir(dataset, case_id, partition) / "hidden" / HIDDEN_PROXY_FILENAME
     if not path.is_file():
         raise FileNotFoundError(f"hidden proxy not found: {path}")
     return cast(dict[str, Any], load_json(path))
@@ -83,16 +85,16 @@ def load_hidden_proxy(dataset: Path, case_id: str) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 
-def public_bundle_text(dataset: Path, case_id: str) -> str:
+def public_bundle_text(dataset: Path, case_id: str, partition: str = "miner_dev") -> str:
     """Serialize the entire public inference bundle as a single text blob."""
     parts: list[str] = []
     for artifact in ("intent.json", "candidate_universe.json", "dependency_graph.json"):
-        payload = load_public_artifact(dataset, case_id, artifact)
+        payload = load_public_artifact(dataset, case_id, artifact, partition)
         parts.append(canonical_json(payload))
     return "\n".join(parts)
 
 
-def check_public_bundle_leakage(dataset: Path, case_id: str) -> dict[str, Any]:
+def check_public_bundle_leakage(dataset: Path, case_id: str, partition: str = "miner_dev") -> dict[str, Any]:
     """Assert the public bundle contains no hidden proxy/diff/target/gold content.
 
     Structural interpretation (M4A-1): production candidate paths legitimately
@@ -104,8 +106,8 @@ def check_public_bundle_leakage(dataset: Path, case_id: str) -> dict[str, Any]:
       - the full hidden-proxy JSON serialization as an embedded substring;
       - semantic gold / action label tokens.
     """
-    text = public_bundle_text(dataset, case_id)
-    proxy = load_hidden_proxy(dataset, case_id)
+    text = public_bundle_text(dataset, case_id, partition)
+    proxy = load_hidden_proxy(dataset, case_id, partition)
     checks: list[dict[str, Any]] = []
 
     checks.append(

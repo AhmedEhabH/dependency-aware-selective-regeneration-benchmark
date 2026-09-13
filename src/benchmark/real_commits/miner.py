@@ -524,10 +524,15 @@ def build_case(
     eligibility: dict[str, Any],
     output_dir: Path,
     created_utc: str,
+    partition_role: str = "MINER_DEVELOPMENT",
+    split: str = SplitRole.MINER_DEV.value,
 ) -> Path:
-    """Build one MINER_DEV case with physical public/hidden separation.
+    """Build one case with physical public/hidden separation.
 
-    Returns the case directory path.
+    M4A-1 default: ``partition_role="MINER_DEVELOPMENT"``,
+    ``split=SplitRole.MINER_DEV.value`` (unchanged). M4A-2 scientific cases
+    pass ``partition_role="SCIENTIFIC"`` and a TRAIN/VALIDATION/HELD_OUT_TEST
+    split. Returns the case directory path.
     """
     proxy_paths = tuple(eligibility["proxy_paths"])
     if not proxy_paths:
@@ -627,8 +632,8 @@ def build_case(
         "eligibility_decision": eligibility["decision"],
         "eligibility_reason_codes": eligibility["reason_codes"],
         "intent_mentions_changed_path": bool(eligibility["intent_mentions_changed_path"]),
-        "partition_role": "MINER_DEVELOPMENT",
-        "split": SplitRole.MINER_DEV.value,
+        "partition_role": partition_role,
+        "split": split,
         "miner_version": MINER_VERSION,
         "provenance_hashes": {
             "miner_version": MINER_VERSION,
