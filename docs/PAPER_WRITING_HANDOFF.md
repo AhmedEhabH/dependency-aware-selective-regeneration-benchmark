@@ -72,7 +72,21 @@ cap-relaxed controlled ablation (completion cap 16384 for both arms, same
 schema/prompt design) — **60/60 cells valid, 0 truncations, CONTROLLED
 ENCODING COST EFFECT SUPPORTED (descriptive)** (see
 [`reports/CONTROLLED_ENCODING_16K_RESULT.md`](../reports/CONTROLLED_ENCODING_16K_RESULT.md)).
-M2 (serialization-density stress) and M3 (Graph-OFF vs Graph-Hints) remain
+The **M1 defensive closure (2026-09-13, zero API calls)** adds the
+manuscript-facing validity documentation: threat-to-validity matrix
+([`reports/M1_THREATS_TO_VALIDITY_MATRIX.md`](../reports/M1_THREATS_TO_VALIDITY_MATRIX.md),
+15 threats), scenario-level statistics
+([`reports/M1_STATISTICAL_ANALYSIS.md`](../reports/M1_STATISTICAL_ANALYSIS.md):
+**6 scenarios = independent task units, 5 repetitions = nested observations;
+no n=30 claim; bootstrap over scenarios with n=6 stated; cost-side paired
+effects uniform across all 6 scenarios; semantic-side paired effects MIXED —
+4/6 scenarios positive F1, 2/6 negative incl. S006**), and per-scenario
+tables with the **S006 counterexample**
+([`reports/M1_SCENARIO_LEVEL_ANALYSIS.md`](../reports/M1_SCENARIO_LEVEL_ANALYSIS.md):
+Sparse-v2 R 0.333 / F1 0.278 vs Full-v2 R 0.800 / F1 0.444 on
+`djangocms-external-validity-006`). Manuscript wording MUST NOT claim a
+universal semantic advantage for the sparse representation. M2
+(serialization-density stress) and M3 (Graph-OFF vs Graph-Hints) remain
 planned but NOT run.
 
 ## 3. Final frozen metrics
@@ -199,6 +213,18 @@ planned but NOT run.
 5. v2 candidate universe still exposed in the prompt — larger-repository input
    scaling remains Future Work.
 6. Scenario 006 weakness (P ≈ 0.389, R ≈ 0.467, full recall 0/5).
+7. **M1/M2-specific threats** (M1A/M1B and their encoding claims): the complete
+   list is the M1 defensive-closure matrix
+   [`reports/M1_THREATS_TO_VALIDITY_MATRIX.md`](../reports/M1_THREATS_TO_VALIDITY_MATRIX.md)
+   (15 threats). The three that MUST appear in the manuscript's Limitations
+   for the M1/M1B claims: (a) **survivor bias** — at the 4096 boundary Full-v2
+   produced zero valid outputs, so any 4096-cap semantic comparison would be
+   survivor-biased toward Sparse-v2; M1B's 16384-cap re-run is the uncensored
+   comparison; (b) **semantic direction is mixed** — Sparse-v2 improves F1 in
+   4/6 scenarios and degrades in 2 (002, 006); S006 is the counterexample
+   (Sparse-v2 R 0.333 vs Full-v2 R 0.800); (c) **n = 6 independent units with
+   5 nested repetitions** — no significance test may treat the 30 repetitions
+   as independent; scenario-level bootstrap CIs for ΔF1 straddle zero.
 
 ## 12. Canonical report / evidence paths
 
@@ -215,6 +241,9 @@ planned but NOT run.
 | v2 evidence dir | `reports/scientific-stagec-djangocms-impactplan-v2-01/` |
 | Claim → evidence map | `reports/PAPER_CLAIM_EVIDENCE_MAP.md` |
 | V7 audit reconciliation | `reports/PAPER_V7_AUDIT_RECONCILIATION.md` |
+| M1 threat matrix | `reports/M1_THREATS_TO_VALIDITY_MATRIX.md` |
+| M1 statistical analysis | `reports/M1_STATISTICAL_ANALYSIS.md` + `reports/m1_defensive_closure_stats.json` |
+| M1 scenario-level analysis | `reports/M1_SCENARIO_LEVEL_ANALYSIS.md` |
 | Paper-claim verifier | `scripts/verify_paper_claims.py` |
 
 ## 13. Current Git / tag milestones

@@ -52,11 +52,24 @@ serialization cost of a full explicit plan, without sacrificing validity?
   SUPPORTED** (descriptive). **No universal semantic superiority claim.**
 - Independent artifact-level consistency audit PASS (2026-09-08) on the
   selection-stage closure; M1A/M1B zero-API verifiers pass (27/27 and 42/42).
+- **M1 defensive closure** (`COMPLETE`, 2026-09-13; zero API calls; raw M1
+  evidence unchanged): threat-to-validity matrix (15 threats,
+  `reports/M1_THREATS_TO_VALIDITY_MATRIX.md`); scenario-level statistical
+  analysis (`reports/M1_STATISTICAL_ANALYSIS.md` +
+  `reports/m1_defensive_closure_stats.json`) treating **6 scenarios as the
+  independent task units and 5 repetitions as nested observations** (no n=30
+  claim; bootstrap over scenarios with n=6 stated; mean paired ΔF1 +0.1413,
+  Δcompletion tokens −7,573.9 uniform across all 6 scenarios);
+  per-scenario analysis (`reports/M1_SCENARIO_LEVEL_ANALYSIS.md`) incl. the
+  **S006 counterexample** to any universal Sparse semantic claim.
 
 **Missing evidence.** An external, independent representation-equivalence
 reproduction; a causal (not descriptive) claim linking sparsity to cost; and
 evidence that sparsity effects generalize beyond the six curated development /
-mechanism scenarios.
+mechanism scenarios. The M1 defensive closure makes the **mixed semantic sign
+pattern explicit**: Sparse-v2 improves F1 in 4/6 scenarios (004/005/007/008)
+and degrades in 2 (002/006), so the semantic direction is NOT statistically
+established at the scenario level while the cost direction is uniform.
 
 **Next experiment.** M2 — Controlled LLM serialization-density characterization
 (see Pillar-2 note on M2/M3 ordering). M2 isolates how LLM behavior responds to
@@ -269,6 +282,7 @@ correctness claims.
 |---|---|
 | M1A — Controlled 4096-cap feasibility boundary | **COMPLETE / AUDITED** |
 | M1B — Controlled 16K cap-relaxed encoding ablation | **COMPLETE / AUDITED** |
+| M1 defensive closure (threat matrix + statistics + per-scenario) | **COMPLETE** (2026-09-13) |
 | M2 — Controlled LLM serialization-density characterization | **NOT STARTED** |
 | M3 — Sparse-v2 Graph-OFF vs Graph-Hints | **NOT STARTED** |
 | Graph-Gated Disclosure | **PROPOSED FOLLOW-UP / NOT EXECUTED** |

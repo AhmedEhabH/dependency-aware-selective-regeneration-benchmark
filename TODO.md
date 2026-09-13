@@ -12,7 +12,8 @@
 - **What is proven:** Todo + djangoCMS selection studies, the
   post-hoc/exploratory ImpactPlan-v2 study, two cross-model robustness
   replications (Qwen3-32B, Qwen3-Coder-30B-A3B-Instruct), and the
-  controlled-encoding line M1A / M1B.
+  controlled-encoding line M1A / M1B, now with the **M1 defensive closure**
+  (2026-09-13; zero API calls; raw evidence unchanged).
 - **What is not proven:** M2 (serialization-density), M3 (Graph-OFF vs
   Graph-Hints), Graph-Gated Disclosure, and any end-to-end regeneration
   correctness claim.
@@ -47,11 +48,29 @@
       `paper-replication-artifact-controlled-encoding-ablation-16k-01`;
       merged to main (--no-ff). See
       `reports/CONTROLLED_ENCODING_16K_RESULT.md`.
+- [x] **M1 defensive closure (2026-09-13).** Zero scientific API calls; raw
+      M1 evidence unchanged. Created the threat-to-validity matrix
+      (`reports/M1_THREATS_TO_VALIDITY_MATRIX.md`, 15 threats), the
+      scenario-level statistical analysis
+      (`reports/M1_STATISTICAL_ANALYSIS.md` +
+      `reports/m1_defensive_closure_stats.json` via zero-API
+      `scripts/m1_defensive_closure_stats.py`; **6 scenarios = units, 5
+      repetitions = nested observations; no n=30 claim**; scenario-level
+      paired summaries; mean/median paired effects; effect sizes; bootstrap
+      over scenarios n=6; sensitivity analysis with survivor bias explicit),
+      and the per-scenario analysis
+      (`reports/M1_SCENARIO_LEVEL_ANALYSIS.md`) documenting **S006 as the
+      counterexample** to any universal Sparse semantic claim (Sparse-v2 R
+      0.333 / F1 0.278 vs Full-v2 R 0.800 / F1 0.444; misses
+      `cms/utils/plugins.py`). Docs updated: README, SYSTEM_STATE, TODO,
+      PAPER_WRITING_HANDOFF, PAPER_CLAIM_EVIDENCE_MAP,
+      THESIS_EVIDENCE_MATRIX, MSC_RESEARCH_ROADMAP.
 
 ### STUDY STATUS
 
 - **M1A — Controlled 4096-cap feasibility boundary:** **COMPLETE / AUDITED**.
 - **M1B — Controlled 16K cap-relaxed encoding ablation:** **COMPLETE / AUDITED**.
+- **M1 defensive closure:** **COMPLETE** (2026-09-13).
 - **M2 — Controlled LLM serialization-density characterization:** **NOT
   STARTED**.
 - **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **NOT STARTED**.

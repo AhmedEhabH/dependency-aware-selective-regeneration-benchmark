@@ -1,0 +1,3215 @@
+{
+  "analysis": "M1 DEFENSIVE CLOSURE STATISTICS",
+  "evidence": "audited M1B controlled 16K encoding ablation (60 cells) + M1A 4096 probes",
+  "unit_statement": "6 scenarios are the independent task units (n=6); 5 repetitions are nested repeated observations within scenario; n=30 is NOT claimed and no significance test treats repetitions as independent",
+  "per_scenario": {
+    "djangocms-external-validity-002": {
+      "scenario_id": "djangocms-external-validity-002",
+      "gold_tp_fn_baseline": 5,
+      "arm_distributions": {
+        "full_v2": {
+          "precision": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "recall": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "f1": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fn": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fp": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "tp": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 7865.0,
+            "median": 7822.0,
+            "min": 7511.0,
+            "max": 8308.0,
+            "sd": 262.175514,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2528.0,
+            "median": 2528.0,
+            "min": 2528.0,
+            "max": 2528.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 10393.0,
+            "median": 10350.0,
+            "min": 10039.0,
+            "max": 10836.0,
+            "sd": 262.175514,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 41.0906,
+            "median": 36.031,
+            "min": 28.141,
+            "max": 61.234,
+            "sd": 12.050712,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.008623,
+            "median": 0.00858,
+            "min": 0.008269,
+            "max": 0.009066,
+            "sd": 0.000262,
+            "n": 5
+          },
+          "records": {
+            "mean": 144.0,
+            "median": 144.0,
+            "min": 144.0,
+            "max": 144.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall_rate": 1.0,
+          "valid_runs": 5,
+          "truncations": 0
+        },
+        "sparse_v2": {
+          "precision": {
+            "mean": 0.9,
+            "median": 1.0,
+            "min": 0.5,
+            "max": 1.0,
+            "sd": 0.2,
+            "n": 5
+          },
+          "recall": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.933333,
+            "median": 1.0,
+            "min": 0.666667,
+            "max": 1.0,
+            "sd": 0.133333,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fn": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fp": {
+            "mean": 0.2,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 1.0,
+            "sd": 0.4,
+            "n": 5
+          },
+          "tp": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 485.6,
+            "median": 477.0,
+            "min": 465.0,
+            "max": 528.0,
+            "sd": 22.159422,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2542.0,
+            "median": 2542.0,
+            "min": 2542.0,
+            "max": 2542.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 3027.6,
+            "median": 3019.0,
+            "min": 3007.0,
+            "max": 3070.0,
+            "sd": 22.159422,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 7.225,
+            "median": 5.609,
+            "min": 3.938,
+            "max": 16.297,
+            "sd": 4.585014,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.001249,
+            "median": 0.00124,
+            "min": 0.001228,
+            "max": 0.001291,
+            "sd": 2.2e-05,
+            "n": 5
+          },
+          "records": {
+            "mean": 1.2,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 2.0,
+            "sd": 0.4,
+            "n": 5
+          },
+          "full_recall_rate": 1.0,
+          "valid_runs": 5,
+          "truncations": 0
+        }
+      },
+      "paired_diffs_sparse_minus_full": {
+        "precision": [
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0
+        ],
+        "recall": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "f1": [
+          0.0,
+          0.0,
+          0.0,
+          -0.333333,
+          0.0
+        ],
+        "fnr": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fn": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fp": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "tp": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_recall": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "completion_tokens": [
+          -7455.0,
+          -7294.0,
+          -7271.0,
+          -7831.0,
+          -7046.0
+        ],
+        "prompt_tokens": [
+          14.0,
+          14.0,
+          14.0,
+          14.0,
+          14.0
+        ],
+        "total_tokens": [
+          -7441.0,
+          -7280.0,
+          -7257.0,
+          -7817.0,
+          -7032.0
+        ],
+        "latency_seconds": [
+          -22.532,
+          -15.828,
+          -42.188,
+          -56.687,
+          -32.093
+        ],
+        "api_cost": [
+          -0.00745,
+          -0.007289,
+          -0.007266,
+          -0.007826,
+          -0.007041
+        ],
+        "records": [
+          -143.0,
+          -143.0,
+          -143.0,
+          -142.0,
+          -143.0
+        ]
+      },
+      "paired_summary": {
+        "precision": {
+          "mean": -0.1,
+          "median": 0.0,
+          "min": -0.5,
+          "max": 0.0,
+          "sd": 0.2,
+          "n": 5,
+          "cohens_d_within_scenario": -0.5
+        },
+        "recall": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "f1": {
+          "mean": -0.066667,
+          "median": 0.0,
+          "min": -0.333333,
+          "max": 0.0,
+          "sd": 0.133333,
+          "n": 5,
+          "cohens_d_within_scenario": -0.5
+        },
+        "fnr": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "fn": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "fp": {
+          "mean": 0.2,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 1.0,
+          "sd": 0.4,
+          "n": 5,
+          "cohens_d_within_scenario": 0.5
+        },
+        "tp": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "full_recall": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "completion_tokens": {
+          "mean": -7379.4,
+          "median": -7294.0,
+          "min": -7831.0,
+          "max": -7046.0,
+          "sd": 260.713329,
+          "n": 5,
+          "cohens_d_within_scenario": -28.304652
+        },
+        "prompt_tokens": {
+          "mean": 14.0,
+          "median": 14.0,
+          "min": 14.0,
+          "max": 14.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "total_tokens": {
+          "mean": -7365.4,
+          "median": -7280.0,
+          "min": -7817.0,
+          "max": -7032.0,
+          "sd": 260.713329,
+          "n": 5,
+          "cohens_d_within_scenario": -28.250953
+        },
+        "latency_seconds": {
+          "mean": -33.8656,
+          "median": -32.093,
+          "min": -56.687,
+          "max": -15.828,
+          "sd": 14.470841,
+          "n": 5,
+          "cohens_d_within_scenario": -2.340265
+        },
+        "api_cost": {
+          "mean": -0.007374,
+          "median": -0.007289,
+          "min": -0.007826,
+          "max": -0.007041,
+          "sd": 0.000261,
+          "n": 5,
+          "cohens_d_within_scenario": -28.285474
+        },
+        "records": {
+          "mean": -142.8,
+          "median": -143.0,
+          "min": -143.0,
+          "max": -142.0,
+          "sd": 0.4,
+          "n": 5,
+          "cohens_d_within_scenario": -357.0
+        }
+      }
+    },
+    "djangocms-external-validity-004": {
+      "scenario_id": "djangocms-external-validity-004",
+      "gold_tp_fn_baseline": 20,
+      "arm_distributions": {
+        "full_v2": {
+          "precision": {
+            "mean": 0.62,
+            "median": 0.5,
+            "min": 0.5,
+            "max": 0.8,
+            "sd": 0.146969,
+            "n": 5
+          },
+          "recall": {
+            "mean": 0.85,
+            "median": 1.0,
+            "min": 0.5,
+            "max": 1.0,
+            "sd": 0.2,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.708889,
+            "median": 0.666667,
+            "min": 0.5,
+            "max": 0.888889,
+            "sd": 0.156252,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.15,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.5,
+            "sd": 0.2,
+            "n": 5
+          },
+          "fn": {
+            "mean": 0.6,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 2.0,
+            "sd": 0.8,
+            "n": 5
+          },
+          "fp": {
+            "mean": 2.2,
+            "median": 2.0,
+            "min": 1.0,
+            "max": 4.0,
+            "sd": 1.16619,
+            "n": 5
+          },
+          "tp": {
+            "mean": 3.4,
+            "median": 4.0,
+            "min": 2.0,
+            "max": 4.0,
+            "sd": 0.8,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 0.6,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 1.0,
+            "sd": 0.489898,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 8294.2,
+            "median": 8345.0,
+            "min": 8084.0,
+            "max": 8406.0,
+            "sd": 114.021752,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2587.0,
+            "median": 2587.0,
+            "min": 2587.0,
+            "max": 2587.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 10881.2,
+            "median": 10932.0,
+            "min": 10671.0,
+            "max": 10993.0,
+            "sd": 114.021752,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 67.4816,
+            "median": 67.36,
+            "min": 37.766,
+            "max": 99.688,
+            "sd": 19.642321,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.00907,
+            "median": 0.009121,
+            "min": 0.00886,
+            "max": 0.009182,
+            "sd": 0.000114,
+            "n": 5
+          },
+          "records": {
+            "mean": 144.0,
+            "median": 144.0,
+            "min": 144.0,
+            "max": 144.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall_rate": 0.6,
+          "valid_runs": 5,
+          "truncations": 0
+        },
+        "sparse_v2": {
+          "precision": {
+            "mean": 0.813333,
+            "median": 0.8,
+            "min": 0.666667,
+            "max": 1.0,
+            "sd": 0.106667,
+            "n": 5
+          },
+          "recall": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.893333,
+            "median": 0.888889,
+            "min": 0.8,
+            "max": 1.0,
+            "sd": 0.063479,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fn": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fp": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 2.0,
+            "sd": 0.632456,
+            "n": 5
+          },
+          "tp": {
+            "mean": 4.0,
+            "median": 4.0,
+            "min": 4.0,
+            "max": 4.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 860.8,
+            "median": 892.0,
+            "min": 770.0,
+            "max": 960.0,
+            "sd": 73.871239,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2601.0,
+            "median": 2601.0,
+            "min": 2601.0,
+            "max": 2601.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 3461.8,
+            "median": 3493.0,
+            "min": 3371.0,
+            "max": 3561.0,
+            "sd": 73.871239,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 25.45,
+            "median": 25.64,
+            "min": 24.781,
+            "max": 25.766,
+            "sd": 0.372098,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.001641,
+            "median": 0.001672,
+            "min": 0.00155,
+            "max": 0.00174,
+            "sd": 7.4e-05,
+            "n": 5
+          },
+          "records": {
+            "mean": 5.0,
+            "median": 5.0,
+            "min": 4.0,
+            "max": 6.0,
+            "sd": 0.632456,
+            "n": 5
+          },
+          "full_recall_rate": 1.0,
+          "valid_runs": 5,
+          "truncations": 0
+        }
+      },
+      "paired_diffs_sparse_minus_full": {
+        "precision": [
+          0.5,
+          0.3,
+          0.0,
+          0.3,
+          -0.133333
+        ],
+        "recall": [
+          0.25,
+          0.0,
+          0.0,
+          0.5,
+          0.0
+        ],
+        "f1": [
+          0.4,
+          0.222222,
+          0.0,
+          0.388889,
+          -0.088889
+        ],
+        "fnr": [
+          -0.25,
+          0.0,
+          0.0,
+          -0.5,
+          0.0
+        ],
+        "fn": [
+          -1.0,
+          0.0,
+          0.0,
+          -2.0,
+          0.0
+        ],
+        "fp": [
+          -3.0,
+          -3.0,
+          0.0,
+          -1.0,
+          1.0
+        ],
+        "tp": [
+          1.0,
+          0.0,
+          0.0,
+          2.0,
+          0.0
+        ],
+        "full_recall": [
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "completion_tokens": [
+          -7385.0,
+          -7514.0,
+          -7586.0,
+          -7500.0,
+          -7182.0
+        ],
+        "prompt_tokens": [
+          14.0,
+          14.0,
+          14.0,
+          14.0,
+          14.0
+        ],
+        "total_tokens": [
+          -7371.0,
+          -7500.0,
+          -7572.0,
+          -7486.0,
+          -7168.0
+        ],
+        "latency_seconds": [
+          -73.938,
+          -41.594,
+          -12.985,
+          -39.25,
+          -42.391
+        ],
+        "api_cost": [
+          -0.007381,
+          -0.00751,
+          -0.007582,
+          -0.007496,
+          -0.007178
+        ],
+        "records": [
+          -140.0,
+          -139.0,
+          -139.0,
+          -139.0,
+          -138.0
+        ]
+      },
+      "paired_summary": {
+        "precision": {
+          "mean": 0.193333,
+          "median": 0.3,
+          "min": -0.133333,
+          "max": 0.5,
+          "sd": 0.228424,
+          "n": 5,
+          "cohens_d_within_scenario": 0.846378
+        },
+        "recall": {
+          "mean": 0.15,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.5,
+          "sd": 0.2,
+          "n": 5,
+          "cohens_d_within_scenario": 0.75
+        },
+        "f1": {
+          "mean": 0.184444,
+          "median": 0.222222,
+          "min": -0.088889,
+          "max": 0.4,
+          "sd": 0.199208,
+          "n": 5,
+          "cohens_d_within_scenario": 0.925887
+        },
+        "fnr": {
+          "mean": -0.15,
+          "median": 0.0,
+          "min": -0.5,
+          "max": 0.0,
+          "sd": 0.2,
+          "n": 5,
+          "cohens_d_within_scenario": -0.75
+        },
+        "fn": {
+          "mean": -0.6,
+          "median": 0.0,
+          "min": -2.0,
+          "max": 0.0,
+          "sd": 0.8,
+          "n": 5,
+          "cohens_d_within_scenario": -0.75
+        },
+        "fp": {
+          "mean": -1.2,
+          "median": -1.0,
+          "min": -3.0,
+          "max": 1.0,
+          "sd": 1.6,
+          "n": 5,
+          "cohens_d_within_scenario": -0.75
+        },
+        "tp": {
+          "mean": 0.6,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 2.0,
+          "sd": 0.8,
+          "n": 5,
+          "cohens_d_within_scenario": 0.75
+        },
+        "full_recall": {
+          "mean": 0.4,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 1.0,
+          "sd": 0.489898,
+          "n": 5,
+          "cohens_d_within_scenario": 0.816497
+        },
+        "completion_tokens": {
+          "mean": -7433.4,
+          "median": -7500.0,
+          "min": -7586.0,
+          "max": -7182.0,
+          "sd": 141.253814,
+          "n": 5,
+          "cohens_d_within_scenario": -52.62442
+        },
+        "prompt_tokens": {
+          "mean": 14.0,
+          "median": 14.0,
+          "min": 14.0,
+          "max": 14.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "total_tokens": {
+          "mean": -7419.4,
+          "median": -7486.0,
+          "min": -7572.0,
+          "max": -7168.0,
+          "sd": 141.253814,
+          "n": 5,
+          "cohens_d_within_scenario": -52.525307
+        },
+        "latency_seconds": {
+          "mean": -42.0316,
+          "median": -41.594,
+          "min": -73.938,
+          "max": -12.985,
+          "sd": 19.337949,
+          "n": 5,
+          "cohens_d_within_scenario": -2.173529
+        },
+        "api_cost": {
+          "mean": -0.007429,
+          "median": -0.007496,
+          "min": -0.007582,
+          "max": -0.007178,
+          "sd": 0.000141,
+          "n": 5,
+          "cohens_d_within_scenario": -52.596102
+        },
+        "records": {
+          "mean": -139.0,
+          "median": -139.0,
+          "min": -140.0,
+          "max": -138.0,
+          "sd": 0.632456,
+          "n": 5,
+          "cohens_d_within_scenario": -219.778297
+        }
+      }
+    },
+    "djangocms-external-validity-005": {
+      "scenario_id": "djangocms-external-validity-005",
+      "gold_tp_fn_baseline": 25,
+      "arm_distributions": {
+        "full_v2": {
+          "precision": {
+            "mean": 0.477778,
+            "median": 0.5,
+            "min": 0.333333,
+            "max": 0.625,
+            "sd": 0.10922,
+            "n": 5
+          },
+          "recall": {
+            "mean": 0.8,
+            "median": 0.8,
+            "min": 0.6,
+            "max": 1.0,
+            "sd": 0.178885,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.59222,
+            "median": 0.545455,
+            "min": 0.461538,
+            "max": 0.769231,
+            "sd": 0.126722,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.2,
+            "median": 0.2,
+            "min": 0.0,
+            "max": 0.4,
+            "sd": 0.178885,
+            "n": 5
+          },
+          "fn": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 2.0,
+            "sd": 0.894427,
+            "n": 5
+          },
+          "fp": {
+            "mean": 4.6,
+            "median": 4.0,
+            "min": 3.0,
+            "max": 8.0,
+            "sd": 1.854724,
+            "n": 5
+          },
+          "tp": {
+            "mean": 4.0,
+            "median": 4.0,
+            "min": 3.0,
+            "max": 5.0,
+            "sd": 0.894427,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 0.4,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 1.0,
+            "sd": 0.489898,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 8416.8,
+            "median": 8401.0,
+            "min": 8004.0,
+            "max": 8885.0,
+            "sd": 284.05943,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2629.0,
+            "median": 2629.0,
+            "min": 2629.0,
+            "max": 2629.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 11045.8,
+            "median": 11030.0,
+            "min": 10633.0,
+            "max": 11514.0,
+            "sd": 284.05943,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 37.7594,
+            "median": 30.0,
+            "min": 28.156,
+            "max": 50.672,
+            "sd": 10.433901,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.009206,
+            "median": 0.00919,
+            "min": 0.008793,
+            "max": 0.009674,
+            "sd": 0.000284,
+            "n": 5
+          },
+          "records": {
+            "mean": 144.0,
+            "median": 144.0,
+            "min": 144.0,
+            "max": 144.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall_rate": 0.4,
+          "valid_runs": 5,
+          "truncations": 0
+        },
+        "sparse_v2": {
+          "precision": {
+            "mean": 0.9,
+            "median": 0.833333,
+            "min": 0.833333,
+            "max": 1.0,
+            "sd": 0.08165,
+            "n": 5
+          },
+          "recall": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.945455,
+            "median": 0.909091,
+            "min": 0.909091,
+            "max": 1.0,
+            "sd": 0.044536,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fn": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fp": {
+            "mean": 0.6,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 1.0,
+            "sd": 0.489898,
+            "n": 5
+          },
+          "tp": {
+            "mean": 5.0,
+            "median": 5.0,
+            "min": 5.0,
+            "max": 5.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 853.4,
+            "median": 816.0,
+            "min": 722.0,
+            "max": 1094.0,
+            "sd": 126.534738,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2643.0,
+            "median": 2643.0,
+            "min": 2643.0,
+            "max": 2643.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 3496.4,
+            "median": 3459.0,
+            "min": 3365.0,
+            "max": 3737.0,
+            "sd": 126.534738,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 4.756,
+            "median": 4.265,
+            "min": 3.953,
+            "max": 6.0,
+            "sd": 0.774416,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.001646,
+            "median": 0.001609,
+            "min": 0.001515,
+            "max": 0.001887,
+            "sd": 0.000127,
+            "n": 5
+          },
+          "records": {
+            "mean": 5.6,
+            "median": 6.0,
+            "min": 5.0,
+            "max": 6.0,
+            "sd": 0.489898,
+            "n": 5
+          },
+          "full_recall_rate": 1.0,
+          "valid_runs": 5,
+          "truncations": 0
+        }
+      },
+      "paired_diffs_sparse_minus_full": {
+        "precision": [
+          0.5,
+          0.458333,
+          0.208333,
+          0.5,
+          0.444444
+        ],
+        "recall": [
+          0.4,
+          0.4,
+          0.0,
+          0.2,
+          0.0
+        ],
+        "f1": [
+          0.454545,
+          0.447553,
+          0.13986,
+          0.438503,
+          0.285714
+        ],
+        "fnr": [
+          -0.4,
+          -0.4,
+          0.0,
+          -0.2,
+          0.0
+        ],
+        "fn": [
+          -2.0,
+          -2.0,
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "fp": [
+          -3.0,
+          -4.0,
+          -2.0,
+          -7.0,
+          -4.0
+        ],
+        "tp": [
+          2.0,
+          2.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "full_recall": [
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "completion_tokens": [
+          -8046.0,
+          -7681.0,
+          -7282.0,
+          -7585.0,
+          -7223.0
+        ],
+        "prompt_tokens": [
+          14.0,
+          14.0,
+          14.0,
+          14.0,
+          14.0
+        ],
+        "total_tokens": [
+          -8032.0,
+          -7667.0,
+          -7268.0,
+          -7571.0,
+          -7209.0
+        ],
+        "latency_seconds": [
+          -46.407,
+          -45.047,
+          -26.047,
+          -25.36,
+          -22.156
+        ],
+        "api_cost": [
+          -0.008042,
+          -0.007677,
+          -0.007278,
+          -0.007581,
+          -0.007219
+        ],
+        "records": [
+          -139.0,
+          -138.0,
+          -138.0,
+          -138.0,
+          -139.0
+        ]
+      },
+      "paired_summary": {
+        "precision": {
+          "mean": 0.422222,
+          "median": 0.458333,
+          "min": 0.208333,
+          "max": 0.5,
+          "sd": 0.10922,
+          "n": 5,
+          "cohens_d_within_scenario": 3.86579
+        },
+        "recall": {
+          "mean": 0.2,
+          "median": 0.2,
+          "min": 0.0,
+          "max": 0.4,
+          "sd": 0.178885,
+          "n": 5,
+          "cohens_d_within_scenario": 1.118034
+        },
+        "f1": {
+          "mean": 0.353235,
+          "median": 0.438503,
+          "min": 0.13986,
+          "max": 0.454545,
+          "sd": 0.123708,
+          "n": 5,
+          "cohens_d_within_scenario": 2.855396
+        },
+        "fnr": {
+          "mean": -0.2,
+          "median": -0.2,
+          "min": -0.4,
+          "max": 0.0,
+          "sd": 0.178885,
+          "n": 5,
+          "cohens_d_within_scenario": -1.118034
+        },
+        "fn": {
+          "mean": -1.0,
+          "median": -1.0,
+          "min": -2.0,
+          "max": 0.0,
+          "sd": 0.894427,
+          "n": 5,
+          "cohens_d_within_scenario": -1.118034
+        },
+        "fp": {
+          "mean": -4.0,
+          "median": -4.0,
+          "min": -7.0,
+          "max": -2.0,
+          "sd": 1.67332,
+          "n": 5,
+          "cohens_d_within_scenario": -2.390457
+        },
+        "tp": {
+          "mean": 1.0,
+          "median": 1.0,
+          "min": 0.0,
+          "max": 2.0,
+          "sd": 0.894427,
+          "n": 5,
+          "cohens_d_within_scenario": 1.118034
+        },
+        "full_recall": {
+          "mean": 0.6,
+          "median": 1.0,
+          "min": 0.0,
+          "max": 1.0,
+          "sd": 0.489898,
+          "n": 5,
+          "cohens_d_within_scenario": 1.224745
+        },
+        "completion_tokens": {
+          "mean": -7563.4,
+          "median": -7585.0,
+          "min": -8046.0,
+          "max": -7223.0,
+          "sd": 297.407868,
+          "n": 5,
+          "cohens_d_within_scenario": -25.431069
+        },
+        "prompt_tokens": {
+          "mean": 14.0,
+          "median": 14.0,
+          "min": 14.0,
+          "max": 14.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "total_tokens": {
+          "mean": -7549.4,
+          "median": -7571.0,
+          "min": -8032.0,
+          "max": -7209.0,
+          "sd": 297.407868,
+          "n": 5,
+          "cohens_d_within_scenario": -25.383996
+        },
+        "latency_seconds": {
+          "mean": -33.0034,
+          "median": -26.047,
+          "min": -46.407,
+          "max": -22.156,
+          "sd": 10.480305,
+          "n": 5,
+          "cohens_d_within_scenario": -3.149088
+        },
+        "api_cost": {
+          "mean": -0.007559,
+          "median": -0.007581,
+          "min": -0.008042,
+          "max": -0.007219,
+          "sd": 0.000297,
+          "n": 5,
+          "cohens_d_within_scenario": -25.417619
+        },
+        "records": {
+          "mean": -138.4,
+          "median": -138.0,
+          "min": -139.0,
+          "max": -138.0,
+          "sd": 0.489898,
+          "n": 5,
+          "cohens_d_within_scenario": -282.507817
+        }
+      }
+    },
+    "djangocms-external-validity-006": {
+      "scenario_id": "djangocms-external-validity-006",
+      "gold_tp_fn_baseline": 15,
+      "arm_distributions": {
+        "full_v2": {
+          "precision": {
+            "mean": 0.331212,
+            "median": 0.333333,
+            "min": 0.25,
+            "max": 0.4,
+            "sd": 0.062424,
+            "n": 5
+          },
+          "recall": {
+            "mean": 0.8,
+            "median": 0.666667,
+            "min": 0.666667,
+            "max": 1.0,
+            "sd": 0.163299,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.454603,
+            "median": 0.444444,
+            "min": 0.4,
+            "max": 0.5,
+            "sd": 0.039709,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.2,
+            "median": 0.333333,
+            "min": 0.0,
+            "max": 0.333333,
+            "sd": 0.163299,
+            "n": 5
+          },
+          "fn": {
+            "mean": 0.6,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 1.0,
+            "sd": 0.489898,
+            "n": 5
+          },
+          "fp": {
+            "mean": 5.4,
+            "median": 4.0,
+            "min": 3.0,
+            "max": 9.0,
+            "sd": 2.57682,
+            "n": 5
+          },
+          "tp": {
+            "mean": 2.4,
+            "median": 2.0,
+            "min": 2.0,
+            "max": 3.0,
+            "sd": 0.489898,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 0.4,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 1.0,
+            "sd": 0.489898,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 8507.8,
+            "median": 8643.0,
+            "min": 7970.0,
+            "max": 8779.0,
+            "sd": 287.483843,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2583.0,
+            "median": 2583.0,
+            "min": 2583.0,
+            "max": 2583.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 11090.8,
+            "median": 11226.0,
+            "min": 10553.0,
+            "max": 11362.0,
+            "sd": 287.483843,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 38.844,
+            "median": 36.875,
+            "min": 29.391,
+            "max": 53.75,
+            "sd": 9.157186,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.009283,
+            "median": 0.009418,
+            "min": 0.008745,
+            "max": 0.009554,
+            "sd": 0.000287,
+            "n": 5
+          },
+          "records": {
+            "mean": 144.0,
+            "median": 144.0,
+            "min": 144.0,
+            "max": 144.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall_rate": 0.4,
+          "valid_runs": 5,
+          "truncations": 0
+        },
+        "sparse_v2": {
+          "precision": {
+            "mean": 0.24,
+            "median": 0.25,
+            "min": 0.2,
+            "max": 0.25,
+            "sd": 0.02,
+            "n": 5
+          },
+          "recall": {
+            "mean": 0.333333,
+            "median": 0.333333,
+            "min": 0.333333,
+            "max": 0.333333,
+            "sd": 0.0,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.278571,
+            "median": 0.285714,
+            "min": 0.25,
+            "max": 0.285714,
+            "sd": 0.014286,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.666667,
+            "median": 0.666667,
+            "min": 0.666667,
+            "max": 0.666667,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fn": {
+            "mean": 2.0,
+            "median": 2.0,
+            "min": 2.0,
+            "max": 2.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fp": {
+            "mean": 3.2,
+            "median": 3.0,
+            "min": 3.0,
+            "max": 4.0,
+            "sd": 0.4,
+            "n": 5
+          },
+          "tp": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 869.4,
+            "median": 805.0,
+            "min": 739.0,
+            "max": 1091.0,
+            "sd": 131.22896,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2597.0,
+            "median": 2597.0,
+            "min": 2597.0,
+            "max": 2597.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 3466.4,
+            "median": 3402.0,
+            "min": 3336.0,
+            "max": 3688.0,
+            "sd": 131.22896,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 23.8968,
+            "median": 28.078,
+            "min": 7.0,
+            "max": 29.297,
+            "sd": 8.541143,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.001648,
+            "median": 0.001584,
+            "min": 0.001518,
+            "max": 0.00187,
+            "sd": 0.000131,
+            "n": 5
+          },
+          "records": {
+            "mean": 4.2,
+            "median": 4.0,
+            "min": 4.0,
+            "max": 5.0,
+            "sd": 0.4,
+            "n": 5
+          },
+          "full_recall_rate": 0.0,
+          "valid_runs": 5,
+          "truncations": 0
+        }
+      },
+      "paired_diffs_sparse_minus_full": {
+        "precision": [
+          -0.022727,
+          -0.15,
+          0.0,
+          -0.15,
+          -0.133333
+        ],
+        "recall": [
+          -0.666667,
+          -0.333334,
+          -0.666667,
+          -0.333334,
+          -0.333334
+        ],
+        "f1": [
+          -0.142857,
+          -0.214286,
+          -0.114286,
+          -0.214286,
+          -0.194444
+        ],
+        "fnr": [
+          0.666667,
+          0.333334,
+          0.666667,
+          0.333334,
+          0.333334
+        ],
+        "fn": [
+          2.0,
+          1.0,
+          2.0,
+          1.0,
+          1.0
+        ],
+        "fp": [
+          -5.0,
+          0.0,
+          -6.0,
+          0.0,
+          0.0
+        ],
+        "tp": [
+          -2.0,
+          -1.0,
+          -2.0,
+          -1.0,
+          -1.0
+        ],
+        "full_recall": [
+          -1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0
+        ],
+        "completion_tokens": [
+          -8011.0,
+          -7726.0,
+          -7552.0,
+          -7026.0,
+          -7877.0
+        ],
+        "prompt_tokens": [
+          14.0,
+          14.0,
+          14.0,
+          14.0,
+          14.0
+        ],
+        "total_tokens": [
+          -7997.0,
+          -7712.0,
+          -7538.0,
+          -7012.0,
+          -7863.0
+        ],
+        "latency_seconds": [
+          -7.61,
+          -16.016,
+          -0.813,
+          -3.547,
+          -46.75
+        ],
+        "api_cost": [
+          -0.008007,
+          -0.007722,
+          -0.007548,
+          -0.007022,
+          -0.007873
+        ],
+        "records": [
+          -140.0,
+          -140.0,
+          -140.0,
+          -140.0,
+          -139.0
+        ]
+      },
+      "paired_summary": {
+        "precision": {
+          "mean": -0.091212,
+          "median": -0.133333,
+          "min": -0.15,
+          "max": 0.0,
+          "sd": 0.065873,
+          "n": 5,
+          "cohens_d_within_scenario": -1.384671
+        },
+        "recall": {
+          "mean": -0.466667,
+          "median": -0.333334,
+          "min": -0.666667,
+          "max": -0.333334,
+          "sd": 0.163299,
+          "n": 5,
+          "cohens_d_within_scenario": -2.857744
+        },
+        "f1": {
+          "mean": -0.176032,
+          "median": -0.194444,
+          "min": -0.214286,
+          "max": -0.114286,
+          "sd": 0.040445,
+          "n": 5,
+          "cohens_d_within_scenario": -4.352402
+        },
+        "fnr": {
+          "mean": 0.466667,
+          "median": 0.333334,
+          "min": 0.333334,
+          "max": 0.666667,
+          "sd": 0.163299,
+          "n": 5,
+          "cohens_d_within_scenario": 2.857744
+        },
+        "fn": {
+          "mean": 1.4,
+          "median": 1.0,
+          "min": 1.0,
+          "max": 2.0,
+          "sd": 0.489898,
+          "n": 5,
+          "cohens_d_within_scenario": 2.857738
+        },
+        "fp": {
+          "mean": -2.2,
+          "median": 0.0,
+          "min": -6.0,
+          "max": 0.0,
+          "sd": 2.712932,
+          "n": 5,
+          "cohens_d_within_scenario": -0.810931
+        },
+        "tp": {
+          "mean": -1.4,
+          "median": -1.0,
+          "min": -2.0,
+          "max": -1.0,
+          "sd": 0.489898,
+          "n": 5,
+          "cohens_d_within_scenario": -2.857738
+        },
+        "full_recall": {
+          "mean": -0.4,
+          "median": 0.0,
+          "min": -1.0,
+          "max": 0.0,
+          "sd": 0.489898,
+          "n": 5,
+          "cohens_d_within_scenario": -0.816497
+        },
+        "completion_tokens": {
+          "mean": -7638.4,
+          "median": -7726.0,
+          "min": -8011.0,
+          "max": -7026.0,
+          "sd": 342.325342,
+          "n": 5,
+          "cohens_d_within_scenario": -22.313276
+        },
+        "prompt_tokens": {
+          "mean": 14.0,
+          "median": 14.0,
+          "min": 14.0,
+          "max": 14.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "total_tokens": {
+          "mean": -7624.4,
+          "median": -7712.0,
+          "min": -7997.0,
+          "max": -7012.0,
+          "sd": 342.325342,
+          "n": 5,
+          "cohens_d_within_scenario": -22.27238
+        },
+        "latency_seconds": {
+          "mean": -14.9472,
+          "median": -7.61,
+          "min": -46.75,
+          "max": -0.813,
+          "sd": 16.710087,
+          "n": 5,
+          "cohens_d_within_scenario": -0.894502
+        },
+        "api_cost": {
+          "mean": -0.007634,
+          "median": -0.007722,
+          "min": -0.008007,
+          "max": -0.007022,
+          "sd": 0.000342,
+          "n": 5,
+          "cohens_d_within_scenario": -22.301592
+        },
+        "records": {
+          "mean": -139.8,
+          "median": -140.0,
+          "min": -140.0,
+          "max": -139.0,
+          "sd": 0.4,
+          "n": 5,
+          "cohens_d_within_scenario": -349.5
+        }
+      }
+    },
+    "djangocms-external-validity-007": {
+      "scenario_id": "djangocms-external-validity-007",
+      "gold_tp_fn_baseline": 35,
+      "arm_distributions": {
+        "full_v2": {
+          "precision": {
+            "mean": 0.536968,
+            "median": 0.571429,
+            "min": 0.315789,
+            "max": 0.714286,
+            "sd": 0.150229,
+            "n": 5
+          },
+          "recall": {
+            "mean": 0.685715,
+            "median": 0.714286,
+            "min": 0.571429,
+            "max": 0.857143,
+            "sd": 0.106904,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.577791,
+            "median": 0.571429,
+            "min": 0.461538,
+            "max": 0.714286,
+            "sd": 0.085146,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.314285,
+            "median": 0.285714,
+            "min": 0.142857,
+            "max": 0.428571,
+            "sd": 0.106904,
+            "n": 5
+          },
+          "fn": {
+            "mean": 2.2,
+            "median": 2.0,
+            "min": 1.0,
+            "max": 3.0,
+            "sd": 0.748331,
+            "n": 5
+          },
+          "fp": {
+            "mean": 5.4,
+            "median": 3.0,
+            "min": 2.0,
+            "max": 13.0,
+            "sd": 4.223742,
+            "n": 5
+          },
+          "tp": {
+            "mean": 4.8,
+            "median": 5.0,
+            "min": 4.0,
+            "max": 6.0,
+            "sd": 0.748331,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 8531.6,
+            "median": 8496.0,
+            "min": 8143.0,
+            "max": 8968.0,
+            "sd": 276.709667,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2672.0,
+            "median": 2672.0,
+            "min": 2672.0,
+            "max": 2672.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 11203.6,
+            "median": 11168.0,
+            "min": 10815.0,
+            "max": 11640.0,
+            "sd": 276.709667,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 50.3216,
+            "median": 47.156,
+            "min": 34.891,
+            "max": 76.109,
+            "sd": 13.744154,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.009334,
+            "median": 0.009298,
+            "min": 0.008945,
+            "max": 0.00977,
+            "sd": 0.000277,
+            "n": 5
+          },
+          "records": {
+            "mean": 144.0,
+            "median": 144.0,
+            "min": 144.0,
+            "max": 144.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall_rate": 0.0,
+          "valid_runs": 5,
+          "truncations": 0
+        },
+        "sparse_v2": {
+          "precision": {
+            "mean": 0.946429,
+            "median": 1.0,
+            "min": 0.857143,
+            "max": 1.0,
+            "sd": 0.065854,
+            "n": 5
+          },
+          "recall": {
+            "mean": 0.885714,
+            "median": 0.857143,
+            "min": 0.857143,
+            "max": 1.0,
+            "sd": 0.057143,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.911941,
+            "median": 0.923077,
+            "min": 0.857143,
+            "max": 0.933333,
+            "sd": 0.027686,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.114286,
+            "median": 0.142857,
+            "min": 0.0,
+            "max": 0.142857,
+            "sd": 0.057143,
+            "n": 5
+          },
+          "fn": {
+            "mean": 0.8,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 1.0,
+            "sd": 0.4,
+            "n": 5
+          },
+          "fp": {
+            "mean": 0.4,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 1.0,
+            "sd": 0.489898,
+            "n": 5
+          },
+          "tp": {
+            "mean": 6.2,
+            "median": 6.0,
+            "min": 6.0,
+            "max": 7.0,
+            "sd": 0.4,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 0.2,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 1.0,
+            "sd": 0.4,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 938.8,
+            "median": 900.0,
+            "min": 759.0,
+            "max": 1198.0,
+            "sd": 150.494385,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2686.0,
+            "median": 2686.0,
+            "min": 2686.0,
+            "max": 2686.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 3624.8,
+            "median": 3586.0,
+            "min": 3445.0,
+            "max": 3884.0,
+            "sd": 150.494385,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 28.8312,
+            "median": 28.0,
+            "min": 26.578,
+            "max": 31.047,
+            "sd": 1.707901,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.001745,
+            "median": 0.001706,
+            "min": 0.001565,
+            "max": 0.002004,
+            "sd": 0.00015,
+            "n": 5
+          },
+          "records": {
+            "mean": 6.6,
+            "median": 6.0,
+            "min": 6.0,
+            "max": 8.0,
+            "sd": 0.8,
+            "n": 5
+          },
+          "full_recall_rate": 0.2,
+          "valid_runs": 5,
+          "truncations": 0
+        }
+      },
+      "paired_diffs_sparse_minus_full": {
+        "precision": [
+          0.142857,
+          0.428571,
+          0.208333,
+          0.583333,
+          0.684211
+        ],
+        "recall": [
+          0.142857,
+          0.285714,
+          0.428571,
+          0.142857,
+          0.0
+        ],
+        "f1": [
+          0.142857,
+          0.351648,
+          0.317948,
+          0.396761,
+          0.461539
+        ],
+        "fnr": [
+          -0.142857,
+          -0.285714,
+          -0.428571,
+          -0.142857,
+          0.0
+        ],
+        "fn": [
+          -1.0,
+          -2.0,
+          -3.0,
+          -1.0,
+          0.0
+        ],
+        "fp": [
+          -1.0,
+          -3.0,
+          -1.0,
+          -7.0,
+          -13.0
+        ],
+        "tp": [
+          1.0,
+          2.0,
+          3.0,
+          1.0,
+          0.0
+        ],
+        "full_recall": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "completion_tokens": [
+          -7243.0,
+          -7737.0,
+          -7390.0,
+          -7469.0,
+          -8125.0
+        ],
+        "prompt_tokens": [
+          14.0,
+          14.0,
+          14.0,
+          14.0,
+          14.0
+        ],
+        "total_tokens": [
+          -7229.0,
+          -7723.0,
+          -7376.0,
+          -7455.0,
+          -8111.0
+        ],
+        "latency_seconds": [
+          -6.891,
+          -17.125,
+          -17.796,
+          -16.109,
+          -49.531
+        ],
+        "api_cost": [
+          -0.007239,
+          -0.007733,
+          -0.007386,
+          -0.007465,
+          -0.008121
+        ],
+        "records": [
+          -137.0,
+          -138.0,
+          -136.0,
+          -138.0,
+          -138.0
+        ]
+      },
+      "paired_summary": {
+        "precision": {
+          "mean": 0.409461,
+          "median": 0.428571,
+          "min": 0.142857,
+          "max": 0.684211,
+          "sd": 0.208621,
+          "n": 5,
+          "cohens_d_within_scenario": 1.962699
+        },
+        "recall": {
+          "mean": 0.2,
+          "median": 0.142857,
+          "min": 0.0,
+          "max": 0.428571,
+          "sd": 0.145686,
+          "n": 5,
+          "cohens_d_within_scenario": 1.372813
+        },
+        "f1": {
+          "mean": 0.334151,
+          "median": 0.351648,
+          "min": 0.142857,
+          "max": 0.461539,
+          "sd": 0.107061,
+          "n": 5,
+          "cohens_d_within_scenario": 3.121137
+        },
+        "fnr": {
+          "mean": -0.2,
+          "median": -0.142857,
+          "min": -0.428571,
+          "max": 0.0,
+          "sd": 0.145686,
+          "n": 5,
+          "cohens_d_within_scenario": -1.372813
+        },
+        "fn": {
+          "mean": -1.4,
+          "median": -1.0,
+          "min": -3.0,
+          "max": 0.0,
+          "sd": 1.019804,
+          "n": 5,
+          "cohens_d_within_scenario": -1.372813
+        },
+        "fp": {
+          "mean": -5.0,
+          "median": -3.0,
+          "min": -13.0,
+          "max": -1.0,
+          "sd": 4.560702,
+          "n": 5,
+          "cohens_d_within_scenario": -1.096323
+        },
+        "tp": {
+          "mean": 1.4,
+          "median": 1.0,
+          "min": 0.0,
+          "max": 3.0,
+          "sd": 1.019804,
+          "n": 5,
+          "cohens_d_within_scenario": 1.372813
+        },
+        "full_recall": {
+          "mean": 0.2,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 1.0,
+          "sd": 0.4,
+          "n": 5,
+          "cohens_d_within_scenario": 0.5
+        },
+        "completion_tokens": {
+          "mean": -7592.8,
+          "median": -7469.0,
+          "min": -8125.0,
+          "max": -7243.0,
+          "sd": 310.755467,
+          "n": 5,
+          "cohens_d_within_scenario": -24.433359
+        },
+        "prompt_tokens": {
+          "mean": 14.0,
+          "median": 14.0,
+          "min": 14.0,
+          "max": 14.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "total_tokens": {
+          "mean": -7578.8,
+          "median": -7455.0,
+          "min": -8111.0,
+          "max": -7229.0,
+          "sd": 310.755467,
+          "n": 5,
+          "cohens_d_within_scenario": -24.388308
+        },
+        "latency_seconds": {
+          "mean": -21.4904,
+          "median": -17.125,
+          "min": -49.531,
+          "max": -6.891,
+          "sd": 14.567653,
+          "n": 5,
+          "cohens_d_within_scenario": -1.475214
+        },
+        "api_cost": {
+          "mean": -0.007589,
+          "median": -0.007465,
+          "min": -0.008121,
+          "max": -0.007239,
+          "sd": 0.000311,
+          "n": 5,
+          "cohens_d_within_scenario": -24.420488
+        },
+        "records": {
+          "mean": -137.4,
+          "median": -138.0,
+          "min": -138.0,
+          "max": -136.0,
+          "sd": 0.8,
+          "n": 5,
+          "cohens_d_within_scenario": -171.75
+        }
+      }
+    },
+    "djangocms-external-validity-008": {
+      "scenario_id": "djangocms-external-validity-008",
+      "gold_tp_fn_baseline": 20,
+      "arm_distributions": {
+        "full_v2": {
+          "precision": {
+            "mean": 0.434249,
+            "median": 0.428571,
+            "min": 0.230769,
+            "max": 0.75,
+            "sd": 0.173984,
+            "n": 5
+          },
+          "recall": {
+            "mean": 0.75,
+            "median": 0.75,
+            "min": 0.75,
+            "max": 0.75,
+            "sd": 0.0,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.531078,
+            "median": 0.545455,
+            "min": 0.352941,
+            "max": 0.75,
+            "sd": 0.130314,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.25,
+            "median": 0.25,
+            "min": 0.25,
+            "max": 0.25,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fn": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fp": {
+            "mean": 5.0,
+            "median": 4.0,
+            "min": 1.0,
+            "max": 10.0,
+            "sd": 2.966479,
+            "n": 5
+          },
+          "tp": {
+            "mean": 3.0,
+            "median": 3.0,
+            "min": 3.0,
+            "max": 3.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 8682.4,
+            "median": 8673.0,
+            "min": 8232.0,
+            "max": 9428.0,
+            "sd": 441.977646,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2757.0,
+            "median": 2757.0,
+            "min": 2757.0,
+            "max": 2757.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 11439.4,
+            "median": 11430.0,
+            "min": 10989.0,
+            "max": 12185.0,
+            "sd": 441.977646,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 96.3278,
+            "median": 94.281,
+            "min": 85.89,
+            "max": 109.437,
+            "sd": 9.134886,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.009509,
+            "median": 0.0095,
+            "min": 0.009059,
+            "max": 0.010255,
+            "sd": 0.000442,
+            "n": 5
+          },
+          "records": {
+            "mean": 144.0,
+            "median": 144.0,
+            "min": 144.0,
+            "max": 144.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall_rate": 0.0,
+          "valid_runs": 5,
+          "truncations": 0
+        },
+        "sparse_v2": {
+          "precision": {
+            "mean": 0.607619,
+            "median": 0.571429,
+            "min": 0.5,
+            "max": 0.8,
+            "sd": 0.113992,
+            "n": 5
+          },
+          "recall": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "f1": {
+            "mean": 0.749899,
+            "median": 0.727273,
+            "min": 0.666667,
+            "max": 0.888889,
+            "sd": 0.085083,
+            "n": 5
+          },
+          "fnr": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fn": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "fp": {
+            "mean": 2.8,
+            "median": 3.0,
+            "min": 1.0,
+            "max": 4.0,
+            "sd": 1.16619,
+            "n": 5
+          },
+          "tp": {
+            "mean": 4.0,
+            "median": 4.0,
+            "min": 4.0,
+            "max": 4.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "full_recall": {
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "completion_tokens": {
+            "mean": 846.4,
+            "median": 880.0,
+            "min": 737.0,
+            "max": 946.0,
+            "sd": 75.101531,
+            "n": 5
+          },
+          "prompt_tokens": {
+            "mean": 2771.0,
+            "median": 2771.0,
+            "min": 2771.0,
+            "max": 2771.0,
+            "sd": 0.0,
+            "n": 5
+          },
+          "total_tokens": {
+            "mean": 3617.4,
+            "median": 3651.0,
+            "min": 3508.0,
+            "max": 3717.0,
+            "sd": 75.101531,
+            "n": 5
+          },
+          "latency_seconds": {
+            "mean": 31.6468,
+            "median": 30.078,
+            "min": 29.062,
+            "max": 34.969,
+            "sd": 2.398783,
+            "n": 5
+          },
+          "api_cost": {
+            "mean": 0.001677,
+            "median": 0.001711,
+            "min": 0.001568,
+            "max": 0.001777,
+            "sd": 7.5e-05,
+            "n": 5
+          },
+          "records": {
+            "mean": 6.8,
+            "median": 7.0,
+            "min": 5.0,
+            "max": 8.0,
+            "sd": 1.16619,
+            "n": 5
+          },
+          "full_recall_rate": 1.0,
+          "valid_runs": 5,
+          "truncations": 0
+        }
+      },
+      "paired_diffs_sparse_minus_full": {
+        "precision": [
+          0.569231,
+          0.333334,
+          0.071429,
+          0.142858,
+          -0.25
+        ],
+        "recall": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "f1": [
+          0.535948,
+          0.338462,
+          0.121212,
+          0.181818,
+          -0.083333
+        ],
+        "fnr": [
+          -0.25,
+          -0.25,
+          -0.25,
+          -0.25,
+          -0.25
+        ],
+        "fn": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "fp": [
+          -9.0,
+          -4.0,
+          0.0,
+          -1.0,
+          3.0
+        ],
+        "tp": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "full_recall": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "completion_tokens": [
+          -8643.0,
+          -7789.0,
+          -7957.0,
+          -7505.0,
+          -7286.0
+        ],
+        "prompt_tokens": [
+          14.0,
+          14.0,
+          14.0,
+          14.0,
+          14.0
+        ],
+        "total_tokens": [
+          -8629.0,
+          -7775.0,
+          -7943.0,
+          -7491.0,
+          -7272.0
+        ],
+        "latency_seconds": [
+          -70.048,
+          -58.828,
+          -50.921,
+          -64.249,
+          -79.359
+        ],
+        "api_cost": [
+          -0.008639,
+          -0.007785,
+          -0.007953,
+          -0.007501,
+          -0.007282
+        ],
+        "records": [
+          -139.0,
+          -138.0,
+          -136.0,
+          -137.0,
+          -136.0
+        ]
+      },
+      "paired_summary": {
+        "precision": {
+          "mean": 0.17337,
+          "median": 0.142858,
+          "min": -0.25,
+          "max": 0.569231,
+          "sd": 0.273079,
+          "n": 5,
+          "cohens_d_within_scenario": 0.634874
+        },
+        "recall": {
+          "mean": 0.25,
+          "median": 0.25,
+          "min": 0.25,
+          "max": 0.25,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "f1": {
+          "mean": 0.218821,
+          "median": 0.181818,
+          "min": -0.083333,
+          "max": 0.535948,
+          "sd": 0.208364,
+          "n": 5,
+          "cohens_d_within_scenario": 1.050189
+        },
+        "fnr": {
+          "mean": -0.25,
+          "median": -0.25,
+          "min": -0.25,
+          "max": -0.25,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "fn": {
+          "mean": -1.0,
+          "median": -1.0,
+          "min": -1.0,
+          "max": -1.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "fp": {
+          "mean": -2.2,
+          "median": -1.0,
+          "min": -9.0,
+          "max": 3.0,
+          "sd": 4.069398,
+          "n": 5,
+          "cohens_d_within_scenario": -0.540621
+        },
+        "tp": {
+          "mean": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "max": 1.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "full_recall": {
+          "mean": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "max": 1.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "completion_tokens": {
+          "mean": -7836.0,
+          "median": -7789.0,
+          "min": -8643.0,
+          "max": -7286.0,
+          "sd": 464.792427,
+          "n": 5,
+          "cohens_d_within_scenario": -16.859139
+        },
+        "prompt_tokens": {
+          "mean": 14.0,
+          "median": 14.0,
+          "min": 14.0,
+          "max": 14.0,
+          "sd": 0.0,
+          "n": 5,
+          "cohens_d_within_scenario": 0.0
+        },
+        "total_tokens": {
+          "mean": -7822.0,
+          "median": -7775.0,
+          "min": -8629.0,
+          "max": -7272.0,
+          "sd": 464.792427,
+          "n": 5,
+          "cohens_d_within_scenario": -16.829018
+        },
+        "latency_seconds": {
+          "mean": -64.681,
+          "median": -64.249,
+          "min": -79.359,
+          "max": -50.921,
+          "sd": 9.675022,
+          "n": 5,
+          "cohens_d_within_scenario": -6.68536
+        },
+        "api_cost": {
+          "mean": -0.007832,
+          "median": -0.007785,
+          "min": -0.008639,
+          "max": -0.007282,
+          "sd": 0.000465,
+          "n": 5,
+          "cohens_d_within_scenario": -16.850533
+        },
+        "records": {
+          "mean": -137.2,
+          "median": -137.0,
+          "min": -139.0,
+          "max": -136.0,
+          "sd": 1.16619,
+          "n": 5,
+          "cohens_d_within_scenario": -117.648029
+        }
+      }
+    }
+  },
+  "cross_scenario_paired_effects": {
+    "precision": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        -0.1,
+        0.193333,
+        0.422222,
+        -0.091212,
+        0.409461,
+        0.17337
+      ],
+      "mean_of_scenario_means": 0.167862,
+      "median_of_scenario_means": 0.183352,
+      "sd_of_scenario_means": 0.209212,
+      "cohens_d_across_scenarios": 0.802356,
+      "sign_consistency": {
+        "positive_count": 4,
+        "negative_count": 2,
+        "zero_count": 0,
+        "mixed": true
+      }
+    },
+    "recall": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        0.0,
+        0.15,
+        0.2,
+        -0.466667,
+        0.2,
+        0.25
+      ],
+      "mean_of_scenario_means": 0.055556,
+      "median_of_scenario_means": 0.175,
+      "sd_of_scenario_means": 0.246394,
+      "cohens_d_across_scenarios": 0.225474,
+      "sign_consistency": {
+        "positive_count": 4,
+        "negative_count": 1,
+        "zero_count": 1,
+        "mixed": true
+      }
+    },
+    "f1": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        -0.066667,
+        0.184444,
+        0.353235,
+        -0.176032,
+        0.334151,
+        0.218821
+      ],
+      "mean_of_scenario_means": 0.141325,
+      "median_of_scenario_means": 0.201632,
+      "sd_of_scenario_means": 0.197454,
+      "cohens_d_across_scenarios": 0.715738,
+      "sign_consistency": {
+        "positive_count": 4,
+        "negative_count": 2,
+        "zero_count": 0,
+        "mixed": true
+      }
+    },
+    "fnr": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        0.0,
+        -0.15,
+        -0.2,
+        0.466667,
+        -0.2,
+        -0.25
+      ],
+      "mean_of_scenario_means": -0.055556,
+      "median_of_scenario_means": -0.175,
+      "sd_of_scenario_means": 0.246394,
+      "cohens_d_across_scenarios": -0.225474,
+      "sign_consistency": {
+        "positive_count": 1,
+        "negative_count": 4,
+        "zero_count": 1,
+        "mixed": true
+      }
+    },
+    "fn": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        0.0,
+        -0.6,
+        -1.0,
+        1.4,
+        -1.4,
+        -1.0
+      ],
+      "mean_of_scenario_means": -0.433333,
+      "median_of_scenario_means": -0.8,
+      "sd_of_scenario_means": 0.926763,
+      "cohens_d_across_scenarios": -0.467578,
+      "sign_consistency": {
+        "positive_count": 1,
+        "negative_count": 4,
+        "zero_count": 1,
+        "mixed": true
+      }
+    },
+    "fp": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        0.2,
+        -1.2,
+        -4.0,
+        -2.2,
+        -5.0,
+        -2.2
+      ],
+      "mean_of_scenario_means": -2.4,
+      "median_of_scenario_means": -2.2,
+      "sd_of_scenario_means": 1.712698,
+      "cohens_d_across_scenarios": -1.401298,
+      "sign_consistency": {
+        "positive_count": 1,
+        "negative_count": 5,
+        "zero_count": 0,
+        "mixed": true
+      }
+    },
+    "tp": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        0.0,
+        0.6,
+        1.0,
+        -1.4,
+        1.4,
+        1.0
+      ],
+      "mean_of_scenario_means": 0.433333,
+      "median_of_scenario_means": 0.8,
+      "sd_of_scenario_means": 0.926763,
+      "cohens_d_across_scenarios": 0.467578,
+      "sign_consistency": {
+        "positive_count": 4,
+        "negative_count": 1,
+        "zero_count": 1,
+        "mixed": true
+      }
+    },
+    "full_recall": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        0.0,
+        0.4,
+        0.6,
+        -0.4,
+        0.2,
+        1.0
+      ],
+      "mean_of_scenario_means": 0.3,
+      "median_of_scenario_means": 0.3,
+      "sd_of_scenario_means": 0.443471,
+      "cohens_d_across_scenarios": 0.676481,
+      "sign_consistency": {
+        "positive_count": 4,
+        "negative_count": 1,
+        "zero_count": 1,
+        "mixed": true
+      }
+    },
+    "completion_tokens": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        -7379.4,
+        -7433.4,
+        -7563.4,
+        -7638.4,
+        -7592.8,
+        -7836.0
+      ],
+      "mean_of_scenario_means": -7573.9,
+      "median_of_scenario_means": -7578.1,
+      "sd_of_scenario_means": 147.701625,
+      "cohens_d_across_scenarios": -51.27838,
+      "sign_consistency": {
+        "positive_count": 0,
+        "negative_count": 6,
+        "zero_count": 0,
+        "mixed": false
+      }
+    },
+    "prompt_tokens": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        14.0,
+        14.0,
+        14.0,
+        14.0,
+        14.0,
+        14.0
+      ],
+      "mean_of_scenario_means": 14.0,
+      "median_of_scenario_means": 14.0,
+      "sd_of_scenario_means": 0.0,
+      "cohens_d_across_scenarios": 0.0,
+      "sign_consistency": {
+        "positive_count": 6,
+        "negative_count": 0,
+        "zero_count": 0,
+        "mixed": false
+      }
+    },
+    "total_tokens": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        -7365.4,
+        -7419.4,
+        -7549.4,
+        -7624.4,
+        -7578.8,
+        -7822.0
+      ],
+      "mean_of_scenario_means": -7559.9,
+      "median_of_scenario_means": -7564.1,
+      "sd_of_scenario_means": 147.701625,
+      "cohens_d_across_scenarios": -51.183594,
+      "sign_consistency": {
+        "positive_count": 0,
+        "negative_count": 6,
+        "zero_count": 0,
+        "mixed": false
+      }
+    },
+    "latency_seconds": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        -33.8656,
+        -42.0316,
+        -33.0034,
+        -14.9472,
+        -21.4904,
+        -64.681
+      ],
+      "mean_of_scenario_means": -35.0032,
+      "median_of_scenario_means": -33.4345,
+      "sd_of_scenario_means": 15.918032,
+      "cohens_d_across_scenarios": -2.198965,
+      "sign_consistency": {
+        "positive_count": 0,
+        "negative_count": 6,
+        "zero_count": 0,
+        "mixed": false
+      }
+    },
+    "api_cost": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        -0.007374,
+        -0.007429,
+        -0.007559,
+        -0.007634,
+        -0.007589,
+        -0.007832
+      ],
+      "mean_of_scenario_means": -0.007569,
+      "median_of_scenario_means": -0.007574,
+      "sd_of_scenario_means": 0.000148,
+      "cohens_d_across_scenarios": -51.127087,
+      "sign_consistency": {
+        "positive_count": 0,
+        "negative_count": 6,
+        "zero_count": 0,
+        "mixed": false
+      }
+    },
+    "records": {
+      "n_scenarios": 6,
+      "scenario_mean_paired_diffs": [
+        -142.8,
+        -139.0,
+        -138.4,
+        -139.8,
+        -137.4,
+        -137.2
+      ],
+      "mean_of_scenario_means": -139.1,
+      "median_of_scenario_means": -138.7,
+      "sd_of_scenario_means": 1.878829,
+      "cohens_d_across_scenarios": -74.03546,
+      "sign_consistency": {
+        "positive_count": 0,
+        "negative_count": 6,
+        "zero_count": 0,
+        "mixed": false
+      }
+    }
+  },
+  "bootstrap_over_scenarios": {
+    "f1": {
+      "n_boot": 10000,
+      "resampling_unit": "scenario (n=6, with replacement)",
+      "ci95_lower": -0.022012,
+      "ci95_upper": 0.293159,
+      "bootstrap_mean": 0.13966,
+      "limitation": "n=6 scenario-level units; CI reflects BETWEEN-SCENARIO uncertainty only; repetitions are nested observations, not independent samples"
+    },
+    "recall": {
+      "n_boot": 10000,
+      "resampling_unit": "scenario (n=6, with replacement)",
+      "ci95_lower": -0.166667,
+      "ci95_upper": 0.208333,
+      "bootstrap_mean": 0.054535,
+      "limitation": "n=6 scenario-level units; CI reflects BETWEEN-SCENARIO uncertainty only; repetitions are nested observations, not independent samples"
+    },
+    "precision": {
+      "n_boot": 10000,
+      "resampling_unit": "scenario (n=6, with replacement)",
+      "ci95_lower": -0.003018,
+      "ci95_upper": 0.338345,
+      "bootstrap_mean": 0.169146,
+      "limitation": "n=6 scenario-level units; CI reflects BETWEEN-SCENARIO uncertainty only; repetitions are nested observations, not independent samples"
+    },
+    "fnr": {
+      "n_boot": 10000,
+      "resampling_unit": "scenario (n=6, with replacement)",
+      "ci95_lower": -0.208333,
+      "ci95_upper": 0.166667,
+      "bootstrap_mean": -0.054877,
+      "limitation": "n=6 scenario-level units; CI reflects BETWEEN-SCENARIO uncertainty only; repetitions are nested observations, not independent samples"
+    },
+    "completion_tokens": {
+      "n_boot": 10000,
+      "resampling_unit": "scenario (n=6, with replacement)",
+      "ci95_lower": -7695.433333,
+      "ci95_upper": -7462.233333,
+      "bootstrap_mean": -7574.71809,
+      "limitation": "n=6 scenario-level units; CI reflects BETWEEN-SCENARIO uncertainty only; repetitions are nested observations, not independent samples"
+    },
+    "api_cost": {
+      "n_boot": 10000,
+      "resampling_unit": "scenario (n=6, with replacement)",
+      "ci95_lower": -0.00769,
+      "ci95_upper": -0.007457,
+      "bootstrap_mean": -0.007569,
+      "limitation": "n=6 scenario-level units; CI reflects BETWEEN-SCENARIO uncertainty only; repetitions are nested observations, not independent samples"
+    }
+  },
+  "sensitivity_and_survivor_bias": {
+    "m1a_4096_probes": {
+      "probe_a_full_v2": {
+        "arm": "full_v2",
+        "schema_valid": false,
+        "finish_reason": "length",
+        "completion_tokens": 4096,
+        "decoded_candidate_count": null,
+        "decoded_write_set_ids": null
+      },
+      "probe_b_sparse_v2": {
+        "arm": "sparse_v2",
+        "schema_valid": true,
+        "finish_reason": "stop",
+        "completion_tokens": 419,
+        "decoded_candidate_count": 144,
+        "decoded_write_set_ids": [
+          10,
+          11,
+          92
+        ]
+      }
+    },
+    "m1a_survivor_funnel": {
+      "full_v2_4096": {
+        "operational_valid": false,
+        "truncated_at_candidate_id": 76,
+        "valid_output_semantic_observations": 0
+      },
+      "sparse_v2_4096": {
+        "operational_valid": true,
+        "decoded_candidate_count": 144,
+        "valid_output_semantic_observations": 1
+      },
+      "note": "At the 4096 cap only Sparse-v2 produced a valid output; any semantic comparison at 4096 would be survivor-biased toward Sparse-v2. M1B re-runs BOTH arms at 16384 where BOTH survive, so the M1B semantic comparison is not censored by the cap."
+    },
+    "m1b_valid_output_semantic_vs_operational": {
+      "full_v2": {
+        "valid_runs": 30,
+        "truncations": 0,
+        "semantic_observations": 30
+      },
+      "sparse_v2": {
+        "valid_runs": 30,
+        "truncations": 0,
+        "semantic_observations": 30
+      },
+      "note": "Within M1B every run is operationally valid, so valid-output semantic metrics are NOT censored; the censoring funnel exists only at the M1A 4096 boundary."
+    },
+    "within_scenario_rep_determinism": {
+      "note": "Despite temperature 0 the five repetitions within a scenario/arm are NOT byte-identical (provider-side nondeterminism): decoded policies and token counts differ across repetitions, so nested repeated-measures variance is real and is used for the within-scenario distributions."
+    }
+  },
+  "computed_at_utc": "2026-09-13T02:12:43.145583+00:00"
+}
