@@ -73,11 +73,16 @@ All are deterministic; every hit is reported in the adjudication report.
 - **R2 shared-PR-reference:** intents share a `#NNNN` PR/issue reference →
   same PR/issue group → keep the newest, exclude the rest
   (`duplicate_or_related_change`).
-- **R3 suspected-related (manual adjudication):** candidates share ≥1 proxy
+- **R3 suspected-related (deterministic adjudication):** candidates share ≥1 proxy
   path AND differ in proxy set AND normalized-intent token Jaccard ≥ 0.5 →
-  flagged as suspected related; adjudicated by inspection (keep the newest if
-  the messages describe the same change; otherwise both are kept). Every R3
-  pair and its decision is listed in the adjudication report.
+  flagged as suspected related; adjudicated by the frozen deterministic
+  same-change predicate (`_messages_describe_same_change`): identical /
+  token-subset / ≥3-shared-token intents are treated as the same/continuation
+  change → keep the newest; otherwise BOTH are kept (the protocol's
+  `otherwise both are kept` branch is implemented, never silently dropping a
+  possibly-independent change). Every R3 pair and its decision is listed in
+  the adjudication report, and adjudication is verified corpus-invariant
+  (the selected scientific corpus is identical with or without R3 exclusion).
 
 Related or duplicate historical changes **never appear as independent
 examples** in the accepted corpus.

@@ -39,7 +39,9 @@ evaluation under a separately frozen protocol; NOT RUN).
   (2026-09-13): 40 clean scientific cases mined from the newest 6000
   ancestors (≈2016–2025) with the frozen rules + leakage barrier
   (92 leaked ineligible), R1/R2/R3 related/duplicate removal (582 exact-set,
-  0 shared-PR, 5 suspected-related adjudicated), deterministic metadata-only
+  0 shared-PR, 5 suspected-related adjudicated by the frozen deterministic
+  same-change predicate; closure `reports/REAL_COMMIT_M4A2_R3_FIDELITY_CLOSURE.md`),
+  deterministic metadata-only
   split freeze (seed `20260913`, TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10)
   before any model result; the historical diff is an **OBSERVED CHANGE-SET
   PROXY**, never semantic ground truth. M1 defensive-closure reports:

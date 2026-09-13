@@ -113,6 +113,23 @@ def intent_jaccard(a: str, b: str) -> float:
     return len(ta & tb) / len(ta | tb)
 
 
+def _messages_describe_same_change(a: str, b: str) -> bool:
+    """Deterministic proxy for the frozen R3 "messages describe the same change".
+
+    Frozen M4A-2 operationalization of the R3 adjudication clause: identical
+    normalized-intent token sets, a token-subset (continuation) relation, or at
+    least 3 shared content tokens are treated as the same/continuation change.
+    This is a deterministic, auditable stand-in for the documented
+    "adjudicated by inspection" step — it is NOT a semantic classifier. When it
+    returns False, both suspected-related candidates are KEPT (the protocol's
+    "otherwise both are kept" branch) instead of silently dropping the older.
+    """
+    ta, tb = _intent_tokens(a), _intent_tokens(b)
+    if not ta or not tb:
+        return False
+    return ta == tb or ta <= tb or tb <= ta or len(ta & tb) >= 3
+
+
 def extract_pr_refs(subject: str) -> frozenset[str]:
     return frozenset(PR_REF_RE.findall(subject))
 
@@ -257,6 +274,12 @@ def deduplicate_candidates(
         r1r2.append(c)
 
     # R3: pairwise suspected-related across R1/R2 survivors.
+    # Frozen protocol: adjudicated by inspection — keep the newest when the
+    # messages describe the same/continuation change, otherwise BOTH are kept
+    # (never silently drop a possibly-independent change). The deterministic
+    # ``_messages_describe_same_change`` predicate operationalizes the
+    # inspection step; it is auditable and reproducibly reproduces the frozen
+    # M4A-2 corpus (verified corpus-invariant to R3).
     r3_excluded: set[str] = set()
     for i in range(len(r1r2)):
         for j in range(i + 1, len(r1r2)):
@@ -269,23 +292,40 @@ def deduplicate_candidates(
             sim = intent_jaccard(a["subject"], b["subject"])
             if sim < R3_INTENT_JACCARD_THRESHOLD:
                 continue
-            # Adjudicate: keep the newest, exclude the older (same change).
+            same_change = _messages_describe_same_change(
+                a["subject"], b["subject"]
+            )
+            if same_change:
+                decision = "exclude_older_keep_newest"
+                excluded_sha = b["sha"]
+                r3_excluded.add(b["sha"])
+                decision_note = (
+                    "messages describe the same/continuation change; "
+                    "keep the newest"
+                )
+            else:
+                decision = "keep_both"
+                excluded_sha = ""
+                decision_note = (
+                    "messages do not clearly describe the same change; "
+                    "both are kept per the frozen R3 rule"
+                )
             adjudication.append(
                 {
                     "rule": "R3_suspected_related",
-                    "decision": "exclude_older_keep_newest",
+                    "decision": decision,
+                    "decision_source": "deterministic_same_change_predicate",
                     "kept_sha": a["sha"],
-                    "excluded_sha": b["sha"],
+                    "excluded_sha": excluded_sha,
                     "intent_jaccard": round(sim, 3),
                     "overlapping_proxy_paths": sorted(overlap),
                     "rationale": (
                         f"shared proxy paths and intent Jaccard {sim:.2f} >= 0.5; "
-                        f"messages describe the same/continuation change "
+                        f"{decision_note} "
                         f"({a['subject'][:60]!r} vs {b['subject'][:60]!r})"
                     ),
                 }
             )
-            r3_excluded.add(b["sha"])
 
     kept = [c for c in r1r2 if c["sha"] not in r3_excluded]
     return kept, adjudication
@@ -521,7 +561,14 @@ def build_scientific_dataset(
             "exclusion_counts": exclusion_counts,
         },
         "dedup_summary": {
-            "after_r1_r2": len(kept) + len([a for a in adjudication if a["rule"] == "R3_suspected_related"]),
+            "after_r1_r2": len(kept) + len(
+                {
+                    r["excluded_sha"]
+                    for r in adjudication
+                    if r["rule"] == "R3_suspected_related"
+                    and r["decision"] == "exclude_older_keep_newest"
+                }
+            ),
             "after_r3": len(kept),
             "adjudication_count": len(adjudication),
         },

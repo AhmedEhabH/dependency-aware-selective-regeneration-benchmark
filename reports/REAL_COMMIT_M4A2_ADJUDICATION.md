@@ -33,11 +33,14 @@
 
 ### R3 suspected-related pairs (overlapping proxy + intent Jaccard ≥ 0.5)
 
-- Kept `967b838d06ec` vs excluded `664426f7e255` (Jaccard 0.5): shared proxy paths and intent Jaccard 0.50 >= 0.5; messages describe the same/continuation change ('Dropped support for Django < 1.11' vs 'Drop support for Django 1.7.')
-- Kept `b740724656f0` vs excluded `83ecb2ffcc28` (Jaccard 0.667): shared proxy paths and intent Jaccard 0.67 >= 0.5; messages describe the same/continuation change ('Initial compatibility' vs 'Initial compatibility effort')
-- Kept `7c6cfad6fdd4` vs excluded `def08149617f` (Jaccard 0.667): shared proxy paths and intent Jaccard 0.67 >= 0.5; messages describe the same/continuation change ('More fixes' vs 'More context fixes')
-- Kept `62f027357194` vs excluded `d99f1cfc3e11` (Jaccard 1.0): shared proxy paths and intent Jaccard 1.00 >= 0.5; messages describe the same/continuation change ('fixes failing tests' vs 'fixes failing tests')
-- Kept `0526cdde8118` vs excluded `758da5b98762` (Jaccard 1.0): shared proxy paths and intent Jaccard 1.00 >= 0.5; messages describe the same/continuation change ('fixes issue with page menu missing' vs 'fixes issue with page menu missing')
+- R3 is adjudicated by a deterministic same-change predicate (`_messages_describe_same_change`): identical / token-subset / ≥3-shared-token intents are treated as the same/continuation change → keep the newest; otherwise BOTH are kept (the frozen protocol's `otherwise both are kept` branch is implemented, never silently dropping a possibly-independent change).
+- Adjudication is corpus-invariant by construction and verified: the selected scientific corpus is identical with or without R3 exclusion.
+
+- Kept `967b838d06ec` vs excluded `664426f7e255` (Jaccard 0.5, same change): shared proxy paths and intent Jaccard 0.50 >= 0.5; messages describe the same/continuation change; keep the newest ('Dropped support for Django < 1.11' vs 'Drop support for Django 1.7.')
+- Kept `b740724656f0` vs excluded `83ecb2ffcc28` (Jaccard 0.667, same change): shared proxy paths and intent Jaccard 0.67 >= 0.5; messages describe the same/continuation change; keep the newest ('Initial compatibility' vs 'Initial compatibility effort')
+- Kept `7c6cfad6fdd4` vs excluded `def08149617f` (Jaccard 0.667, same change): shared proxy paths and intent Jaccard 0.67 >= 0.5; messages describe the same/continuation change; keep the newest ('More fixes' vs 'More context fixes')
+- Kept `62f027357194` vs excluded `d99f1cfc3e11` (Jaccard 1.0, same change): shared proxy paths and intent Jaccard 1.00 >= 0.5; messages describe the same/continuation change; keep the newest ('fixes failing tests' vs 'fixes failing tests')
+- Kept `0526cdde8118` vs excluded `758da5b98762` (Jaccard 1.0, same change): shared proxy paths and intent Jaccard 1.00 >= 0.5; messages describe the same/continuation change; keep the newest ('fixes issue with page menu missing' vs 'fixes issue with page menu missing')
 
 ## 4. Accepted count
 
@@ -124,14 +127,14 @@
 | djangocms-rc-a9e2a8d3b7a6 | 78bb22df5c3f | a9e2a8d3b7a6 | 2016-12-23 | 3 | unknown | VALIDATION |
 | djangocms-rc-138abbb7e5f4 | ad20bd3eee57 | 138abbb7e5f4 | 2016-12-22 | 1 | unknown | TRAIN |
 
-## 10. Manual adjudication decisions (every decision with rationale)
+## 10. R3 adjudication decisions (every decision with rationale)
 
-- R1 (identical proxy set) and R2 (shared PR reference) are deterministic mechanical dedup rules; their per-commit records are persisted in `reports/real_commit_m4a2_adjudication.json`. R3 below required semantic adjudication:
-- Kept `967b838d06ec` vs excluded `664426f7e255` (Jaccard 0.5): shared proxy paths and intent Jaccard 0.50 >= 0.5; messages describe the same/continuation change ('Dropped support for Django < 1.11' vs 'Drop support for Django 1.7.')
-- Kept `b740724656f0` vs excluded `83ecb2ffcc28` (Jaccard 0.667): shared proxy paths and intent Jaccard 0.67 >= 0.5; messages describe the same/continuation change ('Initial compatibility' vs 'Initial compatibility effort')
-- Kept `7c6cfad6fdd4` vs excluded `def08149617f` (Jaccard 0.667): shared proxy paths and intent Jaccard 0.67 >= 0.5; messages describe the same/continuation change ('More fixes' vs 'More context fixes')
-- Kept `62f027357194` vs excluded `d99f1cfc3e11` (Jaccard 1.0): shared proxy paths and intent Jaccard 1.00 >= 0.5; messages describe the same/continuation change ('fixes failing tests' vs 'fixes failing tests')
-- Kept `0526cdde8118` vs excluded `758da5b98762` (Jaccard 1.0): shared proxy paths and intent Jaccard 1.00 >= 0.5; messages describe the same/continuation change ('fixes issue with page menu missing' vs 'fixes issue with page menu missing')
+- R1 (identical proxy set) and R2 (shared PR reference) are deterministic mechanical dedup rules; their per-commit records are persisted in `reports/real_commit_m4a2_adjudication.json`. R3 below applies the frozen deterministic same-change adjudication (identical / token-subset / ≥3-shared-token intents → keep the newest; otherwise BOTH are kept):
+- Kept `967b838d06ec` vs excluded `664426f7e255` (Jaccard 0.5, same change): shared proxy paths and intent Jaccard 0.50 >= 0.5; messages describe the same/continuation change; keep the newest ('Dropped support for Django < 1.11' vs 'Drop support for Django 1.7.')
+- Kept `b740724656f0` vs excluded `83ecb2ffcc28` (Jaccard 0.667, same change): shared proxy paths and intent Jaccard 0.67 >= 0.5; messages describe the same/continuation change; keep the newest ('Initial compatibility' vs 'Initial compatibility effort')
+- Kept `7c6cfad6fdd4` vs excluded `def08149617f` (Jaccard 0.667, same change): shared proxy paths and intent Jaccard 0.67 >= 0.5; messages describe the same/continuation change; keep the newest ('More fixes' vs 'More context fixes')
+- Kept `62f027357194` vs excluded `d99f1cfc3e11` (Jaccard 1.0, same change): shared proxy paths and intent Jaccard 1.00 >= 0.5; messages describe the same/continuation change; keep the newest ('fixes failing tests' vs 'fixes failing tests')
+- Kept `0526cdde8118` vs excluded `758da5b98762` (Jaccard 1.0, same change): shared proxy paths and intent Jaccard 1.00 >= 0.5; messages describe the same/continuation change; keep the newest ('fixes issue with page menu missing' vs 'fixes issue with page menu missing')
 
 ## 11. Scientific discipline
 

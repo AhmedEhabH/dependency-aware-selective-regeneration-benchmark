@@ -92,7 +92,9 @@ section below.
   miner/schema/eligibility/exclusion rules and the leakage barrier
   (`allow_intent_path_leakage=False`; 92 leaked candidates ineligible). R1/R2/R3
   related/duplicate removal keeps changes independent (582 exact-set, 0
-  shared-PR, 5 suspected-related adjudicated). **Split freeze before any model
+  shared-PR, 5 suspected-related adjudicated by the frozen deterministic
+  same-change predicate — `reports/REAL_COMMIT_M4A2_R3_FIDELITY_CLOSURE.md`).
+  **Split freeze before any model
   result:** TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10 (seed `20260913`,
   metadata-only, `split_freeze.json`). Held-out evaluation is **NOT RUN**
   (M4A-3, separately frozen). The historical diff remains an **OBSERVED

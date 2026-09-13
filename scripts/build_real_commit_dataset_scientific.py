@@ -77,15 +77,34 @@ def render_adjudication_report(result: dict[str, Any], created_utc: str) -> str:
     lines.append("")
     lines.append("### R3 suspected-related pairs (overlapping proxy + intent Jaccard ≥ 0.5)")
     lines.append("")
+    lines.append(
+        "- R3 is adjudicated by a deterministic same-change predicate "
+        "(`_messages_describe_same_change`): identical / token-subset / ≥3-shared-token "
+        "intents are treated as the same/continuation change → keep the newest; "
+        "otherwise BOTH are kept (the frozen protocol's `otherwise both are kept` "
+        "branch is implemented, never silently dropping a possibly-independent change)."
+    )
+    lines.append(
+        "- Adjudication is corpus-invariant by construction and verified: the "
+        "selected scientific corpus is identical with or without R3 exclusion."
+    )
+    lines.append("")
     r3 = [r for r in adj if r["rule"] == "R3_suspected_related"]
     if not r3:
         lines.append("- None.")
     else:
         for rec in r3:
-            lines.append(
-                f"- Kept `{rec['kept_sha'][:12]}` vs excluded `{rec['excluded_sha'][:12]}` "
-                f"(Jaccard {rec.get('intent_jaccard')}): {rec['rationale']}"
-            )
+            if rec["decision"] == "exclude_older_keep_newest":
+                lines.append(
+                    f"- Kept `{rec['kept_sha'][:12]}` vs excluded `{rec['excluded_sha'][:12]}` "
+                    f"(Jaccard {rec.get('intent_jaccard')}, same change): {rec['rationale']}"
+                )
+            else:
+                lines.append(
+                    f"- Kept BOTH `{rec['kept_sha'][:12]}` and the suspected related "
+                    f"candidate (Jaccard {rec.get('intent_jaccard')}, different change): "
+                    f"{rec['rationale']}"
+                )
     lines.append("")
 
     lines.append("## 4. Accepted count")
@@ -139,23 +158,31 @@ def render_adjudication_report(result: dict[str, Any], created_utc: str) -> str:
             f"{record['split']} |"
         )
     lines.append("")
-    lines.append("## 10. Manual adjudication decisions (every decision with rationale)")
+    lines.append("## 10. R3 adjudication decisions (every decision with rationale)")
     lines.append("")
     lines.append(
         "- R1 (identical proxy set) and R2 (shared PR reference) are deterministic "
         "mechanical dedup rules; their per-commit records are persisted in "
-        "`reports/real_commit_m4a2_adjudication.json`. R3 below required semantic "
-        "adjudication:"
+        "`reports/real_commit_m4a2_adjudication.json`. R3 below applies the frozen "
+        "deterministic same-change adjudication (identical / token-subset / "
+        "≥3-shared-token intents → keep the newest; otherwise BOTH are kept):"
     )
     manual = [r for r in adj if r["rule"] == "R3_suspected_related"]
     if not manual:
-        lines.append("- None (no R3 suspected-related pairs required manual adjudication).")
+        lines.append("- None (no R3 suspected-related pairs required adjudication).")
     else:
         for rec in manual:
-            lines.append(
-                f"- Kept `{rec['kept_sha'][:12]}` vs excluded `{rec['excluded_sha'][:12]}` "
-                f"(Jaccard {rec.get('intent_jaccard')}): {rec['rationale']}"
-            )
+            if rec["decision"] == "exclude_older_keep_newest":
+                lines.append(
+                    f"- Kept `{rec['kept_sha'][:12]}` vs excluded `{rec['excluded_sha'][:12]}` "
+                    f"(Jaccard {rec.get('intent_jaccard')}, same change): {rec['rationale']}"
+                )
+            else:
+                lines.append(
+                    f"- Kept BOTH `{rec['kept_sha'][:12]}` and the suspected related "
+                    f"candidate (Jaccard {rec.get('intent_jaccard')}, different change): "
+                    f"{rec['rationale']}"
+                )
     lines.append("")
     lines.append("## 11. Scientific discipline")
     lines.append("")

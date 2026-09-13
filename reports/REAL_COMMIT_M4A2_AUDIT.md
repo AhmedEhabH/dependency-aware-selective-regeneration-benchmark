@@ -67,6 +67,14 @@ persisted artifacts only; never trusts the builder's in-memory objects).
 - No scientific LLM/API calls (all gates + audit deterministic).
 - Related/duplicate historical changes do not appear as independent examples
   (R1 exact-set 582, R2 shared-PR 0, R3 suspected-related 5 adjudicated).
+- **R3 adjudication-fidelity closure:** R3 is adjudicated by the frozen
+  deterministic same-change predicate (`_messages_describe_same_change`);
+  the frozen `otherwise both are kept` protocol branch is implemented and
+  verified. The 5 flagged R3 pairs all describe the same/continuation change,
+  so all decisions are `exclude_older_keep_newest`; the accepted corpus is
+  proven **invariant to R3** (identical 40-case selection with or without R3
+  exclusion), and the committed adjudication records carry
+  `decision_source=deterministic_same_change_predicate`.
 - M1/M3 frozen evidence unchanged.
 
 ## Usage
