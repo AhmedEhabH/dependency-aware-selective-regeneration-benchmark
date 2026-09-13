@@ -38,12 +38,23 @@ FORBIDDEN_RUNTIME_FRAGMENTS = (
 )
 
 # The only legitimate github.com references in runtime code are the pinned
-# THIRD-PARTY benchmark-target repositories acquired during repo preflight
-# (scientific repository pins, NOT the benchmark's own repo, NOT launch auth).
+# THIRD-PARTY benchmark-target / reference repositories (scientific repository
+# pins, NOT the benchmark's own repo, NOT launch auth). The set of allowed
+# github.com URLs below is enforced repo-wide: any github.com URL found in
+# runtime code MUST be one of these pinned third-party repositories.
 PILOT_REPO_SNAPSHOT_URLS = (
     "https://github.com/ahmed-ehab/controlled-django-todo",
     "https://github.com/django-cms/django-cms",
     "https://github.com/saleor/saleor",
+)
+
+# Immutable pinned third-party REFERENCE/upstream repositories (comparison
+# systems or benchmark-target repos) that runtime code may name for
+# provenance. LocAgent is the P5 shared-protocol comparison upstream; djangoCMS
+# is the real-commit benchmark-target repository. Neither is the benchmark's
+# own remote and neither is contacted for launch/resume.
+ALLOWED_THIRD_PARTY_RUNTIME_URLS = PILOT_REPO_SNAPSHOT_URLS + (
+    "https://github.com/gersteinlab/LocAgent",
 )
 
 # Active current-truth documentation on which the release/Timing regression is
@@ -89,12 +100,15 @@ def test_runtime_launch_resume_path_has_no_github_machinery() -> None:
             assert fragment not in text, (
                 f"{path.relative_to(PROJECT_DIR)} must not contain {fragment!r}"
             )
-        if path.name == "pilot_repo_snapshot.py":
-            # Only this file pins the THIRD-PARTY benchmark-target repos.
-            continue
-        assert "github.com" not in text, (
-            f"{path.relative_to(PROJECT_DIR)} must not reference github.com "
-            "(only pilot_repo_snapshot.py pins third-party target repos)"
+        for url in re.findall(r"https://github\.com/[A-Za-z0-9_.\-/]+", text):
+            assert url in ALLOWED_THIRD_PARTY_RUNTIME_URLS, (
+                f"{path.relative_to(PROJECT_DIR)} references non-pinned github.com "
+                f"URL {url!r} (only pinned third-party benchmark/reference repos "
+                "may appear in runtime code)"
+            )
+        # The benchmark's own remote must never be embedded.
+        assert "dependency-aware-selective-regeneration-benchmark.git" not in text, (
+            f"{path.relative_to(PROJECT_DIR)} must not embed the benchmark remote"
         )
 
 
