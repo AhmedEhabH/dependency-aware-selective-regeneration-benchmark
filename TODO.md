@@ -4,32 +4,38 @@
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
 **Current phase:** Paper / figures / supervisor review + **M4A-1 real-commit
-miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**;
-**M4A-2 scientific real-commit corpus in progress**.
+miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)** +
+**M4A-2 scientific real-commit corpus COMPLETE / AUDITED (2026-09-13; 40
+cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API
+calls)**.
 **Legacy frozen benchmark runs remaining:** ZERO.
-**New RealCommitImpactDataset scientific evaluation:** PENDING.
+**New RealCommitImpactDataset scientific evaluation:** PENDING (M4A-3 held-out
+evaluation under a separately frozen protocol; NOT RUN).
 
 - **Where we are:** selection-stage benchmark research closed and audited
   (artifact-level consistency audit PASS, 2026-09-08); **M4A-1
   (RealCommitImpactDataset-v1 miner/schema/leakage barrier + 6 MINER_DEV
-  cases) COMPLETE / AUDITED (2026-09-13)**; remaining work is the 30–40
-  scientific real-commit corpus (M4A-2) and the paper / figures / manuscript /
-  supervisor-review phase.
+  cases) COMPLETE / AUDITED (2026-09-13)**; **M4A-2 (40 clean scientific
+  real-commit cases + split freeze) COMPLETE / AUDITED (2026-09-13)**;
+  remaining work is M4A-3 (held-out evaluation, separately frozen protocol)
+  and the paper / figures / manuscript / supervisor-review phase.
 - **What is proven:** Todo + djangoCMS selection studies, the
   post-hoc/exploratory ImpactPlan-v2 study, two cross-model robustness
   replications (Qwen3-32B, Qwen3-Coder-30B-A3B-Instruct), the
   controlled-encoding line M1A / M1B with the **M1 defensive closure**
   (2026-09-13), the **M3 graph ablation C0/C1/C2** (2026-09-13, 90 new
-  cells, audited), and the **M4A-1 real-commit miner infrastructure**
-  (2026-09-13, audited, zero API calls).
+  cells, audited), the **M4A-1 real-commit miner infrastructure**
+  (2026-09-13, audited, zero API calls), and the **M4A-2 scientific corpus**
+  (2026-09-13, audited, zero API calls): 40 clean scientific cases, R1/R2/R3
+  related/duplicate removal, split freeze (24/6/10) before any model result.
 - **What is not proven:** M2 (serialization-density), any graph claim beyond
   the six curated development/mechanism scenarios, any end-to-end
   regeneration correctness claim, and any **real-commit held-out evaluation**
-  (the 30–40 scientific real-commit corpus is NOT YET COMPLETE / NEXT;
-  held-out evaluation NOT RUN).
-- **What is next:** M4A-2 (mine/adjudicate 30–40 clean djangoCMS scientific
-  real-commit cases, freeze TRAIN/VALIDATION/HELD_OUT_TEST splits before model
-  results), then paper / figures / manuscript / supervisor review; see
+  (corpus + splits COMPLETE; held-out evaluation NOT RUN — M4A-3 separately
+  frozen).
+- **What is next:** M4A-3 (held-out evaluation on the frozen 10-case
+  HELD_OUT_TEST split under a separately frozen protocol), then paper /
+  figures / manuscript / supervisor review; see
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md).
 
@@ -124,8 +130,10 @@ miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**;
   90 new cells; Graph Hint Signal **MIXED**; Graph-Gated Disclosure
   **NOT PROMISING as implemented**).
 - **M4A-1 — RealCommitImpactDataset-v1 miner/schema/leakage barrier:**
-  **COMPLETE / AUDITED** (2026-09-13; 6 MINER_DEV cases; ZERO API calls;
-  30–40 scientific corpus NOT YET COMPLETE / NEXT; held-out NOT RUN).
+  **COMPLETE / AUDITED** (2026-09-13; 6 MINER_DEV cases; ZERO API calls).
+- **M4A-2 — RealCommitImpactDataset-v1 scientific corpus:**
+  **COMPLETE / AUDITED** (2026-09-13; 40 clean scientific cases; split freeze
+  TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API calls; held-out NOT RUN).
 - **M2 — Controlled LLM serialization-density characterization:** **NOT
   STARTED**.
 - **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **COMPLETE / AUDITED** (M3
@@ -134,9 +142,13 @@ miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)**;
 
 ### PAPER-PHASE TODOs
 
-- [ ] **M4A-2 — mine/adjudicate 30–40 clean djangoCMS scientific real-commit
+- [x] **M4A-2 — mine/adjudicate 30–40 clean djangoCMS scientific real-commit
       cases, freeze TRAIN/VALIDATION/HELD_OUT_TEST splits before model
-      results** (NEXT; uses the M4A-1 miner/schema/leakage barrier).
+      results** (DONE 2026-09-13; 40 cases; TRAIN 24 / VALIDATION 6 /
+      HELD_OUT_TEST 10; uses the M4A-1 miner/schema/leakage barrier).
+- [ ] **M4A-3 — held-out evaluation** on the frozen 10-case HELD_OUT_TEST
+      split (NOT RUN; requires a separately frozen protocol before any model
+      execution; must NOT include MINER_DEV or TRAIN/VALIDATION cases).
 - [ ] Finalize research questions for the manuscript.
 - [ ] Freeze contribution claims (see `docs/PAPER_WRITING_HANDOFF.md`).
 - [ ] Final Results table.

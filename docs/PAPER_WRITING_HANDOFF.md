@@ -4,8 +4,9 @@
 without reconstructing earlier sessions. The legacy benchmark is **COMPLETE** at
 `v0.11.0-benchmark-complete`; current phase is **paper / figures / supervisor
 review**; **legacy frozen benchmark runs remaining: ZERO — new
-RealCommitImpactDataset scientific evaluation is PENDING (M4A-2 corpus + split
-freeze, then M4A-3 held-out evaluation under a separately frozen protocol)**.
+RealCommitImpactDataset scientific evaluation is PENDING (M4A-1 miner + M4A-2
+40-case scientific corpus + split freeze COMPLETE/AUDITED; M4A-3 held-out
+evaluation under a separately frozen protocol)**.
 
 ## 0. Title / claim discipline
 

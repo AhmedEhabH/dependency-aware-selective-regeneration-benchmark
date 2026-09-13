@@ -4,6 +4,21 @@
 **Purpose:** reduce author-created requirement/gold bias by proposing an
 automated historical-commit benchmark.
 
+> **M4A-2 STATUS (2026-09-13): the scientific corpus + split freeze are now
+> IMPLEMENTED and AUDITED.** **40 clean scientific djangoCMS cases** were mined
+> with the frozen M4A-1 miner/schema/leakage barrier from the newest 6000
+> ancestors of the frozen anchor (≈2016–2025), R1/R2/R3 related/duplicate
+> removal applied, and TRAIN / VALIDATION / HELD_OUT_TEST splits frozen
+> (24 / 6 / 10, seed `20260913`) **before any model result** (ZERO API calls).
+> The historical diff is an **OBSERVED CHANGE-SET PROXY**, never semantic
+> ground truth. Reports:
+> `reports/REAL_COMMIT_M4A2_PROTOCOL.md`,
+> `reports/REAL_COMMIT_M4A2_ADJUDICATION.md`,
+> `reports/REAL_COMMIT_M4A2_VALIDATION.md`, `reports/REAL_COMMIT_M4A2_AUDIT.md`,
+> `benchmark_data/real_commit_impact_v1/scientific_manifest.json`,
+> `benchmark_data/real_commit_impact_v1/split_freeze.json`. Held-out
+> evaluation (M4A-3) is NOT RUN and requires a separately frozen protocol.
+>
 > **M4A-1 STATUS (2026-09-13): the miner/schema/leakage barrier is now
 > IMPLEMENTED and AUDITED.** See `reports/REAL_COMMIT_M4A1_PROTOCOL.md`,
 > `reports/REAL_COMMIT_M4A1_VALIDATION.md`, `reports/REAL_COMMIT_M4A1_AUDIT.md`.
