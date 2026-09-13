@@ -1,0 +1,617 @@
+# RealCommitImpactDataset-v1 (M4A-2) — Six Pre-Benchmark Validation Gates (Scientific)
+
+**Generated:** 2026-09-13T21:05:24.483620+00:00
+**Miner version:** real-commit-miner-v1.0.0
+
+| # | Gate | Result | Checks |
+|---|---|---|---|
+| 1 | Dataset Validation (scientific) | PASS | 364 |
+| 2 | Prompt Validation (scientific) | PASS | 83 |
+| 3 | Pipeline Smoke Test (scientific) | PASS | 3 |
+| 4 | Dry Run (scientific) | PASS | 82 |
+| 5 | Integration Test (scientific) | PASS | 48 |
+| 6 | Metric Verification (scientific) | PASS | 6 |
+
+## Gate 1 — Dataset Validation (scientific): PASS
+
+- [PASS] scientific_manifest_exists — `benchmark_data\real_commit_impact_v1\scientific_manifest.json`
+- [PASS] scientific_case_count_30_to_40 — `40`
+- [PASS] anchor_sha_matches_scientific_manifest — `{'manifest': '0f633fc9fa213357f4202482aab2b0edad680f95', 'expected': '0f633fc9fa213357f4202482aab2b0edad680f95'}`
+- [PASS] repository_url_matches_scientific_manifest — `https://github.com/django-cms/django-cms`
+- [PASS] target_commit_verified_djangocms-rc-8d50660e7bcf — `8d50660e7bcf8e480b32f36b4fb409c09f8b3fcd`
+- [PASS] parent_relation_verified_djangocms-rc-8d50660e7bcf — `{'parents': ('f26278ceeef5bf0b7da2c39b3e07b0fe346a5147',), 'expected': ('f26278ceeef5bf0b7da2c39b3e07b0fe346a5147',)}`
+- [PASS] universe_hash_verified_djangocms-rc-8d50660e7bcf — `{'recomputed': 'e91fc5177d66a7bb176728fc1796ad33b686420febe3254005e30087a3b32c76', 'recorded': 'e91fc5177d66a7bb176728fc1796ad33b686420febe3254005e30087a3b32c76'}`
+- [PASS] graph_hash_verified_djangocms-rc-8d50660e7bcf — `{'recomputed': 'b4acc1bdfe7830ae10565a706eebdb8f0d9ba9c9701b2024a7c67c924f594e30', 'recorded': 'b4acc1bdfe7830ae10565a706eebdb8f0d9ba9c9701b2024a7c67c924f594e30'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-8d50660e7bcf — `['cms/admin/forms.py', 'cms/admin/pageadmin.py', 'cms/api.py', 'cms/forms/validators.py', 'cms/models/pagemodel.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-8d50660e7bcf — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-8d50660e7bcf — `{'split': 'HELD_OUT_TEST', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-8d50660e7bcf — `8d50660e7bcf8e480b32f36b4fb409c09f8b3fcd`
+- [PASS] no_intent_path_leakage_djangocms-rc-8d50660e7bcf — `False`
+- [PASS] target_commit_verified_djangocms-rc-2efae8e43bd6 — `2efae8e43bd629ea21797ed147ae6d0bdcd95025`
+- [PASS] parent_relation_verified_djangocms-rc-2efae8e43bd6 — `{'parents': ('71d94bed47b53796c1dda197e15b6173f6db4581',), 'expected': ('71d94bed47b53796c1dda197e15b6173f6db4581',)}`
+- [PASS] universe_hash_verified_djangocms-rc-2efae8e43bd6 — `{'recomputed': 'b8ee64aa941c444070556af4cb01effbe9a14a0ca9115df950c15986f1f9ff6c', 'recorded': 'b8ee64aa941c444070556af4cb01effbe9a14a0ca9115df950c15986f1f9ff6c'}`
+- [PASS] graph_hash_verified_djangocms-rc-2efae8e43bd6 — `{'recomputed': 'ae915d61d92a925ad03d3530148934a70fa5d97cd6e4104d9df90cc6a85f907a', 'recorded': 'ae915d61d92a925ad03d3530148934a70fa5d97cd6e4104d9df90cc6a85f907a'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-2efae8e43bd6 — `['cms/admin/utils.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-2efae8e43bd6 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-2efae8e43bd6 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-2efae8e43bd6 — `2efae8e43bd629ea21797ed147ae6d0bdcd95025`
+- [PASS] no_intent_path_leakage_djangocms-rc-2efae8e43bd6 — `False`
+- [PASS] target_commit_verified_djangocms-rc-fdda30c271f0 — `fdda30c271f03969ed5b22fd51d203a093e390ff`
+- [PASS] parent_relation_verified_djangocms-rc-fdda30c271f0 — `{'parents': ('c37fa0b7eefde90b82c99ebb11a987ecdad18c40',), 'expected': ('c37fa0b7eefde90b82c99ebb11a987ecdad18c40',)}`
+- [PASS] universe_hash_verified_djangocms-rc-fdda30c271f0 — `{'recomputed': 'c6575b54e34e3f5d2a2f9f08c326972613d2d09462b00304c48c73e0eb5d0773', 'recorded': 'c6575b54e34e3f5d2a2f9f08c326972613d2d09462b00304c48c73e0eb5d0773'}`
+- [PASS] graph_hash_verified_djangocms-rc-fdda30c271f0 — `{'recomputed': '023648d6373e6f03720c3bdb28e7cafdf32d959cd67a73a7bfe6837c96735a39', 'recorded': '023648d6373e6f03720c3bdb28e7cafdf32d959cd67a73a7bfe6837c96735a39'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-fdda30c271f0 — `['cms/admin/placeholderadmin.py', 'cms/middleware/toolbar.py', 'cms/plugin_rendering.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-fdda30c271f0 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-fdda30c271f0 — `{'split': 'HELD_OUT_TEST', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-fdda30c271f0 — `fdda30c271f03969ed5b22fd51d203a093e390ff`
+- [PASS] no_intent_path_leakage_djangocms-rc-fdda30c271f0 — `False`
+- [PASS] target_commit_verified_djangocms-rc-50c3576080be — `50c3576080be08a4b7672bbd7bdfea4f97cc1621`
+- [PASS] parent_relation_verified_djangocms-rc-50c3576080be — `{'parents': ('c30efd44e92eb24141bf5aa5f4c8e0a3fb590870',), 'expected': ('c30efd44e92eb24141bf5aa5f4c8e0a3fb590870',)}`
+- [PASS] universe_hash_verified_djangocms-rc-50c3576080be — `{'recomputed': 'a7b0c0771bd91a01f404ef1bf39efee593d4b6e022eba870f3ae08bfd96577d5', 'recorded': 'a7b0c0771bd91a01f404ef1bf39efee593d4b6e022eba870f3ae08bfd96577d5'}`
+- [PASS] graph_hash_verified_djangocms-rc-50c3576080be — `{'recomputed': '709ec43c3ec616298bd4e0e021351850bf76d0cccef5bb19d98ab51acf42881e', 'recorded': '709ec43c3ec616298bd4e0e021351850bf76d0cccef5bb19d98ab51acf42881e'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-50c3576080be — `['cms/admin/forms.py', 'cms/admin/pageadmin.py', 'cms/admin/placeholderadmin.py', 'cms/admin/utils.py', 'cms/cache/page.py', 'cms/middleware/language.py', 'cms/middleware/toolbar.py', 'cms/plugin_base.py', 'cms/sitemaps/__init__.py', 'cms/toolbar/utils.py', 'cms/utils/compat/warnings.py', 'cms/views.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-50c3576080be — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-50c3576080be — `{'split': 'HELD_OUT_TEST', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-50c3576080be — `50c3576080be08a4b7672bbd7bdfea4f97cc1621`
+- [PASS] no_intent_path_leakage_djangocms-rc-50c3576080be — `False`
+- [PASS] target_commit_verified_djangocms-rc-ada585d3f358 — `ada585d3f3580691f7c14c7bf0115f55cdca87f2`
+- [PASS] parent_relation_verified_djangocms-rc-ada585d3f358 — `{'parents': ('0b775f27300c4347be18a5bb7b1b172d6a943ccf',), 'expected': ('0b775f27300c4347be18a5bb7b1b172d6a943ccf',)}`
+- [PASS] universe_hash_verified_djangocms-rc-ada585d3f358 — `{'recomputed': 'cc936bac438bcfeb790a20c5d732522253cdc7a88fd314c991d856b0bd97e31b', 'recorded': 'cc936bac438bcfeb790a20c5d732522253cdc7a88fd314c991d856b0bd97e31b'}`
+- [PASS] graph_hash_verified_djangocms-rc-ada585d3f358 — `{'recomputed': 'cd4e3454e1bef288c12213e6db4d7c81064a3f8a22049b2101d1b387b9b64b4b', 'recorded': 'cd4e3454e1bef288c12213e6db4d7c81064a3f8a22049b2101d1b387b9b64b4b'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-ada585d3f358 — `['cms/middleware/toolbar.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-ada585d3f358 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-ada585d3f358 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-ada585d3f358 — `ada585d3f3580691f7c14c7bf0115f55cdca87f2`
+- [PASS] no_intent_path_leakage_djangocms-rc-ada585d3f358 — `False`
+- [PASS] target_commit_verified_djangocms-rc-f2c367ddc7b1 — `f2c367ddc7b1f5a761084be062aa353b35b65a78`
+- [PASS] parent_relation_verified_djangocms-rc-f2c367ddc7b1 — `{'parents': ('3f8fcb5fb63b154ed38377c84908e00ec9535f4e',), 'expected': ('3f8fcb5fb63b154ed38377c84908e00ec9535f4e',)}`
+- [PASS] universe_hash_verified_djangocms-rc-f2c367ddc7b1 — `{'recomputed': '57665a8355b81fe5a2651fc9b7c95f4297ffe0ad48fe8f1a73df0820bb361539', 'recorded': '57665a8355b81fe5a2651fc9b7c95f4297ffe0ad48fe8f1a73df0820bb361539'}`
+- [PASS] graph_hash_verified_djangocms-rc-f2c367ddc7b1 — `{'recomputed': 'a2a49b9d4865c3ee6af292e21513bd5d07cb3d567ac66fd4264d97cf1d8f9e95', 'recorded': 'a2a49b9d4865c3ee6af292e21513bd5d07cb3d567ac66fd4264d97cf1d8f9e95'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-f2c367ddc7b1 — `['cms/utils/compat/__init__.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-f2c367ddc7b1 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-f2c367ddc7b1 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-f2c367ddc7b1 — `f2c367ddc7b1f5a761084be062aa353b35b65a78`
+- [PASS] no_intent_path_leakage_djangocms-rc-f2c367ddc7b1 — `False`
+- [PASS] target_commit_verified_djangocms-rc-3f8fcb5fb63b — `3f8fcb5fb63b154ed38377c84908e00ec9535f4e`
+- [PASS] parent_relation_verified_djangocms-rc-3f8fcb5fb63b — `{'parents': ('58eb76bb9460b705f42f9e067e3b9f889053ae20',), 'expected': ('58eb76bb9460b705f42f9e067e3b9f889053ae20',)}`
+- [PASS] universe_hash_verified_djangocms-rc-3f8fcb5fb63b — `{'recomputed': 'e1e95357c2467a33257b1d8c5e21c82726d5e61698ca1bb8982fde236eb54858', 'recorded': 'e1e95357c2467a33257b1d8c5e21c82726d5e61698ca1bb8982fde236eb54858'}`
+- [PASS] graph_hash_verified_djangocms-rc-3f8fcb5fb63b — `{'recomputed': 'be6beabc9f08be755b061fe5b13d84f693309ec5ff61645d0791d98c20121657', 'recorded': 'be6beabc9f08be755b061fe5b13d84f693309ec5ff61645d0791d98c20121657'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-3f8fcb5fb63b — `['cms/plugin_rendering.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-3f8fcb5fb63b — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-3f8fcb5fb63b — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-3f8fcb5fb63b — `3f8fcb5fb63b154ed38377c84908e00ec9535f4e`
+- [PASS] no_intent_path_leakage_djangocms-rc-3f8fcb5fb63b — `False`
+- [PASS] target_commit_verified_djangocms-rc-9e33db4f4660 — `9e33db4f4660f7fac77d09232b17e062d340a6b5`
+- [PASS] parent_relation_verified_djangocms-rc-9e33db4f4660 — `{'parents': ('47b63015feb10ca05a7accffc0159f249d073d73',), 'expected': ('47b63015feb10ca05a7accffc0159f249d073d73',)}`
+- [PASS] universe_hash_verified_djangocms-rc-9e33db4f4660 — `{'recomputed': '1a0f1b1401676d553444f8a3c2479bd90c59302db1ceb72e562937a5e043306d', 'recorded': '1a0f1b1401676d553444f8a3c2479bd90c59302db1ceb72e562937a5e043306d'}`
+- [PASS] graph_hash_verified_djangocms-rc-9e33db4f4660 — `{'recomputed': 'd08ec182275b7516654629098cbe8092309727d31b1c0434b3aedb0974badb1f', 'recorded': 'd08ec182275b7516654629098cbe8092309727d31b1c0434b3aedb0974badb1f'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-9e33db4f4660 — `['cms/plugin_base.py', 'cms/utils/compat/__init__.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-9e33db4f4660 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-9e33db4f4660 — `{'split': 'HELD_OUT_TEST', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-9e33db4f4660 — `9e33db4f4660f7fac77d09232b17e062d340a6b5`
+- [PASS] no_intent_path_leakage_djangocms-rc-9e33db4f4660 — `False`
+- [PASS] target_commit_verified_djangocms-rc-47b63015feb1 — `47b63015feb10ca05a7accffc0159f249d073d73`
+- [PASS] parent_relation_verified_djangocms-rc-47b63015feb1 — `{'parents': ('c7208ed1b1ad50c477b55cfe51eb8f5ce7a141f2',), 'expected': ('c7208ed1b1ad50c477b55cfe51eb8f5ce7a141f2',)}`
+- [PASS] universe_hash_verified_djangocms-rc-47b63015feb1 — `{'recomputed': 'e8079c0ab2fcf217258f65a63179bedd81d7ef8bf87f9e06b346c6db2a4883ac', 'recorded': 'e8079c0ab2fcf217258f65a63179bedd81d7ef8bf87f9e06b346c6db2a4883ac'}`
+- [PASS] graph_hash_verified_djangocms-rc-47b63015feb1 — `{'recomputed': 'a7f669dc283b1fe28b1a3bb5626a3a84ed7b89e8ec1431cc2a1416415b40869d', 'recorded': 'a7f669dc283b1fe28b1a3bb5626a3a84ed7b89e8ec1431cc2a1416415b40869d'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-47b63015feb1 — `['cms/admin/pageadmin.py', 'cms/models/pluginmodel.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-47b63015feb1 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-47b63015feb1 — `{'split': 'VALIDATION', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-47b63015feb1 — `47b63015feb10ca05a7accffc0159f249d073d73`
+- [PASS] no_intent_path_leakage_djangocms-rc-47b63015feb1 — `False`
+- [PASS] target_commit_verified_djangocms-rc-1031d20fca28 — `1031d20fca284990eb0aacd5a58708f51a24ec10`
+- [PASS] parent_relation_verified_djangocms-rc-1031d20fca28 — `{'parents': ('76c5bb05837a425e5374b591ddcf44830aaa5c7e',), 'expected': ('76c5bb05837a425e5374b591ddcf44830aaa5c7e',)}`
+- [PASS] universe_hash_verified_djangocms-rc-1031d20fca28 — `{'recomputed': 'c42603b47bdc7fe46874f196ddae9c8f8f9a44e46d34350788e27a39cda142b8', 'recorded': 'c42603b47bdc7fe46874f196ddae9c8f8f9a44e46d34350788e27a39cda142b8'}`
+- [PASS] graph_hash_verified_djangocms-rc-1031d20fca28 — `{'recomputed': 'aa4a7736e05f8e5cf0fbf280781f64f091b351b633c888208c60d62b3bc378e4', 'recorded': 'aa4a7736e05f8e5cf0fbf280781f64f091b351b633c888208c60d62b3bc378e4'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-1031d20fca28 — `['cms/admin/pageadmin.py', 'cms/api.py', 'cms/cms_menus.py', 'cms/management/commands/subcommands/copy.py', 'cms/models/pagemodel.py', 'cms/templatetags/cms_admin.py', 'cms/utils/page.py', 'cms/views.py', 'menus/utils.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-1031d20fca28 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-1031d20fca28 — `{'split': 'VALIDATION', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-1031d20fca28 — `1031d20fca284990eb0aacd5a58708f51a24ec10`
+- [PASS] no_intent_path_leakage_djangocms-rc-1031d20fca28 — `False`
+- [PASS] target_commit_verified_djangocms-rc-e88032bf704c — `e88032bf704c02f235babd84b764eed3706acb25`
+- [PASS] parent_relation_verified_djangocms-rc-e88032bf704c — `{'parents': ('b98b0510e44f5bc3e21996b1c881bf4fdeec7ac2',), 'expected': ('b98b0510e44f5bc3e21996b1c881bf4fdeec7ac2',)}`
+- [PASS] universe_hash_verified_djangocms-rc-e88032bf704c — `{'recomputed': '479bf85f69acc11d0ea32a538fc608f3065781f80f955328bd1158a5ce3d07f3', 'recorded': '479bf85f69acc11d0ea32a538fc608f3065781f80f955328bd1158a5ce3d07f3'}`
+- [PASS] graph_hash_verified_djangocms-rc-e88032bf704c — `{'recomputed': '1134d34cee6aba0e281a15ad2f4c989e8715b30bc7a48337fb15096d434679c1', 'recorded': '1134d34cee6aba0e281a15ad2f4c989e8715b30bc7a48337fb15096d434679c1'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-e88032bf704c — `['cms/__init__.py', 'cms/cms_toolbars.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-e88032bf704c — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-e88032bf704c — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-e88032bf704c — `e88032bf704c02f235babd84b764eed3706acb25`
+- [PASS] no_intent_path_leakage_djangocms-rc-e88032bf704c — `False`
+- [PASS] target_commit_verified_djangocms-rc-807a87b1de71 — `807a87b1de71ce279384d2bf2ec4f97b6ae6ca04`
+- [PASS] parent_relation_verified_djangocms-rc-807a87b1de71 — `{'parents': ('121acf1cc1cc82cbdb7fc94cab31db466c3c9bc8',), 'expected': ('121acf1cc1cc82cbdb7fc94cab31db466c3c9bc8',)}`
+- [PASS] universe_hash_verified_djangocms-rc-807a87b1de71 — `{'recomputed': 'e913675dc973f1537bc55c291c82184cabc1f8ee68bed9683cdd312f05ad025a', 'recorded': 'e913675dc973f1537bc55c291c82184cabc1f8ee68bed9683cdd312f05ad025a'}`
+- [PASS] graph_hash_verified_djangocms-rc-807a87b1de71 — `{'recomputed': 'd208633aa56c63a79951610843139ee766f513742f6dd92c64558adb923c602d', 'recorded': 'd208633aa56c63a79951610843139ee766f513742f6dd92c64558adb923c602d'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-807a87b1de71 — `['cms/admin/forms.py', 'cms/admin/permissionadmin.py', 'cms/api.py', 'cms/cache/permissions.py', 'cms/models/pagemodel.py', 'cms/models/permissionmodels.py', 'cms/utils/page_permissions.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-807a87b1de71 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-807a87b1de71 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-807a87b1de71 — `807a87b1de71ce279384d2bf2ec4f97b6ae6ca04`
+- [PASS] no_intent_path_leakage_djangocms-rc-807a87b1de71 — `False`
+- [PASS] target_commit_verified_djangocms-rc-ac74c212719f — `ac74c212719fb17d7a26cb61feecfb36bba27476`
+- [PASS] parent_relation_verified_djangocms-rc-ac74c212719f — `{'parents': ('06ecf3a8e8dee50afe4babdda78d1ae642e2b784',), 'expected': ('06ecf3a8e8dee50afe4babdda78d1ae642e2b784',)}`
+- [PASS] universe_hash_verified_djangocms-rc-ac74c212719f — `{'recomputed': 'f0d20b9370b809284916b0d7a2abb6e4b1625dcdfa25d7ec71687e2c3d909cc9', 'recorded': 'f0d20b9370b809284916b0d7a2abb6e4b1625dcdfa25d7ec71687e2c3d909cc9'}`
+- [PASS] graph_hash_verified_djangocms-rc-ac74c212719f — `{'recomputed': '7de276908a38c11b0548f7cebd1c506d5329739b08bf0592d2f7b85cde907814', 'recorded': '7de276908a38c11b0548f7cebd1c506d5329739b08bf0592d2f7b85cde907814'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-ac74c212719f — `['cms/plugin_rendering.py', 'cms/templatetags/cms_tags.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-ac74c212719f — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-ac74c212719f — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-ac74c212719f — `ac74c212719fb17d7a26cb61feecfb36bba27476`
+- [PASS] no_intent_path_leakage_djangocms-rc-ac74c212719f — `False`
+- [PASS] target_commit_verified_djangocms-rc-06ecf3a8e8de — `06ecf3a8e8dee50afe4babdda78d1ae642e2b784`
+- [PASS] parent_relation_verified_djangocms-rc-06ecf3a8e8de — `{'parents': ('369f77689346b9689a4c9fba14a96d9bd85ac1f2',), 'expected': ('369f77689346b9689a4c9fba14a96d9bd85ac1f2',)}`
+- [PASS] universe_hash_verified_djangocms-rc-06ecf3a8e8de — `{'recomputed': '310fb57cd11f87c11e5045c9c4c54d8ead9671ea71e3e0a6f0a5c8375e5c1206', 'recorded': '310fb57cd11f87c11e5045c9c4c54d8ead9671ea71e3e0a6f0a5c8375e5c1206'}`
+- [PASS] graph_hash_verified_djangocms-rc-06ecf3a8e8de — `{'recomputed': '53283ac3bddc678f842967c059fb875939db0d3e4f0c59b1b410adcdf88c42dc', 'recorded': '53283ac3bddc678f842967c059fb875939db0d3e4f0c59b1b410adcdf88c42dc'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-06ecf3a8e8de — `['cms/models/contentmodels.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-06ecf3a8e8de — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-06ecf3a8e8de — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-06ecf3a8e8de — `06ecf3a8e8dee50afe4babdda78d1ae642e2b784`
+- [PASS] no_intent_path_leakage_djangocms-rc-06ecf3a8e8de — `False`
+- [PASS] target_commit_verified_djangocms-rc-33fbdb18e5d4 — `33fbdb18e5d43c162d6c628c2dc6ddba9c85e39f`
+- [PASS] parent_relation_verified_djangocms-rc-33fbdb18e5d4 — `{'parents': ('e703659d3c072ab78f80d8c32276c607845bfe26',), 'expected': ('e703659d3c072ab78f80d8c32276c607845bfe26',)}`
+- [PASS] universe_hash_verified_djangocms-rc-33fbdb18e5d4 — `{'recomputed': '96d6fa248a2b7529e2ec1d0d3f99b01e154c10e6e25466140423e85933659689', 'recorded': '96d6fa248a2b7529e2ec1d0d3f99b01e154c10e6e25466140423e85933659689'}`
+- [PASS] graph_hash_verified_djangocms-rc-33fbdb18e5d4 — `{'recomputed': '7a813307a84c02a57a22e01a5cb46390d86ed9d85a7c27a5d6770b091b52d867', 'recorded': '7a813307a84c02a57a22e01a5cb46390d86ed9d85a7c27a5d6770b091b52d867'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-33fbdb18e5d4 — `['cms/utils/check.py', 'cms/utils/encoder.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-33fbdb18e5d4 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-33fbdb18e5d4 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-33fbdb18e5d4 — `33fbdb18e5d43c162d6c628c2dc6ddba9c85e39f`
+- [PASS] no_intent_path_leakage_djangocms-rc-33fbdb18e5d4 — `False`
+- [PASS] target_commit_verified_djangocms-rc-b39799f9fc1c — `b39799f9fc1c6650f94655be7359781697037874`
+- [PASS] parent_relation_verified_djangocms-rc-b39799f9fc1c — `{'parents': ('d3615ee27005c6250204521fbef2ef47d37437e9',), 'expected': ('d3615ee27005c6250204521fbef2ef47d37437e9',)}`
+- [PASS] universe_hash_verified_djangocms-rc-b39799f9fc1c — `{'recomputed': '9cba2113b3801d7b79a85ba585a570177e9b5f2167c2361eff584b12844cd1d5', 'recorded': '9cba2113b3801d7b79a85ba585a570177e9b5f2167c2361eff584b12844cd1d5'}`
+- [PASS] graph_hash_verified_djangocms-rc-b39799f9fc1c — `{'recomputed': 'f8c51347cdc722000aa940bb4bd34c8f82927f2657c68d11004edae4c52f722b', 'recorded': 'f8c51347cdc722000aa940bb4bd34c8f82927f2657c68d11004edae4c52f722b'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-b39799f9fc1c — `['cms/admin/pageadmin.py', 'cms/cms_toolbars.py', 'cms/models/contentmodels.py', 'cms/models/pagemodel.py', 'cms/templatetags/cms_admin.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-b39799f9fc1c — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-b39799f9fc1c — `{'split': 'HELD_OUT_TEST', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-b39799f9fc1c — `b39799f9fc1c6650f94655be7359781697037874`
+- [PASS] no_intent_path_leakage_djangocms-rc-b39799f9fc1c — `False`
+- [PASS] target_commit_verified_djangocms-rc-497c3c67e813 — `497c3c67e8138321f21de1656fcf25f48ac7e42f`
+- [PASS] parent_relation_verified_djangocms-rc-497c3c67e813 — `{'parents': ('9945a0f8899db03b30d47993ef4938c82a8509f0',), 'expected': ('9945a0f8899db03b30d47993ef4938c82a8509f0',)}`
+- [PASS] universe_hash_verified_djangocms-rc-497c3c67e813 — `{'recomputed': '9737736608e35ce24ee484c413028c43f75c4992c89de5fdbb2893b039204dcd', 'recorded': '9737736608e35ce24ee484c413028c43f75c4992c89de5fdbb2893b039204dcd'}`
+- [PASS] graph_hash_verified_djangocms-rc-497c3c67e813 — `{'recomputed': 'c71d1ace99d77468a113c5642b9b341cb5df3c698da5d59b00da518e9c11f10b', 'recorded': 'c71d1ace99d77468a113c5642b9b341cb5df3c698da5d59b00da518e9c11f10b'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-497c3c67e813 — `['cms/models/pagemodel.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-497c3c67e813 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-497c3c67e813 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-497c3c67e813 — `497c3c67e8138321f21de1656fcf25f48ac7e42f`
+- [PASS] no_intent_path_leakage_djangocms-rc-497c3c67e813 — `False`
+- [PASS] target_commit_verified_djangocms-rc-5ff38b521274 — `5ff38b521274ca6b939c828da4d0c5f9306e4908`
+- [PASS] parent_relation_verified_djangocms-rc-5ff38b521274 — `{'parents': ('6c64fddb5407fbb302e6423bebf2f0f0d6141837',), 'expected': ('6c64fddb5407fbb302e6423bebf2f0f0d6141837',)}`
+- [PASS] universe_hash_verified_djangocms-rc-5ff38b521274 — `{'recomputed': '0eb7d3909c739a151547f92e1dd2290a3d3b109190214d7896954e3e89e6b2e0', 'recorded': '0eb7d3909c739a151547f92e1dd2290a3d3b109190214d7896954e3e89e6b2e0'}`
+- [PASS] graph_hash_verified_djangocms-rc-5ff38b521274 — `{'recomputed': '62bf510bcfce46f0945dd8a59c23311cf6637348a2f96c8a1387eafcf2aeb9a2', 'recorded': '62bf510bcfce46f0945dd8a59c23311cf6637348a2f96c8a1387eafcf2aeb9a2'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-5ff38b521274 — `['cms/plugin_rendering.py', 'cms/utils/plugins.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-5ff38b521274 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-5ff38b521274 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-5ff38b521274 — `5ff38b521274ca6b939c828da4d0c5f9306e4908`
+- [PASS] no_intent_path_leakage_djangocms-rc-5ff38b521274 — `False`
+- [PASS] target_commit_verified_djangocms-rc-28ddd6d10308 — `28ddd6d10308032ab293bb5cd2b5425a1005868d`
+- [PASS] parent_relation_verified_djangocms-rc-28ddd6d10308 — `{'parents': ('2dbc833bccf1aa440ab76313cedeecb1d2597e96',), 'expected': ('2dbc833bccf1aa440ab76313cedeecb1d2597e96',)}`
+- [PASS] universe_hash_verified_djangocms-rc-28ddd6d10308 — `{'recomputed': '13f2941710b257df584e51446172d30c31b76b0699a999ba5e1b211959624967', 'recorded': '13f2941710b257df584e51446172d30c31b76b0699a999ba5e1b211959624967'}`
+- [PASS] graph_hash_verified_djangocms-rc-28ddd6d10308 — `{'recomputed': '2a2d84fb877345b5ea3987e41db22bcbac0da774baa0dc7d854987ad5f411511', 'recorded': '2a2d84fb877345b5ea3987e41db22bcbac0da774baa0dc7d854987ad5f411511'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-28ddd6d10308 — `['cms/forms/validators.py', 'cms/templatetags/cms_admin.py', 'cms/utils/i18n.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-28ddd6d10308 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-28ddd6d10308 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-28ddd6d10308 — `28ddd6d10308032ab293bb5cd2b5425a1005868d`
+- [PASS] no_intent_path_leakage_djangocms-rc-28ddd6d10308 — `False`
+- [PASS] target_commit_verified_djangocms-rc-ff6cb9b5dced — `ff6cb9b5dced92eadef62694e989d601e9475b30`
+- [PASS] parent_relation_verified_djangocms-rc-ff6cb9b5dced — `{'parents': ('ee89fe4f44fb0675bbdb85a2804de5328450a184',), 'expected': ('ee89fe4f44fb0675bbdb85a2804de5328450a184',)}`
+- [PASS] universe_hash_verified_djangocms-rc-ff6cb9b5dced — `{'recomputed': 'f9c020fa0de17d33da6f16b2d7fcaccbf497005be0c05ef64d219a3ae6a97e58', 'recorded': 'f9c020fa0de17d33da6f16b2d7fcaccbf497005be0c05ef64d219a3ae6a97e58'}`
+- [PASS] graph_hash_verified_djangocms-rc-ff6cb9b5dced — `{'recomputed': 'e29bfba925de01289fdd8d2d501a222bd544ba416cb4a23e3fc1bec6f7820e71', 'recorded': 'e29bfba925de01289fdd8d2d501a222bd544ba416cb4a23e3fc1bec6f7820e71'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-ff6cb9b5dced — `['cms/exceptions.py', 'cms/signals/__init__.py', 'cms/utils/conf.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-ff6cb9b5dced — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-ff6cb9b5dced — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-ff6cb9b5dced — `ff6cb9b5dced92eadef62694e989d601e9475b30`
+- [PASS] no_intent_path_leakage_djangocms-rc-ff6cb9b5dced — `False`
+- [PASS] target_commit_verified_djangocms-rc-66c70394c9e1 — `66c70394c9e144281a0b47d93e3784d06318acf9`
+- [PASS] parent_relation_verified_djangocms-rc-66c70394c9e1 — `{'parents': ('29ae26eafa0abf4ec27160ba59d890e4497043f6',), 'expected': ('29ae26eafa0abf4ec27160ba59d890e4497043f6',)}`
+- [PASS] universe_hash_verified_djangocms-rc-66c70394c9e1 — `{'recomputed': '96329cbd753c7eeea273a3ccc7c24f45185c56a9546139efd2942dba828741d1', 'recorded': '96329cbd753c7eeea273a3ccc7c24f45185c56a9546139efd2942dba828741d1'}`
+- [PASS] graph_hash_verified_djangocms-rc-66c70394c9e1 — `{'recomputed': 'b7e11024e4107c44305685648955f074136cd7cfaa263b90786ae6fa60d1311a', 'recorded': 'b7e11024e4107c44305685648955f074136cd7cfaa263b90786ae6fa60d1311a'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-66c70394c9e1 — `['cms/models/titlemodels.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-66c70394c9e1 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-66c70394c9e1 — `{'split': 'HELD_OUT_TEST', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-66c70394c9e1 — `66c70394c9e144281a0b47d93e3784d06318acf9`
+- [PASS] no_intent_path_leakage_djangocms-rc-66c70394c9e1 — `False`
+- [PASS] target_commit_verified_djangocms-rc-d88932559b00 — `d88932559b00d7e09f7763e591b0cc16b1031041`
+- [PASS] parent_relation_verified_djangocms-rc-d88932559b00 — `{'parents': ('f30f0204a8c3e498aa86de0aba35470521859873',), 'expected': ('f30f0204a8c3e498aa86de0aba35470521859873',)}`
+- [PASS] universe_hash_verified_djangocms-rc-d88932559b00 — `{'recomputed': '07dce20109cd4b9d5ad779ac65b86714e5897a0ce3a6dc22f9b22b4c181d7c9d', 'recorded': '07dce20109cd4b9d5ad779ac65b86714e5897a0ce3a6dc22f9b22b4c181d7c9d'}`
+- [PASS] graph_hash_verified_djangocms-rc-d88932559b00 — `{'recomputed': 'f8e19e180dd319983f2d3027af7b5e7bc941e085daa1fe8dae50cff4957b2492', 'recorded': 'f8e19e180dd319983f2d3027af7b5e7bc941e085daa1fe8dae50cff4957b2492'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-d88932559b00 — `['cms/admin/settingsadmin.py', 'cms/views.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-d88932559b00 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-d88932559b00 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-d88932559b00 — `d88932559b00d7e09f7763e591b0cc16b1031041`
+- [PASS] no_intent_path_leakage_djangocms-rc-d88932559b00 — `False`
+- [PASS] target_commit_verified_djangocms-rc-c02308fc5261 — `c02308fc52610eaeec9ea6b663c89b08614e4317`
+- [PASS] parent_relation_verified_djangocms-rc-c02308fc5261 — `{'parents': ('0fec81224889a94bdb7fce6c9f1da2fb7c886ec8',), 'expected': ('0fec81224889a94bdb7fce6c9f1da2fb7c886ec8',)}`
+- [PASS] universe_hash_verified_djangocms-rc-c02308fc5261 — `{'recomputed': 'e1d105353b7224f0504bc088c9d5dc19e21e248bbe198fef35cbf62725f7d2fc', 'recorded': 'e1d105353b7224f0504bc088c9d5dc19e21e248bbe198fef35cbf62725f7d2fc'}`
+- [PASS] graph_hash_verified_djangocms-rc-c02308fc5261 — `{'recomputed': '6c844eb6b538137e3d842614ce7bcfcf1e09c7ee6fd2007d56243c874ff08720', 'recorded': '6c844eb6b538137e3d842614ce7bcfcf1e09c7ee6fd2007d56243c874ff08720'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-c02308fc5261 — `['cms/app_base.py', 'cms/app_registration.py', 'cms/utils/setup.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-c02308fc5261 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-c02308fc5261 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-c02308fc5261 — `c02308fc52610eaeec9ea6b663c89b08614e4317`
+- [PASS] no_intent_path_leakage_djangocms-rc-c02308fc5261 — `False`
+- [PASS] target_commit_verified_djangocms-rc-0fec81224889 — `0fec81224889a94bdb7fce6c9f1da2fb7c886ec8`
+- [PASS] parent_relation_verified_djangocms-rc-0fec81224889 — `{'parents': ('68947484a8704250841e38b537d53b627b4e0ab9',), 'expected': ('68947484a8704250841e38b537d53b627b4e0ab9',)}`
+- [PASS] universe_hash_verified_djangocms-rc-0fec81224889 — `{'recomputed': 'd694b63af58fe2426429a342d51ac9092123a60f503fe18ca629d9977f3ef2ba', 'recorded': 'd694b63af58fe2426429a342d51ac9092123a60f503fe18ca629d9977f3ef2ba'}`
+- [PASS] graph_hash_verified_djangocms-rc-0fec81224889 — `{'recomputed': '0fe5a71ef637878ef2a21a8d8fc3af648fdb0959c974c2a3ac41d5b03822dcba', 'recorded': '0fe5a71ef637878ef2a21a8d8fc3af648fdb0959c974c2a3ac41d5b03822dcba'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-0fec81224889 — `['cms/cms_plugins.py', 'cms/models/aliaspluginmodel.py', 'cms/templatetags/cms_alias_tags.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-0fec81224889 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-0fec81224889 — `{'split': 'VALIDATION', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-0fec81224889 — `0fec81224889a94bdb7fce6c9f1da2fb7c886ec8`
+- [PASS] no_intent_path_leakage_djangocms-rc-0fec81224889 — `False`
+- [PASS] target_commit_verified_djangocms-rc-75978fb1c3ad — `75978fb1c3ad25d1efba39a5d32215314358ba71`
+- [PASS] parent_relation_verified_djangocms-rc-75978fb1c3ad — `{'parents': ('f1226a57b767d4b9f66a0cfec4374b5157c49e4e',), 'expected': ('f1226a57b767d4b9f66a0cfec4374b5157c49e4e',)}`
+- [PASS] universe_hash_verified_djangocms-rc-75978fb1c3ad — `{'recomputed': 'ccde124502377d84d5c4ac0c5983c8a627901ec49d3ed10e5de853aeaf28dd66', 'recorded': 'ccde124502377d84d5c4ac0c5983c8a627901ec49d3ed10e5de853aeaf28dd66'}`
+- [PASS] graph_hash_verified_djangocms-rc-75978fb1c3ad — `{'recomputed': 'abc8a2d51c43bdf025735ee7bc61df941356423b766175d82da60c98397270e4', 'recorded': 'abc8a2d51c43bdf025735ee7bc61df941356423b766175d82da60c98397270e4'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-75978fb1c3ad — `['cms/appresolver.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-75978fb1c3ad — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-75978fb1c3ad — `{'split': 'HELD_OUT_TEST', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-75978fb1c3ad — `75978fb1c3ad25d1efba39a5d32215314358ba71`
+- [PASS] no_intent_path_leakage_djangocms-rc-75978fb1c3ad — `False`
+- [PASS] target_commit_verified_djangocms-rc-e429b4584a16 — `e429b4584a16e206d37f23de2f671de6fa6399fb`
+- [PASS] parent_relation_verified_djangocms-rc-e429b4584a16 — `{'parents': ('5bfb1d144a83b2ec4847479342d260723ac68a27',), 'expected': ('5bfb1d144a83b2ec4847479342d260723ac68a27',)}`
+- [PASS] universe_hash_verified_djangocms-rc-e429b4584a16 — `{'recomputed': '121777148d53fd38dc491b16eda4a475fa528c40b01f6a79820a0ab94f7ba89f', 'recorded': '121777148d53fd38dc491b16eda4a475fa528c40b01f6a79820a0ab94f7ba89f'}`
+- [PASS] graph_hash_verified_djangocms-rc-e429b4584a16 — `{'recomputed': '0410a8e29b78bc0699f68ee26881addc9324e13ee306517145d078b708174c96', 'recorded': '0410a8e29b78bc0699f68ee26881addc9324e13ee306517145d078b708174c96'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-e429b4584a16 — `['cms/admin/forms.py', 'cms/utils/helpers.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-e429b4584a16 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-e429b4584a16 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-e429b4584a16 — `e429b4584a16e206d37f23de2f671de6fa6399fb`
+- [PASS] no_intent_path_leakage_djangocms-rc-e429b4584a16 — `False`
+- [PASS] target_commit_verified_djangocms-rc-a1ac04d3f817 — `a1ac04d3f81777f6404af62a9c31ff74715b7028`
+- [PASS] parent_relation_verified_djangocms-rc-a1ac04d3f817 — `{'parents': ('4e4d1cb1f9415b0e1fb9bb5a13b6f5697376cbe0',), 'expected': ('4e4d1cb1f9415b0e1fb9bb5a13b6f5697376cbe0',)}`
+- [PASS] universe_hash_verified_djangocms-rc-a1ac04d3f817 — `{'recomputed': '78f65a4c7aee65404be8c77d925fc802144ec132387345bb034cf07dd0c9576e', 'recorded': '78f65a4c7aee65404be8c77d925fc802144ec132387345bb034cf07dd0c9576e'}`
+- [PASS] graph_hash_verified_djangocms-rc-a1ac04d3f817 — `{'recomputed': '4b31f5a85b1957b559cebcab40de02e825e1e19b987bb5f74514da67e87afd15', 'recorded': '4b31f5a85b1957b559cebcab40de02e825e1e19b987bb5f74514da67e87afd15'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-a1ac04d3f817 — `['cms/toolbar/toolbar.py', 'cms/utils/conf.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-a1ac04d3f817 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-a1ac04d3f817 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-a1ac04d3f817 — `a1ac04d3f81777f6404af62a9c31ff74715b7028`
+- [PASS] no_intent_path_leakage_djangocms-rc-a1ac04d3f817 — `False`
+- [PASS] target_commit_verified_djangocms-rc-4307e1b8c2e2 — `4307e1b8c2e2d0459868133aaa5bdc4d59d7ca81`
+- [PASS] parent_relation_verified_djangocms-rc-4307e1b8c2e2 — `{'parents': ('4dadf9f1e1f2cf4da6bc68f8367236b040255fbc',), 'expected': ('4dadf9f1e1f2cf4da6bc68f8367236b040255fbc',)}`
+- [PASS] universe_hash_verified_djangocms-rc-4307e1b8c2e2 — `{'recomputed': '64bfc7a2b506df115fea9c95b19e5025925e7f46218ed5d63457429837ed83ce', 'recorded': '64bfc7a2b506df115fea9c95b19e5025925e7f46218ed5d63457429837ed83ce'}`
+- [PASS] graph_hash_verified_djangocms-rc-4307e1b8c2e2 — `{'recomputed': '991d36ffb939f5c3dc1d5a287f1cd61f6ab057fa7591215ff9c4ea848ff7b5eb', 'recorded': '991d36ffb939f5c3dc1d5a287f1cd61f6ab057fa7591215ff9c4ea848ff7b5eb'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-4307e1b8c2e2 — `['cms/forms/wizards.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-4307e1b8c2e2 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-4307e1b8c2e2 — `{'split': 'HELD_OUT_TEST', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-4307e1b8c2e2 — `4307e1b8c2e2d0459868133aaa5bdc4d59d7ca81`
+- [PASS] no_intent_path_leakage_djangocms-rc-4307e1b8c2e2 — `False`
+- [PASS] target_commit_verified_djangocms-rc-e3a23a7fc757 — `e3a23a7fc757892c7d58e4af6b78e853ddecab87`
+- [PASS] parent_relation_verified_djangocms-rc-e3a23a7fc757 — `{'parents': ('0e885ca9e27367c7154cb33406725ac3b67eb170',), 'expected': ('0e885ca9e27367c7154cb33406725ac3b67eb170',)}`
+- [PASS] universe_hash_verified_djangocms-rc-e3a23a7fc757 — `{'recomputed': 'd932722e84748430e5557568277d92bc2f1ba11b12637de6173509e04805a28e', 'recorded': 'd932722e84748430e5557568277d92bc2f1ba11b12637de6173509e04805a28e'}`
+- [PASS] graph_hash_verified_djangocms-rc-e3a23a7fc757 — `{'recomputed': '217ec5187597930ef1d8f3cc2796e6d20c7b135c82eb03c280324578d7f6004d', 'recorded': '217ec5187597930ef1d8f3cc2796e6d20c7b135c82eb03c280324578d7f6004d'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-e3a23a7fc757 — `['cms/admin/pageadmin.py', 'cms/middleware/toolbar.py', 'cms/toolbar/toolbar.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-e3a23a7fc757 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-e3a23a7fc757 — `{'split': 'VALIDATION', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-e3a23a7fc757 — `e3a23a7fc757892c7d58e4af6b78e853ddecab87`
+- [PASS] no_intent_path_leakage_djangocms-rc-e3a23a7fc757 — `False`
+- [PASS] target_commit_verified_djangocms-rc-a7df58dc5ff3 — `a7df58dc5ff374c98e18138b05a4ad43a73ac26b`
+- [PASS] parent_relation_verified_djangocms-rc-a7df58dc5ff3 — `{'parents': ('085ab6d13e267e93f70a71117f0709ab6d83f9dd',), 'expected': ('085ab6d13e267e93f70a71117f0709ab6d83f9dd',)}`
+- [PASS] universe_hash_verified_djangocms-rc-a7df58dc5ff3 — `{'recomputed': 'b1ea54000db17cf23f2461fe9db104f9e61e1c9378f92664c2d0f72c876177d2', 'recorded': 'b1ea54000db17cf23f2461fe9db104f9e61e1c9378f92664c2d0f72c876177d2'}`
+- [PASS] graph_hash_verified_djangocms-rc-a7df58dc5ff3 — `{'recomputed': '9e1cfd9d56028304c461e0b9f20790b111c005e6110725686d8e8652b3286d4b', 'recorded': '9e1cfd9d56028304c461e0b9f20790b111c005e6110725686d8e8652b3286d4b'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-a7df58dc5ff3 — `['cms/utils/conf.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-a7df58dc5ff3 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-a7df58dc5ff3 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-a7df58dc5ff3 — `a7df58dc5ff374c98e18138b05a4ad43a73ac26b`
+- [PASS] no_intent_path_leakage_djangocms-rc-a7df58dc5ff3 — `False`
+- [PASS] target_commit_verified_djangocms-rc-ca16415b1022 — `ca16415b1022c984ce0525336beafacfed14bb31`
+- [PASS] parent_relation_verified_djangocms-rc-ca16415b1022 — `{'parents': ('4981c6229e8241a69a27fe7d97de00c326ae6726',), 'expected': ('4981c6229e8241a69a27fe7d97de00c326ae6726',)}`
+- [PASS] universe_hash_verified_djangocms-rc-ca16415b1022 — `{'recomputed': '1d82b9bb284feec887a4ad43db61dae58c7cc22b38f633916949144e9c7c5b76', 'recorded': '1d82b9bb284feec887a4ad43db61dae58c7cc22b38f633916949144e9c7c5b76'}`
+- [PASS] graph_hash_verified_djangocms-rc-ca16415b1022 — `{'recomputed': '3c8ed8961c8eab99e0b277030cda9c801395169843372abd77bd725f14bb1c51', 'recorded': '3c8ed8961c8eab99e0b277030cda9c801395169843372abd77bd725f14bb1c51'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-ca16415b1022 — `['cms/admin/forms.py', 'cms/admin/pageadmin.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-ca16415b1022 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-ca16415b1022 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-ca16415b1022 — `ca16415b1022c984ce0525336beafacfed14bb31`
+- [PASS] no_intent_path_leakage_djangocms-rc-ca16415b1022 — `False`
+- [PASS] target_commit_verified_djangocms-rc-1ff5bf9149b4 — `1ff5bf9149b4c4d922c74b67433a2d32b53a9660`
+- [PASS] parent_relation_verified_djangocms-rc-1ff5bf9149b4 — `{'parents': ('bd7a63bc6f57acc77fda2e838463545b689af1fc',), 'expected': ('bd7a63bc6f57acc77fda2e838463545b689af1fc',)}`
+- [PASS] universe_hash_verified_djangocms-rc-1ff5bf9149b4 — `{'recomputed': '42f94c4ccf0c1864fc93c2005222da45f8145b1f8d92f3ea9ec64e1d04665b92', 'recorded': '42f94c4ccf0c1864fc93c2005222da45f8145b1f8d92f3ea9ec64e1d04665b92'}`
+- [PASS] graph_hash_verified_djangocms-rc-1ff5bf9149b4 — `{'recomputed': '5a0740b36f67e933ab4c0c6019560bd6060f036be07300e319b1dd436527d0fe', 'recorded': '5a0740b36f67e933ab4c0c6019560bd6060f036be07300e319b1dd436527d0fe'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-1ff5bf9149b4 — `['cms/admin/pageadmin.py', 'cms/cms_toolbars.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-1ff5bf9149b4 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-1ff5bf9149b4 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-1ff5bf9149b4 — `1ff5bf9149b4c4d922c74b67433a2d32b53a9660`
+- [PASS] no_intent_path_leakage_djangocms-rc-1ff5bf9149b4 — `False`
+- [PASS] target_commit_verified_djangocms-rc-0daae01f2f65 — `0daae01f2f65847e2cce4d851fa35c06635f6b0a`
+- [PASS] parent_relation_verified_djangocms-rc-0daae01f2f65 — `{'parents': ('d7ee89da24ee687ac5b3bb08f671de90fa1010dc',), 'expected': ('d7ee89da24ee687ac5b3bb08f671de90fa1010dc',)}`
+- [PASS] universe_hash_verified_djangocms-rc-0daae01f2f65 — `{'recomputed': '2663fd903d50dbb8471f52512b6c4f810fcead398f131891b54a8001a6672466', 'recorded': '2663fd903d50dbb8471f52512b6c4f810fcead398f131891b54a8001a6672466'}`
+- [PASS] graph_hash_verified_djangocms-rc-0daae01f2f65 — `{'recomputed': '5356fb361139110a73f9e8f42d50021b8229c2746e2f9cd93e52b3d6b788feb6', 'recorded': '5356fb361139110a73f9e8f42d50021b8229c2746e2f9cd93e52b3d6b788feb6'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-0daae01f2f65 — `['cms/admin/forms.py', 'cms/admin/pageadmin.py', 'cms/toolbar/toolbar.py', 'cms/utils/i18n.py', 'cms/wizards/views.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-0daae01f2f65 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-0daae01f2f65 — `{'split': 'VALIDATION', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-0daae01f2f65 — `0daae01f2f65847e2cce4d851fa35c06635f6b0a`
+- [PASS] no_intent_path_leakage_djangocms-rc-0daae01f2f65 — `False`
+- [PASS] target_commit_verified_djangocms-rc-630a50361ada — `630a50361adadb236e70a53dcda2324fa9ea052a`
+- [PASS] parent_relation_verified_djangocms-rc-630a50361ada — `{'parents': ('e7bba3abaee1608dc5472b46fef8e789a4cdc1f1',), 'expected': ('e7bba3abaee1608dc5472b46fef8e789a4cdc1f1',)}`
+- [PASS] universe_hash_verified_djangocms-rc-630a50361ada — `{'recomputed': 'd0498ba3e8ebd8d32757325e0619026332b00c5836636445809b40926afbe869', 'recorded': 'd0498ba3e8ebd8d32757325e0619026332b00c5836636445809b40926afbe869'}`
+- [PASS] graph_hash_verified_djangocms-rc-630a50361ada — `{'recomputed': '6cf33e0656a98ea33f919b273906491816ac03ad0b36a1d014b41b7217b1e5a5', 'recorded': '6cf33e0656a98ea33f919b273906491816ac03ad0b36a1d014b41b7217b1e5a5'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-630a50361ada — `['menus/templatetags/menu_tags.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-630a50361ada — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-630a50361ada — `{'split': 'HELD_OUT_TEST', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-630a50361ada — `630a50361adadb236e70a53dcda2324fa9ea052a`
+- [PASS] no_intent_path_leakage_djangocms-rc-630a50361ada — `False`
+- [PASS] target_commit_verified_djangocms-rc-39442083f18a — `39442083f18a6a8726ccdc46772cbaae7462e905`
+- [PASS] parent_relation_verified_djangocms-rc-39442083f18a — `{'parents': ('ba16eb9a1d097007c0d16345bf014250da5e2c09',), 'expected': ('ba16eb9a1d097007c0d16345bf014250da5e2c09',)}`
+- [PASS] universe_hash_verified_djangocms-rc-39442083f18a — `{'recomputed': '49e0c570fc2cb8a77fe62626bb4ea0c7ec2aa5acf7726d5819b567d68316dcf8', 'recorded': '49e0c570fc2cb8a77fe62626bb4ea0c7ec2aa5acf7726d5819b567d68316dcf8'}`
+- [PASS] graph_hash_verified_djangocms-rc-39442083f18a — `{'recomputed': 'a6332dc8c51b51b854c77f0921f22cb814cb09f9f0839de9e2767f92e489a4e8', 'recorded': 'a6332dc8c51b51b854c77f0921f22cb814cb09f9f0839de9e2767f92e489a4e8'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-39442083f18a — `['menus/utils.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-39442083f18a — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-39442083f18a — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-39442083f18a — `39442083f18a6a8726ccdc46772cbaae7462e905`
+- [PASS] no_intent_path_leakage_djangocms-rc-39442083f18a — `False`
+- [PASS] target_commit_verified_djangocms-rc-ba16eb9a1d09 — `ba16eb9a1d097007c0d16345bf014250da5e2c09`
+- [PASS] parent_relation_verified_djangocms-rc-ba16eb9a1d09 — `{'parents': ('19804319f83bd9baacdf6093554559b9743adc7a',), 'expected': ('19804319f83bd9baacdf6093554559b9743adc7a',)}`
+- [PASS] universe_hash_verified_djangocms-rc-ba16eb9a1d09 — `{'recomputed': '9cf9d2d5547895572fe22d8be9396cad68c54d072468701e358b7fd57d15bc8d', 'recorded': '9cf9d2d5547895572fe22d8be9396cad68c54d072468701e358b7fd57d15bc8d'}`
+- [PASS] graph_hash_verified_djangocms-rc-ba16eb9a1d09 — `{'recomputed': 'aaadd2264101f02edc3aeab8021256373f33b2523d9c97231914f84dabcd4f40', 'recorded': 'aaadd2264101f02edc3aeab8021256373f33b2523d9c97231914f84dabcd4f40'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-ba16eb9a1d09 — `['cms/cms_menus.py', 'cms/cms_toolbars.py', 'cms/models/pagemodel.py', 'cms/templatetags/cms_tags.py', 'cms/toolbar/toolbar.py', 'cms/toolbar/utils.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-ba16eb9a1d09 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-ba16eb9a1d09 — `{'split': 'HELD_OUT_TEST', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-ba16eb9a1d09 — `ba16eb9a1d097007c0d16345bf014250da5e2c09`
+- [PASS] no_intent_path_leakage_djangocms-rc-ba16eb9a1d09 — `False`
+- [PASS] target_commit_verified_djangocms-rc-9e508ff1c41e — `9e508ff1c41e9907ab26196fad036213904a86b2`
+- [PASS] parent_relation_verified_djangocms-rc-9e508ff1c41e — `{'parents': ('a9efe5e98dba12224738335197f82407118e6236',), 'expected': ('a9efe5e98dba12224738335197f82407118e6236',)}`
+- [PASS] universe_hash_verified_djangocms-rc-9e508ff1c41e — `{'recomputed': '5734920dbee0fdf9494aa5a24d493bcdbd7522d5762cf5f72541f9fd3f3f78f3', 'recorded': '5734920dbee0fdf9494aa5a24d493bcdbd7522d5762cf5f72541f9fd3f3f78f3'}`
+- [PASS] graph_hash_verified_djangocms-rc-9e508ff1c41e — `{'recomputed': '5ccb97c6cec1444d01e00f2fbfb47fe4fb26237d338734cff62d58276610a9b6', 'recorded': '5ccb97c6cec1444d01e00f2fbfb47fe4fb26237d338734cff62d58276610a9b6'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-9e508ff1c41e — `['cms/models/pluginmodel.py', 'cms/plugin_rendering.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-9e508ff1c41e — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-9e508ff1c41e — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-9e508ff1c41e — `9e508ff1c41e9907ab26196fad036213904a86b2`
+- [PASS] no_intent_path_leakage_djangocms-rc-9e508ff1c41e — `False`
+- [PASS] target_commit_verified_djangocms-rc-4b8089b8b686 — `4b8089b8b6861f09f904aeb4ec2432d74efcee12`
+- [PASS] parent_relation_verified_djangocms-rc-4b8089b8b686 — `{'parents': ('5e032e6933e1bd79592bf32a9eb489ce61b8e5ec',), 'expected': ('5e032e6933e1bd79592bf32a9eb489ce61b8e5ec',)}`
+- [PASS] universe_hash_verified_djangocms-rc-4b8089b8b686 — `{'recomputed': '9bcbe3c539e4a12afc39765b4eff613c2d02621afadabbb10a21da4c977edb93', 'recorded': '9bcbe3c539e4a12afc39765b4eff613c2d02621afadabbb10a21da4c977edb93'}`
+- [PASS] graph_hash_verified_djangocms-rc-4b8089b8b686 — `{'recomputed': '56fb35d2bf1f04eaa899be5aab2dd5a1d4434320d7b14d219552445c524f21e2', 'recorded': '56fb35d2bf1f04eaa899be5aab2dd5a1d4434320d7b14d219552445c524f21e2'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-4b8089b8b686 — `['cms/management/commands/subcommands/tree.py', 'cms/models/pagemodel.py', 'cms/utils/admin.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-4b8089b8b686 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-4b8089b8b686 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-4b8089b8b686 — `4b8089b8b6861f09f904aeb4ec2432d74efcee12`
+- [PASS] no_intent_path_leakage_djangocms-rc-4b8089b8b686 — `False`
+- [PASS] target_commit_verified_djangocms-rc-a9e2a8d3b7a6 — `a9e2a8d3b7a6b6bc4f6f0ca3edd492be6ddd05f0`
+- [PASS] parent_relation_verified_djangocms-rc-a9e2a8d3b7a6 — `{'parents': ('78bb22df5c3f3f5e49d4706c0139e4b3d51d6c7a',), 'expected': ('78bb22df5c3f3f5e49d4706c0139e4b3d51d6c7a',)}`
+- [PASS] universe_hash_verified_djangocms-rc-a9e2a8d3b7a6 — `{'recomputed': '152cfe2090180b7e4aa204b12601f688d3175bd8cd11833cacde727fac18bf3c', 'recorded': '152cfe2090180b7e4aa204b12601f688d3175bd8cd11833cacde727fac18bf3c'}`
+- [PASS] graph_hash_verified_djangocms-rc-a9e2a8d3b7a6 — `{'recomputed': 'fbf71b954a212c4fad228c52c8f80ae34604d702c3b2dc07fca1c6a7988e8733', 'recorded': 'fbf71b954a212c4fad228c52c8f80ae34604d702c3b2dc07fca1c6a7988e8733'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-a9e2a8d3b7a6 — `['cms/admin/placeholderadmin.py', 'cms/models/pluginmodel.py', 'cms/plugin_base.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-a9e2a8d3b7a6 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-a9e2a8d3b7a6 — `{'split': 'VALIDATION', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-a9e2a8d3b7a6 — `a9e2a8d3b7a6b6bc4f6f0ca3edd492be6ddd05f0`
+- [PASS] no_intent_path_leakage_djangocms-rc-a9e2a8d3b7a6 — `False`
+- [PASS] target_commit_verified_djangocms-rc-138abbb7e5f4 — `138abbb7e5f4c4bb1b85ad61bb6790e517ff6593`
+- [PASS] parent_relation_verified_djangocms-rc-138abbb7e5f4 — `{'parents': ('ad20bd3eee57addef97d820eb5bba19c362d995d',), 'expected': ('ad20bd3eee57addef97d820eb5bba19c362d995d',)}`
+- [PASS] universe_hash_verified_djangocms-rc-138abbb7e5f4 — `{'recomputed': '1b6b2d00f0f786b81415bf43f288c92b37a72897a7995f813ae8193955e25c9a', 'recorded': '1b6b2d00f0f786b81415bf43f288c92b37a72897a7995f813ae8193955e25c9a'}`
+- [PASS] graph_hash_verified_djangocms-rc-138abbb7e5f4 — `{'recomputed': 'ce3d975e8802660979a7338b76199dad7a8a13cc1038b15441683243e362f121', 'recorded': 'ce3d975e8802660979a7338b76199dad7a8a13cc1038b15441683243e362f121'}`
+- [PASS] proxy_paths_valid_repo_relative_djangocms-rc-138abbb7e5f4 — `['cms/plugin_pool.py']`
+- [PASS] proxy_subset_of_parent_universe_djangocms-rc-138abbb7e5f4 — `[]`
+- [PASS] split_valid_scientific_djangocms-rc-138abbb7e5f4 — `{'split': 'TRAIN', 'role': 'SCIENTIFIC'}`
+- [PASS] not_miner_dev_target_djangocms-rc-138abbb7e5f4 — `138abbb7e5f4c4bb1b85ad61bb6790e517ff6593`
+- [PASS] no_intent_path_leakage_djangocms-rc-138abbb7e5f4 — `False`
+
+## Gate 2 — Prompt Validation (scientific): PASS
+
+- [PASS] public_bundle_hidden_free_djangocms-rc-8d50660e7bcf — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=557'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-8d50660e7bcf — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-8d50660e7bcf\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-2efae8e43bd6 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=361'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-2efae8e43bd6 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-2efae8e43bd6\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-fdda30c271f0 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=499'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-fdda30c271f0 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-fdda30c271f0\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-50c3576080be — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=950'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-50c3576080be — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-50c3576080be\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-ada585d3f358 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=375'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-ada585d3f358 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-ada585d3f358\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-f2c367ddc7b1 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=381'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-f2c367ddc7b1 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-f2c367ddc7b1\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-3f8fcb5fb63b — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=371'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-3f8fcb5fb63b — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-3f8fcb5fb63b\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-9e33db4f4660 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=427'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-9e33db4f4660 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-9e33db4f4660\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-47b63015feb1 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=429'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-47b63015feb1 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-47b63015feb1\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-1031d20fca28 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=777'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-1031d20fca28 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-1031d20fca28\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-e88032bf704c — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=403'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-e88032bf704c — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-e88032bf704c\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-807a87b1de71 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=709'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-807a87b1de71 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-807a87b1de71\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-ac74c212719f — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=437'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-ac74c212719f — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-ac74c212719f\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-06ecf3a8e8de — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=379'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-06ecf3a8e8de — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-06ecf3a8e8de\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-33fbdb18e5d4 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=411'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-33fbdb18e5d4 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-33fbdb18e5d4\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-b39799f9fc1c — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=605'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-b39799f9fc1c — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-b39799f9fc1c\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-497c3c67e813 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=371'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-497c3c67e813 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-497c3c67e813\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-5ff38b521274 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=421'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-5ff38b521274 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-5ff38b521274\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-28ddd6d10308 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=483'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-28ddd6d10308 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-28ddd6d10308\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-ff6cb9b5dced — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=459'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-ff6cb9b5dced — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-ff6cb9b5dced\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-66c70394c9e1 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=375'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-66c70394c9e1 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-66c70394c9e1\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-d88932559b00 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=411'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-d88932559b00 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-d88932559b00\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-c02308fc5261 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=457'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-c02308fc5261 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-c02308fc5261\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-0fec81224889 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=509'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-0fec81224889 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-0fec81224889\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-75978fb1c3ad — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=361'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-75978fb1c3ad — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-75978fb1c3ad\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-e429b4584a16 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=411'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-e429b4584a16 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-e429b4584a16\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-a1ac04d3f817 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=413'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-a1ac04d3f817 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-a1ac04d3f817\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-4307e1b8c2e2 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=365'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-4307e1b8c2e2 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-4307e1b8c2e2\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-e3a23a7fc757 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=483'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-e3a23a7fc757 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-e3a23a7fc757\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-a7df58dc5ff3 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=359'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-a7df58dc5ff3 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-a7df58dc5ff3\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-ca16415b1022 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=415'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-ca16415b1022 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-ca16415b1022\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-1ff5bf9149b4 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=417'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-1ff5bf9149b4 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-1ff5bf9149b4\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-0daae01f2f65 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=563'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-0daae01f2f65 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-0daae01f2f65\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-630a50361ada — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=387'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-630a50361ada — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-630a50361ada\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-39442083f18a — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=353'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-39442083f18a — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-39442083f18a\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-ba16eb9a1d09 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=631'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-ba16eb9a1d09 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-ba16eb9a1d09\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-9e508ff1c41e — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=431'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-9e508ff1c41e — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-9e508ff1c41e\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-4b8089b8b686 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=513'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-4b8089b8b686 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-4b8089b8b686\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-a9e2a8d3b7a6 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=489'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-a9e2a8d3b7a6 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-a9e2a8d3b7a6\public\intent.json`
+- [PASS] public_bundle_hidden_free_djangocms-rc-138abbb7e5f4 — `[{'check': 'no_proxy_filename_in_public', 'ok': True, 'detail': 'observed_change_set_proxy.json'}, {'check': 'no_hidden_field_names_in_public', 'ok': True, 'detail': []}, {'check': 'no_proxy_status_marker_rows_in_public', 'ok': True, 'detail': []}, {'check': 'no_target_diff_text_in_public', 'ok': True, 'detail': []}, {'check': 'no_hidden_proxy_payload_embedded_in_public', 'ok': True, 'detail': 'proxy_json_bytes=361'}, {'check': 'no_semantic_gold_tokens_in_public', 'ok': True, 'detail': []}]`
+- [PASS] static_intent_artifact_exists_djangocms-rc-138abbb7e5f4 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-138abbb7e5f4\public\intent.json`
+- [PASS] m1_m3_prompt_module_unmodified_encoding_ablation.py — `src/benchmark/selection/encoding_ablation.py`
+- [PASS] m1_m3_prompt_module_unmodified_impact_planner_v2.py — `src/benchmark/selection/impact_planner_v2.py`
+- [PASS] m1_m3_prompt_module_unmodified_study_runtime.py — `src/benchmark/external_validity/study_runtime.py`
+
+## Gate 3 — Pipeline Smoke Test (scientific): PASS
+
+- [PASS] synthetic_pipeline_produced_valid_cases — `['9d0a652d83ca543c8031f47e9ce08a020cc1b23e']`
+- [PASS] synthetic_pipeline_recorded_exclusions — `{'duplicate_or_related_change': 1, 'intent_path_leakage': 1, 'merge_commit': 1, 'migrations_only': 1, 'production_add_delete_rename_copy_v1_unsupported': 3, 'tests_only': 1, 'whitespace_only': 1}`
+- [PASS] synthetic_pipeline_zero_api — `synthetic pipeline is deterministic local git only`
+
+## Gate 4 — Dry Run (scientific): PASS
+
+- [PASS] thirty_to_forty_scientific_cases_materialized — `40`
+- [PASS] case_manifest_reloads_djangocms-rc-8d50660e7bcf — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-8d50660e7bcf`
+- [PASS] case_artifacts_present_djangocms-rc-8d50660e7bcf — `{'case_id': 'djangocms-rc-8d50660e7bcf', 'parent': 'f26278ceeef5bf0b7da2c39b3e07b0fe346a5147', 'target': '8d50660e7bcf8e480b32f36b4fb409c09f8b3fcd', 'proxy_size': 5, 'universe_size': 144}`
+- [PASS] case_manifest_reloads_djangocms-rc-2efae8e43bd6 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-2efae8e43bd6`
+- [PASS] case_artifacts_present_djangocms-rc-2efae8e43bd6 — `{'case_id': 'djangocms-rc-2efae8e43bd6', 'parent': '71d94bed47b53796c1dda197e15b6173f6db4581', 'target': '2efae8e43bd629ea21797ed147ae6d0bdcd95025', 'proxy_size': 1, 'universe_size': 144}`
+- [PASS] case_manifest_reloads_djangocms-rc-fdda30c271f0 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-fdda30c271f0`
+- [PASS] case_artifacts_present_djangocms-rc-fdda30c271f0 — `{'case_id': 'djangocms-rc-fdda30c271f0', 'parent': 'c37fa0b7eefde90b82c99ebb11a987ecdad18c40', 'target': 'fdda30c271f03969ed5b22fd51d203a093e390ff', 'proxy_size': 3, 'universe_size': 144}`
+- [PASS] case_manifest_reloads_djangocms-rc-50c3576080be — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-50c3576080be`
+- [PASS] case_artifacts_present_djangocms-rc-50c3576080be — `{'case_id': 'djangocms-rc-50c3576080be', 'parent': 'c30efd44e92eb24141bf5aa5f4c8e0a3fb590870', 'target': '50c3576080be08a4b7672bbd7bdfea4f97cc1621', 'proxy_size': 12, 'universe_size': 144}`
+- [PASS] case_manifest_reloads_djangocms-rc-ada585d3f358 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-ada585d3f358`
+- [PASS] case_artifacts_present_djangocms-rc-ada585d3f358 — `{'case_id': 'djangocms-rc-ada585d3f358', 'parent': '0b775f27300c4347be18a5bb7b1b172d6a943ccf', 'target': 'ada585d3f3580691f7c14c7bf0115f55cdca87f2', 'proxy_size': 1, 'universe_size': 144}`
+- [PASS] case_manifest_reloads_djangocms-rc-f2c367ddc7b1 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-f2c367ddc7b1`
+- [PASS] case_artifacts_present_djangocms-rc-f2c367ddc7b1 — `{'case_id': 'djangocms-rc-f2c367ddc7b1', 'parent': '3f8fcb5fb63b154ed38377c84908e00ec9535f4e', 'target': 'f2c367ddc7b1f5a761084be062aa353b35b65a78', 'proxy_size': 1, 'universe_size': 144}`
+- [PASS] case_manifest_reloads_djangocms-rc-3f8fcb5fb63b — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-3f8fcb5fb63b`
+- [PASS] case_artifacts_present_djangocms-rc-3f8fcb5fb63b — `{'case_id': 'djangocms-rc-3f8fcb5fb63b', 'parent': '58eb76bb9460b705f42f9e067e3b9f889053ae20', 'target': '3f8fcb5fb63b154ed38377c84908e00ec9535f4e', 'proxy_size': 1, 'universe_size': 144}`
+- [PASS] case_manifest_reloads_djangocms-rc-9e33db4f4660 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-9e33db4f4660`
+- [PASS] case_artifacts_present_djangocms-rc-9e33db4f4660 — `{'case_id': 'djangocms-rc-9e33db4f4660', 'parent': '47b63015feb10ca05a7accffc0159f249d073d73', 'target': '9e33db4f4660f7fac77d09232b17e062d340a6b5', 'proxy_size': 2, 'universe_size': 144}`
+- [PASS] case_manifest_reloads_djangocms-rc-47b63015feb1 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-47b63015feb1`
+- [PASS] case_artifacts_present_djangocms-rc-47b63015feb1 — `{'case_id': 'djangocms-rc-47b63015feb1', 'parent': 'c7208ed1b1ad50c477b55cfe51eb8f5ce7a141f2', 'target': '47b63015feb10ca05a7accffc0159f249d073d73', 'proxy_size': 2, 'universe_size': 144}`
+- [PASS] case_manifest_reloads_djangocms-rc-1031d20fca28 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-1031d20fca28`
+- [PASS] case_artifacts_present_djangocms-rc-1031d20fca28 — `{'case_id': 'djangocms-rc-1031d20fca28', 'parent': '76c5bb05837a425e5374b591ddcf44830aaa5c7e', 'target': '1031d20fca284990eb0aacd5a58708f51a24ec10', 'proxy_size': 9, 'universe_size': 144}`
+- [PASS] case_manifest_reloads_djangocms-rc-e88032bf704c — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-e88032bf704c`
+- [PASS] case_artifacts_present_djangocms-rc-e88032bf704c — `{'case_id': 'djangocms-rc-e88032bf704c', 'parent': 'b98b0510e44f5bc3e21996b1c881bf4fdeec7ac2', 'target': 'e88032bf704c02f235babd84b764eed3706acb25', 'proxy_size': 2, 'universe_size': 143}`
+- [PASS] case_manifest_reloads_djangocms-rc-807a87b1de71 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-807a87b1de71`
+- [PASS] case_artifacts_present_djangocms-rc-807a87b1de71 — `{'case_id': 'djangocms-rc-807a87b1de71', 'parent': '121acf1cc1cc82cbdb7fc94cab31db466c3c9bc8', 'target': '807a87b1de71ce279384d2bf2ec4f97b6ae6ca04', 'proxy_size': 7, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-ac74c212719f — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-ac74c212719f`
+- [PASS] case_artifacts_present_djangocms-rc-ac74c212719f — `{'case_id': 'djangocms-rc-ac74c212719f', 'parent': '06ecf3a8e8dee50afe4babdda78d1ae642e2b784', 'target': 'ac74c212719fb17d7a26cb61feecfb36bba27476', 'proxy_size': 2, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-06ecf3a8e8de — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-06ecf3a8e8de`
+- [PASS] case_artifacts_present_djangocms-rc-06ecf3a8e8de — `{'case_id': 'djangocms-rc-06ecf3a8e8de', 'parent': '369f77689346b9689a4c9fba14a96d9bd85ac1f2', 'target': '06ecf3a8e8dee50afe4babdda78d1ae642e2b784', 'proxy_size': 1, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-33fbdb18e5d4 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-33fbdb18e5d4`
+- [PASS] case_artifacts_present_djangocms-rc-33fbdb18e5d4 — `{'case_id': 'djangocms-rc-33fbdb18e5d4', 'parent': 'e703659d3c072ab78f80d8c32276c607845bfe26', 'target': '33fbdb18e5d43c162d6c628c2dc6ddba9c85e39f', 'proxy_size': 2, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-b39799f9fc1c — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-b39799f9fc1c`
+- [PASS] case_artifacts_present_djangocms-rc-b39799f9fc1c — `{'case_id': 'djangocms-rc-b39799f9fc1c', 'parent': 'd3615ee27005c6250204521fbef2ef47d37437e9', 'target': 'b39799f9fc1c6650f94655be7359781697037874', 'proxy_size': 5, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-497c3c67e813 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-497c3c67e813`
+- [PASS] case_artifacts_present_djangocms-rc-497c3c67e813 — `{'case_id': 'djangocms-rc-497c3c67e813', 'parent': '9945a0f8899db03b30d47993ef4938c82a8509f0', 'target': '497c3c67e8138321f21de1656fcf25f48ac7e42f', 'proxy_size': 1, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-5ff38b521274 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-5ff38b521274`
+- [PASS] case_artifacts_present_djangocms-rc-5ff38b521274 — `{'case_id': 'djangocms-rc-5ff38b521274', 'parent': '6c64fddb5407fbb302e6423bebf2f0f0d6141837', 'target': '5ff38b521274ca6b939c828da4d0c5f9306e4908', 'proxy_size': 2, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-28ddd6d10308 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-28ddd6d10308`
+- [PASS] case_artifacts_present_djangocms-rc-28ddd6d10308 — `{'case_id': 'djangocms-rc-28ddd6d10308', 'parent': '2dbc833bccf1aa440ab76313cedeecb1d2597e96', 'target': '28ddd6d10308032ab293bb5cd2b5425a1005868d', 'proxy_size': 3, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-ff6cb9b5dced — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-ff6cb9b5dced`
+- [PASS] case_artifacts_present_djangocms-rc-ff6cb9b5dced — `{'case_id': 'djangocms-rc-ff6cb9b5dced', 'parent': 'ee89fe4f44fb0675bbdb85a2804de5328450a184', 'target': 'ff6cb9b5dced92eadef62694e989d601e9475b30', 'proxy_size': 3, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-66c70394c9e1 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-66c70394c9e1`
+- [PASS] case_artifacts_present_djangocms-rc-66c70394c9e1 — `{'case_id': 'djangocms-rc-66c70394c9e1', 'parent': '29ae26eafa0abf4ec27160ba59d890e4497043f6', 'target': '66c70394c9e144281a0b47d93e3784d06318acf9', 'proxy_size': 1, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-d88932559b00 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-d88932559b00`
+- [PASS] case_artifacts_present_djangocms-rc-d88932559b00 — `{'case_id': 'djangocms-rc-d88932559b00', 'parent': 'f30f0204a8c3e498aa86de0aba35470521859873', 'target': 'd88932559b00d7e09f7763e591b0cc16b1031041', 'proxy_size': 2, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-c02308fc5261 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-c02308fc5261`
+- [PASS] case_artifacts_present_djangocms-rc-c02308fc5261 — `{'case_id': 'djangocms-rc-c02308fc5261', 'parent': '0fec81224889a94bdb7fce6c9f1da2fb7c886ec8', 'target': 'c02308fc52610eaeec9ea6b663c89b08614e4317', 'proxy_size': 3, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-0fec81224889 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-0fec81224889`
+- [PASS] case_artifacts_present_djangocms-rc-0fec81224889 — `{'case_id': 'djangocms-rc-0fec81224889', 'parent': '68947484a8704250841e38b537d53b627b4e0ab9', 'target': '0fec81224889a94bdb7fce6c9f1da2fb7c886ec8', 'proxy_size': 3, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-75978fb1c3ad — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-75978fb1c3ad`
+- [PASS] case_artifacts_present_djangocms-rc-75978fb1c3ad — `{'case_id': 'djangocms-rc-75978fb1c3ad', 'parent': 'f1226a57b767d4b9f66a0cfec4374b5157c49e4e', 'target': '75978fb1c3ad25d1efba39a5d32215314358ba71', 'proxy_size': 1, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-e429b4584a16 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-e429b4584a16`
+- [PASS] case_artifacts_present_djangocms-rc-e429b4584a16 — `{'case_id': 'djangocms-rc-e429b4584a16', 'parent': '5bfb1d144a83b2ec4847479342d260723ac68a27', 'target': 'e429b4584a16e206d37f23de2f671de6fa6399fb', 'proxy_size': 2, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-a1ac04d3f817 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-a1ac04d3f817`
+- [PASS] case_artifacts_present_djangocms-rc-a1ac04d3f817 — `{'case_id': 'djangocms-rc-a1ac04d3f817', 'parent': '4e4d1cb1f9415b0e1fb9bb5a13b6f5697376cbe0', 'target': 'a1ac04d3f81777f6404af62a9c31ff74715b7028', 'proxy_size': 2, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-4307e1b8c2e2 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-4307e1b8c2e2`
+- [PASS] case_artifacts_present_djangocms-rc-4307e1b8c2e2 — `{'case_id': 'djangocms-rc-4307e1b8c2e2', 'parent': '4dadf9f1e1f2cf4da6bc68f8367236b040255fbc', 'target': '4307e1b8c2e2d0459868133aaa5bdc4d59d7ca81', 'proxy_size': 1, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-e3a23a7fc757 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-e3a23a7fc757`
+- [PASS] case_artifacts_present_djangocms-rc-e3a23a7fc757 — `{'case_id': 'djangocms-rc-e3a23a7fc757', 'parent': '0e885ca9e27367c7154cb33406725ac3b67eb170', 'target': 'e3a23a7fc757892c7d58e4af6b78e853ddecab87', 'proxy_size': 3, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-a7df58dc5ff3 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-a7df58dc5ff3`
+- [PASS] case_artifacts_present_djangocms-rc-a7df58dc5ff3 — `{'case_id': 'djangocms-rc-a7df58dc5ff3', 'parent': '085ab6d13e267e93f70a71117f0709ab6d83f9dd', 'target': 'a7df58dc5ff374c98e18138b05a4ad43a73ac26b', 'proxy_size': 1, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-ca16415b1022 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-ca16415b1022`
+- [PASS] case_artifacts_present_djangocms-rc-ca16415b1022 — `{'case_id': 'djangocms-rc-ca16415b1022', 'parent': '4981c6229e8241a69a27fe7d97de00c326ae6726', 'target': 'ca16415b1022c984ce0525336beafacfed14bb31', 'proxy_size': 2, 'universe_size': 140}`
+- [PASS] case_manifest_reloads_djangocms-rc-1ff5bf9149b4 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-1ff5bf9149b4`
+- [PASS] case_artifacts_present_djangocms-rc-1ff5bf9149b4 — `{'case_id': 'djangocms-rc-1ff5bf9149b4', 'parent': 'bd7a63bc6f57acc77fda2e838463545b689af1fc', 'target': '1ff5bf9149b4c4d922c74b67433a2d32b53a9660', 'proxy_size': 2, 'universe_size': 152}`
+- [PASS] case_manifest_reloads_djangocms-rc-0daae01f2f65 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-0daae01f2f65`
+- [PASS] case_artifacts_present_djangocms-rc-0daae01f2f65 — `{'case_id': 'djangocms-rc-0daae01f2f65', 'parent': 'd7ee89da24ee687ac5b3bb08f671de90fa1010dc', 'target': '0daae01f2f65847e2cce4d851fa35c06635f6b0a', 'proxy_size': 5, 'universe_size': 152}`
+- [PASS] case_manifest_reloads_djangocms-rc-630a50361ada — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-630a50361ada`
+- [PASS] case_artifacts_present_djangocms-rc-630a50361ada — `{'case_id': 'djangocms-rc-630a50361ada', 'parent': 'e7bba3abaee1608dc5472b46fef8e789a4cdc1f1', 'target': '630a50361adadb236e70a53dcda2324fa9ea052a', 'proxy_size': 1, 'universe_size': 152}`
+- [PASS] case_manifest_reloads_djangocms-rc-39442083f18a — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-39442083f18a`
+- [PASS] case_artifacts_present_djangocms-rc-39442083f18a — `{'case_id': 'djangocms-rc-39442083f18a', 'parent': 'ba16eb9a1d097007c0d16345bf014250da5e2c09', 'target': '39442083f18a6a8726ccdc46772cbaae7462e905', 'proxy_size': 1, 'universe_size': 152}`
+- [PASS] case_manifest_reloads_djangocms-rc-ba16eb9a1d09 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-ba16eb9a1d09`
+- [PASS] case_artifacts_present_djangocms-rc-ba16eb9a1d09 — `{'case_id': 'djangocms-rc-ba16eb9a1d09', 'parent': '19804319f83bd9baacdf6093554559b9743adc7a', 'target': 'ba16eb9a1d097007c0d16345bf014250da5e2c09', 'proxy_size': 6, 'universe_size': 152}`
+- [PASS] case_manifest_reloads_djangocms-rc-9e508ff1c41e — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-9e508ff1c41e`
+- [PASS] case_artifacts_present_djangocms-rc-9e508ff1c41e — `{'case_id': 'djangocms-rc-9e508ff1c41e', 'parent': 'a9efe5e98dba12224738335197f82407118e6236', 'target': '9e508ff1c41e9907ab26196fad036213904a86b2', 'proxy_size': 2, 'universe_size': 148}`
+- [PASS] case_manifest_reloads_djangocms-rc-4b8089b8b686 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-4b8089b8b686`
+- [PASS] case_artifacts_present_djangocms-rc-4b8089b8b686 — `{'case_id': 'djangocms-rc-4b8089b8b686', 'parent': '5e032e6933e1bd79592bf32a9eb489ce61b8e5ec', 'target': '4b8089b8b6861f09f904aeb4ec2432d74efcee12', 'proxy_size': 3, 'universe_size': 148}`
+- [PASS] case_manifest_reloads_djangocms-rc-a9e2a8d3b7a6 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-a9e2a8d3b7a6`
+- [PASS] case_artifacts_present_djangocms-rc-a9e2a8d3b7a6 — `{'case_id': 'djangocms-rc-a9e2a8d3b7a6', 'parent': '78bb22df5c3f3f5e49d4706c0139e4b3d51d6c7a', 'target': 'a9e2a8d3b7a6b6bc4f6f0ca3edd492be6ddd05f0', 'proxy_size': 3, 'universe_size': 148}`
+- [PASS] case_manifest_reloads_djangocms-rc-138abbb7e5f4 — `benchmark_data\real_commit_impact_v1\scientific\djangocms-rc-138abbb7e5f4`
+- [PASS] case_artifacts_present_djangocms-rc-138abbb7e5f4 — `{'case_id': 'djangocms-rc-138abbb7e5f4', 'parent': 'ad20bd3eee57addef97d820eb5bba19c362d995d', 'target': '138abbb7e5f4c4bb1b85ad61bb6790e517ff6593', 'proxy_size': 1, 'universe_size': 148}`
+- [PASS] zero_scientific_api_calls — `M4A-2 corpus build issues zero LLM/API calls (deterministic git + AST only)`
+
+## Gate 5 — Integration Test (scientific): PASS
+
+- [PASS] manifest_reloads_through_validator_djangocms-rc-8d50660e7bcf — `djangocms-rc-8d50660e7bcf`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-2efae8e43bd6 — `djangocms-rc-2efae8e43bd6`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-fdda30c271f0 — `djangocms-rc-fdda30c271f0`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-50c3576080be — `djangocms-rc-50c3576080be`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-ada585d3f358 — `djangocms-rc-ada585d3f358`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-f2c367ddc7b1 — `djangocms-rc-f2c367ddc7b1`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-3f8fcb5fb63b — `djangocms-rc-3f8fcb5fb63b`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-9e33db4f4660 — `djangocms-rc-9e33db4f4660`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-47b63015feb1 — `djangocms-rc-47b63015feb1`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-1031d20fca28 — `djangocms-rc-1031d20fca28`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-e88032bf704c — `djangocms-rc-e88032bf704c`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-807a87b1de71 — `djangocms-rc-807a87b1de71`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-ac74c212719f — `djangocms-rc-ac74c212719f`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-06ecf3a8e8de — `djangocms-rc-06ecf3a8e8de`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-33fbdb18e5d4 — `djangocms-rc-33fbdb18e5d4`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-b39799f9fc1c — `djangocms-rc-b39799f9fc1c`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-497c3c67e813 — `djangocms-rc-497c3c67e813`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-5ff38b521274 — `djangocms-rc-5ff38b521274`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-28ddd6d10308 — `djangocms-rc-28ddd6d10308`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-ff6cb9b5dced — `djangocms-rc-ff6cb9b5dced`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-66c70394c9e1 — `djangocms-rc-66c70394c9e1`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-d88932559b00 — `djangocms-rc-d88932559b00`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-c02308fc5261 — `djangocms-rc-c02308fc5261`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-0fec81224889 — `djangocms-rc-0fec81224889`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-75978fb1c3ad — `djangocms-rc-75978fb1c3ad`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-e429b4584a16 — `djangocms-rc-e429b4584a16`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-a1ac04d3f817 — `djangocms-rc-a1ac04d3f817`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-4307e1b8c2e2 — `djangocms-rc-4307e1b8c2e2`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-e3a23a7fc757 — `djangocms-rc-e3a23a7fc757`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-a7df58dc5ff3 — `djangocms-rc-a7df58dc5ff3`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-ca16415b1022 — `djangocms-rc-ca16415b1022`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-1ff5bf9149b4 — `djangocms-rc-1ff5bf9149b4`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-0daae01f2f65 — `djangocms-rc-0daae01f2f65`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-630a50361ada — `djangocms-rc-630a50361ada`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-39442083f18a — `djangocms-rc-39442083f18a`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-ba16eb9a1d09 — `djangocms-rc-ba16eb9a1d09`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-9e508ff1c41e — `djangocms-rc-9e508ff1c41e`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-4b8089b8b686 — `djangocms-rc-4b8089b8b686`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-a9e2a8d3b7a6 — `djangocms-rc-a9e2a8d3b7a6`
+- [PASS] manifest_reloads_through_validator_djangocms-rc-138abbb7e5f4 — `djangocms-rc-138abbb7e5f4`
+- [PASS] split_freeze_counts_match — `{'HELD_OUT_TEST': 10, 'TRAIN': 24, 'VALIDATION': 6}`
+- [PASS] split_freeze_hashes_match — `{'HELD_OUT_TEST': '7cd2a6095402e144ccba86bc4bf80c793cef28e46290e55887d8913b3b42f21f', 'TRAIN': '8a0a244d4fdc61ed6e7a42c2ba775af1020af66fa3c48f0bc8bf5a0c321a6960', 'VALIDATION': '75a464c25a46a34418d4f272452b13f05ba9663626d7d89ff13b20a57b3c1f96'}`
+- [PASS] split_freeze_membership_matches_manifest — `{'freeze': ['djangocms-rc-06ecf3a8e8de', 'djangocms-rc-0daae01f2f65', 'djangocms-rc-0fec81224889', 'djangocms-rc-1031d20fca28', 'djangocms-rc-138abbb7e5f4', 'djangocms-rc-1ff5bf9149b4', 'djangocms-rc-28ddd6d10308', 'djangocms-rc-2efae8e43bd6', 'djangocms-rc-33fbdb18e5d4', 'djangocms-rc-39442083f18a', 'djangocms-rc-3f8fcb5fb63b', 'djangocms-rc-4307e1b8c2e2', 'djangocms-rc-47b63015feb1', 'djangocms-rc-497c3c67e813', 'djangocms-rc-4b8089b8b686', 'djangocms-rc-50c3576080be', 'djangocms-rc-5ff38b521274', 'djangocms-rc-630a50361ada', 'djangocms-rc-66c70394c9e1', 'djangocms-rc-75978fb1c3ad', 'djangocms-rc-807a87b1de71', 'djangocms-rc-8d50660e7bcf', 'djangocms-rc-9e33db4f4660', 'djangocms-rc-9e508ff1c41e', 'djangocms-rc-a1ac04d3f817', 'djangocms-rc-a7df58dc5ff3', 'djangocms-rc-a9e2a8d3b7a6', 'djangocms-rc-ac74c212719f', 'djangocms-rc-ada585d3f358', 'djangocms-rc-b39799f9fc1c', 'djangocms-rc-ba16eb9a1d09', 'djangocms-rc-c02308fc5261', 'djangocms-rc-ca16415b1022', 'djangocms-rc-d88932559b00', 'djangocms-rc-e3a23a7fc757', 'djangocms-rc-e429b4584a16', 'djangocms-rc-e88032bf704c', 'djangocms-rc-f2c367ddc7b1', 'djangocms-rc-fdda30c271f0', 'djangocms-rc-ff6cb9b5dced'], 'manifest': ['djangocms-rc-06ecf3a8e8de', 'djangocms-rc-0daae01f2f65', 'djangocms-rc-0fec81224889', 'djangocms-rc-1031d20fca28', 'djangocms-rc-138abbb7e5f4', 'djangocms-rc-1ff5bf9149b4', 'djangocms-rc-28ddd6d10308', 'djangocms-rc-2efae8e43bd6', 'djangocms-rc-33fbdb18e5d4', 'djangocms-rc-39442083f18a', 'djangocms-rc-3f8fcb5fb63b', 'djangocms-rc-4307e1b8c2e2', 'djangocms-rc-47b63015feb1', 'djangocms-rc-497c3c67e813', 'djangocms-rc-4b8089b8b686', 'djangocms-rc-50c3576080be', 'djangocms-rc-5ff38b521274', 'djangocms-rc-630a50361ada', 'djangocms-rc-66c70394c9e1', 'djangocms-rc-75978fb1c3ad', 'djangocms-rc-807a87b1de71', 'djangocms-rc-8d50660e7bcf', 'djangocms-rc-9e33db4f4660', 'djangocms-rc-9e508ff1c41e', 'djangocms-rc-a1ac04d3f817', 'djangocms-rc-a7df58dc5ff3', 'djangocms-rc-a9e2a8d3b7a6', 'djangocms-rc-ac74c212719f', 'djangocms-rc-ada585d3f358', 'djangocms-rc-b39799f9fc1c', 'djangocms-rc-ba16eb9a1d09', 'djangocms-rc-c02308fc5261', 'djangocms-rc-ca16415b1022', 'djangocms-rc-d88932559b00', 'djangocms-rc-e3a23a7fc757', 'djangocms-rc-e429b4584a16', 'djangocms-rc-e88032bf704c', 'djangocms-rc-f2c367ddc7b1', 'djangocms-rc-fdda30c271f0', 'djangocms-rc-ff6cb9b5dced']}`
+- [PASS] no_related_change_crosses_splits — `[]`
+- [PASS] frozen_universe_count_144 — `{'count': 144, 'count_ok': True, 'hash': '43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410', 'hash_ok': True}`
+- [PASS] frozen_universe_hash_unchanged — `43f4279bdf228745b1f6b289c81cda141b089ab5be4f4af63bb8f39f837c4410`
+- [PASS] frozen_graph_edge_count_562 — `{'edge_count': 562, 'edge_count_ok': True, 'hash': '0a6bf0f758c9cd7de79adb72138c549a2b0aee3cfd62841496cb455d1ce7cd58', 'hash_ok': True, 'node_count': 144}`
+- [PASS] frozen_graph_hash_unchanged — `0a6bf0f758c9cd7de79adb72138c549a2b0aee3cfd62841496cb455d1ce7cd58`
+
+## Gate 6 — Metric Verification (scientific): PASS
+
+- [PASS] synthetic_metrics_tp_fp_fn — `{'tp': 2, 'fp': 1, 'fn': 1}`
+- [PASS] synthetic_metrics_precision — `0.6666666666666666`
+- [PASS] synthetic_metrics_recall — `0.6666666666666666`
+- [PASS] synthetic_metrics_f1_fnr — `{'f1': 0.6666666666666666, 'fnr': 0.3333333333333333}`
+- [PASS] miner_dev_disjoint_from_scientific — `[]`
+- [PASS] miner_dev_excluded_from_aggregate_metrics — `MINER_DEV split is permanently excluded from final metrics (frozen policy)`
