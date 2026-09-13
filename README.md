@@ -17,9 +17,9 @@
 |---|---|
 | **Benchmark** | **COMPLETE** |
 | **Release** | `v0.11.0-benchmark-complete` |
-| **Current phase** | **Paper / figures / supervisor review; M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED; M4A-3 held-out evaluation PENDING (separately frozen)** |
+| **Current phase** | **Paper / figures / supervisor review; M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED; M4A-3/P1 protocol FROZEN + ZERO-API harness COMPLETE (real held-out inference NOT RUN)** |
 | **Legacy frozen benchmark runs remaining** | **ZERO** |
-| **New RealCommitImpactDataset scientific evaluation** | **PENDING (M4A-2 corpus + split freeze; then M4A-3 held-out evaluation)** |
+| **New RealCommitImpactDataset scientific evaluation** | **PENDING (M4A-3/P1 protocol frozen + harness COMPLETE; real held-out model inference NOT RUN)** |
 | Saleor | FUTURE WORK / NOT CURRENT |
 | Graph-aware v3 | FUTURE WORK |
 | Fine-tuning | FUTURE WORK |
@@ -106,7 +106,12 @@ section below.
   `scripts/verify_real_commit_dataset_scientific.py`; builder
   `scripts/build_real_commit_dataset_scientific.py`; data
   `benchmark_data/real_commit_impact_v1/scientific/` +
-  `scientific_manifest.json` + `split_freeze.json`. M4A-1 references:
+  `scientific_manifest.json` + `split_freeze.json`. **M4A-3/P1 (2026-09-14):
+  REAL-COMMIT FULL-v2 vs SPARSE-v2 evaluation protocol FROZEN + ZERO-API
+  harness COMPLETE** (`reports/REAL_COMMIT_M4A3_P1_PROTOCOL.md`,
+  `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`, 10 held-out cases × 2 arms × 3
+  reps = 60-cell frozen manifest; six gates + audit PASS; real held-out model
+  inference NOT RUN). M4A-1 references:
   protocol `reports/REAL_COMMIT_M4A1_PROTOCOL.md`; six gates
   `reports/REAL_COMMIT_M4A1_VALIDATION.md`; audit
   `reports/REAL_COMMIT_M4A1_AUDIT.md`; verifier

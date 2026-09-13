@@ -7,35 +7,43 @@
 miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)** +
 **M4A-2 scientific real-commit corpus COMPLETE / AUDITED (2026-09-13; 40
 cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API
-calls)**.
+calls)** + **M4A-3/P1 protocol FROZEN + ZERO-API harness COMPLETE (2026-09-14;
+10 held-out cases × 2 arms × 3 reps = 60-cell frozen manifest; six gates +
+audit PASS; real held-out model inference NOT RUN)**.
 **Legacy frozen benchmark runs remaining:** ZERO.
 **New RealCommitImpactDataset scientific evaluation:** PENDING (M4A-3 held-out
-evaluation under a separately frozen protocol; NOT RUN).
+evaluation under the frozen protocol; harness ready, inference NOT RUN).
 
 - **Where we are:** selection-stage benchmark research closed and audited
   (artifact-level consistency audit PASS, 2026-09-08); **M4A-1
   (RealCommitImpactDataset-v1 miner/schema/leakage barrier + 6 MINER_DEV
   cases) COMPLETE / AUDITED (2026-09-13)**; **M4A-2 (40 clean scientific
   real-commit cases + split freeze) COMPLETE / AUDITED (2026-09-13)**;
-  remaining work is M4A-3 (held-out evaluation, separately frozen protocol)
-  and the paper / figures / manuscript / supervisor-review phase.
+  **M4A-3/P1 protocol FROZEN + ZERO-API harness COMPLETE (2026-09-14)**
+  (FULL-v2 vs SPARSE-v2 on the 10-case HELD_OUT_TEST split; 60-cell frozen
+  manifest; six gates + audit PASS; real held-out inference NOT RUN);
+  remaining work is the real M4A-3 held-out model inference under the frozen
+  protocol and the paper / figures / manuscript / supervisor-review phase.
 - **What is proven:** Todo + djangoCMS selection studies, the
   post-hoc/exploratory ImpactPlan-v2 study, two cross-model robustness
   replications (Qwen3-32B, Qwen3-Coder-30B-A3B-Instruct), the
   controlled-encoding line M1A / M1B with the **M1 defensive closure**
   (2026-09-13), the **M3 graph ablation C0/C1/C2** (2026-09-13, 90 new
   cells, audited), the **M4A-1 real-commit miner infrastructure**
-  (2026-09-13, audited, zero API calls), and the **M4A-2 scientific corpus**
+  (2026-09-13, audited, zero API calls), the **M4A-2 scientific corpus**
   (2026-09-13, audited, zero API calls): 40 clean scientific cases, R1/R2/R3
-  related/duplicate removal, split freeze (24/6/10) before any model result.
+  related/duplicate removal, split freeze (24/6/10) before any model result,
+  and the **M4A-3/P1 frozen protocol + ZERO-API evaluation harness**
+  (2026-09-14, six gates + audit PASS, zero API calls).
 - **What is not proven:** M2 (serialization-density), any graph claim beyond
   the six curated development/mechanism scenarios, any end-to-end
-  regeneration correctness claim, and any **real-commit held-out evaluation**
-  (corpus + splits COMPLETE; held-out evaluation NOT RUN — M4A-3 separately
-  frozen).
-- **What is next:** M4A-3 (held-out evaluation on the frozen 10-case
-  HELD_OUT_TEST split under a separately frozen protocol), then paper /
-  figures / manuscript / supervisor review; see
+  regeneration correctness claim, and any **real-commit held-out model
+  result** (corpus + splits + P1 harness COMPLETE; held-out inference NOT
+  RUN — M4A-3 real execution under the frozen protocol).
+- **What is next:** real M4A-3 held-out model inference on the frozen 10-case
+  HELD_OUT_TEST split under the frozen P1 protocol (harness ready; requires a
+  real model/provider + frozen budget), then paper / figures / manuscript /
+  supervisor review; see
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md).
 
@@ -147,8 +155,10 @@ evaluation under a separately frozen protocol; NOT RUN).
       results** (DONE 2026-09-13; 40 cases; TRAIN 24 / VALIDATION 6 /
       HELD_OUT_TEST 10; uses the M4A-1 miner/schema/leakage barrier).
 - [ ] **M4A-3 — held-out evaluation** on the frozen 10-case HELD_OUT_TEST
-      split (NOT RUN; requires a separately frozen protocol before any model
-      execution; must NOT include MINER_DEV or TRAIN/VALIDATION cases).
+      split (protocol FROZEN + ZERO-API harness COMPLETE 2026-09-14; real
+      model inference NOT RUN — requires a real model/provider + frozen
+      budget; must NOT include MINER_DEV or TRAIN/VALIDATION cases in the
+      final result).
 - [ ] Finalize research questions for the manuscript.
 - [ ] Freeze contribution claims (see `docs/PAPER_WRITING_HANDOFF.md`).
 - [ ] Final Results table.
