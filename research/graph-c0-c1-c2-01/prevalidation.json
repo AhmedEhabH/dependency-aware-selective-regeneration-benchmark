@@ -1,0 +1,231 @@
+{
+  "study_id": "scientific-djangocms-graph-c0-c1-c2-01",
+  "passed": true,
+  "checks": [
+    {
+      "check": "branch_expected",
+      "ok": true,
+      "detail": "research/graph-c0-c1-c2-01"
+    },
+    {
+      "check": "head_matches_origin",
+      "ok": true,
+      "detail": {
+        "head": "2742a9bff2021f32e9245063fb3df9b1589c95c3",
+        "origin_ref": "2742a9bff2021f32e9245063fb3df9b1589c95c3"
+      }
+    },
+    {
+      "check": "graph_verification",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "c0_reuse_exact_compatibility",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "seeds_nonempty_djangocms-external-validity-002",
+      "ok": true,
+      "detail": [
+        66,
+        69
+      ]
+    },
+    {
+      "check": "zone1_nonempty_djangocms-external-validity-002",
+      "ok": true,
+      "detail": 28
+    },
+    {
+      "check": "seeds_nonempty_djangocms-external-validity-004",
+      "ok": true,
+      "detail": [
+        66,
+        69
+      ]
+    },
+    {
+      "check": "zone1_nonempty_djangocms-external-validity-004",
+      "ok": true,
+      "detail": 28
+    },
+    {
+      "check": "seeds_nonempty_djangocms-external-validity-005",
+      "ok": true,
+      "detail": [
+        5,
+        70
+      ]
+    },
+    {
+      "check": "zone1_nonempty_djangocms-external-validity-005",
+      "ok": true,
+      "detail": 25
+    },
+    {
+      "check": "seeds_nonempty_djangocms-external-validity-006",
+      "ok": true,
+      "detail": [
+        66,
+        71,
+        73,
+        80,
+        96
+      ]
+    },
+    {
+      "check": "zone1_nonempty_djangocms-external-validity-006",
+      "ok": true,
+      "detail": 37
+    },
+    {
+      "check": "seeds_nonempty_djangocms-external-validity-007",
+      "ok": true,
+      "detail": [
+        5,
+        66
+      ]
+    },
+    {
+      "check": "zone1_nonempty_djangocms-external-validity-007",
+      "ok": true,
+      "detail": 29
+    },
+    {
+      "check": "seeds_nonempty_djangocms-external-validity-008",
+      "ok": true,
+      "detail": [
+        66,
+        69,
+        71,
+        73,
+        96
+      ]
+    },
+    {
+      "check": "zone1_nonempty_djangocms-external-validity-008",
+      "ok": true,
+      "detail": 41
+    },
+    {
+      "check": "three_hop_not_eligible_preregistered",
+      "ok": true,
+      "detail": {
+        "eligible": false,
+        "ceiling": 115,
+        "rule": "for ALL 6 scenarios: |zone_3hop| > |zone_2hop| AND |zone_3hop| <= 115",
+        "per_scenario": {
+          "djangocms-external-validity-002": {
+            "zone_2hop_size": 112,
+            "zone_3hop_size": 130,
+            "grows_beyond_2hop": true,
+            "within_ceiling_115": false
+          },
+          "djangocms-external-validity-004": {
+            "zone_2hop_size": 112,
+            "zone_3hop_size": 130,
+            "grows_beyond_2hop": true,
+            "within_ceiling_115": false
+          },
+          "djangocms-external-validity-005": {
+            "zone_2hop_size": 111,
+            "zone_3hop_size": 129,
+            "grows_beyond_2hop": true,
+            "within_ceiling_115": false
+          },
+          "djangocms-external-validity-006": {
+            "zone_2hop_size": 116,
+            "zone_3hop_size": 130,
+            "grows_beyond_2hop": true,
+            "within_ceiling_115": false
+          },
+          "djangocms-external-validity-007": {
+            "zone_2hop_size": 111,
+            "zone_3hop_size": 130,
+            "grows_beyond_2hop": true,
+            "within_ceiling_115": false
+          },
+          "djangocms-external-validity-008": {
+            "zone_2hop_size": 119,
+            "zone_3hop_size": 130,
+            "grows_beyond_2hop": true,
+            "within_ceiling_115": false
+          }
+        }
+      }
+    },
+    {
+      "check": "frozen_universe_144",
+      "ok": true,
+      "detail": 144
+    },
+    {
+      "check": "common_schema_sha_frozen",
+      "ok": true,
+      "detail": "df113fd8595d0f25911abaefb60a89ad26db110facfc0226e6e25b14a924d1ea"
+    },
+    {
+      "check": "hidden_gold_not_in_visible_inputs",
+      "ok": true,
+      "detail": [
+        {
+          "scenario": "djangocms-external-validity-002",
+          "gold_paths": [
+            "cms/api.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-004",
+          "gold_paths": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/models/contentmodels.py",
+            "cms/views.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-005",
+          "gold_paths": [
+            "cms/admin/pageadmin.py",
+            "cms/admin/permissionadmin.py",
+            "cms/cms_toolbars.py",
+            "cms/models/permissionmodels.py",
+            "cms/utils/page_permissions.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-006",
+          "gold_paths": [
+            "cms/admin/placeholderadmin.py",
+            "cms/models/pluginmodel.py",
+            "cms/utils/plugins.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-007",
+          "gold_paths": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/cms_toolbars.py",
+            "cms/models/contentmodels.py",
+            "cms/models/permissionmodels.py",
+            "cms/signals/__init__.py",
+            "cms/utils/page_permissions.py"
+          ]
+        },
+        {
+          "scenario": "djangocms-external-validity-008",
+          "gold_paths": [
+            "cms/cache/__init__.py",
+            "cms/middleware/toolbar.py",
+            "cms/signals/__init__.py",
+            "cms/templatetags/cms_tags.py"
+          ]
+        }
+      ]
+    }
+  ],
+  "checked_at": "2026-09-13T02:26:51.002538+00:00"
+}

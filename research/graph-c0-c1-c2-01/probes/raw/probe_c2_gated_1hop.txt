@@ -1,0 +1,73 @@
+{
+  "decisions": [
+    {
+      "id": 1,
+      "action": "REGENERATE",
+      "rationale": "The admin dashboard UI needs to be updated to render an interactive chart instead of a static table.",
+      "confidence": 0.95,
+      "reason_codes": ["requirement_change"],
+      "evidence": []
+    },
+    {
+      "id": 2,
+      "action": "REGENERATE",
+      "rationale": "Entry point may require updates to initialize new interactive components or data endpoints for the dashboard.",
+      "confidence": 0.85,
+      "reason_codes": ["requirement_change"],
+      "evidence": []
+    },
+    {
+      "id": 3,
+      "action": "REGENERATE",
+      "rationale": "Admin module base package might need changes to support new view logic or template context for charts.",
+      "confidence": 0.8,
+      "reason_codes": ["requirement_change"],
+      "evidence": []
+    },
+    {
+      "id": 10,
+      "action": "REGENERATE",
+      "rationale": "User admin module likely contains current implementation of user activity display and must be modified to support interactivity and refresh functionality.",
+      "confidence": 0.9,
+      "reason_codes": ["requirement_change"],
+      "evidence": []
+    },
+    {
+      "id": 92,
+      "action": "REGENERATE",
+      "rationale": "Template tags related to admin rendering may need updates to support chart component integration without introducing new libraries.",
+      "confidence": 0.85,
+      "reason_codes": ["requirement_change", "architecture"],
+      "evidence": []
+    },
+    {
+      "id": 127,
+      "action": "REGENERATE",
+      "rationale": "Views handling admin page requests will require modification to serve dynamic chart data and handle refresh actions.",
+      "confidence": 0.9,
+      "reason_codes": ["requirement_change"],
+      "evidence": []
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-1",
+      "kind": "changed_requirement",
+      "target": "cms/tests/test_admin.py",
+      "reason": "Ensure interactive chart and refresh button behave correctly under test conditions.",
+      "evidence_refs": []
+    },
+    {
+      "obligation_id": "VO-2",
+      "kind": "architecture",
+      "target": "cms/tests/test_style_compliance.py",
+      "reason": "Verify that existing admin styling is preserved during the update to interactive elements.",
+      "evidence_refs": []
+    }
+  ],
+  "architecture_checks": [
+    "Keep the existing admin styling.",
+    "Do not introduce a new external charting library."
+  ],
+  "escalation_reason": ""
+}
