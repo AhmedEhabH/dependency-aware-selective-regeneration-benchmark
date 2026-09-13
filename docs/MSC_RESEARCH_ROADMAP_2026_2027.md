@@ -20,7 +20,7 @@ Status legend:
 |---|---|---|
 | 1 | Sparse impact-policy representation | COMPLETE / AUDITED (M1A + M1B + M1 defensive closure) |
 | 2 | Dependency-aware / risk-aware disclosure | COMPLETE / AUDITED (M3 development-set: hints MIXED, gated disclosure NOT PROMISING as implemented) |
-| 3 | Real historical-change dataset | **IN PROGRESS — M4A-1 miner/schema/leakage barrier COMPLETE / AUDITED (2026-09-13); 6 MINER_DEV cases; M4A-2 scientific corpus (30–40 clean cases + split freeze, ZERO API calls) = CURRENT; held-out evaluation NOT RUN (M4A-3, separately frozen)** |
+| 3 | Real historical-change dataset | **COMPLETE — M4A-1 miner/schema/leakage barrier COMPLETE / AUDITED (2026-09-13; 6 MINER_DEV cases); M4A-2 scientific corpus COMPLETE / AUDITED (2026-09-13; 40 clean cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API calls); held-out evaluation NOT RUN (M4A-3, separately frozen)** |
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
@@ -164,20 +164,30 @@ Pre-Benchmark gates + independent audit PASS). See
 `reports/REAL_COMMIT_M4A1_PROTOCOL.md`, `reports/REAL_COMMIT_M4A1_VALIDATION.md`,
 `reports/REAL_COMMIT_M4A1_AUDIT.md`, `reports/REAL_COMMIT_BENCHMARK_PLAN.md`;
 fine-tuning readiness note in `research/FINE_TUNING_READINESS.md`.
+**M4A-2 (2026-09-13) completed the scientific corpus + split freeze** on
+branch `research/real-commit-impact-dataset-v2-corpus-01` (ZERO API calls):
+40 clean scientific cases mined from the newest 6000 ancestors of the frozen
+anchor (≈2016–2025) with the frozen M4A-1 rules + leakage barrier
+(`allow_intent_path_leakage=False`, 92 leaked ineligible), R1/R2/R3
+related/duplicate removal (582 exact-set, 0 shared-PR, 5 suspected-related
+adjudicated), and a deterministic metadata-only split freeze (seed
+`20260913`) before any model result: TRAIN 24 / VALIDATION 6 /
+HELD_OUT_TEST 10. The historical diff is an **OBSERVED CHANGE-SET PROXY**,
+never semantic ground truth. Six scientific gates + independent audit PASS
+(610 checks). Reports: `reports/REAL_COMMIT_M4A2_PROTOCOL.md`,
+`reports/REAL_COMMIT_M4A2_ADJUDICATION.md`,
+`reports/REAL_COMMIT_M4A2_VALIDATION.md`, `reports/REAL_COMMIT_M4A2_AUDIT.md`,
+`benchmark_data/real_commit_impact_v1/scientific_manifest.json`,
+`benchmark_data/real_commit_impact_v1/split_freeze.json`.
 
-**Missing evidence.** Any real-commit **scientific** evaluation (the 30–40
-scientific real-commit corpus is NOT YET COMPLETE / NEXT; held-out evaluation
-NOT RUN).
+**Missing evidence.** Any real-commit **scientific** evaluation (the 40-case
+corpus + split freeze are COMPLETE / AUDITED 2026-09-13; held-out evaluation
+**NOT RUN** — M4A-3, separately frozen protocol).
 
-**Next experiment.** **M4A-2 (CURRENT)** — mine/adjudicate **30–40 clean
-djangoCMS scientific real-commit cases** with the frozen M4A-1
-miner/schema/leakage barrier (ZERO LLM/API calls; quality/provenance over
-case count; all 6 MINER_DEV cases permanently excluded; any
-`intent_path_leakage=true` case ineligible), and freeze the TRAIN /
-VALIDATION / HELD-OUT TEST splits **before any model result**. Then, in a
-separately frozen **M4A-3** protocol, evaluate Sparse-v2 (and Full-v2
-control) selection on the held-out test split. Held-out test examples must
-never enter any future fine-tuning.
+**Next experiment.** **M4A-3 (NOT RUN; separately frozen protocol)** —
+evaluate Sparse-v2 (and Full-v2 control) selection on the frozen 10-case
+HELD_OUT_TEST split of the M4A-2 corpus. Held-out test examples must never
+enter any future fine-tuning.
 
 **Success / failure interpretation.**
 - Success: selection accuracy on real commits is comparable to the curated
