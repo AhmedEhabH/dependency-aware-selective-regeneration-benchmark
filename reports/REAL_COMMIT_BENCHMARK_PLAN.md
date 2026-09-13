@@ -1,8 +1,27 @@
 # Real-Commit Benchmark Plan
 
-**Date:** 2026-09-11
+**Date:** 2026-09-11 (updated 2026-09-13 for M4A-1)
 **Purpose:** reduce author-created requirement/gold bias by proposing an
 automated historical-commit benchmark.
+
+> **M4A-1 STATUS (2026-09-13): the miner/schema/leakage barrier is now
+> IMPLEMENTED and AUDITED.** See `reports/REAL_COMMIT_M4A1_PROTOCOL.md`,
+> `reports/REAL_COMMIT_M4A1_VALIDATION.md`, `reports/REAL_COMMIT_M4A1_AUDIT.md`.
+> A deterministic miner (`src/benchmark/real_commits/`) scans real djangoCMS
+> history (ancestors of the frozen 5.0.0 anchor), applies frozen v1
+> eligibility/exclusion rules, builds the candidate universe + dependency
+> graph from the **parent commit only**, and physically separates the public
+> inference bundle from the hidden observed change-set proxy. **6 MINER_DEV
+> cases** are materialized and permanently excluded from held-out.
+> Fresh-machine reproduction of the cache (`dist/real-commit-cache/djangocms`)
+> is documented in `reports/REAL_COMMIT_CACHE_REACQUISITION.md`.
+>
+> **M4A-2 STATUS (CURRENT):** mining/adjudicating the **30–40 clean scientific
+> djangoCMS real-commit cases** with the frozen M4A-1 miner/schema/leakage
+> barrier, then freezing TRAIN / VALIDATION / HELD_OUT_TEST splits **before any
+> model result** (ZERO LLM/API calls; legacy frozen benchmark runs remaining:
+> ZERO; new RealCommitImpactDataset scientific evaluation: PENDING). Held-out
+> evaluation itself is M4A-3 under a separately frozen protocol.
 
 ---
 

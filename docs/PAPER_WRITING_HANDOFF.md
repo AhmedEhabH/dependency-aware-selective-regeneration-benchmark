@@ -1,9 +1,11 @@
 # Paper Writing Handoff
 
 **Purpose:** start the manuscript phase from the frozen benchmark evidence
-without reconstructing earlier sessions. The benchmark is **COMPLETE** at
+without reconstructing earlier sessions. The legacy benchmark is **COMPLETE** at
 `v0.11.0-benchmark-complete`; current phase is **paper / figures / supervisor
-review**; **zero scientific runs remain**.
+review**; **legacy frozen benchmark runs remaining: ZERO — new
+RealCommitImpactDataset scientific evaluation is PENDING (M4A-2 corpus + split
+freeze, then M4A-3 held-out evaluation under a separately frozen protocol)**.
 
 ## 0. Title / claim discipline
 
