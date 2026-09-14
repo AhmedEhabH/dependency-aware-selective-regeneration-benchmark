@@ -92,6 +92,8 @@ reports/*.md
 !reports/LOCAGENT_P5A_READINESS.md
 !reports/LOCAGENT_P5B_VALIDATION_BLOCKER_REPORT.md
 !reports/PYTEST_RUNTIME_PROFILE.md
+!reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md
+!reports/P1_SERIALIZATION_CORRECTION_AND_DOCS_MODEL_REFACTOR_CLOSURE.md
 
 # Lock file (regenerated per environment)
 requirements-lock.txt
@@ -139,3 +141,7 @@ reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/workspace/
 
 # Qwen3-Coder-30B-A3B study run workspaces (reproducible scratch; raw evidence is tracked under runs/raw)
 reports/scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01/workspace/
+
+# Scratch / playground dirs (prospective hygiene; see docs/TECHNICAL_DEBT_REGISTER.md TD-009)
+demo_runs_v4/
+playground/

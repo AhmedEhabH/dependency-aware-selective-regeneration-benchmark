@@ -340,6 +340,14 @@ final_metrics.json, closure.json), `reports/REAL_COMMIT_M4A3_P1_RESULT.md`.
   +0.034241 [−0.046795, +0.120882], delta recall −0.064160 [−0.196111,
   +0.064444], delta completion −7,847.9 [−8,136.0, −7,596.8], delta cost
   −$0.023531 [−0.024396, −0.022778].
+- **Serialized decision records (corrected 2026-09-14):** Full-v2 mean
+  **144.0**, Sparse-v2 mean **4.07**, paired delta **−139.9 [−143.3,
+  −137.0]** — recomputed from the persisted raw responses
+  (`research/real-commit-p1-01/final_metrics_serialization_corrected.json`).
+  The originally published "Records mean" (4.03 / 2.50) and delta (−1.540)
+  were the predicted REGENERATE **write-set size** (`len(decoded_write_set_ids)`),
+  NOT serialized decision counts. Correction:
+  `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`.
 - The controlled encoding-cost effect replicates **directionally** (completion
   and cost deltas exclude zero); selection-quality deltas straddle zero — **no
   semantic arm-superiority claim**. The historical diff is an **OBSERVED

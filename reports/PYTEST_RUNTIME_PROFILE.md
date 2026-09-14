@@ -4,24 +4,28 @@
 **Method:** full corpus run once in deterministic shards (Rule 2 of
 `OPENCODE_P1_LAUNCH_FAST_TEST_POLICY_2026-09-14.md`); `--durations=25` retained.
 
-## Summary
+## Summary (2026-09-14 docs/model refactor + P1 metric correction closure)
 
-- Full suite total: **3133 tests / 3100 passed / 33 skipped / 0 failed**
-  (5 shards: shard-1, shard-2, shard-3, shard-4a, shard-4b).
-- Shard 4 was split into two (4a/4b) because a single run exceeded the shell's
-  30-minute command timeout (Rule 2: split only that shard; passing shards not
-  restarted).
-- Two pre-existing environment-gated tests in
+- Full suite total: **3133 tests / 3090 passed / 33 skipped / 2
+  environment-gated (pre-existing)** — deterministic shards by directory:
+  shard-1 (`tests/unit/execution`) 765 passed/23 skipped; shard-2
+  (`tests/unit/{llm,graph,strategies,statistics,comparison,evaluation,selection}`)
+  499 passed/4 skipped; shard-3 (`tests/unit` loose) 1039 passed/5 skipped;
+  shard-4 (`tests/integration`) 787 passed/1 skipped + **2 pre-existing
+  environment-gated failures**.
+- **The 2 failures are pre-existing and documented**: 
   `tests/integration/test_stagec_djangocms_runtime_wiring.py`
   (`test_all_six_gates_pass`, `test_pinned_source_available`) require the real
   provisioned `benchmark_data/repositories/djangocms` checkout, which is
   gitignored/untracked and absent on this machine; they also conflict with the
   `test_pilot_deployment_bundle.py` hermetic suite (which requires that repo
-  ABSENT). This is a pre-existing environment conflict, not a code regression:
-  the D13R2 2671-test baseline was run on the pilot branch with a different
-  test inventory. After restoring the baseline environment
-  (`benchmark_data/repositories` = `{todo}` only), both shards pass.
-- Shard logs/XML: `reports/pytest-full-shard-{1,2,3,4a,4b}.{log,xml}`.
+  ABSENT). This is the same environment conflict the previous closure recorded
+  (3100/33/0 with those two tests excluded); `src/benchmark/external_validity/`
+  is untouched by this milestone. See `docs/TECHNICAL_DEBT_REGISTER.md` TD-008.
+- New tests added in this milestone: P1 serialized-record metric unit +
+  integration (16), model-profile layer unit (10), cost-field unit (5), unified
+  CLI integration (7) — all pass.
+- Shard logs/XML (previous closure): `reports/pytest-full-shard-{1,2,3,4a,4b}.{log,xml}`.
 
 ## Slowest tests (call/setup duration)
 

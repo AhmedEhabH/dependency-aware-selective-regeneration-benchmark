@@ -84,7 +84,31 @@ compared against. Its evidence is frozen and unchanged.
 - **Post-hoc cross-model robustness replication**: **Qwen3-32B**.
 - **Post-hoc cross-model / cross-provider robustness replication**:
   **Qwen3-Coder-30B-A3B-Instruct**.
+- **Real held-out evaluation (M4A-3/P1)**: **Qwen3-Coder-480B-A35B-Instruct**
+  (`qwen/qwen3-coder`) pinned to DeepInfra (`deepinfra/turbo`) through
+  OpenRouter, temperature 0, completion cap 16384 both arms, Graph OFF.
 
 Rows come from **separate studies**. Denominators are never pooled across
 rows. Unknown usage is represented as a lower bound, never silently converted
 to zero.
+
+---
+
+## Future model/provider profiles (2026-09-14 refactor milestone)
+
+Declared in [`config/model_profiles.yaml`](../config/model_profiles.yaml) and
+resolved by [`src/benchmark/model_profiles/`](../src/benchmark/model_profiles/).
+These are prospective configuration for FUTURE studies only; the historical
+evidence above is frozen and unchanged.
+
+| Profile id | Model | Gateway | api_key_env | Status |
+|---|---|---|---|---|
+| `qwen3-coder-openrouter-deepinfra` | Qwen3-Coder-480B-A35B-Instruct (`qwen/qwen3-coder`) | OpenRouter | `OPENROUTER_API_KEY` | mirrors historical primary profile |
+| `deepseek-v4-flash-openrouter` | DeepSeek V4 Flash 0731 (`deepseek/deepseek-v4-flash-0731`) | OpenRouter | `OPENROUTER_API_KEY` | future cross-model candidate; NOT run in this milestone |
+| `deepseek-v4-flash-direct` | DeepSeek V4 Flash (`deepseek-chat`) | DeepSeek direct | `DEEPSEEK_API_KEY` | future profile; probe required |
+| `deepseek-v4-pro-openrouter` | DeepSeek V4 Pro 0813 | OpenRouter | `OPENROUTER_API_KEY` | future robustness candidate; NOT run |
+| `hf-example` | `<repo-id>:<provider>` | Hugging Face Inference Providers | `HF_TOKEN` | generic example; probe required |
+
+Secrets are referenced by environment-variable name only. A scientific run must
+freeze the fully resolved profile before call #1. See
+[`docs/MODEL_PROVIDER_GUIDE.md`](MODEL_PROVIDER_GUIDE.md).

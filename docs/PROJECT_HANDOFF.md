@@ -20,9 +20,18 @@ host) — attempt + exact blocker preserved.
   [`../README.md`](../README.md).
 - **P1 held-out evidence:** `reports/REAL_COMMIT_M4A3_P1_RESULT.md`,
   `research/real-commit-p1-01/` (60 run records + SHA-verified raw responses);
-  full_v2 micro P 0.339/R 0.369/F1 0.353, sparse_v2 P 0.387/R 0.261/F1 0.312;
+  full_v2 micro P 0.339/R 0.369/F1 0.353, sparse_v2 micro P 0.387/R 0.261/F1 0.312;
   bootstrap (10 tasks) delta F1 −0.009 [−0.130, +0.119], delta completion
-  −7,848 [−8,136, −7,597], delta cost −$0.0235 [−0.0244, −0.0228].
+  −7,848 [−8,136, −7,597], delta cost −$0.0235 [−0.0244, −0.0228];
+  **serialized records (corrected 2026-09-14):** Full-v2 mean 144.0, Sparse-v2
+  mean 4.07, paired delta −139.9 [−143.3, −137.0] (recomputed from persisted
+  raw responses; the former 4.03/2.50/−1.540 were REGENERATE write-set sizes;
+  see `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`).
+- **2026-09-14 refactor milestone:** reader-first README; model/profile layer
+  (`config/model_profiles.yaml` + `src/benchmark/model_profiles/`); unified CLI
+  (`scripts/benchmark_cli.py`); cost-field separation
+  (`src/benchmark/model_profiles/cost.py`); docs `HISTORICAL_EXPERIMENT_LEDGER.md`,
+  `MODEL_PROVIDER_GUIDE.md`, `BENCHMARK_RUNBOOK.md`, `TECHNICAL_DEBT_REGISTER.md`.
 - **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor, graph-aware
   v3, graph experiment, fine-tuning.
 - **ImpactPlan-v2** is POST-HOC / EXPLORATORY (selection-only; see

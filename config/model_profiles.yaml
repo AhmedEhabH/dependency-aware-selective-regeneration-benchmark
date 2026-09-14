@@ -1,0 +1,120 @@
+# Model / provider profiles — dynamic future-run configuration.
+#
+# This file is the prospective model-layer configuration for FUTURE studies.
+# Historical study launchers keep their own frozen constants and remain the
+# reproducible source of truth for the completed evidence. Scientific rules:
+#   - A scientific run must freeze the FULLY RESOLVED profile before call #1
+#     and refuse to continue if the resolved profile differs from the manifest.
+#   - Secrets are referenced by environment-variable NAME only. Never store a
+#     literal token in this file or anywhere in the repository.
+#   - Never silently switch providers/models inside one frozen scientific arm.
+#   - No scientific model calls are required to add or validate a profile.
+#
+# Gateway values: openrouter | deepseek | huggingface | openai_compatible
+# structured_output: json_schema | json_object | prompt_only_json | unsupported
+
+profiles:
+  - id: qwen3-coder-openrouter-deepinfra
+    description: >-
+      Historical primary scientific model profile (Qwen3-Coder-480B-A35B-Instruct)
+      pinned to DeepInfra through OpenRouter, fallback OFF. Mirrors the frozen
+      constants used by the completed M1A/M1B/M3/P1 studies.
+    gateway: openrouter
+    base_url: https://openrouter.ai/api/v1
+    model: qwen/qwen3-coder
+    provider_pin: deepinfra/turbo
+    api_key_env: OPENROUTER_API_KEY
+    temperature: 0.0
+    max_completion_tokens: 16384
+    reasoning: {}
+    structured_output: json_schema
+    fallbacks: false
+    timeout_seconds: 300
+    retry_policy:
+      max_retries: 4
+      backoff_seconds: 20.0
+    budget_abort_ceiling_usd: 1.50
+
+  - id: deepseek-v4-flash-openrouter
+    description: >-
+      Low-cost future cross-model replication candidate (DeepSeek V4 Flash 0731)
+      through OpenRouter. NOT yet a scientific result — capability probe and
+      protocol freeze are required before any scientific use.
+    gateway: openrouter
+    base_url: https://openrouter.ai/api/v1
+    model: deepseek/deepseek-v4-flash-0731
+    provider_pin: null
+    api_key_env: OPENROUTER_API_KEY
+    temperature: 0.0
+    max_completion_tokens: 16384
+    reasoning: {}
+    structured_output: json_schema
+    fallbacks: false
+    timeout_seconds: 300
+    retry_policy:
+      max_retries: 4
+      backoff_seconds: 20.0
+    budget_abort_ceiling_usd: null
+
+  - id: deepseek-v4-flash-direct
+    description: >-
+      DeepSeek direct (OpenAI-compatible) future profile. Requires the exact
+      model id and capability probe before scientific use; confirm JSON-schema
+      structured-output support.
+    gateway: deepseek
+    base_url: https://api.deepseek.com/v1
+    model: deepseek-chat
+    provider_pin: null
+    api_key_env: DEEPSEEK_API_KEY
+    temperature: 0.0
+    max_completion_tokens: 16384
+    reasoning: {}
+    structured_output: prompt_only_json
+    fallbacks: false
+    timeout_seconds: 300
+    retry_policy:
+      max_retries: 4
+      backoff_seconds: 20.0
+    budget_abort_ceiling_usd: null
+
+  - id: deepseek-v4-pro-openrouter
+    description: >-
+      Stronger/costlier future robustness profile (DeepSeek V4 Pro 0813) through
+      OpenRouter. Design-only; NOT run in this milestone.
+    gateway: openrouter
+    base_url: https://openrouter.ai/api/v1
+    model: deepseek/deepseek-v4-pro-0813
+    provider_pin: null
+    api_key_env: OPENROUTER_API_KEY
+    temperature: 0.0
+    max_completion_tokens: 16384
+    reasoning: {}
+    structured_output: json_schema
+    fallbacks: false
+    timeout_seconds: 300
+    retry_policy:
+      max_retries: 4
+      backoff_seconds: 20.0
+    budget_abort_ceiling_usd: null
+
+  - id: hf-example
+    description: >-
+      Generic Hugging Face Inference Providers example (OpenAI-compatible router).
+      Model must be the exact "<repo-id>:<provider>" string; capability probe the
+      exact provider BEFORE scientific use; disable silent failover when provider
+      identity is part of the experimental control.
+    gateway: huggingface
+    base_url: https://router.huggingface.co/v1
+    model: <repo-id>:<provider>
+    provider_pin: null
+    api_key_env: HF_TOKEN
+    temperature: 0.0
+    max_completion_tokens: 16384
+    reasoning: {}
+    structured_output: json_schema
+    fallbacks: false
+    timeout_seconds: 300
+    retry_policy:
+      max_retries: 3
+      backoff_seconds: 10.0
+    budget_abort_ceiling_usd: null

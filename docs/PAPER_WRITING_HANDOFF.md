@@ -10,6 +10,14 @@ held-out evaluation EXECUTED 2026-09-14 — 60/60 cells valid, 0 failures,
 0 truncations, completion cap 16384 both arms (M1B replication), 10
 independent tasks, bootstrap over tasks; P5-A LocAgent shared-protocol adapter
 COMPLETE 2026-09-14 — ZERO API, MINER_DEV/TRAIN/VALIDATION only)**.
+**P1 serialized-record metric correction (2026-09-14):** the P1
+`serialized_records` metric was recomputed from the persisted raw responses
+(ZERO API): Full-v2 mean **144.0**, Sparse-v2 mean **4.07**, paired delta
+**−139.9 [−143.3, −137.0]**. The former figures (4.03 / 2.50 / −1.540) were
+the predicted REGENERATE write-set sizes, NOT serialized decision counts. Paper
+tables must use the corrected values and reference
+`reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`.
+P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unchanged.
 
 ## 0. Title / claim discipline
 
