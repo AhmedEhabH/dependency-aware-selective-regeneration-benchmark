@@ -38,7 +38,7 @@ import sys
 
 LOCAGENT_PINNED_COMMIT = "4935b557326c154bad8e8dcf3747cc8d32d1f387"
 FROZEN_MODEL_ROUTE = "openrouter/qwen/qwen3-coder"
-WRAPPER_VERSION = "locagent-compat-launch-layer-1"
+WRAPPER_VERSION = "locagent-compat-launch-layer-1.1"
 
 # torch.multiprocessing.spawn requires the target function to be reachable as
 # an attribute of the main module in the child (it re-imports __main__ and
@@ -70,7 +70,7 @@ def build_args(raw: argparse.Namespace) -> argparse.Namespace:
         num_processes=raw.num_processes,
         log_level=raw.log_level,
         timeout=raw.timeout,
-        rerun_empty_location=False,
+        rerun_empty_location=raw.rerun_empty_location,
     )
     return args
 
@@ -92,6 +92,9 @@ def run() -> None:
     parser.add_argument("--log_level", type=str, default="INFO")
     parser.add_argument("--timeout", type=int, default=900)
     parser.add_argument("--merge", action="store_true")
+    parser.add_argument("--rerun-empty-location", action="store_true",
+                        help="Rerun instances whose persisted output is empty "
+                             "(LocAgent-native); preserves non-empty outputs.")
     raw = parser.parse_args()
 
     upstream_dir = os.path.abspath(raw.upstream_dir)
