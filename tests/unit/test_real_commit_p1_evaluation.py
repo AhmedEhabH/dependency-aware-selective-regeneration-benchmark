@@ -143,6 +143,6 @@ def test_p1_protocol_constants_frozen() -> None:
     assert p1.P1_MODEL == "qwen/qwen3-coder"
     assert p1.P1_PROVIDER_TAG == "deepinfra/turbo"
     assert p1.P1_TEMPERATURE == 0.0
-    assert p1.P1_MAX_COMPLETION_TOKENS == 4096
+    assert p1.P1_MAX_COMPLETION_TOKENS == 16384
     assert p1.P1_REPETITIONS == 3
     assert p1.P1_ACTION_VOCAB == ("PRESERVE", "REGENERATE", "VALIDATE", "HUMAN_REVIEW")

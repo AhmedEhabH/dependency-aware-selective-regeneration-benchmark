@@ -42,7 +42,7 @@ serialization-policy block, proven by the deterministic prompt-control proof.
 
 - Model: `qwen/qwen3-coder` (Qwen3-Coder-480B-A35B-Instruct)
 - Provider: DeepInfra pinned through OpenRouter (`deepinfra/turbo`), fallback OFF
-- Temperature `0.0`, completion cap `4096`, Graph OFF (no graph hint injection)
+- Temperature `0.0`, completion cap `16384` (both arms; controlled M1B replication), Graph OFF (no graph hint injection)
 - Same model/provider/budget for BOTH arms.
 
 ## 5. Run allocation

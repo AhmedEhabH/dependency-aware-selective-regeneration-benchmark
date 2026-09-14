@@ -1,0 +1,45 @@
+{
+  "study_id": "real-commit-p1-full-v2-vs-sparse-v2-01",
+  "model_id": "qwen/qwen3-coder",
+  "model_name": "Qwen: Qwen3 Coder 480B A35B",
+  "provider_name": "DeepInfra",
+  "provider_tag": "deepinfra/turbo",
+  "quantization": "fp4",
+  "context_length": 262144,
+  "max_completion_tokens": 65536,
+  "supported_parameters": [
+    "max_tokens",
+    "temperature",
+    "top_p",
+    "stop",
+    "frequency_penalty",
+    "presence_penalty",
+    "repetition_penalty",
+    "top_k",
+    "seed",
+    "min_p",
+    "response_format",
+    "tools",
+    "tool_choice",
+    "logit_bias",
+    "structured_outputs"
+  ],
+  "input_price_per_1M_usd": 0.3,
+  "output_price_per_1M_usd": 1.0,
+  "reasoning_frozen": null,
+  "reasoning_mode": "direct/non-thinking (no reasoning control parameter sent)",
+  "temperature": 0.0,
+  "completion_cap": 16384,
+  "graph": "OFF",
+  "routing": {
+    "provider": {
+      "order": [
+        "deepinfra/turbo"
+      ],
+      "allow_fallbacks": false,
+      "require_parameters": true
+    }
+  },
+  "scientific_ceiling_usd": 1.5,
+  "metadata_fetched_at_utc": "2026-09-14T02:15:37.898583+00:00"
+}

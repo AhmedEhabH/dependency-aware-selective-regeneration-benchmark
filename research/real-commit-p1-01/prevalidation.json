@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "branch_expected",
+      "ok": true,
+      "detail": {
+        "branch": "main",
+        "expected": "main"
+      }
+    },
+    {
+      "check": "head_matches_origin",
+      "ok": true,
+      "detail": {
+        "head": "5f2304760052a6b29ed2c251998cb62416cda277",
+        "origin_ref": "5f2304760052a6b29ed2c251998cb62416cda277"
+      }
+    },
+    {
+      "check": "cap_16384_frozen",
+      "ok": true,
+      "detail": 16384
+    },
+    {
+      "check": "model_frozen",
+      "ok": true,
+      "detail": "qwen/qwen3-coder"
+    },
+    {
+      "check": "provider_frozen",
+      "ok": true,
+      "detail": "deepinfra/turbo"
+    },
+    {
+      "check": "six_gates_evidence_passed",
+      "ok": true,
+      "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\reports\\real_commit_m4a3_p1_gates.json"
+    },
+    {
+      "check": "raw_output_dir_empty_or_resumable",
+      "ok": true,
+      "detail": {
+        "existing_records": 0
+      }
+    }
+  ],
+  "checked_at": "2026-09-14T02:15:29.887782+00:00"
+}

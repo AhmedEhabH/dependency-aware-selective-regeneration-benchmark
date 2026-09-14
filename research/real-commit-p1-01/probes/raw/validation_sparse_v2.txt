@@ -1,0 +1,100 @@
+{
+  "decisions": [
+    {
+      "id": 3,
+      "action": "REGENERATE",
+      "rationale": "The commit intent indicates a fix related to page translation constraints during paste operations, which likely involves form validation logic.",
+      "confidence": 0.95,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "commit_message",
+          "description": "Fixed #6201 -- Don't allow users to paste a page if it doesn't have translations for current site"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "action": "REGENERATE",
+      "rationale": "PageAdmin handles page-level operations including paste functionality and would need updates to enforce translation checks.",
+      "confidence": 0.9,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "commit_message",
+          "description": "Fixed #6201 -- Don't allow users to paste a page if it doesn't have translations for current site"
+        },
+        {
+          "source": "cms/admin/pageadmin.py",
+          "description": "Contains core page administration logic where paste restrictions would be implemented"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "action": "VALIDATE",
+      "rationale": "API layer may expose paste functions that require validation against translation availability per site configuration.",
+      "confidence": 0.85,
+      "reason_codes": ["architecture"],
+      "evidence": [
+        {
+          "source": "cms/api.py",
+          "description": "Provides high-level interface methods potentially used by admin views for page operations"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "action": "VALIDATE",
+      "rationale": "PageModel contains data structures representing multilingual pages and their translation states relevant to the issue.",
+      "confidence": 0.8,
+      "reason_codes": ["architecture"],
+      "evidence": [
+        {
+          "source": "cms/models/pagemodel.py",
+          "description": "Defines core page model with language-specific title relations necessary for checking translation presence"
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "action": "VALIDATE",
+      "rationale": "TitleModels store translated content versions and are directly involved in verifying translation existence across sites.",
+      "confidence": 0.85,
+      "reason_codes": ["architecture"],
+      "evidence": [
+        {
+          "source": "cms/models/titlemodels.py",
+          "description": "Stores localized metadata such as titles and slugs required to determine translation completeness"
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "action": "VALIDATE",
+      "rationale": "Utility functions for handling page-related tasks might include helper methods for validating translation consistency before paste actions.",
+      "confidence": 0.75,
+      "reason_codes": ["architecture"],
+      "evidence": [
+        {
+          "source": "cms/utils/page.py",
+          "description": "Includes utilities for managing page objects which could support translation verification logic"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [
+    {
+      "obligation_id": "VO-TRANSLATION-PASTE-CHECK",
+      "kind": "changed_requirement",
+      "target": "test_admin_page_operations",
+      "reason": "Ensure pasting respects translation availability constraints after modification",
+      "evidence_refs": ["commit_message"]
+    }
+  ],
+  "architecture_checks": [
+    "Verify CMS page paste operation enforces translation completeness per target site settings",
+    "Confirm PageAdmin and API layers coordinate correctly on cross-site paste restrictions"
+  ],
+  "escalation_reason": ""
+}

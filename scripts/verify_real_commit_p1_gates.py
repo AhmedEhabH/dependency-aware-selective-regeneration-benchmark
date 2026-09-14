@@ -521,8 +521,8 @@ def _independent_audit() -> dict[str, Any]:
     )
     checks.append(
         {
-            "check": "cap_4096_frozen",
-            "ok": p1.P1_MAX_COMPLETION_TOKENS == 4096,
+            "check": "cap_16384_frozen",
+            "ok": p1.P1_MAX_COMPLETION_TOKENS == 16384,
             "detail": p1.P1_MAX_COMPLETION_TOKENS,
         }
     )

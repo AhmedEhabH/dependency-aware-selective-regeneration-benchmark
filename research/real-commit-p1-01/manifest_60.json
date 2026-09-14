@@ -1,5 +1,30 @@
 {
   "study_id": "real-commit-p1-full-v2-vs-sparse-v2-01",
+  "study_label": "REAL-COMMIT FULL-v2 vs SPARSE-v2 held-out evaluation",
+  "model": "qwen/qwen3-coder",
+  "model_human": "Qwen3-Coder-480B-A35B-Instruct",
+  "gateway": "OpenRouter",
+  "provider": "DeepInfra pinned through OpenRouter",
+  "provider_tag": "deepinfra/turbo",
+  "quantization": "fp4",
+  "fallback": "off",
+  "temperature": 0.0,
+  "completion_cap": 16384,
+  "reasoning_mode": "direct/non-thinking (no reasoning control parameter sent)",
+  "graph": "OFF",
+  "arms": [
+    "full_v2",
+    "sparse_v2"
+  ],
+  "repetitions": 3,
+  "held_out_count": 10,
+  "total_cells": 60,
+  "protocol_version": "real-commit-p1-v1.0.0",
+  "result_based_reruns": "FORBIDDEN",
+  "cell_replacement": "FORBIDDEN",
+  "hard_cost_ceiling_usd": 1.5,
+  "runtime_ceiling_seconds": 21600,
+  "manifest_frozen_at": "2026-09-14T02:54:34.404147+00:00",
   "cells": [
     {
       "run_id": "p1-djangocms-rc-4307e1b8c2e2-full_v2-r1",
