@@ -7,23 +7,24 @@
 miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)** +
 **M4A-2 scientific real-commit corpus COMPLETE / AUDITED (2026-09-13; 40
 cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API
-calls)** + **M4A-3/P1 protocol FROZEN + ZERO-API harness COMPLETE (2026-09-14;
-10 held-out cases × 2 arms × 3 reps = 60-cell frozen manifest; six gates +
-audit PASS; real held-out model inference NOT RUN)**.
+calls)** + **M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14;
+60/60 cells valid / 0 failed / 0 truncations; completion cap 16384 both arms;
+10 independent tasks × 2 arms × 3 reps)**.
 **Legacy frozen benchmark runs remaining:** ZERO.
-**New RealCommitImpactDataset scientific evaluation:** PENDING (M4A-3 held-out
-evaluation under the frozen protocol; harness ready, inference NOT RUN).
+**New RealCommitImpactDataset scientific evaluation:** EXECUTED (M4A-3/P1;
+see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
 
 - **Where we are:** selection-stage benchmark research closed and audited
   (artifact-level consistency audit PASS, 2026-09-08); **M4A-1
   (RealCommitImpactDataset-v1 miner/schema/leakage barrier + 6 MINER_DEV
   cases) COMPLETE / AUDITED (2026-09-13)**; **M4A-2 (40 clean scientific
   real-commit cases + split freeze) COMPLETE / AUDITED (2026-09-13)**;
-  **M4A-3/P1 protocol FROZEN + ZERO-API harness COMPLETE (2026-09-14)**
-  (FULL-v2 vs SPARSE-v2 on the 10-case HELD_OUT_TEST split; 60-cell frozen
-  manifest; six gates + audit PASS; real held-out inference NOT RUN);
-  remaining work is the real M4A-3 held-out model inference under the frozen
-  protocol and the paper / figures / manuscript / supervisor-review phase.
+  **M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14)** (FULL-v2 vs
+  SPARSE-v2 on the 10-case HELD_OUT_TEST split; 60-cell frozen manifest,
+  cap 16384 both arms; 60/60 valid / 0 failed / 0 truncations; six gates +
+  audit PASS; TRAIN/VALIDATION capability probe PASS); remaining work is
+  P5-B LocAgent validation pilot and the paper / figures / manuscript /
+  supervisor-review phase.
 - **What is proven:** Todo + djangoCMS selection studies, the
   post-hoc/exploratory ImpactPlan-v2 study, two cross-model robustness
   replications (Qwen3-32B, Qwen3-Coder-30B-A3B-Instruct), the
@@ -37,13 +38,12 @@ evaluation under the frozen protocol; harness ready, inference NOT RUN).
   (2026-09-14, six gates + audit PASS, zero API calls).
 - **What is not proven:** M2 (serialization-density), any graph claim beyond
   the six curated development/mechanism scenarios, any end-to-end
-  regeneration correctness claim, and any **real-commit held-out model
-  result** (corpus + splits + P1 harness COMPLETE; held-out inference NOT
-  RUN — M4A-3 real execution under the frozen protocol).
-- **What is next:** real M4A-3 held-out model inference on the frozen 10-case
-  HELD_OUT_TEST split under the frozen P1 protocol (harness ready; requires a
-  real model/provider + frozen budget), then paper / figures / manuscript /
-  supervisor review; see
+  regeneration correctness claim, and any arm-superiority claim from the
+  M4A-3/P1 held-out result (executed; selection-quality deltas between arms
+  are small with CIs straddling zero — no semantic superiority).
+- **What is next:** P5-A LocAgent adapter already built (ZERO API); **P5-B
+  real LocAgent pilot on VALIDATION only**, then paper / figures / manuscript
+  / supervisor review; see
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md).
 

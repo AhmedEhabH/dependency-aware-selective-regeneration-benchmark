@@ -4,12 +4,24 @@
 ## CURRENT STATE
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
-**Current phase:** Paper / figures / supervisor review.
-**Scientific runs remaining:** ZERO.
+**Current phase:** Paper / figures / supervisor review + **M4A-1/M4A-2
+real-commit miner + scientific corpus COMPLETE / AUDITED (2026-09-13)** +
+**M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14; 60/60 cells valid,
+0 failures, 0 truncations; completion cap 16384 both arms; 10 independent
+tasks; bootstrap over tasks)** + **P5-A LocAgent adapter COMPLETE (ZERO API)**.
+**Scientific runs remaining:** ZERO legacy; P5-B LocAgent validation pilot
+pending (VALIDATION only).
 
-- **Next:** Paper / figures / manuscript / supervisor review. Start with
+- **Next:** P5-B real LocAgent shared-protocol pilot on VALIDATION only (do
+  not use HELD_OUT_TEST to debug LocAgent), then paper / figures / manuscript
+  / supervisor review. Start with
   [`docs/PAPER_WRITING_HANDOFF.md`](PAPER_WRITING_HANDOFF.md) and
   [`../README.md`](../README.md).
+- **P1 held-out evidence:** `reports/REAL_COMMIT_M4A3_P1_RESULT.md`,
+  `research/real-commit-p1-01/` (60 run records + SHA-verified raw responses);
+  full_v2 micro P 0.339/R 0.369/F1 0.353, sparse_v2 P 0.387/R 0.261/F1 0.312;
+  bootstrap (10 tasks) delta F1 −0.009 [−0.130, +0.119], delta completion
+  −7,848 [−8,136, −7,597], delta cost −$0.0235 [−0.0244, −0.0228].
 - **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor, graph-aware
   v3, graph experiment, fine-tuning.
 - **ImpactPlan-v2** is POST-HOC / EXPLORATORY (selection-only; see

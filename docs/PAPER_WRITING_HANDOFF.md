@@ -4,11 +4,12 @@
 without reconstructing earlier sessions. The legacy benchmark is **COMPLETE** at
 `v0.11.0-benchmark-complete`; current phase is **paper / figures / supervisor
 review**; **legacy frozen benchmark runs remaining: ZERO — new
-RealCommitImpactDataset scientific evaluation is PENDING (M4A-1 miner + M4A-2
-40-case scientific corpus + split freeze COMPLETE/AUDITED; M4A-3/P1 evaluation
-protocol FROZEN + ZERO-API harness COMPLETE 2026-09-14 — real held-out model
-inference NOT RUN; P5-A LocAgent shared-protocol adapter COMPLETE 2026-09-14 —
-ZERO API, MINER_DEV/TRAIN/VALIDATION only)**.
+RealCommitImpactDataset scientific evaluation is EXECUTED (M4A-1 miner + M4A-2
+40-case scientific corpus + split freeze COMPLETE/AUDITED; M4A-3/P1 real
+held-out evaluation EXECUTED 2026-09-14 — 60/60 cells valid, 0 failures,
+0 truncations, completion cap 16384 both arms (M1B replication), 10
+independent tasks, bootstrap over tasks; P5-A LocAgent shared-protocol adapter
+COMPLETE 2026-09-14 — ZERO API, MINER_DEV/TRAIN/VALIDATION only)**.
 
 ## 0. Title / claim discipline
 
