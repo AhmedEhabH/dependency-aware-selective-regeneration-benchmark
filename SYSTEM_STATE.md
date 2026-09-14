@@ -82,9 +82,12 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   between arms are small with CIs straddling zero, so no arm-superiority
   claim is made. The six curated scenarios remain development/mechanism
   evidence, not unbiased held-out evidence.
-- **What is next:** P5-A LocAgent shared-protocol adapter already built
-  (ZERO API); P5-B real LocAgent pilot on VALIDATION only; paper / figures /
-  manuscript / supervisor review. See
+- **What is next:** P5-B real LocAgent pilot on VALIDATION — attempted
+  2026-09-14 but **BLOCKED** by the unmodified upstream agent loop's
+  `mp.get_context('fork')` (POSIX-only) on this Windows host; attempt + exact
+  blocker preserved (`reports/LOCAGENT_P5B_VALIDATION_BLOCKER_REPORT.md`);
+  P5-C (HELD_OUT_TEST) NOT authorized; then paper / figures / manuscript /
+  supervisor review. See
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md) (single front door).
 - **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor (after
