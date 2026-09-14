@@ -3,9 +3,10 @@
 **Date:** 2026-09-14
 **Branch:** `main` (M4A-2 merged; this protocol is a pre-registration)
 **Study ID:** `real-commit-p1-full-v2-vs-sparse-v2-01`
-**Status:** FROZEN BEFORE ANY MODEL RESULT — this milestone is ZERO scientific
-LLM/API calls. Real held-out inference is a separate later step under this
-frozen protocol.
+**Status:** FROZEN BEFORE ANY MODEL RESULT (pre-registration); the real
+held-out run was then executed on 2026-09-14 under this frozen protocol
+(60/60 cells valid, 0 failures, 0 truncations; completion cap 16384 both
+arms). Result: `reports/REAL_COMMIT_M4A3_P1_RESULT.md`.
 
 ---
 

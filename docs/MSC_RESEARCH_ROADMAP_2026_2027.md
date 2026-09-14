@@ -20,7 +20,7 @@ Status legend:
 |---|---|---|
 | 1 | Sparse impact-policy representation | COMPLETE / AUDITED (M1A + M1B + M1 defensive closure) |
 | 2 | Dependency-aware / risk-aware disclosure | COMPLETE / AUDITED (M3 development-set: hints MIXED, gated disclosure NOT PROMISING as implemented) |
-| 3 | Real historical-change dataset | **COMPLETE — M4A-1 miner/schema/leakage barrier COMPLETE / AUDITED (2026-09-13; 6 MINER_DEV cases); M4A-2 scientific corpus COMPLETE / AUDITED (2026-09-13; 40 clean cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API calls); M4A-3/P1 evaluation protocol FROZEN + ZERO-API harness COMPLETE (2026-09-14; real held-out inference NOT RUN); P5-A LocAgent shared-protocol adapter COMPLETE (2026-09-14; ZERO API)** |
+| 3 | Real historical-change dataset | **COMPLETE — M4A-1 miner/schema/leakage barrier COMPLETE / AUDITED (2026-09-13; 6 MINER_DEV cases); M4A-2 scientific corpus COMPLETE / AUDITED (2026-09-13; 40 clean cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API calls); M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14; 60/60 cells valid, 0 failures, 0 truncations; cap 16384 both arms; 10 independent tasks; bootstrap over tasks); P5-A LocAgent shared-protocol adapter COMPLETE (2026-09-14; ZERO API)** |
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
@@ -180,17 +180,18 @@ never semantic ground truth. Six scientific gates + independent audit PASS
 `benchmark_data/real_commit_impact_v1/scientific_manifest.json`,
 `benchmark_data/real_commit_impact_v1/split_freeze.json`.
 
-**Missing evidence.** Any real-commit **scientific** model result (the 40-case
-corpus + split freeze are COMPLETE / AUDITED 2026-09-13; the M4A-3/P1 evaluation
-protocol is FROZEN + the ZERO-API harness is COMPLETE 2026-09-14 — six gates +
-audit PASS, 60-cell frozen manifest; **real held-out model inference NOT RUN**;
-P5-A LocAgent shared-protocol adapter COMPLETE 2026-09-14, ZERO API,
-MINER_DEV/TRAIN/VALIDATION only).
+**Missing evidence.** Any real-commit **scientific** model result beyond
+M4A-3/P1 (the 40-case corpus + split freeze are COMPLETE / AUDITED 2026-09-13;
+the M4A-3/P1 held-out evaluation is **EXECUTED** 2026-09-14 — 60/60 cells
+valid, 0 failures, 0 truncations, cap 16384 both arms, 10 independent tasks,
+bootstrap over tasks; P5-A LocAgent shared-protocol adapter COMPLETE
+2026-09-14, ZERO API, MINER_DEV/TRAIN/VALIDATION only).
 
-**Next experiment.** **M4A-3 (protocol FROZEN; real inference NOT RUN)** —
-evaluate Sparse-v2 (and Full-v2 control) selection on the frozen 10-case
-HELD_OUT_TEST split of the M4A-2 corpus under
-`reports/REAL_COMMIT_M4A3_P1_PROTOCOL.md`. Held-out test examples must never
+**Next experiment.** **P5-B** — real LocAgent shared-protocol pilot on
+VALIDATION only (P5-A adapter is built and pinned; do not use HELD_OUT_TEST
+to debug LocAgent). The M4A-3/P1 protocol is FROZEN and its real inference is
+now EXECUTED (`reports/REAL_COMMIT_M4A3_P1_RESULT.md`,
+`reports/REAL_COMMIT_M4A3_P1_PROTOCOL.md`). Held-out test examples must never
 enter any future fine-tuning.
 
 **Success / failure interpretation.**

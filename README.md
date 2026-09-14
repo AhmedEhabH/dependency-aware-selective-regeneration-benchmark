@@ -17,9 +17,9 @@
 |---|---|
 | **Benchmark** | **COMPLETE** |
 | **Release** | `v0.11.0-benchmark-complete` |
-| **Current phase** | **Paper / figures / supervisor review; M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED; M4A-3/P1 protocol FROZEN + ZERO-API harness COMPLETE (real held-out inference NOT RUN)** |
+| **Current phase** | **Paper / figures / supervisor review; M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED; M4A-3/P1 real held-out evaluation EXECUTED (60/60 cells, 0 failures; completion cap 16384 M1B replication)** |
 | **Legacy frozen benchmark runs remaining** | **ZERO** |
-| **New RealCommitImpactDataset scientific evaluation** | **PENDING (M4A-3/P1 protocol frozen + harness COMPLETE; real held-out model inference NOT RUN)** |
+| **New RealCommitImpactDataset scientific evaluation** | **EXECUTED (M4A-3/P1 real held-out run 60/60 valid, 0 failures, 0 truncations; 10 independent tasks × 2 arms × 3 reps; cap 16384 both arms)** |
 | Saleor | FUTURE WORK / NOT CURRENT |
 | Graph-aware v3 | FUTURE WORK |
 | Fine-tuning | FUTURE WORK |
@@ -31,7 +31,8 @@
 | **M1 defensive closure** | **COMPLETE (2026-09-13; threat matrix, scenario-level statistics, S006 counterexample; zero API calls; raw M1 evidence unchanged)** |
 | **M3 — Graph ablation C0/C1/C2** | **COMPLETE / AUDITED (2026-09-13; POST-HOC EXPLORATORY DEVELOPMENT-SET; 90 new cells; Graph Hints MIXED; Graph-Gated Disclosure NOT PROMISING as implemented)** |
 | **M4A-1 — RealCommitImpactDataset-v1 miner** | **COMPLETE / AUDITED (2026-09-13; schema + miner + leakage barrier + 6 MINER_DEV cases; ZERO API calls)** |
-| **M4A-2 — RealCommitImpactDataset-v1 scientific corpus** | **COMPLETE / AUDITED (2026-09-13; 40 clean scientific cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API calls; held-out evaluation NOT RUN)** |
+| **M4A-2 — RealCommitImpactDataset-v1 scientific corpus** | **COMPLETE / AUDITED (2026-09-13; 40 clean scientific cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API calls)** |
+| **M4A-3/P1 — Real-commit FULL-v2 vs SPARSE-v2 held-out evaluation** | **EXECUTED (2026-09-14; 60/60 cells valid, 0 failed, 0 truncations; 566,755 tokens; $0.36 < $1.50 ceiling; cap 16384 both arms; task-level analysis + bootstrap over 10 tasks)** |
 
 The selection-stage benchmark research is **closed and audited** (artifact-level
 consistency audit PASS, 2026-09-08). The benchmark tag means the benchmark
@@ -107,11 +108,19 @@ section below.
   `scripts/build_real_commit_dataset_scientific.py`; data
   `benchmark_data/real_commit_impact_v1/scientific/` +
   `scientific_manifest.json` + `split_freeze.json`. **M4A-3/P1 (2026-09-14):
-  REAL-COMMIT FULL-v2 vs SPARSE-v2 evaluation protocol FROZEN + ZERO-API
-  harness COMPLETE** (`reports/REAL_COMMIT_M4A3_P1_PROTOCOL.md`,
-  `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`, 10 held-out cases × 2 arms × 3
-  reps = 60-cell frozen manifest; six gates + audit PASS; real held-out model
-  inference NOT RUN). M4A-1 references:
+  REAL-COMMIT FULL-v2 vs SPARSE-v2 held-out evaluation EXECUTED** — protocol
+  `reports/REAL_COMMIT_M4A3_P1_PROTOCOL.md` (completion cap **16384 both arms**,
+  controlled M1B replication), ZERO-API gates + audit
+  `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`, result
+  `reports/REAL_COMMIT_M4A3_P1_RESULT.md`, launcher
+  `scripts/execute_real_commit_p1.py`; 10 held-out cases × 2 arms × 3 reps =
+  60 cells, **60/60 valid / 0 failed / 0 truncations**, 60 calls, 566,755
+  tokens, $0.36 (< $1.50 ceiling); full_v2 micro P 0.339 / R 0.369 / F1 0.353,
+  sparse_v2 micro P 0.387 / R 0.261 / F1 0.312; bootstrap (10 tasks) delta F1
+  −0.009 [−0.130, +0.119], delta completion −7,848 [−8,136, −7,597], delta cost
+  −$0.0235 [−0.0244, −0.0228]; raw evidence
+  `research/real-commit-p1-01/` (60 run records + SHA-verified raw responses).
+  M4A-1 references:
   protocol `reports/REAL_COMMIT_M4A1_PROTOCOL.md`; six gates
   `reports/REAL_COMMIT_M4A1_VALIDATION.md`; audit
   `reports/REAL_COMMIT_M4A1_AUDIT.md`; verifier

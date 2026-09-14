@@ -7,10 +7,12 @@
 miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)** +
 **M4A-2 scientific real-commit corpus COMPLETE / AUDITED (2026-09-13; 40
 cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API
-calls)**.
+calls)** + **M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14;
+60/60 cells valid, 0 failures, 0 truncations; completion cap 16384 both arms;
+10 independent tasks; bootstrap over tasks)**.
 **Legacy frozen benchmark runs remaining:** ZERO.
-**New RealCommitImpactDataset scientific evaluation:** PENDING (M4A-3 held-out
-evaluation under a separately frozen protocol; NOT RUN).
+**New RealCommitImpactDataset scientific evaluation:** EXECUTED (M4A-3/P1;
+see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
 
 - The selection-stage benchmark research is **closed and audited**
   (artifact-level consistency audit PASS, 2026-09-08). The tag means the
@@ -22,9 +24,16 @@ evaluation under a separately frozen protocol; NOT RUN).
   2026-09-13 (branch `research/real-commit-impact-dataset-v1-miner-01`);
   **M4A-2 (40-case scientific real-commit corpus + split freeze) COMPLETE /
   AUDITED** on 2026-09-13 (branch
-  `research/real-commit-impact-dataset-v2-corpus-01`); **M4A-3 (held-out
-  evaluation) NOT RUN — requires a separately frozen protocol before any
-  model execution**.
+  `research/real-commit-impact-dataset-v2-corpus-01`); **M4A-3/P1 (held-out
+  evaluation) EXECUTED** on 2026-09-14: frozen protocol with the controlled
+  M1B configuration (completion cap **16384 both arms**, fallback OFF,
+  temperature 0, Graph OFF), ZERO-API gates + audit PASS, TRAIN/VALIDATION
+  provider capability probe PASS (DeepInfra), and the real held-out run
+  finished **60/60 cells valid / 0 failed / 0 truncations** (566,755 tokens,
+  60 calls, $0.36 < $1.50 ceiling). Task-level analysis: full_v2 micro
+  P 0.339 / R 0.369 / F1 0.353; sparse_v2 P 0.387 / R 0.261 / F1 0.312;
+  bootstrap over 10 tasks delta F1 −0.009 [−0.130, +0.119], delta completion
+  −7,848 [−8,136, −7,597], delta cost −$0.0235 [−0.0244, −0.0228].
 - **What is proven:** selection-stage impact-selection benchmark on
   Qwen3-Coder-480B-A35B-Instruct (primary + post-hoc/exploratory
   ImpactPlan-v2 + two cross-model robustness replications), the
@@ -67,14 +76,15 @@ evaluation under a separately frozen protocol; NOT RUN).
   `scientific_manifest.json` + `split_freeze.json`.
 - **What is not proven:** M2 (serialization-density), any graph claim beyond
   the six curated development/mechanism scenarios, any end-to-end
-  regeneration correctness claim, and any **real-commit held-out evaluation**
-  (the 40-case scientific corpus + split freeze are COMPLETE; held-out
-  evaluation is **NOT RUN** — M4A-3 requires a separately frozen protocol).
-  The six curated scenarios remain development/mechanism evidence, not
-  unbiased held-out evidence.
-- **What is next:** M4A-3 (held-out evaluation on the frozen 10-case
-  HELD_OUT_TEST split under a separately frozen protocol), then paper /
-  figures / manuscript / supervisor review. See
+  regeneration correctness claim. The **M4A-3/P1 real-commit held-out
+  evaluation is EXECUTED** (60/60 cells valid, 0 failures, 0 truncations;
+  cap 16384 both arms; 10 independent tasks) but selection-quality deltas
+  between arms are small with CIs straddling zero, so no arm-superiority
+  claim is made. The six curated scenarios remain development/mechanism
+  evidence, not unbiased held-out evidence.
+- **What is next:** P5-A LocAgent shared-protocol adapter already built
+  (ZERO API); P5-B real LocAgent pilot on VALIDATION only; paper / figures /
+  manuscript / supervisor review. See
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md) (single front door).
 - **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor (after
@@ -99,8 +109,26 @@ evaluation under a separately frozen protocol; NOT RUN).
 - **M4A-1 — RealCommitImpactDataset-v1 miner/schema/leakage barrier:**
   **COMPLETE / AUDITED** (2026-09-13; ZERO scientific LLM/API calls; branch
   `research/real-commit-impact-dataset-v1-miner-01`; 6 MINER_DEV cases
-  permanently marked non-held-out; 30–40 scientific corpus NOT YET COMPLETE /
-  NEXT; held-out evaluation NOT RUN).
+  permanently marked non-held-out; 30–40 scientific corpus COMPLETE/AUDITED /
+  held-out evaluation EXECUTED under M4A-3/P1).
+- **M4A-3/P1 — Real-commit FULL-v2 vs SPARSE-v2 held-out evaluation:**
+  **EXECUTED (2026-09-14)**. Protocol frozen with the controlled M1B
+  configuration (completion cap **16384 both arms**, `qwen/qwen3-coder` @
+  DeepInfra-through-OpenRouter `deepinfra/turbo`, fallback OFF, temp 0,
+  Graph OFF). Six ZERO-API gates + independent audit PASS; TRAIN/VALIDATION
+  provider capability probe PASS; 60-cell manifest frozen before call #1;
+  run: **60/60 cells valid / 0 failed / 0 truncations**, 60 calls, 295,410
+  prompt + 271,345 completion = 566,755 total tokens, 1,916 s,
+  $0.359964 < $1.50 ceiling; full_v2 micro P 0.338843 / R 0.369369 /
+  F1 0.353448 / FNR 0.630631; sparse_v2 micro P 0.386667 / R 0.261261 /
+  F1 0.311828 / FNR 0.738739. Task-level paired deltas + bootstrap over
+  **10 independent tasks** (seed 20260914): delta F1 −0.008822
+  [−0.129720, +0.118938], delta precision +0.034241 [−0.046795, +0.120882],
+  delta recall −0.064160 [−0.196111, +0.064444], delta completion −7,847.9
+  [−8,136.0, −7,596.8], delta cost −$0.023531 [−0.024396, −0.022778].
+  Evidence: `research/real-commit-p1-01/`, `reports/REAL_COMMIT_M4A3_P1_RESULT.md`,
+  `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`; launcher
+  `scripts/execute_real_commit_p1.py`.
 - **M2 — Controlled LLM serialization-density characterization:** **NOT
   STARTED**.
 - **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **COMPLETE / AUDITED** (M3

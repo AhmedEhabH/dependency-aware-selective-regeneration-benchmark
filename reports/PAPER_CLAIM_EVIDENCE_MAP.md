@@ -317,6 +317,38 @@ cross-provider replication; no equivalence, significance, or superiority
 claim is supported. Historical Qwen3-Coder-480B-A35B-Instruct evidence is
 unchanged and remains the primary manuscript evidence.
 
+## 14. M4A-3/P1 — Real-commit FULL-v2 vs SPARSE-v2 held-out evaluation
+
+Model: **Qwen3-Coder-480B-A35B-Instruct** (`qwen/qwen3-coder`) @ OpenRouter /
+DeepInfra (`deepinfra/turbo`, fp4), temperature 0, **completion cap 16384 for
+BOTH arms** (controlled M1B replication), Graph OFF, native `json_schema`.
+Study `real-commit-p1-full-v2-vs-sparse-v2-01`. Evidence:
+`research/real-commit-p1-01/` (manifest_60.json, run_records.jsonl,
+runs/raw/*.txt + .sha256, endpoint_freeze.json, capability_probes.json,
+final_metrics.json, closure.json), `reports/REAL_COMMIT_M4A3_P1_RESULT.md`.
+
+- 10 independent HELD_OUT_TEST tasks × 2 arms × 3 nested repetitions = **60
+  cells**; independent n = 10 (repetitions are nested observations, NOT
+  independent examples).
+- 60/60 valid / 0 failed / 0 truncations; 60 calls; 295,410 prompt + 271,345
+  completion = **566,755 total tokens**; 1,916 s; recorded cost
+  **$0.359964** (< $1.50 frozen ceiling).
+- full_v2 micro P 0.338843 / R 0.369369 / F1 0.353448 / FNR 0.630631;
+  sparse_v2 micro P 0.386667 / R 0.261261 / F1 0.311828 / FNR 0.738739.
+- Task-level paired deltas + bootstrap over **10 tasks** (10k, seed
+  20260914): delta F1 −0.008822 [−0.129720, +0.118938], delta precision
+  +0.034241 [−0.046795, +0.120882], delta recall −0.064160 [−0.196111,
+  +0.064444], delta completion −7,847.9 [−8,136.0, −7,596.8], delta cost
+  −$0.023531 [−0.024396, −0.022778].
+- The controlled encoding-cost effect replicates **directionally** (completion
+  and cost deltas exclude zero); selection-quality deltas straddle zero — **no
+  semantic arm-superiority claim**. The historical diff is an **OBSERVED
+  CHANGE-SET PROXY**, never semantic ground truth; no comparison with any
+  published LocAgent Acc@K.
+
+Recompute: `python scripts/execute_real_commit_p1.py metrics` (after the run)
+and `python scripts/verify_real_commit_p1_gates.py` (ZERO-API gates + audit).
+
 ## Closing notes
 
 - All verifier checks above are implemented in \scripts/verify_paper_claims.py\,
