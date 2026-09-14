@@ -1,0 +1,37 @@
+{
+  "builder_name": "json",
+  "config_name": "default",
+  "version": "1.0.0",
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_examples": 6
+    }
+  },
+  "features": {
+    "instance_id": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "repo": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "base_commit": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "problem_statement": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "patch": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "source_case_id": {
+      "dtype": "string",
+      "_type": "Value"
+    }
+  }
+}

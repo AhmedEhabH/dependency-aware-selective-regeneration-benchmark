@@ -10,11 +10,12 @@ real-commit miner + scientific corpus COMPLETE / AUDITED (2026-09-13)** +
 0 failures, 0 truncations; completion cap 16384 both arms; 10 independent
 tasks; bootstrap over tasks)** + **P5-A LocAgent adapter COMPLETE (ZERO API)**.
 **Scientific runs remaining:** ZERO legacy; P5-B LocAgent validation pilot
-pending (VALIDATION only).
+**BLOCKED** (unmodified upstream agent loop requires POSIX `fork`; Windows
+host) — attempt + exact blocker preserved.
 
-- **Next:** P5-B real LocAgent shared-protocol pilot on VALIDATION only (do
-  not use HELD_OUT_TEST to debug LocAgent), then paper / figures / manuscript
-  / supervisor review. Start with
+- **Next:** P5-B on a POSIX host or documented adapter patch layer (frozen
+  P5-A shared protocol is ready), then paper / figures / manuscript /
+  supervisor review. Start with
   [`docs/PAPER_WRITING_HANDOFF.md`](PAPER_WRITING_HANDOFF.md) and
   [`../README.md`](../README.md).
 - **P1 held-out evidence:** `reports/REAL_COMMIT_M4A3_P1_RESULT.md`,

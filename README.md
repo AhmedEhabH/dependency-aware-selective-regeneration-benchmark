@@ -17,7 +17,7 @@
 |---|---|
 | **Benchmark** | **COMPLETE** |
 | **Release** | `v0.11.0-benchmark-complete` |
-| **Current phase** | **Paper / figures / supervisor review; M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED; M4A-3/P1 real held-out evaluation EXECUTED (60/60 cells, 0 failures; completion cap 16384 M1B replication)** |
+| **Current phase** | **Paper / figures / supervisor review; M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED; M4A-3/P1 real held-out evaluation EXECUTED (60/60 cells, 0 failures; completion cap 16384 M1B replication); P5-B LocAgent VALIDATION pilot BLOCKED (Windows `fork` in unmodified upstream agent loop)** |
 | **Legacy frozen benchmark runs remaining** | **ZERO** |
 | **New RealCommitImpactDataset scientific evaluation** | **EXECUTED (M4A-3/P1 real held-out run 60/60 valid, 0 failures, 0 truncations; 10 independent tasks × 2 arms × 3 reps; cap 16384 both arms)** |
 | Saleor | FUTURE WORK / NOT CURRENT |
@@ -120,6 +120,14 @@ section below.
   −0.009 [−0.130, +0.119], delta completion −7,848 [−8,136, −7,597], delta cost
   −$0.0235 [−0.0244, −0.0228]; raw evidence
   `research/real-commit-p1-01/` (60 run records + SHA-verified raw responses).
+  **P5-B (2026-09-14):** LocAgent VALIDATION pilot attempted end-to-end
+  (upstream pinned `4935b55` installed in an isolated venv; indexing OK — 3,805
+  nodes / 18,861 edges; same model/provider transport OK via litellm
+  `openrouter/qwen/qwen3-coder` @ DeepInfra) but **BLOCKED** by the unmodified
+  upstream agent loop's `multiprocessing.get_context('fork')` (POSIX-only) on
+  this Windows host — attempt + exact blocker preserved
+  (`reports/LOCAGENT_P5B_VALIDATION_BLOCKER_REPORT.md`); P5-C (HELD_OUT_TEST)
+  NOT authorized; P5-A shared protocol frozen (adapter + common evaluator).
   M4A-1 references:
   protocol `reports/REAL_COMMIT_M4A1_PROTOCOL.md`; six gates
   `reports/REAL_COMMIT_M4A1_VALIDATION.md`; audit

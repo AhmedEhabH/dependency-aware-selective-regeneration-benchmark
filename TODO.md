@@ -41,9 +41,12 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   regeneration correctness claim, and any arm-superiority claim from the
   M4A-3/P1 held-out result (executed; selection-quality deltas between arms
   are small with CIs straddling zero — no semantic superiority).
-- **What is next:** P5-A LocAgent adapter already built (ZERO API); **P5-B
-  real LocAgent pilot on VALIDATION only**, then paper / figures / manuscript
-  / supervisor review; see
+- **What is next:** P5-B real LocAgent pilot on VALIDATION — attempted
+  2026-09-14 but **BLOCKED** (unmodified upstream agent loop requires POSIX
+  `fork`; not available on this Windows host); attempt + exact blocker
+  preserved (`reports/LOCAGENT_P5B_VALIDATION_BLOCKER_REPORT.md`); P5-C
+  (HELD_OUT_TEST) NOT authorized; then paper / figures / manuscript /
+  supervisor review; see
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md).
 
