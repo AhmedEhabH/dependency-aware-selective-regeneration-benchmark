@@ -1,0 +1,80 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.5, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project
+configfile: pyproject.toml
+plugins: anyio-4.9.0, asyncio-1.4.0, django-4.12.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 725 items
+
+tests\contract\test_loaders_contract.py ....                             [  0%]
+tests\integration\test_djangocms_external_validity_gold.py ............. [  2%]
+                                                                         [  2%]
+tests\integration\test_pilot_multi_repo_production_path.py ............  [  4%]
+tests\integration\test_pilot_repo_env_provisioning.py .................. [  6%]
+..........                                                               [  7%]
+tests\integration\test_real_commit_miner_pipeline.py ...                 [  8%]
+tests\integration\test_real_commit_source_graph_regression.py ....       [  8%]
+tests\integration\test_scientific_smoke_v1_fixes.py .................... [ 11%]
+.................                                                        [ 13%]
+tests\integration\test_su0011_iterative_agent.py ....................... [ 17%]
+..                                                                       [ 17%]
+tests\unit\comparison\test_comparison.py ......................          [ 20%]
+tests\unit\execution\test_exact_patch_executor.py ........               [ 21%]
+tests\unit\execution\test_pipeline.py ......                             [ 22%]
+tests\unit\execution\test_r4_token_and_metrics.py ...................... [ 25%]
+..................................................                       [ 32%]
+tests\unit\execution\test_runner.py .................................... [ 37%]
+.....................                                                    [ 40%]
+tests\unit\execution\test_state_machine.py ................              [ 42%]
+tests\unit\llm\test_llm_dry_run_backend.py .....                         [ 43%]
+tests\unit\llm\test_llm_openrouter_backend.py .......................... [ 46%]
+..................                                                       [ 49%]
+tests\unit\selection\test_impact_evidence_and_planner.py ............    [ 50%]
+tests\unit\statistics\test_reporting.py .................                [ 53%]
+tests\unit\strategies\test_strategies.py .......................         [ 56%]
+tests\unit\test_check_fast.py ..........                                 [ 57%]
+tests\unit\test_context.py .........                                     [ 58%]
+tests\unit\test_graph_ablation.py ...............                        [ 60%]
+tests\unit\test_models.py .............................................. [ 67%]
+.....                                                                    [ 68%]
+tests\unit\test_pilot_repo_snapshot.py ................................. [ 72%]
+....                                                                     [ 73%]
+tests\unit\test_real_commit_filters.py ................                  [ 75%]
+tests\unit\test_real_commit_scientific.py .....................          [ 78%]
+tests\unit\test_repositories_snapshot.py ............................... [ 82%]
+............s...ss.........s..                                           [ 86%]
+tests\unit\test_scenarios_sequencing.py .....                            [ 87%]
+tests\unit\test_scientific_microstudy_metrics.py .................       [ 89%]
+tests\unit\test_stagec_heldout_study.py ....................             [ 92%]
+tests\unit\test_su0007_continuous_execution.py ......................... [ 95%]
+..........................                                               [ 99%]
+tests\unit\test_verify_paper_claims.py ....                              [100%]
+
+- generated xml file: C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project\reports\pytest-full-shard-1.xml -
+============================ slowest 25 durations =============================
+4.31s call     tests/integration/test_real_commit_source_graph_regression.py::test_frozen_identities_reproducible_from_cached_anchor_source
+2.66s setup    tests/integration/test_real_commit_miner_pipeline.py::test_eligible_commit_produces_public_and_hidden
+2.62s setup    tests/integration/test_real_commit_miner_pipeline.py::test_proxy_subset_of_parent_universe
+2.59s setup    tests/integration/test_real_commit_miner_pipeline.py::test_end_to_end_pipeline_builds_case
+1.45s call     tests/unit/test_pilot_repo_snapshot.py::TestSaleorFailureDiagnostics::test_all_guard_cases_keep_primary_verdict_fail
+1.13s call     tests/unit/test_stagec_heldout_study.py::TestSelectionOnlyWiring::test_cli_dryrun_agent_record_is_selection_only
+1.10s call     tests/unit/test_stagec_heldout_study.py::TestSelectionOnlyWiring::test_cli_dryrun_impactplan_record_is_selection_only
+0.99s call     tests/integration/test_scientific_smoke_v1_fixes.py::TestExecutionContract::test_execution_contract
+0.82s call     tests/unit/test_pilot_repo_snapshot.py::TestSaleorFailureDiagnostics::test_nonempty_lastfailed_runs_serial_subprocess
+0.81s setup    tests/integration/test_pilot_multi_repo_production_path.py::TestPilotScenarioContract::test_exact_twelve_scenario_ids_from_pilot_config
+0.81s call     tests/unit/statistics/test_reporting.py::TestPublicationTableBuilder::test_build_latex_table
+0.75s call     tests/integration/test_real_commit_miner_pipeline.py::test_eligible_commit_produces_public_and_hidden
+0.74s call     tests/integration/test_real_commit_miner_pipeline.py::test_end_to_end_pipeline_builds_case
+0.50s call     tests/integration/test_pilot_repo_env_provisioning.py::TestGateKDirectRealVenvIntegration::test_real_no_pip_venv_created_and_has_no_pip
+0.50s call     tests/unit/test_verify_paper_claims.py::test_verifier_smoke_on_real_evidence
+0.36s setup    tests/unit/test_pilot_repo_snapshot.py::TestGitModeMaterialization::test_empty_repo_cache_fails_closed
+0.35s setup    tests/unit/test_pilot_repo_snapshot.py::TestGitModeMaterialization::test_exact_requested_commit_exported
+0.35s call     tests/unit/test_pilot_repo_snapshot.py::TestBoundedCommandLogs::test_run_command_emits_heartbeat_and_stops_thread
+0.34s setup    tests/unit/test_pilot_repo_snapshot.py::TestGitModeMaterialization::test_wrong_commit_fails_closed
+0.34s setup    tests/unit/test_pilot_repo_snapshot.py::TestGitModeMaterialization::test_stable_content_hash
+0.33s setup    tests/unit/test_pilot_repo_snapshot.py::TestGitModeMaterialization::test_no_network_required
+0.33s setup    tests/unit/test_pilot_repo_snapshot.py::TestGitModeMaterialization::test_missing_repo_cache_fails_closed
+0.33s setup    tests/unit/test_pilot_repo_snapshot.py::TestGitModeMaterialization::test_no_git_directory_in_export
+0.32s setup    tests/unit/test_pilot_repo_snapshot.py::TestGitModeMaterialization::test_missing_commit_fails_closed
+0.32s setup    tests/unit/test_pilot_repo_snapshot.py::TestGitModeMaterialization::test_target_replacement_is_deterministic
+======================= 721 passed, 4 skipped in 54.18s =======================
