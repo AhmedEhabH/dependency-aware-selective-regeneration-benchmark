@@ -20,6 +20,15 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 # evaluation). Exact model slugs that ARE scientific (Qwen3-Coder-480B-A35B,
 # Qwen3-32B, Qwen3-Coder-30B-A3B) and serving infrastructure (OpenRouter,
 # DeepInfra, SiliconFlow) are intentionally NOT in this list.
+#
+# NOTE (2026-09-14 refactor milestone): "deepseek v4 flash" / "v4 flash 0731"
+# were removed from this incidental list. DeepSeek is now a documented FUTURE
+# cross-model scientific profile (config/model_profiles.yaml,
+# docs/MODEL_PROVIDER_GUIDE.md) per the model-provider refactor. It remains a
+# FUTURE candidate only — no DeepSeek scientific result exists, and the
+# current-facing docs that mention it always mark it as "future" / "NOT run".
+# The guard still rejects every other dev-assistant brand (OpenCode, GPT-5.6,
+# ChatGPT, Claude, Gemini).
 INCIDENTAL_TOOL_PATTERNS = (
     "opencode",
     "gpt-5.6",
@@ -27,8 +36,6 @@ INCIDENTAL_TOOL_PATTERNS = (
     "chatgpt",
     "claude",
     "gemini",
-    "deepseek v4 flash",
-    "v4 flash 0731",
 )
 
 # Whole-file current-facing docs (thesis-facing scientific documentation).

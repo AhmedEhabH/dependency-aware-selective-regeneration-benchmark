@@ -528,6 +528,59 @@ def validate_p1_sparse(parsed: dict[str, Any], *, candidate_count: int) -> dict[
 
 
 # ---------------------------------------------------------------------------
+# Raw-response parsing (persisted provider bytes -> serialized decision count)
+# ---------------------------------------------------------------------------
+
+
+def serialized_decision_count_from_raw(raw_text: str) -> tuple[int, list[str]]:
+    """Count explicit decision rows serialized by the model from a persisted
+    raw provider response (``choices[0].message.content`` JSON payload).
+
+    Returns ``(serialized_decision_count, errors)``. This is the authoritative
+    serialized-record source; ``decoded_write_set_ids`` counts only REGENERATE
+    rows and is NOT a serialized decision count.
+    """
+    errors: list[str] = []
+    try:
+        parsed = json.loads(raw_text)
+    except json.JSONDecodeError as exc:
+        return 0, [f"raw provider response is not valid JSON: {exc}"]
+    if not isinstance(parsed, dict):
+        return 0, ["raw provider response is not a JSON object"]
+    choices = parsed.get("choices") or []
+    if not choices:
+        return 0, ["raw provider response has no choices"]
+    choice = choices[0]
+    if not isinstance(choice, dict):
+        return 0, ["first choice is not an object"]
+    message = choice.get("message") or {}
+    content = message.get("content") or ""
+    if not isinstance(content, str) or not content.strip():
+        return 0, ["assistant content is empty"]
+    try:
+        payload = json.loads(content)
+    except json.JSONDecodeError as exc:
+        return 0, [f"assistant content is not valid JSON: {exc}"]
+    if not isinstance(payload, dict):
+        return 0, ["assistant content is not a JSON object"]
+    decisions = payload.get("decisions")
+    if not isinstance(decisions, list):
+        return 0, ["payload has no 'decisions' list"]
+    return len(decisions), errors
+
+
+def raw_decision_items(raw_text: str) -> list[dict[str, Any]]:
+    """Extract the explicit decision items from a persisted raw response."""
+    parsed = json.loads(raw_text)
+    content = parsed["choices"][0]["message"]["content"]
+    payload = json.loads(content)
+    items = payload.get("decisions")
+    if not isinstance(items, list):
+        raise P1DecodeError("payload has no 'decisions' list")
+    return [item for item in items if isinstance(item, dict)]
+
+
+# ---------------------------------------------------------------------------
 # Metrics (predicted REGENERATE file set vs hidden observed-change proxy)
 # ---------------------------------------------------------------------------
 

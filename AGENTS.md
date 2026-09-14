@@ -1,11 +1,14 @@
 > **CURRENT PROJECT PHASE (benchmark COMPLETE):** the selection-stage benchmark
 > research is closed and audited at `v0.11.0-benchmark-complete`; current phase
 > is **paper / figures / supervisor review** (**legacy frozen benchmark runs
-> remaining: ZERO; new RealCommitImpactDataset scientific evaluation: PENDING —
-> M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED; M4A-3/P1 evaluation
-> protocol FROZEN + ZERO-API harness COMPLETE (real held-out model inference NOT
-> RUN); P5-A LocAgent shared-protocol adapter COMPLETE (ZERO API;
-> MINER_DEV/TRAIN/VALIDATION only)**).
+> remaining: ZERO; new RealCommitImpactDataset scientific evaluation: M4A-1
+> miner + M4A-2 scientific corpus COMPLETE/AUDITED; M4A-3/P1 evaluation
+> EXECUTED + AUDITED (real held-out model inference RUN; 60/60 valid; P1
+> serialized-record metric corrected 2026-09-14 —
+> `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`); P5-A
+> LocAgent shared-protocol adapter COMPLETE (ZERO API;
+> MINER_DEV/TRAIN/VALIDATION only); 2026-09-14 docs/refactor milestone:
+> reader-first README + model/profile layer + unified CLI landed)**.
 > The release-facts trail below is a HISTORICAL record of earlier
 > pilot/preflight engineering closures. For current state see README.md,
 > SYSTEM_STATE.md, and docs/PROJECT_HANDOFF.md.

@@ -319,6 +319,8 @@ def _build_cell_evidence(
                 "schema_valid": False,
                 "decoded_candidate_count": 0,
                 "decoded_write_set_ids": [],
+                "serialized_decision_count": 0,
+                "predicted_write_set_size": 0,
                 "decoded_policy_sha256": "",
                 "prompt_tokens": 0,
                 "completion_tokens": 0,
@@ -390,12 +392,17 @@ def _build_cell_evidence(
     decoded_candidate_count = 0
     decoded_write_set_ids: list[int] = []
     decoded_policy_sha256 = ""
+    serialized_decision_count = 0
     if content:
         vres, payload = _decode_cell(cell, content)
         validator_errors = list(vres.get("errors") or [])
         policy = vres.get("policy")
         decoded_candidate_count = vres.get("decoded_candidate_count") or 0
         decoded_write_set_ids = vres.get("decoded_write_set_ids") or []
+        if isinstance(payload, dict):
+            raw_decisions = payload.get("decisions")
+            if isinstance(raw_decisions, list):
+                serialized_decision_count = len(raw_decisions)
         if policy is not None:
             decoded_policy_sha256 = p1.sha256_json(policy)
 
@@ -405,6 +412,8 @@ def _build_cell_evidence(
             "failure_category": "; ".join(validator_errors),
             "decoded_candidate_count": decoded_candidate_count,
             "decoded_write_set_ids": decoded_write_set_ids,
+            "serialized_decision_count": serialized_decision_count,
+            "predicted_write_set_size": len(decoded_write_set_ids),
             "decoded_policy_sha256": decoded_policy_sha256,
         }
     )
@@ -919,7 +928,8 @@ def cmd_run(args: argparse.Namespace) -> int:
             {k: evidence[k] for k in (
                 "run_id", "terminal_status", "schema_valid", "finish_reason",
                 "truncation_status", "decoded_candidate_count", "decoded_write_set_ids",
-                "predicted_write_set_size", "tp", "fp", "fn", "precision", "recall", "f1",
+                "serialized_decision_count", "predicted_write_set_size",
+                "tp", "fp", "fn", "precision", "recall", "f1",
                 "prompt_tokens", "completion_tokens", "total_tokens", "model_calls",
                 "latency_seconds", "api_cost",
             )}, indent=2))
@@ -984,6 +994,21 @@ def _task_records(records: dict[str, dict[str, Any]]) -> dict[str, dict[str, lis
     return out
 
 
+def _serialized_record_count(record: dict[str, Any]) -> int:
+    """Number of decision rows actually serialized by the model.
+
+    Newer records persist ``serialized_decision_count`` directly (the count of
+    explicit ``decisions`` objects in the raw payload). Historical records
+    predating the field fall back to the decoded write-set length for
+    backward compatibility — that fallback is the mislabeled REGENERATE
+    write-set size and must NOT be used for fresh scientific claims.
+    """
+    explicit = record.get("serialized_decision_count")
+    if explicit is not None:
+        return int(explicit)
+    return int(len(record.get("decoded_write_set_ids") or []))
+
+
 def _task_level(records: dict[str, dict[str, Any]], case_ids: list[str]) -> dict[str, Any]:
     tasks: dict[str, dict[str, Any]] = {}
     by_task = _task_records(records)
@@ -1001,7 +1026,10 @@ def _task_level(records: dict[str, dict[str, Any]], case_ids: list[str]) -> dict
                 [float(r["completion_tokens"]) for r in rows]
             )["mean"]
             entry[f"{arm}_records_mean"] = _stats(
-                [float(len(r["decoded_write_set_ids"])) for r in rows]
+                [float(_serialized_record_count(r)) for r in rows]
+            )["mean"]
+            entry[f"{arm}_write_set_size_mean"] = _stats(
+                [float(len(r.get("decoded_write_set_ids") or [])) for r in rows]
             )["mean"]
             entry[f"{arm}_cost"] = round(sum(float(r.get("api_cost", 0.0)) for r in rows), 6)
         entry["cells"] = entry["full_v2_cells"] + entry["sparse_v2_cells"]
@@ -1067,7 +1095,8 @@ def cmd_metrics(_args: argparse.Namespace) -> int:
             "completion_tokens": _stats([float(r["completion_tokens"]) for r in arm_rows]),
             "prompt_tokens": _stats([float(r["prompt_tokens"]) for r in arm_rows]),
             "total_tokens": _stats([float(r["total_tokens"]) for r in arm_rows]),
-            "serialized_records": _stats([float(len(r["decoded_write_set_ids"])) for r in arm_rows]),
+            "serialized_records": _stats([float(_serialized_record_count(r)) for r in arm_rows]),
+            "predicted_write_set_size": _stats([float(len(r.get("decoded_write_set_ids") or [])) for r in arm_rows]),
             "calls": sum(int(r["model_calls"]) for r in arm_rows),
             "latency_seconds": round(sum(float(r["latency_seconds"]) for r in arm_rows), 6),
             "api_cost_usd": round(sum(float(r.get("api_cost", 0.0)) for r in arm_rows), 6),

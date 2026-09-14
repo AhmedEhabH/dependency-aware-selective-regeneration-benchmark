@@ -3,10 +3,12 @@
 > **CURRENT STATE:** The legacy frozen benchmark is COMPLETE at
 > `v0.11.0-benchmark-complete` (paper / figures / supervisor review; **legacy
 > frozen benchmark runs remaining: ZERO; new RealCommitImpactDataset scientific
-> evaluation: PENDING — M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED,
-> M4A-3/P1 evaluation protocol FROZEN + ZERO-API harness COMPLETE (real
-> held-out model inference NOT RUN), and P5-A LocAgent shared-protocol adapter
-> COMPLETE (ZERO API; MINER_DEV/TRAIN/VALIDATION only)**).
+> evaluation: M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED, M4A-3/P1
+> real held-out evaluation EXECUTED 2026-09-14 (60/60 cells valid, 0 failures,
+> 0 truncations; serialized-record metric corrected 2026-09-14 —
+> `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`), and P5-A
+> LocAgent shared-protocol adapter COMPLETE (ZERO API;
+> MINER_DEV/TRAIN/VALIDATION only)**).
 > No protocol amendment is currently active for new scientific execution.
 > The entries below are a historical record of the protocol and its executed
 > amendments. See README.md and docs/PAPER_WRITING_HANDOFF.md for current state.

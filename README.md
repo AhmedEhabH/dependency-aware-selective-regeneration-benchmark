@@ -1,489 +1,536 @@
 # Repository-Level LLM Impact Selection Benchmark
 
-> The repository slug is retained for historical/link stability.
-> The completed djangoCMS studies are selection-only; the M1 encoding studies
-> and M1A/M1B did not inject dependency-graph assistance, while the M3 graph
-> ablation (2026-09-13) is the first study to inject automatic AST
-> dependency-graph evidence (soft hints in C1, gated disclosure in C2).
-
-> Research infrastructure for the working paper
-> **Provisional working title: "The Cost of Saying 'Unchanged': Sparse Impact Plans for Token-Efficient Repository-Level Impact Selection"**
-
----
-
-## Status
-
-| Item | Value |
-|---|---|
-| **Benchmark** | **COMPLETE** |
-| **Release** | `v0.11.0-benchmark-complete` |
-| **Current phase** | **Paper / figures / supervisor review; M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED; M4A-3/P1 real held-out evaluation EXECUTED (60/60 cells, 0 failures; completion cap 16384 M1B replication); P5-B LocAgent VALIDATION pilot BLOCKED (Windows `fork` in unmodified upstream agent loop)** |
-| **Legacy frozen benchmark runs remaining** | **ZERO** |
-| **New RealCommitImpactDataset scientific evaluation** | **EXECUTED (M4A-3/P1 real held-out run 60/60 valid, 0 failures, 0 truncations; 10 independent tasks × 2 arms × 3 reps; cap 16384 both arms)** |
-| Saleor | FUTURE WORK / NOT CURRENT |
-| Graph-aware v3 | FUTURE WORK |
-| Fine-tuning | FUTURE WORK |
-| djangoCMS ImpactPlan-v2 study | POST-HOC / EXPLORATORY |
-| Qwen3-32B cross-model replication | COMPLETE / AUDITED (post-hoc) |
-| Qwen3-Coder-30B-A3B-Instruct cross-model / cross-provider replication | COMPLETE / AUDITED (post-hoc) |
-| **M1A — Controlled 4096-cap feasibility boundary** | **COMPLETE / AUDITED (post-hoc capability/feasibility boundary; NOT a 60-cell ablation)** |
-| **M1B — Controlled 16K cap-relaxed encoding ablation** | **COMPLETE / AUDITED (post-hoc controlled cap-relaxed ablation; 60/60 cells; cost effect SUPPORTED)** |
-| **M1 defensive closure** | **COMPLETE (2026-09-13; threat matrix, scenario-level statistics, S006 counterexample; zero API calls; raw M1 evidence unchanged)** |
-| **M3 — Graph ablation C0/C1/C2** | **COMPLETE / AUDITED (2026-09-13; POST-HOC EXPLORATORY DEVELOPMENT-SET; 90 new cells; Graph Hints MIXED; Graph-Gated Disclosure NOT PROMISING as implemented)** |
-| **M4A-1 — RealCommitImpactDataset-v1 miner** | **COMPLETE / AUDITED (2026-09-13; schema + miner + leakage barrier + 6 MINER_DEV cases; ZERO API calls)** |
-| **M4A-2 — RealCommitImpactDataset-v1 scientific corpus** | **COMPLETE / AUDITED (2026-09-13; 40 clean scientific cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API calls)** |
-| **M4A-3/P1 — Real-commit FULL-v2 vs SPARSE-v2 held-out evaluation** | **EXECUTED (2026-09-14; 60/60 cells valid, 0 failed, 0 truncations; 566,755 tokens; $0.36 < $1.50 ceiling; cap 16384 both arms; task-level analysis + bootstrap over 10 tasks)** |
-
-The selection-stage benchmark research is **closed and audited** (artifact-level
-consistency audit PASS, 2026-09-08). The benchmark tag means the benchmark
-research is complete and frozen — it does **not** mean successful end-to-end
-executor regeneration. Two post-hoc robustness replications
-(Qwen3-32B and Qwen3-Coder-30B-A3B-Instruct) were completed and audited in
-2026-09-11. On 2026-09-12 the **M1A controlled 4096-cap feasibility boundary**
-was closed and audited (a preregistered capability/feasibility result, NOT a
-completed 60-cell controlled ablation; see
-[`reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`](reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md)).
-A separately preregistered cap-relaxed study (M1B, completion cap 16384 for
-both arms) has now been completed and audited (2026-09-12) — see the M1B
-section below.
-
-**Explicit study status:**
-
-- **M1A — Controlled 4096-cap feasibility boundary:** **COMPLETE / AUDITED**
-  (post-hoc capability/feasibility boundary; NOT a 60-cell controlled
-  ablation).
-- **M1B — Controlled 16K cap-relaxed encoding ablation:** **COMPLETE /
-  AUDITED** (post-hoc controlled cap-relaxed ablation; 60/60 cells valid, 0
-  failed, 0 truncations).
-- **M1 defensive closure:** **COMPLETE** (2026-09-13; zero scientific API
-  calls; raw M1 evidence unchanged). Documents the M1A/M1B validity posture:
-  threat-to-validity matrix (15 threats),
-  [`reports/M1_THREATS_TO_VALIDITY_MATRIX.md`](reports/M1_THREATS_TO_VALIDITY_MATRIX.md);
-  scenario-level statistics treating **6 scenarios as the independent task
-  units and 5 repetitions as nested observations** (no n=30 claim),
-  [`reports/M1_STATISTICAL_ANALYSIS.md`](reports/M1_STATISTICAL_ANALYSIS.md) +
-  [`reports/m1_defensive_closure_stats.json`](reports/m1_defensive_closure_stats.json);
-  per-scenario Full-v2 vs Sparse-v2 tables incl. the **S006 counterexample**
-  (Sparse-v2 recall 0.333 vs Full-v2 0.800),
-  [`reports/M1_SCENARIO_LEVEL_ANALYSIS.md`](reports/M1_SCENARIO_LEVEL_ANALYSIS.md).
-- **M2 — Controlled LLM serialization-density characterization:** **NOT
-  STARTED**.
-- **M3 — Graph ablation (C0 Graph-OFF / C1 Graph-Hints / C2 Graph-Gated
-  Disclosure):** **COMPLETE / AUDITED** (POST-HOC EXPLORATORY
-  DEVELOPMENT-SET; 2026-09-13; 90 new cells, C0 = audited M1B Sparse-v2
-  reuse). **Graph Hint Signal: MIXED** (precision +9.2pp, FP −19, F1 in 3/6
-  scenarios; but recall −8.3pp, FN 14→24, tokens ×2.6). **Graph-Gated
-  Disclosure: NOT PROMISING as implemented** (mandatory-zone compliance
-  2/30 at 1-hop, 0/30 at 2-hop — sparse output capacity far below the
-  in-zone mandate). Protocol `reports/M3_GRAPH_PROTOCOL.md`; results
-  `reports/M3_GRAPH_RESULTS.md`; verifier
-  `scripts/verify_graph_ablation_claims.py` (40/40 PASS).
-- **M4A-1 — RealCommitImpactDataset-v1 miner/schema/leakage barrier:**
-  **COMPLETE / AUDITED** (2026-09-13; ZERO scientific LLM/API calls).
-  Deterministic miner over real djangoCMS history (ancestors of the frozen
-  5.0.0 anchor) with a versioned record schema, frozen v1 eligibility /
-  exclusion rules, parent-only candidate universe + dependency graph,
-  physical `public/` vs `hidden/` separation, and the
-  `intent_mentions_changed_path` leakage detector. **6 MINER_DEV cases**
-  materialized and permanently marked non-held-out.
-- **M4A-2 — RealCommitImpactDataset-v1 scientific corpus:**
-  **COMPLETE / AUDITED** (2026-09-13; ZERO API calls). **40 clean scientific
-  djangoCMS cases** mined from the modern PR-era history (newest 6000
-  ancestors of the frozen anchor, ≈2016–2025) with the frozen M4A-1
-  miner/schema/eligibility/exclusion rules and the leakage barrier
-  (`allow_intent_path_leakage=False`; 92 leaked candidates ineligible). R1/R2/R3
-  related/duplicate removal keeps changes independent (582 exact-set, 0
-  shared-PR, 5 suspected-related adjudicated by the frozen deterministic
-  same-change predicate — `reports/REAL_COMMIT_M4A2_R3_FIDELITY_CLOSURE.md`).
-  **Split freeze before any model
-  result:** TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10 (seed `20260913`,
-  metadata-only, `split_freeze.json`). Held-out evaluation is **NOT RUN**
-  (M4A-3, separately frozen). The historical diff remains an **OBSERVED
-  CHANGE-SET PROXY** — never semantic ground truth, no P/R/V/H fabricated.
-  Protocol `reports/REAL_COMMIT_M4A2_PROTOCOL.md`; adjudication
-  `reports/REAL_COMMIT_M4A2_ADJUDICATION.md`; six gates
-  `reports/REAL_COMMIT_M4A2_VALIDATION.md`; audit
-  `reports/REAL_COMMIT_M4A2_AUDIT.md`; verifier
-  `scripts/verify_real_commit_dataset_scientific.py`; builder
-  `scripts/build_real_commit_dataset_scientific.py`; data
-  `benchmark_data/real_commit_impact_v1/scientific/` +
-  `scientific_manifest.json` + `split_freeze.json`. **M4A-3/P1 (2026-09-14):
-  REAL-COMMIT FULL-v2 vs SPARSE-v2 held-out evaluation EXECUTED** — protocol
-  `reports/REAL_COMMIT_M4A3_P1_PROTOCOL.md` (completion cap **16384 both arms**,
-  controlled M1B replication), ZERO-API gates + audit
-  `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`, result
-  `reports/REAL_COMMIT_M4A3_P1_RESULT.md`, launcher
-  `scripts/execute_real_commit_p1.py`; 10 held-out cases × 2 arms × 3 reps =
-  60 cells, **60/60 valid / 0 failed / 0 truncations**, 60 calls, 566,755
-  tokens, $0.36 (< $1.50 ceiling); full_v2 micro P 0.339 / R 0.369 / F1 0.353,
-  sparse_v2 micro P 0.387 / R 0.261 / F1 0.312; bootstrap (10 tasks) delta F1
-  −0.009 [−0.130, +0.119], delta completion −7,848 [−8,136, −7,597], delta cost
-  −$0.0235 [−0.0244, −0.0228]; raw evidence
-  `research/real-commit-p1-01/` (60 run records + SHA-verified raw responses).
-  **P5-B (2026-09-14):** LocAgent VALIDATION pilot attempted end-to-end
-  (upstream pinned `4935b55` installed in an isolated venv; indexing OK — 3,805
-  nodes / 18,861 edges; same model/provider transport OK via litellm
-  `openrouter/qwen/qwen3-coder` @ DeepInfra) but **BLOCKED** by the unmodified
-  upstream agent loop's `multiprocessing.get_context('fork')` (POSIX-only) on
-  this Windows host — attempt + exact blocker preserved
-  (`reports/LOCAGENT_P5B_VALIDATION_BLOCKER_REPORT.md`); P5-C (HELD_OUT_TEST)
-  NOT authorized; P5-A shared protocol frozen (adapter + common evaluator).
-  M4A-1 references:
-  protocol `reports/REAL_COMMIT_M4A1_PROTOCOL.md`; six gates
-  `reports/REAL_COMMIT_M4A1_VALIDATION.md`; audit
-  `reports/REAL_COMMIT_M4A1_AUDIT.md`; verifier
-  `scripts/verify_real_commit_dataset.py`; builder
-  `scripts/build_real_commit_dataset.py`.
-- **Graph-Gated Disclosure:** **EXECUTED / NOT PROMISING as implemented**
-  (was PROPOSED FOLLOW-UP / NOT EXECUTED).
+> **Current scientific state (2026-09-14):** the selection-stage benchmark is
+> **complete and audited**. Controlled sparse-policy studies (M1A/M1B/M3) are
+> complete; a 40-case real-history corpus (M4A-1/M4A-2) is frozen; the 10-task
+> held-out **Full-v2 vs Sparse-v2 evaluation (M4A-3 / P1) is EXECUTED**
+> (60/60 cells valid). LocAgent shared-protocol engineering (P5-A) is ready;
+> its real pilot (P5-B) is blocked on this Windows host by upstream POSIX
+> `fork` usage. The serialized-record derived metric in the P1 result was
+> corrected on 2026-09-14 (see [P1 serialization correction](#p1-serialized-record-metric-correction)).
 
 ---
 
-## What Is This?
+## 1. What problem does this repository study?
 
-A research-grade benchmark for **repository-level LLM impact selection** in
-software evolution. Given a requirement change, the completed benchmark
-evaluates which repository artifacts the model predicts must change and the
-inference efficiency of that selection process.
+Before an LLM edits a repository, it must decide **which files are affected by a change**.
 
-The frozen protocol prioritizes **impact correctness before efficiency**:
-token savings are not a success if the approach misses affected artifacts.
-Selective regeneration is the broader motivation and future direction, not a
-completed end-to-end measured result of these studies.
+This project studies two separable problems:
 
-## What Was Evaluated?
+1. **Impact inference:** did the model identify the right files?
+2. **Impact-policy representation:** can a complete file-action policy be expressed without wasting output budget on hundreds of repeated `PRESERVE` decisions?
 
-- **Repositories:** controlled Django Todo (small), django CMS 5.0.0 (medium),
-  and Saleor Core 3.23.0 (large — defined but **not executed**).
-- **COMPLETED DJANGOCMS SCOPE: SELECTION ONLY** — which repository paths the
-  model predicts must change, scored against source-adjudicated hidden gold
-  applied after inference.
-- **Not measured in the completed djangoCMS treatments:** Functional
-  Correctness, Preservation, Architecture Compliance, or end-to-end
-  regeneration correctness.
-- **Treatment arms:** `iterative_repository_agent` (Agent) vs
-  `impact_plan` (ImpactPlan-v1, full explicit plan serialization).
-- **ImpactPlan-v2 (post-hoc / exploratory):** a sparse representation redesign
-  (explicit non-PRESERVE decisions + deterministic PRESERVE-by-omission).
-- **Model:** **Qwen3-Coder-480B-A35B-Instruct** (OpenRouter slug
-  `qwen/qwen3-coder`) pinned to DeepInfra through OpenRouter,
-  fallback OFF, temperature 0.
+The core representation idea is **Preserve-by-Omission**:
 
-## What Is Finished?
+- emit only non-`PRESERVE` decisions;
+- reconstruct every omitted candidate deterministically as `PRESERVE`.
 
-- The Todo selection component studies (smoke + held-out).
-- The primary djangoCMS selection study (60 cells).
-- The post-hoc / exploratory djangoCMS ImpactPlan-v2 study (30 cells), audited.
-- Two post-hoc robustness replications (60 cells each), audited: **Qwen3-32B**
-  (cross-model, DeepInfra) and **Qwen3-Coder-30B-A3B-Instruct**
-  (cross-model / cross-provider, SiliconFlow).
-- **M1A — Controlled 4096-cap feasibility boundary (2026-09-12, audited):** a
-  preregistered capability/feasibility boundary (NOT a 60-cell controlled
-  ablation) showing the Full-v2 explicit-PRESERVE capability probe terminates
-  at the frozen 4096 completion cap (decision id 76) while the Sparse-v2
-  probe completes (419 tokens, 144-candidate reconstruction). No semantic
-  superiority claim. See
-  [`reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md`](reports/CONTROLLED_ENCODING_4096_FEASIBILITY_RESULT.md).
-- **M1B — Controlled 16K cap-relaxed encoding ablation (2026-09-12,
-  audited):** POST-HOC CONTROLLED CAP-RELAXED ABLATION, completion cap 16384
-  for BOTH arms, same audited M1A schema/prompts/policies/scorer (frozen
-  M1A-parity PASS). **60/60 cells recorded, 60 valid, 0 failed, 0
-  truncations.** Full-v2 30/30 valid (mean 8,383 completion tokens, 144
-  serialized records/run, P 0.451 / R 0.775 / F1 0.571); Sparse-v2 30/30
-  valid (mean 809 completion tokens, ~4.9 serialized records/run, P 0.721 /
-  R 0.883 / F1 0.794). **CONTROLLED ENCODING COST EFFECT: SUPPORTED**
-  (descriptive; Sparse uses substantially fewer completion tokens/records at
-  equal 100% validity). No universal semantic superiority claim. See
-  [`reports/CONTROLLED_ENCODING_16K_RESULT.md`](reports/CONTROLLED_ENCODING_16K_RESULT.md).
-- All closure gates, evidence freezing, the audited v2 study tag, and the final
-  benchmark tag `v0.11.0-benchmark-complete`.
-- A documentation package that lets a fresh researcher start the paper phase
-  without reconstructing earlier sessions — see
-  [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md).
+It reduces serialization cost. It does **not** claim to make semantic impact reasoning universally better.
 
-## Headline Results
+---
 
-### Historical Qwen3-Coder-480B-A35B-Instruct evidence (frozen, unchanged)
+## 2. Current headline results
 
-**Qwen3-Coder-480B-A35B-Instruct** (OpenRouter slug `qwen/qwen3-coder`) @
-DeepInfra, cap Agent 1024 / ImpactPlan-v1 4096 / ImpactPlan-v2 4096.
-Selection-stage correctness on valid cells
-(micro-aggregated); token/call/cost totals over ALL cells (valid + failed):
+### Controlled 16K representation study — M1B (2026-09-12, audited)
 
-| Model | Study status | Arm | Valid | Trunc. | P | R | F1 | Total tokens | Calls |
-|---|---|---|---|---|---|---|---|---|---|
-| Qwen3-Coder-480B-A35B-Instruct | Primary | Agent | 25/30 | 0 | 0.6463 | 0.8407 | 0.7308 | 449,792 | 206 |
-| Qwen3-Coder-480B-A35B-Instruct | Primary | ImpactPlan-v1 | 6/30 | 19 | 0.6765 | 0.9200 | 0.7797 | 184,401 | 28 |
-| Qwen3-Coder-480B-A35B-Instruct | Post-hoc / exploratory | ImpactPlan-v2 | 29/30 | 0 | 0.7410 | 0.8655 | 0.7985 | 144,353 | 30 |
-| Qwen3-32B | Post-hoc cross-model | ImpactPlan-v1 | 2/30 | 24 | 0.0000 | 0.0000 | 0.0000 | >= 198,979 | 30 req (29 usage-known) |
-| Qwen3-32B | Post-hoc cross-model | ImpactPlan-v2 | 21/30 | 6 | 0.3600 | 0.6207 | 0.4557 | >= 122,273 | 30 req (23 usage-known) |
-| Qwen3-Coder-30B-A3B-Instruct | Post-hoc cross-model / cross-provider | ImpactPlan-v1 | 17/30 | 11 | 0.6567 | 0.8000 | 0.7213 | 162,276 | 30 req (30 usage-known) |
-| Qwen3-Coder-30B-A3B-Instruct | Post-hoc cross-model / cross-provider | ImpactPlan-v2 | 28/30 | 0 | 0.5556 | 0.6881 | 0.6148 | >= 138,870 | 30 req (29 usage-known) |
+| Arm | Valid | Mean completion | Mean serialized records | Precision | Recall | F1 |
+|---|---|---:|---:|---:|---:|---:|
+| Full-v2 | 30/30 | 8,383 | 144.0 | 0.452 | 0.775 | 0.571 |
+| Sparse-v2 | 30/30 | 809 | 5.9 | 0.721 | 0.883 | 0.794 |
 
-> **Unified table notes.** Rows come from **separate studies**; denominators
-> must not be pooled. The historical Agent / ImpactPlan-v1 rows are the
-> **primary** evidence; historical ImpactPlan-v2 is a separate
-> post-hoc/exploratory study; Qwen3-32B is a separate post-hoc cross-model
-> robustness replication (DeepInfra); Qwen3-Coder-30B-A3B-Instruct is a
-> separate post-hoc cross-model / cross-provider robustness replication
-> (SiliconFlow). Unknown usage is a **lower bound** (`>=`), never silently
-> converted to zero. Cost (secondary): historical Agent $0.140850 /
-> v1 $0.123298 / v2 $0.064634; Qwen3-32B total >= $0.054028; 30B total >=
-> $0.041518.
+Controlled descriptive reductions for Sparse-v2:
+- completion output: ~90.35% lower;
+- serialized records: ~95.9% lower;
+- cost: ~82.54% lower;
+- latency: ~63.29% lower.
 
-> **ImpactPlan-v2 was a separate post-hoc/exploratory 30-cell study.** It is
-> displayed beside the primary arms for descriptive readability only. The rows
-> are **not** one preregistered or pooled three-arm experiment.
->
-> **Severe missing-data asymmetry:** the v1 headline rests on only **6 valid
-> survivor cells** (19 truncations at the 4096 cap + unknown-path / transport /
-> harness failures). **No between-arm accuracy claim is made.**
+> **Footnote on the M1B serialized-record figure.** The originally published
+> Sparse-v2 figure (4.9) was the mean **REGENERATE write-set size**
+> (`len(decoded_write_set_ids)`), not the serialized decision count. The
+> corrected mean serialized decision count (recomputed from the persisted raw
+> responses; frozen M1B evidence unchanged) is **5.9**. See
+> [P1 serialized-record metric correction](#p1-serialized-record-metric-correction)
+> and technical-debt items TD-011/TD-012.
 
-### Cross-Model Robustness Replication (Qwen3-32B)
+**Important:** semantic effects were heterogeneous across the six independent
+task units. Do not interpret the table as proof that sparse encoding
+universally improves impact accuracy.
 
-POST-HOC CROSS-MODEL ROBUSTNESS REPLICATION — same repositories, cases,
-treatments, gateway and provider, **different Qwen model**. Model
-`qwen/qwen3-32b` @ OpenRouter / DeepInfra (`deepinfra/fp8`), **reasoning
-explicitly disabled**, fallback off, temperature 0, cap 4096. 60 cells
-(6 scenarios × 2 arms × 5 reps); see
-[`reports/QWEN3_32B_CROSSMODEL_PROTOCOL.md`](reports/QWEN3_32B_CROSSMODEL_PROTOCOL.md)
-(preregistered before cell 1). Denominators are per-row and **not** merged with
-the historical rows above. **Results are included in the unified table above.**
+### Real historical changes — M4A-3 / P1 (2026-09-14, executed)
 
-> **Directional pattern:** Qwen3-32B v1 (full explicit-policy serialization)
-> truncates at the frozen 4096 cap in **24/30** cells — the verbose output does
-> not fit the frozen cap; recorded verbatim, no reruns. The sparse v2
-> representation remains operational (**21/30 valid**); v2 truncations = **6**
-> (S004 r1–r5 and S008 r2 hit the frozen 4096 completion cap,
-> `finish_reason=length`; accounting audit 2026-09-11 — see
-> [`reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/ACCOUNTING_CORRECTION_NOTE.md`](reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/ACCOUNTING_CORRECTION_NOTE.md)).
-> The directional replication label (`DIRECTIONALLY REPLICATED`) requires only
-> (1) v2 validity rate > v1 and (2) v2 truncation rate < v1 — both hold
-> (0.700 > 0.067 and 0.200 < 0.800). All
-> agreement statistics are **descriptive only**; no equivalence/significance
-> or causal claim. Cross-model Sparse-v2 Jaccard agreement (historical
-> Qwen3-Coder-480B-A35B-Instruct × new Qwen3-32B, 102 cross-product pairs): mean 0.284, median
-> 0.231 — see
-> [`reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md`](reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md)
-> (+ `.csv`). Verify with
-> [`scripts/verify_qwen3_32b_crossmodel_claims.py`](scripts/verify_qwen3_32b_crossmodel_claims.py).
->
-> **Call accounting:** all 60 manifest cells issued exactly one API request
-> (`requests_issued = 60`). `model_calls` (52 usage-bearing) undercounts the
-> 8 failed cells that ran before usage capture was wired in; 7 of those 8 have
-> persisted raw responses but their exact provider usage is unrecoverable, and
-> 1 (S006 v1 r3) is a transport failure with no response. Details in the
-> correction note.
+Frozen external-validity corpus:
+- 40 clean djangoCMS historical changes;
+- TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10;
+- split frozen before scientific model output;
+- the historical changed-file set is an **OBSERVED CHANGE-SET PROXY**, not perfect semantic ground truth.
 
-### Cross-Model / Cross-Provider Robustness Replication (Qwen3-Coder-30B-A3B-Instruct)
+Held-out experiment:
+`10 tasks × 2 arms × 3 nested repetitions = 60 cells`
 
-POST-HOC CROSS-MODEL / CROSS-PROVIDER ROBUSTNESS REPLICATION — same
-repositories, cases, treatments and gateway, **different coder model AND
-different provider**. Model **Qwen3-Coder-30B-A3B-Instruct** (OpenRouter slug
-`qwen/qwen3-coder-30b-a3b-instruct`) @ OpenRouter / **SiliconFlow**
-(`siliconflow/fp8`), model-native non-thinking, fallback off, temperature 0,
-cap 4096. 60 cells (6 scenarios × 2 arms × 5 reps); see
-[`reports/QWEN3_CODER_30B_A3B_CROSSMODEL_PROTOCOL.md`](reports/QWEN3_CODER_30B_A3B_CROSSMODEL_PROTOCOL.md)
-(preregistered before cell 1). **Results are included in the unified table
-above.**
+| Arm | Valid | Trunc. | Precision | Recall | F1 | Mean completion | Total cost |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| Full-v2 | 30/30 | 0 | 0.339 | 0.369 | 0.353 | 8,445.8 | $0.297623 |
+| Sparse-v2 | 30/30 | 0 | 0.387 | 0.261 | 0.312 | 599.0 | $0.062341 |
 
-> **Directional pattern (descriptive):** the new coder model fits the full v1
-> policy at the 4096 cap far better than Qwen3-32B (v1 17/30 valid vs 2/30) but
-> still truncates 11/30 v1 cells; the sparse v2 representation remains the most
-> operational (28/30 valid, **0 truncations**). Directional label:
-> `DIRECTIONALLY REPLICATED` (v2 validity 0.933 > v1 0.567 and v2 truncation
-> 0.000 < v1 0.367). S006 remains the weak case (v2 P 0.053 / R 0.067 /
-> F1 0.059; over-selection + persistent gold misses — same qualitative
-> weakness as the historical model). Accounting: 60 requests issued, 59
-> responses, 59 usage-known / 1 usage-unknown (one transport failure); token
-> and cost totals are **lower bounds**. Cross-model Sparse-v2 Jaccard vs
-> historical Qwen3-Coder-480B-A35B-Instruct: 135 pairs, mean 0.491 /
-> median 0.429 (descriptive) — see
-> [`reports/QWEN3_CODER_30B_A3B_CROSSMODEL_AGREEMENT.md`](reports/QWEN3_CODER_30B_A3B_CROSSMODEL_AGREEMENT.md)
-> (+ `.csv`). Verify with
-> [`scripts/verify_qwen3_coder_30b_a3b_crossmodel_claims.py`](scripts/verify_qwen3_coder_30b_a3b_crossmodel_claims.py).
+Paired task-level result:
+- ΔF1 (Sparse − Full): −0.009, 95% bootstrap CI [−0.130, +0.119];
+- Δcompletion tokens: −7,848, CI excludes zero;
+- Δserialized records (corrected): −139.9, CI [−143.3, −137.0];
+- Δcost/task: −$0.0235, CI excludes zero.
 
-### Controlled 4096-Cap Feasibility Boundary (M1A, 2026-09-12)
+**Interpretation:** the representation/output-cost advantage transfers to
+independent real historical changes. Semantic superiority does not.
 
-**POST-HOC / EXPLORATORY CAPABILITY-FEASIBILITY BOUNDARY — NOT a completed
-60-cell controlled ablation.** Same model (`qwen/qwen3-coder` =
-Qwen3-Coder-480B-A35B-Instruct @ DeepInfra `deepinfra/turbo`), same common
-semantic-rich Full-v2/Sparse-v2 schema, same frozen 4096 completion cap,
-temperature 0, fallback OFF, graph OFF, synthetic non-study fixture.
+#### P1 serialized-record metric correction
 
-> Under the frozen 4096-token completion budget and the common semantic-rich
-> Full-v2/Sparse-v2 schema, the Full-v2 capability probe terminated at the
-> completion cap before emitting all 144 required decisions, whereas the
-> Sparse-v2 probe completed and deterministically reconstructed a valid
-> 144-candidate policy.
+On 2026-09-14 a code audit found that the P1 `serialized_records` metric was
+computed from `len(decoded_write_set_ids)` — the **predicted REGENERATE
+write-set size** — not the number of serialized decision records. The corrected
+value is recomputed from the persisted raw responses (ZERO API calls; raw bytes
+unchanged):
 
-- **Probe A (Full-v2):** `finish_reason=length`, completion_tokens=4096,
-  truncated at decision id 76 (≈7,760 tokens needed at observed density);
-  schema-valid False; usage captured; raw SHA verified.
-- **Probe B (Sparse-v2):** `finish_reason=stop`, completion_tokens=419,
-  3 explicit non-PRESERVE decisions, decoded_candidate_count=144, semantic
-  validation PASS; raw SHA verified.
-- Prompt control proof PASS (only SERIALIZATION_POLICY differs between arms);
-  representation equivalence PASS (`D_s(E_s(π)) == π`); six pre-benchmark
-  gates + audit PASS; **ZERO 60-cell scientific study cells executed**.
-- Verifier: `scripts/verify_controlled_encoding_4096_claims.py` (zero API,
-  27/27 PASS).
-- This is an operational feasibility boundary, NOT causal proof that
-  Preserve-by-Omission is superior. A separately preregistered cap-relaxed
-  study (M1B, cap 16384 for BOTH arms) is planned but NOT run.
+| Quantity | Former (write-set size) | Corrected (serialized decisions) |
+|---|---:|---:|
+| Full-v2 mean | 4.03 | **144.0** |
+| Sparse-v2 mean | 2.50 | **4.07** |
+| Paired delta | −1.540 [−2.833, −0.367] | **−139.9 [−143.3, −137.0]** |
 
-### Controlled 16K Cap-Relaxed Encoding Ablation (M1B, 2026-09-12)
+Artifacts: `research/real-commit-p1-01/final_metrics_serialization_corrected.json`,
+`research/real-commit-p1-01/serialization_metric_corrected.json`,
+[`reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`](reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md).
+P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unchanged.
 
-**POST-HOC CONTROLLED CAP-RELAXED ENCODING ABLATION.** Same model
-(`qwen/qwen3-coder` = Qwen3-Coder-480B-A35B-Instruct @ DeepInfra
-`deepinfra/turbo`), same common semantic-rich Full-v2/Sparse-v2 schema,
-temperature 0, fallback OFF, graph OFF — the ONLY study-level change from M1A
-is the completion cap **4096 → 16384 (BOTH arms)**. Frozen M1A-parity artifact
-PASS (nothing except the cap changed; nothing except the serialization policy
-differs between arms).
+### Exploratory graph study — M3 (2026-09-13, audited)
 
-**60/60 cells recorded, 60 valid, 0 failed, 0 truncations** (6 curated
-development/mechanism scenarios × 2 arms × 5 reps). 60 requests / 60 responses
-/ 60 usage-known / 0 unknown; 157,980 prompt + 275,761 completion = 433,741
-tokens; recorded cost **$0.323156** (< $0.75 ceiling).
+| Condition | Precision | Recall | F1 | FN | FP | Interpretation |
+|---|---|---:|---:|---:|---:|---:|---|
+| Graph OFF | 0.721 | 0.883 | 0.794 | 14 | 41 | baseline |
+| Graph Hints | 0.814 | 0.800 | 0.807 | 24 | 22 | more conservative; precision ↑, recall ↓ |
+| Graph-gated disclosure | — | — | — | — | — | not promising as implemented |
 
-| Arm | Valid | Trunc. | Mean completion tokens | Mean serialized records | P | R | F1 | Cost |
-|---|---|---|---|---|---|---|---|---|
-| Full-v2 | 30/30 | 0 | 8,383 | 144 | 0.4515 | 0.7750 | 0.5706 | $0.275124 |
-| Sparse-v2 | 30/30 | 0 | 809 | 4.9 | 0.7211 | 0.8833 | 0.7940 | $0.048032 |
+The graph result is exploratory and does **not** support the general claim
+"graphs improve impact selection."
 
-**CONTROLLED ENCODING COST EFFECT: SUPPORTED** (descriptive): under a
-non-binding 16k budget both arms reach 100% validity (0 truncations), and
-Sparse-v2 uses substantially fewer completion tokens (−7,574 mean) and
-serialized records (−139 mean) for the same decoded 144-candidate policies.
-Controlled descriptive reductions (Sparse-v2 vs Full-v2): completion tokens
-≈ −90.35%, serialized records ≈ −96.60%, recorded API cost ≈ −82.54%, total
-latency ≈ −63.29%. No universal semantic superiority claim. Verifier:
-`scripts/verify_controlled_encoding_16k_claims.py` (zero API, 42/42 PASS).
+---
 
-### Todo component studies (frozen, selection-stage)
+## 3. Project map
 
-- Stage-C smoke: 30/30 valid, full recall 15/15 per arm, P/R/F1 ceiling.
-- Stage-C held-out: 60/60 valid, recall 30/30 per arm, precision Agent 0.8778
-  vs ImpactPlan 0.7694; ImpactPlan tokens −72.98%, calls −86.36%.
-- v1.1 end-to-end Todo study: **0/30 functional passes (NO-GO)** — preserved
-  as historical evidence; the failures were dominated by downstream
-  exact-patch / source-validity classes, not the impact selector.
+```mermaid
+flowchart LR
+    A[Django Todo\nsmall controlled prototype]
+    B[django CMS\n6 curated mechanism tasks]
+    C[django CMS\n40 real historical changes]
+    D[Held-out P1\n10 real tasks]
+    E[LocAgent\nshared-protocol comparison]
+    F[Graph omission-risk\nGraph@K / Semantic@K / Hybrid@K]
+    G[Saleor\nfuture cross-repository replication]
+    H[M2 density stress\nfuture break-even study]
 
-## Known Limitations
+    A --> B --> C --> D
+    D --> E
+    D --> F
+    C --> G
+    B --> H
+```
 
-1. **Scenario 006 is the weakest v2 case:** precision ≈ 0.389, recall ≈ 0.467,
-   full-recall 0/5. The model consistently missed gold files
-   (`cms/models/pluginmodel.py`, `cms/admin/placeholderadmin.py`,
-   `cms/utils/plugins.py`) and over-selected.
-2. **The djangoCMS dependency graph was NOT injected** into ImpactPlan-v1 or
-   v2. The primary djangoCMS study characterizes explicit-plan selection
-   **without dependency-graph assistance**.
-3. **The primary v1 valid-run correctness rests on only 6 valid cells**
-   (severe missing-data asymmetry vs Agent's 25). Any v1-vs-Agent comparison
-   is provisional.
-4. **v2 solves the observed output-serialization bottleneck, but does NOT
-   solve impact identification universally** — scenario 006 demonstrates
-   residual correctness limits.
-5. **v2 still exposes the candidate universe in the prompt.** Larger-repository
-   input scaling remains Future Work. No measured repository-size threshold is
-   claimed, and **no Saleor feasibility is claimed** (Saleor was not started).
+---
 
-## Final Reports
+## 4. Repository / dataset scope
 
-| Report | Path |
+| Repository | Role | Approximate scale / status | Evidence type | Current status |
+|---|---|---|---|---|
+| Django Todo | Small controlled prototype | small bespoke repository | controlled component studies | complete / historical |
+| django CMS 5.0.0 | Main mechanism repository | 144 production Python candidates in frozen universe | curated scenarios + real historical commits | primary completed evidence |
+| Saleor Core 3.23.0 | Large cross-repository extension | defined, not scientifically executed | planned real-commit replication | future |
+| LocAgent upstream | External baseline system | graph-guided localization system | shared-protocol comparison | adapter ready; real pilot pending (Windows `fork` blocker) |
+
+---
+
+## 5. Test-case / dataset taxonomy
+
+| Family | Count | How created | What it is for | Can it be used as final held-out evidence? |
+|---|---:|---|---|---:|
+| Todo cases | historical small set | bespoke controlled tasks | early pipeline/component validation | no |
+| djangoCMS curated mechanism scenarios | 6 retained | source-audited designed requirement changes | M1/M3 mechanism studies | no; development/mechanism evidence |
+| `MINER_DEV` real commits | 6 | real djangoCMS history | miner/schema/leakage development | no |
+| RealCommit scientific corpus | 40 | deterministic mining + frozen filters/dedup | external-validity dataset | yes, by split |
+| TRAIN | 24 | metadata-only frozen split | development/probes | no |
+| VALIDATION | 6 | metadata-only frozen split | protocol/capability validation | no |
+| HELD_OUT_TEST | 10 | metadata-only frozen split | one-shot P1 scientific evaluation | yes; P1 executed |
+
+Historical changed files are always described as an **OBSERVED CHANGE-SET PROXY**.
+
+---
+
+## 6. Experiment registry
+
+| ID | Question | Data | Arms / conditions | Calls/cells | Status | Main takeaway |
+|---|---|---|---|---|---:|---|---|
+| M1A | Can a full policy fit a 4096 cap? | 6 curated djangoCMS tasks / capability boundary | Full-v2 vs Sparse-v2 | capability probes | complete | explicit full serialization hits the cap; sparse can complete |
+| M1B | What is the representation cost when both arms can complete? | 6 curated tasks | Full-v2 vs Sparse-v2 @16K | 60 | complete/audited | ~90% lower completion output for sparse |
+| M3 | Does broadcast graph evidence help? | same mechanism set | Graph OFF / hints / gated disclosure | 90 new cells | complete/exploratory | precision ↑ but recall ↓; gating failed operationally |
+| M4A-1 | Can real commits be mined without leakage? | djangoCMS history | infrastructure only | 0 scientific calls | complete/audited | parent-only public/hidden corpus machinery |
+| M4A-2 | Can a scientific real-history corpus be frozen? | djangoCMS history | dataset construction | 0 scientific calls | complete/audited | 40 cases, 24/6/10 split |
+| M4A-3 / P1 | Does M1B's representation effect generalize? | 10 real held-out changes | Full-v2 vs Sparse-v2 @16K | 60 | complete/audited | cost/output effect replicates; semantic superiority does not |
+| P5-A | Can LocAgent be compared under our public/hidden boundary? | non-held-out only | adapter/common evaluator | 0 scientific calls | complete | leakage-safe adapter ready |
+| P5-B | Does real LocAgent execute under shared protocol? | validation | LocAgent pilot | pending | blocked on Windows upstream `fork` | run on POSIX or documented patch layer |
+| P2 | Can structure target likely omissions efficiently? | future TRAIN/VALIDATION | Random@K / Semantic@K / Graph@K / Hybrid@K | TBD | future | thesis-level hypothesis |
+| P3 | Does the result transfer to another large repository? | Saleor real commits | frozen method | TBD | future | cross-repository validity |
+| P4 / M2 | At what impact density does sparse serialization stop helping? | controlled density grid | Full vs Sparse | TBD | future | break-even/scaling boundary |
+
+---
+
+## 7. Experiment map
+
+```mermaid
+flowchart TD
+    M1A[M1A\n4096 feasibility boundary]
+    M1B[M1B\n16K controlled encoding ablation]
+    M3[M3\nbroadcast graph ablation]
+    M4A1[M4A-1\nreal-commit miner]
+    M4A2[M4A-2\n40-case corpus + split freeze]
+    P1[P1 / M4A-3\nreal held-out Full vs Sparse]
+    P5[P5\nLocAgent shared protocol]
+    P2[P2\nselective omission verification]
+    P3[P3\nSaleor replication]
+    M2[M2\nserialization-density stress]
+
+    M1A --> M1B
+    M1B --> M3
+    M1B --> M4A1
+    M4A1 --> M4A2 --> P1
+    P1 --> P5
+    M3 --> P2
+    P1 --> P2
+    M4A2 --> P3
+    M1B --> M2
+```
+
+---
+
+## 8. Repository map
+
+```mermaid
+flowchart TD
+    SRC[src/benchmark\nreusable benchmark logic]
+    DATA[benchmark_data\nfrozen datasets / manifests]
+    SCRIPTS[scripts\nstudy launchers / verifiers]
+    RESEARCH[research\nraw scientific run evidence]
+    REPORTS[reports\nprotocols / results / audits]
+    DOCS[docs\nhandoffs / roadmap / user docs]
+    TESTS[tests\nunit + integration + leakage + regression]
+
+    SRC --> SCRIPTS
+    DATA --> SCRIPTS
+    SCRIPTS --> RESEARCH
+    RESEARCH --> REPORTS
+    SRC --> TESTS
+    DATA --> TESTS
+    REPORTS --> DOCS
+```
+
+---
+
+## 9. The six Pre-Benchmark Validation gates
+
+The "six gates" are **six categories of pre-run checks**, not six model runs.
+
+| Gate | What it verifies | P1 example |
+|---|---|---|
+| 1. Dataset Validation | data identity and split correctness | exact 10 held-out IDs, corpus/split hashes, public/hidden boundary |
+| 2. Prompt Validation | prompt parity and leakage | same semantic contract; only serialization differs; no hidden proxy in prompt |
+| 3. Pipeline Smoke Test | code path works end-to-end on fixtures | render → decode → reconstruct policy |
+| 4. Dry Run | exact run plan without API calls | generate/freeze the 60-cell manifest with 0 calls |
+| 5. Integration Test | components interoperate correctly | fixture → decoder → predicted write set → evaluator |
+| 6. Metric Verification | scoring is mathematically correct | independently recompute TP/FP/FN/P/R/F1/FNR |
+
+After these six gates, an **independent Audit** checks persisted evidence and
+protocol invariants again.
+
+---
+
+## 10. Running the benchmark
+
+### 10.1 Install
+
+```powershell
+git clone https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark.git
+cd dependency-aware-selective-regeneration-benchmark
+
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -U pip
+pip install -e .[dev]
+```
+
+Use the repository's exact dependency instructions if they differ from the
+generic commands above.
+
+### 10.2 API credentials
+
+Keys are referenced by environment-variable name in configuration, never stored
+as literal secrets.
+
+#### OpenRouter
+
+```powershell
+$env:OPENROUTER_API_KEY = Read-Host "OpenRouter API key" -AsSecureString
+```
+
+#### DeepSeek direct — planned provider profile
+
+```powershell
+$env:DEEPSEEK_API_KEY = "<your key>"
+```
+
+#### Hugging Face Inference Providers — planned provider profile
+
+```powershell
+$env:HF_TOKEN = "<your fine-grained inference token>"
+```
+
+---
+
+## 11. Dry run vs probe vs live
+
+### Dry run
+
+Purpose:
+- validates dataset;
+- resolves model/provider configuration;
+- renders prompts;
+- validates schemas;
+- freezes the manifest;
+- makes **ZERO external model calls**.
+
+```powershell
+python scripts/benchmark_cli.py dry-run --study real-commit-p1
+```
+
+### Capability probe
+
+Purpose:
+- a few non-held-out real API calls;
+- verifies endpoint availability, cap, response format and decoding;
+- never consumes held-out scientific cases.
+
+```powershell
+python scripts/benchmark_cli.py probe `
+  --study real-commit-p1 `
+  --model-profile qwen3-coder-openrouter-deepinfra
+```
+
+### Live scientific run
+
+Only after protocol freeze + six gates + audit:
+
+```powershell
+python scripts/benchmark_cli.py live `
+  --study real-commit-p1 `
+  --model-profile qwen3-coder-openrouter-deepinfra
+```
+
+### Verify (ZERO API)
+
+```powershell
+python scripts/benchmark_cli.py verify --study real-commit-p1
+```
+
+The unified CLI is a thin wrapper; study-specific launchers remain the
+reproducible source of truth (documented in `docs/BENCHMARK_RUNBOOK.md`).
+
+---
+
+## 12. Model/provider architecture — target design
+
+Model choice must be dynamic **for future studies**, while every scientific run
+remains frozen and reproducible. Profiles live in
+[`config/model_profiles.yaml`](config/model_profiles.yaml) and are immutable
+once resolved. A live run refuses to continue if the resolved profile differs
+from the frozen manifest.
+
+Example profile:
+
+```yaml
+id: deepseek-v4-flash-openrouter
+gateway: openrouter
+base_url: https://openrouter.ai/api/v1
+model: deepseek/deepseek-v4-flash-0731
+provider_pin: null
+api_key_env: OPENROUTER_API_KEY
+temperature: 0
+max_completion_tokens: 16384
+structured_output: json_schema
+fallbacks: false
+```
+
+Recommended future profiles:
+- Qwen3-Coder-480B-A35B-Instruct / OpenRouter / pinned DeepInfra — historical primary profile;
+- DeepSeek V4 Flash 0731 / OpenRouter — low-cost cross-model candidate;
+- DeepSeek V4 Pro 0813 / OpenRouter or direct API — stronger-costlier robustness candidate;
+- Hugging Face Inference Providers profile(s), only when the selected model/provider supports the required structured-output contract.
+
+Never silently switch providers/models inside one frozen scientific arm. Full
+guide: [`docs/MODEL_PROVIDER_GUIDE.md`](docs/MODEL_PROVIDER_GUIDE.md).
+
+---
+
+## 13. Using Hugging Face
+
+Hugging Face Inference Providers support an OpenAI-compatible chat endpoint and
+structured outputs for supported model/provider combinations.
+
+Target profile:
+
+```yaml
+id: hf-example
+gateway: huggingface
+base_url: https://router.huggingface.co/v1
+model: <repo-id>:<provider>
+api_key_env: HF_TOKEN
+structured_output: json_schema
+temperature: 0
+```
+
+Before admitting an HF profile into a scientific matrix:
+1. capability probe the exact model/provider;
+2. confirm JSON-schema support;
+3. confirm completion cap;
+4. freeze provider selection (`:provider` or explicit policy);
+5. disable silent failover when provider identity is part of the experimental control.
+
+---
+
+## 14. Benchmark-user vs research-author workflows
+
+### I only want to use the idea on my repository
+
+Use the inference pipeline:
+1. provide a repository snapshot/base commit;
+2. generate the candidate universe;
+3. provide the natural-language requirement;
+4. run the Sparse policy;
+5. decode omitted candidates as `PRESERVE`;
+6. consume selected files in your editor/agent workflow.
+
+You do not need hidden proxies or scientific scoring.
+
+### I want to benchmark a model
+
+You need:
+1. frozen tasks;
+2. hidden observed targets/proxies;
+3. public/hidden leakage boundary;
+4. model profile;
+5. dry run;
+6. capability probe;
+7. six gates + audit;
+8. live run;
+9. scoring only after inference;
+10. immutable result manifest and raw-response hashes.
+
+---
+
+## 15. Scientific cost controls
+
+Three different quantities must not be confused:
+
+| Name | Meaning |
 |---|---|
-| Final benchmark results | [`reports/FINAL_BENCHMARK_RESULTS.md`](reports/FINAL_BENCHMARK_RESULTS.md) (+ `.csv`) |
-| Validity and limitations | [`reports/BENCHMARK_VALIDITY_AND_LIMITATIONS.md`](reports/BENCHMARK_VALIDITY_AND_LIMITATIONS.md) |
-| Reproducibility index | [`reports/BENCHMARK_REPRODUCIBILITY_INDEX.md`](reports/BENCHMARK_REPRODUCIBILITY_INDEX.md) |
-| Cross-repo synthesis | [`reports/CROSS_REPO_SYNTHESIS.md`](reports/CROSS_REPO_SYNTHESIS.md) |
-| ImpactPlan-v2 results | [`reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md`](reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md) (+ `.csv`) |
-| ImpactPlan-v2 design | [`reports/DJANGOCMS_IMPACTPLAN_V2_DESIGN.md`](reports/DJANGOCMS_IMPACTPLAN_V2_DESIGN.md) |
-| Paper-writing handoff | [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) |
-| MSC research roadmap (2026–2027) | [`docs/MSC_RESEARCH_ROADMAP_2026_2027.md`](docs/MSC_RESEARCH_ROADMAP_2026_2027.md) |
-| Thesis evidence matrix | [`reports/THESIS_EVIDENCE_MATRIX.md`](reports/THESIS_EVIDENCE_MATRIX.md) |
+| `budget_abort_ceiling_usd` | pre-run safety threshold; aborts a run before uncontrolled spending |
+| `estimated_api_cost_usd` | token usage × frozen endpoint prices |
+| `provider_billed_cost_usd` | actual provider/account billing, if an authoritative value is exposed |
 
-Historical engineering records (the earlier deployment / execution phases) are
-preserved in the Git history, `reports/`, and `DECISION_LOG.md`; they are
-historical and do not describe current work.
+A budget ceiling is **not a scientific result**.
 
-## Quickstart (no API key required)
+For P1:
+- ceiling frozen before execution: $1.50;
+- estimated cost from persisted token usage and frozen prices: $0.359964.
+
+---
+
+## 16. Current scope and limitations
+
+The project currently measures:
+- file-level impact selection;
+- operational validity/truncation;
+- representation size/tokens;
+- cost/latency/calls.
+
+It does not yet establish:
+- downstream patch correctness;
+- universal semantic superiority of Sparse-v2;
+- universal graph benefit;
+- cross-repository generalization to Saleor;
+- a shared-protocol numeric LocAgent result.
+
+Additional known limitations are tracked in
+[`docs/TECHNICAL_DEBT_REGISTER.md`](docs/TECHNICAL_DEBT_REGISTER.md) and the
+historical `## Known Limitations` section in
+[`docs/HISTORICAL_EXPERIMENT_LEDGER.md`](docs/HISTORICAL_EXPERIMENT_LEDGER.md).
+
+---
+
+## 17. Next scientific priorities
+
+1. Paper V17 update using M1 + real-commit P1.
+2. LocAgent P5-B/P5-C on a POSIX environment or documented compatibility layer.
+3. Graph/semantic omission-risk study:
+   - Random@K;
+   - Semantic@K;
+   - Graph@K;
+   - Hybrid@K.
+4. Saleor real-commit replication.
+5. M2 serialization-density stress.
+6. downstream functional correctness.
+
+See [`docs/MSC_RESEARCH_ROADMAP_2026_2027.md`](docs/MSC_RESEARCH_ROADMAP_2026_2027.md),
+[`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md), and
+[`docs/PROJECT_HANDOFF.md`](docs/PROJECT_HANDOFF.md) for the frozen execution
+state.
+
+---
+
+## 18. Quickstart (no API key required)
 
 Reproduce the deterministic smoke-profile dry run (mock backend — zero model
-calls, zero tokens, no frozen evidence touched):
+calls, zero tokens):
 
 ```bash
 python seven_arm_benchmark.py --dry-run --profile smoke
 ```
 
-Expected output: a deterministic dry-run report showing planned runs, terminal
-status, `dry-run:mock` model identity, and zero model calls / zero tokens.
-No API key, GPU, or model download is required.
-
-## Reproduce the Paper's Headline Results
-
-**NO API KEY REQUIRED.** Recompute every headline manuscript metric directly
-from the frozen run evidence:
+Recompute every headline manuscript metric from the frozen evidence:
 
 ```bash
 python scripts/verify_paper_claims.py
 ```
 
-The verifier recomputes the primary Agent / ImpactPlan-v1 headline metrics
-(valid cells, TP/FP/FN, P/R/F1, tokens, calls, cost), the sparse-v2 metrics
-(29/30 valid, 0 truncations, TP/FP/FN = 103/36/16, P/R/F1/FNR, full-recall
-18/29), the scenario-004 and scenario-006 observations, the single failed v2
-cell, the serialized-record reduction, and verifies the 30/30 sparse raw-response
-SHA-256 sidecars. Exit code 0 means the frozen evidence is internally consistent.
+List available model profiles:
 
-Canonical frozen evidence:
-
-- Manifest: [`reports/scientific-stagec-djangocms-impactplan-v2-01/manifest_30.json`](reports/scientific-stagec-djangocms-impactplan-v2-01/manifest_30.json) / [`reports/scientific-stagec-djangocms-study-01/manifest_60.json`](reports/scientific-stagec-djangocms-study-01/manifest_60.json)
-- Run records: [`reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl`](reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl) / [`reports/scientific-stagec-djangocms-study-01/run_records.jsonl`](reports/scientific-stagec-djangocms-study-01/run_records.jsonl)
-- Final metrics: [`reports/scientific-stagec-djangocms-impactplan-v2-01/final_metrics.json`](reports/scientific-stagec-djangocms-impactplan-v2-01/final_metrics.json) / [`reports/scientific-stagec-djangocms-study-01/final_metrics.json`](reports/scientific-stagec-djangocms-study-01/final_metrics.json)
-- Raw responses: [`reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/`](reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/)
-- Closure gates: [`reports/scientific-stagec-djangocms-impactplan-v2-01/closure_gates.json`](reports/scientific-stagec-djangocms-impactplan-v2-01/closure_gates.json) / [`reports/scientific-stagec-djangocms-study-01/closure_gates.json`](reports/scientific-stagec-djangocms-study-01/closure_gates.json)
-- Claim → evidence map: [`reports/PAPER_CLAIM_EVIDENCE_MAP.md`](reports/PAPER_CLAIM_EVIDENCE_MAP.md)
-- V7 audit reconciliation: [`reports/PAPER_V7_AUDIT_RECONCILIATION.md`](reports/PAPER_V7_AUDIT_RECONCILIATION.md)
-
-## Reproducibility
-
-Each research run preserves protocol version, repository and commit, scenario
-and strategy, model/backend identity, generation parameters, prompt and content
-hashes, token usage, model-call counts, timing, failure classification, and
-environment metadata. Raw evidence is persisted append-only and hashed. See
-[`docs/REPRODUCIBILITY_PROTOCOL.md`](docs/REPRODUCIBILITY_PROTOCOL.md) and
-[`reports/BENCHMARK_REPRODUCIBILITY_INDEX.md`](reports/BENCHMARK_REPRODUCIBILITY_INDEX.md).
-
-## Repository Layout
-
-```text
-.
-├── benchmark_data/       # Public manifests, profiles, and scenario definitions
-├── docs/                 # Frozen protocol, architecture, and handoff documentation
-├── notebooks/            # Local execution notebook adapters
-├── reports/              # Evidence, results, validity, and audit reports
-├── scripts/              # Validation, study-execution, and packaging utilities
-├── src/benchmark/        # Source: config, core, execution, llm, repositories, scenarios
-├── tests/                # Unit, contract, integration, and isolation tests
-├── seven_arm_benchmark.py  # CLI entry point (dry-run supported, no API key)
-└── CITATION.cff          # Citation metadata
+```bash
+python scripts/benchmark_cli.py models
 ```
 
-The canonical project map is [`docs/PROJECT_STRUCTURE_MAP.md`](docs/PROJECT_STRUCTURE_MAP.md).
+---
 
-## Working Paper
+## 19. Deep historical documentation
 
-**Provisional working title:** *The Cost of Saying "Unchanged": Sparse Impact
-Plans for Token-Efficient Repository-Level Impact Selection*
+The detailed chronological record, the historical headline tables, the original
+Known Limitations list, and the full reproducibility index were moved to
+[`docs/HISTORICAL_EXPERIMENT_LEDGER.md`](docs/HISTORICAL_EXPERIMENT_LEDGER.md)
+to keep this README reader-first. Nothing was deleted — historical evidence and
+reports remain in `reports/` and Git history.
 
-**Status:** Benchmark complete; manuscript in preparation
-(paper / figures / supervisor review).
+Key entry points:
+- Model/provider guide: [`docs/MODEL_PROVIDER_GUIDE.md`](docs/MODEL_PROVIDER_GUIDE.md)
+- Benchmark runbook: [`docs/BENCHMARK_RUNBOOK.md`](docs/BENCHMARK_RUNBOOK.md)
+- Technical-debt register: [`docs/TECHNICAL_DEBT_REGISTER.md`](docs/TECHNICAL_DEBT_REGISTER.md)
+- Paper-writing handoff: [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md)
+- Research roadmap: [`docs/MSC_RESEARCH_ROADMAP_2026_2027.md`](docs/MSC_RESEARCH_ROADMAP_2026_2027.md)
+- Claim → evidence map: [`reports/PAPER_CLAIM_EVIDENCE_MAP.md`](reports/PAPER_CLAIM_EVIDENCE_MAP.md)
 
-The frozen protocol is in
-[`docs/FINAL_RESEARCH_PROTOCOL.md`](docs/FINAL_RESEARCH_PROTOCOL.md); current
-state and next actions for the paper phase are in
-[`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md).
+---
 
 ## License
 

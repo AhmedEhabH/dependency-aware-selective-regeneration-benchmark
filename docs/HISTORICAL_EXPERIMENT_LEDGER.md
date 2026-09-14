@@ -1,0 +1,267 @@
+# Historical Experiment Ledger
+
+> This ledger preserves the detailed chronological record, the historical
+> headline tables, the original Known Limitations list, and the full
+> reproducibility index that previously lived in the README. The README is now
+> reader-first; **nothing was deleted** — historical evidence and reports remain
+> in `reports/` and in Git history.
+
+---
+
+## 1. Historical headline evidence (frozen, unchanged)
+
+**Qwen3-Coder-480B-A35B-Instruct** (OpenRouter slug `qwen/qwen3-coder`) @
+DeepInfra, cap Agent 1024 / ImpactPlan-v1 4096 / ImpactPlan-v2 4096.
+Selection-stage correctness on valid cells (micro-aggregated); token/call/cost
+totals over ALL cells (valid + failed):
+
+| Model | Study status | Arm | Valid | Trunc. | P | R | F1 | Total tokens | Calls |
+|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-Coder-480B-A35B-Instruct | Primary | Agent | 25/30 | 0 | 0.6463 | 0.8407 | 0.7308 | 449,792 | 206 |
+| Qwen3-Coder-480B-A35B-Instruct | Primary | ImpactPlan-v1 | 6/30 | 19 | 0.6765 | 0.9200 | 0.7797 | 184,401 | 28 |
+| Qwen3-Coder-480B-A35B-Instruct | Post-hoc / exploratory | ImpactPlan-v2 | 29/30 | 0 | 0.7410 | 0.8655 | 0.7985 | 144,353 | 30 |
+| Qwen3-32B | Post-hoc cross-model | ImpactPlan-v1 | 2/30 | 24 | 0.0000 | 0.0000 | 0.0000 | >= 198,979 | 30 req (29 usage-known) |
+| Qwen3-32B | Post-hoc cross-model | ImpactPlan-v2 | 21/30 | 6 | 0.3600 | 0.6207 | 0.4557 | >= 122,273 | 30 req (23 usage-known) |
+| Qwen3-Coder-30B-A3B-Instruct | Post-hoc cross-model / cross-provider | ImpactPlan-v1 | 17/30 | 11 | 0.6567 | 0.8000 | 0.7213 | 162,276 | 30 req (30 usage-known) |
+| Qwen3-Coder-30B-A3B-Instruct | Post-hoc cross-model / cross-provider | ImpactPlan-v2 | 28/30 | 0 | 0.5556 | 0.6881 | 0.6148 | >= 138,870 | 30 req (29 usage-known) |
+
+> **Unified table notes.** Rows come from **separate studies**; denominators
+> must not be pooled. The historical Agent / ImpactPlan-v1 rows are the
+> **primary** evidence; historical ImpactPlan-v2 is a separate
+> post-hoc/exploratory study; Qwen3-32B is a separate post-hoc cross-model
+> robustness replication (DeepInfra); Qwen3-Coder-30B-A3B-Instruct is a
+> separate post-hoc cross-model / cross-provider robustness replication
+> (SiliconFlow). Unknown usage is a **lower bound** (`>=`), never silently
+> converted to zero. Cost (secondary): historical Agent $0.140850 /
+> v1 $0.123298 / v2 $0.064634; Qwen3-32B total >= $0.054028; 30B total >=
+> $0.041518.
+
+> **ImpactPlan-v2 was a separate post-hoc/exploratory 30-cell study.** It is
+> displayed beside the primary arms for descriptive readability only. The rows
+> are **not** one preregistered or pooled three-arm experiment.
+>
+> **Severe missing-data asymmetry:** the v1 headline rests on only **6 valid
+> survivor cells** (19 truncations at the 4096 cap + unknown-path / transport /
+> harness failures). **No between-arm accuracy claim is made.**
+
+### Cross-Model Robustness Replication (Qwen3-32B)
+
+POST-HOC CROSS-MODEL ROBUSTNESS REPLICATION — same repositories, cases,
+treatments, gateway and provider, **different Qwen model**. Model
+`qwen/qwen3-32b` @ OpenRouter / DeepInfra (`deepinfra/fp8`), **reasoning
+explicitly disabled**, fallback off, temperature 0, cap 4096. 60 cells
+(6 scenarios × 2 arms × 5 reps); see
+[`reports/QWEN3_32B_CROSSMODEL_PROTOCOL.md`](../reports/QWEN3_32B_CROSSMODEL_PROTOCOL.md)
+(preregistered before cell 1). Denominators are per-row and **not** merged with
+the historical rows above. **Results are included in the unified table above.**
+
+> **Directional pattern:** Qwen3-32B v1 (full explicit-policy serialization)
+> truncates at the frozen 4096 cap in **24/30** cells — the verbose output does
+> not fit the frozen cap; recorded verbatim, no reruns. The sparse v2
+> representation remains operational (**21/30 valid**); v2 truncations = **6**
+> (S004 r1–r5 and S008 r2 hit the frozen 4096 completion cap,
+> `finish_reason=length`; accounting audit 2026-09-11 — see
+> [`reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/ACCOUNTING_CORRECTION_NOTE.md`](../reports/scientific-stagec-djangocms-qwen3-32b-crossmodel-01/ACCOUNTING_CORRECTION_NOTE.md)).
+> The directional replication label (`DIRECTIONALLY REPLICATED`) requires only
+> (1) v2 validity rate > v1 and (2) v2 truncation rate < v1 — both hold
+> (0.700 > 0.067 and 0.200 < 0.800). All agreement statistics are **descriptive
+> only**; no equivalence/significance or causal claim. Cross-model Sparse-v2
+> Jaccard agreement (historical Qwen3-Coder-480B-A35B-Instruct × new Qwen3-32B,
+> 102 cross-product pairs): mean 0.284, median 0.231 — see
+> [`reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md`](../reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md)
+> (+ `.csv`). Verify with
+> [`scripts/verify_qwen3_32b_crossmodel_claims.py`](../scripts/verify_qwen3_32b_crossmodel_claims.py).
+>
+> **Call accounting:** all 60 manifest cells issued exactly one API request
+> (`requests_issued = 60`). `model_calls` (52 usage-bearing) undercounts the
+> 8 failed cells that ran before usage capture was wired in; 7 of those 8 have
+> persisted raw responses but their exact provider usage is unrecoverable, and
+> 1 (S006 v1 r3) is a transport failure with no response. Details in the
+> correction note.
+
+### Cross-Model / Cross-Provider Robustness Replication (Qwen3-Coder-30B-A3B-Instruct)
+
+POST-HOC CROSS-MODEL / CROSS-PROVIDER ROBUSTNESS REPLICATION — same
+repositories, cases, treatments and gateway, **different coder model AND
+different provider**. Model **Qwen3-Coder-30B-A3B-Instruct** (OpenRouter slug
+`qwen/qwen3-coder-30b-a3b-instruct`) @ OpenRouter / **SiliconFlow**
+(`siliconflow/fp8`), model-native non-thinking, fallback off, temperature 0,
+cap 4096. 60 cells (6 scenarios × 2 arms × 5 reps); see
+[`reports/QWEN3_CODER_30B_A3B_CROSSMODEL_PROTOCOL.md`](../reports/QWEN3_CODER_30B_A3B_CROSSMODEL_PROTOCOL.md)
+(preregistered before cell 1). **Results are included in the unified table
+above.**
+
+> **Directional pattern (descriptive):** the new coder model fits the full v1
+> policy at the 4096 cap far better than Qwen3-32B (v1 17/30 valid vs 2/30) but
+> still truncates 11/30 v1 cells; the sparse v2 representation remains the most
+> operational (28/30 valid, **0 truncations**). Directional label:
+> `DIRECTIONALLY REPLICATED` (v2 validity 0.933 > v1 0.567 and v2 truncation
+> 0.000 < v1 0.367). S006 remains the weak case (v2 P 0.053 / R 0.067 /
+> F1 0.059; over-selection + persistent gold misses — same qualitative
+> weakness as the historical model). Accounting: 60 requests issued, 59
+> responses, 59 usage-known / 1 usage-unknown (one transport failure); token
+> and cost totals are **lower bounds**. Cross-model Sparse-v2 Jaccard vs
+> historical Qwen3-Coder-480B-A35B-Instruct: 135 pairs, mean 0.491 /
+> median 0.429 (descriptive) — see
+> [`reports/QWEN3_CODER_30B_A3B_CROSSMODEL_AGREEMENT.md`](../reports/QWEN3_CODER_30B_A3B_CROSSMODEL_AGREEMENT.md)
+> (+ `.csv`). Verify with
+> [`scripts/verify_qwen3_coder_30b_a3b_crossmodel_claims.py`](../scripts/verify_qwen3_coder_30b_a3b_crossmodel_claims.py).
+
+### Controlled 4096-Cap Feasibility Boundary (M1A, 2026-09-12)
+
+**POST-HOC / EXPLORATORY CAPABILITY-FEASIBILITY BOUNDARY — NOT a completed
+60-cell controlled ablation.** Same model (`qwen/qwen3-coder` =
+Qwen3-Coder-480B-A35B-Instruct @ DeepInfra `deepinfra/turbo`), same common
+semantic-rich Full-v2/Sparse-v2 schema, same frozen 4096 completion cap,
+temperature 0, fallback OFF, graph OFF, synthetic non-study fixture.
+
+> Under the frozen 4096-token completion budget and the common semantic-rich
+> Full-v2/Sparse-v2 schema, the Full-v2 capability probe terminated at the
+> completion cap before emitting all 144 required decisions, whereas the
+> Sparse-v2 probe completed and deterministically reconstructed a valid
+> 144-candidate policy.
+
+- **Probe A (Full-v2):** `finish_reason=length`, completion_tokens=4096,
+  truncated at decision id 76 (≈7,760 tokens needed at observed density);
+  schema-valid False; usage captured; raw SHA verified.
+- **Probe B (Sparse-v2):** `finish_reason=stop`, completion_tokens=419,
+  3 explicit non-PRESERVE decisions, decoded_candidate_count=144, semantic
+  validation PASS; raw SHA verified.
+- Prompt control proof PASS (only SERIALIZATION_POLICY differs between arms);
+  representation equivalence PASS (`D_s(E_s(π)) == π`); six pre-benchmark
+  gates + audit PASS; **ZERO 60-cell scientific study cells executed**.
+- Verifier: `scripts/verify_controlled_encoding_4096_claims.py` (zero API,
+  27/27 PASS).
+- This is an operational feasibility boundary, NOT causal proof that
+  Preserve-by-Omission is superior. The cap-relaxed study (M1B, cap 16384 for
+  BOTH arms) was subsequently completed and audited (2026-09-12).
+
+### Controlled 16K Cap-Relaxed Encoding Ablation (M1B, 2026-09-12)
+
+**POST-HOC CONTROLLED CAP-RELAXED ENCODING ABLATION.** Same model
+(`qwen/qwen3-coder` = Qwen3-Coder-480B-A35B-Instruct @ DeepInfra
+`deepinfra/turbo`), same common semantic-rich Full-v2/Sparse-v2 schema,
+temperature 0, fallback OFF, graph OFF — the ONLY study-level change from M1A
+is the completion cap **4096 → 16384 (BOTH arms)**. Frozen M1A-parity artifact
+PASS (nothing except the cap changed; nothing except the serialization policy
+differs between arms).
+
+**60/60 cells recorded, 60 valid, 0 failed, 0 truncations** (6 curated
+development/mechanism scenarios × 2 arms × 5 reps). 60 requests / 60 responses
+/ 60 usage-known / 0 unknown; 157,980 prompt + 275,761 completion = 433,741
+tokens; recorded cost **$0.323156** (< $0.75 ceiling).
+
+| Arm | Valid | Trunc. | Mean completion tokens | Mean serialized records | P | R | F1 | Cost |
+|---|---|---|---|---|---|---|---|---|
+| Full-v2 | 30/30 | 0 | 8,383 | 144 | 0.4515 | 0.7750 | 0.5706 | $0.275124 |
+| Sparse-v2 | 30/30 | 0 | 809 | 4.9 | 0.7211 | 0.8833 | 0.7940 | $0.048032 |
+
+> **Serialized-record footnote (2026-09-14 audit).** The Sparse-v2 "4.9" figure
+> is the mean REGENERATE **write-set size** (`len(decoded_write_set_ids)`), as
+> published in the frozen M1B result. The same audit that corrected the P1
+> metric found the identical pattern in the M1B runner. The corrected mean
+> serialized decision count (recomputed from the persisted raw responses;
+> frozen M1B evidence unchanged) is **5.9**. Registered as TD-011. M1B's frozen
+> `final_metrics.json` and result reports are preserved verbatim.
+
+**CONTROLLED ENCODING COST EFFECT: SUPPORTED** (descriptive): under a
+non-binding 16k budget both arms reach 100% validity (0 truncations), and
+Sparse-v2 uses substantially fewer completion tokens (−7,574 mean) and
+serialized records (−139 mean as published; −138.1 corrected) for the same
+decoded 144-candidate policies. Controlled descriptive reductions (Sparse-v2 vs
+Full-v2): completion tokens ≈ −90.35%, serialized records ≈ −95.9% corrected,
+recorded API cost ≈ −82.54%, total latency ≈ −63.29%. No universal semantic
+superiority claim. Verifier:
+`scripts/verify_controlled_encoding_16k_claims.py` (zero API, 42/42 PASS).
+
+### Todo component studies (frozen, selection-stage)
+
+- Stage-C smoke: 30/30 valid, full recall 15/15 per arm, P/R/F1 ceiling.
+- Stage-C held-out: 60/60 valid, recall 30/30 per arm, precision Agent 0.8778
+  vs ImpactPlan 0.7694; ImpactPlan tokens −72.98%, calls −86.36%.
+- v1.1 end-to-end Todo study: **0/30 functional passes (NO-GO)** — preserved
+  as historical evidence; the failures were dominated by downstream
+  exact-patch / source-validity classes, not the impact selector.
+
+---
+
+## 2. Historical Known Limitations (superseded by the tech-debt register)
+
+1. **Scenario 006 is the weakest v2 case:** precision ≈ 0.389, recall ≈ 0.467,
+   full-recall 0/5. The model consistently missed gold files
+   (`cms/models/pluginmodel.py`, `cms/admin/placeholderadmin.py`,
+   `cms/utils/plugins.py`) and over-selected.
+2. **The djangoCMS dependency graph was NOT injected** into ImpactPlan-v1 or
+   v2. The primary djangoCMS study characterizes explicit-plan selection
+   **without dependency-graph assistance**.
+3. **The primary v1 valid-run correctness rests on only 6 valid cells**
+   (severe missing-data asymmetry vs Agent's 25). Any v1-vs-Agent comparison
+   is provisional.
+4. **v2 solves the observed output-serialization bottleneck, but does NOT
+   solve impact identification universally** — scenario 006 demonstrates
+   residual correctness limits.
+5. **v2 still exposes the candidate universe in the prompt.** Larger-repository
+   input scaling remains Future Work. No measured repository-size threshold is
+   claimed, and **no Saleor feasibility is claimed** (Saleor was not started).
+
+Ongoing limitations are tracked in
+[`docs/TECHNICAL_DEBT_REGISTER.md`](TECHNICAL_DEBT_REGISTER.md).
+
+---
+
+## 3. Historical Final Reports index
+
+| Report | Path |
+|---|---|
+| Final benchmark results | [`reports/FINAL_BENCHMARK_RESULTS.md`](../reports/FINAL_BENCHMARK_RESULTS.md) (+ `.csv`) |
+| Validity and limitations | [`reports/BENCHMARK_VALIDITY_AND_LIMITATIONS.md`](../reports/BENCHMARK_VALIDITY_AND_LIMITATIONS.md) |
+| Reproducibility index | [`reports/BENCHMARK_REPRODUCIBILITY_INDEX.md`](../reports/BENCHMARK_REPRODUCIBILITY_INDEX.md) |
+| Cross-repo synthesis | [`reports/CROSS_REPO_SYNTHESIS.md`](../reports/CROSS_REPO_SYNTHESIS.md) |
+| ImpactPlan-v2 results | [`reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md`](../reports/DJANGOCMS_IMPACTPLAN_V2_RESULTS.md) (+ `.csv`) |
+| ImpactPlan-v2 design | [`reports/DJANGOCMS_IMPACTPLAN_V2_DESIGN.md`](../reports/DJANGOCMS_IMPACTPLAN_V2_DESIGN.md) |
+| Paper-writing handoff | [`docs/PAPER_WRITING_HANDOFF.md`](PAPER_WRITING_HANDOFF.md) |
+| MSC research roadmap (2026–2027) | [`docs/MSC_RESEARCH_ROADMAP_2026_2027.md`](MSC_RESEARCH_ROADMAP_2026_2027.md) |
+| Thesis evidence matrix | [`reports/THESIS_EVIDENCE_MATRIX.md`](../reports/THESIS_EVIDENCE_MATRIX.md) |
+
+Historical engineering records (the earlier deployment / execution phases) are
+preserved in the Git history, `reports/`, and `DECISION_LOG.md`; they are
+historical and do not describe current work.
+
+---
+
+## 4. Canonical frozen evidence (historical Stage-C studies)
+
+- Manifest: [`reports/scientific-stagec-djangocms-impactplan-v2-01/manifest_30.json`](../reports/scientific-stagec-djangocms-impactplan-v2-01/manifest_30.json) / [`reports/scientific-stagec-djangocms-study-01/manifest_60.json`](../reports/scientific-stagec-djangocms-study-01/manifest_60.json)
+- Run records: [`reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl`](../reports/scientific-stagec-djangocms-impactplan-v2-01/run_records.jsonl) / [`reports/scientific-stagec-djangocms-study-01/run_records.jsonl`](../reports/scientific-stagec-djangocms-study-01/run_records.jsonl)
+- Final metrics: [`reports/scientific-stagec-djangocms-impactplan-v2-01/final_metrics.json`](../reports/scientific-stagec-djangocms-impactplan-v2-01/final_metrics.json) / [`reports/scientific-stagec-djangocms-study-01/final_metrics.json`](../reports/scientific-stagec-djangocms-study-01/final_metrics.json)
+- Raw responses: [`reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/`](../reports/scientific-stagec-djangocms-impactplan-v2-01/runs/raw/)
+- Closure gates: [`reports/scientific-stagec-djangocms-impactplan-v2-01/closure_gates.json`](../reports/scientific-stagec-djangocms-impactplan-v2-01/closure_gates.json) / [`reports/scientific-stagec-djangocms-study-01/closure_gates.json`](../reports/scientific-stagec-djangocms-study-01/closure_gates.json)
+- Claim → evidence map: [`reports/PAPER_CLAIM_EVIDENCE_MAP.md`](../reports/PAPER_CLAIM_EVIDENCE_MAP.md)
+- V7 audit reconciliation: [`reports/PAPER_V7_AUDIT_RECONCILIATION.md`](../reports/PAPER_V7_AUDIT_RECONCILIATION.md)
+
+## 5. Reproducibility
+
+Each research run preserves protocol version, repository and commit, scenario
+and strategy, model/backend identity, generation parameters, prompt and content
+hashes, token usage, model-call counts, timing, failure classification, and
+environment metadata. Raw evidence is persisted append-only and hashed. See
+[`docs/REPRODUCIBILITY_PROTOCOL.md`](REPRODUCIBILITY_PROTOCOL.md) and
+[`reports/BENCHMARK_REPRODUCIBILITY_INDEX.md`](../reports/BENCHMARK_REPRODUCIBILITY_INDEX.md).
+
+## 6. Repository layout (historical reference)
+
+```text
+.
+├── benchmark_data/       # Public manifests, profiles, and scenario definitions
+├── docs/                 # Frozen protocol, architecture, and handoff documentation
+├── notebooks/            # Local execution notebook adapters
+├── reports/              # Evidence, results, validity, and audit reports
+├── scripts/              # Validation, study-execution, and packaging utilities
+├── src/benchmark/        # Source: config, core, execution, llm, repositories, scenarios
+├── tests/                # Unit, contract, integration, and isolation tests
+├── seven_arm_benchmark.py  # CLI entry point (dry-run supported, no API key)
+└── CITATION.cff          # Citation metadata
+```
+
+The canonical project map is
+[`docs/PROJECT_STRUCTURE_MAP.md`](PROJECT_STRUCTURE_MAP.md).

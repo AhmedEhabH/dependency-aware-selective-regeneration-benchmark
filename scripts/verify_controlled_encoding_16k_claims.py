@@ -147,9 +147,16 @@ def main() -> int:
     sparse_decoded = all(r.get("decoded_candidate_count") == 144 for r in sparse)
     check("sparse_v2_all_decode_144", sparse_decoded,
           [r.get("decoded_candidate_count") for r in sparse])
-    sparse_emitted = [len(r.get("decoded_write_set_ids") or []) for r in sparse]
-    check("sparse_v2_emits_only_non_preserve", all(1 <= n <= 144 for n in sparse_emitted) and min(sparse_emitted) >= 1,
-          {"min": min(sparse_emitted), "max": max(sparse_emitted), "mean": round(sum(sparse_emitted) / 30, 3)})
+    sparse_serialized = [
+        int(r["serialized_decision_count"]) if r.get("serialized_decision_count") is not None
+        else len(r.get("decoded_write_set_ids") or []) for r in sparse
+    ]
+    check("sparse_v2_serialized_counts", all(1 <= n <= 144 for n in sparse_serialized) and min(sparse_serialized) >= 1,
+          {"min": min(sparse_serialized), "max": max(sparse_serialized),
+           "mean": round(sum(sparse_serialized) / 30, 3)})
+    sparse_write = [len(r.get("decoded_write_set_ids") or []) for r in sparse]
+    check("sparse_v2_write_set_sizes", all(1 <= n <= 144 for n in sparse_write),
+          {"min": min(sparse_write), "max": max(sparse_write), "mean": round(sum(sparse_write) / 30, 3)})
 
     # 8. TP/FP/FN / P / R / F1 / FNR / full-recall recompute (micro, per arm)
     def _micro(rows: list[dict[str, Any]]) -> dict[str, Any]:

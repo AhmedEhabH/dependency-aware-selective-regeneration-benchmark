@@ -20,7 +20,7 @@ Status legend:
 |---|---|---|
 | 1 | Sparse impact-policy representation | COMPLETE / AUDITED (M1A + M1B + M1 defensive closure) |
 | 2 | Dependency-aware / risk-aware disclosure | COMPLETE / AUDITED (M3 development-set: hints MIXED, gated disclosure NOT PROMISING as implemented) |
-| 3 | Real historical-change dataset | **COMPLETE — M4A-1 miner/schema/leakage barrier COMPLETE / AUDITED (2026-09-13; 6 MINER_DEV cases); M4A-2 scientific corpus COMPLETE / AUDITED (2026-09-13; 40 clean cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API calls); M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14; 60/60 cells valid, 0 failures, 0 truncations; cap 16384 both arms; 10 independent tasks; bootstrap over tasks); P5-A LocAgent shared-protocol adapter COMPLETE (2026-09-14; ZERO API)** |
+| 3 | Real historical-change dataset | **COMPLETE — M4A-1 miner/schema/leakage barrier COMPLETE / AUDITED (2026-09-13; 6 MINER_DEV cases); M4A-2 scientific corpus COMPLETE / AUDITED (2026-09-13; 40 clean cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API calls); M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14; 60/60 cells valid, 0 failures, 0 truncations; cap 16384 both arms; 10 independent tasks; bootstrap over tasks; serialized-record metric corrected 2026-09-14 — see `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`); P5-A LocAgent shared-protocol adapter COMPLETE (2026-09-14; ZERO API)** |
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
@@ -45,10 +45,13 @@ serialization cost of a full explicit plan, without sacrificing validity?
   AUDITED`): with a non-binding 16384 cap on **both** arms (the only study-level
   change from M1A), 60/60 cells valid, 0 truncations. Full-v2: mean 8,383
   completion tokens, 144 serialized records/run, P 0.4515 / R 0.7750 / F1
-  0.5706. Sparse-v2: mean 809 completion tokens, ~4.9 serialized records/run,
+  0.5706. Sparse-v2: mean 809 completion tokens, ~4.9 serialized records/run as
+  published (mean 5.9 corrected serialized-decision count per the 2026-09-14
+  audit — frozen M1B evidence unchanged; see
+  `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md` §9),
   P 0.7211 / R 0.8833 / F1 0.7940. Controlled descriptive reductions: completion
-  tokens ≈ −90.35%, serialized records ≈ −96.60%, recorded API cost ≈ −82.54%,
-  total latency ≈ −63.29%. Label: **CONTROLLED ENCODING COST EFFECT:
+  tokens ≈ −90.35%, serialized records ≈ −95.9% corrected, recorded API cost
+  ≈ −82.54%, total latency ≈ −63.29%. Label: **CONTROLLED ENCODING COST EFFECT:
   SUPPORTED** (descriptive). **No universal semantic superiority claim.**
 - Independent artifact-level consistency audit PASS (2026-09-08) on the
   selection-stage closure; M1A/M1B zero-API verifiers pass (27/27 and 42/42).

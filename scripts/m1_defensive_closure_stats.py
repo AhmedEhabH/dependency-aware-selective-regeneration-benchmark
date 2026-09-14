@@ -73,6 +73,9 @@ def _load_records() -> dict[str, dict[str, Any]]:
 def _record_count(rec: dict[str, Any]) -> float:
     if rec["arm"] == "full_v2":
         return float(rec.get("decoded_candidate_count") or 0)
+    explicit = rec.get("serialized_decision_count")
+    if explicit is not None:
+        return float(explicit)
     return float(len(rec.get("decoded_write_set_ids") or []))
 
 

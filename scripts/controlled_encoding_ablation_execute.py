@@ -1630,6 +1630,7 @@ def _build_cell_evidence(
     decoded_candidate_count = 0
     decoded_write_set_ids: list[int] = []
     decoded_policy_sha256 = ""
+    serialized_decision_count = 0
     if content:
         try:
             payload = json.loads(content)
@@ -1648,6 +1649,9 @@ def _build_cell_evidence(
             policy = vres.get("policy")
             decoded_candidate_count = vres.get("decoded_candidate_count") or 0
             decoded_write_set_ids = vres.get("decoded_write_set_ids") or []
+            raw_decisions = payload.get("decisions")
+            if isinstance(raw_decisions, list):
+                serialized_decision_count = len(raw_decisions)
             if policy is not None:
                 decoded_policy_sha256 = ea.sha256_json(policy.to_dict())
             entry["decoded_action_map"] = policy.to_dict() if policy is not None else {}
@@ -1659,6 +1663,8 @@ def _build_cell_evidence(
             "failure_evidence": [{"kind": "semantic", "stage": "decode", "message": e} for e in validator_errors],
             "decoded_candidate_count": decoded_candidate_count,
             "decoded_write_set_ids": decoded_write_set_ids,
+            "serialized_decision_count": serialized_decision_count,
+            "predicted_write_set_size": len(decoded_write_set_ids),
             "decoded_policy_sha256": decoded_policy_sha256,
         }
     )
@@ -1935,6 +1941,9 @@ def _stats(values: list[float]) -> dict[str, float]:
 def _serialized_record_count(record: dict[str, Any]) -> int:
     if record.get("arm") == "full_v2":
         return int(record.get("decoded_candidate_count", 0)) or int(record.get("emitted_decisions", 0))
+    explicit = record.get("serialized_decision_count")
+    if explicit is not None:
+        return int(explicit)
     return int(record.get("decoded_write_set_ids") and len(record.get("decoded_write_set_ids") or []))
 
 

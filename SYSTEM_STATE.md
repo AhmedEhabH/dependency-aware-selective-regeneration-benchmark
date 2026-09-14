@@ -18,6 +18,19 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   (artifact-level consistency audit PASS, 2026-09-08). The tag means the
   benchmark research is complete and frozen — NOT successful end-to-end
   executor regeneration.
+- **P1 serialized-record metric correction (2026-09-14, ZERO API):** the P1
+  `serialized_records` derived metric was recomputed from the persisted raw
+  responses. Corrected means: Full-v2 **144.0**, Sparse-v2 **4.07**, paired
+  delta **−139.9 [−143.3, −137.0]** (formerly 4.03 / 2.50 / −1.540 — those
+  were the predicted REGENERATE write-set sizes, NOT serialized decision
+  counts). Runner persists `serialized_decision_count` +
+  `predicted_write_set_size`; regression tests added; artifacts:
+  `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`,
+  `research/real-commit-p1-01/final_metrics_serialization_corrected.json`,
+  `research/real-commit-p1-01/serialization_metric_corrected.json`.
+  P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unchanged.
+  Related same-pattern finding in the M1B/M3 runners (TD-011/TD-012/TD-013):
+  frozen M1B/M3 evidence preserved; runners fixed prospectively.
 - **Where we are:** paper / figures / manuscript / supervisor review; zero
   **legacy frozen** scientific runs remaining; **M4A-1 (RealCommitImpactDataset-v1
   miner/schema/leakage barrier + 6 MINER_DEV cases) COMPLETE / AUDITED** on

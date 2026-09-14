@@ -1,5 +1,16 @@
 # M4A-3 / P1 — Real-Commit FULL-v2 vs SPARSE-v2 Held-out Evaluation RESULT
 
+> **CORRECTION NOTICE (2026-09-14, after this report was first written):** the
+> **"Records mean"** column below and the **"Serialized records (mean)"** row in
+> Section 6 were originally derived from `len(decoded_write_set_ids)`, which
+> counts ONLY decoded `REGENERATE` ids — i.e. the **predicted write-set size**,
+> NOT the number of serialized decision records. This is a derived-metric
+> mislabel, fixed in `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`.
+> Corrected serialized-record values (recomputed from the persisted raw responses,
+> ZERO API calls): **Full-v2 mean serialized records = 144.0; Sparse-v2 mean
+> serialized records = 4.07; paired delta = −139.9 [−143.3, −137.0]**.
+> P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unaffected.
+
 **Study ID:** `real-commit-p1-full-v2-vs-sparse-v2-01`
 **Executed:** 2026-09-14
 **Status:** 60/60 frozen cells executed; all evidence persisted and SHA-verified.
@@ -46,12 +57,20 @@ decode for both arms, 16384 cap accepted. Evidence:
 
 ## 4. Per-arm micro metrics (pooled over valid cells)
 
-| Arm | Valid/Rec | Precision | Recall | F1 | FNR | Completion mean | Records mean | Cost |
-|---|---|---|---|---|---|---|---|---|
-| `full_v2` | 30/30 | 0.338843 | 0.369369 | 0.353448 | 0.630631 | 8,445.8 | 4.03 | $0.297623 |
-| `sparse_v2` | 30/30 | 0.386667 | 0.261261 | 0.311828 | 0.738739 | 599.0 | 2.50 | $0.062341 |
+| Arm | Valid/Rec | Precision | Recall | F1 | FNR | Completion mean | Serialized records mean (corrected) | Predicted write-set mean | Cost |
+|---|---|---|---|---|---|---|---|---|---|
+| `full_v2` | 30/30 | 0.338843 | 0.369369 | 0.353448 | 0.630631 | 8,445.8 | 144.0 | 4.03 | $0.297623 |
+| `sparse_v2` | 30/30 | 0.386667 | 0.261261 | 0.311828 | 0.738739 | 599.0 | 4.07 | 2.50 | $0.062341 |
 
 Validity rate 1.0 and truncation rate 0.0 for BOTH arms at the 16384 cap.
+
+> **Records metric correction (2026-09-14):** the former "Records mean" column
+> (4.03 / 2.50) was the mean predicted REGENERATE **write-set size**
+> (`len(decoded_write_set_ids)`). The corrected **serialized records mean** is
+> recomputed from the persisted raw responses: Full-v2 **144.0** (exactly one
+> decision per candidate, 140–152 per case) and Sparse-v2 **4.07** (explicit
+> non-PRESERVE decisions incl. VALIDATE/HUMAN_REVIEW rows). Full details:
+> `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`.
 
 ## 5. Task-level metrics (n = 10 independent tasks; nested reps pooled per task)
 
@@ -80,8 +99,14 @@ repetitions), seeded 20260914.
 | Recall | −0.064160 | [−0.196111, +0.064444] |
 | FNR | +0.064160 | [−0.064444, +0.196111] |
 | Completion tokens (mean) | −7,847.9 | [−8,136.0, −7,596.8] |
-| Serialized records (mean) | −1.540 | [−2.833, −0.367] |
+| Serialized records (mean, corrected) | −139.9 | [−143.3, −137.0] |
 | Cost (USD) | −0.023531 | [−0.024396, −0.022778] |
+
+> **Correction (2026-09-14):** the former "Serialized records (mean)" row was
+> −1.540 [−2.833, −0.367], computed from `decoded_write_set_ids` (REGENERATE
+> write-set size). The corrected value −139.9 [−143.3, −137.0] is recomputed
+> from the persisted raw `decisions` payloads. See
+> `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`.
 
 ## 7. Reading (descriptive)
 
@@ -90,7 +115,10 @@ repetitions), seeded 20260914.
   boundary where Full-v2 could not serialize 140–152 candidates).
 - The controlled encoding-cost effect replicates directionally: Sparse-v2 cuts
   mean completion tokens by ~7,848 and cost by ~$0.0235 per task vs Full-v2,
-  with the 95% bootstrap CI excluding zero (completion/cost).
+  with the 95% bootstrap CI excluding zero (completion/cost). The serialized
+  decision-record reduction is **−139.9 records/task [−143.3, −137.0]**
+  (Sparse ~4.07 explicit decisions vs Full 144 full-candidate serialization),
+  with the CI excluding zero.
 - Selection-quality deltas (F1/recall/precision/FNR) are small and the 95% CIs
   straddle zero: no claim of semantic superiority or inferiority is made for
   either arm on these 10 independent tasks.
@@ -107,6 +135,9 @@ repetitions), seeded 20260914.
 - `runs/raw/<run_id>.txt` + `.sha256` raw responses (60 pairs, all SHA-verified)
 - `capability_probes.json`, `endpoint_freeze.json`, `final_metrics.json`,
   `closure.json`, checkpoints
+- **Correction artifacts (2026-09-14):** `final_metrics_serialization_corrected.json`,
+  `serialization_metric_corrected.json`,
+  `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`
 - Independent gates/audit: `reports/real_commit_m4a3_p1_gates.json`,
   `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`
 

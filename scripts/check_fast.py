@@ -136,6 +136,21 @@ def select_tests(changed_python: list[Path],
         elif top == "graph":
             tests.add(str(root / "tests" / "unit" / "graph"))
             tests.add(str(root / "tests" / "unit" / "strategies"))
+        elif top == "real_commits":
+            tests.add(str(root / "tests" / "unit"
+                          / "test_real_commit_p1_serialization_metric.py"))
+            tests.add(str(root / "tests" / "unit"
+                          / "test_real_commit_p1_evaluation.py"))
+            tests.add(str(root / "tests" / "integration"
+                          / "test_real_commit_p1_serialization_correction.py"))
+            tests.add(str(root / "tests" / "integration"
+                          / "test_real_commit_p1_evaluation.py"))
+        elif top == "model_profiles":
+            tests.add(str(root / "tests" / "unit" / "test_model_profiles.py"))
+            tests.add(str(root / "tests" / "unit"
+                          / "test_model_profile_cost.py"))
+            tests.add(str(root / "tests" / "integration"
+                          / "test_benchmark_cli.py"))
     # Also add any directly changed test files
     for fp in changed_python:
         if "tests" in fp.parts:
