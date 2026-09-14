@@ -1,0 +1,68 @@
+{
+  "gate": "dry_run",
+  "frozen_at_utc": "2026-09-14T20:07:10.265580+00:00",
+  "model": "openrouter/qwen/qwen3-coder",
+  "temperature": 1,
+  "num_samples": 1,
+  "max_attempt_num": 1,
+  "eval_n_limit": 6,
+  "ranking_method": "mrr",
+  "cases": [
+    {
+      "case_id": "djangocms-rc-0daae01f2f65",
+      "split": "VALIDATION",
+      "instance_id": "djangocms-rc-0daae01f2f65",
+      "repo": "djangocms__djangocms",
+      "base_commit": "d7ee89da24ee687ac5b3bb08f671de90fa1010dc",
+      "patch_chars": 0,
+      "input_sha256": "86e9b8675e6f7a044a07397b2ae8e2ec2872c032035bc706affd4687bc451e38"
+    },
+    {
+      "case_id": "djangocms-rc-0fec81224889",
+      "split": "VALIDATION",
+      "instance_id": "djangocms-rc-0fec81224889",
+      "repo": "djangocms__djangocms",
+      "base_commit": "68947484a8704250841e38b537d53b627b4e0ab9",
+      "patch_chars": 0,
+      "input_sha256": "62538795a10fc0df5421a809f1f717125fe13a0e2c01b8c69dae94f2db8a72cf"
+    },
+    {
+      "case_id": "djangocms-rc-1031d20fca28",
+      "split": "VALIDATION",
+      "instance_id": "djangocms-rc-1031d20fca28",
+      "repo": "djangocms__djangocms",
+      "base_commit": "76c5bb05837a425e5374b591ddcf44830aaa5c7e",
+      "patch_chars": 0,
+      "input_sha256": "4e487be34b9bcdf97d9ba2e9596affb6cb06c1cc9332c4e7fdf6d4cae45816e1"
+    },
+    {
+      "case_id": "djangocms-rc-47b63015feb1",
+      "split": "VALIDATION",
+      "instance_id": "djangocms-rc-47b63015feb1",
+      "repo": "djangocms__djangocms",
+      "base_commit": "c7208ed1b1ad50c477b55cfe51eb8f5ce7a141f2",
+      "patch_chars": 0,
+      "input_sha256": "6cb47437320248d526fa755f19b148e2295840cb9b124054c66ed54ba1662a46"
+    },
+    {
+      "case_id": "djangocms-rc-a9e2a8d3b7a6",
+      "split": "VALIDATION",
+      "instance_id": "djangocms-rc-a9e2a8d3b7a6",
+      "repo": "djangocms__djangocms",
+      "base_commit": "78bb22df5c3f3f5e49d4706c0139e4b3d51d6c7a",
+      "patch_chars": 0,
+      "input_sha256": "3dd096fa881c135643c2a4ec14f7256ddb830e2d4f71af233cb5882e0dcc4ca0"
+    },
+    {
+      "case_id": "djangocms-rc-e3a23a7fc757",
+      "split": "VALIDATION",
+      "instance_id": "djangocms-rc-e3a23a7fc757",
+      "repo": "djangocms__djangocms",
+      "base_commit": "0e885ca9e27367c7154cb33406725ac3b67eb170",
+      "patch_chars": 0,
+      "input_sha256": "8f8561bd54bdc98c9736d27573421de07f4a00ebac6b6380cfac9868807979d9"
+    }
+  ],
+  "model_calls": 0,
+  "tokens": 0
+}
