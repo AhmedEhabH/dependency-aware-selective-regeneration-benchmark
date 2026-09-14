@@ -68,7 +68,7 @@ Held-out experiment:
 `10 tasks × 2 arms × 3 nested repetitions = 60 cells`
 
 | Arm | Valid | Trunc. | Precision | Recall | F1 | Mean completion | Total cost |
-|---|---|---:|---:|---:|---:|---:|---:|---:|
+|---|---|---:|---:|---:|---:|---:|---:|
 | Full-v2 | 30/30 | 0 | 0.339 | 0.369 | 0.353 | 8,445.8 | $0.297623 |
 | Sparse-v2 | 30/30 | 0 | 0.387 | 0.261 | 0.312 | 599.0 | $0.062341 |
 
@@ -103,7 +103,7 @@ P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unchanged.
 ### Exploratory graph study — M3 (2026-09-13, audited)
 
 | Condition | Precision | Recall | F1 | FN | FP | Interpretation |
-|---|---|---:|---:|---:|---:|---:|---|
+|---|---|---:|---:|---:|---:|---|
 | Graph OFF | 0.721 | 0.883 | 0.794 | 14 | 41 | baseline |
 | Graph Hints | 0.814 | 0.800 | 0.807 | 24 | 22 | more conservative; precision ↑, recall ↓ |
 | Graph-gated disclosure | — | — | — | — | — | not promising as implemented |
@@ -165,7 +165,7 @@ Historical changed files are always described as an **OBSERVED CHANGE-SET PROXY*
 ## 6. Experiment registry
 
 | ID | Question | Data | Arms / conditions | Calls/cells | Status | Main takeaway |
-|---|---|---|---|---|---:|---|---|
+|---|---|---|---|---:|---|---|
 | M1A | Can a full policy fit a 4096 cap? | 6 curated djangoCMS tasks / capability boundary | Full-v2 vs Sparse-v2 | capability probes | complete | explicit full serialization hits the cap; sparse can complete |
 | M1B | What is the representation cost when both arms can complete? | 6 curated tasks | Full-v2 vs Sparse-v2 @16K | 60 | complete/audited | ~90% lower completion output for sparse |
 | M3 | Does broadcast graph evidence help? | same mechanism set | Graph OFF / hints / gated disclosure | 90 new cells | complete/exploratory | precision ↑ but recall ↓; gating failed operationally |
