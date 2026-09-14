@@ -1,0 +1,60 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.5, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project
+configfile: pyproject.toml
+plugins: anyio-4.9.0, asyncio-1.4.0, django-4.12.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 399 items
+
+tests\integration\test_d96_kaggle_github_boundary.py ......              [  1%]
+tests\integration\test_pilot_deployment_bundle.py ...................... [  7%]
+............................................                             [ 18%]
+tests\integration\test_pilot_release_provenance.py ..................... [ 23%]
+                                                                         [ 23%]
+tests\integration\test_real_commit_leakage_barrier.py .....              [ 24%]
+tests\integration\test_real_commit_scientific_pipeline.py ........       [ 26%]
+tests\integration\test_scenarios_integration.py ........................ [ 32%]
+......................                                                   [ 38%]
+tests\integration\test_su0010a_regeneration.py ......................... [ 44%]
+......................................                                   [ 53%]
+tests\test_import_isolation.py ....                                      [ 54%]
+tests\unit\execution\test_budgets.py ....................                [ 59%]
+tests\unit\execution\test_isolation.py ...........................s..... [ 68%]
+..                                                                       [ 68%]
+tests\unit\execution\test_r3d_wiring.py ................................ [ 76%]
+......................                                                   [ 82%]
+tests\unit\execution\test_repair.py ........                             [ 84%]
+tests\unit\execution\test_semantic_executability.py .............        [ 87%]
+tests\unit\llm\test_kaggle_qwen_gqa_compat.py ..............             [ 90%]
+tests\unit\llm\test_llm_mock_backend.py ......                           [ 92%]
+tests\unit\selection\test_dependency_scope.py .......................... [ 98%]
+....                                                                     [100%]
+
+- generated xml file: C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project\reports\pytest-full-shard-4a.xml -
+============================ slowest 25 durations =============================
+80.83s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotKaggleExpandedMount::test_real_kaggle_artifact_expanded_simulation
+15.75s call     tests/integration/test_pilot_release_provenance.py::TestGate3CodeManifestSourceParity::test_all_matching_entries_pass
+15.12s call     tests/integration/test_pilot_release_provenance.py::TestGate3CodeManifestSourceParity::test_lock_files_must_be_lf_faithful
+10.08s call     tests/integration/test_pilot_release_provenance.py::TestGate3CodeManifestSourceParity::test_modified_source_blob_fails_naming_the_path
+9.98s call     tests/integration/test_pilot_release_provenance.py::TestGate3CodeManifestSourceParity::test_missing_tracked_source_fails_naming_the_path
+9.75s call     tests/integration/test_pilot_release_provenance.py::TestReleaseBuildProvenanceWiring::test_validated_build_rejects_refrozen_notebook_at_head
+8.86s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotReleaseTrustGate::test_gate3_finalizer_repairs_stale_anchor_and_verifies_without_injection
+8.63s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotKaggleExpandedMount::test_expanded_mode_dry_run_48_cells
+8.13s call     tests/integration/test_pilot_release_provenance.py::TestReleaseBuildProvenanceWiring::test_finalizer_acceptance_gate_fails_on_divergent_commit
+8.12s call     tests/integration/test_pilot_release_provenance.py::TestGate1ExactV0911ForensicRegression::test_real_history_reproduces_the_defect
+7.68s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotNotebookTrustFreeze::test_freezes_single_pass_and_is_idempotent
+7.46s call     tests/integration/test_real_commit_scientific_pipeline.py::test_six_scientific_gates_pass_on_synthetic
+5.85s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotKaggleExpandedMount::test_expanded_mode_roundtrip_identical_to_archive_mode
+5.34s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotBundleRuntime::test_bundled_exact_dry_run_pilot_48_unique_cells
+5.21s call     tests/integration/test_pilot_release_provenance.py::TestReleaseBuildProvenanceWiring::test_verify_source_provenance_false_disables_the_gate
+5.16s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotReleaseTrustGate::test_gate4_finalized_notebook_passes_builder_gate
+4.93s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotKaggleExpandedMount::test_expanded_mode_data_manifest_and_repo_hashes_pass
+4.90s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotKaggleExpandedMount::test_archive_mode_roundtrip
+4.71s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotKaggleExpandedMount::test_expanded_mode_copies_to_working_root_and_never_mutates_input
+3.85s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotBundleKeepsMarkdownNavigation::test_frozen_bundle_retains_markdown_navigation
+3.83s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotKaggleExpandedMount::test_two_expanded_candidates_fail_closed
+3.74s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotKaggleExpandedMount::test_expanded_mode_rejects_tampered_mount[manifest_bytes-MANIFEST/MAP SHA MISMATCH]
+3.69s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotKaggleExpandedMount::test_expanded_mode_missing_sidecar_fails_closed
+3.68s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotKaggleExpandedMount::test_both_archive_and_expanded_fail_closed
+3.67s call     tests/integration/test_pilot_deployment_bundle.py::TestPilotBundleKeepsMarkdownNavigation::test_frozen_bundle_navigation_headings_exact
+================= 398 passed, 1 skipped in 368.21s (0:06:08) ==================

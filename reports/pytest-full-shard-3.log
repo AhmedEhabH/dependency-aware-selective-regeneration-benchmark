@@ -1,0 +1,76 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.5, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project
+configfile: pyproject.toml
+plugins: anyio-4.9.0, asyncio-1.4.0, django-4.12.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 755 items
+
+tests\contract\test_three_arm_core.py ...........................        [  3%]
+tests\integration\test_pilot_canary_execution_path.py ....               [  4%]
+tests\integration\test_pilot_real_launch_preflight.py ..............     [  5%]
+tests\integration\test_r4_metric_contract.py ........................... [  9%]
+......                                                                   [ 10%]
+tests\integration\test_real_commit_scientific_leakage.py ......          [ 11%]
+tests\integration\test_repositories_integration.py ..........            [ 12%]
+tests\integration\test_stagec_djangocms_runtime_wiring.py ............   [ 14%]
+tests\integration\test_v0921_per_cell_validation_runtime.py ............ [ 15%]
+............                                                             [ 17%]
+tests\unit\evaluation\test_metrics.py ..................                 [ 19%]
+tests\unit\execution\test_impact_plan_runner.py ............             [ 21%]
+tests\unit\execution\test_preflight.py ................................. [ 25%]
+........................................................................ [ 35%]
+................................................                         [ 41%]
+tests\unit\execution\test_regression_fixes.py .............s............ [ 44%]
+..........                                                               [ 46%]
+tests\unit\execution\test_scientific_gold_leakage.py ..........          [ 47%]
+tests\unit\graph\test_graph.py ...................................       [ 52%]
+tests\unit\llm\test_llm_kaggle_qwen_backend.py ......................... [ 55%]
+.............................................                            [ 61%]
+tests\unit\llm\test_output_normalization.py ........................     [ 64%]
+tests\unit\selection\test_impact_plan_v2.py ............................ [ 68%]
+.........                                                                [ 69%]
+tests\unit\strategies\test_agent_control_cap.py .........                [ 70%]
+tests\unit\test_baseline_ephemeral_policy.py ..........                  [ 72%]
+tests\unit\test_cli.py ................................................. [ 78%]
+.............................                                            [ 82%]
+tests\unit\test_enums.py ........                                        [ 83%]
+tests\unit\test_locagent_adapter.py ...........                          [ 84%]
+tests\unit\test_pilot_multi_repo_input_contract.py ..............        [ 86%]
+tests\unit\test_qwen3_32b_crossmodel_accounting.py .......               [ 87%]
+tests\unit\test_real_commit_p1_evaluation.py .............               [ 89%]
+tests\unit\test_repositories_loader.py .........                         [ 90%]
+tests\unit\test_scenarios_loader.py ....................                 [ 93%]
+tests\unit\test_scientific_evidence_persistence.py ........              [ 94%]
+tests\unit\test_scientific_terminal_semantics.py ...................     [ 96%]
+tests\unit\test_su0005_explicit_identity.py .......................      [ 99%]
+tests\unit\test_subprocess_pythonpath.py .                               [100%]
+
+- generated xml file: C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project\reports\pytest-full-shard-3.xml -
+============================ slowest 25 durations =============================
+14.44s call     tests/integration/test_pilot_real_launch_preflight.py::TestPreflightRunnerPath::test_real_todo_preflight_passes_end_to_end
+8.19s call     tests/integration/test_stagec_djangocms_runtime_wiring.py::test_all_six_gates_pass
+3.38s call     tests/integration/test_v0921_per_cell_validation_runtime.py::TestValidationPythonMapping::test_cli_dry_run_tolerates_absent_external_interpreters
+2.54s call     tests/unit/test_cli.py::TestQwenQuantizationFlag::test_quantization_mode_changes_config_hash
+2.20s call     tests/unit/test_cli.py::TestRunsDirBugFix::test_resume_path_no_nameerror
+1.45s call     tests/unit/test_subprocess_pythonpath.py::test_subprocess_pythonpath_from_arbitrary_cwd
+1.42s call     tests/integration/test_pilot_canary_execution_path.py::TestPilotCanaryExecutionPath::test_canary_dry_run_has_no_model_calls_and_protocol_11
+1.42s call     tests/integration/test_pilot_canary_execution_path.py::TestPilotCanaryExecutionPath::test_canary_dry_run_produces_six_cells
+1.30s call     tests/unit/test_cli.py::TestRunsDirBugFix::test_start_new_path_no_nameerror
+1.30s call     tests/unit/test_cli.py::TestCliArgsAcceptance::test_output_dir_is_created
+1.30s call     tests/unit/test_cli.py::TestCliOpenRouter::test_openrouter_timeout_custom_value
+1.29s call     tests/unit/test_cli.py::TestCliArgsAcceptance::test_dry_run_without_model_path
+1.29s call     tests/unit/test_cli.py::TestCliOpenRouter::test_openrouter_backend_accepted
+1.28s call     tests/unit/test_cli.py::TestCliArgsAcceptance::test_dry_run_with_valid_data_dir
+1.28s call     tests/unit/test_cli.py::TestCliOpenRouter::test_openrouter_model_custom_value
+1.27s call     tests/unit/test_cli.py::TestCliArgsAcceptance::test_valid_model_path_accepted_in_dry_run
+1.27s call     tests/unit/test_cli.py::TestQwenQuantizationFlag::test_dry_run_accepts_bnb_nf4
+1.26s call     tests/unit/test_cli.py::TestQwenQuantizationFlag::test_dry_run_default_quantization_is_bnb_int8
+1.21s call     tests/unit/test_cli.py::TestKagglePreflightOnly::test_preflight_only_fails_locally_and_creates_no_experiment
+0.54s call     tests/integration/test_pilot_real_launch_preflight.py::TestSnapshotMaterializationHermetic::test_hermetic_preflight_uses_repo_source_evidence
+0.40s call     tests/unit/test_cli.py::TestScientificSmokeV1Profile::test_historical_smoke_bundle_matches_frozen_source_commit
+0.33s call     tests/integration/test_real_commit_scientific_leakage.py::test_every_scientific_public_bundle_leakage_free
+0.31s call     tests/unit/test_pilot_multi_repo_input_contract.py::TestT5PilotMultiRepoWiring::test_no_cross_repository_input_reuse
+0.23s call     tests/unit/test_pilot_multi_repo_input_contract.py::TestT4ArtifactDescriptorsExecutable::test_descriptors_stay_within_profile_editable_universe
+0.22s call     tests/unit/test_pilot_multi_repo_input_contract.py::TestT3EditableUniverseExecutable::test_all_three_pilot_profiles_expand
+================== 754 passed, 1 skipped in 68.51s (0:01:08) ==================

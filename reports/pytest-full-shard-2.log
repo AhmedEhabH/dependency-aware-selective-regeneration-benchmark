@@ -1,0 +1,83 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.5, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project
+configfile: pyproject.toml
+plugins: anyio-4.9.0, asyncio-1.4.0, django-4.12.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 1024 items
+
+tests\contract\test_protocol_conformance.py ...........                  [  1%]
+tests\integration\test_kaggle_bundle_smoke_v2_preflight.py ............. [  2%]
+......................................                                   [  6%]
+tests\integration\test_pilot_notebook_contract.py ...................... [  8%]
+........................................................................ [ 15%]
+..........                                                               [ 16%]
+tests\integration\test_pilot_service_bootstrap.py ...................... [ 18%]
+.............................................                            [ 22%]
+tests\integration\test_real_commit_p1_evaluation.py ......               [ 23%]
+tests\integration\test_real_smoke.py .........                           [ 24%]
+tests\integration\test_scientific_smoke_v2_production_path.py .......... [ 25%]
+...................................                                      [ 28%]
+tests\integration\test_todo_smoke_evaluator_assets.py .................. [ 30%]
+......................s.............                                     [ 33%]
+tests\unit\evaluation\test_engine.py .......                             [ 34%]
+tests\unit\execution\test_exact_patch.py ...........................     [ 37%]
+tests\unit\execution\test_post_generation.py ........................... [ 39%]
+..............ssss......s........................s.....ss............... [ 46%]
+............ss..ss..........................                             [ 51%]
+tests\unit\execution\test_regeneration.py .............................. [ 54%]
+..........                                                               [ 55%]
+tests\unit\execution\test_scenario_evaluator.py ....s........sss..s..... [ 57%]
+.ss.ss.......................................                            [ 61%]
+tests\unit\execution\test_validation.py .........                        [ 62%]
+tests\unit\llm\test_llm_factory.py .............                         [ 63%]
+tests\unit\llm\test_llm_openrouter_provider_pin.py ...............       [ 65%]
+tests\unit\selection\test_impact_plan_contract.py ...................... [ 67%]
+.                                                                        [ 67%]
+tests\unit\statistics\test_statistics.py ............................... [ 70%]
+................                                                         [ 72%]
+tests\unit\test_acceptance_gate_script.py .....................          [ 74%]
+tests\unit\test_checkpoint.py .......................................... [ 78%]
+                                                                         [ 78%]
+tests\unit\test_deterministic_run_id.py .......                          [ 79%]
+tests\unit\test_hf_sync.py ............................................. [ 83%]
+.................s..................                                     [ 87%]
+tests\unit\test_pilot_canary_viability.py ................               [ 88%]
+tests\unit\test_pilot_validation_command_mapping.py .............        [ 89%]
+tests\unit\test_real_commit_models.py .......                            [ 90%]
+tests\unit\test_registry.py .........                                    [ 91%]
+tests\unit\test_repositories_workspace.py .........                      [ 92%]
+tests\unit\test_scenarios_validator.py ........                          [ 93%]
+tests\unit\test_scientific_microstudy_plan.py .........                  [ 93%]
+tests\unit\test_stagec_selection_study.py ....................           [ 95%]
+tests\unit\test_su0008_cross_session_reporting.py ...................... [ 98%]
+....................                                                     [100%]
+
+- generated xml file: C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project\reports\pytest-full-shard-2.xml -
+============================ slowest 25 durations =============================
+163.98s setup    tests/integration/test_scientific_smoke_v2_production_path.py::test_r5_nine_record_matrix
+163.73s setup    tests/integration/test_scientific_smoke_v2_production_path.py::test_r5_sequential_workspace_isolation_001_002_003[monolithic]
+23.77s call     tests/integration/test_kaggle_bundle_smoke_v2_preflight.py::TestKaggleBundleSmokeV2Preflight::test_bundle_baseline_47_tests_and_evaluator_pass[todo-smoke-001]
+20.31s call     tests/integration/test_scientific_smoke_v2_production_path.py::test_r5_representative_selective_cell_todo_smoke_001
+18.12s call     tests/integration/test_kaggle_bundle_smoke_v2_preflight.py::TestKaggleBundleSmokeV2Preflight::test_bundle_baseline_47_tests_and_evaluator_pass[todo-smoke-003]
+17.98s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestCorrectFixtureBaselineCompatibility::test_correct_fixture_passes_baseline_and_evaluator[todo-smoke-003-build_todo_smoke_003_workspace-todo_smoke_003_checks.py]
+17.69s call     tests/integration/test_scientific_smoke_v2_production_path.py::test_r5_representative_agent_cell_todo_smoke_001
+17.67s call     tests/integration/test_scientific_smoke_v2_production_path.py::test_r5_leakage_agent_tools_reject_evaluator_paths
+17.65s call     tests/integration/test_scientific_smoke_v2_production_path.py::test_r5_shared_snapshot_root_arm_child_topology_succeeds
+17.59s call     tests/integration/test_scientific_smoke_v2_production_path.py::test_r5_representative_monolithic_cell_todo_smoke_001
+17.47s call     tests/integration/test_scientific_smoke_v2_production_path.py::test_r5_negative_zeroed_persisted_metrics
+17.46s call     tests/integration/test_kaggle_bundle_smoke_v2_preflight.py::TestKaggleBundleSmokeV2Preflight::test_bundle_baseline_47_tests_and_evaluator_pass[todo-smoke-002]
+17.38s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestCorrectFixtureBaselineCompatibility::test_correct_fixture_passes_baseline_and_evaluator[todo-smoke-001-build_todo_smoke_001_workspace-todo_smoke_001_checks.py]
+17.32s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestCorrectFixtureBaselineCompatibility::test_correct_fixture_passes_baseline_and_evaluator[todo-smoke-002-build_todo_smoke_002_workspace-todo_smoke_002_checks.py]
+15.85s call     tests/integration/test_scientific_smoke_v2_production_path.py::test_r5_negative_evaluator_execution_skipped
+5.19s call     tests/integration/test_pilot_notebook_contract.py::TestPilotDryrunEvidenceValidatorIntegration::test_bundled_cli_dryrun_passes_canonical_validator
+4.21s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestTodoSmoke003Evaluator::test_project_owner_writable_fails_expected_check
+4.21s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestTodoSmoke003Evaluator::test_correct_passes
+4.19s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestTodoSmoke003Evaluator::test_project_non_owner_write_allowed_fails_expected_check
+4.17s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestTodoSmoke003Evaluator::test_task_owner_authority_fails_expected_check
+3.67s call     tests/integration/test_pilot_notebook_contract.py::TestD9RunLiveRealInterrupt::test_interrupt_kills_child_and_propagates
+3.55s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestTodoSmoke001Evaluator::test_correct_passes
+3.54s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestTodoSmoke001Evaluator::test_wrong_default_fails_expected_check
+3.51s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestTodoSmoke002Evaluator::test_restore_keeps_timestamp_fails_expected_check
+3.51s call     tests/integration/test_todo_smoke_evaluator_assets.py::TestTodoSmoke002Evaluator::test_correct_passes
+================ 1001 passed, 23 skipped in 737.44s (0:12:17) =================

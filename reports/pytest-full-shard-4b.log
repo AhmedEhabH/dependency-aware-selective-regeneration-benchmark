@@ -1,0 +1,53 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.5, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project
+configfile: pyproject.toml
+plugins: anyio-4.9.0, asyncio-1.4.0, django-4.12.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 230 items
+
+tests\unit\selection\test_planner.py ...............                     [  6%]
+tests\unit\strategies\test_repository_tools.py ....s.s..s......s         [ 13%]
+tests\unit\test_build_upload_bundle.py ...........                       [ 18%]
+tests\unit\test_config_models.py ......................                  [ 28%]
+tests\unit\test_exceptions.py ...............                            [ 34%]
+tests\unit\test_model_identity_policy.py .....                           [ 36%]
+tests\unit\test_pilot_readiness.py ..............................        [ 50%]
+tests\unit\test_qwen3_coder_30b_a3b_accounting.py ............           [ 55%]
+tests\unit\test_real_commit_provenance.py ......                         [ 57%]
+tests\unit\test_repositories_manifest.py ...............                 [ 64%]
+tests\unit\test_scenarios_models.py .................................... [ 80%]
+                                                                         [ 80%]
+tests\unit\test_scientific_identity.py ..........                        [ 84%]
+tests\unit\test_stagec_consolidation.py .....................            [ 93%]
+tests\unit\test_su0006_recovery_activation.py ............               [ 98%]
+tests\unit\test_thesis_doc_hygiene.py ...                                [100%]
+
+- generated xml file: C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project\reports\pytest-full-shard-4b.xml -
+============================ slowest 25 durations =============================
+0.30s call     tests/unit/test_build_upload_bundle.py::test_r6_manifest_keys_are_posix
+0.22s call     tests/unit/test_stagec_consolidation.py::TestTruthMatrixConsistency::test_raw_evidence_untouched_by_git
+0.21s call     tests/unit/test_build_upload_bundle.py::test_r6_second_build_is_byte_identical
+0.12s call     tests/unit/test_stagec_consolidation.py::TestScriptsRunEndToEnd::test_latency_script_emits_reports
+0.11s call     tests/unit/test_build_upload_bundle.py::test_r6_manifests_match_raw_emitted_bytes
+0.11s call     tests/unit/test_build_upload_bundle.py::test_r7c_smoke_kaggle_lock_is_bundled
+0.11s call     tests/unit/test_build_upload_bundle.py::test_r6_nested_repository_tests_are_preserved
+0.10s call     tests/unit/test_build_upload_bundle.py::test_r6_project_test_support_is_not_deployed
+0.10s call     tests/unit/test_build_upload_bundle.py::test_r6_forbidden_artifacts_are_excluded
+0.10s call     tests/unit/test_build_upload_bundle.py::test_r6_evaluator_allowlist_is_exact
+0.09s call     tests/unit/test_stagec_consolidation.py::TestScriptsRunEndToEnd::test_v11_script_emits_reports
+0.07s call     tests/unit/test_thesis_doc_hygiene.py::TestCurrentFacingDocsFreeOfIncidentalAIToolNames::test_whole_file_current_facing_docs
+0.06s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivation::test_recovery_found_and_activated
+0.05s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivation::test_no_experiments_dir_under_output
+0.05s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivation::test_completed_monolithic_skipped
+0.05s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivation::test_progress_advances_1_to_2
+0.04s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivationFailures::test_activation_does_not_mix_files
+0.04s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivation::test_no_cache_dir_under_output
+0.04s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivationFailures::test_no_experiments_dir_left_in_output
+0.03s call     tests/unit/test_build_upload_bundle.py::test_r6_normalize_text_converts_all_supported_text_to_lf
+0.03s call     tests/unit/test_model_identity_policy.py::test_full_model_name_present_in_current_facing_docs
+0.03s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivationFailures::test_activation_failure_preserves_previous_state
+0.02s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivationFailures::test_experiment_id_mismatch_fails
+0.02s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivationFailures::test_malformed_checkpoint_fails_before_activation
+0.02s call     tests/unit/test_su0006_recovery_activation.py::TestRecoveryActivationFailures::test_no_fallback_to_start_new_after_validation_failure
+======================= 226 passed, 4 skipped in 16.02s =======================
