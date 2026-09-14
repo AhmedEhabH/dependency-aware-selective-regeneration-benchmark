@@ -1,0 +1,33 @@
+{
+  "decisions": [
+    {
+      "id": 63,
+      "action": "REGENERATE",
+      "rationale": "The commit message indicates adding a migration for page content verbose name, which likely affects contentmodels.py where such model definitions reside.",
+      "confidence": 0.85,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "commit message",
+          "description": "Add migration for page content verbose name"
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "action": "REGENERATE",
+      "rationale": "Updating translations and fixing CSS may involve changes to internationalization utilities.",
+      "confidence": 0.75,
+      "reason_codes": ["requirement_change"],
+      "evidence": [
+        {
+          "source": "commit message",
+          "description": "Update translations source fill which was missing strings"
+        }
+      ]
+    }
+  ],
+  "validation_obligations": [],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}

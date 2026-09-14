@@ -37,7 +37,7 @@ _PACKAGE_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 
 P1_PROTOCOL_VERSION: str = "real-commit-p1-v1.0.0"
 P1_PLANNER_VERSION: str = "real-commit-p1-planner-1"
-P1_MAX_COMPLETION_TOKENS: int = 4096
+P1_MAX_COMPLETION_TOKENS: int = 16384
 P1_TEMPERATURE: float = 0.0
 P1_REPETITIONS: int = 3
 

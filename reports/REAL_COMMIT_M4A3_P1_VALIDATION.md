@@ -1,6 +1,6 @@
 # M4A-3 / P1 — REAL-COMMIT FULL-v2 vs SPARSE-v2 ZERO-API Gates + Audit
 
-**Generated:** 2026-09-14T01:19:34.562389+00:00
+**Generated:** 2026-09-14T03:32:16.507729+00:00
 **Study ID:** real-commit-p1-v1.0.0
 **Frozen protocol:** reports/REAL_COMMIT_M4A3_P1_PROTOCOL.md
 
@@ -200,7 +200,7 @@ ZERO scientific LLM/API calls in this milestone. Real held-out inference is NOT 
 - [PASS] provider_frozen — deepinfra/turbo
 - [PASS] repetitions_3_frozen — 3
 - [PASS] temperature_0_frozen — 0.0
-- [PASS] cap_4096_frozen — 4096
+- [PASS] cap_16384_frozen — 16384
 - [PASS] no_hidden_proxy_in_any_public_bundle — hidden/ never read during prompt render; proxy is evaluation-only
 - [PASS] no_scientific_api_artifacts — zero model calls in this milestone
 

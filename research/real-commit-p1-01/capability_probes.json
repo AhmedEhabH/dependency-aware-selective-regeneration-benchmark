@@ -1,0 +1,125 @@
+{
+  "study_id": "real-commit-p1-full-v2-vs-sparse-v2-01",
+  "model": "qwen/qwen3-coder",
+  "model_human": "Qwen3-Coder-480B-A35B-Instruct",
+  "provider": "DeepInfra",
+  "provider_tag": "deepinfra/turbo",
+  "temperature": 0.0,
+  "max_tokens": 16384,
+  "graph": "OFF",
+  "probes": {
+    "train_full_v2": {
+      "probe": "train_full_v2",
+      "split": "TRAIN",
+      "case_id": "djangocms-rc-06ecf3a8e8de",
+      "arm": "full_v2",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "DeepInfra",
+      "provider_name": "DeepInfra",
+      "usage": {
+        "prompt_tokens": 4776,
+        "completion_tokens": 9056,
+        "total_tokens": 13832
+      },
+      "usage_known": true,
+      "raw_response_sha256": "4eb0d31e87c185e7b678913f9262bda545337e313d377ee589f0525d59824c78",
+      "decoded_candidate_count": 140,
+      "decoded_write_set_ids": [],
+      "errors": [],
+      "schema_valid": true,
+      "contract_ok": true
+    },
+    "train_sparse_v2": {
+      "probe": "train_sparse_v2",
+      "split": "TRAIN",
+      "case_id": "djangocms-rc-06ecf3a8e8de",
+      "arm": "sparse_v2",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "DeepInfra",
+      "provider_name": "DeepInfra",
+      "usage": {
+        "prompt_tokens": 4790,
+        "completion_tokens": 232,
+        "total_tokens": 5022
+      },
+      "usage_known": true,
+      "raw_response_sha256": "0b1a1c443460ac27624861cff3804e9399cf83dbd5b9b06ef51b8e5a7982b85d",
+      "decoded_candidate_count": 140,
+      "decoded_write_set_ids": [
+        63,
+        113
+      ],
+      "errors": [],
+      "schema_valid": true,
+      "contract_ok": true
+    },
+    "validation_full_v2": {
+      "probe": "validation_full_v2",
+      "split": "VALIDATION",
+      "case_id": "djangocms-rc-0daae01f2f65",
+      "arm": "full_v2",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "DeepInfra",
+      "provider_name": "DeepInfra",
+      "usage": {
+        "prompt_tokens": 4945,
+        "completion_tokens": 8688,
+        "total_tokens": 13633
+      },
+      "usage_known": true,
+      "raw_response_sha256": "45b929e736598f3c0a9aa16157acbb4274bd43cae74f9e7e319dff58ce1ae867",
+      "decoded_candidate_count": 152,
+      "decoded_write_set_ids": [
+        3,
+        4,
+        6,
+        10,
+        22,
+        65,
+        73,
+        124
+      ],
+      "errors": [],
+      "schema_valid": true,
+      "contract_ok": true
+    },
+    "validation_sparse_v2": {
+      "probe": "validation_sparse_v2",
+      "split": "VALIDATION",
+      "case_id": "djangocms-rc-0daae01f2f65",
+      "arm": "sparse_v2",
+      "attempts_used": 1,
+      "transport_ok": true,
+      "error": "",
+      "finish_reason": "stop",
+      "provider_reported": "DeepInfra",
+      "provider_name": "DeepInfra",
+      "usage": {
+        "prompt_tokens": 4959,
+        "completion_tokens": 810,
+        "total_tokens": 5769
+      },
+      "usage_known": true,
+      "raw_response_sha256": "8d3e15df682a1846cdcba2d0056881f2e7431508562075d3b89c8315a075604a",
+      "decoded_candidate_count": 152,
+      "decoded_write_set_ids": [
+        3,
+        4
+      ],
+      "errors": [],
+      "schema_valid": true,
+      "contract_ok": true
+    }
+  },
+  "contract_pass": true,
+  "ran_at": "2026-09-14T02:54:21.442050+00:00"
+}

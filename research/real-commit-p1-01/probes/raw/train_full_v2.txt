@@ -1,0 +1,1267 @@
+{
+  "decisions": [
+    {
+      "id": 1,
+      "action": "PRESERVE",
+      "rationale": "No changes related to __init__.py files in the commit intent.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 2,
+      "action": "PRESERVE",
+      "rationale": "No direct modifications to admin/__init__.py mentioned in the commit intent.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 3,
+      "action": "PRESERVE",
+      "rationale": "No specific mention of form-related updates in the commit intent.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 4,
+      "action": "PRESERVE",
+      "rationale": "PageAdmin likely not affected by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 5,
+      "action": "PRESERVE",
+      "rationale": "PermissionAdmin unrelated to translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 6,
+      "action": "PRESERVE",
+      "rationale": "PlaceholderAdmin not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 7,
+      "action": "PRESERVE",
+      "rationale": "SettingsAdmin not involved in translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 8,
+      "action": "PRESERVE",
+      "rationale": "StaticPlaceholder not directly affected by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 9,
+      "action": "PRESERVE",
+      "rationale": "UserAdmin not involved in translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 10,
+      "action": "PRESERVE",
+      "rationale": "Utils module not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 11,
+      "action": "PRESERVE",
+      "rationale": "API module not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 12,
+      "action": "PRESERVE",
+      "rationale": "AppBase not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 13,
+      "action": "PRESERVE",
+      "rationale": "AppRegistration not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 14,
+      "action": "PRESERVE",
+      "rationale": "AppHookPool not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 15,
+      "action": "PRESERVE",
+      "rationale": "AppResolver not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 16,
+      "action": "PRESERVE",
+      "rationale": "Apps configuration not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 17,
+      "action": "PRESERVE",
+      "rationale": "Cache init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 18,
+      "action": "PRESERVE",
+      "rationale": "Choices cache not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 19,
+      "action": "PRESERVE",
+      "rationale": "Page cache not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 20,
+      "action": "PRESERVE",
+      "rationale": "Permissions cache not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 21,
+      "action": "PRESERVE",
+      "rationale": "Placeholder cache not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 22,
+      "action": "PRESERVE",
+      "rationale": "CMS config not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 23,
+      "action": "PRESERVE",
+      "rationale": "Menus not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 24,
+      "action": "PRESERVE",
+      "rationale": "Plugins not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 25,
+      "action": "PRESERVE",
+      "rationale": "Toolbars not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 26,
+      "action": "PRESERVE",
+      "rationale": "Wizards not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 27,
+      "action": "PRESERVE",
+      "rationale": "Constants not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 28,
+      "action": "PRESERVE",
+      "rationale": "Context processors not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 29,
+      "action": "PRESERVE",
+      "rationale": "Exceptions not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 30,
+      "action": "PRESERVE",
+      "rationale": "Extensions init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 31,
+      "action": "PRESERVE",
+      "rationale": "Extension admin not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 32,
+      "action": "PRESERVE",
+      "rationale": "Extension pool not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 33,
+      "action": "PRESERVE",
+      "rationale": "Extension models not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 34,
+      "action": "PRESERVE",
+      "rationale": "Extension toolbar not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 35,
+      "action": "PRESERVE",
+      "rationale": "Forms init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 36,
+      "action": "PRESERVE",
+      "rationale": "Form fields not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 37,
+      "action": "PRESERVE",
+      "rationale": "Login forms not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 38,
+      "action": "PRESERVE",
+      "rationale": "Form utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 39,
+      "action": "PRESERVE",
+      "rationale": "Validators not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 40,
+      "action": "PRESERVE",
+      "rationale": "Widgets not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 41,
+      "action": "PRESERVE",
+      "rationale": "Wizard forms not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 42,
+      "action": "PRESERVE",
+      "rationale": "Management init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 43,
+      "action": "PRESERVE",
+      "rationale": "Commands init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 44,
+      "action": "PRESERVE",
+      "rationale": "CMS command not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 45,
+      "action": "PRESERVE",
+      "rationale": "Subcommands init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 46,
+      "action": "PRESERVE",
+      "rationale": "Base subcommand not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 47,
+      "action": "PRESERVE",
+      "rationale": "Check subcommand not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 48,
+      "action": "PRESERVE",
+      "rationale": "Copy subcommand not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 49,
+      "action": "PRESERVE",
+      "rationale": "Delete orphaned plugins subcommand not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 50,
+      "action": "PRESERVE",
+      "rationale": "List subcommand not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 51,
+      "action": "PRESERVE",
+      "rationale": "Tree subcommand not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 52,
+      "action": "PRESERVE",
+      "rationale": "Uninstall subcommand not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 53,
+      "action": "PRESERVE",
+      "rationale": "Menu bases not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 54,
+      "action": "PRESERVE",
+      "rationale": "Middleware init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 55,
+      "action": "PRESERVE",
+      "rationale": "Language middleware not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 56,
+      "action": "PRESERVE",
+      "rationale": "Page middleware not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 57,
+      "action": "PRESERVE",
+      "rationale": "Toolbar middleware not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 58,
+      "action": "PRESERVE",
+      "rationale": "User middleware not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 59,
+      "action": "PRESERVE",
+      "rationale": "Utils middleware not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 60,
+      "action": "PRESERVE",
+      "rationale": "Models init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 61,
+      "action": "PRESERVE",
+      "rationale": "Alias plugin model not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 62,
+      "action": "PRESERVE",
+      "rationale": "Apphooks reload model not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 63,
+      "action": "PRESERVE",
+      "rationale": "Content models not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 64,
+      "action": "PRESERVE",
+      "rationale": "Fields not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 65,
+      "action": "PRESERVE",
+      "rationale": "Managers not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 66,
+      "action": "PRESERVE",
+      "rationale": "Page model not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 67,
+      "action": "PRESERVE",
+      "rationale": "Permission models not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 68,
+      "action": "PRESERVE",
+      "rationale": "Placeholder model not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 69,
+      "action": "PRESERVE",
+      "rationale": "Placeholder plugin model not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 70,
+      "action": "PRESERVE",
+      "rationale": "Plugin model not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 71,
+      "action": "PRESERVE",
+      "rationale": "Query not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 72,
+      "action": "PRESERVE",
+      "rationale": "Setting models not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 73,
+      "action": "PRESERVE",
+      "rationale": "Static placeholder model not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 74,
+      "action": "PRESERVE",
+      "rationale": "Operations init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 75,
+      "action": "PRESERVE",
+      "rationale": "Operations helpers not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 76,
+      "action": "PRESERVE",
+      "rationale": "Page rendering not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 77,
+      "action": "PRESERVE",
+      "rationale": "Plugin base not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 78,
+      "action": "PRESERVE",
+      "rationale": "Plugin pool not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 79,
+      "action": "PRESERVE",
+      "rationale": "Plugin processors not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 80,
+      "action": "PRESERVE",
+      "rationale": "Plugin rendering not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 81,
+      "action": "PRESERVE",
+      "rationale": "Signals init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 82,
+      "action": "PRESERVE",
+      "rationale": "Apphook signals not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 83,
+      "action": "PRESERVE",
+      "rationale": "Log entries signals not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 84,
+      "action": "PRESERVE",
+      "rationale": "Permissions signals not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 85,
+      "action": "PRESERVE",
+      "rationale": "Sitemaps init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 86,
+      "action": "PRESERVE",
+      "rationale": "CMS sitemap not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 87,
+      "action": "PRESERVE",
+      "rationale": "Templates not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 88,
+      "action": "PRESERVE",
+      "rationale": "Templatetags init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 89,
+      "action": "PRESERVE",
+      "rationale": "CMS admin templatetags not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 90,
+      "action": "PRESERVE",
+      "rationale": "Alias tags not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 91,
+      "action": "PRESERVE",
+      "rationale": "JS tags not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 92,
+      "action": "PRESERVE",
+      "rationale": "Static tags not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 93,
+      "action": "PRESERVE",
+      "rationale": "CMS tags not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 94,
+      "action": "PRESERVE",
+      "rationale": "Toolbar init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 95,
+      "action": "PRESERVE",
+      "rationale": "Toolbar items not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 96,
+      "action": "PRESERVE",
+      "rationale": "Toolbar not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 97,
+      "action": "PRESERVE",
+      "rationale": "Toolbar utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 98,
+      "action": "PRESERVE",
+      "rationale": "Toolbar base not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 99,
+      "action": "PRESERVE",
+      "rationale": "Toolbar pool not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 100,
+      "action": "PRESERVE",
+      "rationale": "URLs not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 101,
+      "action": "PRESERVE",
+      "rationale": "Utils init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 102,
+      "action": "PRESERVE",
+      "rationale": "Admin utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 103,
+      "action": "PRESERVE",
+      "rationale": "Apphook reload utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 104,
+      "action": "PRESERVE",
+      "rationale": "Check utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 105,
+      "action": "PRESERVE",
+      "rationale": "Compat init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 106,
+      "action": "PRESERVE",
+      "rationale": "Django compat not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 107,
+      "action": "PRESERVE",
+      "rationale": "Forms compat not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 108,
+      "action": "PRESERVE",
+      "rationale": "Response compat not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 109,
+      "action": "PRESERVE",
+      "rationale": "Conf utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 110,
+      "action": "PRESERVE",
+      "rationale": "Decorators not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 111,
+      "action": "PRESERVE",
+      "rationale": "Encoder not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 112,
+      "action": "PRESERVE",
+      "rationale": "Helpers not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 113,
+      "action": "PRESERVE",
+      "rationale": "I18n utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 114,
+      "action": "PRESERVE",
+      "rationale": "Mail utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 115,
+      "action": "PRESERVE",
+      "rationale": "Page utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 116,
+      "action": "PRESERVE",
+      "rationale": "Page permissions not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 117,
+      "action": "PRESERVE",
+      "rationale": "Permissions utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 118,
+      "action": "PRESERVE",
+      "rationale": "Placeholder utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 119,
+      "action": "PRESERVE",
+      "rationale": "Plugins utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 120,
+      "action": "PRESERVE",
+      "rationale": "Request IP resolvers not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 121,
+      "action": "PRESERVE",
+      "rationale": "Setup utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 122,
+      "action": "PRESERVE",
+      "rationale": "URL utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 123,
+      "action": "PRESERVE",
+      "rationale": "Views not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 124,
+      "action": "PRESERVE",
+      "rationale": "Wizards init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 125,
+      "action": "PRESERVE",
+      "rationale": "Wizard forms not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 126,
+      "action": "PRESERVE",
+      "rationale": "Wizard helpers not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 127,
+      "action": "PRESERVE",
+      "rationale": "Wizard URLs not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 128,
+      "action": "PRESERVE",
+      "rationale": "Wizard views not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 129,
+      "action": "PRESERVE",
+      "rationale": "Wizard base not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 130,
+      "action": "PRESERVE",
+      "rationale": "Wizard pool not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 131,
+      "action": "PRESERVE",
+      "rationale": "Menus init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 132,
+      "action": "PRESERVE",
+      "rationale": "Menus apps not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 133,
+      "action": "PRESERVE",
+      "rationale": "Menu base not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 134,
+      "action": "PRESERVE",
+      "rationale": "Menu exceptions not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 135,
+      "action": "PRESERVE",
+      "rationale": "Menu pool not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 136,
+      "action": "PRESERVE",
+      "rationale": "Menu models not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 137,
+      "action": "PRESERVE",
+      "rationale": "Modifiers not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 138,
+      "action": "PRESERVE",
+      "rationale": "Templatetags init not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 139,
+      "action": "PRESERVE",
+      "rationale": "Menu tags not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    },
+    {
+      "id": 140,
+      "action": "PRESERVE",
+      "rationale": "Menu utils not directly impacted by translation or CSS fixes.",
+      "confidence": 1.0,
+      "reason_codes": ["no_change"]
+    ,
+      "evidence": []
+    }
+  ],
+  "validation_obligations": [],
+  "architecture_checks": [],
+  "escalation_reason": ""
+}
