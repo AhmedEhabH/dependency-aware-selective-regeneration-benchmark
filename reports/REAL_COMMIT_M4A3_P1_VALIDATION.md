@@ -1,6 +1,6 @@
 # M4A-3 / P1 — REAL-COMMIT FULL-v2 vs SPARSE-v2 ZERO-API Gates + Audit
 
-**Generated:** 2026-09-13T22:47:21.170128+00:00
+**Generated:** 2026-09-14T01:19:34.562389+00:00
 **Study ID:** real-commit-p1-v1.0.0
 **Frozen protocol:** reports/REAL_COMMIT_M4A3_P1_PROTOCOL.md
 

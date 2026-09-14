@@ -1,6 +1,6 @@
 # P5-A — LocAgent Shared-Protocol Adapter Readiness (ZERO API)
 
-**Generated:** 2026-09-13T22:59:30.665367+00:00
+**Generated:** 2026-09-14T01:19:34.956542+00:00
 **Upstream:** https://github.com/gersteinlab/LocAgent @ `4935b557326c154bad8e8dcf3747cc8d32d1f387` (2026-08-12, Apache-2.0)
 **Adapter version:** locagent-shared-protocol-adapter-1
 
