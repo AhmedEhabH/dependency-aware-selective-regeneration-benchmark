@@ -1,13 +1,15 @@
 # Repository-Level LLM Impact Selection Benchmark
 
-> **Current scientific state (2026-09-14):** the selection-stage benchmark is
+> **Current scientific state (2026-09-15):** the selection-stage benchmark is
 > **complete and audited**. Controlled sparse-policy studies (M1A/M1B/M3) are
 > complete; a 40-case real-history corpus (M4A-1/M4A-2) is frozen; the 10-task
 > held-out **Full-v2 vs Sparse-v2 evaluation (M4A-3 / P1) is EXECUTED**
-> (60/60 cells valid). LocAgent shared-protocol engineering (P5-A) is ready;
-> its real pilot (P5-B) is blocked on this Windows host by upstream POSIX
-> `fork` usage. The serialized-record derived metric in the P1 result was
-> corrected on 2026-09-14 (see [P1 serialization correction](#p1-serialized-record-metric-correction)).
+> (60/60 cells valid); the **LocAgent shared-protocol comparison (P5) is
+> COMPLETE** (P5-B VALIDATION 6/6 + P5-C HELD_OUT_TEST 10/10 on WSL2 Ubuntu;
+> Full-v2/Sparse-v2/LocAgent shared table + independent audit — see
+> [P5 shared comparison](#p5-locagent-shared-protocol-comparison)). The
+> serialized-record derived metric in the P1 result was corrected on 2026-09-14
+> (see [P1 serialization correction](#p1-serialized-record-metric-correction)).
 
 ---
 
@@ -111,6 +113,40 @@ P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unchanged.
 The graph result is exploratory and does **not** support the general claim
 "graphs improve impact selection."
 
+### P5 — LocAgent shared-protocol comparison (2026-09-15, executed + audited)
+
+The pinned upstream LocAgent (`4935b557…`) was run on the SAME 10 P1
+held-out real djangoCMS changes via a POSIX (WSL2 Ubuntu) host, using the same
+`qwen/qwen3-coder` → OpenRouter → DeepInfra route, and scored with the SAME
+common evaluator against the SAME observed change-set proxy. This is a
+**system-level shared-task comparison** (P1 temperature 0 vs LocAgent upstream
+temperature 1), not an algorithm ablation.
+
+| System | Valid | Precision | Recall | F1 | FNR | Comp. tokens | Model calls | Cost | Latency |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Full-v2 | 30/30 | 0.339 | 0.369 | 0.353 | 0.631 | 8,445.8 | 30 | $0.2976 | 1,715.7 s |
+| Sparse-v2 | 30/30 | 0.387 | 0.261 | 0.312 | 0.739 | 599.0 | 30 | $0.0623 | 200.4 s |
+| LocAgent | 5/10 | 0.435 | 0.270 | 0.333 | 0.730 | 11,325.6 | 402 | $9.9288 | 4,025.9 s |
+
+- LocAgent produced real localization on 5/10 held-out tasks; the other 5 hit
+  the frozen 900 s per-attempt budget and were persisted fail-closed (timeout
+  rate 50%).
+- Authoritative LocAgent accounting: 402 LLM calls, 32,718,518 prompt +
+  113,256 completion tokens, estimated cost $9.9288 (frozen $0.30/$1.00 per 1M).
+- Paired task-level ΔF1 (bootstrap over the 10 independent tasks): LocAgent −
+  Full −0.068 [−0.250, +0.170]; LocAgent − Sparse −0.061 [−0.306, +0.241];
+  both CIs cross zero.
+- LocAgent-native Acc@K (reported separately; not comparable to F1): Acc@1
+  4/10, Acc@3 8/10, Acc@5 9/10.
+
+**Interpretation:** the accuracy–cost trade-off on these real tasks does not
+favor LocAgent — comparable-or-lower F1 at ~33× the token budget and ~160× the
+cost of Full-v2, with a 50% timeout attrition rate. The representation-cost
+advantage of our method (RQ1/RQ3) persists; no semantic superiority is claimed
+in either direction. Details:
+[`reports/LOCAGENT_P5C_SHARED_COMPARISON.md`](reports/LOCAGENT_P5C_SHARED_COMPARISON.md),
+[`reports/LOCAGENT_P5C_AUDIT.md`](reports/LOCAGENT_P5C_AUDIT.md).
+
 ---
 
 ## 3. Project map
@@ -173,7 +209,8 @@ Historical changed files are always described as an **OBSERVED CHANGE-SET PROXY*
 | M4A-2 | Can a scientific real-history corpus be frozen? | djangoCMS history | dataset construction | 0 scientific calls | complete/audited | 40 cases, 24/6/10 split |
 | M4A-3 / P1 | Does M1B's representation effect generalize? | 10 real held-out changes | Full-v2 vs Sparse-v2 @16K | 60 | complete/audited | cost/output effect replicates; semantic superiority does not |
 | P5-A | Can LocAgent be compared under our public/hidden boundary? | non-held-out only | adapter/common evaluator | 0 scientific calls | complete | leakage-safe adapter ready |
-| P5-B | Does real LocAgent execute under shared protocol? | validation | LocAgent pilot | pending | blocked on Windows upstream `fork` | run on POSIX or documented patch layer |
+| P5-B | Does real LocAgent execute under shared protocol? | VALIDATION (6) | LocAgent pilot on WSL2 Ubuntu | 6/6 executed | complete/audited | 3 valid + 3 fail-closed timeouts; POSIX `fork` + deadlock/BadRequest patch solved |
+| P5-C | Full-v2 / Sparse-v2 / LocAgent on the same held-out tasks? | 10 HELD_OUT_TEST | shared-protocol comparison | 10/10 executed | complete/audited | LocAgent F1 .333 (valid 5/10) vs Full .353 / Sparse .312; CIs cross zero; native Acc@3 8/10 |
 | P2 | Can structure target likely omissions efficiently? | future TRAIN/VALIDATION | Random@K / Semantic@K / Graph@K / Hybrid@K | TBD | future | thesis-level hypothesis |
 | P3 | Does the result transfer to another large repository? | Saleor real commits | frozen method | TBD | future | cross-repository validity |
 | P4 / M2 | At what impact density does sparse serialization stop helping? | controlled density grid | Full vs Sparse | TBD | future | break-even/scaling boundary |
@@ -473,16 +510,20 @@ historical `## Known Limitations` section in
 
 ## 17. Next scientific priorities
 
-1. Paper V17 update using M1 + real-commit P1.
-2. LocAgent P5-B/P5-C on a POSIX environment or documented compatibility layer.
-3. Graph/semantic omission-risk study:
+1. Paper V20 final submission using M1 + real-commit P1 + P5 shared comparison.
+2. ~~LocAgent P5-B/P5-C~~ — **COMPLETE** (2026-09-15) on WSL2 Ubuntu; see
+   [P5 shared comparison](#p5-locagent-shared-protocol-comparison).
+3. Graph/semantic omission-risk study (post-submission MSc roadmap):
    - Random@K;
    - Semantic@K;
    - Graph@K;
    - Hybrid@K.
-4. Saleor real-commit replication.
-5. M2 serialization-density stress.
-6. downstream functional correctness.
+4. Saleor real-commit replication (post-submission).
+5. M2 serialization-density stress (post-submission).
+6. downstream functional correctness (post-submission).
+7. MSc proposal package (target 2026-10-07/08) — see
+   [`docs/MSC_RESEARCH_ROADMAP_2026_2027.md`](docs/MSC_RESEARCH_ROADMAP_2026_2027.md)
+   and the post-submission roadmap in `TODO.md`.
 
 See [`docs/MSC_RESEARCH_ROADMAP_2026_2027.md`](docs/MSC_RESEARCH_ROADMAP_2026_2027.md),
 [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md), and

@@ -9,7 +9,11 @@ miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)** +
 cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API
 calls)** + **M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14;
 60/60 cells valid, 0 failures, 0 truncations; completion cap 16384 both arms;
-10 independent tasks; bootstrap over tasks)**.
+10 independent tasks; bootstrap over tasks)** + **P5 LocAgent shared-protocol
+comparison COMPLETE (2026-09-15; P5-B VALIDATION 6/6 executed, P5-C
+HELD_OUT_TEST 10/10 executed on WSL2 Ubuntu; Full/Sparse/LocAgent comparison,
+independent audit PASS; see
+`reports/LOCAGENT_P5C_SHARED_COMPARISON.md`)**.
 **Legacy frozen benchmark runs remaining:** ZERO.
 **New RealCommitImpactDataset scientific evaluation:** EXECUTED (M4A-3/P1;
 see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
@@ -95,12 +99,13 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   between arms are small with CIs straddling zero, so no arm-superiority
   claim is made. The six curated scenarios remain development/mechanism
   evidence, not unbiased held-out evidence.
-- **What is next:** P5-B real LocAgent pilot on VALIDATION — attempted
-  2026-09-14 but **BLOCKED** by the unmodified upstream agent loop's
-  `mp.get_context('fork')` (POSIX-only) on this Windows host; attempt + exact
-  blocker preserved (`reports/LOCAGENT_P5B_VALIDATION_BLOCKER_REPORT.md`);
-  P5-C (HELD_OUT_TEST) NOT authorized; then paper / figures / manuscript /
-  supervisor review. See
+- **What is next:** P5 closed (2026-09-15). P5-B real LocAgent pilot on
+  VALIDATION executed 6/6 on WSL2 Ubuntu (prior Windows `fork` blocker solved
+  by the POSIX host); P5-C HELD_OUT_TEST executed 10/10 with the frozen
+  protocol. Full/Sparse/LocAgent shared-protocol comparison, independent
+  audit, and reports complete (see
+  `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`). Then paper / figures /
+  manuscript / supervisor review. See
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md) (single front door).
 - **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor (after
@@ -145,6 +150,22 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   Evidence: `research/real-commit-p1-01/`, `reports/REAL_COMMIT_M4A3_P1_RESULT.md`,
   `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`; launcher
   `scripts/execute_real_commit_p1.py`.
+- **P5 — LocAgent shared-protocol comparison (Full-v2 / Sparse-v2 /
+  LocAgent):** **COMPLETE (2026-09-15)**. P5-A adapter (ZERO API, ready);
+  P5-B VALIDATION pilot executed **6/6** on **WSL2 Ubuntu** (prior Windows
+  `fork` blocker solved by the POSIX host; a documented compatibility patch
+  bounds queue-get deadlocks and BadRequest transport spins — process/error
+  handling only, no scientific change); P5-C HELD_OUT_TEST executed **10/10**
+  (5 valid, 5 fail-closed 900 s timeouts). Same 10 P1 held-out tasks, same
+  frozen proxy, common evaluator. Full-v2 P/R/F1 0.339/0.369/0.353;
+  Sparse-v2 0.387/0.261/0.312; LocAgent 0.435/0.270/0.333 (valid 5/10);
+  LocAgent authoritative ledger 402 calls / 32.8M tokens / $9.9288; native
+  Acc@K 1=4/10, 3=8/10, 5=9/10; paired ΔF1 CIs cross zero. Classified as a
+  SYSTEM-LEVEL shared-task comparison (P1 temp 0 vs LocAgent temp 1), not an
+  algorithm ablation. Evidence: `research/locagent-p5b/`,
+  `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`, `reports/LOCAGENT_P5C_AUDIT.md`;
+  scorers `scripts/locagent_shared_comparison.py`,
+  `scripts/audit_locagent_p5c.py`.
 - **M2 — Controlled LLM serialization-density characterization:** **NOT
   STARTED**.
 - **M3 — Sparse-v2 Graph-OFF vs Graph-Hints:** **COMPLETE / AUDITED** (M3

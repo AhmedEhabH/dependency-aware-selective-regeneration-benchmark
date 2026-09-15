@@ -8,8 +8,9 @@ RealCommitImpactDataset scientific evaluation is EXECUTED (M4A-1 miner + M4A-2
 40-case scientific corpus + split freeze COMPLETE/AUDITED; M4A-3/P1 real
 held-out evaluation EXECUTED 2026-09-14 — 60/60 cells valid, 0 failures,
 0 truncations, completion cap 16384 both arms (M1B replication), 10
-independent tasks, bootstrap over tasks; P5-A LocAgent shared-protocol adapter
-COMPLETE 2026-09-14 — ZERO API, MINER_DEV/TRAIN/VALIDATION only)**.
+independent tasks, bootstrap over tasks; P5 LocAgent shared-protocol comparison
+COMPLETE 2026-09-15 — P5-B VALIDATION 6/6 + P5-C HELD_OUT_TEST 10/10 on WSL2
+Ubuntu, Full/Sparse/LocAgent shared table, audit PASS)**.
 **P1 serialized-record metric correction (2026-09-14):** the P1
 `serialized_records` metric was recomputed from the persisted raw responses
 (ZERO API): Full-v2 mean **144.0**, Sparse-v2 mean **4.07**, paired delta
@@ -502,3 +503,47 @@ disclosed and the descriptive-agreement caveat. See
 `reports/QWEN3_CODER_30B_A3B_PAPER_INTEGRATION_NOTE.md` for exact
 allowed/forbidden claims, and `reports/SUPERVISOR_DECISION_MEMO.md` for the
 unified comparison table and supervisor options.
+
+## P5 — LocAgent shared-protocol comparison (V20 paper integration)
+
+Executed 2026-09-15 (WSL2 Ubuntu). System-level shared-task comparison; NOT an
+algorithm ablation (P1 temp 0 vs LocAgent upstream temp 1).
+
+### Recommended shared comparison table (same 10 held-out tasks)
+
+| System | Valid | P | R | F1 | FNR | Comp. tokens | Model calls | Cost | Latency |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Full-v2 | 30/30 | 0.339 | 0.369 | 0.353 | 0.631 | 8,445.8 | 30 | $0.2976 | 1,715.7 s |
+| Sparse-v2 | 30/30 | 0.387 | 0.261 | 0.312 | 0.739 | 599.0 | 30 | $0.0623 | 200.4 s |
+| LocAgent | 5/10 | 0.435 | 0.270 | 0.333 | 0.730 | 11,325.6 | 402 | $9.9288 | 4,025.9 s |
+
+- LocAgent valid = 5/10 (5 tasks hit the frozen 900 s per-attempt budget and
+  were persisted fail-closed empty; timeout rate 50%).
+- LocAgent calls/tokens/cost are authoritative per-call ledger figures
+  (402 calls, 32,718,518 prompt + 113,256 completion tokens, $9.9288 at the
+  frozen $0.30/$1.00 per 1M pricing).
+
+### Paired / bootstrap (10 independent tasks)
+
+- LocAgent − Full ΔF1 −0.068 [−0.250, +0.170]
+- LocAgent − Sparse ΔF1 −0.061 [−0.306, +0.241]
+- Both CI95 cross zero → no significant task-level F1 difference.
+
+### LocAgent-native (report separately, do NOT compare to F1)
+
+- Acc@1 4/10, Acc@3 8/10, Acc@5 9/10 (from the original ranked order).
+
+### Claim-safe paper text
+
+- The representation-cost advantage (RQ1/RQ3) persists on real held-out
+  changes; the shared comparison shows a comparable-or-lower accuracy at
+  dramatically higher cost: LocAgent ~33× the token budget and ~160× the cost
+  of Full-v2, with a 50% timeout attrition rate.
+- Do NOT claim: "LocAgent is universally worse/better"; token savings
+  compensate for accuracy loss; LocAgent Acc@5 0.90 ≈ our F1. The paired CIs
+  cross zero.
+- Recommended framing: an External Baseline Comparison subsection with the
+  shared table + a claim that the cost-accuracy trade-off on these real tasks
+  does not favor the graph-agent baseline.
+- Evidence: `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`,
+  `reports/LOCAGENT_P5C_AUDIT.md`, `research/locagent-p5b/`.
