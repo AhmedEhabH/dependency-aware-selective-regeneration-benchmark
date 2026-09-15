@@ -11,20 +11,33 @@ calls)** + **M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14;
 60/60 cells valid / 0 failed / 0 truncations; completion cap 16384 both arms;
 10 independent tasks x 2 arms x 3 reps)** + **P5 LocAgent shared-protocol
 comparison COMPLETE (2026-09-15; P5-B VALIDATION 6/6, P5-C HELD_OUT_TEST
-10/10 on WSL2 Ubuntu; Full/Sparse/LocAgent table + audit PASS)**.
+10/10 on WSL2 Ubuntu; Full/Sparse/LocAgent table + audit PASS; reporting
+corrections applied 2026-09-15: official Acc@K, failure taxonomy,
+provider-route wording, consistent efficiency denominator)**.
 **Legacy frozen benchmark runs remaining:** ZERO.
 **New RealCommitImpactDataset scientific evaluation:** EXECUTED (M4A-3/P1;
 see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
-**P5 LocAgent comparison (2026-09-15):** P5-A adapter ready (ZERO API);
+**P5 LocAgent comparison (2026-09-15; reporting corrections applied
+2026-09-15, zero-API):** P5-A adapter ready (ZERO API);
 P5-B VALIDATION executed 6/6 on WSL2 Ubuntu (Windows `fork` blocker solved;
 compatibility patch bounds deadlocks + BadRequest transport spins — no
-scientific change); P5-C HELD_OUT_TEST executed 10/10 (5 valid / 5
-fail-closed 900 s timeouts). LocAgent micro P/R/F1 0.435/0.270/0.333 vs
-Full-v2 0.339/0.369/0.353 and Sparse-v2 0.387/0.261/0.312 on the same 10
-tasks; authoritative ledger 402 calls / 32.8M tokens / $9.9288; native Acc@K
-1=4/10, 3=8/10, 5=9/10; paired ΔF1 CIs cross zero. SYSTEM-LEVEL shared-task
-comparison (not an algorithm ablation). Reports:
-`reports/LOCAGENT_P5C_SHARED_COMPARISON.md`, `reports/LOCAGENT_P5C_AUDIT.md`.
+scientific change); P5-C HELD_OUT_TEST executed 10/10 (5 non-empty
+localizations / 5 fail-closed empty). LocAgent micro P/R/F1 0.435/0.270/0.333
+vs Full-v2 0.339/0.369/0.353 and Sparse-v2 0.387/0.261/0.312 on the same 10
+tasks; authoritative ledger 402 calls / 32.8M tokens / $9.9288 (frozen
+pricing snapshot — normalized estimate); paired ΔF1 CIs cross zero.
+**Corrections (2026-09-15):** native metric is the OFFICIAL LocAgent Acc@K
+(task hit iff correct-in-topK == min(proxy, K)): Acc@1 4/10, Acc@3 4/10,
+Acc@5 2/10 — the historical 4/10/8/10/9/10 were item-hit sums; the 5 empty
+outcomes are 2 timeout / 1 context-length BadRequest / 2 completed-but-empty
+(50% empty/non-usable, NOT 50% timeout); provider wording is
+**OpenRouter-routed Qwen3-Coder** (ledger records the OpenRouter gateway; logs
+show both DeepInfra and Venice upstream errors — no per-call DeepInfra pin is
+claimed); efficiency ratios use one consistent per-execution/task denominator
+(~245.7× tokens / ~100.1× cost vs Full; ~593.8× tokens / ~477.8× cost vs
+Sparse). SYSTEM-LEVEL shared-task comparison (not an algorithm ablation).
+Reports: `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`,
+`reports/LOCAGENT_P5C_AUDIT.md`.
 **P1 serialized-record metric correction (2026-09-14):** the P1
 `serialized_records` derived metric was recomputed from the persisted raw
 responses (ZERO API calls; raw bytes unchanged): Full-v2 mean **144.0**,

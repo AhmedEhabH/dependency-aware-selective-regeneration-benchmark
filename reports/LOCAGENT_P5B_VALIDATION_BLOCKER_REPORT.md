@@ -1,5 +1,13 @@
 # P5-B — LocAgent Shared-Protocol Pilot on VALIDATION: Attempt + Exact Blocker
 
+> **SUPERSEDED (2026-09-15):** historical blocker report from the Windows-`fork`
+> phase. P5-B later completed on WSL2 Ubuntu and P5-C executed the 10 held-out
+> tasks. Current authoritative results and the corrected reporting (official
+> native Acc@K, failure taxonomy, provider-route wording, explicit
+> denominators) are in
+> [`reports/LOCAGENT_P5C_SHARED_COMPARISON.md`](LOCAGENT_P5C_SHARED_COMPARISON.md)
+> and [`reports/LOCAGENT_P5C_AUDIT.md`](LOCAGENT_P5C_AUDIT.md).
+
 **Date:** 2026-09-14
 **Status:** REAL PILOT ATTEMPTED ON VALIDATION ONLY — **BLOCKED before any
 LocAgent localization output** by the unmodified upstream agent loop's use of

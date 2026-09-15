@@ -1,6 +1,7 @@
 {
   "classification": "SYSTEM-LEVEL SHARED-PROTOCOL COMPARISON",
   "note": "P1 temperature 0; LocAgent upstream temperature 1. Not a pure algorithm ablation.",
+  "provider_route": "OpenRouter-routed qwen/qwen3-coder; backend provider NOT proven per call (logs show both DeepInfra and Venice upstream errors); cost is a normalized estimate under the frozen P1 pricing snapshot, not authoritative provider-billed cost",
   "micro_pooled": {
     "Full-v2": {
       "selected": 121,
@@ -30,6 +31,26 @@
       "recall": 0.27027,
       "f1": 0.333333,
       "fnr": 0.72973
+    }
+  },
+  "execution_validity": {
+    "Full-v2": {
+      "independent_tasks": 10,
+      "runs_or_cells": 30,
+      "nonempty_parseable": 30,
+      "fail_closed_empty": 0
+    },
+    "Sparse-v2": {
+      "independent_tasks": 10,
+      "runs_or_cells": 30,
+      "nonempty_parseable": 30,
+      "fail_closed_empty": 0
+    },
+    "LocAgent": {
+      "independent_tasks": 10,
+      "runs_or_cells": 10,
+      "nonempty_parseable": 5,
+      "fail_closed_empty": 5
     }
   },
   "locagent_efficiency": {
@@ -144,18 +165,55 @@
       "ranked_count": 0
     }
   },
-  "locagent_native_acc_at_k": [
-    {
-      "k": 1,
-      "hits": 4
-    },
-    {
-      "k": 3,
-      "hits": 8
-    },
-    {
-      "k": 5,
-      "hits": 9
-    }
-  ]
+  "locagent_native": {
+    "official_acc_at_k": [
+      {
+        "k": 1,
+        "hits": 4,
+        "tasks": 10
+      },
+      {
+        "k": 3,
+        "hits": 4,
+        "tasks": 10
+      },
+      {
+        "k": 5,
+        "hits": 2,
+        "tasks": 10
+      }
+    ],
+    "hit_at_k": [
+      {
+        "k": 1,
+        "hits": 4,
+        "tasks": 10
+      },
+      {
+        "k": 3,
+        "hits": 4,
+        "tasks": 10
+      },
+      {
+        "k": 5,
+        "hits": 4,
+        "tasks": 10
+      }
+    ],
+    "item_hits_at_k_audit_only": [
+      {
+        "k": 1,
+        "items": 4
+      },
+      {
+        "k": 3,
+        "items": 8
+      },
+      {
+        "k": 5,
+        "items": 9
+      }
+    ],
+    "definition": "Acc@K (official) = task hit iff #correct among top-K == min(len(proxy), K); Hit@K = task hit iff >=1 proxy file among top-K. Never label item-hits as task accuracy."
+  }
 }
