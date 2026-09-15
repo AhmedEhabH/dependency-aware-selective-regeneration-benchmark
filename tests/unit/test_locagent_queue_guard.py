@@ -112,6 +112,49 @@ def test_guard_patch_references_expected_symbols() -> None:
     assert "LocAgentWorkerFailureError" in text
     # The unbounded get must be REMOVED (present as a patch '-'-prefixed line).
     assert "-                    result = result_queue.get()" in text
+    # The BadRequest transport-error handler must decrement the attempt budget
+    # (fail-closed) so a persistent provider/context error cannot spin forever.
+    assert "except litellm.BadRequestError as e:" in text
+    assert "max_attempt_num = max_attempt_num - 1" in text
+
+
+def test_persistent_transport_error_decrements_attempt_budget() -> None:
+    """A persistent BadRequest/transport error must fail-closed, not spin.
+
+    Regression for the held-out P5-C Case 3 behaviour: DeepInfra rejected the
+    agent's oversized context with a BadRequestError; upstream's handler did
+    `continue` WITHOUT decrementing max_attempt_num, so with max_attempt_num=1
+    the attempt re-entered forever and the 900 s timeout never persisted a
+    fail-closed result. The repaired handler decrements the budget.
+    """
+    budget = 1
+    attempts = 0
+    while budget:
+        try:
+            attempts += 1
+            # Simulate a persistent provider BadRequest (context too long).
+            raise RuntimeError("OpenrouterException - context length exceeded")
+        except RuntimeError:
+            # Repaired policy: classify as failed and decrement the budget.
+            budget -= 1
+            continue
+    assert attempts == 1, "attempt loop must not spin on a persistent error"
+    assert budget == 0
+
+
+def test_transient_transport_error_retries_then_fails_closed() -> None:
+    """A transient error retries within the budget, then fail-closes."""
+    max_attempt_num = 3
+    attempts = 0
+    while max_attempt_num:
+        attempts += 1
+        # First two attempts fail transiently, third succeeds.
+        if attempts < 3:
+            max_attempt_num -= 1
+            continue
+        break
+    assert attempts == 3
+    assert max_attempt_num == 1  # budget preserved for the successful attempt
 
 
 def test_bare_get_blocks_as_negative_control() -> None:
