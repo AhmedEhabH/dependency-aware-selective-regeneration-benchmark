@@ -28,6 +28,52 @@ from benchmark.real_commits import p1_evaluation as p1
 
 COMMON_EVALUATOR_VERSION: str = "locagent-shared-protocol-common-evaluator-1"
 
+# Frozen P1 endpoint pricing snapshot (OpenRouter -> DeepInfra, Qwen3-Coder
+# 480B A35B). LocAgent runs use the SAME model route and SAME frozen prices so
+# the shared comparison is cost-consistent. Do NOT use upstream LocAgent
+# util/cost_analysis.py: it returns 0 for any model name containing "qwen",
+# which would make a paid run appear free.
+LOCAGENT_PRICING_SNAPSHOT: dict[str, float] = {
+    "prompt_per_token_usd": 0.30 / 1_000_000,
+    "completion_per_token_usd": 1.00 / 1_000_000,
+}
+LOCAGENT_PRICING_SOURCE: str = "real-commit-p1-endpoint_freeze-deepinfra-turbo"
+
+
+def estimate_cost_usd(prompt_tokens: int, completion_tokens: int) -> float:
+    """Estimated API cost from token usage x the frozen P1 pricing snapshot.
+
+    Authoritative for the shared comparison. Upstream LocAgent's own
+    ``calc_cost`` is retained only as a non-authoritative diagnostic.
+    """
+    est = (
+        int(prompt_tokens) * LOCAGENT_PRICING_SNAPSHOT["prompt_per_token_usd"]
+        + int(completion_tokens) * LOCAGENT_PRICING_SNAPSHOT["completion_per_token_usd"]
+    )
+    return round(est, 8)
+
+
+def assert_cost_not_zero_for_paid_usage(
+    *,
+    prompt_tokens: int,
+    completion_tokens: int,
+    cost_usd: float,
+    model_route: str = "openrouter/qwen/qwen3-coder",
+) -> None:
+    """Audit assertion: a Qwen/OpenRouter LocAgent run with non-zero token
+    usage must NOT report zero authoritative estimated cost.
+
+    Guards against the upstream ``calc_cost`` qwen-zero bug leaking into the
+    shared comparison as a false "free" result.
+    """
+    total_tokens = int(prompt_tokens) + int(completion_tokens)
+    if total_tokens > 0 and float(cost_usd) <= 0.0:
+        raise AssertionError(
+            f"cost audit: {model_route} run with {total_tokens} tokens reported "
+            f"cost {cost_usd} (<=0). A paid Qwen/OpenRouter run must not appear "
+            "free. Capture real token usage and use estimate_cost_usd()."
+        )
+
 
 @dataclass(frozen=True)
 class LocAgentRawOutput:
@@ -140,6 +186,13 @@ def common_evaluator(
     can be added later but is never chosen after seeing hidden targets.
     """
     metrics = p1.p1_selection_metrics(predicted_file_set, proxy_paths)
+    if (prompt_tokens + completion_tokens) > 0 and float(cost_usd) <= 0.0:
+        cost_usd = estimate_cost_usd(prompt_tokens, completion_tokens)
+        cost_source = "estimated:frozen-p1-pricing"
+    elif float(cost_usd) > 0.0:
+        cost_source = "estimated:frozen-p1-pricing"
+    else:
+        cost_source = "unset"
     return {
         "evaluator_version": COMMON_EVALUATOR_VERSION,
         "policy": policy,
@@ -159,6 +212,7 @@ def common_evaluator(
         "completion_tokens": completion_tokens,
         "total_tokens": prompt_tokens + completion_tokens,
         "cost_usd": cost_usd,
+        "cost_source": cost_source,
         "latency_s": latency_s,
         "native_ranked_file_count": len(native_ranked_files),
         "note": "native Acc@K reported separately; never mixed with F1",

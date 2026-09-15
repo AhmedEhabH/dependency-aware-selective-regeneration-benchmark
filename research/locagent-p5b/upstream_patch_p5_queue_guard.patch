@@ -1,0 +1,68 @@
+--- a/auto_search_main.py
++++ b/auto_search_main.py
+@@ -49,6 +49,16 @@
+ )
+ # litellm.set_verbose=True
+ # os.environ['LITELLM_LOG'] = 'DEBUG
++
++
++
++class LocAgentWorkerFailureError(Exception):
++    """Raised when the localization worker exits without producing a result.
++
++    P5 compatibility guard: prevents an unbounded block on an empty result
++    queue after a child process exits abnormally.
++    """
++    pass
+ 
+ 
+ def filter_dataset(dataset, filter_column: str, used_list: str):
+@@ -387,17 +397,32 @@
+                         process.terminate()
+                         process.join()
+                         raise TimeoutError
+-                    
+-                    # loc_result, messages, traj_data = result_queue.get()
+-                    result = result_queue.get()
++
++                    # --- P5 compatibility guard: fail-closed on exited worker ---
++                    # A worker that exits without writing to result_queue would
++                    # previously hang forever on result_queue.get().
++                    if process.exitcode not in (None, 0):
++                        logger.warning(f"{instance_id} attempt {max_attempt_num} worker exited "
++                                        f"code {process.exitcode} before queue result. "
++                                        "Classifying attempt as failed.")
++                        raise LocAgentWorkerFailureError(
++                            f"worker exited {process.exitcode} before queue result"
++                        )
++                    try:
++                        result = result_queue.get(timeout=30)
++                    except Empty:
++                        logger.warning(f"{instance_id} attempt {max_attempt_num} result queue "
++                                        "empty after worker exit. Classifying attempt as failed.")
++                        raise LocAgentWorkerFailureError("empty result queue after worker exit")
++                    # --- end P5 guard ---
+                     if isinstance(result, dict) and 'error' in result and result['type'] == 'BadRequestError':
+                         raise litellm.BadRequestError(result['error'], args.model, args.model.split('/')[0])
+-                        # print(f"Error occurred in subprocess: {result['error']}")
+                     else:
+                         loc_result, messages, traj_data = result
+                         
+                 except litellm.BadRequestError as e:
+-                    logger.warning(f'{e}. Try again.')
++                    logger.warning(f'{e}. Classifying attempt as failed.')
++                    max_attempt_num = max_attempt_num - 1
+                     continue
+                 except APITimeoutError:
+                     logger.warning(f"APITimeoutError. Try again.")
+@@ -409,6 +434,10 @@
+                     continue
+                 except litellm.exceptions.ContextWindowExceededError as e:
+                     logger.warning(f'{e}. Try again.')
++                    max_attempt_num = max_attempt_num - 1
++                    continue
++                except LocAgentWorkerFailureError as e:
++                    logger.warning(f'Worker failed without a result: {e}. Classifying attempt as failed.')
+                     max_attempt_num = max_attempt_num - 1
+                     continue
+ 

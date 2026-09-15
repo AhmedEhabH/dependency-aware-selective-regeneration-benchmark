@@ -190,12 +190,19 @@ valid, 0 failures, 0 truncations, cap 16384 both arms, 10 independent tasks,
 bootstrap over tasks; P5-A LocAgent shared-protocol adapter COMPLETE
 2026-09-14, ZERO API, MINER_DEV/TRAIN/VALIDATION only).
 
-**Next experiment.** **P5-B** — real LocAgent shared-protocol pilot on
-VALIDATION only (P5-A adapter is built and pinned; do not use HELD_OUT_TEST
-to debug LocAgent). The M4A-3/P1 protocol is FROZEN and its real inference is
-now EXECUTED (`reports/REAL_COMMIT_M4A3_P1_RESULT.md`,
-`reports/REAL_COMMIT_M4A3_P1_PROTOCOL.md`). Held-out test examples must never
-enter any future fine-tuning.
+**P5 — LocAgent shared-protocol comparison (COMPLETE 2026-09-15).** P5-B real
+LocAgent pilot on VALIDATION executed **6/6** on WSL2 Ubuntu (the Windows
+`fork` blocker was solved by the POSIX host; the documented compatibility
+patch also bounds queue-get deadlocks and BadRequest transport spins — process
+/error handling only, no scientific change). P5-C HELD_OUT_TEST executed
+**10/10** (5 valid, 5 fail-closed 900 s timeouts). Same 10 P1 held-out tasks,
+same frozen proxy, common evaluator. LocAgent micro P/R/F1 0.435/0.270/0.333
+(valid 5/10) vs Full-v2 0.339/0.369/0.353 and Sparse-v2 0.387/0.261/0.312;
+authoritative ledger 402 calls / 32.8M tokens / $9.9288; native Acc@K
+1=4/10, 3=8/10, 5=9/10; paired ΔF1 CIs cross zero. Classified as a
+**system-level shared-task comparison** (P1 temp 0 vs LocAgent temp 1), not an
+algorithm ablation. Reports: `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`,
+`reports/LOCAGENT_P5C_AUDIT.md`.
 
 **Success / failure interpretation.**
 - Success: selection accuracy on real commits is comparable to the curated

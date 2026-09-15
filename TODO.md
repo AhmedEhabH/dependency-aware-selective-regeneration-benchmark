@@ -9,10 +9,22 @@ miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)** +
 cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API
 calls)** + **M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14;
 60/60 cells valid / 0 failed / 0 truncations; completion cap 16384 both arms;
-10 independent tasks × 2 arms × 3 reps)**.
+10 independent tasks x 2 arms x 3 reps)** + **P5 LocAgent shared-protocol
+comparison COMPLETE (2026-09-15; P5-B VALIDATION 6/6, P5-C HELD_OUT_TEST
+10/10 on WSL2 Ubuntu; Full/Sparse/LocAgent table + audit PASS)**.
 **Legacy frozen benchmark runs remaining:** ZERO.
 **New RealCommitImpactDataset scientific evaluation:** EXECUTED (M4A-3/P1;
 see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
+**P5 LocAgent comparison (2026-09-15):** P5-A adapter ready (ZERO API);
+P5-B VALIDATION executed 6/6 on WSL2 Ubuntu (Windows `fork` blocker solved;
+compatibility patch bounds deadlocks + BadRequest transport spins — no
+scientific change); P5-C HELD_OUT_TEST executed 10/10 (5 valid / 5
+fail-closed 900 s timeouts). LocAgent micro P/R/F1 0.435/0.270/0.333 vs
+Full-v2 0.339/0.369/0.353 and Sparse-v2 0.387/0.261/0.312 on the same 10
+tasks; authoritative ledger 402 calls / 32.8M tokens / $9.9288; native Acc@K
+1=4/10, 3=8/10, 5=9/10; paired ΔF1 CIs cross zero. SYSTEM-LEVEL shared-task
+comparison (not an algorithm ablation). Reports:
+`reports/LOCAGENT_P5C_SHARED_COMPARISON.md`, `reports/LOCAGENT_P5C_AUDIT.md`.
 **P1 serialized-record metric correction (2026-09-14):** the P1
 `serialized_records` derived metric was recomputed from the persisted raw
 responses (ZERO API calls; raw bytes unchanged): Full-v2 mean **144.0**,
@@ -32,9 +44,11 @@ P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unchanged.
   **M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14)** (FULL-v2 vs
   SPARSE-v2 on the 10-case HELD_OUT_TEST split; 60-cell frozen manifest,
   cap 16384 both arms; 60/60 valid / 0 failed / 0 truncations; six gates +
-  audit PASS; TRAIN/VALIDATION capability probe PASS); remaining work is
-  P5-B LocAgent validation pilot and the paper / figures / manuscript /
-  supervisor-review phase.
+  audit PASS; TRAIN/VALIDATION capability probe PASS); **P5 LocAgent
+  shared-protocol comparison COMPLETE (2026-09-15)** (P5-B VALIDATION 6/6 +
+  P5-C HELD_OUT_TEST 10/10 on WSL2 Ubuntu; Full/Sparse/LocAgent table;
+  audit PASS); remaining work is the paper / figures / manuscript /
+  supervisor-review phase and the post-submission MSc proposal roadmap.
 - **What is proven:** Todo + djangoCMS selection studies, the
   post-hoc/exploratory ImpactPlan-v2 study, two cross-model robustness
   replications (Qwen3-32B, Qwen3-Coder-30B-A3B-Instruct), the
@@ -51,14 +65,56 @@ P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unchanged.
   regeneration correctness claim, and any arm-superiority claim from the
   M4A-3/P1 held-out result (executed; selection-quality deltas between arms
   are small with CIs straddling zero — no semantic superiority).
-- **What is next:** P5-B real LocAgent pilot on VALIDATION — attempted
-  2026-09-14 but **BLOCKED** (unmodified upstream agent loop requires POSIX
-  `fork`; not available on this Windows host); attempt + exact blocker
-  preserved (`reports/LOCAGENT_P5B_VALIDATION_BLOCKER_REPORT.md`); P5-C
-  (HELD_OUT_TEST) NOT authorized; then paper / figures / manuscript /
-  supervisor review; see
+- **What is next:** P5 closed (2026-09-15). P5-B real LocAgent pilot on
+  VALIDATION executed 6/6 on WSL2 Ubuntu (the Windows `fork` blocker was
+  solved by running on the POSIX host; the documented compatibility patch
+  also bounds queue-get deadlocks and BadRequest transport spins — process/
+  error handling only, no scientific change); P5-C (HELD_OUT_TEST) executed
+  10/10; Full/Sparse/LocAgent shared-protocol comparison + independent audit
+  PASS; then paper / figures / manuscript / supervisor review and the
+  post-submission MSc proposal roadmap (see below); see
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md).
+
+## POST-SUBMISSION MSc PROPOSAL ROADMAP (after V20 freeze; do NOT begin before submission)
+
+Target: **MSc proposal package ready by 2026-10-07 / 2026-10-08**.
+Thesis direction: **Repository Change Localization Under Limited Inference Budgets**.
+
+Future-work pipeline:
+```text
+Sparse first pass
+        ↓
+Omission-risk detection
+        ↓
+Selective graph-guided escalation
+        ↓
+Bounded false-negative verification
+```
+
+- [ ] Freeze/archive the V20 submission artifact.
+- [ ] Final evidence manifest + SHA-256.
+- [ ] Freeze the P5 comparison as historical evidence.
+- [ ] Focused literature review: adaptive retrieval; budget-aware agents;
+      selective prediction; graph-assisted localization; change-impact
+      analysis; false-negative recovery.
+- [ ] Formalize MSc research questions.
+- [ ] TRAIN/VALIDATION-only omission-risk features.
+- [ ] Task-level escalation feasibility.
+- [ ] Deterministic threshold vs logistic regression for escalation.
+- [ ] Random escalation baseline.
+- [ ] Bounded graph verification.
+- [ ] Graph@K / BM25@K / Hybrid@K / Random@K.
+- [ ] Fresh confirmatory test (new split, not the P1 held-out).
+- [ ] Saleor real-commit replication.
+- [ ] Loc-Bench audit before use.
+- [ ] Second-model replication.
+- [ ] Optional fine-tuned LocAgent replication.
+- [ ] Non-Python replication only after the Python result closes.
+- [ ] Accuracy–cost Pareto analysis.
+- [ ] Proposal LaTeX/PDF; literature matrix; methodology; threats to validity;
+      reproducibility plan.
+- [ ] Supervisor presentation; proposal audit; proposal handoff package.
 
 ### COMPLETED BENCHMARK WORK
 
