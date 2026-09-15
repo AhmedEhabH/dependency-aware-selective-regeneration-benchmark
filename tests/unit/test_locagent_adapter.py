@@ -117,3 +117,37 @@ def test_pair_common_results_aggregation() -> None:
     assert agg["task_count"] == 2
     assert agg["valid_output_rate"] == 1.0
     assert 0.0 <= agg["mean_f1"] <= 1.0
+
+
+def test_cost_audit_paid_qwen_run_not_zero() -> None:
+    """A Qwen/OpenRouter LocAgent run with token usage must NOT be free.
+
+    Guards against upstream util/cost_analysis.py returning 0 for any model
+    name containing 'qwen' (upstream native cost is diagnostic-only).
+    """
+    res = evaluator.common_evaluator(
+        predicted_file_set={"cms/a.py"}, proxy_paths={"cms/a.py"},
+        prompt_tokens=5000, completion_tokens=800,
+    )
+    assert res["total_tokens"] > 0
+    assert res["cost_usd"] > 0.0
+    assert res["cost_source"] == "estimated:frozen-p1-pricing"
+
+    # Explicit audit assertion is fail-closed on zero cost with usage.
+    import pytest
+
+    with pytest.raises(AssertionError):
+        evaluator.assert_cost_not_zero_for_paid_usage(
+            prompt_tokens=100, completion_tokens=100, cost_usd=0.0,
+        )
+    # Zero tokens with zero cost is fine (no usage -> no claim).
+    evaluator.assert_cost_not_zero_for_paid_usage(
+        prompt_tokens=0, completion_tokens=0, cost_usd=0.0,
+    )
+
+
+def test_estimate_cost_uses_frozen_p1_pricing() -> None:
+    est = evaluator.estimate_cost_usd(1_000_000, 0)
+    assert abs(est - 0.30) < 1e-6
+    est2 = evaluator.estimate_cost_usd(0, 1_000_000)
+    assert abs(est2 - 1.00) < 1e-6
