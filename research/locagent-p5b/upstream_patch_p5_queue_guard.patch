@@ -17,7 +17,7 @@
  
  
  def filter_dataset(dataset, filter_column: str, used_list: str):
-@@ -387,12 +397,26 @@
+@@ -387,17 +397,32 @@
                          process.terminate()
                          process.join()
                          raise TimeoutError
@@ -48,7 +48,14 @@
                      else:
                          loc_result, messages, traj_data = result
                          
-@@ -409,6 +433,10 @@
+                 except litellm.BadRequestError as e:
+-                    logger.warning(f'{e}. Try again.')
++                    logger.warning(f'{e}. Classifying attempt as failed.')
++                    max_attempt_num = max_attempt_num - 1
+                     continue
+                 except APITimeoutError:
+                     logger.warning(f"APITimeoutError. Try again.")
+@@ -409,6 +434,10 @@
                      continue
                  except litellm.exceptions.ContextWindowExceededError as e:
                      logger.warning(f'{e}. Try again.')
