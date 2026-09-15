@@ -63,3 +63,13 @@ research/controlled-encoding-ablation-16k-01/probes/raw/*.txt text eol=lf
 research/controlled-encoding-ablation-16k-01/probes/raw/*.sha256 text eol=lf
 research/controlled-encoding-ablation-16k-01/runs/raw/*.txt text eol=lf
 research/controlled-encoding-ablation-16k-01/runs/raw/*.sha256 text eol=lf
+
+# P5 LocAgent raw evidence (JSONL/JSON logs) is byte-frozen with recorded
+# SHA-256 hashes computed from canonical LF content. Pin LF so Windows
+# core.autocrlf cannot invalidate the P5 provenance hashes.
+research/locagent-p5b/out/*.jsonl text eol=lf
+research/locagent-p5b/out/*.json text eol=lf
+research/locagent-p5b/evidence_smoke/*.jsonl text eol=lf
+research/locagent-p5b/evidence_smoke/*.json text eol=lf
+research/locagent-p5b/evidence_p5b_stalled/*.jsonl text eol=lf
+research/locagent-p5b/evidence_p5b_stalled/*.json text eol=lf
