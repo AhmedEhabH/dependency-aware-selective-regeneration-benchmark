@@ -533,7 +533,7 @@ column: Full/Sparse = 10 tasks × 3 nested repetitions = 30 cells; LocAgent =
   frozen $0.30/$1.00 per 1M pricing snapshot — a NORMALIZED estimate, not
   authoritative provider-billed cost).
 - Provider-route wording (corrected 2026-09-15): **OpenRouter-routed
-  Qwen3-Coder**. The ledger records the OpenRouter gateway
+  Qwen3-Coder-480B-A35B-Instruct**. The ledger records the OpenRouter gateway
   (`provider="openrouter"`), not the resolved backend; raw logs show both
   DeepInfra and Venice upstream errors, so an unqualified per-call DeepInfra
   pin is NOT supported. P1's own DeepInfra endpoint freeze is separate

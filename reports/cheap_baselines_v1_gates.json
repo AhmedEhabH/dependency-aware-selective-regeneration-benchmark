@@ -1,0 +1,1771 @@
+{
+  "protocol": "cheap-nonllm-baselines-v1",
+  "all_gates_passed": true,
+  "audit_passed": true,
+  "gates": [
+    {
+      "gate": 1,
+      "name": "Dataset Validation",
+      "passed": true,
+      "checks": [
+        {
+          "check": "split_count_TRAIN",
+          "ok": true,
+          "detail": {
+            "expected": 24,
+            "actual": 24
+          }
+        },
+        {
+          "check": "split_count_VALIDATION",
+          "ok": true,
+          "detail": {
+            "expected": 6,
+            "actual": 6
+          }
+        },
+        {
+          "check": "split_count_HELD_OUT_TEST",
+          "ok": true,
+          "detail": {
+            "expected": 10,
+            "actual": 10
+          }
+        },
+        {
+          "check": "scientific_case_count_40",
+          "ok": true,
+          "detail": 40
+        },
+        {
+          "check": "universe_hash_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": "310fb57cd11f87c11e5045c9c4c54d8ead9671ea71e3e0a6f0a5c8375e5c1206"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": "2663fd903d50dbb8471f52512b6c4f810fcead398f131891b54a8001a6672466"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": "d694b63af58fe2426429a342d51ac9092123a60f503fe18ca629d9977f3ef2ba"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": "c42603b47bdc7fe46874f196ddae9c8f8f9a44e46d34350788e27a39cda142b8"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": "1b6b2d00f0f786b81415bf43f288c92b37a72897a7995f813ae8193955e25c9a"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": "42f94c4ccf0c1864fc93c2005222da45f8145b1f8d92f3ea9ec64e1d04665b92"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": "13f2941710b257df584e51446172d30c31b76b0699a999ba5e1b211959624967"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": "b8ee64aa941c444070556af4cb01effbe9a14a0ca9115df950c15986f1f9ff6c"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": "96d6fa248a2b7529e2ec1d0d3f99b01e154c10e6e25466140423e85933659689"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": "49e0c570fc2cb8a77fe62626bb4ea0c7ec2aa5acf7726d5819b567d68316dcf8"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": "e1e95357c2467a33257b1d8c5e21c82726d5e61698ca1bb8982fde236eb54858"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": "e8079c0ab2fcf217258f65a63179bedd81d7ef8bf87f9e06b346c6db2a4883ac"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": "9737736608e35ce24ee484c413028c43f75c4992c89de5fdbb2893b039204dcd"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": "9bcbe3c539e4a12afc39765b4eff613c2d02621afadabbb10a21da4c977edb93"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": "0eb7d3909c739a151547f92e1dd2290a3d3b109190214d7896954e3e89e6b2e0"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": "e913675dc973f1537bc55c291c82184cabc1f8ee68bed9683cdd312f05ad025a"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": "5734920dbee0fdf9494aa5a24d493bcdbd7522d5762cf5f72541f9fd3f3f78f3"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": "78f65a4c7aee65404be8c77d925fc802144ec132387345bb034cf07dd0c9576e"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": "b1ea54000db17cf23f2461fe9db104f9e61e1c9378f92664c2d0f72c876177d2"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": "152cfe2090180b7e4aa204b12601f688d3175bd8cd11833cacde727fac18bf3c"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": "f0d20b9370b809284916b0d7a2abb6e4b1625dcdfa25d7ec71687e2c3d909cc9"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": "cc936bac438bcfeb790a20c5d732522253cdc7a88fd314c991d856b0bd97e31b"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": "e1d105353b7224f0504bc088c9d5dc19e21e248bbe198fef35cbf62725f7d2fc"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": "1d82b9bb284feec887a4ad43db61dae58c7cc22b38f633916949144e9c7c5b76"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": "07dce20109cd4b9d5ad779ac65b86714e5897a0ce3a6dc22f9b22b4c181d7c9d"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": "d932722e84748430e5557568277d92bc2f1ba11b12637de6173509e04805a28e"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": "121777148d53fd38dc491b16eda4a475fa528c40b01f6a79820a0ab94f7ba89f"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": "479bf85f69acc11d0ea32a538fc608f3065781f80f955328bd1158a5ce3d07f3"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": "57665a8355b81fe5a2651fc9b7c95f4297ffe0ad48fe8f1a73df0820bb361539"
+        },
+        {
+          "check": "universe_hash_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": "f9c020fa0de17d33da6f16b2d7fcaccbf497005be0c05ef64d219a3ae6a97e58"
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": []
+        }
+      ]
+    },
+    {
+      "gate": 2,
+      "name": "Input/Query Validation",
+      "passed": true,
+      "checks": [
+        {
+          "check": "query_is_public_intent_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": "fix: Update transifex source file (#7629) * Fix css glitch * Update translations source fill which was missing strings *"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": "Fixed #6201 -- Don't allow users to paste a page if it doesn't have translations for current site"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": "Deprecate the core Alias plugin (#6918) * Add a deprecation comment in the Alias Plugin and the Alias Plugin Model"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": "fix: Replaced `languages` field from `Page` which used to become inconsistent (#8080) * Remove `languages` field from `P"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": "More efficient implementation of get_text_enabled_plugins (#5816)"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": "Fixed #6205 -- Require \"Change advanced settings\" permission to change template (#6206)"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": "Fix page tree w/ empty page contents and language-aware adding of new page contents (#7405) * Fix: Avoid move plugin fai"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": "fix: Grouper models w/o must not assume language grouper (#8194) * fix: Grouper models w/o language grouper * Keep langu"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [
+              "cms/admin/utils.py"
+            ],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": "fix ruff"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": "Fixes #6189 -- Use only published languages when rendering LanguageChanger for public page (#6190)"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": "fix: Correct ContentRenderer logic for toolbar and page content handling (#8092) * Fix: Placeholder inheritance * Add te"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": "feat: Improved delete page confirmation message (#8070) * first stab at delete confirmation message * Update delete conf"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": "Optimize populating title cache for Page model. (#7177) * Optimize populating title cache for Page model. * Update tests"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": "Fixed #5752 -- Move pages relative to left or right siblings (#5770)"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": "feat: graceful plugin exceptions (#7423) * Fix: Catch exceptions caused by missing plugins, plugin.render, and the plugi"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": "fix: Remove `can_publish` permission from django CMS 4 core (#7635) * Fix css glitch * Update translations source fill w"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": "Deprecated CMSPluginBase attribute; removed deprecated CMSPlugin methods (#5829) * Removed the deprecated add_url(), edi"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": "Optionally disable the sideframe (#6553)"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": "Rename default persist param"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": "Mark CMSPlugin.render_plugin as PendingDeprecation"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": "Fix: Open new plugin window in language of toolbar not of page (#7632)"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": "fix: Complete #8176 (#8178) * fix: Show toolbar on v4 endpoints even if `CMS_HIDE_TOOLBAR` is set * add tests * fix isor"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": "Add CMSAppExtension.ready which is called after all cms app configs are loaded (#6554) Co-authored-by: Krzysztof Socha <"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": "Added language to Page translation operations"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": "Patch defects (#6930) Co-authored-by: Adam Murray <adam@Adams-MacBook-Pro-2.local> Co-authored-by: Aiky30 <Aiky30@users."
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": "Removed resolve view"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": "Provide a general get method that can be monkeypatched (#6806) * Provide a general method that can be monkeypatched * Af"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": "chore: Merge `release/build` into `release/4.1.x` (#7729) * [4.1.0 release process] Bumped version to 4.1.0 * [4.1.0 rel"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": "fix: Adjust tests for updated django 5.2 admin templates (#8095) * fix: Adjust tests for updated django 5.2 admin templa"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "query_is_public_intent_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": "feat: Added pre-migrate hook to check version 4 is intentional (#7249)"
+        },
+        {
+          "check": "query_matches_public_intent_artifact_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": {
+            "length_match": true
+          }
+        },
+        {
+          "check": "query_proxy_mention_is_frozen_caveat_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": {
+            "frozen_intent_mentions_proxy": [],
+            "status": "FROZEN-CORPUS CAVEAT (see report); pipeline query == public intent"
+          }
+        },
+        {
+          "check": "query_no_semantic_gold_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "frozen_corpus_path_mention_caveat_recorded",
+          "ok": true,
+          "detail": {
+            "cases": [
+              "djangocms-rc-2efae8e43bd6"
+            ],
+            "note": "public full-message intent mentions a changed path for these frozen cases; identical input seen by P1 planner and baselines; reported, not leaked"
+          }
+        }
+      ]
+    },
+    {
+      "gate": 3,
+      "name": "Pipeline Smoke Test",
+      "passed": true,
+      "checks": [
+        {
+          "check": "random_k1",
+          "ok": true,
+          "detail": [
+            "cms/admin/pageadmin.py"
+          ]
+        },
+        {
+          "check": "bm25_k1",
+          "ok": true,
+          "detail": [
+            "cms/api.py"
+          ]
+        },
+        {
+          "check": "path_token_k1",
+          "ok": true,
+          "detail": [
+            "cms/admin/pageadmin.py"
+          ]
+        },
+        {
+          "check": "graph_k1_seed_ok",
+          "ok": true,
+          "detail": {
+            "seeds": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/pagemodel.py"
+            ],
+            "reason": "seeds_ok",
+            "ranked": [
+              "cms/admin/pageadmin.py"
+            ]
+          }
+        },
+        {
+          "check": "hybrid_k1",
+          "ok": true,
+          "detail": [
+            "cms/api.py"
+          ]
+        },
+        {
+          "check": "random_k3",
+          "ok": true,
+          "detail": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/models/pagemodel.py"
+          ]
+        },
+        {
+          "check": "bm25_k3",
+          "ok": true,
+          "detail": [
+            "cms/api.py",
+            "cms/models/pagemodel.py",
+            "cms/admin/pageadmin.py"
+          ]
+        },
+        {
+          "check": "path_token_k3",
+          "ok": true,
+          "detail": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/models/pagemodel.py"
+          ]
+        },
+        {
+          "check": "graph_k3_seed_ok",
+          "ok": true,
+          "detail": {
+            "seeds": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/pagemodel.py"
+            ],
+            "reason": "seeds_ok",
+            "ranked": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/pagemodel.py"
+            ]
+          }
+        },
+        {
+          "check": "hybrid_k3",
+          "ok": true,
+          "detail": [
+            "cms/api.py",
+            "cms/models/pagemodel.py",
+            "cms/admin/pageadmin.py"
+          ]
+        },
+        {
+          "check": "random_k5",
+          "ok": true,
+          "detail": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/models/pagemodel.py"
+          ]
+        },
+        {
+          "check": "bm25_k5",
+          "ok": true,
+          "detail": [
+            "cms/api.py",
+            "cms/models/pagemodel.py",
+            "cms/admin/pageadmin.py"
+          ]
+        },
+        {
+          "check": "path_token_k5",
+          "ok": true,
+          "detail": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/models/pagemodel.py"
+          ]
+        },
+        {
+          "check": "graph_k5_seed_ok",
+          "ok": true,
+          "detail": {
+            "seeds": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/pagemodel.py"
+            ],
+            "reason": "seeds_ok",
+            "ranked": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/pagemodel.py"
+            ]
+          }
+        },
+        {
+          "check": "hybrid_k5",
+          "ok": true,
+          "detail": [
+            "cms/api.py",
+            "cms/models/pagemodel.py",
+            "cms/admin/pageadmin.py"
+          ]
+        },
+        {
+          "check": "random_k10",
+          "ok": true,
+          "detail": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/models/pagemodel.py"
+          ]
+        },
+        {
+          "check": "bm25_k10",
+          "ok": true,
+          "detail": [
+            "cms/api.py",
+            "cms/models/pagemodel.py",
+            "cms/admin/pageadmin.py"
+          ]
+        },
+        {
+          "check": "path_token_k10",
+          "ok": true,
+          "detail": [
+            "cms/admin/pageadmin.py",
+            "cms/api.py",
+            "cms/models/pagemodel.py"
+          ]
+        },
+        {
+          "check": "graph_k10_seed_ok",
+          "ok": true,
+          "detail": {
+            "seeds": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/pagemodel.py"
+            ],
+            "reason": "seeds_ok",
+            "ranked": [
+              "cms/admin/pageadmin.py",
+              "cms/api.py",
+              "cms/models/pagemodel.py"
+            ]
+          }
+        },
+        {
+          "check": "hybrid_k10",
+          "ok": true,
+          "detail": [
+            "cms/api.py",
+            "cms/models/pagemodel.py",
+            "cms/admin/pageadmin.py"
+          ]
+        }
+      ]
+    },
+    {
+      "gate": 4,
+      "name": "Dry Run",
+      "passed": true,
+      "checks": [
+        {
+          "check": "dryrun_case_rows_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": 20
+        },
+        {
+          "check": "dryrun_zero_llm_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": "records carry no llm cost fields; zero-API by construction"
+        },
+        {
+          "check": "dryrun_case_rows_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": 20
+        },
+        {
+          "check": "dryrun_zero_llm_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": "records carry no llm cost fields; zero-API by construction"
+        }
+      ]
+    },
+    {
+      "gate": 5,
+      "name": "Integration Test",
+      "passed": true,
+      "checks": [
+        {
+          "check": "cases_30",
+          "ok": true,
+          "detail": 30
+        },
+        {
+          "check": "rows_600",
+          "ok": true,
+          "detail": 600
+        },
+        {
+          "check": "manifest_stable_hash",
+          "ok": true,
+          "detail": "ee7f6ae3639cfc5f46ac56b7a5db9d3f72dcbbeec0282d3eaceb5a7e0b82586f"
+        }
+      ]
+    },
+    {
+      "gate": 6,
+      "name": "Metric Verification",
+      "passed": true,
+      "checks": [
+        {
+          "check": "synthetic_tp",
+          "ok": true,
+          "detail": 2
+        },
+        {
+          "check": "synthetic_fp",
+          "ok": true,
+          "detail": 1
+        },
+        {
+          "check": "synthetic_fn",
+          "ok": true,
+          "detail": 1
+        },
+        {
+          "check": "synthetic_precision",
+          "ok": true,
+          "detail": 0.6666666666666666
+        },
+        {
+          "check": "synthetic_recall",
+          "ok": true,
+          "detail": 0.6666666666666666
+        },
+        {
+          "check": "synthetic_f1",
+          "ok": true,
+          "detail": 0.6666666666666666
+        },
+        {
+          "check": "synthetic_fnr",
+          "ok": true,
+          "detail": 0.3333333333333333
+        },
+        {
+          "check": "micro_pool",
+          "ok": true,
+          "detail": {
+            "tasks": 1,
+            "selected": 3,
+            "tp": 2,
+            "fp": 1,
+            "fn": 1,
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "f1": 0.6666666666666666,
+            "fnr": 0.3333333333333333
+          }
+        }
+      ]
+    }
+  ],
+  "audit": {
+    "name": "Independent Audit (read-only persisted evidence)",
+    "passed": true,
+    "checks": [
+      {
+        "check": "config_refuses_held_out_tuning",
+        "ok": true,
+        "detail": {
+          "HELD_OUT_TEST_tuning": "FORBIDDEN",
+          "proxy_in_pipeline_input": "FORBIDDEN",
+          "future_commit_state": "FORBIDDEN"
+        }
+      },
+      {
+        "check": "config_zeros_llm_cost",
+        "ok": true,
+        "detail": "only in-memory proof; zero API by construction"
+      },
+      {
+        "check": "no_held_out_case_in_predictions",
+        "ok": true,
+        "detail": []
+      },
+      {
+        "check": "all_train_validation_cases_present",
+        "ok": true,
+        "detail": 30
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-06ecf3a8e8de",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-0daae01f2f65",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-0fec81224889",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-1031d20fca28",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-138abbb7e5f4",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-1ff5bf9149b4",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-28ddd6d10308",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-2efae8e43bd6",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [
+            "cms/admin/utils.py"
+          ],
+          "classification": "frozen-corpus caveat"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-33fbdb18e5d4",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-39442083f18a",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-3f8fcb5fb63b",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-47b63015feb1",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-497c3c67e813",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-4b8089b8b686",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-5ff38b521274",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-807a87b1de71",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-9e508ff1c41e",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-a1ac04d3f817",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-a7df58dc5ff3",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-a9e2a8d3b7a6",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-ac74c212719f",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-ada585d3f358",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-c02308fc5261",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-ca16415b1022",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-d88932559b00",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-e3a23a7fc757",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-e429b4584a16",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-e88032bf704c",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-f2c367ddc7b1",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "no_proxy_in_query_djangocms-rc-ff6cb9b5dced",
+        "ok": true,
+        "detail": {
+          "query_is_public_intent": "verified by gate2",
+          "frozen_intent_mentions_proxy": [],
+          "classification": "clean"
+        }
+      },
+      {
+        "check": "frozen_corpus_caveat_cases_recorded",
+        "ok": true,
+        "detail": {
+          "cases": [
+            "djangocms-rc-2efae8e43bd6"
+          ],
+          "classification": "frozen-corpus full-message intent mentions a changed path; query == public intent artifact (same input as P1 planner)"
+        }
+      },
+      {
+        "check": "aggregate_labels_development_evidence",
+        "ok": true,
+        "detail": "DEVELOPMENT EVIDENCE (TRAIN+VALIDATION); not confirmatory"
+      },
+      {
+        "check": "zero_llm_calls_and_tokens",
+        "ok": true,
+        "detail": {
+          "random": {
+            "calls": 0,
+            "tokens": 0
+          },
+          "bm25": {
+            "calls": 0,
+            "tokens": 0
+          },
+          "path_token": {
+            "calls": 0,
+            "tokens": 0
+          },
+          "graph": {
+            "calls": 0,
+            "tokens": 0
+          },
+          "hybrid": {
+            "calls": 0,
+            "tokens": 0
+          }
+        }
+      }
+    ]
+  },
+  "generated_utc": "2026-09-15T22:02:25.693041+00:00"
+}

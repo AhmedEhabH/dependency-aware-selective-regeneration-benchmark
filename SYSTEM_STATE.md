@@ -3,12 +3,16 @@
 ## CURRENT STATE
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
+**Governance (2026-09-16):** permanent hierarchy — scientific source of truth =
+`00_CURRENT_RESEARCH_STATE.md`; execution source of truth = `PROGRESS.md`;
+append-only decisions = `DECISIONS.md`. Protocol v2 CURRENT PHASE =
+**Repository change localization / impact selection**
+(`docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`).
 **Current phase:** Paper submitted (ICCI shorthand; repo artifact = IEEE-format
-V20 submission `paper/v20-final/V20_FINAL_SUBMISSION.zip`, record
-`paper/v20-final/ICCI_SUBMISSION_RECORD_2026-09-15.json`) + **POST-ICCI
-ZERO-API CLOSURE COMPLETE (2026-09-15; ZERO new scientific model/API calls;
-authoritative state = `00_CURRENT_RESEARCH_STATE.md`, which supersedes without
-deleting the historical handoffs)** + **M4A-1 real-commit
+V20 submission) + **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE (2026-09-16;
+Protocol A — cheap-non-LLM baselines v1; ZERO new scientific model/API calls;
+six zero-API gates + independent audit PASS; TRAIN 24 + VALIDATION 6 only)** +
+**POST-ICCI ZERO-API CLOSURE COMPLETE (2026-09-15)** + **M4A-1 real-commit
 miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)** +
 **M4A-2 scientific real-commit corpus COMPLETE / AUDITED (2026-09-13; 40
 cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API
@@ -23,6 +27,16 @@ independent audit PASS; see
 **New RealCommitImpactDataset scientific evaluation:** EXECUTED (M4A-3/P1;
 see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
 
+- **Cheap baselines v1 (Protocol A, 2026-09-16, ZERO API):** TRAIN 24 +
+  VALIDATION 6 only (HELD_OUT_TEST ten permanently excluded). B0 Random@K ≈ 0,
+  **B1 BM25@K strongest** (pooled F1 0.282 @K=3; recall 0.589 @K=10),
+  Graph@K ≈ path_token@K ≈ 0.18–0.19 pooled F1 @K=3, Hybrid@K ≈ BM25@K.
+  0 LLM calls / 0 tokens; six gates + audit PASS (all checks green). Frozen
+  corpus caveat: 3 TRAIN cases carry full-message intents that literally
+  mention a changed path (M4A-2 leak detector ran on the short subject); the
+  P1 planner and baselines share the identical public query — documented, not
+  a pipeline leak. Artifacts: `research/cheap-baselines-v1/`,
+  `reports/CHEAP_BASELINES_V1_REPORT.md`, `reports/CHEAP_BASELINES_V1_AUDIT.md`.
 - The selection-stage benchmark research is **closed and audited**
   (artifact-level consistency audit PASS, 2026-09-08). The tag means the
   benchmark research is complete and frozen — NOT successful end-to-end
@@ -111,22 +125,29 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   between arms are small with CIs straddling zero, so no arm-superiority
   claim is made. The six curated scenarios remain development/mechanism
   evidence, not unbiased held-out evidence.
-- **What is next:** P5 closed (2026-09-15). P5-B real LocAgent pilot on
+- **What is next:** **Protocol A (cheap non-LLM baselines v1) COMPLETE
+  2026-09-16 (TRAIN 24 + VALIDATION 6 only; ZERO API; six gates + audit PASS;
+  BM25@K strongest lexical; Graph@K ≈ path_token@K; Hybrid@K ≈ BM25@K; see
+  `reports/CHEAP_BASELINES_V1_REPORT.md`). Next: STOP for Ahmed's review of the
+  baseline results before any selective-escalation / omission-risk /
+  Saleor / LLM-call work (all document-only drafts exist).** P5 closed
+  (2026-09-15). P5-B real LocAgent pilot on
   VALIDATION executed 6/6 on WSL2 Ubuntu (prior Windows `fork` blocker solved
   by the POSIX host); P5-C HELD_OUT_TEST executed 10/10 with the frozen
   protocol. Full/Sparse/LocAgent shared-protocol comparison, independent
   audit, and reports complete (see
   `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`). **Post-submission (POST-ICCI
   ZERO-API CLOSURE):** the ten-task HELD_OUT_TEST split is PERMANENTLY
-  EXPOSED (do-not-tune / do-not-call-confirmatory); the next experimental
-  block is DRAFTED only (non-LLM TRAIN/VALIDATION baselines first; fresh-split
-  confirmatory later) — see `00_CURRENT_RESEARCH_STATE.md` and
-  [`docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md`](docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md).
-  See
+  EXPOSED (do-not-tune / do-not-call-confirmatory) — see
+  `00_CURRENT_RESEARCH_STATE.md`,
+  [`docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md`](docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md),
+  `docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`,
+  `docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`. See
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md) (single front door).
-- **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor (after
-  miner/scientific corpus stability), graph-aware v3, fine-tuning, M2.
+- **NOT NEXT (without review):** Saleor execution, risk-detector training,
+  selective escalation, faithful LocAgent inference, new LLM calls, Kaggle,
+  T4 execution, new benchmark runs, graph-aware v3, fine-tuning, M2.
 
 ### Study status
 
@@ -184,7 +205,7 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   4/10, Acc@5 2/10 — the historical 4/10/8/10/9/10 were item-hit sums; (b) the
   5 empty outcomes are **2 timeout, 1 context-length BadRequest, 2
   completed-but-empty** (50% empty/non-usable, NOT 50% timeout); (c) provider
-  wording is **OpenRouter-routed Qwen3-Coder** (ledger records the OpenRouter
+  wording is **OpenRouter-routed Qwen3-Coder-480B-A35B-Instruct** (ledger records the OpenRouter
   gateway; logs show both DeepInfra and Venice upstream errors — no per-call
   DeepInfra pin is claimed); (d) efficiency ratios use one consistent
   per-execution/task denominator (~245.7× tokens / ~100.1× cost vs Full;

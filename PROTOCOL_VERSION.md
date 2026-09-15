@@ -1,17 +1,20 @@
 # Protocol Version
 
-> **CURRENT STATE:** The legacy frozen benchmark is COMPLETE at
-> `v0.11.0-benchmark-complete` (paper / figures / supervisor review; **legacy
-> frozen benchmark runs remaining: ZERO; new RealCommitImpactDataset scientific
-> evaluation: M4A-1 miner + M4A-2 scientific corpus COMPLETE/AUDITED, M4A-3/P1
-> real held-out evaluation EXECUTED 2026-09-14 (60/60 cells valid, 0 failures,
-> 0 truncations; serialized-record metric corrected 2026-09-14 —
-> `reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`), and P5-A
-> LocAgent shared-protocol adapter COMPLETE (ZERO API;
-> MINER_DEV/TRAIN/VALIDATION only)**).
-> No protocol amendment is currently active for new scientific execution.
+> **CURRENT STATE (POST-ICCI FIRST EXPERIMENTAL BLOCK):** governance aligned on
+> **`docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`** (v2.0 ACTIVE). CURRENT
+> PHASE = **Repository change localization / impact selection**; primary
+> dimensions Impact Correctness (P/R/F1/FNR) + Efficiency; functional/
+> preservation correctness DEFERRED to downstream regeneration. The legacy
+> frozen benchmark is COMPLETE at `v0.11.0-benchmark-complete`; scientific
+> truth = `00_CURRENT_RESEARCH_STATE.md`; execution truth = `PROGRESS.md`;
+> decisions = `DECISIONS.md`.
+> **ACTIVE TASK (T3):** Protocol A — cheap-nonllm-baselines-v1
+> (Random@K / BM25@K / path-token@K / Graph@K / Hybrid@K on TRAIN 24 +
+> VALIDATION 6 only; HELD_OUT_TEST ten permanently exposed and never used;
+> ZERO-API). See `PROGRESS.md`.
 > The entries below are a historical record of the protocol and its executed
-> amendments. See README.md and docs/PAPER_WRITING_HANDOFF.md for current state.
+> amendments. See README.md, PROGRESS.md and 00_CURRENT_RESEARCH_STATE.md for
+> current state.
 
 ## Current pre-main scientific execution amendment
 

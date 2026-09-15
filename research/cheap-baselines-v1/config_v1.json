@@ -1,0 +1,40 @@
+{
+  "protocol_version": "cheap-nonllm-baselines-v1",
+  "seed": 20260915,
+  "k_values": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "baselines": [
+    "random",
+    "bm25",
+    "path_token",
+    "graph",
+    "hybrid"
+  ],
+  "baseline_definitions": {
+    "B0_random": "deterministic seeded random ranking, matched K, seed=case_id-derived",
+    "B1_bm25": "BM25(Okapi) over parent-commit candidate file text vs visible intent",
+    "B2_path_token": "path/identifier/module/class/function token overlap vs intent",
+    "B3_graph": "frozen parent-only dependency graph, seed=intent-token x candidate-token hits",
+    "B4_hybrid": "alpha=0.5 frozen combination of normalized BM25 + normalized graph signal"
+  },
+  "seed_rule": "seed = candidate with intent-token ∩ candidate-token != empty (non-leaking); empty seed => document, no invented signal",
+  "hybrid_rule": "score = 0.5*Nm(BM25) + 0.5*Ng(graph); Ng=(1+maxd-d)/(1+maxd) reachable else 0",
+  "corpus_mode": "parent_commit",
+  "reference": "observed changed-production-Python proxy within U_t (evaluation-only)",
+  "evaluator_version": "real-commit-p1-v1.0.0",
+  "efficiency_metrics": [
+    "wall-clock_index_build_seconds",
+    "wall-clock_query_seconds",
+    "zero_llm_calls",
+    "zero_llm_tokens"
+  ],
+  "exposes": {
+    "HELD_OUT_TEST_tuning": "FORBIDDEN",
+    "proxy_in_pipeline_input": "FORBIDDEN",
+    "future_commit_state": "FORBIDDEN"
+  }
+}

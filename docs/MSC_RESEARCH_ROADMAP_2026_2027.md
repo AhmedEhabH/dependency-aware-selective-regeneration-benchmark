@@ -24,6 +24,14 @@ Status legend:
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
+| 7 | **Cross-repository confirmation — SALEOR (confirmed future pillar)** | NOT STARTED — PROTOCOL-FIT AUDIT REQUIRED (document-only; see `docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`) |
+| 8 | **Omission-risk detection — THESIS CORE (confirmed future pillar)** | NOT STARTED — PLANNED core mechanism (document-only; see `docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`) |
+
+> **Confirmed future pillars (2026-09-15).** Both pillars are authoritative
+> parts of the MSc roadmap: SALEOR as the second-repository confirmatory line
+> and Omission-risk detection as the thesis-core mechanism. Neither is executed
+> in the cheap-non-LLM-baselines block; each requires its own freeze conditions
+> before its first scientific result.
 
 ---
 
@@ -359,6 +367,68 @@ this thesis cycle unless the supervisor directs it.
 **Major threats to validity.** Repair/validation machinery confounds the
 selection contribution; timeouts censor runs; evaluator coverage limits
 correctness claims.
+
+---
+
+## Pillar 7 — Cross-repository confirmation — SALEOR (confirmed future pillar)
+
+**Status: NOT STARTED — DOCUMENT-ONLY.** Funded by
+`docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`. **Do NOT run Saleor today.**
+
+**Role in the thesis.** Saleor is the preferred second-repository candidate,
+subject to a protocol-fit audit, to test:
+- whether Preserve-by-Omission savings transfer beyond djangoCMS;
+- semantic fidelity under a materially different repository (e-commerce
+  modular monolith vs CMS plugin architecture);
+- candidate-universe scale/density behavior;
+- and to provide untouched confirmatory evidence.
+
+**Required preconditions before any Saleor scientific result:**
+1. audit repository suitability;
+2. define candidate-universe semantics;
+3. define historical-change mining rules;
+4. define proxy/adjudication protocol;
+5. freeze TRAIN/VALIDATION/HELD_OUT_TEST;
+6. freeze baselines and metrics;
+7. ensure TEST remains untouched until final confirmation.
+
+**Current project threat note.** Saleor costs a real model budget; the v0.9.x
+Kaggle pilot evidence (saleor scenarios) is legacy/engineering only and is not
+confirmatory scientific evidence for this proposal line.
+
+---
+
+## Pillar 8 — Omission-risk detection — THESIS CORE (confirmed future pillar)
+
+**Status: NOT STARTED — PLANNING ONLY.** Funded by
+`docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`. **Do NOT train/tune/execute a
+risk detector in this block.**
+
+**Why it is central.** P1 false-negative diagnostics show that action labels
+alone cannot identify most omissions:
+
+- Full-v2 FN 70: PRESERVE 70 / VALIDATE 0 / HUMAN_REVIEW 0.
+- Sparse-v2 FN 82: PRESERVE 74 / VALIDATE 8 / HUMAN_REVIEW 0.
+
+Most missed affected files are **silent PRESERVE decisions**, so an independent
+omission-risk signal is required.
+
+**Planned mechanism (design only):**
+
+```
+Sparse first-pass impact plan
+    ↓
+Omission-risk estimation
+    ↓
+low risk → accept
+high risk → bounded graph/agent verification
+    ↓
+revised impact scope
+```
+
+**Rules:** risk detection is developed using TRAIN/VALIDATION only; NEVER tuned
+on the exposed ten-task HELD_OUT_TEST; not implemented in the cheap-baselines
+block; preserved as the core thesis mechanism after baseline establishment.
 
 ---
 

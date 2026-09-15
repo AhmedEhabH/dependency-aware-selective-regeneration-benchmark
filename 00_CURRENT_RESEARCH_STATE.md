@@ -6,8 +6,15 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**Governance (2026-09-16):** permanent hierarchy — scientific truth =
+this file; execution truth = `PROGRESS.md`; decisions (append-only) =
+`DECISIONS.md`. Protocol: `docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`
+(CURRENT PHASE = **Repository change localization / impact selection**).
+
 **Phase:** paper submitted (ICCI shorthand; repo artifact = IEEE-format V20
-submission). Post-submission window: **ZERO new scientific model/API calls.**
+submission) → **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE (Protocol A:
+cheap-non-LLM baselines v1, 2026-09-16; ZERO new scientific model/API calls).**
+Post-submission window. Scientific runs remaining in this block: ZERO.
 
 ---
 
@@ -98,6 +105,21 @@ submission). Post-submission window: **ZERO new scientific model/API calls.**
 - Paired bootstrap over 10 tasks: ΔF1 −0.0088 [−0.1297, +0.1189] (crosses zero);
   Δcost −$0.0235 [−0.0244, −0.0228] (cost effect supported, descriptive).
 
+### Cheapest-baseline block (Protocol A, 2026-09-16, ZERO API, DEVELOPMENT evidence)
+- B0 Random@K ≈ floor (pooled F1 0.012–0.021 across K).
+- B1 BM25@K strongest cheap lexical: pooled best F1 **0.282 @K=3**; recall
+  0.589 / FNR 0.411 @K=10.
+- B2 path_token@K / B3 Graph@K ≈ 0.18–0.19 pooled F1 @K=3 (graph ≈ path_token;
+  seed rule is the same token-overlap basis).
+- B4 Hybrid@K ≈ BM25@K (pooled F1 0.258 @K=3).
+- Validation micro @K=5: bm25 P 0.233/R 0.280/F1 0.255; random F1 0.073.
+- Efficiency: BM25 wall ≈ 403 s (parent git-archive dominated), queries ~1.3 s;
+  path_token/graph < 2 s; **0 LLM calls, 0 tokens**.
+- Reference context (exposed HELD_OUT, non-comparable): Full-v2 F1 0.353,
+  Sparse-v2 F1 0.312.
+- Artifacts: `research/cheap-baselines-v1/`; six gates + audit PASS
+  (`reports/CHEAP_BASELINES_V1_REPORT.md`, `_AUDIT.md`).
+
 ### P5 LocAgent (10 tasks × 1 exec; 402 calls; 32.8M tokens; $9.9288 est.)
 - **Headline (A, fail-closed all-10):** TP 10 / FP 13 / FN 27 → P 0.4348 /
   R 0.2703 / F1 0.3333 / FNR 0.7297.
@@ -120,14 +142,24 @@ submission). Post-submission window: **ZERO new scientific model/API calls.**
 
 ## 8. Next experiment — ONLY ONE (not started, not authorized without review)
 
-**Selective escalation for cost-aware repository change localization** (the
-proposal topic), evaluated on TRAIN/VALIDATION (non-LLM cheap baselines first),
-then a FRESH confirmatory split. Drafted protocols (NOT executed):
-`docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md`.
+**Protocol A (cheap non-LLM baselines v1) is COMPLETE (2026-09-16; TRAIN 24 +
+VALIDATION 6; ZERO API; six gates + audit PASS).** The next scientific step is
+chosen after Ahmed reviews the cheap-baseline results — STATED:
+- primary next line (drafted, NOT executed): **Selective escalation for
+  cost-aware repository change localization** (the proposal topic),
+  pre-ceded by the **omission-risk detection** core mechanism
+  (`docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`) — evaluated on TRAIN/
+  VALIDATION, then a FRESH confirmatory split.
+- Saleor remains the second-repository confirmatory line, DOCUMENT-ONLY for now
+  (`docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`).
 
 Sequence per the MSc roadmap:
 `Sparse first pass → omission-risk detection → selective graph-guided escalation
 → bounded false-negative verification`.
+
+Do NOT automatically begin: Saleor scientific execution, risk-detector
+training, selective escalation, faithful LocAgent inference, new LLM calls, or
+new model-family runs.
 
 ## 9. DO-NOT warnings (operational)
 
