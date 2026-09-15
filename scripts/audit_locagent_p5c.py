@@ -303,10 +303,13 @@ def main() -> int:
     # accuracy in the shared comparison JSON.
     shared = json.loads((_PACKAGE_ROOT / "research" / "locagent-p5b" / "shared_comparison.json")
                         .read_text(encoding="utf-8"))
+    expected_items = (4, 8, 9)
     item_ok = all(
         a["items"] == expected
         for a, expected in zip(
-            shared["locagent_native"]["item_hits_at_k_audit_only"], (4, 8, 9)
+            shared["locagent_native"]["item_hits_at_k_audit_only"],
+            expected_items,
+            strict=True,
         )
     ) and "Never label item-hits as task accuracy" in shared["locagent_native"]["definition"]
     check("item_hits_not_task_accuracy", item_ok)

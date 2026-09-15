@@ -384,9 +384,18 @@ def main() -> int:
         "provider_route": evaluator.LOCAGENT_PROVIDER_ROUTE_NOTE,
         "micro_pooled": {"Full-v2": p1_micro["full_v2"], "Sparse-v2": p1_micro["sparse_v2"], "LocAgent": micro_loc},
         "execution_validity": {
-            "Full-v2": {"independent_tasks": 10, "runs_or_cells": 30, "nonempty_parseable": 30, "fail_closed_empty": 0},
-            "Sparse-v2": {"independent_tasks": 10, "runs_or_cells": 30, "nonempty_parseable": 30, "fail_closed_empty": 0},
-            "LocAgent": {"independent_tasks": 10, "runs_or_cells": 10, "nonempty_parseable": loc_valid, "fail_closed_empty": loc_fail_closed},
+            "Full-v2": {
+                "independent_tasks": 10, "runs_or_cells": 30,
+                "nonempty_parseable": 30, "fail_closed_empty": 0,
+            },
+            "Sparse-v2": {
+                "independent_tasks": 10, "runs_or_cells": 30,
+                "nonempty_parseable": 30, "fail_closed_empty": 0,
+            },
+            "LocAgent": {
+                "independent_tasks": 10, "runs_or_cells": 10,
+                "nonempty_parseable": loc_valid, "fail_closed_empty": loc_fail_closed,
+            },
         },
         "locagent_efficiency": loc_efficiency,
         "locagent_native": {
