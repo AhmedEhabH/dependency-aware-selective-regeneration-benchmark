@@ -1,0 +1,161 @@
+{
+  "classification": "SYSTEM-LEVEL SHARED-PROTOCOL COMPARISON",
+  "note": "P1 temperature 0; LocAgent upstream temperature 1. Not a pure algorithm ablation.",
+  "micro_pooled": {
+    "Full-v2": {
+      "selected": 121,
+      "tp": 41,
+      "fp": 80,
+      "fn": 70,
+      "precision": 0.338843,
+      "recall": 0.369369,
+      "f1": 0.353448,
+      "fnr": 0.630631
+    },
+    "Sparse-v2": {
+      "selected": 75,
+      "tp": 29,
+      "fp": 46,
+      "fn": 82,
+      "precision": 0.386667,
+      "recall": 0.261261,
+      "f1": 0.311828,
+      "fnr": 0.738739
+    },
+    "LocAgent": {
+      "tp": 10,
+      "fp": 13,
+      "fn": 27,
+      "precision": 0.434783,
+      "recall": 0.27027,
+      "f1": 0.333333,
+      "fnr": 0.72973
+    }
+  },
+  "locagent_efficiency": {
+    "djangocms-rc-4307e1b8c2e2": {
+      "prompt_tokens": 5353688,
+      "completion_tokens": 4615,
+      "total_tokens": 5358303,
+      "model_calls": 43,
+      "cost_usd": 1.610721,
+      "latency_s": 844.0546,
+      "found_files": 0,
+      "proxy_size": 1,
+      "ranked_count": 0
+    },
+    "djangocms-rc-50c3576080be": {
+      "prompt_tokens": 4457177,
+      "completion_tokens": 6989,
+      "total_tokens": 4464166,
+      "model_calls": 67,
+      "cost_usd": 1.344142,
+      "latency_s": 504.4687,
+      "found_files": 11,
+      "proxy_size": 12,
+      "ranked_count": 11
+    },
+    "djangocms-rc-630a50361ada": {
+      "prompt_tokens": 6469913,
+      "completion_tokens": 6948,
+      "total_tokens": 6476861,
+      "model_calls": 77,
+      "cost_usd": 1.947922,
+      "latency_s": 590.5465,
+      "found_files": 1,
+      "proxy_size": 1,
+      "ranked_count": 1
+    },
+    "djangocms-rc-66c70394c9e1": {
+      "prompt_tokens": 7704153,
+      "completion_tokens": 15138,
+      "total_tokens": 7719291,
+      "model_calls": 71,
+      "cost_usd": 2.326384,
+      "latency_s": 825.0604,
+      "found_files": 0,
+      "proxy_size": 1,
+      "ranked_count": 0
+    },
+    "djangocms-rc-75978fb1c3ad": {
+      "prompt_tokens": 3533963,
+      "completion_tokens": 5554,
+      "total_tokens": 3539517,
+      "model_calls": 43,
+      "cost_usd": 1.065743,
+      "latency_s": 339.7611,
+      "found_files": 1,
+      "proxy_size": 1,
+      "ranked_count": 1
+    },
+    "djangocms-rc-8d50660e7bcf": {
+      "prompt_tokens": 1456172,
+      "completion_tokens": 2322,
+      "total_tokens": 1458494,
+      "model_calls": 28,
+      "cost_usd": 0.439174,
+      "latency_s": 127.7336,
+      "found_files": 3,
+      "proxy_size": 5,
+      "ranked_count": 4
+    },
+    "djangocms-rc-9e33db4f4660": {
+      "prompt_tokens": 1449840,
+      "completion_tokens": 2142,
+      "total_tokens": 1451982,
+      "model_calls": 25,
+      "cost_usd": 0.437094,
+      "latency_s": 130.7064,
+      "found_files": 0,
+      "proxy_size": 2,
+      "ranked_count": 0
+    },
+    "djangocms-rc-b39799f9fc1c": {
+      "prompt_tokens": 1010049,
+      "completion_tokens": 1713,
+      "total_tokens": 1011762,
+      "model_calls": 21,
+      "cost_usd": 0.304728,
+      "latency_s": 78.0829,
+      "found_files": 0,
+      "proxy_size": 5,
+      "ranked_count": 0
+    },
+    "djangocms-rc-ba16eb9a1d09": {
+      "prompt_tokens": 1083663,
+      "completion_tokens": 1821,
+      "total_tokens": 1085484,
+      "model_calls": 20,
+      "cost_usd": 0.32692,
+      "latency_s": 99.2325,
+      "found_files": 7,
+      "proxy_size": 6,
+      "ranked_count": 7
+    },
+    "djangocms-rc-fdda30c271f0": {
+      "prompt_tokens": 199900,
+      "completion_tokens": 66014,
+      "total_tokens": 265914,
+      "model_calls": 7,
+      "cost_usd": 0.125984,
+      "latency_s": 486.2373,
+      "found_files": 0,
+      "proxy_size": 3,
+      "ranked_count": 0
+    }
+  },
+  "locagent_native_acc_at_k": [
+    {
+      "k": 1,
+      "hits": 4
+    },
+    {
+      "k": 3,
+      "hits": 8
+    },
+    {
+      "k": 5,
+      "hits": 9
+    }
+  ]
+}
