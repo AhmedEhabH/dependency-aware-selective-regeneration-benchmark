@@ -10,7 +10,9 @@ real-commit miner + scientific corpus COMPLETE / AUDITED (2026-09-13)** +
 0 failures, 0 truncations; completion cap 16384 both arms; 10 independent
 tasks; bootstrap over tasks)** + **P5 LocAgent shared-protocol comparison
 COMPLETE (2026-09-15; P5-B VALIDATION 6/6 + P5-C HELD_OUT_TEST 10/10 on
-WSL2 Ubuntu; Full/Sparse/LocAgent shared table; audit PASS)**.
+WSL2 Ubuntu; Full/Sparse/LocAgent shared table; audit PASS; reporting
+corrections applied 2026-09-15 — official native Acc@K, empty-outcome
+taxonomy, provider-route wording, consistent efficiency denominator)**.
 **Scientific runs remaining:** ZERO legacy; P5 closed.
 
 - **Next:** paper / figures / manuscript / supervisor review (V20 final
@@ -19,7 +21,17 @@ WSL2 Ubuntu; Full/Sparse/LocAgent shared table; audit PASS)**.
   [`../README.md`](../README.md).
 - **P5 LocAgent evidence:** `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`,
   `reports/LOCAGENT_P5C_AUDIT.md`, `research/locagent-p5b/` (raw outputs,
-  merged ranked files, authoritative per-call usage ledger).
+  merged ranked files, authoritative per-call usage ledger). **P5 reporting
+  corrections (2026-09-15, zero-API):** official native Acc@K (task hit iff
+  correct-in-topK == min(proxy, K)) = Acc@1 4/10, Acc@3 4/10, Acc@5 2/10 (the
+  historical 4/10/8/10/9/10 were item-hit sums); the 5 empty outcomes are
+  2 timeout / 1 context-length BadRequest / 2 completed-but-empty (50%
+  empty/non-usable, NOT 50% timeout); provider wording is **OpenRouter-routed
+  Qwen3-Coder** (ledger records the OpenRouter gateway; logs show both
+  DeepInfra and Venice upstream errors — no per-call DeepInfra pin is
+  claimed); efficiency ratios use one consistent per-execution/task
+  denominator (~245.7× tokens / ~100.1× cost vs Full; ~593.8× tokens /
+  ~477.8× cost vs Sparse).
 - **P1 held-out evidence:** `reports/REAL_COMMIT_M4A3_P1_RESULT.md`,
   `research/real-commit-p1-01/` (60 run records + SHA-verified raw responses);
   full_v2 micro P 0.339/R 0.369/F1 0.353, sparse_v2 micro P 0.387/R 0.261/F1 0.312;

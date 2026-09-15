@@ -151,18 +151,29 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`; launcher
   `scripts/execute_real_commit_p1.py`.
 - **P5 — LocAgent shared-protocol comparison (Full-v2 / Sparse-v2 /
-  LocAgent):** **COMPLETE (2026-09-15)**. P5-A adapter (ZERO API, ready);
-  P5-B VALIDATION pilot executed **6/6** on **WSL2 Ubuntu** (prior Windows
-  `fork` blocker solved by the POSIX host; a documented compatibility patch
-  bounds queue-get deadlocks and BadRequest transport spins — process/error
-  handling only, no scientific change); P5-C HELD_OUT_TEST executed **10/10**
-  (5 valid, 5 fail-closed 900 s timeouts). Same 10 P1 held-out tasks, same
-  frozen proxy, common evaluator. Full-v2 P/R/F1 0.339/0.369/0.353;
-  Sparse-v2 0.387/0.261/0.312; LocAgent 0.435/0.270/0.333 (valid 5/10);
-  LocAgent authoritative ledger 402 calls / 32.8M tokens / $9.9288; native
-  Acc@K 1=4/10, 3=8/10, 5=9/10; paired ΔF1 CIs cross zero. Classified as a
-  SYSTEM-LEVEL shared-task comparison (P1 temp 0 vs LocAgent temp 1), not an
-  algorithm ablation. Evidence: `research/locagent-p5b/`,
+  LocAgent):** **COMPLETE (2026-09-15; reporting corrections applied
+  2026-09-15, zero-API)**. P5-A adapter (ZERO API, ready); P5-B VALIDATION
+  pilot executed **6/6** on **WSL2 Ubuntu** (prior Windows `fork` blocker
+  solved by the POSIX host; a documented compatibility patch bounds queue-get
+  deadlocks and BadRequest transport spins — process/error handling only, no
+  scientific change); P5-C HELD_OUT_TEST executed **10/10** (5 non-empty
+  localizations, 5 fail-closed empty). Same 10 P1 held-out tasks, same frozen
+  proxy, common evaluator. Full-v2 P/R/F1 0.339/0.369/0.353;
+  Sparse-v2 0.387/0.261/0.312; LocAgent 0.435/0.270/0.333 (5/10 non-empty);
+  LocAgent authoritative ledger 402 calls / 32.8M tokens / $9.9288 (frozen
+  pricing snapshot — normalized estimate); paired ΔF1 CIs cross zero.
+  **Corrections (2026-09-15):** (a) native metric is the OFFICIAL LocAgent
+  Acc@K (task hit iff correct-in-topK == min(proxy, K)): Acc@1 4/10, Acc@3
+  4/10, Acc@5 2/10 — the historical 4/10/8/10/9/10 were item-hit sums; (b) the
+  5 empty outcomes are **2 timeout, 1 context-length BadRequest, 2
+  completed-but-empty** (50% empty/non-usable, NOT 50% timeout); (c) provider
+  wording is **OpenRouter-routed Qwen3-Coder** (ledger records the OpenRouter
+  gateway; logs show both DeepInfra and Venice upstream errors — no per-call
+  DeepInfra pin is claimed); (d) efficiency ratios use one consistent
+  per-execution/task denominator (~245.7× tokens / ~100.1× cost vs Full;
+  ~593.8× tokens / ~477.8× cost vs Sparse). Classified as a SYSTEM-LEVEL
+  shared-task comparison (P1 temp 0 vs LocAgent temp 1), not an algorithm
+  ablation. Evidence: `research/locagent-p5b/`,
   `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`, `reports/LOCAGENT_P5C_AUDIT.md`;
   scorers `scripts/locagent_shared_comparison.py`,
   `scripts/audit_locagent_p5c.py`.

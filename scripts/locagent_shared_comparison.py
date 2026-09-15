@@ -16,8 +16,17 @@ Metrics (frozen):
 - efficiency per task: tokens (prompt/completion), model calls (from the
   per-call usage ledger, never len(raw_output_loc)), cost (real tokens x
   frozen P1 pricing), latency.
-- LocAgent-native Acc@K reported SEPARATELY using the ORIGINAL ranked order
-  from merged_loc_outputs_mrr.jsonl (never reconstructed from a Python set).
+- LocAgent-native metrics reported SEPARATELY using the ORIGINAL ranked order
+  from merged_loc_outputs_mrr.jsonl (never reconstructed from a Python set):
+  * official LocAgent file-level Acc@K (task hit iff #correct-in-topK ==
+    min(len(proxy), K)) — mirrors the pinned upstream evaluation/eval_metric.py
+    `acc_at_k`;
+  * simple task-level Hit@K (>=1 proxy file among top-K) as a secondary label;
+  * item-hit counts are NOT reported as task accuracy (historical bug).
+- Execution/validity reported with EXPLICIT denominators: independent tasks,
+  runs/cells, non-empty/parseable outcomes, fail-closed/empty outcomes. The
+  ambiguous single "Valid" column (30/30 vs 5/10) is not used.
+- Efficiency ratios use ONE consistent denominator (mean per execution/task).
 
 Classification: SYSTEM-LEVEL SHARED-PROTOCOL COMPARISON (P1 temperature 0 vs
 LocAgent upstream temperature 1) — not a pure algorithm ablation.
@@ -250,10 +259,20 @@ def main() -> int:
         loc_rows.append(res)
         loc_per_task[cid] = res
 
-        # Native Acc@K from the ORIGINAL ranked order (never a set).
+        # Native metrics from the ORIGINAL ranked order (never a set).
+        # Official LocAgent Acc@K (task hit iff correct-in-topK ==
+        # min(len(proxy), K)), simple Hit@K (>=1 proxy file in top-K), and
+        # raw item-hit counts (audit-only, never labelled as task accuracy).
         for k in (1, 3, 5):
-            hits = sum(1 for f in ranked[:k] if f in proxy)
-            acc_k_rows.append({"case_id": cid, "k": k, "hit": hits, "acc": hits / max(1, k)})
+            acc = evaluator.locagent_acc_at_k(ranked, proxy, k)
+            hit = evaluator.locagent_hit_at_k(ranked, proxy, k)
+            items = evaluator.locagent_item_hits_at_k(ranked, proxy, k)
+            acc_k_rows.append({
+                "case_id": cid, "k": k,
+                "official_acc": 1 if acc else 0,
+                "hit_at_k": 1 if hit else 0,
+                "item_hits": items,
+            })
 
         loc_efficiency[cid] = {
             "prompt_tokens": pt, "completion_tokens": ct, "total_tokens": pt + ct,
@@ -270,28 +289,35 @@ def main() -> int:
 
     print("=== P5-C SHARED-PROTOCOL COMPARISON (10 real held-out tasks) ===")
     print("Classification: SYSTEM-LEVEL SHARED-PROTOCOL (P1 temp 0 vs LocAgent temp 1)\n")
+    print("Execution/validity denominators are EXPLICIT: independent tasks; runs/cells")
+    print("(P1 = 10 tasks x 3 nested reps = 30 cells; LocAgent = 10 tasks x 1 exec);")
+    print("non-empty/parseable outcomes; fail-closed/empty outcomes.\n")
 
     hdr = (
-        f"{'System':<10} {'Valid':>5} {'P':>7} {'R':>7} {'F1':>7} {'FNR':>7} "
+        f"{'System':<10} {'tasks':>5} {'runs':>5} {'nonempty':>8} {'failclosed':>10} "
+        f"{'P':>7} {'R':>7} {'F1':>7} {'FNR':>7} "
         f"{'comp_tok':>10} {'calls':>5} {'cost':>9} {'lat':>8}"
     )
     print(hdr)
     print("-" * len(hdr))
     loc_valid = sum(1 for r in loc_rows if r["valid_output"])
+    loc_fail_closed = len(loc_rows) - loc_valid
     loc_comp_mean = round(sum(r["completion_tokens"] for r in loc_rows) / max(1, len(loc_rows)), 1)
     loc_calls = sum(r["model_calls"] for r in loc_rows)
     loc_cost = round(sum(r["cost_usd"] for r in loc_rows), 6)
     loc_lat = round(sum(r["latency_s"] for r in loc_rows), 1)
     rows_out = [
-        ("Full-v2", p1_micro["full_v2"], p1["full_v2"]["valid"], p1["full_v2"]["completion_tokens_mean"],
+        ("Full-v2", 10, 30, 30, 0, p1_micro["full_v2"], p1["full_v2"]["completion_tokens_mean"],
          p1["full_v2"]["model_calls"], p1["full_v2"]["cost_usd"], p1["full_v2"]["latency_seconds"]),
-        ("Sparse-v2", p1_micro["sparse_v2"], p1["sparse_v2"]["valid"], p1["sparse_v2"]["completion_tokens_mean"],
+        ("Sparse-v2", 10, 30, 30, 0, p1_micro["sparse_v2"], p1["sparse_v2"]["completion_tokens_mean"],
          p1["sparse_v2"]["model_calls"], p1["sparse_v2"]["cost_usd"], p1["sparse_v2"]["latency_seconds"]),
-        ("LocAgent", micro_loc, loc_valid, loc_comp_mean, loc_calls, loc_cost, loc_lat),
+        ("LocAgent", 10, 10, loc_valid, loc_fail_closed, micro_loc, loc_comp_mean,
+         loc_calls, loc_cost, loc_lat),
     ]
-    for label, micro, valid, comp, calls, cost, lat in rows_out:
+    for label, tasks, runs, nonempty, failclosed, micro, comp, calls, cost, lat in rows_out:
         print(
-            f"{label:<10} {valid:>5} {micro['precision']:>7.3f} {micro['recall']:>7.3f} "
+            f"{label:<10} {tasks:>5} {runs:>5} {nonempty:>8} {failclosed:>10} "
+            f"{micro['precision']:>7.3f} {micro['recall']:>7.3f} "
             f"{micro['f1']:>7.3f} {micro['fnr']:>7.3f} {comp:>10.1f} {calls:>5} "
             f"{cost:>9.4f} {lat:>8.1f}"
         )
@@ -326,11 +352,20 @@ def main() -> int:
         print(f"delta F1 {label_a}-{label_b}: mean {bs['mean_delta']:.4f} "
               f"CI95 [{bs['ci95_low']:.4f}, {bs['ci95_high']:.4f}]")
 
-    print("\n--- LocAgent-native Acc@K (from original ranked order) ---")
+    print("\n--- LocAgent-native metrics (from original ranked order, separate from F1) ---")
     for k in (1, 3, 5):
-        hits = sum(r["hit"] for r in acc_k_rows if r["k"] == k)
-        print(f"  Acc@{k}: {hits}/{len(HELD_OUT)} tasks with >=1 hit "
-              f"({hits / len(HELD_OUT):.3f})")
+        n_acc = sum(r["official_acc"] for r in acc_k_rows if r["k"] == k)
+        n_hit = sum(r["hit_at_k"] for r in acc_k_rows if r["k"] == k)
+        n_items = sum(r["item_hits"] for r in acc_k_rows if r["k"] == k)
+        print(
+            f"  Acc@{k} (official: correct-in-topK == min(proxy,K)): "
+            f"{n_acc}/10 ({n_acc / len(HELD_OUT):.3f})"
+        )
+        print(
+            f"  Hit@{k} (task-level >=1 proxy file in top-K): "
+            f"{n_hit}/10 ({n_hit / len(HELD_OUT):.3f})"
+        )
+        print(f"  item-hits@{k} (audit-only, NOT task accuracy): {n_items}")
 
     print("\n--- LocAgent efficiency per task ---")
     for cid in HELD_OUT:
@@ -346,12 +381,32 @@ def main() -> int:
     out = {
         "classification": "SYSTEM-LEVEL SHARED-PROTOCOL COMPARISON",
         "note": "P1 temperature 0; LocAgent upstream temperature 1. Not a pure algorithm ablation.",
+        "provider_route": evaluator.LOCAGENT_PROVIDER_ROUTE_NOTE,
         "micro_pooled": {"Full-v2": p1_micro["full_v2"], "Sparse-v2": p1_micro["sparse_v2"], "LocAgent": micro_loc},
+        "execution_validity": {
+            "Full-v2": {"independent_tasks": 10, "runs_or_cells": 30, "nonempty_parseable": 30, "fail_closed_empty": 0},
+            "Sparse-v2": {"independent_tasks": 10, "runs_or_cells": 30, "nonempty_parseable": 30, "fail_closed_empty": 0},
+            "LocAgent": {"independent_tasks": 10, "runs_or_cells": 10, "nonempty_parseable": loc_valid, "fail_closed_empty": loc_fail_closed},
+        },
         "locagent_efficiency": loc_efficiency,
-        "locagent_native_acc_at_k": [
-            {"k": k, "hits": sum(r["hit"] for r in acc_k_rows if r["k"] == k)}
-            for k in (1, 3, 5)
-        ],
+        "locagent_native": {
+            "official_acc_at_k": [
+                {"k": k, "hits": sum(r["official_acc"] for r in acc_k_rows if r["k"] == k),
+                 "tasks": len(HELD_OUT)}
+                for k in (1, 3, 5)
+            ],
+            "hit_at_k": [
+                {"k": k, "hits": sum(r["hit_at_k"] for r in acc_k_rows if r["k"] == k),
+                 "tasks": len(HELD_OUT)}
+                for k in (1, 3, 5)
+            ],
+            "item_hits_at_k_audit_only": [
+                {"k": k, "items": sum(r["item_hits"] for r in acc_k_rows if r["k"] == k)}
+                for k in (1, 3, 5)
+            ],
+            "definition": "Acc@K (official) = task hit iff #correct among top-K == min(len(proxy), K); "
+                          "Hit@K = task hit iff >=1 proxy file among top-K. Never label item-hits as task accuracy.",
+        },
     }
     out_path = _PACKAGE_ROOT / "research" / "locagent-p5b" / "shared_comparison.json"
     out_path.write_text(json.dumps(out, indent=2), encoding="utf-8")

@@ -28,9 +28,11 @@ from benchmark.real_commits import p1_evaluation as p1
 
 COMMON_EVALUATOR_VERSION: str = "locagent-shared-protocol-common-evaluator-1"
 
-# Frozen P1 endpoint pricing snapshot (OpenRouter -> DeepInfra, Qwen3-Coder
-# 480B A35B). LocAgent runs use the SAME model route and SAME frozen prices so
-# the shared comparison is cost-consistent. Do NOT use upstream LocAgent
+# Frozen P1 endpoint pricing snapshot (OpenRouter-routed Qwen3-Coder 480B
+# A35B; P1 recorded the DeepInfra `deepinfra/turbo` backend, but P5 did NOT
+# prove the backend per call — see LOCAGENT_PROVIDER_ROUTE_NOTE below). The P5
+# estimated cost is a NORMALIZED estimate under this frozen snapshot, NOT
+# authoritative provider-billed cost. Do NOT use upstream LocAgent
 # util/cost_analysis.py: it returns 0 for any model name containing "qwen",
 # which would make a paid run appear free.
 LOCAGENT_PRICING_SNAPSHOT: dict[str, float] = {
@@ -38,6 +40,23 @@ LOCAGENT_PRICING_SNAPSHOT: dict[str, float] = {
     "completion_per_token_usd": 1.00 / 1_000_000,
 }
 LOCAGENT_PRICING_SOURCE: str = "real-commit-p1-endpoint_freeze-deepinfra-turbo"
+
+# P5-C provider-route provenance (2026-09-15 correction):
+# - The per-call usage ledger records provider="openrouter" (the OpenRouter
+#   gateway), NOT the resolved backend provider.
+# - Raw logs show BOTH "Upstream error from DeepInfra" (P5-B run,
+#   aborted case-3 attempt) AND "Upstream error from Venice" (resumed P5-C
+#   run, case 66c70394c9e1), i.e. the backend provider is OpenRouter-ROUTED and
+#   was NOT deterministically pinned per call.
+# Therefore P5 wording must be "OpenRouter-routed Qwen3-Coder" and must NOT
+# claim an unqualified DeepInfra pin for every call. P1's own endpoint freeze
+# (DeepInfra `deepinfra/turbo`) is separate evidence and unchanged.
+LOCAGENT_PROVIDER_ROUTE_NOTE: str = (
+    "OpenRouter-routed qwen/qwen3-coder; backend provider NOT proven per call "
+    "(logs show both DeepInfra and Venice upstream errors); cost is a "
+    "normalized estimate under the frozen P1 pricing snapshot, not "
+    "authoritative provider-billed cost"
+)
 
 
 def estimate_cost_usd(prompt_tokens: int, completion_tokens: int) -> float:
@@ -51,6 +70,46 @@ def estimate_cost_usd(prompt_tokens: int, completion_tokens: int) -> float:
         + int(completion_tokens) * LOCAGENT_PRICING_SNAPSHOT["completion_per_token_usd"]
     )
     return round(est, 8)
+
+
+def locagent_acc_at_k(ranked_files: tuple[str, ...], proxy_paths: set[str], k: int) -> bool:
+    """Official LocAgent file-level Acc@K for ONE task.
+
+    Mirrors the pinned upstream evaluator (`evaluation/eval_metric.py`,
+    ``acc_at_k``): a task is a hit at K iff the number of correct files among
+    the top-K ranked predictions equals ``min(len(gt), K)``, where ``gt`` is
+    the ground-truth file set (here: the observed change-set proxy). The
+    upstream implementation builds a binary relevance vector of length ``K``
+    with ``total_relevant = min(len(gt), K)`` ones and ``relevant`` ones among
+    the top-K predictions, then a task counts iff ``relevant ==
+    total_relevant``. This is NOT ">=1 hit" and NOT the count of matching file
+    items.
+
+    ``ranked_files`` MUST be the ORIGINAL ranked order (never a Python set);
+    ``proxy_paths`` is the case's observed change-set proxy.
+    """
+    correct = sum(1 for f in ranked_files[:k] if f in proxy_paths)
+    total = min(len(proxy_paths), k)
+    return correct == total
+
+
+def locagent_hit_at_k(ranked_files: tuple[str, ...], proxy_paths: set[str], k: int) -> bool:
+    """Task-level Hit@K for ONE task: fraction-of-tasks with >=1 proxy file
+    among the top-K ranked predictions (simple task-level definition). Kept
+    distinct from the official ``locagent_acc_at_k`` because the two statistics
+    differ when a task contains multiple correct files.
+    """
+    return any(f in proxy_paths for f in ranked_files[:k])
+
+
+def locagent_item_hits_at_k(ranked_files: tuple[str, ...], proxy_paths: set[str], k: int) -> int:
+    """Number of matching FILE ITEMS among the top-K ranked predictions.
+
+    NOT a task-level accuracy and MUST NOT be labelled Acc@K / Hit@K. The
+    historical P5-C reporting bug mislabeled the cross-task sum of these item
+    counts as "tasks with >=1 hit" (producing the wrong 4/8/9 values).
+    """
+    return sum(1 for f in ranked_files[:k] if f in proxy_paths)
 
 
 def assert_cost_not_zero_for_paid_usage(

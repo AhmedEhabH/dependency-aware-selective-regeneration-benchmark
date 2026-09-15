@@ -199,7 +199,7 @@ patch also bounds queue-get deadlocks and BadRequest transport spins — process
 same frozen proxy, common evaluator. LocAgent micro P/R/F1 0.435/0.270/0.333
 (valid 5/10) vs Full-v2 0.339/0.369/0.353 and Sparse-v2 0.387/0.261/0.312;
 authoritative ledger 402 calls / 32.8M tokens / $9.9288; native Acc@K
-1=4/10, 3=8/10, 5=9/10; paired ΔF1 CIs cross zero. Classified as a
+Acc@1 4/10, Acc@3 4/10, Acc@5 2/10 (official LocAgent Acc@K; the historical 4/10/8/10/9/10 were item-hit sums); paired ΔF1 CIs cross zero. Classified as a
 **system-level shared-task comparison** (P1 temp 0 vs LocAgent temp 1), not an
 algorithm ablation. Reports: `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`,
 `reports/LOCAGENT_P5C_AUDIT.md`.
