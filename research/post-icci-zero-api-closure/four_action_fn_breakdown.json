@@ -1,0 +1,147 @@
+{
+  "classification": "SECONDARY DIAGNOSTIC ANALYSIS of existing frozen P1 evidence (ZERO API)",
+  "note": "For each proxy path missed by binary REGENERATE selection, the action the model assigned (PRESERVE/VALIDATE/HUMAN_REVIEW). NOT a new confirmatory experiment; no tuning on the exposed HELD_OUT_TEST tasks.",
+  "denominator": "30 cells per arm (10 tasks x 3 nested repetitions); task-level micro over the 3 repetitions (repetitions are nested observations, not independent tasks).",
+  "decoded_cells": 60,
+  "total_cells": 60,
+  "decode_failures": [],
+  "aggregate": {
+    "full_v2": {
+      "PRESERVE": 70,
+      "VALIDATE": 0,
+      "HUMAN_REVIEW": 0
+    },
+    "sparse_v2": {
+      "PRESERVE": 74,
+      "VALIDATE": 8,
+      "HUMAN_REVIEW": 0
+    },
+    "both_arms": {
+      "PRESERVE": 144,
+      "VALIDATE": 8,
+      "HUMAN_REVIEW": 0
+    }
+  },
+  "per_task": {
+    "djangocms-rc-4307e1b8c2e2": {
+      "full_v2": {
+        "PRESERVE": 0,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      },
+      "sparse_v2": {
+        "PRESERVE": 0,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      }
+    },
+    "djangocms-rc-50c3576080be": {
+      "full_v2": {
+        "PRESERVE": 28,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      },
+      "sparse_v2": {
+        "PRESERVE": 28,
+        "VALIDATE": 5,
+        "HUMAN_REVIEW": 0
+      }
+    },
+    "djangocms-rc-630a50361ada": {
+      "full_v2": {
+        "PRESERVE": 2,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      },
+      "sparse_v2": {
+        "PRESERVE": 3,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      }
+    },
+    "djangocms-rc-66c70394c9e1": {
+      "full_v2": {
+        "PRESERVE": 0,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      },
+      "sparse_v2": {
+        "PRESERVE": 0,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      }
+    },
+    "djangocms-rc-75978fb1c3ad": {
+      "full_v2": {
+        "PRESERVE": 0,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      },
+      "sparse_v2": {
+        "PRESERVE": 0,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      }
+    },
+    "djangocms-rc-8d50660e7bcf": {
+      "full_v2": {
+        "PRESERVE": 2,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      },
+      "sparse_v2": {
+        "PRESERVE": 7,
+        "VALIDATE": 2,
+        "HUMAN_REVIEW": 0
+      }
+    },
+    "djangocms-rc-9e33db4f4660": {
+      "full_v2": {
+        "PRESERVE": 5,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      },
+      "sparse_v2": {
+        "PRESERVE": 3,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      }
+    },
+    "djangocms-rc-b39799f9fc1c": {
+      "full_v2": {
+        "PRESERVE": 8,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      },
+      "sparse_v2": {
+        "PRESERVE": 10,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      }
+    },
+    "djangocms-rc-ba16eb9a1d09": {
+      "full_v2": {
+        "PRESERVE": 18,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      },
+      "sparse_v2": {
+        "PRESERVE": 17,
+        "VALIDATE": 1,
+        "HUMAN_REVIEW": 0
+      }
+    },
+    "djangocms-rc-fdda30c271f0": {
+      "full_v2": {
+        "PRESERVE": 7,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      },
+      "sparse_v2": {
+        "PRESERVE": 6,
+        "VALIDATE": 0,
+        "HUMAN_REVIEW": 0
+      }
+    }
+  }
+}

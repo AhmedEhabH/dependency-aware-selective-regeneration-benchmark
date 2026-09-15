@@ -572,3 +572,36 @@ column: Full/Sparse = 10 tasks × 3 nested repetitions = 30 cells; LocAgent =
   does not favor the graph-agent baseline.
 - Evidence: `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`,
   `reports/LOCAGENT_P5C_AUDIT.md`, `research/locagent-p5b/`.
+
+---
+
+## 20. POST-ICCI ZERO-API CLOSURE (2026-09-15)
+
+Manuscript submitted (repo artifact: \paper/v20-final/V20_FINAL_SUBMISSION.zip\).
+Post-submission window is ZERO-API. Current authoritative state:
+\ 0_CURRENT_RESEARCH_STATE.md\ (supersedes, does not delete, the historical
+handoffs). Submission record (per-file hashes + commits):
+\paper/v20-final/ICCI_SUBMISSION_RECORD_2026-09-15.json\.
+
+New post-ICCI analysis (read-only recomputation of frozen evidence; no new
+scientific calls):
+
+- LocAgent common-evaluator normalization contract:
+  \eports/LOCAGENT_COMMON_EVALUATOR_NORMALIZATION.md\ (+ regression tests in
+  \	ests/unit/test_post_icci_closure.py\).
+- LocAgent two-way recomputation (A headline fail-closed all-10; B diagnostic
+  survivor-conditioned usable-5): \esearch/locagent-p5b/locagent_two_way.json\.
+- Four-action FN breakdown over P1 Full/Sparse raw outputs (PRESERVE 144 /
+  VALIDATE 8 / HUMAN_REVIEW 0 across both arms):
+  \esearch/post-icci-zero-api-closure/four_action_fn_breakdown.{json,csv}\.
+- Per-task error-analysis table:
+  \esearch/post-icci-zero-api-closure/per_task_error_analysis.{csv,md}\.
+- Protocol drafts (NOT executed): \docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md\.
+
+Claim discipline for the MSc proposal:
+- Completed ICCI evidence, preliminary/descriptive P5 evidence, and proposed
+  selective-escalation work are THREE SEPARATE buckets (see
+  \docs/MSC_RESEARCH_ROADMAP_2026_2027.md\ POST-ICCI section).
+- The ten-task HELD_OUT_TEST split is PERMANENTLY EXPOSED - do not tune on it,
+  do not run confirmatory calls on it.
+- Selective escalation is NOT validated; it is a proposal.

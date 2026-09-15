@@ -27,6 +27,48 @@ Status legend:
 
 ---
 
+## POST-ICCI MSc PROPOSAL FOCUS (2026-09-15; ZERO API; DRAFT ONLY)
+
+Thesis direction: **Repository Change Localization Under Limited Inference
+Budgets**, with the working title *"When Is Graph-Guided Search Worth It?
+Selective Escalation for Cost-Aware Repository Change Localization"*.
+Everything below separates evidence by status:
+
+### A. Completed ICCI evidence (frozen, submitted)
+- M1A / M1B / M1 defensive closure, M3 graph ablation (development-set),
+  M4A-1/M4A-2 dataset + split freeze, M4A-3/P1 real held-out evaluation, P5
+  LocAgent shared-protocol comparison + C1–C7 reporting corrections. Manuscript
+  submitted (repo artifact `paper/v20-final/V20_FINAL_SUBMISSION.zip`; record
+  `paper/v20-final/ICCI_SUBMISSION_RECORD_2026-09-15.json`).
+- No arm-superiority claim from P1 (paired ΔF1 CIs cross zero); the cost
+  effect (Sparse cheaper) is supported descriptively.
+
+### B. Preliminary / descriptive P5 evidence (report but do not over-claim)
+- LocAgent on the same 10 tasks: headline fail-closed F1 0.333 (TP10/FP13/FN27),
+  usable-5 survivor-conditioned F1 0.417 (diagnostic only), 50% empty
+  localization rate (2 timeout / 1 context-length / 2 completed-but-empty),
+  402 calls / 32.8M tokens / $9.93 normalized estimate. OpenRouter-routed
+  (backend not pinned per call). Classification: SYSTEM-LEVEL shared-task
+  comparison, NOT an algorithm ablation and NOT a reproduction of the
+  published fine-tuned result.
+
+### C. Proposed selective-escalation work (NOT validated, NOT started)
+- Pipeline: `Sparse first pass → omission-risk detection → selective
+  graph-guided escalation → bounded false-negative verification`.
+- The exposed ten-task HELD_OUT_TEST split is **PERMANENTLY EXPOSED** — no
+  tuning, no confirmatory calls on it. All decision rules are selected on
+  TRAIN/VALIDATION; fresh confirmatory evidence requires a fresh split or a
+  second repository.
+- Drafted (NOT executed) protocols:
+  `docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md` (A cheap non-LLM baseline; B
+  faithful LocAgent replication; C fresh second-repository / fresh-held-out
+  confirmatory).
+- Claim discipline: selective escalation is a PROPOSAL. It will be claimed as
+  validated only after a preregistered fresh-split experiment with its own
+  frozen budget.
+
+---
+
 ## Pillar 1 — Sparse impact-policy representation
 
 **Research question.** Can a sparse output representation (explicit

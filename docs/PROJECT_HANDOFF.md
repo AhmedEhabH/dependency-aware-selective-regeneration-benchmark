@@ -1,10 +1,20 @@
 > **CURRENT STATE (2026-09-08, D061 — FINAL BENCHMARK CLOSURE; SELECTION-STAGE BENCHMARK RESEARCH CLOSED AND AUDITED; BENCHMARK STATUS: COMPLETE; NEXT PHASE: PAPER / PROPOSAL / FIGURES / SUPERVISOR REVIEW):** GPT-5.6 Sol external audit PASS for the djangoCMS ImpactPlan-v2 30-cell POST-HOC/EXPLORATORY study. Audited v2 study tag `stagec-djangocms-impactplan-v2-study-01-audited` created + pushed (peels to `f8e7aa8…`, remote-verified). EXACT six final closure gates (Dataset / Prompt / Pipeline Smoke / Dry Run / Integration / Metric) + Independent Audit ALL PASS (zero scientific API calls). Research branch `research/djangocms-external-validity-prep-01` merged to `main` (history-preserving merge; scientific provenance preserved). Final benchmark tag `v0.11.0-benchmark-complete` created + pushed (remote-verified) — meaning the selection-stage benchmark research is closed and audited, NOT end-to-end executor regeneration success. Canonical cross-repo synthesis: `reports/CROSS_REPO_SYNTHESIS.md`. Final project export produced. A new AI/account/machine can continue immediately: the benchmark research is complete; remaining work is academic-output preparation (paper/proposal/figures/supervisor review). Do NOT start Saleor, do NOT start v3, do NOT fine-tune, do NOT perform additional scientific calls.
 # Project Handoff — Dependency-Aware Selective Regeneration Benchmark
 
+> **SUPERSEDED FOR CURRENT STATE (2026-09-15):** the manuscript is submitted
+> and the **POST-ICCI ZERO-API CLOSURE is COMPLETE**. The single authoritative
+> current-state document is
+> [`../00_CURRENT_RESEARCH_STATE.md`](../00_CURRENT_RESEARCH_STATE.md)
+> (supersedes, does not delete, the historical handoffs below). Closure report:
+> `reports/POST_ICCI_ZERO_API_CLOSURE_REPORT.md`; submission record:
+> `paper/v20-final/ICCI_SUBMISSION_RECORD_2026-09-15.json`; protocol drafts
+> (NOT executed): `docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md`.
+
 ## CURRENT STATE
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
-**Current phase:** Paper / figures / supervisor review + **M4A-1/M4A-2
+**Current phase:** Paper submitted (IEEE-format V20 artifact) + **POST-ICCI
+ZERO-API CLOSURE COMPLETE (2026-09-15)** + **M4A-1/M4A-2
 real-commit miner + scientific corpus COMPLETE / AUDITED (2026-09-13)** +
 **M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14; 60/60 cells valid,
 0 failures, 0 truncations; completion cap 16384 both arms; 10 independent
@@ -15,8 +25,11 @@ corrections applied 2026-09-15 — official native Acc@K, empty-outcome
 taxonomy, provider-route wording, consistent efficiency denominator)**.
 **Scientific runs remaining:** ZERO legacy; P5 closed.
 
-- **Next:** paper / figures / manuscript / supervisor review (V20 final
-  submission candidate). Start with
+- **Next:** post-submission MSc proposal package (2026-10-07/08 target).
+  Authoritative state: [`../00_CURRENT_RESEARCH_STATE.md`](../00_CURRENT_RESEARCH_STATE.md).
+  Drafted (NOT executed) next experiments:
+  [`docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md`](POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md).
+  Start with
   [`docs/PAPER_WRITING_HANDOFF.md`](PAPER_WRITING_HANDOFF.md) and
   [`../README.md`](../README.md).
 - **P5 LocAgent evidence:** `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`,

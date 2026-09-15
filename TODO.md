@@ -3,7 +3,11 @@
 ## CURRENT BOARD
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
-**Current phase:** Paper / figures / supervisor review + **M4A-1 real-commit
+**Current phase:** Paper submitted (ICCI shorthand; IEEE-format V20 artifact)
++ **POST-ICCI ZERO-API CLOSURE COMPLETE (2026-09-15)** (authoritative state =
+`00_CURRENT_RESEARCH_STATE.md`; immutable submission record =
+`paper/v20-final/ICCI_SUBMISSION_RECORD_2026-09-15.json`; HELD_OUT_TEST
+permanently exposed; next experiments DRAFTED only) + **M4A-1 real-commit
 miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)** +
 **M4A-2 scientific real-commit corpus COMPLETE / AUDITED (2026-09-13; 40
 cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API
@@ -84,7 +88,12 @@ P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unchanged.
   also bounds queue-get deadlocks and BadRequest transport spins — process/
   error handling only, no scientific change); P5-C (HELD_OUT_TEST) executed
   10/10; Full/Sparse/LocAgent shared-protocol comparison + independent audit
-  PASS; then paper / figures / manuscript / supervisor review and the
+  PASS. **POST-ICCI (2026-09-15, ZERO API):** submission frozen; the ten-task
+  HELD_OUT_TEST split is PERMANENTLY EXPOSED (do-not-tune /
+  do-not-call-confirmatory); LocAgent two-way recomputation, four-action FN
+  breakdown, per-task error table, and next-experiment DRAFTS complete (see
+  `00_CURRENT_RESEARCH_STATE.md`, `docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md`).
+  Then paper / figures / manuscript / supervisor review and the
   post-submission MSc proposal roadmap (see below); see
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md).
@@ -105,9 +114,12 @@ Selective graph-guided escalation
 Bounded false-negative verification
 ```
 
-- [ ] Freeze/archive the V20 submission artifact.
-- [ ] Final evidence manifest + SHA-256.
-- [ ] Freeze the P5 comparison as historical evidence.
+- [x] Freeze/archive the V20 submission artifact.
+- [x] Final evidence manifest + SHA-256.
+- [x] Freeze the P5 comparison as historical evidence.
+- [x] Mark the ten HELD_OUT_TEST tasks PERMANENTLY EXPOSED (2026-09-15).
+- [x] Draft (NOT execute) next-experiment protocols A/B/C
+      (`docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md`).
 - [ ] Focused literature review: adaptive retrieval; budget-aware agents;
       selective prediction; graph-assisted localization; change-impact
       analysis; false-negative recovery.
