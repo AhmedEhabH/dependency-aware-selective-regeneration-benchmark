@@ -33,6 +33,9 @@ usage x frozen P1 pricing (`input $0.30/1M`, `output $1.00/1M`).
   NOT the common F1 column.
 - The 3 empty rows are genuine timeouts (agent ran its full budget without a
   `<finish>` output) under the frozen attempt policy — fail-closed, not data loss.
+- Efficiency columns for this pre-ledger run are provisional (see §5): token/
+  cost for timeout rows is incomplete/non-authoritative; authoritative
+  ledger-based accounting applies to P5-C.
 
 ## 1. Status
 
@@ -125,6 +128,23 @@ the common evaluator from real LiteLLM/OpenRouter token usage × the frozen P1
 pricing snapshot (`input $0.30/1M`, `output $1.00/1M`). Audit assertion:
 non-zero Qwen/OpenRouter usage must not produce zero authoritative estimated
 cost (`assert_cost_not_zero_for_paid_usage`).
+
+**Ledger instrumentation (2026-09-15):** an append-only per-call usage ledger
+(`research/locagent-p5b/usage_ledger.py`) now wraps `litellm.completion` and
+persists one metadata row per call (case_id, call_index, model, provider,
+status, prompt/completion tokens, latency, estimated cost). It never persists
+prompts, responses, secrets, or hidden targets. The ledger is the authoritative
+source for model-call count and token/cost accounting in the shared comparison.
+`len(raw_output_loc)` is NOT used as the model-call metric.
+
+**P5-B efficiency accounting caveat:** the P5-B VALIDATION run predates the
+ledger, so its efficiency figures are provisional:
+- `model_calls` in the P5-B table is a floor (per persisted output), not the
+  authoritative ledger count;
+- timeout cases (1031d20fca28, 47b63015feb1, e3a23a7fc757) made real LLM calls
+  before their 900 s timeout but their token/cost is recorded as **incomplete /
+  non-authoritative** (0 shown) rather than claimed as a real zero-cost result.
+The authoritative, ledger-based efficiency numbers apply to P5-C.
 
 ## 6. Evidence
 
