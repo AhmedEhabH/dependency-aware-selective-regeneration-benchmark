@@ -38,14 +38,19 @@ import sys
 
 LOCAGENT_PINNED_COMMIT = "4935b557326c154bad8e8dcf3747cc8d32d1f387"
 FROZEN_MODEL_ROUTE = "openrouter/qwen/qwen3-coder"
-WRAPPER_VERSION = "locagent-compat-launch-layer-1.1"
+WRAPPER_VERSION = "locagent-compat-launch-layer-1.2"
 
 # torch.multiprocessing.spawn requires the target function to be reachable as
 # an attribute of the main module in the child (it re-imports __main__ and
 # looks up fn.__name__). auto_search_main.run_localize is that function.
 # The launcher MUST set PYTHONPATH to include the upstream repo root so this
 # import (and the spawn child's re-import of this module) resolves.
+# P5 per-call usage ledger (instrumentation only). Installed at module scope so
+# the spawn child's re-import of this module re-installs it idempotently.
+import usage_ledger  # noqa: E402
 from auto_search_main import localize, merge, run_localize  # noqa: E402,F401
+
+usage_ledger.install()
 
 
 def build_args(raw: argparse.Namespace) -> argparse.Namespace:
@@ -106,6 +111,11 @@ def run() -> None:
     args.output_file = os.path.join(args.output_folder, args.output_file)
     os.makedirs(args.output_folder, exist_ok=True)
 
+    # P5 per-call usage ledger path (authoritative for model-call/token/cost
+    # accounting in the shared comparison).
+    ledger_path = os.path.join(args.output_folder, "usage_ledger.jsonl")
+    os.environ["LOCAGENT_USAGE_LEDGER"] = ledger_path
+
     with open(f"{args.output_folder}/args.json", "w") as f:
         json.dump(vars(args), f, indent=4)
 
@@ -125,6 +135,7 @@ def run() -> None:
         "model": FROZEN_MODEL_ROUTE,
         "graph_index_dir": os.environ.get("GRAPH_INDEX_DIR"),
         "bm25_index_dir": os.environ.get("BM25_INDEX_DIR"),
+        "usage_ledger": ledger_path,
     }
     with open(f"{args.output_folder}/wrapper_manifest.json", "w") as f:
         json.dump(manifest, f, indent=4)
