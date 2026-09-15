@@ -115,3 +115,16 @@ execution. Entries are never edited after append; corrections are new entries.
   Fixed-K tables are the honest default.
 - **Rationale:** preserving the strict data rule and the exposed split.
 - **Impact:** documented in `reports/CHEAP_BASELINES_V1_REPORT.md` §7.
+
+## Decision P9 — No milestone tag on development evidence (2026-09-16)
+
+- **Status:** ADOPTED
+- **Context:** Prompt L.9 allows a milestone/evidence tag "if and only if the
+  result is fully audited and worth freezing".
+- **Decision:** Do NOT create a tag yet. Protocol A is TRAIN/VALIDATION
+  development evidence (not confirmatory); the frozen-candidate-method decision
+  belongs to Ahmed after review. Evidence tags for dev evidence would invite
+  over-claiming. Revisit only after review and/or the fresh confirmatory step.
+- **Rationale:** statistical discipline (H) + truthful status.
+- **Impact:** commit `3b83dd6` on branch
+  `research/cheap-nonllm-baselines-v1`; tag deferred.
