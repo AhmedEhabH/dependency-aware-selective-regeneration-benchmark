@@ -16,8 +16,7 @@ Hybrid@K) on TRAIN 24 + VALIDATION 6 only. T3 classification.
 
 ## Now executing
 
-- Wrapping up block: state updates, final full-suite validation, commit + push,
-  tag decision, final report + STOP.
+- BLOCK COMPLETE — STOP for Ahmed's review per the stop condition.
 
 ## Last completed task
 
@@ -30,13 +29,18 @@ Hybrid@K) on TRAIN 24 + VALIDATION 6 only. T3 classification.
   `docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md` created; PROTOCOL_VERSION.md
   CURRENT PHASE = "Repository change localization / impact selection";
   MSc roadmap Pillar 7 (Saleor) + Pillar 8 (Omission-risk) preserved.
+- State docs updated; full validation (non-integration 2414 passed / 32 skipped /
+  0 failed; affected integration 433 passed; pre-existing Stage-C wiring
+  failures only — 2, confirmed pre-existing on HEAD); commit
+  `3b83dd6` + pushed (`research/cheap-nonllm-baselines-v1`). No tag yet
+  (development evidence; pending Ahmed's review).
 
 ## Immediate next step
 
-- Update `00_CURRENT_RESEARCH_STATE.md`, `SYSTEM_STATE.md`, `TODO.md`, README;
-  full validation (ruff/mypy/pytest focused + full); commit + push; tag if
-  fully audited; final report + STOP.
+- **STOP.** Next scientific step chosen after Ahmed reviews the cheap-baseline
+  results. Do NOT auto-start Saleor / risk-detector / selective escalation /
+  new LLM calls.
 
 ## Blockers
 
-- None. All validation is ZERO-API and local.
+- None.
