@@ -18,8 +18,8 @@ from __future__ import annotations
 
 import random
 
-from scripts.locagent_shared_comparison import _bootstrap_mean_delta, _macro_mean, _micro_pooled
 from benchmark.locagent import evaluator
+from scripts.locagent_shared_comparison import _bootstrap_mean_delta, _macro_mean, _micro_pooled
 
 
 def test_micro_pooled_matches_manual() -> None:
@@ -130,7 +130,8 @@ def test_historical_8_of_10_and_9_of_10_are_item_hits_not_tasks() -> None:
     ds = Path(__file__).resolve().parent.parent.parent / "benchmark_data" / "real_commit_impact_v1"
 
     def proxy(cid):
-        return set(json.loads((ds / "scientific" / cid / "hidden" / "observed_change_set_proxy.json").read_text())["paths"])
+        p = ds / "scientific" / cid / "hidden" / "observed_change_set_proxy.json"
+        return set(json.loads(p.read_text())["paths"])
 
     n_ok = 0
     total = 0
@@ -156,8 +157,8 @@ def test_historical_8_of_10_and_9_of_10_are_item_hits_not_tasks() -> None:
 def test_official_acc_at_k_p5c_recomputation() -> None:
     # Independent recomputation on the real P5-C evidence under the official
     # definition: Acc@1 = 4/10, Acc@3 = 4/10, Acc@5 = 2/10.
-    from pathlib import Path
     import json
+    from pathlib import Path
     p5c = Path(__file__).resolve().parent.parent.parent / "research" / "locagent-p5b" / "out_c"
     ds = Path(__file__).resolve().parent.parent.parent / "benchmark_data" / "real_commit_impact_v1"
     merged = {}
@@ -166,7 +167,8 @@ def test_official_acc_at_k_p5c_recomputation() -> None:
         merged[row["instance_id"]] = row
 
     def proxy(cid):
-        return set(json.loads((ds / "scientific" / cid / "hidden" / "observed_change_set_proxy.json").read_text())["paths"])
+        p = ds / "scientific" / cid / "hidden" / "observed_change_set_proxy.json"
+        return set(json.loads(p.read_text())["paths"])
 
     for k, expected in ((1, 4), (3, 4), (5, 2)):
         n = 0
