@@ -3,8 +3,12 @@
 **Date:** 2026-09-15
 **Host:** WSL2 Ubuntu-24.04 (preferred POSIX host per P5 sprint authority)
 **Upstream:** gersteinlab/LocAgent @ `4935b557326c154bad8e8dcf3747cc8d32d1f387` (unchanged pin)
-**Model/provider:** `openrouter/qwen/qwen3-coder` (Qwen3-Coder-480B-A35B) via
-OpenRouter → DeepInfra (`deepinfra/turbo`), fallback OFF — same route as P1.
+**Model/provider:** `openrouter/qwen/qwen3-coder` (Qwen3-Coder-480B-A35B) —
+**OpenRouter-routed** via the same route family as P1. NOTE (corrected
+2026-09-15): the per-call ledger records `provider="openrouter"` (the
+gateway), not the resolved backend; raw logs show both DeepInfra and Venice
+upstream errors, so an unqualified per-call DeepInfra pin is NOT supported for
+P5. Fallback OFF.
 **Compatibility layer:** `research/locagent-p5b/launch_locagent.py`
 (`locagent-compat-launch-layer-1.1`) — invokes upstream `localize()`/`merge()`
 with a frozen args namespace; bypasses the restrictive upstream `--model`
@@ -27,12 +31,16 @@ usage x frozen P1 pricing (`input $0.30/1M`, `output $1.00/1M`).
 | djangocms-rc-e3a23a7fc757 | 0 | 3 | 0.000 | 0.000 | 0.000 | 1.000 | 0 | 0 | $0.000000 |
 | **Aggregate** | | | **0.444** | **0.289** | **0.333** | **0.711** | | | **$0.681643** |
 
-- valid_output_rate = 0.5 (3/6 produced real found_files; 3/6 timed out at the
-  frozen 900 s per-attempt budget and were persisted fail-closed as empty).
+- valid_output_rate = 0.5 (3/6 produced real found_files; 3/6 fail-closed
+  empty). NOTE (corrected 2026-09-15): the P5-B pre-ledger run predates the
+  per-case log taxonomy, so P5-B empty rows are recorded as fail-closed; the
+  authoritative per-case failure taxonomy (timeout vs context-length
+  BadRequest vs completed-but-empty) is established from raw logs in P5-C.
 - LocAgent-native Acc@K (found_files top-K hits) is reported separately and is
   NOT the common F1 column.
-- The 3 empty rows are genuine timeouts (agent ran its full budget without a
-  `<finish>` output) under the frozen attempt policy — fail-closed, not data loss.
+- The 3 empty rows are fail-closed outcomes (agent ran its full budget without
+  a usable `<finish>` file set) under the frozen attempt policy — fail-closed,
+  not data loss. See the P5-C taxonomy for per-case failure classification.
 - Efficiency columns for this pre-ledger run are provisional (see §5): token/
   cost for timeout rows is incomplete/non-authoritative; authoritative
   ledger-based accounting applies to P5-C.
@@ -161,7 +169,8 @@ once:
 - upstream SHA `4935b557326c154bad8e8dcf3747cc8d32d1f387` + queue-guard patch
   `c2fa932f…`;
 - compatibility wrapper `locagent-compat-launch-layer-1.1`;
-- model `openrouter/qwen/qwen3-coder` via OpenRouter→DeepInfra, fallback OFF;
+- model `openrouter/qwen/qwen3-coder` — OpenRouter-routed (backend provider
+  not proven per call; see corrected provider-route note), fallback OFF;
 - temperature 1 (upstream hard-coded), max_attempt_num 1, num_samples 1,
   ranking mrr, timeout 900;
 - file-set conversion: exact emitted merged file set;

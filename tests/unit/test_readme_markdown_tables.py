@@ -71,3 +71,50 @@ class TestReadmeMarkdownTableStructure:
         assert hits and hits[0][1] == 2 and hits[0][2] == 3
         good = "| A | B |\n|---|---|\n"
         assert find_malformed_tables(good) == []
+
+
+_MERMAID_FENCE = re.compile(r"```mermaid\n(.*?)```", re.DOTALL)
+
+
+class TestReadmeMermaidRendering:
+    """Regression: README Mermaid blocks must render on GitHub.
+
+    Literal backslash-n (`\n`) inside unquoted node labels is the known cause
+    of "Unable to render rich display". Node labels must be double-quoted and
+    use the HTML line break `<br/>` instead.
+    """
+
+    def _mermaid_blocks(self) -> list[str]:
+        text = README_PATH.read_text(encoding="utf-8")
+        blocks = _MERMAID_FENCE.findall(text)
+        assert blocks, "README.md must contain at least one mermaid block"
+        return blocks
+
+    def test_no_literal_backslash_n_in_node_labels(self) -> None:
+        for block in self._mermaid_blocks():
+            for line in block.splitlines():
+                line = line.strip()
+                if not line or "[" not in line or "--> " in line:
+                    continue
+                # A node definition line such as `A[B\nlabel]` uses a literal
+                # backslash-n inside unquoted brackets; GitHub fails to render.
+                assert "\\n" not in line, f"literal \\n in mermaid node: {line!r}"
+
+    def test_multiline_labels_use_quoted_br(self) -> None:
+        # Any label that needs a line break must use a quoted "<br/>" form:
+        #   ID["text<br/>more"]  — never ID[text\nmore].
+        for block in self._mermaid_blocks():
+            for line in block.splitlines():
+                stripped = line.strip()
+                if "[" not in stripped or "--> " in stripped or not stripped.endswith("]"):
+                    continue
+                if "<br/>" in stripped:
+                    # Every <br/> occurrence must be inside a double-quoted label.
+                    assert '"' in stripped, f"<br/> used without quoted label: {stripped!r}"
+
+    def test_blocks_are_flowchart_with_balanced_brackets(self) -> None:
+        for block in self._mermaid_blocks():
+            assert block.lstrip().startswith("flowchart"), "mermaid block must be flowchart"
+            for line in block.splitlines():
+                if "[" in line or "]" in line:
+                    assert line.count("[") == line.count("]"), f"unbalanced brackets: {line!r}"

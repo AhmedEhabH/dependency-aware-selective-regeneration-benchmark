@@ -190,26 +190,26 @@ valid, 0 failures, 0 truncations, cap 16384 both arms, 10 independent tasks,
 bootstrap over tasks; P5-A LocAgent shared-protocol adapter COMPLETE
 2026-09-14, ZERO API, MINER_DEV/TRAIN/VALIDATION only).
 
-**P5 — LocAgent shared-protocol comparison (COMPLETE 2026-09-15).** P5-B real
-LocAgent pilot on VALIDATION executed **6/6** on WSL2 Ubuntu (the Windows
+**P5 — LocAgent shared-protocol comparison (COMPLETE 2026-09-15; reporting
+corrections applied 2026-09-15, zero-API).** P5-B real LocAgent pilot on
+VALIDATION executed **6/6** on WSL2 Ubuntu (the Windows
 `fork` blocker was solved by the POSIX host; the documented compatibility
 patch also bounds queue-get deadlocks and BadRequest transport spins — process
 /error handling only, no scientific change). P5-C HELD_OUT_TEST executed
-**10/10** (5 valid, 5 fail-closed 900 s timeouts). Same 10 P1 held-out tasks,
+**10/10** (5 non-empty localizations / 5 fail-closed empty). Same 10 P1 held-out tasks,
 same frozen proxy, common evaluator. LocAgent micro P/R/F1 0.435/0.270/0.333
-(valid 5/10) vs Full-v2 0.339/0.369/0.353 and Sparse-v2 0.387/0.261/0.312;
-authoritative ledger 402 calls / 32.8M tokens / $9.9288; native Acc@K
-1=4/10, 3=8/10, 5=9/10; paired ΔF1 CIs cross zero. Classified as a
+(5/10 non-empty) vs Full-v2 0.339/0.369/0.353 and Sparse-v2 0.387/0.261/0.312;
+authoritative ledger 402 calls / 32.8M tokens / $9.9288 (frozen pricing
+snapshot, normalized estimate); official native Acc@K (task hit iff
+correct-in-topK == min(proxy, K)) Acc@1 4/10, Acc@3 4/10, Acc@5 2/10 (the
+historical 4/10/8/10/9/10 were item-hit sums); paired ΔF1 CIs cross zero. The
+5 empty outcomes are 2 timeout, 1 context-length BadRequest, 2
+completed-but-empty (50% empty/non-usable, NOT 50% timeout). Provider wording
+is **OpenRouter-routed Qwen3-Coder** (ledger records the OpenRouter gateway;
+logs show both DeepInfra and Venice upstream errors). Classified as a
 **system-level shared-task comparison** (P1 temp 0 vs LocAgent temp 1), not an
 algorithm ablation. Reports: `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`,
 `reports/LOCAGENT_P5C_AUDIT.md`.
-
-**Success / failure interpretation.**
-- Success: selection accuracy on real commits is comparable to the curated
-  scenarios (external validity).
-- Failure: real-commit selection is materially worse (curated scenarios were
-  unrepresentative; report the gap).
-
 **Artifact to be produced.** RealCommitImpactDataset-v1 (splits + schema +
 hashes) and a real-commit evaluation report.
 
