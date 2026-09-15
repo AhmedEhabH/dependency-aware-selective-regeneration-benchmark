@@ -1,7 +1,14 @@
 # Repository-Level LLM Impact Selection Benchmark
 
 > **Current scientific state (2026-09-15):** the selection-stage benchmark is
-> **complete and audited**. Controlled sparse-policy studies (M1A/M1B/M3) are
+> **complete and audited**, the manuscript is **submitted** (IEEE-format V20
+> artifact; see `paper/v20-final/`), and the **POST-ICCI zero-API closure is
+> COMPLETE** (2026-09-15): immutable submission record, authoritative
+> [`00_CURRENT_RESEARCH_STATE.md`](00_CURRENT_RESEARCH_STATE.md), LocAgent
+> two-way recomputation, four-action FN breakdown, per-task error table, and
+> drafted next-experiment protocols (NOT executed) — all with ZERO new
+> scientific model/API calls. The ten-task HELD_OUT_TEST split is PERMANENTLY
+> EXPOSED (do-not-tune). Controlled sparse-policy studies (M1A/M1B/M3) are
 > complete; a 40-case real-history corpus (M4A-1/M4A-2) is frozen; the 10-task
 > held-out **Full-v2 vs Sparse-v2 evaluation (M4A-3 / P1) is EXECUTED**
 > (60/60 cells valid); the **LocAgent shared-protocol comparison (P5) is

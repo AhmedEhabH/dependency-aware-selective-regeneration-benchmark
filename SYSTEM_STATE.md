@@ -3,7 +3,12 @@
 ## CURRENT STATE
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
-**Current phase:** Paper / figures / supervisor review + **M4A-1 real-commit
+**Current phase:** Paper submitted (ICCI shorthand; repo artifact = IEEE-format
+V20 submission `paper/v20-final/V20_FINAL_SUBMISSION.zip`, record
+`paper/v20-final/ICCI_SUBMISSION_RECORD_2026-09-15.json`) + **POST-ICCI
+ZERO-API CLOSURE COMPLETE (2026-09-15; ZERO new scientific model/API calls;
+authoritative state = `00_CURRENT_RESEARCH_STATE.md`, which supersedes without
+deleting the historical handoffs)** + **M4A-1 real-commit
 miner infrastructure COMPLETE / AUDITED (2026-09-13; ZERO API calls)** +
 **M4A-2 scientific real-commit corpus COMPLETE / AUDITED (2026-09-13; 40
 cases; split freeze TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10; ZERO API
@@ -35,8 +40,15 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unchanged.
   Related same-pattern finding in the M1B/M3 runners (TD-011/TD-012/TD-013):
   frozen M1B/M3 evidence preserved; runners fixed prospectively.
-- **Where we are:** paper / figures / manuscript / supervisor review; zero
-  **legacy frozen** scientific runs remaining; **M4A-1 (RealCommitImpactDataset-v1
+- **Where we are:** paper submitted (V20 IEEE-format manuscript; ICCI shorthand
+  per the phase prompt); **POST-ICCI ZERO-API CLOSURE COMPLETE (2026-09-15)** —
+  immutable submission record, authoritative `00_CURRENT_RESEARCH_STATE.md`,
+  LocAgent normalization contract + regression tests, two-way LocAgent
+  recomputation (A headline / B survivor-conditioned diagnostic), four-action
+  FN breakdown, per-task error-analysis table, HELD_OUT_TEST permanently
+  marked exposed, next-experiment protocol DRAFTS (not executed). Zero new
+  scientific model/API calls in the closure; frozen P1/P5 evidence untouched.
+  Then **M4A-1 (RealCommitImpactDataset-v1
   miner/schema/leakage barrier + 6 MINER_DEV cases) COMPLETE / AUDITED** on
   2026-09-13 (branch `research/real-commit-impact-dataset-v1-miner-01`);
   **M4A-2 (40-case scientific real-commit corpus + split freeze) COMPLETE /
@@ -104,8 +116,13 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   by the POSIX host); P5-C HELD_OUT_TEST executed 10/10 with the frozen
   protocol. Full/Sparse/LocAgent shared-protocol comparison, independent
   audit, and reports complete (see
-  `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`). Then paper / figures /
-  manuscript / supervisor review. See
+  `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`). **Post-submission (POST-ICCI
+  ZERO-API CLOSURE):** the ten-task HELD_OUT_TEST split is PERMANENTLY
+  EXPOSED (do-not-tune / do-not-call-confirmatory); the next experimental
+  block is DRAFTED only (non-LLM TRAIN/VALIDATION baselines first; fresh-split
+  confirmatory later) — see `00_CURRENT_RESEARCH_STATE.md` and
+  [`docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md`](docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md).
+  See
   [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md) and
   [`README.md`](README.md) (single front door).
 - **NOT NEXT:** Kaggle, T4 execution, new benchmark runs, Saleor (after

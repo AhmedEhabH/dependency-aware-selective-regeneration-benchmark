@@ -1,0 +1,96 @@
+{
+  "record_id": "POST_ICCI_SUBMISSION_RECORD_2026-09-15",
+  "record_kind": "IMMUTABLE SUBMISSION RECORD (POST-ICCI ZERO-API CLOSURE)",
+  "created_utc": "2026-09-15",
+  "created_by": "openrouter/deepseek/deepseek-v4-flash-0731",
+  "zero_api": true,
+  "submitted_science_frozen": true,
+  "venue": {
+    "conference_reference": "ICCI (as referenced by the POST_ICCI_ZERO_API_CLOSURE phase prompt)",
+    "conference_paper_id": "NOT RECORDED IN REPO (no conference paper/submission ID exists in the repository at closure time)",
+    "submission_timestamp": "NOT RECORDED IN REPO (no submission timestamp is recorded in the repository at closure time)",
+    "venue_note": "The repository artifact is an IEEE-conference-format manuscript (IEEEtran). No literal 'ICCI' marker exists in the repo; the phase prompt uses ICCI as the submission shorthand."
+  },
+  "submission_artifact": {
+    "zip_path": "paper/v20-final/V20_FINAL_SUBMISSION.zip",
+    "zip_sha256": "9CB5BDCCFCE8542E5A936136B60E01471FB917EF18B5B537220966421425E138",
+    "zip_bytes": 977019,
+    "zip_entry_count": 10,
+    "sidecar_path": "paper/v20-final/V20_FINAL_SUBMISSION.zip.sha256",
+    "sidecar_matches_zip": true
+  },
+  "submitted_files": {
+    "blind_pdf": {
+      "path": "paper/v20-final/paper_v20_blind.pdf",
+      "sha256": "4738DA6373298BF23C0972587A1D79050E84479B77AC1EF1949D4EE12460CFB9",
+      "bytes": 511724
+    },
+    "blind_tex_source": {
+      "path": "paper/v20-final/paper_v20_blind.tex",
+      "sha256": "9EEB66EDE075ED3B11BEDF874F9DCD3C50B5F0D50FB25ECB475701295F80518E",
+      "bytes": 1056
+    },
+    "supervisor_pdf": {
+      "path": "paper/v20-final/paper_v20_supervisor.pdf",
+      "sha256": "C74FCD5B59B77F3A7929CB1D421FC1FA8DD2C0F44446E514174E0FC4F2958A00",
+      "bytes": 511560
+    },
+    "supervisor_tex_source": {
+      "path": "paper/v20-final/paper_v20_supervisor.tex",
+      "sha256": "06FF213A004A1F4AD19A3B32773B5FE53B524CD3E0318A258024A79F30C737D8",
+      "bytes": 1115
+    },
+    "shared_body_tex": {
+      "path": "paper/v20-final/v20_body.tex",
+      "sha256": "4DE64FDCCE6B9478B005BA3952B8BB99865F7F2001D08F9062EDBC725C466183",
+      "bytes": 26621
+    },
+    "references_bib": {
+      "path": "paper/v20-final/references.bib",
+      "sha256": "66659E089976580901A7B3859E2AD6475436789F10D772AA797C52EB3D108C26",
+      "bytes": 2930
+    },
+    "change_log": {
+      "path": "paper/v20-final/V20_CHANGE_LOG.md",
+      "sha256": "E7EEF814E47F3895CCF2D4E6832365229C66E4D0EAF4261D23D529D6E5319A2D",
+      "bytes": 3283
+    },
+    "claims_evidence_matrix": {
+      "path": "paper/v20-final/V20_CLAIMS_EVIDENCE_MATRIX.md",
+      "sha256": "F20845B09078F51615A20B0521845F4578B709E4C25089C2533C3FA503064E88",
+      "bytes": 5969
+    },
+    "reviewer_risk_audit": {
+      "path": "paper/v20-final/V20_REVIEWER_RISK_AUDIT.md",
+      "sha256": "5884ACF70996138FDCD9364FF57EF1FC6A1788871226A209A3FEF87320F98FD6",
+      "bytes": 3881
+    },
+    "final_status_report": {
+      "path": "paper/v20-final/V20_FINAL_STATUS_REPORT.md",
+      "sha256": "787FE09EB458598FBA5300CD39349AAD2372A35AFA35DEE942CF9D9D98552A35",
+      "bytes": 5665
+    }
+  },
+  "docx": {
+    "present": false,
+    "note": "No DOCX exists. The submission is TEX + PDF only (IEEE conference format)."
+  },
+  "git_provenance": {
+    "submission_branch": "paper/v20-final",
+    "submission_archive_commit": "0a5928ce615340262ca3697615eee55fb8847ed6",
+    "submission_archive_commit_message": "paper(v20): final STATUS REPORT + submission ZIP (10 files, SHA-256 sidecar)",
+    "submission_archive_commit_utc": "2026-09-15T09:36:44+00:00",
+    "science_final_candidate_commit": "42755df0cb53a60be1c8a2a3c3322d34ef3d8155",
+    "science_final_candidate_message": "paper(v20): V20 final submission candidate - 5 pages (8 hard max), blind + supervisor variants",
+    "science_final_candidate_utc": "2026-09-15T09:30:59+00:00",
+    "corrected_main_base": "884ba7982f283b2e78c48d768d34f2f5a726a862",
+    "corrected_main_base_message": "merge(p5): zero-API P5 reporting corrections (C1-C7) into main",
+    "tags_at_submission_commits": [],
+    "tag_policy": "No tag was moved at submission time. The post-ICCI closure tag is created separately on the closure branch and does not rewrite history."
+  },
+  "immutability": {
+    "science_frozen": "Do NOT modify or rerun the submitted scientific experiments (M1, P1, P5).",
+    "evidence_frozen": "P1 raw evidence, LocAgent P5-B/P5-C raw evidence, and frozen dataset splits are NOT altered by this closure.",
+    "post_icci_closure_branch": "research/post-icci-zero-api-closure"
+  }
+}

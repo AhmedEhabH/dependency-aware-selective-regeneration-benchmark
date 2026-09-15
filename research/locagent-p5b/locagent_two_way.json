@@ -1,0 +1,319 @@
+{
+  "classification": "POST-ICCI ZERO-API RECOMPUTATION (raw evidence only)",
+  "computed_at": "2026-09-15",
+  "zero_api": true,
+  "headline_A_fail_closed_all_10": {
+    "label": "FAIL-CLOSED all-10-task common metrics \u2014 SCIENTIFIC HEADLINE",
+    "denominator": "10 tasks x 1 execution = 10 outcomes; 5 empty outcomes enter as predicted={}",
+    "micro_pooled": {
+      "tp": 10,
+      "fp": 13,
+      "fn": 27,
+      "precision": 0.434783,
+      "recall": 0.27027,
+      "f1": 0.333333,
+      "fnr": 0.72973
+    }
+  },
+  "diagnostic_B_usable_5": {
+    "label": "USABLE-OUTPUT-ONLY 5-task metrics \u2014 DIAGNOSTIC ONLY (survivor-conditioned)",
+    "warning": "NOT the headline. Computed only over tasks that produced a usable localization; survivor-conditioned bias is explicit.",
+    "usable_task_ids": [
+      "djangocms-rc-50c3576080be",
+      "djangocms-rc-630a50361ada",
+      "djangocms-rc-75978fb1c3ad",
+      "djangocms-rc-8d50660e7bcf",
+      "djangocms-rc-ba16eb9a1d09"
+    ],
+    "micro_pooled": {
+      "tp": 10,
+      "fp": 13,
+      "fn": 15,
+      "precision": 0.434783,
+      "recall": 0.4,
+      "f1": 0.416667,
+      "fnr": 0.6
+    },
+    "macro_mean": {
+      "precision": 0.690909,
+      "recall": 0.603333,
+      "f1": 0.636957,
+      "fnr": 0.396667
+    }
+  },
+  "failure_taxonomy": {
+    "label": "preserved from raw logs (audited 2026-09-15)",
+    "timeout": [
+      "djangocms-rc-4307e1b8c2e2",
+      "djangocms-rc-fdda30c271f0"
+    ],
+    "context_length_badrequest": [
+      "djangocms-rc-66c70394c9e1"
+    ],
+    "completed_but_empty": [
+      "djangocms-rc-9e33db4f4660",
+      "djangocms-rc-b39799f9fc1c"
+    ],
+    "counts": {
+      "timeout": 2,
+      "context_length_badrequest": 1,
+      "completed_but_empty": 2,
+      "total_empty": 5
+    }
+  },
+  "per_task": {
+    "djangocms-rc-4307e1b8c2e2": {
+      "case_id": "djangocms-rc-4307e1b8c2e2",
+      "predicted_file_set": [],
+      "predicted_count": 0,
+      "ranked_count": 0,
+      "out_of_universe_ranked": [],
+      "proxy_size": 1,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fnr": 1.0
+    },
+    "djangocms-rc-50c3576080be": {
+      "case_id": "djangocms-rc-50c3576080be",
+      "predicted_file_set": [
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/constants.py",
+        "cms/forms/widgets.py",
+        "cms/models/placeholdermodel.py",
+        "cms/plugin_base.py",
+        "cms/toolbar/items.py",
+        "cms/toolbar/toolbar.py",
+        "cms/toolbar/utils.py",
+        "cms/utils/plugins.py"
+      ],
+      "predicted_count": 11,
+      "ranked_count": 11,
+      "out_of_universe_ranked": [],
+      "proxy_size": 12,
+      "tp": 5,
+      "fp": 6,
+      "fn": 7,
+      "precision": 0.45454545454545453,
+      "recall": 0.4166666666666667,
+      "f1": 0.43478260869565216,
+      "fnr": 0.5833333333333334
+    },
+    "djangocms-rc-630a50361ada": {
+      "case_id": "djangocms-rc-630a50361ada",
+      "predicted_file_set": [
+        "menus/templatetags/menu_tags.py"
+      ],
+      "predicted_count": 1,
+      "ranked_count": 1,
+      "out_of_universe_ranked": [],
+      "proxy_size": 1,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "fnr": 0.0
+    },
+    "djangocms-rc-66c70394c9e1": {
+      "case_id": "djangocms-rc-66c70394c9e1",
+      "predicted_file_set": [],
+      "predicted_count": 0,
+      "ranked_count": 0,
+      "out_of_universe_ranked": [],
+      "proxy_size": 1,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fnr": 1.0
+    },
+    "djangocms-rc-75978fb1c3ad": {
+      "case_id": "djangocms-rc-75978fb1c3ad",
+      "predicted_file_set": [
+        "cms/appresolver.py"
+      ],
+      "predicted_count": 1,
+      "ranked_count": 1,
+      "out_of_universe_ranked": [],
+      "proxy_size": 1,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "fnr": 0.0
+    },
+    "djangocms-rc-8d50660e7bcf": {
+      "case_id": "djangocms-rc-8d50660e7bcf",
+      "predicted_file_set": [
+        "cms/admin/forms.py",
+        "cms/forms/validators.py",
+        "cms/models/pagemodel.py"
+      ],
+      "predicted_count": 3,
+      "ranked_count": 4,
+      "out_of_universe_ranked": [
+        "cms/migrations/0039_remove_page_languages_alter_pageurl_unique_together.py"
+      ],
+      "proxy_size": 5,
+      "tp": 3,
+      "fp": 0,
+      "fn": 2,
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.7499999999999999,
+      "fnr": 0.4
+    },
+    "djangocms-rc-9e33db4f4660": {
+      "case_id": "djangocms-rc-9e33db4f4660",
+      "predicted_file_set": [],
+      "predicted_count": 0,
+      "ranked_count": 0,
+      "out_of_universe_ranked": [],
+      "proxy_size": 2,
+      "tp": 0,
+      "fp": 0,
+      "fn": 2,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fnr": 1.0
+    },
+    "djangocms-rc-b39799f9fc1c": {
+      "case_id": "djangocms-rc-b39799f9fc1c",
+      "predicted_file_set": [],
+      "predicted_count": 0,
+      "ranked_count": 0,
+      "out_of_universe_ranked": [],
+      "proxy_size": 5,
+      "tp": 0,
+      "fp": 0,
+      "fn": 5,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fnr": 1.0
+    },
+    "djangocms-rc-ba16eb9a1d09": {
+      "case_id": "djangocms-rc-ba16eb9a1d09",
+      "predicted_file_set": [
+        "cms/admin/settingsadmin.py",
+        "cms/appresolver.py",
+        "cms/plugin_pool.py",
+        "cms/sitemaps/cms_sitemap.py",
+        "cms/utils/i18n.py",
+        "cms/wizards/wizard_base.py",
+        "menus/utils.py"
+      ],
+      "predicted_count": 7,
+      "ranked_count": 7,
+      "out_of_universe_ranked": [],
+      "proxy_size": 6,
+      "tp": 0,
+      "fp": 7,
+      "fn": 6,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fnr": 1.0
+    },
+    "djangocms-rc-fdda30c271f0": {
+      "case_id": "djangocms-rc-fdda30c271f0",
+      "predicted_file_set": [],
+      "predicted_count": 0,
+      "ranked_count": 0,
+      "out_of_universe_ranked": [],
+      "proxy_size": 3,
+      "tp": 0,
+      "fp": 0,
+      "fn": 3,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fnr": 1.0
+    }
+  },
+  "efficiency": {
+    "djangocms-rc-4307e1b8c2e2": {
+      "prompt_tokens": 5353688,
+      "completion_tokens": 4615,
+      "total_tokens": 5358303,
+      "model_calls": 43,
+      "cost_usd": 1.610721
+    },
+    "djangocms-rc-50c3576080be": {
+      "prompt_tokens": 4457177,
+      "completion_tokens": 6989,
+      "total_tokens": 4464166,
+      "model_calls": 67,
+      "cost_usd": 1.344142
+    },
+    "djangocms-rc-630a50361ada": {
+      "prompt_tokens": 6469913,
+      "completion_tokens": 6948,
+      "total_tokens": 6476861,
+      "model_calls": 77,
+      "cost_usd": 1.947922
+    },
+    "djangocms-rc-66c70394c9e1": {
+      "prompt_tokens": 7704153,
+      "completion_tokens": 15138,
+      "total_tokens": 7719291,
+      "model_calls": 71,
+      "cost_usd": 2.326384
+    },
+    "djangocms-rc-75978fb1c3ad": {
+      "prompt_tokens": 3533963,
+      "completion_tokens": 5554,
+      "total_tokens": 3539517,
+      "model_calls": 43,
+      "cost_usd": 1.065743
+    },
+    "djangocms-rc-8d50660e7bcf": {
+      "prompt_tokens": 1456172,
+      "completion_tokens": 2322,
+      "total_tokens": 1458494,
+      "model_calls": 28,
+      "cost_usd": 0.439174
+    },
+    "djangocms-rc-9e33db4f4660": {
+      "prompt_tokens": 1449840,
+      "completion_tokens": 2142,
+      "total_tokens": 1451982,
+      "model_calls": 25,
+      "cost_usd": 0.437094
+    },
+    "djangocms-rc-b39799f9fc1c": {
+      "prompt_tokens": 1010049,
+      "completion_tokens": 1713,
+      "total_tokens": 1011762,
+      "model_calls": 21,
+      "cost_usd": 0.304728
+    },
+    "djangocms-rc-ba16eb9a1d09": {
+      "prompt_tokens": 1083663,
+      "completion_tokens": 1821,
+      "total_tokens": 1085484,
+      "model_calls": 20,
+      "cost_usd": 0.32692
+    },
+    "djangocms-rc-fdda30c271f0": {
+      "prompt_tokens": 199900,
+      "completion_tokens": 66014,
+      "total_tokens": 265914,
+      "model_calls": 7,
+      "cost_usd": 0.125984
+    }
+  },
+  "note": "A is the headline. B is survivor-conditioned diagnostic only and MUST NOT be reported as the primary LocAgent result."
+}
