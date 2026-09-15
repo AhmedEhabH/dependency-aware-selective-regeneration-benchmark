@@ -3,8 +3,15 @@
 ## CURRENT BOARD
 
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
+**Governance (2026-09-16):** scientific truth = `00_CURRENT_RESEARCH_STATE.md`
+(single front door); execution truth = `PROGRESS.md`; decisions = `DECISIONS.md`
+(append-only). Protocol v2 CURRENT PHASE = **Repository change localization /
+impact selection** (`docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`).
 **Current phase:** Paper submitted (ICCI shorthand; IEEE-format V20 artifact)
-+ **POST-ICCI ZERO-API CLOSURE COMPLETE (2026-09-15)** (authoritative state =
++ **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE (2026-09-16) — Protocol A
+cheap-non-LLM baselines v1 (TRAIN 24 + VALIDATION 6; ZERO API; six gates +
+audit PASS; BM25@K strongest, Graph@K ≈ path_token@K, Hybrid@K ≈ BM25@K)** +
+**POST-ICCI ZERO-API CLOSURE COMPLETE (2026-09-15)** (authoritative state =
 `00_CURRENT_RESEARCH_STATE.md`; immutable submission record =
 `paper/v20-final/ICCI_SUBMISSION_RECORD_2026-09-15.json`; HELD_OUT_TEST
 permanently exposed; next experiments DRAFTED only) + **M4A-1 real-commit
@@ -19,6 +26,11 @@ comparison COMPLETE (2026-09-15; P5-B VALIDATION 6/6, P5-C HELD_OUT_TEST
 corrections applied 2026-09-15: official Acc@K, failure taxonomy,
 provider-route wording, consistent efficiency denominator)**.
 **Legacy frozen benchmark runs remaining:** ZERO.
+**Next scientific step (STOP for Ahmed review after this block):** selective
+escalation after omission-risk detection (THESIS CORE) — design-only drafts:
+`docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`,
+`docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`; do NOT auto-start Saleor /
+risk-detector / new LLM runs.
 **New RealCommitImpactDataset scientific evaluation:** EXECUTED (M4A-3/P1;
 see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
 **P5 LocAgent comparison (2026-09-15; reporting corrections applied
@@ -35,7 +47,7 @@ pricing snapshot — normalized estimate); paired ΔF1 CIs cross zero.
 Acc@5 2/10 — the historical 4/10/8/10/9/10 were item-hit sums; the 5 empty
 outcomes are 2 timeout / 1 context-length BadRequest / 2 completed-but-empty
 (50% empty/non-usable, NOT 50% timeout); provider wording is
-**OpenRouter-routed Qwen3-Coder** (ledger records the OpenRouter gateway; logs
+**OpenRouter-routed Qwen3-Coder-480B-A35B-Instruct** (ledger records the OpenRouter gateway; logs
 show both DeepInfra and Venice upstream errors — no per-call DeepInfra pin is
 claimed); efficiency ratios use one consistent per-execution/task denominator
 (~245.7× tokens / ~100.1× cost vs Full; ~593.8× tokens / ~477.8× cost vs
@@ -129,7 +141,12 @@ Bounded false-negative verification
 - [ ] Deterministic threshold vs logistic regression for escalation.
 - [ ] Random escalation baseline.
 - [ ] Bounded graph verification.
-- [ ] Graph@K / BM25@K / Hybrid@K / Random@K.
+- [x] **Graph@K / BM25@K / Hybrid@K / Random@K — Protocol A cheap baselines v1
+      COMPLETE (2026-09-16; TRAIN 24 + VALIDATION 6; ZERO API; six gates +
+      audit PASS; frozen config; HELD_OUT_TEST untouched).**
+- [x] **Omission-risk + Saleor protocol DRAFTS (2026-09-16, DOCUMENT-ONLY):
+      `docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md` (THESIS CORE),
+      `docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md` (second-repo pillar).**
 - [ ] Fresh confirmatory test (new split, not the P1 held-out).
 - [ ] Saleor real-commit replication.
 - [ ] Loc-Bench audit before use.

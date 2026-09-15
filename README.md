@@ -1,19 +1,31 @@
 # Repository-Level LLM Impact Selection Benchmark
 
-> **Current scientific state (2026-09-15):** the selection-stage benchmark is
+> **Current scientific state (2026-09-16):** the selection-stage benchmark is
 > **complete and audited**, the manuscript is **submitted** (IEEE-format V20
-> artifact; see `paper/v20-final/`), and the **POST-ICCI zero-API closure is
-> COMPLETE** (2026-09-15): immutable submission record, authoritative
-> [`00_CURRENT_RESEARCH_STATE.md`](00_CURRENT_RESEARCH_STATE.md), LocAgent
-> two-way recomputation, four-action FN breakdown, per-task error table, and
-> drafted next-experiment protocols (NOT executed) — all with ZERO new
-> scientific model/API calls. The ten-task HELD_OUT_TEST split is PERMANENTLY
-> EXPOSED (do-not-tune). Controlled sparse-policy studies (M1A/M1B/M3) are
-> complete; a 40-case real-history corpus (M4A-1/M4A-2) is frozen; the 10-task
-> held-out **Full-v2 vs Sparse-v2 evaluation (M4A-3 / P1) is EXECUTED**
-> (60/60 cells valid); the **LocAgent shared-protocol comparison (P5) is
-> COMPLETE** (P5-B VALIDATION 6/6 + P5-C HELD_OUT_TEST 10/10 on WSL2 Ubuntu;
-> Full-v2/Sparse-v2/LocAgent shared table + independent audit — see
+> artifact; see `paper/v20-final/`), the **POST-ICCI zero-API closure is
+> COMPLETE** (2026-09-15), and the **FIRST POST-ICCI EXPERIMENTAL BLOCK is
+> COMPLETE (Protocol A — cheap non-LLM baselines v1, 2026-09-16)**: TRAIN 24 +
+> VALIDATION 6 only (HELD_OUT_TEST ten permanently excluded), ZERO API calls,
+> six zero-API gates + independent audit PASS; **BM25@K is the strongest cheap
+> lexical baseline** (pooled F1 0.282 @K=3; recall 0.589 @K=10), Graph@K ≈
+> path_token@K, Hybrid@K ≈ BM25@K, Random@K is a floor — all "development
+> evidence", not confirmatory (see
+> [`reports/CHEAP_BASELINES_V1_REPORT.md`](reports/CHEAP_BASELINES_V1_REPORT.md)).
+> Governance: scientific truth =
+> [`00_CURRENT_RESEARCH_STATE.md`](00_CURRENT_RESEARCH_STATE.md), execution
+> truth = [`PROGRESS.md`](PROGRESS.md), decisions (append-only) =
+> [`DECISIONS.md`](DECISIONS.md); protocol v2 CURRENT PHASE = **Repository
+> change localization / impact selection**. Prior milestones: immutable
+> submission record, LocAgent two-way recomputation, four-action FN breakdown,
+> per-task error table, drafted next-experiment protocols (NOT executed) — all
+> with ZERO new scientific model/API calls in the baseline block. The ten-task
+> HELD_OUT_TEST split is PERMANENTLY EXPOSED (do-not-tune). Controlled
+> sparse-policy studies (M1A/M1B/M3) are complete; a 40-case real-history
+> corpus (M4A-1/M4A-2) is frozen; the 10-task held-out **Full-v2 vs Sparse-v2
+> evaluation (M4A-3 / P1) is EXECUTED** (60/60 cells valid); the **LocAgent
+> shared-protocol comparison (P5) is COMPLETE** (P5-B VALIDATION 6/6 + P5-C
+> HELD_OUT_TEST 10/10 on WSL2 Ubuntu; Full-v2/Sparse-v2/LocAgent shared table
+> + independent audit — see
 > [P5 shared comparison](#p5-locagent-shared-protocol-comparison)). The
 > serialized-record derived metric in the P1 result was corrected on 2026-09-14
 > (see [P1 serialization correction](#p1-serialized-record-metric-correction)).
@@ -152,7 +164,8 @@ execution = 10 outcomes. "30/30" and "5/10" must not be compared as one
   pricing snapshot — a NORMALIZED estimate, not authoritative provider-billed
   cost).
 - **Provider-route provenance (corrected 2026-09-15):** P5 wording is
-  **OpenRouter-routed Qwen3-Coder**. The ledger records the OpenRouter gateway
+  **OpenRouter-routed Qwen3-Coder-480B-A35B-Instruct**. The ledger records the
+  OpenRouter gateway
   (`provider="openrouter"`), not the resolved backend; raw logs show both
   DeepInfra and Venice upstream errors, so an unqualified per-call DeepInfra
   pin is NOT supported. P1's own DeepInfra endpoint freeze is separate

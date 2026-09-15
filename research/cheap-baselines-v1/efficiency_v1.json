@@ -1,0 +1,49 @@
+{
+  "efficiency_v1": {
+    "random": {
+      "cases": 120,
+      "total_wallclock_seconds": 0.00894,
+      "index_build_total_seconds": 0.0,
+      "corpus_build_total_seconds": 0.0,
+      "query_total_seconds": 0.00894,
+      "llm_calls": 0,
+      "llm_tokens": 0
+    },
+    "bm25": {
+      "cases": 120,
+      "total_wallclock_seconds": 393.921595,
+      "index_build_total_seconds": 14.993898,
+      "corpus_build_total_seconds": 377.847452,
+      "query_total_seconds": 1.080245,
+      "llm_calls": 0,
+      "llm_tokens": 0
+    },
+    "path_token": {
+      "cases": 120,
+      "total_wallclock_seconds": 0.529966,
+      "index_build_total_seconds": 0.0,
+      "corpus_build_total_seconds": 0.0,
+      "query_total_seconds": 0.529966,
+      "llm_calls": 0,
+      "llm_tokens": 0
+    },
+    "graph": {
+      "cases": 120,
+      "total_wallclock_seconds": 1.076489,
+      "index_build_total_seconds": 0.0,
+      "corpus_build_total_seconds": 0.0,
+      "query_total_seconds": 1.076489,
+      "llm_calls": 0,
+      "llm_tokens": 0
+    },
+    "hybrid": {
+      "cases": 120,
+      "total_wallclock_seconds": 393.953792,
+      "index_build_total_seconds": 14.993898,
+      "corpus_build_total_seconds": 377.847452,
+      "query_total_seconds": 1.112442,
+      "llm_calls": 0,
+      "llm_tokens": 0
+    }
+  }
+}
