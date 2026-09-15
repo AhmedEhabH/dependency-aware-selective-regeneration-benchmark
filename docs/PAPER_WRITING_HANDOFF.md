@@ -507,40 +507,65 @@ unified comparison table and supervisor options.
 ## P5 — LocAgent shared-protocol comparison (V20 paper integration)
 
 Executed 2026-09-15 (WSL2 Ubuntu). System-level shared-task comparison; NOT an
-algorithm ablation (P1 temp 0 vs LocAgent upstream temp 1).
+algorithm ablation (P1 temp 0 vs LocAgent upstream temp 1). Reporting
+corrections applied 2026-09-15 (zero-API): official Acc@K, failure taxonomy,
+provider-route wording, consistent efficiency denominator.
 
 ### Recommended shared comparison table (same 10 held-out tasks)
 
-| System | Valid | P | R | F1 | FNR | Comp. tokens | Model calls | Cost | Latency |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Full-v2 | 30/30 | 0.339 | 0.369 | 0.353 | 0.631 | 8,445.8 | 30 | $0.2976 | 1,715.7 s |
-| Sparse-v2 | 30/30 | 0.387 | 0.261 | 0.312 | 0.739 | 599.0 | 30 | $0.0623 | 200.4 s |
-| LocAgent | 5/10 | 0.435 | 0.270 | 0.333 | 0.730 | 11,325.6 | 402 | $9.9288 | 4,025.9 s |
+Execution/validity denominators are EXPLICIT and never mixed under one `Valid`
+column: Full/Sparse = 10 tasks × 3 nested repetitions = 30 cells; LocAgent =
+10 tasks × 1 execution = 10 outcomes.
 
-- LocAgent valid = 5/10 (5 tasks hit the frozen 900 s per-attempt budget and
-  were persisted fail-closed empty; timeout rate 50%).
+| System | Tasks | Runs/cells | Non-empty/parseable | Fail-closed/empty | P | R | F1 | FNR | Comp. tokens | Model calls | Cost | Latency |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Full-v2 | 10 | 30 | 30 | 0 | 0.339 | 0.369 | 0.353 | 0.631 | 8,445.8 | 30 | $0.2976 | 1,715.7 s |
+| Sparse-v2 | 10 | 30 | 30 | 0 | 0.387 | 0.261 | 0.312 | 0.739 | 599.0 | 30 | $0.0623 | 200.4 s |
+| LocAgent | 10 | 10 | 5 | 5 | 0.435 | 0.270 | 0.333 | 0.730 | 11,325.6 | 402 | $9.9288 | 4,025.9 s |
+
+- LocAgent non-empty/parseable = 5/10; the 5 empty outcomes are fail-closed.
+  Failure taxonomy from raw logs (corrected 2026-09-15): **2/10 genuine 900 s
+  timeouts, 1/10 context-length `BadRequestError`, 2/10 completed-but-empty**
+  (upstream logged "succeed" with no parseable file set) → **50%
+  empty/non-usable localization rate, NOT a 50% timeout rate**.
 - LocAgent calls/tokens/cost are authoritative per-call ledger figures
   (402 calls, 32,718,518 prompt + 113,256 completion tokens, $9.9288 at the
-  frozen $0.30/$1.00 per 1M pricing).
+  frozen $0.30/$1.00 per 1M pricing snapshot — a NORMALIZED estimate, not
+  authoritative provider-billed cost).
+- Provider-route wording (corrected 2026-09-15): **OpenRouter-routed
+  Qwen3-Coder**. The ledger records the OpenRouter gateway
+  (`provider="openrouter"`), not the resolved backend; raw logs show both
+  DeepInfra and Venice upstream errors, so an unqualified per-call DeepInfra
+  pin is NOT supported. P1's own DeepInfra endpoint freeze is separate
+  evidence.
 
 ### Paired / bootstrap (10 independent tasks)
 
 - LocAgent − Full ΔF1 −0.068 [−0.250, +0.170]
 - LocAgent − Sparse ΔF1 −0.061 [−0.306, +0.241]
-- Both CI95 cross zero → no significant task-level F1 difference.
+- Both CI95 cross zero → no significant task-level F1 difference detected (CI
+  crossing zero is NOT evidence of equivalence).
 
 ### LocAgent-native (report separately, do NOT compare to F1)
 
-- Acc@1 4/10, Acc@3 8/10, Acc@5 9/10 (from the original ranked order).
+- **Official LocAgent Acc@K** (task hit iff #correct in top-K == min(proxy,
+  K), mirroring the pinned upstream `eval_metric.py` `acc_at_k`): Acc@1 4/10,
+  Acc@3 4/10, Acc@5 2/10.
+- Simple task-level Hit@K (≥1 proxy file in top-K): 4/10 at every K.
+- The historical 4/10, 8/10, 9/10 claims were cross-task sums of matching
+  FILE ITEMS (item-hits) and are NOT task accuracy.
 
 ### Claim-safe paper text
 
 - The representation-cost advantage (RQ1/RQ3) persists on real held-out
   changes; the shared comparison shows a comparable-or-lower accuracy at
-  dramatically higher cost: LocAgent ~33× the token budget and ~160× the cost
-  of Full-v2, with a 50% timeout attrition rate.
+  dramatically higher cost. Use ONE consistent denominator: mean per
+  execution/task — LocAgent ≈ 245.7× the mean tokens and ≈ 100.1× the mean
+  cost of Full-v2; ≈ 593.8× the mean tokens and ≈ 477.8× the mean cost of
+  Sparse-v2 — with a 50% empty/non-usable localization rate (2 timeout /
+  1 context-length / 2 completed-but-empty).
 - Do NOT claim: "LocAgent is universally worse/better"; token savings
-  compensate for accuracy loss; LocAgent Acc@5 0.90 ≈ our F1. The paired CIs
+  compensate for accuracy loss; LocAgent Acc@5 0.20 ≈ our F1. The paired CIs
   cross zero.
 - Recommended framing: an External Baseline Comparison subsection with the
   shared table + a claim that the cost-accuracy trade-off on these real tasks
