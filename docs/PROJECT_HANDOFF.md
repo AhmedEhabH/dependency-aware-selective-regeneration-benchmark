@@ -8,16 +8,18 @@
 real-commit miner + scientific corpus COMPLETE / AUDITED (2026-09-13)** +
 **M4A-3/P1 real held-out evaluation EXECUTED (2026-09-14; 60/60 cells valid,
 0 failures, 0 truncations; completion cap 16384 both arms; 10 independent
-tasks; bootstrap over tasks)** + **P5-A LocAgent adapter COMPLETE (ZERO API)**.
-**Scientific runs remaining:** ZERO legacy; P5-B LocAgent validation pilot
-**BLOCKED** (unmodified upstream agent loop requires POSIX `fork`; Windows
-host) — attempt + exact blocker preserved.
+tasks; bootstrap over tasks)** + **P5 LocAgent shared-protocol comparison
+COMPLETE (2026-09-15; P5-B VALIDATION 6/6 + P5-C HELD_OUT_TEST 10/10 on
+WSL2 Ubuntu; Full/Sparse/LocAgent shared table; audit PASS)**.
+**Scientific runs remaining:** ZERO legacy; P5 closed.
 
-- **Next:** P5-B on a POSIX host or documented adapter patch layer (frozen
-  P5-A shared protocol is ready), then paper / figures / manuscript /
-  supervisor review. Start with
+- **Next:** paper / figures / manuscript / supervisor review (V20 final
+  submission candidate). Start with
   [`docs/PAPER_WRITING_HANDOFF.md`](PAPER_WRITING_HANDOFF.md) and
   [`../README.md`](../README.md).
+- **P5 LocAgent evidence:** `reports/LOCAGENT_P5C_SHARED_COMPARISON.md`,
+  `reports/LOCAGENT_P5C_AUDIT.md`, `research/locagent-p5b/` (raw outputs,
+  merged ranked files, authoritative per-call usage ledger).
 - **P1 held-out evidence:** `reports/REAL_COMMIT_M4A3_P1_RESULT.md`,
   `research/real-commit-p1-01/` (60 run records + SHA-verified raw responses);
   full_v2 micro P 0.339/R 0.369/F1 0.353, sparse_v2 micro P 0.387/R 0.261/F1 0.312;
