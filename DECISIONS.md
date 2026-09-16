@@ -189,3 +189,6 @@ execution. Entries are never edited after append; corrections are new entries.
   diagnostic + tests added, docs synchronized, branch merged into `main`,
   tag `cheap-baselines-v1-dev-2026-09-16` created and pushed, light export
   recreated after merge/tag.
+- **Tag → exact commit:** `cheap-baselines-v1-dev-2026-09-16` (tag object
+  `4b96049…`) peels to commit `541c8ba…` == `main` == `origin/main` (created
+  2026-09-16 after merge; audited DEVELOPMENT evidence only).

@@ -54,6 +54,9 @@ Post-submission window. Scientific runs remaining in this block: ZERO.
   executor success).
 - `v0.11.1-p1-serialization-docs-model-refactor`, `v0.11.2-p5-locagent-shared-comparison`,
   `v0.11.3-p5-reporting-corrections` @ `884ba79…`.
+- `cheap-baselines-v1-dev-2026-09-16` — Protocol A cheap non-LLM baselines v1
+  DEV evidence tag @ commit `541c8ba…` (tag object `4b96049…`; audited
+  DEVELOPMENT evidence, NOT confirmatory; NOT a stable-tag move).
 - Study tags: `real-commit-p1-full-v2-vs-sparse-v2-01-audited`,
   `real-commit-impact-dataset-v1-corpus-audited`,
   `real-commit-impact-dataset-v1-m4a1-closure-audited`,
