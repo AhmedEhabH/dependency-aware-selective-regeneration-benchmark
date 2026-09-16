@@ -1,0 +1,181 @@
+{
+  "audit": true,
+  "study_id": "omission-risk-development-inference-v1",
+  "passed": true,
+  "checks": [
+    {
+      "check": "cells_exactly_90",
+      "ok": true,
+      "detail": 90
+    },
+    {
+      "check": "run_ids_unique",
+      "ok": true,
+      "detail": 90
+    },
+    {
+      "check": "manifest_matches_records",
+      "ok": true,
+      "detail": "exact run_id set equality"
+    },
+    {
+      "check": "valid_90_of_90",
+      "ok": true,
+      "detail": 90
+    },
+    {
+      "check": "schema_valid_all",
+      "ok": true,
+      "detail": 90
+    },
+    {
+      "check": "no_truncations",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "check": "raw_sha256_all_match",
+      "ok": true,
+      "detail": "mismatches=0"
+    },
+    {
+      "check": "token_budget_respected",
+      "ok": true,
+      "detail": {
+        "tokens": 490747,
+        "ceiling": 600000
+      }
+    },
+    {
+      "check": "cost_budget_respected",
+      "ok": true,
+      "detail": {
+        "cost": 0.184088,
+        "ceiling": 0.3
+      }
+    },
+    {
+      "check": "records_only_train_validation",
+      "ok": true,
+      "detail": {
+        "n_cases": 30
+      }
+    },
+    {
+      "check": "records_exclude_heldout",
+      "ok": true,
+      "detail": "no HELD_OUT_TEST case in records"
+    },
+    {
+      "check": "manifest_excludes_heldout",
+      "ok": true,
+      "detail": "no HELD_OUT_TEST case in manifest"
+    },
+    {
+      "check": "analysis_outputs_exclude_heldout",
+      "ok": true,
+      "detail": "files_with_heldout=0"
+    },
+    {
+      "check": "provider_deepinfra_all",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "check": "model_frozen",
+      "ok": true,
+      "detail": "qwen/qwen3-coder"
+    },
+    {
+      "check": "provider_tag_frozen",
+      "ok": true,
+      "detail": "deepinfra/turbo"
+    },
+    {
+      "check": "graph_off_all",
+      "ok": true,
+      "detail": "OFF"
+    },
+    {
+      "check": "temperature_zero_all",
+      "ok": true,
+      "detail": "0.0"
+    },
+    {
+      "check": "cap_16384_all",
+      "ok": true,
+      "detail": "16384"
+    },
+    {
+      "check": "fallback_off_all",
+      "ok": true,
+      "detail": "off"
+    },
+    {
+      "check": "single_record_per_run_id",
+      "ok": true,
+      "detail": "one record per cell"
+    },
+    {
+      "check": "closure_no_replacement_reruns",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "closure_no_result_reruns",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "closure_run_complete",
+      "ok": true,
+      "detail": 90
+    },
+    {
+      "check": "labels_n_30_tasks",
+      "ok": true,
+      "detail": 30
+    },
+    {
+      "check": "reps_nested_not_independent",
+      "ok": true,
+      "detail": "has_fn(t) = 1 iff the Sparse-v2 prediction omits >=1 proxy-positive file; pre-registered aggregation = any-FN-over-reps "
+    },
+    {
+      "check": "class_balance_gate_failed_no_scorer",
+      "ok": true,
+      "detail": {
+        "n_pos": 26,
+        "n_neg": 4,
+        "reason": "multivariable RiskScorer NOT fitted: class-balance gate requires >=10 independent tasks per class; analysis is descripti"
+      }
+    },
+    {
+      "check": "no_scorer_artifact",
+      "ok": true,
+      "detail": "no risk_scorer.json produced"
+    },
+    {
+      "check": "spot_serialized_count_reproducible",
+      "ok": true,
+      "detail": {
+        "run_id": "omission-djangocms-rc-0fec81224889-sparse_v2-r1",
+        "from_raw": 3,
+        "recorded": 3
+      }
+    },
+    {
+      "check": "gates_all_passed",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "check": "gates_audit_passed",
+      "ok": true,
+      "detail": true
+    }
+  ],
+  "n_checks": 31,
+  "n_passed": 31,
+  "ran_at": "2026-09-16T06:08:35.567166+00:00"
+}

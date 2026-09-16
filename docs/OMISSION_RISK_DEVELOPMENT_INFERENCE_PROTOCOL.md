@@ -1,6 +1,9 @@
 # DEVELOPMENT-INFERENCE PROTOCOL — Omission-Risk Feature Study V1 (TRAIN/VALIDATION Sparse-v2)
 
-**Status:** DRAFT — REQUIRES AHMED'S APPROVAL BEFORE ANY NEW SCIENTIFIC LLM/API CALL.
+**Status:** EXECUTED 2026-09-16 (approved 90-cell run COMPLETE, 90/90 valid,
+490,747 tokens / $0.184 within the frozen 600,000-token AND $0.30 hard-stop;
+labels computed; registered Sparse-v2-label feature analysis rerun; report
+`reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`).
 **Date:** 2026-09-16
 **Amendment basis:** Phase-B mandatory preflight (A–G) confirmed TRAIN/VALIDATION
 Sparse-v2 predictions are UNAVAILABLE. Per the amendment, the registered
@@ -96,4 +99,9 @@ No scientific LLM/API call will be made without this decision.
 
 ---
 
-**Approve / reject and which variant (90 / 60 / 30 cells):** __________________
+**Approve / reject and which variant (90 / 60 / 30 cells):** **APPROVED 2026-09-16 —
+90-cell Sparse-v2 development-inference run EXECUTED** (30 tasks × 3 reps;
+results in `research/omission-risk-feature-study-v1/sparse_v2_trainval_run_records.jsonl`;
+analysis in `research/omission-risk-feature-study-v1/sparse_v2_label_analysis/`;
+report `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`; audit
+`reports/OMISSION_RISK_INFERENCE_AUDIT.md`).
