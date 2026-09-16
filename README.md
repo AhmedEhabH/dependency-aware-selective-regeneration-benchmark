@@ -224,23 +224,10 @@ superiority is claimed in either direction. Details:
 
 ## 3. Project map
 
-```mermaid
-flowchart LR
-    A["Django Todo<br/>small controlled prototype"]
-    B["django CMS<br/>6 curated mechanism tasks"]
-    C["django CMS<br/>40 real historical changes"]
-    D["Held-out P1<br/>10 real tasks"]
-    E["LocAgent<br/>shared-protocol comparison"]
-    F["Graph omission-risk<br/>Graph@K / Semantic@K / Hybrid@K"]
-    G["Saleor<br/>future cross-repository replication"]
-    H["M2 density stress<br/>future break-even study"]
+> Diagram fallback (static SVG; editable Mermaid source of truth:
+> [`docs/diagrams/project_map.mmd`](docs/diagrams/project_map.mmd)).
 
-    A --> B --> C --> D
-    D --> E
-    D --> F
-    C --> G
-    B --> H
-```
+![Project map](docs/assets/project_map.svg)
 
 ---
 
@@ -271,6 +258,101 @@ Historical changed files are always described as an **OBSERVED CHANGE-SET PROXY*
 
 ---
 
+## 5a. RealCommitImpactDataset-v1 — verified funnel and transparency
+
+The corpus is mined from **real GitHub history**, not synthetic edits:
+
+```text
+djangoCMS real Git history
+    ↓
+6000 historical commits scanned
+    ↓
+916 initially eligible
+    ↓
+334 after R1/R2 duplicate removal
+    ↓
+329 after R3 adjudication / independent eligible pool
+    ↓
+40 deliberately selected for v1
+    ↓
+24 TRAIN / 6 VALIDATION / 10 HELD_OUT_TEST
+```
+
+Counts verified from the frozen adjudication artifacts
+(`reports/real_commit_m4a2_adjudication.json`; see
+[`reports/REAL_COMMIT_M4A2_ADJUDICATION.md`](reports/REAL_COMMIT_M4A2_ADJUDICATION.md)).
+
+Key facts:
+
+- **Real GitHub history is used** (modern PR-era djangoCMS, newest 6000
+  ancestors of the frozen tag `5.0.0` anchor).
+- **Inference uses the parent commit P only**; the target commit T is hidden.
+- The **P→T changed production files are an OBSERVED CHANGE-SET PROXY**, not
+  semantic gold — no P/R/V/H gold is fabricated from Git diffs.
+- **Live GitHub HEAD is not used** because it moves and can leak future state.
+
+## 5b. The 30 development tasks (TRAIN + VALIDATION)
+
+**30 = TRAIN (24) + VALIDATION (6)** development tasks. The **10 old
+HELD_OUT_TEST tasks are permanently exposed** after P1/P5 — all v1 40 tasks are
+therefore unavailable as a future untouched confirmatory set (see the V2
+protocol). Table generated from frozen artifacts (never hand-transcribed;
+generator `scripts/generate_transparency_tables.py`):
+
+| Commit SHA | Split | Year | Candidates | Proxy | Bucket | Type | PUBLIC intent (shortened) |
+|---|---|---|---|---|---|---|---|
+| `06ecf3a8e8de` | TRAIN | 2023 | 140 | 1 | small | bugfix | fix: Update transifex source file (#7629) * Fix css glitc... |
+| `138abbb7e5f4` | TRAIN | 2016 | 148 | 1 | small | unknown | More efficient implementation of get_text_enabled_plugins... |
+| `1ff5bf9149b4` | TRAIN | 2017 | 152 | 2 | small | unknown | Fixed #6205 -- Require "Change advanced settings" permiss... |
+| `28ddd6d10308` | TRAIN | 2022 | 140 | 3 | medium | unknown | Fix page tree w/ empty page contents and language-aware a... |
+| `2efae8e43bd6` | TRAIN | 2025 | 144 | 1 | small | bugfix | fix: Grouper models w/o must not assume language grouper ... |
+| `33fbdb18e5d4` | TRAIN | 2023 | 140 | 2 | small | unknown | fix ruff |
+| `39442083f18a` | TRAIN | 2017 | 152 | 1 | small | unknown | Fixes #6189 -- Use only published languages when renderin... |
+| `3f8fcb5fb63b` | TRAIN | 2024 | 144 | 1 | small | bugfix | fix: Correct ContentRenderer logic for toolbar and page c... |
+| `497c3c67e813` | TRAIN | 2022 | 140 | 1 | small | unknown | Optimize populating title cache for Page model. (#7177) *... |
+| `4b8089b8b686` | TRAIN | 2016 | 148 | 3 | medium | unknown | Fixed #5752 -- Move pages relative to left or right sibli... |
+| `5ff38b521274` | TRAIN | 2022 | 140 | 2 | small | feature | feat: graceful plugin exceptions (#7423) * Fix: Catch exc... |
+| `807a87b1de71` | TRAIN | 2023 | 140 | 7 | large | bugfix | fix: Remove `can_publish` permission from django CMS 4 co... |
+| `9e508ff1c41e` | TRAIN | 2016 | 148 | 2 | small | unknown | Deprecated CMSPluginBase attribute; removed deprecated CM... |
+| `a1ac04d3f817` | TRAIN | 2018 | 140 | 2 | small | unknown | Optionally disable the sideframe (#6553) |
+| `a7df58dc5ff3` | TRAIN | 2018 | 140 | 1 | small | unknown | Rename default persist param |
+| `ac74c212719f` | TRAIN | 2023 | 140 | 2 | small | unknown | Fix: Open new plugin window in language of toolbar not of... |
+| `ada585d3f358` | TRAIN | 2025 | 144 | 1 | small | bugfix | fix: Complete #8176 (#8178) * fix: Show toolbar on v4 end... |
+| `c02308fc5261` | TRAIN | 2020 | 140 | 3 | medium | unknown | Add CMSAppExtension.ready which is called after all cms a... |
+| `ca16415b1022` | TRAIN | 2018 | 140 | 2 | small | unknown | Added language to Page translation operations |
+| `d88932559b00` | TRAIN | 2020 | 140 | 2 | small | unknown | Patch defects (#6930) Co-authored-by: Adam Murray <adam@A... |
+| `e429b4584a16` | TRAIN | 2020 | 140 | 2 | small | unknown | Provide a general get method that can be monkeypatched (#... |
+| `e88032bf704c` | TRAIN | 2023 | 143 | 2 | small | chore | chore: Merge `release/build` into `release/4.1.x` (#7729)... |
+| `f2c367ddc7b1` | TRAIN | 2024 | 144 | 1 | small | bugfix | fix: Adjust tests for updated django 5.2 admin templates ... |
+| `ff6cb9b5dced` | TRAIN | 2022 | 140 | 3 | medium | feature | feat: Added pre-migrate hook to check version 4 is intent... |
+| `0daae01f2f65` | VALIDATION | 2017 | 152 | 5 | medium | unknown | Fixed #6201 -- Don't allow users to paste a page if it do... |
+| `0fec81224889` | VALIDATION | 2020 | 140 | 3 | medium | unknown | Deprecate the core Alias plugin (#6918) * Add a deprecati... |
+| `1031d20fca28` | VALIDATION | 2024 | 144 | 9 | large | bugfix | fix: Replaced `languages` field from `Page` which used to... |
+| `47b63015feb1` | VALIDATION | 2024 | 144 | 2 | small | feature | feat: Improved delete page confirmation message (#8070) *... |
+| `a9e2a8d3b7a6` | VALIDATION | 2016 | 148 | 3 | medium | unknown | Mark CMSPlugin.render_plugin as PendingDeprecation |
+| `e3a23a7fc757` | VALIDATION | 2018 | 140 | 3 | medium | unknown | Removed resolve view |
+
+The "Type" column is a conservative public-intent-derived taxonomy (README-only,
+never used for model input / split / tuning). Any reader-friendly topic
+taxonomy added later must be derived from public intent only.
+
+## 5c. Planner vs RiskScorer vs Verifier — what each component is
+
+- **Sparse / Full planner** = predicts which files are affected.
+- **RiskScorer** = meta-decision layer estimating whether the current scope is
+  unsafe (a second-stage omission-risk signal).
+- **Verifier** = second-stage mechanism that revisits the scope/candidates.
+- **P1 60 cells** = Full-vs-Sparse file-selection/efficiency evaluation.
+- **M1/M1A/M2-style density/cap work** = representation/scaling question.
+- **Risk study** = can omission risk be predicted before gold reveal?
+
+**Current result:** a task-level RiskScorer v1 is **NOT justified** on the
+30-task development evidence (class-balance gate failed: 4 negatives < 10; no
+reliable feature survives the random band). See
+[`reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`](reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md).
+
+---
+
 ## 6. Experiment registry
 
 | ID | Question | Data | Arms / conditions | Calls/cells | Status | Main takeaway |
@@ -292,52 +374,19 @@ Historical changed files are always described as an **OBSERVED CHANGE-SET PROXY*
 
 ## 7. Experiment map
 
-```mermaid
-flowchart TD
-    M1A["M1A<br/>4096 feasibility boundary"]
-    M1B["M1B<br/>16K controlled encoding ablation"]
-    M3["M3<br/>broadcast graph ablation"]
-    M4A1["M4A-1<br/>real-commit miner"]
-    M4A2["M4A-2<br/>40-case corpus + split freeze"]
-    P1["P1 / M4A-3<br/>real held-out Full vs Sparse"]
-    P5["P5<br/>LocAgent shared protocol"]
-    P2["P2<br/>selective omission verification"]
-    P3["P3<br/>Saleor replication"]
-    M2["M2<br/>serialization-density stress"]
+> Diagram fallback (static SVG; editable Mermaid source of truth:
+> [`docs/diagrams/experiment_map.mmd`](docs/diagrams/experiment_map.mmd)).
 
-    M1A --> M1B
-    M1B --> M3
-    M1B --> M4A1
-    M4A1 --> M4A2 --> P1
-    P1 --> P5
-    M3 --> P2
-    P1 --> P2
-    M4A2 --> P3
-    M1B --> M2
-```
+![Experiment map](docs/assets/experiment_map.svg)
 
 ---
 
 ## 8. Repository map
 
-```mermaid
-flowchart TD
-    SRC["src/benchmark<br/>reusable benchmark logic"]
-    DATA["benchmark_data<br/>frozen datasets / manifests"]
-    SCRIPTS["scripts<br/>study launchers / verifiers"]
-    RESEARCH["research<br/>raw scientific run evidence"]
-    REPORTS["reports<br/>protocols / results / audits"]
-    DOCS["docs<br/>handoffs / roadmap / user docs"]
-    TESTS["tests<br/>unit + integration + leakage + regression"]
+> Diagram fallback (static SVG; editable Mermaid source of truth:
+> [`docs/diagrams/repository_map.mmd`](docs/diagrams/repository_map.mmd)).
 
-    SRC --> SCRIPTS
-    DATA --> SCRIPTS
-    SCRIPTS --> RESEARCH
-    RESEARCH --> REPORTS
-    SRC --> TESTS
-    DATA --> TESTS
-    REPORTS --> DOCS
-```
+![Repository map](docs/assets/repository_map.svg)
 
 ---
 

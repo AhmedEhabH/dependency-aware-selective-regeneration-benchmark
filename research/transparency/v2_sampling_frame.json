@@ -1,0 +1,41 @@
+{
+  "window_scanned": 6000,
+  "eligible_after_filters": 916,
+  "after_r1_r2": 334,
+  "after_r3": 329,
+  "independent_eligible_pool": 329,
+  "selected_v1": 40,
+  "years": {
+    "2016": 4,
+    "2017": 5,
+    "2018": 5,
+    "2020": 5,
+    "2021": 1,
+    "2022": 5,
+    "2023": 5,
+    "2024": 5,
+    "2025": 5
+  },
+  "exclusion_counts": {
+    "diff_too_large": 14,
+    "generated_or_vendor_only": 1553,
+    "intent_path_leakage": 92,
+    "merge_commit": 1346,
+    "migrations_only": 27,
+    "miner_dev_target": 6,
+    "no_meaningful_intent": 356,
+    "no_production_source_change": 901,
+    "production_add_delete_rename_copy_v1_unsupported": 41,
+    "proxy_too_large": 22,
+    "tests_only": 721,
+    "whitespace_only": 4
+  },
+  "adjudication_count": 587,
+  "split": {
+    "TRAIN": 24,
+    "VALIDATION": 6,
+    "HELD_OUT_TEST": 10
+  },
+  "legacy_exposed_v1_total": 40,
+  "note": "All 40 v1 cases are LEGACY_EXPOSED_V1 (TRAIN/VALIDATION used for cheap baselines, features and Sparse inference; HELD_OUT_TEST used by P1/P5). None may be used as an untouched V2 confirmatory test."
+}

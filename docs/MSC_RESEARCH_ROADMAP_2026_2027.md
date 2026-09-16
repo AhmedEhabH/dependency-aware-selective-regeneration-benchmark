@@ -14,6 +14,58 @@ Status legend:
 - **NOT STARTED** — no scientific runs; design/pre-registration only.
 - **PROPOSED FOLLOW-UP / NOT EXECUTED** — design proposal, no runs.
 
+## Overall research position (2026-09-16, after the Sparse omission-risk study)
+
+```text
+ICCI / Preserve-by-Omission
+        ↓
+Real-commit dataset + P1/P5
+        ↓
+Cheap baselines
+        ↓
+Pluggable harness
+        ↓
+Sparse omission-risk study
+        ↓
+RESULT: task-level cheap RiskScorer not justified on n=30
+        ↓
+NEXT: enlarge development evidence + protect untouched confirmation
+        ↓
+djangoCMS V2-LARGE
+        ↓
+classical CIA + stronger history/static evidence
+        ↓
+conditional risk-routing OR candidate-level bounded verification
+        ↓
+Saleor external confirmation
+        ↓
+NestJS cross-ecosystem confirmation
+        ↓
+selective / bounded verification system
+        ↓
+final correctness–cost Pareto evidence
+```
+
+The thesis does NOT depend on RiskScorer success. Two contingency routes are
+pre-registered (see the proposal and the V2 protocol):
+
+### Route A — task-level selective routing
+Use only if a larger development set establishes a reliable, stable risk signal.
+
+### Route B — candidate-level bounded verification
+If task-level risk remains unseparable: use cheap first-pass candidate
+evidence, identify suspicious omitted candidates using independent
+structural/history evidence, verify only those candidates under a hard budget,
+and compare with always-verify and random matched-budget verification.
+
+The thesis question remains:
+
+> When is additional repository reasoning worth its inference cost, and how can
+> bounded verification reduce missed-impact risk without paying the full
+> always-on cost?
+
+No claim is made in advance that Route A or Route B will win.
+
 ## Program overview
 
 | Pillar | Title | Status |
@@ -25,7 +77,7 @@ Status legend:
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
 | 7 | **Cross-repository confirmation — SALEOR (confirmed future pillar)** | NOT STARTED — PROTOCOL-FIT AUDIT REQUIRED (document-only; see `docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`) |
-| 8 | **Omission-risk detection — THESIS CORE (confirmed future pillar)** | NOT STARTED — PLANNED core mechanism (document-only; see `docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`) |
+| 8 | **Omission-risk detection — THESIS CORE (confirmed future pillar)** | DEVELOPMENT-EVIDENCE COMPLETE — task-level RiskScorer NOT justified on n=30 (Sparse-v2 development inference 2026-09-16); V2 design + sample-size analysis in `docs/REAL_COMMIT_DATASET_V2_PROTOCOL.md` |
 
 > **Confirmed future pillars (2026-09-15).** Both pillars are authoritative
 > parts of the MSc roadmap: SALEOR as the second-repository confirmatory line
@@ -72,12 +124,24 @@ Status legend:
 
 ---
 
-## POST-ICCI MSc PROPOSAL FOCUS (2026-09-15; ZERO API; DRAFT ONLY)
+## POST-ICCI MSc PROPOSAL FOCUS (2026-09-16; proposal V1 draft in `msc_proposal/`)
 
 Thesis direction: **Repository Change Localization Under Limited Inference
-Budgets**, with the working title *"When Is Graph-Guided Search Worth It?
-Selective Escalation for Cost-Aware Repository Change Localization"*.
-Everything below separates evidence by status:
+Budgets**. Working title (does not assume graph or RiskScorer success):
+**Cost-Aware Repository Change Localization with Sparse Impact Planning and
+Bounded Verification** (alternative: Repository Change Localization Under
+Limited Inference Budgets). "Graph" is only one optional verifier, never a
+required success. Everything below separates evidence by status:
+
+### Proposal deadline schedule
+- 2026-09-16/17: Proposal V1 supervisor-ready draft.
+- by 2026-09-22: supervisor-feedback integration target.
+- by 2026-09-25: scientific content freeze target.
+- by 2026-09-27: print-layout freeze.
+- by 2026-09-29: physical print ready.
+- 2026-09-30: safety buffer.
+- before 2026-10-01: submission-ready printed proposal.
+- seminar presentation may continue improving afterward.
 
 ### A. Completed ICCI evidence (frozen, submitted)
 - M1A / M1B / M1 defensive closure, M3 graph ablation (development-set),
@@ -437,11 +501,11 @@ confirmatory scientific evidence for this proposal line.
 
 ## Pillar 8 — Omission-risk detection — THESIS CORE (confirmed future pillar)
 
-**Status: NOT VALIDATED — PLANNING + FEATURE-STUDY-DEV-EVIDENCE ONLY.** Funded by
-`docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`. **Do NOT train/tune/execute a
-risk detector based on the deterministic-first-pass development evidence.**
+**Status: DEVELOPMENT-EVIDENCE COMPLETE — task-level RiskScorer NOT justified
+on n=30; the mechanism pivots to Route A/B (see the overall research position
+above) and a V2 development program (`docs/REAL_COMMIT_DATASET_V2_PROTOCOL.md`).**
 
-**Omission-Risk Feature Study V1 (2026-09-16, T3, ZERO new LLM/API calls):**
+**Omission-Risk Feature Study V1 (2026-09-16, T3):**
 Phase-B preflight A–G + six gates + independent audit PASS. Deterministic-
 first-pass (metadata-corpus BM25@K) development analysis: **no reliable
 omission-risk signal at n=30** — only 1–2 of 83 features exceed the random
@@ -486,6 +550,26 @@ revised impact scope
 **Rules:** risk detection is developed using TRAIN/VALIDATION only; NEVER tuned
 on the exposed ten-task HELD_OUT_TEST; not implemented in the cheap-baselines
 block; preserved as the core thesis mechanism after baseline establishment.
+
+**Route A (task-level selective routing) vs Route B (candidate-level bounded
+verification):** both are pre-registered in the V2 protocol
+(`docs/REAL_COMMIT_DATASET_V2_PROTOCOL.md`). Route A is used only if a larger
+development set establishes a reliable, stable risk signal; otherwise Route B
+verifies only suspicious omitted candidates under a hard budget and is compared
+with always-verify and random matched-budget verification.
+
+**Frozen comparison plan for the thesis (subject to feasibility):**
+Random/cheap control, BM25, adaptive cheap retrieval (if justified),
+classical/static CIA, Sparse planner, Full planner, faithful LocAgent/reference
+agent (when reproducible), Sparse+Always Verify, Sparse+Random Verify (matched
+budget), Sparse+Selective/Bounded Verify, Oracle routing upper bound. If
+task-level routing is unsupported, arm 10 becomes candidate-level bounded
+verification. Metrics: P/R/F1/FNR, FN recovery, selected candidate count,
+escalation/verification rate, calls, tokens, cost, latency, failures,
+graph/index build cost separated from query cost, correctness–cost Pareto
+frontier. Per-repository metrics primary; macro-average across repos; pooled
+secondary; repository-ID confound check; no single large repo dominates the
+headline.
 
 ---
 
