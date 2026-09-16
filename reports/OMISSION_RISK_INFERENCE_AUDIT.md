@@ -1,6 +1,6 @@
 # Independent Audit — Omission-Risk Development Inference (Sparse-v2)
 
-**Generated:** 2026-09-16T07:04:19.056664+00:00
+**Generated:** 2026-09-16T07:06:13.335445+00:00
 **Study:** omission-risk-development-inference-v1
 
 **OVERALL:** PASS
