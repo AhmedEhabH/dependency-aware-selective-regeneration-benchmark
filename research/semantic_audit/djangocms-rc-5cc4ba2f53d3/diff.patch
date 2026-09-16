@@ -1,0 +1,67 @@
+diff --git a/cms/cms_wizards.py b/cms/cms_wizards.py
+index 6b1e56cc4..4ac659d58 100755
+--- a/cms/cms_wizards.py
++++ b/cms/cms_wizards.py
+@@ -14,7 +14,7 @@ from .forms.wizards import CreateCMSPageForm
+ class CMSPageWizard(Wizard):
+ 
+     def user_has_add_permission(self, user):
+-        return user_has_page_add_perm(user)
++        return user.is_superuser or user_has_page_add_perm(user)
+ 
+ 
+ cms_page_wizard = CMSPageWizard(
+diff --git a/cms/forms/wizards.py b/cms/forms/wizards.py
+index 06104caf7..73c9fe05b 100644
+--- a/cms/forms/wizards.py
++++ b/cms/forms/wizards.py
+@@ -57,7 +57,8 @@ class CreateCMSPageForm(BaseCMSPageForm):
+         # already checked this when producing a list of wizard entries, but this
+         # is to prevent people from possible form-hacking.
+ 
+-        if not permissions.user_has_page_add_perm(self.user):
++        if not (self.user.is_superuser or
++                permissions.user_has_page_add_perm(self.user)):
+             raise NoPermissionsException(
+                 _(u"User does not have permission to add page."))
+         title = self.cleaned_data['title']
+diff --git a/cms/tests/test_permmod.py b/cms/tests/test_permmod.py
+index b7d38881f..6c7d52943 100644
+--- a/cms/tests/test_permmod.py
++++ b/cms/tests/test_permmod.py
+@@ -29,8 +29,7 @@ from cms.models.permissionmodels import (ACCESS_DESCENDANTS,
+                                          GlobalPagePermission)
+ from cms.plugin_pool import plugin_pool
+ from cms.test_utils.testcases import (URL_CMS_PAGE_ADD, URL_CMS_PLUGIN_REMOVE,
+-                                      URL_CMS_PLUGIN_ADD, CMSTestCase,
+-                                      TransactionCMSTestCase)
++                                      URL_CMS_PLUGIN_ADD, CMSTestCase)
+ from cms.test_utils.util.context_managers import disable_logger
+ from cms.test_utils.util.fuzzy_int import FuzzyInt
+ from cms.utils.i18n import force_language
+@@ -1093,7 +1092,7 @@ class PublicViewPermissionTests(RestrictedViewPermissionTests):
+         self.expected = [self.page.publisher_public_id]
+ 
+ 
+-class GlobalPermissionTests(TransactionCMSTestCase):
++class GlobalPermissionTests(CMSTestCase):
+ 
+     def test_sanity_check(self):
+         """ Because we have a new manager, we'll do some basic checks."""
+diff --git a/cms/utils/permissions.py b/cms/utils/permissions.py
+index 88b40ded3..609a8dfaf 100644
+--- a/cms/utils/permissions.py
++++ b/cms/utils/permissions.py
+@@ -101,7 +101,11 @@ def has_page_add_permission(request):
+             if page.parent_id:
+                 return has_generic_permission(page.parent_id, request.user, "add", page.site)
+     else:
+-        return user_has_page_add_perm(request.user, site=site)
++        global_add_perm = GlobalPagePermission.objects.user_has_add_permission(
++            request.user, site).exists()
++        if (request.user.has_perm(opts.app_label + '.' + get_permission_codename('add', opts))
++                and global_add_perm):
++            return True
+     return False
+ 
+ 

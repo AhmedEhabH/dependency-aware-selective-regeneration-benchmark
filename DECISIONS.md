@@ -451,3 +451,80 @@ execution. Entries are never edited after append; corrections are new entries.
   cost, latency, failure counts, and the Pareto frontier; per-repository
   primary, macro-average across repos, pooled secondary, repo-ID confound check.
 - **Impact:** docs/MSC_RESEARCH_ROADMAP_2026_2027.md.
+
+## Decision P26 - BibTeX triage: 13 exports as candidate discovery (2026-09-16)
+
+- **Status:** ADOPTED (this session)
+- **Options:** treat the 13 uploaded .bib exports as authoritative metadata OR as
+  candidate discovery sources.
+- **Chosen:** candidate discovery sources; every important reference verified
+  from primary sources (arXiv API / Crossref) before citation.
+- **Why:** exports are search-harvest exports with query-collision noise.
+- **Rejected:** copying hundreds of references into the proposal.
+- **Evidence:** reports/BIBTEX_LITERATURE_TRIAGE_2026-09-16.md + classified CSV.
+- **Revisit:** as new literature appears.
+
+## Decision P27 - Proposal factual corrections (V1.2)
+
+- **Status:** ADOPTED
+- **Options:** correct stale numbers OR keep.
+- **Chosen:** correct all: Sparse 4.9 / Full 144.0 / ~96.6% reduction; LocAgent
+  5/10 non-usable (2 timeout + 1 context + 2 empty); V2 431 calls / 2,501,964
+  tokens / 1,964-token (0.08%) overshoot.
+- **Why:** every number must map to one frozen artifact; no placeholder authors.
+- **Rejected:** stale 5.9 / "50% empty" / "within ceiling".
+- **Evidence:** M1B, P5C, V2 closure.
+- **Revisit:** n/a.
+
+## Decision P28 - Route B progression gate defined (2026-09-16)
+
+- **Status:** ADOPTED (frozen in Proposal V1.2)
+- **Options:** LLM verifier allowed always / only after a gate.
+- **Chosen:** actual LLM verifier only if a predeclared rule beats Random at
+  B=5 on DEV_VALIDATION, same direction on DEV_TRAIN, not a universe/repo-ID
+  artifact, no leakage, practically meaningful recovery.
+- **Why:** prevents inventing a complex verifier on weak evidence.
+- **Rejected:** unconditional verifier pilot.
+- **Evidence:** Proposal V1.2 Section 7.
+- **Revisit:** after the zero-LLM Route B study.
+
+## Decision P29 - P5R-1 operational-limits-only rerun (2026-09-16)
+
+- **Status:** ADOPTED (design; execution pending)
+- **Options:** mix old P5 successes with new rescued runs OR clean new study.
+- **Chosen:** clean P5R-1 (all 10 tasks under ONE frozen P5R-1 config) if the
+  rescue pilot triggers; P5 stays immutable.
+- **Why:** do not "repair" the headline by mixing.
+- **Rejected:** blending P5 with P5R.
+- **Evidence:** reports/LOCAGENT_P5C_HELDOUT_RUN.md + P5R forensics.
+- **Revisit:** after pilot outcome.
+
+## Decision P30 - Traceability ledgers created (2026-09-16)
+
+- **Status:** ADOPTED
+- **Options:** document only successes OR document negatives/deferred too.
+- **Chosen:** complete ledgers (decision/problem/experiment/baseline/literature)
+  including rejected and deferred options and reasons.
+- **Why:** nothing important silently forgotten.
+- **Evidence:** reports/RESEARCH_DECISION_LEDGER.md, PROBLEMS_AND_FAILURES_LEDGER.md,
+  EXPERIMENT_AND_IDEA_LEDGER.md, BASELINE_SELECTION_LEDGER.md,
+  LITERATURE_DECISION_LEDGER.md.
+- **Revisit:** append as the mission progresses.
+
+## Decision P31 - Saleor Stage-2 READY-TO-RUN (2026-09-16 evening)
+
+- **Status:** ADOPTED
+- **Context:** full Saleor history cached (22,615 commits); frozen miner
+  generalized to Saleor via PRODUCTION_ROOTS=('saleor',) adapter (no rule change).
+- **Decision:** reconstruct the Saleor sampling frame (6000 -> 2409 -> 1352 ->
+  1316 independent eligible); freeze a metadata-only split proposal (seed
+  20260916; DEV_TRAIN 120 / DEV_VALIDATION 30 / INTERNAL_TEST 80 / RESERVE 1086);
+  produce the pre-inference gate report. Do NOT run Saleor inference tonight.
+- **Why:** Saleor pool (1316) is ~4x djangoCMS (329); a quantitative Stage-2 is
+  fully supported; INTERNAL_TEST/RESERVE protected.
+- **Rejected:** running Saleor inference without an audited case-bundle build;
+  inspecting any Saleor TEST outcome.
+- **Evidence:** reports/SALEOR_SAMPLING_FRAME_AUDIT.md,
+  reports/SALEOR_SAMPLE_SIZE_ANALYSIS.md, reports/SALEOR_PRE_INFERENCE_GATE_REPORT.md,
+  research/transparency/saleor_*.
+- **Revisit:** after the Saleor case-bundle build + split manifest audit.

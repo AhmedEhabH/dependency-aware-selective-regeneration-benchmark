@@ -1,0 +1,3877 @@
+2026-09-16 22:09:28 auto_search_main.py INFO Limiting evaluation to first 1 instances.
+2026-09-16 22:09:37 auto_search_main.py INFO ============================================================
+2026-09-16 22:09:37 auto_search_main.py INFO ==== rank 0 setup localize djangocms-rc-4307e1b8c2e2 ====
+2026-09-16 22:09:37 auto_search_main.py INFO ============================================================
+2026-09-16 22:09:37 auto_search_main.py INFO ==== rank 0 begin localizing djangocms-rc-4307e1b8c2e2 ====
+2026-09-16 22:09:37 auto_search_main.py INFO ============================================================
+2026-09-16 22:09:37 auto_search_main.py INFO ==== djangocms-rc-4307e1b8c2e2 Count down: attempt 1 ====
+2026-09-16 22:09:37 auto_search_main.py INFO ==== djangocms-rc-4307e1b8c2e2 start auto search ====
+2026-09-16 22:09:37 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:09:39 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:09:39 auto_search_main.py INFO convert none fncall messages failed.
+2026-09-16 22:09:39 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:09:41 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:09:41 auto_search_main.py INFO convert none fncall messages failed.
+2026-09-16 22:09:41 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:09:42 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:09:42 auto_search_main.py INFO Executing code:
+```
+print(explore_tree_structure(**{'start_entities': ['/'], 'traversal_depth': 2, 'dependency_type_filter': "['contains']"}))
+```
+2026-09-16 22:09:42 auto_search_main.py INFO OBSERVATION:
+/
+├── contains ── manage.py
+│               ├── contains ── manage.py:install_auth_user_model
+│               └── contains ── manage.py:DisableMigrations
+├── contains ── setup.py
+├── contains ── docs
+│               ├── contains ── docs/conf.py
+│               └── contains ── docs/_ext
+├── contains ── cms
+│               ├── contains ── cms/toolbar_base.py
+│               ├── contains ── cms/context_processors.py
+│               ├── contains ── cms/app_base.py
+│               ├── contains ── cms/apphook_pool.py
+│               ├── contains ── cms/menu_bases.py
+│               ├── contains ── cms/plugin_pool.py
+│               ├── contains ── cms/app_registration.py
+│               ├── contains ── cms/plugin_processors.py
+│               ├── contains ── cms/page_rendering.py
+│               ├── contains ── cms/cms_menus.py
+│               ├── contains ── cms/api.py
+│               ├── contains ── cms/constants.py
+│               ├── contains ── cms/apps.py
+│               ├── contains ── cms/cms_toolbars.py
+│               ├── contains ── cms/urls.py
+│               ├── contains ── cms/cms_config.py
+│               ├── contains ── cms/__init__.py
+│               ├── contains ── cms/views.py
+│               ├── contains ── cms/appresolver.py
+│               ├── contains ── cms/plugin_rendering.py
+│               ├── contains ── cms/cms_plugins.py
+│               ├── contains ── cms/toolbar_pool.py
+│               ├── contains ── cms/exceptions.py
+│               ├── contains ── cms/cms_wizards.py
+│               ├── contains ── cms/templates.py
+│               ├── contains ── cms/plugin_base.py
+│               ├── contains ── cms/migrations
+│               ├── contains ── cms/middleware
+│               ├── contains ── cms/signals
+│               ├── contains ── cms/toolbar
+│               ├── contains ── cms/models
+│               ├── contains ── cms/forms
+│               ├── contains ── cms/extensions
+│               ├── contains ── cms/wizards
+│               ├── contains ── cms/admin
+│               ├── contains ── cms/utils
+│               ├── contains ── cms/sitemaps
+│               ├── contains ── cms/operations
+│               ├── contains ── cms/cache
+│               ├── contains ── cms/management
+│               └── contains ── cms/templatetags
+└── contains ── menus
+                ├── contains ── menus/models.py
+                ├── contains ── menus/modifiers.py
+                ├── contains ── menus/base.py
+                ├── contains ── menus/utils.py
+                ├── contains ── menus/apps.py
+                ├── contains ── menus/menu_pool.py
+                ├── contains ── menus/__init__.py
+                ├── contains ── menus/exceptions.py
+                ├── contains ── menus/migrations
+                └── contains ── menus/templatetags
+
+2026-09-16 22:09:42 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:09:43 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:09:43 auto_search_main.py INFO Executing code:
+```
+print(explore_tree_structure(**{'start_entities': ['cms/wizards'], 'traversal_depth': 2, 'dependency_type_filter': "['contains']"}))
+```
+2026-09-16 22:09:43 auto_search_main.py INFO OBSERVATION:
+cms/wizards
+├── contains ── cms/wizards/helpers.py
+│               ├── contains ── cms/wizards/helpers.py:get_entries
+│               └── contains ── cms/wizards/helpers.py:get_entry
+├── contains ── cms/wizards/wizard_pool.py
+│               ├── contains ── cms/wizards/wizard_pool.py:AlreadyRegisteredException
+│               ├── contains ── cms/wizards/wizard_pool.py:entry_choices
+│               └── contains ── cms/wizards/wizard_pool.py:WizardPool
+├── contains ── cms/wizards/wizard_base.py
+│               ├── contains ── cms/wizards/wizard_base.py:WizardBase
+│               └── contains ── cms/wizards/wizard_base.py:Wizard
+├── contains ── cms/wizards/forms.py
+│               ├── contains ── cms/wizards/forms.py:step2_form_factory
+│               ├── contains ── cms/wizards/forms.py:BaseFormMixin
+│               ├── contains ── cms/wizards/forms.py:WizardOptionWidgets
+│               ├── contains ── cms/wizards/forms.py:WizardStep1Form
+│               └── contains ── cms/wizards/forms.py:WizardStep2BaseForm
+├── contains ── cms/wizards/urls.py
+├── contains ── cms/wizards/__init__.py
+└── contains ── cms/wizards/views.py
+                └── contains ── cms/wizards/views.py:WizardCreateView
+
+2026-09-16 22:09:43 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:09:45 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:09:45 auto_search_main.py INFO Executing code:
+```
+print(explore_tree_structure(**{'start_entities': ['cms/models'], 'traversal_depth': 2, 'dependency_type_filter': "['contains']"}))
+```
+2026-09-16 22:09:45 auto_search_main.py INFO OBSERVATION:
+cms/models
+├── contains ── cms/models/aliaspluginmodel.py
+│               └── contains ── cms/models/aliaspluginmodel.py:AliasPluginModel
+├── contains ── cms/models/placeholdermodel.py
+│               └── contains ── cms/models/placeholdermodel.py:Placeholder
+├── contains ── cms/models/query.py
+│               ├── contains ── cms/models/query.py:PageQuerySet
+│               └── contains ── cms/models/query.py:PageNodeQuerySet
+├── contains ── cms/models/pagemodel.py
+│               ├── contains ── cms/models/pagemodel.py:TreeNode
+│               ├── contains ── cms/models/pagemodel.py:Page
+│               ├── contains ── cms/models/pagemodel.py:PageUrl
+│               └── contains ── cms/models/pagemodel.py:PageType
+├── contains ── cms/models/fields.py
+│               ├── contains ── cms/models/fields.py:PlaceholderField
+│               ├── contains ── cms/models/fields.py:PageField
+│               └── contains ── cms/models/fields.py:PlaceholderRelationField
+├── contains ── cms/models/managers.py
+│               ├── contains ── cms/models/managers.py:PageManager
+│               ├── contains ── cms/models/managers.py:PageNodeManager
+│               ├── contains ── cms/models/managers.py:PageUrlManager
+│               ├── contains ── cms/models/managers.py:PageContentManager
+│               ├── contains ── cms/models/managers.py:PlaceholderManager
+│               ├── contains ── cms/models/managers.py:BasicPagePermissionManager
+│               ├── contains ── cms/models/managers.py:GlobalPagePermissionManager
+│               └── contains ── cms/models/managers.py:PagePermissionManager
+├── contains ── cms/models/static_placeholder.py
+│               ├── contains ── cms/models/static_placeholder.py:static_slotname
+│               └── contains ── cms/models/static_placeholder.py:StaticPlaceholder
+├── contains ── cms/models/titlemodels.py
+│               ├── contains ── cms/models/titlemodels.py:PageContent
+│               └── contains ── cms/models/titlemodels.py:EmptyPageContent
+├── contains ── cms/models/settingmodels.py
+│               └── contains ── cms/models/settingmodels.py:UserSettings
+├── contains ── cms/models/permissionmodels.py
+│               ├── contains ── cms/models/permissionmodels.py:AbstractPagePermission
+│               ├── contains ── cms/models/permissionmodels.py:GlobalPagePermission
+│               ├── contains ── cms/models/permissionmodels.py:PagePermission
+│               ├── contains ── cms/models/permissionmodels.py:PageUserManager
+│               ├── contains ── cms/models/permissionmodels.py:PageUser
+│               └── contains ── cms/models/permissionmodels.py:PageUserGroup
+├── contains ── cms/models/__init__.py
+├── contains ── cms/models/apphooks_reload.py
+│               └── contains ── cms/models/apphooks_reload.py:UrlconfRevision
+├── contains ── cms/models/placeholderpluginmodel.py
+│               └── contains ── cms/models/placeholderpluginmodel.py:PlaceholderReference
+└── contains ── cms/models/pluginmodel.py
+                ├── contains ── cms/models/pluginmodel.py:_get_descendants_cte
+                ├── contains ── cms/models/pluginmodel.py:_get_database_connection
+                ├── contains ── cms/models/pluginmodel.py:_get_database_vendor
+                ├── contains ── cms/models/pluginmodel.py:_get_database_cursor
+                ├── contains ── cms/models/pluginmodel.py:plugin_supports_cte
+                ├── contains ── cms/models/pluginmodel.py:BoundRenderMeta
+                ├── contains ── cms/models/pluginmodel.py:PluginModelBase
+                ├── contains ── cms/models/pluginmodel.py:CMSPlugin
+                └── contains ── cms/models/pluginmodel.py:get_plugin_media_path
+
+2026-09-16 22:09:45 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:09:47 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:09:47 auto_search_main.py INFO Executing code:
+```
+print(get_entity_contents(**{'entity_names': ['cms/wizards/forms.py']}))
+```
+2026-09-16 22:09:47 auto_search_main.py INFO OBSERVATION:
+##Searching for entity `cms/wizards/forms.py`...
+### Search Result:
+Found file `cms/wizards/forms.py`.
+Source: Exact match found for entity name `cms/wizards/forms.py`.
+```
+ 1 | # -*- coding: utf-8 -*-
+ 2 | from django import forms
+ 3 | 
+ 4 | from cms.models import Page
+ 5 | from cms.utils.urlutils import static_with_version
+ 6 | 
+ 7 | from .wizard_pool import entry_choices, wizard_pool
+ 8 | 
+ 9 | 
+10 | def step2_form_factory(mixin_cls, entry_form_class, attrs=None):
+11 |     """
+12 |     Combines a form mixin with a form class, sets attrs to the resulting class.
+13 |     This is used to provide a common behavior/logic for all wizard content
+14 |     forms.
+15 |     """
+16 |     if attrs is None:
+17 |         attrs = {}
+18 | 
+19 |     # class name is hardcoded to be consistent with the step 1 form.
+20 |     # this is meant to be used only in the context of the form wizard.
+21 |     class_name = 'WizardStep2Form'
+22 |     meta_class = type(entry_form_class)
+23 |     FormClass = meta_class(class_name, (mixin_cls, entry_form_class), attrs)
+24 |     return FormClass
+25 | 
+26 | 
+27 | class BaseFormMixin(object):
+28 |     has_separate_optional_fields = False
+29 | 
+30 |     def __init__(self, *args, **kwargs):
+31 |         self._page = kwargs.pop('wizard_page', None)
+32 |         self._site = kwargs.pop('wizard_site')
+33 |         self._request = kwargs.pop('wizard_request')
+34 |         self.language_code = kwargs.pop('wizard_language')
+35 |         super(BaseFormMixin, self).__init__(*args, **kwargs)
+36 | 
+37 |     @property
+38 |     def required_fields(self):
+39 |         return [f for f in self.visible_fields() if f.field.required]
+40 | 
+41 |     @property
+42 |     def optional_fields(self):
+43 |         return [f for f in self.visible_fields() if not f.field.required]
+44 | 
+45 | 
+46 | class WizardOptionWidgets(forms.RadioSelect):
+47 |     template_name = 'cms/wizards/wizardoptionwidget.html'
+48 | 
+49 |     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+50 |         wizard = wizard_pool.get_entry(value)
+51 |         attrs.update(wizard.widget_attributes)
+52 |         return super(WizardOptionWidgets, self).create_option(name, value, label, selected, index, subindex, attrs)
+53 | 
+54 | 
+55 | class WizardStep1Form(BaseFormMixin, forms.Form):
+56 | 
+57 |     class Media:
+58 |         css = {
+59 |             'all': (
+60 |                 static_with_version('cms/css/cms.wizard.css'),
+61 |             )
+62 |         }
+63 |         js = (
+64 |             static_with_version('cms/js/dist/bundle.admin.base.min.js'),
+65 |             'cms/js/modules/cms.wizards.js',
+66 |         )
+67 | 
+68 |     page = forms.ModelChoiceField(
+69 |         queryset=Page.objects.all(),
+70 |         required=False,
+71 |         widget=forms.HiddenInput
+72 |     )
+73 |     language = forms.CharField(widget=forms.HiddenInput)
+74 |     entry = forms.ChoiceField(choices=[], widget=WizardOptionWidgets())
+75 | 
+76 |     def __init__(self, *args, **kwargs):
+77 |         super(WizardStep1Form, self).__init__(*args, **kwargs)
+78 |         # set the entries here to get an up to date list of entries.
+79 |         self.fields['entry'].choices = entry_choices(
+80 |             user=self._request.user,
+81 |             page=self._page,
+82 |         )
+83 | 
+84 |     def get_wizard_entries(self):
+85 |         for entry in self['entry']:
+86 |             wizard = wizard_pool.get_entry(entry.choice_value)
+87 |             yield(entry, wizard)
+88 | 
+89 | 
+90 | class WizardStep2BaseForm(BaseFormMixin):
+91 |     pass
+92 | 
+93 | 
+```
+
+2026-09-16 22:09:47 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:09:48 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:09:48 auto_search_main.py INFO Executing code:
+```
+print(get_entity_contents(**{'entity_names': ['cms/models/pagemodel.py']}))
+```
+2026-09-16 22:09:48 auto_search_main.py INFO OBSERVATION:
+##Searching for entity `cms/models/pagemodel.py`...
+### Search Result:
+Found file `cms/models/pagemodel.py`.
+Source: Exact match found for entity name `cms/models/pagemodel.py`.
+```
+   1 | # -*- coding: utf-8 -*-
+   2 | import copy
+   3 | from logging import getLogger
+   4 | from os.path import join
+   5 | 
+   6 | from django.contrib.sites.models import Site
+   7 | from django.urls import reverse
+   8 | from django.db import models
+   9 | from django.db.models.base import ModelState
+  10 | from django.db.models.functions import Concat
+  11 | from django.utils.encoding import force_text, python_2_unicode_compatible
+  12 | from django.utils.functional import cached_property
+  13 | from django.utils.timezone import now
+  14 | from django.utils.translation import (
+  15 |     get_language,
+  16 |     override as force_language,
+  17 |     ugettext_lazy as _,
+  18 | )
+  19 | 
+  20 | from cms import constants
+  21 | from cms.exceptions import LanguageError
+  22 | from cms.models.managers import PageManager, PageNodeManager, PageUrlManager
+  23 | from cms.utils import i18n
+  24 | from cms.utils.compat import DJANGO_1_11
+  25 | from cms.utils.conf import get_cms_setting
+  26 | from cms.utils.page import get_clean_username
+  27 | from cms.utils.i18n import get_current_language
+  28 | 
+  29 | from menus.menu_pool import menu_pool
+  30 | 
+  31 | from treebeard.mp_tree import MP_Node
+  32 | 
+  33 | 
+  34 | logger = getLogger(__name__)
+  35 | 
+  36 | 
+  37 | @python_2_unicode_compatible
+  38 | class TreeNode(MP_Node):
+  39 | 
+  40 |     parent = models.ForeignKey(
+  41 |         'self',
+  42 |         on_delete=models.CASCADE,
+  43 |         blank=True,
+  44 |         null=True,
+  45 |         related_name='children',
+  46 |         db_index=True,
+  47 |     )
+  48 |     site = models.ForeignKey(
+  49 |         Site,
+  50 |         on_delete=models.CASCADE,
+  51 |         verbose_name=_("site"),
+  52 |         related_name='djangocms_nodes',
+  53 |         db_index=True,
+  54 |     )
+  55 | 
+  56 |     objects = PageNodeManager()
+  57 | 
+  58 |     class Meta:
+  59 |         app_label = 'cms'
+  60 |         ordering = ('path',)
+  61 |         default_permissions = []
+  62 | 
+  63 |     def __str__(self):
+  64 |         return self.path
+  65 | 
+  66 |     @cached_property
+  67 |     def item(self):
+  68 |         return self.get_item()
+  69 | 
+  70 |     def get_item(self):
+  71 |         # Paving the way...
+  72 |         return Page.objects.get(node=self)
+  73 | 
+  74 |     @property
+  75 |     def is_branch(self):
+  76 |         return bool(self.numchild)
+  77 | 
+  78 |     def get_ancestor_paths(self):
+  79 |         paths = frozenset(
+  80 |             self.path[0:pos]
+  81 |             for pos in range(0, len(self.path), self.steplen)[1:]
+  82 |         )
+  83 |         return paths
+  84 | 
+  85 |     def add_child(self, **kwargs):
+  86 |         if len(kwargs) == 1 and 'instance' in kwargs:
+  87 |             kwargs['instance'].parent = self
+  88 |         else:
+  89 |             kwargs['parent'] = self
+  90 |         return super(TreeNode, self).add_child(**kwargs)
+  91 | 
+  92 |     def add_sibling(self, pos=None, *args, **kwargs):
+  93 |         if len(kwargs) == 1 and 'instance' in kwargs:
+  94 |             kwargs['instance'].parent_id = self.parent_id
+  95 |         else:
+  96 |             kwargs['parent_id'] = self.parent_id
+  97 |         return super(TreeNode, self).add_sibling(*args, **kwargs)
+  98 | 
+  99 |     def update(self, **data):
+ 100 |         cls = self.__class__
+ 101 |         cls.objects.filter(pk=self.pk).update(**data)
+ 102 | 
+ 103 |         for field, value in data.items():
+ 104 |             setattr(self, field, value)
+ 105 |         return
+ 106 | 
+ 107 |     def get_cached_ancestors(self):
+ 108 |         if self._has_cached_hierarchy():
+ 109 |             return self._ancestors
+ 110 |         return []
+ 111 | 
+ 112 |     def get_cached_descendants(self):
+ 113 |         if self._has_cached_hierarchy():
+ 114 |             return self._descendants
+ 115 |         return []
+ 116 | 
+ 117 |     def _reload(self):
+ 118 |         """
+ 119 |         Reload a page node from the database
+ 120 |         """
+ 121 |         return self.__class__.objects.get(pk=self.pk)
+ 122 | 
+ 123 |     def _has_cached_hierarchy(self):
+ 124 |         return hasattr(self, '_descendants') and hasattr(self, '_ancestors')
+ 125 | 
+ 126 |     def _set_hierarchy(self, nodes, ancestors=None):
+ 127 |         if self.is_branch:
+ 128 |             self._descendants = [node for node in nodes
+ 129 |                            if node.path.startswith(self.path)
+ 130 |                            and node.depth > self.depth]
+ 131 |         else:
+ 132 |             self._descendants = []
+ 133 | 
+ 134 |         if self.is_root():
+ 135 |             self._ancestors = []
+ 136 |         else:
+ 137 |             self._ancestors = ancestors
+ 138 | 
+ 139 |         children = (node for node in self._descendants
+ 140 |                     if node.depth == self.depth + 1)
+ 141 | 
+ 142 |         for child in children:
+ 143 |             child._set_hierarchy(self._descendants, ancestors=([self] + self._ancestors))
+ 144 | 
+ 145 | 
+ 146 | @python_2_unicode_compatible
+ 147 | class Page(models.Model):
+ 148 |     """
+ 149 |     A simple hierarchical page model
+ 150 |     """
+ 151 | 
+ 152 |     created_by = models.CharField(
+ 153 |         _("created by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+ 154 |         editable=False)
+ 155 |     changed_by = models.CharField(
+ 156 |         _("changed by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+ 157 |         editable=False)
+ 158 |     creation_date = models.DateTimeField(auto_now_add=True)
+ 159 |     changed_date = models.DateTimeField(auto_now=True)
+ 160 | 
+ 161 |     #
+ 162 |     # Please use toggle_in_navigation() instead of affecting this property
+ 163 |     # directly so that the cms page cache can be invalidated as appropriate.
+ 164 |     #
+ 165 |     reverse_id = models.CharField(_("id"), max_length=40, db_index=True, blank=True, null=True, help_text=_(
+ 166 |         "A unique identifier that is used with the page_url templatetag for linking to this page"))
+ 167 |     navigation_extenders = models.CharField(_("attached menu"), max_length=80, db_index=True, blank=True, null=True)
+ 168 | 
+ 169 |     login_required = models.BooleanField(_("login required"), default=False)
+ 170 |     is_home = models.BooleanField(editable=False, db_index=True, default=False)
+ 171 |     application_urls = models.CharField(_('application'), max_length=200, blank=True, null=True, db_index=True)
+ 172 |     application_namespace = models.CharField(_('application instance name'), max_length=200, blank=True, null=True)
+ 173 |     languages = models.CharField(max_length=255, editable=False, blank=True, null=True)
+ 174 | 
+ 175 |     # Flag that marks a page as page-type
+ 176 |     is_page_type = models.BooleanField(default=False)
+ 177 | 
+ 178 |     node = models.ForeignKey(
+ 179 |         'TreeNode',
+ 180 |         related_name='cms_pages',
+ 181 |         on_delete=models.CASCADE,
+ 182 |     )
+ 183 | 
+ 184 |     # Managers
+ 185 |     objects = PageManager()
+ 186 | 
+ 187 |     class Meta:
+ 188 |         default_permissions = ('add', 'change', 'delete')
+ 189 |         permissions = (
+ 190 |             ('view_page', 'Can view page'),
+ 191 |             ('publish_page', 'Can publish page'),
+ 192 |             ('edit_static_placeholder', 'Can edit static placeholders'),
+ 193 |         )
+ 194 |         verbose_name = _('page')
+ 195 |         verbose_name_plural = _('pages')
+ 196 |         app_label = 'cms'
+ 197 | 
+ 198 |     def __init__(self, *args, **kwargs):
+ 199 |         super(Page, self).__init__(*args, **kwargs)
+ 200 |         self.urls_cache = {}
+ 201 |         self.title_cache = {}
+ 202 | 
+ 203 |     def __str__(self):
+ 204 |         try:
+ 205 |             title = self.get_menu_title(fallback=True)
+ 206 |         except LanguageError:
+ 207 |             try:
+ 208 |                 title = self.pagecontent_set.all()[0]
+ 209 |             except IndexError:
+ 210 |                 title = None
+ 211 |         if title is None:
+ 212 |             title = u""
+ 213 |         return force_text(title)
+ 214 | 
+ 215 |     def __repr__(self):
+ 216 |         display = '<{module}.{class_name} id={id} object at {location}>'.format(
+ 217 |             module=self.__module__,
+ 218 |             class_name=self.__class__.__name__,
+ 219 |             id=self.pk,
+ 220 |             location=hex(id(self)),
+ 221 |         )
+ 222 |         return display
+ 223 | 
+ 224 |     def _clear_node_cache(self):
+ 225 |         if DJANGO_1_11:
+ 226 |             if hasattr(self, '_node_cache'):
+ 227 |                 del self._node_cache
+ 228 |         else:
+ 229 |             if Page.node.is_cached(self):
+ 230 |                 Page.node.field.delete_cached_value(self)
+ 231 | 
+ 232 |     def _clear_internal_cache(self):
+ 233 |         self.urls_cache = {}
+ 234 |         self.title_cache = {}
+ 235 |         self._clear_node_cache()
+ 236 | 
+ 237 |         if hasattr(self, '_prefetched_objects_cache'):
+ 238 |             del self._prefetched_objects_cache
+ 239 | 
+ 240 |     @cached_property
+ 241 |     def parent_page(self):
+ 242 |         return self.get_parent_page()
+ 243 | 
+ 244 |     def has_valid_url(self, language):
+ 245 |         return self.urls.filter(language=language, path__isnull=False).exists()
+ 246 | 
+ 247 |     def set_as_homepage(self, user=None):
+ 248 |         """
+ 249 |         Sets the given page as the homepage.
+ 250 |         Updates the title paths for all affected pages.
+ 251 |         Returns the old home page (if any).
+ 252 |         """
+ 253 |         if user:
+ 254 |             changed_by = get_clean_username(user)
+ 255 |         else:
+ 256 |             changed_by = constants.SCRIPT_USERNAME
+ 257 | 
+ 258 |         changed_date = now()
+ 259 | 
+ 260 |         try:
+ 261 |             old_home = self.__class__.objects.get(
+ 262 |                 is_home=True,
+ 263 |                 node__site=self.node.site_id,
+ 264 |             )
+ 265 |         except self.__class__.DoesNotExist:
+ 266 |             old_home_tree = []
+ 267 |         else:
+ 268 |             old_home.update(
+ 269 |                 is_home=False,
+ 270 |                 changed_by=changed_by,
+ 271 |                 changed_date=changed_date,
+ 272 |             )
+ 273 |             old_home_tree = old_home._set_title_root_path()
+ 274 | 
+ 275 |         self.update(
+ 276 |             is_home=True,
+ 277 |             changed_by=changed_by,
+ 278 |             changed_date=changed_date,
+ 279 |         )
+ 280 |         new_home_tree = self._remove_title_root_path()
+ 281 |         return (new_home_tree, old_home_tree)
+ 282 | 
+ 283 |     def _get_path_sql_value(self, base_path=''):
+ 284 |         if base_path:
+ 285 |             new_path = Concat(models.Value(base_path), models.Value('/'), models.F('slug'))
+ 286 |         elif base_path is None:
+ 287 |             new_path = None
+ 288 |         else:
+ 289 |             # the homepage
+ 290 |             new_path = models.F('slug')
+ 291 |         return new_path
+ 292 | 
+ 293 |     def _update_url_path(self, language):
+ 294 |         parent_page = self.get_parent_page()
+ 295 |         base_path = parent_page.get_path(language) if parent_page else ''
+ 296 |         new_path = self._get_path_sql_value(base_path)
+ 297 | 
+ 298 |         (PageUrl
+ 299 |          .objects
+ 300 |          .filter(language=language, page=self)
+ 301 |          .exclude(managed=False)
+ 302 |          .update(path=new_path))
+ 303 | 
+ 304 |     def _update_url_path_recursive(self, language):
+ 305 |         if self.node.is_leaf() or language not in self.get_languages():
+ 306 |             return
+ 307 | 
+ 308 |         pages = self.get_child_pages()
+ 309 |         base_path = self.get_path(language)
+ 310 |         new_path = self._get_path_sql_value(base_path)
+ 311 | 
+ 312 |         (PageUrl
+ 313 |          .objects
+ 314 |          .filter(language=language, page__in=pages)
+ 315 |          .exclude(managed=False)
+ 316 |          .update(path=new_path))
+ 317 | 
+ 318 |         for child in pages.filter(urls__language=language).iterator():
+ 319 |             child._update_url_path_recursive(language)
+ 320 | 
+ 321 |     def _set_title_root_path(self):
+ 322 |         node_tree = TreeNode.get_tree(self.node)
+ 323 |         page_tree = self.__class__.objects.filter(node__in=node_tree)
+ 324 |         page_urls = PageUrl.objects.filter(page__in=page_tree, managed=True, path__isnull=False)
+ 325 | 
+ 326 |         for language, slug in self.urls.values_list('language', 'slug'):
+ 327 |             # Update the translations for all descendants of this page
+ 328 |             # to include this page's slug as its path prefix
+ 329 |             (page_urls
+ 330 |              .filter(language=language)
+ 331 |              .update(path=Concat(models.Value(slug), models.Value('/'), 'path')))
+ 332 |             self.update_urls(language, path=slug)
+ 333 |         return page_tree
+ 334 | 
+ 335 |     def _remove_title_root_path(self):
+ 336 |         node_tree = TreeNode.get_tree(self.node)
+ 337 |         page_tree = self.__class__.objects.filter(node__in=node_tree)
+ 338 |         page_urls = PageUrl.objects.filter(page__in=page_tree, managed=True, path__isnull=False)
+ 339 | 
+ 340 |         for language, slug in self.urls.values_list('language', 'slug'):
+ 341 |             # Use 2 because of 1 indexing plus the fact we need to trim
+ 342 |             # the "/" character.
+ 343 |             trim_count = len(slug) + 2
+ 344 |             sql_func = models.Func(
+ 345 |                 models.F('path'),
+ 346 |                 models.Value(trim_count),
+ 347 |                 function='substr',
+ 348 |             )
+ 349 |             (page_urls
+ 350 |              .filter(language=language, path__startswith=slug)
+ 351 |              .update(path=sql_func))
+ 352 |         return page_tree
+ 353 | 
+ 354 |     def is_potential_home(self):
+ 355 |         """
+ 356 |         Encapsulates logic for determining if this page is eligible to be set
+ 357 |         as `is_home`. This is a public method so that it can be accessed in the
+ 358 |         admin for determining whether to enable the "Set as home" menu item.
+ 359 |         :return: Boolean
+ 360 |         """
+ 361 |         # Only root nodes are eligible for homepage
+ 362 |         return not self.is_home and bool(self.node.is_root())
+ 363 | 
+ 364 |     def get_absolute_url(self, language=None, fallback=True):
+ 365 |         if not language:
+ 366 |             language = get_current_language()
+ 367 | 
+ 368 |         with force_language(language):
+ 369 |             if self.is_home:
+ 370 |                 return reverse('pages-root')
+ 371 |             path = self.get_path(language, fallback) or self.get_slug(language, fallback)
+ 372 |             return reverse('pages-details-by-slug', kwargs={"slug": path})
+ 373 | 
+ 374 |     def set_tree_node(self, site, target=None, position='first-child'):
+ 375 |         assert position in ('last-child', 'first-child', 'left', 'right')
+ 376 | 
+ 377 |         new_node = TreeNode(site=site)
+ 378 | 
+ 379 |         if target is None:
+ 380 |             self.node = TreeNode.add_root(instance=new_node)
+ 381 |         elif position == 'first-child' and target.is_branch:
+ 382 |             self.node = target.get_first_child().add_sibling(pos='left', instance=new_node)
+ 383 |         elif position in ('last-child', 'first-child'):
+ 384 |             self.node = target.add_child(instance=new_node)
+ 385 |         else:
+ 386 |             self.node = target.add_sibling(pos=position, instance=new_node)
+ 387 | 
+ 388 |     def move_page(self, target_node, position='first-child'):
+ 389 |         """
+ 390 |         Called from admin interface when page is moved. Should be used on
+ 391 |         all the places which are changing page position. Used like an interface
+ 392 |         to django-treebeard, but after move is done page_moved signal is fired.
+ 393 | 
+ 394 |         Note for issue #1166: url conflicts are handled by updated
+ 395 |         check_title_slugs, overwrite_url on the moved page don't need any check
+ 396 |         as it remains the same regardless of the page position in the tree
+ 397 |         """
+ 398 |         assert isinstance(target_node, TreeNode)
+ 399 | 
+ 400 |         inherited_template = self.template == constants.TEMPLATE_INHERITANCE_MAGIC
+ 401 | 
+ 402 |         if inherited_template and target_node.is_root() and position in ('left', 'right'):
+ 403 |             # The page is being moved to a root position.
+ 404 |             # Explicitly set the inherited template on the titles
+ 405 |             # to keep all plugins / placeholders.
+ 406 |             template = self.get_template()
+ 407 |             self.update_translations(template=template)
+ 408 | 
+ 409 |         # Don't use a cached node. Always get a fresh one.
+ 410 |         self._clear_internal_cache()
+ 411 | 
+ 412 |         # Runs the SQL updates on the treebeard fields
+ 413 |         self.node.move(target_node, position)
+ 414 | 
+ 415 |         if position in ('first-child', 'last-child'):
+ 416 |             parent_id = target_node.pk
+ 417 |         else:
+ 418 |             # moving relative to sibling
+ 419 |             # or to the root of the tree
+ 420 |             parent_id = target_node.parent_id
+ 421 |         # Runs the SQL updates on the parent field
+ 422 |         self.node.update(parent_id=parent_id)
+ 423 | 
+ 424 |         # Clear the cached node once again to trigger a db query
+ 425 |         # on access.
+ 426 |         self._clear_node_cache()
+ 427 | 
+ 428 |         # Update the urls for the page being moved
+ 429 |         # and is descendants.
+ 430 |         languages = (
+ 431 |             self
+ 432 |             .urls
+ 433 |             .filter(language__in=self.get_languages())
+ 434 |             .values_list('language', flat=True)
+ 435 |         )
+ 436 | 
+ 437 |         for language in languages:
+ 438 |             if not self.is_home:
+ 439 |                 self._update_url_path(language)
+ 440 |             self._update_url_path_recursive(language)
+ 441 |         self.clear_cache()
+ 442 |         return self
+ 443 | 
+ 444 |     def _clear_placeholders(self, language):
+ 445 |         from cms.models import CMSPlugin
+ 446 | 
+ 447 |         placeholders = self.get_placeholders(language)
+ 448 |         placeholder_ids = (placeholder.pk for placeholder in placeholders)
+ 449 |         plugins = CMSPlugin.objects.filter(placeholder__in=placeholder_ids, language=language)
+ 450 |         models.query.QuerySet.delete(plugins)
+ 451 |         return placeholders
+ 452 | 
+ 453 |     def copy(self, site, parent_node=None, language=None,
+ 454 |              translations=True, permissions=False, extensions=True):
+ 455 |         from cms.utils.page import get_available_slug
+ 456 | 
+ 457 |         if parent_node:
+ 458 |             new_node = parent_node.add_child(site=site)
+ 459 |             parent_page = parent_node.item
+ 460 |         else:
+ 461 |             new_node = TreeNode.add_root(site=site)
+ 462 |             parent_page = None
+ 463 | 
+ 464 |         new_page = copy.copy(self)
+ 465 |         new_page._state = ModelState()
+ 466 |         new_page._clear_internal_cache()
+ 467 |         new_page.pk = None
+ 468 |         new_page.node = new_node
+ 469 |         new_page.publisher_public_id = None
+ 470 |         new_page.is_home = False
+ 471 |         new_page.reverse_id = None
+ 472 |         new_page.languages = ''
+ 473 |         new_page.save()
+ 474 | 
+ 475 |         # Have the node remember its page.
+ 476 |         # This is done to save some queries
+ 477 |         # when the node's descendants are copied.
+ 478 |         new_page.node.__dict__['item'] = new_page
+ 479 | 
+ 480 |         if language and translations:
+ 481 |             page_urls = self.urls.filter(language=language)
+ 482 |             translations = self.pagecontent_set.filter(language=language)
+ 483 |         elif translations:
+ 484 |             page_urls = self.urls.all()
+ 485 |             translations = self.pagecontent_set.all()
+ 486 |         else:
+ 487 |             page_urls = self.urls.none()
+ 488 |             translations = self.pagecontent_set.none()
+ 489 |         translations = translations.prefetch_related('placeholders')
+ 490 | 
+ 491 |         for page_url in page_urls:
+ 492 |             new_url = copy.copy(page_url)
+ 493 |             new_url.pk = None
+ 494 |             new_url.page = new_page
+ 495 | 
+ 496 |             if parent_page:
+ 497 |                 base = parent_page.get_path(page_url.language)
+ 498 |                 path = '%s/%s' % (base, page_url.slug) if base else page_url.slug
+ 499 |             else:
+ 500 |                 base = ''
+ 501 |                 path = page_url.slug
+ 502 | 
+ 503 |             new_url.slug = get_available_slug(site, path, page_url.language)
+ 504 |             new_url.path = '%s/%s' % (base, new_url.slug) if base else new_url.slug
+ 505 |             new_url.save()
+ 506 | 
+ 507 |         # copy titles of this page
+ 508 |         for title in translations:
+ 509 |             new_title = copy.copy(title)
+ 510 |             new_title.pk = None
+ 511 |             new_title.page = new_page
+ 512 |             new_title.template = title.template
+ 513 |             new_title.xframe_options = title.xframe_options
+ 514 |             new_title.save()
+ 515 | 
+ 516 |             for placeholder in title.placeholders.all():
+ 517 |                 # copy the placeholders (and plugins on those placeholders!)
+ 518 |                 new_placeholder = new_title.placeholders.create(
+ 519 |                     slot=placeholder.slot,
+ 520 |                     default_width=placeholder.default_width,
+ 521 |                 )
+ 522 |                 placeholder.copy_plugins(new_placeholder, language=new_title.language)
+ 523 |             new_page.title_cache[new_title.language] = new_title
+ 524 |         new_page.update_languages([trans.language for trans in translations])
+ 525 | 
+ 526 |         if extensions:
+ 527 |             from cms.extensions import extension_pool
+ 528 |             extension_pool.copy_extensions(self, new_page)
+ 529 | 
+ 530 |         # copy permissions if requested
+ 531 |         if permissions and get_cms_setting('PERMISSION'):
+ 532 |             permissions = self.pagepermission_set.iterator()
+ 533 |             permissions_new = []
+ 534 | 
+ 535 |             for permission in permissions:
+ 536 |                 permission.pk = None
+ 537 |                 permission.page = new_page
+ 538 |                 permissions_new.append(permission)
+ 539 | 
+ 540 |             if permissions_new:
+ 541 |                 new_page.pagepermission_set.bulk_create(permissions_new)
+ 542 |         return new_page
+ 543 | 
+ 544 |     def copy_with_descendants(self, target_node=None, position=None,
+ 545 |                               copy_permissions=True, target_site=None):
+ 546 |         """
+ 547 |         Copy a page [ and all its descendants to a new location ]
+ 548 |         """
+ 549 |         if position in ('first-child', 'last-child'):
+ 550 |             parent_node = target_node
+ 551 |         elif target_node:
+ 552 |             parent_node = target_node.parent
+ 553 |         else:
+ 554 |             parent_node = None
+ 555 | 
+ 556 |         if target_site is None:
+ 557 |             target_site = parent_node.site if parent_node else self.node.site
+ 558 | 
+ 559 |         # Evaluate the descendants queryset BEFORE copying the page.
+ 560 |         # Otherwise, if the page is copied and pasted on itself, it will duplicate.
+ 561 |         descendants = list(
+ 562 |             self.get_descendant_pages()
+ 563 |             .select_related('node')
+ 564 |             .prefetch_related('urls', 'pagecontent_set')
+ 565 |         )
+ 566 |         new_root_page = self.copy(target_site, parent_node=parent_node)
+ 567 |         new_root_node = new_root_page.node
+ 568 | 
+ 569 |         if target_node and position in ('first-child'):
+ 570 |             # target node is a parent and user has requested to
+ 571 |             # insert the new page as its first child
+ 572 |             new_root_node.move(target_node, position)
+ 573 |             new_root_node.refresh_from_db(fields=('path', 'depth'))
+ 574 | 
+ 575 |         if target_node and position in ('left', 'last-child'):
+ 576 |             # target node is a sibling
+ 577 |             new_root_node.move(target_node, position)
+ 578 |             new_root_node.refresh_from_db(fields=('path', 'depth'))
+ 579 | 
+ 580 |         nodes_by_id = {self.node.pk: new_root_node}
+ 581 | 
+ 582 |         for page in descendants:
+ 583 |             parent = nodes_by_id[page.node.parent_id]
+ 584 |             new_page = page.copy(
+ 585 |                 target_site,
+ 586 |                 parent_node=parent,
+ 587 |                 translations=True,
+ 588 |                 permissions=copy_permissions,
+ 589 |             )
+ 590 |             nodes_by_id[page.node_id] = new_page.node
+ 591 |         return new_root_page
+ 592 | 
+ 593 |     def delete(self, *args, **kwargs):
+ 594 |         TreeNode.get_tree(self.node).delete_fast()
+ 595 | 
+ 596 |         if self.node.parent_id:
+ 597 |             (TreeNode
+ 598 |              .objects
+ 599 |              .filter(pk=self.node.parent_id)
+ 600 |              .update(numchild=models.F('numchild') - 1))
+ 601 |         self.clear_cache(menu=True)
+ 602 | 
+ 603 |     def delete_translations(self, language=None):
+ 604 |         if language is None:
+ 605 |             languages = self.get_languages()
+ 606 |         else:
+ 607 |             languages = [language]
+ 608 | 
+ 609 |         self.pagecontent_set.filter(language__in=languages).delete()
+ 610 | 
+ 611 |     def save(self, **kwargs):
+ 612 |         if self.reverse_id == "":
+ 613 |             self.reverse_id = None
+ 614 |         if self.application_namespace == "":
+ 615 |             self.application_namespace = None
+ 616 | 
+ 617 |         created = not bool(self.pk)
+ 618 |         from cms.utils.permissions import get_current_user_name
+ 619 |         self.changed_by = get_current_user_name()
+ 620 |         if created:
+ 621 |             self.created_by = self.changed_by
+ 622 | 
+ 623 |         super(Page, self).save(**kwargs)
+ 624 | 
+ 625 |     def update(self, refresh=False, **data):
+ 626 |         cls = self.__class__
+ 627 |         cls.objects.filter(pk=self.pk).update(**data)
+ 628 | 
+ 629 |         if refresh:
+ 630 |             return self.reload()
+ 631 |         else:
+ 632 |             for field, value in data.items():
+ 633 |                 setattr(self, field, value)
+ 634 |         return
+ 635 | 
+ 636 |     def update_translations(self, language=None, **data):
+ 637 |         if language:
+ 638 |             translations = self.pagecontent_set.filter(language=language)
+ 639 |         else:
+ 640 |             translations = self.pagecontent_set.all()
+ 641 |         return translations.update(**data)
+ 642 | 
+ 643 |     def has_translation(self, language):
+ 644 |         return self.pagecontent_set.filter(language=language).exists()
+ 645 | 
+ 646 |     def clear_cache(self, language=None, menu=False, placeholder=False):
+ 647 |         from cms.cache import invalidate_cms_page_cache
+ 648 | 
+ 649 |         if get_cms_setting('PAGE_CACHE'):
+ 650 |             # Clears all the page caches
+ 651 |             invalidate_cms_page_cache()
+ 652 | 
+ 653 |         if placeholder and get_cms_setting('PLACEHOLDER_CACHE'):
+ 654 |             assert language, 'language is required when clearing placeholder cache'
+ 655 | 
+ 656 |             placeholders = self.get_placeholders(language)
+ 657 | 
+ 658 |             for placeholder in placeholders:
+ 659 |                 placeholder.clear_cache(language, site_id=self.node.site_id)
+ 660 | 
+ 661 |         if menu:
+ 662 |             # Clears all menu caches for this page's site
+ 663 |             menu_pool.clear(site_id=self.node.site_id)
+ 664 | 
+ 665 |     def get_child_pages(self):
+ 666 |         nodes = self.node.get_children()
+ 667 |         pages = (
+ 668 |             self
+ 669 |             .__class__
+ 670 |             .objects
+ 671 |             .filter(node__in=nodes)
+ 672 |             .order_by('node__path')
+ 673 |         )
+ 674 |         return pages
+ 675 | 
+ 676 |     def get_ancestor_pages(self):
+ 677 |         nodes = self.node.get_ancestors()
+ 678 |         pages = (
+ 679 |             self
+ 680 |             .__class__
+ 681 |             .objects
+ 682 |             .filter(node__in=nodes)
+ 683 |             .order_by('node__path')
+ 684 |         )
+ 685 |         return pages
+ 686 | 
+ 687 |     def get_descendant_pages(self):
+ 688 |         nodes = self.node.get_descendants()
+ 689 |         pages = (
+ 690 |             self
+ 691 |             .__class__
+ 692 |             .objects
+ 693 |             .filter(node__in=nodes)
+ 694 |             .order_by('node__path')
+ 695 |         )
+ 696 |         return pages
+ 697 | 
+ 698 |     def get_root(self):
+ 699 |         node = self.node
+ 700 |         return self.__class__.objects.get(node__path=node.path[0:node.steplen])
+ 701 | 
+ 702 |     def get_parent_page(self):
+ 703 |         if not self.node.parent_id:
+ 704 |             return None
+ 705 | 
+ 706 |         pages = Page.objects.filter(node=self.node.parent_id)
+ 707 |         return pages.select_related('node').first()
+ 708 | 
+ 709 |     def get_languages(self):
+ 710 |         if self.languages:
+ 711 |             return sorted(self.languages.split(','))
+ 712 |         else:
+ 713 |             return []
+ 714 | 
+ 715 |     def remove_language(self, language):
+ 716 |         page_languages = self.get_languages()
+ 717 | 
+ 718 |         if language in page_languages:
+ 719 |             page_languages.remove(language)
+ 720 |             self.update_languages(page_languages)
+ 721 | 
+ 722 |     def update_languages(self, languages):
+ 723 |         languages = ",".join(languages)
+ 724 |         # Update current instance
+ 725 |         self.languages = languages
+ 726 |         # Commit. It's important to not call save()
+ 727 |         # we'd like to commit only the languages field and without
+ 728 |         # any kind of signals.
+ 729 |         self.update(languages=languages)
+ 730 | 
+ 731 |     def get_published_languages(self):
+ 732 |         return self.get_languages()
+ 733 | 
+ 734 |     def set_translations_cache(self):
+ 735 |         for translation in self.pagecontent_set.all():
+ 736 |             self.title_cache.setdefault(translation.language, translation)
+ 737 | 
+ 738 |     def get_path_for_slug(self, slug, language):
+ 739 |         if self.is_home:
+ 740 |             return ''
+ 741 | 
+ 742 |         if self.parent_page:
+ 743 |             base = self.parent_page.get_path(language, fallback=True)
+ 744 |             # base can be empty when the parent is a home-page
+ 745 |             path = u'%s/%s' % (base, slug) if base else slug
+ 746 |         else:
+ 747 |             path = slug
+ 748 |         return path
+ 749 | 
+ 750 |     def get_url(self, language):
+ 751 |         return self.get_urls().get(language=language)
+ 752 | 
+ 753 |     def get_urls(self):
+ 754 |         return self.urls.all()
+ 755 | 
+ 756 |     def update_urls(self, language=None, **data):
+ 757 |         if language:
+ 758 |             page_urls = self.get_urls().filter(language=language)
+ 759 |         else:
+ 760 |             page_urls = self.get_urls().all()
+ 761 |         return page_urls.update(**data)
+ 762 | 
+ 763 |     def get_fallbacks(self, language):
+ 764 |         return i18n.get_fallback_languages(language, site_id=self.node.site_id)
+ 765 | 
+ 766 |     # ## PageContent object access
+ 767 | 
+ 768 |     def get_title_obj(self, language=None, fallback=True, force_reload=False):
+ 769 |         """Helper function for accessing wanted / current title.
+ 770 |         If wanted title doesn't exists, EmptyPageContent instance will be returned.
+ 771 |         """
+ 772 |         language = self._get_title_cache(language, fallback, force_reload)
+ 773 |         if language in self.title_cache:
+ 774 |             return self.title_cache[language]
+ 775 |         from cms.models import EmptyPageContent
+ 776 | 
+ 777 |         return EmptyPageContent(language)
+ 778 | 
+ 779 |     def get_page_content_obj_attribute(self, attrname, language=None, fallback=True, force_reload=False):
+ 780 |         """Helper function for getting attribute or None from wanted/current title.
+ 781 |         """
+ 782 |         try:
+ 783 |             attribute = getattr(self.get_title_obj(language, fallback, force_reload), attrname)
+ 784 |             return attribute
+ 785 |         except AttributeError:
+ 786 |             return None
+ 787 | 
+ 788 |     def get_path(self, language, fallback=True):
+ 789 |         """
+ 790 |         get the path of the page depending on the given language
+ 791 |         """
+ 792 |         languages = [language]
+ 793 | 
+ 794 |         if fallback:
+ 795 |             languages.extend(self.get_fallbacks(language))
+ 796 | 
+ 797 |         page_languages = self.get_languages()
+ 798 | 
+ 799 |         for _language in languages:
+ 800 |             if _language in page_languages:
+ 801 |                 language = _language
+ 802 |                 break
+ 803 | 
+ 804 |         if language not in self.urls_cache:
+ 805 |             self.urls_cache.update({
+ 806 |                 url.language: url for url in self.urls.filter(language__in=languages)
+ 807 |             })
+ 808 | 
+ 809 |             for _language in languages:
+ 810 |                 self.urls_cache.setdefault(_language, None)
+ 811 | 
+ 812 |         try:
+ 813 |             return self.urls_cache[language].path
+ 814 |         except (AttributeError, KeyError):
+ 815 |             return None
+ 816 | 
+ 817 |     def get_slug(self, language, fallback=True):
+ 818 |         languages = [language]
+ 819 | 
+ 820 |         if fallback:
+ 821 |             languages.extend(self.get_fallbacks(language))
+ 822 | 
+ 823 |         page_languages = self.get_languages()
+ 824 | 
+ 825 |         for _language in languages:
+ 826 |             if _language in page_languages:
+ 827 |                 language = _language
+ 828 |                 break
+ 829 | 
+ 830 |         if language not in self.urls_cache:
+ 831 |             self.urls_cache.update({
+ 832 |                 url.language: url for url in self.urls.filter(language__in=languages)
+ 833 |             })
+ 834 | 
+ 835 |             for _language in languages:
+ 836 |                 self.urls_cache.setdefault(_language, None)
+ 837 | 
+ 838 |         try:
+ 839 |             return self.urls_cache[language].slug
+ 840 |         except (AttributeError, KeyError):
+ 841 |             return None
+ 842 | 
+ 843 |     def get_title(self, language=None, fallback=True, force_reload=False):
+ 844 |         """
+ 845 |         get the title of the page depending on the given language
+ 846 |         """
+ 847 |         return self.get_page_content_obj_attribute("title", language, fallback, force_reload)
+ 848 | 
+ 849 |     def get_menu_title(self, language=None, fallback=True, force_reload=False):
+ 850 |         """
+ 851 |         get the menu title of the page depending on the given language
+ 852 |         """
+ 853 |         menu_title = self.get_page_content_obj_attribute("menu_title", language, fallback, force_reload)
+ 854 |         if not menu_title:
+ 855 |             return self.get_title(language, True, force_reload)
+ 856 |         return menu_title
+ 857 | 
+ 858 |     def get_placeholders(self, language):
+ 859 |         from cms.models import PageContent, Placeholder
+ 860 | 
+ 861 |         page_content = PageContent.objects.get(language=language, page=self)
+ 862 |         return Placeholder.objects.get_for_obj(page_content)
+ 863 | 
+ 864 |     def get_changed_date(self, language=None, fallback=True, force_reload=False):
+ 865 |         """
+ 866 |         get when this page was last updated
+ 867 |         """
+ 868 |         return self.get_page_content_obj_attribute("changed_date", language, fallback, force_reload)
+ 869 | 
+ 870 |     def get_changed_by(self, language=None, fallback=True, force_reload=False):
+ 871 |         """
+ 872 |         get user who last changed this page
+ 873 |         """
+ 874 |         return self.get_page_content_obj_attribute("changed_by", language, fallback, force_reload)
+ 875 | 
+ 876 |     def get_page_title(self, language=None, fallback=True, force_reload=False):
+ 877 |         """
+ 878 |         get the page title of the page depending on the given language
+ 879 |         """
+ 880 |         page_title = self.get_page_content_obj_attribute("page_title", language, fallback, force_reload)
+ 881 | 
+ 882 |         if not page_title:
+ 883 |             return self.get_title(language, True, force_reload)
+ 884 |         return page_title
+ 885 | 
+ 886 |     def get_meta_description(self, language=None, fallback=True, force_reload=False):
+ 887 |         """
+ 888 |         get content for the description meta tag for the page depending on the given language
+ 889 |         """
+ 890 |         return self.get_page_content_obj_attribute("meta_description", language, fallback, force_reload)
+ 891 | 
+ 892 |     def get_application_urls(self, language=None, fallback=True, force_reload=False):
+ 893 |         """
+ 894 |         get application urls conf for application hook
+ 895 |         """
+ 896 |         return self.application_urls
+ 897 | 
+ 898 |     def get_redirect(self, language=None, fallback=True, force_reload=False):
+ 899 |         """
+ 900 |         get redirect
+ 901 |         """
+ 902 |         return self.get_page_content_obj_attribute("redirect", language, fallback, force_reload)
+ 903 | 
+ 904 |     def _get_title_cache(self, language, fallback, force_reload):
+ 905 |         if not language:
+ 906 |             language = get_language()
+ 907 | 
+ 908 |         force_reload = (force_reload or language not in self.title_cache)
+ 909 | 
+ 910 |         if fallback and not self.title_cache.get(language):
+ 911 |             # language can be in the cache but might be an EmptyPageContent instance
+ 912 |             fallback_langs = i18n.get_fallback_languages(language)
+ 913 |             for lang in fallback_langs:
+ 914 |                 if self.title_cache.get(lang):
+ 915 |                     return lang
+ 916 | 
+ 917 |         if force_reload:
+ 918 |             from cms.models import PageContent
+ 919 | 
+ 920 |             titles = PageContent.objects.filter(page=self)
+ 921 |             for title in titles:
+ 922 |                 self.title_cache[title.language] = title
+ 923 |             if self.title_cache.get(language):
+ 924 |                 return language
+ 925 |             else:
+ 926 |                 if fallback:
+ 927 |                     fallback_langs = i18n.get_fallback_languages(language)
+ 928 |                     for lang in fallback_langs:
+ 929 |                         if self.title_cache.get(lang):
+ 930 |                             return lang
+ 931 |         return language
+ 932 | 
+ 933 |     @property
+ 934 |     def template(self):
+ 935 |         return self.get_page_content_obj_attribute("template")
+ 936 | 
+ 937 |     @property
+ 938 |     def soft_root(self):
+ 939 |         return self.get_page_content_obj_attribute("soft_root")
+ 940 | 
+ 941 |     def get_template(self, language=None, fallback=True, force_reload=False):
+ 942 |         title = self.get_title_obj(language, fallback, force_reload)
+ 943 |         if title:
+ 944 |             return title.get_template()
+ 945 |         return get_cms_setting('TEMPLATES')[0][0]
+ 946 | 
+ 947 |     def get_template_name(self):
+ 948 |         """
+ 949 |         get the textual name (2nd parameter in get_cms_setting('TEMPLATES'))
+ 950 |         of the template of this page or of the nearest
+ 951 |         ancestor. failing to find that, return the name of the default template.
+ 952 |         """
+ 953 |         template = self.get_template()
+ 954 |         for t in get_cms_setting('TEMPLATES'):
+ 955 |             if t[0] == template:
+ 956 |                 return t[1]
+ 957 |         return _("default")
+ 958 | 
+ 959 |     def has_view_permission(self, user):
+ 960 |         from cms.utils.page_permissions import user_can_view_page
+ 961 |         return user_can_view_page(user, page=self)
+ 962 | 
+ 963 |     def has_view_restrictions(self, site):
+ 964 |         from cms.models import PagePermission
+ 965 | 
+ 966 |         if get_cms_setting('PERMISSION'):
+ 967 |             restrictions = (
+ 968 |                 PagePermission
+ 969 |                 .objects
+ 970 |                 .for_page(self)
+ 971 |                 .filter(can_view=True)
+ 972 |             )
+ 973 |             return restrictions.exists()
+ 974 |         return False
+ 975 | 
+ 976 |     def has_add_permission(self, user):
+ 977 |         """
+ 978 |         Has user ability to add page under current page?
+ 979 |         """
+ 980 |         from cms.utils.page_permissions import user_can_add_subpage
+ 981 |         return user_can_add_subpage(user, self)
+ 982 | 
+ 983 |     def has_change_permission(self, user):
+ 984 |         from cms.utils.page_permissions import user_can_change_page
+ 985 |         return user_can_change_page(user, page=self)
+ 986 | 
+ 987 |     def has_delete_permission(self, user):
+ 988 |         from cms.utils.page_permissions import user_can_delete_page
+ 989 |         return user_can_delete_page(user, page=self)
+ 990 | 
+ 991 |     def has_delete_translation_permission(self, user, language):
+ 992 |         from cms.utils.page_permissions import user_can_delete_page_translation
+ 993 |         return user_can_delete_page_translation(user, page=self, language=language)
+ 994 | 
+ 995 |     def has_publish_permission(self, user):
+ 996 |         from cms.utils.page_permissions import user_can_publish_page
+ 997 |         return user_can_publish_page(user, page=self)
+ 998 | 
+ 999 |     def has_advanced_settings_permission(self, user):
+1000 |         from cms.utils.page_permissions import user_can_change_page_advanced_settings
+1001 |         return user_can_change_page_advanced_settings(user, page=self)
+1002 | 
+1003 |     def has_change_permissions_permission(self, user):
+1004 |         """
+1005 |         Has user ability to change permissions for current page?
+1006 |         """
+1007 |         from cms.utils.page_permissions import user_can_change_page_permissions
+1008 |         return user_can_change_page_permissions(user, page=self)
+1009 | 
+1010 |     def has_move_page_permission(self, user):
+1011 |         """Has user ability to move current page?
+1012 |         """
+1013 |         from cms.utils.page_permissions import user_can_move_page
+1014 |         return user_can_move_page(user, page=self)
+1015 | 
+1016 |     def get_media_path(self, filename):
+1017 |         """
+1018 |         Returns path (relative to MEDIA_ROOT/MEDIA_URL) to directory for storing
+1019 |         page-scope files. This allows multiple pages to contain files with
+1020 |         identical names without namespace issues. Plugins such as Picture can
+1021 |         use this method to initialise the 'upload_to' parameter for File-based
+1022 |         fields. For example:
+1023 |             image = models.ImageField(
+1024 |                 _("image"), upload_to=CMSPlugin.get_media_path)
+1025 | 
+1026 |         where CMSPlugin.get_media_path calls self.page.get_media_path
+1027 | 
+1028 |         This location can be customised using the CMS_PAGE_MEDIA_PATH setting
+1029 |         """
+1030 |         return join(get_cms_setting('PAGE_MEDIA_PATH'), "%d" % self.pk, filename)
+1031 | 
+1032 |     def reload(self):
+1033 |         """
+1034 |         Reload a page from the database
+1035 |         """
+1036 |         return self.__class__.objects.get(pk=self.pk)
+1037 | 
+1038 |     def rescan_placeholders(self, language):
+1039 |         return self.get_title_obj(language=language).rescan_placeholders()
+1040 | 
+1041 |     def get_declared_placeholders(self):
+1042 |         # inline import to prevent circular imports
+1043 |         from cms.utils.placeholder import get_placeholders
+1044 | 
+1045 |         return get_placeholders(self.get_template())
+1046 | 
+1047 |     def get_xframe_options(self, language=None, fallback=True, force_reload=False):
+1048 |         title = self.get_title_obj(language, fallback, force_reload)
+1049 |         if title:
+1050 |             return title.get_xframe_options()
+1051 | 
+1052 |     def get_soft_root(self, language=None, fallback=True, force_reload=False):
+1053 |         return self.get_page_content_obj_attribute("soft_root", language, fallback, force_reload)
+1054 | 
+1055 |     def get_in_navigation(self, language=None, fallback=True, force_reload=False):
+1056 |         return self.get_page_content_obj_attribute("in_navigation", language, fallback, force_reload)
+1057 | 
+1058 |     def get_limit_visibility_in_menu(self, language=None, fallback=True, force_reload=False):
+1059 |         return self.get_page_content_obj_attribute("limit_visibility_in_menu", language, fallback, force_reload)
+1060 | 
+1061 | 
+1062 | @python_2_unicode_compatible
+1063 | class PageUrl(models.Model):
+1064 |     slug = models.SlugField(_("slug"), max_length=255, db_index=True)
+1065 |     path = models.CharField(_("Path"), max_length=255, db_index=True, null=True)
+1066 |     language = models.CharField(_("language"), max_length=15, db_index=True)
+1067 |     page = models.ForeignKey(
+1068 |         Page,
+1069 |         on_delete=models.CASCADE,
+1070 |         verbose_name=_("page"),
+1071 |         related_name="urls",
+1072 |     )
+1073 |     managed = models.BooleanField(default=False)
+1074 |     objects = PageUrlManager()
+1075 | 
+1076 |     class Meta:
+1077 |         app_label = 'cms'
+1078 |         default_permissions = []
+1079 | 
+1080 |     def __str__(self):
+1081 |         return u"%s (%s)" % (self.path or self.slug, self.language)
+1082 | 
+1083 |     def get_absolute_url(self, language=None, fallback=True):
+1084 |         if not language:
+1085 |             language = get_current_language()
+1086 | 
+1087 |         with force_language(language):
+1088 |             if self.path == '':
+1089 |                 return reverse('pages-root')
+1090 |             return reverse('pages-details-by-slug', kwargs={"slug": self.path})
+1091 | 
+1092 |     def get_path_for_base(self, base_path=''):
+1093 |         old_base, sep, slug = self.path.rpartition('/')
+1094 |         return '%s/%s' % (base_path, slug) if base_path else slug
+1095 | 
+1096 | 
+1097 | class PageType(Page):
+1098 | 
+1099 |     class Meta:
+1100 |         proxy = True
+1101 |         default_permissions = []
+1102 | 
+1103 |     @classmethod
+1104 |     def get_root_page(cls, site):
+1105 |         pages = Page.objects.on_site(site).filter(
+1106 |             node__depth=1,
+1107 |             is_page_type=True,
+1108 |         )
+1109 |         return pages.first()
+1110 | 
+1111 |     def is_potential_home(self):
+1112 |         return False
+1113 | 
+```
+
+2026-09-16 22:09:48 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:09:50 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:09:50 auto_search_main.py INFO Executing code:
+```
+print(get_entity_contents(**{'entity_names': ['cms/models/titlemodels.py']}))
+```
+2026-09-16 22:09:50 auto_search_main.py INFO OBSERVATION:
+##Searching for entity `cms/models/titlemodels.py`...
+### Search Result:
+Found file `cms/models/titlemodels.py`.
+Source: Exact match found for entity name `cms/models/titlemodels.py`.
+```
+  1 | # -*- coding: utf-8 -*-
+  2 | from django.db import models
+  3 | from django.utils import timezone
+  4 | from django.utils.encoding import python_2_unicode_compatible
+  5 | from django.utils.translation import ugettext_lazy as _
+  6 | 
+  7 | from cms import constants
+  8 | from cms.models.fields import PlaceholderRelationField
+  9 | from cms.models.managers import PageContentManager
+ 10 | from cms.models.pagemodel import Page
+ 11 | from cms.utils.conf import get_cms_setting
+ 12 | 
+ 13 | 
+ 14 | @python_2_unicode_compatible
+ 15 | class PageContent(models.Model):
+ 16 |     LIMIT_VISIBILITY_IN_MENU_CHOICES = (
+ 17 |         (constants.VISIBILITY_USERS, _('for logged in users only')),
+ 18 |         (constants.VISIBILITY_ANONYMOUS, _('for anonymous users only')),
+ 19 |     )
+ 20 |     TEMPLATE_DEFAULT = constants.TEMPLATE_INHERITANCE_MAGIC if get_cms_setting('TEMPLATE_INHERITANCE') else get_cms_setting('TEMPLATES')[0][0]
+ 21 | 
+ 22 |     X_FRAME_OPTIONS_CHOICES = (
+ 23 |         (constants.X_FRAME_OPTIONS_INHERIT, _('Inherit from parent page')),
+ 24 |         (constants.X_FRAME_OPTIONS_DENY, _('Deny')),
+ 25 |         (constants.X_FRAME_OPTIONS_SAMEORIGIN, _('Only this website')),
+ 26 |         (constants.X_FRAME_OPTIONS_ALLOW, _('Allow'))
+ 27 |     )
+ 28 | 
+ 29 |     template_choices = [(x, _(y)) for x, y in get_cms_setting('TEMPLATES')]
+ 30 | 
+ 31 |     # These are the fields whose values are compared when saving
+ 32 |     # a PageContent object to know if it has changed.
+ 33 |     editable_fields = [
+ 34 |         'title',
+ 35 |         'redirect',
+ 36 |         'page_title',
+ 37 |         'menu_title',
+ 38 |         'meta_description',
+ 39 |     ]
+ 40 | 
+ 41 |     language = models.CharField(_("language"), max_length=15, db_index=True)
+ 42 |     title = models.CharField(_("title"), max_length=255)
+ 43 |     page_title = models.CharField(_("title"), max_length=255, blank=True, null=True,
+ 44 |                                   help_text=_("overwrite the title (html title tag)"))
+ 45 |     menu_title = models.CharField(_("title"), max_length=255, blank=True, null=True,
+ 46 |                                   help_text=_("overwrite the title in the menu"))
+ 47 |     meta_description = models.TextField(_("description"), blank=True, null=True,
+ 48 |                                         help_text=_("The text displayed in search engines."))
+ 49 |     redirect = models.CharField(_("redirect"), max_length=2048, blank=True, null=True)
+ 50 |     page = models.ForeignKey(Page, on_delete=models.CASCADE, verbose_name=_("page"), related_name="pagecontent_set")
+ 51 |     creation_date = models.DateTimeField(_("creation date"), editable=False, default=timezone.now)
+ 52 |     # Placeholders (plugins)
+ 53 |     placeholders = PlaceholderRelationField()
+ 54 | 
+ 55 |     created_by = models.CharField(
+ 56 |         _("created by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+ 57 |         editable=False)
+ 58 |     changed_by = models.CharField(
+ 59 |         _("changed by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+ 60 |         editable=False)
+ 61 |     changed_date = models.DateTimeField(auto_now=True)
+ 62 | 
+ 63 |     in_navigation = models.BooleanField(_("in navigation"), default=True, db_index=True)
+ 64 |     soft_root = models.BooleanField(_("soft root"), db_index=True, default=False,
+ 65 |                                     help_text=_("All ancestors will not be displayed in the navigation"))
+ 66 |     template = models.CharField(_("template"), max_length=100, choices=template_choices,
+ 67 |                                 help_text=_('The template used to render the content.'),
+ 68 |                                 default=TEMPLATE_DEFAULT)
+ 69 |     limit_visibility_in_menu = models.SmallIntegerField(_("menu visibility"), default=None, null=True, blank=True,
+ 70 |                                                         choices=LIMIT_VISIBILITY_IN_MENU_CHOICES, db_index=True,
+ 71 |                                                         help_text=_("limit when this page is visible in the menu"))
+ 72 | 
+ 73 |     # X Frame Options for clickjacking protection
+ 74 |     xframe_options = models.IntegerField(
+ 75 |         choices=X_FRAME_OPTIONS_CHOICES,
+ 76 |         default=get_cms_setting('DEFAULT_X_FRAME_OPTIONS'),
+ 77 |     )
+ 78 | 
+ 79 |     objects = PageContentManager()
+ 80 | 
+ 81 |     class Meta:
+ 82 |         default_permissions = []
+ 83 |         unique_together = (('language', 'page'),)
+ 84 |         app_label = 'cms'
+ 85 | 
+ 86 |     def __str__(self):
+ 87 |         return u"%s (%s)" % (self.title, self.language)
+ 88 | 
+ 89 |     def __repr__(self):
+ 90 |         display = '<{module}.{class_name} id={id} object at {location}>'.format(
+ 91 |             module=self.__module__,
+ 92 |             class_name=self.__class__.__name__,
+ 93 |             id=self.pk,
+ 94 |             location=hex(id(self)),
+ 95 |         )
+ 96 |         return display
+ 97 | 
+ 98 |     def update(self, **data):
+ 99 |         cls = self.__class__
+100 |         cls.objects.filter(pk=self.pk).update(**data)
+101 | 
+102 |         for field, value in data.items():
+103 |             setattr(self, field, value)
+104 |         return
+105 | 
+106 |     def save(self, **kwargs):
+107 |         # delete template cache
+108 |         if hasattr(self, '_template_cache'):
+109 |             delattr(self, '_template_cache')
+110 |         super(PageContent, self).save(**kwargs)
+111 | 
+112 |     def toggle_in_navigation(self, set_to=None):
+113 |         '''
+114 |         Toggles (or sets) in_navigation and invalidates the cms page cache
+115 |         '''
+116 |         old = bool(self.in_navigation)
+117 | 
+118 |         if set_to in [True, False]:
+119 |             new = set_to
+120 |         else:
+121 |             new = not old
+122 | 
+123 |         self.update(in_navigation=new)
+124 | 
+125 |         # If there was a change, invalidate the cms page cache
+126 |         if new != old:
+127 |             self.page.clear_cache()
+128 |         return new
+129 | 
+130 |     def has_placeholder_change_permission(self, user):
+131 |         return self.page.has_change_permission(user)
+132 | 
+133 |     def rescan_placeholders(self):
+134 |         """
+135 |         Rescan and if necessary create placeholders in the current template.
+136 |         """
+137 |         from cms.utils.placeholder import rescan_placeholders_for_obj
+138 | 
+139 |         return rescan_placeholders_for_obj(self)
+140 | 
+141 |     def get_placeholders(self):
+142 |         if not hasattr(self, '_placeholder_cache'):
+143 |             self._placeholder_cache = self.placeholders.all()
+144 |         return self._placeholder_cache
+145 | 
+146 |     def get_ancestor_titles(self):
+147 |         return PageContent.objects.filter(
+148 |             page__in=self.page.get_ancestor_pages(),
+149 |             language=self.language,
+150 |         )
+151 | 
+152 |     def get_template(self):
+153 |         """
+154 |         get the template of this page if defined or if closer parent if
+155 |         defined or DEFAULT_PAGE_TEMPLATE otherwise
+156 |         """
+157 |         if hasattr(self, '_template_cache'):
+158 |             return self._template_cache
+159 | 
+160 |         if self.template != constants.TEMPLATE_INHERITANCE_MAGIC:
+161 |             self._template_cache = self.template or get_cms_setting('TEMPLATES')[0][0]
+162 |             return self._template_cache
+163 | 
+164 |         templates = (
+165 |             self
+166 |             .get_ancestor_titles()
+167 |             .exclude(template=constants.TEMPLATE_INHERITANCE_MAGIC)
+168 |             .order_by('-page__node__path')
+169 |             .values_list('template', flat=True)
+170 |         )
+171 | 
+172 |         try:
+173 |             self._template_cache = templates[0]
+174 |         except IndexError:
+175 |             self._template_cache = get_cms_setting('TEMPLATES')[0][0]
+176 |         return self._template_cache
+177 | 
+178 |     def get_template_name(self):
+179 |         """
+180 |         get the textual name (2nd parameter in get_cms_setting('TEMPLATES'))
+181 |         of the template of this title. failing to find that, return the
+182 |         name of the default template.
+183 |         """
+184 |         template = self.get_template()
+185 |         for t in get_cms_setting('TEMPLATES'):
+186 |             if t[0] == template:
+187 |                 return t[1]
+188 |         return _("default")
+189 | 
+190 |     def get_xframe_options(self):
+191 |         """ Finds X_FRAME_OPTION from tree if inherited """
+192 |         xframe_options = self.xframe_options or constants.X_FRAME_OPTIONS_INHERIT
+193 | 
+194 |         if xframe_options != constants.X_FRAME_OPTIONS_INHERIT:
+195 |             return xframe_options
+196 | 
+197 |         # Ignore those pages which just inherit their value
+198 |         ancestors = self.get_ancestor_titles().order_by('-page__node__path')
+199 |         ancestors = ancestors.exclude(xframe_options=constants.X_FRAME_OPTIONS_INHERIT)
+200 | 
+201 |         # Now just give me the clickjacking setting (not anything else)
+202 |         xframe_options = ancestors.values_list('xframe_options', flat=True)
+203 | 
+204 |         try:
+205 |             return xframe_options[0]
+206 |         except IndexError:
+207 |             return None
+208 | 
+209 |     def get_absolute_url(self, language=None):
+210 |         return self.page.get_absolute_url(language=language)
+211 | 
+212 | 
+213 | class EmptyPageContent(object):
+214 |     """
+215 |     Empty title object, can be returned from Page.get_title_obj() if required
+216 |     title object doesn't exists.
+217 |     """
+218 |     title = ""
+219 |     meta_description = ""
+220 |     redirect = ""
+221 |     application_urls = ""
+222 |     menu_title = ""
+223 |     page_title = ""
+224 |     xframe_options = None
+225 |     template = get_cms_setting('TEMPLATES')[0][0]
+226 |     soft_root = False
+227 |     in_navigation = False
+228 | 
+229 |     def __init__(self, language):
+230 |         self.language = language
+231 | 
+232 |     def __nonzero__(self):
+233 |         # Python 2 compatibility
+234 |         return False
+235 | 
+236 |     def __bool__(self):
+237 |         # Python 3 compatibility
+238 |         return False
+239 | 
+```
+
+2026-09-16 22:09:50 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:09:52 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:09:52 auto_search_main.py INFO Executing code:
+```
+print(get_entity_contents(**{'entity_names': ['cms/wizards/views.py']}))
+```
+2026-09-16 22:09:52 auto_search_main.py INFO OBSERVATION:
+##Searching for entity `cms/wizards/views.py`...
+### Search Result:
+Found file `cms/wizards/views.py`.
+Source: Exact match found for entity name `cms/wizards/views.py`.
+```
+  1 | # -*- coding: utf-8 -*-
+  2 | 
+  3 | import os
+  4 | 
+  5 | from django.conf import settings
+  6 | from django.core.exceptions import PermissionDenied
+  7 | from django.core.files.storage import FileSystemStorage
+  8 | from django.forms import Form
+  9 | from django.template.response import SimpleTemplateResponse
+ 10 | from django.urls import NoReverseMatch
+ 11 | 
+ 12 | from formtools.wizard.views import SessionWizardView
+ 13 | 
+ 14 | from cms.models import Page
+ 15 | from cms.utils import get_current_site
+ 16 | from cms.utils.i18n import get_site_language_from_request
+ 17 | 
+ 18 | from .wizard_pool import wizard_pool
+ 19 | from .forms import (
+ 20 |     WizardStep1Form,
+ 21 |     WizardStep2BaseForm,
+ 22 |     step2_form_factory,
+ 23 | )
+ 24 | 
+ 25 | 
+ 26 | class WizardCreateView(SessionWizardView):
+ 27 |     template_name = 'cms/wizards/start.html'
+ 28 |     file_storage = FileSystemStorage(
+ 29 |         location=os.path.join(settings.MEDIA_ROOT, 'wizard_tmp_files'))
+ 30 | 
+ 31 |     form_list = [
+ 32 |         ('0', WizardStep1Form),
+ 33 |         # Form is used as a placeholder form.
+ 34 |         # the real form will be loaded after step 0
+ 35 |         ('1', Form),
+ 36 |     ]
+ 37 | 
+ 38 |     def dispatch(self, *args, **kwargs):
+ 39 |         user = self.request.user
+ 40 | 
+ 41 |         if not user.is_active or not user.is_staff:
+ 42 |             raise PermissionDenied
+ 43 |         self.site = get_current_site()
+ 44 |         return super(WizardCreateView, self).dispatch(*args, **kwargs)
+ 45 | 
+ 46 |     def get_current_step(self):
+ 47 |         """Returns the current step, if possible, else None."""
+ 48 |         try:
+ 49 |             return self.steps.current
+ 50 |         except AttributeError:
+ 51 |             return None
+ 52 | 
+ 53 |     def is_first_step(self, step=None):
+ 54 |         step = step or self.get_current_step()
+ 55 |         return step == '0'
+ 56 | 
+ 57 |     def is_second_step(self, step=None):
+ 58 |         step = step or self.get_current_step()
+ 59 |         return step == '1'
+ 60 | 
+ 61 |     def get_context_data(self, **kwargs):
+ 62 |         context = super(WizardCreateView, self).get_context_data(**kwargs)
+ 63 | 
+ 64 |         if self.is_second_step():
+ 65 |             context['wizard_entry'] = self.get_selected_entry()
+ 66 |         return context
+ 67 | 
+ 68 |     def get_form(self, step=None, data=None, files=None):
+ 69 |         if step is None:
+ 70 |             step = self.steps.current
+ 71 | 
+ 72 |         # We need to grab the page from pre-validated data so that the wizard
+ 73 |         # has it to prepare the list of valid entries.
+ 74 |         if data:
+ 75 |             page_key = "{0}-page".format(step)
+ 76 |             self.page_pk = data.get(page_key, None)
+ 77 |         else:
+ 78 |             self.page_pk = None
+ 79 | 
+ 80 |         if self.is_second_step(step):
+ 81 |             self.form_list[step] = self.get_step_2_form(step, data, files)
+ 82 |         return super(WizardCreateView, self).get_form(step, data, files)
+ 83 | 
+ 84 |     def get_form_kwargs(self, step=None):
+ 85 |         """This is called by self.get_form()"""
+ 86 |         kwargs = super(WizardCreateView, self).get_form_kwargs()
+ 87 |         kwargs['wizard_request'] = self.request
+ 88 |         kwargs['wizard_site'] = self.site
+ 89 |         if self.is_second_step(step):
+ 90 |             kwargs['wizard_page'] = self.get_origin_page()
+ 91 |             kwargs['wizard_language'] = self.get_origin_language()
+ 92 |         else:
+ 93 |             page_pk = self.page_pk or self.request.GET.get('page', None)
+ 94 |             if page_pk and page_pk != 'None':
+ 95 |                 kwargs['wizard_page'] = Page.objects.filter(pk=page_pk).first()
+ 96 |             else:
+ 97 |                 kwargs['wizard_page'] = None
+ 98 |             kwargs['wizard_language'] = get_site_language_from_request(
+ 99 |                 self.request,
+100 |                 site_id=self.site.pk,
+101 |             )
+102 |         return kwargs
+103 | 
+104 |     def get_form_initial(self, step):
+105 |         """This is called by self.get_form()"""
+106 |         initial = super(WizardCreateView, self).get_form_initial(step)
+107 |         if self.is_first_step(step):
+108 |             initial['page'] = self.request.GET.get('page')
+109 |             initial['language'] = self.request.GET.get('language')
+110 |         return initial
+111 | 
+112 |     def get_step_2_form(self, step=None, data=None, files=None):
+113 |         entry_form_class = self.get_selected_entry().form
+114 |         step_2_base_form = self.get_step_2_base_form()
+115 | 
+116 |         form = step2_form_factory(
+117 |             mixin_cls=step_2_base_form,
+118 |             entry_form_class=entry_form_class,
+119 |         )
+120 |         return form
+121 | 
+122 |     def get_step_2_base_form(self):
+123 |         """
+124 |         Returns the base form to be used for step 2.
+125 |         This form is sub classed dynamically by the form defined per module.
+126 |         """
+127 |         return WizardStep2BaseForm
+128 | 
+129 |     def get_template_names(self):
+130 |         if self.is_first_step():
+131 |             template_name = self.template_name
+132 |         else:
+133 |             template_name = self.get_selected_entry().template_name
+134 |         return template_name
+135 | 
+136 |     def done(self, form_list, **kwargs):
+137 |         """
+138 |         This step only runs if all forms are valid. Simply emits a simple
+139 |         template that uses JS to redirect to the newly created object.
+140 |         """
+141 |         form_one, form_two = list(form_list)
+142 |         instance = form_two.save()
+143 |         url = self.get_success_url(instance)
+144 |         language = form_one.cleaned_data['language']
+145 |         if not url:
+146 |             page = self.get_origin_page()
+147 |             if page:
+148 |                 try:
+149 |                     url = page.get_absolute_url(language)
+150 |                 except NoReverseMatch:
+151 |                     url = '/'
+152 |             else:
+153 |                 url = '/'
+154 | 
+155 |         return SimpleTemplateResponse("cms/wizards/done.html", {"url": url})
+156 | 
+157 |     def get_selected_entry(self):
+158 |         data = self.get_cleaned_data_for_step('0')
+159 |         return wizard_pool.get_entry(data['entry'])
+160 | 
+161 |     def get_origin_page(self):
+162 |         data = self.get_cleaned_data_for_step('0')
+163 |         return data.get('page')
+164 | 
+165 |     def get_origin_language(self):
+166 |         data = self.get_cleaned_data_for_step('0')
+167 |         return data.get('language')
+168 | 
+169 |     def get_success_url(self, instance):
+170 |         entry = self.get_selected_entry()
+171 |         language = self.get_origin_language()
+172 |         success_url = entry.get_success_url(
+173 |             obj=instance,
+174 |             language=language,
+175 |         )
+176 |         return success_url
+177 | 
+```
+
+2026-09-16 22:09:52 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:09:56 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:09:56 auto_search_main.py INFO Executing code:
+```
+print(search_code_snippets(**{'search_terms': ['wizard', 'PageContent', 'Page'], 'file_path_or_pattern': '"cms/wizards/**"'}))
+```
+2026-09-16 22:09:56 auto_search_main.py INFO OBSERVATION:
+No files found for file pattern '"cms/wizards/**"'. Will search all files.
+...
+##Searching for term "wizard"...
+### Search Result:
+Found class `cms/wizards/wizard_base.py:Wizard`.
+Source: Match found for entity name `wizard`.
+Just show the structure of this class due to response length limitations:
+```
+class Wizard(WizardBase):
+    template_name = 'cms/wizards/create.html'
+    _hash_cache = None
+
+    @property
+    def id(self):
+...
+    def get_title(self, **kwargs):
+...
+    def get_weight(self, **kwargs):
+...
+    def get_description(self, **kwargs):
+...
+    def __str__(self):
+...
+    def __repr__(self):
+...
+    def user_has_add_permission(self, user, **kwargs):
+...
+    def get_success_url(self, obj, **kwargs):
+...
+    def get_model(self):
+...
+    @cached_property
+    def widget_attributes(self):
+
+```
+Hint: Search `cms/wizards/wizard_base.py:Wizard` to get the full content if needed.
+
+
+
+##Searching for term "PageContent"...
+### Search Result:
+Found class `cms/models/titlemodels.py:PageContent`.
+Source: Match found for entity name `PageContent`.
+Just show the structure of this class due to response length limitations:
+```
+class PageContent(models.Model):
+    LIMIT_VISIBILITY_IN_MENU_CHOICES = (
+        (constants.VISIBILITY_USERS, _('for logged in users only')),
+        (constants.VISIBILITY_ANONYMOUS, _('for anonymous users only')),
+    )
+    TEMPLATE_DEFAULT = constants.TEMPLATE_INHERITANCE_MAGIC if get_cms_setting('TEMPLATE_INHERITANCE') else get_cms_setting('TEMPLATES')[0][0]
+
+    X_FRAME_OPTIONS_CHOICES = (
+        (constants.X_FRAME_OPTIONS_INHERIT, _('Inherit from parent page')),
+        (constants.X_FRAME_OPTIONS_DENY, _('Deny')),
+        (constants.X_FRAME_OPTIONS_SAMEORIGIN, _('Only this website')),
+        (constants.X_FRAME_OPTIONS_ALLOW, _('Allow'))
+    )
+
+    template_choices = [(x, _(y)) for x, y in get_cms_setting('TEMPLATES')]
+
+    # These are the fields whose values are compared when saving
+    # a PageContent object to know if it has changed.
+    editable_fields = [
+        'title',
+        'redirect',
+        'page_title',
+        'menu_title',
+        'meta_description',
+    ]
+
+    language = models.CharField(_("language"), max_length=15, db_index=True)
+    title = models.CharField(_("title"), max_length=255)
+    page_title = models.CharField(_("title"), max_length=255, blank=True, null=True,
+                                  help_text=_("overwrite the title (html title tag)"))
+    menu_title = models.CharField(_("title"), max_length=255, blank=True, null=True,
+                                  help_text=_("overwrite the title in the menu"))
+    meta_description = models.TextField(_("description"), blank=True, null=True,
+                                        help_text=_("The text displayed in search engines."))
+    redirect = models.CharField(_("redirect"), max_length=2048, blank=True, null=True)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE, verbose_name=_("page"), related_name="pagecontent_set")
+    creation_date = models.DateTimeField(_("creation date"), editable=False, default=timezone.now)
+    # Placeholders (plugins)
+    placeholders = PlaceholderRelationField()
+
+    created_by = models.CharField(
+        _("created by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    changed_by = models.CharField(
+        _("changed by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    changed_date = models.DateTimeField(auto_now=True)
+
+    in_navigation = models.BooleanField(_("in navigation"), default=True, db_index=True)
+    soft_root = models.BooleanField(_("soft root"), db_index=True, default=False,
+                                    help_text=_("All ancestors will not be displayed in the navigation"))
+    template = models.CharField(_("template"), max_length=100, choices=template_choices,
+                                help_text=_('The template used to render the content.'),
+                                default=TEMPLATE_DEFAULT)
+    limit_visibility_in_menu = models.SmallIntegerField(_("menu visibility"), default=None, null=True, blank=True,
+                                                        choices=LIMIT_VISIBILITY_IN_MENU_CHOICES, db_index=True,
+                                                        help_text=_("limit when this page is visible in the menu"))
+
+    # X Frame Options for clickjacking protection
+    xframe_options = models.IntegerField(
+        choices=X_FRAME_OPTIONS_CHOICES,
+        default=get_cms_setting('DEFAULT_X_FRAME_OPTIONS'),
+    )
+
+    objects = PageContentManager()
+
+    class Meta:
+        default_permissions = []
+        unique_together = (('language', 'page'),)
+        app_label = 'cms'
+
+    def __str__(self):
+...
+    def __repr__(self):
+...
+    def update(self, **data):
+...
+    def save(self, **kwargs):
+...
+    def toggle_in_navigation(self, set_to=None):
+...
+    def has_placeholder_change_permission(self, user):
+...
+    def rescan_placeholders(self):
+...
+    def get_placeholders(self):
+...
+    def get_ancestor_titles(self):
+...
+    def get_template(self):
+...
+    def get_template_name(self):
+...
+    def get_xframe_options(self):
+...
+    def get_absolute_url(self, language=None):
+
+```
+Hint: Search `cms/models/titlemodels.py:PageContent` to get the full content if needed.
+
+
+
+##Searching for term "Page"...
+### Search Result:
+Found class `cms/models/pagemodel.py:Page`.
+Source: Match found for entity name `Page`.
+Just show the structure of this class due to response length limitations:
+```
+class Page(models.Model):
+
+    created_by = models.CharField(
+        _("created by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    changed_by = models.CharField(
+        _("changed by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    changed_date = models.DateTimeField(auto_now=True)
+
+    #
+    # Please use toggle_in_navigation() instead of affecting this property
+    # directly so that the cms page cache can be invalidated as appropriate.
+    #
+    reverse_id = models.CharField(_("id"), max_length=40, db_index=True, blank=True, null=True, help_text=_(
+        "A unique identifier that is used with the page_url templatetag for linking to this page"))
+    navigation_extenders = models.CharField(_("attached menu"), max_length=80, db_index=True, blank=True, null=True)
+
+    login_required = models.BooleanField(_("login required"), default=False)
+    is_home = models.BooleanField(editable=False, db_index=True, default=False)
+    application_urls = models.CharField(_('application'), max_length=200, blank=True, null=True, db_index=True)
+    application_namespace = models.CharField(_('application instance name'), max_length=200, blank=True, null=True)
+    languages = models.CharField(max_length=255, editable=False, blank=True, null=True)
+
+    # Flag that marks a page as page-type
+    is_page_type = models.BooleanField(default=False)
+
+    node = models.ForeignKey(
+        'TreeNode',
+        related_name='cms_pages',
+        on_delete=models.CASCADE,
+    )
+
+    # Managers
+    objects = PageManager()
+
+    class Meta:
+        default_permissions = ('add', 'change', 'delete')
+        permissions = (
+            ('view_page', 'Can view page'),
+            ('publish_page', 'Can publish page'),
+            ('edit_static_placeholder', 'Can edit static placeholders'),
+        )
+        verbose_name = _('page')
+        verbose_name_plural = _('pages')
+        app_label = 'cms'
+
+    def __init__(self, *args, **kwargs):
+...
+    def __str__(self):
+...
+    def __repr__(self):
+...
+    def _clear_node_cache(self):
+...
+    def _clear_internal_cache(self):
+...
+    @cached_property
+    def parent_page(self):
+...
+    def has_valid_url(self, language):
+...
+    def set_as_homepage(self, user=None):
+...
+    def _get_path_sql_value(self, base_path=''):
+...
+    def _update_url_path(self, language):
+...
+    def _update_url_path_recursive(self, language):
+...
+    def _set_title_root_path(self):
+...
+    def _remove_title_root_path(self):
+...
+    def is_potential_home(self):
+...
+    def get_absolute_url(self, language=None, fallback=True):
+...
+    def set_tree_node(self, site, target=None, position='first-child'):
+...
+    def move_page(self, target_node, position='first-child'):
+...
+    def _clear_placeholders(self, language):
+...
+    def copy(self, site, parent_node=None, language=None,
+             translations=True, permissions=False, extensions=True):
+...
+    def copy_with_descendants(self, target_node=None, position=None,
+                              copy_permissions=True, target_site=None):
+...
+    def delete(self, *args, **kwargs):
+...
+    def delete_translations(self, language=None):
+...
+    def save(self, **kwargs):
+...
+    def update(self, refresh=False, **data):
+...
+    def update_translations(self, language=None, **data):
+...
+    def has_translation(self, language):
+...
+    def clear_cache(self, language=None, menu=False, placeholder=False):
+...
+    def get_child_pages(self):
+...
+    def get_ancestor_pages(self):
+...
+    def get_descendant_pages(self):
+...
+    def get_root(self):
+...
+    def get_parent_page(self):
+...
+    def get_languages(self):
+...
+    def remove_language(self, language):
+...
+    def update_languages(self, languages):
+...
+    def get_published_languages(self):
+...
+    def set_translations_cache(self):
+...
+    def get_path_for_slug(self, slug, language):
+...
+    def get_url(self, language):
+...
+    def get_urls(self):
+...
+    def update_urls(self, language=None, **data):
+...
+    def get_fallbacks(self, language):
+...
+    # ## PageContent object access
+
+    def get_title_obj(self, language=None, fallback=True, force_reload=False):
+...
+    def get_page_content_obj_attribute(self, attrname, language=None, fallback=True, force_reload=False):
+...
+    def get_path(self, language, fallback=True):
+...
+    def get_slug(self, language, fallback=True):
+...
+    def get_title(self, language=None, fallback=True, force_reload=False):
+...
+    def get_menu_title(self, language=None, fallback=True, force_reload=False):
+...
+    def get_placeholders(self, language):
+...
+    def get_changed_date(self, language=None, fallback=True, force_reload=False):
+...
+    def get_changed_by(self, language=None, fallback=True, force_reload=False):
+...
+    def get_page_title(self, language=None, fallback=True, force_reload=False):
+...
+    def get_meta_description(self, language=None, fallback=True, force_reload=False):
+...
+    def get_application_urls(self, language=None, fallback=True, force_reload=False):
+...
+    def get_redirect(self, language=None, fallback=True, force_reload=False):
+...
+    def _get_title_cache(self, language, fallback, force_reload):
+...
+    @property
+    def template(self):
+...
+    @property
+    def soft_root(self):
+...
+    def get_template(self, language=None, fallback=True, force_reload=False):
+...
+    def get_template_name(self):
+...
+    def has_view_permission(self, user):
+...
+    def has_view_restrictions(self, site):
+...
+    def has_add_permission(self, user):
+...
+    def has_change_permission(self, user):
+...
+    def has_delete_permission(self, user):
+...
+    def has_delete_translation_permission(self, user, language):
+...
+    def has_publish_permission(self, user):
+...
+    def has_advanced_settings_permission(self, user):
+...
+    def has_change_permissions_permission(self, user):
+...
+    def has_move_page_permission(self, user):
+...
+    def get_media_path(self, filename):
+...
+    def reload(self):
+...
+    def rescan_placeholders(self, language):
+...
+    def get_declared_placeholders(self):
+...
+    def get_xframe_options(self, language=None, fallback=True, force_reload=False):
+...
+    def get_soft_root(self, language=None, fallback=True, force_reload=False):
+...
+    def get_in_navigation(self, language=None, fallback=True, force_reload=False):
+...
+    def get_limit_visibility_in_menu(self, language=None, fallback=True, force_reload=False):
+
+```
+Hint: Search `cms/models/pagemodel.py:Page` to get the full content if needed.
+
+2026-09-16 22:09:56 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:00 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:00 auto_search_main.py INFO Executing code:
+```
+print(search_code_snippets(**{'search_terms': ['wizard_page', 'Page instance', 'PageContent instance']}))
+```
+2026-09-16 22:10:00 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:00 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:00 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:00 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:00 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:01 auto_search_main.py INFO OBSERVATION:
+cms/wizards/views.py:WizardCreateView.get_form_kwargs
+cms/wizards/forms.py:BaseFormMixin.__init__
+cms/wizards/forms.py:WizardOptionWidgets.create_option
+cms/wizards/forms.py:BaseFormMixin.optional_fields
+cms/wizards/forms.py:BaseFormMixin.required_fields
+cms/wizards/forms.py:BaseFormMixin
+cms/wizards/forms.py:WizardOptionWidgets
+cms/migrations/0019_set_pagenode.py:Migration
+cms/migrations/0019_set_pagenode.py:Migration.apply
+cms/migrations/0020_old_tree_cleanup.py:Migration.apply
+cms/migrations/0019_set_pagenode.py:set_page_nodes
+cms/plugin_rendering.py:StructureRenderer.render_plugins
+cms/plugin_rendering.py:StructureRenderer.render_plugin
+cms/migrations/0005_auto_20140924_1039.py:Migration
+cms/migrations/0005_auto_20140924_1039.py:move_to_mp
+cms/api.py:get_page_draft
+cms/models/pluginmodel.py:CMSPlugin.refresh_from_db
+cms/models/pluginmodel.py:CMSPlugin.reload
+cms/models/pluginmodel.py:CMSPlugin.update
+cms/models/pluginmodel.py:CMSPlugin.get_instance_icon_alt
+cms/models/pluginmodel.py:CMSPlugin.page
+cms/models/pluginmodel.py:CMSPlugin.get_instance_icon_src
+cms/models/pluginmodel.py:CMSPlugin.get_media_path
+cms/models/pluginmodel.py:CMSPlugin._get_descendants_count
+cms/models/pagemodel.py:Page.set_tree_node
+cms/templatetags/cms_tags.py:CMSEditableObject._get_content
+cms/templatetags/cms_tags.py:CMSEditableObject._get_editable_context
+cms/utils/plugins.py:get_plugin_restrictions
+cms/models/managers.py:PagePermissionManager.for_page
+cms/cms_plugins.py:AliasPlugin.get_empty_change_form_text
+cms/models/pagemodel.py:Page._get_title_cache
+cms/admin/forms.py:ChangePageForm.__init__
+cms/admin/forms.py:ChangePageForm._language
+cms/admin/forms.py:ChangePageForm
+cms/models/titlemodels.py:PageContent.__repr__
+cms/models/titlemodels.py:PageContent.has_placeholder_change_permission
+cms/models/titlemodels.py:PageContent.toggle_in_navigation
+cms/models/titlemodels.py:PageContent.rescan_placeholders
+cms/models/titlemodels.py:PageContent
+cms/models/titlemodels.py:PageContent.update
+cms/models/titlemodels.py:PageContent.save
+cms/models/titlemodels.py:PageContent.__str__
+cms/models/titlemodels.py:PageContent.Meta
+cms/models/titlemodels.py:PageContent.get_placeholders
+cms/models/titlemodels.py:PageContent.get_template
+cms/models/titlemodels.py:PageContent.get_ancestor_titles
+cms/page_rendering.py:render_pagecontent
+cms/page_rendering.py:_handle_no_page
+cms/page_rendering.py:_render_welcome_page
+cms/models/titlemodels.py:PageContent.get_xframe_options
+cms/models/titlemodels.py:PageContent.get_template_name
+cms/models/titlemodels.py:PageContent.get_absolute_url
+cms/admin/pageadmin.py:PageAdmin.edit_title_fields
+cms/extensions/toolbar.py:ExtensionToolbar.get_title_extension_admin
+cms/extensions/toolbar.py:ExtensionToolbar._get_sub_menu
+cms/wizards/views.py:WizardCreateView.get_form_kwargs
+cms/admin/forms.py:ChangePageForm.__init__
+cms/admin/forms.py:ChangePageForm._language
+cms/admin/forms.py:ChangePageForm
+cms/models/pagemodel.py:Page._get_title_cache
+cms/plugin_rendering.py:StructureRenderer.render_plugins
+cms/plugin_rendering.py:StructureRenderer.render_plugin
+cms/admin/pageadmin.py:PageAdmin.edit_title_fields
+cms/signals/permissions.py:pre_delete_group
+cms/signals/permissions.py:pre_save_pagepermission
+cms/signals/permissions.py:pre_delete_user
+cms/signals/permissions.py:pre_save_user
+cms/signals/permissions.py:pre_delete_pagepermission
+cms/signals/permissions.py:pre_save_globalpagepermission
+cms/signals/permissions.py:_clear_users_permissions
+cms/signals/permissions.py:pre_save_group
+cms/signals/permissions.py:pre_delete_globalpagepermission
+cms/models/pluginmodel.py:CMSPlugin.refresh_from_db
+cms/models/pluginmodel.py:CMSPlugin.reload
+cms/models/pluginmodel.py:CMSPlugin.update
+cms/models/pluginmodel.py:CMSPlugin.get_instance_icon_alt
+cms/models/pluginmodel.py:CMSPlugin.page
+cms/models/pluginmodel.py:CMSPlugin.get_instance_icon_src
+cms/models/pluginmodel.py:CMSPlugin.get_media_path
+cms/models/pluginmodel.py:CMSPlugin._get_descendants_count
+cms/extensions/toolbar.py:ExtensionToolbar.get_title_extension_admin
+cms/extensions/toolbar.py:ExtensionToolbar._get_sub_menu
+cms/models/pagemodel.py:Page.set_tree_node
+##Searching for term "wizard_page"...
+### Search Result:
+Found function `cms/cms_toolbars.py:PlaceholderToolbar.add_wizard_button`.
+Source: Retrieved entity using keyword search (bm25).
+```
+67 | def add_wizard_button(self):
+68 |         from cms.wizards.wizard_pool import entry_choices
+69 |         title = _("Create")
+70 | 
+71 |         if self.page:
+72 |             user = self.request.user
+73 |             page_pk  = self.page.pk
+74 |             disabled = len(list(entry_choices(user, self.page))) == 0
+75 |         else:
+76 |             page_pk = ''
+77 |             disabled = True
+78 | 
+79 |         url = '{url}?page={page}&language={lang}&edit'.format(
+80 |             url=reverse("cms_wizard_create"),
+81 |             page=page_pk,
+82 |             lang=self.toolbar.site_language,
+83 |         )
+84 |         self.toolbar.add_modal_button(title, url,
+85 |                                       side=self.toolbar.RIGHT,
+86 |                                       disabled=disabled,
+87 |                                       on_close=REFRESH_PAGE)
+```
+
+Found class `cms/wizards/wizard_pool.py:AlreadyRegisteredException`.
+Source: Retrieved entity using keyword search (bm25).
+```
+ 9 | class AlreadyRegisteredException(Exception):
+10 |     pass
+```
+
+Found class `cms/wizards/forms.py:BaseFormMixin`.
+Source: Retrieved code content using keyword search (bm25).
+```
+27 | class BaseFormMixin(object):
+28 |     has_separate_optional_fields = False
+29 | 
+30 |     def __init__(self, *args, **kwargs):
+31 |         self._page = kwargs.pop('wizard_page', None)
+32 |         self._site = kwargs.pop('wizard_site')
+33 |         self._request = kwargs.pop('wizard_request')
+34 |         self.language_code = kwargs.pop('wizard_language')
+35 |         super(BaseFormMixin, self).__init__(*args, **kwargs)
+36 | 
+37 |     @property
+38 |     def required_fields(self):
+39 |         return [f for f in self.visible_fields() if f.field.required]
+40 | 
+41 |     @property
+42 |     def optional_fields(self):
+43 |         return [f for f in self.visible_fields() if not f.field.required]
+```
+
+Found function `cms/wizards/forms.py:WizardOptionWidgets.create_option`.
+Source: Retrieved code content using keyword search (bm25).
+```
+49 | def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+50 |         wizard = wizard_pool.get_entry(value)
+51 |         attrs.update(wizard.widget_attributes)
+52 |         return super(WizardOptionWidgets, self).create_option(name, value, label, selected, index, subindex, attrs)
+```
+
+Found file `cms/wizards/wizard_pool.py`.
+Source: Retrieved entity using keyword search (bm25).
+Hint: Search `cms/wizards/wizard_pool.py` for the full content if needed.
+
+
+
+##Searching for term "wizard_page", "wizard_page Page instance PageContent instance"...
+### Search Result:
+Found function `cms/wizards/views.py:WizardCreateView.get_form_kwargs`.
+Source: Retrieved code content using keyword search (bm25).
+```
+ 84 | def get_form_kwargs(self, step=None):
+ 85 |         """This is called by self.get_form()"""
+ 86 |         kwargs = super(WizardCreateView, self).get_form_kwargs()
+ 87 |         kwargs['wizard_request'] = self.request
+ 88 |         kwargs['wizard_site'] = self.site
+ 89 |         if self.is_second_step(step):
+ 90 |             kwargs['wizard_page'] = self.get_origin_page()
+ 91 |             kwargs['wizard_language'] = self.get_origin_language()
+ 92 |         else:
+ 93 |             page_pk = self.page_pk or self.request.GET.get('page', None)
+ 94 |             if page_pk and page_pk != 'None':
+ 95 |                 kwargs['wizard_page'] = Page.objects.filter(pk=page_pk).first()
+ 96 |             else:
+ 97 |                 kwargs['wizard_page'] = None
+ 98 |             kwargs['wizard_language'] = get_site_language_from_request(
+ 99 |                 self.request,
+100 |                 site_id=self.site.pk,
+101 |             )
+102 |         return kwargs
+```
+
+
+
+##Searching for term "Page instance"...
+### Search Result:
+Found class `cms/middleware/page.py:CurrentPageMiddleware`.
+Source: Retrieved entity using keyword search (bm25).
+```
+20 | class CurrentPageMiddleware(MiddlewareMixin):
+21 |     def process_request(self, request):
+22 |         request.current_page = SimpleLazyObject(lambda: get_page(request))
+23 |         return None
+```
+
+Found function `cms/utils/page.py:get_page_queryset`.
+Source: Retrieved entity using keyword search (bm25).
+```
+55 | def get_page_queryset(site, draft=True, published=False):
+56 |     from cms.models import Page
+57 | 
+58 |     return Page.objects.on_site(site)
+```
+
+Found function `cms/plugin_rendering.py:StructureRenderer.render_plugin`.
+Source: Retrieved code content using keyword search (bm25).
+```
+669 | def render_plugin(self, instance, page=None):
+670 |         placeholder_cache = self._rendered_plugins_by_placeholder.setdefault(instance.placeholder_id, {})
+671 |         placeholder_cache.setdefault('plugins', []).append(instance)
+672 |         return self.get_plugin_toolbar_js(instance, page=page)
+```
+
+Found function `cms/migrations/0005_auto_20140924_1039.py:move_to_mp`.
+Source: Retrieved code content using keyword search (bm25).
+```
+129 | def move_to_mp(apps, schema_editor):
+130 |     db_alias = schema_editor.connection.alias
+131 | 
+132 |     Page = apps.get_model("cms", "Page")
+133 |     CMSPlugin = apps.get_model("cms", "CMSPlugin")
+134 | 
+135 |     pages = Page.objects.using(db_alias).order_by('tree_id', 'level', 'lft')
+136 | 
+137 |     cache = {}
+138 |     last_root = None
+139 |     for page in pages:
+140 |         if not page.parent_id:
+141 |             handler = MP_AddRootHandler(instance=page, last_root=last_root)
+142 |             handler.process()
+143 |             last_root = page
+144 |             page.last_child = None
+145 |         else:
+146 |             parent = cache[page.parent_id]
+147 |             handler = MP_AddChildHandler(parent, Page, instance=page)
+148 |             handler.process()
+149 |             parent.last_child = page
+150 |         cache[page.pk] = page
+151 | 
+152 | 
+153 |     plugins = CMSPlugin.objects.using(db_alias).order_by('tree_id', 'level', 'lft')
+154 | 
+155 |     cache = {}
+156 |     last_root = None
+157 |     for plugin in plugins:
+158 |         if not plugin.parent_id:
+159 |             handler = MP_AddRootHandler(instance=plugin, last_root=last_root)
+160 |             handler.process()
+161 |             last_root = plugin
+162 |             plugin.last_child = None
+163 |         else:
+164 |             parent = cache[plugin.parent_id]
+165 |             handler = MP_AddChildHandler(parent, CMSPlugin, instance=plugin)
+166 |             handler.process()
+167 |             parent.last_child = plugin
+168 |         cache[plugin.pk] = plugin
+```
+
+Found class `cms/migrations/0005_auto_20140924_1039.py:Migration`.
+Source: Retrieved code content using keyword search (bm25).
+```
+171 | class Migration(migrations.Migration):
+172 |     dependencies = [
+173 |         ('cms', '0004_auto_20140924_1038'),
+174 |     ]
+175 | 
+176 |     operations = [
+177 |         migrations.RunPython(move_to_mp),
+178 |     ]
+```
+
+Found function `cms/api.py:get_page_draft`.
+Source: Retrieved code content using keyword search (bm25).
+```
+426 | def get_page_draft(page):
+427 |     """
+428 |     Returns the draft version of a page, regardless if the passed in
+429 |     page is a published version or a draft version.
+430 | 
+431 |     :param page: The page to get the draft version
+432 |     :type page: :class:`cms.models.pagemodel.Page` instance
+433 |     :return page: draft version of the page
+434 |     :type page: :class:`cms.models.pagemodel.Page` instance
+435 |     """
+436 |     warnings.warn('This API function has been removed', UserWarning)
+```
+
+Found file `cms/utils/page.py`.
+Found file `cms/middleware/page.py`.
+Found file `cms/cache/page.py`.
+Source: Retrieved entity using keyword search (bm25).
+Hint: Use more detailed query to get the full content of some if needed.
+
+
+
+##Searching for term "Page instance", "wizard_page Page instance PageContent instance"...
+### Search Result:
+Found function `cms/plugin_rendering.py:StructureRenderer.render_plugins`.
+Source: Retrieved code content using keyword search (bm25).
+```
+674 | def render_plugins(self, placeholder, language, page=None):
+675 |         template = page.get_template() if page else None
+676 |         plugins = self.get_plugins_to_render(placeholder, language, template)
+677 | 
+678 |         for plugin in plugins:
+679 |             plugin._placeholder_cache = placeholder
+680 |             yield self.render_plugin(plugin, page=page)
+```
+
+
+
+##Searching for term "PageContent instance", "wizard_page Page instance PageContent instance"...
+### Search Result:
+Found class `cms/models/titlemodels.py:PageContent`.
+Source: Retrieved entity using keyword search (bm25).
+Just show the structure of this class due to response length limitations:
+```
+class PageContent(models.Model):
+    LIMIT_VISIBILITY_IN_MENU_CHOICES = (
+        (constants.VISIBILITY_USERS, _('for logged in users only')),
+        (constants.VISIBILITY_ANONYMOUS, _('for anonymous users only')),
+    )
+    TEMPLATE_DEFAULT = constants.TEMPLATE_INHERITANCE_MAGIC if get_cms_setting('TEMPLATE_INHERITANCE') else get_cms_setting('TEMPLATES')[0][0]
+
+    X_FRAME_OPTIONS_CHOICES = (
+        (constants.X_FRAME_OPTIONS_INHERIT, _('Inherit from parent page')),
+        (constants.X_FRAME_OPTIONS_DENY, _('Deny')),
+        (constants.X_FRAME_OPTIONS_SAMEORIGIN, _('Only this website')),
+        (constants.X_FRAME_OPTIONS_ALLOW, _('Allow'))
+    )
+
+    template_choices = [(x, _(y)) for x, y in get_cms_setting('TEMPLATES')]
+
+    # These are the fields whose values are compared when saving
+    # a PageContent object to know if it has changed.
+    editable_fields = [
+        'title',
+        'redirect',
+        'page_title',
+        'menu_title',
+        'meta_description',
+    ]
+
+    language = models.CharField(_("language"), max_length=15, db_index=True)
+    title = models.CharField(_("title"), max_length=255)
+    page_title = models.CharField(_("title"), max_length=255, blank=True, null=True,
+                                  help_text=_("overwrite the title (html title tag)"))
+    menu_title = models.CharField(_("title"), max_length=255, blank=True, null=True,
+                                  help_text=_("overwrite the title in the menu"))
+    meta_description = models.TextField(_("description"), blank=True, null=True,
+                                        help_text=_("The text displayed in search engines."))
+    redirect = models.CharField(_("redirect"), max_length=2048, blank=True, null=True)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE, verbose_name=_("page"), related_name="pagecontent_set")
+    creation_date = models.DateTimeField(_("creation date"), editable=False, default=timezone.now)
+    # Placeholders (plugins)
+    placeholders = PlaceholderRelationField()
+
+    created_by = models.CharField(
+        _("created by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    changed_by = models.CharField(
+        _("changed by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    changed_date = models.DateTimeField(auto_now=True)
+
+    in_navigation = models.BooleanField(_("in navigation"), default=True, db_index=True)
+    soft_root = models.BooleanField(_("soft root"), db_index=True, default=False,
+                                    help_text=_("All ancestors will not be displayed in the navigation"))
+    template = models.CharField(_("template"), max_length=100, choices=template_choices,
+                                help_text=_('The template used to render the content.'),
+                                default=TEMPLATE_DEFAULT)
+    limit_visibility_in_menu = models.SmallIntegerField(_("menu visibility"), default=None, null=True, blank=True,
+                                                        choices=LIMIT_VISIBILITY_IN_MENU_CHOICES, db_index=True,
+                                                        help_text=_("limit when this page is visible in the menu"))
+
+    # X Frame Options for clickjacking protection
+    xframe_options = models.IntegerField(
+        choices=X_FRAME_OPTIONS_CHOICES,
+        default=get_cms_setting('DEFAULT_X_FRAME_OPTIONS'),
+    )
+
+    objects = PageContentManager()
+
+    class Meta:
+        default_permissions = []
+        unique_together = (('language', 'page'),)
+        app_label = 'cms'
+
+    def __str__(self):
+...
+    def __repr__(self):
+...
+    def update(self, **data):
+...
+    def save(self, **kwargs):
+...
+    def toggle_in_navigation(self, set_to=None):
+...
+    def has_placeholder_change_permission(self, user):
+...
+    def rescan_placeholders(self):
+...
+    def get_placeholders(self):
+...
+    def get_ancestor_titles(self):
+...
+    def get_template(self):
+...
+    def get_template_name(self):
+...
+    def get_xframe_options(self):
+...
+    def get_absolute_url(self, language=None):
+
+```
+Hint: Search `cms/models/titlemodels.py:PageContent` to get the full content if needed.
+
+Found class `cms/admin/forms.py:ChangePageForm`.
+Source: Retrieved code content using keyword search (bm25).
+Just show the structure of this class due to response length limitations:
+```
+class ChangePageForm(BasePageContentForm):
+    overwrite_url = forms.CharField(
+        label=_('Overwrite URL'),
+        max_length=255,
+        required=False,
+        help_text=_('Keep this field empty if standard path should be used.'),
+    )
+    soft_root = forms.BooleanField(
+        label=_('Soft root'),
+        required=False,
+        help_text=_("All ancestors will not be displayed in the navigation"),
+    )
+    redirect = PageSmartLinkField(
+        label=_('Redirect'),
+        required=False,
+        help_text=_('Redirects to this URL.'),
+        placeholder_text=_('Start typing...'),
+        ajax_view='admin:cms_page_get_list',
+    )
+    limit_visibility_in_menu = forms.TypedChoiceField(
+        choices=PageContent._meta.get_field('limit_visibility_in_menu').choices,
+        label=_("menu visibility"),
+        help_text=_("limit when this page is visible in the menu"),
+        initial=PageContent._meta.get_field('limit_visibility_in_menu').default,
+        required=False,
+        coerce=int,
+        empty_value=None,
+    )
+
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'template', 'page_title', 'meta_description'),
+        }),
+        (_('URL options'), {
+            'fields': ('overwrite_url', 'redirect'),
+            'classes': ['collapse'],
+        }),
+        (_('Menu options'), {
+            'fields': ('soft_root', 'menu_title', 'limit_visibility_in_menu'),
+            'classes': ['collapse'],
+        })
+    )
+
+    def __init__(self, *args, **kwargs):
+...
+    @cached_property
+    def _language(self):
+...
+    def clean(self):
+...
+    def clean_xframe_options(self):
+...
+    def save(self, commit=True):
+
+```
+Hint: Search `cms/admin/forms.py:ChangePageForm` to get the full content if needed.
+
+Found function `cms/models/pagemodel.py:Page._get_title_cache`.
+Source: Retrieved code content using keyword search (bm25).
+```
+904 | def _get_title_cache(self, language, fallback, force_reload):
+905 |         if not language:
+906 |             language = get_language()
+907 | 
+908 |         force_reload = (force_reload or language not in self.title_cache)
+909 | 
+910 |         if fallback and not self.title_cache.get(language):
+911 |             # language can be in the cache but might be an EmptyPageContent instance
+912 |             fallback_langs = i18n.get_fallback_languages(language)
+913 |             for lang in fallback_langs:
+914 |                 if self.title_cache.get(lang):
+915 |                     return lang
+916 | 
+917 |         if force_reload:
+918 |             from cms.models import PageContent
+919 | 
+920 |             titles = PageContent.objects.filter(page=self)
+921 |             for title in titles:
+922 |                 self.title_cache[title.language] = title
+923 |             if self.title_cache.get(language):
+924 |                 return language
+925 |             else:
+926 |                 if fallback:
+927 |                     fallback_langs = i18n.get_fallback_languages(language)
+928 |                     for lang in fallback_langs:
+929 |                         if self.title_cache.get(lang):
+930 |                             return lang
+931 |         return language
+```
+
+Found function `cms/admin/forms.py:ChangePageForm._language`.
+Source: Retrieved code content using keyword search (bm25).
+```
+491 | def _language(self):
+492 |         return self.instance.language
+```
+
+
+
+##Searching for term "PageContent instance"...
+### Search Result:
+Found function `cms/models/titlemodels.py:PageContent.__repr__`.
+Source: Retrieved entity using keyword search (bm25).
+```
+89 | def __repr__(self):
+90 |         display = '<{module}.{class_name} id={id} object at {location}>'.format(
+91 |             module=self.__module__,
+92 |             class_name=self.__class__.__name__,
+93 |             id=self.pk,
+94 |             location=hex(id(self)),
+95 |         )
+96 |         return display
+```
+
+Found function `cms/models/titlemodels.py:PageContent.update`.
+Source: Retrieved entity using keyword search (bm25).
+```
+ 98 | def update(self, **data):
+ 99 |         cls = self.__class__
+100 |         cls.objects.filter(pk=self.pk).update(**data)
+101 | 
+102 |         for field, value in data.items():
+103 |             setattr(self, field, value)
+104 |         return
+```
+
+Found function `cms/models/titlemodels.py:PageContent.has_placeholder_change_permission`.
+Source: Retrieved code content using keyword search (bm25).
+```
+130 | def has_placeholder_change_permission(self, user):
+131 |         return self.page.has_change_permission(user)
+```
+
+
+
+##Searching for term "wizard_page Page instance PageContent instance"...
+### Search Result:
+Found class `cms/models/titlemodels.py:PageContent.Meta`.
+Source: Retrieved entity using keyword search (bm25).
+```
+81 | class Meta:
+82 |         default_permissions = []
+83 |         unique_together = (('language', 'page'),)
+84 |         app_label = 'cms'
+```
+
+Found function `cms/models/titlemodels.py:PageContent.save`.
+Source: Retrieved entity using keyword search (bm25).
+```
+106 | def save(self, **kwargs):
+107 |         # delete template cache
+108 |         if hasattr(self, '_template_cache'):
+109 |             delattr(self, '_template_cache')
+110 |         super(PageContent, self).save(**kwargs)
+```
+
+2026-09-16 22:10:01 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:05 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:05 auto_search_main.py INFO Executing code:
+```
+print(search_code_snippets(**{'search_terms': ['wizard_page', 'pagecontent'], 'file_path_or_pattern': '"cms/wizards/*"'}))
+```
+2026-09-16 22:10:05 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:05 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:05 auto_search_main.py INFO OBSERVATION:
+cms/wizards/views.py:WizardCreateView.get_form_kwargs
+cms/wizards/forms.py:BaseFormMixin.__init__
+cms/wizards/forms.py:WizardOptionWidgets.create_option
+cms/wizards/forms.py:BaseFormMixin.optional_fields
+cms/wizards/forms.py:BaseFormMixin.required_fields
+cms/wizards/forms.py:BaseFormMixin
+cms/wizards/forms.py:WizardOptionWidgets
+cms/migrations/0019_set_pagenode.py:Migration
+cms/migrations/0019_set_pagenode.py:Migration.apply
+cms/migrations/0020_old_tree_cleanup.py:Migration.apply
+cms/migrations/0019_set_pagenode.py:set_page_nodes
+No files found for file pattern '"cms/wizards/*"'. Will search all files.
+...
+##Searching for term "wizard_page"...
+### Search Result:
+Found function `cms/cms_toolbars.py:PlaceholderToolbar.add_wizard_button`.
+Source: Retrieved entity using keyword search (bm25).
+```
+67 | def add_wizard_button(self):
+68 |         from cms.wizards.wizard_pool import entry_choices
+69 |         title = _("Create")
+70 | 
+71 |         if self.page:
+72 |             user = self.request.user
+73 |             page_pk  = self.page.pk
+74 |             disabled = len(list(entry_choices(user, self.page))) == 0
+75 |         else:
+76 |             page_pk = ''
+77 |             disabled = True
+78 | 
+79 |         url = '{url}?page={page}&language={lang}&edit'.format(
+80 |             url=reverse("cms_wizard_create"),
+81 |             page=page_pk,
+82 |             lang=self.toolbar.site_language,
+83 |         )
+84 |         self.toolbar.add_modal_button(title, url,
+85 |                                       side=self.toolbar.RIGHT,
+86 |                                       disabled=disabled,
+87 |                                       on_close=REFRESH_PAGE)
+```
+
+Found class `cms/wizards/wizard_pool.py:AlreadyRegisteredException`.
+Source: Retrieved entity using keyword search (bm25).
+```
+ 9 | class AlreadyRegisteredException(Exception):
+10 |     pass
+```
+
+Found function `cms/wizards/views.py:WizardCreateView.get_form_kwargs`.
+Source: Retrieved code content using keyword search (bm25).
+```
+ 84 | def get_form_kwargs(self, step=None):
+ 85 |         """This is called by self.get_form()"""
+ 86 |         kwargs = super(WizardCreateView, self).get_form_kwargs()
+ 87 |         kwargs['wizard_request'] = self.request
+ 88 |         kwargs['wizard_site'] = self.site
+ 89 |         if self.is_second_step(step):
+ 90 |             kwargs['wizard_page'] = self.get_origin_page()
+ 91 |             kwargs['wizard_language'] = self.get_origin_language()
+ 92 |         else:
+ 93 |             page_pk = self.page_pk or self.request.GET.get('page', None)
+ 94 |             if page_pk and page_pk != 'None':
+ 95 |                 kwargs['wizard_page'] = Page.objects.filter(pk=page_pk).first()
+ 96 |             else:
+ 97 |                 kwargs['wizard_page'] = None
+ 98 |             kwargs['wizard_language'] = get_site_language_from_request(
+ 99 |                 self.request,
+100 |                 site_id=self.site.pk,
+101 |             )
+102 |         return kwargs
+```
+
+Found class `cms/wizards/forms.py:BaseFormMixin`.
+Source: Retrieved code content using keyword search (bm25).
+```
+27 | class BaseFormMixin(object):
+28 |     has_separate_optional_fields = False
+29 | 
+30 |     def __init__(self, *args, **kwargs):
+31 |         self._page = kwargs.pop('wizard_page', None)
+32 |         self._site = kwargs.pop('wizard_site')
+33 |         self._request = kwargs.pop('wizard_request')
+34 |         self.language_code = kwargs.pop('wizard_language')
+35 |         super(BaseFormMixin, self).__init__(*args, **kwargs)
+36 | 
+37 |     @property
+38 |     def required_fields(self):
+39 |         return [f for f in self.visible_fields() if f.field.required]
+40 | 
+41 |     @property
+42 |     def optional_fields(self):
+43 |         return [f for f in self.visible_fields() if not f.field.required]
+```
+
+Found function `cms/wizards/forms.py:WizardOptionWidgets.create_option`.
+Source: Retrieved code content using keyword search (bm25).
+```
+49 | def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+50 |         wizard = wizard_pool.get_entry(value)
+51 |         attrs.update(wizard.widget_attributes)
+52 |         return super(WizardOptionWidgets, self).create_option(name, value, label, selected, index, subindex, attrs)
+```
+
+Found file `cms/wizards/wizard_pool.py`.
+Source: Retrieved entity using keyword search (bm25).
+Hint: Search `cms/wizards/wizard_pool.py` for the full content if needed.
+
+
+
+##Searching for term "pagecontent"...
+### Search Result:
+Found class `cms/models/titlemodels.py:PageContent`.
+Source: Match found for entity name `pagecontent`.
+Just show the structure of this class due to response length limitations:
+```
+class PageContent(models.Model):
+    LIMIT_VISIBILITY_IN_MENU_CHOICES = (
+        (constants.VISIBILITY_USERS, _('for logged in users only')),
+        (constants.VISIBILITY_ANONYMOUS, _('for anonymous users only')),
+    )
+    TEMPLATE_DEFAULT = constants.TEMPLATE_INHERITANCE_MAGIC if get_cms_setting('TEMPLATE_INHERITANCE') else get_cms_setting('TEMPLATES')[0][0]
+
+    X_FRAME_OPTIONS_CHOICES = (
+        (constants.X_FRAME_OPTIONS_INHERIT, _('Inherit from parent page')),
+        (constants.X_FRAME_OPTIONS_DENY, _('Deny')),
+        (constants.X_FRAME_OPTIONS_SAMEORIGIN, _('Only this website')),
+        (constants.X_FRAME_OPTIONS_ALLOW, _('Allow'))
+    )
+
+    template_choices = [(x, _(y)) for x, y in get_cms_setting('TEMPLATES')]
+
+    # These are the fields whose values are compared when saving
+    # a PageContent object to know if it has changed.
+    editable_fields = [
+        'title',
+        'redirect',
+        'page_title',
+        'menu_title',
+        'meta_description',
+    ]
+
+    language = models.CharField(_("language"), max_length=15, db_index=True)
+    title = models.CharField(_("title"), max_length=255)
+    page_title = models.CharField(_("title"), max_length=255, blank=True, null=True,
+                                  help_text=_("overwrite the title (html title tag)"))
+    menu_title = models.CharField(_("title"), max_length=255, blank=True, null=True,
+                                  help_text=_("overwrite the title in the menu"))
+    meta_description = models.TextField(_("description"), blank=True, null=True,
+                                        help_text=_("The text displayed in search engines."))
+    redirect = models.CharField(_("redirect"), max_length=2048, blank=True, null=True)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE, verbose_name=_("page"), related_name="pagecontent_set")
+    creation_date = models.DateTimeField(_("creation date"), editable=False, default=timezone.now)
+    # Placeholders (plugins)
+    placeholders = PlaceholderRelationField()
+
+    created_by = models.CharField(
+        _("created by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    changed_by = models.CharField(
+        _("changed by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    changed_date = models.DateTimeField(auto_now=True)
+
+    in_navigation = models.BooleanField(_("in navigation"), default=True, db_index=True)
+    soft_root = models.BooleanField(_("soft root"), db_index=True, default=False,
+                                    help_text=_("All ancestors will not be displayed in the navigation"))
+    template = models.CharField(_("template"), max_length=100, choices=template_choices,
+                                help_text=_('The template used to render the content.'),
+                                default=TEMPLATE_DEFAULT)
+    limit_visibility_in_menu = models.SmallIntegerField(_("menu visibility"), default=None, null=True, blank=True,
+                                                        choices=LIMIT_VISIBILITY_IN_MENU_CHOICES, db_index=True,
+                                                        help_text=_("limit when this page is visible in the menu"))
+
+    # X Frame Options for clickjacking protection
+    xframe_options = models.IntegerField(
+        choices=X_FRAME_OPTIONS_CHOICES,
+        default=get_cms_setting('DEFAULT_X_FRAME_OPTIONS'),
+    )
+
+    objects = PageContentManager()
+
+    class Meta:
+        default_permissions = []
+        unique_together = (('language', 'page'),)
+        app_label = 'cms'
+
+    def __str__(self):
+...
+    def __repr__(self):
+...
+    def update(self, **data):
+...
+    def save(self, **kwargs):
+...
+    def toggle_in_navigation(self, set_to=None):
+...
+    def has_placeholder_change_permission(self, user):
+...
+    def rescan_placeholders(self):
+...
+    def get_placeholders(self):
+...
+    def get_ancestor_titles(self):
+...
+    def get_template(self):
+...
+    def get_template_name(self):
+...
+    def get_xframe_options(self):
+...
+    def get_absolute_url(self, language=None):
+
+```
+Hint: Search `cms/models/titlemodels.py:PageContent` to get the full content if needed.
+
+2026-09-16 22:10:05 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:10 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:10 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:13 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:13 auto_search_main.py INFO Executing code:
+```
+print(get_entity_contents(**{'entity_names': ['cms/wizards/views.py:WizardCreateView.get_origin_page']}))
+```
+2026-09-16 22:10:13 auto_search_main.py INFO OBSERVATION:
+##Searching for entity `cms/wizards/views.py:WizardCreateView.get_origin_page`...
+### Search Result:
+Found function `cms/wizards/views.py:WizardCreateView.get_origin_page`.
+Source: Exact match found for entity name `cms/wizards/views.py:WizardCreateView.get_origin_page`.
+```
+161 | def get_origin_page(self):
+162 |         data = self.get_cleaned_data_for_step('0')
+163 |         return data.get('page')
+```
+
+2026-09-16 22:10:13 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:18 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:18 auto_search_main.py INFO Executing code:
+```
+print(search_code_snippets(**{'search_terms': ['pagecontent_set', 'get_title_obj'], 'file_path_or_pattern': '"cms/models/pagemodel.py"'}))
+```
+2026-09-16 22:10:18 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:18 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:18 auto_search_main.py INFO OBSERVATION:
+cms/models/pagemodel.py:Page.update_translations
+cms/models/pagemodel.py:Page.save
+cms/models/pagemodel.py:Page.delete_translations
+cms/models/pagemodel.py:Page.delete
+cms/models/pagemodel.py:Page.update
+cms/models/pagemodel.py:Page.has_translation
+cms/models/pagemodel.py:Page.copy
+cms/extensions/extension_pool.py:ExtensionPool.get_title_extensions
+cms/extensions/extension_pool.py:ExtensionPool._copy_page_extensions
+cms/extensions/extension_pool.py:ExtensionPool.unregister
+cms/extensions/extension_pool.py:impl
+cms/extensions/extension_pool.py:ExtensionPool.copy_extensions
+cms/extensions/extension_pool.py:ExtensionPool.get_page_extensions
+cms/extensions/extension_pool.py:ExtensionPool._copy_title_extensions
+cms/forms/utils.py:get_page_choices_for_site
+cms/admin/pageadmin.py:PageContentAdmin.get_tree
+cms/models/pagemodel.py:Page.copy_with_descendants
+cms/extensions/toolbar.py:ExtensionToolbar.get_title_extension_admin
+cms/extensions/toolbar.py:ExtensionToolbar._get_sub_menu
+cms/cms_menus.py:CMSMenu.get_nodes
+cms/cms_menus.py:CMSMenu
+cms/admin/pageadmin.py:PageContentAdmin.changelist_view
+No files found for file pattern '"cms/models/pagemodel.py"'. Will search all files.
+...
+##Searching for term "pagecontent_set"...
+### Search Result:
+Found function `cms/page_rendering.py:render_pagecontent`.
+Source: Retrieved entity using keyword search (bm25).
+```
+71 | def render_pagecontent(request, pagecontent):
+72 |     language = pagecontent.language
+73 |     request.current_page = page = pagecontent.page
+74 |     page.title_cache[language] = pagecontent
+75 |     return render_page(request, page, language, page.get_slug(language))
+```
+
+Found class `cms/migrations/0032_remove_title_to_pagecontent.py:Migration`.
+Source: Retrieved entity using keyword search (bm25).
+```
+ 9 | class Migration(migrations.Migration):
+10 | 
+11 |     dependencies = [
+12 |         ('cms', '0031_remove_fields'),
+13 |     ]
+14 | 
+15 |     operations = [
+16 |         migrations.RenameModel('Title', 'PageContent'),
+17 |         migrations.AlterModelOptions(
+18 |             name='pagecontent',
+19 |             options={'default_permissions': []},
+20 |         ),
+21 |         migrations.AlterField(
+22 |             model_name='pagecontent',
+23 |             name='page',
+24 |             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='pagecontent_set', to='cms.Page', verbose_name='page'),
+25 |         ),
+26 |     ]
+```
+
+Found function `cms/models/pagemodel.py:Page.delete`.
+Source: Retrieved code content using keyword search (bm25).
+```
+593 | def delete(self, *args, **kwargs):
+594 |         TreeNode.get_tree(self.node).delete_fast()
+595 | 
+596 |         if self.node.parent_id:
+597 |             (TreeNode
+598 |              .objects
+599 |              .filter(pk=self.node.parent_id)
+600 |              .update(numchild=models.F('numchild') - 1))
+601 |         self.clear_cache(menu=True)
+```
+
+Found function `cms/models/pagemodel.py:Page.delete_translations`.
+Source: Retrieved code content using keyword search (bm25).
+```
+603 | def delete_translations(self, language=None):
+604 |         if language is None:
+605 |             languages = self.get_languages()
+606 |         else:
+607 |             languages = [language]
+608 | 
+609 |         self.pagecontent_set.filter(language__in=languages).delete()
+```
+
+Found function `cms/models/pagemodel.py:Page.save`.
+Source: Retrieved code content using keyword search (bm25).
+```
+611 | def save(self, **kwargs):
+612 |         if self.reverse_id == "":
+613 |             self.reverse_id = None
+614 |         if self.application_namespace == "":
+615 |             self.application_namespace = None
+616 | 
+617 |         created = not bool(self.pk)
+618 |         from cms.utils.permissions import get_current_user_name
+619 |         self.changed_by = get_current_user_name()
+620 |         if created:
+621 |             self.created_by = self.changed_by
+622 | 
+623 |         super(Page, self).save(**kwargs)
+```
+
+Found function `cms/models/pagemodel.py:Page.update`.
+Source: Retrieved code content using keyword search (bm25).
+```
+625 | def update(self, refresh=False, **data):
+626 |         cls = self.__class__
+627 |         cls.objects.filter(pk=self.pk).update(**data)
+628 | 
+629 |         if refresh:
+630 |             return self.reload()
+631 |         else:
+632 |             for field, value in data.items():
+633 |                 setattr(self, field, value)
+634 |         return
+```
+
+Found function `cms/models/pagemodel.py:Page.update_translations`.
+Source: Retrieved code content using keyword search (bm25).
+```
+636 | def update_translations(self, language=None, **data):
+637 |         if language:
+638 |             translations = self.pagecontent_set.filter(language=language)
+639 |         else:
+640 |             translations = self.pagecontent_set.all()
+641 |         return translations.update(**data)
+```
+
+Found file `cms/migrations/0032_remove_title_to_pagecontent.py`.
+Source: Retrieved entity using keyword search (bm25).
+Hint: Search `cms/migrations/0032_remove_title_to_pagecontent.py` for the full content if needed.
+
+
+
+##Searching for term "get_title_obj"...
+### Search Result:
+Found function `cms/models/pagemodel.py:Page.get_title_obj`.
+Source: Match found for entity name `get_title_obj`.
+```
+768 | def get_title_obj(self, language=None, fallback=True, force_reload=False):
+769 |         """Helper function for accessing wanted / current title.
+770 |         If wanted title doesn't exists, EmptyPageContent instance will be returned.
+771 |         """
+772 |         language = self._get_title_cache(language, fallback, force_reload)
+773 |         if language in self.title_cache:
+774 |             return self.title_cache[language]
+775 |         from cms.models import EmptyPageContent
+776 | 
+777 |         return EmptyPageContent(language)
+```
+
+2026-09-16 22:10:18 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:22 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:22 auto_search_main.py INFO Executing code:
+```
+print(search_code_snippets(**{'search_terms': ['wizard', 'pagecontent']}))
+```
+2026-09-16 22:10:22 auto_search_main.py INFO OBSERVATION:
+##Searching for term "wizard"...
+### Search Result:
+Found class `cms/wizards/wizard_base.py:Wizard`.
+Source: Match found for entity name `wizard`.
+Just show the structure of this class due to response length limitations:
+```
+class Wizard(WizardBase):
+    template_name = 'cms/wizards/create.html'
+    _hash_cache = None
+
+    @property
+    def id(self):
+...
+    def get_title(self, **kwargs):
+...
+    def get_weight(self, **kwargs):
+...
+    def get_description(self, **kwargs):
+...
+    def __str__(self):
+...
+    def __repr__(self):
+...
+    def user_has_add_permission(self, user, **kwargs):
+...
+    def get_success_url(self, obj, **kwargs):
+...
+    def get_model(self):
+...
+    @cached_property
+    def widget_attributes(self):
+
+```
+Hint: Search `cms/wizards/wizard_base.py:Wizard` to get the full content if needed.
+
+
+
+##Searching for term "pagecontent"...
+### Search Result:
+Found class `cms/models/titlemodels.py:PageContent`.
+Source: Match found for entity name `pagecontent`.
+Just show the structure of this class due to response length limitations:
+```
+class PageContent(models.Model):
+    LIMIT_VISIBILITY_IN_MENU_CHOICES = (
+        (constants.VISIBILITY_USERS, _('for logged in users only')),
+        (constants.VISIBILITY_ANONYMOUS, _('for anonymous users only')),
+    )
+    TEMPLATE_DEFAULT = constants.TEMPLATE_INHERITANCE_MAGIC if get_cms_setting('TEMPLATE_INHERITANCE') else get_cms_setting('TEMPLATES')[0][0]
+
+    X_FRAME_OPTIONS_CHOICES = (
+        (constants.X_FRAME_OPTIONS_INHERIT, _('Inherit from parent page')),
+        (constants.X_FRAME_OPTIONS_DENY, _('Deny')),
+        (constants.X_FRAME_OPTIONS_SAMEORIGIN, _('Only this website')),
+        (constants.X_FRAME_OPTIONS_ALLOW, _('Allow'))
+    )
+
+    template_choices = [(x, _(y)) for x, y in get_cms_setting('TEMPLATES')]
+
+    # These are the fields whose values are compared when saving
+    # a PageContent object to know if it has changed.
+    editable_fields = [
+        'title',
+        'redirect',
+        'page_title',
+        'menu_title',
+        'meta_description',
+    ]
+
+    language = models.CharField(_("language"), max_length=15, db_index=True)
+    title = models.CharField(_("title"), max_length=255)
+    page_title = models.CharField(_("title"), max_length=255, blank=True, null=True,
+                                  help_text=_("overwrite the title (html title tag)"))
+    menu_title = models.CharField(_("title"), max_length=255, blank=True, null=True,
+                                  help_text=_("overwrite the title in the menu"))
+    meta_description = models.TextField(_("description"), blank=True, null=True,
+                                        help_text=_("The text displayed in search engines."))
+    redirect = models.CharField(_("redirect"), max_length=2048, blank=True, null=True)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE, verbose_name=_("page"), related_name="pagecontent_set")
+    creation_date = models.DateTimeField(_("creation date"), editable=False, default=timezone.now)
+    # Placeholders (plugins)
+    placeholders = PlaceholderRelationField()
+
+    created_by = models.CharField(
+        _("created by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    changed_by = models.CharField(
+        _("changed by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    changed_date = models.DateTimeField(auto_now=True)
+
+    in_navigation = models.BooleanField(_("in navigation"), default=True, db_index=True)
+    soft_root = models.BooleanField(_("soft root"), db_index=True, default=False,
+                                    help_text=_("All ancestors will not be displayed in the navigation"))
+    template = models.CharField(_("template"), max_length=100, choices=template_choices,
+                                help_text=_('The template used to render the content.'),
+                                default=TEMPLATE_DEFAULT)
+    limit_visibility_in_menu = models.SmallIntegerField(_("menu visibility"), default=None, null=True, blank=True,
+                                                        choices=LIMIT_VISIBILITY_IN_MENU_CHOICES, db_index=True,
+                                                        help_text=_("limit when this page is visible in the menu"))
+
+    # X Frame Options for clickjacking protection
+    xframe_options = models.IntegerField(
+        choices=X_FRAME_OPTIONS_CHOICES,
+        default=get_cms_setting('DEFAULT_X_FRAME_OPTIONS'),
+    )
+
+    objects = PageContentManager()
+
+    class Meta:
+        default_permissions = []
+        unique_together = (('language', 'page'),)
+        app_label = 'cms'
+
+    def __str__(self):
+...
+    def __repr__(self):
+...
+    def update(self, **data):
+...
+    def save(self, **kwargs):
+...
+    def toggle_in_navigation(self, set_to=None):
+...
+    def has_placeholder_change_permission(self, user):
+...
+    def rescan_placeholders(self):
+...
+    def get_placeholders(self):
+...
+    def get_ancestor_titles(self):
+...
+    def get_template(self):
+...
+    def get_template_name(self):
+...
+    def get_xframe_options(self):
+...
+    def get_absolute_url(self, language=None):
+
+```
+Hint: Search `cms/models/titlemodels.py:PageContent` to get the full content if needed.
+
+2026-09-16 22:10:22 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:27 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:27 auto_search_main.py INFO Executing code:
+```
+print(search_code_snippets(**{'search_terms': ['wizard_page']}))
+```
+2026-09-16 22:10:27 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:27 __init__.py DEBUG Building index from IDs objects
+2026-09-16 22:10:27 auto_search_main.py INFO OBSERVATION:
+cms/wizards/views.py:WizardCreateView.get_form_kwargs
+cms/wizards/forms.py:BaseFormMixin.__init__
+cms/wizards/forms.py:WizardOptionWidgets.create_option
+cms/wizards/forms.py:BaseFormMixin.optional_fields
+cms/wizards/forms.py:BaseFormMixin.required_fields
+cms/wizards/forms.py:BaseFormMixin
+cms/wizards/forms.py:WizardOptionWidgets
+cms/migrations/0019_set_pagenode.py:Migration
+cms/migrations/0019_set_pagenode.py:Migration.apply
+cms/migrations/0020_old_tree_cleanup.py:Migration.apply
+cms/migrations/0019_set_pagenode.py:set_page_nodes
+##Searching for term "wizard_page"...
+### Search Result:
+Found function `cms/cms_toolbars.py:PlaceholderToolbar.add_wizard_button`.
+Source: Retrieved entity using keyword search (bm25).
+```
+67 | def add_wizard_button(self):
+68 |         from cms.wizards.wizard_pool import entry_choices
+69 |         title = _("Create")
+70 | 
+71 |         if self.page:
+72 |             user = self.request.user
+73 |             page_pk  = self.page.pk
+74 |             disabled = len(list(entry_choices(user, self.page))) == 0
+75 |         else:
+76 |             page_pk = ''
+77 |             disabled = True
+78 | 
+79 |         url = '{url}?page={page}&language={lang}&edit'.format(
+80 |             url=reverse("cms_wizard_create"),
+81 |             page=page_pk,
+82 |             lang=self.toolbar.site_language,
+83 |         )
+84 |         self.toolbar.add_modal_button(title, url,
+85 |                                       side=self.toolbar.RIGHT,
+86 |                                       disabled=disabled,
+87 |                                       on_close=REFRESH_PAGE)
+```
+
+Found class `cms/wizards/wizard_pool.py:AlreadyRegisteredException`.
+Source: Retrieved entity using keyword search (bm25).
+```
+ 9 | class AlreadyRegisteredException(Exception):
+10 |     pass
+```
+
+Found function `cms/wizards/views.py:WizardCreateView.get_form_kwargs`.
+Source: Retrieved code content using keyword search (bm25).
+```
+ 84 | def get_form_kwargs(self, step=None):
+ 85 |         """This is called by self.get_form()"""
+ 86 |         kwargs = super(WizardCreateView, self).get_form_kwargs()
+ 87 |         kwargs['wizard_request'] = self.request
+ 88 |         kwargs['wizard_site'] = self.site
+ 89 |         if self.is_second_step(step):
+ 90 |             kwargs['wizard_page'] = self.get_origin_page()
+ 91 |             kwargs['wizard_language'] = self.get_origin_language()
+ 92 |         else:
+ 93 |             page_pk = self.page_pk or self.request.GET.get('page', None)
+ 94 |             if page_pk and page_pk != 'None':
+ 95 |                 kwargs['wizard_page'] = Page.objects.filter(pk=page_pk).first()
+ 96 |             else:
+ 97 |                 kwargs['wizard_page'] = None
+ 98 |             kwargs['wizard_language'] = get_site_language_from_request(
+ 99 |                 self.request,
+100 |                 site_id=self.site.pk,
+101 |             )
+102 |         return kwargs
+```
+
+Found class `cms/wizards/forms.py:BaseFormMixin`.
+Source: Retrieved code content using keyword search (bm25).
+```
+27 | class BaseFormMixin(object):
+28 |     has_separate_optional_fields = False
+29 | 
+30 |     def __init__(self, *args, **kwargs):
+31 |         self._page = kwargs.pop('wizard_page', None)
+32 |         self._site = kwargs.pop('wizard_site')
+33 |         self._request = kwargs.pop('wizard_request')
+34 |         self.language_code = kwargs.pop('wizard_language')
+35 |         super(BaseFormMixin, self).__init__(*args, **kwargs)
+36 | 
+37 |     @property
+38 |     def required_fields(self):
+39 |         return [f for f in self.visible_fields() if f.field.required]
+40 | 
+41 |     @property
+42 |     def optional_fields(self):
+43 |         return [f for f in self.visible_fields() if not f.field.required]
+```
+
+Found function `cms/wizards/forms.py:WizardOptionWidgets.create_option`.
+Source: Retrieved code content using keyword search (bm25).
+```
+49 | def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+50 |         wizard = wizard_pool.get_entry(value)
+51 |         attrs.update(wizard.widget_attributes)
+52 |         return super(WizardOptionWidgets, self).create_option(name, value, label, selected, index, subindex, attrs)
+```
+
+Found file `cms/wizards/wizard_pool.py`.
+Source: Retrieved entity using keyword search (bm25).
+Hint: Search `cms/wizards/wizard_pool.py` for the full content if needed.
+
+2026-09-16 22:10:27 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:34 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:34 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:38 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:38 auto_search_main.py INFO Executing code:
+```
+print(search_code_snippets(**{'search_terms': ['get_title_obj', 'language'], 'file_path_or_pattern': '"cms/models/pagemodel.py"'}))
+```
+2026-09-16 22:10:38 auto_search_main.py INFO OBSERVATION:
+No files found for file pattern '"cms/models/pagemodel.py"'. Will search all files.
+...
+##Searching for term "get_title_obj"...
+### Search Result:
+Found function `cms/models/pagemodel.py:Page.get_title_obj`.
+Source: Match found for entity name `get_title_obj`.
+```
+768 | def get_title_obj(self, language=None, fallback=True, force_reload=False):
+769 |         """Helper function for accessing wanted / current title.
+770 |         If wanted title doesn't exists, EmptyPageContent instance will be returned.
+771 |         """
+772 |         language = self._get_title_cache(language, fallback, force_reload)
+773 |         if language in self.title_cache:
+774 |             return self.title_cache[language]
+775 |         from cms.models import EmptyPageContent
+776 | 
+777 |         return EmptyPageContent(language)
+```
+
+
+
+##Searching for term "language"...
+### Search Result:
+Found file `cms/middleware/language.py`.
+Source: Match found for entity name `language`.
+```
+ 1 | # -*- coding: utf-8 -*-
+ 2 | import datetime
+ 3 | 
+ 4 | from django.utils.translation import LANGUAGE_SESSION_KEY, get_language
+ 5 | from django.conf import settings
+ 6 | 
+ 7 | from cms.utils.compat.dj import MiddlewareMixin
+ 8 | 
+ 9 | 
+10 | class LanguageCookieMiddleware(MiddlewareMixin):
+11 |     def process_response(self, request, response):
+12 |         language = get_language()
+13 |         if hasattr(request, 'session'):
+14 |             session_language = request.session.get(LANGUAGE_SESSION_KEY, None)
+15 |             if session_language and not session_language == language:
+16 |                 request.session[LANGUAGE_SESSION_KEY] = language
+17 |                 request.session.save()
+18 |         if settings.LANGUAGE_COOKIE_NAME in request.COOKIES and \
+19 |                         request.COOKIES[settings.LANGUAGE_COOKIE_NAME] == language:
+20 |             return response
+21 |         max_age = 365 * 24 * 60 * 60  # 10 years
+22 |         expires = datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age)
+23 |         response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language, expires=expires)
+24 |         return response
+25 | 
+```
+
+2026-09-16 22:10:38 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:44 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:44 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:49 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:49 auto_search_main.py INFO Executing code:
+```
+print(search_code_snippets(**{'search_terms': ['wizard', 'cms_toolbars']}))
+```
+2026-09-16 22:10:50 auto_search_main.py INFO OBSERVATION:
+##Searching for term "wizard"...
+### Search Result:
+Found class `cms/wizards/wizard_base.py:Wizard`.
+Source: Match found for entity name `wizard`.
+Just show the structure of this class due to response length limitations:
+```
+class Wizard(WizardBase):
+    template_name = 'cms/wizards/create.html'
+    _hash_cache = None
+
+    @property
+    def id(self):
+...
+    def get_title(self, **kwargs):
+...
+    def get_weight(self, **kwargs):
+...
+    def get_description(self, **kwargs):
+...
+    def __str__(self):
+...
+    def __repr__(self):
+...
+    def user_has_add_permission(self, user, **kwargs):
+...
+    def get_success_url(self, obj, **kwargs):
+...
+    def get_model(self):
+...
+    @cached_property
+    def widget_attributes(self):
+
+```
+Hint: Search `cms/wizards/wizard_base.py:Wizard` to get the full content if needed.
+
+
+
+##Searching for term "cms_toolbars"...
+### Search Result:
+Found file `cms/cms_toolbars.py`.
+Source: Match found for entity name `cms_toolbars`.
+Just show the structure of this file due to response length limitations:
+```
+# -*- coding: utf-8 -*-
+
+
+# Identifiers for search
+ADMIN_MENU_IDENTIFIER = 'admin-menu'
+LANGUAGE_MENU_IDENTIFIER = 'language-menu'
+TEMPLATE_MENU_BREAK = 'Template Menu Break'
+PAGE_MENU_IDENTIFIER = 'page'
+PAGE_MENU_ADD_IDENTIFIER = 'add_page'
+PAGE_MENU_FIRST_BREAK = 'Page Menu First Break'
+PAGE_MENU_SECOND_BREAK = 'Page Menu Second Break'
+PAGE_MENU_THIRD_BREAK = 'Page Menu Third Break'
+PAGE_MENU_FOURTH_BREAK = 'Page Menu Fourth Break'
+PAGE_MENU_LAST_BREAK = 'Page Menu Last Break'
+HISTORY_MENU_BREAK = 'History Menu Break'
+MANAGE_PAGES_BREAK = 'Manage Pages Break'
+ADMIN_SITES_BREAK = 'Admin Sites Break'
+ADMINISTRATION_BREAK = 'Administration Break'
+CLIPBOARD_BREAK = 'Clipboard Break'
+USER_SETTINGS_BREAK = 'User Settings Break'
+ADD_PAGE_LANGUAGE_BREAK = "Add page language Break"
+REMOVE_PAGE_LANGUAGE_BREAK = "Remove page language Break"
+COPY_PAGE_LANGUAGE_BREAK = "Copy page language Break"
+TOOLBAR_DISABLE_BREAK = 'Toolbar disable Break'
+SHORTCUTS_BREAK = 'Shortcuts Break'
+
+
+@toolbar_pool.register
+class PlaceholderToolbar(CMSToolbar):
+
+    def populate(self):
+...
+    def post_template_populate(self):
+...
+    def add_wizard_button(self):
+...
+
+@toolbar_pool.register
+class BasicToolbar(CMSToolbar):
+    page = None
+    _language_menu = None
+    _admin_menu = None
+
+    def init_from_request(self):
+...
+    def populate(self):
+...
+    def add_admin_menu(self):
+...
+    def add_users_button(self, parent):
+...
+    def add_logout_button(self, parent):
+...
+    def add_language_menu(self):
+...
+    def get_username(self, user=None, default=''):
+...
+
+@toolbar_pool.register
+class PageToolbar(CMSToolbar):
+    _changed_admin_menu = None
+    watch_models = [Page, PageType]
+
+    def init_placeholders(self):
+...
+    def add_structure_mode(self):
+...
+    def add_structure_mode_item(self, extra_classes=('cms-toolbar-item-cms-mode-switcher',)):
+...
+    def get_page_content(self):
+...
+    def has_page_change_permission(self):
+...
+    def in_apphook(self):
+...
+    def in_apphook_root(self):
+...
+    def get_on_delete_redirect_url(self):
+...
+    # Populate
+
+    def populate(self):
+...
+    def post_template_populate(self):
+...
+    # Buttons
+    def add_draft_live(self):
+...
+    def add_draft_live_item(self, template='cms/toolbar/items/live_draft.html', extra_context=None):
+...
+    def add_page_settings_button(self, extra_classes=('cms-btn-action',)):
+...
+    # Menus
+    def change_language_menu(self):
+...
+    def change_admin_menu(self):
+...
+    def add_page_menu(self):
+...
+
+```
+Hint: Search `cms/cms_toolbars.py` to get the full content if needed.
+
+2026-09-16 22:10:50 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:54 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:54 auto_search_main.py INFO Executing code:
+```
+print(get_entity_contents(**{'entity_names': ['cms/cms_toolbars.py:PlaceholderToolbar.add_wizard_button']}))
+```
+2026-09-16 22:10:54 auto_search_main.py INFO OBSERVATION:
+##Searching for entity `cms/cms_toolbars.py:PlaceholderToolbar.add_wizard_button`...
+### Search Result:
+Found function `cms/cms_toolbars.py:PlaceholderToolbar.add_wizard_button`.
+Source: Exact match found for entity name `cms/cms_toolbars.py:PlaceholderToolbar.add_wizard_button`.
+```
+67 | def add_wizard_button(self):
+68 |         from cms.wizards.wizard_pool import entry_choices
+69 |         title = _("Create")
+70 | 
+71 |         if self.page:
+72 |             user = self.request.user
+73 |             page_pk  = self.page.pk
+74 |             disabled = len(list(entry_choices(user, self.page))) == 0
+75 |         else:
+76 |             page_pk = ''
+77 |             disabled = True
+78 | 
+79 |         url = '{url}?page={page}&language={lang}&edit'.format(
+80 |             url=reverse("cms_wizard_create"),
+81 |             page=page_pk,
+82 |             lang=self.toolbar.site_language,
+83 |         )
+84 |         self.toolbar.add_modal_button(title, url,
+85 |                                       side=self.toolbar.RIGHT,
+86 |                                       disabled=disabled,
+87 |                                       on_close=REFRESH_PAGE)
+```
+
+2026-09-16 22:10:54 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:10:59 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:10:59 auto_search_main.py INFO Executing code:
+```
+print(get_entity_contents(**{'entity_names': ['cms/cms_toolbars.py:PageToolbar.get_page_content']}))
+```
+2026-09-16 22:10:59 auto_search_main.py INFO OBSERVATION:
+##Searching for entity `cms/cms_toolbars.py:PageToolbar.get_page_content`...
+### Search Result:
+Found function `cms/cms_toolbars.py:PageToolbar.get_page_content`.
+Source: Exact match found for entity name `cms/cms_toolbars.py:PageToolbar.get_page_content`.
+```
+270 | def get_page_content(self):
+271 |         page_content = self.page.get_title_obj(language=self.current_lang, fallback=False)
+272 |         return page_content or None
+```
+
+2026-09-16 22:10:59 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:11:06 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:11:06 auto_search_main.py INFO Executing code:
+```
+print(search_code_snippets(**{'search_terms': ['get_title_obj', 'language'], 'file_path_or_pattern': '"cms/wizards/**"'}))
+```
+2026-09-16 22:11:06 auto_search_main.py INFO OBSERVATION:
+No files found for file pattern '"cms/wizards/**"'. Will search all files.
+...
+##Searching for term "get_title_obj"...
+### Search Result:
+Found function `cms/models/pagemodel.py:Page.get_title_obj`.
+Source: Match found for entity name `get_title_obj`.
+```
+768 | def get_title_obj(self, language=None, fallback=True, force_reload=False):
+769 |         """Helper function for accessing wanted / current title.
+770 |         If wanted title doesn't exists, EmptyPageContent instance will be returned.
+771 |         """
+772 |         language = self._get_title_cache(language, fallback, force_reload)
+773 |         if language in self.title_cache:
+774 |             return self.title_cache[language]
+775 |         from cms.models import EmptyPageContent
+776 | 
+777 |         return EmptyPageContent(language)
+```
+
+
+
+##Searching for term "language"...
+### Search Result:
+Found file `cms/middleware/language.py`.
+Source: Match found for entity name `language`.
+```
+ 1 | # -*- coding: utf-8 -*-
+ 2 | import datetime
+ 3 | 
+ 4 | from django.utils.translation import LANGUAGE_SESSION_KEY, get_language
+ 5 | from django.conf import settings
+ 6 | 
+ 7 | from cms.utils.compat.dj import MiddlewareMixin
+ 8 | 
+ 9 | 
+10 | class LanguageCookieMiddleware(MiddlewareMixin):
+11 |     def process_response(self, request, response):
+12 |         language = get_language()
+13 |         if hasattr(request, 'session'):
+14 |             session_language = request.session.get(LANGUAGE_SESSION_KEY, None)
+15 |             if session_language and not session_language == language:
+16 |                 request.session[LANGUAGE_SESSION_KEY] = language
+17 |                 request.session.save()
+18 |         if settings.LANGUAGE_COOKIE_NAME in request.COOKIES and \
+19 |                         request.COOKIES[settings.LANGUAGE_COOKIE_NAME] == language:
+20 |             return response
+21 |         max_age = 365 * 24 * 60 * 60  # 10 years
+22 |         expires = datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age)
+23 |         response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language, expires=expires)
+24 |         return response
+25 | 
+```
+
+2026-09-16 22:11:06 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:11:26 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:11:26 auto_search_main.py INFO Executing code:
+```
+print(search_code_snippets(**{'search_terms': ['get_title_obj'], 'file_path_or_pattern': '"cms/wizards/*"'}))
+```
+2026-09-16 22:11:26 auto_search_main.py INFO OBSERVATION:
+No files found for file pattern '"cms/wizards/*"'. Will search all files.
+...
+##Searching for term "get_title_obj"...
+### Search Result:
+Found function `cms/models/pagemodel.py:Page.get_title_obj`.
+Source: Match found for entity name `get_title_obj`.
+```
+768 | def get_title_obj(self, language=None, fallback=True, force_reload=False):
+769 |         """Helper function for accessing wanted / current title.
+770 |         If wanted title doesn't exists, EmptyPageContent instance will be returned.
+771 |         """
+772 |         language = self._get_title_cache(language, fallback, force_reload)
+773 |         if language in self.title_cache:
+774 |             return self.title_cache[language]
+775 |         from cms.models import EmptyPageContent
+776 | 
+777 |         return EmptyPageContent(language)
+```
+
+2026-09-16 22:11:26 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:11:36 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:11:36 utils.py INFO 
+LiteLLM completion() model= qwen/qwen3-coder; provider = openrouter
+2026-09-16 22:11:41 utils.py INFO Wrapper: Completed Call, calling success_handler
+2026-09-16 22:11:41 auto_search_main.py INFO Executing code:
+```
+print(explore_tree_structure(**{'start_entities': ['cms/wizards'], 'direction': 'downstream', 'traversal_depth': 2, 'dependency_type_filter': "['invokes', 'imports']"}))
+```
+2026-09-16 22:11:41 auto_search_main.py WARNING djangocms-rc-4307e1b8c2e2 attempt 1 worker exited code 1 before queue result. Classifying attempt as failed.
+2026-09-16 22:11:41 auto_search_main.py WARNING Worker failed without a result: worker exited 1 before queue result. Classifying attempt as failed.
+2026-09-16 22:11:41 auto_search_main.py INFO ==== localizing djangocms-rc-4307e1b8c2e2 failed, save empty outputs ====

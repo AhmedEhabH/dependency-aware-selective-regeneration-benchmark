@@ -202,3 +202,57 @@ Sparse omission-risk v1 + V2):** the defensible proven contributions are
 (4) an honest negative for task-level cheap risk modeling on current evidence,
 and (5) the pre-registered Route A/B bounded-verification mechanism. No
 positive algorithmic result is promised.
+## 11. BibTeX triage + verified literature additions (2026-09-16 evening)
+
+Ingested 13 uploaded BibTeX exports as CANDIDATE DISCOVERY sources
+(987 raw / 806 unique titles). Full classification:
+eports/BIBTEX_LITERATURE_TRIAGE_2026-09-16.md +
+esearch/literature/bibtex_triage_classified_2026-09-16.csv.
+
+High-signal USE_NOW verified from primary sources (arXiv API / Crossref):
+
+- LLM-Driven Cost-Effective Requirements CIA (arXiv 2511.00262, Etezadi et al. 2025) - requirements unit.
+- Change-Patterns Mapping (TSE 2022, 10.1109/TSE.2021.3059481) - history-pattern boosting of CIA (Route B history overlap).
+- Learning dependency-based change impact predictors (IST 2015, 10.1016/j.infsof.2015.07.007) - history/co-change + cross-repo.
+- A Software Impact Analysis Tool based on Change History Learning (ICSE-SEIP 2022, 10.1145/3510457.3519017).
+- Transformers + Program Dependence Graphs for Impact Analysis (arXiv 2607.23355, Yan et al. 2026).
+- Repoformer (ICML 2024, arXiv 2403.10059) - selective retrieval prior.
+- FastCoder (ASE 2025, arXiv 2502.17139) - efficient retrieval + verification.
+- Issue Localization via LLM-Driven Iterative Code Graph (ASE 2025, arXiv 2503.22424).
+- Recommendation-System CIA industrial case (TSE 2017, 10.1109/TSE.2016.2620458).
+
+Noise (robotics/SLAM, NLP parsing, medical/selective-prediction, generic graph
+acceleration, vulnerability) is REJECT_IRRELEVANT and not cited.
+
+Comparison matrix columns added to the proposal: explicit file policy, sparse
+omission representation, cheap first pass, omission recovery, hard/matched
+budget, real-commit evaluation, cross-repository evidence. Novelty wording
+revised: 'Existing work covers several individual components; this thesis
+evaluates their combination...' - no absolute 'none combines' claim.
+
+## 12. Route B development result + novelty update (2026-09-16 evening)
+
+**Route B candidate-level omission recovery V1 (zero-LLM):** R4 Classical CIA
+(BM25-seed 1-hop closure + graph neighbor) beats Random at B=5 on DEV_TRAIN
+(0.148 vs 0.022, CI [+0.069,+0.179]) and DEV_VALIDATION (0.180 vs 0.037,
+CI [-0.003,+0.285]); pooled 0.163 vs 0.029 (CI [+0.085,+0.184]). No
+universe-size artifact (corr 0.105). This is the FIRST positive development
+signal for candidate-level omission recovery, in contrast to the negative
+task-level risk-scorer result. Oracle upper bound 0.858 at B=5 shows headroom.
+See reports/ROUTE_B_OMISSION_RECOVERY_V1_REPORT.md.
+
+**Novelty matrix implication (from the BibTeX triage):** existing work covers
+individual components (explicit file policy, sparse representation, cheap first
+pass, omission recovery, matched budget, real-commit evaluation, cross-repo).
+This thesis evaluates their COMBINATION; candidate novelty remains
+CANDIDATE NOVELTY - NOT YET CLAIMED. The strongest defensible future
+contribution is 'omission-aware, cost-sensitive bounded verification of an
+explicit sparse file-level impact policy under matched inference budgets',
+now with a positive candidate-level zero-LLM development signal (Route B).
+
+**PROVEN (unchanged):** Preserve-by-Omission representation + controlled evidence.
+**DEVELOPMENT RESULT:** task-level cheap omission-risk routing did NOT replicate
+at V2 scale; candidate-level CIA omission recovery IS directionally positive on
+development data.
+**CANDIDATE FUTURE CONTRIBUTION:** bounded candidate-level omission recovery
+under matched budgets (Route B).

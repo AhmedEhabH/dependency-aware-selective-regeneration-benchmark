@@ -1,0 +1,29 @@
+diff --git a/cms/models/pagemodel.py b/cms/models/pagemodel.py
+index d52313f07..c4a8f9645 100644
+--- a/cms/models/pagemodel.py
++++ b/cms/models/pagemodel.py
+@@ -790,8 +790,10 @@ class Page(six.with_metaclass(PageMetaClass, MP_Node)):
+         return sorted([language for language in self.get_languages() if self.is_published(language)])
+ 
+     def get_cached_ancestors(self):
++        # Unlike MPTT, Treebeard returns this in parent->child order, so you will have to reverse
++        # this list to have the same behavior as before
+         if not hasattr(self, "ancestors_ascending"):
+-            self.ancestors_ascending = list(reversed(self.get_ancestors()))
++            self.ancestors_ascending = list(self.get_ancestors())
+         return self.ancestors_ascending
+ 
+     def get_cached_descendants(self):
+diff --git a/cms/templatetags/cms_tags.py b/cms/templatetags/cms_tags.py
+index 40ad8f7d7..e2f29b180 100644
+--- a/cms/templatetags/cms_tags.py
++++ b/cms/templatetags/cms_tags.py
+@@ -216,7 +216,7 @@ def get_placeholder_content(context, request, current_page, name, inherit, defau
+     # mistakenly edit/delete them. This is a fix for issue #1303. See the discussion
+     # there for possible enhancements
+     if inherit and not edit_mode:
+-        pages = chain([current_page], current_page.get_cached_ancestors())
++        pages = chain([current_page], list(reversed(current_page.get_cached_ancestors())))
+     for page in pages:
+         placeholder = _get_placeholder(current_page, page, context, name)
+         if placeholder is None:

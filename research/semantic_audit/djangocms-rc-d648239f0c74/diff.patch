@@ -1,0 +1,90 @@
+diff --git a/CHANGELOG.txt b/CHANGELOG.txt
+index 072109f16..e4c45ad2a 100644
+--- a/CHANGELOG.txt
++++ b/CHANGELOG.txt
+@@ -12,6 +12,7 @@
+   started on the disabled menu item on small screens.
+ * Fixed a regression when standalone CMS Widgets wouldn't work due to
+   non-existing JavaScript dependencies.
++* Fixed a possible recursion error when using the ``Alias`` plugin.
+ 
+ 
+ === 3.3.2 (unreleased) ===
+diff --git a/cms/cms_plugins.py b/cms/cms_plugins.py
+index 50cc5afad..afc48a737 100644
+--- a/cms/cms_plugins.py
++++ b/cms/cms_plugins.py
+@@ -36,6 +36,10 @@ class AliasPlugin(CMSPluginBase):
+ 
+     def render(self, context, instance, placeholder):
+         from cms.utils.plugins import downcast_plugins, build_plugin_tree
++
++        if instance.is_recursive():
++            return context
++
+         request = context.get('request', None)
+         context['instance'] = instance
+         context['placeholder'] = placeholder
+diff --git a/cms/models/aliaspluginmodel.py b/cms/models/aliaspluginmodel.py
+index 366338678..92a8aa2e2 100644
+--- a/cms/models/aliaspluginmodel.py
++++ b/cms/models/aliaspluginmodel.py
+@@ -1,5 +1,6 @@
+ # -*- coding: utf-8 -*-
+ from django.db import models
++from django.db.models import Q
+ from django.utils.encoding import force_text, python_2_unicode_compatible
+ 
+ from cms.models import CMSPlugin, Placeholder
+@@ -19,3 +20,19 @@ class AliasPluginModel(CMSPlugin):
+             return "(%s) %s" % (force_text(self.plugin.get_plugin_name()), self.plugin.get_plugin_instance()[0])
+         else:
+             return force_text(self.alias_placeholder.get_label())
++
++    def is_recursive(self):
++        if self.plugin_id:
++            placeholder = self.plugin.placeholder_id
++        else:
++            placeholder = self.alias_placeholder_id
++
++        if not placeholder:
++            return False
++
++        plugins = AliasPluginModel.objects.filter(
++            plugin_type='AliasPlugin',
++            placeholder=placeholder,
++        )
++        plugins = plugins.filter(Q(plugin=self) | Q(alias_placeholder=self.placeholder_id))
++        return plugins.exists()
+diff --git a/cms/tests/test_alias.py b/cms/tests/test_alias.py
+index 086fad421..0e349415c 100644
+--- a/cms/tests/test_alias.py
++++ b/cms/tests/test_alias.py
+@@ -33,6 +33,27 @@ class AliasTestCase(CMSTestCase):
+         admin.render(context, instance, ph_en)
+         self.assertEqual(context['content'], "I'm the first")
+ 
++    def test_alias_recursion(self):
++        page_en = api.create_page(
++            "Alias plugin",
++            "col_two.html",
++            "en",
++            slug="page1",
++            published=True,
++            in_navigation=True,
++        )
++        ph_1_en = page_en.placeholders.get(slot="col_left")
++        ph_2_en = page_en.placeholders.get(slot="col_sidebar")
++
++        api.add_plugin(ph_1_en, 'StylePlugin', 'en', tag_type='div', class_name='info')
++        api.add_plugin(ph_1_en, 'AliasPlugin', 'en', alias_placeholder=ph_2_en)
++        api.add_plugin(ph_2_en, 'AliasPlugin', 'en', alias_placeholder=ph_1_en)
++
++        with self.login_user_context(self.get_superuser()):
++            response = self.client.get(page_en.get_absolute_url() + '?edit')
++            self.assertEqual(response.status_code, 200)
++            self.assertContains(response, '<div class="info">', html=True)
++
+     def test_move_and_delete_plugin_alias(self):
+         '''
+         Test moving the plugin from the clipboard to a placeholder.

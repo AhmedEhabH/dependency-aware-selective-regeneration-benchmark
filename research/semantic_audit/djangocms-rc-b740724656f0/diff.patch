@@ -1,0 +1,1200 @@
+diff --git a/.travis.yml b/.travis.yml
+index f67d53b72..dd3f3bb61 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -1,6 +1,7 @@
+ language: python
+ 
+ python:
++  - 3.6
+   - 3.5
+   - 3.4
+   - 3.3
+@@ -35,6 +36,11 @@ env:
+     - FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=1 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
+     - FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=2 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
+     - FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=3 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++    - DJANGO=1.11 DATABASE_URL='sqlite://localhost/:memory:'
++    - DJANGO=1.11 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
+     - TEST_DOCS=1 DJANGO=1.10 DATABASE_URL='sqlite://localhost/:memory:'
+     - DJANGO=1.10 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
+     - DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
+@@ -92,8 +98,55 @@ notifications:
+ matrix:
+   exclude:
+ 
++    - python: 2.7
++      env: TEST_DOCS=1 DJANGO=1.10 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 2.7
++      env: DJANGO=1.11 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 2.7
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 2.7
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 2.7
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
++    - python: 2.7
++      env: DJANGO=1.10 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 2.7
++      env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 2.7
++      env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 2.7
++      env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
++    - python: 2.7
++      env: DJANGO=1.9 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 2.7
++      env: DJANGO=1.9 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 2.7
++      env: DJANGO=1.9 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 2.7
++      env: DJANGO=1.9 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
++    - python: 2.7
++      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=1 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++    - python: 2.7
++      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=2 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++    - python: 2.7
++      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=3 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++    - python: 2.7
++      env: FRONTEND=1 UNIT=1
++    - python: 2.7
++      env: FRONTEND=1 LINT=1
++
+     - python: 3.3
+       env: TEST_DOCS=1 DJANGO=1.10 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 3.3
++      env: DJANGO=1.11 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 3.3
++      env: DJANGO=1.11 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 3.3
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 3.3
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 3.3
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
+     - python: 3.3
+       env: DJANGO=1.10 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
+     - python: 3.3
+@@ -102,9 +155,6 @@ matrix:
+       env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
+     - python: 3.3
+       env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
+-
+-    - python: 3.3
+-      env: DJANGO=1.9 DATABASE_URL='sqlite://localhost/:memory:'
+     - python: 3.3
+       env: DJANGO=1.9 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
+     - python: 3.3
+@@ -113,7 +163,6 @@ matrix:
+       env: DJANGO=1.9 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
+     - python: 3.3
+       env: DJANGO=1.9 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
+-
+     - python: 3.3
+       env: DJANGO=1.8 DATABASE_URL='sqlite://localhost/:memory:'
+     - python: 3.3
+@@ -122,57 +171,134 @@ matrix:
+       env: DJANGO=1.8 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
+     - python: 3.3
+       env: DJANGO=1.8 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
+-
++    - python: 3.3
++      env: DJANGO=1.8 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 3.3
++      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=1 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++    - python: 3.3
++      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=2 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++    - python: 3.3
++      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=3 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
+     - python: 3.3
+       env: FRONTEND=1 UNIT=1
+     - python: 3.3
+       env: FRONTEND=1 LINT=1
++
+     - python: 3.4
+-      env: FRONTEND=1 UNIT=1
++      env: TEST_DOCS=1 DJANGO=1.10 DATABASE_URL='sqlite://localhost/:memory:'
+     - python: 3.4
+-      env: FRONTEND=1 LINT=1
+-    - python: 3.5
+-      env: FRONTEND=1 UNIT=1
+-    - python: 3.5
+-      env: FRONTEND=1 LINT=1
+-
+-    - python: 3.3
+-      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=1 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++      env: DJANGO=1.11 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 3.4
++      env: DJANGO=1.11 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 3.4
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 3.4
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 3.4
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
++    - python: 3.4
++      env: DJANGO=1.10 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 3.4
++      env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 3.4
++      env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 3.4
++      env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
++    - python: 3.4
++      env: DJANGO=1.9 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 3.4
++      env: DJANGO=1.9 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 3.4
++      env: DJANGO=1.9 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 3.4
++      env: DJANGO=1.9 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 3.4
++      env: DJANGO=1.9 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
++    - python: 3.4
++      env: DJANGO=1.8 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 3.4
++      env: DJANGO=1.8 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 3.4
++      env: DJANGO=1.8 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 3.4
++      env: DJANGO=1.8 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
++    - python: 3.4
++      env: DJANGO=1.8 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
+     - python: 3.4
+       env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=1 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
+-    - python: 3.5
+-      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=1 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
+-
+-    - python: 3.3
+-      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=2 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
+     - python: 3.4
+       env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=2 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
+-    - python: 3.5
+-      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=2 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
+-
+-    - python: 3.3
+-      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=3 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
+     - python: 3.4
+       env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=3 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++    - python: 3.4
++      env: FRONTEND=1 UNIT=1
++    - python: 3.4
++      env: FRONTEND=1 LINT=1
++
++    - python: 3.6
++      env: TEST_DOCS=1 DJANGO=1.10 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 3.6
++      env: DJANGO=1.11 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 3.6
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 3.6
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 3.6
++      env: DJANGO=1.11 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
+     - python: 3.5
++      env: DJANGO=1.10 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 3.6
++      env: DJANGO=1.10 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 3.6
++      env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 3.6
++      env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 3.6
++      env: DJANGO=1.10 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
++    - python: 3.6
++      env: DJANGO=1.9 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 3.6
++      env: DJANGO=1.9 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 3.6
++      env: DJANGO=1.9 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 3.6
++      env: DJANGO=1.9 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 3.6
++      env: DJANGO=1.9 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
++    - python: 3.6
++      env: DJANGO=1.8 DATABASE_URL='sqlite://localhost/:memory:'
++    - python: 3.6
++      env: DJANGO=1.8 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
++    - python: 3.6
++      env: DJANGO=1.8 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test'
++    - python: 3.6
++      env: DJANGO=1.8 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='customuserapp.User'
++    - python: 3.6
++      env: DJANGO=1.8 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' AUTH_USER_MODEL='emailuserapp.EmailUser'
++    - python: 3.6
++      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=1 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++    - python: 3.6
++      env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=2 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++    - python: 3.6
+       env: FRONTEND=1 INTEGRATION=1 INTEGRATION_TESTS_BUCKET=3 DJANGO=1.8 DATABASE_URL='sqlite://localhost/testdb.sqlite'
++    - python: 3.6
++      env: FRONTEND=1 UNIT=1
++    - python: 3.6
++      env: FRONTEND=1 LINT=1
++
+ 
+   allow_failures:
+ 
+     - python: 2.7
+       env: DJANGO=1.8 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
+-    - python: 2.7
+-      env: DJANGO=1.9 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
+ 
+     - python: 3.4
+       env: DJANGO=1.8 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
+-    - python: 3.4
+-      env: DJANGO=1.9 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
+ 
+     - python: 3.5
+       env: DJANGO=1.8 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
+-    - python: 3.5
+-      env: DJANGO=1.9 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
+ 
+-  fast_finish: true
++    - python: 3.6
++      env: DJANGO=1.8 DATABASE_URL='mysql://root@127.0.0.1/djangocms_test'
+ 
++  fast_finish: true
+diff --git a/cms/admin/forms.py b/cms/admin/forms.py
+index 4ab8d2953..b7bc26d9a 100644
+--- a/cms/admin/forms.py
++++ b/cms/admin/forms.py
+@@ -237,7 +237,7 @@ class AdvancedSettingsForm(forms.ModelForm):
+     # This is really a 'fake' field which does not correspond to any Page attribute
+     # But creates a stub field to be populate by js
+     application_configs = forms.ChoiceField(label=_('Application configurations'),
+-                                            choices=(), required=False,)
++                                            choices=(), required=False, widget=ApplicationConfigSelect)
+     fieldsets = (
+         (None, {
+             'fields': ('overwrite_url', 'redirect'),
+diff --git a/cms/forms/widgets.py b/cms/forms/widgets.py
+index 1220b062f..025ba39fa 100644
+--- a/cms/forms/widgets.py
++++ b/cms/forms/widgets.py
+@@ -1,5 +1,5 @@
+ # -*- coding: utf-8 -*-
+-
++from cms.utils.compat import DJANGO_1_10
+ from django.contrib.admin.templatetags.admin_static import static
+ from django.contrib.auth import get_permission_codename
+ from django.contrib.sites.models import Site
+@@ -19,6 +19,7 @@ class PageSelectWidget(MultiWidget):
+     """A widget that allows selecting a page by first selecting a site and then
+     a page on that site in a two step process.
+     """
++    template_name = 'cms/widgets/pageselectwidget.html'
+ 
+     class Media:
+         js = (
+@@ -67,13 +68,7 @@ class PageSelectWidget(MultiWidget):
+             return True
+         return False
+ 
+-    def render(self, name, value, attrs=None):
+-        # THIS IS A COPY OF django.forms.widgets.MultiWidget.render()
+-        # (except for the last line)
+-
+-        # value is a list of values, each corresponding to a widget
+-        # in self.widgets.
+-
++    def _build_widgets(self):
+         site_choices = get_site_choices()
+         page_choices = get_page_choices()
+         self.site_choices = site_choices
+@@ -83,37 +78,58 @@ class PageSelectWidget(MultiWidget):
+                    Select(choices=self.choices, attrs={'style': "display:none;"} ),
+         )
+ 
+-        if not isinstance(value, list):
+-            value = self.decompress(value)
+-        output = []
+-        final_attrs = self.build_attrs(attrs)
+-        id_ = final_attrs.get('id', None)
+-        for i, widget in enumerate(self.widgets):
+-            try:
+-                widget_value = value[i]
+-            except IndexError:
+-                widget_value = None
+-            if id_:
+-                final_attrs = dict(final_attrs, id='%s_%s' % (id_, i))
+-            output.append(widget.render(name + '_%s' % i, widget_value, final_attrs))
+-        output.append(r'''<script type="text/javascript">
+-            var CMS = window.CMS || {};
+-
+-            CMS.Widgets = CMS.Widgets || {};
+-            CMS.Widgets._pageSelectWidgets = CMS.Widgets._pageSelectWidgets || [];
+-            CMS.Widgets._pageSelectWidgets.push({
+-                name: '%(name)s'
+-            });
+-        </script>''' % {
+-            'name': name
+-        })
+-        return mark_safe(self.format_output(output))
++    def _build_script(self, name, value, attrs={}):
++        return r"""<script type="text/javascript">
++                var CMS = window.CMS || {};
++
++                CMS.Widgets = CMS.Widgets || {};
++                CMS.Widgets._pageSelectWidgets = CMS.Widgets._pageSelectWidgets || [];
++                CMS.Widgets._pageSelectWidgets.push({
++                    name: '%(name)s'
++                });
++            </script>""" % {
++                'name': name
++            }
++
++    def get_context(self, name, value, attrs):
++        self._build_widgets()
++        context = super(PageSelectWidget, self).get_context(name, value, attrs)
++        context['widget']['script_init'] = self._build_script(name, value, context['widget']['attrs'])
++        return context
++
++    def render(self, name, value, attrs=None, renderer=None):
++        if DJANGO_1_10:
++            # THIS IS A COPY OF django.forms.widgets.MultiWidget.render()
++            # (except for the last line)
++
++            # value is a list of values, each corresponding to a widget
++            # in self.widgets.
++            self._build_widgets()
++
++            if not isinstance(value, list):
++                value = self.decompress(value)
++            output = []
++            final_attrs = self.build_attrs(attrs)
++            id_ = final_attrs.get('id', None)
++            for i, widget in enumerate(self.widgets):
++                try:
++                    widget_value = value[i]
++                except IndexError:
++                    widget_value = None
++                if id_:
++                    final_attrs = dict(final_attrs, id='%s_%s' % (id_, i))
++                output.append(widget.render(name + '_%s' % i, widget_value, final_attrs))
++            output.append(self._build_script(name, value, final_attrs))
++            return mark_safe(self.format_output(output))
++        else:
++            return super(PageSelectWidget, self).render(name, value, attrs, renderer)
+ 
+     def format_output(self, rendered_widgets):
+         return u' '.join(rendered_widgets)
+ 
+ 
+ class PageSmartLinkWidget(TextInput):
++    template_name = 'cms/widgets/pagesmartlinkwidget.html'
+ 
+     class Media:
+         css = {
+@@ -138,11 +154,8 @@ class PageSmartLinkWidget(TextInput):
+                 'You should provide an ajax_view argument that can be reversed to the PageSmartLinkWidget'
+             )
+ 
+-    def render(self, name=None, value=None, attrs=None):
+-        final_attrs = self.build_attrs(attrs)
+-        id_ = final_attrs.get('id', None)
+-
+-        output = [r'''<script type="text/javascript">
++    def _build_script(self, name, value, attrs={}):
++        return r"""<script type="text/javascript">
+             var CMS = window.CMS || {};
+ 
+             CMS.Widgets = CMS.Widgets || {};
+@@ -153,15 +166,26 @@ class PageSmartLinkWidget(TextInput):
+                 lang: '%(language_code)s',
+                 url: '%(ajax_url)s'
+             });
+-        </script>''' % {
+-            'element_id': id_,
+-            'placeholder_text': final_attrs.get('placeholder_text', ''),
++        </script>""" % {
++            'element_id': attrs.get('id', ''),
++            'placeholder_text': attrs.get('placeholder_text', ''),
+             'language_code': self.language,
+             'ajax_url': force_text(self.ajax_url)
+-        }]
++        }
+ 
+-        output.append(super(PageSmartLinkWidget, self).render(name, value, attrs))
+-        return mark_safe(u''.join(output))
++    def get_context(self, name, value, attrs):
++        context = super(PageSmartLinkWidget, self).get_context(name, value, attrs)
++        context['widget']['script_init'] = self._build_script(name, value, context['widget']['attrs'])
++        return context
++
++    def render(self, name, value, attrs=None, renderer=None):
++        if DJANGO_1_10:
++            final_attrs = self.build_attrs(attrs)
++            output = list(self._build_script(name, value, final_attrs))
++            output.append(super(PageSmartLinkWidget, self).render(name, value, attrs))
++            return mark_safe(u''.join(output))
++        else:
++            return super(PageSmartLinkWidget, self).render(name, value, attrs, renderer)
+ 
+ 
+ class UserSelectAdminWidget(Select):
+@@ -199,7 +223,13 @@ class AppHookSelect(Select):
+         self.app_namespaces = app_namespaces
+         super(AppHookSelect, self).__init__(attrs, choices)
+ 
+-    def render_option(self, selected_choices, option_value, option_label):
++    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
++        option = super(AppHookSelect, self).create_option(name, value, label, selected, index, subindex, attrs)
++        if value in self.app_namespaces:
++            option['attrs']['data-namespace'] = escape(self.app_namespaces[value])
++        return option
++
++    def _build_option(self, selected_choices, option_value, option_label):
+         if option_value is None:
+             option_value = ''
+         option_value = force_text(option_value)
+@@ -215,13 +245,11 @@ class AppHookSelect(Select):
+             data_html = mark_safe(' data-namespace="%s"' % escape(self.app_namespaces[option_value]))
+         else:
+             data_html = ''
++        return option_value, selected_html, data_html, force_text(option_label)
+ 
+-        return '<option value="%s"%s%s>%s</option>' % (
+-            option_value,
+-            selected_html,
+-            data_html,
+-            force_text(option_label),
+-        )
++    def render_option(self, selected_choices, option_value, option_label):
++        option_data = self._build_option(selected_choices, option_value, option_label)
++        return '<option value="%s"%s%s>%s</option>' % option_data
+ 
+ 
+ class ApplicationConfigSelect(Select):
+@@ -235,6 +263,7 @@ class ApplicationConfigSelect(Select):
+     A stub 'add-another' link is created and filled in with the correct URL by the same
+     javascript.
+     """
++    template_name = 'cms/widgets/applicationconfigselect.html'
+ 
+     class Media:
+         js = (
+@@ -245,23 +274,43 @@ class ApplicationConfigSelect(Select):
+         self.app_configs = app_configs
+         super(ApplicationConfigSelect, self).__init__(attrs, choices)
+ 
+-    def render(self, name, value, attrs=None, choices=()):
+-        output = list(super(ApplicationConfigSelect, self).render(name, value, attrs))
+-        output.append('<script>\n')
+-        output.append('var apphooks_configuration = {\n')
++    def _build_script(self, name, value, attrs={}):
++        configs = []
++        urls = []
+         for application, cms_app in self.app_configs.items():
+-            output.append("'%s': [%s]," % (application, ",".join(["['%s', '%s']" % (config.pk, escapejs(escape(config))) for config in cms_app.get_configs()])))  # noqa
+-        output.append('\n};\n')
+-        output.append('var apphooks_configuration_url = {\n')
++            configs.append("'%s': [%s]" % (application, ",".join(
++                ["['%s', '%s']" % (config.pk, escapejs(escape(config))) for config in cms_app.get_configs()])))  # noqa
+         for application, cms_app in self.app_configs.items():
+-            output.append("'%s': '%s'," % (application, cms_app.get_config_add_url()))
+-        output.append('\n};\n')
+-        output.append('var apphooks_configuration_value = \'%s\';\n' % value)
+-        output.append('</script>')
+-
+-        related_url = ''
+-        output.append('<a href="%s" class="add-another" id="add_%s" onclick="return showAddAnotherPopup(this);"> '
+-                      % (related_url, name))
+-        output.append('<img src="%s" width="10" height="10" alt="%s"/></a>'
+-                      % (static('admin/img/icon_addlink.gif'), _('Add Another')))
+-        return mark_safe(''.join(output))
++            urls.append("'%s': '%s'" % (application, cms_app.get_config_add_url()))
++        return r"""<script type="text/javascript">
++            var apphooks_configuration = {
++                %(apphooks_configurations)s
++            };
++            var apphooks_configuration_url = {
++                %(apphooks_url)s
++            };
++            var apphooks_configuration_value = '%(apphooks_value)s';
++        </script>""" % {
++            'apphooks_configurations': ','.join(configs),
++            'apphooks_url': ','.join(urls),
++            'apphooks_value': value,
++        }
++
++    def get_context(self, name, value, attrs):
++        context = super(ApplicationConfigSelect, self).get_context(name, value, attrs)
++        context['widget']['script_init'] = self._build_script(name, value, context['widget']['attrs'])
++        return context
++
++    def render(self, name, value, attrs=None, renderer=None):
++        if DJANGO_1_10:
++            output = list(super(ApplicationConfigSelect, self).render(name, value, attrs))
++            output.append(self._build_script(name, value, attrs))
++
++            related_url = ''
++            output.append('<a href="%s" class="add-another" id="add_%s" onclick="return showAddAnotherPopup(this);"> '
++                          % (related_url, name))
++            output.append('<img src="%s" width="10" height="10" alt="%s"/></a>'
++                          % (static('admin/img/icon_addlink.gif'), _('Add Another')))
++            return mark_safe(''.join(output))
++        else:
++            return super(ApplicationConfigSelect, self).render(name, value, attrs, renderer)
+diff --git a/cms/templates/cms/widgets/applicationconfigselect.html b/cms/templates/cms/widgets/applicationconfigselect.html
+new file mode 100644
+index 000000000..62ad93612
+--- /dev/null
++++ b/cms/templates/cms/widgets/applicationconfigselect.html
+@@ -0,0 +1,6 @@
++{% load i18n static %}
++{% include 'django/forms/widgets/select.html' %}
++{{ widget.script_init|safe }}
++<a href="" class="add-another" id="add_{{ widget.name }}" onclick="return showAddAnotherPopup(this);"
++    ><img src="{% static 'admin/img/icon_addlink.gif' %}" width="10" height="10" alt="{% trans 'Add Another' %}"
++/></a>
+diff --git a/cms/templates/cms/widgets/pageselectwidget.html b/cms/templates/cms/widgets/pageselectwidget.html
+new file mode 100644
+index 000000000..db16509a9
+--- /dev/null
++++ b/cms/templates/cms/widgets/pageselectwidget.html
+@@ -0,0 +1,2 @@
++{% include 'django/forms/widgets/multiwidget.html' %}
++{{ widget.script_init|safe }}
+diff --git a/cms/templates/cms/widgets/pagesmartlinkwidget.html b/cms/templates/cms/widgets/pagesmartlinkwidget.html
+new file mode 100644
+index 000000000..81514a118
+--- /dev/null
++++ b/cms/templates/cms/widgets/pagesmartlinkwidget.html
+@@ -0,0 +1,2 @@
++{% include 'django/forms/widgets/text.html' %}
++{{ widget.script_init|safe }}
+diff --git a/cms/templates/cms/wizards/start.html b/cms/templates/cms/wizards/start.html
+index ea5140390..b623eef31 100755
+--- a/cms/templates/cms/wizards/start.html
++++ b/cms/templates/cms/wizards/start.html
+@@ -17,14 +17,7 @@
+         {% endif %}
+ 
+         <div class="choice-wrapper">
+-            {% for entry in form.entry %}
+-                {% cms_wizard entry.choice_value as wizard %}
+-                <label tabindex="0" class="choice{% if forloop.first %} active{% endif %}">
+-                    <input type="radio" name="{{ entry.name }}" value="{{ entry.choice_value }}"{% if forloop.first %} checked{% endif %}>
+-                    <strong>{{ wizard.get_title }}</strong>
+-                    <span class="info">{{ wizard.get_description }}</span>
+-                </label>
+-            {% endfor %}
++            {{ form.entry }}
+         </div>
+         <div class="submit-row">
+             <input type="submit" value="{% trans 'Next' %}" class="default cms-btn cms-btn-action" name="_continue">
+diff --git a/cms/templates/cms/wizards/wizardoptionwidget.html b/cms/templates/cms/wizards/wizardoptionwidget.html
+new file mode 100644
+index 000000000..1c971cfb4
+--- /dev/null
++++ b/cms/templates/cms/wizards/wizardoptionwidget.html
+@@ -0,0 +1,9 @@
++{% for group, entries, index in widget.optgroups %}
++    {% for entry in entries %}
++        <label tabindex="0" class="choice{% if forloop.first %} active{% endif %}">
++            <input type="radio" name="{{ entry.name }}" value="{{ entry.value }}"{% if forloop.first %} checked{% endif %}>
++            <strong>{{ entry.label }}</strong>
++            <span class="info">{{ entry.attrs.description }}</span>
++        </label>
++    {% endfor %}
++{% endfor %}
+diff --git a/cms/templatetags/cms_tags.py b/cms/templatetags/cms_tags.py
+index afa89ce45..a337b341f 100644
+--- a/cms/templatetags/cms_tags.py
++++ b/cms/templatetags/cms_tags.py
+@@ -10,7 +10,6 @@ from django.core.mail import mail_managers
+ from django.core.urlresolvers import reverse
+ from django.db.models import Model
+ from django.middleware.common import BrokenLinkEmailsMiddleware
+-from django.template import Context
+ from django.template.loader import render_to_string
+ from django.utils import six
+ from django.utils.encoding import smart_text, force_text
+@@ -97,9 +96,10 @@ def _get_page_by_untyped_arg(page_lookup, request, site_id):
+         if settings.DEBUG:
+             raise Page.DoesNotExist(body)
+         else:
++            mw = getattr(settings, 'MIDDLEWARE', getattr(settings, 'MIDDLEWARE_CLASSES'))
+             if getattr(settings, 'SEND_BROKEN_LINK_EMAILS', False):
+                 mail_managers(subject, body, fail_silently=True)
+-            elif 'django.middleware.common.BrokenLinkEmailsMiddleware' in settings.MIDDLEWARE_CLASSES:
++            elif 'django.middleware.common.BrokenLinkEmailsMiddleware' in mw:
+                 middle = BrokenLinkEmailsMiddleware()
+                 domain = request.get_host()
+                 path = request.get_full_path()
+diff --git a/cms/templatetags/cms_wizard_tags.py b/cms/templatetags/cms_wizard_tags.py
+index 258a5f105..227e90719 100644
+--- a/cms/templatetags/cms_wizard_tags.py
++++ b/cms/templatetags/cms_wizard_tags.py
+@@ -1,4 +1,5 @@
+ # -*- coding: utf-8 -*-
++import warnings
+ 
+ from django import template
+ 
+@@ -11,6 +12,7 @@ from cms.wizards.wizard_pool import wizard_pool
+ register = template.Library()
+ 
+ 
++@register.tag(name='cms_wizard')
+ class WizardProperty(AsTag):
+     name = 'cms_wizard'
+ 
+@@ -27,21 +29,12 @@ class WizardProperty(AsTag):
+         identified by Â«wizard_idÂ». If no Â«propertyÂ», just return the entire
+         wizard object.
+         """
++        warnings.warn(
++            "Templatetag cms_wizard will be removed in django CMS 3.5",
++            PendingDeprecationWarning
++        )
+         try:
+             wizard = wizard_pool.get_entry(wizard_id)
++            return wizard.widget_attributes.get(property, wizard)
+         except ValueError:
+-            wizard = None
+-
+-        if wizard:
+-            if property in ['description', 'title', 'weight']:
+-                # getters
+-                getter = getattr(wizard, "get_{0}".format(property), None)
+-                return getter()
+-            elif property in ['id', 'form', 'model', 'template_name']:
+-                # properties
+-                return getattr(wizard, property, None)
+-            else:
+-                return wizard
+-        return None
+-
+-register.tag(WizardProperty)
++            return None
+diff --git a/cms/test_utils/project/sampleapp/forms.py b/cms/test_utils/project/sampleapp/forms.py
+index 16bd7e4dd..cd474ee97 100644
+--- a/cms/test_utils/project/sampleapp/forms.py
++++ b/cms/test_utils/project/sampleapp/forms.py
+@@ -11,5 +11,5 @@ class LoginForm2(AuthenticationForm):
+ 
+ 
+ class LoginForm3(AuthenticationForm):
+-    def __init__(self, argument, request=None, *args, **kwargs):
++    def __init__(self, request=None, *args, **kwargs):
+         super(LoginForm3, self).__init__(request, *args, **kwargs)
+diff --git a/cms/tests/test_admin.py b/cms/tests/test_admin.py
+index a34065d01..868f5432b 100644
+--- a/cms/tests/test_admin.py
++++ b/cms/tests/test_admin.py
+@@ -37,6 +37,7 @@ from cms.test_utils.testcases import (
+ )
+ from cms.test_utils.util.fuzzy_int import FuzzyInt
+ from cms.utils import get_cms_setting
++from cms.utils.compat import DJANGO_1_10
+ from cms.utils.urlutils import admin_reverse
+ 
+ 
+@@ -385,7 +386,11 @@ class AdminTestCase(AdminTestsBase):
+             self.client.login(username='admin', password='admin')
+ 
+         response = self.client.get(URL_CMS_PAGE_CHANGE_LANGUAGE % (1, 'en'))
+-        self.assertEqual(response.status_code, 404)
++        # Since Django 1.11 404 results in redirect to the admin home
++        if DJANGO_1_10:
++            self.assertEqual(response.status_code, 404)
++        else:
++            self.assertRedirects(response, reverse('admin:index'))
+ 
+     def test_empty_placeholder_with_nested_plugins(self):
+         # It's important that this test clears a placeholder
+diff --git a/cms/tests/test_cache.py b/cms/tests/test_cache.py
+index fe25fabf8..34b12d1ae 100644
+--- a/cms/tests/test_cache.py
++++ b/cms/tests/test_cache.py
+@@ -2,6 +2,7 @@
+ 
+ import time
+ 
++from cms.utils.compat import DJANGO_1_10
+ from django.conf import settings
+ from django.template import Context
+ 
+@@ -351,7 +352,8 @@ class CacheTestCase(CMSTestCase):
+             self.assertTrue('max-age=40' in response['Cache-Control'], response['Cache-Control'])  # noqa
+             cache_control1 = response['Cache-Control']
+             expires1 = response['Expires']
+-            last_modified1 = response['Last-Modified']
++            # No longer set / needed by Django 1.11
++            last_modified1 = response.get('Last-Modified', None)
+ 
+             time.sleep(1)  # This ensures that the cache has aged measurably
+ 
+@@ -368,8 +370,10 @@ class CacheTestCase(CMSTestCase):
+             self.assertNotEqual(response['Cache-Control'], cache_control1)
+             # However, the Expires timestamp will be the same
+             self.assertEqual(response['Expires'], expires1)
+-            # As will the Last-Modified timestamp.
+-            self.assertEqual(response['Last-Modified'], last_modified1)
++            # No longer set / needed by Django 1.11
++            if DJANGO_1_10:
++                # As will the Last-Modified timestamp.
++                self.assertEqual(response['Last-Modified'], last_modified1)
+ 
+         plugin_pool.unregister_plugin(TTLCacheExpirationPlugin)
+         plugin_pool.unregister_plugin(DateTimeCacheExpirationPlugin)
+diff --git a/cms/tests/test_page_user_admin.py b/cms/tests/test_page_user_admin.py
+index deb05ce11..987e06942 100644
+--- a/cms/tests/test_page_user_admin.py
++++ b/cms/tests/test_page_user_admin.py
+@@ -1,10 +1,12 @@
+ # -*- coding: utf-8 -*-
+ from django.contrib.auth import get_permission_codename, get_user_model
++from django.contrib.messages.storage.cookie import CookieStorage
+ from django.forms.models import model_to_dict
+ from django.test.utils import override_settings
+ 
+ from cms.models.permissionmodels import PageUser
+ from cms.test_utils.testcases import CMSTestCase
++from cms.utils.compat import DJANGO_1_10
+ from cms.utils.urlutils import admin_reverse
+ 
+ 
+@@ -371,6 +373,7 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+         admin = self.get_superuser()
+         staff_user = self.get_staff_page_user(created_by=admin)
+         endpoint = self.get_admin_url(PageUser, 'change', staff_user.pk)
++        redirect_to = admin_reverse('index')
+ 
+         data = model_to_dict(staff_user, exclude=['date_joined'])
+         data['_continue'] = '1'
+@@ -393,7 +396,13 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+ 
+         with self.login_user_context(staff_user):
+             response = self.client.post(endpoint, data)
+-            self.assertEqual(response.status_code, 404)
++            if DJANGO_1_10:
++                self.assertEqual(response.status_code, 404)
++            else:
++                self.assertRedirects(response, redirect_to)
++                msgs = CookieStorage(response)._decode(response.cookies['messages'].value)
++                self.assertTrue(msgs[0], PageUser._meta.verbose_name)
++                self.assertTrue(msgs[0], 'ID "%s"' % staff_user.pk)
+             self.assertFalse(self._user_exists(username))
+ 
+     def test_user_cant_change_others(self):
+@@ -405,6 +414,7 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+         staff_user = self.get_staff_user_with_no_permissions()
+         staff_user_2 = self.get_staff_page_user(created_by=admin)
+         endpoint = self.get_admin_url(PageUser, 'change', staff_user_2.pk)
++        redirect_to = admin_reverse('index')
+ 
+         data = model_to_dict(staff_user_2, exclude=['date_joined'])
+         data['_continue'] = '1'
+@@ -427,7 +437,13 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+ 
+         with self.login_user_context(staff_user):
+             response = self.client.post(endpoint, data)
+-            self.assertEqual(response.status_code, 404)
++            if DJANGO_1_10:
++                self.assertEqual(response.status_code, 404)
++            else:
++                self.assertRedirects(response, redirect_to)
++                msgs = CookieStorage(response)._decode(response.cookies['messages'].value)
++                self.assertTrue(msgs[0], PageUser._meta.verbose_name)
++                self.assertTrue(msgs[0], 'ID "%s"' % staff_user_2.pk)
+             self.assertFalse(self._user_exists(username))
+ 
+     def test_user_can_delete_subordinate(self):
+@@ -485,6 +501,7 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+         admin = self.get_superuser()
+         staff_user = self.get_staff_page_user(created_by=admin)
+         endpoint = self.get_admin_url(PageUser, 'delete', staff_user.pk)
++        redirect_to = admin_reverse('index')
+         data = {'post': 'yes'}
+ 
+         self.add_permission(staff_user, self._get_delete_perm())
+@@ -503,7 +520,14 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+             # that the user has permissions for.
+             # This queryset is used to fetch the object
+             # from the request, resulting in a 404.
+-            self.assertEqual(response.status_code, 404)
++            # Since Django 1.11 404 results in redirect to the admin home
++            if DJANGO_1_10:
++                self.assertEqual(response.status_code, 404)
++            else:
++                self.assertRedirects(response, redirect_to)
++                msgs = CookieStorage(response)._decode(response.cookies['messages'].value)
++                self.assertTrue(msgs[0], PageUser._meta.verbose_name)
++                self.assertTrue(msgs[0], 'ID "%s"' % staff_user.pk)
+             self.assertTrue(self._user_exists(username))
+ 
+     def test_user_cant_delete_others(self):
+@@ -515,6 +539,7 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+         staff_user = self.get_staff_user_with_no_permissions()
+         staff_user_2 = self.get_staff_page_user(created_by=admin)
+         endpoint = self.get_admin_url(PageUser, 'delete', staff_user_2.pk)
++        redirect_to = admin_reverse('index')
+ 
+         data = {'post': 'yes'}
+ 
+@@ -534,5 +559,12 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+             # that the user has permissions for.
+             # This queryset is used to fetch the object
+             # from the request, resulting in a 404.
+-            self.assertEqual(response.status_code, 404)
++            # Since Django 1.11 404 results in redirect to the admin home
++            if DJANGO_1_10:
++                self.assertEqual(response.status_code, 404)
++            else:
++                self.assertRedirects(response, redirect_to)
++                msgs = CookieStorage(response)._decode(response.cookies['messages'].value)
++                self.assertTrue(msgs[0], PageUser._meta.verbose_name)
++                self.assertTrue(msgs[0], 'ID "%s"' % staff_user_2.pk)
+             self.assertTrue(self._user_exists(username))
+diff --git a/cms/tests/test_page_user_group_admin.py b/cms/tests/test_page_user_group_admin.py
+index edeff0e4f..0f69030b8 100644
+--- a/cms/tests/test_page_user_group_admin.py
++++ b/cms/tests/test_page_user_group_admin.py
+@@ -1,9 +1,11 @@
+ # -*- coding: utf-8 -*-
++from django.contrib.messages.storage.cookie import CookieStorage
+ from django.forms.models import model_to_dict
+ from django.test.utils import override_settings
+ 
+ from cms.models.permissionmodels import PageUserGroup
+ from cms.test_utils.testcases import CMSTestCase
++from cms.utils.compat import DJANGO_1_10
+ from cms.utils.urlutils import admin_reverse
+ 
+ 
+@@ -322,6 +324,7 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+         staff_user = self.get_staff_user_with_no_permissions()
+         staff_user.groups.add(group)
+         endpoint = self.get_admin_url(PageUserGroup, 'change', group.pk)
++        redirect_to = admin_reverse('index')
+ 
+         data = model_to_dict(group)
+         data['_continue'] = '1'
+@@ -336,7 +339,14 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+ 
+         with self.login_user_context(staff_user):
+             response = self.client.post(endpoint, data)
+-            self.assertEqual(response.status_code, 404)
++            # Since Django 1.11 404 results in redirect to the admin home
++            if DJANGO_1_10:
++                self.assertEqual(response.status_code, 404)
++            else:
++                self.assertRedirects(response, redirect_to)
++                msgs = CookieStorage(response)._decode(response.cookies['messages'].value)
++                self.assertTrue(msgs[0], PageUserGroup._meta.verbose_name)
++                self.assertTrue(msgs[0], 'ID "%s"' % group.pk)
+             self.assertFalse(self._group_exists('New test group'))
+ 
+     def test_user_cant_change_others_group(self):
+@@ -348,6 +358,7 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+         group = self._get_group(created_by=admin)
+         staff_user = self.get_staff_user_with_no_permissions()
+         endpoint = self.get_admin_url(PageUserGroup, 'change', group.pk)
++        redirect_to = admin_reverse('index')
+ 
+         data = model_to_dict(group)
+         data['_continue'] = '1'
+@@ -362,7 +373,14 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+ 
+         with self.login_user_context(staff_user):
+             response = self.client.post(endpoint, data)
+-            self.assertEqual(response.status_code, 404)
++            # Since Django 1.11 404 results in redirect to the admin home
++            if DJANGO_1_10:
++                self.assertEqual(response.status_code, 404)
++            else:
++                self.assertRedirects(response, redirect_to)
++                msgs = CookieStorage(response)._decode(response.cookies['messages'].value)
++                self.assertTrue(msgs[0], PageUserGroup._meta.verbose_name)
++                self.assertTrue(msgs[0], 'ID "%s"' % group.pk)
+             self.assertFalse(self._group_exists('New test group'))
+ 
+     def test_user_can_delete_subordinate_group(self):
+@@ -421,6 +439,7 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+         staff_user = self.get_staff_user_with_no_permissions()
+         staff_user.groups.add(group)
+         endpoint = self.get_admin_url(PageUserGroup, 'delete', group.pk)
++        redirect_to = admin_reverse('index')
+         data = {'post': 'yes'}
+ 
+         self.add_permission(staff_user, 'delete_group')
+@@ -438,7 +457,14 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+             # that the user has permissions for.
+             # This queryset is used to fetch the object
+             # from the request, resulting in a 404.
+-            self.assertEqual(response.status_code, 404)
++            # Since Django 1.11 404 results in redirect to the admin home
++            if DJANGO_1_10:
++                self.assertEqual(response.status_code, 404)
++            else:
++                self.assertRedirects(response, redirect_to)
++                msgs = CookieStorage(response)._decode(response.cookies['messages'].value)
++                self.assertTrue(msgs[0], PageUserGroup._meta.verbose_name)
++                self.assertTrue(msgs[0], 'ID "%s"' % group.pk)
+             self.assertTrue(self._group_exists())
+ 
+     def test_user_cant_delete_others_group(self):
+@@ -450,6 +476,7 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+         group = self._get_group(created_by=admin)
+         staff_user = self.get_staff_user_with_no_permissions()
+         endpoint = self.get_admin_url(PageUserGroup, 'delete', group.pk)
++        redirect_to = admin_reverse('index')
+         data = {'post': 'yes'}
+ 
+         self.add_permission(staff_user, 'delete_group')
+@@ -467,5 +494,12 @@ class PermissionsOnPageTest(PermissionsOnTestCase):
+             # that the user has permissions for.
+             # This queryset is used to fetch the object
+             # from the request, resulting in a 404.
+-            self.assertEqual(response.status_code, 404)
++            # Since Django 1.11 404 results in redirect to the admin home
++            if DJANGO_1_10:
++                self.assertEqual(response.status_code, 404)
++            else:
++                self.assertRedirects(response, redirect_to)
++                msgs = CookieStorage(response)._decode(response.cookies['messages'].value)
++                self.assertTrue(msgs[0], PageUserGroup._meta.verbose_name)
++                self.assertTrue(msgs[0], 'ID "%s"' % group.pk)
+             self.assertTrue(self._group_exists())
+diff --git a/cms/utils/compat/__init__.py b/cms/utils/compat/__init__.py
+index b56b61c54..6e827a43e 100644
+--- a/cms/utils/compat/__init__.py
++++ b/cms/utils/compat/__init__.py
+@@ -11,3 +11,4 @@ PYTHON_VERSION = platform.python_version()
+ DJANGO_1_8 = LooseVersion(DJANGO_VERSION) < LooseVersion('1.9')
+ DJANGO_1_9 = LooseVersion(DJANGO_VERSION) < LooseVersion('1.10')
+ DJANGO_1_10 = LooseVersion(DJANGO_VERSION) < LooseVersion('1.11')
++DJANGO_1_11 = LooseVersion(DJANGO_VERSION) < LooseVersion('2.0')
+diff --git a/cms/wizards/forms.py b/cms/wizards/forms.py
+index 72e37e65a..5e7825874 100755
+--- a/cms/wizards/forms.py
++++ b/cms/wizards/forms.py
+@@ -1,11 +1,13 @@
+ # -*- coding: utf-8 -*-
+-
+ from django import forms
++from django.utils.html import format_html, force_text
++from django.utils.safestring import mark_safe
+ 
+ from cms.models import Page
++from cms.utils.compat import DJANGO_1_10
+ from cms.utils.urlutils import static_with_version
+ 
+-from .wizard_pool import entry_choices
++from .wizard_pool import entry_choices, wizard_pool
+ 
+ 
+ def step2_form_factory(mixin_cls, entry_form_class, attrs=None):
+@@ -43,6 +45,71 @@ class BaseFormMixin(object):
+         return [f for f in self.visible_fields() if not f.field.required]
+ 
+ 
++class WizardOptionWidgets(forms.RadioSelect):
++    if DJANGO_1_10:
++        class WizardOptionRenderer(forms.widgets.RadioFieldRenderer):
++            class WizardOptionInput(forms.widgets.RadioChoiceInput):
++
++                def __init__(self, name, value, attrs, choice, index):
++                    super(WizardOptionWidgets.WizardOptionRenderer.WizardOptionInput, self).__init__(
++                        name, value, attrs, choice, index
++                    )
++                    try:
++                        wizard = wizard_pool.get_entry(choice[0])
++                        self.label = force_text(choice[1])
++                        self.description = wizard.widget_attributes['description']
++                    except (ValueError, KeyError):
++                        pass
++
++                def __str__(self):
++                    return self.render()
++
++                def is_checked(self):
++                    return self.index == 0
++
++                def render(self, name=None, value=None, attrs=None):
++                    attrs = dict(self.attrs, **attrs) if attrs else self.attrs
++                    return format_html(
++                        '<label tabindex="0" class="choice{active_class}">{tag}<strong>{label}</strong>'
++                        '<span class="info">{description}</span></label>', **{
++                            'tag': self.tag(attrs), 'label': self.label, 'description': self.description,
++                            'active_class': ' active' if self.is_checked() else ''
++                        }
++                    )
++
++            outer_html = '{content}'
++            inner_html = '{choice_value}{sub_widgets}'
++            choice_input_class = WizardOptionInput
++
++            def render(self):
++                """
++                Outputs a <ul> for this set of choice fields.
++                If an id was given to the field, it is applied to the <ul> (each
++                item in the list will get an id of `$id_$i`).
++                """
++                id_ = self.attrs.get('id')
++                output = []
++                for i, choice in enumerate(self.choices):
++                    w = self.choice_input_class(self.name, self.value, self.attrs.copy(), choice, i)
++                    output.append(format_html(self.inner_html, choice_value='', sub_widgets=w.render()))
++                return format_html(
++                    self.outer_html,
++                    id_attr=format_html(' id="{}"', id_) if id_ else '',
++                    content=mark_safe('\n'.join(output)),
++                )
++
++        renderer = WizardOptionRenderer
++    template_name = 'cms/wizards/wizardoptionwidget.html'
++
++    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
++        try:
++            wizard = wizard_pool.get_entry(value)
++            attrs.update(wizard.widget_attributes)
++        except ValueError:
++            pass
++        return super(WizardOptionWidgets, self).create_option(name, value, label, selected, index, subindex, attrs)
++
++
+ class WizardStep1Form(BaseFormMixin, forms.Form):
+ 
+     class Media:
+@@ -62,7 +129,7 @@ class WizardStep1Form(BaseFormMixin, forms.Form):
+         widget=forms.HiddenInput
+     )
+     language = forms.CharField(widget=forms.HiddenInput)
+-    entry = forms.ChoiceField(choices=[], widget=forms.RadioSelect())
++    entry = forms.ChoiceField(choices=[], widget=WizardOptionWidgets())
+ 
+     def __init__(self, *args, **kwargs):
+         super(WizardStep1Form, self).__init__(*args, **kwargs)
+diff --git a/cms/wizards/wizard_base.py b/cms/wizards/wizard_base.py
+index 8ed4f0780..9bae9b6ab 100644
+--- a/cms/wizards/wizard_base.py
++++ b/cms/wizards/wizard_base.py
+@@ -5,6 +5,7 @@ import hashlib
+ from django.core.exceptions import ImproperlyConfigured
+ from django.forms.models import ModelForm
+ from django.utils.encoding import python_2_unicode_compatible
++from django.utils.functional import cached_property
+ 
+ from django.utils.translation import (
+     override as force_language,
+@@ -138,3 +139,15 @@ class Wizard(WizardBase):
+                 return model
+         raise ImproperlyConfigured(u"Please set entry 'model' attribute or use "
+                                    u"ModelForm subclass as a form")
++
++    @cached_property
++    def widget_attributes(self):
++        return {
++            'description': self.get_description(),
++            'title': self.get_title(),
++            'weight': self.get_weight(),
++            'id': self.id,
++            'form': self.form,
++            'model': self.model,
++            'template_name': self.template_name
++        }
+diff --git a/manage.py b/manage.py
+index 01af53888..a66fa63f4 100755
+--- a/manage.py
++++ b/manage.py
+@@ -2,12 +2,15 @@
+ # -*- coding: utf-8 -*-
+ import os
+ import sys
++import warnings
+ 
+ import app_manage
+ 
++from cms.exceptions import DontUsePageAttributeWarning
+ from cms.utils.compat import DJANGO_1_9
+ 
+ gettext = lambda s: s
++warnings.filterwarnings('ignore', category=DontUsePageAttributeWarning)
+ 
+ 
+ def install_auth_user_model(settings, value):
+@@ -60,7 +63,6 @@ if __name__ == '__main__':
+     ]
+ 
+     INSTALLED_APPS = [
+-        'debug_toolbar',
+         'django.contrib.auth',
+         'django.contrib.contenttypes',
+         'django.contrib.sessions',
+@@ -97,16 +99,16 @@ if __name__ == '__main__':
+             'OPTIONS': {
+                 'debug': True,
+                 'context_processors': [
+-                    "django.contrib.auth.context_processors.auth",
++                    'django.contrib.auth.context_processors.auth',
+                     'django.contrib.messages.context_processors.messages',
+-                    "django.template.context_processors.i18n",
+-                    "django.template.context_processors.debug",
+-                    "django.template.context_processors.request",
+-                    "django.template.context_processors.media",
++                    'django.template.context_processors.i18n',
++                    'django.template.context_processors.debug',
++                    'django.template.context_processors.request',
++                    'django.template.context_processors.media',
+                     'django.template.context_processors.csrf',
+-                    "cms.context_processors.cms_settings",
+-                    "sekizai.context_processors.sekizai",
+-                    "django.template.context_processors.static",
++                    'cms.context_processors.cms_settings',
++                    'sekizai.context_processors.sekizai',
++                    'django.template.context_processors.static',
+                 ],
+                 'loaders': (
+                     'django.template.loaders.filesystem.Loader',
+@@ -137,6 +139,9 @@ if __name__ == '__main__':
+         'cms.middleware.toolbar.ToolbarMiddleware',
+         'django.middleware.cache.FetchFromCacheMiddleware',
+     ]
++    if 'server' not in sys.argv:
++        INSTALLED_APPS.insert(0, 'debug_toolbar')
++        MIDDLEWARES.insert(-1, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+     if not DJANGO_1_9:
+         dynamic_configs['MIDDLEWARE'] = MIDDLEWARES
+     else:
+diff --git a/setup.py b/setup.py
+index 6d4ec5d20..2a354be36 100644
+--- a/setup.py
++++ b/setup.py
+@@ -18,14 +18,16 @@ CLASSIFIERS = [
+     'Programming Language :: Python :: 3.3',
+     'Programming Language :: Python :: 3.4',
+     'Programming Language :: Python :: 3.5',
++    'Programming Language :: Python :: 3.6',
+     'Framework :: Django',
+     'Framework :: Django :: 1.8',
+     'Framework :: Django :: 1.9',
+     'Framework :: Django :: 1.10',
++    'Framework :: Django :: 1.11',
+ ]
+ 
+ INSTALL_REQUIREMENTS = [
+-    'Django>=1.8,<1.11',
++    'Django>=1.8,<2.0',
+     'django-classy-tags>=0.7.2',
+     'django-formtools>=1.0',
+     'django-treebeard>=4.0.1',
+diff --git a/test_requirements/django-1.11.txt b/test_requirements/django-1.11.txt
+new file mode 100644
+index 000000000..b1fa2c689
+--- /dev/null
++++ b/test_requirements/django-1.11.txt
+@@ -0,0 +1,7 @@
++-r requirements_base.txt
++Django>=1.11,<1.12
++django-reversion>=2.0
++https://github.com/divio/djangocms-attributes-field/archive/master.zip
++https://github.com/KristianOellegaard/django-hvad/archive/master.zip
++django-formtools
++django-debug-toolbar
