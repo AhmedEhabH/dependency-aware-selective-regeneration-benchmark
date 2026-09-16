@@ -1,0 +1,944 @@
+diff --git a/cms/apphook_pool.py b/cms/apphook_pool.py
+index dea5645a7..a590972c0 100644
+--- a/cms/apphook_pool.py
++++ b/cms/apphook_pool.py
+@@ -28,11 +28,6 @@ class ApphookPool(object):
+         if app is None:
+             return lambda app: self.register(app, discovering_apps)
+ 
+-        if app.__module__.split('.')[-1] == 'cms_app':
+-            warnings.warn('cms_app.py filename is deprecated, '
+-                          'and it will be removed in version 3.4; '
+-                          'please rename it to cms_apps.py', DeprecationWarning)
+-
+         if self.apphooks and not discovering_apps:
+             return app
+ 
+@@ -64,8 +59,6 @@ class ApphookPool(object):
+                     pass
+ 
+         else:
+-            # FIXME: Remove in 3.4
+-            load('cms_app')
+             load('cms_apps')
+ 
+         self.discovered = True
+diff --git a/cms/models/pluginmodel.py b/cms/models/pluginmodel.py
+index 840d1aeed..16daddfd2 100644
+--- a/cms/models/pluginmodel.py
++++ b/cms/models/pluginmodel.py
+@@ -562,58 +562,18 @@ class CMSPlugin(six.with_metaclass(PluginModelBase, MP_Node)):
+         return data
+ 
+     def get_add_url(self):
+-        if self.add_url:
+-            warnings.warn(
+-                'The add_url property is deprecated, '
+-                'and it will be removed in version 3.4; '
+-                'please use the get_add_url method instead.',
+-                DeprecationWarning
+-            )
+-            return self.add_url
+         return self.placeholder.get_add_url()
+ 
+     def get_edit_url(self):
+-        if self.edit_url:
+-            warnings.warn(
+-                'The edit_url property is deprecated, '
+-                'and it will be removed in version 3.4; '
+-                'please use the get_edit_url method instead.',
+-                DeprecationWarning
+-            )
+-            return self.edit_url
+         return self.placeholder.get_edit_url(self.pk)
+ 
+     def get_delete_url(self):
+-        if self.delete_url:
+-            warnings.warn(
+-                'The delete_url property is deprecated, '
+-                'and it will be removed in version 3.4; '
+-                'please use the get_delete_url method instead.',
+-                DeprecationWarning
+-            )
+-            return self.delete_url
+         return self.placeholder.get_delete_url(self.pk)
+ 
+     def get_move_url(self):
+-        if self.move_url:
+-            warnings.warn(
+-                'The move_url property is deprecated, '
+-                'and it will be removed in version 3.4; '
+-                'please use the get_move_url method instead.',
+-                DeprecationWarning
+-            )
+-            return self.move_url
+         return self.placeholder.get_move_url()
+ 
+     def get_copy_url(self):
+-        if self.copy_url:
+-            warnings.warn(
+-                'The copy_url property is deprecated, '
+-                'and it will be removed in version 3.4; '
+-                'please use the get_copy_url method instead.',
+-                DeprecationWarning
+-            )
+-            return self.copy_url
+         return self.placeholder.get_copy_url()
+ 
+     @property
+diff --git a/cms/plugin_base.py b/cms/plugin_base.py
+index cb1747051..e3d6c6c2c 100644
+--- a/cms/plugin_base.py
++++ b/cms/plugin_base.py
+@@ -1,7 +1,6 @@
+ # -*- coding: utf-8 -*-
+ import json
+ import re
+-import warnings
+ 
+ from django.shortcuts import render_to_response
+ 
+@@ -15,7 +14,7 @@ from django.utils.encoding import force_text, python_2_unicode_compatible, smart
+ from django.utils.translation import ugettext, ugettext_lazy as _
+ 
+ from cms.constants import PLUGIN_MOVE_ACTION, PLUGIN_COPY_ACTION
+-from cms.exceptions import SubClassNeededError, Deprecated
++from cms.exceptions import SubClassNeededError
+ from cms.models import CMSPlugin
+ from cms.utils import get_cms_setting
+ 
+@@ -115,7 +114,6 @@ class CMSPluginBase(six.with_metaclass(CMSPluginBaseMetaclass, admin.ModelAdmin)
+     parent_classes = None
+ 
+     disable_child_plugins = False
+-    disable_child_plugin = False  # DEPRECATED: REMOVE IN CMS v3.3
+ 
+     cache = get_cms_setting('PLUGIN_CACHE')
+     system = False
+@@ -145,12 +143,7 @@ class CMSPluginBase(six.with_metaclass(CMSPluginBaseMetaclass, admin.ModelAdmin)
+         self._cms_initial_attributes = {}
+ 
+     def _get_render_template(self, context, instance, placeholder):
+-        if getattr(instance, 'render_template', False):
+-            warnings.warn('CMSPlugin.render_template attribute is deprecated '
+-                          'and it will be removed in version 3.2; please move'
+-                          'template in plugin classes', DeprecationWarning)
+-            template = getattr(instance, 'render_template', False)
+-        elif hasattr(self, 'get_render_template'):
++        if hasattr(self, 'get_render_template'):
+             template = self.get_render_template(context, instance, placeholder)
+         elif getattr(self, 'render_template', False):
+             template = getattr(self, 'render_template', False)
+@@ -471,21 +464,6 @@ class CMSPluginBase(six.with_metaclass(CMSPluginBaseMetaclass, admin.ModelAdmin)
+     def __str__(self):
+         return self.name
+ 
+-    # ===============
+-    # Deprecated APIs
+-    # ===============
+-
+-    @property
+-    def pluginmedia(self):
+-        raise Deprecated(
+-            "CMSPluginBase.pluginmedia is deprecated in favor of django-sekizai"
+-        )
+-
+-    def get_plugin_media(self, request, context, plugin):
+-        raise Deprecated(
+-            "CMSPluginBase.get_plugin_media is deprecated in favor of django-sekizai"
+-        )
+-
+ 
+ class PluginMenuItem(object):
+     def __init__(self, name, url, data, question=None, action='ajax', attributes=None):
+diff --git a/cms/plugin_pool.py b/cms/plugin_pool.py
+index d2d7f7a63..d3e134a95 100644
+--- a/cms/plugin_pool.py
++++ b/cms/plugin_pool.py
+@@ -52,7 +52,6 @@ class PluginPool(object):
+                     or hasattr(plugin.model, 'render_template')
+                     or hasattr(plugin, 'get_render_template')):
+                 if (plugin.render_template is None and
+-                        not hasattr(plugin.model, 'render_template') and
+                         not hasattr(plugin, 'get_render_template')):
+                     raise ImproperlyConfigured(
+                         "CMS Plugins must define a render template, "
+@@ -66,9 +65,7 @@ class PluginPool(object):
+                 elif not hasattr(plugin, 'get_render_template'):
+                     from django.template import loader
+ 
+-                    template = ((hasattr(plugin.model, 'render_template') and
+-                                plugin.model.render_template) or
+-                                plugin.render_template)
++                    template = plugin.render_template
+                     if isinstance(template, six.string_types) and template:
+                         try:
+                             loader.get_template(template)
+diff --git a/cms/plugin_processors.py b/cms/plugin_processors.py
+index d3c121a37..e56a77b3a 100644
+--- a/cms/plugin_processors.py
++++ b/cms/plugin_processors.py
+@@ -3,7 +3,6 @@ from django.utils.safestring import mark_safe
+ 
+ def plugin_meta_context_processor(instance, placeholder, context):
+     return {
+-        'plugin_index': instance._render_meta.index, # deprecated template variable
+         'plugin': {
+             'counter': instance._render_meta.index + 1,
+             'counter0': instance._render_meta.index,
+diff --git a/cms/templatetags/cms_tags.py b/cms/templatetags/cms_tags.py
+index cc6ecba43..c083fd7c4 100644
+--- a/cms/templatetags/cms_tags.py
++++ b/cms/templatetags/cms_tags.py
+@@ -693,10 +693,7 @@ class CMSEditableObject(InclusionTag):
+         # content is for non-edit template content.html
+         # rendered_content is for edit template plugin.html
+         # in this templatetag both hold the same content
+-        if get_cms_setting('UNESCAPED_RENDER_MODEL_TAGS'):
+-            extra_context['content'] = mark_safe(extra_context['content'])
+-        else:
+-            extra_context['content'] = extra_context['content']
++        extra_context['content'] = extra_context['content']
+         extra_context['rendered_content'] = extra_context['content']
+         return extra_context
+ 
+diff --git a/cms/tests/test_check.py b/cms/tests/test_check.py
+index aeff7eb46..0eb75eb28 100644
+--- a/cms/tests/test_check.py
++++ b/cms/tests/test_check.py
+@@ -1,6 +1,5 @@
+ # -*- coding: utf-8 -*-
+ from copy import deepcopy
+-import os
+ 
+ from django.conf import settings
+ from django.core.exceptions import ImproperlyConfigured
+@@ -53,14 +52,6 @@ class CheckTests(CheckAssertMixin, TestCase):
+     def test_test_confs(self):
+         self.assertCheck(True, errors=0, warnings=0)
+ 
+-    def test_cms_moderator_deprecated(self):
+-        with self.settings(CMS_MODERATOR=True):
+-            self.assertCheck(True, warnings=1, errors=0)
+-
+-    def test_cms_flat_urls_deprecated(self):
+-        with self.settings(CMS_FLAT_URLS=True):
+-            self.assertCheck(True, warnings=1, errors=0)
+-
+     def test_no_sekizai(self):
+         apps = list(settings.INSTALLED_APPS)
+         apps.remove('sekizai')
+@@ -84,18 +75,6 @@ class CheckTests(CheckAssertMixin, TestCase):
+         with self.settings(CMS_LANGUAGES=[('en', 'English')]):
+             self.assertRaises(ImproperlyConfigured, self.assertCheck, True, warnings=1, errors=0)
+ 
+-    def test_cms_hide_untranslated_deprecated(self):
+-        with self.settings(CMS_HIDE_UNTRANSLATED=True):
+-            self.assertCheck(True, warnings=1, errors=0)
+-
+-    def test_cms_language_fallback_deprecated(self):
+-        with self.settings(CMS_LANGUAGE_FALLBACK=True):
+-            self.assertCheck(True, warnings=1, errors=0)
+-
+-    def test_cms_language_conf_deprecated(self):
+-        with self.settings(CMS_LANGUAGE_CONF=True):
+-            self.assertCheck(True, warnings=1, errors=0)
+-
+     def test_middlewares(self):
+         MIDDLEWARE_CLASSES=[
+             'django.middleware.cache.UpdateCacheMiddleware',
+@@ -114,14 +93,6 @@ class CheckTests(CheckAssertMixin, TestCase):
+         with self.settings(MIDDLEWARE_CLASSES=MIDDLEWARE_CLASSES):
+             self.assertCheck(False, warnings=0, errors=2)
+ 
+-    def test_cms_site_languages_deprecated(self):
+-        with self.settings(CMS_SITE_LANGUAGES=True):
+-            self.assertCheck(True, warnings=1, errors=0)
+-
+-    def test_cms_frontend_languages_deprecated(self):
+-        with self.settings(CMS_FRONTEND_LANGUAGES=True):
+-            self.assertCheck(True, warnings=1, errors=0)
+-
+     def test_copy_relations_fk_check(self):
+         """
+         this is ugly, feel free to come up with a better test
+@@ -142,20 +113,6 @@ class CheckTests(CheckAssertMixin, TestCase):
+         self.assertCheck(True, warnings=1, errors=0)
+         MyPageExtension.copy_relations = copy_rel
+ 
+-    def test_placeholder_tag_deprecation(self):
+-        self.assertCheck(True, warnings=0, errors=0)
+-        alt_dir = os.path.join(
+-            os.path.dirname(__file__),
+-            '..',
+-            'test_utils',
+-            'project',
+-            'alt_templates'
+-        )
+-        NEWTEMPLATES = deepcopy(settings.TEMPLATES)
+-        NEWTEMPLATES[0]['DIRS'] = [alt_dir]
+-        with self.settings(TEMPLATES=NEWTEMPLATES, CMS_TEMPLATES=[]):
+-            self.assertCheck(True, warnings=1, errors=0)
+-
+     def test_non_numeric_site_id(self):
+         self.assertCheck(True, warnings=0, errors=0)
+         with self.settings(SITE_ID='broken'):
+@@ -167,23 +124,21 @@ class CheckWithDatabaseTests(CheckAssertMixin, TestCase):
+     def test_check_plugin_instances(self):
+         self.assertCheck(True, warnings=0, errors=0 )
+ 
+-        apps = ["cms", "menus", "sekizai", "cms.test_utils.project.sampleapp", "treebeard"]
+-        with self.settings(INSTALLED_APPS=apps):
+-            placeholder = Placeholder.objects.create(slot="test")
+-            add_plugin(placeholder, TextPlugin, "en", body="en body")
+-            add_plugin(placeholder, TextPlugin, "en", body="en body")
+-            add_plugin(placeholder, "LinkPlugin", "en",
+-                       name="A Link", url="https://www.django-cms.org")
++        placeholder = Placeholder.objects.create(slot="test")
++        add_plugin(placeholder, TextPlugin, "en", body="en body")
++        add_plugin(placeholder, TextPlugin, "en", body="en body")
++        add_plugin(placeholder, "LinkPlugin", "en",
++                   name="A Link", url="https://www.django-cms.org")
+ 
+-            # create a CMSPlugin with an unsaved instance
+-            instanceless_plugin = CMSPlugin(language="en", plugin_type="TextPlugin")
+-            instanceless_plugin.save()
++        # create a CMSPlugin with an unsaved instance
++        instanceless_plugin = CMSPlugin(language="en", plugin_type="TextPlugin")
++        instanceless_plugin.save()
+ 
+-            self.assertCheck(False, warnings=0, errors=2)
++        self.assertCheck(False, warnings=0, errors=2)
+ 
+-            # create a bogus CMSPlugin to simulate one which used to exist but
+-            # is no longer installed
+-            bogus_plugin = CMSPlugin(language="en", plugin_type="BogusPlugin")
+-            bogus_plugin.save()
++        # create a bogus CMSPlugin to simulate one which used to exist but
++        # is no longer installed
++        bogus_plugin = CMSPlugin(language="en", plugin_type="BogusPlugin")
++        bogus_plugin.save()
+ 
+-            self.assertCheck(False, warnings=0, errors=3)
++        self.assertCheck(False, warnings=0, errors=3)
+diff --git a/cms/tests/test_rendering.py b/cms/tests/test_rendering.py
+index 2ee01042f..a363de326 100644
+--- a/cms/tests/test_rendering.py
++++ b/cms/tests/test_rendering.py
+@@ -192,14 +192,29 @@ class RenderingTestCase(CMSTestCase):
+         Tests that default plugin context processors are working, that plugin processors and plugin context processors
+         can be defined in settings and are working and that extra plugin context processors can be passed to PluginContext.
+         """
++        from djangocms_text_ckeditor.cms_plugins import TextPlugin
++        from cms.plugin_pool import plugin_pool
++
++        instance = CMSPlugin.objects.all()[0].get_plugin_instance()[0]
++
++        load_from_string = self.load_template_from_string
++
++        @plugin_pool.register_plugin
++        class ProcessorTestPlugin(TextPlugin):
++            name = "Test Plugin"
++
++            def get_render_template(self, context, instance, placeholder):
++                t = u'{% load cms_tags %}' + \
++                    u'{{ plugin.counter }}|{{ plugin.instance.body }}|{{ test_passed_plugin_context_processor }}|' \
++                    u'{{ test_plugin_context_processor }}'
++                return load_from_string(t)
++
+         def test_passed_plugin_context_processor(instance, placeholder, context):
+             return {'test_passed_plugin_context_processor': 'test_passed_plugin_context_processor_ok'}
+ 
+-        t = u'{% load cms_tags %}' + \
+-            u'{{ plugin.counter }}|{{ plugin.instance.body }}|{{ test_passed_plugin_context_processor }}|' \
+-            u'{{ test_plugin_context_processor }}'
+-        instance, plugin = CMSPlugin.objects.all()[0].get_plugin_instance()
+-        instance.render_template = self.load_template_from_string(t)
++        instance.plugin_type = 'ProcessorTestPlugin'
++        instance._inst = instance
++
+         context = PluginContext({'original_context_var': 'original_context_var_ok'}, instance,
+                                 self.test_placeholders['main'], processors=(test_passed_plugin_context_processor,))
+         plugin_rendering._standard_processors = {}
+@@ -207,10 +222,13 @@ class RenderingTestCase(CMSTestCase):
+         content_renderer = self.get_content_renderer()
+         c = content_renderer.render_plugins([instance], context, self.test_placeholders['main'])
+         r = "".join(c)
+-        self.assertEqual(r, u'1|' + self.test_data[
+-            'text_main'] + '|test_passed_plugin_context_processor_ok|test_plugin_context_processor_ok|' +
+-                            self.test_data['text_main'] + '|main|original_context_var_ok|test_plugin_processor_ok|' + self.test_data[
+-                                'text_main'] + '|main|original_context_var_ok')
++        expected = (
++            self.test_data['text_main'] + '|test_passed_plugin_context_processor_ok|test_plugin_context_processor_ok|' +
++            self.test_data['text_main'] + '|main|original_context_var_ok|test_plugin_processor_ok|' +
++            self.test_data['text_main'] + '|main|original_context_var_ok'
++        )
++        expected = u'1|' + expected
++        self.assertEqual(r, expected)
+         plugin_rendering._standard_processors = {}
+ 
+     def test_placeholder(self):
+diff --git a/cms/tests/test_toolbar.py b/cms/tests/test_toolbar.py
+index 92a68a972..ee6eac71f 100644
+--- a/cms/tests/test_toolbar.py
++++ b/cms/tests/test_toolbar.py
+@@ -1117,51 +1117,34 @@ class EditModelTemplateTagTest(ToolbarTestBase):
+ <h1>{% render_model instance "char_1" "" "" 'truncatewords:2' %}</h1>
+ {% endblock content %}
+ '''
+-        with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=True):
+-            request = self.get_page_request(page, user, edit=True)
+-            response = detail_view(request, ex1.pk, template_string=template_text)
+-            self.assertContains(
+-                response,
+-                '<h1>'
+-                '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                '{4}'
+-                '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                '</h1>'.format(
+-                    'placeholderapp', 'example1', 'char_1', ex1.pk, truncatewords(ex1.char_1, 2),
+-                    )
+-                )
+-
+-        with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=False):
+-            request = self.get_page_request(page, user, edit=True)
+-            response = detail_view(request, ex1.pk, template_string=template_text)
+-            self.assertContains(
+-                response,
+-                '<h1>'
+-                '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                '{4}'
+-                '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                '</h1>'.format(
+-                    'placeholderapp', 'example1', 'char_1', ex1.pk, truncatewords(escape(ex1.char_1), 2)))
++        request = self.get_page_request(page, user, edit=True)
++        response = detail_view(request, ex1.pk, template_string=template_text)
++        self.assertContains(
++            response,
++            '<h1>'
++            '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
++            '{4}'
++            '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
++            '</h1>'.format(
++                'placeholderapp', 'example1', 'char_1', ex1.pk, truncatewords(escape(ex1.char_1), 2)))
+ 
+-        # Test with setting=False, but use "filter" parameter to include "safe"
+-        with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=False):
+-            template_text = '''{% extends "base.html" %}
++        template_text = '''{% extends "base.html" %}
+ {% load cms_tags %}
+ 
+ {% block content %}
+ <h1>{% render_model instance "char_1" "" "" "truncatewords:2|safe" %}</h1>
+ {% endblock content %}
+ '''
+-            request = self.get_page_request(page, user, edit=True)
+-            response = detail_view(request, ex1.pk, template_string=template_text)
+-            self.assertContains(
+-                response,
+-                '<h1>'
+-                '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                '{4}'
+-                '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                '</h1>'.format(
+-                    'placeholderapp', 'example1', 'char_1', ex1.pk, truncatewords(ex1.char_1, 2)))
++        request = self.get_page_request(page, user, edit=True)
++        response = detail_view(request, ex1.pk, template_string=template_text)
++        self.assertContains(
++            response,
++            '<h1>'
++            '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
++            '{4}'
++            '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
++            '</h1>'.format(
++                'placeholderapp', 'example1', 'char_1', ex1.pk, truncatewords(ex1.char_1, 2)))
+ 
+     def test_setting_override(self):
+         template_text = '''{% extends "base.html" %}
+@@ -1178,31 +1161,16 @@ class EditModelTemplateTagTest(ToolbarTestBase):
+                        char_4="char_4")
+         ex1.save()
+ 
+-        # With CMS override settings (True) (assert that the resulting output is NOT escaped)
+-        with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=True):
+-            request = self.get_page_request(page, user, edit=True)
+-            response = detail_view(request, ex1.pk, template_string=template_text)
+-            self.assertContains(
+-                response,
+-                '<h1>'
+-                '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                '{4}'
+-                '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                '</h1>'.format(
+-                    'placeholderapp', 'example1', 'char_1', ex1.pk, truncatewords(ex1.char_1, 2)))
+-
+-        # With CMS override settings (False) (assert that the resulting output IS escaped)
+-        with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=False):
+-            request = self.get_page_request(page, user, edit=True)
+-            response = detail_view(request, ex1.pk, template_string=template_text)
+-            self.assertContains(
+-                response,
+-                '<h1>'
+-                '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                '{4}'
+-                '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                '</h1>'.format(
+-                    'placeholderapp', 'example1', 'char_1', ex1.pk, truncatewords(escape(ex1.char_1), 2)))
++        request = self.get_page_request(page, user, edit=True)
++        response = detail_view(request, ex1.pk, template_string=template_text)
++        self.assertContains(
++            response,
++            '<h1>'
++            '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
++            '{4}'
++            '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
++            '</h1>'.format(
++                'placeholderapp', 'example1', 'char_1', ex1.pk, truncatewords(escape(ex1.char_1), 2)))
+ 
+     def test_filters_date(self):
+         # Ensure we have a consistent testing env...
+@@ -1220,52 +1188,37 @@ class EditModelTemplateTagTest(ToolbarTestBase):
+ <h1>{% render_model instance "date_field" %}</h1>
+ {% endblock content %}
+ '''
+-            with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=True):
+-                request = self.get_page_request(page, user, edit=True)
+-                response = detail_view(request, ex1.pk, template_string=template_text)
+-                self.assertContains(
+-                    response,
+-                    '<h1>'
+-                    '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                    '{4}'
+-                    '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                    '</h1>'.format(
+-                        'placeholderapp', 'example1', 'date_field', ex1.pk,
+-                        ex1.date_field.strftime("%Y-%m-%d")))
+-
+-            with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=False):
+-                request = self.get_page_request(page, user, edit=True)
+-                response = detail_view(request, ex1.pk, template_string=template_text)
+-                self.assertContains(
+-                    response,
+-                    '<h1>'
+-                    '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                    '{4}'
+-                    '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                    '</h1>'.format(
+-                        'placeholderapp', 'example1', 'date_field', ex1.pk,
+-                        ex1.date_field.strftime("%b. %d, %Y")))
+-
+-            # Test with setting=False, but use "filter" parameter to add "safe"
+-            with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=False):
+-                template_text = '''{% extends "base.html" %}
++
++            request = self.get_page_request(page, user, edit=True)
++            response = detail_view(request, ex1.pk, template_string=template_text)
++            self.assertContains(
++                response,
++                '<h1>'
++                '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
++                '{4}'
++                '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
++                '</h1>'.format(
++                    'placeholderapp', 'example1', 'date_field', ex1.pk,
++                    ex1.date_field.strftime("%b. %d, %Y")))
++
++            template_text = '''{% extends "base.html" %}
+ {% load cms_tags %}
+ 
+ {% block content %}
+ <h1>{% render_model instance "date_field" "" "" "safe" %}</h1>
+ {% endblock content %}
+ '''
+-                request = self.get_page_request(page, user, edit=True)
+-                response = detail_view(request, ex1.pk, template_string=template_text)
+-                self.assertContains(
+-                    response,
+-                    '<h1>'
+-                    '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                    '{4}'
+-                    '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
+-                    '</h1>'.format(
+-                        'placeholderapp', 'example1', 'date_field', ex1.pk,
+-                        ex1.date_field.strftime("%Y-%m-%d")))
++            request = self.get_page_request(page, user, edit=True)
++            response = detail_view(request, ex1.pk, template_string=template_text)
++            self.assertContains(
++                response,
++                '<h1>'
++                '<template class="cms-plugin cms-plugin-start cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
++                '{4}'
++                '<template class="cms-plugin cms-plugin-end cms-plugin-{0}-{1}-{2}-{3} cms-render-model"></template>'
++                '</h1>'.format(
++                    'placeholderapp', 'example1', 'date_field', ex1.pk,
++                    ex1.date_field.strftime("%Y-%m-%d")))
+ 
+             template_text = '''{% extends "base.html" %}
+ {% load cms_tags %}
+@@ -1299,31 +1252,23 @@ class EditModelTemplateTagTest(ToolbarTestBase):
+ <h1>{% render_model instance "char_1" "" "" 'truncatewords:2' %}</h1>
+ {% endblock content %}
+ '''
+-        with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=True):
+-            request = self.get_page_request(page, user, edit=False)
+-            response = detail_view(request, ex1.pk, template_string=template_text)
+-            self.assertContains(response,
+-                                '<h1>%s</h1>' % truncatewords(ex1.char_1, 2))
+ 
+-        with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=False):
+-            request = self.get_page_request(page, user, edit=False)
+-            response = detail_view(request, ex1.pk, template_string=template_text)
+-            self.assertContains(response,
+-                                '<h1>%s</h1>' % truncatewords(escape(ex1.char_1), 2))
++        request = self.get_page_request(page, user, edit=False)
++        response = detail_view(request, ex1.pk, template_string=template_text)
++        self.assertContains(response,
++                            '<h1>%s</h1>' % truncatewords(escape(ex1.char_1), 2))
+ 
+-        # Test with setting=False, but use "filter" parameter to add "safe"
+-        with self.settings(CMS_UNESCAPED_RENDER_MODEL_TAGS=False):
+-            template_text = '''{% extends "base.html" %}
++        template_text = '''{% extends "base.html" %}
+ {% load cms_tags %}
+ 
+ {% block content %}
+ <h1>{% render_model instance "char_1" "" "" 'truncatewords:2|safe' "" "" %}</h1>
+ {% endblock content %}
+ '''
+-            request = self.get_page_request(page, user, edit=False)
+-            response = detail_view(request, ex1.pk, template_string=template_text)
+-            self.assertContains(response,
+-                                '<h1>%s</h1>' % truncatewords(ex1.char_1, 2))
++        request = self.get_page_request(page, user, edit=False)
++        response = detail_view(request, ex1.pk, template_string=template_text)
++        self.assertContains(response,
++                            '<h1>%s</h1>' % truncatewords(ex1.char_1, 2))
+ 
+     def test_no_cms(self):
+         user = self.get_staff()
+diff --git a/cms/toolbar_pool.py b/cms/toolbar_pool.py
+index 33ba6496b..f59b23b04 100644
+--- a/cms/toolbar_pool.py
++++ b/cms/toolbar_pool.py
+@@ -24,8 +24,6 @@ class ToolbarPool(object):
+                 self.register(cls)
+                 self.force_register = False
+         else:
+-            # FIXME: Remove in 3.4
+-            load('cms_toolbar')
+             load('cms_toolbars')
+         self._discovered = True
+ 
+@@ -34,11 +32,6 @@ class ToolbarPool(object):
+         self._discovered = False
+ 
+     def register(self, toolbar):
+-        import warnings
+-        if toolbar.__module__.split('.')[-1] == 'cms_toolbar':
+-            warnings.warn('cms_toolbar.py filename is deprecated, '
+-                          'and it will be removed in version 3.4; '
+-                          'please rename it to cms_toolbars.py', DeprecationWarning)
+         if not self.force_register and get_cms_setting('TOOLBARS'):
+             return toolbar
+         from cms.toolbar_base import CMSToolbar
+diff --git a/cms/utils/check.py b/cms/utils/check.py
+index c32e5d9d5..4ec3399d3 100644
+--- a/cms/utils/check.py
++++ b/cms/utils/check.py
+@@ -2,10 +2,8 @@
+ from contextlib import contextmanager
+ import inspect
+ from itertools import chain
+-import os
+ 
+ from django.conf import settings
+-from django.template.base import Lexer, TOKEN_BLOCK
+ from django.utils.decorators import method_decorator
+ from django.utils.termcolors import colorize
+ from sekizai.helpers import validate_template
+@@ -14,7 +12,8 @@ from cms import constants
+ from cms.models import AliasPluginModel
+ from cms.utils import get_cms_setting
+ from cms.utils.compat import DJANGO_1_8
+-from cms.utils.compat.dj import is_installed, get_app_paths
++from cms.utils.compat.dj import is_installed
++from cms.utils.conf import DEPRECATED_CMS_SETTINGS
+ 
+ 
+ SUCCESS = 1
+@@ -220,11 +219,6 @@ def check_i18n(output):
+                                          "'en-us' instead of 'en_US'): '%s' provided" % lang['code'])
+         else:
+             section.error("SITE_ID must be an integer, not %r" % settings.SITE_ID)
+-        for deprecated in ['CMS_HIDE_UNTRANSLATED', 'CMS_LANGUAGE_FALLBACK', 'CMS_LANGUAGE_CONF', 'CMS_SITE_LANGUAGES',
+-                           'CMS_FRONTEND_LANGUAGES']:
+-            if hasattr(settings, deprecated):
+-                section.warn("Deprecated setting %s found. This setting is now handled in the new style "
+-                             "CMS_LANGUAGES and can be removed" % deprecated)
+ 
+ 
+ @define_check
+@@ -262,11 +256,16 @@ def check_context_processors(output):
+ def check_deprecated_settings(output):
+     with output.section("Deprecated settings") as section:
+         found = False
+-        for deprecated in ['CMS_FLAT_URLS', 'CMS_MODERATOR']:
+-            if hasattr(settings, deprecated):
+-                section.warn(
+-                    "Deprecated setting %s found. This setting is no longer in use and can be removed" % deprecated)
+-                found = True
++        for deprecated, new_setting in DEPRECATED_CMS_SETTINGS.items():
++            if not hasattr(settings, deprecated):
++                continue
++            if new_setting:
++                message = "Deprecated setting %s found. This setting has been replaced by %s" % new_setting
++                section.warn(message)
++            else:
++                message = "Deprecated setting %s found. This setting is no longer in use and can be removed" % deprecated
++                section.warn(message)
++            found = True
+         if not found:
+             section.skip("No deprecated settings found")
+ 
+@@ -366,46 +365,6 @@ def check_copy_relations(output):
+                                    'https://django-cms.readthedocs.io/en/latest/extending_cms/extending_page_title.html#handling-relations.')  # noqa
+ 
+ 
+-def _load_all_templates(directory):
+-    """
+-    Loads all templates in a directory (recursively) and yields tuples of
+-    template tokens and template paths.
+-    """
+-    if os.path.exists(directory):
+-        for name in os.listdir(directory):
+-            path = os.path.join(directory, name)
+-            if os.path.isdir(path):
+-                for template in _load_all_templates(path):
+-                    yield template
+-            elif path.endswith('.html'):
+-                with open(path, 'rb') as fobj:
+-                    source = fobj.read().decode(settings.FILE_CHARSET)
+-                    if DJANGO_1_8:
+-                        lexer = Lexer(source, path)
+-                    else:
+-                        lexer = Lexer(source)
+-                    yield lexer.tokenize(), path
+-
+-@define_check
+-def deprecations(output):
+-    # deprecated placeholder_tags scan (1 in 3.1)
+-    templates_dirs = getattr(settings, 'TEMPLATES', [])[0]['DIRS']
+-    templates_dirs.extend(
+-        [os.path.join(path, 'templates') for path in get_app_paths()]
+-    )
+-    with output.section('Usage of deprecated placeholder_tags') as section:
+-        for template_dir in templates_dirs:
+-            for tokens, path in _load_all_templates(template_dir):
+-                for token in tokens:
+-                    if token.token_type == TOKEN_BLOCK:
+-                        bits = token.split_contents()
+-                        if bits[0] == 'load' and 'placeholder_tags' in bits:
+-                            section.warn(
+-                                'Usage of deprecated template tag library '
+-                                'placeholder tags in template %s' % path
+-                            )
+-
+-
+ def check(output):
+     """
+     Checks the configuration/environment of this django CMS installation.
+diff --git a/cms/utils/conf.py b/cms/utils/conf.py
+index b809ca012..db0480f76 100644
+--- a/cms/utils/conf.py
++++ b/cms/utils/conf.py
+@@ -66,7 +66,6 @@ DEFAULTS = {
+     'TOOLBAR_HIDE': False,
+     'INTERNAL_IPS': [],
+     'REQUEST_IP_RESOLVER': 'cms.utils.request_ip_resolvers.default_request_ip_resolver',
+-    'UNESCAPED_RENDER_MODEL_TAGS': True,
+     'PAGE_WIZARD_DEFAULT_TEMPLATE': constants.TEMPLATE_INHERITANCE_MAGIC,
+     'PAGE_WIZARD_CONTENT_PLUGIN': 'TextPlugin',
+     'PAGE_WIZARD_CONTENT_PLUGIN_BODY': 'body',
+diff --git a/docs/how_to/frontend_models.rst b/docs/how_to/frontend_models.rst
+index ee077546c..8cc0c79fb 100644
+--- a/docs/how_to/frontend_models.rst
++++ b/docs/how_to/frontend_models.rst
+@@ -18,15 +18,6 @@ hint on hover. Double-clicking opens a pop-up window containing the change form
+     This interface is not currently available for touch-screen users, but will be improved in
+     future releases.
+ 
+-.. warning::
+-
+-    By default and for consistency with previous releases, template tags used
+-    by this feature mark as safe the content of the rendered
+-    model attribute. This may be a security risk if used on fields which may
+-    hold non-trusted content. Be aware, and use the template tags accordingly.
+-    To change this behaviour, set the setting: :setting:`CMS_UNESCAPED_RENDER_MODEL_TAGS` to False.
+-
+-
+ .. warning::
+ 
+     This feature is only partially compatible with django-hvad: using
+diff --git a/docs/reference/configuration.rst b/docs/reference/configuration.rst
+index a6a3f165a..afbb71e28 100644
+--- a/docs/reference/configuration.rst
++++ b/docs/reference/configuration.rst
+@@ -1140,31 +1140,3 @@ when the "Content" field is filled in. There should be no need to change it,
+ unless you **don't** use ``djangocms-text-ckeditor`` in your project **and**
+ your custom plugin defined in :setting:`CMS_PAGE_WIZARD_CONTENT_PLUGIN` have a
+ body field **different** than ``body``.
+-
+-
+-..  setting:: CMS_UNESCAPED_RENDER_MODEL_TAGS
+-
+-CMS_UNESCAPED_RENDER_MODEL_TAGS
+-===================================
+-
+-..  versionadded:: 3.2.4
+-
+-default
+-    True
+-
+-To immediately improve the security of your project and to prepare for
+-future releases of django CMS and related addons, the project
+-administrator should carefully review each use of the ``render_model``
+-template tags provided by django CMS. He or she is encouraged to ensure
+-that all content which is rendered to a page using this template tag is
+-cleansed of any potentially harmful HTML markup, CSS styles or JavaScript.
+-Once the administrator or developer is satisfied that the content is
+-clean, he or she can add the "safe" filter parameter to the render_model
+-template tag if the content should be rendered without escaping. If there
+-is no need to render the content unescaped, no further action
+-is required.
+-
+-Once all template tags have been reviewed and adjusted where necessary,
+-the administrator should set ``CMS_UNESCAPED_RENDER_MODEL_TAGS = False``
+-in the project settings. At that point, the project is more secure and
+-will be ready for any future upgrades.
+diff --git a/docs/reference/templatetags.rst b/docs/reference/templatetags.rst
+index 43a1b8acb..b720333e7 100644
+--- a/docs/reference/templatetags.rst
++++ b/docs/reference/templatetags.rst
+@@ -438,12 +438,6 @@ Example::
+ render_model
+ ============
+ 
+-.. warning::
+-
+-    ``render_model`` marks as safe the content of the rendered model
+-    attribute. This may be a security risk if used on fields which may contains
+-    non-trusted content. Be aware, and use the template tag accordingly.
+-
+ ``render_model`` is the way to add frontend editing to any Django model.
+ It both renders the content of the given attribute of the model instance and
+ makes it clickable to edit the related model.
+@@ -494,14 +488,21 @@ This will render to:
+ * ``varname`` (optional): the template tag output can be saved as a context
+   variable for later use.
+ 
+-.. warning::
++.. note::
+ 
+-    In this version of django CMS, the setting :setting:`CMS_UNESCAPED_RENDER_MODEL_TAGS`
+-    has a default value of ``True`` to provide behavior consistent with
+-    previous releases. However, all developers are encouraged to set this
+-    value to ``False`` to help prevent a range of security vulnerabilities
++    By default this template tag escapes the content of the rendered
++    model attribute. This helps prevent a range of security vulnerabilities
+     stemming from HTML, Javascript, and CSS Code Injection.
+ 
++    To change this behavior, the project administrator should carefully review
++    each use of this template tag and ensure that all content which is rendered
++    to a page using this template tag is cleansed of any potentially harmful
++    HTML markup, CSS styles or JavaScript.
++
++    Once the administrator is satisfied that the content is
++    clean, he or she can add the "safe" filter parameter to the template tag
++    if the content should be rendered without escaping.
++
+ .. warning::
+ 
+     ``render_model`` is only partially compatible with django-hvad: using
+@@ -569,14 +570,22 @@ method is available; also template tags and filters are available in the block.
+ * ``varname`` (optional): the template tag output can be saved as a context
+   variable for later use.
+ 
+-.. warning::
++.. note::
+ 
+-    In this version of django CMS, the setting :setting:`CMS_UNESCAPED_RENDER_MODEL_TAGS`
+-    has a default value of ``True`` to provide behavior consistent with
+-    previous releases. However, all developers are encouraged to set this
+-    value to ``False`` to help prevent a range of security vulnerabilities
++    By default this template tag escapes the content of the rendered
++    model attribute. This helps prevent a range of security vulnerabilities
+     stemming from HTML, Javascript, and CSS Code Injection.
+ 
++    To change this behavior, the project administrator should carefully review
++    each use of this template tag and ensure that all content which is rendered
++    to a page using this template tag is cleansed of any potentially harmful
++    HTML markup, CSS styles or JavaScript.
++
++    Once the administrator is satisfied that the content is
++    clean, he or she can add the "safe" filter parameter to the template tag
++    if the content should be rendered without escaping.
++
++
+ .. templatetag:: render_model_icon
+ .. versionadded:: 3.0
+ 
+@@ -628,14 +637,22 @@ It will render to something like:
+ * ``varname`` (optional): the template tag output can be saved as a context
+   variable for later use.
+ 
+-.. warning::
++.. note::
+ 
+-    In this version of django CMS, the setting :setting:`CMS_UNESCAPED_RENDER_MODEL_TAGS`
+-    has a default value of ``True`` to provide behavior consistent with
+-    previous releases. However, all developers are encouraged to set this
+-    value to ``False`` to help prevent a range of security vulnerabilities
++    By default this template tag escapes the content of the rendered
++    model attribute. This helps prevent a range of security vulnerabilities
+     stemming from HTML, Javascript, and CSS Code Injection.
+ 
++    To change this behavior, the project administrator should carefully review
++    each use of this template tag and ensure that all content which is rendered
++    to a page using this template tag is cleansed of any potentially harmful
++    HTML markup, CSS styles or JavaScript.
++
++    Once the administrator is satisfied that the content is
++    clean, he or she can add the "safe" filter parameter to the template tag
++    if the content should be rendered without escaping.
++
++
+ .. templatetag:: render_model_add
+ .. versionadded:: 3.0
+ 
+@@ -683,14 +700,21 @@ It will render to something like:
+ * ``varname`` (optional): the template tag output can be saved as a context
+   variable for later use.
+ 
+-.. warning::
++.. note::
+ 
+-    In this version of django CMS, the setting :setting:`CMS_UNESCAPED_RENDER_MODEL_TAGS`
+-    has a default value of ``True`` to provide behavior consistent with
+-    previous releases. However, all developers are encouraged to set this
+-    value to ``False`` to help prevent a range of security vulnerabilities
++    By default this template tag escapes the content of the rendered
++    model attribute. This helps prevent a range of security vulnerabilities
+     stemming from HTML, Javascript, and CSS Code Injection.
+ 
++    To change this behavior, the project administrator should carefully review
++    each use of this template tag and ensure that all content which is rendered
++    to a page using this template tag is cleansed of any potentially harmful
++    HTML markup, CSS styles or JavaScript.
++
++    Once the administrator is satisfied that the content is
++    clean, he or she can add the "safe" filter parameter to the template tag
++    if the content should be rendered without escaping.
++
+ .. warning::
+ 
+     If passing a class, instead of an instance, and using ``view_method``,

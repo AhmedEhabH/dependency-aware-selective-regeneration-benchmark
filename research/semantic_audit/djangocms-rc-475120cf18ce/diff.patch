@@ -1,0 +1,12 @@
+diff --git a/cms/admin/__init__.py b/cms/admin/__init__.py
+index bcb366283..9e85bdecb 100644
+--- a/cms/admin/__init__.py
++++ b/cms/admin/__init__.py
+@@ -4,7 +4,6 @@ import cms.admin.useradmin
+ import cms.admin.permissionadmin
+ import cms.admin.settingsadmin
+ import cms.admin.static_placeholder  # nopyflakes
+-import cms.admin.pluginadmin
+ # Piggyback off admin.autodiscover() to discover cms plugins
+ from cms import plugin_pool
+ 

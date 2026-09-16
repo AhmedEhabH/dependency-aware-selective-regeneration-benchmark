@@ -1,0 +1,147 @@
+diff --git a/cms/app_base.py b/cms/app_base.py
+index 5f31ae68a..f0bcf0f1a 100644
+--- a/cms/app_base.py
++++ b/cms/app_base.py
+@@ -84,8 +84,15 @@ class CMSApp(object):
+ 
+         By default it returns the menus assigned to :py:attr:`CMSApp._menus`
+ 
+-        This method **must** return a non empty list of menus, even if no argument
+-        is passed.
++        If no page and language si provided, this method **must** return all the
++        menus used by this apphook. Example::
++
++            if page and page.reverse_id == 'page1':
++                return [Menu1]
++            elif page and page.reverse_id == 'page2':
++                return [Menu2]
++            else:
++                return [Menu1, Menu2]
+ 
+         :param page: page the apphook is attached to
+         :param language: current site language
+diff --git a/cms/menu_bases.py b/cms/menu_bases.py
+index 5a2d07279..29f1a355b 100644
+--- a/cms/menu_bases.py
++++ b/cms/menu_bases.py
+@@ -32,7 +32,7 @@ class CMSAttachMenu(Menu):
+         apps = []
+         for key, _ in apphook_pool.get_apphooks():
+             app = apphook_pool.get_apphook(key)
+-            if cls in app.menus:
++            if cls in app.get_menus():
+                 apps.append(app)
+         return apps
+ 
+diff --git a/cms/test_utils/project/sampleapp/cms_apps.py b/cms/test_utils/project/sampleapp/cms_apps.py
+index b5508cb18..9a6939baf 100644
+--- a/cms/test_utils/project/sampleapp/cms_apps.py
++++ b/cms/test_utils/project/sampleapp/cms_apps.py
+@@ -64,9 +64,10 @@ class VariableUrlsApp(CMSApp):
+     def get_menus(self, page=None, language=None, **kwargs):
+         if page and page.reverse_id == 'page1':
+             return [SampleAppMenu]
+-
+-        else:
++        elif page and page.reverse_id == 'page2':
+             return [StaticMenu4]
++        else:
++            return [StaticMenu4, SampleAppMenu]
+ 
+     def get_urls(self, page=None, language=None, **kwargs):
+         if page and page.reverse_id == 'page1':
+diff --git a/cms/test_utils/project/sampleapp/cms_menus.py b/cms/test_utils/project/sampleapp/cms_menus.py
+index 939e3e703..679423384 100644
+--- a/cms/test_utils/project/sampleapp/cms_menus.py
++++ b/cms/test_utils/project/sampleapp/cms_menus.py
+@@ -57,13 +57,13 @@ class StaticMenu3(StaticMenu):
+ menu_pool.register_menu(StaticMenu3)
+ 
+ 
+-class StaticMenu4(Menu):
++class StaticMenu4(CMSAttachMenu):
+     name = _("Static Menu4")
+ 
+     def get_nodes(self, request):
+-        nodes = []
+-        n = NavigationNode('static root page', '/fresh/', 1)
+-        nodes.append(n)
++        nodes = list()
++        nodes.append(NavigationNode('static fresh', '/static/fresh/', 'static fresh'))
++        nodes.append(NavigationNode('sample2-root', reverse('sample2-root'), 'sample2-root'))
+         return nodes
+ 
+ menu_pool.register_menu(StaticMenu4)
+diff --git a/cms/tests/test_apphooks.py b/cms/tests/test_apphooks.py
+index 9dc8b723c..2efd8ab7d 100644
+--- a/cms/tests/test_apphooks.py
++++ b/cms/tests/test_apphooks.py
+@@ -744,7 +744,6 @@ class ApphooksTestCase(CMSTestCase):
+         titles = self.create_base_structure('VariableUrlsApp', ['en', 'de'])
+         titles[0].page.reverse_id = 'page1'
+         titles[0].page.save()
+-
+         cache.clear()
+         self.reload_urls()
+         menu_pool.discover_menus()
+@@ -758,35 +757,23 @@ class ApphooksTestCase(CMSTestCase):
+ 
+         self.reload_urls()
+         self.apphook_clear()
+-        if APP_MODULE in sys.modules:
+-            del sys.modules[APP_MODULE]
++
++        cache.clear()
++        self.reload_urls()
+ 
+         page2 = create_page('page2', 'nav_playground.html',
+                             'en', created_by=self.superuser, published=True,
+-                            parent=titles[0].page.parent,
++                            parent=titles[0].page.get_draft_object().parent,
++                            in_navigation=True,
+                             apphook='VariableUrlsApp', reverse_id='page2')
+         create_title('de', 'de_title', page2, slug='slug')
+         page2.publish('de')
+-
+-        cache.clear()
+-        self.reload_urls()
+-        if MENU_MODULE in sys.modules:
+-            del sys.modules[MENU_MODULE]
+-        if 'cms.cms_menus' in sys.modules:
+-            del sys.modules['cms.cms_menus']
+-        menu_pool.clear(all=True)
+-        menu_pool.menus = {}
+-        menu_pool.modifiers = []
+-        menu_pool.discovered = False
+-        menu_pool._expanded = False
+-        menu_pool.discover_menus()
+-        cache.clear()
+-
+         request = self.get_request('/page2/')
+         nodes = menu_pool.get_nodes(request)
+         nodes_urls = [node.url for node in nodes]
+         self.assertTrue(reverse('sample-account') in nodes_urls)
+-        self.assertTrue('/fresh/' in nodes_urls)
++        self.assertTrue(reverse('sample2-root') in nodes_urls)
++        self.assertTrue('/static/fresh/' in nodes_urls)
+ 
+         self.apphook_clear()
+ 
+diff --git a/cms/tests/test_cache.py b/cms/tests/test_cache.py
+index afaf4312e..d79128997 100644
+--- a/cms/tests/test_cache.py
++++ b/cms/tests/test_cache.py
+@@ -87,11 +87,11 @@ class CacheTestCase(CMSTestCase):
+         with self.settings(CMS_PAGE_CACHE=False, MIDDLEWARE_CLASSES=middleware):
+             with self.assertNumQueries(FuzzyInt(13, 25)):
+                 self.client.get('/en/')
+-            with self.assertNumQueries(FuzzyInt(5, 9)):
++            with self.assertNumQueries(FuzzyInt(5, 10)):
+                 self.client.get('/en/')
+ 
+         with self.settings(CMS_PAGE_CACHE=False, MIDDLEWARE_CLASSES=middleware, CMS_PLACEHOLDER_CACHE=False):
+-            with self.assertNumQueries(FuzzyInt(7, 13)):
++            with self.assertNumQueries(FuzzyInt(7, 14)):
+                 self.client.get('/en/')
+ 
+     def test_no_cache_plugin(self):

@@ -1,0 +1,16 @@
+{
+  "schema_version": "semantic-proxy-adjudication-v1",
+  "per_file": {
+    "q1_semantically_necessary": "bool|ambiguous",
+    "q2_evidence_impacted_unchanged": "bool|ambiguous",
+    "q3_incidental_refactor": "bool|ambiguous",
+    "evidence_refs": "list[str]",
+    "confidence": "0..1",
+    "notes": "str"
+  },
+  "per_case": {
+    "summary": "str",
+    "flagged_misses": "list[str]"
+  },
+  "human_only": true
+}
