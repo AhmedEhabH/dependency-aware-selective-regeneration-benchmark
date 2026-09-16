@@ -315,7 +315,58 @@ execution. Entries are never edited after append; corrections are new entries.
 - **Rationale:** zero-cost discipline + strict data rule + truthful status.
 - **Impact:** the milestone STOPS at the protocol + approval request.
 
-## Decision P18 — Sparse-v2-label development-inference EXECUTED (2026-09-16)
+## Decision P19 — Autonomous MSc acceleration session authorized (2026-09-16)
+
+- **Status:** ADOPTED (this session)
+- **Context:** Ahmed is away; the `_workspace/active/OPENCODE_AUTONOMOUS_MSC_ACCELERATION_TO_PROPOSAL_2026-09-16.md`
+  authorizes autonomous execution in priority order with explicit stop
+  conditions (no hidden-test peeking, no destructive git, no scope change, no
+  hard budget violation, no fabrication).
+- **Decision:** Execute the ordered milestones (README transparency closure;
+  RealCommitImpactDataset-v2 design + sample-size analysis; Saleor/NestJS
+  suitability; classical/static CIA; conditional V2 development inference only
+  if within the authorized ceilings — ≤450 new cells, ≤2.5M tokens, ≤$1.00;
+  living-review novelty audit; print-ready MSc Proposal V1; seminar outline;
+  light export). Record choices in DECISIONS.md; document blockers and continue.
+- **Budget ceilings (authorized in the mission file):** new V2 development
+  cells ≤ 450; new tokens ≤ 2,500,000; new API/frozen-pricing cost ≤ USD 1.00;
+  no V2 TEST/RESERVE calls; no result-dependent reruns; no provider/model
+  family change. STOP the model only if these are exceeded.
+- **Rationale:** proposal deadline before 2026-10-01; supervisor-ready draft
+  needed now.
+
+## Decision P20 — Roadmap position + contingency routes updated (2026-09-16)
+
+- **Status:** ADOPTED
+- **Context:** The Sparse-v2 omission-risk development inference is complete;
+  task-level RiskScorer is not justified on n=30 (class-balance gate failed).
+- **Decision:** The roadmap now states the overall research position without
+  forcing the thesis to depend on RiskScorer success. Two pre-registered
+  contingency routes: Route A (task-level selective routing, used only if a
+  larger development set establishes a reliable signal) and Route B
+  (candidate-level bounded verification of suspicious omitted candidates under
+  a hard budget, compared with always-verify and random matched-budget).
+- **Impact:** docs/MSC_RESEARCH_ROADMAP_2026_2027.md (overall position +
+  Route A/B + frozen comparison plan + proposal deadline schedule).
+
+## Decision P21 — README / dataset transparency closure (Milestone A, T2)
+
+- **Status:** ADOPTED
+- **Context:** README diagrams used Mermaid only (browser-dependent rendering);
+  the RealCommitImpactDataset-v1 funnel and the 30 development tasks were not
+  documented in the README; RiskScorer vs planner/verifier terminology was
+  ambiguous.
+- **Decision:** Keep editable Mermaid sources under `docs/diagrams/*.mmd`
+  (source of truth); generate deterministic static SVG fallbacks under
+  `docs/assets/` with `scripts/generate_readme_svgs.py` (no browser
+  dependency); embed SVGs in README; document the verified v1 funnel and the
+  30-task development table (generated from frozen artifacts by
+  `scripts/generate_transparency_tables.py`, never hand-transcribed); add a
+  planner/RiskScorer/verifier terminology section; state that RiskScorer v1 is
+  NOT justified on the 30-task development evidence.
+- **Impact:** README.md; docs/diagrams/*.mmd; docs/assets/*.svg;
+  research/transparency/*; scripts/generate_readme_svgs.py,
+  scripts/generate_transparency_tables.py.
 
 - **Status:** ADOPTED (this task; supersedes the P15/P17 deferral for this run)
 - **Context:** Ahmed APPROVED the frozen DEVELOPMENT-INFERENCE protocol with the

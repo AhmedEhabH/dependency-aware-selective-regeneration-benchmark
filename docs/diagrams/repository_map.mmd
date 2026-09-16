@@ -1,0 +1,16 @@
+flowchart TD
+    SRC["src/benchmark<br/>reusable benchmark logic"]
+    DATA["benchmark_data<br/>frozen datasets / manifests"]
+    SCRIPTS["scripts<br/>study launchers / verifiers"]
+    RESEARCH["research<br/>raw scientific run evidence"]
+    REPORTS["reports<br/>protocols / results / audits"]
+    DOCS["docs<br/>handoffs / roadmap / user docs"]
+    TESTS["tests<br/>unit + integration + leakage + regression"]
+
+    SRC --> SCRIPTS
+    DATA --> SCRIPTS
+    SCRIPTS --> RESEARCH
+    RESEARCH --> REPORTS
+    SRC --> TESTS
+    DATA --> TESTS
+    REPORTS --> DOCS
