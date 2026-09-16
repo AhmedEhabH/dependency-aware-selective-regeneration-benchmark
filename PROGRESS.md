@@ -16,31 +16,29 @@ scientific API/model calls).
 
 ## Now executing
 
-- **IMPLEMENTATION + VALIDATION COMPLETE.** Harness package
-  (`src/benchmark/harness/`) with all required seams; living systematic review
-  artifacts (`docs/LIVING_SYSTEMATIC_REVIEW.md`,
-  `research/literature/{review_matrix,search_log}.csv`, `idea_ledger.md`);
-  six T3 gates + interface/leakage/determinism/budget/config-reproducibility/
-  isolation tests PASS (44 new harness tests); full Protocol-A equivalence
-  run (30 cases × 5 methods × 4 K = 600 rows) **byte-identical** to frozen
-  evidence; full suite 3270 passed / 33 skipped / 2 pre-existing environmental
-  failures (missing pinned djangocms repo checkout; identical on clean base);
-  audit PASS. Reports:
-  `reports/RESEARCH_HARNESS_V1_REPORT.md`, `_AUDIT.md`,
-  `reports/research_harness_v1_gates.json`.
+- **BLOCK COMPLETE AND CLOSED** — PLUGGABLE_RESEARCH_HARNESS_V1 +
+  LIVING_SYSTEMATIC_REVIEW_V1 merged to `main`; post-merge verification PASS;
+  DEV tag `research-harness-v1-dev-2026-09-16` created (peels to merge commit
+  `4eb8dcc` == `main`); light export `project-2026-09-16-0443.zip` created +
+  verified. STOP.
 
 ## Last completed task
 
-- T3 harness + living review milestone complete and audited (see above).
-- Next: merge to `main`; post-merge verification; DEV tag only if fully
-  reproducible; light export; STOP.
+- Harness + review foundation complete and audited; see
+  `reports/RESEARCH_HARNESS_V1_REPORT.md` / `_AUDIT.md`. Full Protocol-A
+  equivalence (600 rows) byte-identical; 44 new tests; gates 97/97 checks PASS;
+  full suite 3270 passed / 33 skipped / 2 pre-existing environmental failures
+  (missing pinned djangocms repo checkout).
 
 ## Immediate next step
 
-- Merge `research/harness-v1-living-review-01` → `main`, re-run tests + audit
-  post-merge, push `main`, verify `main == origin/main`, create DEV tag
-  `research-harness-v1-dev-2026-09-16` (audited DEVELOPMENT/architecture
-  evidence; NOT a stable tag move), recreate light export.
+- **STOP.** ONE next scientific step (NOT started, not authorized without
+  review): **OMISSION_RISK_FEATURE_STUDY_V1 (TRAIN/VALIDATION only)** — feature
+  families + routing metrics per `reports/RESEARCH_HARNESS_V1_REPORT.md` §9 and
+  `research/literature/idea_ledger.md` I1/I2/I5/I6. Do NOT auto-start
+  omission-risk training/analysis, Saleor scientific execution, LocAgent
+  scientific calls, selective escalation, or new model runs. Pending:
+  authorization to push `main` + the DEV tag to `origin`.
 
 ## Blockers
 
