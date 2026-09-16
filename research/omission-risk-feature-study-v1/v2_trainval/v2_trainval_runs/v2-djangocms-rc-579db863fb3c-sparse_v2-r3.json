@@ -1,0 +1,53 @@
+{
+  "run_id": "v2-djangocms-rc-579db863fb3c-sparse_v2-r3",
+  "case_id": "djangocms-rc-579db863fb3c",
+  "repetition": 3,
+  "arm": "sparse_v2",
+  "serialization_policy": "sparse_v2",
+  "scientific_model": "qwen/qwen3-coder",
+  "provider_tag": "deepinfra/turbo",
+  "exact_model": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "temperature": 0.0,
+  "completion_cap": 16384,
+  "graph": "OFF",
+  "request_dispatched": true,
+  "prompt_sha256": "28b07327ed4bcfc4b35116c154d8dbeeabc4fd94b8d579f19a278c173672783c",
+  "raw_response_sha256": "7a114805b5cbfcc9ba5e59e2fcdc1d232bad17cd79fc291b05debe5cb58a7d7c",
+  "latency_seconds": 6.312,
+  "recorded_at": "2026-09-16T12:53:09.071429+00:00",
+  "provider_response_received": true,
+  "raw_response_persisted": true,
+  "usage_known": true,
+  "provider_name": "DeepInfra",
+  "finish_reason": "stop",
+  "truncation_status": false,
+  "prompt_tokens": 4888,
+  "completion_tokens": 510,
+  "total_tokens": 5398,
+  "model_calls": 1,
+  "api_cost": 0.001976,
+  "pricing_source": "frozen DeepInfra-through-OpenRouter pricing ($0.30/$1.00 per 1M)",
+  "schema_valid": true,
+  "failure_category": "",
+  "serialized_decision_count": 3,
+  "decoded_write_set_ids": [
+    90
+  ],
+  "predicted_write_set_size": 1,
+  "terminal_status": "succeeded",
+  "predicted_write_set": [
+    "cms/templates.py"
+  ],
+  "hidden_proxy_used_after_inference": [
+    "cms/utils/setup.py"
+  ],
+  "tp": 0,
+  "fp": 1,
+  "fn": 1,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "fnr": 1.0,
+  "full_recall": false,
+  "proxy_size": 1
+}
