@@ -229,3 +229,30 @@ omission representation, cheap first pass, omission recovery, hard/matched
 budget, real-commit evaluation, cross-repository evidence. Novelty wording
 revised: 'Existing work covers several individual components; this thesis
 evaluates their combination...' - no absolute 'none combines' claim.
+
+## 12. Route B development result + novelty update (2026-09-16 evening)
+
+**Route B candidate-level omission recovery V1 (zero-LLM):** R4 Classical CIA
+(BM25-seed 1-hop closure + graph neighbor) beats Random at B=5 on DEV_TRAIN
+(0.148 vs 0.022, CI [+0.069,+0.179]) and DEV_VALIDATION (0.180 vs 0.037,
+CI [-0.003,+0.285]); pooled 0.163 vs 0.029 (CI [+0.085,+0.184]). No
+universe-size artifact (corr 0.105). This is the FIRST positive development
+signal for candidate-level omission recovery, in contrast to the negative
+task-level risk-scorer result. Oracle upper bound 0.858 at B=5 shows headroom.
+See reports/ROUTE_B_OMISSION_RECOVERY_V1_REPORT.md.
+
+**Novelty matrix implication (from the BibTeX triage):** existing work covers
+individual components (explicit file policy, sparse representation, cheap first
+pass, omission recovery, matched budget, real-commit evaluation, cross-repo).
+This thesis evaluates their COMBINATION; candidate novelty remains
+CANDIDATE NOVELTY - NOT YET CLAIMED. The strongest defensible future
+contribution is 'omission-aware, cost-sensitive bounded verification of an
+explicit sparse file-level impact policy under matched inference budgets',
+now with a positive candidate-level zero-LLM development signal (Route B).
+
+**PROVEN (unchanged):** Preserve-by-Omission representation + controlled evidence.
+**DEVELOPMENT RESULT:** task-level cheap omission-risk routing did NOT replicate
+at V2 scale; candidate-level CIA omission recovery IS directionally positive on
+development data.
+**CANDIDATE FUTURE CONTRIBUTION:** bounded candidate-level omission recovery
+under matched budgets (Route B).
