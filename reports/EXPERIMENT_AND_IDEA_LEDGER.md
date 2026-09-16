@@ -94,3 +94,13 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
   / 315 REJECT / 166 DUPLICATE.
 - **Artifact:** `reports/BIBTEX_LITERATURE_TRIAGE_2026-09-16.md` + classified CSV.
 - **Revisit:** as new literature appears.
+## E-016 — LocAgent P5R-1 rescue pilot (live)
+- **Status:** EXECUTED (2026-09-16 evening) -> 0/5 usable.
+- **Result:** 241 calls / 20.54M tokens / .18; all 5 non-usable tasks remained
+  non-usable (2 context-length, 1 upstream 15-min deadline, 1 worker crash,
+  1 completed-but-empty). Full 10-task rerun NOT triggered.
+- **Artifact:** reports/LOCAGENT_P5R1_PILOT_REPORT.md;
+  research/locagent-p5r1/ (evidence + sha256 manifest).
+- **Revisit:** P5R-2 (provider-deviation) only if same weights with larger
+  context can be established; otherwise LocAgent is treated as system-level
+  context only.
