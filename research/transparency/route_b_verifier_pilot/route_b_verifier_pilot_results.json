@@ -1,0 +1,916 @@
+{
+  "study_id": "route-b-verifier-pilot",
+  "n_tasks_selected": 30,
+  "n_calls_made": 30,
+  "total_tokens": 6748,
+  "total_cost_usd": 0.002276,
+  "token_ceiling": 300000,
+  "cost_ceiling": 0.3,
+  "budget_respected": true,
+  "records": [
+    {
+      "run_id": "vp-djangocms-rc-890451d3f92e-b1",
+      "case_id": "djangocms-rc-890451d3f92e",
+      "B": 1,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "67145351d64b1b687f6420f3cecf56d38d27950f2c0419ad3c5de3b8b65c0671",
+      "raw_response_sha256": "8b12a95f377671191985bfb76b2322b9ce8a1e1813b728356d51c428cb58f730",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/cache/permissions.py"
+      ],
+      "verifier_selected": [
+        "cms/cache/permissions.py"
+      ],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 168,
+      "completion_tokens": 8,
+      "total_tokens": 176,
+      "api_cost": 5.8e-05,
+      "latency_seconds": 1.047,
+      "recorded_at": "2026-09-16T22:07:26.953287+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-890451d3f92e-b3",
+      "case_id": "djangocms-rc-890451d3f92e",
+      "B": 3,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "bc4684f9de15c8b987253a6fc60752e638662aa364ac32df933e276e53598ad5",
+      "raw_response_sha256": "526e01ef62e6d89a9db648a4f2242daac2b91e64510a99ad4c94c1fe85b2da84",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/cache/permissions.py",
+        "cms/cache/__init__.py",
+        "cms/cache/page.py"
+      ],
+      "verifier_selected": [
+        "cms/cache/permissions.py",
+        "cms/cache/__init__.py",
+        "cms/cache/page.py"
+      ],
+      "true_missed_in_top": [
+        "cms/cache/page.py"
+      ],
+      "verifier_recovered": [
+        "cms/cache/page.py"
+      ],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 182,
+      "completion_tokens": 12,
+      "total_tokens": 194,
+      "api_cost": 6.7e-05,
+      "latency_seconds": 1.203,
+      "recorded_at": "2026-09-16T22:07:28.160374+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-890451d3f92e-b5",
+      "case_id": "djangocms-rc-890451d3f92e",
+      "B": 5,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "b585cfd4b79801db5e605d37595931d333086c3a5e4689947e17d474eaaef7ee",
+      "raw_response_sha256": "8a40cfa4ad05f8922846824430a2fb0ea2ef98f0fb6a5a6d0d03483e946e8086",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/cache/permissions.py",
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py",
+        "cms/utils/moderator.py"
+      ],
+      "verifier_selected": [
+        "cms/cache/permissions.py",
+        "cms/cache/__init__.py",
+        "cms/cache/page.py",
+        "cms/cache/placeholder.py"
+      ],
+      "true_missed_in_top": [
+        "cms/cache/page.py"
+      ],
+      "verifier_recovered": [
+        "cms/cache/page.py"
+      ],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 196,
+      "completion_tokens": 16,
+      "total_tokens": 212,
+      "api_cost": 7.5e-05,
+      "latency_seconds": 1.328,
+      "recorded_at": "2026-09-16T22:07:29.508764+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-7fbb344766d9-b1",
+      "case_id": "djangocms-rc-7fbb344766d9",
+      "B": 1,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "afc73ad10822d834921f6d22134fa8a345e2854542c0329e0150e2cd705d8ca9",
+      "raw_response_sha256": "2281d72c0507dbcaaf3b736573fbba8e87548cc4a0085c41e80a1f63cdce08ed",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/conf.py"
+      ],
+      "verifier_selected": [],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 191,
+      "completion_tokens": 8,
+      "total_tokens": 199,
+      "api_cost": 6.5e-05,
+      "latency_seconds": 1.172,
+      "recorded_at": "2026-09-16T22:07:30.681898+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-7fbb344766d9-b3",
+      "case_id": "djangocms-rc-7fbb344766d9",
+      "B": 3,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "3b39f96e50ed87a60366b9a182f2725fc2a01e643d746443aa87a3a5a23f82bd",
+      "raw_response_sha256": "59b2923c0447fd33e4578f43a4c2f4440678397ae45e7eff1944bb4969647ff4",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/conf.py",
+        "cms/__init__.py",
+        "cms/admin/forms.py"
+      ],
+      "verifier_selected": [],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 204,
+      "completion_tokens": 12,
+      "total_tokens": 216,
+      "api_cost": 7.3e-05,
+      "latency_seconds": 1.985,
+      "recorded_at": "2026-09-16T22:07:32.671096+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-7fbb344766d9-b5",
+      "case_id": "djangocms-rc-7fbb344766d9",
+      "B": 5,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "b26dda6fb25e0ef9c74f5cf202e68a8a63d98e9bab6f48fb264ee444b6003015",
+      "raw_response_sha256": "390e14aa5e8da5722a6c12b24b55491e5f85ab03c25d6b5ae1a6ef5ae78933c3",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/conf.py",
+        "cms/__init__.py",
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py",
+        "cms/admin/permissionadmin.py"
+      ],
+      "verifier_selected": [],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 219,
+      "completion_tokens": 16,
+      "total_tokens": 235,
+      "api_cost": 8.2e-05,
+      "latency_seconds": 5.843,
+      "recorded_at": "2026-09-16T22:07:38.510730+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-241d1cbe47a6-b1",
+      "case_id": "djangocms-rc-241d1cbe47a6",
+      "B": 1,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "58fc177d10f50b0ba045cba3524aefbe1f85b170b1a7ca58095eff4c6cb43e2e",
+      "raw_response_sha256": "934dacb1d2a9d6088994b6c0bbd6bf5cca9b0dfc74e29391f19be294f7f621be",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/compat/warnings.py"
+      ],
+      "verifier_selected": [],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 202,
+      "completion_tokens": 8,
+      "total_tokens": 210,
+      "api_cost": 6.9e-05,
+      "latency_seconds": 1.657,
+      "recorded_at": "2026-09-16T22:07:40.177315+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-241d1cbe47a6-b3",
+      "case_id": "djangocms-rc-241d1cbe47a6",
+      "B": 3,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "76cb9842ca6f4e001719164289d05a0eef351288d9c312ae8e2f223fa6155b68",
+      "raw_response_sha256": "bf1ed8dcfe3df0b778ec454453beba4466fae68852f6fd62d78b22625a3bd215",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/compat/warnings.py",
+        "cms/api.py",
+        "cms/utils/page_permissions.py"
+      ],
+      "verifier_selected": [],
+      "true_missed_in_top": [
+        "cms/api.py"
+      ],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 214,
+      "completion_tokens": 12,
+      "total_tokens": 226,
+      "api_cost": 7.6e-05,
+      "latency_seconds": 1.5,
+      "recorded_at": "2026-09-16T22:07:41.677328+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-241d1cbe47a6-b5",
+      "case_id": "djangocms-rc-241d1cbe47a6",
+      "B": 5,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "641faac53425fe563a43655e4e08582e1a32207d6d4c19ef7be40bf067e4f82a",
+      "raw_response_sha256": "f1fe6047604aa67eb2a283205c7568a2140f2f418db66aa2ec15444b104a5538",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/compat/warnings.py",
+        "cms/api.py",
+        "cms/utils/page_permissions.py",
+        "cms/middleware/page.py",
+        "cms/models/permissionmodels.py"
+      ],
+      "verifier_selected": [],
+      "true_missed_in_top": [
+        "cms/api.py"
+      ],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 229,
+      "completion_tokens": 16,
+      "total_tokens": 245,
+      "api_cost": 8.5e-05,
+      "latency_seconds": 0.984,
+      "recorded_at": "2026-09-16T22:07:42.662094+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-f509572a260c-b1",
+      "case_id": "djangocms-rc-f509572a260c",
+      "B": 1,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "df38b7c0fe2554093ec507e44f8db196e16fee51e2dc817dbdf883ef28d32521",
+      "raw_response_sha256": "8f3933a529dd13e1e323a6ba73113d2a39f80df5fd7096d7533b3f4d9d1bbf58",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/__init__.py"
+      ],
+      "verifier_selected": [],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 157,
+      "completion_tokens": 8,
+      "total_tokens": 165,
+      "api_cost": 5.5e-05,
+      "latency_seconds": 1.297,
+      "recorded_at": "2026-09-16T22:07:43.959706+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-f509572a260c-b3",
+      "case_id": "djangocms-rc-f509572a260c",
+      "B": 3,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "42bbb271b12dcac9bb8a152fcfd6a0504b7df4cd8e6b55c5588735240f8e2c84",
+      "raw_response_sha256": "6df34054020b7a60924d59762262c84606db9e347282cd4a49ae29eceb7129a3",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/__init__.py",
+        "cms/admin/__init__.py",
+        "cms/admin/change_list.py"
+      ],
+      "verifier_selected": [],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 172,
+      "completion_tokens": 12,
+      "total_tokens": 184,
+      "api_cost": 6.4e-05,
+      "latency_seconds": 1.234,
+      "recorded_at": "2026-09-16T22:07:45.200582+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-f509572a260c-b5",
+      "case_id": "djangocms-rc-f509572a260c",
+      "B": 5,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "a645fb367f2f425398cac910cc4c1166f8e874fea6b016de095e501f2bba7f68",
+      "raw_response_sha256": "8cb3711dbae76cd47804a457c96722aa5c2402aac00e997bf419698b7a70e7a6",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/__init__.py",
+        "cms/admin/__init__.py",
+        "cms/admin/change_list.py",
+        "cms/admin/dialog/__init__.py",
+        "cms/admin/dialog/forms.py"
+      ],
+      "verifier_selected": [],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 188,
+      "completion_tokens": 16,
+      "total_tokens": 204,
+      "api_cost": 7.2e-05,
+      "latency_seconds": 1.25,
+      "recorded_at": "2026-09-16T22:07:46.451939+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-9488d4017519-b1",
+      "case_id": "djangocms-rc-9488d4017519",
+      "B": 1,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "4f354bea63b00b47634b19e3e556bd477795e63438970d36d725ee4895d6b3f7",
+      "raw_response_sha256": "991e38113da56b62e7044b5cd795db0368605fbb839052da5edcac1313714b3d",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/page_resolver.py"
+      ],
+      "verifier_selected": [],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 181,
+      "completion_tokens": 8,
+      "total_tokens": 189,
+      "api_cost": 6.2e-05,
+      "latency_seconds": 0.906,
+      "recorded_at": "2026-09-16T22:07:47.366507+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-9488d4017519-b3",
+      "case_id": "djangocms-rc-9488d4017519",
+      "B": 3,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "d8c32c2a4e437ec1f17acfeb3dac675688b8d013242514227e07a7a0ec037a9c",
+      "raw_response_sha256": "b18366fb94f7d6fb9dac068d8cfebec6654d630e1ad959a799877241b7d7fb32",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/page_resolver.py",
+        "cms/utils/urlutils.py",
+        "cms/models/pluginmodel.py"
+      ],
+      "verifier_selected": [
+        "cms/utils/page_resolver.py",
+        "cms/utils/urlutils.py"
+      ],
+      "true_missed_in_top": [
+        "cms/utils/urlutils.py"
+      ],
+      "verifier_recovered": [
+        "cms/utils/urlutils.py"
+      ],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 195,
+      "completion_tokens": 12,
+      "total_tokens": 207,
+      "api_cost": 7.1e-05,
+      "latency_seconds": 1.328,
+      "recorded_at": "2026-09-16T22:07:48.703706+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-9488d4017519-b5",
+      "case_id": "djangocms-rc-9488d4017519",
+      "B": 5,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "af6ca023d4cc6125b33de80753f41f9b15f9a7eca1f698d161447b7dd1190e52",
+      "raw_response_sha256": "156fe7328215f36e216bf2933f23dd4fb084bb56deda1e33a0b3adc79c0e2216",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/page_resolver.py",
+        "cms/utils/urlutils.py",
+        "cms/models/pluginmodel.py",
+        "cms/__init__.py",
+        "cms/admin/forms.py"
+      ],
+      "verifier_selected": [
+        "cms/utils/page_resolver.py",
+        "cms/utils/urlutils.py",
+        "cms/admin/forms.py"
+      ],
+      "true_missed_in_top": [
+        "cms/utils/urlutils.py"
+      ],
+      "verifier_recovered": [
+        "cms/utils/urlutils.py"
+      ],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 208,
+      "completion_tokens": 16,
+      "total_tokens": 224,
+      "api_cost": 7.8e-05,
+      "latency_seconds": 1.422,
+      "recorded_at": "2026-09-16T22:07:50.120262+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-3981f92d5c6d-b1",
+      "case_id": "djangocms-rc-3981f92d5c6d",
+      "B": 1,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "ae96acb205b66e010c88a31fd8cb2a020e9dc6618c50029acd4bcaeda5a36bed",
+      "raw_response_sha256": "88ea2929bd1576171d12e3bc2a182484f299f124a5e81d1e4eaa89355ffae00c",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/plugins.py"
+      ],
+      "verifier_selected": [
+        "cms/utils/plugins.py"
+      ],
+      "true_missed_in_top": [
+        "cms/utils/plugins.py"
+      ],
+      "verifier_recovered": [
+        "cms/utils/plugins.py"
+      ],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 288,
+      "completion_tokens": 8,
+      "total_tokens": 296,
+      "api_cost": 9.4e-05,
+      "latency_seconds": 1.969,
+      "recorded_at": "2026-09-16T22:07:52.094092+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-3981f92d5c6d-b3",
+      "case_id": "djangocms-rc-3981f92d5c6d",
+      "B": 3,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "8493d2fb733dec065eab765315220fe630e05ef69a04abf24f9c9c0e208a3cc0",
+      "raw_response_sha256": "8f3791bced52fb3cb164dc41c0608c47365f4c5612830cef17c5fbddefbc7ab8",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/plugins.py",
+        "cms/utils/permissions.py",
+        "cms/utils/compat/response.py"
+      ],
+      "verifier_selected": [
+        "cms/utils/plugins.py",
+        "cms/utils/permissions.py"
+      ],
+      "true_missed_in_top": [
+        "cms/utils/plugins.py"
+      ],
+      "verifier_recovered": [
+        "cms/utils/plugins.py"
+      ],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 303,
+      "completion_tokens": 12,
+      "total_tokens": 315,
+      "api_cost": 0.000103,
+      "latency_seconds": 1.281,
+      "recorded_at": "2026-09-16T22:07:53.383993+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-3981f92d5c6d-b5",
+      "case_id": "djangocms-rc-3981f92d5c6d",
+      "B": 5,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "796d8b2edd25741426245dfc4b19dec519c6b70d022d001db328f7d68072e216",
+      "raw_response_sha256": "a9cd7ca1817ee42f3331f5f0b6240a5184bd10d87ea6cf7d275abd913e23cfa3",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/plugins.py",
+        "cms/utils/permissions.py",
+        "cms/utils/compat/response.py",
+        "cms/models/pagemodel.py",
+        "cms/cms_plugins.py"
+      ],
+      "verifier_selected": [
+        "cms/utils/plugins.py",
+        "cms/utils/permissions.py",
+        "cms/cms_plugins.py"
+      ],
+      "true_missed_in_top": [
+        "cms/utils/plugins.py"
+      ],
+      "verifier_recovered": [
+        "cms/utils/plugins.py"
+      ],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 317,
+      "completion_tokens": 16,
+      "total_tokens": 333,
+      "api_cost": 0.000111,
+      "latency_seconds": 1.032,
+      "recorded_at": "2026-09-16T22:07:54.424222+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-3a358b840d10-b1",
+      "case_id": "djangocms-rc-3a358b840d10",
+      "B": 1,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "4f3993b7349869480f1d28e321bd7e5a571260c571ae7247ba20cd45ebcaa56c",
+      "raw_response_sha256": "e6ae33e11cc12c80477c4ae04b3832f7b2fe3b413fff3f74897f2014471cd5ce",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/models/pluginmodel.py"
+      ],
+      "verifier_selected": [
+        "cms/models/pluginmodel.py"
+      ],
+      "true_missed_in_top": [
+        "cms/models/pluginmodel.py"
+      ],
+      "verifier_recovered": [
+        "cms/models/pluginmodel.py"
+      ],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 166,
+      "completion_tokens": 8,
+      "total_tokens": 174,
+      "api_cost": 5.8e-05,
+      "latency_seconds": 1.234,
+      "recorded_at": "2026-09-16T22:07:55.656019+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-3a358b840d10-b3",
+      "case_id": "djangocms-rc-3a358b840d10",
+      "B": 3,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "241a7e9e691c08510834f34e7d76ee3c17a1149681d2dd3470652cec42513046",
+      "raw_response_sha256": "047b3870fe32916aefa9bd87fbaa9193e64fd826e5292024173156036e8fa5d1",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/models/pluginmodel.py",
+        "cms/utils/check.py",
+        "cms/api.py"
+      ],
+      "verifier_selected": [
+        "cms/models/pluginmodel.py",
+        "cms/utils/check.py",
+        "cms/api.py"
+      ],
+      "true_missed_in_top": [
+        "cms/models/pluginmodel.py",
+        "cms/utils/check.py"
+      ],
+      "verifier_recovered": [
+        "cms/models/pluginmodel.py",
+        "cms/utils/check.py"
+      ],
+      "oracle_recovered_in_top": 2,
+      "prompt_tokens": 177,
+      "completion_tokens": 12,
+      "total_tokens": 189,
+      "api_cost": 6.5e-05,
+      "latency_seconds": 0.891,
+      "recorded_at": "2026-09-16T22:07:56.554585+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-3a358b840d10-b5",
+      "case_id": "djangocms-rc-3a358b840d10",
+      "B": 5,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "d212d739d606f8b04f0faa2f2a04d9131974b42223636db2ce1735cd10471546",
+      "raw_response_sha256": "755867bebc3410f2bf365c009466a9e64f999467505840935ab9f7f43cda406c",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/models/pluginmodel.py",
+        "cms/utils/check.py",
+        "cms/api.py",
+        "cms/__init__.py",
+        "cms/admin/forms.py"
+      ],
+      "verifier_selected": [
+        "cms/models/pluginmodel.py",
+        "cms/utils/check.py",
+        "cms/api.py",
+        "cms/admin/forms.py"
+      ],
+      "true_missed_in_top": [
+        "cms/models/pluginmodel.py",
+        "cms/utils/check.py"
+      ],
+      "verifier_recovered": [
+        "cms/models/pluginmodel.py",
+        "cms/utils/check.py"
+      ],
+      "oracle_recovered_in_top": 2,
+      "prompt_tokens": 190,
+      "completion_tokens": 16,
+      "total_tokens": 206,
+      "api_cost": 7.3e-05,
+      "latency_seconds": 1.313,
+      "recorded_at": "2026-09-16T22:07:57.882453+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-16e3bbecb7c9-b1",
+      "case_id": "djangocms-rc-16e3bbecb7c9",
+      "B": 1,
+      "role": "DEV_VALIDATION",
+      "prompt_sha256": "d8dd11b0ac092bec9795a0add06e9c21c62a54f72bebcd7db79adb52da5f5507",
+      "raw_response_sha256": "b47862243568c1fc8f075fe6d79564b5d27f834512efb4fa298dfa7d2587068a",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/plugin_base.py"
+      ],
+      "verifier_selected": [
+        "cms/plugin_base.py"
+      ],
+      "true_missed_in_top": [
+        "cms/plugin_base.py"
+      ],
+      "verifier_recovered": [
+        "cms/plugin_base.py"
+      ],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 174,
+      "completion_tokens": 8,
+      "total_tokens": 182,
+      "api_cost": 6e-05,
+      "latency_seconds": 1.36,
+      "recorded_at": "2026-09-16T22:07:59.258623+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-16e3bbecb7c9-b3",
+      "case_id": "djangocms-rc-16e3bbecb7c9",
+      "B": 3,
+      "role": "DEV_VALIDATION",
+      "prompt_sha256": "c4de5584630816a57d970de8616a1e683eb60d655218c27bcf714c4bfa82da96",
+      "raw_response_sha256": "d6e76d48b8cf1e96c9dbca990b79fdc02c9b9d8b3f4372dca8a05225eeee1116",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/plugin_base.py",
+        "cms/plugin_pool.py",
+        "cms/plugin_processors.py"
+      ],
+      "verifier_selected": [
+        "cms/plugin_base.py",
+        "cms/plugin_pool.py"
+      ],
+      "true_missed_in_top": [
+        "cms/plugin_base.py"
+      ],
+      "verifier_recovered": [
+        "cms/plugin_base.py"
+      ],
+      "oracle_recovered_in_top": 1,
+      "prompt_tokens": 186,
+      "completion_tokens": 12,
+      "total_tokens": 198,
+      "api_cost": 6.8e-05,
+      "latency_seconds": 1.172,
+      "recorded_at": "2026-09-16T22:08:00.437298+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-16e3bbecb7c9-b5",
+      "case_id": "djangocms-rc-16e3bbecb7c9",
+      "B": 5,
+      "role": "DEV_VALIDATION",
+      "prompt_sha256": "922e46b13f0ba75be25af284bda59d8d37a7dfcffc9aba5f36350b294db7b0e9",
+      "raw_response_sha256": "6cf91d93fbf212ff5d33c3b4b2a5e555b66bedd8b6c31622ad414ffe8e9af77d",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/plugin_base.py",
+        "cms/plugin_pool.py",
+        "cms/plugin_processors.py",
+        "cms/plugin_rendering.py",
+        "cms/models/pluginmodel.py"
+      ],
+      "verifier_selected": [
+        "cms/plugin_base.py",
+        "cms/plugin_pool.py",
+        "cms/plugin_rendering.py",
+        "cms/models/pluginmodel.py"
+      ],
+      "true_missed_in_top": [
+        "cms/plugin_base.py",
+        "cms/plugin_rendering.py"
+      ],
+      "verifier_recovered": [
+        "cms/plugin_base.py",
+        "cms/plugin_rendering.py"
+      ],
+      "oracle_recovered_in_top": 2,
+      "prompt_tokens": 200,
+      "completion_tokens": 16,
+      "total_tokens": 216,
+      "api_cost": 7.6e-05,
+      "latency_seconds": 1.266,
+      "recorded_at": "2026-09-16T22:08:01.710391+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-7bb471c8e1e4-b1",
+      "case_id": "djangocms-rc-7bb471c8e1e4",
+      "B": 1,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "8e6e46673b9f3afc6a9be33d997d4a84732810485cc73a7447dc2b851bcd9d66",
+      "raw_response_sha256": "8fdbd061e384df30fff38ca0b7189a2fd15c8d47a3cb01e00e5b6777ee3bf278",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/api.py"
+      ],
+      "verifier_selected": [
+        "cms/api.py"
+      ],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 254,
+      "completion_tokens": 8,
+      "total_tokens": 262,
+      "api_cost": 8.4e-05,
+      "latency_seconds": 1.203,
+      "recorded_at": "2026-09-16T22:08:02.918418+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-7bb471c8e1e4-b3",
+      "case_id": "djangocms-rc-7bb471c8e1e4",
+      "B": 3,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "14f37c13852c1d7e1677b45f8b1e981c3a31cb69e023077b6ff3a71184a521a4",
+      "raw_response_sha256": "fc0f733c6e1a656f683137636b1e06ab577c89301d966bfc61117a0a2021dfe8",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/api.py",
+        "cms/exceptions.py",
+        "cms/management/commands/cms.py"
+      ],
+      "verifier_selected": [
+        "cms/api.py",
+        "cms/management/commands/cms.py"
+      ],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 269,
+      "completion_tokens": 12,
+      "total_tokens": 281,
+      "api_cost": 9.3e-05,
+      "latency_seconds": 1.031,
+      "recorded_at": "2026-09-16T22:08:03.961304+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-7bb471c8e1e4-b5",
+      "case_id": "djangocms-rc-7bb471c8e1e4",
+      "B": 5,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "c10d5ddc5031f4b2ee6ae3f7c41bbde328909c1d9ba24041c604c4fbf57a6a41",
+      "raw_response_sha256": "3875e0502cef450fb4c948c23e57329fa6e4eb557b3abf1a41017466b1f39bab",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/api.py",
+        "cms/exceptions.py",
+        "cms/management/commands/cms.py",
+        "cms/management/commands/subcommands/uninstall.py",
+        "cms/forms/wizards.py"
+      ],
+      "verifier_selected": [
+        "cms/api.py"
+      ],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 288,
+      "completion_tokens": 16,
+      "total_tokens": 304,
+      "api_cost": 0.000102,
+      "latency_seconds": 1.281,
+      "recorded_at": "2026-09-16T22:08:05.258229+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-733c377ab37e-b1",
+      "case_id": "djangocms-rc-733c377ab37e",
+      "B": 1,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "cec6933f639d7d96ea30c1a7eba74303e0118f9d3069ff44f8aee6177465beed",
+      "raw_response_sha256": "1df22837526964fc2f46818da3d1c60a36f906d84f38566ac4c0fca7b157e5b3",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/plugins.py"
+      ],
+      "verifier_selected": [
+        "cms/utils/plugins.py"
+      ],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 204,
+      "completion_tokens": 8,
+      "total_tokens": 212,
+      "api_cost": 6.9e-05,
+      "latency_seconds": 0.969,
+      "recorded_at": "2026-09-16T22:08:06.230231+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-733c377ab37e-b3",
+      "case_id": "djangocms-rc-733c377ab37e",
+      "B": 3,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "e77fd2ec0f168249be411de444f3b259ad49670e2b7bc49689e6c9be70f0c6bc",
+      "raw_response_sha256": "5c31cf67f7436c692e229b0d5d1f089c64b6410e25834d103eb3d3ca1bb44f00",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/plugins.py",
+        "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+        "cms/api.py"
+      ],
+      "verifier_selected": [
+        "cms/utils/plugins.py",
+        "cms/api.py"
+      ],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 224,
+      "completion_tokens": 12,
+      "total_tokens": 236,
+      "api_cost": 7.9e-05,
+      "latency_seconds": 1.563,
+      "recorded_at": "2026-09-16T22:08:07.790616+00:00",
+      "terminal_status": "succeeded"
+    },
+    {
+      "run_id": "vp-djangocms-rc-733c377ab37e-b5",
+      "case_id": "djangocms-rc-733c377ab37e",
+      "B": 5,
+      "role": "DEV_TRAIN",
+      "prompt_sha256": "9ce6e002ff581bd2f40fd5469463d6012db1a57c2cb1f8ae29cf13c60e22cd41",
+      "raw_response_sha256": "8712c5f4a4c41e3a73ab8f298e9825d3f4948ea227f82d025af6b6d4ea902f60",
+      "schema_valid": true,
+      "failure": "",
+      "top_candidates": [
+        "cms/utils/plugins.py",
+        "cms/management/commands/subcommands/delete_orphaned_plugins.py",
+        "cms/api.py",
+        "cms/management/commands/subcommands/list.py",
+        "cms/plugin_rendering.py"
+      ],
+      "verifier_selected": [
+        "cms/utils/plugins.py"
+      ],
+      "true_missed_in_top": [],
+      "verifier_recovered": [],
+      "oracle_recovered_in_top": 0,
+      "prompt_tokens": 242,
+      "completion_tokens": 16,
+      "total_tokens": 258,
+      "api_cost": 8.9e-05,
+      "latency_seconds": 1.312,
+      "recorded_at": "2026-09-16T22:08:09.116702+00:00",
+      "terminal_status": "succeeded"
+    }
+  ]
+}
