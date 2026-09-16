@@ -3,7 +3,7 @@
 > **Current scientific state (2026-09-16):** the selection-stage benchmark is
 > **complete and audited**, the manuscript is **submitted** (IEEE-format V20
 > artifact; see `paper/v20-final/`), the **POST-ICCI zero-API closure is
-> COMPLETE** (2026-09-15), and the **FIRST POST-ICCI EXPERIMENTAL BLOCK is
+> COMPLETE** (2026-09-15), the **FIRST POST-ICCI EXPERIMENTAL BLOCK is
 > COMPLETE AND CLOSED (Protocol A — cheap non-LLM baselines v1, 2026-09-16;
 > merged to `main`; DEV tag `cheap-baselines-v1-dev-2026-09-16`)**: TRAIN 24 +
 > VALIDATION 6 only (HELD_OUT_TEST ten permanently excluded), ZERO API calls,
@@ -19,6 +19,13 @@
 > only); path-mention sensitivity diagnostic PASS (material ordering
 > unchanged). All "development evidence", not confirmatory (see
 > [`reports/CHEAP_BASELINES_V1_REPORT.md`](reports/CHEAP_BASELINES_V1_REPORT.md)).
+> **The PLUGGABLE RESEARCH HARNESS V1 + LIVING SYSTEMATIC REVIEW V1 milestone
+> is COMPLETE AND AUDITED (2026-09-16; T3 reusable experiment architecture;
+> ZERO API; six T3 gates + audit PASS; DEV tag
+> `research-harness-v1-dev-2026-09-16`; Protocol-A outputs reproduced
+> byte-for-byte through the compatibility layer; living review seeded with 12
+> competitor systems — see [`reports/RESEARCH_HARNESS_V1_REPORT.md`](reports/RESEARCH_HARNESS_V1_REPORT.md)
+> and [`docs/LIVING_SYSTEMATIC_REVIEW.md`](docs/LIVING_SYSTEMATIC_REVIEW.md)).**
 > Governance: scientific truth =
 > [`00_CURRENT_RESEARCH_STATE.md`](00_CURRENT_RESEARCH_STATE.md), execution
 > truth = [`PROGRESS.md`](PROGRESS.md), decisions (append-only) =

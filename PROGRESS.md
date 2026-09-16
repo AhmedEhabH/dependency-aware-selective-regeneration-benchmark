@@ -5,54 +5,45 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `research/cheap-nonllm-baselines-v1` (merged into `main`)
-**HEAD base:** `9b08b5bbfe36af36395686aa8aa8240694f060c4`
+**Branch:** `research/harness-v1-living-review-01` (to be merged into `main`)
+**HEAD base:** `0ba7a1a` (main, cheap-baselines block closed + DEV tag)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** FIRST POST-ICCI EXPERIMENTAL BLOCK — Protocol A: cheap non-LLM
-baselines (B0 Random@K, B1 BM25@K, B2 Path/identifier@K, B3 Graph@K, B4
-Hybrid@K) on TRAIN 24 + VALIDATION 6 only. T3 classification.
+**Task:** PLUGGABLE_RESEARCH_HARNESS_V1 + LIVING_SYSTEMATIC_REVIEW_V1 — T3
+reusable experiment architecture (NOT a new scientific experiment; ZERO new
+scientific API/model calls).
 
 ---
 
 ## Now executing
 
-- **BLOCK COMPLETE AND CLOSED** — Protocol-A finalization (interpretation
-  corrections, sensitivity diagnostic, report rewrite, milestone-format patch,
-  docs sync, merge to main, DEV tag, light export).
+- **IMPLEMENTATION + VALIDATION COMPLETE.** Harness package
+  (`src/benchmark/harness/`) with all required seams; living systematic review
+  artifacts (`docs/LIVING_SYSTEMATIC_REVIEW.md`,
+  `research/literature/{review_matrix,search_log}.csv`, `idea_ledger.md`);
+  six T3 gates + interface/leakage/determinism/budget/config-reproducibility/
+  isolation tests PASS (44 new harness tests); full Protocol-A equivalence
+  run (30 cases × 5 methods × 4 K = 600 rows) **byte-identical** to frozen
+  evidence; full suite 3270 passed / 33 skipped / 2 pre-existing environmental
+  failures (missing pinned djangocms repo checkout; identical on clean base);
+  audit PASS. Reports:
+  `reports/RESEARCH_HARNESS_V1_REPORT.md`, `_AUDIT.md`,
+  `reports/research_harness_v1_gates.json`.
 
 ## Last completed task
 
-- Protocol A implemented, tested (32 unit/integration/leakage tests PASS +
-  5 new sensitivity tests), all six zero-API pre-benchmark gates + independent
-  audit PASS (now including the path-mention sensitivity audit assertions),
-  real TRAIN/VALIDATION run complete (`research/cheap-baselines-v1/`).
-- **Finalization:** over-strong BM25-vs-LLM claim corrected to the safe wording
-  (BM25 = meaningful zero-LLM localization signal on development data; LLM
-  comparison untested under a shared fresh confirmatory protocol); K presented
-  as an operating-point curve (VALIDATION primary table: BM25@3 F1 0.279
-  precision point, BM25@10 F1 0.306 recall point), not a final config;
-  path-mention sensitivity diagnostic (3 TRAIN cases) computed + persisted +
-  tested (material ordering unchanged; frozen dataset untouched); graph/hybrid/
-  efficiency interpretations bounded; `reports/CHEAP_BASELINES_V1_REPORT.md`
-  rewritten A–T; `docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md` §9.2 detailed
-  closure-format exception added.
-- State docs synchronized (00_CURRENT_RESEARCH_STATE, PROGRESS, DECISIONS P10
-  superseding P9, SYSTEM_STATE, TODO, MSc roadmap).
-- Commit + push research branch; merge into `main`; rerun tests + audit after
-  merge; push `main`; verify `main == origin/main`; tag
-  `cheap-baselines-v1-dev-2026-09-16` (DEV evidence only) created + pushed;
-  light export recreated after merge/tag.
+- T3 harness + living review milestone complete and audited (see above).
+- Next: merge to `main`; post-merge verification; DEV tag only if fully
+  reproducible; light export; STOP.
 
 ## Immediate next step
 
-- **STOP.** Next scientific step chosen after Ahmed reviews the closure: the
-  recommended next step is **design + freeze the omission-risk detection
-  protocol** on TRAIN/VALIDATION (fixing the BM25 operating point by a primary
-  selection objective), then bounded/selective graph verification, then a
-  FRESH confirmatory LLM-vs-BM25 comparison (Saleor or new non-exposed split).
-  Do NOT auto-start Saleor / risk-detector / selective escalation / new LLM
-  calls.
+- Merge `research/harness-v1-living-review-01` → `main`, re-run tests + audit
+  post-merge, push `main`, verify `main == origin/main`, create DEV tag
+  `research-harness-v1-dev-2026-09-16` (audited DEVELOPMENT/architecture
+  evidence; NOT a stable tag move), recreate light export.
 
 ## Blockers
 
-- None.
+- None (2 full-suite failures are pre-existing environmental: pinned
+  `benchmark_data/repositories/djangocms` checkout absent; confirmed identical
+  on clean base).

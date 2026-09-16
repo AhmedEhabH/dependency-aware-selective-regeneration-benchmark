@@ -1,0 +1,11 @@
+search_id,date,query,target,results_notes,screened_in,status
+S001,2026-09-16,"repository-level change impact analysis","RIPPLE / change-propagation impact analysis","Identify the canonical RIPPLE change-impact paper + venue.","repository-level change propagation; graph-based impact selection","OPEN - verify primary source"
+S002,2026-09-16,"LLM repository memory code generation","RepoCoder / Repository Memory / RepoAgent","Retrieve and classify memory-conditioned generation papers (RepoCoder ACL2024, RepoAgent).","RepoCoder; RepoAgent; repository memory","OPEN - verify primary source"
+S003,2026-09-16,"adaptive top-k retrieval","adaptive-k retrieval IR","Collect adaptive retrieval-depth works (cross-domain).","adaptive retrieval; adaptive top-k; FLARE","OPEN - verify primary source"
+S004,2026-09-16,"graph-guided bug localization agents","LocAgent GraphLocator","LocAgent upstream pinned (we have direct evidence); find graph-localization comparators.","LocAgent (direct evidence); graph-based localization","VERIFIED - LocAgent direct; comparators OPEN"
+S005,2026-09-16,"repo graph construction for LLM","RepoGraph","Verify RepoGraph ICSE 2024 construction + retrieval evidence.","RepoGraph (graph construction)","OPEN - verify primary source"
+S006,2026-09-16,"agentless software engineering","Agentless SWE-bench","Verify Agentless localization-then-repair protocol + resolve rates.","Agentless (localization-first)","OPEN - verify primary source"
+S007,2026-09-16,"repository-level code planning","CodePlan","Verify CodePlan edit-planning protocol (FSE 2024) + numbers.","CodePlan (plan-then-edit)","OPEN - verify primary source"
+S008,2026-09-16,"exploit-based program repair","AutoCodeRover","Verify AutoCodeRover AST-search + repair loop + SWE-bench numbers.","AutoCodeRover (search+repair)","OPEN - verify primary source"
+S009,2026-09-16,"zero-shot repository QA repo map","ZeroRepO / RPG","Verify ZeroRepO repo-map protocol + repo QA numbers.","ZeroRepO (repo map)","OPEN - verify primary source"
+S010,2026-09-16,"adaptive RAG agents","AB-RAG / agentic RAG","Disambiguate AB-RAG abbreviation; collect adaptive RAG operating-point evidence.","adaptive RAG; agentic RAG","OPEN - verify primary source"

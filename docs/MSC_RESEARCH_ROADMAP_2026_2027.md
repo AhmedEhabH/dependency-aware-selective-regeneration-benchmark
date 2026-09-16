@@ -33,6 +33,17 @@ Status legend:
 > in the cheap-non-LLM-baselines block; each requires its own freeze conditions
 > before its first scientific result.
 
+> **Reusable experiment architecture (2026-09-16, T3).** The
+> **PLUGGABLE_RESEARCH_HARNESS_V1** (`src/benchmark/harness/`) + **LIVING
+> SYSTEMATIC REVIEW V1** (`docs/LIVING_SYSTEMATIC_REVIEW.md`,
+> `research/literature/`) are COMPLETE / AUDITED (ZERO API). The harness
+> generalizes the research machinery through seams (DatasetAdapter,
+> SnapshotProvider, Ranker, Planner, ModelBackend, RiskScorer/Verifier
+> interface-only, BudgetPolicy, common Evaluator, versioned ExperimentSpec)
+> and reproduces the frozen Protocol-A outputs byte-for-byte. This feeds
+> Pillar 8 (omission-risk) as the execution substrate for the next scientific
+> step **OMISSION_RISK_FEATURE_STUDY_V1 (TRAIN/VALIDATION only — NOT STARTED)**.
+
 ---
 
 ## POST-ICCI MSc PROPOSAL FOCUS (2026-09-15; ZERO API; DRAFT ONLY)
@@ -503,3 +514,4 @@ must run on a fresh shared confirmatory split.
 | M3 — Graph ablation C0/C1/C2 (hints + gated disclosure) | **COMPLETE / AUDITED** (2026-09-13; POST-HOC EXPLORATORY DEVELOPMENT-SET; hints MIXED, gated NOT PROMISING as implemented) |
 | Graph-Gated Disclosure | **EXECUTED / NOT PROMISING as implemented** |
 | Protocol A — Cheap non-LLM baselines v1 | **COMPLETE / AUDITED** (2026-09-16; DEVELOPMENT evidence; DEV tag `cheap-baselines-v1-dev-2026-09-16`; BM25 strongest cheap lexical; K = operating-point curve; no LLM-vs-BM25 claim) |
+| Pluggable Research Harness V1 + Living Systematic Review V1 | **COMPLETE / AUDITED** (2026-09-16; T3 reusable experiment architecture; ZERO API; DEV tag `research-harness-v1-dev-2026-09-16`; Protocol-A outputs reproduced byte-for-byte) |
