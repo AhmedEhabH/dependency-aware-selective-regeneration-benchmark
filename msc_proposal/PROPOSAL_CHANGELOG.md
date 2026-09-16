@@ -55,3 +55,20 @@
   arXiv corrected to 2503.09089; RepoGraph placeholder removed.
 - Compile: 7 pages, clean. PDF SHA-256: 61023f425e317b490a1b25eef19df1890579517974f328b13b149750d7433630.
 - Audit: PROPOSAL_V1_2_AUDIT.md.
+
+## V1.3 (2026-09-17)
+
+- Central identity sentence added.
+- CI-crossing-zero parity wording removed.
+- B-curve (B in {0,1,3,5,10}) is primary; B=5 is a reference point.
+- RIPPLE / Change-Patterns Mapping / ArtifactSync contrasts added.
+- Graph/history/selective explicitly not novel alone.
+- Title preserved.
+- Scope contract (CORE vs CONDITIONAL/FUTURE) added.
+- Future Work adaptive/cost-sensitive verification paragraph added (rho =
+  sensitivity, not monetary truth; not yet a contribution).
+- Route B V2 budget curve + verifier pilot incorporated into preliminary
+  evidence.
+- Compile: 7 pages, clean. PDF SHA-256:
+  db2e46f3e028b380bad68fce09356a93f4c7952ba7619fdff369481b18585ec.
+- Audit: PROPOSAL_V1_3_AUDIT.md.

@@ -1,0 +1,418 @@
+% ---------------------------------------------------------------------------
+% MSC PROPOSAL V1.3 — Cost-Aware Repository Change Localization with Sparse
+% Impact Planning and Bounded Verification
+%
+% Historical version (V1.3). V1 and V1.2 are preserved immutably.
+% V1.3 integrates verified deep-literature conclusions, the Route B V2 budget
+% curve, the analytic-Random control, and the verifier pilot, conservatively.
+% ---------------------------------------------------------------------------
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\emergencystretch=1.5em
+
+\title{\textbf{Cost-Aware Repository Change Localization with Sparse Impact\\[2pt]
+Planning and Bounded Verification}\\[6pt]
+\large MSc Research Proposal (V1.3, supervisor-ready / print-candidate)}
+\author{Ahmed Ehab}
+\date{2026-09-17}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Large language models (LLMs) that edit a software repository must first decide
+which files a requested change affects. This decision is costly: an explicit
+file-by-file impact policy over a repository-scale candidate universe spends
+hundreds of serialized records per call, and a second-stage reasoner that
+revisits the scope can multiply inference cost by orders of magnitude.
+
+\emph{Central identity of the thesis:}
+
+\begin{quote}
+This thesis studies whether a cheap sparse file-impact policy can reduce
+repository-wide localization effort while a bounded second look recovers
+important files the first pass chose not to change.
+\end{quote}
+
+We investigate a representation that is cheap by construction ---
+\emph{preserve-by-omission} sparse impact plans --- and evaluate it with cheap
+lexical/static baselines and an explicit \emph{bounded} second-stage
+omission-recovery mechanism, all under matched inference budgets. Preliminary
+development evidence shows a large serialization-cost reduction for the sparse
+representation, a meaningful zero-LLM lexical signal, and --- for the first
+time at candidate level --- a robust recovery signal: a frozen Classical-CIA
+ranker recovers Sparse-omitted missed files above the analytic-Random baseline
+across the whole budget curve, with task-level bootstrap intervals excluding
+zero. Task-level omission risk is not reliably predictable on current
+development evidence, so the thesis does not depend on a task-level risk scorer.
+\end{abstract}
+
+% ---------------------------------------------------------------------------
+\section{Background, motivation, and problem}
+\label{sec:background}
+
+Repository-level coding agents and impact planners must select affected files
+before editing. Two problems motivate the thesis. First, \emph{impact
+inference}: did the model identify the right files? Second,
+\emph{impact-policy representation}: can a complete file-action policy be
+expressed without spending output budget on hundreds of repeated
+\emph{preserve} decisions? Our controlled study shows that an explicit full
+policy at a 16K completion cap serializes on average 144 decision records per
+candidate universe, while a sparse policy serializes on average 4.9 records (a
+$\sim$96.6\% reduction), with large associated reductions in completion tokens
+and cost.
+
+Second-stage reasoning is expensive: a graph-guided agent evaluated under a
+shared protocol consumed on the order of a million tokens per task on the same
+held-out tasks where our sparse first pass stays below a few thousand tokens.
+If a cheap first pass already localizes the bulk of affected files, the
+question is whether a \emph{bounded} second look can recover missed files
+without paying the full always-on cost.
+
+Given a repository revision $P$ (parent commit), a change request $q$, and a
+candidate universe $U(P)$ visible at $P$, a localization system produces an
+affected-file set $\hat{S}(P,q)$; the hidden observed change set $S^*(P)$ is
+used for evaluation only. The observed historical diff is an \emph{observed
+change-set proxy}, never semantic impact gold (Section~\ref{sec:dataset}).
+
+% ---------------------------------------------------------------------------
+\section{Central thesis hypothesis and gap}
+\label{sec:hypothesis}
+
+\emph{Hypothesis.} A sparse/cheap first-pass localization policy followed by a
+bounded omission-recovery mechanism can dominate both cheap-localization-only
+and always-on expensive reasoning on the correctness--cost Pareto frontier, for
+the repositories and protocols we evaluate.
+
+Everything else supports this story:
+\begin{itemize}
+  \item \emph{Preserve-by-Omission} = representation / first-pass contribution;
+  \item \emph{BM25 / classical static change-impact analysis} = cheap baselines;
+  \item \emph{graph-guided agent} = expensive system-level context;
+  \item \emph{task-level omission-risk scorer} = investigated and currently
+        rejected on development evidence;
+  \item \emph{candidate-level bounded verification} = primary next mechanism;
+  \item \emph{second and third repositories} = generalization.
+\end{itemize}
+
+Task-level RiskScorer success is \emph{not} a thesis requirement. Existing work
+covers several individual components; this thesis evaluates \emph{their
+combination} as a sparse first pass plus bounded omission recovery under
+matched budgets (Section~\ref{sec:related}).
+
+% ---------------------------------------------------------------------------
+\section{Research questions and expected contributions}
+\label{sec:rq}
+
+\begin{description}
+  \item[RQ1.] How does sparse explicit impact-policy representation affect
+  inference/output cost and file-selection fidelity?
+  \item[RQ2.] How accurately can cheap lexical/static methods localize impacted
+  files relative to LLM planners under shared protocols?
+  \item[RQ3.] Can bounded second-stage verification recover missed impacted
+  files more efficiently than always-on or random matched-budget verification?
+  \item[RQ4.] How do these correctness--cost trade-offs transfer across
+  repositories and ecosystems?
+\end{description}
+
+If task-level risk modeling remains unsupported, RQ3 is answered by the
+candidate-level mechanism. \emph{Expected contributions:}
+(1) sparse explicit impact-plan representation with controlled evidence;
+(2) a reproducible real-commit impact-localization dataset and protocol;
+(3) fair cheap/classical/LLM/agent comparison under common file-level metrics
+and explicit budgets;
+(4) a bounded/selective-compute verification protocol (candidate-level by
+default);
+(5) cross-repository correctness--cost evidence;
+(6) reproducibility artifacts and leakage-control methodology.
+
+No positive algorithmic result is promised.
+
+% ---------------------------------------------------------------------------
+\section{Positioning against related work}
+\label{sec:related}
+
+Existing work covers several individual components. This thesis evaluates their
+combination. Verified related lines (primary sources, 2026-09-16/17):
+
+\begin{itemize}
+  \item \emph{Classical change-impact / ripple effect (RIPPLE line).} RIPPLE =
+  a known seed $\rightarrow$ recall expansion $\rightarrow$ precision
+  refinement. This thesis differs: an explicit repository-wide sparse policy
+  $\rightarrow$ a rejected residual set $\rightarrow$ bounded reconsideration
+  of rejected candidates.
+  \item \emph{Change-Patterns Mapping} (TSE 2022): boosts/reranks the initial
+  impact set from historical patterns. This thesis allocates \emph{new
+  inspection to the excluded residual set} rather than reranking the selected
+  set.
+  \item \emph{ArtifactSync}: a demo-level mechanistic analogue (uncertainty-
+  driven deeper context) but a different post-commit synchronization task, not
+  file-impact localization.
+  \item \emph{Modern transform + program-dependence-graph impact analysis}
+  (Yan et al.\ 2026): graph+LLM impact analysis is active; our graph is one
+  optional verifier.
+  \item \emph{Selective-compute / efficiency+verification priors} (Repoformer,
+  FastCoder): selective retrieval / efficient verification at repository level
+  for code-completion/generation tasks, guarding generic ``selective escalation
+  is novel'' claims.
+  \item \emph{Graph-guided issue localization} (LocAgent, GraphLocator,
+  LLM-driven iterative code-graph search): expensive graph-guided competitors.
+\end{itemize}
+
+Graph, history, and selective computation are \emph{not} novelty claims by
+themselves. The comparison matrix (Section~\ref{sec:design}) records whether
+each line has an explicit file policy, sparse omission representation, cheap
+first pass, omission recovery, hard/matched budget, real-commit evaluation, and
+cross-repository evidence. Where novelty is only defensible once experiments
+support it, it is marked \emph{candidate novelty --- not yet claimed}.
+
+% ---------------------------------------------------------------------------
+\section{Proposed two-stage architecture}
+\label{sec:architecture}
+
+\begin{enumerate}
+  \item \textbf{Sparse/cheap first-pass impact policy}: explicit file-level
+        policy with preserve-by-omission serialization.
+  \item \textbf{Candidate-level bounded verification} (primary): rank the
+        first-pass omitted candidates with independent structural / retrieval /
+        history evidence, and verify only those under a hard per-task budget
+        $B$. Compare with always-verify and random matched-budget verification.
+\end{enumerate}
+
+\begin{center}
+\begin{tabular}{@{}c@{}}
+\hline
+Change request \\
+$\downarrow$ \\
+Sparse / cheap first pass \\
+$\downarrow$ \\
+Omitted candidates \\
+$\downarrow$ \\
+Suspicion / ranking mechanism \\
+$\downarrow$ \\
+Bounded verification (budget $B$) \\
+$\downarrow$ \\
+Final affected-file set \\
+\hline
+\end{tabular}
+\end{center}
+
+% ---------------------------------------------------------------------------
+\section{Dataset construction, labels, and leakage controls}
+\label{sec:dataset}
+
+\begin{itemize}
+  \item \textbf{Real history, parent-only inputs.} Inference uses the parent
+        commit $P$; the target $T$ is hidden. Live HEAD is never used.
+  \item \textbf{Eligibility and exclusions.} Single-parent commits with a
+        meaningful intent, touching only production source files; tests,
+        configurations, docs, migrations, and generated files are excluded;
+        intent-path leakage is a hard exclusion.
+  \item \textbf{Deduplication.} Exact-proxy-set / shared-reference / suspected-
+        related changes are removed with frozen deterministic rules.
+  \item \textbf{Observed change-set proxy.} $P\!\to\!T$ changed production
+        files are an \emph{observed} proxy, never semantic impact gold.
+        Localization claims are scoped to historical-file recovery unless
+        semantic adjudication supports more.
+  \item \textbf{Splits.} Metadata-only, deterministic split frozen before any
+        model result. For djangoCMS V2-LARGE: development, an untouched
+        internal test, and a reserve. The v1 40 are LEGACY-EXPOSED and never
+        reused as untouched confirmation.
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+\section{Experimental design, baselines, budgets, metrics, statistics}
+\label{sec:design}
+
+\subsection{Budget curve, not a single point}
+The primary scientific object is the \emph{budget curve} $B \in \{0,1,3,5,10\}$;
+$B{=}0$ is Sparse alone. $B{=}5$ is a convenient reference operating point, not
+a scientifically privileged single claim. We also report the normalized
+sensitivity $B / |\text{omitted set}|$ as a secondary view.
+
+\subsection{Analytic Random control}
+For ranking-only experiments the Random control is the analytic hypergeometric
+expectation: for a task with $N_t$ omitted candidates, $M_t$ Sparse-observed
+FNs, and budget $B$, $\mathbb{E}[X_t] = B \cdot M_t / N_t$ (with $B$ clipped to
+$N_t$). The comparison is per-task observed recovery vs this analytic
+expectation, aggregated with task-level bootstrap intervals. Random repetitions
+are never independent tasks.
+
+\subsection{Primary endpoint}
+\emph{False-Negative Recovery Rate / Omission Recovery Rate} @ $B$: per task,
+recovered Sparse-observed FNs within $B$ / all Sparse-observed FNs. Secondary:
+absolute recall gain, FNR reduction, fraction of Oracle@$B$ gap closed,
+candidates inspected per recovered FN, precision/F1 (safety metrics), runtime,
+index/build cost.
+
+\subsection{Anchors (per B)}
+Sparse/$B{=}0$; Analytic Random; BM25; Path-token; Graph/static; Classical-CIA;
+history/co-change (where parent-visible history is available); one fixed simple
+hybrid (0.5 BM25 + 0.5 graph neighbor); Oracle (ranking headroom); InspectAll
+(exhaustive). \emph{Oracle@B $\neq$ InspectAll}: Oracle is ranking headroom;
+InspectAll is exhaustive reconsideration.
+
+\subsection{Experimental Design at a Glance}
+\begin{table}[h]
+\centering
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}p{1.5cm}p{2.4cm}p{1.1cm}p{0.9cm}p{1.8cm}p{0.9cm}p{0.7cm}p{1.0cm}p{2.3cm}p{1.1cm}@{}}
+\toprule
+Study & Purpose & Repo & Split & Methods & Unit & Reps & Budget & Metrics & Status \\
+\midrule
+Representation & sparse-vs-full cost & djangoCMS curated & controlled & Full vs Sparse & task & 3 & cap 16K & tokens, records, cost, P/R/F1 & done \\
+Real-commit & selection fidelity & djangoCMS & held-out & Full vs Sparse & task & 3 & cap 16K & P/R/F1/FNR & done \\
+Graph agent & expensive context & djangoCMS & held-out & agent & task & 1 & per-call & P/R/F1, cost & done \\
+Cheap baselines & zero-LLM signal & djangoCMS & dev & BM25/graph & task & -- & cheap & P/R/F1 & done \\
+Task risk & risk predictability & djangoCMS & dev & features & task & 3 & -- & AUROC/AUPRC & done (neg.) \\
+Candidate verify & omission recovery & djangoCMS & dev & rankers + verifier & candidate & -- & $B\in\{0..10\}$ & FN-recovery & dev + pilot \\
+Cross-repo & transfer & Saleor & dev & frozen method & task & -- & frozen & per-repo & partial build \\
+\bottomrule
+\end{tabular}}
+\caption{Experimental Design at a Glance (internal IDs appear in traceability notes only).}
+\end{table}
+
+\subsection{Statistics and multiple-comparison discipline}
+Task is the independent unit; candidate rows are nested. One primary endpoint
+(recovery@$B$); one primary arm-vs-Random comparison; secondary endpoints
+labeled; task-level paired bootstrap; no post-hoc feature-family winner;
+exploratory analyses reported as exploratory.
+
+% ---------------------------------------------------------------------------
+\section{Preliminary evidence}
+\label{sec:prelim}
+
+All numbers are from audited studies in this repository; they are development
+or controlled evidence with their bounds.
+
+\begin{itemize}
+  \item \textbf{Representation effect (controlled).} At a 16K completion cap,
+        Sparse serialized on average \textbf{4.9} decision records vs
+        \textbf{144.0} for Full ($\sim$\textbf{96.6\%} reduction), with large
+        completion-token and cost reductions. No universal semantic-superiority
+        claim.
+  \item \textbf{Historical real-commit study.} 60 cells over 10 held-out real
+        djangoCMS commits: selection is difficult, FNR is high, and there is no
+        Full-vs-Sparse superiority claim (paired deltas' intervals cross zero).
+        Sparse is substantially cheaper.
+  \item \textbf{Graph-guided agent comparison.} System-level shared-protocol
+        context: 402 calls / 32.8M tokens / $\sim$\$9.93 estimated on 10 tasks,
+        with 5/10 non-usable outcomes (2 timeout + 1 context-length + 2
+        completed-but-empty). Not a reproduction of the published fine-tuned
+        result.
+  \item \textbf{Cheap/static development baselines.} BM25 provides a meaningful
+        zero-LLM signal; graph-ranked seeds are comparable; a classical CIA
+        (dependency propagation) baseline is implemented on 150 development
+        cases.
+  \item \textbf{Task-level omission-risk investigation.} Live Sparse
+        development inference (90 cells; then 431 calls with a fail-closed stop
+        at the 2.5M-token ceiling). A task-level RiskScorer is not justified:
+        the v1 signal does not replicate within the new development cohort and
+        the pooled signal is a candidate-universe-size artifact.
+  \item \textbf{Candidate-level bounded verification (Route B, development).}
+        A frozen Classical-CIA ranker recovers Sparse-omitted missed files above
+        the analytic-Random baseline across the whole budget curve $B \in
+        \{1,3,5,10\}$, with task-level bootstrap intervals excluding zero at
+        every point (e.g.\ at $B{=}5$: pooled macro recovery 0.163 vs random
+        0.029, interval $[+0.09,+0.18]$), 5/5 development folds positive, and no
+        omitted/universe-size artifact. A small verifier pilot (30 calls,
+        $\sim$\$0.002) found the frozen ranker places the recoverable missed
+        files within the top-$B$ (Oracle-in-top-$B$ $\approx$ 1.0) and the
+        verifier recovers $\sim$0.86--1.0 of them, so the dominant loss is
+        first-pass omission.
+  \item \textbf{Classical/history evidence.} A parent-visible history/co-change
+        arm also beats analytic Random where history is available; Classical-CIA
+        remains the frozen primary.
+\end{itemize}
+
+These results motivate a larger development dataset, protection of an untouched
+internal test, and the bounded-verification design; they are not rewritten as a
+success.
+
+% ---------------------------------------------------------------------------
+\section{Cross-repository generalization}
+\label{sec:gen}
+
+Stage 1 djangoCMS V2-LARGE (within-repo large evidence + untouched internal
+test) $\to$ Stage 2 Saleor (different real system, same Python/Django stack)
+$\to$ Stage 3 NestJS (cross-language / cross-framework evidence). Each stage
+states its claim boundary. NestJS is preferred but not forced; a predeclared
+eligible-pool yield criterion and a backup protocol are frozen.
+
+\subsection{Scope contract}
+\emph{CORE MSc:} Preserve-by-Omission representation evidence; fixed-budget
+Route-B development + a frozen confirmatory test; semantic-proxy audit;
+djangoCMS; Saleor as secondary replication if completed.
+\emph{Conditional / Future:} adaptive $B_t$; learned budget allocation; NestJS
+cross-language; end-to-end regeneration correctness; persistent memory; richer
+causal-graph verifier.
+
+% ---------------------------------------------------------------------------
+\section{Threats, contingency, and timeline}
+\label{sec:threats}
+
+\subsection{Threats to validity}
+Internal: the observed proxy is not semantic gold; leakage control is mandatory;
+no hidden-test peeking. External: $n$ and single-repository generalization; V2
+and cross-repository evidence are the mitigation, with per-repository primary
+metrics. Statistical: low negatives, multiple comparisons, wide random bands ---
+addressed by pre-registration, class-balance gates, analytic-Random controls,
+and bootstrap uncertainty. Representation: LLM serialization cost spans
+providers; both recorded and frozen-pricing cost are reported.
+
+\subsection{Semantic-proxy validity}
+Because the historical diff is only a proxy, we prepare a stratified
+development-only sample with evidence packets for later human adjudication
+(protocol: \texttt{docs/SEMANTIC\_PROXY\_AUDIT\_PROTOCOL.md}). Machine-assisted
+notes are never semantic gold.
+
+\subsection{Contingency}
+If candidate-level bounded verification does not beat analytic Random at the
+frozen budget, the negative result is frozen and reported; no complex verifier
+is invented.
+
+\subsection{Future work: adaptive / cost-sensitive verification allocation}
+Inspired by the Shichao Zhang adaptive-resource line (Learning-$k$, one-step
+KNN, cost-sensitive KNN, adaptive-neighborhood) and selective-prediction /
+learning-to-defer literature, we sketch a future adaptive budget: $B_t^* =
+\arg\min_B [\,C_{\text{verify}}(B) + \rho\,\mathbb{E}[\text{remaining omission
+loss}\mid \text{evidence}, B]\,]$, with $\rho$ a sensitivity, not a claimed
+monetary truth. This is NOT yet a contribution and is NOT implemented before
+fixed-budget Route B is established.
+
+\subsection{Timeline}
+\begin{tabular}{ll}
+\toprule
+\textbf{Window} & \textbf{Activity} \\
+\midrule
+2026-09/10 & Proposal V1.3; V2-LARGE freeze + build \\
+2026-10 & V2 development inference; cheap + classical baselines; candidate-level verification \\
+2026-11 & Bounded-verification experiments; Saleor protocol + inference \\
+2026-12 & NestJS cross-ecosystem check; Pareto analysis \\
+2027-01/02 & Analysis, replication, threat revisions \\
+2027-03/04 & Write-up; internal-test confirmation \\
+2027-05 & Submission-ready thesis \\
+\bottomrule
+\end{tabular}
+
+% ---------------------------------------------------------------------------
+\section{References}
+\label{sec:refs}
+
+The authoritative bibliography is \texttt{references.bib} (V1.3). References
+were verified against primary sources (arXiv API / Crossref) on 2026-09-16/17.
+Preprints are marked. No fabricated or placeholder citations remain.
+
+\end{document}
