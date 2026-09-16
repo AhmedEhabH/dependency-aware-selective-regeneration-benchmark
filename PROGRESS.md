@@ -18,30 +18,28 @@ audit, print-ready MSc Proposal V1, seminar outline, light export.
 
 ## Now executing
 
-- **Milestones A–F COMPLETE (2026-09-16).** A: README transparency closure
-  (SVG fallbacks + v1 funnel + 30-task table + terminology). B: V2 protocol +
-  sampling-frame audit (6000→916→334→329→40; 289 untouched beyond exposed v1)
-  + sample-size analysis (N=120–150 recommended; N chosen from frame) + V2
-  split proposal (seed 20260916, hashes) + 150 V2 dev case bundles built. C:
-  V2 Sparse development-inference EXECUTED (431/450 cells, fail-closed budget
-  stop at 2.5M tokens / $0.873; 144 V2 tasks; merged 174 tasks 155 pos / 19 neg)
-  → C4 gates FAIL (no signal replication; universe-size artifact) → Route B
-  pivot, no RiskScorer. D: classical/static CIA baseline V1 on 150 V2 dev cases.
-  E/F: Saleor + NestJS suitability audits + protocols (SUITABLE-WITH-DEVIATIONS).
-- **Next: Milestones H (living review / novelty audit), J (seminar outline),
-  then I (print-ready MSc Proposal V1 — deadline-critical), consolidated tests/
-  audits/git/export.**
+- **ALL ACCELERATION MILESTONES COMPLETE (2026-09-16).** A: README transparency
+  closure. B: V2 protocol + sampling-frame audit + sample-size analysis +
+  split proposal + 150 V2 dev bundles. C: V2 Sparse development-inference
+  EXECUTED (431/450 cells, fail-closed token-ceiling stop; 144 V2 tasks;
+  merged 174 tasks 155 pos / 19 neg) → C4 gates FAIL → Route B pivot. D:
+  classical/static CIA baseline V1 (150 V2 dev cases). E/F: Saleor + NestJS
+  suitability + protocols. H: living-review novelty audit. I: print-ready MSc
+  Proposal V1 (msc_proposal/, 6 pages). J: seminar outline. P19–P25 decisions
+  recorded.
+- **Remaining:** push branch → merge main → post-merge verify → push main →
+  DEV tag → light export → STOP with final report.
 
 ## Last completed task
 
-- V2 development inference + omission-risk analysis (C4/C5);
-  classical CIA baseline; Saleor/NestJS suitability.
+- Full suite green (3290 passed / 33 skipped / 2 pre-existing environmental
+  failures — missing pinned djangocms git cache, identical on clean base);
+  all new scripts ruff/compile clean; README mermaid test re-pointed at
+  docs/diagrams/*.mmd source-of-truth + SVG-fallback regression added.
 
 ## Immediate next step
 
-- Probe: thesis proposal V1 (print-ready) — the deadline-critical deliverable —
-  then seminar outline, living-review novelty audit, comparison-plan freeze,
-  consolidated git/export.
+- Merge to main + push + DEV tag + light export (final handoff).
 
 ## Blockers
 
