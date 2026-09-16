@@ -1,0 +1,18 @@
+metric,value
+repo_id,djangocms
+repo_url,https://github.com/django-cms/django-cms
+tasks_used_in_study,"{""TRAIN"": 24, ""VALIDATION"": 6, ""total"": 30}"
+candidate_universe_size,"{""n_cases"": 30, ""min"": 140, ""q25"": 140.0, ""median"": 140.0, ""q75"": 144.0, ""max"": 152}"
+graph_available,True
+graph_node_count,"{""min"": 140, ""median"": 140, ""max"": 152}"
+graph_edge_count,"{""min"": 524, ""median"": 536, ""max"": 564, ""zero_edge_cases"": 0}"
+graph_density,"{""min"": 0.04888, ""median"": 0.054293, ""max"": 0.055087}"
+graph_construction,"{""source"": ""frozen parent-only AST dependency graph (RealCommitImpactDataset-v1)"", ""extractor_versions_seen"": {""1.0.0"": 30}, ""distinct_parent_commits_in_study"": 30}"
+history_available,False
+co_change_history_depth_usable_commits,0
+historical_memory_coverage,none (no git cache; the frozen miner produced only the observed proxy per task)
+bm25_index_available,"{""metadata_corpus"": true, ""parent_commit_corpus"": false}"
+parent_revision_correctness,True
+parent_revision_note,candidate universe + dependency graph are built from the parent commit only (M4A-1/M4A-2 audited)
+missing_evidence_reason,pinned djangocms git cache (benchmark_data/repositories/djangocms) absent locally -> parent-commit corpus not re-materializable
+classification,single-repository DEVELOPMENT evidence; no cross-repository generalization
