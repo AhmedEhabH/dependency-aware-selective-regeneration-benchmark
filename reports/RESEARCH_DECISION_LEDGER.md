@@ -157,3 +157,11 @@ Entries use the format requested by the evening addendum (2026-09-16).
 - **Rejected:** keeping stale 5.9 / "50% empty" / "within ceiling".
 - **Evidence:** M1B report, P5C report, V2 closure.
 - **Revisit:** n/a.
+## D-015 — Route B primary mechanism: classical CIA candidate ranking
+- **Question:** Which zero-LLM candidate-ranking arm is the primary Route B mechanism?
+- **Options:** BM25 / path-token / graph-neighbor / classical CIA (BM25+graph) / hybrid / random.
+- **Chosen:** R4_Classical CIA (BM25-seed 1-hop closure + graph neighbor) as the best predeclared arm at B=5.
+- **Why:** beats Random on both splits with no universe-size artifact; same direction.
+- **Rejected:** path-token (worst arm); random (floor).
+- **Evidence:** reports/ROUTE_B_OMISSION_RECOVERY_V1_REPORT.md.
+- **Revisit:** if a larger validation set changes the comparison; verifier pilot only if the gate strongly passes.

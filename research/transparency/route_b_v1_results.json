@@ -1,0 +1,881 @@
+{
+  "arms": [
+    "R0_Random",
+    "R1_BM25",
+    "R2_PathToken",
+    "R3_GraphNeighbor",
+    "R4_CIA",
+    "R5_Hybrid",
+    "Oracle"
+  ],
+  "budgets": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "primary_b": 5,
+  "DEV_TRAIN": {
+    "n_tasks": 117,
+    "1": {
+      "R0_Random": {
+        "macro_recall": 0.0142,
+        "micro_recall": 0.0148,
+        "fn_recovered": 4,
+        "total_missed": 271,
+        "task_coverage": 0.0342
+      },
+      "R1_BM25": {
+        "macro_recall": 0.0304,
+        "micro_recall": 0.0295,
+        "fn_recovered": 8,
+        "total_missed": 271,
+        "task_coverage": 0.0684
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0012,
+        "micro_recall": 0.0037,
+        "fn_recovered": 1,
+        "total_missed": 271,
+        "task_coverage": 0.0085
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.0,
+        "micro_recall": 0.0,
+        "fn_recovered": 0,
+        "total_missed": 271,
+        "task_coverage": 0.0
+      },
+      "R4_CIA": {
+        "macro_recall": 0.0326,
+        "micro_recall": 0.0332,
+        "fn_recovered": 9,
+        "total_missed": 271,
+        "task_coverage": 0.0769
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.0326,
+        "micro_recall": 0.0332,
+        "fn_recovered": 9,
+        "total_missed": 271,
+        "task_coverage": 0.0769
+      },
+      "Oracle": {
+        "macro_recall": 0.5017,
+        "micro_recall": 0.3875,
+        "fn_recovered": 105,
+        "total_missed": 271,
+        "task_coverage": 0.8974
+      }
+    },
+    "3": {
+      "R0_Random": {
+        "macro_recall": 0.0142,
+        "micro_recall": 0.0148,
+        "fn_recovered": 4,
+        "total_missed": 271,
+        "task_coverage": 0.0342
+      },
+      "R1_BM25": {
+        "macro_recall": 0.0929,
+        "micro_recall": 0.0812,
+        "fn_recovered": 22,
+        "total_missed": 271,
+        "task_coverage": 0.1795
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0026,
+        "micro_recall": 0.0074,
+        "fn_recovered": 2,
+        "total_missed": 271,
+        "task_coverage": 0.0171
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.0529,
+        "micro_recall": 0.0627,
+        "fn_recovered": 17,
+        "total_missed": 271,
+        "task_coverage": 0.1368
+      },
+      "R4_CIA": {
+        "macro_recall": 0.0968,
+        "micro_recall": 0.0959,
+        "fn_recovered": 26,
+        "total_missed": 271,
+        "task_coverage": 0.1966
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.0968,
+        "micro_recall": 0.0959,
+        "fn_recovered": 26,
+        "total_missed": 271,
+        "task_coverage": 0.1966
+      },
+      "Oracle": {
+        "macro_recall": 0.8256,
+        "micro_recall": 0.8118,
+        "fn_recovered": 220,
+        "total_missed": 271,
+        "task_coverage": 0.8974
+      }
+    },
+    "5": {
+      "R0_Random": {
+        "macro_recall": 0.0225,
+        "micro_recall": 0.0258,
+        "fn_recovered": 7,
+        "total_missed": 271,
+        "task_coverage": 0.0598
+      },
+      "R1_BM25": {
+        "macro_recall": 0.1469,
+        "micro_recall": 0.1292,
+        "fn_recovered": 35,
+        "total_missed": 271,
+        "task_coverage": 0.2564
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0026,
+        "micro_recall": 0.0074,
+        "fn_recovered": 2,
+        "total_missed": 271,
+        "task_coverage": 0.0171
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.0874,
+        "micro_recall": 0.107,
+        "fn_recovered": 29,
+        "total_missed": 271,
+        "task_coverage": 0.188
+      },
+      "R4_CIA": {
+        "macro_recall": 0.1481,
+        "micro_recall": 0.1439,
+        "fn_recovered": 39,
+        "total_missed": 271,
+        "task_coverage": 0.2735
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.1481,
+        "micro_recall": 0.1439,
+        "fn_recovered": 39,
+        "total_missed": 271,
+        "task_coverage": 0.2735
+      },
+      "Oracle": {
+        "macro_recall": 0.8745,
+        "micro_recall": 0.9299,
+        "fn_recovered": 252,
+        "total_missed": 271,
+        "task_coverage": 0.8974
+      }
+    },
+    "10": {
+      "R0_Random": {
+        "macro_recall": 0.0469,
+        "micro_recall": 0.0554,
+        "fn_recovered": 15,
+        "total_missed": 271,
+        "task_coverage": 0.1197
+      },
+      "R1_BM25": {
+        "macro_recall": 0.2077,
+        "micro_recall": 0.2066,
+        "fn_recovered": 56,
+        "total_missed": 271,
+        "task_coverage": 0.359
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0081,
+        "micro_recall": 0.0148,
+        "fn_recovered": 4,
+        "total_missed": 271,
+        "task_coverage": 0.0256
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.1525,
+        "micro_recall": 0.1587,
+        "fn_recovered": 43,
+        "total_missed": 271,
+        "task_coverage": 0.2735
+      },
+      "R4_CIA": {
+        "macro_recall": 0.2567,
+        "micro_recall": 0.2583,
+        "fn_recovered": 70,
+        "total_missed": 271,
+        "task_coverage": 0.4359
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.2567,
+        "micro_recall": 0.2583,
+        "fn_recovered": 70,
+        "total_missed": 271,
+        "task_coverage": 0.4359
+      },
+      "Oracle": {
+        "macro_recall": 0.8974,
+        "micro_recall": 1.0,
+        "fn_recovered": 271,
+        "total_missed": 271,
+        "task_coverage": 0.8974
+      }
+    }
+  },
+  "DEV_VALIDATION": {
+    "n_tasks": 27,
+    "1": {
+      "R0_Random": {
+        "macro_recall": 0.0,
+        "micro_recall": 0.0,
+        "fn_recovered": 0,
+        "total_missed": 57,
+        "task_coverage": 0.0
+      },
+      "R1_BM25": {
+        "macro_recall": 0.0531,
+        "micro_recall": 0.0877,
+        "fn_recovered": 5,
+        "total_missed": 57,
+        "task_coverage": 0.1852
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0,
+        "micro_recall": 0.0,
+        "fn_recovered": 0,
+        "total_missed": 57,
+        "task_coverage": 0.0
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.0123,
+        "micro_recall": 0.0175,
+        "fn_recovered": 1,
+        "total_missed": 57,
+        "task_coverage": 0.037
+      },
+      "R4_CIA": {
+        "macro_recall": 0.047,
+        "micro_recall": 0.0877,
+        "fn_recovered": 5,
+        "total_missed": 57,
+        "task_coverage": 0.1852
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.047,
+        "micro_recall": 0.0877,
+        "fn_recovered": 5,
+        "total_missed": 57,
+        "task_coverage": 0.1852
+      },
+      "Oracle": {
+        "macro_recall": 0.5007,
+        "micro_recall": 0.4035,
+        "fn_recovered": 23,
+        "total_missed": 57,
+        "task_coverage": 0.8519
+      }
+    },
+    "3": {
+      "R0_Random": {
+        "macro_recall": 0.037,
+        "micro_recall": 0.0175,
+        "fn_recovered": 1,
+        "total_missed": 57,
+        "task_coverage": 0.037
+      },
+      "R1_BM25": {
+        "macro_recall": 0.1087,
+        "micro_recall": 0.1404,
+        "fn_recovered": 8,
+        "total_missed": 57,
+        "task_coverage": 0.2593
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0,
+        "micro_recall": 0.0,
+        "fn_recovered": 0,
+        "total_missed": 57,
+        "task_coverage": 0.0
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.0309,
+        "micro_recall": 0.0351,
+        "fn_recovered": 2,
+        "total_missed": 57,
+        "task_coverage": 0.0741
+      },
+      "R4_CIA": {
+        "macro_recall": 0.121,
+        "micro_recall": 0.1579,
+        "fn_recovered": 9,
+        "total_missed": 57,
+        "task_coverage": 0.2963
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.121,
+        "micro_recall": 0.1579,
+        "fn_recovered": 9,
+        "total_missed": 57,
+        "task_coverage": 0.2963
+      },
+      "Oracle": {
+        "macro_recall": 0.7983,
+        "micro_recall": 0.8246,
+        "fn_recovered": 47,
+        "total_missed": 57,
+        "task_coverage": 0.8519
+      }
+    },
+    "5": {
+      "R0_Random": {
+        "macro_recall": 0.037,
+        "micro_recall": 0.0175,
+        "fn_recovered": 1,
+        "total_missed": 57,
+        "task_coverage": 0.037
+      },
+      "R1_BM25": {
+        "macro_recall": 0.1673,
+        "micro_recall": 0.2281,
+        "fn_recovered": 13,
+        "total_missed": 57,
+        "task_coverage": 0.2963
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0,
+        "micro_recall": 0.0,
+        "fn_recovered": 0,
+        "total_missed": 57,
+        "task_coverage": 0.0
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.0816,
+        "micro_recall": 0.1228,
+        "fn_recovered": 7,
+        "total_missed": 57,
+        "task_coverage": 0.2222
+      },
+      "R4_CIA": {
+        "macro_recall": 0.1797,
+        "micro_recall": 0.2456,
+        "fn_recovered": 14,
+        "total_missed": 57,
+        "task_coverage": 0.3333
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.1797,
+        "micro_recall": 0.2456,
+        "fn_recovered": 14,
+        "total_missed": 57,
+        "task_coverage": 0.3333
+      },
+      "Oracle": {
+        "macro_recall": 0.8274,
+        "micro_recall": 0.9123,
+        "fn_recovered": 52,
+        "total_missed": 57,
+        "task_coverage": 0.8519
+      }
+    },
+    "10": {
+      "R0_Random": {
+        "macro_recall": 0.037,
+        "micro_recall": 0.0175,
+        "fn_recovered": 1,
+        "total_missed": 57,
+        "task_coverage": 0.037
+      },
+      "R1_BM25": {
+        "macro_recall": 0.2158,
+        "micro_recall": 0.2982,
+        "fn_recovered": 17,
+        "total_missed": 57,
+        "task_coverage": 0.3704
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0,
+        "micro_recall": 0.0,
+        "fn_recovered": 0,
+        "total_missed": 57,
+        "task_coverage": 0.0
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.1601,
+        "micro_recall": 0.2456,
+        "fn_recovered": 14,
+        "total_missed": 57,
+        "task_coverage": 0.2963
+      },
+      "R4_CIA": {
+        "macro_recall": 0.185,
+        "micro_recall": 0.2632,
+        "fn_recovered": 15,
+        "total_missed": 57,
+        "task_coverage": 0.3333
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.185,
+        "micro_recall": 0.2632,
+        "fn_recovered": 15,
+        "total_missed": 57,
+        "task_coverage": 0.3333
+      },
+      "Oracle": {
+        "macro_recall": 0.8519,
+        "micro_recall": 1.0,
+        "fn_recovered": 57,
+        "total_missed": 57,
+        "task_coverage": 0.8519
+      }
+    }
+  },
+  "V1_DEV": {
+    "n_tasks": 30,
+    "1": {
+      "R0_Random": {
+        "macro_recall": 0.0,
+        "micro_recall": 0.0,
+        "fn_recovered": 0,
+        "total_missed": 54,
+        "task_coverage": 0.0
+      },
+      "R1_BM25": {
+        "macro_recall": 0.1,
+        "micro_recall": 0.0556,
+        "fn_recovered": 3,
+        "total_missed": 54,
+        "task_coverage": 0.1
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0042,
+        "micro_recall": 0.0185,
+        "fn_recovered": 1,
+        "total_missed": 54,
+        "task_coverage": 0.0333
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.0167,
+        "micro_recall": 0.0185,
+        "fn_recovered": 1,
+        "total_missed": 54,
+        "task_coverage": 0.0333
+      },
+      "R4_CIA": {
+        "macro_recall": 0.1,
+        "micro_recall": 0.0556,
+        "fn_recovered": 3,
+        "total_missed": 54,
+        "task_coverage": 0.1
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.1,
+        "micro_recall": 0.0556,
+        "fn_recovered": 3,
+        "total_missed": 54,
+        "task_coverage": 0.1
+      },
+      "Oracle": {
+        "macro_recall": 0.5469,
+        "micro_recall": 0.463,
+        "fn_recovered": 25,
+        "total_missed": 54,
+        "task_coverage": 0.8333
+      }
+    },
+    "3": {
+      "R0_Random": {
+        "macro_recall": 0.0444,
+        "micro_recall": 0.037,
+        "fn_recovered": 2,
+        "total_missed": 54,
+        "task_coverage": 0.0667
+      },
+      "R1_BM25": {
+        "macro_recall": 0.1967,
+        "micro_recall": 0.1481,
+        "fn_recovered": 8,
+        "total_missed": 54,
+        "task_coverage": 0.2333
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0042,
+        "micro_recall": 0.0185,
+        "fn_recovered": 1,
+        "total_missed": 54,
+        "task_coverage": 0.0333
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.065,
+        "micro_recall": 0.0926,
+        "fn_recovered": 5,
+        "total_missed": 54,
+        "task_coverage": 0.1667
+      },
+      "R4_CIA": {
+        "macro_recall": 0.1967,
+        "micro_recall": 0.1481,
+        "fn_recovered": 8,
+        "total_missed": 54,
+        "task_coverage": 0.2333
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.1967,
+        "micro_recall": 0.1481,
+        "fn_recovered": 8,
+        "total_missed": 54,
+        "task_coverage": 0.2333
+      },
+      "Oracle": {
+        "macro_recall": 0.7908,
+        "micro_recall": 0.8519,
+        "fn_recovered": 46,
+        "total_missed": 54,
+        "task_coverage": 0.8333
+      }
+    },
+    "5": {
+      "R0_Random": {
+        "macro_recall": 0.0444,
+        "micro_recall": 0.037,
+        "fn_recovered": 2,
+        "total_missed": 54,
+        "task_coverage": 0.0667
+      },
+      "R1_BM25": {
+        "macro_recall": 0.2078,
+        "micro_recall": 0.1667,
+        "fn_recovered": 9,
+        "total_missed": 54,
+        "task_coverage": 0.2667
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0042,
+        "micro_recall": 0.0185,
+        "fn_recovered": 1,
+        "total_missed": 54,
+        "task_coverage": 0.0333
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.1036,
+        "micro_recall": 0.1667,
+        "fn_recovered": 9,
+        "total_missed": 54,
+        "task_coverage": 0.2333
+      },
+      "R4_CIA": {
+        "macro_recall": 0.2078,
+        "micro_recall": 0.1667,
+        "fn_recovered": 9,
+        "total_missed": 54,
+        "task_coverage": 0.2667
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.2078,
+        "micro_recall": 0.1667,
+        "fn_recovered": 9,
+        "total_missed": 54,
+        "task_coverage": 0.2667
+      },
+      "Oracle": {
+        "macro_recall": 0.8208,
+        "micro_recall": 0.9444,
+        "fn_recovered": 51,
+        "total_missed": 54,
+        "task_coverage": 0.8333
+      }
+    },
+    "10": {
+      "R0_Random": {
+        "macro_recall": 0.0444,
+        "micro_recall": 0.037,
+        "fn_recovered": 2,
+        "total_missed": 54,
+        "task_coverage": 0.0667
+      },
+      "R1_BM25": {
+        "macro_recall": 0.3058,
+        "micro_recall": 0.3148,
+        "fn_recovered": 17,
+        "total_missed": 54,
+        "task_coverage": 0.4333
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0042,
+        "micro_recall": 0.0185,
+        "fn_recovered": 1,
+        "total_missed": 54,
+        "task_coverage": 0.0333
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.1203,
+        "micro_recall": 0.1852,
+        "fn_recovered": 10,
+        "total_missed": 54,
+        "task_coverage": 0.2667
+      },
+      "R4_CIA": {
+        "macro_recall": 0.2892,
+        "micro_recall": 0.2963,
+        "fn_recovered": 16,
+        "total_missed": 54,
+        "task_coverage": 0.4
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.2892,
+        "micro_recall": 0.2963,
+        "fn_recovered": 16,
+        "total_missed": 54,
+        "task_coverage": 0.4
+      },
+      "Oracle": {
+        "macro_recall": 0.8333,
+        "micro_recall": 1.0,
+        "fn_recovered": 54,
+        "total_missed": 54,
+        "task_coverage": 0.8333
+      }
+    }
+  },
+  "POOLED": {
+    "n_tasks": 174,
+    "1": {
+      "R0_Random": {
+        "macro_recall": 0.0095,
+        "micro_recall": 0.0105,
+        "fn_recovered": 4,
+        "total_missed": 382,
+        "task_coverage": 0.023
+      },
+      "R1_BM25": {
+        "macro_recall": 0.0459,
+        "micro_recall": 0.0419,
+        "fn_recovered": 16,
+        "total_missed": 382,
+        "task_coverage": 0.092
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0015,
+        "micro_recall": 0.0052,
+        "fn_recovered": 2,
+        "total_missed": 382,
+        "task_coverage": 0.0115
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.0048,
+        "micro_recall": 0.0052,
+        "fn_recovered": 2,
+        "total_missed": 382,
+        "task_coverage": 0.0115
+      },
+      "R4_CIA": {
+        "macro_recall": 0.0464,
+        "micro_recall": 0.0445,
+        "fn_recovered": 17,
+        "total_missed": 382,
+        "task_coverage": 0.0977
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.0464,
+        "micro_recall": 0.0445,
+        "fn_recovered": 17,
+        "total_missed": 382,
+        "task_coverage": 0.0977
+      },
+      "Oracle": {
+        "macro_recall": 0.5093,
+        "micro_recall": 0.4005,
+        "fn_recovered": 153,
+        "total_missed": 382,
+        "task_coverage": 0.8793
+      }
+    },
+    "3": {
+      "R0_Random": {
+        "macro_recall": 0.0229,
+        "micro_recall": 0.0183,
+        "fn_recovered": 7,
+        "total_missed": 382,
+        "task_coverage": 0.0402
+      },
+      "R1_BM25": {
+        "macro_recall": 0.1132,
+        "micro_recall": 0.0995,
+        "fn_recovered": 38,
+        "total_missed": 382,
+        "task_coverage": 0.2011
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0025,
+        "micro_recall": 0.0079,
+        "fn_recovered": 3,
+        "total_missed": 382,
+        "task_coverage": 0.0172
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.0516,
+        "micro_recall": 0.0628,
+        "fn_recovered": 24,
+        "total_missed": 382,
+        "task_coverage": 0.1322
+      },
+      "R4_CIA": {
+        "macro_recall": 0.1177,
+        "micro_recall": 0.1126,
+        "fn_recovered": 43,
+        "total_missed": 382,
+        "task_coverage": 0.2184
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.1177,
+        "micro_recall": 0.1126,
+        "fn_recovered": 43,
+        "total_missed": 382,
+        "task_coverage": 0.2184
+      },
+      "Oracle": {
+        "macro_recall": 0.8154,
+        "micro_recall": 0.8194,
+        "fn_recovered": 313,
+        "total_missed": 382,
+        "task_coverage": 0.8793
+      }
+    },
+    "5": {
+      "R0_Random": {
+        "macro_recall": 0.0286,
+        "micro_recall": 0.0262,
+        "fn_recovered": 10,
+        "total_missed": 382,
+        "task_coverage": 0.0575
+      },
+      "R1_BM25": {
+        "macro_recall": 0.1606,
+        "micro_recall": 0.1492,
+        "fn_recovered": 57,
+        "total_missed": 382,
+        "task_coverage": 0.2644
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0025,
+        "micro_recall": 0.0079,
+        "fn_recovered": 3,
+        "total_missed": 382,
+        "task_coverage": 0.0172
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.0893,
+        "micro_recall": 0.1178,
+        "fn_recovered": 45,
+        "total_missed": 382,
+        "task_coverage": 0.2011
+      },
+      "R4_CIA": {
+        "macro_recall": 0.1633,
+        "micro_recall": 0.1623,
+        "fn_recovered": 62,
+        "total_missed": 382,
+        "task_coverage": 0.2816
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.1633,
+        "micro_recall": 0.1623,
+        "fn_recovered": 62,
+        "total_missed": 382,
+        "task_coverage": 0.2816
+      },
+      "Oracle": {
+        "macro_recall": 0.858,
+        "micro_recall": 0.9293,
+        "fn_recovered": 355,
+        "total_missed": 382,
+        "task_coverage": 0.8793
+      }
+    },
+    "10": {
+      "R0_Random": {
+        "macro_recall": 0.0449,
+        "micro_recall": 0.0471,
+        "fn_recovered": 18,
+        "total_missed": 382,
+        "task_coverage": 0.0977
+      },
+      "R1_BM25": {
+        "macro_recall": 0.2259,
+        "micro_recall": 0.2356,
+        "fn_recovered": 90,
+        "total_missed": 382,
+        "task_coverage": 0.3736
+      },
+      "R2_PathToken": {
+        "macro_recall": 0.0062,
+        "micro_recall": 0.0131,
+        "fn_recovered": 5,
+        "total_missed": 382,
+        "task_coverage": 0.023
+      },
+      "R3_GraphNeighbor": {
+        "macro_recall": 0.1481,
+        "micro_recall": 0.1754,
+        "fn_recovered": 67,
+        "total_missed": 382,
+        "task_coverage": 0.2759
+      },
+      "R4_CIA": {
+        "macro_recall": 0.2512,
+        "micro_recall": 0.2644,
+        "fn_recovered": 101,
+        "total_missed": 382,
+        "task_coverage": 0.4138
+      },
+      "R5_Hybrid": {
+        "macro_recall": 0.2512,
+        "micro_recall": 0.2644,
+        "fn_recovered": 101,
+        "total_missed": 382,
+        "task_coverage": 0.4138
+      },
+      "Oracle": {
+        "macro_recall": 0.8793,
+        "micro_recall": 1.0,
+        "fn_recovered": 382,
+        "total_missed": 382,
+        "task_coverage": 0.8793
+      }
+    }
+  },
+  "primary_b5_comparison": {
+    "DEV_VALIDATION": {
+      "best_arm": "R4_CIA",
+      "best_macro_recall": 0.1797,
+      "random_macro_recall": 0.037,
+      "delta": 0.1427,
+      "delta_ci95": [
+        -0.0027,
+        0.2847
+      ],
+      "delta_mean_bootstrap": 0.1437
+    },
+    "DEV_TRAIN": {
+      "best_arm": "R4_CIA",
+      "best_macro_recall": 0.1481,
+      "random_macro_recall": 0.0225,
+      "delta": 0.1256,
+      "delta_ci95": [
+        0.069,
+        0.1789
+      ],
+      "delta_mean_bootstrap": 0.1243
+    },
+    "POOLED": {
+      "best_arm": "R4_CIA",
+      "best_macro_recall": 0.1633,
+      "random_macro_recall": 0.0286,
+      "delta": 0.1347,
+      "delta_ci95": [
+        0.0852,
+        0.1844
+      ],
+      "delta_mean_bootstrap": 0.1342
+    }
+  }
+}
