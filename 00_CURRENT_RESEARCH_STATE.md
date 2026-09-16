@@ -12,14 +12,15 @@ this file; execution truth = `PROGRESS.md`; decisions (append-only) =
 (CURRENT PHASE = **Repository change localization / impact selection**).
 
 **Phase:** paper submitted (ICCI shorthand; repo artifact = IEEE-format V20
-submission) → **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE AND CLOSED (Protocol A:
-cheap-non-LLM baselines v1, 2026-09-16; ZERO new scientific model/API calls;
-development milestone merged to main + DEV tag `cheap-baselines-v1-dev-2026-09-16`).**
-→ **PLUGGABLE RESEARCH HARNESS V1 + LIVING SYSTEMATIC REVIEW V1 COMPLETE AND
-AUDITED (2026-09-16; T3 reusable experiment architecture; ZERO new scientific
-model/API calls; six T3 gates + independent audit PASS; Protocol-A outputs
-reproduced byte-for-byte through the compatibility layer; merged to main + DEV
-tag `research-harness-v1-dev-2026-09-16`).**
+submission) → **MSC ACCELERATION SESSION (2026-09-16): roadmap position +
+contingency routes; README/dataset transparency closure; RealCommitImpactDataset-v2
+design + sampling-frame audit (6000→916→334→329→40) + sample-size analysis +
+split proposal + 150 V2 dev case bundles; V2 Sparse development-inference
+EXECUTED (431/450 cells, fail-closed token-ceiling stop, 144 tasks) → C4 gates
+FAIL (no signal replication; universe-size artifact) → Route B pivot; classical/
+static CIA baseline V1 (150 V2 dev cases, zero LLM); Saleor + NestJS suitability
+(SUITABLE-WITH-DEVIATIONS) + protocols; living-review novelty audit;
+print-ready MSc Proposal V1 (msc_proposal/) + seminar outline.**
 → **OMISSION-RISK FEATURE STUDY V1 COMPLETE AS A DETERMINISTIC-FIRST-PASS
 DEVELOPMENT ANALYSIS (2026-09-16; T3; ZERO new scientific LLM/API calls;
 registered Sparse-v2-label study DEFERRED — TRAIN/VALIDATION have no Sparse-v2

@@ -413,3 +413,41 @@ execution. Entries are never edited after append; corrections are new entries.
   bounded omission verification (pre-registered).
 - **Impact:** reports/REAL_COMMIT_V2_OMISSION_RISK_DEVELOPMENT_ANALYSIS.md;
   research/transparency/v2_omission_risk_analysis.json; v2_trainval run evidence.
+
+## Decision P23 - Proposal V1 + seminar outline drafted (2026-09-16)
+
+- **Status:** ADOPTED (deadline-critical deliverable)
+- **Context:** printed registration-seminar proposal required before 2026-10-01.
+- **Decision:** create a supervisor-ready, print-ready proposal package in
+  msc_proposal/ with a conservative academic LaTeX format (no fabricated
+  institutional form fields), truthful current evidence, pre-registered Route
+  A/B contingencies, and the preferred title.
+- **Impact:** msc_proposal/MSC_PROPOSAL_V1.tex+.pdf (6 pages, compiles clean),
+  references.bib, PROPOSAL_CLAIMS_MATRIX.md, PROPOSAL_SUPERVISOR_BRIEF.md,
+  PROPOSAL_PRINT_CHECKLIST.md, PROPOSAL_CHANGELOG.md,
+  msc_proposal/SEMINAR_PRESENTATION_OUTLINE.md.
+
+## Decision P24 - Living-review novelty audit (2026-09-16)
+
+- **Status:** ADOPTED
+- **Decision:** do NOT claim graph localization, repository memory, intent-
+  aware expansion, adaptive K, or generic uncertainty-triggered escalation as
+  novel by themselves. The strongest defensible FUTURE novelty candidate is
+  'omission-aware, cost-sensitive bounded verification of an explicit sparse
+  file-level impact policy under matched inference budgets', marked
+  CANDIDATE-NOT-YET-CLAIMED, with a Route B candidate-level fallback.
+- **Impact:** docs/LIVING_SYSTEMATIC_REVIEW.md (novelty audit section);
+  research/literature/review_matrix.csv + idea_ledger.md additions.
+
+## Decision P25 - Experimental comparison plan frozen (2026-09-16)
+
+- **Status:** ADOPTED (frozen in roadmap)
+- **Decision:** the fair comparison includes Random/cheap control, BM25,
+  adaptive cheap retrieval (if justified), classical/static CIA, Sparse
+  planner, Full planner, faithful LocAgent/reference agent (when
+  reproducible), Sparse+Always Verify, Sparse+Random Verify (matched budget),
+  Sparse+Selective/Bounded Verify (Route B candidate-level if task-level
+  routing unsupported), Oracle routing upper bound. Metrics include correctness,
+  cost, latency, failure counts, and the Pareto frontier; per-repository
+  primary, macro-average across repos, pooled secondary, repo-ID confound check.
+- **Impact:** docs/MSC_RESEARCH_ROADMAP_2026_2027.md.
