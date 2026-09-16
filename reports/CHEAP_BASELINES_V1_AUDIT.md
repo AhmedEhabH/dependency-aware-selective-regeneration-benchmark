@@ -2,7 +2,7 @@
 
 **Audited by:** openrouter/deepseek/deepseek-v4-flash-0731 (implementation AI; independent read-only pass over persisted artifacts)
 **Basis:** persisted evidence only — `research/cheap-baselines-v1/*.json`, frozen dataset, gate JSON. It does NOT trust in-memory runner objects.
-**Verdict:** **PASS** — all six gates + independent audit checks green; no pipeline leak; results reproducible from raw outputs.
+**Verdict:** **PASS** — all six gates + independent audit checks green; no pipeline leak; results reproducible from raw outputs; path-mention sensitivity diagnostic audited.
 
 ## 1. What was checked
 
@@ -18,6 +18,8 @@
 | 8 | Zero LLM calls / zero tokens in every efficiency record | PASS |
 | 9 | Aggregate labeled "DEVELOPMENT EVIDENCE" (not confirmatory) | PASS |
 | 10 | Config freezes exposed-split rule = FORBIDDEN | PASS |
+| 11 | Path-mention sensitivity exclusion list = exactly the 3 documented TRAIN cases | PASS |
+| 12 | Path-mention sensitivity material qualitative ordering preserved under exclusion | PASS |
 
 Gate JSON: `reports/cheap_baselines_v1_gates.json` (all_gates_passed=true, audit_passed=true).
 
@@ -40,6 +42,15 @@ Gate JSON: `reports/cheap_baselines_v1_gates.json` (all_gates_passed=true, audit
   planner received the identical full-message intent, so baselines and planner
   share the same (public) input; this is a documented dataset property, not a
   new exposure introduced by this block.
+- **Path-mention sensitivity diagnostic (ZERO API):** a deterministic
+  recomputation over the persisted per-task metrics excludes those 3 TRAIN
+  cases. Path-clean BM25@3 F1 0.283 → 0.262 (TRAIN, n=21) and 0.282 → 0.267
+  (pooled, n=27); the material qualitative baseline ordering is unchanged
+  (BM25 > Hybrid > max(Graph, path_token) > Random; Graph ≈ path_token at
+  every K). The frozen dataset is NOT modified. Regenerate:
+  `python scripts/sensitivity_cheap_baselines_path_mentions.py`;
+  output `research/cheap-baselines-v1/path_mention_sensitivity_v1.json`;
+  deterministic audit tests in `tests/unit/test_cheap_baselines_sensitivity.py`.
 
 ## 3. Reproducibility
 
@@ -47,10 +58,17 @@ Gate JSON: `reports/cheap_baselines_v1_gates.json` (all_gates_passed=true, audit
   deterministic scripts (`run_cheap_baselines.py`,
   `export_cheap_baselines_csv.py`); results are byte-reproducible across
   identical inputs (dedicated restart-determinism test).
+- The sensitivity diagnostic is also deterministic and reproduces the persisted
+  `path_mention_sensitivity_v1.json` byte-for-byte (dedicated tests).
 - Fixed seeds and frozen rule constants make every baseline deterministic.
 
 ## 4. Conclusion
 
-The block satisfies the T3 bar: six gates PASS, independent audit PASS,
-leakage-regression and parent-state tests PASS, metrics verified on synthetic
-known-answer examples, and every result table traces to raw outputs.
+The block satisfies the T3 bar: six gates PASS, independent audit PASS
+(including the path-mention sensitivity audit assertions), leakage-regression
+and parent-state tests PASS, metrics verified on synthetic known-answer
+examples, and every result table traces to raw outputs. Interpretation is
+bounded: BM25 provides a meaningful zero-LLM localization signal on development
+data; LLM-vs-BM25 ranking remains untested under a shared fresh confirmatory
+protocol; K is an operating-point curve, not a final configuration; no general
+negative graph or hybrid claim is made.

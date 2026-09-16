@@ -152,6 +152,40 @@ def audit() -> dict:
         }
     )
 
+    # Path-mention sensitivity diagnostic (Protocol-A correction): the 3 TRAIN
+    # cases whose full-message intent mentions a changed path are documented and
+    # the recomputed path-clean metrics must preserve the material ordering.
+    sens_path = output_dir / "path_mention_sensitivity_v1.json"
+    if sens_path.exists():
+        sens = json.loads(sens_path.read_text(encoding="utf-8"))
+        checks.append(
+            {
+                "check": "path_mention_sensitivity_exclusion_list",
+                "ok": set(sens["excluded_cases"])
+                == {
+                    "djangocms-rc-2efae8e43bd6",
+                    "djangocms-rc-ada585d3f358",
+                    "djangocms-rc-5ff38b521274",
+                },
+                "detail": sens["excluded_cases"],
+            }
+        )
+        checks.append(
+            {
+                "check": "path_mention_sensitivity_material_ordering_preserved",
+                "ok": sens["ordering"]["material_ordering_unchanged"] is True,
+                "detail": sens["ordering"],
+            }
+        )
+    else:
+        checks.append(
+            {
+                "check": "path_mention_sensitivity_present",
+                "ok": False,
+                "detail": f"missing {sens_path.name}",
+            }
+        )
+
     return {
         "name": "Independent Audit (read-only persisted evidence)",
         "passed": all(c["ok"] for c in checks),
