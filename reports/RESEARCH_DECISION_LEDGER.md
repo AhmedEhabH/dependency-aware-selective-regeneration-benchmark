@@ -165,3 +165,43 @@ Entries use the format requested by the evening addendum (2026-09-16).
 - **Rejected:** path-token (worst arm); random (floor).
 - **Evidence:** reports/ROUTE_B_OMISSION_RECOVERY_V1_REPORT.md.
 - **Revisit:** if a larger validation set changes the comparison; verifier pilot only if the gate strongly passes.
+
+## D-016 — Route B V2 progression gate PASS; CIA ranker family frozen
+- **Question:** Does the candidate-level CIA ranker robustly beat analytic Random over the B curve on DEVELOPMENT?
+- **Options:** freeze CIA as the verifier ranker / keep exploring.
+- **Chosen:** freeze CIA (BM25 + graph-neighbor) as the predeclared ranker family for the conditional verifier pilot.
+- **Why:** 5/5 folds positive direction; 4/4 B-curve points above analytic Random; bootstrap CIs exclude zero at B in {1,3,5,10}; no omitted/universe-size artifact (corr -0.119/-0.117).
+- **Rejected:** path-token (worst); single-draw Random (replaced by analytic hypergeometric expectation); tuning per fold.
+- **Evidence:** reports/ROUTE_B_V2_ROBUSTNESS_REPORT.md; research/transparency/route_b_v2_results.json.
+- **Revisit:** if a fresh confirmatory set (INTERNAL_TEST, after full freeze) contradicts the direction.
+
+## D-017 — B=5 is a reference point, not the sole primary
+- **Question:** Is B=5 the sole primary scientific claim?
+- **Options:** B=5 only / budget curve B in {0,1,3,5,10}.
+- **Chosen:** budget curve; B=5 is a convenient reference operating point only.
+- **Why:** the scientific object is recovery effectiveness as a function of added inspection budget; a single point is fragile.
+- **Rejected:** claiming B=5 is scientifically privileged.
+- **Evidence:** docs/ROUTE_B_V2_DEVELOPMENT_PROTOCOL.md.
+- **Revisit:** n/a.
+
+## D-018 — Analytic Random (hypergeometric) replaces single-draw Random
+- **Question:** Which Random control for ranking-only experiments?
+- **Options:** single random draw / analytic hypergeometric expectation.
+- **Chosen:** analytic E[X] = B*M/N (B clipped to N).
+- **Why:** avoids dependence on one lucky draw; the comparison is per-task analytic expectation with task-level bootstrap CI.
+- **Rejected:** single-draw Random (variance from one seed); counting random repetitions as independent tasks.
+- **Evidence:** docs/ROUTE_B_V2_DEVELOPMENT_PROTOCOL.md.
+- **Revisit:** n/a (frozen).
+
+## D-019 — Saleor bundle build partial; inference NOT run tonight
+- **Question:** Is Saleor scientific inference ready?
+- **Options:** run inference on the 98 built / wait for all 150.
+- **Chosen:** do NOT run inference tonight; the mission's Section 11 requires
+  Saleor bundles + split + gates + audit PASS for all needed DEV cases, which
+  the 52 extraction-blocked cases prevent.
+- **Why:** 52/150 DEV bundles could not be materialized on Windows (git archive
+  path rejection); running on 98 would be an undocumented subset.
+- **Rejected:** running Saleor inference on a partial DEV set; weakening the
+  production-file rule to skip the cassette path.
+- **Evidence:** reports/SALEOR_CASE_BUNDLE_BUILD_REPORT.md.
+- **Revisit:** POSIX re-run or cassette-exclusion workaround, then re-freeze.
