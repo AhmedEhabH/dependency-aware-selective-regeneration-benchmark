@@ -249,3 +249,68 @@ execution. Entries are never edited after append; corrections are new entries.
   runs through the harness with an explicit budget.
 - **Impact:** the harness + review milestone STOPS here; the feature study
   requires its own freeze + authorization.
+
+## Decision P14 — Phase-B mandatory preflight amendment adopted (2026-09-16)
+
+- **Status:** ADOPTED (this task; permanent preflight requirement for
+  omission-risk feature work)
+- **Context:** The user provided an amendment requiring preflight gates before
+  any omission-risk feature analysis: (A) Phase-B data availability gate;
+  (B) repository evidence-capability audit; (C) cross-repository confound rule;
+  (D) feature availability flags; (E) graph interpretation branches;
+  (F) history/co-change interpretation; (G) manual equivalence sanity check;
+  (H) pause before interpreting/freezing feature results until A–G complete.
+- **Decision:** Adopt A–G as mandatory preflight for this study and all future
+  omission-risk feature work. Gate A: if TRAIN/VALIDATION Sparse-v2 labels are
+  unavailable, STOP scientific feature-result analysis, do NOT substitute the
+  exposed HELD_OUT_TEST, produce a frozen DEVELOPMENT-INFERENCE protocol with
+  expected calls/tokens/cost + gates, and request Ahmed's approval before any
+  new scientific LLM/API call.
+- **Rationale:** preserves the strict data rule; prevents the deterministic
+  stand-in from being mistaken for the registered Sparse-v2 analysis.
+- **Impact:** Phase-B preflight executed (reports/OMISSION_RISK_REPOSITORY_EVIDENCE_AUDIT.md
+  + JSON/CSV; data_availability.json; equivalence_sanity_sample.json).
+
+## Decision P15 — Registered Sparse-v2-label omission-risk study DEFERRED (2026-09-16)
+
+- **Status:** ADOPTED (this task)
+- **Context:** Gate A confirmed TRAIN/VALIDATION have NO Sparse-v2 predictions
+  (P1 ran only on HELD_OUT_TEST, which is permanently exposed and cannot be
+  substituted).
+- **Decision:** The registered primary label `has_fn(t)` (Sparse-v2 prediction
+  misses ≥1 proxy-positive file) is NOT computable on TRAIN/VALIDATION from
+  existing evidence. The registered omission-risk feature analysis is
+  **DEFERRED** pending a new scientific LLM run. The deterministic-first-pass
+  development analysis (metadata-corpus BM25@K) IS delivered as development
+  evidence for that variant only, explicitly NOT as the registered result.
+- **Rationale:** amendment P14 (no substitution of the exposed split; no new
+  LLM calls without approval).
+- **Impact:** `docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md` (frozen:
+  90-cell Sparse-v2 on TRAIN/VALIDATION, ~497.6k tokens, ~$0.19, ceiling
+  $0.30); no LLM call without approval.
+
+## Decision P16 — Deterministic-first-pass development analysis delivered (2026-09-16)
+
+- **Status:** ADOPTED (this task)
+- **Context:** Zero-LLM feature study executed on the deterministic first-pass
+  label (metadata-corpus BM25@K, K∈{3,5,10}; 83 features; n=30; six gates +
+  audit PASS).
+- **Decision:** Report it as **development evidence for the deterministic
+  first-pass variant** with: task-level statistical unit; raw-AUROC random band
+  (n=30, radius ~0.24–0.26); expected-chance above-band count (~12) vs observed
+  (1–2); no VALIDATION-only operating point frozen; cost analysis as decision
+  analysis (C_FN/C_VERIFY grid), not a deployment policy.
+- **Rationale:** honest, reproducible, bounded; nothing over-claimed.
+- **Impact:** research/omission-risk-feature-study-v1/*; reports
+  OMISSION_RISK_FEATURE_STUDY_V1_REPORT.md / _AUDIT.md; 19 unit tests.
+
+## Decision P17 — No new scientific LLM/API call without approval (2026-09-16)
+
+- **Status:** ADOPTED (permanent for this line)
+- **Context:** The registered Sparse-v2-label analysis requires new inference;
+  the amendment and §7 cost discipline forbid unapproved calls.
+- **Decision:** No new scientific LLM/API call (including the deferred Sparse-v2
+  development inference) may be made without Ahmed's explicit approval of
+  `docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`.
+- **Rationale:** zero-cost discipline + strict data rule + truthful status.
+- **Impact:** the milestone STOPS at the protocol + approval request.

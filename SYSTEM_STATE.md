@@ -2,6 +2,11 @@
 
 ## CURRENT STATE
 
+> **HISTORICAL record.** The authoritative scientific truth is
+> `00_CURRENT_RESEARCH_STATE.md`; execution truth is `PROGRESS.md`; decisions
+> are append-only in `DECISIONS.md`. This file preserves the historical system
+> state trail.
+
 **Benchmark: COMPLETE.** Release tag: `v0.11.0-benchmark-complete`.
 **Governance (2026-09-16):** permanent hierarchy — scientific source of truth =
 `00_CURRENT_RESEARCH_STATE.md`; execution source of truth = `PROGRESS.md`;

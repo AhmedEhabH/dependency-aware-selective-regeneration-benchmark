@@ -1,0 +1,549 @@
+{
+  "study_id": "OMISSION_RISK_FEATURE_STUDY_V1",
+  "spec": {
+    "spec_schema_version": "harness-experiment-spec-v1",
+    "spec_id": "omission-risk-feature-study-v1",
+    "protocol_version": "omission-risk-feature-study-v1",
+    "dataset_name": "djangocms-real-commit-v1",
+    "repository": "djangocms",
+    "method_name": "omission-risk-feature-study",
+    "model_name": "",
+    "provider": "none",
+    "k_values": [
+      3,
+      5,
+      10
+    ],
+    "splits_allowed": [
+      "TRAIN",
+      "VALIDATION"
+    ],
+    "seed": 20260916,
+    "budget": {
+      "max_llm_calls": null,
+      "max_llm_tokens": null,
+      "max_estimated_cost_usd": null,
+      "max_wallclock_seconds": null,
+      "zero_llm": true
+    },
+    "frozen_rules": [
+      "TRAIN+VALIDATION ONLY; HELD_OUT_TEST forbidden (fail closed)",
+      "zero LLM calls",
+      "first pass = metadata-corpus BM25@K (registered stand-in)",
+      "primary label K_ref=10; K in {3,5} sensitivity",
+      "labels and features fixed before any performance observation"
+    ],
+    "notes": "Omission-risk feature study V1 (development evidence only)"
+  },
+  "spec_sha256": "d71843d9059c83172bd480a86c0d692c05df5bc205cf01bb718fe1dd27e77584",
+  "label_definition": "has_fn(t;K)=1 iff first-pass BM25@K omits >=1 proxy-positive file; primary K_ref=10; K in {3,5} sensitivity; task-level unit.",
+  "first_pass_definition": "metadata-corpus BM25@K (module+classes+functions); zero LLM; Sparse-LLM action features DEFERRED; historical/evolutionary features DEFERRED (no repo cache, zero-LLM principle).",
+  "strict_data_rule": "TRAIN 24 + VALIDATION 6 only; HELD_OUT_TEST 10 forbidden; labels computed at evaluation time from the observed proxy.",
+  "zero_llm_calls": true,
+  "dataset_dir": "benchmark_data\\real_commit_impact_v1",
+  "output_dir": "research\\omission-risk-feature-study-v1",
+  "n_tasks": 30,
+  "n_train": 24,
+  "n_validation": 6,
+  "collect_seconds": 1.5261505000016768,
+  "feature_schema": [
+    {
+      "name": "bm25_top1_score",
+      "family": "A_retrieval_uncertainty",
+      "description": "top BM25 score",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_top1_top2_margin",
+      "family": "A_retrieval_uncertainty",
+      "description": "top1-top2 score margin",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_top3_min",
+      "family": "A_retrieval_uncertainty",
+      "description": "min of top-3 scores",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_top10_min",
+      "family": "A_retrieval_uncertainty",
+      "description": "min of top-10 scores",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_top3_mean",
+      "family": "A_retrieval_uncertainty",
+      "description": "mean of top-3 scores",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_top10_mean",
+      "family": "A_retrieval_uncertainty",
+      "description": "mean of top-10 scores",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_top10_norm_entropy",
+      "family": "A_retrieval_uncertainty",
+      "description": "normalized entropy of top-10 score distribution",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_concentration_top1",
+      "family": "A_retrieval_uncertainty",
+      "description": "top-1 share of top-10 score mass",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_concentration_herfindahl",
+      "family": "A_retrieval_uncertainty",
+      "description": "Herfindahl concentration over all scores",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_relthresh_count",
+      "family": "A_retrieval_uncertainty",
+      "description": "candidates above 10% of top-1 score",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_elbow_k",
+      "family": "A_retrieval_uncertainty",
+      "description": "knee/adaptive-K estimate of score curve",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_zero_count",
+      "family": "A_retrieval_uncertainty",
+      "description": "candidates with zero BM25 score",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_positive_count",
+      "family": "A_retrieval_uncertainty",
+      "description": "candidates with positive BM25 score",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_nonzero_frac",
+      "family": "A_retrieval_uncertainty",
+      "description": "fraction of candidates with positive score",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_score_range",
+      "family": "A_retrieval_uncertainty",
+      "description": "range of the score distribution",
+      "k_dependent": false
+    },
+    {
+      "name": "bm25_top10_skew",
+      "family": "A_retrieval_uncertainty",
+      "description": "top-heaviness (top1 - top10)/top1",
+      "k_dependent": false
+    },
+    {
+      "name": "disagree_jaccard_graph_k3",
+      "family": "B_sparse_disagreement",
+      "description": "Jaccard(BM25@3, Graph@3)",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_jaccard_graph_k5",
+      "family": "B_sparse_disagreement",
+      "description": "Jaccard(BM25@5, Graph@5)",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_jaccard_graph_k10",
+      "family": "B_sparse_disagreement",
+      "description": "Jaccard(BM25@10, Graph@10)",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_jaccard_pt_k3",
+      "family": "B_sparse_disagreement",
+      "description": "Jaccard(BM25@3, path_token@3)",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_jaccard_pt_k5",
+      "family": "B_sparse_disagreement",
+      "description": "Jaccard(BM25@5, path_token@5)",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_jaccard_pt_k10",
+      "family": "B_sparse_disagreement",
+      "description": "Jaccard(BM25@10, path_token@10)",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_jaccard_hy_k3",
+      "family": "B_sparse_disagreement",
+      "description": "Jaccard(BM25@3, Hybrid@3)",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_jaccard_hy_k5",
+      "family": "B_sparse_disagreement",
+      "description": "Jaccard(BM25@5, Hybrid@5)",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_jaccard_hy_k10",
+      "family": "B_sparse_disagreement",
+      "description": "Jaccard(BM25@10, Hybrid@10)",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_graph_omitted_k3",
+      "family": "B_sparse_disagreement",
+      "description": "graph@3-selected files omitted by the first pass",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_graph_omitted_k5",
+      "family": "B_sparse_disagreement",
+      "description": "graph@5-selected files omitted by the first pass",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_graph_omitted_k10",
+      "family": "B_sparse_disagreement",
+      "description": "graph@10-selected files omitted by the first pass",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_pt_omitted_k3",
+      "family": "B_sparse_disagreement",
+      "description": "path_token@3-selected files omitted by the first pass",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_pt_omitted_k5",
+      "family": "B_sparse_disagreement",
+      "description": "path_token@5-selected files omitted by the first pass",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_pt_omitted_k10",
+      "family": "B_sparse_disagreement",
+      "description": "path_token@10-selected files omitted by the first pass",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_hy_omitted_k3",
+      "family": "B_sparse_disagreement",
+      "description": "hybrid@3-selected files omitted by the first pass",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_hy_omitted_k5",
+      "family": "B_sparse_disagreement",
+      "description": "hybrid@5-selected files omitted by the first pass",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_hy_omitted_k10",
+      "family": "B_sparse_disagreement",
+      "description": "hybrid@10-selected files omitted by the first pass",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_overlap_graph_k3",
+      "family": "B_sparse_disagreement",
+      "description": "|BM25@3 and Graph@3|",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_overlap_graph_k5",
+      "family": "B_sparse_disagreement",
+      "description": "|BM25@5 and Graph@5|",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_overlap_graph_k10",
+      "family": "B_sparse_disagreement",
+      "description": "|BM25@10 and Graph@10|",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_alt_share_of_p1_k3",
+      "family": "B_sparse_disagreement",
+      "description": "share of first pass also selected by Graph@3",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_alt_share_of_p1_k5",
+      "family": "B_sparse_disagreement",
+      "description": "share of first pass also selected by Graph@5",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_alt_share_of_p1_k10",
+      "family": "B_sparse_disagreement",
+      "description": "share of first pass also selected by Graph@10",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_max_bm25_omitted_graph_k3",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 score among graph-selected, first-pass-omitted files @3",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_max_bm25_omitted_graph_k5",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 score among graph-selected, first-pass-omitted files @5",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_max_bm25_omitted_graph_k10",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 score among graph-selected, first-pass-omitted files @10",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_max_bm25_omitted_pt_k3",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 score among path_token-selected, first-pass-omitted files @3",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_max_bm25_omitted_pt_k5",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 score among path_token-selected, first-pass-omitted files @5",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_max_bm25_omitted_pt_k10",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 score among path_token-selected, first-pass-omitted files @10",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_graph_max_bm25_rank_k3",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 rank among graph-selected files @3",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_graph_max_bm25_rank_k5",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 rank among graph-selected files @5",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_graph_max_bm25_rank_k10",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 rank among graph-selected files @10",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_pt_max_bm25_rank_k3",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 rank among path_token-selected files @3",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_pt_max_bm25_rank_k5",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 rank among path_token-selected files @5",
+      "k_dependent": true
+    },
+    {
+      "name": "disagree_pt_max_bm25_rank_k10",
+      "family": "B_sparse_disagreement",
+      "description": "max BM25 rank among path_token-selected files @10",
+      "k_dependent": true
+    },
+    {
+      "name": "graph_seed_count",
+      "family": "C_graph",
+      "description": "number of lexical graph seeds",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_seed_eligible",
+      "family": "C_graph",
+      "description": "1 if a defensible seed set exists",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_1hop_frontier_size",
+      "family": "C_graph",
+      "description": "nodes at graph distance 1 from seeds",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_2hop_frontier_size",
+      "family": "C_graph",
+      "description": "nodes at graph distance 2 from seeds",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_edge_count",
+      "family": "C_graph",
+      "description": "edges within the candidate set",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_cross_module_edges",
+      "family": "C_graph",
+      "description": "edges crossing module boundaries",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_density",
+      "family": "C_graph",
+      "description": "edge density over candidate pairs",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_conn_components",
+      "family": "C_graph",
+      "description": "weakly connected components",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_avg_degree",
+      "family": "C_graph",
+      "description": "mean graph degree of candidates",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_isolated_count",
+      "family": "C_graph",
+      "description": "candidates with no graph edges",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_candidate_expansion_ratio",
+      "family": "C_graph",
+      "description": "(seeds + 1-hop)/N",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_p1_min_dist_seeds",
+      "family": "C_graph",
+      "description": "min graph distance of first-pass files to seeds",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_p1_mean_dist_seeds",
+      "family": "C_graph",
+      "description": "mean graph distance of first-pass files to seeds",
+      "k_dependent": false
+    },
+    {
+      "name": "graph_p1_reachable_frac",
+      "family": "C_graph",
+      "description": "fraction of first-pass files reachable from seeds",
+      "k_dependent": false
+    },
+    {
+      "name": "intent_char_len",
+      "family": "E_task_complexity",
+      "description": "intent length in characters",
+      "k_dependent": false
+    },
+    {
+      "name": "intent_token_count",
+      "family": "E_task_complexity",
+      "description": "intent token count",
+      "k_dependent": false
+    },
+    {
+      "name": "intent_set_size",
+      "family": "E_task_complexity",
+      "description": "unique intent tokens",
+      "k_dependent": false
+    },
+    {
+      "name": "intent_hit_frac",
+      "family": "E_task_complexity",
+      "description": "fraction of intent tokens hitting candidate vocabulary",
+      "k_dependent": false
+    },
+    {
+      "name": "intent_identifier_like_count",
+      "family": "E_task_complexity",
+      "description": "intent tokens that are candidate identifiers",
+      "k_dependent": false
+    },
+    {
+      "name": "candidate_path_token_count",
+      "family": "E_task_complexity",
+      "description": "distinct path-segment tokens over candidates",
+      "k_dependent": false
+    },
+    {
+      "name": "candidate_token_vocab_size",
+      "family": "E_task_complexity",
+      "description": "distinct candidate vocabulary size",
+      "k_dependent": false
+    },
+    {
+      "name": "n_modules",
+      "family": "E_task_complexity",
+      "description": "distinct modules",
+      "k_dependent": false
+    },
+    {
+      "name": "module_breadth",
+      "family": "E_task_complexity",
+      "description": "modules / candidates",
+      "k_dependent": false
+    },
+    {
+      "name": "median_candidate_loc",
+      "family": "E_task_complexity",
+      "description": "median candidate LOC",
+      "k_dependent": false
+    },
+    {
+      "name": "median_candidate_import_count",
+      "family": "E_task_complexity",
+      "description": "median candidate import count",
+      "k_dependent": false
+    },
+    {
+      "name": "candidate_class_count_total",
+      "family": "E_task_complexity",
+      "description": "total classes across candidates",
+      "k_dependent": false
+    },
+    {
+      "name": "candidate_function_count_total",
+      "family": "E_task_complexity",
+      "description": "total functions across candidates",
+      "k_dependent": false
+    },
+    {
+      "name": "n_candidates",
+      "family": "E_task_complexity",
+      "description": "candidate universe size",
+      "k_dependent": false
+    },
+    {
+      "name": "fp_density_k3",
+      "family": "F_sparse_plan",
+      "description": "first-pass density K/N at K=3",
+      "k_dependent": true
+    },
+    {
+      "name": "fp_density_k5",
+      "family": "F_sparse_plan",
+      "description": "first-pass density K/N at K=5",
+      "k_dependent": true
+    },
+    {
+      "name": "fp_density_k10",
+      "family": "F_sparse_plan",
+      "description": "first-pass density K/N at K=10",
+      "k_dependent": true
+    }
+  ]
+}
