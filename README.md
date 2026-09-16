@@ -1,11 +1,21 @@
 # Repository-Level LLM Impact Selection Benchmark
 
-> **Current scientific state (2026-09-16):** the selection-stage benchmark is
+> **Current scientific state (2026-09-16/17):** the selection-stage benchmark is
 > **complete and audited**, the manuscript is **submitted** (IEEE-format V20
-> artifact; see `paper/v20-final/`), the **POST-ICCI zero-API closure is
-> COMPLETE** (2026-09-15), the **FIRST POST-ICCI EXPERIMENTAL BLOCK is
-> COMPLETE AND CLOSED (Protocol A — cheap non-LLM baselines v1, 2026-09-16;
-> merged to `main`; DEV tag `cheap-baselines-v1-dev-2026-09-16`)**: TRAIN 24 +
+> artifact; see `paper/v20-final/`). The **evening autonomous mission
+> (2026-09-16)** added: the supervisor-ready **MSc Proposal V1.2**
+> (`msc_proposal/MSC_PROPOSAL_V1_2.pdf`, 7 pages), a **Route B candidate-level
+> omission-recovery** zero-LLM study (Classical CIA beats Random at budget 5 on
+> development data — the first positive candidate-level signal), **Saleor
+> Stage-2 READY-TO-RUN** (sampling frame 6000→2409→1352→**1316** eligible;
+> split proposal; gates), a **LocAgent P5R** operational-robustness pilot
+> (0/5 usable; P5 immutable), a **semantic-proxy human-audit protocol** with 25
+> development-only evidence packets, a **BibTeX triage** of 13 uploaded exports,
+> and six **traceability ledgers**. V2 INTERNAL_TEST/RESERVE remain untouched.
+> The **POST-ICCI ZERO-API CLOSURE is COMPLETE** (2026-09-15), the **FIRST
+> POST-ICCI EXPERIMENTAL BLOCK is COMPLETE AND CLOSED (Protocol A — cheap
+> non-LLM baselines v1, 2026-09-16; merged to `main`; DEV tag
+> `cheap-baselines-v1-dev-2026-09-16`)**: TRAIN 24 +
 > VALIDATION 6 only (HELD_OUT_TEST ten permanently excluded), ZERO API calls,
 > six zero-API gates + independent audit PASS; **BM25@K is the strongest cheap
 > lexical baseline on development data** — VALIDATION primary
