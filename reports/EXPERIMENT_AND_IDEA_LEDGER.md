@@ -116,3 +116,11 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
 - **Revisit:** progression gate PARTIAL PASS (direction stable, no artifact, but
   DEV_VALIDATION CI includes 0) -> a verifier pilot is NOT strongly justified
   yet; recommend a larger DEV_VALIDATION or predeclared hybrid refinement.
+
+## E-018 — Route B V2 robustness closure
+- **Status:** EXECUTED (2026-09-17).
+- **Result:** CIA best predeclared arm; mean curve delta +0.118 vs analytic
+  Random; 5/5 folds positive; CIs exclude zero at every B; progression gate
+  PASS. Verifier pilot authorized (Block 4).
+- **Artifact:** reports/ROUTE_B_V2_ROBUSTNESS_REPORT.md; route_b_v2_gates.json.
+- **Revisit:** n/a (frozen ranker family; confirm on INTERNAL_TEST after full freeze).
