@@ -1,0 +1,24 @@
+{
+  "gates": [
+    {
+      "name": "progression",
+      "passed": true,
+      "detail": {
+        "best_arm": "CIA",
+        "fold_positive_direction": 5,
+        "n_folds": 5,
+        "direction_majority": true,
+        "b_curve_positive_over_random": 4,
+        "n_b_curve_points": 4,
+        "above_random_nontrivial": true,
+        "corr_omitted_size_artifact": -0.119,
+        "corr_universe_size_artifact": -0.117,
+        "artifact_free": true,
+        "leakage_free": true,
+        "practically_meaningful": true,
+        "gate_pass": true
+      }
+    }
+  ],
+  "all_passed": true
+}
