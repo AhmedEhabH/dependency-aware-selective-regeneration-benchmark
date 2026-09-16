@@ -1,0 +1,160 @@
+diff --git a/CHANGELOG.txt b/CHANGELOG.txt
+index 494e58cca..fc7d62acd 100644
+--- a/CHANGELOG.txt
++++ b/CHANGELOG.txt
+@@ -16,6 +16,7 @@
+ * Improved keyboard navigation
+ * Added help modal about available shortcuts
+ * Added fuzzy matching to plugin picker
++* Changed the ``downcast_plugins`` utility to return a generator instead of a list
+ 
+ 
+ === 3.3.2 (unreleased) ===
+diff --git a/cms/cms_plugins.py b/cms/cms_plugins.py
+index 764542769..34c600f9f 100644
+--- a/cms/cms_plugins.py
++++ b/cms/cms_plugins.py
+@@ -46,6 +46,7 @@ class AliasPlugin(CMSPluginBase):
+             plugins = instance.plugin.get_descendants().order_by('placeholder', 'path')
+             plugins = [instance.plugin] + list(plugins)
+             plugins = downcast_plugins(plugins, request=cms_content_renderer.request)
++            plugins = list(plugins)
+             plugins[0].parent_id = None
+             plugins = build_plugin_tree(plugins)
+             context['plugins'] = plugins
+diff --git a/cms/tests/test_placeholder.py b/cms/tests/test_placeholder.py
+index 2d3eb8930..c74216eb5 100644
+--- a/cms/tests/test_placeholder.py
++++ b/cms/tests/test_placeholder.py
+@@ -18,6 +18,7 @@ from cms.api import add_plugin, create_page, create_title
+ from cms.exceptions import DuplicatePlaceholderWarning
+ from cms.models.fields import PlaceholderField
+ from cms.models.placeholdermodel import Placeholder
++from cms.models.pluginmodel import CMSPlugin
+ from cms.plugin_pool import plugin_pool
+ from cms.tests.test_toolbar import ToolbarTestBase
+ from cms.test_utils.fixtures.fakemlng import FakemlngFixtures
+@@ -167,6 +168,75 @@ class PlaceholderTestCase(CMSTestCase, UnittestCompatMixin):
+         self.assertEqual([ph1_pl1, ph1_pl3], list(ph1.cmsplugin_set.order_by('position')))
+         self.assertEqual([ph2_pl3, ph2_pl1, ph2_pl2, ph1_pl2, ], list(ph2.cmsplugin_set.order_by('position')))
+ 
++    def test_placeholder_render_ghost_plugin(self):
++        """
++        Tests a placeholder won't render a ghost plugin.
++        """
++        page_en = create_page('page_en', 'col_two.html', 'en')
++        placeholder_en = page_en.placeholders.get(slot='col_left')
++
++        CMSPlugin.objects.create(
++            language='en',
++            plugin_type='LinkPlugin',
++            position=1,
++            placeholder=placeholder_en,
++            parent=None,
++        )
++
++        add_plugin(
++            placeholder_en,
++            "LinkPlugin",
++            "en",
++            name='name',
++            url='http://example.com/',
++        )
++
++        context_en = SekizaiContext()
++        context_en['request'] = self.get_request(language="en", page=page_en)
++
++        content_en = _render_placeholder(placeholder_en, context_en)
++
++        self.assertEqual(content_en.strip(), '<a href="http://example.com/" >name</a>')
++
++    def test_placeholder_render_ghost_plugin_with_child(self):
++        """
++        Tests a placeholder won't render a ghost plugin or any of it's children.
++        """
++        page_en = create_page('page_en', 'col_two.html', 'en')
++        placeholder_en = page_en.placeholders.get(slot='col_left')
++
++        plugin = CMSPlugin.objects.create(
++            language='en',
++            plugin_type='LinkPlugin',
++            position=1,
++            placeholder=placeholder_en,
++            parent=None,
++        )
++
++        add_plugin(
++            placeholder_en,
++            "LinkPlugin",
++            "en",
++            target=plugin,
++            name='invalid',
++            url='http://example.com/',
++        )
++
++        add_plugin(
++            placeholder_en,
++            "LinkPlugin",
++            "en",
++            name='valid',
++            url='http://example.com/',
++        )
++
++        context_en = SekizaiContext()
++        context_en['request'] = self.get_request(language="en", page=page_en)
++
++        content_en = _render_placeholder(placeholder_en, context_en)
++
++        self.assertEqual(content_en.strip(), '<a href="http://example.com/" >valid</a>')
++
+     @override_settings(CMS_PERMISSION=False)
+     def test_nested_plugin_escapejs(self):
+         """
+diff --git a/cms/utils/plugins.py b/cms/utils/plugins.py
+index 2a276e3a0..a82f1801d 100644
+--- a/cms/utils/plugins.py
++++ b/cms/utils/plugins.py
+@@ -152,6 +152,10 @@ def downcast_plugins(plugins,
+     for plugin in plugins:
+         plugin_types_map[plugin.plugin_type].append(plugin.pk)
+ 
++    placeholders = placeholders or []
++    placeholders_by_id = {placeholder.pk: placeholder for placeholder in placeholders}
++
++
+     for plugin_type, pks in plugin_types_map.items():
+         cls = plugin_pool.get_plugin(plugin_type)
+         # get all the plugins of type cls.model
+@@ -163,17 +167,22 @@ def downcast_plugins(plugins,
+         # put them in a map so we can replace the base CMSPlugins with their
+         # downcasted versions
+         for instance in plugin_qs.iterator():
++            placeholder = placeholders_by_id.get(instance.placeholder_id)
++
++            if placeholder:
++                instance.placeholder = placeholder
++
++                if not cls.cache and not cls().get_cache_expiration(request, instance, placeholder):
++                    placeholder.cache_placeholder = False
++
+             plugin_lookup[instance.pk] = instance
+-            # cache the placeholder
+-            if placeholders:
+-                for pl in placeholders:
+-                    if instance.placeholder_id == pl.pk:
+-                        instance.placeholder = pl
+-                        if not cls().get_cache_expiration(
+-                                request, instance, pl) and not cls.cache:
+-                            pl.cache_placeholder = False
+-    # make the equivalent list of qs, but with downcasted instances
+-    return [plugin_lookup[plugin.pk] for plugin in plugins if plugin.pk in plugin_lookup]
++
++    for plugin in plugins:
++        # The plugin either has no parent or needs to have a non-ghost parent
++        valid_parent = (not plugin.parent_id or plugin.parent_id in plugin_lookup)
++
++        if valid_parent and plugin.pk in plugin_lookup:
++            yield plugin_lookup[plugin.pk]
+ 
+ 
+ def reorder_plugins(placeholder, parent_id, language, order):

@@ -1,0 +1,234 @@
+diff --git a/cms/admin/placeholderadmin.py b/cms/admin/placeholderadmin.py
+index 1aa4aa60c..f517e6cf3 100644
+--- a/cms/admin/placeholderadmin.py
++++ b/cms/admin/placeholderadmin.py
+@@ -1089,7 +1089,7 @@ class PlaceholderAdmin(BaseEditableAdminMixin, admin.ModelAdmin):
+                 placeholder=placeholder,
+                 tree_order=plugin_tree_order,
+             )
+-            return HttpResponseRedirect(admin_reverse('index', current_app=self.admin_site.name))
++            return render(request, "admin/cms/page/close_frame.html", {})
+ 
+         plugin_name = force_str(plugin.get_plugin_class().name)
+ 
+diff --git a/cms/models/pluginmodel.py b/cms/models/pluginmodel.py
+index d97fb9db9..732c66d30 100644
+--- a/cms/models/pluginmodel.py
++++ b/cms/models/pluginmodel.py
+@@ -321,7 +321,7 @@ class CMSPlugin(models.Model, metaclass=PluginModelBase):
+         return
+ 
+     def reload(self):
+-        return CMSPlugin.objects.get(pk=self.pk)
++        return CMSPlugin.objects.select_related("parent", "placeholder").get(pk=self.pk)
+ 
+     def _get_descendants_count(self):
+         if plugin_supports_cte():
+diff --git a/cms/plugin_base.py b/cms/plugin_base.py
+index b7f5b2367..3a4222066 100644
+--- a/cms/plugin_base.py
++++ b/cms/plugin_base.py
+@@ -248,8 +248,8 @@ class CMSPluginBase(admin.ModelAdmin, metaclass=CMSPluginBaseMetaclass):
+     show_add_form = True
+ 
+     #: The plugin does not modify the context or request and its rendering is not influenced by its parent
+-    #: plugins.
+-    is_local = True
++    #: plugins. Defaults to ``False`` unless ``CMS_ALWAYS_REFRESH_CONTENT`` is set to ``True``.
++    is_local = not get_cms_setting("ALWAYS_REFRESH_CONTENT")
+ 
+     # Warning: setting these to False, may have a serious performance impact,
+     # because their child-parent-relation must be recomputed each
+diff --git a/cms/templates/admin/cms/page/close_frame.html b/cms/templates/admin/cms/page/close_frame.html
+index f4efeb6bf..971837af1 100644
+--- a/cms/templates/admin/cms/page/close_frame.html
++++ b/cms/templates/admin/cms/page/close_frame.html
+@@ -5,8 +5,10 @@
+         <div class="messagelist">
+             <div class="success"></div>
+         </div>
+-        {{ data_bridge|json_script:"data-bridge" }}
+-        <script src="{% static_with_version "cms/js/dist/bundle.admin.base.min.js" %}" type="text/javascript"></script>
++        {% if data_bridge %}
++            {{ data_bridge|json_script:"data-bridge" }}
++            <script src="{% static_with_version "cms/js/dist/bundle.admin.base.min.js" %}" type="text/javascript"></script>
++        {% endif %}
+     </body>
+ </html>
+ {% endspaceless %}
+diff --git a/cms/tests/test_log_entries.py b/cms/tests/test_log_entries.py
+index a81ce182f..228d0f4cc 100644
+--- a/cms/tests/test_log_entries.py
++++ b/cms/tests/test_log_entries.py
+@@ -381,7 +381,7 @@ class LogPlaceholderOperationsTests(CMSTestCase):
+             data = {'post': True}
+             response = self.client.post(endpoint, data)
+             # Test that the end point is valid
+-            self.assertEqual(response.status_code, 302)
++            self.assertContains(response, '<div class="success"></div>')
+             # Test that the log count is correct
+             self.assertEqual(1, LogEntry.objects.count())
+ 
+diff --git a/cms/tests/test_page_admin.py b/cms/tests/test_page_admin.py
+index 0be7cfd1b..44f80c505 100644
+--- a/cms/tests/test_page_admin.py
++++ b/cms/tests/test_page_admin.py
+@@ -2904,7 +2904,7 @@ class PermissionsOnGlobalTest(PermissionsTestCase):
+             data = {'post': True}
+ 
+             response = self.client.post(endpoint, data)
+-            self.assertEqual(response.status_code, 302)
++            self.assertContains(response, '<div class="success"></div>')
+             self.assertFalse(CMSPlugin.objects.filter(pk=plugin.pk).exists())
+ 
+     def test_user_cant_delete_plugin(self):
+@@ -4290,7 +4290,7 @@ class PermissionsOnPageTest(PermissionsTestCase):
+             data = {'post': True}
+ 
+             response = self.client.post(endpoint, data)
+-            self.assertEqual(response.status_code, 302)
++            self.assertContains(response, '<div class="success"></div>')
+             self.assertFalse(CMSPlugin.objects.filter(pk=plugin.pk).exists())
+ 
+     def test_user_cant_delete_plugin(self):
+diff --git a/cms/tests/test_placeholder_admin.py b/cms/tests/test_placeholder_admin.py
+index 7966c6404..456057bae 100644
+--- a/cms/tests/test_placeholder_admin.py
++++ b/cms/tests/test_placeholder_admin.py
+@@ -157,7 +157,7 @@ class PlaceholderAdminTestCase(CMSTestCase):
+             data = {"post": True}
+             response = self.client.post(endpoint, data)
+ 
+-        self.assertEqual(response.status_code, 302)
++        self.assertContains(response, '<div class="success"></div>')
+         self.assertFalse(CMSPlugin.objects.filter(pk=plugin.pk).exists())
+ 
+     def test_clear_placeholder_endpoint(self):
+diff --git a/cms/tests/test_placeholder_app_admin.py b/cms/tests/test_placeholder_app_admin.py
+index 483a54b82..21a692885 100644
+--- a/cms/tests/test_placeholder_app_admin.py
++++ b/cms/tests/test_placeholder_app_admin.py
+@@ -347,7 +347,7 @@ class AppAdminPermissionsTest(AppAdminTestCase):
+             data = {'post': True}
+ 
+             response = self.client.post(endpoint, data)
+-            self.assertEqual(response.status_code, 302)
++            self.assertContains(response, '<div class="success"></div>')
+             self.assertFalse(CMSPlugin.objects.filter(pk=plugin.pk).exists())
+ 
+     def test_user_cant_delete_plugin(self):
+diff --git a/cms/tests/test_placeholder_operation_signals.py b/cms/tests/test_placeholder_operation_signals.py
+index bc2c7baee..5f876c76b 100644
+--- a/cms/tests/test_placeholder_operation_signals.py
++++ b/cms/tests/test_placeholder_operation_signals.py
+@@ -159,7 +159,7 @@ class PagePlaceholderTestCase(CMSTestCase):
+                 data = {'post': True}
+ 
+                 response = self.client.post(endpoint, data)
+-                self.assertEqual(response.status_code, 302)
++                self.assertContains(response, '<div class="success"></div>')
+ 
+             self.assertEqual(env.call_count, 1)
+ 
+@@ -182,7 +182,7 @@ class PagePlaceholderTestCase(CMSTestCase):
+                 data = {'post': True}
+ 
+                 response = self.client.post(endpoint, data)
+-                self.assertEqual(response.status_code, 302)
++                self.assertContains(response, '<div class="success"></div>')
+ 
+             self.assertEqual(env.call_count, 2)
+ 
+diff --git a/cms/tests/test_plugins.py b/cms/tests/test_plugins.py
+index f3a66eeec..ef6b0c9fa 100644
+--- a/cms/tests/test_plugins.py
++++ b/cms/tests/test_plugins.py
+@@ -541,7 +541,7 @@ class PluginsTestCase(PluginsTestBaseCase):
+         }
+         endpoint = self.get_delete_plugin_uri(plugin)
+         response = self.client.post(endpoint, plugin_data)
+-        self.assertEqual(response.status_code, 302)
++        self.assertContains(response, '<div class="success"></div>')
+         # there should be no plugins
+         self.assertEqual(0, CMSPlugin.objects.all().count())
+ 
+diff --git a/cms/utils/conf.py b/cms/utils/conf.py
+index e96af0555..186618624 100644
+--- a/cms/utils/conf.py
++++ b/cms/utils/conf.py
+@@ -93,6 +93,7 @@ DEFAULTS = {
+     'COLOR_SCHEME_TOGGLE': True,
+     'CATCH_PLUGIN_500_EXCEPTION': True,
+     'DEFAULT_IN_NAVIGATION': True,
++    'ALWAYS_REFRESH_CONTENT': False,
+ }
+ 
+ 
+diff --git a/docs/reference/configuration.rst b/docs/reference/configuration.rst
+index 61ee6e802..bc78ce1b3 100644
+--- a/docs/reference/configuration.rst
++++ b/docs/reference/configuration.rst
+@@ -725,7 +725,7 @@ CMS_DEFAULT_IN_NAVIGATION
+ default
+     ``True``
+ 
+-Decides if a newly added page content is automatically added to the navigation. 
++Decides if a newly added page content is automatically added to the navigation.
+ 
+ 
+ **************
+@@ -1140,7 +1140,7 @@ default
+ 
+ This is the name of the plugin created in the Page Wizard when the "Content"
+ field is filled in. There should be no need to change it, unless you
+-**don't** use ``djangocms-text-ckeditor`` in your project.
++**don't** use `djangocms-text`` or ```djangocms-text-ckeditor`` in your project.
+ 
+ ..  setting:: CMS_PAGE_WIZARD_CONTENT_PLUGIN_BODY
+ 
+@@ -1152,9 +1152,10 @@ default
+ 
+ This is the name of the body field in the plugin created in the Page Wizard
+ when the "Content" field is filled in. There should be no need to change it,
+-unless you **don't** use ``djangocms-text-ckeditor`` in your project **and**
+-your custom plugin defined in :setting:`CMS_PAGE_WIZARD_CONTENT_PLUGIN` have a
+-body field **different** than ``body``.
++unless you **don't** use `djangocms-text`` or ``djangocms-text-ckeditor`` in
++your project **and** your custom plugin defined in
++:setting:`CMS_PAGE_WIZARD_CONTENT_PLUGIN` have a body field **different** than
++``body``.
+ 
+ .. setting:: CMS_ENDPOINT_LIVE_URL_QUERYSTRING_PARAM_ENABLED
+ 
+@@ -1172,7 +1173,7 @@ default
+ .. setting:: CMS_ENDPOINT_LIVE_URL_QUERYSTRING_PARAM
+ 
+ CMS_ENDPOINT_LIVE_URL_QUERYSTRING_PARAM
+-===============================================
++=======================================
+ 
+ default
+     ``live-url``
+@@ -1220,6 +1221,22 @@ If ``CMS_CATCH_PLUGIN_500_EXCEPTION`` is set to ``False``, viewing public
+ content will cause a server error (http error code 500). This can, for example,
+ be used for regular health checking.
+ 
++CMS_ALWAYS_REFRESH_CONTENT
++==========================
++
++default
++    ``False``
++
++.. versionadded:: 4.2
++
++If set to ``True``, the CMS will always refresh the content of the page after
++edit action, just as in django CMS 4.1 and before.
++
++Only use this setting of your custom plugins have issues with the new partial
++content refresh when editing. **If you need to set this, make sure to report an
++issue on GitHub.**
++
++
+ CMS_CONFIRM_VERSION4
+ ====================
+ 

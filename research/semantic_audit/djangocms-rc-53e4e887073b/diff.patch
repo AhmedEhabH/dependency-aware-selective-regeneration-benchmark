@@ -1,0 +1,438 @@
+diff --git a/cms/admin/forms.py b/cms/admin/forms.py
+index 6ae3a91a2..3cceded70 100644
+--- a/cms/admin/forms.py
++++ b/cms/admin/forms.py
+@@ -292,7 +292,7 @@ class AddPageForm(BasePageForm):
+         if is_first and not new_page.is_page_type:
+             # its the first page. publish it right away
+             new_page.publish(translation.language)
+-            Page.set_homepage(new_page, user=self._user)
++            new_page.set_as_homepage(self._user)
+         return new_page
+ 
+ 
+diff --git a/cms/admin/pageadmin.py b/cms/admin/pageadmin.py
+index 8cbde26c7..9bf91be67 100644
+--- a/cms/admin/pageadmin.py
++++ b/cms/admin/pageadmin.py
+@@ -1627,7 +1627,7 @@ class PageAdmin(BasePageAdmin):
+         page = self.get_object(request, object_id=object_id)
+ 
+         if not self.has_change_permission(request, page):
+-            raise PermissionDenied("You do not have permission to set 'home'")
++            raise PermissionDenied("You do not have permission to set 'home'.")
+ 
+         if page is None:
+             raise self._get_404_exception(object_id)
+@@ -1635,7 +1635,7 @@ class PageAdmin(BasePageAdmin):
+         if not page.is_potential_home():
+             return HttpResponseBadRequest(force_text(_("The page is not eligible to be home.")))
+ 
+-        new_home_tree, old_home_tree = Page.set_homepage(page, user=request.user)
++        new_home_tree, old_home_tree = page.set_as_homepage(request.user)
+ 
+         # Check if one of the affected pages either from the old homepage
+         # or the homepage had an apphook attached
+diff --git a/cms/cache/__init__.py b/cms/cache/__init__.py
+index 38fb64062..1e5a52399 100644
+--- a/cms/cache/__init__.py
++++ b/cms/cache/__init__.py
+@@ -2,7 +2,7 @@
+ import re
+ from cms.utils.conf import get_cms_setting
+ 
+-CMS_PAGE_CACHE_VERSION_KEY = get_cms_setting("CACHE_PREFIX") + 'CMS_PAGE_CACHE_VERSION'
++CMS_PAGE_CACHE_VERSION_KEY = get_cms_setting("CACHE_PREFIX") + '_PAGE_CACHE_VERSION'
+ 
+ 
+ def _get_cache_version():
+diff --git a/cms/management/commands/subcommands/copy.py b/cms/management/commands/subcommands/copy.py
+index 7c5dd4f13..75e285101 100644
+--- a/cms/management/commands/subcommands/copy.py
++++ b/cms/management/commands/subcommands/copy.py
+@@ -136,7 +136,7 @@ class CopySiteCommand(SubcommandsCommand):
+                 )
+ 
+                 if page.is_home:
+-                    Page.set_homepage(new_page)
++                    new_page.set_as_homepage()
+         self.stdout.write('Copied CMS Tree from SITE_ID {0} successfully to SITE_ID {1}.\n'.format(from_site.pk, to_site.pk))
+ 
+     def get_site(self, site_id):
+diff --git a/cms/migrations/0018_pagenode.py b/cms/migrations/0018_pagenode.py
+index 44e318d93..af669a27d 100644
+--- a/cms/migrations/0018_pagenode.py
++++ b/cms/migrations/0018_pagenode.py
+@@ -53,7 +53,7 @@ def migrate_to_page_nodes(apps, schema_editor):
+     TreeNode = apps.get_model('cms', 'TreeNode')
+     db_alias = schema_editor.connection.alias
+ 
+-    public_pages = Page.objects.filter(publisher_is_draft=False)
++    public_pages = Page.objects.using(db_alias).filter(publisher_is_draft=False)
+     root_draft_pages = Page.objects.using(db_alias).filter(
+         publisher_is_draft=True,
+         parent__isnull=True,
+@@ -128,6 +128,12 @@ class Migration(migrations.Migration):
+             unique_together=set([('node', 'publisher_is_draft')]),
+         ),
+         migrations.RunPython(migrate_to_page_nodes),
++        migrations.AlterModelOptions(
++            name='page',
++            options={'verbose_name': 'page', 'verbose_name_plural': 'pages', 'permissions': (
++            ('view_page', 'Can view page'), ('publish_page', 'Can publish page'),
++            ('edit_static_placeholder', 'Can edit static placeholders'))},
++        ),
+         migrations.AlterField(
+             model_name='page',
+             name='node',
+@@ -142,6 +148,10 @@ class Migration(migrations.Migration):
+             model_name='page',
+             name='parent',
+         ),
++        migrations.RemoveField(
++            model_name='page',
++            name='revision_id',
++        ),
+         migrations.RemoveField(
+             model_name='page',
+             name='depth',
+diff --git a/cms/models/pagemodel.py b/cms/models/pagemodel.py
+index 0f0ac2048..58cd8399d 100644
+--- a/cms/models/pagemodel.py
++++ b/cms/models/pagemodel.py
+@@ -109,9 +109,6 @@ class Page(models.Model):
+     )
+     languages = models.CharField(max_length=255, editable=False, blank=True, null=True)
+ 
+-    # If the draft is loaded from a reversion version save the revision id here.
+-    revision_id = models.PositiveIntegerField(default=0, editable=False)
+-
+     # X Frame Options for clickjacking protection
+     xframe_options = models.IntegerField(
+         choices=X_FRAME_OPTIONS_CHOICES,
+@@ -190,14 +187,13 @@ class Page(models.Model):
+     def parent_page(self):
+         return self.get_parent_page()
+ 
+-    @classmethod
+-    def set_homepage(cls, page, user=None):
++    def set_as_homepage(self, user=None):
+         """
+         Sets the given page as the homepage.
+         Updates the title paths for all affected pages.
+         Returns the old home page (if any).
+         """
+-        assert page.publisher_is_draft
++        assert self.publisher_is_draft
+ 
+         if user:
+             changed_by = get_clean_username(user)
+@@ -207,12 +203,12 @@ class Page(models.Model):
+         changed_date = now()
+ 
+         try:
+-            old_home = cls.objects.get(
++            old_home = self.__class__.objects.get(
+                 is_home=True,
+-                node__site=page.node.site_id,
++                node__site=self.node.site_id,
+                 publisher_is_draft=True,
+             )
+-        except cls.DoesNotExist:
++        except self.__class__.DoesNotExist:
+             old_home_tree = []
+         else:
+             old_home.update(
+@@ -223,13 +219,13 @@ class Page(models.Model):
+             )
+             old_home_tree = old_home._set_title_root_path()
+ 
+-        page.update(
++        self.update(
+             draft_only=False,
+             is_home=True,
+             changed_by=changed_by,
+             changed_date=changed_date,
+         )
+-        new_home_tree = page._remove_title_root_path()
++        new_home_tree = self._remove_title_root_path()
+         return (new_home_tree, old_home_tree)
+ 
+     def _update_title_path(self, language):
+diff --git a/cms/test_utils/fixtures/menus.py b/cms/test_utils/fixtures/menus.py
+index ad8e3a78b..ec4306156 100644
+--- a/cms/test_utils/fixtures/menus.py
++++ b/cms/test_utils/fixtures/menus.py
+@@ -1,6 +1,5 @@
+ # -*- coding: utf-8 -*-
+ from cms.api import create_page
+-from cms.models import Page
+ 
+ 
+ class MenusFixture(object):
+@@ -23,7 +22,7 @@ class MenusFixture(object):
+         }
+         with self.settings(CMS_PERMISSION=False):
+             p1 = create_page('P1', published=True, in_navigation=True, **defaults)
+-            Page.set_homepage(p1)
++            p1.set_as_homepage()
+             p4 = create_page('P4', published=True, in_navigation=True, **defaults)
+             p6 = create_page('P6', published=True, in_navigation=False, **defaults)
+             p2 = create_page('P2', published=True, in_navigation=True, parent=p1, **defaults)
+@@ -56,7 +55,7 @@ class ExtendedMenusFixture(object):
+         }
+         with self.settings(CMS_MODERATOR=False, CMS_PERMISSION=False):
+             p1 = create_page('P1', published=True, in_navigation=True, **defaults)
+-            Page.set_homepage(p1)
++            p1.set_as_homepage()
+             p4 = create_page('P4', published=True, in_navigation=True, **defaults)
+             p6 = create_page('P6', published=True, in_navigation=False, **defaults)
+             p2 = create_page('P2', published=True, in_navigation=True, parent=p1, **defaults)
+@@ -89,7 +88,7 @@ class SubMenusFixture(object):
+         }
+         with self.settings(CMS_PERMISSION=False):
+             p1 = create_page('P1', published=True, in_navigation=True, **defaults)
+-            Page.set_homepage(p1)
++            p1.set_as_homepage()
+             p4 = create_page('P4', published=True, in_navigation=True, **defaults)
+             p6 = create_page('P6', published=True, in_navigation=True, **defaults)
+             p2 = create_page('P2', published=True, in_navigation=True, parent=p1, **defaults)
+@@ -123,7 +122,7 @@ class SoftrootFixture(object):
+         }
+         with self.settings(CMS_PERMISSION=False):
+             top = create_page('top', **defaults)
+-            Page.set_homepage(top)
++            top.set_as_homepage()
+             root = create_page('root', parent=top, **defaults)
+             aaa = create_page('aaa', parent=root, **defaults)
+             _111 = create_page('111', parent=aaa, **defaults)
+diff --git a/cms/test_utils/fixtures/navextenders.py b/cms/test_utils/fixtures/navextenders.py
+index 5e798b246..84770d3e7 100644
+--- a/cms/test_utils/fixtures/navextenders.py
++++ b/cms/test_utils/fixtures/navextenders.py
+@@ -20,7 +20,7 @@ class NavextendersFixture(object):
+         }
+         with self.settings(CMS_PERMISSION=False):
+             p1 = create_page('page1', published=True, in_navigation=True, **defaults)
+-            Page.set_homepage(p1)
++            p1.set_as_homepage()
+             p4 = create_page('page4', published=True, in_navigation=True, **defaults)
+             p1 = Page.objects.get(pk=p1.pk)
+             p2 = create_page('page2', published=True, in_navigation=True, parent=p1, **defaults)
+diff --git a/cms/test_utils/testcases.py b/cms/test_utils/testcases.py
+index 6e430e11a..9f224c454 100644
+--- a/cms/test_utils/testcases.py
++++ b/cms/test_utils/testcases.py
+@@ -370,7 +370,7 @@ class BaseCMSTestCase(object):
+ 
+     def create_homepage(self, *args, **kwargs):
+         homepage = create_page(*args, **kwargs)
+-        Page.set_homepage(homepage)
++        homepage.set_as_homepage()
+         return homepage.reload()
+ 
+     def move_page(self, page, target_page, position="first-child"):
+diff --git a/cms/tests/test_admin.py b/cms/tests/test_admin.py
+index bcdbc4274..2b4ebb95a 100644
+--- a/cms/tests/test_admin.py
++++ b/cms/tests/test_admin.py
+@@ -572,8 +572,7 @@ class AdminTests(AdminTestsBase):
+             self.assertRaises(Http404, self.admin_class.preview_page, request, 404, "en")
+         page = self.get_page()
+         page.publish("en")
+-
+-        Page.set_homepage(page)
++        page.set_as_homepage()
+ 
+         new_site = Site.objects.create(id=2, domain='django-cms.org', name='django-cms')
+         new_page = create_page("testpage", "nav_playground.html", "fr", site=new_site, published=True)
+@@ -1014,8 +1013,7 @@ class AdminFormsTests(AdminTestsBase):
+         cache.clear()
+ 
+         homepage = create_page('Test', 'static.html', 'en', published=True)
+-
+-        Page.set_homepage(homepage)
++        homepage.set_as_homepage()
+ 
+         for placeholder in Placeholder.objects.all():
+             add_plugin(placeholder, TextPlugin, 'en', body='<b>Test</b>')
+diff --git a/cms/tests/test_menu_page_viewperm.py b/cms/tests/test_menu_page_viewperm.py
+index 688db45b1..8a0d0e4f4 100644
+--- a/cms/tests/test_menu_page_viewperm.py
++++ b/cms/tests/test_menu_page_viewperm.py
+@@ -71,7 +71,7 @@ class ViewPermissionTests(CMSTestCase):
+             'in_navigation': True,
+         }
+         homepage = create_page("page_a", **stdkwargs)
+-        Page.set_homepage(homepage)
++        homepage.set_as_homepage()
+ 
+         page_b = create_page("page_b", **stdkwargs)
+         page_c = create_page("page_c", **stdkwargs)
+@@ -568,7 +568,7 @@ class ViewPermissionTreeBugTests(ViewPermissionTests):
+             'in_navigation': True,
+         }
+         homepage = create_page("page_1", **stdkwargs)
+-        Page.set_homepage(homepage)
++        homepage.set_as_homepage()
+         page_2 = create_page("page_2", parent=homepage, **stdkwargs)
+         page_3 = create_page("page_3", parent=page_2, **stdkwargs)
+         page_4 = create_page("page_4", parent=page_3, **stdkwargs)
+diff --git a/cms/tests/test_multilingual.py b/cms/tests/test_multilingual.py
+index b3b73e873..3df8450a9 100644
+--- a/cms/tests/test_multilingual.py
++++ b/cms/tests/test_multilingual.py
+@@ -8,7 +8,7 @@ from django.test.utils import override_settings
+ from cms.api import create_page, create_title, publish_page, add_plugin
+ from cms.forms.utils import update_site_and_page_choices
+ from cms.exceptions import LanguageError
+-from cms.models import Page, Title, EmptyTitle
++from cms.models import Title, EmptyTitle
+ from cms.test_utils.testcases import (CMSTestCase,
+                                       URL_CMS_PAGE_CHANGE_LANGUAGE, URL_CMS_PAGE_PUBLISH)
+ from cms.utils.conf import get_cms_setting
+@@ -201,7 +201,7 @@ class MultilingualTestCase(CMSTestCase):
+             page3.publish('en')
+             page4.publish('de')
+ 
+-            Page.set_homepage(page)
++            page.set_as_homepage()
+ 
+             # The "en" language is set to public -> False.
+             # Because the request is to the root (homepage),
+@@ -291,8 +291,7 @@ class MultilingualTestCase(CMSTestCase):
+         """
+         from cms.views import details
+         p1 = create_page("page", "nav_playground.html", "en", published=True)
+-
+-        Page.set_homepage(p1)
++        p1.set_as_homepage()
+ 
+         # There's no "de" translation.
+         # Fallbacks are configured.
+diff --git a/cms/tests/test_no_i18n.py b/cms/tests/test_no_i18n.py
+index b525ed523..3361d35a2 100644
+--- a/cms/tests/test_no_i18n.py
++++ b/cms/tests/test_no_i18n.py
+@@ -136,7 +136,7 @@ class TestNoI18N(CMSTestCase):
+                 published=True,
+                 redirect='/foobar/',
+             )
+-            Page.set_homepage(homepage)
++            homepage.set_as_homepage()
+             response = self.client.get('/', follow=False)
+             self.assertTrue(response['Location'].endswith("/foobar/"))
+ 
+diff --git a/cms/tests/test_page_admin.py b/cms/tests/test_page_admin.py
+index 2d8b7a2f0..42131240b 100644
+--- a/cms/tests/test_page_admin.py
++++ b/cms/tests/test_page_admin.py
+@@ -287,7 +287,7 @@ class PageTest(PageTestBase):
+         page = create_page("page", 'nav_playground.html', "en")
+         sub_page = create_page("subpage", 'nav_playground.html', "en", parent=page)
+         child_page = create_page("child-page", 'nav_playground.html', "en", parent=root)
+-        Page.set_homepage(root)
++        root.set_as_homepage()
+         superuser = self.get_superuser()
+         with self.login_user_context(superuser):
+             # slug collision between two child pages of the same node
+@@ -1052,7 +1052,7 @@ class PageTest(PageTestBase):
+             page1.publish('en')
+ 
+             # Promote page1 to be the new homepage
+-            Page.set_homepage(page1)
++            page1.set_as_homepage()
+             self.assertEqual(page1.get_path(), '')
+             self.assertEqual(page1.publisher_public.reload().get_path(), '')
+             # check that page2 and page3 url have changed
+diff --git a/cms/tests/test_publisher.py b/cms/tests/test_publisher.py
+index 66349589a..47da0a6cb 100644
+--- a/cms/tests/test_publisher.py
++++ b/cms/tests/test_publisher.py
+@@ -737,7 +737,7 @@ class PublishingTests(TestCase):
+         self.assertEqual(child2.get_public_object().get_absolute_url(), root + 'another-page/child/')
+         home = self.reload(home)
+         home.unpublish('en')
+-        Page.set_homepage(other.reload())
++        other.reload().set_as_homepage()
+ 
+         home = self.reload(home)
+         other = self.reload(other)
+@@ -759,7 +759,7 @@ class PublishingTests(TestCase):
+         self.assertEqual(child.get_public_object().get_absolute_url(), root + 'page/child/')
+ 
+         home.publish('en')
+-        Page.set_homepage(home)
++        home.set_as_homepage()
+         home = self.reload(home)
+         other = self.reload(other)
+         child = self.reload(child)
+diff --git a/cms/tests/test_toolbar.py b/cms/tests/test_toolbar.py
+index 79cde1879..b4b67b869 100644
+--- a/cms/tests/test_toolbar.py
++++ b/cms/tests/test_toolbar.py
+@@ -467,7 +467,7 @@ class ToolbarTests(ToolbarTestBase):
+         user = self._create_user('toolbar', True, True)
+         username = getattr(user, user.USERNAME_FIELD)
+         page = create_page("toolbar-page", "nav_playground.html", "en", published=True)
+-        Page.set_homepage(page)
++        page.set_as_homepage()
+         login_url = reverse('cms_login')
+         endpoint = '{}?next=https://notyourdomain.com'.format(login_url)
+         response = self.client.post(endpoint, {'username': username, 'password': username})
+diff --git a/cms/tests/test_views.py b/cms/tests/test_views.py
+index 0496083ab..e331f4ca5 100644
+--- a/cms/tests/test_views.py
++++ b/cms/tests/test_views.py
+@@ -10,7 +10,7 @@ from django.template import Variable
+ from django.test.utils import override_settings
+ 
+ from cms.api import create_page, create_title, publish_page
+-from cms.models import Page, PagePermission, UserSettings, Placeholder
++from cms.models import PagePermission, UserSettings, Placeholder
+ from cms.page_rendering import _handle_no_page
+ from cms.test_utils.testcases import CMSTestCase
+ from cms.test_utils.util.fuzzy_int import FuzzyInt
+@@ -207,7 +207,7 @@ class ViewTests(CMSTestCase):
+         create_title("fr", "french home", page)
+         publish_page(page, user, "fr")
+ 
+-        Page.set_homepage(page)
++        page.set_as_homepage()
+ 
+         edit_on = get_cms_setting('CMS_TOOLBAR_URL__EDIT_ON')
+         edit_off = get_cms_setting('CMS_TOOLBAR_URL__EDIT_OFF')
+diff --git a/cms/utils/conf.py b/cms/utils/conf.py
+index 11098a518..6b9cb0f17 100644
+--- a/cms/utils/conf.py
++++ b/cms/utils/conf.py
+@@ -62,7 +62,7 @@ DEFAULTS = {
+     'PAGE_CACHE': True,
+     'PLACEHOLDER_CACHE': True,
+     'PLUGIN_CACHE': True,
+-    'CACHE_PREFIX': 'cms-{}-'.format(__version__),
++    'CACHE_PREFIX': 'cms_{}_'.format(__version__),
+     'PLUGIN_PROCESSORS': [],
+     'PLUGIN_CONTEXT_PROCESSORS': [],
+     'UNIHANDECODE_VERSION': None,
+diff --git a/menus/menu_pool.py b/menus/menu_pool.py
+index be02b3475..ebe1c7a8c 100644
+--- a/menus/menu_pool.py
++++ b/menus/menu_pool.py
+@@ -2,7 +2,6 @@
+ from functools import partial
+ from logging import getLogger
+ 
+-from django.conf import settings
+ from django.contrib import messages
+ from django.contrib.sites.models import Site
+ from django.core.cache import cache
+@@ -109,7 +108,7 @@ class MenuRenderer(object):
+ 
+     @property
+     def cache_key(self):
+-        prefix = getattr(settings, 'CMS_CACHE_PREFIX', 'menu_cache_')
++        prefix = get_cms_setting('CACHE_PREFIX')
+ 
+         key = '%smenu_nodes_%s_%s' % (prefix, self.request_language, self.site.pk)
+ 

@@ -1,0 +1,363 @@
+diff --git a/CHANGELOG.txt b/CHANGELOG.txt
+index 5b6e87a14..03cfc3054 100644
+--- a/CHANGELOG.txt
++++ b/CHANGELOG.txt
+@@ -17,6 +17,10 @@
+ * Fixed an issue with JS not being able to determine correct path to async bundle
+ * Fixed a ``DoesNotExist`` db error raised when moving a page marked as published but whose public
+   translation does not exist.
++* Fixed a bug where the menu would render nodes using the site session variable (set in the admin),
++  instead of the current request site.
++* Fixed a race condition bug where the cache keys on the database were deleted without syncing with the
++  cache server and as a result old menu items would continue to be displayed.
+ 
+ 
+ === 3.4.3 (2017-04-24) ===
+diff --git a/cms/cms_menus.py b/cms/cms_menus.py
+index b4ec892b5..03e695be9 100644
+--- a/cms/cms_menus.py
++++ b/cms/cms_menus.py
+@@ -151,9 +151,9 @@ def page_to_node(renderer, page, home, language):
+     # Now finally, build the NavigationNode object and return it.
+     ret_node = CMSNavigationNode(
+         translation.menu_title or translation.title,
+-        '',
+-        page.pk,
+-        parent_id,
++        url='',
++        id=page.pk,
++        parent_id=parent_id,
+         attr=attr,
+         visible=page.in_navigation,
+         path=translation.path or translation.slug
+diff --git a/cms/tests/test_cache.py b/cms/tests/test_cache.py
+index d1f775be0..15c291026 100644
+--- a/cms/tests/test_cache.py
++++ b/cms/tests/test_cache.py
+@@ -92,12 +92,12 @@ class CacheTestCase(CMSTestCase):
+         with self.settings(**overrides):
+             with self.assertNumQueries(FuzzyInt(13, 25)):
+                 self.client.get('/en/')
+-            with self.assertNumQueries(FuzzyInt(5, 10)):
++            with self.assertNumQueries(FuzzyInt(5, 11)):
+                 self.client.get('/en/')
+ 
+         overrides['CMS_PLACEHOLDER_CACHE'] = False
+         with self.settings(**overrides):
+-            with self.assertNumQueries(FuzzyInt(7, 14)):
++            with self.assertNumQueries(FuzzyInt(7, 15)):
+                 self.client.get('/en/')
+ 
+     def test_no_cache_plugin(self):
+@@ -174,7 +174,7 @@ class CacheTestCase(CMSTestCase):
+             with self.assertNumQueries(4):
+                 output2 = self.render_template_obj(template, {}, request)
+             with self.settings(CMS_PAGE_CACHE=False):
+-                with self.assertNumQueries(FuzzyInt(8, 13)):
++                with self.assertNumQueries(FuzzyInt(8, 14)):
+                     response = self.client.get('/en/')
+                     resp2 = response.content.decode('utf8').split("$$$")[1]
+             self.assertNotEqual(output, output2)
+diff --git a/cms/tests/test_menu.py b/cms/tests/test_menu.py
+index 8d040324a..6d93f14db 100644
+--- a/cms/tests/test_menu.py
++++ b/cms/tests/test_menu.py
+@@ -317,7 +317,7 @@ class FixturesMenuTests(MenusFixture, BaseMenuTest):
+     def test_show_menu_num_queries(self):
+         context = self.get_context()
+         # test standard show_menu
+-        with self.assertNumQueries(8):
++        with self.assertNumQueries(6):
+             """
+             The queries should be:
+                 get all public pages
+@@ -325,9 +325,7 @@ class FixturesMenuTests(MenusFixture, BaseMenuTest):
+                 get all page permissions
+                 get all titles
+                 get the menu cache key
+-                create a savepoint
+                 set the menu cache key
+-                release the savepoint
+             """
+             tpl = Template("{% load menu_tags %}{% show_menu %}")
+             tpl.render(context)
+@@ -393,18 +391,57 @@ class FixturesMenuTests(MenusFixture, BaseMenuTest):
+ 
+         self.assertEqual(len(node_ids), page_count, msg='Not all pages in the public menu are public')
+ 
+-    def test_menu_keys_duplicate_truncates(self):
++    def test_menu_cache_respects_database_keys(self):
++        public_page = self.get_page(1)
++
++        # Prime the public menu cache
++        context = self.get_context(path=public_page.get_absolute_url(), page=public_page)
++        context['request'].session['cms_edit'] = False
++
++        # Prime the cache
++        with self.assertNumQueries(6):
++            # The queries should be:
++            #     get all public pages
++            #     get all draft pages from public pages
++            #     get all page permissions
++            #     get all titles
++            #     get the menu cache key
++            #     set the menu cache key
++            Template("{% load menu_tags %}{% show_menu %}").render(context)
++
++        # One new CacheKey should have been created
++        self.assertEqual(CacheKey.objects.count(), 1)
++
++        # Because its cached, only one query is made to the db
++        with self.assertNumQueries(1):
++            # The queries should be:
++            #     get the menu cache key
++            Template("{% load menu_tags %}{% show_menu %}").render(context)
++
++        # Delete the current cache key but don't touch the cache
++        CacheKey.objects.all().delete()
++
++        # The menu should be recalculated
++        with self.assertNumQueries(6):
++            # The queries should be:
++            #     get all public pages
++            #     get all draft pages from public pages
++            #     get all page permissions
++            #     get all titles
++            #     get the menu cache key
++            #     set the menu cache key
++            Template("{% load menu_tags %}{% show_menu %}").render(context)
++
++    def test_menu_keys_duplicate_clear(self):
+         """
+-        When two objects with the same characteristics are present in the
+-        database, get_or_create truncates the database table to "invalidate"
+-        the cache, before retrying. This can happen after migrations, and since
+-        it's only cache, we don't want any propagation of errors.
++        Tests that the menu clears all keys, including duplicates.
+         """
+         CacheKey.objects.create(language="fr", site=1, key="a")
+         CacheKey.objects.create(language="fr", site=1, key="a")
+-        CacheKey.objects.get_or_create(language="fr", site=1, key="a")
+ 
+-        self.assertEqual(CacheKey.objects.count(), 1)
++        self.assertEqual(CacheKey.objects.count(), 2)
++        menu_pool.clear(site_id=1, language='fr')
++        self.assertEqual(CacheKey.objects.count(), 0)
+ 
+     def test_only_active_tree(self):
+         context = self.get_context(page=self.get_page(1))
+@@ -994,7 +1031,7 @@ class ShowSubMenuCheck(SubMenusFixture, BaseMenuTest):
+         context = self.get_context(page.get_absolute_url(), page=page)
+ 
+         # test standard show_menu
+-        with self.assertNumQueries(8):
++        with self.assertNumQueries(6):
+             """
+             The queries should be:
+                 get all public pages
+@@ -1002,9 +1039,7 @@ class ShowSubMenuCheck(SubMenusFixture, BaseMenuTest):
+                 get all page permissions
+                 get all titles
+                 get the menu cache key
+-                create a savepoint
+                 set the menu cache key
+-                release the savepoint
+             """
+             tpl = Template("{% load menu_tags %}{% show_sub_menu %}")
+             tpl.render(context)
+@@ -1171,7 +1206,7 @@ class ShowMenuBelowIdTests(BaseMenuTest):
+ 
+         with LanguageOverride('en'):
+             context = self.get_context(a.get_absolute_url())
+-            with self.assertNumQueries(8):
++            with self.assertNumQueries(6):
+                 """
+                 The queries should be:
+                     get all public pages
+@@ -1179,9 +1214,7 @@ class ShowMenuBelowIdTests(BaseMenuTest):
+                     get all page permissions
+                     get all titles
+                     get the menu cache key
+-                    create a savepoint
+                     set the menu cache key
+-                    release the savepoint
+                 """
+                 # Actually seems to run:
+                 tpl = Template("{% load menu_tags %}{% show_menu_below_id 'a' 0 100 100 100 %}")
+diff --git a/menus/menu_pool.py b/menus/menu_pool.py
+index ee4534051..78966de61 100644
+--- a/menus/menu_pool.py
++++ b/menus/menu_pool.py
+@@ -107,6 +107,38 @@ class MenuRenderer(object):
+         self.site = Site.objects.get_current(request)
+         self.draft_mode_active = use_draft(request)
+ 
++    def _get_cache_key(self, site_id):
++        # This internal will change to a cached property on 3.5
++
++        prefix = getattr(settings, 'CMS_CACHE_PREFIX', 'menu_cache_')
++
++        key = '%smenu_nodes_%s_%s' % (prefix, self.language, site_id)
++
++        if self.request.user.is_authenticated():
++            key += '_%s_user' % self.request.user.pk
++
++        if self.draft_mode_active:
++            key += ':draft'
++        else:
++            key += ':public'
++        return key
++
++    def _is_cached(self, site_id):
++        # This internal will change to a cached property on 3.5
++
++        _internal_cache = '_is_cached_{}'.format(site_id)
++
++        if not hasattr(self, _internal_cache):
++            cache_key = self._get_cache_key(site_id=site_id)
++            db_cache_key_lookup = CacheKey.objects.filter(
++                key=cache_key,
++                language=self.language,
++                site=site_id,
++            )
++            # Cache the lookup to avoid a query on every call to a menu tag
++            setattr(self, _internal_cache, db_cache_key_lookup.exists())
++        return getattr(self, _internal_cache)
++
+     def _build_nodes(self, site_id):
+         """
+         This is slow. Caching must be used.
+@@ -130,28 +162,17 @@ class MenuRenderer(object):
+                 "It will be removed in django CMS 3.5",
+                 PendingDeprecationWarning
+             )
+-
+-        if not site_id:
+-            # Backwards compatibility shim for < 3.5 projects
+-            # On 3.5, this method will change to no longer receive
+-            # a site id.
++        else:
+             site_id = self.site.pk
+ 
+-        prefix = getattr(settings, 'CMS_CACHE_PREFIX', 'menu_cache_')
+-
+-        key = '%smenu_nodes_%s_%s' % (prefix, self.language, site_id)
+-
+-        if self.request.user.is_authenticated():
+-            key += '_%s_user' % self.request.user.pk
+-
+-        if self.draft_mode_active:
+-            key += ':draft'
+-        else:
+-            key += ':public'
++        key = self._get_cache_key(site_id)
+ 
+         cached_nodes = cache.get(key, None)
+ 
+-        if cached_nodes:
++        if cached_nodes and self._is_cached(site_id):
++            # Only use the cache if the key is present in the database.
++            # This prevents a condition where keys which have been removed
++            # from the database due to a change in content, are still used.
+             return cached_nodes
+ 
+         final_nodes = []
+@@ -177,12 +198,17 @@ class MenuRenderer(object):
+             final_nodes += _build_nodes_inner_for_one_menu(nodes, menu_class_name)
+ 
+         cache.set(key, final_nodes, get_cms_setting('CACHE_DURATIONS')['menus'])
+-        # We need to have a list of the cache keys for languages and sites that
+-        # span several processes - so we follow the Django way and share through
+-        # the database. It's still cheaper than recomputing every time!
+-        # This way we can selectively invalidate per-site and per-language,
+-        # since the cache shared but the keys aren't
+-        CacheKey.objects.get_or_create(key=key, language=self.language, site=site_id)
++
++        if not self._is_cached(site_id):
++            # No need to invalidate the internal lookup cache,
++            # just set the value directly.
++            setattr(self, '_is_cached_{}'.format(site_id), True)
++            # We need to have a list of the cache keys for languages and sites that
++            # span several processes - so we follow the Django way and share through
++            # the database. It's still cheaper than recomputing every time!
++            # This way we can selectively invalidate per-site and per-language,
++            # since the cache is shared but the keys aren't
++            CacheKey.objects.create(key=key, language=self.language, site=site_id)
+         return final_nodes
+ 
+     def _mark_selected(self, nodes):
+@@ -243,7 +269,7 @@ class MenuPool(object):
+     def discover_menus(self):
+         if self.discovered:
+             return
+-        # FIXME: Remove in 3.4
++        # FIXME: Remove in 3.5
+         load('menu')
+         load('cms_menus')
+         from menus.modifiers import register
+@@ -321,7 +347,7 @@ class MenuPool(object):
+ 
+         if menu_cls.__module__.split('.')[-1] == 'menu':
+             warnings.warn('menu.py filename is deprecated, '
+-                          'and it will be removed in version 3.4; '
++                          'and it will be removed in version 3.5; '
+                           'please rename it to cms_menus.py', DeprecationWarning)
+         from menus.base import Menu
+         assert issubclass(menu_cls, Menu)
+@@ -339,7 +365,7 @@ class MenuPool(object):
+         source_file = os.path.basename(inspect.stack()[1][1])
+         if source_file == 'menu.py':
+             warnings.warn('menu.py filename is deprecated, '
+-                          'and it will be removed in version 3.4; '
++                          'and it will be removed in version 3.5; '
+                           'please rename it to cms_menus.py', DeprecationWarning)
+         from menus.base import Modifier
+         assert issubclass(modifier_class, Modifier)
+@@ -368,7 +394,7 @@ class MenuPool(object):
+     def apply_modifiers(self, nodes, request, namespace=None, root_id=None,
+             post_cut=False, breadcrumb=False):
+         warnings.warn('menu_pool.apply_modifiers is deprecated '
+-                      'and it will be removed in version 3.4; '
++                      'and it will be removed in version 3.5; '
+                       'please use the menu renderer instead.', DeprecationWarning)
+         renderer = self.get_renderer(request)
+         nodes = renderer.apply_modifiers(
+@@ -383,7 +409,7 @@ class MenuPool(object):
+     def get_nodes(self, request, namespace=None, root_id=None, site_id=None,
+                   breadcrumb=False):
+         warnings.warn('menu_pool.get_nodes is deprecated '
+-                      'and it will be removed in version 3.4; '
++                      'and it will be removed in version 3.5; '
+                       'please use the menu renderer instead.', DeprecationWarning)
+         renderer = self.get_renderer(request)
+         nodes = renderer.get_nodes(
+diff --git a/menus/models.py b/menus/models.py
+index b7b81d010..9bbed76e9 100644
+--- a/menus/models.py
++++ b/menus/models.py
+@@ -3,8 +3,8 @@ from django.db import models
+ 
+ 
+ class CacheKeyManager(models.Manager):
++
+     def get_keys(self, site_id=None, language=None):
+-        ret = self.none()
+         if not site_id and not language:
+             # Both site and language are None - return everything
+             ret = self.all()
+@@ -17,15 +17,6 @@ class CacheKeyManager(models.Manager):
+             ret = self.filter(site=site_id).filter(language=language)
+         return ret
+ 
+-    def get_or_create(self, **kwargs):
+-        try:
+-            return super(CacheKeyManager, self).get_or_create(**kwargs)
+-        except CacheKey.MultipleObjectsReturned:
+-            # Truncate the table, we don't want a funny cache object to cause
+-            # mayhem!
+-            CacheKey.objects.all().delete()
+-            return super(CacheKeyManager, self).get_or_create(**kwargs)
+-
+ 
+ class CacheKey(models.Model):
+     '''

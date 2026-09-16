@@ -473,11 +473,16 @@ correctness claims.
 
 ## Pillar 7 — Cross-repository confirmation — SALEOR (confirmed future pillar)
 
-**Status: SUITABLE-WITH-DEVIATIONS (2026-09-16 audit).** Protocol frozen in
-`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`; suitability audit in
-`reports/SALEOR_REPOSITORY_SUITABILITY_AUDIT.md`. **Do NOT run Saleor today** —
-sampling-frame reconstruction blocked until full Saleor history is cached
-(shallow pinned cache).
+**Status: READY-TO-RUN (2026-09-16 evening).** Full Saleor history cached
+(22,615 commits, non-shallow); sampling frame reconstructed
+(6000 → 2409 → 1352 → **1316** independent eligible); split proposal frozen
+(seed 20260916; DEV_TRAIN 120 / DEV_VALIDATION 30 / INTERNAL_TEST 80 /
+RESERVE 1086; all-pool SHA `6be5c994…`); sample-size analysis done; protocol in
+`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`; suitability
+`reports/SALEOR_REPOSITORY_SUITABILITY_AUDIT.md`; gates
+`reports/SALEOR_PRE_INFERENCE_GATE_REPORT.md`. **Do NOT run Saleor inference
+tonight** — case-bundle materialization + frozen split manifest is the next
+audited data step.
 
 **Role in the thesis.** Saleor is the second-repository candidate
 (subject to the frozen protocol-fit audit):
@@ -663,3 +668,8 @@ must run on a fresh shared confirmatory split.
 | Classical/static CIA baseline V1 | **IMPLEMENTED** (2026-09-16; T3 ZERO LLM; 150 V2 dev cases; BM25/GRAPH@K strongest; closure arms weaker; development evidence) |
 | Saleor / NestJS suitability + protocols | **SUITABLE-WITH-DEVIATIONS** (2026-09-16; T3 ZERO API; protocols frozen; frames blocked on full-history caches) |
 | MSc Proposal V1 + seminar outline | **DRAFT COMPLETE** (2026-09-16; msc_proposal/; 6-page PDF; deadline-critical path to print before 2026-10-01) |
+| Proposal V1.2 + BibTeX triage + traceability ledgers | **COMPLETE** (2026-09-16 evening; msc_proposal/MSC_PROPOSAL_V1_2.pdf 7 pages; 13 .bib exports triaged, 10 high-priority verified from primary sources; 6 ledgers: decision/problem/experiment/baseline/literature) |
+| LocAgent P5R forensics + rescue pilot | **EXECUTED** (2026-09-16 evening; 0/5 usable; wrapper timeout ineffective against upstream 900 s hard-coded deadline; full 10-task rerun NOT triggered; P5 immutable; reports/LOCAGENT_P5R1_PILOT_REPORT.md) |
+| Route B candidate-level omission recovery V1 | **EXECUTED** (2026-09-16 evening; zero-LLM; R4 Classical CIA beats Random at B=5: DEV_VALIDATION 0.180 vs 0.037, CI [-0.003,+0.285]; no universe-size artifact corr 0.105; first positive candidate-level signal; reports/ROUTE_B_OMISSION_RECOVERY_V1_REPORT.md) |
+| Saleor Stage-2 READY-TO-RUN | **READY-TO-RUN** (2026-09-16 evening; full history 22,615 commits; frame 6000->2409->1352->1316; split proposal seed 20260916 DEV_TRAIN 120 / DEV_VALIDATION 30 / INTERNAL_TEST 80 / RESERVE 1086; pre-inference gates PASS; no inference tonight) |
+| Semantic-proxy audit protocol + packets | **PREPARED** (2026-09-16 evening; docs/SEMANTIC_PROXY_AUDIT_PROTOCOL.md; 25 DEVELOPMENT-only evidence packets; human audit required; AI notes not gold) |
