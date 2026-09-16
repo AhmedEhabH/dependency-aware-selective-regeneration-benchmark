@@ -54,6 +54,25 @@ see `reports/REAL_COMMIT_M4A3_P1_RESULT.md`).
   Artifacts: `research/cheap-baselines-v1/`,
   `reports/CHEAP_BASELINES_V1_REPORT.md`, `reports/CHEAP_BASELINES_V1_AUDIT.md`,
   `research/cheap-baselines-v1/path_mention_sensitivity_v1.json`.
+- **Pluggable research harness V1 + living systematic review V1 (2026-09-16,
+  ZERO API, T3 architecture milestone, CLOSED + DEV tag):**
+  `src/benchmark/harness/` (seams: DatasetAdapter, SnapshotProvider/
+  RepositoryView, Ranker, Planner, ModelBackend, RiskScorer [interface only],
+  Verifier [interface only], BudgetPolicy, common Evaluator, versioned
+  ExperimentSpec; config-driven name registry; django rules in a django
+  adapter; future Saleor rules in a fail-closed Saleor adapter; model/provider
+  = config; budget explicit + persisted). Protocol-A compatibility layer
+  reproduces the frozen cheap-baseline outputs byte-for-byte (30 × 5 × 4 = 600
+  rows + aggregates; `research/harness-protocol-a-equivalence/`). Living
+  review: `docs/LIVING_SYSTEMATIC_REVIEW.md`,
+  `research/literature/{review_matrix,search_log}.csv`, `idea_ledger.md`
+  (12 seeded systems; only LocAgent VERIFIED — others SEEDED: verify primary
+  source). Six T3 gates + audit PASS
+  (`reports/RESEARCH_HARNESS_V1_REPORT.md`, `_AUDIT.md`,
+  `reports/research_harness_v1_gates.json`); 44 new tests; full suite 3270
+  passed / 33 skipped / 2 pre-existing environmental failures (missing pinned
+  djangocms repo checkout). ONE next scientific step:
+  **OMISSION_RISK_FEATURE_STUDY_V1 (TRAIN/VALIDATION only) — NOT STARTED.**
 - The selection-stage benchmark research is **closed and audited**
   (artifact-level consistency audit PASS, 2026-09-08). The tag means the
   benchmark research is complete and frozen — NOT successful end-to-end
