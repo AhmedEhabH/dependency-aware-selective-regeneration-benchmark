@@ -256,3 +256,24 @@ at V2 scale; candidate-level CIA omission recovery IS directionally positive on
 development data.
 **CANDIDATE FUTURE CONTRIBUTION:** bounded candidate-level omission recovery
 under matched budgets (Route B).
+
+## 13. Overnight update (2026-09-17)
+
+- **Route B V2 robustness closure:** the candidate-level Classical-CIA ranker
+  recovers Sparse-omitted missed files above the analytic (hypergeometric)
+  Random control across the whole budget curve B in {0,1,3,5,10} with
+  task-level bootstrap intervals excluding zero at every point; 5/5 development
+  folds positive; no omitted/universe-size artifact. Progression gate PASS.
+  This is the first statistically stable candidate-level signal, in contrast to
+  the negative task-level RiskScorer result.
+- **Verifier pilot:** 30 dev tasks, 30 calls, .0023. Oracle-in-top-B = 1.000
+  (the frozen CIA ranker places recoverable missed files in top-B); verifier
+  ORR 0.86-1.00. Dominant loss = first-pass omission.
+- **History/co-change arm:** beats analytic Random where parent-visible history
+  is available (94 tasks); CIA remains the frozen primary.
+- **Adaptive budget horizon:** exploratory per-task Oracle curves show 83% of
+  tasks reach >=90% of Oracle@10 with B<5; marginal gain sharply diminishing
+  after B=3. WORTH-PURSUING AFTER FIXED ROUTE-B (not a contribution).
+- **Novelty position unchanged:** CANDIDATE NOVELTY - NOT YET CLAIMED;
+  combination of sparse policy + bounded omission recovery under matched
+  budgets.

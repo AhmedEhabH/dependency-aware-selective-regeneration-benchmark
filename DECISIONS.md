@@ -568,3 +568,56 @@ execution. Entries are never edited after append; corrections are new entries.
   Saleor TEST.
 - **Evidence:** reports/SALEOR_SAMPLING_FRAME_AUDIT.md, SALEOR_SAMPLE_SIZE_ANALYSIS.md.
 - **Revisit:** after the Saleor case-bundle build.
+
+## Decision P35 - Route B V2 progression gate PASS; CIA frozen (2026-09-17)
+
+- **Status:** ADOPTED (overnight)
+- **Options:** freeze CIA / keep exploring.
+- **Chosen:** freeze CIA (0.5 BM25 + 0.5 graph neighbor) as the predeclared
+  ranker family for the conditional verifier.
+- **Why:** 5/5 folds positive direction; 4/4 B-curve points above analytic
+  Random; bootstrap CIs exclude zero at every B; no omitted/universe-size
+  artifact (corr -0.119/-0.117).
+- **Rejected:** path-token (worst); single-draw Random (analytic hypergeometric
+  expectation used instead); per-fold tuning.
+- **Evidence:** reports/ROUTE_B_V2_ROBUSTNESS_REPORT.md.
+- **Revisit:** if a fresh confirmatory set (INTERNAL_TEST, after full freeze)
+  contradicts the direction.
+
+## Decision P36 - B-curve is the primary object; B=5 is a reference point
+
+- **Status:** ADOPTED
+- **Chosen:** budget curve B in {0,1,3,5,10}; B=5 is a convenient reference only.
+- **Why:** a single point is fragile; the scientific object is recovery as a
+  function of added inspection budget.
+- **Evidence:** docs/ROUTE_B_V2_DEVELOPMENT_PROTOCOL.md.
+- **Revisit:** n/a (frozen).
+
+## Decision P37 - Analytic Random replaces single-draw Random
+
+- **Status:** ADOPTED
+- **Chosen:** E[X] = B*M/N (B clipped to N) hypergeometric expectation.
+- **Why:** avoids dependence on one lucky draw; per-task analytic comparison
+  with task-level bootstrap CI.
+- **Rejected:** single-draw Random; random repetitions as independent tasks.
+- **Evidence:** docs/ROUTE_B_V2_DEVELOPMENT_PROTOCOL.md.
+- **Revisit:** n/a.
+
+## Decision P38 - Verifier pilot run (small, one-shot)
+
+- **Status:** EXECUTED (30 calls, 6,748 tokens, .0023)
+- **Chosen:** run the verifier pilot because the Route B V2 gate PASSED.
+- **Result:** Oracle-in-top-B = 1.000 at every B; verifier ORR 0.86-1.00;
+  dominant loss = first-pass omission. Diagnostic, not headline.
+- **Evidence:** reports/ROUTE_B_VERIFIER_PILOT_REPORT.md.
+- **Revisit:** a confirmatory verifier run requires INTERNAL_TEST after full freeze.
+
+## Decision P39 - INTERNAL_TEST stays sealed overnight
+
+- **Status:** ADOPTED
+- **Chosen:** do NOT open INTERNAL_TEST=80 or RESERVE=59.
+- **Why:** open only after ALL are frozen: Route-B ranker family, budget curve,
+  tie-breaking, analytic Random control, metrics, verifier protocol, statistical
+  analysis, leakage/confound checks, and proposal review acknowledging the freeze.
+- **Evidence:** mission Section 10; ledgers.
+- **Revisit:** after the full freeze (next milestone).
