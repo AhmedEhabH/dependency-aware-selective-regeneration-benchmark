@@ -15,6 +15,11 @@ this file; execution truth = `PROGRESS.md`; decisions (append-only) =
 submission) → **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE AND CLOSED (Protocol A:
 cheap-non-LLM baselines v1, 2026-09-16; ZERO new scientific model/API calls;
 development milestone merged to main + DEV tag `cheap-baselines-v1-dev-2026-09-16`).**
+→ **PLUGGABLE RESEARCH HARNESS V1 + LIVING SYSTEMATIC REVIEW V1 COMPLETE AND
+AUDITED (2026-09-16; T3 reusable experiment architecture; ZERO new scientific
+model/API calls; six T3 gates + independent audit PASS; Protocol-A outputs
+reproduced byte-for-byte through the compatibility layer; merged to main + DEV
+tag `research-harness-v1-dev-2026-09-16`).**
 Post-submission window. Scientific runs remaining in this block: ZERO.
 
 ---
@@ -57,6 +62,9 @@ Post-submission window. Scientific runs remaining in this block: ZERO.
 - `cheap-baselines-v1-dev-2026-09-16` — Protocol A cheap non-LLM baselines v1
   DEV evidence tag @ commit `541c8ba…` (tag object `4b96049…`; audited
   DEVELOPMENT evidence, NOT confirmatory; NOT a stable-tag move).
+- `research-harness-v1-dev-2026-09-16` — pluggable research harness V1 + living
+  systematic review V1 DEV evidence tag (audited DEVELOPMENT/architecture
+  evidence; NOT a stable-tag move).
 - Study tags: `real-commit-p1-full-v2-vs-sparse-v2-01-audited`,
   `real-commit-impact-dataset-v1-corpus-audited`,
   `real-commit-impact-dataset-v1-m4a1-closure-audited`,
@@ -160,17 +168,51 @@ Post-submission window. Scientific runs remaining in this block: ZERO.
   by construction). See
   `research/post-icci-zero-api-closure/four_action_fn_breakdown.{json,csv}`.
 
+### Harness V1 + living systematic review V1 (2026-09-16; T3 architecture; ZERO API — CLOSED + DEV tag)
+- Reusable experiment harness `src/benchmark/harness/` with seams:
+  DatasetAdapter, SnapshotProvider/RepositoryView, Ranker, Planner,
+  ModelBackend, RiskScorer (interface only), Verifier (interface only),
+  BudgetPolicy, common Evaluator, versioned ExperimentSpec. Config-driven name
+  registry; django rules in a django adapter; future Saleor rules in a
+  fail-closed Saleor adapter; model/provider names are config; budget explicit
+  and persisted.
+- **Protocol-A compatibility layer reproduces the frozen cheap-baseline outputs
+  byte-for-byte**: full equivalence run 30 cases × 5 methods × 4 K = 600 rows
+  scientific projection + per_task + aggregates identical to
+  `research/cheap-baselines-v1/*.json`
+  (evidence `research/harness-protocol-a-equivalence/raw_predictions_via_harness_v1.json`).
+- Living review: `docs/LIVING_SYSTEMATIC_REVIEW.md`,
+  `research/literature/review_matrix.csv` (12 seeded systems; only LocAgent
+  VERIFIED with direct evidence; all others SEEDED — verify primary source),
+  `research/literature/search_log.csv`, `research/literature/idea_ledger.md`
+  (ideas I1–I7 with TEST/WATCH/BOUNDARY dispositions).
+- Validation: six T3 gates + independent audit PASS
+  (`reports/RESEARCH_HARNESS_V1_REPORT.md`, `_AUDIT.md`,
+  `reports/research_harness_v1_gates.json`); 44 new tests; full suite 3270
+  passed / 33 skipped / 2 pre-existing environmental failures (missing pinned
+  djangocms repo checkout; identical on clean base).
+- **ONE next scientific step: OMISSION_RISK_FEATURE_STUDY_V1 (TRAIN/VALIDATION
+  only). NOT STARTED here.**
+
 ## 8. Next experiment — ONLY ONE (not started, not authorized without review)
 
 **Protocol A (cheap non-LLM baselines v1) is COMPLETE AND CLOSED (2026-09-16;
-TRAIN 24 + VALIDATION 6; ZERO API; six gates + audit PASS; merged to main;
-DEV tag `cheap-baselines-v1-dev-2026-09-16`).** The next scientific step is
-chosen after Ahmed reviews the closure — STATED:
+TRAIN 24 + VALIDATION 6; ZERO API; six gates + audit PASS; merged to main; DEV
+tag `cheap-baselines-v1-dev-2026-09-16`).**
+
+**PLUGGABLE RESEARCH HARNESS V1 + LIVING SYSTEMATIC REVIEW V1 are COMPLETE AND
+AUDITED (2026-09-16; T3 reusable experiment architecture; ZERO API; six T3
+gates + audit PASS; Protocol-A outputs reproduced byte-for-byte through the
+compatibility layer — 30 cases × 5 methods × 4 K = 600 rows + aggregates;
+merged to main; DEV tag `research-harness-v1-dev-2026-09-16`).** The next
+scientific step is chosen after Ahmed reviews the closure — **STATED**:
 - primary next line (drafted, NOT executed): **Selective escalation for
   cost-aware repository change localization** (the proposal topic),
   pre-ceded by the **omission-risk detection** core mechanism
   (`docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`) — evaluated on TRAIN/
-  VALIDATION, then a FRESH confirmatory split.
+  VALIDATION, then a FRESH confirmatory split. The ONE next scientific step is
+  **OMISSION_RISK_FEATURE_STUDY_V1 (TRAIN/VALIDATION only)** — feature families
+  and routing metrics per `reports/RESEARCH_HARNESS_V1_REPORT.md` §9.
 - Saleor remains the second-repository confirmatory line, DOCUMENT-ONLY for now
   (`docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`).
 
