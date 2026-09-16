@@ -73,18 +73,23 @@ class TestReadmeMarkdownTableStructure:
         assert find_malformed_tables(good) == []
 
 
+_MMD_GLOB = list((ROOT / "docs" / "diagrams").glob("*.mmd"))
 _MERMAID_FENCE = re.compile(r"```mermaid\n(.*?)```", re.DOTALL)
 
 
 class TestReadmeMermaidRendering:
-    """Regression: README Mermaid blocks must render on GitHub.
+    """Regression: Mermaid sources (source of truth) must render on GitHub.
 
-    Literal backslash-n (`\n`) inside unquoted node labels is the known cause
-    of "Unable to render rich display". Node labels must be double-quoted and
-    use the HTML line break `<br/>` instead.
+    README embeds deterministic static SVG fallbacks (docs/assets) and keeps
+    the editable Mermaid sources under docs/diagrams/*.mmd as the source of
+    truth. Literal backslash-n (`\n`) inside unquoted node labels is the known
+    cause of "Unable to render rich display". Node labels must be double-quoted
+    and use the HTML line break `<br/>` instead.
     """
 
     def _mermaid_blocks(self) -> list[str]:
+        if _MMD_GLOB:
+            return [p.read_text(encoding="utf-8") for p in sorted(_MMD_GLOB)]
         text = README_PATH.read_text(encoding="utf-8")
         blocks = _MERMAID_FENCE.findall(text)
         assert blocks, "README.md must contain at least one mermaid block"
@@ -118,3 +123,19 @@ class TestReadmeMermaidRendering:
             for line in block.splitlines():
                 if "[" in line or "]" in line:
                     assert line.count("[") == line.count("]"), f"unbalanced brackets: {line!r}"
+
+
+class TestReadmeSvgFallbacks:
+    """Regression: README embeds static SVG fallbacks referenced from docs/assets."""
+
+    def test_svg_fallbacks_exist_and_are_embedded(self) -> None:
+        text = README_PATH.read_text(encoding="utf-8")
+        for mmd in sorted((ROOT / "docs" / "diagrams").glob("*.mmd")):
+            svg = ROOT / "docs" / "assets" / f"{mmd.stem}.svg"
+            assert svg.is_file(), f"missing static SVG fallback {svg}"
+            assert f"docs/assets/{mmd.stem}.svg" in text, (
+                f"README must embed the static SVG fallback for {mmd.stem}"
+            )
+            assert svg.read_text(encoding="utf-8").lstrip().startswith("<svg"), (
+                f"SVG fallback {svg.name} is not well-formed XML"
+            )
