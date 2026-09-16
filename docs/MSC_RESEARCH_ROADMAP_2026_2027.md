@@ -76,7 +76,7 @@ No claim is made in advance that Route A or Route B will win.
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
-| 7 | **Cross-repository confirmation — SALEOR (confirmed future pillar)** | NOT STARTED — PROTOCOL-FIT AUDIT REQUIRED (document-only; see `docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`) |
+| 7 | **Cross-repository confirmation — SALEOR (confirmed future pillar)** | SUITABLE-WITH-DEVIATIONS AUDIT DONE (2026-09-16); protocol frozen (`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`); frame reconstruction blocked on full history cache |
 | 8 | **Omission-risk detection — THESIS CORE (confirmed future pillar)** | DEVELOPMENT-EVIDENCE COMPLETE — task-level RiskScorer NOT justified on n=30 (Sparse-v2 development inference 2026-09-16); V2 design + sample-size analysis in `docs/REAL_COMMIT_DATASET_V2_PROTOCOL.md` |
 
 > **Confirmed future pillars (2026-09-15).** Both pillars are authoritative
@@ -473,11 +473,14 @@ correctness claims.
 
 ## Pillar 7 — Cross-repository confirmation — SALEOR (confirmed future pillar)
 
-**Status: NOT STARTED — DOCUMENT-ONLY.** Funded by
-`docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`. **Do NOT run Saleor today.**
+**Status: SUITABLE-WITH-DEVIATIONS (2026-09-16 audit).** Protocol frozen in
+`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`; suitability audit in
+`reports/SALEOR_REPOSITORY_SUITABILITY_AUDIT.md`. **Do NOT run Saleor today** —
+sampling-frame reconstruction blocked until full Saleor history is cached
+(shallow pinned cache).
 
-**Role in the thesis.** Saleor is the preferred second-repository candidate,
-subject to a protocol-fit audit, to test:
+**Role in the thesis.** Saleor is the second-repository candidate
+(subject to the frozen protocol-fit audit):
 - whether Preserve-by-Omission savings transfer beyond djangoCMS;
 - semantic fidelity under a materially different repository (e-commerce
   modular monolith vs CMS plugin architecture);
@@ -485,17 +488,26 @@ subject to a protocol-fit audit, to test:
 - and to provide untouched confirmatory evidence.
 
 **Required preconditions before any Saleor scientific result:**
-1. audit repository suitability;
-2. define candidate-universe semantics;
-3. define historical-change mining rules;
-4. define proxy/adjudication protocol;
-5. freeze TRAIN/VALIDATION/HELD_OUT_TEST;
-6. freeze baselines and metrics;
+1. audit repository suitability (DONE — SUITABLE-WITH-DEVIATIONS);
+2. define candidate-universe semantics (DONE in the frozen profile);
+3. define historical-change mining rules (DONE — frozen M4A-2 rules);
+4. define proxy/adjudication protocol (DONE — frozen R1/R2/R3);
+5. freeze TRAIN/VALIDATION/HELD_OUT_TEST (PENDING frame reconstruction);
+6. freeze baselines and metrics (frozen study contract);
 7. ensure TEST remains untouched until final confirmation.
 
 **Current project threat note.** Saleor costs a real model budget; the v0.9.x
 Kaggle pilot evidence (saleor scenarios) is legacy/engineering only and is not
 confirmatory scientific evidence for this proposal line.
+
+**Generalization ladder (frozen, 2026-09-16):**
+- Stage 1 — djangoCMS V2-LARGE: within-repo large evidence + untouched internal test.
+- Stage 2 — Saleor: cross-repository evidence in a different real system
+  (Python/Django; SUITABLE-WITH-DEVIATIONS).
+- Stage 3 — NestJS: cross-language / cross-framework evidence
+  (TypeScript; `reports/NESTJS_REPOSITORY_SUITABILITY_AUDIT.md`,
+  `docs/NESTJS_REAL_COMMIT_PROTOCOL_V1.md`; SUITABLE-WITH-DEVIATIONS;
+  preferred but NOT forced — predeclared yield criterion, JabRef backup).
 
 ---
 
