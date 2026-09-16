@@ -114,3 +114,22 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
 - **Unresolved risk:** none.
 - **Scientific impact:** none.
 - **Follow-up:** none.
+## PF-010 — P5R-1 wrapper timeout ineffective (upstream hard-coded deadline)
+- **Where:** P5R-1 rescue pilot, case 66c70394c9e1.
+- **Symptoms:** terminated at "Processing time exceeded 15 minutes" despite wrapper --timeout 1800.
+- **Root cause:** upstream auto_search_main.py enforces its own 900 s deadline independent of the wrapper timeout.
+- **Attempted fixes:** none (editing upstream forbidden).
+- **Outcome:** timeout relaxation is operationally ineffective; full rerun not triggered.
+- **Unresolved risk:** low; documented.
+- **Scientific impact:** P5 failures are NOT primarily wrapper-timeout artifacts.
+- **Follow-up:** none (Route B is the promising mechanism instead).
+
+## PF-011 — P5R-1 pilot token/cost ceiling overshoot (post-call)
+- **Where:** P5R-1 pilot.
+- **Symptoms:** cumulative 20,541,560 tokens / .18 after the final (66c70394c9e1) task, vs 20M / .00 ceilings.
+- **Root cause:** per-task budget check runs after each task; the final task crossed the ceiling.
+- **Attempted fixes:** fail-closed stop before another call.
+- **Outcome:** 5/5 tasks executed; 0 usable; run halted; remaining evening budget preserved (.18 of ).
+- **Unresolved risk:** none.
+- **Scientific impact:** pilot reported with exact ceilings overshoot; no blended P5R metric.
+- **Follow-up:** none.

@@ -77,3 +77,9 @@ implementation status, reason, comparison role. Appendix to the comparison plan.
   Route B history evidence and cross-repo generalization.
 - **Reason:** direct overlap with candidate-level omission recovery using
   history/co-change features.
+## B-014 — LocAgent P5R-1 (operational-limits robustness)
+- **Status:** INCLUDED as a diagnosis, NOT a new baseline metric.
+- **Result:** 0/5 rescued; wrapper timeout ineffective (upstream 900 s
+  hard-coded); context is a hard route limit. P5R numbers are NOT blended into
+  P5. P5 remains the immutable system-level comparison.
+- **Reason:** P5R is operational diagnosis per the mission; do not mix with P5.
