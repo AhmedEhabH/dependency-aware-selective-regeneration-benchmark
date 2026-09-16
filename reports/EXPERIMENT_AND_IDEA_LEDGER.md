@@ -124,3 +124,27 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
   PASS. Verifier pilot authorized (Block 4).
 - **Artifact:** reports/ROUTE_B_V2_ROBUSTNESS_REPORT.md; route_b_v2_gates.json.
 - **Revisit:** n/a (frozen ranker family; confirm on INTERNAL_TEST after full freeze).
+
+## E-019 — Route B V2 robustness closure (overnight 2026-09-17)
+- **Status:** EXECUTED; progression gate PASS.
+- **Result:** CIA best arm; curve above analytic Random at every B; CIs exclude
+  zero; 5/5 folds positive; no size artifact. Verifier pilot authorized + run.
+- **Artifact:** reports/ROUTE_B_V2_ROBUSTNESS_REPORT.md, route_b_v2_gates.json.
+- **Revisit:** confirm on INTERNAL_TEST after full freeze.
+
+## E-020 — Verifier pilot (overnight 2026-09-17)
+- **Status:** EXECUTED (30 calls, .0023; 30/30 valid).
+- **Result:** Oracle-in-top-B = 1.0; verifier ORR 0.86-1.0; dominant loss =
+  first-pass omission. Diagnostic only.
+- **Artifact:** reports/ROUTE_B_VERIFIER_PILOT_REPORT.md.
+
+## E-021 — History/co-change arm (overnight 2026-09-17)
+- **Status:** EXECUTED (94 tasks with parent-visible history).
+- **Result:** beats analytic Random; CIA remains frozen primary.
+- **Artifact:** reports/ROUTE_B_HISTORY_ARM_REPORT.md.
+
+## E-022 — Adaptive-budget exploratory (overnight 2026-09-17)
+- **Status:** EXPLORATORY (not a contribution).
+- **Result:** 83% of tasks reach >=90% Oracle@10 with B<5; diminishing marginal
+  gain after B=3. Decision: WORTH-PURSUING AFTER FIXED ROUTE-B.
+- **Artifact:** docs/ADAPTIVE_VERIFICATION_BUDGET_RESEARCH_NOTE.md.
