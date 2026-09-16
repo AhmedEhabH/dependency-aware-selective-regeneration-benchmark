@@ -18,26 +18,30 @@ audit, print-ready MSc Proposal V1, seminar outline, light export.
 
 ## Now executing
 
-- **Milestone A (README/dataset transparency, T2) COMPLETE.** Roadmap position
-  updated (§2); README diagrams now have static SVG fallbacks under
-  `docs/assets/` (Mermaid sources preserved under `docs/diagrams/*.mmd` as
-  source of truth); v1 funnel + 30-task development table + planner/RiskScorer/
-  verifier terminology documented; generator scripts added
-  (`scripts/generate_readme_svgs.py`, `scripts/generate_transparency_tables.py`).
+- **Milestones A–F COMPLETE (2026-09-16).** A: README transparency closure
+  (SVG fallbacks + v1 funnel + 30-task table + terminology). B: V2 protocol +
+  sampling-frame audit (6000→916→334→329→40; 289 untouched beyond exposed v1)
+  + sample-size analysis (N=120–150 recommended; N chosen from frame) + V2
+  split proposal (seed 20260916, hashes) + 150 V2 dev case bundles built. C:
+  V2 Sparse development-inference EXECUTED (431/450 cells, fail-closed budget
+  stop at 2.5M tokens / $0.873; 144 V2 tasks; merged 174 tasks 155 pos / 19 neg)
+  → C4 gates FAIL (no signal replication; universe-size artifact) → Route B
+  pivot, no RiskScorer. D: classical/static CIA baseline V1 on 150 V2 dev cases.
+  E/F: Saleor + NestJS suitability audits + protocols (SUITABLE-WITH-DEVIATIONS).
+- **Next: Milestones H (living review / novelty audit), J (seminar outline),
+  then I (print-ready MSc Proposal V1 — deadline-critical), consolidated tests/
+  audits/git/export.**
 
 ## Last completed task
 
-- Sparse-v2 development-inference milestone (90 cells, 90/90 valid, 490,747
-  tokens / $0.184) closed, merged, DEV-tagged, and LIGHT-exported (main
-  `2568915`; tag peel `9faadde`).
+- V2 development inference + omission-risk analysis (C4/C5);
+  classical CIA baseline; Saleor/NestJS suitability.
 
 ## Immediate next step
 
-- **Milestone B — RealCommitImpactDataset-v2 design + sample-size/scale study
-  (T3, zero model calls):** reconstruct the 329-case sampling frame, run the
-  sample-size/power analysis, freeze the V2 split if defensible. Then
-  Saleor/NestJS suitability, classical/static CIA, conditional V2 inference,
-  living review, proposal V1, seminar outline, light export.
+- Probe: thesis proposal V1 (print-ready) — the deadline-critical deliverable —
+  then seminar outline, living-review novelty audit, comparison-plan freeze,
+  consolidated git/export.
 
 ## Blockers
 
