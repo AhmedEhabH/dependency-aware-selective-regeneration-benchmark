@@ -8,12 +8,18 @@
 (append-only). Protocol v2 CURRENT PHASE = **Repository change localization /
 impact selection** (`docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`).
 **Current phase:** Paper submitted (ICCI shorthand; IEEE-format V20 artifact)
-+ **PLUGGABLE RESEARCH HARNESS V1 + LIVING SYSTEMATIC REVIEW V1 COMPLETE AND
++ **OMISSION-RISK FEATURE STUDY V1 COMPLETE AS A DETERMINISTIC-FIRST-PASS
+DEVELOPMENT ANALYSIS (2026-09-16; T3; ZERO new LLM/API calls; Phase-B preflight
+A–G + six gates + independent audit PASS; registered Sparse-v2-label study
+DEFERRED; frozen DEVELOPMENT-INFERENCE protocol produced —
+`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md` — ~90 cells / ~$0.19,
+gated on Ahmed's approval; DEV tag
+`omission-risk-feature-study-v1-dev-2026-09-16`)** +
+**PLUGGABLE RESEARCH HARNESS V1 + LIVING SYSTEMATIC REVIEW V1 COMPLETE AND
 AUDITED (2026-09-16; T3 reusable experiment architecture; ZERO API; six T3
 gates + audit PASS; Protocol-A outputs reproduced byte-for-byte through the
 compatibility layer; merged to main; DEV tag
-`research-harness-v1-dev-2026-09-16`; ONE next scientific step =
-OMISSION_RISK_FEATURE_STUDY_V1 TRAIN/VALIDATION only — NOT STARTED)** +
+`research-harness-v1-dev-2026-09-16`)** +
 **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE AND CLOSED (2026-09-16) —
 Protocol A cheap-non-LLM baselines v1 (TRAIN 24 + VALIDATION 6; ZERO API; six
 gates + audit PASS; BM25@K strongest cheap lexical — VALIDATION primary

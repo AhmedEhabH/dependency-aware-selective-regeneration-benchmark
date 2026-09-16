@@ -20,7 +20,15 @@ AUDITED (2026-09-16; T3 reusable experiment architecture; ZERO new scientific
 model/API calls; six T3 gates + independent audit PASS; Protocol-A outputs
 reproduced byte-for-byte through the compatibility layer; merged to main + DEV
 tag `research-harness-v1-dev-2026-09-16`).**
-Post-submission window. Scientific runs remaining in this block: ZERO.
+→ **OMISSION-RISK FEATURE STUDY V1 COMPLETE AS A DETERMINISTIC-FIRST-PASS
+DEVELOPMENT ANALYSIS (2026-09-16; T3; ZERO new scientific LLM/API calls;
+registered Sparse-v2-label study DEFERRED — TRAIN/VALIDATION have no Sparse-v2
+predictions; Phase-B preflight A–G + six gates + independent audit PASS; the
+frozen approval-gated Sparse-v2 DEVELOPMENT-INFERENCE protocol is produced —
+`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`; no LLM call without
+approval).**
+Post-submission window. Scientific runs remaining in this block: ZERO (unless
+the development-inference protocol is approved).
 
 ---
 
@@ -65,6 +73,10 @@ Post-submission window. Scientific runs remaining in this block: ZERO.
 - `research-harness-v1-dev-2026-09-16` — pluggable research harness V1 + living
   systematic review V1 DEV evidence tag (audited DEVELOPMENT/architecture
   evidence; NOT a stable-tag move).
+- `omission-risk-feature-study-v1-dev-2026-09-16` — Omission-Risk Feature Study
+  V1 (deterministic-first-pass development analysis + Phase-B preflight +
+  audit) DEV evidence tag (audited DEVELOPMENT evidence; NOT a stable-tag
+  move).
 - Study tags: `real-commit-p1-full-v2-vs-sparse-v2-01-audited`,
   `real-commit-impact-dataset-v1-corpus-audited`,
   `real-commit-impact-dataset-v1-m4a1-closure-audited`,
@@ -194,6 +206,39 @@ Post-submission window. Scientific runs remaining in this block: ZERO.
 - **ONE next scientific step: OMISSION_RISK_FEATURE_STUDY_V1 (TRAIN/VALIDATION
   only). NOT STARTED here.**
 
+### Omission-Risk Feature Study V1 (2026-09-16; T3; ZERO new LLM/API calls — deterministic-first-pass DEVELOPMENT ANALYSIS COMPLETE + AUDITED; registered Sparse-v2-label study DEFERRED)
+- **Phase-B preflight A–G COMPLETE** (`reports/OMISSION_RISK_REPOSITORY_EVIDENCE_AUDIT.md`
+  + JSON/CSV): Gate A = TRAIN/VALIDATION have **NO Sparse-v2 predictions** (P1
+  ran only on HELD_OUT_TEST); Gate B = single repository (djangoCMS), graph
+  present on all 30 tasks (524–564 edges, 0 zero-edge), history_available NO,
+  parent-commit BM25 corpus NOT re-materializable (missing pinned git cache);
+  Gate G = 10-row manual equivalence sanity sample 10/10 prediction+metric
+  equal.
+- **Deterministic-first-pass development analysis** (metadata-corpus BM25@K
+  first pass, 83 features in families A/B/C/E/F, n=30): label prevalence 73–80%
+  across K∈{3,5,10}; random AUROC band radius ~0.24–0.26; **only 1–2 of 83
+  features exceed the random 95% band (fewer than the ~12 expected by chance),
+  all anti-correlated with the pre-registered direction** (peaked/confident
+  BM25 → more omissions). Adaptive-K does not beat fixed K=10. Cost analysis:
+  always-escalate dominates at every C_FN/C_VERIFY ratio because the first pass
+  omits files on ~73–80% of tasks. No feature frozen for RiskScorer v1.
+- **Registered Sparse-v2-label study DEFERRED** (amendment): producing it
+  requires a new scientific LLM run → frozen **DEVELOPMENT-INFERENCE protocol**
+  (`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`; 90-cell Sparse-v2 on
+  TRAIN/VALIDATION, ~497.6k tokens, ~$0.19, budget ceiling $0.30) gated on
+  **Ahmed's approval** — no LLM call without it.
+- Artifacts: `research/omission-risk-feature-study-v1/` (feature_table.csv,
+  feature_manifest.json, single_feature_results.json, adaptive_k_results.json,
+  cost_sensitive_analysis.json, raw_task_level_inputs.json, data_availability.json,
+  repository_evidence_audit.{json,csv}, equivalence_sanity_sample.json,
+  feature_table_with_flags.csv); reports
+  `reports/OMISSION_RISK_FEATURE_STUDY_V1_REPORT.md`, `_AUDIT.md`,
+  `reports/omission_risk_feature_study_v1_gates.json`; 19 new unit tests; six
+  gates + independent audit PASS.
+- Living review updated (V1.1 verification pass; Shichao Zhang adaptive-computation
+  line VERIFIED; priority rows verified/corrected — Agentless, CodePlan,
+  RepoCoder, AutoCodeRover, RepoGraph, GraphLocator, RPG/ZeroRepo).
+
 ## 8. Next experiment — ONLY ONE (not started, not authorized without review)
 
 **Protocol A (cheap non-LLM baselines v1) is COMPLETE AND CLOSED (2026-09-16;
@@ -204,17 +249,23 @@ tag `cheap-baselines-v1-dev-2026-09-16`).**
 AUDITED (2026-09-16; T3 reusable experiment architecture; ZERO API; six T3
 gates + audit PASS; Protocol-A outputs reproduced byte-for-byte through the
 compatibility layer — 30 cases × 5 methods × 4 K = 600 rows + aggregates;
-merged to main; DEV tag `research-harness-v1-dev-2026-09-16`).** The next
-scientific step is chosen after Ahmed reviews the closure — **STATED**:
-- primary next line (drafted, NOT executed): **Selective escalation for
-  cost-aware repository change localization** (the proposal topic),
-  pre-ceded by the **omission-risk detection** core mechanism
-  (`docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`) — evaluated on TRAIN/
-  VALIDATION, then a FRESH confirmatory split. The ONE next scientific step is
-  **OMISSION_RISK_FEATURE_STUDY_V1 (TRAIN/VALIDATION only)** — feature families
-  and routing metrics per `reports/RESEARCH_HARNESS_V1_REPORT.md` §9.
-- Saleor remains the second-repository confirmatory line, DOCUMENT-ONLY for now
-  (`docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`).
+merged to main; DEV tag `research-harness-v1-dev-2026-09-16`).**
+
+**OMISSION-RISK FEATURE STUDY V1 is COMPLETE AS A DETERMINISTIC-FIRST-PASS
+DEVELOPMENT ANALYSIS (2026-09-16; T3; ZERO new LLM/API calls; Phase-B preflight
+A–G + six gates + independent audit PASS; merged to main; DEV tag
+`omission-risk-feature-study-v1-dev-2026-09-16`). The registered Sparse-v2-label
+study is DEFERRED (TRAIN/VALIDATION have no Sparse-v2 predictions).**
+
+The next scientific step is **Ahmed's decision** on the frozen
+**DEVELOPMENT-INFERENCE protocol**
+(`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`): approve the 90-cell
+Sparse-v2 development-inference run on TRAIN/VALIDATION (~497.6k tokens,
+~$0.19, ceiling $0.30) — which enables the registered Sparse-v2-label omission
+risk analysis — OR accept the deterministic-first-pass development evidence as
+the delivered output of this block and defer the registered study to a later
+milestone. Saleor remains the second-repository confirmatory line,
+DOCUMENT-ONLY for now (`docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`).
 
 Sequence per the MSc roadmap:
 `Sparse first pass → omission-risk detection → selective graph-guided escalation
@@ -233,3 +284,6 @@ new model-family runs.
   matrices without a fresh preregistration + frozen budget.
 - **DO-NOT** alter frozen P1/P5 outputs; all post-ICCI analyses are
   read-only recomputations from existing evidence.
+- **DO-NOT** run any new scientific LLM/API call (including the deferred
+  Sparse-v2 development inference) without Ahmed's approval of
+  `docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`.
