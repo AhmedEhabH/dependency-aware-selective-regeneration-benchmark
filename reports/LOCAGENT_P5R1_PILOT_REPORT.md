@@ -35,15 +35,23 @@ so results are directly comparable to P5 per task.
 | 66c70394c9e1 | context-length | **0 files (upstream deadline)** | `execution flow reconstruction exceeded timeout. Terminating. Processing time exceeded 15 minutes.` | 83 / 6,611,203 / $1.99 |
 | **Total** | 5 non-usable | **0 usable** | — | 241 / 20,541,560 / $6.18 |
 
-## 3. Critical operational finding
+## 3. Critical operational finding (CORRECTED 2026-09-17)
 
-**The wrapper `--timeout 1800` did NOT extend the effective per-task deadline.**
-The upstream `auto_search_main.py` enforces its OWN hard-coded
-`Processing time exceeded 15 minutes` deadline (900 s) independently of the
-compatibility wrapper's `--timeout` argument. Case 66c70394c9e1 terminated at
-"15 minutes" despite the 1800 s wrapper setting. Therefore the P5R-1 allowed
-operational change (timeout relaxation) was **ineffective at the framework
-level**: the effective deadline remained ~900 s.
+**The wrapper `--timeout 1800` WAS honored.** The frozen P5R-1 args.json records
+`timeout: 1800`, and case 66c70394c9e1 ran from 22:16:17 to 22:49:41 (~33
+minutes of wall time) before the `process.join(timeout=args.timeout)` deadline
+expired. The log line `Processing time exceeded 15 minutes. Try again.` is the
+upstream's **misleading fixed string** in the `TimeoutError` handler
+(`auto_search_main.py` line ~431), NOT a hard-coded 900-second cap: the real
+deadline is `process.join(timeout=args.timeout)` (line ~393), which P5R-1 set to
+1800. The prior reading that the wrapper timeout was ineffective was **incorrect**
+and is corrected here.
+
+So the timeout relaxation DID extend the effective deadline. Case 66c70394c9e1
+still failed because its search genuinely ran beyond 1800s of wall time (LLM
+calls summed to ~10.6 min; the rest is agent/tool overhead, graph
+reconstruction, and the workflow join) and the route context ceiling (262,144)
+remained a hard limit.
 
 Additionally, **context capacity cannot be raised on the same route**: the
 OpenRouter qwen3-coder route's maximum context is 262,144 tokens, and the two
@@ -51,13 +59,14 @@ context-length cases (9e33db4f4660, fdda30c271f0) hit exactly this ceiling
 during P5R-1. No same-route relaxation is possible; P5R-2 (a different provider
 serving the same weights with larger context) would be required for those.
 
-## 4. Operational vs framework attribution (pilot evidence)
+## 4. Operational vs framework attribution (pilot evidence, corrected)
 
 - **Context-capacity-limited (operational, not fixable on the same route):**
   9e33db4f4660, fdda30c271f0 (2/5). In P5 these were 1 empty + 1 timeout; under
   P5R-1 both hit the 262,144 context ceiling while running longer.
-- **Framework deadline (upstream hard-coded 900 s):** 66c70394c9e1 (1/5). Not
-  removable via the wrapper timeout; requires editing upstream (forbidden).
+- **Workflow-deadline (operational, honored at 1800 s):** 66c70394c9e1 (1/5).
+  The 1800 s join deadline was reached after a genuinely long-running search;
+  the "15 minutes" log string is stale text. Not a hard 900 s cap.
 - **Worker crash (framework/infra):** 4307e1b8c2e2 (1/5) — worker exited code 1.
 - **Completed-but-empty (framework/system behavior):** b39799f9fc1c persists as
   empty after 39 calls; relaxing timeout/context did not change it. This
@@ -65,11 +74,12 @@ serving the same weights with larger context) would be required for those.
   completed-but-empty task(s).
 
 **Conclusion:** the original 5/10 non-usable outcomes were NOT primarily caused
-by the 900 s wrapper timeout. They are a MIX of (a) the route's hard context
-ceiling (2), (b) an upstream hard-coded 15-minute framework deadline (1),
-(c) a worker crash (1), and (d) genuine completed-but-empty framework behavior
-(1). Only the 2 timeout-labeled P5 cases were even plausibly timeout-related,
-and under P5R-1 they did NOT succeed (they hit context limits / a worker crash).
+by a hard 900 s wrapper deadline. They are a MIX of (a) the route's hard context
+ceiling (2), (b) genuinely long-running searches that exceeded the 1800 s
+workflow join deadline (1), (c) a worker crash (1), and (d) genuine
+completed-but-empty framework behavior (1). Only the 2 timeout-labeled P5 cases
+were even plausibly timeout-related, and under P5R-1 they did NOT succeed (they
+hit context limits / a worker crash).
 
 ## 5. Full 10-task clean rerun decision
 
