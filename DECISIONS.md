@@ -315,7 +315,58 @@ execution. Entries are never edited after append; corrections are new entries.
 - **Rationale:** zero-cost discipline + strict data rule + truthful status.
 - **Impact:** the milestone STOPS at the protocol + approval request.
 
-## Decision P18 — Sparse-v2-label development-inference EXECUTED (2026-09-16)
+## Decision P19 — Autonomous MSc acceleration session authorized (2026-09-16)
+
+- **Status:** ADOPTED (this session)
+- **Context:** Ahmed is away; the `_workspace/active/OPENCODE_AUTONOMOUS_MSC_ACCELERATION_TO_PROPOSAL_2026-09-16.md`
+  authorizes autonomous execution in priority order with explicit stop
+  conditions (no hidden-test peeking, no destructive git, no scope change, no
+  hard budget violation, no fabrication).
+- **Decision:** Execute the ordered milestones (README transparency closure;
+  RealCommitImpactDataset-v2 design + sample-size analysis; Saleor/NestJS
+  suitability; classical/static CIA; conditional V2 development inference only
+  if within the authorized ceilings — ≤450 new cells, ≤2.5M tokens, ≤$1.00;
+  living-review novelty audit; print-ready MSc Proposal V1; seminar outline;
+  light export). Record choices in DECISIONS.md; document blockers and continue.
+- **Budget ceilings (authorized in the mission file):** new V2 development
+  cells ≤ 450; new tokens ≤ 2,500,000; new API/frozen-pricing cost ≤ USD 1.00;
+  no V2 TEST/RESERVE calls; no result-dependent reruns; no provider/model
+  family change. STOP the model only if these are exceeded.
+- **Rationale:** proposal deadline before 2026-10-01; supervisor-ready draft
+  needed now.
+
+## Decision P20 — Roadmap position + contingency routes updated (2026-09-16)
+
+- **Status:** ADOPTED
+- **Context:** The Sparse-v2 omission-risk development inference is complete;
+  task-level RiskScorer is not justified on n=30 (class-balance gate failed).
+- **Decision:** The roadmap now states the overall research position without
+  forcing the thesis to depend on RiskScorer success. Two pre-registered
+  contingency routes: Route A (task-level selective routing, used only if a
+  larger development set establishes a reliable signal) and Route B
+  (candidate-level bounded verification of suspicious omitted candidates under
+  a hard budget, compared with always-verify and random matched-budget).
+- **Impact:** docs/MSC_RESEARCH_ROADMAP_2026_2027.md (overall position +
+  Route A/B + frozen comparison plan + proposal deadline schedule).
+
+## Decision P21 — README / dataset transparency closure (Milestone A, T2)
+
+- **Status:** ADOPTED
+- **Context:** README diagrams used Mermaid only (browser-dependent rendering);
+  the RealCommitImpactDataset-v1 funnel and the 30 development tasks were not
+  documented in the README; RiskScorer vs planner/verifier terminology was
+  ambiguous.
+- **Decision:** Keep editable Mermaid sources under `docs/diagrams/*.mmd`
+  (source of truth); generate deterministic static SVG fallbacks under
+  `docs/assets/` with `scripts/generate_readme_svgs.py` (no browser
+  dependency); embed SVGs in README; document the verified v1 funnel and the
+  30-task development table (generated from frozen artifacts by
+  `scripts/generate_transparency_tables.py`, never hand-transcribed); add a
+  planner/RiskScorer/verifier terminology section; state that RiskScorer v1 is
+  NOT justified on the 30-task development evidence.
+- **Impact:** README.md; docs/diagrams/*.mmd; docs/assets/*.svg;
+  research/transparency/*; scripts/generate_readme_svgs.py,
+  scripts/generate_transparency_tables.py.
 
 - **Status:** ADOPTED (this task; supersedes the P15/P17 deferral for this run)
 - **Context:** Ahmed APPROVED the frozen DEVELOPMENT-INFERENCE protocol with the
@@ -341,3 +392,62 @@ execution. Entries are never edited after append; corrections are new entries.
   run evidence `research/omission-risk-feature-study-v1/sparse_v2_trainval_*`;
   analysis `research/omission-risk-feature-study-v1/sparse_v2_label_analysis/`;
   `data_availability.json` updated (TRAIN/VALIDATION sparse_v2 available).
+
+## Decision P22 - V2 development inference EXECUTED; RiskScorer gate FAILS (2026-09-16)
+
+- **Status:** ADOPTED (this session)
+- **Context:** Authorized by mission C3 (<=450 NEW cells, <=2.5M tokens, <=.00).
+  V2 split frozen (150 DEV cases; INTERNAL_TEST/RESERVE untouched); six V2
+  gates PASS; LIVE API run.
+- **Result:** 431/450 cells executed (144 independent V2 tasks; 129 pos /
+  15 neg, prevalence 89.6%); fail-closed budget STOP at 2.5M tokens
+  (2,501,964 tokens, .873 cost; 19 cells not run); 430 valid / 1 failure
+  (JSON-parse cell, no replacement). Merged v1+v2: 174 tasks, 155 pos /
+  19 neg (89.1%).
+- **Decision (C4/C5):** C4 signal gates FAIL. The v1 peakiness signal
+  (bm25_zero_count AUROC 0.837) does NOT replicate in V2 (0.592, inside the v2
+  band); the pooled "33 above-band" is a cohort/universe-size artifact
+  (V2 universes up to 234 vs v1 140-152; graph features correlate ~0.99 with
+  universe size). NO multivariable RiskScorer fitted. The negative is frozen as
+  development evidence; the mechanism pivots to Route B - candidate-level
+  bounded omission verification (pre-registered).
+- **Impact:** reports/REAL_COMMIT_V2_OMISSION_RISK_DEVELOPMENT_ANALYSIS.md;
+  research/transparency/v2_omission_risk_analysis.json; v2_trainval run evidence.
+
+## Decision P23 - Proposal V1 + seminar outline drafted (2026-09-16)
+
+- **Status:** ADOPTED (deadline-critical deliverable)
+- **Context:** printed registration-seminar proposal required before 2026-10-01.
+- **Decision:** create a supervisor-ready, print-ready proposal package in
+  msc_proposal/ with a conservative academic LaTeX format (no fabricated
+  institutional form fields), truthful current evidence, pre-registered Route
+  A/B contingencies, and the preferred title.
+- **Impact:** msc_proposal/MSC_PROPOSAL_V1.tex+.pdf (6 pages, compiles clean),
+  references.bib, PROPOSAL_CLAIMS_MATRIX.md, PROPOSAL_SUPERVISOR_BRIEF.md,
+  PROPOSAL_PRINT_CHECKLIST.md, PROPOSAL_CHANGELOG.md,
+  msc_proposal/SEMINAR_PRESENTATION_OUTLINE.md.
+
+## Decision P24 - Living-review novelty audit (2026-09-16)
+
+- **Status:** ADOPTED
+- **Decision:** do NOT claim graph localization, repository memory, intent-
+  aware expansion, adaptive K, or generic uncertainty-triggered escalation as
+  novel by themselves. The strongest defensible FUTURE novelty candidate is
+  'omission-aware, cost-sensitive bounded verification of an explicit sparse
+  file-level impact policy under matched inference budgets', marked
+  CANDIDATE-NOT-YET-CLAIMED, with a Route B candidate-level fallback.
+- **Impact:** docs/LIVING_SYSTEMATIC_REVIEW.md (novelty audit section);
+  research/literature/review_matrix.csv + idea_ledger.md additions.
+
+## Decision P25 - Experimental comparison plan frozen (2026-09-16)
+
+- **Status:** ADOPTED (frozen in roadmap)
+- **Decision:** the fair comparison includes Random/cheap control, BM25,
+  adaptive cheap retrieval (if justified), classical/static CIA, Sparse
+  planner, Full planner, faithful LocAgent/reference agent (when
+  reproducible), Sparse+Always Verify, Sparse+Random Verify (matched budget),
+  Sparse+Selective/Bounded Verify (Route B candidate-level if task-level
+  routing unsupported), Oracle routing upper bound. Metrics include correctness,
+  cost, latency, failure counts, and the Pareto frontier; per-repository
+  primary, macro-average across repos, pooled secondary, repo-ID confound check.
+- **Impact:** docs/MSC_RESEARCH_ROADMAP_2026_2027.md.

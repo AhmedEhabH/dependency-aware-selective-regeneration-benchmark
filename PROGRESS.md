@@ -5,44 +5,41 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `research/omission-risk-sparse-v2-inference-v1` (to be merged into `main`)
-**HEAD base:** `15d1b3f` (main, omission-risk milestone closed + DEV tag)
+**Branch:** `research/msc-acceleration-2026-09-16` (autonomous MSc acceleration; to be merged into `main`)
+**HEAD base:** `2568915` (main, Sparse-v2 development-inference milestone closed + DEV tag)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** OMISSION_RISK_FEATURE_STUDY_V1 — registered Sparse-v2-label
-development-inference EXECUTED (approved 90-cell run, TRAIN/VALIDATION only;
-90/90 valid; 490,747 tokens / $0.184 within the 600,000-token AND $0.30 hard
-stop; class-balance gate FAILED → descriptive/single-feature only, no
-multivariable RiskScorer).
+**Task:** AUTONOMOUS MSc ACCELERATION TO PROPOSAL (2026-09-16) —
+README transparency closure, RealCommitImpactDataset-v2 design + sample-size
+analysis, Saleor/NestJS suitability, classical/static CIA, conditional V2
+development inference (within authorized ceilings), living-review novelty
+audit, print-ready MSc Proposal V1, seminar outline, light export.
 
 ---
 
 ## Now executing
 
-- **REGISTERED SPARSE-v2-LABEL STUDY COMPLETE + AUDITED.** Approved 90-cell
-  Sparse-v2 development-inference run on TRAIN/VALIDATION executed: 90/90
-  valid, 0 failures, 0 truncations, raw responses + sha256 sidecars persisted
-  and verified. Task-level Sparse-v2 `has_fn` prevalence 86.7% (26/30, 4
-  negatives); class-balance gate FAILED (neg < 10) → NO multivariable
-  RiskScorer; descriptive/single-feature rerun only. Report
-  `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`; audit
-  `reports/OMISSION_RISK_INFERENCE_AUDIT.md` (31/31 PASS). Awaiting merge to
-  main + DEV tag + export.
+- **ALL ACCELERATION MILESTONES COMPLETE (2026-09-16).** A: README transparency
+  closure. B: V2 protocol + sampling-frame audit + sample-size analysis +
+  split proposal + 150 V2 dev bundles. C: V2 Sparse development-inference
+  EXECUTED (431/450 cells, fail-closed token-ceiling stop; 144 V2 tasks;
+  merged 174 tasks 155 pos / 19 neg) → C4 gates FAIL → Route B pivot. D:
+  classical/static CIA baseline V1 (150 V2 dev cases). E/F: Saleor + NestJS
+  suitability + protocols. H: living-review novelty audit. I: print-ready MSc
+  Proposal V1 (msc_proposal/, 6 pages). J: seminar outline. P19–P25 decisions
+  recorded.
+- **Remaining:** push branch → merge main → post-merge verify → push main →
+  DEV tag → light export → STOP with final report.
 
 ## Last completed task
 
-- Sparse-v2 development inference (90 cells) + label computation + feature
-  analysis rerun + comparison vs deterministic first pass + final report +
-  independent audit (all PASS). Run evidence:
-  `research/omission-risk-feature-study-v1/sparse_v2_trainval_*` (+ runs/raw
-  sidecars); analysis: `research/omission-risk-feature-study-v1/sparse_v2_label_analysis/`;
-  gates: `reports/omission_risk_inference_gates.json`.
+- Full suite green (3290 passed / 33 skipped / 2 pre-existing environmental
+  failures — missing pinned djangocms git cache, identical on clean base);
+  all new scripts ruff/compile clean; README mermaid test re-pointed at
+  docs/diagrams/*.mmd source-of-truth + SVG-fallback regression added.
 
 ## Immediate next step
 
-- **Merge to main + DEV tag + fresh export (fixed hygiene).** Commit →
-  push research branch → merge main → post-merge verify → push main → DEV tag
-  `omission-risk-sparse-v2-inference-v1-dev-2026-09-16` → fresh export without
-  embedding `dist/pilot-kaggle-upload.zip` in a LIGHT export. Then STOP.
+- Merge to main + push + DEV tag + light export (final handoff).
 
 ## Blockers
 

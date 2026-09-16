@@ -14,6 +14,58 @@ Status legend:
 - **NOT STARTED** — no scientific runs; design/pre-registration only.
 - **PROPOSED FOLLOW-UP / NOT EXECUTED** — design proposal, no runs.
 
+## Overall research position (2026-09-16, after the Sparse omission-risk study)
+
+```text
+ICCI / Preserve-by-Omission
+        ↓
+Real-commit dataset + P1/P5
+        ↓
+Cheap baselines
+        ↓
+Pluggable harness
+        ↓
+Sparse omission-risk study
+        ↓
+RESULT: task-level cheap RiskScorer not justified on n=30
+        ↓
+NEXT: enlarge development evidence + protect untouched confirmation
+        ↓
+djangoCMS V2-LARGE
+        ↓
+classical CIA + stronger history/static evidence
+        ↓
+conditional risk-routing OR candidate-level bounded verification
+        ↓
+Saleor external confirmation
+        ↓
+NestJS cross-ecosystem confirmation
+        ↓
+selective / bounded verification system
+        ↓
+final correctness–cost Pareto evidence
+```
+
+The thesis does NOT depend on RiskScorer success. Two contingency routes are
+pre-registered (see the proposal and the V2 protocol):
+
+### Route A — task-level selective routing
+Use only if a larger development set establishes a reliable, stable risk signal.
+
+### Route B — candidate-level bounded verification
+If task-level risk remains unseparable: use cheap first-pass candidate
+evidence, identify suspicious omitted candidates using independent
+structural/history evidence, verify only those candidates under a hard budget,
+and compare with always-verify and random matched-budget verification.
+
+The thesis question remains:
+
+> When is additional repository reasoning worth its inference cost, and how can
+> bounded verification reduce missed-impact risk without paying the full
+> always-on cost?
+
+No claim is made in advance that Route A or Route B will win.
+
 ## Program overview
 
 | Pillar | Title | Status |
@@ -24,8 +76,8 @@ Status legend:
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
-| 7 | **Cross-repository confirmation — SALEOR (confirmed future pillar)** | NOT STARTED — PROTOCOL-FIT AUDIT REQUIRED (document-only; see `docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`) |
-| 8 | **Omission-risk detection — THESIS CORE (confirmed future pillar)** | NOT STARTED — PLANNED core mechanism (document-only; see `docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`) |
+| 7 | **Cross-repository confirmation — SALEOR (confirmed future pillar)** | SUITABLE-WITH-DEVIATIONS AUDIT DONE (2026-09-16); protocol frozen (`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`); frame reconstruction blocked on full history cache |
+| 8 | **Omission-risk detection — THESIS CORE (confirmed future pillar)** | DEVELOPMENT-EVIDENCE COMPLETE — task-level RiskScorer NOT justified on n=30 (Sparse-v2 development inference 2026-09-16); V2 design + sample-size analysis in `docs/REAL_COMMIT_DATASET_V2_PROTOCOL.md` |
 
 > **Confirmed future pillars (2026-09-15).** Both pillars are authoritative
 > parts of the MSc roadmap: SALEOR as the second-repository confirmatory line
@@ -72,12 +124,24 @@ Status legend:
 
 ---
 
-## POST-ICCI MSc PROPOSAL FOCUS (2026-09-15; ZERO API; DRAFT ONLY)
+## POST-ICCI MSc PROPOSAL FOCUS (2026-09-16; proposal V1 draft in `msc_proposal/`)
 
 Thesis direction: **Repository Change Localization Under Limited Inference
-Budgets**, with the working title *"When Is Graph-Guided Search Worth It?
-Selective Escalation for Cost-Aware Repository Change Localization"*.
-Everything below separates evidence by status:
+Budgets**. Working title (does not assume graph or RiskScorer success):
+**Cost-Aware Repository Change Localization with Sparse Impact Planning and
+Bounded Verification** (alternative: Repository Change Localization Under
+Limited Inference Budgets). "Graph" is only one optional verifier, never a
+required success. Everything below separates evidence by status:
+
+### Proposal deadline schedule
+- 2026-09-16/17: Proposal V1 supervisor-ready draft.
+- by 2026-09-22: supervisor-feedback integration target.
+- by 2026-09-25: scientific content freeze target.
+- by 2026-09-27: print-layout freeze.
+- by 2026-09-29: physical print ready.
+- 2026-09-30: safety buffer.
+- before 2026-10-01: submission-ready printed proposal.
+- seminar presentation may continue improving afterward.
 
 ### A. Completed ICCI evidence (frozen, submitted)
 - M1A / M1B / M1 defensive closure, M3 graph ablation (development-set),
@@ -409,11 +473,14 @@ correctness claims.
 
 ## Pillar 7 — Cross-repository confirmation — SALEOR (confirmed future pillar)
 
-**Status: NOT STARTED — DOCUMENT-ONLY.** Funded by
-`docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`. **Do NOT run Saleor today.**
+**Status: SUITABLE-WITH-DEVIATIONS (2026-09-16 audit).** Protocol frozen in
+`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`; suitability audit in
+`reports/SALEOR_REPOSITORY_SUITABILITY_AUDIT.md`. **Do NOT run Saleor today** —
+sampling-frame reconstruction blocked until full Saleor history is cached
+(shallow pinned cache).
 
-**Role in the thesis.** Saleor is the preferred second-repository candidate,
-subject to a protocol-fit audit, to test:
+**Role in the thesis.** Saleor is the second-repository candidate
+(subject to the frozen protocol-fit audit):
 - whether Preserve-by-Omission savings transfer beyond djangoCMS;
 - semantic fidelity under a materially different repository (e-commerce
   modular monolith vs CMS plugin architecture);
@@ -421,27 +488,36 @@ subject to a protocol-fit audit, to test:
 - and to provide untouched confirmatory evidence.
 
 **Required preconditions before any Saleor scientific result:**
-1. audit repository suitability;
-2. define candidate-universe semantics;
-3. define historical-change mining rules;
-4. define proxy/adjudication protocol;
-5. freeze TRAIN/VALIDATION/HELD_OUT_TEST;
-6. freeze baselines and metrics;
+1. audit repository suitability (DONE — SUITABLE-WITH-DEVIATIONS);
+2. define candidate-universe semantics (DONE in the frozen profile);
+3. define historical-change mining rules (DONE — frozen M4A-2 rules);
+4. define proxy/adjudication protocol (DONE — frozen R1/R2/R3);
+5. freeze TRAIN/VALIDATION/HELD_OUT_TEST (PENDING frame reconstruction);
+6. freeze baselines and metrics (frozen study contract);
 7. ensure TEST remains untouched until final confirmation.
 
 **Current project threat note.** Saleor costs a real model budget; the v0.9.x
 Kaggle pilot evidence (saleor scenarios) is legacy/engineering only and is not
 confirmatory scientific evidence for this proposal line.
 
+**Generalization ladder (frozen, 2026-09-16):**
+- Stage 1 — djangoCMS V2-LARGE: within-repo large evidence + untouched internal test.
+- Stage 2 — Saleor: cross-repository evidence in a different real system
+  (Python/Django; SUITABLE-WITH-DEVIATIONS).
+- Stage 3 — NestJS: cross-language / cross-framework evidence
+  (TypeScript; `reports/NESTJS_REPOSITORY_SUITABILITY_AUDIT.md`,
+  `docs/NESTJS_REAL_COMMIT_PROTOCOL_V1.md`; SUITABLE-WITH-DEVIATIONS;
+  preferred but NOT forced — predeclared yield criterion, JabRef backup).
+
 ---
 
 ## Pillar 8 — Omission-risk detection — THESIS CORE (confirmed future pillar)
 
-**Status: NOT VALIDATED — PLANNING + FEATURE-STUDY-DEV-EVIDENCE ONLY.** Funded by
-`docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`. **Do NOT train/tune/execute a
-risk detector based on the deterministic-first-pass development evidence.**
+**Status: DEVELOPMENT-EVIDENCE COMPLETE — task-level RiskScorer NOT justified
+on n=30; the mechanism pivots to Route A/B (see the overall research position
+above) and a V2 development program (`docs/REAL_COMMIT_DATASET_V2_PROTOCOL.md`).**
 
-**Omission-Risk Feature Study V1 (2026-09-16, T3, ZERO new LLM/API calls):**
+**Omission-Risk Feature Study V1 (2026-09-16, T3):**
 Phase-B preflight A–G + six gates + independent audit PASS. Deterministic-
 first-pass (metadata-corpus BM25@K) development analysis: **no reliable
 omission-risk signal at n=30** — only 1–2 of 83 features exceed the random
@@ -486,6 +562,26 @@ revised impact scope
 **Rules:** risk detection is developed using TRAIN/VALIDATION only; NEVER tuned
 on the exposed ten-task HELD_OUT_TEST; not implemented in the cheap-baselines
 block; preserved as the core thesis mechanism after baseline establishment.
+
+**Route A (task-level selective routing) vs Route B (candidate-level bounded
+verification):** both are pre-registered in the V2 protocol
+(`docs/REAL_COMMIT_DATASET_V2_PROTOCOL.md`). Route A is used only if a larger
+development set establishes a reliable, stable risk signal; otherwise Route B
+verifies only suspicious omitted candidates under a hard budget and is compared
+with always-verify and random matched-budget verification.
+
+**Frozen comparison plan for the thesis (subject to feasibility):**
+Random/cheap control, BM25, adaptive cheap retrieval (if justified),
+classical/static CIA, Sparse planner, Full planner, faithful LocAgent/reference
+agent (when reproducible), Sparse+Always Verify, Sparse+Random Verify (matched
+budget), Sparse+Selective/Bounded Verify, Oracle routing upper bound. If
+task-level routing is unsupported, arm 10 becomes candidate-level bounded
+verification. Metrics: P/R/F1/FNR, FN recovery, selected candidate count,
+escalation/verification rate, calls, tokens, cost, latency, failures,
+graph/index build cost separated from query cost, correctness–cost Pareto
+frontier. Per-repository metrics primary; macro-average across repos; pooled
+secondary; repository-ID confound check; no single large repo dominates the
+headline.
 
 ---
 
@@ -562,3 +658,8 @@ must run on a fresh shared confirmatory split.
 | Protocol A — Cheap non-LLM baselines v1 | **COMPLETE / AUDITED** (2026-09-16; DEVELOPMENT evidence; DEV tag `cheap-baselines-v1-dev-2026-09-16`; BM25 strongest cheap lexical; K = operating-point curve; no LLM-vs-BM25 claim) |
 | Pluggable Research Harness V1 + Living Systematic Review V1 | **COMPLETE / AUDITED** (2026-09-16; T3 reusable experiment architecture; ZERO API; DEV tag `research-harness-v1-dev-2026-09-16`; Protocol-A outputs reproduced byte-for-byte) |
 | Omission-Risk Feature Study V1 | **COMPLETE / AUDITED in two stages** (2026-09-16). Stage 1 deterministic-first-pass development analysis (T3; ZERO LLM; Phase-B A–G + six gates + audit PASS; DEV tag `omission-risk-feature-study-v1-dev-2026-09-16`). Stage 2 **Sparse-v2-label development-inference EXECUTED** (approved 90-cell run, TRAIN/VALIDATION only; 90/90 valid; 490,747 tokens / $0.184 within the 600k/$0.30 hard stop; Sparse-v2 `has_fn` prevalence 86.7% (26/30, 4 negatives); class-balance gate FAILED → descriptive/single-feature only, NO multivariable RiskScorer; no signal survives the random band; report `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`; audit PASS) |
+| RealCommitImpactDataset-v2 design + sampling frame + sample size | **COMPLETE / AUDITABLE** (2026-09-16; T3 ZERO API; funnel 6000->916->334->329->40; 289 untouched beyond exposed v1; N=120-150 recommended from frame, not round; split proposal seed 20260916 + hashes; 150 V2 dev case bundles built; INTERNAL_TEST 80 + RESERVE 59 untouched) |
+| V2 Sparse development inference + omission-risk analysis | **EXECUTED** (2026-09-16; 431/450 cells, fail-closed token-ceiling stop at 2.5M tokens / \.873; 144 new V2 tasks; merged 174 tasks 155 pos / 19 neg; C4 signal gates FAIL - v1 peakiness signal does not replicate in V2 (universe-size artifact); NO multivariable RiskScorer; Route B pivot) |
+| Classical/static CIA baseline V1 | **IMPLEMENTED** (2026-09-16; T3 ZERO LLM; 150 V2 dev cases; BM25/GRAPH@K strongest; closure arms weaker; development evidence) |
+| Saleor / NestJS suitability + protocols | **SUITABLE-WITH-DEVIATIONS** (2026-09-16; T3 ZERO API; protocols frozen; frames blocked on full-history caches) |
+| MSc Proposal V1 + seminar outline | **DRAFT COMPLETE** (2026-09-16; msc_proposal/; 6-page PDF; deadline-critical path to print before 2026-10-01) |
