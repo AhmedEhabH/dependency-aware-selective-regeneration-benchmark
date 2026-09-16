@@ -5,33 +5,33 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `research/evening-v12-routeb-saleor-2026-09-16` (evening autonomous mission; to be merged into `main`)
-**HEAD base:** `c79038a` (main, MSc acceleration session closed + DEV tag)
+**Branch:** `research/overnight-routeb-v2-saleor-2026-09-17` (overnight mission; to be merged into `main`)
+**HEAD base:** `7dbd028` (main, evening mission closed + DEV tag)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** EVENING AUTONOMOUS MISSION (2026-09-16) — Proposal V1.2, LocAgent P5R,
-Route B, Saleor, semantic-proxy, BibTeX triage, living review, NestJS.
+**Task:** OVERNIGHT MISSION (2026-09-17) — Route B V2 freeze, verifier pilot,
+Saleor bundles, Proposal V1.3, semantic two-rater, adaptive horizon, P5R-2.
 
 ---
 
 ## Now executing
 
-- **ALL EVENING MILESTONES COMPLETE + MERGED.** A: Proposal V1.2 (7 pages,
-  supervisor-ready). Addendum: BibTeX triage + 6 ledgers. B: LocAgent P5R
-  forensics + rescue pilot (0/5; full rerun NOT triggered). C: Route B
-  candidate-level omission recovery V1 (CIA beats Random at B=5; first positive
-  candidate-level signal). E: Saleor READY-TO-RUN (frame 1316; split; gates).
-  D: semantic-proxy protocol + 25 packets. G: living-review novelty update.
-  F: NestJS readiness. Full suite green (3290/33/2 pre-existing environmental).
-  Merged to main + DEV tag `evening-v12-routeb-saleor-2026-09-16` + LIGHT export.
-- **Remaining:** final consolidated report → STOP.
+- **ALL OVERNIGHT BLOCKS COMPLETE.** Route B V2 robustness closure (CIA frozen,
+  gate PASS; analytic Random; budget curve). History/co-change arm (beats
+  random; CIA remains primary). Verifier pilot (30 calls, $0.0023;
+  Oracle-in-top-B=1.0). Saleor bundles (98/150; 52 blocked on Windows git
+  archive; inference NOT run). Proposal V1.3 (7 pages). Semantic two-rater
+  readiness + kappa script. Adaptive-budget research note. P5R-1 correction +
+  P5R-2 feasibility. Traceability + living review. INTERNAL_TEST/RESERVE sealed.
+- **Remaining:** merge main + DEV tag + LIGHT export + final report.
 
 ## Last completed task
 
-- Merge to main + DEV tag + LIGHT export (final handoff).
+- Full suite green (3290 passed / 33 skipped / 2 pre-existing environmental
+  failures — missing pinned djangocms git cache, identical on clean base).
 
 ## Immediate next step
 
-- Final consolidated report (Section K), then STOP.
+- Merge to main + push + DEV tag + LIGHT export + final morning report.
 
 ## Blockers
 
