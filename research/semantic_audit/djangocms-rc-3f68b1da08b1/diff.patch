@@ -1,0 +1,207 @@
+diff --git a/cms/forms/wizards.py b/cms/forms/wizards.py
+index 0dbe6968b..0248c32a7 100644
+--- a/cms/forms/wizards.py
++++ b/cms/forms/wizards.py
+@@ -8,6 +8,7 @@ from django.core.exceptions import PermissionDenied
+ from django.utils.encoding import smart_text
+ from django.utils.translation import ugettext_lazy as _, get_language
+ 
++from cms import __version__
+ from cms.api import generate_valid_slug
+ from cms.constants import PAGE_TYPES_ID
+ from cms.exceptions import NoPermissionsException
+@@ -77,11 +78,11 @@ class PageTypeSelect(forms.widgets.Select):
+     """
+     class Media:
+         js = (
+-            'cms/js/modules/jquery.noconflict.pre.js',
+-            'cms/js/dist/bundle.admin.base.min.js',
+-            'cms/js/modules/cms.base.js',
+-            'cms/js/widgets/wizard.pagetypeselect.js',
+-            'cms/js/modules/jquery.noconflict.post.js'
++            'cms/js/modules/jquery.noconflict.pre.js?%s' % __version__,
++            'cms/js/dist/bundle.admin.base.min.js?%s' % __version__,
++            'cms/js/modules/cms.base.js?%s' % __version__,
++            'cms/js/widgets/wizard.pagetypeselect.js?%s' % __version__,
++            'cms/js/modules/jquery.noconflict.post.js?%s' % __version__
+         )
+ 
+ 
+diff --git a/cms/templates/admin/cms/page/change_form.html b/cms/templates/admin/cms/page/change_form.html
+index 411211e25..93858bc5d 100644
+--- a/cms/templates/admin/cms/page/change_form.html
++++ b/cms/templates/admin/cms/page/change_form.html
+@@ -16,11 +16,11 @@
+ {{ block.super }}
+ {# load nonconflict pre and post files to fix conflict if there is another jQuery loaded #}
+ {# the code is included by a external file because the code has to be loaded into a python file where the wizard is loaded as well #}
+-<script src="{% static "cms/js/modules/jquery.noconflict.pre.js" %}" type="text/javascript"></script>
+-<script src="{% static "admin/js/urlify.js" %}" type="text/javascript"></script>
+-<script src="{% static "cms/js/dist/bundle.admin.base.min.js" %}" type="text/javascript"></script>
+-<script src="{% static "cms/js/dist/bundle.admin.changeform.min.js" %}" type="text/javascript"></script>
+-<script src="{% static "cms/js/modules/jquery.noconflict.post.js" %}" type="text/javascript"></script>
++<script src="{% static "cms/js/modules/jquery.noconflict.pre.js" %}?{% get_cms_version %}" type="text/javascript"></script>
++<script src="{% static "admin/js/urlify.js" %}?{% get_cms_version %}" type="text/javascript"></script>
++<script src="{% static "cms/js/dist/bundle.admin.base.min.js" %}?{% get_cms_version %}" type="text/javascript"></script>
++<script src="{% static "cms/js/dist/bundle.admin.changeform.min.js" %}?{% get_cms_version %}" type="text/javascript"></script>
++<script src="{% static "cms/js/modules/jquery.noconflict.post.js" %}?{% get_cms_version %}" type="text/javascript"></script>
+ {% endblock %}
+ 
+ {% block content_title %}
+diff --git a/cms/templates/admin/cms/page/tree/base.html b/cms/templates/admin/cms/page/tree/base.html
+index 8ad8c552c..e534a612a 100644
+--- a/cms/templates/admin/cms/page/tree/base.html
++++ b/cms/templates/admin/cms/page/tree/base.html
+@@ -17,11 +17,11 @@
+ {% block coltype %}flex{% endblock %}
+ {% block extrastyle %}
+ {{ block.super }}
+-<link rel="stylesheet" href="{% static "cms/css/cms.base.css" %}" type="text/css" />
+-<link rel="stylesheet" href="{% static "cms/css/cms.pagetree.css" %}" type="text/css" />
+-<link rel="stylesheet" href="{% static "cms/js/jstree/tree_component.css" %}" type="text/css" />
++<link rel="stylesheet" href="{% static "cms/css/cms.base.css" %}?{% get_cms_version %}" type="text/css" />
++<link rel="stylesheet" href="{% static "cms/css/cms.pagetree.css" %}?{% get_cms_version %}" type="text/css" />
++<link rel="stylesheet" href="{% static "cms/js/jstree/tree_component.css" %}?{% get_cms_version %}" type="text/css" />
+ {% if cl.is_filtered %}
+-<link rel="stylesheet" href="{% static "cms/js/jstree/themes/default/style.css" %}" type="text/css" />
++<link rel="stylesheet" href="{% static "cms/js/jstree/themes/default/style.css" %}?{% get_cms_version %}" type="text/css" />
+ {% endif %}
+ {% endblock extrastyle %}
+ 
+@@ -30,10 +30,10 @@
+ {% block jquery %}{% endblock %}
+ {# load nonconflict pre and post files to fix conflict if there is another jQuery loaded #}
+ {# the code is included by a external file because the code has to be loaded into a python file where the wizard is loaded as well #}
+-<script src="{% static "cms/js/modules/jquery.noconflict.pre.js" %}" type="text/javascript"></script>
+-<script src="{% static "cms/js/dist/bundle.admin.base.min.js" %}" type="text/javascript"></script>
++<script src="{% static "cms/js/modules/jquery.noconflict.pre.js" %}?{% get_cms_version %}" type="text/javascript"></script>
++<script src="{% static "cms/js/dist/bundle.admin.base.min.js" %}?{% get_cms_version %}" type="text/javascript"></script>
+ {# load changelist and jstree #}
+-<script src="{% static "cms/js/dist/bundle.admin.changelist.min.js" %}" type="text/javascript"></script>
++<script src="{% static "cms/js/dist/bundle.admin.changelist.min.js" %}?{% get_cms_version %}" type="text/javascript"></script>
+ <script>
+ (function($) {
+ // CMS.$ will be passed for $
+@@ -59,7 +59,7 @@ $(document).ready(function () {
+ });
+ })(CMS.$);
+ </script>
+-<script src="{% static "cms/js/modules/jquery.noconflict.post.js" %}" type="text/javascript"></script>
++<script src="{% static "cms/js/modules/jquery.noconflict.post.js" %}?{% get_cms_version %}" type="text/javascript"></script>
+ {% endblock extrahead %}
+ 
+ {% block content %}
+diff --git a/cms/templates/cms/toolbar/toolbar_javascript.html b/cms/templates/cms/toolbar/toolbar_javascript.html
+index bc1d2ba86..fe6c01920 100644
+--- a/cms/templates/cms/toolbar/toolbar_javascript.html
++++ b/cms/templates/cms/toolbar/toolbar_javascript.html
+@@ -1,10 +1,10 @@
+ {% load i18n l10n sekizai_tags admin_static cms_tags %}
+ 
+-{% addtoblock "css" %}<link rel="stylesheet" href="{% static "cms/css/cms.base.css" %}" />{% endaddtoblock %}
++{% addtoblock "css" %}<link rel="stylesheet" href="{% static "cms/css/cms.base.css" %}?{{ cms_version }}" />{% endaddtoblock %}
+ 
+ {% addtoblock "js" %}
+-<script src="{% static "cms/js/modules/jquery.noconflict.pre.js" %}" type="text/javascript"></script>
+-<script src="{% static "cms/js/dist/bundle.toolbar.min.js" %}" type="text/javascript"></script>
++<script src="{% static "cms/js/modules/jquery.noconflict.pre.js" %}?{{ cms_version }}" type="text/javascript"></script>
++<script src="{% static "cms/js/dist/bundle.toolbar.min.js" %}?{{ cms_version }}" type="text/javascript"></script>
+ {% language request.toolbar.toolbar_language %}
+ <script>
+ CMS._plugins = [];
+@@ -75,5 +75,5 @@ $(document).ready(function () {
+ })(CMS.$);
+ </script>
+ {% endlanguage %}
+-<script src="{% static "cms/js/modules/jquery.noconflict.post.js" %}" type="text/javascript"></script>
++<script src="{% static "cms/js/modules/jquery.noconflict.post.js" %}?{{ cms_version }}" type="text/javascript"></script>
+ {% endaddtoblock %}
+diff --git a/cms/templates/cms/welcome.html b/cms/templates/cms/welcome.html
+index 5b6d3574d..ae9d698b9 100644
+--- a/cms/templates/cms/welcome.html
++++ b/cms/templates/cms/welcome.html
+@@ -6,8 +6,8 @@
+     <title>{% trans "django CMS" %}</title>
+     <meta name="viewport" content="width=device-width,initial-scale=1">
+     {% render_block "css" %}
+-    <link rel="stylesheet" href="{% static 'cms/css/cms.base.css' %}">
+-    <link rel="stylesheet" href="{% static 'cms/css/cms.welcome.css' %}">
++    <link rel="stylesheet" href="{% static 'cms/css/cms.base.css' %}?{{ cms_version }}">
++    <link rel="stylesheet" href="{% static 'cms/css/cms.welcome.css' %}?{{ cms_version }}">
+ </head>
+ <body class="cms-welcome-bg">
+     {% cms_toolbar %}
+diff --git a/cms/templates/cms/wizards/base.html b/cms/templates/cms/wizards/base.html
+index 5d2e82691..bad4d3df4 100755
+--- a/cms/templates/cms/wizards/base.html
++++ b/cms/templates/cms/wizards/base.html
+@@ -13,7 +13,7 @@
+ 
+ {% block extrahead %}
+     {{ block.super }}
+-    <script type="text/javascript" src="{% static "admin/js/jquery.min.js" %}"></script>
+-    <script type="text/javascript" src="{% static "admin/js/jquery.init.js" %}"></script>
++    <script type="text/javascript" src="{% static "admin/js/jquery.min.js" %}?{{ cms_version }}"></script>
++    <script type="text/javascript" src="{% static "admin/js/jquery.init.js" %}?{{ cms_version }}"></script>
+     {{ form.media }}
+ {% endblock %}
+diff --git a/cms/templatetags/cms_admin.py b/cms/templatetags/cms_admin.py
+index 0d96895a8..49975956e 100644
+--- a/cms/templatetags/cms_admin.py
++++ b/cms/templatetags/cms_admin.py
+@@ -2,6 +2,7 @@
+ from classytags.arguments import Argument
+ from classytags.core import Options, Tag
+ from classytags.helpers import InclusionTag
++from cms import __version__
+ from cms.constants import PUBLISHER_STATE_PENDING
+ from cms.utils import get_cms_setting
+ from cms.utils.admin import get_admin_menu_item_context
+@@ -252,6 +253,9 @@ def admin_static_url():
+     """
+     return getattr(settings, 'ADMIN_MEDIA_PREFIX', None) or ''.join([settings.STATIC_URL, 'admin/'])
+ 
++@register.simple_tag
++def get_cms_version():
++    return __version__
+ 
+ class CMSAdminIconBase(Tag):
+     name = 'cms_admin_icon_base'
+@@ -284,4 +288,4 @@ def submit_row_plugin(context):
+     }
+     if context.get('original') is not None:
+         ctx['original'] = context['original']
+-    return ctx
+\ No newline at end of file
++    return ctx
+diff --git a/cms/wizards/forms.py b/cms/wizards/forms.py
+index 4f8eecec1..22e7cbfaf 100755
+--- a/cms/wizards/forms.py
++++ b/cms/wizards/forms.py
+@@ -2,6 +2,7 @@
+ 
+ from django import forms
+ 
++from cms import __version__
+ from cms.models import Page
+ 
+ from .wizard_pool import entry_choices
+@@ -46,13 +47,13 @@ class WizardStep1Form(BaseFormMixin, forms.Form):
+ 
+     class Media:
+         css = {
+-            'all': ('cms/css/cms.wizard.css', )
++            'all': ('cms/css/cms.wizard.css?%s' % __version__, )
+         }
+         js = (
+-            'cms/js/modules/jquery.noconflict.pre.js',
+-            'cms/js/dist/bundle.admin.base.min.js',
+-            'cms/js/modules/cms.wizards.js',
+-            'cms/js/modules/jquery.noconflict.post.js'
++            'cms/js/modules/jquery.noconflict.pre.js?%s' % __version__,
++            'cms/js/dist/bundle.admin.base.min.js?%s' % __version__,
++            'cms/js/modules/cms.wizards.js?%s' % __version__,
++            'cms/js/modules/jquery.noconflict.post.js?%s' % __version__,
+         )
+ 
+     page = forms.ModelChoiceField(

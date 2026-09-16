@@ -1,0 +1,594 @@
+diff --git a/cms/app_base.py b/cms/app_base.py
+index b6e310828..5f31ae68a 100644
+--- a/cms/app_base.py
++++ b/cms/app_base.py
+@@ -1,11 +1,21 @@
+ # -*- coding: utf-8 -*-
++import warnings
++
++
+ class CMSApp(object):
++    #: list of urlconfs: example: ``_urls = ["myapp.urls"]``
++    _urls = None
++    #: list of menu classes: example: ``_menus = [MyAppMenu]``
++    _menus = []
++    #: name of the apphook (required)
+     name = None
+-    urls = None
+-    menus = []
++    #: name of the app, this enables Django namespaces support (optional)
+     app_name = None
++    #: configuration model (optional)
+     app_config = None
++    #: if set to true, apphook inherits permissions from the current page
+     permissions = True
++    #: list of application names to exclude from inheriting CMS permissions
+     exclude_permissions = []
+ 
+     def __new__(cls):
+@@ -22,13 +32,90 @@ class CMSApp(object):
+                     )
+                 )
+             cls.app_config.cmsapp = cls
++        # mapping the legacy urls attribute to private attribute
++        # and exposing the new API
++        if hasattr(cls, 'urls'):
++            if not isinstance(cls.urls, property):
++                cls._urls = cls.urls
++                cls.urls = cls.legacy_urls
++        else:
++            cls.urls = cls.legacy_urls
++        # mapping the legacy menus attribute to private attribute
++        # and exposing the new API
++        if hasattr(cls, 'menus'):
++            if not isinstance(cls.menus, property):
++                cls._menus = cls.menus
++                cls.menus = cls.legacy_menus
++        else:
++            cls.menus = cls.legacy_menus
+         return super(CMSApp, cls).__new__(cls)
+ 
+     def get_configs(self):
++        """
++        Returns all the apphook configuration instances.
++        """
+         raise NotImplemented('Configurable AppHooks must implement this method')
+ 
+     def get_config(self, namespace):
++        """
++        Returns the apphook configuration instance linked to the given namespace
++        """
+         raise NotImplemented('Configurable AppHooks must implement this method')
+ 
+     def get_config_add_url(self):
++        """
++        Returns the url to add a new apphook configuration instance
++        (usually the model admin add view)
++        """
+         raise NotImplemented('Configurable AppHooks must implement this method')
++
++    @property
++    def legacy_menus(self):
++        return self._menus
++
++    @legacy_menus.setter
++    def menus(self, value):
++        self._menus = value
++
++    def get_menus(self, page=None, language=None, **kwargs):
++        """
++        Returns the menus for the apphook instance, eventually selected according
++        to the given arguments.
++
++        By default it returns the menus assigned to :py:attr:`CMSApp._menus`
++
++        This method **must** return a non empty list of menus, even if no argument
++        is passed.
++
++        :param page: page the apphook is attached to
++        :param language: current site language
++        :return: list of menu classes
++        """
++        return self._menus
++
++    @property
++    def legacy_urls(self):
++        warnings.warn('Accessing CMSApp.urls directly is deprecated, '
++                      'and it will be removed in version 3.5; CMSApp.get_urls method',
++                      DeprecationWarning)
++        return self._urls
++
++    @legacy_urls.setter
++    def urls(self, value):
++        self._urls = value
++
++    def get_urls(self, page=None, language=None, **kwargs):
++        """
++        Returns the urlconfs for the apphook instance, eventually selected
++        according to the given arguments.
++
++        By default it returns the urls assigned to :py:attr:`CMSApp._urls`
++
++        This method **must** return a non empty list of urlconfs,
++        even if no argument is passed.
++
++        :param page: page the apphook is attached to
++        :param language: current site language
++        :return: list of urlconfs strings
++        """
++        return self._urls
+diff --git a/cms/apphook_pool.py b/cms/apphook_pool.py
+index 29f2fb600..dea5645a7 100644
+--- a/cms/apphook_pool.py
++++ b/cms/apphook_pool.py
+@@ -79,7 +79,7 @@ class ApphookPool(object):
+         for app_name in self.apps:
+             app = self.apps[app_name]
+ 
+-            if app.urls:
++            if app.get_urls():
+                 hooks.append((app_name, app.name))
+ 
+         # Unfortunately, we lose the ordering since we now have a list of
+@@ -98,7 +98,7 @@ class ApphookPool(object):
+             # deprecated: return apphooks registered in db with urlconf name
+             # instead of apphook class name
+             for app in self.apps.values():
+-                if app_name in app.urls:
++                if app_name in app.get_urls():
+                     return app
+ 
+         warnings.warn(_('No registered apphook "%r" found') % app_name)
+diff --git a/cms/appresolver.py b/cms/appresolver.py
+index 7e28e0af7..f1f3ba710 100644
+--- a/cms/appresolver.py
++++ b/cms/appresolver.py
+@@ -171,7 +171,7 @@ def get_patterns_for_title(path, title):
+     """
+     app = apphook_pool.get_apphook(title.page.application_urls)
+     url_patterns = []
+-    for pattern_list in get_app_urls(app.urls):
++    for pattern_list in get_app_urls(app.get_urls(title.page, title.language)):
+         if path and not path.endswith('/'):
+             path += '/'
+         page_id = title.page.id
+diff --git a/cms/cms_menus.py b/cms/cms_menus.py
+index 8869a1ad2..26aa48652 100644
+--- a/cms/cms_menus.py
++++ b/cms/cms_menus.py
+@@ -131,7 +131,7 @@ def page_to_node(manager, page, home, cut):
+         if app_name:  # it means it is an apphook
+             app = apphook_pool.get_apphook(app_name)
+             if app:
+-                extenders += app.menus
++                extenders += app.get_menus(page, lang)
+     exts = []
+     for ext in extenders:
+         if hasattr(ext, "get_instances"):
+diff --git a/cms/test_utils/project/sampleapp/cms_apps.py b/cms/test_utils/project/sampleapp/cms_apps.py
+index fd071faf4..b5508cb18 100644
+--- a/cms/test_utils/project/sampleapp/cms_apps.py
++++ b/cms/test_utils/project/sampleapp/cms_apps.py
+@@ -1,5 +1,5 @@
+ from cms.app_base import CMSApp
+-from cms.test_utils.project.sampleapp.cms_menus import SampleAppMenu, StaticMenu3
++from cms.test_utils.project.sampleapp.cms_menus import SampleAppMenu, StaticMenu3, StaticMenu4
+ from cms.apphook_pool import apphook_pool
+ from django.utils.translation import ugettext_lazy as _
+ 
+@@ -56,3 +56,23 @@ class ChildApp(CMSApp):
+     urls = ["cms.test_utils.project.sampleapp.urls_childapp"]
+ 
+ apphook_pool.register(ChildApp)
++
++
++class VariableUrlsApp(CMSApp):
++    name = _("Variable urls-menus App")
++
++    def get_menus(self, page=None, language=None, **kwargs):
++        if page and page.reverse_id == 'page1':
++            return [SampleAppMenu]
++
++        else:
++            return [StaticMenu4]
++
++    def get_urls(self, page=None, language=None, **kwargs):
++        if page and page.reverse_id == 'page1':
++            return ["cms.test_utils.project.sampleapp.urls"]
++
++        else:
++            return ["cms.test_utils.project.sampleapp.urls2"]
++
++apphook_pool.register(VariableUrlsApp)
+diff --git a/cms/test_utils/project/sampleapp/cms_menus.py b/cms/test_utils/project/sampleapp/cms_menus.py
+index f0a8c3d1e..07a494259 100644
+--- a/cms/test_utils/project/sampleapp/cms_menus.py
++++ b/cms/test_utils/project/sampleapp/cms_menus.py
+@@ -51,6 +51,23 @@ class StaticMenu2(StaticMenu):
+     name = _("Static Menu2")
+ menu_pool.register_menu(StaticMenu2)
+ 
++
+ class StaticMenu3(StaticMenu):
+     name = _("Static Menu3")
+ menu_pool.register_menu(StaticMenu3)
++
++
++class StaticMenu4(Menu):
++    name = _("Static Menu4")
++
++    def get_nodes(self, request):
++        nodes = []
++        try:
++            n = NavigationNode(_('sample second page'), reverse('sample2-root'), 1)
++            nodes.append(n)
++        except NoReverseMatch:
++            pass
++        return nodes
++
++menu_pool.register_menu(StaticMenu4)
++
+diff --git a/cms/tests/test_apphooks.py b/cms/tests/test_apphooks.py
+index 74dd7b527..f39d83946 100644
+--- a/cms/tests/test_apphooks.py
++++ b/cms/tests/test_apphooks.py
+@@ -5,7 +5,8 @@ from django.contrib.admin.models import CHANGE, LogEntry
+ from django.contrib.auth import get_user_model
+ from django.contrib.auth.models import Permission
+ from django.contrib.contenttypes.models import ContentType
+-from django.core.urlresolvers import clear_url_caches, reverse, resolve
++from django.core.cache import cache
++from django.core.urlresolvers import clear_url_caches, reverse, resolve, NoReverseMatch
+ from django.test.utils import override_settings
+ from django.utils import six
+ from django.utils.timezone import now
+@@ -23,12 +24,14 @@ from cms.toolbar.toolbar import CMSToolbar
+ from cms.utils.conf import get_cms_setting
+ from cms.utils.i18n import force_language
+ from cms.utils.urlutils import admin_reverse
++from menus.menu_pool import menu_pool
+ from menus.utils import DefaultLanguageChanger
+ 
+ 
+ APP_NAME = 'SampleApp'
+ NS_APP_NAME = 'NamespacedApp'
+ APP_MODULE = "cms.test_utils.project.sampleapp.cms_apps"
++MENU_MODULE = "cms.test_utils.project.sampleapp.cms_menus"
+ 
+ 
+ class ApphooksTestCase(CMSTestCase):
+@@ -63,6 +66,7 @@ class ApphooksTestCase(CMSTestCase):
+             # '...',
+             'cms.test_utils.project.second_cms_urls_for_apphook_tests',
+             'cms.test_utils.project.urls_for_apphook_tests',
++            APP_MODULE,
+             settings.ROOT_URLCONF,
+         ]
+ 
+@@ -138,7 +142,7 @@ class ApphooksTestCase(CMSTestCase):
+         self.apphook_clear()
+         hooks = apphook_pool.get_apphooks()
+         app_names = [hook[0] for hook in hooks]
+-        self.assertEqual(len(hooks), 6)
++        self.assertEqual(len(hooks), 7)
+         self.assertIn(NS_APP_NAME, app_names)
+         self.assertIn(APP_NAME, app_names)
+         self.apphook_clear()
+@@ -364,6 +368,7 @@ class ApphooksTestCase(CMSTestCase):
+ 
+     @override_settings(ROOT_URLCONF='cms.test_utils.project.second_urls_for_apphook_tests')
+     def test_get_i18n_apphook_with_explicit_current_app(self):
++        self.apphook_clear()
+         titles = self.create_base_structure(NS_APP_NAME, ['en', 'de'], 'instance_1')
+         public_de_title = titles[1]
+         de_title = Title.objects.get(page=public_de_title.page.publisher_draft, language="de")
+@@ -371,6 +376,9 @@ class ApphooksTestCase(CMSTestCase):
+         de_title.save()
+         de_title.page.publish('de')
+ 
++        self.reload_urls()
++        self.apphook_clear()
++
+         page2 = create_page("page2", "nav_playground.html",
+                             "en", created_by=self.superuser, published=True, parent=de_title.page.parent,
+                             apphook=NS_APP_NAME,
+@@ -392,6 +400,7 @@ class ApphooksTestCase(CMSTestCase):
+             reverse('namespaced_app_ns:current-app', current_app="instance_1")
+             reverse('namespaced_app_ns:current-app', current_app="instance_2")
+             reverse('namespaced_app_ns:current-app')
++        self.apphook_clear()
+ 
+     @override_settings(ROOT_URLCONF='cms.test_utils.project.second_urls_for_apphook_tests')
+     def test_apphook_include_extra_parameters(self):
+@@ -690,6 +699,97 @@ class ApphooksTestCase(CMSTestCase):
+ 
+             self.apphook_clear()
+ 
++    @override_settings(ROOT_URLCONF='cms.test_utils.project.second_urls_for_apphook_tests')
++    def test_get_apps(self):
++        """
++        Check that urlconf are dynamically loaded according to the different page the apphook is
++        attached to
++        """
++        titles = self.create_base_structure('VariableUrlsApp', ['en', 'de'])
++        titles[0].page.reverse_id = 'page1'
++        titles[0].page.save()
++
++        self.reload_urls()
++
++        # only one urlconf is configured given that only one page is created
++        with force_language('de'):
++            reverse('extra_first')
++            with self.assertRaises(NoReverseMatch):
++                reverse('sample2-root')
++
++        self.reload_urls()
++        self.apphook_clear()
++
++        page2 = create_page('page2', 'nav_playground.html',
++                            'en', created_by=self.superuser, published=True,
++                            parent=titles[0].page.parent,
++                            apphook='VariableUrlsApp', reverse_id='page2')
++        create_title('de', 'de_title', page2, slug='slug')
++        page2.publish('de')
++
++        self.reload_urls()
++
++        with force_language('de'):
++            reverse('sample2-root')
++            reverse('extra_first')
++
++        self.apphook_clear()
++
++    @override_settings(ROOT_URLCONF='cms.test_utils.project.second_urls_for_apphook_tests')
++    def test_get_menus(self):
++        """
++        Check that menus are dynamically loaded according to the different page the apphook is
++        attached to
++        """
++        titles = self.create_base_structure('VariableUrlsApp', ['en', 'de'])
++        titles[0].page.reverse_id = 'page1'
++        titles[0].page.save()
++
++        cache.clear()
++        self.reload_urls()
++        menu_pool.discover_menus()
++        cache.clear()
++
++        request = self.get_request('/')
++        nodes = menu_pool.get_nodes(request)
++        nodes_urls = [node.url for node in nodes]
++        self.assertTrue(reverse('sample-account') in nodes_urls)
++        self.assertFalse('/en/child_page/page2/' in nodes_urls)
++
++        self.reload_urls()
++        self.apphook_clear()
++        if APP_MODULE in sys.modules:
++            del sys.modules[APP_MODULE]
++
++        page2 = create_page('page2', 'nav_playground.html',
++                            'en', created_by=self.superuser, published=True,
++                            parent=titles[0].page.parent,
++                            apphook='VariableUrlsApp', reverse_id='page2')
++        create_title('de', 'de_title', page2, slug='slug')
++        page2.publish('de')
++
++        cache.clear()
++        self.reload_urls()
++        if MENU_MODULE in sys.modules:
++            del sys.modules[MENU_MODULE]
++        if 'cms.cms_menus' in sys.modules:
++            del sys.modules['cms.cms_menus']
++        menu_pool.clear(all=True)
++        menu_pool.menus = {}
++        menu_pool.modifiers = []
++        menu_pool.discovered = False
++        menu_pool._expanded = False
++        menu_pool.discover_menus()
++        cache.clear()
++
++        request = self.get_request('/page2/')
++        nodes = menu_pool.get_nodes(request)
++        nodes_urls = [node.url for node in nodes]
++        self.assertTrue(reverse('sample-account') in nodes_urls)
++        self.assertTrue(reverse('sample2-root') in nodes_urls)
++
++        self.apphook_clear()
++
+ 
+ class ApphooksPageLanguageUrlTestCase(CMSTestCase):
+     def setUp(self):
+diff --git a/cms/views.py b/cms/views.py
+index 95bde71f9..fd2cbbbfb 100644
+--- a/cms/views.py
++++ b/cms/views.py
+@@ -140,14 +140,14 @@ def details(request, slug):
+             app = apphook_pool.get_apphook(app_urls)
+             pattern_list = []
+             if app:
+-                for urlpatterns in get_app_urls(app.urls):
++                for urlpatterns in get_app_urls(app.get_urls(page, current_language)):
+                     pattern_list += urlpatterns
+                 try:
+                     view, args, kwargs = resolve('/', tuple(pattern_list))
+                     return view(request, *args, **kwargs)
+                 except Resolver404:
+                     pass
+-                    # Check if the page has a redirect url defined for this language.
++    # Check if the page has a redirect url defined for this language.
+     redirect_url = page.get_redirect(language=current_language)
+     if redirect_url:
+         if (is_language_prefix_patterns_used() and redirect_url[0] == "/"
+diff --git a/docs/conf.py b/docs/conf.py
+index efb8d9429..ef3ce4bd6 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -30,7 +30,7 @@ sys.path.append(os.path.join(os.path.abspath('.'), '_ext'))
+ # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
+ #extensions = ['sphinx.ext.autodoc']
+ 
+-extensions = ['djangocms', 'sphinx.ext.intersphinx', 'sphinx.ext.todo']
++extensions = ['djangocms', 'sphinx.ext.intersphinx', 'sphinx.ext.todo', 'sphinx.ext.autodoc']
+ intersphinx_mapping = {
+     'python': ('http://docs.python.org/3/', None),
+     'django': ('http://readthedocs.org/docs/django/en/latest/', None),
+diff --git a/docs/how_to/apphooks.rst b/docs/how_to/apphooks.rst
+index 5cb0e0699..866fcf41c 100644
+--- a/docs/how_to/apphooks.rst
++++ b/docs/how_to/apphooks.rst
+@@ -17,16 +17,37 @@ the following::
+ 
+     class MyApphook(CMSApp):
+         name = _("My Apphook")
+-        urls = ["myapp.urls"]
++        _urls = ["myapp.urls"]
+ 
+     apphook_pool.register(MyApphook)
+ 
++.. versionchanged:: 3.3
++    ``CMSApp.urls`` has been replaced by ``CMSApp._urls``; previous attribute is
++    now deprecated and will be removed in version 3.5
++
++.. versionchanged:: 3.3
++    ``CMSApp.menus`` has been replaced by ``CMSApp._menus``; previous attribute is
++    now deprecated and will be removed in version 3.5
++
++.. versionadded:: 3.3
++    ``CMSApp.get_urls`` accepts page, language and generic keyword arguments:
++    you can customize this function to return different list of urlconfs
++    according to the given arguments.
++
++    If you customize this method, you **must** return a non empty list of
++    urls even if all the arguments are ``None``.
++
++.. versionadded:: 3.3
++    ``CMSApp.get_menus`` accepts page, language and generic keyword arguments:
++    you can customize this function to return different list of menu classes
++    according to the given arguments.
++
+ .. note:: Up to version 3.1 the module was named ``cms_app.py``, please
+           update your existing modules to the new naming convention.
+           Support for the old name will be removed in version 3.4.
+ 
+ 
+-Replace ``myapp.urls`` with the path to your applications ``urls.py``. Now edit
++Replace ``myapp._urls`` with the path to your applications ``urls.py``. Now edit
+ a page and open the advanced settings tab. Select your new apphook under
+ "Application". Save the page.
+ 
+@@ -92,8 +113,8 @@ in your app add it to your apphook like this::
+ 
+     class MyApphook(CMSApp):
+         name = _("My Apphook")
+-        urls = ["myapp.urls"]
+-        menus = [MyAppMenu]
++        _menus = [MyAppMenu]
++        _urls = ["myapp.urls"]
+ 
+     apphook_pool.register(MyApphook)
+ 
+@@ -190,8 +211,8 @@ hook like this::
+ 
+     class MyNamespacedApphook(CMSApp):
+         name = _("My Namespaced Apphook")
+-        urls = ["myapp.urls"]
+         app_name = "myapp_namespace"
++        _urls = ["myapp.urls"]
+ 
+     apphook_pool.register(MyNamespacedApphook)
+ 
+@@ -275,7 +296,7 @@ To disable this behaviour set ``permissions = False`` on your apphook::
+ 
+     class SampleApp(CMSApp):
+         name = _("Sample App")
+-        urls = ["project.sampleapp.urls"]
++        _urls = ["project.sampleapp.urls"]
+         permissions = False
+ 
+ 
+@@ -298,7 +319,7 @@ with CMS permission decorator, then use ``exclude_permissions`` property of the
+ 
+     class SampleApp(CMSApp):
+         name = _("Sample App")
+-        urls = ["project.sampleapp.urls"]
++        _urls = ["project.sampleapp.urls"]
+         permissions = True
+         exclude_permissions = ["some_nested_app"]
+ 
+@@ -309,7 +330,7 @@ will look like this::
+ 
+     class OscarApp(CMSApp):
+         name = _("Oscar")
+-        urls = application.urls[0]
++        _urls = application.urls[0]
+         exclude_permissions = ['dashboard']
+ 
+ .. _django-oscar: https://github.com/tangentlabs/django-oscar
+diff --git a/docs/introduction/apphooks.rst b/docs/introduction/apphooks.rst
+index 896d7fec0..7aa02b2ad 100644
+--- a/docs/introduction/apphooks.rst
++++ b/docs/introduction/apphooks.rst
+@@ -27,8 +27,8 @@ This is the most basic example of an apphook for a django CMS application:
+ 
+     class PollsApphook(CMSApp):
+         name = _("Polls Application")   # give your application a name (required)
+-        urls = ["polls.urls"]           # link your app to url configuration(s)
+         app_name = "polls"
++        _urls = ["polls.urls"]           # link your app to url configuration(s)
+ 
+ 
+     apphook_pool.register(PollsApphook)  # register the application
+diff --git a/docs/introduction/menu.rst b/docs/introduction/menu.rst
+index 1b3afb61f..a2bc9f492 100644
+--- a/docs/introduction/menu.rst
++++ b/docs/introduction/menu.rst
+@@ -60,7 +60,7 @@ So open your ``cms_apps.py`` and add::
+ 
+ for importing ``PollsMenu`` and::
+ 
+-    menus = [PollsMenu]
++    _menus = [PollsMenu]
+ 
+ to the ``PollsApp`` class.
+ 
+diff --git a/docs/reference/api_references.rst b/docs/reference/api_references.rst
+index 664df9880..2c0e0b9f2 100644
+--- a/docs/reference/api_references.rst
++++ b/docs/reference/api_references.rst
+@@ -63,7 +63,7 @@ Functions and constants
+ .. function:: create_page(title, template, language, menu_title=None, slug=None, apphook=None, apphook_namespace=None, redirect=None, meta_description=None, created_by='python-api', parent=None, publication_date=None, publication_end_date=None, in_navigation=False, soft_root=False, reverse_id=None, navigation_extenders=None, published=False, site=None, login_required=False, limit_visibility_in_menu=VISIBILITY_ALL, position="last-child", overwrite_url=None, xframe_options=Page.X_FRAME_OPTIONS_INHERIT, with_revision=False)
+ 
+     Creates a :class:`cms.models.pagemodel.Page` instance and returns it. Also
+-    creates a :class:`cms.models.titlemodel.Title` instance for the specified
++    creates a :class:`cms.models.titlemodels.Title` instance for the specified
+     language.
+ 
+     :param string title: Title of the page
+@@ -100,7 +100,7 @@ Functions and constants
+ 
+ .. function:: create_title(language, title, page, menu_title=None, slug=None, redirect=None, meta_description=None, parent=None, overwrite_url=None, with_revision=False)
+ 
+-    Creates a :class:`cms.models.titlemodel.Title` instance and returns it.
++    Creates a :class:`cms.models.titlemodels.Title` instance and returns it.
+ 
+     :param string language: Language code for this page. Must be in :setting:`django:LANGUAGES`
+     :param string title: Title of the page
+@@ -247,6 +247,18 @@ cms.constants
+ 
+     Constant of 31536000 or 365 days in seconds used for cache control headers
+ 
++************
++cms.app_base
++************
++
++.. module:: cms.app_base
++
++.. autoclass:: CMSApp
++    :members:
++    :private-members:
++
++    .. autoattribute:: CMSApp._urls
++    .. autoattribute:: CMSApp._menus
+ 
+ ***************
+ cms.plugin_base
