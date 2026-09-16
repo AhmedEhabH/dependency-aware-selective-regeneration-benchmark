@@ -8,7 +8,13 @@
 (append-only). Protocol v2 CURRENT PHASE = **Repository change localization /
 impact selection** (`docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`).
 **Current phase:** Paper submitted (ICCI shorthand; IEEE-format V20 artifact)
-+ **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE AND CLOSED (2026-09-16) —
++ **PLUGGABLE RESEARCH HARNESS V1 + LIVING SYSTEMATIC REVIEW V1 COMPLETE AND
+AUDITED (2026-09-16; T3 reusable experiment architecture; ZERO API; six T3
+gates + audit PASS; Protocol-A outputs reproduced byte-for-byte through the
+compatibility layer; merged to main; DEV tag
+`research-harness-v1-dev-2026-09-16`; ONE next scientific step =
+OMISSION_RISK_FEATURE_STUDY_V1 TRAIN/VALIDATION only — NOT STARTED)** +
+**FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE AND CLOSED (2026-09-16) —
 Protocol A cheap-non-LLM baselines v1 (TRAIN 24 + VALIDATION 6; ZERO API; six
 gates + audit PASS; BM25@K strongest cheap lexical — VALIDATION primary
 development-decision table BM25@3 F1 0.279 precision point / BM25@10 F1 0.306
@@ -137,6 +143,16 @@ Bounded false-negative verification
 - [x] Mark the ten HELD_OUT_TEST tasks PERMANENTLY EXPOSED (2026-09-15).
 - [x] Draft (NOT execute) next-experiment protocols A/B/C
       (`docs/POST_ICCI_NEXT_EXPERIMENTS_DRAFT.md`).
+- [x] **Pluggable research harness V1 (2026-09-16, T3 architecture, ZERO API):
+      `src/benchmark/harness/` seams + Protocol-A compatibility layer
+      (byte-identical reproduction of frozen cheap-baseline outputs) + six T3
+      gates + audit + DEV tag `research-harness-v1-dev-2026-09-16`.**
+- [x] **Living systematic review V1 (2026-09-16):**
+      `docs/LIVING_SYSTEMATIC_REVIEW.md` +
+      `research/literature/{review_matrix,search_log}.csv` + `idea_ledger.md`
+      (12 seeded systems; LocAgent VERIFIED, others SEEDED — verify).**
+- [ ] Verify SEEDED literature rows against primary sources (matrix `status`
+      column).
 - [ ] Focused literature review: adaptive retrieval; budget-aware agents;
       selective prediction; graph-assisted localization; change-impact
       analysis; false-negative recovery.

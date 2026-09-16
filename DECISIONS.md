@@ -192,3 +192,60 @@ execution. Entries are never edited after append; corrections are new entries.
 - **Tag → exact commit:** `cheap-baselines-v1-dev-2026-09-16` (tag object
   `4b96049…`) peels to commit `541c8ba…` == `main` == `origin/main` (created
   2026-09-16 after merge; audited DEVELOPMENT evidence only).
+## Decision P11 — Pluggable research harness V1 (2026-09-16)
+
+- **Status:** ADOPTED (this task; T3 reusable experiment architecture)
+- **Context:** Post-ICCI + cheap-baselines block closed; the research harness
+  was hard-coded in places to one repository (djangoCMS), one model route, one
+  selection method, one K grid.
+- **Decision:** Generalize the harness minimally through explicit seams
+  (DatasetAdapter, SnapshotProvider/RepositoryView, Ranker, Planner,
+  ModelBackend, RiskScorer [interface only], Verifier [interface only],
+  BudgetPolicy, common Evaluator, versioned ExperimentSpec) in the new package
+  src/benchmark/harness/. Do NOT build a universal plugin framework; use
+  Python ABC + config. django-specific rules live in the django adapter; future
+  Saleor rules in a Saleor adapter (fail-closed seam). Model/provider names are
+  configuration, never algorithm branches. Budget is explicit and persisted in
+  the ExperimentSpec. Frozen historical generators/artifacts are NOT rewritten
+  — the harness adapts them (compatibility layer reproduces Protocol-A outputs
+  byte-for-byte).
+- **Rationale:** minimal generalization, preservation of frozen evidence,
+  preparation for the Omission-Risk Feature Study v1 without touching frozen
+  machinery.
+- **Impact:** src/benchmark/harness/, gate/equivalence scripts, 44 new
+  tests, equivalence evidence, reports.
+
+## Decision P12 — Living systematic review V1 (2026-09-16)
+
+- **Status:** ADOPTED
+- **Context:** The proposal/literature base must be a living artifact, not a
+  one-shot table.
+- **Decision:** Maintain docs/LIVING_SYSTEMATIC_REVIEW.md +
+  esearch/literature/{review_matrix.csv,search_log.csv,idea_ledger.md}. Seed
+  the matrix with 12 systems (RIPPLE, Repository Memory, Adaptive-k, LocAgent,
+  GraphLocator, RepoGraph, Agentless, CodePlan, RepoCoder, AutoCodeRover,
+  RPG/ZeroRepo, AB-RAG), classified PEER-REVIEWED / PREPRINT /
+  CROSS-DOMAIN-INSPIRATION. Only LocAgent is VERIFIED with direct evidence;
+  every other row is SEEDED - verify primary source until verified against
+  the primary source. Dispositions (TEST/WATCH/BOUNDARY) live in the idea
+  ledger.
+- **Rationale:** truthful competitor tracking for the thesis; no unsupported
+  novelty claims.
+- **Impact:** new literature artifacts; the review is updated on every new
+  screening.
+
+## Decision P13 — Omission-Risk Feature Study v1 is the ONLY next scientific step (2026-09-16)
+
+- **Status:** ADOPTED (this task; STATED, NOT STARTED)
+- **Context:** The harness + review foundation is complete; the next scientific
+  step must be chosen and NOT executed in this milestone.
+- **Decision:** The single next scientific step is
+  **OMISSION_RISK_FEATURE_STUDY_V1 (TRAIN/VALIDATION only)** — feature families
+  and routing metrics as recommended in eports/RESEARCH_HARNESS_V1_REPORT.md
+  §9 and esearch/literature/idea_ledger.md I1/I2/I5/I6. Do NOT start:
+  omission-risk training/analysis, Saleor scientific execution, LocAgent
+  scientific calls, selective escalation, or new model runs.
+- **Rationale:** architecture first, science second; every future experiment
+  runs through the harness with an explicit budget.
+- **Impact:** the harness + review milestone STOPS here; the feature study
+  requires its own freeze + authorization.
