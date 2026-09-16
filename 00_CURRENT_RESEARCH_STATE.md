@@ -27,8 +27,17 @@ predictions; Phase-B preflight A–G + six gates + independent audit PASS; the
 frozen approval-gated Sparse-v2 DEVELOPMENT-INFERENCE protocol is produced —
 `docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`; no LLM call without
 approval).**
-Post-submission window. Scientific runs remaining in this block: ZERO (unless
-the development-inference protocol is approved).
+→ **REGISTERED SPARSE-v2-LABEL STUDY EXECUTED (2026-09-16; APPROVED 90-CELL
+DEVELOPMENT-INFERENCE, TRAIN/VALIDATION ONLY; 90/90 VALID; 490,747 tokens /
+$0.184 within the frozen 600,000-token AND $0.30 hard stop; Sparse-v2 `has_fn`
+prevalence 86.7% (26/30, 4 negatives); class-balance gate FAILED → descriptive/
+single-feature only, NO multivariable RiskScorer; only 3/97 features above the
+random band (4.85 expected by chance); Sparse–BM25 disagreement anti-predictive;
+adaptive-K no help; always-escalate dominates; report
+`reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`; audit
+`reports/OMISSION_RISK_INFERENCE_AUDIT.md`).**
+Post-submission window. Scientific runs remaining in this block: ZERO (the
+development-inference protocol has been executed).
 
 ---
 
@@ -227,6 +236,19 @@ the development-inference protocol is approved).
   (`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`; 90-cell Sparse-v2 on
   TRAIN/VALIDATION, ~497.6k tokens, ~$0.19, budget ceiling $0.30) gated on
   **Ahmed's approval** — no LLM call without it.
+- **Registered Sparse-v2-label study EXECUTED 2026-09-16 (approved 90-cell
+  development-inference, TRAIN/VALIDATION only):** 90/90 valid, 490,747 tokens /
+  $0.184 (within the 600,000-token AND $0.30 hard stop); task-level Sparse-v2
+  `has_fn` prevalence **86.7% (26/30, 4 negatives)**; **class-balance gate
+  FAILED → no multivariable RiskScorer; descriptive/single-feature only**; only
+  **3/97 features above the random band** (4.85 expected by chance — a
+  retrieval-peakiness cluster, now direction-consistent); Sparse–BM25
+  disagreement anti-predictive (0.303); graph inside band; adaptive-K no help;
+  always-escalate still dominates; **RiskScorer v1 NOT statistically justified**.
+  Report `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`; audit
+  `reports/OMISSION_RISK_INFERENCE_AUDIT.md` (31/31 PASS). Run evidence in
+  `research/omission-risk-feature-study-v1/sparse_v2_trainval_*` + raw sha256
+  sidecars; analysis in `research/omission-risk-feature-study-v1/sparse_v2_label_analysis/`.
 - Artifacts: `research/omission-risk-feature-study-v1/` (feature_table.csv,
   feature_manifest.json, single_feature_results.json, adaptive_k_results.json,
   cost_sensitive_analysis.json, raw_task_level_inputs.json, data_availability.json,
@@ -256,15 +278,14 @@ DEVELOPMENT ANALYSIS (2026-09-16; T3; ZERO new LLM/API calls; Phase-B preflight
 A–G + six gates + independent audit PASS; merged to main; DEV tag
 `omission-risk-feature-study-v1-dev-2026-09-16`). The registered Sparse-v2-label
 study is DEFERRED (TRAIN/VALIDATION have no Sparse-v2 predictions).**
-
-The next scientific step is **Ahmed's decision** on the frozen
-**DEVELOPMENT-INFERENCE protocol**
-(`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`): approve the 90-cell
-Sparse-v2 development-inference run on TRAIN/VALIDATION (~497.6k tokens,
-~$0.19, ceiling $0.30) — which enables the registered Sparse-v2-label omission
-risk analysis — OR accept the deterministic-first-pass development evidence as
-the delivered output of this block and defer the registered study to a later
-milestone. Saleor remains the second-repository confirmatory line,
+**REGISTERED SPARSE-v2-LABEL STUDY EXECUTED (2026-09-16) via the APPROVED
+DEVELOPMENT-INFERENCE protocol** (`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`):
+90-cell Sparse-v2 run on TRAIN/VALIDATION complete — 90/90 valid, 490,747 tokens
+/ $0.184 (within the 600,000-token AND $0.30 hard stop); Sparse-v2 `has_fn`
+prevalence 86.7% (26/30, 4 negatives); class-balance gate FAILED → descriptive/
+single-feature only, NO multivariable RiskScorer; no reliable risk signal
+survives the random band; report `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`;
+audit PASS. Saleor remains the second-repository confirmatory line,
 DOCUMENT-ONLY for now (`docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`).
 
 Sequence per the MSc roadmap:

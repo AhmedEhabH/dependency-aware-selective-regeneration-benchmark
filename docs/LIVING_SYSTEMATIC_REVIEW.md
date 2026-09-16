@@ -115,9 +115,16 @@ See `research/literature/idea_ledger.md` (I1–I7). Headline:
   recovery, cost per recovered FN) (I6);
 - zero-LLM graph/change-propagation alternatives measured against BM25@K (I3).
 
-**Do NOT start:** omission-risk training/analysis, Saleor scientific execution,
-LocAgent scientific calls, selective escalation, or new model runs — until the
-harness + review foundation milestone is audited and reviewed.
+**Do NOT start:** omission-risk RiskScorer training, Saleor scientific execution,
+LocAgent scientific calls, selective escalation, or further omission-risk model
+runs — until the harness + review foundation milestone is audited and reviewed.
+
+**Registered Sparse-v2-label study: EXECUTED 2026-09-16 (approved
+development-inference, 90 cells, TRAIN/VALIDATION only).** Outcome: 90/90
+valid; Sparse-v2 `has_fn` prevalence 86.7% (26/30; 4 negatives); class-balance
+gate FAILED → descriptive/single-feature only, no multivariable RiskScorer; no
+signal survives the random band; report
+`reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`.
 
 ## 8. How to update
 

@@ -1,0 +1,246 @@
+{
+  "label_source": {
+    "deterministic_first_pass": "metadata-corpus BM25@K has_fn (K_ref=10)",
+    "sparse_v2": "Sparse-v2 write-set has_fn (any-FN-over-reps, task unit)"
+  },
+  "prevalence": {
+    "deterministic_k10": 0.7333333333333333,
+    "sparse_v2": 0.8666666666666667
+  },
+  "top5_by_auprc": {
+    "deterministic_k10": [
+      "bm25_zero_count",
+      "bm25_top10_norm_entropy",
+      "bm25_concentration_herfindahl",
+      "disagree_max_bm25_omitted_graph_k3",
+      "disagree_max_bm25_omitted_pt_k3"
+    ],
+    "sparse_v2": [
+      "bm25_zero_count",
+      "intent_hit_frac",
+      "bm25_concentration_herfindahl",
+      "graph_2hop_frontier_size",
+      "sparse_bm25_jaccard_k10"
+    ]
+  },
+  "signal_vs_random": {
+    "deterministic_k10": {
+      "band": [
+        0.26704545454545453,
+        0.7387784090909083
+      ],
+      "radius": 0.2387784090909083,
+      "n_features": 83,
+      "n_above_random_95": 1,
+      "features_above_random_95": [
+        "bm25_top1_top2_margin"
+      ]
+    },
+    "sparse_v2": {
+      "band": [
+        0.1826923076923077,
+        0.8173076923076923
+      ],
+      "radius": 0.3173076923076923,
+      "n_features": 97,
+      "n_above_random_95": 3,
+      "features_above_random_95": [
+        "bm25_nonzero_frac",
+        "bm25_relthresh_count",
+        "bm25_zero_count"
+      ]
+    }
+  },
+  "random_band": {
+    "deterministic_k10": [
+      0.26704545454545453,
+      0.7387784090909083
+    ],
+    "sparse_v2": [
+      0.1826923076923077,
+      0.8173076923076923
+    ]
+  },
+  "baselines_k10": {
+    "deterministic": {
+      "R1_first_pass_density": {
+        "auroc": 0.5028409090909092,
+        "auroc_signed": 0.5028409090909092,
+        "auprc": 0.7400587288055318,
+        "recall_at_budget": {
+          "recall_0.20": 0.13636363636363635,
+          "recall_0.40": 0.36363636363636365,
+          "recall_0.60": 0.6363636363636364
+        },
+        "prevalence": 0.7333333333333333
+      },
+      "R2_validate_count_deferred": {
+        "auroc": 0.5,
+        "auroc_signed": 0.5,
+        "auprc": 0.7333333333333333,
+        "recall_at_budget": {
+          "recall_0.20": 0.18181818181818182,
+          "recall_0.40": 0.3181818181818182,
+          "recall_0.60": 0.5454545454545454
+        },
+        "prevalence": 0.7333333333333333
+      },
+      "R3_bm25_uncertainty": {
+        "auroc": 0.4772727272727273,
+        "auroc_signed": 0.4772727272727273,
+        "auprc": 0.8090826211151774,
+        "recall_at_budget": {
+          "recall_0.20": 0.2727272727272727,
+          "recall_0.40": 0.36363636363636365,
+          "recall_0.60": 0.5909090909090909
+        },
+        "prevalence": 0.7333333333333333
+      },
+      "R4_disagreement": {
+        "auroc": 0.5397727272727273,
+        "auroc_signed": 0.5397727272727273,
+        "auprc": 0.7649946006017969,
+        "recall_at_budget": {
+          "recall_0.20": 0.22727272727272727,
+          "recall_0.40": 0.4090909090909091,
+          "recall_0.60": 0.5454545454545454
+        },
+        "prevalence": 0.7333333333333333
+      },
+      "R5_graph_frontier": {
+        "auroc": 0.42613636363636365,
+        "auroc_signed": 0.42613636363636365,
+        "auprc": 0.7479981811078128,
+        "recall_at_budget": {
+          "recall_0.20": 0.18181818181818182,
+          "recall_0.40": 0.3181818181818182,
+          "recall_0.60": 0.5909090909090909
+        },
+        "prevalence": 0.7333333333333333
+      },
+      "R0_random": {
+        "auroc_mean": 0.48704545454545456,
+        "auroc_sd": 0.1002453086225308,
+        "n_seeds": 50
+      }
+    },
+    "sparse_v2": {
+      "R1_first_pass_density": {
+        "auroc": 0.625,
+        "auroc_signed": 0.625,
+        "auprc": 0.9091343421426542,
+        "recall_at_budget": {
+          "recall_0.20": 0.19230769230769232,
+          "recall_0.40": 0.4230769230769231,
+          "recall_0.60": 0.6538461538461539
+        },
+        "prevalence": 0.8666666666666667
+      },
+      "R3_bm25_uncertainty": {
+        "auroc": 0.4615384615384615,
+        "auroc_signed": 0.4615384615384615,
+        "auprc": 0.8834657124159656,
+        "recall_at_budget": {
+          "recall_0.20": 0.19230769230769232,
+          "recall_0.40": 0.38461538461538464,
+          "recall_0.60": 0.6153846153846154
+        },
+        "prevalence": 0.8666666666666667
+      },
+      "R4_sparse_bm25_disagreement": {
+        "auroc": 0.3028846153846154,
+        "auroc_signed": 0.3028846153846154,
+        "auprc": 0.8166528502232513,
+        "recall_at_budget": {
+          "recall_0.20": 0.15384615384615385,
+          "recall_0.40": 0.38461538461538464,
+          "recall_0.60": 0.5384615384615384
+        },
+        "prevalence": 0.8666666666666667
+      },
+      "R5_graph_frontier": {
+        "auroc": 0.6298076923076923,
+        "auroc_signed": 0.6298076923076923,
+        "auprc": 0.8764651904099573,
+        "recall_at_budget": {
+          "recall_0.20": 0.19230769230769232,
+          "recall_0.40": 0.4230769230769231,
+          "recall_0.60": 0.6538461538461539
+        },
+        "prevalence": 0.8666666666666667
+      },
+      "R0_random": {
+        "auroc_mean": 0.5055769230769231,
+        "auroc_sd": 0.1600906963726773,
+        "n_seeds": 50
+      }
+    }
+  },
+  "family_summary": {
+    "deterministic_k10": {
+      "A_retrieval_uncertainty": {
+        "n_features": 16,
+        "auroc_signed_mean": 0.38227982954545453,
+        "auroc_signed_max_abs": 0.5625
+      },
+      "B_sparse_disagreement": {
+        "n_features": 36,
+        "auroc_signed_mean": 0.46212121212121204,
+        "auroc_signed_max_abs": 0.5596590909090909
+      },
+      "C_graph": {
+        "n_features": 14,
+        "auroc_signed_mean": 0.4740259740259741,
+        "auroc_signed_max_abs": 0.5738636363636364
+      },
+      "E_task_complexity": {
+        "n_features": 14,
+        "auroc_signed_mean": 0.4174107142857143,
+        "auroc_signed_max_abs": 0.5170454545454546
+      },
+      "F_sparse_plan": {
+        "n_features": 3,
+        "auroc_signed_mean": 0.5028409090909092,
+        "auroc_signed_max_abs": 0.5028409090909092
+      }
+    },
+    "sparse_v2": {
+      "A_retrieval_uncertainty": {
+        "n_features": 16,
+        "auroc_signed_mean": 0.39903846153846156,
+        "auroc_signed_max_abs": 0.8365384615384616
+      },
+      "B_sparse_disagreement": {
+        "n_features": 36,
+        "auroc_signed_mean": 0.45459401709401703,
+        "auroc_signed_max_abs": 0.7019230769230769
+      },
+      "C_graph": {
+        "n_features": 14,
+        "auroc_signed_mean": 0.5006868131868132,
+        "auroc_signed_max_abs": 0.7980769230769231
+      },
+      "E_task_complexity": {
+        "n_features": 14,
+        "auroc_signed_mean": 0.4230769230769231,
+        "auroc_signed_max_abs": 0.7836538461538461
+      },
+      "F_sparse_plan": {
+        "n_features": 3,
+        "auroc_signed_mean": 0.625,
+        "auroc_signed_max_abs": 0.625
+      },
+      "G_sparse_plan": {
+        "n_features": 8,
+        "auroc_signed_mean": 0.4266826923076923,
+        "auroc_signed_max_abs": 0.5480769230769231
+      },
+      "H_sparse_bm25_disagreement": {
+        "n_features": 6,
+        "auroc_signed_mean": 0.500801282051282,
+        "auroc_signed_max_abs": 0.6971153846153846
+      }
+    }
+  },
+  "note": "N=30 tasks in both analyses. Sparse-v2 repetitions are nested; task-level label/features are used, never repetition-level. HELD_OUT_TEST untouched."
+}
