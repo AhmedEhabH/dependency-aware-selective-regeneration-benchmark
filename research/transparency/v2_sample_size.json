@@ -1,0 +1,1755 @@
+{
+  "summary": {
+    "observed_development": {
+      "n": 30,
+      "positive": 26,
+      "negative": 4,
+      "negative_prevalence": 0.1333
+    },
+    "authorized_ceilings": {
+      "max_new_cells": 450,
+      "max_new_tokens": 2500000,
+      "max_new_cost_usd": 1.0
+    },
+    "max_new_tasks_within_authorization_3rep": 150,
+    "max_by_cells": 150,
+    "max_by_tokens": 152,
+    "max_by_cost": 162,
+    "cost_basis": {
+      "tokens_per_task_3rep": 16358,
+      "cost_per_task_3rep_usd": 0.006136,
+      "source": "90-cell Sparse-v2 development run (frozen pricing)"
+    },
+    "recommendation": "At the observed 13.3% negative prevalence, N=120 new V2 development tasks (360 cells) yields ~16 expected negatives (P(neg>=10) high, P(neg>=20) modest) within the authorized ceilings (360<=450 cells, ~1.96M<=2.5M tokens, ~$0.74<=$1.00). N=150 yields ~20 negatives (450 cells, ~2.45M tokens, ~$0.92) at the cost ceiling boundary. Under more pessimistic 10% prevalence, N=150 is needed for ~15 negatives. Under 5% prevalence no N<=450 is sufficient for >=20 negatives; >=10 needs ~N=230. Choose N based on the frozen sampling frame once the git cache permits reconstruction; do NOT pick a round number."
+  },
+  "rows": [
+    {
+      "p_neg": 0.05,
+      "p_neg_label": "5%",
+      "n": 60,
+      "expected_negatives": 3.0,
+      "expected_positives": 57.0,
+      "P_neg_ge_10": 0.0007,
+      "P_neg_ge_20": 0.0,
+      "cells_3rep": 180,
+      "tokens_3rep": 981494,
+      "cost_3rep_usd": 0.3682,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.95,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5946,
+          "sd": 0.1862,
+          "ci95_width": 0.7503
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6893,
+          "sd": 0.175,
+          "ci95_width": 0.6724
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7841,
+          "sd": 0.156,
+          "ci95_width": 0.5593
+        }
+      ]
+    },
+    {
+      "p_neg": 0.05,
+      "p_neg_label": "5%",
+      "n": 90,
+      "expected_negatives": 4.5,
+      "expected_positives": 85.5,
+      "P_neg_ge_10": 0.0145,
+      "P_neg_ge_20": 0.0,
+      "cells_3rep": 270,
+      "tokens_3rep": 1472241,
+      "cost_3rep_usd": 0.5523,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.95,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6008,
+          "sd": 0.1551,
+          "ci95_width": 0.6421
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6988,
+          "sd": 0.1432,
+          "ci95_width": 0.5829
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7977,
+          "sd": 0.1204,
+          "ci95_width": 0.4885
+        }
+      ]
+    },
+    {
+      "p_neg": 0.05,
+      "p_neg_label": "5%",
+      "n": 120,
+      "expected_negatives": 6.0,
+      "expected_positives": 114.0,
+      "P_neg_ge_10": 0.0786,
+      "P_neg_ge_20": 0.0,
+      "cells_3rep": 360,
+      "tokens_3rep": 1962988,
+      "cost_3rep_usd": 0.7364,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.95,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5981,
+          "sd": 0.1358,
+          "ci95_width": 0.5489
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6975,
+          "sd": 0.1254,
+          "ci95_width": 0.5018
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7974,
+          "sd": 0.106,
+          "ci95_width": 0.4117
+        }
+      ]
+    },
+    {
+      "p_neg": 0.05,
+      "p_neg_label": "5%",
+      "n": 150,
+      "expected_negatives": 7.5,
+      "expected_positives": 142.5,
+      "P_neg_ge_10": 0.2191,
+      "P_neg_ge_20": 0.0001,
+      "cells_3rep": 450,
+      "tokens_3rep": 2453735,
+      "cost_3rep_usd": 0.9204,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.95,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5994,
+          "sd": 0.1153,
+          "ci95_width": 0.4606
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6989,
+          "sd": 0.107,
+          "ci95_width": 0.4107
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7984,
+          "sd": 0.0908,
+          "ci95_width": 0.3508
+        }
+      ]
+    },
+    {
+      "p_neg": 0.05,
+      "p_neg_label": "5%",
+      "n": 180,
+      "expected_negatives": 9.0,
+      "expected_positives": 171.0,
+      "P_neg_ge_10": 0.4126,
+      "P_neg_ge_20": 0.0007,
+      "cells_3rep": 540,
+      "tokens_3rep": 2944482,
+      "cost_3rep_usd": 1.1045,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.95,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.598,
+          "sd": 0.1055,
+          "ci95_width": 0.4193
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6982,
+          "sd": 0.097,
+          "ci95_width": 0.3879
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7986,
+          "sd": 0.0814,
+          "ci95_width": 0.3133
+        }
+      ]
+    },
+    {
+      "p_neg": 0.05,
+      "p_neg_label": "5%",
+      "n": 240,
+      "expected_negatives": 12.0,
+      "expected_positives": 228.0,
+      "P_neg_ge_10": 0.7643,
+      "P_neg_ge_20": 0.0185,
+      "cells_3rep": 720,
+      "tokens_3rep": 3925976,
+      "cost_3rep_usd": 1.4727,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.95,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6007,
+          "sd": 0.0867,
+          "ci95_width": 0.3448
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7007,
+          "sd": 0.0797,
+          "ci95_width": 0.3185
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8008,
+          "sd": 0.067,
+          "ci95_width": 0.2694
+        }
+      ]
+    },
+    {
+      "p_neg": 0.05,
+      "p_neg_label": "5%",
+      "n": 300,
+      "expected_negatives": 15.0,
+      "expected_positives": 285.0,
+      "P_neg_ge_10": 0.935,
+      "P_neg_ge_20": 0.119,
+      "cells_3rep": 900,
+      "tokens_3rep": 4907470,
+      "cost_3rep_usd": 1.8409,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.95,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6015,
+          "sd": 0.0774,
+          "ci95_width": 0.3095
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7011,
+          "sd": 0.0715,
+          "ci95_width": 0.2776
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8009,
+          "sd": 0.0605,
+          "ci95_width": 0.2326
+        }
+      ]
+    },
+    {
+      "p_neg": 0.05,
+      "p_neg_label": "5%",
+      "n": 450,
+      "expected_negatives": 22.5,
+      "expected_positives": 427.5,
+      "P_neg_ge_10": 0.9991,
+      "P_neg_ge_20": 0.7356,
+      "cells_3rep": 1350,
+      "tokens_3rep": 7361205,
+      "cost_3rep_usd": 2.7613,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.95,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.603,
+          "sd": 0.063,
+          "ci95_width": 0.2452
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7024,
+          "sd": 0.0582,
+          "ci95_width": 0.2257
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8017,
+          "sd": 0.0489,
+          "ci95_width": 0.189
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1,
+      "p_neg_label": "10%",
+      "n": 60,
+      "expected_negatives": 6.0,
+      "expected_positives": 54.0,
+      "P_neg_ge_10": 0.0731,
+      "P_neg_ge_20": 0.0,
+      "cells_3rep": 180,
+      "tokens_3rep": 981494,
+      "cost_3rep_usd": 0.3682,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.9,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5983,
+          "sd": 0.1334,
+          "ci95_width": 0.5074
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6974,
+          "sd": 0.1231,
+          "ci95_width": 0.4739
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7969,
+          "sd": 0.1055,
+          "ci95_width": 0.3987
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1,
+      "p_neg_label": "10%",
+      "n": 90,
+      "expected_negatives": 9.0,
+      "expected_positives": 81.0,
+      "P_neg_ge_10": 0.4125,
+      "P_neg_ge_20": 0.0005,
+      "cells_3rep": 270,
+      "tokens_3rep": 1472241,
+      "cost_3rep_usd": 0.5523,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.9,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5996,
+          "sd": 0.1061,
+          "ci95_width": 0.4331
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6998,
+          "sd": 0.098,
+          "ci95_width": 0.3967
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7998,
+          "sd": 0.0825,
+          "ci95_width": 0.326
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1,
+      "p_neg_label": "10%",
+      "n": 120,
+      "expected_negatives": 12.0,
+      "expected_positives": 108.0,
+      "P_neg_ge_10": 0.7714,
+      "P_neg_ge_20": 0.0158,
+      "cells_3rep": 360,
+      "tokens_3rep": 1962988,
+      "cost_3rep_usd": 0.7364,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.9,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5969,
+          "sd": 0.0893,
+          "ci95_width": 0.3487
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6966,
+          "sd": 0.0825,
+          "ci95_width": 0.3242
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7967,
+          "sd": 0.0697,
+          "ci95_width": 0.273
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1,
+      "p_neg_label": "10%",
+      "n": 150,
+      "expected_negatives": 15.0,
+      "expected_positives": 135.0,
+      "P_neg_ge_10": 0.94,
+      "P_neg_ge_20": 0.113,
+      "cells_3rep": 450,
+      "tokens_3rep": 2453735,
+      "cost_3rep_usd": 0.9204,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.9,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5977,
+          "sd": 0.079,
+          "ci95_width": 0.3146
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6977,
+          "sd": 0.073,
+          "ci95_width": 0.2861
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7977,
+          "sd": 0.062,
+          "ci95_width": 0.2442
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1,
+      "p_neg_label": "10%",
+      "n": 180,
+      "expected_negatives": 18.0,
+      "expected_positives": 162.0,
+      "P_neg_ge_10": 0.9882,
+      "P_neg_ge_20": 0.3442,
+      "cells_3rep": 540,
+      "tokens_3rep": 2944482,
+      "cost_3rep_usd": 1.1045,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.9,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5961,
+          "sd": 0.0739,
+          "ci95_width": 0.294
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6962,
+          "sd": 0.0678,
+          "ci95_width": 0.2655
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7968,
+          "sd": 0.0568,
+          "ci95_width": 0.2211
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1,
+      "p_neg_label": "10%",
+      "n": 240,
+      "expected_negatives": 24.0,
+      "expected_positives": 216.0,
+      "P_neg_ge_10": 0.9997,
+      "P_neg_ge_20": 0.8333,
+      "cells_3rep": 720,
+      "tokens_3rep": 3925976,
+      "cost_3rep_usd": 1.4727,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.9,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.601,
+          "sd": 0.0599,
+          "ci95_width": 0.2403
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7011,
+          "sd": 0.0552,
+          "ci95_width": 0.2169
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8011,
+          "sd": 0.0465,
+          "ci95_width": 0.1837
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1,
+      "p_neg_label": "10%",
+      "n": 300,
+      "expected_negatives": 30.0,
+      "expected_positives": 270.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 0.9829,
+      "cells_3rep": 900,
+      "tokens_3rep": 4907470,
+      "cost_3rep_usd": 1.8409,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.9,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6013,
+          "sd": 0.0549,
+          "ci95_width": 0.2177
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7009,
+          "sd": 0.0509,
+          "ci95_width": 0.1997
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8006,
+          "sd": 0.0432,
+          "ci95_width": 0.1697
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1,
+      "p_neg_label": "10%",
+      "n": 450,
+      "expected_negatives": 45.0,
+      "expected_positives": 405.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 1350,
+      "tokens_3rep": 7361205,
+      "cost_3rep_usd": 2.7613,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.9,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5998,
+          "sd": 0.0446,
+          "ci95_width": 0.1756
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6998,
+          "sd": 0.0409,
+          "ci95_width": 0.1601
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7998,
+          "sd": 0.0342,
+          "ci95_width": 0.1353
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1333,
+      "p_neg_label": "observed",
+      "n": 60,
+      "expected_negatives": 8.0,
+      "expected_positives": 52.0,
+      "P_neg_ge_10": 0.274,
+      "P_neg_ge_20": 0.0001,
+      "cells_3rep": 180,
+      "tokens_3rep": 981494,
+      "cost_3rep_usd": 0.3682,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.8667,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5966,
+          "sd": 0.1149,
+          "ci95_width": 0.447
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6971,
+          "sd": 0.1053,
+          "ci95_width": 0.4103
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7978,
+          "sd": 0.0889,
+          "ci95_width": 0.3375
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1333,
+      "p_neg_label": "observed",
+      "n": 90,
+      "expected_negatives": 12.0,
+      "expected_positives": 78.0,
+      "P_neg_ge_10": 0.7763,
+      "P_neg_ge_20": 0.014,
+      "cells_3rep": 270,
+      "tokens_3rep": 1472241,
+      "cost_3rep_usd": 0.5523,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.8667,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5983,
+          "sd": 0.0909,
+          "ci95_width": 0.3577
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6985,
+          "sd": 0.0838,
+          "ci95_width": 0.3214
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7989,
+          "sd": 0.0711,
+          "ci95_width": 0.2775
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1333,
+      "p_neg_label": "observed",
+      "n": 120,
+      "expected_negatives": 16.0,
+      "expected_positives": 104.0,
+      "P_neg_ge_10": 0.9665,
+      "P_neg_ge_20": 0.1724,
+      "cells_3rep": 360,
+      "tokens_3rep": 1962988,
+      "cost_3rep_usd": 0.7364,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.8667,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5974,
+          "sd": 0.0771,
+          "ci95_width": 0.3042
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6973,
+          "sd": 0.0716,
+          "ci95_width": 0.286
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7973,
+          "sd": 0.0609,
+          "ci95_width": 0.2408
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1333,
+      "p_neg_label": "observed",
+      "n": 150,
+      "expected_negatives": 20.0,
+      "expected_positives": 130.0,
+      "P_neg_ge_10": 0.9969,
+      "P_neg_ge_20": 0.5362,
+      "cells_3rep": 450,
+      "tokens_3rep": 2453735,
+      "cost_3rep_usd": 0.9204,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.8667,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5979,
+          "sd": 0.0698,
+          "ci95_width": 0.2716
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6981,
+          "sd": 0.0648,
+          "ci95_width": 0.2515
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7981,
+          "sd": 0.0553,
+          "ci95_width": 0.2188
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1333,
+      "p_neg_label": "observed",
+      "n": 180,
+      "expected_negatives": 24.0,
+      "expected_positives": 156.0,
+      "P_neg_ge_10": 0.9998,
+      "P_neg_ge_20": 0.8382,
+      "cells_3rep": 540,
+      "tokens_3rep": 2944482,
+      "cost_3rep_usd": 1.1045,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.8667,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5976,
+          "sd": 0.0649,
+          "ci95_width": 0.2538
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6976,
+          "sd": 0.0596,
+          "ci95_width": 0.2336
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7978,
+          "sd": 0.0501,
+          "ci95_width": 0.1978
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1333,
+      "p_neg_label": "observed",
+      "n": 240,
+      "expected_negatives": 32.0,
+      "expected_positives": 208.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 0.9939,
+      "cells_3rep": 720,
+      "tokens_3rep": 3925976,
+      "cost_3rep_usd": 1.4727,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.8667,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5985,
+          "sd": 0.0538,
+          "ci95_width": 0.2104
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6986,
+          "sd": 0.0496,
+          "ci95_width": 0.1944
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7989,
+          "sd": 0.0419,
+          "ci95_width": 0.1629
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1333,
+      "p_neg_label": "observed",
+      "n": 300,
+      "expected_negatives": 40.0,
+      "expected_positives": 260.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 0.9999,
+      "cells_3rep": 900,
+      "tokens_3rep": 4907470,
+      "cost_3rep_usd": 1.8409,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.8667,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6012,
+          "sd": 0.0486,
+          "ci95_width": 0.1902
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7011,
+          "sd": 0.0445,
+          "ci95_width": 0.1729
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8008,
+          "sd": 0.0374,
+          "ci95_width": 0.1444
+        }
+      ]
+    },
+    {
+      "p_neg": 0.1333,
+      "p_neg_label": "observed",
+      "n": 450,
+      "expected_negatives": 60.0,
+      "expected_positives": 390.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 1350,
+      "tokens_3rep": 7361205,
+      "cost_3rep_usd": 2.7613,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.8667,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5995,
+          "sd": 0.0385,
+          "ci95_width": 0.1512
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6994,
+          "sd": 0.0356,
+          "ci95_width": 0.1398
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7994,
+          "sd": 0.03,
+          "ci95_width": 0.1159
+        }
+      ]
+    },
+    {
+      "p_neg": 0.15,
+      "p_neg_label": "15%",
+      "n": 60,
+      "expected_negatives": 9.0,
+      "expected_positives": 51.0,
+      "P_neg_ge_10": 0.4123,
+      "P_neg_ge_20": 0.0003,
+      "cells_3rep": 180,
+      "tokens_3rep": 981494,
+      "cost_3rep_usd": 0.3682,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.85,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5962,
+          "sd": 0.1055,
+          "ci95_width": 0.4221
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6971,
+          "sd": 0.0971,
+          "ci95_width": 0.3813
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.798,
+          "sd": 0.0821,
+          "ci95_width": 0.3151
+        }
+      ]
+    },
+    {
+      "p_neg": 0.15,
+      "p_neg_label": "15%",
+      "n": 90,
+      "expected_negatives": 13.5,
+      "expected_positives": 76.5,
+      "P_neg_ge_10": 0.8847,
+      "P_neg_ge_20": 0.0434,
+      "cells_3rep": 270,
+      "tokens_3rep": 1472241,
+      "cost_3rep_usd": 0.5523,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.85,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5995,
+          "sd": 0.0856,
+          "ci95_width": 0.3361
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6996,
+          "sd": 0.0787,
+          "ci95_width": 0.3112
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7997,
+          "sd": 0.0665,
+          "ci95_width": 0.2656
+        }
+      ]
+    },
+    {
+      "p_neg": 0.15,
+      "p_neg_label": "15%",
+      "n": 120,
+      "expected_negatives": 18.0,
+      "expected_positives": 102.0,
+      "P_neg_ge_10": 0.9898,
+      "P_neg_ge_20": 0.3414,
+      "cells_3rep": 360,
+      "tokens_3rep": 1962988,
+      "cost_3rep_usd": 0.7364,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.85,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5979,
+          "sd": 0.0722,
+          "ci95_width": 0.2783
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6978,
+          "sd": 0.0673,
+          "ci95_width": 0.2615
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7977,
+          "sd": 0.0575,
+          "ci95_width": 0.2226
+        }
+      ]
+    },
+    {
+      "p_neg": 0.15,
+      "p_neg_label": "15%",
+      "n": 150,
+      "expected_negatives": 22.5,
+      "expected_positives": 127.5,
+      "P_neg_ge_10": 0.9995,
+      "P_neg_ge_20": 0.7491,
+      "cells_3rep": 450,
+      "tokens_3rep": 2453735,
+      "cost_3rep_usd": 0.9204,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.85,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5976,
+          "sd": 0.0665,
+          "ci95_width": 0.2625
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6978,
+          "sd": 0.0618,
+          "ci95_width": 0.2443
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7979,
+          "sd": 0.0526,
+          "ci95_width": 0.2112
+        }
+      ]
+    },
+    {
+      "p_neg": 0.15,
+      "p_neg_label": "15%",
+      "n": 180,
+      "expected_negatives": 27.0,
+      "expected_positives": 153.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 0.946,
+      "cells_3rep": 540,
+      "tokens_3rep": 2944482,
+      "cost_3rep_usd": 1.1045,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.85,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5979,
+          "sd": 0.061,
+          "ci95_width": 0.2341
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6978,
+          "sd": 0.056,
+          "ci95_width": 0.219
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.798,
+          "sd": 0.047,
+          "ci95_width": 0.1859
+        }
+      ]
+    },
+    {
+      "p_neg": 0.15,
+      "p_neg_label": "15%",
+      "n": 240,
+      "expected_negatives": 36.0,
+      "expected_positives": 204.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 0.9993,
+      "cells_3rep": 720,
+      "tokens_3rep": 3925976,
+      "cost_3rep_usd": 1.4727,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.85,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6022,
+          "sd": 0.0514,
+          "ci95_width": 0.2
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7019,
+          "sd": 0.0476,
+          "ci95_width": 0.1878
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8014,
+          "sd": 0.0404,
+          "ci95_width": 0.1589
+        }
+      ]
+    },
+    {
+      "p_neg": 0.15,
+      "p_neg_label": "15%",
+      "n": 300,
+      "expected_negatives": 45.0,
+      "expected_positives": 255.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 900,
+      "tokens_3rep": 4907470,
+      "cost_3rep_usd": 1.8409,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.85,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6003,
+          "sd": 0.0452,
+          "ci95_width": 0.177
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7001,
+          "sd": 0.0418,
+          "ci95_width": 0.1652
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8,
+          "sd": 0.0354,
+          "ci95_width": 0.139
+        }
+      ]
+    },
+    {
+      "p_neg": 0.15,
+      "p_neg_label": "15%",
+      "n": 450,
+      "expected_negatives": 67.5,
+      "expected_positives": 382.5,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 1350,
+      "tokens_3rep": 7361205,
+      "cost_3rep_usd": 2.7613,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.85,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5999,
+          "sd": 0.0377,
+          "ci95_width": 0.1473
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6997,
+          "sd": 0.0346,
+          "ci95_width": 0.1331
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7997,
+          "sd": 0.029,
+          "ci95_width": 0.1144
+        }
+      ]
+    },
+    {
+      "p_neg": 0.2,
+      "p_neg_label": "20%",
+      "n": 60,
+      "expected_negatives": 12.0,
+      "expected_positives": 48.0,
+      "P_neg_ge_10": 0.7868,
+      "P_neg_ge_20": 0.0107,
+      "cells_3rep": 180,
+      "tokens_3rep": 981494,
+      "cost_3rep_usd": 0.3682,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.8,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5966,
+          "sd": 0.0946,
+          "ci95_width": 0.3787
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6972,
+          "sd": 0.0868,
+          "ci95_width": 0.3426
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.798,
+          "sd": 0.0731,
+          "ci95_width": 0.29
+        }
+      ]
+    },
+    {
+      "p_neg": 0.2,
+      "p_neg_label": "20%",
+      "n": 90,
+      "expected_negatives": 18.0,
+      "expected_positives": 72.0,
+      "P_neg_ge_10": 0.9914,
+      "P_neg_ge_20": 0.3383,
+      "cells_3rep": 270,
+      "tokens_3rep": 1472241,
+      "cost_3rep_usd": 0.5523,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.8,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6001,
+          "sd": 0.0762,
+          "ci95_width": 0.2938
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7,
+          "sd": 0.0698,
+          "ci95_width": 0.2708
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7999,
+          "sd": 0.0591,
+          "ci95_width": 0.2308
+        }
+      ]
+    },
+    {
+      "p_neg": 0.2,
+      "p_neg_label": "20%",
+      "n": 120,
+      "expected_negatives": 24.0,
+      "expected_positives": 96.0,
+      "P_neg_ge_10": 0.9999,
+      "P_neg_ge_20": 0.8483,
+      "cells_3rep": 360,
+      "tokens_3rep": 1962988,
+      "cost_3rep_usd": 0.7364,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.8,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5992,
+          "sd": 0.064,
+          "ci95_width": 0.2492
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.699,
+          "sd": 0.0592,
+          "ci95_width": 0.2303
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7988,
+          "sd": 0.0504,
+          "ci95_width": 0.1966
+        }
+      ]
+    },
+    {
+      "p_neg": 0.2,
+      "p_neg_label": "20%",
+      "n": 150,
+      "expected_negatives": 30.0,
+      "expected_positives": 120.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 0.9872,
+      "cells_3rep": 450,
+      "tokens_3rep": 2453735,
+      "cost_3rep_usd": 0.9204,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.8,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5992,
+          "sd": 0.0576,
+          "ci95_width": 0.2276
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6991,
+          "sd": 0.0536,
+          "ci95_width": 0.2154
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.799,
+          "sd": 0.0457,
+          "ci95_width": 0.1821
+        }
+      ]
+    },
+    {
+      "p_neg": 0.2,
+      "p_neg_label": "20%",
+      "n": 180,
+      "expected_negatives": 36.0,
+      "expected_positives": 144.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 0.9995,
+      "cells_3rep": 540,
+      "tokens_3rep": 2944482,
+      "cost_3rep_usd": 1.1045,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.8,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6003,
+          "sd": 0.0536,
+          "ci95_width": 0.2105
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6998,
+          "sd": 0.0495,
+          "ci95_width": 0.1942
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7995,
+          "sd": 0.042,
+          "ci95_width": 0.164
+        }
+      ]
+    },
+    {
+      "p_neg": 0.2,
+      "p_neg_label": "20%",
+      "n": 240,
+      "expected_negatives": 48.0,
+      "expected_positives": 192.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 720,
+      "tokens_3rep": 3925976,
+      "cost_3rep_usd": 1.4727,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.8,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6002,
+          "sd": 0.0457,
+          "ci95_width": 0.179
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7,
+          "sd": 0.0421,
+          "ci95_width": 0.1643
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7999,
+          "sd": 0.0355,
+          "ci95_width": 0.1403
+        }
+      ]
+    },
+    {
+      "p_neg": 0.2,
+      "p_neg_label": "20%",
+      "n": 300,
+      "expected_negatives": 60.0,
+      "expected_positives": 240.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 900,
+      "tokens_3rep": 4907470,
+      "cost_3rep_usd": 1.8409,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.8,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5989,
+          "sd": 0.0412,
+          "ci95_width": 0.1679
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6988,
+          "sd": 0.0379,
+          "ci95_width": 0.1515
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.799,
+          "sd": 0.032,
+          "ci95_width": 0.1263
+        }
+      ]
+    },
+    {
+      "p_neg": 0.2,
+      "p_neg_label": "20%",
+      "n": 450,
+      "expected_negatives": 90.0,
+      "expected_positives": 360.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 1350,
+      "tokens_3rep": 7361205,
+      "cost_3rep_usd": 2.7613,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.8,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6007,
+          "sd": 0.0324,
+          "ci95_width": 0.1271
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7007,
+          "sd": 0.03,
+          "ci95_width": 0.1154
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8005,
+          "sd": 0.0255,
+          "ci95_width": 0.0994
+        }
+      ]
+    },
+    {
+      "p_neg": 0.25,
+      "p_neg_label": "25%",
+      "n": 60,
+      "expected_negatives": 15.0,
+      "expected_positives": 45.0,
+      "P_neg_ge_10": 0.9548,
+      "P_neg_ge_20": 0.0925,
+      "cells_3rep": 180,
+      "tokens_3rep": 981494,
+      "cost_3rep_usd": 0.3682,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.75,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5975,
+          "sd": 0.0869,
+          "ci95_width": 0.3373
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6976,
+          "sd": 0.0797,
+          "ci95_width": 0.3103
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7984,
+          "sd": 0.0672,
+          "ci95_width": 0.2632
+        }
+      ]
+    },
+    {
+      "p_neg": 0.25,
+      "p_neg_label": "25%",
+      "n": 90,
+      "expected_negatives": 22.5,
+      "expected_positives": 67.5,
+      "P_neg_ge_10": 0.9997,
+      "P_neg_ge_20": 0.7644,
+      "cells_3rep": 270,
+      "tokens_3rep": 1472241,
+      "cost_3rep_usd": 0.5523,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.75,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6,
+          "sd": 0.0703,
+          "ci95_width": 0.2764
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6999,
+          "sd": 0.0645,
+          "ci95_width": 0.2592
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7998,
+          "sd": 0.0547,
+          "ci95_width": 0.2128
+        }
+      ]
+    },
+    {
+      "p_neg": 0.25,
+      "p_neg_label": "25%",
+      "n": 120,
+      "expected_negatives": 30.0,
+      "expected_positives": 90.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 0.9892,
+      "cells_3rep": 360,
+      "tokens_3rep": 1962988,
+      "cost_3rep_usd": 0.7364,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.75,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5995,
+          "sd": 0.0598,
+          "ci95_width": 0.2302
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6994,
+          "sd": 0.0552,
+          "ci95_width": 0.2129
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7991,
+          "sd": 0.0466,
+          "ci95_width": 0.1793
+        }
+      ]
+    },
+    {
+      "p_neg": 0.25,
+      "p_neg_label": "25%",
+      "n": 150,
+      "expected_negatives": 37.5,
+      "expected_positives": 112.5,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 0.9999,
+      "cells_3rep": 450,
+      "tokens_3rep": 2453735,
+      "cost_3rep_usd": 0.9204,
+      "within_cell_ceiling": true,
+      "within_token_ceiling": true,
+      "within_cost_ceiling": true,
+      "auprc_random_baseline": 0.75,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6009,
+          "sd": 0.0537,
+          "ci95_width": 0.2068
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7004,
+          "sd": 0.0494,
+          "ci95_width": 0.1967
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8002,
+          "sd": 0.0413,
+          "ci95_width": 0.1656
+        }
+      ]
+    },
+    {
+      "p_neg": 0.25,
+      "p_neg_label": "25%",
+      "n": 180,
+      "expected_negatives": 45.0,
+      "expected_positives": 135.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 540,
+      "tokens_3rep": 2944482,
+      "cost_3rep_usd": 1.1045,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.75,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5983,
+          "sd": 0.0492,
+          "ci95_width": 0.1924
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6982,
+          "sd": 0.0451,
+          "ci95_width": 0.1764
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7982,
+          "sd": 0.038,
+          "ci95_width": 0.149
+        }
+      ]
+    },
+    {
+      "p_neg": 0.25,
+      "p_neg_label": "25%",
+      "n": 240,
+      "expected_negatives": 60.0,
+      "expected_positives": 180.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 720,
+      "tokens_3rep": 3925976,
+      "cost_3rep_usd": 1.4727,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.75,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6003,
+          "sd": 0.0423,
+          "ci95_width": 0.1657
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7001,
+          "sd": 0.0391,
+          "ci95_width": 0.1545
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7999,
+          "sd": 0.0331,
+          "ci95_width": 0.1324
+        }
+      ]
+    },
+    {
+      "p_neg": 0.25,
+      "p_neg_label": "25%",
+      "n": 300,
+      "expected_negatives": 75.0,
+      "expected_positives": 225.0,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 900,
+      "tokens_3rep": 4907470,
+      "cost_3rep_usd": 1.8409,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.75,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.6006,
+          "sd": 0.0373,
+          "ci95_width": 0.1454
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.7002,
+          "sd": 0.0345,
+          "ci95_width": 0.1341
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.8,
+          "sd": 0.0291,
+          "ci95_width": 0.1143
+        }
+      ]
+    },
+    {
+      "p_neg": 0.25,
+      "p_neg_label": "25%",
+      "n": 450,
+      "expected_negatives": 112.5,
+      "expected_positives": 337.5,
+      "P_neg_ge_10": 1.0,
+      "P_neg_ge_20": 1.0,
+      "cells_3rep": 1350,
+      "tokens_3rep": 7361205,
+      "cost_3rep_usd": 2.7613,
+      "within_cell_ceiling": false,
+      "within_token_ceiling": false,
+      "within_cost_ceiling": false,
+      "auprc_random_baseline": 0.75,
+      "auroc_ci_simulation": [
+        {
+          "true_auc": 0.6,
+          "mean_auc": 0.5999,
+          "sd": 0.0311,
+          "ci95_width": 0.1201
+        },
+        {
+          "true_auc": 0.7,
+          "mean_auc": 0.6998,
+          "sd": 0.0285,
+          "ci95_width": 0.109
+        },
+        {
+          "true_auc": 0.8,
+          "mean_auc": 0.7996,
+          "sd": 0.0239,
+          "ci95_width": 0.0922
+        }
+      ]
+    }
+  ]
+}
