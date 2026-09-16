@@ -144,3 +144,20 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
 - **Unresolved risk:** SALEOR INFERENCE READY not reached.
 - **Scientific impact:** none (no inference run; no TEST exposure).
 - **Follow-up:** POSIX re-run or minimal cassette-exclusion workaround (deferred).
+
+## PF-013 — P5R-1 report correction: timeout WAS honored (1800s)
+- **Where:** P5R-1 pilot, case 66c70394c9e1 (2026-09-17 correction).
+- **Symptoms:** the report initially claimed the wrapper timeout was ineffective
+  against an upstream 900 s hard-coded deadline.
+- **Root cause of the error:** the "Processing time exceeded 15 minutes" log
+  string is a STALE fixed message in the TimeoutError handler; the real deadline
+  is process.join(timeout=args.timeout), which P5R-1 set to 1800.
+- **Corrected finding:** args.json records timeout=1800; the case ran ~33 min of
+  wall time before the 1800 s join deadline expired. The timeout relaxation WAS
+  effective; the case failed from genuinely long-running search + context.
+- **Attempted fixes:** none (correction only).
+- **Outcome:** report + forensics corrected; P5 remains immutable.
+- **Unresolved risk:** none.
+- **Scientific impact:** P5R interpretation corrected (no hard 900 s cap); the
+  0/5 pilot outcome and the no-full-rerun decision are unchanged.
+- **Follow-up:** P5R-2 feasibility note updated accordingly.
