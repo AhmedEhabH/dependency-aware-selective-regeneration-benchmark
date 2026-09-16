@@ -432,6 +432,53 @@ block; preserved as the core thesis mechanism after baseline establishment.
 
 ---
 
+## Protocol A — Cheap non-LLM baseline block (2026-09-16; ZERO API; CLOSED + DEV tag)
+
+**Status:** COMPLETE / AUDITED (development evidence; merged to `main`; DEV tag
+`cheap-baselines-v1-dev-2026-09-16` — audited DEVELOPMENT evidence, NOT
+confirmatory).
+
+**Purpose.** Establish the cheapest defensible file-selection reference family
+for the selective-escalation pipeline: B0 Random@K, B1 BM25@K, B2 path-token@K,
+B3 Graph@K (lexical/path-token seeds), B4 Hybrid@K (frozen 0.5/0.5) over
+TRAIN 24 + VALIDATION 6 only (HELD_OUT_TEST ten permanently excluded; ZERO
+LLM/API).
+
+**Findings (development evidence):**
+- **BM25@K is the strongest cheap lexical baseline.** VALIDATION primary
+  development-decision table: BM25@3 P 0.333/R 0.240/F1 0.279 (precision
+  operating point), BM25@10 P 0.217/R 0.520/F1 0.306/FNR 0.480 (recall
+  operating point, highest VALIDATION F1). **K is an operating-point curve, NOT
+  a final configuration** — the primary selection objective of a future frozen
+  protocol fixes K.
+- **Graph@K ≈ path_token@K**; because Graph@K seeds are lexical/path-token
+  derived, this shows the cheap lexical-seeded expansion adds little over the
+  seed signal — **no general negative graph claim**.
+- **Hybrid@K ≈ BM25@K** (frozen 0.5/0.5 does not materially improve) →
+  motivates bounded/selective graph verification later, not score fusion.
+- **Fair-comparison boundary:** BM25 provides a meaningful zero-LLM
+  localization signal on development data; whether it matches/underperforms
+  LLM planners is **untested under a shared fresh confirmatory protocol**
+  (P1 Full/Sparse numbers are directional context only — different exposed
+  split).
+- **Efficiency:** ~403 s BM25 wall dominated by parent git-archive
+  materialization (index-build cost); query/ranking ~1.3 s total — BM25 is not
+  "403-second inference"; caching/pre-indexing is an engineering optimization.
+- **Path-mention sensitivity (ZERO API):** excluding the 3 TRAIN full-intent
+  path-mention cases, BM25@3 F1 0.283 → 0.262 (TRAIN) / 0.282 → 0.267 (pooled);
+  material qualitative ordering unchanged; frozen dataset untouched.
+- Six gates + independent audit PASS; report
+  `reports/CHEAP_BASELINES_V1_REPORT.md`; diagnostic
+  `research/cheap-baselines-v1/path_mention_sensitivity_v1.json`.
+
+**Relationship to the pillars.** This block feeds Pillar 8 (omission-risk) as
+the cheap first-pass baseline whose FNR is the target of omission-risk
+detection, and it arms the fair-comparison boundary for Pillar 7 (Saleor) and
+the faithful LocAgent line (Pillar 4-adjacent): a future LLM-vs-BM25 comparison
+must run on a fresh shared confirmatory split.
+
+---
+
 ## Cross-cutting governance
 
 - **Scientific runs.** Zero new scientific API calls until a next milestone is
@@ -455,3 +502,4 @@ block; preserved as the core thesis mechanism after baseline establishment.
 | M2 — Controlled LLM serialization-density characterization | **NOT STARTED** |
 | M3 — Graph ablation C0/C1/C2 (hints + gated disclosure) | **COMPLETE / AUDITED** (2026-09-13; POST-HOC EXPLORATORY DEVELOPMENT-SET; hints MIXED, gated NOT PROMISING as implemented) |
 | Graph-Gated Disclosure | **EXECUTED / NOT PROMISING as implemented** |
+| Protocol A — Cheap non-LLM baselines v1 | **COMPLETE / AUDITED** (2026-09-16; DEVELOPMENT evidence; DEV tag `cheap-baselines-v1-dev-2026-09-16`; BM25 strongest cheap lexical; K = operating-point curve; no LLM-vs-BM25 claim) |

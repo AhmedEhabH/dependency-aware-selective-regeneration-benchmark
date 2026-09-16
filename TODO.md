@@ -8,9 +8,14 @@
 (append-only). Protocol v2 CURRENT PHASE = **Repository change localization /
 impact selection** (`docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`).
 **Current phase:** Paper submitted (ICCI shorthand; IEEE-format V20 artifact)
-+ **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE (2026-09-16) — Protocol A
-cheap-non-LLM baselines v1 (TRAIN 24 + VALIDATION 6; ZERO API; six gates +
-audit PASS; BM25@K strongest, Graph@K ≈ path_token@K, Hybrid@K ≈ BM25@K)** +
++ **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE AND CLOSED (2026-09-16) —
+Protocol A cheap-non-LLM baselines v1 (TRAIN 24 + VALIDATION 6; ZERO API; six
+gates + audit PASS; BM25@K strongest cheap lexical — VALIDATION primary
+development-decision table BM25@3 F1 0.279 precision point / BM25@10 F1 0.306
+recall point, K = operating-point curve NOT final config; Graph@K ≈ path_token@K
+with lexical seeds, no general graph claim; Hybrid@K ≈ BM25@K; path-mention
+sensitivity diagnostic PASS — material ordering unchanged; merged to main; DEV
+tag `cheap-baselines-v1-dev-2026-09-16`)** +
 **POST-ICCI ZERO-API CLOSURE COMPLETE (2026-09-15)** (authoritative state =
 `00_CURRENT_RESEARCH_STATE.md`; immutable submission record =
 `paper/v20-final/ICCI_SUBMISSION_RECORD_2026-09-15.json`; HELD_OUT_TEST

@@ -11,7 +11,12 @@
 > **ACTIVE TASK (T3):** Protocol A — cheap-nonllm-baselines-v1
 > (Random@K / BM25@K / path-token@K / Graph@K / Hybrid@K on TRAIN 24 +
 > VALIDATION 6 only; HELD_OUT_TEST ten permanently exposed and never used;
-> ZERO-API). See `PROGRESS.md`.
+> ZERO-API). **COMPLETE AND CLOSED 2026-09-16:** merged to `main`, DEV tag
+> `cheap-baselines-v1-dev-2026-09-16`; BM25@K strongest cheap lexical on
+> development data (VALIDATION BM25@3 F1 0.279 / BM25@10 F1 0.306; K =
+> operating-point curve, not final config); path-mention sensitivity PASS;
+> no LLM-vs-BM25 claim (untested under a shared fresh confirmatory protocol).
+> See `PROGRESS.md`.
 > The entries below are a historical record of the protocol and its executed
 > amendments. See README.md, PROGRESS.md and 00_CURRENT_RESEARCH_STATE.md for
 > current state.

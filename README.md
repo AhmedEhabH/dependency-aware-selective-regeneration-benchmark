@@ -4,12 +4,20 @@
 > **complete and audited**, the manuscript is **submitted** (IEEE-format V20
 > artifact; see `paper/v20-final/`), the **POST-ICCI zero-API closure is
 > COMPLETE** (2026-09-15), and the **FIRST POST-ICCI EXPERIMENTAL BLOCK is
-> COMPLETE (Protocol A — cheap non-LLM baselines v1, 2026-09-16)**: TRAIN 24 +
+> COMPLETE AND CLOSED (Protocol A — cheap non-LLM baselines v1, 2026-09-16;
+> merged to `main`; DEV tag `cheap-baselines-v1-dev-2026-09-16`)**: TRAIN 24 +
 > VALIDATION 6 only (HELD_OUT_TEST ten permanently excluded), ZERO API calls,
 > six zero-API gates + independent audit PASS; **BM25@K is the strongest cheap
-> lexical baseline** (pooled F1 0.282 @K=3; recall 0.589 @K=10), Graph@K ≈
-> path_token@K, Hybrid@K ≈ BM25@K, Random@K is a floor — all "development
-> evidence", not confirmatory (see
+> lexical baseline on development data** — VALIDATION primary
+> development-decision table: BM25@3 F1 0.279 (precision point) / BM25@10 F1
+> 0.306 (recall point), **K = operating-point curve, NOT a final
+> configuration**; Graph@K ≈ path_token@K (lexical seeds; no general graph
+> claim), Hybrid@K ≈ BM25@K, Random@K is a floor; **BM25 provides a meaningful
+> zero-LLM localization signal on development data — whether it matches or
+> underperforms LLM planners remains untested under a shared fresh
+> confirmatory protocol** (P1 Full/Sparse numbers are directional context
+> only); path-mention sensitivity diagnostic PASS (material ordering
+> unchanged). All "development evidence", not confirmatory (see
 > [`reports/CHEAP_BASELINES_V1_REPORT.md`](reports/CHEAP_BASELINES_V1_REPORT.md)).
 > Governance: scientific truth =
 > [`00_CURRENT_RESEARCH_STATE.md`](00_CURRENT_RESEARCH_STATE.md), execution

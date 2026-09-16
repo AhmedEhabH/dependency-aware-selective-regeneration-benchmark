@@ -12,8 +12,9 @@ this file; execution truth = `PROGRESS.md`; decisions (append-only) =
 (CURRENT PHASE = **Repository change localization / impact selection**).
 
 **Phase:** paper submitted (ICCI shorthand; repo artifact = IEEE-format V20
-submission) → **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE (Protocol A:
-cheap-non-LLM baselines v1, 2026-09-16; ZERO new scientific model/API calls).**
+submission) → **FIRST POST-ICCI EXPERIMENTAL BLOCK COMPLETE AND CLOSED (Protocol A:
+cheap-non-LLM baselines v1, 2026-09-16; ZERO new scientific model/API calls;
+development milestone merged to main + DEV tag `cheap-baselines-v1-dev-2026-09-16`).**
 Post-submission window. Scientific runs remaining in this block: ZERO.
 
 ---
@@ -105,20 +106,36 @@ Post-submission window. Scientific runs remaining in this block: ZERO.
 - Paired bootstrap over 10 tasks: ΔF1 −0.0088 [−0.1297, +0.1189] (crosses zero);
   Δcost −$0.0235 [−0.0244, −0.0228] (cost effect supported, descriptive).
 
-### Cheapest-baseline block (Protocol A, 2026-09-16, ZERO API, DEVELOPMENT evidence)
+### Cheapest-baseline block (Protocol A, 2026-09-16, ZERO API, DEVELOPMENT evidence — CLOSED + DEV tag)
 - B0 Random@K ≈ floor (pooled F1 0.012–0.021 across K).
-- B1 BM25@K strongest cheap lexical: pooled best F1 **0.282 @K=3**; recall
-  0.589 / FNR 0.411 @K=10.
+- B1 BM25@K strongest cheap lexical: **VALIDATION is the primary
+  development-decision table** — BM25@3 P 0.333/R 0.240/F1 **0.279** (precision
+  operating point); BM25@10 P 0.217/R 0.520/F1 **0.306**/FNR 0.480 (recall
+  operating point, highest VALIDATION F1). **K is an operating-point curve, NOT
+  a final configuration.**
 - B2 path_token@K / B3 Graph@K ≈ 0.18–0.19 pooled F1 @K=3 (graph ≈ path_token;
-  seed rule is the same token-overlap basis).
-- B4 Hybrid@K ≈ BM25@K (pooled F1 0.258 @K=3).
-- Validation micro @K=5: bm25 P 0.233/R 0.280/F1 0.255; random F1 0.073.
-- Efficiency: BM25 wall ≈ 403 s (parent git-archive dominated), queries ~1.3 s;
-  path_token/graph < 2 s; **0 LLM calls, 0 tokens**.
-- Reference context (exposed HELD_OUT, non-comparable): Full-v2 F1 0.353,
-  Sparse-v2 F1 0.312.
+  Graph@K seeds are lexical/path-token-derived → this shows the cheap
+  lexical-seeded expansion adds little over the seed signal, NOT that graph
+  reasoning is generally unhelpful).
+- B4 Hybrid@K ≈ BM25@K (pooled F1 0.258 @K=3; frozen 0.5/0.5 fusion does not
+  materially improve over BM25 → motivates bounded/selective graph verification,
+  not score fusion).
+- **Fair-comparison caveat (safe wording):** BM25 provides a meaningful
+  zero-LLM localization signal on development data; whether it matches or
+  underperforms the LLM planners remains untested under a shared fresh
+  confirmatory protocol. Full-v2 F1 0.353 / Sparse-v2 F1 0.312 (exposed
+  HELD_OUT) are directional context only, never a head-to-head ranking.
+- Efficiency: BM25 wall ≈ 403 s dominated by parent git-archive
+  materialization (snapshot/index-build cost), queries ~1.3 s total (not
+  "403-second inference"); path_token/graph < 2 s; **0 LLM calls, 0 tokens**.
+- **Path-mention sensitivity (ZERO API, diagnostic):** excluding the 3 TRAIN
+  cases whose full intent mentions a changed path, path-clean BM25@3 F1
+  0.283 → 0.262 (TRAIN) and 0.282 → 0.267 (pooled); material qualitative
+  ordering unchanged. `research/cheap-baselines-v1/path_mention_sensitivity_v1.json`.
 - Artifacts: `research/cheap-baselines-v1/`; six gates + audit PASS
-  (`reports/CHEAP_BASELINES_V1_REPORT.md`, `_AUDIT.md`).
+  (`reports/CHEAP_BASELINES_V1_REPORT.md`, `_AUDIT.md`); merged to `main`;
+  tag `cheap-baselines-v1-dev-2026-09-16` = audited DEVELOPMENT evidence,
+  NOT confirmatory.
 
 ### P5 LocAgent (10 tasks × 1 exec; 402 calls; 32.8M tokens; $9.9288 est.)
 - **Headline (A, fail-closed all-10):** TP 10 / FP 13 / FN 27 → P 0.4348 /
@@ -142,9 +159,10 @@ Post-submission window. Scientific runs remaining in this block: ZERO.
 
 ## 8. Next experiment — ONLY ONE (not started, not authorized without review)
 
-**Protocol A (cheap non-LLM baselines v1) is COMPLETE (2026-09-16; TRAIN 24 +
-VALIDATION 6; ZERO API; six gates + audit PASS).** The next scientific step is
-chosen after Ahmed reviews the cheap-baseline results — STATED:
+**Protocol A (cheap non-LLM baselines v1) is COMPLETE AND CLOSED (2026-09-16;
+TRAIN 24 + VALIDATION 6; ZERO API; six gates + audit PASS; merged to main;
+DEV tag `cheap-baselines-v1-dev-2026-09-16`).** The next scientific step is
+chosen after Ahmed reviews the closure — STATED:
 - primary next line (drafted, NOT executed): **Selective escalation for
   cost-aware repository change localization** (the proposal topic),
   pre-ceded by the **omission-risk detection** core mechanism

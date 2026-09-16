@@ -1764,8 +1764,38 @@
             "tokens": 0
           }
         }
+      },
+      {
+        "check": "path_mention_sensitivity_exclusion_list",
+        "ok": true,
+        "detail": [
+          "djangocms-rc-2efae8e43bd6",
+          "djangocms-rc-ada585d3f358",
+          "djangocms-rc-5ff38b521274"
+        ]
+      },
+      {
+        "check": "path_mention_sensitivity_material_ordering_preserved",
+        "ok": true,
+        "detail": {
+          "material_ordering_unchanged": true,
+          "original_pooled_best_f1": {
+            "random": 0.021447721179624665,
+            "bm25": 0.28220858895705525,
+            "path_token": 0.18404907975460122,
+            "graph": 0.1875,
+            "hybrid": 0.26008968609865474
+          },
+          "path_clean_pooled_best_f1": {
+            "random": 0.02359882005899705,
+            "bm25": 0.26666666666666666,
+            "path_token": 0.18289085545722714,
+            "graph": 0.18237082066869303,
+            "hybrid": 0.25490196078431376
+          }
+        }
       }
     ]
   },
-  "generated_utc": "2026-09-15T22:02:25.693041+00:00"
+  "generated_utc": "2026-09-15T23:44:25.689582+00:00"
 }

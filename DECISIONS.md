@@ -128,3 +128,64 @@ execution. Entries are never edited after append; corrections are new entries.
 - **Rationale:** statistical discipline (H) + truthful status.
 - **Impact:** commit `3b83dd6` on branch
   `research/cheap-nonllm-baselines-v1`; tag deferred.
+
+## Decision P10 — Protocol A finalization: interpretative corrections + DEV tag (2026-09-16, SUPERSEDES P9)
+
+- **Status:** ADOPTED — SUPERSEDES P9
+- **Context:** P9 deferred a tag pending review. Supervisor review of the
+  Protocol-A block concluded the block is a meaningful, fully audited
+  DEVELOPMENT milestone and requested a detailed closure: (1) an
+  over-strong comparison statement in the report must be corrected; (2) K
+  must not be presented as a final configuration; (3) a path-mention
+  sensitivity diagnostic must be added; (4) graph/hybrid/efficiency
+  interpretations must be bounded; and (5) the block may carry a descriptive
+  **DEV** tag after merge to main.
+- **Decision:**
+  1. **Replace** the claim "BM25 is far below / does not materially challenge
+     the LLM planner" with the safe wording: **"BM25 provides a meaningful
+     zero-LLM localization signal on development data. Whether it matches or
+     underperforms the LLM planners remains untested under a shared fresh
+     confirmatory protocol."** P1 Full/Sparse F1 numbers may appear only as
+     clearly labeled directional context (different exposed HELD_OUT split),
+     never as a head-to-head ranking.
+  2. **Do not claim K=3 or K=5 is the final BM25 configuration.** Present
+     TRAIN and VALIDATION separately; the VALIDATION table is the primary
+     development-decision table. BM25@3 = low-cardinality / precision-oriented
+     operating point; BM25@10 = recall/FNR-oriented operating point with the
+     highest validation F1 (0.3059) in the current 6-task set. K is an
+     operating-point curve, not a confirmatory conclusion; no pooled
+     TRAIN+VALIDATION K-selection without explicit justification.
+  3. **Sensitivity diagnostic (ZERO API):** the 3 TRAIN path-mention cases
+     (`djangocms-rc-2efae8e43bd6`, `ada585d3f358`, `5ff38b521274`) are
+     excluded in a deterministic recomputation over persisted per-task metrics
+     (`scripts/sensitivity_cheap_baselines_path_mentions.py`,
+     `research/cheap-baselines-v1/path_mention_sensitivity_v1.json`).
+     Path-clean BM25@3 F1 0.283 → 0.262 (TRAIN) and 0.282 → 0.267 (pooled);
+     the **material qualitative ordering is unchanged**. Diagnostic only; the
+     frozen dataset is NOT modified.
+  4. **Graph interpretation:** Graph@K uses lexical/path-token-derived seeds;
+     Graph≈Path shows the cheap lexical-seeded expansion adds little over the
+     seed signal, NOT that graph reasoning is generally unhelpful. No general
+     negative graph result.
+  5. **Hybrid interpretation:** the frozen 0.5/0.5 hybrid does not materially
+     improve over BM25; no alpha tuning now; motivates bounded/selective graph
+     verification rather than score fusion.
+  6. **Efficiency interpretation:** the ~403 s BM25 wall time is dominated by
+     parent git-archive materialization (snapshot/index-build cost), while
+     query/ranking latency is ~1.3 s total. BM25 is not "403-second
+     inference"; caching/pre-indexing is an engineering optimization, not a
+     new scientific result.
+- **Tag decision (supersedes P9):** create exactly one descriptive
+  development-evidence tag **`cheap-baselines-v1-dev-2026-09-16`** after the
+  block is merged to main and re-audited. The tag means **audited DEVELOPMENT
+  evidence, NOT confirmatory evidence**. It does NOT move any stable tag and
+  does NOT claim confirmatory/generalizable status.
+- **Rationale:** development evidence is allowed an immutable tag when the tag
+  explicitly says DEV; the interpretation corrections keep the record truthful
+  and prevent over-claiming while allowing the audited block to be frozen.
+- **Impact:** report rewritten (`reports/CHEAP_BASELINES_V1_REPORT.md`),
+  protocol milestone-format section added
+  (`docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md` §9.2), sensitivity
+  diagnostic + tests added, docs synchronized, branch merged into `main`,
+  tag `cheap-baselines-v1-dev-2026-09-16` created and pushed, light export
+  recreated after merge/tag.

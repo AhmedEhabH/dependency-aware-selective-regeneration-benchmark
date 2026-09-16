@@ -97,3 +97,54 @@ explicit authorization.
 - Scientific protocol from `docs/FINAL_RESEARCH_PROTOCOL.md` (frozen v1.0) and
   its companion docs. This v2 doc adds the current-phase naming and the
   governance hierarchy only; it does not amend the frozen scientific protocol.
+
+## 9. Progress response format (normal vs closure)
+
+### 9.1 Normal progress responses
+
+Normal incremental progress responses may remain **one line** (e.g., "step X of
+Y complete: <one-line status>"). The one-line rule is the default for
+non-boundary progress.
+
+### 9.2 Detailed closure report exception (T2/T3 MANDATORY STOP or scientific milestone closure)
+
+**This detailed closure report is NOT prohibited by the normal one-line progress
+rule.** For a **T2/T3 MANDATORY STOP** or a **scientific milestone closure**, the
+final report MUST be detailed and MUST contain ALL of the following sections:
+
+1. **Executive verdict** — one-paragraph outcome (PASS / FAIL / PARTIAL / closed
+   with correction), not a bare number.
+2. **Scientific question** — the exact question the milestone answers.
+3. **Dataset/split and forbidden data** — which split(s) were used (development
+   vs confirmatory label on each), which data was forbidden and stayed unused.
+4. **Validation-gate table** — every applicable gate with PASS/FAIL and the
+   evidence location.
+5. **Main result table** — the headline numbers, with denominators and the
+   metric definition (TP/FP/FN/P/R/F1/FNR).
+6. **Development vs confirmatory label** — explicit statement that the evidence
+   is development (TRAIN/VALIDATION) or confirmatory; never blurred.
+7. **Fair-comparison warning** — when comparing methods across different
+   splits/protocols, an explicit warning that cross-split head-to-head ranking
+   is prohibited or only directional context.
+8. **Interpretation** — what the numbers mean, not merely re-printing them.
+9. **What the result does NOT mean** — explicit negative-space: over-strong
+   claims that the result does NOT support.
+10. **Competitor/baseline implication** — what the result implies for the LLM
+    planner line / alternative methods, stated within the fair-comparison
+    boundary.
+11. **Threats/caveats** — every threat, caveat, and shortcut (e.g., frozen-corpus
+    path mentions, small n, single repository).
+12. **Tests/audit** — test counts, audit verdict, gate JSON locations.
+13. **Documentation changed** — per-file list of docs synchronized.
+14. **Git branch/commit/main status** — branch, HEAD, main, origin/main equality.
+15. **Merge status** — merged or not, merge commit.
+16. **Tag** — tag name and its exact meaning (e.g., DEV evidence only), or
+    explicit "no tag" statement.
+17. **Export ZIP + SHA256** — the light export name, path, size, SHA-256, and the
+    `PROJECT_EXPORT_READY` block.
+18. **Where we are now** — exact position in the research pipeline.
+19. **ONE next action** — a single recommended next step (not started).
+
+This exception exists so that milestone closures and mandatory stops leave a
+durable, auditable record without weakening the one-line rule for normal
+progress.
