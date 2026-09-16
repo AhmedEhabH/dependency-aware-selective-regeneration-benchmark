@@ -510,3 +510,21 @@ execution. Entries are never edited after append; corrections are new entries.
   EXPERIMENT_AND_IDEA_LEDGER.md, BASELINE_SELECTION_LEDGER.md,
   LITERATURE_DECISION_LEDGER.md.
 - **Revisit:** append as the mission progresses.
+
+## Decision P31 - Saleor Stage-2 READY-TO-RUN (2026-09-16 evening)
+
+- **Status:** ADOPTED
+- **Context:** full Saleor history cached (22,615 commits); frozen miner
+  generalized to Saleor via PRODUCTION_ROOTS=('saleor',) adapter (no rule change).
+- **Decision:** reconstruct the Saleor sampling frame (6000 -> 2409 -> 1352 ->
+  1316 independent eligible); freeze a metadata-only split proposal (seed
+  20260916; DEV_TRAIN 120 / DEV_VALIDATION 30 / INTERNAL_TEST 80 / RESERVE 1086);
+  produce the pre-inference gate report. Do NOT run Saleor inference tonight.
+- **Why:** Saleor pool (1316) is ~4x djangoCMS (329); a quantitative Stage-2 is
+  fully supported; INTERNAL_TEST/RESERVE protected.
+- **Rejected:** running Saleor inference without an audited case-bundle build;
+  inspecting any Saleor TEST outcome.
+- **Evidence:** reports/SALEOR_SAMPLING_FRAME_AUDIT.md,
+  reports/SALEOR_SAMPLE_SIZE_ANALYSIS.md, reports/SALEOR_PRE_INFERENCE_GATE_REPORT.md,
+  research/transparency/saleor_*.
+- **Revisit:** after the Saleor case-bundle build + split manifest audit.

@@ -473,11 +473,16 @@ correctness claims.
 
 ## Pillar 7 — Cross-repository confirmation — SALEOR (confirmed future pillar)
 
-**Status: SUITABLE-WITH-DEVIATIONS (2026-09-16 audit).** Protocol frozen in
-`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`; suitability audit in
-`reports/SALEOR_REPOSITORY_SUITABILITY_AUDIT.md`. **Do NOT run Saleor today** —
-sampling-frame reconstruction blocked until full Saleor history is cached
-(shallow pinned cache).
+**Status: READY-TO-RUN (2026-09-16 evening).** Full Saleor history cached
+(22,615 commits, non-shallow); sampling frame reconstructed
+(6000 → 2409 → 1352 → **1316** independent eligible); split proposal frozen
+(seed 20260916; DEV_TRAIN 120 / DEV_VALIDATION 30 / INTERNAL_TEST 80 /
+RESERVE 1086; all-pool SHA `6be5c994…`); sample-size analysis done; protocol in
+`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`; suitability
+`reports/SALEOR_REPOSITORY_SUITABILITY_AUDIT.md`; gates
+`reports/SALEOR_PRE_INFERENCE_GATE_REPORT.md`. **Do NOT run Saleor inference
+tonight** — case-bundle materialization + frozen split manifest is the next
+audited data step.
 
 **Role in the thesis.** Saleor is the second-repository candidate
 (subject to the frozen protocol-fit audit):
