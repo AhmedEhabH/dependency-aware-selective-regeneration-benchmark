@@ -607,19 +607,37 @@ def _independent_audit() -> dict[str, Any]:
         }
     )
 
-    # 5. Phase-B preconditions (A–G): sparse_v2 predictions absent pre-run (Gate A), graph
-    #    available, history absent — re-checked fully post-run by the analysis stage.
+    # 5. Phase-B state consistency (A–G): pre-run, TRAIN/VALIDATION must have NO
+    #    Sparse-v2 predictions (Gate A precondition); post-run, the availability
+    #    must flip to True and the run evidence must exist. The check is
+    #    state-aware so the verifier is re-runnable after the run.
     data_avail = json.loads(
         (_PROJECT_DIR / "research" / "omission-risk-feature-study-v1" / "data_availability.json").read_text(
             encoding="utf-8"
         )
     )
+    run_records_path = (
+        _PROJECT_DIR / "research" / "omission-risk-feature-study-v1" / "sparse_v2_trainval_run_records.jsonl"
+    )
+    run_records_exist = run_records_path.is_file()
+    pre_run_precondition = (
+        data_avail["TRAIN"]["sparse_v2_prediction_available"] is False
+        and data_avail["VALIDATION"]["sparse_v2_prediction_available"] is False
+    )
+    post_run_state = (
+        data_avail["TRAIN"]["sparse_v2_prediction_available"] is True
+        and data_avail["VALIDATION"]["sparse_v2_prediction_available"] is True
+        and run_records_exist
+    )
     checks.append(
         {
-            "check": "phase_b_gate_a_precondition",
-            "ok": data_avail["TRAIN"]["sparse_v2_prediction_available"] is False
-            and data_avail["VALIDATION"]["sparse_v2_prediction_available"] is False,
-            "detail": "TRAIN/VALIDATION Sparse-v2 predictions absent before this run",
+            "check": "phase_b_gate_a_state_consistent",
+            "ok": pre_run_precondition or post_run_state,
+            "detail": {
+                "run_records_exist": run_records_exist,
+                "train_available": data_avail["TRAIN"]["sparse_v2_prediction_available"],
+                "validation_available": data_avail["VALIDATION"]["sparse_v2_prediction_available"],
+            },
         }
     )
     return {"passed": all(c["ok"] for c in checks), "checks": checks, "ran_at": _now_iso()}
