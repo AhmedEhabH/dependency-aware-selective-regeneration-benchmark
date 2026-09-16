@@ -112,3 +112,20 @@ this audit + protocol are design-only.
   (zero API, design): pin a NestJS anchor cache; verify commit depth/intent and
   eligible-pool yield; implement the TS import extractor; then freeze the
   NestJS protocol split.
+## 13. Readiness status (2026-09-16 evening)
+
+- **Full-history cache:** NOT acquired tonight (secondary priority; the primary
+  A/B/C/E blocks are complete). Network is available; git fetch --unshallow
+  of https://github.com/nestjs/nest into a pinned cache is the next data step.
+- **TS production-universe semantics:** defined in
+  docs/NESTJS_TS_PRODUCTION_UNIVERSE.md (packages/*/src/**.ts production,
+  excluding *.spec.ts / e2e / test / benchmarks / dist / node_modules).
+- **Import extractor:** a deterministic TS import/dependency extractor is
+  required (the frozen Python graph builder does not parse TS). NOT implemented
+  tonight.
+- **Eligible-pool yield gate (predeclared):** >=60 independent eligible cases
+  after R1/R2/R3; else NestJS is UNSUITABLE for quantitative Stage-3 and the
+  JabRef backup protocol is prepared.
+- **Blockers:** (1) no local NestJS cache; (2) TS import extractor not built.
+- **Next actions (zero API):** pin NestJS anchor; fetch full history; implement
+  TS import extractor + unit tests; estimate eligible pool; then freeze split.
