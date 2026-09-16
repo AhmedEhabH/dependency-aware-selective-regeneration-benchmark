@@ -1,0 +1,112 @@
+{
+  "merged": {
+    "n": 174,
+    "pos": 155,
+    "neg": 19,
+    "prevalence": 0.8908,
+    "class_balance_gate": true
+  },
+  "random_band": {
+    "q2_5": 0.35956706281833617,
+    "q97_5": 0.6380390492359933
+  },
+  "features_above_random_95": [
+    "bm25_nonzero_frac",
+    "bm25_positive_count",
+    "bm25_relthresh_count",
+    "bm25_score_range",
+    "bm25_top10_mean",
+    "bm25_top10_min",
+    "bm25_top10_norm_entropy",
+    "bm25_top1_score",
+    "bm25_top3_mean",
+    "bm25_top3_min",
+    "candidate_function_count_total",
+    "disagree_alt_share_of_p1_k3",
+    "disagree_alt_share_of_p1_k5",
+    "disagree_graph_max_bm25_rank_k5",
+    "disagree_jaccard_graph_k3",
+    "disagree_jaccard_graph_k5",
+    "disagree_jaccard_pt_k10",
+    "disagree_max_bm25_omitted_graph_k10",
+    "disagree_max_bm25_omitted_pt_k10",
+    "disagree_overlap_graph_k3",
+    "disagree_overlap_graph_k5",
+    "disagree_pt_max_bm25_rank_k5",
+    "disagree_pt_omitted_k10",
+    "fp_mean_confidence",
+    "graph_avg_degree",
+    "graph_candidate_expansion_ratio",
+    "graph_p1_mean_dist_seeds",
+    "graph_p1_reachable_frac",
+    "graph_seed_count",
+    "intent_char_len",
+    "intent_identifier_like_count",
+    "intent_set_size",
+    "intent_token_count"
+  ],
+  "n_features_above": 33,
+  "expected_by_chance": 4.45,
+  "top_features_by_auprc": [
+    [
+      "graph_p1_mean_dist_seeds",
+      0.934
+    ],
+    [
+      "disagree_jaccard_pt_k5",
+      0.931
+    ],
+    [
+      "disagree_jaccard_pt_k10",
+      0.931
+    ],
+    [
+      "bm25_zero_count",
+      0.929
+    ],
+    [
+      "bm25_concentration_herfindahl",
+      0.923
+    ],
+    [
+      "graph_isolated_count",
+      0.921
+    ],
+    [
+      "graph_conn_components",
+      0.919
+    ],
+    [
+      "bm25_concentration_top1",
+      0.918
+    ],
+    [
+      "disagree_hy_omitted_k10",
+      0.912
+    ],
+    [
+      "graph_p1_min_dist_seeds",
+      0.911
+    ]
+  ],
+  "peakiness_direction_stability": {
+    "bm25_zero_count": {
+      "train_signed": 0.5595959595959596,
+      "val_signed": 0.8586956521739131
+    },
+    "bm25_nonzero_frac": {
+      "train_signed": 0.35833333333333334,
+      "val_signed": 0.15217391304347827
+    },
+    "bm25_relthresh_count": {
+      "train_signed": 0.2952020202020202,
+      "val_signed": 0.2173913043478261
+    },
+    "bm25_top1_top2_margin": {
+      "train_signed": 0.47929292929292927,
+      "val_signed": 0.3369565217391304
+    }
+  },
+  "c4_gate_2_signal_above_chance": true,
+  "c4_gate_3_direction_stable": true
+}
