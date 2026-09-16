@@ -104,3 +104,15 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
 - **Revisit:** P5R-2 (provider-deviation) only if same weights with larger
   context can be established; otherwise LocAgent is treated as system-level
   context only.
+
+## E-017 — Route B candidate-level omission recovery V1 (zero-LLM)
+- **Status:** EXECUTED (2026-09-16 evening).
+- **Result:** R4_Classical CIA beats Random at B=5 on DEV_TRAIN (0.148 vs 0.022,
+  CI [+0.069,+0.179]) and DEV_VALIDATION (0.180 vs 0.037, CI [-0.003,+0.285]).
+  No universe-size artifact (corr 0.105). Direction stable. R5_Hybrid == R4_CIA
+  (identical formula: 0.5 BM25 + 0.5 graph neighbor).
+- **Artifact:** reports/ROUTE_B_OMISSION_RECOVERY_V1_REPORT.md;
+  research/transparency/route_b_v1_results.json; scripts/route_b_omission_recovery_v1.py.
+- **Revisit:** progression gate PARTIAL PASS (direction stable, no artifact, but
+  DEV_VALIDATION CI includes 0) -> a verifier pilot is NOT strongly justified
+  yet; recommend a larger DEV_VALIDATION or predeclared hybrid refinement.
