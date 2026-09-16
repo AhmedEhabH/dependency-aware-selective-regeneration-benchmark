@@ -19,7 +19,13 @@ audited evidence source. Any claim without a source is marked `TO VERIFY`.
 | 12 | Saleor SUITABLE-WITH-DEVIATIONS; NestJS SUITABLE-WITH-DEVIATIONS | `reports/SALEOR…`, `reports/NESTJS…` | VERIFIED (design) |
 | 13 | Route A / Route B pre-registered contingencies | `docs/MSC_RESEARCH_ROADMAP…`, V2 protocol | VERIFIED |
 | 14 | "No positive algorithmic result is promised" | consistent with all evidence | VERIFIED |
-| 15 | References verified / preprints marked | `references.bib` + living review | PARTIAL — 4 entries marked "AUTHOR LIST TO BE CONFIRMED" |
+| 15 | References verified / preprints marked | `references.bib` V1.2 + living review | VERIFIED (2026-09-16 primary-source checks; no placeholder authors) |
+| 16 | Sparse mean serialized records = 4.9; Full = 144.0; reduction ~96.6% | `reports/CONTROLLED_ENCODING_16K_RESULT.md` | VERIFIED (V1.2 corrected; stale 5.9 removed) |
+| 17 | LocAgent 5/10 non-usable; taxonomy = 2 timeout + 1 context-length + 2 completed-but-empty (NOT "50% empty") | `reports/LOCAGENT_P5C_HELDOUT_RUN.md` | VERIFIED (V1.2 corrected) |
+| 18 | V2 inference: 431 calls; 2,501,964 tokens; 1,964-token (0.08%) post-call overshoot of nominal 2.5M ceiling; fail-closed stop (NOT "within ceiling") | V2 run_records + `reports/REAL_COMMIT_V2_OMISSION_RISK_DEVELOPMENT_ANALYSIS.md` | VERIFIED (V1.2 corrected) |
+| 19 | Related-work claims verified against primary sources (arXiv/Crossref) | `references.bib` V1.2 | VERIFIED (no placeholder authors) |
+| 20 | Route B progression gate: LLM verifier only if predeclared rule beats Random at B=5 on DEV_VALIDATION + same direction DEV_TRAIN + not universe artifact + no leakage | Proposal V1.2 Section 7 | VERIFIED (pre-registered) |
+| 21 | Comparison matrix columns (file policy / sparse rep / cheap 1st / omission recovery / matched budget / real commit / x-repo) | Proposal V1.2 Section 7 | VERIFIED |
 
 ## Rule
 - No claim may be strengthened beyond its source.
