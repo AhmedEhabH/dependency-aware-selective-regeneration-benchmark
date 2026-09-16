@@ -1,0 +1,1505 @@
+{
+  "study_id": "omission-risk-development-inference-v1",
+  "model": "qwen/qwen3-coder",
+  "provider_tag": "deepinfra/turbo",
+  "gates": [
+    {
+      "gate": 1,
+      "name": "Dataset Validation",
+      "passed": true,
+      "checks": [
+        {
+          "check": "split_count_TRAIN",
+          "ok": true,
+          "detail": 24
+        },
+        {
+          "check": "split_count_VALIDATION",
+          "ok": true,
+          "detail": 6
+        },
+        {
+          "check": "split_count_HELD_OUT_TEST",
+          "ok": true,
+          "detail": 10
+        },
+        {
+          "check": "adapter_case_ids_only_train_validation",
+          "ok": true,
+          "detail": {
+            "n": 30,
+            "splits": [
+              "TRAIN",
+              "VALIDATION"
+            ]
+          }
+        },
+        {
+          "check": "adapter_excludes_held_out",
+          "ok": true,
+          "detail": "no HELD_OUT_TEST case exposed by the adapter"
+        },
+        {
+          "check": "heldout_proxy_fails_closed",
+          "ok": true,
+          "detail": "blocked"
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "proxy_subset_universe_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": []
+        }
+      ]
+    },
+    {
+      "gate": 2,
+      "name": "Prompt/Input Validation",
+      "passed": true,
+      "checks": [
+        {
+          "check": "prompt_control_proof_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "b6855b9095fd54e6d8013b2e0ccb908b6f6319083421f18d36fc8e4a40a4a579",
+            "stripped_sparse_sha256": "b6855b9095fd54e6d8013b2e0ccb908b6f6319083421f18d36fc8e4a40a4a579",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": "fix: Update transifex source file (#7629) * Fix css glitch * Update translations"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-06ecf3a8e8de",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "ef021c734542d6d25849f10413ccf8a287459f0df5b4933e6dd818337ca3cb23",
+            "stripped_sparse_sha256": "ef021c734542d6d25849f10413ccf8a287459f0df5b4933e6dd818337ca3cb23",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": "Fixed #6201 -- Don't allow users to paste a page if it doesn't have translations"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-0daae01f2f65",
+          "ok": true,
+          "detail": 152
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "007982d20781a75fce75999661499b15ac1f18d0b1d58e00d09da33dc03b2b5f",
+            "stripped_sparse_sha256": "007982d20781a75fce75999661499b15ac1f18d0b1d58e00d09da33dc03b2b5f",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": "Deprecate the core Alias plugin (#6918) * Add a deprecation comment in the Alias"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-0fec81224889",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "e78b5c8f547129ce96061fa4f75e34451cdca879695d9cc7e8b20a711799e0a0",
+            "stripped_sparse_sha256": "e78b5c8f547129ce96061fa4f75e34451cdca879695d9cc7e8b20a711799e0a0",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": "fix: Replaced `languages` field from `Page` which used to become inconsistent (#"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-1031d20fca28",
+          "ok": true,
+          "detail": 144
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "8a7d121700679d5544e5bed46acb1ca72ea737b3c65d19121d876909ad7014bf",
+            "stripped_sparse_sha256": "8a7d121700679d5544e5bed46acb1ca72ea737b3c65d19121d876909ad7014bf",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": "More efficient implementation of get_text_enabled_plugins (#5816)"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-138abbb7e5f4",
+          "ok": true,
+          "detail": 148
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "bd9223835ccdef8e254e6a48a59f580ff7445480c2c506134124912efad9a587",
+            "stripped_sparse_sha256": "bd9223835ccdef8e254e6a48a59f580ff7445480c2c506134124912efad9a587",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": "Fixed #6205 -- Require \"Change advanced settings\" permission to change template "
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-1ff5bf9149b4",
+          "ok": true,
+          "detail": 152
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "efe88ae36258aa9fe213d0a2837ca48209240d895f43889bf94e2add8a44267c",
+            "stripped_sparse_sha256": "efe88ae36258aa9fe213d0a2837ca48209240d895f43889bf94e2add8a44267c",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": "Fix page tree w/ empty page contents and language-aware adding of new page conte"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-28ddd6d10308",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "69fe0a38da64b60b3043fe4868833d883c139034fc613ac51f08c862f0fdb2f6",
+            "stripped_sparse_sha256": "69fe0a38da64b60b3043fe4868833d883c139034fc613ac51f08c862f0fdb2f6",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": "fix: Grouper models w/o must not assume language grouper (#8194) * fix: Grouper "
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-2efae8e43bd6",
+          "ok": true,
+          "detail": 144
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "d413e5401f5c03bd9316bc9f6ae893c5110b5eb8541fc89a316bbcb20aeb6e90",
+            "stripped_sparse_sha256": "d413e5401f5c03bd9316bc9f6ae893c5110b5eb8541fc89a316bbcb20aeb6e90",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": "fix ruff"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-33fbdb18e5d4",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "0831611c8ca5e9d9750c3fbc7895db219085d5e661cab018d18ac4fd99657887",
+            "stripped_sparse_sha256": "0831611c8ca5e9d9750c3fbc7895db219085d5e661cab018d18ac4fd99657887",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": "Fixes #6189 -- Use only published languages when rendering LanguageChanger for p"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-39442083f18a",
+          "ok": true,
+          "detail": 152
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "6ac9b3b1c46c71325a8c267466815079777c928aa0a879f098e3ced733c72d34",
+            "stripped_sparse_sha256": "6ac9b3b1c46c71325a8c267466815079777c928aa0a879f098e3ced733c72d34",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": "fix: Correct ContentRenderer logic for toolbar and page content handling (#8092)"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-3f8fcb5fb63b",
+          "ok": true,
+          "detail": 144
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "72bba093e107c3327a3a8002dffc93be3272600e0441d8eca4a1b076393975ed",
+            "stripped_sparse_sha256": "72bba093e107c3327a3a8002dffc93be3272600e0441d8eca4a1b076393975ed",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": "feat: Improved delete page confirmation message (#8070) * first stab at delete c"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-47b63015feb1",
+          "ok": true,
+          "detail": 144
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "5a8b398fbca5513c4c578cf17121dc53f3260e4e4fd4e29c601720ab795ed2b8",
+            "stripped_sparse_sha256": "5a8b398fbca5513c4c578cf17121dc53f3260e4e4fd4e29c601720ab795ed2b8",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": "Optimize populating title cache for Page model. (#7177) * Optimize populating ti"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-497c3c67e813",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "36280155d8a5c25d521dfc2db7e17307a2d80fa4d75afdcc8256db2c4d039787",
+            "stripped_sparse_sha256": "36280155d8a5c25d521dfc2db7e17307a2d80fa4d75afdcc8256db2c4d039787",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": "Fixed #5752 -- Move pages relative to left or right siblings (#5770)"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-4b8089b8b686",
+          "ok": true,
+          "detail": 148
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "38495a04f3f23c28cca59ede09d50e45ca6880ba7a513e2ce92cc3c91ea05b5a",
+            "stripped_sparse_sha256": "38495a04f3f23c28cca59ede09d50e45ca6880ba7a513e2ce92cc3c91ea05b5a",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": "feat: graceful plugin exceptions (#7423) * Fix: Catch exceptions caused by missi"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-5ff38b521274",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "e32defa2463fb6b7db170be555accf1c09f6f2cb06d50ebaece9ededdfb79414",
+            "stripped_sparse_sha256": "e32defa2463fb6b7db170be555accf1c09f6f2cb06d50ebaece9ededdfb79414",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": "fix: Remove `can_publish` permission from django CMS 4 core (#7635) * Fix css gl"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-807a87b1de71",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "6710374e2f3bcd22635aafc3f65b3aceaaa6900790c066810d9fe73a4d3573ab",
+            "stripped_sparse_sha256": "6710374e2f3bcd22635aafc3f65b3aceaaa6900790c066810d9fe73a4d3573ab",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": "Deprecated CMSPluginBase attribute; removed deprecated CMSPlugin methods (#5829)"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-9e508ff1c41e",
+          "ok": true,
+          "detail": 148
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "4f86689218187d6ff89c813311e9bef5f2cf02e33cbc3aff29621e3f2adf681b",
+            "stripped_sparse_sha256": "4f86689218187d6ff89c813311e9bef5f2cf02e33cbc3aff29621e3f2adf681b",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": "Optionally disable the sideframe (#6553)"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-a1ac04d3f817",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "679c4ff12ce2940207c4191238e311bb3ec68a74f7089c59892a91ca41643999",
+            "stripped_sparse_sha256": "679c4ff12ce2940207c4191238e311bb3ec68a74f7089c59892a91ca41643999",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": "Rename default persist param"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-a7df58dc5ff3",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "498fbdb4b0f4c432b255230dacd53e82f10376a061daa0cc505708d6943c97b4",
+            "stripped_sparse_sha256": "498fbdb4b0f4c432b255230dacd53e82f10376a061daa0cc505708d6943c97b4",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": "Mark CMSPlugin.render_plugin as PendingDeprecation"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-a9e2a8d3b7a6",
+          "ok": true,
+          "detail": 148
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "5f203ccee49f9354ecc7c7c0d20a1fb52c456009d20ea65f34995051adf1925a",
+            "stripped_sparse_sha256": "5f203ccee49f9354ecc7c7c0d20a1fb52c456009d20ea65f34995051adf1925a",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": "Fix: Open new plugin window in language of toolbar not of page (#7632)"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-ac74c212719f",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "4d878907655904b80f714df3f876a85d9ad4b28e149dcb4da27eb362514e4e72",
+            "stripped_sparse_sha256": "4d878907655904b80f714df3f876a85d9ad4b28e149dcb4da27eb362514e4e72",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": "fix: Complete #8176 (#8178) * fix: Show toolbar on v4 endpoints even if `CMS_HID"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-ada585d3f358",
+          "ok": true,
+          "detail": 144
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "0dd1380e9fba8bb2941d3d377c7faa4ccbd663ee7ecd33e0bdfc3fa96173739e",
+            "stripped_sparse_sha256": "0dd1380e9fba8bb2941d3d377c7faa4ccbd663ee7ecd33e0bdfc3fa96173739e",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": "Add CMSAppExtension.ready which is called after all cms app configs are loaded ("
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-c02308fc5261",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "e445e957e386bc14ed07c3886418aa4e9a2dfb1a090f1a027f89e82c4c5c0229",
+            "stripped_sparse_sha256": "e445e957e386bc14ed07c3886418aa4e9a2dfb1a090f1a027f89e82c4c5c0229",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": "Added language to Page translation operations"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-ca16415b1022",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "bda89559fed1954dcd812c2f5ae2d069aa244f6b9b8ec71a8eb9eeee5f28fa69",
+            "stripped_sparse_sha256": "bda89559fed1954dcd812c2f5ae2d069aa244f6b9b8ec71a8eb9eeee5f28fa69",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": "Patch defects (#6930) Co-authored-by: Adam Murray <adam@Adams-MacBook-Pro-2.loca"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-d88932559b00",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "79c7d11dab14342301f04317db9f487d9b853efdf2b1d306d55720ec09d2c3cd",
+            "stripped_sparse_sha256": "79c7d11dab14342301f04317db9f487d9b853efdf2b1d306d55720ec09d2c3cd",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": "Removed resolve view"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-e3a23a7fc757",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "8c7e8d1f9c5ec9599812fc833a9bd5559453c01e51239d1de34ebadd62dc987d",
+            "stripped_sparse_sha256": "8c7e8d1f9c5ec9599812fc833a9bd5559453c01e51239d1de34ebadd62dc987d",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": "Provide a general get method that can be monkeypatched (#6806) * Provide a gener"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-e429b4584a16",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "6c6d40076c016869f4acde1028be91354113ebaa78bb083c1d051fc0e93d1843",
+            "stripped_sparse_sha256": "6c6d40076c016869f4acde1028be91354113ebaa78bb083c1d051fc0e93d1843",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": "chore: Merge `release/build` into `release/4.1.x` (#7729) * [4.1.0 release proce"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-e88032bf704c",
+          "ok": true,
+          "detail": 143
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "a5c6ae312fb0eac2f994305a5a9b76f5c65f20982bb571f55d52a27d134cab39",
+            "stripped_sparse_sha256": "a5c6ae312fb0eac2f994305a5a9b76f5c65f20982bb571f55d52a27d134cab39",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": "fix: Adjust tests for updated django 5.2 admin templates (#8095) * fix: Adjust t"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-f2c367ddc7b1",
+          "ok": true,
+          "detail": 144
+        },
+        {
+          "check": "prompt_control_proof_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": {
+            "PROMPT_CONTROLLED_DIFF": "PASS",
+            "stripped_full_sha256": "abb963521ab76199bd9fe2d062137ee94aca03005357ab9c2115b753a9b730ef",
+            "stripped_sparse_sha256": "abb963521ab76199bd9fe2d062137ee94aca03005357ab9c2115b753a9b730ef",
+            "byte_identical_after_policy_strip": true
+          }
+        },
+        {
+          "check": "sparse_policy_block_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": "SPARSE policy block present"
+        },
+        {
+          "check": "no_hidden_proxy_marker_in_prompt_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "check": "intent_present_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": "feat: Added pre-migrate hook to check version 4 is intentional (#7249)"
+        },
+        {
+          "check": "candidate_ids_1_n_djangocms-rc-ff6cb9b5dced",
+          "ok": true,
+          "detail": 140
+        },
+        {
+          "check": "zero_model_calls_prompt_render",
+          "ok": true,
+          "detail": "pure string rendering; no backend constructed"
+        }
+      ],
+      "rendered": {
+        "djangocms-rc-06ecf3a8e8de": {
+          "sparse_prompt_sha256": "1bfbc9422e5728f06b61c44a2ce7b6c0c4819e06a9efb68fe8418601228e7ba8",
+          "policy_block_present": true,
+          "stripped_sha256": "b6855b9095fd54e6d8013b2e0ccb908b6f6319083421f18d36fc8e4a40a4a579",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-0daae01f2f65": {
+          "sparse_prompt_sha256": "f7ff881bea3b6d178bf2a8689ab78f551a3650e2fbb016780bf73107ed2d1116",
+          "policy_block_present": true,
+          "stripped_sha256": "ef021c734542d6d25849f10413ccf8a287459f0df5b4933e6dd818337ca3cb23",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-0fec81224889": {
+          "sparse_prompt_sha256": "f66bf47ce6e4b3bfd713a24e187073e96c662c53a9a3885dd9bbe66a2819d34e",
+          "policy_block_present": true,
+          "stripped_sha256": "007982d20781a75fce75999661499b15ac1f18d0b1d58e00d09da33dc03b2b5f",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-1031d20fca28": {
+          "sparse_prompt_sha256": "e39a7269806f6bcdde976aea7f402e98004889e715dff2c197bbe27b5734633f",
+          "policy_block_present": true,
+          "stripped_sha256": "e78b5c8f547129ce96061fa4f75e34451cdca879695d9cc7e8b20a711799e0a0",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-138abbb7e5f4": {
+          "sparse_prompt_sha256": "539f4ee7d661a71f4cf2d79cdb713b071423232bdcead5ce279f0c62f45a19e8",
+          "policy_block_present": true,
+          "stripped_sha256": "8a7d121700679d5544e5bed46acb1ca72ea737b3c65d19121d876909ad7014bf",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-1ff5bf9149b4": {
+          "sparse_prompt_sha256": "d25eabd290b1fb2d84c428a49e9801a9be35090646343eff95a2e8efa9ea7944",
+          "policy_block_present": true,
+          "stripped_sha256": "bd9223835ccdef8e254e6a48a59f580ff7445480c2c506134124912efad9a587",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-28ddd6d10308": {
+          "sparse_prompt_sha256": "92b36725f436bfeaa2f4510beb7bf2fb9feac3fd8e04f0424aaac271d295e0a9",
+          "policy_block_present": true,
+          "stripped_sha256": "efe88ae36258aa9fe213d0a2837ca48209240d895f43889bf94e2add8a44267c",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-2efae8e43bd6": {
+          "sparse_prompt_sha256": "af91538edbec2ed9ee426823345c9f27408a76890cf3da777d429f8678cca09b",
+          "policy_block_present": true,
+          "stripped_sha256": "69fe0a38da64b60b3043fe4868833d883c139034fc613ac51f08c862f0fdb2f6",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-33fbdb18e5d4": {
+          "sparse_prompt_sha256": "0b1ad1956c787892f2dd0b9697399c16fb4f77afd9f8a9581d1c3b2ea129e2eb",
+          "policy_block_present": true,
+          "stripped_sha256": "d413e5401f5c03bd9316bc9f6ae893c5110b5eb8541fc89a316bbcb20aeb6e90",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-39442083f18a": {
+          "sparse_prompt_sha256": "9471ef36ed34fd37b1a9b7a8ca2abd1d66f654a892b556fa58a58816982054a6",
+          "policy_block_present": true,
+          "stripped_sha256": "0831611c8ca5e9d9750c3fbc7895db219085d5e661cab018d18ac4fd99657887",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-3f8fcb5fb63b": {
+          "sparse_prompt_sha256": "b7c02ef6262dff1c48b637a570c7b3d47ab7d0549701eb830c9c5124f6145843",
+          "policy_block_present": true,
+          "stripped_sha256": "6ac9b3b1c46c71325a8c267466815079777c928aa0a879f098e3ced733c72d34",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-47b63015feb1": {
+          "sparse_prompt_sha256": "f5e58d437424f2aa3e7fb9f4c122e6d151719c9aeec008e55e57f3a8229de394",
+          "policy_block_present": true,
+          "stripped_sha256": "72bba093e107c3327a3a8002dffc93be3272600e0441d8eca4a1b076393975ed",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-497c3c67e813": {
+          "sparse_prompt_sha256": "1895ad8213034af4479156298d0f87b31caeadc88ee158b920705c9e98d3242f",
+          "policy_block_present": true,
+          "stripped_sha256": "5a8b398fbca5513c4c578cf17121dc53f3260e4e4fd4e29c601720ab795ed2b8",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-4b8089b8b686": {
+          "sparse_prompt_sha256": "c3e0d3222af245502285cc882628c878b38bfa21883fc829900ec0ea430a4774",
+          "policy_block_present": true,
+          "stripped_sha256": "36280155d8a5c25d521dfc2db7e17307a2d80fa4d75afdcc8256db2c4d039787",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-5ff38b521274": {
+          "sparse_prompt_sha256": "37028b0a41319a4a213db08559b024bd84a6e2972ecf03ad64468f7dc34bbd11",
+          "policy_block_present": true,
+          "stripped_sha256": "38495a04f3f23c28cca59ede09d50e45ca6880ba7a513e2ce92cc3c91ea05b5a",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-807a87b1de71": {
+          "sparse_prompt_sha256": "d89058c592e5860460b9129cb0f17615badb71825014c969ac63f97424d22b15",
+          "policy_block_present": true,
+          "stripped_sha256": "e32defa2463fb6b7db170be555accf1c09f6f2cb06d50ebaece9ededdfb79414",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-9e508ff1c41e": {
+          "sparse_prompt_sha256": "9efbeec63468e31ca7ca5c5a96b1b7b05a74663092269d10fee6098fbfc5aada",
+          "policy_block_present": true,
+          "stripped_sha256": "6710374e2f3bcd22635aafc3f65b3aceaaa6900790c066810d9fe73a4d3573ab",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-a1ac04d3f817": {
+          "sparse_prompt_sha256": "d45becae06de8c45a8397d16ad0c796184426d3e70618ea658b8ed1e55d78c3b",
+          "policy_block_present": true,
+          "stripped_sha256": "4f86689218187d6ff89c813311e9bef5f2cf02e33cbc3aff29621e3f2adf681b",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-a7df58dc5ff3": {
+          "sparse_prompt_sha256": "d8db8bc4b79af6c583948364fa7a16f27012653092994744e96be7cab40d8b3f",
+          "policy_block_present": true,
+          "stripped_sha256": "679c4ff12ce2940207c4191238e311bb3ec68a74f7089c59892a91ca41643999",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-a9e2a8d3b7a6": {
+          "sparse_prompt_sha256": "b57298d5f3d5ba82a5270c9f1bbb9f29fc271aa84f8dae8fad4fd5060e35dfd2",
+          "policy_block_present": true,
+          "stripped_sha256": "498fbdb4b0f4c432b255230dacd53e82f10376a061daa0cc505708d6943c97b4",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-ac74c212719f": {
+          "sparse_prompt_sha256": "ab21d575f1f95003035a413fda26f48aaa24f8b4fa06de48ba48cec0a723be1f",
+          "policy_block_present": true,
+          "stripped_sha256": "5f203ccee49f9354ecc7c7c0d20a1fb52c456009d20ea65f34995051adf1925a",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-ada585d3f358": {
+          "sparse_prompt_sha256": "31dae5f4d7054d136e447c726f9ab69e53b9b80fea655d80389c6e99f47bc2f6",
+          "policy_block_present": true,
+          "stripped_sha256": "4d878907655904b80f714df3f876a85d9ad4b28e149dcb4da27eb362514e4e72",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-c02308fc5261": {
+          "sparse_prompt_sha256": "c585b71ebd1527a92e11b0590b900543c8967c7390513a848a6a0b90a889aa4f",
+          "policy_block_present": true,
+          "stripped_sha256": "0dd1380e9fba8bb2941d3d377c7faa4ccbd663ee7ecd33e0bdfc3fa96173739e",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-ca16415b1022": {
+          "sparse_prompt_sha256": "ce1501fac606ed85cc926bb9b3befeab06b53f42d251e3dd4fa5040980b6c04d",
+          "policy_block_present": true,
+          "stripped_sha256": "e445e957e386bc14ed07c3886418aa4e9a2dfb1a090f1a027f89e82c4c5c0229",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-d88932559b00": {
+          "sparse_prompt_sha256": "1b0eb36668c69e272e68334148371c1083cc49946e96c434c1608dae6865ae6b",
+          "policy_block_present": true,
+          "stripped_sha256": "bda89559fed1954dcd812c2f5ae2d069aa244f6b9b8ec71a8eb9eeee5f28fa69",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-e3a23a7fc757": {
+          "sparse_prompt_sha256": "83573f9889f88bb8ca18b0f04c8c9a56077afca4b79d2e219393085683992929",
+          "policy_block_present": true,
+          "stripped_sha256": "79c7d11dab14342301f04317db9f487d9b853efdf2b1d306d55720ec09d2c3cd",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-e429b4584a16": {
+          "sparse_prompt_sha256": "b534b20669dad670e36733366e48f63d41a034af3a26d4f83f9a018773b3a473",
+          "policy_block_present": true,
+          "stripped_sha256": "8c7e8d1f9c5ec9599812fc833a9bd5559453c01e51239d1de34ebadd62dc987d",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-e88032bf704c": {
+          "sparse_prompt_sha256": "2f8ade00cf4f2265a8f5f2f30502b0f4931f30cb96d57f9f0de713547a4a7520",
+          "policy_block_present": true,
+          "stripped_sha256": "6c6d40076c016869f4acde1028be91354113ebaa78bb083c1d051fc0e93d1843",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-f2c367ddc7b1": {
+          "sparse_prompt_sha256": "479e1a83658b121323e4dd2eca243185b11605b85654a999582c6e0348e3f54e",
+          "policy_block_present": true,
+          "stripped_sha256": "a5c6ae312fb0eac2f994305a5a9b76f5c65f20982bb571f55d52a27d134cab39",
+          "prompt_control_proof": "PASS"
+        },
+        "djangocms-rc-ff6cb9b5dced": {
+          "sparse_prompt_sha256": "33c8f834159f00e6f217276966d760a498a2d8c72ab5ffa710da02bee2eda563",
+          "policy_block_present": true,
+          "stripped_sha256": "abb963521ab76199bd9fe2d062137ee94aca03005357ab9c2115b753a9b730ef",
+          "prompt_control_proof": "PASS"
+        }
+      }
+    },
+    {
+      "gate": 3,
+      "name": "Pipeline Smoke Test",
+      "passed": true,
+      "checks": [
+        {
+          "check": "prompt_renders",
+          "ok": true,
+          "detail": {
+            "prompt_len": 16366
+          }
+        },
+        {
+          "check": "mock_sparse_decode_valid",
+          "ok": true,
+          "detail": {
+            "valid": true,
+            "count": 140
+          }
+        },
+        {
+          "check": "mock_metrics_exact_fixture",
+          "ok": true,
+          "detail": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "fnr": 0.0
+          }
+        },
+        {
+          "check": "zero_model_calls_smoke",
+          "ok": true,
+          "detail": "fixture encode/decode only"
+        }
+      ]
+    },
+    {
+      "gate": 4,
+      "name": "Dry Run",
+      "passed": true,
+      "checks": [
+        {
+          "check": "slice_cell_count_6",
+          "ok": true,
+          "detail": 6
+        },
+        {
+          "check": "slice_run_ids_unique",
+          "ok": true,
+          "detail": 6
+        },
+        {
+          "check": "row_shape_contract",
+          "ok": true,
+          "detail": "13 fields"
+        },
+        {
+          "check": "frozen_config_slice",
+          "ok": true,
+          "detail": "sparse_v2 / qwen3-coder / deepinfra-turbo / temp0 / cap16384"
+        },
+        {
+          "check": "zero_model_calls_dry_run",
+          "ok": true,
+          "detail": "manifest-shape proof only"
+        }
+      ]
+    },
+    {
+      "gate": 5,
+      "name": "Integration Test",
+      "passed": true,
+      "checks": [
+        {
+          "check": "manifest_exactly_90",
+          "ok": true,
+          "detail": 90
+        },
+        {
+          "check": "manifest_30_unique_cases",
+          "ok": true,
+          "detail": 30
+        },
+        {
+          "check": "manifest_three_reps_each",
+          "ok": true,
+          "detail": "30 cases x 3 reps = 90"
+        },
+        {
+          "check": "manifest_sparse_only",
+          "ok": true,
+          "detail": [
+            "sparse_v2"
+          ]
+        },
+        {
+          "check": "manifest_protocol_frozen",
+          "ok": true,
+          "detail": "real-commit-p1-v1.0.0"
+        },
+        {
+          "check": "run_records_schema_fields",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "n_fields": 60
+          }
+        },
+        {
+          "check": "raw_sha256_sidecar_contract",
+          "ok": true,
+          "detail": {
+            "raw_bytes": 42,
+            "sha256": "529d33075bfbefc1cffb60b5ee3f750eecb924625522eb9396a800c7a918da28"
+          }
+        },
+        {
+          "check": "zero_model_calls_integration",
+          "ok": true,
+          "detail": "schema + manifest proof only"
+        }
+      ]
+    },
+    {
+      "gate": 6,
+      "name": "Metric Verification",
+      "passed": true,
+      "checks": [
+        {
+          "check": "micro_precision_recall_f1_recomputed",
+          "ok": true,
+          "detail": {
+            "computed": {
+              "tp": 3,
+              "fp": 1,
+              "fn": 0,
+              "precision": 0.75,
+              "recall": 1.0,
+              "f1": 0.8571428571428571,
+              "fnr": 0.0,
+              "full_recall": true,
+              "proxy_size": 3,
+              "predicted_size": 4
+            },
+            "expected": {
+              "precision": 0.75,
+              "recall": 1.0,
+              "f1": 0.8571428571428571
+            }
+          }
+        },
+        {
+          "check": "empty_prediction_fail_closed_metrics",
+          "ok": true,
+          "detail": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fnr": 1.0,
+            "full_recall": false,
+            "proxy_size": 1,
+            "predicted_size": 0
+          }
+        },
+        {
+          "check": "sparse_explicit_preserve_rejected",
+          "ok": true,
+          "detail": "SPARSE-v2 must not contain explicit PRESERVE rows"
+        }
+      ]
+    }
+  ],
+  "all_passed": true,
+  "audit": {
+    "passed": true,
+    "checks": [
+      {
+        "check": "features_no_proxy_loader",
+        "ok": true,
+        "detail": "extractor is proxy-free by construction"
+      },
+      {
+        "check": "heldout_never_in_manifest",
+        "ok": true,
+        "detail": "no HELD_OUT_TEST case in any of the 90 cells"
+      },
+      {
+        "check": "feature_extraction_deterministic",
+        "ok": true,
+        "detail": "byte-identical feature dicts"
+      },
+      {
+        "check": "task_level_unit_30_tasks",
+        "ok": true,
+        "detail": "N=30 independent tasks; 3 nested repetitions per task"
+      },
+      {
+        "check": "phase_b_gate_a_precondition",
+        "ok": true,
+        "detail": "TRAIN/VALIDATION Sparse-v2 predictions absent before this run"
+      }
+    ],
+    "ran_at": "2026-09-16T05:30:29.810338+00:00"
+  },
+  "ran_at": "2026-09-16T05:30:29.811342+00:00"
+}

@@ -5,49 +5,47 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `research/omission-risk-feature-study-v1` (to be merged into `main`)
-**HEAD base:** `a973a2a` (main, research-harness milestone closed + DEV tag)
+**Branch:** `research/omission-risk-sparse-v2-inference-v1` (to be merged into `main`)
+**HEAD base:** `15d1b3f` (main, omission-risk milestone closed + DEV tag)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** OMISSION_RISK_FEATURE_STUDY_V1 — T3 feature-family study (ZERO new
-scientific LLM/API calls; deterministic-first-pass development analysis
-COMPLETE; registered Sparse-v2-label study DEFERRED).
+**Task:** OMISSION_RISK_FEATURE_STUDY_V1 — registered Sparse-v2-label
+development-inference EXECUTED (approved 90-cell run, TRAIN/VALIDATION only;
+90/90 valid; 490,747 tokens / $0.184 within the 600,000-token AND $0.30 hard
+stop; class-balance gate FAILED → descriptive/single-feature only, no
+multivariable RiskScorer).
 
 ---
 
 ## Now executing
 
-- **BLOCK COMPLETE AS A DEVELOPMENT ANALYSIS.** The Omission-Risk Feature Study
-  V1 milestone is closed: Phase-B preflight A–G + six T3 gates + independent
-  audit PASS; deterministic-first-pass development analysis (metadata-corpus
-  BM25@K, 83 features, n=30) reported with a near-chance result; registered
-  Sparse-v2-label study DEFERRED. Awaiting Ahmed's decision on the frozen
-  DEVELOPMENT-INFERENCE protocol (`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`;
-  90-cell Sparse-v2 run, ~$0.19). No LLM call will be made without approval.
+- **REGISTERED SPARSE-v2-LABEL STUDY COMPLETE + AUDITED.** Approved 90-cell
+  Sparse-v2 development-inference run on TRAIN/VALIDATION executed: 90/90
+  valid, 0 failures, 0 truncations, raw responses + sha256 sidecars persisted
+  and verified. Task-level Sparse-v2 `has_fn` prevalence 86.7% (26/30, 4
+  negatives); class-balance gate FAILED (neg < 10) → NO multivariable
+  RiskScorer; descriptive/single-feature rerun only. Report
+  `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`; audit
+  `reports/OMISSION_RISK_INFERENCE_AUDIT.md` (31/31 PASS). Awaiting merge to
+  main + DEV tag + export.
 
 ## Last completed task
 
-- Omission-Risk Feature Study V1 (deterministic-first-pass development
-  analysis): `research/omission-risk-feature-study-v1/*`, reports
-  `reports/OMISSION_RISK_FEATURE_STUDY_V1_REPORT.md` / `_AUDIT.md`,
-  `reports/OMISSION_RISK_REPOSITORY_EVIDENCE_AUDIT.md`,
-  `docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`; 19 new unit tests;
-  ruff + mypy clean; gates JSON persisted
-  (`reports/omission_risk_feature_study_v1_gates.json`). Literature: Shichao
-  Zhang line + 8 priority rows verified (living review V1.1).
+- Sparse-v2 development inference (90 cells) + label computation + feature
+  analysis rerun + comparison vs deterministic first pass + final report +
+  independent audit (all PASS). Run evidence:
+  `research/omission-risk-feature-study-v1/sparse_v2_trainval_*` (+ runs/raw
+  sidecars); analysis: `research/omission-risk-feature-study-v1/sparse_v2_label_analysis/`;
+  gates: `reports/omission_risk_inference_gates.json`.
 
 ## Immediate next step
 
-- **STOP / AWAIT DECISION.** Review `docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`
-  and approve (or reject) the 90-cell Sparse-v2 development-inference run on
-  TRAIN/VALIDATION (~$0.19) — OR accept the deterministic-first-pass
-  development evidence as the delivered output and defer the registered study.
-  Do NOT start omission-risk training, Saleor scientific execution, LocAgent
-  scientific calls, selective escalation, or new model runs.
+- **Merge to main + DEV tag + fresh export (fixed hygiene).** Commit →
+  push research branch → merge main → post-merge verify → push main → DEV tag
+  `omission-risk-sparse-v2-inference-v1-dev-2026-09-16` → fresh export without
+  embedding `dist/pilot-kaggle-upload.zip` in a LIGHT export. Then STOP.
 
 ## Blockers
 
-- None for the delivered development analysis. New scientific LLM/API calls are
-  BLOCKED pending Ahmed's approval of the DEVELOPMENT-INFERENCE protocol.
 - Pre-existing environmental: pinned djangocms git cache absent
   (benchmark_data/repositories/djangocms) — parent-commit corpus not
   re-materializable; documented in the repository evidence audit.

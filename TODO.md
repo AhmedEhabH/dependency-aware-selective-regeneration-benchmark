@@ -8,13 +8,17 @@
 (append-only). Protocol v2 CURRENT PHASE = **Repository change localization /
 impact selection** (`docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`).
 **Current phase:** Paper submitted (ICCI shorthand; IEEE-format V20 artifact)
-+ **OMISSION-RISK FEATURE STUDY V1 COMPLETE AS A DETERMINISTIC-FIRST-PASS
-DEVELOPMENT ANALYSIS (2026-09-16; T3; ZERO new LLM/API calls; Phase-B preflight
-A–G + six gates + independent audit PASS; registered Sparse-v2-label study
-DEFERRED; frozen DEVELOPMENT-INFERENCE protocol produced —
-`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md` — ~90 cells / ~$0.19,
-gated on Ahmed's approval; DEV tag
-`omission-risk-feature-study-v1-dev-2026-09-16`)** +
++ **OMISSION-RISK FEATURE STUDY V1 COMPLETE + AUDITED IN TWO STAGES
+(2026-09-16). Stage 1 deterministic-first-pass development analysis (T3; ZERO
+new LLM/API calls; Phase-B preflight A–G + six gates + audit PASS; DEV tag
+`omission-risk-feature-study-v1-dev-2026-09-16`). Stage 2 registered
+Sparse-v2-label development-inference EXECUTED (approved 90-cell run,
+TRAIN/VALIDATION only; 90/90 valid; 490,747 tokens / $0.184 within the frozen
+600,000-token AND $0.30 hard stop; Sparse-v2 `has_fn` prevalence 86.7% (26/30,
+4 negatives); class-balance gate FAILED → descriptive/single-feature only, NO
+multivariable RiskScorer; 3/97 features above the random band (4.85 expected by
+chance); report `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`; audit
+PASS; DEV tag `omission-risk-sparse-v2-inference-v1-dev-2026-09-16`)** +
 **PLUGGABLE RESEARCH HARNESS V1 + LIVING SYSTEMATIC REVIEW V1 COMPLETE AND
 AUDITED (2026-09-16; T3 reusable experiment architecture; ZERO API; six T3
 gates + audit PASS; Protocol-A outputs reproduced byte-for-byte through the
