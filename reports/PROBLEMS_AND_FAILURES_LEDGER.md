@@ -133,3 +133,14 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
 - **Unresolved risk:** none.
 - **Scientific impact:** pilot reported with exact ceilings overshoot; no blended P5R metric.
 - **Follow-up:** none.
+
+## PF-012 — Saleor bundle build: 52/150 DEV blocked by Windows git archive path
+- **Where:** Saleor case-bundle build (2026-09-17).
+- **Symptoms:** git archive fails on a cassette path with ? and [ ] characters
+  (test_get_oembed_data[...].yaml).
+- **Root cause:** Windows git archive rejects the filename; build_parent_universe_and_graph raises.
+- **Attempted fixes:** none tonight (documented).
+- **Outcome:** 98/150 DEV bundles built and valid; 52 blocked; TEST/RESERVE untouched.
+- **Unresolved risk:** SALEOR INFERENCE READY not reached.
+- **Scientific impact:** none (no inference run; no TEST exposure).
+- **Follow-up:** POSIX re-run or minimal cassette-exclusion workaround (deferred).
