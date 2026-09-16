@@ -1,0 +1,21 @@
+flowchart TD
+    M1A["M1A<br/>4096 feasibility boundary"]
+    M1B["M1B<br/>16K controlled encoding ablation"]
+    M3["M3<br/>broadcast graph ablation"]
+    M4A1["M4A-1<br/>real-commit miner"]
+    M4A2["M4A-2<br/>40-case corpus + split freeze"]
+    P1["P1 / M4A-3<br/>real held-out Full vs Sparse"]
+    P5["P5<br/>LocAgent shared protocol"]
+    P2["P2<br/>selective omission verification"]
+    P3["P3<br/>Saleor replication"]
+    M2["M2<br/>serialization-density stress"]
+
+    M1A --> M1B
+    M1B --> M3
+    M1B --> M4A1
+    M4A1 --> M4A2 --> P1
+    P1 --> P5
+    M3 --> P2
+    P1 --> P2
+    M4A2 --> P3
+    M1B --> M2

@@ -82,3 +82,9 @@ research/locagent-p5b/evidence_p5b_stalled/*.json text eol=lf
 # checkout-state-independent on Windows (core.autocrlf).
 research/omission-risk-feature-study-v1/sparse_v2_trainval_runs/raw/*.txt text eol=lf
 research/omission-risk-feature-study-v1/sparse_v2_trainval_runs/raw/*.sha256 text eol=lf
+
+# RealCommitImpactDataset-v2 Sparse development-inference raw-response evidence
+# is byte-frozen with recorded SHA-256 sidecars computed from canonical LF
+# content (same convention as v1).
+research/omission-risk-feature-study-v1/v2_trainval/v2_trainval_runs/raw/*.txt text eol=lf
+research/omission-risk-feature-study-v1/v2_trainval/v2_trainval_runs/raw/*.sha256 text eol=lf

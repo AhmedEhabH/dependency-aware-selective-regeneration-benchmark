@@ -168,3 +168,37 @@ full citations):
 **Experimental implication:** the adaptive-K rules in the omission-risk study
 operationalize principle 1; the cost-sensitive analysis operationalizes
 principle 4; the pre-indexed candidate universe operationalizes principle 3.
+
+## 10. Novelty audit (2026-09-16, Milestone H)
+
+**Do NOT claim as novel by themselves:**
+- graph localization (LocAgent/GraphLocator/RepoGraph line);
+- repository memory (RepoCoder/RepoAgent line);
+- intent-aware impact expansion (classical CIA/ripple-effect line);
+- adaptive K (Shichao Zhang line, verified);
+- generic uncertainty-triggered escalation.
+
+**Strongest defensible FUTURE novelty candidate:**
+> omission-aware, cost-sensitive bounded verification of an explicit sparse
+> file-level impact policy under matched inference budgets —
+
+with a candidate-level fallback if task-level routing remains unsupported
+(Route B). Marked **`CANDIDATE NOVELTY — NOT YET CLAIMED`** until literature
+and experiment support it.
+
+**Classical / modern CIA and omission-recovery additions to the matrix** (see
+`research/literature/review_matrix.csv`; status SEEDED):
+- Classical change-impact analysis / ripple effect (RIPPLE line): relevant for
+  the Route B candidate-level verifier and the classical CIA baseline.
+- Candidate-level omission recovery / false-negative recovery literature:
+  relevance — identifying which non-selected candidates deserve a second look
+  is the pre-registered Route B question; no single canonical system pinned.
+
+**Where the evidence leaves the thesis (after M1A-M3 + P1/P5 + cheap baselines +
+Sparse omission-risk v1 + V2):** the defensible proven contributions are
+(1) sparse explicit impact-plan representation with controlled evidence,
+(2) a reproducible real-commit impact-localization dataset/protocol,
+(3) fair cheap/classical/LLM/agent comparison under common file-level metrics,
+(4) an honest negative for task-level cheap risk modeling on current evidence,
+and (5) the pre-registered Route A/B bounded-verification mechanism. No
+positive algorithmic result is promised.
