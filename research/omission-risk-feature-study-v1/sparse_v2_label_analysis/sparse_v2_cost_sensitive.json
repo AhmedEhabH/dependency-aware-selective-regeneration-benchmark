@@ -1,0 +1,73 @@
+{
+  "n_tasks": 6,
+  "fn_pos_mean": 1.8,
+  "decision_rule": "escalate iff p_hat(t) * ratio * E[|FN||has_fn] > 1 (expected omission loss > expected verification cost = 1)",
+  "ratios": {
+    "2": {
+      "ratio": 2,
+      "escalation_rate": 1.0,
+      "n_escalated": 6,
+      "risky_recall_among_escalated": 1.0,
+      "cost_total": 6.0,
+      "cost_never_escalate": 17.987457582168986,
+      "cost_always_escalate": 6.0,
+      "cost_saving_vs_always": 0.0,
+      "cost_vs_never_ratio": 0.3335657622869291
+    },
+    "5": {
+      "ratio": 5,
+      "escalation_rate": 1.0,
+      "n_escalated": 6,
+      "risky_recall_among_escalated": 1.0,
+      "cost_total": 6.0,
+      "cost_never_escalate": 44.968643955422465,
+      "cost_always_escalate": 6.0,
+      "cost_saving_vs_always": 0.0,
+      "cost_vs_never_ratio": 0.13342630491477164
+    },
+    "10": {
+      "ratio": 10,
+      "escalation_rate": 1.0,
+      "n_escalated": 6,
+      "risky_recall_among_escalated": 1.0,
+      "cost_total": 6.0,
+      "cost_never_escalate": 89.93728791084493,
+      "cost_always_escalate": 6.0,
+      "cost_saving_vs_always": 0.0,
+      "cost_vs_never_ratio": 0.06671315245738582
+    },
+    "20": {
+      "ratio": 20,
+      "escalation_rate": 1.0,
+      "n_escalated": 6,
+      "risky_recall_among_escalated": 1.0,
+      "cost_total": 6.0,
+      "cost_never_escalate": 179.87457582168986,
+      "cost_always_escalate": 6.0,
+      "cost_saving_vs_always": 0.0,
+      "cost_vs_never_ratio": 0.03335657622869291
+    },
+    "50": {
+      "ratio": 50,
+      "escalation_rate": 1.0,
+      "n_escalated": 6,
+      "risky_recall_among_escalated": 1.0,
+      "cost_total": 6.0,
+      "cost_never_escalate": 449.68643955422465,
+      "cost_always_escalate": 6.0,
+      "cost_saving_vs_always": 0.0,
+      "cost_vs_never_ratio": 0.013342630491477162
+    },
+    "100": {
+      "ratio": 100,
+      "escalation_rate": 1.0,
+      "n_escalated": 6,
+      "risky_recall_among_escalated": 1.0,
+      "cost_total": 6.0,
+      "cost_never_escalate": 899.3728791084493,
+      "cost_always_escalate": 6.0,
+      "cost_saving_vs_always": 0.0,
+      "cost_vs_never_ratio": 0.006671315245738581
+    }
+  }
+}

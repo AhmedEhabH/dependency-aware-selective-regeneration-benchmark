@@ -314,3 +314,30 @@ execution. Entries are never edited after append; corrections are new entries.
   `docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`.
 - **Rationale:** zero-cost discipline + strict data rule + truthful status.
 - **Impact:** the milestone STOPS at the protocol + approval request.
+
+## Decision P18 — Sparse-v2-label development-inference EXECUTED (2026-09-16)
+
+- **Status:** ADOPTED (this task; supersedes the P15/P17 deferral for this run)
+- **Context:** Ahmed APPROVED the frozen DEVELOPMENT-INFERENCE protocol with the
+  RECOMMENDED configuration (90 cells, TRAIN/VALIDATION only, sparse_v2 only,
+  3 reps, Qwen3-Coder @ deepinfra/turbo, temp 0, cap 16384, 600,000-token AND
+  $0.30 hard stop).
+- **Decision:** Execute the 90-cell run after the six frozen gates + leakage
+  audit PASS; persist every raw response/usage/sha256/failure/retry/provenance;
+  compute task-level Sparse-v2 `has_fn` (any-FN-over-reps, N=30); report
+  prevalence BEFORE fitting; if either class < 10 independent tasks do NOT fit a
+  multivariable RiskScorer (descriptive/single-feature only); rerun the frozen
+  omission-risk feature analysis on the real Sparse-v2 labels; compare with the
+  deterministic first-pass findings; independent audit; then commit → push →
+  merge main → verify → push → DEV tag → fresh export.
+- **Result:** 90/90 valid, 490,747 tokens / $0.184 (both ceilings respected);
+  Sparse-v2 `has_fn` prevalence **86.7% (26/30, 4 negatives)**; class-balance
+  gate FAILED → no multivariable RiskScorer; 3/97 features above the random band
+  (4.85 expected by chance) — a retrieval-peakiness cluster now
+  direction-consistent; Sparse–BM25 disagreement anti-predictive; adaptive-K no
+  help; always-escalate dominates; RiskScorer v1 NOT statistically justified.
+- **Impact:** `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md` (answers the
+  mandated questions); `reports/OMISSION_RISK_INFERENCE_AUDIT.md` (31/31 PASS);
+  run evidence `research/omission-risk-feature-study-v1/sparse_v2_trainval_*`;
+  analysis `research/omission-risk-feature-study-v1/sparse_v2_label_analysis/`;
+  `data_availability.json` updated (TRAIN/VALIDATION sparse_v2 available).

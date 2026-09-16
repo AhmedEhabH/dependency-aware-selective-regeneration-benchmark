@@ -115,19 +115,23 @@ Adaptive-k = cross-domain pattern.
   as a design pattern but its attribution to this paper is removed.
 
 ### New dispositions from Omission-Risk Feature Study V1 (development evidence)
-- **I8 (NEW, WATCH)**: Retrieval peakiness/confidence as an (inverse) omission
-  risk signal — tasks where BM25 is sharply peaked (high top1-top2 margin,
-  high top-3 mean, high concentration) tended to have MORE omissions in the
-  deterministic-first-pass development data. |AUROC-0.5| ~0.2-0.27, just above
-  the random band, direction OPPOSITE to the pre-registered 'more confident =
-  safer' assumption. Hypothesis-generating only; must be re-tested on the
-  registered Sparse-v2 labels (requires approved development inference) before
-  entering RiskScorer v1.
-- **I9 (NEW, DEFERRED)**: The registered Sparse-v2-label omission-risk study is
-  DEFERRED pending the frozen DEVELOPMENT-INFERENCE protocol (90-cell Sparse-v2
-  run on TRAIN/VALIDATION, ~$0.19; see
-  docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md). No new LLM calls
-  without Ahmed's approval.
+- **I8 (NEW, WATCH — UPDATED 2026-09-16 after the Sparse-v2-label run)**: Retrieval
+  peakiness/confidence as an (inverse) omission-risk signal. On the deterministic
+  first-pass label the direction was OPPOSITE to the pre-registered 'more
+  confident = safer' assumption. On the REAL Sparse-v2 labels the
+  retrieval-peakiness cluster (bm25_zero_count AUROC 0.837 direction-consistent,
+  with bm25_nonzero_frac / bm25_relthresh_count) becomes the only 3/97 features
+  above the random band — now CONSISTENT with the pre-registered direction
+  (peaked/confident retrieval → more omissions) — but the count is still within
+  the chance expectation (4.85). Hypothesis-generating only; NOT yet eligible
+  for RiskScorer v1.
+- **I9 (NEW, EXECUTED 2026-09-16)**: The registered Sparse-v2-label
+  omission-risk study was executed via the approved DEVELOPMENT-INFERENCE
+  protocol (90-cell Sparse-v2 run on TRAIN/VALIDATION; 90/90 valid; 490,747
+  tokens / $0.184). Outcome: prevalence 86.7% (26/30, 4 negatives);
+  class-balance gate FAILED → no multivariable RiskScorer; no reliable signal
+  survives the random band; see
+  reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md.
 - **I6 disposition update**: risk-gated operating-point evaluation was
   executed on the deterministic first-pass label; single features were
   statistically indistinguishable from random (n=30), so no operating point was

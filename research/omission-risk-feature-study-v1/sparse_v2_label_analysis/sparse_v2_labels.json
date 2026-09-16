@@ -1,0 +1,612 @@
+{
+  "label_definition": "has_fn(t) = 1 iff the Sparse-v2 prediction omits >=1 proxy-positive file; pre-registered aggregation = any-FN-over-reps with task-level unit (N=30).",
+  "n_tasks": 30,
+  "n_positive": 26,
+  "n_negative": 4,
+  "prevalence": 0.8666666666666667,
+  "class_balance_gate_ok": false,
+  "multivariable_fitted": false,
+  "reason": "multivariable RiskScorer NOT fitted: class-balance gate requires >=10 independent tasks per class; analysis is descriptive/single-feature only.",
+  "tasks": {
+    "djangocms-rc-06ecf3a8e8de": {
+      "case_id": "djangocms-rc-06ecf3a8e8de",
+      "split": "TRAIN",
+      "proxy_size": 1,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        0,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        0,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-0daae01f2f65": {
+      "case_id": "djangocms-rc-0daae01f2f65",
+      "split": "VALIDATION",
+      "proxy_size": 5,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        4,
+        4,
+        4
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 4,
+      "fn_rate": 0.8,
+      "severity": "complete"
+    },
+    "djangocms-rc-0fec81224889": {
+      "case_id": "djangocms-rc-0fec81224889",
+      "split": "VALIDATION",
+      "proxy_size": 3,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        0,
+        1,
+        1
+      ],
+      "rep_has_fn": [
+        0,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 0.3333333333333333,
+      "severity": "partial"
+    },
+    "djangocms-rc-1031d20fca28": {
+      "case_id": "djangocms-rc-1031d20fca28",
+      "split": "VALIDATION",
+      "proxy_size": 9,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        8,
+        8,
+        8
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 8,
+      "fn_rate": 0.8888888888888888,
+      "severity": "complete"
+    },
+    "djangocms-rc-138abbb7e5f4": {
+      "case_id": "djangocms-rc-138abbb7e5f4",
+      "split": "TRAIN",
+      "proxy_size": 1,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        0,
+        0,
+        0
+      ],
+      "rep_has_fn": [
+        0,
+        0,
+        0
+      ],
+      "has_fn": 0,
+      "fn_count": 0,
+      "fn_rate": 0.0,
+      "severity": "none"
+    },
+    "djangocms-rc-1ff5bf9149b4": {
+      "case_id": "djangocms-rc-1ff5bf9149b4",
+      "split": "TRAIN",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        1,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 0.5,
+      "severity": "complete"
+    },
+    "djangocms-rc-28ddd6d10308": {
+      "case_id": "djangocms-rc-28ddd6d10308",
+      "split": "TRAIN",
+      "proxy_size": 3,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        3,
+        3,
+        3
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 3,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-2efae8e43bd6": {
+      "case_id": "djangocms-rc-2efae8e43bd6",
+      "split": "TRAIN",
+      "proxy_size": 1,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        0,
+        0,
+        0
+      ],
+      "rep_has_fn": [
+        0,
+        0,
+        0
+      ],
+      "has_fn": 0,
+      "fn_count": 0,
+      "fn_rate": 0.0,
+      "severity": "none"
+    },
+    "djangocms-rc-33fbdb18e5d4": {
+      "case_id": "djangocms-rc-33fbdb18e5d4",
+      "split": "TRAIN",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        2,
+        2,
+        2
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 2,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-39442083f18a": {
+      "case_id": "djangocms-rc-39442083f18a",
+      "split": "TRAIN",
+      "proxy_size": 1,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        1,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-3f8fcb5fb63b": {
+      "case_id": "djangocms-rc-3f8fcb5fb63b",
+      "split": "TRAIN",
+      "proxy_size": 1,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        0,
+        0,
+        0
+      ],
+      "rep_has_fn": [
+        0,
+        0,
+        0
+      ],
+      "has_fn": 0,
+      "fn_count": 0,
+      "fn_rate": 0.0,
+      "severity": "none"
+    },
+    "djangocms-rc-47b63015feb1": {
+      "case_id": "djangocms-rc-47b63015feb1",
+      "split": "VALIDATION",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        1,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 0.5,
+      "severity": "complete"
+    },
+    "djangocms-rc-497c3c67e813": {
+      "case_id": "djangocms-rc-497c3c67e813",
+      "split": "TRAIN",
+      "proxy_size": 1,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        0,
+        0,
+        0
+      ],
+      "rep_has_fn": [
+        0,
+        0,
+        0
+      ],
+      "has_fn": 0,
+      "fn_count": 0,
+      "fn_rate": 0.0,
+      "severity": "none"
+    },
+    "djangocms-rc-4b8089b8b686": {
+      "case_id": "djangocms-rc-4b8089b8b686",
+      "split": "TRAIN",
+      "proxy_size": 3,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        3,
+        2,
+        2
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 3,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-5ff38b521274": {
+      "case_id": "djangocms-rc-5ff38b521274",
+      "split": "TRAIN",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        1,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 0.5,
+      "severity": "complete"
+    },
+    "djangocms-rc-807a87b1de71": {
+      "case_id": "djangocms-rc-807a87b1de71",
+      "split": "TRAIN",
+      "proxy_size": 7,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        5,
+        5,
+        2
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 5,
+      "fn_rate": 0.7142857142857143,
+      "severity": "complete"
+    },
+    "djangocms-rc-9e508ff1c41e": {
+      "case_id": "djangocms-rc-9e508ff1c41e",
+      "split": "TRAIN",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        1,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 0.5,
+      "severity": "complete"
+    },
+    "djangocms-rc-a1ac04d3f817": {
+      "case_id": "djangocms-rc-a1ac04d3f817",
+      "split": "TRAIN",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        0,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        0,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 0.5,
+      "severity": "complete"
+    },
+    "djangocms-rc-a7df58dc5ff3": {
+      "case_id": "djangocms-rc-a7df58dc5ff3",
+      "split": "TRAIN",
+      "proxy_size": 1,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        1,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-a9e2a8d3b7a6": {
+      "case_id": "djangocms-rc-a9e2a8d3b7a6",
+      "split": "VALIDATION",
+      "proxy_size": 3,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        2,
+        2,
+        2
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 2,
+      "fn_rate": 0.6666666666666666,
+      "severity": "complete"
+    },
+    "djangocms-rc-ac74c212719f": {
+      "case_id": "djangocms-rc-ac74c212719f",
+      "split": "TRAIN",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        2,
+        2,
+        2
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 2,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-ada585d3f358": {
+      "case_id": "djangocms-rc-ada585d3f358",
+      "split": "TRAIN",
+      "proxy_size": 1,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        1,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-c02308fc5261": {
+      "case_id": "djangocms-rc-c02308fc5261",
+      "split": "TRAIN",
+      "proxy_size": 3,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        1,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 0.3333333333333333,
+      "severity": "partial"
+    },
+    "djangocms-rc-ca16415b1022": {
+      "case_id": "djangocms-rc-ca16415b1022",
+      "split": "TRAIN",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        2,
+        2,
+        2
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 2,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-d88932559b00": {
+      "case_id": "djangocms-rc-d88932559b00",
+      "split": "TRAIN",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        2,
+        2,
+        2
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 2,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-e3a23a7fc757": {
+      "case_id": "djangocms-rc-e3a23a7fc757",
+      "split": "VALIDATION",
+      "proxy_size": 3,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        3,
+        3,
+        3
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 3,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-e429b4584a16": {
+      "case_id": "djangocms-rc-e429b4584a16",
+      "split": "TRAIN",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        2,
+        2,
+        2
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 2,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-e88032bf704c": {
+      "case_id": "djangocms-rc-e88032bf704c",
+      "split": "TRAIN",
+      "proxy_size": 2,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        2,
+        2,
+        2
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 2,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-f2c367ddc7b1": {
+      "case_id": "djangocms-rc-f2c367ddc7b1",
+      "split": "TRAIN",
+      "proxy_size": 1,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        1,
+        1,
+        1
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 1,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    },
+    "djangocms-rc-ff6cb9b5dced": {
+      "case_id": "djangocms-rc-ff6cb9b5dced",
+      "split": "TRAIN",
+      "proxy_size": 3,
+      "n_valid_reps": 3,
+      "rep_fn_counts": [
+        3,
+        3,
+        3
+      ],
+      "rep_has_fn": [
+        1,
+        1,
+        1
+      ],
+      "has_fn": 1,
+      "fn_count": 3,
+      "fn_rate": 1.0,
+      "severity": "complete"
+    }
+  }
+}

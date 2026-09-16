@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "branch_expected",
+      "ok": true,
+      "detail": {
+        "branch": "main",
+        "expected": "main"
+      }
+    },
+    {
+      "check": "head_matches_origin",
+      "ok": true,
+      "detail": {
+        "head": "15d1b3fc89aac38f72d00a48f3d44d4933c05322",
+        "origin_ref": "15d1b3fc89aac38f72d00a48f3d44d4933c05322"
+      }
+    },
+    {
+      "check": "cap_16384_frozen",
+      "ok": true,
+      "detail": 16384
+    },
+    {
+      "check": "model_frozen",
+      "ok": true,
+      "detail": "qwen/qwen3-coder"
+    },
+    {
+      "check": "provider_frozen",
+      "ok": true,
+      "detail": "deepinfra/turbo"
+    },
+    {
+      "check": "budget_ceilings_frozen",
+      "ok": true,
+      "detail": {
+        "tokens": 600000,
+        "usd": 0.3
+      }
+    },
+    {
+      "check": "six_gates_evidence_passed",
+      "ok": true,
+      "detail": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\reports\\omission_risk_inference_gates.json"
+    },
+    {
+      "check": "existing_records_resumable",
+      "ok": true,
+      "detail": {
+        "existing_records": 0
+      }
+    }
+  ],
+  "checked_at": "2026-09-16T05:30:29.828372+00:00"
+}

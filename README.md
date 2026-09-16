@@ -26,13 +26,20 @@
 > byte-for-byte through the compatibility layer; living review seeded with 12
 > competitor systems — see [`reports/RESEARCH_HARNESS_V1_REPORT.md`](reports/RESEARCH_HARNESS_V1_REPORT.md)
 > and [`docs/LIVING_SYSTEMATIC_REVIEW.md`](docs/LIVING_SYSTEMATIC_REVIEW.md)).**
-> The **OMISSION-RISK FEATURE STUDY V1** milestone (2026-09-16; T3; ZERO new
-> LLM/API calls) is COMPLETE AS A DETERMINISTIC-FIRST-PASS DEVELOPMENT ANALYSIS
-> (six gates + audit PASS; registered Sparse-v2-label study **DEFERRED**
-> because TRAIN/VALIDATION have no Sparse-v2 predictions — see
+> The **OMISSION-RISK FEATURE STUDY V1** milestone (2026-09-16; T3) is COMPLETE
+> AND AUDITED in two stages: (1) deterministic-first-pass development analysis
+> (ZERO LLM/API calls; six gates + audit PASS), then (2) the **registered
+> Sparse-v2-label development-inference EXECUTED** after approval (90-cell run,
+> TRAIN/VALIDATION only; 90/90 valid; 490,747 tokens / $0.184 within the frozen
+> 600,000-token AND $0.30 hard stop; Sparse-v2 `has_fn` prevalence 86.7%
+> (26/30, 4 negatives); class-balance gate FAILED → descriptive/single-feature
+> only, no multivariable RiskScorer; no reliable risk signal survives the
+> random band) — see
 > [`reports/OMISSION_RISK_FEATURE_STUDY_V1_REPORT.md`](reports/OMISSION_RISK_FEATURE_STUDY_V1_REPORT.md)
-> and the frozen approval-gated protocol
-> [`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`](docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md)).
+> (stage 1) and
+> [`reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`](reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md)
+> (stage 2); frozen protocol
+> [`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`](docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md).
 > Governance: scientific truth =
 > [`00_CURRENT_RESEARCH_STATE.md`](00_CURRENT_RESEARCH_STATE.md), execution
 > truth = [`PROGRESS.md`](PROGRESS.md), decisions (append-only) =

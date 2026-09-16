@@ -50,11 +50,25 @@ Status legend:
 > **no reliable omission-risk signal at n=30** (only 1–2/83 features above the
 > random AUROC band, all anti-correlated with the pre-registered direction;
 > adaptive-K no better than fixed K=10; always-escalate dominates the cost
-> analysis). The **registered Sparse-v2-label study is DEFERRED** (TRAIN/
-> VALIDATION have no Sparse-v2 predictions); a frozen approval-gated
-> **DEVELOPMENT-INFERENCE protocol** (90-cell Sparse-v2, ~$0.19) is produced
-> (`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`). This bounds Pillar 8:
-> the omission-risk detector is NOT yet validated and must not be frozen.
+> analysis). The registered Sparse-v2-label study was initially DEFERRED
+> (TRAIN/VALIDATION had no Sparse-v2 predictions); a frozen approval-gated
+> **DEVELOPMENT-INFERENCE protocol** (90-cell Sparse-v2, ~$0.19) was produced
+> (`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`).
+>
+> **Sparse-v2-label development-inference EXECUTED 2026-09-16 (approved).**
+> 90-cell Sparse-v2 run on TRAIN/VALIDATION: **90/90 valid, 490,747 tokens /
+> $0.184** (frozen 600,000-token AND $0.30 hard-stop respected), raw responses +
+> sha256 sidecars persisted, six gates + leakage audit PASS pre-call. Task-level
+> Sparse-v2 `has_fn` prevalence **26/30 = 86.7%** (26 positive / 4 negative);
+> **class-balance gate FAILED (neg < 10)** → no multivariable RiskScorer;
+> descriptive/single-feature only. Rerun on the real Sparse-v2 label: only
+> **3/97 features above the random band** (4.85 expected by chance — a
+> retrieval-peakiness cluster now direction-consistent), Sparse–BM25
+> disagreement anti-predictive (0.303), graph inside band, adaptive-K no help,
+> always-escalate still dominates. **A RiskScorer v1 is NOT statistically
+> justified.** Report `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`;
+> audit PASS. This bounds Pillar 8: the omission-risk detector is NOT yet
+> validated and must not be frozen.
 
 ---
 
@@ -436,10 +450,16 @@ pre-registered direction (peaked/confident retrieval → more omissions,
 hypothesis-generating only); adaptive-K does not beat fixed K=10; the
 cost-sensitive decision analysis shows **always-escalate dominates** at any
 C_FN/C_VERIFY ratio because the first pass omits files on ~73–80% of tasks.
-The **registered Sparse-v2-label study is DEFERRED** (TRAIN/VALIDATION have no
-Sparse-v2 predictions); a frozen approval-gated DEVELOPMENT-INFERENCE protocol
-(90-cell Sparse-v2, ~$0.19) is produced
-(`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`).
+The **registered Sparse-v2-label study is EXECUTED 2026-09-16** via the approved
+90-cell development-inference protocol (TRAIN/VALIDATION only): 90/90 valid,
+490,747 tokens / $0.184 within the 600k/$0.30 hard stop; Sparse-v2 `has_fn`
+prevalence **86.7% (26/30; 4 negatives)**; **class-balance gate FAILED** → no
+multivariable RiskScorer, descriptive/single-feature only; only **3/97 features
+above the random band** (4.85 expected by chance — retrieval-peakiness cluster,
+now direction-consistent); Sparse–BM25 disagreement anti-predictive; graph
+inside band; adaptive-K no help; **always-escalate still dominates; a
+RiskScorer v1 is NOT statistically justified** (report
+`reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`, audit PASS).
 
 **Why it is central.** P1 false-negative diagnostics show that action labels
 alone cannot identify most omissions:
@@ -541,4 +561,4 @@ must run on a fresh shared confirmatory split.
 | Graph-Gated Disclosure | **EXECUTED / NOT PROMISING as implemented** |
 | Protocol A — Cheap non-LLM baselines v1 | **COMPLETE / AUDITED** (2026-09-16; DEVELOPMENT evidence; DEV tag `cheap-baselines-v1-dev-2026-09-16`; BM25 strongest cheap lexical; K = operating-point curve; no LLM-vs-BM25 claim) |
 | Pluggable Research Harness V1 + Living Systematic Review V1 | **COMPLETE / AUDITED** (2026-09-16; T3 reusable experiment architecture; ZERO API; DEV tag `research-harness-v1-dev-2026-09-16`; Protocol-A outputs reproduced byte-for-byte) |
-| Omission-Risk Feature Study V1 | **COMPLETE as DETERMINISTIC-FIRST-PASS DEVELOPMENT ANALYSIS / AUDITED** (2026-09-16; T3; ZERO new LLM/API calls; Phase-B preflight A–G + six gates + audit PASS; DEV tag `omission-risk-feature-study-v1-dev-2026-09-16`; registered Sparse-v2-label study DEFERRED — DEVELOPMENT-INFERENCE protocol gated on approval) |
+| Omission-Risk Feature Study V1 | **COMPLETE / AUDITED in two stages** (2026-09-16). Stage 1 deterministic-first-pass development analysis (T3; ZERO LLM; Phase-B A–G + six gates + audit PASS; DEV tag `omission-risk-feature-study-v1-dev-2026-09-16`). Stage 2 **Sparse-v2-label development-inference EXECUTED** (approved 90-cell run, TRAIN/VALIDATION only; 90/90 valid; 490,747 tokens / $0.184 within the 600k/$0.30 hard stop; Sparse-v2 `has_fn` prevalence 86.7% (26/30, 4 negatives); class-balance gate FAILED → descriptive/single-feature only, NO multivariable RiskScorer; no signal survives the random band; report `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`; audit PASS) |
