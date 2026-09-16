@@ -136,3 +136,19 @@ Adaptive-k = cross-domain pattern.
   executed on the deterministic first-pass label; single features were
   statistically indistinguishable from random (n=30), so no operating point was
   frozen.
+- **I10 (NEW, Route B SUBSTRATE)**: candidate-level bounded omission
+  verification. Given the negative task-level RiskScorer result (both v1 and
+  V2), identify which omitted candidates deserve a second look using
+  independent structural/history/retrieval evidence, and verify only those
+  under a hard budget. Compare with always-verify and random matched-budget
+  verification. Disposition: DESIGN/PROTOCOL (Route B); do not run a model
+  until the V2 internal test is protected and gates pass.
+- **I11 (IMPLEMENTED)**: classical/static CIA baseline V1 - BM25/path_token
+  seeds -> 1-hop / 2-hop reverse-dependency closure over the parent-only
+  graph; executed on 150 V2 development cases (zero LLM); GRAPH@K and BM25
+  strongest, closure arms weaker; development evidence only
+  (reports/CLASSICAL_CIA_BASELINE_V1_REPORT.md).
+- **V2 development-inference result (2026-09-16)**: 431/450 cells (fail-closed
+  token-ceiling stop), 144 V2 tasks, merged 174 tasks / 155 pos / 19 neg;
+  v1 peakiness signal does NOT replicate in V2 (universe-size artifact); NO
+  multivariable RiskScorer; Route B pivot.

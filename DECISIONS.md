@@ -392,3 +392,24 @@ execution. Entries are never edited after append; corrections are new entries.
   run evidence `research/omission-risk-feature-study-v1/sparse_v2_trainval_*`;
   analysis `research/omission-risk-feature-study-v1/sparse_v2_label_analysis/`;
   `data_availability.json` updated (TRAIN/VALIDATION sparse_v2 available).
+
+## Decision P22 - V2 development inference EXECUTED; RiskScorer gate FAILS (2026-09-16)
+
+- **Status:** ADOPTED (this session)
+- **Context:** Authorized by mission C3 (<=450 NEW cells, <=2.5M tokens, <=.00).
+  V2 split frozen (150 DEV cases; INTERNAL_TEST/RESERVE untouched); six V2
+  gates PASS; LIVE API run.
+- **Result:** 431/450 cells executed (144 independent V2 tasks; 129 pos /
+  15 neg, prevalence 89.6%); fail-closed budget STOP at 2.5M tokens
+  (2,501,964 tokens, .873 cost; 19 cells not run); 430 valid / 1 failure
+  (JSON-parse cell, no replacement). Merged v1+v2: 174 tasks, 155 pos /
+  19 neg (89.1%).
+- **Decision (C4/C5):** C4 signal gates FAIL. The v1 peakiness signal
+  (bm25_zero_count AUROC 0.837) does NOT replicate in V2 (0.592, inside the v2
+  band); the pooled "33 above-band" is a cohort/universe-size artifact
+  (V2 universes up to 234 vs v1 140-152; graph features correlate ~0.99 with
+  universe size). NO multivariable RiskScorer fitted. The negative is frozen as
+  development evidence; the mechanism pivots to Route B - candidate-level
+  bounded omission verification (pre-registered).
+- **Impact:** reports/REAL_COMMIT_V2_OMISSION_RISK_DEVELOPMENT_ANALYSIS.md;
+  research/transparency/v2_omission_risk_analysis.json; v2_trainval run evidence.
