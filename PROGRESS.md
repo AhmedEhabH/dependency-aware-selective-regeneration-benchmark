@@ -15,27 +15,23 @@ Route B, Saleor, semantic-proxy, BibTeX triage, living review, NestJS.
 
 ## Now executing
 
-- **ALL EVENING MILESTONES COMPLETE.** A: Proposal V1.2 (7 pages, factual +
-  structural hardening; verified references). Addendum: BibTeX triage (987 raw
-  / 806 unique; 10 high-priority verified from primary sources) + 6 traceability
-  ledgers. B: LocAgent P5R forensics + rescue pilot (0/5 usable; full rerun NOT
-  triggered; P5 immutable). C: Route B candidate-level omission recovery V1 —
-  R4 Classical CIA beats Random at B=5 (DEV_VALIDATION 0.180 vs 0.037; no
-  universe artifact). E: Saleor READY-TO-RUN (full history 22,615 commits;
-  frame 6000→2409→1352→1316; split proposal; gates). D: semantic-proxy protocol
-  + 25 DEVELOPMENT-only evidence packets. G: living review / novelty update.
-  F: NestJS readiness (TS universe semantics; history deferred).
-- **Remaining:** PROGRESS/state docs, git merge main + DEV tag, LIGHT export,
-  final consolidated report → STOP.
+- **ALL EVENING MILESTONES COMPLETE + MERGED.** A: Proposal V1.2 (7 pages,
+  supervisor-ready). Addendum: BibTeX triage + 6 ledgers. B: LocAgent P5R
+  forensics + rescue pilot (0/5; full rerun NOT triggered). C: Route B
+  candidate-level omission recovery V1 (CIA beats Random at B=5; first positive
+  candidate-level signal). E: Saleor READY-TO-RUN (frame 1316; split; gates).
+  D: semantic-proxy protocol + 25 packets. G: living-review novelty update.
+  F: NestJS readiness. Full suite green (3290/33/2 pre-existing environmental).
+  Merged to main + DEV tag `evening-v12-routeb-saleor-2026-09-16` + LIGHT export.
+- **Remaining:** final consolidated report → STOP.
 
 ## Last completed task
 
-- Full suite green (3290 passed / 33 skipped / 2 pre-existing environmental
-  failures — missing pinned djangocms git cache, identical on clean base).
+- Merge to main + DEV tag + LIGHT export (final handoff).
 
 ## Immediate next step
 
-- Merge to main + push + DEV tag + LIGHT export + final report.
+- Final consolidated report (Section K), then STOP.
 
 ## Blockers
 

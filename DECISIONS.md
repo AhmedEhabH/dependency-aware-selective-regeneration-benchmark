@@ -528,3 +528,43 @@ execution. Entries are never edited after append; corrections are new entries.
   reports/SALEOR_SAMPLE_SIZE_ANALYSIS.md, reports/SALEOR_PRE_INFERENCE_GATE_REPORT.md,
   research/transparency/saleor_*.
 - **Revisit:** after the Saleor case-bundle build + split manifest audit.
+
+## Decision P32 - P5R full rerun NOT triggered (2026-09-16 evening)
+
+- **Status:** ADOPTED
+- **Options:** full clean 10-task P5R-1 rerun / pilot-only.
+- **Chosen:** pilot-only (0/5 usable; the pilot consumed 20.54M tokens / \.18
+  with a fail-closed stop; a full rerun cannot rescue the empty/worker-crash
+  cases and would consume the remaining evening budget with no expected change).
+- **Why:** the wrapper timeout is ineffective (upstream 900 s hard-coded
+  deadline); context is a hard route limit (262,144).
+- **Rejected:** blending P5 with P5R; editing upstream.
+- **Evidence:** reports/LOCAGENT_P5R1_PILOT_REPORT.md.
+- **Revisit:** P5R-2 (provider-deviation) only if same weights + larger context.
+
+## Decision P33 - Route B is the primary mechanism; verifier pilot deferred
+
+- **Status:** ADOPTED (progression gate PARTIAL)
+- **Options:** run LLM verifier pilot now / defer.
+- **Chosen:** defer; the zero-LLM Route B signal is positive (CIA beats Random
+  at B=5) but DEV_VALIDATION CI includes 0; an LLM verifier pilot is not
+  strongly justified until a larger validation set or a hybrid refinement
+  strengthens the signal.
+- **Why:** do not invent a complex verifier on weak evidence.
+- **Rejected:** unconditional verifier pilot.
+- **Evidence:** reports/ROUTE_B_OMISSION_RECOVERY_V1_REPORT.md.
+- **Revisit:** if a larger DEV_VALIDATION confirms the CIA advantage.
+
+## Decision P34 - Saleor Stage-2 ready-to-run; no inference tonight
+
+- **Status:** ADOPTED
+- **Context:** full Saleor history cached (22,615 commits); frame reconstructed
+  (1316 eligible); split proposed (seed 20260916).
+- **Decision:** Saleor READY-TO-RUN (reports/SALEOR_PRE_INFERENCE_GATE_REPORT.md);
+  no Saleor model inference tonight; case-bundle build + split manifest is the
+  next audited data step.
+- **Why:** the 1316 pool supports a quantitative Stage-2 with a protected test.
+- **Rejected:** running Saleor inference without the audited build; inspecting
+  Saleor TEST.
+- **Evidence:** reports/SALEOR_SAMPLING_FRAME_AUDIT.md, SALEOR_SAMPLE_SIZE_ANALYSIS.md.
+- **Revisit:** after the Saleor case-bundle build.
