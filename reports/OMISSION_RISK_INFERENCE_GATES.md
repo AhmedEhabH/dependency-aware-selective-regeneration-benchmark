@@ -1,6 +1,6 @@
 # Omission-Risk Development Inference — ZERO-API Gates + Leakage Audit
 
-**Generated:** 2026-09-16T05:30:29.814337+00:00
+**Generated:** 2026-09-16T07:04:18.596515+00:00
 **Study ID:** omission-risk-development-inference-v1
 **Frozen protocol:** docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md
 
@@ -16,36 +16,36 @@ ZERO scientific LLM/API calls in this milestone. No model call is made before th
 - [PASS] adapter_case_ids_only_train_validation — {"n": 30, "splits": ["TRAIN", "VALIDATION"]}
 - [PASS] adapter_excludes_held_out — "no HELD_OUT_TEST case exposed by the adapter"
 - [PASS] heldout_proxy_fails_closed — "blocked"
-- [PASS] proxy_subset_universe_djangocms-rc-a7df58dc5ff3 — []
-- [PASS] proxy_subset_universe_djangocms-rc-0daae01f2f65 — []
-- [PASS] proxy_subset_universe_djangocms-rc-ada585d3f358 — []
-- [PASS] proxy_subset_universe_djangocms-rc-1031d20fca28 — []
-- [PASS] proxy_subset_universe_djangocms-rc-2efae8e43bd6 — []
-- [PASS] proxy_subset_universe_djangocms-rc-ca16415b1022 — []
-- [PASS] proxy_subset_universe_djangocms-rc-ff6cb9b5dced — []
-- [PASS] proxy_subset_universe_djangocms-rc-497c3c67e813 — []
-- [PASS] proxy_subset_universe_djangocms-rc-06ecf3a8e8de — []
-- [PASS] proxy_subset_universe_djangocms-rc-c02308fc5261 — []
-- [PASS] proxy_subset_universe_djangocms-rc-3f8fcb5fb63b — []
-- [PASS] proxy_subset_universe_djangocms-rc-d88932559b00 — []
-- [PASS] proxy_subset_universe_djangocms-rc-138abbb7e5f4 — []
-- [PASS] proxy_subset_universe_djangocms-rc-ac74c212719f — []
-- [PASS] proxy_subset_universe_djangocms-rc-1ff5bf9149b4 — []
-- [PASS] proxy_subset_universe_djangocms-rc-e429b4584a16 — []
-- [PASS] proxy_subset_universe_djangocms-rc-a1ac04d3f817 — []
-- [PASS] proxy_subset_universe_djangocms-rc-807a87b1de71 — []
-- [PASS] proxy_subset_universe_djangocms-rc-47b63015feb1 — []
-- [PASS] proxy_subset_universe_djangocms-rc-9e508ff1c41e — []
-- [PASS] proxy_subset_universe_djangocms-rc-28ddd6d10308 — []
-- [PASS] proxy_subset_universe_djangocms-rc-33fbdb18e5d4 — []
-- [PASS] proxy_subset_universe_djangocms-rc-e88032bf704c — []
-- [PASS] proxy_subset_universe_djangocms-rc-f2c367ddc7b1 — []
-- [PASS] proxy_subset_universe_djangocms-rc-4b8089b8b686 — []
-- [PASS] proxy_subset_universe_djangocms-rc-e3a23a7fc757 — []
 - [PASS] proxy_subset_universe_djangocms-rc-a9e2a8d3b7a6 — []
-- [PASS] proxy_subset_universe_djangocms-rc-0fec81224889 — []
+- [PASS] proxy_subset_universe_djangocms-rc-1ff5bf9149b4 — []
+- [PASS] proxy_subset_universe_djangocms-rc-06ecf3a8e8de — []
+- [PASS] proxy_subset_universe_djangocms-rc-138abbb7e5f4 — []
+- [PASS] proxy_subset_universe_djangocms-rc-ff6cb9b5dced — []
+- [PASS] proxy_subset_universe_djangocms-rc-1031d20fca28 — []
+- [PASS] proxy_subset_universe_djangocms-rc-0daae01f2f65 — []
+- [PASS] proxy_subset_universe_djangocms-rc-47b63015feb1 — []
+- [PASS] proxy_subset_universe_djangocms-rc-ca16415b1022 — []
+- [PASS] proxy_subset_universe_djangocms-rc-3f8fcb5fb63b — []
 - [PASS] proxy_subset_universe_djangocms-rc-39442083f18a — []
+- [PASS] proxy_subset_universe_djangocms-rc-2efae8e43bd6 — []
+- [PASS] proxy_subset_universe_djangocms-rc-ac74c212719f — []
+- [PASS] proxy_subset_universe_djangocms-rc-807a87b1de71 — []
+- [PASS] proxy_subset_universe_djangocms-rc-28ddd6d10308 — []
 - [PASS] proxy_subset_universe_djangocms-rc-5ff38b521274 — []
+- [PASS] proxy_subset_universe_djangocms-rc-a7df58dc5ff3 — []
+- [PASS] proxy_subset_universe_djangocms-rc-497c3c67e813 — []
+- [PASS] proxy_subset_universe_djangocms-rc-e88032bf704c — []
+- [PASS] proxy_subset_universe_djangocms-rc-ada585d3f358 — []
+- [PASS] proxy_subset_universe_djangocms-rc-0fec81224889 — []
+- [PASS] proxy_subset_universe_djangocms-rc-9e508ff1c41e — []
+- [PASS] proxy_subset_universe_djangocms-rc-4b8089b8b686 — []
+- [PASS] proxy_subset_universe_djangocms-rc-f2c367ddc7b1 — []
+- [PASS] proxy_subset_universe_djangocms-rc-c02308fc5261 — []
+- [PASS] proxy_subset_universe_djangocms-rc-d88932559b00 — []
+- [PASS] proxy_subset_universe_djangocms-rc-33fbdb18e5d4 — []
+- [PASS] proxy_subset_universe_djangocms-rc-a1ac04d3f817 — []
+- [PASS] proxy_subset_universe_djangocms-rc-e3a23a7fc757 — []
+- [PASS] proxy_subset_universe_djangocms-rc-e429b4584a16 — []
 
 ## Gate 2 — Prompt/Input Validation
 
@@ -239,7 +239,7 @@ ZERO scientific LLM/API calls in this milestone. No model call is made before th
 - [PASS] heldout_never_in_manifest — no HELD_OUT_TEST case in any of the 90 cells
 - [PASS] feature_extraction_deterministic — byte-identical feature dicts
 - [PASS] task_level_unit_30_tasks — N=30 independent tasks; 3 nested repetitions per task
-- [PASS] phase_b_gate_a_precondition — TRAIN/VALIDATION Sparse-v2 predictions absent before this run
+- [PASS] phase_b_gate_a_state_consistent — {'run_records_exist': True, 'train_available': True, 'validation_available': True}
 
 ## Scientific discipline
 

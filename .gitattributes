@@ -73,3 +73,12 @@ research/locagent-p5b/evidence_smoke/*.jsonl text eol=lf
 research/locagent-p5b/evidence_smoke/*.json text eol=lf
 research/locagent-p5b/evidence_p5b_stalled/*.jsonl text eol=lf
 research/locagent-p5b/evidence_p5b_stalled/*.json text eol=lf
+
+# Omission-risk Sparse-v2 development-inference raw-response evidence is
+# byte-frozen with recorded SHA-256 sidecars (and run-record
+# raw_response_sha256) computed from canonical LF content. scripts/
+# audit_omission_risk_inference.py recomputes those hashes with read_bytes(),
+# so pin LF to make the 90/90 raw-response SHA verification
+# checkout-state-independent on Windows (core.autocrlf).
+research/omission-risk-feature-study-v1/sparse_v2_trainval_runs/raw/*.txt text eol=lf
+research/omission-risk-feature-study-v1/sparse_v2_trainval_runs/raw/*.sha256 text eol=lf
