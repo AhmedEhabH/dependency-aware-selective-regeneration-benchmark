@@ -1,56 +1,66 @@
 % ---------------------------------------------------------------------------
-% MSC PROPOSAL references.bib
+% MSC PROPOSAL references.bib (V1.2) — verified against primary sources
+% (arXiv API) on 2026-09-16. No fabricated or placeholder authors.
+% Preprints are explicitly marked. Where a venue is peer-reviewed it is noted.
 % ---------------------------------------------------------------------------
-% HONESTY RULE: only include entries whose primary source has been verified in
-% the living systematic review. Where the full author list is not confirmed in
-% the review matrix, the entry is marked "AUTHOR LIST TO BE CONFIRMED FROM
-% PRIMARY SOURCE" in the note, and only a verified lead/short form is given.
-% Preprints are explicitly marked as preprints.
 
 @misc{agentless2024,
-  author = {Xia, Chunqiu Steven and Deng, Yiling and Dunn, Soren and Zhang, Lingming},
+  author = {Xia, Chunqiu Steven and Deng, Yinlin and Dunn, Soren and Zhang, Lingming},
   title = {Agentless: Demystifying {LLM}-based Software Engineering Agents},
   year = {2024},
   howpublished = {\url{https://arxiv.org/abs/2407.01489}},
-  note = {Preprint (arXiv). Verified in the living review (2026-09-16). Localize-then-repair without an agent loop.}
+  note = {Preprint (arXiv:2407.01489). Localize-then-repair without an agent loop.}
 }
 
 @inproceedings{codeplan2024,
-  author = {Bairi, Ramakrishna and others},
+  author = {Bairi, Ramakrishna and Sonwane, Atharv and Kanade, Aditya and
+            Vageesh, D. C. and Iyer, Arun and Parthasarathy, Suresh and
+            Rajamani, Sriram and Ashok, B. and Shet, Shashank},
   title = {CodePlan: Repository-level Coding using {LLMs} and Planning},
   year = {2024},
-  note = {ICSE 2024, DOI 10.1145/3597503.3633303. Verified venue/year in the living review; FULL AUTHOR LIST TO BE CONFIRMED FROM PRIMARY SOURCE.}
+  booktitle = {Proceedings of the 46th International Conference on Software Engineering (ICSE)},
+  howpublished = {\url{https://arxiv.org/abs/2309.12499}},
+  note = {arXiv:2309.12499; ICSE 2024.}
 }
 
 @inproceedings{repocoder2023,
-  author = {Zhang, Fengji and others},
+  author = {Zhang, Fengji and Chen, Bei and Zhang, Yue and Keung, Jacky and
+            Liu, Jin and Zan, Daoguang and Mao, Yi and Lou, Jian-Guang and
+            Chen, Weizhu},
   title = {{RepoCoder}: Repository-Level Code Completion Through Iterative Retrieval and Generation},
   year = {2023},
-  note = {EMNLP 2023, arXiv:2303.12570. Verified in the living review; FULL AUTHOR LIST TO BE CONFIRMED FROM PRIMARY SOURCE. Repository memory / retrieval-conditioned generation line.}
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  howpublished = {\url{https://arxiv.org/abs/2303.12570}},
+  note = {arXiv:2303.12570; EMNLP 2023. Repository memory / retrieval-conditioned generation line.}
 }
 
 @inproceedings{autocoderover2024,
   author = {Zhang, Yuntong and Ruan, Haifeng and Fan, Zhiyu and Roychoudhury, Abhik},
   title = {{AutoCodeRover}: Autonomous Program Improvement},
-  booktitle = {ISSTA 2024},
   year = {2024},
+  booktitle = {Proceedings of the 33rd ACM SIGSOFT International Symposium on Software Testing and Analysis (ISSTA)},
   howpublished = {\url{https://arxiv.org/abs/2404.05427}},
-  note = {ISSTA 2024, verified in the living review. AST-level search + repair loop; repair-focused boundary.}
-}
-
-@inproceedings{repograph2025,
-  author = {RepoTool / repo-graph contributors},
-  title = {{RepoGraph}: Enhancing {AI} Software-Engineering Tools on Real-World Repositories},
-  year = {2025},
-  note = {ICLR 2025 (verified venue/year in the living review). AUTHOR LIST TO BE CONFIRMED FROM PRIMARY SOURCE. Repository graph construction for LLM retrieval.}
+  note = {arXiv:2404.05427; ISSTA 2024. AST-level search + repair loop.}
 }
 
 @misc{locagent2025,
-  author = {Xu, Taiqing and others},
-  title = {{LocAgent}: Real-World Pre-Completion Localization for Dockerized Backend Applications},
+  author = {Chen, Zhaoling and Tang, Xiangru and Deng, Gangda and Wu, Fang and
+            Wu, Jialong and Jiang, Zhiwei and Prasanna, Viktor and Cohan, Arman and
+            Wang, Xingyao},
+  title = {{LocAgent}: Graph-Guided {LLM} Agents for Code Localization},
   year = {2025},
-  howpublished = {\url{https://arxiv.org/abs/2505.19084}},
-  note = {Preprint (arXiv). Graph-guided localization agent; evaluated in this project under a shared protocol (P5); upstream pinned at 4935b557.}
+  howpublished = {\url{https://arxiv.org/abs/2503.09089}},
+  note = {Preprint (arXiv:2503.09089). A graph-guided localization agent; evaluated in this project under a shared protocol (P5) at an upstream commit (pin 4935b557).}
+}
+
+@misc{repoagent2024,
+  author = {Luo, Qinyu and Ye, Yining and Liang, Shihao and Zhang, Zhong and
+            Qin, Yujia and Lu, Yaxi and Wu, Yesai and Cong, Xin and Lin, Yankai and
+            Zhang, Yingli and Che, Xiaoyin and Liu, Zhiyuan and Sun, Maosong},
+  title = {{RepoAgent}: An {LLM}-Powered Open-Source Framework for Repository-level Code Documentation Generation and Agentic Quality Management},
+  year = {2024},
+  howpublished = {\url{https://arxiv.org/abs/2402.16667}},
+  note = {Preprint (arXiv:2402.16667). Repository memory / agent line.}
 }
 
 @article{zhang_tkde2022_challenges,
@@ -61,8 +71,7 @@
   number = {10},
   pages = {4663--4675},
   year = {2022},
-  doi = {10.1109/TKDE.2021.3049250},
-  note = {Verified (living review).}
+  doi = {10.1109/TKDE.2021.3049250}
 }
 
 @article{zhang_tkde2021_onestep,
@@ -71,8 +80,7 @@
   journal = {IEEE Transactions on Knowledge and Data Engineering},
   year = {2023},
   howpublished = {\url{https://arxiv.org/abs/2012.06047}},
-  doi = {10.1109/TKDE.2021.3091345},
-  note = {Verified (living review).}
+  doi = {10.1109/TKDE.2021.3091345}
 }
 
 @article{zhang_tkde2022_reachable,
@@ -81,8 +89,7 @@
   journal = {IEEE Transactions on Knowledge and Data Engineering},
   year = {2023},
   howpublished = {\url{https://arxiv.org/abs/2103.09704}},
-  doi = {10.1109/TKDE.2022.3186939},
-  note = {Verified (living review).}
+  doi = {10.1109/TKDE.2022.3186939}
 }
 
 @article{zhang_neurom2020_costsensitive,
@@ -92,8 +99,7 @@
   volume = {391},
   pages = {234--242},
   year = {2020},
-  doi = {10.1016/j.neucom.2018.11.101},
-  note = {Verified (living review).}
+  doi = {10.1016/j.neucom.2018.11.101}
 }
 
 @inproceedings{haney1972_ripple,
@@ -101,20 +107,94 @@
   title = {Module Connection Analysis --- A Tool for Scheduling Software Debugging Activities},
   booktitle = {AFIPS Joint Computer Conferences},
   year = {1972},
-  note = {Classical change-impact / ripple-effect line (concept-level verification).}
+  note = {Classical change-impact / ripple-effect line (concept-level).}
 }
 
 @misc{graphlocator2026,
-  author = {To be confirmed from primary source},
-  title = {Causal Issue Graph Based Change Localization of Software Bugs},
-  year = {2026},
-  note = {FSE 2026 (verified venue in living review). LLM causal-issue-graph localization. AUTHOR LIST TO BE CONFIRMED FROM PRIMARY SOURCE.}
+  author = {Liu, Wei and Peng, Chao and Gao, Pengfei and Liu, Aofan and
+            Zhang, Wei and Zhao, Haiyan and Jin, Zhi},
+  title = {{GraphLocator}: Graph-guided Causal Reasoning for Issue Localization},
+  year = {2025},
+  howpublished = {\url{https://arxiv.org/abs/2512.22469}},
+  note = {Preprint (arXiv:2512.22469). LLM causal-issue-graph localization.}
+}
+% ---- Added V1.2 (2026-09-16) after primary-source verification ----
+@misc{etezadi2025llmcia,
+  author = {Etezadi, Romina and Abualhaija, Sallam and Arora, Chetan and Briand, Lionel},
+  title = {{LLM}-Driven Cost-Effective Requirements Change Impact Analysis},
+  year = {2025},
+  howpublished = {\url{https://arxiv.org/abs/2511.00262}},
+  note = {Preprint (arXiv:2511.00262). Cost-aware requirements change-impact analysis (requirements unit).}
 }
 
-@misc{repoagent2024,
-  author = {Luo, Qinyu and others},
-  title = {{RepoAgent}: An {LLM}-Powered Open-Source Framework for Repository-level Code Documentation Generation and Agentic Quality Management},
+@article{huang2022changepatterns,
+  author = {Huang, Yuan and Jiang, Jinyu and Luo, Xiapu and Chen, Xiangping and Zheng, Zibin and Jia, Nan and Hua, Gang},
+  title = {Change-Patterns Mapping: A Boosting Way for Change Impact Analysis},
+  journal = {IEEE Transactions on Software Engineering},
+  volume = {48},
+  number = {7},
+  pages = {2476--2495},
+  year = {2022},
+  doi = {10.1109/TSE.2021.3059481}
+}
+
+@article{abdeen2015dependency,
+  author = {Abdeen, Hani and Bali, Khaled and Sahraoui, Houari and Dufour, Bruno},
+  title = {Learning dependency-based change impact predictors using independent change histories},
+  journal = {Information and Software Technology},
+  volume = {67},
+  pages = {220--233},
+  year = {2015},
+  doi = {10.1016/j.infsof.2015.07.007}
+}
+
+@inproceedings{iwasaki2022impacttool,
+  author = {Iwasaki, Haruya and Nakajima, Tsuyoshi and Tsukamoto, Ryota and Takahashi, Kazuko and Tokumoto, Shuichi},
+  title = {A Software Impact Analysis Tool based on Change History Learning and its Evaluation},
+  booktitle = {Proceedings of the 44th International Conference on Software Engineering: Software Engineering in Practice (ICSE-SEIP)},
+  year = {2022},
+  doi = {10.1145/3510457.3519017}
+}
+
+@misc{yan2026transformerpdg,
+  author = {Yan, Yanfu and Cooper, Nathan and Moran, Kevin and Bavota, Gabriele and Poshyvanyk, Denys and Rich, Stephen},
+  title = {Enhancing Code Understanding for Impact Analysis by Combining Transformers and Program Dependence Graphs},
+  year = {2026},
+  howpublished = {\url{https://arxiv.org/abs/2607.23355}},
+  note = {Preprint (arXiv:2607.23355). Transformers + program-dependence-graph impact analysis.}
+}
+
+@inproceedings{wu2024repoformer,
+  author = {Wu, Di and Ahmad, Wasi Uddin and Zhang, Dejiao and Ramanathan, Murali Krishna and Ma, Xiaofei},
+  title = {{Repoformer}: Selective Retrieval for Repository-Level Code Completion},
+  booktitle = {Proceedings of the 41st International Conference on Machine Learning (ICML)},
   year = {2024},
-  howpublished = {\url{https://arxiv.org/abs/2402.16670}},
-  note = {Preprint (arXiv). Repository memory / agent line (SEEDED). FULL AUTHOR LIST TO BE CONFIRMED.}
+  howpublished = {\url{https://arxiv.org/abs/2403.10059}}
+}
+
+@inproceedings{zhao2025fastcoder,
+  author = {Zhao, Qianhui and Zhang, Li and Liu, Fang and Lian, Xiaoli and Meng, Qiaoyuanhe and others},
+  title = {{FastCoder}: Accelerating Repository-level Code Generation via Efficient Retrieval and Verification},
+  booktitle = {2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
+  year = {2025},
+  howpublished = {\url{https://arxiv.org/abs/2502.17139}}
+}
+
+@inproceedings{jiang2025issueloc,
+  author = {Jiang, Zhonghao and Ren, Xiaoxue and Yan, Meng and Jiang, Wei and Li, Yong and Liu, Zhongxin},
+  title = {Issue Localization via {LLM}-Driven Iterative Code Graph Searching},
+  booktitle = {2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
+  year = {2025},
+  howpublished = {\url{https://arxiv.org/abs/2503.22424}}
+}
+
+@article{borg2017recommendationcia,
+  author = {Borg, Markus and Wnuk, Krzysztof and Regnell, Bjorn and Runeson, Per},
+  title = {Supporting Change Impact Analysis Using a Recommendation System: An Industrial Case Study in a Safety-Critical Context},
+  journal = {IEEE Transactions on Software Engineering},
+  volume = {43},
+  number = {9},
+  pages = {812--829},
+  year = {2017},
+  doi = {10.1109/TSE.2016.2620458}
 }

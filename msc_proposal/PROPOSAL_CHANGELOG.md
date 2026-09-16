@@ -30,3 +30,28 @@
   3. decide whether to expand the 6-page draft with evidence tables.
 
 <!-- Append new versions below. -->
+## V1.2 (2026-09-16 evening)
+
+- **Central story** made explicit (can a cheap/sparse first pass + bounded
+  omission recovery beat cheap-only and always-on expensive reasoning?).
+- **Internal codes removed** from main prose; descriptive names used; IDs only
+  in the Experimental Design table and traceability.
+- **11-section structure** (A3), Experimental Design at a Glance table, and
+  architecture flow added.
+- **Factual corrections** (A4): Sparse 4.9 / Full 144.0 / ~96.6% reduction;
+  LocAgent 5/10 non-usable taxonomy; V2 431 calls / 2,501,964 tokens /
+  1,964-token (0.08%) overshoot; removed stale 5.9, "50% empty", "within
+  ceiling".
+- **Budget definition frozen** (A7): B = omitted candidate files, primary
+  B=5, secondary {1,3,10}, FN recovery endpoint, Random Verify control; LLM
+  verifier primary compute = additional tokens per task.
+- **Multiple-comparison discipline** (A8) added.
+- **Representation-isolation paragraph** (A5) added.
+- **Dataset/proxy construct validity** (A6) expanded; semantic-proxy audit
+  protocol referenced.
+- **Related-work wording** softened (no absolute "none combines"); verified
+  related lines + comparison matrix added (A9).
+- **Bibliography** verified from primary sources (arXiv/Crossref); LocAgent
+  arXiv corrected to 2503.09089; RepoGraph placeholder removed.
+- Compile: 7 pages, clean. PDF SHA-256: 61023f425e317b490a1b25eef19df1890579517974f328b13b149750d7433630.
+- Audit: PROPOSAL_V1_2_AUDIT.md.
