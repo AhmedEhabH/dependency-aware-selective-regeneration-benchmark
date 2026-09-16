@@ -1,0 +1,221 @@
+{
+  "k3": {
+    "n_tasks": 6,
+    "fn_pos_mean": 1.9473684210526316,
+    "decision_rule": "escalate iff p_hat(t) * ratio * E[|FN||has_fn] > 1 (expected omission loss > expected verification cost = 1)",
+    "ratios": {
+      "2": {
+        "ratio": 2,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 18.48049333962111,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.3246666574174374
+      },
+      "5": {
+        "ratio": 5,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 46.20123334905278,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.12986666296697494
+      },
+      "10": {
+        "ratio": 10,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 92.40246669810556,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.06493333148348747
+      },
+      "20": {
+        "ratio": 20,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 184.8049333962111,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.032466665741743735
+      },
+      "50": {
+        "ratio": 50,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 462.01233349052774,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.012986666296697496
+      },
+      "100": {
+        "ratio": 100,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 924.0246669810555,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.006493333148348748
+      }
+    }
+  },
+  "k5": {
+    "n_tasks": 6,
+    "fn_pos_mean": 1.8333333333333333,
+    "decision_rule": "escalate iff p_hat(t) * ratio * E[|FN||has_fn] > 1 (expected omission loss > expected verification cost = 1)",
+    "ratios": {
+      "2": {
+        "ratio": 2,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 16.475048063465202,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.3641871014206934
+      },
+      "5": {
+        "ratio": 5,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 41.187620158663,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.14567484056827737
+      },
+      "10": {
+        "ratio": 10,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 82.375240317326,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.07283742028413868
+      },
+      "20": {
+        "ratio": 20,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 164.750480634652,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.03641871014206934
+      },
+      "50": {
+        "ratio": 50,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 411.87620158663003,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.014567484056827737
+      },
+      "100": {
+        "ratio": 100,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 823.7524031732601,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.007283742028413869
+      }
+    }
+  },
+  "k10": {
+    "n_tasks": 6,
+    "fn_pos_mean": 1.7058823529411764,
+    "decision_rule": "escalate iff p_hat(t) * ratio * E[|FN||has_fn] > 1 (expected omission loss > expected verification cost = 1)",
+    "ratios": {
+      "2": {
+        "ratio": 2,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 14.470090243709251,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.41464841607387
+      },
+      "5": {
+        "ratio": 5,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 36.17522560927313,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.165859366429548
+      },
+      "10": {
+        "ratio": 10,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 72.35045121854625,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.082929683214774
+      },
+      "20": {
+        "ratio": 20,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 144.7009024370925,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.041464841607387
+      },
+      "50": {
+        "ratio": 50,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 361.7522560927312,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.016585936642954803
+      },
+      "100": {
+        "ratio": 100,
+        "escalation_rate": 1.0,
+        "n_escalated": 6,
+        "risky_recall_among_escalated": 1.0,
+        "cost_total": 6.0,
+        "cost_never_escalate": 723.5045121854624,
+        "cost_always_escalate": 6.0,
+        "cost_saving_vs_always": 0.0,
+        "cost_vs_never_ratio": 0.008292968321477402
+      }
+    }
+  }
+}

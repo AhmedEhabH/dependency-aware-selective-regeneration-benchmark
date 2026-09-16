@@ -1,0 +1,51 @@
+{
+  "HELD_OUT_TEST": {
+    "split": "HELD_OUT_TEST",
+    "n_tasks": 10,
+    "reference_proxy_available": true,
+    "sparse_v2_prediction_available": true,
+    "full_v2_prediction_available": true,
+    "repetitions": 3,
+    "source_artifact": "research/real-commit-p1-01/run_records.jsonl",
+    "model": "qwen/qwen3-coder",
+    "provider": "deepinfra/turbo",
+    "protocol_version": "real-commit-p1-v1.0.0",
+    "frozen_tag": "research-harness-v1-dev-2026-09-16",
+    "usable_for_labels": true,
+    "usable_for_feature_design": false,
+    "note": "PERMANENTLY EXPOSED: never for tuning/selection/threshold"
+  },
+  "TRAIN": {
+    "split": "TRAIN",
+    "n_tasks": 24,
+    "reference_proxy_available": true,
+    "sparse_v2_prediction_available": false,
+    "full_v2_prediction_available": false,
+    "repetitions": 0,
+    "source_artifact": "NONE",
+    "model": "qwen/qwen3-coder",
+    "provider": "deepinfra/turbo",
+    "protocol_version": "real-commit-p1-v1.0.0",
+    "frozen_tag": "research-harness-v1-dev-2026-09-16",
+    "usable_for_labels": false,
+    "usable_for_feature_design": true,
+    "note": ""
+  },
+  "VALIDATION": {
+    "split": "VALIDATION",
+    "n_tasks": 6,
+    "reference_proxy_available": true,
+    "sparse_v2_prediction_available": false,
+    "full_v2_prediction_available": false,
+    "repetitions": 0,
+    "source_artifact": "NONE",
+    "model": "qwen/qwen3-coder",
+    "provider": "deepinfra/turbo",
+    "protocol_version": "real-commit-p1-v1.0.0",
+    "frozen_tag": "research-harness-v1-dev-2026-09-16",
+    "usable_for_labels": false,
+    "usable_for_feature_design": true,
+    "note": ""
+  },
+  "decision": "TRAIN/VALIDATION Sparse-v2 labels UNAVAILABLE (no Sparse-v2 predictions exist on TRAIN/VALIDATION; P1 ran only on HELD_OUT_TEST). Scientific feature analysis gated on the Sparse-v2 label is DEFERRED pending the frozen DEVELOPMENT-INFERENCE protocol + approval."
+}

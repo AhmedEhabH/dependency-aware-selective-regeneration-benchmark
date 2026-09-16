@@ -70,3 +70,65 @@ its 50% empty rate + high cost argue for bounded invocation.
 Rows in `research/literature/review_matrix.csv` marked `SEEDED - verify
 primary source` must be verified against the primary source before any thesis
 claim relies on them. LocAgent is the only VERIFIED row (direct evidence).
+
+---
+
+## 2026-09-16 (post-feature-study) verification update
+
+Priority-row primary-source verification completed (arXiv API / Crossref / ACM):
+**VERIFIED**: Agentless (arXiv 2407.01489), CodePlan (FSE 2024,
+DOI 10.1145/3643757), RepoCoder (EMNLP 2023, arXiv 2303.12570), RepoGraph
+(ICLR 2025, arXiv 2410.14684), AutoCodeRover (ISSTA 2024,
+DOI 10.1145/3650212.3680384), GraphLocator (FSE 2026, arXiv 2512.22469,
+DOI 10.1145/3797079), RPG/ZeroRepo (ICLR 2026, arXiv 2509.16198), and the
+**Shichao Zhang KNN line** (Challenges in KNN, TKDE 2022; One-step Computation,
+TKDE 2021; Reachable Distance, TKDE 2022; Cost-sensitive KNN, Neurocomputing
+2020; Adaptive kNN graph, arXiv 2601.16509).
+**SEEDED (corrected)**: RIPPLE = classical ripple-effect/change-propagation line
+(no canonical single system); Repository Memory = RepoCoder/RepoAgent mapping;
+Adaptive-k = cross-domain pattern.
+
+### Shichao Zhang / adaptive-computation principles (extracted, primary-verified)
+1. **Query-specific neighborhood/budget** — K as a query-dependent decision
+   (Challenges in KNN; Adaptive kNN graph).
+2. **Confidence of approximate answers** — reliability of cheap/approximate
+   answers must be quantified before trusting them.
+3. **Move reusable work offline** — one-step computation / precomputed voting
+   (HNSW + training-phase neighbor/weight assignment) converts lazy per-query
+   search into offline work; the analogue is pre-indexing the candidate
+   universe for the cheap first pass.
+4. **Cost-sensitive decision making** — Cost-sensitive KNN (Neurocomputing
+   2020): the decision rule must weight misclassification cost; the analogue
+   is our C_FN/C_VERIFY escalation rule.
+5. **Joint candidate-count/candidate-selection** — One-step KNN jointly sets K
+   and selects neighbors via group lasso; the analogue (joint first-pass depth
+   and candidate selection) is **TEST-LATER**, NOT implemented in this block.
+
+### Corrections to previously seeded rows (2026-09-16)
+- GraphLocator is **LLM-based causal-issue-graph reasoning** (FSE 2026), not
+  static suspiciousness propagation.
+- RepoGraph is **ICLR 2025**, not ICSE 2024.
+- RepoCoder is **EMNLP 2023** (arXiv 2303.12570), not arXiv 2403.12595.
+- AutoCodeRover is **ISSTA 2024**, not a preprint.
+- RPG/ZeroRepo is **repository generation** (ICLR 2026, RepoCraft), not
+  zero-shot repo-QA retrieval; the I2 'manifest-as-repo-map' idea is retained
+  as a design pattern but its attribution to this paper is removed.
+
+### New dispositions from Omission-Risk Feature Study V1 (development evidence)
+- **I8 (NEW, WATCH)**: Retrieval peakiness/confidence as an (inverse) omission
+  risk signal — tasks where BM25 is sharply peaked (high top1-top2 margin,
+  high top-3 mean, high concentration) tended to have MORE omissions in the
+  deterministic-first-pass development data. |AUROC-0.5| ~0.2-0.27, just above
+  the random band, direction OPPOSITE to the pre-registered 'more confident =
+  safer' assumption. Hypothesis-generating only; must be re-tested on the
+  registered Sparse-v2 labels (requires approved development inference) before
+  entering RiskScorer v1.
+- **I9 (NEW, DEFERRED)**: The registered Sparse-v2-label omission-risk study is
+  DEFERRED pending the frozen DEVELOPMENT-INFERENCE protocol (90-cell Sparse-v2
+  run on TRAIN/VALIDATION, ~$0.19; see
+  docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md). No new LLM calls
+  without Ahmed's approval.
+- **I6 disposition update**: risk-gated operating-point evaluation was
+  executed on the deterministic first-pass label; single features were
+  statistically indistinguishable from random (n=30), so no operating point was
+  frozen.

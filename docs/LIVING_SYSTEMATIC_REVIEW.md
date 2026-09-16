@@ -5,6 +5,15 @@ literature screening. Machine-readable artifacts:
 `research/literature/review_matrix.csv`, `research/literature/search_log.csv`,
 `research/literature/idea_ledger.md`.
 
+**Status update 2026-09-16 (V1.1 verification pass):** primary-source
+verification of the priority rows is COMPLETE for Agentless, CodePlan,
+RepoCoder, AutoCodeRover, RepoGraph, GraphLocator, RPG/ZeroRepo and the
+Shichao Zhang adaptive-computation line (see §4 and the matrix `status`
+column). Corrections: RepoGraph ICLR 2025; RepoCoder EMNLP 2023; AutoCodeRover
+ISSTA 2024; GraphLocator FSE 2026 (LLM causal-issue-graph localization);
+RPG/ZeroRepo = repository generation; RIPPLE = classical ripple-effect line
+(no canonical system).**
+
 **Purpose.** Track the competitor space for the thesis line **Repository Change
 Localization Under Limited Inference Budgets**: which systems solve (parts of)
 the same problem, with what evidence, at what cost, and which ideas we should
@@ -57,6 +66,18 @@ shared protocol; upstream pinned at `4935b557…`). All other rows are **SEEDED 
 verify primary source**; no thesis claim may rely on an unverified row. The
 matrix `status` column carries this explicitly.
 
+**Verification pass 2026-09-16 (V1.1).** Primary sources were checked
+(arXiv API, Crossref, ACM, web search) for the priority rows. VERIFIED rows now
+include: Agentless, CodePlan, RepoCoder, AutoCodeRover, RepoGraph,
+GraphLocator, RPG/ZeroRepo, and the Shichao Zhang KNN/adaptive-computation
+line (Challenges in KNN TKDE 2022; One-step TKDE 2021; Reachable Distance TKDE
+2022; Cost-sensitive KNN Neurocomputing 2020; Adaptive kNN graph 2026). RIPPLE
+is SEEDED at the classical ripple-effect/change-propagation concept level (no
+canonical single system). Repository Memory is mapped to the verified RepoCoder
+line (+ RepoAgent SEEDED). Adaptive-k remains a cross-domain pattern (no single
+primary source pinned); the adaptive-neighborhood idea is corroborated by the
+verified Shichao Zhang adaptive kNN graph work.
+
 ## 5. Most important competitor ideas (V1 read)
 
 1. **Localization-first without an agent loop (Agentless, CodePlan).** Strong
@@ -106,3 +127,37 @@ harness + review foundation milestone is audited and reviewed.
 3. Update `research/literature/idea_ledger.md` disposition.
 4. Update this doc's summary tables.
 5. Record any decision in `DECISIONS.md` (append-only).
+
+## 9. Shichao Zhang / adaptive-computation track (VERIFIED 2026-09-16)
+
+Primary-source-verified line (see `research/literature/idea_ledger.md` for the
+full citations):
+
+- **Challenges in KNN Classification** — S. Zhang, IEEE TKDE 2022
+  (DOI 10.1109/TKDE.2021.3049250). Survey of KNN challenges incl. K selection,
+  distance metrics, lazy-learning efficiency (complete nearest-neighbor
+  search).
+- **KNN Classification with One-step Computation** — S. Zhang & J. Li, IEEE
+  TKDE 2021 (arXiv 2012.06047). Replaces the lazy K-neighbor search with a
+  one-step matrix computation + group lasso (K setting and neighbor search are
+  jointly integrated).
+- **Reachable Distance Function for KNN Classification** — S. Zhang, J. Li,
+  Y. Li, IEEE TKDE 2022 (arXiv 2103.09704). Class-aware 'Z' distance.
+- **Cost-sensitive KNN classification** — S. Zhang, Neurocomputing 2020
+  (DOI 10.1016/j.neucom.2018.11.101). Cost-sensitive decision making.
+- **Adaptive kNN graph model** — J. Li, H. Xu, S. Zhang, arXiv 2601.16509
+  (2026). HNSW graph + pre-computed voting; neighbor selection/weighting moved
+  to the training phase (offline work).
+
+**Reusable principles extracted for our thesis:**
+1. query-specific neighborhood/budget (K is query-dependent, not global);
+2. confidence of approximate answers must be quantified;
+3. move reusable work offline (pre-indexing / precomputation analogue);
+4. cost-sensitive decision making (escalation rule weight C_FN vs C_VERIFY);
+5. joint candidate-count/candidate-selection = **TEST-LATER** (group lasso /
+   one-step sparse reconstruction NOT implemented in this block; revisit only
+   if the simple risk signals fail).
+
+**Experimental implication:** the adaptive-K rules in the omission-risk study
+operationalize principle 1; the cost-sensitive analysis operationalizes
+principle 4; the pre-indexed candidate universe operationalizes principle 3.

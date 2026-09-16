@@ -42,7 +42,19 @@ Status legend:
 > interface-only, BudgetPolicy, common Evaluator, versioned ExperimentSpec)
 > and reproduces the frozen Protocol-A outputs byte-for-byte. This feeds
 > Pillar 8 (omission-risk) as the execution substrate for the next scientific
-> step **OMISSION_RISK_FEATURE_STUDY_V1 (TRAIN/VALIDATION only — NOT STARTED)**.
+> step **OMISSION_RISK_FEATURE_STUDY_V1**.
+>
+> **Omission-Risk Feature Study V1 (2026-09-16, T3; ZERO new LLM/API calls).**
+> Phase-B preflight A–G + six gates + independent audit PASS. The
+> deterministic-first-pass (metadata-corpus BM25@K) development analysis found
+> **no reliable omission-risk signal at n=30** (only 1–2/83 features above the
+> random AUROC band, all anti-correlated with the pre-registered direction;
+> adaptive-K no better than fixed K=10; always-escalate dominates the cost
+> analysis). The **registered Sparse-v2-label study is DEFERRED** (TRAIN/
+> VALIDATION have no Sparse-v2 predictions); a frozen approval-gated
+> **DEVELOPMENT-INFERENCE protocol** (90-cell Sparse-v2, ~$0.19) is produced
+> (`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`). This bounds Pillar 8:
+> the omission-risk detector is NOT yet validated and must not be frozen.
 
 ---
 
@@ -411,9 +423,23 @@ confirmatory scientific evidence for this proposal line.
 
 ## Pillar 8 — Omission-risk detection — THESIS CORE (confirmed future pillar)
 
-**Status: NOT STARTED — PLANNING ONLY.** Funded by
+**Status: NOT VALIDATED — PLANNING + FEATURE-STUDY-DEV-EVIDENCE ONLY.** Funded by
 `docs/OMISSION_RISK_DETECTION_PROTOCOL_DRAFT.md`. **Do NOT train/tune/execute a
-risk detector in this block.**
+risk detector based on the deterministic-first-pass development evidence.**
+
+**Omission-Risk Feature Study V1 (2026-09-16, T3, ZERO new LLM/API calls):**
+Phase-B preflight A–G + six gates + independent audit PASS. Deterministic-
+first-pass (metadata-corpus BM25@K) development analysis: **no reliable
+omission-risk signal at n=30** — only 1–2 of 83 features exceed the random
+AUROC 95% band (expected ~12 by chance), all anti-correlated with the
+pre-registered direction (peaked/confident retrieval → more omissions,
+hypothesis-generating only); adaptive-K does not beat fixed K=10; the
+cost-sensitive decision analysis shows **always-escalate dominates** at any
+C_FN/C_VERIFY ratio because the first pass omits files on ~73–80% of tasks.
+The **registered Sparse-v2-label study is DEFERRED** (TRAIN/VALIDATION have no
+Sparse-v2 predictions); a frozen approval-gated DEVELOPMENT-INFERENCE protocol
+(90-cell Sparse-v2, ~$0.19) is produced
+(`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`).
 
 **Why it is central.** P1 false-negative diagnostics show that action labels
 alone cannot identify most omissions:
@@ -515,3 +541,4 @@ must run on a fresh shared confirmatory split.
 | Graph-Gated Disclosure | **EXECUTED / NOT PROMISING as implemented** |
 | Protocol A — Cheap non-LLM baselines v1 | **COMPLETE / AUDITED** (2026-09-16; DEVELOPMENT evidence; DEV tag `cheap-baselines-v1-dev-2026-09-16`; BM25 strongest cheap lexical; K = operating-point curve; no LLM-vs-BM25 claim) |
 | Pluggable Research Harness V1 + Living Systematic Review V1 | **COMPLETE / AUDITED** (2026-09-16; T3 reusable experiment architecture; ZERO API; DEV tag `research-harness-v1-dev-2026-09-16`; Protocol-A outputs reproduced byte-for-byte) |
+| Omission-Risk Feature Study V1 | **COMPLETE as DETERMINISTIC-FIRST-PASS DEVELOPMENT ANALYSIS / AUDITED** (2026-09-16; T3; ZERO new LLM/API calls; Phase-B preflight A–G + six gates + audit PASS; DEV tag `omission-risk-feature-study-v1-dev-2026-09-16`; registered Sparse-v2-label study DEFERRED — DEVELOPMENT-INFERENCE protocol gated on approval) |

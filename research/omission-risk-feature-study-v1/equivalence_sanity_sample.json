@@ -1,0 +1,445 @@
+{
+  "status": "ok",
+  "n_rows": 10,
+  "seed": 20260916,
+  "all_sample_equal": true,
+  "note": "sampling is a sanity check only; the full 600-row byte-identical equivalence proof remains primary",
+  "rows": [
+    {
+      "case_id": "djangocms-rc-0fec81224889",
+      "baseline": "bm25",
+      "k": 10,
+      "old_selected": [
+        "cms/cms_plugins.py",
+        "cms/models/aliaspluginmodel.py",
+        "cms/templatetags/cms_alias_tags.py",
+        "cms/constants.py",
+        "cms/wizards/wizard_pool.py",
+        "cms/utils/check.py",
+        "cms/exceptions.py",
+        "cms/utils/compat/dj.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/api.py"
+      ],
+      "harness_selected": [
+        "cms/cms_plugins.py",
+        "cms/models/aliaspluginmodel.py",
+        "cms/templatetags/cms_alias_tags.py",
+        "cms/constants.py",
+        "cms/wizards/wizard_pool.py",
+        "cms/utils/check.py",
+        "cms/exceptions.py",
+        "cms/utils/compat/dj.py",
+        "cms/admin/placeholderadmin.py",
+        "cms/api.py"
+      ],
+      "prediction_equal": true,
+      "metric_equal": true,
+      "frozen_metrics": {
+        "tp": 3,
+        "fp": 7,
+        "fn": 0,
+        "precision": 0.3,
+        "recall": 1.0,
+        "f1": 0.4615384615384615,
+        "fnr": 0.0
+      },
+      "harness_metrics": {
+        "tp": 3,
+        "fp": 7,
+        "fn": 0,
+        "precision": 0.3,
+        "recall": 1.0,
+        "f1": 0.4615384615384615,
+        "fnr": 0.0
+      },
+      "config_hash_frozen": "f53c643ee719d519affa0476c3f0a0e28b0be2f951902982ab67e91bb0ffb9cf",
+      "config_hash_harness": "58a538c223804d67cfe7bfe3a0be2c348200ef7b7d6b0d1a3bc2a6a4fc9ce101",
+      "split": "VALIDATION"
+    },
+    {
+      "case_id": "djangocms-rc-1ff5bf9149b4",
+      "baseline": "hybrid",
+      "k": 10,
+      "old_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/utils/page_permissions.py",
+        "cms/models/permissionmodels.py",
+        "cms/admin/permissionadmin.py",
+        "cms/admin/forms.py",
+        "cms/cache/permissions.py",
+        "cms/models/managers.py",
+        "cms/plugin_base.py",
+        "cms/cms_toolbars.py",
+        "cms/utils/conf.py"
+      ],
+      "harness_selected": [
+        "cms/admin/pageadmin.py",
+        "cms/utils/page_permissions.py",
+        "cms/models/permissionmodels.py",
+        "cms/admin/permissionadmin.py",
+        "cms/admin/forms.py",
+        "cms/cache/permissions.py",
+        "cms/models/managers.py",
+        "cms/plugin_base.py",
+        "cms/cms_toolbars.py",
+        "cms/utils/conf.py"
+      ],
+      "prediction_equal": true,
+      "metric_equal": true,
+      "frozen_metrics": {
+        "tp": 2,
+        "fp": 8,
+        "fn": 0,
+        "precision": 0.2,
+        "recall": 1.0,
+        "f1": 0.33333333333333337,
+        "fnr": 0.0
+      },
+      "harness_metrics": {
+        "tp": 2,
+        "fp": 8,
+        "fn": 0,
+        "precision": 0.2,
+        "recall": 1.0,
+        "f1": 0.33333333333333337,
+        "fnr": 0.0
+      },
+      "config_hash_frozen": "a36a853d36cfa7a7e4a9bd86fd0da9e61dcdaabfe879f0540c80b859129f854f",
+      "config_hash_harness": "58a538c223804d67cfe7bfe3a0be2c348200ef7b7d6b0d1a3bc2a6a4fc9ce101",
+      "split": "TRAIN"
+    },
+    {
+      "case_id": "djangocms-rc-33fbdb18e5d4",
+      "baseline": "bm25",
+      "k": 5,
+      "old_selected": [
+        "cms/models/managers.py",
+        "cms/__init__.py",
+        "cms/admin/__init__.py",
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py"
+      ],
+      "harness_selected": [
+        "cms/models/managers.py",
+        "cms/__init__.py",
+        "cms/admin/__init__.py",
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py"
+      ],
+      "prediction_equal": true,
+      "metric_equal": true,
+      "frozen_metrics": {
+        "tp": 0,
+        "fp": 5,
+        "fn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 1.0
+      },
+      "harness_metrics": {
+        "tp": 0,
+        "fp": 5,
+        "fn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 1.0
+      },
+      "config_hash_frozen": "04f8ac7925c92d221411a10aefa86d314083c38840d4c88b69f3ad7b0f23294e",
+      "config_hash_harness": "58a538c223804d67cfe7bfe3a0be2c348200ef7b7d6b0d1a3bc2a6a4fc9ce101",
+      "split": "TRAIN"
+    },
+    {
+      "case_id": "djangocms-rc-497c3c67e813",
+      "baseline": "graph",
+      "k": 10,
+      "old_selected": [
+        "cms/api.py",
+        "cms/cache/__init__.py",
+        "cms/cache/choices.py",
+        "cms/cache/page.py",
+        "cms/extensions/admin.py",
+        "cms/extensions/models.py",
+        "cms/utils/moderator.py",
+        "cms/utils/permissions.py",
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py"
+      ],
+      "harness_selected": [
+        "cms/api.py",
+        "cms/cache/__init__.py",
+        "cms/cache/choices.py",
+        "cms/cache/page.py",
+        "cms/extensions/admin.py",
+        "cms/extensions/models.py",
+        "cms/utils/moderator.py",
+        "cms/utils/permissions.py",
+        "cms/admin/forms.py",
+        "cms/admin/pageadmin.py"
+      ],
+      "prediction_equal": true,
+      "metric_equal": true,
+      "frozen_metrics": {
+        "tp": 0,
+        "fp": 10,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 1.0
+      },
+      "harness_metrics": {
+        "tp": 0,
+        "fp": 10,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 1.0
+      },
+      "config_hash_frozen": "d32cbc87e56b6c69fba4f484e548c4b4171b4e16b0db173076be0564d4e1286a",
+      "config_hash_harness": "58a538c223804d67cfe7bfe3a0be2c348200ef7b7d6b0d1a3bc2a6a4fc9ce101",
+      "split": "TRAIN"
+    },
+    {
+      "case_id": "djangocms-rc-a7df58dc5ff3",
+      "baseline": "random",
+      "k": 5,
+      "old_selected": [
+        "cms/views.py",
+        "cms/extensions/toolbar.py",
+        "cms/appresolver.py",
+        "cms/cms_menus.py",
+        "cms/wizards/wizard_pool.py"
+      ],
+      "harness_selected": [
+        "cms/views.py",
+        "cms/extensions/toolbar.py",
+        "cms/appresolver.py",
+        "cms/cms_menus.py",
+        "cms/wizards/wizard_pool.py"
+      ],
+      "prediction_equal": true,
+      "metric_equal": true,
+      "frozen_metrics": {
+        "tp": 0,
+        "fp": 5,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 1.0
+      },
+      "harness_metrics": {
+        "tp": 0,
+        "fp": 5,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 1.0
+      },
+      "config_hash_frozen": "48f968a293ab582f46a65ce3307a1b15545aba9b6cd58039d7e3da7f257d18e1",
+      "config_hash_harness": "58a538c223804d67cfe7bfe3a0be2c348200ef7b7d6b0d1a3bc2a6a4fc9ce101",
+      "split": "TRAIN"
+    },
+    {
+      "case_id": "djangocms-rc-a9e2a8d3b7a6",
+      "baseline": "hybrid",
+      "k": 10,
+      "old_selected": [
+        "cms/templatetags/cms_admin.py",
+        "cms/templatetags/cms_js_tags.py",
+        "cms/plugin_processors.py",
+        "cms/models/pagemodel.py",
+        "cms/plugin_rendering.py",
+        "cms/cms_plugins.py",
+        "cms/exceptions.py",
+        "cms/templatetags/cms_tags.py",
+        "cms/constants.py",
+        "cms/models/pluginmodel.py"
+      ],
+      "harness_selected": [
+        "cms/templatetags/cms_admin.py",
+        "cms/templatetags/cms_js_tags.py",
+        "cms/plugin_processors.py",
+        "cms/models/pagemodel.py",
+        "cms/plugin_rendering.py",
+        "cms/cms_plugins.py",
+        "cms/exceptions.py",
+        "cms/templatetags/cms_tags.py",
+        "cms/constants.py",
+        "cms/models/pluginmodel.py"
+      ],
+      "prediction_equal": true,
+      "metric_equal": true,
+      "frozen_metrics": {
+        "tp": 1,
+        "fp": 9,
+        "fn": 2,
+        "precision": 0.1,
+        "recall": 0.3333333333333333,
+        "f1": 0.15384615384615383,
+        "fnr": 0.6666666666666666
+      },
+      "harness_metrics": {
+        "tp": 1,
+        "fp": 9,
+        "fn": 2,
+        "precision": 0.1,
+        "recall": 0.3333333333333333,
+        "f1": 0.15384615384615383,
+        "fnr": 0.6666666666666666
+      },
+      "config_hash_frozen": "31984846b3184ecf8849f8b90ae2c43b4d3e06d1093b59e2f82907c97313de48",
+      "config_hash_harness": "58a538c223804d67cfe7bfe3a0be2c348200ef7b7d6b0d1a3bc2a6a4fc9ce101",
+      "split": "VALIDATION"
+    },
+    {
+      "case_id": "djangocms-rc-c02308fc5261",
+      "baseline": "hybrid",
+      "k": 1,
+      "old_selected": [
+        "cms/app_registration.py"
+      ],
+      "harness_selected": [
+        "cms/app_registration.py"
+      ],
+      "prediction_equal": true,
+      "metric_equal": true,
+      "frozen_metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 2,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5,
+        "fnr": 0.6666666666666666
+      },
+      "harness_metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 2,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5,
+        "fnr": 0.6666666666666666
+      },
+      "config_hash_frozen": "ad1b0ccae59cf3acda047a76c5d7a81a848c510c83c9295ce5bdc01a1ba80e6c",
+      "config_hash_harness": "58a538c223804d67cfe7bfe3a0be2c348200ef7b7d6b0d1a3bc2a6a4fc9ce101",
+      "split": "TRAIN"
+    },
+    {
+      "case_id": "djangocms-rc-e3a23a7fc757",
+      "baseline": "path_token",
+      "k": 1,
+      "old_selected": [
+        "cms/admin/forms.py"
+      ],
+      "harness_selected": [
+        "cms/admin/forms.py"
+      ],
+      "prediction_equal": true,
+      "metric_equal": true,
+      "frozen_metrics": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 1.0
+      },
+      "harness_metrics": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 1.0
+      },
+      "config_hash_frozen": "f9849d8c1fbc3e6a7f7310799ed93917cd34e25fda6664bca3284617eb213c67",
+      "config_hash_harness": "58a538c223804d67cfe7bfe3a0be2c348200ef7b7d6b0d1a3bc2a6a4fc9ce101",
+      "split": "VALIDATION"
+    },
+    {
+      "case_id": "djangocms-rc-e3a23a7fc757",
+      "baseline": "random",
+      "k": 1,
+      "old_selected": [
+        "cms/cms_wizards.py"
+      ],
+      "harness_selected": [
+        "cms/cms_wizards.py"
+      ],
+      "prediction_equal": true,
+      "metric_equal": true,
+      "frozen_metrics": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 1.0
+      },
+      "harness_metrics": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fnr": 1.0
+      },
+      "config_hash_frozen": "f9849d8c1fbc3e6a7f7310799ed93917cd34e25fda6664bca3284617eb213c67",
+      "config_hash_harness": "58a538c223804d67cfe7bfe3a0be2c348200ef7b7d6b0d1a3bc2a6a4fc9ce101",
+      "split": "VALIDATION"
+    },
+    {
+      "case_id": "djangocms-rc-ff6cb9b5dced",
+      "baseline": "graph",
+      "k": 5,
+      "old_selected": [
+        "cms/appresolver.py",
+        "cms/cache/__init__.py",
+        "cms/cache/permissions.py",
+        "cms/cache/placeholder.py",
+        "cms/exceptions.py"
+      ],
+      "harness_selected": [
+        "cms/appresolver.py",
+        "cms/cache/__init__.py",
+        "cms/cache/permissions.py",
+        "cms/cache/placeholder.py",
+        "cms/exceptions.py"
+      ],
+      "prediction_equal": true,
+      "metric_equal": true,
+      "frozen_metrics": {
+        "tp": 1,
+        "fp": 4,
+        "fn": 2,
+        "precision": 0.2,
+        "recall": 0.3333333333333333,
+        "f1": 0.25,
+        "fnr": 0.6666666666666666
+      },
+      "harness_metrics": {
+        "tp": 1,
+        "fp": 4,
+        "fn": 2,
+        "precision": 0.2,
+        "recall": 0.3333333333333333,
+        "f1": 0.25,
+        "fnr": 0.6666666666666666
+      },
+      "config_hash_frozen": "d3873c6cf47ced88dba6fcbe9926d84e9971abab6d7ab7afcb87771b09349b1d",
+      "config_hash_harness": "58a538c223804d67cfe7bfe3a0be2c348200ef7b7d6b0d1a3bc2a6a4fc9ce101",
+      "split": "TRAIN"
+    }
+  ]
+}
