@@ -674,3 +674,38 @@ execution. Entries are never edited after append; corrections are new entries.
   cross-repo result; confirmatory-freeze packet is ready-to-approve, not an
   executed confirmatory outcome; P2 unchanged (conditional).
 - **Revisit:** create V1.4 when Saleor replication or confirmatory results exist.
+
+## Decision P45 - Saleor identity/provenance correction (2026-09-17)
+
+- **Status:** ADOPTED
+- **Problem:** Saleor bundles carried djangoCMS identity (djangocms-rc-* IDs,
+  django-cms URL, #djangocms license, graph repo_id=djangocms); the case ID was
+  visible in the inference prompt -> provenance leak.
+- **Chosen:** deterministic migration djangocms-rc-<sha> -> saleor-rc-<sha>
+  (prefix swap; sha = target short sha); corrected repository URL/anchor/
+  license/repo identity; old->new mapping persisted; 150/150 scientific-payload
+  equivalence PASS (commits/split/universes/proxies/edges preserved).
+- **Rejected:** running Saleor inference with the djangocms-rc-* leak.
+- **Evidence:** reports/SALEOR_IDENTITY_MIGRATION_REPORT.md.
+
+## Decision P46 - Saleor clean DEVELOPMENT sparse run + budget (2026-09-17)
+
+- **Status:** EXECUTED
+- **Chosen:** clean 150x3 DEVELOPMENT sparse run after identity fix.
+- **Ceilings:** 450 cells / 9,000,000 tokens / .00 (re-authorized).
+- **Result:** 450/450 cells; 446 succeeded / 4 failed (3x HTTP 429 transport +
+  1x schema duplicate-id); 7,316,986 tokens / .31 (within ceilings);
+  150 independent tasks; 0 truncations; provider DeepInfra.
+- **Rejected:** rerunning failed cells (no result-dependent reruns); opening
+  INTERNAL_TEST/RESERVE; Saleor-specific tuning.
+- **Evidence:** research/saleor-sparse-inference/, saleor_dev_closure.json.
+
+## Decision P47 - Saleor Route-B transfer classification: REPLICATES (2026-09-17)
+
+- **Status:** ADOPTED (transfer test result)
+- **Chosen:** classify as REPLICATES — frozen Classical-CIA arm above analytic
+  Random over the Saleor DEV B-curve (149 tasks; B=5 delta +0.231 CI
+  [+0.180,+0.287]; 5/5 folds positive; 4/4 B-points; no size artifact).
+- **Rejected:** pooling djangoCMS+Saleor as the primary headline; tuning the
+  method on Saleor outcomes.
+- **Evidence:** reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md.

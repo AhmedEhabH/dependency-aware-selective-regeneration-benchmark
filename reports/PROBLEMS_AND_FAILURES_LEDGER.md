@@ -180,3 +180,22 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
   ceilings 450 cells / 9,000,000 total tokens / .00 (covers the ~7.5M-token /
   ~.25 measured projection with ~20% headroom). Also corrected dataset
   identity (saleor-rc-*); pre-fix smoke archived as operational (not scientific).
+
+## PF-015 — Saleor identity provenance leak (djangocms-rc-* in prompt) (2026-09-17)
+- **Problem:** the Saleor case ID djangocms-rc-<sha> was rendered into the
+  inference prompt (Frozen real historical change (djangocms-rc-...)) -> the
+  model saw djangoCMS provenance for a Saleor task.
+- **Root cause:** frozen djangoCMS miner constants baked into the Saleor bundles.
+- **Action:** deterministic migration to saleor-rc-<sha> + corrected identity;
+  150/150 scientific-payload equivalence PASS; pre-fix smoke call archived as
+  operational (not scientific evidence).
+- **Status:** RESOLVED.
+
+## PF-016 — Saleor clean run failures (2026-09-17)
+- **Problem:** 4/450 cells failed: 3x HTTP 429 transport (saleor-rc-012472eb8482,
+  all reps; the case the pre-fix smoke ran on) + 1x schema duplicate-id
+  (saleor-rc-d7fe298a4752 rep2).
+- **Action:** recorded per frozen failure semantics (recall 0, fn=proxy);
+  NO result-dependent reruns (mission rule). Task 012472eb8482 has no succeeded
+  rep -> excluded from Route-B transfer (149 tasks).
+- **Status:** DOCUMENTED (honest failure records; not scientific anomalies).

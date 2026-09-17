@@ -164,3 +164,18 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
 - **Status:** COMPLETE (ready-to-approve; INTERNAL_TEST sealed). Choice B:
   ranking + actual verifier.
 - **Artifact:** reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_FREEZE_PACKET.md.
+
+## E-026 — Saleor identity migration + 150/150 equivalence (2026-09-17)
+- **Status:** EXECUTED (ZERO model calls). 150 bundles djangocms-rc-* ->
+  saleor-rc-*; identity corrected; 150/150 scientific-payload equivalence PASS.
+- **Artifact:** reports/SALEOR_IDENTITY_MIGRATION_REPORT.md.
+
+## E-027 — Saleor clean 150x3 DEVELOPMENT sparse run (2026-09-17)
+- **Status:** EXECUTED (450 cells; 446 valid / 4 failed; 7.32M tokens / .31;
+  150 tasks; 0 truncations; DeepInfra). Pre-fix smoke archived as operational.
+- **Artifact:** research/saleor-sparse-inference/, saleor_dev_closure.json.
+
+## E-028 — Saleor Route-B transfer replication (2026-09-17)
+- **Status:** REPLICATES (149 tasks; CIA best arm; B=5 delta +0.231 CI
+  [+0.180,+0.287]; 5/5 folds; 4/4 B-points; artifact-free).
+- **Artifact:** reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md.

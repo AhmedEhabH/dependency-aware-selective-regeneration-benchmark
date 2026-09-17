@@ -51,6 +51,31 @@ tests 7/7, synthetic dry-run NOT_REAL PASS, one-page checklist; human judgments
 pending).** **Proposal V1.3 remains the print candidate (V1.4 NOT created — no
 material claim change).**
 
+**CURRENT TRUTH (2026-09-17, identity correction + clean Saleor run + transfer):**
+→ **SALEOR IDENTITY/PROVENANCE CORRECTED (2026-09-17; ZERO model calls):**
+case IDs migrated deterministically `djangocms-rc-<sha>` → `saleor-rc-<sha>`;
+repository URL/anchor/license/repo identity corrected; old→new mapping
+(`research/transparency/saleor_case_id_migration.json`); **150/150
+scientific-payload equivalence PASS** (commits/split/universes/proxies/edges
+identical to pre-migration snapshot); the pre-fix single smoke call is archived
+as operational (NOT scientific evidence); stale Saleor docs/harness reconciled.
+→ **SALEOR CLEAN 150×3 DEVELOPMENT SPARSE RUN EXECUTED (2026-09-17):** 450 cells
+(150 tasks × 3 reps); **446 valid / 4 failed** (3× HTTP 429 transport on
+`saleor-rc-012472eb8482` + 1× schema duplicate-id on `saleor-rc-d7fe298a4752`);
+**7,316,986 tokens / $2.31** within the re-authorized hard ceilings
+(450 cells / 9,000,000 tokens / $3.00); 150 independent tasks; 0 truncations;
+provider DeepInfra (frozen route); no result-dependent reruns; no Saleor-specific
+tuning; INTERNAL_TEST/RESERVE sealed.
+→ **SALEOR ROUTE-B TRANSFER REPLICATION = REPLICATES (2026-09-17; ZERO new model
+calls):** frozen Route-B V2 protocol applied to Saleor DEV Sparse predictions
+(149 tasks; `012472eb8482` excluded — no succeeded rep); **Classical-CIA best
+arm**, mean curve delta **+0.1915** vs analytic Random; B=5 CIA **0.237** vs
+Random **0.006** (delta +0.231, CI [+0.180, +0.287]); 5/5 folds positive; 4/4
+B-points above Random; no size artifact (−0.048). **The bounded-verification
+signal transfers to a second, much larger repository (Saleor B=5 delta +0.231 >
+djangoCMS +0.136).** Per-repository primary; no djangoCMS+Saleor pooling as the
+headline. djangoCMS confirmatory INTERNAL_TEST remains sealed.
+
 ---
 
 ## 1. Submitted science — FROZEN (do not touch, do not rerun)

@@ -5,38 +5,33 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `research/overnight-routeb-v2-saleor-2026-09-17` (overnight mission; to be merged into `main`)
-**HEAD base:** `7dbd028` (main, evening mission closed + DEV tag)
+**Branch:** `main` (continuation mission work committed directly)
+**HEAD base:** `1da8ea3` (continuation mission, Saleor 150/150 + budget-blocked)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** CONTINUATION MISSION (2026-09-17) — Saleor portability fix + 150/150
-bundles; Saleor sparse inference (budget-blocked); Route-B confirmatory-freeze
-packet; P2 prereg; semantic audit machine-prep.
+**Task:** SALEOR IDENTITY CORRECTION + CLEAN DEV RUN + ROUTE-B TRANSFER (2026-09-17)
 
 ---
 
 ## Now executing
 
-- **ALL CONTINUATION BLOCKS COMPLETE (or blocked-documented).** A: state
-  verified. B: Saleor production-only materializer — equivalence 98/98 PASS,
-  150/150 DEV bundles built, canonical hashes identical (ZERO model calls).
-  C: Saleor sparse inference **FAIL-CLOSED on budget** (1/450 smoke $0.0047;
-  450-cell projects 2.4-2.7x ceiling) — full run NOT run; no silent protocol
-  change. D: Saleor Route-B replication BLOCKED (requires C). E: djangoCMS
-  Route-B confirmatory-freeze packet (ready-to-approve, INTERNAL_TEST sealed,
-  choice B). F: P2 adaptive-budget pre-registration (conditional). G: semantic
-  audit machine-prep finished (integrity, kappa tests, synthetic dry-run).
-  H: Proposal V1.3 stays print candidate (V1.4 NOT created).
-- **Remaining:** traceability commit, full tests, merge main, DEV tag, LIGHT
-  export, final report.
+- **ALL S-BLOCKS COMPLETE.** S1 identity migration (djangocms-rc-* ->
+  saleor-rc-*, corrected repo/url/license/anchor/graph identity); S2 150/150
+  scientific-payload equivalence PASS; S3 pre-fix smoke archived as operational
+  + stale docs reconciled; S4 9 gates PASS + fresh manifest frozen; S5 clean
+  150x3 DEVELOPMENT sparse run (450 cells, 446 valid / 4 failed, 7.32M tokens /
+  $2.31, ceilings respected, 0 truncations); S6 Route-B transfer **REPLICATES**
+  (149 tasks; CIA best arm; B=5 delta +0.231 CI [+0.180,+0.287]).
+- **Remaining:** full test suite, traceability commit, merge/tag/export, final
+  report.
 
 ## Last completed task
 
-- Block G (semantic audit machine-prep) + H (proposal decision).
+- S6: Route-B transfer replication REPLICATES (committed).
 
 ## Immediate next step
 
-- Traceability (Block I) commit → full suite → merge + DEV tag + LIGHT export
-  → final report.
+- Full suite -> traceability commit -> branch/merge/tag/LIGHT export -> final
+  report.
 
 ## Blockers
 
