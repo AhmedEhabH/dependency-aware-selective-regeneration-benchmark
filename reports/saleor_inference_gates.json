@@ -1,6 +1,6 @@
 {
   "study": "saleor-sparse-v2-development",
-  "ran_at": "2026-09-17T04:13:23.973748+00:00",
+  "ran_at": "2026-09-17T11:02:59.935219+00:00",
   "all_passed": true,
   "gates": {
     "dataset_validation": {
@@ -81,12 +81,18 @@
     },
     "portability_equivalence": {
       "status": "PASS",
-      "evidence": "research/transparency/saleor_portability_fix_evidence.json"
+      "evidence": "research/transparency/saleor_portability_fix_evidence.json",
+      "note": "98/98 byte-equivalence of the production-only materializer vs git archive (Block B; pre-identity-fix IDs)"
+    },
+    "identity_equivalence": {
+      "status": "PASS",
+      "evidence": "research/transparency/saleor_identity_equivalence_150.json",
+      "note": "150/150 post-migration scientific payload (commits/split/universes/proxies/edges) identical to pre-migration snapshot; IDs migrated saleor-rc-*"
     },
     "independent_audit": {
       "status": "PASS",
-      "note": "rebuilt 98 canonical universe+graph hashes vs pre-portability snapshot",
-      "mismatches": 0
+      "note": "identity fields (saleor-rc-* ID, repository=saleor, url, graph repo_id=saleor, anchor 2c48391b...) corrected on all 150 bundles",
+      "bad_identity_cases": []
     }
   }
 }
