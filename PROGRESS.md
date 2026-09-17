@@ -5,43 +5,33 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `main` (continuation mission work committed directly)
-**HEAD base:** `f7c6fa1` (S7 traceability commit, Saleor transfer REPLICATES)
+**Branch:** `main`
+**HEAD:** `6a4eaac` (merge of `feat/preconfirmatory-hardening-v14-ranker-audit`;
+tag `preconfirmatory-hardening-v14-dev-2026-09-17`)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** PRE-CONFIRMATORY HARDENING V14 — ranker-identity audit + incremental
 ablation + confirmatory freeze packet V2 + API budget freeze + Proposal V1.4
-(2026-09-17)
+(2026-09-17) — **COMPLETE (ZERO API)**
 
 ---
 
 ## Now executing
 
-- **ALL BLOCKS COMPLETE (ZERO API).** A. Ranker-identity audit: the frozen arm
-  historically labelled `Classical-CIA` is exactly `normalized BM25 + binary
-  graph-neighbor`; CIA and Hybrid are mathematically rank-equivalent (Hybrid =
-  0.5 × CIA key), confirmed at top-B identity on 174 djangoCMS + 149 Saleor
-  DEVELOPMENT tasks (0 differing cells, full-rank identical). Hybrid classified
-  a redundant alias/control. B. Incremental-evidence ablation: cross-repo signal
-  predominantly lexical (BM25); composite−BM25 paired deltas small with CIs
-  including zero at most B; Saleor graph arm ≈ binary-neighbor floor.
-  C. Confirmatory freeze packet V2 (supersedes V1; truthful ranker name,
-  redundancy, Saleor=REPLICATES, exact repetition/failure/verifier semantics).
-  D. Confirmatory API budget freeze (560 calls / ≤2,100,000 tokens / ≤$1.00;
-  per-call reservation rule). E. Proposal V1.4 (.tex/.pdf 7 pages + audit),
-  V1.3 immutable.
-- **Remaining:** traceability commit, full test suite, merge/tag/light export,
-  final report.
+- **MILESTONE COMPLETE.** All V14 blocks shipped, audited, committed, merged
+  to `main`, tagged, and exported.
+- **Remaining:** none for this mission. Final report delivered; next step is
+  Ahmed's decision on opening djangoCMS INTERNAL_TEST.
 
 ## Last completed task
 
-- E: Proposal V1.4 created (Saleor DEV transfer replication + ranker identity
-  correction + lexical-dominance statement) + audit; changelog + claims matrix
-  updated.
+- V14 milestone closure: full suite (3297 passed / 33 skipped / 2 pre-existing
+  environmental failures), independent audit PASS, merge to main (`6a4eaac`),
+  DEV tag `preconfirmatory-hardening-v14-dev-2026-09-17`, LIGHT + full exports.
 
 ## Immediate next step
 
-- Traceability (DECISIONS/PROGRESS/state/roadmap/ledgers) -> full suite ->
-  branch/commit/push/merge/tag/LIGHT export -> final report.
+- Ahmed explicitly approves or rejects opening djangoCMS INTERNAL_TEST under
+  the frozen V2 packet and budget.
 
 ## Blockers
 
