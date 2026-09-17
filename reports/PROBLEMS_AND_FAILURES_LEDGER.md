@@ -161,3 +161,18 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
 - **Scientific impact:** P5R interpretation corrected (no hard 900 s cap); the
   0/5 pilot outcome and the no-full-rerun decision are unchanged.
 - **Follow-up:** P5R-2 feasibility note updated accordingly.
+
+## PF-014 — Saleor sparse inference BUDGET-BLOCKED (2026-09-17)
+- **Problem:** measured Saleor per-cell cost (~14.5k tokens / .0047 from a
+  live smoke cell) makes the full 450-cell DEV run ~6.5-7.4M tokens / .13-2.23,
+  2.4-2.7x the authorized hard ceiling (2.7M / .00).
+- **Root cause:** Saleor candidate universes (median 761 files) are 3-4x larger
+  than djangoCMS; the Saleor protocol §5.1 explicitly warned to re-budget from
+  the frame, never assume djangoCMS per-cell cost.
+- **Action:** FAIL-CLOSED after 1 smoke cell (valid evidence, .0047); the
+  remaining 449 cells NOT run; no silent protocol reduction. Block D (Route-B
+  replication) blocked because it requires C.
+- **Status:** OPEN (blocker for Saleor inference + replication).
+- **Fix options (require explicit authorization):** raise ceiling to measured
+  ~7.5M tok / .25; or pre-register a documented subset / 1-rep protocol; or
+  shrink the candidate universe via a documented production-scope rule.

@@ -58,6 +58,15 @@ evidence, identify suspicious omitted candidates using independent
 structural/history evidence, verify only those candidates under a hard budget,
 and compare with always-verify and random matched-budget verification.
 
+> **Route B V2 status (2026-09-17):** DEVELOPMENT robustness closure COMPLETE
+> (174 tasks; budget curve B∈{0,1,3,5,10}; analytic hypergeometric Random;
+> Classical-CIA frozen primary; 5/5 folds positive; 4/4 B-points above Random;
+> bootstrap CIs exclude zero; gate PASS). Bounded verifier pilot EXECUTED (30
+> calls, $0.0023, Oracle-in-top-B = 1.000, diagnostic). **Confirmatory-freeze
+> packet ready-to-approve** (`reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_FREEZE_PACKET.md`,
+> choice B = ranking + actual verifier; djangoCMS INTERNAL_TEST sealed). Saleor
+> Route-B replication BLOCKED (needs Saleor sparse predictions; budget-blocked).
+
 The thesis question remains:
 
 > When is additional repository reasoning worth its inference cost, and how can
@@ -76,7 +85,7 @@ No claim is made in advance that Route A or Route B will win.
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
-| 7 | **Cross-repository confirmation — SALEOR (confirmed future pillar)** | SUITABLE-WITH-DEVIATIONS AUDIT DONE (2026-09-16); protocol frozen (`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`); frame reconstruction blocked on full history cache |
+| 7 | **Cross-repository confirmation — SALEOR (confirmed future pillar)** | SUITABLE-WITH-DEVIATIONS AUDIT DONE (2026-09-16); protocol frozen (`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`); **DEVELOPMENT DATASET READY (2026-09-17)** — production-only materializer portability fix + 98/98 equivalence PASS + **150/150 DEVELOPMENT bundles** (`reports/SALEOR_PORTABILITY_FIX_AND_150_BUILD_REPORT.md`); **sparse inference FAIL-CLOSED on budget** (450-cell run projects 2.4–2.7× the authorized 2.7M/$1.00 ceiling; `reports/SALEOR_SPARSE_INFERENCE_BUDGET_BLOCKED_CLOSURE.md`) |
 | 8 | **Omission-risk detection — THESIS CORE (confirmed future pillar)** | DEVELOPMENT-EVIDENCE COMPLETE — task-level RiskScorer NOT justified on n=30 (Sparse-v2 development inference 2026-09-16); V2 design + sample-size analysis in `docs/REAL_COMMIT_DATASET_V2_PROTOCOL.md` |
 
 > **Confirmed future pillars (2026-09-15).** Both pillars are authoritative

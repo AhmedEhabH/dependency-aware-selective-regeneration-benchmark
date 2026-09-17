@@ -621,3 +621,56 @@ execution. Entries are never edited after append; corrections are new entries.
   analysis, leakage/confound checks, and proposal review acknowledging the freeze.
 - **Evidence:** mission Section 10; ledgers.
 - **Revisit:** after the full freeze (next milestone).
+
+## Decision P40 - Saleor portability fix (production-only materializer) (2026-09-17)
+
+- **Status:** ADOPTED (continuation mission Block B)
+- **Problem:** whole-tree git archive fails on Windows for Saleor parents with
+  a test cassette containing ?/[/] filename chars.
+- **Chosen:** platform-independent production-only parent materializer
+  (git ls-tree + frozen production predicate + git cat-file --batch); only
+  production .py blobs under saleor/ are materialized.
+- **Why:** does NOT change frozen eligibility/production-file rules; no
+  scientific file deleted or skipped; extraction-mechanism only.
+- **Rejected:** cassette-exclusion rule change; POSIX-only re-run.
+- **Evidence:** equivalence gate 98/98 PASS; rebuilt 150/150; canonical
+  universe+graph hashes identical to pre-portability snapshot (0 mismatch).
+- **Revisit:** n/a (fix proven equivalent).
+
+## Decision P41 - Saleor sparse inference FAIL-CLOSED on budget (2026-09-17)
+
+- **Status:** BLOCKED (documented; no silent protocol change)
+- **Problem:** measured Saleor per-cell cost ~14.5k tokens / .0047 (live smoke
+  cell) -> 450-cell run projects ~6.5-7.4M tokens / .13-2.23, 2.4-2.7x over
+  the authorized hard ceiling (2.7M tok / .00).
+- **Chosen:** stop after 1 smoke cell; do NOT run the remaining 449.
+- **Rejected:** silent subset/reduced-reps (protocol change); raising ceiling
+  without authorization.
+- **Evidence:** reports/SALEOR_SPARSE_INFERENCE_BUDGET_BLOCKED_CLOSURE.md.
+- **Revisit:** requires explicit re-budget (measured basis ~7.5M tok / .25)
+  or a documented pre-registered subset.
+
+## Decision P42 - Confirmatory freeze packet: choice B (ranking + actual verifier) (2026-09-17)
+
+- **Status:** PROPOSED in packet (ready-to-approve; INTERNAL_TEST sealed).
+- **Chosen:** B - end-to-end conditional-verifier budget curve (ranker + frozen
+  verifier inspecting top-B) as the confirmatory claim.
+- **Why:** DEV result includes Oracle-in-top-B=1.0 verifier-pilot finding;
+  ranking-only would under-claim the proposal.
+- **Revisit:** supervisor approval required before confirmatory execution.
+
+## Decision P43 - P2 adaptive budget stays CONDITIONAL (2026-09-17)
+
+- **Status:** CONDITIONAL - AFTER FIXED ROUTE-B CONFIRMATION.
+- **Chosen:** formalize features + pre-register 3 policies; NO learned policy;
+  NO winner on confirmatory data.
+- **Evidence:** docs/ADAPTIVE_BUDGET_P2_PRE_REGISTRATION_NOTE.md.
+
+## Decision P44 - Proposal V1.4 NOT created (2026-09-17)
+
+- **Status:** ADOPTED (no material claim change).
+- **Chosen:** keep V1.3 as the print candidate; update state/roadmap/ledgers only.
+- **Why:** Saleor replication did NOT run (budget-blocked) -> no new
+  cross-repo result; confirmatory-freeze packet is ready-to-approve, not an
+  executed confirmatory outcome; P2 unchanged (conditional).
+- **Revisit:** create V1.4 when Saleor replication or confirmatory results exist.

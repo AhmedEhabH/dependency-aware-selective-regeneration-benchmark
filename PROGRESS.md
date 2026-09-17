@@ -8,30 +8,35 @@ task, immediate next step, blockers). Scientific truth lives in
 **Branch:** `research/overnight-routeb-v2-saleor-2026-09-17` (overnight mission; to be merged into `main`)
 **HEAD base:** `7dbd028` (main, evening mission closed + DEV tag)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** OVERNIGHT MISSION (2026-09-17) — Route B V2 freeze, verifier pilot,
-Saleor bundles, Proposal V1.3, semantic two-rater, adaptive horizon, P5R-2.
+**Task:** CONTINUATION MISSION (2026-09-17) — Saleor portability fix + 150/150
+bundles; Saleor sparse inference (budget-blocked); Route-B confirmatory-freeze
+packet; P2 prereg; semantic audit machine-prep.
 
 ---
 
 ## Now executing
 
-- **ALL OVERNIGHT BLOCKS COMPLETE.** Route B V2 robustness closure (CIA frozen,
-  gate PASS; analytic Random; budget curve). History/co-change arm (beats
-  random; CIA remains primary). Verifier pilot (30 calls, $0.0023;
-  Oracle-in-top-B=1.0). Saleor bundles (98/150; 52 blocked on Windows git
-  archive; inference NOT run). Proposal V1.3 (7 pages). Semantic two-rater
-  readiness + kappa script. Adaptive-budget research note. P5R-1 correction +
-  P5R-2 feasibility. Traceability + living review. INTERNAL_TEST/RESERVE sealed.
-- **Remaining:** merge main + DEV tag + LIGHT export + final report.
+- **ALL CONTINUATION BLOCKS COMPLETE (or blocked-documented).** A: state
+  verified. B: Saleor production-only materializer — equivalence 98/98 PASS,
+  150/150 DEV bundles built, canonical hashes identical (ZERO model calls).
+  C: Saleor sparse inference **FAIL-CLOSED on budget** (1/450 smoke $0.0047;
+  450-cell projects 2.4-2.7x ceiling) — full run NOT run; no silent protocol
+  change. D: Saleor Route-B replication BLOCKED (requires C). E: djangoCMS
+  Route-B confirmatory-freeze packet (ready-to-approve, INTERNAL_TEST sealed,
+  choice B). F: P2 adaptive-budget pre-registration (conditional). G: semantic
+  audit machine-prep finished (integrity, kappa tests, synthetic dry-run).
+  H: Proposal V1.3 stays print candidate (V1.4 NOT created).
+- **Remaining:** traceability commit, full tests, merge main, DEV tag, LIGHT
+  export, final report.
 
 ## Last completed task
 
-- Full suite green (3290 passed / 33 skipped / 2 pre-existing environmental
-  failures — missing pinned djangocms git cache, identical on clean base).
+- Block G (semantic audit machine-prep) + H (proposal decision).
 
 ## Immediate next step
 
-- Merge to main + push + DEV tag + LIGHT export + final morning report.
+- Traceability (Block I) commit → full suite → merge + DEV tag + LIGHT export
+  → final report.
 
 ## Blockers
 
