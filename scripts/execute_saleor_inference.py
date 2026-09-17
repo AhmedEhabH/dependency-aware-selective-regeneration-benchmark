@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """RealCommitImpactDataset-Saleor — Sparse development-inference executor.
 
-LIVE API, authorized (continuation mission, Block C): cells <= 450,
-tokens <= 2.7M, cost <= $1.00. Runs Saleor DEV_TRAIN + DEV_VALIDATION
+LIVE API, authorized (continuation mission, Block C re-authorized 2026-09-17):
+cells <= 450, tokens <= 9M, cost <= $3.00. Runs Saleor DEV_TRAIN +
+DEV_VALIDATION
 (150 cases x 3 reps = 450 cells) with the frozen Sparse-v2 config
 (qwen/qwen3-coder @ deepinfra/turbo, temp 0, cap 16384, Graph OFF).
 INTERNAL_TEST / RESERVE never called.

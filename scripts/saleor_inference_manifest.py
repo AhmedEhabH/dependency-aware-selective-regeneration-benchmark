@@ -2,8 +2,8 @@
 # ruff: noqa: E501
 """RealCommitImpactDataset-Saleor — Sparse development-inference manifest.
 
-Authorized ceilings (continuation mission, Block C): NEW cells <= 450,
-tokens <= 2.7M, cost <= $1.00. Runs Saleor DEV_TRAIN + DEV_VALIDATION
+Authorized ceilings (continuation mission, re-authorized 2026-09-17): NEW cells
+<= 450, tokens <= 9M, cost <= $3.00. Runs Saleor DEV_TRAIN + DEV_VALIDATION
 (150 cases x 3 reps = 450 cells) with the frozen Sparse-v2 config
 (qwen/qwen3-coder @ deepinfra/turbo, temp 0, cap 16384, Graph OFF).
 INTERNAL_TEST + RESERVE are NEVER called.
@@ -26,8 +26,8 @@ DATASET_DIR = _PROJECT_DIR / "benchmark_data" / "real_commit_impact_saleor"
 STUDY_DIR = _PROJECT_DIR / "research" / "saleor-sparse-inference"
 DEV_MANIFEST = DATASET_DIR / "saleor_development_manifest.json"
 
-TOKEN_CEILING = 2_700_000
-COST_CEILING_USD = 1.00
+TOKEN_CEILING = 9_000_000
+COST_CEILING_USD = 3.00
 CELL_CEILING = 450
 REPS = 3
 
