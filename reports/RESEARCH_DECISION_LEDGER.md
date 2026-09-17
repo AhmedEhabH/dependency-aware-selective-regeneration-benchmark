@@ -267,3 +267,22 @@ Entries use the format requested by the evening addendum (2026-09-16).
 - **Rejected:** (b).
 - **Evidence:** reports/DJANGOCMS_CONFIRMATORY_API_BUDGET_FREEZE.md.
 - **Revisit:** requires Ahmed's approval before any confirmatory call.
+
+## D-0XX - P2 Phase-1 negative closure + fixed Route-B reviewer closure (2026-09-18)
+- **Question:** Should P2 Phase-1 close negative, and should the fixed Route-B
+  reviewer-facing issues be closed without changing the frozen result?
+- **Options:** (a) close P2 Phase-1 negative + add POST-HOC characterization;
+  (b) tune further / run stronger methods / edit the frozen confirmatory.
+- **Chosen:** (a) — P2-P1..P2-P4 all NEGATIVE on DEVELOPMENT; strong-method gate
+  FALSE; fixed Route-B confirmatory untouched; curve-level POST-HOC
+  characterization, sparse-vs-full parity audit (PARITY_VERIFIED), and dataset
+  operational-definition audit produced. ZERO API.
+- **Why:** the pre-registered gate for stronger methods was False on both repos
+  (each policy either saved cost but lost >50% recovery or matched recovery at
+  no saving); a negative is a valid scientific result; reviewer issues are
+  closure/documentation, not method change.
+- **Rejected:** (b) — tuning/stronger methods without gate passage; editing the
+  frozen confirmatory; opening sealed sets; new model calls.
+- **Evidence:** reports/P2_PHASE1_* + research/p2-phase1/* + 31 tests.
+- **Revisit:** Phase-2 candidates from the expanded landscape after further
+  development evidence; Saleor INTERNAL_TEST stays sealed.

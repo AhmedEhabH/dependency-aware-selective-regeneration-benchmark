@@ -6,6 +6,76 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-18, P2 PHASE-1 + FIXED-ROUTE-B SCIENTIFIC CLOSURE —**
+**ZERO new model calls; P2 Phase-1 = NEGATIVE and frozen; fixed Route-B**
+**confirmatory untouched; sealed sets untouched):**
+→ **A. FIXED ROUTE-B REVIEWER CLOSURE (2026-09-18; ZERO API; frozen result
+unchanged):** (1) **curve-level POST-HOC characterization**
+(`reports/ROUTE_B_CURVE_LEVEL_POSTHOC_CHARACTERIZATION.md` + JSON): AURC
+(normalized over B∈{0,1,3,5,10}) composite **0.1553** / verifier **0.0971** /
+analytic Random **0.0277**; simultaneous task-bootstrap band (4000 resamples of
+the frozen task unit); per-task recovery distributions (5/25/50/75/95
+percentiles); **zero-FN tasks 10/80 (12.5%) with explicit denominator handling**
+(frozen macro includes them as 0; positive-only sensitivity labelled); macro +
+micro at every B. The frozen macro reproduces the frozen confirmatory numbers
+exactly (B=5 composite 0.165). POST-HOC label prominent; NOT preregistered.
+(2) **Sparse-vs-Full causal parity audit = PARITY_VERIFIED**
+(`reports/SPARSE_FULL_CAUSAL_PARITY_AUDIT.md`): Full-v2 vs Sparse-v2 match on
+model/version, provider/route, parent snapshot/candidate universe, context,
+temperature/decoding, reasoning mode, completion cap, tools, repetitions; the
+ONLY intended difference is the serialization-policy block (frozen
+`PROMPT_CONTROLLED_DIFF` PASS 10/10). (3) **Dataset operational-definition
+audit** (`reports/DATASET_OPERATIONAL_DEFINITIONS.md`): exact rules for
+"meaningful intent", production-source eligibility, exclusions (canonical
+codes), dedup R1/R2/R3, failure/evaluable-task rules, 3-repetition aggregation,
+zero-FN handling. No new dataset; thesis/reviewer clarity only.
+→ **B. P2 PHASE-1 — COMMON ADAPTIVE-BUDGET HARNESS + FOUR POLICIES (2026-09-18;**
+**DEVELOPMENT only; ZERO API):** common harness `src/benchmark/p2/`
+(tasks/cost_model/policies/evaluate) + `scripts/p2_phase1_run.py` +
+`scripts/p2_phase1_gates.py`. Frozen anchors: fixed B={1,3,5,10} composite,
+fixed-B BM25, Analytic Random, Oracle, InspectAll. Measured verifier cost model
+(prompt_tokens≈204.5+7.4·B; api_cost≈0.000065+0.000005·B; least-squares fit over
+the 320 frozen confirmatory verifier calls; relative accounting only).
+**P2-P1 score-gap, P2-P2 marginal-score, P2-P3 cost-ratio, P2-P4 learning-k
+analogue implemented with constants derived on djangoCMS DEV_TRAIN only**
+(tau_gap 0.10 declared; tau_marg 1.0 = 25th pct of DEV_TRAIN top-1 composite
+scores; tau_energy 0.90 declared; cost-ratio grid {0.5,1.0,2.0} declared
+sensitivity). **RESULTS (djangoCMS DEV 174 / Saleor DEV 149): all four
+NEGATIVE** — P2-P1 stops early (B_t 1.6/1.5; ORR 0.078/0.115 ≈ half of fixed-B5);
+P2-P2/P2-P4 converge to B_t ≈ 8.5–10 at fixed-B10-equivalent cost with no saving;
+P2-P3 is repo-asymmetric (djangoCMS B_t=1 vs Saleor B_t≈9 at the same tau) →
+**REJECTED_BY_DESIGN** (size/repo artifact). **Strong-method gate = FALSE** → the
+two stronger methods (cost-sensitive expected-loss stopping; one-step/joint
+ranking+budget) were **NOT implemented** (mission §4: freeze the negative; a
+valid scientific result). **P2 Phase-1 decision = NEGATIVE closure**; Phase-2
+candidates: NONE. Saleor INTERNAL_TEST remains sealed.
+→ **C. LITERATURE LANDSCAPE EXPANSION (2026-09-18):** +15 serious verified
+entries (P2-025..P2-039) added to `research/literature/p2_algorithm_landscape.csv`
+(24→39) covering adaptive computation (ACT), selective prediction/abstention
+(SelectiveNet, El-Yaniv & Wiener, Chow), early-exit cascades (DeeBERT),
+learning-to-defer, budgeted learning, Confidence-Budget Matching, fixed-budget
+ranking & selection, adaptive-kNN graph (latest Zhang-line), VOI/active search;
+primary sources verified via the arXiv API where accessible; classical works
+marked CLASSICAL; nothing fabricated. Landscape report §7 + literature decision
+ledger updated. The expanded landscape is the Phase-2 candidate pool.
+→ **D. SEMANTIC-AUDIT HUMAN BLOCKER (2026-09-18):** package re-verified
+(PACKET_INTEGRITY PASS + SYNTHETIC_DRYRUN PASS); human-action report created
+(`reports/SEMANTIC_AUDIT_ACTION_REQUIRED_FROM_HUMANS.md`); scientific blocker =
+**AWAITING_HUMAN_RATINGS**. No coding time spent rebuilding ready forms.
+→ **E. NESTJS READINESS (2026-09-18; ZERO API):** repo reachable, stable tags
+pinnable, >=60 eligible-case rule frozen, TS import extractor NOT implemented,
+no local cache — blockers listed (`reports/NESTJS_READINESS_ZERO_API_2026-09-18.md`);
+no inference. **F. V1.5 PATCH LIST** (`reports/V15_SUPERVISOR_PATCH_LIST.md`);
+no V1.6, no PPTX.
+→ **G. VALIDATION:** 6/6 T3 gates PASS + independent audit PASS
+(`reports/P2_PHASE1_INDEPENDENT_AUDIT.md`, `reports/p2_phase1_gates_validation.json`);
+31 new P2 tests (15 policy unit + 10 evaluator unit + 6 integration) PASS;
+harness reproduces the frozen route_b_v2 / Saleor transfer fixed-B composite
+macro ORR within 0.02. **Boundary held: ZERO new model calls; djangoCMS RESERVE
++ Saleor INTERNAL_TEST/RESERVE sealed; the opened djangoCMS INTERNAL_TEST used
+only for frozen Route-B reporting (never P2 tuning); fixed Route-B CONFIRMED
+unchanged.**
+
 **Governance (2026-09-16):** permanent hierarchy — scientific truth =
 this file; execution truth = `PROGRESS.md`; decisions (append-only) =
 `DECISIONS.md`. Protocol: `docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`

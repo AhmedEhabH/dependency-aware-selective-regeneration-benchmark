@@ -101,3 +101,14 @@ implementation status, reason, comparison role. Appendix to the comparison plan.
   tasks). Retained only to document the redundancy.
 - **Note:** not an independent baseline; not used as a separate scientific
   claim.
+
+## B-0XX - P2 adaptive-budget baseline selection (2026-09-18)
+- **Baselines:** fixed B={1,3,5,10} composite, fixed-B BM25, Analytic Random,
+  Oracle, InspectAll (common contract).
+- **Why fixed-B composite primary:** frozen CONFIRMED ranker; shared protocol
+  with the confirmatory.
+- **Decision:** adaptive policies compared against fixed-B curve at realized
+  cost; Pareto frontier computed over recovery-vs-cost; Oracle=ranking headroom,
+  InspectAll=exhaustive reconsideration.
+- **Result:** no adaptive policy Pareto-dominates fixed-B on both repos;
+  frontier includes fixed-B points + inspect-all (honest exhaustive cost).

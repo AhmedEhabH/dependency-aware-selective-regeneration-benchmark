@@ -222,3 +222,19 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
 - **Action:** recorded UNAVAILABLE in the ablation; djangoCMS history arm used
   where available (94 tasks).
 - **Status:** DOCUMENTED (not a scientific anomaly).
+
+## PF-0XX - P2 adaptive-budget policies NEGATIVE on DEVELOPMENT (2026-09-18)
+- **Where:** src/benchmark/p2/ evaluation on djangoCMS DEV + Saleor DEV.
+- **Symptoms:** no P2-P1..P2-P4 policy beats fixed-B on BOTH repos; P2-P3
+  repo-asymmetric (djangoCMS B_t=1 vs Saleor B_t=9 at the same tau).
+- **Root cause:** (a) sparse composite-score tail (58% zeros) makes score-gap /
+  marginal rules stop early or track B10; (b) cost-ratio rule is dominated by
+  omitted-size/universe-size distributions (size artifact).
+- **Fixes:** none needed — pre-registered gate correctly FALSE; negative frozen
+  as the scientific result per mission section 4.
+- **Outcome:** P2 Phase-1 NEGATIVE closure; fixed-B thesis (CONFIRMED) intact.
+- **Unresolved risk:** adaptive B_t remains not-justified for Phase 2; landscape
+  expansion provides the Phase-2 candidate pool.
+- **Scientific impact:** none negative for the fixed-B contribution.
+- **Follow-up:** Phase-2 candidates drawn from P2-025..P2-039 only after further
+  development evidence.

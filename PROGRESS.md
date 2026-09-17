@@ -5,54 +5,57 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `main`
-**HEAD:** `3ae9248` (merge of `docs/proposal-v1-5-polish-2026-09-17`)
+**Branch:** `main` (release branch pending)
+**HEAD:** `ae885cf` (pre-merge)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** PROPOSAL V1.5 POLISH + RELATED-WORK MATRIX + ABSTRACT REWRITE +
-SLIDE HANDOFF PACKAGE (2026-09-17) — doctor-guide abstract, comparison matrix
-added, terminology pass, V1.5 artifacts, slide handoff, P2 status aligned —
-**COMPLETE**
-**ZERO API; no scientific/method change; no sealed set opened.**
+**Task:** P2 PHASE 1 + FIXED-ROUTE-B SCIENTIFIC CLOSURE (2026-09-18) — fixed
+Route-B reviewer closure (curve-level POST-HOC characterization, sparse-vs-full
+causal parity audit, dataset operational-definition audit; ZERO API); P2 common
+adaptive-budget DEVELOPMENT harness; P2-P1..P2-P4 implemented + evaluated on
+djangoCMS DEV + Saleor DEV; strong-method gate FALSE → **P2 Phase-1 = NEGATIVE
+(frozen), stronger methods NOT run**; literature landscape +15 verified entries;
+semantic-audit blocker reported (AWAITING_HUMAN_RATINGS); NestJS zero-API
+readiness; V1.5 patch list; validation 6/6 + audit PASS — **release step
+pending** (traceability, full suite, branch/commit/push/merge/tag/export).
 
 ---
 
 ## Now executing
 
-- **MILESTONE COMPLETE.** Proposal V1.5 polished and packaged (12 pages,
-  compile clean), related-work comparison matrix added, doctor-guide abstract
-  rewrite, terminology/claim-safety pass, slide handoff package, P2 status
-  aligned; merged to `main` (`3ae9248`), tagged
-  `proposal-v1-5-polish-2026-09-17`, LIGHT export created.
-- **Remaining:** none for this mission. Final report delivered; next step is
-  Ahmed/supervisor review of proposal V1.5 and the seminar deck build.
+- **Release step of the P2 Phase-1 mission:** finalize traceability
+  (PROGRESS/DECISIONS/00_CURRENT_RESEARCH_STATE/roadmap/ledgers), run the full
+  test suite, then branch → commit → push → merge `main` → post-merge verify →
+  push → milestone tag → LIGHT export → final report.
+- **Remaining:** the above release step + final report.
 
 ## Last completed task
 
-- Proposal V1.5 polish milestone (2026-09-17): abstract rewritten to the
-  doctor-guide order; related-work comparison matrix added (fixes the Section
-  4 forward-reference); "Classical-CIA"/"fair comparison"/"missed impacted
-  files" terminology corrected; P2 stated as NOT complete (development
-  research program); NestJS/NextJS = future external-validity work only;
-  `slides/HANDOFF_INTERACTIVE_MSC_SEMINAR_SLIDES.md` created; V1.5 artifacts
-  (tex/pdf/audit/changelog/claims-matrix/abstract-note) + independent audit;
-  ZERO API; V1.4 immutable; merged to main (`3ae9248`); tag
-  `proposal-v1-5-polish-2026-09-17`; LIGHT export.
+- P2 Phase-1 + fixed Route-B scientific closure (2026-09-18): all scientific
+  execution COMPLETE and CLOSED (negative for P2 Phase-1; fixed Route-B
+  confirmatory untouched). ZERO new model calls.
 
 ## Immediate next step
 
-- Ahmed/supervisor review of proposal V1.5; build the interactive seminar deck
-  from `slides/HANDOFF_INTERACTIVE_MSC_SEMINAR_SLIDES.md`; then start the P2
-  program in November 2026.
+- Execute the release step (traceability updates, full suite, git branch/merge/
+  tag, LIGHT export, final report).
 
 ## Blockers
 
 - None for this mission.
-- Pre-existing environmental: pinned djangocms git cache absent at
-  benchmark_data/repositories/djangocms (legacy parent-commit corpus not
-  re-materializable; INTERNAL_TEST bundles were materialized from
-  dist/real-commit-cache/djangocms instead).
+- Pre-existing environmental (2 full-suite failures, identical on clean base):
+  pinned djangocms git cache absent at benchmark_data/repositories/djangocms
+  (legacy parent-commit corpus not re-materializable; INTERNAL_TEST bundles
+  were materialized from dist/real-commit-cache/djangocms instead).
 - Saleor parent-visible history cache absent (dist/real-commit-cache/saleor) —
   no Saleor co-change arm; recorded UNAVAILABLE in the ablation.
-- Dr. El-Ramly writing-guide / lecture-5 PDF / Arabic-critique files were
-  requested by the mission but are NOT present in the repo; the abstract
-  rewrite followed the doctor-guide structure stated in the mission instead.
+- Semantic-proxy audit is **AWAITING_HUMAN_RATINGS** (human-work blocker;
+  machine-preparation complete and verified).
+
+## Full-suite state (P2 Phase-1 final gate, 2026-09-18)
+
+- **3334 passed / 33 skipped / 2 pre-existing environmental failures**
+  (missing pinned djangocms repo checkout; identical on clean base).
+- 31 new P2 tests (15 policy unit + 10 evaluator unit + 6 integration).
+- Ruff clean on all changed Python files; mypy strict clean on
+  `src/benchmark/p2`; py_compile clean.
+- Six T3 validation gates + independent audit PASS.
