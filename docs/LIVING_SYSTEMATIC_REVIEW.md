@@ -115,9 +115,12 @@ See `research/literature/idea_ledger.md` (I1–I7). Headline:
   recovery, cost per recovered FN) (I6);
 - zero-LLM graph/change-propagation alternatives measured against BM25@K (I3).
 
-**Do NOT start:** omission-risk RiskScorer training, Saleor scientific execution,
-LocAgent scientific calls, selective escalation, or further omission-risk model
-runs — until the harness + review foundation milestone is audited and reviewed.
+**Do NOT start:** omission-risk RiskScorer training, LocAgent scientific calls,
+selective escalation, or further omission-risk model runs — until the harness +
+review foundation milestone is audited and reviewed. **Saleor DEVELOPMENT
+scientific execution IS authorized (2026-09-17)** under the frozen budget
+(450 cells / 9M tokens / $3.00, DEV_TRAIN+DEV_VALIDATION only); INTERNAL_TEST /
+RESERVE stay sealed.
 
 **Registered Sparse-v2-label study: EXECUTED 2026-09-16 (approved
 development-inference, 90 cells, TRAIN/VALIDATION only).** Outcome: 90/90

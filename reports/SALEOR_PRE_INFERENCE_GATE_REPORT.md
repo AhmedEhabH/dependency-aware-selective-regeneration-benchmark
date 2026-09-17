@@ -1,9 +1,11 @@
 # Saleor Pre-Inference Gate Report — Stage-2 ready-to-run
 
-**Date:** 2026-09-16 evening
+**Date:** 2026-09-16 evening; **UPDATED 2026-09-17** (identity correction +
+re-authorization)
 **Tier:** T3 data / ZERO scientific LLM calls
-**Status:** `SALEOR READY-TO-RUN` (frame + split proposed; case-bundle build is
-the next audited data step before any inference).
+**Status:** `SALEOR DEVELOPMENT DATASET READY` (frame + split + 150/150 DEV
+bundles + identity correction; a clean DEVELOPMENT sparse run is authorized
+under the frozen 450-cell / 9M-token / $3.00 budget).
 
 ---
 
@@ -40,12 +42,19 @@ TEST inspection; no model inference tonight; repetitions nested; raw responses
 
 ## Blocker
 
-- Case-bundle materialization + frozen split manifest for Saleor is the next
-  audited data step (mirrors the djangoCMS V2 builder). It is NOT a scientific
-  model call; do NOT run Saleor inference until it is complete and audited.
+- ~~Case-bundle materialization + frozen split manifest for Saleor is the next
+  audited data step~~ **RESOLVED 2026-09-17:** 150/150 DEVELOPMENT bundles
+  materialized via the production-only materializer (98/98 equivalence PASS)
+  and the identity/provenance correction (case IDs `saleor-rc-<sha>`,
+  repository identity, 150/150 scientific-payload equivalence PASS). See
+  `reports/SALEOR_PORTABILITY_FIX_AND_150_BUILD_REPORT.md` and
+  `reports/SALEOR_IDENTITY_MIGRATION_REPORT.md`.
 
 ## Do NOT
 
 - Do not inspect any future Saleor TEST model outcomes.
 - Do not tune the djangoCMS method on Saleor TEST.
-- Do not run Saleor LLM inference tonight.
+- Do NOT open Saleor INTERNAL_TEST (80) or RESERVE (1086).
+- Saleor DEVELOPMENT sparse inference IS authorized (2026-09-17) under the
+  frozen 450-cell / 9M-token / $3.00 budget; the pre-fix single smoke call is
+  archived as operational smoke and NOT counted as scientific evidence.

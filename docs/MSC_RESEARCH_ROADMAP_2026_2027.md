@@ -489,9 +489,13 @@ correctness claims.
 RESERVE 1086; all-pool SHA `6be5c994…`); sample-size analysis done; protocol in
 `docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`; suitability
 `reports/SALEOR_REPOSITORY_SUITABILITY_AUDIT.md`; gates
-`reports/SALEOR_PRE_INFERENCE_GATE_REPORT.md`. **Do NOT run Saleor inference
-tonight** — case-bundle materialization + frozen split manifest is the next
-audited data step.
+`reports/SALEOR_PRE_INFERENCE_GATE_REPORT.md`. **Saleor DEVELOPMENT DATASET READY
+(2026-09-17):** identity/provenance correction (case IDs `saleor-rc-<sha>`,
+repository identity, 150/150 scientific-payload equivalence PASS;
+`reports/SALEOR_PORTABILITY_FIX_AND_150_BUILD_REPORT.md`,
+`reports/SALEOR_IDENTITY_MIGRATION_REPORT.md`); frozen DEV manifest; a clean
+150×3 DEVELOPMENT sparse run is the next scientific step under the frozen
+budget (450 cells / 9M tokens / $3.00; INTERNAL_TEST/RESERVE sealed).
 
 **Role in the thesis.** Saleor is the second-repository candidate
 (subject to the frozen protocol-fit audit):

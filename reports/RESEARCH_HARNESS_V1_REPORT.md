@@ -133,6 +133,8 @@ tests (32) still pass; full suite runs at final gate.
 
 ## 12. STOP CONDITION
 
-After this harness + review foundation is audited, STOP. NOT started:
-omission-risk training/analysis, Saleor scientific execution, LocAgent
-scientific calls, selective escalation, new model runs.
+After this harness + review foundation is audited, STOP. NOT started (as of the
+harness milestone): omission-risk training/analysis, LocAgent scientific calls,
+selective escalation, new model runs. **UPDATE 2026-09-17:** Saleor DEVELOPMENT
+scientific execution IS authorized under the frozen 450-cell / 9M-token / $3.00
+budget; INTERNAL_TEST/RESERVE stay sealed.

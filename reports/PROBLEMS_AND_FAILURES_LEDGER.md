@@ -176,3 +176,7 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
 - **Fix options (require explicit authorization):** raise ceiling to measured
   ~7.5M tok / .25; or pre-register a documented subset / 1-rep protocol; or
   shrink the candidate universe via a documented production-scope rule.
+- **RESOLVED (2026-09-17):** re-authorized with a measured budget — hard
+  ceilings 450 cells / 9,000,000 total tokens / .00 (covers the ~7.5M-token /
+  ~.25 measured projection with ~20% headroom). Also corrected dataset
+  identity (saleor-rc-*); pre-fix smoke archived as operational (not scientific).

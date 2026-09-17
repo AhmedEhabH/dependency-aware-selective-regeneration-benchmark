@@ -205,3 +205,26 @@ Entries use the format requested by the evening addendum (2026-09-16).
   production-file rule to skip the cassette path.
 - **Evidence:** reports/SALEOR_CASE_BUNDLE_BUILD_REPORT.md.
 - **Revisit:** POSIX re-run or cassette-exclusion workaround, then re-freeze.
+
+## D-020 — Saleor identity/provenance correction + re-authorization (2026-09-17)
+- **Question:** Should the Saleor dataset be re-run with corrected identity, and
+  is Saleor DEVELOPMENT scientific execution now authorized?
+- **Options:** (a) migrate IDs to saleor-rc-<sha> + fix identity + re-freeze;
+  (b) run with the djangocms-rc-* leak; (c) keep blocked.
+- **Chosen:** (a) — deterministic migration (saleor-rc-<sha>), corrected
+  repository URL/anchor/license/repo identity, old→new mapping, 150/150
+  scientific-payload equivalence PASS (commits/split/universes/proxies/edges
+  preserved). The single pre-fix smoke call is archived as operational smoke
+  (NOT scientific evidence).
+- **Why:** the djangocms-rc-* case ID was visible in the inference prompt — a
+  provenance leak that would corrupt a Saleor scientific run.
+- **Rejected:** (b) leaking wrong repo identity into prompts; (c) leaving Saleor
+  permanently blocked after the portability fix.
+- **Evidence:** reports/SALEOR_IDENTITY_MIGRATION_REPORT.md,
+  research/transparency/saleor_identity_equivalence_150.json.
+- **Revisit:** n/a (identity is a correction, not a protocol change).
+- **AUTHORIZATION (2026-09-17):** a clean 150x3 DEVELOPMENT sparse run is
+  authorized with hard ceilings 450 cells / 9,000,000 total tokens / .00; no
+  INTERNAL_TEST/RESERVE; no result-dependent reruns; no Saleor-specific tuning.
+  After the run closes, the frozen Route-B transfer replication is executed and
+  classified (REPLICATES / PARTIAL / DOES NOT REPLICATE).
