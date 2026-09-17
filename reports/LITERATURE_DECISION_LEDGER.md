@@ -91,3 +91,11 @@ Existing work covers several individual components; this thesis evaluates their
 matched correctness-cost budgets) — we avoid an absolute "none combines..."
 claim unless the verified matrix supports it. Candidate novelty remains
 `CANDIDATE NOVELTY — NOT YET CLAIMED`.
+## 2026-09-17 terminology note (ranked identity audit)
+
+- The label Classical-CIA in the Route-B V2/transfer results refers to the
+  BM25+Graph-Neighbor Composite (normalized BM25 + binary graph-neighbor),
+  NOT to classical dependency-propagation CIA. The genuine classical CIA
+  baseline (classical_cia_baseline_v1.py, CIA-1H/CIA-2H) is a separate
+  implementation. Reports/proposal V1.4 use the corrected name.
+- No literature claim changes; this is naming discipline only.

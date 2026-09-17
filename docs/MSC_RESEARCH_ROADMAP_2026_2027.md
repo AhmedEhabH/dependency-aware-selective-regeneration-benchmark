@@ -686,3 +686,26 @@ must run on a fresh shared confirmatory split.
 | Route B candidate-level omission recovery V1 | **EXECUTED** (2026-09-16 evening; zero-LLM; R4 Classical CIA beats Random at B=5: DEV_VALIDATION 0.180 vs 0.037, CI [-0.003,+0.285]; no universe-size artifact corr 0.105; first positive candidate-level signal; reports/ROUTE_B_OMISSION_RECOVERY_V1_REPORT.md) |
 | Saleor Stage-2 READY-TO-RUN | **READY-TO-RUN** (2026-09-16 evening; full history 22,615 commits; frame 6000->2409->1352->1316; split proposal seed 20260916 DEV_TRAIN 120 / DEV_VALIDATION 30 / INTERNAL_TEST 80 / RESERVE 1086; pre-inference gates PASS; no inference tonight) |
 | Semantic-proxy audit protocol + packets | **PREPARED** (2026-09-16 evening; docs/SEMANTIC_PROXY_AUDIT_PROTOCOL.md; 25 DEVELOPMENT-only evidence packets; human audit required; AI notes not gold) |
+
+## 2026-09-17 update — PRE-CONFIRMATORY HARDENING V14 (ZERO API)
+
+- **Ranker identity audit:** the frozen Route-B V2 primary is exactly
+  
+ormalized BM25 + binary graph-neighbor; Hybrid is a redundant
+  rank-equivalent alias (0 differing task-budget cells, 174 djangoCMS + 149
+  Saleor DEV). Terminology corrected; formula unchanged.
+- **Incremental-evidence ablation:** cross-repo signal predominantly lexical
+  (BM25); composite−BM25 paired deltas small with CIs including zero at most B
+  on both repos; Saleor graph arm ≈ binary-neighbor floor; history available
+  only for djangoCMS (94 tasks). No new ranker selected.
+- **Confirmatory freeze packet V2** supersedes V1 (truthful name; Saleor
+  transfer AVAILABLE + REPLICATES; exact repetition/failure/verifier
+  semantics; frozen claim = end-to-end Sparse → frozen ranker → bounded
+  verifier on djangoCMS INTERNAL_TEST).
+- **Confirmatory API budget frozen:** 560 calls / ≤2,100,000 tokens / ≤.00
+  with per-call reservation rule; DEVELOPMENT distributions only.
+- **Proposal V1.4** (7 pages) created — Saleor DEV transfer replication is a
+  material scientific change; V1.3 immutable.
+- INTERNAL_TEST/RESERVE remain SEALED (both repos). Next external step:
+  Ahmed approves/rejects opening djangoCMS INTERNAL_TEST under the frozen V2
+  packet and budget.

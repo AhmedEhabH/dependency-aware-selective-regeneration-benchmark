@@ -72,3 +72,26 @@
 - Compile: 7 pages, clean. PDF SHA-256:
   db2e46f3e028b380bad68fce09356a93f4c7952ba7619fdff369481b18585ec.
 - Audit: PROPOSAL_V1_3_AUDIT.md.
+
+## V1.4 (2026-09-17)
+
+- **Material scientific change:** Saleor Route-B transfer REPLICATES on
+  DEVELOPMENT → V1.4 created (V1.3 predates the completed Saleor transfer).
+- Saleor DEVELOPMENT Sparse run: 150×3 = 450 cells; 446 valid / 4 failed;
+  7,316,986 tokens / $2.31; 0 truncations; no Saleor-specific tuning.
+- Saleor frozen Route-B transfer: 149 evaluable tasks; B=5 composite 0.237 vs
+  analytic Random 0.006; delta +0.231, CI [+0.180,+0.287]; 5/5 folds positive;
+  no size artifact. Explicitly DEVELOPMENT transfer replication, NOT
+  confirmatory.
+- **Ranker identity corrected:** "Classical-CIA" → `BM25+Graph-Neighbor
+  Composite (historical label: Classical-CIA)` (normalized BM25 + binary
+  graph-neighbor), per the ranker-identity audit; Hybrid labelled a
+  rank-equivalent redundant control.
+- **Incremental-evidence ablation:** cross-repo signal stated as predominantly
+  lexical (BM25); graph increment small, largely non-significant; no graph
+  novelty claim.
+- Per-repository primary retained; no djangoCMS+Saleor pooling as headline.
+- Adaptive B_t remains future/conditional; INTERNAL_TEST/RESERVE sealed
+  (djangoCMS + Saleor).
+- Compile: 7 pages, clean. PDF SHA-256: dd7125fa52025917b32bed77bd141a954657f888c83513f42ba0829e7ee59cd8.
+- Audit: PROPOSAL_V1_4_AUDIT.md.

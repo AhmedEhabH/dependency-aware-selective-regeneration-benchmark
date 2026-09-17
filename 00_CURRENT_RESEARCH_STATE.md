@@ -76,6 +76,58 @@ signal transfers to a second, much larger repository (Saleor B=5 delta +0.231 >
 djangoCMS +0.136).** Per-repository primary; no djangoCMS+Saleor pooling as the
 headline. djangoCMS confirmatory INTERNAL_TEST remains sealed.
 
+**CURRENT TRUTH (2026-09-17, PRE-CONFIRMATORY HARDENING V14 — ranker identity
+audit + incremental ablation + freeze packet V2 + API budget freeze + Proposal
+V1.4; ZERO API; INTERNAL_TEST/RESERVE sealed):**
+→ **A. RANKER-IDENTITY AUDIT (2026-09-17; zero API; deterministic
+recomputation):** the frozen Route-B V2 arm historically labelled
+`Classical-CIA` is exactly **`normalized BM25 + binary graph-neighbor
+indicator`** (no dependency propagation / association / importance weighting;
+the genuinely classical CIA baseline `classical_cia_baseline_v1.py` is a
+DIFFERENT script). **CIA and Hybrid are mathematically RANK-EQUIVALENT**
+(Hybrid = 0.5 × CIA key; positive scalar multiple → identical total order),
+verified at top-B identity on 174 djangoCMS + 149 Saleor DEVELOPMENT tasks:
+**0 differing task-budget cells** at every B∈{1,3,5,10}, full-rank identical.
+Hybrid is classified a **redundant alias/control, NOT an independent
+baseline** (`reports/ROUTE_B_RANKER_IDENTITY_AUDIT.md` +
+`research/transparency/route_b_ranker_identity_audit.json`). Historical
+results unchanged; correction appended.
+→ **B. INCREMENTAL-EVIDENCE ABLATION (2026-09-17; zero API; characterization,
+no method change):** composite−BM25 paired task-level deltas are small with
+bootstrap CIs including zero at most B on BOTH repositories (djangoCMS B=5
++0.003 [−0.015,+0.019]; Saleor B=5 +0.003 [−0.017,+0.024]); the replicated
+cross-repo signal is **predominantly LEXICAL (BM25)**; the graph-neighbor
+increment is small and largely non-significant (`reports/ROUTE_B_INCREMENTAL_EVIDENCE_ABLATION.md`
++ `research/transparency/route_b_incremental_ablation.json`). History arm
+(djangoCMS 94 tasks) beats Random but remains an additional arm, not the
+frozen primary; Saleor history UNAVAILABLE (no cache).
+→ **C. CONFIRMATORY FREEZE PACKET V2** (`reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_FREEZE_PACKET_V2.md`)
+supersedes V1 (V1 immutable): truthful ranker name + formula; CIA/Hybrid
+redundancy; Saleor transfer now AVAILABLE + REPLICATES on DEVELOPMENT; exact
+first-pass repetition rule (first SUCCEEDED rep's write-set per task);
+failed-rep/task treatment (excluded if no succeeded rep); verifier input/output
+semantics; 1 verifier call per (task,B), independent across B, B=0 no call;
+B∈{0,1,3,5,10}; primary endpoint ORR + secondary P/R/F1/FNR; analytic Random;
+task-level bootstrap; failure semantics; no result-dependent reruns. Frozen
+claim: **end-to-end Sparse → frozen omitted-candidate ranker → bounded verifier
+on djangoCMS INTERNAL_TEST**.
+→ **D. CONFIRMATORY API BUDGET FREEZE** (`reports/DJANGOCMS_CONFIRMATORY_API_BUDGET_FREEZE.md`):
+80 djangoCMS INTERNAL_TEST tasks; Sparse-v2 3-rep first pass (240 cells);
+verifier at B={1,3,5,10} (320 calls; B=0 none). Expected 560 calls / ~1,443,395
+tokens / ~$0.50; conservative hard ceilings **2,100,000 tokens / $1.00**;
+per-call reservation rule (sparse p99 7,877 tok / $0.00302; verifier 400 tok /
+$0.00015) so cumulative budget cannot overshoot materially. DEVELOPMENT
+distributions only; ZERO test peek.
+→ **E. PROPOSAL V1.4** (`msc_proposal/MSC_PROPOSAL_V1_4.tex/.pdf`, 7 pages,
+SHA-256 dd7125fa…; `PROPOSAL_V1_4_AUDIT.md`; changelog + claims matrix
+updated; V1.3 immutable): justified by the material Saleor DEV transfer
+replication; conservative updates — Saleor 450-cell DEV run (446 valid / 4
+failed; 7,316,986 tokens / $2.31; 0 truncations), Saleor transfer REPLICATES
+(149 tasks; B=5 0.237 vs Random 0.006, delta +0.231 CI [+0.180,+0.287]),
+DEVELOPMENT-transfer boundary explicit, `Classical-CIA` terminology corrected,
+predominantly-lexical signal stated, no graph novelty claim, adaptive B_t
+conditional, INTERNAL_TEST/RESERVE sealed and said so.
+
 ---
 
 ## 1. Submitted science — FROZEN (do not touch, do not rerun)

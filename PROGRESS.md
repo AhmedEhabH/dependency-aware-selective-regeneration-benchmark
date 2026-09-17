@@ -6,35 +6,47 @@ task, immediate next step, blockers). Scientific truth lives in
 `DECISIONS.md`.
 
 **Branch:** `main` (continuation mission work committed directly)
-**HEAD base:** `1da8ea3` (continuation mission, Saleor 150/150 + budget-blocked)
+**HEAD base:** `f7c6fa1` (S7 traceability commit, Saleor transfer REPLICATES)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** SALEOR IDENTITY CORRECTION + CLEAN DEV RUN + ROUTE-B TRANSFER (2026-09-17)
+**Task:** PRE-CONFIRMATORY HARDENING V14 — ranker-identity audit + incremental
+ablation + confirmatory freeze packet V2 + API budget freeze + Proposal V1.4
+(2026-09-17)
 
 ---
 
 ## Now executing
 
-- **ALL S-BLOCKS COMPLETE.** S1 identity migration (djangocms-rc-* ->
-  saleor-rc-*, corrected repo/url/license/anchor/graph identity); S2 150/150
-  scientific-payload equivalence PASS; S3 pre-fix smoke archived as operational
-  + stale docs reconciled; S4 9 gates PASS + fresh manifest frozen; S5 clean
-  150x3 DEVELOPMENT sparse run (450 cells, 446 valid / 4 failed, 7.32M tokens /
-  $2.31, ceilings respected, 0 truncations); S6 Route-B transfer **REPLICATES**
-  (149 tasks; CIA best arm; B=5 delta +0.231 CI [+0.180,+0.287]).
-- **Remaining:** full test suite, traceability commit, merge/tag/export, final
-  report.
+- **ALL BLOCKS COMPLETE (ZERO API).** A. Ranker-identity audit: the frozen arm
+  historically labelled `Classical-CIA` is exactly `normalized BM25 + binary
+  graph-neighbor`; CIA and Hybrid are mathematically rank-equivalent (Hybrid =
+  0.5 × CIA key), confirmed at top-B identity on 174 djangoCMS + 149 Saleor
+  DEVELOPMENT tasks (0 differing cells, full-rank identical). Hybrid classified
+  a redundant alias/control. B. Incremental-evidence ablation: cross-repo signal
+  predominantly lexical (BM25); composite−BM25 paired deltas small with CIs
+  including zero at most B; Saleor graph arm ≈ binary-neighbor floor.
+  C. Confirmatory freeze packet V2 (supersedes V1; truthful ranker name,
+  redundancy, Saleor=REPLICATES, exact repetition/failure/verifier semantics).
+  D. Confirmatory API budget freeze (560 calls / ≤2,100,000 tokens / ≤$1.00;
+  per-call reservation rule). E. Proposal V1.4 (.tex/.pdf 7 pages + audit),
+  V1.3 immutable.
+- **Remaining:** traceability commit, full test suite, merge/tag/light export,
+  final report.
 
 ## Last completed task
 
-- S6: Route-B transfer replication REPLICATES (committed).
+- E: Proposal V1.4 created (Saleor DEV transfer replication + ranker identity
+  correction + lexical-dominance statement) + audit; changelog + claims matrix
+  updated.
 
 ## Immediate next step
 
-- Full suite -> traceability commit -> branch/merge/tag/LIGHT export -> final
-  report.
+- Traceability (DECISIONS/PROGRESS/state/roadmap/ledgers) -> full suite ->
+  branch/commit/push/merge/tag/LIGHT export -> final report.
 
 ## Blockers
 
 - Pre-existing environmental: pinned djangocms git cache absent
   (benchmark_data/repositories/djangocms) — parent-commit corpus not
   re-materializable; documented in the repository evidence audit.
+- Saleor parent-visible history cache absent (dist/real-commit-cache/saleor) —
+  no Saleor co-change arm; recorded UNAVAILABLE in the ablation.
