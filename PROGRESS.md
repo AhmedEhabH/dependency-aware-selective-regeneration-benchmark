@@ -5,7 +5,8 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `feat/v14-print-bib-timeline-2026-09-17` (to merge to `main`)
+**Branch:** `feat/v14-print-bib-timeline-2026-09-17` (HEAD `545c75c`; to merge to
+`main` as a pre-confirmatory/print-ready milestone)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** V1.4 PRINT/BIBLIOGRAPHY/TIMELINE ADDENDUM + PRE-CONFIRMATORY
 READINESS (2026-09-17) — V1.4 print-layout fix, rendered bibliography, final
