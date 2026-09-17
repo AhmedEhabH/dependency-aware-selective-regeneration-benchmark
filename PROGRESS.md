@@ -5,7 +5,8 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `main`
+**Branch:** `feat/djangocms-confirmatory-p2-program-2026-09-17` (HEAD `7a458bd`;
+to merge to `main` as the confirmatory + P2-program milestone)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** DJANGOCMS CONFIRMATORY RUN + P2 FIVE-MONTH ALGORITHM PROGRAM +
 PROPOSAL COVER (2026-09-17) — confirmatory INTERNAL_TEST EXECUTED (CONFIRMS),
