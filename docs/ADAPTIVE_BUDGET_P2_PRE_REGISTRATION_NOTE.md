@@ -5,7 +5,9 @@ readiness mission; status unchanged)
 **Tier:** T3 scientific documentation (ZERO LLM)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Status:** **CONDITIONAL — AFTER FIXED ROUTE-B CONFIRMATION** (P2 is NOT
-complete; no learned adaptive policy is fitted here).
+complete; no learned adaptive policy is fitted here). P2 is a **development
+research program, not a proven contribution** (Nov 2026 – Mar 2027,
+djangoCMS DEV + Saleor DEV only).
 
 ---
 
@@ -121,9 +123,11 @@ P2 rule evaluation happens in two strictly separated phases:
 
 P2 becomes ACTIVE only when BOTH hold:
 1. Fixed Route-B confirmatory test (djangoCMS INTERNAL_TEST) is executed and the
-   frozen progression gate is PASS (or a frozen negative result is recorded);
+   frozen progression gate is PASS (or a frozen negative result is recorded) —
+   **satisfied 2026-09-17: the confirmatory run CONFIRMED**;
 2. A separate pre-registered adaptive-budget protocol (with frozen τ constants
-   and evaluation plan) is approved.
+   and evaluation plan) is approved — **still pending; no P2 execution has
+   started and no τ has been frozen from confirmatory outcomes**.
 
 ## 9. Evidence that would CLOSE P2 as NEGATIVE
 

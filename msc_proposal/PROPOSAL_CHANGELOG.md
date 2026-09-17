@@ -140,3 +140,34 @@
 - Compile: pdflatex (2×) + bibtex clean; **10 pages** (body). PDF SHA-256:
   `07cb0588bbc3c0f92e99c3634a1c325d5b8a03a6f6af706c393dad8c7c35497c`.
 - Audit: PROPOSAL_V1_4_AUDIT.md (§0 addendum + §13 cover).
+
+## V1.5 (2026-09-17) — DOCTOR-GUIDE-COMPLIANT POLISH (ZERO API; no scientific change)
+
+- **Abstract rewritten** to the doctor-guide order (problem/context →
+  limitation → precise gap → proposed approach → experimental setting →
+  strongest result only → confirmatory status → one scope limitation);
+  "for the first time" and unscoped "robust" removed; secondary results
+  demoted to Preliminary Evidence. Rationale: `ABSTRACT_REWRITE_NOTE.md`.
+- **Related-work comparison matrix ADDED** (Section 5, two compact
+  `tabularx` tables: design/structure + evidence/position) — fixes the
+  Section 4 forward-reference without deleting it. Rows: Classical/history
+  CIA, Agentless, CodePlan, RepoCoder, LocAgent, GraphLocator, RepoGraph,
+  This proposal. New verified reference `repograph2025` (arXiv:2410.14684,
+  ICLR 2025). `references.bib` = 22 entries, 22/22 cited, no uncited dump.
+- **Terminology/claim-safety pass:** "Classical-CIA" standardized to
+  "BM25+Graph-Neighbor Composite (historical label: Classical-CIA)" /
+  `BM25+GraphNeighbor`; "fair comparison" → "shared-protocol, budget-matched
+  comparison"; "missed impacted files" → "missed files in the observed
+  historical change-set proxy"; ranking ≠ verification ≠ final localization
+  made explicit; P2 stated as NOT complete (development research program);
+  NestJS/NextJS = future external-validity work (April 2027, conditional on
+  suitability gate + TypeScript extractor).
+- **Factual/typographic corrections:** Experimental-Design table "Candidate
+  recovery" status updated to "CONFIRMED (2026-09-17)"; markdown `**...**`
+  bold artifacts in V1.4 LaTeX source fixed to `\textbf{...}` (V1.4 PDF
+  byte-identical).
+- Compile: pdflatex (3×) + bibtex clean; **12 pages**; zero overfull /
+  zero underfull / zero undefined citations / zero BibTeX warnings. PDF
+  SHA-256: `67dff046347847e1f80e01bdf313acf3cf2a577bfa2783f02686c4e3cf041ef7`.
+- Artifacts: PROPOSAL_V1_5_AUDIT.md, PROPOSAL_V1_5_CHANGELOG.md,
+  PROPOSAL_V1_5_CLAIMS_MATRIX.md, ABSTRACT_REWRITE_NOTE.md.

@@ -6,6 +6,13 @@ adaptive-budget program (DEVELOPMENT only; ZERO API here)
 **Model (authoring agent):** openrouter/deepseek/deepseek-v4-flash-0731
 **Status:** CONTRACT FROZEN. Applies to every P2 method from Nov 2026.
 
+**Status statement (2026-09-17):** P2 is **NOT complete**; it is a development
+research program, not a proven contribution. Fixed Route B is CONFIRMED
+(djangoCMS INTERNAL_TEST) and is NOT retuned. Every P2 method is evaluated
+under this contract on DEVELOPMENT data only (djangoCMS DEV + Saleor DEV);
+the opened djangoCMS INTERNAL_TEST is permanently spent, and Saleor
+INTERNAL_TEST stays sealed.
+
 ---
 
 ## 1. Purpose

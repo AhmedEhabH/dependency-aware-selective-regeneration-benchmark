@@ -37,6 +37,10 @@ audited evidence source. Any claim without a source is marked `TO VERIFY`.
 | 30 | djangoCMS INTERNAL_TEST confirmatory run: 80 tasks; 560 calls / 1,470,174 tokens / $0.505917; 0 failures; 0 excluded; composite ORR vs analytic Random B=1 0.059 vs 0.006, B=3 0.110 vs 0.017, B=5 0.165 vs 0.028 (Δ+0.137, CI [+0.075,+0.205]), B=10 0.267 vs 0.055; CIs exclude zero at every B; no size artifact; **CONFIRMS** | `reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md` + `research/djangocms-confirmatory-route-b/confirmatory_metrics.json` + raw manifest | VERIFIED (2026-09-17; authorized INTERNAL_TEST; CONFIRMATORY) |
 | 31 | Confirmatory test permanently used; not reused for P2 selection; P2 = DEVELOPMENT-only (djangoCMS DEV + Saleor DEV); Saleor INTERNAL_TEST sealed | mission contract + `docs/P2_COMMON_EVALUATION_CONTRACT.md` | VERIFIED (governance) |
 
+<!-- V1.5 claims live in PROPOSAL_V1_5_CLAIMS_MATRIX.md (standalone; claims 1–31
+carried + new V1.5 claims 32–51). V1.5 is a polish of V1.4; no scientific
+claim level changed. -->
+
 ## Rule
 - No claim may be strengthened beyond its source.
 - Any number changed by a later run requires updating this matrix and the

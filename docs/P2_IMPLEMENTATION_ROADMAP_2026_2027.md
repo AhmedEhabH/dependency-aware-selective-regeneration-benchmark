@@ -6,6 +6,21 @@
 **Status:** ROADMAP FROZEN (start: Nov 2026). Fixed Route-B is CONFIRMED and is
 NOT retuned. P2 runs on DEVELOPMENT only.
 
+**Explicit status (2026-09-17):**
+- **P2 is NOT complete.** It has not been executed, has no learned policy, and
+  is not a proven contribution.
+- **Fixed Route B is CONFIRMED** (djangoCMS INTERNAL_TEST, 2026-09-17) and is
+  the frozen fallback thesis.
+- **P2 is a development research program**, not a completed contribution:
+  a five-month (Nov 2026 – Mar 2027) exploration of Shichao-Zhang-inspired
+  algorithms plus competitors/analogues from selective prediction / abstention,
+  cascaded inference, optimal stopping, budgeted retrieval, value-of-information,
+  and interpretable adaptive stopping — evaluated on djangoCMS DEV + Saleor DEV
+  only under the common evaluation contract.
+- **NestJS/NextJS/cross-language extension is future external-validity work**
+  (April 2027), conditional on the suitability gate AND TypeScript-extractor
+  readiness; it is outside the P2 five-month window.
+
 ---
 
 ## 0. Context
@@ -65,6 +80,13 @@ NOT retuned. P2 runs on DEVELOPMENT only.
       fixed-B thesis (already CONFIRMED).
 - **Exit:** P2 closure decision (ACTIVE candidate / NEGATIVE closure) + final
   evaluation pre-registration or negative-closure report.
+
+### April 2027 — optional external-validity extension (outside the P2 window)
+- [ ] NestJS/NextJS cross-language extension ONLY IF the suitability gate passes
+      AND the TypeScript extractor is ready (future external-validity work; no
+      forced cross-language claim).
+- [ ] Otherwise keep the P2 negative/ACTIVE closure as final for the program.
+- **Exit:** external-validity decision recorded (run or explicitly deferred).
 
 ## 2. Hard constraints
 
