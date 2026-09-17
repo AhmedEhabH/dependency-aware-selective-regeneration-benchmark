@@ -5,8 +5,8 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `main` (release branch pending)
-**HEAD:** `ae885cf` (pre-merge)
+**Branch:** `main`
+**HEAD:** `bbf5005` (merge of `fix/p2-export-script-2026-09-18`)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** P2 PHASE 1 + FIXED-ROUTE-B SCIENTIFIC CLOSURE (2026-09-18) — fixed
 Route-B reviewer closure (curve-level POST-HOC characterization, sparse-vs-full
@@ -15,29 +15,35 @@ adaptive-budget DEVELOPMENT harness; P2-P1..P2-P4 implemented + evaluated on
 djangoCMS DEV + Saleor DEV; strong-method gate FALSE → **P2 Phase-1 = NEGATIVE
 (frozen), stronger methods NOT run**; literature landscape +15 verified entries;
 semantic-audit blocker reported (AWAITING_HUMAN_RATINGS); NestJS zero-API
-readiness; V1.5 patch list; validation 6/6 + audit PASS — **release step
-pending** (traceability, full suite, branch/commit/push/merge/tag/export).
+readiness; V1.5 patch list; validation 6/6 + audit PASS; merged to `main`
+(`248491d`), tagged `p2-phase1-negative-closure-2026-09-18`, LIGHT export
+created — **COMPLETE**
 
 ---
 
 ## Now executing
 
-- **Release step of the P2 Phase-1 mission:** finalize traceability
-  (PROGRESS/DECISIONS/00_CURRENT_RESEARCH_STATE/roadmap/ledgers), run the full
-  test suite, then branch → commit → push → merge `main` → post-merge verify →
-  push → milestone tag → LIGHT export → final report.
-- **Remaining:** the above release step + final report.
+- **MILESTONE COMPLETE.** P2 Phase-1 + fixed Route-B scientific closure
+  delivered: full suite 3334 passed / 33 skipped / 2 pre-existing env failures;
+  merged to `main` (`248491d`), tag `p2-phase1-negative-closure-2026-09-18`
+  (peel == `248491d` == merge; DEV-only milestone tag, NOT a stable-tag move),
+  post-tag tooling merge `bbf5005` (LIGHT export script), LIGHT export
+  `project-2026-09-18-0139.zip` created + verified.
+- **Remaining:** none for this mission. Final report delivered; next step is
+  Ahmed/supervisor review; Phase-2 candidates may be drawn from the expanded
+  landscape after further development evidence.
 
 ## Last completed task
 
 - P2 Phase-1 + fixed Route-B scientific closure (2026-09-18): all scientific
-  execution COMPLETE and CLOSED (negative for P2 Phase-1; fixed Route-B
-  confirmatory untouched). ZERO new model calls.
+  execution, validation, governance, git, tag, and LIGHT export COMPLETE.
+  ZERO new model calls.
 
 ## Immediate next step
 
-- Execute the release step (traceability updates, full suite, git branch/merge/
-  tag, LIGHT export, final report).
+- Ahmed/supervisor review; then decide whether to pursue any Phase-2 candidate
+  from the expanded P2 landscape (P2-025..P2-039) with further development
+  evidence.
 
 ## Blockers
 
@@ -59,3 +65,9 @@ pending** (traceability, full suite, branch/commit/push/merge/tag/export).
 - Ruff clean on all changed Python files; mypy strict clean on
   `src/benchmark/p2`; py_compile clean.
 - Six T3 validation gates + independent audit PASS.
+- Tag `p2-phase1-negative-closure-2026-09-18` (peel `248491d` == merge commit
+  == `main` at tag time; DEV-only milestone tag, NOT a stable-tag move).
+- LIGHT export: `project-2026-09-18-0139.zip`
+  SHA-256 `c11fb734ee0267ca9b08874ee179062ac9124f55d6aec45898e9c3e58f4f2c5b`
+  (required members `.git/HEAD`, `dist/pilot-kaggle-upload.zip`,
+  `.sha256` present).
