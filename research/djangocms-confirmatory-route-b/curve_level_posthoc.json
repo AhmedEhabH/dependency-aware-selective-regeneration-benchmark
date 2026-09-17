@@ -1,0 +1,258 @@
+{
+  "study": "djangocms-route-b-confirmatory",
+  "purpose": "POST-HOC / SENSITIVITY curve-level characterization of the FROZEN confirmatory result (2026-09-17). NOT a preregistered confirmation; the frozen primary endpoint and decision are unchanged.",
+  "data": "djangoCMS V2 INTERNAL_TEST (80 tasks; authorized 2026-09-17)",
+  "frozen_decision_unchanged": "CONFIRMS",
+  "denominator_handling": "Frozen rule: tasks with M=0 (zero Sparse FNs) contribute 0.0 to the macro mean (identical to the frozen confirmatory report). Positive-denominator-only macro reported as a labelled sensitivity.",
+  "n_tasks_total": 80,
+  "n_zero_fn": 10,
+  "n_positive_denominator": 70,
+  "zero_fn_share": 0.125,
+  "curve": {
+    "1": {
+      "n_tasks_total": 80,
+      "n_positive": 70,
+      "n_zero_fn": 10,
+      "macro_frozen_all_tasks": {
+        "composite": 0.0591,
+        "verifier": 0.0294,
+        "analytic_random": 0.0055
+      },
+      "macro_positive_denominator_only": {
+        "composite": 0.0675,
+        "verifier": 0.0336,
+        "analytic_random": 0.0063
+      },
+      "micro_all_tasks": {
+        "composite": 0.0503,
+        "verifier": 0.0251,
+        "analytic_random": 0.0062
+      },
+      "composite_orr_percentiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "verifier_orr_percentiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.1825
+      ],
+      "analytic_random_orr_percentiles_5_25_50_75_95": [
+        0.0043,
+        0.0065,
+        0.0068,
+        0.007,
+        0.0073
+      ],
+      "total_composite_recovered": 10,
+      "total_verifier_recovered": 5,
+      "total_missed": 199
+    },
+    "3": {
+      "n_tasks_total": 80,
+      "n_positive": 70,
+      "n_zero_fn": 10,
+      "macro_frozen_all_tasks": {
+        "composite": 0.1098,
+        "verifier": 0.0632,
+        "analytic_random": 0.0166
+      },
+      "macro_positive_denominator_only": {
+        "composite": 0.1255,
+        "verifier": 0.0723,
+        "analytic_random": 0.019
+      },
+      "micro_all_tasks": {
+        "composite": 0.1156,
+        "verifier": 0.0603,
+        "analytic_random": 0.0187
+      },
+      "composite_orr_percentiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.0,
+        0.125,
+        0.5
+      ],
+      "verifier_orr_percentiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "analytic_random_orr_percentiles_5_25_50_75_95": [
+        0.0129,
+        0.0196,
+        0.0204,
+        0.0211,
+        0.0218
+      ],
+      "total_composite_recovered": 23,
+      "total_verifier_recovered": 12,
+      "total_missed": 199
+    },
+    "5": {
+      "n_tasks_total": 80,
+      "n_positive": 70,
+      "n_zero_fn": 10,
+      "macro_frozen_all_tasks": {
+        "composite": 0.165,
+        "verifier": 0.1007,
+        "analytic_random": 0.0277
+      },
+      "macro_positive_denominator_only": {
+        "composite": 0.1886,
+        "verifier": 0.1151,
+        "analytic_random": 0.0317
+      },
+      "micro_all_tasks": {
+        "composite": 0.1759,
+        "verifier": 0.1005,
+        "analytic_random": 0.0312
+      },
+      "composite_orr_percentiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.0,
+        0.3125,
+        1.0
+      ],
+      "verifier_orr_percentiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.775
+      ],
+      "analytic_random_orr_percentiles_5_25_50_75_95": [
+        0.0215,
+        0.0327,
+        0.034,
+        0.0352,
+        0.0364
+      ],
+      "total_composite_recovered": 35,
+      "total_verifier_recovered": 20,
+      "total_missed": 199
+    },
+    "10": {
+      "n_tasks_total": 80,
+      "n_positive": 70,
+      "n_zero_fn": 10,
+      "macro_frozen_all_tasks": {
+        "composite": 0.2669,
+        "verifier": 0.1793,
+        "analytic_random": 0.0554
+      },
+      "macro_positive_denominator_only": {
+        "composite": 0.305,
+        "verifier": 0.2049,
+        "analytic_random": 0.0633
+      },
+      "micro_all_tasks": {
+        "composite": 0.3015,
+        "verifier": 0.201,
+        "analytic_random": 0.0625
+      },
+      "composite_orr_percentiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.1833,
+        0.5,
+        1.0
+      ],
+      "verifier_orr_percentiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.0,
+        0.3646,
+        1.0
+      ],
+      "analytic_random_orr_percentiles_5_25_50_75_95": [
+        0.0429,
+        0.0655,
+        0.068,
+        0.0704,
+        0.0728
+      ],
+      "total_composite_recovered": 60,
+      "total_verifier_recovered": 40,
+      "total_missed": 199
+    }
+  },
+  "aruc_normalized_by_budget_range": {
+    "composite": 0.1553,
+    "verifier": 0.0971,
+    "analytic_random": 0.0277
+  },
+  "bootstrap_band": {
+    "n_resamples": 4000,
+    "seed": 20260918,
+    "unit": "task (independent unit; full B-curve sampled jointly)",
+    "budgets": [
+      1,
+      3,
+      5,
+      10
+    ],
+    "composite": {
+      "pointwise_ci95_lo": [
+        0.0216,
+        0.0615,
+        0.1036,
+        0.1964
+      ],
+      "pointwise_ci95_hi": [
+        0.1044,
+        0.166,
+        0.2365,
+        0.3421
+      ],
+      "simultaneous_band_lo": [
+        -0.0169,
+        0.0339,
+        0.0893,
+        0.1907
+      ],
+      "simultaneous_band_hi": [
+        0.1361,
+        0.1869,
+        0.2423,
+        0.3438
+      ]
+    },
+    "verifier": {
+      "pointwise_ci95_lo": [
+        0.0044,
+        0.0247,
+        0.0507,
+        0.1187
+      ],
+      "pointwise_ci95_hi": [
+        0.0638,
+        0.1094,
+        0.1575,
+        0.2496
+      ],
+      "simultaneous_band_lo": [
+        -0.0376,
+        -0.0035,
+        0.0341,
+        0.1126
+      ],
+      "simultaneous_band_hi": [
+        0.0969,
+        0.131,
+        0.1685,
+        0.2471
+      ]
+    }
+  },
+  "created_at": "2026-09-17T21:23:59.851507+00:00"
+}

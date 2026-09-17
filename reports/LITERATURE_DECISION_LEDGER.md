@@ -132,3 +132,43 @@ Decision rules for P2:
   justified.
 - No P2 method is selected using the opened djangoCMS INTERNAL_TEST; Saleor
   INTERNAL_TEST stays sealed as a possible future P2 confirmation set.
+
+---
+
+## P2 landscape expansion (2026-09-18, OPENCODE P2 PHASE-1 mission)
+
+Added 15 serious entries (P2-025..P2-039), expanding the P2 algorithm
+landscape beyond the Shichao-Zhang line, all decision-oriented and primary-
+source verified where accessible (arXiv API / classical canonical works; no
+fabrication; verification status explicit in the CSV):
+
+- **VERIFIED primary sources (arXiv API, 2026-09-18):** Graves ACT 2016
+  (1603.08983) [BACKGROUND, learned]; Geifman & El-Yaniv SelectiveNet 2019
+  (1901.09192) [CANDIDATE deterministic variant]; Xin et al. DeeBERT 2020
+  (2004.12993) [CANDIDATE deterministic variant]; Garnett et al. Bayesian
+  Optimal Active Search 2012 (1206.6406) [REJECT_DEFER leak risk]; Hemmer et
+  al. L2D limited experts 2023 (2304.07306) [CANDIDATE learned deferred];
+  Shazeer et al. MoE conditional computation 2017 (1701.06538) [BACKGROUND];
+  Efroni et al. Confidence-Budget Matching 2021 (2102.03400) [CANDIDATE —
+  closest cost-ratio stopping theory]; Fainman et al. Online Budgeted Learning
+  2019 (1903.05382) [CANDIDATE]; Lizotte et al. Budgeted NB Learning 2003
+  (1212.2472) [CANDIDATE]; Wu & Zhou fixed-budget ranking & selection 2018
+  (1811.12183) [BACKGROUND]; Li, Xu & Zhang adaptive kNN graph 2026
+  (2601.16509) [CANDIDATE — latest Zhang-line adaptive-k]; Song et al.
+  adaptive neighborhood metric learning 2022 (2201.08314)
+  [REJECT_DEFER learned].
+- **CLASSICAL canonical (no arXiv):** Wald SPRT 1945 [BACKGROUND —
+  sequential-stopping foundation for P2-P1/P2-P2]; Chow's optimum rejection
+  1957 [BACKGROUND — selective-prediction ancestor of P2-P2]; El-Yaniv &
+  Wiener selective prediction 2010 [CANDIDATE — coverage-controlled
+  abstention].
+- **Decision relevance after the P2 Phase-1 negative (2026-09-18):** the
+  Phase-1 evaluation froze a negative for P2-P1..P2-P4 (no simple adaptive
+  policy beats fixed-B on both repos). The expanded landscape is the
+  **Phase-2 candidate pool**; the most decision-relevant deterministic
+  additions are P2-031 (Confidence-Budget Matching / cost-ratio theory),
+  P2-026/P2-039 (selective-prediction coverage), P2-027 (early-exit cascade
+  thresholds), and P2-035 (per-query adaptive k). Learned variants remain
+  deferred per the no-neural-policy Phase-1 constraint.
+- No P2 method is selected using the opened djangoCMS INTERNAL_TEST; Saleor
+  INTERNAL_TEST stays sealed.

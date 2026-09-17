@@ -1,0 +1,75 @@
+{
+  "study": "p2-phase1-validation",
+  "date": "2026-09-18",
+  "all_passed": true,
+  "gates": [
+    {
+      "name": "dataset_counts_djangocms_174",
+      "passed": true,
+      "detail": 174
+    },
+    {
+      "name": "dataset_counts_saleor_149",
+      "passed": true,
+      "detail": 149
+    },
+    {
+      "name": "sealed_sets_not_loaded",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "all_tasks_have_candidates",
+      "passed": true,
+      "detail": 323
+    },
+    {
+      "name": "policy_view_has_no_gold",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "smoke_run",
+      "passed": true,
+      "detail": 10
+    },
+    {
+      "name": "smoke_deterministic",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "dryrun_artifacts_exist",
+      "passed": true,
+      "detail": [
+        "constants",
+        "djangocms_dev",
+        "saleor_dev",
+        "pooled_dev",
+        "djangocms_dev_train_derivation",
+        "djangocms_dev_validation",
+        "strata"
+      ]
+    },
+    {
+      "name": "constants_derived_dev_train_only",
+      "passed": true,
+      "detail": "djangoCMS DEV_TRAIN (117 tasks; observable composite scores only)"
+    },
+    {
+      "name": "integration_anchor_reproduction_djangocms",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "integration_anchor_reproduction_saleor",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "metric_verification_unit_tests",
+      "passed": true,
+      "detail": "tests/unit/test_p2_evaluate.py (synthetic TP/FP/FN ORR/micro/macro)"
+    }
+  ]
+}

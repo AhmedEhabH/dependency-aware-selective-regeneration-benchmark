@@ -1,0 +1,139 @@
+{
+  "gates": [
+    {
+      "name": "strong_method_trigger",
+      "passed": false,
+      "detail": {
+        "rule": "proceed to stronger methods iff any P2-P1..P4 shows lower mean cost than fixed-B=5 AND macro ORR within 5% of fixed-B=5 on BOTH djangoCMS DEV and Saleor DEV (pre-registered, not tuned)",
+        "djangocms_dev": {
+          "P2-P1-score-gap": {
+            "policy_orr": 0.0775,
+            "policy_cost_usd": 7.3e-05,
+            "fixedB5_orr": 0.1633,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": true,
+            "orr_within_5pct_of_B5": false,
+            "trade_off_present": false
+          },
+          "P2-P2-marginal-score": {
+            "policy_orr": 0.2389,
+            "policy_cost_usd": 0.000107,
+            "fixedB5_orr": 0.1633,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": false,
+            "orr_within_5pct_of_B5": true,
+            "trade_off_present": false
+          },
+          "P2-P4-learning-k-analogue": {
+            "policy_orr": 0.2389,
+            "policy_cost_usd": 0.000107,
+            "fixedB5_orr": 0.1633,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": false,
+            "orr_within_5pct_of_B5": true,
+            "trade_off_present": false
+          },
+          "P2-P3-cost-ratio-tau=0.5": {
+            "policy_orr": 0.0464,
+            "policy_cost_usd": 7e-05,
+            "fixedB5_orr": 0.1633,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": true,
+            "orr_within_5pct_of_B5": false,
+            "trade_off_present": false
+          },
+          "P2-P3-cost-ratio-tau=1.0": {
+            "policy_orr": 0.061,
+            "policy_cost_usd": 7.3e-05,
+            "fixedB5_orr": 0.1633,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": true,
+            "orr_within_5pct_of_B5": false,
+            "trade_off_present": false
+          },
+          "P2-P3-cost-ratio-tau=2.0": {
+            "policy_orr": 0.2512,
+            "policy_cost_usd": 0.000115,
+            "fixedB5_orr": 0.1633,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": false,
+            "orr_within_5pct_of_B5": true,
+            "trade_off_present": false
+          }
+        },
+        "saleor_dev": {
+          "P2-P1-score-gap": {
+            "policy_orr": 0.1151,
+            "policy_cost_usd": 7.3e-05,
+            "fixedB5_orr": 0.2369,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": true,
+            "orr_within_5pct_of_B5": false,
+            "trade_off_present": false
+          },
+          "P2-P2-marginal-score": {
+            "policy_orr": 0.3173,
+            "policy_cost_usd": 0.000115,
+            "fixedB5_orr": 0.2369,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": false,
+            "orr_within_5pct_of_B5": true,
+            "trade_off_present": false
+          },
+          "P2-P4-learning-k-analogue": {
+            "policy_orr": 0.3139,
+            "policy_cost_usd": 0.000115,
+            "fixedB5_orr": 0.2369,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": false,
+            "orr_within_5pct_of_B5": true,
+            "trade_off_present": false
+          },
+          "P2-P3-cost-ratio-tau=0.5": {
+            "policy_orr": 0.2918,
+            "policy_cost_usd": 0.00011,
+            "fixedB5_orr": 0.2369,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": false,
+            "orr_within_5pct_of_B5": true,
+            "trade_off_present": false
+          },
+          "P2-P3-cost-ratio-tau=1.0": {
+            "policy_orr": 0.3173,
+            "policy_cost_usd": 0.000115,
+            "fixedB5_orr": 0.2369,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": false,
+            "orr_within_5pct_of_B5": true,
+            "trade_off_present": false
+          },
+          "P2-P3-cost-ratio-tau=2.0": {
+            "policy_orr": 0.3173,
+            "policy_cost_usd": 0.000115,
+            "fixedB5_orr": 0.2369,
+            "fixedB5_cost_usd": 9e-05,
+            "lower_cost_than_B5": false,
+            "orr_within_5pct_of_B5": true,
+            "trade_off_present": false
+          }
+        },
+        "per_policy": {
+          "P2-P1-score-gap": {
+            "both_repos_trade_off": false
+          },
+          "P2-P2-marginal-score": {
+            "both_repos_trade_off": false
+          },
+          "P2-P4-learning-k-analogue": {
+            "both_repos_trade_off": false
+          },
+          "P2-P3-cost-ratio-tau=0.5": {
+            "both_repos_trade_off": false
+          }
+        },
+        "strong_method_gate_pass": false
+      }
+    }
+  ],
+  "all_passed": false
+}

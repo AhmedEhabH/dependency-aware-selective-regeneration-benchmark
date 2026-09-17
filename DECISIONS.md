@@ -933,3 +933,17 @@ esearch/literature/idea_ledger.md I1/I2/I5/I6. Do NOT start:
   PROPOSAL_V1_5_CLAIMS_MATRIX.md, ABSTRACT_REWRITE_NOTE.md,
   slides/HANDOFF_INTERACTIVE_MSC_SEMINAR_SLIDES.md.
 - **Revisit:** V1.6 only if a further material scientific change occurs.
+
+## Decision P58 - P2 Phase-1 NEGATIVE closure + fixed Route-B reviewer closure (2026-09-18)
+
+- **Status:** ADOPTED (mission OPENCODE_P2_PHASE1_MAJOR_SCIENCE_MISSION_2026-09-18; ZERO API)
+- **Chosen:** close the fixed Route-B reviewer-facing issues WITHOUT changing the frozen result: (1) curve-level POST-HOC characterization (AURC composite 0.1553 / verifier 0.0971 / random 0.0277; simultaneous task-bootstrap band; per-task distributions; zero-FN 10/80 explicit) in eports/ROUTE_B_CURVE_LEVEL_POSTHOC_CHARACTERIZATION.md; (2) sparse-vs-full causal parity audit = **PARITY_VERIFIED** (eports/SPARSE_FULL_CAUSAL_PARITY_AUDIT.md); (3) dataset operational-definition audit (eports/DATASET_OPERATIONAL_DEFINITIONS.md).
+- **P2 Phase-1:** build the common adaptive-budget DEVELOPMENT harness (src/benchmark/p2/, scripts/p2_phase1_run.py, scripts/p2_phase1_gates.py); implement the four preregistered interpretable policies (P2-P1 score-gap, P2-P2 marginal-score, P2-P3 cost-ratio, P2-P4 learning-k analogue) with constants derived on djangoCMS DEV_TRAIN only (tau_gap 0.10 declared; tau_marg 1.0 = 25th pct of DEV_TRAIN top-1 scores; tau_energy 0.90 declared; cost-ratio grid {0.5,1.0,2.0} declared sensitivity); evaluate on djangoCMS DEV (174) + Saleor DEV (149) with the measured verifier cost model.
+- **Result:** all four policies **NEGATIVE** (P2-P3 additionally REJECTED_BY_DESIGN as a size/repo artifact); strong-method gate = FALSE; the two stronger methods (cost-sensitive expected-loss stopping; one-step/joint ranking+budget) are NOT implemented; **P2 Phase-1 = NEGATIVE, frozen** (valid scientific result per mission section 4). Phase-2 candidates: NONE.
+- **Literature:** +15 verified entries (P2-025..P2-039) in esearch/literature/p2_algorithm_landscape.csv + eports/P2_ALGORITHM_LANDSCAPE_2026-09.md section 7 + eports/LITERATURE_DECISION_LEDGER.md.
+- **Semantic audit:** package re-verified; blocker = **AWAITING_HUMAN_RATINGS** (eports/SEMANTIC_AUDIT_ACTION_REQUIRED_FROM_HUMANS.md); no coding time spent rebuilding ready forms.
+- **NestJS:** zero-API readiness documented (eports/NESTJS_READINESS_ZERO_API_2026-09-18.md); blockers listed (no local cache; TS extractor not implemented).
+- **V1.5:** no V1.6, no PPTX; eports/V15_SUPERVISOR_PATCH_LIST.md created.
+- **Rejected:** using the opened djangoCMS INTERNAL_TEST for any P2 tuning/selection; opening djangoCMS RESERVE or Saleor INTERNAL_TEST/RESERVE; inventing human labels; neural/learned policies; any new model/API call.
+- **Evidence:** eports/P2_PHASE1_CLOSURE_REPORT.md, P2_PHASE1_DECISION_GATE.md, P2_POLICY_SPECIFICATIONS.md, P2_PHASE1_HARNESS_RESULTS.md, P2_PHASE1_INDEPENDENT_AUDIT.md, eports/p2_phase1_gates*.json, esearch/p2-phase1/*, 31 new tests.
+- **Revisit:** Phase-2 candidates may be drawn from the expanded landscape after further development evidence; Saleor INTERNAL_TEST stays sealed for a possible future P2 confirmation ONLY after a policy is frozen (not the case here).

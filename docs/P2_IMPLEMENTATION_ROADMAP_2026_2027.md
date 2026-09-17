@@ -105,3 +105,23 @@ NOT retuned. P2 runs on DEVELOPMENT only.
 - **Failure:** no P2 candidate dominates → P2 closes NEGATIVE; the fixed-B
   thesis (CONFIRMED) is reported intact. A negative P2 is a scientific result,
   not a failure of the thesis.
+## 4. Status update — P2 PHASE-1 EXECUTED (2026-09-18, DEVELOPMENT, ZERO API)
+
+The Nov 2026 window was brought forward and executed as a DEVELOPMENT-only
+Phase-1 on 2026-09-18:
+
+- **Harness:** common adaptive-budget DEVELOPMENT harness built
+  (src/benchmark/p2/, scripts/p2_phase1_run.py, scripts/p2_phase1_gates.py)
+  with the frozen anchors (fixed B={1,3,5,10}, BM25, Analytic Random, Oracle,
+  InspectAll) and the measured verifier cost model.
+- **P2-P1..P2-P4 implemented + evaluated** on djangoCMS DEV (174) + Saleor DEV
+  (149): constants derived on djangoCMS DEV_TRAIN only (tau_gap 0.10,
+  tau_marg 1.0, tau_energy 0.90, cost-ratio grid {0.5,1.0,2.0}).
+- **Result: all four NEGATIVE** (P2-P3 REJECTED_BY_DESIGN as a size/repo
+  artifact); strong-method gate FALSE; stronger methods NOT run.
+- **P2 Phase-1 = NEGATIVE (frozen).** Phase-2 candidates: NONE yet. The fixed-B
+  thesis (CONFIRMED) stands intact.
+- **Remaining for the program:** Phase-2 candidates may be drawn from the
+  expanded landscape (P2-025..P2-039) after further development evidence;
+  Saleor INTERNAL_TEST stays sealed for a possible future P2 confirmation ONLY
+  after a policy is frozen (not the case).

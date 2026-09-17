@@ -212,3 +212,30 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
 - **Change:** Saleor DEV transfer replication is a material scientific change;
   Classical-CIA terminology corrected; lexical-dominance stated.
 - **Artifact:** msc_proposal/MSC_PROPOSAL_V1_4.tex/.pdf + PROPOSAL_V1_4_AUDIT.md.
+
+## E-0XX - P2 Phase-1 adaptive-budget harness + four policies (2026-09-18)
+- **Status:** EXECUTED (DEVELOPMENT; ZERO API; negative closure).
+- **Result:** common harness (src/benchmark/p2/); P2-P1/P2-P2/P2-P3/P2-P4
+  evaluated on djangoCMS DEV (174) + Saleor DEV (149). All four NEGATIVE
+  (P2-P3 REJECTED_BY_DESIGN — size/repo artifact). Strong-method gate FALSE;
+  stronger methods NOT run. Phase-2 candidates: NONE.
+- **Artifact:** reports/P2_PHASE1_DECISION_GATE.md + research/p2-phase1/*.
+- **Revisit:** Phase-2 candidate pool = expanded landscape (P2-025..P2-039).
+
+## E-0XY - Fixed Route-B curve-level POST-HOC characterization (2026-09-18)
+- **Status:** EXECUTED (POST-HOC; ZERO API; frozen result unchanged).
+- **Result:** AURC composite 0.1553 / verifier 0.0971 / analytic random 0.0277
+  (normalized); simultaneous task-bootstrap band (4000 resamples); per-task
+  recovery distributions; zero-FN 10/80 (12.5%) explicit denominator handling;
+  macro+micro. Frozen macro reproduced exactly (B=5 composite 0.165).
+- **Artifact:** reports/ROUTE_B_CURVE_LEVEL_POSTHOC_CHARACTERIZATION.md +
+  research/djangocms-confirmatory-route-b/curve_level_posthoc.json.
+- **Revisit:** no (frozen confirmatory; post-hoc labelled).
+
+## E-0XZ - Sparse-vs-Full causal parity audit (2026-09-18)
+- **Status:** EXECUTED (verification of frozen configs; ZERO API).
+- **Result:** PARITY_VERIFIED — all audited dimensions match; the only intended
+  difference is the serialization-policy block (PROMPT_CONTROLLED_DIFF PASS
+  10/10).
+- **Artifact:** reports/SPARSE_FULL_CAUSAL_PARITY_AUDIT.md.
+- **Revisit:** no (recorded configuration identity).
