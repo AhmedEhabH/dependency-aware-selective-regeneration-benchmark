@@ -111,5 +111,32 @@
   intended substantive research/thesis completion **2027-07/08**;
   September–October 2027 = publication/revision/admin buffer.
 - Compile: pdflatex (2×) + bibtex clean; **10 pages** (was 7). PDF SHA-256:
-  `50957a2525f7430de47fd9306895d2b4c80b30c358d3cafe6798a0a27b0525b1`.
+  `11647e0c6378684203dde339b5aa306f038b27afbf0af82107f8559f35805ad1`.
 - Audit: PROPOSAL_V1_4_AUDIT.md (§0 addendum).
+
+## V1.4 confirmatory + P2 timeline + cover update (2026-09-17, V1.4 in place)
+
+- **Confirmatory result incorporated (2026-09-17):** the frozen confirmatory
+  protocol ran on the authorized djangoCMS V2 INTERNAL_TEST (80 tasks;
+  560 calls / 1,470,174 tokens / ~$0.51; 0 failures; 0 excluded). Composite
+  ORR vs analytic Random: B=1 0.059 vs 0.006, B=3 0.110 vs 0.017, B=5 0.165
+  vs 0.028 (Δ+0.137, CI [+0.075,+0.205]), B=10 0.267 vs 0.055; CIs exclude
+  zero at every B; no size artifact. **Fixed Route-B CONFIRMED on djangoCMS
+  INTERNAL_TEST.** The confirmatory test is permanently used; not reused for
+  P2 selection.
+- **Timeline first five months aligned to the real P2 program:** 2026-11
+  fixed Route-B confirmation + P2 formulation freeze; 2026-12 simple
+  Shichao-inspired adaptive policies; 2027-01 cost-sensitive/one-step/
+  demand-driven analogues; 2027-02 competitor/alternative reproduction;
+  2027-03 P2 comparison/freeze/pre-registration or negative closure (Saleor
+  INTERNAL_TEST only if pre-registered).
+- **Cover/title page:** conservative academic title page
+  (`MSC_PROPOSAL_V1_4_TITLEPAGE.tex/.pdf`): Prepared by Ahmed Ehab; Faculty of
+  Computing and AI, Cairo University + University of London Branch (EUE),
+  Egypt; email ahmed.ehab@fci-cu.edu.eg; Supervised by Mohammad El-Ramly
+  (m.elramly@fci-cu.edu.eg); ORCID 0000-0002-5076-3829; no invented academic
+  ranks; no IEEE author blocks. Combined print artifact
+  `MSC_PROPOSAL_V1_4_PRINT.pdf` (11 pages: title + body) via `pdfunite`.
+- Compile: pdflatex (2×) + bibtex clean; **10 pages** (body). PDF SHA-256:
+  `07cb0588bbc3c0f92e99c3634a1c325d5b8a03a6f6af706c393dad8c7c35497c`.
+- Audit: PROPOSAL_V1_4_AUDIT.md (§0 addendum + §13 cover).

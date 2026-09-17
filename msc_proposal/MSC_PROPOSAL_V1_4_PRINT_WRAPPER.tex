@@ -1,0 +1,22 @@
+% ---------------------------------------------------------------------------
+% MSC PROPOSAL V1.4 — Print Wrapper (title page + V1.4 body)
+%
+% This wrapper produces the print-ready proposal: the academic title page
+% followed by the V1.4 science body. It does NOT create a new scientific
+% version (V1.4 science is preserved byte-for-byte via \includepdf of the
+% compiled V1.4). Requires: MSC_PROPOSAL_V1_4_TITLEPAGE.pdf and
+% MSC_PROPOSAL_V1_4.pdf compiled first.
+% ---------------------------------------------------------------------------
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{pdfpages}
+
+\begin{document}
+
+\includepdf[pages=-]{MSC_PROPOSAL_V1_4_TITLEPAGE.pdf}
+\includepdf[pages=-]{MSC_PROPOSAL_V1_4.pdf}
+
+\end{document}

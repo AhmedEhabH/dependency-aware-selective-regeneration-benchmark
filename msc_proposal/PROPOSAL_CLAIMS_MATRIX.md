@@ -34,6 +34,8 @@ audited evidence source. Any claim without a source is marked `TO VERIFY`.
 | 27 | Incremental-evidence ablation: cross-repo signal predominantly lexical; composite−BM25 deltas small, CIs include zero at most B | `reports/ROUTE_B_INCREMENTAL_EVIDENCE_ABLATION.md` + `research/transparency/route_b_incremental_ablation.json` | VERIFIED (V1.4; characterization only) |
 | 28 | V1.4 timeline: 2026-11→2027-10; substantive thesis/research completion 2027-07/08; 2027-09/10 = publication/revision/admin buffer | `msc_proposal/MSC_PROPOSAL_V1_4.tex` §10 (addendum; approved schedule, not a scientific claim) | VERIFIED (V1.4 print addendum) |
 | 29 | V1.4 bibliography rendered in PDF: 21 verified entries, every in-text citation resolves, preprints marked | `msc_proposal/MSC_PROPOSAL_V1_4.pdf` Section 11 (BibTeX `unsrt`, `references.bib`) | VERIFIED (V1.4 print addendum) |
+| 30 | djangoCMS INTERNAL_TEST confirmatory run: 80 tasks; 560 calls / 1,470,174 tokens / $0.505917; 0 failures; 0 excluded; composite ORR vs analytic Random B=1 0.059 vs 0.006, B=3 0.110 vs 0.017, B=5 0.165 vs 0.028 (Δ+0.137, CI [+0.075,+0.205]), B=10 0.267 vs 0.055; CIs exclude zero at every B; no size artifact; **CONFIRMS** | `reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md` + `research/djangocms-confirmatory-route-b/confirmatory_metrics.json` + raw manifest | VERIFIED (2026-09-17; authorized INTERNAL_TEST; CONFIRMATORY) |
+| 31 | Confirmatory test permanently used; not reused for P2 selection; P2 = DEVELOPMENT-only (djangoCMS DEV + Saleor DEV); Saleor INTERNAL_TEST sealed | mission contract + `docs/P2_COMMON_EVALUATION_CONTRACT.md` | VERIFIED (governance) |
 
 ## Rule
 - No claim may be strengthened beyond its source.

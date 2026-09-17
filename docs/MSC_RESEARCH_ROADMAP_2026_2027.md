@@ -692,6 +692,8 @@ must run on a fresh shared confirmatory split.
 | Proposal V1.2 + BibTeX triage + traceability ledgers | **COMPLETE** (2026-09-16 evening; msc_proposal/MSC_PROPOSAL_V1_2.pdf 7 pages; 13 .bib exports triaged, 10 high-priority verified from primary sources; 6 ledgers: decision/problem/experiment/baseline/literature) |
 | LocAgent P5R forensics + rescue pilot | **EXECUTED** (2026-09-16 evening; 0/5 usable; wrapper timeout ineffective against upstream 900 s hard-coded deadline; full 10-task rerun NOT triggered; P5 immutable; reports/LOCAGENT_P5R1_PILOT_REPORT.md) |
 | Route B candidate-level omission recovery V1 | **EXECUTED** (2026-09-16 evening; zero-LLM; R4 Classical CIA beats Random at B=5: DEV_VALIDATION 0.180 vs 0.037, CI [-0.003,+0.285]; no universe-size artifact corr 0.105; first positive candidate-level signal; reports/ROUTE_B_OMISSION_RECOVERY_V1_REPORT.md) |
+| **djangoCMS Route-B CONFIRMATORY (djangoCMS INTERNAL_TEST, 2026-09-17)** | **EXECUTED + CONFIRMS** (Ahmed-authorized; 80 tasks; 560 calls / 1,470,174 tokens / $0.505917; 0 failures; composite ORR vs analytic Random B=5 0.165 vs 0.028, Δ+0.137 CI [+0.075,+0.205]; CIs exclude zero at every B; no size artifact; reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md) |
+| **P2 adaptive-budget algorithm program** | **ADOPTED — DEVELOPMENT-only, Nov 2026–Mar 2027** (Shichao-Zhang-inspired policies + systematic landscape 24 entries; common evaluation contract; Saleor INTERNAL_TEST sealed as possible P2 confirmation set; docs/P2_IMPLEMENTATION_ROADMAP_2026_2027.md) |
 | Saleor Stage-2 READY-TO-RUN | **READY-TO-RUN** (2026-09-16 evening; full history 22,615 commits; frame 6000->2409->1352->1316; split proposal seed 20260916 DEV_TRAIN 120 / DEV_VALIDATION 30 / INTERNAL_TEST 80 / RESERVE 1086; pre-inference gates PASS; no inference tonight) |
 | Semantic-proxy audit protocol + packets | **PREPARED** (2026-09-16 evening; docs/SEMANTIC_PROXY_AUDIT_PROTOCOL.md; 25 DEVELOPMENT-only evidence packets; human audit required; AI notes not gold) |
 
@@ -738,3 +740,38 @@ must run on a fresh shared confirmatory split.
 - INTERNAL_TEST/RESERVE remain SEALED (both repos). Next external step:
   Ahmed approves/rejects opening djangoCMS INTERNAL_TEST under the frozen V2
   packet and budget.
+
+## 2026-09-17 update — DJANGOCMS CONFIRMATORY RUN (AUTHORIZED, EXECUTED, CONFIRMS) + P2 PROGRAM
+
+- **CONFIRMATORY djangoCMS INTERNAL_TEST EXECUTED** (Ahmed-authorized 2026-09-17;
+  ONLY djangoCMS V2 INTERNAL_TEST = 80 tasks; RESERVE + Saleor sealed).
+  Exact frozen V2 protocol + budget: **560 calls / 1,470,174 tokens /
+  $0.505917** (ceilings 560 / 2,100,000 / $1.00), 0 failures, 0 excluded,
+  raw+sha 560/560 verified.
+  **Composite ORR vs analytic Random:** B=1 0.0591 vs 0.0055 (Δ +0.0522, CI
+  [0.0163,0.0957]); B=3 0.1098 vs 0.0166; B=5 0.165 vs 0.0277 (Δ +0.1367, CI
+  [0.0746,0.2046]); B=10 0.2669 vs 0.0554. CIs exclude zero at every B; 5/5
+  folds positive; 4/4 B-points; no size artifact. **Classification: CONFIRMS.
+  Fixed Route B is now scientifically confirmed on djangoCMS INTERNAL_TEST.**
+  Reports: `reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md`,
+  `reports/DJANGOCMS_CONFIRMATORY_AUDIT.md`,
+  `research/djangocms-confirmatory-route-b/`.
+- **FROZEN BOUNDARIES.** The opened djangoCMS INTERNAL_TEST is permanently used
+  as the confirmatory test; it will NEVER be reused as a fresh test for P2
+  algorithm selection. P2/adaptive work uses DEVELOPMENT only (djangoCMS DEV +
+  Saleor DEV). No method change based on outcomes.
+- **P2 FIVE-MONTH ALGORITHM PROGRAM ADOPTED (Nov 2026 - Mar 2027; DEVELOPMENT
+  only).** Reproduce Shichao-Zhang-inspired adaptive-budget ideas (Learning-k,
+  cost-sensitive KNN, one-step computation, demand-driven kNN,
+  adaptive-neighborhood) and systematically discover/classify competing
+  algorithms (adaptive/conditional computation, selective prediction/
+  abstention/learning-to-defer, cascaded inference, optimal stopping, budgeted
+  retrieval, active search, contextual bandits where mechanistically
+  relevant). Classify each as DIRECT_COMPETITOR / CLOSE_ANALOGUE /
+  ALGORITHMIC_INSPIRATION / BACKGROUND_ONLY / REJECT_IRRELEVANT. Common
+  zero-LLM/low-cost harness vs fixed B={1,3,5,10}, Analytic Random, BM25-only,
+  frozen composite, Oracle, InspectAll. Select ≤1-2 justified P2 candidates on
+  DEVELOPMENT only; use still-sealed Saleor INTERNAL_TEST for P2 confirmation
+  only if justified; otherwise close P2 negative with the fixed-B thesis
+  intact.
+- **Sealed now:** djangoCMS RESERVE, Saleor INTERNAL_TEST, Saleor RESERVE.

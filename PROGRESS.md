@@ -5,63 +5,49 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `main`
-**HEAD:** `11a52c2` (merge of `feat/v14-print-bib-timeline-2026-09-17`; V1.4
-print/bibliography/timeline addendum + pre-confirmatory readiness)
+**Branch:** `feat/djangocms-confirmatory-p2-program-2026-09-17` (HEAD `7a458bd`;
+to merge to `main` as the confirmatory + P2-program milestone)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** V1.4 PRINT/BIBLIOGRAPHY/TIMELINE ADDENDUM + PRE-CONFIRMATORY
-READINESS (2026-09-17) - V1.4 print-layout fix, rendered bibliography, final
-2026-11→2027-10 timeline, final document-consistency audit, confirmatory
-execution readiness, P2 conditional, semantic human-audit readiness,
-traceability, git/release - **COMPLETE (ZERO API, ZERO test peek)**
+**Task:** DJANGOCMS CONFIRMATORY RUN + P2 FIVE-MONTH ALGORITHM PROGRAM +
+PROPOSAL COVER (2026-09-17) — confirmatory INTERNAL_TEST EXECUTED (CONFIRMS),
+P2 literature/program underway — **IN PROGRESS (real confirmatory run done;
+P2 DEV-only)**
 
 ---
 
 ## Now executing
 
-- **MILESTONE COMPLETE.** All V1.4 print/pre-confirmatory readiness blocks
-  shipped, audited, committed, merged to `main` (`11a52c2`), tagged, and
-  exported.
-- **Remaining:** none for this mission. Final report delivered; next step is
-  Ahmed's decision on opening djangoCMS INTERNAL_TEST.
+- **Block A COMPLETE:** djangoCMS V2 INTERNAL_TEST confirmatory run executed
+  (Ahmed-authorized) under the frozen V2 protocol + budget: **560 calls /
+  1,470,174 tokens / $0.505917**, 0 failures, 0 excluded; composite ranker
+  beats analytic Random at every B with CIs excluding zero; gate PASS →
+  **classification CONFIRMS**.
+- **Block B IN PROGRESS:** freezing the fixed Route-B story (state/ledgers
+  updated; DEV vs CONFIRMATORY vs P2 evidence separated).
+- **Remaining:** C. P2 literature landscape; D. P2 roadmap; E. P2 common
+  evaluation contract; F. proposal cover/title page; G. timeline alignment;
+  H. semantic-audit package; I. traceability/git/release; J. final report.
 
 ## Last completed task
 
-- V1.4 print/bibliography/timeline addendum + pre-confirmatory readiness
-  milestone: V1.4 PDF 10 pages (SHA-256 `50957a25…`), bibliography rendered
-  (21 refs), timeline 2026-11→2027-10; consistency audit + independent audit
-  PASS; confirmatory execution package READY_FOR_AHMED_APPROVAL (dry-run PASS,
-  6/6 tests); P2 CONDITIONAL; semantic human-audit READY_FOR_HUMAN_EXECUTION;
-  full suite 3303 passed / 33 skipped / 2 pre-existing environmental failures;
-  merge to main (`11a52c2`); tag
-  `preconfirmatory-print-ready-v1-2026-09-17`; LIGHT export.
+- Confirmatory run closure: result report
+  (`reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md`), machine JSON
+  (`research/djangocms-confirmatory-route-b/confirmatory_metrics.json`), raw
+  manifest (560/560 SHA verified), audit
+  (`reports/DJANGOCMS_CONFIRMATORY_AUDIT.md`).
 
 ## Immediate next step
 
-- Ahmed explicitly approves or rejects opening djangoCMS INTERNAL_TEST under
-  the frozen V2 packet and budget (`reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_FREEZE_PACKET_V2.md`
-  + `reports/DJANGOCMS_CONFIRMATORY_EXECUTION_READINESS.md`).
+- Block C: P2 five-month algorithm program — systematic literature landscape
+  (Tracks A/B), `reports/P2_ALGORITHM_LANDSCAPE_2026-09.md`,
+  `research/literature/p2_algorithm_landscape.csv`, literature ledger update.
 
 ## Blockers
 
-- None for this mission (PDF lock resolved by Ahmed closing the viewer).
-- Pre-existing environmental: pinned djangocms git cache absent
-  (benchmark_data/repositories/djangocms) - parent-commit corpus not
-  re-materializable; documented in the repository evidence audit.
-- Saleor parent-visible history cache absent (dist/real-commit-cache/saleor) -
-  no Saleor co-change arm; recorded UNAVAILABLE in the ablation.
-
-## Immediate next step
-
-- Block F completion: commit → push → merge to main → post-merge verify →
-  push main → tag (pre-confirmatory/print-ready milestone) → LIGHT export.
-  Then Block G final report and STOP.
-
-## Blockers
-
-- None for this mission (PDF lock resolved by Ahmed closing the viewer).
-- Pre-existing environmental: pinned djangocms git cache absent
-  (benchmark_data/repositories/djangocms) — parent-commit corpus not
-  re-materializable; documented in the repository evidence audit.
+- None for this mission.
+- Pre-existing environmental: pinned djangocms git cache absent at
+  benchmark_data/repositories/djangocms (parent-commit corpus not
+  re-materializable for legacy tests; INTERNAL_TEST bundles were materialized
+  from dist/real-commit-cache/djangocms instead).
 - Saleor parent-visible history cache absent (dist/real-commit-cache/saleor) —
   no Saleor co-change arm; recorded UNAVAILABLE in the ablation.
