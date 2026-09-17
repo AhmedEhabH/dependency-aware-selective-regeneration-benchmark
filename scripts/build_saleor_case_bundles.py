@@ -31,6 +31,7 @@ sys.path.insert(0, str(_PROJECT_DIR))
 sys.path.insert(0, str(_PROJECT_DIR / "src"))
 
 from benchmark.real_commits import miner, scientific  # noqa: E402
+from scripts.saleor_portability_fix import materialize_production_parent  # noqa: E402
 
 CACHE_DIR = _PROJECT_DIR / "dist" / "pilot-repo-cache" / "saleor"
 ANCHOR = "2c48391b652c26ce4f27a53d6532d4c873306af0"
@@ -40,6 +41,19 @@ OUTPUT_DIR = _PROJECT_DIR / "benchmark_data" / "real_commit_impact_saleor"
 CREATED_UTC = "2026-09-17T00:00:00+00:00"
 
 
+def _production_only_extract(cache_dir, parent: str, dest: Path) -> None:
+    """Drop-in for miner.extract_parent_tree: production-only parent materializer.
+
+    WHY (portability fix, 2026-09-17): whole-tree ``git archive`` fails on
+    Windows for Saleor parents containing a non-production test cassette with
+    ``?``/``[``/``]`` characters. This materializer extracts ONLY the production
+    ``.py`` blobs the frozen ``build_candidate_universe`` globs (verified by the
+    98-bundle equivalence gate, all checks MATCH). No eligibility rule changes;
+    no scientific file is deleted or skipped.
+    """
+    materialize_production_parent(cache_dir, parent, dest, roots=("saleor",))
+
+
 def _sha(payload: Any) -> str:
     canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
@@ -47,6 +61,8 @@ def _sha(payload: Any) -> str:
 
 def main() -> int:
     miner.PRODUCTION_ROOTS = ("saleor",)
+    # Portability fix: production-only materializer (equivalence-proven 98/98).
+    miner.extract_parent_tree = _production_only_extract
     meta = json.loads(META.read_text(encoding="utf-8"))
     split = json.loads(SPLIT.read_text(encoding="utf-8"))
     assignment = {
