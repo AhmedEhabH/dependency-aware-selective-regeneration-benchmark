@@ -221,7 +221,8 @@ execution. Entries are never edited after append; corrections are new entries.
 - **Context:** The proposal/literature base must be a living artifact, not a
   one-shot table.
 - **Decision:** Maintain docs/LIVING_SYSTEMATIC_REVIEW.md +
-  esearch/literature/{review_matrix.csv,search_log.csv,idea_ledger.md}. Seed
+
+esearch/literature/{review_matrix.csv,search_log.csv,idea_ledger.md}. Seed
   the matrix with 12 systems (RIPPLE, Repository Memory, Adaptive-k, LocAgent,
   GraphLocator, RepoGraph, Agentless, CodePlan, RepoCoder, AutoCodeRover,
   RPG/ZeroRepo, AB-RAG), classified PEER-REVIEWED / PREPRINT /
@@ -241,8 +242,10 @@ execution. Entries are never edited after append; corrections are new entries.
   step must be chosen and NOT executed in this milestone.
 - **Decision:** The single next scientific step is
   **OMISSION_RISK_FEATURE_STUDY_V1 (TRAIN/VALIDATION only)** — feature families
-  and routing metrics as recommended in eports/RESEARCH_HARNESS_V1_REPORT.md
-  §9 and esearch/literature/idea_ledger.md I1/I2/I5/I6. Do NOT start:
+  and routing metrics as recommended in
+eports/RESEARCH_HARNESS_V1_REPORT.md
+  §9 and
+esearch/literature/idea_ledger.md I1/I2/I5/I6. Do NOT start:
   omission-risk training/analysis, Saleor scientific execution, LocAgent
   scientific calls, selective escalation, or new model runs.
 - **Rationale:** architecture first, science second; every future experiment
@@ -781,3 +784,60 @@ execution. Entries are never edited after append; corrections are new entries.
   PROPOSAL_CLAIMS_MATRIX.md.
 - **Revisit:** V1.5 only if a further material change occurs (e.g., confirmatory
   outcome).
+
+## Decision P53 - V1.4 print/bibliography/timeline addendum applied in place (2026-09-17)
+
+- **Status:** ADOPTED (no V1.5; V1.4 still the active unmerged draft)
+- **Chosen:** apply the V1.4 layout/references/timeline addendum to V1.4 in
+  place. (1) Experimental Design at a Glance rebuilt with 8 compact tabularx
+  columns (raggedright, short labels, no internal codes, no resizebox) —
+  overlap fixed, zero overfull hboxes. (2) Bibliography rendered in the PDF:
+  Section 11 now compiles the actual verified references.bib via BibTeX
+  (unsrt); every in-text cite{} resolves; 21 reference entries appear (pages
+  9-10); preprints marked; the stale bibliography (V1.3) sentence replaced
+  with V1.4 wording. (3) Timeline replaced with the detailed 2026-11 to
+  2027-10 schedule (12 windows); intended substantive research/thesis
+  completion = 2027-07/08; September-October 2027 = publication/revision/admin
+  buffer; no fabricated months. (4) Compiles clean (pdflatex x2 + bibtex): 10
+  pages (was 7); PDF SHA-256 50957a2525f7430de47fd9306895d2b4c80b30c358d3cafe6798a0a27b0525b1.
+- **Why:** the printed proposal must be readable at A4/grayscale (table
+  overlap), carry the actual verified references, and show an honest, detailed
+  schedule matching Ahmed's 2026-11 to 2027-10 plan.
+- **Impact:** msc_proposal/MSC_PROPOSAL_V1_4.tex/.pdf, PROPOSAL_V1_4_AUDIT.md,
+  PROPOSAL_CHANGELOG.md, PROPOSAL_CLAIMS_MATRIX.md, PROPOSAL_PRINT_CHECKLIST.md;
+  no scientific input changed; INTERNAL_TEST/RESERVE sealed.
+- **Evidence:** msc_proposal/MSC_PROPOSAL_V1_4.pdf (10 pages, SHA-256
+  50957a25...), reports/V14_FINAL_DOCUMENT_CONSISTENCY_AUDIT.md.
+- **Revisit:** V1.5 only if a further material change occurs.
+
+## Decision P54 - Pre-confirmatory execution package + P2 + semantic audit readiness (2026-09-17)
+
+- **Status:** ADOPTED (ZERO API, ZERO test peek)
+- **Chosen:** (C) prepare a ready-to-run confirmatory execution package
+  (scripts/djangocms_confirmatory_config.py,
+  scripts/djangocms_confirmatory_execution.py,
+  scripts/djangocms_confirmatory_metrics.py, 6 focused tests) with the frozen
+  560-call / 2,100,000-token / USD 1.00 ceilings, per-call fail-closed
+  reservation ledger, raw+sha persistence, failure taxonomy, and stop rule;
+  dry-run (synthetic, NOT_REAL) PASS; status READY_FOR_AHMED_APPROVAL - real
+  execution requires Ahmed's explicit approval. (D) P2 adaptive budget stays
+  CONDITIONAL - AFTER FIXED ROUTE-B CONFIRMATION; exact observable features,
+  train/dev-only evaluation plan, stop/fail criteria, and the
+  CONDITIONAL-to-ACTIVE vs negative-close evidence are now specified. (E)
+  semantic human audit made turnkey (blinded manifest, Rater A/B + adjudicator
+  forms, one-page instructions, kappa/sensitivity scripts, checklist, exact
+  save locations, one synthetic dry-run clearly NOT_REAL); status
+  READY_FOR_HUMAN_EXECUTION.
+- **Why:** everything machine-preparable must be finished so the semantic human
+  audit and (on approval) the confirmatory run are turnkey; no confirmatory
+  model call is made in this mission.
+- **Impact:** reports/DJANGOCMS_CONFIRMATORY_EXECUTION_READINESS.md,
+  reports/SEMANTIC_AUDIT_HUMAN_EXECUTION_READINESS.md,
+  docs/ADAPTIVE_BUDGET_P2_PRE_REGISTRATION_NOTE.md,
+  scripts/djangocms_confirmatory_*.py, tests/unit/test_djangocms_confirmatory_execution.py,
+  research/transparency/djangocms_internal_test_case_ids.json (split metadata
+  only).
+- **Evidence:** dry-run summary + 6/6 tests PASS; semantic_audit_finalize.py
+  PACKET_INTEGRITY PASS + SYNTHETIC_DRYRUN PASS.
+- **Revisit:** on Ahmed's approval of the confirmatory run / after the human
+  audit.

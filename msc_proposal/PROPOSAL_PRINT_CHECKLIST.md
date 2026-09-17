@@ -38,5 +38,9 @@ Run on the FINAL compiled PDF before physical print.
 
 ## Current status
 
-- Compiled: 6 pages, PASS (2026-09-16).
+- Compiled: **10 pages, PASS (2026-09-17, V1.4 print addendum)**; bibliography
+  rendered (21 verified entries, Section 11); Experimental Design table
+  rebuilt (`tabularx`, zero overfull hboxes); timeline 2026-11→2027-10.
+- PDF SHA-256 (V1.4 addendum):
+  `50957a2525f7430de47fd9306895d2b4c80b30c358d3cafe6798a0a27b0525b1`.
 - Pending: institutional template/cover information from the supervisor.

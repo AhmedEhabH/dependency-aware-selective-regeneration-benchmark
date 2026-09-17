@@ -95,3 +95,21 @@
   (djangoCMS + Saleor).
 - Compile: 7 pages, clean. PDF SHA-256: dd7125fa52025917b32bed77bd141a954657f888c83513f42ba0829e7ee59cd8.
 - Audit: PROPOSAL_V1_4_AUDIT.md.
+
+## V1.4 print/bibliography/timeline addendum (2026-09-17, V1.4 in place — no V1.5)
+
+- **Experimental Design at a Glance table overlap fixed:** rebuilt with 8
+  compact `tabularx` columns (Study | Purpose | Repo / Split | Method | Unit |
+  Budget / Reps | Primary metrics | Status), `\raggedright` wrapping, short
+  labels, no internal codes, no `\resizebox`. Zero overfull hboxes.
+- **Bibliography rendered in the PDF:** Section 11 now compiles the actual
+  verified `references.bib` via BibTeX (`unsrt`); every in-text `\cite{}`
+  resolves; 21 reference entries appear in the PDF (pages 9–10); preprints
+  marked; the stale "authoritative bibliography (V1.3)" sentence replaced with
+  V1.4 wording.
+- **Timeline replaced:** detailed **2026-11 → 2027-10** schedule (12 windows);
+  intended substantive research/thesis completion **2027-07/08**;
+  September–October 2027 = publication/revision/admin buffer.
+- Compile: pdflatex (2×) + bibtex clean; **10 pages** (was 7). PDF SHA-256:
+  `50957a2525f7430de47fd9306895d2b4c80b30c358d3cafe6798a0a27b0525b1`.
+- Audit: PROPOSAL_V1_4_AUDIT.md (§0 addendum).
