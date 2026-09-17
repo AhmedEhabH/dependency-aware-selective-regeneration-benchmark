@@ -1,0 +1,458 @@
+{
+  "study_id": "route-b-incremental-evidence-ablation",
+  "date": "2026-09-17",
+  "zero_api": true,
+  "type": "CHARACTERIZATION/ABLATION (no method change)",
+  "djangocms": {
+    "n_tasks": 174,
+    "budget_curve": {
+      "n_tasks": 174,
+      "1": {
+        "B": 1,
+        "macro_orr": {
+          "AnalyticRandom": 0.0057,
+          "BM25": 0.0459,
+          "Graph": 0.0048,
+          "CIA": 0.0464,
+          "Hybrid": 0.0464,
+          "Oracle": 0.5093,
+          "InspectAll": 0.8793
+        },
+        "micro_orr": {
+          "AnalyticRandom": 0.0064,
+          "BM25": 0.0419,
+          "Graph": 0.0052,
+          "CIA": 0.0445,
+          "Hybrid": 0.0445,
+          "Oracle": 0.4005,
+          "InspectAll": 1.0
+        },
+        "recovered_fn": {
+          "AnalyticRandom": 2.4622,
+          "BM25": 16.0,
+          "Graph": 2.0,
+          "CIA": 17.0,
+          "Hybrid": 17.0,
+          "Oracle": 153.0,
+          "InspectAll": 382.0
+        },
+        "composite_minus_bm25": {
+          "paired_delta_mean": 0.0005,
+          "paired_delta_median": 0.0,
+          "bootstrap_ci95": [
+            -0.0072,
+            0.0077
+          ],
+          "n_tasks_paired": 174,
+          "n_tasks_composite_greater": 2,
+          "n_tasks_bm25_greater": 1,
+          "n_tasks_equal": 171
+        },
+        "graph_minus_random": {
+          "mean_delta": -0.0009,
+          "n_tasks_positive": 2
+        },
+        "composite_vs_bm25_top_b_overlap": {
+          "mean_jaccard": 0.8103,
+          "n_tasks_exact_match": 141
+        },
+        "additional_fn_recovered_composite_beyond_bm25": {
+          "sum_extra_fn": 1,
+          "n_tasks_extra_gt_0": 2,
+          "n_tasks_extra_lt_0": 1
+        }
+      },
+      "3": {
+        "B": 3,
+        "macro_orr": {
+          "AnalyticRandom": 0.017,
+          "BM25": 0.1132,
+          "Graph": 0.0516,
+          "CIA": 0.1177,
+          "Hybrid": 0.1177,
+          "Oracle": 0.8154,
+          "InspectAll": 0.8793
+        },
+        "micro_orr": {
+          "AnalyticRandom": 0.0193,
+          "BM25": 0.0995,
+          "Graph": 0.0628,
+          "CIA": 0.1126,
+          "Hybrid": 0.1126,
+          "Oracle": 0.8194,
+          "InspectAll": 1.0
+        },
+        "recovered_fn": {
+          "AnalyticRandom": 7.3867,
+          "BM25": 38.0,
+          "Graph": 24.0,
+          "CIA": 43.0,
+          "Hybrid": 43.0,
+          "Oracle": 313.0,
+          "InspectAll": 382.0
+        },
+        "composite_minus_bm25": {
+          "paired_delta_mean": 0.0045,
+          "paired_delta_median": 0.0,
+          "bootstrap_ci95": [
+            -0.0166,
+            0.0239
+          ],
+          "n_tasks_paired": 174,
+          "n_tasks_composite_greater": 6,
+          "n_tasks_bm25_greater": 3,
+          "n_tasks_equal": 165
+        },
+        "graph_minus_random": {
+          "mean_delta": 0.0346,
+          "n_tasks_positive": 23
+        },
+        "composite_vs_bm25_top_b_overlap": {
+          "mean_jaccard": 0.7856,
+          "n_tasks_exact_match": 119
+        },
+        "additional_fn_recovered_composite_beyond_bm25": {
+          "sum_extra_fn": 5,
+          "n_tasks_extra_gt_0": 6,
+          "n_tasks_extra_lt_0": 3
+        }
+      },
+      "5": {
+        "B": 5,
+        "macro_orr": {
+          "AnalyticRandom": 0.0283,
+          "BM25": 0.1606,
+          "Graph": 0.0893,
+          "CIA": 0.1633,
+          "Hybrid": 0.1633,
+          "Oracle": 0.858,
+          "InspectAll": 0.8793
+        },
+        "micro_orr": {
+          "AnalyticRandom": 0.0322,
+          "BM25": 0.1492,
+          "Graph": 0.1178,
+          "CIA": 0.1623,
+          "Hybrid": 0.1623,
+          "Oracle": 0.9293,
+          "InspectAll": 1.0
+        },
+        "recovered_fn": {
+          "AnalyticRandom": 12.3111,
+          "BM25": 57.0,
+          "Graph": 45.0,
+          "CIA": 62.0,
+          "Hybrid": 62.0,
+          "Oracle": 355.0,
+          "InspectAll": 382.0
+        },
+        "composite_minus_bm25": {
+          "paired_delta_mean": 0.0028,
+          "paired_delta_median": 0.0,
+          "bootstrap_ci95": [
+            -0.0148,
+            0.0188
+          ],
+          "n_tasks_paired": 174,
+          "n_tasks_composite_greater": 7,
+          "n_tasks_bm25_greater": 3,
+          "n_tasks_equal": 164
+        },
+        "graph_minus_random": {
+          "mean_delta": 0.0609,
+          "n_tasks_positive": 35
+        },
+        "composite_vs_bm25_top_b_overlap": {
+          "mean_jaccard": 0.7655,
+          "n_tasks_exact_match": 104
+        },
+        "additional_fn_recovered_composite_beyond_bm25": {
+          "sum_extra_fn": 5,
+          "n_tasks_extra_gt_0": 7,
+          "n_tasks_extra_lt_0": 3
+        }
+      },
+      "10": {
+        "B": 10,
+        "macro_orr": {
+          "AnalyticRandom": 0.0567,
+          "BM25": 0.2259,
+          "Graph": 0.1481,
+          "CIA": 0.2512,
+          "Hybrid": 0.2512,
+          "Oracle": 0.8793,
+          "InspectAll": 0.8793
+        },
+        "micro_orr": {
+          "AnalyticRandom": 0.0645,
+          "BM25": 0.2356,
+          "Graph": 0.1754,
+          "CIA": 0.2644,
+          "Hybrid": 0.2644,
+          "Oracle": 1.0,
+          "InspectAll": 1.0
+        },
+        "recovered_fn": {
+          "AnalyticRandom": 24.6223,
+          "BM25": 90.0,
+          "Graph": 67.0,
+          "CIA": 101.0,
+          "Hybrid": 101.0,
+          "Oracle": 382.0,
+          "InspectAll": 382.0
+        },
+        "composite_minus_bm25": {
+          "paired_delta_mean": 0.0253,
+          "paired_delta_median": 0.0,
+          "bootstrap_ci95": [
+            -0.0021,
+            0.0548
+          ],
+          "n_tasks_paired": 174,
+          "n_tasks_composite_greater": 15,
+          "n_tasks_bm25_greater": 6,
+          "n_tasks_equal": 153
+        },
+        "graph_minus_random": {
+          "mean_delta": 0.0915,
+          "n_tasks_positive": 48
+        },
+        "composite_vs_bm25_top_b_overlap": {
+          "mean_jaccard": 0.7508,
+          "n_tasks_exact_match": 78
+        },
+        "additional_fn_recovered_composite_beyond_bm25": {
+          "sum_extra_fn": 11,
+          "n_tasks_extra_gt_0": 15,
+          "n_tasks_extra_lt_0": 6
+        }
+      }
+    }
+  },
+  "saleor": {
+    "n_tasks": 149,
+    "budget_curve": {
+      "n_tasks": 149,
+      "1": {
+        "B": 1,
+        "macro_orr": {
+          "AnalyticRandom": 0.0012,
+          "BM25": 0.0724,
+          "Graph": 0.005,
+          "CIA": 0.0775,
+          "Hybrid": 0.0775,
+          "Oracle": 0.4774,
+          "InspectAll": 0.8523
+        },
+        "micro_orr": {
+          "AnalyticRandom": 0.0015,
+          "BM25": 0.0623,
+          "Graph": 0.0054,
+          "CIA": 0.0678,
+          "Hybrid": 0.0678,
+          "Oracle": 0.3442,
+          "InspectAll": 1.0
+        },
+        "recovered_fn": {
+          "AnalyticRandom": 0.5501,
+          "BM25": 23.0,
+          "Graph": 2.0,
+          "CIA": 25.0,
+          "Hybrid": 25.0,
+          "Oracle": 127.0,
+          "InspectAll": 369.0
+        },
+        "composite_minus_bm25": {
+          "paired_delta_mean": 0.005,
+          "paired_delta_median": 0.0,
+          "bootstrap_ci95": [
+            0.0,
+            0.0134
+          ],
+          "n_tasks_paired": 149,
+          "n_tasks_composite_greater": 2,
+          "n_tasks_bm25_greater": 0,
+          "n_tasks_equal": 147
+        },
+        "graph_minus_random": {
+          "mean_delta": 0.0038,
+          "n_tasks_positive": 2
+        },
+        "composite_vs_bm25_top_b_overlap": {
+          "mean_jaccard": 0.9128,
+          "n_tasks_exact_match": 136
+        },
+        "additional_fn_recovered_composite_beyond_bm25": {
+          "sum_extra_fn": 2,
+          "n_tasks_extra_gt_0": 2,
+          "n_tasks_extra_lt_0": 0
+        }
+      },
+      "3": {
+        "B": 3,
+        "macro_orr": {
+          "AnalyticRandom": 0.0037,
+          "BM25": 0.1576,
+          "Graph": 0.005,
+          "CIA": 0.1576,
+          "Hybrid": 0.1576,
+          "Oracle": 0.7477,
+          "InspectAll": 0.8523
+        },
+        "micro_orr": {
+          "AnalyticRandom": 0.0045,
+          "BM25": 0.1518,
+          "Graph": 0.0054,
+          "CIA": 0.1518,
+          "Hybrid": 0.1518,
+          "Oracle": 0.7182,
+          "InspectAll": 1.0
+        },
+        "recovered_fn": {
+          "AnalyticRandom": 1.6502,
+          "BM25": 56.0,
+          "Graph": 2.0,
+          "CIA": 56.0,
+          "Hybrid": 56.0,
+          "Oracle": 265.0,
+          "InspectAll": 369.0
+        },
+        "composite_minus_bm25": {
+          "paired_delta_mean": 0.0,
+          "paired_delta_median": 0.0,
+          "bootstrap_ci95": [
+            0.0,
+            0.0
+          ],
+          "n_tasks_paired": 149,
+          "n_tasks_composite_greater": 0,
+          "n_tasks_bm25_greater": 0,
+          "n_tasks_equal": 149
+        },
+        "graph_minus_random": {
+          "mean_delta": 0.0013,
+          "n_tasks_positive": 2
+        },
+        "composite_vs_bm25_top_b_overlap": {
+          "mean_jaccard": 0.8765,
+          "n_tasks_exact_match": 119
+        },
+        "additional_fn_recovered_composite_beyond_bm25": {
+          "sum_extra_fn": 0,
+          "n_tasks_extra_gt_0": 0,
+          "n_tasks_extra_lt_0": 0
+        }
+      },
+      "5": {
+        "B": 5,
+        "macro_orr": {
+          "AnalyticRandom": 0.0061,
+          "BM25": 0.2335,
+          "Graph": 0.005,
+          "CIA": 0.2369,
+          "Hybrid": 0.2369,
+          "Oracle": 0.8177,
+          "InspectAll": 0.8523
+        },
+        "micro_orr": {
+          "AnalyticRandom": 0.0075,
+          "BM25": 0.2087,
+          "Graph": 0.0054,
+          "CIA": 0.2141,
+          "Hybrid": 0.2141,
+          "Oracle": 0.8808,
+          "InspectAll": 1.0
+        },
+        "recovered_fn": {
+          "AnalyticRandom": 2.7503,
+          "BM25": 77.0,
+          "Graph": 2.0,
+          "CIA": 79.0,
+          "Hybrid": 79.0,
+          "Oracle": 325.0,
+          "InspectAll": 369.0
+        },
+        "composite_minus_bm25": {
+          "paired_delta_mean": 0.0034,
+          "paired_delta_median": 0.0,
+          "bootstrap_ci95": [
+            -0.0168,
+            0.0235
+          ],
+          "n_tasks_paired": 149,
+          "n_tasks_composite_greater": 2,
+          "n_tasks_bm25_greater": 1,
+          "n_tasks_equal": 146
+        },
+        "graph_minus_random": {
+          "mean_delta": -0.0011,
+          "n_tasks_positive": 2
+        },
+        "composite_vs_bm25_top_b_overlap": {
+          "mean_jaccard": 0.8544,
+          "n_tasks_exact_match": 106
+        },
+        "additional_fn_recovered_composite_beyond_bm25": {
+          "sum_extra_fn": 2,
+          "n_tasks_extra_gt_0": 2,
+          "n_tasks_extra_lt_0": 1
+        }
+      },
+      "10": {
+        "B": 10,
+        "macro_orr": {
+          "AnalyticRandom": 0.0123,
+          "BM25": 0.3148,
+          "Graph": 0.0089,
+          "CIA": 0.3173,
+          "Hybrid": 0.3173,
+          "Oracle": 0.8511,
+          "InspectAll": 0.8523
+        },
+        "micro_orr": {
+          "AnalyticRandom": 0.0149,
+          "BM25": 0.3008,
+          "Graph": 0.0108,
+          "CIA": 0.3008,
+          "Hybrid": 0.3008,
+          "Oracle": 0.9946,
+          "InspectAll": 1.0
+        },
+        "recovered_fn": {
+          "AnalyticRandom": 5.5005,
+          "BM25": 111.0,
+          "Graph": 4.0,
+          "CIA": 111.0,
+          "Hybrid": 111.0,
+          "Oracle": 367.0,
+          "InspectAll": 369.0
+        },
+        "composite_minus_bm25": {
+          "paired_delta_mean": 0.0025,
+          "paired_delta_median": 0.0,
+          "bootstrap_ci95": [
+            -0.021,
+            0.0275
+          ],
+          "n_tasks_paired": 149,
+          "n_tasks_composite_greater": 3,
+          "n_tasks_bm25_greater": 3,
+          "n_tasks_equal": 143
+        },
+        "graph_minus_random": {
+          "mean_delta": -0.0033,
+          "n_tasks_positive": 4
+        },
+        "composite_vs_bm25_top_b_overlap": {
+          "mean_jaccard": 0.8305,
+          "n_tasks_exact_match": 85
+        },
+        "additional_fn_recovered_composite_beyond_bm25": {
+          "sum_extra_fn": 0,
+          "n_tasks_extra_gt_0": 3,
+          "n_tasks_extra_lt_0": 3
+        }
+      }
+    }
+  }
+}

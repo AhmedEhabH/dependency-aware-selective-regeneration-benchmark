@@ -179,3 +179,36 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
 - **Status:** REPLICATES (149 tasks; CIA best arm; B=5 delta +0.231 CI
   [+0.180,+0.287]; 5/5 folds; 4/4 B-points; artifact-free).
 - **Artifact:** reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md.
+
+## E-029 - Ranker-identity audit: CIA ≡ Hybrid (2026-09-17)
+- **Status:** COMPLETE (ZERO API; deterministic recomputation).
+- **Finding:** frozen Route-B V2 arm historically labelled Classical-CIA =
+  normalized BM25 + binary graph-neighbor; Hybrid (0.5 BM25 + 0.5
+  graph-neighbor) is mathematically rank-equivalent (0 differing cells at
+  B={1,3,5,10} on 174 djangoCMS + 149 Saleor DEV tasks; full-rank identical).
+- **Artifact:** reports/ROUTE_B_RANKER_IDENTITY_AUDIT.md +
+  research/transparency/route_b_ranker_identity_audit.json.
+
+## E-030 - Incremental-evidence ablation (2026-09-17)
+- **Status:** COMPLETE (ZERO API; characterization, no method change).
+- **Finding:** composite−BM25 paired deltas small with CIs including zero at
+  most B on both repos (djangoCMS B=5 +0.003 [−0.015,+0.019]; Saleor B=5
+  +0.003 [−0.017,+0.024]); signal predominantly lexical; Saleor graph arm ≈
+  binary-neighbor floor; history (djangoCMS 94 tasks) beats Random but not the
+  frozen primary.
+- **Artifact:** reports/ROUTE_B_INCREMENTAL_EVIDENCE_ABLATION.md +
+  research/transparency/route_b_incremental_ablation.json.
+
+## E-031 - Confirmatory freeze packet V2 + API budget freeze (2026-09-17)
+- **Status:** FROZEN (ready-to-approve; INTERNAL_TEST sealed; ZERO test peek).
+- **Scope:** truthful ranker name; CIA/Hybrid redundancy; Saleor=REPLICATES;
+  exact repetition/failure/verifier semantics; 560 calls / ≤2.1M tokens /
+  ≤.00 with per-call reservation rule.
+- **Artifact:** reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_FREEZE_PACKET_V2.md +
+  reports/DJANGOCMS_CONFIRMATORY_API_BUDGET_FREEZE.md.
+
+## E-032 - Proposal V1.4 (2026-09-17)
+- **Status:** COMPLETE (V1.3 immutable; 7-page PDF compiled clean).
+- **Change:** Saleor DEV transfer replication is a material scientific change;
+  Classical-CIA terminology corrected; lexical-dominance stated.
+- **Artifact:** msc_proposal/MSC_PROPOSAL_V1_4.tex/.pdf + PROPOSAL_V1_4_AUDIT.md.

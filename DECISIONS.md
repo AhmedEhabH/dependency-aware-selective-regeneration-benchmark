@@ -709,3 +709,75 @@ execution. Entries are never edited after append; corrections are new entries.
 - **Rejected:** pooling djangoCMS+Saleor as the primary headline; tuning the
   method on Saleor outcomes.
 - **Evidence:** reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md.
+
+## Decision P48 - Ranker identity: CIA ≡ Hybrid; name corrected (2026-09-17)
+
+- **Status:** ADOPTED (zero-API audit, PRE-CONFIRMATORY HARDENING V14)
+- **Chosen:** confirm the frozen Route-B V2 "CIA" arm is exactly
+  normalized BM25 + binary graph-neighbor; the Hybrid arm (0.5 BM25 + 0.5
+  graph-neighbor) is MATHEMATICALLY RANK-EQUIVALENT (Hybrid = 0.5 × CIA key).
+  Verified at top-B identity on 174 djangoCMS + 149 Saleor DEV tasks: 0
+  differing cells, full-rank identical. Hybrid is a redundant alias/control,
+  NOT an independent baseline. "Classical-CIA" terminology corrected to
+  `BM25+Graph-Neighbor Composite (historical label: CIA)`.
+- **Why:** documentation must match the exact code; the confirmatory formula is
+  NOT changed before confirmatory testing.
+- **Evidence:** reports/ROUTE_B_RANKER_IDENTITY_AUDIT.md +
+  research/transparency/route_b_ranker_identity_audit.json.
+- **Revisit:** n/a (correction appended; historical results unchanged).
+
+## Decision P49 - Incremental-evidence ablation: predominantly lexical (2026-09-17)
+
+- **Status:** ADOPTED (characterization only; zero API)
+- **Chosen:** composite−BM25 paired task-level deltas are small with bootstrap
+  CIs including zero at most B on both repositories (djangoCMS B=5 +0.003
+  [−0.015,+0.019]; Saleor B=5 +0.003 [−0.017,+0.024]). The cross-repo signal
+  is predominantly LEXICAL (BM25); the graph-neighbor increment is small and
+  largely non-significant. No new ranker chosen; frozen confirmatory method
+  unchanged.
+- **Evidence:** reports/ROUTE_B_INCREMENTAL_EVIDENCE_ABLATION.md +
+  research/transparency/route_b_incremental_ablation.json.
+- **Revisit:** n/a (characterization).
+
+## Decision P50 - Confirmatory freeze packet V2 supersedes V1 (2026-09-17)
+
+- **Status:** ADOPTED (V1 immutable; V2 supersedes)
+- **Chosen:** correct ranker name/formula; record CIA/Hybrid redundancy; state
+  Saleor transfer is AVAILABLE and REPLICATES on DEVELOPMENT; exact first-pass
+  repetition rule (first SUCCEEDED rep write-set), failed-rep/task treatment,
+  verifier semantics (1 call per (task,B), independent across B, B=0 no call),
+  B∈{0,1,3,5,10}, primary ORR + secondary P/R/F1/FNR, analytic Random,
+  bootstrap, failure semantics, no result-dependent reruns. Frozen claim:
+  end-to-end Sparse → frozen ranker → bounded verifier on djangoCMS
+  INTERNAL_TEST.
+- **Evidence:** reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_FREEZE_PACKET_V2.md.
+- **Revisit:** on supervisor approval before confirmatory execution.
+
+## Decision P51 - Confirmatory API budget frozen (2026-09-17)
+
+- **Status:** FROZEN (zero test peek; DEVELOPMENT distributions only)
+- **Chosen:** 80 djangoCMS INTERNAL_TEST tasks; Sparse-v2 3-rep first pass
+  (240 cells); verifier at B={1,3,5,10} (320 calls; B=0 none). Expected 560
+  calls / ~1,443,395 tokens / ~$0.50; hard ceilings 2,100,000 tokens / $1.00;
+  per-call reservation rule (sparse p99 7,877 tok / $0.00302; verifier 400 tok
+  / $0.00015) so cumulative budget cannot overshoot materially.
+- **Why:** conservative ceiling from DEVELOPMENT maxima with a fail-closed
+  reservation ledger.
+- **Evidence:** reports/DJANGOCMS_CONFIRMATORY_API_BUDGET_FREEZE.md.
+- **Revisit:** requires Ahmed's explicit approval with the V2 packet before any
+  confirmatory call.
+
+## Decision P52 - Proposal V1.4 created (material scientific change) (2026-09-17)
+
+- **Status:** ADOPTED (V1.3 immutable)
+- **Chosen:** create V1.4 because the completed Saleor DEVELOPMENT transfer
+  replication is a material scientific-state change vs V1.3 (which predated
+  it). Conservative updates: Saleor 450-cell DEV run, transfer REPLICATES,
+  DEVELOPMENT-transfer boundary explicit, Classical-CIA terminology corrected,
+  predominantly-lexical signal stated, no graph novelty, adaptive B_t
+  conditional, INTERNAL_TEST/RESERVE sealed.
+- **Evidence:** msc_proposal/MSC_PROPOSAL_V1_4.tex/.pdf (7 pages, SHA-256
+  dd7125fa…), PROPOSAL_V1_4_AUDIT.md, PROPOSAL_CHANGELOG.md,
+  PROPOSAL_CLAIMS_MATRIX.md.
+- **Revisit:** V1.5 only if a further material change occurs (e.g., confirmatory
+  outcome).

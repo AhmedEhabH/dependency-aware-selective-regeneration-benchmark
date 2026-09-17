@@ -83,3 +83,21 @@ implementation status, reason, comparison role. Appendix to the comparison plan.
   hard-coded); context is a hard route limit. P5R numbers are NOT blended into
   P5. P5 remains the immutable system-level comparison.
 - **Reason:** P5R is operational diagnosis per the mission; do not mix with P5.
+
+## B-015 - BM25+Graph-Neighbor Composite (historical label: CIA) — frozen primary
+- **Status:** FROZEN PRIMARY for Route-B confirmatory.
+- **Exact formula:** score(p) = normalized_BM25(p) + graph_neighbor(p)
+  (binary), tie-broken by path. Corrected name after the ranker-identity audit.
+- **Reason:** DEV progression gate PASS on djangoCMS (174 tasks) + Saleor
+  transfer REPLICATES (149 tasks); formula unchanged before confirmatory.
+- **Note:** the separate classical CIA baseline (classical_cia_baseline_v1.py,
+  CIA-1H/CIA-2H) is a DIFFERENT baseline, not the Route-B primary.
+
+## B-016 - Hybrid (0.5 BM25 + 0.5 graph-neighbor) — REDUNDANT ALIAS/CONTROL
+- **Status:** RECLASSIFIED (2026-09-17) from "secondary" to redundant
+  alias/control.
+- **Reason:** Hybrid = 0.5 * (BM25 + graph_neighbor) = positive scalar multiple
+  of the CIA key -> mathematically rank-equivalent (0 differing cells on 323
+  tasks). Retained only to document the redundancy.
+- **Note:** not an independent baseline; not used as a separate scientific
+  claim.

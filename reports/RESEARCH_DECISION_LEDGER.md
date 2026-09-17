@@ -228,3 +228,42 @@ Entries use the format requested by the evening addendum (2026-09-16).
   INTERNAL_TEST/RESERVE; no result-dependent reruns; no Saleor-specific tuning.
   After the run closes, the frozen Route-B transfer replication is executed and
   classified (REPLICATES / PARTIAL / DOES NOT REPLICATE).
+
+## D-021 - Ranker-identity audit + terminology correction (2026-09-17)
+- **Question:** Is the frozen Route-B V2 "Classical-CIA" arm actually a
+  classical dependency-propagation CIA, and is Hybrid independent of CIA?
+- **Options:** (a) audit the exact code + prove equivalence; (b) trust the
+  historical label.
+- **Chosen:** (a) - audit confirms CIA = normalized BM25 + binary graph-neighbor
+  (NOT dependency-propagation CIA); Hybrid is a positive scalar multiple of the
+  CIA key -> MATHEMATICALLY RANK-EQUIVALENT (0 differing task-budget cells on
+  174 djangoCMS + 149 Saleor DEV tasks). Hybrid = redundant alias/control.
+  Terminology corrected to BM25+Graph-Neighbor Composite (historical label:
+  CIA). No formula change before confirmatory testing.
+- **Why:** documentation must match the exact committed code; Hybrid was never
+  an independent baseline.
+- **Rejected:** (b) retaining an overstating label in the confirmatory packet.
+- **Evidence:** reports/ROUTE_B_RANKER_IDENTITY_AUDIT.md.
+- **Revisit:** n/a (correction appended; historical results unchanged).
+
+## D-022 - Incremental-evidence ablation scoped as characterization (2026-09-17)
+- **Question:** Does graph evidence materially add to BM25, or is the transfer
+  signal predominantly lexical?
+- **Options:** (a) characterize on DEVELOPMENT; (b) choose a new ranker now.
+- **Chosen:** (a) - composite−BM25 paired deltas small, CIs include zero at
+  most B; signal predominantly lexical; NO new ranker chosen; frozen
+  confirmatory method unchanged. Saleor history UNAVAILABLE (no cache).
+- **Rejected:** (b) method change before confirmatory testing.
+- **Evidence:** reports/ROUTE_B_INCREMENTAL_EVIDENCE_ABLATION.md.
+- **Revisit:** n/a (characterization only).
+
+## D-023 - Confirmatory budget frozen (2026-09-17)
+- **Question:** What is the exact confirmatory API budget for 80 djangoCMS
+  INTERNAL_TEST tasks?
+- **Options:** (a) DEVELOPMENT-distribution-based ceilings; (b) ad-hoc budget.
+- **Chosen:** (a) - 560 calls / ≤2,100,000 tokens / ≤.00; per-call
+  reservation rule (sparse p99 7,877 tok / .00302; verifier 400 tok /
+  .00015) so cumulative budget cannot overshoot materially. ZERO test peek.
+- **Rejected:** (b).
+- **Evidence:** reports/DJANGOCMS_CONFIRMATORY_API_BUDGET_FREEZE.md.
+- **Revisit:** requires Ahmed's approval before any confirmatory call.

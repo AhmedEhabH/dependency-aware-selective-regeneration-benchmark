@@ -1,0 +1,39 @@
+{
+  "study_id": "route-b-ranker-identity-audit",
+  "date": "2026-09-17",
+  "zero_api": true,
+  "code_audited": {
+    "script": "scripts/route_b_v2_robustness.py",
+    "rank_arm_cia": "sorted(items, key=lambda kv: (-kv[1]['bm25'] - kv[1]['graph_neighbor'], kv[0]))",
+    "hybrid_feature": "0.5 * bm + 0.5 * nb  (bm = normalized BM25, nb = binary graph neighbor)",
+    "rank_arm_hybrid": "sorted(items, key=lambda kv: (-kv[1]['hybrid'], kv[0]))",
+    "scalar_relation": "hybrid == 0.5 * (bm25 + graph_neighbor); positive scalar multiple => identical total order"
+  },
+  "djangocms": {
+    "n_tasks": 174,
+    "top_b_differ_count_by_b": {
+      "1": 0,
+      "3": 0,
+      "5": 0,
+      "10": 0
+    },
+    "n_budget_points_checked": 696,
+    "n_differing_task_budget_cells": 0,
+    "full_rank_identical": true,
+    "differing_cells": []
+  },
+  "saleor": {
+    "n_tasks": 149,
+    "top_b_differ_count_by_b": {
+      "1": 0,
+      "3": 0,
+      "5": 0,
+      "10": 0
+    },
+    "n_budget_points_checked": 596,
+    "n_differing_task_budget_cells": 0,
+    "full_rank_identical": true,
+    "differing_cells": []
+  },
+  "conclusion": "CIA and Hybrid are MATHEMATICALLY RANK-EQUIVALENT: the hybrid feature is exactly 0.5 * (bm25 + graph_neighbor), a positive scalar multiple of the CIA ordering key (bm25 + graph_neighbor); sorting by -k and by -0.5*k yields the same total order (same tie-break by path), hence identical top-B at every B. Hybrid is a REDUNDANT ALIAS/CONTROL, not an independent baseline."
+}

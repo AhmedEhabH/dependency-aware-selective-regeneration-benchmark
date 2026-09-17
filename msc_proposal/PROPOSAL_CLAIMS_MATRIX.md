@@ -26,6 +26,12 @@ audited evidence source. Any claim without a source is marked `TO VERIFY`.
 | 19 | Related-work claims verified against primary sources (arXiv/Crossref) | `references.bib` V1.2 | VERIFIED (no placeholder authors) |
 | 20 | Route B progression gate: LLM verifier only if predeclared rule beats Random at B=5 on DEV_VALIDATION + same direction DEV_TRAIN + not universe artifact + no leakage | Proposal V1.2 Section 7 | VERIFIED (pre-registered) |
 | 21 | Comparison matrix columns (file policy / sparse rep / cheap 1st / omission recovery / matched budget / real commit / x-repo) | Proposal V1.2 Section 7 | VERIFIED |
+| 22 | Route B V2 budget curve: composite above analytic Random at every B, bootstrap CIs exclude zero | `reports/ROUTE_B_V2_ROBUSTNESS_REPORT.md` | VERIFIED (V1.3) |
+| 23 | Verifier pilot: 30 calls, $0.0023, Oracle-in-top-B = 1.000, verifier ORR 0.86–1.00 | `reports/ROUTE_B_VERIFIER_PILOT_REPORT.md` | VERIFIED (V1.3) |
+| 24 | Saleor clean DEV sparse run: 150×3=450 cells; 446 valid / 4 failed; 7,316,986 tokens / $2.31; 0 truncations | `research/saleor-sparse-inference/saleor_dev_run_records.jsonl` + `reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md` | VERIFIED (V1.4) |
+| 25 | Saleor Route-B transfer REPLICATES: 149 tasks; B=5 composite 0.237 vs Random 0.006; delta +0.231 CI [+0.180,+0.287]; 5/5 folds; no size artifact | `reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md` + `research/transparency/saleor_route_b_transfer_results.json` | VERIFIED (V1.4; DEVELOPMENT transfer replication, NOT confirmatory) |
+| 26 | Ranker identity: frozen "Classical-CIA" = normalized BM25 + binary graph-neighbor; Hybrid rank-equivalent (0 differing task-budget cells on 174 djangoCMS + 149 Saleor DEV tasks) | `reports/ROUTE_B_RANKER_IDENTITY_AUDIT.md` + `research/transparency/route_b_ranker_identity_audit.json` | VERIFIED (V1.4) |
+| 27 | Incremental-evidence ablation: cross-repo signal predominantly lexical; composite−BM25 deltas small, CIs include zero at most B | `reports/ROUTE_B_INCREMENTAL_EVIDENCE_ABLATION.md` + `research/transparency/route_b_incremental_ablation.json` | VERIFIED (V1.4; characterization only) |
 
 ## Rule
 - No claim may be strengthened beyond its source.

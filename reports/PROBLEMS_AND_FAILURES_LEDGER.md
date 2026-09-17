@@ -199,3 +199,26 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
   NO result-dependent reruns (mission rule). Task 012472eb8482 has no succeeded
   rep -> excluded from Route-B transfer (149 tasks).
 - **Status:** DOCUMENTED (honest failure records; not scientific anomalies).
+
+## PF-017 - CIA/Hybrid redundancy + overstating Classical-CIA label (2026-09-17)
+- **Problem:** the Route-B V2 results reported CIA and Hybrid as if distinct,
+  and the confirmatory packet described CIA as a classical
+  association/importance-weighted fusion of BM25/graph/path.
+- **Root cause:** the frozen code defines CIA = normalized BM25 + binary
+  graph-neighbor, and Hybrid = 0.5 * (same) -> a positive scalar multiple ->
+  identical ranking. The genuinely classical CIA baseline
+  (classical_cia_baseline_v1.py) is a different script.
+- **Action:** ranker-identity audit (mathematical proof + empirical top-B
+  identity on 323 tasks); Hybrid reclassified redundant alias/control;
+  terminology corrected to BM25+Graph-Neighbor Composite (historical label:
+  CIA); no formula change.
+- **Status:** RESOLVED (2026-09-17; zero API).
+
+## PF-018 - Saleor parent-visible history unavailable for ablation (2026-09-17)
+- **Problem:** the incremental ablation could not compute a Saleor co-change
+  arm.
+- **Root cause:** no Saleor history cache (dist/real-commit-cache/saleor
+  absent).
+- **Action:** recorded UNAVAILABLE in the ablation; djangoCMS history arm used
+  where available (94 tasks).
+- **Status:** DOCUMENTED (not a scientific anomaly).
