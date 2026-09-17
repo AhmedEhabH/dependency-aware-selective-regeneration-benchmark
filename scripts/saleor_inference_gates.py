@@ -100,7 +100,7 @@ def main() -> int:
     for cid in sorted(dev_ids)[:3]:
         b = p1.load_case_public_bundle(DATASET_DIR, cid)
         m = p1.build_p1_candidate_map(b.candidate_paths)
-        schema = p1.p1_common_schema(len(m.id_to_path))
+        p1.p1_common_schema(len(m.id_to_path))
         # validate a synthetic minimal valid payload (SPARSE: no PRESERVE rows)
         valid_payload = {"decisions": [{"id": 1, "action": "REGENERATE", "reason": "build", "confidence": 0.9}]}
         vres = p1.validate_p1_sparse(valid_payload, candidate_count=len(m.id_to_path))

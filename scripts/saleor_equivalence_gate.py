@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# ruff: noqa: E501
 """Complete 98-bundle equivalence gate for the production-only materializer.
 
 Verifies, per existing valid bundle:
@@ -69,10 +70,10 @@ def main() -> int:
             all_pass = False
         else:
             same_paths = all(
-                a["path"] == b["path"] for a, b in zip(existing_records, rebuilt_records)
+                a["path"] == b["path"] for a, b in zip(existing_records, rebuilt_records, strict=False)
             )
             same_blobs = all(
-                a["sha256"] == b["sha256"] for a, b in zip(existing_records, rebuilt_records)
+                a["sha256"] == b["sha256"] for a, b in zip(existing_records, rebuilt_records, strict=False)
             )
             same_records = json.dumps(existing_records, sort_keys=True) == json.dumps(
                 rebuilt_records, sort_keys=True
