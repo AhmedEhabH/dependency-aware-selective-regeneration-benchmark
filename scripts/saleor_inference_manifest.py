@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# ruff: noqa: E501
 """RealCommitImpactDataset-Saleor — Sparse development-inference manifest.
 
 Authorized ceilings (continuation mission, Block C): NEW cells <= 450,
