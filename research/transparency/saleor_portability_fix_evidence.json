@@ -1,0 +1,37 @@
+{
+  "date": "2026-09-17",
+  "block": "B - Saleor portability fix",
+  "model": "openrouter/deepseek/deepseek-v4-flash-0731",
+  "problem": "git archive whole-tree extraction failed on Windows for Saleor parents containing non-production test cassette with ?, [, ] filename chars",
+  "fix": "production-only parent materializer: git ls-tree -r --name-only <parent> + frozen production-file predicate + git cat-file --batch blob extraction; only production .py under saleor/ materialized; no eligibility rule change; no scientific file deleted/skipped",
+  "equivalence_gate": {
+    "built_bundles_checked": 98,
+    "all_pass": true,
+    "universe_paths": "MATCH",
+    "blob_hashes": "MATCH",
+    "records": "MATCH",
+    "graph_projection": "MATCH via canonical_graph_hash",
+    "proxy": "MATCH (materializer-independent, byte-verified)",
+    "manifest": "MATCH (materializer-independent, byte-verified)",
+    "excluded_fields": [
+      "generated_utc (documented nondeterministic, stripped by frozen canonical hash)"
+    ],
+    "repo_id_label": "preserved as djangocms to match frozen original builder; non-scientific label"
+  },
+  "rebuild": {
+    "dev_total": 150,
+    "built": 150,
+    "skipped": 0,
+    "structurally_incomplete": 0,
+    "test_reserve_materialized": 0
+  },
+  "manifest": {
+    "old_partial_sha256": "3c3b0b369c1bf9fe5c7f6593fe2077e2e94c287b892a22da65ce3338ef3025ac",
+    "old_preserved_as": "research/transparency/saleor_development_manifest_20260916_partial_98.json",
+    "new_sha256": "220665abe20eb233..."
+  },
+  "pre_portability_hash_snapshot": "research/transparency/saleor_98_bundle_hashes_preportability.json",
+  "historical_split_freeze": "research/transparency/split_freeze_saleor_20260916_partial_98.json",
+  "post_rebuild_recheck": "canonical universe_hash + graph_hash of rebuilt 98 == pre-portability snapshot (0 mismatches)",
+  "status": "SALEOR DEVELOPMENT DATASET READY"
+}
