@@ -38,9 +38,14 @@ Run on the FINAL compiled PDF before physical print.
 
 ## Current status
 
-- Compiled: **10 pages, PASS (2026-09-17, V1.4 print addendum)**; bibliography
-  rendered (21 verified entries, Section 11); Experimental Design table
-  rebuilt (`tabularx`, zero overfull hboxes); timeline 2026-11→2027-10.
-- PDF SHA-256 (V1.4 addendum):
-  `50957a2525f7430de47fd9306895d2b4c80b30c358d3cafe6798a0a27b0525b1`.
-- Pending: institutional template/cover information from the supervisor.
+- Compiled: **10 pages, PASS (2026-09-17, V1.4 print addendum + confirmatory/
+  P2/cover update)**; bibliography rendered (21 verified entries, Section 11);
+  Experimental Design table rebuilt (`tabularx`, zero overfull hboxes);
+  timeline 2026-11→2027-10 (first five months = real P2 program); fixed
+  Route-B CONFIRMED on djangoCMS INTERNAL_TEST incorporated.
+- PDF SHA-256 (V1.4 confirmatory/P2/cover update):
+  `07cb0588bbc3c0f92e99c3634a1c325d5b8a03a6f6af706c393dad8c7c35497c`.
+- Title page: `MSC_PROPOSAL_V1_4_TITLEPAGE.pdf`; combined print:
+  `MSC_PROPOSAL_V1_4_PRINT.pdf` (11 pages).
+- Pending: institutional FCAI/Cairo University cover template/information from
+  the supervisor (not fabricated).

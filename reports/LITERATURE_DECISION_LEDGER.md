@@ -99,3 +99,36 @@ claim unless the verified matrix supports it. Candidate novelty remains
   baseline (classical_cia_baseline_v1.py, CIA-1H/CIA-2H) is a separate
   implementation. Reports/proposal V1.4 use the corrected name.
 - No literature claim changes; this is naming discipline only.
+
+## 2026-09-17 P2 algorithm landscape (after CONFIRMATION)
+
+The fixed Route-B story is now **CONFIRMED** on djangoCMS INTERNAL_TEST
+(2026-09-17). P2 (adaptive-budget `B_t`) is a separate DEVELOPMENT-only program
+(Nov 2026 – Mar 2027). The full landscape is:
+`reports/P2_ALGORITHM_LANDSCAPE_2026-09.md` +
+`research/literature/p2_algorithm_landscape.csv`.
+
+Classification summary (24 entries):
+
+- **Track A (SE novelty threats, existing knowledge, anchors only):**
+  RIPPLE/change-propagation, Change-Patterns Mapping, ArtifactSync,
+  GraphLocator, LocAgent, RepoCoder/RepoAgent/repository memory, history/
+  co-change CIA, Repoformer/FastCoder (selective repo retrieval/verification),
+  Agentless — reference/anchor only, NOT P2 algorithm candidates.
+- **Track B (algorithmic inspiration, verified):** Shichao-Zhang line
+  (Learning-k, one-step KNN, cost-sensitive KNN, reachable-distance KNN,
+  demand-driven kNN) → ALGORITHMIC_INSPIRATION; plus adaptive/conditional
+  computation, selective prediction/abstention, learning-to-defer, cascaded
+  inference, optimal stopping, budgeted retrieval, active search/VOI,
+  contextual bandits (reject), learned stopping (reject).
+- **Pre-registered P2 policy family (this project):** P2-P1 score-gap
+  stopping, P2-P2 marginal-score threshold, P2-P3 cost-ratio stopping.
+
+Decision rules for P2:
+- Implement (DEV only): P2-P1/P2-P2/P2-P3; score-gap/marginal/cost-ratio
+  analogues; deterministic selective/cascade/optimal-stopping variants.
+- Reject/defer: learned (neural) stopping, contextual bandit allocation,
+  active-search VOI (leak risk) — unless a gold-free mechanistic variant is
+  justified.
+- No P2 method is selected using the opened djangoCMS INTERNAL_TEST; Saleor
+  INTERNAL_TEST stays sealed as a possible future P2 confirmation set.

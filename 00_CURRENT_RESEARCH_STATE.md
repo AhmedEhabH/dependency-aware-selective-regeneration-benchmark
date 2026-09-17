@@ -134,6 +134,53 @@ verified entries, all in-text citations resolve); timeline replaced with the
 2027-09/10 = publication/revision/admin buffer). Compiles clean: **10 pages**,
 SHA-256
 `50957a2525f7430de47fd9306895d2b4c80b30c358d3cafe6798a0a27b0525b1`.
+**V1.4 confirmatory + P2 timeline + cover update (2026-09-17):** fixed
+Route-B CONFIRMED on djangoCMS INTERNAL_TEST incorporated (abstract,
+preliminary evidence, cross-repo section); first five timeline months aligned
+to the real P2 program; conservative academic title page
+(`MSC_PROPOSAL_V1_4_TITLEPAGE.tex/.pdf`, no IEEE author blocks) + combined
+print artifact `MSC_PROPOSAL_V1_4_PRINT.pdf` (11 pages). Body recompile:
+**10 pages**, SHA-256
+`07cb0588bbc3c0f92e99c3634a1c325d5b8a03a6f6af706c393dad8c7c35497c`.
+
+**CURRENT TRUTH (2026-09-17, DJANGOCMS CONFIRMATORY RUN — AUTHORIZED, EXECUTED,
+CONFIRMS; ZERO method change):**
+→ **A. AUTHORIZED OPENING.** Ahmed explicitly authorized opening **only**
+djangoCMS V2 INTERNAL_TEST (80 tasks) under the frozen V2 confirmatory protocol
+and budget. djangoCMS RESERVE (59), Saleor INTERNAL_TEST and Saleor RESERVE
+remain **SEALED** (verified 0 materialized). The 80 INTERNAL_TEST bundles were
+materialized deterministically (ZERO API) from the pinned djangocms cache with
+the SAME frozen `miner.build_case` builder used for the 150 DEV bundles
+(`scripts/build_v2_internal_test_cases.py`,
+`benchmark_data/real_commit_impact_v2/v2_internal_test_manifest.json`).
+→ **B. EXECUTION (exact frozen V2 protocol).** Sparse-v2 first pass 3 reps/task
+(240 cells; qwen/qwen3-coder @ deepinfra/turbo, temp 0, cap 16384, Graph OFF);
+first SUCCEEDED rep → write set; frozen `BM25+Graph-Neighbor Composite`
+(= normalized_BM25 + binary_graph_neighbor, historical label Classical-CIA);
+verifier 1 call/(task,B) for B∈{1,3,5,10}, cap 512, independent across B, B=0
+none; analytic Random control; primary ORR/FNRR; secondary P/R/F1/FNR.
+→ **C. BUDGET CLOSURE.** **560 calls / 1,470,174 tokens / $0.505917** — all
+within the frozen ceilings (560 / 2,100,000 / $1.00); 240/240 sparse succeeded,
+320/320 verifier succeeded, 0 failures, 0 excluded tasks; no stop triggered.
+Raw responses + SHA-256: **560/560 verified**
+(`research/djangocms-confirmatory-route-b/confirmatory_raw_manifest.json`).
+→ **D. RESULT (CONFIRMS).** Composite ranker ORR vs analytic Random:
+B=1 0.0591 vs 0.0055 (Δ +0.0522, CI [0.0163,0.0957]); B=3 0.1098 vs 0.0166
+(Δ +0.0918, CI [0.043,0.1455]); B=5 0.165 vs 0.0277 (Δ +0.1367, CI
+[0.0746,0.2046]); B=10 0.2669 vs 0.0554 (Δ +0.2108, CI [0.1376,0.2877]).
+Gate PASS (5/5 folds positive; 4/4 B-points above Random; CIs exclude zero at
+every B; no size artifact: corr −0.0368/−0.0332). Final selected set @ B=5:
+P 0.2058 / R 0.284 / F1 0.2387 / FNR 0.716. **Classification: CONFIRMS.**
+End-to-end verifier: B=5 ORR 0.1007 (Δ +0.0734, CI [0.0229,0.1308]); B≥3 CIs
+exclude zero; B=1 CI touches zero (documented, not the primary claim).
+→ **E. FROZEN BOUNDARIES.** The opened djangoCMS INTERNAL_TEST is now
+**permanently used** as the confirmatory test and will **never** be reused as a
+fresh test for future P2 algorithm selection. P2/adaptive work is evaluated on
+DEVELOPMENT only (djangoCMS DEV + Saleor DEV). **No method/ranker/verifier
+change was made based on outcomes.**
+Evidence: `reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md`,
+`reports/DJANGOCMS_CONFIRMATORY_AUDIT.md`,
+`research/djangocms-confirmatory-route-b/confirmatory_metrics.json`.
 
 ---
 

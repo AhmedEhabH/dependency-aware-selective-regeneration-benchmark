@@ -841,3 +841,57 @@ esearch/literature/idea_ledger.md I1/I2/I5/I6. Do NOT start:
   PACKET_INTEGRITY PASS + SYNTHETIC_DRYRUN PASS.
 - **Revisit:** on Ahmed's approval of the confirmatory run / after the human
   audit.
+
+
+## Decision P55 - djangoCMS INTERNAL_TEST confirmatory run: EXECUTED, CONFIRMS (2026-09-17)
+
+- **Status:** EXECUTED (Ahmed-authorized opening; ZERO method change)
+- **Authorization:** Ahmed explicitly authorized opening ONLY djangoCMS V2
+  INTERNAL_TEST (80 tasks) under the frozen V2 confirmatory packet + API budget.
+- **Chosen:** run exactly the frozen V2 protocol: Sparse-v2 first pass (3
+  reps/task, qwen/qwen3-coder @ deepinfra/turbo, temp 0, cap 16384); first
+  SUCCEEDED rep write set; frozen `BM25+Graph-Neighbor Composite` ranker; B in
+  {0,1,3,5,10}; verifier 1 call/(task,B) for B in {1,3,5,10}, cap 512;
+  analytic Random control; ORR/FNRR primary; hard ceilings 560 calls /
+  2,100,000 tokens / $1.00; no reruns.
+- **Result:** 560 calls / 1,470,174 tokens / $0.505917 (within ceilings); 0
+  failures; 0 excluded; raw+sha 560/560 verified. Composite ORR vs analytic
+  Random: B=1 0.0591 vs 0.0055; B=3 0.1098 vs 0.0166; B=5 0.165 vs 0.0277;
+  B=10 0.2669 vs 0.0554; CIs exclude zero at every B; 5/5 folds positive; 4/4
+  B-points; no size artifact. **Classification: CONFIRMS.**
+- **Rejected:** method/ranker/verifier change after outcomes; reruns; opening
+  RESERVE or Saleor INTERNAL_TEST/RESERVE.
+- **Evidence:** reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md,
+  reports/DJANGOCMS_CONFIRMATORY_AUDIT.md,
+  research/djangocms-confirmatory-route-b/ (metrics JSON, raw manifest,
+  run_records.jsonl, runs/raw/*.txt + .sha256).
+- **Revisit:** the opened INTERNAL_TEST is permanently used; never reused as a
+  fresh test for P2 algorithm selection.
+
+## Decision P56 - P2 five-month adaptive-budget algorithm program (2026-09-17)
+
+- **Status:** ADOPTED (DEVELOPMENT-only; Nov 2026 - Mar 2027 window)
+- **Chosen:** launch a five-month P2 program on DEVELOPMENT data only
+  (djangoCMS DEV + Saleor DEV): (1) reproduce Shichao-Zhang-inspired
+  adaptive-budget ideas (Learning-k, cost-sensitive KNN, one-step computation,
+  demand-driven kNN, adaptive-neighborhood); (2) systematically discover and
+  classify competing/alternative algorithms from adjacent literature
+  (adaptive/conditional computation, selective prediction/abstention/
+  learning-to-defer, cascaded inference, optimal stopping, budgeted retrieval,
+  active search, contextual bandits where mechanistically relevant); (3)
+  implement the strongest interpretable candidates; (4) compare against fixed
+  B={1,3,5,10}, Analytic Random, BM25-only, frozen composite, Oracle, InspectAll
+  under a common zero-LLM/low-cost harness; (5) freeze negative methods, select
+  at most 1-2 justified P2 candidates using DEVELOPMENT only, pre-register
+  final evaluation, use still-sealed Saleor INTERNAL_TEST for P2 confirmation
+  only if justified; (6) otherwise close P2 negative and keep the fixed-B
+  thesis. Fixed Route B is now CONFIRMED and is NOT retuned.
+- **Rejected:** using the now-opened djangoCMS INTERNAL_TEST for P2 algorithm
+  selection/tuning; learned (neural/large) models unless evidence justifies;
+  fabricated work to fill months.
+- **Evidence:** reports/P2_ALGORITHM_LANDSCAPE_2026-09.md,
+  research/literature/p2_algorithm_landscape.csv,
+  docs/P2_IMPLEMENTATION_ROADMAP_2026_2027.md,
+  docs/ADAPTIVE_BUDGET_P2_PRE_REGISTRATION_NOTE.md.
+- **Revisit:** monthly during Nov 2026 - Mar 2027; P2 may be closed negative
+  early with the fixed-B thesis intact.

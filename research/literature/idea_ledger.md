@@ -152,3 +152,19 @@ Adaptive-k = cross-domain pattern.
   token-ceiling stop), 144 V2 tasks, merged 174 tasks / 155 pos / 19 neg;
   v1 peakiness signal does NOT replicate in V2 (universe-size artifact); NO
   multivariable RiskScorer; Route B pivot.
+
+- **djangoCMS INTERNAL_TEST confirmatory run (2026-09-17, CONFIRMS)**: 80
+  tasks; 560 calls / 1,470,174 tokens / \.505917; 0 failures; composite ORR
+  vs analytic Random B=5 0.165 vs 0.028 (delta +0.137, CI [+0.075,+0.205]);
+  fixed Route-B CONFIRMED. Confirmatory test permanently used; never reused
+  for P2 selection (reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md).
+- **P2 adaptive-budget program (2026-09-17, ADOPTED; DEVELOPMENT only)**:
+  five-month (Nov 2026 - Mar 2027) program on djangoCMS DEV + Saleor DEV;
+  Shichao-Zhang-inspired policies (Learning-k, cost-sensitive KNN, one-step,
+  demand-driven kNN, adaptive-neighborhood) + systematic landscape of
+  competing families (selective/abstention/learning-to-defer/cascade/optimal
+  stopping/budgeted retrieval). 24-entry landscape CSV; common evaluation
+  contract; at most 1-2 justified candidates on DEV only; Saleor INTERNAL_TEST
+  sealed as possible future P2 confirmation (reports/P2_ALGORITHM_LANDSCAPE_2026-09.md,
+  research/literature/p2_algorithm_landscape.csv,
+  docs/P2_COMMON_EVALUATION_CONTRACT.md).

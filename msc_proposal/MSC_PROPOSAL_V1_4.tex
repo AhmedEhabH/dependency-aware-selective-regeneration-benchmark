@@ -67,7 +67,10 @@ the whole budget curve, with task-level bootstrap intervals excluding zero.
 A clean second-repository DEVELOPMENT run (Saleor, 150 tasks) transfers
 positively: the frozen composite beats analytic Random on 149 evaluable tasks
 (B=5 delta +0.231, CI [+0.180,+0.287]), a DEVELOPMENT transfer replication ---
-not a confirmatory result. An identity audit and incremental-evidence ablation
+not a confirmatory result. The confirmatory run on the authorized djangoCMS
+INTERNAL\_TEST (80 tasks, 2026-09-17) **CONFIRMS** the fixed-budget recovery
+signal at every B (B=5 composite 0.165 vs analytic Random 0.028, delta +0.137,
+CI [+0.075,+0.205]). An identity audit and incremental-evidence ablation
 show the signal is predominantly lexical (BM25), with the binary graph-neighbor
 term contributing a small, largely non-significant increment; the thesis
 therefore does not claim graph novelty. Task-level omission risk is not
@@ -371,7 +374,18 @@ or controlled evidence with their bounds.
         $B$ ($B{=}5$: 0.237 vs 0.006, delta +0.231, CI
         $[+0.180,+0.287]$; 5/5 folds positive; no size artifact). This is a
         \textbf{DEVELOPMENT transfer replication, NOT a confirmatory result};
-        djangoCMS INTERNAL\_TEST/RESERVE remain sealed.
+        Saleor INTERNAL\_TEST/RESERVE remain sealed.
+  \item \textbf{djangoCMS confirmatory result (2026-09-17, CONFIRMS).} The
+        frozen confirmatory protocol ran on the authorized djangoCMS V2
+        INTERNAL\_TEST (80 tasks) under the frozen V2 packet and budget
+        (560 calls / 1,470,174 tokens / $\sim$\$0.51; 0 failures; 0 excluded):
+        the composite beats analytic Random at every B ($B{=}1$ 0.059 vs
+        0.006; $B{=}3$ 0.110 vs 0.017; $B{=}5$ 0.165 vs 0.028, delta +0.137,
+        CI $[+0.075,+0.205]$; $B{=}10$ 0.267 vs 0.055), with task-level
+        bootstrap intervals excluding zero at every B and no size artifact.
+        **Fixed-budget Route B is scientifically CONFIRMED on djangoCMS
+        INTERNAL\_TEST.** The confirmatory test is permanently used and will
+        not be reused for adaptive-budget (P2) selection.
   \item \textbf{Incremental-evidence ablation (zero API, 2026-09-17).}
         Composite-minus-BM25 paired task-level deltas are small with bootstrap
         CIs including zero at most $B$ on both repositories (djangoCMS
@@ -409,13 +423,28 @@ $[+0.180,+0.287]$; 5/5 folds positive; no size artifact). This is
 INTERNAL\_TEST/RESERVE are sealed and were never opened. Per-repository primary;
 no djangoCMS+Saleor pooling as the headline.
 
+\subsection{djangoCMS confirmatory result (2026-09-17, CONFIRMS)}
+The frozen confirmatory protocol ran on the authorized djangoCMS V2
+INTERNAL\_TEST (80 tasks) under the frozen V2 packet and budget (560 calls /
+1,470,174 tokens / $\sim$\$0.51; 0 failures; 0 excluded): the frozen
+BM25+Graph-Neighbor Composite recovers Sparse-omitted historically-changed
+files above the analytic Random control across the whole budget curve
+($B{=}1$ 0.059 vs 0.006; $B{=}3$ 0.110 vs 0.017; $B{=}5$ 0.165 vs 0.028;
+$B{=}10$ 0.267 vs 0.055), with task-level bootstrap intervals excluding zero
+at every B and no size artifact. **The fixed-budget Route-B result is
+scientifically CONFIRMED on djangoCMS INTERNAL\_TEST.** The confirmatory
+test is permanently used and will not be reused for adaptive-budget (P2)
+selection; P2 is evaluated on development data only, with Saleor
+INTERNAL\_TEST sealed as a possible future P2 confirmation set.
+
 \subsection{Scope contract}
 \emph{CORE MSc:} Preserve-by-Omission representation evidence; fixed-budget
-Route-B development + a frozen confirmatory test; semantic-proxy audit;
-djangoCMS; Saleor as secondary replication if completed.
-\emph{Conditional / Future:} adaptive $B_t$; learned budget allocation; NestJS
-cross-language; end-to-end regeneration correctness; persistent memory; richer
-causal-graph verifier.
+Route-B development + the confirmed djangoCMS INTERNAL\_TEST result;
+semantic-proxy audit; djangoCMS; Saleor as secondary replication if completed.
+\emph{Conditional / Future:} adaptive $B_t$ (P2, development-data exploration,
+Nov 2026 -- Mar 2027); learned budget allocation; NestJS cross-language;
+end-to-end regeneration correctness; persistent memory; richer causal-graph
+verifier.
 
 % ---------------------------------------------------------------------------
 \section{Threats, contingency, and timeline}
@@ -465,12 +494,12 @@ pre-registration note).
 \toprule
 \textbf{Window} & \textbf{Planned work} \\
 \midrule
-2026-11 & Confirmatory protocol freeze; djangoCMS INTERNAL\_TEST execution; final fixed-budget Route-B analysis \\
-2026-12 & Semantic-proxy human audit; robustness/threat analysis; finalize Saleor confirmatory protocol \\
-2027-01 & Saleor confirmatory evaluation; cross-repository comparative analysis; cost/latency normalization \\
-2027-02 & Adaptive-budget P2 feasibility study; simple pre-registered stopping/allocation rules on development data only \\
-2027-03 & If justified, adaptive-budget evaluation; otherwise freeze negative result; ablations and sensitivity analysis \\
-2027-04 & External-validity extension (NestJS or predeclared backup if suitability gate passes); no forced cross-language claim \\
+2026-11 & Fixed Route-B confirmation (djangoCMS INTERNAL\_TEST; CONFIRMED 2026-09-17) + P2 literature/formulation freeze \\
+2026-12 & Simple Shichao-inspired adaptive-budget policies (score-gap, marginal-score, cost-ratio stopping) on development data \\
+2027-01 & Cost-sensitive / one-step / demand-driven adaptive-budget analogues (development data only) \\
+2027-02 & Newly discovered competitor/alternative algorithm reproduction (selective/cascade/optimal-stopping families) \\
+2027-03 & P2 comparison/freeze/pre-registration on development; negative closure if not justified; Saleor INTERNAL\_TEST only if pre-registered \\
+2027-04 & Optional external-validity extension (NestJS or predeclared backup if suitability gate passes); no forced cross-language claim \\
 2027-05 & Consolidated statistical analysis; Pareto/frontier analysis; semantic-audit integration; final threat-to-validity revision \\
 2027-06 & Thesis chapters/results writing; artifact cleanup; reproducibility package; supervisor review round 1 \\
 2027-07 & Thesis full draft; corrections; final experimental closure; submission-ready research manuscript draft \\
@@ -479,12 +508,15 @@ pre-registration note).
 2027-10 & Final buffer: journal/conference resubmission, thesis formatting/administrative closure, archival artifact release \\
 \bottomrule
 \end{tabularx}
-\caption{Work schedule, November 2026 -- October 2027. July--August 2027 is the intended substantive research/thesis completion; September--October 2027 is an honest publication/revision/administrative buffer, not fabricated work.}
+\caption{Work schedule, November 2026 -- October 2027. July--August 2027 is the intended substantive research/thesis completion; September--October 2027 is an honest publication/revision/administrative buffer, not fabricated work. November 2026 -- March 2027 is the P2 adaptive-budget exploration program (development data only).}
 \end{table}
 Intended substantive research/thesis completion: \textbf{2027-07/08}. The
 2027-09/10 window is a publication, revision, and administrative buffer. No
-experiments are fabricated merely to fill months; the adaptive-budget (P2) and
-NestJS items are conditional on their frozen gates and evidence.
+experiments are fabricated merely to fill months. P2 (adaptive budget) is a
+conditional exploration: if it does not justify a candidate on development
+data, it is closed as negative and the fixed Route-B result (already confirmed
+on djangoCMS INTERNAL\_TEST) remains the thesis basis. NestJS is conditional on
+its frozen gates and evidence.
 
 % ---------------------------------------------------------------------------
 \section{References}

@@ -35,6 +35,32 @@ addendum, same day)
 - **PDF SHA-256:** `50957a2525f7430de47fd9306895d2b4c80b30c358d3cafe6798a0a27b0525b1`
   (recorded in `PROPOSAL_CHANGELOG.md`).
 
+## 0b. V1.4 confirmatory + P2 timeline + cover update (2026-09-17)
+
+- **Confirmatory result incorporated (CONFIRMS):** the frozen confirmatory
+  protocol ran on the authorized djangoCMS V2 INTERNAL_TEST (80 tasks;
+  560 calls / 1,470,174 tokens / ~$0.51; 0 failures; 0 excluded). Composite
+  ORR vs analytic Random: B=1 0.059 vs 0.006, B=3 0.110 vs 0.017, B=5 0.165
+  vs 0.028 (Δ+0.137, CI [+0.075,+0.205]), B=10 0.267 vs 0.055; CIs exclude
+  zero at every B; no size artifact. **Fixed Route-B CONFIRMED on djangoCMS
+  INTERNAL_TEST.** The confirmatory test is permanently used; not reused for
+  P2 selection.
+- **Timeline first five months aligned to the real P2 program** (Nov 2026 –
+  Mar 2027): fixed Route-B confirmation + P2 formulation freeze → simple
+  Shichao-inspired adaptive policies → cost-sensitive/one-step/demand-driven
+  analogues → competitor/alternative reproduction → P2 comparison/freeze/
+  pre-registration or negative closure (Saleor INTERNAL_TEST only if
+  pre-registered).
+- **Cover/title page:** conservative academic title page
+  (`MSC_PROPOSAL_V1_4_TITLEPAGE.tex/.pdf`): Prepared by Ahmed Ehab; Faculty of
+  Computing and AI, Cairo University + University of London Branch (EUE),
+  Egypt; email ahmed.ehab@fci-cu.edu.eg; Supervised by Mohammad El-Ramly
+  (m.elramly@fci-cu.edu.eg); ORCID 0000-0002-5076-3829; no invented academic
+  ranks; no IEEE author blocks. Combined print artifact
+  `MSC_PROPOSAL_V1_4_PRINT.pdf` (11 pages: title + body) via `pdfunite`.
+- **Compile:** pdflatex (2×) + bibtex clean; **10 pages** (body). PDF SHA-256:
+  `07cb0588bbc3c0f92e99c3634a1c325d5b8a03a6f6af706c393dad8c7c35497c`.
+
 ---
 
 ## 1. Reason V1.4 now exists (material scientific change) — PASS
@@ -118,3 +144,25 @@ addendum, same day)
 **SUPERVISOR-READY / PRINT-CANDIDATE**, pending institutional cover / template
 or supervisor-requested edits. V1.4 supersedes V1.3 as the print candidate;
 V1.3 remains immutable.
+
+## 13. Author / cover format (2026-09-17; mission Block F) — PASS
+
+- The proposal is NOT an IEEE conference paper; **no `\IEEEauthorblockN` /
+  `\IEEEauthorblockA`** are used.
+- A conservative academic title page was created:
+  `msc_proposal/MSC_PROPOSAL_V1_4_TITLEPAGE.tex` / `.pdf` with: title, "MSc
+  Research Proposal", Prepared by Ahmed Ehab, Faculty of Computing and AI,
+  Cairo University, affiliation exactly as supplied (Faculty of Computing and
+  AI, Cairo University **and** University of London Branch (EUE), Egypt),
+  email `ahmed.ehab@fci-cu.edu.eg`, Supervised by Mohammad El-Ramly, email
+  `m.elramly@fci-cu.edu.eg`, ORCID `0000-0002-5076-3829`, date 2026-09-17,
+  academic year 2026/2027.
+- **No academic ranks (Prof./Dr.) are invented** (none verified from an
+  official source). Ahmed = candidate; El-Ramly = supervisor (not co-authors).
+- Combined print artifact: `MSC_PROPOSAL_V1_4_PRINT.pdf` (11 pages: title
+  page + 10-page V1.4 body) merged with `pdfunite` (MiKTeX pdfpages had an
+  "artifact undefined" bug on the hyperref-rich V1.4 PDF).
+- No official FCAI/Cairo University cover template exists locally; institutional
+  cover/form fields are documented as PENDING (not fabricated).
+- V1.4 science is preserved; no new scientific version was created for cover
+  formatting.

@@ -1,0 +1,3370 @@
+{
+  "study": "djangocms-route-b-confirmatory",
+  "data": "djangoCMS V2 INTERNAL_TEST (80 tasks; authorized 2026-09-17)",
+  "n_records": 560,
+  "n_raw_files": 560,
+  "all_sha_verified": true,
+  "files": {
+    "CONF-djangocms-rc-008c4f2638cb-rep1": {
+      "raw": "CONF-djangocms-rc-008c4f2638cb-rep1.txt",
+      "sha256": "366346b8f603d6ccf4303873b4206dbd5282fdf49378166796766b23566d1ae6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-008c4f2638cb-rep2": {
+      "raw": "CONF-djangocms-rc-008c4f2638cb-rep2.txt",
+      "sha256": "9958ff48871af236eab23c8e71e2906fb3f269529dc33d7c017e0599b21a2a90",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-008c4f2638cb-rep3": {
+      "raw": "CONF-djangocms-rc-008c4f2638cb-rep3.txt",
+      "sha256": "6cfc7363430fd57b49d6e758a24599c8c964a93cd5184c05bcea3f803ec0faa4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-02046aa3bfe7-rep1": {
+      "raw": "CONF-djangocms-rc-02046aa3bfe7-rep1.txt",
+      "sha256": "9c946be252359511b1e41001a973b6277a6b494b9323f3ae4196bda765e7afd6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-02046aa3bfe7-rep2": {
+      "raw": "CONF-djangocms-rc-02046aa3bfe7-rep2.txt",
+      "sha256": "6c0302169437e8aeb7429339b9bd60785656070253bcb108a004b199714b8aa3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-02046aa3bfe7-rep3": {
+      "raw": "CONF-djangocms-rc-02046aa3bfe7-rep3.txt",
+      "sha256": "57eab3c74fe8e3d625bdb792305b3448fa6fb79cae757d45a0abe033b4343f5f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-042c11c6341d-rep1": {
+      "raw": "CONF-djangocms-rc-042c11c6341d-rep1.txt",
+      "sha256": "57b31454bc3bc694b46070beb6e3beb244ce1040ff4a8b2a6880429b21524f5b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-042c11c6341d-rep2": {
+      "raw": "CONF-djangocms-rc-042c11c6341d-rep2.txt",
+      "sha256": "b486898497a00ce7861fd42d5e87a920daa7664f590ea14861a703cdbdc11e18",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-042c11c6341d-rep3": {
+      "raw": "CONF-djangocms-rc-042c11c6341d-rep3.txt",
+      "sha256": "ac1c9345f743ee963a4d05c32663b50a809ab5490a30c978cebc9a8991e188b7",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-0b43a43c389b-rep1": {
+      "raw": "CONF-djangocms-rc-0b43a43c389b-rep1.txt",
+      "sha256": "74c52800da4458fa73a7d23030846d27f69f3cc407068ecd60be10b3ad03d402",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-0b43a43c389b-rep2": {
+      "raw": "CONF-djangocms-rc-0b43a43c389b-rep2.txt",
+      "sha256": "f5594e07a3f3ed91c0621080270a84606a53daad3acd11247c51f14624ad8b25",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-0b43a43c389b-rep3": {
+      "raw": "CONF-djangocms-rc-0b43a43c389b-rep3.txt",
+      "sha256": "b6fe1aa5ce1f0c551723b15ca46447d4a34cc0d9e7e1729dcc75793487a39465",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-12fd119a0c78-rep1": {
+      "raw": "CONF-djangocms-rc-12fd119a0c78-rep1.txt",
+      "sha256": "73daa0056d2a281e641227655cf77ab3cf9e8ff126f93fbc206de54380920509",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-12fd119a0c78-rep2": {
+      "raw": "CONF-djangocms-rc-12fd119a0c78-rep2.txt",
+      "sha256": "fc2c48ad9531f1c5b528594493b53670184979a42929643c09af5daee2443d43",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-12fd119a0c78-rep3": {
+      "raw": "CONF-djangocms-rc-12fd119a0c78-rep3.txt",
+      "sha256": "d538ca8363cc1f396a37c34270155075a47180f389e6ba29a480b5a4f5b7c166",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-13c112c90472-rep1": {
+      "raw": "CONF-djangocms-rc-13c112c90472-rep1.txt",
+      "sha256": "b4f01f188cb41270d3a54c8bcea3ef246d416528d1ea9c550f614ea71b1aeee2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-13c112c90472-rep2": {
+      "raw": "CONF-djangocms-rc-13c112c90472-rep2.txt",
+      "sha256": "47524b4d80f028eddbd1da56570231fa59579812518708bf224379ff612e439c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-13c112c90472-rep3": {
+      "raw": "CONF-djangocms-rc-13c112c90472-rep3.txt",
+      "sha256": "1271051987f0b593587dced54c7410cb8aefb563de5405a482912477bb247bac",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-17343b02e26d-rep1": {
+      "raw": "CONF-djangocms-rc-17343b02e26d-rep1.txt",
+      "sha256": "223deb74661bdb90d614bec76b73cafdbe3606242f14931172f81c8cabf9c17a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-17343b02e26d-rep2": {
+      "raw": "CONF-djangocms-rc-17343b02e26d-rep2.txt",
+      "sha256": "8dc01f67abe9d9883c136033c9b1fac88040cb06136a798c6696eebc2374e786",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-17343b02e26d-rep3": {
+      "raw": "CONF-djangocms-rc-17343b02e26d-rep3.txt",
+      "sha256": "3e656a3a647d65ecf3487f5aeab353e58f98cd508b41747abb2eb95b985c4f90",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1ac063f80325-rep1": {
+      "raw": "CONF-djangocms-rc-1ac063f80325-rep1.txt",
+      "sha256": "03c6514af90f07be89769ef31d8067e6f46889ddab987f0a443f1c3419f4775d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1ac063f80325-rep2": {
+      "raw": "CONF-djangocms-rc-1ac063f80325-rep2.txt",
+      "sha256": "297cb48cd219fe145d210ada4321196837dc0c2cabcb731c3811a0591b4d1a8e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1ac063f80325-rep3": {
+      "raw": "CONF-djangocms-rc-1ac063f80325-rep3.txt",
+      "sha256": "147fb64beca00b9b0447f9208d32dc07a701a533d37272379b5537269b353d0b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1d789468403f-rep1": {
+      "raw": "CONF-djangocms-rc-1d789468403f-rep1.txt",
+      "sha256": "504b9894aa651b0768f6c3c3bb056f811f8942dd67d7ab1c12f3c9c89206bf3a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1d789468403f-rep2": {
+      "raw": "CONF-djangocms-rc-1d789468403f-rep2.txt",
+      "sha256": "402c79e347b9ab21ccc7bcd646ce5fd3be5ff5cbbc55250a0fa3f0b2212aa001",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1d789468403f-rep3": {
+      "raw": "CONF-djangocms-rc-1d789468403f-rep3.txt",
+      "sha256": "566da8ded43a475282fa29e821cacaeb9144b89e47ce3d2a6249b1043fd8ded0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-250b17bfb670-rep1": {
+      "raw": "CONF-djangocms-rc-250b17bfb670-rep1.txt",
+      "sha256": "b00d4b9aa8f5159afd8bf65cca7dec455b60f87065aad0a1aa57f7ac9c58ddc3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-250b17bfb670-rep2": {
+      "raw": "CONF-djangocms-rc-250b17bfb670-rep2.txt",
+      "sha256": "f835adff147ccbf4c124984763fc63ea1288ab291750f3b10b2be94dd52cde0a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-250b17bfb670-rep3": {
+      "raw": "CONF-djangocms-rc-250b17bfb670-rep3.txt",
+      "sha256": "4ba0e29fde2cc34ddd44185d8514305f1607772c685f759d178728507ba6f6ee",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2704cd41e0f1-rep1": {
+      "raw": "CONF-djangocms-rc-2704cd41e0f1-rep1.txt",
+      "sha256": "ff6e462ddc5656f8df257c4796f674dd5448b196b7d9e932b6aa65e1479a4901",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2704cd41e0f1-rep2": {
+      "raw": "CONF-djangocms-rc-2704cd41e0f1-rep2.txt",
+      "sha256": "c1996b428310d1778c4bf917c0e3b3b16dd34ad8e6e4e817ad18a42c3c259e9f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2704cd41e0f1-rep3": {
+      "raw": "CONF-djangocms-rc-2704cd41e0f1-rep3.txt",
+      "sha256": "25777b128ea3dbfc9ba5d1c4a3f5e8f1b145398bfe26454b884e2cfc3a216fba",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2d17eaa702bd-rep1": {
+      "raw": "CONF-djangocms-rc-2d17eaa702bd-rep1.txt",
+      "sha256": "b44752e2aa47a36ceb5888f35a9887f6fcf72c08d29a7a76c923fed96f0ec1cc",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2d17eaa702bd-rep2": {
+      "raw": "CONF-djangocms-rc-2d17eaa702bd-rep2.txt",
+      "sha256": "f9bff0fdc05e63d7b7f532c47d88335c321116471700f1de0d8e91f0d2978b92",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2d17eaa702bd-rep3": {
+      "raw": "CONF-djangocms-rc-2d17eaa702bd-rep3.txt",
+      "sha256": "9cae3e8d102d4517b07bad6f21353500f8b5b4b91d7d96263f4e01eeceffe7df",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-32dde70e4165-rep1": {
+      "raw": "CONF-djangocms-rc-32dde70e4165-rep1.txt",
+      "sha256": "1a6e43b07165c128326ecda524fb9b1a7b03057f7ea05ac921672d053058d42a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-32dde70e4165-rep2": {
+      "raw": "CONF-djangocms-rc-32dde70e4165-rep2.txt",
+      "sha256": "01fd0d6e08dbce39ce9a66290d6544d4ef44e0ec0dd42efea1e7123be45067ba",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-32dde70e4165-rep3": {
+      "raw": "CONF-djangocms-rc-32dde70e4165-rep3.txt",
+      "sha256": "7ce484bd96a17b72281c8003dc218be9ed7541e398eb61fcbcc7697e4b3e9f1d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-3a2157c0e22e-rep1": {
+      "raw": "CONF-djangocms-rc-3a2157c0e22e-rep1.txt",
+      "sha256": "05bc6ff0fb433dd27412ba98801ccb10469ca6bba08f4bf9f981ea63ad993603",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-3a2157c0e22e-rep2": {
+      "raw": "CONF-djangocms-rc-3a2157c0e22e-rep2.txt",
+      "sha256": "484645c20567731361d4d2d5b9d980c2fd2b49e43cd3f32f72dbb678210d11ef",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-3a2157c0e22e-rep3": {
+      "raw": "CONF-djangocms-rc-3a2157c0e22e-rep3.txt",
+      "sha256": "76ab05dbc2423b8ec1ebaa5e6fcd8506a0f71215a0d21b6c264b73abf01c72f1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4029cf0dd3ed-rep1": {
+      "raw": "CONF-djangocms-rc-4029cf0dd3ed-rep1.txt",
+      "sha256": "ba1e35a7686a842a45d44a2787d5dd4bd821751330adcbaad3c7633094a787ca",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4029cf0dd3ed-rep2": {
+      "raw": "CONF-djangocms-rc-4029cf0dd3ed-rep2.txt",
+      "sha256": "ab28413efa9c321c80bed4bcda39fa4e407fb885c5191fe1b75e889ac10dc0d0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4029cf0dd3ed-rep3": {
+      "raw": "CONF-djangocms-rc-4029cf0dd3ed-rep3.txt",
+      "sha256": "115dca6dafadf99d19c4b1866f373740a8c004ab65f13ecfd3cd3ec083241c3a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4f2ec2361b0f-rep1": {
+      "raw": "CONF-djangocms-rc-4f2ec2361b0f-rep1.txt",
+      "sha256": "aa8dcfdfd8ad885acc6e4c93fcf7618e49238626eb3de3380894a810890bdafe",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4f2ec2361b0f-rep2": {
+      "raw": "CONF-djangocms-rc-4f2ec2361b0f-rep2.txt",
+      "sha256": "a693edafaf2a71b10a8688677569cb498f7e7533881083494712b2ecfdc49cd1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4f2ec2361b0f-rep3": {
+      "raw": "CONF-djangocms-rc-4f2ec2361b0f-rep3.txt",
+      "sha256": "dfdf962e95db1f34f005739dd56dda870bb747233cd7632ce6bb58634f249b35",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-52d80990e700-rep1": {
+      "raw": "CONF-djangocms-rc-52d80990e700-rep1.txt",
+      "sha256": "9033f762e973497570e1f8a491128802d7ca90d8746e0c68585fa434236c56e0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-52d80990e700-rep2": {
+      "raw": "CONF-djangocms-rc-52d80990e700-rep2.txt",
+      "sha256": "c3e1af0dca932583248194b107bf78d0d75c58050546c05cb69cd1bb95cdf498",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-52d80990e700-rep3": {
+      "raw": "CONF-djangocms-rc-52d80990e700-rep3.txt",
+      "sha256": "1e19ef22ab336f780b48286302f866cb51f505d94a4cf1bf36d5d67074ea3908",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-534660ae4acc-rep1": {
+      "raw": "CONF-djangocms-rc-534660ae4acc-rep1.txt",
+      "sha256": "41304945e6c9f63f1a9b21be5bbb6e45446eac1e3d87c5da868a1861f212771a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-534660ae4acc-rep2": {
+      "raw": "CONF-djangocms-rc-534660ae4acc-rep2.txt",
+      "sha256": "a5c5ff2e7e9a0debbf47bd4edc908b59a8c76d55a4aec52b2a9bb3fb6ae78bab",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-534660ae4acc-rep3": {
+      "raw": "CONF-djangocms-rc-534660ae4acc-rep3.txt",
+      "sha256": "fd526df67d829a01b0a24fc531f391f4ffd1aa9a99728783c818d6a0d0d36373",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5461a59e9730-rep1": {
+      "raw": "CONF-djangocms-rc-5461a59e9730-rep1.txt",
+      "sha256": "e39c6e2a5a4c5932edba00bbd8388ee5e8a0802d4a2d08dfe9a527883605e184",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5461a59e9730-rep2": {
+      "raw": "CONF-djangocms-rc-5461a59e9730-rep2.txt",
+      "sha256": "9bb7deffce8a38c41611e0d0718d188c00bc4bd45570f3228d9127abdd787ba2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5461a59e9730-rep3": {
+      "raw": "CONF-djangocms-rc-5461a59e9730-rep3.txt",
+      "sha256": "0775a517b6abe0912db492c400e3b0243eaaf2901fd64eb78f748015cdca44bb",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-580d06e0ad4c-rep1": {
+      "raw": "CONF-djangocms-rc-580d06e0ad4c-rep1.txt",
+      "sha256": "11fff56d7ac84e6f48119af5c45e24215bb6c27a45c1e199f15ec3d01344ed9b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-580d06e0ad4c-rep2": {
+      "raw": "CONF-djangocms-rc-580d06e0ad4c-rep2.txt",
+      "sha256": "ae6200e3fdffa67e04501befd9b398ec5d612a3b0ae81dfcce6cfc183447b177",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-580d06e0ad4c-rep3": {
+      "raw": "CONF-djangocms-rc-580d06e0ad4c-rep3.txt",
+      "sha256": "2d3dc1fc11edd7fe0cf92d42e39a88750c682dd3544782e27f8e62c9cc7d81f6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5981dfc821f3-rep1": {
+      "raw": "CONF-djangocms-rc-5981dfc821f3-rep1.txt",
+      "sha256": "090111c2a6d4716f44e2b170b286870c0d1dbafa9c9323c8e6f11370f26959aa",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5981dfc821f3-rep2": {
+      "raw": "CONF-djangocms-rc-5981dfc821f3-rep2.txt",
+      "sha256": "f8caf42a50434a3fb1d880c7552949bc1a4ec1dbb7efd3580d159b38c5f77ee6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5981dfc821f3-rep3": {
+      "raw": "CONF-djangocms-rc-5981dfc821f3-rep3.txt",
+      "sha256": "12d4a8e06d4c6b860c346c1dbbe132c2dda6d93034a51af72893e232a4772f90",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-59fa62cc0e1f-rep1": {
+      "raw": "CONF-djangocms-rc-59fa62cc0e1f-rep1.txt",
+      "sha256": "adbcdb21672af8f9478878e852b97c7e590a4646837b784870c34223a80c07cb",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-59fa62cc0e1f-rep2": {
+      "raw": "CONF-djangocms-rc-59fa62cc0e1f-rep2.txt",
+      "sha256": "c997cc5d24e3d1eadbe3afebcb93ee1fe979e37826efb1ee859da011f6b2c746",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-59fa62cc0e1f-rep3": {
+      "raw": "CONF-djangocms-rc-59fa62cc0e1f-rep3.txt",
+      "sha256": "ebdd66d53817901cfd1c4305dc4f9c70ebe6c1e7e917eb9f30725da37a882f7b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5b592b96fe95-rep1": {
+      "raw": "CONF-djangocms-rc-5b592b96fe95-rep1.txt",
+      "sha256": "503d611583e1a33d80901e06f95d00f9d5d20cdb338ff33bf1d7a8ee408e691e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5b592b96fe95-rep2": {
+      "raw": "CONF-djangocms-rc-5b592b96fe95-rep2.txt",
+      "sha256": "18c3434e0151df70f45930762c83d82942b418370944bca0d6d6f85592440720",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5b592b96fe95-rep3": {
+      "raw": "CONF-djangocms-rc-5b592b96fe95-rep3.txt",
+      "sha256": "02627b9b538f790d50e71a1eaf18f5f06091d11e2bc76e1a31fe75ac601a499d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5cbe72928ad9-rep1": {
+      "raw": "CONF-djangocms-rc-5cbe72928ad9-rep1.txt",
+      "sha256": "84af62c6dbe0299c31aed0f7382bc6d35bd2531061bc76769aa8e85310b5df5e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5cbe72928ad9-rep2": {
+      "raw": "CONF-djangocms-rc-5cbe72928ad9-rep2.txt",
+      "sha256": "4e29050d2813dd508414551ae0f8ea883d795c2cb45e6e0d41cfac3286cc6afa",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5cbe72928ad9-rep3": {
+      "raw": "CONF-djangocms-rc-5cbe72928ad9-rep3.txt",
+      "sha256": "e925c775e5664b18905a21bca773f794c8e0c005f7daf2a8acd00780e2d36548",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5f36e1c40d34-rep1": {
+      "raw": "CONF-djangocms-rc-5f36e1c40d34-rep1.txt",
+      "sha256": "7729e7ced6568fbfff0190a7e0a41ff4ceadbf848c83e220a3e75ba235610f48",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5f36e1c40d34-rep2": {
+      "raw": "CONF-djangocms-rc-5f36e1c40d34-rep2.txt",
+      "sha256": "9a71353929711057ca720ab12f3ed9066ef04b30dce5f8a46fcc1b0f764858d9",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5f36e1c40d34-rep3": {
+      "raw": "CONF-djangocms-rc-5f36e1c40d34-rep3.txt",
+      "sha256": "6e8505daadc97619ad841b60526fde37de2d909cdfd8873c762908af0647418e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-63e51f37eabf-rep1": {
+      "raw": "CONF-djangocms-rc-63e51f37eabf-rep1.txt",
+      "sha256": "8b574201f2428cf92c3f305cb6b6f229e696cb0f89656e83879e875b24598699",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-63e51f37eabf-rep2": {
+      "raw": "CONF-djangocms-rc-63e51f37eabf-rep2.txt",
+      "sha256": "fd0b5ef6bfa15c4746e97ff3f44c5a9071579534dea90899ff91d690d2543f00",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-63e51f37eabf-rep3": {
+      "raw": "CONF-djangocms-rc-63e51f37eabf-rep3.txt",
+      "sha256": "d43fa51c35509e21513af784f673caf6168ce42849489021f0879e0f12e2f11f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-64079a1d5151-rep1": {
+      "raw": "CONF-djangocms-rc-64079a1d5151-rep1.txt",
+      "sha256": "08037a5cc303da3f151fb2309ecc17f01ed5f6c4a57a16f32d555b59bf03c31b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-64079a1d5151-rep2": {
+      "raw": "CONF-djangocms-rc-64079a1d5151-rep2.txt",
+      "sha256": "73f287544f6d23235c7383947c1f065e6c64d80da7a3d14ed1f112d579fb9ad4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-64079a1d5151-rep3": {
+      "raw": "CONF-djangocms-rc-64079a1d5151-rep3.txt",
+      "sha256": "3a76f9d468096afcfb03929106f6e66323cbbc8fb6b9efd87c77f0b24140265d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6590c7b63c02-rep1": {
+      "raw": "CONF-djangocms-rc-6590c7b63c02-rep1.txt",
+      "sha256": "fdbfe9a8eecb115aabb7a0eb1dee24268f16940b586730d5ada669a582d4ce68",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6590c7b63c02-rep2": {
+      "raw": "CONF-djangocms-rc-6590c7b63c02-rep2.txt",
+      "sha256": "d42737c728707626d1a6309e8665b852e3cd5ab61e2fc42d0f13d2828938783f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6590c7b63c02-rep3": {
+      "raw": "CONF-djangocms-rc-6590c7b63c02-rep3.txt",
+      "sha256": "ad33ac14cf48e795b3e9634288ca49e2fb43cd3a3d1af8fc7c72a8e3d26f1b97",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-685361d475fc-rep1": {
+      "raw": "CONF-djangocms-rc-685361d475fc-rep1.txt",
+      "sha256": "4e3b94d838d6699e9788bae9d81c4b39fcf5093ad124c76ceb686a118296c175",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-685361d475fc-rep2": {
+      "raw": "CONF-djangocms-rc-685361d475fc-rep2.txt",
+      "sha256": "6cfe408004a5076b2c05a1260cd91af9020c75a31f7cd1bb47b1fa7c85d1597d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-685361d475fc-rep3": {
+      "raw": "CONF-djangocms-rc-685361d475fc-rep3.txt",
+      "sha256": "67250a64cf4ee1f9ac83a8b554f7c375ded406410bd066916f4e5c4d80998755",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-69962fe81975-rep1": {
+      "raw": "CONF-djangocms-rc-69962fe81975-rep1.txt",
+      "sha256": "3fbfdb4941473b55e2ca9ae556d72ba055436515c082b9125a33355c1efe6c25",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-69962fe81975-rep2": {
+      "raw": "CONF-djangocms-rc-69962fe81975-rep2.txt",
+      "sha256": "6ef0fffcd6f82f98239a56cfcc68033a01a1fc9b881d3c0d58fed1273832565a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-69962fe81975-rep3": {
+      "raw": "CONF-djangocms-rc-69962fe81975-rep3.txt",
+      "sha256": "056a3167839725ee698a4233c630a425baa39491af83512033f9efcfbc665f93",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6a4c24b9560a-rep1": {
+      "raw": "CONF-djangocms-rc-6a4c24b9560a-rep1.txt",
+      "sha256": "fbe7ae65f9440fd305f25df7bad66f105b536387140239ab3ec06e656fc9e6d8",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6a4c24b9560a-rep2": {
+      "raw": "CONF-djangocms-rc-6a4c24b9560a-rep2.txt",
+      "sha256": "21b422c806d28a166f6615ca15309c426aa4ab8e2ecffee5b27ff63e40723720",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6a4c24b9560a-rep3": {
+      "raw": "CONF-djangocms-rc-6a4c24b9560a-rep3.txt",
+      "sha256": "aea3fa2b495685cfdf765d7bdf6f2d323eec8cb9e14950b12419aaaf9ab99355",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6b7636900b12-rep1": {
+      "raw": "CONF-djangocms-rc-6b7636900b12-rep1.txt",
+      "sha256": "3105494cac00e9f5ccdbbd896ad07a6f3e193dfffc8ef99d616471c1c8c6e0bf",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6b7636900b12-rep2": {
+      "raw": "CONF-djangocms-rc-6b7636900b12-rep2.txt",
+      "sha256": "a0d5bd40d57fb190ffc560a8ec854e090728103af4a9e615aa4cef7c5b9aa181",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6b7636900b12-rep3": {
+      "raw": "CONF-djangocms-rc-6b7636900b12-rep3.txt",
+      "sha256": "212d4ebdeb71207dd9aa7d454d54488b7d8bd63deedfdaabcb7e1adbad3058d7",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6fe8ff3682f7-rep1": {
+      "raw": "CONF-djangocms-rc-6fe8ff3682f7-rep1.txt",
+      "sha256": "55133c59a012916c774c78e494e6d0c1e7a2133a2d9dad5b3b9b1a5a436a8d47",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6fe8ff3682f7-rep2": {
+      "raw": "CONF-djangocms-rc-6fe8ff3682f7-rep2.txt",
+      "sha256": "2f2ca33fb6f890cc61e529e8ba3f01032590063602d4d285693fd768c8f3cc57",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6fe8ff3682f7-rep3": {
+      "raw": "CONF-djangocms-rc-6fe8ff3682f7-rep3.txt",
+      "sha256": "ccfe8d1c711019d68308d7ba7cc9dbb3147fed2c8301b4bbd8778ac917d24beb",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-7091ea7e9a93-rep1": {
+      "raw": "CONF-djangocms-rc-7091ea7e9a93-rep1.txt",
+      "sha256": "38b0f1dbfb96ab893669f291a4a97cadc48ea2305fdb37a4ee8a32a89c66ea56",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-7091ea7e9a93-rep2": {
+      "raw": "CONF-djangocms-rc-7091ea7e9a93-rep2.txt",
+      "sha256": "81d5173fe206645b58b94dcd1da8fb4795db8b32e8d059f9d5903c717170a3a4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-7091ea7e9a93-rep3": {
+      "raw": "CONF-djangocms-rc-7091ea7e9a93-rep3.txt",
+      "sha256": "b6f65ecafd1ce9ab2bda3fedda1683610d18e80eb56f1922ccc35aa4d7296140",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-70a768663ec4-rep1": {
+      "raw": "CONF-djangocms-rc-70a768663ec4-rep1.txt",
+      "sha256": "010a465c59bbee8ad17b10784b721c778d49d0fae2f969af8c87f830d74fb4ae",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-70a768663ec4-rep2": {
+      "raw": "CONF-djangocms-rc-70a768663ec4-rep2.txt",
+      "sha256": "a48efda3aa1917b53b24e1e130888f94cbda046ef446d6ee1ba73305272063f1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-70a768663ec4-rep3": {
+      "raw": "CONF-djangocms-rc-70a768663ec4-rep3.txt",
+      "sha256": "7c45a18a06a602af398cb36ae0299b50a1ad89574aefb3e9af9f22859cd94bab",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-76cb708f8111-rep1": {
+      "raw": "CONF-djangocms-rc-76cb708f8111-rep1.txt",
+      "sha256": "424576d0a2ff45b829f9096a8c4d5dea0a23df9ce53fa3be1dda0469acfaf0f1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-76cb708f8111-rep2": {
+      "raw": "CONF-djangocms-rc-76cb708f8111-rep2.txt",
+      "sha256": "ac43523b3cfc12f6ee910411a8659bed53c7d3610d04ddb643695dd930cdcb25",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-76cb708f8111-rep3": {
+      "raw": "CONF-djangocms-rc-76cb708f8111-rep3.txt",
+      "sha256": "2463beae137ce78ce4c3b4b26f2c5317d91d521aa47fd11e87a532f5ab36a2b0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-791c7cece600-rep1": {
+      "raw": "CONF-djangocms-rc-791c7cece600-rep1.txt",
+      "sha256": "c771b58a049876d177d3b948e750c7f73f0316902f4e9b8bf1765a3fde838e14",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-791c7cece600-rep2": {
+      "raw": "CONF-djangocms-rc-791c7cece600-rep2.txt",
+      "sha256": "8c3843b553f52afed65d7b7ea570a3674410a5e1ed9a8236b2ebba63ff93b8d0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-791c7cece600-rep3": {
+      "raw": "CONF-djangocms-rc-791c7cece600-rep3.txt",
+      "sha256": "19e884f224dd27feab2e1b130af5ac6d1de37b441c3fb088725fd7c5569f1e75",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-85e411ba30e1-rep1": {
+      "raw": "CONF-djangocms-rc-85e411ba30e1-rep1.txt",
+      "sha256": "d5b779d76d5c764d0a1d32094eaa873943a7732667e2199146c926852473cb69",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-85e411ba30e1-rep2": {
+      "raw": "CONF-djangocms-rc-85e411ba30e1-rep2.txt",
+      "sha256": "affc0355802825b33416f02bafcc5d2f52f5a385c086145aab6123fb6e9e479e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-85e411ba30e1-rep3": {
+      "raw": "CONF-djangocms-rc-85e411ba30e1-rep3.txt",
+      "sha256": "914d59a978d17f9972e6fa638bf8b869603a9754bb6ae3d2490f4b2d4504a06a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-894458e5b58e-rep1": {
+      "raw": "CONF-djangocms-rc-894458e5b58e-rep1.txt",
+      "sha256": "795eef24d5f8fbc4dcf211de2d1a1d899295f7d86f0fd2ff1e7ab7a6b9b2f56e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-894458e5b58e-rep2": {
+      "raw": "CONF-djangocms-rc-894458e5b58e-rep2.txt",
+      "sha256": "1d39fab88b1de2ea345520728dd7eb29af7311b4facd1c3566ea75dfe90e149f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-894458e5b58e-rep3": {
+      "raw": "CONF-djangocms-rc-894458e5b58e-rep3.txt",
+      "sha256": "287767773748c6cbe07dce02499ccd5969b58426efebe03c2190caa0aa54843f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8c7306591b84-rep1": {
+      "raw": "CONF-djangocms-rc-8c7306591b84-rep1.txt",
+      "sha256": "16889b7d310597549582a9b5c0c682ab92bd5f5b85dd94c81a1dcef7fbbfec07",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8c7306591b84-rep2": {
+      "raw": "CONF-djangocms-rc-8c7306591b84-rep2.txt",
+      "sha256": "89bfed441dc44cad51af94fe7ddbc5abc2a698afdf02a2b367cb14866834ed0c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8c7306591b84-rep3": {
+      "raw": "CONF-djangocms-rc-8c7306591b84-rep3.txt",
+      "sha256": "dda21df0964a551ae3830810d6bf56a314f8d422d656db4204662a38e7d33531",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8cfe0e93ba61-rep1": {
+      "raw": "CONF-djangocms-rc-8cfe0e93ba61-rep1.txt",
+      "sha256": "51721fe4ccc3d404185b5f0e988b2ee5f607cb1476dd1f8ed57fe14cdb1c4de3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8cfe0e93ba61-rep2": {
+      "raw": "CONF-djangocms-rc-8cfe0e93ba61-rep2.txt",
+      "sha256": "a4c7fb6b6d6e833fdccbeefcce424eb36fea8e3384ec4dd5bfa310aa526c7c7d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8cfe0e93ba61-rep3": {
+      "raw": "CONF-djangocms-rc-8cfe0e93ba61-rep3.txt",
+      "sha256": "1dd5156d78318889f9827dbcc4c1c981a1f0fa878f3ef782b2c2b8adce0bbd33",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8ebb63d4fad0-rep1": {
+      "raw": "CONF-djangocms-rc-8ebb63d4fad0-rep1.txt",
+      "sha256": "4c8a643fc180b96cb275438341558542e3762d9e8c43db22629948754b3fe5ef",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8ebb63d4fad0-rep2": {
+      "raw": "CONF-djangocms-rc-8ebb63d4fad0-rep2.txt",
+      "sha256": "8dd88715a6492add036104bca299140360bd6dd816e565a3eed6744711402bc4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8ebb63d4fad0-rep3": {
+      "raw": "CONF-djangocms-rc-8ebb63d4fad0-rep3.txt",
+      "sha256": "ab56efd29e6b82d13800554ea9bdec0f928731b996c61ae6b4e1fe5cfa2d3639",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-900e99d54663-rep1": {
+      "raw": "CONF-djangocms-rc-900e99d54663-rep1.txt",
+      "sha256": "f9d4a9b8607ac365c52008263853a23604f1c81e70a3f8a445109dde0a036959",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-900e99d54663-rep2": {
+      "raw": "CONF-djangocms-rc-900e99d54663-rep2.txt",
+      "sha256": "468b35c71f9b45c6a6a8f70d3d27b171bdb45c2983b4647f31594703f864f698",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-900e99d54663-rep3": {
+      "raw": "CONF-djangocms-rc-900e99d54663-rep3.txt",
+      "sha256": "04bfe67af2d5d65d453c6948da27097646f2aa28aa49b18d41721f645e79fd82",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9065e47df605-rep1": {
+      "raw": "CONF-djangocms-rc-9065e47df605-rep1.txt",
+      "sha256": "74efaaa3031624f998a372a975c33c6a1e8c6d0b07c63ea43a1a6553505a5441",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9065e47df605-rep2": {
+      "raw": "CONF-djangocms-rc-9065e47df605-rep2.txt",
+      "sha256": "7ba7f3bd706dc5643f905a3804a98800110cc3990919e9b8d7dade215543f95b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9065e47df605-rep3": {
+      "raw": "CONF-djangocms-rc-9065e47df605-rep3.txt",
+      "sha256": "37c86de1845f356968c54170b36e40a8d66f9e64a1aae0e0d521733e9b352062",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-93f6fc5083a7-rep1": {
+      "raw": "CONF-djangocms-rc-93f6fc5083a7-rep1.txt",
+      "sha256": "58787a47ba222474a183623dd69c728a144ef8acc412aea61878d3ac5a506556",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-93f6fc5083a7-rep2": {
+      "raw": "CONF-djangocms-rc-93f6fc5083a7-rep2.txt",
+      "sha256": "cdf5db8d0621cd8e229583a3be4f22f46bb46bf4900eb8d8a7a414208cda78ba",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-93f6fc5083a7-rep3": {
+      "raw": "CONF-djangocms-rc-93f6fc5083a7-rep3.txt",
+      "sha256": "762e408f228ec9a0ce641850263365bfde1475085c17ca12eed805de65ab5db3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-967b838d06ec-rep1": {
+      "raw": "CONF-djangocms-rc-967b838d06ec-rep1.txt",
+      "sha256": "76de994a39d92a1357d01802690bae9d980b068a8368f77af67e29dafeeeb8ff",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-967b838d06ec-rep2": {
+      "raw": "CONF-djangocms-rc-967b838d06ec-rep2.txt",
+      "sha256": "06192cc5906fb4c378475828862776eb98c09e82622ee2d39831e8d5c7caa79b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-967b838d06ec-rep3": {
+      "raw": "CONF-djangocms-rc-967b838d06ec-rep3.txt",
+      "sha256": "1a445e6dc8645d3c4d8826efc99271a9f56fca3e0068c3a73d577b258fc7f2dc",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9a7fe85199fc-rep1": {
+      "raw": "CONF-djangocms-rc-9a7fe85199fc-rep1.txt",
+      "sha256": "bbce50f2757130f07dfd6b4cca21ca649e2a3c90eb7022dfbff8992775bdaae2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9a7fe85199fc-rep2": {
+      "raw": "CONF-djangocms-rc-9a7fe85199fc-rep2.txt",
+      "sha256": "eb8b34bf1a2186d4261c4d17848824d915a7d486f18724d2bfab4c266862347d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9a7fe85199fc-rep3": {
+      "raw": "CONF-djangocms-rc-9a7fe85199fc-rep3.txt",
+      "sha256": "89c35c9495b531b8ed5f0904ba054f893f159968d58a1790399011d7592e0010",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9bc0b945ee7e-rep1": {
+      "raw": "CONF-djangocms-rc-9bc0b945ee7e-rep1.txt",
+      "sha256": "eee4ec740e7d1c878e98d097b090768b762bd51f428f29cc73a96aede9ac5881",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9bc0b945ee7e-rep2": {
+      "raw": "CONF-djangocms-rc-9bc0b945ee7e-rep2.txt",
+      "sha256": "8b52d2d3b7ad9dc709d9aebfa01e3c79909cc424662c6eb9bd6fa0cfd38919f0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9bc0b945ee7e-rep3": {
+      "raw": "CONF-djangocms-rc-9bc0b945ee7e-rep3.txt",
+      "sha256": "dddd283327afd7366cedc7db3e6a893ed8602422fa98c7464254e68f2aaf0160",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9c567c2f6bc0-rep1": {
+      "raw": "CONF-djangocms-rc-9c567c2f6bc0-rep1.txt",
+      "sha256": "adf22ff68191d0a6343812a5993aa1bc2eca964505e67d7e1f87088acec1fb52",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9c567c2f6bc0-rep2": {
+      "raw": "CONF-djangocms-rc-9c567c2f6bc0-rep2.txt",
+      "sha256": "1613729479236f9ea37f068fb54de3e73d5311f2776ea67a939a1a5e33657234",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9c567c2f6bc0-rep3": {
+      "raw": "CONF-djangocms-rc-9c567c2f6bc0-rep3.txt",
+      "sha256": "e1219185c7ecb871f753aa7856bf7939e83aba9183a0169869b279a1eebf006f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9f60f6999ffd-rep1": {
+      "raw": "CONF-djangocms-rc-9f60f6999ffd-rep1.txt",
+      "sha256": "4b2543bd32f048d2402c21038c49996a0edeaa5145710d3a148ddfb85265f355",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9f60f6999ffd-rep2": {
+      "raw": "CONF-djangocms-rc-9f60f6999ffd-rep2.txt",
+      "sha256": "07b30521e2d867da8d78bebdef701d58e50c37bc8fd135df818c0e6da1c17534",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9f60f6999ffd-rep3": {
+      "raw": "CONF-djangocms-rc-9f60f6999ffd-rep3.txt",
+      "sha256": "f8f2fe5e258d62dcec4128fdd26b892f151faffda2c4623259c72a7457518a35",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a06f6f937ad3-rep1": {
+      "raw": "CONF-djangocms-rc-a06f6f937ad3-rep1.txt",
+      "sha256": "3f1c34a4f158391fa00f39e93bfe56d0fa2d92310c862e79e044c23a5ecde108",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a06f6f937ad3-rep2": {
+      "raw": "CONF-djangocms-rc-a06f6f937ad3-rep2.txt",
+      "sha256": "447aabb489b503c0b9f5023e57c12c3f43e698202e58299256b1a067bb200d2a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a06f6f937ad3-rep3": {
+      "raw": "CONF-djangocms-rc-a06f6f937ad3-rep3.txt",
+      "sha256": "601db5165d69d1e15d261687306776b08e03ad4bae7b8ba5d317c4cefcdb9315",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a0eeea8b883c-rep1": {
+      "raw": "CONF-djangocms-rc-a0eeea8b883c-rep1.txt",
+      "sha256": "edac7df41cf5e7d784181424664aeb65abca1aa5afee917c305d24ddb4832d61",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a0eeea8b883c-rep2": {
+      "raw": "CONF-djangocms-rc-a0eeea8b883c-rep2.txt",
+      "sha256": "7840e443734ca5c08c372a21d3e4f8a3d7e901f625021603cf7d6f524be13f75",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a0eeea8b883c-rep3": {
+      "raw": "CONF-djangocms-rc-a0eeea8b883c-rep3.txt",
+      "sha256": "448b5bbc6adc35793821118fed11ccccaab77b72325d19112ad34114c3f97406",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a3a1b33ed3df-rep1": {
+      "raw": "CONF-djangocms-rc-a3a1b33ed3df-rep1.txt",
+      "sha256": "728407124642f01b821f3909912de3ff7675b1d2cb22e65bb17cb63752a7e466",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a3a1b33ed3df-rep2": {
+      "raw": "CONF-djangocms-rc-a3a1b33ed3df-rep2.txt",
+      "sha256": "5ea3fa5430b791a3792b4bf051eef886b8501970085b5275509322d4f2314069",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a3a1b33ed3df-rep3": {
+      "raw": "CONF-djangocms-rc-a3a1b33ed3df-rep3.txt",
+      "sha256": "e9b271abf52929cd1b47ce5873bcc14012acd966f7003157eccd1257042cbdb2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a6a3331f15cc-rep1": {
+      "raw": "CONF-djangocms-rc-a6a3331f15cc-rep1.txt",
+      "sha256": "2007a404e2e63f8eca0b87bc3b85fb05333fa5630d14653b32c356b6501f2270",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a6a3331f15cc-rep2": {
+      "raw": "CONF-djangocms-rc-a6a3331f15cc-rep2.txt",
+      "sha256": "247e80d86ff3419c5582738893ff1754ac6b1928ddfe484a9045e4f66009ec99",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a6a3331f15cc-rep3": {
+      "raw": "CONF-djangocms-rc-a6a3331f15cc-rep3.txt",
+      "sha256": "65e66a20406ebbe1aac06c24f629f9aeb41152a3aa8bacfd97b9e5240d1e3e35",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-adbcb71be408-rep1": {
+      "raw": "CONF-djangocms-rc-adbcb71be408-rep1.txt",
+      "sha256": "2becb2a4d79a42b119792ee6345ad5233bb9f8974bf5169168b07f54aa0dc56e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-adbcb71be408-rep2": {
+      "raw": "CONF-djangocms-rc-adbcb71be408-rep2.txt",
+      "sha256": "ab6ef14c2fa7321457670379b45f46d0c1f3823c992483cf63b42f97714ff172",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-adbcb71be408-rep3": {
+      "raw": "CONF-djangocms-rc-adbcb71be408-rep3.txt",
+      "sha256": "e973f1483b0088a32480f14460bafcba6fb87243ce943f709bb02f954d200b5b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-afd7a4e6db4e-rep1": {
+      "raw": "CONF-djangocms-rc-afd7a4e6db4e-rep1.txt",
+      "sha256": "a42376ba63618e305699dd0a0be2bf350f619f32a6f70fc4ed66bbac144343ca",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-afd7a4e6db4e-rep2": {
+      "raw": "CONF-djangocms-rc-afd7a4e6db4e-rep2.txt",
+      "sha256": "3a57a149a61c969abe23186bd3705daba29c9246beb7baca5d9d855eaea682b2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-afd7a4e6db4e-rep3": {
+      "raw": "CONF-djangocms-rc-afd7a4e6db4e-rep3.txt",
+      "sha256": "6df7045b9c6c541c506829a760399ff398c3c4a0e9c7a299cc3ddcaa5530072b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b09cf10cfe3e-rep1": {
+      "raw": "CONF-djangocms-rc-b09cf10cfe3e-rep1.txt",
+      "sha256": "e5d69ab271b7ffa05f3bf93f6b516eaf98f6887642f06c970ccf1794de63e366",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b09cf10cfe3e-rep2": {
+      "raw": "CONF-djangocms-rc-b09cf10cfe3e-rep2.txt",
+      "sha256": "d3c911f36ab70a966fbbf8fd9a224385752484008b6bf1bb56fa0b1bce152f77",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b09cf10cfe3e-rep3": {
+      "raw": "CONF-djangocms-rc-b09cf10cfe3e-rep3.txt",
+      "sha256": "b0414fcd0d338a23806a9e37111a839bce728751c364c582cc1c589041ffc32b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b0f59bb55b57-rep1": {
+      "raw": "CONF-djangocms-rc-b0f59bb55b57-rep1.txt",
+      "sha256": "fb3a0e3b2ee2c8d74267ec36703d805b26c9791b61dc387a06ff48f39abd8e99",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b0f59bb55b57-rep2": {
+      "raw": "CONF-djangocms-rc-b0f59bb55b57-rep2.txt",
+      "sha256": "5f5e551527ece4f0eb4d4c4d0809e11569498b58399c06b7bfd7e9532d7510d6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b0f59bb55b57-rep3": {
+      "raw": "CONF-djangocms-rc-b0f59bb55b57-rep3.txt",
+      "sha256": "bba504a4c6a0fea799ab6288381696f2575ed4b8201d5d220e9bbc87e14d3310",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b1a758b65091-rep1": {
+      "raw": "CONF-djangocms-rc-b1a758b65091-rep1.txt",
+      "sha256": "1cd6564af947f8e4c17905fef7e41a218569ea41396d233ddb2fbbcda9f58876",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b1a758b65091-rep2": {
+      "raw": "CONF-djangocms-rc-b1a758b65091-rep2.txt",
+      "sha256": "87ff86e2b4998e8e68afd8052c21b15f4160a92ddb1231ce6d7e14e4dc443033",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b1a758b65091-rep3": {
+      "raw": "CONF-djangocms-rc-b1a758b65091-rep3.txt",
+      "sha256": "03786bb23053b9097e0292c2265f1d8cd8a001f5ca7b22215fc0dc37aa112acd",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bacd85ddec7a-rep1": {
+      "raw": "CONF-djangocms-rc-bacd85ddec7a-rep1.txt",
+      "sha256": "a82d225a36f6499cad1b0fccd8ec59cfb6d3a09e3b980423a8949638c46beedc",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bacd85ddec7a-rep2": {
+      "raw": "CONF-djangocms-rc-bacd85ddec7a-rep2.txt",
+      "sha256": "dc54323d431323b3889db9af8aa92cc346bf77629c958de05cc11668ac4e53cf",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bacd85ddec7a-rep3": {
+      "raw": "CONF-djangocms-rc-bacd85ddec7a-rep3.txt",
+      "sha256": "5d20df262721fc975c36f0ec44bbb6aea7c4b40e4dc67152fc139009b975560a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdab9e9e8190-rep1": {
+      "raw": "CONF-djangocms-rc-bdab9e9e8190-rep1.txt",
+      "sha256": "ab8724a7e95a717da705ac8ac5984442830210022ac16792c08184bae6190720",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdab9e9e8190-rep2": {
+      "raw": "CONF-djangocms-rc-bdab9e9e8190-rep2.txt",
+      "sha256": "f5195940c9ff1be4e7123618f308ce8f1b6fac002ca58270663e35b76e78fb5d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdab9e9e8190-rep3": {
+      "raw": "CONF-djangocms-rc-bdab9e9e8190-rep3.txt",
+      "sha256": "010ea669d5237bbcc08bfefe5c5fffb00d381c9c9a3330a1edbdc712e9f83f78",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdf1a87e69f4-rep1": {
+      "raw": "CONF-djangocms-rc-bdf1a87e69f4-rep1.txt",
+      "sha256": "9c46fc6b43d65124e34221d1b07e42ee418579a072073e8f39960d87d7182313",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdf1a87e69f4-rep2": {
+      "raw": "CONF-djangocms-rc-bdf1a87e69f4-rep2.txt",
+      "sha256": "86b47fe596e00220f23fe0b6f6d9ba6063d3e007a133fef2a0cd0d8429e6e812",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdf1a87e69f4-rep3": {
+      "raw": "CONF-djangocms-rc-bdf1a87e69f4-rep3.txt",
+      "sha256": "f199105d5deeb237d3803af70b69a07255c6b4838a3cd7a8cfdea8bbf86eaf28",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c089a988fb61-rep1": {
+      "raw": "CONF-djangocms-rc-c089a988fb61-rep1.txt",
+      "sha256": "019672bc0ed24ad74c046c54e773da0495753b1a0603f30b7361cd59844655e1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c089a988fb61-rep2": {
+      "raw": "CONF-djangocms-rc-c089a988fb61-rep2.txt",
+      "sha256": "d45ad93a84b8b2fa211b62b7d7e0f507800d386eb0bc95cbb0764d6b89fa17f1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c089a988fb61-rep3": {
+      "raw": "CONF-djangocms-rc-c089a988fb61-rep3.txt",
+      "sha256": "8740a39c1cb781fbe9f5eec0e23e402eca1d54ea272c0c46c3ff1972a324acb9",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c64ee315eaef-rep1": {
+      "raw": "CONF-djangocms-rc-c64ee315eaef-rep1.txt",
+      "sha256": "6e0dea61b08b2274c631746f38d3ce5c58556fb3f7414f62a9206387aaa17d2d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c64ee315eaef-rep2": {
+      "raw": "CONF-djangocms-rc-c64ee315eaef-rep2.txt",
+      "sha256": "e4a948cdac06dcb6b2fa9b65c6ed04e480ad5f6476746b8ebb68243ac0423031",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c64ee315eaef-rep3": {
+      "raw": "CONF-djangocms-rc-c64ee315eaef-rep3.txt",
+      "sha256": "09d1f2e47e8984298824878b9403ba4ed063f190b1f8abd0e9d160d5d560eea8",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c7617f3150e3-rep1": {
+      "raw": "CONF-djangocms-rc-c7617f3150e3-rep1.txt",
+      "sha256": "be56c7921beee51b9684dd4dc874e86161debd28fcc7f144ac8ffad0b03b10ea",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c7617f3150e3-rep2": {
+      "raw": "CONF-djangocms-rc-c7617f3150e3-rep2.txt",
+      "sha256": "e301fb5d3a41c60c974eb74fe8b726d783ac4bb440e1e0e7aacebab7f104da5b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c7617f3150e3-rep3": {
+      "raw": "CONF-djangocms-rc-c7617f3150e3-rep3.txt",
+      "sha256": "baacb2022cf207d703663de0132a184baa6f6912c3a33de4f5d20ebe65e3e2c7",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d58e797a1c67-rep1": {
+      "raw": "CONF-djangocms-rc-d58e797a1c67-rep1.txt",
+      "sha256": "6526250f5b78d1350d3054f1d301a2b7d1d06d1e55c1fa783a5c854ebca12940",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d58e797a1c67-rep2": {
+      "raw": "CONF-djangocms-rc-d58e797a1c67-rep2.txt",
+      "sha256": "507cdd67692daa73a96a1a35682f416d04797d5a284f8f24717d3c13c79653f0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d58e797a1c67-rep3": {
+      "raw": "CONF-djangocms-rc-d58e797a1c67-rep3.txt",
+      "sha256": "92cefce588fee3625f2bd065a44be5373d09fb8116cf2b79560fc23a8f998d26",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9367924a680-rep1": {
+      "raw": "CONF-djangocms-rc-d9367924a680-rep1.txt",
+      "sha256": "398657a37842419495baa19ad27518aaea46ec9c5e424d8edb2c12a9862108b6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9367924a680-rep2": {
+      "raw": "CONF-djangocms-rc-d9367924a680-rep2.txt",
+      "sha256": "2332124f1434312e5cba781ef8be7fbbccdc9830303719db558d715d28955711",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9367924a680-rep3": {
+      "raw": "CONF-djangocms-rc-d9367924a680-rep3.txt",
+      "sha256": "cd6fbf8b924727357e4dee27b736b83a00ca12a93257c7e25b462f61f60d86c8",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9a184051d93-rep1": {
+      "raw": "CONF-djangocms-rc-d9a184051d93-rep1.txt",
+      "sha256": "7bbc85f3dca4310578cf43de7df4c1395d884af9fe5560efee4172c6167eb0bd",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9a184051d93-rep2": {
+      "raw": "CONF-djangocms-rc-d9a184051d93-rep2.txt",
+      "sha256": "e9361e4912bc5c3c2c979dd999de8a81721dfc5a01066c671dd10fef706d4fb2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9a184051d93-rep3": {
+      "raw": "CONF-djangocms-rc-d9a184051d93-rep3.txt",
+      "sha256": "3d284725ef1612921e53b12b26cd92e4d2522cdc1ea20a0e32cd46080172755d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-da37f26fbf2a-rep1": {
+      "raw": "CONF-djangocms-rc-da37f26fbf2a-rep1.txt",
+      "sha256": "6946052ba177bd87ecfe277c28fc06573d5e88451055aaebc61be2021d3edb11",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-da37f26fbf2a-rep2": {
+      "raw": "CONF-djangocms-rc-da37f26fbf2a-rep2.txt",
+      "sha256": "a4bfb70be2afb6e400abe4f442dc48d76f43558a526289a5194edf246206cd90",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-da37f26fbf2a-rep3": {
+      "raw": "CONF-djangocms-rc-da37f26fbf2a-rep3.txt",
+      "sha256": "bc17e1bc2d2cd421f7da83a6efe3d12c3337405e9c5703010446633e90f4d9bf",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-db4ff4162cf4-rep1": {
+      "raw": "CONF-djangocms-rc-db4ff4162cf4-rep1.txt",
+      "sha256": "33fcacb8e48e6877675c106606f9490297579489f45e405fdb1fce3a7a809b0f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-db4ff4162cf4-rep2": {
+      "raw": "CONF-djangocms-rc-db4ff4162cf4-rep2.txt",
+      "sha256": "9637ac4172effdf5b448d0845a4da9f92409675dfe8ea5c93c148bef645bbffa",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-db4ff4162cf4-rep3": {
+      "raw": "CONF-djangocms-rc-db4ff4162cf4-rep3.txt",
+      "sha256": "55b9c45c92404c2d1c8e11d2244b961da4f4b2e0a951ec14bf4bdac7033945c9",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e1af99804564-rep1": {
+      "raw": "CONF-djangocms-rc-e1af99804564-rep1.txt",
+      "sha256": "02b6de743553f8e029a11f1eb3be5e533f42d8ab8936fdeb2640a8b2297c0d99",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e1af99804564-rep2": {
+      "raw": "CONF-djangocms-rc-e1af99804564-rep2.txt",
+      "sha256": "4b364c5c1a8c7551213ac5079cbde91b372af477359d0ff38c890eda34d36a27",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e1af99804564-rep3": {
+      "raw": "CONF-djangocms-rc-e1af99804564-rep3.txt",
+      "sha256": "7de47bdffbd1966304b4b548a97b37bc0f907e0b1ca4123d238acc5af164ad6a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e264d04009ca-rep1": {
+      "raw": "CONF-djangocms-rc-e264d04009ca-rep1.txt",
+      "sha256": "8c5b41d21d1b4bc4be834ee90c07747e697d9fd6e9da9d9761e5ff95038b3a65",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e264d04009ca-rep2": {
+      "raw": "CONF-djangocms-rc-e264d04009ca-rep2.txt",
+      "sha256": "68a25702f0ddf7a48d878384b54a310e0a4bcde32c52971b4d914f75812127b7",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e264d04009ca-rep3": {
+      "raw": "CONF-djangocms-rc-e264d04009ca-rep3.txt",
+      "sha256": "48d1789b5bc8028333e3b352ff0eb5d71ed9cf9d7e74b6df7051007a53869116",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-eab0f3410514-rep1": {
+      "raw": "CONF-djangocms-rc-eab0f3410514-rep1.txt",
+      "sha256": "0beddcbf823313da5954da9c4ff604a5f7df2e0b967a288bd2d416062598fa6d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-eab0f3410514-rep2": {
+      "raw": "CONF-djangocms-rc-eab0f3410514-rep2.txt",
+      "sha256": "f2a9dd6673681b160bcb1d5976dee2cfe7cbfd41665557b0851ac2f2ad122b55",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-eab0f3410514-rep3": {
+      "raw": "CONF-djangocms-rc-eab0f3410514-rep3.txt",
+      "sha256": "6d5c7b2b6783b20cb1fe247820f0e8586254052df563fbae66113b82879313f2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-ebb7b96a752e-rep1": {
+      "raw": "CONF-djangocms-rc-ebb7b96a752e-rep1.txt",
+      "sha256": "c3cf05ae4bcfd142cf0cc304731864956e656ea64872f8312ddbab44a4440480",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-ebb7b96a752e-rep2": {
+      "raw": "CONF-djangocms-rc-ebb7b96a752e-rep2.txt",
+      "sha256": "b0e3d7077e2c19b1cf43309a6d96a3cada49aa266504d570191d722fcddf399d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-ebb7b96a752e-rep3": {
+      "raw": "CONF-djangocms-rc-ebb7b96a752e-rep3.txt",
+      "sha256": "557b44ce4fd38f3b650e4967884abfa24d6b8deb3d9005339cdbdbce834339f4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f572e38183fb-rep1": {
+      "raw": "CONF-djangocms-rc-f572e38183fb-rep1.txt",
+      "sha256": "06872a62c27422df69bbc40ba079693bc64b41d83a94f441e7722b428de75d7b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f572e38183fb-rep2": {
+      "raw": "CONF-djangocms-rc-f572e38183fb-rep2.txt",
+      "sha256": "29d3e9df7375a563447ff2ace04560d269d75df3d1591a1d433c8a630da8c98d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f572e38183fb-rep3": {
+      "raw": "CONF-djangocms-rc-f572e38183fb-rep3.txt",
+      "sha256": "303b9738170d0eb3a8fe6d8e85b4d36e1c2f7b973a8fe1586a4e7ebf8e80be55",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f841dcc0501f-rep1": {
+      "raw": "CONF-djangocms-rc-f841dcc0501f-rep1.txt",
+      "sha256": "199e6176a4f17ea1c9d6a6eacf223322f4fdf186fb8a56b8d65ed8a7d62fa83f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f841dcc0501f-rep2": {
+      "raw": "CONF-djangocms-rc-f841dcc0501f-rep2.txt",
+      "sha256": "a43f0d7e94065fc6db401ecde06917d3046eec1f321c7b02567d85963b168106",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f841dcc0501f-rep3": {
+      "raw": "CONF-djangocms-rc-f841dcc0501f-rep3.txt",
+      "sha256": "4ae060e8c82ce6f7fbe23d9e19f2f8eabe37f47631817e29b6375c2c203a341c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fa3618e01890-rep1": {
+      "raw": "CONF-djangocms-rc-fa3618e01890-rep1.txt",
+      "sha256": "31b05969f0131f1aba71b481516051154c1e72bab7ba17acb73e182104460a00",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fa3618e01890-rep2": {
+      "raw": "CONF-djangocms-rc-fa3618e01890-rep2.txt",
+      "sha256": "d5ada7298da9d9d7e4863684fcff641040ebffd2f8ce980ba81976e46ec73a44",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fa3618e01890-rep3": {
+      "raw": "CONF-djangocms-rc-fa3618e01890-rep3.txt",
+      "sha256": "d0d1cb695dd89704dbaa3d3ac55ebbbb60c4390841c53751fd8b319288b48e74",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fbd21da92e78-rep1": {
+      "raw": "CONF-djangocms-rc-fbd21da92e78-rep1.txt",
+      "sha256": "0c2b9bb9781d884899e5ba4e491d5932d8564fa202eaca03497e62f435c91b64",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fbd21da92e78-rep2": {
+      "raw": "CONF-djangocms-rc-fbd21da92e78-rep2.txt",
+      "sha256": "931ea400d0bc453f117dc8a584f8cd2eeb507bdca3101bde6bb78597d6665ab1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fbd21da92e78-rep3": {
+      "raw": "CONF-djangocms-rc-fbd21da92e78-rep3.txt",
+      "sha256": "e6f06727cf0d37a562140c5170f7d8fd7aa75030a8da040c9ace9d4f84accf19",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fcb0c58bcf48-rep1": {
+      "raw": "CONF-djangocms-rc-fcb0c58bcf48-rep1.txt",
+      "sha256": "a9ae3407ac560576b6e7e6f32cb47c37c5200ee3d53c08ca759ee9cdd4700c83",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fcb0c58bcf48-rep2": {
+      "raw": "CONF-djangocms-rc-fcb0c58bcf48-rep2.txt",
+      "sha256": "b13ce7b861043125f4fe72f497c5a7c23e1fc502731d7b105b46aa216d3e9e07",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fcb0c58bcf48-rep3": {
+      "raw": "CONF-djangocms-rc-fcb0c58bcf48-rep3.txt",
+      "sha256": "5fdd3fd68418dd80e8080ff65b6e5d69a3e13adec1dc29ae52b9bd730c7b7354",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fffce810bb57-rep1": {
+      "raw": "CONF-djangocms-rc-fffce810bb57-rep1.txt",
+      "sha256": "ba8e99865e5a0382c67f193b366c2573f7c302d956a14df4b8f14ed7a18532c5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fffce810bb57-rep2": {
+      "raw": "CONF-djangocms-rc-fffce810bb57-rep2.txt",
+      "sha256": "1f66dcef6f106d61071539f22d2b91741b408237f592525e11fae2d1cc1629d3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fffce810bb57-rep3": {
+      "raw": "CONF-djangocms-rc-fffce810bb57-rep3.txt",
+      "sha256": "c2528327bd9fb6e9fd17739cb178ad735c6889b54eb82aa5f9b65d16b413c595",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-008c4f2638cb-b1": {
+      "raw": "CONF-djangocms-rc-008c4f2638cb-b1.txt",
+      "sha256": "eaf5d00588eecd5a8f3faaa371fe78989d2acb5158f9d00b37f38ce5547fbac6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-008c4f2638cb-b3": {
+      "raw": "CONF-djangocms-rc-008c4f2638cb-b3.txt",
+      "sha256": "e25490ae363a6bb03cbcfd45f2d7657df0a1148cef6e90f1582a88d58443e3c6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-008c4f2638cb-b5": {
+      "raw": "CONF-djangocms-rc-008c4f2638cb-b5.txt",
+      "sha256": "bae37369480e1543e5647869e4dfde34ae816bca3db12eb1b6c5373031cf7bbf",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-008c4f2638cb-b10": {
+      "raw": "CONF-djangocms-rc-008c4f2638cb-b10.txt",
+      "sha256": "80d469be8a3cc4d149e9b105ee2bd6ed1c70bd426e0f9bbd74d45bd12d28fa74",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-02046aa3bfe7-b1": {
+      "raw": "CONF-djangocms-rc-02046aa3bfe7-b1.txt",
+      "sha256": "bbb94c36883504ea70025562b350b82209aefe342e4776d980d2d9a9dd4bf028",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-02046aa3bfe7-b3": {
+      "raw": "CONF-djangocms-rc-02046aa3bfe7-b3.txt",
+      "sha256": "2f14ce23c1dcb76a14efbf5b1e9cc86095f0afb3ece08722e77bd513fc239267",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-02046aa3bfe7-b5": {
+      "raw": "CONF-djangocms-rc-02046aa3bfe7-b5.txt",
+      "sha256": "f5ce980df6b72b457e51186c8bf805b9c38bafcaf64bc2d14c61b47b21efeb0e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-02046aa3bfe7-b10": {
+      "raw": "CONF-djangocms-rc-02046aa3bfe7-b10.txt",
+      "sha256": "508d25d2f0ce6ed144085c759e0d118a94a79390266b2875291b3919f5e4cab5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-042c11c6341d-b1": {
+      "raw": "CONF-djangocms-rc-042c11c6341d-b1.txt",
+      "sha256": "b134e01c89a7fa793e7427dd498d7e7ccb3fae4f5752f2dc50261939c4f2bc6b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-042c11c6341d-b3": {
+      "raw": "CONF-djangocms-rc-042c11c6341d-b3.txt",
+      "sha256": "da1cae7ec7f28b98856e9312a6702a1bbb08d3edcda6af4f089cedc6e3330c4d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-042c11c6341d-b5": {
+      "raw": "CONF-djangocms-rc-042c11c6341d-b5.txt",
+      "sha256": "5f0cd462ae58a46c674b4553e9c360148b96cff840b80a288e3ff0b4448643fd",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-042c11c6341d-b10": {
+      "raw": "CONF-djangocms-rc-042c11c6341d-b10.txt",
+      "sha256": "c2f46844b02fe2167116112f4c5c18a93bb8f8e172b09ae9a4dcdffe4e2ed241",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-0b43a43c389b-b1": {
+      "raw": "CONF-djangocms-rc-0b43a43c389b-b1.txt",
+      "sha256": "edab529ef4c99029b947ed338547e884171b55717938b2e0de31d2507f4d5d5b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-0b43a43c389b-b3": {
+      "raw": "CONF-djangocms-rc-0b43a43c389b-b3.txt",
+      "sha256": "2dec8422cd0d1b290b9cde34421333e098e7b476615b45404216e788141192d0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-0b43a43c389b-b5": {
+      "raw": "CONF-djangocms-rc-0b43a43c389b-b5.txt",
+      "sha256": "20815b688beea4574543a4760509a709069184462e722c27aa9ec01a1f633f8a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-0b43a43c389b-b10": {
+      "raw": "CONF-djangocms-rc-0b43a43c389b-b10.txt",
+      "sha256": "f3c33ac312c48cb75a933cfe73f735eb24b8b3730e68293844594db520863620",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-12fd119a0c78-b1": {
+      "raw": "CONF-djangocms-rc-12fd119a0c78-b1.txt",
+      "sha256": "8f24db35be35ab6a3c3126c0a76b309fa51c5f77438466609bfeb3e527e1257b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-12fd119a0c78-b3": {
+      "raw": "CONF-djangocms-rc-12fd119a0c78-b3.txt",
+      "sha256": "0aa1cc7993f771f8aae111686a46c9af2344bddb679fd47343aa15e814b09913",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-12fd119a0c78-b5": {
+      "raw": "CONF-djangocms-rc-12fd119a0c78-b5.txt",
+      "sha256": "33e3876999575a838799a43b770df3c7071b541e9d4b4c845cdfd39b95a65aa0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-12fd119a0c78-b10": {
+      "raw": "CONF-djangocms-rc-12fd119a0c78-b10.txt",
+      "sha256": "95e04f4e4223248c0dc5271159857a3abdf397de3f3a03912b2be875742c1e0d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-13c112c90472-b1": {
+      "raw": "CONF-djangocms-rc-13c112c90472-b1.txt",
+      "sha256": "d2041099b3b5ed72f3f9525db2f393602d1eb375dd68dc36176af06cd3802d9e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-13c112c90472-b3": {
+      "raw": "CONF-djangocms-rc-13c112c90472-b3.txt",
+      "sha256": "6c0b146aecf309907f3df652dc01d2a2122610049195d7409d23523bd8ffc6ea",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-13c112c90472-b5": {
+      "raw": "CONF-djangocms-rc-13c112c90472-b5.txt",
+      "sha256": "d2532e4fd1293ce84f052acb920d82947849110b83dd78880bd27e42374f7159",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-13c112c90472-b10": {
+      "raw": "CONF-djangocms-rc-13c112c90472-b10.txt",
+      "sha256": "ea89f3af5b993a7bc797d882d9e1c6826ae3f52f1671b59326686c69357b8c61",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-17343b02e26d-b1": {
+      "raw": "CONF-djangocms-rc-17343b02e26d-b1.txt",
+      "sha256": "c36e4eec7ecdd478835606ce4cfa8f181ce07092ecf495efbdd42eee57d60b1e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-17343b02e26d-b3": {
+      "raw": "CONF-djangocms-rc-17343b02e26d-b3.txt",
+      "sha256": "24bdf0154071bce035f6179853746ca09ed566d887a490650df9310cf13d38b6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-17343b02e26d-b5": {
+      "raw": "CONF-djangocms-rc-17343b02e26d-b5.txt",
+      "sha256": "1432fdc9847147d2c59bfd65bf166630223293766eb4f4965b493f960cc0dc9f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-17343b02e26d-b10": {
+      "raw": "CONF-djangocms-rc-17343b02e26d-b10.txt",
+      "sha256": "8c3cec58cab8f1b8429ef0e542a5ef40e19f3f62a039b21b75a0d1b33b09f402",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1ac063f80325-b1": {
+      "raw": "CONF-djangocms-rc-1ac063f80325-b1.txt",
+      "sha256": "ecbca83a2dea9b5f27e2a85279b103d0f081ecca0095fd3c0d0a8cc3c5b0d6f3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1ac063f80325-b3": {
+      "raw": "CONF-djangocms-rc-1ac063f80325-b3.txt",
+      "sha256": "fd00800ba3ff2aba3f73a610764771fa3e406137a19de782a1956dca365d679e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1ac063f80325-b5": {
+      "raw": "CONF-djangocms-rc-1ac063f80325-b5.txt",
+      "sha256": "a11c5916eb550c1213c13e22af5b67c6f1239a14fddd209be4e963335e766bac",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1ac063f80325-b10": {
+      "raw": "CONF-djangocms-rc-1ac063f80325-b10.txt",
+      "sha256": "73e46936674d942a1933f00cfa91b590f945981de234ad95be3238a91c090681",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1d789468403f-b1": {
+      "raw": "CONF-djangocms-rc-1d789468403f-b1.txt",
+      "sha256": "b68d65aa09985b19843e4ee37472437a3574b2dc951f41bf768e705071633d7f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1d789468403f-b3": {
+      "raw": "CONF-djangocms-rc-1d789468403f-b3.txt",
+      "sha256": "35d2629086884b11be47f590d50bf8d4669c535835696c1e351c47269df85a8a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1d789468403f-b5": {
+      "raw": "CONF-djangocms-rc-1d789468403f-b5.txt",
+      "sha256": "099217e37b2e1e0135315e6dcb9182e4c46e5198ba6ec396271a7bc9f5b41557",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-1d789468403f-b10": {
+      "raw": "CONF-djangocms-rc-1d789468403f-b10.txt",
+      "sha256": "06accaf152e79d8063fb2fa95ca50b01c258f802127b942b6e0a72f1cb91cf30",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-250b17bfb670-b1": {
+      "raw": "CONF-djangocms-rc-250b17bfb670-b1.txt",
+      "sha256": "6e7ef9feeaeb76886175c6bd16c611373f04bb6680e600daa9d8705c9402461c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-250b17bfb670-b3": {
+      "raw": "CONF-djangocms-rc-250b17bfb670-b3.txt",
+      "sha256": "836f41035bd002648e4448103d92ecc0ac49fbea03b4ff0bcc465c00d6627898",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-250b17bfb670-b5": {
+      "raw": "CONF-djangocms-rc-250b17bfb670-b5.txt",
+      "sha256": "78eae90ef35bdfb77ad3ea718b32c02b5819e3e10eb7a2bdee5e8c315c9596c3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-250b17bfb670-b10": {
+      "raw": "CONF-djangocms-rc-250b17bfb670-b10.txt",
+      "sha256": "e9c14b38e2aba245cafabc2047828b1f1279d2871cff1fa9a7f02691da4b7557",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2704cd41e0f1-b1": {
+      "raw": "CONF-djangocms-rc-2704cd41e0f1-b1.txt",
+      "sha256": "da4af2fc1a2bbd68f83a353315973f9b6c1a05c2ce3fe075e8e8f31fc8a48b40",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2704cd41e0f1-b3": {
+      "raw": "CONF-djangocms-rc-2704cd41e0f1-b3.txt",
+      "sha256": "8adcc9248f3dc0dbfd73d54abc8d1167d2ce7c6cd2524645326b7def93f865b3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2704cd41e0f1-b5": {
+      "raw": "CONF-djangocms-rc-2704cd41e0f1-b5.txt",
+      "sha256": "8aa943725d91c5d437cd09f61e519f3543a6bb39f113f66aa336f74c49ad468f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2704cd41e0f1-b10": {
+      "raw": "CONF-djangocms-rc-2704cd41e0f1-b10.txt",
+      "sha256": "1ec8a69ca49cf2ee62a463e0a7c9dbc41eb6a6a0e0f9acb8c609b00a8f1ee73d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2d17eaa702bd-b1": {
+      "raw": "CONF-djangocms-rc-2d17eaa702bd-b1.txt",
+      "sha256": "1a56d5e0cd8d84483065558740b63bd7f08501096d2b08f19a6a243d3212a092",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2d17eaa702bd-b3": {
+      "raw": "CONF-djangocms-rc-2d17eaa702bd-b3.txt",
+      "sha256": "10432110b8388316b270db379ba72499974ae16f74a2c3fedca03edb16719e4d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2d17eaa702bd-b5": {
+      "raw": "CONF-djangocms-rc-2d17eaa702bd-b5.txt",
+      "sha256": "0aac3cd4066d1c0f339138a40768b1da3b264a74158e2d6973548b07b6f2e207",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-2d17eaa702bd-b10": {
+      "raw": "CONF-djangocms-rc-2d17eaa702bd-b10.txt",
+      "sha256": "17ffcc7911eb2c7b85989988bef851425d37a37c38df15d3c42227d502b4df13",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-32dde70e4165-b1": {
+      "raw": "CONF-djangocms-rc-32dde70e4165-b1.txt",
+      "sha256": "ea7f54fe178dc3a4c9e3fd3d3e9853096396c67cacd64211bc6f819695d4f225",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-32dde70e4165-b3": {
+      "raw": "CONF-djangocms-rc-32dde70e4165-b3.txt",
+      "sha256": "ff7f1628ae2d7b036e12759c5d798deba83dc021138896befec7782e96353f59",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-32dde70e4165-b5": {
+      "raw": "CONF-djangocms-rc-32dde70e4165-b5.txt",
+      "sha256": "8b588672e2369159b47f6770d969a9fcf92db9ad038b98b6bdb3ef0e5c9e237b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-32dde70e4165-b10": {
+      "raw": "CONF-djangocms-rc-32dde70e4165-b10.txt",
+      "sha256": "30f76f0afa9a981539b4feb54cfdeb8fce0275caf77feec52186d4f9497dc116",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-3a2157c0e22e-b1": {
+      "raw": "CONF-djangocms-rc-3a2157c0e22e-b1.txt",
+      "sha256": "a78fdb9eda20310f671d8236b3e1932e6064e9a28ca17e0f7e7d86838f8a081c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-3a2157c0e22e-b3": {
+      "raw": "CONF-djangocms-rc-3a2157c0e22e-b3.txt",
+      "sha256": "296f1133b8a4d5ff69797b74b6d484d023bc1bf9b8c2affd2aa331116b5836e3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-3a2157c0e22e-b5": {
+      "raw": "CONF-djangocms-rc-3a2157c0e22e-b5.txt",
+      "sha256": "afd6bcc7f2d94599b76c9646aeff36ee5168f9b829389b3b99f74773609b30c8",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-3a2157c0e22e-b10": {
+      "raw": "CONF-djangocms-rc-3a2157c0e22e-b10.txt",
+      "sha256": "7ad847e7a5130ff433abe0da622be4a6f8480094ae4bad784ff5b4b695a1b561",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4029cf0dd3ed-b1": {
+      "raw": "CONF-djangocms-rc-4029cf0dd3ed-b1.txt",
+      "sha256": "2a555cd8481b1b7268dc8bdaa0c5fe1c2a0c4521c50824074ea3754e4fe23705",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4029cf0dd3ed-b3": {
+      "raw": "CONF-djangocms-rc-4029cf0dd3ed-b3.txt",
+      "sha256": "32d91eb1b19314447eec5b8f86f393d50be03b668e6231dcc012f9c477c8f00d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4029cf0dd3ed-b5": {
+      "raw": "CONF-djangocms-rc-4029cf0dd3ed-b5.txt",
+      "sha256": "f9ea6c31cb89c47e394e9050eb71df55bb465262767bd7a43cce69b47c065fab",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4029cf0dd3ed-b10": {
+      "raw": "CONF-djangocms-rc-4029cf0dd3ed-b10.txt",
+      "sha256": "99cc81ac162a5ddc8b488978c3c92ece9e03a77972a45836f726ab8cf0875470",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4f2ec2361b0f-b1": {
+      "raw": "CONF-djangocms-rc-4f2ec2361b0f-b1.txt",
+      "sha256": "f5ed1ee12acaf112b05da83dfcf6eecd630673bf3b44a066dc38a7a95ee2530b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4f2ec2361b0f-b3": {
+      "raw": "CONF-djangocms-rc-4f2ec2361b0f-b3.txt",
+      "sha256": "61c21a11799443b820ef34b3d019f90268a007571cb850fdd91ef78e71b87015",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4f2ec2361b0f-b5": {
+      "raw": "CONF-djangocms-rc-4f2ec2361b0f-b5.txt",
+      "sha256": "791c0200df521f5c4edf85383931097d3a427a0b2c859b15abe8bbfd5283f19e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-4f2ec2361b0f-b10": {
+      "raw": "CONF-djangocms-rc-4f2ec2361b0f-b10.txt",
+      "sha256": "e26d391ff1af9c78039e1f762335c7ee02c4e1440f1a5094cd89bcd9b7aadaf0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-52d80990e700-b1": {
+      "raw": "CONF-djangocms-rc-52d80990e700-b1.txt",
+      "sha256": "dbcd042e0ed9a32408dbe00e05b3b243d1e68e928f0a90a8a95dc7234d197287",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-52d80990e700-b3": {
+      "raw": "CONF-djangocms-rc-52d80990e700-b3.txt",
+      "sha256": "2a6f1c9ec76bd774acf4f3db774cbbe0000dc7ad2bcd70531d843b8022a057e6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-52d80990e700-b5": {
+      "raw": "CONF-djangocms-rc-52d80990e700-b5.txt",
+      "sha256": "bf68dd7814c43aaeb8045d2f88050d52bf6fb6426b5491e5e89474d5ab91ca86",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-52d80990e700-b10": {
+      "raw": "CONF-djangocms-rc-52d80990e700-b10.txt",
+      "sha256": "903aff0e889f39049cee8d83e756754b691ac964c460c3da184229b0ac0c8ec3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-534660ae4acc-b1": {
+      "raw": "CONF-djangocms-rc-534660ae4acc-b1.txt",
+      "sha256": "d162531a84598fe1a804acb5b7c8da552f169c556b15befcbce2d779aef8fb66",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-534660ae4acc-b3": {
+      "raw": "CONF-djangocms-rc-534660ae4acc-b3.txt",
+      "sha256": "ad1d7917830c1bcb79bbca913fc5e97a723a4accdca5c6087f86e936ec760acf",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-534660ae4acc-b5": {
+      "raw": "CONF-djangocms-rc-534660ae4acc-b5.txt",
+      "sha256": "d7c0ad7d8f91777ec25bf769313da396e5d8c0578938a2a443d6bba7d48b6a73",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-534660ae4acc-b10": {
+      "raw": "CONF-djangocms-rc-534660ae4acc-b10.txt",
+      "sha256": "f7eaf0c41d4a5ac2ebe1d34b0b7db3f588841d87d70526301f248c6d787f6c6c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5461a59e9730-b1": {
+      "raw": "CONF-djangocms-rc-5461a59e9730-b1.txt",
+      "sha256": "482bf18e3769172bfd8cb7365deb841615d77878d5c3c53108a2ce21e4250bfe",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5461a59e9730-b3": {
+      "raw": "CONF-djangocms-rc-5461a59e9730-b3.txt",
+      "sha256": "818803105d40b4cc9e6b5b32d2813c18951574903b7a007346b04ddc3a3ace13",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5461a59e9730-b5": {
+      "raw": "CONF-djangocms-rc-5461a59e9730-b5.txt",
+      "sha256": "b6d9a6fb8699786d32c983fd203241b913c4c13a334d2eadad881e9f9c7f624c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5461a59e9730-b10": {
+      "raw": "CONF-djangocms-rc-5461a59e9730-b10.txt",
+      "sha256": "0b510bf9ab1e744df7ac2d360af53aa202dae7426f9f68feb029e54ebeff0f6b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-580d06e0ad4c-b1": {
+      "raw": "CONF-djangocms-rc-580d06e0ad4c-b1.txt",
+      "sha256": "042ea59ec6a64f12525782ea25fbf8419128ecd8f7c981dc75567b3ec33e6f24",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-580d06e0ad4c-b3": {
+      "raw": "CONF-djangocms-rc-580d06e0ad4c-b3.txt",
+      "sha256": "8f62f2c45815cd3d866482c7f044f503116ac2046054da2c09bd3f8caf59c7f5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-580d06e0ad4c-b5": {
+      "raw": "CONF-djangocms-rc-580d06e0ad4c-b5.txt",
+      "sha256": "fd4f9982d7aab269114aeb31486ebd772a910302f9a72202163b5a50cf7177d0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-580d06e0ad4c-b10": {
+      "raw": "CONF-djangocms-rc-580d06e0ad4c-b10.txt",
+      "sha256": "7c77c15685d25c39f86d9c659b7e94ed64199de68443010f4091da05309ff388",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5981dfc821f3-b1": {
+      "raw": "CONF-djangocms-rc-5981dfc821f3-b1.txt",
+      "sha256": "ac4f6be9ef1d2f514fcb7d5ff73412b23c432abf625d0bb2119c9bd8bdae7cd2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5981dfc821f3-b3": {
+      "raw": "CONF-djangocms-rc-5981dfc821f3-b3.txt",
+      "sha256": "ec5b6ee841f367a1df13908280e2a90a866f9058f55563b63745c0e98f678a23",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5981dfc821f3-b5": {
+      "raw": "CONF-djangocms-rc-5981dfc821f3-b5.txt",
+      "sha256": "d14cf2c398b93935e9b61fb7440e921a90780450fcc176205420085d165b48d5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5981dfc821f3-b10": {
+      "raw": "CONF-djangocms-rc-5981dfc821f3-b10.txt",
+      "sha256": "eb0eada977395a6dd754f72adceae6fe2fe9094aec21b8dbdff825f26a0ca59d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-59fa62cc0e1f-b1": {
+      "raw": "CONF-djangocms-rc-59fa62cc0e1f-b1.txt",
+      "sha256": "d4a4c0ae9601e6404b0f8d4851dc90fbb921a775ebfb18d755cd06c98dfe7cbb",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-59fa62cc0e1f-b3": {
+      "raw": "CONF-djangocms-rc-59fa62cc0e1f-b3.txt",
+      "sha256": "d3091ae78b5170e54d05cca9aaffb14da17d915d9228d1165b7fc004082b4882",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-59fa62cc0e1f-b5": {
+      "raw": "CONF-djangocms-rc-59fa62cc0e1f-b5.txt",
+      "sha256": "727c86052b03ddc5f4f36d58add25016fc3508a4fe229b55b04b7b0b8aa42880",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-59fa62cc0e1f-b10": {
+      "raw": "CONF-djangocms-rc-59fa62cc0e1f-b10.txt",
+      "sha256": "281060808b98905349f7c8007272efd4e94d76a57aedbed0adffcf5bd7199c95",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5b592b96fe95-b1": {
+      "raw": "CONF-djangocms-rc-5b592b96fe95-b1.txt",
+      "sha256": "f0e88b5673310e7dcef4960ff03c75cefe5792fdf81ed8c1035b6e93a1657e5c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5b592b96fe95-b3": {
+      "raw": "CONF-djangocms-rc-5b592b96fe95-b3.txt",
+      "sha256": "c9d0b0e69cc95f9dfdc327c6e3e7ac85fc53a3befeb48d139f2980f47d95692c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5b592b96fe95-b5": {
+      "raw": "CONF-djangocms-rc-5b592b96fe95-b5.txt",
+      "sha256": "8d849c1b9bbe8d43a63f24e40a265a1a8d59e029b1c18ba6a0d1f2f3dfc97c79",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5b592b96fe95-b10": {
+      "raw": "CONF-djangocms-rc-5b592b96fe95-b10.txt",
+      "sha256": "332af12e705afe73310afc1791c47ee63d13f78b035d2985c2fdd6083a228936",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5cbe72928ad9-b1": {
+      "raw": "CONF-djangocms-rc-5cbe72928ad9-b1.txt",
+      "sha256": "91839bd0759d4313bc753003adea17f697a30caf46ae93fffd64372a1563767c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5cbe72928ad9-b3": {
+      "raw": "CONF-djangocms-rc-5cbe72928ad9-b3.txt",
+      "sha256": "36ab14aff6ea601b4d2cfb8dfa9460ee2af83d0dccab22274081dd2d32137b84",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5cbe72928ad9-b5": {
+      "raw": "CONF-djangocms-rc-5cbe72928ad9-b5.txt",
+      "sha256": "4c4264c4d5207615945f985ec8c88f657851e2b40997fb9bbc492ec8141369e5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5cbe72928ad9-b10": {
+      "raw": "CONF-djangocms-rc-5cbe72928ad9-b10.txt",
+      "sha256": "586f1d7ae3763d0926c57a6dd6c01a775dce3b207772ac037e0c865c59cdb184",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5f36e1c40d34-b1": {
+      "raw": "CONF-djangocms-rc-5f36e1c40d34-b1.txt",
+      "sha256": "00e3a533c96c96962b8a928eb4abc9bed8bc5fefb18ec2bf85387ab1c20901d0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5f36e1c40d34-b3": {
+      "raw": "CONF-djangocms-rc-5f36e1c40d34-b3.txt",
+      "sha256": "dad0c204036c3d4b01f1f559e95b54b09c26193996e4f3e5a5de274e63fef78a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5f36e1c40d34-b5": {
+      "raw": "CONF-djangocms-rc-5f36e1c40d34-b5.txt",
+      "sha256": "1899a6c54ba965179c35c69c453a5c051202fc4edd2d0e3c7fae7f47048a7af0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-5f36e1c40d34-b10": {
+      "raw": "CONF-djangocms-rc-5f36e1c40d34-b10.txt",
+      "sha256": "3f62fd5d92976c3e25cba5830ea2a490b6aceaccee1dc132becb876f76db7342",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-63e51f37eabf-b1": {
+      "raw": "CONF-djangocms-rc-63e51f37eabf-b1.txt",
+      "sha256": "2e1d465782cf220dcf8c1fa8ae916dd99090ff5c4cf929b1ae757b4db71ccc00",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-63e51f37eabf-b3": {
+      "raw": "CONF-djangocms-rc-63e51f37eabf-b3.txt",
+      "sha256": "041cc3f8328952af72d22677c67c367f6484e1d05d7823b68270f857617facd0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-63e51f37eabf-b5": {
+      "raw": "CONF-djangocms-rc-63e51f37eabf-b5.txt",
+      "sha256": "c71727df4be33e53f482d1a6056809e1de6a11b5243067ed4c702f24b7c724d4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-63e51f37eabf-b10": {
+      "raw": "CONF-djangocms-rc-63e51f37eabf-b10.txt",
+      "sha256": "018ca94a09998f5ec4c8d7809561570cacb37059f4a5add9002f31215fa0b17e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-64079a1d5151-b1": {
+      "raw": "CONF-djangocms-rc-64079a1d5151-b1.txt",
+      "sha256": "a46a14353c455344f5fb5608c2479a34e48b72c1d7e3d16779c155dd4fae2f50",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-64079a1d5151-b3": {
+      "raw": "CONF-djangocms-rc-64079a1d5151-b3.txt",
+      "sha256": "96d865523d858b6758ca6a40eea8119610473633508bd15b70800f932db00413",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-64079a1d5151-b5": {
+      "raw": "CONF-djangocms-rc-64079a1d5151-b5.txt",
+      "sha256": "3bd42edcfd1fd3c409107e15c8f8a2339b0ef6546ad36136c047bf635f288f3a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-64079a1d5151-b10": {
+      "raw": "CONF-djangocms-rc-64079a1d5151-b10.txt",
+      "sha256": "cf0d17d6e2bd5bef9f9418611c4d0a233a80c8e26b51382dbb5c5b2b84da0b50",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6590c7b63c02-b1": {
+      "raw": "CONF-djangocms-rc-6590c7b63c02-b1.txt",
+      "sha256": "df60e2f91ac98d49ff55984c15ec1ea3635d09a3af5a4b1f75951c2ceb88a214",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6590c7b63c02-b3": {
+      "raw": "CONF-djangocms-rc-6590c7b63c02-b3.txt",
+      "sha256": "cd2b85870986eb291d3f93b10ebfd78880dc6d70e2b0f992cc8650beaeb7a832",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6590c7b63c02-b5": {
+      "raw": "CONF-djangocms-rc-6590c7b63c02-b5.txt",
+      "sha256": "de5d0fd1c46ae736594b0c4b62ac9dce15fb4c9a202425135d9f7df67664cb0e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6590c7b63c02-b10": {
+      "raw": "CONF-djangocms-rc-6590c7b63c02-b10.txt",
+      "sha256": "fac40529fb4916737d496555588ea66b800a861ffcdc7346418a7001356cb321",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-685361d475fc-b1": {
+      "raw": "CONF-djangocms-rc-685361d475fc-b1.txt",
+      "sha256": "6e242661bc07be9eb5ca0cbe5d3e401e0977b66ca155b95de8e1c909631bb9b3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-685361d475fc-b3": {
+      "raw": "CONF-djangocms-rc-685361d475fc-b3.txt",
+      "sha256": "e93af71aea54a5b9bfe0237cf894eed8f8d0821b49f19e89fc16504395f5fb19",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-685361d475fc-b5": {
+      "raw": "CONF-djangocms-rc-685361d475fc-b5.txt",
+      "sha256": "1388e7849cfdaa85bae39a26825d43a92306d8b38494b838667f13c728f631af",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-685361d475fc-b10": {
+      "raw": "CONF-djangocms-rc-685361d475fc-b10.txt",
+      "sha256": "142105d12ac9466f81e82e8fc07b0e9232372f0d7291c868686896c22b59b411",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-69962fe81975-b1": {
+      "raw": "CONF-djangocms-rc-69962fe81975-b1.txt",
+      "sha256": "0b2e59b87acd7f1de17c849b12e14004e18745b34086ff2116be79946e6dae88",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-69962fe81975-b3": {
+      "raw": "CONF-djangocms-rc-69962fe81975-b3.txt",
+      "sha256": "814442b539c77898bfce550ba7a7fe5d418c5729b9f828f70ee1469213c6caf5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-69962fe81975-b5": {
+      "raw": "CONF-djangocms-rc-69962fe81975-b5.txt",
+      "sha256": "7ba67b48431678765cea832d834d3844c46f2568a5f6c19fa202eefafd7675b2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-69962fe81975-b10": {
+      "raw": "CONF-djangocms-rc-69962fe81975-b10.txt",
+      "sha256": "68d6b12c2626ccc98f1580c39f4cec5f427b8a35200d615320f258d60a248c33",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6a4c24b9560a-b1": {
+      "raw": "CONF-djangocms-rc-6a4c24b9560a-b1.txt",
+      "sha256": "9a15445ccccb5832415cb4a4d81e30ec60a1be28c1d32cd65b62b312ac76b518",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6a4c24b9560a-b3": {
+      "raw": "CONF-djangocms-rc-6a4c24b9560a-b3.txt",
+      "sha256": "b1fca28f3e956d900f829638379577c08e61cf9cb371674a0545b343cf34b395",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6a4c24b9560a-b5": {
+      "raw": "CONF-djangocms-rc-6a4c24b9560a-b5.txt",
+      "sha256": "89c726ba85e6f9739b3a0534abab9a3fc888050af24e0dd2079799dab99472a5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6a4c24b9560a-b10": {
+      "raw": "CONF-djangocms-rc-6a4c24b9560a-b10.txt",
+      "sha256": "652bd5cc977f0cd281a8686b0f7b1787088cd405e6c60f631b45ff34d0ac2421",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6b7636900b12-b1": {
+      "raw": "CONF-djangocms-rc-6b7636900b12-b1.txt",
+      "sha256": "bca1b7c104bc5f56e5333adf202ae374fa57f0ef9a29d712b7ce3f17483df429",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6b7636900b12-b3": {
+      "raw": "CONF-djangocms-rc-6b7636900b12-b3.txt",
+      "sha256": "37648d38441f8ebba15c1ec0aed2c7b3d05d1d462ccdf41269ad46aa4423ee82",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6b7636900b12-b5": {
+      "raw": "CONF-djangocms-rc-6b7636900b12-b5.txt",
+      "sha256": "c31a863795490ca50733af7fd7d6a7430daf385d41854c7a249da34129d419de",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6b7636900b12-b10": {
+      "raw": "CONF-djangocms-rc-6b7636900b12-b10.txt",
+      "sha256": "657ae8f76c61d4606870a7ca7d6dbe86cd9c33ecba93fdd73c4a7aa88744885c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6fe8ff3682f7-b1": {
+      "raw": "CONF-djangocms-rc-6fe8ff3682f7-b1.txt",
+      "sha256": "53ace2be4775e7aa2b0b4a4593788b9960773c7de655fee83e61b46f33a56211",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6fe8ff3682f7-b3": {
+      "raw": "CONF-djangocms-rc-6fe8ff3682f7-b3.txt",
+      "sha256": "2c6f02fa3609d2b0d76768759ea67bc246797be144e9e1a785d09faf2867f506",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6fe8ff3682f7-b5": {
+      "raw": "CONF-djangocms-rc-6fe8ff3682f7-b5.txt",
+      "sha256": "7bcd1d19f1754d702a5c096ee745dd907b54fe95a6ca9bee458a1fa080e5b7cc",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-6fe8ff3682f7-b10": {
+      "raw": "CONF-djangocms-rc-6fe8ff3682f7-b10.txt",
+      "sha256": "d3e641aec06eb2320f0ca2aa598fc79e7707f9be122187aa6a0ff6209dfe10be",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-7091ea7e9a93-b1": {
+      "raw": "CONF-djangocms-rc-7091ea7e9a93-b1.txt",
+      "sha256": "cfdb5e83bf17a3da18a1aa8043fa8a8611dca2c188ef9f93ab923c4f572d6aa2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-7091ea7e9a93-b3": {
+      "raw": "CONF-djangocms-rc-7091ea7e9a93-b3.txt",
+      "sha256": "b07e545b67dd04d4ddbe348ce4858fced063fdc2c7b563f9b4159d85b9257ca3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-7091ea7e9a93-b5": {
+      "raw": "CONF-djangocms-rc-7091ea7e9a93-b5.txt",
+      "sha256": "8ed6b885ce5d76243e2f8bc8ad70b4d5ed01b32de46c91e18036107c7a2f6cc7",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-7091ea7e9a93-b10": {
+      "raw": "CONF-djangocms-rc-7091ea7e9a93-b10.txt",
+      "sha256": "33c10849d21b62ffac4786530e9b98e0afb76d778d93a05be92a8f0d8d808139",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-70a768663ec4-b1": {
+      "raw": "CONF-djangocms-rc-70a768663ec4-b1.txt",
+      "sha256": "1041248695511fd87e36858bb55bdb32179977299cd2b0df41215689587c2a5a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-70a768663ec4-b3": {
+      "raw": "CONF-djangocms-rc-70a768663ec4-b3.txt",
+      "sha256": "5cb1a203a94008b12c4bf73f8f0cf3f247d03fc2a9f4fe58eba979785f9d90e0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-70a768663ec4-b5": {
+      "raw": "CONF-djangocms-rc-70a768663ec4-b5.txt",
+      "sha256": "75aa6927ac24483e68dc0551b74330c93ca897201b55e5896936e34bb49b1299",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-70a768663ec4-b10": {
+      "raw": "CONF-djangocms-rc-70a768663ec4-b10.txt",
+      "sha256": "44825059947c4c397398369363b6c1eae2fa04dc830eb43ff134c40b18ce2aaa",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-76cb708f8111-b1": {
+      "raw": "CONF-djangocms-rc-76cb708f8111-b1.txt",
+      "sha256": "9bd59f5a68ae9ebf0a2997d123d1568fc07be9f4efbb7b764e0a68affd693c3c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-76cb708f8111-b3": {
+      "raw": "CONF-djangocms-rc-76cb708f8111-b3.txt",
+      "sha256": "47dbcad176851cb03ca286764b2ac6e29bb5c92eb768e9852b29e866afbe0675",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-76cb708f8111-b5": {
+      "raw": "CONF-djangocms-rc-76cb708f8111-b5.txt",
+      "sha256": "9466274689173107adfdec61151ae8d1771abdd992b2ad629f249248e20d358c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-76cb708f8111-b10": {
+      "raw": "CONF-djangocms-rc-76cb708f8111-b10.txt",
+      "sha256": "be6ca1e13c623aa420cf7a5c7612147dc880dd5d74237c54e156c1c11825c008",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-791c7cece600-b1": {
+      "raw": "CONF-djangocms-rc-791c7cece600-b1.txt",
+      "sha256": "78205518efa8ac05bd9ab39ad9c167b4b25df8346be21defd1be25aa819ef5ae",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-791c7cece600-b3": {
+      "raw": "CONF-djangocms-rc-791c7cece600-b3.txt",
+      "sha256": "b7dfca54580d0181b8a5a59b6c70c6df50cf3eb7b7a6704b9050d8c22afe9aff",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-791c7cece600-b5": {
+      "raw": "CONF-djangocms-rc-791c7cece600-b5.txt",
+      "sha256": "b1386e45cd7b26ee4a87c1e73e95d036ec2941cf447d6f5824f16cf8df61124d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-791c7cece600-b10": {
+      "raw": "CONF-djangocms-rc-791c7cece600-b10.txt",
+      "sha256": "14398991d9c381fec7b8649972da007b5c614411bed8ec732bf8d44472e8699a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-85e411ba30e1-b1": {
+      "raw": "CONF-djangocms-rc-85e411ba30e1-b1.txt",
+      "sha256": "c1442e48ef1d3f8380d552fab95c0abf681a672d2a89e8eed0cd6de206109f70",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-85e411ba30e1-b3": {
+      "raw": "CONF-djangocms-rc-85e411ba30e1-b3.txt",
+      "sha256": "b357d002868d62ba215c24c92a5c88cffd524fedc87b83a669ba3f6cda0bace1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-85e411ba30e1-b5": {
+      "raw": "CONF-djangocms-rc-85e411ba30e1-b5.txt",
+      "sha256": "523bd6ee24bd6c1bbe44ab36e906b12854a5f5dad3d66f806b2b8c8f22a3086f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-85e411ba30e1-b10": {
+      "raw": "CONF-djangocms-rc-85e411ba30e1-b10.txt",
+      "sha256": "58480c63246da8eb0642e40bbabff753ff59e9d9090930f350755ca5b77b96ff",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-894458e5b58e-b1": {
+      "raw": "CONF-djangocms-rc-894458e5b58e-b1.txt",
+      "sha256": "8372ae4faf258bdee8c20b4ec22df9852e4cd8fba57fa4d787f8af068d26139d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-894458e5b58e-b3": {
+      "raw": "CONF-djangocms-rc-894458e5b58e-b3.txt",
+      "sha256": "bdbc9cbdaab6912e68783783fcb2502a7cb2788365551b97554c44f27cf4644b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-894458e5b58e-b5": {
+      "raw": "CONF-djangocms-rc-894458e5b58e-b5.txt",
+      "sha256": "36a981eebc320f9fa4548c9d815d7a7b50f33ec8451fedd932fd10e9ffaca6ca",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-894458e5b58e-b10": {
+      "raw": "CONF-djangocms-rc-894458e5b58e-b10.txt",
+      "sha256": "264f7fbeac1ef1172ee5f9153d56fed106c2730f114762bd01b1780f1c7ac430",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8c7306591b84-b1": {
+      "raw": "CONF-djangocms-rc-8c7306591b84-b1.txt",
+      "sha256": "9a679e8b31dbc1b4765e00b2ab08f8339d63f73abd43d20e657bc67f0da59c97",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8c7306591b84-b3": {
+      "raw": "CONF-djangocms-rc-8c7306591b84-b3.txt",
+      "sha256": "8378d1c1f8d74c8f327bacdcf7f61f80792bc5697ac3e4fabbe8aff0ba3c62fa",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8c7306591b84-b5": {
+      "raw": "CONF-djangocms-rc-8c7306591b84-b5.txt",
+      "sha256": "9e2b43b9f15b6b22f61b03bf947cc2e155e167116c90b497086314ff3630d88c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8c7306591b84-b10": {
+      "raw": "CONF-djangocms-rc-8c7306591b84-b10.txt",
+      "sha256": "6f0b503410c17c72b385a6072ee6ff12361fcc68ed6074ca8cfedad68732f276",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8cfe0e93ba61-b1": {
+      "raw": "CONF-djangocms-rc-8cfe0e93ba61-b1.txt",
+      "sha256": "4629c2e841a58d7f563195ebcbb99637f68b8285f3a68c6cc9e9929c50d07578",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8cfe0e93ba61-b3": {
+      "raw": "CONF-djangocms-rc-8cfe0e93ba61-b3.txt",
+      "sha256": "7597d2651cb17792079393ae23bf8fc6095c155ed1acecec972c1e673c139df0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8cfe0e93ba61-b5": {
+      "raw": "CONF-djangocms-rc-8cfe0e93ba61-b5.txt",
+      "sha256": "c2437fe656e05621989b00d05639f94eb1acf42960018a38bcc7fe8e5e1595de",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8cfe0e93ba61-b10": {
+      "raw": "CONF-djangocms-rc-8cfe0e93ba61-b10.txt",
+      "sha256": "e6a1bf76f94b36940b88955199f37fa993f4039934901cf9736f32e95b72a74e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8ebb63d4fad0-b1": {
+      "raw": "CONF-djangocms-rc-8ebb63d4fad0-b1.txt",
+      "sha256": "a35be943196aea00444082ab86612b88cff76c189b83da0088077c0c365807a9",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8ebb63d4fad0-b3": {
+      "raw": "CONF-djangocms-rc-8ebb63d4fad0-b3.txt",
+      "sha256": "fa4da6096dcd22f03791a882bdbe85c1e8d8e40b696b23ec21f2e97fc6c1affc",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8ebb63d4fad0-b5": {
+      "raw": "CONF-djangocms-rc-8ebb63d4fad0-b5.txt",
+      "sha256": "af72e76140648b3d8dde51c9a4889e9ec11f180d7adc93841f72106d6fd722a9",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-8ebb63d4fad0-b10": {
+      "raw": "CONF-djangocms-rc-8ebb63d4fad0-b10.txt",
+      "sha256": "39713009c937a58f214bc43cc36feb964b166d4ceb792207ecf1afc5e932658a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-900e99d54663-b1": {
+      "raw": "CONF-djangocms-rc-900e99d54663-b1.txt",
+      "sha256": "57e86be209ada496e9bba36bb0ee9637fcd98385ac124f860bc07c13a8f160e3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-900e99d54663-b3": {
+      "raw": "CONF-djangocms-rc-900e99d54663-b3.txt",
+      "sha256": "8ad0aa6f3db05260e549db5583b4b698e68caaffb7f6f4d56de650f5c792de97",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-900e99d54663-b5": {
+      "raw": "CONF-djangocms-rc-900e99d54663-b5.txt",
+      "sha256": "6c090affe0f191eba7c691e7602504bfbd28d16096098b1bbb57603facb3d789",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-900e99d54663-b10": {
+      "raw": "CONF-djangocms-rc-900e99d54663-b10.txt",
+      "sha256": "8a2dbd81a01713d35dbdd52e1b345787c9f0cb6bb0a30c9f3e82a81365178bca",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9065e47df605-b1": {
+      "raw": "CONF-djangocms-rc-9065e47df605-b1.txt",
+      "sha256": "b0163effbf73f881fef5539cc9eeb52628a03c215b89842f5151fa5939a87c44",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9065e47df605-b3": {
+      "raw": "CONF-djangocms-rc-9065e47df605-b3.txt",
+      "sha256": "1d68fadb54b99c77962f9463b893ca1cf00ac17acc4df22c85868811ec593e8b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9065e47df605-b5": {
+      "raw": "CONF-djangocms-rc-9065e47df605-b5.txt",
+      "sha256": "06d4c782760d7395c86ec58953ea8f6ad1b7783a11291ec0952743455ddaa8ea",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9065e47df605-b10": {
+      "raw": "CONF-djangocms-rc-9065e47df605-b10.txt",
+      "sha256": "1fc3c1aa5146a4e02d2aecf2fa82ce0a54132e413134fe24d18c9ddb09b6f3a2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-93f6fc5083a7-b1": {
+      "raw": "CONF-djangocms-rc-93f6fc5083a7-b1.txt",
+      "sha256": "4e6ef3f425b34ef6261ef953d77a06dbf1cbd25639b215972da8eb935f11d097",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-93f6fc5083a7-b3": {
+      "raw": "CONF-djangocms-rc-93f6fc5083a7-b3.txt",
+      "sha256": "f16b4a529c9b30590a47e5017982e96ec97369df90f4a8593c9bb7f41d6228fc",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-93f6fc5083a7-b5": {
+      "raw": "CONF-djangocms-rc-93f6fc5083a7-b5.txt",
+      "sha256": "f4c3c61be5841144c87d62d310fb3e3d5be02095467f4311e601b4eacc114583",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-93f6fc5083a7-b10": {
+      "raw": "CONF-djangocms-rc-93f6fc5083a7-b10.txt",
+      "sha256": "021d87f757ce73f59510922ed7d76fc56224ee3c79fd9a737a71483f57e2a86d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-967b838d06ec-b1": {
+      "raw": "CONF-djangocms-rc-967b838d06ec-b1.txt",
+      "sha256": "9cf9e92257ba772d494c91d1ca2efb058800b76ddd1a5bb9812bdbc6fcd2dd02",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-967b838d06ec-b3": {
+      "raw": "CONF-djangocms-rc-967b838d06ec-b3.txt",
+      "sha256": "61c2f00f9888afd1e70cdcc1528868fccde4b8173928cd014d6b6d7cf39a024a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-967b838d06ec-b5": {
+      "raw": "CONF-djangocms-rc-967b838d06ec-b5.txt",
+      "sha256": "8602c456adee41a17c82f342a607d4d0995727ef4785f4773372cbe5eeb28677",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-967b838d06ec-b10": {
+      "raw": "CONF-djangocms-rc-967b838d06ec-b10.txt",
+      "sha256": "f111cf609a7c2fde0ba14ce9e0e2058d0c7294d933b16ef62e202b5e475b08c7",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9a7fe85199fc-b1": {
+      "raw": "CONF-djangocms-rc-9a7fe85199fc-b1.txt",
+      "sha256": "64160a53beadfe172ecb8ffd6c86817ec14e21d79c1f40550d2f7394811af20f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9a7fe85199fc-b3": {
+      "raw": "CONF-djangocms-rc-9a7fe85199fc-b3.txt",
+      "sha256": "461a65e8d4fa57f3ce6880a8e9a93b56aab087ff18a518289e37aacbaa8ddbeb",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9a7fe85199fc-b5": {
+      "raw": "CONF-djangocms-rc-9a7fe85199fc-b5.txt",
+      "sha256": "1de36e0335eb6cd6f186915e5c5598b441199eb82fc2c7f6e8c38332fd0f74d3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9a7fe85199fc-b10": {
+      "raw": "CONF-djangocms-rc-9a7fe85199fc-b10.txt",
+      "sha256": "d31a11ddbf085b5e2697ead0c37ea45a07079bdb213b32c044cd3eca0aec8c69",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9bc0b945ee7e-b1": {
+      "raw": "CONF-djangocms-rc-9bc0b945ee7e-b1.txt",
+      "sha256": "abc093a201899915cedf61f3300cfd34b47cf73a86076196490b7d3fe680e793",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9bc0b945ee7e-b3": {
+      "raw": "CONF-djangocms-rc-9bc0b945ee7e-b3.txt",
+      "sha256": "8b419c13404241970342d7113c0152a0b9eea2cd1bea9b23d3122a1ab5f89c67",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9bc0b945ee7e-b5": {
+      "raw": "CONF-djangocms-rc-9bc0b945ee7e-b5.txt",
+      "sha256": "b58e200f545e1513e5d81080202b3c9acd130fe5b02a8b906c0d320b58dd0766",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9bc0b945ee7e-b10": {
+      "raw": "CONF-djangocms-rc-9bc0b945ee7e-b10.txt",
+      "sha256": "0625fff1611fff27cd439505c2b69336cf867c0994ffadca54db8c9745d1908b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9c567c2f6bc0-b1": {
+      "raw": "CONF-djangocms-rc-9c567c2f6bc0-b1.txt",
+      "sha256": "650e08e2cf74c7cc7e31919b5aa41ec0750e9dc5e59ccc3c8b933f9a9f3eef83",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9c567c2f6bc0-b3": {
+      "raw": "CONF-djangocms-rc-9c567c2f6bc0-b3.txt",
+      "sha256": "260074c44ff7823a7eb5c88b1e7d594568f385b1e84428cddfe873d86bd999a3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9c567c2f6bc0-b5": {
+      "raw": "CONF-djangocms-rc-9c567c2f6bc0-b5.txt",
+      "sha256": "b10b6c24cf2af5176a7a78406788f6dd861bab51e06648cc2121bbf18a19ef77",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9c567c2f6bc0-b10": {
+      "raw": "CONF-djangocms-rc-9c567c2f6bc0-b10.txt",
+      "sha256": "d9137337a0ca19dc84650c8e1431a64409748ef245113a614592450a71e0e5a4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9f60f6999ffd-b1": {
+      "raw": "CONF-djangocms-rc-9f60f6999ffd-b1.txt",
+      "sha256": "49b2e00f0cceb50b4818408ccce7d15ef8ef79c5902758291871772b4f030e46",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9f60f6999ffd-b3": {
+      "raw": "CONF-djangocms-rc-9f60f6999ffd-b3.txt",
+      "sha256": "83a392105ba3960433eda7f2f9e87141378060f185c5a6f2234132f6b27277fe",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9f60f6999ffd-b5": {
+      "raw": "CONF-djangocms-rc-9f60f6999ffd-b5.txt",
+      "sha256": "465c2053fd962af67dc54ec47b7a27185d1b588e992e02bee6dbb3d583f1b93a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-9f60f6999ffd-b10": {
+      "raw": "CONF-djangocms-rc-9f60f6999ffd-b10.txt",
+      "sha256": "a2140cf4aec67f4c4341f849908656a7d29ee79f52b9808911a4ec590623907f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a06f6f937ad3-b1": {
+      "raw": "CONF-djangocms-rc-a06f6f937ad3-b1.txt",
+      "sha256": "e241ad53b40326a613c032d0162c4c6a2fd92eeb5409b0b64316132dce77a292",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a06f6f937ad3-b3": {
+      "raw": "CONF-djangocms-rc-a06f6f937ad3-b3.txt",
+      "sha256": "2529f3e043803b93dcf683fdc7834a16628d860c22efd2347c97d557ef5e170e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a06f6f937ad3-b5": {
+      "raw": "CONF-djangocms-rc-a06f6f937ad3-b5.txt",
+      "sha256": "65ca792d95fbcb8590fb299873367720316293c8b3bcb8275e718b1612c8796f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a06f6f937ad3-b10": {
+      "raw": "CONF-djangocms-rc-a06f6f937ad3-b10.txt",
+      "sha256": "974d898b7b2cc4b46408927755e9a85ab2aeb2d7e56b860b171a5c278d9458c7",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a0eeea8b883c-b1": {
+      "raw": "CONF-djangocms-rc-a0eeea8b883c-b1.txt",
+      "sha256": "21fa9271f3ca857a19a84e49dfdbeb8003cd0408615996a952039c85c96ad9cc",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a0eeea8b883c-b3": {
+      "raw": "CONF-djangocms-rc-a0eeea8b883c-b3.txt",
+      "sha256": "2c93ce30446528d4b8895c91c92eac65f2c185853e7f6c771369c311794cce1a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a0eeea8b883c-b5": {
+      "raw": "CONF-djangocms-rc-a0eeea8b883c-b5.txt",
+      "sha256": "80cf1c5e6233d020012814f0cd4d1d30c7be8e67b59bd835c205b7f7996cfb46",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a0eeea8b883c-b10": {
+      "raw": "CONF-djangocms-rc-a0eeea8b883c-b10.txt",
+      "sha256": "ef1692075ccce2c41d1f19de4159492c9d85867827a06462dac95e64e7b48daa",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a3a1b33ed3df-b1": {
+      "raw": "CONF-djangocms-rc-a3a1b33ed3df-b1.txt",
+      "sha256": "eeba39828825a8cdec7e1dda94887cd4a05b69576b227eb6f932bb6478544dd7",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a3a1b33ed3df-b3": {
+      "raw": "CONF-djangocms-rc-a3a1b33ed3df-b3.txt",
+      "sha256": "57c3dcd2193647c4b81c4233f4d508b5102b4ca670454a43127c4a9f9d6f616c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a3a1b33ed3df-b5": {
+      "raw": "CONF-djangocms-rc-a3a1b33ed3df-b5.txt",
+      "sha256": "d4422b14704e32571202719956963d2a7a7ee54652acb3089473755c9a8730f3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a3a1b33ed3df-b10": {
+      "raw": "CONF-djangocms-rc-a3a1b33ed3df-b10.txt",
+      "sha256": "ee2da7536b2837e0c035245c6e37f6141a7580530bb4803e6aabb02534e50b3f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a6a3331f15cc-b1": {
+      "raw": "CONF-djangocms-rc-a6a3331f15cc-b1.txt",
+      "sha256": "0d9d92fbc82fc1d359a0bff1d8284a6166e5bcb7778361a2c95e2bb3a46fe636",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a6a3331f15cc-b3": {
+      "raw": "CONF-djangocms-rc-a6a3331f15cc-b3.txt",
+      "sha256": "be10565e3fa3a41bf1d3bfadf7dddd332d6b4b7ff64db9ba39f102f7cd8cf756",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a6a3331f15cc-b5": {
+      "raw": "CONF-djangocms-rc-a6a3331f15cc-b5.txt",
+      "sha256": "09b4b313b934cd1f0dd359e2bd757aea966196e109156694a437d89a173c0abd",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-a6a3331f15cc-b10": {
+      "raw": "CONF-djangocms-rc-a6a3331f15cc-b10.txt",
+      "sha256": "debf9e3602f64f661f22dab0ea2f52e64acbd337dd07eb4675dfb924ecaf1b95",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-adbcb71be408-b1": {
+      "raw": "CONF-djangocms-rc-adbcb71be408-b1.txt",
+      "sha256": "e0814fcd9472557f72aad2e040935340ed82699e23840e4cefcbb74e79b4fb70",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-adbcb71be408-b3": {
+      "raw": "CONF-djangocms-rc-adbcb71be408-b3.txt",
+      "sha256": "5b6dca7934057fe685d3ba3251c3f64c9c72a4f41950ee5dd0c49bd022c80cb8",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-adbcb71be408-b5": {
+      "raw": "CONF-djangocms-rc-adbcb71be408-b5.txt",
+      "sha256": "fd2ece6fffc1dfad7ac51f0c2f2182582a71d4439363af3dcf4c472688a165d5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-adbcb71be408-b10": {
+      "raw": "CONF-djangocms-rc-adbcb71be408-b10.txt",
+      "sha256": "83b29450ca8ddce738ebcdd1a177d2b5616eea4ef3109864f6092d5d8a1bfea1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-afd7a4e6db4e-b1": {
+      "raw": "CONF-djangocms-rc-afd7a4e6db4e-b1.txt",
+      "sha256": "00336b92cf249e05544b313d488f8ef646c9e8a6000445f4bdd46c9b91137700",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-afd7a4e6db4e-b3": {
+      "raw": "CONF-djangocms-rc-afd7a4e6db4e-b3.txt",
+      "sha256": "58f0e8d13317a937537bb3d334b352e5a7fe37432222e71263283d29e0b9e3cb",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-afd7a4e6db4e-b5": {
+      "raw": "CONF-djangocms-rc-afd7a4e6db4e-b5.txt",
+      "sha256": "8a6502113923915b3019c54c3a2f7a44a521f96a97b3e89924d12b21f48a3434",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-afd7a4e6db4e-b10": {
+      "raw": "CONF-djangocms-rc-afd7a4e6db4e-b10.txt",
+      "sha256": "eb277ece94f447952edd2e0ccb7b0c040210e5ec96bd8f76a07eedc3debfb0f0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b09cf10cfe3e-b1": {
+      "raw": "CONF-djangocms-rc-b09cf10cfe3e-b1.txt",
+      "sha256": "c0bf15d17368e9e1c8b015f5f7da39369a565d54b1b98a1e9d878d800521285c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b09cf10cfe3e-b3": {
+      "raw": "CONF-djangocms-rc-b09cf10cfe3e-b3.txt",
+      "sha256": "e3f3d92a3d571dc920bc3da639b6f387f11cf9bff426d3183f0c6f984a251fd0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b09cf10cfe3e-b5": {
+      "raw": "CONF-djangocms-rc-b09cf10cfe3e-b5.txt",
+      "sha256": "9039a87b34038334e084eea9ef2072215c6ac00e825aa58009e1014e64eba8c3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b09cf10cfe3e-b10": {
+      "raw": "CONF-djangocms-rc-b09cf10cfe3e-b10.txt",
+      "sha256": "1aabb0fb8eb0acd2a99f6e56e361f4347fcd27a0844fd09f5164e596b13acebb",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b0f59bb55b57-b1": {
+      "raw": "CONF-djangocms-rc-b0f59bb55b57-b1.txt",
+      "sha256": "9cfc7f7c5dcbc4ccdbca5c113ceadfd64d9447d729e79ffc7ee80aafd6a43a25",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b0f59bb55b57-b3": {
+      "raw": "CONF-djangocms-rc-b0f59bb55b57-b3.txt",
+      "sha256": "87a5a9a92b47e6547b453b0101f22689524f4c678dfdf47349e9e919bf50a5b7",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b0f59bb55b57-b5": {
+      "raw": "CONF-djangocms-rc-b0f59bb55b57-b5.txt",
+      "sha256": "cde8ff195378bc13e5a1294e305db68bbc56a4d15462e7f78540846801c90f16",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b0f59bb55b57-b10": {
+      "raw": "CONF-djangocms-rc-b0f59bb55b57-b10.txt",
+      "sha256": "a140a8281873b69ea9123b0a8e03bb6fa6397f628f22c87178b6fa523044ded3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b1a758b65091-b1": {
+      "raw": "CONF-djangocms-rc-b1a758b65091-b1.txt",
+      "sha256": "49d529f100c5cae6e9173aef9dc7c53db2f90266ece653ffb1a29c62bd6276e4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b1a758b65091-b3": {
+      "raw": "CONF-djangocms-rc-b1a758b65091-b3.txt",
+      "sha256": "8070dcd806c8cf08dd1fe2190b5d77a44511c19bd023d3a13d43a0024e3cebb4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b1a758b65091-b5": {
+      "raw": "CONF-djangocms-rc-b1a758b65091-b5.txt",
+      "sha256": "b5aebb5d991a14b008838d20476d3701a078ba3f6f048cf1930854380d58cb31",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-b1a758b65091-b10": {
+      "raw": "CONF-djangocms-rc-b1a758b65091-b10.txt",
+      "sha256": "561ff6e95fee09525338ad6541a6853d154f229a925c83c308593ea2ff365089",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bacd85ddec7a-b1": {
+      "raw": "CONF-djangocms-rc-bacd85ddec7a-b1.txt",
+      "sha256": "fadd9ad663ac65265770c38c9fa12488b7aef47bfe641332229ec8b8dc45a26a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bacd85ddec7a-b3": {
+      "raw": "CONF-djangocms-rc-bacd85ddec7a-b3.txt",
+      "sha256": "2af2e33386a28849a177f813d46ed3ae42b80e95435234e202ff252f403d3e33",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bacd85ddec7a-b5": {
+      "raw": "CONF-djangocms-rc-bacd85ddec7a-b5.txt",
+      "sha256": "e2d5de2615b12c98e8f3c6a2b1a11b967997a704fc0ff5fa0c5bb14951425acf",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bacd85ddec7a-b10": {
+      "raw": "CONF-djangocms-rc-bacd85ddec7a-b10.txt",
+      "sha256": "433ceff41c78ec79196e7dbe7188480ce9d8c6e5911282d11a349b0d4c1b327e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdab9e9e8190-b1": {
+      "raw": "CONF-djangocms-rc-bdab9e9e8190-b1.txt",
+      "sha256": "b5825f9d785e676b079b0a5851bbfa8e2625862c34d446b8ea93794b18dfa019",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdab9e9e8190-b3": {
+      "raw": "CONF-djangocms-rc-bdab9e9e8190-b3.txt",
+      "sha256": "5f73e985995cfef7fdd0c2e4b789b61294e9e0db3ba05f7caee928ee8dd38349",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdab9e9e8190-b5": {
+      "raw": "CONF-djangocms-rc-bdab9e9e8190-b5.txt",
+      "sha256": "22f6e418e0c4eb09a9da382ffbd1bceb41cc01526254f338cc1c192a4ba535a0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdab9e9e8190-b10": {
+      "raw": "CONF-djangocms-rc-bdab9e9e8190-b10.txt",
+      "sha256": "e356060aa6addf452f7d79a54fb0f4745ef9458b391438b13bb47b6de42810f1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdf1a87e69f4-b1": {
+      "raw": "CONF-djangocms-rc-bdf1a87e69f4-b1.txt",
+      "sha256": "6e2cde1c325294dc7a051671eae19a060c2c1238ae45fe644b867b5b41de2849",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdf1a87e69f4-b3": {
+      "raw": "CONF-djangocms-rc-bdf1a87e69f4-b3.txt",
+      "sha256": "160be814ac805541d8ead93d2f4f4f413b2de690707889045e0ed8c0d12bbe3e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdf1a87e69f4-b5": {
+      "raw": "CONF-djangocms-rc-bdf1a87e69f4-b5.txt",
+      "sha256": "2e951b70307ab9a57b4cb951f47e2d51539442a170f0b3f1ba05fba2f380d361",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-bdf1a87e69f4-b10": {
+      "raw": "CONF-djangocms-rc-bdf1a87e69f4-b10.txt",
+      "sha256": "d78068899dd80950859e1345a00eb36d5032c85711c4f0484233c98d5cbd2fd8",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c089a988fb61-b1": {
+      "raw": "CONF-djangocms-rc-c089a988fb61-b1.txt",
+      "sha256": "91803270dd643ca4cd7b677782a0719321ff14ac4c4522dcccc14204d46a6430",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c089a988fb61-b3": {
+      "raw": "CONF-djangocms-rc-c089a988fb61-b3.txt",
+      "sha256": "bfd54d8c26ea1b769c7a25dd4d0259d60c34efe3010f2b7a0f000c16c1f725f6",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c089a988fb61-b5": {
+      "raw": "CONF-djangocms-rc-c089a988fb61-b5.txt",
+      "sha256": "c410d03015c9b1beabafa80f45ee8deafd97c68902a87ea09151b0eaaa0905c3",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c089a988fb61-b10": {
+      "raw": "CONF-djangocms-rc-c089a988fb61-b10.txt",
+      "sha256": "788f7fef458d3373144e5a1df74374b049cf2d86eaf40b20cbce05d6ca526af2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c64ee315eaef-b1": {
+      "raw": "CONF-djangocms-rc-c64ee315eaef-b1.txt",
+      "sha256": "105c46ae7616c6253f032156a50af73c87f68f98194e28e7666f82c23a1d891f",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c64ee315eaef-b3": {
+      "raw": "CONF-djangocms-rc-c64ee315eaef-b3.txt",
+      "sha256": "1736db7b9a7a71285fe95a78be502b073a9a7b89592e8a127d310840357f5ce2",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c64ee315eaef-b5": {
+      "raw": "CONF-djangocms-rc-c64ee315eaef-b5.txt",
+      "sha256": "b5d49033560129b23968c994c02439e71ee20722d995c27b19169d97e1d5a9d5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c64ee315eaef-b10": {
+      "raw": "CONF-djangocms-rc-c64ee315eaef-b10.txt",
+      "sha256": "44b483c2a723d624776b4c93778595118f8fa2d9692c2c8a4921c5e0abfdb891",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c7617f3150e3-b1": {
+      "raw": "CONF-djangocms-rc-c7617f3150e3-b1.txt",
+      "sha256": "62e2c0bc40d63b5d006cdc52321b09892a9dfbd91ef4160e051cb7c2f00a70b1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c7617f3150e3-b3": {
+      "raw": "CONF-djangocms-rc-c7617f3150e3-b3.txt",
+      "sha256": "ead8b534f1c96919521f46804becd186a00baecac0d1a6eb12910db314b5932b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c7617f3150e3-b5": {
+      "raw": "CONF-djangocms-rc-c7617f3150e3-b5.txt",
+      "sha256": "5dd575c35a6618b604c7e4022d694edb35b24e3573ca9cbce0d932e66e0f221c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-c7617f3150e3-b10": {
+      "raw": "CONF-djangocms-rc-c7617f3150e3-b10.txt",
+      "sha256": "cf3b97c9584a6d5b4b0e763e211a61b37906cd68aa708872c63018061f33a577",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d58e797a1c67-b1": {
+      "raw": "CONF-djangocms-rc-d58e797a1c67-b1.txt",
+      "sha256": "062ea4ac8d0796d34883abdd4ca62471aff1b180a9e91b810c681e14dc32e080",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d58e797a1c67-b3": {
+      "raw": "CONF-djangocms-rc-d58e797a1c67-b3.txt",
+      "sha256": "75d9ceb5c9723944f185ee0ecf5df25f713d252aeff505d391f4f8eeb5331055",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d58e797a1c67-b5": {
+      "raw": "CONF-djangocms-rc-d58e797a1c67-b5.txt",
+      "sha256": "f7d7ba60f650e690e6c23cad6724ae50c707db53122cfe6fbd1747d08556d371",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d58e797a1c67-b10": {
+      "raw": "CONF-djangocms-rc-d58e797a1c67-b10.txt",
+      "sha256": "dd45a6947a295a9e06deb7b8e52656ab088e0ddff0c50d5617afdb2b4420b389",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9367924a680-b1": {
+      "raw": "CONF-djangocms-rc-d9367924a680-b1.txt",
+      "sha256": "fdc413bed4a19a3859dabdf4eabd5155a8b345ca5dfe3e105bcd824d7eca8414",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9367924a680-b3": {
+      "raw": "CONF-djangocms-rc-d9367924a680-b3.txt",
+      "sha256": "ed5c75f7d338c69c1220241b04735dccc0f276b3b2fd272d460e25a99d4b4b9c",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9367924a680-b5": {
+      "raw": "CONF-djangocms-rc-d9367924a680-b5.txt",
+      "sha256": "94597c8f1088e4205ea95e194985bc53a5d6d0e777106d96c654dcdb306f834e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9367924a680-b10": {
+      "raw": "CONF-djangocms-rc-d9367924a680-b10.txt",
+      "sha256": "68d378b44f92388207574efcd4e6a3a81cd5f80407ad0520cf3a7361355cb783",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9a184051d93-b1": {
+      "raw": "CONF-djangocms-rc-d9a184051d93-b1.txt",
+      "sha256": "02dd6815c42e1682abac2729887ab20ed5fc24f8be8e1a04c152423da20c1775",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9a184051d93-b3": {
+      "raw": "CONF-djangocms-rc-d9a184051d93-b3.txt",
+      "sha256": "9ac2953a11b2183e4c991fb33ce44b86dcfe7e6f06623d4b4c85e983176d3107",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9a184051d93-b5": {
+      "raw": "CONF-djangocms-rc-d9a184051d93-b5.txt",
+      "sha256": "70c91c39c95dc55d3711732948a60745996b9df724fc30fee09d0cf972a3cfbd",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-d9a184051d93-b10": {
+      "raw": "CONF-djangocms-rc-d9a184051d93-b10.txt",
+      "sha256": "b05c1325623aa2a745a4c5cf1a2c79bd2222a07f1d0c07a25a8da6153cabca06",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-da37f26fbf2a-b1": {
+      "raw": "CONF-djangocms-rc-da37f26fbf2a-b1.txt",
+      "sha256": "c7b8f9ddabe5769566e2c530c0b3ccee93baafe2b6fc59c652aac0763be973e4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-da37f26fbf2a-b3": {
+      "raw": "CONF-djangocms-rc-da37f26fbf2a-b3.txt",
+      "sha256": "5d0a47bf3962d5fb86f7725dd093fb1e966a34f05301c466497ccb79e484e550",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-da37f26fbf2a-b5": {
+      "raw": "CONF-djangocms-rc-da37f26fbf2a-b5.txt",
+      "sha256": "71b04270ca7628d36e0183c682df0d5066c0bff9ccd50e81a5fabf467891b401",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-da37f26fbf2a-b10": {
+      "raw": "CONF-djangocms-rc-da37f26fbf2a-b10.txt",
+      "sha256": "7366729661742741898682da6989430e7fea46a5a90bf43b244b363f196e88ae",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-db4ff4162cf4-b1": {
+      "raw": "CONF-djangocms-rc-db4ff4162cf4-b1.txt",
+      "sha256": "bca8e3a40d666884e66ea004aff3bc852218c2d89e88dd3bcd03a603115680d5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-db4ff4162cf4-b3": {
+      "raw": "CONF-djangocms-rc-db4ff4162cf4-b3.txt",
+      "sha256": "c9350d26eb2fe18caed5966e26a9c02ddb9d8d5d67b99778234eed870912ae77",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-db4ff4162cf4-b5": {
+      "raw": "CONF-djangocms-rc-db4ff4162cf4-b5.txt",
+      "sha256": "790c7241993b4c661006f46242e45b8032e6e7d68d0dba88276fd04d74073ffd",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-db4ff4162cf4-b10": {
+      "raw": "CONF-djangocms-rc-db4ff4162cf4-b10.txt",
+      "sha256": "f5444ba57acde11fac592c4317e6c5cf7560f2036f077b2d1189c086df46423a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e1af99804564-b1": {
+      "raw": "CONF-djangocms-rc-e1af99804564-b1.txt",
+      "sha256": "a6fcd5befbfc1ce397e8347abb20f823825f4296e38a19bd0016fd9d9056dcdf",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e1af99804564-b3": {
+      "raw": "CONF-djangocms-rc-e1af99804564-b3.txt",
+      "sha256": "acd3dd035337f27281841c089ee502f3cda739eca0526414b1324cc78f274e3d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e1af99804564-b5": {
+      "raw": "CONF-djangocms-rc-e1af99804564-b5.txt",
+      "sha256": "c4fb89b255ff7ada7df223766b79aea9c52d40a21eb6406fa45810ac27a7aa10",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e1af99804564-b10": {
+      "raw": "CONF-djangocms-rc-e1af99804564-b10.txt",
+      "sha256": "f61777480a7f0e92a64f4f197e1fb00a3975fc243636740a8e5a85700ce9d53b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e264d04009ca-b1": {
+      "raw": "CONF-djangocms-rc-e264d04009ca-b1.txt",
+      "sha256": "a8f27bf0d8ebb677702b3a9270c0a5b69d70496021de9e0d090639b0c2af8319",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e264d04009ca-b3": {
+      "raw": "CONF-djangocms-rc-e264d04009ca-b3.txt",
+      "sha256": "c22f11dcc2946e8d174d8575d27e7ae15eea2e50986794643bc15a398153a8d4",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e264d04009ca-b5": {
+      "raw": "CONF-djangocms-rc-e264d04009ca-b5.txt",
+      "sha256": "1d2d2c4bb981757f06fee0b0f06f35b673c0032f4223d0f0ed040a183725c230",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-e264d04009ca-b10": {
+      "raw": "CONF-djangocms-rc-e264d04009ca-b10.txt",
+      "sha256": "05ca86f74375af392d5957fc707e881fe31896905791c84cad986dae379aa2e5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-eab0f3410514-b1": {
+      "raw": "CONF-djangocms-rc-eab0f3410514-b1.txt",
+      "sha256": "bc054c26ae2cc96bf0c5a47a1376bef3a034ce8d450e943ef84b3c7de4beac71",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-eab0f3410514-b3": {
+      "raw": "CONF-djangocms-rc-eab0f3410514-b3.txt",
+      "sha256": "0b0cd9a714b03dd17025208f1ff877d11e6a74109ffc5ec895a42380f61e9951",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-eab0f3410514-b5": {
+      "raw": "CONF-djangocms-rc-eab0f3410514-b5.txt",
+      "sha256": "36506bc60b35188105637d4af4ddb02123c42a882b411c26e0aa42e1da1c1b01",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-eab0f3410514-b10": {
+      "raw": "CONF-djangocms-rc-eab0f3410514-b10.txt",
+      "sha256": "b25dfaf4aaf92a18e8e28d6f02fd59298cee2f86005c64b9f24c01d805b0b6f9",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-ebb7b96a752e-b1": {
+      "raw": "CONF-djangocms-rc-ebb7b96a752e-b1.txt",
+      "sha256": "637935c5e2abd9798764d2ab1e119e3318d717319d0095cd8b20656122b18270",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-ebb7b96a752e-b3": {
+      "raw": "CONF-djangocms-rc-ebb7b96a752e-b3.txt",
+      "sha256": "6bf32cbb23c9bc75f7c30a2d7484771231edc9ee968f60650c50e23541a3a847",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-ebb7b96a752e-b5": {
+      "raw": "CONF-djangocms-rc-ebb7b96a752e-b5.txt",
+      "sha256": "f80cc2de8f5110893af3a26ca86b2f818a41cce5c4badd1b1038a0a2178f1e06",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-ebb7b96a752e-b10": {
+      "raw": "CONF-djangocms-rc-ebb7b96a752e-b10.txt",
+      "sha256": "3baff9a749641b8f40d1487436d540d8b2376600c47b2208426a47de9026e44a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f572e38183fb-b1": {
+      "raw": "CONF-djangocms-rc-f572e38183fb-b1.txt",
+      "sha256": "c357f83339588b7d8bff06984718ea6b0c938d8b68f8d9ba7c9e20dba6e261d8",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f572e38183fb-b3": {
+      "raw": "CONF-djangocms-rc-f572e38183fb-b3.txt",
+      "sha256": "d5fb349cd7fb3f7a3656e7e4122bbedaefc2c81acbdfc443a897d9950cf151e0",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f572e38183fb-b5": {
+      "raw": "CONF-djangocms-rc-f572e38183fb-b5.txt",
+      "sha256": "6794dce9a1ddaac0cdb47e0f2844130c0876bcf5848c309fdddb681b1990f0a1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f572e38183fb-b10": {
+      "raw": "CONF-djangocms-rc-f572e38183fb-b10.txt",
+      "sha256": "d4ead29da65001ae4eed1dc779f04d3fed097d99bd3532713676a2b73b72466b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f841dcc0501f-b1": {
+      "raw": "CONF-djangocms-rc-f841dcc0501f-b1.txt",
+      "sha256": "8525aaa704444c3d59b4598c4fde560383be462a0ff02a9bc52a73e3c0964a2e",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f841dcc0501f-b3": {
+      "raw": "CONF-djangocms-rc-f841dcc0501f-b3.txt",
+      "sha256": "4aa6fd57881eb81ccb584517b58c4eea5c3b21f881a170c790716fbc1a29275a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f841dcc0501f-b5": {
+      "raw": "CONF-djangocms-rc-f841dcc0501f-b5.txt",
+      "sha256": "3e9697efa27ce76e70aac4bd90b128cbf997912d5e625c0bf32f208651082115",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-f841dcc0501f-b10": {
+      "raw": "CONF-djangocms-rc-f841dcc0501f-b10.txt",
+      "sha256": "d8fa004067b56125ab3f7973d61b7b423f8f23afaba9fd029aa47a4e1e127ab1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fa3618e01890-b1": {
+      "raw": "CONF-djangocms-rc-fa3618e01890-b1.txt",
+      "sha256": "d9f7352c445b3d11e855efc2638ca67646279711c8b2695033b81cd80d6b7fb5",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fa3618e01890-b3": {
+      "raw": "CONF-djangocms-rc-fa3618e01890-b3.txt",
+      "sha256": "ae6eb2aac238e1a4671f7526d737cca543911fe37811e6f79eebdf3b6bd9b5bb",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fa3618e01890-b5": {
+      "raw": "CONF-djangocms-rc-fa3618e01890-b5.txt",
+      "sha256": "215a191c8fcfd4ef7cab32480ff66c02ebe01de75254f22764c818eb28501694",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fa3618e01890-b10": {
+      "raw": "CONF-djangocms-rc-fa3618e01890-b10.txt",
+      "sha256": "1bc863acfd488545b5add62f5b5c99d1b950bf944d5a72fe657c57c6eba0df86",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fbd21da92e78-b1": {
+      "raw": "CONF-djangocms-rc-fbd21da92e78-b1.txt",
+      "sha256": "b8fc0bf9e250fca49ad8be8489e28855ec74d0bd790c2633cb9ddc30ecd3077b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fbd21da92e78-b3": {
+      "raw": "CONF-djangocms-rc-fbd21da92e78-b3.txt",
+      "sha256": "edd0cd4ea6f765841bbf366db37f36a031c13072b26b749a1cf0c4e5b54ea678",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fbd21da92e78-b5": {
+      "raw": "CONF-djangocms-rc-fbd21da92e78-b5.txt",
+      "sha256": "99cc663538aaf50f0fae0e2876338c76dc1f64217fdd160e7380d90cb8224979",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fbd21da92e78-b10": {
+      "raw": "CONF-djangocms-rc-fbd21da92e78-b10.txt",
+      "sha256": "68a6093eca6ef738428ca1d1a5ced7572964d23d28215929010dfb6036e2baa1",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fcb0c58bcf48-b1": {
+      "raw": "CONF-djangocms-rc-fcb0c58bcf48-b1.txt",
+      "sha256": "8d6d03590017ff9a28e6631273505e45d8f44c063e2c66d22949f1205bf5db6d",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fcb0c58bcf48-b3": {
+      "raw": "CONF-djangocms-rc-fcb0c58bcf48-b3.txt",
+      "sha256": "2f09b023d39903a466448d22c0a138e2fa60ea589a4823f0ea10f31024f55aaf",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fcb0c58bcf48-b5": {
+      "raw": "CONF-djangocms-rc-fcb0c58bcf48-b5.txt",
+      "sha256": "4848aa2703afd1cc2272a706dd04e46be14c2e6d6d37de2c0507b81b63c47e48",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fcb0c58bcf48-b10": {
+      "raw": "CONF-djangocms-rc-fcb0c58bcf48-b10.txt",
+      "sha256": "efdc2765d0697eae7d8ef2c4db2041238597dadfa727dea41f80243fbfb19a0a",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fffce810bb57-b1": {
+      "raw": "CONF-djangocms-rc-fffce810bb57-b1.txt",
+      "sha256": "5ea27b0d89ba8b4ee7449b1ee3f19110d960d9a3512fc722744e3eab57aede6b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fffce810bb57-b3": {
+      "raw": "CONF-djangocms-rc-fffce810bb57-b3.txt",
+      "sha256": "7314b5c6bf35c425e717b6b13cecfd3d8b28d197b376108e3488254364bd699b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fffce810bb57-b5": {
+      "raw": "CONF-djangocms-rc-fffce810bb57-b5.txt",
+      "sha256": "27c9e6e74d2e8cacd7d01498396b3317d4d27e3e53784ac4e37468004e33e1ab",
+      "verified": true,
+      "terminal_status": "succeeded"
+    },
+    "CONF-djangocms-rc-fffce810bb57-b10": {
+      "raw": "CONF-djangocms-rc-fffce810bb57-b10.txt",
+      "sha256": "1bdb4ccda62b07780bdd27991492424580722703035d2d53ce7503c1c945b71b",
+      "verified": true,
+      "terminal_status": "succeeded"
+    }
+  },
+  "created_at": "2026-09-17T19:09:19.433161+00:00"
+}
