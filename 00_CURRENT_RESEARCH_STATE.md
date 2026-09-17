@@ -182,6 +182,52 @@ Evidence: `reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md`,
 `reports/DJANGOCMS_CONFIRMATORY_AUDIT.md`,
 `research/djangocms-confirmatory-route-b/confirmatory_metrics.json`.
 
+**CURRENT TRUTH (2026-09-17, PROPOSAL V1.5 POLISH + MATRIX + ABSTRACT +
+SLIDE HANDOFF — docs-only milestone; ZERO API; no scientific input change;
+V1.4 immutable):**
+→ **V1.5 CREATED** (`msc_proposal/MSC_PROPOSAL_V1_5.tex/.pdf`; V1.4 remains
+byte-identical, SHA-256 `07cb0588…`): (1) **abstract rewritten** to the
+doctor-guide order (problem/context → limitation → precise gap → proposed
+approach → experimental setting → strongest result only → confirmatory status
+→ one scope limitation); "for the first time" and unscoped "robust" removed;
+secondary details demoted to Preliminary Evidence (`ABSTRACT_REWRITE_NOTE.md`);
+(2) **related-work comparison matrix ADDED** (Section 5, two compact
+`tabularx` tables — design/structure + evidence/position; rows: Classical/
+history CIA, Agentless, CodePlan, RepoCoder, LocAgent, GraphLocator, RepoGraph,
+This proposal) — fixes the Section 4 forward-reference without deleting it; new
+verified reference `repograph2025` (ICLR 2025, arXiv:2410.14684, verified from
+the arXiv API); `references.bib` now 22 entries, 22/22 cited, no uncited dump;
+(3) **terminology/claim-safety pass**: "Classical-CIA" → `BM25+Graph-Neighbor
+Composite (historical label: Classical-CIA)` / `BM25+GraphNeighbor`; "fair
+comparison" → `shared-protocol, budget-matched comparison`; "missed impacted
+files" → `missed files in the observed historical change-set proxy`; ranking ≠
+verification ≠ final localization made explicit; (4) **P2 stated as NOT
+complete** — development research program (Nov 2026–Mar 2027), not a proven
+contribution, with competitor/analogue families named (selective prediction,
+cascades, optimal stopping, budgeted retrieval, value-of-information,
+interpretable adaptive stopping); (5) **NestJS/NextJS = future external-validity
+work only** (April 2027, conditional on the suitability gate AND
+TypeScript-extractor readiness). Compile: **12 pages**, zero overfull, zero
+underfull, zero undefined citations, zero BibTeX warnings; PDF SHA-256
+`67dff046347847e1f80e01bdf313acf3cf2a577bfa2783f02686c4e3cf041ef7`.
+→ **SLIDE HANDOFF PACKAGE CREATED** (`slides/HANDOFF_INTERACTIVE_MSC_SEMINAR_SLIDES.md`):
+one-minute story, 20-slide interactive outline (18–24 range), toy 10-file
+example, definitions (Sparse, Route B, B, Random, BM25, Composite, Oracle,
+Verifier), frozen key numbers (Saleor 450/446/$2.31; Saleor B=5 0.237 vs 0.006;
+djangoCMS confirmatory 560 calls/1.47M tokens/$0.506; confirmatory B=5 0.165 vs
+0.0277; verifier B=5 ORR 0.1007; final set @B=5 P0.206/R0.284/F1 0.239/FNR
+0.716), claim boundaries, Q&A — sufficient for a fresh LLM to build the deck
+without reading the repo.
+→ **P2 DOCS ALIGNED** (roadmap/evaluation-contract/pre-registration-note):
+P2 NOT complete; fixed Route B CONFIRMED; P2 = development research program;
+April 2027 NestJS/NextJS external-validity conditional on suitability gate +
+TS extractor; pre-registration gate 1 now satisfied (confirmatory CONFIRMED),
+gate 2 (approved adaptive protocol) still pending.
+→ **BOUNDARY HELD:** ZERO API; no method/ranker/verifier change; djangoCMS
+RESERVE + Saleor INTERNAL_TEST/RESERVE still sealed; the opened djangoCMS
+INTERNAL_TEST permanently spent (never reused as a fresh P2 test); no stable
+tag moved.
+
 ---
 
 ## 1. Submitted science — FROZEN (do not touch, do not rerun)

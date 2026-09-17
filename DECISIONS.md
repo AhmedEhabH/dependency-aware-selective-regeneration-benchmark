@@ -895,3 +895,41 @@ esearch/literature/idea_ledger.md I1/I2/I5/I6. Do NOT start:
   docs/ADAPTIVE_BUDGET_P2_PRE_REGISTRATION_NOTE.md.
 - **Revisit:** monthly during Nov 2026 - Mar 2027; P2 may be closed negative
   early with the fixed-B thesis intact.
+
+## Decision P57 - Proposal V1.5 created (doctor-guide polish; ZERO API) (2026-09-17)
+
+- **Status:** ADOPTED (V1.4 immutable; docs-only milestone)
+- **Context:** the NEXT MISSION mandates a doctor-guide-compliant abstract
+  rewrite, a related-work comparison matrix (fixing the Section 4
+  forward-reference), a terminology/claim-safety pass, a slide-handoff
+  package, and P2 status alignment. No new scientific evidence exists beyond
+  V1.4 (the confirmatory result was already in V1.4).
+- **Chosen:** create V1.5 as a POLISH of V1.4 with: (1) abstract rewritten to
+  the doctor-guide order (problem/context -> limitation -> precise gap ->
+  approach -> setting -> strongest result only -> confirmatory status -> one
+  scope limitation), removing "for the first time" and unscoped "robust";
+  (2) related-work comparison matrix ADDED in Section 5 (two compact tables,
+  rows Classical/history CIA, Agentless, CodePlan, RepoCoder, LocAgent,
+  GraphLocator, RepoGraph, This proposal; columns Input | Output unit | First
+  pass? | Second stage? | History? | Graph? | Budget-aware? | False-negative
+  recovery? | Real commits? | Cross-repo? | Main difference);
+  (3) terminology pass ("Classical-CIA" -> "BM25+Graph-Neighbor Composite
+  (historical label: Classical-CIA)" / BM25+GraphNeighbor; "fair comparison" ->
+  "shared-protocol, budget-matched comparison"; "missed impacted files" ->
+  "missed files in the observed historical change-set proxy"; ranking !=
+  verification != final localization explicit); (4) P2 stated as NOT complete
+  (development research program, not a proven contribution); (5) NestJS/NextJS
+  = future external-validity work only (April 2027, suitability gate +
+  TypeScript extractor).
+- **New verified reference:** RepoGraph (ICLR 2025, arXiv:2410.14684)
+  verified from the arXiv API 2026-09-17 (added to references.bib).
+- **Compile:** 12 pages; zero overfull/zero underfull/zero undefined citations;
+  22/22 references cited; PDF SHA-256
+  67dff046347847e1f80e01bdf313acf3cf2a577bfa2783f02686c4e3cf041ef7.
+- **Rejected:** deleting the Section 4 forward-reference instead of adding the
+  matrix; creating V1.6 (not needed); touching sealed sets; any method change.
+- **Evidence:** msc_proposal/MSC_PROPOSAL_V1_5.tex/.pdf,
+  PROPOSAL_V1_5_AUDIT.md, PROPOSAL_V1_5_CHANGELOG.md,
+  PROPOSAL_V1_5_CLAIMS_MATRIX.md, ABSTRACT_REWRITE_NOTE.md,
+  slides/HANDOFF_INTERACTIVE_MSC_SEMINAR_SLIDES.md.
+- **Revisit:** V1.6 only if a further material scientific change occurs.
