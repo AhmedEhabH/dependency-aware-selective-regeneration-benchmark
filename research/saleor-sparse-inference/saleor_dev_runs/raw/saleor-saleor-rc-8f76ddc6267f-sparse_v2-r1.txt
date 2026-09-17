@@ -1,0 +1,13 @@
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1789644698-N69mbW4pvbmWSKRziQjv","object":"chat.completion","created":1789644698,"model":"qwen/qwen3-coder","provider":"DeepInfra","system_fingerprint":null,"service_tier":null,"choices":[{"index":0,"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","message":{"role":"assistant","content":"{\n  \"decisions\": [\n    {\n      \"id\": 633,\n      \"action\": \"REGENERATE\",\n      \"rationale\": \"The commit modifies the webhook dry run functionality to use the mutation's context instead of creating a dummy one, which directly impacts the implementation of the webhook dry run mutation.\",\n      \"confidence\": 0.95,\n      \"reason_codes\": [\"requirement_change\"],\n      \"evidence\": [\n        {\n          \"source\": \"Commit intent\",\n          \"description\": \"Use `webhookDryRun` mutation's context instead of creating dummy one\"\n        }\n      ]\n    },\n    {\n      \"id\": 154,\n      \"action\": \"VALIDATE\",\n      \"rationale\": \"Changes involve disabling the dry run option for GiftCardSent webhook, suggesting potential modifications in gift card related modules.\",\n      \"confidence\": 0.85,\n      \"reason_codes\": [\"architecture\"],\n      \"evidence\": [\n        {\n          \"source\": \"Commit intent\",\n          \"description\": \"Disable dry run option for GiftCardSent webhook\"\n        }\n      ]\n    }\n  ],\n  \"validation_obligations\": [],\n  \"architecture_checks\": [\n    \"Verify that webhook dry run mutations correctly utilize GraphQL context without side effects\",\n    \"Ensure GiftCardSent webhook behavior aligns with updated dry run restrictions\"\n  ],\n  \"escalation_reason\": \"\"\n}","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":17151,"completion_tokens":290,"total_tokens":17441,"cost":0.0054353,"is_byok":false,"prompt_tokens_details":{"cached_tokens":0,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.0054353,"upstream_inference_prompt_cost":0.0051453,"upstream_inference_completions_cost":0.00029},"completion_tokens_details":{"reasoning_tokens":0,"image_tokens":0,"audio_tokens":0}}}

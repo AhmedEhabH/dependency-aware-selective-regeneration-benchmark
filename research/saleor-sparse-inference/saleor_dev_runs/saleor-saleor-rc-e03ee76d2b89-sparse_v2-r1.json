@@ -1,0 +1,53 @@
+{
+  "run_id": "saleor-saleor-rc-e03ee76d2b89-sparse_v2-r1",
+  "case_id": "saleor-rc-e03ee76d2b89",
+  "repetition": 1,
+  "arm": "sparse_v2",
+  "serialization_policy": "sparse_v2",
+  "scientific_model": "qwen/qwen3-coder",
+  "provider_tag": "deepinfra/turbo",
+  "exact_model": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "temperature": 0.0,
+  "completion_cap": 16384,
+  "graph": "OFF",
+  "request_dispatched": true,
+  "prompt_sha256": "a03b91e648b16fc4c1badd40cc43cd4fe348e2c9dde5e6cf7d70c06ad6816b0c",
+  "raw_response_sha256": "82e09bdd0640d1b2b2bd7a36a840a8fcb0d920c32465d4d523c13b5769808718",
+  "latency_seconds": 6.265,
+  "recorded_at": "2026-09-17T11:44:32.591766+00:00",
+  "provider_response_received": true,
+  "raw_response_persisted": true,
+  "usage_known": true,
+  "provider_name": "DeepInfra",
+  "finish_reason": "stop",
+  "truncation_status": false,
+  "prompt_tokens": 19587,
+  "completion_tokens": 273,
+  "total_tokens": 19860,
+  "model_calls": 1,
+  "api_cost": 0.006149,
+  "pricing_source": "frozen DeepInfra-through-OpenRouter pricing ($0.30/$1.00 per 1M)",
+  "schema_valid": true,
+  "failure_category": "",
+  "serialized_decision_count": 1,
+  "decoded_write_set_ids": [
+    917
+  ],
+  "predicted_write_set_size": 1,
+  "terminal_status": "succeeded",
+  "predicted_write_set": [
+    "saleor/seo/models.py"
+  ],
+  "hidden_proxy_used_after_inference": [
+    "saleor/graphql/core/validators/__init__.py"
+  ],
+  "tp": 0,
+  "fp": 1,
+  "fn": 1,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "fnr": 1.0,
+  "full_recall": false,
+  "proxy_size": 1
+}
