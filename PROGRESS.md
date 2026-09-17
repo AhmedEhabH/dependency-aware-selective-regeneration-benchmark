@@ -5,42 +5,41 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `feat/djangocms-confirmatory-p2-program-2026-09-17` (HEAD `7a458bd`;
-to merge to `main` as the confirmatory + P2-program milestone)
+**Branch:** `main`
+**HEAD:** `d3b9f3f` (merge of `feat/djangocms-confirmatory-p2-program-2026-09-17`)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** DJANGOCMS CONFIRMATORY RUN + P2 FIVE-MONTH ALGORITHM PROGRAM +
-PROPOSAL COVER (2026-09-17) — confirmatory INTERNAL_TEST EXECUTED (CONFIRMS),
-P2 literature/program underway — **IN PROGRESS (real confirmatory run done;
-P2 DEV-only)**
+PROPOSAL COVER (2026-09-17) — confirmatory INTERNAL_TEST **CONFIRMS**, P2
+program documented, proposal cover/timeline updated — **COMPLETE**
 
 ---
 
 ## Now executing
 
-- **Block A COMPLETE:** djangoCMS V2 INTERNAL_TEST confirmatory run executed
-  (Ahmed-authorized) under the frozen V2 protocol + budget: **560 calls /
-  1,470,174 tokens / $0.505917**, 0 failures, 0 excluded; composite ranker
-  beats analytic Random at every B with CIs excluding zero; gate PASS →
-  **classification CONFIRMS**.
-- **Block B IN PROGRESS:** freezing the fixed Route-B story (state/ledgers
-  updated; DEV vs CONFIRMATORY vs P2 evidence separated).
-- **Remaining:** C. P2 literature landscape; D. P2 roadmap; E. P2 common
-  evaluation contract; F. proposal cover/title page; G. timeline alignment;
-  H. semantic-audit package; I. traceability/git/release; J. final report.
+- **MILESTONE COMPLETE.** Confirmatory run executed (CONFIRMS), P2 five-month
+  program + landscape + roadmap + evaluation contract documented, proposal
+  title page + timeline aligned, merged to `main` (`d3b9f3f`), tagged, and
+  exported.
+- **Remaining:** none for this mission. Final report delivered; next step is
+  P2 program start (Nov 2026) and Ahmed/supervisor review of the proposal.
 
 ## Last completed task
 
-- Confirmatory run closure: result report
-  (`reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md`), machine JSON
-  (`research/djangocms-confirmatory-route-b/confirmatory_metrics.json`), raw
-  manifest (560/560 SHA verified), audit
-  (`reports/DJANGOCMS_CONFIRMATORY_AUDIT.md`).
+- Confirmatory + P2 program milestone: djangoCMS INTERNAL_TEST confirmatory run
+  (560 calls / 1,470,174 tokens / $0.505917; CONFIRMS); P2 landscape (24
+  entries) + roadmap + evaluation contract (DEVELOPMENT-only); proposal
+  conservative title page + Nov 2026–Oct 2027 timeline aligned to the real P2
+  program; full suite 3303 passed / 33 skipped / 2 pre-existing environmental
+  failures; merge to main (`d3b9f3f`); tag
+  `confirmatory-routeb-v2-2026-09-17`; LIGHT export.
 
 ## Immediate next step
 
-- Block C: P2 five-month algorithm program — systematic literature landscape
-  (Tracks A/B), `reports/P2_ALGORITHM_LANDSCAPE_2026-09.md`,
-  `research/literature/p2_algorithm_landscape.csv`, literature ledger update.
+- November 2026: start the P2 adaptive-budget program — close the fixed
+  Route-B confirmatory result (done), reproduce/verify the Shichao-Zhang
+  formulations, freeze the common P2 DEVELOPMENT evaluation harness, and
+  establish the fixed-B + three pre-registered stopping policies as anchors
+  (`docs/P2_IMPLEMENTATION_ROADMAP_2026_2027.md`).
 
 ## Blockers
 
