@@ -6,33 +6,43 @@ task, immediate next step, blockers). Scientific truth lives in
 `DECISIONS.md`.
 
 **Branch:** `main`
-**HEAD:** `a4c8a95` (pre-V1.5-polish)
+**HEAD:** `3ae9248` (merge of `docs/proposal-v1-5-polish-2026-09-17`)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** PROPOSAL V1.5 POLISH + RELATED-WORK MATRIX + ABSTRACT REWRITE +
 SLIDE HANDOFF PACKAGE (2026-09-17) — doctor-guide abstract, comparison matrix
-added, terminology pass, V1.5 artifacts, slide handoff, P2 status aligned
+added, terminology pass, V1.5 artifacts, slide handoff, P2 status aligned —
+**COMPLETE**
 **ZERO API; no scientific/method change; no sealed set opened.**
 
 ---
 
 ## Now executing
 
-- **MILESTONE IN PROGRESS (docs-only).** V1.5 proposal package drafted and
-  compiled clean (12 pages, zero overfull/zero undefined), comparison matrix
-  added, slide handoff package created, P2 status docs aligned. Remaining:
-  branch → commit → push → merge → tag → light export → final report.
+- **MILESTONE COMPLETE.** Proposal V1.5 polished and packaged (12 pages,
+  compile clean), related-work comparison matrix added, doctor-guide abstract
+  rewrite, terminology/claim-safety pass, slide handoff package, P2 status
+  aligned; merged to `main` (`3ae9248`), tagged
+  `proposal-v1-5-polish-2026-09-17`, LIGHT export created.
+- **Remaining:** none for this mission. Final report delivered; next step is
+  Ahmed/supervisor review of proposal V1.5 and the seminar deck build.
 
 ## Last completed task
 
-- Pre-V1.5: confirmatory + P2 program milestone (2026-09-17): djangoCMS
-  INTERNAL_TEST confirmatory run CONFIRMS; P2 five-month program documented;
-  merged to `main` (`d3b9f3f`); tag `confirmatory-routeb-v2-2026-09-17`;
-  light export.
+- Proposal V1.5 polish milestone (2026-09-17): abstract rewritten to the
+  doctor-guide order; related-work comparison matrix added (fixes the Section
+  4 forward-reference); "Classical-CIA"/"fair comparison"/"missed impacted
+  files" terminology corrected; P2 stated as NOT complete (development
+  research program); NestJS/NextJS = future external-validity work only;
+  `slides/HANDOFF_INTERACTIVE_MSC_SEMINAR_SLIDES.md` created; V1.5 artifacts
+  (tex/pdf/audit/changelog/claims-matrix/abstract-note) + independent audit;
+  ZERO API; V1.4 immutable; merged to main (`3ae9248`); tag
+  `proposal-v1-5-polish-2026-09-17`; LIGHT export.
 
 ## Immediate next step
 
-- Finish the V1.5 milestone: independent audit, targeted tests, git
-  branch/commit/push/merge/push, milestone tag, light export, final report.
+- Ahmed/supervisor review of proposal V1.5; build the interactive seminar deck
+  from `slides/HANDOFF_INTERACTIVE_MSC_SEMINAR_SLIDES.md`; then start the P2
+  program in November 2026.
 
 ## Blockers
 
