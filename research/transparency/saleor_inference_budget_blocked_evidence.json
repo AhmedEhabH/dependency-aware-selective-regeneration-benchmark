@@ -1,0 +1,38 @@
+{
+  "study": "saleor-sparse-v2-development",
+  "block": "C",
+  "date": "2026-09-17",
+  "model": "openrouter/deepseek/deepseek-v4-flash-0731",
+  "gates_before_call_1": {
+    "file": "reports/saleor_inference_gates.json",
+    "all_passed": true,
+    "n_gates": 8
+  },
+  "hard_ceiling": {
+    "cells": 450,
+    "tokens": 2700000,
+    "cost_usd": 1.0
+  },
+  "smoke_cell": {
+    "run_id": "saleor-djangocms-rc-012472eb8482-sparse_v2-r1",
+    "prompt_tokens": 14052,
+    "completion_tokens": 508,
+    "total_tokens": 14560,
+    "api_cost": 0.004724,
+    "terminal_status": "succeeded",
+    "raw_persisted": true
+  },
+  "projection_450_cells": {
+    "tokens_low": 6552000,
+    "tokens_median": 7447950,
+    "cost_low": 2.13,
+    "cost_median": 2.23,
+    "tokens_over_x": 2.4,
+    "cost_over_x": 2.2
+  },
+  "decision": "FAIL-CLOSED on budget; full 450-cell run NOT authorized by mission hard ceiling",
+  "run": "1/450 smoke only; remaining 449 NOT run",
+  "downstream_block_d": "BLOCKED (requires C complete)",
+  "cost_spent_usd": 0.004724,
+  "no_protocol_change": true
+}

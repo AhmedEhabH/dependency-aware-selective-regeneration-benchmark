@@ -1,0 +1,92 @@
+{
+  "study": "saleor-sparse-v2-development",
+  "ran_at": "2026-09-17T04:13:23.973748+00:00",
+  "all_passed": true,
+  "gates": {
+    "dataset_validation": {
+      "status": "PASS",
+      "dev_expected": 150,
+      "dev_built": 150,
+      "test_reserve_materialized": 0,
+      "split_seed": 20260916,
+      "role_counts": {
+        "DEV_TRAIN": 120,
+        "DEV_VALIDATION": 30,
+        "INTERNAL_TEST": 80,
+        "RESERVE": 1086
+      }
+    },
+    "input_validation": {
+      "status": "PASS",
+      "dry_rendered": 5,
+      "prompt_errors": [],
+      "leakage": "parent-only (frozen p1 bundle; hidden proxy separate)"
+    },
+    "pipeline_smoke": {
+      "status": "PASS",
+      "checked": 150,
+      "incomplete": []
+    },
+    "dry_run": {
+      "status": "PASS",
+      "cells": 450,
+      "cell_keys_ok": true,
+      "run_ids_unique": true
+    },
+    "integration": {
+      "status": "PASS",
+      "checked": 3,
+      "errors": []
+    },
+    "metric_verification": {
+      "status": "PASS",
+      "synthetic": {
+        "all": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "fnr": 0.0,
+          "full_recall": true,
+          "proxy_size": 2,
+          "predicted_size": 2
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 1,
+          "fn": 1,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "fnr": 0.5,
+          "full_recall": false,
+          "proxy_size": 2,
+          "predicted_size": 2
+        },
+        "none": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fnr": 1.0,
+          "full_recall": false,
+          "proxy_size": 2,
+          "predicted_size": 0
+        }
+      }
+    },
+    "portability_equivalence": {
+      "status": "PASS",
+      "evidence": "research/transparency/saleor_portability_fix_evidence.json"
+    },
+    "independent_audit": {
+      "status": "PASS",
+      "note": "rebuilt 98 canonical universe+graph hashes vs pre-portability snapshot",
+      "mismatches": 0
+    }
+  }
+}
