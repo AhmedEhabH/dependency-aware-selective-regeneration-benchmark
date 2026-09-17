@@ -277,3 +277,22 @@ under matched budgets (Route B).
 - **Novelty position unchanged:** CANDIDATE NOVELTY - NOT YET CLAIMED;
   combination of sparse policy + bounded omission recovery under matched
   budgets.
+
+## 14. Continuation update (2026-09-17)
+
+- **Saleor portability fix:** whole-tree git archive → production-only parent
+  materializer (git ls-tree + git cat-file --batch); 98/98 equivalence PASS;
+  150/150 DEVELOPMENT bundles; canonical hashes identical to pre-portability.
+  INTERNAL_TEST/RESERVE sealed. ZERO model calls.
+- **Saleor sparse inference budget-blocked:** measured ~14.5k tokens/.0047 per
+  cell → 450-cell run ~2.4-2.7x the authorized ceiling; FAIL-CLOSED; Saleor
+  Route-B replication therefore blocked. This is a ceiling issue, NOT a method
+  failure; the Saleor protocol §5.1 pre-warned about larger universes.
+- **djangoCMS Route-B confirmatory-freeze packet:** ready-to-approve; choice B
+  (ranking + actual verifier); INTERNAL_TEST sealed.
+- **P2 adaptive budget:** formalized + pre-registered 3 policies; CONDITIONAL.
+- **Semantic audit:** machine-prep complete (integrity PASS, kappa tests,
+  synthetic dry-run NOT REAL); human judgments pending.
+- **Novelty position unchanged:** candidate-level bounded omission recovery
+  under matched budgets (Route B V2) is the strongest dev signal; Saleor
+  replication and confirmatory test are the next gates.

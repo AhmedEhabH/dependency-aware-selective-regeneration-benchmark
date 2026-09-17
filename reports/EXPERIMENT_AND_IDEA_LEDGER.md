@@ -148,3 +148,19 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
 - **Result:** 83% of tasks reach >=90% Oracle@10 with B<5; diminishing marginal
   gain after B=3. Decision: WORTH-PURSUING AFTER FIXED ROUTE-B.
 - **Artifact:** docs/ADAPTIVE_VERIFICATION_BUDGET_RESEARCH_NOTE.md.
+
+## E-023 — Saleor case-bundle rebuild 150/150 via production-only materializer (2026-09-17)
+- **Status:** EXECUTED; equivalence gate 98/98 PASS; canonical hashes identical
+  to pre-portability snapshot (0 mismatch).
+- **Artifact:** reports/SALEOR_PORTABILITY_FIX_AND_150_BUILD_REPORT.md.
+
+## E-024 — Saleor sparse inference (Block C) — BLOCKED on budget
+- **Status:** 1/450 smoke cell executed (succeeded, .0047, raw+sha persisted);
+  full run fail-closed on budget. No Saleor predictions available -> Block D
+  (Route-B replication) blocked.
+- **Artifact:** reports/SALEOR_SPARSE_INFERENCE_BUDGET_BLOCKED_CLOSURE.md.
+
+## E-025 — djangoCMS Route-B confirmatory-freeze packet (Block E)
+- **Status:** COMPLETE (ready-to-approve; INTERNAL_TEST sealed). Choice B:
+  ranking + actual verifier.
+- **Artifact:** reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_FREEZE_PACKET.md.

@@ -22,24 +22,34 @@ candidate-level signal; Saleor Stage-2 READY-TO-RUN (full history 22,615
 commits; frame 6000→2409→1352→1316; split proposal; gates); semantic-proxy
 audit protocol + 25 DEVELOPMENT-only evidence packets; living-review novelty
 update; NestJS readiness (TS universe semantics).**
-→ **OMISSION-RISK FEATURE STUDY V1 COMPLETE AS A DETERMINISTIC-FIRST-PASS
-DEVELOPMENT ANALYSIS (2026-09-16; T3; ZERO new scientific LLM/API calls;
-registered Sparse-v2-label study DEFERRED — TRAIN/VALIDATION have no Sparse-v2
-predictions; Phase-B preflight A–G + six gates + independent audit PASS; the
-frozen approval-gated Sparse-v2 DEVELOPMENT-INFERENCE protocol is produced —
-`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`; no LLM call without
-approval).**
-→ **REGISTERED SPARSE-v2-LABEL STUDY EXECUTED (2026-09-16; APPROVED 90-CELL
-DEVELOPMENT-INFERENCE, TRAIN/VALIDATION ONLY; 90/90 VALID; 490,747 tokens /
-$0.184 within the frozen 600,000-token AND $0.30 hard stop; Sparse-v2 `has_fn`
-prevalence 86.7% (26/30, 4 negatives); class-balance gate FAILED → descriptive/
-single-feature only, NO multivariable RiskScorer; only 3/97 features above the
-random band (4.85 expected by chance); Sparse–BM25 disagreement anti-predictive;
-adaptive-K no help; always-escalate dominates; report
-`reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`; audit
-`reports/OMISSION_RISK_INFERENCE_AUDIT.md`).**
 Post-submission window. Scientific runs remaining in this block: ZERO (the
 development-inference protocol has been executed).
+
+**CURRENT TRUTH (2026-09-17, overnight + continuation missions):**
+→ **ROUTE B V2 (candidate-level omission recovery) robustness closure COMPLETE
+(2026-09-17; 174 development tasks; ZERO new model calls):** budget curve
+B∈{0,1,3,5,10}; analytic hypergeometric Random control; Classical-CIA frozen
+primary (0.5 BM25 + 0.5 graph neighbor hybrid predeclared secondary); 5/5 folds
+positive; 4/4 B-points above Random; bootstrap CIs exclude zero at every B
+(B=5 +0.136 [+0.092,+0.184]); no omitted/universe-size artifact (corr
+−0.119/−0.117); **progression gate PASS** → verifier pilot authorized.
+**Bounded verifier pilot EXECUTED (2026-09-17; 30 calls, 6,748 tokens, $0.0023;
+30/30 valid; Oracle-in-top-B = 1.000; verifier ORR 0.86–1.00; dominant loss =
+first-pass omission; diagnostic only).** History/co-change arm beats analytic
+Random on 94 tasks with parent-visible history; CIA remains frozen primary.
+**Saleor: production-only materializer portability fix + EQUIVALENCE 98/98 PASS
++ 150/150 DEVELOPMENT bundles built (2026-09-17; ZERO model calls; canonical
+universe+graph hashes identical to pre-portability snapshot, 0 mismatch;
+INTERNAL_TEST/RESERVE sealed).** **Saleor sparse inference FAIL-CLOSED on budget
+(1/450 smoke cell, $0.0047; full run projects ~6.5–7.4M tokens / $2.13–2.23,
+2.4–2.7× the authorized 2.7M/$1.00 ceiling) → Saleor Route-B replication
+BLOCKED.** **djangoCMS Route-B confirmatory-freeze packet COMPLETE (ready-to-
+approve; choice B = ranking + actual verifier; INTERNAL_TEST sealed).** **P2
+adaptive budget CONDITIONAL (pre-registration note; no learned policy).**
+**Semantic-proxy two-rater audit machine-prep FINISHED (integrity PASS, kappa
+tests 7/7, synthetic dry-run NOT_REAL PASS, one-page checklist; human judgments
+pending).** **Proposal V1.3 remains the print candidate (V1.4 NOT created — no
+material claim change).**
 
 ---
 
