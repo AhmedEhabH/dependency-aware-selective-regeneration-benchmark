@@ -58,14 +58,22 @@ evidence, identify suspicious omitted candidates using independent
 structural/history evidence, verify only those candidates under a hard budget,
 and compare with always-verify and random matched-budget verification.
 
-> **Route B V2 status (2026-09-17):** DEVELOPMENT robustness closure COMPLETE
-> (174 tasks; budget curve B∈{0,1,3,5,10}; analytic hypergeometric Random;
-> Classical-CIA frozen primary; 5/5 folds positive; 4/4 B-points above Random;
-> bootstrap CIs exclude zero; gate PASS). Bounded verifier pilot EXECUTED (30
+> **Route B V2 status (2026-09-17, PRE-CONFIRMATORY HARDENING V14):**
+> DEVELOPMENT robustness closure COMPLETE (174 tasks; budget curve
+> B∈{0,1,3,5,10}; analytic hypergeometric Random; frozen primary =
+> **`BM25+Graph-Neighbor Composite (historical label: Classical-CIA)`**
+> = normalized BM25 + binary graph-neighbor; Hybrid = rank-equivalent redundant
+> control; 5/5 folds positive; 4/4 B-points above Random; bootstrap CIs exclude
+> zero; gate PASS). Incremental-evidence ablation: the replicated cross-repo
+> signal is **predominantly lexical (BM25)**; graph increment small and largely
+> non-significant; no graph novelty claim. Bounded verifier pilot EXECUTED (30
 > calls, $0.0023, Oracle-in-top-B = 1.000, diagnostic). **Confirmatory-freeze
-> packet ready-to-approve** (`reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_FREEZE_PACKET.md`,
-> choice B = ranking + actual verifier; djangoCMS INTERNAL_TEST sealed). Saleor
-> Route-B replication BLOCKED (needs Saleor sparse predictions; budget-blocked).
+> packet V2 ready-to-approve** (`reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_FREEZE_PACKET_V2.md`,
+> choice B = ranking + actual verifier; djangoCMS INTERNAL_TEST sealed).
+> **Saleor Route-B transfer REPLICATES on DEVELOPMENT** (2026-09-17; 149 tasks;
+> B=5 composite 0.237 vs analytic Random 0.006, delta +0.231 CI
+> [+0.180,+0.287]; DEVELOPMENT transfer replication, NOT confirmatory;
+> `reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md`).
 
 The thesis question remains:
 
@@ -85,7 +93,7 @@ No claim is made in advance that Route A or Route B will win.
 | 4 | Cross-repository / cross-model generalization | PARTIAL (cross-model replications closed; cross-repo not) |
 | 5 | Learned / fine-tuned impact selection | NOT STARTED |
 | 6 | End-to-end selective regeneration and verification | NOT STARTED (selection-only evidence) |
-| 7 | **Cross-repository confirmation — SALEOR (confirmed future pillar)** | SUITABLE-WITH-DEVIATIONS AUDIT DONE (2026-09-16); protocol frozen (`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`); **DEVELOPMENT DATASET READY (2026-09-17)** — production-only materializer portability fix + 98/98 equivalence PASS + **150/150 DEVELOPMENT bundles** (`reports/SALEOR_PORTABILITY_FIX_AND_150_BUILD_REPORT.md`); **sparse inference FAIL-CLOSED on budget** (450-cell run projects 2.4–2.7× the authorized 2.7M/$1.00 ceiling; `reports/SALEOR_SPARSE_INFERENCE_BUDGET_BLOCKED_CLOSURE.md`) |
+| 7 | **Cross-repository confirmation — SALEOR (confirmed future pillar)** | SUITABLE-WITH-DEVIATIONS AUDIT DONE (2026-09-16); protocol frozen (`docs/SALEOR_REAL_COMMIT_PROTOCOL_V1.md`); **DEVELOPMENT DATASET READY + CLEAN 150×3 DEV SPARSE RUN EXECUTED (2026-09-17)** — identity/provenance migration `djangocms-rc-*` → `saleor-rc-*` (150/150 equivalence PASS; `reports/SALEOR_IDENTITY_MIGRATION_REPORT.md`), 446 valid / 4 failed / 7,316,986 tokens / $2.31 / 0 truncations (`reports/SALEOR_PORTABILITY_FIX_AND_150_BUILD_REPORT.md`, `reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md`); **frozen Route-B transfer REPLICATES on DEVELOPMENT (149 tasks; B=5 0.237 vs 0.006, Δ+0.231 CI [+0.180,+0.287]); INTERNAL_TEST/RESERVE sealed** |
 | 8 | **Omission-risk detection — THESIS CORE (confirmed future pillar)** | DEVELOPMENT-EVIDENCE COMPLETE — task-level RiskScorer NOT justified on n=30 (Sparse-v2 development inference 2026-09-16); V2 design + sample-size analysis in `docs/REAL_COMMIT_DATASET_V2_PROTOCOL.md` |
 
 > **Confirmed future pillars (2026-09-15).** Both pillars are authoritative
@@ -690,8 +698,8 @@ must run on a fresh shared confirmatory split.
 ## 2026-09-17 update — PRE-CONFIRMATORY HARDENING V14 (ZERO API)
 
 - **Ranker identity audit:** the frozen Route-B V2 primary is exactly
-  
-ormalized BM25 + binary graph-neighbor; Hybrid is a redundant
+  **`BM25+Graph-Neighbor Composite (historical label: Classical-CIA)`** =
+  normalized BM25 + binary graph-neighbor; Hybrid is a redundant
   rank-equivalent alias (0 differing task-budget cells, 174 djangoCMS + 149
   Saleor DEV). Terminology corrected; formula unchanged.
 - **Incremental-evidence ablation:** cross-repo signal predominantly lexical
@@ -702,10 +710,31 @@ ormalized BM25 + binary graph-neighbor; Hybrid is a redundant
   transfer AVAILABLE + REPLICATES; exact repetition/failure/verifier
   semantics; frozen claim = end-to-end Sparse → frozen ranker → bounded
   verifier on djangoCMS INTERNAL_TEST).
-- **Confirmatory API budget frozen:** 560 calls / ≤2,100,000 tokens / ≤.00
+- **Confirmatory API budget frozen:** 560 calls / ≤2,100,000 tokens / ≤$1.00
   with per-call reservation rule; DEVELOPMENT distributions only.
-- **Proposal V1.4** (7 pages) created — Saleor DEV transfer replication is a
-  material scientific change; V1.3 immutable.
+- **Proposal V1.4** created — Saleor DEV transfer replication is a
+  material scientific change; V1.3 immutable. **V1.4 print addendum
+  (2026-09-17):** Experimental Design table rebuilt (no overlap), bibliography
+  rendered in the PDF (21 verified entries), timeline replaced with
+  **2026-11 → 2027-10** (substantive completion 2027-07/08; 09/10 = publication
+  buffer); 10 pages; SHA-256
+  `50957a2525f7430de47fd9306895d2b4c80b30c358d3cafe6798a0a27b0525b1`.
+- **V1.4 final document-consistency audit** (`reports/V14_FINAL_DOCUMENT_CONSISTENCY_AUDIT.md`):
+  PASS — exact ranker wording, no graph/quality-parity claims, DEVELOPMENT-only
+  cross-repo claims, task counts 174/149 consistent, bibliography renders.
+- **Confirmatory execution package** (`reports/DJANGOCMS_CONFIRMATORY_EXECUTION_READINESS.md`):
+  **READY_FOR_AHMED_APPROVAL** (ZERO test peek; 560 calls / 2,100,000 tokens /
+  $1.00; fail-closed reservation ledger; dry-run PASS; real run gated on
+  Ahmed's approval).
+- **P2 adaptive budget** (`docs/ADAPTIVE_BUDGET_P2_PRE_REGISTRATION_NOTE.md`):
+  **CONDITIONAL — AFTER FIXED ROUTE-B CONFIRMATION** (observable features,
+  dev-only evaluation, stop/fail criteria, and ACTIVE/negative-close evidence
+  now specified; NO learned policy fitted).
+- **Semantic human audit readiness** (`reports/SEMANTIC_AUDIT_HUMAN_EXECUTION_READINESS.md`):
+  **READY_FOR_HUMAN_EXECUTION** (blinded manifest, Rater A/B + adjudicator
+  forms, one-page instructions, kappa/sensitivity scripts, checklist, exact
+  save locations, one synthetic dry-run clearly NOT_REAL; integrity + dry-run
+  PASS).
 - INTERNAL_TEST/RESERVE remain SEALED (both repos). Next external step:
   Ahmed approves/rejects opening djangoCMS INTERNAL_TEST under the frozen V2
   packet and budget.

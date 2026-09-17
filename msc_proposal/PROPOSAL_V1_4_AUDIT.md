@@ -1,8 +1,39 @@
 # Proposal V1.4 — Audit
 
-**Date:** 2026-09-17
+**Date:** 2026-09-17 (updated for the V1.4 print/bibliography/timeline
+addendum, same day)
 **Audit type:** factual + structural + claims + layout audit for
 `msc_proposal/MSC_PROPOSAL_V1_4.tex` / `.pdf` (V1, V1.2, V1.3 immutable).
+
+---
+
+## 0. V1.4 print addendum (2026-09-17, supersedes section 11 of the prior audit)
+
+- **Table overlap fixed:** `Experimental Design at a Glance` rebuilt with 8
+  compact columns (`Study | Purpose | Repo / Split | Method | Unit | Budget /
+  Reps | Primary metrics | Status`), `tabularx` + `p{}`/`X` columns,
+  `\raggedright`, short labels (`Controlled`, `Historical`, `Agent`, `Cheap
+  baselines`, `Task risk`, `Candidate recovery`, `Cross-repo transfer`), no
+  internal experiment codes, and status wording accurate as of 2026-09-17
+  (Task risk = Negative / closed; Candidate recovery = DEV replicated;
+  confirmatory pending; Cross-repo transfer = Saleor DEV replication complete).
+  `\resizebox` removed. **Zero overfull hboxes** after tuning.
+- **Bibliography rendered:** Section 11 now renders the actual verified
+  `references.bib` (V1.4) via BibTeX (`unsrt`); every in-text `\cite{}`
+  resolves; **21 reference entries** appear in the PDF (pages 9–10); preprints
+  explicitly marked; no uncited dump (all 21 entries are cited in text);
+  the stale "authoritative bibliography (V1.3)" sentence is replaced with V1.4
+  wording.
+- **Timeline replaced:** the short 2026-09→2027-05 table is replaced by the
+  detailed **2026-11 → 2027-10** schedule (12 windows, compact wrapped table).
+  Intended substantive research/thesis completion = **2027-07/08**;
+  September–October 2027 is an explicit publication/revision/administrative
+  buffer, not fabricated work.
+- **Compile:** `pdflatex -halt-on-error` (2× + bibtex) clean; **10 pages**
+  (7 → 10; acceptable for an MSc proposal; readability preserved); zero
+  overfull/underfull/undefined-citation warnings.
+- **PDF SHA-256:** `50957a2525f7430de47fd9306895d2b4c80b30c358d3cafe6798a0a27b0525b1`
+  (recorded in `PROPOSAL_CHANGELOG.md`).
 
 ---
 
@@ -69,14 +100,19 @@
 
 ## 11. Compile / layout (mission §E: compile + claims/citation/layout audit) — PASS
 
-- `pdflatex -halt-on-error` compiles clean: **7 pages**.
-- Tables fit (Experimental Design at a Glance uses \resizebox).
+- `pdflatex -halt-on-error` + `bibtex` compiles clean: **10 pages** (V1.4
+  print addendum; was 7).
+- Experimental Design at a Glance: 8 compact `tabularx` columns, readable at
+  A4, zero overfull hboxes, `\resizebox` removed.
+- Timeline: 2026-11→2027-10 schedule renders cleanly (12 rows, wrapped text).
 - PDF SHA-256 recorded in `PROPOSAL_CHANGELOG.md`.
 
-## 12. Bibliography — PASS (unchanged from V1.3)
+## 12. Bibliography — PASS (rendered in PDF, V1.4)
 
-- `references.bib` V1.3 verified from primary sources (arXiv/Crossref);
+- `references.bib` V1.4 verified from primary sources (arXiv/Crossref);
   preprints marked; no fabricated/placeholder citations remain.
+- **Section 11 renders the actual bibliography** (BibTeX `unsrt`); every
+  in-text citation resolves; 21 reference entries appear; no uncited dump.
 
 ## Overall
 **SUPERVISOR-READY / PRINT-CANDIDATE**, pending institutional cover / template

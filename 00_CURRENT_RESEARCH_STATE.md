@@ -118,15 +118,22 @@ tokens / ~$0.50; conservative hard ceilings **2,100,000 tokens / $1.00**;
 per-call reservation rule (sparse p99 7,877 tok / $0.00302; verifier 400 tok /
 $0.00015) so cumulative budget cannot overshoot materially. DEVELOPMENT
 distributions only; ZERO test peek.
-→ **E. PROPOSAL V1.4** (`msc_proposal/MSC_PROPOSAL_V1_4.tex/.pdf`, 7 pages,
-SHA-256 dd7125fa…; `PROPOSAL_V1_4_AUDIT.md`; changelog + claims matrix
-updated; V1.3 immutable): justified by the material Saleor DEV transfer
-replication; conservative updates — Saleor 450-cell DEV run (446 valid / 4
-failed; 7,316,986 tokens / $2.31; 0 truncations), Saleor transfer REPLICATES
-(149 tasks; B=5 0.237 vs Random 0.006, delta +0.231 CI [+0.180,+0.287]),
-DEVELOPMENT-transfer boundary explicit, `Classical-CIA` terminology corrected,
-predominantly-lexical signal stated, no graph novelty claim, adaptive B_t
-conditional, INTERNAL_TEST/RESERVE sealed and said so.
+→ **E. PROPOSAL V1.4** (`msc_proposal/MSC_PROPOSAL_V1_4.tex/.pdf`;
+`PROPOSAL_V1_4_AUDIT.md`; changelog + claims matrix updated; V1.3 immutable):
+justified by the material Saleor DEV transfer replication; conservative updates —
+Saleor 450-cell DEV run (446 valid / 4 failed; 7,316,986 tokens / $2.31; 0
+truncations), Saleor transfer REPLICATES (149 tasks; B=5 0.237 vs Random 0.006,
+delta +0.231 CI [+0.180,+0.287]), DEVELOPMENT-transfer boundary explicit,
+`Classical-CIA` terminology corrected, predominantly-lexical signal stated, no
+graph novelty claim, adaptive B_t conditional, INTERNAL_TEST/RESERVE sealed and
+said so. **V1.4 print addendum (2026-09-17, same day):** Experimental Design
+table rebuilt with 8 compact `tabularx` columns (overlap fixed, zero overfull
+hboxes); bibliography rendered in the PDF (Section 11, BibTeX `unsrt`, 21
+verified entries, all in-text citations resolve); timeline replaced with the
+**2026-11 → 2027-10** schedule (intended substantive completion 2027-07/08;
+2027-09/10 = publication/revision/admin buffer). Compiles clean: **10 pages**,
+SHA-256
+`50957a2525f7430de47fd9306895d2b4c80b30c358d3cafe6798a0a27b0525b1`.
 
 ---
 

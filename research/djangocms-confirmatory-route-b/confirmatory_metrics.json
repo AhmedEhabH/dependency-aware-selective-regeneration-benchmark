@@ -1,0 +1,60 @@
+{
+  "study": "djangocms-route-b-confirmatory",
+  "n_tasks_included": 80,
+  "n_excluded": 0,
+  "metric": {
+    "primary_endpoint": "ORR @ B (False-Negative Recovery Rate / Omission Recovery Rate)",
+    "random_control": "analytic hypergeometric E[X] = B*M/N",
+    "per_b": {
+      "1": {
+        "n_tasks": 80,
+        "macro_orr": 0.33333333333333337,
+        "macro_random_orr": 0.09999999999999999,
+        "mean_delta": 0.23333333333333334,
+        "bootstrap_ci_95": [
+          0.2333,
+          0.2333
+        ]
+      },
+      "3": {
+        "n_tasks": 80,
+        "macro_orr": 1.0,
+        "macro_random_orr": 0.29999999999999993,
+        "mean_delta": 0.7000000000000001,
+        "bootstrap_ci_95": [
+          0.7,
+          0.7
+        ]
+      },
+      "5": {
+        "n_tasks": 80,
+        "macro_orr": 1.0,
+        "macro_random_orr": 0.5,
+        "mean_delta": 0.5,
+        "bootstrap_ci_95": [
+          0.5,
+          0.5
+        ]
+      },
+      "10": {
+        "n_tasks": 80,
+        "macro_orr": 1.0,
+        "macro_random_orr": 1.0,
+        "mean_delta": 0.0,
+        "bootstrap_ci_95": [
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "gate": {
+    "k_folds": 5,
+    "folds_positive": 5,
+    "pass": true
+  },
+  "confound_checks": {
+    "note": "computed from real feature map on real run; dry-run mock-only"
+  },
+  "NOT_REAL": true
+}

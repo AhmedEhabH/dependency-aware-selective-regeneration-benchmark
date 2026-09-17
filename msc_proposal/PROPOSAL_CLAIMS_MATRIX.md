@@ -32,6 +32,8 @@ audited evidence source. Any claim without a source is marked `TO VERIFY`.
 | 25 | Saleor Route-B transfer REPLICATES: 149 tasks; B=5 composite 0.237 vs Random 0.006; delta +0.231 CI [+0.180,+0.287]; 5/5 folds; no size artifact | `reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md` + `research/transparency/saleor_route_b_transfer_results.json` | VERIFIED (V1.4; DEVELOPMENT transfer replication, NOT confirmatory) |
 | 26 | Ranker identity: frozen "Classical-CIA" = normalized BM25 + binary graph-neighbor; Hybrid rank-equivalent (0 differing task-budget cells on 174 djangoCMS + 149 Saleor DEV tasks) | `reports/ROUTE_B_RANKER_IDENTITY_AUDIT.md` + `research/transparency/route_b_ranker_identity_audit.json` | VERIFIED (V1.4) |
 | 27 | Incremental-evidence ablation: cross-repo signal predominantly lexical; composite−BM25 deltas small, CIs include zero at most B | `reports/ROUTE_B_INCREMENTAL_EVIDENCE_ABLATION.md` + `research/transparency/route_b_incremental_ablation.json` | VERIFIED (V1.4; characterization only) |
+| 28 | V1.4 timeline: 2026-11→2027-10; substantive thesis/research completion 2027-07/08; 2027-09/10 = publication/revision/admin buffer | `msc_proposal/MSC_PROPOSAL_V1_4.tex` §10 (addendum; approved schedule, not a scientific claim) | VERIFIED (V1.4 print addendum) |
+| 29 | V1.4 bibliography rendered in PDF: 21 verified entries, every in-text citation resolves, preprints marked | `msc_proposal/MSC_PROPOSAL_V1_4.pdf` Section 11 (BibTeX `unsrt`, `references.bib`) | VERIFIED (V1.4 print addendum) |
 
 ## Rule
 - No claim may be strengthened beyond its source.
