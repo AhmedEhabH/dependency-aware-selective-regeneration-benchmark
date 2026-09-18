@@ -6,8 +6,10 @@ task, immediate next step, blockers). Scientific truth lives in
 `DECISIONS.md`.
 
 **Branch:** `main`
-**HEAD:** `ba528f5` (merge of AI-semantic-audit analysis) → post-merge HEAD
-recorded in the closure report
+**HEAD:** `8b2d1b6` (merge of `research/oracle-gap-bidirectional-repair-2026-09-18`)
+**origin/main:** `8b2d1b6` (verified in sync; T2 state reconciliation 2026-09-18)
+**Tag:** `oracle-gap-bidirectional-repair-2026-09-18` — peel `8b2d1b6` == merge
+commit == origin/main (DEV evidence milestone tag; NOT a stable-tag move)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** ORACLE-GAP DECOMPOSITION + BIDIRECTIONAL BOUNDED SET REPAIR
 (2026-09-18) — exploratory DEVELOPMENT line after the frozen P2 Phase-1
@@ -72,3 +74,17 @@ untouched — **COMPLETE**
   `reports/ORACLE_GAP_INDEPENDENT_AUDIT.md`).
 - Prior AI-audit gate (2026-09-18, carried): full suite 3307 passed / 33
   skipped / 2 pre-existing environmental failures.
+
+## Closure block (Oracle-gap mission, 2026-09-18)
+
+- Branch: `research/oracle-gap-bidirectional-repair-2026-09-18` → merged to
+  `main` (`8b2d1b6`, merge commit).
+- origin/main == local HEAD == `8b2d1b6` (post-merge verified).
+- Tag `oracle-gap-bidirectional-repair-2026-09-18` — peel `8b2d1b6` == merge
+  == origin/main (DEV evidence milestone tag; NOT a stable-tag move).
+- LIGHT export: `project-2026-09-18-0807.zip`
+  SHA-256 `aea499406fecf6af37510e276fc272ed8025886b1640c7f6392569db560d192f`
+  (required members `.git/HEAD`, `dist/pilot-kaggle-upload.zip`, `.sha256`
+  present).
+- Next scientific task (NOT started): FIRST-PASS RECALL BOTTLENECK on
+  DEVELOPMENT only.
