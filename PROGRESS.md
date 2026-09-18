@@ -77,9 +77,16 @@ untouched; 19/19 tests + independent audit PASS — **COMPLETE**
 ## Closure block (First-pass recall mission, 2026-09-18)
 
 - Branch: `research/first-pass-recall-bottleneck-2026-09-18` → merged to
-  `main`; DEV-evidence milestone tag (no stable-tag move) only if the milestone
-  is fully audited and reproducible.
-- Prior scientific closure commit `8b2d1b6` / tag
-  `oracle-gap-bidirectional-repair-2026-09-18` remain immutable.
+  `main` as merge commit `7a251f0` (immutable scientific fact).
+- DEV-evidence tag `first-pass-recall-bottleneck-2026-09-18` — peel
+  `7a251f0` == merge == `main` (audited DEVELOPMENT evidence; NOT a
+  stable-tag move).
+- Live HEAD / origin/main are runtime git facts (query with `git rev-parse`);
+  they are NOT embedded here because committing metadata changes HEAD.
+- LIGHT export (at scientific closure): `project-2026-09-18-1725.zip`
+  SHA-256 `3d13b9c00684c9db123cd7682fbc303917b10cb4a116e1523c3652f4911a4b9e`
+  (95,340,878 bytes; required members `.git/HEAD`,
+  `dist/pilot-kaggle-upload.zip`, `.sha256` present; 9,036 entries).
 - Next scientific task (NOT started, requires its own authorization): bounded
-  verifier-ranked expansion on DEVELOPMENT.
+  verifier-ranked expansion on DEVELOPMENT (Route-B top-B + reverse-1hop
+  consumer pool), using the existing frozen verifier protocol/budget.
