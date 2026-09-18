@@ -1,0 +1,261 @@
+{
+  "repos": {
+    "djangocms": {
+      "n_tasks_dev": 174,
+      "n_tasks_sampled": 30,
+      "sparse_f1": 0.4324,
+      "B": {
+        "1": {
+          "arm_a": {
+            "macro_orr": 0.0222,
+            "candidate_precision": 0.1667,
+            "naive_union_f1": 0.425,
+            "final_recall": 0.3656,
+            "final_fnr": 0.6344,
+            "oracle_reviewer_f1": 0.4533,
+            "total_recovered": 2,
+            "valid_calls": 30,
+            "n_tasks": 30
+          },
+          "arm_b": {
+            "macro_orr": 0.0722,
+            "candidate_precision": 0.1852,
+            "naive_union_f1": 0.4229,
+            "final_recall": 0.3978,
+            "final_fnr": 0.6022,
+            "oracle_reviewer_f1": 0.4837,
+            "total_recovered": 5,
+            "valid_calls": 27,
+            "n_tasks": 30
+          },
+          "oracle_add_f1": 0.6966,
+          "sparse_f1": 0.4324,
+          "arm_a_fraction_oracle_add_gap_closed": 0.0791,
+          "arm_b_fraction_oracle_add_gap_closed": 0.1942
+        },
+        "3": {
+          "arm_a": {
+            "macro_orr": 0.0222,
+            "candidate_precision": 0.0513,
+            "naive_union_f1": 0.3636,
+            "final_recall": 0.3656,
+            "final_fnr": 0.6344,
+            "oracle_reviewer_f1": 0.4533,
+            "total_recovered": 2,
+            "valid_calls": 30,
+            "n_tasks": 30
+          },
+          "arm_b": {
+            "macro_orr": 0.1833,
+            "candidate_precision": 0.1235,
+            "naive_union_f1": 0.3668,
+            "final_recall": 0.4516,
+            "final_fnr": 0.5484,
+            "oracle_reviewer_f1": 0.5316,
+            "total_recovered": 10,
+            "valid_calls": 27,
+            "n_tasks": 30
+          },
+          "oracle_add_f1": 0.8738,
+          "sparse_f1": 0.4324,
+          "arm_a_fraction_oracle_add_gap_closed": 0.0473,
+          "arm_b_fraction_oracle_add_gap_closed": 0.2247
+        },
+        "5": {
+          "arm_a": {
+            "macro_orr": 0.1111,
+            "candidate_precision": 0.1429,
+            "naive_union_f1": 0.3959,
+            "final_recall": 0.4194,
+            "final_fnr": 0.5806,
+            "oracle_reviewer_f1": 0.5032,
+            "total_recovered": 7,
+            "valid_calls": 30,
+            "n_tasks": 30
+          },
+          "arm_b": {
+            "macro_orr": 0.25,
+            "candidate_precision": 0.1053,
+            "naive_union_f1": 0.3274,
+            "final_recall": 0.4946,
+            "final_fnr": 0.5054,
+            "oracle_reviewer_f1": 0.5679,
+            "total_recovered": 14,
+            "valid_calls": 27,
+            "n_tasks": 30
+          },
+          "oracle_add_f1": 0.89,
+          "sparse_f1": 0.4324,
+          "arm_a_fraction_oracle_add_gap_closed": 0.1547,
+          "arm_b_fraction_oracle_add_gap_closed": 0.2961
+        },
+        "10": {
+          "arm_a": {
+            "macro_orr": 0.1389,
+            "candidate_precision": 0.0857,
+            "naive_union_f1": 0.3241,
+            "final_recall": 0.4409,
+            "final_fnr": 0.5591,
+            "oracle_reviewer_f1": 0.5223,
+            "total_recovered": 9,
+            "valid_calls": 30,
+            "n_tasks": 30
+          },
+          "arm_b": {
+            "macro_orr": 0.29,
+            "candidate_precision": 0.0984,
+            "naive_union_f1": 0.3021,
+            "final_recall": 0.5376,
+            "final_fnr": 0.4624,
+            "oracle_reviewer_f1": 0.6024,
+            "total_recovered": 18,
+            "valid_calls": 27,
+            "n_tasks": 30
+          },
+          "oracle_add_f1": 0.89,
+          "sparse_f1": 0.4324,
+          "arm_a_fraction_oracle_add_gap_closed": 0.1965,
+          "arm_b_fraction_oracle_add_gap_closed": 0.3715
+        }
+      }
+    },
+    "saleor": {
+      "n_tasks_dev": 149,
+      "n_tasks_sampled": 30,
+      "sparse_f1": 0.1854,
+      "B": {
+        "1": {
+          "arm_a": {
+            "macro_orr": 0.1347,
+            "candidate_precision": 0.3684,
+            "naive_union_f1": 0.2471,
+            "final_recall": 0.2121,
+            "final_fnr": 0.7879,
+            "oracle_reviewer_f1": 0.2658,
+            "total_recovered": 7,
+            "valid_calls": 30,
+            "n_tasks": 30
+          },
+          "arm_b": {
+            "macro_orr": 0.1847,
+            "candidate_precision": 0.3103,
+            "naive_union_f1": 0.2556,
+            "final_recall": 0.2323,
+            "final_fnr": 0.7677,
+            "oracle_reviewer_f1": 0.2875,
+            "total_recovered": 9,
+            "valid_calls": 27,
+            "n_tasks": 30
+          },
+          "oracle_add_f1": 0.4862,
+          "sparse_f1": 0.1854,
+          "arm_a_fraction_oracle_add_gap_closed": 0.2673,
+          "arm_b_fraction_oracle_add_gap_closed": 0.3394
+        },
+        "3": {
+          "arm_a": {
+            "macro_orr": 0.2294,
+            "candidate_precision": 0.2632,
+            "naive_union_f1": 0.2788,
+            "final_recall": 0.2929,
+            "final_fnr": 0.7071,
+            "oracle_reviewer_f1": 0.3494,
+            "total_recovered": 15,
+            "valid_calls": 30,
+            "n_tasks": 30
+          },
+          "arm_b": {
+            "macro_orr": 0.2946,
+            "candidate_precision": 0.2299,
+            "naive_union_f1": 0.2857,
+            "final_recall": 0.3434,
+            "final_fnr": 0.6566,
+            "oracle_reviewer_f1": 0.3977,
+            "total_recovered": 20,
+            "valid_calls": 27,
+            "n_tasks": 30
+          },
+          "oracle_add_f1": 0.7075,
+          "sparse_f1": 0.1854,
+          "arm_a_fraction_oracle_add_gap_closed": 0.3141,
+          "arm_b_fraction_oracle_add_gap_closed": 0.4066
+        },
+        "5": {
+          "arm_a": {
+            "macro_orr": 0.3344,
+            "candidate_precision": 0.2558,
+            "naive_union_f1": 0.3038,
+            "final_recall": 0.3636,
+            "final_fnr": 0.6364,
+            "oracle_reviewer_f1": 0.4162,
+            "total_recovered": 22,
+            "valid_calls": 30,
+            "n_tasks": 30
+          },
+          "arm_b": {
+            "macro_orr": 0.3574,
+            "candidate_precision": 0.1793,
+            "naive_union_f1": 0.2703,
+            "final_recall": 0.404,
+            "final_fnr": 0.596,
+            "oracle_reviewer_f1": 0.452,
+            "total_recovered": 26,
+            "valid_calls": 27,
+            "n_tasks": 30
+          },
+          "oracle_add_f1": 0.793,
+          "sparse_f1": 0.1854,
+          "arm_a_fraction_oracle_add_gap_closed": 0.3799,
+          "arm_b_fraction_oracle_add_gap_closed": 0.4388
+        },
+        "10": {
+          "arm_a": {
+            "macro_orr": 0.3413,
+            "candidate_precision": 0.1412,
+            "naive_union_f1": 0.2368,
+            "final_recall": 0.3838,
+            "final_fnr": 0.6162,
+            "oracle_reviewer_f1": 0.4343,
+            "total_recovered": 24,
+            "valid_calls": 30,
+            "n_tasks": 30
+          },
+          "arm_b": {
+            "macro_orr": 0.4869,
+            "candidate_precision": 0.1518,
+            "naive_union_f1": 0.256,
+            "final_recall": 0.4848,
+            "final_fnr": 0.5152,
+            "oracle_reviewer_f1": 0.5189,
+            "total_recovered": 34,
+            "valid_calls": 27,
+            "n_tasks": 30
+          },
+          "oracle_add_f1": 0.834,
+          "sparse_f1": 0.1854,
+          "arm_a_fraction_oracle_add_gap_closed": 0.3837,
+          "arm_b_fraction_oracle_add_gap_closed": 0.5142
+        }
+      }
+    }
+  },
+  "ledger": {
+    "study_id": "bounded-semantic-expansion-pilot",
+    "reserved_calls": 300,
+    "actual_calls": 300,
+    "reserved_tokens": 106325,
+    "actual_tokens": 106325,
+    "reserved_cost_usd": 0.044399,
+    "actual_cost_usd": 0.044399,
+    "wall_seconds": 553.6,
+    "ceilings": {
+      "calls": 300,
+      "tokens": 300000,
+      "cost_usd": 0.3,
+      "wall_seconds": 3600
+    },
+    "stop_reason": "",
+    "budget_respected": true,
+    "resumed_from_disk": 241
+  }
+}

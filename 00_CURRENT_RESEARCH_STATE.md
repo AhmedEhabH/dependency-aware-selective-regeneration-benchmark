@@ -6,6 +6,31 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-18, BOUNDED SEMANTIC EXPANSION PILOT — AUTHORIZED real
+DEVELOPMENT pilot complete; 300 calls; Stage-4 of the gap-reduction ladder
+closed NEGATIVE; P2 Phase-1 NEGATIVE + First-Pass Recall + Oracle-gap + ranking
+bridge conclusions frozen; sealed sets untouched):**
+→ **BOUNDED SEMANTIC EXPANSION PILOT = BOUNDED_SEMANTIC_NEGATIVE_FROZEN
+(2026-09-18; DEVELOPMENT only; AUTHORIZED real run):** the user authorized the
+frozen protocol (`docs/BOUNDED_SEMANTIC_RERANK_VERIFY_PROTOCOL_FROZEN.md`) under
+the frozen budget (≤300 calls / ≤300,000 tokens / ≤$0.30 / ≤60 min, qwen3-coder,
+DEV only, sealed sets sealed; cost minimization = ceilings are safety limits;
+no result-based retries; no prompt tuning; no fallback provider; STOP at the
+preregistered gate). Registration frozen BEFORE call 1 (60 tasks = 30 djangoCMS
+DEV + 30 Saleor DEV; Arm B pool = Route-B top-10 ∪ reverse-1hop consumers, cap
+40). **Real run: 300 calls (Arm A 240 + Arm B 60), 106,325 tokens, $0.0444,
+553.6 s — ceilings respected; sidecars 300/300 (0 mismatches); 6 Arm B
+schema-invalid calls fail-closed.** Results @B=5 (pooled file-level): djangoCMS
+Arm A ORR 0.111 / Arm B 0.250, naive-F1 0.396 / 0.327; Saleor Arm A 0.334 /
+Arm B 0.357, naive-F1 0.304 / 0.270. **Preregistered gate FAIL →
+BOUNDED_SEMANTIC_NEGATIVE_FROZEN:** c1 (ORR >+0.05 on BOTH repos) FAILS on
+Saleor (+0.023); c3 (naive final F1 not materially worse) FAILS on djangoCMS
+(−0.069). Arm B raises ORR but not materially on Saleor and materially lowers
+naive final F1 on djangoCMS — the protocol's forbidden "ORR up, F1 down" case.
+NO prompt/schema tuning; NO result-based retries; independent audit 8/8 PASS;
+affected suites 31/31. **Stage 4 closed NEGATIVE; Stage 5 (fresh confirmatory)
+NOT reached.** Any future bounded semantic instrument needs a precision-safe
+acceptance rule + its own explicit authorization.
 **CURRENT TRUTH (2026-09-18, RANKING BRIDGE + BOUNDED SEMANTIC FREEZE — DEVELOPMENT-only
 T3 study complete; ZERO API; P2 Phase-1 NEGATIVE + First-Pass Recall + Oracle-gap
 conclusions frozen; sealed sets untouched):**

@@ -29,43 +29,36 @@ correction + Grafana FUTURE candidate → gap-reduction roadmap ladder —
 
 ## Now executing
 
-- **MILESTONE COMPLETE.** Ranking bridge + bounded semantic freeze (DEVELOPMENT
-  only, T3, ZERO API): Section-1 reconfirmation reproduced the frozen ranking
-  gap EXACTLY (Route-B 0.0464/0.1177/0.1633/0.2512 and 0.0775/0.1576/0.2369/
-  0.3173; reverse-1hop 0.558/0.724; UNION_ALL 0.725/0.870; Oracle-Add
-  0.841/0.782; oracle-reviewer 0.441/0.424 — all verification flags PASS).
-  Section-2 ran exactly three transparent quantitative-structural rankers
-  (R1 BM25+RevSupport, R2 BM25+BidirSupport, R3 BM25+BidirNorm) over the
-  high-coverage reverse-1hop pool at matched budget: best is R1 with
-  djangoCMS +0.034 but Saleor −0.020 at B=5; **NO formula materially beats
-  Route-B on BOTH repos** (c1/c2 fail on all three) →
-  **CHEAP_RANKING_CLOSED_FOR_NOW** (negative frozen; no fourth formula).
-  The bounded semantic rerank/verify protocol
-  (`docs/BOUNDED_SEMANTIC_RERANK_VERIFY_PROTOCOL_FROZEN.md`) + API budget
-  draft (`reports/BOUNDED_SEMANTIC_EXPANSION_BUDGET_FREEZE_DRAFT.md`) were
-  PREPARED but NOT EXECUTED (≤300 calls / ≤300k tokens / ≤$0.30 / ≤60 min
-  hard stop). P2/adaptive-k status gated (not active). Future-work
-  terminology corrected to cross-language + polyglot-repository
-  generalization; `grafana/grafana` added as FUTURE feasibility candidate
-  only. Gap-reduction roadmap ladder documented (Stages 1–8).
-- **Remaining:** none for this mission. The Stage-4 bounded semantic pilot
-  requires explicit user authorization (exact sentence in the budget draft).
+- **MILESTONE COMPLETE (AUTHORIZED PILOT).** Bounded semantic expansion pilot
+  (Stage 4, DEVELOPMENT, AUTHORIZED 2026-09-18): frozen registration written
+  BEFORE call 1 (60 tasks: 30 djangoCMS + 30 Saleor; pool = Route-B top-10 ∪
+  reverse-1hop consumers, cap 40); **real run: 300 calls (Arm A 240 + Arm B 60),
+  106,325 tokens, $0.0444, 553.6 s — all ceilings respected**. Arm A = frozen
+  Route-B verifier (4 calls/task); Arm B = expanded-pool bounded semantic
+  rerank/verify (1 call/task). **Preregistered gate = FAIL →
+  BOUNDED_SEMANTIC_NEGATIVE_FROZEN**: Arm B raises ORR on djangoCMS (+0.139 at
+  B=5) but NOT materially on Saleor (+0.023), and on djangoCMS naive final F1
+  falls materially (−0.069) — exactly the "ORR up but F1 down" failure the
+  protocol forbids claiming as success. No prompt/schema tuning. 6 Arm B
+  schema-invalid calls recorded fail-closed (no retries). Independent audit
+  8/8 PASS; affected suites 31/31.
+- **Remaining:** none for this mission. Stage 4 is closed NEGATIVE; the
+  gap-reduction ladder's Stage 5 (freeze method + fresh confirmatory) is NOT
+  reached. Any future semantic instrument needs a precision-safe acceptance
+  rule and its own explicit authorization.
 
 ## Last completed task
 
-- Ranking bridge + bounded semantic freeze (2026-09-18): Section-1 baseline
-  freeze artifact + Section-2 three-formula bridge + gate
-  `CHEAP_RANKING_CLOSED_FOR_NOW`; `src/benchmark/recall/quant_rankers.py`,
-  `scripts/fn_quant_ranking_bridge.py`, `scripts/fn_quant_ranking_bridge_audit.py`,
-  `tests/unit/test_quant_ranking_bridge.py` (12/12), independent audit
-  (25/25 PASS); docs updated.
+- Bounded semantic expansion pilot (2026-09-18): frozen registration +
+  300 real calls + metrics/gate/audit + closure report; scripts
+  `bounded_semantic_expansion_{pilot,analyze,audit}.py`; raw evidence under
+  `research/bounded-semantic-expansion/`.
 
 ## Immediate next step
 
-- Await review/authorization. If the user authorizes the frozen Stage-4
-  protocol + budget, run the bounded semantic rerank/verify DEVELOPMENT pilot
-  (≤300 calls / ≤300k tokens / ≤$0.30 / ≤60 min); otherwise the cheap-ranking
-  negative and the frozen protocol/budget are the mission's deliverable.
+- Await review. Freeze the negative; no further API spend. If the user later
+  wants a different bounded semantic protocol, it must be pre-registered
+  (precision-safe acceptance) and explicitly authorized with its own budget.
 
 ## Blockers
 
@@ -77,29 +70,22 @@ correction + Grafana FUTURE candidate → gap-reduction roadmap ladder —
 - Saleor parent-visible history cache absent (dist/real-commit-cache/saleor) —
   no Saleor co-change arm; recorded UNAVAILABLE in the taxonomy/ceilings.
 
-## Full-suite state (Ranking bridge mission gate, 2026-09-18)
+## Full-suite state (Bounded semantic expansion pilot gate, 2026-09-18)
 
-- **12/12 new unit tests PASS** (`tests/unit/test_quant_ranking_bridge.py`);
-  affected suites green (`test_recall_bottleneck.py` 19/19 +
-  `test_oracle_gap.py` 16/16 = 35/35).
-- Ruff clean on all changed Python; mypy strict clean on
-  `src/benchmark/recall`; py_compile clean; `git diff --check` clean.
-- Independent audit recomputes the headline numbers from frozen records
-  without importing the analysis scripts — **25/25 checks PASS**
-  (`reports/fn_quant_ranking_bridge_audit.json`).
+- **Affected suites PASS** (`test_recall_bottleneck.py` 19/19 +
+  `test_quant_ranking_bridge.py` 12/12 = 31/31).
+- Ruff clean; py_compile clean; `git diff --check` clean.
+- Independent audit recomputes headline metrics from raw per-run records
+  without importing the analyzer — **8/8 checks PASS**
+  (`reports/bounded_semantic_expansion_audit.json`).
+- Budget ledger verified: 300/300 calls, 106,325 tokens, $0.0444, 553.6 s,
+  sidecars 300/300 with 0 hash mismatches.
 
-## Closure block (Ranking bridge + bounded semantic freeze mission, 2026-09-18)
+## Closure block (Bounded semantic expansion pilot, 2026-09-18)
 
-- Branch: `research/ranking-bridge-bounded-semantic-freeze-2026-09-18` → merged
-  to `main` as merge commit `2744f6f` (immutable scientific fact).
-- DEV-evidence tag `ranking-bridge-bounded-semantic-freeze-2026-09-18` — peel
-  `2744f6f` == merge == `main` (audited DEVELOPMENT evidence; NOT a
-  stable-tag move). Pushed to origin; origin/main == HEAD == tag peel.
-- Live HEAD / origin/main are runtime git facts (query with `git rev-parse`).
-- LIGHT export (at scientific closure): `project-2026-09-18-1923.zip`
-  SHA-256 `7cf1f5594f006543d934e29dbf4a4a89980cfc8f489af9dbbe4dfb0d5195891d`
-  (95,607,842 bytes; required members `.git/HEAD`,
-  `dist/pilot-kaggle-upload.zip`, `.sha256` present; 9,101 entries).
-- Next scientific task (NOT started, requires its own authorization): bounded
-  semantic rerank/verify pilot on DEVELOPMENT (Route-B top-B + reverse-1hop
-  consumer pool), using the frozen protocol + budget draft.
+- AUTHORIZED real DEVELOPMENT pilot; `research/bounded-semantic-expansion/`
+  raw evidence + reports. Merged to `main`.
+- DEV-evidence tag (see git section in the final stop report).
+- Next scientific task (NOT started, requires its own authorization):
+  any future bounded semantic instrument with a precision-safe acceptance
+  rule.

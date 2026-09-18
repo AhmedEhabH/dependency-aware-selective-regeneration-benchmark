@@ -125,13 +125,18 @@ FN taxonomy (deterministic) → S006-like pattern test (GENERAL_PATTERN)
   NEGATIVE** — exactly three transparent count/normalized rankers
   (R1/R2/R3) over the high-coverage reverse-1hop pool: none materially beats
   Route-B on BOTH repos at matched budget (`CHEAP_RANKING_CLOSED_FOR_NOW`,
-  frozen). A **bounded semantic rerank/verify protocol + API budget is frozen
-  and ready** (Stage 4 of the gap-reduction ladder) but is NOT executed and
-  requires explicit authorization.
+  frozen). The **authorized bounded semantic expansion pilot (Stage 4) also
+  closed NEGATIVE** (`BOUNDED_SEMANTIC_NEGATIVE_FROZEN`): Arm B raised ORR on
+  djangoCMS but not materially on Saleor and materially lowered naive final F1
+  on djangoCMS — 300 calls, $0.0444, preregistered gate FAIL, no tuning.
+- **Next instrument (not authorized here):** any future bounded semantic
+  rerank/verify variant requires a precision-safe acceptance rule and its own
+  explicit authorization + budget.
 - **Next instrument (not authorized here):** bounded semantic rerank/verify over
   Route-B top-B + reverse-1hop consumer pool on DEVELOPMENT, under the frozen
   protocol/budget (`docs/BOUNDED_SEMANTIC_RERANK_VERIFY_PROTOCOL_FROZEN.md`,
-  `reports/BOUNDED_SEMANTIC_EXPANSION_BUDGET_FREEZE_DRAFT.md`).
+  `reports/BOUNDED_SEMANTIC_EXPANSION_BUDGET_FREEZE_DRAFT.md`) — **EXECUTED
+  2026-09-18, NEGATIVE, frozen** (`BOUNDED_SEMANTIC_NEGATIVE_FROZEN`).
 - Detail: [`reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md`](reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md),
   [`reports/QUANT_STRUCTURAL_RANKING_BRIDGE_REPORT.md`](reports/QUANT_STRUCTURAL_RANKING_BRIDGE_REPORT.md).
 

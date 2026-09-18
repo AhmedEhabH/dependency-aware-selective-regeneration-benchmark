@@ -332,3 +332,9 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
 - **Status:** RESOLVED (documented; no fabrication; ZERO API; sealed sets untouched).
 - **Revisit:** bounded semantic rerank/verify under explicit authorization; typed-edge
   graph features if a new extractor ever lands.
+
+- **Bounded semantic rerank/verify pilot = BOUNDED_SEMANTIC_NEGATIVE_FROZEN (2026-09-18; T3 DEV; AUTHORIZED real run):** Arm B (expanded-pool bounded semantic rerank, 1 call/task) raises ORR on djangoCMS (+0.139 @B=5) but NOT materially on Saleor (+0.023), and on djangoCMS naive final F1 falls materially (-0.069). Preregistered gate FAIL (c1 saleor, c3 djangocms).
+- **Root cause:** the expanded pool gives the semantic layer more candidates to reorder (better recovery quality / oracle-reviewer F1), but the accepted additions also carry more FPs, so the naive-union final F1 falls where the gain concentrates; on Saleor the pool is at cap-40 for almost every task (mean 39.9) and the ORR gain is small.
+- **Action:** froze the negative; recorded fail-closed schema-invalid calls (6, no retries); NO prompt/schema tuning; independent audit 8/8; budget respected (.0444, 106,325 tokens, 553.6 s).
+- **Status:** RESOLVED (documented; sealed sets untouched; DEV only).
+- **Revisit:** only a precision-safe acceptance rule under a new pre-registered protocol + explicit authorization.
